@@ -4,7 +4,7 @@ title: Bookshelf
 permalink: /bookshelf/
 ---
 
-These are the books I've read so far. At least the ones I've remembered. If you have any recommendations, please reach out <a href="https://twitter.com/{{ site.twitter_username }}">@hawkhai</a>. I'll be updating this list from time to time.
+These are the books I've read so far. At least the ones I've remembered. I'll be updating this list from time to time.
 
 Current: **Toll the Hounds**
 
