@@ -8,7 +8,7 @@ comments: true
 
 Recently, I was working on a project that involves the encoding of .NET bitmaps using [ffmpeg](https://www.ffmpeg.org/)'s h264 encoder with `mp4` as container. This video output will be used in a `<video>` tag in html5. Sample codes have been all over the place so it took me quite a while to come up with a working solution. The official sample from ffmpeg only encodes to raw h264 stream. This is just a basic sample code for reference.
 
-Check out the source code [here](https://github.com/flowerinthenight/ffmpeg-encode-h264mp4).
+Check out the source code [here](https://github.com/hawkhai/ffmpeg-encode-h264mp4).
 
 Lastly, some useful links that I used:
 

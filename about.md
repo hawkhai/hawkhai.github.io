@@ -6,9 +6,9 @@ permalink: /about/
 
 {% include image.html url="../images/photo.jpg" caption="" width="300px" max_width="300px" align="right" %}
 
-Hi, my name is Chew Esmero and welcome to my blog. That's me on the right, by the way. At the moment, I work as Head of Engineering at a startup called [Alphaus Cloud](https://mobingi.com/). I live in Japan with my wife (also in the picture). I love [reading](http://flowerinthenight.com/bookshelf/), especially [high fantasy](https://en.wikipedia.org/wiki/High_fantasy) with very interesting magic systems. I also like music. I play a couple of instruments (bass, guitar, piano, and drums) although I'm not very good at any of them.
+Hi, my name is Chew Esmero and welcome to my blog. That's me on the right, by the way. At the moment, I work as Head of Engineering at a startup called [Alphaus Cloud](https://mobingi.com/). I live in Japan with my wife (also in the picture). I love [reading](http://blog.hawkhai.com/bookshelf/), especially [high fantasy](https://en.wikipedia.org/wiki/High_fantasy) with very interesting magic systems. I also like music. I play a couple of instruments (bass, guitar, piano, and drums) although I'm not very good at any of them.
 
-Also, why Flowerinthenight? Good question. If you are thinking about Flowerinthenight, the princess from Diana Wynne Jones' [Castle In The Air](https://en.wikipedia.org/wiki/Castle_in_the_Air_(novel)), then you are right. Anyway, it goes without saying that she is one of my favorite book characters of all time. Seriously, I can't think of any other princess with a name as fantastic as hers.
+Also, why Hawkhai? Good question. If you are thinking about Hawkhai, the princess from Diana Wynne Jones' [Castle In The Air](https://en.wikipedia.org/wiki/Castle_in_the_Air_(novel)), then you are right. Anyway, it goes without saying that she is one of my favorite book characters of all time. Seriously, I can't think of any other princess with a name as fantastic as hers.
 
 ## Work history
 

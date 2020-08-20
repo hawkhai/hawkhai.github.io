@@ -183,4 +183,4 @@ NAME                   HOSTS                     ADDRESS          PORTS     AGE
 serviceproxy-ingress   development.mobingi.com   1.2.3.4          80, 443   91d
 {% endhighlight %}
 
-If you're wondering how to setup the TLS portion, you can refer to my previous [post](https://flowerinthenight.com/blog/2018/02/20/k8s-tls-digicert) about the very subject.
+If you're wondering how to setup the TLS portion, you can refer to my previous [post](https://blog.hawkhai.com/blog/2018/02/20/k8s-tls-digicert) about the very subject.

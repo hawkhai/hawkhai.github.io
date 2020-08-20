@@ -13,14 +13,14 @@ Create a new GitHub public repository with a prefix `homebrew-`, i.e. `homebrew-
 
 {% highlight shell %}
 # No need to include the 'homebrew-' prefix
-$ brew tap flowerinthenight/tap
+$ brew tap hawkhai/tap
 $ brew install <toolname>
 {% endhighlight %}
 
 The `toolname` part will correspond to the filename inside your repository tap. If your repository has an entry with a filename of `toolx.rb`, it can be installed using the following commands:
 
 {% highlight shell %}
-$ brew tap flowerinthenight/tap
+$ brew tap hawkhai/tap
 $ brew install toolx
 {% endhighlight %}
 
@@ -29,8 +29,8 @@ Here's an example of a formula for a golang app:
 {% highlight ruby %}
 class Kubepfm < Formula
   desc "A simple wrapper to kubectl port-forward for multiple pods."
-  homepage "https://github.com/flowerinthenight/kubepfm"
-  url "https://github.com/flowerinthenight/kubepfm/archive/v0.0.3.tar.gz"
+  homepage "https://github.com/hawkhai/kubepfm"
+  url "https://github.com/hawkhai/kubepfm/archive/v0.0.3.tar.gz"
   sha256 "7852a5500f3e35a47b57d138c756de5641bc3c48bf7e329d2724c1107ccb1207"
 
   depends_on "go"
@@ -40,8 +40,8 @@ class Kubepfm < Formula
     ENV["GO111MODULE"] = "on"
     ENV["GOFLAGS"] = "-mod=vendor"
     ENV["PATH"] = "#{ENV["PATH"]}:#{buildpath}/bin"
-    (buildpath/"src/github.com/flowerinthenight/kubepfm").install buildpath.children
-    cd "src/github.com/flowerinthenight/kubepfm" do
+    (buildpath/"src/github.com/hawkhai/kubepfm").install buildpath.children
+    cd "src/github.com/hawkhai/kubepfm" do
       system "go", "build", "-o", bin/"kubepfm", "."
     end
   end
@@ -52,7 +52,7 @@ class Kubepfm < Formula
 end
 {% endhighlight %}
 
-You can check out [https://github.com/flowerinthenight/homebrew-tap](https://github.com/flowerinthenight/homebrew-tap) for reference.
+You can check out [https://github.com/hawkhai/homebrew-tap](https://github.com/hawkhai/homebrew-tap) for reference.
 
 The `url` part is the path of the source `tar.gz` of your source files. You can create this by using [tagged releases](https://help.github.com/en/enterprise/2.16/user/articles/about-releases) in GitHub.
 
@@ -65,11 +65,11 @@ If you have a new version of your tool, first, create a new tag or release. Down
 Example:
 
 {% highlight shell %}
-$ git clone https://github.com/flowerinthenight/kubepfm
+$ git clone https://github.com/hawkhai/kubepfm
 $ cd kubepfm/
 $ git tag v1.0.1 # our new tag
 $ git push --tags # push tags to remote
-$ wget https://github.com/flowerinthenight/kubepfm/archive/v1.0.1.tar.gz
+$ wget https://github.com/hawkhai/kubepfm/archive/v1.0.1.tar.gz
 # OSX
 $ shasum -a 256 v1.0.1.tar.gz
 7852a5500f3e35a47b57d138c756de5641bc3c48bf7e329d2724c1107ccb1207  v1.0.1.tar.gz

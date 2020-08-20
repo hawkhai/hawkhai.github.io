@@ -5,7 +5,7 @@ location: "Japan"
 tags: [nginx, Kubernetes, basic-auth]
 ---
 
-This post is somewhat related to a [previous post](https://flowerinthenight.com/blog/2018/03/31/access-pods-k8s) about accessing k8s services using nginx reverse proxy. Let's try to add a simple basic authentication to these services at the proxy level. Now, this may come in handy in non-production environments but at the very least, make sure that you are doing this over HTTPS as basic authentication credentials are not encrypted.
+This post is somewhat related to a [previous post](https://blog.hawkhai.com/blog/2018/03/31/access-pods-k8s) about accessing k8s services using nginx reverse proxy. Let's try to add a simple basic authentication to these services at the proxy level. Now, this may come in handy in non-production environments but at the very least, make sure that you are doing this over HTTPS as basic authentication credentials are not encrypted.
 
 We will be using the `htpasswd` tool to generate our passwords. In Ubuntu, you can install this using the following command:
 

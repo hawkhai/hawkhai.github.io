@@ -39,4 +39,4 @@ $ docker run -d --log-driver=etwlogs --name demoapp demoapp:latest
 
 You should be able to view the application logs in the mftrace window.
 
-You can use this [repo](https://github.com/flowerinthenight/20170914-tokyo-mastercloud-presentation) instead of creating your own folder structure. Instructions are provided in the README as well as an x86 version of mftrace.
+You can use this [repo](https://github.com/hawkhai/20170914-tokyo-mastercloud-presentation) instead of creating your own folder structure. Instructions are provided in the README as well as an x86 version of mftrace.

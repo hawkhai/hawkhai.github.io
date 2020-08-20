@@ -5,7 +5,7 @@ location: "Japan"
 tags: [redis, distributed-locking, master, worker]
 ---
 
-I uploaded a simple library that abstracts the use of distributed locking to elect a master among group of workers at a specified time interval. It's called [`kettle`](https://github.com/flowerinthenight/kettle). You can find the source code [here](https://github.com/flowerinthenight/kettle).
+I uploaded a simple library that abstracts the use of distributed locking to elect a master among group of workers at a specified time interval. It's called [`kettle`](https://github.com/hawkhai/kettle). You can find the source code [here](https://github.com/hawkhai/kettle).
 
 We've been using this library mostly on these two recurring use case patterns:
 

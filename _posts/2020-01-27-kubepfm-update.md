@@ -11,4 +11,4 @@ Updated 2020/01/27:
 
 Original post:
 
-I recently uploaded a tool to GitHub that wraps `kubectl port-forward` command and supports port-forwarding to multiple pods. It's called [`kubepfm`](https://github.com/flowerinthenight/kubepfm). I use this tool heavily in my development work. You can check out the code [here](https://github.com/flowerinthenight/kubepfm). You might find this useful.
+I recently uploaded a tool to GitHub that wraps `kubectl port-forward` command and supports port-forwarding to multiple pods. It's called [`kubepfm`](https://github.com/hawkhai/kubepfm). I use this tool heavily in my development work. You can check out the code [here](https://github.com/hawkhai/kubepfm). You might find this useful.

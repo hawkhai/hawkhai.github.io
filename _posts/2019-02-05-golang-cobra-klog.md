@@ -6,7 +6,7 @@ tags: [golang, klog, cobra]
 comments: true
 ---
 
-This post is somehow related to a [previous article](https://flowerinthenight.com/blog/2017/12/01/golang-cobra-glog) about using [glog](https://github.com/golang/glog) together with [cobra](https://github.com/spf13/cobra). This time, we will be using [klog](https://github.com/kubernetes/klog) which is a Kubernetes fork of [glog](https://github.com/golang/glog).
+This post is somehow related to a [previous article](https://blog.hawkhai.com/blog/2017/12/01/golang-cobra-glog) about using [glog](https://github.com/golang/glog) together with [cobra](https://github.com/spf13/cobra). This time, we will be using [klog](https://github.com/kubernetes/klog) which is a Kubernetes fork of [glog](https://github.com/golang/glog).
 
 {% gist c1d3267a6e5cc26b9025b4eed74ce00a %}
 

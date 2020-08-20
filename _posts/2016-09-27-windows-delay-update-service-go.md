@@ -12,4 +12,4 @@ Basically, this is a Windows service that has an http endpoint that accepts a fi
 
 With these tools, I can now update all the running service instances with a script.
 
-Full source code [here](https://github.com/flowerinthenight/go-windows-delay-update-svc).
+Full source code [here](https://github.com/hawkhai/go-windows-delay-update-svc).

@@ -230,4 +230,4 @@ nnoremap <leader>do :windo diffoff!<CR>
 
 ### Update (2016/08/24)
 
-Updated `vimrc` can be viewed [here](https://github.com/flowerinthenight/vim).
+Updated `vimrc` can be viewed [here](https://github.com/hawkhai/vim).
