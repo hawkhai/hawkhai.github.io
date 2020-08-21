@@ -3,6 +3,7 @@ layout: post
 title: "使用TortoiseGit，设置ssh方式连接git仓库"
 location: "珠海"
 categories: ["General"]
+tags: [TortoiseGit, ssh, git, PuTTYGen, Pageant]
 comments: true
 ---
 
