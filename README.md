@@ -2,6 +2,8 @@ This is a modified version of [Gaurav Chaurasia's Much-Worse Jekyll theme](https
 
 Source for [https://blog.hawkhai.com](https://blog.hawkhai.com).
 
+Source for [https://sunocean.life/blog](https://www.sunocean.life/blog).
+
 # Environment setup
 
 ```bash
@@ -18,8 +20,8 @@ $ git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 $ echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
 $ exec $SHELL
 
-$ mkdir ~/.rbenv/cache/
-$ mv ruby-2.3.1.tar.bz2 ~/.rbenv/cache/
+$ # mkdir ~/.rbenv/cache/
+$ # mv ruby-2.3.1.tar.bz2 ~/.rbenv/cache/
 
 $ rbenv install 2.3.1
 $ rbenv global 2.3.1
