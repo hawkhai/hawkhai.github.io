@@ -2,7 +2,7 @@ This is a modified version of [Gaurav Chaurasia's Much-Worse Jekyll theme](https
 
 Source for [https://blog.hawkhai.com](https://blog.hawkhai.com).
 
-Source for [https://sunocean.life/blog](https://www.sunocean.life/blog).
+Source for [https://sunocean.life/blog](https://sunocean.life/blog).
 
 # Environment setup
 
