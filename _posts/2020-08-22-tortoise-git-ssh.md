@@ -10,7 +10,7 @@ comments: true
 
 首先确保安装了最新的 TortoiseGit，老版本不能 AutoLoad Putty Key，存在 bug。
 
-TortoiseGit 使用扩展名为 ppk 的密钥，而不是 ssh\-keygen 生成的 rsa 密钥。也就是说使用 ssh\-keygen \-t rsa \-C "username@email.com" 产生的密钥，TortoiseGit 中不能用。
+TortoiseGit 使用扩展名为 ppk 的密钥，而不是 ssh\-keygen 生成的 rsa 密钥。也就是说使用 ssh\-keygen \-t rsa \-C "username@email\.com" 产生的密钥，TortoiseGit 中不能用。
 
 而基于 github 的开发必须要用到 rsa 密钥，因此需要用到 TortoiseGit 的 putty key generator 工具，来生成既适用于 github 的 rsa 密钥也适用于 TortoiseGit 的 ppk 密钥。
 
@@ -34,18 +34,18 @@ PuTTYGen 和 Pageant 都在开始菜单中的 TortoiseGit 文件夹下，可以�
 
   点击右上角，修改资料——点击左侧的 ssh 公钥——填写右侧的添加公钥——标题自拟，把第二步复制的代码粘贴到下面的公钥那里——点击确定。
 
-#### 4. 返回到第二步的窗口，点击 **<font color="red">Save private key</font>** 按钮保存为适用于 TortoiseGit 的私钥，扩展名为 .ppk。
+#### 4. 返回到第二步的窗口，点击 **<font color="red">Save private key</font>** 按钮保存为适用于 TortoiseGit 的私钥，扩展名为 \.ppk。
 
 #### 5. 运行 TortoiseGit 开始菜单中的 Pageant 程序，程序启动后将自动停靠在任务栏中，双击该图标，弹出 key 管理列表。
 
   {% include image.html url="../../../../images/sshgit/5-1.png" %}
   {% include image.html url="../../../../images/sshgit/5-2.png" %}
 
-#### 6. 在弹出的 key 管理列表中，点击 add key，将第 4 步中保存的私钥（.ppk）文件加进来，关闭对话框即可。
+#### 6. 在弹出的 key 管理列表中，点击 add key，将第 4 步中保存的私钥（\.ppk）文件加进来，关闭对话框即可。
 
   {% include image.html url="../../../../images/sshgit/6-1.png" %}
 
-#### 7. 回到项目目录下，右键——TortoiseGit——Settings——点击 Remote，将第 4 步中保存的私钥（.ppk）文件加进来。
+#### 7. 回到项目目录下，右键——TortoiseGit——Settings——点击 Remote，将第 4 步中保存的私钥（\.ppk）文件加进来。
 
   {% include image.html url="../../../../images/sshgit/7-1.png" %}
 
@@ -59,7 +59,7 @@ PuTTYGen 和 Pageant 都在开始菜单中的 TortoiseGit 文件夹下，可以�
 
 补充：
 
-如果一开始是用 git 命令（ssh\-keygen \-t rsa \-C 【邮箱】），生成的公钥和密钥（比如 id\_rsa 和 id\_rsa.pub）。首先，把生成的公钥粘贴到 git 远程仓库管理中心。接下来用 ssh 的方式连接远程仓库。
+如果一开始是用 git 命令（ssh\-keygen \-t rsa \-C 【邮箱】），生成的公钥和密钥（比如 id\_rsa 和 id\_rsa\.pub）。首先，把生成的公钥粘贴到 git 远程仓库管理中心。接下来用 ssh 的方式连接远程仓库。
 
 有两种操作方式：
 
