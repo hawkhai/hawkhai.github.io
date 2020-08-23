@@ -17,7 +17,7 @@ TortoiseGit 使用扩展名为 ppk 的密钥，而不是 ssh\-keygen 生成的 r
 
 PuTTYGen 和 Pageant 都在开始菜单中的 TortoiseGit 文件夹下，可以找到。
 
-以下是生成ppk密钥，并且在TortoiseGit中设置的步骤：
+以下是生成 ppk 密钥，并且在 TortoiseGit 中设置的步骤：
 
 #### 1. 开始程序菜单中，打开 TortoiseGit，点击 PuTTYgen，在打开的窗口中点击 Generate 按钮，会出现绿色进度条，生成过程中可以多晃晃鼠标增加随机性。
 
