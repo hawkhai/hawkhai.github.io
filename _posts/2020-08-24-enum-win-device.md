@@ -3,7 +3,7 @@ layout: post
 title: "Enumerating windows device"
 location: "珠海"
 categories: ["General"]
-tags: [Windows, device, SetupDi*]
+tags: [Windows, device, SetupDi*, DevMgr]
 comments: true
 ---
 
@@ -132,7 +132,6 @@ if (!SetupDiGetDeviceRegistryProperty(hDevInfo,
 }
 
 // retrieves the index within the class image list of a specified class
-
 if (SetupDiGetClassImageIndex(&_spImageData,
                               &spDevInfoData.ClassGuid,
                               (int*) &wImageIdx)) {
