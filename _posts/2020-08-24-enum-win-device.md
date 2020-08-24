@@ -9,10 +9,11 @@ comments: true
 
 Enumerating the device using the SetupDi* API provided with WinXP.
 
-Download <a href="../../../../source/DevMgr-SRC.zip" target="_blank">source</a> files \- 57\.8 Kb
-Download <a href="../../../../source/DevMgr-DEMO.zip" target="_blank">demo</a> project \- 29\.8 Kb
+Download source files \- 57.8 Kb
+Download demo project \- 29.8 Kb
 
 ## Sample screenshot
+
 {% include image.html url="../../../../images/enumwindev/Full.jpg" %}
 
 ## Introduction
@@ -51,26 +52,26 @@ WINSETUPAPI BOOL WINAPI
 
 The SetupDiGetClassImageIndex function retrieves the index within the class image list of a specified class.
 
-Get device info set for device class (SetupDiGetClassDevs function) , when first call , the first and second parameters for this function should be set to “0”, the last parameter should be set property DIGCF_ALLCLASSES constant to get all class device.
+Get device info set for device class (SetupDiGetClassDevs function), when first call , the first and second parameters for this function should be set to “0”, the last parameter should be set property DIGCF_ALLCLASSES constant to get all class device.
 
 {% highlight cpp %}
 HDEVINFO
   SetupDiGetClassDevs(
-    IN LPGUID  ClassGuid,  OPTIONAL
-    IN PCTSTR  Enumerator,  OPTIONAL
-    IN HWND  hwndParent,  OPTIONAL
-    IN DWORD  Flags); 
+    IN LPGUID  ClassGuid  OPTIONAL,
+    IN PCTSTR  Enumerator  OPTIONAL,
+    IN HWND  hwndParent  OPTIONAL,
+    IN DWORD  Flags);
+{% endhighlight %}
 
-hDevInfo = SetupDiGetClassDevs(0L,   //Retrieve all classes
-                               0L,  // no enumerator
+{% highlight cpp %}
+hDevInfo = SetupDiGetClassDevs(0L,    // Retrieve all classes
+                               0L,    // no enumerator
                                _hDlg, // Parent Windows, usually set to “0”
-
-                        //control options used in building the device information set
-                               DIGCF_PRESENT |  
+                               // control options used in building the device information set
+                               DIGCF_PRESENT |
                                DIGCF_ALLCLASSES |
                                DIGCF_PROFILE);
 {% endhighlight %}
- 
 
 ## Getting the Info
 
@@ -89,19 +90,20 @@ The function returns TRUE if it is successful. Otherwise, it returns FALSE and t
 {% highlight cpp %}
 wIndex = 0;
 spDevInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
-while (1)
+while (true)
 {
-     if (SetupDiEnumDeviceInfo(hDevInfo,
-                               wIndex,
-                               &spDevInfoData))
-       .
-       .
-};
+    if (SetupDiEnumDeviceInfo(hDevInfo,
+                              wIndex,
+                              &spDevInfoData)) {
+        .
+        .
+    }
+}
 {% endhighlight %}
 
 The second parameter is Supplies the zero-based index of the device information element to retrieve.
 
-The Last parameter is Supplies a pointer to an SP_DEVINFO_DATA structure to receive information about this element. The caller must set cbSize to sizeof(SP_DEVINFO_DATA). 
+The Last parameter is Supplies a pointer to an SP_DEVINFO_DATA structure to receive information about this element. The caller must set cbSize to sizeof(SP_DEVINFO_DATA).
 
 Get device name from Registry via SetupDiGetDeviceRegistryPropertyA function
 
@@ -111,40 +113,41 @@ WINSETUPAPI BOOL WINAPI
     IN HDEVINFO  DeviceInfoSet,
     IN PSP_DEVINFO_DATA  DeviceInfoData,
     IN DWORD  Property,
-    OUT PDWORD  PropertyRegDataType,  OPTIONAL
+    OUT PDWORD  PropertyRegDataType  OPTIONAL,
     OUT PBYTE  PropertyBuffer,
     IN DWORD  PropertyBufferSize,
     OUT PDWORD  RequiredSize  OPTIONAL);
+{% endhighlight %}
 
+{% highlight cpp %}
 if (!SetupDiGetDeviceRegistryProperty(hDevInfo,
                                       &spDevInfoData,
-                                      SPDRP_CLASS, //Retrieve property type,
+                                      SPDRP_CLASS, // Retrieve property type,
                                       0L,
-                                      (PBYTE)szBuf,
+                                      (PBYTE) szBuf,
                                       2048,
                                       0)) {
     wIndex++;
     continue;
-};
+}
 
 // retrieves the index within the class image list of a specified class
 
 if (SetupDiGetClassImageIndex(&_spImageData,
                               &spDevInfoData.ClassGuid,
-                              (int*)&wImageIdx)){ 
+                              (int*) &wImageIdx)) {
+    .
+    .
 
-      .
-      .
-
-      //retrieves the class description associated with the specified setup class GUID
-      if (!SetupDiGetClassDescription(&spDevInfoData.ClassGuid,
-                                      szBuf,
-                                      MAX_PATH,
-                                      &dwRequireSize)){
-          .
-          .
-      };
-};
+    // retrieves the class description associated with the specified setup class GUID
+    if (!SetupDiGetClassDescription(&spDevInfoData.ClassGuid,
+                                    szBuf,
+                                    MAX_PATH,
+                                    &dwRequireSize)) {
+        .
+        .
+    }
+}
 {% endhighlight %}
 
 ## Get Device Resource
@@ -156,12 +159,12 @@ Get information about current configuration (CM_Get_First_Log_Conf function).
 {% highlight cpp %}
 CMAPI CONFIGRET WINAPI
   CM_Get_First_Log_Conf(
-    OUT PLOG_CONF  plcLogConf,  OPTIONAL
+    OUT PLOG_CONF  plcLogConf  OPTIONAL,
     IN DEVINST  dnDevInst,
     IN ULONG  ulFlags);
-{% endhighlight %} 
+{% endhighlight %}
 
-Get resource descriptor from current configuration (CM_Get_Next_Res_Des function, do this and follow steps for every resource till they exist) 
+Get resource descriptor from current configuration (CM_Get_Next_Res_Des function, do this and follow steps for every resource till they exist)
 
 {% highlight cpp %}
 CMAPI CONFIGRET WINAPI
@@ -173,7 +176,7 @@ CMAPI CONFIGRET WINAPI
     IN ULONG  ulFlags);
 {% endhighlight %}
 
-Get information about size of resource data (CM_Get_Res_Des_Data_Size function) 
+Get information about size of resource data (CM_Get_Res_Des_Data_Size function)
 
 {% highlight cpp %}
 CMAPI CONFIGRET WINAPI
@@ -183,7 +186,7 @@ CMAPI CONFIGRET WINAPI
     IN ULONG  ulFlags);
 {% endhighlight %}
 
-## Get resource data (CM_Get_Res_Des_Data function) 
+Get resource data (CM_Get_Res_Des_Data function)
 
 {% highlight cpp %}
 CMAPI CONFIGRET WINAPI
@@ -192,40 +195,44 @@ CMAPI CONFIGRET WINAPI
     OUT PVOID  Buffer,
     IN ULONG  BufferLen,
     IN ULONG  ulFlags);
+{% endhighlight %}
 
+{% highlight cpp %}
 cmRet = CM_Get_First_Log_Conf(&firstLogConf, DevInst, ALLOC_LOG_CONF);
 if (cmRet != CR_SUCCESS) {
     cmRet = CM_Get_First_Log_Conf(&firstLogConf, DevInst, BOOT_LOG_CONF);
-    if (cmRet != CR_SUCCESS)  return;
-};
+    if (cmRet != CR_SUCCESS) return;
+}
 cmRet = CM_Get_Next_Res_Des(&nextLogConf,
                             firstLogConf,
                             dwResType,
                             0L,
                             0L);
-if (cmRet != CR_SUCCESS){
+if (cmRet != CR_SUCCESS) {
     CM_Free_Res_Des_Handle(firstLogConf);
     return;
-};
-while (1) {
+}
+while (true) {
     ulSize = 0;
     cmRet = CM_Get_Res_Des_Data_Size(&ulSize, nextLogConf, 0L);
     if (cmRet != CR_SUCCESS) {
         CM_Free_Res_Des_Handle(nextLogConf);
         break;
-    };
-    pBuf = (char*)LocalAlloc(LPTR, 2048);
-    if (!pBuf)  {
+    }
+    pBuf = (char*) LocalAlloc(LPTR, 2048);
+    if (!pBuf) {
         ShowErrorMsg(_hDlg, GetLastError(), "LocalAlloc");
         CM_Free_Res_Des_Handle(nextLogConf);
         break;
-    };
+    }
     cmRet = CM_Get_Res_Des_Data(nextLogConf, pBuf, ulSize, 0L);
     if (cmRet != CR_SUCCESS) {
        .
-       . };
-};
+       .
+    }
+}
 {% endhighlight %}
+
 ## Load/Unload Non-PNP Driver
 
 Windows allows loading drivers at runtime using the Service Control Manager. Yes, the Service Control Manager in Windows not only can be used to load and manage services. You can use it with device drivers as you use it to load/unload/start/stop windows services.
@@ -234,79 +241,80 @@ The OpenSCManager function establishes a connection to the service control manag
 
 {% highlight cpp %}
 SC_HANDLE OpenSCManager(
-  IN LPCTSTR lpMachineName,
-  IN LPCTSTR lpDatabaseName,
-  IN DWORD dwDesiredAccess);
+    IN LPCTSTR  lpMachineName,
+    IN LPCTSTR  lpDatabaseName,
+    IN DWORD  dwDesiredAccess);
 {% endhighlight %}
 
 The CreateService function creates a service object and installs it in the service control manager database by creating a key with the same name as the service under the following registry key:
 
-{% highlight cpp %}
+{% highlight shell %}
 HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services
 {% endhighlight %}
 
 {% highlight cpp %}
 SC_HANDLE CreateService(
-    IN SC_HANDLE hSCManager,
-    IN LPCTSTR lpServiceName,
-    IN LPCTSTR lpDisplayName,
-    IN DWORD dwDesiredAccess,
-    IN DWORD dwServiceType,
-    IN DWORD dwStartType,
-    IN DWORD dwErrorControl,
-    IN LPCTSTR lpBinaryPathName,
-    IN LPCTSTR lpLoadOrderGroup,
-    IN LPDWORD lpdwTagId,
-    IN LPCTSTR lpDependencies,
-    IN LPCTSTR lpServiceStartName,
-    IN LPCTSTR lpPassword);
+    IN SC_HANDLE  hSCManager,
+    IN LPCTSTR  lpServiceName,
+    IN LPCTSTR  lpDisplayName,
+    IN DWORD  dwDesiredAccess,
+    IN DWORD  dwServiceType,
+    IN DWORD  dwStartType,
+    IN DWORD  dwErrorControl,
+    IN LPCTSTR  lpBinaryPathName,
+    IN LPCTSTR  lpLoadOrderGroup,
+    IN LPDWORD  lpdwTagId,
+    IN LPCTSTR  lpDependencies,
+    IN LPCTSTR  lpServiceStartName,
+    IN LPCTSTR  lpPassword);
 {% endhighlight %}
 
-## The OpenService function opens an existing service.
+The OpenService function opens an existing service.
 
 {% highlight cpp %}
 SC_HANDLE OpenService(
-  IN SC_HANDLE hSCManager,
-  IN LPCTSTR lpServiceName,
-  IN DWORD dwDesiredAccess);
+    IN SC_HANDLE  hSCManager,
+    IN LPCTSTR  lpServiceName,
+    IN DWORD  dwDesiredAccess);
+{% endhighlight %}
 
+{% highlight cpp %}
 hSCManager = OpenSCManager(0L,
                            0L,
                            SC_MANAGER_ALL_ACCESS);
-if (hSCManager){  //Create new device service
+if (hSCManager){ // Create new device service
     hService = CreateService(hSCManager,
-                             lpszServiceName,  //DosDeviceName
-                             lpszServiceName, //DosDeviceName
+                             lpszServiceName, // DosDeviceName
+                             lpszServiceName, // DosDeviceName
                              SERVICE_ALL_ACCESS,
                              SERVICE_KERNEL_DRIVER,
                              wStart,
                              wError,
-                             lpszDriverPath,   // Image path
+                             lpszDriverPath, // Image path
                              0L,
                              0L,
                              0L,
                              0L,
                              0L);
     if (!hService) {
-            DWORD dwErrorCode = GetLastError();
-            if (dwErrorCode == ERROR_SERVICE_EXISTS) {
-                //If service already existed? Open it.
-                hService = OpenService(hSCManager, lpszServiceName, SERVICE_ALL_ACCESS);
-            }
-            else {
-                ShowErrorMsg(_hDlg, dwErrorCode, "CreateService");
-                return 0;
-            };
-    };
+        DWORD dwErrorCode = GetLastError();
+        if (dwErrorCode == ERROR_SERVICE_EXISTS) {
+            // If service already existed? Open it.
+            hService = OpenService(hSCManager, lpszServiceName, SERVICE_ALL_ACCESS);
+        } else {
+            ShowErrorMsg(_hDlg, dwErrorCode, "CreateService");
+            return 0;
+        }
+    }
     if (hService) { // Start new service
         if (!StartService(hService, 0, 0L)) {
             CloseServiceHandle(hService);
             ShowErrorMsg(_hDlg, GetLastError(), "StartService");
             return 0;
-        };
-    };
+        }
+    }
     CloseServiceHandle(hSCManager);
-};
+}
 {% endhighlight %}
 
 If you want to send/receive data to the device driver loaded, to allow this, you have to get a handle to the driver. For this purpose you can use the function CreateFile, and pass the driver name as the file name. You can see Windows is so abstract in this aspect.
@@ -315,7 +323,7 @@ If you want to send/receive data to the device driver loaded, to allow this, you
 
 ## Load/Unload WDM Driver
 
-Windows also allows loading drivers at runtime using the SetupDiXXX API. The first we need to call SetuiDiGetINFClass to get the class of a specified device INF file. 
+Windows also allows loading drivers at runtime using the SetupDiXXX API. The first we need to call SetuiDiGetINFClass to get the class of a specified device INF file.
 
 {% include image.html url="../../../../images/enumwindev/INFInst.jpg" %}
 
@@ -336,11 +344,12 @@ When function return TRUE, NOW we need create an empty device information set an
 {% highlight cpp %}
 HDEVINFO
   SetupDiCreateDeviceInfoList(
-    IN LPGUID  ClassGuid,  OPTIONAL
+    IN LPGUID  ClassGuid  OPTIONAL,
     IN HWND  hwndParent  OPTIONAL);
 {% endhighlight %}
 
-The caller of this function must delete the returned device information set when it is no longer needed by calling SetupDiDestroyDeviceInfoList. 
+The caller of this function must delete the returned device information set when it is no longer needed by calling SetupDiDestroyDeviceInfoList.
+
 To create a device information list for a remote machine use SetupDiCreateDeviceInfoListEx.
 
 {% highlight cpp %}
@@ -349,34 +358,36 @@ WINSETUPAPI BOOL WINAPI
     IN HDEVINFO  DeviceInfoSet,
     IN PCTSTR  DeviceName,
     IN LPGUID  ClassGuid,
-    IN PCTSTR  DeviceDescription,  OPTIONAL
-    IN HWND  hwndParent,  OPTIONAL
+    IN PCTSTR  DeviceDescription  OPTIONAL,
+    IN HWND  hwndParent  OPTIONAL,
     IN DWORD  CreationFlags,
     OUT PSP_DEVINFO_DATA  DeviceInfoData  OPTIONAL);
 {% endhighlight %}
 
-The sixth parameter. Controls how the device information element is created. Can be a combination of the following values: 
+The sixth parameter. Controls how the device information element is created. Can be a combination of the following values:
 
 **DICD_GENERATE_ID**
 
-If this flag is specified, DeviceName contains only a Root-enumerated device ID and the system creates a unique device instance key for it. This unique device instance key is generated as: 
+If this flag is specified, DeviceName contains only a Root-enumerated device ID and the system creates a unique device instance key for it. This unique device instance key is generated as:
 
-**Enum\Root\DeviceName\InstanceID**
+{% highlight shell %}
+Enum\Root\DeviceName\InstanceID
+{% endhighlight %}
 
-where InstanceID is a four-digit, base-10 number that is unique among all subkeys under Enum\Root\DeviceName. Call SetupDiGetDeviceInstanceId to find out what ID was generated for this device information element. 
+where InstanceID is a four-digit, base-10 number that is unique among all subkeys under Enum\Root\DeviceName. Call SetupDiGetDeviceInstanceId to find out what ID was generated for this device information element.
 
 **DICD_INHERIT_CLASSDRVS**
 
-If this flag is specified, the resulting device information element inherits the class driver list, if any, associated with the device information set. In addition, if there is a selected driver for the device information set, that same driver is selected for the new device information element. 
+If this flag is specified, the resulting device information element inherits the class driver list, if any, associated with the device information set. In addition, if there is a selected driver for the device information set, that same driver is selected for the new device information element.
 
 {% highlight cpp %}
 if (!SetupDiGetINFClass(szINFName, &guid, className, MAX_CLASS_NAME_LEN, 0)) {
-        return 0;
-};
+    return 0;
+}
 hDevInfo = SetupDiCreateDeviceInfoList(&guid, 0);
-if (hDevInfo == (void*)-1) {
-        return 0;
-};
+if (hDevInfo == (void*) -1) {
+    return 0;
+}
 spDevData.cbSize = sizeof(SP_DEVINFO_DATA);
 if (!SetupDiCreateDeviceInfo(hDevInfo,
                              className,
@@ -385,9 +396,9 @@ if (!SetupDiCreateDeviceInfo(hDevInfo,
                              0L,
                              DICD_GENERATE_ID,
                              &spDevData)) {
-        SetupDiDestroyDeviceInfoList(hDevInfo);
-        return 0;
-};
+    SetupDiDestroyDeviceInfoList(hDevInfo);
+    return 0;
+}
 {% endhighlight %}
 
 If this device instance is being added to a set that has an associated class, the device class must be the same or the call fails. In this case, a call to GetLastError returns ERROR_CLASS_MISMATCH.
@@ -398,7 +409,7 @@ If the new device information element was successfully created but the caller-su
 
 That's it! If you have any suggestions or problems to report, post them here. There are plenty of ways this idea could be extended if you are of an inclination to do so.
 
-# License
+## License
 
 This article has no explicit license attached to it but may contain usage terms in the article text or the download files themselves. If in doubt please contact the author via the discussion board below.
 
