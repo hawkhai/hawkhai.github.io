@@ -9,8 +9,8 @@ comments: true
 
 Enumerating the device using the SetupDi* API provided with WinXP.
 
-Download source files \- 57.8 Kb
-Download demo project \- 29.8 Kb
+Download <a href="../../../../source/DevMgr-SRC.zip" target="_blank">source</a> files \- 57\.8 Kb<br/>
+Download <a href="../../../../source/DevMgr-DEMO.zip" target="_blank">demo</a> project \- 29\.8 Kb
 
 ## Sample screenshot
 
@@ -235,7 +235,7 @@ while (true) {
 
 ## Load/Unload Non-PNP Driver
 
-Windows allows loading drivers at runtime using the Service Control Manager. Yes, the Service Control Manager in Windows not only can be used to load and manage services. You can use it with device drivers as you use it to load/unload/start/stop windows services.
+Windows allows loading drivers at runtime using the **Service Control Manager**. Yes, the Service Control Manager in Windows not only can be used to load and manage services. You can use it with device drivers as you use it to load/unload/start/stop windows services.
 
 The OpenSCManager function establishes a connection to the service control manager on the specified computer and opens the specified service control manager database.
 
