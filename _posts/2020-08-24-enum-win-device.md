@@ -247,7 +247,7 @@ SC_HANDLE OpenSCManager(
 
 The CreateService function creates a service object and installs it in the service control manager database by creating a key with the same name as the service under the following registry key:
 
-{% highlight shell %}
+{% highlight plaintext %}
 HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services
 {% endhighlight %}
 
@@ -281,7 +281,7 @@ SC_HANDLE OpenService(
 hSCManager = OpenSCManager(0L,
                            0L,
                            SC_MANAGER_ALL_ACCESS);
-if (hSCManager){ // Create new device service
+if (hSCManager) { // Create new device service
     hService = CreateService(hSCManager,
                              lpszServiceName, // DosDeviceName
                              lpszServiceName, // DosDeviceName
@@ -369,7 +369,7 @@ The sixth parameter. Controls how the device information element is created. Can
 
 If this flag is specified, DeviceName contains only a Root-enumerated device ID and the system creates a unique device instance key for it. This unique device instance key is generated as:
 
-{% highlight shell %}
+{% highlight plaintext %}
 Enum\Root\DeviceName\InstanceID
 {% endhighlight %}
 
