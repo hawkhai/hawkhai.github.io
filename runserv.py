@@ -1,7 +1,7 @@
 #encoding=utf8
 import re, os, sys
 
-GIT_URL = 'url: "https://hawkhai.github.io"'
+GIT_URL = 'url: "https://blog.hawkhai.com"'
 GIT_BASEURL = 'baseurl: ""'
 SUN_URL = 'url: "https://sunocean.life"'
 SUN_BASEURL = 'baseurl: "/blog"'
