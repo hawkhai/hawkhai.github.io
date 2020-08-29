@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "QT 内存泄露"
+title: "QT 内存泄露研究"
 location: "珠海"
 categories: ["General"]
 tags: [QT, memory]
@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 
 **分析：**
 
-（1）label 既没有指定 parent，也没有对其调用 delete，所以会造成内存泄漏。书中的这种小例子也会出现指针内存的问题。
+label 既没有指定 parent，也没有对其调用 delete，所以会造成内存泄漏。书中的这种小例子也会出现指针内存的问题。
 
 **改进方式：**
 
@@ -442,5 +442,5 @@ Qt 简化了我们对内存的管理，但是，由于它会在不太注意的�
 * <http://blog.csdn.net/dbzhang800/article/details/6300025>
 * <http://blog.csdn.net/dbzhang800/article/details/6403285>
 * <http://devbean.blog.51cto.com/448512/526734/>
-* **<https://blog.csdn.net/taiyang1987912/article/details/29271549>*
-* **<https://www.cnblogs.com/senior-engineer/p/10037920.html>*
+* **<https://blog.csdn.net/taiyang1987912/article/details/29271549>**
+* **<https://www.cnblogs.com/senior-engineer/p/10037920.html>**
