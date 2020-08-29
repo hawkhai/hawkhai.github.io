@@ -1,5 +1,7 @@
 #encoding=utf8
 import re, os, sys
+sys.path.append("../")
+from pythonx.funclib import *
 
 GIT_URL = 'url: "https://blog.hawkhai.com"'
 GIT_BASEURL = 'baseurl: ""'
@@ -25,6 +27,15 @@ def stringToBytes(str, encoding="ISO8859-1"):
     return str.encode(encoding)
 
 def mainjekyll():
+
+    htmlist = os.listdir("backup")
+    htmlist = [md[:-3]+".html" for md in htmlist if md.endswith(".md")]
+    htmlist.sort()
+    idxdata = "[htmlist]"
+    for md in htmlist:
+        idxdata += "\n" + md + "=1"
+    writefile("backup/htmlist.ini", idxdata)
+
     currentfile = os.path.abspath(__file__)
     configfile = os.path.join(os.path.split(currentfile)[0], "_config.yml")
     print(configfile)
