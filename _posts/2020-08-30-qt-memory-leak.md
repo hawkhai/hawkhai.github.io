@@ -44,7 +44,7 @@ C++ 中 delete 和 new 必须配对使用（一一对应）：delete 少了，�
 {% highlight cpp %}
 #include <QApplication>
 #include <QLabel>
- 
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 {% highlight cpp %}
 #include <QApplication>
 #include <QLabel>
- 
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -86,7 +86,7 @@ label->setAttribute(Qt::WA_DeleteOnClose);
 {% highlight cpp %}
 #include <QApplication>
 #include <QLabel>
- 
+
 int main(int argc, char *argv[])
 {
     int ret = 0;
@@ -264,50 +264,50 @@ QPointer 是一个模板类。它很类似一个普通的指针，不同之处�
 QPointer 的现实原理：在 QPointer 保存了一个 QObject 的指针，并把这个指针的指针（双指针）交给全局变量管理，而 QObject 在销毁时（析构函数，QWidget 是通过自己的析构函数的，而不是依赖 QObject 的）会调用 QObjectPrivate::clearGuards 函数来把全局 GuardHash 的那个双指针置为*零，因为是双指针的问题，所以 QPointer 中指针当然也为零了。用 isNull 判断就为空了。
 
 {% highlight cpp %}
-    // QPointer 表现类似普通指针 
-    QDate *mydate = new QDate(QDate::currentDate()); 
-    QPointer mypointer = mydata; 
-    mydate->year();    // -> 2005 
-    mypointer->year(); // -> 2005 
+    // QPointer 表现类似普通指针
+    QDate *mydate = new QDate(QDate::currentDate());
+    QPointer mypointer = mydata;
+    mydate->year();    // -> 2005
+    mypointer->year(); // -> 2005
 
-    // 当对象 delete 之后，QPointer 会有不同的表现 
-    delete mydate; 
+    // 当对象 delete 之后，QPointer 会有不同的表现
+    delete mydate;
 
-    if(mydate == NULL) 
-        printf("clean pointer"); 
-    else 
-        printf("dangling pointer"); 
-    // 输出 dangling pointer 
+    if(mydate == NULL)
+        printf("clean pointer");
+    else
+        printf("dangling pointer");
+    // 输出 dangling pointer
 
-    if(mypointer.isNull()) 
-        printf("clean pointer"); 
-    else 
-        printf("dangling pointer"); 
+    if(mypointer.isNull())
+        printf("clean pointer");
+    else
+        printf("dangling pointer");
     // 输出 clean pointer
 {% endhighlight %}
 
 （2）std::auto_ptr
 
 {% highlight cpp %}
-    // QPointer 表现类似普通指针 
-    QDate *mydate = new QDate(QDate::currentDate()); 
-    QPointer mypointer = mydata; 
-    mydate->year();    // -> 2005 
-    mypointer->year(); // -> 2005 
-      
-    // 当对象 delete 之后，QPointer 会有不同的表现 
-    delete mydate; 
-      
-    if(mydate == NULL) 
-        printf("clean pointer"); 
-    else 
-        printf("dangling pointer"); 
-    // 输出 dangling pointer 
-      
-    if(mypointer.isNull()) 
-        printf("clean pointer"); 
-    else 
-        printf("dangling pointer"); 
+    // QPointer 表现类似普通指针
+    QDate *mydate = new QDate(QDate::currentDate());
+    QPointer mypointer = mydata;
+    mydate->year();    // -> 2005
+    mypointer->year(); // -> 2005
+
+    // 当对象 delete 之后，QPointer 会有不同的表现
+    delete mydate;
+
+    if(mydate == NULL)
+        printf("clean pointer");
+    else
+        printf("dangling pointer");
+    // 输出 dangling pointer
+
+    if(mypointer.isNull())
+        printf("clean pointer");
+    else
+        printf("dangling pointer");
     // 输出 clean pointe
 {% endhighlight %}
 
@@ -329,7 +329,7 @@ Qt 对象清理器是实现自动垃圾回收的很重要的一部分。QObjectC
 #include <QApplication>
 #include <QObjectCleanupHandler>
 #include <QPushButton>
- 
+
 int main(int argc, char* argv[])
 {
    QApplication app(argc, argv);
@@ -364,28 +364,28 @@ int main(int argc, char* argv[])
 应用计数是最简单的垃圾回收实现：每创建一个对象，计数器加 1，每删除一个则减 1。
 
 {% highlight cpp %}
-class CountedObject : public QObject 
-{ 
-    Q_OBJECT 
-public: 
-    CountedObject() { 
-        ctr=0; 
-    } 
-  
-    void attach(QObject *obj) { 
-        ctr++; 
-        connect(obj, SIGNAL(destroyed(QObject*)), this, SLOT(detach())); 
-    } 
-  
-public slots: 
-    void detach() { 
-        ctr--; 
-        if(ctr <= 0) 
-            delete this; 
-    } 
-  
-private: 
-    int ctr; 
+class CountedObject : public QObject
+{
+    Q_OBJECT
+public:
+    CountedObject() {
+        ctr=0;
+    }
+
+    void attach(QObject *obj) {
+        ctr++;
+        connect(obj, SIGNAL(destroyed(QObject*)), this, SLOT(detach()));
+    }
+
+public slots:
+    void detach() {
+        ctr--;
+        if(ctr <= 0)
+            delete this;
+    }
+
+private:
+    int ctr;
 };
 {% endhighlight %}
 
@@ -396,36 +396,36 @@ private:
 更合适的实现是，不仅仅记住有几个对象持有引用，而且要记住是哪些对象。例如：
 
 {% highlight cpp %}
-class CountedObject : public QObject 
-{ 
-public: 
-    
-    CountedObject() {} 
-      
-    void attach(QObject *obj) { 
-        // 检查所有者 
-        if(obj == 0) 
-            return; 
-        // 检查是否已经添加过 
-        if(owners.contains(obj)) 
-            return; 
-        // 注册 
-        owners.append(obj); 
-        connect(obj, SIGNAL(destroyed(QObject*)), this, SLOT(detach(QObject*))); 
-    }
-    
-public slots: 
+class CountedObject : public QObject
+{
+public:
 
-    void detach(QObject *obj) { 
-        // 删除 
-        owners.removeAll(obj); 
-        // 如果最后一个对象也被 delete，删除自身 
-        if(owners.size() == 0) 
-            delete this; 
+    CountedObject() {}
+
+    void attach(QObject *obj) {
+        // 检查所有者
+        if(obj == 0)
+            return;
+        // 检查是否已经添加过
+        if(owners.contains(obj))
+            return;
+        // 注册
+        owners.append(obj);
+        connect(obj, SIGNAL(destroyed(QObject*)), this, SLOT(detach(QObject*)));
     }
-        
-private: 
-    QList owners; 
+
+public slots:
+
+    void detach(QObject *obj) {
+        // 删除
+        owners.removeAll(obj);
+        // 如果最后一个对象也被 delete，删除自身
+        if(owners.size() == 0)
+            delete this;
+    }
+
+private:
+    QList owners;
 };
 {% endhighlight %}
 
