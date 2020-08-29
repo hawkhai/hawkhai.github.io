@@ -13,7 +13,7 @@ function Invoke-Environment([Parameter(Mandatory=1)][string]$Command, [switch]$O
 {
     $stream = if ($Output) { ($temp = [IO.Path]::GetTempFileName()) } else { 'nul' }
     $operator = if ($Force) {'&'} else {'&&'}
-    
+
     foreach($_ in cmd /c " $Command > `"$stream`" 2>&1 $operator SET")
     {
         if ($_ -match '^([^=]+)=(.*)')
@@ -21,7 +21,7 @@ function Invoke-Environment([Parameter(Mandatory=1)][string]$Command, [switch]$O
             [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2])
         }
     }
-    
+
     if ($Output)
     {
         Get-Content -LiteralPath $temp

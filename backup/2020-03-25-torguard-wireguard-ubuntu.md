@@ -26,7 +26,7 @@ $ sudo wg-quick up Asia-Singapore2
 $ sudo wg
 
 # If no issues, you can check your public IP with:
-$ curl ipecho.net/plain; echo 
+$ curl ipecho.net/plain; echo
 {% endhighlight %}
 
 Finally, to disconnect, run:

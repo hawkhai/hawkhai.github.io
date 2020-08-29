@@ -14,9 +14,9 @@ Using [kubectl port-forward](https://kubernetes.io/docs/tasks/access-application
 {% highlight shell %}
 $ kubectl get pod
 NAME                            READY     STATUS    RESTARTS   AGE
-svc1-66dd787767-d6b22           2/2       Running   0          7d 
-svc1-66dd787767-ks92f           2/2       Running   0          7d 
-svc2-578786c554-rlw2w           2/2       Running   0          7d 
+svc1-66dd787767-d6b22           2/2       Running   0          7d
+svc1-66dd787767-ks92f           2/2       Running   0          7d
+svc2-578786c554-rlw2w           2/2       Running   0          7d
 
 # This will connect to the first pod (we have two available):
 $ kubectl port-forward `kubectl get pod --no-headers=true -o \
