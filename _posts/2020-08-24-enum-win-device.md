@@ -3,8 +3,7 @@ layout: post
 title: "Enumerating windows device"
 location: "珠海"
 categories: ["General"]
-tags: [Windows, device, SetupDi*, DevMgr]
-comments: true
+tags: [Windows, device]
 ---
 
 Enumerating the device using the SetupDi* API provided with WinXP.
