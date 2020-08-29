@@ -1,6 +1,6 @@
 function MathJaxHubConfig() {
 
-    if (typeof MathJax === 'undefined') {
+    if (typeof MathJax === 'undefined') {
         setTimeout("MathJaxHubConfig()", 100);
         return;
     }
