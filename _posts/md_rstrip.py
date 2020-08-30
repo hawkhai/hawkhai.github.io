@@ -9,19 +9,35 @@ def getLeftSpaceCount(line):
     count = 0
     while line and line[0] == ' ':
         line = line[1:]
+        count += 1
     return count
 
 def mainfile(fpath, fname, ftype):
     if not ftype in ("md", "py",):
         return
 
+    if fpath.find("\\backup\\") != -1:
+        return
+
     print(fpath)
     lines = readfileLines(fpath, False, False, "utf8")
     lines = [line if line.endswith(" = ") else line.rstrip() for line in lines]
 
+    index = 0
     for line in lines:
         count = getLeftSpaceCount(line)
-        assert count % 4 == 0, line
+
+        if line.strip().startswith("* "):
+            kxcnt = 2
+        else:
+            kxcnt = 4
+
+        index += 1
+        if count >= 10 or count % kxcnt == 0:
+            pass
+        else:
+            openTextFile(fpath)
+            assert False, "{}: {}".format(index, line)
 
     writefile(fpath, "\r\n".join(lines).encode("utf8"))
 

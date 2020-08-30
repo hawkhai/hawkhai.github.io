@@ -222,7 +222,7 @@ int main(int argc, char* argv[])
     w->show();
     delete w;
     if (!p.isNull()) {
-       label->setText("go");
+        label->setText("go");
     }
     return app.exec();
 }
@@ -336,26 +336,26 @@ Qt 对象清理器是实现自动垃圾回收的很重要的一部分。QObjectC
 
 int main(int argc, char* argv[])
 {
-   QApplication app(argc, argv);
-   // 创建实例
-   QObjectCleanupHandler *cleaner = new QObjectCleanupHandler;
-   // 创建窗口
-   QPushButton *w = new QPushButton("Remove Me");
-   w->show();
-   // 注册第一个按钮
-   cleaner->add(w);
-   // 如果第一个按钮点击之后，删除自身
-   QObject::connect(w, SIGNAL(clicked()), w, SLOT(deleteLater()));
-   // 创建第二个按钮，注意，这个按钮没有任何动作
-   w = new QPushButton("Nothing");
-   cleaner->add(w);
-   w->show();
-   // 创建第三个按钮，删除所有
-   w = new QPushButton("Remove All");
-   cleaner->add(w);
-   QObject::connect(w, SIGNAL(clicked()), cleaner, SLOT(deleteLater()));
-   w->show();
-   return app.exec();
+    QApplication app(argc, argv);
+    // 创建实例
+    QObjectCleanupHandler *cleaner = new QObjectCleanupHandler;
+    // 创建窗口
+    QPushButton *w = new QPushButton("Remove Me");
+    w->show();
+    // 注册第一个按钮
+    cleaner->add(w);
+    // 如果第一个按钮点击之后，删除自身
+    QObject::connect(w, SIGNAL(clicked()), w, SLOT(deleteLater()));
+    // 创建第二个按钮，注意，这个按钮没有任何动作
+    w = new QPushButton("Nothing");
+    cleaner->add(w);
+    w->show();
+    // 创建第三个按钮，删除所有
+    w = new QPushButton("Remove All");
+    cleaner->add(w);
+    QObject::connect(w, SIGNAL(clicked()), cleaner, SLOT(deleteLater()));
+    w->show();
+    return app.exec();
 }
 {% endhighlight %}
 
