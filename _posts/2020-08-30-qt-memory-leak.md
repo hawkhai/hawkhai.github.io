@@ -124,6 +124,7 @@ int main(int argc, char *argv[])
 **分析：**
 
 程序崩溃，因为 label 被 close 时，delete &label; 但 label 对象是在栈上分配的内存空间，delete 栈上的地址会出错。
+
 有些朋友理解为 label 被 delete 两次而错误，可以测试 QLabel label("Hello Qt!"); label.show(); delete &label; 第一次 delete 就会出错。
 
 #### 例子三
@@ -145,6 +146,7 @@ int main(int argc, char* argv[])
 **分析：**
 
 Object 内部有一个 list，会保存 children，还有一个指针保存 parent，当自己析构时，会自己从 parent 列表中删除并且析构所有的 children。
+
 w 比 label 先被析构，当 w 被析构时，会删除 chilren 列表中的对象 label，但 label 是分配到栈上的，因 delete 栈上的对象而出错。
 
 **改进方式：**
@@ -212,17 +214,17 @@ QPointer 智能指针
 #include <QPointer>
 int main(int argc, char* argv[])
 {
-   QApplication app(argc, argv);
-   QWidget *w = new QWidget;
-   QLabel *label = new QLabel("Hello Qt!");
-   label->setParent(w);
-   QPointer<QLabel> p = label;
-   w->show();
-   delete w;
-   if (!p.isNull()) {
-     label->setText("go");
-   }
-   return app.exec();
+    QApplication app(argc, argv);
+    QWidget *w = new QWidget;
+    QLabel *label = new QLabel("Hello Qt!");
+    label->setParent(w);
+    QPointer<QLabel> p = label;
+    w->show();
+    delete w;
+    if (!p.isNull()) {
+       label->setText("go");
+    }
+    return app.exec();
 }
 {% endhighlight %}
 
@@ -326,7 +328,7 @@ std::auto_ptr<QLabel> label(new QLabel("Hello Dbzhang800!"));
 
 （1）QObjectCleanupHandler
 
-Qt 对象清理器是实现自动垃圾回收的很重要的一部分。QObjectCleanupHandler 可以注册很多子对象，并在自己删除的时候自动删除所有子对象。同时，它也可以识别出是否有子对象被删 除，从而将其从它的子对象列表中删除。这个类可以用于不在同一层次中的类的清理操作，例如，当按钮按下时需要关闭很多窗口，由于窗口的 parent 属性不可能设置为别的窗口的 button，此时使用这个类就会相当方便。
+Qt 对象清理器是实现自动垃圾回收的很重要的一部分。QObjectCleanupHandler 可以注册很多子对象，并在自己删除的时候自动删除所有子对象。同时，它也可以识别出是否有子对象被删除，从而将其从它的子对象列表中删除。这个类可以用于不在同一层次中的类的清理操作，例如，当按钮按下时需要关闭很多窗口，由于窗口的 parent 属性不可能设置为别的窗口的 button，此时使用这个类就会相当方便。
 
 {% highlight cpp %}
 #include <QApplication>
@@ -372,7 +374,7 @@ class CountedObject : public QObject
     Q_OBJECT
 public:
     CountedObject() {
-        ctr=0;
+        ctr = 0;
     }
 
     void attach(QObject *obj) {
