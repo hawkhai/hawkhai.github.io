@@ -292,29 +292,6 @@ else
 
 （2）std::auto_ptr
 
-{% highlight cpp %}
-// QPointer 表现类似普通指针
-QDate *mydate = new QDate(QDate::currentDate());
-QPointer mypointer = mydata;
-mydate->year();    // -> 2005
-mypointer->year(); // -> 2005
-
-// 当对象 delete 之后，QPointer 会有不同的表现
-delete mydate;
-
-if(mydate == NULL)
-    printf("clean pointer");
-else
-    printf("dangling pointer");
-// 输出 dangling pointer
-
-if(mypointer.isNull())
-    printf("clean pointer");
-else
-    printf("dangling pointer");
-// 输出 clean pointe
-{% endhighlight %}
-
 auto_ptr 被销毁时会自动删除它指向的对象。
 
 {% highlight cpp %}
