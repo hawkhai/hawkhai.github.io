@@ -11,15 +11,18 @@ Enumerating the device using the SetupDi* API provided with WinXP.
 Download <a href="../../../../source/DevMgr-SRC.zip" target="_blank">source</a> files \- 57\.8 Kb<br/>
 Download <a href="../../../../source/DevMgr-DEMO.zip" target="_blank">demo</a> project \- 29\.8 Kb
 
+
 ## Sample screenshot
 
 {% include image.html url="../../../../images/enumwindev/Full.jpg" %}
+
 
 ## Introduction
 
 Windows has a rich collection of APIs to get useful information about installed devices. In this article, I will show how you can enumerate devices on a machine using SetupDiXXX API and CM_XXXX API.
 
 The program has a simple GUI: only a a treeview control that shows all of the installed devices. All the information about a device (such as name and its icon) is grabbed from Windows SetupDiXXX API.
+
 
 ## SetupDiXXX API
 
@@ -67,6 +70,7 @@ hDevInfo = SetupDiGetClassDevs(0L,    // Retrieve all classes
                                DIGCF_ALLCLASSES |
                                DIGCF_PROFILE);
 {% endhighlight %}
+
 
 ## Getting the Info
 
@@ -141,6 +145,7 @@ if (SetupDiGetClassImageIndex(&_spImageData,
     }
 }
 {% endhighlight %}
+
 
 ## Get Device Resource
 
@@ -220,6 +225,7 @@ while (true) {
     }
 }
 {% endhighlight %}
+
 
 ## Load/Unload Non-PNP Driver
 
@@ -309,6 +315,7 @@ If you want to send/receive data to the device driver loaded, to allow this, you
 
 {% include image.html url="../../../../images/enumwindev/AddLegacy.jpg" %}
 
+
 ## Load/Unload WDM Driver
 
 Windows also allows loading drivers at runtime using the SetupDiXXX API. The first we need to call SetuiDiGetINFClass to get the class of a specified device INF file.
@@ -393,6 +400,7 @@ If the specified device instance is the same as an existing device instance key 
 If the new device information element was successfully created but the caller-supplied DeviceInfoData buffer is invalid, the function returns FALSE. In this case, a call to GetLastError returns `ERROR_INVALID_USER_BUFFER`. However, the device information element will have been added as a new member of the set already.
 
 That's it! If you have any suggestions or problems to report, post them here. There are plenty of ways this idea could be extended if you are of an inclination to do so.
+
 
 ## License
 

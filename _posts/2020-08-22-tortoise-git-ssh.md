@@ -53,9 +53,7 @@ PuTTYGen 和 Pageant 都在开始菜单中的 TortoiseGit 文件夹下，可以�
 
 #### 8. 完成后，右键可以直接 pull 和 push 操作了。
 
-
 -----------------
-
 
 补充：
 

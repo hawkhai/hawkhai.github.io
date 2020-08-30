@@ -39,7 +39,15 @@ def mainfile(fpath, fname, ftype):
             openTextFile(fpath)
             assert False, "{}: {}".format(index, line)
 
-    writefile(fpath, "\r\n".join(lines).encode("utf8"))
+    page = "\r\n".join(lines)
+    while page.find("\r\n\r\n\r\n") != -1:
+        page = page.replace("\r\n\r\n\r\n", "\r\n\r\n")
+
+    page = page.replace("\r\n### ", "\r\n\r\n### ")
+    page = page.replace("\r\n## ",  "\r\n\r\n## ")
+    page = page.replace("\r\n# ",   "\r\n\r\n# ")
+
+    writefile(fpath, page.encode("utf8"))
 
 def main():
     searchdir("..", mainfile)
