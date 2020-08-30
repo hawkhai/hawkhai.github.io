@@ -252,14 +252,13 @@ Qt 家族的智能指针：
 | QPointer | Qt Object 模型的特性（之一）<br/>注意：析构时不会 delete 它管理的资源 |  |
 | QSharedPointer | 带引用计数 | Qt 4.5 |
 | QWeakPointer |  | Qt 4.5 |
-| QScopedPointer  |  | Qt 4.6 |
+| QScopedPointer |  | Qt 4.6 |
 | QScopedArrayPointer | QScopedPointer 的派生类 | Qt 4.6 |
 | QSharedDataPointer | 用来实现 Qt 的隐式共享（Implicit Sharing） | Qt 4.0 |
 | QExplicitlySharedDataPointer | 显式共享 | Qt 4.4 |
-| --- | --- | --- |
 | std::auto_ptr |  |  |
 | std::shared_ptr | std::tr1::shared_ptr | C++0x |
-| std::weak_ptr | std::tr1::weak_ptr |C++0x  |
+| std::weak_ptr | std::tr1::weak_ptr | C++0x |
 | std::unique_ptr | boost::scoped_ptr | C++0x |
 
 （1）QPointer
@@ -269,51 +268,51 @@ QPointer 是一个模板类。它很类似一个普通的指针，不同之处�
 QPointer 的现实原理：在 QPointer 保存了一个 QObject 的指针，并把这个指针的指针（双指针）交给全局变量管理，而 QObject 在销毁时（析构函数，QWidget 是通过自己的析构函数的，而不是依赖 QObject 的）会调用 QObjectPrivate::clearGuards 函数来把全局 GuardHash 的那个双指针置为*零，因为是双指针的问题，所以 QPointer 中指针当然也为零了。用 isNull 判断就为空了。
 
 {% highlight cpp %}
-    // QPointer 表现类似普通指针
-    QDate *mydate = new QDate(QDate::currentDate());
-    QPointer mypointer = mydata;
-    mydate->year();    // -> 2005
-    mypointer->year(); // -> 2005
+// QPointer 表现类似普通指针
+QDate *mydate = new QDate(QDate::currentDate());
+QPointer mypointer = mydata;
+mydate->year();    // -> 2005
+mypointer->year(); // -> 2005
 
-    // 当对象 delete 之后，QPointer 会有不同的表现
-    delete mydate;
+// 当对象 delete 之后，QPointer 会有不同的表现
+delete mydate;
 
-    if(mydate == NULL)
-        printf("clean pointer");
-    else
-        printf("dangling pointer");
-    // 输出 dangling pointer
+if(mydate == NULL)
+    printf("clean pointer");
+else
+    printf("dangling pointer");
+// 输出 dangling pointer
 
-    if(mypointer.isNull())
-        printf("clean pointer");
-    else
-        printf("dangling pointer");
-    // 输出 clean pointer
+if(mypointer.isNull())
+    printf("clean pointer");
+else
+    printf("dangling pointer");
+// 输出 clean pointer
 {% endhighlight %}
 
 （2）std::auto_ptr
 
 {% highlight cpp %}
-    // QPointer 表现类似普通指针
-    QDate *mydate = new QDate(QDate::currentDate());
-    QPointer mypointer = mydata;
-    mydate->year();    // -> 2005
-    mypointer->year(); // -> 2005
+// QPointer 表现类似普通指针
+QDate *mydate = new QDate(QDate::currentDate());
+QPointer mypointer = mydata;
+mydate->year();    // -> 2005
+mypointer->year(); // -> 2005
 
-    // 当对象 delete 之后，QPointer 会有不同的表现
-    delete mydate;
+// 当对象 delete 之后，QPointer 会有不同的表现
+delete mydate;
 
-    if(mydate == NULL)
-        printf("clean pointer");
-    else
-        printf("dangling pointer");
-    // 输出 dangling pointer
+if(mydate == NULL)
+    printf("clean pointer");
+else
+    printf("dangling pointer");
+// 输出 dangling pointer
 
-    if(mypointer.isNull())
-        printf("clean pointer");
-    else
-        printf("dangling pointer");
-    // 输出 clean pointe
+if(mypointer.isNull())
+    printf("clean pointer");
+else
+    printf("dangling pointer");
+// 输出 clean pointe
 {% endhighlight %}
 
 auto_ptr 被销毁时会自动删除它指向的对象。
