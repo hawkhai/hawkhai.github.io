@@ -18,6 +18,8 @@ def mainfile(fpath, fname, ftype):
 
     if fpath.find("\\backup\\") != -1:
         return
+    if fpath.find("\\d2l-zh\\") != -1:
+        return
 
     print(fpath)
     lines = readfileLines(fpath, False, False, "utf8")

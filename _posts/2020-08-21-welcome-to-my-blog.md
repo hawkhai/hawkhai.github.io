@@ -13,17 +13,28 @@ Enjoy!
 
 ## Test MathJax
 
-$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+[MathJax basic tutorial and quick reference](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference)
 
-In N-dimensional simplex noise, the squared kernel summation radius $r^2$ is $\frac 1 2$
-for all values of N. This is because the edge length of the N-simplex $s = \sqrt {\frac {N} {N + 1}}$
-divides out of the N-simplex height $h = s \sqrt {\frac {N + 1} {2N}}$.
-The kerel summation radius $r$ is equal to the N-simplex height $h$.
+[基本数学公式语法 (of MathJax)](https://blog.csdn.net/ethmery/article/details/50670297)
 
-$$ r = h = \sqrt{\frac {1} {2}} = \sqrt{\frac {N} {N+1}} \sqrt{\frac {N+1} {2N}} $$
+1. Inline MathJax: $E = mc^2$.
+
+2. Display MathJax:
+
+$$\begin{cases}
+a_1x+b_1y+c_1z=d_1\\
+a_2x+b_2y+c_2z=d_2\\
+a_3x+b_3y+c_3z=d_3\\
+\end{cases}
+$$
+
+$$f(a)=\frac{1}{2 \pi i} \oint_{\gamma} \frac{f(z)}{z-a} d z$$
 
 
 ## Tools
-1. [markdown-mathjax editor](https://kerzol.github.io/markdown-mathjax/editor.html)
-2. [http://www.mdeditor.com/](http://www.mdeditor.com/)
-3. [https://www.zybuluo.com/mdeditor](https://www.zybuluo.com/mdeditor)
+
+* 公式在线编辑 <https://kerzol.github.io/markdown-mathjax/editor.html>
+* **公式在线编辑** <https://latex.codecogs.com/eqneditor/editor.php>
+* 文档在线编辑 <http://www.mdeditor.com/>
+* 文档在线编辑 <https://www.zybuluo.com/mdeditor>
+* **图片转公式** <https://gongshi.wang/>
