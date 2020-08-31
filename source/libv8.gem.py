@@ -37,7 +37,6 @@ def fmain(fpath, tpath):
 while __name__ == "__main__":
     # CFLAGS_Release := -fpermissive
     # CFLAGS_Debug := -fpermissive
-    # Build using: CXXFLAGS=-fpermissive make https://issues.adblockplus.org/ticket/4950
     fpath = r"E:\kSource\blog\source\gyp"
     tpath = r"C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\libv8-3.16.14.19\vendor\v8\out\tools\gyp"
     fmain(fpath, tpath)
@@ -49,7 +48,7 @@ while __name__ == "__main__":
     fmain(fpath, tpath)
 
     # remove command line option '-rdynamic'
-    # LIBS => -lwinmm
+    # LIBS => -lwinmm 新增。
     fpath = r"E:\kSource\blog\source\libv8-therubyracer\Makefile"
     tpath = r"C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\therubyracer-0.12.3\ext\v8\Makefile"
     fmain(fpath, tpath)

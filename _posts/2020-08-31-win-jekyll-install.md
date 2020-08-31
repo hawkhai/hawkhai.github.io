@@ -16,7 +16,7 @@ Windows 搭建 Jekyll 环境。`bundle install` 的时候，`libv8` 和 `theruby
        (~kMaxCachedArrayIndexLength << kArrayIndexHashLengthShift) |
        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make[1]: *** [tools/gyp/v8_base.target.x64.mk:197:
-/c/Ruby24-x64/lib/ruby/gems/2.4.0/gems/libv8-3.16.14.19/vendor/v8/out/x64.release/obj.target/v8_base/src/accessors.o]
+/c/Ruby25-x64/lib/ruby/gems/2.4.0/gems/libv8-3.16.14.19/vendor/v8/out/x64.release/obj.target/v8_base/src/accessors.o]
 Error 1
 {% endhighlight %}
 
@@ -27,7 +27,7 @@ Error 1
 ## 1. 安装 ruby & gem
 
 从 <https://rubyinstaller.org/downloads/> 下载，Ruby+Devkit 2.5.8-1 (x64) rubyinstaller-devkit-2.5.8-1-x64.exe。
-因为 github-pages depends on ruby (>= 2.2, < 2.6) x64-mingw32，安装 MSYS2，选择 3 - MSYS2 and MINGW development toolchain，安装完成要选择“运行”。
+因为 github-pages depends on ruby (>= 2.2, < 2.6) x64-mingw32，安装 MSYS2，选择 `3 - MSYS2 and MINGW development toolchain`，安装完成要选择“运行”。
 
 {% highlight shell %}
 ruby -v
@@ -49,11 +49,12 @@ jekyll -v
 libv8 构建不成功，therubyracer 也构建不成功。网上的办法都行不通。
 
 {% highlight shell %}
-bundle install # NEED python 2!!
+bundle install # Need python 2!!
 # https://qiita.com/south37/items/9a3269c28d9fba80f0b7
 # bundle config build.libv8 --with-system-v8
 # bundle config build.therubyracer --with-v8-dir=/usr/local/opt/v8-315/
 # 这个方法理论可行，没有成功。
+# 灵感来自于 https://issues.adblockplus.org/ticket/4950
 gem install libv8 -v '3.16.14.19' -- --with-system-v8
 gem install therubyracer -v '0.12.3' -- --with-system-v8
 {% endhighlight %}
@@ -61,7 +62,7 @@ gem install therubyracer -v '0.12.3' -- --with-system-v8
 **最终方案：**
 
 先构建一次，把所有影响构建的源代码和工程配置（mk 文件）都拷贝出来，改动点具体见 python 代码。platform-win32.cc 里面的 `localtime_s` 和 include/time.h 里面的冲突，改个新名字，等等。
-然后写个脚本（libv8.gem.py），不停的尝试写入替换这些文件；同时开启构建，一旦构建系统创建了这几个文件，马上替换掉，最终就可以顺利完成构建了。
+然后写个脚本（libv8.gem.py），不停的尝试写入替换这些文件；同时开启构建，一旦构建系统创建/释放/修改了这几个文件，马上替换掉，最终就可以顺利完成构建了。
 
 {% highlight python %}
 #encoding=utf8
@@ -103,7 +104,6 @@ def fmain(fpath, tpath):
 while __name__ == "__main__":
     # CFLAGS_Release := -fpermissive
     # CFLAGS_Debug := -fpermissive
-    # Build using: CXXFLAGS=-fpermissive make https://issues.adblockplus.org/ticket/4950
     fpath = r"E:\kSource\blog\source\gyp"
     tpath = r"C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\libv8-3.16.14.19\vendor\v8\out\tools\gyp"
     fmain(fpath, tpath)
@@ -115,7 +115,7 @@ while __name__ == "__main__":
     fmain(fpath, tpath)
 
     # remove command line option '-rdynamic'
-    # LIBS => -lwinmm
+    # LIBS => -lwinmm 新增。
     fpath = r"E:\kSource\blog\source\libv8-therubyracer\Makefile"
     tpath = r"C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\therubyracer-0.12.3\ext\v8\Makefile"
     fmain(fpath, tpath)
