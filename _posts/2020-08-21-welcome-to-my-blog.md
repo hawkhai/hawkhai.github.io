@@ -30,6 +30,9 @@ $$
 
 $$f(a)=\frac{1}{2 \pi i} \oint_{\gamma} \frac{f(z)}{z-a} d z$$
 
+## 参考式/行内式
+
+<https://www.imydl.tech/ty/70.html>
 
 ## Tools
 
