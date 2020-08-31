@@ -43,7 +43,7 @@ while __name__ == "__main__":
     fmain(fpath, tpath)
 
     # localtime_s -> localtime_sx
-    # #pragma comment( lib, "winmm.lib" )
+    # #pragma comment(lib, "winmm.lib")
     fpath = r"E:\kSource\blog\source\libv8-therubyracer\platform-win32.cc"
     tpath = r"C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\libv8-3.16.14.19\vendor\v8\src\platform-win32.cc"
     fmain(fpath, tpath)
