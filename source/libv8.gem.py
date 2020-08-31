@@ -43,6 +43,18 @@ while __name__ == "__main__":
     fmain(fpath, tpath)
 
     # localtime_s -> localtime_sx
-    fpath = r"E:\kSource\blog\source\platform-win32.cc"
+    # #pragma comment( lib, "winmm.lib" )
+    fpath = r"E:\kSource\blog\source\libv8-therubyracer\platform-win32.cc"
     tpath = r"C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\libv8-3.16.14.19\vendor\v8\src\platform-win32.cc"
+    fmain(fpath, tpath)
+
+    # remove command line option '-rdynamic'
+    # LIBS => -lwinmm
+    fpath = r"E:\kSource\blog\source\libv8-therubyracer\Makefile"
+    tpath = r"C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\therubyracer-0.12.3\ext\v8\Makefile"
+    fmain(fpath, tpath)
+
+    # Accessor access(get, set, data); -> Accessor accessor(get, set, data);
+    fpath = r"E:\kSource\blog\source\libv8-therubyracer\object.cc"
+    tpath = r"C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\therubyracer-0.12.3\ext\v8\object.cc"
     fmain(fpath, tpath)
