@@ -11,9 +11,11 @@ Enumerating the device using the SetupDi* API provided with WinXP.
 Download <a href="../../../../source/DevMgr-SRC.zip" target="_blank">source</a> files \- 57\.8 Kb<br/>
 Download <a href="../../../../source/DevMgr-DEMO.zip" target="_blank">demo</a> project \- 29\.8 Kb
 
+
 ## Sample screenshot
 
 {% include image.html url="../../../../images/enumwindev/Full.jpg" %}
+
 
 ## Introduction
 
@@ -21,29 +23,27 @@ Windows has a rich collection of APIs to get useful information about installed 
 
 The program has a simple GUI: only a a treeview control that shows all of the installed devices. All the information about a device (such as name and its icon) is grabbed from Windows SetupDiXXX API.
 
+
 ## SetupDiXXX API
 
 The Setup application programming interface (API) provides a set of functions that your setup application can call to perform installation operations or get several information about installed devices, their class and also their GUID (a unique identifier for every device).
 
 {% highlight cpp %}
-WINSETUPAPI BOOL WINAPI
-  SetupDiGetClassImageList(
+WINSETUPAPI BOOL WINAPI SetupDiGetClassImageList(
     OUT PSP_CLASSIMAGELIST_DATA  ClassImageListData);
 {% endhighlight %}
 
 The SetupDiGetClassImageList function builds an image list that contains bitmaps for every installed class and returns the list in a data structure.
 
 {% highlight cpp %}
-WINSETUPAPI BOOL WINAPI
-  SetupDiDestroyClassImageList(
+WINSETUPAPI BOOL WINAPI SetupDiDestroyClassImageList(
     IN PSP_CLASSIMAGELIST_DATA  ClassImageListData);
 {% endhighlight %}
 
 The SetupDiDestroyClassImageList function destroys a class image list that was built by a call to SetupDiGetClassImageList.
 
 {% highlight cpp %}
-WINSETUPAPI BOOL WINAPI
-  SetupDiGetClassImageIndex(
+WINSETUPAPI BOOL WINAPI SetupDiGetClassImageIndex(
     IN PSP_CLASSIMAGELIST_DATA  ClassImageListData,
     IN LPGUID  ClassGuid,
     OUT PINT  ImageIndex);
@@ -54,8 +54,7 @@ The SetupDiGetClassImageIndex function retrieves the index within the class imag
 Get device info set for device class (SetupDiGetClassDevs function), when first call , the first and second parameters for this function should be set to “0”, the last parameter should be set property DIGCF_ALLCLASSES constant to get all class device.
 
 {% highlight cpp %}
-HDEVINFO
-  SetupDiGetClassDevs(
+HDEVINFO SetupDiGetClassDevs(
     IN LPGUID  ClassGuid  OPTIONAL,
     IN PCTSTR  Enumerator  OPTIONAL,
     IN HWND  hwndParent  OPTIONAL,
@@ -72,13 +71,13 @@ hDevInfo = SetupDiGetClassDevs(0L,    // Retrieve all classes
                                DIGCF_PROFILE);
 {% endhighlight %}
 
+
 ## Getting the Info
 
 Using (SetupDiEnumDeviceInfo function) to enumeration all class devices.
 
 {% highlight cpp %}
-WINSETUPAPI BOOL WINAPI
-  SetupDiEnumDeviceInfo(
+WINSETUPAPI BOOL WINAPI SetupDiEnumDeviceInfo(
     IN HDEVINFO  DeviceInfoSet,
     IN DWORD  MemberIndex,
     OUT PSP_DEVINFO_DATA  DeviceInfoData);
@@ -107,8 +106,7 @@ The Last parameter is Supplies a pointer to an SP_DEVINFO_DATA structure to rece
 Get device name from Registry via SetupDiGetDeviceRegistryPropertyA function
 
 {% highlight cpp %}
-WINSETUPAPI BOOL WINAPI
-  SetupDiGetDeviceRegistryProperty(
+WINSETUPAPI BOOL WINAPI SetupDiGetDeviceRegistryProperty(
     IN HDEVINFO  DeviceInfoSet,
     IN PSP_DEVINFO_DATA  DeviceInfoData,
     IN DWORD  Property,
@@ -148,6 +146,7 @@ if (SetupDiGetClassImageIndex(&_spImageData,
 }
 {% endhighlight %}
 
+
 ## Get Device Resource
 
 All devices in the system join in the device classes. As you can see in the below picture, the class has name and GUID (so it can be found in Registry). The class can also have a description. For example, for class "Ports" the description is "Ports (COM & LPT)". Class also has devices that are present in the configuration.
@@ -155,8 +154,7 @@ All devices in the system join in the device classes. As you can see in the belo
 Get information about current configuration (`CM_Get_First_Log_Conf` function).
 
 {% highlight cpp %}
-CMAPI CONFIGRET WINAPI
-  CM_Get_First_Log_Conf(
+CMAPI CONFIGRET WINAPI CM_Get_First_Log_Conf(
     OUT PLOG_CONF  plcLogConf  OPTIONAL,
     IN DEVINST  dnDevInst,
     IN ULONG  ulFlags);
@@ -165,8 +163,7 @@ CMAPI CONFIGRET WINAPI
 Get resource descriptor from current configuration (`CM_Get_Next_Res_Des` function, do this and follow steps for every resource till they exist)
 
 {% highlight cpp %}
-CMAPI CONFIGRET WINAPI
-  CM_Get_Next_Res_Des(
+CMAPI CONFIGRET WINAPI CM_Get_Next_Res_Des(
     OUT PRES_DES  prdResDes,
     IN RES_DES  rdResDes,
     IN RESOURCEID  ForResource,
@@ -177,8 +174,7 @@ CMAPI CONFIGRET WINAPI
 Get information about size of resource data (`CM_Get_Res_Des_Data_Size` function)
 
 {% highlight cpp %}
-CMAPI CONFIGRET WINAPI
-  CM_Get_Res_Des_Data_Size(
+CMAPI CONFIGRET WINAPI CM_Get_Res_Des_Data_Size(
     OUT PULONG  pulSize,
     IN RES_DES  rdResDes,
     IN ULONG  ulFlags);
@@ -187,8 +183,7 @@ CMAPI CONFIGRET WINAPI
 Get resource data (`CM_Get_Res_Des_Data` function)
 
 {% highlight cpp %}
-CMAPI CONFIGRET WINAPI
-  CM_Get_Res_Des_Data(
+CMAPI CONFIGRET WINAPI CM_Get_Res_Des_Data(
     IN RES_DES  rdResDes,
     OUT PVOID  Buffer,
     IN ULONG  BufferLen,
@@ -225,11 +220,12 @@ while (true) {
     }
     cmRet = CM_Get_Res_Des_Data(nextLogConf, pBuf, ulSize, 0L);
     if (cmRet != CR_SUCCESS) {
-       .
-       .
+        .
+        .
     }
 }
 {% endhighlight %}
+
 
 ## Load/Unload Non-PNP Driver
 
@@ -319,6 +315,7 @@ If you want to send/receive data to the device driver loaded, to allow this, you
 
 {% include image.html url="../../../../images/enumwindev/AddLegacy.jpg" %}
 
+
 ## Load/Unload WDM Driver
 
 Windows also allows loading drivers at runtime using the SetupDiXXX API. The first we need to call SetuiDiGetINFClass to get the class of a specified device INF file.
@@ -326,8 +323,7 @@ Windows also allows loading drivers at runtime using the SetupDiXXX API. The fir
 {% include image.html url="../../../../images/enumwindev/INFInst.jpg" %}
 
 {% highlight cpp %}
-WINSETUPAPI BOOL WINAPI
-  SetupDiGetINFClass(
+WINSETUPAPI BOOL WINAPI SetupDiGetINFClass(
     IN PCTSTR  InfName,
     OUT LPGUID  ClassGuid,
     OUT PTSTR  ClassName,
@@ -340,8 +336,7 @@ The second parameter, Receives the class GUID for the specified INF file. If the
 When function return TRUE, NOW we need create an empty device information set and optionally associates the set with a device setup class and a top-level window. Use SetupDiCreateDeviceInfo function creates a new device information element and adds it as a new member to the specified device information set.
 
 {% highlight cpp %}
-HDEVINFO
-  SetupDiCreateDeviceInfoList(
+HDEVINFO SetupDiCreateDeviceInfoList(
     IN LPGUID  ClassGuid  OPTIONAL,
     IN HWND  hwndParent  OPTIONAL);
 {% endhighlight %}
@@ -351,8 +346,7 @@ The caller of this function must delete the returned device information set when
 To create a device information list for a remote machine use SetupDiCreateDeviceInfoListEx.
 
 {% highlight cpp %}
-WINSETUPAPI BOOL WINAPI
-  SetupDiCreateDeviceInfo(
+WINSETUPAPI BOOL WINAPI SetupDiCreateDeviceInfo(
     IN HDEVINFO  DeviceInfoSet,
     IN PCTSTR  DeviceName,
     IN LPGUID  ClassGuid,
@@ -406,6 +400,7 @@ If the specified device instance is the same as an existing device instance key 
 If the new device information element was successfully created but the caller-supplied DeviceInfoData buffer is invalid, the function returns FALSE. In this case, a call to GetLastError returns `ERROR_INVALID_USER_BUFFER`. However, the device information element will have been added as a new member of the set already.
 
 That's it! If you have any suggestions or problems to report, post them here. There are plenty of ways this idea could be extended if you are of an inclination to do so.
+
 
 ## License
 

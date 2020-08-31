@@ -54,7 +54,7 @@ Then I edited `/etc/fstab` and added the line below:
 {% highlight shell %}
 UUID=996a1b79-bf22-49fd-a3d1-33eab2708cfb /media/myserver ext4 defaults 0 0
 {% endhighlight %}
-               
+
 Lastly, I then rebooted my server.
 
 # Accessing my file server from Windows

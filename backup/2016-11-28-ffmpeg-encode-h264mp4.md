@@ -12,6 +12,6 @@ Check out the source code [here](https://github.com/hawkhai/ffmpeg-encode-h264mp
 
 Lastly, some useful links that I used:
 
-* [https://en.code-bude.net/2013/04/17/how-to-create-video-files-in-c-from-single-images/](https://en.code-bude.net/2013/04/17/how-to-create-video-files-in-c-from-single-images/) 
-* [https://github.com/FFmpeg/FFmpeg/blob/master/doc/examples/decoding_encoding.c](https://github.com/FFmpeg/FFmpeg/blob/master/doc/examples/decoding_encoding.c) 
-* [http://www.imc-store.com.au/Articles.asp?ID=276](http://www.imc-store.com.au/Articles.asp?ID=276) 
+* [https://en.code-bude.net/2013/04/17/how-to-create-video-files-in-c-from-single-images/](https://en.code-bude.net/2013/04/17/how-to-create-video-files-in-c-from-single-images/)
+* [https://github.com/FFmpeg/FFmpeg/blob/master/doc/examples/decoding_encoding.c](https://github.com/FFmpeg/FFmpeg/blob/master/doc/examples/decoding_encoding.c)
+* [http://www.imc-store.com.au/Articles.asp?ID=276](http://www.imc-store.com.au/Articles.asp?ID=276)

@@ -8,6 +8,7 @@ permalink: /about/
 
 Hi, my name is hawkhai and welcome to my blog.
 
+
 ## Work history
 
 * Software Engineer
@@ -17,10 +18,13 @@ Hi, my name is hawkhai and welcome to my blog.
   * Linux
 * And many others (mostly C/C++)...
 
+
 ## Spoken languages
 * English??
 
+
 ## Others
+
 
 ## Contact
 
@@ -52,6 +56,7 @@ Hi, my name is hawkhai and welcome to my blog.
 </a>
 {% endif %}
 </div>
+
 
 ## PGP public key
 {% highlight shell %}
