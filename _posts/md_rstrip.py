@@ -119,6 +119,7 @@ def viewchar(lichar, xfile):
     print(minv, maxv)
 
 def main():
+    print(parsePythonCmdx(__file__, retmap=True))
     searchdir("..", mainfile)
 
     viewchar(g_cnchar, "cnfile.txt")
