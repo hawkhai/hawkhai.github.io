@@ -63,7 +63,7 @@ PuTTYGen 和 Pageant 都在开始菜单中的 TortoiseGit 文件夹下，可以�
 
 #### 1. 用 git 命令
 
-可以直接用命令“git pull【仓库的ssh地址】【分支名称】”这样拉取和推送。
+可以直接用命令“git pull【仓库的 ssh 地址】【分支名称】”这样拉取和推送。
 
 #### 2. 用 TortoiseGit 方式
 

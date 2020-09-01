@@ -62,7 +62,7 @@ norm_0(X)
 def norm_1(X):
     return sum([abs(x) for x in X])
 norm_1(X)
-# X 的1-范数为 14
+# X 的 1-范数为 14
 {% endhighlight %}
 
 * **向量 2-范数**: 向量中各个元素平方和的 $1/2$ 次方，L2 范数又称 Euclidean 范数（欧几里得范数），也就是通常说的向量长度。
@@ -74,7 +74,7 @@ norm_1(X)
 def norm_2(X):
     return (sum([x*x for x in X])) ** (1.0/2)
 norm_2(X)
-# X 的2-范数为 7.348
+# X 的 2-范数为 7.348
 {% endhighlight %}
 
 * **向量 $$\infty$$-范数**：向量的正无穷范数即向量元素绝对值中的最大值。到原点的最远距离。
@@ -123,7 +123,7 @@ norm_finf(X)
 
     $$\|A\|_2 = \sqrt{max(\lambda_i)}$$ 其中，$\lambda_i$ 是 $A^TA$ 矩阵的特征值，只有方阵才有 2-范数。
 
-* **矩阵 $$\infty$$-范数**：矩阵的$$\infty$$-范数，也称行和范数，即所有矩阵行向量的绝对值之和的最大值。
+* **矩阵 $$\infty$$-范数**：矩阵的 $$\infty$$-范数，也称行和范数，即所有矩阵行向量的绝对值之和的最大值。
 
     $$\|A\|_\infty=\max\limits_i\sum\limits_{j=1}^m|a_{ij}|$$
 

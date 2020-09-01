@@ -3,6 +3,9 @@ import re, os, sys
 sys.path.append("../../")
 from pythonx.funclib import *
 
+OPENFILE = "openfile" in sys.argv
+AUTOFORMAT = "format" in sys.argv
+
 def getLeftSpaceCount(line):
     line = line[:]
     assert not line.startswith("\t"), line
@@ -13,7 +16,8 @@ def getLeftSpaceCount(line):
     return count
 
 g_cnchar = []
-g_aschar = []
+g_enchar = []
+g_xychar = []
 def mainfile(fpath, fname, ftype):
     if not ftype in ("md", "py", "php",):
         return
@@ -25,28 +29,51 @@ def mainfile(fpath, fname, ftype):
 
     print(fpath)
     lines = readfileLines(fpath, False, False, "utf8")
-    lines = [line if line.endswith(" = ") else line.rstrip() for line in lines]
+    lines = [line.rstrip() for line in lines]
 
-    index = 0
     codestate = False
-    for line in lines:
+    for index, line in enumerate(lines):
         count = getLeftSpaceCount(line)
 
         if line and line.split()[0] in ("*", "-",):
-            kxcnt = 2
+            idtcnt = 2
         else:
-            kxcnt = 4
+            idtcnt = 4
 
-        index += 1
+        cnsign = "，；：、。？—×【】《》（）“”"
+        cnregex = "\u4e00-\u9fa5" + cnsign
+        ensign = "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
 
-        cnsign = "；，】【《》。）（：？“”、×—"
-        chregex = "\u4e00-\u9fa5" + cnsign
-        lic = re.findall("[{}]+".format(chregex,), line)
-        #if lic: print(lic)
-        g_cnchar.extend(lic)
-        lia = re.findall("[^{}]+".format(chregex,), line)
-        #if lia: print(lia)
-        g_aschar.extend(lia)
+        liw = re.findall("[{}]+".format(cnregex,), line, re.IGNORECASE)
+        g_cnchar.extend(liw)
+        lia = re.findall("[^{}]+".format(cnregex,), line, re.IGNORECASE)
+        g_enchar.extend(lia)
+
+        lix1 = re.findall("[{}][^{} *]".format(cnregex, cnregex), line, re.IGNORECASE)
+        lix2 = re.findall("[^{} *][{}]".format(cnregex, cnregex), line, re.IGNORECASE)
+        lix = []
+        lix.extend(lix1)
+        lix.extend(lix2)
+
+        for ix in lix:
+            cx, cy = ix
+            if cy in cnsign or cx in cnsign:
+                continue
+            if cy in "-<]" or cx in "->[":
+                continue
+            if cx in ('"', "[") and (" "+line).find(" "+ix) != -1:
+                continue
+            if cy in ('"', "]") and (line+" ").find(ix+" ") != -1:
+                continue
+            if cx in ('"',) and ("["+line).find("["+ix) != -1:
+                continue
+            if cy in ('"',) and (line+"]").find(ix+"]") != -1:
+                continue
+            g_xychar.append(ix)
+            print(ix, "\t", line)
+            if AUTOFORMAT:
+                line = line.replace(ix, cx+" "+cy)
+                lines[index] = line
 
         fxline = "".join(line.split())
         if fxline.startswith("{%highlight"):
@@ -57,7 +84,7 @@ def mainfile(fpath, fname, ftype):
         if codestate:
             continue
 
-        if count >= 10 or count % kxcnt == 0:
+        if count > 12 or count % idtcnt == 0:
             pass # ok
         else:
             openTextFile(fpath)
@@ -75,24 +102,27 @@ def mainfile(fpath, fname, ftype):
 
 def viewchar(lichar, xfile):
     li = list(set("".join(lichar)))
+    li.sort()
     page = ""
-    minv, maxv = 10000, 0
+    minv, maxv = 1024, 0
     for index, cnchar in enumerate(li):
         page += cnchar
         minv = min(minv, ord(cnchar))
         maxv = max(maxv, ord(cnchar))
-        if index % 50 == 49:
+        if (index + 1) % 50 == 0:
             page += "\r\n"
     tempfile = os.path.join("tempdir", xfile)
     writefile(tempfile, page.encode("utf8"))
-    openTextFile(tempfile)
+
+    if OPENFILE:
+        openTextFile(tempfile)
     print(minv, maxv)
 
 def main():
     searchdir("..", mainfile)
 
     viewchar(g_cnchar, "cnfile.txt")
-    viewchar(g_aschar, "asfile.txt")
+    viewchar(g_enchar, "enfile.txt")
 
 if __name__ == "__main__":
     main()

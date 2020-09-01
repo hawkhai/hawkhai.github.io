@@ -62,7 +62,7 @@ gem install therubyracer -v '0.12.3' -- --with-system-v8
 **最终方案：**
 
 先构建一次，把所有影响构建的源代码和工程配置（mk 文件）都拷贝出来，改动点具体见 python 代码。platform-win32.cc 里面的 `localtime_s` 和 include/time.h 里面的冲突，改个新名字，等等。
-然后写个脚本（libv8.gem.py），不停的尝试写入替换这些文件；同时开启构建，一旦构建系统创建/释放/修改了这几个文件，马上替换掉，最终就可以顺利完成构建了。
+然后写个脚本（libv8.gem.py），不停的尝试写入替换这些文件；同时开启构建，一旦构建系统创建 / 释放 / 修改了这几个文件，马上替换掉，最终就可以顺利完成构建了。
 
 {% highlight python %}
 #encoding=utf8
