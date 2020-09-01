@@ -12,6 +12,8 @@ def getLeftSpaceCount(line):
         count += 1
     return count
 
+g_cnchar = []
+g_aschar = []
 def mainfile(fpath, fname, ftype):
     if not ftype in ("md", "py", "php",):
         return
@@ -36,6 +38,15 @@ def mainfile(fpath, fname, ftype):
             kxcnt = 4
 
         index += 1
+
+        cnsign = "；，】【《》。）（：？“”、×—"
+        chregex = "\u4e00-\u9fa5" + cnsign
+        lic = re.findall("[{}]+".format(chregex,), line)
+        #if lic: print(lic)
+        g_cnchar.extend(lic)
+        lia = re.findall("[^{}]+".format(chregex,), line)
+        #if lia: print(lia)
+        g_aschar.extend(lia)
 
         fxline = "".join(line.split())
         if fxline.startswith("{%highlight"):
@@ -62,8 +73,26 @@ def mainfile(fpath, fname, ftype):
 
     writefile(fpath, page.encode("utf8"))
 
+def viewchar(lichar, xfile):
+    li = list(set("".join(lichar)))
+    page = ""
+    minv, maxv = 10000, 0
+    for index, cnchar in enumerate(li):
+        page += cnchar
+        minv = min(minv, ord(cnchar))
+        maxv = max(maxv, ord(cnchar))
+        if index % 50 == 49:
+            page += "\r\n"
+    tempfile = os.path.join("tempdir", xfile)
+    writefile(tempfile, page.encode("utf8"))
+    openTextFile(tempfile)
+    print(minv, maxv)
+
 def main():
     searchdir("..", mainfile)
+
+    viewchar(g_cnchar, "cnfile.txt")
+    viewchar(g_aschar, "asfile.txt")
 
 if __name__ == "__main__":
     main()
