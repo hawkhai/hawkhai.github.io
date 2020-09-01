@@ -13,7 +13,7 @@ def getLeftSpaceCount(line):
     return count
 
 def mainfile(fpath, fname, ftype):
-    if not ftype in ("md", "py",):
+    if not ftype in ("md", "py", "php",):
         return
 
     if fpath.find("\\backup\\") != -1:
@@ -26,28 +26,39 @@ def mainfile(fpath, fname, ftype):
     lines = [line if line.endswith(" = ") else line.rstrip() for line in lines]
 
     index = 0
+    codestate = False
     for line in lines:
         count = getLeftSpaceCount(line)
 
-        if line.strip().startswith("* "):
+        if line and line.split()[0] in ("*", "-",):
             kxcnt = 2
         else:
             kxcnt = 4
 
         index += 1
+
+        fxline = "".join(line.split())
+        if fxline.startswith("{%highlight"):
+            codestate = True
+        if fxline.startswith("{%endhighlight%}"):
+            codestate = False
+
+        if codestate:
+            continue
+
         if count >= 10 or count % kxcnt == 0:
-            pass
+            pass # ok
         else:
             openTextFile(fpath)
-            assert False, "{}: {}".format(index, line)
+            assert False, "{}:{} {}".format(fpath, index, line)
 
     page = "\r\n".join(lines)
-    while page.find("\r\n\r\n\r\n") != -1:
-        page = page.replace("\r\n\r\n\r\n", "\r\n\r\n")
+    while page.find("\r\n" * 4) != -1:
+        page = page.replace("\r\n" * 4, "\r\n" * 3)
 
-    page = page.replace("\r\n### ", "\r\n\r\n### ")
-    page = page.replace("\r\n## ",  "\r\n\r\n## ")
-    page = page.replace("\r\n# ",   "\r\n\r\n# ")
+    #page = page.replace("\r\n### ", "\r\n\r\n### ")
+    #page = page.replace("\r\n## ",  "\r\n\r\n## ")
+    #page = page.replace("\r\n# ",   "\r\n\r\n# ")
 
     writefile(fpath, page.encode("utf8"))
 

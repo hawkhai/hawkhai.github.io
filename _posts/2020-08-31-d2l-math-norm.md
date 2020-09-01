@@ -50,7 +50,7 @@ norm_p(X, 3) # p 取 3，结果为 6.073
 def norm_0(X):
     return sum([1 for x in X if x])
 norm_0(X)
-# X 的零范数为 4 
+# X 的零范数为 4
 {% endhighlight %}
 
 * **向量 1-范数**: 向量中各个元素绝对值之和。
@@ -85,7 +85,7 @@ norm_2(X)
 # 向量无穷-范数
 def norm_inf(X):
     return max([abs(x) for x in X])
-norm_inf(X) 
+norm_inf(X)
 # X 的无穷-范数为 5
 {% endhighlight %}
 
