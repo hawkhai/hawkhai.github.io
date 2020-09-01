@@ -34,26 +34,36 @@ def fmain(fpath, tpath):
     except Exception, ex:
         print(ex, fpath)
 
-while __name__ == "__main__":
+# libv8 编译不过的问题文件
+def fmain_libv8():
     # CFLAGS_Release := -fpermissive
     # CFLAGS_Debug := -fpermissive
-    fpath = r"E:\kSource\blog\source\gyp"
+    fpath = r"D:\kSource\blog\source\gyp"
     tpath = r"C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\libv8-3.16.14.19\vendor\v8\out\tools\gyp"
+    fmain(fpath, tpath)
+    fpath = r"D:\kSource\blog\source\src"
+    tpath = r"C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\libv8-3.16.14.19\vendor\v8\out\src"
     fmain(fpath, tpath)
 
     # localtime_s -> localtime_sx
     # #pragma comment(lib, "winmm.lib")
-    fpath = r"E:\kSource\blog\source\libv8-therubyracer\platform-win32.cc"
+    fpath = r"D:\kSource\blog\source\libv8-therubyracer\platform-win32.cc"
     tpath = r"C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\libv8-3.16.14.19\vendor\v8\src\platform-win32.cc"
     fmain(fpath, tpath)
 
+# therubyracer 编译不过的问题文件
+def fmain_therubyracer():
     # remove command line option '-rdynamic'
     # LIBS => -lwinmm 新增。
-    fpath = r"E:\kSource\blog\source\libv8-therubyracer\Makefile"
+    fpath = r"D:\kSource\blog\source\libv8-therubyracer\Makefile"
     tpath = r"C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\therubyracer-0.12.3\ext\v8\Makefile"
     fmain(fpath, tpath)
 
     # Accessor access(get, set, data); -> Accessor accessor(get, set, data);
-    fpath = r"E:\kSource\blog\source\libv8-therubyracer\object.cc"
+    fpath = r"D:\kSource\blog\source\libv8-therubyracer\object.cc"
     tpath = r"C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\therubyracer-0.12.3\ext\v8\object.cc"
     fmain(fpath, tpath)
+
+while __name__ == "__main__":
+    fmain_libv8()
+    fmain_therubyracer()
