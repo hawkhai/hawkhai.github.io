@@ -195,7 +195,7 @@ $$
 
 ### 矩阵特征值
 
-设 A 是 n 阶方阵，如果存在数 m 和非零 n 维列向量 x，使得 $Ax=mx$ 成立，则称 m 是矩阵 A 的一个特征值（characteristic value）或本征值（eigenvalue)。
+设 A 是 n 阶方阵，如果存在数 m 和非零 n 维列向量 x，使得 $Ax=mx$ 成立，则称 m 是矩阵 A 的一个特征值（characteristic value）或本征值（eigenvalue）。
 
 ## 机器学习与范数
 
