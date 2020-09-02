@@ -22,6 +22,8 @@ def mainfile(fpath, fname, ftype):
     if not ftype in ("md", "py", "php",):
         return
 
+    ismdfile = ftype in ("md",)
+
     if fpath.find("\\backup\\") != -1:
         return
     if fpath.find("\\d2l-zh\\") != -1:
@@ -34,8 +36,14 @@ def mainfile(fpath, fname, ftype):
     codestate = False
     for index, line in enumerate(lines):
         count = getLeftSpaceCount(line)
+        preline = lines[index - 1] if index > 0 else ""
+        nextline = lines[index + 1] if index < len(lines)-1 else ""
 
-        if line and line.split()[0] in ("*", "-",):
+        tagregex = "^\\s*[#]+ "
+        prelinetag = re.findall(tagregex, preline)
+        nextlinetag = re.findall(tagregex, nextline)
+
+        if re.findall("^\\s*[*-]+ ", line):
             idtcnt = 2
         else:
             idtcnt = 4
@@ -70,7 +78,7 @@ def mainfile(fpath, fname, ftype):
             if cy in ('"',) and (line+"]").find(ix+"]") != -1:
                 continue
             g_xychar.append(ix)
-            print(ix, "\t", line)
+            print("[%d]"%(index+1), ix, "\t", line)
             if AUTOFORMAT:
                 line = line.replace(ix, cx+" "+cy)
                 lines[index] = line
@@ -80,23 +88,29 @@ def mainfile(fpath, fname, ftype):
             codestate = True
         if fxline.startswith("{%endhighlight%}"):
             codestate = False
+            continue
 
         if codestate:
             continue
+
+        if ismdfile and (prelinetag or nextlinetag):
+            if line.strip():
+                openTextFile(fpath)
+                assert False, "{}:{} {}".format(fpath, index+1, line)
 
         if count > 12 or count % idtcnt == 0:
             pass # ok
         else:
             openTextFile(fpath)
-            assert False, "{}:{} {}".format(fpath, index, line)
+            assert False, "{}:{} {}".format(fpath, index+1, line)
 
     page = "\r\n".join(lines)
-    while page.find("\r\n" * 4) != -1:
-        page = page.replace("\r\n" * 4, "\r\n" * 3)
+    while page.find("\r\n" * 3) != -1:
+        page = page.replace("\r\n" * 3, "\r\n" * 2)
 
-    #page = page.replace("\r\n### ", "\r\n\r\n### ")
-    #page = page.replace("\r\n## ",  "\r\n\r\n## ")
-    #page = page.replace("\r\n# ",   "\r\n\r\n# ")
+    page = page.replace("\r\n"*2+"### ", "\r\n"*3+"### ")
+    page = page.replace("\r\n"*2+"## ",  "\r\n"*3+"## ")
+    page = page.replace("\r\n"*2+"# ",   "\r\n"*3+"# ")
 
     writefile(fpath, page.encode("utf8"))
 

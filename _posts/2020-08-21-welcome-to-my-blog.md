@@ -17,6 +17,8 @@ Enjoy!
 
 [基本数学公式语法 (of MathJax)](https://blog.csdn.net/ethmery/article/details/50670297)
 
+[MathJax 总结](https://www.zybuluo.com/yangfch3/note/267947)
+
 1. Inline MathJax: $E = mc^2$.
 
 2. Display MathJax:
@@ -30,9 +32,11 @@ $$
 
 $$f(a)=\frac{1}{2 \pi i} \oint_{\gamma} \frac{f(z)}{z-a} d z$$
 
+
 ## 参考式 / 行内式
 
 <https://www.imydl.tech/ty/70.html>
+
 
 ## Tools
 

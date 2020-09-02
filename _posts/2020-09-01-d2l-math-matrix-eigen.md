@@ -8,6 +8,7 @@ mathjax: true
 toc: true
 ---
 
+
 ## 定义
 
 设 $A$ 为 $n \times n$ 阶方阵，若存在常数 $\lambda$ 与 $n$ 维非零列向量 $X$ 使 $AX=\lambda X$ 成立，则称 $\lambda$ 为方阵 $A$ 的特征值，非零向量 $X$ 为 $A$ 的对应于 $\lambda$ 的特征向量。
@@ -27,6 +28,7 @@ $$
 
 $P_{A}(\lambda)$ 是高次的多项式，它的求根是很困难的。没有数值方法是通过求它的根来求矩阵的特征值。通常对某个特征值，可以用些针对性的方法来求其近似值。若要求所有的特征值，则可以对 $A$ 做一系列的相似变换，“收敛”到对角阵或上（下）三角阵，从而求得所有特征值的近似。
 
+
 ## 举例
 
 求矩阵 $$A=\left(\begin{array}{ll} 3 & -1 \\ -1 & 3 \end{array}\right)$$ 的特征值与特征向量。
@@ -37,11 +39,13 @@ $P_{A}(\lambda)$ 是高次的多项式，它的求根是很困难的。没有数
 
 对应于 $\lambda_2=2$ 的基础解向量：$$\vec{P}_{2}=\left(\begin{array}{c}1 \\1\end{array}\right)$$。
 
+
 ## 1、乘幂法
 
 幂法是一种迭代法。基本思想：把矩阵的特征值和特征向量作为一个无限序列的极限来求得。求按模最大特征值，即：
 
 $$|\lambda|=\max _{1 \leq i \leq n}\left|\lambda_{i}\right|$$
+
 
 ## 2、反幂法
 
@@ -49,9 +53,11 @@ $$|\lambda|=\max _{1 \leq i \leq n}\left|\lambda_{i}\right|$$
 
 $$|\lambda|=\min _{1 \leq i \leq n}\left|\lambda_{i}\right|$$
 
+
 ## 3、雅可比法（Jacobi）
 
 求实对称矩阵所有特征值和特征向量。
+
 
 ## 参考
 

@@ -26,6 +26,7 @@ make: *** [Makefile:195：x64.release] 错误 2
 
 {% include image.html url="../../../../images/win-jekyll.png" %}
 
+
 ## 1. 安装 ruby & gem
 
 从 <https://rubyinstaller.org/downloads/> 下载，Ruby+Devkit 2.5.8-1 (x64) rubyinstaller-devkit-2.5.8-1-x64.exe。
@@ -35,6 +36,7 @@ make: *** [Makefile:195：x64.release] 错误 2
 ruby -v
 gem -v
 {% endhighlight %}
+
 
 ## 2. 安装 bundler
 
@@ -46,6 +48,7 @@ chcp 850 # 多语种 (MS-DOS Latin1)
 gem install jekyll # 安装 jekyll
 jekyll -v
 {% endhighlight %}
+
 
 ## 3. 工程 bundle install
 
@@ -106,6 +109,7 @@ def fmain(fpath, tpath):
     except Exception, ex:
         print(ex, fpath)
 
+
 # libv8 编译不过的问题文件
 def fmain_libv8():
     # CFLAGS_Release := -fpermissive
@@ -122,6 +126,7 @@ def fmain_libv8():
     fpath = r"D:\kSource\blog\source\libv8-therubyracer\platform-win32.cc"
     tpath = r"C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\libv8-3.16.14.19\vendor\v8\src\platform-win32.cc"
     fmain(fpath, tpath)
+
 
 # therubyracer 编译不过的问题文件
 def fmain_therubyracer():
