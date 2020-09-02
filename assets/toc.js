@@ -104,6 +104,13 @@
 $('#tocdiv').toc({
 title: '<i>目录索引</i>',
         });
+        var checkcnt = 0;
+        var tocint = setInterval(function(){
+        checkToc();
+                if (++checkcnt >= 5) {
+        clearInterval(tocint);
+        }
+        }, 1000);
 });
         function checkToc() {
         var postdiv = $("#postdiv");
@@ -122,10 +129,3 @@ title: '<i>目录索引</i>',
 $(window).resize(function () {
 checkToc();
 });
-        var checkcnt = 0;
-        var tocint = setInterval(function(){
-        checkToc();
-                if (++checkcnt >= 5) {
-        clearInterval(tocint);
-        }
-        }, 1000);
