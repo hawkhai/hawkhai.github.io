@@ -4,11 +4,8 @@ title: "QT 内存泄露研究"
 location: "珠海"
 categories: ["General"]
 tags: [QT, memory]
+toc: true
 ---
-
-* 目录
-{:toc}
-
 
 ## 一、简介
 

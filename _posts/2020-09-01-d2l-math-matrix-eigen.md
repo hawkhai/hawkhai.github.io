@@ -5,10 +5,8 @@ location: "珠海"
 categories: ["深度学习"]
 tags: [《动手学深度学习》, 深度学习]
 mathjax: true
+toc: true
 ---
-
-* 目录
-{:toc}
 
 ## 定义
 
