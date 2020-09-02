@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-{% include image.html url="../images/photo.jpg" caption="" width="300px" max_width="300px" align="right" %}
+{% include image.html url="/images/photo.jpg" caption="" width="300px" max_width="300px" align="right" %}
 
 Hi, my name is hawkhai and welcome to my blog.
 
