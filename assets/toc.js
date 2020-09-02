@@ -99,8 +99,33 @@
         render[settings.showEffect]();
         };
         })(jQuery);
+// 文档加载完成时
         $(document).ready(function() {
-$('#toc').toc({
+$('#tocdiv').toc({
 title: '<i>目录索引</i>',
         });
 });
+        function checkToc() {
+        var postdiv = $("#postdiv");
+                var tocdiv = $("#tocdiv");
+                var postLeft = postdiv.offset().left;
+                var tocRight = tocdiv.offset().left + tocdiv.width();
+                // console.log(tocRight + ", " + postLeft);
+                if (tocRight > postLeft) {
+        $("#tocdiv").fadeOut();
+        } else {
+        $("#tocdiv").fadeIn();
+        }
+        }
+
+// 窗口大小变化时
+$(window).resize(function () {
+checkToc();
+});
+        var checkcnt = 0;
+        var tocint = setInterval(function(){
+        checkToc();
+                if (++checkcnt >= 5) {
+        clearInterval(tocint);
+        }
+        }, 1000);
