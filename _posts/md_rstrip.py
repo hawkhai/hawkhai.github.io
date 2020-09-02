@@ -53,7 +53,7 @@ def mainfile(fpath, fname, ftype):
         else:
             idtcnt = 4
 
-        cnsign =  "·×δε—’“”…→、。《》【】（），：；？"
+        cnsign =  "·×öδεπ—’“”…→∞、。《》【】（），：；？！"
         cnregex = "\u4e00-\u9fa5" + cnsign
         ensign =  r"""!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"""
 
@@ -77,13 +77,14 @@ def mainfile(fpath, fname, ftype):
                 continue
             if cy in "-<]" or cx in "->[":
                 continue
-            if cx in ('"', "[") and (" "+line).find(" "+ix) != -1:
+
+            if cx in ('"', "[") and (" "+line).count(" "+ix) == 1:
                 continue
-            if cy in ('"', "]") and (line+" ").find(ix+" ") != -1:
+            if cy in ('"', "]", ",") and (line+" ").count(ix+" ") == 1:
                 continue
-            if cx in ('"',) and ("["+line).find("["+ix) != -1:
+            if cx in ('"',) and ("["+line).count("["+ix) == 1:
                 continue
-            if cy in ('"',) and (line+"]").find(ix+"]") != -1:
+            if cy in ('"',) and (line+"]").count(ix+"]") == 1:
                 continue
 
             if ishtmfile:
