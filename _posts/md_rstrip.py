@@ -23,6 +23,7 @@ def mainfile(fpath, fname, ftype):
         return
 
     ismdfile = ftype in ("md",)
+    ispyfile = ftype in ("py",)
 
     if fpath.find("\\backup\\") != -1:
         return
@@ -108,9 +109,10 @@ def mainfile(fpath, fname, ftype):
     while page.find("\r\n" * 3) != -1:
         page = page.replace("\r\n" * 3, "\r\n" * 2)
 
-    page = page.replace("\r\n"*2+"### ", "\r\n"*3+"### ")
-    page = page.replace("\r\n"*2+"## ",  "\r\n"*3+"## ")
-    page = page.replace("\r\n"*2+"# ",   "\r\n"*3+"# ")
+    if not ispyfile:
+        page = page.replace("\r\n"*2+"### ", "\r\n"*3+"### ")
+        page = page.replace("\r\n"*2+"## ",  "\r\n"*3+"## ")
+        page = page.replace("\r\n"*2+"# ",   "\r\n"*3+"# ")
 
     writefile(fpath, page.encode("utf8"))
 
