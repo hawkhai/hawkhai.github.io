@@ -14,7 +14,7 @@ Download <a href="../../../../source/DevMgr-DEMO.zip" target="_blank">demo</a> p
 
 ## Sample screenshot
 
-{% include image.html url="../../../../images/enumwindev/Full.jpg" %}
+{% include image.html url="/images/enumwindev/Full.jpg" %}
 
 
 ## Introduction
@@ -313,14 +313,14 @@ if (hSCManager) { // Create new device service
 
 If you want to send/receive data to the device driver loaded, to allow this, you have to get a handle to the driver. For this purpose you can use the function CreateFile, and pass the driver name as the file name. You can see Windows is so abstract in this aspect.
 
-{% include image.html url="../../../../images/enumwindev/AddLegacy.jpg" %}
+{% include image.html url="/images/enumwindev/AddLegacy.jpg" %}
 
 
 ## Load/Unload WDM Driver
 
 Windows also allows loading drivers at runtime using the SetupDiXXX API. The first we need to call SetuiDiGetINFClass to get the class of a specified device INF file.
 
-{% include image.html url="../../../../images/enumwindev/INFInst.jpg" %}
+{% include image.html url="/images/enumwindev/INFInst.jpg" %}
 
 {% highlight cpp %}
 WINSETUPAPI BOOL WINAPI SetupDiGetINFClass(

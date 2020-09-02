@@ -33,7 +33,7 @@ X = np.array([-2, 5, 0, -3, 4])
 
 $$\|x\|_p=(\sum_{i=1}^N|x_i|^p)^{1/p}$$
 
-{% include image.html url="../../../../images/math-norm/w.jpg" %}
+{% include image.html url="/images/math-norm/w.jpg" %}
 
 上图表示了 p 从无穷到 0 变化时，三维空间中到原点的距离（范数）为 1 的点构成的图形的变化情况。
 
@@ -169,7 +169,7 @@ norm_2   5.26411099011  5.2641109904712309
 
 矩阵第 m 行与第 n 列交叉位置的那个值，等于第一个矩阵第 m 行与第二个矩阵第 n 列，对应位置的每个值的乘积之和。
 
-{% include image.html url="../../../../images/math-norm/bg2015090105.gif" %}
+{% include image.html url="/images/math-norm/bg2015090105.gif" %}
 
 **矩阵的本质就是线性方程式，两者是一一对应关系。**
 
@@ -212,9 +212,9 @@ $$
 
 机器学习中常用 L1 范数和 L2 范数来进行正则化，因为机器学习中往往需要最小化损失函数 Loss function，而最小化 Loss function 的过程中，模型参数不加以限制就容易导致过拟合，所以我们使用 L1 范数和 L2 范数把参数向量转化成一个可以度量的标量，同时加上最小化的约束，就达到了控制模型参数的目的从而防止过拟合。
 
-{% include image.html url="../../../../images/math-norm/20140504122353812.png" %}
+{% include image.html url="/images/math-norm/20140504122353812.png" %}
 
-{% include image.html url="../../../../images/math-norm/20140504122410234.png" %}
+{% include image.html url="/images/math-norm/20140504122410234.png" %}
 
 
 ## 参考
