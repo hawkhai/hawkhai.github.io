@@ -2,7 +2,7 @@
 layout: post
 title: "Enumerating windows device"
 location: "珠海"
-categories: ["General"]
+categories: ["编程"]
 tags: [Windows, device]
 ---
 

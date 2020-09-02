@@ -2,7 +2,7 @@
 layout: post
 title: "Welcome to my blog"
 location: "Japan"
-categories: ["General"]
+categories: ["生活"]
 comments: true
 mathjax: true
 ---

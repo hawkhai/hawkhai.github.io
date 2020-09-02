@@ -2,7 +2,7 @@
 layout: post
 title: "QT 内存泄露研究"
 location: "珠海"
-categories: ["General"]
+categories: ["编程"]
 tags: [QT, memory]
 toc: true
 ---

@@ -2,7 +2,7 @@
 layout: post
 title: "搭建 Windows Jekyll 环境"
 location: "珠海"
-categories: ["General"]
+categories: ["配置"]
 tags: [Windows, Jekyll]
 ---
 
