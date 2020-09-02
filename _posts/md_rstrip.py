@@ -19,15 +19,19 @@ g_cnchar = []
 g_enchar = []
 g_xychar = []
 def mainfile(fpath, fname, ftype):
-    if not ftype in ("md", "py", "php",):
+    ftype = ftype.lower()
+    if not ftype in ("md", "py", "php", "html", "htm",):
         return
 
     ismdfile = ftype in ("md",)
     ispyfile = ftype in ("py",)
+    ishtmfile = ftype in ("html", "htm",)
 
     if fpath.find("\\backup\\") != -1:
         return
     if fpath.find("\\d2l-zh\\") != -1:
+        return
+    if fpath.find("\\_site\\") != -1:
         return
 
     print(fpath)
@@ -49,9 +53,12 @@ def mainfile(fpath, fname, ftype):
         else:
             idtcnt = 4
 
-        cnsign = "，；：、。？—×【】《》（）“”"
+        cnsign =  "·×δε—’“”…→、。《》【】（），：；？"
         cnregex = "\u4e00-\u9fa5" + cnsign
-        ensign = "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
+        ensign =  r"""!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"""
+
+        if line.find("\xa0") != -1:
+            print("xspace", fpath, line)
 
         liw = re.findall("[{}]+".format(cnregex,), line, re.IGNORECASE)
         g_cnchar.extend(liw)
@@ -78,6 +85,10 @@ def mainfile(fpath, fname, ftype):
                 continue
             if cy in ('"',) and (line+"]").find(ix+"]") != -1:
                 continue
+
+            if ishtmfile:
+                continue
+
             g_xychar.append(ix)
             print("[%d]"%(index+1), ix, "\t", line)
             if AUTOFORMAT:
@@ -95,13 +106,13 @@ def mainfile(fpath, fname, ftype):
             continue
 
         if ismdfile and (prelinetag or nextlinetag):
-            if line.strip():
+            if line:
                 openTextFile(fpath)
                 assert False, "{}:{} {}".format(fpath, index+1, line)
 
         if count > 12 or count % idtcnt == 0:
             pass # ok
-        else:
+        elif not ishtmfile:
             openTextFile(fpath)
             assert False, "{}:{} {}".format(fpath, index+1, line)
 
@@ -116,7 +127,7 @@ def mainfile(fpath, fname, ftype):
 
     writefile(fpath, page.encode("utf8"))
 
-def viewchar(lichar, xfile):
+def viewchar(lichar, xfile, xmin, xmax):
     li = list(set("".join(lichar)))
     li.sort()
     page = ""
@@ -133,13 +144,16 @@ def viewchar(lichar, xfile):
     if OPENFILE:
         openTextFile(tempfile)
     print(minv, maxv)
+    print([(ord(k), k) for k in li[:5]])
+    print([(ord(k), k) for k in li[-5:]])
+    assert xmin <= minv and maxv <= xmax
 
 def main():
     print(parsePythonCmdx(__file__, retmap=True))
     searchdir("..", mainfile)
 
-    viewchar(g_cnchar, "cnfile.txt")
-    viewchar(g_enchar, "enfile.txt")
+    viewchar(g_cnchar, "cnfile.txt", 0x80, 0x7FFFFFFF)
+    viewchar(g_enchar, "enfile.txt", 0x0,  0x7F)
 
 if __name__ == "__main__":
     main()
