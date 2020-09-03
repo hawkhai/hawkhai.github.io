@@ -58,14 +58,17 @@ def mainfile(fpath, fname, ftype):
 
         for ch in line:
             ordch = ord(ch)
+            regch = "\\u%04x"%(ordch)
             if ordch <= 0x7F:
                 g_enchar.append(ch)
                 continue
             if ordch >= 0x4e00 and ordch <= 0x9fa5:
-                cnregex += "\\u%04x"%(ordch)
+                if cnregex.find(regch) == -1:
+                    cnregex += regch
                 g_cnchar.append(ch)
             else:
-                cnsign += "\\u%04x"%(ordch)
+                if cnsign.find(regch) == -1:
+                    cnsign += regch
                 g_cschar.append(ch)
         cnregex += cnsign
 
