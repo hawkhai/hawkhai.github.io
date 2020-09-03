@@ -16,8 +16,8 @@ def getLeftSpaceCount(line):
     return count
 
 g_cnchar = []
+g_cschar = []
 g_enchar = []
-g_xychar = []
 def mainfile(fpath, fname, ftype):
     ftype = ftype.lower()
     if not ftype in ("md", "py", "php", "html", "htm",):
@@ -53,17 +53,27 @@ def mainfile(fpath, fname, ftype):
         else:
             idtcnt = 4
 
-        cnsign =  "·×öδεπ—’“”…→∞、。《》【】（），：；？！"
-        cnregex = "\u4e00-\u9fa5" + cnsign
-        ensign =  r"""!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"""
+        cnsign =  "‘’“”"
+        cnregex = "\u4e00-\u9fa5"
+
+        for ch in line:
+            ordch = ord(ch)
+            if ordch <= 0x7F:
+                g_enchar.append(ch)
+                continue
+            if ordch >= 0x4e00 and ordch <= 0x9fa5:
+                cnregex += "\\u%04x"%(ordch)
+                g_cnchar.append(ch)
+            else:
+                cnsign += "\\u%04x"%(ordch)
+                g_cschar.append(ch)
+        cnregex += cnsign
 
         if line.find("\xa0") != -1:
             print("xspace", fpath, line)
 
         liw = re.findall("[{}]+".format(cnregex,), line, re.IGNORECASE)
-        g_cnchar.extend(liw)
         lia = re.findall("[^{}]+".format(cnregex,), line, re.IGNORECASE)
-        g_enchar.extend(lia)
 
         lix1 = re.findall("[{}][^{} *]".format(cnregex, cnregex), line, re.IGNORECASE)
         lix2 = re.findall("[^{} *][{}]".format(cnregex, cnregex), line, re.IGNORECASE)
@@ -73,7 +83,7 @@ def mainfile(fpath, fname, ftype):
 
         for ix in lix:
             cx, cy = ix
-            if cy in cnsign or cx in cnsign:
+            if re.findall("[{}]".format(cnsign), cy) or re.findall("[{}]".format(cnsign), cx):
                 continue
             if cy in "-<]" or cx in "->[":
                 continue
@@ -90,7 +100,6 @@ def mainfile(fpath, fname, ftype):
             if ishtmfile:
                 continue
 
-            g_xychar.append(ix)
             print("[%d]"%(index+1), ix, "\t", line)
             if AUTOFORMAT:
                 line = line.replace(ix, cx+" "+cy)
@@ -145,8 +154,8 @@ def viewchar(lichar, xfile, xmin, xmax):
     if OPENFILE:
         openTextFile(tempfile)
     print(minv, maxv)
-    print([(ord(k), k) for k in li[:5]])
-    print([(ord(k), k) for k in li[-5:]])
+    print([("%04x"%ord(k), k) for k in li[:5]]),
+    print([("%04x"%ord(k), k) for k in li[-5:]])
     assert xmin <= minv and maxv <= xmax
 
 def main():
@@ -154,6 +163,7 @@ def main():
     searchdir("..", mainfile)
 
     viewchar(g_cnchar, "cnfile.txt", 0x80, 0x7FFFFFFF)
+    viewchar(g_cschar, "csfile.txt", 0x80, 0x7FFFFFFF)
     viewchar(g_enchar, "enfile.txt", 0x0,  0x7F)
 
 if __name__ == "__main__":
