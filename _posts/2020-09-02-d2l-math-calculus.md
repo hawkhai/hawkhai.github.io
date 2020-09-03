@@ -128,6 +128,12 @@ $$\int_{x}^{y}f(x)dx=F(x)-F(y)$$
 
 ### 泰勒级数
 
+泰勒展开，本质上就是为了在某个点附近，用多项式函数取近似其他函数。
+
+{% include image.html url="/images/math-calculus/v2-8391cbeb7da1d4a14550265ac9f74b4b_hd.gif" %}
+
+{% include image.html url="/images/math-calculus/64fa00148b15a6e928f203a7b97ae806_1440w.jpg" %}
+
 
 ## 参考
 
@@ -137,3 +143,4 @@ $$\int_{x}^{y}f(x)dx=F(x)-F(y)$$
 - [3] [Html 转 MarkDown](http://www.fly63.com/tool/htmarkdown/)
 - [4] [线性代数入门](https://www.cnblogs.com/knife-rose/p/12107204.html)
 - [5] [微积分到底是什么](https://www.zhihu.com/question/336322284)
+- [6] 马同学 <https://www.matongxue.com/madocs/247/>
