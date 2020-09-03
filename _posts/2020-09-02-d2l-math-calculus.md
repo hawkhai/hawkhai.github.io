@@ -128,11 +128,15 @@ $$\int_{x}^{y}f(x)dx=F(x)-F(y)$$
 
 ### 泰勒级数
 
-泰勒展开，本质上就是为了在某个点附近，用多项式函数取近似其他函数。
+泰勒展开，本质上就是为了在某个点附近，用多项式函数取近似其他函数。泰勒公式，核心在逼近。拉格朗日余项，在于评估偏差。
 
 {% include image.html url="/images/math-calculus/v2-8391cbeb7da1d4a14550265ac9f74b4b_hd.gif" %}
 
 {% include image.html url="/images/math-calculus/64fa00148b15a6e928f203a7b97ae806_1440w.jpg" %}
+
+泰勒展开式的推导过程，视频：
+
+<https://haokan.baidu.com/v?pd=wisenatural&vid=8400832456233984742>
 
 
 ## 参考
