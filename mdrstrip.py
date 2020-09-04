@@ -74,7 +74,7 @@ def mainfile(fpath, fname, ftype):
         else:
             idtcnt = 4
 
-        cnsign =  "‘’“”"
+        cnsign  = "‘’“”"
         cnregex = "\u4e00-\u9fa5"
 
         for ch in line:
