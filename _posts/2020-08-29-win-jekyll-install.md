@@ -61,8 +61,8 @@ bundle install # Need python 2!!
 # bundle config build.therubyracer --with-v8-dir=/usr/local/opt/v8-315/
 # 这个方法理论可行，没有成功。
 # 灵感来自于 https://issues.adblockplus.org/ticket/4950
-gem install libv8 -v '3.16.14.19' -- --with-system-v8
-gem install therubyracer -v '0.12.3' -- --with-system-v8
+# gem install libv8 -v '3.16.14.19' -- --with-system-v8
+# gem install therubyracer -v '0.12.3' -- --with-system-v8
 {% endhighlight %}
 
 **最终方案：**
