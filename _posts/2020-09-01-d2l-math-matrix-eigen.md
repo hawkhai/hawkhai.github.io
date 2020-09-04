@@ -31,7 +31,7 @@ $P_{A}(\lambda)$ 是高次的多项式，它的求根是很困难的。没有数
 
 ## 举例
 
-求矩阵 $$A=\left(\begin{array}{ll} 3 & -1 \\ -1 & 3 \end{array}\right)$$ 的特征值与特征向量。
+求矩阵 $$A=\left(\begin{array}{rr} 3 & -1 \\ -1 & 3 \end{array}\right)$$ 的特征值与特征向量。
 
 解得 $A$ 的两个特征值：$\lambda_1=4$，$\lambda_2=2$。
 
