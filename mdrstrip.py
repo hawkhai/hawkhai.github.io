@@ -18,19 +18,24 @@ def getLeftSpaceCount(line):
 g_cnchar = []
 g_cschar = []
 g_enchar = []
+g_tpset = set()
 def mainfile(fpath, fname, ftype):
-    ftype = ftype.lower()
-    if not ftype in ("md", "py", "php", "html", "htm",):
-        return
-
-    ismdfile = ftype in ("md",)
-    ispyfile = ftype in ("py",)
-    ishtmfile = ftype in ("html", "htm",)
 
     if fpath.find("\\backup\\") != -1:
         return
     if fpath.find("\\d2l-zh\\") != -1:
         return
+
+    ftype = ftype.lower()
+    if not ftype in ("md", "py", "php", "html", "htm",):
+        if fpath.find("\\_site\\") != -1:
+            g_tpset.add(ftype)
+        return
+
+    warnCnEnSpace    = ftype in ("md", "php", "html", "htm",)
+    warnMdTitleSpace = ftype in ("md",)
+    warnIndentSpace  = ftype in ("md", "py", "php",)
+
     if fpath.find("\\_site\\") != -1:
         return
 
@@ -103,7 +108,7 @@ def mainfile(fpath, fname, ftype):
             if cy in ('"',) and (line+"]").count(ix+"]") == 1:
                 continue
 
-            if ishtmfile:
+            if not warnCnEnSpace:
                 continue
 
             print("[%d]"%(index+1), ix, "\t", line)
@@ -121,14 +126,14 @@ def mainfile(fpath, fname, ftype):
         if codestate:
             continue
 
-        if ismdfile and (prelinetag or nextlinetag):
+        if warnMdTitleSpace and (prelinetag or nextlinetag):
             if line:
                 openTextFile(fpath)
                 assert False, "{}:{} {}".format(fpath, index+1, line)
 
         if count > 12 or count % idtcnt == 0:
             pass # ok
-        elif not ishtmfile:
+        elif warnIndentSpace:
             openTextFile(fpath)
             assert False, "{}:{} {}".format(fpath, index+1, line)
 
@@ -136,7 +141,7 @@ def mainfile(fpath, fname, ftype):
     while page.find("\r\n" * 3) != -1:
         page = page.replace("\r\n" * 3, "\r\n" * 2)
 
-    if not ispyfile:
+    if warnMdTitleSpace:
         page = page.replace("\r\n"*2+"### ", "\r\n"*3+"### ")
         page = page.replace("\r\n"*2+"## ",  "\r\n"*3+"## ")
         page = page.replace("\r\n"*2+"# ",   "\r\n"*3+"# ")
@@ -174,3 +179,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    print(g_tpset)
