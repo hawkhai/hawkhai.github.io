@@ -163,7 +163,7 @@ def viewchar(lichar, xfile, xmin, xmax):
 
 def main():
     print(parsePythonCmdx(__file__, retmap=True))
-    searchdir("..", mainfile)
+    searchdir(".", mainfile)
 
     viewchar(g_cnchar, "cnfile.txt", 0x80, 0x7FFFFFFF)
     viewchar(g_cschar, "csfile.txt", 0x80, 0x7FFFFFFF)

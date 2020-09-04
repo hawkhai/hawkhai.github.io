@@ -4,8 +4,10 @@ sys.path.append("../")
 from pythonx.funclib import *
 
 GIT_URL = 'url: "https://blog.hawkhai.com"'
+GIT_URLx = 'urlx: "https://blog.hawkhai.com"'
 GIT_BASEURL = 'baseurl: ""'
 SUN_URL = 'url: "https://sunocean.life"'
+SUN_URLx = 'urlx: "https://sunocean.life"'
 SUN_BASEURL = 'baseurl: "/blog"'
 JEKYLL = "bundle exec jekyll serve --host localhost"
 
@@ -42,10 +44,12 @@ def mainjekyll():
 
     config = readfile(configfile)
     config = config.replace(GIT_URL, SUN_URL)
+    config = config.replace(GIT_URLx, SUN_URLx)
     config = config.replace(GIT_BASEURL, SUN_BASEURL)
     writefile(configfile, config)
 
     assert config.find(SUN_URL) != -1, SUN_URL
+    assert config.find(SUN_URLx) != -1, SUN_URLx
     assert config.find(SUN_BASEURL) != -1, SUN_BASEURL
     os.system(JEKYLL)
 
