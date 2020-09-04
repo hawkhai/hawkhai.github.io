@@ -28,8 +28,7 @@ def bytesToString(bytes, encoding="ISO8859-1"):
 def stringToBytes(str, encoding="ISO8859-1"):
     return str.encode(encoding)
 
-def mainjekyll():
-
+def checkbackup():
     htmlist = os.listdir("backup")
     htmlist = [md[:-3]+".html" for md in htmlist if md.endswith(".md")]
     htmlist.sort()
@@ -37,6 +36,19 @@ def mainjekyll():
     for md in htmlist:
         idxdata += "\n" + md + "=1"
     writefile("backup/htmlist.ini", idxdata)
+
+def checksite():
+    def sitefile(fpath, fname, ftype):
+        fdata = readfile(fpath)
+        # http://localhost:4000/blog/
+        if fdata.find("localhost:4000") != -1:
+            openTextFile(fpath)
+            assert False, fpath
+    searchdir("_site", sitefile)
+
+def mainjekyll():
+    checkbackup()
+    checksite()
 
     currentfile = os.path.abspath(__file__)
     configfile = os.path.join(os.path.split(currentfile)[0], "_config.yml")

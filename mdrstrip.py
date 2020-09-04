@@ -1,6 +1,6 @@
 #encoding=utf8
 import re, os, sys
-sys.path.append("../../")
+sys.path.append("../")
 from pythonx.funclib import *
 
 OPENFILE = "openfile" in sys.argv
@@ -65,18 +65,20 @@ def mainfile(fpath, fname, ftype):
             if ordch >= 0x4e00 and ordch <= 0x9fa5:
                 if cnregex.find(regch) == -1:
                     cnregex += regch
-                g_cnchar.append(ch)
+                if g_cnchar.count(ch) == 0:
+                    g_cnchar.append(ch)
             else:
                 if cnsign.find(regch) == -1:
                     cnsign += regch
-                g_cschar.append(ch)
+                if g_cschar.count(ch) == 0:
+                    g_cschar.append(ch)
         cnregex += cnsign
 
         if line.find("\xa0") != -1:
             print("xspace", fpath, line)
 
-        liw = re.findall("[{}]+".format(cnregex,), line, re.IGNORECASE)
-        lia = re.findall("[^{}]+".format(cnregex,), line, re.IGNORECASE)
+        #liw = re.findall("[{}]+".format(cnregex,), line, re.IGNORECASE)
+        #lia = re.findall("[^{}]+".format(cnregex,), line, re.IGNORECASE)
 
         lix1 = re.findall("[{}][^{} *]".format(cnregex, cnregex), line, re.IGNORECASE)
         lix2 = re.findall("[^{} *][{}]".format(cnregex, cnregex), line, re.IGNORECASE)
@@ -84,9 +86,10 @@ def mainfile(fpath, fname, ftype):
         lix.extend(lix1)
         lix.extend(lix2)
 
+        cnsignregex = "[{}]".format(cnsign)
         for ix in lix:
             cx, cy = ix
-            if re.findall("[{}]".format(cnsign), cy) or re.findall("[{}]".format(cnsign), cx):
+            if re.findall(cnsignregex, cy) or re.findall(cnsignregex, cx):
                 continue
             if cy in "-<]" or cx in "->[":
                 continue
