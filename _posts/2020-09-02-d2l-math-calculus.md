@@ -41,13 +41,16 @@ $d$ 和 $\int$ 是可以互相抵消的，因为求导和求积分互为逆运�
 
 考虑对 $$f(x)=x^3$$ 求导数。
 
-$$f'(x)=\frac{df(x)}{dx}=\frac{f(x+dx)-f(x)}{dx}=\frac{(x+dx)^3-x^3}{dx}$$
-
-$$=\frac{x^3+3x^2(dx)+3x(dx^{2})+dx^3-x^3}{dx}$$
-
-$$=\frac{3x^2(dx)+3x(dx^{2})+dx^3}{dx}$$
-
-$$=3x^2+3x(dx)+dx^2$$
+$$
+\begin{aligned}
+f'(x)&=\frac{df(x)}{dx} \\
+&=\frac{f(x+dx)-f(x)}{dx} \\
+&=\frac{(x+dx)^3-x^3}{dx} \\
+&=\frac{x^3+3x^2(dx)+3x(dx^{2})+dx^3-x^3}{dx} \\
+&=\frac{3x^2(dx)+3x(dx^{2})+dx^3}{dx} \\
+&=3x^2+3x(dx)+dx^2
+\end{aligned}
+$$
 
 当 $$dx$$ 逼近 $$0$$ 时，含 $$dx$$ 的项可以忽略，所以最终 $$f'(x)=3x^2$$
 
