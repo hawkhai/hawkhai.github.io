@@ -15,6 +15,22 @@ def getLeftSpaceCount(line):
         count += 1
     return count
 
+def createCnFile():
+    page = b""
+    ordch = 0x4e00
+    count = 0
+    while ordch <= 0x9fa5:
+        ch = chr(ordch)
+        ordch += 1
+        page += ch.encode("utf8")
+        count += 1
+        if count % 50 == 0:
+            page += b"\r\n"
+    tempfile = tempfile = os.path.join("tempdir", "tempfile.txt")
+    writefile(tempfile, page)
+    openTextFile(tempfile)
+#createCnFile()
+
 g_cnchar = []
 g_cschar = []
 g_enchar = []
