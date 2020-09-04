@@ -55,9 +55,11 @@ def checksite():
 def checkgitline(fpath, tag, until):
     lines = readfileLines(fpath)
     for line in lines:
-        if line.find(tag) != -1:
+        if line.find(until) != -1:
             return
-        assert False, fpath
+        if line.find(tag) != -1:
+            assert False, fpath
+    assert False, fpath
 
 def checkgit():
     print(LINE_SEP_SHORT)
