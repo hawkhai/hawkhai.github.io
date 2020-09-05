@@ -188,11 +188,24 @@ def viewchar(lichar, xfile, xmin, xmax):
 def main():
     print(parsePythonCmdx(__file__, retmap=True))
     searchdir(".", mainfile)
+    global g_cschar
+    global g_tpset
 
     viewchar(g_cnchar, "cnfile.txt", 0x80, 0x7FFFFFFF)
     viewchar(g_cschar, "csfile.txt", 0x80, 0x7FFFFFFF)
     viewchar(g_enchar, "enfile.txt", 0x0,  0x7F)
 
+    print(LINE_SEP_SHORT)
+    g_cschar = list(set(g_cschar))
+    g_cschar.sort()
+    print("".join(g_cschar))
+    imgset  = ('jpeg', 'jpg', 'png', 'gif', )
+    fontset = ('eot', 'ttf', 'woff', 'svg', 'woff2', )
+    codeset = ('cc', 'js', 'txt', 'xml', 'css', 'mk', 'lock', 'zip', 'makefile', )
+    g_tpset -= set(imgset)
+    g_tpset -= set(fontset)
+    g_tpset -= set(codeset)
+    print(g_tpset)
+
 if __name__ == "__main__":
     main()
-    print(g_tpset)
