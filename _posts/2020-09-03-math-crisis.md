@@ -7,7 +7,7 @@ tags: [数学]
 mathjax: true
 ---
 
-维基百科：<https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E5%8D%B1%E6%9C%BA>
+[维基百科·数学危机](https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E5%8D%B1%E6%9C%BA)
 
 
 ## 数学危机
@@ -47,4 +47,4 @@ The unreasonable effectiveness of mathematics in the natural sciences
 
 ## 参考
 
-- [1] <https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E5%8D%B1%E6%9C%BA>
+- [1] [维基百科·数学危机](https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E5%8D%B1%E6%9C%BA)
