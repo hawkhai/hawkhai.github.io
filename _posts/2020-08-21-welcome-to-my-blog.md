@@ -45,4 +45,6 @@ $$f(a)=\frac{1}{2 \pi i} \oint_{\gamma} \frac{f(z)}{z-a} d z$$
 * 文档在线编辑 <http://www.mdeditor.com/>
 * 文档在线编辑 <https://www.zybuluo.com/mdeditor>
 * **图片转公式** <https://gongshi.wang/>
+* <https://mathpix.com/><sup>图片转公式貌似要收钱</sup>
 * **HTML 转 MarkDown** <http://domchristie.github.io/turndown/>
+* [Html 转 MarkDown](http://www.fly63.com/tool/htmarkdown/)
