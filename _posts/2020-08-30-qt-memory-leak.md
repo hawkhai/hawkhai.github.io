@@ -251,6 +251,18 @@ void QObject::deleteLater()
 
 Qt 家族的智能指针：
 
+<style>
+table th:first-of-type {
+    width: 35%;
+}
+table th:nth-of-type(2) {
+    width: 55%;
+}
+table th:nth-of-type(3) {
+    width: 10%;
+}
+</style>
+
 | 智能指针 |  | 引入 |
 | --- | --- | --- |
 | QPointer | Qt Object 模型的特性（之一）<br/>注意：析构时不会 delete 它管理的资源 |  |
