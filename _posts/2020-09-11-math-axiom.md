@@ -12,7 +12,7 @@ tags: [数学]
 
 The limit became the basis of differential in place of infinitesimal in the movement of 19th mathematical axiom.
 
-<iframe height="400" width="600"
+<iframe height="400" width="600" class="iframevideo"
 src="//player.bilibili.com/player.html?cid=78715811&aid=44942988&page=1&high_quality=1"
 scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true">
 </iframe>
