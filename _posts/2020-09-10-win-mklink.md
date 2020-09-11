@@ -3,7 +3,7 @@ layout: post
 title: "Windows 的快捷方式，符号链接，软链接和硬链接"
 location: "珠海"
 categories: ["配置"]
-tags: [Windows, mklink]
+tags: [Windows Note]
 toc: true
 ---
 

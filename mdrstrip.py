@@ -35,6 +35,7 @@ g_cnchar = []
 g_cschar = []
 g_enchar = []
 g_tpset = set()
+g_mdkeyset = set()
 def mainfile(fpath, fname, ftype):
 
     if fpath.find("\\backup\\") != -1:
@@ -47,6 +48,17 @@ def mainfile(fpath, fname, ftype):
         if fpath.find("\\_site\\") != -1:
             g_tpset.add(ftype)
         return
+
+    if ftype in ("md",):
+        fdata = readfile(fpath, True).strip()
+        if fdata.startswith("---"):
+            kvlist = fdata.split("---")[1].strip().split("\n")
+            for kv in kvlist:
+                kv = kv.strip()
+                key, value = kv.split(":", 1)
+                key = key.strip()
+                value = value.strip()
+                g_mdkeyset.add(key)
 
     warnCnEnSpace    = ftype in ("md", "php", "html", "htm",)
     warnMdTitleSpace = ftype in ("md",)
@@ -206,6 +218,7 @@ def main():
     g_tpset -= set(fontset)
     g_tpset -= set(codeset)
     print(g_tpset)
+    print(g_mdkeyset)
 
 if __name__ == "__main__":
     main()

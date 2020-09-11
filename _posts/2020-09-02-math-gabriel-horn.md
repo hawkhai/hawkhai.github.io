@@ -5,6 +5,7 @@ location: "珠海"
 categories: ["深度学习"]
 tags: [数学]
 mathjax: true
+toc: true
 ---
 
 [维基百科·加百列的号角](https://en.wikipedia.org/wiki/Gabriel%27s_Horn)

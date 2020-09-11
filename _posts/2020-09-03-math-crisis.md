@@ -5,6 +5,7 @@ location: "珠海"
 categories: ["深度学习"]
 tags: [数学]
 mathjax: true
+toc: true
 ---
 
 [维基百科·数学危机](https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E5%8D%B1%E6%9C%BA)

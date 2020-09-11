@@ -3,7 +3,7 @@ layout: post
 title: "QT 内存泄露研究"
 location: "珠海"
 categories: ["编程"]
-tags: [QT, memory]
+tags: [Windows Prog, QT, Memory]
 toc: true
 ---
 
