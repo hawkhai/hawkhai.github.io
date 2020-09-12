@@ -124,7 +124,7 @@ function checkToc() {
         if (!tocInited) {
             tocInited = true;
             $('#tocdiv').toc({
-                title: '<i>目录索引</i>',
+                title: '<i class="back-to-top">目录索引</i>',
             });
         }
         $("#tocdiv").fadeIn();

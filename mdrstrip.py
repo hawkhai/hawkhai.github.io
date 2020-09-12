@@ -113,8 +113,12 @@ def mainfile(fpath, fname, ftype):
         #liw = re.findall("[{}]+".format(cnregex,), line, re.IGNORECASE)
         #lia = re.findall("[^{}]+".format(cnregex,), line, re.IGNORECASE)
 
-        lix1 = re.findall("[{}][^{} *]".format(cnregex, cnregex), line, re.IGNORECASE)
-        lix2 = re.findall("[^{} *][{}]".format(cnregex, cnregex), line, re.IGNORECASE)
+        linec = line
+        for itmp in re.findall("\\$\\$.*?\\$\\$", line): # 忽略数学公式
+            linec = linec.replace(itmp, "$$$$")
+
+        lix1 = re.findall("[{}][^{} *]".format(cnregex, cnregex), linec, re.IGNORECASE)
+        lix2 = re.findall("[^{} *][{}]".format(cnregex, cnregex), linec, re.IGNORECASE)
         lix = []
         lix.extend(lix1)
         lix.extend(lix2)
@@ -138,6 +142,10 @@ def mainfile(fpath, fname, ftype):
 
             if not warnCnEnSpace:
                 continue
+
+            if codestate:
+                if cy in "\":" or cx in "\":":
+                    continue
 
             print("[%d]"%(index+1), ix, "\t", line)
             if AUTOFORMAT:
