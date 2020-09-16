@@ -88,7 +88,36 @@ table th:nth-of-type(4) {
 [Mklink in Windows](http://www.maxi-pedia.com/mklink)
 
 
+## C++ 判断代码
+
+If you can write native code in JNA, you can directly call the Win32 API `GetFileAttributes()` function and check for the `FILE_ATTRIBUTE_REPARSE_POINT` flag (junctions are implemented as reparse points).
+
+Update: To differentiate between different types of reparse points, you have to retreive the `ReparseTag` of the actual reparse point. For a junction point, it will be set to `IO_REPARSE_TAG_MOUNT_POINT` (0xA0000003).
+
+There are two ways to retreive the ReparseTag:
+
+1. Use `DeviceIoControl()` with the `FSCTL_GET_REPARSE_POINT` control code to obtain an `REPARSE_DATA_BUFFER` struct, which as a ReparseTag field. You can see an example of an `IsDirectoryJunction()` implementation using this technique in the following article:
+
+    [NTFS Hard Links, Directory Junctions, and Windows Shortcuts](http://www.flexhex.com/docs/articles/hard-links.phtml)
+
+2. Use `FindFirstFile()` to obtain a `WIN32_FIND_DATA` struct. If the path has the `FILE_ATTRIBUTE_REPARSE_POINT` attribute, the `dwReserved0` field will contain the `ReparseTag`.
+
+3. `bool LocalFileHandle::isSymbolicLink() const` from open source cppfs: <https://github.com/cginternals/cppfs/blob/master/source/cppfs/source/windows/LocalFileHandle.cpp>
+
+    {% highlight cpp %}
+bool LocalFileHandle::isSymbolicLink() const {
+    readFileInfo();
+    if (m_fileInfo) {
+        return (((WIN32_FILE_ATTRIBUTE_DATA *)m_fileInfo)->dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) != 0;
+    }
+    return false;
+}
+{% endhighlight %}
+
+
 ## 参考
 
 * [1] [Windows 的快捷方式，符号链接，软链接和硬链接](https://blog.alphatr.com/windows-mklink.html)
 * [2] [比较 Windows 上四种不同的文件（夹）链接方式（NTFS 的硬链接、目录联接、符号链接，和大家熟知的快捷方式）](https://blog.walterlv.com/post/ntfs-link-comparisons.html)
+* [3] [Determine whether a file is a junction \(in Windows\) or not?](https://stackoverflow.com/questions/13733275/determine-whether-a-file-is-a-junction-in-windows-or-not)
+* [4] [NTFS Links, Directory Junctions, and Windows Shortcuts](http://www.flexhex.com/docs/articles/hard-links.phtml)
