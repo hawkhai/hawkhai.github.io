@@ -5,6 +5,13 @@ Source for [https://blog.hawkhai.com](https://blog.hawkhai.com).
 Source for [https://sunocean.life/blog](https://sunocean.life/blog).
 
 
+# Windows Environment setup
+
+搭建 Windows Jekyll 环境
+
+<https://blog.hawkhai.com/blog/2020/08/29/win-jekyll-install>
+
+
 # Environment setup
 
 ```bash

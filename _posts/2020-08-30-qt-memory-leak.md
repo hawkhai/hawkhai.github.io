@@ -3,7 +3,7 @@ layout: post
 title: "QT 内存泄露研究"
 location: "珠海"
 categories: ["编程"]
-tags: [QT, memory]
+tags: [Windows Prog, QT, Memory]
 toc: true
 ---
 
@@ -250,6 +250,18 @@ void QObject::deleteLater()
 如果没有智能指针，程序员必须保证 new 对象能在正确的时机 delete，四处编写异常捕获代码以释放资源，而智能指针则可以在退出作用域时（不管是正常流程离开或是因异常离开）总调用 delete 来析构在堆上动态分配的对象。
 
 Qt 家族的智能指针：
+
+<style>
+table th:first-of-type {
+    width: 35%;
+}
+table th:nth-of-type(2) {
+    width: 55%;
+}
+table th:nth-of-type(3) {
+    width: 10%;
+}
+</style>
 
 | 智能指针 |  | 引入 |
 | --- | --- | --- |

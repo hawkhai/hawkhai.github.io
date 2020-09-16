@@ -1,13 +1,14 @@
 ---
 layout: post
-title: "数学危机"
+title: "三次数学危机"
 location: "珠海"
 categories: ["深度学习"]
 tags: [数学]
 mathjax: true
+toc: true
 ---
 
-维基百科：<https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E5%8D%B1%E6%9C%BA>
+[维基百科·数学危机](https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E5%8D%B1%E6%9C%BA)
 
 
 ## 数学危机
@@ -26,6 +27,8 @@ mathjax: true
 
 $$\lim_{n\to \infty} a_n = 0$$
 
+19 世纪 A.L 柯西、K. 魏尔斯特拉斯等创立了极限论，以极限为基础建立微积分学。A. 鲁宾孙于 1960 年创立了非标准分析，把实数域扩充到包含无穷小和无穷大的超实数域，圆满解决了“无穷小的矛盾”问题。
+
 
 ## 第三次数学危机
 
@@ -35,6 +38,8 @@ $$\lim_{n\to \infty} a_n = 0$$
 
 首先，若 $A\in A$，则 $A$ 是 $A$ 的元素，那么 $A$ 具有性质 $P$，由性质函数 $P$ 可以得知 $A\not \in A$；其次，若 $A\not \in A$，根据定义， $A$ 是由所有满足性质 $P$ 的类组成，也就是说，$A$ 具有性质 $P$，所以 $A\in A$。
 
+到现在，从整体来看，还没有解决到令人满意的程度。
+
 
 ## 数学基础
 
@@ -43,4 +48,4 @@ The unreasonable effectiveness of mathematics in the natural sciences
 
 ## 参考
 
-- [1] <https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E5%8D%B1%E6%9C%BA>
+- [1] [维基百科·数学危机](https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E5%8D%B1%E6%9C%BA)

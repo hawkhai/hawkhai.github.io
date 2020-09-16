@@ -5,10 +5,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>大海彤心 SUN &amp; OCEAN</title> 
         <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+        <link rel="stylesheet" href="../css/main.css" />
+        <link rel='stylesheet' href="../css/scope-one.css" />
+        <link rel="stylesheet" href="../css/font-awesome.min.css" />
     </head>
     <body>
 
-        <div id="jsref">
+        <div id="jsref" class="post">
 
             <table class="dataintable browsersupport">
                 <tr>

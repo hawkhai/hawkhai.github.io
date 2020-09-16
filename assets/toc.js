@@ -110,19 +110,8 @@
     ;
 }
 )(jQuery);
-// 文档加载完成时
-$(document).ready(function () {
-    $('#tocdiv').toc({
-        title: '<i>目录索引</i>',
-    });
-    var checkcnt = 0;
-    var tocint = setInterval(function () {
-        checkToc();
-        if (++checkcnt >= 5) {
-            clearInterval(tocint);
-        }
-    }, 1000);
-});
+
+var tocInited = false;
 function checkToc() {
     var postdiv = $("#postdiv");
     var tocdiv = $("#tocdiv");
@@ -132,10 +121,20 @@ function checkToc() {
     if (tocRight > postLeft) {
         $("#tocdiv").fadeOut();
     } else {
+        if (!tocInited) {
+            tocInited = true;
+            $('#tocdiv').toc({
+                title: '<i class="back-to-top">目录索引</i>',
+            });
+        }
         $("#tocdiv").fadeIn();
     }
 }
 
+// 文档加载完成时
+$(document).ready(function () {
+    checkToc();
+});
 // 窗口大小变化时
 $(window).resize(function () {
     checkToc();

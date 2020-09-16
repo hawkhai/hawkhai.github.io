@@ -1,6 +1,6 @@
 function MathJaxHubConfig() {
 
-    if (typeof MathJax === 'undefined') {
+    if (typeof MathJax === 'undefined' || typeof MathJax.Hub === 'undefined') {
         setTimeout("MathJaxHubConfig()", 100);
         return;
     }
@@ -8,7 +8,7 @@ function MathJaxHubConfig() {
     MathJax.Hub.Config({
         jax: ["input/TeX", "output/HTML-CSS"],
         tex2jax: {
-            inlineMath: [['$', '$']],
+            inlineMath: [['$', '$'], ["\\(", "\\)"]],
             displayMath: [['$$', '$$'], ['\\[', '\\]']],
             processEscapes: true,
             skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
@@ -58,6 +58,11 @@ function MathJaxHubConfig() {
                 Re: ['\\mathop{\\mathrm{Re}}'],
                 Im: ['\\mathop{\\mathrm{Im}}'],
                 Res: ['\\mathop{\\mathrm{Res}}'],
+
+                unicodeInt: ['\\mathop{\\vcenter{\\mathchoice{\\huge\\unicode{#1}}{\\unicode{#1}}{\\unicode{#1}}{\\unicode{#1}}}}\\nolimits', 1],
+                oiint: '\\unicodeInt{x222F}',
+                oiiint: '\\unicodeInt{x2230}',
+
             }
         }
     });

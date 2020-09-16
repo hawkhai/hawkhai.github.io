@@ -41,7 +41,7 @@ toc: true
 
 函数 $f(x)$ 在点 $x_0$ 可微的充分必要条件是函数 $f(x)$ 在点 $x_0$ 可导。
 
-$$dy=f′(x_0)Δx$$
+$$dy=f'(x_0)Δx$$
 
 
 ## 导数和偏导数
@@ -147,5 +147,5 @@ $$\nabla = \sum_{j=1}^n \bigg[{\frac{\partial}{\partial x_j}}\bigg] \mathbf{\hat
 
 <div id="refer-anchor-1"></div>
 - [1] <https://blog.csdn.net/walilk/article/details/50978864>
-- [2] <https://zh.wikipedia.org/zh-cn/%E5%81%8F%E5%AF%BC%E6%95%B0>
+- [2] [维基百科·偏导数](https://zh.wikipedia.org/zh-cn/%E5%81%8F%E5%AF%BC%E6%95%B0)
 - [3] <https://blog.csdn.net/czmacd/article/details/81178650>

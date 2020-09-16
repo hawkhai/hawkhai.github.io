@@ -5,9 +5,10 @@ location: "珠海"
 categories: ["深度学习"]
 tags: [数学]
 mathjax: true
+toc: true
 ---
 
-维基百科：<https://en.wikipedia.org/wiki/Gabriel%27s_Horn>
+[维基百科·加百列的号角](https://en.wikipedia.org/wiki/Gabriel%27s_Horn)
 
 
 ## Gabriel 喇叭
@@ -78,5 +79,5 @@ Gabriel 喇叭会导出一个非常诡异的悖论：如果你想用涂料把 Ga
 ## 参考
 
 - [1] <http://www.matrix67.com/blog/archives/773>
-- [2] <https://en.wikipedia.org/wiki/Gabriel%27s_Horn>
+- [2] [维基百科·加百列的号角](https://en.wikipedia.org/wiki/Gabriel%27s_Horn)
 - [3] <https://baijiahao.baidu.com/s?id=1660502466103090640>
