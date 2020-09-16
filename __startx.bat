@@ -32,7 +32,7 @@
   ECHO Set UAC = CreateObject^("Shell.Application"^) > "%vbsGetPrivileges%"
   ECHO args = "ELEV " >> "%vbsGetPrivileges%"
   ECHO For Each strArg in WScript.Arguments >> "%vbsGetPrivileges%"
-  ECHO args = args ^& strArg ^& " "  >> "%vbsGetPrivileges%"
+  ECHO args = args ^& strArg ^& " " >> "%vbsGetPrivileges%"
   ECHO Next >> "%vbsGetPrivileges%"
 
   if '%cmdInvoke%'=='1' goto InvokeCmd 
