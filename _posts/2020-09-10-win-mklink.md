@@ -142,6 +142,17 @@ NTFS 符号链接是对用户透明的，也就是说，在绝大多数情况下
 > Note When symbolic link cycles occur, the returned path will be one member of the cycle, but no guarantee is made about which member that will be.
 
 
+## GetSymbolicLinkTarget
+
+`GetFinalPathNameByHandle` API Hungs. At the time when I was checking this problem in Windows Vista, I remember atleast the `GetFileInformationByHandleEx` worked in all cases. But now I experience the same problem in Windows 7.
+
+为了最大可能避免被挂起，首先尝试 `GetFileInformationByHandleEx`，再尝试 `GetFinalPathNameByHandle`，用线程跑，发现挂起了就 `TerminateThread`。
+
+有非常好的源码可以参考：`DWORD psutil_threaded_get_filename(HANDLE hFile)` from <https://github.com/giampaolo/psutil.git>。
+
+<https://github.com/giampaolo/psutil/blob/release-5.6.0/psutil/arch/windows/process_handles.c>
+
+
 ## C++ 判断代码
 
 If you can write native code in JNA, you can directly call the Win32 API `GetFileAttributes()` function and check for the `FILE_ATTRIBUTE_REPARSE_POINT` flag (junctions are implemented as reparse points).
@@ -496,3 +507,4 @@ dlink 和 jlink 还是存在差异，dlink 更像一个 symlink，而 jlink 跟�
 * [2] [比较 Windows 上四种不同的文件（夹）链接方式（NTFS 的硬链接、目录联接、符号链接，和大家熟知的快捷方式）](https://blog.walterlv.com/post/ntfs-link-comparisons.html)
 * [3] [Determine whether a file is a junction \(in Windows\) or not?](https://stackoverflow.com/questions/13733275/determine-whether-a-file-is-a-junction-in-windows-or-not)
 * [4] [NTFS Links, Directory Junctions, and Windows Shortcuts](http://www.flexhex.com/docs/articles/hard-links.phtml)
+* [5] [Listing Used Files](https://www.codeproject.com/Articles/18975/Listing-Used-Files)
