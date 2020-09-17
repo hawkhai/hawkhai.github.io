@@ -177,10 +177,17 @@ def mainfile(fpath, fname, ftype):
     while page.find("\r\n" * 3) != -1:
         page = page.replace("\r\n" * 3, "\r\n" * 2)
 
+    codereg = "\\{\\%\\s*highlight.*?\\{\\%\\s*endhighlight\\s*\\%\\}"
+    codeli1 = re.findall(codereg, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
+
     if warnMdTitleSpace:
         page = page.replace("\r\n"*2+"### ", "\r\n"*3+"### ")
         page = page.replace("\r\n"*2+"## ",  "\r\n"*3+"## ")
         page = page.replace("\r\n"*2+"# ",   "\r\n"*3+"# ")
+
+    codeli2 = re.findall(codereg, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
+    for i in range(len(codeli1)):
+        page = page.replace(codeli2[i], codeli1[i])
 
     writefile(fpath, page.encode("utf8"))
 

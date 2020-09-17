@@ -110,7 +110,6 @@ def fmain(fpath, tpath):
     except Exception, ex:
         print(ex, fpath)
 
-
 # libv8 编译不过的问题文件
 def fmain_libv8():
     # CFLAGS_Release := -fpermissive
@@ -127,7 +126,6 @@ def fmain_libv8():
     fpath = r"D:\kSource\blog\source\libv8-therubyracer\platform-win32.cc"
     tpath = r"C:\Ruby25-x64\lib\ruby\gems\2.5.0\gems\libv8-3.16.14.19\vendor\v8\src\platform-win32.cc"
     fmain(fpath, tpath)
-
 
 # therubyracer 编译不过的问题文件
 def fmain_therubyracer():

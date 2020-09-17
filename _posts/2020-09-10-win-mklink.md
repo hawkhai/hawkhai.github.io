@@ -87,6 +87,7 @@ table th:nth-of-type(4) {
 
 [Mklink in Windows](http://www.maxi-pedia.com/mklink)
 
+
 ## 限制
 
 [link](https://blog.csdn.net/u010977122/article/details/86518967) 符号链接在系统启动的时候是不工作的，所以下面这些文件（夹）是不可以作为符号链接替换的：
@@ -111,6 +112,7 @@ Windows Install 并不完全支持符号链接，所以，如果将 \Windows\Ins
 * 将 \Users、\ProgramData、"\Program Files" 或 "\Program Files (x86)" 使用符号链接替换将会破坏 Windows 的安装、部署和升级。
 * 将 "\Program Files" 或 "\Program Files (x86)" 使用符号链接替换将会破坏那些从 \Windows\WinSxS 仓库中硬性链接了文件到安装目录中的基于 Windows 组件的服务。
 
+
 ## 目录符号链接与目录连接点的区别
 
 目录符号链接（/D）与目录连接点（/J）非常相似，但是本质是不同的。目录符号链接依旧是符号链接，是指向目录的符号链接，而目录连接点不属于符号链接。
@@ -122,6 +124,7 @@ Windows Install 并不完全支持符号链接，所以，如果将 \Windows\Ins
 当目录符号链接使用绝对路径时，其行为与目录连接点完全一样。
 
 此外，目录符号链接还可以指定 SMB 远程网络中的路径，而目录连接点不可以。
+
 
 ## 符号链接与快捷方式的区别
 
@@ -157,6 +160,7 @@ bool LocalFileHandle::isSymbolicLink() const {
     return false;
 }
 {% endhighlight %}
+
 
 ## Python 版本代码
 
@@ -199,7 +203,6 @@ def islink(fpath): # 原版存在 bug，修复了一下。
     if attr & FILE_ATTRIBUTE_REPARSE_POINT == FILE_ATTRIBUTE_REPARSE_POINT:
         return True
     return False
-
 
 def parse_reparse_buffer(original):
     """ Implementing the below in Python:
@@ -426,6 +429,7 @@ if __name__=='__main__':
 
 {% endhighlight %}
 
+
 ### 运行结果
 
 {% highlight shell %}
@@ -477,6 +481,7 @@ dlink 和 jlink 还是存在差异，dlink 更像一个 symlink，而 jlink 跟�
 
 {% include image.html url="/images/win-mklink/dlink.png" %}
 {% include image.html url="/images/win-mklink/jlink.png" %}
+
 
 ## 参考
 
