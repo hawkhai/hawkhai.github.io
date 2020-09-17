@@ -135,6 +135,13 @@ Windows 快捷方式文件可以在任何文件系统（比如早期的 FAT32）
 NTFS 符号链接是对用户透明的，也就是说，在绝大多数情况下，访问 NTFS 符号链接与访问目标是完全相同的。当应用程序访问 NTFS 符号链接的时候，操作系统会自动将其指向目标，此时应用程序访问到的就是目标而不是 NTFS 符号链接了。
 
 
+## 循环挂载的情况
+
+`os.path.realpath(path)` Return the canonical path of the specified filename, eliminating any symbolic links encountered in the path (if they are supported by the operating system).
+
+> Note When symbolic link cycles occur, the returned path will be one member of the cycle, but no guarantee is made about which member that will be.
+
+
 ## C++ 判断代码
 
 If you can write native code in JNA, you can directly call the Win32 API `GetFileAttributes()` function and check for the `FILE_ATTRIBUTE_REPARSE_POINT` flag (junctions are implemented as reparse points).
