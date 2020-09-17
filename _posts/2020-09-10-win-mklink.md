@@ -196,7 +196,7 @@ def mklinkd(link, target):
 def islink(fpath): # 原版存在 bug，修复了一下。
     """ Windows islink implementation. """
     attr = GetFileAttributes(fpath)
-    if attr & REPARSE_FOLDER == REPARSE_FOLDER:
+    if attr & FILE_ATTRIBUTE_REPARSE_POINT == FILE_ATTRIBUTE_REPARSE_POINT:
         return True
     return False
 
