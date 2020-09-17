@@ -87,6 +87,50 @@ table th:nth-of-type(4) {
 
 [Mklink in Windows](http://www.maxi-pedia.com/mklink)
 
+## 限制
+
+[link](https://blog.csdn.net/u010977122/article/details/86518967) 符号链接在系统启动的时候是不工作的，所以下面这些文件（夹）是不可以作为符号链接替换的：
+
+* \Windows
+* \Windows\system32
+* \Windows\system32\config
+
+Windows Install 并不完全支持符号链接，所以，如果将 \Windows\Installer 使用符号链接替换将会导致大多数基于 .msi 的 Windows Install 安装程序出错失败，错误码为 2755 或 1632。
+
+以下文件（夹）可以被符号链接替换：
+
+* \Documents and Settings
+* \ProgramData
+* \Program Files
+* \Program Files (x86)
+* \Users
+
+但是注意：
+
+* 将 \Users 和 \ProgramData 使用符号链接替换是不推荐的，这会破坏 Windows Update 自动更新和 Windows Store 中的应用。
+* 将 \Users、\ProgramData、"\Program Files" 或 "\Program Files (x86)" 使用符号链接替换将会破坏 Windows 的安装、部署和升级。
+* 将 "\Program Files" 或 "\Program Files (x86)" 使用符号链接替换将会破坏那些从 \Windows\WinSxS 仓库中硬性链接了文件到安装目录中的基于 Windows 组件的服务。
+
+## 目录符号链接与目录连接点的区别
+
+目录符号链接（/D）与目录连接点（/J）非常相似，但是本质是不同的。目录符号链接依旧是符号链接，是指向目录的符号链接，而目录连接点不属于符号链接。
+
+目录符号链接允许 Target 使用相对路径，当使用相对路径时创建目录符号链接之后，如果移动了符号链接文件，操作系统将无法再找到原来的目标。
+
+目录连接点只允许 Target 使用绝对路径，当创建目录连接点时，如果传入的参数是相对路径，mklink 命令会自动将相对路径补全为绝对路径。
+
+当目录符号链接使用绝对路径时，其行为与目录连接点完全一样。
+
+此外，目录符号链接还可以指定 SMB 远程网络中的路径，而目录连接点不可以。
+
+## 符号链接与快捷方式的区别
+
+NTFS 符号链接与 Windows 快捷方式文件不同，这是一个普通的文件。
+
+Windows 快捷方式文件可以在任何文件系统（比如早期的 FAT32）下创建，可以包含元数据（比如在 Windows 资源管理器中显示的图标），并且不是对应用程序透明的。当应用程序访问 Windows 快捷方式的时候，默认情况下访问到的是快捷方式文件，而不会自动指向目标文件。
+
+NTFS 符号链接是对用户透明的，也就是说，在绝大多数情况下，访问 NTFS 符号链接与访问目标是完全相同的。当应用程序访问 NTFS 符号链接的时候，操作系统会自动将其指向目标，此时应用程序访问到的就是目标而不是 NTFS 符号链接了。
+
 
 ## C++ 判断代码
 
@@ -235,11 +279,11 @@ def parse_reparse_buffer(original):
     # Header stuff
     buffer['tag'] = struct.unpack('L', original[:SZULONG])[0]
 
-    reparse_type = SYMBOLIC_LINK
+    reparsetype = SYMBOLIC_LINK
     if buffer['tag'] == IO_REPARSE_TAG_SYMLINK:
-        reparse_type = SYMBOLIC_LINK
+        reparsetype = SYMBOLIC_LINK
     elif buffer['tag'] == IO_REPARSE_TAG_MOUNT_POINT:
-        reparse_type = MOUNTPOINT
+        reparsetype = MOUNTPOINT
     else:
         assert False, buffer['tag']
 
@@ -248,7 +292,7 @@ def parse_reparse_buffer(original):
     original = original[8:]
 
     # Parsing
-    k = reparse_type
+    k = reparsetype
     for c in buffer[k]['pkeys']:
         if type(buffer[k][c]) == int:
             sz = buffer[k][c]
@@ -262,7 +306,7 @@ def parse_reparse_buffer(original):
 
     # Using the offset and length's grabbed, we'll set the buffer.
     buffer[k]['buffer'] = original
-    return reparse_type, buffer
+    return reparsetype, buffer
 
 def readlink(fpath):
     """ Windows readlink implementation. """
@@ -293,10 +337,10 @@ def readlink(fpath):
     if len(buffer) < 9:
         return None
     # Parse and return our result.
-    reparse_type, result = parse_reparse_buffer(buffer)
-    offset = result[reparse_type]['substitute_name_offset']
-    ending = offset + result[reparse_type]['substitute_name_length']
-    rpath = result[reparse_type]['buffer'][offset:ending].replace(b'\x00', b'')
+    reparsetype, result = parse_reparse_buffer(buffer)
+    offset = result[reparsetype]['substitute_name_offset']
+    ending = offset + result[reparsetype]['substitute_name_length']
+    rpath = result[reparsetype]['buffer'][offset:ending].replace(b'\x00', b'')
     if len(rpath) > 4 and rpath[0:4] == b'\\??\\':
         rpath = rpath[4:]
     return rpath.decode("gbk")
@@ -310,23 +354,44 @@ def realpath(fpath):
         fpath = rpath
     return fpath
 
-def dprint(link, target):
+def dprint(link):
     linklen = len(link)
     linelen = 80
-    print('*' * 30, link, '*' * (linelen-30-2-linklen))
-    print('IsLink: %s' % islink(link))
-    print('ReadLink: %s' % readlink(link))
+    sepleft = int((linelen - 2 - linklen) / 2)
+    sepright = linelen - 2 - linklen - sepleft
+    islinkp = islink(link)
+    print('-' * sepleft, link, '-' * sepright)
+
+    if islinkp:
+        print('IsLink: %s ReadLink: %s' % (islinkp, readlink(link)))
+    else:
+        print('IsLink: %s' % islinkp)
+
     print('RealPath: %s' % realpath(link))
-    print('*' * linelen)
+
+    # https://docs.python.org/3/library/os.path.html
+    # os.path.islink(path)      判断路径是否为链接
+    # os.path.ismount(path)     判断路径是否为挂载点
+    # os.path.realpath(path)    返回 path 的真实路径
+    print(">>", os.path.islink(link),
+          link, "->", os.path.realpath(link))
+
+    link = os.path.normpath(os.path.abspath(link))
+    while link and len(link) > 3: # E:\
+        link = os.path.split(link)[0]
+        if islink(link):
+            print('Parent IsLink: %s -> %s' % (link, realpath(link)))
+    print('-' * linelen)
 
 def example():
 
     from os import system, unlink
     clear = "clear" in sys.argv
 
-    system('cmd.exe /c echo Hello World > test.txt')
+    system('cmd.exe /c echo test.txt > test.txt')
     system('mklink test-link.txt test.txt') # 文件类型为 .symlink
-    dprint("test-link.txt", "test.txt")
+    dprint("test.txt")
+    dprint("test-link.txt")
     if clear:
         unlink('test-link.txt')
         unlink('test.txt')
@@ -334,21 +399,31 @@ def example():
     # MKLINK /D Link Target # 创建指向文件夹的符号链接
     # MKLINK /J Link Target # 创建指向文件夹的软链接（联接）
     system("mkdir test")
-    system('cmd.exe /c echo Hello World > test\\subtest.txt')
-    system("mklink /D test-dlink test")
-    system("mklink /J test-jlink test")
-    dprint("test-dlink", "test")
-    dprint("test-jlink", "test")
+    system("mkdir test\\subtest")
+    system('cmd.exe /c echo test\\subtest.txt > test\\subtest.txt')
+    system('cmd.exe /c echo test\\subtest\\subtest.txt > test\\subtest\\subtest.txt')
+
+    system("mklink /D D:\\test-dlink {}".format(os.path.abspath("test")))
+    system("mklink /J D:\\test-jlink test")
+    dprint("D:\\test-dlink")
+    dprint("D:\\test-jlink")
+
+    dprint("test\\subtest\\subtest.txt")
+    dprint("D:\\test-dlink\\subtest\\subtest.txt")
+    dprint("D:\\test-jlink\\subtest\\subtest.txt")
 
     if clear:
         unlink('test\\subtest.txt')
-        # os.rmdir(path)
-        os.removedirs("test")
-        os.removedirs("test-dlink")
-        os.removedirs("test-jlink")
+        unlink('test\\subtest\\subtest.txt')
+        # os.rmdir(path) # removedirs
+        os.rmdir("test\\subtest")
+        os.rmdir("test")
+        os.rmdir("D:\\test-dlink")
+        os.rmdir("D:\\test-jlink")
 
 if __name__=='__main__':
     example()
+
 {% endhighlight %}
 
 ### 运行结果
@@ -356,23 +431,45 @@ if __name__=='__main__':
 {% highlight shell %}
 E:\kSource\pythonx>python pymklink.py clear
 为 test-link.txt <<===>> test.txt 创建的符号链接
-****************************** test-link.txt ***********************************
+----------------------------------- test.txt -----------------------------------
 IsLink: False
-ReadLink: None
-RealPath: test-link.txt
-********************************************************************************
-为 test-dlink <<===>> test 创建的符号链接
-为 test-jlink <<===>> test 创建的联接
-****************************** test-dlink **************************************
-IsLink: True
-ReadLink: test
+RealPath: test.txt
+>> False test.txt -> E:\kSource\pythonx\test.txt
+--------------------------------------------------------------------------------
+-------------------------------- test-link.txt ---------------------------------
+IsLink: True ReadLink: test.txt
+RealPath: E:\kSource\pythonx\test.txt
+>> True test-link.txt -> E:\kSource\pythonx\test.txt
+--------------------------------------------------------------------------------
+为 D:\test-dlink <<===>> E:\kSource\pythonx\test 创建的符号链接
+为 D:\test-jlink <<===>> test 创建的联接
+-------------------------------- D:\test-dlink ---------------------------------
+IsLink: True ReadLink: E:\kSource\pythonx\test
 RealPath: E:\kSource\pythonx\test
-********************************************************************************
-****************************** test-jlink **************************************
-IsLink: True
-ReadLink: E:\kSource\pythonx\test
+>> True D:\test-dlink -> E:\kSource\pythonx\test
+--------------------------------------------------------------------------------
+-------------------------------- D:\test-jlink ---------------------------------
+IsLink: True ReadLink: E:\kSource\pythonx\test
 RealPath: E:\kSource\pythonx\test
-********************************************************************************
+>> False D:\test-jlink -> E:\kSource\pythonx\test
+--------------------------------------------------------------------------------
+--------------------------- test\subtest\subtest.txt ---------------------------
+IsLink: False
+RealPath: test\subtest\subtest.txt
+>> False test\subtest\subtest.txt -> E:\kSource\pythonx\test\subtest\subtest.txt
+--------------------------------------------------------------------------------
+---------------------- D:\test-dlink\subtest\subtest.txt -----------------------
+IsLink: False
+RealPath: D:\test-dlink\subtest\subtest.txt
+>> False D:\test-dlink\subtest\subtest.txt -> E:\kSource\pythonx\test\subtest\subtest.txt
+Parent IsLink: D:\test-dlink -> E:\kSource\pythonx\test
+--------------------------------------------------------------------------------
+---------------------- D:\test-jlink\subtest\subtest.txt -----------------------
+IsLink: False
+RealPath: D:\test-jlink\subtest\subtest.txt
+>> False D:\test-jlink\subtest\subtest.txt -> E:\kSource\pythonx\test\subtest\subtest.txt
+Parent IsLink: D:\test-jlink -> E:\kSource\pythonx\test
+--------------------------------------------------------------------------------
 
 {% endhighlight %}
 
