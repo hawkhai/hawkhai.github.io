@@ -111,23 +111,82 @@
 }
 )(jQuery);
 
-var tocInited = false;
+function getClientHeight() {
+    var clientHeight = 0;
+    if(document.body.clientHeight && document.documentElement.clientHeight) {
+        clientHeight = (document.body.clientHeight < document.documentElement.clientHeight) ?
+            document.body.clientHeight : document.documentElement.clientHeight;
+    } else {
+        clientHeight = (document.body.clientHeight > document.documentElement.clientHeight) ?
+            document.body.clientHeight : document.documentElement.clientHeight;
+    }
+    return clientHeight;
+}
+
+if (typeof $.fn.toc.tocInited === 'undefined') {
+    $.fn.toc.tocInited = false;
+}
+if (typeof $.fn.toc.tocMaxWidth === 'undefined') {
+    $.fn.toc.tocMaxWidth = 0;
+}
+
+function initToc(tocdiv) {
+    if (!$.fn.toc.tocInited) {
+        $.fn.toc.tocInited = true;
+        tocdiv.toc({
+            title: '<i class="back-to-top">目录索引</i>',
+        });
+    }
+}
+
 function checkToc() {
     var postdiv = $("#postdiv");
     var tocdiv = $("#tocdiv");
     var postLeft = postdiv.offset().left;
-    var tocRight = tocdiv.offset().left + tocdiv.width();
-    // console.log(tocRight + ", " + postLeft);
-    if (tocRight > postLeft) {
-        $("#tocdiv").fadeOut();
-    } else {
-        if (!tocInited) {
-            tocInited = true;
-            $('#tocdiv').toc({
-                title: '<i class="back-to-top">目录索引</i>',
-            });
+    var tocLeft = tocdiv.offset().left;
+    var tocRight = tocLeft + tocdiv.width();
+
+    // css 里面写的：min-width: 20em; max-width: 20em;
+    var xwidth = parseInt(tocdiv.css("max-width"));
+    if ($.fn.toc.tocMaxWidth == 0 && xwidth >= 100) {
+        $.fn.toc.tocMaxWidth = xwidth;
+    }
+
+    if (tocRight > postLeft - 5) {
+
+        // 尝试再挽救一下。
+        if ($.fn.toc.tocMaxWidth > 0 && xwidth == $.fn.toc.tocMaxWidth) {
+            tocdiv.css("max-width", "15em");
+            tocdiv.css("min-width", "15em");
+            setTimeout("checkToc()", 100);
+            return;
+        } else {
+            tocdiv.fadeOut();
         }
-        $("#tocdiv").fadeIn();
+
+    } else {
+
+        // 如果可以更大，就想办法更大一些。
+        if ($.fn.toc.tocMaxWidth > 0 && xwidth != $.fn.toc.tocMaxWidth) {
+            var widthk = $.fn.toc.tocMaxWidth * 1 / 4;
+            if (tocRight + widthk < postLeft - 10) {
+                tocdiv.css("max-width", "20em");
+                tocdiv.css("min-width", "20em");
+                setTimeout("checkToc()", 100);
+                return;
+            }
+        }
+
+        initToc(tocdiv);
+        tocdiv.fadeIn();
+
+        var olroot = $("#tocdiv > ol");
+        var xheight = getClientHeight() - tocdiv.position().top;
+        var xtop = olroot.position().top;
+        var theight = xheight - xtop;
+        if (theight >= 100) {
+            olroot.height(theight);
+        }
     }
 }
 

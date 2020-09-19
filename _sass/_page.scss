@@ -78,17 +78,6 @@
     background-color: #f8f8f8;
 }
 
-.esa-catalog {
-    position: fixed;
-    top: $spacing-unit;
-    left: $spacing-unit * 0.2;
-    width: auto;
-    height: auto;
-    z-index: 1000;
-    max-width: 15em;
-    min-width: 15em;
-}
-
 @include media-query($mobile) {
     #tocwrap {
         display: none;
@@ -104,7 +93,17 @@
     // font-style: normal;
 }
 
-#tocdiv {
+#tocdiv.esa-catalog {
+    font-size: large;
+    position: fixed;
+    top: $spacing-unit;
+    left: $spacing-unit * 0.2;
+    width: auto;
+    height: 100%;
+    z-index: 1000;
+    min-width: 20em; // 存在代码依赖
+    max-width: 20em; // 存在代码依赖
+
     ol {
         list-style-type: square;
 
@@ -126,6 +125,11 @@
     }
 }
 
+#tocdiv.esa-catalog > ol {
+    height: 90%;
+    overflow: auto;
+}
+
 .post h2:before
 {
     content: counter(h2counter, cjk-ideographic) '\3001';
@@ -135,7 +139,11 @@
     counter-reset: h3counter;
     counter-increment: h2counter;
 }
-
+.post h1
+{
+    counter-reset: h2counter;
+    counter-reset: h3counter;
+}
 .post h3:before
 {
     content: counter(h2counter) "." counter(h3counter) " ";
