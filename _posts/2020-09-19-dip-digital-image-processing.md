@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“数字图像处理”笔记 -- Digital Image Processing (DIP)"
+title: "“数字图像处理”笔记 -- 基础知识 Digital Image Processing (DIP)"
 location: "珠海"
 categories: ["图像处理"]
 tags: [图像处理]
@@ -29,8 +29,6 @@ toc: true
 
 
 ## 几何变换
-
-[空间变换网络（STN）原理 + 2D 图像空间变换 + 齐次坐标系讲解](https://www.cnblogs.com/think90/p/11556725.html)
 
 
 ### 齐次坐标
@@ -71,6 +69,7 @@ T=\left[\begin{array}{cccc}
 \end{array}\right]
 \tag{ 平移 }
 $$
+
 $$
 S=\left[\begin{array}{cccc}
 S_{x} & 0 & 0 \\
@@ -79,6 +78,7 @@ S_{x} & 0 & 0 \\
 \end{array}\right]
 \tag{ 缩放 }
 $$
+
 $$
 R=\left[\begin{array}{cccc}
 \cos \gamma & \sin \gamma & 0 \\
@@ -122,15 +122,53 @@ Z
 $$
 
 PPT: <https://wenku.baidu.com/view/1bdcc12227c52cc58bd63186bceb19e8b8f6ecbc.html>
-资料：[空间变换网络（STN）原理 + 2D 图像空间变换 + 齐次坐标系讲解](https://blog.csdn.net/Rosemary_tu/article/details/84069878)
+
+资料：空间变换网络（STN）原理 + 2D 图像空间变换 + 齐次坐标系讲解。<sup>[疑似转载](https://www.cnblogs.com/think90/p/11556725.html)</sup>
+<sup>[**貌似原版**](https://blog.csdn.net/Rosemary_tu/article/details/84069878)</sup>
 
 
 ### 仿射变换 & 透视变换
 
-{% include image.html url="/images/digital-image-processing/20190104135139626.png" noshadow=1 %}
-{% include image.html url="/images/digital-image-processing/20190104135201258.png" noshadow=1 %}
-{% include image.html url="/images/digital-image-processing/20190104135229160.png" noshadow=1 %}
-{% include image.html url="/images/digital-image-processing/20190104135246701.png" noshadow=1 %}
+扩展到三维，也是成立的。
+
+$$
+\left[\begin{array}{l}
+x^{\prime} \\
+y^{\prime} \\
+z^{\prime} \\
+1
+\end{array}\right]
+=
+\left[\begin{array}{llll}
+1 & 0 & 0 & \Delta x \\
+0 & 1 & 0 & \Delta y \\
+0 & 0 & 1 & \Delta z \\
+0 & 0 & 0 & 1
+\end{array}\right]
+\left[\begin{array}{l}
+x \\
+y \\
+z \\
+1
+\end{array}\right]
+=
+\left[\begin{array}{c}
+x+\Delta x \\
+y+\Delta y \\
+z+\Delta z \\
+1
+\end{array}\right]
+$$
+
+{z% include image.html url="/images/digital-image-processing/20190104135139626.png" noshadow=1 %}
+{z% include image.html url="/images/digital-image-processing/20190104135201258.png" noshadow=1 %}
+{z% include image.html url="/images/digital-image-processing/20190104135229160.png" noshadow=1 %}
+{z% include image.html url="/images/digital-image-processing/20190104135246701.png" noshadow=1 %}
+
+
+## 图像增强 & 灰度变化
+
+点运算：$$g(x, y) = T[f(x, y)]$$
 
 
 ## toP14

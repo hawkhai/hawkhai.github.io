@@ -2,7 +2,7 @@
 layout: post
 title: "使用 TortoiseGit，设置 ssh 方式连接 git 仓库"
 location: "珠海"
-categories: ["配置"]
+categories: ["环境"]
 tags: [Windows Env, TortoiseGit]
 ---
 
