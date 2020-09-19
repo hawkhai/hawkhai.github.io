@@ -6,6 +6,48 @@ from pythonx.funclib import *
 OPENFILE = "openfile" in sys.argv
 AUTOFORMAT = "format" in sys.argv
 
+# 在西歐、北歐及東歐國家常用的字母，帶變音符，和一般英文字母不同。
+DIACRITIC = """
+À Á Â Ã Ä Å Æ Ā Ă Ą
+Ç Ć Ĉ Ċ
+Ð Ď Đ
+È É Ê Ë Ē Ė Ę Ě Ə
+Ĝ Ġ Ģ
+Ĥ Ħ
+Ì Í Î Ï Ī Į Ĳ
+Ĵ
+Ķ
+Ļ Ł
+Ñ Ń Ņ Ň
+Ò Ó Ô Õ Ö Ø Ő Œ
+Ŕ Ř
+ẞ Ś Ŝ Ş Š Ș Þ
+Ţ Ť Ț
+Ù Ú Û Ü Ū Ŭ Ů Ű Ų
+Ŵ
+Ý Ŷ
+Ÿ Ź Ż Ž
+à á â ã ä å æ ā ă ą
+ç ć ĉ ċ
+ð ď đ
+è é ê ë ē ė ę ě ə
+ĝ ġ ģ
+ĥ ħ
+ì í î ï ī į ĳ
+ĵ
+ķ
+ļ ł
+ñ ń ņ ň
+ò ó ô õ ö ø ő œ
+ŕ ř
+ß ś ŝ ş š ș þ
+ţ ť ț
+ù ú û ü ū ŭ ů ű ų
+ŵ
+ý ŷ
+ÿ ź ż ž"""
+DIACRITIC = "[{}]".format("".join(DIACRITIC.split()))
+
 def getLeftSpaceCount(line):
     line = line[:]
     assert not line.startswith("\t"), line
@@ -92,7 +134,7 @@ def mainfile(fpath, fname, ftype):
         for ch in line:
             ordch = ord(ch)
             regch = "\\u%04x"%(ordch)
-            if ordch <= 0x7F:
+            if ordch <= 0x7F or re.findall(DIACRITIC, ch):
                 g_enchar.append(ch)
                 continue
             if ordch >= 0x4e00 and ordch <= 0x9fa5:
@@ -196,12 +238,14 @@ def viewchar(lichar, xfile, xmin, xmax):
     li.sort()
     page = ""
     minv, maxv = 1024, 0
-    for index, cnchar in enumerate(li):
-        page += cnchar
-        minv = min(minv, ord(cnchar))
-        maxv = max(maxv, ord(cnchar))
+    for index, tchar in enumerate(li):
+        page += tchar
         if (index + 1) % 50 == 0:
             page += "\r\n"
+        if re.findall(DIACRITIC, tchar):
+            continue
+        minv = min(minv, ord(tchar))
+        maxv = max(maxv, ord(tchar))
     tempfile = os.path.join("tempdir", xfile)
     writefile(tempfile, page.encode("utf8"))
 
