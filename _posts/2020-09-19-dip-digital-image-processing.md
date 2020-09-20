@@ -6,6 +6,7 @@ categories: ["图像处理"]
 tags: [图像处理]
 mathjax: true
 toc: true
+mermaid: true
 ---
 
 
@@ -296,7 +297,20 @@ $$\left[\begin{array}{ccccc}
 \end{array}\right]$$
 
 
-## toP24
+## 图像分割
+
+<div class="mermaid">
+graph LR
+    A[图像] --> B[图像处理]
+    B --> C[图像识别]
+    C --> D[图像理解]
+    E[图像分割] --> C[图像识别]
+classDef orange fill:#f96;
+class E orange;
+</div>
+
+
+## toP29
 
 
 ### zz
