@@ -414,7 +414,7 @@ $$
 
 {% include image.html url="/images/math-complex/22.png" %}
 
-随着 $n\to\infty$，仿佛一个螺旋不断地接近单位圆上幅角为 $1$ 的点。对于更一般的 $e^i\theta$ 也是类似的螺旋：
+随着 $n\to\infty$，仿佛一个螺旋不断地接近单位圆上幅角为 $1$ 的点。对于更一般的 $e^{i\theta}$ 也是类似的螺旋：
 
 {% include image.html url="/images/math-complex/23.png" %}
 
@@ -485,11 +485,11 @@ $$
 那么有：
 
 $$
-z_1\times z_2=r_1r_2e^{i(\theta1+\theta2)}
+z_1\times z_2=r_1r_2e^{i(\theta_1+\theta_2)}
 $$
 
 $$
-z_1\div z_2=\frac{r_1}{r_2}e^{i(\theta1-\theta2)}
+z_1\div z_2=\frac{r_1}{r_2}e^{i(\theta_1-\theta_2)}
 $$
 
 几何意义更加明显。并且扩展了乘方和对数运算：
