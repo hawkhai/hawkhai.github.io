@@ -244,6 +244,58 @@ g(x,y)=af(x,y)\pm \nabla f(x,y)
 $$
 
 
+## 边缘检测
+
+$$\begin{array}{|c|c|c|}
+\hline Z_{1} & Z_{2} & Z_{3} \\
+\hline Z_{4} & Z_{5} & Z_{6} \\
+\hline Z_{7} & Z_{8} & Z_{9} \\
+\hline
+\end{array}
+$$
+
+
+### Roberts 边缘检测算子
+
+$$\nabla f \approx\left|z_{9}-z_{5}\right|+\left|z_{8}-z_{6}\right|
+\tag{Robert 交叉微分算子 }
+$$
+
+
+### Sobel 边缘检测算子
+
+$$\begin{array}{l}
+G_{x}=\left(Z_{7}+2 Z_{8}+Z_{9}\right)-\left(Z_{1}+2 Z_{2}+Z_{3}\right) \\
+G_{y}=\left(Z_{3}+2 Z_{6}+Z_{9}\right)-\left(Z_{1}+2 Z_{4}+Z_{7}\right)
+\end{array}$$
+
+
+### Prewitt 边缘检测算子
+
+$$\begin{array}{l}
+G_{x}=\left(Z_{7}+Z_{8}+Z_{9}\right)-\left(Z_{1}+Z_{2}+Z_{3}\right) \\
+G_{y}=\left(Z_{3}+Z_{6}+Z_{9}\right)-\left(Z_{1}+Z_{4}+Z_{7}\right)
+\end{array}$$
+
+
+### Krisch 边缘检测算子
+
+图像中的每个点都用 8 个掩模进行卷积，取八个方向的最大值作为边缘幅值的输出。掩模序号对应边缘方向的编码。卷积的结果进行比较时，比较这个八个数的绝对值，因为，这个代表的是梯度，正负号只是方向。
+
+{% include image.html url="/images/digital-image-processing/kirsch.jpg" %}
+
+
+### LoG_Laplacian 高斯-拉普拉斯算子
+
+$$\left[\begin{array}{ccccc}
+-2 & -4 & -4 & -4 & -2 \\
+-4 & 0 & 8 & 0 & -4 \\
+-4 & 8 & 24 * & 8 & -4 \\
+-4 & 0 & 8 & 0 & -4 \\
+-2 & -4 & -4 & -4 & -2
+\end{array}\right]$$
+
+
 ## toP24
 
 
