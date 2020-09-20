@@ -182,10 +182,12 @@ function checkToc() {
 
         var olroot = $("#tocdiv > ol");
         var xheight = getClientHeight() - tocdiv.position().top;
-        var xtop = olroot.position().top;
-        var theight = xheight - xtop;
-        if (theight >= 100) {
-            olroot.height(theight);
+        if (olroot && olroot.length > 0) {
+            var xtop = olroot.position().top;
+            var theight = xheight - xtop;
+            if (theight >= 100) {
+                olroot.height(theight);
+            }
         }
     }
 }
