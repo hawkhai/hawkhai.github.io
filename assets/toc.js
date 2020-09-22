@@ -155,8 +155,6 @@ function initToc(tocdiv) {
             checkToc();
             activeCurrentScroll();
         }).scroll();
-        checkToc();
-        activeCurrentScroll();
     }
 }
 
