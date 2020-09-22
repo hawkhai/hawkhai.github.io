@@ -351,7 +351,67 @@ class E orange;
 灰度转换算法 <https://www.cnblogs.com/-wenli/p/11562327.html>
 
 
-## toP33
+## 图像的测量之投影与纹理
+
+<https://blog.csdn.net/qq_43409114/article/details/104714828>
+<https://www.cnblogs.com/-wenli/p/11729342.html>
+
+
+### Kolmogorov-Smirnov 检测法
+
+对于两幅图像，分别求出其累计直方图，然后取其累计直方图差值的最大值。
+
+$$\begin{array}{c}
+H(z)=\int_{0}^{Z} h(x) d x \\
+K S=\max \left|H_{1}(z)-H_{2}(Z)\right|
+\end{array}$$
+
+然后再求出直方图之间差值的的和值，为 $SD$：
+
+$$S D=\sum h_{1}(z)-h_{2}(z)$$
+
+如果 $$\vert KS−SD\vert$$ 在阈值之内，则相似。
+
+{% highlight python %}
+def Texture_2(img1, img2):
+    # 下面是用来求一副图像的直方图
+    def getStatic(img):
+        static = np.zeros(shape=256, dtype=int)
+        for y in range(0, len(img)):
+            for x in range(0, len(img[y])):
+                c = img[y, x, 0]
+                static[c] = static[c] + 1
+        return static
+
+    # 下面的函数是用来求一副图像的累计直方图
+    def getStatic1(img):
+        static = np.zeros(shape=256, dtype=int)
+        for y in range(0, len(img)):
+            for x in range(0, len(img[y])):
+                c = img[y,x,0]
+                static[c] = static[c] + 1
+                if c > 0:
+                    static[c] = static[c] + static[c-1]
+        return static
+    static1 = getStatic(img1)
+    static2 = getStatic(img2)
+    # 用来参数 KS
+    KS = np.max(static1 - static2)
+    # 用来求参数 SD
+    SD = np.sum((getStatic(img1) - getStatic(img2)), axis=0)
+    return np.abs(KS - SD)
+
+{% endhighlight %}
+
+
+### 图像自相关函数分析法
+
+$$P(x, y)=\frac{\sum_{i=0} \sum_{j=0} f(i, j) f(i+x, j+y)}{\sum_{i=0} \sum_{j=0} f(i, j)}$$
+
+$$d=\left(x^{2}+y^{2}\right)^{\frac{1}{2}}$$
+
+
+## toP34
 
 
 ## 参考

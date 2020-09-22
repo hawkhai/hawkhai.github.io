@@ -8,14 +8,14 @@ toc: true
 ---
 
 
-## 一、简介
+## 简介
 
 Qt 内存管理机制：Qt 在内部能够维护对象的层次结构。对于可视元素，这种层次结构就是子组件与父组件的关系；对于非可视元素，则是一个对象与另一个对象的从属关系。在 Qt 中，删除父对象会将其子对象一起删除。
 
 C++ 中 delete 和 new 必须配对使用（一一对应）：delete 少了，则内存泄露，多了麻烦更大。Qt 中使用了 new 却很少 delete，因为 QObject 的类及其继承的类，设置了 parent（也可在构造时使用 setParent 函数或 parent 的 addChild）故 parent 被 delete 时，这个 parent 的相关所有 child 都会自动 delete，不用用户手动处理。但 parent 是不区分它的 child 是 new 出来的还是在栈上分配的。这体现 delete 的强大，可以释放掉任何的对象，而 delete 栈上对象就会导致内存出错，这需要了解 Qt 的半自动的内存管理。另一个问题：child 不知道它自己是否被 delete 掉了，故可能会出现野指针。那就要了解 Qt 的智能指针 QPointer。
 
 
-## 二、关联图
+## 关联图
 
 （1）Linux 内存图，主要了解堆栈上分配内存的不同方式。
 
@@ -27,10 +27,10 @@ C++ 中 delete 和 new 必须配对使用（一一对应）：delete 少了，�
 {% include image.html url="/images/qtmemory/20140612112758250.png" %}
 
 
-## 三、详解
+## 详解
 
 
-### 1、Qt 的半自动化的内存管理
+### Qt 的半自动化的内存管理
 
 （1）QObject 及其派生类的对象，如果其 parent 非 0，那么其 parent 析构时会析构该对象。
 
@@ -43,7 +43,7 @@ C++ 中 delete 和 new 必须配对使用（一一对应）：delete 少了，�
 （5）父子关系：父对象、子对象、父子关系。这是 Qt 中所特有的，与类的继承关系无关，传递参数是与 parent 有关（基类、派生类，或父类、子类，这是对于派生体系来说的，与 parent 无关）。
 
 
-### 2、内存问题例子
+### 内存问题例子
 
 #### 例子一
 
@@ -245,7 +245,7 @@ void QObject::deleteLater()
 {% endhighlight %}
 
 
-### 3、智能指针
+### 智能指针
 
 如果没有智能指针，程序员必须保证 new 对象能在正确的时机 delete，四处编写异常捕获代码以释放资源，而智能指针则可以在退出作用域时（不管是正常流程离开或是因异常离开）总调用 delete 来析构在堆上动态分配的对象。
 
@@ -317,7 +317,7 @@ std::auto_ptr<QLabel> label(new QLabel("Hello Dbzhang800!"));
 （3）其他的类参考相应文档。
 
 
-### 4、自动垃圾回收机制
+### 自动垃圾回收机制
 
 （1）QObjectCleanupHandler
 
@@ -430,12 +430,12 @@ private:
 现在我们的实现已经可以做到防止一个对象多次调用 attach() 和 detach() 了。然而，还有一个问题是，我们不能保证对象一定会调用 attach() 函数进行注册。毕竟，这不是 C++ 内置机制。有一个解决方案是，重定义 new 运算符（这一实现同样很复杂，不过可以避免出现有对象不调用 attach() 注册的情况）。
 
 
-## 四、总结
+## 总结
 
 Qt 简化了我们对内存的管理，但是，由于它会在不太注意的地方调用 delete，所以，使用时还是要当心。
 
 
-## 五、参考
+## 参考
 
 * <http://doc.qt.nokia.com/4.7/qobject.html>
 * <http://www.cuteqt.com/blog/?p=824>

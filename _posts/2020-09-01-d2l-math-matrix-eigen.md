@@ -40,21 +40,21 @@ $P_{A}(\lambda)$ 是高次的多项式，它的求根是很困难的。没有数
 对应于 $\lambda_2=2$ 的基础解向量：$$\vec{P}_{2}=\left(\begin{array}{r}1 \\1\end{array}\right)$$。
 
 
-## 1、乘幂法
+### 乘幂法
 
 幂法是一种迭代法。基本思想：把矩阵的特征值和特征向量作为一个无限序列的极限来求得。求按模最大特征值，即：
 
 $$|\lambda|=\max _{1 \leq i \leq n}\left|\lambda_{i}\right|$$
 
 
-## 2、反幂法
+### 反幂法
 
 求按模最小特征值，即：
 
 $$|\lambda|=\min _{1 \leq i \leq n}\left|\lambda_{i}\right|$$
 
 
-## 3、雅可比法（Jacobi）
+### 雅可比法（Jacobi）
 
 求实对称矩阵所有特征值和特征向量。
 
