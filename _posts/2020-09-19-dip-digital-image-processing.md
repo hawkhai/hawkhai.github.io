@@ -345,7 +345,13 @@ class E orange;
 如何确定区域的相似性呢？基于区域的灰度值，或者基于区域边界的强弱项。简单的方法就下比较他们的灰度均值。
 
 
-## toP32
+## 图形分割
+
+图像的面积与周长计算，二值化图像区域标记。<https://www.cnblogs.com/-wenli/p/11722469.html>
+灰度转换算法 <https://www.cnblogs.com/-wenli/p/11562327.html>
+
+
+## toP33
 
 
 ## 参考
