@@ -151,7 +151,7 @@ function initToc(tocdiv) {
         });
 
         // https://codepen.io/eksch/pen/xwdOeK
-        $(window).scroll(function() {
+        $(window).scroll(function () {
             checkToc();
             activeCurrentScroll();
         }).scroll();
