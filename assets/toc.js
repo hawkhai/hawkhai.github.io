@@ -115,10 +115,10 @@ function getClientHeight() {
     var clientHeight = 0;
     if (document.body.clientHeight && document.documentElement.clientHeight) {
         clientHeight = (document.body.clientHeight < document.documentElement.clientHeight) ?
-            document.body.clientHeight : document.documentElement.clientHeight;
+                document.body.clientHeight : document.documentElement.clientHeight;
     } else {
         clientHeight = (document.body.clientHeight > document.documentElement.clientHeight) ?
-            document.body.clientHeight : document.documentElement.clientHeight;
+                document.body.clientHeight : document.documentElement.clientHeight;
     }
     return clientHeight;
 }
@@ -130,12 +130,33 @@ if (typeof $.fn.toc.tocMaxWidth === 'undefined') {
     $.fn.toc.tocMaxWidth = 0;
 }
 
+function activeCurrentScroll() {
+    var scrollDistance = $(window).scrollTop();
+    // Assign active class to nav links while scolling
+    $('#postdiv h2,h3,h4,h5,h6').each(function (i) {
+        if (i == 0 || $(this).position().top <= scrollDistance) {
+            $('#tocdiv li.active').removeClass('active');
+            var curli = $('#tocdiv li').eq(i);
+            curli.addClass('active');
+            curli[0].scrollIntoView();
+        }
+    });
+}
+
 function initToc(tocdiv) {
     if (!$.fn.toc.tocInited) {
         $.fn.toc.tocInited = true;
         tocdiv.toc({
             title: '<i class="back-to-top">目录索引</i>',
         });
+
+        // https://codepen.io/eksch/pen/xwdOeK
+        $(window).scroll(function() {
+            checkToc();
+            activeCurrentScroll();
+        }).scroll();
+        checkToc();
+        activeCurrentScroll();
     }
 }
 
