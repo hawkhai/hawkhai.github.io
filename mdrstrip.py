@@ -257,7 +257,7 @@ def viewchar(lichar, xfile, xmin, xmax):
     assert xmin <= minv and maxv <= xmax
 
 def main():
-    print(parsePythonCmdx(__file__, retmap=True))
+    print(parsePythonCmdx(__file__))
     searchdir(".", mainfile)
     global g_cschar
     global g_tpset
