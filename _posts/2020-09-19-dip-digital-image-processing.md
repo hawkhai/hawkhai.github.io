@@ -348,13 +348,58 @@ class E orange;
 ## 图形分割
 
 图像的面积与周长计算，二值化图像区域标记。<https://www.cnblogs.com/-wenli/p/11722469.html>
+
 灰度转换算法 <https://www.cnblogs.com/-wenli/p/11562327.html>
 
 
 ## 图像的测量之投影与纹理
 
 <https://blog.csdn.net/qq_43409114/article/details/104714828>
-<https://www.cnblogs.com/-wenli/p/11729342.html>
+
+[课件](https://www.cnblogs.com/-wenli/p/11729342.html)
+
+
+### 衡量直方图间的相似性
+
+直方图的均值，直方图的方差。直方图统计了相同像素的个数。
+
+* 直方图的均值：（该区域每一个像素 * 该像素的个数）/ 该区域像素点个数
+* 直方图的方差：（该区域每一个像素 - 均值）^ 2 * 该像素的个数）/ 该区域像素点个数
+
+设 $h_1(z)$ 和 $h_2(z)$ 为两个区域的灰度直方图。
+
+$$m_{1}=\frac{\sum z h_{1}(z)}{\sum h_{1}(z)} \quad \sigma_{1}^{2}=\frac{\sum\left(z-m_{1}\right)^{2} h_{1}(z)}{\sum h_{1}(z)}$$
+
+$$m_{2}=\frac{\sum z h_{2}(z)}{\sum h_{2}(z)} \quad \sigma_{2}^{2}=\frac{\sum\left(z-m_{2}\right)^{2} h_{2}(z)}{\sum h_{2}(z)}$$
+
+
+### other
+
+[link](https://www.cnblogs.com/darkknightzh/p/5147982.html)
+对于两直方图 $$S=\left\{ {s_{1}},\cdots {s_{n}} \right\}$$ 及 $$M=\left\{ {m_{1}},\cdots {m_{n}} \right\}$$，$n$ 为直方图维数（如 255），这两直方图之间的卡方相似性为：
+
+$$
+\chi_ \omega ^{2}(S,M)=
+\sum\limits_{i=1}^{n}{ { \omega _{i}}\frac{ { {\left( {s_{i}}-{m_{i}} \right)}^{2}}}{ { s_{i}}+{m_{i}}}}
+$$
+
+其中，$${\omega _{i}}$$ 为权重，可令不同维度权重取不同值。
+
+**直方图欧氏距离的相似性度量**为：
+
+$$
+D(S,M)={ { \left( \sum\limits_{i=1}^{n}{ { {\left( {s_{i}}-{m_{i}} \right)}^{2}}} \right)}^{2}}
+$$
+
+其中，$$0 \le {s_{i}}\le 1$$ 和 $$0 \le {m_{i}}\le 1$$ 为归一化值（此处外部是平方还是 0.5 次方不确定）。
+
+归一化处理后，图像直方图的相似度的度量为：
+
+$$
+D(S,M)=\frac{1}{n}\sum\limits_{i=1}^{n}{\left( 1-\frac{\left| { { s}_{i}}-{m_{i}} \right|}{\max ({ { s}_{i}},{m_{i}})} \right)}
+$$
+
+直方图相似性常用于人脸检测。
 
 
 ### Kolmogorov-Smirnov 检测法
@@ -362,13 +407,13 @@ class E orange;
 对于两幅图像，分别求出其累计直方图，然后取其累计直方图差值的最大值。
 
 $$\begin{array}{c}
-H(z)=\int_{0}^{Z} h(x) d x \\
-K S=\max \left|H_{1}(z)-H_{2}(Z)\right|
+H(z)=\int_{0}^{z} h(x) d x \\
+K S=\max_z \left|H_{1}(z)-H_{2}(z)\right|
 \end{array}$$
 
 然后再求出直方图之间差值的的和值，为 $SD$：
 
-$$S D=\sum h_{1}(z)-h_{2}(z)$$
+$$S D=\sum_z \left|h_{1}(z)-h_{2}(z)\right|$$
 
 如果 $$\vert KS−SD\vert$$ 在阈值之内，则相似。
 
@@ -388,7 +433,7 @@ def Texture_2(img1, img2):
         static = np.zeros(shape=256, dtype=int)
         for y in range(0, len(img)):
             for x in range(0, len(img[y])):
-                c = img[y,x,0]
+                c = img[y, x, 0]
                 static[c] = static[c] + 1
                 if c > 0:
                     static[c] = static[c] + static[c-1]
@@ -406,9 +451,19 @@ def Texture_2(img1, img2):
 
 ### 图像自相关函数分析法
 
-$$P(x, y)=\frac{\sum_{i=0} \sum_{j=0} f(i, j) f(i+x, j+y)}{\sum_{i=0} \sum_{j=0} f(i, j)}$$
+$$p(x, y)=\frac{\sum_{i=0}^{N-1} \sum_{j=0}^{N-1} f(i, j) f(i+x, j+y)}{\sum_{i=0}^{N-1} \sum_{j=0}^{N-1} f(i, j)}$$
 
 $$d=\left(x^{2}+y^{2}\right)^{\frac{1}{2}}$$
+
+
+### 灰度共生矩阵特征分析法
+
+为从灰度为 $i$ 的像素点出发，离开某个固定位置 $\sigma=(dx,dy)$ 的另一个像素点的同时发生的灰度为 $j$，定义这两个灰度在整个图像中发生的概率（或者频率）。
+
+完全看不懂了。
+
+
+### 灰度-梯度共生矩阵分析法
 
 
 ## toP34

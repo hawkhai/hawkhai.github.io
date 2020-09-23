@@ -76,6 +76,46 @@ $$
 <https://www.imydl.tech/ty/70.html>
 
 
+## 常见的希腊字母
+
+<https://blog.csdn.net/qq_36148847/article/details/79419814>
+
+| 序号 | 大写 | 小写 | LaTex 代码 | 汉语注音 |
+| ---- | ---- | ---- | ---- | ---- |
+| 1 | $\Alpha$ | $\alpha$ | \alpha | 阿尔法 |
+| 2 | $\Beta$ | $\beta$ | \beta | 贝塔 |
+| 3 | $\Gamma$ | $\gamma$ | \gamma | 伽马 |
+| 4 | $\Delta$ | $\delta$ | \delta | 德尔塔 |
+| 5 | $\Epsilon$ | $\epsilon$ | \epsilon | 伊普西隆 |
+| 6 | $\Zeta$ | $\zeta$ | \zeta | 泽塔 |
+| 7 | $\Eta$ | $\eta$ | \eta | 伊塔 |
+| 8 | $\Theta$ | $\theta$ | \theta | 西塔 |
+| 9 | $\Iot$ | $\iot$ | \iot | 约塔 |
+| 10 | $\Kappa$ | $\kappa$ | \kappa | 卡帕 |
+| 11 | $\Lambda$ | $\lambda$ | \lambda | 兰姆达 |
+| 12 | $\Mu$ | $\mu$ | \mu | 缪 |
+| 13 | $\Nu$ | $\nu$ | \nu | 纽 |
+| 14 | $\Xi$ | $\xi$ | \xi | 克西 |
+| 15 | $\Omicron$ | $\omicron$ | \omicron | 欧米克隆 |
+| 16 | $\Pi$ | $\pi$ | \pi | 派 |
+| 17 | $\Rho$ | $\rho$ | \rho | 柔 |
+| 18 | $\Sigma$ | $\sigma$ | \sigma | 西格玛 |
+| 19 | $\Tau$ | $\tau$ | \tau | 陶 |
+| 20 | $\Upsilon$ | $\upsilon$ | \upsilon | 宇普西隆 |
+| 21 | $\Phi$ | $\phi$ | \phi | 弗爱 |
+| 22 | $\Chi$ | $\chi$ | \chi | 卡 |
+| 23 | $\Psi$ | $\psi$ | \psi | 普赛 |
+| 24 | $\Omega$ | $\omega$ | \omega | 欧米伽 |
+
+| 斜体 | $\varEpsilon$ | $\varepsilon$ | \varepsilon | 伊普西隆 |
+| 斜体 | $\varKappa$ | $\varkappa$ | \varkappa | 卡帕 |
+| 斜体 | $\varTheta$ | $\vartheta$ | \vartheta | 西塔 |
+| 斜体 | $\varPi$ | $\varpi$ | \varpi | 派 |
+| 斜体 | $\varRho$ | $\varrho$ | \varrho | 柔 |
+| 斜体 | $\varSigma$ | $\varsigma$ | \varsigma | 西格玛 |
+| 斜体 | $\varPhi$ | $\varphi$ | \varphi | 弗爱 |
+
+
 ## Tools
 
 * 公式在线编辑 <https://kerzol.github.io/markdown-mathjax/editor.html>
