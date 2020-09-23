@@ -6,6 +6,7 @@ function MathJaxHubConfig() {
     }
 
     MathJax.Hub.Config({
+        "fast-preview": { disabled: false },
         showProcessingMessages: false,
         jax: ["input/TeX", "output/HTML-CSS"],
         tex2jax: {
