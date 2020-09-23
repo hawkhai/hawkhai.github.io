@@ -6,6 +6,7 @@ function MathJaxHubConfig() {
     }
 
     MathJax.Hub.Config({
+        showProcessingMessages: false,
         jax: ["input/TeX", "output/HTML-CSS"],
         tex2jax: {
             inlineMath: [['$', '$'], ["\\(", "\\)"]],
@@ -14,7 +15,7 @@ function MathJaxHubConfig() {
             skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
         },
         messageStyle: "none",
-        "HTML-CSS": {preferredFont: "TeX", availableFonts: ["STIX", "TeX"]},
+        "HTML-CSS": {preferredFont: "TeX", availableFonts: ["STIX", "TeX"], showMathMenu: false},
         TeX: {
             equationNumbers: {autoNumber: "AMS"},
             extensions: ["AMSmath.js", "AMSsymbols.js", "AMScd.js"],
