@@ -474,11 +474,14 @@ $$d=\left(x^{2}+y^{2}\right)^{\frac{1}{2}}$$
 把 A 结构的每个点放到 B 中心点，以 B 结构外扩即为膨胀。
 开操作表示先腐蚀后膨胀；闭操作表示先膨胀后腐蚀。
 
+闭运算，弥合，毛刺保留；开运算，分裂，毛刺去掉。
 
-## toP34
+
+## toP36
 
 
 ## 参考
 
 - [1] [bilibili](https://www.bilibili.com/video/BV1tx41147Tx?from=search&seid=2305003300792844801)
 - [2] [标题自动编号](https://www.cnblogs.com/36bian/p/7609304.html)
+- [3] [目录](https://www.cnblogs.com/-wenli/p/11744405.html)
