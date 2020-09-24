@@ -61,9 +61,9 @@ function MathJaxHubConfig() {
                 Im: ['\\mathop{\\mathrm{Im}}'],
                 Res: ['\\mathop{\\mathrm{Res}}'],
 
-                unicodeInt: ['\\mathop{\\vcenter{\\mathchoice{\\huge\\unicode{#1}}{\\unicode{#1}}{\\unicode{#1}}{\\unicode{#1}}}}\\nolimits', 1],
-                oiint: '\\unicodeInt{x222F}',
-                oiiint: '\\unicodeInt{x2230}',
+                //unicodeInt: ['\\mathop{\\vcenter{\\mathchoice{\\huge\\unicode{#1}}{\\unicode{#1}}{\\unicode{#1}}{\\unicode{#1}}}}\\nolimits', 1],
+                //oiint: '\\unicodeInt{x222F}',
+                //oiiint: '\\unicodeInt{x2230}',
 
             }
         }

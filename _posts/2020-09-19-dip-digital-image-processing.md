@@ -161,10 +161,10 @@ z+\Delta z \\
 \end{array}\right]
 $$
 
-{z% include image.html url="/images/digital-image-processing/20190104135139626.png" noshadow=1 %}
-{z% include image.html url="/images/digital-image-processing/20190104135201258.png" noshadow=1 %}
-{z% include image.html url="/images/digital-image-processing/20190104135229160.png" noshadow=1 %}
-{z% include image.html url="/images/digital-image-processing/20190104135246701.png" noshadow=1 %}
+[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135139626.png" noshadow=1 %}
+[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135201258.png" noshadow=1 %}
+[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135229160.png" noshadow=1 %}
+[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135246701.png" noshadow=1 %}
 
 
 ## 图像增强 & 灰度变化
@@ -231,11 +231,11 @@ $$
 
 {% include image.html url="/images/digital-image-processing/bki-20131208210655-949753613.png" noshadow=1
 url2="/images/digital-image-processing/logx.png" %}
-{% include image.html url="/images/digital-image-processing/v2-f824bd5eae07235ebf531fa0b546ba98_720w.jpg" %}
+{% include image.html url="/images/digital-image-processing/v2-f824bd5eae07235ebf531fa0b546ba98_720w.jpg" noshadow=1 %}
 
 推演过程。高斯二阶导如下图的绿色线，蓝色线是高斯一阶导数，红色则是高斯函数。
 
-{% include image.html url="/images/digital-image-processing/20170315204708636.png" %}
+{% include image.html url="/images/digital-image-processing/20170315204708636.png" noshadow=1 %}
 
 
 ### 高频提升滤波器
@@ -464,6 +464,15 @@ $$d=\left(x^{2}+y^{2}\right)^{\frac{1}{2}}$$
 
 
 ### 灰度-梯度共生矩阵分析法
+
+
+## 形态学
+
+形态学的基本操作包括腐蚀、膨胀、开操作、闭操作。
+
+简单来说，以 B 结构中心点为准心，在 A 中找能满足 B 结构的点即为腐蚀。
+把 A 结构的每个点放到 B 中心点，以 B 结构外扩即为膨胀。
+开操作表示先腐蚀后膨胀；闭操作表示先膨胀后腐蚀。
 
 
 ## toP34

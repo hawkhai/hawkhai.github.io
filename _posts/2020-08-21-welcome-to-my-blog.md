@@ -12,7 +12,7 @@ Hey, there! Welcome to my blog. I hope you enjoy reading the stuff in here. Noth
 Enjoy!
 
 
-## Test MathJax
+## Test MathJax $\require{mediawiki-texvc}$
 
 [MathJax basic tutorial and quick reference](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference)
 
@@ -80,40 +80,62 @@ $$
 
 <https://blog.csdn.net/qq_36148847/article/details/79419814>
 
-| 序号 | 大写 | 小写 | LaTex 代码 | 汉语注音 |
-| ---- | ---- | ---- | ---- | ---- |
-| 1 | $\Alpha$ | $\alpha$ | \alpha | 阿尔法 |
-| 2 | $\Beta$ | $\beta$ | \beta | 贝塔 |
-| 3 | $\Gamma$ | $\gamma$ | \gamma | 伽马 |
-| 4 | $\Delta$ | $\delta$ | \delta | 德尔塔 |
-| 5 | $\Epsilon$ | $\epsilon$ | \epsilon | 伊普西隆 |
-| 6 | $\Zeta$ | $\zeta$ | \zeta | 泽塔 |
-| 7 | $\Eta$ | $\eta$ | \eta | 伊塔 |
-| 8 | $\Theta$ | $\theta$ | \theta | 西塔 |
-| 9 | $\Iot$ | $\iot$ | \iot | 约塔 |
-| 10 | $\Kappa$ | $\kappa$ | \kappa | 卡帕 |
-| 11 | $\Lambda$ | $\lambda$ | \lambda | 兰姆达 |
-| 12 | $\Mu$ | $\mu$ | \mu | 缪 |
-| 13 | $\Nu$ | $\nu$ | \nu | 纽 |
-| 14 | $\Xi$ | $\xi$ | \xi | 克西 |
-| 15 | $\Omicron$ | $\omicron$ | \omicron | 欧米克隆 |
-| 16 | $\Pi$ | $\pi$ | \pi | 派 |
-| 17 | $\Rho$ | $\rho$ | \rho | 柔 |
-| 18 | $\Sigma$ | $\sigma$ | \sigma | 西格玛 |
-| 19 | $\Tau$ | $\tau$ | \tau | 陶 |
-| 20 | $\Upsilon$ | $\upsilon$ | \upsilon | 宇普西隆 |
-| 21 | $\Phi$ | $\phi$ | \phi | 弗爱 |
-| 22 | $\Chi$ | $\chi$ | \chi | 卡 |
-| 23 | $\Psi$ | $\psi$ | \psi | 普赛 |
-| 24 | $\Omega$ | $\omega$ | \omega | 欧米伽 |
+<https://www.szdev.com/blog/Hexo/mathjax-config-and-tutorial/>
 
-| 斜体 | $\varEpsilon$ | $\varepsilon$ | \varepsilon | 伊普西隆 |
-| 斜体 | $\varKappa$ | $\varkappa$ | \varkappa | 卡帕 |
-| 斜体 | $\varTheta$ | $\vartheta$ | \vartheta | 西塔 |
-| 斜体 | $\varPi$ | $\varpi$ | \varpi | 派 |
-| 斜体 | $\varRho$ | $\varrho$ | \varrho | 柔 |
-| 斜体 | $\varSigma$ | $\varsigma$ | \varsigma | 西格玛 |
-| 斜体 | $\varPhi$ | $\varphi$ | \varphi | 弗爱 |
+<style>
+table td {
+    width: 20%;
+}
+</style>
+
+<table>
+<thead>
+<tr><th>序号</th><th>大写</th><th>小写</th><th>LaTex 代码</th><th>汉语注音</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>$\Alpha$</td><td>$\alpha$</td><td>\alpha</td><td>阿尔法</td></tr>
+<tr><td>2</td><td>$\Beta$</td><td>$\beta$</td><td>\beta</td><td>贝塔</td></tr>
+<tr><td>3</td><td>$\Gamma$</td><td>$\gamma$</td><td>\gamma</td><td>伽马</td></tr>
+<tr><td>4</td><td>$\Delta$</td><td>$\delta$</td><td>\delta</td><td>德尔塔</td></tr>
+<tr><td>5</td><td>$\Epsilon$</td><td>$\epsilon$</td><td>\epsilon</td><td>伊普西隆</td></tr>
+<tr><td>6</td><td>$\Zeta$</td><td>$\zeta$</td><td>\zeta</td><td>泽塔</td></tr>
+<tr><td>7</td><td>$\Eta$</td><td>$\eta$</td><td>\eta</td><td>伊塔</td></tr>
+<tr><td>8</td><td>$\Theta$</td><td>$\theta$</td><td>\theta</td><td>西塔</td></tr>
+<tr><td>9</td><td>$\Iota$</td><td>$\iota$</td><td>\iota</td><td>约塔</td></tr>
+<tr><td>10</td><td>$\Kappa$</td><td>$\kappa$</td><td>\kappa</td><td>卡帕</td></tr>
+<tr><td>11</td><td>$\Lambda$</td><td>$\lambda$</td><td>\lambda</td><td>兰姆达</td></tr>
+<tr><td>12</td><td>$\Mu$</td><td>$\mu$</td><td>\mu</td><td>缪</td></tr>
+<tr><td>13</td><td>$\Nu$</td><td>$\nu$</td><td>\nu</td><td>纽</td></tr>
+<tr><td>14</td><td>$\Xi$</td><td>$\xi$</td><td>\xi</td><td>克西</td></tr>
+<tr><td>15</td><td>$\Omicron$</td><td>$\omicron$</td><td>\omicron</td><td>欧米克隆</td></tr>
+<tr><td>16</td><td>$\Pi$</td><td>$\pi$</td><td>\pi</td><td>派</td></tr>
+<tr><td>17</td><td>$\Rho$</td><td>$\rho$</td><td>\rho</td><td>柔</td></tr>
+<tr><td>18</td><td>$\Sigma$</td><td>$\sigma$</td><td>\sigma</td><td>西格玛</td></tr>
+<tr><td>19</td><td>$\Tau$</td><td>$\tau$</td><td>\tau</td><td>陶</td></tr>
+<tr><td>20</td><td>$\Upsilon$</td><td>$\upsilon$</td><td>\upsilon</td><td>宇普西隆</td></tr>
+<tr><td>21</td><td>$\Phi$</td><td>$\phi$</td><td>\phi</td><td>弗爱</td></tr>
+<tr><td>22</td><td>$\Chi$</td><td>$\chi$</td><td>\chi</td><td>卡</td></tr>
+<tr><td>23</td><td>$\Psi$</td><td>$\psi$</td><td>\psi</td><td>普赛</td></tr>
+<tr><td>24</td><td>$\Omega$</td><td>$\omega$</td><td>\omega</td><td>欧米伽</td></tr>
+</tbody></table>
+<table>
+<tbody>
+<tr><td rowspan="7">斜体</td>
+    <td>$\varEpsilon$</td><td>$\varepsilon$</td><td>\varepsilon</td><td>伊普西隆</td></tr>
+<tr><td>$\varKappa$</td><td>$\varkappa$</td><td>\varkappa</td><td>卡帕</td></tr>
+<tr><td>$\varTheta$</td><td>$\vartheta$</td><td>\vartheta</td><td>西塔</td></tr>
+<tr><td>$\varPi$</td><td>$\varpi$</td><td>\varpi</td><td>派</td></tr>
+<tr><td>$\varRho$</td><td>$\varrho$</td><td>\varrho</td><td>柔</td></tr>
+<tr><td>$\varSigma$</td><td>$\varsigma$</td><td>\varsigma</td><td>西格玛</td></tr>
+<tr><td>$\varPhi$</td><td>$\varphi$</td><td>\varphi</td><td>弗爱</td></tr>
+</tbody></table>
+
+$$
+\bbox[border:2px solid red]
+{
+e^x=\lim_{n\to\infty} \left( 1+\frac{x}{n} \right)^n
+}
+$$
 
 
 ## Tools
