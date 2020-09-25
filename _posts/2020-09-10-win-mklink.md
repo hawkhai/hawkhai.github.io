@@ -25,7 +25,7 @@ Windows 7 下面，在 NTFS 文件系统下面，如果把快捷方式也算是�
 
 ## Windows 下面的 mklink 命令
 
-{% highlight shell %}
+{% highlight plaintext %}
 创建符号链接。
 
 MKLINK [[/D] | [/H] | [/J]] Link Target
@@ -450,7 +450,7 @@ if __name__=='__main__':
 
 ### 运行结果
 
-{% highlight shell %}
+{% highlight plaintext %}
 E:\kSource\pythonx>python pymklink.py clear
 为 test-link.txt <<===>> test.txt 创建的符号链接
 ----------------------------------- test.txt -----------------------------------
