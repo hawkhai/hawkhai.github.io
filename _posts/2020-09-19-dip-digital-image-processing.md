@@ -484,6 +484,7 @@ $$d=\left(x^{2}+y^{2}\right)^{\frac{1}{2}}$$
 
 空域 vs 频域 vs 时域。
 
+
 ### 傅里叶变换
 
 ***一脸懵逼，没看懂。单独开了一篇文章。[<font color="red">傅里叶变换 /blog/2020/09/26/dip-fourier-transform</font>]({% include relref.html url="/blog/2020/09/26/dip-fourier-transform" %})***
@@ -583,7 +584,7 @@ void c_abs(complex f[], float out[], int n); // 复数数组取模
 一脸懵逼，没看懂。
 
 
-## toP40
+## toP41
 
 
 ## 参考

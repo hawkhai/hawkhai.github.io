@@ -35,12 +35,10 @@ Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
 转载文章：<https://blog.csdn.net/Ciellee/article/details/108304531>
 
-我们视力不太好，看不到世界的真相（复数）。高维空间我们也感知不到，只能通过投射到三维，甚至二维，直观感受其投影。
-数学是我们最有力的分析工具。事情直接处理很难，升维后却变的很简单，处理完再变换回去，搞定。
+我们脑袋瓜不太好，看不到世界的真相。高维空间我们也感知不到，只能通过投射到三维，甚至二维，直观感受其投影。
+数学是我们最有力的分析工具。事情直接处理很难，升维或者变维后却变的很简单，处理完后再变换回去，搞定。
 
 三维到二维的投影。
-
-{% include image.html url="/images/fourier-transform/20200926125139.png" %}
 
 {% include image.html url="/images/fourier-transform/20200901103813238.png" %}
 
