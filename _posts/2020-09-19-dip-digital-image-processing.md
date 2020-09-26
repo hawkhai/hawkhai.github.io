@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“数字图像处理”笔记 -- 基础知识 Digital Image Processing (DIP)"
+title: "“数字图像处理”笔记 α -- 灰色图像基础知识 (DIP)"
 location: "珠海"
 categories: ["图像处理"]
 tags: [图像处理]
@@ -8,6 +8,8 @@ mathjax: true
 toc: true
 mermaid: true
 ---
+
+第一章 $\Rightarrow$ 第十章
 
 
 ## 数字图像处理概述
@@ -582,9 +584,6 @@ void c_abs(complex f[], float out[], int n); // 复数数组取模
 ### 离散余弦变换
 
 一脸懵逼，没看懂。
-
-
-## toP41
 
 
 ## 参考
