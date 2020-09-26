@@ -124,7 +124,8 @@ $$
 
 PPT: <https://wenku.baidu.com/view/1bdcc12227c52cc58bd63186bceb19e8b8f6ecbc.html>
 
-资料：空间变换网络（STN）原理 + 2D 图像空间变换 + 齐次坐标系讲解。<sup>[疑似转载](https://www.cnblogs.com/think90/p/11556725.html)</sup>
+资料：空间变换网络（STN）原理 + 2D 图像空间变换 + 齐次坐标系讲解。
+<sup>[疑似转载](https://www.cnblogs.com/think90/p/11556725.html)</sup>
 <sup>[**貌似原版**](https://blog.csdn.net/Rosemary_tu/article/details/84069878)</sup>
 
 
@@ -375,7 +376,7 @@ $$m_{2}=\frac{\sum z h_{2}(z)}{\sum h_{2}(z)} \quad \sigma_{2}^{2}=\frac{\sum\le
 
 ### other
 
-[link](https://www.cnblogs.com/darkknightzh/p/5147982.html)
+[其他资料](https://www.cnblogs.com/darkknightzh/p/5147982.html)
 对于两直方图 $$S=\left\{ {s_{1}},\cdots {s_{n}} \right\}$$ 及 $$M=\left\{ {m_{1}},\cdots {m_{n}} \right\}$$，$n$ 为直方图维数（如 255），这两直方图之间的卡方相似性为：
 
 $$
@@ -477,11 +478,116 @@ $$d=\left(x^{2}+y^{2}\right)^{\frac{1}{2}}$$
 闭运算，弥合，毛刺保留；开运算，分裂，毛刺去掉。
 
 
-## toP37
+## 频域世界
+
+[纯干货傅里叶变换](https://space.bilibili.com/230105574/channel/detail?cid=67768)
+
+空域 vs 频域 vs 时域。
+
+### 傅里叶变换
+
+***一脸懵逼，没看懂。单独开了一篇文章。[<font color="red">傅里叶变换 /blog/2020/09/26/dip-fourier-transform</font>]({% include relref.html url="/blog/2020/09/26/dip-fourier-transform" %})***
+
+{% include image.html url="/images/digital-image-processing/20200926125139.png" %}
+
+一维傅里叶变换 及 逆变换 <https://blog.csdn.net/Ciellee/article/details/108359201>
+
+[^_^]: var katexMathml = $('.katex-mathml');
+[^_^]: katexMathml.each(function (i) {
+[^_^]:     console.log("$$"+katexMathml[i].innerText+"$$");
+[^_^]: });
+
+一维傅里叶变换：
+
+$$
+F(u) = \sum_{M=0}^{M-1} f(x) e^{-j u x \frac{2\pi} M}， u=0,1,2,\cdots,M-1
+$$
+
+一维傅里叶逆变换：
+
+$$
+f(x) = {\frac 1 M} \sum_{u=0}^{M-1} F(u) e^{j u x \frac{2\pi} M}， x=0,1,2,\cdots,M-1
+$$
+
+代入欧拉公式：
+
+$$e^{jx} = \cos(x) + j \sin(x)$$
+
+$$e^{-jx} = \cos(x) - j \sin(x)$$
+
+$$e^{j\pi} + 1 = 0$$
+
+$$\sin(x) = \frac {e^{ix} - e^{-jx}} {2i}$$
+
+$$\cos(x) = \frac {e^{ix} + e^{-jx}} {2i}$$
+
+我们可以得到如下：
+
+一维傅里叶变换：
+
+$$F(u) = \sum_{M=0}^{M-1} f(x) \left( e^{-j u x \frac{2\pi} M} \right)， u=0,1,2,\cdots,M-1 \\ \Rightarrow F(u) = \sum_{M=0}^{M-1} f(x) \left( \cos(u x \frac{2\pi} M) - j \sin(u x \frac{2\pi} M) \right)， u=0,1,2,\cdots,M-1$$
+
+一维傅里叶逆变换：
+
+$$f(x) = {\frac 1 M} \sum_{u=0}^{M-1} F(u) e^{j u x \frac{2\pi} M}， x=0,1,2,\cdots,M-1 \\ \Rightarrow f(x) = {\frac 1 M} \sum_{u=0}^{M-1} F(u) \left( \cos(u x \frac{2\pi} M) + j \sin(u x \frac{2\pi} M) \right) ， x=0,1,2,\cdots,M-1$$
+
+在计算每个 $$F(u)$$ 时，由于一维傅里叶逆变换中的 $$u$$ 是一个复数，
+假设复数 $$F(u) = a + b j$$ ，将 $$u$$ 代入逆变换中，得到如下：
+
+$$f(x) = {\frac 1 M} \sum_{u=0}^{M-1} F(u) \left( \cos(u x \frac{2\pi} M) + j \sin(u x \frac{2\pi} M) \right) ， x=0,1,2,\cdots,M-1$$
+
+对于每个 $$F(u)$$ ，实部虚部计算结果如下：
+
+$$f(x) = ( a + b j) \left( \cos(u x \frac{2\pi} M) + j \sin(u x \frac{2\pi} M) \right)$$
+
+$$f(x) =\left( a\cos(u x \frac{2\pi} M) + bj\cos(u x \frac{2\pi} M) + aj \sin(u x \frac{2\pi} M) + bj\cdot j \sin(u x \frac{2\pi} M) \right)$$
+
+分离虚部，实部结果如下：
+
+$$f(x).real =\left( a\cos(u x \frac{2\pi} M) - b \sin(u x \frac{2\pi} M) \right)$$
+
+$$f(x).imag =\left( a \sin(u x \frac{2\pi} M) + b\cos(u x \frac{2\pi} M) \right) \cdot j$$
+
+> 这里有几张图。[BMP 图像的 FFT 快速傅里叶变换及 IFFT 逆变换](https://blog.csdn.net/Ciellee/article/details/108520298)
+
+> 源代码：<https://blog.csdn.net/cp1300/article/details/28850309>
+
+{% highlight cpp %}
+#ifndef __FFT_H__
+#define __FFT_H__
+
+typedef struct complex // 复数类型
+{
+   float real; // 实部
+   float imag; // 虚部
+} complex;
+
+#define PI 3.1415926535897932384626433832795028841971
+
+// 使用 fft(FFT_NPT, fft_buff); // 进行 FFT 处理
+void conjugate_complex(int n, complex in[], complex out[]);
+void c_plus(complex a, complex b, complex *c); // 复数加
+void c_mul(complex a, complex b, complex *c) ; // 复数乘
+void c_sub(complex a, complex b, complex *c); // 复数减法
+void c_div(complex a, complex b, complex *c); // 复数除法
+void fft(int N, complex f[]); // 傅立叶变换 输出也存在数组 f 中
+void ifft(int N, complex f[]); // 傅里叶逆变换
+void c_abs(complex f[], float out[], int n); // 复数数组取模
+
+#endif
+{% endhighlight %}
+
+
+### 离散余弦变换
+
+一脸懵逼，没看懂。
+
+
+## toP40
 
 
 ## 参考
 
-- [1] [bilibili](https://www.bilibili.com/video/BV1tx41147Tx?from=search&seid=2305003300792844801)
+- [1] [bilibili](https://www.bilibili.com/video/BV1tx41147Tx)
 - [2] [标题自动编号](https://www.cnblogs.com/36bian/p/7609304.html)
-- [3] [目录](https://www.cnblogs.com/-wenli/p/11744405.html)
+- [3] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
