@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“数字图像处理”笔记 β -- 彩色图像基础知识 (DIP)"
+title: "“数字图像处理”笔记 2/2 -- 彩色图像基础知识 (DIP)"
 location: "珠海"
 categories: ["图像处理"]
 tags: [图像处理]
