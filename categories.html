@@ -1,0 +1,43 @@
+---
+layout: page
+title: Categories
+---
+
+{% assign rawcategories = "" %}
+{% for post in site.posts %}
+    {% assign tcategories = post.categories | join:'|' | append:'|' %}
+    {% assign rawcategories = rawcategories | append:tcategories %}
+{% endfor %}
+
+{% assign rawcategories = rawcategories | split:'|' | sort %}
+
+{% assign categories = "" %}
+
+{% for tag in rawcategories %}
+    {% if tag != "" %}
+        {% if categories == "" %}
+            {% assign categories = tag | split:'|' %}
+        {% endif %}
+        {% unless categories contains tag %}
+            {% assign categories = categories | join:'|' | append:'|' | append:tag | split:'|' %}
+        {% endunless %}
+    {% endif %}
+{% endfor %}
+
+<div class="posts">
+    <p>
+    {% for tag in categories %}
+        <a href="#{{ tag | slugify }}"><code><nobr>{{ tag }}</nobr></code></a>&nbsp;
+    {% endfor %}
+
+    {% for tag in categories %}
+        <h2 id="{{ tag | slugify }}">{{ tag }}</h2>
+        <ul>
+            {% for post in site.posts %}
+                {% if post.categories contains tag %}
+                    <li><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }} | {{ post.date | date_to_string }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</div>
