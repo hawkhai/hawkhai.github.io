@@ -3,7 +3,7 @@ layout: post
 title: "“深度学习”笔记 -- 数学×梯度（Gradient）与梯度下降法（Gradient Descent）"
 location: "珠海"
 categories: ["深度学习"]
-tags: [深度学习, 数学]
+tags: [深度学习]
 mathjax: true
 toc: true
 ---

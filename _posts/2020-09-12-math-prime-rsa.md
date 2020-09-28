@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "RSA 非对称加密简明原理与大素数生成算法"
+title: "数学之美 -- RSA 非对称加密简明原理与大素数生成算法"
 location: "珠海"
-categories: ["深度学习"]
-tags: [数学]
+categories: ["数学之美"]
+tags: [数学之美]
 mathjax: true
 toc: true
 ---
