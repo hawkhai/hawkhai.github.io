@@ -12,7 +12,7 @@ mermaid: true
 第十一章 $\Rightarrow$ 第十四章
 
 
-## 色彩空间
+## 彩色图像处理
 
 {% include image.html url="/images/digital-image-processing2/20161108103240445.jpg" %}
 
@@ -43,10 +43,31 @@ RGB 转换到 HSI 空间。
 Lab 颜色由亮度或者光亮度分量 Lab 和 a、b 两个色度分量组成。其中 a 在的正向数值越大表示越红，在负值越大则表示越绿；b 在正向数值越大表示越黄，在负向的在数值越大表示越蓝。
 
 
-## 平滑 & 锐化
+### 平滑 & 锐化
 
 
-## toP48
+## 图像小波变换处理
+
+
+### 墨西哥帽小波
+
+傅立叶变换、Gabor 变换与小波变换 <https://blog.csdn.net/chenaiyanmie/article/details/80246108>
+
+[Continuous Wavelet Transform](https://www.originlab.com/doc/Origin-Help/Continuous-WaveTrans)
+The Mexican Hat wavelet is:
+$$\psi(x)=\frac{2}{\sqrt{3}} \pi^{-1 / 4}\left(1-x^{2}\right) e^{-x^{2} / 2}$$
+
+$$\psi(t)=\frac{1}{\sqrt{2 \pi} \sigma^{3}}\left(1-\frac{t^{2}}{\sigma^{2}}\right) e^{\frac{-t^{2}}{2 \sigma^{2}}}$$
+
+
+## 图像压缩编码
+
+JPEG 压缩原理与 DCT 离散余弦变换 <https://blog.csdn.net/newchenxf/article/details/51719597>
+
+JPEG 图像压缩算法流程详解 <https://www.cnblogs.com/buaaxhzh/p/9138307.html>
+
+
+## toP54
 
 
 ## 参考

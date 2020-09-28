@@ -112,6 +112,16 @@ def mainfile(fpath, fname, ftype):
     print(fpath)
     lines = readfileLines(fpath, False, False, "utf8")
     lines = [line.rstrip() for line in lines]
+    lines.append("")
+    lines.append("")
+    while len(lines) >= 2 and not lines[-1] and not lines[-2]:
+        lines = lines[:-1]
+    while len(lines) >= 1 and not lines[0]:
+        lines = lines[1:]
+
+    if fname in ("relref.html",):
+        while len(lines) >= 1 and not lines[-1]:
+            lines = lines[:-1]
 
     codestate = False
     for index, line in enumerate(lines):
@@ -120,8 +130,10 @@ def mainfile(fpath, fname, ftype):
         nextline = lines[index + 1] if index < len(lines)-1 else ""
 
         tagregex = "^\\s*[#]+ "
+        tagregexk = "^\\s*[#]+\\s{2,}"
         prelinetag = re.findall(tagregex, preline)
         nextlinetag = re.findall(tagregex, nextline)
+        assert not re.findall(tagregexk, preline), preline
 
         if re.findall("^\\s*[*-]+ ", line):
             idtcnt = 2
