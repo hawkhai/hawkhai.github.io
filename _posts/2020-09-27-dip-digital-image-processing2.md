@@ -67,9 +67,6 @@ JPEG 压缩原理与 DCT 离散余弦变换 <https://blog.csdn.net/newchenxf/art
 JPEG 图像压缩算法流程详解 <https://www.cnblogs.com/buaaxhzh/p/9138307.html>
 
 
-## toP54
-
-
 ## 参考
 
 - [1] [bilibili](https://www.bilibili.com/video/BV1tx41147Tx)

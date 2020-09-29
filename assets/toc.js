@@ -133,14 +133,21 @@ if (typeof $.fn.toc.tocMaxWidth === 'undefined') {
 function activeCurrentScroll() {
     var scrollDistance = $(window).scrollTop();
     // Assign active class to nav links while scolling
-    $('#postdiv h2,h3,h4,h5,h6').each(function (i) {
+    var targeti = -1;
+    var hlist = $('#postdiv h2,h3,h4,h5,h6');
+    hlist.each(function (i) {
         if (i == 0 || $(this).position().top <= scrollDistance) {
-            $('#tocdiv li.active').removeClass('active');
-            var curli = $('#tocdiv li').eq(i);
-            curli.addClass('active');
-            curli[0].scrollIntoView();
+            targeti = i;
         }
     });
+    if (targeti != -1) {
+        var divlist = $('#tocdiv li');
+        divlist.not(targeti).removeClass('active');
+        divlist.eq(targeti).addClass('active');
+        divlist[targeti].scrollIntoViewIfNeeded({
+            behavior: "smooth"
+        });
+    }
 }
 
 function initToc(tocdiv) {
