@@ -144,9 +144,8 @@ function activeCurrentScroll() {
         var divlist = $('#tocdiv li');
         divlist.not(targeti).removeClass('active');
         divlist.eq(targeti).addClass('active');
-        divlist[targeti].scrollIntoViewIfNeeded({
-            behavior: "smooth"
-        });
+        // http://www.nengyongma.com/fe/scrollintoviewifneeded
+        divlist[targeti].scrollIntoViewIfNeeded(false);
     }
 }
 
