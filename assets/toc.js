@@ -161,6 +161,7 @@ function activeCurrentScroll() {
             scrollMode: 'if-needed',
             block: 'nearest',
             inline: 'nearest',
+            behavior: 'smooth',
         });
     }
 }
