@@ -9,7 +9,7 @@ GIT_BASEURL = 'baseurl: ""'
 SUN_URL = 'url: "https://sunocean.life"'
 SUN_URLx = 'urlx: "https://sunocean.life"'
 SUN_BASEURL = 'baseurl: "/blog"'
-JEKYLL = "bundle exec jekyll serve --host localhost"
+JEKYLL = "bundle exec jekyll serve --watch --host 0.0.0.0"
 
 def readfile(fpath):
     fin = open(fpath, "rb")

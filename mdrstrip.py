@@ -201,6 +201,9 @@ def mainfile(fpath, fname, ftype):
                 if cy in "\":" or cx in "\":":
                     continue
 
+                if line.startswith("print ('"):
+                    continue
+
             print("[%d]"%(index+1), ix, "\t", line)
             if AUTOFORMAT:
                 line = line.replace(ix, cx+" "+cy)
@@ -209,7 +212,15 @@ def mainfile(fpath, fname, ftype):
         fxline = "".join(line.split())
         if fxline.startswith("{%highlight"):
             codestate = True
+            continue
         if fxline.startswith("{%endhighlight%}"):
+            codestate = False
+            continue
+
+        if fxline.startswith("```") and not codestate:
+            codestate = True
+            continue
+        if fxline.startswith("```") and codestate:
             codestate = False
             continue
 
@@ -234,6 +245,9 @@ def mainfile(fpath, fname, ftype):
     codereg = "\\{\\%\\s*highlight.*?\\{\\%\\s*endhighlight\\s*\\%\\}"
     codeli1 = re.findall(codereg, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
 
+    coderegz = "```.*?```"
+    codeli1z = re.findall(coderegz, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
+
     if warnMdTitleSpace:
         page = page.replace("\r\n"*2+"### ", "\r\n"*3+"### ")
         page = page.replace("\r\n"*2+"## ",  "\r\n"*3+"## ")
@@ -242,6 +256,10 @@ def mainfile(fpath, fname, ftype):
     codeli2 = re.findall(codereg, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
     for i in range(len(codeli1)):
         page = page.replace(codeli2[i], codeli1[i])
+
+    codeli2z = re.findall(coderegz, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
+    for i in range(len(codeli1z)):
+        page = page.replace(codeli2z[i], codeli1z[i])
 
     writefile(fpath, page.encode("utf8"))
 

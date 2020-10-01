@@ -6,7 +6,7 @@ categories: ["图像处理"]
 tags: [图像处理]
 mathjax: true
 toc: true
-mermaid: true
+mermaid: truez
 ---
 
 

@@ -6,7 +6,7 @@ categories: ["图像处理"]
 tags: [图像处理]
 mathjax: true
 toc: true
-mermaid: true
+mermaid: truez
 visibility: hidden
 ---
 
@@ -15,6 +15,11 @@ visibility: hidden
 
 * <https://www.jb51.net/article/133880.htm>
 * <https://github.com/HanpuLiang/Simple-Handwritten-Numerel-Recogntion>
+
+
+## 一文概述用 python 的 scikit-image 模块进行图像分割
+
+* <https://blog.csdn.net/weixin_42142987/article/details/87717861>
 
 
 ## toP54
