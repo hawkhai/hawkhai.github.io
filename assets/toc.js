@@ -152,17 +152,19 @@ function activeCurrentScroll() {
 
         // https://github.com/stipsan/scroll-into-view-if-needed
         const node = divlist[targeti];
-        // similar behavior as Element.scrollIntoView({block: "nearest", inline: "nearest"})
-        // only that it is a no-op if `node` is already visible
-        // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
-        // same behavior as Element.scrollIntoViewIfNeeded()
-        // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
-        scrollIntoView(node, {
-            scrollMode: 'if-needed',
-            block: 'nearest',
-            inline: 'nearest',
-            behavior: 'smooth',
-        });
+        if (node) {
+            // similar behavior as Element.scrollIntoView({block: "nearest", inline: "nearest"})
+            // only that it is a no-op if `node` is already visible
+            // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+            // same behavior as Element.scrollIntoViewIfNeeded()
+            // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
+            scrollIntoView(node, {
+                scrollMode: 'if-needed',
+                block: 'nearest',
+                inline: 'nearest',
+                behavior: 'smooth',
+            });
+        }
     }
 }
 
@@ -194,7 +196,7 @@ function checkToc() {
         $.fn.toc.tocMaxWidth = xwidth;
     }
 
-    if (tocRight > postLeft - 5) {
+    if (tocRight > postLeft - 2) {
 
         // 尝试再挽救一下。
         if ($.fn.toc.tocMaxWidth > 0 && xwidth == $.fn.toc.tocMaxWidth) {
@@ -211,7 +213,7 @@ function checkToc() {
         // 如果可以更大，就想办法更大一些。
         if ($.fn.toc.tocMaxWidth > 0 && xwidth != $.fn.toc.tocMaxWidth) {
             var widthk = $.fn.toc.tocMaxWidth * 1 / 4;
-            if (tocRight + widthk < postLeft - 10) {
+            if (tocRight + widthk < postLeft - 3) {
                 tocdiv.css("max-width", "20em");
                 tocdiv.css("min-width", "20em");
                 setTimeout("checkToc()", 100);
