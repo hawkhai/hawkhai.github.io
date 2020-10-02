@@ -46,6 +46,21 @@ print (a[...,1:])  # 第 2 列及剩下的所有元素
  [5 6]]
 ```
 
+```python
+>>> import numpy as np
+>>> a = np.array([[[1,2],], [[3,4]]])
+>>> a
+array([[[1, 2]],
+       [[3, 4]]])
+
+>>> a[..., :1] # an index can only have a single ellipsis ('...')
+array([[[1]],
+       [[3]]])
+
+>>> a[:, :, :1]
+array([[[1]],
+       [[3]]])
+```
 
 ## NumPy 高级索引
 

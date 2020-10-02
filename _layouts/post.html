@@ -58,3 +58,24 @@ gitalk.render('gitalk-container');
 <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 <script>mermaid.initialize({startOnLoad:true});</script>
 {% endif %}
+
+{% if page.flowchart %}
+<script type="text/javascript" src="{{ "/assets/raphael.min.js" | prepend: site.baseurl }}"></script>
+<script type="text/javascript" src="{{ "/assets/flowchart.min.js" | prepend: site.baseurl }}"></script>
+<script>
+// https://github.com/adrai/flowchart.js
+// https://bwmarrin.github.io/MkDocsPlus/flowchartjs/
+if (typeof jQuery != 'undefined') {
+    (function( $ ) {
+        $.fn.flowchart = function( options ) {
+            return this.each(function() {
+                var $this = $(this);
+                var diagram = flowchart.parse($this.text());
+                $this.html('');
+                diagram.drawSVG(this, options);
+            });
+        };
+    })( jQuery );
+};
+$(".language-flow").flowchart();</script>
+{% endif %}
