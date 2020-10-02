@@ -52,14 +52,14 @@ gitalk.render('gitalk-container');
 
 <script type="text/javascript" src="{{ "/assets/blog.js" | prepend: site.baseurl }}"></script>
 
-{% if page.mermaid %}
+{% if page.mermaid == true %}
 <!-- https://mermaid-js.github.io/mermaid/diagrams-and-syntax-and-examples/examples.html -->
 <!-- https://mermaid-js.github.io/mermaid-live-editor/ -->
 <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 <script>mermaid.initialize({startOnLoad:true});</script>
 {% endif %}
 
-{% if page.flowchart %}
+{% if page.flowchart == true %}
 <script type="text/javascript" src="{{ "/assets/raphael.min.js" | prepend: site.baseurl }}"></script>
 <script type="text/javascript" src="{{ "/assets/flowchart.min.js" | prepend: site.baseurl }}"></script>
 <script>
@@ -70,6 +70,9 @@ if (typeof jQuery != 'undefined') {
         $.fn.flowchart = function( options ) {
             return this.each(function() {
                 var $this = $(this);
+                var $parent = $this.parent();
+                $parent.addClass("flowchart");
+                $this.addClass("flowchart");
                 var diagram = flowchart.parse($this.text());
                 $this.html('');
                 diagram.drawSVG(this, options);
@@ -77,5 +80,6 @@ if (typeof jQuery != 'undefined') {
         };
     })( jQuery );
 };
-$(".language-flow").flowchart();</script>
+var options = { theme: 'hand' };
+$(".language-flow").flowchart(options);</script>
 {% endif %}
