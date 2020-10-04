@@ -268,6 +268,35 @@ x[2,0] x[2,3] x[2,1] x[2,2]
 ```
 
 
+### sample
+
+掩码可以是任何与图像形状相同的布尔阵列（或可以广播到图像形状的形状）。
+
+```python
+nrows, ncols = camera.shape
+row, col = np.ogrid[:nrows, :ncols]
+cnt_row, cnt_col = nrows / 2, ncols / 2
+outer_disk_mask = ((row - cnt_row)**2 + (col - cnt_col)**2 >
+                   (nrows / 2)**2)
+camera[outer_disk_mask] = 0
+imgshow(camera)
+```
+
+{% include image.html url="/images/numpy-slice/qdkztdoc06.png" noshadow="1" %}
+
+甚至可以进行布尔运算，可用于定义更复杂的掩码。
+
+```python
+lower_half = row > cnt_row
+lower_half_disk = np.logical_and(lower_half, outer_disk_mask)
+camera = data.camera()
+camera[lower_half_disk] = 0
+imgshow(camera)
+```
+
+{% include image.html url="/images/numpy-slice/20201004180413.png" noshadow="1" %}
+
+
 ## 向量和矩阵的点乘和叉乘
 
 
