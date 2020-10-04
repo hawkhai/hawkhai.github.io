@@ -28,7 +28,7 @@ function checkVideo() {
 function setTableStyle(ithis, ratiostr) {
     var li = ratiostr.split(":"); // ["2", "3", "4", "5"]
     var total = 0;
-    for (var i=0; i<li.length; i++) {
+    for (var i = 0; i < li.length; i++) {
         li[i] = parseInt(li[i]);
         total += li[i];
     }
@@ -66,12 +66,12 @@ function checkTableStyle() {
     $("table.tablestyle").each(function() {
         var $this = $(this);
         var ratiostr = $this.attr("ntablew");
+        var number = parseInt($this.attr("tsNumber"));
         $this.remove(); // $this.hide();
         if (!ratiostr) {
             return;
         }
 
-        var number = parseInt($this.attr("tsNumber"));
         $("table").each(function() {
             var ithis = $(this);
             var inumber = parseInt(ithis.attr("tsNumber"));
