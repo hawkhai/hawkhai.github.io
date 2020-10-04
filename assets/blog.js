@@ -50,6 +50,8 @@ function setTableStyle(ithis, ratiostr) {
 if (typeof $.fn.tsNumber === 'undefined') {
     $.fn.tsNumber = 0;
 }
+
+// 支持语法：<table class="tablestyle" ntablew="2:3:5"></table>
 function checkTableStyle() {
     // 先给所有 table 编号。
     $("table").each(function() {
