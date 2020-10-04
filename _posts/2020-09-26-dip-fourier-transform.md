@@ -47,3 +47,4 @@ Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
 - [1] [bilibili](https://space.bilibili.com/230105574/channel/detail?cid=67768)
 - [2] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
+- [3] [公式图形实时显示](https://www.desmos.com/calculator)

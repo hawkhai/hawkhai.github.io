@@ -64,7 +64,7 @@ print(img[0][0])  # 图像的像素值（高度，宽度，通道数）
 
 ## 子模块
 
-<table class="tablestyle" ntablew="3:7"></table>
+<table class="tablestyle" ntablew="2:8"></table>
 
 | 子模块名称 | 主要实现功能 |
 | ---- | ---- |
@@ -104,7 +104,7 @@ skimage.color.lab2rgb(lab)
 matplotlib.pyplot.imshow(X, cmap=None)
 ```
 
-<table class="tablestyle" ntablew="4:6"></table>
+<table class="tablestyle" ntablew="2:8"></table>
 
 | 颜色图谱 | 描述 |
 | ---- | ---- |
@@ -130,22 +130,36 @@ matplotlib.pyplot.imshow(X, cmap=None)
 
 ### 对比度与亮度调整
 
-图像亮度与对比度的调整，是放在 skimage 包的 exposure 模块里面。
+图像亮度与对比度的调整，是放在 skimage 包的 exposure 模块里面。[from](https://scikit-image.org/docs/0.9.x/api/skimage.exposure.html)
+
+**伽马变换对于图像对比度偏低，并且整体亮度值偏高（对于于相机过曝）情况下的图像增强效果明显。**
+当 $\gamma>1$ 的时候，高亮度的地方减少的更剧烈，所以对过曝效果较好。
+
+**对数变换对于整体对比度偏低并且灰度值偏低的图像增强效果较好。**
+貌似低亮度的地方，提升的更剧烈，所以可能效果更好一些？QUESTION???
+
+{% include image.html url="/images/dip-skimage/20201004223851.png" %}
 
 #### gamma 调整
 
-`exposure.adjust_gamma(image, gamma=1)` 原理：$$I=I\gamma$$
+`exposure.adjust_gamma(image, gamma=1, gain=1)`
 
-对原图像的像素，进行幂运算，得到新的像素值。公式中的 $g$ 就是 $\gamma$ 值。
+原理：$$O = I^\gamma$$
 
-* 如果 $$\gamma>1$$，新图像比原图像暗；
-* 如果 $$\gamma<1$$，新图像比原图像亮。
+对原图像的像素，进行幂运算，得到新的像素值。
+
+* 如果 $$\gamma>1$$，直方图会向左移动，新图像比原图像暗；
+* 如果 $$\gamma<1$$，直方图将向右移动，新图像比原图像亮。
+
+{% include image.html url="/images/dip-skimage/1173903675.png" %}
 
 #### log 对数调整
 
-`exposure.adjust_log(image)` 原理：$$I=log(I)$$
+`exposure.adjust_log(image, gain=1)`
 
-这个刚好和 gamma 相反。
+原理：$$O = gain*log(1 + I)$$
+
+这个刚好和 gamma 相反。对数变换主要用于将图像的低灰度部分进行扩展，高灰度部分进行压缩，最终达到增强图像低灰度部分的细节内容。
 
 
 ## 基本形态学滤波
@@ -249,3 +263,6 @@ plt.show()
 - [3] [python skimage 图像处理（三）](https://www.jianshu.com/p/7693222523c0)
 - [4] [skimage &mdash; skimage v0.17.2 docs](https://scikit-image.org/docs/stable/api/skimage.html)
 - [5] [scikit-image 教程](https://cloud.tencent.com/developer/doc/1221)
+- [6] [python 库 skimage 对图像进行 gamma 校正和 log 校正](https://www.cnblogs.com/wojianxin/p/12649803.html)
+- [7] [数字图像处理实现·资料丰富](https://www.cnblogs.com/wojianxin/tag/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/default.html)
+- [8] [opencv 图像变换原理详解 图像平移 图像旋转 图像缩放](https://www.cnblogs.com/wojianxin/p/12591410.html)
