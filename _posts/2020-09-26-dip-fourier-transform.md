@@ -108,7 +108,7 @@ target="_blank">2D Fourier transforms and applications</a>
 from http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf
 
 
-## 螺旋 CT 成像
+### 螺旋 CT 成像
 
 [连原子都能看清的 CT 成像 bilibili](https://www.bilibili.com/video/BV1w54y1R7LT)
 
