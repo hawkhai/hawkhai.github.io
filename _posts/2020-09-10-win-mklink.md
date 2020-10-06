@@ -60,20 +60,7 @@ MKLINK [[/D] | [/H] | [/J]] Link Target
 
 ## 横向对比
 
-<style>
-table th:first-of-type {
-    width: 16%;
-}
-table th:nth-of-type(2) {
-    width: 28%;
-}
-table th:nth-of-type(3) {
-    width: 28%;
-}
-table th:nth-of-type(4) {
-    width: 28%;
-}
-</style>
+<table class="tablestyle" ntablew="16:28:28:28"></table>
 
 |  | 硬链接（Hard Link） | 目录联接（Junction Point） | 符号链接（Symbolic Link） |
 | ---- | ---- | ---- | ---- |

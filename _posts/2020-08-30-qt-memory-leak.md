@@ -251,17 +251,7 @@ void QObject::deleteLater()
 
 Qt 家族的智能指针：
 
-<style>
-table th:first-of-type {
-    width: 35%;
-}
-table th:nth-of-type(2) {
-    width: 55%;
-}
-table th:nth-of-type(3) {
-    width: 10%;
-}
-</style>
+<table class="tablestyle" ntablew="35:55:15"></table>
 
 | 智能指针 |  | 引入 |
 | --- | --- | --- |

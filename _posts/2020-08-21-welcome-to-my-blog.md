@@ -82,11 +82,7 @@ $$
 
 <https://www.szdev.com/blog/Hexo/mathjax-config-and-tutorial/>
 
-<style>
-table td {
-    width: 20%;
-}
-</style>
+<table class="tablestyle" ntablew="1:1:1:1:1"></table>
 
 <table>
 <thead>
@@ -118,6 +114,9 @@ table td {
 <tr><td>23</td><td>$\Psi$</td><td>$\psi$</td><td>\psi</td><td>普赛</td></tr>
 <tr><td>24</td><td>$\Omega$</td><td>$\omega$</td><td>\omega</td><td>欧米伽</td></tr>
 </tbody></table>
+
+<table class="tablestyle" ntablew="1:1:1:1:1"></table>
+
 <table>
 <tbody>
 <tr><td rowspan="7">斜体</td>
