@@ -164,10 +164,10 @@ z+\Delta z \\
 \end{array}\right]
 $$
 
-[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135139626.png" noshadow=1 %}
-[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135201258.png" noshadow=1 %}
-[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135229160.png" noshadow=1 %}
-[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135246701.png" noshadow=1 %}
+[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135139626.png" %}
+[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135201258.png" %}
+[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135229160.png" %}
+[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135246701.png" %}
 
 
 ## 图像灰度变换
@@ -232,13 +232,13 @@ $$
 
 边缘检测，LOG 算子（高斯-拉普拉斯算子 / Laplacian of Gaussian, LoG）中心点的距离与位置加权系数的关系：
 
-{% include image.html url="/images/digital-image-processing/bki-20131208210655-949753613.png" noshadow=1
+{% include image.html url="/images/digital-image-processing/bki-20131208210655-949753613.png"
 url2="/images/digital-image-processing/logx.png" %}
-{% include image.html url="/images/digital-image-processing/v2-f824bd5eae07235ebf531fa0b546ba98_720w.jpg" noshadow=1 %}
+{% include image.html url="/images/digital-image-processing/v2-f824bd5eae07235ebf531fa0b546ba98_720w.jpg" %}
 
 推演过程。高斯二阶导如下图的绿色线，蓝色线是高斯一阶导数，红色则是高斯函数。
 
-{% include image.html url="/images/digital-image-processing/20170315204708636.png" noshadow=1 %}
+{% include image.html url="/images/digital-image-processing/20170315204708636.png" %}
 
 
 ### 高频提升滤波器
