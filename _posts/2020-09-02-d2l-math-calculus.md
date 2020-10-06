@@ -11,7 +11,7 @@ toc: true
 
 ## 前言
 
-[三分钟弄懂微积分（整个逻辑）](https://www.bilibili.com/video/BV1mb411r7bd)
+[三分钟弄懂微积分（整个逻辑）bilibili](https://www.bilibili.com/video/BV1mb411r7bd)
 
 微积分是对无穷小量的研究。无穷小量，简单说就是大小无限趋向于 $0$ 的量。微积分是微分和积分的总称，『无限细分』就是微分，『无限求和』就是积分。
 

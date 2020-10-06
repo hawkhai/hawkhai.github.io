@@ -474,7 +474,7 @@ $$d=\left(x^{2}+y^{2}\right)^{\frac{1}{2}}$$
 
 ## 图像变换域处理
 
-[纯干货傅里叶变换](https://space.bilibili.com/230105574/channel/detail?cid=67768)
+[纯干货傅里叶变换 bilibili](https://space.bilibili.com/230105574/channel/detail?cid=67768)
 
 空域 vs 频域 vs 时域。
 

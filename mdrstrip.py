@@ -73,6 +73,32 @@ def createCnFile():
     openTextFile(tempfile)
 #createCnFile()
 
+g_hostset = {}
+def collectHost(line):
+
+    linesrc = line[:]
+    li = re.findall("<.*?>", line)
+    for tx in li:
+        line = line.replace(tx, "")
+
+    regex = r"""((https?)://
+                 ([a-z0-9\.-]+\.[a-z]{2,6})(:[0-9]{1,4})?
+                 (/[a-z0-9\&%_\./-~-]*)?)"""
+    regex = "".join(regex.split())
+    li = re.findall(regex, line, re.IGNORECASE)
+    if not li: return
+    for tx in li:
+        url = tx[0]
+        host = tx[2]
+        if not host in g_hostset:
+            g_hostset[host] = 0
+        g_hostset[host] += 1
+
+    # 视频要特别标注域名。
+    li1 = re.findall('bilibili.com', line)
+    li2 = re.findall('bilibili\\]', line)
+    assert len(li1) == len(li2), linesrc
+
 g_cnchar = []
 g_cschar = []
 g_enchar = []
@@ -128,6 +154,9 @@ def mainfile(fpath, fname, ftype):
         count = getLeftSpaceCount(line)
         preline = lines[index - 1] if index > 0 else ""
         nextline = lines[index + 1] if index < len(lines)-1 else ""
+
+        if ftype in ("md",):
+            collectHost(line)
 
         tagregex = "^\\s*[#]+ "
         tagregexk = "^\\s*[#]+\\s{2,}"
@@ -308,6 +337,11 @@ def main():
     g_tpset -= set(codeset)
     print(g_tpset)
     print(g_mdkeyset)
+
+    hostlist = sorted(g_hostset.items(), key=lambda x: x[1], reverse=True)
+    print(hostlist)
+    for hostx in hostlist[:10]:
+        print(hostx)
 
 if __name__ == "__main__":
     main()

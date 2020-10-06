@@ -12,6 +12,8 @@ toc: true
 
 > 原文：[马同学·欧拉公式，复数域的成人礼](https://www.matongxue.com/madocs/2066/)
 
+{% include image.html url="/images/math-complex/20201006150603.png" %}
+
 
 ## 导言
 
