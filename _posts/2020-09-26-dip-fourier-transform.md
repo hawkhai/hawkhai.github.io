@@ -127,6 +127,6 @@ from http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf
 
 ## 参考
 
-- [1] [<sup><img src="{% include relref.html url="/assets/bilibili.svg" %}" /></sup>](https://space.bilibili.com/230105574/channel/detail?cid=67768)
+- [1] [bilibili <sup><img src="{% include relref.html url="/assets/bilibili.svg" %}" /></sup>](https://space.bilibili.com/230105574/channel/detail?cid=67768)
 - [2] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
 - [3] [公式图形实时显示](https://www.desmos.com/calculator)

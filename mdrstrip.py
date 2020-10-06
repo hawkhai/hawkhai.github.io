@@ -146,7 +146,11 @@ def mainfile(fpath, fname, ftype):
 
     def linerstrip(line):
         if ftype in ("md",):
+            line = line.replace("  "+bilibilitag, bilibilitag)
+            line = line.replace(" "+bilibilitag, bilibilitag)
+            line = line.replace(bilibilitag, " "+bilibilitag)
             line = line.replace(bilibilisrc, bilibilitag)
+            line = line.replace("[ "+bilibilitag, "[bilibili "+bilibilitag)
         return line.rstrip()
 
     print(fpath)
