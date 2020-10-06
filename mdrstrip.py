@@ -48,6 +48,9 @@ DIACRITIC = """
 ÿ ź ż ž"""
 DIACRITIC = "[{}]".format("".join(DIACRITIC.split()))
 
+bilibilisrc = """bilibili]"""
+bilibilitag = """<sup><img src="{% include relref.html url="/assets/bilibili.svg" %}" /></sup>]"""
+
 def getLeftSpaceCount(line):
     line = line[:]
     assert not line.startswith("\t"), line
@@ -77,7 +80,8 @@ g_hostset = {}
 def collectHost(line):
 
     linesrc = line[:]
-    li = re.findall("<.*?>", line)
+    xline = line.replace(bilibilitag, bilibilisrc)
+    li = re.findall("<.*?>", xline)
     for tx in li:
         line = line.replace(tx, "")
 
@@ -95,9 +99,14 @@ def collectHost(line):
         g_hostset[host] += 1
 
     # 视频要特别标注域名。
-    li1 = re.findall('bilibili.com', line)
-    li2 = re.findall('bilibili\\]', line)
-    assert len(li1) == len(li2), linesrc
+    li1 = re.findall('bilibili.com', xline)
+    li2 = re.findall('bilibili\\]', xline)
+    if len(li1) == len(li2):
+        return
+    print(xline)
+    print(li1)
+    print(li2)
+    assert False, linesrc
 
 g_cnchar = []
 g_cschar = []
@@ -135,9 +144,14 @@ def mainfile(fpath, fname, ftype):
     if fpath.find("\\_site\\") != -1:
         return
 
+    def linerstrip(line):
+        if ftype in ("md",):
+            line = line.replace(bilibilisrc, bilibilitag)
+        return line.rstrip()
+
     print(fpath)
     lines = readfileLines(fpath, False, False, "utf8")
-    lines = [line.rstrip() for line in lines]
+    lines = [linerstrip(line) for line in lines]
     lines.append("")
     lines.append("")
     while len(lines) >= 2 and not lines[-1] and not lines[-2]:
