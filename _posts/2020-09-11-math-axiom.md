@@ -16,6 +16,6 @@ The limit became the basis of differential in place of infinitesimal in the move
 
 ----
 
-from [0.999…=1？数到底是什么？李永乐老师讲数学公理化 <sup><img src="{% include relref.html url="/assets/bilibili.svg" %}" /></sup>](https://www.bilibili.com/video/av44942988)
+from [0.999…=1？数到底是什么？李永乐老师讲数学公理化 <sup><img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" /></sup>](https://www.bilibili.com/video/av44942988)
 
 **证明很完美，看完更不知道数学是什么了。**

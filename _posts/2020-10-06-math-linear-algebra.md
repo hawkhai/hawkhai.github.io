@@ -68,4 +68,4 @@ $$
 
 ## 参考
 
-- [1] [线性代数的本质 <sup><img src="{% include relref.html url="/assets/bilibili.svg" %}" /></sup>](https://www.bilibili.com/video/BV1ys411472E)
+- [1] [线性代数的本质 <sup><img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" /></sup>](https://www.bilibili.com/video/BV1ys411472E)

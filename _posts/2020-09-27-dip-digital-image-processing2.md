@@ -69,7 +69,7 @@ JPEG 图像压缩算法流程详解 <https://www.cnblogs.com/buaaxhzh/p/9138307.
 
 ## 参考
 
-- [1] [bilibili <sup><img src="{% include relref.html url="/assets/bilibili.svg" %}" /></sup>](https://www.bilibili.com/video/BV1tx41147Tx)
+- [1] [bilibili <sup><img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" /></sup>](https://www.bilibili.com/video/BV1tx41147Tx)
 - [2] [标题自动编号](https://www.cnblogs.com/36bian/p/7609304.html)
 - [3] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
 - [4] [数字图像处理实现·资料丰富](https://www.cnblogs.com/wojianxin/tag/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/default.html)
