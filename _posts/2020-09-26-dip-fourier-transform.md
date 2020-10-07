@@ -110,7 +110,8 @@ from http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf
 PDF <a href="{% include relref.html url="/source/Fourier-transform-of-images.pdf" %}"
 target="_blank">Fourier transform of images</a><br/>
 from http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf
-其他课程：http://pstrumil.eletel.p.lodz.pl/pstrumil/ang_po/ang_poindex.htm
+[其他课程](http://pstrumil.eletel.p.lodz.pl/pstrumil/ang_po/ang_poindex.htm)
+
 
 ### 螺旋 CT 成像
 
