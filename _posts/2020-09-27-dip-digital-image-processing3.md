@@ -75,6 +75,6 @@ visibility: hidden
 
 ## 参考
 
-- [1] [bilibili <sup><img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" /></sup>](https://www.bilibili.com/video/BV1tx41147Tx)
+- [1] [bilibili <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1tx41147Tx)
 - [2] [标题自动编号](https://www.cnblogs.com/36bian/p/7609304.html)
 - [3] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)

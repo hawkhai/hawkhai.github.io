@@ -49,7 +49,7 @@ DIACRITIC = """
 DIACRITIC = "[{}]".format("".join(DIACRITIC.split()))
 
 bilibilisrc = """bilibili]"""
-bilibilitag = """<sup><img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" /></sup>]"""
+bilibilitag = """<img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />]"""
 
 def getLeftSpaceCount(line):
     line = line[:]
