@@ -38,7 +38,9 @@ mermaid: true
 
 齐次坐标就是将一个原本是 $n$ 维的向量用一个 $n+1$ 维向量来表示，是指一个用于投影几何里的坐标系统。
 
-$$
+<https://zhuanlan.zhihu.com/p/80852438>
+
+平移 $$
 \left[\begin{array}{l}
 x^{\prime} \\
 y^{\prime} \\
@@ -61,67 +63,70 @@ x+\Delta x \\
 y+\Delta y \\
 1
 \end{array}\right]
-\tag{ 平移 }
 $$
 
-$$
-T=\left[\begin{array}{cccc}
+平移 $$
+Translation=\left[\begin{array}{cccc}
 1 & 0 & \Delta x \\
 0 & 1 & \Delta y \\
 0 & 0 & 1
 \end{array}\right]
-\tag{ 平移 }
 $$
 
-$$
-S=\left[\begin{array}{cccc}
+缩放 $$
+Scale=\left[\begin{array}{cccc}
 S_{x} & 0 & 0 \\
 0 & S_{y} & 0 \\
 0 & 0 & 1
 \end{array}\right]
-\tag{ 缩放 }
 $$
 
-$$
-R=\left[\begin{array}{cccc}
+旋转 $$
+Rotation=\left[\begin{array}{cccc}
 \cos \gamma & \sin \gamma & 0 \\
 -\sin \gamma & \cos \gamma & 0 \\
 0 & 0 & 1
 \end{array}\right]
-\tag{ 旋转 }
 $$
 
-$$
-H
+水平镜像 $$
+MirrorReflectionH
 =
 \left[\begin{array}{ccc}
 -1 & 0 & f \text {Width} \\
 0 & 1 & 0 \\
 0 & 0 & 1
 \end{array}\right]
-\tag{ 水平镜像 }
 $$
 
-$$
-V
+垂直镜像 $$
+MirrorReflectionV
 =
 \left[\begin{array}{ccc}
 1 & 0 & 0 \\
 0 & -1 & f \text {Height} \\
 0 & 0 & 1
 \end{array}\right]
-\tag{ 垂直镜像 }
 $$
 
-$$
-Z
+转置 $$
+Transpose
 =
 \left[\begin{array}{ccc}
 0 & 1 & 0 \\
 1 & 0 & 0 \\
 0 & 0 & 1
 \end{array}\right]
-\tag{ 转置 }
+$$
+
+错切亦称为剪切或错位变换，包含水平错切和垂直错切，常用于产生弹性物体的变形处理。
+
+错切 $$
+Shear=\left[\begin{array}{cccc}
+1 & d_x & 0 \\
+d_y & 0 & 0 \\
+0 & 0 & 1
+\end{array}\right]
 $$
 
 PPT: <https://wenku.baidu.com/view/1bdcc12227c52cc58bd63186bceb19e8b8f6ecbc.html>
@@ -133,7 +138,22 @@ PPT: <https://wenku.baidu.com/view/1bdcc12227c52cc58bd63186bceb19e8b8f6ecbc.html
 
 ### 仿射变换 & 透视变换
 
-扩展到三维，也是成立的。
+#### 仿射变换（Affine Transformation 或 Affine Map）
+
+是一种二维坐标（x, y）到二维坐标（u, v）的线性变换。仿射变换通过一系列原子变换复合实现，具体包括：平移（Translation）、缩放（Scale）、旋转（Rotation）、翻转（Flip）和错切（Shear）。
+<https://blog.csdn.net/liuweiyuxiang/article/details/82799999>
+
+$$
+\left\{\begin{array}{l}u=a_{1} x+b_{1} y+c_{1} \\v=a_{2} x+b_{2} y+c_{2}\end{array}\right.
+$$
+
+$$
+\left[\begin{array}{l}u \\v \\1\end{array}\right]=\left[\begin{array}{lll}a_{1} & b_{1} & c_{1} \\a_{2} & b_{2} & c_{2} \\0 & 0 & 1\end{array}\right]\left[\begin{array}{l}x \\y \\1\end{array}\right]
+$$
+
+#### 透视变换（Perspective Transformation 或 Viewing Plane / Projective Mapping）
+
+#### 三维
 
 $$
 \left[\begin{array}{l}
@@ -216,8 +236,10 @@ $$\begin{array}{l}
 \frac{\partial^{2} f}{\partial y^{2}}=f(y+1)+f(y-1)-2 f(y) \\
 \end{array}$$
 
+两个分向量相加：
+
 $$
-\nabla^2 f=[f(x+1,y)+f(x-1,y)+f(x,y+1)+f(x,y-1)]-4f(x,y)\tag{ 两个分向量相加 }
+\nabla^2 f=[f(x+1,y)+f(x-1,y)+f(x,y+1)+f(x,y-1)]-4f(x,y)
 $$
 
 原始图像和拉普拉斯图像叠加，可以边缘加强。
@@ -260,8 +282,9 @@ $$
 
 #### Roberts 边缘检测算子
 
+Robert 交叉微分算子。
+
 $$\nabla f \approx\left|z_{9}-z_{5}\right|+\left|z_{8}-z_{6}\right|
-\tag{Robert 交叉微分算子 }
 $$
 
 #### Sobel 边缘检测算子
