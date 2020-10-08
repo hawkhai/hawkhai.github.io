@@ -20,7 +20,7 @@ visibility: hidden
 * <https://github.com/HanpuLiang/Simple-Handwritten-Numerel-Recogntion>
 
 
-## 一文概述用 python 的 scikit-image 模块进行图像分割
+## scikit-image 进行图像分割
 
 * <https://blog.csdn.net/weixin_42142987/article/details/87717861>
 
@@ -65,12 +65,38 @@ visibility: hidden
 
 ## 案例分析
 
-* [x]  toP61-1 手写数字识别
-* [x]  toP58-2 邮政编码识别
-* [x]  toP60-3 汽车牌照识别
-* [ ]  toP62-4
-* [ ]  toP54-6
-* [ ]  toP57-7
+
+### toP61-1 手写数字识别
+
+
+### toP58-2 邮政编码识别
+
+
+### toP60-3 汽车牌照识别
+
+
+### toP62-4 条形码识别
+
+
+### toP63-5 印刷体汉字识别
+
+
+### toP54-6 人脸识别
+
+
+### toP57-7 细胞识别与统计
+
+{% include image.html url="/images/digital-image-processing3/xibao.png" %}
+
+
+### toP55 SAR 图像分割 / 遥感图像配准
+
+谱聚类（求解规范化 Laplace 矩阵的特征值和特征向量）
+
+
+### toP56 总变差（TV）模型·图像恢复
+
+图象恢复是一个客观过程，需要利用**某些先验知识从退化和干扰的图像中去除模糊因素和噪声、尽可能恢复图像的本来面貌**。复原技术一般是先把**退化和干扰模型化**，然后采用相反的过程进行处理，复原图像。
 
 
 ## 参考

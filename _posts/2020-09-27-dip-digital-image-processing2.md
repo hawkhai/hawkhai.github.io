@@ -25,6 +25,27 @@ RGB 转换到 HSI 空间。
 
 {% include image.html url="/images/digital-image-processing2/17162015-b37e8ea4a16544e4b4f732d36172add3.jpg" %}
 
+{% include image.html url="/images/digital-image-processing2/9a093de900836fccfdb1d6de768343b2.png" %}
+
+
+### HSV 颜色模型
+
+色调 H（Hue）：与光波的波长有关，它表示人的感官对不同颜色的感受，如红色、绿色、蓝色等，它也可表示一定范围的颜色，如暖色、冷色等。
+
+饱和度 S（Saturation）：表示颜色的纯度，纯光谱色是完全饱和的，加入白光会稀释饱和度。饱和度越大，颜色看起来就会越鲜艳，反之亦然。
+
+亮度 I（Intensity）：对应成像亮度和图像灰度，是颜色的明亮程度。
+
+明度 V：明度表示颜色明亮的程度，对于光源色，明度值与发光体的光亮度有关；对于物体色，此值和物体的透射比或反射比有关。通常取值范围为 0%（黑）到 100%（白）。
+
+{% include image.html url="/images/digital-image-processing2/1353461596_7598.JPG" %}
+
+#### HSV 与 HSI 区别
+
+HSV 里面的 v 指的是 RGB 里面的最大的值，$v = max(max(r,g),b)$，
+而 HSI 的 I 是平均值，$I=(r+g+b) / 3$，
+另外两个分量应该是一样的，如果只是需要 h 或者 s 的话可以用 matlab 自带的 rgb2hsv 了。
+
 
 ### YUV 颜色模型
 

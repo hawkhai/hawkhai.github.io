@@ -173,6 +173,7 @@ function initToc(tocdiv) {
         $.fn.tocInited = true;
         tocdiv.toc({
             title: '<i class="back-to-top">目录索引</i>',
+            showEffect: 'fadeIn',
         });
 
         // https://codepen.io/eksch/pen/xwdOeK
