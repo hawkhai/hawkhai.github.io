@@ -28,12 +28,8 @@ visibility: hidden
 ## 邮政编码识别
 
 * [图像识别与处理笔记——字符识别、邮政编码识别（10 月 8 日暂存）](https://blog.csdn.net/mao_hui_fei/article/details/78177471)
-
 * [2010 毕业设计](http://www.doc88.com/p-693272517244.html)
-
-* [2005.3 毕业设计](https://wenku.baidu.com/view/c26f1ea5492fb4daa58da0116c175f0e7cd119ea.html)
-* [2005.3 毕业设计](https://max.book118.com/html/2018/1108/8013115051001132.shtm)
-
+* [2005.3 毕业设计](https://wenku.baidu.com/view/c26f1ea5492fb4daa58da0116c175f0e7cd119ea.html) / [2005.3 毕业设计](https://max.book118.com/html/2018/1108/8013115051001132.shtm)
 * [OpenCV：裁剪 6 位数的手写邮政编码](https://stackoom.com/question/3xNO6/Opencv-%E8%A3%81%E5%89%AA-%E4%BD%8D%E6%95%B0%E7%9A%84%E6%89%8B%E5%86%99%E9%82%AE%E6%94%BF%E7%BC%96%E7%A0%81)
 
 
@@ -94,7 +90,7 @@ visibility: hidden
 谱聚类（求解规范化 Laplace 矩阵的特征值和特征向量）
 
 
-### toP56 总变差（TV）模型·图像恢复
+### toP56/59 总变差（TV）模型·图像恢复
 
 图象恢复是一个客观过程，需要利用**某些先验知识从退化和干扰的图像中去除模糊因素和噪声、尽可能恢复图像的本来面貌**。复原技术一般是先把**退化和干扰模型化**，然后采用相反的过程进行处理，复原图像。
 
