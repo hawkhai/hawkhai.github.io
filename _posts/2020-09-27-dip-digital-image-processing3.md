@@ -101,9 +101,18 @@ visibility: hidden
 
 学习笔记 <https://github.com/LiuFG/digital_image_process>
 
-冈萨雷斯《数字图像处理》Python 实现（第三版） <https://github.com/qcymkxyc/Image-Process>
+冈萨雷斯《数字图像处理》Python（第三版） <https://github.com/qcymkxyc/Image-Process>
 
 <https://github.com/iwuqing/Digital-Image-Processing>
+
+冈萨雷斯《数字图像处理》读书笔记 <https://github.com/MAhaitao999/digital_image_processing>
+
+数字图像处理（第三版） <https://github.com/ljy9826/Digital-Image-Processing_code>
+
+
+### CPP 源码
+
+冈萨雷斯《数字图像处理》RafaelC.Gonzalez
 
 
 ## 参考

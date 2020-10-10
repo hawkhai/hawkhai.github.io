@@ -151,6 +151,8 @@ $$
 \left[\begin{array}{l}u \\v \\1\end{array}\right]=\left[\begin{array}{lll}a_{1} & b_{1} & c_{1} \\a_{2} & b_{2} & c_{2} \\0 & 0 & 1\end{array}\right]\left[\begin{array}{l}x \\y \\1\end{array}\right]
 $$
 
+{% include image.html url="/images/digital-image-processing/20180628113033537.png" %}
+
 #### 透视变换（Perspective Transformation 或 Viewing Plane / Projective Mapping）
 
 #### 三维
