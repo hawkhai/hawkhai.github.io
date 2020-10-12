@@ -13,28 +13,28 @@ toc: true
 template<typename T = HANDLE, BOOL (__stdcall *Closer)(T) = ::CloseHandle>
 class SmartHandleTmpl
 {
-	SmartHandleTmpl(const SmartHandleTmpl&);
-	SmartHandleTmpl& operator=(const SmartHandleTmpl&);
+    SmartHandleTmpl(const SmartHandleTmpl&);
+    SmartHandleTmpl& operator=(const SmartHandleTmpl&);
 
 public:
-	SmartHandleTmpl(T handle = NULL) : _handle(handle) { }
-	virtual ~SmartHandleTmpl() {
-		if (_handle && _handle != INVALID_HANDLE_VALUE)
-			Closer(_handle);
-	}
+    SmartHandleTmpl(T handle = NULL) : _handle(handle) { }
+    virtual ~SmartHandleTmpl() {
+        if (_handle && _handle != INVALID_HANDLE_VALUE)
+            Closer(_handle);
+    }
 
-	operator T() const { return _handle; }
-	template<typename F>
-	operator F*() const { return (F*) _handle; }
-	T* operator&() { return &_handle; }
-	T operator=(T handle) {
-		if (_handle != handle && _handle && _handle != INVALID_HANDLE_VALUE)
-			Closer(_handle);
-		return _handle = handle;
-	}
+    operator T() const { return _handle; }
+    template<typename F>
+    operator F*() const { return (F*) _handle; }
+    T* operator&() { return &_handle; }
+    T operator=(T handle) {
+        if (_handle != handle && _handle && _handle != INVALID_HANDLE_VALUE)
+            Closer(_handle);
+        return _handle = handle;
+    }
 
 private:
-	T _handle;
+    T _handle;
 };
 
 typedef SmartHandleTmpl<> SmartHandle;
