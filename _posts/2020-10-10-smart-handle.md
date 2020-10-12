@@ -3,7 +3,7 @@ layout: post
 title: "利用 C++ 类生命周期，自动释放 HANDLE 句柄"
 location: "珠海"
 categories: ["编程"]
-tags: [Windows Prog]
+tags: [Windows Prog, C++]
 toc: true
 ---
 
@@ -47,4 +47,33 @@ typedef SmartHandleTmpl<> SmartHandle;
 ```cpp
 SmartHandleTmpl<HANDLE, ::FindClose>
 SmartHandleTmpl<LPCVOID, ::UnmapViewOfFile>
+```
+
+同样的原理，可以构建临界区锁：
+
+```cpp
+class SmartCriticalSection
+{
+public:
+    SmartCriticalSection() { ::InitializeCriticalSection(&m_sesion); }
+    virtual ~SmartCriticalSection() { ::DeleteCriticalSection(&m_sesion); }
+
+    void Lock(void) { ::EnterCriticalSection(&m_sesion); }
+    void Unlock(void) { ::LeaveCriticalSection(&m_sesion); };
+
+private:
+    CRITICAL_SECTION m_sesion;
+};
+
+// 类创建成员：SmartCriticalSection m_csection;
+// 成员函数就可以用了：SmartLocker temp(m_csection);
+// 要注意的就是，不要 TerminateThread / ExitThread 之类的，可能造成死锁。
+class SmartLocker
+{
+public:
+    SmartLocker(SmartCriticalSection& csection) : m_csection(csection) { m_csection.Lock(); }
+    virtual ~SmartLocker(){ m_csection.Unlock(); }
+private:
+    SmartCriticalSection& m_csection;
+};
 ```
