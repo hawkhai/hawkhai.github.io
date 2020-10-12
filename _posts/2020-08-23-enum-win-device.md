@@ -3,7 +3,7 @@ layout: post
 title: "Enumerating windows device"
 location: "珠海"
 categories: ["编程"]
-tags: [Windows Prog]
+tags: [Windows Prog, C++]
 toc: true
 ---
 
