@@ -153,6 +153,10 @@ $$
 
 {% include image.html url="/images/digital-image-processing/20180628113033537.png" %}
 
+from <https://www.cnblogs.com/ghj1976/p/5199086.html>
+
+{% include image.html url="/images/digital-image-processing/120296-20160222070734244-1956482228.png" %}
+
 #### 透视变换（Perspective Transformation 或 Viewing Plane / Projective Mapping）
 
 #### 三维
