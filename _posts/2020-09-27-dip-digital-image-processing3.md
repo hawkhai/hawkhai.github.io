@@ -119,6 +119,38 @@ https://colab.research.google.com/github/yoyoyo-yo/Gasyori100knock/blob/master/Q
 冈萨雷斯《数字图像处理》RafaelC.Gonzalez
 
 
+### 一堆复习笔记
+
+https://blog.csdn.net/Dontla/article/details/106885633
+
+http://zuzhiang.cn/2019/09/24/DIP/
+
+https://a-suozhang.xyz/2019/09/06/Diigital-Image-Procss/
+
+https://www.jianshu.com/p/926d6c15dbf9
+
+https://wenku.baidu.com/view/3ea27a1e59eef8c75fbfb3c1.html
+
+https://blog.csdn.net/u011178262/article/details/79067643
+
+https://blog.csdn.net/sunshine_lyn/article/details/85400015
+
+https://blog.csdn.net/qq_18234121/article/details/82761675
+
+https://blog.csdn.net/weixin_37625243/article/details/102556940
+
+
+### 一堆 Python 代码
+
+GITHUB 数学公式展开：<https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima>
+
+实现了离散傅里叶变换：https://github.com/tesfagabir/Digital-Image-Processing/blob/master/01-Implementing-Discrete-Fourier-Transform-Using-Python.ipynb
+
+实现了快速傅里叶变换：https://github.com/tesfagabir/Digital-Image-Processing/blob/master/02-Implementing-Fast-Fourier-Transform-Using-Python.ipynb
+
+非常有价值 <https://github.com/mohammaduzair9/Basic-Image-Processing>
+
+
 ## 参考
 
 - [1] [bilibili <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1tx41147Tx)
