@@ -150,6 +150,12 @@ GITHUB 数学公式展开：<https://chrome.google.com/webstore/detail/mathjax-p
 
 非常有价值 <https://github.com/mohammaduzair9/Basic-Image-Processing>
 
+一个偏门的库 Library for Digital Pathology Image Processing <https://github.com/histolab/histolab>
+
+毛发去除算法，有点意思：<https://github.com/sunnyshah2894/DigitalHairRemoval>
+
+https://github.com/Nagakiran1/4-simple-steps-in-Builiding-OCR/blob/master/4_Simple_steps_in_Building_OCR1.ipynb
+
 
 ## 参考
 
