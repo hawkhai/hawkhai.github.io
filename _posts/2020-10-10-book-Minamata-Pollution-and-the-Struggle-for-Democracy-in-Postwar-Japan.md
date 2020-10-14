@@ -7,6 +7,8 @@ tags: [读书笔记]
 comments: true
 ---
 
+{% include image.html url="/images/book/20d5515bad0a75dfd0d314f9976c2515_720w.jpg" %}
+
 
 ## 《水俣病》1 背景
 
@@ -53,3 +55,8 @@ comments: true
 2001 年，大阪高等法院判定日本国家和县政府放任疾病扩散的罪名成立。
 
 事情已经过去了 40 年。
+
+
+## 参考
+
+- [1] [日本公害往事](https://zhuanlan.zhihu.com/p/19662214)
