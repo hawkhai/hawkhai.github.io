@@ -17,6 +17,7 @@ visibility: hidden
 ## 手写数字识别
 
 * <https://www.jb51.net/article/133880.htm>
+
 * <https://github.com/HanpuLiang/Simple-Handwritten-Numerel-Recogntion>
 
 
@@ -28,8 +29,11 @@ visibility: hidden
 ## 邮政编码识别
 
 * [图像识别与处理笔记——字符识别、邮政编码识别（10 月 8 日暂存）](https://blog.csdn.net/mao_hui_fei/article/details/78177471)
+
 * [2010 毕业设计](http://www.doc88.com/p-693272517244.html)
+
 * [2005.3 毕业设计](https://wenku.baidu.com/view/c26f1ea5492fb4daa58da0116c175f0e7cd119ea.html) / [2005.3 毕业设计](https://max.book118.com/html/2018/1108/8013115051001132.shtm)
+
 * [OpenCV：裁剪 6 位数的手写邮政编码](https://stackoom.com/question/3xNO6/Opencv-%E8%A3%81%E5%89%AA-%E4%BD%8D%E6%95%B0%E7%9A%84%E6%89%8B%E5%86%99%E9%82%AE%E6%94%BF%E7%BC%96%E7%A0%81)
 
 
@@ -47,6 +51,8 @@ visibility: hidden
 
 
 ### 一些代码
+
+* from **<https://github.com/wzh191920/License-Plate-Recognition>**
 
 * 代码还可以 [车牌检测与定位](https://www.freesion.com/article/5566190803/)
 
@@ -97,21 +103,17 @@ visibility: hidden
 
 ### 数字图像处理 源码
 
-**<http://accu.cc/content/pil/agwn/>**
+* **<http://accu.cc/content/pil/agwn/>**
 
-学习笔记 <https://github.com/LiuFG/digital_image_process>
+* 学习笔记 <https://github.com/LiuFG/digital_image_process>
 
-冈萨雷斯《数字图像处理》Python（第三版） <https://github.com/qcymkxyc/Image-Process>
+* **孔洞填充、骨架算法、边界提取。**冈萨雷斯《数字图像处理》Python（第三版） <https://github.com/qcymkxyc/Image-Process>
 
-<https://github.com/iwuqing/Digital-Image-Processing>
+* <https://github.com/iwuqing/Digital-Image-Processing>
 
-冈萨雷斯《数字图像处理》读书笔记 <https://github.com/MAhaitao999/digital_image_processing>
+* 冈萨雷斯《数字图像处理》读书笔记 <https://github.com/MAhaitao999/digital_image_processing>
 
-数字图像处理（第三版） <https://github.com/ljy9826/Digital-Image-Processing_code>
-
-<https://github.com/gzr2017/ImageProcessing100Wen/tree/master/Question_01_10>
-
-https://colab.research.google.com/github/yoyoyo-yo/Gasyori100knock/blob/master/Question_11_20/Question_11_20.ipynb
+* 数字图像处理（第三版） <https://github.com/ljy9826/Digital-Image-Processing_code>
 
 
 ### CPP 源码
@@ -121,40 +123,32 @@ https://colab.research.google.com/github/yoyoyo-yo/Gasyori100knock/blob/master/Q
 
 ### 一堆复习笔记
 
-https://blog.csdn.net/Dontla/article/details/106885633
+* [数字图像处理学习笔记](http://zuzhiang.cn/2019/09/24/DIP/)
 
-http://zuzhiang.cn/2019/09/24/DIP/
+* [数字图像处理笔记](https://a-suozhang.xyz/2019/09/06/Diigital-Image-Procss/)
 
-https://a-suozhang.xyz/2019/09/06/Diigital-Image-Procss/
+* 这个不错 **[数字图像处理——知识点](https://www.jianshu.com/p/926d6c15dbf9)**
 
-https://www.jianshu.com/p/926d6c15dbf9
+* 数字图像处理 总结 <https://blog.csdn.net/u011178262/article/details/79067643>
 
-https://wenku.baidu.com/view/3ea27a1e59eef8c75fbfb3c1.html
+* 数字图像处理复习总结 <https://blog.csdn.net/sunshine_lyn/article/details/85400015>
 
-https://blog.csdn.net/u011178262/article/details/79067643
-
-https://blog.csdn.net/sunshine_lyn/article/details/85400015
-
-https://blog.csdn.net/qq_18234121/article/details/82761675
-
-https://blog.csdn.net/weixin_37625243/article/details/102556940
+* **冈萨雷斯《数字图像处理》读书笔记 <https://blog.csdn.net/weixin_37625243/article/details/102556940>**
 
 
 ### 一堆 Python 代码
 
-GITHUB 数学公式展开：<https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima>
+* 实现了离散傅里叶变换：<https://github.com/tesfagabir/Digital-Image-Processing/blob/master/01-Implementing-Discrete-Fourier-Transform-Using-Python.ipynb>
 
-实现了离散傅里叶变换：https://github.com/tesfagabir/Digital-Image-Processing/blob/master/01-Implementing-Discrete-Fourier-Transform-Using-Python.ipynb
+* 实现了快速傅里叶变换：<https://github.com/tesfagabir/Digital-Image-Processing/blob/master/02-Implementing-Fast-Fourier-Transform-Using-Python.ipynb>
 
-实现了快速傅里叶变换：https://github.com/tesfagabir/Digital-Image-Processing/blob/master/02-Implementing-Fast-Fourier-Transform-Using-Python.ipynb
+* 几个简单的处理：<https://github.com/mohammaduzair9/Basic-Image-Processing>
 
-非常有价值 <https://github.com/mohammaduzair9/Basic-Image-Processing>
+* 一个偏门的库 Library for Digital Pathology Image Processing <https://github.com/histolab/histolab>
 
-一个偏门的库 Library for Digital Pathology Image Processing <https://github.com/histolab/histolab>
+* 毛发去除算法，有点意思：<https://github.com/sunnyshah2894/DigitalHairRemoval>
 
-毛发去除算法，有点意思：<https://github.com/sunnyshah2894/DigitalHairRemoval>
-
-https://github.com/Nagakiran1/4-simple-steps-in-Builiding-OCR/blob/master/4_Simple_steps_in_Building_OCR1.ipynb
+* 4-simple-steps-in-Builiding-OCR <https://github.com/Nagakiran1/4-simple-steps-in-Builiding-OCR>
 
 
 ## 参考
@@ -162,3 +156,4 @@ https://github.com/Nagakiran1/4-simple-steps-in-Builiding-OCR/blob/master/4_Simp
 - [1] [bilibili <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1tx41147Tx)
 - [2] [标题自动编号](https://www.cnblogs.com/36bian/p/7609304.html)
 - [3] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
+- [4] GITHUB 数学公式展开：<https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima>

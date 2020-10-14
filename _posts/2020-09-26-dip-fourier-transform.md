@@ -28,6 +28,8 @@ Part5. 从傅里叶级数推导傅里叶变换 <https://www.bilibili.com/video/B
 
 Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
+[「珂学原理」No. 26「拉普拉斯变换了什么？」 <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/av15571608)
+
 
 ### 复数的物理意义
 

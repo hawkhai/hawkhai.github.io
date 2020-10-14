@@ -300,7 +300,7 @@ G_{x}=\left(Z_{7}+2 Z_{8}+Z_{9}\right)-\left(Z_{1}+2 Z_{2}+Z_{3}\right) \\
 G_{y}=\left(Z_{3}+2 Z_{6}+Z_{9}\right)-\left(Z_{1}+2 Z_{4}+Z_{7}\right)
 \end{array}$$
 
-从下面显示的三维表面图中，我们看到高屏障有效地将硬币从背景中分离出来。[from](https://cloud.tencent.com/developer/section/1414646)
+浮雕特效。从下面显示的三维表面图中，我们看到高屏障有效地将硬币从背景中分离出来。[from](https://cloud.tencent.com/developer/section/1414646)
 
 {% include image.html
 url="/images/digital-image-processing/coins.png"
