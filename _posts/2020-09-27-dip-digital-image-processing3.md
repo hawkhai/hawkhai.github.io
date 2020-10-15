@@ -52,7 +52,7 @@ visibility: hidden
 
 ### 一些代码
 
-* from **<https://github.com/wzh191920/License-Plate-Recognition>**
+* **from <https://github.com/wzh191920/License-Plate-Recognition>**
 
 * 代码还可以 [车牌检测与定位](https://www.freesion.com/article/5566190803/)
 
@@ -127,7 +127,7 @@ visibility: hidden
 
 * [数字图像处理笔记](https://a-suozhang.xyz/2019/09/06/Diigital-Image-Procss/)
 
-* 这个不错 **[数字图像处理——知识点](https://www.jianshu.com/p/926d6c15dbf9)**
+* **这个不错 [数字图像处理——知识点](https://www.jianshu.com/p/926d6c15dbf9)**
 
 * 数字图像处理 总结 <https://blog.csdn.net/u011178262/article/details/79067643>
 
@@ -151,9 +151,59 @@ visibility: hidden
 * 4-simple-steps-in-Builiding-OCR <https://github.com/Nagakiran1/4-simple-steps-in-Builiding-OCR>
 
 
+### 一堆滤镜
+
+* 一批复古风：A set of image filters crafted and curated by This Is My Jam <https://github.com/thisismyjam/jam-image-filter>
+
+* 一个库，风格丰富：Image processors and filters for use with ImageKit <https://github.com/fish2000/instakit>
+
+* Simple python demos of Guided Image Filtering (Python). <https://github.com/tody411/GuidedFilter>
+
+* 专门为除去照片中腿毛等体毛而设计。Specially designed for image leg/arm hair removal. <https://github.com/FerryYoungFan/FanselineImageToolbox>
+
+* BeautyCamera <https://github.com/PerpetualSmile/BeautyCamera>
+
+    饱和度调整，明度调节，皮肤识别，皮肤磨皮（value1 精细度，value2 程度），美白算法（皮肤识别），美白算法（人脸识别），Gamma 矫正，怀旧滤镜，木刻滤镜，细节增强，风格化，铅笔画（彩色）。
+
+    <https://github.com/Ssssix40/Cameo1.1/blob/master/filters.py>
+
+* An Wiener Filter Implementation for Image Processing Task <https://github.com/tranleanh/wiener-filter-image-restoration>
+
+* image filtering techniques in python with examples <https://github.com/vikasgola/image-filtering>
+
+* Commonly used image filters. 🌎 包罗常见的图像滤波器。<https://github.com/JNingWei/Image_Filter>
+
+#### Python ImageFilter, ImageEnhance
+
+* 纯 Python 综合图像处理小工具（2）图像增强 <https://www.cnblogs.com/sopic/p/4537718.html>
+
+* 纯 Python 综合图像处理小工具（3）10 种滤镜算法 <https://www.cnblogs.com/sopic/p/4538052.html>
+
+    BLUR、CONTOUR、DETAIL、EDGE_ENHANCE、EDGE_ENHANCE_MORE、EMBOSS、FIND_EDGES、SMOOTH、SMOOTH_MORE、SHARPEN（GaussianBlur、UnsharpMask、Kernel、RankFilter、MedianFilter、MinFilter、MaxFilter、ModeFilter）
+
+    各种效果：<https://zhuanlan.zhihu.com/p/62737338>
+
+    | ImageFilter.BLUR                | 模糊滤镜 |
+    | ImageFilter.CONTOUR             | 轮廓 |
+    | ImageFilter.DETAIL              | 细节滤镜 |
+    | ImageFilter.EDGE_ENHANCE        | 边界加强 |
+    | ImageFilter.EDGE_ENHANCE_MORE   | 边界加强（阀值更大） |
+    | ImageFilter.EMBOSS              | 浮雕滤镜 |
+    | ImageFilter.FIND_EDGES          | 边界滤镜 |
+    | ImageFilter.SMOOTH              | 平滑滤镜 |
+    | ImageFilter.SMOOTH_MORE         | 平滑滤镜（阀值更大） |
+    | ImageFilter.SHARPEN             | 锐化滤镜 |
+    | GaussianBlur（radius）          | 高斯模糊 |
+    | UnsharpMask                     | USM 锐化 |
+    | MedianFilter                    | 中值滤波 |
+
+* 纯 Python 综合图像处理小工具（4）自定义像素级处理（剪纸滤镜）<https://www.cnblogs.com/sopic/p/4665946.html>
+
+
 ## 参考
 
 - [1] [bilibili <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1tx41147Tx)
 - [2] [标题自动编号](https://www.cnblogs.com/36bian/p/7609304.html)
 - [3] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
 - [4] GITHUB 数学公式展开：<https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima>
+- [self] <http://localhost:4000/blog/blog/2020/09/27/dip-digital-image-processing3>
