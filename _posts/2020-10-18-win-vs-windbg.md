@@ -14,6 +14,7 @@ toc: true
 !sw
 ```
 
+
 ## 设置符号表（crtl + s）
 
 ```
@@ -33,6 +34,7 @@ CheckSum            // 这两项信息可以校验文件是否损坏、篡改
 ```
 
 建议本地有一份和编译服务器同样目录的源码，这样的话操作符号表文件也方便点，如果符号表不匹配，可以直接从编译产出目录把符号表文件拷贝到同路径构建目录。
+
 
 ## VS 操作习惯的 Windbg
 
@@ -106,6 +108,7 @@ k 命令显示当前线程调用堆栈、帧数、简单参数值，n 表示帧�
 
 dd wort、da ansic 编码、du unicode 编码、dds 根据地址还原堆栈（注意 winapi 中的 context 结构，可以用此命令行还原堆栈）
 
+
 ## 异常捕获的崩溃
 
 __CxxUnhandledExceptionFilter 崩溃点（c、c++ 抛出异常，堆栈被运行库接管，需要还原堆栈）：.cxr dwo(__CxxUnhandledExceptionFilter 的第一个参数地址（左边开始第三个参数）+ 4)
@@ -115,6 +118,7 @@ __CxxUnhandledExceptionFilter 崩溃点（c、c++ 抛出异常，堆栈被运行
 也可以用跟底层的命令还原堆栈：dt _CONTEXT __CxxUnhandledExceptionFilter 的第一个参数地址，上面命令行可以获得 ESP 的地址，然后再用 dds 命令行还原 ESP 堆栈，命令为：dds ESP 的地址 l100。
 
 有些命令行是无限行数的，例如 dW 显示宽字节字符串、dds 显示堆栈，记得这种命令行一定要带上 l100，表示只显示 100 行，否则 windbg 会 busy，不容易中断。
+
 
 ## windbg 断点调试
 
@@ -137,6 +141,7 @@ poi 是解引用，类似 C/C++ 的 \* 解引用指针，windbg 里面看到的�
 !gle // getlasterror
 ```
 
+
 ## 死锁
 
 定位卡死、通常是定位主线程卡死，因为其他线程卡死估计也暴露不了。
@@ -152,6 +157,7 @@ y 号线程 wait -> 0 或 x 即会造成死锁
 ```
 
 <https://blog.csdn.net/xxin_w/article/details/8449855>
+
 
 ## 内存
 
@@ -170,6 +176,7 @@ y 号线程 wait -> 0 或 x 即会造成死锁
 
 <https://blog.csdn.net/cuglifangzheng/article/details/50725890>
 <https://blog.csdn.net/worldy/article/details/17888253>
+
 
 ## 进程信息
 
