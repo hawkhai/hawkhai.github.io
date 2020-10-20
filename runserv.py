@@ -50,7 +50,7 @@ def checksite():
         if fdata.find("localhost:4000") != -1:
             openTextFile(fpath)
             assert False, fpath
-    searchdir("_site", sitefile)
+    searchdir("_site", sitefile, ignorelistMore=["_site",])
 
 def checkgitline(fpath, tag, until):
     lines = readfileLines(fpath)
