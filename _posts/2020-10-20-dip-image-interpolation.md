@@ -8,7 +8,7 @@ mathjax: true
 toc: true
 ---
 
-写了一个 Python 直观感受各种图像缩放插值算法。
+写了一个 Python 直观感受各种图像缩放插值算法。越高级的算法越圆润，越基础的算法马赛克效果越明显。
 
 * INTER_NEAREST  -- 最近邻插值法
 * INTER_LINEAR   -- 双线性插值法（默认）
@@ -20,6 +20,8 @@ toc: true
 ## 先上图
 
 {% include image.html url="/images/image-interpolation/result.png" %}
+
+{% include image.html url="/images/image-interpolation/result2.png" %}
 
 
 ## Python 代码
@@ -83,6 +85,12 @@ def main():
 e7ff00 0047ff 000000 ff4b00
 ff4b00 e7ff00 0047ff 00ffe7
 """
+    imagestr = """
+00007f 2fffc7 00bcff 00007f
+00b0ff de0000 32ffc3 56ffa0
+ffd300 53ffa3 ffd300 0050ff
+ff7600 7f0000 0090ff 32ffc3
+"""
     myimage = [strcolor(color) for color in imagestr.split()]
     myimage = np.asarray(myimage).reshape(4, 4, 3).astype(np.uint8)
 
@@ -103,7 +111,7 @@ if __name__ == "__main__":
 ```
 
 
-## 后来发现网上很多
+## 后来发现网上有类似代码
 
 * [Show all different interpolation methods for imshow](https://matplotlib.org/1.4.1/examples/images_contours_and_fields/interpolation_methods.html)
 
