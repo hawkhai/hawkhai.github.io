@@ -22,7 +22,7 @@ Slow down a little and write a blog, which can not only organize ideas, but also
 You can also read back and communicate with others.
 
 Document-based knowledge iteration is more stable and reliable than brain-based iteration.
-As the saying goes: good memory is not as good as bad writing.
+As the saying goes: Bad notes is better than good memories.
 
 
 ## Work history
