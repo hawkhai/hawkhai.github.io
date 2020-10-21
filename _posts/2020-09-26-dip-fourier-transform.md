@@ -132,6 +132,13 @@ from http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf
 {% include image.html url="/images/fourier-transform/v2-2c6301e214b1766e2b4173c2a0593bb2_720w.jpg" %}
 
 
+## 代码实验
+
+* https://www.bogotobogo.com/python/OpenCV_Python/python_opencv3_Signal_Processing_with_NumPy_Fourier_Transform_FFT_DFT_2.php
+* https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_transforms/py_fourier_transform/py_fourier_transform.html
+* http://scipy-lectures.org/intro/scipy/auto_examples/solutions/plot_fft_image_denoise.html
+
+
 ## 参考
 
 - [1] [bilibili <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://space.bilibili.com/230105574/channel/detail?cid=67768)
