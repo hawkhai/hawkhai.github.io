@@ -9,6 +9,22 @@ permalink: /about/
 Hi, my name is hawkhai and welcome to my blog.
 
 
+## 为什么要写博客（Why write blog）
+
+工作很多年后，发现什么都没留下，一直忙于赶路，很多东西搞过，然后都忘记了。
+稍微放慢一点，写写博客，既可以整理思路，又可以系统化知识结构，自己也可以回头阅读，还方便与他人交流。
+
+基于文档的知识迭代，比基于脑袋的迭代，更稳固、更可靠。正所谓：好记性不如烂笔头。
+
+After working for many years, I found that nothing was left.
+I have been busy rushing, done many things, and then forgot.
+Slow down a little and write a blog, which can not only organize ideas, but also systematize the knowledge structure.
+You can also read back and communicate with others.
+
+Document-based knowledge iteration is more stable and reliable than brain-based iteration.
+As the saying goes: good memory is not as good as bad writing.
+
+
 ## Work history
 
 * Software Engineer

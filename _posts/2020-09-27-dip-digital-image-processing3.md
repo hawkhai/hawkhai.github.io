@@ -206,4 +206,3 @@ visibility: hidden
 - [2] [标题自动编号](https://www.cnblogs.com/36bian/p/7609304.html)
 - [3] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
 - [4] GITHUB 数学公式展开：<https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima>
-- [self] <http://localhost:4000/blog/blog/2020/09/27/dip-digital-image-processing3>
