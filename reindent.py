@@ -1,5 +1,6 @@
 #encoding=utf8
 import re, os, sys
+sys.path.append("../")
 try:
     from .funclib import * # 被间接使用
 except ImportError as ex: # attempted relative import with no known parent package
@@ -63,12 +64,10 @@ makebackup = True
 # A specified newline to be used in the output (set by --newline option)
 spec_newline = None
 
-
 def usage(msg=None):
     if msg is None:
         msg = __doc__
     print(msg, file=sys.stderr)
-
 
 def errprint(*args):
     sys.stderr.write(" ".join(str(arg) for arg in args))
@@ -107,7 +106,6 @@ def main():
         return
     for arg in args:
         check(arg)
-
 
 def check(file):
     if os.path.isdir(file) and not os.path.islink(file):
@@ -165,7 +163,6 @@ def check(file):
             print("unchanged.")
         return False
 
-
 def _rstrip(line, JUNK='\n \t'):
     """Return line stripped of trailing spaces, tabs, newlines.
 
@@ -178,7 +175,6 @@ def _rstrip(line, JUNK='\n \t'):
     while i > 0 and line[i - 1] in JUNK:
         i -= 1
     return line[:i]
-
 
 class Reindenter:
 
@@ -329,14 +325,12 @@ class Reindenter:
             if line:   # not endmarker
                 self.stats.append((slinecol[0], self.level))
 
-
 # Count number of leading blanks.
 def getlspace(line):
     i, n = 0, len(line)
     while i < n and line[i] == " ":
         i += 1
     return i
-
 
 if __name__ == '__main__':
     main()

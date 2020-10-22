@@ -140,6 +140,7 @@ def mainfile(fpath, fname, ftype):
     warnCnEnSpace    = ftype in ("md", "php", "html", "htm",)
     warnMdTitleSpace = ftype in ("md",)
     warnIndentSpace  = ftype in ("md", "py", "php",)
+    isPyFile = ftype in ("py",)
 
     if fpath.find("\\_site\\") != -1:
         return
@@ -180,7 +181,8 @@ def mainfile(fpath, fname, ftype):
         tagregexk = "^\\s*[#]+\\s{2,}"
         prelinetag = re.findall(tagregex, preline)
         nextlinetag = re.findall(tagregex, nextline)
-        assert not re.findall(tagregexk, preline), preline
+        if not isPyFile:
+            assert not re.findall(tagregexk, preline), preline
 
         if re.findall("^\\s*[*-]+ ", line):
             idtcnt = 2
@@ -281,9 +283,9 @@ def mainfile(fpath, fname, ftype):
 
         if count > 12 or count % idtcnt == 0:
             pass # ok
-        elif warnIndentSpace:
+        elif warnIndentSpace and not isPyFile:
             openTextFile(fpath)
-            assert False, "{}:{} {}".format(fpath, index+1, line)
+            assert False, "{}:{} \"{}\"".format(fpath, index+1, line)
 
     page = "\r\n".join(lines)
     while page.find("\r\n" * 3) != -1:
