@@ -121,12 +121,20 @@ def mainfile(fpath, fname, ftype):
         return
 
     ftype = ftype.lower()
-    if not ftype in ("md", "py", "php", "html", "htm",):
+
+    warnCnEnSpace    = ftype in ("md", "php", "html", "htm",) # 英文中文空符检查
+    warnMdTitleSpace = ftype in ("md",) # 标题前后空行检查
+    warnIndentSpace  = ftype in ("md", "py", "php",) # 缩进检查
+    isPyFile         = ftype in ("py",)
+    isMdFile         = ftype in ("md",)
+    isSrcFile        = ftype in ("md", "py", "php", "html", "htm",)
+
+    if not isSrcFile:
         if fpath.find("\\_site\\") != -1:
             g_tpset.add(ftype)
         return
 
-    if ftype in ("md",):
+    if isMdFile:
         fdata = readfile(fpath, True).strip()
         if fdata.startswith("---"):
             kvlist = fdata.split("---")[1].strip().split("\n")
@@ -137,16 +145,11 @@ def mainfile(fpath, fname, ftype):
                 value = value.strip()
                 g_mdkeyset.add(key)
 
-    warnCnEnSpace    = ftype in ("md", "php", "html", "htm",)
-    warnMdTitleSpace = ftype in ("md",)
-    warnIndentSpace  = ftype in ("md", "py", "php",)
-    isPyFile = ftype in ("py",)
-
     if fpath.find("\\_site\\") != -1:
         return
 
     def linerstrip(line):
-        if ftype in ("md",):
+        if isMdFile:
             line = line.replace("  "+bilibilitag, bilibilitag)
             line = line.replace(" "+bilibilitag, bilibilitag)
             line = line.replace(bilibilitag, " "+bilibilitag)
@@ -174,7 +177,7 @@ def mainfile(fpath, fname, ftype):
         preline = lines[index - 1] if index > 0 else ""
         nextline = lines[index + 1] if index < len(lines)-1 else ""
 
-        if ftype in ("md",):
+        if isMdFile:
             collectHost(line)
 
         tagregex = "^\\s*[#]+ "
@@ -219,6 +222,8 @@ def mainfile(fpath, fname, ftype):
         linec = line
         for itmp in re.findall("\\$\\$.*?\\$\\$", line): # 忽略数学公式
             linec = linec.replace(itmp, "$$$$")
+        for itmp in re.findall("“.*?”", line): # 忽略双引号
+            linec = linec.replace(itmp, "“”")
 
         lix1 = re.findall("[{}][^{} *]".format(cnregex, cnregex), linec, re.IGNORECASE)
         lix2 = re.findall("[^{} *][{}]".format(cnregex, cnregex), linec, re.IGNORECASE)
