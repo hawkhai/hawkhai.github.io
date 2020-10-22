@@ -10,11 +10,11 @@ toc: true
 
 写了一个 Python 直观感受各种图像缩放插值算法。越高级的算法越圆润，越基础的算法马赛克效果越明显。
 
-* INTER_NEAREST  -- 最近邻插值法
-* INTER_LINEAR   -- 双线性插值法（默认）
+* INTER_NEAREST  -- 最近邻插值法 "nearest"
+* INTER_LINEAR   -- 双线性插值法（默认）"linear", "bilinear", "trilinear", "triangle"
 * INTER_AREA     -- 基于局部像素的重采样（resampling using pixel area relation）
-* INTER_CUBIC    -- 基于 4x4 像素邻域的 3 次插值法
-* INTER_LANCZOS4 -- 基于 8x8 像素邻域的 Lanczos 插值
+* INTER_CUBIC    -- 基于 4x4 像素邻域的 3 次插值法 "cubic", "bicubic", "tricubic"
+* INTER_LANCZOS4 -- 基于 8x8 像素邻域的 Lanczos 插值 "lanczos4"
 
 
 ## 先上图
@@ -113,13 +113,19 @@ if __name__ == "__main__":
 
 ## 后来发现网上有类似代码
 
-* [Show all different interpolation methods for imshow](https://matplotlib.org/1.4.1/examples/images_contours_and_fields/interpolation_methods.html)
+* 展示各种算法差异 [Show all different interpolation methods for imshow](https://matplotlib.org/1.4.1/examples/images_contours_and_fields/interpolation_methods.html)
 
 {% include image.html url="/images/image-interpolation/interpolation_methods.png" %}
 
-* [Interpolation](http://haifengl.github.io/interpolation.html)
+* 展示差异与原理 [Interpolation](http://haifengl.github.io/interpolation.html)
 
 {% include image.html url="/images/image-interpolation/grid-interpolation2d.png" %}
 {% include image.html url="/images/image-interpolation/63556641-eeb89400-c545-11e9-8f90-58e1c0eb0840.png" %}
 
 * [OpenCV 图像缩放 resize 各种插值方式的比较](https://blog.csdn.net/guyuealian/article/details/85097633)
+
+* 有个图有点意思 [Linear Methods for Image Interpolation](https://www.ipol.im/pub/art/2011/g_lmii/article.pdf)
+
+{% include image.html url="/images/image-interpolation/20201022103740.png" %}
+
+* 算法公式 [UTORIAL: IMAGE RESCALING](https://clouard.users.greyc.fr/Pantheon/experiments/rescaling/index-en.html)
