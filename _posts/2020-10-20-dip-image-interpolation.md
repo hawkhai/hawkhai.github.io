@@ -129,7 +129,7 @@ def main():
 e7ff00 0047ff 000000 ff4b00
 ff4b00 e7ff00 0047ff 00ffe7
 """
-    imagestr = """
+    imagestr2 = """
 00007f 2fffc7 00bcff 00007f 000000 0047ff e7ff00 000000
 00b0ff de0000 32ffc3 56ffa0 820000 00ffe7 ff4b00 0047ff
 ffd300 53ffa3 ffd300 0050ff e7ff00 0047ff 000000 ff4b00
@@ -140,12 +140,13 @@ e7ff00 0047ff 000000 ff4b00 ffd300 53ffa3 ffd300 0050ff
 ff4b00 e7ff00 0047ff 00ffe7 ff7600 7f0000 0090ff 32ffc3
 """
     myimage = [strcolor(color) for color in imagestr.split()]
-    myimage = np.asarray(myimage).reshape(8, 8, 3).astype(np.uint8)
+    ksize = round(len(myimage) ** 0.5)
+    myimage = np.asarray(myimage).reshape(ksize, ksize, 3).astype(np.uint8)
 
-    nearest  = imgtest(myimage, cv2.INTER_NEAREST)
-    linear   = imgtest(myimage, cv2.INTER_LINEAR)
-    cubic    = imgtest(myimage, cv2.INTER_CUBIC)
-    lanczos4 = imgtest(myimage, cv2.INTER_LANCZOS4)
+    nearest  = imgtest(myimage, cv2.INTER_NEAREST, 50)
+    linear   = imgtest(myimage, cv2.INTER_LINEAR, 50)
+    cubic    = imgtest(myimage, cv2.INTER_CUBIC, 50)
+    lanczos4 = imgtest(myimage, cv2.INTER_LANCZOS4, 50)
 
     imgshow4(nearest, "INTER_NEAREST",
         linear, "INTER_LINEAR",
@@ -155,10 +156,10 @@ ff4b00 e7ff00 0047ff 00ffe7 ff7600 7f0000 0090ff 32ffc3
 
     myimage = cv2.cvtColor(myimage, cv2.COLOR_BGR2GRAY)
 
-    nearest  = imgtest(myimage, cv2.INTER_NEAREST, 10)
-    linear   = imgtest(myimage, cv2.INTER_LINEAR, 10)
-    cubic    = imgtest(myimage, cv2.INTER_CUBIC, 10)
-    lanczos4 = imgtest(myimage, cv2.INTER_LANCZOS4, 10)
+    nearest  = imgtest(myimage, cv2.INTER_NEAREST, 5)
+    linear   = imgtest(myimage, cv2.INTER_LINEAR, 5)
+    cubic    = imgtest(myimage, cv2.INTER_CUBIC, 5)
+    lanczos4 = imgtest(myimage, cv2.INTER_LANCZOS4, 5)
 
     imgshow3d(nearest, "INTER_NEAREST")
     imgshow3d(linear, "INTER_LINEAR")
