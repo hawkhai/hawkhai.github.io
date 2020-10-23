@@ -134,9 +134,75 @@ from http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf
 
 ## 代码实验
 
-* https://www.bogotobogo.com/python/OpenCV_Python/python_opencv3_Signal_Processing_with_NumPy_Fourier_Transform_FFT_DFT_2.php
-* https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_transforms/py_fourier_transform/py_fourier_transform.html
-* http://scipy-lectures.org/intro/scipy/auto_examples/solutions/plot_fft_image_denoise.html
+* [SIGNAL PROCESSING WITH NUMPY II - IMAGE FOURIER TRANSFORM : FFT & DFT](https://www.bogotobogo.com/python/OpenCV_Python/python_opencv3_Signal_Processing_with_NumPy_Fourier_Transform_FFT_DFT_2.php)
+
+* [OpenCV Fourier Transform](https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_transforms/py_fourier_transform/py_fourier_transform.html)
+
+* [Image denoising by FFT](http://scipy-lectures.org/intro/scipy/auto_examples/solutions/plot_fft_image_denoise.html)
+
+```python
+#encoding=utf8
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import fftpack
+from scipy import ndimage
+import cv2
+
+def showgray(im, title):
+    plt.figure("fft_"+title)
+    plt.imshow(im, plt.cm.gray)
+    plt.title(title)
+    plt.show()
+
+# Show the results
+def plotSpectrum(imfft, title):
+    plt.figure("fft_"+title)
+    from matplotlib.colors import LogNorm
+    # A logarithmic colormap
+    #plt.imshow(np.abs(imfft), norm=LogNorm(vmin=5))
+    magnitudeSpectrum = 20*np.log(np.abs(imfft))
+    plt.imshow(magnitudeSpectrum)
+    plt.colorbar()
+    plt.title(title)
+    plt.show()
+
+def plotSpectrum2(srcimg, fshift, title):
+    plt.figure("fft_"+title)
+    magnitudeSpectrum = 20*np.log(np.abs(fshift))
+    plt.subplot(121), plt.imshow(srcimg, cmap = 'gray')
+    plt.title('Input Image'), plt.xticks([]), plt.yticks([])
+    plt.subplot(122), plt.imshow(magnitudeSpectrum, cmap = 'gray')
+    plt.title('Magnitude Spectrum'), plt.xticks([]), plt.yticks([])
+    plt.show()
+
+if __name__ == "__main__":
+    im = plt.imread('../image/moonlanding.png').astype(float)
+    im = cv2.imread('../image/moonlanding.png', 0).astype(float)
+    #showgray(im, 'Original image')
+
+    imfft = fftpack.fft2(im)
+    #plotSpectrum(imfft, 'Fourier transform')
+    plotSpectrum2(im, imfft, "Original image")
+
+    keepFraction = 0.1
+    imfft2 = imfft.copy()
+    r, c = imfft2.shape
+    imfft2[int(r*keepFraction):int(r*(1-keepFraction)), ...] = 0
+    imfft2[..., int(c*keepFraction):int(c*(1-keepFraction))] = 0
+    #plotSpectrum(imfft2, 'Filtered Spectrum')
+
+    imnew = fftpack.ifft2(imfft2).real
+    #showgray(imnew, 'Reconstructed Image')
+    plotSpectrum2(imnew, imfft2, "Reconstructed Image")
+
+    imblur = ndimage.gaussian_filter(im, 4)
+    showgray(imblur, 'Blurred image')
+
+```
+
+{% include image.html url="/images/fourier-transform/fft_Original_image.png" %}
+{% include image.html url="/images/fourier-transform/fft_Reconstructed_Image.png" %}
+{% include image.html url="/images/fourier-transform/fft_Blurred_image.png" %}
 
 
 ## 参考
