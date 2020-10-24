@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 
 # Morphology Dilate 膨胀
-def morphologyDil(img, Dilate_time=1):
+def morphologyDilate(img, dilateTime=1):
     H, W = img.shape
 
     # kernel
@@ -13,7 +13,7 @@ def morphologyDil(img, Dilate_time=1):
 
     # each dilate time
     out = img.copy()
-    for i in range(Dilate_time):
+    for i in range(dilateTime):
         tmp = np.pad(out, (1, 1), 'edge')
         for y in range(1, H+1):
             for x in range(1, W+1):
@@ -22,27 +22,7 @@ def morphologyDil(img, Dilate_time=1):
 
     return out
 
-# Morphology Dilate 膨胀
-def morphologyDilFull(img, Dilate_time=1):
-    H, W = img.shape
-
-    # kernel
-    MF = np.array(((1, 1, 1),
-                   (1, 0, 1),
-                   (1, 1, 1)), dtype=np.int)
-
-    # each dilate time
-    out = img.copy()
-    for i in range(Dilate_time):
-        tmp = np.pad(out, (1, 1), 'edge')
-        for y in range(1, H+1):
-            for x in range(1, W+1):
-                if np.sum(MF * tmp[y-1:y+2, x-1:x+2]) >= 250:
-                    out[y-1, x-1] = 255
-
-    return out
-
-def morphologyDil2(img, Dilate_time=1, linelen=3):
+def morphologyDilateLine(img, dilateTime=1, linelen=3):
     H, W = img.shape
 
     li = range(linelen*2 + 1)
@@ -52,7 +32,7 @@ def morphologyDil2(img, Dilate_time=1, linelen=3):
 
     # each dilate time
     out = img.copy()
-    for i in range(Dilate_time):
+    for i in range(dilateTime):
         YSIZE = 0
         XSIZE = linelen
         tmp = np.pad(out, ((YSIZE,YSIZE),(XSIZE,XSIZE)), 'edge')
@@ -63,7 +43,7 @@ def morphologyDil2(img, Dilate_time=1, linelen=3):
     return out
 
 # Morphology Erode 腐蚀
-def morphologyEro(img, Erode_time=1):
+def morphologyErode(img, erodeTime=1):
     H, W = img.shape
     out = img.copy()
 
@@ -73,7 +53,7 @@ def morphologyEro(img, Erode_time=1):
                    (0, 1, 0)), dtype=np.int)
 
     # each erode
-    for i in range(Erode_time):
+    for i in range(erodeTime):
         tmp = np.pad(out, (1, 1), 'edge')
         # erode
         for y in range(1, H+1):
@@ -83,7 +63,7 @@ def morphologyEro(img, Erode_time=1):
 
     return out
 
-def morphologyEro2(img, Erode_time=1, linelen=2):
+def morphologyErodeLine(img, erodeTime=1, linelen=2):
     H, W = img.shape
 
     li = range(linelen*2+1)
@@ -93,7 +73,7 @@ def morphologyEro2(img, Erode_time=1, linelen=2):
 
     # each dilate time
     out = img.copy()
-    for i in range(Erode_time):
+    for i in range(erodeTime):
         YSIZE = 0
         XSIZE = linelen
         tmp = np.pad(out, ((YSIZE,YSIZE),(XSIZE,XSIZE)), 'edge')
@@ -108,23 +88,23 @@ def morphologyEro2(img, Erode_time=1, linelen=2):
 
 # Opening morphology 开运算可以用来去除仅存的小块像素。
 def morphologyOpening(img, time=1):
-    out = morphologyEro(img, Dilate_time=time)
-    out = morphologyDil(out, Erode_time=time)
+    out = morphologyErode(img, dilateTime=time)
+    out = morphologyDilate(out, erodeTime=time)
     return out
 
 # Morphology Closing 闭运算能够将中断的像素连接起来。
 def morphologyClosing(img, time=1):
-    out = morphologyDil(img, Erode_time=time)
-    out = morphologyEro(out, Dilate_time=time)
+    out = morphologyDilate(img, erodeTime=time)
+    out = morphologyErode(out, dilateTime=time)
     return out
 
 # 形态学梯度（Morphology Gradient）可以用于抽出物体的边缘。
 # 形态学梯度为经过膨胀操作（dilate）的图像与经过腐蚀操作（erode）的图像的差，可以用于抽出物体的边缘。
 def morphologyGradient(img, time=1):
     # Erode image
-    eroded = morphologyDil(img, time)
+    eroded = morphologyDilate(img, time)
     # Delate image
-    dilated = morphologyEro(img, time)
+    dilated = morphologyErode(img, time)
     # Morphology
     out = np.abs(eroded - dilated) * 255
     return out

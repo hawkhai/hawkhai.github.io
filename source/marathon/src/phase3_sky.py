@@ -104,8 +104,8 @@ def mainfixfile():
     if not os.path.exists(repairmaskfile):
         out = kalgorithm.imgRead(dstfile+".mask.png").astype(np.float32)
         out = kalgorithm.bgr2gray(out)
-        out = morphologyEro2(out, 1, linelen=40)
-        out = morphologyDil2(out, 1, linelen=40)
+        out = morphologyErodeLine(out, 1, linelen=40)
+        out = morphologyDilateLine(out, 1, linelen=40)
         kalgorithm.imgSave(dstfile+".mask.line.png", out)
 
         # 根据水平线，矫正原图。
@@ -151,7 +151,7 @@ def main_fisher_girl_mask():
     # closing
     mask = Morphology_Closing(mask, time=1) # 更多白区域，移除小黑点。
     # opening
-    mask = Erode(mask, Erode_time=1)
+    mask = Erode(mask, erodeTime=1)
 
     # masking
     out = masking(imgsrc, mask)
@@ -163,8 +163,8 @@ def main_fisher_girl_mask():
 def findvline():
     outv = kalgorithm.bgr2gray(kalgorithm.imgRead(repairmaskfile))
     outv = kalgorithm.thresholdBinarization(outv)
-    outv = morphologyEro2(outv, 1, linelen=40)
-    outv = morphologyDil2(outv, 1, linelen=40)
+    outv = morphologyErodeLine(outv, 1, linelen=40)
+    outv = morphologyDilateLine(outv, 1, linelen=40)
     H, W = outv.shape
 
     y_histogram = np.sum(outv, axis=1)
@@ -192,7 +192,7 @@ def main_ocean_wave():
     vline = (findvline())
 
     fisher_girl_mask = 255-kalgorithm.bgr2gray(kalgorithm.imgRead(outfile+"_fisher_girl_mask.png"))
-    #fisher_girl_mask = morphologyDilFull(fisher_girl_mask, 2) # 渔女变得更大。
+    #fisher_girl_mask = morphologyDilateFull(fisher_girl_mask, 2) # 渔女变得更大。
 
     # 背景减去 渔女，剩下 海平面。
     outv = outvz - outvz * (fisher_girl_mask/255.0)

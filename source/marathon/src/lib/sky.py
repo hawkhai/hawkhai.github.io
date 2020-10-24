@@ -76,7 +76,7 @@ def masking(img, mask):
     return out
 
 # Erosion
-def Erode(img, Erode_time=1):
+def Erode(img, erodeTime=1):
     H, W = img.shape
     out = img.copy()
 
@@ -86,7 +86,7 @@ def Erode(img, Erode_time=1):
                 (0, 1, 0)), dtype=np.int)
 
     # each erode
-    for i in range(Erode_time):
+    for i in range(erodeTime):
         tmp = np.pad(out, (1, 1), 'edge')
         # erode
         for y in range(1, H+1):
@@ -118,12 +118,12 @@ def Dilate(img, Dil_time=1):
 
 # Opening morphology
 def Morphology_Opening(img, time=1):
-    out = Erode(img, Erode_time=time)
+    out = Erode(img, erodeTime=time)
     out = Dilate(out, Dil_time=time)
     return out
 
 # Closing morphology
 def Morphology_Closing(img, time=1):
     out = Dilate(img, Dil_time=time)
-    out = Erode(out, Erode_time=time)
+    out = Erode(out, erodeTime=time)
     return out

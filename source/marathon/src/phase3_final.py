@@ -72,8 +72,8 @@ def maintask(xcode):
     mask_sea[..., mask_sea.shape[1]-5:] = 0
 
     if not os.path.exists(outfile+"_mask_sea.png"):
-        mask_sea = morphologyDil(mask_sea, 2) # 膨胀3
-        mask_sea = morphologyDil2(mask_sea, 2, linelen=3) # 膨胀3
+        mask_sea = morphologyDilate(mask_sea, 2) # 膨胀3
+        mask_sea = morphologyDilateLine(mask_sea, 2, linelen=3) # 膨胀3
 
         mask_sea = kalgorithm.meanFilter2D(mask_sea) # 滤波
         kalgorithm.imgSave(outfile+"_mask_sea.png", mask_sea)
