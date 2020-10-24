@@ -3,7 +3,7 @@ import os, re, sys
 import cv2
 import numpy as np
 from lib.sky import *
-from lib.toymorphology import *
+from lib.kmorphology import *
 from lib import kalgorithm
 
 repairfile = r"./output_images/phase3/phase3_repaired.png"
