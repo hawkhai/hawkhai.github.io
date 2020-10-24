@@ -316,7 +316,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	imgdst.create(img.rows * 3, img.cols * 3, CV_8UC3);
 	resizeLanczos(img, imgdst, 1.0 / 3, 1.0 / 3);
 	imshow("Lanczos", imgdst);
-	imwrite(".\\output_images\\phase2\\phase2_broken2_Lanczos.jpg", imgdst);
+	imwrite(".\\output_images\\phase2\\phase2_broken_Lanczos.jpg", imgdst);
 	waitKey();
 	return 0;
 }
