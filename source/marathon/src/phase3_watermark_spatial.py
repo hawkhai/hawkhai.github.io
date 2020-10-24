@@ -59,10 +59,10 @@ def decode(dstOutputFile, recoverWaterMark):
     return
 
 def main():
-    srcInputFile=r"./output_images/phase3/phase3_repaired.png"
-    waterMarkFile=r"./input_images/phase3/phase3_watermark.jpg"
-    dstOutputFile=r"./output_images/phase3/phase3_broken2_bl_with_wm_spatial.png"
-    recoverWaterMark=r"./output_images/phase3/phase3_watermark_recover_spatial.png"
+    srcInputFile = r"./input_images/phase2/phase2_broken.jpg"
+    waterMarkFile = r"./input_images/phase3/phase3_watermark.jpg"
+    dstOutputFile = r"./output_images/phase3/phase3_broken_with_wm_spatial.png"
+    recoverWaterMark = r"./output_images/phase3/phase3_watermark_recover_spatial.png"
 
     encode(srcInputFile, waterMarkFile, dstOutputFile)
     decode(dstOutputFile, recoverWaterMark)
