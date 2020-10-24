@@ -38,8 +38,8 @@ def mainfix(imgsrc, outputfile, threshold=250):
     maskfill(imggray, imgsrc)
     kalgorithm.imgSave(outputfile, imgsrc)
 
-def mainfixPath(broken2file, outputfile, threshold=200):
-    imgsrc = kalgorithm.imgRead(broken2file)
+def mainfixPath(brokenfile, outputfile, threshold=240):
+    imgsrc = kalgorithm.imgRead(brokenfile)
     mainfix(imgsrc, outputfile, threshold)
 
 #
@@ -48,9 +48,9 @@ def mainfixPath(broken2file, outputfile, threshold=200):
 # 破损修复
 #
 def main():
-    broken2file = "./input_images/phase2/phase2_broken.jpg"
+    brokenfile = "./input_images/phase2/phase2_broken.jpg"
     outputfile = "./output_images/phase2/phase2_broken_repair.jpg"
-    mainfixPath(broken2file, outputfile)
+    mainfixPath(brokenfile, outputfile)
 
 if __name__ == "__main__":
     main()

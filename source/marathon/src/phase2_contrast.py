@@ -8,7 +8,7 @@ from lib import kalgorithm
 def main():
     inputfile  = r"./input_images/phase2/phase2_broken.jpg"
     imgsrc = kalgorithm.imgRead(inputfile)
-    kalgorithm.pltHistAndImage(imgsrc.astype(np.uint8), "phase2_broken.src")
+    kalgorithm.pltHistAndImage(imgsrc.astype(np.uint8), "phase2_broken.Original")
 
     img = kalgorithm.histEqualization(imgsrc.copy())
     outfile  = r"./output_images/phase2/phase2_broken_hist_equalization.jpg"
