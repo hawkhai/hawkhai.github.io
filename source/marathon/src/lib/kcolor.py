@@ -13,6 +13,9 @@ def bgr2rgb(img):
     img[:, :, 2] = b
     return img
 
+def rgb2bgr(img):
+    return bgr2rgb(img) # 一样的算法
+
 # Gray scale - return unit8
 def rgb2gray(img, bgr=False):
     r = img[:, :, 2 if bgr else 0].copy().astype(np.float)
@@ -25,12 +28,6 @@ def rgb2gray(img, bgr=False):
 
 def bgr2gray(img):
     return rgb2gray(img, True)
-
-# Grayscale
-def bgr2grayFloat(img):
-    # Grayscale
-    gray = 0.2126 * img[..., 2] + 0.7152 * img[..., 1] + 0.0722 * img[..., 0]
-    return gray
 
 # BGR -> HSV
 def bgr2hsv(img):
