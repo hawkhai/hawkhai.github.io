@@ -97,7 +97,7 @@ def Erode(img, erodeTime=1):
     return out
 
 # Dilation
-def Dilate(img, Dil_time=1):
+def Dilate(img, dilateTime=1):
     H, W = img.shape
 
     # kernel
@@ -107,7 +107,7 @@ def Dilate(img, Dil_time=1):
 
     # each dilate time
     out = img.copy()
-    for i in range(Dil_time):
+    for i in range(dilateTime):
         tmp = np.pad(out, (1, 1), 'edge')
         for y in range(1, H+1):
             for x in range(1, W+1):
@@ -119,11 +119,11 @@ def Dilate(img, Dil_time=1):
 # Opening morphology
 def Morphology_Opening(img, time=1):
     out = Erode(img, erodeTime=time)
-    out = Dilate(out, Dil_time=time)
+    out = Dilate(out, dilateTime=time)
     return out
 
 # Closing morphology
 def Morphology_Closing(img, time=1):
-    out = Dilate(img, Dil_time=time)
+    out = Dilate(img, dilateTime=time)
     out = Erode(out, erodeTime=time)
     return out
