@@ -32,11 +32,11 @@ def main():
 
     # 双线性二次插值
     blInterpolateOutPath = r"./output_images/phase2/phase2_broken_bl.jpg"
-    blInterpolateProc(imgsrc.copy(), blInterpolateOutPath, 3)
+    blInterpolateProc(imgsrc.copy(), blInterpolateOutPath, 2)
 
     # 双线性三次插值
     bcInterpolateOutPath = r"./output_images/phase2/phase2_broken_bc.jpg"
-    bcInterpolateProc(imgsrc.copy(), bcInterpolateOutPath, 3)
+    bcInterpolateProc(imgsrc.copy(), bcInterpolateOutPath, 2)
 
 if __name__ == "__main__":
     main()
