@@ -9,3 +9,4 @@ from .kinterpolate import *
 from .khist import *
 from .kthreshold import *
 from .kcolor import *
+from .kmorphology import *
