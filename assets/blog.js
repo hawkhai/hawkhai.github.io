@@ -10,6 +10,19 @@ function InstallReadingBar() {
     });
 }
 
+function calcShortUrlx() {
+    if (typeof shortSeed === 'undefined') {
+        return;
+    }
+    var hash = md5(shortSeed).substr(0, 8);
+    var urlx = shortPrex + hash;
+    console.log(urlx);
+
+    var node = $("#short_urlx");
+    node.text(urlx);
+    node.attr("href", urlx);
+}
+
 function setupBackToTop() {
     addBackToTop({
         diameter: 40,
@@ -89,6 +102,7 @@ $(document).ready(function () {
     checkTableStyle();
     setupBackToTop();
     setTimeout("InstallReadingBar()", 1000);
+    calcShortUrlx();
 });
 // 窗口大小变化时
 $(window).resize(function () {
