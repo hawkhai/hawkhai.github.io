@@ -10,7 +10,7 @@ from lib import kalgorithm
 # 图像锐化
 # 空域算法
 #
-#图像锐化
+# 图像锐化
 def main():
     inputfile  = r"./input_images/phase2/phase2_broken.jpg"
     imgsrc = kalgorithm.imgRead(inputfile)

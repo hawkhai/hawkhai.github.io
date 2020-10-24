@@ -10,7 +10,7 @@ top = tk.Tk()  # 实例化tkinter对象
 top.geometry('250x150')  # 设置窗口大小
 top.title('滑动设置')  # 设置窗口标题
 
-# Label控件
+# Label 控件
 label = tk.Label(top, text='对比度增强', font='Helvetica -12 bold')
 label.pack(fill=tk.Y, expand=1)
 

@@ -4,7 +4,63 @@ import numpy as np
 import scipy.misc
 import scipy.signal
 
-def gaussianHighFrequencyFilter(im, sigma = 1):
+# 定义函数，显示滤波器模板
+def showTemplate(template):
+    temp = np.uint8(template*255)
+    cv2.imshow('Template', temp)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    return
+
+
+# 定义函数，显示滤波函数
+def showFunction(template):
+    import matplotlib.pyplot as plt
+    row, col = template.shape
+    row = np.uint16(row/2)
+    col = np.uint16(col/2)
+    y = template[row, col:]
+    x = np.arange(len(y))
+    plt.plot(x, y, 'b-', linewidth=2)
+    plt.axis([0, len(x), -0.2, 1.2])
+    plt.show()
+    return
+
+def ftPrint2d(src):
+    print("***" * 10)
+    r, c = src.shape
+    for i in np.arange(r):
+        for j in np.arange(c):
+            print("%.2f" % src[i, j], end=" ")
+        print()
+
+# 定义函数，高斯高/低通滤波模板
+def ftMaskGaussian(src, drsigma):
+    template = np.zeros(src.shape, dtype=np.float32) # 构建滤波器
+    r, c = src.shape
+    for i in np.arange(r):
+        for j in np.arange(c):
+            distance = np.sqrt((i - r/2)**2 + (j - c/2)**2)
+            template[i, j] = np.e ** (-1 * (distance**2 / (2 * drsigma ** 2))) # Gaussian 滤波函数
+
+            value = (i - (r-1)/2)**2 + (j - (c-1)/2)**2
+            value = -value/2/drsigma**2
+            template[i, j] = 1 - np.exp(value)
+
+    return template
+
+if __name__ == "__main__":
+    GSIZE = 100
+    G = np.arange(GSIZE*GSIZE).astype(np.float32).reshape((GSIZE, GSIZE, 1))
+    src = np.arange(GSIZE*GSIZE).astype(np.float32).reshape((GSIZE, GSIZE))
+    maska = ftMaskGaussian(src, drsigma=10)
+    maskb = ftMaskGaussian(src, drsigma=20)
+    showFunction(maska)
+    showTemplate(maska)
+    showFunction(maskb)
+    showTemplate(maskb)
+
+def gaussianHighFrequencyFilter(im, sigma = 1., maxvalue = 1.):
     imarr = np.array(im)
     height, width = imarr.shape
 
@@ -13,7 +69,7 @@ def gaussianHighFrequencyFilter(im, sigma = 1):
 
     for i in range(height):
         for j in range(width):
-            vlaue = (i - (height-1)/2)**2 + (j - (width-1)/2)**2
+            value = (i - (height-1)/2)**2 + (j - (width-1)/2)**2
             value = -value/2/sigma**2
             fft[i, j] *= 1 - np.exp(value)
 
@@ -28,19 +84,20 @@ def gaussianHighFrequencyFilter(im, sigma = 1):
 
     for i in range(height):
         for j in range(width):
-            res[i, j] = 255 * (ifft[i, j] - min)/(max - min)
+            res[i, j] = maxvalue * (ifft[i, j] - min)/(max - min)
 
     return res
 
-def gaussianHighFrequencyFilterImage(img, sigma = 1.5):
-    b, g, r = cv2.split(img) # 存在问题，但是估计效果差不多。hsv?
+def gaussianHighFrequencyFilterImage(img, sigma = 20):
+    from .kcolor import bgr2hsv, hsv2bgr
+    imgsrc = img.copy()
+    image = bgr2hsv(img)
 
-    b_dst = gaussianHighFrequencyFilter(b, sigma)
-    g_dst = gaussianHighFrequencyFilter(g, sigma)
-    r_dst = gaussianHighFrequencyFilter(r, sigma)
+    #print(np.max(image[..., 2]))
+    image[..., 2] = gaussianHighFrequencyFilter(image[..., 2], sigma, maxvalue=1.)
 
-    newimg = cv2.merge((b_dst, g_dst, r_dst))
-    return newimg
+    newimg = hsv2bgr(image, imgsrc)
+    return imgsrc
 
 def sharpenImage(r):
     # 滤波掩模，空间滤波-锐化滤波
