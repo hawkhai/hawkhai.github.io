@@ -25,7 +25,8 @@ def morphologyDilate(img, dilateTime=1):
 def morphologyDilateLine(img, dilateTime=1, linelen=3):
     H, W = img.shape
 
-    li = range(linelen*2 + 1)
+    li = [(1 if i != linelen else 0) for i in range(linelen*2 + 1)]
+    print(li)
 
     # kernel
     MF = np.array((li,), dtype=np.int)
@@ -66,7 +67,8 @@ def morphologyErode(img, erodeTime=1):
 def morphologyErodeLine(img, erodeTime=1, linelen=2):
     H, W = img.shape
 
-    li = range(linelen*2+1)
+    li = [(1 if i != linelen else 0) for i in range(linelen*2 + 1)]
+    print(li)
 
     # kernel
     MF = np.array((li,), dtype=np.int)

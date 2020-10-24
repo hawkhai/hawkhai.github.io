@@ -82,8 +82,8 @@ def Erode(img, erodeTime=1):
 
     # kernel
     MF = np.array(((0, 1, 0),
-                (1, 0, 1),
-                (0, 1, 0)), dtype=np.int)
+                   (1, 0, 1),
+                   (0, 1, 0)), dtype=np.int)
 
     # each erode
     for i in range(erodeTime):
@@ -102,8 +102,8 @@ def Dilate(img, dilateTime=1):
 
     # kernel
     MF = np.array(((0, 1, 0),
-                (1, 0, 1),
-                (0, 1, 0)), dtype=np.int)
+                   (1, 0, 1),
+                   (0, 1, 0)), dtype=np.int)
 
     # each dilate time
     out = img.copy()
