@@ -32,7 +32,8 @@ def mainfix(imgsrc, outputfile, threshold=250):
 
     imggray = kalgorithm.bgr2gray(imgsrc).astype(np.uint8)
     imggray = kalgorithm.thresholdBinarization(imggray, threshold)
-    kalgorithm.imgShow(imggray)
+    #kalgorithm.imgShow(imggray)
+    kalgorithm.imgSave(outputfile+".mask.png", imggray)
 
     # 根据 mask 对原图进行临近填充
     maskfill(imggray, imgsrc)
