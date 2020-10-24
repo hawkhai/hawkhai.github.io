@@ -12,8 +12,10 @@ def gaussianHighFrequencyFilter(im, sigma = 1):
     fft = np.fft.fftshift(fft)
 
     for i in range(height):
-        for j in range(height):
-            fft[i, j] *= (1 - np.exp(-((i - (height - 1)/2)**2 + (j - (width - 1)/2)**2)/2/sigma**2))
+        for j in range(width):
+            vlaue = (i - (height-1)/2)**2 + (j - (width-1)/2)**2
+            value = -value/2/sigma**2
+            fft[i, j] *= 1 - np.exp(value)
 
     fft = np.fft.ifftshift(fft)
     ifft = np.fft.ifft2(fft)
