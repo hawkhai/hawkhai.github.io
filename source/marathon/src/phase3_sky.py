@@ -1,4 +1,4 @@
-# encoding=utf8
+#encoding=utf8
 import os, re, sys
 import cv2
 import numpy as np
