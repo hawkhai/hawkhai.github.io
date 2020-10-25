@@ -168,7 +168,6 @@ def _init(height, width, mask, radius):
                 dists[nb_y, nb_x] = 0.0
                 heapq.heappush(band, (0.0, nb_y, nb_x))
 
-
     # compute distance to inital mask contour for KNOWN pixels
     # (by inverting mask/flags and running FFM)
     _compute_outside_dists(height, width, dists, flags, band, radius)

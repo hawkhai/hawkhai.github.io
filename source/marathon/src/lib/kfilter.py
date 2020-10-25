@@ -12,7 +12,6 @@ def showTemplate(template):
     cv2.destroyAllWindows()
     return
 
-
 # 定义函数，显示滤波函数
 def showFunction(template):
     import matplotlib.pyplot as plt

@@ -8,7 +8,7 @@ mathjax: true
 toc: true
 ---
 
-完整的代码下载：下载。为了不那么占内存，输入图片缩小了 50%，以更好的演示效果。代码重新整理了一遍，思路更清晰了。
+完整的代码下载：下载。为了不那么占内存，以更好的演示效果，代码重新整理了一遍。
 
 
 ## 色彩变换
@@ -17,24 +17,6 @@ toc: true
 ### 图片内存结构
 
 图片读入后是一个三维矩阵。
-
-```python
-def imgRead(fpath, float=False):
-    img = cv2.imread(fpath)
-    if float:
-        return img.astype(np.float32)
-    return img
-
-def imgSave(fpath, img):
-    print("Image Save\r\n", fpath)
-    cv2.imwrite(fpath, img)
-    return fpath
-
-def imgShow(img, title="result"):
-    cv2.imshow(title, img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-```
 
 
 ### 负片转正片
@@ -92,7 +74,7 @@ url2="/source/marathon/output_images/phase1/phase1_output_optional.jpg.2.jpg" %}
 
 高斯滤波器是一种可以使图像平滑的滤波器，用于去除噪声。
 
-GaussianFilter Kernel，这些数字的和刚好是 1.0。
+GaussianFilter Kernel=5，这些数字的和刚好是 1.0。
 
 ```json
  [[0.0097565  0.02370077 0.03186045 0.02370077 0.0097565 ]

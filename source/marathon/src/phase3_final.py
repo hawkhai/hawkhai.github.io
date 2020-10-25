@@ -113,7 +113,7 @@ def maintask(xcode):
     outv = ((newsky * mask_sea*0.35) + # 下面部分，天空倒影
             (imgsrc * mask_sea*0.4) + # 下面部分，原图
             (imgsrc * (1-mask_sea) * 0.8)) # 其他部分
-    
+
     H, W, C = outv.shape
     GSIZE = H
     GaussianMask = gaussianMask(outv, dr=GSIZE/4)
