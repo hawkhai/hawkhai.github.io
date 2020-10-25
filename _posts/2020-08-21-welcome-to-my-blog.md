@@ -137,6 +137,18 @@ e^x=\lim_{n\to\infty} \left( 1+\frac{x}{n} \right)^n
 $$
 
 
+## quote demo
+
+[Alexander Telea's inpainting algorithm][1]
+
+[1]: https://www.rug.nl/research/portal/files/14404904/2004JGraphToolsTelea.pdf
+
+[![][im1_in_thumb]][im1_in]
+
+[im1_in]: https://raw.githubusercontent.com/olvb/pyheal/master/samples/tulips_in.png
+[im1_in_thumb]: https://raw.githubusercontent.com/olvb/pyheal/master/samples/tulips_in.png
+
+
 ## Tools
 
 * 公式在线编辑 <https://kerzol.github.io/markdown-mathjax/editor.html>
