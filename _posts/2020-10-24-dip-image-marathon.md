@@ -185,7 +185,7 @@ phase2_interpolate_Lanczos 实现了 Lanczos 算法。
 
 这玩意的原理和过程，可以参考写的另外一篇文章。[傅里叶变换]
 
-[傅里叶变换]: https://sunocean.life/blog/blog/2020/09/26/dip-fourier-transform
+[傅里叶变换]: /blog/blog/2020/09/26/dip-fourier-transform
 
 {% include image.html url="/images/image-marathon/fft/v2-bad520e27c839917cf27d76e1206bb70_1440w.jpg" %}
 
