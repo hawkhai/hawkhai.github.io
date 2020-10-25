@@ -29,7 +29,6 @@ def findAngle(out): # 图片倾斜角度
 # 简易边缘修复算法
 def maskfill(imgsrc):
     H, W, C = imgsrc.shape
-    point = (0, 0)
     for y in range(H):
         for x in range(W):
             if np.sum(imgsrc[y, x]): continue
