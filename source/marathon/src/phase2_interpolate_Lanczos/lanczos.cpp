@@ -1,5 +1,5 @@
 // lanczos.cpp : Defines the entry point for the console application.
-//
+// 
 #include "stdafx.h"
 #include <algorithm>
 #include <opencv\cv.h>
@@ -24,9 +24,9 @@ int resizeArea(cv::Mat& matSrc, cv::Mat& matDst1, double scale_x, double scale_y
 	int iscale_y = cv::saturate_cast<int>(scale_y);
 	bool is_area_fast = std::abs(scale_x - iscale_x) < DBL_EPSILON && std::abs(scale_y - iscale_y) < DBL_EPSILON;
 
-	if (scale_x >= 1 && scale_y >= 1) //zoom out
+	if (scale_x >= 1 && scale_y >= 1) // zoom out
 	{
-		if (is_area_fast) //integer multiples
+		if (is_area_fast) // integer multiples
 		{
 			for (int j = 0; j < matDst1.rows; ++j)
 			{
@@ -94,7 +94,7 @@ int resizeArea(cv::Mat& matSrc, cv::Mat& matDst1, double scale_x, double scale_y
 		return 0;
 	}
 
-	// zoom in,it is emulated using some variant of bilinear interpolation
+	// zoom in, it is emulated using some variant of bilinear interpolation
 	for (int j = 0; j < matDst1.rows; ++j)
 	{
 		int  sy = cvFloor(j * scale_y);
@@ -296,7 +296,7 @@ int resizeLanczos(cv::Mat& matSrc, cv::Mat& matDst1, float scale_x, float scale_
 					matSrc.at<cv::Vec3b>(sy - 3, sx + 4)[k] * cbufX[7] * cbufY[0] + matSrc.at<cv::Vec3b>(sy - 2, sx + 4)[k] * cbufX[7] * cbufY[1] +
 					matSrc.at<cv::Vec3b>(sy - 1, sx + 4)[k] * cbufX[7] * cbufY[2] + matSrc.at<cv::Vec3b>(sy, sx + 4)[k] * cbufX[7] * cbufY[3] +
 					matSrc.at<cv::Vec3b>(sy + 1, sx + 4)[k] * cbufX[7] * cbufY[4] + matSrc.at<cv::Vec3b>(sy + 2, sx + 4)[k] * cbufX[7] * cbufY[5] +
-					matSrc.at<cv::Vec3b>(sy + 3, sx + 4)[k] * cbufX[7] * cbufY[6] + matSrc.at<cv::Vec3b>(sy + 4, sx + 4)[k] * cbufX[7] * cbufY[7]) >> 22);// 4194304
+					matSrc.at<cv::Vec3b>(sy + 3, sx + 4)[k] * cbufX[7] * cbufY[6] + matSrc.at<cv::Vec3b>(sy + 4, sx + 4)[k] * cbufX[7] * cbufY[7]) >> 22); // 4194304
 			}
 		}
 	}
@@ -305,14 +305,14 @@ int resizeLanczos(cv::Mat& matSrc, cv::Mat& matDst1, float scale_x, float scale_
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	//KFFTAlpha alpah;
-	//alpah.main_alpha();
+	// KFFTAlpha alpah;
+	// alpah.main_alpha();
 	using namespace std;
 	using namespace cv;
 	Mat img = imread(".\\input_images\\phase2\\phase2_broken.jpg", -1);
 	Mat imgdst = Mat();
-	//imgdst.create(img.rows * 1, img.cols * 2, CV_8UC3);
-	//resizeLanczos(img, imgdst, 0.5, 1);
+	// imgdst.create(img.rows * 1, img.cols * 2, CV_8UC3);
+	// resizeLanczos(img, imgdst, 0.5, 1);
 	imgdst.create(img.rows * 3, img.cols * 3, CV_8UC3);
 	resizeLanczos(img, imgdst, 1.0 / 3, 1.0 / 3);
 	imshow("Lanczos", imgdst);
