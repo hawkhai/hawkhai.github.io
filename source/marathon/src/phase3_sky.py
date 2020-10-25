@@ -5,15 +5,16 @@ import numpy as np
 from lib.sky import *
 from lib.kmorphology import *
 from lib import kalgorithm
+from lib import pyheal
 
-repairfile = r"./output_images/phase3/phase3_repaired.png"
-repairmaskfile = r"./output_images/phase3/phase3_repaired_mask.png"
+repairfile = r"./output_images/phase3/phase3_repair.png"
+repairmaskfile = r"./output_images/phase3/phase3_repair_mask.png"
 
 skyfile = r"./input_images/phase3/phase3_sky.jpg"
 
 outfile = r"./output_images/phase3/phase3_sky.jpg"
 
-def findAngle(out):
+def findAngle(out): # 图片倾斜角度
     H, W = out.shape
     lH = H - 1
     rH = H - 1
@@ -25,60 +26,56 @@ def findAngle(out):
             rH = ik
     return np.arctan(1.0 * (lH - rH) / W)
 
+# 简易边缘修复算法
 def maskfill(imgsrc):
-    Ht, Wt, C = imgsrc.shape
     H, W, C = imgsrc.shape
-    flag = False
-    # 正反插值填充
-    for y in range(Ht):
-        for x in range(Wt):
-            if np.sum(imgsrc[y, x]) == 0 and y-1>=0 and np.sum(imgsrc[y-1, x]):
-                imgsrc[y, x] = imgsrc[y-1, x]
-                flag = True
-            if np.sum(imgsrc[y, x]) == 0 and x-1>=0 and np.sum(imgsrc[y, x-1]):
-                imgsrc[y, x] = imgsrc[y, x-1]
-                flag = True
-    # 正反插值填充
-    for iy in range(Ht):
-        for ix in range(Wt):
-            y = Ht - 1 - iy
-            x = Wt - 1 - ix
-            if np.sum(imgsrc[y, x]) == 0 and y+1<Ht and np.sum(imgsrc[y+1, x]):
-                imgsrc[y, x] = imgsrc[y+1, x]
-                flag = True
-            if np.sum(imgsrc[y, x]) == 0 and x+1<Wt and np.sum(imgsrc[y, x+1]):
-                imgsrc[y, x] = imgsrc[y, x+1]
-                flag = True
+    point = (0, 0)
+    for y in range(H):
+        for x in range(W):
+            if np.sum(imgsrc[y, x]): continue
+            point = (y, x)
+            maskfillSearch(imgsrc, point, 0)
 
-    # 正反插值填充
-    for y in range(Ht):
-        for x in range(Wt):
-            if np.sum(imgsrc[y, x]) == 0 and y-1>=0 and np.sum(imgsrc[y-1, x]):
-                imgsrc[y, x] = imgsrc[y-1, x]
-                flag = True
-            if np.sum(imgsrc[y, x]) == 0 and x-1>=0 and np.sum(imgsrc[y, x-1]):
-                imgsrc[y, x] = imgsrc[y, x-1]
-                flag = True
-    # 正反插值填充
-    for iy in range(Ht):
-        for ix in range(Wt):
-            y = Ht - 1 - iy
-            x = Wt - 1 - ix
-            if np.sum(imgsrc[y, x]) == 0 and y+1<Ht and np.sum(imgsrc[y+1, x]):
-                imgsrc[y, x] = imgsrc[y+1, x]
-                flag = True
-            if np.sum(imgsrc[y, x]) == 0 and x+1<Wt and np.sum(imgsrc[y, x+1]):
-                imgsrc[y, x] = imgsrc[y, x+1]
-                flag = True
-    return flag
+def maskfillSearch(imgsrc, point, depth):
+    if depth >= 30: return
+    y, x = point
+    H, W, C = imgsrc.shape
+    if y < 0 or y >= H: return
+    if x < 0 or x >= W: return
 
-def calcMask(dstfile):
+    # 已经有值了。
+    if np.sum(imgsrc[y, x]): return
+
+    if y < H / 2: # 尝试下面填充
+        if np.sum(imgsrc[y+1, x]):
+            imgsrc[y, x] = imgsrc[y+1, x]
+        maskfillSearch(imgsrc, (y, x-1), depth+1) # 遍历左边
+        maskfillSearch(imgsrc, (y, x+1), depth+1) # 遍历右边
+    else: # 尝试用上面填充
+        if np.sum(imgsrc[y-1, x]):
+            imgsrc[y, x] = imgsrc[y-1, x]
+        maskfillSearch(imgsrc, (y, x-1), depth+1) # 遍历左边
+        maskfillSearch(imgsrc, (y, x+1), depth+1) # 遍历右边
+    if x < W / 2: # 尝试用右边填充
+        if np.sum(imgsrc[y, x+1]):
+            imgsrc[y, x] = imgsrc[y, x+1]
+        maskfillSearch(imgsrc, (y-1, x), depth+1) # 遍历上面
+        maskfillSearch(imgsrc, (y+1, x), depth+1) # 遍历下面
+    else: # 尝试用左边填充
+        if np.sum(imgsrc[y, x-1]):
+            imgsrc[y, x] = imgsrc[y, x-1]
+        maskfillSearch(imgsrc, (y-1, x), depth+1) # 遍历上面
+        maskfillSearch(imgsrc, (y+1, x), depth+1) # 遍历下面
+
+# 两个算子各有特点，加起来，效果更佳。
+def calculateMask(dstfile):
     imgsrc = kalgorithm.imgRead(dstfile).astype(np.float32)
     gray = kalgorithm.bgr2gray(imgsrc)
     fy, fx = kalgorithm.prewittFilter(gray, K_size=3)
-    out = fy.astype(np.float32) + fx.astype(np.float32)
+    out1 = fy.astype(np.float32) + fx.astype(np.float32)
     fy, fx = kalgorithm.sobelFilter(gray, K_size=3)
-    out = out + fy.astype(np.float32) + fx.astype(np.float32)
+    out2 = fy.astype(np.float32) + fx.astype(np.float32)
+    out = out1 + out2
     out = np.clip(out, 0, 255)
     out = kalgorithm.thresholdOtsuBinarization(out)
     return out
@@ -94,10 +91,10 @@ def mainfixfile():
         kalgorithm.imgSave(dstfile, img)
 
         from phase2_broken_repair import mainfix
-        mainfix(img, dstfile, 240)
+        mainfix(img, dstfile, 240, onlyeasy=True)
 
     if not os.path.exists(dstfile+".mask.png"):
-        out = calcMask(dstfile)
+        out = calculateMask(dstfile)
         kalgorithm.imgSave(dstfile+".mask.png", out)
 
     # 分离出水平线
@@ -110,7 +107,7 @@ def mainfixfile():
 
         # 根据水平线，矫正原图。
         angle = findAngle(out) # 找到偏移角度。
-        print(angle)
+        print("angle", angle)
         imgsrc = kalgorithm.imgRead(dstfile).astype(np.float32)
 
         imgsrc = kalgorithm.affineRotation(imgsrc, angle)
@@ -119,14 +116,19 @@ def mainfixfile():
             pass
 
         kalgorithm.imgSave(repairfile, imgsrc)
-        out = calcMask(repairfile)
+        out = calculateMask(repairfile)
         kalgorithm.imgSave(repairmaskfile, out)
+        ## 计算海平面的那条线。准确分离。
+        out = morphologyErodeLine(out, 1, linelen=40)
+        out = morphologyDilateLine(out, 3, linelen=80)
+        kalgorithm.imgSave(repairmaskfile+".mask.line.png", out)
 
-def display(out):
-    print(out.shape, out[0,0])
+def display(out, title="result"):
+    print(out.shape, out[0, 0])
+    out = np.clip(out, 0, 255)
     out = out.astype(np.uint8)
 
-    cv2.imshow("result", out)
+    cv2.imshow(title, out)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
@@ -144,13 +146,16 @@ def main_fisher_girl_mask():
 
     # color tracking
     mask = get_mask(mask)
+
     # masking
-    out = masking(imgsrc, mask) # 把太黑的一起识别出来，认为是陆地。
+    out = masking(imgsrc, mask) # 把太黑的一起识别出来，认为是陆地。主要识别小岛。
     out = kalgorithm.bgr2gray(out)
     mask = kalgorithm.thresholdOtsuBinarization(out).astype(np.float32)/255
-    # closing
+
+    # closing，移除部分毛刺
     mask = Morphology_Closing(mask, time=1) # 更多白区域，移除小黑点。
-    # opening
+
+    # opening，域女再变肥一点。
     mask = Erode(mask, erodeTime=1)
 
     # masking
@@ -161,21 +166,22 @@ def main_fisher_girl_mask():
     kalgorithm.imgSave(outfile+"_fisher_girl_mask.png", mask*255)
 
 def findvline():
-    outv = kalgorithm.bgr2gray(kalgorithm.imgRead(repairmaskfile))
+    outv = kalgorithm.bgr2gray(kalgorithm.imgRead(repairmaskfile+".mask.line.png"))
     outv = kalgorithm.thresholdBinarization(outv)
-    outv = morphologyErodeLine(outv, 1, linelen=40)
-    outv = morphologyDilateLine(outv, 1, linelen=40)
+
     H, W = outv.shape
 
-    y_histogram = np.sum(outv, axis=1)
+    yhistogram = np.sum(outv, axis=1)
 
-    y_min = np.min(y_histogram)
-    y_max = np.max(y_histogram)
-    for i in range(len(y_histogram)):
-        if i > 0 and y_histogram[i] > 1000:
-            print(i, y_histogram[i])
-            return i
-    return 0
+    ymin = np.min(yhistogram)
+    ymax = np.max(yhistogram)
+    result = []
+    for i in range(len(yhistogram)):
+        if i > 5 and i < H-5 and yhistogram[i] > 1000:
+            print(i, yhistogram[i])
+            result.append(i)
+    print("findvline", np.mean(result))
+    return int(np.mean(result))
 
 def main_ocean_wave():
 
@@ -185,21 +191,15 @@ def main_ocean_wave():
     imgsrc = kalgorithm.imgRead(repairfile).astype(np.float32)
     sky = kalgorithm.imgRead(skyfile).astype(np.float32)
 
-    # 纵向寻找边缘
-    outv = kalgorithm.bgr2gray(kalgorithm.imgRead(repairmaskfile))
-    outvz = outv
+    masksrc = kalgorithm.bgr2gray(kalgorithm.imgRead(repairmaskfile))
 
-    vline = (findvline())
+    vline = findvline()
 
     fisher_girl_mask = 255-kalgorithm.bgr2gray(kalgorithm.imgRead(outfile+"_fisher_girl_mask.png"))
-    #fisher_girl_mask = morphologyDilateFull(fisher_girl_mask, 2) # 渔女变得更大。
 
     # 背景减去 渔女，剩下 海平面。
-    outv = outvz - outvz * (fisher_girl_mask/255.0)
+    outv = masksrc - masksrc * (fisher_girl_mask/255.0)
 
-    #outv = hilditch(outv.reshape(outv.shape[0], outv.shape[1], 1)).reshape(outv.shape[0], outv.shape[1])
-    #display(outv)
-    print(vline)
     outv[:vline, ...] = 0
     kalgorithm.imgSave(outfile+"_ocean_wave_mask.png", outv)
 
@@ -209,7 +209,6 @@ def main_ocean_wave():
     outv[:vline, ...] = outv[:vline, ...] * (1-(fisher_girl_mask[:vline, ...]/255.0))
     outv = np.clip(outv, 0, 255)
     kalgorithm.imgSave(outfile+"_sky_mask.png", outv)
-    return
 
 def main_replace_sky():
     mask_fishergirl = outfile+"_fisher_girl_mask.png"
@@ -218,17 +217,17 @@ def main_replace_sky():
 
     imgsrc = kalgorithm.imgRead(repairfile).astype(np.float32)
     sky = kalgorithm.imgRead(skyfile).astype(np.float32)
-    mask_sky = (kalgorithm.imgRead(mask_sky).astype(np.float32))
-    mask_sky = kalgorithm.meanFilter(mask_sky)
+    mask_sky = kalgorithm.imgRead(mask_sky).astype(np.float32)
+    mask_sky = kalgorithm.meanFilter(mask_sky) # 均值滤波，接头处就不生硬了。
 
     sky = kalgorithm.blInterpolate(sky, 0.33333333334, 0.33333333334)
-    print(imgsrc.shape, sky.shape) # (744, 1100, 3) (618, 1100, 3)
-    print(mask_sky.shape) # (744, 1100, 3)
+    print("imgsrc", imgsrc.shape, "sky", sky.shape) # (744, 1100, 3) (618, 1100, 3)
+    print("mask_sky", mask_sky.shape) # (744, 1100, 3)
 
     newsky = np.zeros((mask_sky.shape[0], mask_sky.shape[1], sky.shape[2]), np.uint8)
     newsky[:, :] = 0
     newsky[:sky.shape[0], :sky.shape[1]] = sky
-    print(newsky.shape)
+    print("newsky", newsky.shape) # 搞成一样大，才可以做乘法，合成图片。
 
     mask_sky = mask_sky / 255
     print(newsky.shape, mask_sky.shape, imgsrc.shape)
@@ -243,7 +242,8 @@ if __name__ == "__main__":
     # 第一步，计算渔女 的 mask 掩码
     main_fisher_girl_mask()
 
-    # 第二步，计算 海平线。
+    # 第二步，分离海水、鱼女、天空模板。
     main_ocean_wave()
 
+    # 第三步，合成替换天空。
     main_replace_sky()
