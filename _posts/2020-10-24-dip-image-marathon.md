@@ -148,7 +148,7 @@ phase2_interpolate_Lanczos 实现了 Lanczos 算法。
 ### 直方图均衡
 
 彩色图像做直方图均衡化似乎不能对三个分量分别均衡化，这么搞可能会导致颜色畸变。
-最好将彩色图像转化为 HLS 颜色模型，然后单独对 L 分量做均衡化，最后再转换回 BGR 颜色模型。
+最好将彩色图像转化为 HSV 颜色模型，色调（H），饱和度（S），明度（V），然后单独对 V 分量做均衡化，最后再转换回 BGR 颜色模型。
 
 这里直接把三个颜色作为一个整体均衡化，可以直接看到图片直方图的变化。
 
@@ -208,7 +208,7 @@ phase2_interpolate_Lanczos 实现了 Lanczos 算法。
 
 ## 图片修复
 
-图片噪点去除。这个噪点的特点，中值滤波可以很好的修复图片了。
+图片噪点去除。这个噪点的特点，通过定义核（kernel）的大小，中值滤波可以很好的修复图片了。
 
 OpenCV 实现了 INPAINT_TELEA : Fast Marching Method based 算法，INPAINT_NS : Navier-Stokes based Inpainting 算法。[OpenCV Inpainting] / [OpenCV 图像修复]
 
@@ -216,7 +216,7 @@ OpenCV 实现了 INPAINT_TELEA : Fast Marching Method based 算法，INPAINT_NS 
 [OpenCV 图像修复]: https://blog.csdn.net/dcrmg/article/details/53792061
 
 我们简单的实现了简易修复算法：先二值化，找到水印位置，然后根据位置，用最近邻算法填充。
-下载了一个 TELEA 算法的 Python 实现，效果更好，但是没用它。这次的图片难度很小，没必要。
+下载了一个 TELEA 算法的 Python 实现，效果更好，但是没用它。
 
 {% include image.html url="/source/marathon/output_images/phase2/phase2_broken_repair.jpg.mask.png" %}
 
@@ -240,7 +240,6 @@ Otsu Binarization，大津二值化算法（Otsu's Method）。
 以 B 结构中心点为准心，在 A 中找能满足 B 结构的点即为腐蚀。
 把 A 结构的每个点放到 B 中心点，以 B 结构外扩即为膨胀。
 开操作表示先腐蚀后膨胀；闭操作表示先膨胀后腐蚀。
-闭运算，弥合，毛刺保留；开运算，分裂，毛刺去掉。
 
 #### 膨胀（dilation）
 
@@ -252,12 +251,12 @@ Otsu Binarization，大津二值化算法（Otsu's Method）。
 
 #### 开运算（opening）
 
-先腐蚀再膨胀，可以消除小物体或小斑块。
+先腐蚀再膨胀，可以消除小物体或小斑块。分裂，毛刺去掉。
 先腐蚀后膨胀的过程。开运算可以用来消除小黑点，在纤细点处分离物体、平滑较大物体的边界的同时并不明显改变其面积。
 
 #### 闭运算（closing）
 
-先膨胀再腐蚀，可用来填充孔洞。
+先膨胀再腐蚀，可用来填充孔洞。弥合，毛刺保留。
 先膨胀后腐蚀的过程。闭运算可以用来排除小黑洞。
 
 #### 自定义算子
@@ -266,7 +265,12 @@ Otsu Binarization，大津二值化算法（Otsu's Method）。
 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1
 ```
 
-这个算子很长条，神奇过滤，可以过滤出海平线。
+这个算子很长条，巧妙运算，可以过滤出海平线。
+
+```python
+out = morphologyErodeLine(out, 1, linelen=40) # 用一个 81 长的横线腐蚀一次
+out = morphologyDilateLine(out, 1, linelen=40) # 用一个 81 长的横线膨胀一次
+```
 
 
 ### 色彩追踪
@@ -340,7 +344,7 @@ LSB 水印非常脆弱，诸如裁剪，旋转，缩放，图像压缩等操作�
 
 ### 第三步，合成天空。
 
-finalimage = newsky * masksky + imgsrc * (1 - masksky)
+finalimage = newsky \* masksky \+ imgsrc \* (1 - masksky)
 
 {% include image.html url="/source/marathon/output_images/phase3/phase3_sky.jpg_sky_cloud.png" %}
 
@@ -349,6 +353,8 @@ finalimage = newsky * masksky + imgsrc * (1 - masksky)
 
 
 ### 倒影处理
+
+针对海水模板进行 7x7 的均值滤波。
 
 {% include image.html url="/source/marathon/output_images/phase3/phase3_sky_final.png_mask_sea.png" %}
 
