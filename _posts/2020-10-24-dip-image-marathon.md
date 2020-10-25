@@ -8,7 +8,7 @@ mathjax: true
 toc: true
 ---
 
-完整的代码下载：<a href="{% include relref.html url="/source/hackathon2020_team24.zip" %}" target="_blank">hackathon2020_team24.zip</a> \- 2\.7 MB
+完整的代码下载：<a href="{% include relref.html url="/source/hackathon2020_team24.zip" %}" target="_blank">hackathon2020_team24.zip</a> \- 14\.5 MB
 
 为了不那么占内存，以更好的演示效果，代码重新整理了一遍。
 
