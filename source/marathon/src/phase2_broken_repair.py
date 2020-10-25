@@ -30,12 +30,13 @@ def maskfill(watermark, imgsrc):
                 watermark[y, x] = 0
 
 # 先二值化，找到水印位置，然后根据位置，用最近邻算法填充。
-def mainfix(imgsrc, outputfile, threshold=250, onlyeasy=False):
+def mainfix(imgsrc, outputfile, threshold=250, onlyeasy=False, savemask=False):
 
     imggray = kalgorithm.bgr2gray(imgsrc).astype(np.uint8)
     imggray = kalgorithm.thresholdBinarization(imggray, threshold)
     #kalgorithm.imgShow(imggray)
-    kalgorithm.imgSave(outputfile+".mask.png", imggray)
+    if savemask:
+        kalgorithm.imgSave(outputfile+".mask.png", imggray)
 
     if not onlyeasy:
         mask = imggray.copy().astype(bool, copy=False)
@@ -46,10 +47,11 @@ def mainfix(imgsrc, outputfile, threshold=250, onlyeasy=False):
     # 根据 mask 对原图进行临近填充
     maskfill(imggray, imgsrc)
     kalgorithm.imgSave(outputfile, imgsrc)
+    return imgsrc
 
 def mainfixPath(brokenfile, outputfile, threshold=240):
     imgsrc = kalgorithm.imgRead(brokenfile)
-    mainfix(imgsrc, outputfile, threshold)
+    mainfix(imgsrc, outputfile, threshold, savemask=True)
 
 #
 # phase2

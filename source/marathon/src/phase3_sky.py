@@ -67,8 +67,7 @@ def maskfillSearch(imgsrc, point, depth):
         maskfillSearch(imgsrc, (y+1, x), depth+1) # 遍历下面
 
 # 两个算子各有特点，加起来，效果更佳。
-def calculateMask(dstfile):
-    imgsrc = kalgorithm.imgRead(dstfile).astype(np.float32)
+def calculateMask(imgsrc):
     gray = kalgorithm.bgr2gray(imgsrc)
     fy, fx = kalgorithm.prewittFilter(gray, K_size=3)
     out1 = fy.astype(np.float32) + fx.astype(np.float32)
@@ -82,18 +81,21 @@ def calculateMask(dstfile):
 def mainfixfile():
     srcfile = "./output_images/phase2/phase2_broken_nn.jpg.png"
     dstfile = "./output_images/phase3/phase3_repair_original.png"
+    imgsrc = None
     if not os.path.exists(dstfile):
         img = kalgorithm.imgRead(srcfile)
         H, W, C = img.shape
         img = kalgorithm.nnInterpolateRound(img, int(H / 3), int(W / 3))
-        # 一上来就修复图片
-        kalgorithm.imgSave(dstfile, img)
 
+        # 一上来就修复图片
+        # kalgorithm.imgSave(dstfile, img)
         from phase2_broken_repair import mainfix
-        mainfix(img, dstfile, 240, onlyeasy=True)
+        imgsrc = mainfix(img, dstfile, 240, onlyeasy=True)
+    else:
+        imgsrc = kalgorithm.imgRead(dstfile).astype(np.float32)
 
     if not os.path.exists(dstfile+".mask.png"):
-        out = calculateMask(dstfile)
+        out = calculateMask(imgsrc)
         kalgorithm.imgSave(dstfile+".mask.png", out)
 
     # 分离出水平线
@@ -115,7 +117,7 @@ def mainfixfile():
             pass
 
         kalgorithm.imgSave(repairfile, imgsrc)
-        out = calculateMask(repairfile)
+        out = calculateMask(imgsrc)
         kalgorithm.imgSave(repairmaskfile, out)
         ## 计算海平面的那条线。准确分离。
         out = morphologyErodeLine(out, 1, linelen=40)
