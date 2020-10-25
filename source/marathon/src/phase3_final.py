@@ -99,7 +99,7 @@ def maintask(xcode):
     mask_sea[..., mask_sea.shape[1]-5:] = 0
 
     # 海水搞大一点，倒影更明显一点。
-    if not os.path.exists(outfile+"_mask_sea.png") or True:
+    if not os.path.exists(outfile+"_mask_sea.png"):
         mask_sea = morphologyDilate(mask_sea, 1) # 膨胀
         mask_sea = morphologyDilateLine(mask_sea, 2, linelen=3) # 水平膨胀
         mask_sea = kalgorithm.meanFilter2D(mask_sea, K_size=7) # 滤波
