@@ -147,12 +147,12 @@ phase2_interpolate_Lanczos 实现了 Lanczos 算法。
 
 ### 直方图均衡
 
-彩色图像做直方图均衡化似乎不能对三个分量分别均衡化，这么搞可能会导致颜色畸变。
+彩色图像做直方图均衡化似乎不能对三个 RGB 分量分别均衡化，会对色彩造成一定的影响。
 最好将彩色图像转化为 HSV 颜色模型，色调（H），饱和度（S），明度（V），然后单独对 V 分量做均衡化，最后再转换回 BGR 颜色模型。
-最好是 Lab 颜色空间，均衡的是细节通道 L，L 通道只含细节，不含色彩。也可以对 HSI 中的 I 分量（亮度 / 强度）进行锐化，然后再得到锐化图像。
-直接对 RGB 分颜色均衡，会对色彩造成一定的影响。
-<https://www.doc88.com/p-6681238446960.html>
-<https://max.book118.com/html/2017/0903/131690968.shtm>
+也可以是 Lab 颜色空间，均衡的是细节通道 L，L 通道只含细节，不含色彩。
+
+* [彩色图像处理 PPT](https://www.doc88.com/p-6681238446960.html)
+* [彩色图像平滑和锐化 PPT](https://max.book118.com/html/2017/0903/131690968.shtm)
 
 这里直接把三个颜色作为一个整体均衡化，可以直接看到图片直方图的变化。
 
@@ -172,7 +172,7 @@ phase2_interpolate_Lanczos 实现了 Lanczos 算法。
 ```
 [ 0, -1,  0],
 [-1,  5, -1],
-[ 0, -1,  0]
+[ 0, -1,  0],
 ```
 
 
@@ -183,7 +183,7 @@ phase2_interpolate_Lanczos 实现了 Lanczos 算法。
 
 [频域图像增强-锐化]: https://blog.csdn.net/qq_30815237/article/details/98655630
 
-这玩意的原理和过程，可以参考写的另外一篇文章。[傅里叶变换]
+傅里叶的原理和过程，可以参考写的另外一篇文章。[傅里叶变换]
 
 [傅里叶变换]: /blog/blog/2020/09/26/dip-fourier-transform
 
@@ -197,13 +197,13 @@ phase2_interpolate_Lanczos 实现了 Lanczos 算法。
 
 {% include image.html url="/images/image-marathon/fft/v2-2c6301e214b1766e2b4173c2a0593bb2_720w.jpg" %}
 
-可以编程，显示这个 Gaussian 高哦他那个滤波函数。
+可以编程，显示这个 Gaussian 滤波函数的可视化。
 
 {% include image.html url="/images/image-marathon/gaussian_1.png" %}
 
 {% include image.html url="/images/image-marathon/gaussian_2.png" %}
 
-和原图对比，效果还不错。
+和原图对比，效果还行。
 
 {% include image.html url="/source/marathon/output_images/phase2/phase2_broken_sharpen_spatial.jpg" %}
 
@@ -236,34 +236,36 @@ Otsu Binarization，大津二值化算法（Otsu's Method）。
 假定一个阈值，方差越大，说明差别越大。
 
 
-## 天空识别
-
-
-### 图像形态学
+## 图像形态学
 
 以 B 结构中心点为准心，在 A 中找能满足 B 结构的点即为腐蚀。
 把 A 结构的每个点放到 B 中心点，以 B 结构外扩即为膨胀。
 开操作表示先腐蚀后膨胀；闭操作表示先膨胀后腐蚀。
 
-#### 膨胀（dilation）
+
+### 膨胀（dilation）
 
 一般用来扩充边缘或填充小的孔洞。
 
-#### 腐蚀（erosion）
+
+### 腐蚀（erosion）
 
 可用来提取骨干信息，去掉毛刺，去掉孤立的像素。
 
-#### 开运算（opening）
+
+### 开运算（opening）
 
 先腐蚀再膨胀，可以消除小物体或小斑块。分裂，毛刺去掉。
 先腐蚀后膨胀的过程。开运算可以用来消除小黑点，在纤细点处分离物体、平滑较大物体的边界的同时并不明显改变其面积。
 
-#### 闭运算（closing）
+
+### 闭运算（closing）
 
 先膨胀再腐蚀，可用来填充孔洞。弥合，毛刺保留。
 先膨胀后腐蚀的过程。闭运算可以用来排除小黑洞。
 
-#### 自定义算子
+
+### 自定义算子
 
 ```
 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1
@@ -277,9 +279,9 @@ out = morphologyDilateLine(out, 1, linelen=40) # 用一个 81 长的横线膨胀
 ```
 
 
-### 色彩追踪
+## 色彩追踪
 
-完成天空替换。有倒影，有剪影。
+天空识别。完成天空替换。有倒影，有剪影。
 
 我们把色彩变换到 HSV，然后做一个直方图，可以准确看到颜色分布情况，最高尖尖就是蓝色天空还海水部分，也是整张图的大部分颜色集中的地方。
 
@@ -290,7 +292,7 @@ out = morphologyDilateLine(out, 1, linelen=40) # 用一个 81 长的横线膨胀
 
 8 比特位图像的最低阶比特对人眼感知几乎没有影响，因此，可以将水印图像的高阶比特位“插入”在衬底的低阶比特位中。$$f_w = 4(\frac{f}{4}) + \frac{w}{64}$$
 
-LSB 水印非常脆弱，诸如裁剪，旋转，缩放，图像压缩等操作可以轻易破坏该水印。[水印]
+LSB 水印非常脆弱，诸如裁剪、旋转、缩放，图像压缩等操作可以轻易破坏该水印。[水印]
 
 [水印]: http://accu.cc/content/pil/watermark/
 
@@ -311,7 +313,7 @@ LSB 水印非常脆弱，诸如裁剪，旋转，缩放，图像压缩等操作�
 
 为了计算速度，一上来把 3 倍大图缩小回去，等处理完了，最后在变大三倍。
 
-首先修复图片，不再累述，然后用上面的 prewitt sobel 算子计算整个图的边缘。
+首先修复图片，不再累述，然后用上面的 prewitt & sobel 算子计算整个图的边缘。
 
 {% include image.html url="/source/marathon/output_images/phase3/phase3_repair_original.png.mask.png" %}
 
