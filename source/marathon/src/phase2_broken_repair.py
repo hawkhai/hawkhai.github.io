@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from lib import kalgorithm
+from lib import pyheal
 
 def maskfill(watermark, imgsrc):
     Ht, Wt = watermark.shape
@@ -34,6 +35,11 @@ def mainfix(imgsrc, outputfile, threshold=250):
     imggray = kalgorithm.thresholdBinarization(imggray, threshold)
     #kalgorithm.imgShow(imggray)
     kalgorithm.imgSave(outputfile+".mask.png", imggray)
+
+    mask = imggray.copy().astype(bool, copy=False)
+    outimg = imgsrc.copy()
+    pyheal.inpaint(outimg, mask, 5)
+    kalgorithm.imgSave(outputfile+".heal.png", outimg)
 
     # 根据 mask 对原图进行临近填充
     maskfill(imggray, imgsrc)
