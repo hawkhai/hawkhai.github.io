@@ -1,12 +1,14 @@
 ---
 layout: post
-title: "“数字图像处理”笔记 -- 编程马拉松解答"
+title: "“数字图像处理” -- TEAM24 @ HACKATHON 2020"
 location: "珠海"
 categories: ["图像处理"]
 tags: [图像处理]
 mathjax: true
 toc: true
 ---
+
+**编程马拉松 TEAM24 @ HACKATHON 2020**
 
 完整的代码下载：<a href="{% include relref.html url="/source/hackathon2020_team24.zip" %}" target="_blank">hackathon2020_team24.zip</a> \- 14\.5 MB
 
