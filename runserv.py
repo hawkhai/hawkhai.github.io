@@ -66,6 +66,8 @@ def checkgit():
     print("检查 git 是否存在误入...")
     ymlfile = "tempdir/_config.yml.txt"
     gemfile = "tempdir/Gemfile.lock.txt"
+    if not os.path.exists("tempdir"):
+        os.makedirs("tempdir")
     os.system("git log -p _config.yml  > {}".format(ymlfile,))
     os.system("git log -p Gemfile.lock > {}".format(gemfile,))
 
