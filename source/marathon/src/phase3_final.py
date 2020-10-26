@@ -30,7 +30,7 @@ def findGrilCenter():
     lastvalue = 0
     assert len(xhistogram) == W
     for i in range(len(xhistogram)):
-        if i > 5 and i <W-5 and xhistogram[i] > lastvalue:
+        if i > 5 and i < W-5 and xhistogram[i] > lastvalue:
             #print(i, xhistogram[i])
             result = i
             lastvalue = xhistogram[i]

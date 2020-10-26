@@ -145,7 +145,7 @@ class Watermark():
 
         return cv2.idct(block_dct)
 
-    def embed(self,filename):
+    def embed(self, filename):
 
         embed_ha_Y_block = self.ha_Y_block.copy()
         embed_ha_U_block = self.ha_U_block.copy()

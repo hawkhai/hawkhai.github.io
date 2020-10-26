@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“数字图像处理” -- TEAM24 @ HACKATHON 2020"
+title: "“数字图像处理” -- 编程马拉松 HACKATHON 2020 · TEAM24"
 location: "珠海"
 categories: ["图像处理"]
 tags: [图像处理]
@@ -8,7 +8,7 @@ mathjax: true
 toc: true
 ---
 
-**编程马拉松 TEAM24 @ HACKATHON 2020**
+**编程马拉松 HACKATHON 2020 · TEAM24**
 
 完整的代码下载：<a href="{% include relref.html url="/source/hackathon2020_team24.zip" %}" target="_blank">hackathon2020_team24.zip</a> \- 14\.5 MB
 
@@ -65,7 +65,7 @@ url2="/source/marathon/output_images/phase1/phase1_output_optional.jpg.2.jpg" %}
 
 每种滤波算法都有自己的特点。
 
-```
+```python
 ## prewitt vertical kernel 提取竖直边缘
 [[-1., -1., -1.],
  [ 0.,  0.,  0.],
@@ -106,7 +106,7 @@ url2="/source/marathon/output_images/phase1/phase1_output_optional.jpg.2.jpg" %}
 
 GaussianFilter Kernel=5，这些数字的和刚好是 1.0。
 
-```json
+```python
  [[0.0097565  0.02370077 0.03186045 0.02370077 0.0097565 ]
  [0.02370077 0.0575746  0.07739634 0.0575746  0.02370077]
  [0.03186045 0.07739634 0.10404229 0.07739634 0.03186045]
@@ -149,14 +149,8 @@ phase2_interpolate_Lanczos 实现了 Lanczos 算法。
 
 ### 直方图均衡
 
-彩色图像做直方图均衡化似乎不能对三个 RGB 分量分别均衡化，会对色彩造成一定的影响。
-最好将彩色图像转化为 HSV 颜色模型，色调（H），饱和度（S），明度（V），然后单独对 V 分量做均衡化，最后再转换回 BGR 颜色模型。
-也可以是 Lab 颜色空间，均衡的是细节通道 L，L 通道只含细节，不含色彩。
-
 * [彩色图像处理 PPT](https://www.doc88.com/p-6681238446960.html)
 * [彩色图像平滑和锐化 PPT](https://max.book118.com/html/2017/0903/131690968.shtm)
-
-这里直接把三个颜色作为一个整体均衡化，可以直接看到图片直方图的变化。
 
 {% include image.html url="/source/marathon/output_images/phase2/phase2_broken.Original.png" %}
 
@@ -168,10 +162,9 @@ phase2_interpolate_Lanczos 实现了 Lanczos 算法。
 
 ### 空域算法
 
-空域算法比较简单，直接用算子套上去算一下就可以了。平滑的算子加起来是 0，这个锐化的算子加起来，值是 1，所以感觉锐化了。
-一般在灰度图上进行，彩色图像变成 HSV 空间，针对亮度 V 变换，也可以达到灰度类似的效果。
+空域算法比较简单，直接用算子套上去算一下就可以了。算子求和是 1。
 
-```
+```python
 [ 0, -1,  0],
 [-1,  5, -1],
 [ 0, -1,  0],
@@ -180,7 +173,7 @@ phase2_interpolate_Lanczos 实现了 Lanczos 算法。
 
 ### 频域算法
 
-用到傅里叶变换。低频是轮廓，高频是细节。用到高频提升滤波器，一般在灰度图上进行，彩色图在亮度上做变换。
+用到傅里叶变换。低频是轮廓，高频是细节。用到高频提升滤波器。
 将高频加强和直方图均衡相结合是得到边缘锐化和对比度增强的有效方法。[频域图像增强-锐化]
 
 [频域图像增强-锐化]: https://blog.csdn.net/qq_30815237/article/details/98655630
@@ -234,8 +227,7 @@ OpenCV 实现了 INPAINT_TELEA : Fast Marching Method based 算法，INPAINT_NS 
 
 ### 大津二值化算法
 
-Otsu Binarization，大津二值化算法（Otsu's Method）。
-假定一个阈值，方差越大，说明差别越大。
+Otsu Binarization，大津二值化算法（Otsu's Method）。也被称作最大类间方差法。
 
 
 ## 图像形态学
@@ -269,15 +261,17 @@ Otsu Binarization，大津二值化算法（Otsu's Method）。
 
 ### 自定义算子
 
-```
+```python
 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1
 ```
 
 这个算子很长条，巧妙运算，可以过滤出海平线。
 
 ```python
-out = morphologyErodeLine(out, 1, linelen=40) # 用一个 81 长的横线腐蚀一次
-out = morphologyDilateLine(out, 1, linelen=40) # 用一个 81 长的横线膨胀一次
+# 用一个 81 长的横线腐蚀一次，只剩下很长横线部分了。
+out = morphologyErodeLine(out, 1, linelen=40)
+# 用一个 81 长的横线膨胀一次，再把横线补全一下。
+out = morphologyDilateLine(out, 1, linelen=40)
 ```
 
 
@@ -303,6 +297,9 @@ LSB 水印非常脆弱，诸如裁剪、旋转、缩放，图像压缩等操作�
 
 
 ### 离散余弦变换
+
+
+### HAAR 小波变换
 
 
 ### TODO...
@@ -359,6 +356,14 @@ finalimage = newsky \* masksky \+ imgsrc \* (1 - masksky)
 
 ## 渔女高级处理
 
+```python
+outv = ((mirrorsky * maskwave * 0.35) + # 下面部分，天空倒影
+        (imgsrc * maskwave * 0.4) + # 下面部分，原图
+        (imgsrc * (1-maskwave) * 0.8)) # 其他部分
+# 最后再把原图渔女抠出来降低曝光度贴上去。
+outv = outv * (1-mask_fishergirl) + outvgril * mask_fishergirl
+```
+
 
 ### 倒影处理
 
@@ -375,5 +380,3 @@ finalimage = newsky \* masksky \+ imgsrc \* (1 - masksky)
 ### 尝试换一个色调
 
 {% include image.html url="/source/marathon/output_images/phase3/phase3_sky_final.png_glod.png" %}
-
-（完）
