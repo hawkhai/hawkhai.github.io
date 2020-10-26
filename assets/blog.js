@@ -38,7 +38,12 @@ function checkVideo() {
     iframevideo.css("height", "" + (postdiv.width()*480/852) + "px");
 }
 
-function setTableStyle(ithis, ratiostr) {
+function setTableStyle(ithis, ratiostr, tablew) {
+
+    if (tablew) {
+        ithis.css('width', tablew);
+    }
+
     var li = ratiostr.split(":"); // ["2", "3", "4", "5"]
     var total = 0;
     for (var i = 0; i < li.length; i++) {
@@ -80,6 +85,7 @@ function checkTableStyle() {
         var $this = $(this);
         var ratiostr = $this.attr("ntablew");
         var number = parseInt($this.attr("tsNumber"));
+        var tablew = $this.attr("tablew");
         $this.remove(); // $this.hide();
         if (!ratiostr) {
             return;
@@ -90,7 +96,7 @@ function checkTableStyle() {
             var inumber = parseInt(ithis.attr("tsNumber"));
             // 紧接着的那个 table
             if (inumber == number + 1) {
-                setTableStyle(ithis, ratiostr);
+                setTableStyle(ithis, ratiostr, tablew);
             }
         });
     });
