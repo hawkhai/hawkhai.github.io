@@ -66,11 +66,19 @@ def gaussianHighFrequencyFilter(im, sigma = 1., maxvalue = 1.):
     fft = np.fft.fft2(imarr)
     fft = np.fft.fftshift(fft)
 
+    maska = np.zeros((height, width), dtype = "float")
+
     for i in range(height):
         for j in range(width):
             value = (i - (height-1)/2)**2 + (j - (width-1)/2)**2
             value = -value/2/sigma**2
-            fft[i, j] *= 1 - np.exp(value)
+            value = 1 - np.exp(value)
+            value = value * 0.5 + 0.5
+            fft[i, j] *= value
+            maska[i, j] = value
+
+    showFunction(maska)
+    showTemplate(maska)
 
     fft = np.fft.ifftshift(fft)
     ifft = np.fft.ifft2(fft)
@@ -79,7 +87,7 @@ def gaussianHighFrequencyFilter(im, sigma = 1., maxvalue = 1.):
     max = np.max(ifft)
     min = np.min(ifft)
 
-    res = np.zeros((height, width), dtype = "uint8")
+    res = np.zeros((height, width), dtype = "float")
 
     for i in range(height):
         for j in range(width):
@@ -87,16 +95,16 @@ def gaussianHighFrequencyFilter(im, sigma = 1., maxvalue = 1.):
 
     return res
 
-def gaussianHighFrequencyFilterImage(img, sigma = 20):
+def gaussianHighFrequencyFilterImage(img, sigma = 50):
     from .kcolor import bgr2hsv, hsv2bgr
     imgsrc = img.copy()
     image = bgr2hsv(img)
 
-    #print(np.max(image[..., 2]))
+    print(np.min(image[..., 2]), np.max(image[..., 2]))
     image[..., 2] = gaussianHighFrequencyFilter(image[..., 2], sigma, maxvalue=1.)
 
     newimg = hsv2bgr(image, imgsrc)
-    return imgsrc
+    return newimg
 
 def sharpenImage(r):
     # 滤波掩模，空间滤波-锐化滤波
