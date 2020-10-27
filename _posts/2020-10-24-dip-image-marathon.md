@@ -318,7 +318,7 @@ LSB 水印非常脆弱，诸如裁剪、旋转、缩放，图像压缩等操作�
 
 {% include image.html url="/source/marathon/output_images/phase3/phase3_repair_original.png.mask.png" %}
 
-通过自定义的算子，分理出海平线，可以发现是倾斜的。
+通过自定义的算子，分离出海平线，可以发现是倾斜的。
 
 {% include image.html url="/source/marathon/output_images/phase3/phase3_repair_original.png.mask.line.png" %}
 
