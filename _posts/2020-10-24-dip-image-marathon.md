@@ -306,6 +306,9 @@ LSB 水印非常脆弱，诸如裁剪、旋转、缩放，图像压缩等操作�
 
 ### TODO...
 
+有空了，单独写一篇文章。
+<https://github.com/hawkhai/hawkhai.github.io/blob/master/source/marathon/src/lib/watermark.py>
+
 
 ## 渔女处理
 
