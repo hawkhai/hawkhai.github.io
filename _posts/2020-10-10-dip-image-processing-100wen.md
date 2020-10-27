@@ -7,7 +7,7 @@ tags: [图像处理]
 mathjax: true
 toc: true
 mermaid: truez
-visibility: hiddenz
+visibility: hidden
 toclistyle: none
 ---
 
