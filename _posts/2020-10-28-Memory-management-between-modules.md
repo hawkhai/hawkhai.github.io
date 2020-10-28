@@ -143,6 +143,8 @@ public:
     virtual T* dataPtr() { return data; }
     virtual T* mallocData(int size) {
         if (data) { delete[] data; data = NULL; }
+        // 当同一个工程使用多个库时，它们的含义可能不同，很容易弄混。
+        // 因而很多人会多添加一个字节
         if (size <= 0) { size = 1; }
         data = new T[size + 1];
         memset(data, 0, (size + 1) * sizeof(T));
@@ -206,3 +208,4 @@ typedef struct _FILENAME_ATTRIBUTE { // 文件名属性的值区域
 ## 参考
 
 * [windows api 设计的如何？C 语言怎么从函数中返回未知长度的字符串，可以让它的调用者优雅地接收？](https://www.zhihu.com/question/33058061)
+* [C 接口中的内存分配释放](https://zhuanlan.zhihu.com/p/95299255)
