@@ -243,6 +243,12 @@ def mainfile(fpath, fname, ftype):
                 continue
             if cy in ('"', "]", ",") and (line+" ").count(ix+" ") == 1:
                 continue
+
+            if cx in ('(', ) and ("\\"+line).count("\\"+ix) == 1:
+                continue
+            if cy in ('\\', ) and (line+")").count(ix+")") == 1:
+                continue
+
             if cx in ('"',) and ("["+line).count("["+ix) == 1:
                 continue
             if cy in ('"',) and (line+"]").count(ix+"]") == 1:
@@ -258,7 +264,7 @@ def mainfile(fpath, fname, ftype):
                 if line.startswith("print ('"):
                     continue
 
-            print("[%d]"%(index+1), ix, "\t", line)
+            print("[%d]"%(index+1), ix, cx, cy, "\t", line)
             if AUTOFORMAT:
                 line = line.replace(ix, cx+" "+cy)
                 lines[index] = line
