@@ -116,7 +116,48 @@ void get_string(struct writer w) {
 }
 ```
 
-包装成一个 Bundle 也是这个的一个变种。
+包装成一个 Bundle 也是这个的一个变种。一个建议的接口实现：
+
+```cpp
+template<typename T>
+interface ISampleBundle {
+public:
+    virtual T* dataPtr() = 0;
+    virtual T* mallocData(int size) = 0;
+    virtual void releaseData() = 0;
+};
+
+template<typename T>
+class KSampleBundle : public ISampleBundle<T> {
+public:
+    KSampleBundle() {
+        data = NULL;
+    }
+    virtual ~KSampleBundle() {
+        if (data) { delete[] data; data = NULL; }
+    }
+
+    virtual void releaseData() {
+        if (data) { delete[] data; data = NULL; }
+    }
+    virtual T* dataPtr() { return data; }
+    virtual T* mallocData(int size) {
+        if (data) { delete[] data; data = NULL; }
+        if (size <= 0) { size = 1; }
+        data = new T[size + 1];
+        memset(data, 0, (size + 1) * sizeof(T));
+        return data;
+    }
+
+private:
+    T* data;
+};
+
+[ uuid(311F23B8-165F-4324-8388-29C7E4ADB789) ]
+interface ISampleEngine {
+    virtual HRESULT __stdcall GetItemInfo(LPCWSTR fpath, ISampleBundle<TCHAR>& info) = 0;
+}
+```
 
 
 ### 传入迭代函数
