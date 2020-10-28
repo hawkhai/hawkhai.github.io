@@ -15,9 +15,9 @@ toc: true
 
 | 函数 | 说明 | 评论 |
 | ---- | ---- | ---- |
-| GetWindowText(HWND,LPTSTR,int) | 取得窗口标题。需要在参数中给出保存标题所使用的内存指针，和这块内存的尺寸。 | 晕！我又不知道窗口标题的长度，居然还要我提供尺寸？！没办法，只能估摸着给一个大一些的尺寸吧。 |
-| sprintf(char *,const char *,...) | 格式化一个字符串。这个函数不用给出缓冲区的长度啦。 | 恩，虽然不用给出长度了，但你敢给个小尺寸吗？哼！ |
-| int CListBox::GetTextLen(int) <br/> CListBox::GetText(int,LPTSTR) | 取得列表窗中子项目的标题。需要调用两个函数，先取得长度，然后分配内存，再实际取得标题内容。 | 呵呵。 |
+| GetWindowText(HWND, LPTSTR, int) | 取得窗口标题。需要在参数中给出保存标题所使用的内存指针，和这块内存的尺寸。 | 晕！我又不知道窗口标题的长度，居然还要我提供尺寸？！没办法，只能估摸着给一个大一些的尺寸吧。 |
+| sprintf(char *, const char *, ...) | 格式化一个字符串。这个函数不用给出缓冲区的长度啦。 | 恩，虽然不用给出长度了，但你敢给个小尺寸吗？哼！ |
+| int CListBox::GetTextLen(int) <br/> CListBox::GetText(int, LPTSTR) | 取得列表窗中子项目的标题。需要调用两个函数，先取得长度，然后分配内存，再实际取得标题内容。 | 呵呵。 |
 
 
 ## 谁申请谁释放
@@ -34,6 +34,35 @@ Windows API 为了解决这个问题，各种办法都出来了。这里肯定�
 搞两次，第一次得到大小，第二次真正调用。
 
 WideCharToMultiByte 就是这个办法，非常奇怪。
+
+```cpp
+void from_utf8(const std::string &string_str, std::wstring &string_wstr) {
+    if (string_str.size() < 1) {
+        return;
+    }
+    string_wstr.clear();
+    int len = MultiByteToWideChar(CP_UTF8, 0, string_str.c_str(), -1, NULL, NULL);
+    string_wstr.resize(len);
+    wchar_t *str_ptr = new wchar_t[len];
+    MultiByteToWideChar(CP_UTF8, 0, string_str.c_str(), -1, str_ptr, len);
+    string_wstr = str_ptr;
+    delete [] str_ptr;
+    str_ptr = NULL;
+}
+
+void to_utf8(const std::wstring &string_wstr, std::string &string_str) {
+    int len = WideCharToMultiByte(CP_UTF8, 0, string_wstr.c_str(), -1, NULL, 0, NULL, NULL);
+    if (len == 0) {
+        return;
+    }
+    ++len;
+    char* str_ptr = new char[len];
+    WideCharToMultiByte(CP_UTF8, 0, string_wstr.c_str(), -1, str_ptr, len, NULL, NULL);
+    string_str = str_ptr;
+    delete[] str_ptr;
+    str_ptr = NULL;
+}
+```
 
 
 ### 传入内存长度
@@ -88,12 +117,12 @@ DeleteString(client);
 ```
 
 
-### Windows COM BSTR 等 全局的管理
+### COM BSTR 等 全局的管理
 
 被调用方分配内存，然后调用方释放。使用统一的分配 API：SysAllocString / SysFreeString。
 
 
-### 用回调函数
+### 虚表或回调函数
 
 ```cpp
 struct writer {
@@ -116,7 +145,10 @@ void get_string(struct writer w) {
 }
 ```
 
-包装成一个 Bundle 也是这个的一个变种。一个建议的接口实现：
+包装成一个 Bundle 也是这个的一个变种。Bundle 要求实现一个数据序列化。
+基于 Key-Value Map 实现，不用关注长度，参数个数灵活，可以类比 Json 万能接口，比 Json 效率更好，如果跨进程，可能 Json 更好。
+
+一个建议的接口实现：
 
 ```cpp
 template<typename T>
