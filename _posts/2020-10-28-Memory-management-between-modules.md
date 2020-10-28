@@ -237,6 +237,22 @@ typedef struct _FILENAME_ATTRIBUTE { // 文件名属性的值区域
 ```
 
 
+## 复杂的堆
+
+在 linux 下，每个进程只有一个 heap，在任何一个动态库模块 so 中通过 new 或者 malloc 来分配内存的时候都是从这个唯一的 heap 中分配的，那么自然你在其它随便什么地方都可以释放。这个模型是简单的。
+但是在 windows 下面，问题变得复杂了。
+
+1. windows 允许一个进程中有多个 heap，那么这样就需要指明一块内存要在哪个 heap 上分配，win32 的 HeapAlloc 函数就是这样设计的，给出一个 heap 的句柄，给出一个 size，然后返回一个指针。每个进程都至少有一个主 heap，可以通过 GetProcessHeap 来获得，其它的堆，可以通过 GetProcessHeaps 取到。同样，内存释放的时候通过 HeapFree 来完成，还是需要指定一个堆。
+
+2. 这样的设计显然是比较灵活的，但是问题在于这样的话，每次分配内存的时候就必须要显式的指定一个 heap，对于 crt 中的 new/malloc，显然需要特殊处理。那么如何处理就取决于 crt 的实现了。vc 的 crt 是创建了一个单独的 heap，叫做 \_\_crtheap，它对于用户是看不见的，但是在 new/malloc 的实现中，都是用 HeapAlloc 在这个 \_\_crtheap 上分配的，也就是说 malloc(size) 基本上可以认为等同于 HeapAlloc(__crtheap, size)（当然实际上 crt 内部还要维护一些内存管理的数据结构，所以并不是每次 malloc 都必然会触发 HeapAlloc），这样 new/malloc 就和 windows 的 heap 机制吻合了。（这里说的是 vc 的 crt 实现，我不知道其它 crt 实现是否如此）
+
+3. 如果一个进程需要动态库支持，系统在加载 dll 的时候，在 dll 的启动代码 \_DllMainCRTStartup 中，会创建这个 \_\_crtheap，所以理论上有多少个 dll，就有多少个 \_\_crtheap。最后主进程的 mainCRTStartup 中还会创建一个为主进程服务的 \_\_crtheap。（由于顺序总是先加载 dll，然后才启动 main 进程，所以你可以看到各个 dll 的 \_\_crtheap 地址比较小，而主进程的 \_\_crtheap 比较大，当然排在最前面的堆是每个进程的主 heap）。可以使用 windbg 查看。
+
+4. 从上面的分析中可以看出，对于 crt 来说，由于每个 dll 都有自己的 heap，所以每个 dll 通过 new/malloc 分配的内存都是在自己 dll 内部的那个 heap 上用 HeapAlloc 来分配的，而如果你想在其它模块中释放，那么在释放的时候 HeapFree 就会失败了，因为各个模块的 \_\_crtheap 是不一样的。
+
+这样，基本上事情就比较清楚了，在 windows 下一个进程存在着多个 heap，除了一个主 heap 外，还有很多的 \_\_crtheap，用来处理通过 c/c++ 的运行库进行的内存操作。所以使用 new/malloc 来分配的内存实际上都是局部的，可以在多个 dll 中共享，但是却必须是谁申请谁释放。这个是 windows 下的一个规则。（当然如果在 dll 内部使用 HeapAlloc(GetProcessHeap(), size) 来分配的内存是可以在 dll 以外释放的，因为这时内存分配在全局的主 heap 上，而不是分配在 dll 自己的 \_\_crtheap 上）
+
+
 ## 参考
 
 * [windows api 设计的如何？C 语言怎么从函数中返回未知长度的字符串，可以让它的调用者优雅地接收？](https://www.zhihu.com/question/33058061)
@@ -244,3 +260,5 @@ typedef struct _FILENAME_ATTRIBUTE { // 文件名属性的值区域
 * [失传的 C 结构体打包技艺](https://github.com/ludx/The-Lost-Art-of-C-Structure-Packing)
 * [结构体中最后成员为一个零长数组与一个指针](http://wenboo.site/2017/09/05/%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E6%9C%80%E5%90%8E%E6%88%90%E5%91%98%E4%B8%BA%E4%B8%80%E4%B8%AA%E9%9B%B6%E9%95%BF%E6%95%B0%E7%BB%84%E4%B8%8E%E4%B8%80%E4%B8%AA%E6%8C%87%E9%92%88/)
 * [结构体中最后一个成员为 \[0\] 或 \[1\] 长度数组 \(柔性数组成员\) 的用法](http://wenboo.site/2017/09/05/%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E6%88%90%E5%91%98%E4%B8%BA-0-%E6%88%96-1-%E9%95%BF%E5%BA%A6%E6%95%B0%E7%BB%84-%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84%E6%88%90%E5%91%98-%E7%9A%84%E7%94%A8%E6%B3%95/)
+
+* [17. c++ - 谁分配谁释放 HEAP](https://blog.csdn.net/hgy413/article/details/6716397)
