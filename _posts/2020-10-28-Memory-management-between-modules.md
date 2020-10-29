@@ -26,7 +26,7 @@ toc: true
 
 因此大部分的 API 一般是由调用方提供一个字符串缓冲区以及缓冲区可以接受字符的最大长度，然后由被调用方将自己的字符串复制到调用方指定的位置去的。
 
-Windows API 为了解决这个问题，各种办法都出来了。这里肯定是不能采用高级数据类型的。
+Windows API 为了解决这个问题，各种办法都出来了。这里肯定是不能采用高级数据类型的。MD/MT 模式，MD 解决也存在缺陷，一个工程要同一个 crt 版本。
 
 
 ### 搞两次
@@ -262,6 +262,7 @@ typedef struct _FILENAME_ATTRIBUTE { // 文件名属性的值区域
 
 ## 参考
 
+* [C++ 内存管理变革 \(2\)：最袖珍的垃圾回收器](https://blog.csdn.net/xushiweizh/article/details/1396573)
 * [windows api 设计的如何？C 语言怎么从函数中返回未知长度的字符串，可以让它的调用者优雅地接收？](https://www.zhihu.com/question/33058061)
 * [C 接口中的内存分配释放](https://zhuanlan.zhihu.com/p/95299255)
 * [失传的 C 结构体打包技艺](https://github.com/ludx/The-Lost-Art-of-C-Structure-Packing)
