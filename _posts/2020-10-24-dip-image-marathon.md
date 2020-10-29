@@ -121,7 +121,7 @@ GaussianFilter Kernel=5，这些数字的和刚好是 1.0。
 
 ## 图片插值
 
-不同的插值算法。越高级的算法越圆润，越基础的算法马赛克效果越明显。
+不同的插值算法。越高级的算法越圆润，越耗时间，越基础的算法马赛克效果越明显。
 
 {% include image.html url="/images/image-marathon/63556641-eeb89400-c545-11e9-8f90-58e1c0eb0840.png" %}
 
