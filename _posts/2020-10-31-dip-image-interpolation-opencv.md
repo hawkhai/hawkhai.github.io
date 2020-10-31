@@ -505,5 +505,6 @@ int _tmain(int argc, _TCHAR* argv[])
 
 ## 参考
 
+* [Source code for obspy.signal.interpolation](https://docs.obspy.org/_modules/obspy/signal/interpolation.html)
 * <https://blog.csdn.net/iteye_13202/article/details/82553682>
 * <https://blog.csdn.net/jningwei/article/details/78822026>

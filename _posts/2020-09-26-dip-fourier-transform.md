@@ -210,3 +210,4 @@ if __name__ == "__main__":
 - [1] [bilibili <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://space.bilibili.com/230105574/channel/detail?cid=67768)
 - [2] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
 - [3] [公式图形实时显示](https://www.desmos.com/calculator)
+- [4] [频域高通高斯滤波和拉普拉斯滤波](https://blog.csdn.net/baidu_41902768/article/details/95936591)
