@@ -79,7 +79,8 @@ More information about this [esthetic trick algorithm](https://www.scriptol.com/
 
 ## PixelNN 算法
 
-PixelNN: Example-based Image Synthesis
+深度学习 PixelNN: Example-based Image Synthesis
+
 [PixedNN](http://www.cs.cmu.edu/~aayushb/pixelNN/). Appearing more recently in 2017, turns a sketch into a photo!
 
 pix2pix 来自卡内基梅隆大学的 Aayush Bansal 、Yaser Sheikh、Deva Ramanan，联合研究了一种基于示例图像合成清晰照片的技术 — PixelNN，把模糊的低分辨率或者是有马赛克的图片，使用表面法线贴图和草图等，合成出高分辨率的逼真图像。
