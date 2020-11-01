@@ -73,7 +73,7 @@ $$J(x)=Li(x)-\sum_{\rho}Li(x^{\rho})-\ln 2 +\int_x^\infty\frac{dt}{t(t^2-1)\ln t
 
 ## CSDN 其它文章
 
-* [黎曼猜想（一） 欧拉乘积式](https://blog.csdn.net/fztsilly/article/details/106525876)
+* [黎曼猜想（一）欧拉乘积式](https://blog.csdn.net/fztsilly/article/details/106525876)
 * [黎曼猜想（二）全体自然数之和等于 -1/12 和解析延拓](https://blog.csdn.net/fztsilly/article/details/106549849)
 * [黎曼猜想（三）黎曼猜想](https://blog.csdn.net/fztsilly/article/details/106548223)
 * [《终结篇》全体自然数的和等于 -1/12??? 我觉得我还可以再抢救一下](https://blog.csdn.net/qq_40155097/article/details/86670230)
