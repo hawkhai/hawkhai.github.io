@@ -3,12 +3,18 @@ layout: post
 title: "“特效编程”笔记 -- OpenGL / GLSL 基础 & 开发环境搭建"
 location: "珠海"
 categories: ["特效"]
-tags: [特效]
+tags: [特效, OpenGL]
 mathjax: true
 toc: true
 ---
 
 用 vscode+glsl canvas 插件可以作为一个 shader 开发环境。最终选择了：glsl。
+
+* [OpenGL 学习 -- 开发环境](https://www.cnblogs.com/gispathfinder/p/6985769.html)
+* [3D games on the Web GLSL 着色器](https://developer.mozilla.org/zh-CN/docs/Games/Techniques/3D_on_the_web/GLSL_Shaders)
+* [如何搭建 OpenGL ES 或者 GLSL 的开发环境](https://bbs.csdn.net/topics/380180878)
+* [win7, 64bit 下的 OpenGL 着色语言（glsl）开发环境配置（原）](https://www.cnblogs.com/yanhuiw/p/3281028.html)
+* [GLSL 环境搭建](https://blog.csdn.net/u010724874/article/details/48543593)
 
 
 ## 什么是 Shader Language
