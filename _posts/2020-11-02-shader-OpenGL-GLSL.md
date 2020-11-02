@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“特效编程”笔记 -- OpenGL / GLSL 基础 & 开发环境搭建"
+title: "“特效编程”笔记 -- 可编程渲染管线 OpenGL/GLSL 基础"
 location: "珠海"
 categories: ["特效"]
 tags: [特效, OpenGL]
@@ -15,6 +15,8 @@ toc: true
 * [如何搭建 OpenGL ES 或者 GLSL 的开发环境](https://bbs.csdn.net/topics/380180878)
 * [win7, 64bit 下的 OpenGL 着色语言（glsl）开发环境配置（原）](https://www.cnblogs.com/yanhuiw/p/3281028.html)
 * [GLSL 环境搭建](https://blog.csdn.net/u010724874/article/details/48543593)
+
+{% include image.html url="/images/OpenGL-GLSL/982bc51480a085f6878fe5e4656de446_720w.png" %}
 
 
 ## 什么是 Shader Language
@@ -67,3 +69,4 @@ glew 库。
 * [Unity Manual Compute shaders](https://docs.unity3d.com/Manual/class-ComputeShader.html)
 * [三大 Shader 编程语言（CG / HLSL / GLSL）](https://zhuanlan.zhihu.com/p/47433678)
 * [《Unity Shader 入门精要》随书彩色插图](http://candycat1992.github.io/unity_shaders_book/unity_shaders_book_images.html)
+* [可编程渲染管线比固定管线的优势在哪？有什么应用？](https://www.zhihu.com/question/28024422/answer/39097192)
