@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "数学 -- 黎曼猜想"
+title: "数学之美 -- 黎曼猜想"
 location: "珠海"
 categories: ["数学"]
 tags: [数学]

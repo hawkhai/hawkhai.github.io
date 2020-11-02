@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "数学 -- 改变世界的 17 个方程式"
+title: "数学之美 -- 改变世界的 17 个方程式"
 location: "珠海"
 categories: ["数学"]
 tags: [数学]

@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程 -- QT 内存泄露研究"
+title: "编程 Prog -- QT 内存泄露研究"
 location: "珠海"
 categories: ["编程"]
-tags: [Windows Prog, QT, Memory, C++]
+tags: [Prog Note, QT, Memory, C++]
 toc: true
 ---
 
