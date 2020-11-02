@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Welcome to my blog"
+title: "生活 -- Welcome to my blog"
 location: "Japan"
 categories: ["生活"]
 comments: true

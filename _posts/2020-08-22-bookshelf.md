@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "New 'Bookshelf' page"
+title: "读书笔记 -- New 'Bookshelf' page"
 location: "Japan"
-categories: ["阅读"]
+categories: ["读书"]
 comments: true
 ---
 
