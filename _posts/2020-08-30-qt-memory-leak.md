@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "编程 Prog -- QT 内存泄露研究"
+title: "编程 C++ -- QT 内存泄露研究"
 location: "珠海"
 categories: ["编程"]
 tags: [Prog Note, QT, Memory, C++]

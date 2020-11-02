@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "编程 Prog -- Windows 跨模块内存管理"
+title: "编程 C++ -- Windows 跨模块内存管理"
 location: "珠海"
 categories: ["编程"]
 tags: [Prog Note, Memory, C++]
