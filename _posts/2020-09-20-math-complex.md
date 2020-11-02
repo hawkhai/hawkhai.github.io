@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "数学之美 -- 欧拉公式，复数域的成人礼"
+title: "数学 -- 欧拉公式，复数域的成人礼"
 location: "珠海"
-categories: ["数学之美"]
-tags: [数学之美]
+categories: ["数学"]
+tags: [数学]
 mathjax: true
 toc: true
 ---

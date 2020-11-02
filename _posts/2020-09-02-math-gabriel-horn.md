@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "数学之美 -- Gabriel 喇叭，有限的体积无穷的表面积"
+title: "数学 -- Gabriel 喇叭，有限的体积无穷的表面积"
 location: "珠海"
-categories: ["数学之美"]
-tags: [数学之美]
+categories: ["数学"]
+tags: [数学]
 mathjax: true
 toc: true
 ---

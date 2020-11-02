@@ -2,8 +2,8 @@
 layout: post
 title: "NOTE -- 线性代数的本质"
 location: "珠海"
-categories: ["数学之美"]
-tags: [数学之美]
+categories: ["数学"]
+tags: [数学]
 mathjax: true
 toc: true
 ---
