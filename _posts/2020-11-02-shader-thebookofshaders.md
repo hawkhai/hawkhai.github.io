@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“特效编程”笔记 -- OpenGL Shader / GLSL"
+title: "“特效编程”笔记 -- 可编程渲染管线 OpenGL Shader / GLSL"
 location: "珠海"
 categories: ["特效"]
 tags: [特效, OpenGL]
