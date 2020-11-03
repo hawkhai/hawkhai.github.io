@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“特效编程”笔记 -- 可编程渲染管线 OpenGL Shader / GLSL"
+title: "“特效编程”笔记 -- OpenGL Shader / GLSL 学习笔记"
 location: "珠海"
 categories: ["特效"]
 tags: [特效, OpenGL]
@@ -8,8 +8,168 @@ mathjax: true
 toc: true
 ---
 
+可编程渲染管线 OpenGL Shader / GLSL
 
-## The Book of Shaders
+
+## TOOLS
+
+* ShaderToy.com Shader 集市
+
+    <https://www.shadertoy.com/>
+
+* glslViewer
+
+    GlslViewer is a flexible console-base OpenGL Sandbox to display 2D/3D GLSL shaders without the need of an UI.
+
+    <https://github.com/patriciogonzalezvivo/glslViewer>
+
+* glslCanvas
+
+    用 WebGL 显示 shader。Simple tool to load GLSL shaders on HTML Canvas using WebGL.
+
+    <https://github.com/patriciogonzalezvivo/glslCanvas>
+
+* Three.js
+
+    无数程序示例，教程，书籍，教你如何用这个 JavaScript 库做出酷炫的 3D 图像。
+
+    <http://threejs.org/>
+
+* Processing
+
+    Processing is a flexible software sketchbook and a language for learning how to code within the context of the visual arts.
+    更多 Processing 的 shader 教程戳 [tutorial](https://processing.org/tutorials/pshader/)。
+
+    <https://processing.org/>
+
+* openFrameworks
+
+    开源的、跨平台的 C++ 工具包，它的设计目的为开发创造过程提供一个更加简单和直观的框架。
+    [Introducing Shaders](https://openframeworks.cc/ofBook/chapters/shaders.html)
+
+    <http://openframeworks.cc/>
+
+
+## 抽象性、盲视、无记忆
+
+为了能使许多管线并行运行，每一个线程必须与其他的相独立。
+我们称这些线程对于其他线程在进行的运算是“盲视”的。
+这个限制就会使得所有数据必须以相同的方向流动。
+所以就不可能检查其他线程的输出结果，修改输入的数据，或者把一个线程的输出结果输入给另一个线程。
+如果允许线程到线程的数据流动将使所有的数据面临威胁。
+
+并且 GPU 会让所有并行的微处理器（管道们）一直处在忙碌状态；只要它们一有空闲就会接到新的信息。
+一个线程不可能知道它前一刻在做什么。
+它可能是在画操作系统界面上的一个按钮，然后渲染了游戏中的一部分天空，然后显示了一封 email 中的一些文字。
+每个线程不仅是“盲视”的，而且还是“无记忆”的。
+同时，它要求编写一个通用的规则，依据像素的不同位置依次输出不同的结果。
+
+
+### 着色器输入
+
+```glsl
+uniform vec3      iResolution;           // viewport resolution (in pixels)
+uniform float     iTime;                 // shader playback time (in seconds)
+uniform float     iTimeDelta;            // render time (in seconds)
+uniform int       iFrame;                // shader playback frame
+uniform float     iChannelTime[4];       // channel playback time (in seconds)
+uniform vec3      iChannelResolution[4]; // channel resolution (in pixels)
+uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
+uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
+uniform vec4      iDate;                 // (year, month, day, time in seconds)
+uniform float     iSampleRate;           // sound sample rate (i.e., 44100)
+```
+
+
+## Hello World
+
+```glsl
+#ifdef GL_ES
+precision mediump float; // 中等精度
+#endif
+
+uniform float u_time; // 统一值，时间（加载后的秒数）iTime
+uniform vec2 u_resolution; // 画布尺寸（宽，高）iResolution
+uniform vec2 u_mouse; // 鼠标位置（在屏幕上哪个像素）iMouse xy：当前位置, zw：点击位置
+
+void main() {
+    gl_FragColor = vec4(abs(sin(u_time)),0.0,1.0,1.0); // 红绿蓝和透明度通道
+}
+```
+
+GLSL 语言规范并不保证变量会被自动转换类别。
+要求有最精简的语言规范。因而，自动强制类型转换并没有包括在其中。
+最好养成在 float 型数值里加一个 . 的好习惯。
+
+
+### Uniforms
+
+每个线程和其他线程之间不能有数据交换，但我们能从 CPU 给每个线程输入数据。
+因为显卡的架构，所有线程的输入值必须统一（uniform），而且必须设为只读。
+也就是说，每条线程接收相同的数据，并且是不可改变的数据。
+
+
+### gl_FragCoord
+
+varying（变化值）。gl_FragCoord 存储了活动线程正在处理的像素或屏幕碎片的坐标。
+因为每个像素的坐标都不同，所以我们把它叫做 varying（变化值）。
+
+```glsl
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+
+void main() {
+    vec2 st = gl_FragCoord.xy/u_resolution;
+    gl_FragColor = vec4(st.x,st.y,0.0,1.0);
+}
+```
+
+[OpenGL·投影与变换](https://www.jianshu.com/p/64c236d5c67a)
+
+{% include image.html url="/images/OpenGL-GLSL/2852335-c8a888f710b623d1.webp" %}
+
+
+## 算法绘画 造型函数
+
+```glsl
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+
+// Plot a line on Y using a value between 0.0-1.0
+float plot(vec2 st) {
+    // float smoothstep(float edge0, float edge1, float x)
+    return smoothstep(0.02, 0.0, abs(st.y - st.x));
+}
+
+void main() {
+    vec2 st = gl_FragCoord.xy/u_resolution;
+
+    float y = st.x;
+
+    vec3 color = vec3(y);
+
+    // Plot a line
+    float pct = plot(st);
+    color = (1.0-pct)*color+pct*vec3(0.0,1.0,0.0);
+
+    gl_FragColor = vec4(color,1.0);
+}
+```
+
+
+## <font color="red">The Book of Shaders</font>
+
+TODO: https://thebookofshaders.com/05/?lan=ch
 
 <https://github.com/patriciogonzalezvivo/thebookofshaders>
 
@@ -18,19 +178,33 @@ Step-by-step guide through the abstract and complex universe of Fragment Shaders
 [thebookofshaders.com](https://thebookofshaders.com/?lan=ch)
 
 
-## Shader School
+### Shader School <sup>有点老旧了<sup>
 
 <https://github.com/stackgl/shader-school>
 
 [A workshopper for GLSL shaders and graphics programming](https://github.com/stackgl/shader-school)
 
 
-## Other
+### Other
 
-<https://github.com/McNopper/OpenGL>
+* 各种例子：<https://github.com/McNopper/OpenGL>
 
-[OpenGL 3 and 4 with GLSL](http://nopper.tv)
+    [OpenGL 3 and 4 with GLSL](http://nopper.tv)
 
-<https://github.com/patriciogonzalezvivo/glslViewer>
+* GlslViewer is a flexible console-base OpenGL Sandbox to display 2D/3D GLSL shaders without the need of an UI.
 
-[Console-based GLSL Sandbox for 2D/3D shaders shaders](http://patriciogonzalezvivo.com/2015/glslViewer/)
+    You can definitely make your own UI or wrapper using the Python Module (include) or any other tool that communicates back/forth with glslViewer thought the standard POSIX console In/Out or OSC.
+
+    GlslViewer support both 2D shaders and/or 3D shaders when a geometry (LST, PLY, OBJ or GLTF) is provided.
+
+    <https://github.com/patriciogonzalezvivo/glslViewer>
+
+    [Console-based GLSL Sandbox for 2D/3D shaders shaders](http://patriciogonzalezvivo.com/2015/glslViewer/)
+
+* A Processing/Java library for high performance GPU-Computing (GLSL).
+
+    <https://github.com/diwi/PixelFlow>
+
+    Fluid Simulation + SoftBody Dynamics + Optical Flow + Rendering + Image Processing + Particle Systems + Physics + ...
+
+    [PixelFlow](https://diwi.github.io/PixelFlow/)
