@@ -64,6 +64,11 @@ Cg 由 NVIDIA 公司和微软公司相互协作在标准硬件光照语言的语
 图 2.11 OpenGL 和 DirectX 的屏幕坐标系差异。对于一张 512\*512 大小的图像，在 OpenGL 中其（0, 0）点在左下角，而在 DirectX 中其（0, 0）点在左上角。
 
 
+## 一些牛逼
+
+[士郎 Shader --- 实时水面模拟与渲染（一）](http://www.manew.com/thread-112638-1-1.html)
+
+
 ## 参考
 
 * [Unity Manual Compute shaders](https://docs.unity3d.com/Manual/class-ComputeShader.html)
