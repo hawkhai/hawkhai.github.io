@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "调试 -- vs 程序员使用 windbg 实例"
+title: "调试 -- VS 程序员使用 windbg 实例"
 location: "珠海"
 categories: ["调试"]
 tags: [Prog Note, 调试]
@@ -157,6 +157,12 @@ y 号线程 wait -> 0 或 x 即会造成死锁
 ```
 
 <https://blog.csdn.net/xxin_w/article/details/8449855>
+
+```shell
+!cs -l # 获取更为全面的关键区信息
+!handle 000000c4 f # 查看该句柄的信息
+!locks # 查看进程中哪些锁处于锁定状态
+```
 
 
 ## 内存
