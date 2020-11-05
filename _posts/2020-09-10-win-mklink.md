@@ -102,6 +102,32 @@ Windows Install 并不完全支持符号链接，所以，如果将 \Windows\Ins
 * 将 "\Program Files" 或 "\Program Files (x86)" 使用符号链接替换将会破坏那些从 \Windows\WinSxS 仓库中硬性链接了文件到安装目录中的基于 Windows 组件的服务。
 
 
+## %PROGRAMFILES%
+
+[link](https://stackoverflow.com/questions/9594066/how-to-get-program-files-x86-env-variable)
+On a 64-bit machine running in 64-bit mode:
+
+* `echo %programfiles%` ==> `C:\Program Files`
+* `echo %programfiles(x86)%` ==> `C:\Program Files (x86)`
+
+On a 64-bit machine running in 32-bit (WOW64) mode:
+
+* `echo %programfiles%` ==> `C:\Program Files (x86)`
+* `echo %programfiles(x86)%` ==> `C:\Program Files (x86)`
+
+On a 32-bit machine running in 32-bit mode:
+
+* `echo %programfiles%` ==> `C:\Program Files`
+* `echo %programfiles(x86)%` ==> `%programfiles(x86)%`
+
+Another relevant environment variable is: `%ProgramW6432%`.<br/>
+So, on a 64-bit machine running in 32-bit (WOW64) mode:
+
+* `echo %programfiles%` ==> `C:\Program Files (x86)`
+* `echo %programfiles(x86)%` ==> `C:\Program Files (x86)`
+* `echo %ProgramW6432%` ==> `C:\Program Files`
+
+
 ## 目录符号链接与目录连接点的区别
 
 目录符号链接（/D）与目录连接点（/J）非常相似，但是本质是不同的。目录符号链接依旧是符号链接，是指向目录的符号链接，而目录连接点不属于符号链接。
