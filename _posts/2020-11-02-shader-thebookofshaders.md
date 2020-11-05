@@ -6,11 +6,14 @@ categories: ["特效"]
 tags: [特效, OpenGL]
 mathjax: true
 toc: true
+glslcanvas: true
 ---
 
 可编程渲染管线 OpenGL Shader / GLSL
 
 编辑器：<https://thebookofshaders.com/edit.php>
+
+Firefox 着色编辑器：<https://developer.mozilla.org/zh-CN/docs/Tools/Shader_Editor>
 
 
 ## TOOLS
@@ -160,7 +163,7 @@ y = mod(x,0.5); // 返回 x 对 0.5 取模的值
 ```
 
 
-## 颜色
+### 颜色
 
 下面的代码展示了所有访问相同数据的方式：
 
@@ -172,31 +175,17 @@ vector[2] = vector.b = vector.z = vector.p;
 vector[3] = vector.a = vector.w = vector.q;
 ```
 
-
-### HSB
+#### HSB
 
 ```glsl
 #ifdef GL_ES
 precision mediump float;
 #endif
 
+#define TWO_PI 6.28318530718
+
 uniform vec2 u_resolution;
 uniform float u_time;
-
-vec3 rgb2hsb( in vec3 c ){
-    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
-    vec4 p = mix(vec4(c.bg, K.wz),
-                 vec4(c.gb, K.xy),
-                 step(c.b, c.g));
-    vec4 q = mix(vec4(p.xyw, c.r),
-                 vec4(c.r, p.yzx),
-                 step(p.x, c.r));
-    float d = q.x - min(q.w, q.y);
-    float e = 1.0e-10;
-    return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)),
-                d / (q.x + e),
-                q.x);
-}
 
 //  Function from Iñigo Quiles
 //  https://www.shadertoy.com/view/MsS3Wc
@@ -206,26 +195,74 @@ vec3 hsb2rgb( in vec3 c ){
                      0.0,
                      1.0 );
     rgb = rgb*rgb*(3.0-2.0*rgb);
-    return c.z * mix(vec3(1.0), rgb, c.y);
+    return c.z * mix( vec3(1.0), rgb, c.y);
 }
 
 void main(){
     vec2 st = gl_FragCoord.xy/u_resolution;
     vec3 color = vec3(0.0);
 
-    // We map x (0.0 - 1.0) to the hue (0.0 - 1.0)
-    // And the y (0.0 - 1.0) to the brightness
-    color = hsb2rgb(vec3(st.x,1.0,st.y));
+    // Use polar coordinates instead of cartesian
+    vec2 toCenter = vec2(0.5)-st;
+    float angle = atan(toCenter.y,toCenter.x);
+    float radius = length(toCenter)*2.0;
+
+    // Map the angle (-PI to PI) to the Hue (from 0 to 1)
+    // and the Saturation to the radius
+    color = hsb2rgb(vec3((angle/TWO_PI)+0.5,radius,1.0));
 
     gl_FragColor = vec4(color,1.0);
 }
-
 ```
+
+{% include canvas.html fragUrl="/shader/shader.frag" width="256" height="256" %}
+
+
+### 形状
+
+#### 叉乘 $a \times b$
+
+也叫向量积。结果是一个和已有两个向量都垂直的向量，向量模长是向量 A，B 组成平行四边形的面积；向量方向是垂直于向量 A，B 组成的平面。
+
+#### 点乘 | $a \cdot b$ |
+
+也叫数量积。几何意义：投影。结果是一个向量在另一个向量方向上投影的长度，是一个标量。
+
+$\mathbf{A} \cdot \mathbf{B}=\|\mathbf{A} \|\| \mathbf{B}\| \cos \theta$
+
+```glsl
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+#define PI 3.14159265359
+#define TWO_PI 6.28318530718
+
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+
+void main() {
+  vec2 st = gl_FragCoord.xy / u_resolution.xy;
+  st.x *= u_resolution.x / u_resolution.y;
+  vec3 color = vec3(0.0);
+  float d = 0.0;
+  st = st *2.-1.;
+  int N = 5; // Number of sides of your shape
+  float a = atan(st.x,st.y)+PI;
+  float r = TWO_PI/float(N);
+  d = cos(floor(.5+a/r)*r-a)*length(st);
+  color = vec3(1.0-smoothstep(.4,.41,d));
+  gl_FragColor = vec4(color,1.0);
+}
+```
+
+{% include canvas.html width="256" height="256" %}
 
 
 ## <font color="red">The Book of Shaders</font>
 
-TODO: https://thebookofshaders.com/06/?lan=ch
+TODO: https://thebookofshaders.com/08/?lan=ch
 
 <https://github.com/patriciogonzalezvivo/thebookofshaders>
 
