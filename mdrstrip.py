@@ -172,6 +172,7 @@ def mainfile(fpath, fname, ftype):
             lines = lines[:-1]
 
     codestate = False
+    chartstate = False
     for index, line in enumerate(lines):
         count = getLeftSpaceCount(line)
         preline = lines[index - 1] if index > 0 else ""
@@ -239,6 +240,9 @@ def mainfile(fpath, fname, ftype):
             if cy in "-<]" or cx in "->[":
                 continue
 
+            if chartstate:
+                continue
+
             if cx in ('"', "[") and (" "+line).count(" "+ix) == 1:
                 continue
             if cy in ('"', "]", ",") and (line+" ").count(ix+" ") == 1:
@@ -270,6 +274,11 @@ def mainfile(fpath, fname, ftype):
                 lines[index] = line
 
         fxline = "".join(line.split())
+        if fxline.startswith("<divclass=\"mermaid\">") and not chartstate:
+            chartstate = True
+        if fxline.startswith("</div>") and chartstate:
+            chartstate = False
+
         if fxline.startswith("{%highlight"):
             codestate = True
             continue

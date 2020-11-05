@@ -69,6 +69,41 @@ if (typeof $.fn.tsNumber === 'undefined') {
     $.fn.tsNumber = 0;
 }
 
+// 把 glslCanvas 前面一个的 glsl 脚本加载起来。
+function checkGlslCanvas() {
+    var nodePre = null;
+    var nodeCanvas = null;
+    $("div.language-glsl pre, canvas.glslCanvas").each(function() {
+        var $this = $(this);
+        if ($this[0].tagName.toUpperCase() == "PRE") {
+            nodePre = $this;
+            return;
+        } else if ($this[0].tagName.toUpperCase() == "CANVAS") {
+            nodeCanvas = $this;
+        } else {
+            return;
+        }
+
+        if (!nodePre || !nodeCanvas) {
+            return;
+        }
+
+        var fragCode = nodePre.text();
+        if (nodeCanvas.attr("data-fragment-url")) {
+            return;
+        }
+
+        nodeCanvas.attr("data-fragment", fragCode);
+
+        var canvas = nodeCanvas[0];
+        var sandbox = new GlslCanvas(canvas);
+        // sandbox.load(fragCode);
+        var vertCode = "attribute vec4 a_position; main(){\ggl_Position = a_position;\n}\n";
+        // sandbox.load(fragCode, vertCode);
+        // sandbox.setUniform("u_texture", "data/texture.jpg");
+    });
+}
+
 // 支持语法：<table class="tablestyle" ntablew="2:3:5"></table>
 function checkTableStyle() {
     // 先给所有 table 编号。
@@ -106,6 +141,7 @@ function checkTableStyle() {
 $(document).ready(function () {
     checkVideo();
     checkTableStyle();
+    checkGlslCanvas();
     setupBackToTop();
     setTimeout("InstallReadingBar()", 1000);
     calcShortUrlx();

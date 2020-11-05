@@ -105,9 +105,10 @@ def main():
         r.write(sys.stdout)
         return
     for arg in args:
-        check(arg)
+        check(arg, 1)
 
-def check(file):
+def check(file, depth):
+    if depth > 1 and os.path.isfile(os.path.join(file, ".git")): return
     if os.path.isdir(file) and not os.path.islink(file):
         if verbose:
             print("listing directory", file)
@@ -118,7 +119,7 @@ def check(file):
                  not os.path.islink(fullname) and
                  not os.path.split(fullname)[1].startswith("."))
                 or name.lower().endswith(".py")):
-                check(fullname)
+                check(fullname, depth+1)
         return
 
     if verbose:
