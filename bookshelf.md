@@ -1,7 +1,17 @@
 ---
 layout: bookshelf
 title: Bookshelf
+location:
+categories:
+tags:
 permalink: /bookshelf/
+visibility:
+toc:
+toclistyle:
+comments:
+mathjax:
+mermaid:
+glslcanvas:
 ---
 
 These are the books I've read so far. At least the ones I've remembered. I'll be updating this list from time to time.

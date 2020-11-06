@@ -1,7 +1,17 @@
 ---
 layout: page
 title: Disclaimer
+location:
+categories:
+tags:
 permalink: /disclaimer/
+visibility:
+toc:
+toclistyle:
+comments:
+mathjax:
+mermaid:
+glslcanvas:
 ---
 
 The views expressed on this site are my own and do not reflect those of my employer or its clients.<br/><br/>

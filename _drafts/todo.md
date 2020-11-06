@@ -2,7 +2,16 @@
 layout: post
 title: "Basic auth to nginx reverse proxy"
 location: "Japan"
+categories:
 tags: [gcp, google, api, authentication, service-account]
+permalink:
+visibility:
+toc:
+toclistyle:
+comments:
+mathjax:
+mermaid:
+glslcanvas:
 ---
 
 * can unlock directly in pop-os
