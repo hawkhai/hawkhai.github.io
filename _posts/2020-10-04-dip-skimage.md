@@ -4,10 +4,13 @@ title: "“数字图像处理”笔记 -- python skimage 图像处理"
 location: "珠海"
 categories: ["图像处理"]
 tags: [图像处理]
-mathjax: true
-toc: true
-mermaid: truez
 visibility: hiddenz
+toc: true
+toclistyle:
+comments:
+mathjax: true
+mermaid: truez
+glslcanvas:
 ---
 
 基于 python 脚本语言开发的数字图片处理包，比如 PIL, Pillow, opencv, scikit-image 等。

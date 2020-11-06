@@ -4,9 +4,13 @@ title: "“数字图像处理”笔记 -- 傅里叶变换"
 location: "珠海"
 categories: ["图像处理"]
 tags: [图像处理]
-mathjax: true
+visibility:
 toc: true
+toclistyle:
+comments:
+mathjax: true
 mermaid: truez
+glslcanvas:
 ---
 
 

@@ -4,8 +4,13 @@ title: "数学之美 -- Gabriel 喇叭，有限的体积无穷的表面积"
 location: "珠海"
 categories: ["数学"]
 tags: [数学]
-mathjax: true
+visibility:
 toc: true
+toclistyle:
+comments:
+mathjax: true
+mermaid:
+glslcanvas:
 ---
 
 [维基百科·加百列的号角](https://en.wikipedia.org/wiki/Gabriel%27s_Horn)

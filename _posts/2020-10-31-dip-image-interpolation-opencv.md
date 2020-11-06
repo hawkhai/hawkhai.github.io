@@ -4,8 +4,13 @@ title: "“数字图像处理”笔记 -- OpenCV 中 resize 函数五种插值�
 location: "珠海"
 categories: ["图像处理"]
 tags: [图像处理]
-mathjax: true
+visibility:
 toc: true
+toclistyle:
+comments:
+mathjax: true
+mermaid:
+glslcanvas:
 ---
 
 老版本的 OpenCV 代码还能扣出来跑一下，最新版本，已经基本上没这个可能了。

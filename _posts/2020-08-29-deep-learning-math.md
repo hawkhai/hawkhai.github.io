@@ -4,8 +4,13 @@ title: "“深度学习”笔记 -- 环境搭建 & 数学基础"
 location: "珠海"
 categories: ["深度学习"]
 tags: [深度学习]
-mathjax: true
+visibility:
 toc: true
+toclistyle:
+comments:
+mathjax: true
+mermaid:
+glslcanvas:
 ---
 
 《动手学深度学习》[<sup>[1]</sup>](#refer-anchor-1)

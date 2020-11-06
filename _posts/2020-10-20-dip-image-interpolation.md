@@ -4,8 +4,13 @@ title: "“数字图像处理”笔记 -- 图像缩放插值算法直观感受"
 location: "珠海"
 categories: ["图像处理"]
 tags: [图像处理]
-mathjax: true
+visibility:
 toc: true
+toclistyle:
+comments:
+mathjax: true
+mermaid:
+glslcanvas:
 ---
 
 写了一个 Python 直观感受各种图像缩放插值算法。越高级的算法越圆润，越基础的算法马赛克效果越明显。

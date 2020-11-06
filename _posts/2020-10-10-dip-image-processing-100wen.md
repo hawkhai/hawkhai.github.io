@@ -4,11 +4,13 @@ title: "“数字图像处理”笔记 -- 画像処理 100 本ノック（为图
 location: "珠海"
 categories: ["图像处理"]
 tags: [图像处理]
-mathjax: true
-toc: true
-mermaid: truez
 visibility: hidden
+toc: true
 toclistyle: none
+comments:
+mathjax: true
+mermaid: truez
+glslcanvas:
 ---
 
 「画像処理 100 本ノック」中文版本！为图像处理初学者设计的 100 个问题。

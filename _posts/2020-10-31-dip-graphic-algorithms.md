@@ -4,8 +4,13 @@ title: "“数字图像处理”笔记 -- 神奇的图像处理算法"
 location: "珠海"
 categories: ["图像处理"]
 tags: [图像处理]
-mathjax: true
+visibility:
 toc: true
+toclistyle:
+comments:
+mathjax: true
+mermaid:
+glslcanvas:
 ---
 
 深度学习大行其道，传统图像处理算法发展也是很牛逼的。整理翻译了一些。

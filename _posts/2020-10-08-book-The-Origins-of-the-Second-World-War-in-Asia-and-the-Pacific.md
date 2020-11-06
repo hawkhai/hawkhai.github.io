@@ -4,7 +4,13 @@ title: "读书笔记 -- 第二次世界大战在亚洲及太平洋的起源"
 location: "珠海"
 categories: ["读书"]
 tags: [读书笔记]
+visibility:
+toc:
+toclistyle:
 comments: true
+mathjax:
+mermaid:
+glslcanvas:
 ---
 
 《第二次世界大战在亚洲及太平洋战争的起源》好精彩。从小到大都是中国视角，第一次从日本视角得到了解读。日俄战争、一战、二战，北上打苏联还是南下打英美，战略摇摆不定。战争机器一旦启动，任何人都改变不了了。一切的源头来自于，裕仁天皇的“养蛊者必自噬”。

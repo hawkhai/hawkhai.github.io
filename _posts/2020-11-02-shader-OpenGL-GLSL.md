@@ -4,8 +4,13 @@ title: "“特效编程”笔记 -- OpenGL Shader / GLSL 资料收集"
 location: "珠海"
 categories: ["特效"]
 tags: [特效, OpenGL]
-mathjax: true
+visibility:
 toc: true
+toclistyle:
+comments:
+mathjax: true
+mermaid:
+glslcanvas:
 ---
 
 用 vscode+glsl canvas 插件可以作为一个 shader 开发环境。最终选择了：glsl。

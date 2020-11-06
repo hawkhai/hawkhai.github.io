@@ -4,7 +4,13 @@ title: "读书笔记 -- 离经叛道《邻人之妻》盖伊·特立斯"
 location: "珠海"
 categories: ["读书"]
 tags: [读书笔记]
+visibility:
+toc:
+toclistyle:
 comments: true
+mathjax:
+mermaid:
+glslcanvas:
 ---
 
 > 不可贪图邻人的房产。不可贪爱邻人的妻子、奴婢、牛驴或他的任何东西。

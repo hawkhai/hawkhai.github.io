@@ -4,8 +4,13 @@ title: "数学 NOTE -- 线性代数的本质"
 location: "珠海"
 categories: ["数学"]
 tags: [数学]
-mathjax: true
+visibility:
 toc: true
+toclistyle:
+comments:
+mathjax: true
+mermaid:
+glslcanvas:
 ---
 
 线性代数存在完整的空间意义，平时的写法只是一种简写。

@@ -4,8 +4,13 @@ title: "数学之美 -- 黎曼猜想"
 location: "珠海"
 categories: ["数学"]
 tags: [数学]
-mathjax: true
+visibility:
 toc: true
+toclistyle:
+comments:
+mathjax: true
+mermaid:
+glslcanvas:
 ---
 
 如果真的有神的话，那么数学就是神的语言。**心事浩茫连广宇，于无声处听惊雷。**

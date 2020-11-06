@@ -4,6 +4,13 @@ title: "开发环境 -- 使用 TortoiseGit，设置 ssh 方式连接 git 仓库"
 location: "珠海"
 categories: ["开发环境"]
 tags: [Prog Env, TortoiseGit]
+visibility:
+toc:
+toclistyle:
+comments:
+mathjax:
+mermaid:
+glslcanvas:
 ---
 
 开始设置之前的准备：建立项目文件夹，初始化 git 仓库（右键 git init），右键打开 git bash，git pull “仓库地址”，把网站上的仓库代码拉取下来。

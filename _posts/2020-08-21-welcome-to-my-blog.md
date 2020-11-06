@@ -3,9 +3,14 @@ layout: post
 title: "生活 -- Welcome to my blog"
 location: "Japan"
 categories: ["生活"]
+tags:
+visibility:
+toc: true
+toclistyle:
 comments: true
 mathjax: true
-toc: true
+mermaid:
+glslcanvas:
 ---
 
 Hey, there! Welcome to my blog. I hope you enjoy reading the stuff in here. Nothing fancy, really. Just bits and bobs about tech and random topics.<br/><br/>

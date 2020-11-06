@@ -4,8 +4,13 @@ title: "数学之美 -- RSA 非对称加密简明原理与大素数生成算法"
 location: "珠海"
 categories: ["数学"]
 tags: [数学]
-mathjax: true
+visibility:
 toc: true
+toclistyle:
+comments:
+mathjax: true
+mermaid:
+glslcanvas:
 ---
 
 

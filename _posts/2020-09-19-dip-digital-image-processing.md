@@ -4,9 +4,13 @@ title: "“数字图像处理”笔记 1/2 -- 灰色图像基础知识 (DIP)"
 location: "珠海"
 categories: ["图像处理"]
 tags: [图像处理]
-mathjax: true
+visibility:
 toc: true
+toclistyle:
+comments:
+mathjax: true
 mermaid: true
+glslcanvas:
 ---
 
 第一章 $\Rightarrow$ 第十章

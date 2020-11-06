@@ -4,7 +4,13 @@ title: "开发环境 -- 搭建 Windows Jekyll 环境"
 location: "珠海"
 categories: ["开发环境"]
 tags: [Prog Env, Jekyll]
+visibility:
 toc: true
+toclistyle:
+comments:
+mathjax:
+mermaid:
+glslcanvas:
 ---
 
 Windows 搭建 Jekyll 环境。`bundle install` 的时候，`libv8` 和 `therubyracer` 会失败，主要是工程配置和源代码 Windows 平台的兼容性么有做好。

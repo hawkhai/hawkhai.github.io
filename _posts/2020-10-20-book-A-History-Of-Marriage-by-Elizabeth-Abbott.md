@@ -4,7 +4,13 @@ title: "读书笔记 -- 伊丽莎白·阿伯特《婚姻史》"
 location: "珠海"
 categories: ["读书"]
 tags: [读书笔记]
+visibility:
+toc:
+toclistyle:
 comments: true
+mathjax:
+mermaid:
+glslcanvas:
 ---
 
 阿伯特广受赞誉的三部曲《婚姻史》《情妇史》《独身史》。

@@ -4,10 +4,13 @@ title: "“数字图像处理”笔记 -- 几个实验 (DIP)"
 location: "珠海"
 categories: ["图像处理"]
 tags: [图像处理]
-mathjax: true
-toc: true
-mermaid: truez
 visibility: hidden
+toc: true
+toclistyle:
+comments:
+mathjax: true
+mermaid: truez
+glslcanvas:
 ---
 
 

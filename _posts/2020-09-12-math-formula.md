@@ -4,8 +4,13 @@ title: "数学之美 -- 改变世界的 17 个方程式"
 location: "珠海"
 categories: ["数学"]
 tags: [数学]
-mathjax: true
+visibility:
 toc: true
+toclistyle:
+comments:
+mathjax: true
+mermaid:
+glslcanvas:
 ---
 
 科学家才能弄懂这十个公式！李永乐老师带你了解十个最美物理公式（2018 最新）

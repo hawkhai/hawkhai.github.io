@@ -4,7 +4,13 @@ title: "编程 C++ -- Enumerating windows device"
 location: "珠海"
 categories: ["编程"]
 tags: [Prog Note, C++]
+visibility:
 toc: true
+toclistyle:
+comments:
+mathjax:
+mermaid:
+glslcanvas:
 ---
 
 Enumerating the device using the SetupDi* API provided with WinXP.

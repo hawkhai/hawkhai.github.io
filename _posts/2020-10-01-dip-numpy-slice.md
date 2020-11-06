@@ -4,10 +4,13 @@ title: "“数字图像处理”笔记 -- NumPy 切片和索引"
 location: "珠海"
 categories: ["图像处理"]
 tags: [图像处理]
-mathjax: true
-toc: true
-mermaid: truez
 visibility: hiddenz
+toc: true
+toclistyle:
+comments:
+mathjax: true
+mermaid: truez
+glslcanvas:
 ---
 
 
