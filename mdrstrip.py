@@ -51,6 +51,21 @@ DIACRITIC = "[{}]".format("".join(DIACRITIC.split()))
 bilibilisrc = """bilibili]"""
 bilibilitag = """<img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />]"""
 
+mdkeylist = """
+categories
+tags
+location
+comments
+toclistyle
+layout
+visibility
+mermaid
+title
+mathjax
+glslcanvas
+permalink
+toc""".split()
+
 def getLeftSpaceCount(line):
     line = line[:]
     assert not line.startswith("\t"), line
@@ -274,7 +289,7 @@ def mainfile(fpath, fname, ftype):
                 lines[index] = line
 
         fxline = "".join(line.split())
-        if fxline.startswith("<divclass=\"mermaid\">") and not chartstate:
+        if fxline.startswith("<divclass=\"mermaid\"") and not chartstate:
             chartstate = True
         if fxline.startswith("</div>") and chartstate:
             chartstate = False
