@@ -24,7 +24,7 @@ toc: true
     assert re.findall(regex, title), regex
 
 def getPostValue(fpath, xkey):
-    fdata = readfile(fpath).decode("utf8")
+    fdata = readfile(fpath, True, "utf8")
     fdata = fdata.split("---")[1]
     for line in fdata.split("\n"):
         line = line.strip()
@@ -44,7 +44,66 @@ def main():
     searchdir("_posts", mainfile)
 
     fnamelist.sort()
-    print("\n".join(fnamelist))
+    print("\r\n".join(fnamelist))
+
+gkvmap = {}
+def formatkv(fpath, fname, ftype, fsecli):
+    li = [line.strip() for line in fsecli.split("\n") if line.strip()]
+
+    _posts = "_posts" in fpath.split("\\")
+    mdkeylist = """
+layout title location categories tags
+visibility
+toc toclistyle
+comments
+mathjax mermaid glslcanvas
+""".split()
+    if not _posts:
+        mdkeylist.extend("""
+permalink
+""".split())
+
+    kvmap = {}
+    for line in li:
+        key, value = line.split(":", 1)
+        key, value = key.strip(), value.strip()
+        assert key in mdkeylist, line
+        kvmap[key] = value
+        if not key in gkvmap.keys():
+            gkvmap[key] = []
+        if value and not value in gkvmap[key]:
+            gkvmap[key].append(value)
+    newli = []
+    for key in mdkeylist:
+        value = kvmap[key] if key in kvmap else ""
+        line = key + ": " + value.strip()
+        newli.append(line.strip())
+    return "\r\n".join(newli)
+
+def mainxkeyfile(fpath, fname, ftype):
+    if ftype not in ("md",):
+        return
+    fdata = readfile(fpath, True, "utf8")
+
+    fsecli = fdata.split("---", 2)
+    if len(fsecli) <= 2 or len(fsecli[0]) > 3: return
+
+    fsecli[1] = "\r\n{}\r\n".format(formatkv(fpath, fname, ftype, fsecli[1]),)
+
+    fsecli = "---".join(fsecli)
+    writefile(fpath, fsecli, "utf8")
+
+def mainxkey():
+    print("***" * 30)
+    searchdir(".", mainxkeyfile, ignorelistMore=("backup", "_site", "_drafts"))
+
+    headnote = []
+    for key in gkvmap.keys():
+        key, value = key, gkvmap[key][:5]
+        print(key, value, "..." if len(gkvmap[key]) > 5 else "")
+        headnote.append("{} {}".format(key, value))
+    writefile("headnote.txt", "\r\n".join(headnote), "utf8")
 
 if __name__ == "__main__":
     main()
+    mainxkey()

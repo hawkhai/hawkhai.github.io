@@ -4,7 +4,6 @@ title: Blog
 location:
 categories:
 tags:
-permalink: /
 visibility:
 toc:
 toclistyle:
@@ -12,6 +11,7 @@ comments:
 mathjax:
 mermaid:
 glslcanvas:
+permalink: /
 ---
 
 <ul class="listing">

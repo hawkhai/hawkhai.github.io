@@ -4,7 +4,6 @@ title: About
 location:
 categories:
 tags:
-permalink: /about/
 visibility:
 toc:
 toclistyle:
@@ -12,6 +11,7 @@ comments:
 mathjax:
 mermaid:
 glslcanvas:
+permalink: /about/
 ---
 
 {% include image.html url="/images/photo.jpg" caption="" width="300px" max_width="300px" align="right" %}
