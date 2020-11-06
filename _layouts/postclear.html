@@ -1,0 +1,98 @@
+---
+layout: default
+---
+
+<div class="post" id="postdiv">
+    <header class="post-header">
+    <h1>{{ page.title }}</h1>
+    <p class="post-meta">
+        Posted on {{ page.date | date: "%B %-d, %Y" }} {% if page.author %}by {{ page.author }}{% else %}{% if site.author.name %}by {{ site.author.name }}{% endif %}{% endif %}{% if page.location %} ({{ page.location }}){% endif %}
+        <br/>
+        <span>
+            {% for tag in page.tags %}
+                {% capture tagname %}{{ tag }}{% endcapture %}
+                <a href="{{ "/tags/tag?" | prepend: site.baseurl }}#{{ tagname }}"><code><nobr>{{ tagname }}</nobr></code>&nbsp;</a>
+            {% endfor %}
+        </span>
+    </p>
+{% include mathjax.html %}
+    </header>
+
+{% include toc.html %}
+
+    {{ content }}
+
+    ---<br/>
+<!-- https://shopify.dev/docs/themes/liquid/reference/filters/string-filters -->
+<!-- https://github.com/jekyll/jekyll/issues/2491 -->
+本文短链接：<a id="short_urlx" target="_blank" href="#"></a><br/>
+<script type="text/javascript">
+var shortPrex = "{{ '/t.htm?' | prepend: site.baseurl | prepend: site.urlx }}";
+var shortSeed = "{{ page.url | replace:'index.html','' }}";
+</script>
+
+{% if site.email_address %}
+    If you have any questions or feedback, please reach out <code>{{ site.email_address }}</code>.
+{% endif %}
+
+    <hr>
+    <div style="text-align:center"><br/>
+        自由转载-非商用-非衍生-保持署名（创意共享 3.0 许可证）
+    </div>
+</div>
+
+{% if page.comments %}
+<hr>
+<div id="gitalk-container"></div>
+<script>
+var gitalk = new Gitalk({
+    clientID: '3b135eabed2cc81330ed',
+    clientSecret: 'c7725b36f24e8ac53f2ad827f854947bb2648dfd',
+    repo: 'hawkhai.github.io',
+    owner: 'hawkhai',
+    admin: ['hawkhai'],
+    id: location.pathname,      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+});
+gitalk.render('gitalk-container');
+</script>
+{% endif %}
+
+{% if page.glslcanvas %}
+<script type="text/javascript" src="{{ "/assets/GlslCanvas.js" | prepend: site.baseurl }}"></script>
+{% endif %}
+
+<script type="text/javascript" src="{{ "/assets/md5.min.js" | prepend: site.baseurl }}"></script>
+<script type="text/javascript" src="{{ "/assets/blog.js" | prepend: site.baseurl }}"></script>
+
+{% if page.mermaid == true %}
+<!-- https://mermaid-js.github.io/mermaid/diagrams-and-syntax-and-examples/examples.html -->
+<!-- https://mermaid-js.github.io/mermaid-live-editor/ -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+{% endif %}
+
+{% if page.flowchart == true %}
+<script type="text/javascript" src="{{ "/assets/raphael.min.js" | prepend: site.baseurl }}"></script>
+<script type="text/javascript" src="{{ "/assets/flowchart.min.js" | prepend: site.baseurl }}"></script>
+<script>
+// https://github.com/adrai/flowchart.js
+// https://bwmarrin.github.io/MkDocsPlus/flowchartjs/
+if (typeof jQuery != 'undefined') {
+    (function( $ ) {
+        $.fn.flowchart = function( options ) {
+            return this.each(function() {
+                var $this = $(this);
+                var $parent = $this.parent();
+                $parent.addClass("flowchart");
+                $this.addClass("flowchart");
+                var diagram = flowchart.parse($this.text());
+                $this.html('');
+                diagram.drawSVG(this, options);
+            });
+        };
+    })( jQuery );
+};
+var options = { theme: 'hand' };
+$(".language-flow").flowchart(options);</script>
+{% endif %}
