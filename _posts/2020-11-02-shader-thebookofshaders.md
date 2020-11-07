@@ -3,7 +3,7 @@ layout: post
 title: "“特效编程”笔记 -- OpenGL Shader / GLSL 学习笔记"
 location: "珠海"
 categories: ["特效"]
-tags: [特效, OpenGL]
+tags: ["特效", "OpenGL"]
 visibility:
 toc: true
 toclistyle:

@@ -3,7 +3,7 @@ layout: post
 title: "“深度学习”笔记 -- 数学×矩阵的特征值和特征向量"
 location: "珠海"
 categories: ["深度学习"]
-tags: [深度学习]
+tags: ["深度学习"]
 visibility:
 toc: true
 toclistyle:

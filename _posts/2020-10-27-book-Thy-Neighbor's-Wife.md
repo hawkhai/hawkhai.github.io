@@ -3,7 +3,7 @@ layout: post
 title: "读书笔记 -- 离经叛道《邻人之妻》盖伊·特立斯"
 location: "珠海"
 categories: ["读书"]
-tags: [读书笔记]
+tags: ["读书笔记"]
 visibility:
 toc:
 toclistyle:

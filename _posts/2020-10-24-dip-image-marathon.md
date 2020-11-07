@@ -3,7 +3,7 @@ layout: post
 title: "“数字图像处理” -- 编程马拉松 HACKATHON 2020 · TEAM24"
 location: "珠海"
 categories: ["图像处理"]
-tags: [图像处理]
+tags: ["图像处理"]
 visibility:
 toc: true
 toclistyle:

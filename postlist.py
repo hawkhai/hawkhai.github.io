@@ -46,6 +46,18 @@ def main():
     fnamelist.sort()
     print("\r\n".join(fnamelist))
 
+def formatValue(value):
+    if not value: return value
+    if value[0] != "[": return value
+    try:
+        json.loads(value)
+        return value
+    except:
+        print(value)
+        assert value[0] == "[" and value[-1] == "]", value
+        value = value[1:-1].split(",")
+        return "[{}]".format(", ".join(["\"{}\"".format(i.strip()) for i in value]))
+
 gkvmap = {}
 def formatkv(fpath, fname, ftype, fsecli):
     li = [line.strip() for line in fsecli.split("\n") if line.strip()]
@@ -67,6 +79,7 @@ permalink
     for line in li:
         key, value = line.split(":", 1)
         key, value = key.strip(), value.strip()
+        value = formatValue(value)
         assert key in mdkeylist, line
         kvmap[key] = value
         if not key in gkvmap.keys():

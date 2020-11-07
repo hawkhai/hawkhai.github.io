@@ -3,7 +3,7 @@ layout: post
 title: "编程 C++ -- 利用 C++ 类生命周期，自动释放 HANDLE 句柄，打造可重入锁"
 location: "珠海"
 categories: ["编程"]
-tags: [Prog Note, C++]
+tags: ["Prog Note", "C++"]
 visibility:
 toc: true
 toclistyle:

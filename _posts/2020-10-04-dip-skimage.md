@@ -3,7 +3,7 @@ layout: post
 title: "“数字图像处理”笔记 -- python skimage 图像处理"
 location: "珠海"
 categories: ["图像处理"]
-tags: [图像处理]
+tags: ["图像处理"]
 visibility: hiddenz
 toc: true
 toclistyle:

@@ -3,7 +3,7 @@ layout: post
 title: "数学之美 -- Gabriel 喇叭，有限的体积无穷的表面积"
 location: "珠海"
 categories: ["数学"]
-tags: [数学]
+tags: ["数学"]
 visibility:
 toc: true
 toclistyle:

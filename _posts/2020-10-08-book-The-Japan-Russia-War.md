@@ -3,7 +3,7 @@ layout: post
 title: "读书笔记 -- 横手慎二《日俄战争》"
 location: "珠海"
 categories: ["读书"]
-tags: [读书笔记]
+tags: ["读书笔记"]
 visibility:
 toc:
 toclistyle:

@@ -3,7 +3,7 @@ layout: post
 title: "编程 C++ -- QT 内存泄露研究"
 location: "珠海"
 categories: ["编程"]
-tags: [Prog Note, QT, Memory, C++]
+tags: ["Prog Note", "QT", "Memory", "C++"]
 visibility:
 toc: true
 toclistyle:

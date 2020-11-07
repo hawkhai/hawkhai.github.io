@@ -3,7 +3,7 @@ layout: post
 title: "开发环境 -- 使用 TortoiseGit，设置 ssh 方式连接 git 仓库"
 location: "珠海"
 categories: ["开发环境"]
-tags: [Prog Env, TortoiseGit]
+tags: ["Prog Env", "TortoiseGit"]
 visibility:
 toc:
 toclistyle:

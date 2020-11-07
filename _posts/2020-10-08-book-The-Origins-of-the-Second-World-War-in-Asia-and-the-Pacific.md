@@ -3,7 +3,7 @@ layout: post
 title: "读书笔记 -- 第二次世界大战在亚洲及太平洋的起源"
 location: "珠海"
 categories: ["读书"]
-tags: [读书笔记]
+tags: ["读书笔记"]
 visibility:
 toc:
 toclistyle:

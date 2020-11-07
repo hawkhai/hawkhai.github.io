@@ -3,7 +3,7 @@ layout: post
 title: "读书笔记 --《告别伊甸园》多偶制怎样改变了我们的生活"
 location: "珠海"
 categories: ["读书"]
-tags: [读书笔记]
+tags: ["读书笔记"]
 visibility:
 toc:
 toclistyle:

@@ -3,7 +3,7 @@ layout: post
 title: "“数字图像处理”笔记 -- NumPy 切片和索引"
 location: "珠海"
 categories: ["图像处理"]
-tags: [图像处理]
+tags: ["图像处理"]
 visibility: hiddenz
 toc: true
 toclistyle:

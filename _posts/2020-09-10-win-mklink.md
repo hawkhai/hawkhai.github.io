@@ -3,7 +3,7 @@ layout: post
 title: "Prog Note -- Windows 的快捷方式，符号链接，软链接和硬链接"
 location: "珠海"
 categories: ["Prog Note"]
-tags: [Prog Note]
+tags: ["Prog Note"]
 visibility:
 toc: true
 toclistyle:

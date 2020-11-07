@@ -3,7 +3,7 @@ layout: post
 title: "开发环境 -- 搭建 Windows Jekyll 环境"
 location: "珠海"
 categories: ["开发环境"]
-tags: [Prog Env, Jekyll]
+tags: ["Prog Env", "Jekyll"]
 visibility:
 toc: true
 toclistyle:

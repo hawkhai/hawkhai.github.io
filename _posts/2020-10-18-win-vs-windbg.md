@@ -3,7 +3,7 @@ layout: post
 title: "调试 -- VS 程序员使用 windbg 实例"
 location: "珠海"
 categories: ["调试"]
-tags: [Prog Note, 调试]
+tags: ["Prog Note", "调试"]
 visibility:
 toc: true
 toclistyle:
