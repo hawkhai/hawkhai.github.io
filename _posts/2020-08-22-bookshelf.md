@@ -1,13 +1,14 @@
 ---
 layout: post
 title: "读书笔记 -- New 'Bookshelf' page"
+author:
 location: "Japan"
 categories: ["读书"]
 tags:
-visibility:
 toc:
 toclistyle:
 comments: true
+visibility:
 mathjax:
 mermaid:
 glslcanvas:

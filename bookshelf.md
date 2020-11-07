@@ -1,13 +1,14 @@
 ---
 layout: bookshelf
 title: Bookshelf
+author:
 location:
 categories:
 tags:
-visibility:
 toc:
 toclistyle:
 comments:
+visibility:
 mathjax:
 mermaid:
 glslcanvas:

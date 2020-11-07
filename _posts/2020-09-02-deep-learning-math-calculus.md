@@ -1,13 +1,14 @@
 ---
 layout: post
 title: "“深度学习”笔记 -- 数学×微积分入门"
+author:
 location: "珠海"
 categories: ["深度学习"]
 tags: ["深度学习"]
-visibility:
 toc: true
 toclistyle:
 comments:
+visibility:
 mathjax: true
 mermaid:
 glslcanvas:

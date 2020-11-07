@@ -1,13 +1,14 @@
 ---
 layout: post
 title: "数学之美 -- 0.999…=1？数到底是什么？李永乐老师讲数学公理化"
+author:
 location: "珠海"
 categories: ["数学"]
 tags: ["数学"]
-visibility:
 toc:
 toclistyle:
 comments:
+visibility:
 mathjax:
 mermaid:
 glslcanvas:

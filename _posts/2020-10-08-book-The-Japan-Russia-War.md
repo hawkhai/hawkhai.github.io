@@ -1,13 +1,14 @@
 ---
 layout: post
 title: "读书笔记 -- 横手慎二《日俄战争》"
+author:
 location: "珠海"
 categories: ["读书"]
 tags: ["读书笔记"]
-visibility:
 toc:
 toclistyle:
 comments: true
+visibility:
 mathjax:
 mermaid:
 glslcanvas:

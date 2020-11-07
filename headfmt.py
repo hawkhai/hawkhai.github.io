@@ -64,10 +64,9 @@ def formatkv(fpath, fname, ftype, fsecli):
 
     _posts = "_posts" in fpath.split("\\")
     mdkeylist = """
-layout title location categories tags
-visibility
-toc toclistyle
-comments
+layout title author location
+categories tags toc toclistyle
+comments visibility
 mathjax mermaid glslcanvas
 """.split()
     if not _posts:

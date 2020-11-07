@@ -1,13 +1,14 @@
 ---
 layout: page
 title: About
+author:
 location:
 categories:
 tags:
-visibility:
 toc:
 toclistyle:
 comments:
+visibility:
 mathjax:
 mermaid:
 glslcanvas:

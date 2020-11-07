@@ -1,13 +1,14 @@
 ---
 layout: post
 title: "生活 -- Welcome to my blog"
+author:
 location: "Japan"
 categories: ["生活"]
 tags:
-visibility:
 toc: true
 toclistyle:
 comments: true
+visibility:
 mathjax: true
 mermaid:
 glslcanvas:

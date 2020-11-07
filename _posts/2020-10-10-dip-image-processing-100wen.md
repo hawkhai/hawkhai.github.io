@@ -1,13 +1,14 @@
 ---
 layout: post
 title: "“数字图像处理”笔记 -- 画像処理 100 本ノック（为图像处理初学者设计的 100 个问题）"
+author:
 location: "珠海"
 categories: ["图像处理"]
 tags: ["图像处理"]
-visibility: hidden
 toc: true
 toclistyle: none
 comments:
+visibility: hidden
 mathjax: true
 mermaid: truez
 glslcanvas:
