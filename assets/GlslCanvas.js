@@ -6,10 +6,6 @@
 
 var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-
-
-
-
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
@@ -73,7 +69,7 @@ function forEach(list, iterator, context) {
     if (arguments.length < 3) {
         context = this;
     }
-    
+
     if (toString$1.call(list) === '[object Array]')
         forEachArray$1(list, iterator, context);
     else if (typeof list === 'string')
@@ -156,10 +152,6 @@ function extend() {
 }
 
 "use strict";
-
-
-
-
 
 var xhr = createXHR;
 // Allow use of default import syntax in TypeScript
@@ -382,7 +374,6 @@ function _createXHR(options) {
 
     return xhr
 
-
 }
 
 function getXml(xhr) {
@@ -410,10 +401,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 } : function (obj) {
   return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
 };
-
-
-
-
 
 var asyncGenerator = function () {
   function AwaitValue(value) {
@@ -528,10 +515,6 @@ var asyncGenerator = function () {
   };
 }();
 
-
-
-
-
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -555,46 +538,6 @@ var createClass = function () {
     return Constructor;
   };
 }();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 var toConsumableArray = function (arr) {
   if (Array.isArray(arr)) {
@@ -900,12 +843,6 @@ function isSafari() {
     );
 }
 
-
-
-
-
-
-
 function isDiff(a, b) {
     if (a && b) {
         return a.toString() !== b.toString();
@@ -1078,7 +1015,6 @@ var Texture = function () {
     }
 
     // Destroy a single texture instance
-
 
     createClass(Texture, [{
         key: 'destroy',
@@ -1345,7 +1281,6 @@ var Texture = function () {
 }();
 
 // Report max texture size for a GL context
-
 
 Texture.getMaxTextureSize = function (gl) {
     return gl.getParameter(gl.MAX_TEXTURE_SIZE);

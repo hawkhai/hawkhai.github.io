@@ -195,11 +195,11 @@ function GetQueryValue(queryName) {
 }
 
 function checkToc() {
-    
+
     if (GetQueryValue("notoc")) {
         return;
     }
-    
+
     var postdiv = $("#postdiv");
     var tocdiv = $("#tocdiv");
     var postLeft = postdiv.offset().left;

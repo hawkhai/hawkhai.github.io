@@ -130,19 +130,13 @@ g_tpset = set()
 g_mdkeyset = set()
 def mainfile(fpath, fname, ftype):
 
-    if fpath.find("\\backup\\") != -1:
-        return
-    if fpath.find("\\d2l-zh\\") != -1:
-        return
-
     ftype = ftype.lower()
 
     warnCnEnSpace    = ftype in ("md", "php", "html", "htm",) # 英文中文空符检查
-    warnMdTitleSpace = ftype in ("md",) # 标题前后空行检查
-    warnIndentSpace  = ftype in ("md", "py", "php",) # 缩进检查
-    isPyFile         = ftype in ("py",)
+    warnTitleSpace   = ftype in ("md",) # 标题前后空行检查
+    warnIndentSpace  = ftype in ("md", "php",) # 缩进检查
     isMdFile         = ftype in ("md",)
-    isSrcFile        = ftype in ("md", "py", "php", "html", "htm",)
+    isSrcFile        = ftype in ("md", "py", "php", "html", "htm", "js",)
 
     if not isSrcFile:
         if fpath.find("\\_site\\") != -1:
@@ -189,7 +183,7 @@ def mainfile(fpath, fname, ftype):
     codestate = False
     chartstate = False
     for index, line in enumerate(lines):
-        count = getLeftSpaceCount(line)
+
         preline = lines[index - 1] if index > 0 else ""
         nextline = lines[index + 1] if index < len(lines)-1 else ""
 
@@ -200,7 +194,7 @@ def mainfile(fpath, fname, ftype):
         tagregexk = "^\\s*[#]+\\s{2,}"
         prelinetag = re.findall(tagregex, preline)
         nextlinetag = re.findall(tagregex, nextline)
-        if not isPyFile:
+        if warnTitleSpace:
             assert not re.findall(tagregexk, preline), preline
 
         if re.findall("^\\s*[*-]+ ", line):
@@ -311,14 +305,15 @@ def mainfile(fpath, fname, ftype):
         if codestate:
             continue
 
-        if warnMdTitleSpace and (prelinetag or nextlinetag):
+        if warnTitleSpace and (prelinetag or nextlinetag):
             if line:
                 openTextFile(fpath)
                 assert False, "{}:{} {}".format(fpath, index+1, line)
 
-        if count > 12 or count % idtcnt == 0:
+        countspace = getLeftSpaceCount(line if warnIndentSpace else line.replace("\t", " "*4))
+        if countspace > 12 or countspace % idtcnt == 0:
             pass # ok
-        elif warnIndentSpace and not isPyFile:
+        elif warnIndentSpace:
             openTextFile(fpath)
             assert False, "{}:{} \"{}\"".format(fpath, index+1, line)
 
@@ -332,7 +327,7 @@ def mainfile(fpath, fname, ftype):
     coderegz = "```.*?```"
     codeli1z = re.findall(coderegz, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
 
-    if warnMdTitleSpace:
+    if warnTitleSpace:
         page = page.replace("\r\n"*2+"### ", "\r\n"*3+"### ")
         page = page.replace("\r\n"*2+"## ",  "\r\n"*3+"## ")
         page = page.replace("\r\n"*2+"# ",   "\r\n"*3+"# ")
@@ -372,7 +367,7 @@ def viewchar(lichar, xfile, xmin, xmax):
 
 def main():
     print(parsePythonCmdx(__file__))
-    searchdir(".", mainfile)
+    searchdir(".", mainfile, ignorelistMore=("backup", "d2l-zh", "mathjax"))
     global g_cschar
     global g_tpset
 
