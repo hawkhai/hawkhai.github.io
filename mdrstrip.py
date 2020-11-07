@@ -270,7 +270,7 @@ def mainfile(fpath, fname, ftype):
 
             if cx in ('"',) and ("["+line).count("["+ix) == 1:
                 continue
-            if cy in ('"',) and (line+"]").count(ix+"]") == 1:
+            if cy in ('"',) and ((line+"]").count(ix+"]") == 1 or (line+",").count(ix+",") == 1):
                 continue
 
             if not warnCnEnSpace:
