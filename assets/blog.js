@@ -94,6 +94,9 @@ function checkGlslCanvas() {
         }
 
         nodeCanvas.attr("data-fragment", fragCode);
+        if (typeof GlslCanvas === 'undefined') {
+            return;
+        }
 
         var canvas = nodeCanvas[0];
         var sandbox = new GlslCanvas(canvas);
