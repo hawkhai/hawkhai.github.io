@@ -140,6 +140,27 @@ function checkTableStyle() {
     });
 }
 
+function GetQueryValue(queryName) {
+    var query = decodeURI(window.location.search.substring(1));
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == queryName) { return pair[1]; }
+    }
+    return null;
+}
+
+function checkFlowchart() {
+    if (!GetQueryValue("nochart")) {
+        return;
+    }
+    $("div.mermaid").each(function() {
+        var $this = $(this);
+        var imagek = $this.attr("image");
+        $this.remove(); // $this.hide();
+    });
+}
+
 // 文档加载完成时
 $(document).ready(function () {
     checkVideo();
@@ -148,6 +169,7 @@ $(document).ready(function () {
     setupBackToTop();
     setTimeout("InstallReadingBar()", 1000);
     calcShortUrlx();
+    checkFlowchart();
 });
 // 窗口大小变化时
 $(window).resize(function () {
