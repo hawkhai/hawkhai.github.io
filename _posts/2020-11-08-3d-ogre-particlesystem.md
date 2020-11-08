@@ -1160,7 +1160,10 @@ source1 点积 source2
 
 参数可以被指定为如下四种之一。无论你要定义一个参数只为这个程序特别使用，还是指定默认的程序参数，语法都是一样的。程序特殊使用的参数设置会重载默认值。
 
-* param_indexed* param_indexed_auto* param_named* param_named_auto
+* param_indexed
+* param_indexed_auto
+* param_named
+* param_named_auto
 
 
 ### param_indexed
@@ -1639,7 +1642,23 @@ extra_params 允许的数值代码和意思详见 [param_indexed_auto](mk:@MSITS
 
 **可用的粒子系统属性**
 
-* [quota](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22quota%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [material](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22material%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [particle_width](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22particle_width%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [particle_height](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22particle_height%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [cull_each](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22cull_each%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [billboard_type](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22billboard_type%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [billboard_origin](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22billboard_origin%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [billboard_rotation_type](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22billboard_rotation_type%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [common_direction](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22common_direction%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [common_up_vector](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22common_up_vector%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [renderer](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22renderer%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [sorted](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22sorted%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [local_space](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22local_space%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [point_rendering](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22point_rendering%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [accurate_facing](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22accurate_facing%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [iteration_interval](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22iteration_interval%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)* [nonvisible_update_timeout](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22nonvisible_update_timeout%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [quota](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22quota%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [material](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22material%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [particle_width](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22particle_width%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [particle_height](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22particle_height%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [cull_each](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22cull_each%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [billboard_type](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22billboard_type%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [billboard_origin](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22billboard_origin%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [billboard_rotation_type](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22billboard_rotation_type%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [common_direction](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22common_direction%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [common_up_vector](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22common_up_vector%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [renderer](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22renderer%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [sorted](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22sorted%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [local_space](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22local_space%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [point_rendering](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22point_rendering%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [accurate_facing](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22accurate_facing%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [iteration_interval](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22iteration_interval%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
+* [nonvisible_update_timeout](mk:@MSITStore:C:%5C%5CProgram%20Files%5C%5Cfeiq%5C%5CAutoRecv%20Files%5C%5C%E5%BC%A0%E8%B6%85(192.168.5.70)%5C%5C2012-11-09%2010_13_00%5C%5COGRE+Manual+v1.4.0.CHM::/%E7%9B%AE%E5%BD%95/3%20%E8%84%9A%E6%9C%AC/3_3_1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%20-%20OGRE%203D%20%E4%B8%AD%E6%96%87.htm%22%20%5Cl%20%22nonvisible_update_timeout%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7)
 
 
 ## 粒子系统属性
@@ -1919,7 +1938,25 @@ extra_params 允许的数值代码和意思详见 [param_indexed_auto](mk:@MSITS
 
 ### 粒子发射器通用属性
 
-* angle* colour* colour_range_start* colour_range_end* direction* emission_rate* position* velocity* velocity_min* velocity_max* time_to_live* time_to_live_min* time_to_live_max* duration* duration_min* duration_max* repeat_delay* repeat_delay_min* repeat_delay_max
+* angle
+* colour
+* colour_range_start
+* colour_range_end
+* direction
+* emission_rate
+* position
+* velocity
+* velocity_min
+* velocity_max
+* time_to_live
+* time_to_live_min
+* time_to_live_max
+* duration
+* duration_min
+* duration_max
+* repeat_delay
+* repeat_delay_min
+* repeat_delay_max
 
 
 ### **粒子发射器属性**
@@ -2085,7 +2122,12 @@ extra_params 允许的数值代码和意思详见 [param_indexed_auto](mk:@MSITS
 
 Ogre 预先定义了几种粒子发射器。新的粒子发射器可以通过创建插件增加：可以查看 Plugin_ParticleFX 项目，它是教你如何创建新的粒子发射器的好例子（那里实现了这些发射器）。
 
-* Point Emitter* Box Emitter* Cylinder Emitter* Ellipsoid Emitter* Hollow Ellipsoid Emitter* Ring Emitter
+* Point Emitter
+* Box Emitter
+* Cylinder Emitter
+* Ellipsoid Emitter
+* Hollow Ellipsoid Emitter
+* Ring Emitter
 
 
 ### **Point Emitter**
@@ -2218,7 +2260,15 @@ emitter Box
 
 Ogre 预定义了几种粒子影响器。新的影响器还可以通过插件的形式增加：如何通过插件创建新的影响器，您可以参看**Plugin_ParticleFX**项目作为一个例子。（那里有这些粒子影响器的实现方式）
 
-* Linear Force Affector* ColourFader Affector* ColourFader2 Affector* Scaler Affector* Rotator Affector* ColourInterpolator Affector* ColourImage Affector* DeflectorPlane Affector* DirectionRandomiser Affector
+* Linear Force Affector
+* ColourFader Affector
+* ColourFader2 Affector
+* Scaler Affector
+* Rotator Affector
+* ColourInterpolator Affector
+* ColourImage Affector
+* DeflectorPlane Affector
+* DirectionRandomiser Affector
 
 
 ### **Linear Force Affector**
@@ -2664,10 +2714,10 @@ Ogre 使用基于纹理的字体渲染 TextAreaOverlayElement。你也可以使�
 所有字体定义被保存在 .fontdef 文件中，这些文件在开始启动时，由系统进行分析。每一个 .fontdef 文件可以包含多个字体定义。在 .fontdef 文件中的一个入口的基本格式是：
 
 ```
-&lt;font_name&gt;
+<font_name>
 {
-    type &lt;image \| truetype&gt;
-    source &lt;image file \| truetype font file&gt;
+    type <image | truetype>
+    source <image file | truetype font file>
     ...
     ... custom attributes depending on type
 }
@@ -2719,7 +2769,7 @@ Ogre 使用基于纹理的字体渲染 TextAreaOverlayElement。你也可以使�
 
 这是一个可选项，默认是“false”。生成器会默认使用纹理的 alpha 分量对字体抗锯齿，如果你使用 alpha 混合渲染你的文本会看起来很好。无论你想在自己的代码中使用哪个基于混合的颜色，如：add 或 modulate，你都要设置这个选项为“true”，因此颜色值也是抗锯齿的。如果你设置这个为真，并且使用 alpha 混合，你会发现你的字体的边也是抗锯齿的，快速得到一个看上去很“细”的字体，因为不仅是 alpha 混合了边界，颜色也变淡了。如果有所怀疑，让这个选项保持默认“false”，也没关系。
 
-**code_points nn-nn [nn-nn] .. **
+**code_points nn-nn [nn-nn] ..**
 
 这一指令允许你指定哪一个 unicode 编码点应当作为字符轮廓被生成为字体纹理。如果你不指定，编码点 33-166 将会默认被生成，覆盖基本的 Latin 1 字符轮廓。如果你使用了这个标记，你应当指定一个包含编码点范围的独立空间列表，格式为“开始位置-结束位置”。数值必须是十进制数。
 
