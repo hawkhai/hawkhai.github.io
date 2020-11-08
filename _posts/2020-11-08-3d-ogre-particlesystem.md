@@ -4,7 +4,7 @@ title: "“Ogre3D”笔记 -- Ogre3D 脚本系统关键字说明"
 author:
 location: "珠海"
 categories: ["Ogre3D"]
-tags: ["Ogre3D"]
+tags: ["特效", "Ogre3D"]
 toc: true
 toclistyle:
 comments:
@@ -2666,10 +2666,10 @@ Ogre 使用基于纹理的字体渲染 TextAreaOverlayElement。你也可以使�
 ```
 &lt;font_name&gt;
 {
-type &lt;image \| truetype&gt;
-source &lt;image file \| truetype font file&gt;
-...
-... custom attributes depending on type
+    type &lt;image \| truetype&gt;
+    source &lt;image file \| truetype font file&gt;
+    ...
+    ... custom attributes depending on type
 }
 ```
 
@@ -2766,6 +2766,7 @@ material Fur
             ambient 0.7 0.7 0.7
             diffuse 0.5 0.8 0.5
             specular 1.0 1.0 1.0 1.5
+
             vertex_program_ref GLSLDemo/FurVS
             {
             }
@@ -2790,6 +2791,7 @@ material Fur
             depth_write off
             scene_blend src_alpha one
             iteration 10
+
             vertex_program_ref GLSLDemo/FurVS
             {
             }
@@ -2797,6 +2799,7 @@ material Fur
             fragment_program_ref GLSLDemo/FurFS
             {
             }
+
             texture_unit
             {
                 texture Fur.tga
