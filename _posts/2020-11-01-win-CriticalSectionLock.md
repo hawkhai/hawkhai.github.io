@@ -86,3 +86,23 @@ NTSYSAPI NTSTATUS ZwWaitForSingleObject(
 ```
 
 句柄为：0000011c。查看句柄：`!handle 0x0000011c f`。
+
+
+## windbg 死锁分析
+
+[link](https://mp.weixin.qq.com/s/tetpft089bWAV9VxfjCzqA)
+资源管理器的等待链分析功能。
+
+{% include image.html url="/images/win-CriticalSectionLock/20201108194817.jpg" %}
+
+* !locks 命令，可以直观的看出 cs 锁的占用情况，拥有者线程。
+
+{% include image.html url="/images/win-CriticalSectionLock/20201108194937.jpg" %}
+
+* !cs 命令，除了可以看出被占用的 cs 锁，也能看到未被占用锁的情况。
+
+{% include image.html url="/images/win-CriticalSectionLock/20201108195012.jpg" %}
+
+* !handle 命令，可以查看句柄的类型，用于排查非 cs 锁的情况。
+
+{% include image.html url="/images/win-CriticalSectionLock/20201108195044.jpg" %}
