@@ -5,6 +5,7 @@ from pythonx.funclib import *
 
 OPENFILE = "openfile" in sys.argv
 AUTOFORMAT = "format" in sys.argv
+REBUILD = "rebuild" in sys.argv
 
 # 在西歐、北歐及東歐國家常用的字母，帶變音符，和一般英文字母不同。
 DIACRITIC = """
@@ -70,7 +71,7 @@ def getLeftSpaceCount(line):
     line = line[:]
     assert not line.startswith("\t"), line
     count = 0
-    while line and line[0] == ' ':
+    while line and line[0] == " ":
         line = line[1:]
         count += 1
     return count
@@ -114,8 +115,8 @@ def collectHost(line):
         g_hostset[host] += 1
 
     # 视频要特别标注域名。
-    li1 = re.findall('bilibili.com', xline)
-    li2 = re.findall('bilibili\\]', xline)
+    li1 = re.findall("bilibili.com", xline)
+    li2 = re.findall("bilibili\\]", xline)
     if len(li1) == len(li2):
         return
     print(xline)
@@ -131,6 +132,7 @@ g_mdkeyset = set()
 def mainfile(fpath, fname, ftype):
 
     ftype = ftype.lower()
+    errcnt = 0
 
     warnCnEnSpace    = ftype in ("md", "php", "html", "htm",) # 英文中文空符检查
     warnTitleSpace   = ftype in ("md",) # 标题前后空行检查
@@ -225,6 +227,7 @@ def mainfile(fpath, fname, ftype):
 
         if line.find("\xa0") != -1:
             print("xspace", fpath, line)
+            errcnt += 1
 
         #liw = re.findall("[{}]+".format(cnregex,), line, re.IGNORECASE)
         #lia = re.findall("[^{}]+".format(cnregex,), line, re.IGNORECASE)
@@ -252,19 +255,22 @@ def mainfile(fpath, fname, ftype):
             if chartstate:
                 continue
 
-            if cx in ('"', "[") and (" "+line).count(" "+ix) == 1:
+            if cx in ("\"", "[") and (" "+line).count(" "+ix) == 1:
                 continue
-            if cy in ('"', "]", ",") and (line+" ").count(ix+" ") == 1:
-                continue
-
-            if cx in ('(', ) and (" \\"+line).count(" \\"+ix) == 1:
-                continue
-            if cy in ('\\', ) and (line+") ").count(ix+") ") == 1:
+            if cy in ("\"", "]", ",") and (line+" ").count(ix+" ") == 1:
                 continue
 
-            if cx in ('"',) and ("["+line).count("["+ix) == 1:
+            if cx in ("(", ) and (" \\"+line).count(" \\"+ix) == 1:
                 continue
-            if cy in ('"',) and ((line+"]").count(ix+"]") == 1 or (line+",").count(ix+",") == 1):
+            if cy in ("\\", ) and (line+") ").count(ix+") ") == 1:
+                continue
+
+            if cx in ("\"",) and ("["+line).count("["+ix) == 1:
+                continue
+            if cy in ("\"",) and ((line+"]").count(ix+"]") == 1 or (line+",").count(ix+",") == 1):
+                continue
+
+            if cy in (".") and (line.count(ix+"rar") == 1 or line.count(ix+"zip") == 1):
                 continue
 
             if not warnCnEnSpace:
@@ -274,10 +280,11 @@ def mainfile(fpath, fname, ftype):
                 if cy in "\":" or cx in "\":":
                     continue
 
-                if line.startswith("print ('"):
+                if line.startswith("print ("):
                     continue
 
             print("[%d]"%(index+1), ix, cx, cy, "\t", line)
+            errcnt += 1
             if AUTOFORMAT:
                 line = line.replace(ix, cx+" "+cy)
                 lines[index] = line
@@ -341,6 +348,7 @@ def mainfile(fpath, fname, ftype):
         page = page.replace(codeli2z[i], codeli1z[i])
 
     writefile(fpath, page.encode("utf8"))
+    return errcnt
 
 def viewchar(lichar, xfile, xmin, xmax):
     li = list(set("".join(lichar)))
@@ -365,9 +373,32 @@ def viewchar(lichar, xfile, xmin, xmax):
     print([("%04x"%ord(k), k) for k in li[-5:]])
     assert xmin <= minv and maxv <= xmax
 
+def checklog(fpath1, fpath2):
+    localfile = os.path.join("tempdir", getFileMd5(fpath1), getFileMd5(fpath2))
+    return os.path.exists(localfile)
+
+def savelog(fpath1, fpath2):
+    localfile = os.path.join("tempdir", getFileMd5(fpath1), getFileMd5(fpath2))
+    copyfile(fpath2, localfile)
+
+def removelog(fpath1, fpath2):
+    localfile = os.path.join("tempdir", getFileMd5(fpath1), getFileMd5(fpath2))
+    if os.path.exists(localfile):
+        os.remove(localfile)
+
+def mainfilew(fpath, fname, ftype):
+    if checklog(__file__, fpath) and not REBUILD:
+        # print("cached", fpath)
+        return 0
+    removelog(__file__, fpath)
+    errcnt = mainfile(fpath, fname, ftype)
+    if errcnt == 0:
+        savelog(__file__, fpath)
+    return errcnt
+
 def main():
     print(parsePythonCmdx(__file__))
-    searchdir(".", mainfile, ignorelistMore=("backup", "d2l-zh", "mathjax"))
+    searchdir(".", mainfilew, ignorelistMore=("backup", "d2l-zh", "mathjax", "tempdir"))
     global g_cschar
     global g_tpset
 
@@ -379,9 +410,9 @@ def main():
     g_cschar = list(set(g_cschar))
     g_cschar.sort()
     print("".join(g_cschar))
-    imgset  = ('jpeg', 'jpg', 'png', 'gif', )
-    fontset = ('eot', 'ttf', 'woff', 'svg', 'woff2', )
-    codeset = ('cc', 'js', 'txt', 'xml', 'css', 'mk', 'lock', 'zip', 'makefile', )
+    imgset  = ("jpeg", "jpg", "png", "gif", )
+    fontset = ("eot", "ttf", "woff", "svg", "woff2", )
+    codeset = ("cc", "js", "txt", "xml", "css", "mk", "lock", "zip", "makefile", )
     g_tpset -= set(imgset)
     g_tpset -= set(fontset)
     g_tpset -= set(codeset)
