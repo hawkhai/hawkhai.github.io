@@ -225,7 +225,7 @@ def mainfile(fpath, fname, ftype):
                     g_cschar.append(ch)
         cnregex += cnsign
 
-        if line.find("\xa0") != -1:
+        if line.find("\xa0") != -1 and not fname in ("glslEditor.min.js",):
             print("xspace", fpath, line)
             errcnt += 1
 
