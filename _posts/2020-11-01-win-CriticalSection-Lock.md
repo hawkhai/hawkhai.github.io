@@ -65,6 +65,7 @@ DllMain 在收到 DLL_PROCESS_ATTACH 和 DLL_PROCESS_DETACH 时会进入临界�
 !handle 000000c4 f # 查看该句柄的信息
 !locks # 查看进程中哪些锁处于锁定状态
 ~*kvn; # 查看所有线程调用堆栈
+!cs -o -l
 ```
 
 ```
