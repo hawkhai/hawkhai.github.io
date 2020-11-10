@@ -120,7 +120,7 @@ NTSYSAPI NTSTATUS ZwWaitForSingleObject(
 {% include image.html url="/images/win-CriticalSectionLock/20201108195044.jpg" %}
 
 
-## 实战
+## Mutex 实战
 
 
 ### C++ 源码
