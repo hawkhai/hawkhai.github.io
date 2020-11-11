@@ -520,7 +520,7 @@ $$d=\left(x^{2}+y^{2}\right)^{\frac{1}{2}}$$
 
 ## 图像变换域处理
 
-[纯干货傅里叶变换 <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://space.bilibili.com/230105574/channel/detail?cid=67768)
+[纯干货傅里叶变换 {% include relref_svgbili.html %}](https://space.bilibili.com/230105574/channel/detail?cid=67768)
 
 空域 vs 频域 vs 时域。
 
@@ -630,6 +630,6 @@ void c_abs(complex f[], float out[], int n); // 复数数组取模
 
 ## 参考
 
-- [1] [bilibili <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1tx41147Tx)
+- [1] [bilibili {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1tx41147Tx)
 - [2] [标题自动编号](https://www.cnblogs.com/36bian/p/7609304.html)
 - [3] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)

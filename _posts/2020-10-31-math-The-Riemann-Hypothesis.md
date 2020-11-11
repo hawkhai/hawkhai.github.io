@@ -42,24 +42,24 @@ $$J(x)=Li(x)-\sum_{\rho}Li(x^{\rho})-\ln 2 +\int_x^\infty\frac{dt}{t(t^2-1)\ln t
 
 ## 李永乐老师
 
-* [1+2+3+4+...=-1/12？李永乐老师讲黎曼猜想（1） <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1MW411S7Tg)
+* [1+2+3+4+...=-1/12？李永乐老师讲黎曼猜想（1） {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1MW411S7Tg)
 
     欧拉级数 解析延拓
 
-* [质数有多重要？数学家欧拉和高斯是如何研究质数的？李永乐老师讲黎曼猜想（2） <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1HW411S77f)
+* [质数有多重要？数学家欧拉和高斯是如何研究质数的？李永乐老师讲黎曼猜想（2） {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1HW411S77f)
 
-* [悬赏 100 万美元的“黎曼猜想”有多难？李永乐老师讲什么是黎曼猜想（3） <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1rW411m7GL)
+* [悬赏 100 万美元的“黎曼猜想”有多难？李永乐老师讲什么是黎曼猜想（3） {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1rW411m7GL)
 
     **复数到复数的函数，四维空间才可以表示出来。**
 
 
 ## 科技袁人
 
-* [黎曼猜想合集-总有一天，人类会骄傲地发出这串数字：2,3,5,7,11…… <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1vt411b72q)
+* [黎曼猜想合集-总有一天，人类会骄傲地发出这串数字：2,3,5,7,11…… {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1vt411b72q)
 
     质数的分布函数
 
-* [黎曼猜想合集-总有一天，人类会骄傲地发出这串数字：2,3,5,7,11…… <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1vt411b72q?p=2)
+* [黎曼猜想合集-总有一天，人类会骄傲地发出这串数字：2,3,5,7,11…… {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1vt411b72q?p=2)
 
     论小于给定数值的质数个数
 
@@ -78,7 +78,7 @@ $$J(x)=Li(x)-\sum_{\rho}Li(x^{\rho})-\ln 2 +\int_x^\infty\frac{dt}{t(t^2-1)\ln t
 
 ## 3Blue1Brown
 
-[【官方双语】黎曼 ζ 函数与解析延拓的可视化 <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1tx411y7VG)
+[【官方双语】黎曼 ζ 函数与解析延拓的可视化 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1tx411y7VG)
 
 
 ## CSDN 其它文章

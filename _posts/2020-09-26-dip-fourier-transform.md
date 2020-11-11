@@ -33,7 +33,7 @@ Part5. 从傅里叶级数推导傅里叶变换 <https://www.bilibili.com/video/B
 
 Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
-[「珂学原理」No. 26「拉普拉斯变换了什么？」 <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/av15571608)
+[「珂学原理」No. 26「拉普拉斯变换了什么？」 {% include relref_svgbili.html %}](https://www.bilibili.com/video/av15571608)
 
 
 ### 复数的物理意义
@@ -69,16 +69,16 @@ Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
 {% include image.html url="/images/fourier-transform/ece53f825c6de629befba3de12f929a7_720w.jpg" %}
 
-[形象展示傅里叶变换 <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1pW411J7s8)
+[形象展示傅里叶变换 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1pW411J7s8)
 
-**这个视频形象 [傅里叶级数与傅里叶变换 <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV11W411H7Uz)**
+**这个视频形象 [傅里叶级数与傅里叶变换 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV11W411H7Uz)**
 
 傅里叶变换是将函数分解到频率不同、幅值恒为 1 的单位圆上；拉普拉斯变换是将函数分解到频率幅值都在变化的圆上。
 因为拉普拉斯变换的基有两个变量，因此更灵活，适用范围更广。
 
-[拉普拉斯变换可视化 <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1Yb411G7u2)
+[拉普拉斯变换可视化 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1Yb411G7u2)
 
-[3D 动画详细解释傅里叶与拉普拉斯变换 <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1MJ41147PH)
+[3D 动画详细解释傅里叶与拉普拉斯变换 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1MJ41147PH)
 
 最后这个“海螺图”还是有点没看懂。?
 
@@ -91,7 +91,7 @@ Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
 {% include image.html url="/images/fourier-transform/v2-bad520e27c839917cf27d76e1206bb70_1440w.jpg" %}
 
-[以初中数学基础理解傅里叶变换 <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1TJ41157FZ)
+[以初中数学基础理解傅里叶变换 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1TJ41157FZ)
 
 [形象理解二维傅里叶变换](https://zhuanlan.zhihu.com/p/110026009)
 
@@ -122,7 +122,7 @@ from http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf
 
 ### 螺旋 CT 成像
 
-[连原子都能看清的 CT 成像 <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1w54y1R7LT)
+[连原子都能看清的 CT 成像 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1w54y1R7LT)
 
 {% include image.html url="/images/fourier-transform/20201006194100.png" %}
 
@@ -212,7 +212,7 @@ if __name__ == "__main__":
 
 ## 参考
 
-- [1] [bilibili <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://space.bilibili.com/230105574/channel/detail?cid=67768)
+- [1] [bilibili {% include relref_svgbili.html %}](https://space.bilibili.com/230105574/channel/detail?cid=67768)
 - [2] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
 - [3] [公式图形实时显示](https://www.desmos.com/calculator)
 - [4] [频域高通高斯滤波和拉普拉斯滤波](https://blog.csdn.net/baidu_41902768/article/details/95936591)

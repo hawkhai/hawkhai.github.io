@@ -51,6 +51,7 @@ DIACRITIC = "[{}]".format("".join(DIACRITIC.split()))
 
 bilibilisrc = """bilibili]"""
 bilibilitag = """<img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />]"""
+bilibilitak = """{% include relref_svgbili.html %}]"""
 
 mdkeylist = """
 categories
@@ -97,6 +98,7 @@ def collectHost(line):
 
     linesrc = line[:]
     xline = line.replace(bilibilitag, bilibilisrc)
+    xline = line.replace(bilibilitak, bilibilisrc)
     li = re.findall("<.*?>", xline)
     for tx in li:
         line = line.replace(tx, "")
@@ -161,11 +163,16 @@ def mainfile(fpath, fname, ftype):
 
     def linerstrip(line):
         if isMdFile:
+            # 移除多余空格
             line = line.replace("  "+bilibilitag, bilibilitag)
             line = line.replace(" "+bilibilitag, bilibilitag)
-            line = line.replace(bilibilitag, " "+bilibilitag)
-            line = line.replace(bilibilisrc, bilibilitag)
-            line = line.replace("[ "+bilibilitag, "[bilibili "+bilibilitag)
+            line = line.replace("  "+bilibilitak, bilibilitak)
+            line = line.replace(" "+bilibilitak, bilibilitak)
+            # 格式化。
+            line = line.replace(bilibilitak, " "+bilibilitak)
+            line = line.replace(bilibilitag, " "+bilibilitak)
+            line = line.replace(bilibilisrc, bilibilitak)
+            line = line.replace("[ "+bilibilitak, "[bilibili "+bilibilitak)
         return line.rstrip()
 
     print(fpath)
@@ -178,7 +185,7 @@ def mainfile(fpath, fname, ftype):
     while len(lines) >= 1 and not lines[0]:
         lines = lines[1:]
 
-    if fname in ("relref.html",):
+    if fname in ("relref.html", "relref_svgbili.html",):
         while len(lines) >= 1 and not lines[-1]:
             lines = lines[:-1]
 

@@ -14,7 +14,7 @@ mermaid:
 glslcanvas:
 ---
 
-[计算机图形学 OPENGL 入门 <img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />](https://www.bilibili.com/video/BV1px41197A5)
+[计算机图形学 OPENGL 入门 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1px41197A5)
 
 <https://ke.qq.com/course/package/25480?flowToken=1019441>
 
