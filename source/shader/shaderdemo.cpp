@@ -21,7 +21,7 @@ void drawContent();
 
 int learnOpenGL() {
 
-    // ³õÊ¼»¯
+    // åˆå§‹åŒ–
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
@@ -47,7 +47,7 @@ int learnOpenGL() {
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // GL_FILL
 
-    // äÖÈ¾ÒıÇæ
+    // æ¸²æŸ“å¼•æ“
     while (!glfwWindowShouldClose(window)) {
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -59,12 +59,12 @@ int learnOpenGL() {
         glfwSwapBuffers(window);
     }
 
-    // ÍË³ö
+    // é€€å‡º
     glfwTerminate();
     return 0;
 }
 
-// ¶¥µã×ÅÉ«Æ÷
+// é¡¶ç‚¹ç€è‰²å™¨
 void createVertexShader() {
 
     const char* vertexShaderSource = GLSL(
@@ -80,9 +80,9 @@ void createVertexShader() {
     glCompileShader(g_vertexShaderId);
 }
 
-// Æ¬¶Î×ÅÉ«Æ÷
+// ç‰‡æ®µç€è‰²å™¨
 void createFragShader() {
-    // ½«×ÅÉ«Æ÷Ô´Âë´æÈë×Ö·û´®
+    // å°†ç€è‰²å™¨æºç å­˜å…¥å­—ç¬¦ä¸²
     const char* fragShaderSource = GLSL(
         out vec4 FragColor;
         in vec4 vertexsColor;
@@ -91,11 +91,11 @@ void createFragShader() {
             FragColor = ourColor; // vertexsColor
         });
 
-    // ´´½¨×ÅÉ«Æ÷¶ÔÏó
+    // åˆ›å»ºç€è‰²å™¨å¯¹è±¡
     g_fragShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-    // ½«Ô´Âë×Ö·û´®¸³Óè×ÅÉ«Æ÷¶ÔÏó
+    // å°†æºç å­—ç¬¦ä¸²èµ‹äºˆç€è‰²å™¨å¯¹è±¡
     glShaderSource(g_fragShaderId, 1, &fragShaderSource, NULL);
-    // ±àÒë×ÅÉ«Æ÷
+    // ç¼–è¯‘ç€è‰²å™¨
     glCompileShader(g_fragShaderId);
 }
 
@@ -119,27 +119,27 @@ void setVertexEnv() {
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
 
-    // °ó¶¨µ±Ç°ÉÏÏÂÎÄ
+    // ç»‘å®šå½“å‰ä¸Šä¸‹æ–‡
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
-    // ÍùÏÔ¿¨Ğ´Öµ£¬·ÖÅäÏÔ´æ¿Õ¼ä¡£
+    // å¾€æ˜¾å¡å†™å€¼ï¼Œåˆ†é…æ˜¾å­˜ç©ºé—´ã€‚
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    // ¸æËßÏÔ¿¨£¬ÖµµÄ½á¹¹¡£
+    // å‘Šè¯‰æ˜¾å¡ï¼Œå€¼çš„ç»“æ„ã€‚
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 }
 
 void createShaderProg() {
-    // ´´½¨×ÅÉ«Æ÷³ÌĞò¶ÔÏó
+    // åˆ›å»ºç€è‰²å™¨ç¨‹åºå¯¹è±¡
     g_shaderProgId = glCreateProgram();
-    // ½«±àÒëºÃµÄ×ÅÉ«Æ÷¸½¼Óµ½³ÌĞò¶ÔÏóÉÏ
+    // å°†ç¼–è¯‘å¥½çš„ç€è‰²å™¨é™„åŠ åˆ°ç¨‹åºå¯¹è±¡ä¸Š
     glAttachShader(g_shaderProgId, g_vertexShaderId);
     glAttachShader(g_shaderProgId, g_fragShaderId);
-    // Á´½ÓÉú³É³ÌĞò
+    // é“¾æ¥ç”Ÿæˆç¨‹åº
     glLinkProgram(g_shaderProgId);
 
     g_uColorLocation = glGetUniformLocation(g_shaderProgId, "ourColor");
@@ -147,13 +147,13 @@ void createShaderProg() {
 
 void drawContent() {
 
-    glUseProgram(g_shaderProgId); // Ê¹ÓÃ³ÌĞò
+    glUseProgram(g_shaderProgId); // ä½¿ç”¨ç¨‹åº
 
-    // in out£º GPU & GPU Êı¾İ´«Êä
-    // È«¾Ö CPU ºÍ GPU ´«Êı¾İ uniform
+    // in outï¼š GPU & GPU æ•°æ®ä¼ è¾“
+    // å…¨å±€ CPU å’Œ GPU ä¼ æ•°æ® uniform
     float xtime = glfwGetTime();
     glUniform4f(g_uColorLocation, 0.0f, 0.0f, sin(xtime), 1.0);
 
-    //glDrawArrays(GL_TRIANGLES, 0, 6); // »­Èı½Ç
+    //glDrawArrays(GL_TRIANGLES, 0, 6); // ç”»ä¸‰è§’
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
