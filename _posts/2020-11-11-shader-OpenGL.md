@@ -270,4 +270,6 @@ void createVertexShader() {
 ## P8 GLSL 数据传输
 
 
-## References
+## 运行结果
+
+{% include image.html url="/images/OpenGL-GLSL/20201112210930.png" %}
