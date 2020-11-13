@@ -35,15 +35,24 @@ You can also read back and communicate with others.
 Document-based knowledge iteration is more stable and reliable than brain-based iteration.
 As the saying goes: Bad notes is better than good memories.
 
+
+## 关于文档
+
+为什么一定要写文档？
+自己一年前写的东西，没有文档，居然看不懂了。再看懂跑起来，基本上算重写了。十分痛苦。
+
+
+## 关于代码
+
 程序的复杂度分两种：一种是这个逻辑本身就非常复杂，另一种是代码混乱和规模造成的复杂。
 
 大部分时候，考验的是我们的基本功和知识面。
 同时用工整的代码和精巧的结构去对抗复杂，这就需要对设计模式有一定的了解。
 
 客户端应用研发，大部分都是界面、回调、事件、线程之类，写来写去就那些东西。
-深入一些的，也是一些算法啊什么的，开源的改吧改吧就可以，更多的是考验快速学习能力。
+深入一些的，也是一些算法啊什么的，开源的改吧改吧就能跑，更多的是考验快速学习的能力。
 
-有丰富经验过后，旁征博引，触类旁通，才能驾驭更大更混乱的代码。
+有丰富经验后，旁征博引、触类旁通，才能驾驭更大更混乱的代码。
 
 
 ## Work history
