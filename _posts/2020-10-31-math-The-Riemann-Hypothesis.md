@@ -39,6 +39,8 @@ $$J(x)=Li(x)-\sum_{\rho}Li(x^{\rho})-\ln 2 +\int_x^\infty\frac{dt}{t(t^2-1)\ln t
 
 [黎曼猜想到底是什么意思？](https://www.matongxue.com/madocs/2101)
 
+[黎曼猜想（Riemann hypothesis）是什么？有什么用？](https://www.zhihu.com/question/295619713)
+
 
 ## 李永乐老师
 
