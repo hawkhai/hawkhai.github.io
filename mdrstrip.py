@@ -50,7 +50,6 @@ DIACRITIC = """
 DIACRITIC = "[{}]".format("".join(DIACRITIC.split()))
 
 bilibilisrc = """bilibili]"""
-bilibilitag = """<img src="{% include relref.html url="/assets/bilibili.svg" %}" class="bilibili" />]"""
 bilibilitak = """{% include relref_svgbili.html %}]"""
 
 mdkeylist = """
@@ -97,7 +96,6 @@ g_hostset = {}
 def collectHost(line):
 
     linesrc = line[:]
-    xline = line.replace(bilibilitag, bilibilisrc)
     xline = line.replace(bilibilitak, bilibilisrc)
     li = re.findall("<.*?>", xline)
     for tx in li:
@@ -164,13 +162,10 @@ def mainfile(fpath, fname, ftype):
     def linerstrip(line):
         if isMdFile:
             # 移除多余空格
-            line = line.replace("  "+bilibilitag, bilibilitag)
-            line = line.replace(" "+bilibilitag, bilibilitag)
             line = line.replace("  "+bilibilitak, bilibilitak)
             line = line.replace(" "+bilibilitak, bilibilitak)
             # 格式化。
             line = line.replace(bilibilitak, " "+bilibilitak)
-            line = line.replace(bilibilitag, " "+bilibilitak)
             line = line.replace(bilibilisrc, bilibilitak)
             line = line.replace("[ "+bilibilitak, "[bilibili "+bilibilitak)
         return line.rstrip()
