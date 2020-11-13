@@ -78,6 +78,6 @@ Cg 由 NVIDIA 公司和微软公司相互协作在标准硬件光照语言的语
 ## 参考
 
 * [Unity Manual Compute shaders](https://docs.unity3d.com/Manual/class-ComputeShader.html)
-* [三大 Shader 编程语言（CG / HLSL / GLSL）](https://zhuanlan.zhihu.com/p/47433678)
+* [三大 Shader 编程语言（CG / HLSL / GLSL） {% include relref_svgzhihu.html %}](https://zhuanlan.zhihu.com/p/47433678)
 * [《Unity Shader 入门精要》随书彩色插图](http://candycat1992.github.io/unity_shaders_book/unity_shaders_book_images.html)
-* [可编程渲染管线比固定管线的优势在哪？有什么应用？](https://www.zhihu.com/question/28024422/answer/39097192)
+* [可编程渲染管线比固定管线的优势在哪？有什么应用？ {% include relref_svgzhihu.html %}](https://www.zhihu.com/question/28024422/answer/39097192)

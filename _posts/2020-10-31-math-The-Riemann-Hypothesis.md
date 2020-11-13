@@ -32,16 +32,16 @@ $$J(x)=Li(x)-\sum_{\rho}Li(x^{\rho})-\ln 2 +\int_x^\infty\frac{dt}{t(t^2-1)\ln t
 
 严伯钧说：能完全理解黎曼猜想，至少是一个数学专业的博士生水平。一切的起点：欧拉乘积公式，对于全体质数的某种运算，可以转移成对于全体自然数的某种运算。
 
-[黎曼猜想，及其解释（上）](https://zhuanlan.zhihu.com/p/25055731)
+[黎曼猜想，及其解释（上） {% include relref_svgzhihu.html %}](https://zhuanlan.zhihu.com/p/25055731)
 
-[黎曼猜想，及其解释（下）](https://zhuanlan.zhihu.com/p/25222934)
+[黎曼猜想，及其解释（下） {% include relref_svgzhihu.html %}](https://zhuanlan.zhihu.com/p/25222934)
 
 
 ## 马同学
 
 [黎曼猜想到底是什么意思？](https://www.matongxue.com/madocs/2101)
 
-[黎曼猜想（Riemann hypothesis）是什么？有什么用？](https://www.zhihu.com/question/295619713)
+[黎曼猜想（Riemann hypothesis）是什么？有什么用？ {% include relref_svgzhihu.html %}](https://www.zhihu.com/question/295619713)
 
 
 ## 李永乐老师
@@ -72,12 +72,12 @@ $$J(x)=Li(x)-\sum_{\rho}Li(x^{\rho})-\ln 2 +\int_x^\infty\frac{dt}{t(t^2-1)\ln t
 
 ## 袁岚峰
 
-* [理解黎曼猜想（一）背景 \| 袁岚峰](https://zhuanlan.zhihu.com/p/47346148)
-* [理解黎曼猜想（二）两个自然数互质的概率是多少？ \| 袁岚峰](https://zhuanlan.zhihu.com/p/47978393)
-* [理解黎曼猜想（三）你真的相信全体自然数的和等于 -1/12 吗？ \| 袁岚峰](https://zhuanlan.zhihu.com/p/48750070)
-* [理解黎曼猜想（四）得救之道，就在其中 \| 袁岚峰](https://zhuanlan.zhihu.com/p/49454034)
-* [理解黎曼猜想（五）宇宙的密码 \| 袁岚峰](https://zhuanlan.zhihu.com/p/50421799)
-* [理解黎曼猜想（六）朝闻道 \| 袁岚峰](https://zhuanlan.zhihu.com/p/51566599)
+* [理解黎曼猜想（一）背景 \| 袁岚峰 {% include relref_svgzhihu.html %}](https://zhuanlan.zhihu.com/p/47346148)
+* [理解黎曼猜想（二）两个自然数互质的概率是多少？ \| 袁岚峰 {% include relref_svgzhihu.html %}](https://zhuanlan.zhihu.com/p/47978393)
+* [理解黎曼猜想（三）你真的相信全体自然数的和等于 -1/12 吗？ \| 袁岚峰 {% include relref_svgzhihu.html %}](https://zhuanlan.zhihu.com/p/48750070)
+* [理解黎曼猜想（四）得救之道，就在其中 \| 袁岚峰 {% include relref_svgzhihu.html %}](https://zhuanlan.zhihu.com/p/49454034)
+* [理解黎曼猜想（五）宇宙的密码 \| 袁岚峰 {% include relref_svgzhihu.html %}](https://zhuanlan.zhihu.com/p/50421799)
+* [理解黎曼猜想（六）朝闻道 \| 袁岚峰 {% include relref_svgzhihu.html %}](https://zhuanlan.zhihu.com/p/51566599)
 
 
 ## 3Blue1Brown

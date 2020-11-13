@@ -49,8 +49,8 @@ DIACRITIC = """
 ÿ ź ż ž"""
 DIACRITIC = "[{}]".format("".join(DIACRITIC.split()))
 
-bilibilisrc = """bilibili]"""
-bilibilitak = """{% include relref_svgbili.html %}]"""
+linktagli = (("{% include relref_svgbili.html %}]",     "bilibili]",    "bilibili"),
+             ("{% include relref_svgzhihu.html %}]",    "zhihu]",       "zhihu"),)
 
 mdkeylist = """
 categories
@@ -96,7 +96,9 @@ g_hostset = {}
 def collectHost(line):
 
     linesrc = line[:]
-    xline = line.replace(bilibilitak, bilibilisrc)
+    xline = line[:]
+    for tak, src, name in linktagli:
+        xline = xline.replace(tak, src)
     li = re.findall("<.*?>", xline)
     for tx in li:
         line = line.replace(tx, "")
@@ -114,15 +116,16 @@ def collectHost(line):
             g_hostset[host] = 0
         g_hostset[host] += 1
 
-    # 视频要特别标注域名。
-    li1 = re.findall("bilibili.com", xline)
-    li2 = re.findall("bilibili\\]", xline)
-    if len(li1) == len(li2):
-        return
-    print(xline)
-    print(li1)
-    print(li2)
-    assert False, linesrc
+    for tak, src, name in linktagli:
+        # 视频要特别标注域名。
+        li1 = re.findall(name+".com", xline)
+        li2 = re.findall(name+"\\]", xline)
+        if len(li1) == len(li2):
+            continue
+        print(xline)
+        print(li1)
+        print(li2)
+        assert False, linesrc
 
 g_cnchar = []
 g_cschar = []
@@ -161,13 +164,14 @@ def mainfile(fpath, fname, ftype):
 
     def linerstrip(line):
         if isMdFile:
-            # 移除多余空格
-            line = line.replace("  "+bilibilitak, bilibilitak)
-            line = line.replace(" "+bilibilitak, bilibilitak)
-            # 格式化。
-            line = line.replace(bilibilitak, " "+bilibilitak)
-            line = line.replace(bilibilisrc, bilibilitak)
-            line = line.replace("[ "+bilibilitak, "[bilibili "+bilibilitak)
+            for tak, src, name in linktagli:
+                # 移除多余空格
+                line = line.replace("  "+tak, tak)
+                line = line.replace(" "+tak, tak)
+                # 格式化。
+                line = line.replace(tak, " "+tak)
+                line = line.replace(src, tak)
+                line = line.replace("[ "+tak, "["+name+" "+tak)
         return line.rstrip()
 
     print(fpath)
@@ -180,7 +184,7 @@ def mainfile(fpath, fname, ftype):
     while len(lines) >= 1 and not lines[0]:
         lines = lines[1:]
 
-    if fname in ("relref.html", "relref_svgbili.html",):
+    if fname in ("relref.html", "relref_svgbili.html", "relref_svgzhihu.html",):
         while len(lines) >= 1 and not lines[-1]:
             lines = lines[:-1]
 
