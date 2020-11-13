@@ -72,9 +72,17 @@ glslcanvas:
 ***“天不生仲尼，万古如长夜”。***
 
 
+## Cramer 悖论
+
+线性代数的萌芽
+
+
 ## 参考
 
 - [1] [科幻作家与科学家，谁的想象力更强？](https://www.zhihu.com/question/27853904)
 - [2] [泰勒级数为什么不可以展开？](https://www.matongxue.com/madocs/2094/)
 - [3] [复数，通往真理的最短路径](https://www.matongxue.com/madocs/1709)
 - [4] [如何通俗地理解傅立叶变换？](https://www.matongxue.com/madocs/473)
+- [5] [Matrix67: The Aha Moments 随记：我们需要怎样的数学教育？](http://www.matrix67.com/blog/archives/4294)
+- [6] <https://betterexplained.com/>
+- [7] [Cramer 悖论：线性代数的萌芽](http://www.matrix67.com/blog/archives/3803)
