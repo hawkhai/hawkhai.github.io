@@ -82,8 +82,10 @@ l2dwidget
         key, value = line.split(":", 1)
         key, value = key.strip(), value.strip()
         value = formatValue(value)
-        if key in igkeylist: continue
-        assert key in mdkeylist, line
+        if not key in igkeylist:
+            assert key in mdkeylist, line
+        else:
+            mdkeylist.append(key)
         kvmap[key] = value
         if not key in gkvmap.keys():
             gkvmap[key] = []
