@@ -404,7 +404,9 @@ def mainfilew(fpath, fname, ftype):
 
 def main():
     print(parsePythonCmdx(__file__))
-    searchdir(".", mainfilew, ignorelistMore=("backup", "d2l-zh", "mathjax", "tempdir", "msgboard"))
+    searchdir(".", mainfilew, ignorelistMore=(
+        "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
+        "Debug", "Release", ".vs",))
     global g_cschar
     global g_tpset
 
