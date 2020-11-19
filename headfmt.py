@@ -73,12 +73,16 @@ mathjax mermaid glslcanvas
         mdkeylist.extend("""
 permalink
 """.split())
+    igkeylist = """
+l2dwidget
+""".split()
 
     kvmap = {}
     for line in li:
         key, value = line.split(":", 1)
         key, value = key.strip(), value.strip()
         value = formatValue(value)
+        if key in igkeylist: continue
         assert key in mdkeylist, line
         kvmap[key] = value
         if not key in gkvmap.keys():
