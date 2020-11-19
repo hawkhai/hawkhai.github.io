@@ -11,7 +11,6 @@
 int g_vertexShaderId = 0;
 int g_fragShaderId = 0;
 int g_shaderProgId = 0;
-int g_uColorLocation = 0;
 
 void setVertexEnv();
 void createVertexShader();
@@ -45,7 +44,7 @@ int learnOpenGL() {
     createFragShader();
     createShaderProg();
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // GL_FILL
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // GL_LINE
 
     // 渲染引擎
     while (!glfwWindowShouldClose(window)) {
@@ -69,9 +68,10 @@ void createVertexShader() {
 
     const char* vertexShaderSource = GLSL(
         layout(location = 0) in vec3 aPos;
-    out vec4 vertexsColor;
+    layout(location = 1) in vec3 aColor;
+    out vec4 ourColor;
     void main() {
-        vertexsColor = vec4(0.0f, 1.0f, 0.0f, 1.0f);
+        ourColor = vec4(aColor, 1.0f);
         gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0f);
     }
     );
@@ -87,7 +87,7 @@ void createFragShader() {
     const char* fragShaderSource = GLSL(
         out vec4 FragColor;
     in vec4 vertexsColor;
-    uniform vec4 ourColor;
+    in vec4 ourColor;
     void main() {
         FragColor = ourColor; // vertexsColor
     }
@@ -103,10 +103,10 @@ void createFragShader() {
 
 void setVertexEnv() {
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f, // left, down
-        0.5f, -0.5f, 0.0f, // right, down
-        -0.5f, 0.5f, 0.0f, // left, top
-        0.5f, 0.5f, 0.0f, // right, top
+        -0.5f, -0.5f, 0.0f, 1, 0, 0, // left, down
+        0.5f, -0.5f, 0.0f, 0, 1, 0, // right, down
+        -0.5f, 0.5f, 0.0f, 0, 0, 1, // left, top
+        0.5f, 0.5f, 0.0f, 0, 1, 1, // right, top
     };
     unsigned int indices[] = {
         0, 1, 2,
@@ -131,8 +131,11 @@ void setVertexEnv() {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // 告诉显卡，值的结构。
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 }
 
 void createShaderProg() {
@@ -143,19 +146,12 @@ void createShaderProg() {
     glAttachShader(g_shaderProgId, g_fragShaderId);
     // 链接生成程序
     glLinkProgram(g_shaderProgId);
-
-    g_uColorLocation = glGetUniformLocation(g_shaderProgId, "ourColor");
 }
 
 void drawContent() {
 
     glUseProgram(g_shaderProgId); // 使用程序
 
-    // in out： GPU & GPU 数据传输
-    // 全局 CPU 和 GPU 传数据 uniform
-    float xtime = glfwGetTime();
-    glUniform4f(g_uColorLocation, 0.0f, 0.0f, sin(xtime), 1.0);
-
-    //glDrawArrays(GL_TRIANGLES, 0, 6); // 画三角
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    //glDrawArrays(GL_TRIANGLES, 0, 6); // 画三角
 }
