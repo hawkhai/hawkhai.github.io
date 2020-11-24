@@ -36,7 +36,7 @@ $$a+bi,\quad (a,b\in\mathbb{R})$$
 复数域的扩张充满崎岖。正如欧拉的老师对他的赞扬：
 
 > 我介绍数学分析的时候，它还是个孩子，而你正在将它带大成人。
-> <p align="right">——约翰·伯努利</p>
+> <p align="right"> —— 约翰·伯努利</p>
 
 这句话虽然是说微积分（数学分析）的，但用在复数域上也不违和。欧拉的欧拉公式正是“复数域”的成人礼：
 
@@ -525,5 +525,5 @@ $$
 
 - [1] [马同学·欧拉公式，复数域的成人礼](https://www.matongxue.com/madocs/2066/)
 - [2] [A Visual, Intuitive Guide to Imaginary Numbers](https://betterexplained.com/articles/a-visual-intuitive-guide-to-imaginary-numbers/)
-- [3] [《更好的解释（数学篇）》——第五章 虛數](http://jakwings.is-programmer.com/posts/29547.html)
+- [3] [《更好的解释（数学篇）》 —— 第五章 虛數](http://jakwings.is-programmer.com/posts/29547.html)
 - [4] [虚数的意义 阮一峰](https://www.ruanyifeng.com/blog/2012/09/imaginary_number.html)

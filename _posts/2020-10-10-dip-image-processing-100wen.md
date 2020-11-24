@@ -207,16 +207,16 @@ LoG 即高斯-拉普拉斯（Laplacian of Gaussian）的缩写，使用高斯滤
 ## 仿射变换
 
 
-### 二十八：仿射变换（Afine Transformations）——平行移动
+### 二十八：仿射变换（Afine Transformations） —— 平行移动
 
 
-### 二十九：仿射变换（Afine Transformations）——放大缩小
+### 二十九：仿射变换（Afine Transformations） —— 放大缩小
 
 
-### 三十：仿射变换（Afine Transformations）——旋转
+### 三十：仿射变换（Afine Transformations） —— 旋转
 
 
-### 三十一：仿射变换（Afine Transformations）——倾斜
+### 三十一：仿射变换（Afine Transformations） —— 倾斜
 
 
 ## 傅立叶变换
@@ -227,21 +227,21 @@ LoG 即高斯-拉普拉斯（Laplacian of Gaussian）的缩写，使用高斯滤
 离散傅里叶变换太慢，快速傅里叶变换才有实用价值。
 
 
-### 三十三：傅立叶变换——低通滤波
+### 三十三：傅立叶变换 —— 低通滤波
 
 保留轮廓，移除细节。
 
 在图像中，高频成分指的是颜色改变的地方（噪声或者轮廓等），低频成分指的是颜色不怎么改变的部分（比如落日的渐变）。在这里，使用去除高频成分，保留低频成分的低通滤波器吧！
 
 
-### 三十四：傅立叶变换——高通滤波
+### 三十四：傅立叶变换 —— 高通滤波
 
 保留细节，移除轮廓。
 
 在这里，我们使用可以去除低频部分，只保留高频部分的高通滤波器。
 
 
-### 三十五：傅立叶变换——带通滤波
+### 三十五：傅立叶变换 —— 带通滤波
 
 不知道有啥用处。
 
@@ -251,43 +251,43 @@ LoG 即高斯-拉普拉斯（Laplacian of Gaussian）的缩写，使用高斯滤
 ## JPEG 压缩
 
 
-### 三十六：JPEG 压缩——第一步：离散余弦变换（Discrete Cosine Transformation）
+### 三十六：JPEG 压缩 —— 第一步：离散余弦变换（Discrete Cosine Transformation）
 
 
 ### 三十七：PSNR
 
 
-### 三十八：JPEG 压缩——第二步：离散余弦变换 + 量化
+### 三十八：JPEG 压缩 —— 第二步：离散余弦变换 + 量化
 
 
-### 三十九：JPEG 压缩——第三步：YCbCr 色彩空间
+### 三十九：JPEG 压缩 —— 第三步：YCbCr 色彩空间
 
 
-### 四十：JPEG 压缩——第四步：YCbCr + 离散余弦变换 + 量化
+### 四十：JPEG 压缩 —— 第四步：YCbCr + 离散余弦变换 + 量化
 
 
 ## Canny 边缘检测
 
 
-### 四十一：Canny 边缘检测：第一步——边缘强度
+### 四十一：Canny 边缘检测：第一步 —— 边缘强度
 
 
-### 四十二：Canny 边缘检测：第二步——边缘细化
+### 四十二：Canny 边缘检测：第二步 —— 边缘细化
 
 
-### 四十三：Canny 边缘检测：第三步——滞后阈值
+### 四十三：Canny 边缘检测：第三步 —— 滞后阈值
 
 
 ## 霍夫直线检测
 
 
-### 四十四：霍夫变换（Hough Transform）／直线检测——第一步：霍夫变换
+### 四十四：霍夫变换（Hough Transform）／直线检测 —— 第一步：霍夫变换
 
 
-### 四十五：霍夫变换（Hough Transform）／直线检测——第二步：NMS
+### 四十五：霍夫变换（Hough Transform）／直线检测 —— 第二步：NMS
 
 
-### 四十六：霍夫变换（Hough Transform）／直线检测——第三步：霍夫逆变换
+### 四十六：霍夫变换（Hough Transform）／直线检测 —— 第三步：霍夫逆变换
 
 
 ## 形态学
@@ -488,16 +488,16 @@ Gabor 滤波器是一种结合了高斯分布和频率变换的滤波器，用�
 ## 机器学习
 
 
-### 九十三：准备机器学习的训练数据第一步——计算 $\text{IoU}$
+### 九十三：准备机器学习的训练数据第一步 —— 计算 $\text{IoU}$
 
 
-### 九十四：准备机器学习的训练数据第二步——随机裁剪（Random Cropping）
+### 九十四：准备机器学习的训练数据第二步 —— 随机裁剪（Random Cropping）
 
 
-### 九十五：神经网络（Neural Network）第一步——深度学习（Deep Learning）
+### 九十五：神经网络（Neural Network）第一步 —— 深度学习（Deep Learning）
 
 
-### 九十六：神经网络（Neural Network）第二步——训练
+### 九十六：神经网络（Neural Network）第二步 —— 训练
 
 
 ## 简单物体检测
@@ -506,10 +506,10 @@ Gabor 滤波器是一种结合了高斯分布和频率变换的滤波器，用�
 ### 九十七：简单物体检测第一步----滑动窗口（Sliding Window）+ HOG
 
 
-### 九十八：简单物体检测第二步——滑动窗口（Sliding Window）+ NN
+### 九十八：简单物体检测第二步 —— 滑动窗口（Sliding Window）+ NN
 
 
-### 九十九：简单物体检测第三步——非极大值抑制（Non-Maximum Suppression）
+### 九十九：简单物体检测第三步 —— 非极大值抑制（Non-Maximum Suppression）
 
 
-### 一百：简单物体检测第四步——评估（Evaluation）：Precision、Recall、F-Score、mAP
+### 一百：简单物体检测第四步 —— 评估（Evaluation）：Precision、Recall、F-Score、mAP

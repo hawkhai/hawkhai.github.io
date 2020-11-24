@@ -40,7 +40,7 @@ url2="/images/tortoisegit-ssh/1-2.png" %}
 {% include image.html url="/images/tortoisegit-ssh/3-1.png"
 url2="/images/tortoisegit-ssh/3-2.png" %}
 
-点击右上角，修改资料——点击左侧的 ssh 公钥——填写右侧的添加公钥——标题自拟，把第二步复制的代码粘贴到下面的公钥那里——点击确定。
+点击右上角，修改资料 —— 点击左侧的 ssh 公钥 —— 填写右侧的添加公钥 —— 标题自拟，把第二步复制的代码粘贴到下面的公钥那里 —— 点击确定。
 
 #### 4. 返回到第二步的窗口，点击 **<font color="red">Save private key</font>** 按钮保存为适用于 TortoiseGit 的私钥，扩展名为 \.ppk。
 
@@ -53,7 +53,7 @@ url2="/images/tortoisegit-ssh/5-2.png" %}
 
 {% include image.html url="/images/tortoisegit-ssh/6-1.png" %}
 
-#### 7. 回到项目目录下，右键——TortoiseGit——Settings——点击 Remote，将第 4 步中保存的私钥（\.ppk）文件加进来。
+#### 7. 回到项目目录下，右键 —— TortoiseGit —— Settings —— 点击 Remote，将第 4 步中保存的私钥（\.ppk）文件加进来。
 
 {% include image.html url="/images/tortoisegit-ssh/7-1.png" %}
 

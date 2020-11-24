@@ -172,6 +172,9 @@ def mainfile(fpath, fname, ftype):
                 line = line.replace(tak, " "+tak)
                 line = line.replace(src, tak)
                 line = line.replace("[ "+tak, "["+name+" "+tak)
+            line = line.replace(" ——", "——").replace(" ——", "——")
+            line = line.replace("—— ", "——").replace("—— ", "——")
+            line = line.replace("——", " —— ")
         return line.rstrip()
 
     print(fpath)

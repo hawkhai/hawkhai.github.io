@@ -32,7 +32,7 @@ glslcanvas:
 
 ## 邮政编码识别
 
-* [图像识别与处理笔记——字符识别、邮政编码识别（10 月 8 日暂存）](https://blog.csdn.net/mao_hui_fei/article/details/78177471)
+* [图像识别与处理笔记 —— 字符识别、邮政编码识别（10 月 8 日暂存）](https://blog.csdn.net/mao_hui_fei/article/details/78177471)
 
 * [2010 毕业设计](http://www.doc88.com/p-693272517244.html)
 
@@ -131,7 +131,7 @@ glslcanvas:
 
 * [数字图像处理笔记](https://a-suozhang.xyz/2019/09/06/Diigital-Image-Procss/)
 
-* **这个不错 [数字图像处理——知识点](https://www.jianshu.com/p/926d6c15dbf9)**
+* **这个不错 [数字图像处理 —— 知识点](https://www.jianshu.com/p/926d6c15dbf9)**
 
 * 数字图像处理 总结 <https://blog.csdn.net/u011178262/article/details/79067643>
 

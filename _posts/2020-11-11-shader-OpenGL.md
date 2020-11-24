@@ -15,7 +15,7 @@ glslcanvas:
 ---
 
 以前随便找点代码，改吧改吧就能跑，今天算是入门学习了一下。
-顶点着色器、几何着色器、片段着色器。又酷又通透，身心愉悦——
+顶点着色器、几何着色器、片段着色器。又酷又通透，身心愉悦 ——
 
 本文源码 <a href="{% include relref.html url="/source/shader/shaderdemo.cpp" %}" target="_blank">shaderdemo.cpp</a>
 
