@@ -4,7 +4,7 @@ title: "“特效编程”笔记 -- 高级 D3D10 着色器创作"
 author:
 location: "珠海"
 categories: ["特效"]
-tags: ["特效", "OpenGL"]
+tags: ["特效", "DirectX"]
 toc: true
 toclistyle:
 comments:
