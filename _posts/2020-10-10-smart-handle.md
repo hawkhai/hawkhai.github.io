@@ -16,6 +16,9 @@ glslcanvas:
 
 利用 C++ 类生命周期，自动释放 HANDLE 句柄，香。
 
+
+## Windows 版本
+
 ```cpp
 template<typename T = HANDLE, BOOL (__stdcall *Closer)(T) = ::CloseHandle>
 class SmartHandleTmpl
@@ -94,5 +97,82 @@ std::string to_string(T value)
     std::ostringstream os;
     os << value;
     return os.str();
+}
+```
+
+
+## Android 版本
+
+Android C++ 中线程同步实现
+<https://blog.csdn.net/wzy_1988/article/details/46620113>
+
+```cpp
+class Mutex {
+public:
+    enum {
+        PRIVATE = 0,
+        SHARED = 1
+    };
+
+    Mutex();
+    Mutex(const char* name);
+    Mutex(int type, const char* name = NULL);
+    ~Mutex();
+
+    // lock or unlock the mutex
+    status_t lock();
+    void unlock();
+
+    // lock if possible; returns 0 on success, error otherwise
+    status_t tryLock();
+
+    class Autolock {
+    public:
+        inline Autolock(Mutex& mutex) : mLock(mutex)  { mLock.lock(); }
+        inline Autolock(Mutex* mutex) : mLock(*mutex) { mLock.lock(); }
+        inline ~Autolock() { mLock.unlock(); }
+    private:
+        Mutex& mLock;
+    };
+private:
+    pthread_mutex_t mMutex;
+};
+
+inline Mutex::Mutex() {
+    // 构造函数，初始化 mMutex 变量
+    pthread_mutex_init(&mMutex, NULL);
+}
+inline Mutex::~Mutex() {
+    // 析构函数，就是销毁 mMutex 变量
+    pthread_mutex_destory(&mMutex);
+}
+
+inline status_t Mutex::lock() {
+    return -pthread_mutex_lock(&mMutex);
+}
+
+inline void Mutex::unlock() {
+    pthread_mutex_unlock(&mMutex);
+}
+
+inline status_t Mutex::tryLock() {
+    return pthread_mutex_tryLock(&mMutex);
+}
+
+typedef Mutex::Autolock AutoMutex;
+class Autolock {
+public:
+    inline Autolock(Mutex& mutex) : mLock(mutex)  { mLock.lock(); }
+    inline Autolock(Mutex* mutex) : mLock(*mutex) { mLock.lock(); }
+    inline ~Autolock() { mLock.unlock(); }
+private:
+    Mutex& mLock;
+};
+
+Mutex gProcessMutex;
+void testAutoMutex() {
+    AutoMutex _l(gProcessMutex);
+    // 下面是需要同步的代码内容
+    // ...
 }
 ```
