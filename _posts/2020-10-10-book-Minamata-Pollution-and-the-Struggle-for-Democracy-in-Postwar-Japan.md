@@ -69,4 +69,4 @@ glslcanvas:
 
 ## 参考
 
-- [1] [日本公害往事 {% include relref_svgzhihu.html %}](https://zhuanlan.zhihu.com/p/19662214)
+- [1] [日本公害往事 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/19662214)

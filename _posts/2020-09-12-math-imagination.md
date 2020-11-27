@@ -79,7 +79,7 @@ glslcanvas:
 
 ## 参考
 
-- [1] [科幻作家与科学家，谁的想象力更强？ {% include relref_svgzhihu.html %}](https://www.zhihu.com/question/27853904)
+- [1] [科幻作家与科学家，谁的想象力更强？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/27853904)
 - [2] [泰勒级数为什么不可以展开？](https://www.matongxue.com/madocs/2094/)
 - [3] [复数，通往真理的最短路径](https://www.matongxue.com/madocs/1709)
 - [4] [如何通俗地理解傅立叶变换？](https://www.matongxue.com/madocs/473)

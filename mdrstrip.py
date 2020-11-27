@@ -49,8 +49,8 @@ DIACRITIC = """
 ÿ ź ż ž"""
 DIACRITIC = "[{}]".format("".join(DIACRITIC.split()))
 
-linktagli = (("{% include relref_svgbili.html %}]",     "bilibili]",    "bilibili"),
-             ("{% include relref_svgzhihu.html %}]",    "zhihu]",       "zhihu"),)
+linktagli = (("{% include relref_bili.html %}]",     "bilibili]",    "bilibili"),
+             ("{% include relref_zhihu.html %}]",    "zhihu]",       "zhihu"),)
 
 mdkeylist = """
 categories
@@ -187,7 +187,7 @@ def mainfile(fpath, fname, ftype):
     while len(lines) >= 1 and not lines[0]:
         lines = lines[1:]
 
-    if fname in ("relref.html", "relref_svgbili.html", "relref_svgzhihu.html",):
+    if fname in ("relref.html", "relref_bili.html", "relref_zhihu.html",):
         while len(lines) >= 1 and not lines[-1]:
             lines = lines[:-1]
 

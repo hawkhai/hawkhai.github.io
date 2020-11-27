@@ -17,7 +17,7 @@ glslcanvas:
 
 ## 前言
 
-[三分钟弄懂微积分（整个逻辑） {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1mb411r7bd)
+[三分钟弄懂微积分（整个逻辑） {% include relref_bili.html %}](https://www.bilibili.com/video/BV1mb411r7bd)
 
 微积分是对无穷小量的研究。无穷小量，简单说就是大小无限趋向于 $0$ 的量。微积分是微分和积分的总称，『无限细分』就是微分，『无限求和』就是积分。
 
@@ -157,5 +157,5 @@ $$\int_{x}^{y}f(x)dx=F(x)-F(y)$$
 - [2] [微积分入门](https://www.cnblogs.com/knife-rose/p/12120373.html)
 - [3] [Html 转 MarkDown](http://www.fly63.com/tool/htmarkdown/)
 - [4] [线性代数入门](https://www.cnblogs.com/knife-rose/p/12107204.html)
-- [5] [微积分到底是什么 {% include relref_svgzhihu.html %}](https://www.zhihu.com/question/336322284)
+- [5] [微积分到底是什么 {% include relref_zhihu.html %}](https://www.zhihu.com/question/336322284)
 - [6] 马同学 <https://www.matongxue.com/madocs/247/>

@@ -2866,5 +2866,5 @@ material Fur
 
 ## References
 
-- [1] [Ogre3D 脚本系统关键字说明 {% include relref_svgzhihu.html %}](https://zhuanlan.zhihu.com/p/74046682)
+- [1] [Ogre3D 脚本系统关键字说明 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/74046682)
 - [2] [Html 转换为 MarkDown 工具](https://www.bejson.com/convert/html2markdown/)

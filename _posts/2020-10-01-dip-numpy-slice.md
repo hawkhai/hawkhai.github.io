@@ -388,5 +388,5 @@ numpy 库的对象有数组和矩阵，两者看起来长得差不多，但在�
 ## 参考
 
 - [1] [NumPy 教程](https://www.runoob.com/numpy/numpy-tutorial.html)
-- [2] [Python 之 Numpy 基础 {% include relref_svgzhihu.html %}](https://zhuanlan.zhihu.com/p/32242331)
+- [2] [Python 之 Numpy 基础 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/32242331)
 - [3] <https://blog.csdn.net/wzyaiwl/article/details/106310705>

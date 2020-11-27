@@ -74,4 +74,4 @@ $$
 
 ## 参考
 
-- [1] [线性代数的本质 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1ys411472E)
+- [1] [线性代数的本质 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1ys411472E)

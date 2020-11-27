@@ -33,12 +33,12 @@ Part5. 从傅里叶级数推导傅里叶变换 <https://www.bilibili.com/video/B
 
 Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
-[「珂学原理」No. 26「拉普拉斯变换了什么？」 {% include relref_svgbili.html %}](https://www.bilibili.com/video/av15571608)
+[「珂学原理」No. 26「拉普拉斯变换了什么？」 {% include relref_bili.html %}](https://www.bilibili.com/video/av15571608)
 
 
 ### 复数的物理意义
 
-[复数的物理意义是什么？ {% include relref_svgzhihu.html %}](https://www.zhihu.com/question/23234701/answer/26017000)
+[复数的物理意义是什么？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/23234701/answer/26017000)
 
 转载文章：[傅里叶变换分析之掐死教程](https://blog.csdn.net/Ciellee/article/details/108304531)
 
@@ -54,7 +54,7 @@ Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
 {% include image.html url="/images/fourier-transform/419cd0b2e965aca25d5f8a5a6362d728_720w.jpg" %}
 
-[傅里叶级数和傅里叶变换是什么关系？ {% include relref_svgzhihu.html %}](https://www.zhihu.com/question/21665935)
+[傅里叶级数和傅里叶变换是什么关系？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/21665935)
 
 **[马同学原版·从傅里叶级数到傅里叶变换](https://www.matongxue.com/madocs/712)**
 
@@ -69,16 +69,16 @@ Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
 {% include image.html url="/images/fourier-transform/ece53f825c6de629befba3de12f929a7_720w.jpg" %}
 
-[形象展示傅里叶变换 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1pW411J7s8)
+[形象展示傅里叶变换 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1pW411J7s8)
 
-**这个视频形象 [傅里叶级数与傅里叶变换 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV11W411H7Uz)**
+**这个视频形象 [傅里叶级数与傅里叶变换 {% include relref_bili.html %}](https://www.bilibili.com/video/BV11W411H7Uz)**
 
 傅里叶变换是将函数分解到频率不同、幅值恒为 1 的单位圆上；拉普拉斯变换是将函数分解到频率幅值都在变化的圆上。
 因为拉普拉斯变换的基有两个变量，因此更灵活，适用范围更广。
 
-[拉普拉斯变换可视化 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1Yb411G7u2)
+[拉普拉斯变换可视化 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Yb411G7u2)
 
-[3D 动画详细解释傅里叶与拉普拉斯变换 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1MJ41147PH)
+[3D 动画详细解释傅里叶与拉普拉斯变换 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1MJ41147PH)
 
 最后这个“海螺图”还是有点没看懂。?
 
@@ -91,9 +91,9 @@ Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
 {% include image.html url="/images/fourier-transform/v2-bad520e27c839917cf27d76e1206bb70_1440w.jpg" %}
 
-[以初中数学基础理解傅里叶变换 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1TJ41157FZ)
+[以初中数学基础理解傅里叶变换 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1TJ41157FZ)
 
-[形象理解二维傅里叶变换 {% include relref_svgzhihu.html %}](https://zhuanlan.zhihu.com/p/110026009)
+[形象理解二维傅里叶变换 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/110026009)
 
 {% include image.html url="/images/fourier-transform/v2-73ad89919f066942a612107925152c8c_720w.jpg" %}
 
@@ -101,7 +101,7 @@ Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
 {% include image.html url="/images/fourier-transform/v2-39eb0e4cd7fa4f0cd927bc97fc1c1674_720w.jpg" %}
 
-[为什么用图像二维傅里叶变换的相位谱进行反变换，能够大致得到原图的形状，而幅度谱则不行呢？ {% include relref_svgzhihu.html %}](https://www.zhihu.com/question/23718291/answer/1057562032)
+[为什么用图像二维傅里叶变换的相位谱进行反变换，能够大致得到原图的形状，而幅度谱则不行呢？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/23718291/answer/1057562032)
 
 k 空间中的 phase 保留的是位置信息，如果没有幅度或者，幅度错误，只是对比度会不同；而 mag 保留的是强度信息，没有 phase 的话，强度相加也是按照周期性相加。
 
@@ -110,7 +110,7 @@ k 空间中的 phase 保留的是位置信息，如果没有幅度或者，幅�
 
 ## 傅里叶变换、拉普拉斯变换、Z 变换
 
-[傅里叶变换、拉普拉斯变换、Z 变换的联系是什么？为什么要进行这些变换？ {% include relref_svgzhihu.html %}](https://www.zhihu.com/question/22085329/answer/1396150509)
+[傅里叶变换、拉普拉斯变换、Z 变换的联系是什么？为什么要进行这些变换？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/22085329/answer/1396150509)
 
 * 傅里叶变换是把信号从【时域】变换到【频域】。
 * 拉普拉斯变换是想办法把不满足傅里叶变换条件的【连续信号】从时域变换到频域。
@@ -131,7 +131,7 @@ from http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf
 
 ### 螺旋 CT 成像
 
-[连原子都能看清的 CT 成像 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1w54y1R7LT)
+[连原子都能看清的 CT 成像 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1w54y1R7LT)
 
 {% include image.html url="/images/fourier-transform/20201006194100.png" %}
 
@@ -221,7 +221,7 @@ if __name__ == "__main__":
 
 ## 参考
 
-- [1] [bilibili {% include relref_svgbili.html %}](https://space.bilibili.com/230105574/channel/detail?cid=67768)
+- [1] [bilibili {% include relref_bili.html %}](https://space.bilibili.com/230105574/channel/detail?cid=67768)
 - [2] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
 - [3] [公式图形实时显示](https://www.desmos.com/calculator)
 - [4] [频域高通高斯滤波和拉普拉斯滤波](https://blog.csdn.net/baidu_41902768/article/details/95936591)

@@ -206,7 +206,7 @@ glslcanvas:
 
 ## 参考
 
-- [1] [bilibili {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1tx41147Tx)
+- [1] [bilibili {% include relref_bili.html %}](https://www.bilibili.com/video/BV1tx41147Tx)
 - [2] [标题自动编号](https://www.cnblogs.com/36bian/p/7609304.html)
 - [3] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
 - [4] GITHUB 数学公式展开：<https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima>

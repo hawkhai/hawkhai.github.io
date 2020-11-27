@@ -31,7 +31,7 @@ glslcanvas:
 {% include image.html url="/images/OpenGL-GLSL/faa27c0e4a3a4b7eb3436c016ce606f1.jpeg"
 caption= "利用 gpu 渲染一个巨人的图像" %}
 
-[计算机图形学 OPENGL 入门 {% include relref_svgbili.html %}](https://www.bilibili.com/video/BV1px41197A5)
+[计算机图形学 OPENGL 入门 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1px41197A5)
 
 <https://ke.qq.com/course/package/25480?flowToken=1019441>
 
