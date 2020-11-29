@@ -407,6 +407,7 @@ def mainfilew(fpath, fname, ftype):
 
 def main():
     print(parsePythonCmdx(__file__))
+    removedirTimeout("tempdir")
     searchdir(".", mainfilew, ignorelistMore=(
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
         "Debug", "Release", ".vs",))
