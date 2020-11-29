@@ -20,6 +20,13 @@ glslcanvas:
 本文源码 <a href="{% include relref.html url="/source/shader/shaderdemo.cpp" %}" target="_blank">shaderdemo.cpp</a>
 
 
+## 课程
+
+<https://www.uni-marburg.de/en/fb12/research-groups/grafikmultimedia/lectures/graphics>
+
+<https://www.mathematik.uni-marburg.de/~thormae/lectures/graphics1/graphics_9_1_eng_web.html>
+
+
 ## 历史
 
 1988 年 5 月，Pixar 公布了第三版 RenderMan 规范，将「着色器」的使用推广到了我们目前所知的各大应用领域。
