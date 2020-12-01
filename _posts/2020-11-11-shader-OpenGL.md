@@ -45,22 +45,34 @@ caption= "利用 gpu 渲染一个巨人的图像" %}
 <https://learnopengl-cn.github.io/>
 
 
-## P1 状态机上下文 & 软件环境
+## Others
+
+<https://www.colourso.top/opengl-setup/>
+
+<https://github.com/Groovounet/ogl-samples>
+
+<https://github.com/SaschaWillems/openglcpp.git>
+
+
+## 第一课
+
+
+### 状态机上下文软件环境
 
 状态机：当前绘制状态、光照设置、纹理设置、材质设置。
 
 
-## P2 GLFW 窗口
+### GLFW 窗口
 
 生成窗口，支持 OpenGL 上下文。
 
 
-## P3 GLAD
+### GLAD
 
 用户画图。
 
 
-## P4 顶点数组对象 VAO 顶点缓冲对象 VBO
+### 顶点数组对象 VAO 顶点缓冲对象 VBO
 
 * 顶点数组对象：Vertex Array Object，VAO
 * 顶点缓冲对象：Vertex Buffer Object，VBO
@@ -71,7 +83,7 @@ caption= "利用 gpu 渲染一个巨人的图像" %}
 {% include image.html url="/images/OpenGL-GLSL/20201112141055.png" %}
 
 
-## P5 FragmentShader 片段着色器
+### FragmentShader 片段着色器
 
 1. 将着色器源码存入字符串
 2. 创建着色器对象
@@ -82,24 +94,117 @@ caption= "利用 gpu 渲染一个巨人的图像" %}
 7. 链接生成程序
 
 
-## P6 VertexShader 顶点着色器
+### VertexShader 顶点着色器
 
 
-## P7 索引缓冲对象 EBO
+### 索引缓冲对象 EBO
 
 
-## P8 GLSL 数据传输
+### GLSL 数据传输
 
 
-## 一个 VAO 对应多个 VBO
-
-{% include image.html url="/images/OpenGL-GLSL/20201119170155.png" %}
-{% include image.html url="/images/OpenGL-GLSL/v2-2f7beaffce2851a26a5bcba77e29120a_720w.jpg" %}
+### VBO 中存放多种属性
 
 
-## todo
+### 一个 VAO 对应多个 VBO
 
-类封装。
+<https://github.com/SaschaWillems/openglcpp/blob/master/instancing/glRenderer.cpp>
+
+<https://www.cnblogs.com/Anita9002/p/4978299.html>
+
+<https://www.uiimage.com/post/blog/opengl-es/opengl-es-2-draw-a-triangle/>
+
+```cpp
+// Default VAO needed for OpenGL 3.3+ core profiles
+void setVertexEnv() {
+    float vertices[] = {
+        -0.5f, -0.5f, 0.0f, // left, down
+        0.5f, -0.5f, 0.0f,  // right, down
+        -0.5f, 0.5f, 0.0f,  // left, top
+    };
+    float colors[] = {
+        1, 0, 0, // left, down
+        0, 1, 0, // right, down
+        0, 0, 1, // left, top
+    };
+
+    unsigned int VAO; // VAO: vertex array object
+    unsigned int VBO[2]; // VBO: vertex buffer object
+
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(2, VBO);
+
+    // 绑定当前上下文
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(1);
+}
+```
+
+
+## 第二课
+
+
+### shader 类封装
+
+
+### 加载显示纹理
+
+
+### 纹理过滤
+
+
+### 纹理单元
+
+
+### 齐次坐标
+
+
+### 线性代数基础：三维里沿着 x 轴旋转
+
+
+### 线性代数基础：变换
+
+
+### glm
+
+
+### 缩放旋转位移顺序问题
+
+
+### 坐标系统
+
+
+## 第三课
+
+
+### 坐标系实例
+
+
+### 立方体
+
+
+### 摄像机
+
+
+### LookAt
+
+
+### 摄像机 WASD 空指
+
+
+### 摄像机旋转缩放
+
+
+### 代码整理 Camera 封装
 
 
 ## 运行结果

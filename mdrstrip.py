@@ -411,7 +411,7 @@ def main():
     clearemptydir("tempdir")
     searchdir(".", mainfilew, ignorelistMore=(
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
-        "Debug", "Release", ".vs",))
+        "Debug", "Release", ".vs", "openglcpp",))
     global g_cschar
     global g_tpset
 
