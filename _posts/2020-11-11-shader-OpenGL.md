@@ -19,12 +19,17 @@ glslcanvas:
 
 本文源码 <a href="{% include relref.html url="/source/shader/shaderdemo.cpp" %}" target="_blank">shaderdemo.cpp</a>
 
+    * 课程完整源码：<https://github.com/hawkhai/LearnOpenGL.git>
+    * 用到得第三方库：<https://gitee.com/hawkhai/opengl-3rd.git>
 
-## 课程
+
+## uni-marburg.de 课程
 
 <https://www.uni-marburg.de/en/fb12/research-groups/grafikmultimedia/lectures/graphics>
 
 <https://www.mathematik.uni-marburg.de/~thormae/lectures/graphics1/graphics_9_1_eng_web.html>
+
+[OpenGL Step by Step - OpenGL Development](http://ogldev.atspace.co.uk/index.html)
 
 
 ## 历史
@@ -47,72 +52,67 @@ caption= "利用 gpu 渲染一个巨人的图像" %}
 
 ## Others
 
+一个相对非常完整得例子代码：<https://github.com/bingxue102685/LearnOpenGL.git>
+
 <https://www.colourso.top/opengl-setup/>
 
 <https://github.com/Groovounet/ogl-samples>
 
 <https://github.com/SaschaWillems/openglcpp.git>
 
+- __imp__vsnprintf
+
+错误 LNK2019 无法解析的外部符号 \_\_imp\_\_vsnprintf，该符号在函数 \_\_glfwInputError 中被引用 LearnOpenGL E:\kSource\LearnOpenGLk\LearnOpenGL\glfw3.lib(init.obj) 1
+
+原因：问题是 glfw 静态 libs 是用与您正在使用的版本不同的 visual studio 版本构建的。
+> 你也可以添加一个额外的库到你的链接器输入，即 legacy_stdio_definitions.lib。进入“属性”>“链接器”>“输入”。在其他依赖项中添加上面提到的库。<https://zgserver.com/parsing-6.html>
+
 
 ## 第一课
 
-
-### 状态机上下文软件环境
+- 状态机上下文软件环境
 
 状态机：当前绘制状态、光照设置、纹理设置、材质设置。
 
-
-### GLFW 窗口
+- GLFW 窗口
 
 生成窗口，支持 OpenGL 上下文。
 
-
-### GLAD
+- GLAD
 
 用户画图。
 
+- 顶点数组对象 VAO 顶点缓冲对象 VBO
 
-### 顶点数组对象 VAO 顶点缓冲对象 VBO
-
-* 顶点数组对象：Vertex Array Object，VAO
-* 顶点缓冲对象：Vertex Buffer Object，VBO
-* 索引缓冲对象：Element Buffer Object，EBO 或 Index Buffer Object，IBO
+    * 顶点数组对象：Vertex Array Object，VAO
+    * 顶点缓冲对象：Vertex Buffer Object，VBO
+    * 索引缓冲对象：Element Buffer Object，EBO 或 Index Buffer Object，IBO
 
 输入：3D 坐标；输出：2D 像素。
 
 {% include image.html url="/images/OpenGL-GLSL/20201112141055.png" %}
 
+- FragmentShader 片段着色器
 
-### FragmentShader 片段着色器
+    1. 将着色器源码存入字符串
+    2. 创建着色器对象
+    3. 将源码字符串赋予着色器对象
+    4. 编译着色器
+    5. 创建着色器程序对象
+    6. 将编译好的着色器附加到程序对象上
+    7. 链接生成程序
 
-1. 将着色器源码存入字符串
-2. 创建着色器对象
-3. 将源码字符串赋予着色器对象
-4. 编译着色器
-5. 创建着色器程序对象
-6. 将编译好的着色器附加到程序对象上
-7. 链接生成程序
+- VertexShader 顶点着色器
 
+- 索引缓冲对象 EBO
 
-### VertexShader 顶点着色器
+- GLSL 数据传输
 
+- VBO 中存放多种属性
 
-### 索引缓冲对象 EBO
+- 一个 VAO 对应多个 VBO
 
-
-### GLSL 数据传输
-
-
-### VBO 中存放多种属性
-
-
-### 一个 VAO 对应多个 VBO
-
-<https://github.com/SaschaWillems/openglcpp/blob/master/instancing/glRenderer.cpp>
-
-<https://www.cnblogs.com/Anita9002/p/4978299.html>
-
-<https://www.uiimage.com/post/blog/opengl-es/opengl-es-2-draw-a-triangle/>
+[OpenGL ES in iOS - 2. 画一个三角形](https://www.uiimage.com/post/blog/opengl-es/opengl-es-2-draw-a-triangle/)
 
 ```cpp
 // Default VAO needed for OpenGL 3.3+ core profiles
@@ -152,61 +152,46 @@ void setVertexEnv() {
 
 ## 第二课
 
+- shader 类封装
 
-### shader 类封装
+- 加载显示纹理
 
+- 纹理过滤
 
-### 加载显示纹理
+- 纹理单元
 
+- 齐次坐标
 
-### 纹理过滤
+- 线性代数基础：三维里沿着 x 轴旋转
 
+- 线性代数基础：变换
 
-### 纹理单元
+- glm
 
+- 缩放旋转位移顺序问题
 
-### 齐次坐标
-
-
-### 线性代数基础：三维里沿着 x 轴旋转
-
-
-### 线性代数基础：变换
-
-
-### glm
-
-
-### 缩放旋转位移顺序问题
-
-
-### 坐标系统
+- 坐标系统
 
 
 ## 第三课
 
+- 坐标系实例
 
-### 坐标系实例
+- 立方体
 
+- 摄像机
 
-### 立方体
+- LookAt
 
+- 摄像机 WASD 空指
 
-### 摄像机
+- 摄像机旋转缩放
 
-
-### LookAt
-
-
-### 摄像机 WASD 空指
-
-
-### 摄像机旋转缩放
-
-
-### 代码整理 Camera 封装
+- 代码整理 Camera 封装
 
 
 ## 运行结果
 
-{% include image.html url="/images/OpenGL-GLSL/20201112210930.png" %}
+相机源码：<https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/1.getting_started/7.4.camera_class/camera_class.cpp>
+
+{% include image.html url="/images/OpenGL-GLSL/boxtest.gif" %}
