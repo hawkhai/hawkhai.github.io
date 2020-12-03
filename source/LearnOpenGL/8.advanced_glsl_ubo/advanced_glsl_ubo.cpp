@@ -1,6 +1,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <stb_image.h>
+
+//#define STB_IMAGE_STATIC
+//#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -72,12 +75,14 @@ int main()
     // -----------------------------
     glEnable(GL_DEPTH_TEST);
 
+#define RES_PATH "8.advanced_glsl_ubo\\"
+
     // build and compile shaders
     // -------------------------
-    Shader shaderRed("8.advanced_glsl.vs", "8.red.fs");
-    Shader shaderGreen("8.advanced_glsl.vs", "8.green.fs");
-    Shader shaderBlue("8.advanced_glsl.vs", "8.blue.fs");
-    Shader shaderYellow("8.advanced_glsl.vs", "8.yellow.fs");
+    Shader shaderRed(RES_PATH"8.advanced_glsl.vs", RES_PATH"8.red.fs");
+    Shader shaderGreen(RES_PATH"8.advanced_glsl.vs", RES_PATH"8.green.fs");
+    Shader shaderBlue(RES_PATH"8.advanced_glsl.vs", RES_PATH"8.blue.fs");
+    Shader shaderYellow(RES_PATH"8.advanced_glsl.vs", RES_PATH"8.yellow.fs");
     
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
