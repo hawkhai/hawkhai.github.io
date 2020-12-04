@@ -19,8 +19,10 @@ glslcanvas:
 
 本文源码 <a href="{% include relref.html url="/source/shader/shaderdemo.cpp" %}" target="_blank">shaderdemo.cpp</a>
 
+* 相关代码
+
     * 课程完整源码：<https://github.com/hawkhai/LearnOpenGL.git>
-    * 用到得第三方库：<https://gitee.com/hawkhai/opengl-3rd.git>
+    * 用到第三方库：<https://gitee.com/hawkhai/opengl-3rd.git>
 
 
 ## uni-marburg.de 课程
@@ -52,13 +54,44 @@ caption= "利用 gpu 渲染一个巨人的图像" %}
 
 ## Others
 
-一个相对非常完整得例子代码：<https://github.com/bingxue102685/LearnOpenGL.git>
+- 包含部分第三方库：<https://github.com/Groovounet/ogl-samples>
 
-<https://www.colourso.top/opengl-setup/>
+- 几个完整得范例：<https://github.com/hawkhai/openglcpp.git>
 
-<https://github.com/Groovounet/ogl-samples>
+    * computeShaderParticleSystem.vcxproj / computeShader.sln
+        * OpenGL Compute Shader Particle System
+        * \#define GL_COMPUTE_SHADER 0x91B9
+        * \#define GL_VERTEX_SHADER 0x8B31
+        * \#define GL_FRAGMENT_SHADER 0x8B30
+        * This compute shader implements a very basic attraction based particle system that changes velocities to move the particles towards the target position.
+        * 40 帧，2048 个粒子，CPU & GPU 都能大概控制在 5%。
+        * 平常我们使用的 Shader 有顶点着色器、几何着色器、片段着色器，这几个都是为光栅化图形渲染服务的，**OpenGL 4.3（发布日期：2012 年 8 月 6 日）**之后新出了一个 Compute Shader，用于通用计算并行加速。[link](https://www.cnblogs.com/chen9510/p/12000320.html)
+        * OpenGL ES 3.1 使用计算着色器（Compute Shader）[link](https://blog.csdn.net/qq_39561000/article/details/103112147)
 
-<https://github.com/SaschaWillems/openglcpp.git>
+    * ?eglExample.vcxproj / eglExample.sln
+        * [Using OpenGL ES on windows desktops via EGL](https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/)
+        * [SimpleGL Example](https://wiki.maemo.org/SimpleGL_example)
+        * [OpenGL ES EGL 简介 -- 完整的一个文档用例](https://blog.csdn.net/iEearth/article/details/71180457)
+        * [EGL 1.5 implementation for Windows and X11 supporting OpenGL.](https://github.com/McNopper/EGL)
+
+    * geometryShaderSimple.vcxproj / geometryShader.sln
+        * This geometry shader takes a single GL_POINT as input and generates triangles for a complete circle.
+
+    * ?instancing.vcxproj
+
+    * ?raypicking.vcxproj / raypicking.sln
+
+    * ?SPIRVShader.vcxproj / SPIRVShader.sln
+
+    * triangle.vcxproj / triangle.sln
+        * OpenGL example - Indexed triangle rendering
+        * <https://learnopengl-cn.github.io/04%20Advanced%20OpenGL/08%20Advanced%20GLSL/#uniform>
+        * [Unform Buffer Objecct(UBO)](https://www.cnblogs.com/chen9510/p/11447292.html)
+        * [Uniform Buffer Object](https://www.khronos.org/opengl/wiki/Uniform_Buffer_Object)
+        * error LNK2019: 无法解析的外部符号 _stbi_load -> 需要在 #include <stb_image.h> 前增加一句 #define STB_IMAGE_IMPLEMENTATION。
+
+{% include image.html url="/images/OpenGL-GLSL/ComputeShaderParticleSystem.gif" %}
+{% include image.html url="/images/OpenGL-GLSL/20201203151447.png" %}
 
 - __imp__vsnprintf
 
@@ -72,15 +105,15 @@ caption= "利用 gpu 渲染一个巨人的图像" %}
 
 - 状态机上下文软件环境
 
-状态机：当前绘制状态、光照设置、纹理设置、材质设置。
+    状态机：当前绘制状态、光照设置、纹理设置、材质设置。
 
 - GLFW 窗口
 
-生成窗口，支持 OpenGL 上下文。
+    生成窗口，支持 OpenGL 上下文。
 
 - GLAD
 
-用户画图。
+    用户画图。
 
 - 顶点数组对象 VAO 顶点缓冲对象 VBO
 
@@ -88,7 +121,7 @@ caption= "利用 gpu 渲染一个巨人的图像" %}
     * 顶点缓冲对象：Vertex Buffer Object，VBO
     * 索引缓冲对象：Element Buffer Object，EBO 或 Index Buffer Object，IBO
 
-输入：3D 坐标；输出：2D 像素。
+    输入：3D 坐标；输出：2D 像素。
 
 {% include image.html url="/images/OpenGL-GLSL/20201112141055.png" %}
 
@@ -105,6 +138,15 @@ caption= "利用 gpu 渲染一个巨人的图像" %}
 - VertexShader 顶点着色器
 
 - 索引缓冲对象 EBO
+
+    其中在渲染的时候有多重的组合方式：
+
+    VBO / VAO / EBO
+
+    建议使用顶点缓冲区，但是是否索引可以参考他们的优劣：
+
+    * `glDrawArrays` 传输或指定的数据是最终的真实数据，在绘制时效能更好
+    * `glDrawElements` 指定的是真实数据的调用索引，在内存 / 显存占用上更节省
 
 - GLSL 数据传输
 

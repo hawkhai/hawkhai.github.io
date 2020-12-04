@@ -79,6 +79,8 @@ l2dwidget
 
     kvmap = {}
     for line in li:
+        if len(line.split(":", 1)) == 1:
+            print(fpath)
         key, value = line.split(":", 1)
         key, value = key.strip(), value.strip()
         value = formatValue(value)
@@ -113,7 +115,7 @@ def mainxkeyfile(fpath, fname, ftype):
 
 def mainxkey():
     print("***" * 30)
-    searchdir(".", mainxkeyfile, ignorelistMore=("backup", "_site", "_drafts"))
+    searchdir(".", mainxkeyfile, ignorelistMore=("backup", "_site", "_drafts", "opengl-3rd"))
 
     headnote = []
     for key in gkvmap.keys():
