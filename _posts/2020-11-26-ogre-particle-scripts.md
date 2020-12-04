@@ -124,7 +124,7 @@ format: renderer &lt;renderer\_name&gt;<br> default: billboard<br>
 
 By default, particles are not sorted. By setting this attribute to ’true’, the particles will be sorted with respect to the camera, furthest first. This can make certain rendering effects look better at a small sorting expense.
 
-format: sorted &lt;true|false&gt;<br> default: false<br>
+format: sorted &lt;true\|false&gt;<br> default: false<br>
 
 <a name="particle_005flocalspace"></a><a name="local_005fspace"></a>
 
@@ -133,7 +133,7 @@ format: sorted &lt;true|false&gt;<br> default: false<br>
 
 By default, particles are emitted into world space, such that if you transform the node to which the system is attached, it will not affect the particles (only the emitters). This tends to give the normal expected behaviour, which is to model how real world particles travel independently from the objects they are emitted from. However, to create some effects you may want the particles to remain attached to the local space the emitter is in and to follow them directly. This option allows you to do that.
 
-format: local\_space &lt;true|false&gt;<br> default: false<br>
+format: local\_space &lt;true\|false&gt;<br> default: false<br>
 
 <a name="billboard_005ftype"></a><a name="billboard_005ftype-1"></a>
 
@@ -142,7 +142,7 @@ format: local\_space &lt;true|false&gt;<br> default: false<br>
 
 This is actually an attribute of the ’billboard’ particle renderer (the default), and is an example of passing attributes to a particle renderer by declaring them directly within the system declaration. Particles using the default renderer are rendered using billboards, which are rectangles formed by 2 triangles which rotate to face the given direction. However, there is more than 1 way to orient a billboard. The classic approach is for the billboard to directly face the camera: this is the default behaviour. However this arrangement only looks good for particles which are representing something vaguely spherical like a light flare. For more linear effects like laser fire, you actually want the particle to have an orientation of it’s own.
 
-format: billboard\_type &lt;point|oriented\_common|oriented\_self|perpendicular\_common|perpendicular\_self&gt;<br> example: billboard\_type oriented\_self<br> default: point<br>
+format: billboard\_type &lt;point\|oriented\_common\|oriented\_self\|perpendicular\_common\|perpendicular\_self&gt;<br> example: billboard\_type oriented\_self<br> default: point<br>
 
 The options for this parameter are:
 
@@ -151,7 +151,7 @@ The options for this parameter are:
 
 The default arrangement, this approximates spherical particles and the billboards always fully face the camera.
 
-</dd> <dt>oriented\_common</dt> <dd>
+</dd> <dt>oriented_common</dt> <dd>
 
 Particles are oriented around a common, typically fixed direction vector (see [common\_direction](#common_005fdirection)), which acts as their local Y axis. The billboard rotates only around this axis, giving the particle some sense of direction. Good for rainstorms, starfields etc where the particles will traveling in one direction - this is slightly faster than oriented\_self (see below).
 
