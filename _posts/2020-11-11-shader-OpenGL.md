@@ -67,13 +67,22 @@ caption= "利用 gpu 渲染一个巨人的图像" %}
         * 40 帧，2048 个粒子，CPU & GPU 都能大概控制在 5%。
         * 平常我们使用的 Shader 有顶点着色器、几何着色器、片段着色器，这几个都是为光栅化图形渲染服务的，**OpenGL 4.3（发布日期：2012 年 8 月 6 日）**之后新出了一个 Compute Shader，用于通用计算并行加速。[link](https://www.cnblogs.com/chen9510/p/12000320.html)
         * OpenGL ES 3.1 使用计算着色器（Compute Shader）[link](https://blog.csdn.net/qq_39561000/article/details/103112147)
+
     * ?eglExample.vcxproj / eglExample.sln
         * [Using OpenGL ES on windows desktops via EGL](https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/)
+        * [SimpleGL Example](https://wiki.maemo.org/SimpleGL_example)
+        * [OpenGL ES EGL 简介 -- 完整的一个文档用例](https://blog.csdn.net/iEearth/article/details/71180457)
+        * [EGL 1.5 implementation for Windows and X11 supporting OpenGL.](https://github.com/McNopper/EGL)
+
     * geometryShaderSimple.vcxproj / geometryShader.sln
         * This geometry shader takes a single GL_POINT as input and generates triangles for a complete circle.
+
     * ?instancing.vcxproj
+
     * ?raypicking.vcxproj / raypicking.sln
+
     * ?SPIRVShader.vcxproj / SPIRVShader.sln
+
     * triangle.vcxproj / triangle.sln
         * OpenGL example - Indexed triangle rendering
         * <https://learnopengl-cn.github.io/04%20Advanced%20OpenGL/08%20Advanced%20GLSL/#uniform>
