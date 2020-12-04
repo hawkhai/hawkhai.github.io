@@ -65,9 +65,10 @@ caption= "利用 gpu 渲染一个巨人的图像" %}
         * \#define GL_FRAGMENT_SHADER 0x8B30
         * This compute shader implements a very basic attraction based particle system that changes velocities to move the particles towards the target position.
         * 40 帧，2048 个粒子，CPU & GPU 都能大概控制在 5%。
-        * 平常我们使用的 Shader 有顶点着色器、几何着色器、片段着色器，这几个都是为光栅化图形渲染服务的，OpenGL 4.3（发布日期：2012 年 8 月 6 日）之后新出了一个 Compute Shader，用于通用计算并行加速。[link](https://www.cnblogs.com/chen9510/p/12000320.html)
+        * 平常我们使用的 Shader 有顶点着色器、几何着色器、片段着色器，这几个都是为光栅化图形渲染服务的，**OpenGL 4.3（发布日期：2012 年 8 月 6 日）**之后新出了一个 Compute Shader，用于通用计算并行加速。[link](https://www.cnblogs.com/chen9510/p/12000320.html)
         * OpenGL ES 3.1 使用计算着色器（Compute Shader）[link](https://blog.csdn.net/qq_39561000/article/details/103112147)
     * ?eglExample.vcxproj / eglExample.sln
+        * [Using OpenGL ES on windows desktops via EGL](https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/)
     * geometryShaderSimple.vcxproj / geometryShader.sln
         * This geometry shader takes a single GL_POINT as input and generates triangles for a complete circle.
     * ?instancing.vcxproj
