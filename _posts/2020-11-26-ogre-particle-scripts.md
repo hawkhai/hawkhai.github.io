@@ -155,15 +155,15 @@ The default arrangement, this approximates spherical particles and the billboard
 
 Particles are oriented around a common, typically fixed direction vector (see [common\_direction](#common_005fdirection)), which acts as their local Y axis. The billboard rotates only around this axis, giving the particle some sense of direction. Good for rainstorms, starfields etc where the particles will traveling in one direction - this is slightly faster than oriented\_self (see below).
 
-</dd> <dt>oriented\_self</dt> <dd>
+</dd> <dt>oriented_self</dt> <dd>
 
 Particles are oriented around their own direction vector, which acts as their local Y axis. As the particle changes direction, so the billboard reorients itself to face this way. Good for laser fire, fireworks and other ’streaky’ particles that should look like they are traveling in their own direction.
 
-</dd> <dt>perpendicular\_common</dt> <dd>
+</dd> <dt>perpendicular_common</dt> <dd>
 
 Particles are perpendicular to a common, typically fixed direction vector (see [common\_direction](#common_005fdirection)), which acts as their local Z axis, and their local Y axis coplanar with common direction and the common up vector (see [common\_up\_vector](#common_005fup_005fvector)). The billboard never rotates to face the camera, you might use double-side material to ensure particles never culled by back-facing. Good for aureolas, rings etc where the particles will perpendicular to the ground - this is slightly faster than perpendicular\_self (see below).
 
-</dd> <dt>perpendicular\_self</dt> <dd>
+</dd> <dt>perpendicular_self</dt> <dd>
 
 Particles are perpendicular to their own direction vector, which acts as their local Z axis, and their local Y axis coplanar with their own direction vector and the common up vector (see [common\_up\_vector](#common_005fup_005fvector)). The billboard never rotates to face the camera, you might use double-side material to ensure particles never culled by back-facing. Good for rings stack etc where the particles will perpendicular to their traveling direction.
 
@@ -174,24 +174,24 @@ Particles are perpendicular to their own direction vector, which acts as their l
 
 Specifying the point which acts as the origin point for all billboard particles, controls the fine tuning of where a billboard particle appears in relation to it’s position.
 
-format: billboard\_origin &lt;top\_left|top\_center|top\_right|center\_left|center|center\_right|bottom\_left|bottom\_center|bottom\_right&gt;<br> example: billboard\_origin top\_right<br> default: center<br>
+format: billboard\_origin &lt;top\_left\|top\_center\|top\_right\|center\_left\|center\|center\_right\|bottom\_left\|bottom\_center\|bottom\_right&gt;<br> example: billboard\_origin top\_right<br> default: center<br>
 
 The options for this parameter are:
 
 <dl compact="compact">
-<dt>top\_left</dt> <dd>
+<dt>top_left</dt> <dd>
 
 The billboard origin is the top-left corner.
 
-</dd> <dt>top\_center</dt> <dd>
+</dd> <dt>top_center</dt> <dd>
 
 The billboard origin is the center of top edge.
 
-</dd> <dt>top\_right</dt> <dd>
+</dd> <dt>top_right</dt> <dd>
 
 The billboard origin is the top-right corner.
 
-</dd> <dt>center\_left</dt> <dd>
+</dd> <dt>center_left</dt> <dd>
 
 The billboard origin is the center of left edge.
 
@@ -199,19 +199,19 @@ The billboard origin is the center of left edge.
 
 The billboard origin is the center.
 
-</dd> <dt>center\_right</dt> <dd>
+</dd> <dt>center_right</dt> <dd>
 
 The billboard origin is the center of right edge.
 
-</dd> <dt>bottom\_left</dt> <dd>
+</dd> <dt>bottom_left</dt> <dd>
 
 The billboard origin is the bottom-left corner.
 
-</dd> <dt>bottom\_center</dt> <dd>
+</dd> <dt>bottom_center</dt> <dd>
 
 The billboard origin is the center of bottom edge.
 
-</dd> <dt>bottom\_right</dt> <dd>
+</dd> <dt>bottom_right</dt> <dd>
 
 The billboard origin is the bottom-right corner.
 
@@ -222,7 +222,7 @@ The billboard origin is the bottom-right corner.
 
 By default, billboard particles will rotate the texture coordinates to according with particle rotation. But rotate texture coordinates has some disadvantage, e.g. the corners of the texture will lost after rotate, and the corners of the billboard will fill with unwanted texture area when using wrap address mode or sub-texture sampling. This settings allow you specifying other rotation type.
 
-format: billboard\_rotation\_type &lt;vertex|texcoord&gt;<br> example: billboard\_rotation\_type vertex<br> default: texcoord<br>
+format: billboard\_rotation\_type &lt;vertex\|texcoord&gt;<br> example: billboard\_rotation\_type vertex<br> default: texcoord<br>
 
 The options for this parameter are:
 
@@ -280,7 +280,7 @@ You will almost certainly want to enable in your material pass both point attenu
 
 This is actually an attribute of the ’billboard’ particle renderer (the default), and sets whether or not the BillboardSet will use a slower but more accurate calculation for facing the billboard to the camera. Bt default it uses the camera direction, which is faster but means the billboards don’t stay in the same orientation as you rotate the camera. The ’accurate\_facing true’ option makes the calculation based on a vector from each billboard to the camera, which means the orientation is constant even whilst the camera rotates.
 
-format: accurate\_facing on|off<br> default: accurate\_facing off 0<br>
+format: accurate\_facing on\|off<br> default: accurate\_facing off 0<br>
 
 <a name="iteration_005finterval"></a><a name="iteration_005finterval-1"></a>
 
@@ -555,15 +555,15 @@ This emitter emits particles from within an ellipsoid shaped area, i.e. a sphere
 This emitter is just like [Ellipsoid Emitter](#Ellipsoid-Emitter) except that there is a hollow area in the center of the ellipsoid from which no particles are emitted. Therefore it has 3 extra parameters in order to define this area:
 
 <dl compact="compact">
-<dt>inner\_width</dt> <dd>
+<dt>inner_width</dt> <dd>
 
 The width of the inner area which does not emit any particles.
 
-</dd> <dt>inner\_height</dt> <dd>
+</dd> <dt>inner_height</dt> <dd>
 
 The height of the inner area which does not emit any particles.
 
-</dd> <dt>inner\_depth</dt> <dd>
+</dd> <dt>inner_depth</dt> <dd>
 
 The depth of the inner area which does not emit any particles.
 
@@ -575,11 +575,11 @@ The depth of the inner area which does not emit any particles.
 This emitter emits particles from a ring-shaped area, i.e. a little like [Hollow Ellipsoid Emitter](#Hollow-Ellipsoid-Emitter) except only in 2 dimensions.
 
 <dl compact="compact">
-<dt>inner\_width</dt> <dd>
+<dt>inner_width</dt> <dd>
 
 The width of the inner area which does not emit any particles.
 
-</dd> <dt>inner\_height</dt> <dd>
+</dd> <dt>inner_height</dt> <dd>
 
 The height of the inner area which does not emit any particles.
 
@@ -593,7 +593,7 @@ See also: [Particle Scripts](#Particle-Scripts), [Particle Emitters](#Particle-E
 It is possible to spawn new emitters on the expiry of particles, for example to product ’firework’ style effects. This is controlled via the following directives:
 
 <dl compact="compact">
-<dt>emit\_emitter\_quota</dt> <dd>
+<dt>emit_emitter_quota</dt> <dd>
 
 This parameter is a system-level parameter telling the system how many emitted emitters may be in use at any one time. This is just to allow for the space allocation process.
 
@@ -601,7 +601,7 @@ This parameter is a system-level parameter telling the system how many emitted e
 
 This parameter is an emitter-level parameter, giving a name to an emitter. This can then be referred to in another emitter as the new emitter type to spawn when an emitted particle dies.
 
-</dd> <dt>emit\_emitter</dt> <dd>
+</dd> <dt>emit_emitter</dt> <dd>
 
 This is an emitter-level parameter, and if specified, it means that when particles emitted by this emitter die, they spawn a new emitter of the named type.
 
@@ -637,13 +637,13 @@ Ogre comes preconfigured with a few particle affectors. New ones can be added by
 This affector applies a force vector to all particles to modify their trajectory. Can be used for gravity, wind, or any other linear force. It’s extra attributes are:
 
 <dl compact="compact">
-<dt>force\_vector</dt> <dd>
+<dt>force_vector</dt> <dd>
 
 Sets the vector for the force to be applied to every particle. The magnitude of this vector determines how strong the force is.<br>     format: force\_vector &lt;x&gt; &lt;y&gt; &lt;z&gt;<br>     example: force\_vector 50 0 -50<br>     default: 0 -100 0 (a fair gravity effect)<br>
 
-</dd> <dt>force\_application</dt> <dd>
+</dd> <dt>force_application</dt> <dd>
 
-Sets the way in which the force vector is applied to particle momentum.<br>     format: force\_application &lt;add|average&gt;<br>     example: force\_application average<br>     default: add<br> The options are:
+Sets the way in which the force vector is applied to particle momentum.<br>     format: force\_application &lt;add\|average&gt;<br>     example: force\_application average<br>     default: add<br> The options are:
 
 <dl compact="compact">
 <dt>average</dt> <dd>
@@ -738,7 +738,7 @@ Sets the adjustment to be made to the blue component of the particle colour per 
 
 Sets the adjustment to be made to the alpha component of the particle colour per second for the second state.<br>     format: alpha &lt;delta\_value&gt;<br> example: alpha -0.1<br> default: 0<br>
 
-</dd> <dt>state\_change</dt> <dd>
+</dd> <dt>state_change</dt> <dd>
 
 When a particle has this much time left to live, it will switch to state 2.<br>     format: state\_change &lt;seconds&gt;<br> example: state\_change 2<br> default: 1<br>
 
@@ -780,19 +780,19 @@ affector Scaler
 This affector rotates particles in flight. This is done by rotating the texture. It’s extra attributes are:
 
 <dl compact="compact">
-<dt>rotation\_speed\_range\_start</dt> <dd>
+<dt>rotation_speed_range_start</dt> <dd>
 
 The start of a range of rotation speeds to be assigned to emitted particles.<br>     format: rotation\_speed\_range\_start &lt;degrees\_per\_second&gt;<br> example: rotation\_speed\_range\_start 90<br> default: 0<br>
 
-</dd> <dt>rotation\_speed\_range\_end</dt> <dd>
+</dd> <dt>rotation_speed_range_end</dt> <dd>
 
 The end of a range of rotation speeds to be assigned to emitted particles.<br>     format: rotation\_speed\_range\_end &lt;degrees\_per\_second&gt;<br> example: rotation\_speed\_range\_end 180<br> default: 0<br>
 
-</dd> <dt>rotation\_range\_start</dt> <dd>
+</dd> <dt>rotation_range_start</dt> <dd>
 
 The start of a range of rotation angles to be assigned to emitted particles.<br>     format: rotation\_range\_start &lt;degrees&gt;<br> example: rotation\_range\_start 0<br> default: 0<br>
 
-</dd> <dt>rotation\_range\_end</dt> <dd>
+</dd> <dt>rotation_range_end</dt> <dd>
 
 The end of a range of rotation angles to be assigned to emitted particles.<br>     format: rotation\_range\_end &lt;degrees&gt;<br> example: rotation\_range\_end 360<br> default: 0<br>
 
@@ -875,11 +875,11 @@ affector ColourImage
 This affector defines a plane which deflects particles which collide with it. The attributes are:
 
 <dl compact="compact">
-<dt>plane\_point</dt> <dd>
+<dt>plane_point</dt> <dd>
 
 A point on the deflector plane. Together with the normal vector it defines the plane.<br> default: plane\_point 0 0 0<br>
 
-</dd> <dt>plane\_normal</dt> <dd>
+</dd> <dt>plane_normal</dt> <dd>
 
 The normal vector of the deflector plane. Together with the point it defines the plane.<br> default: plane\_normal 0 1 0<br>
 
@@ -903,7 +903,7 @@ The amount of randomness to introduce in each axial direction.<br> example: rand
 
 The percentage of particles affected in each run of the affector.<br> example: scope 0.5<br> default: scope 1.0<br>
 
-</dd> <dt>keep\_velocity</dt> <dd>
+</dd> <dt>keep_velocity</dt> <dd>
 
 Determines whether the velocity of particles is unchanged.<br> example: keep\_velocity true<br> default: keep\_velocity false<br>
 

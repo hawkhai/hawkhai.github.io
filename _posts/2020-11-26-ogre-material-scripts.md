@@ -125,7 +125,7 @@ The above example would cause the material to use the best Technique at lod\_ind
 This attribute controls whether objects using this material can have shadows cast upon them.
 
 @par
-Format: receive\_shadows &lt;on|off&gt;<br> Default: on
+Format: receive\_shadows &lt;on\|off&gt;<br> Default: on
 
 Whether or not an object receives a shadow is the combination of a number of factors, See @ref Shadows for full details; however this allows you to make a material opt-out of receiving shadows if required. Note that transparent materials never receive shadows so this option only has an effect on solid materials.
 
@@ -137,7 +137,7 @@ Whether or not an object receives a shadow is the combination of a number of fac
 This attribute controls whether transparent materials can cast certain kinds of shadow.
 
 @par
-Format: transparency\_casts\_shadows &lt;on|off&gt;<br>
+Format: transparency\_casts\_shadows &lt;on\|off&gt;<br>
 Default: off
 
 Whether or not an object casts a shadow is the combination of a number of factors, See @ref Shadows for full details; however this allows you to make a transparent material cast shadows, when it would otherwise not. For example, when using texture shadows, transparent materials are normally not rendered into the shadow texture because they should not block light. This flag overrides that.
@@ -236,7 +236,7 @@ When using @ref Texture_002dbased-Shadows you can specify an alternate material 
 Although Ogre does a good job of detecting the capabilities of graphics cards and setting the supportability of techniques from that, occasionally card-specific behaviour exists which is not necessarily detectable and you may want to ensure that your materials go down a particular path to either use or avoid that behaviour. This is what these rules are for - you can specify matching rules so that a technique will be considered supportable only on cards from a particular vendor, or which match a device name pattern, or will be considered supported only if they **don’t** fulfil such matches. The format of the rules are as follows:
 
 @par
-gpu\_vendor\_rule &lt;include|exclude&gt; &lt;vendor\_name&gt;<br> gpu\_device\_rule &lt;include|exclude&gt; &lt;device\_pattern&gt; \[case\_sensitive\]
+gpu\_vendor\_rule &lt;include\|exclude&gt; &lt;vendor\_name&gt;<br> gpu\_device\_rule &lt;include\|exclude&gt; &lt;device\_pattern&gt; \[case\_sensitive\]
 
 An ’include’ rule means that the technique will only be supported if one of the include rules is matched (if no include rules are provided, anything will pass). An ’exclude’ rules means that the technique is considered unsupported if any of the exclude rules are matched. You can provide as many rules as you like, although &lt;vendor\_name&gt; and &lt;device\_pattern&gt; must obviously be unique. The valid list of &lt;vendor\_name&gt; values is currently ’nvidia’, ’ati’, ’intel’, ’s3’, ’matrox’ and ’3dlabs’. &lt;device\_pattern&gt; can be any string, and you can use wildcards (’\*’) if you need to match variants. Here’s an example:
 
@@ -312,7 +312,7 @@ Here are the attributes you can use in a ’pass’ section of a .material scrip
 Sets the ambient colour reflectance properties of this pass.
 
 @par
-Format: ambient (&lt;red&gt; &lt;green&gt; &lt;blue&gt; \[&lt;alpha&gt;\]| vertexcolour)<br> NB valid colour values are between 0.0 and 1.0.
+Format: ambient (&lt;red&gt; &lt;green&gt; &lt;blue&gt; \[&lt;alpha&gt;\]\| vertexcolour)<br> NB valid colour values are between 0.0 and 1.0.
 
 @copydetails Ogre::Pass::setAmbient
 @shaderparam
@@ -329,7 +329,7 @@ Default: ambient 1.0 1.0 1.0 1.0
 
 Sets the diffuse colour reflectance properties of this pass.
 @par
-Format: diffuse (&lt;red&gt; &lt;green&gt; &lt;blue&gt; \[&lt;alpha&gt;\]| vertexcolour)<br> NB valid colour values are between 0.0 and 1.0.
+Format: diffuse (&lt;red&gt; &lt;green&gt; &lt;blue&gt; \[&lt;alpha&gt;\]\| vertexcolour)<br> NB valid colour values are between 0.0 and 1.0.
 
 @copydetails Ogre::Pass::setDiffuse
 @shaderparam
@@ -346,7 +346,7 @@ Default: diffuse 1.0 1.0 1.0 1.0
 
 Sets the specular colour reflectance properties of this pass.
 @par
-Format: specular (&lt;red&gt; &lt;green&gt; &lt;blue&gt; \[&lt;alpha&gt;\]| vertexcolour) &lt;shininess&gt;<br> NB valid colour values are between 0.0 and 1.0. Shininess can be any value greater than 0.
+Format: specular (&lt;red&gt; &lt;green&gt; &lt;blue&gt; \[&lt;alpha&gt;\]\| vertexcolour) &lt;shininess&gt;<br> NB valid colour values are between 0.0 and 1.0. Shininess can be any value greater than 0.
 
 This property determines how much specular light (highlights from instances of the Light class in the scene) is reflected. The default is to reflect no specular light. The colour of the specular highlights is determined by the colour parameters, and the size of the highlights by the separate shininess parameter.
 It is also possible to make the specular reflectance track the vertex colour as defined in
@@ -369,7 +369,7 @@ Default: specular 0.0 0.0 0.0 0.0 0.0
 Sets the amount of self-illumination an object has.
 
 @par
-Format: emissive (&lt;red&gt; &lt;green&gt; &lt;blue&gt; \[&lt;alpha&gt;\]| vertexcolour)<br> NB valid colour values are between 0.0 and 1.0.
+Format: emissive (&lt;red&gt; &lt;green&gt; &lt;blue&gt; \[&lt;alpha&gt;\]\| vertexcolour)<br> NB valid colour values are between 0.0 and 1.0.
 
 Unlike the name suggests, this object doesn’t act as a light source for other objects in the scene (if you want it to, you have to create a light which is centered on the object).
 @copydetails Ogre::Pass::setSelfIllumination
@@ -480,7 +480,7 @@ Format: separate\_scene\_blend\_op &lt;colourOp&gt; &lt;alphaOp&gt; Default: sep
 
 Sets whether or not this pass renders with depth-buffer checking on or not.
 @par
-Format: depth\_check &lt;on|off&gt;
+Format: depth\_check &lt;on\|off&gt;
 
 @copydetails Ogre::Pass::setDepthCheckEnabled
 
@@ -494,7 +494,7 @@ Default: depth\_check on
 Sets whether or not this pass renders with depth-buffer writing on or not.
 
 @par
-Format: depth\_write &lt;on|off&gt;
+Format: depth\_write &lt;on\|off&gt;
 
 @copydetails Ogre::Pass::setDepthWriteEnabled
 
@@ -565,7 +565,7 @@ Default: alpha\_rejection always\_pass
 Sets whether this pass will use ’alpha to coverage’,
 
 @par
-Format: alpha\_to\_coverage &lt;on|off&gt;
+Format: alpha\_to\_coverage &lt;on\|off&gt;
 
 @copydetails Ogre::Pass::setAlphaToCoverageEnabled
 
@@ -579,7 +579,7 @@ Default: alpha\_to\_coverage off <a name="light_005fscissor"></a>
 
 Sets whether when rendering this pass, rendering will be limited to a screen-space scissor rectangle representing the coverage of the light(s) being used in this pass.
 @par
-Format: light\_scissor &lt;on|off&gt;
+Format: light\_scissor &lt;on\|off&gt;
 @par
 Default: light\_scissor off
 
@@ -592,7 +592,7 @@ Default: light\_scissor off
 
 Sets whether when rendering this pass, triangle setup will be limited to clipping volume covered by the light.
 @par
-Format: light\_clip\_planes &lt;on|off&gt;
+Format: light\_clip\_planes &lt;on\|off&gt;
 @par
 Default: light\_clip\_planes off
 
@@ -606,7 +606,7 @@ Default: light\_clip\_planes off
 @copydetails Ogre::Pass::setIlluminationStage
 
 @par
-Format: illumination\_stage &lt;ambient|per\_light|decal&gt; Default: none (autodetect)
+Format: illumination\_stage &lt;ambient\|per\_light\|decal&gt; Default: none (autodetect)
 
 <a name="normalise_005fnormals"></a><a name="normalise_005fnormals-1"></a>
 
@@ -615,7 +615,7 @@ Format: illumination\_stage &lt;ambient|per\_light|decal&gt; Default: none (auto
 
 Sets whether or not this pass renders with all vertex normals being automatically re-normalised.<br>
 @par
-Format: normalise\_normals &lt;on|off&gt;
+Format: normalise\_normals &lt;on\|off&gt;
 
 @copydetails Ogre::Pass::setNormaliseNormals
 
@@ -629,7 +629,7 @@ Default: normalise\_normals off<br>
 
 Sets if transparent textures should be sorted by depth or not.
 @par
-Format: transparent\_sorting &lt;on|off|force&gt;
+Format: transparent\_sorting &lt;on\|off\|force&gt;
 
 By default all transparent materials are sorted such that renderables furthest away from the camera are rendered first. This is usually the desired behaviour but in certain cases this depth sorting may be unnecessary and undesirable. If for example it is necessary to ensure the rendering order does not change from one frame to the next. In this case you could set the value to ’off’ to prevent sorting.
 
@@ -644,7 +644,7 @@ Default: transparent\_sorting on
 
 Sets the hardware culling mode for this pass.
 @par
-Format: cull\_hardware &lt;clockwise|anticlockwise|none&gt;
+Format: cull\_hardware &lt;clockwise\|anticlockwise\|none&gt;
 
 @copydetails Ogre::Pass::setCullingMode
 
@@ -658,7 +658,7 @@ Default: cull\_hardware clockwise<br> NB this is the same as OpenGL’s default 
 
 Sets the software culling mode for this pass.
 @par
-Format: cull\_software &lt;back|front|none&gt;
+Format: cull\_software &lt;back\|front\|none&gt;
 
 @copydetails Ogre::Pass::setManualCullingMode
 
@@ -673,7 +673,7 @@ Default: cull\_software back
 Sets whether or not dynamic lighting is turned on for this pass or not.
 
 @par
-Format: lighting &lt;on|off&gt;
+Format: lighting &lt;on\|off&gt;
 
 @copydetails Ogre::Pass::setLightingEnabled
 @par
@@ -703,7 +703,7 @@ Default: shading gouraud
 @copydetails Ogre::Pass::setPolygonMode
 
 @par
-Format: polygon_mode &lt;solid|wireframe|points&gt;
+Format: polygon_mode &lt;solid\|wireframe\|points&gt;
 
 @param mode one of Ogre::PolygonMode without the `PM_` prefix. E.g. `PM_SOLID` becomes `solid`.
 
@@ -757,9 +757,9 @@ Sets whether this pass renders with colour writing on or not. Alternatively, it 
 In the second format, the parameters are in the red, green, blue, alpha order.
 
 @par
-Format 1: colour\_write &lt;on|off&gt;
+Format 1: colour\_write &lt;on\|off&gt;
 @par
-Format 2: colour\_write &lt;on|off&gt; &lt;on|off&gt; &lt;on|off&gt; &lt;on|off&gt;
+Format 2: colour\_write &lt;on\|off&gt; &lt;on\|off&gt; &lt;on\|off&gt; &lt;on\|off&gt;
 
 @copydetails Ogre::Pass::setColourWriteEnabled
 
@@ -798,7 +798,7 @@ Default: max\_lights 8<br>
 
 Sets whether or not this pass is iterated, i.e. issued more than once.
 @par
-Format 1: iteration &lt;once | once\_per\_light&gt; \[lightType\] Format 2: iteration &lt;number&gt; \[&lt;per\_light&gt; \[lightType\]\]
+Format 1: iteration &lt;once \| once\_per\_light&gt; \[lightType\] Format 2: iteration &lt;number&gt; \[&lt;per\_light&gt; \[lightType\]\]
 @par
 Format 3: iteration &lt;number&gt; \[&lt;per\_n\_lights&gt; &lt;num\_lights&gt; \[lightType\]\] Examples:
 
@@ -807,7 +807,7 @@ Format 3: iteration &lt;number&gt; \[&lt;per\_n\_lights&gt; &lt;num\_lights&gt; 
 
 The pass is only executed once which is the default behaviour.
 
-</dd> <dt>iteration once\_per\_light point</dt> <dd>
+</dd> <dt>iteration once_per_light point</dt> <dd>
 
 The pass is executed once for each point light.
 
@@ -815,11 +815,11 @@ The pass is executed once for each point light.
 
 The render state for the pass will be setup and then the draw call will execute 5 times.
 
-</dd> <dt>iteration 5 per\_light point</dt> <dd>
+</dd> <dt>iteration 5 per_light point</dt> <dd>
 
 The render state for the pass will be setup and then the draw call will execute 5 times. This will be done for each point light.
 
-</dd> <dt>iteration 1 per\_n\_lights 2 point</dt> <dd>
+</dd> <dt>iteration 1 per_n_lights 2 point</dt> <dd>
 
 The render state for the pass will be setup and the draw call executed once for every 2 lights.
 
@@ -941,7 +941,7 @@ Format: point\_size &lt;size&gt; Default: point\_size 1.0
 @copydetails Ogre::Pass::setPointSpritesEnabled
 
 @par
-Format: point\_sprites &lt;on|off&gt; Default: point\_sprites off
+Format: point\_sprites &lt;on\|off&gt; Default: point\_sprites off
 
 <a name="point_005fsize_005fattenuation"></a><a name="point_005fsize_005fattenuation-1"></a>
 
@@ -1047,7 +1047,7 @@ Setting the texture alias name is useful if this material is to be inherited by 
 
 Sets the name of the static texture image this layer will use.
 @par
-Format: texture &lt;texturename&gt; \[&lt;type&gt;\] \[unlimited | numMipMaps\] \[alpha\] \[&lt;PixelFormat&gt;\] \[gamma\]
+Format: texture &lt;texturename&gt; \[&lt;type&gt;\] \[unlimited \| numMipMaps\] \[alpha\] \[&lt;PixelFormat&gt;\] \[gamma\]
 @par
 Example: texture funkywall.jpg
 
@@ -1117,14 +1117,14 @@ Default: none
 
 Sets the images used in a cubic texture, i.e. one made up of 6 individual images making up the faces of a cube or 1 cube texture if supported by the texture format(DDS for example) and rendersystem.. These kinds of textures are used for reflection maps (if hardware supports cubic reflection maps) or skyboxes. There are 2 formats, a brief format expecting image names of a particular format and a more flexible but longer format for arbitrarily named textures.
 @par
-Format1 (short): cubic\_texture &lt;base\_name&gt; &lt;combinedUVW|separateUV&gt;
+Format1 (short): cubic\_texture &lt;base\_name&gt; &lt;combinedUVW\|separateUV&gt;
 
 @deprecated use the format '`texture <basename> cubic`' instead
 
 The base\_name in this format is something like ’skybox.jpg’, and the system will expect you to provide skybox\_fr.jpg, skybox\_bk.jpg, skybox\_up.jpg, skybox\_dn.jpg, skybox\_lf.jpg, and skybox\_rt.jpg for the individual faces.
 
 @par
-Format2 (long): cubic\_texture &lt;front&gt; &lt;back&gt; &lt;left&gt; &lt;right&gt; &lt;up&gt; &lt;down&gt; &lt;combinedUVW|separateUV&gt;
+Format2 (long): cubic\_texture &lt;front&gt; &lt;back&gt; &lt;left&gt; &lt;right&gt; &lt;up&gt; &lt;down&gt; &lt;combinedUVW\|separateUV&gt;
 
 In this case each face is specified explicitly, incase you don’t want to conform to the image naming standards above. You can only use this for the separateUV version since the combinedUVW version requires a single texture name to be assigned to the combined 3D texture (see below).
 
@@ -1153,7 +1153,7 @@ The 6 textures are combined into a single ’cubic’ texture map which is then 
 
 @see @ref Vertex-Texture-Fetch
 
-Format: binding\_type &lt;vertex|fragment&gt;
+Format: binding\_type &lt;vertex\|fragment&gt;
 @par
 Default: binding\_type fragment
 
@@ -1274,7 +1274,7 @@ Format: alpha\_op\_ex &lt;op&gt; &lt;source1&gt; &lt;source2&gt; \[&lt;manualBle
 
 Turns on/off texture coordinate effect that makes this layer an environment map. @ffp_rtss_only
 @par
-Format: env\_map &lt;off|spherical|planar|cubic\_reflection|cubic\_normal&gt;
+Format: env\_map &lt;off\|spherical\|planar\|cubic\_reflection\|cubic\_normal&gt;
 
 Environment maps make an object look reflective by using automatic texture coordinate generation depending on the relationship between the objects vertices or normals and the eye.
 
@@ -1287,11 +1287,11 @@ A spherical environment map. Requires a single texture which is either a fish-ey
 
 Similar to the spherical environment map, but the effect is based on the position of the vertices in the viewport rather than vertex normals. This effect is therefore useful for planar geometry (where a spherical env\_map would not look good because the normals are all the same) or objects without normals.
 
-</dd> <dt>cubic\_reflection</dt> <dd>
+</dd> <dt>cubic_reflection</dt> <dd>
 
 A more advanced form of reflection mapping which uses a group of 6 textures making up the inside of a cube, each of which is a view if the scene down each axis. Works extremely well in all cases but has a higher technical requirement from the card than spherical mapping. Requires that you bind a [cubic\_texture](#cubic_005ftexture) to this texture unit and use the ’combinedUVW’ option.
 
-</dd> <dt>cubic\_normal</dt> <dd>
+</dd> <dt>cubic_normal</dt> <dd>
 
 Generates 3D texture coordinates containing the camera space normal vector from the normal information held in the vertex data. Again, full use of this feature requires a [cubic\_texture](#cubic_005ftexture) with the ’combinedUVW’ option.
 
@@ -1382,11 +1382,11 @@ Example: wave\_xform scale\_x sine 1.0 0.2 0.0 5.0
 
 ttype is one of
 <dl compact="compact">
-<dt>scroll\_x</dt> <dd>
+<dt>scroll_x</dt> <dd>
 
 Animate the u scroll value
 
-</dd> <dt>scroll\_y</dt> <dd>
+</dd> <dt>scroll_y</dt> <dd>
 
 Animate the v scroll value
 
@@ -1394,11 +1394,11 @@ Animate the v scroll value
 
 Animate the rotate value
 
-</dd> <dt>scale\_x</dt> <dd>
+</dd> <dt>scale_x</dt> <dd>
 
 Animate the u scale value
 
-</dd> <dt>scale\_y</dt> <dd>
+</dd> <dt>scale_y</dt> <dd>
 
 Animate the v scale value
 
@@ -1506,7 +1506,7 @@ Sets the type of texture filtering used when magnifying or minifying a texture. 
 With this format, you only need to provide a single parameter
 
 @par
-Format: filtering &lt;none|bilinear|trilinear|anisotropic&gt;<br> Default: filtering bilinear
+Format: filtering &lt;none\|bilinear\|trilinear\|anisotropic&gt;<br> Default: filtering bilinear
 
 <dl compact="compact">
 <dt>none</dt> <dd>
@@ -1606,19 +1606,19 @@ As you can see, that’s very simple, and defining a fragment or geometry progra
 The current supported syntaxes are:
 
 <dl compact="compact">
-<dt>vs\_1\_1</dt> <dd>
+<dt>vs_1_1</dt> <dd>
 
 This is one of the DirectX vertex shader assembler syntaxes. <br> Supported on cards from: ATI Radeon 8500, nVidia GeForce 3 <br>
 
-</dd> <dt>vs\_2\_0</dt> <dd>
+</dd> <dt>vs_2_0</dt> <dd>
 
 Another one of the DirectX vertex shader assembler syntaxes. <br> Supported on cards from: ATI Radeon 9600, nVidia GeForce FX 5 series <br>
 
-</dd> <dt>vs\_2\_x</dt> <dd>
+</dd> <dt>vs_2_x</dt> <dd>
 
 Another one of the DirectX vertex shader assembler syntaxes. <br> Supported on cards from: ATI Radeon X series, nVidia GeForce FX 6 series <br>
 
-</dd> <dt>vs\_3\_0</dt> <dd>
+</dd> <dt>vs_3_0</dt> <dd>
 
 Another one of the DirectX vertex shader assembler syntaxes. <br> Supported on cards from: ATI Radeon HD 2000+, nVidia GeForce FX 6 series
 
@@ -1638,27 +1638,27 @@ Another nVidia-specific OpenGL vertex shader syntax. It is a superset of vs 2.0,
 
 Another nVidia-specific OpenGL vertex shader syntax. It is a superset of vs 3.0, which is supported on nVidia GeForce FX 6 series and higher.
 
-</dd> <dt>ps\_1\_1, ps\_1\_2, ps\_1\_3</dt> <dd>
+</dd> <dt>ps_1_1, ps_1_2, ps_1_3</dt> <dd>
 
 DirectX pixel shader (i.e. fragment program) assembler syntax. <br> Supported on cards from: ATI Radeon 8500, nVidia GeForce 3 <br> @note for ATI 8500, 9000, 9100, 9200 hardware, this profile can also be used in OpenGL. The ATI 8500 to 9200 do not support arbfp1 but do support atifs extension in OpenGL which is very similar in function to ps\_1\_4 in DirectX. Ogre has a built in ps\_1\_x to atifs compiler that is automatically invoked when ps\_1\_x is used in OpenGL on ATI hardware.
 
-</dd> <dt>ps\_1\_4</dt> <dd>
+</dd> <dt>ps_1_4</dt> <dd>
 
 DirectX pixel shader (i.e. fragment program) assembler syntax. <br> Supported on cards from: ATI Radeon 8500, nVidia GeForce FX 5 series <br> @note for ATI 8500, 9000, 9100, 9200 hardware, this profile can also be used in OpenGL. The ATI 8500 to 9200 do not support arbfp1 but do support atifs extension in OpenGL which is very similar in function to ps\_1\_4 in DirectX. Ogre has a built in ps\_1\_x to atifs compiler that is automatically invoked when ps\_1\_x is used in OpenGL on ATI hardware.
 
-</dd> <dt>ps\_2\_0</dt> <dd>
+</dd> <dt>ps_2_0</dt> <dd>
 
 DirectX pixel shader (i.e. fragment program) assembler syntax. <br> Supported cards: ATI Radeon 9600, nVidia GeForce FX 5 series<br>
 
-</dd> <dt>ps\_2\_x</dt> <dd>
+</dd> <dt>ps_2_x</dt> <dd>
 
 DirectX pixel shader (i.e. fragment program) assembler syntax. This is basically ps\_2\_0 with a higher number of instructions. <br> Supported cards: ATI Radeon X series, nVidia GeForce FX 6 series<br>
 
-</dd> <dt>ps\_3\_0</dt> <dd>
+</dd> <dt>ps_3_0</dt> <dd>
 
 DirectX pixel shader (i.e. fragment program) assembler syntax. <br> Supported cards: ATI Radeon HD 2000+, nVidia GeForce FX6 series<br>
 
-</dd> <dt>ps\_3\_x</dt> <dd>
+</dd> <dt>ps_3_x</dt> <dd>
 
 DirectX pixel shader (i.e. fragment program) assembler syntax. <br> Supported cards: nVidia GeForce FX7 series<br>
 
@@ -1678,7 +1678,7 @@ Another nVidia-specific OpenGL fragment shader syntax. It is a superset of ps 2.
 
 Another nVidia-specific OpenGL fragment shader syntax. It is a superset of ps 3.0, which is supported on nVidia GeForce FX 6 series and higher.
 
-</dd> <dt>gpu\_gp, gp4\_gp</dt> <dd>
+</dd> <dt>gpu_gp, gp4_gp</dt> <dd>
 
 An nVidia-specific OpenGL geometry shader syntax. <br> Supported cards: nVidia GeForce FX8 series<br>
 
