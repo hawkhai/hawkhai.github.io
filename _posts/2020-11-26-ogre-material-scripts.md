@@ -839,81 +839,81 @@ Example: Simple Fur shader material script that uses a second pass with 10 itera
 // GLSL simple Fur
 vertex_program GLSLDemo/FurVS glsl
 {
-  source fur.vert
-  default_params
-  {
-    param_named_auto lightPosition light_position_object_space 0
-    param_named_auto eyePosition camera_position_object_space
-    param_named_auto passNumber pass_number
-    param_named_auto multiPassNumber pass_iteration_number
-    param_named furLength float 0.15
-  }
+    source fur.vert
+    default_params
+    {
+        param_named_auto lightPosition light_position_object_space 0
+        param_named_auto eyePosition camera_position_object_space
+        param_named_auto passNumber pass_number
+        param_named_auto multiPassNumber pass_iteration_number
+        param_named furLength float 0.15
+    }
 }
 
 fragment_program GLSLDemo/FurFS glsl
 {
-  source fur.frag
-  default_params
-  {
-    param_named Ka float 0.2
-    param_named Kd float 0.5
-    param_named Ks float 0.0
-    param_named furTU int 0
-  }
+    source fur.frag
+    default_params
+    {
+        param_named Ka float 0.2
+        param_named Kd float 0.5
+        param_named Ks float 0.0
+        param_named furTU int 0
+    }
 }
 
 material Fur
 {
-  technique GLSL
-  {
-    pass base_coat
+    technique GLSL
     {
-      ambient 0.7 0.7 0.7
-      diffuse 0.5 0.8 0.5
-      specular 1.0 1.0 1.0 1.5
+        pass base_coat
+        {
+            ambient 0.7 0.7 0.7
+            diffuse 0.5 0.8 0.5
+            specular 1.0 1.0 1.0 1.5
 
-      vertex_program_ref GLSLDemo/FurVS
-      {
-      }
+            vertex_program_ref GLSLDemo/FurVS
+            {
+            }
 
-      fragment_program_ref GLSLDemo/FurFS
-      {
-      }
+            fragment_program_ref GLSLDemo/FurFS
+            {
+            }
 
-      texture_unit
-      {
-        texture Fur.tga
-        tex_coord_set 0
-        filtering trilinear
-      }
+            texture_unit
+            {
+                texture Fur.tga
+                tex_coord_set 0
+                filtering trilinear
+            }
+        }
+
+        pass grow_fur
+        {
+            ambient 0.7 0.7 0.7
+            diffuse 0.8 1.0 0.8
+            specular 1.0 1.0 1.0 64
+            depth_write off
+
+            scene_blend src_alpha one
+            iteration 10
+
+            vertex_program_ref GLSLDemo/FurVS
+            {
+            }
+
+            fragment_program_ref GLSLDemo/FurFS
+            {
+            }
+
+            texture_unit
+            {
+                texture Fur.tga
+                tex_coord_set 0
+                filtering trilinear
+            }
+        }
     }
-
-    pass grow_fur
-    {
-      ambient 0.7 0.7 0.7
-      diffuse 0.8 1.0 0.8
-      specular 1.0 1.0 1.0 64
-      depth_write off
-
-      scene_blend src_alpha one
-      iteration 10
-
-      vertex_program_ref GLSLDemo/FurVS
-      {
-      }
-
-      fragment_program_ref GLSLDemo/FurFS
-      {
-      }
-
-      texture_unit
-      {
-        texture Fur.tga
-        tex_coord_set 0
-        filtering trilinear
-      }
-    }
-  }
 }
 ```
 
@@ -1767,16 +1767,16 @@ A specific texture unit state (TUS) can be given a unique name within a pass of 
 ```cpp
 material BumpMap2 : BumpMap1
 {
-  technique ati8500
-  {
-    pass 0
+    technique ati8500
     {
-      texture_unit NormalMap
-      {
-        texture BumpyMetalNM.png
-      }
+        pass 0
+        {
+            texture_unit NormalMap
+            {
+                texture BumpyMetalNM.png
+            }
+        }
     }
-  }
 }
 ```
 
@@ -1794,7 +1794,7 @@ Default: &lt;name&gt; will default to texture_unit &lt;name&gt; if set
 ```cpp
 texture_unit DiffuseTex
 {
-  texture diffuse.jpg
+    texture diffuse.jpg
 }
 ```
 
@@ -1805,101 +1805,101 @@ Example: The base material to be cloned:
 ```cpp
 material TSNormalSpecMapping
 {
-  technique GLSL
-  {
-    pass
+    technique GLSL
     {
-      ambient 0.1 0.1 0.1
-      diffuse 0.7 0.7 0.7
-      specular 0.7 0.7 0.7 128
+        pass
+        {
+            ambient 0.1 0.1 0.1
+            diffuse 0.7 0.7 0.7
+            specular 0.7 0.7 0.7 128
 
-      vertex_program_ref GLSLDemo/OffsetMappingVS
-      {
-        param_named_auto lightPosition light_position_object_space 0
-        param_named_auto eyePosition camera_position_object_space
-        param_named textureScale float 1.0
-      }
+            vertex_program_ref GLSLDemo/OffsetMappingVS
+            {
+                param_named_auto lightPosition light_position_object_space 0
+                param_named_auto eyePosition camera_position_object_space
+                param_named textureScale float 1.0
+            }
 
-      fragment_program_ref GLSLDemo/TSNormalSpecMappingFS
-      {
-        param_named normalMap int 0
-        param_named diffuseMap int 1
-        param_named fxMap int 2
-      }
+            fragment_program_ref GLSLDemo/TSNormalSpecMappingFS
+            {
+                param_named normalMap int 0
+                param_named diffuseMap int 1
+                param_named fxMap int 2
+            }
 
-      // Normal map
-      texture_unit NormalMap
-      {
-        texture defaultNM.png
-        tex_coord_set 0
-        filtering trilinear
-      }
+            // Normal map
+            texture_unit NormalMap
+            {
+                texture defaultNM.png
+                tex_coord_set 0
+                filtering trilinear
+            }
 
-      // Base diffuse texture map
-      texture_unit DiffuseMap
-      {
-        texture defaultDiff.png
-        filtering trilinear
-        tex_coord_set 1
-      }
+            // Base diffuse texture map
+            texture_unit DiffuseMap
+            {
+                texture defaultDiff.png
+                filtering trilinear
+                tex_coord_set 1
+            }
 
-      // spec map for shininess
-      texture_unit SpecMap
-      {
-        texture defaultSpec.png
-        filtering trilinear
-        tex_coord_set 2
-      }
+            // spec map for shininess
+            texture_unit SpecMap
+            {
+                texture defaultSpec.png
+                filtering trilinear
+                tex_coord_set 2
+            }
 
+        }
     }
-  }
 
-  technique HLSL_DX9
-  {
-    pass
+    technique HLSL_DX9
     {
+        pass
+        {
 
-      vertex_program_ref FxMap_HLSL_VS
-      {
-        param_named_auto worldViewProj_matrix worldviewproj_matrix
-        param_named_auto lightPosition light_position_object_space 0
-        param_named_auto eyePosition camera_position_object_space
-      }
+            vertex_program_ref FxMap_HLSL_VS
+            {
+                param_named_auto worldViewProj_matrix worldviewproj_matrix
+                param_named_auto lightPosition light_position_object_space 0
+                param_named_auto eyePosition camera_position_object_space
+            }
 
-      fragment_program_ref FxMap_HLSL_PS
-      {
-        param_named ambientColor float4 0.2 0.2 0.2 0.2
-      }
+            fragment_program_ref FxMap_HLSL_PS
+            {
+                param_named ambientColor float4 0.2 0.2 0.2 0.2
+            }
 
-      // Normal map
-      texture_unit
-      {
-        texture_alias NormalMap
-        texture defaultNM.png
-        tex_coord_set 0
-        filtering trilinear
-      }
+            // Normal map
+            texture_unit
+            {
+                texture_alias NormalMap
+                texture defaultNM.png
+                tex_coord_set 0
+                filtering trilinear
+            }
 
-      // Base diffuse texture map
-      texture_unit
-      {
-        texture_alias DiffuseMap
-        texture defaultDiff.png
-        filtering trilinear
-        tex_coord_set 1
-      }
+            // Base diffuse texture map
+            texture_unit
+            {
+                texture_alias DiffuseMap
+                texture defaultDiff.png
+                filtering trilinear
+                tex_coord_set 1
+            }
 
-      // spec map for shininess
-      texture_unit
-      {
-        texture_alias SpecMap
-        texture defaultSpec.png
-        filtering trilinear
-        tex_coord_set 2
-      }
+            // spec map for shininess
+            texture_unit
+            {
+                texture_alias SpecMap
+                texture defaultSpec.png
+                filtering trilinear
+                tex_coord_set 2
+            }
 
+        }
     }
-  }
 }
 ```
 
@@ -1913,9 +1913,9 @@ Format: set_texture_alias &lt;alias name&gt; &lt;texture name&gt;
 ```cpp
 material fxTest : TSNormalSpecMapping
 {
-  set_texture_alias NormalMap fxTestNMap.png
-  set_texture_alias DiffuseMap fxTestDiff.png
-  set_texture_alias SpecMap fxTestMap.png
+    set_texture_alias NormalMap fxTestNMap.png
+    set_texture_alias DiffuseMap fxTestDiff.png
+    set_texture_alias SpecMap fxTestMap.png
 }
 ```
 
@@ -1928,8 +1928,8 @@ You don’t have to supply all the textures in the copied material.
 ```cpp
 material fxTest2 : fxTest
 {
-  set_texture_alias DiffuseMap fxTest2Diff.png
-  set_texture_alias SpecMap fxTest2Map.png
+    set_texture_alias DiffuseMap fxTest2Diff.png
+    set_texture_alias SpecMap fxTest2Map.png
 }
 ```
 
@@ -1940,7 +1940,7 @@ Another example:
 ```cpp
 material fxTest3 : TSNormalSpecMapping
 {
-  set_texture_alias DiffuseMap fxTest2Diff.png
+    set_texture_alias DiffuseMap fxTest2Diff.png
 }
 ```
 
