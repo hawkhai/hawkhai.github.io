@@ -166,8 +166,6 @@ When a material is used for the first time, it is ’compiled’. That involves 
 -   Other effects like cube mapping and dot3 blending
 -   Whether the vendor or device name of the current graphics card matches some user-specified rules
 
-<br>
-
 In a material script, techniques must be listed in order of preference, i.e. the earlier techniques are preferred over the later techniques. This normally means you will list your most advanced, most demanding techniques first in the script, and list fallbacks afterwards.
 
 To help clearly identify what each technique is used for, the technique can be named but its optional. Techniques not named within the script will take on a name that is the technique index number. For example: the first technique in a material is index 0, its name would be "0" if it was not given a name in the script. The technique name must be unique within the material or else the final technique is the resulting merge of all techniques with the same name in the material. A warning message is posted in the Ogre.log if this occurs. Named techniques can help when inheriting a material and modifying an existing technique: (See @ref Script-Inheritance)
@@ -499,7 +497,7 @@ Format: depth_write &lt;on\|off&gt;
 @copydetails Ogre::Pass::setDepthWriteEnabled
 
 @par
-Default: depth_write on<br>
+Default: depth_write on
 
 <a name="depth_005ffunc"></a><a name="depth_005ffunc-1"></a>
 
@@ -620,7 +618,7 @@ Format: normalise_normals &lt;on\|off&gt;
 @copydetails Ogre::Pass::setNormaliseNormals
 
 @par
-Default: normalise_normals off<br>
+Default: normalise_normals off
 
 <a name="transparent_005fsorting"></a><a name="transparent_005fsorting-1"></a>
 
@@ -764,7 +762,7 @@ Format 2: colour_write &lt;on\|off&gt; &lt;on\|off&gt; &lt;on\|off&gt; &lt;on\|o
 @copydetails Ogre::Pass::setColourWriteEnabled
 
 @par
-Default: colour_write on<br>
+Default: colour_write on
 
 <a name="colour_005fmask"></a><a name="colour_005fmask-1"></a>
 
@@ -778,7 +776,7 @@ Format: start_light &lt;number&gt;
 @copydetails Ogre::Pass::setStartLight
 
 @par
-Default: start_light 0<br>
+Default: start_light 0
 
 <a name="max_005flights"></a><a name="max_005flights-1"></a>
 
@@ -791,7 +789,7 @@ Format: max_lights &lt;number&gt;
 
 The maximum number of lights which can be used when rendering fixed-function materials is set by the rendering system, and is typically set at 8. When you are using the programmable pipeline (See [Using Vertex/Geometry/Fragment Programs in a Pass](@ref Using-Vertex_002fGeometry_002fFragment-Programs-in-a-Pass)) this limit is dependent on the program you are running, or, if you use ’iteration once_per_light’ or a variant (See @ref iteration), it effectively only bounded by the number of passes you are willing to use. If you are not using pass iteration, the light limit applies once for this pass. If you are using pass iteration, the light limit applies across all iterations of this pass - for example if you have 12 lights in range with an ’iteration once_per_light’ setup but your max_lights is set to 4 for that pass, the pass will only iterate 4 times.
 @par
-Default: max_lights 8<br>
+Default: max_lights 8
 
 
 ## iteration {#iteration}
@@ -823,7 +821,7 @@ The render state for the pass will be setup and then the draw call will execute 
 
 The render state for the pass will be setup and the draw call executed once for every 2 lights.
 
-</dd> </dl> <br>
+</dd> </dl>
 
 By default, passes are only issued once. However, if you use the programmable pipeline, or you wish to exceed the normal limits on the number of lights which are supported, you might want to use the once_per_light option. In this case, only light index 0 is ever used, and the pass is issued multiple times, each time with a different light in light index 0. Clearly this will make the pass more expensive, but it may be the only way to achieve certain effects such as per-pixel lighting effects which take into account 1..n lights.
 
@@ -1142,7 +1140,7 @@ The 6 textures are kept separate but are all referenced by this single texture l
 The 6 textures are combined into a single ’cubic’ texture map which is then addressed using 3D texture coordinates.
 
 </dd>
-</dl> <br>
+</dl>
 
 <a name="binding_005ftype"></a><a name="binding_005ftype-1"></a>
 
@@ -1240,7 +1238,7 @@ Example colour_op_ex add_signed src_manual src_current 0.5
 Each parameter can be one of Ogre::LayerBlendOperationEx or Ogre::LayerBlendSource without the prefix. E.g. `LBX_MODULATE_X4` becomes `modulate_x4`.
 
 @par
-Default: none (colour_op modulate)<br>
+Default: none (colour_op modulate)
 
 <a name="colour_005fop_005fmultipass_005ffallback"></a><a name="colour_005fop_005fmultipass_005ffallback-1"></a>
 
@@ -1295,9 +1293,9 @@ A more advanced form of reflection mapping which uses a group of 6 textures maki
 
 Generates 3D texture coordinates containing the camera space normal vector from the normal information held in the vertex data. Again, full use of this feature requires a [cubic_texture](#cubic_005ftexture) with the ’combinedUVW’ option.
 
-</dd> </dl> <br>
+</dd> </dl>
 @par
-Default: env_map off<br>
+Default: env_map off
 
 <a name="scroll"></a><a name="scroll-1"></a>
 
@@ -1319,7 +1317,7 @@ Format: scroll &lt;u&gt; &lt;v&gt;
 
 @copybrief Ogre::TextureUnitState::setScrollAnimation
 @par
-Format: scroll_anim &lt;uSpeed&gt; &lt;vSpeed&gt;<br>
+Format: scroll_anim &lt;uSpeed&gt; &lt;vSpeed&gt;
 
 @copydetails Ogre::TextureUnitState::setScrollAnimation
 
@@ -1608,15 +1606,15 @@ The current supported syntaxes are:
 <dl compact="compact">
 <dt>vs_1_1</dt> <dd>
 
-This is one of the DirectX vertex shader assembler syntaxes. <br> Supported on cards from: ATI Radeon 8500, nVidia GeForce 3 <br>
+This is one of the DirectX vertex shader assembler syntaxes. <br> Supported on cards from: ATI Radeon 8500, nVidia GeForce 3
 
 </dd> <dt>vs_2_0</dt> <dd>
 
-Another one of the DirectX vertex shader assembler syntaxes. <br> Supported on cards from: ATI Radeon 9600, nVidia GeForce FX 5 series <br>
+Another one of the DirectX vertex shader assembler syntaxes. <br> Supported on cards from: ATI Radeon 9600, nVidia GeForce FX 5 series
 
 </dd> <dt>vs_2_x</dt> <dd>
 
-Another one of the DirectX vertex shader assembler syntaxes. <br> Supported on cards from: ATI Radeon X series, nVidia GeForce FX 6 series <br>
+Another one of the DirectX vertex shader assembler syntaxes. <br> Supported on cards from: ATI Radeon X series, nVidia GeForce FX 6 series
 
 </dd> <dt>vs_3_0</dt> <dd>
 
@@ -1648,19 +1646,19 @@ DirectX pixel shader (i.e. fragment program) assembler syntax. <br> Supported on
 
 </dd> <dt>ps_2_0</dt> <dd>
 
-DirectX pixel shader (i.e. fragment program) assembler syntax. <br> Supported cards: ATI Radeon 9600, nVidia GeForce FX 5 series<br>
+DirectX pixel shader (i.e. fragment program) assembler syntax. <br> Supported cards: ATI Radeon 9600, nVidia GeForce FX 5 series
 
 </dd> <dt>ps_2_x</dt> <dd>
 
-DirectX pixel shader (i.e. fragment program) assembler syntax. This is basically ps_2_0 with a higher number of instructions. <br> Supported cards: ATI Radeon X series, nVidia GeForce FX 6 series<br>
+DirectX pixel shader (i.e. fragment program) assembler syntax. This is basically ps_2_0 with a higher number of instructions. <br> Supported cards: ATI Radeon X series, nVidia GeForce FX 6 series
 
 </dd> <dt>ps_3_0</dt> <dd>
 
-DirectX pixel shader (i.e. fragment program) assembler syntax. <br> Supported cards: ATI Radeon HD 2000+, nVidia GeForce FX6 series<br>
+DirectX pixel shader (i.e. fragment program) assembler syntax. <br> Supported cards: ATI Radeon HD 2000+, nVidia GeForce FX6 series
 
 </dd> <dt>ps_3_x</dt> <dd>
 
-DirectX pixel shader (i.e. fragment program) assembler syntax. <br> Supported cards: nVidia GeForce FX7 series<br>
+DirectX pixel shader (i.e. fragment program) assembler syntax. <br> Supported cards: nVidia GeForce FX7 series
 
 </dd> <dt>arbfp1</dt> <dd>
 
@@ -1680,7 +1678,7 @@ Another nVidia-specific OpenGL fragment shader syntax. It is a superset of ps 3.
 
 </dd> <dt>gpu_gp, gp4_gp</dt> <dd>
 
-An nVidia-specific OpenGL geometry shader syntax. <br> Supported cards: nVidia GeForce FX8 series<br>
+An nVidia-specific OpenGL geometry shader syntax. <br> Supported cards: nVidia GeForce FX8 series
 
 </dd> <dt>glsles</dt> <dd>
 
@@ -1800,9 +1798,9 @@ texture_unit DiffuseTex
 }
 ```
 
-texture_alias defaults to DiffuseTex.<br>
+texture_alias defaults to DiffuseTex.
 
-Example: The base material to be cloned:<br>
+Example: The base material to be cloned:
 
 ```cpp
 material TSNormalSpecMapping
@@ -1910,7 +1908,7 @@ Note that the GLSL and HLSL techniques use the same textures. For each texture u
 Now we want to clone the material but only want to change the textures used. We could copy and paste the whole material but if we decide to change the base material later then we also have to update the copied material in the script. With set_texture_alias, copying a material is very easy now. set_texture_alias is specified at the top of the material definition. All techniques using the specified texture alias will be effected by set_texture_alias.
 
 @par
-Format: set_texture_alias &lt;alias name&gt; &lt;texture name&gt;<br>
+Format: set_texture_alias &lt;alias name&gt; &lt;texture name&gt;
 
 ```cpp
 material fxTest : TSNormalSpecMapping
@@ -1925,7 +1923,7 @@ The textures in both techniques in the child material will automatically get rep
 
 The same process can be done in code as long you set up the texture alias names so then there is no need to traverse technique/pass/TUS to change a texture. You just call myMaterialPtr-&gt;applyTextureAliases(myAliasTextureNameList) which will update all textures in all texture units that match the alias names in the map container reference you passed as a parameter.
 
-You don’t have to supply all the textures in the copied material.<br>
+You don’t have to supply all the textures in the copied material.
 
 ```cpp
 material fxTest2 : fxTest

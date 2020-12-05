@@ -68,7 +68,7 @@ This section describes to attributes which you can set on every particle system 
 
 Sets the maximum number of particles this system is allowed to contain at one time. When this limit is exhausted, the emitters will not be allowed to emit any more particles until some destroyed (e.g. through their time_to_live running out). Note that you will almost always want to change this, since it defaults to a very low value (particle pools are only ever increased in size, never decreased).
 
-format: quota &lt;max_particles&gt;<br> example: quota 10000<br> default: 10<br>
+format: quota &lt;max_particles&gt;<br> example: quota 10000<br> default: 10
 
 <a name="particle_005fmaterial"></a><a name="material-2"></a>
 
@@ -77,25 +77,25 @@ format: quota &lt;max_particles&gt;<br> example: quota 10000<br> default: 10<br>
 
 Sets the name of the material which all particles in this system will use. All particles in a system use the same material, although each particle can tint this material through the use of it’s colour property.
 
-format: material &lt;material_name&gt;<br> example: material Examples/Flare<br> default: none (blank material)<br>
+format: material &lt;material_name&gt;<br> example: material Examples/Flare<br> default: none (blank material)
 
 <a name="particle_005fwidth"></a><a name="particle_005fwidth-1"></a>
 
 
 ## particle_width
 
-Sets the width of particles in world coordinates. Note that this property is absolute when billboard_type (see below) is set to ’point’ or ’perpendicular_self’, but is scaled by the length of the direction vector when billboard_type is ’oriented_common’, ’oriented_self’ or ’perpendicular_common’.<br>
+Sets the width of particles in world coordinates. Note that this property is absolute when billboard_type (see below) is set to ’point’ or ’perpendicular_self’, but is scaled by the length of the direction vector when billboard_type is ’oriented_common’, ’oriented_self’ or ’perpendicular_common’.
 
-format: particle_width &lt;width&gt;<br> example: particle_width 20<br> default: 100<br>
+format: particle_width &lt;width&gt;<br> example: particle_width 20<br> default: 100
 
 <a name="particle_005fheight"></a><a name="particle_005fheight-1"></a>
 
 
 ## particle_height
 
-Sets the height of particles in world coordinates. Note that this property is absolute when billboard_type (see below) is set to ’point’ or ’perpendicular_self’, but is scaled by the length of the direction vector when billboard_type is ’oriented_common’, ’oriented_self’ or ’perpendicular_common’.<br>
+Sets the height of particles in world coordinates. Note that this property is absolute when billboard_type (see below) is set to ’point’ or ’perpendicular_self’, but is scaled by the length of the direction vector when billboard_type is ’oriented_common’, ’oriented_self’ or ’perpendicular_common’.
 
-format: particle_height &lt;height&gt;<br> example: particle_height 20<br> default: 100<br>
+format: particle_height &lt;height&gt;<br> example: particle_height 20<br> default: 100
 
 <a name="cull_005feach"></a><a name="cull_005feach-1"></a>
 
@@ -104,7 +104,7 @@ format: particle_height &lt;height&gt;<br> example: particle_height 20<br> defau
 
 All particle systems are culled by the bounding box which contains all the particles in the system. This is normally sufficient for fairly locally constrained particle systems where most particles are either visible or not visible together. However, for those that spread particles over a wider area (e.g. a rain system), you may want to actually cull each particle individually to save on time, since it is far more likely that only a subset of the particles will be visible. You do this by setting the cull_each parameter to true.
 
-format: cull_each &lt;true\|false&gt;<br> example: cull_each true<br> default: false<br>
+format: cull_each &lt;true\|false&gt;<br> example: cull_each true<br> default: false
 
 <a name="particle_005frenderer"></a><a name="renderer"></a>
 
@@ -115,7 +115,7 @@ Particle systems do not render themselves, they do it through ParticleRenderer c
 
 Particle renderers can have attributes, which can be passed by setting them on the root particle system.
 
-format: renderer &lt;renderer_name&gt;<br> default: billboard<br>
+format: renderer &lt;renderer_name&gt;<br> default: billboard
 
 <a name="particle_005fsorted"></a><a name="sorted"></a>
 
@@ -124,7 +124,7 @@ format: renderer &lt;renderer_name&gt;<br> default: billboard<br>
 
 By default, particles are not sorted. By setting this attribute to ’true’, the particles will be sorted with respect to the camera, furthest first. This can make certain rendering effects look better at a small sorting expense.
 
-format: sorted &lt;true\|false&gt;<br> default: false<br>
+format: sorted &lt;true\|false&gt;<br> default: false
 
 <a name="particle_005flocalspace"></a><a name="local_005fspace"></a>
 
@@ -133,7 +133,7 @@ format: sorted &lt;true\|false&gt;<br> default: false<br>
 
 By default, particles are emitted into world space, such that if you transform the node to which the system is attached, it will not affect the particles (only the emitters). This tends to give the normal expected behaviour, which is to model how real world particles travel independently from the objects they are emitted from. However, to create some effects you may want the particles to remain attached to the local space the emitter is in and to follow them directly. This option allows you to do that.
 
-format: local_space &lt;true\|false&gt;<br> default: false<br>
+format: local_space &lt;true\|false&gt;<br> default: false
 
 <a name="billboard_005ftype"></a><a name="billboard_005ftype-1"></a>
 
@@ -142,7 +142,7 @@ format: local_space &lt;true\|false&gt;<br> default: false<br>
 
 This is actually an attribute of the ’billboard’ particle renderer (the default), and is an example of passing attributes to a particle renderer by declaring them directly within the system declaration. Particles using the default renderer are rendered using billboards, which are rectangles formed by 2 triangles which rotate to face the given direction. However, there is more than 1 way to orient a billboard. The classic approach is for the billboard to directly face the camera: this is the default behaviour. However this arrangement only looks good for particles which are representing something vaguely spherical like a light flare. For more linear effects like laser fire, you actually want the particle to have an orientation of it’s own.
 
-format: billboard_type &lt;point\|oriented_common\|oriented_self\|perpendicular_common\|perpendicular_self&gt;<br> example: billboard_type oriented_self<br> default: point<br>
+format: billboard_type &lt;point\|oriented_common\|oriented_self\|perpendicular_common\|perpendicular_self&gt;<br> example: billboard_type oriented_self<br> default: point
 
 The options for this parameter are:
 
@@ -174,7 +174,7 @@ Particles are perpendicular to their own direction vector, which acts as their l
 
 Specifying the point which acts as the origin point for all billboard particles, controls the fine tuning of where a billboard particle appears in relation to it’s position.
 
-format: billboard_origin &lt;top_left\|top_center\|top_right\|center_left\|center\|center_right\|bottom_left\|bottom_center\|bottom_right&gt;<br> example: billboard_origin top_right<br> default: center<br>
+format: billboard_origin &lt;top_left\|top_center\|top_right\|center_left\|center\|center_right\|bottom_left\|bottom_center\|bottom_right&gt;<br> example: billboard_origin top_right<br> default: center
 
 The options for this parameter are:
 
@@ -222,7 +222,7 @@ The billboard origin is the bottom-right corner.
 
 By default, billboard particles will rotate the texture coordinates to according with particle rotation. But rotate texture coordinates has some disadvantage, e.g. the corners of the texture will lost after rotate, and the corners of the billboard will fill with unwanted texture area when using wrap address mode or sub-texture sampling. This settings allow you specifying other rotation type.
 
-format: billboard_rotation_type &lt;vertex\|texcoord&gt;<br> example: billboard_rotation_type vertex<br> default: texcoord<br>
+format: billboard_rotation_type &lt;vertex\|texcoord&gt;<br> example: billboard_rotation_type vertex<br> default: texcoord
 
 The options for this parameter are:
 
@@ -280,7 +280,7 @@ You will almost certainly want to enable in your material pass both point attenu
 
 This is actually an attribute of the ’billboard’ particle renderer (the default), and sets whether or not the BillboardSet will use a slower but more accurate calculation for facing the billboard to the camera. Bt default it uses the camera direction, which is faster but means the billboards don’t stay in the same orientation as you rotate the camera. The ’accurate_facing true’ option makes the calculation based on a vector from each billboard to the camera, which means the orientation is constant even whilst the camera rotates.
 
-format: accurate_facing on\|off<br> default: accurate_facing off 0<br>
+format: accurate_facing on\|off<br> default: accurate_facing off 0
 
 <a name="iteration_005finterval"></a><a name="iteration_005finterval-1"></a>
 
@@ -289,7 +289,7 @@ format: accurate_facing on\|off<br> default: accurate_facing off 0<br>
 
 Usually particle systems are updated based on the frame rate; however this can give variable results with more extreme frame rate ranges, particularly at lower frame rates. You can use this option to make the update frequency a fixed interval, whereby at lower frame rates, the particle update will be repeated at the fixed interval until the frame time is used up. A value of 0 means the default frame time iteration.
 
-format: iteration_interval &lt;secs&gt;<br> example: iteration_interval 0.01<br> default: iteration_interval 0<br>
+format: iteration_interval &lt;secs&gt;<br> example: iteration_interval 0.01<br> default: iteration_interval 0
 
 <a name="nonvisible_005fupdate_005ftimeout"></a><a name="nonvisible_005fupdate_005ftimeout-1"></a>
 
@@ -298,7 +298,7 @@ format: iteration_interval &lt;secs&gt;<br> example: iteration_interval 0.01<br>
 
 Sets when the particle system should stop updating after it hasn’t been visible for a while. By default, visible particle systems update all the time, even when not in view. This means that they are guaranteed to be consistent when they do enter view. However, this comes at a cost, updating particle systems can be expensive, especially if they are perpetual.  This option lets you set a ’timeout’ on the particle system, so that if it isn’t visible for this amount of time, it will stop updating until it is next visible. A value of 0 disables the timeout and always updates.
 
-format: nonvisible_update_timeout &lt;secs&gt;<br> example: nonvisible_update_timeout 10<br> default: nonvisible_update_timeout 0<br>
+format: nonvisible_update_timeout &lt;secs&gt;<br> example: nonvisible_update_timeout 10<br> default: nonvisible_update_timeout 0
 
 
 ## Particle Emitters {#Particle-Emitters}
@@ -349,7 +349,7 @@ This section describes the common attributes of all particle emitters. Specific 
 
 Sets the maximum angle (in degrees) which emitted particles may deviate from the direction of the emitter (see direction). Setting this to 10 allows particles to deviate up to 10 degrees in any direction away from the emitter’s direction. A value of 180 means emit in any direction, whilst 0 means emit always exactly in the direction of the emitter.
 
-format: angle &lt;degrees&gt;<br> example: angle 30<br> default: 0<br>
+format: angle &lt;degrees&gt;<br> example: angle 30<br> default: 0
 
 <a name="colour"></a><a name="colour-1"></a>
 
@@ -358,7 +358,7 @@ format: angle &lt;degrees&gt;<br> example: angle 30<br> default: 0<br>
 
 Sets a static colour for all particle emitted. Also see the colour_range_start and colour_range_end attributes for setting a range of colours. The format of the colour parameter is "r g b a", where each component is a value from 0 to 1, and the alpha value is optional (assumes 1 if not specified).
 
-format: colour &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]<br> example: colour 1 0 0 1<br> default: 1 1 1 1<br>
+format: colour &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]<br> example: colour 1 0 0 1<br> default: 1 1 1 1
 
 <a name="colour_005frange_005fstart"></a><a name="colour_005frange_005fend"></a>
 
@@ -367,7 +367,7 @@ format: colour &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]<br> example: colour 1 0
 
 As the ’colour’ attribute, except these 2 attributes must be specified together, and indicate the range of colours available to emitted particles. The actual colour will be randomly chosen between these 2 values.
 
-format: as colour<br> example (generates random colours between red and blue):<br>     colour_range_start 1 0 0<br>     colour_range_end 0 0 1<br> default: both 1 1 1 1<br>
+format: as colour<br> example (generates random colours between red and blue):<br>     colour_range_start 1 0 0<br>     colour_range_end 0 0 1<br> default: both 1 1 1 1
 
 <a name="direction"></a><a name="direction-1"></a>
 
@@ -376,7 +376,7 @@ format: as colour<br> example (generates random colours between red and blue):<b
 
 Sets the direction of the emitter. This is relative to the SceneNode which the particle system is attached to, meaning that as with other movable objects changing the orientation of the node will also move the emitter.
 
-format: direction &lt;x&gt; &lt;y&gt; &lt;z&gt;<br> example: direction 0 1 0<br> default: 1 0 0<br>
+format: direction &lt;x&gt; &lt;y&gt; &lt;z&gt;<br> example: direction 0 1 0<br> default: 1 0 0
 
 <a name="direction_005fposition_005freference"></a><a name="direction_005fposition_005freference-1"></a>
 
@@ -385,7 +385,7 @@ format: direction &lt;x&gt; &lt;y&gt; &lt;z&gt;<br> example: direction 0 1 0<br>
 
 Sets the position reference of the emitter. This supersedes direction when present. The last parameter must be 1 to enable it, 0 to disable. You may still want to set the direction to setup orientation of the emitter’s dimensions. When present, particles direction is calculated at the time of emission by doing (particlePosition - referencePosition); therefore particles will travel in a particular direction or in every direction depending on where the particles are originated, and the location of the reference position. Note angle still works to apply some randomness after the direction vector is generated. This parameter is specially useful to create explosions and implosions (when velocity is negative) best paired with HollowEllipsoid and Ring emitters. This is relative to the SceneNode which the particle system is attached to, meaning that as with other movable objects changing the orientation of the node will also move the emitter.
 
-format: direction_position_reference &lt;x&gt; &lt;y&gt; &lt;z&gt; &lt;enable&gt;<br> example: direction_position_reference 0 -10 0 1<br> default: direction_position_reference 0 0 0 0<br>
+format: direction_position_reference &lt;x&gt; &lt;y&gt; &lt;z&gt; &lt;enable&gt;<br> example: direction_position_reference 0 -10 0 1<br> default: direction_position_reference 0 0 0 0
 
 <a name="emission_005frate"></a><a name="emission_005frate-1"></a>
 
@@ -394,7 +394,7 @@ format: direction_position_reference &lt;x&gt; &lt;y&gt; &lt;z&gt; &lt;enable&gt
 
 Sets how many particles per second should be emitted. The specific emitter does not have to emit these in a continuous burst - this is a relative parameter and the emitter may choose to emit all of the second’s worth of particles every half-second for example, the behaviour depends on the emitter. The emission rate will also be limited by the particle system’s ’quota’ setting.
 
-format: emission_rate &lt;particles_per_second&gt;<br> example: emission_rate 50<br> default: 10<br>
+format: emission_rate &lt;particles_per_second&gt;<br> example: emission_rate 50<br> default: 10
 
 <a name="position"></a><a name="position-1"></a>
 
@@ -403,7 +403,7 @@ format: emission_rate &lt;particles_per_second&gt;<br> example: emission_rate 50
 
 Sets the position of the emitter relative to the SceneNode the particle system is attached to.
 
-format: position &lt;x&gt; &lt;y&gt; &lt;z&gt;<br> example: position 10 0 40<br> default: 0 0 0<br>
+format: position &lt;x&gt; &lt;y&gt; &lt;z&gt;<br> example: position 10 0 40<br> default: 0 0 0
 
 <a name="velocity"></a><a name="velocity-1"></a>
 
@@ -412,7 +412,7 @@ format: position &lt;x&gt; &lt;y&gt; &lt;z&gt;<br> example: position 10 0 40<br>
 
 Sets a constant velocity for all particles at emission time. See also the velocity_min and velocity_max attributes which allow you to set a range of velocities instead of a fixed one.
 
-format: velocity &lt;world_units_per_second&gt;<br> example: velocity 100<br> default: 1<br>
+format: velocity &lt;world_units_per_second&gt;<br> example: velocity 100<br> default: 1
 
 <a name="velocity_005fmin"></a><a name="velocity_005fmax"></a>
 
@@ -421,7 +421,7 @@ format: velocity &lt;world_units_per_second&gt;<br> example: velocity 100<br> de
 
 As ’velocity’ except these attributes set a velocity range and each particle is emitted with a random velocity within this range.
 
-format: as velocity<br> example:<br>     velocity_min 50<br>     velocity_max 100<br> default: both 1<br>
+format: as velocity<br> example:<br>     velocity_min 50<br>     velocity_max 100<br> default: both 1
 
 <a name="time_005fto_005flive"></a><a name="time_005fto_005flive-1"></a>
 
@@ -430,7 +430,7 @@ format: as velocity<br> example:<br>     velocity_min 50<br>     velocity_max 10
 
 Sets the number of seconds each particle will ’live’ for before being destroyed. NB it is possible for particle affectors to alter this in flight, but this is the value given to particles on emission. See also the time_to_live_min and time_to_live_max attributes which let you set a lifetime range instead of a fixed one.
 
-format: time_to_live &lt;seconds&gt;<br> example: time_to_live 10<br> default: 5<br>
+format: time_to_live &lt;seconds&gt;<br> example: time_to_live 10<br> default: 5
 
 <a name="time_005fto_005flive_005fmin"></a><a name="time_005fto_005flive_005fmax"></a>
 
@@ -439,7 +439,7 @@ format: time_to_live &lt;seconds&gt;<br> example: time_to_live 10<br> default: 5
 
 As time_to_live, except this sets a range of lifetimes and each particle gets a random value in-between on emission.
 
-format: as time_to_live<br> example:<br>     time_to_live_min 2<br>     time_to_live_max 5<br> default: both 5<br> <br>
+format: as time_to_live<br> example:<br>     time_to_live_min 2<br>     time_to_live_max 5<br> default: both 5<br>
 
 <a name="duration"></a><a name="duration-1"></a>
 
@@ -448,7 +448,7 @@ format: as time_to_live<br> example:<br>     time_to_live_min 2<br>     time_to_
 
 Sets the number of seconds the emitter is active. The emitter can be started again, see [repeat_delay](#repeat_005fdelay). A value of 0 means infinite duration. See also the duration_min and duration_max attributes which let you set a duration range instead of a fixed one.
 
-format: duration &lt;seconds&gt;<br> example:<br>     duration 2.5<br> default: 0<br> <br>
+format: duration &lt;seconds&gt;<br> example:<br>     duration 2.5<br> default: 0<br>
 
 <a name="duration_005fmin"></a><a name="duration_005fmax"></a>
 
@@ -457,7 +457,7 @@ format: duration &lt;seconds&gt;<br> example:<br>     duration 2.5<br> default: 
 
 As duration, except these attributes set a variable time range between the min and max values each time the emitter is started.
 
-format: as duration<br> example:<br>     duration_min 2<br>     duration_max 5<br> default: both 0<br> <br>
+format: as duration<br> example:<br>     duration_min 2<br>     duration_max 5<br> default: both 0<br>
 
 <a name="repeat_005fdelay"></a><a name="repeat_005fdelay-1"></a>
 
@@ -466,7 +466,7 @@ format: as duration<br> example:<br>     duration_min 2<br>     duration_max 5<b
 
 Sets the number of seconds to wait before the emission is repeated when stopped by a limited [duration](#duration). See also the repeat_delay_min and repeat_delay_max attributes which allow you to set a range of repeat_delays instead of a fixed one.
 
-format: repeat_delay &lt;seconds&gt;<br> example:<br>     repeat_delay 2.5<br> default: 0<br> <br>
+format: repeat_delay &lt;seconds&gt;<br> example:<br>     repeat_delay 2.5<br> default: 0<br>
 
 <a name="repeat_005fdelay_005fmin"></a><a name="repeat_005fdelay_005fmax"></a>
 
@@ -475,7 +475,7 @@ format: repeat_delay &lt;seconds&gt;<br> example:<br>     repeat_delay 2.5<br> d
 
 As repeat_delay, except this sets a range of repeat delays and each time the emitter is started it gets a random value in-between.
 
-format: as repeat_delay<br> example:<br>     repeat_delay 2<br>     repeat_delay 5<br> default: both 0<br> <br>
+format: as repeat_delay<br> example:<br>     repeat_delay 2<br>     repeat_delay 5<br> default: both 0<br>
 
 See also: [Standard Particle Emitters](#Standard-Particle-Emitters), [Particle Scripts](#Particle-Scripts), [Particle Affectors](#Particle-Affectors)
 
@@ -499,14 +499,11 @@ This emitter emits particles from a single point, which is it’s position. This
 To create a point emitter, include a section like this within your particle system script:
 
 ```cpp
-
 emitter Point
 {
     // Settings go here
 }
 ```
-
-<br>
 
 Please note that the name of the emitter (’Point’) is case-sensitive.
 
@@ -518,17 +515,17 @@ This emitter emits particles from a random location within a 3-dimensional box. 
 <dl compact="compact">
 <dt>width</dt> <dd>
 
-Sets the width of the box (this is the size of the box along it’s local X axis, which is dependent on the ’direction’ attribute which forms the box’s local Z).<br> format: width &lt;units&gt;<br> example: width 250<br> default: 100<br>
+Sets the width of the box (this is the size of the box along it’s local X axis, which is dependent on the ’direction’ attribute which forms the box’s local Z).<br> format: width &lt;units&gt;<br> example: width 250<br> default: 100
 
 </dd> <dt>height</dt> <dd>
 
-Sets the height of the box (this is the size of the box along it’s local Y axis, which is dependent on the ’direction’ attribute which forms the box’s local Z).<br> format: height &lt;units&gt;<br> example: height 250<br> default: 100<br>
+Sets the height of the box (this is the size of the box along it’s local Y axis, which is dependent on the ’direction’ attribute which forms the box’s local Z).<br> format: height &lt;units&gt;<br> example: height 250<br> default: 100
 
 </dd> <dt>depth</dt> <dd>
 
-Sets the depth of the box (this is the size of the box along it’s local Z axis, which is the same as the ’direction’ attribute).<br> format: depth &lt;units&gt;<br> example: depth 250<br> default: 100<br>
+Sets the depth of the box (this is the size of the box along it’s local Z axis, which is the same as the ’direction’ attribute).<br> format: depth &lt;units&gt;<br> example: depth 250<br> default: 100
 
-</dd> </dl> <br>
+</dd> </dl>
 
 To create a box emitter, include a section like this within your particle system script:
 
@@ -639,7 +636,7 @@ This affector applies a force vector to all particles to modify their trajectory
 <dl compact="compact">
 <dt>force_vector</dt> <dd>
 
-Sets the vector for the force to be applied to every particle. The magnitude of this vector determines how strong the force is.<br>     format: force_vector &lt;x&gt; &lt;y&gt; &lt;z&gt;<br>     example: force_vector 50 0 -50<br>     default: 0 -100 0 (a fair gravity effect)<br>
+Sets the vector for the force to be applied to every particle. The magnitude of this vector determines how strong the force is.<br>     format: force_vector &lt;x&gt; &lt;y&gt; &lt;z&gt;<br>     example: force_vector 50 0 -50<br>     default: 0 -100 0 (a fair gravity effect)
 
 </dd> <dt>force_application</dt> <dd>
 
@@ -654,7 +651,7 @@ The resulting momentum is the average of the force vector and the particle’s c
 
 The resulting momentum is the particle’s current motion plus the force vector. This is traditional force acceleration but can potentially result in unlimited velocity.
 
-</dd> </dl> </dd> </dl> <br>
+</dd> </dl> </dd> </dl>
 
 To create a linear force affector, include a section like this within your particle system script:
 
@@ -675,19 +672,19 @@ This affector modifies the colour of particles in flight. It’s extra attribute
 <dl compact="compact">
 <dt>red</dt> <dd>
 
-Sets the adjustment to be made to the red component of the particle colour per second.<br>     format: red &lt;delta_value&gt;<br>     example: red -0.1<br>     default: 0<br>
+Sets the adjustment to be made to the red component of the particle colour per second.<br>     format: red &lt;delta_value&gt;<br>     example: red -0.1<br>     default: 0
 
 </dd> <dt>green</dt> <dd>
 
-Sets the adjustment to be made to the green component of the particle colour per second.<br>     format: green &lt;delta_value&gt;<br>     example: green -0.1<br>     default: 0<br>
+Sets the adjustment to be made to the green component of the particle colour per second.<br>     format: green &lt;delta_value&gt;<br>     example: green -0.1<br>     default: 0
 
 </dd> <dt>blue</dt> <dd>
 
-Sets the adjustment to be made to the blue component of the particle colour per second.<br>     format: blue &lt;delta_value&gt;<br>     example: blue -0.1<br>     default: 0<br>
+Sets the adjustment to be made to the blue component of the particle colour per second.<br>     format: blue &lt;delta_value&gt;<br>     example: blue -0.1<br>     default: 0
 
 </dd> <dt>alpha</dt> <dd>
 
-Sets the adjustment to be made to the alpha component of the particle colour per second.<br>     format: alpha &lt;delta_value&gt;<br> example: alpha -0.1<br> default: 0<br>
+Sets the adjustment to be made to the alpha component of the particle colour per second.<br>     format: alpha &lt;delta_value&gt;<br> example: alpha -0.1<br> default: 0
 
 </dd> </dl>
 
@@ -708,39 +705,39 @@ This affector is similar to the [ColourFader Affector](#ColourFader-Affector), e
 <dl compact="compact">
 <dt>red1</dt> <dd>
 
-Sets the adjustment to be made to the red component of the particle colour per second for the first state.<br>     format: red &lt;delta_value&gt;<br>     example: red -0.1<br>     default: 0<br>
+Sets the adjustment to be made to the red component of the particle colour per second for the first state.<br>     format: red &lt;delta_value&gt;<br>     example: red -0.1<br>     default: 0
 
 </dd> <dt>green1</dt> <dd>
 
-Sets the adjustment to be made to the green component of the particle colour per second for the first state.<br>     format: green &lt;delta_value&gt;<br>     example: green -0.1<br>     default: 0<br>
+Sets the adjustment to be made to the green component of the particle colour per second for the first state.<br>     format: green &lt;delta_value&gt;<br>     example: green -0.1<br>     default: 0
 
 </dd> <dt>blue1</dt> <dd>
 
-Sets the adjustment to be made to the blue component of the particle colour per second for the first state.<br>     format: blue &lt;delta_value&gt;<br>     example: blue -0.1<br>     default: 0<br>
+Sets the adjustment to be made to the blue component of the particle colour per second for the first state.<br>     format: blue &lt;delta_value&gt;<br>     example: blue -0.1<br>     default: 0
 
 </dd> <dt>alpha1</dt> <dd>
 
-Sets the adjustment to be made to the alpha component of the particle colour per second for the first state.<br>     format: alpha &lt;delta_value&gt;<br> example: alpha -0.1<br> default: 0<br>
+Sets the adjustment to be made to the alpha component of the particle colour per second for the first state.<br>     format: alpha &lt;delta_value&gt;<br> example: alpha -0.1<br> default: 0
 
 </dd> <dt>red2</dt> <dd>
 
-Sets the adjustment to be made to the red component of the particle colour per second for the second state.<br>     format: red &lt;delta_value&gt;<br>     example: red -0.1<br>     default: 0<br>
+Sets the adjustment to be made to the red component of the particle colour per second for the second state.<br>     format: red &lt;delta_value&gt;<br>     example: red -0.1<br>     default: 0
 
 </dd> <dt>green2</dt> <dd>
 
-Sets the adjustment to be made to the green component of the particle colour per second for the second state.<br>     format: green &lt;delta_value&gt;<br>     example: green -0.1<br>     default: 0<br>
+Sets the adjustment to be made to the green component of the particle colour per second for the second state.<br>     format: green &lt;delta_value&gt;<br>     example: green -0.1<br>     default: 0
 
 </dd> <dt>blue2</dt> <dd>
 
-Sets the adjustment to be made to the blue component of the particle colour per second for the second state.<br>     format: blue &lt;delta_value&gt;<br>     example: blue -0.1<br>     default: 0<br>
+Sets the adjustment to be made to the blue component of the particle colour per second for the second state.<br>     format: blue &lt;delta_value&gt;<br>     example: blue -0.1<br>     default: 0
 
 </dd> <dt>alpha2</dt> <dd>
 
-Sets the adjustment to be made to the alpha component of the particle colour per second for the second state.<br>     format: alpha &lt;delta_value&gt;<br> example: alpha -0.1<br> default: 0<br>
+Sets the adjustment to be made to the alpha component of the particle colour per second for the second state.<br>     format: alpha &lt;delta_value&gt;<br> example: alpha -0.1<br> default: 0
 
 </dd> <dt>state_change</dt> <dd>
 
-When a particle has this much time left to live, it will switch to state 2.<br>     format: state_change &lt;seconds&gt;<br> example: state_change 2<br> default: 1<br>
+When a particle has this much time left to live, it will switch to state 2.<br>     format: state_change &lt;seconds&gt;<br> example: state_change 2<br> default: 1
 
 </dd> </dl>
 
@@ -782,19 +779,19 @@ This affector rotates particles in flight. This is done by rotating the texture.
 <dl compact="compact">
 <dt>rotation_speed_range_start</dt> <dd>
 
-The start of a range of rotation speeds to be assigned to emitted particles.<br>     format: rotation_speed_range_start &lt;degrees_per_second&gt;<br> example: rotation_speed_range_start 90<br> default: 0<br>
+The start of a range of rotation speeds to be assigned to emitted particles.<br>     format: rotation_speed_range_start &lt;degrees_per_second&gt;<br> example: rotation_speed_range_start 90<br> default: 0
 
 </dd> <dt>rotation_speed_range_end</dt> <dd>
 
-The end of a range of rotation speeds to be assigned to emitted particles.<br>     format: rotation_speed_range_end &lt;degrees_per_second&gt;<br> example: rotation_speed_range_end 180<br> default: 0<br>
+The end of a range of rotation speeds to be assigned to emitted particles.<br>     format: rotation_speed_range_end &lt;degrees_per_second&gt;<br> example: rotation_speed_range_end 180<br> default: 0
 
 </dd> <dt>rotation_range_start</dt> <dd>
 
-The start of a range of rotation angles to be assigned to emitted particles.<br>     format: rotation_range_start &lt;degrees&gt;<br> example: rotation_range_start 0<br> default: 0<br>
+The start of a range of rotation angles to be assigned to emitted particles.<br>     format: rotation_range_start &lt;degrees&gt;<br> example: rotation_range_start 0<br> default: 0
 
 </dd> <dt>rotation_range_end</dt> <dd>
 
-The end of a range of rotation angles to be assigned to emitted particles.<br>     format: rotation_range_end &lt;degrees&gt;<br> example: rotation_range_end 360<br> default: 0<br>
+The end of a range of rotation angles to be assigned to emitted particles.<br>     format: rotation_range_end &lt;degrees&gt;<br> example: rotation_range_end 360<br> default: 0
 
 </dd> </dl>
 
@@ -815,27 +812,27 @@ Similar to the ColourFader and ColourFader2 Affectors, this affector modifies th
 <dl compact="compact">
 <dt>time0</dt> <dd>
 
-The point in time of stage 0.<br>     format: time0 &lt;0-1 based on lifetime&gt;<br> example: time0 0<br> default: 1<br>
+The point in time of stage 0.<br>     format: time0 &lt;0-1 based on lifetime&gt;<br> example: time0 0<br> default: 1
 
 </dd> <dt>colour0</dt> <dd>
 
-The colour at stage 0.<br>     format: colour0 &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]<br> example: colour0 1 0 0 1<br> default: 0.5 0.5 0.5 0.0<br>
+The colour at stage 0.<br>     format: colour0 &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]<br> example: colour0 1 0 0 1<br> default: 0.5 0.5 0.5 0.0
 
 </dd> <dt>time1</dt> <dd>
 
-The point in time of stage 1.<br>     format: time1 &lt;0-1 based on lifetime&gt;<br> example: time1 0.5<br> default: 1<br>
+The point in time of stage 1.<br>     format: time1 &lt;0-1 based on lifetime&gt;<br> example: time1 0.5<br> default: 1
 
 </dd> <dt>colour1</dt> <dd>
 
-The colour at stage 1.<br>     format: colour1 &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]<br> example: colour1 0 1 0 1<br> default: 0.5 0.5 0.5 0.0<br>
+The colour at stage 1.<br>     format: colour1 &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]<br> example: colour1 0 1 0 1<br> default: 0.5 0.5 0.5 0.0
 
 </dd> <dt>time2</dt> <dd>
 
-The point in time of stage 2.<br>     format: time2 &lt;0-1 based on lifetime&gt;<br> example: time2 1<br> default: 1<br>
+The point in time of stage 2.<br>     format: time2 &lt;0-1 based on lifetime&gt;<br> example: time2 1<br> default: 1
 
 </dd> <dt>colour2</dt> <dd>
 
-The colour at stage 2.<br>     format: colour2 &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]<br> example: colour2 0 0 1 1<br> default: 0.5 0.5 0.5 0.0<br>
+The colour at stage 2.<br>     format: colour2 &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]<br> example: colour2 0 0 1 1<br> default: 0.5 0.5 0.5 0.0
 
 </dd> <dt>[...]</dt> </dl>
 
@@ -856,7 +853,7 @@ This is another affector that modifies the colour of particles in flight, but in
 <dl compact="compact">
 <dt>image</dt> <dd>
 
-The start of a range of rotation speed to be assigned to emitted particles.<br>     format: image &lt;image_name&gt;<br> example: image rainbow.png<br> default: none<br>
+The start of a range of rotation speed to be assigned to emitted particles.<br>     format: image &lt;image_name&gt;<br> example: image rainbow.png<br> default: none
 
 </dd> </dl>
 
@@ -877,11 +874,11 @@ This affector defines a plane which deflects particles which collide with it. Th
 <dl compact="compact">
 <dt>plane_point</dt> <dd>
 
-A point on the deflector plane. Together with the normal vector it defines the plane.<br> default: plane_point 0 0 0<br>
+A point on the deflector plane. Together with the normal vector it defines the plane.<br> default: plane_point 0 0 0
 
 </dd> <dt>plane_normal</dt> <dd>
 
-The normal vector of the deflector plane. Together with the point it defines the plane.<br> default: plane_normal 0 1 0<br>
+The normal vector of the deflector plane. Together with the point it defines the plane.<br> default: plane_normal 0 1 0
 
 </dd> <dt>bounce</dt> <dd>
 
@@ -897,14 +894,14 @@ This affector applies randomness to the movement of the particles. Its extra att
 <dl compact="compact">
 <dt>randomness</dt> <dd>
 
-The amount of randomness to introduce in each axial direction.<br> example: randomness 5<br> default: randomness 1<br>
+The amount of randomness to introduce in each axial direction.<br> example: randomness 5<br> default: randomness 1
 
 </dd> <dt>scope</dt> <dd>
 
-The percentage of particles affected in each run of the affector.<br> example: scope 0.5<br> default: scope 1.0<br>
+The percentage of particles affected in each run of the affector.<br> example: scope 0.5<br> default: scope 1.0
 
 </dd> <dt>keep_velocity</dt> <dd>
 
-Determines whether the velocity of particles is unchanged.<br> example: keep_velocity true<br> default: keep_velocity false<br>
+Determines whether the velocity of particles is unchanged.<br> example: keep_velocity true<br> default: keep_velocity false
 
 </dd> </dl>
