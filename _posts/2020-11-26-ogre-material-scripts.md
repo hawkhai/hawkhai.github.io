@@ -1945,3 +1945,5 @@ material fxTest3 : TSNormalSpecMapping
 ```
 
 fxTest3 will end up with the default textures for the normal map and spec map setup in TSNormalSpecMapping material but will have a different diffuse map. So your base material can define the default textures to use and then the child materials can override specific textures.
+
+<https://ogrecave.github.io/ogre/api/latest/_material-_scripts.html>

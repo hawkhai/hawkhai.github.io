@@ -905,3 +905,5 @@ The percentage of particles affected in each run of the affector.<br> example: s
 Determines whether the velocity of particles is unchanged.<br> example: keep_velocity true<br> default: keep_velocity false
 
 </dd> </dl>
+
+<https://ogrecave.github.io/ogre/api/latest/_particle-_scripts.html>
