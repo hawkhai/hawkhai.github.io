@@ -9,7 +9,7 @@ toc: true
 toclistyle: none
 comments:
 visibility: hiddenz
-mathjax: true
+mathjax:
 mermaid: truez
 glslcanvas:
 ---
@@ -358,7 +358,7 @@ format: angle &lt;degrees&gt;<br> example: angle 30<br> default: 0<br>
 
 Sets a static colour for all particle emitted. Also see the colour_range_start and colour_range_end attributes for setting a range of colours. The format of the colour parameter is "r g b a", where each component is a value from 0 to 1, and the alpha value is optional (assumes 1 if not specified).
 
-format: colour &lt;r&gt; &lt;g&gt; &lt;b&gt; \[&lt;a&gt;\]<br> example: colour 1 0 0 1<br> default: 1 1 1 1<br>
+format: colour &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]<br> example: colour 1 0 0 1<br> default: 1 1 1 1<br>
 
 <a name="colour_005frange_005fstart"></a><a name="colour_005frange_005fend"></a>
 
@@ -643,7 +643,7 @@ Sets the vector for the force to be applied to every particle. The magnitude of 
 
 </dd> <dt>force_application</dt> <dd>
 
-Sets the way in which the force vector is applied to particle momentum.<br>     format: force_application &lt;add\|average&gt;<br>     example: force_application average<br>     default: add<br> The options are:
+Sets the way in which the force vector is applied to particle momentum.<br>     format: force_application &lt;add|average&gt;<br>     example: force_application average<br>     default: add<br> The options are:
 
 <dl compact="compact">
 <dt>average</dt> <dd>
@@ -819,7 +819,7 @@ The point in time of stage 0.<br>     format: time0 &lt;0-1 based on lifetime&gt
 
 </dd> <dt>colour0</dt> <dd>
 
-The colour at stage 0.<br>     format: colour0 &lt;r&gt; &lt;g&gt; &lt;b&gt; \[&lt;a&gt;\]<br> example: colour0 1 0 0 1<br> default: 0.5 0.5 0.5 0.0<br>
+The colour at stage 0.<br>     format: colour0 &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]<br> example: colour0 1 0 0 1<br> default: 0.5 0.5 0.5 0.0<br>
 
 </dd> <dt>time1</dt> <dd>
 
@@ -827,7 +827,7 @@ The point in time of stage 1.<br>     format: time1 &lt;0-1 based on lifetime&gt
 
 </dd> <dt>colour1</dt> <dd>
 
-The colour at stage 1.<br>     format: colour1 &lt;r&gt; &lt;g&gt; &lt;b&gt; \[&lt;a&gt;\]<br> example: colour1 0 1 0 1<br> default: 0.5 0.5 0.5 0.0<br>
+The colour at stage 1.<br>     format: colour1 &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]<br> example: colour1 0 1 0 1<br> default: 0.5 0.5 0.5 0.0<br>
 
 </dd> <dt>time2</dt> <dd>
 
@@ -835,9 +835,9 @@ The point in time of stage 2.<br>     format: time2 &lt;0-1 based on lifetime&gt
 
 </dd> <dt>colour2</dt> <dd>
 
-The colour at stage 2.<br>     format: colour2 &lt;r&gt; &lt;g&gt; &lt;b&gt; \[&lt;a&gt;\]<br> example: colour2 0 0 1 1<br> default: 0.5 0.5 0.5 0.0<br>
+The colour at stage 2.<br>     format: colour2 &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]<br> example: colour2 0 0 1 1<br> default: 0.5 0.5 0.5 0.0<br>
 
-</dd> <dt>\[...\]</dt> </dl>
+</dd> <dt>[...]</dt> </dl>
 
 The number of stages is variable. The maximal number of stages is 6; where time5 and colour5 are the last possible parameters. To create a colour interpolation affector, include a section like this within your particle system script:
 

@@ -9,7 +9,7 @@ toc: true
 toclistyle: none
 comments:
 visibility: hiddenz
-mathjax: true
+mathjax:
 mermaid: truez
 glslcanvas:
 ---
@@ -236,7 +236,7 @@ When using @ref Texture_002dbased-Shadows you can specify an alternate material 
 Although Ogre does a good job of detecting the capabilities of graphics cards and setting the supportability of techniques from that, occasionally card-specific behaviour exists which is not necessarily detectable and you may want to ensure that your materials go down a particular path to either use or avoid that behaviour. This is what these rules are for - you can specify matching rules so that a technique will be considered supportable only on cards from a particular vendor, or which match a device name pattern, or will be considered supported only if they **don’t** fulfil such matches. The format of the rules are as follows:
 
 @par
-gpu_vendor_rule &lt;include\|exclude&gt; &lt;vendor_name&gt;<br> gpu_device_rule &lt;include\|exclude&gt; &lt;device_pattern&gt; \[case_sensitive\]
+gpu_vendor_rule &lt;include\|exclude&gt; &lt;vendor_name&gt;<br> gpu_device_rule &lt;include\|exclude&gt; &lt;device_pattern&gt; [case_sensitive]
 
 An ’include’ rule means that the technique will only be supported if one of the include rules is matched (if no include rules are provided, anything will pass). An ’exclude’ rules means that the technique is considered unsupported if any of the exclude rules are matched. You can provide as many rules as you like, although &lt;vendor_name&gt; and &lt;device_pattern&gt; must obviously be unique. The valid list of &lt;vendor_name&gt; values is currently ’nvidia’, ’ati’, ’intel’, ’s3’, ’matrox’ and ’3dlabs’. &lt;device_pattern&gt; can be any string, and you can use wildcards (’\*’) if you need to match variants. Here’s an example:
 
@@ -312,7 +312,7 @@ Here are the attributes you can use in a ’pass’ section of a .material scrip
 Sets the ambient colour reflectance properties of this pass.
 
 @par
-Format: ambient (&lt;red&gt; &lt;green&gt; &lt;blue&gt; \[&lt;alpha&gt;\]\| vertexcolour)<br> NB valid colour values are between 0.0 and 1.0.
+Format: ambient (&lt;red&gt; &lt;green&gt; &lt;blue&gt; [&lt;alpha&gt;]\| vertexcolour)<br> NB valid colour values are between 0.0 and 1.0.
 
 @copydetails Ogre::Pass::setAmbient
 @shaderparam
@@ -329,7 +329,7 @@ Default: ambient 1.0 1.0 1.0 1.0
 
 Sets the diffuse colour reflectance properties of this pass.
 @par
-Format: diffuse (&lt;red&gt; &lt;green&gt; &lt;blue&gt; \[&lt;alpha&gt;\]\| vertexcolour)<br> NB valid colour values are between 0.0 and 1.0.
+Format: diffuse (&lt;red&gt; &lt;green&gt; &lt;blue&gt; [&lt;alpha&gt;]\| vertexcolour)<br> NB valid colour values are between 0.0 and 1.0.
 
 @copydetails Ogre::Pass::setDiffuse
 @shaderparam
@@ -346,7 +346,7 @@ Default: diffuse 1.0 1.0 1.0 1.0
 
 Sets the specular colour reflectance properties of this pass.
 @par
-Format: specular (&lt;red&gt; &lt;green&gt; &lt;blue&gt; \[&lt;alpha&gt;\]\| vertexcolour) &lt;shininess&gt;<br> NB valid colour values are between 0.0 and 1.0. Shininess can be any value greater than 0.
+Format: specular (&lt;red&gt; &lt;green&gt; &lt;blue&gt; [&lt;alpha&gt;]\| vertexcolour) &lt;shininess&gt;<br> NB valid colour values are between 0.0 and 1.0. Shininess can be any value greater than 0.
 
 This property determines how much specular light (highlights from instances of the Light class in the scene) is reflected. The default is to reflect no specular light. The colour of the specular highlights is determined by the colour parameters, and the size of the highlights by the separate shininess parameter.
 It is also possible to make the specular reflectance track the vertex colour as defined in
@@ -369,7 +369,7 @@ Default: specular 0.0 0.0 0.0 0.0 0.0
 Sets the amount of self-illumination an object has.
 
 @par
-Format: emissive (&lt;red&gt; &lt;green&gt; &lt;blue&gt; \[&lt;alpha&gt;\]\| vertexcolour)<br> NB valid colour values are between 0.0 and 1.0.
+Format: emissive (&lt;red&gt; &lt;green&gt; &lt;blue&gt; [&lt;alpha&gt;]\| vertexcolour)<br> NB valid colour values are between 0.0 and 1.0.
 
 Unlike the name suggests, this object doesn’t act as a light source for other objects in the scene (if you want it to, you have to create a light which is centered on the object).
 @copydetails Ogre::Pass::setSelfIllumination
@@ -524,7 +524,7 @@ Default: depth_func less_equal
 
 Sets the bias applied to the depth value of this pass.
 @par
-Format: depth_bias &lt;constantBias&gt; \[&lt;slopeScaleBias&gt;\]
+Format: depth_bias &lt;constantBias&gt; [&lt;slopeScaleBias&gt;]
 
 @copydetails Ogre::Pass::setDepthBias
 
@@ -729,7 +729,7 @@ Format: polygon_mode_overrideable &lt;override&gt;
 
 Tells the pass whether it should override the scene fog settings, and enforce it’s own. Very useful for things that you don’t want to be affected by fog when the rest of the scene is fogged, or vice versa.
 @par
-Format: fog_override &lt;override?&gt; \[&lt;type&gt; &lt;colour&gt; &lt;density&gt; &lt;start&gt; &lt;end&gt;\]
+Format: fog_override &lt;override?&gt; [&lt;type&gt; &lt;colour&gt; &lt;density&gt; &lt;start&gt; &lt;end&gt;]
 @par
 Default: fog_override false
 
@@ -798,9 +798,9 @@ Default: max_lights 8<br>
 
 Sets whether or not this pass is iterated, i.e. issued more than once.
 @par
-Format 1: iteration &lt;once \| once_per_light&gt; \[lightType\] Format 2: iteration &lt;number&gt; \[&lt;per_light&gt; \[lightType\]\]
+Format 1: iteration &lt;once \| once_per_light&gt; [lightType] Format 2: iteration &lt;number&gt; [&lt;per_light&gt; [lightType]]
 @par
-Format 3: iteration &lt;number&gt; \[&lt;per_n_lights&gt; &lt;num_lights&gt; \[lightType\]\] Examples:
+Format 3: iteration &lt;number&gt; [&lt;per_n_lights&gt; &lt;num_lights&gt; [lightType]] Examples:
 
 <dl compact="compact">
 <dt>iteration once</dt> <dd>
@@ -951,7 +951,7 @@ Format: point_sprites &lt;on\|off&gt; Default: point_sprites off
 Defines whether point size is attenuated with view space distance, and in what fashion.
 
 @par
-Format: point_size_attenuation &lt;enabled&gt; \[constant linear quadratic\] Default: point_size_attenuation off
+Format: point_size_attenuation &lt;enabled&gt; [constant linear quadratic] Default: point_size_attenuation off
 
 @copydetails Ogre::Pass::setPointAttenuation
 
@@ -1047,7 +1047,7 @@ Setting the texture alias name is useful if this material is to be inherited by 
 
 Sets the name of the static texture image this layer will use.
 @par
-Format: texture &lt;texturename&gt; \[&lt;type&gt;\] \[unlimited \| numMipMaps\] \[alpha\] \[&lt;PixelFormat&gt;\] \[gamma\]
+Format: texture &lt;texturename&gt; [&lt;type&gt;] [unlimited \| numMipMaps] [alpha] [&lt;PixelFormat&gt;] [gamma]
 @par
 Example: texture funkywall.jpg
 
@@ -1165,7 +1165,7 @@ Default: binding_type fragment
 Tells this texture unit where it should get its content from. The default is to get texture content from a named texture, as defined with the [texture](#texture), [cubic_texture](#cubic_005ftexture), [anim_texture](#anim_005ftexture) attributes. However you can also pull texture information from other automated sources.
 
 @par
-Format: content_type &lt;type&gt; \[&lt;compositorName&gt;\] \[&lt;textureName&gt;\] \[&lt;mrtIndex&gt;\]
+Format: content_type &lt;type&gt; [&lt;compositorName&gt;] [&lt;textureName&gt;] [&lt;mrtIndex&gt;]
 
 @param type
 <dl compact="compact">
@@ -1231,7 +1231,7 @@ Default: colour_op modulate
 
 @ffp_rtss_only
 @par
-Format: colour_op_ex &lt;op&gt; &lt;source1&gt; &lt;source2&gt; \[&lt;manualBlend&gt;\] \[&lt;arg1&gt;\] \[&lt;arg2&gt;\]
+Format: colour_op_ex &lt;op&gt; &lt;source1&gt; &lt;source2&gt; [&lt;manualBlend&gt;] [&lt;arg1&gt;] [&lt;arg2&gt;]
 @par
 Example colour_op_ex add_signed src_manual src_current 0.5
 
@@ -1263,7 +1263,7 @@ Example: colour_op_multipass_fallback one one_minus_dest_alpha
 @ffp_rtss_only
 
 @par
-Format: alpha_op_ex &lt;op&gt; &lt;source1&gt; &lt;source2&gt; \[&lt;manualBlend&gt;\] \[&lt;arg1&gt;\] \[&lt;arg2&gt;\]
+Format: alpha_op_ex &lt;op&gt; &lt;source1&gt; &lt;source2&gt; [&lt;manualBlend&gt;] [&lt;arg1&gt;] [&lt;arg2&gt;]
 
 @copydetails Ogre::TextureUnitState::setAlphaOperation
 
@@ -1473,7 +1473,7 @@ sampler mySampler
 
 Defines what happens when texture coordinates exceed 1.0 for this texture layer.You can use the simple format to specify the addressing mode for all 3 potential texture coordinates at once, or you can use the 2/3 parameter extended format to specify a different mode per texture coordinate.
 @par
-Simple Format: tex_address_mode &lt;uvw_mode&gt; <br> Extended Format: tex_address_mode &lt;u_mode&gt; &lt;v_mode&gt; \[&lt;w_mode&gt;\]
+Simple Format: tex_address_mode &lt;uvw_mode&gt; <br> Extended Format: tex_address_mode &lt;u_mode&gt; &lt;v_mode&gt; [&lt;w_mode&gt;]
 
 Valid values for both are one of Ogre::TextureAddressingMode without the `TAM_` prefix. E.g. `TAM_WRAP` becomes `wrap`.
 
@@ -1487,7 +1487,7 @@ Default: tex_address_mode wrap
 
 Sets the border colour of border texture address mode (see [tex_address_mode](#tex_005faddress_005fmode)).
 @par
-Format: tex_border_colour &lt;red&gt; &lt;green&gt; &lt;blue&gt; \[&lt;alpha&gt;\]<br> NB valid colour values are between 0.0 and 1.0.
+Format: tex_border_colour &lt;red&gt; &lt;green&gt; &lt;blue&gt; [&lt;alpha&gt;]<br> NB valid colour values are between 0.0 and 1.0.
 @par
 Example: tex_border_colour 0.0 1.0 0.3
 @par
@@ -1745,7 +1745,7 @@ shared_params YourSharedParamsName
 
 As you can see, you need to use the keyword ’shared_params’ and follow it with the name that you will use to identify these shared parameters. Inside the curly braces, you can define one parameter per line, in a way which is very similar to the [param_named](#param_005fnamed) syntax. The definition of these lines is:
 @par
-Format: shared_param_name &lt;param_name&gt; &lt;param_type&gt; \[&lt;\[array_size\]&gt;\] \[&lt;initial_values&gt;\]
+Format: shared_param_name &lt;param_name&gt; &lt;param_type&gt; [&lt;[array_size]&gt;] [&lt;initial_values&gt;]
 
 @param param_name must be unique within the set
 @param param_type can be any one of float, float2, float3, float4, int, int2, int3, int4, matrix2x2, matrix2x3, matrix2x4, matrix3x2, matrix3x3, matrix3x4, matrix4x2, matrix4x3 and matrix4x4.
