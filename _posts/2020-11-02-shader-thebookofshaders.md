@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“特效编程”笔记 -- OpenGL Shader / GLSL 学习笔记"
+title: "“特效编程”笔记 --《The Book of Shaders》读书笔记"
 author:
 location: "珠海"
 categories: ["特效"]
@@ -13,6 +13,8 @@ mathjax: true
 mermaid:
 glslcanvas: true
 ---
+
+The Book of Shaders -- 这是一本非常坑爹的书，因为作者没写完。
 
 可编程渲染管线 OpenGL Shader / GLSL
 

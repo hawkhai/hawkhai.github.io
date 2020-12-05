@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“特效编程”笔记 -- OpenGL Shader / GLSL 资料收集"
+title: "“特效编程”笔记 -- Shader Language 入门了解"
 author:
 location: "珠海"
 categories: ["特效"]
