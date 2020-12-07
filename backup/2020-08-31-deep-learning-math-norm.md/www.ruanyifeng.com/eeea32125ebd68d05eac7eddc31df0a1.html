@@ -1,0 +1,3457 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" id="sixapart-standard">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="Movable Type  5.2.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!--link rel="stylesheet" href="http://www.ruanyifeng.com/blog/styles.css" type="text/css" /-->
+<link rel="start" href="http://www.ruanyifeng.com/blog/" title="Home" />
+<link rel="alternate" type="application/atom+xml" title="Recent Entries" href="http://feeds.feedburner.com/ruanyifeng" />
+<script type="text/javascript" src="http://www.ruanyifeng.com/blog/mt.js"></script>
+<!--
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="http://www.ruanyifeng.com/blog/2020/11/wechat-miniprogram-tutorial-part-four.html">
+<dc:title>微信小程序入门教程之四：API 使用</dc:title>
+<dc:description>今天是这个系列教程的最后一篇。...</dc:description>
+<dc:creator>阮一峰</dc:creator>
+<dc:date>2020-11-02T18:33:01+08:00</dc:date>
+<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/3.0/" />
+</Work>
+<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/3.0/">
+</License>
+</rdf:RDF>
+-->
+
+<style>
+body {
+  background-color: #f5f5d5;
+}
+
+#container::before {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: rgba(0,0,0,0.1);
+  text-align: center;
+  content: "本站显示不正常，可能因为您使用了广告拦截器。";
+}
+
+</style>
+<script>
+function loadjscssfile(filename, filetype){
+    if (filetype=="js"){ //if filename is a external JavaScript file
+        var fileref=document.createElement('script')
+        fileref.setAttribute("type","text/javascript")
+        fileref.setAttribute("src", filename)
+    }
+    else if (filetype=="css"){ //if filename is an external CSS file
+        var fileref=document.createElement("link")
+        fileref.setAttribute("rel", "stylesheet")
+        fileref.setAttribute("type", "text/css")
+        fileref.setAttribute("href", filename)
+    }
+    if (typeof fileref!="undefined")
+        document.getElementsByTagName("head")[0].appendChild(fileref)
+}
+//loadjscssfile("http://www.ruanyifeng.com/blog/styles.css", "css");
+loadjscssfile('/static/themes/theme_scrapbook/theme_scrapbook.min.css', "css");
+
+
+function checker() {
+// var img = document.querySelector('img[src^="http://www.ruanyifeng.com/blog/images"]');
+var img = document.querySelector('a > img[src*="wangbase.com/blogimg/asset/"]');
+  if (img && window.getComputedStyle(img).display === 'none'){
+    var sponsor = document.querySelector('.entry-sponsor');
+    var prompt = document.createElement('div');
+    prompt.style = 'border: 1px solid #c6c6c6;border-radius: 4px;background-color: #f5f2f0;padding: 15px; font-size: 14px;';
+  prompt.innerHTML = '<p>您使用了广告拦截器，导致本站内容无法显示。</p><p>请将 www.ruanyifeng.com 加入白名单，解除广告屏蔽后，刷新页面。谢谢。</p>';
+    sponsor.parentNode.replaceChild(prompt, sponsor);
+    document.querySelector('#main-content').innerHTML = '';
+  }
+}
+
+setTimeout(checker, 1000);
+</script>
+
+    
+    <link rel="prev" href="http://www.ruanyifeng.com/blog/2015/08/password-fatigue.html" title="密码疲劳" />
+    <link rel="next" href="http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html" title="网页性能管理详解" />
+    
+    <title>理解矩阵乘法 - 阮一峰的网络日志</title>
+</head>
+<body id="scrapbook" class="mt-entry-archive one-column">
+<script>
+if (/mobile/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) document.body.classList.add('mobile');
+
+/*
+window.addEventListener('load', function(event) {
+  setTimeout(function () {
+    hab('#sup-post-2');
+    hab('#cre-inner');
+  }, 1000);
+});
+*/
+</script>
+    <div id="container">
+        <div id="container-inner">
+
+            <div id="header">
+    <div id="header-inner">
+        <div id="header-content">
+
+
+            <div id="header-name">阮一峰的网络日志 <span id="site_location"> » <a href="http://www.ruanyifeng.com/blog/" accesskey="1">首页</a></span><span id="site_archive"> » <a href="http://www.ruanyifeng.com/blog/archives.html">档案</a></span>
+</div>
+
+<div id="google_search">
+<!-- SiteSearch Google -->
+<form action="https://www.baidu.com/s" target="_blank" method="get" id="cse-search-box">
+  <div>
+  <input type="text" size="20" name="origin" class="searchbox" id="sbi" value="" />
+  <input type="hidden" name="wd" value="" />
+  <!--input type="image" src="/static/themes/theme_scrapbook/images/top_search_submit.gif" class="searchbox_submit" value="" alt="搜索" name="sa" onclick="this.form.wd.value = this.form.origin.value + ' inurl:www.ruanyifeng.com/blog'" /-->
+  <input type="image" src="/static/themes/theme_scrapbook/images/top_search_submit.gif" class="searchbox_submit" value="" alt="搜索" name="sa" onclick="this.form.wd.value = this.form.origin.value + ' 阮一峰'" />
+</div>
+</form>
+
+<!-- SiteSearch Google -->
+</div>
+<div id="feed_icon">
+<a href="/feed.html" title="订阅Feed">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAUzSURBVHjavFdbbFRVFF3nPjoz7dTWTittaW0jUDRAUqaNojyqREnEQKgfUj9MqqAmhqRt/OCD4CuY+Kckoh+aiGKC+gMJbdHoRysJ8dkhhmJLNdDKtJU+6GMK87j3Hs85d2Z6HzNtMYWb3Dn3NWftvfba+5xNYDl+e6Fkj6yqb/oDRbWq14vlPBLRKCITkxf0ROLt+hNjp1PPSRK4kA3vF1dXNRcWlyA2OQU9eos9opAkAiKxD+XkKO6t15aRWO7J/MgmAZU8MEgexgZHMX518Dh72sYMmVKShnxWuWHdHtxKIDIYTgMuDzgfmSOIQkYMpdUF8OY92Hytt4/jvkg47czzU16iQovM3QFwmNck+Yyduu7D6NA0Z6JR4THntFs9V4tWQg6Ui3s6MwKDncsFTnXKLJhDSeUK3AgPtyhccDzmVs999buRt/1Vm4i0od+hX7+MRG87jPGB/w1u8FPj9xEw7McVrnYuOCvtpjTth3J/nTg99c8LRhKhr6D3dTB5R24bXFwbMXBsyZzeoXaycEpJ95TB09AGX/NpqLVNtw8urnVzLvHjFNxiFqRy2OOHuqUVnue+ACkoWzo4O6lGzTmuHq6nPvY2m9rVqjrIK2rMEKxqyG5NPAKt+wjo0LklgfNxJkZMA3KJvqRUk3z5UFY3QH14P0h+WUY79HPvgv7VuSg4ZRGY1YgZgqXmORccF17sy2ehnf9AeO085K2HQFbtXBScj0LcpgF2cN+WV+DZ/LJQu6gD4R7oV7pBJwbSgtMvfiPoVp56DySwxm7EtkMs1WdAB7qzggsDJKQYsHucSkOudrkiCPWR/fA2nYCn8SNIK4NptSMyAu3sAdDRkIsJdfth0LzSrODUoPNZ4KI9SxJI5UHk7D4GdQfz2us31c7CoHMjRkKuDPHseCMrONVhNcDJwMJpKFVvg9L4OaTiNWm1x789KCqkrXhVBiEz0WYCT2nAzQAD1/vaETv1GrRfP4Vx5cfMNcDPwvP0h0DhanPym7OIf/+O67vcJ1/PCJ4KgdzaUP6Wz+dU+5yIL6fV+PsHGAOdwlPpvvUOyeeAVGyCdqkDNB6DPjsBSrnndfOGevOh3RhGItxvA+fX1CtbGFhgYUFkFMZPR6F1HnClHq8HyubWtJexX06CRmdt33hrd7nA7SFY4qoGpnYuOKcRykPPgDCBcsHx9Iv+fNL2PueBehCWUfYQIIMGLOCcOmXDXsh1+yCt35tUPfvzGFuSvzvoinXOxqa02qOhM6733nVP2MAdaej2XN11DPKjLZCD+yBvahGCo7JfTKAN9UD7s8Oe9zUNIhz8fWI8DG2k38WCFdxugANcXrvTVd1IEbuv3Jour7Hzn7jLMBNfKs7R3i67gRVrbeCOEDhinmWhAatsqdquM2XzHZINhK2cqTjHr/XZdVJUbgN3MWAVXKbSyg9jesRW2xP9di+lwrL5ojM3m2H/kG9hwcIA37c71W6wJdW2J2S5nrjYbq/t1AHAhJsKQeyfPvf6IMJgghPJhFZ4x0KlfLFvt22du45Au/A1SOlGc0P672XXwhLtOcM0kTTEMMd0qkVmMNXxMd/tsedUjInr4SQDgOfeXMSiN0FCL5WHah4L1qqYXPJOJlttd+a5M+YpcG5poLYKQ5f+6JJ4r8bbJYP47hq4r7QAs9PjYNhHJd4o8l5taiwuOpa7AS4XKqI/5NjJbTnaWK92nLdLuhQAJayRNMiygXPBeQN+Qbvu0zDc3y+aUzhbkGR73sI7ljvUnndx2q3t+X8CDAD66FtrIL864AAAAABJRU5ErkJggg==" alt="" style="border: 0pt none;" />
+</a></div>
+
+        </div>
+    </div>
+</div>
+
+
+
+            <div id="content">
+                <div id="content-inner">
+
+
+                    <div id="alpha">
+                        <div id="alpha-inner">
+
+
+                            <div id="entry-1851" class="entry-asset asset hentry">
+                                <div class="asset-header">
+<div class="asset-nav entry-nav">
+
+<div class="entry-location">
+<ul>
+<li>上一篇：<a href="http://www.ruanyifeng.com/blog/2015/08/password-fatigue.html" title="密码疲劳">密码疲劳&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+<li>下一篇：<a href="http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html" title="网页性能管理详解">网页性能管理详解&nbsp;&nbsp;&nbsp;</a></li>
+</ul>
+</div>
+
+
+    
+                                    <div class="entry-categories">
+                                        <p>分类<span class="delimiter">：</span></p>
+                                        <ul>
+                                            <li><a href="http://www.ruanyifeng.com/blog/algorithm/" rel="tag">算法与数学</a></li>
+                                        </ul>
+                                    </div>
+    
+
+
+                                            
+<div class="entry-location-mobile" style="float: right;">
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2015/08/password-fatigue.html" title="密码疲劳">⇐&nbsp;</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html" title="网页性能管理详解">&nbsp;⇒</a></li>
+</ul>
+</div>
+
+</div>
+</div>
+
+                          
+<article class="hentry">
+                                    <h1 id="page-title" class="asset-name entry-title">理解矩阵乘法</h1>
+                                            <div id="share_button" class="social-share" style="float:right;padding-right:2em;padding-top:1em;"></div>
+
+<div class="asset-meta">
+                                        
+
+                                            <p class="vcard author">作者： <a class="fn url" href="http://www.ruanyifeng.com">阮一峰</a></p>
+                                    <p>日期： <a href="http://www.ruanyifeng.com/blog/2015/09/"><abbr class="published" title="2015-09-01T18:02:07+08:00">2015年9月 1日</abbr></a></p>
+
+
+</div>
+
+
+
+
+
+
+
+
+                                
+                                <div class="asset-content entry-content" id="main-content">
+
+                                    <!-- div class="asset-body" -->
+                                        <p>大多数人在高中，或者大学低年级，都上过一门课《线性代数》。这门课其实是教矩阵。</p>
+
+                                    <!-- /div -->
+
+
+                                    <!-- div id="more" class="asset-more" -->
+                                        <p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015090114.jpg" alt="" title="" /></p>
+
+<p>刚学的时候，还蛮简单的，矩阵加法就是相同位置的数字加一下。</p>
+
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015090102.png" alt="" title="" /></p>
+
+<p>矩阵减法也类似。</p>
+
+<p>矩阵乘以一个常数，就是所有位置都乘以这个数。</p>
+
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015090103.png" alt="" title="" /></p>
+
+<p>但是，等到矩阵乘以矩阵的时候，一切就不一样了。</p>
+
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015090104.png" alt="" title="" /></p>
+
+<p>这个结果是怎么算出来的？</p>
+
+<p>教科书告诉你，计算规则是，第一个矩阵第一行的每个数字（2和1），各自乘以第二个矩阵第一列对应位置的数字（1和1），然后将乘积相加（ 2 x 1 + 1 x 1），得到结果矩阵左上角的那个值3。</p>
+
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015090105.gif" alt="" title="" /></p>
+
+<p>也就是说，结果矩阵第m行与第n列交叉位置的那个值，等于第一个矩阵第m行与第二个矩阵第n列，对应位置的每个值的乘积之和。</p>
+
+<p>怎么会有这么奇怪的规则？</p>
+
+<p>我一直没理解这个规则的含义，导致《线性代数》这门课就没学懂。研究生时发现，线性代数是向量计算的基础，很多重要的数学模型都要用到向量计算，所以我做不了复杂模型。这一直让我有点伤心。</p>
+
+<p>前些日子，受到<a href="https://nolaymanleftbehind.wordpress.com/2011/07/10/linear-algebra-what-matrices-actually-are/">一篇文章</a>的启发，我终于想通了，矩阵乘法到底是什么东西。关键就是一句话，<strong>矩阵的本质就是线性方程式，两者是一一对应关系。</strong>如果从线性方程式的角度，理解矩阵乘法就毫无难度。</p>
+
+<p>下面是一组线性方程式。</p>
+
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015090106.png" alt="" title="" /></p>
+
+<p>矩阵的最初目的，只是为线性方程组提供一个简写形式。</p>
+
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015090107.png" alt="" title="" /></p>
+
+<p>老实说，从上面这种写法，已经能看出矩阵乘法的规则了：系数矩阵第一行的2和1，各自与 x 和 y 的乘积之和，等于3。不过，这不算严格的证明，只是线性方程式转为矩阵的书写规则。</p>
+
+<p>下面才是严格的证明。有三组未知数 x、y 和 t，其中 x 和 y 的关系如下。</p>
+
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015090108.png" alt="" title="" /></p>
+
+<p>x 和 t 的关系如下。</p>
+
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015090109.png" alt="" title="" /></p>
+
+<p>有了这两组方程式，就可以求 y 和 t 的关系。从矩阵来看，很显然，只要把第二个矩阵代入第一个矩阵即可。</p>
+
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015090110.png" alt="" title="" /></p>
+
+<p>从方程式来看，也可以把第二个方程组代入第一个方程组。</p>
+
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015090111.png" alt="" title="" /></p>
+
+<p>上面的方程组可以整理成下面的形式。</p>
+
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015090112.png" alt="" title="" /></p>
+
+<p>最后那个矩阵等式，与前面的矩阵等式一对照，就会得到下面的关系。</p>
+
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015090113.png" alt="" title="" /></p>
+
+<p>矩阵乘法的计算规则，从而得到证明。</p>
+
+<p id="sponsor">=========================================</p>
+
+<p>以下为广告部分。欢迎大家在我的网络日志<a href="http://www.ruanyifeng.com/ads.html">投放广告</a>。</p>
+
+<p><strong>[赞助商广告]</strong></p>
+
+<p>如果你想换工作，花五分钟，浏览一下 <a href="http://www.100offer.com/join/free?utm_source=ruanyf&amp;utm_medium=essay&amp;utm_campaign=ruanyf&amp;utm_content=daxiaogongsi">100offer</a>，也许人生从此就会不同。 </p>
+
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015090122.jpg" alt="" title="" /></p>
+
+<p><a href="http://www.100offer.com/join/free?utm_source=ruanyf&amp;utm_medium=essay&amp;utm_campaign=ruanyf&amp;utm_content=daxiaogongsi">100offer</a>  的目标是，只要你有2年以上的互联网工作经验（一线互联网公司更好），它就极有可能帮你拿到年薪 20W--80W 的 Offer。</p>
+
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015090121.jpg" alt="" title="" /></p>
+
+<p>它最近对514位用户的一份<a href="http://100offer.com/blog/posts/96">实证分析</a>，有两点发现。</p>
+
+<blockquote>
+  <p>（1）所有离职的工程师之中，BAT员工最受欢迎，新工作的薪酬通常可以翻番。</p>
+
+<p>（2）只有40%的程序员跳槽去了C轮、D轮和上市公司，其余60%都去了天使轮、A轮和B轮的公司，其中不乏资深的高级程序员。原因是这些创业公司刚刚起步、产品模式初步得到认可，上升空间大、技术人才需求量大、愿意给出较多的期权。</p>
+</blockquote>
+
+<p><img src="http://tc.sinaimg.cn/maxwidth.2048/tc.service.weibo.com/p/blog_100offer_b0_upaiyun_com/05ac5f607ecc4337acd415baf2c63b5e.jpg" alt="" title="" /></p>
+
+<p>结合上面两点，年青程序员可以这样设计自己的职业生涯：</p>
+
+<p><strong>1、至少有一次大公司的成功工作经历。</strong></p>
+
+<p>所谓"成功"，是指参与过知名的产品开发或主力项目经验。这一般代表你已经具备：良好的代码规范、团队协作能力、与大牛一起工作的开阔眼界成熟的技术体系。</p>
+
+<p><strong>2、然后，加入一家高速发展的创业公司。</strong></p>
+
+<p><a href="http://www.100offer.com/join/free?utm_source=ruanyf&amp;utm_medium=essay&amp;utm_campaign=ruanyf&amp;utm_content=daxiaogongsi">100offer</a>  帮助你实现这条职业道路。</p>
+
+<p>（完）</p>
+
+                                    <!-- /div -->
+
+                                </div>
+    <script type="text/javascript" src="/newwindow.js"></script>
+                                <div class="asset-footer">
+
+<h3>文档信息</h3>
+<ul>
+<li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">创意共享3.0许可证</a>）</li>
+<li>发表日期： <abbr class="published" title="2015-09-01T18:02:07+08:00">2015年9月 1日</abbr></li>
+
+</ul>
+                                </div>
+</article>
+                            </div>
+
+
+
+  <div style="display: inline-block ! important;width: 100%;">
+  
+  <p style="text-align:center;font-size: 16px;">
+    <a title="算法训练营体验课" target="_blank" href="https://u.geekbang.org/subject/prioralgorithm?gk_liebian=false&cus_user_wechat=university&utm_source=ruanyifeng&utm_medium=1010&utm_term=kolruanyifeng1118">算法训练营体验课</a>
+    <br>
+    <a title="算法训练营体验课" href="https://u.geekbang.org/subject/prioralgorithm?gk_liebian=false&cus_user_wechat=university&utm_source=ruanyifeng&utm_medium=1010&utm_term=kolruanyifeng1118" target="_blank"><img alt="算法训练营体验课" src="https://www.wangbase.com/blogimg/asset/202010/bg2020101303.jpg" style="border: 1px solid #666;display: block !important;width:100%;max-width:100%;" /></a>
+  </p>  
+  
+  </div>
+
+
+
+<div id="related_entries">
+<h2>相关文章</h2>
+<ul>
+
+<li><strong>2019.01.28: <a href="http://www.ruanyifeng.com/blog/2019/01/prolog.html">Prolog 语言入门教程</a></strong>
+
+                           <div class="entry-body">
+                              Prolog 是一种与众不同的语言，不用来开发软件，专门解决逻辑问题。比如，"苏格拉底是人，人都会死，所以苏格拉底会死"这一类的问题。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2018.09.05: <a href="http://www.ruanyifeng.com/blog/2018/09/hash-collision-and-birthday-attack.html">哈希碰撞与生日攻击</a></strong>
+
+                           <div class="entry-body">
+                              一、哈希碰撞是什么？
+
+所谓哈希（hash），就是将不同的输入映射成独一无二的、固定长度的值（又称"哈希值"）。它是最常见的软件运算之一。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2018.04.07: <a href="http://www.ruanyifeng.com/blog/2018/04/lottery-mathematics.html">彩票的数学知识</a></strong>
+
+                           <div class="entry-body">
+                              彩票怎样才能中奖？
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2017.12.13: <a href="http://www.ruanyifeng.com/blog/2017/12/image-and-wave-filters.html">图像与滤波</a></strong>
+
+                           <div class="entry-body">
+                              我对图像处理一直很感兴趣，曾经写过好几篇博客（1，2，3，4）。
+
+                           </div>
+
+</li>
+
+ 
+</ul>
+</div>
+
+
+<div id="cre" style="display: block !important;">
+<h2>广告<a href="/support.html">（购买广告位）</a></h2>
+<div id="cre-inner">
+
+<div id="cre-left">
+<p style="font-size:16px;text-align:center;"><a title="倾城之链" href="https://nicelinks.site/explore/all" target="_blank">网络书签分享平台</a></p>
+<a title="倾城之链" href="https://nicelinks.site/explore/all" target="_blank"><image alt=="倾城之链" src="https://www.wangbase.com/blogimg/asset/202012/bg2020120409.jpg" style="border:none;" /></a>
+</div>
+
+<div id="cre-right">
+<p style="font-size:16px;text-align:center;"><a href="http://www.ruanyifeng.com/blog/2019/01/survivor-preface.html" target="_blank">未来世界的幸存者</a></p>
+<a title="未来世界的幸存者" href="http://www.ruanyifeng.com/blog/2019/01/survivor-preface.html" target="_blank"><image alt="未来世界的幸存者" src="https://www.wangbase.com/blogimg/asset/201903/bg2019032401.jpg" style="border:none;" /></a>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+                    
+
+                    <div id="comments" class="comments">
+
+
+    
+    
+        
+    <h2 class="comments-header">留言（86条）</h2>
+
+    <div id="comments-content" class="comments-content" style="clear: left;">
+        
+        <div id="comment-351514" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">你大爷</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351514">
+            <p>这篇广告发的很硬啊·~~</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  1, 2015  6:47 PM">2015年9月 1日 18:47</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351514">#</a>
+ | <a href="#comment-text" title="引用你大爷的这条留言" onclick="return CommentQuote('comment-quote-351514','你大爷');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351515" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">uuspider</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351515">
+            <p>阮老师是要开始研究算法了吗？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  1, 2015  6:57 PM">2015年9月 1日 18:57</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351515">#</a>
+ | <a href="#comment-text" title="引用uuspider的这条留言" onclick="return CommentQuote('comment-quote-351515','uuspider');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351516" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">小恶魔</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351516">
+            <p>@uuspider  高中基本知识而已，怎么能叫算法呢？？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  1, 2015  7:11 PM">2015年9月 1日 19:11</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351516">#</a>
+ | <a href="#comment-text" title="引用小恶魔的这条留言" onclick="return CommentQuote('comment-quote-351516','小恶魔');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351517" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://drunkevil.com" href="http://drunkevil.com" target="_blank" rel="nofollow">drunkevil</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351517">
+            <p>这一点应该是理解矩阵乘法的基础，很多的线性代数书上面都有讲到，只是不一定每个老师都讲到，好多老师都把它作为选将部分，时间不够就不讲了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  1, 2015  7:14 PM">2015年9月 1日 19:14</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351517">#</a>
+ | <a href="#comment-text" title="引用drunkevil的这条留言" onclick="return CommentQuote('comment-quote-351517','drunkevil');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351520" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">swizard</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351520">
+            <p>这个证明有问题吧？ 从方程组到简写矩阵 这一步并没有证明。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  1, 2015  8:59 PM">2015年9月 1日 20:59</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351520">#</a>
+ | <a href="#comment-text" title="引用swizard的这条留言" onclick="return CommentQuote('comment-quote-351520','swizard');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351521" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">NemoLuo</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351521">
+            <p>这个以前Matric67有一篇文章, <a href="http://www.matrix67.com/blog/archives/4294" rel="nofollow">http://www.matrix67.com/blog/archives/4294</a> 这里感觉更接近本质</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  1, 2015 10:15 PM">2015年9月 1日 22:15</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351521">#</a>
+ | <a href="#comment-text" title="引用NemoLuo的这条留言" onclick="return CommentQuote('comment-quote-351521','NemoLuo');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351522" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://xmfbit.github.io" href="http://xmfbit.github.io" target="_blank" rel="nofollow">lyapunov</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351522">
+            <p>矩阵乘法是线性变换。在线性空间中，选定了基底的线性变换可以用矩阵乘法表示。通过研究矩阵，就可以研究对应的线性变换。比如，酉矩阵对应酉变换。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  1, 2015 11:10 PM">2015年9月 1日 23:10</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351522">#</a>
+ | <a href="#comment-text" title="引用lyapunov的这条留言" onclick="return CommentQuote('comment-quote-351522','lyapunov');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351524" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="https://github.com/chucklu" href="https://github.com/chucklu" target="_blank" rel="nofollow">ChuckLu</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351524">
+            <p>不太明白这个东西，你怎么现在才知道<br />
+矩阵的最初目的，只是为线性方程组提供一个简写形式。</p>
+
+<p>你们用的是什么教材？我记得高中的时候，学习这个的时候。<br />
+书上很明确的提到了矩阵的目的，教材还是可以好好看看，逐字逐句</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  2, 2015  8:30 AM">2015年9月 2日 08:30</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351524">#</a>
+ | <a href="#comment-text" title="引用ChuckLu的这条留言" onclick="return CommentQuote('comment-quote-351524','ChuckLu');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351526" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">vingc</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351526">
+            <p>残忍拒绝，这么残忍，会拉仇恨，为什么不改成“委婉拒绝”</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  2, 2015 10:00 AM">2015年9月 2日 10:00</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351526">#</a>
+ | <a href="#comment-text" title="引用vingc的这条留言" onclick="return CommentQuote('comment-quote-351526','vingc');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351531" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://quant67.com" href="http://quant67.com" target="_blank" rel="nofollow">quant67</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351531">
+            <p>广告挺好的。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  2, 2015 12:33 PM">2015年9月 2日 12:33</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351531">#</a>
+ | <a href="#comment-text" title="引用quant67的这条留言" onclick="return CommentQuote('comment-quote-351531','quant67');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351533" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">rt</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351533">
+            <blockquote>
+<pre>引用ChuckLu的发言：</pre>
+
+<p>不太明白这个东西，你怎么现在才知道<br />
+矩阵的最初目的，只是为线性方程组提供一个简写形式。</p>
+
+<p>你们用的是什么教材？我记得高中的时候，学习这个的时候。<br />
+书上很明确的提到了矩阵的目的，教材还是可以好好看看，逐字逐句</p>
+
+</blockquote>
+
+<p>我们高中根本没这课，各个地方不一样的，别想当然</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  2, 2015  5:40 PM">2015年9月 2日 17:40</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351533">#</a>
+ | <a href="#comment-text" title="引用rt的这条留言" onclick="return CommentQuote('comment-quote-351533','rt');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351543" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">charles</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351543">
+            <p>广告真遗憾，不是互联网的IT人可用不上。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  3, 2015  9:43 AM">2015年9月 3日 09:43</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351543">#</a>
+ | <a href="#comment-text" title="引用charles的这条留言" onclick="return CommentQuote('comment-quote-351543','charles');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351545" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">jia</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351545">
+            <p>我是学数学出身！！这些。。。。。1=1    1+1之类的</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  3, 2015  2:19 PM">2015年9月 3日 14:19</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351545">#</a>
+ | <a href="#comment-text" title="引用jia的这条留言" onclick="return CommentQuote('comment-quote-351545','jia');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351546" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://chuansong.me/account/mountain_feet" href="http://chuansong.me/account/mountain_feet" target="_blank" rel="nofollow">山下</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351546">
+            <p>文字表达很清楚。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  3, 2015  2:34 PM">2015年9月 3日 14:34</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351546">#</a>
+ | <a href="#comment-text" title="引用山下的这条留言" onclick="return CommentQuote('comment-quote-351546','山下');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351549" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://pmvt.cn" href="http://pmvt.cn" target="_blank" rel="nofollow">christopher</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351549">
+            <p>本科的时候老师有提过。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  3, 2015 10:51 PM">2015年9月 3日 22:51</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351549">#</a>
+ | <a href="#comment-text" title="引用christopher的这条留言" onclick="return CommentQuote('comment-quote-351549','christopher');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351553" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">uuspider</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351553">
+            <blockquote>
+<pre>引用小恶魔的发言：</pre>
+
+<p>@uuspider高中基本知识而已，怎么能叫算法呢？？</p>
+
+</blockquote>
+
+<p>矩阵运算是数组的应用，数组是算法和数据结构的基础，原文说"很多重要的数学模型都要用到向量计算，所以我做不了复杂模型"，可见理解矩阵是为了做“复杂模型”，做模型一定是为了找到解决问题的方法，具体化到编程，就是算法。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  4, 2015 12:34 PM">2015年9月 4日 12:34</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351553">#</a>
+ | <a href="#comment-text" title="引用uuspider的这条留言" onclick="return CommentQuote('comment-quote-351553','uuspider');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351563" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.code123.cc/" href="http://www.code123.cc/" target="_blank" rel="nofollow">蛀牙</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351563">
+            <p>终于算是明白一二了。读书那会学矩阵、线性代数、复变函数这些课程，也是云里雾里。尤其复变函数，至今也是不明就里。阮博士应该去大学当老师才好。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  5, 2015 11:19 AM">2015年9月 5日 11:19</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351563">#</a>
+ | <a href="#comment-text" title="引用蛀牙的这条留言" onclick="return CommentQuote('comment-quote-351563','蛀牙');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351564" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">weibo</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351564">
+            <p>当时学的时候遇到乘法后就不理解了，为什么莫名其妙的来个这样的规则？我那博士老师的回答让我太失望了，就是这样的规则，他的思路一直在如何解上面跟我讲，我是想知道为毛有这规则。后来没办法，自己展开3位4位 ... 去发现规律，特么的隐约觉得这跟多项式有点关系？</p>
+
+<p>但是这是什么规律啊，书上没一句说这个关系啊，网上也没有啊，课后习题也有跟多项式有关系的东西...老师上面讲的都是各种花哨的解体技巧，没兴趣，bug我自己也会找，但是就是不知道这个乘法规则到底跟解多项式是不是有一腿 ....</p>
+
+<p>直到现在 ... 特么的 ... 简单的东西为毛包装的那么看起来很厉害的样子..</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  5, 2015 11:29 AM">2015年9月 5日 11:29</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351564">#</a>
+ | <a href="#comment-text" title="引用weibo的这条留言" onclick="return CommentQuote('comment-quote-351564','weibo');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351577" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">pood</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351577">
+            <p>方老师能重新编辑下高等数学教材么？当年学微积分、线性代数和概率论，学得云里雾里的。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  6, 2015  1:33 PM">2015年9月 6日 13:33</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351577">#</a>
+ | <a href="#comment-text" title="引用pood的这条留言" onclick="return CommentQuote('comment-quote-351577','pood');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351580" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">JazzCoder</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351580">
+            <p>我就想不通为啥线代课本不能这样深入浅出的讲一下呢？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  6, 2015  2:02 PM">2015年9月 6日 14:02</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351580">#</a>
+ | <a href="#comment-text" title="引用JazzCoder的这条留言" onclick="return CommentQuote('comment-quote-351580','JazzCoder');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351582" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.jqk6.com" href="http://www.jqk6.com" target="_blank" rel="nofollow">jqk6</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351582">
+            <p>这篇文章在阮老师的博客出现感觉很突兀，阮老师是不是在指导自己的小孩学习数学呢？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  6, 2015  3:37 PM">2015年9月 6日 15:37</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351582">#</a>
+ | <a href="#comment-text" title="引用jqk6的这条留言" onclick="return CommentQuote('comment-quote-351582','jqk6');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351592" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">藕黑~</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351592">
+            <p>记得孟岩也写过一个系列, 不过是很久很久以前的</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  7, 2015  3:37 PM">2015年9月 7日 15:37</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351592">#</a>
+ | <a href="#comment-text" title="引用藕黑~的这条留言" onclick="return CommentQuote('comment-quote-351592','藕黑~');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351602" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://jingxuetao.com" href="http://jingxuetao.com" target="_blank" rel="nofollow">Adrift</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351602">
+            <p>JavaScript系列教程不错，非常感谢。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  8, 2015  9:54 AM">2015年9月 8日 09:54</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351602">#</a>
+ | <a href="#comment-text" title="引用Adrift的这条留言" onclick="return CommentQuote('comment-quote-351602','Adrift');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351609" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">向死而生</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351609">
+            <p>高中的时候教过的，但忘的差不多了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  8, 2015 12:01 PM">2015年9月 8日 12:01</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351609">#</a>
+ | <a href="#comment-text" title="引用向死而生的这条留言" onclick="return CommentQuote('comment-quote-351609','向死而生');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351612" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.bayescafe.com/" href="http://www.bayescafe.com/" target="_blank" rel="nofollow">fengchang</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351612">
+            <p>孟岩的理解矩阵一二三，可惜只开了个头<br />
+<a href="http://blog.csdn.net/myan/article/details/647511" rel="nofollow">http://blog.csdn.net/myan/article/details/647511</a></p>
+
+<p>阮老师这次像是为了发广告挤出来一篇呀<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  8, 2015  3:22 PM">2015年9月 8日 15:22</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351612">#</a>
+ | <a href="#comment-text" title="引用fengchang的这条留言" onclick="return CommentQuote('comment-quote-351612','fengchang');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351628" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">zonxin</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351628">
+            <p>数学运算/推导过程本身没有任何的意义，主要是看我们赋予它什么意义</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  9, 2015 12:15 PM">2015年9月 9日 12:15</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351628">#</a>
+ | <a href="#comment-text" title="引用zonxin的这条留言" onclick="return CommentQuote('comment-quote-351628','zonxin');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351648" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">程达</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351648">
+            <p>矩阵方法能简化一些计算，但也有些很牛的数学家拒绝使用矩阵，认为矩阵无法理解。可见数学家也有自己的偏好和习惯的思维方式，跟智商无关。<br />
+我是在做图像处理时用过矩阵算法，感觉比较容易理解，容易转换成程序。其他方面从来没用过。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 10, 2015  5:19 PM">2015年9月10日 17:19</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351648">#</a>
+ | <a href="#comment-text" title="引用程达的这条留言" onclick="return CommentQuote('comment-quote-351648','程达');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351651" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">DpR_Nino</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351651">
+            <p>在方程组转换到矩阵方程的过程中，已经用到了矩阵方程的规则，等于是证明的过程中就用到了待证明的结论？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 10, 2015  6:02 PM">2015年9月10日 18:02</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351651">#</a>
+ | <a href="#comment-text" title="引用DpR_Nino的这条留言" onclick="return CommentQuote('comment-quote-351651','DpR_Nino');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351667" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">JunkFood</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351667">
+            <p>其实还是没说到线性组合<br />
+很多问题从线性组合的和线性空间的角度一下就清楚了</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 12, 2015 10:15 AM">2015年9月12日 10:15</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351667">#</a>
+ | <a href="#comment-text" title="引用JunkFood的这条留言" onclick="return CommentQuote('comment-quote-351667','JunkFood');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351674" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Henry</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351674">
+            <p>谁用过100offer啊，感觉这才是本文的重点吧</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 13, 2015  9:32 AM">2015年9月13日 09:32</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351674">#</a>
+ | <a href="#comment-text" title="引用Henry的这条留言" onclick="return CommentQuote('comment-quote-351674','Henry');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351738" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://zouzhi.net" href="http://zouzhi.net" target="_blank" rel="nofollow">zeallean</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351738">
+            <p>khan 学院上有专门的一节课讲到这个。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 17, 2015  3:55 PM">2015年9月17日 15:55</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351738">#</a>
+ | <a href="#comment-text" title="引用zeallean的这条留言" onclick="return CommentQuote('comment-quote-351738','zeallean');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351749" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://applehater.cn" href="http://applehater.cn" target="_blank" rel="nofollow">哈哈哈哈</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351749">
+            <p>我还以为你用计算机程序说明这个计算过程，太失望了~~~</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 18, 2015 12:52 AM">2015年9月18日 00:52</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351749">#</a>
+ | <a href="#comment-text" title="引用哈哈哈哈的这条留言" onclick="return CommentQuote('comment-quote-351749','哈哈哈哈');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351750" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">uu</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351750">
+            <p>建议不要只是自己想，找个国外的LA教程看下。这个理解还是有点浅薄。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 18, 2015  9:14 AM">2015年9月18日 09:14</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351750">#</a>
+ | <a href="#comment-text" title="引用uu的这条留言" onclick="return CommentQuote('comment-quote-351750','uu');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351883" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">遗憾的猫</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351883">
+            <p>以前我没学好数学,我就会说我数学老师死得早.现在看了你这文章后想想,他们真的早应该死掉去,特别是那些写教科书的人,那些就是死人啊死人死人.这么简单的东西被他们教得那么复杂难懂,只能说明他们的无知,跟没有学过的人一样的无知,无知,无知.</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 27, 2015  1:55 AM">2015年9月27日 01:55</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351883">#</a>
+ | <a href="#comment-text" title="引用遗憾的猫的这条留言" onclick="return CommentQuote('comment-quote-351883','遗憾的猫');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351968" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://math.tianpeng.org" href="http://math.tianpeng.org" target="_blank" rel="nofollow">tianpeng</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351968">
+            <p>我刚刚写了一篇文章，希望对所有困惑于这个问题的人有帮助：<br />
+《再谈矩阵与矩阵乘法》<br />
+<a href="http://math.tianpeng.org/?p=1024" rel="nofollow">http://math.tianpeng.org/?p=1024</a></p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October  4, 2015  1:01 AM">2015年10月 4日 01:01</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-351968">#</a>
+ | <a href="#comment-text" title="引用tianpeng的这条留言" onclick="return CommentQuote('comment-quote-351968','tianpeng');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-352032" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">六日游生</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-352032">
+            <p>矩阵就是线性映射，每一个矩阵都有线性映射一一对应<br />
+矩阵乘法就是复合线性映射（f(f(x)）。<br />
+复合映射也是一个线性映射，也就说也有对应矩阵<br />
+而矩阵乘法就是求出对应矩阵的方法公式</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October  8, 2015 10:40 AM">2015年10月 8日 10:40</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-352032">#</a>
+ | <a href="#comment-text" title="引用六日游生的这条留言" onclick="return CommentQuote('comment-quote-352032','六日游生');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-352334" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">jiaru0123</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-352334">
+            <p>谢谢分享！ 不过想请问一下。（如果不专业还请包含） 因为向量乘积也是定义空间中角度的方法。向请问，矩阵乘积与向量乘积在这个角度上又是怎样理解呢？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October 23, 2015 11:15 PM">2015年10月23日 23:15</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-352334">#</a>
+ | <a href="#comment-text" title="引用jiaru0123的这条留言" onclick="return CommentQuote('comment-quote-352334','jiaru0123');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-352498" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.xrayenglish.com" href="http://www.xrayenglish.com" target="_blank" rel="nofollow">xray</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-352498">
+            <blockquote>
+<pre>引用swizard的发言：</pre>
+
+<p>这个证明有问题吧？ 从方程组到简写矩阵 这一步并没有证明。</p>
+
+</blockquote>
+
+<p>这个证明没有问题的</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November  2, 2015  3:04 AM">2015年11月 2日 03:04</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-352498">#</a>
+ | <a href="#comment-text" title="引用xray的这条留言" onclick="return CommentQuote('comment-quote-352498','xray');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-352687" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">caep121</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-352687">
+            <p>阮博士，看了你几篇余弦相似性的博客，讲得浅显易懂，让我这个没有基础的人一看就懂了。期待你能多讲一些，比如Jaccard、Dice等，非常感谢！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November  9, 2015  4:31 PM">2015年11月 9日 16:31</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-352687">#</a>
+ | <a href="#comment-text" title="引用caep121的这条留言" onclick="return CommentQuote('comment-quote-352687','caep121');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-352778" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">白水</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-352778">
+            <p>谢谢您精彩的解答，您后面的几个步骤也可以理解成为矩阵的乘法运算起源于函数的复合运算，即f(g(x)),这里带入矩阵即可。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November 14, 2015  6:44 PM">2015年11月14日 18:44</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-352778">#</a>
+ | <a href="#comment-text" title="引用白水的这条留言" onclick="return CommentQuote('comment-quote-352778','白水');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-352938" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">pc</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-352938">
+            <p>谢谢啊，我在上大学自己就是迷茫这个问题，感谢你的帮助非常感谢</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November 25, 2015  7:16 PM">2015年11月25日 19:16</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-352938">#</a>
+ | <a href="#comment-text" title="引用pc的这条留言" onclick="return CommentQuote('comment-quote-352938','pc');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-353306" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://nav.qushe.me" href="http://nav.qushe.me" target="_blank" rel="nofollow">小妖</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-353306">
+            <p>我们高中可没教这个东西，现在终于明白了。 谢谢阮老师</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 15, 2015  3:41 PM">2015年12月15日 15:41</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-353306">#</a>
+ | <a href="#comment-text" title="引用小妖的这条留言" onclick="return CommentQuote('comment-quote-353306','小妖');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-354543" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.baidu.com" href="http://www.baidu.com" target="_blank" rel="nofollow">老司机</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-354543">
+            <p>广告设计的不错.</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 17, 2016  4:49 PM">2016年2月17日 16:49</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-354543">#</a>
+ | <a href="#comment-text" title="引用老司机的这条留言" onclick="return CommentQuote('comment-quote-354543','老司机');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-356037" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://无" href="http://无" target="_blank" rel="nofollow">太阳以北</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-356037">
+            <p>这个我们的线代老师提过，但没有您讲的那么详细。您让我对矩阵有了新的认识~</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  3, 2016  7:13 PM">2016年5月 3日 19:13</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-356037">#</a>
+ | <a href="#comment-text" title="引用太阳以北的这条留言" onclick="return CommentQuote('comment-quote-356037','太阳以北');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-356598" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">太阳以西</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-356598">
+            <p>把两个矩阵放在EXCEL里排排好，相交的行列就是你要计算的数据，每天处理数据就会发现矩阵乘法真是好东西，上学时怎么也理解不了</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 25, 2016  1:07 AM">2016年5月25日 01:07</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-356598">#</a>
+ | <a href="#comment-text" title="引用太阳以西的这条留言" onclick="return CommentQuote('comment-quote-356598','太阳以西');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-358202" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">黄桢桂</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-358202">
+            <p>有矩阵除法吗，怎么算,求解答，谢谢！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June 14, 2016 11:10 AM">2016年6月14日 11:10</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-358202">#</a>
+ | <a href="#comment-text" title="引用黄桢桂的这条留言" onclick="return CommentQuote('comment-quote-358202','黄桢桂');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-359746" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">zz1058</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-359746">
+            <p>看完这篇，没懂矩阵存在的意义，让人感觉只是为了书写形式而书写的一种存在。还有个问题是，因为你已经脑袋里面是已经知道矩阵乘法规则是要这样写，你的证明为什么我觉得是为了拼凑规则。</p>
+
+<p>上面有个同学说：从方程组到简写矩阵 这一步并没有证明。同感。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June 25, 2016  7:04 PM">2016年6月25日 19:04</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-359746">#</a>
+ | <a href="#comment-text" title="引用zz1058的这条留言" onclick="return CommentQuote('comment-quote-359746','zz1058');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-359928" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">dd</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-359928">
+            <p>我看完原文，感觉这句话最重要：<br />
+The reason why this works is that matrix multiplication was designed so that if you multiply a matrix by the vector with all zeroes except a 1 in the i-th entry,then the result is just the i-th column of the matrix.<br />
+自己翻译一下：矩阵乘设计目标是：一个向量（只有一个1）乘以一个矩阵，假设1是第i个元素，那么乘积结果是矩阵第i列存在，其他都是0.<br />
+这里向量是空间是(0,0,1，0)这样的形式。<br />
+所以才有了行列乘积和的矩阵计算方式。</p>
+
+<p>正因为如此，结合线性function特点，后面才有：<br />
+f(g(w1))=f(w1+w2)=f(w1)+f(w2)=(2w1+4w2)+(w1+3w2)=3w1+7w2,...<br />
+从而映证了乘积和是矩阵乘计算规则。<br />
+到这里矩阵乘计算规则可以接受了。<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June 30, 2016  3:06 PM">2016年6月30日 15:06</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-359928">#</a>
+ | <a href="#comment-text" title="引用dd的这条留言" onclick="return CommentQuote('comment-quote-359928','dd');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-360234" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">www</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-360234">
+            <p>我认为，应该从回答乘法的本质说起，乘法的本质就是复合映射，比如说，数是什么，是计数，人们最早对数的认识，如3个苹果，3个梨子，但是3×3你不能说是三个苹果乘以三个苹果结果是什么9个苹果的平方吗？不是，应该这么理解三个篮子，一个篮子里有三个苹果，他们的乘积就是九个苹果，第一个三可以理解为线性代数的恒等映射即三个苹果，第二个三指的是三篮子什么，两者相乘，就是复合映射即三篮子苹果的概念，读点数学史还是有帮助的</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July  5, 2016  2:57 PM">2016年7月 5日 14:57</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-360234">#</a>
+ | <a href="#comment-text" title="引用www的这条留言" onclick="return CommentQuote('comment-quote-360234','www');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-360838" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">三五</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-360838">
+            <p>觉得证明还是有点问题的，用到的方程组用矩阵的方式表示不就是默认了矩阵的乘法吗？还是我有点混淆？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 19, 2016  8:59 AM">2016年7月19日 08:59</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-360838">#</a>
+ | <a href="#comment-text" title="引用三五的这条留言" onclick="return CommentQuote('comment-quote-360838','三五');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-361059" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Jocelyn</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-361059">
+            <p>醍醐灌顶，如果大学的时候就关注阮老师 说不准真能学好线代。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 22, 2016  4:19 PM">2016年7月22日 16:19</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-361059">#</a>
+ | <a href="#comment-text" title="引用Jocelyn的这条留言" onclick="return CommentQuote('comment-quote-361059','Jocelyn');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-362062" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://没有" href="http://没有" target="_blank" rel="nofollow">随你</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-362062">
+            <p>我读计算机系的时候，听说数学很重要，就把高等数学，线性代数，离散数学，概率等这些科目都学得很好，一般每一科都在90分以上，特别是线性代数,竟然能考到106分，总分为110分。可出来学的这些知识一点都没用上。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August  9, 2016 11:23 PM">2016年8月 9日 23:23</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-362062">#</a>
+ | <a href="#comment-text" title="引用随你的这条留言" onclick="return CommentQuote('comment-quote-362062','随你');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-363566" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">cymurs</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-363566">
+            <blockquote>
+<pre>引用drunkevil的发言：</pre>
+
+<p>这一点应该是理解矩阵乘法的基础，很多的线性代数书上面都有讲到，只是不一定每个老师都讲到，好多老师都把它作为选将部分，时间不够就不讲了。</p>
+
+</blockquote>
+
+<p>但是，它却是理解矩阵乘法的关键。不理解的东西，学起来就会没动力。老师往往缺少这样的实践</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  1, 2016  3:19 PM">2016年9月 1日 15:19</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-363566">#</a>
+ | <a href="#comment-text" title="引用cymurs的这条留言" onclick="return CommentQuote('comment-quote-363566','cymurs');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-363859" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">xesam</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-363859">
+            <blockquote>
+<pre>引用JazzCoder的发言：</pre>
+
+<p>我就想不通为啥线代课本不能这样深入浅出的讲一下呢？</p>
+
+</blockquote>
+
+<p>因为你看错了书，国外的翻译教材基本都是这么讲的。。。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  5, 2016  9:54 PM">2016年9月 5日 21:54</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-363859">#</a>
+ | <a href="#comment-text" title="引用xesam的这条留言" onclick="return CommentQuote('comment-quote-363859','xesam');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-365187" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">程序猿</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-365187">
+            <p>大学老师要是这么讲！我就早！明！白！了！好么，这个应该放在矩阵课本第一页</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 26, 2016 12:21 PM">2016年9月26日 12:21</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-365187">#</a>
+ | <a href="#comment-text" title="引用程序猿的这条留言" onclick="return CommentQuote('comment-quote-365187','程序猿');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-365764" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">@</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-365764">
+            <p>我觉得矩阵乘法不需要证明，它就是人设定的规则，就要那么写，又不是自然规律</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October  6, 2016  2:01 PM">2016年10月 6日 14:01</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-365764">#</a>
+ | <a href="#comment-text" title="引用@的这条留言" onclick="return CommentQuote('comment-quote-365764','@');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-366055" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">雩而雨</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-366055">
+            <p>作为刚接触数组的编程小白，这篇文章解了我的惑，易懂。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October 10, 2016  4:50 PM">2016年10月10日 16:50</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-366055">#</a>
+ | <a href="#comment-text" title="引用雩而雨的这条留言" onclick="return CommentQuote('comment-quote-366055','雩而雨');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-366344" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">攻城狮</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-366344">
+            <p>通俗易懂，又回顾了一下矩阵算法，谢谢。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October 14, 2016  1:12 PM">2016年10月14日 13:12</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-366344">#</a>
+ | <a href="#comment-text" title="引用攻城狮的这条留言" onclick="return CommentQuote('comment-quote-366344','攻城狮');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-372072" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">hellow</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-372072">
+            <p>其实是这样的：<br />
+矩阵*向量 可以看作空间转换后的线性组合。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 18, 2017 11:22 PM">2017年1月18日 23:22</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-372072">#</a>
+ | <a href="#comment-text" title="引用hellow的这条留言" onclick="return CommentQuote('comment-quote-372072','hellow');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-372503" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">kami</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-372503">
+            <p>把开头的0112换成0123其实更好懂点  不过看到后面也明白了 谢谢老师  很有帮助</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  7, 2017  4:02 PM">2017年2月 7日 16:02</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-372503">#</a>
+ | <a href="#comment-text" title="引用kami的这条留言" onclick="return CommentQuote('comment-quote-372503','kami');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-372975" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">学习者</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-372975">
+            <blockquote>
+<pre>引用太阳以西的发言：</pre>
+
+<p>把两个矩阵放在EXCEL里排排好，相交的行列就是你要计算的数据，每天处理数据就会发现矩阵乘法真是好东西，上学时怎么也理解不了</p>
+
+</blockquote>
+
+<p>可否展开具体说说呢？多谢</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 16, 2017  1:49 PM">2017年2月16日 13:49</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-372975">#</a>
+ | <a href="#comment-text" title="引用学习者的这条留言" onclick="return CommentQuote('comment-quote-372975','学习者');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-376722" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">donghua</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-376722">
+            <p>这个证明真是扯啊，仔细看步骤，中间有一步是用矩阵的乘法规则去展开矩阵，然后比照得出结论，这是用结论证明结论。<br />
+矩阵的乘法是一种定义，不需要证明的啊，同时也是无法证明的啊，是一个概念。类似的其他规则的乘法有逐项乘，数乘，还有哈达玛矩阵乘法，都是历史时期数学家为了解决某些问题引进的规则。为什么通常意义的矩阵乘法是这样？这个楼上有人说了是最初为了解多元一次方程组引入的。<br />
+我看不少人看完之后纷纷觉得醍醐灌顶，然后咒骂数学老师没讲明白，突然觉得我们中国的工程师的数学素质好差啊。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 27, 2017  5:07 PM">2017年4月27日 17:07</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-376722">#</a>
+ | <a href="#comment-text" title="引用donghua的这条留言" onclick="return CommentQuote('comment-quote-376722','donghua');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-376723" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Tony</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-376723">
+            <blockquote>
+<pre>引用三五的发言：</pre>
+
+<p>觉得证明还是有点问题的，用到的方程组用矩阵的方式表示不就是默认了矩阵的乘法吗？还是我有点混淆？</p>
+
+</blockquote>
+
+<p>你没混淆，博主就是在扯淡。哪有用结论去证结论的。建议楼主改改。不要再让一些“程序猿”觉得恍然大悟之后，再让自己的数学老师背锅了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 27, 2017  5:10 PM">2017年4月27日 17:10</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-376723">#</a>
+ | <a href="#comment-text" title="引用Tony的这条留言" onclick="return CommentQuote('comment-quote-376723','Tony');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-376780" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">robin xu</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-376780">
+            <p>确实，虽然矩阵乘法我之前也没明白原理，但看中间的证明过程有一步感觉就是用结论证明结论。。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 29, 2017 11:56 PM">2017年4月29日 23:56</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-376780">#</a>
+ | <a href="#comment-text" title="引用robin xu的这条留言" onclick="return CommentQuote('comment-quote-376780','robin xu');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-377829" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">ps</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-377829">
+            <p>1、矩阵乘法是定义；2、证明却有已知p,求证p味道</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June 10, 2017  3:58 PM">2017年6月10日 15:58</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-377829">#</a>
+ | <a href="#comment-text" title="引用ps的这条留言" onclick="return CommentQuote('comment-quote-377829','ps');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-378430" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">shaka</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-378430">
+            <p>我一开始也是以为用结论证明结论。只因为“从方程式来看，也可以把第二个方程组代入第一个方程组。”这一步没真正搞清楚。  </p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July  3, 2017 12:27 PM">2017年7月 3日 12:27</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-378430">#</a>
+ | <a href="#comment-text" title="引用shaka的这条留言" onclick="return CommentQuote('comment-quote-378430','shaka');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-378793" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">小浩</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-378793">
+            <p>B站里有3blue1brown,线性代数的本质，里面讲得很有意思。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 19, 2017  8:28 PM">2017年7月19日 20:28</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-378793">#</a>
+ | <a href="#comment-text" title="引用小浩的这条留言" onclick="return CommentQuote('comment-quote-378793','小浩');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-379275" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">xiaoxiao</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-379275">
+            <p>这是错误的证明方式，你先用了矩阵相乘的规则，然后去证明矩阵相乘具有这样的规律。就向上所说的1 = 1，使用了1 = 1这个规则去证明1 = 1，这是不成立的。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August  5, 2017 11:00 AM">2017年8月 5日 11:00</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-379275">#</a>
+ | <a href="#comment-text" title="引用xiaoxiao的这条留言" onclick="return CommentQuote('comment-quote-379275','xiaoxiao');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-379668" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">zhangxiaoping</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-379668">
+            <p>楼主把自己绕进去了。这算什么证明？假如我改一下"矩阵乘法规则"，比如是将两个乘积相减，然后用你的方法，也能证明出相减的规则是正确的。</p>
+
+<p>哈哈哈哈哈啊哈哈哈！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 20, 2017 11:17 AM">2017年8月20日 11:17</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-379668">#</a>
+ | <a href="#comment-text" title="引用zhangxiaoping的这条留言" onclick="return CommentQuote('comment-quote-379668','zhangxiaoping');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-379977" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">简扬</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-379977">
+            <p>阮老师，我觉得知乎这个回答讲的很不错，算是讲了一个简单的模型：<br />
+<a href="https://www.zhihu.com/question/21351965" rel="nofollow">https://www.zhihu.com/question/21351965</a></p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  1, 2017 10:09 AM">2017年9月 1日 10:09</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-379977">#</a>
+ | <a href="#comment-text" title="引用简扬的这条留言" onclick="return CommentQuote('comment-quote-379977','简扬');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-380060" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">王宁</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-380060">
+            <p>能把复杂的东西说清楚，就非常的不容易。厉害！！！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  5, 2017 11:09 AM">2017年9月 5日 11:09</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-380060">#</a>
+ | <a href="#comment-text" title="引用王宁的这条留言" onclick="return CommentQuote('comment-quote-380060','王宁');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-380451" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">吴纨绔</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-380451">
+            <p>第二个矩阵代入第一个矩阵那一步所得等式用了矩阵结合律，（a11,a12,a21,a22)(x1,x2)=（a11,a12,a21,a22)(b11,b12,b21,b22)(t1,t2)不对，（a11,a12,a21,a22)(x1,x2)=（a11,a12,a21,a22)[(b11,b12,b21,b22)(t1,t2)]，结合律没有证明不能使用。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 15, 2017  3:58 PM">2017年9月15日 15:58</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-380451">#</a>
+ | <a href="#comment-text" title="引用吴纨绔的这条留言" onclick="return CommentQuote('comment-quote-380451','吴纨绔');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-380628" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.cnblogs.com/hsxixi" href="http://www.cnblogs.com/hsxixi" target="_blank" rel="nofollow">tpig</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-380628">
+            <p>还是应该看英文原版，感谢提供链接。<br />
+<a href="https://nolaymanleftbehind.wordpress.com/2011/07/10/linear-algebra-what-matrices-actually-are/" rel="nofollow">https://nolaymanleftbehind.wordpress.com/2011/07/10/linear-algebra-what-matrices-actually-are/</a></p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 19, 2017 12:30 PM">2017年9月19日 12:30</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-380628">#</a>
+ | <a href="#comment-text" title="引用tpig的这条留言" onclick="return CommentQuote('comment-quote-380628','tpig');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-381058" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://weibo.com/778916339" href="http://weibo.com/778916339" target="_blank" rel="nofollow">关中刀客</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-381058">
+            <p>看阮老师这个过程一目了然！<br />
+当年在大学接触的矩阵运算，没有这些证明过程，光死学法则，也看不到应用场景，导致我厌学，貌似还挂了┭┮﹏┭┮</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October  6, 2017 10:39 AM">2017年10月 6日 10:39</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-381058">#</a>
+ | <a href="#comment-text" title="引用关中刀客的这条留言" onclick="return CommentQuote('comment-quote-381058','关中刀客');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-381235" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">贾海瑞</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-381235">
+            <p>哇，，还好我是初学就看到这个，太赞了，一直想不通行列式跟矩阵到底是干啥的来着</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October 12, 2017  9:37 PM">2017年10月12日 21:37</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-381235">#</a>
+ | <a href="#comment-text" title="引用贾海瑞的这条留言" onclick="return CommentQuote('comment-quote-381235','贾海瑞');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-382049" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.cnblogs.com/Vulpers/" href="http://www.cnblogs.com/Vulpers/" target="_blank" rel="nofollow">TsaoLee</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-382049">
+            <p>正如阮老师开篇说的，对于矩阵乘法我一直也处于云里雾里的状态，今天有幸看到此文，顿时拨开了我心头迷雾，大赞</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November  6, 2017 11:42 PM">2017年11月 6日 23:42</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-382049">#</a>
+ | <a href="#comment-text" title="引用TsaoLee的这条留言" onclick="return CommentQuote('comment-quote-382049','TsaoLee');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-382168" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">p</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-382168">
+            <p>3X3…矩阵没证明</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November  8, 2017 11:34 PM">2017年11月 8日 23:34</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-382168">#</a>
+ | <a href="#comment-text" title="引用p的这条留言" onclick="return CommentQuote('comment-quote-382168','p');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-384241" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">子凡</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-384241">
+            <p>这广告发的，朴实无华，有理有据，是年青程序猿的不二算泽</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January  8, 2018  6:37 PM">2018年1月 8日 18:37</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-384241">#</a>
+ | <a href="#comment-text" title="引用子凡的这条留言" onclick="return CommentQuote('comment-quote-384241','子凡');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-386671" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Jackie</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-386671">
+            <p>最后这个证明怎么好象是用矩阵相乘的公式证明矩阵相乘公式？因为最后一步整理成 t1\t2 这一步貌似就用了公式啊</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 13, 2018 11:36 AM">2018年3月13日 11:36</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-386671">#</a>
+ | <a href="#comment-text" title="引用Jackie的这条留言" onclick="return CommentQuote('comment-quote-386671','Jackie');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-391010" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">12333334</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-391010">
+            <p>这个可以说是一种理解方式，但并不是矩阵相乘定义的历史真相或者最初发现，因为在把线性方程组写成矩阵形式Ax=b的时候已经包含了矩阵的乘法规则：对应行元素于对应列元素点乘然后相加。发展过程应该是人们在求解线性方程组时，发现”某种表达“可以简化求解符号，然后“某种表达”成了矩阵，再后来发现了利用矩阵本身还有更多优良性质。。。。。。。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 16, 2018  9:03 PM">2018年7月16日 21:03</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-391010">#</a>
+ | <a href="#comment-text" title="引用12333334的这条留言" onclick="return CommentQuote('comment-quote-391010','12333334');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-396117" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.ruanyifeng.com" href="http://www.ruanyifeng.com" target="_blank" rel="nofollow">user</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-396117">
+            <p>x1,x2, t1,t2竖着写，就是莫名的看不惯，横着写也一样可以证明啊</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November 28, 2018  5:51 PM">2018年11月28日 17:51</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-396117">#</a>
+ | <a href="#comment-text" title="引用user的这条留言" onclick="return CommentQuote('comment-quote-396117','user');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-396358" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://bzdbzdbzd.com" href="http://bzdbzdbzd.com" target="_blank" rel="nofollow">啦啦啦</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-396358">
+            <blockquote>
+<pre>引用rt的发言：</pre>
+
+<p></p>
+
+<p>我们高中根本没这课，各个地方不一样的，别想当然</p>
+
+</blockquote>
+
+<p>博主可能不是想当然，可能是记错了，我们高中没用这个路子教，大学用了这个路子。当然也可能像你说的，有的地方高中就这么教了有的没有</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December  1, 2018  1:21 AM">2018年12月 1日 01:21</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-396358">#</a>
+ | <a href="#comment-text" title="引用啦啦啦的这条留言" onclick="return CommentQuote('comment-quote-396358','啦啦啦');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-396360" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://bzdbzdbzd.com" href="http://bzdbzdbzd.com" target="_blank" rel="nofollow">啦啦啦</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-396360">
+            <p>对我来说蛮合用的，我就想把忘了的乘法简单计算唤醒个记忆，这篇帮我目的达成。我上课老师也是走这个路子的，路子一样所以恢复记忆更快了。适合我</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December  1, 2018  1:26 AM">2018年12月 1日 01:26</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-396360">#</a>
+ | <a href="#comment-text" title="引用啦啦啦的这条留言" onclick="return CommentQuote('comment-quote-396360','啦啦啦');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-411130" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">钟</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-411130">
+            <p>矩阵相乘的本质无非就是空间的基向量的变换。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 11, 2019  9:27 AM">2019年5月11日 09:27</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-411130">#</a>
+ | <a href="#comment-text" title="引用钟的这条留言" onclick="return CommentQuote('comment-quote-411130','钟');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-416695" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://kamp" href="http://kamp" target="_blank" rel="nofollow">aaron</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416695">
+            <p>这个矩阵必须是正方形才成立吧?</p>
+
+<p>如果是d-dimension * （n-dimension*d-dimension)，其中，d&lt;>n，您这个还能证明？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  8, 2020 10:13 PM">2020年3月 8日 22:13</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-416695">#</a>
+ | <a href="#comment-text" title="引用aaron的这条留言" onclick="return CommentQuote('comment-quote-416695','aaron');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-417825" class="comment">
+    <div id="comment-last" class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">王一波</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-417825">
+            <p>书上就是这么介绍的，你不懂肯定是书没学好</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 19, 2020  9:28 AM">2020年4月19日 09:28</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html#comment-417825">#</a>
+ | <a href="#comment-text" title="引用王一波的这条留言" onclick="return CommentQuote('comment-quote-417825','王一波');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    </div>
+        
+    
+
+
+    
+    
+    <div class="comments-open" id="comments-open">
+        <h2 class="comments-open-header">我要发表看法</h2>
+        <div class="comments-open-content">
+
+        
+            <div id="comment-greeting"></div>
+
+            <form method="post" action="http://www.ruanyifeng.com/cgi-bin/mtos/mt-comments.cgi" name="comments_form" id="comments-form" onsubmit="return pleaseWait();">
+                <input type="hidden" name="static" value="1" />
+                <input type="hidden" name="entry_id" value="1851" />
+                <input type="hidden" name="__lang" value="en" />
+                <input type="hidden" name="parent_id" value="" id="comment-parent-id" />
+                <input type="hidden" name="armor" value="1" />
+                <input type="hidden" name="preview" value="" />
+                <input type="hidden" name="sid" value="" />
+                <div id="comments-open-data">
+            <div id="comments-open-text">
+                    <p><label for="comment-text">您的留言
+                    （HTML标签部分可用）</label></p>
+                    <p><textarea id="comment-text" name="text" rows="10" cols="50"></textarea></p>
+                </div>
+                    <div id="comment-form-name">
+                        <p><label for="comment-author">您的大名：</label></p>
+                        <p><input id="comment-author" name="author" size="30" value="" />  <span class="hint"> &laquo;-必填</span></p>
+                    </div>
+                    <div id="comment-form-email">
+                        <p><label for="comment-email">电子邮件：</label></p>
+                        <p><input id="comment-email" name="email" size="30" value="" />  <span class="hint"> &laquo;-必填，不公开</span></p>
+                    </div>
+                    <div id="comment-form-url">
+                        <p><label for="comment-url">个人网址：</label></p>
+                        <p><input id="comment-url" name="url" size="30" value="" />  <span class="hint"> &laquo;-我信任你，不会填写广告链接</span></p>
+                    </div>
+                    <div id="comment-form-remember-me">
+                        <p>
+                        <label for="comment-bake-cookie">记住个人信息？</label><input type="checkbox" id="comment-bake-cookie" name="bakecookie" onclick="!this.checked?forgetMe(document.comments_form):rememberMe(document.comments_form)" value="1" accesskey="r" /></p>
+                    </div>
+                </div>
+                    <div id="comment-form-reply" style="display:none">
+                    <input type="checkbox" id="comment-reply" name="comment_reply" value="" onclick="mtSetCommentParentID()" />
+                    <label for="comment-reply" id="comment-reply-label"></label>
+                </div>
+                <div id="comments-open-captcha"></div>
+                <div id="comments-open-footer">
+<div id="wait" style="display:none;">
+<p><strong>正在发表您的评论，请稍候</strong></p>
+<p>
+<input type="text" name="percent" size="3" style="font-family:Arial; color:black;text-align:center; border-width:medium; border-style:none;">           
+<input type="text" name="chart" size="46" style="font-family:Arial;font-weight:bolder; color:black; padding:0px; border-style:none;">
+</p>
+</div>
+
+                    <p><input type="submit" accesskey="s" name="post" id="comment-submit" value="发表" />  <span class="hint"> &laquo;- 点击按钮</span></p>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+
+    
+
+
+</div>
+
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        <script type="text/javascript" src="http://www.ruanyifeng.com/blog/js/prism.js"></script>
+        <script type="text/javascript" src="/blog/checker.js"></script> 
+            <div id="footer">
+<div id="footer-inner">
+  <div id="footer-content">
+
+      
+<!--
+      <section> 
+     </section>
+  <p><a title="Instagram" target="_blank" href="http://instagram.com/ruanyf">Instagram</a></p>
+       <p><a title="订阅" href="https://app.feedblitz.com/f/f.fbz?Sub=348868" target="_blank">邮件订阅</a></p>
+  
+       <h2>Feed</h2>
+       <p><a title="FeedBurner" href="http://feeds.feedburner.com/ruanyifeng" target="_blank">FeedBurner</a></p>
+       <p><a title="atom.xml" href="http://www.ruanyifeng.com/blog/atom.xml" target="_blank">atom.xml</a></p>
+     
+      <p>支付宝：<a title="支付宝" href="alipays://platformapi/startapp?appId=20000067&url=http%3A%2F%2Fwww.ruanyifeng.com%2Fblog" target="_blank">yifeng.ruan@gmail.com</a></p>
+-->
+
+     <section>
+<!--
+       <h2>授权方式</h2>
+       <p><a title="许可证" href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">自由转载-非商用-非衍生-保持署名</a></p>
+       <h2>微信公号</h2>
+       <h2>社交帐号</h2>
+       <h2>联系方式</h2>
+     -->
+       <p><img src="https://www.wangbase.com/blogimg/asset/202001/bg2020013101.jpg" alt="微信扫描"></p>
+       <p>
+         <a title="微博" href="http://weibo.com/ruanyf" target="_blank">Weibo</a> | 
+         <a title="Twitter" target="_blank" href="https://twitter.com/ruanyf">Twitter</a> |
+         <a title="GitHub" target="_blank" href="https://github.com/ruanyf">GitHub</a>
+       </p>
+     
+     <p>Email: <a title="电子邮件" href="mailto:yifeng.ruan@gmail.com" target="_blank">yifeng.ruan@gmail.com</a></p>
+     </section>
+  
+  
+
+
+  </div>
+</div>
+</div>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46829782-1', 'ruanyifeng.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script type="text/javascript" src="/blog/stats.js"></script>
+<script>
+var supportImg = document.querySelector('#support-img');
+
+if (supportImg && _hmt) {
+  _hmt.push(['_trackEvent', 'banner', 'load']);
+  supportImg.addEventListener('click', function () {
+    _hmt.push(['_trackEvent', 'banner', 'click']);
+  }, false);
+}
+
+var homepageImg = document.querySelector('#homepage_sponsor');
+if (homepageImg && _hmt) {
+  _hmt.push(['_trackEvent', 'homepage-banner', 'load']);
+  homepageImg.addEventListener('click', function () {
+    _hmt.push(['_trackEvent', 'homepage-banner', 'click']);
+  }, false);
+}
+</script>
+
+
+<div id="share_button_proto" style="display:none;">
+<a class="bshareDiv" href="http://www.bshare.cn/share">分享按钮</a>
+
+
+
+<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#uuid=15e016b4-0028-44f1-a40d-a3c9d9c13c28&style=10&bgcolor=#fff&bp=weixin,qqim,qzone,qqmb,sinaminiblog,fanfou,xueqiu,douban,facebook,twitter,gplus,instapaper&ssc=false"></script>
+<script type="text/javascript" charset="utf-8">
+bShare.addEntry({
+    title: document.getElementById("page-title").innerHTML,
+url:window.location.href
+});
+</script>
+</div>
+
+<script>
+document.getElementById("share_button").innerHTML=document.getElementById("share_button_proto").innerHTML;
+</script>
+
+
+
+
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="Content-Type" content="text/html;charset=utf-8" />
+<meta name="Referrer" content="unsafe-url" />
+<meta content="True" name="HandheldFriendly" />
+<meta name="theme-color" content="#333344" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="detectify-verification" content="d0264f228155c7a1f72c3d91c17ce8fb" />
+<meta name="p:domain_verify" content="b87e3b55b409494aab88c1610b05a5f0" />
+<meta name="alexaVerifyID" content="OFc8dmwZo7ttU4UCnDh1rKDtLlY" />
+<meta name="baidu-site-verification" content="D00WizvYyr" />
+<meta name="msvalidate.01" content="D9B08FEA08E3DA402BF07ABAB61D77DE" />
+<meta property="wb:webmaster" content="f2f4cb229bda06a4" />
+<meta name="google-site-verification" content="LM_cJR94XJIqcYJeOCscGVMWdaRUvmyz6cVOqkFplaU" />
+<title>开源私密聊天——把 VPS 变成自己的微信私服 - V2EX</title>
+<link rel="dns-prefetch" href="https://static.v2ex.com/" />
+<link rel="dns-prefetch" href="https://cdn.v2ex.com/" />
+<link rel="dns-prefetch" href="https://i.v2ex.co/" />
+<link rel="dns-prefetch" href="https://www.google-analytics.com/" />
+<link rel="stylesheet" type="text/css" media="screen" href="/css/basic.css?v=3.9.8.5" />
+<link rel="stylesheet" type="text/css" media="screen" href="/static/dist/combo.css?v=73463dff4f3cea61f9e00ee1abc4c24a" />
+<link rel="stylesheet" type="text/css" media="screen" href="/css/desktop.css?v=3.9.8.5" />
+<script>
+        const SITE_NIGHT = 0;
+    </script>
+<link rel="stylesheet" href="/static/css/tomorrow.css?v=3c006808236080a5d98ba4e64b8f323f" type="text/css" />
+<link rel="icon" sizes="192x192" href="/static/icon_192.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon-180.png?v=91e795b8b5d9e2cbf2d886c3d4b7d63c">
+<link rel="shortcut icon" href="/static/favicon.ico" type="image/png" />
+<link rel="manifest" href="/manifest.webmanifest" />
+<script>
+        const FEATURES = ['search'];
+    </script>
+<script src="/static/dist/combo.js?v=b2bc9bdc474559aac16001d27d832dcf" type="text/javascript" defer></script>
+<meta name="description" content="程序员 - @imcnan - 最近 openzaly-0.5.4 发布了：* 私聊、群聊、好友机制、群管理都有，够用了。* **支持端到端的消息加密，包括文字、图片、语音*** java -jar 直接启动，也可以" />
+<link rel="canonical" href="https://www.v2ex.com/t/454739" />
+<meta property="og:locale" content="zh_CN" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="开源私密聊天——把 VPS 变成自己的微信私服 - V2EX" />
+<meta property="og:description" content="程序员 - @imcnan - 最近 openzaly-0.5.4 发布了：* 私聊、群聊、好友机制、群管理都有，够用了。* **支持端到端的消息加密，包括文字、图片、语音*** java -jar 直接启动，也可以" />
+<meta property="og:url" content="https://www.v2ex.com/t/454739" />
+<meta property="og:site_name" content="V2EX" />
+<meta property="article:tag" content="programmer" />
+<meta property="article:section" content="程序员" />
+<meta property="article:published_time" content="2018-05-14T07:59:52Z" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:description" content="程序员 - @imcnan - 最近 openzaly-0.5.4 发布了：* 私聊、群聊、好友机制、群管理都有，够用了。* **支持端到端的消息加密，包括文字、图片、语音*** java -jar 直接启动，也可以" />
+<meta name="twitter:title" content="开源私密聊天——把 VPS 变成自己的微信私服 - V2EX" />
+<meta name="twitter:image" content="https:https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=73&d=retro" />
+<meta name="twitter:site" content="@V2EX" />
+<meta name="twitter:creator" content="@V2EX" />
+<link rel="top" title="回到顶部" href="#">
+<link rel="preload" href="/api/nodes/s2.json" as="fetch">
+<link rel="amphtml" href="https://www.v2ex.com/amp/t/454739" />
+<script type="text/javascript">
+        const topicId = 454739;
+        let once = "52562";
+
+		document.addEventListener("DOMContentLoaded", function(event) {
+            protectTraffic();
+
+            const observer = new IntersectionObserver(
+                ([e]) => e.target.toggleAttribute('stuck', e.intersectionRatio < 1),
+                {threshold: [1]}
+            );
+
+            observer.observe(document.getElementById('reply-box'));
+
+            
+            hljs.initHighlightingOnLoad();
+            
+
+            $('#Main').on('click', '.no, .ago', function () {
+                location.hash = $(this).parents('.cell').prop('id');
+            });
+
+            
+		});
+
+        
+        let csrfToken = false;
+        
+	</script>
+<script type="text/javascript">
+function format(tpl) {
+    var index = 1, items = arguments;
+    return (tpl || '').replace(/{(\w*)}/g, function(match, p1) {
+        return items[index++] || p1 || match;
+    });
+}
+function loadCSS(url, callback) {
+    return $('<link type="text/css" rel="stylesheet"/>')
+        .attr({ href: url })
+        .on('load', callback)
+        .appendTo(document.head);
+}
+function lazyGist(element) {
+    var $btn = $(element);
+    var $self = $(element).parent();
+    var $link = $self.find('a');
+    $btn.prop('disabled', 'disabled').text('Loading...');
+    $.getJSON(format('{}.json?callback=?', $link.prop('href').replace($link.prop('hash'), '')))
+        .done(function(data) {
+            loadCSS(data.stylesheet, function() {
+                $self.replaceWith(data.div);
+                $('.gist .gist-file .gist-meta a').filter(function() { return this.href === $link.prop('href'); }).parents('.gist-file').siblings().remove();
+            });
+        })
+        .fail(function() { $self.replaceWith($('<a>').attr('href', url).text(url)); });
+}
+</script>
+</head>
+<body>
+<div id="Top">
+<div class="content">
+<div class="site-nav">
+<a href="/" name="top" title="way to explore"><div id="Logo"></div></a>
+<div id="search-container">
+<input id="search" type="text" maxlength="128" autocomplete="off" tabindex="1">
+<div id="search-result" class="box"></div>
+</div>
+<div class="tools">
+<a href="/" class="top">首页</a>
+<a href="/signup" class="top">注册</a>
+<a href="/signin" class="top">登录</a>
+</div>
+</div>
+</div>
+</div>
+<div id="Wrapper">
+<div class="content">
+<div id="Leftbar"></div>
+<div id="Rightbar">
+<div class="sep20"></div>
+<div class="box">
+<div class="cell">
+<strong>V2EX = way to explore</strong>
+<div class="sep5"></div>
+<span class="fade">V2EX 是一个关于分享和探索的地方</span>
+</div>
+<div class="inner">
+<div class="sep5"></div>
+<div align="center"><a href="/signup" class="super normal button">现在注册</a>
+<div class="sep5"></div>
+<div class="sep10"></div>
+已注册用户请 &nbsp;<a href="/signin">登录</a></div>
+</div>
+</div>
+<div class="sep20"></div>
+<div class="box">
+<div class="inner">
+<div class="sidebar_units">
+<a href="https://www.oray.com/jump/46151" target="_blank"><img src="//i.v2ex.co/1dp2FcD2.png" border="0" width="100%" alt="向日葵" /></a>
+<div class="sep10"></div>
+<a href="http://click.aliyun.com/m/1000212690/" target="_blank"><img src="//i.v2ex.co/yqyXS32a.png" border="0" width="100%" alt="阿里云" /></a>
+<div class="sep10"></div>
+<a href="https://www.openinstall.io/?from=v2ex" target="_blank"><img src="//i.v2ex.co/d6NrSatF.gif" border="0" width="100%" alt="openinstall.io" /></a>
+<div class="sep10"></div>
+<a href="https://www.oray.com/jump/46121" target="_blank"><img src="//i.v2ex.co/OW2TgpB4.jpeg" border="0" width="100%" alt="花生壳" /></a>
+<div class="sep10"></div>
+<a href="https://www.ucloud.cn/site/active/kuaijie.html?ytag=V2exkj01" target="_blank"><img src="//i.v2ex.co/Q660Eb1J.jpeg" border="0" width="100%" alt="UCloud" /></a>
+<div class="sep10"></div>
+<a href="http://www.oray.com/jump/45927" target="_blank" rel="nofollow"><img src="//i.v2ex.co/cafMw4KM.jpeg" border="0" width="100%" alt="蒲公英" /></a>
+<div class="sep10"></div>
+<a href="https://www.grapecity.com.cn/developer/spreadjs?utm_source=v2ex&utm_medium=bannerad&utm_term=right&utm_content=SpreadJS&utm_campaign=community" target="_blank"><img src="//cdn.v2ex.com/assets/sidebar/spreadjs_20200216.gif" border="0" width="100%" alt="Spread JS" /></a>
+<div class="sep10"></div>
+<a href="https://datapacket.com/china-dedicated-server-chinese?utm_source=v2ex&utm_medium=cpc&utm_campaign=programmer&utm_content=static1" target="_blank" rel="nofollow"><img src="//cdn.v2ex.com/assets/sidebar/datapacket_20190221.png" border="0" width="100%" alt="DataPacket" /></a>
+<div class="sep10"></div>
+<a href="https://www.cdn77.com/cn?utm_source=v2ex&utm_medium=cpc&utm_campaign=programmer&utm_content=static2" target="_blank" rel="nofollow"><img src="//cdn.v2ex.com/assets/sidebar/cdn77_20190117.png" border="0" width="100%" alt="CDN77" /></a>
+</div>
+
+<style type="text/css">
+  #Wrapper {
+    background-color: #e2e2e2;
+    background-image: url("/static/img/shadow_light.png"), url("//cdn.v2ex.com/assets/bgs/circuit.png");
+    background-repeat: repeat-x, repeat-x;
+  }
+  #Wrapper.Night {
+  	background-color: #22303f;
+	background-image: url("/static/img/shadow.png"), url("//cdn.v2ex.com/assets/bgs/circuit_night.png");
+	background-repeat: repeat-x, repeat-x;
+  	background-size: 20px 20px, 162.5px 162.5px;
+  }
+</style>
+</div>
+<div class="sidebar_compliance"><a href="/advertise" target="_blank">广告</a></div>
+</div>
+<div class="sep20"></div>
+<div class="box">
+<div class="inner" align="center">
+<a href="https://e.cn.miaozhen.com/r/k=2185280&p=7izJA&dx=__IPDX__&rt=2&pro=s&ns=__IP__&ni=__IESID__&v=__LOC__&xa=__ADPLATFORM__&tr=__REQUESTID__&o=http://www.dell-brand.com/Vostro-7000/184/pc/?gacd=9754254-2185280-0-16300174-4&dgc=ba&cid=2185280&lid=16300174" target="_blank"><img src="https://cdn.v2ex.com/assets/sidebar/dell_20201201.jpg" border="0" width="250" height="250" alt="Dell" style="vertical-align: bottom;" /></a>
+</div>
+<div class="sidebar_compliance flex-one-row"><div><a href="https://e.cn.miaozhen.com/r/k=2185280&p=7izJA&dx=__IPDX__&rt=2&pro=s&ns=__IP__&ni=__IESID__&v=__LOC__&xa=__ADPLATFORM__&tr=__REQUESTID__&o=http://www.dell-brand.com/Vostro-7000/184/pc/?gacd=9754254-2185280-0-16300174-4&dgc=ba&cid=2185280&lid=16300174" target="_blank">Dell</a></div><a href="/advertise" target="_blank">广告</a></div>
+</div>
+<div class="sep20"></div>
+</div>
+<div id="Main">
+<div class="sep20"></div>
+<div class="box" style="border-bottom: 0px;">
+<div class="header"><div class="fr"><a href="/member/imcnan"><img src="https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=73&d=retro" class="avatar" border="0" align="default" alt="imcnan" /></a></div>
+<a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> <a href="/go/programmer">程序员</a>
+<div class="sep10"></div>
+<h1>开源私密聊天——把 VPS 变成自己的微信私服</h1>
+<div id="topic_454739_votes" class="votes">
+<a href="javascript:" onclick="upVoteTopic(454739);" class="vote"><li class="fa fa-chevron-up"></li> &nbsp;4</a> &nbsp;<a href="javascript:" onclick="downVoteTopic(454739);" class="vote"><li class="fa fa-chevron-down"></li></a></div> &nbsp; <small class="gray"><a href="/member/imcnan">imcnan</a> · 2018-05-14 15:59:52 +08:00 · 20385 次点击</small>
+</div>
+<div class="outdated">这是一个创建于 938 天前的主题，其中的信息可能已经有所发展或是发生改变。</div>
+<div class="cell">
+<div class="topic_content"><div class="markdown_body"><p>最近 openzaly-0.5.4 发布了：</p>
+<ul>
+<li>私聊、群聊、好友机制、群管理都有，够用了。</li>
+<li><strong>支持端到端的消息加密，包括文字、图片、语音</strong></li>
+<li>java -jar 直接启动，也可以用 docker，看大家自己喜好。</li>
+<li>现在还是单机版，数据在一个 sqlite 文件里，备份恢复起来很方便。</li>
+<li>看样子可以开发很多扩展，启动后有两个 demo，但是还没有这方面的文档~</li>
+</ul>
+<p>推荐大家用 jar 包的形式安装启动。</p>
+<h2>一、安装服务器</h2>
+<p>从<strong>Github</strong>下载最新的服务器版本，或者从源码自己编译，都行。</p>
+<p><a href="https://github.com/akaxincom/openzaly" rel="nofollow">https://github.com/akaxincom/openzaly</a></p>
+<blockquote>
+<p>有啥事，看 openzaly 里的联系方式，找开发者问就行</p>
+</blockquote>
+<p>只是为了体验的话，直接执行 <code>java -jar xxxxxx.jar</code> 就可以了。</p>
+<h2>二、下载客户端</h2>
+<p>github 介绍里有客户端的下载地址，现在只支持 iOS 与 Android，暂时没有 PC 版，对我来说暂时够用。</p>
+<p>下载了客户端后，输入服务器地址连接，首个用户使用邀请码 000000 进入，作为管理员。</p>
+<p>注意：</p>
+<ul>
+<li>打开应用后需要注册一个账号，可以点下面的 <strong>本地匿名账号</strong></li>
+<li>站点搭建完成后匿名-无邀请码的，需要的话可以改成实名。</li>
+<li><strong>一定要开启邀请码，因为我只给朋友用</strong></li>
+</ul>
+<p>这样，把邀请码发给朋友，就可以放心畅快的聊天了。</p>
+<p><strong>官方几张截图</strong></p>
+<blockquote>
+<ul>
+<li><a href="https://is1-ssl.mzstatic.com/image/thumb/Purple118/v4/5f/56/82/5f56825f-5a1d-751a-76ee-e4af3337133c/pr_source.png/0x0ss.jpg" rel="nofollow">https://is1-ssl.mzstatic.com/image/thumb/Purple118/v4/5f/56/82/5f56825f-5a1d-751a-76ee-e4af3337133c/pr_source.png/0x0ss.jpg</a></li>
+<li><a href="https://is1-ssl.mzstatic.com/image/thumb/Purple128/v4/0a/13/7f/0a137f45-a89e-57d6-3135-5c72b219b28d/pr_source.png/0x0ss.jpg" rel="nofollow">https://is1-ssl.mzstatic.com/image/thumb/Purple128/v4/0a/13/7f/0a137f45-a89e-57d6-3135-5c72b219b28d/pr_source.png/0x0ss.jpg</a></li>
+<li><a href="https://is1-ssl.mzstatic.com/image/thumb/Purple128/v4/45/ec/0a/45ec0a96-6683-049e-139b-f11aaea306c8/pr_source.png/0x0ss.jpg" rel="nofollow">https://is1-ssl.mzstatic.com/image/thumb/Purple128/v4/45/ec/0a/45ec0a96-6683-049e-139b-f11aaea306c8/pr_source.png/0x0ss.jpg</a></li>
+</ul>
+</blockquote>
+</div></div>
+</div>
+<div class="subtle">
+<span class="fade">第 1 条附言 &nbsp;·&nbsp; 2018-05-14 17:02:28 +08:00</span>
+<div class="sep5"></div>
+<div class="topic_content">大家有什么建议，觉得好还是不好，都可以评论下来~~~</div>
+</div>
+<div class="subtle">
+<span class="fade">第 2 条附言 &nbsp;·&nbsp; 2018-05-15 08:44:45 +08:00</span>
+<div class="sep5"></div>
+<div class="topic_content">几个统一问题：<br /> <br />## 1. 客户端为什么现在没开源？<br />我们精力有限，暂时只能聚焦于一个场景，私有聊天服务器。在这个场景里，拥有数据的服务端是最重要的，所以先开源了服务端，毕竟开源并不仅仅是把代码扔到 github 上。<br /> <br />## 2. 微信对接的问题<br />可以服务端 hook 消息，使用 itchat 之类的 lib 来完成。以后我们会放出 akaxin 的接口文档，支持大家自定义很多功能。<br /> <br /> <br />## 3. web 客户端的问题<br />有计划（站点拥有自己的 web-im，但是需要 http 与 websocket 协议，所以国内使用的话需要网站备案； PS：纯 IM 服务器与扩展不需要备案），只是还没有推出，大家别着急😂😂🤗🤗</div>
+</div>
+</div>
+<div class="sep20"></div>
+<div class="box">
+<div class="cell"><div class="fr" style="margin: -3px -5px 0px 0px;"><a href="/tag/jar" class="tag"><li class="fa fa-tag"></li> jar</a><a href="/tag/openzaly" class="tag"><li class="fa fa-tag"></li> openzaly</a><a href="/tag/GitHub" class="tag"><li class="fa fa-tag"></li> GitHub</a><a href="/tag/下载" class="tag"><li class="fa fa-tag"></li> 下载</a></div><span class="gray">88 条回复 &nbsp;<strong class="snow">•</strong> &nbsp;2019-07-26 16:23:45 +08:00</span>
+</div>
+<div id="r_5665095" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/e1c8ebbc3ff08a9d7995657447e5dd03?s=48&d=retro" class="avatar" border="0" align="default" alt="tulongtou" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">1</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/tulongtou" class="dark">tulongtou</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 16:02:56 +08:00 via iPhone</span>
+<div class="sep5"></div>
+<div class="reply_content">看截图感觉不错</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665116" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=48&d=retro" class="avatar" border="0" align="default" alt="imcnan" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">2</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/imcnan" class="dark">imcnan</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 16:07:58 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">正好犯困的时候😴 😴 😴 😴 <br />点收藏的各位大哥们，留下点建议可好？</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665159" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/f251/ce45/114912_normal.png?m=1489538108" class="avatar" border="0" align="default" alt="xrlin" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">3</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/xrlin" class="dark">xrlin</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 16:19:33 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">挺不错的啊</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665181" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/1d72/c282/302609_normal.png?m=1574780499" class="avatar" border="0" align="default" alt="agagega" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">4</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/agagega" class="dark">agagega</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 16:23:33 +08:00 via iPhone</span>
+<div class="sep5"></div>
+<div class="reply_content">Mark</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665189" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/95d2/db28/159090_normal.png?m=1462975899" class="avatar" border="0" align="default" alt="qcloud" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">5</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/qcloud" class="dark">qcloud</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 16:26:06 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">不错哦</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665204" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/1e8a/4d9b/250842_normal.png?m=1545487131" class="avatar" border="0" align="default" alt="opengps" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">6</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/opengps" class="dark">opengps</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 16:27:58 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">主要是需要安装客户端。。。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665218" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=48&d=retro" class="avatar" border="0" align="default" alt="imcnan" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">7</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/imcnan" class="dark">imcnan</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 16:30:38 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/opengps">opengps</a> 你希望使用浏览器用？</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665235" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/1c9b/9c58/270769_normal.png?m=1511851389" class="avatar" border="0" align="default" alt="wyntalgeer" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">8</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/wyntalgeer" class="dark">wyntalgeer</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 16:33:20 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">stared</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665267" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/5b0a/07ce/88568_normal.png?m=1586957003" class="avatar" border="0" align="default" alt="Troevil" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">9</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/Troevil" class="dark">Troevil</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 16:37:56 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">客户端开源吗</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665269" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/fe15674d388d9ddc57bb565b9d1e267e?s=48&d=retro" class="avatar" border="0" align="default" alt="cnmllll" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">10</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/cnmllll" class="dark">cnmllll</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 16:38:04 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">收藏~！</div>
+</td>
+</tr>
+</table>
+</div>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block; border-bottom: 1px solid var(--box-border-color);" data-ad-format="fluid" data-ad-layout-key="-hr-19-p-2z+is" data-ad-client="ca-pub-3465543440750523" data-ad-slot="1027854874"></ins>
+<script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+<div id="r_5665283" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/75cf/a89b/133882_normal.png?m=1583733710" class="avatar" border="0" align="default" alt="byuan04" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">11</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/byuan04" class="dark">byuan04</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 16:40:39 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">好多 NAS 自带的也不错 <br />比如群晖啥的 chat</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665305" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=48&d=retro" class="avatar" border="0" align="default" alt="imcnan" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">12</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/imcnan" class="dark">imcnan</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 16:45:27 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">群晖的重在存储，单单用 chat 的话，太贵了。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665415" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=48&d=retro" class="avatar" border="0" align="default" alt="imcnan" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">13</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/imcnan" class="dark">imcnan</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 17:08:48 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/Troevil">Troevil</a> 先把服务端和基础体系搞好，然后是考虑客户端和 SDK 的事。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665737" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/555c/f812/286296_normal.png?m=1544165142" class="avatar" border="0" align="default" alt="HvangStormstout" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">14</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/HvangStormstout" class="dark">HvangStormstout</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 18:13:24 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">酷！酷就完事儿了</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665761" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/ff0d/9790/271745_normal.png?m=1520414952" class="avatar" border="0" align="default" alt="ghiei9101" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">15</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/ghiei9101" class="dark">ghiei9101</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 18:21:43 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">哎呦~ 不错哦~~~</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665768" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/4817a2becc67992735759393dcac265b?s=48&d=retro" class="avatar" border="0" align="default" alt="gabon" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">16</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/gabon" class="dark">gabon</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 18:23:20 +08:00 via Android</span>
+<div class="sep5"></div>
+<div class="reply_content">应用层用的什么协议，感兴趣</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665770" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/1dab/7d7f/254813_normal.png?m=1508809756" class="avatar" border="0" align="default" alt="fe619742721" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">17</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/fe619742721" class="dark">fe619742721</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 18:23:28 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">没表情包不想聊天。。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665777" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=48&d=retro" class="avatar" border="0" align="default" alt="imcnan" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">18</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/imcnan" class="dark">imcnan</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 18:24:34 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/gabon">gabon</a> redis 的 resp 协议。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665779" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=48&d=retro" class="avatar" border="0" align="default" alt="imcnan" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">19</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/imcnan" class="dark">imcnan</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 18:24:56 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/fe619742721">fe619742721</a> 有 emoji 表情😈😈😈😈😈</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665782" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/c6843b27e0fb6d2e631f3867671466d2?s=48&d=retro" class="avatar" border="0" align="default" alt="xidadada" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">20</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/xidadada" class="dark">xidadada</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 18:25:29 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">客户端开源吗？</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665796" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/60769ec49e9087f68611d7d3cf36d39f?s=48&d=retro" class="avatar" border="0" align="default" alt="leonard916" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">21</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/leonard916" class="dark">leonard916</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 18:31:03 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">有个问题，为什么贵公司还在用 Java6 而不升级到 Java8 ？？？</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665839" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/51bc15fddb623cf8f4bb8044b078426d?s=48&d=retro" class="avatar" border="0" align="default" alt="iden" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">22</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/iden" class="dark">iden</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 18:46:26 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">客户端不开源吗？</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665851" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/a2cf20ca3b293acb7c76ba05cc419954?s=48&d=retro" class="avatar" border="0" align="default" alt="ttboy" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">23</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/ttboy" class="dark">ttboy</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 18:49:46 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">mark</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665861" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/4a6559383280a7ef321888159910cbd8?s=48&d=retro" class="avatar" border="0" align="default" alt="ye1in" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">24</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/ye1in" class="dark">ye1in</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 18:54:07 +08:00 via iPhone</span>
+<div class="sep5"></div>
+<div class="reply_content">是用的 socket 吗</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5665893" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=48&d=retro" class="avatar" border="0" align="default" alt="imcnan" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">25</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/imcnan" class="dark">imcnan</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 19:04:20 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/ye1in">ye1in</a> 是的，基于 tcp 的协议。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666005" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/c3ac/eff7/220575_normal.png?m=1546067440" class="avatar" border="0" align="default" alt="lsido" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">26</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/lsido" class="dark">lsido</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 19:41:30 +08:00 via Android</span> &nbsp; <span class="small fade"><img src="/static/img/heart_neue_red.png?v=16ec2dd0a880be6edda1e4a2e35754b3" width="14" align="absmiddle" alt="❤️" /> 1</span>
+ <div class="sep5"></div>
+<div class="reply_content">客户端没开源，不私密</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666049" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/e930/f4d0/104786_normal.png?m=1428895364" class="avatar" border="0" align="default" alt="Pastsong" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">27</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/Pastsong" class="dark">Pastsong</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 20:03:53 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">emmm, XMPP, IRC 了解一下？</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666065" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/be45/d0c4/124524_normal.png?m=1556599520" class="avatar" border="0" align="default" alt="mritd" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">28</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/mritd" class="dark">mritd</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 20:11:16 +08:00 via iPhone</span> &nbsp; <span class="small fade"><img src="/static/img/heart_neue_red.png?v=16ec2dd0a880be6edda1e4a2e35754b3" width="14" align="absmiddle" alt="❤️" /> 1</span>
+<div class="sep5"></div>
+<div class="reply_content">这个跟微信有啥关系?</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666079" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/1604/a039/33809_normal.png?m=1604820551" class="avatar" border="0" align="default" alt="minamike" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">29</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/minamike" class="dark">minamike</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 20:17:18 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">人家为了和你聊天还得额外下个客户端<br />要是我我宁愿发短信...</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666263" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=48&d=retro" class="avatar" border="0" align="default" alt="imcnan" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">30</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/imcnan" class="dark">imcnan</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 21:18:22 +08:00</span> &nbsp; <span class="small fade"><img src="/static/img/heart_neue_red.png?v=16ec2dd0a880be6edda1e4a2e35754b3" width="14" align="absmiddle" alt="❤️" /> 1</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/lsido">lsido</a> 包括客户端，以后的扩展体系，都会开放的。现在还照顾不过来，毕竟开源不是把代码扔到 github 就完事。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666335" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/afe9/d019/121145_normal.png?m=1477374024" class="avatar" border="0" align="default" alt="exalex" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">31</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/exalex" class="dark">exalex</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 21:44:38 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">使用成本太高了啊</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666401" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/d7136345824a792f6e16b7c2a03d85be?s=48&d=retro" class="avatar" border="0" align="default" alt="pexcn" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">32</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/pexcn" class="dark">pexcn</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 22:09:05 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">我以为是 EH Forwarder Bot 这一类东西，原来不是<br />（跟微信有什么关系？</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666428" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/f2bf/3436/299827_normal.png?m=1585992300" class="avatar" border="0" align="default" alt="plko345" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">33</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/plko345" class="dark">plko345</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 22:20:14 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/pexcn">pexcn</a> 吸引眼球吧,看上去并没有关系</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666460" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/d7136345824a792f6e16b7c2a03d85be?s=48&d=retro" class="avatar" border="0" align="default" alt="pexcn" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">34</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/pexcn" class="dark">pexcn</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 22:31:44 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/plko345">plko345</a> 同样的功能，我还是选择 telegram... （即使 server 端闭源...</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666470" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/6dff/947c/134848_normal.png?m=1440734003" class="avatar" border="0" align="default" alt="xiaoyu9527" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">35</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/xiaoyu9527" class="dark">xiaoyu9527</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 22:36:10 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">有没有办法把微信的聊天记录放到自己的私有云上 并且可以同步呢。。。。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666601" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/f1fe/2d8b/262470_normal.png?m=1509075925" class="avatar" border="0" align="default" alt="logOo" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">36</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/logOo" class="dark">logOo</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 23:25:45 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">东西看起来很好。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666620" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/15a6/6a2d/246589_normal.png?m=1515375806" class="avatar" border="0" align="default" alt="LeungJZ" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">37</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/LeungJZ" class="dark">LeungJZ</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 23:31:50 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">看起来好像挺不错的。mark。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666633" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/aa3a/123c/171730_normal.png?m=1471868461" class="avatar" border="0" align="default" alt="nolo" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">38</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/nolo" class="dark">nolo</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-14 23:36:57 +08:00 via Android</span>
+<div class="sep5"></div>
+<div class="reply_content">楼主做成这样很不错了 期待以后客户端开源</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666813" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/1d72/c282/302609_normal.png?m=1574780499" class="avatar" border="0" align="default" alt="agagega" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">39</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/agagega" class="dark">agagega</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 02:06:34 +08:00 via iPhone</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/pexcn">pexcn</a> Signal 多好</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666815" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/58b4/81d9/60574_normal.png?m=1502532669" class="avatar" border="0" align="default" alt="athanos" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">40</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/athanos" class="dark">athanos</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 02:24:51 +08:00 via Android</span>
+<div class="sep5"></div>
+<div class="reply_content">支持这样去中心化的努力。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666825" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/8c86/4aec/292205_normal.png?m=1582107439" class="avatar" border="0" align="default" alt="DeWhite" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">41</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/DeWhite" class="dark">DeWhite</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 02:56:14 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">大概理解了一下，就是自建服务器。<br />然后通过客户端去实现聊天。<br />那为什么他们自己不直接去配置聊天服务器 弄个网页就好了。。。。<br />非要这么整。。。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666829" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/8c86/4aec/292205_normal.png?m=1582107439" class="avatar" border="0" align="default" alt="DeWhite" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">42</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/DeWhite" class="dark">DeWhite</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 03:02:56 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">然后定位尴尬....<br />搭建服务器，给小白估计要么死在收费要么死在选系统要么死在 linux 分不清哪个版本。<br />与其如此不如弄同类型爱好社交。<br />服务器成本给自己承担掉，</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666840" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/b251/eb66/70143_normal.png?m=1536211334" class="avatar" border="0" align="default" alt="dangyuluo" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">43</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/dangyuluo" class="dark">dangyuluo</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 04:46:11 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/athanos">athanos</a> 哪看出来是去中心化了。。？明明是有 IM 服务器的。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666843" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/7570/a192/43486_normal.png?m=1384438085" class="avatar" border="0" align="default" alt="binghe" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">44</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/binghe" class="dark">binghe</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 04:56:53 +08:00 via Android</span>
+<div class="sep5"></div>
+<div class="reply_content">是否可以参考下 RTX 的功能</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666867" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/44cf/3f7e/210039_normal.png?m=1590123687" class="avatar" border="0" align="default" alt="ryh" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">46</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/ryh" class="dark">ryh</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 06:45:21 +08:00</span> &nbsp; <span class="small fade"><img src="/static/img/heart_neue_red.png?v=16ec2dd0a880be6edda1e4a2e35754b3" width="14" align="absmiddle" alt="❤️" /> 1</span>
+<div class="sep5"></div>
+<div class="reply_content">无脑推荐一波 mattermost 给 ls 诸位<br /><a target="_blank" href="https://www.mattermost.org/why-we-made-mattermost-an-open-source-slack-alternative/" rel="nofollow noopener">https://www.mattermost.org/why-we-made-mattermost-an-open-source-slack-alternative/</a></div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666868" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/58b4/81d9/60574_normal.png?m=1502532669" class="avatar" border="0" align="default" alt="athanos" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">47</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/athanos" class="dark">athanos</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 06:45:49 +08:00 via iPhone</span> &nbsp; <span class="small fade"><img src="/static/img/heart_neue_red.png?v=16ec2dd0a880be6edda1e4a2e35754b3" width="14" align="absmiddle" alt="❤️" /> 1</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/dangyuluo">dangyuluo</a> 服务器可以自己搭啊，比微信夹带私货，禁止这个禁止那个，动辄封号，还要实名认证不是去中心的吗？不是说去中心就是区块链的。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666869" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/7607a549f5464420d1adda42b3bb396a?s=48&d=retro" class="avatar" border="0" align="default" alt="txydhr" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">48</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/txydhr" class="dark">txydhr</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 06:48:47 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">有 group voice chat 功能嘛</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666939" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/d4fb/73cf/315827_normal.png?m=1534922006" class="avatar" border="0" align="default" alt="Zzdex" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">49</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/Zzdex" class="dark">Zzdex</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 08:01:35 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">mmmmmark</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5666998" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/b251/eb66/70143_normal.png?m=1536211334" class="avatar" border="0" align="default" alt="dangyuluo" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">50</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/dangyuluo" class="dark">dangyuluo</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 08:26:14 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/athanos">athanos</a> 我知道区块链\neq 去中心，可照这说法，Discuz 也是去中心的了。。真遗憾，都好多年了，他们咋没想到这么个好词呢。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5667087" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=48&d=retro" class="avatar" border="0" align="default" alt="imcnan" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">51</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/imcnan" class="dark">imcnan</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 08:50:41 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/dangyuluo">dangyuluo</a> <br /><br />@<a href="/member/athanos">athanos</a> 所指的去中心化，并不是一个中心都没有，只是说的去掉了一个大中心，分拆成很多小中心。<br /><br />现在的区块链项目，都是有中心的。而比特币，对于非专业人员来说，互联网就是比特币的中心，看从哪个角度看而已~</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5667097" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/fd9ca41f976805f0aad7daf043c97d4e?s=48&d=retro" class="avatar" border="0" align="default" alt="wr410" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">52</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/wr410" class="dark">wr410</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 08:53:25 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">去中心的完整解释是：每一个客户端都是服务端，每一个人都是副本。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5667120" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/db39/c988/235985_normal.png?m=1508323020" class="avatar" border="0" align="default" alt="koc" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">53</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/koc" class="dark">koc</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 08:57:16 +08:00 via iPad</span> &nbsp; <span class="small fade"><img src="/static/img/heart_neue_red.png?v=16ec2dd0a880be6edda1e4a2e35754b3" width="14" align="absmiddle" alt="❤️" /> 1</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/dangyuluo">dangyuluo</a> <br /><br />目光放大一点，不是说这个项目本身是去中心化的，而是在整个大环境中这个项目的出现让 IM 软件的格局去中心化了一点点。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5667123" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=48&d=retro" class="avatar" border="0" align="default" alt="imcnan" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">54</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/imcnan" class="dark">imcnan</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 08:57:25 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/wr410">wr410</a> 对，我们技术从业者是这么解释的，每一个个体都是一个可以不依赖其他某个特定个体而独立存在的个体。<br />技术角度上是对的，这里还有个中心，一个小中心。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5667306" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/f068/2ea2/219647_normal.png?m=1517304732" class="avatar" border="0" align="default" alt="zj516" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">55</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/zj516" class="dark">zj516</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 09:25:22 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">java 是世界上最好的语言，不要打我，加油</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5667327" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/461f/6236/190007_normal.png?m=1595467035" class="avatar" border="0" align="default" alt="yylucifer" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">56</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/yylucifer" class="dark">yylucifer</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 09:27:50 +08:00</span> &nbsp; <span class="small fade"><img src="/static/img/heart_neue_red.png?v=16ec2dd0a880be6edda1e4a2e35754b3" width="14" align="absmiddle" alt="❤️" /> 1</span>
+<div class="sep5"></div>
+<div class="reply_content">钉钉用得挺好，API 各种暴露也还算方便。。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5667450" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/cb82/6161/36490_normal.png?m=1419098442" class="avatar" border="0" align="default" alt="datou" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">57</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/datou" class="dark">datou</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 09:46:09 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">我想说的是如果真的能实现加密而且无法被监控的话，楼主有喝茶的风险呀</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5667474" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=48&d=retro" class="avatar" border="0" align="default" alt="imcnan" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">58</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/imcnan" class="dark">imcnan</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 09:49:16 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/datou">datou</a> 每一个站点的服务器运营者，不是我们。可以根据自己的服务器所在地法律，来在后台配置是否开启此功能。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5667536" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/2000/53a5/52230_normal.png?m=1423451316" class="avatar" border="0" align="default" alt="alian" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">59</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/alian" class="dark">alian</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 09:59:50 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">为开源点赞</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5667981" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/566e/96da/18407_normal.png?m=1579330937" class="avatar" border="0" align="default" alt="oska874" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">60</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/oska874" class="dark">oska874</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 11:12:39 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">谁用啊。自娱自乐。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5668065" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/e512/4d49/69239_normal.png?m=1406604193" class="avatar" border="0" align="default" alt="pmispig" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">61</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/pmispig" class="dark">pmispig</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 11:24:28 +08:00</span> &nbsp; <span class="small fade"><img src="/static/img/heart_neue_red.png?v=16ec2dd0a880be6edda1e4a2e35754b3" width="14" align="absmiddle" alt="❤️" /> 1</span>
+<div class="sep5"></div>
+<div class="reply_content">呵呵，客户端不开源好意思说自己是开源，谁知道你客户端做了些什么</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5668114" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/3346/edef/98252_normal.png?m=1458478509" class="avatar" border="0" align="default" alt="EXE" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">62</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/EXE" class="dark">EXE</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 11:34:46 +08:00</span> &nbsp; <span class="small fade"><img src="/static/img/heart_neue_red.png?v=16ec2dd0a880be6edda1e4a2e35754b3" width="14" align="absmiddle" alt="❤️" /> 1</span>
+<div class="sep5"></div>
+<div class="reply_content">matrix riot 了解一下 <a target="_blank" href="https://matrix.org/docs/projects/client/riot.html" rel="nofollow noopener">https://matrix.org/docs/projects/client/riot.html</a></div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5668127" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/cc27/a671/58503_normal.png?m=1587744815" class="avatar" border="0" align="default" alt="heiher" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">63</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/heiher" class="dark">heiher</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 11:37:45 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">客户端不开源谈什么端对端加密呢？</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5668229" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/597f01c617b5cc7c75f04133321cabf4?s=48&d=retro" class="avatar" border="0" align="default" alt="JohnChu" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">64</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/JohnChu" class="dark">JohnChu</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 11:59:29 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">不弄个网页端吗？ telegram 都有 pwa 了，对于这种小众的软件还是推个网页端更合适吧?</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5668554" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/fe234f61c019b3f5fad1ed4c23acd481?s=48&d=retro" class="avatar" border="0" align="default" alt="quericy" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">65</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/quericy" class="dark">quericy</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 13:32:48 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">体验了下，建议客户端可以添加个扫码添加服务器地址的功能，降低其他好友加入的操作成本<br /><br /><br />等以后客户端开源了（或者出 im 端）可以考虑使用</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5668655" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/9d81/86c5/231966_normal.png?m=1495465075" class="avatar" border="0" align="default" alt="tomxin7" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">66</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/tomxin7" class="dark">tomxin7</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 13:55:54 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">你好，为什么我部署在本地，通过局域网可以连接上，部署在阿里云，通过公有 ip 却超时了呢，是不是还需要开启什么端口</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5668661" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/d838/a873/59363_normal.png?m=1535632627" class="avatar" border="0" align="default" alt="mortal" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">67</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/mortal" class="dark">mortal</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 13:56:52 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">样子倒是挺好看的，不过暂时没这个需要。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5668667" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/f068/2ea2/219647_normal.png?m=1517304732" class="avatar" border="0" align="default" alt="zj516" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">68</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/zj516" class="dark">zj516</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 13:59:20 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/JohnChu">JohnChu</a>，原贴里说了，网页端在计划中，还没推出而已，等过一段时间应该就有了</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5668753" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/f068/2ea2/219647_normal.png?m=1517304732" class="avatar" border="0" align="default" alt="zj516" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">69</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/zj516" class="dark">zj516</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 14:17:16 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/tomxin7">tomxin7</a> 你是不是忘了配置你机器的安全组，阿里云的机器，要自己在安全组开放端口才能访问。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5668858" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/9d81/86c5/231966_normal.png?m=1495465075" class="avatar" border="0" align="default" alt="tomxin7" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">70</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/tomxin7" class="dark">tomxin7</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 14:35:45 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/zj516">zj516</a> 我的网站或者数据库都能访问，应该不是安全组的问题，话说咱这个软件有用到什么特殊的端口吗</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5669254" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/45df/c74b/128487_normal.png?m=1444477674" class="avatar" border="0" align="default" alt="lizhenda" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">71</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/lizhenda" class="dark">lizhenda</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 15:55:08 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">想法蛮好的，客户 UI 不错哦</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5669320" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/b6ef/5d53/34066_normal.png?m=1436584761" class="avatar" border="0" align="default" alt="Actrace" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">72</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/Actrace" class="dark">Actrace</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 16:06:13 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">我打赌楼主这个想法坚持不了几年。。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5669325" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=48&d=retro" class="avatar" border="0" align="default" alt="imcnan" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">73</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/imcnan" class="dark">imcnan</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 16:06:46 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/tomxin7">tomxin7</a> 端口：2021</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5669835" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+ <td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/08c3/af3c/60923_normal.png?m=1438676532" class="avatar" border="0" align="default" alt="liuweisj" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">74</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/liuweisj" class="dark">liuweisj</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 17:46:02 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">把注意点放在了不该放的地方 香香老师 : 明天晚上办公室见 难道就我一个人吗</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5669906" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/94b0e0e7fc10d50f2adafb8a62cba4ec?s=48&d=retro" class="avatar" border="0" align="default" alt="sublimevsatom" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">75</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/sublimevsatom" class="dark">sublimevsatom</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 17:59:02 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">看了一下，感觉挺不错的。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5670019" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/9d81/86c5/231966_normal.png?m=1495465075" class="avatar" border="0" align="default" alt="tomxin7" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">76</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/tomxin7" class="dark">tomxin7</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 18:28:35 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/imcnan">imcnan</a> 感谢，果然是端口问题，入站规则加入 2021 就行了</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5670054" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/f68c/606a/199245_normal.png?m=1490147015" class="avatar" border="0" align="default" alt="kkk123" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">77</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/kkk123" class="dark">kkk123</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-15 18:35:50 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/liuweisj">liuweisj</a> 老司机</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5671669" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/2bc7fb537421ca6a4e30a725ee453398?s=48&d=retro" class="avatar" border="0" align="default" alt="daniaoren" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">78</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/daniaoren" class="dark">daniaoren</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-16 09:11:59 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">和微信有什么关系……标题党了啊</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5672349" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/dcd4/8537/218042_normal.png?m=1597386407" class="avatar" border="0" align="default" alt="victoryss" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">79</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/victoryss" class="dark">victoryss</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-16 10:41:47 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">mark，期待 web 客户端</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5672740" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/5f853fecd7e505c856288c8a937ad4f6?s=48&d=retro" class="avatar" border="0" align="default" alt="ak47947" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">80</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/ak47947" class="dark">ak47947</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-16 11:33:36 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">有客户端开源了再使用，感谢分享</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5678430" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=48&d=retro" class="avatar" border="0" align="default" alt="imcnan" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">81</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/imcnan" class="dark">imcnan</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-17 13:45:25 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/ak47947">ak47947</a> 计划推出 web 端</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5688761" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/08988f215100a85860f5c5839951942f?s=48&d=retro" class="avatar" border="0" align="default" alt="zuoshoufantexi" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">82</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/zuoshoufantexi" class="dark">zuoshoufantexi</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-20 10:04:35 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">有没有一键安装的代码，VPS 好几个，想试试看看呢。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5696531" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/43d0d61a238edba50f7180c71acbbde9?s=48&d=retro" class="avatar" border="0" align="default" alt="imcnan" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">83</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/imcnan" class="dark">imcnan</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-22 10:23:45 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/zuoshoufantexi">zuoshoufantexi</a> 你是什么的 vps，直接在终端 java -jar 启动就行了。</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5710513" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/a938/6874/119434_normal.png?m=1560491822" class="avatar" border="0" align="default" alt="ghostsf" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">84</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/ghostsf" class="dark">ghostsf</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-25 14:03:23 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">和微信对接有点麻烦了。itchat 这类，目前新注册的微信号是用不了的</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_5718560" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/08988f215100a85860f5c5839951942f?s=48&d=retro" class="avatar" border="0" align="default" alt="zuoshoufantexi" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">85</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/zuoshoufantexi" class="dark">zuoshoufantexi</a></strong>&nbsp; &nbsp;<span class="ago">2018-05-28 10:07:35 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">@<a href="/member/imcnan">imcnan</a> 我就是那种具便宜的 VPS，你懂的那种啦。<br />怎么装？</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_6331907" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/17cb/0af7/48045_normal.png?m=1407286698" class="avatar" border="0" align="default" alt="Comdex" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">86</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/Comdex" class="dark">Comdex</a></strong>&nbsp; &nbsp;<span class="ago">2018-10-22 12:29:38 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">请问把这个服务端源码改造商用是可以的吗？</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_7419910" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/gravatar/577cfa761d6703a795401477e80f4ce6?s=48&d=retro" class="avatar" border="0" align="default" alt="wkl17" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">87</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/wkl17" class="dark">wkl17</a></strong>&nbsp; &nbsp;<span class="ago">2019-06-02 14:11:56 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">这个项目有新的进展吗？</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="r_7676055" class="cell">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+<td width="48" valign="top" align="center"><img src="https://cdn.v2ex.com/avatar/e3a5/19b6/431998_normal.png?m=1564132445" class="avatar" border="0" align="default" alt="bcmFF" /></td>
+<td width="10" valign="top"></td>
+<td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">88</span></div>
+<div class="sep3"></div>
+<strong><a href="/member/bcmFF" class="dark">bcmFF</a></strong>&nbsp; &nbsp;<span class="ago">2019-07-26 16:23:45 +08:00</span>
+<div class="sep5"></div>
+<div class="reply_content">时光荏苒，敢做并坚持做 IM 的只有两类人：傻子或者疯子☃</div>
+</td>
+</tr>
+</table>
+</div>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block; border-bottom: 1px solid var(--box-border-color);" data-ad-format="fluid" data-ad-layout-key="-hr-19-p-2z+is" data-ad-client="ca-pub-3465543440750523" data-ad-slot="1027854874"></ins>
+<script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+<div class="sep20"></div>
+</div>
+</div>
+<div class="c"></div>
+<div class="sep20"></div>
+</div>
+<div id="Bottom">
+<div class="content">
+<div class="inner">
+<div class="sep10"></div>
+<div class="fr">
+<a href="https://www.digitalocean.com/?refcode=1b51f1a7651d" target="_blank"><div id="DigitalOcean"></div></a>
+</div>
+<strong><a href="/about" class="dark" target="_self">关于</a> &nbsp; <span class="snow">·</span> &nbsp; <a href="/faq" class="dark" target="_self">FAQ</a> &nbsp; <span class="snow">·</span> &nbsp; <a href="/p/7v9TEc53" class="dark" target="_self">API</a> &nbsp; <span class="snow">·</span> &nbsp; <a href="/mission" class="dark" target="_self">我们的愿景</a> &nbsp; <span class="snow">·</span> &nbsp; <a href="/advertise" class="dark" target="_self">广告投放</a> &nbsp; <span class="snow">·</span> &nbsp; <a href="/advertise/2019.html" class="dark" target="_self">感谢</a> &nbsp; <span class="snow">·</span> &nbsp; <a href="/tools" class="dark" target="_self">实用小工具</a> &nbsp; <span class="snow">·</span> &nbsp; 4897 人在线</strong> &nbsp; <span class="fade">最高记录 5298</span> &nbsp; <span class="snow">·</span> &nbsp; <a href="/select/language" class="f11"><img src="/static/img/language.png?v=6a5cfa731dc71a3769f6daace6784739" width="16" align="absmiddle" id="ico-select-language" /> &nbsp; Select Language</a>
+<div class="sep20"></div>
+创意工作者们的社区
+<div class="sep5"></div>
+World is powered by solitude
+<div class="sep20"></div>
+<span class="small fade">VERSION: 3.9.8.5 · 30ms · UTC 08:58 · PVG 16:58 · LAX 00:58 · JFK 03:58<br />♥ Do have faith in what you're doing.</span>
+<div class="sep10"></div>
+</div>
+</div>
+</div>
+<script src="/b/i/5JMZPoYk7mHZjxksgKuQssM0s3OWeRGz3LuQxG4G7VB1w1KDVQMgFP0hdBHHL8Zxut88gmTIRULQN33oXh0YpUpjjT_rZG1XoOxqb_jDXCYfFH75YPKVOi0x6hZxejQisgapdAkR52Cq8yaObHO11XM-sYOb4Fe5fG9zbVfYHQM="></script>
+<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-11940834-2', 'v2ex.com');
+	  ga('send', 'pageview');
+      
+
+ga('send', 'event', 'Node', 'topic', 'programmer');
+
+
+
+	</script>
+</body>
+</html>

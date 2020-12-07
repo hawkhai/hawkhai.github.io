@@ -1,0 +1,2598 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://blog.csdn.net/xushiweizh/article/details/1396573"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="report" content='{"pid": "blog", "spm":"1001.2101"}'>
+    <meta name="referrer" content="always">
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <meta name="applicable-device" content="pc">
+    <link  href="https://g.csdnimg.cn/static/logo/favicon32.ico"  rel="shortcut icon" type="image/x-icon" />
+    <title>C++内存管理变革(2)：最袖珍的垃圾回收器_QBox/Golang/CERL/StdExt/TPL/WinxGui - 许式伟的专栏-CSDN博客</title>
+    <script>
+      (function(){ 
+        var el = document.createElement("script"); 
+        el.src = "https://s3a.pstatp.com/toutiao/push.js?1abfa13dfe74d72d41d83c86d240de427e7cac50c51ead53b2e79d40c7952a23ed7716d05b4a0f683a653eab3e214672511de2457e74e99286eb2c33f4428830"; 
+        el.id = "ttzz"; 
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(el, s);
+      })(window)
+    </script>
+        <meta name="keywords" content="C++内存管理变革(2)：最袖珍的垃圾回收器">
+        <meta name="csdn-baidu-search"  content='{"autorun":true,"install":true,"keyword":"C++内存管理变革(2)：最袖珍的垃圾回收器"}'>
+    <meta name="description" content="本文已经迁移到： http://cpp.winxgui.com/cn:the-tiniest-gc-allocator-autofreealloc最袖珍的垃圾回收器许式伟2005-7-17关键字: 内存管理 垃圾回收 AutoFreeAllockeyword: memory manage, gc, garbage collection, AutoFreeAlloc　　">
+    <script src='//g.csdnimg.cn/tingyun/1.8.3/blog.js' type='text/javascript'></script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/css/detail_enter-5f2d8f6575.min.css">
+    <script type="application/ld+json">{"@context":"https://ziyuan.baidu.com/contexts/cambrian.jsonld","@id":"https://blog.csdn.net/xushiweizh/article/details/1396573","appid":"1638831770136827","pubDate":"2006-11-19T19:48:00","title":"C++内存管理变革(2)：最袖珍的垃圾回收器_QBox/Golang/CERL/StdExt/TPL/WinxGui - 许式伟的专栏-CSDN博客","upDate":"2006-11-19T19:48:00"}</script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/themesSkin/skin3-template/skin3-template-45808e735f.min.css">
+    <script src="https://csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var isCorporate = false;//注释删除enterprise
+        var username =  "xushiweizh";
+        var skinImg = "white";
+        var blog_address = "https://blog.csdn.net/xushiweizh";
+        var currentUserName = "";
+        var isOwner = false;
+        var loginUrl = "http://passport.csdn.net/account/login?from=https://blog.csdn.net/xushiweizh/article/details/1396573";
+        var blogUrl = "https://blog.csdn.net/";
+        var avatar = "https://profile.csdnimg.cn/B/A/1/3_xushiweizh";
+        var articleTitle = "C++内存管理变革(2)：最袖珍的垃圾回收器";
+        var articleDesc = "本文已经迁移到： http://cpp.winxgui.com/cn:the-tiniest-gc-allocator-autofreealloc最袖珍的垃圾回收器许式伟2005-7-17关键字: 内存管理 垃圾回收 AutoFreeAllockeyword: memory manage, gc, garbage collection, AutoFreeAlloc　　";
+        var articleTitles = "C++内存管理变革(2)：最袖珍的垃圾回收器_QBox/Golang/CERL/StdExt/TPL/WinxGui - 许式伟的专栏-CSDN博客";
+        var nickName = "xushiweizh";
+        var articleDetailUrl = "https://blog.csdn.net/xushiweizh/article/details/1396573";
+        if(window.location.host.split('.').length == 3) {
+            blog_address = blogUrl + username;
+        }
+        var skinStatus = "White";
+        var blogStaticHost = "https://csdnimg.cn/release/blogv2/"
+    </script>
+    <script src="https://g.csdnimg.cn/??fixed-sidebar/1.1.6/fixed-sidebar.js" type="text/javascript"></script>
+    <script src='//g.csdnimg.cn/common/csdn-report/report.js' type='text/javascript'></script>
+    <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css">
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+    <script src="https://dup.baidustatic.com/js/ds.js"></script>
+</head>
+<body class="nodata " style="">
+        <script>
+            var toolbarSearchExt = '{"landingWord":[],"queryWord":"","tag":["c++","算法","class","struct","文档","语言"],"title":"C++内存管理变革(2)：最袖珍的垃圾回收器"}';
+        </script>
+    <script src="https://g.csdnimg.cn/common/csdn-toolbar/csdn-toolbar.js" type="text/javascript"></script>
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/pc/css/blog_code-01256533b5.min.css">
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/chart-3456820cac.css" />
+<div class="main_father clearfix d-flex justify-content-center" style="height:100%;"> 
+    <div class="container clearfix" id="mainBox">
+        <main>
+<script type="text/javascript">
+    var blogSensitiveWords = "";
+</script>
+<div class="blog-content-box">
+    <div class="article-header-box">
+        <div class="article-header">
+            <div class="article-title-box">
+                <h1 class="title-article" id="articleContentId">C++内存管理变革(2)：最袖珍的垃圾回收器</h1>
+            </div>
+            <div class="article-info-box">
+                <div class="article-bar-top">
+                    <img class="article-type-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/original.png" alt="">
+                    <div class="bar-content">
+                    <a class="follow-nickName " href="https://blog.csdn.net/xushiweizh" target="_blank" rel="noopener">xushiweizh</a>
+                    <span class="time">2006-11-19 19:48:00</span>
+                    <img class="article-read-img article-heard-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/articleReadEyes.png" alt="">
+                    <span class="read-count">24537</span>
+                    <a id="blog_detail_zk_collection" class="un-collection" data-report-click='{"mod":"popu_823","spm":"1001.2101.3001.4232","ab":"new"}'>
+                        <img class="article-collect-img article-heard-img un-collect-status isdefault" style="display:inline-block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                        <img class="article-collect-img article-heard-img collect-status isactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                        <span class="name">收藏</span>
+                        <span class="get-collection">
+                            1
+                        </span>
+                    </a>
+                    </div>
+                </div>
+                <div class="blog-tags-box">
+                    <div class="tags-box artic-tag-box">
+                            <span class="label">分类专栏：</span>
+                                <a class="tag-link" href="https://blog.csdn.net/xushiweizh/category_265099.html" target="_blank" rel="noopener">内存管理（Memory）</a>
+                            <span class="label">文章标签：</span>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"c++","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_2c/Ntjacg0sNDk3Ny1ibG9n.html" target="_blank" rel="noopener">c++</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"算法","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_28/MtTaEg0sMTE3MjUtYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">算法</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"class","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_20/MtTaEg0sMzk1NTgtYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">class</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"struct","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_2a/MtTaEg0sMDc0MzYtYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">struct</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"文档","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_2c/MtTaEg0sNDczMzYtYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">文档</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"语言","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_2e/MtTaEg0sMDU5NTUtYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">语言</a>
+                    </div>
+                </div>
+                <div class="up-time"><span>最后发布:2006-11-19 19:48:00</span><span>首次发布:2006-11-19 19:48:00</span></div>
+                <div class="slide-content-box">
+                    <div class="article-copyright">
+                        <div class="creativecommons">
+                            版权声明：本文为博主原创文章，遵循<a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener"> CC 4.0 BY-SA </a>版权协议，转载请附上原文出处链接和本声明。
+                        </div>
+                        <div class="article-source-link">
+                            本文链接：<a href="https://blog.csdn.net/xushiweizh/article/details/1396573" target="_blank">https://blog.csdn.net/xushiweizh/article/details/1396573</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="operating">
+                    <a class="href-article-edit slide-toggle">版权</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <article class="baidu_pl">
+        <div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-b5506197d8.css">
+                <div id="content_views" class="htmledit_views">
+                    <span style="font-weight: bold;">本文已经迁移到&#xff1a; <a href="http://cpp.winxgui.com/cn:the-tiniest-gc-allocator-autofreealloc">http://cpp.winxgui.com/cn:the-tiniest-gc-allocator-autofreealloc</a><br /><br /></span> 
+<h1 style="margin: 0pt 0pt 5pt;">最袖珍的垃圾回收器</h1> 
+<div style="margin: 3.1pt 0pt;">
+ <strong>许式伟</strong>
+</div> 
+<div style="margin: 3.1pt 0pt 15.6pt;">
+ <strong>2005-7-17</strong>
+</div> 
+<div style="">
+ 关键字: 内存管理 垃圾回收 
+ <span style="font-size: 12pt;">AutoFreeAlloc</span>
+</div> 
+<div style="">
+ keyword: memory manage, gc, garbage collection, AutoFreeAlloc
+</div> 
+<div style="">
+ 　
+</div> 
+<div style="">
+ 　
+</div> 
+<div style="">
+  
+</div> 
+<div style="">
+  
+</div> 
+<div style="margin-bottom: 15.6pt;">
+ <strong><font size="6">概述</font></strong>
+</div> 
+<div style="">
+ C/C&#43;&#43;最被人诟病的&#xff0c;可能是没有一个内存垃圾回收器&#xff08;确切是说没有一个标准的垃圾回收器&#xff09;。本文讨论的内容要点是&#xff0c;在C/C&#43;&#43;中实现一个最袖珍的、功能受限的垃圾回收器。这个垃圾回收器区别于其他垃圾回收器的主要特征是&#xff1a;
+</div> 
+<div style="">
+ 　
+</div> 
+<div style="">
+  
+</div> 
+<div style="">
+  
+</div> 
+<div style="margin-left: 21pt; text-indent: -21pt;">
+ 1.
+ <span style="font-family: &#39;Times New Roman&#39;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">         </span>袖珍但具实用性。整个垃圾回收器代码行数100行左右&#xff08;不含空白行&#xff09;&#xff0c;相当小巧。相对而言&#xff0c;它的功能也受到一定的限制。但是它在很多关键的场合恰恰非常有用。该垃圾回收器以实用作为首要目标&#xff0c;已经成为我和身边一些同事编程的重要工具。
+</div> 
+<div style="margin-left: 21pt; text-indent: -21pt;">
+ 　
+</div> 
+<div style="margin-left: 21pt; text-indent: -21pt;">
+  
+</div> 
+<div style="margin-left: 21pt; text-indent: -21pt;">
+ 2.
+ <span style="font-family: &#39;Times New Roman&#39;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">         </span>高性能。区别于其他垃圾回收器的是这个袖珍的垃圾回收器非但不会导致性能的下降&#xff0c;反而提高了程序的时间性能&#xff08;分配的速度加快&#xff09;和空间性能&#xff08;所占内存空间比正常的malloc/new少&#xff09;。而这也是实用的重要指标。
+</div> 
+<div style="margin-left: 21pt; text-indent: -21pt;">
+ 　
+</div> 
+<div style="margin-left: 21pt; text-indent: -21pt;">
+  
+</div> 
+<div style="">
+ 本文算法并不复杂。技术上的东西&#xff0c;很多点明了就没有什么了&#xff0c;也许重要的意义是在于其首创性。其实&#xff0c;boost
+ <a name="_ftnref1" title=""><span style="font-size: 10.5pt;">[1</span></a>]提供的pool组件也在试图提供类似功能的自动内存回收能力。但是实现相对复杂且低效&#xff08;基于经典的mempool技术[
+ <span style="font-size: 10.5pt;">2]</span>&#xff09;。
+</div> 
+<div style="">
+ 　
+</div> 
+<div style="">
+  
+</div> 
+<div style="">
+ 现在&#xff0c;你也许急着想看看&#xff0c;这个垃圾回收器长什么样了。闲话少叙&#xff0c;那就让我们就开始一步步把谜底揭开吧。
+</div> 
+<div style="">
+ 　
+</div> 
+<div style="">
+ 　
+</div> 
+<div style="">
+  
+</div> 
+<div style="">
+  
+</div> 
+<div style="">
+  
+</div> 
+<div style="margin-bottom: 15.6pt;">
+ <strong><font size="6">思路</font></strong>
+</div> 
+<div style="">
+ 理解该垃圾回收器的关键点在于&#xff0c;是在于理解它的目标&#xff1a;为一个复杂的局部过程&#xff08;算法&#xff09;提供自动内存回收的能力。
+</div> 
+<div style="">
+ 　
+</div> 
+<div style="">
+  
+</div> 
+<div style="">
+ 所谓局部过程&#xff08;算法&#xff09;&#xff0c;是指那些算法复杂性较高&#xff0c;但在程序运行期所占的时间又比较短暂的过程
+ <a name="_ftnref3" title=""><span style="font-size: 10.5pt;">[3]</span></a>。例如&#xff1a;搜索引擎的搜索过程、读盘/存盘过程、显示&#xff08;绘制&#xff09;过程等等。通常这些过程可能需要申请很多内存&#xff0c;而且内存分配操作的入口点很多&#xff08;就是调用new的地方很多&#xff09;&#xff0c;如果每调用一次new就要考虑应该在什么地方delete就徒然浪费我们宝贵的脑力&#xff0c;使得我们无法把全力精力集中在算法本身的设计上。也许就是在这种情形下&#xff0c;C/C&#43;&#43;程序员特别羡慕那些具备垃圾回收器的语言。相对而言&#xff0c;如果算法复杂性不高的话&#xff0c;我们的程序员完全有能力控制好new/delete的匹配关系。并且&#xff0c;这种“一切皆在我掌控之中”的感觉给了我们安全感
+ <a name="_ftnref4" title=""><span style="font-size: 10.5pt;">[4]</span></a>和满足感。
+</div> 
+<div style="">
+ 　
+</div> 
+<div style="">
+  
+</div> 
+<div style="">
+ 因此&#xff0c;这个垃圾回收器的重心并不是要提供一个理论上功能完备的内存自动回收机制。它只是针对复杂性较高的局部过程&#xff08;算法&#xff09;&#xff0c;为他们提供最实效的内存管理手段。从局部过程的一开始&#xff0c;你就只管去申请、使用内存&#xff0c;等到整个算法完成之后&#xff0c;这个过程申请的大部分内存&#xff08;需要作为算法结果保留的例外&#xff09;&#xff0c;无论它是在算法的那个步骤申请的&#xff0c;均在这个结束点上由垃圾回收器自动销毁。我们画个示意图&#xff1a;
+</div> 
+<div style="">
+ <img src="https://p-blog.csdn.net/images/p_blog_csdn_net/xushiweizh/1.gif" alt="" />
+</div> 
+<div align="center" style="">
+ 图 1
+</div> 
+<div align="center" style="">
+ 　
+</div> 
+<div align="left" style="">
+  
+</div> 
+<div align="left" style="">
+  
+</div> 
+<div style="margin-bottom: 15.6pt;">
+ <strong><font size="6">规格</font></strong>
+</div> 
+<div style="">
+ 我们将该垃圾回收器命名为AutoFreeAlloc。它的接口很简单&#xff0c;仅涉及两个概念&#xff1a;Alloc、Clear。
+</div> 
+<div style="">
+ 　
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>typedef</strong> 
+ <strong>void</strong> (*
+ <strong>FnDestructor</strong>)(
+ <strong>void</strong>* pThis);
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>class</strong> 
+ <strong>AutoFreeAlloc</strong>
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ {
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>public</strong>:
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     ~
+ <strong>AutoFreeAlloc</strong>();                           
+ <strong>// </strong>
+ <strong>析构函数。自动调用</strong>
+ <strong>Clear</strong>
+ <strong>释放内存</strong>
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     
+ <strong>void</strong>* Alloc(
+ <strong>size_t</strong> cb);                     
+ <strong>// </strong>
+ <strong>类似于</strong>
+ <strong>malloc(cb)</strong>
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     
+ <strong>void</strong>* Alloc(
+ <strong>size_t</strong> cb, 
+ <strong>FnDestructor</strong> fn);    
+ <strong>// </strong>
+ <strong>申请内存并指定析构函数</strong>
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     
+ <strong>void</strong> Clear();                               
+ <strong>// </strong>
+ <strong>析构并释放所有分配的对象</strong>
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ };
+</div> 
+<div style="">
+  
+</div> 
+<div style="">
+ 为了方便&#xff0c;提供辅助的New操作&#xff08;上一篇中已经简单介绍实现了&#xff09;&#xff0c;大体如下&#xff1a;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>template</strong> &lt;class 
+ <strong>Type</strong>, class 
+ <strong>AllocType</strong>&gt;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>Type</strong>* New(
+ <strong>AllocType</strong>&amp; alloc);                    
+ <strong>// </strong>
+ <strong>类似于</strong>
+ <strong>new Type</strong>
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>template</strong> &lt;class 
+ <strong>Type</strong>, class 
+ <strong>ArgType1</strong>, class 
+ <strong>AllocType</strong>&gt;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>Type</strong>* New(
+ <strong>ArgType1</strong> arg1, 
+ <strong>AllocType</strong>&amp; alloc); 
+ <strong>// </strong>
+ <strong>类似于</strong>
+ <strong>new Type(arg1)</strong>
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>template</strong> &lt;class 
+ <strong>Type</strong>, class 
+ <strong>AllocType</strong>&gt;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>Type</strong>* NewArray(
+ <strong>size_t</strong> count, 
+ <strong>AllocType</strong>&amp; alloc);
+ <strong>// </strong>
+ <strong>类似于</strong>
+ <strong>new Type[count]</strong>
+</div> 
+<div style="">
+  
+</div> 
+<div style="">
+ 使用样例&#xff1a;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>AutoFreeAlloc</strong> alloc;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>int</strong>* intArray &#61; (
+ <strong>int</strong>*)alloc.Alloc(
+ <strong>sizeof</strong>(
+ <strong>int</strong>)*count);
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>int</strong>* intArray2 &#61; NewArray&lt;
+ <strong>int</strong>&gt;(count, alloc);
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>MyClass</strong>* obj &#61; New&lt;
+ <strong>MyClass</strong>&gt;(alloc);
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>MyClass</strong>* objWithArg &#61; New&lt;
+ <strong>MyClass</strong>&gt;(arg1, alloc);
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>MyClass</strong>* objArray &#61; NewArray&lt;
+ <strong>MyClass</strong>&gt;(count, alloc);
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ alloc.Clear();
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>// ...</strong>
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>// </strong>
+ <strong>现在&#xff0c;不能再访问</strong>
+ <strong>intArray, obj, objWithArg, objArray</strong>
+ <strong>等数据了。</strong>
+</div> 
+<div style="margin-bottom: 15.6pt;">
+ <strong><font size="6"></font></strong>
+</div> 
+<div style="margin-bottom: 15.6pt;">
+ <strong><font size="6">　</font></strong>
+</div> 
+<div style="margin-bottom: 15.6pt;">
+ <strong><font size="6">内存管理机制</font></strong>
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>class</strong> 
+ <strong>AutoFreeAlloc</strong>
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ {
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>public</strong>:
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     
+ <strong>enum</strong> { BlockSize &#61; 2048 };
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>private</strong>:
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     
+ <strong>struct</strong> 
+ <strong>_MemBlock</strong>
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     {
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+         
+ <strong>_MemBlock</strong>* pPrev;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+         
+ <strong>char</strong> buffer[BlockSize];
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     };
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     
+ <strong>enum</strong> { HeaderSize &#61; 
+ <strong>sizeof</strong>(_
+ <strong>MemBlock</strong>) - BlockSize };
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     
+ <strong>char</strong>* m_begin;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     
+ <strong>char</strong>* m_end;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ };
+</div> 
+<div style="">
+  
+</div> 
+<div style="">
+ <strong>AutoFreeAlloc</strong>类与内存管理相关的变量只有两个&#xff1a;m_begin、m_end。单从变量定义来看&#xff0c;基本上很难看明白。但是有了下面这张示意图就容易理解多了&#xff1a;
+</div> 
+<div style="margin: 0pt 0pt 23.4pt; text-indent: -15.55pt;">
+ <img src="https://p-blog.csdn.net/images/p_blog_csdn_net/xushiweizh/2.png" alt="" />
+</div> 
+<div align="center" style="margin-bottom: 23.4pt;">
+ 图 2
+</div> 
+<div style="">
+ 整个
+ <strong>AutoFreeAlloc</strong>申请的内存&#xff0c;通过_
+ <strong>MemBlock</strong>构成链表。只要获得了链表的头&#xff0c;就可以遍历整个内存链&#xff0c;释放所有申请的内存了。而链表的头(图中标为
+ <strong>_ChainHeader</strong>)&#xff0c;可以通过
+ <strong>m_begin</strong>计算得到&#xff1a;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>_MemBlock</strong>* 
+ <strong>AutoFreeAlloc</strong>::_ChainHeader() 
+ <strong>const</strong>
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ {
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     
+ <strong>return</strong> (
+ <strong>_MemBlock</strong>*)(
+ <strong>m_begin</strong> - HeaderSize);
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ }
+</div> 
+<div style="">
+  
+</div> 
+<div style="">
+ 为了使得_ChainHeader初始值为
+ <strong>null</strong>&#xff0c;构造函数我们这样写&#xff1a;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>AutoFreeAlloc</strong>::
+ <strong>AutoFreeAlloc</strong>()
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ {
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     m_begin &#61; m_end &#61; (
+ <strong>char</strong>*)HeaderSize;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ }
+</div> 
+<div style="">
+  
+</div> 
+<div style="margin-left: 21pt; text-indent: -21pt;">
+ <span style="font-family: &#39;Times New Roman&#39;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;"><font face="Arial">★</font>         </span>下面我们考虑内存分配过程。Alloc过程主要会有三种情况&#xff0c;具体代码为&#xff1a;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>void</strong>* 
+ <strong>AutoFreeAlloc</strong>::Alloc(
+ <strong>size_t</strong> cb)
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ {
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     
+ <strong>if</strong> (m_end – m_begin &lt; cb)
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     {
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+         
+ <strong>if</strong> (cb &gt;&#61; BlockSize)
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+         {
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+                 
+ <strong>_MemBlock</strong>* pHeader &#61; 
+ <strong>_ChainHeader</strong>();
+ <br />                
+ <strong>_MemBlock</strong>* pNew &#61; (
+ <strong>_MemBlock</strong>*)m_alloc.allocate(HeaderSize &#43; cb);
+ <br />                if (pHeader)
+ <br />                {
+ <br />　                 pNew-&gt;pPrev &#61; pHeader-&gt;pPrev;
+ <br />    　             pHeader-&gt;pPrev &#61; pNew;
+ <br />                }
+ <br />                else
+ <br />                {
+ <br />        　         m_end &#61; m_begin &#61; pNew-&gt;buffer;
+ <br />            　     pNew-&gt;pPrev &#61; NULL;
+ <br />                }
+ <br />                return pNew-&gt;buffer;
+ <br />
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+         }
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+         
+ <strong>else</strong>
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+         {
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+             _
+ <strong>MemBlock</strong>* pNew &#61; (_
+ <strong>MemBlock</strong>*)malloc(
+ <strong>sizeof</strong>(_
+ <strong>MemBlock</strong>));
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+             pNew-&gt;pPrev &#61; _ChainHeader();
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+             m_begin &#61; pNew-&gt;buffer;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+             m_end &#61; m_begin &#43; BlockSize;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+         }
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     }
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     
+ <strong>return</strong> m_end -&#61; cb;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ }
+</div> 
+<div style="">
+  
+</div> 
+<div style="margin-left: 21pt; text-indent: -21pt;">
+ 1.
+ <span style="font-family: &#39;Times New Roman&#39;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">         </span>最简单的情况&#xff0c;是当前_MemBlock还有足够的自由内存(free memory)&#xff0c;即&#xff1a;
+ <br />    m_end – m_begin &gt;&#61; cb
+ <br />此时&#xff0c;只需要将m_end前移cb字节就可以了。我们画个示意图如下&#xff1a;
+</div> 
+<div style="">
+ <img src="https://p-blog.csdn.net/images/p_blog_csdn_net/xushiweizh/3.png" alt="" />
+</div> 
+<div align="center" style="">
+ 图 3
+</div> 
+<div align="center" style="">
+ 　
+</div> 
+<div align="center" style="">
+  
+</div> 
+<div style="margin-left: 21pt; text-indent: -21pt;">
+ 2.
+ <span style="font-family: &#39;Times New Roman&#39;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">         </span>在当前的_MemBlock的自由内存&#xff08;free memory&#xff09;不足的情况下&#xff0c;我们就需要申请一个新的_MemBlock以供使用
+ <a name="_ftnref5" title=""><span style="font-size: 10.5pt;">[5]</span></a>。申请新的_
+ <strong>MemBlock</strong>&#xff0c;我们又会遇到两种情况&#xff1a;
+</div> 
+<div style="margin-left: 42pt; text-indent: -21pt;">
+ a)
+ <span style="font-family: &#39;Times New Roman&#39;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">         </span>申请的字节数&#xff08;即cb&#xff09;小于一个_MemBlock所能够提供的内存&#xff08;即BlockSize&#xff09;。
+ <br />这种情况下&#xff0c;我们只需要将该_MemBlock作为新的当前_MemBlock挂到链表中&#xff0c;剩下的工作就和情形1完全类似。示意图如下&#xff1a;
+</div> 
+<div style="margin-left: 0pt; text-indent: -8.9pt;">
+ <img src="https://p-blog.csdn.net/images/p_blog_csdn_net/xushiweizh/4.png" alt="" />
+</div> 
+<div align="center" style="">
+ 图 4
+</div> 
+<div align="center" style="">
+  
+</div> 
+<div style="margin-left: 42pt; text-indent: -21pt;">
+ b)
+ <span style="font-family: &#39;Times New Roman&#39;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">        </span>而在内存申请的字节数&#xff08;即cb&#xff09;大于或等于一个Block的字节数时&#xff0c;我们需要申请可使用内存超过正常长度&#xff08;BlockSize&#xff09;的_
+ <strong>MemBlock</strong>。这个新生成的_MemBlock全部内存被用户申请。故此&#xff0c;我们只需要修改_ChainHeader的pPrev指针&#xff0c;改为指向这一块新申请的_MemBlock即可。m_begin、m_end保持不变&#xff08;当前的_MemBlock还是当前的_
+ <strong>MemBlock</strong>&#xff09;。如图&#xff1a;
+</div> 
+<div style="margin-left: 0pt; text-indent: -27pt;">
+ <img src="https://p-blog.csdn.net/images/p_blog_csdn_net/xushiweizh/5.png" alt="" />
+</div> 
+<div align="center" style="margin-bottom: 23.4pt;">
+ 图 5
+</div> 
+<div style="margin-left: 21pt; text-indent: -21pt;">
+ <span style="font-family: &#39;Times New Roman&#39;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;"><font face="Arial">★</font></span>
+ <span style="font-family: &#39;Times New Roman&#39;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">         </span>下面我们考虑内存释放&#xff08;Clear&#xff09;过程。这个过程就是遍历_MemBlock释放所有的_MemBlock的过程&#xff0c;非常简单。代码如下&#xff1a;
+</div> 
+<div style="margin-left: 21pt; text-indent: -21pt;">
+  
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ <strong>void</strong> 
+ <strong>AutoFreeAlloc</strong>::Clear()
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ {
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     _
+ <strong>MemBlock</strong>* pHeader &#61; _ChainHeader();
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     
+ <strong>while</strong> (pHeader)
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     {
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+         _
+ <strong>MemBlock</strong>* pTemp &#61; pHeader-&gt;pPrev;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+         free(pHeader);
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+         pHeader &#61; pTemp;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     }
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+     m_begin &#61; m_end &#61; (
+ <strong>char</strong>*)HeaderSize;
+</div> 
+<div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+ }
+</div> 
+<div style="margin-bottom: 46.8pt;">
+  
+</div> 
+<div style=""> 
+ <div style="margin-bottom: 15.6pt;">
+  <strong><font size="6">自动析构过程</font></strong>
+ </div> 
+ <div>
+  我们知道&#xff0c;C&#43;&#43;以及其他面向对象语言为对象引入了构造、析构过程。这是一个了不起的发明。因为只有这样&#xff0c;才能够保证对象从一开始产生以来&#xff08;刚new出来&#xff09;&#xff0c;到对象销毁这整个过程&#xff0c;它的数据都处于完备状态&#xff0c;是自洽的。
+ </div> 
+ <div>
+  　
+ </div> 
+ <div>
+  由于垃圾回收器负责对象的回收&#xff0c;它自然不止需要关注对象申请的内存的释放&#xff0c;同时也需要保证&#xff0c;在对象销毁之前它的析构过程被调用。上文我们为了关注内存管理过程&#xff0c;把自动析构过程需要的代码均去除了。为了支持自动析构&#xff0c;AutoFreeAlloc类增加了以下成员&#xff1a;
+ </div> 
+ <div>
+   
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  class 
+  <strong>AutoFreeAlloc</strong>
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  {
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+      
+  <strong>struct</strong> _
+  <strong>DestroyNode</strong>
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; text-indent: 21pt;">
+  {
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+          _
+  <strong>DestroyNode</strong>* pPrev;
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+          
+  <strong>FnDestructor</strong> fnDestroy;
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+      };
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+      _
+  <strong>DestroyNode</strong>* m_destroyChain;
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  };
+ </div> 
+ <div>
+   
+ </div> 
+ <div>
+  如果一个类存在析构&#xff0c;则它需要在Alloc内存的同时指定析构函数。代码如下&#xff1a;
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  <strong>void</strong>* 
+  <strong>AutoFreeAlloc</strong>::Alloc(
+  <strong>size_t</strong> cb, 
+  <strong>FnDestructor</strong> fn)
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  {
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+      _
+  <strong>DestroyNode</strong>* pNode &#61; (_
+  <strong>DestroyNode</strong>*)Alloc(
+  <strong>sizeof</strong>(_
+  <strong>DestroyNode</strong>) &#43; cb);
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+      pNode-&gt;fnDestroy &#61; fn;
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+      pNode-&gt;pPrev &#61; m_destroyChain;
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+      m_destroyChain &#61; pNode;
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+      
+  <strong>return</strong> pNode &#43; 1;
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  }
+ </div> 
+ <div>
+   
+ </div> 
+ <div>
+  只要通过该Alloc函数申请的内存&#xff0c;我们在Clear中就可以调用相应的析构。当然&#xff0c;Clear函数需要补充自动析构相关的代码&#xff1a;
+ </div> 
+ <div>
+   
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  <strong>void</strong> 
+  <strong>AutoFreeAlloc</strong>::Clear()
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  {
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+      
+  <strong>while</strong> (m_destroyChain)
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+      {
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+          m_destroyChain-&gt;fnDestroy(m_destroyChain &#43; 1);
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+          m_destroyChain &#61; m_destroyChain-&gt;pPrev;
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+      }
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+      
+  <strong>// </strong>
+  <strong>以下是原先正常的内存释放过程</strong>
+  <strong>...</strong>
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  }
+ </div> 
+ <div style="margin-bottom: 15.6pt;">
+  <strong><font size="6"></font></strong>
+ </div> 
+ <div style="margin-bottom: 15.6pt;">
+  <strong><font size="6">　</font></strong>
+ </div> 
+ <div style="margin-bottom: 15.6pt;">
+  <strong><font size="6">时间性能分析</font></strong>
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  <strong>void</strong>* 
+  <strong>AutoFreeAlloc</strong>::Alloc(
+  <strong>size_t</strong> cb);
+ </div> 
+ <div>
+   
+ </div> 
+ <div>
+  OOP技术带来一个内存上的问题是&#xff0c;对象粒度越来越细了&#xff0c;对象基本上都是小对象。这就对内存管理的性能提出了很高的要求。
+ </div> 
+ <div>
+  　
+ </div> 
+ <div>
+   
+ </div> 
+ <div>
+  如果我们以对象大小平均为32字节计算的话&#xff0c;每2048/32 &#61; 64操作中&#xff0c;只有一次操作满足m_end – m_begin &lt; cb的条件。也就是说&#xff0c;在通常情况&#xff08;63/64 &#61; 98.4%的概率&#xff09;下&#xff0c;Alloc操作只需要一个减法操作就完成内存分配。
+ </div> 
+ <div>
+  　
+ </div> 
+ <div>
+  我说这是世界上最快速的内存分配算法&#xff0c;也许你对此仍然抱有怀疑态度。但是可以肯定的一点是&#xff0c;要突破它的性能极限我觉得已经很难很难了。
+ </div> 
+ <div>
+  　
+ </div> 
+ <div>
+   
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  <strong>void</strong> 
+  <strong>AutoFreeAlloc</strong>::Clear();
+ </div> 
+ <div>
+   
+ </div> 
+ <div>
+  一般内存管理器通常一次内存分配操作就需调用相应的一次Free操作。但是AutoFreeAlloc不针对每一个Alloc进行释放&#xff0c;而是针对每一个_
+  <strong>MemBlock</strong>。仍假设对象平均大小为32字节的话&#xff0c;也就是相当于把64次Alloc操作合并&#xff0c;为其提供一次相应的Free过程。
+ </div> 
+ <div>
+  　
+ </div> 
+ <div style="margin-left: 0pt; text-indent: 0pt;">
+  <span style="font-family: &#39;Times New Roman&#39;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;"><font face="Arial"></font></span>
+ </div> 
+ <div style="margin-left: 0pt; text-indent: 0pt;">
+  <span style="font-family: &#39;Times New Roman&#39;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;"><font face="Arial">★</font></span>
+  <span style="font-family: &#39;Times New Roman&#39;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">         </span>结论&#xff1a;AutoFreeAlloc在时间上的性能&#xff0c;大约比普通的malloc/free的快64倍。
+ </div> 
+ <div style="margin-left: 0pt; text-indent: 0pt;">
+  　
+ </div> 
+ <div style="margin-left: 0pt; text-indent: 0pt;">
+  　
+ </div> 
+ <div style="margin-left: 0pt; text-indent: 0pt;">
+   
+ </div> 
+ <div style="margin-left: 0pt; text-indent: 0pt;">
+   
+ </div> 
+ <div style="margin-left: 0pt; text-indent: 0pt;">
+   
+ </div> 
+ <div style="margin-bottom: 15.6pt;">
+  <strong><font size="6">空间性能分析</font></strong>
+ </div> 
+ <div>
+  我们知道&#xff0c;一般内存管理器为了将用户申请的内存块管理起来&#xff0c;除了用户需要的cb字节内存外&#xff0c;通常额外还提供一个内存块的头结构&#xff0c;通过这个头结构将内存串连成为一个链表。一般来讲&#xff0c;这个头结构至少有两项&#xff08;可能还不止&#xff09;&#xff0c;示意如下&#xff1a;
+ </div> 
+ <div>
+   
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  <strong>struct</strong> 
+  <strong>MemHeader</strong>
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  {
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+      
+  <strong>MemHeader</strong>* pPrev;
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+      
+  <strong>size_t</strong> cb;
+ </div> 
+ <div style="background: rgb(217, 217, 217) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+  };
+ </div> 
+ <div>
+   
+ </div> 
+ <div>
+  仍然假设平均Alloc一次的内存为32字节。则一次malloc分配过程&#xff0c;就会浪费8/32 &#61; 25%的内存。并且由于大量的小对象存在&#xff0c;整个内存中的碎片&#xff08;指那些自由但无法被使用的内存&#xff09;将特别严重。
+ </div> 
+ <div>
+  　
+ </div> 
+ <div>
+   
+ </div> 
+ <div>
+  而AutoFreeAlloc的Alloc没有如何额外开销。整个AutoFreeAlloc&#xff0c;只有在将_MemBlock串为链表的有一个额外的pPrev指针&#xff0c;加上_MemBlock是malloc出来的&#xff0c;有额外的8字节开销。总计浪费(4&#43;8)/2048 &#61; 0.6%的内存&#xff0c;几乎可以忽略不计。
+ </div> 
+ <div>
+  　
+ </div> 
+ <div>
+  　
+ </div> 
+ <div>
+   
+ </div> 
+ <div>
+   
+ </div> 
+ <div>
+   
+ </div> 
+ <div>
+  <strong><font size="6">后记</font></strong>
+ </div> 
+ <div>
+   
+ </div> 
+ <div>
+  　
+ </div> 
+ <div>
+  AutoFreeAlloc于2004-5-21开发&#xff0c;只有100行的代码量。但是&#xff0c;这个组件获得了空前的成功&#xff0c;它的应用范围逐步扩大&#xff0c;超过了我最初实现这个组件时的预计。
+ </div> 
+ <div>
+  　
+ </div> 
+ <div>
+   
+ </div> 
+ <div>
+  我渐渐冷静下来&#xff0c;考虑这其中蕴涵的道理。我逐步领会到了&#xff0c;它的成功之处&#xff0c;不是它在时间、空间性能的高效&#xff0c;而是在于它帮助C&#43;&#43;程序员解决了最大的难题——内存管理。虽然&#xff0c;这个解决方案并不是完整的。
+ </div> 
+ <div>
+  　
+ </div> 
+ <div>
+   
+ </div> 
+ <div>
+  AutoFreeAlloc是一个切入点&#xff0c;从它身上&#xff0c;让我明白了C&#43;&#43;的new/delete的不合理&#xff1b;STL引入的allocator是一个切入点&#xff0c;从它身上&#xff0c;让我明白了内存管理有很强的区域性&#xff0c;在不同的区域&#xff08;局部过程&#xff09;中对allocator的需求却又不尽相同。
+ </div> 
+ <div>
+  　
+ </div> 
+ <div>
+   
+ </div> 
+ <div>
+  我们前文也提到了一个例子&#xff1a;一个文档打开&#xff0c;编辑&#xff0c;直到文档被最终关闭&#xff0c;这个完成算不算局部过程呢&#xff1f;在AutoFreeAlloc解决的问题域来看&#xff0c;显然我们无法认为它是一个局部过程。但是&#xff0c;从其他allocator角度来讲&#xff0c;是否就有可能把它作为一个局部过程了呢&#xff1f;
+ </div> 
+ <div>
+   
+ </div> 
+ <div>
+  　
+ </div> 
+ <div>
+  正是考虑到AutoFreeAlloc的缺陷&#xff0c;我们需要一个功能更强的垃圾回收器。这就是我们下一次需要讨论的组件了。
+ </div> 
+ <div>
+  最后&#xff0c;仍然需要明确的一点时。我们很难也不需要实现一个象Java、C#那样的垃圾回收器。提供一个具备特定的内存管理能力的allocator才是正道。
+ </div> 
+</div> 
+<div>
+ <br />
+ <hr width="33%" size="1" align="left" /> 
+ <div id="ftn1"> 
+  <div>
+   <a name="_ftn1" title=""><span style="font-size: 9pt;">[1]</span></a> 请参考boost官方网站
+   <a href="http://www.boost.org/">http://www.boost.org/</a>。
+  </div> 
+ </div> 
+ <div id="ftn2"> 
+  <div>
+   <a name="_ftn2" title=""><span style="font-size: 9pt;">[2]</span></a> mempool技术是一个很成熟的内存管理技术&#xff0c;被sgi-stl、boost等C&#43;&#43;库实现者采用。 
+  </div> 
+ </div> 
+ <div id="ftn3"> 
+  <div>
+   <a name="_ftn3" title=""><span style="font-size: 9pt;">[3]</span></a> 真正是否要把一个过程定义为局部过程&#xff0c;完全取决于设计者本身。例如&#xff0c;一个文档打开&#xff0c;编辑&#xff0c;直到文档被最终关闭&#xff0c;这个完成算不算局部过程呢&#xff1f;在大部分情况下我们认为它不是一个局部过程&#xff0c;但是下回我们将专门讨论是否有可能&#xff0c;以及应该如何将它作为一个局部过程。
+  </div> 
+ </div> 
+ <div id="ftn4"> 
+  <div>
+   <a name="_ftn4" title=""><span style="font-size: 9pt;">[4]</span></a> 那些提供了垃圾回收器的语言的使用者&#xff0c;显然也有应用了垃圾回收器的烦恼。例如C#在调用非管制代码&#xff08;如调用Win32 api&#xff09;时&#xff0c;这些问题变得突出&#xff0c;一个疏忽就留下潜在隐患。这与C/C&#43;&#43;程序员遗憾语言没有垃圾回收器的感觉类似。
+  </div> 
+ </div> 
+ <div id="ftn5"> 
+  <div>
+   <a name="_ftn5" title=""><span style="font-size: 9pt;">[5]</span></a> 当前的_MemBlock的自由内存很可能还是有的&#xff0c;但是不足cb字节。此时我们说这里有内存碎片&#xff08;memory piece&#xff09;&#xff1a;这些碎片尽管没有人使用&#xff0c;但是我们把它弃而不用。
+  </div> 
+  <div>
+   　
+  </div> 
+  <div>
+   　
+  </div> 
+  <div>
+    
+  </div> 
+ </div> 
+</div> 
+<h1>附加说明&#xff1a;</h1> 
+<p>本文所描述的AutoFreeAlloc组件&#xff0c;完整代码可在<a href="http://sourceforge.net/projects/winx">WINX库</a>中找到。你也可以通过以下链接在线浏览&#xff1a;</p> 
+<p><a href="http://winx.cvs.sourceforge.net/winx/stdext/include/stdext/memory/AutoFreeAlloc.h?view&#61;markup">AutoFreeAlloc完整源代码</a></p> 
+<p>另外&#xff0c; 这篇文章写的时间较早&#xff0c;其规格虽然与现在的AutoFreeAlloc一样&#xff0c;但成员函数名改了&#xff1a;</p> 
+<p>    Alloc -&gt; allocate<br />    Clear -&gt; clear</p> 
+<p>之所以这样&#xff0c;是因为AutoFreeAlloc被纳入stdext库&#xff08;这个库可独立于winx界面库&#xff0c;是winx界面库的基础&#xff09;。stdext库的命名风格尽量与STL的命名习惯一致。</p> 
+<p>相关文章&#xff1a;《<a href="http://blog.csdn.net/xushiweizh/archive/2006/11/16/1388982.aspx">C&#43;&#43;内存管理变革</a>》</p>
+                </div>
+        </div>
+    </article>
+</div>
+<script>
+    // 敏感词替换
+    ~function(blogSensitiveWords){
+        if(blogSensitiveWords){   
+            var getContentViews = document.getElementById("content_views");
+            var getContentTitle = document.getElementById("articleContentId");
+            var contentViewsInnerHTML = getContentViews.innerHTML;
+            var contentTitleInnerHTML = getContentTitle.innerHTML;
+            var keyWordsJsonArr = [];
+            var keyWordsArr = blogSensitiveWords.split(',');
+            function repeatTimes(str, num){
+                return num > 1 ? str += repeatTimes(str, --num): str;
+            }
+            for(var i = 0; i < keyWordsArr.length; i++){
+                var keyWordsJson = {} ;
+                keyWordsJson.key = keyWordsArr[i];
+                keyWordsJson.value = repeatTimes("*",keyWordsArr[i].length);
+                keyWordsJsonArr.push(keyWordsJson);
+            }
+            var reg;
+            for(var i = 0; i < keyWordsJsonArr.length; i++){
+                var item = keyWordsJsonArr[i];
+                reg = new RegExp(item.key+"(?!([^<]*>)|([^<]*<\/a>))","ig");
+                contentViewsInnerHTML = contentViewsInnerHTML.replace(reg,item.value);
+                contentTitleInnerHTML = contentTitleInnerHTML.replace(reg,item.value);
+            }
+            getContentViews.innerHTML=contentViewsInnerHTML;
+            getContentTitle.innerHTML=contentTitleInnerHTML;
+        }
+    }(blogSensitiveWords)
+</script>
+<div class="more-toolbox" id="toolBarBox">
+    <span id="fixedBar"></span>
+    <div class="left-toolbox">
+        <ul class="toolbox-list">
+            <li class="tool-item tool-item-size tool-active is-like" id="is-like"><a>
+            <img style="display:none;" id="is-like-imgactive-animation-like" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isactive" style="display:none" id="is-like-imgactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isdefault" style="display:block" id="is-like-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUp.png" alt="">   
+            <span class="name" id="is-like-span">点赞</span>
+            <span id="spanCount" class="count">
+            </span>
+            </a></li>
+            <li class="tool-item tool-item-size tool-active tool-item-comment">
+                <a href="#commentBox">
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarComment.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCommentactive.png" style="display:none;" alt="">
+                    <span class="name">评论</span>
+                    <span class="count">
+                        65
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-QRcode" id="tool-share">
+                <a href="javascript:;" data-report-click='{"mod":"1582594662_002","spm":"1001.2101.3001.4129","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShare.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShareactive.png" style="display:none;" alt="">
+                    <span class="name">分享</span>
+                </a>
+                <div class="QRcode" id="tool-QRcode" style="left:-92%;">
+                    <span id="QRcode-close">x</span>
+                    <p class="title">
+                    海报分享
+                    </p>
+                    <div id='shareCode'></div>
+                    <p>
+                    扫一扫，分享海报
+                    </p>
+                </div>
+            </li>
+            <li class="tool-item tool-item-size tool-active is-collection ">
+                <a href="javascript:;" data-report-click='{"mod":"popu_824","spm":"1001.2101.3001.4130","ab":"new"}'>
+                    <img style="display:none" id="is-collection-img-collection" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <img class="isdefault" id="is-collection-img" style="display:block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                    <img class="isactive" id="is-collection-imgactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <span class="name" id="is-collection">收藏</span>
+                    <span class="count get-collection" id="get-collection">
+                        1
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-reward">
+                <a  id="toolreward" data-report-click='{"mod":"popu_830","spm":"1001.2101.3001.4237","dest":"","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReward.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarRewardactive.png" style="display:none;" alt="">
+                    <span class="name">打赏</span>
+                </a>
+<div id="reward" class="reward-box">
+	<p class="rewad-title">打赏<span class="reward-close"><svg t="1567152543821" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10924" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><defs><style type="text/css"></style></defs><path d="M512 438.378667L806.506667 143.893333a52.032 52.032 0 1 1 73.6 73.621334L585.621333 512l294.485334 294.485333a52.074667 52.074667 0 0 1-73.6 73.642667L512 585.621333 217.514667 880.128a52.053333 52.053333 0 1 1-73.621334-73.642667L438.378667 512 143.893333 217.514667a52.053333 52.053333 0 1 1 73.621334-73.621334L512 438.378667z" fill="" p-id="10925"></path></svg></span></p>
+	<dl>
+		<dd>
+		<a href="https://blog.csdn.net/xushiweizh" data-report-click='{"mod":"popu_379","dest":"https://blog.csdn.net/xushiweizh","ab":"new"}'>
+			<img src="https://profile.csdnimg.cn/B/A/1/3_xushiweizh" class="avatar_pic">
+		</a>
+		</dd>
+		<dt>
+			<p class="blog-name">xushiweizh</p>
+			<p class="blog-discript">你的鼓励将是我创作的最大动力</p>
+		</dt>
+	</dl>
+	<div class="change-bt-box">
+		<span class="reward-bt reward-bt-coin">C币</span>
+		<span class="reward-bt-space"></span>
+		<span class="reward-bt reward-bt-money reward-bt-active">余额</span>
+	</div>
+	<div class="money-box">
+			<span class="choose_money choosed" data-id="2">2C币</span>
+			<span class="choose_money " data-id="4">4C币</span>
+			<span class="choose_money " data-id="6">6C币</span>
+			<span class="choose_money " data-id="10">10C币</span>
+			<span class="choose_money " data-id="20">20C币</span>
+			<span class="choose_money " data-id="50">50C币</span>
+	</div>
+	<div class="sure-box">
+		<p class="is-have-money"><a class="reward-sure">确定</a></p>
+	</div>
+</div>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-more">
+              <a class="article-report">
+                <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReport.png" alt="">
+                <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReportactive.png" style="display:none;" alt="">
+                <span class="name">举报</span>
+              </a>
+            </li>
+            <li class="tool-item">
+                    <a class="tool-attend tool-bt-button tool-bt-attend" href="javascript:;" data-report-view='{"mod":"1592215036_002","spm":"1001.2101.3001.4232","extend1":"关注"}'>关注</a>
+                <a class="tool-item-follow active-animation" style="display:none;">关注</a>
+            </li>
+            <li class="tool-item">
+                    <p class="company active" id="health-companies" href="javascript:;" >一键三连</p>
+                <span class="triplet-prompt">点赞Mark关注该博主, 随时了解TA的最新博文<img class="close-prompt" src="https://csdnimg.cn/release/blogv2/dist/pc/img/closePrompt.png"></span>
+            </li>
+        </ul>
+        <div style="display:flex">
+         </div>
+    </div>  
+</div>
+<script type=text/javascript crossorigin src="https://csdnimg.cn/release/phoenix/production/qrcode-7c90a92189.min.js"></script>
+<script src="//g.csdnimg.cn/??sharewx/1.2.1/sharewx.js" type="text/javascript"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/collection-box/2.0.2/collection-box.js"></script>
+                <div class="first-recommend-box recommend-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qq_40585834/article/details/81583246"  data-report-view='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/qq_40585834/article/details/81583246"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qq_40585834/article/details/81583246" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/qq_40585834/article/details/81583246"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.control'>
+					C语言中的<em>垃圾</em>回收分析
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qq_40585834" target="_blank"><span class="blog-title">qq_40585834的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-11</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					4592
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qq_40585834/article/details/81583246" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/qq_40585834/article/details/81583246"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 转自中国论文网：https://m.xzbu.com/8/view-7<em>2</em>18540.htm 
+
+&nbsp;&nbsp;&nbsp; （通过公众号下载码下载，如果还存在版权问题请联系删除）
+
+&nbsp;摘要：&nbsp;&nbsp;&nbsp; C语言没有运行时库，无法自动压缩使用中的<em>内存</em>，缩小堆栈所需<em>内存</em>空间。若只申请<em>内存</em>，没有释放，势必造成系统<em>内存</em>不断减少、丢失。长时间的运行，最终导致系统死机。文章阐述了C语言<em>垃圾</em>产生的原因，并从引用计数、标记...</div>
+			</a>
+		</div>
+	</div>
+</div>
+                </div>
+            <div class="second-recommend-box recommend-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/bairen5280/article/details/101671976"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/bairen5280/article/details/101671976"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/bairen5280/article/details/101671976" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/bairen5280/article/details/101671976"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control'>
+					<em>C++</em>中的<em>垃圾</em>回收和<em>内存</em><em>管理</em>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/bairen5280" target="_blank"><span class="blog-title"></span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">09-27</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					130
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/bairen5280/article/details/101671976" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/bairen5280/article/details/101671976"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">最开始的时候看到了许式伟的<em>内存</em><em>管理</em><em>变革</em>系列，看到性能测试结果的时候，觉得这个实现很不错，没有深入研究其实现。现在想把这个用到自己的一个项目中来，在linux下编译存在一些问题，所以打算深入研究一下。
+讨论<em>C++</em><em>内存</em><em>管理</em>的有两个主要的博客，一个是许式伟的系列，(CSDN: http://blog.csdn.net/xushiweizh/article/details/138898<em>2</em>,许式...</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+<a id="commentBox" name="commentBox"></a>
+<div class="comment-box">
+	<div class="comment-edit-box d-flex">
+		<a id="commentsedit"></a>
+		<div class="user-img">
+			<a href="javascript:void(0);" >
+				<img class="show_loginbox" src="https://g.csdnimg.cn/static/user-img/anonymous-User-img.png">
+			</a>
+		</div>
+		<form id="commentform">
+			<img class="comment-sofa-flag" src="https://csdnimg.cn/release/blogv2/dist/pc/img/commentFlag@2x.png">
+			<textarea class="comment-content" name="comment_content" id="comment_content" placeholder="优质评论可以帮助作者获得更高权重"
+				maxlength="1000"></textarea>
+			<div class="opt-box">
+				<div id="ubbtools" class="add_code">
+					<a href="#insertcode" code="code" target="_self"><i class="icon iconfont icon-daima"></i></a>
+				</div>
+				<input type="hidden" id="comment_replyId" name="comment_replyId">
+				<input type="hidden" id="article_id" name="article_id" value="1396573">
+				<input type="hidden" id="comment_userId" name="comment_userId" value="">
+				<input type="hidden" id="commentId" name="commentId" value="">
+				<div class="dropdown" id="myDrap">
+					<a class="dropdown-face d-flex align-items-center" data-toggle="dropdown" role="button"
+						aria-haspopup="true" aria-expanded="false">
+						<div class="txt-selected text-truncate">添加代码片</div>
+						<svg class="icon d-block" width="200px" height="100.00px" viewBox="0 0 2048 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path  d="M597.33333292 298.666667h853.333334L1023.99999992 725.333333 597.33333292 298.666667z"  /></svg>
+					</a>
+					<ul class="dropdown-menu" id="commentCode" aria-labelledby="drop4">
+						<li><a data-code="html">HTML/XML</a></li>
+						<li><a data-code="objc">objective-c</a></li>
+						<li><a data-code="ruby">Ruby</a></li>
+						<li><a data-code="php">PHP</a></li>
+						<li><a data-code="csharp">C</a></li>
+						<li><a data-code="cpp">C++</a></li>
+						<li><a data-code="javascript">JavaScript</a></li>
+						<li><a data-code="python">Python</a></li>
+						<li><a data-code="java">Java</a></li>
+						<li><a data-code="css">CSS</a></li>
+						<li><a data-code="sql">SQL</a></li>
+						<li><a data-code="plain">其它</a></li>
+					</ul>
+				</div>
+				<div class="right-box" id="rightBox" data-type="2">
+							<span id="tip_comment" class="tip">还能输入<em>1000</em>个字符</span>
+							<a data-report-view='{"spm":"3001.4374"}' data-report-click='{"spm":"3001.4374"}' class="btn btn-sm btn-quick-comment" id="quickComment">“速评一下”</a>
+							<a data-report-click='{"mod":"1582594662_003","spm":"1001.2101.3001.4227","ab":"new"}'><input type="submit"
+									class="btn btn-sm btn-comment" value="发表评论"></a>
+				</div>
+			</div>
+		</form>
+		<input type="button" class="bt-comment-show" value="评论">
+	</div>
+	<div class="comment-list-container">
+		<a id="comments"></a>
+		<div class="comment-list-box">
+		</div>
+		<div id="commentPage" class="pagination-box d-none"></div>
+		<div class="opt-box text-center">
+			<div class="btn btn-sm btn-link-blue" id="btnMoreComment"></div>
+		</div>
+	</div>
+</div>            <div class="recommend-box insert-baidu-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/quinta_2018_01_09/article/details/95666864"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control\"}","index":"2","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/quinta_2018_01_09/article/details/95666864"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/quinta_2018_01_09/article/details/95666864" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control\"}","index":"2","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/quinta_2018_01_09/article/details/95666864"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control'>
+					<em>C++</em>11与最小<em>垃圾</em>回收
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/quinta_2018_01_09" target="_blank"><span class="blog-title">风一样的男子（quinta）的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">07-12</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					229
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/quinta_2018_01_09/article/details/95666864" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control\"}","index":"2","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/quinta_2018_01_09/article/details/95666864"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>C++</em>11新标准为了做到最小的<em>垃圾</em>回收支持，首先对&ldquo;安全&rdquo;的指针进行了定义，安全派生的指针是指向由new分配的对象或其子对象的指针。
+
+安全派生指针的操作包括：
+
+1：在解引用基础上的引用，比如：&amp;*p。
+
+<em>2</em>：定义明确的指针操作，比如p + 1。
+
+3：定义明确的指针转换，比如：static_cast&lt;void*&gt;(p)。
+
+4：指针和整型之间的reinterpret_cas...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://dablelv.blog.csdn.net/article/details/49538975"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control\"}","index":"3","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://dablelv.blog.csdn.net/article/details/49538975"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://dablelv.blog.csdn.net/article/details/49538975" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control\"}","index":"3","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://dablelv.blog.csdn.net/article/details/49538975"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control'>
+					<em>C++</em> <em>内存</em>池介绍与经典<em>内存</em>池的实现
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/K346K346" target="_blank"><span class="blog-title">Dablelv的博客专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">11-01</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					2万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://dablelv.blog.csdn.net/article/details/49538975" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control\"}","index":"3","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://dablelv.blog.csdn.net/article/details/49538975"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">1.默认<em>内存</em><em>管理</em>函数的不足利用默认的<em>内存</em><em>管理</em>函数new/delete或malloc/free在堆上分配和释放<em>内存</em>会有一些额外的开销。系统在接收到分配一定大小<em>内存</em>的请求时，首先查找内部维护的<em>内存</em>空闲块表，并且需要根据一定的算法（例如分配最先找到的不小于申请大小的<em>内存</em>块给请求者，或者分配最适于申请大小的<em>内存</em>块，或者分配最大空闲的<em>内存</em>块等）找到合适大小</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/xushiweizh/article/details/1388982"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control\"}","index":"4","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/xushiweizh/article/details/1388982"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/xushiweizh/article/details/1388982" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control\"}","index":"4","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/xushiweizh/article/details/1388982"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control'>
+					<em>C++</em><em>内存</em><em>管理</em><em>变革</em>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/xushiweizh" target="_blank"><span class="blog-title">QBox/Golang/CERL/StdExt/TPL/WinxGui - 许式伟的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">11-16</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					2万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/xushiweizh/article/details/1388982" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control\"}","index":"4","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/xushiweizh/article/details/1388982"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">本文已经迁移到： http://cpp.winxgui.com/cn:story-of-c-memory-management-innovation<em>C++</em><em>内存</em><em>管理</em><em>变革</em>许式伟<em>2</em>005-7-16关键字: <em>内存</em><em>管理</em> <em>垃圾</em><em>回收器</em> <em>内存</em>配置器 引用计数keyword: memory manage, memory recycler, allocator, reference count</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/u012312373/article/details/45725949"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.control\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/u012312373/article/details/45725949"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/u012312373/article/details/45725949" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.control\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/u012312373/article/details/45725949"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.control'>
+					四种<em>垃圾</em><em>回收器</em>的比较
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/u012312373" target="_blank"><span class="blog-title">Hunaiyo-黄奕为</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">05-14</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					581
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/u012312373/article/details/45725949" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.control\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/u012312373/article/details/45725949"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">说起<em>垃圾</em>回收，许多人都了解它的概念，也在日常的编程中有所应用。尽管如此，仍有许多我们不太了解的东西，而这正是痛苦的根源。关于JVM最大的误解就是认为它只有一个<em>垃圾</em><em>回收器</em>，而事实上它有四个不同的<em>回收器</em>，每个都各有其长短。JVM并不会自动地选择某一个，这事还得落在你我的肩上，因为不同的<em>回收器</em>会带来吞吐量及应用的暂停时间的显著的差异。
+这四种回收算法的共同之处在于它们都是分代的，也就是说它们将托管的堆</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/xushiweizh/article/details/1574015"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/xushiweizh/article/details/1574015"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/xushiweizh/article/details/1574015" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/xushiweizh/article/details/1574015"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control'>
+					<em>C++</em><em>内存</em><em>管理</em><em>变革</em>(4)：boost::object_pool与gc allocator
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/xushiweizh" target="_blank"><span class="blog-title">QBox/Golang/CERL/StdExt/TPL/WinxGui - 许式伟的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">04-21</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/xushiweizh/article/details/1574015" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/xushiweizh/article/details/1574015"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">本文已经迁移到： http://cpp.winxgui.com/cn:gc-allocator-and-boost-object-pool<em>C++</em><em>内存</em><em>管理</em><em>变革</em>(4): boost::object_pool许式伟 (版权声明)<em>2</em>007-4-<em>2</em>1这篇文章拖的有点久了。NeutralEvil 在3个月之前就在催促我继续写了。只是出于WinxGui完整性的考虑，我一直在刻意优先去补充其它方面的文</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/xushiweizh/article/details/1409598"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control\"}","index":"7","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/xushiweizh/article/details/1409598"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/xushiweizh/article/details/1409598" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control\"}","index":"7","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/xushiweizh/article/details/1409598"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control'>
+					再论<em>C++</em>之<em>垃圾</em>回收（GC）
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/xushiweizh" target="_blank"><span class="blog-title">QBox/Golang/CERL/StdExt/TPL/WinxGui - 许式伟的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">11-24</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					3万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/xushiweizh/article/details/1409598" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control\"}","index":"7","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/xushiweizh/article/details/1409598"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">本文已经迁移到： http://cpp.winxgui.com/cn:garbage-collection-in-cplusplus使用智能指针（smart pointers）    http://www.codeproject.com/cpp/garbage_collect.asp    原理：基于引用计数（reference count）。这种<em>垃圾</em>回收（gc）算法无非都是给每一</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/wangchao712217/article/details/79192191"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control\"}","index":"8","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/wangchao712217/article/details/79192191"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/wangchao712217/article/details/79192191" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control\"}","index":"8","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/wangchao712217/article/details/79192191"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control'>
+					boost库智能指针带来的<em>垃圾</em>回收与c#<em>垃圾</em>回收机制对比
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/wangchao712217" target="_blank"><span class="blog-title">痞子也疯狂</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">01-29</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					217
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/wangchao712217/article/details/79192191" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control\"}","index":"8","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/wangchao712217/article/details/79192191"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">c#<em>垃圾</em>回收机制依托于 &nbsp;对象的生命周期结束与<em>内存</em>不够用等因素，采用<em>垃圾</em>回收机制进行处理。
+而对于boost库的智能指针以及<em>c++</em>11 采用的方式，有对象声明周期结束，就立即进行<em>内存</em>释放。</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/xushiweizh/article/details/2059828"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control\"}","index":"9","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/xushiweizh/article/details/2059828"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/xushiweizh/article/details/2059828" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control\"}","index":"9","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/xushiweizh/article/details/2059828"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control'>
+					<em>C++</em><em>内存</em><em>管理</em><em>变革</em>(6)：通用型<em>垃圾</em><em>回收器</em> - ScopeAlloc
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/xushiweizh" target="_blank"><span class="blog-title">QBox/Golang/CERL/StdExt/TPL/WinxGui - 许式伟的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">01-22</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					8549
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/xushiweizh/article/details/2059828" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control\"}","index":"9","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/xushiweizh/article/details/2059828"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">本文已经迁移到：http://cpp.winxgui.com/cn:a-general-gc-allocator-scopealloc 					<em>C++</em><em>内存</em><em>管理</em><em>变革</em>(6)：通用型<em>垃圾</em><em>回收器</em> - ScopeAlloc许式伟<em>2</em>008-1-<em>2</em><em>2</em>引言在前文，我们引入了GC Allocator（具备<em>垃圾</em>回收能力的Allocator），并提供了一个实作：AutoFreeAlloc（详细</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+            <div class="template-box">
+                <span>©️2020 CSDN</span>
+                <span>皮肤主题: 大白</span>
+                <span> 设计师:CSDN官方博客</span>
+                <span>
+                    <a href="https://blog.csdn.net/" class="back-home c-blue c-blue-hover c-blue-focus">返回首页</a>
+                </span>
+            </div>
+<div class="blog-footer-bottom" style="margin-top:10px;"></div>
+<script src="https://g.csdnimg.cn/common/csdn-footer/csdn-footer.js" data-isfootertrack="false" type="text/javascript"></script>
+<script type="text/javascript">
+    window.csdn.csdnFooter.options = {
+        el: '.blog-footer-bottom',
+        type: 2
+    }
+</script>        </main>
+<aside class="blog_container_aside">
+    <div id="asideProfile" class="aside-box">
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://blog.csdn.net/xushiweizh" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4121","dest":"https://blog.csdn.net/xushiweizh","ab":"new"}'>
+                <img src="https://profile.csdnimg.cn/B/A/1/3_xushiweizh" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex flex-column profile-intro-name-box">
+            <div class="profile-intro-name-boxTop">
+                <a href="https://blog.csdn.net/xushiweizh" class="" id="uid" title="xushiweizh" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4122","dest":"https://blog.csdn.net/xushiweizh","ab":"new"}'>
+                    <span class="name " username="xushiweizh">xushiweizh</span>
+                </a>
+                <span>
+                </span>
+                <span class="flag expert-blog">
+                <span class="bubble">CSDN认证博客专家</span>
+                </span>
+                <span class="flag company-blog">
+                <span class="bubble">CSDN认证企业博客</span>
+                </span>
+            </div>
+            <div class="profile-intro-name-boxFooter">
+                <span class="personal-home-page personal-home-years">码龄14年</span>
+                    <span class="personal-home-page">
+                    <a class="personal-home-certification" href="https://blog.csdn.net/xushiweizh?utm_source=14998968" target="_blank" title="暂无认证">
+                    <img src="https://csdnimg.cn/identity/nocErtification.png" alt="">
+                    暂无认证
+                    </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="163">
+            <a href="https://blog.csdn.net/xushiweizh" data-report-click='{"mod":"1598321000_001","spm":"1001.2101.3001.4310"}' data-report-query="t=1">  
+                <dt><span class="count">163</span></dt>
+                <dd class="font">原创</dd>
+            </a>
+        </dl>
+        <dl class="text-center" data-report-click='{"mod":"1598321000_002","spm":"1001.2101.3001.4311"}' title="52907">
+            <a href="https://blog.csdn.net/rank/writing_rank" target="_blank">
+                <dt><span class="count">5万+</span></dt>
+                <dd class="font">周排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" title="2404">
+            <a href="https://blog.csdn.net/rank/writing_rank_total" data-report-click='{"mod":"1598321000_003","spm":"1001.2101.3001.4312"}' target="_blank">
+                <dt><span class="count">2404</span></dt>
+                <dd class="font">总排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" style="min-width:58px" title="1218885">  
+            <dt><span class="count">121万+</span></dt>
+            <dd>访问</dd>
+        </dl>
+        <dl class="text-center" title="7级,点击查看等级说明">
+            <dt><a href="https://blog.csdn.net/home/help.html#level" target="_blank">
+                <img class="level" src="https://csdnimg.cn/identity/blog7.png">
+            </a>
+            </dt>
+            <dd>等级</dd>
+        </dl>
+    </div>
+    <div class="item-rank"></div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="13889">
+            <dt><span class="count">1万+</span></dt>
+            <dd>积分</dd>
+        </dl>
+         <dl class="text-center" id="fanBox" title="629">
+            <dt><span class="count" id="fan">629</span></dt>
+            <dd>粉丝</dd>
+        </dl>
+        <dl class="text-center" title="13">
+            <dt><span class="count">13</span></dt>
+            <dd>获赞</dd>
+        </dl>
+        <dl class="text-center" title="1351">
+            <dt><span class="count">1351</span></dt>
+            <dd>评论</dd>
+        </dl>
+        <dl class="text-center" title="24">
+            <dt><span class="count">24</span></dt>
+            <dd>收藏</dd>
+        </dl>
+    </div>
+    <div class="aside-box-footer" data-report-view='{"spm":"3001.4296"}'>
+        <div class="badge-box d-flex">
+            <div class="badge d-flex">
+                <div class="icon-badge" title="持之以恒">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/chizhiyiheng@240.png" alt="持之以恒">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="profile-intro-name-boxOpration">
+        <div class="opt-letter-watch-box">
+        <a class="bt-button personal-letter" href="https://im.csdn.net/chat/xushiweizh" target="_blank" rel="noopener">私信</a>
+        </div>
+        <div class="opt-letter-watch-box"> 
+            <a class="personal-watch bt-button" id="btnAttent" >关注</a>  
+        </div>
+    </div>
+</div>
+<div id="asideSearchArticle" class="aside-box">
+	<div class="aside-content search-comter">
+    <div class="aside-search aside-search-blog">         
+        <input type="text" class="input-serch-blog" name="" autocomplete="off" value="" id="search-blog-words" placeholder="搜博主文章">
+        <a class="btn-search-blog">
+                    <img src="//csdnimg.cn/cdn/content-toolbar/csdn-sou.png?v=1587021042">
+        </a>
+    </div>
+    </div>
+</div>
+
+
+<div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list">
+			<li>
+				<a href="https://blog.csdn.net/xushiweizh/article/details/1402967" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/xushiweizh/article/details/1402967","ab":"new"}'>
+				内存池(MemPool)技术详解
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">33149</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/xushiweizh/article/details/1466334" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/xushiweizh/article/details/1466334","ab":"new"}'>
+				开源，选择Google Code还是Sourceforge？
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">31270</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/xushiweizh/article/details/1409598" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/xushiweizh/article/details/1409598","ab":"new"}'>
+				再论C++之垃圾回收（GC）
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">30894</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/xushiweizh/article/details/1396573" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/xushiweizh/article/details/1396573","ab":"new"}'>
+				C++内存管理变革(2)：最袖珍的垃圾回收器
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">24531</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/xushiweizh/article/details/1476422" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/xushiweizh/article/details/1476422","ab":"new"}'>
+				驳“C语言已经死了”
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">23530</span>
+                </a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="asideCategory" class="aside-box flexible-box" style="display:block!important;">
+    <h3 class="aside-title">分类专栏</h3>
+    <div class="aside-content">
+        <ul>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_253050.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_253050.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756926.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">C#</span>
+                    </span>
+                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_252561.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_252561.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">C++</span>
+                    </span>
+                    <span class="count float-right">77篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_556700.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_556700.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">CERL</span>
+                    </span>
+                    <span class="count float-right">18篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_260529.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_260529.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">DocX</span>
+                    </span>
+                    <span class="count float-right">7篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_336772.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_336772.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756919.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Erlang</span>
+                    </span>
+                    <span class="count float-right">40篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_254717.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_254717.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756754.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Google</span>
+                    </span>
+                    <span class="count float-right">11篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_619934.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_619934.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756913.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Linux</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_373380.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_373380.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">String</span>
+                    </span>
+                    <span class="count float-right">6篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_259408.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_259408.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756923.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">WINX团队</span>
+                    </span>
+                    <span class="count float-right">12篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_271434.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_271434.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756913.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">WinX基本类使用指南(ebasil)</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_265324.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_265324.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756925.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">WinX教程实战(绅士亦花心)</span>
+                    </span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_252559.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_252559.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756724.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">八卦（Misc）</span>
+                    </span>
+                    <span class="count float-right">29篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_265099.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_265099.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756724.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">内存管理（Memory）</span>
+                    </span>
+                    <span class="count float-right">20篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_271665.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_271665.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756925.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">工程学（Engineering）</span>
+                    </span>
+                    <span class="count float-right">7篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_417068.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_417068.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756923.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">文本处理（TPL）</span>
+                    </span>
+                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_244235.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_244235.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756780.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">界面开发（GUI）</span>
+                    </span>
+                    <span class="count float-right">46篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_295366.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_295366.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756918.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">自动化（Automation）</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_270166.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_270166.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756918.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">设计模式（Design）</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_271664.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_271664.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756925.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">调试与诊断（Debug）</span>
+                    </span>
+                    <span class="count float-right">5篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xushiweizh/category_924488.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xushiweizh/category_924488.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756923.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Go 语言（Golang）</span>
+                    </span>
+                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p class="text-center">
+        <a class="flexible-btn" data-fbox="aside-archive"><img class="look-more" src="https://csdnimg.cn/release/blogv2/dist/pc/img/arrowDownWhite.png" alt=""></a>
+    </p>
+</div>
+<div id="asideNewComments" class="aside-box">
+    <h3 class="aside-title">最新评论</h3>
+    <div class="aside-content">
+        <ul class="newcomment-list">
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/xushiweizh/article/details/1571498#comments_8884851" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/xushiweizh/article/details/1571498#comments_8884851","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/xushiweizh/article/details/1571498#comments_8884851","ab":"new"}'>自动化（Automation）基础概念：二次开发接口（API）与插件（Addin）</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/Lyangyangyang" class="user-name" target="_blank">Lyangyangyang: </a>
+                    <span class="code-comments">您好，我想请问一下，C++宿主程序如何通过注册表加载实现了IDTExtensibility2接口的插件？</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/xushiweizh/article/details/1402967#comments_8431179" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/xushiweizh/article/details/1402967#comments_8431179","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/xushiweizh/article/details/1402967#comments_8431179","ab":"new"}'>内存池(MemPool)技术详解</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/baiyu33" class="user-name" target="_blank">baiyu33: </a>
+                    <span class="code-comments">m_pMemBlock这个变量没有声明就使用了，这是个错误。</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/xushiweizh/article/details/4295948#comments_7713049" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/xushiweizh/article/details/4295948#comments_7713049","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/xushiweizh/article/details/4295948#comments_7713049","ab":"new"}'>shared_ptr四宗罪</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/jakson_lin" class="user-name" target="_blank">jakson_lin: </a>
+                    <span class="code-comments">IResource* p = new CResource;  
+{  
+    shared_ptr&lt;IResource&gt; q( p );  
+}  
+p-&gt;Use() // CRASH  
+
+这样写的代码不CRASH才不正常，这也能拿来说事？这文章居然还存在了那么多年。</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/xushiweizh/article/details/4295948#comments_6459204" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/xushiweizh/article/details/4295948#comments_6459204","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/xushiweizh/article/details/4295948#comments_6459204","ab":"new"}'>shared_ptr四宗罪</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/cadinfo" class="user-name" target="_blank">cadinfo: </a>
+                    <span class="code-comments">我认为你的文章也是在哗众取宠，欺世盗名
+这种文章顶多取名shared_ptr使用四点注意事项，何来罪之有。
+
+就像你自己找对象，有几个不完美的地方，就喊人家有罪一样？
+主要问题还是在于你，也就是你个人自己</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/xushiweizh/article/details/1374649#comments_6361541" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/xushiweizh/article/details/1374649#comments_6361541","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/xushiweizh/article/details/1374649#comments_6361541","ab":"new"}'>如何快速入门Windows编程</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/yumiken" class="user-name" target="_blank">1677040836: </a>
+                    <span class="code-comments">Wonderful!!!!</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="asideArchive" class="aside-box">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix">
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/xushiweizh/article/details/108232051" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/xushiweizh/article/details/108232051","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/xushiweizh/article/details/108232051","ab":"new"}'>Inside Go+ 之一: 宏观架构篇</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/xushiweizh/article/details/108232052" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/xushiweizh/article/details/108232052","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/xushiweizh/article/details/108232052","ab":"new"}'>Go+ 发布 weekly release: v0.7.8</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/xushiweizh/article/details/108232050" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/xushiweizh/article/details/108232050","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/xushiweizh/article/details/108232050","ab":"new"}'>Go+ 发布 weekly release: v0.7.3</a>
+            </li>
+        </ul>
+        <div class="archive-bar"></div>
+        <div class="archive-box">
+                <div class="archive-list-item"><a href="https://blog.csdn.net/xushiweizh/article/month/2020/08" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2020年</span><span class="num">4篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/xushiweizh/article/month/2012/04" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2012年</span><span class="num">1篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/xushiweizh/article/month/2011/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2011年</span><span class="num">2篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/xushiweizh/article/month/2010/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2010年</span><span class="num">17篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/xushiweizh/article/month/2009/10" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2009年</span><span class="num">25篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/xushiweizh/article/month/2008/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2008年</span><span class="num">26篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/xushiweizh/article/month/2007/11" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2007年</span><span class="num">40篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/xushiweizh/article/month/2006/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2006年</span><span class="num">74篇</span></a></div>
+        </div>
+    </div>
+</div>
+	<div id="footerRightAds" class="isShowFooterAds">
+		<div class="aside-box">
+			<div id="kp_box_57" data-pid="57"><div id="protag-banner-2"></div>
+<script data-cfasync="false" type="text/javascript" src="https://protagcdn.com/s/csdn.net/bbs/protag-banner-2.js"></script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=57&a=2234&c=0&k=&spm=1001.2101.3001.5001&d=1&t=3&u=fbdcc962d11c4cafbc97f35072a38cef" style="display: block;width: 0px;height: 0px;"></div>
+		</div>
+	</div>
+    <!-- 详情页显示目录 -->
+<!--文章目录-->
+<div id="asidedirectory" class="aside-box">
+    <div class='groupfile' id="directory">
+        <h3 class="aside-title">目录</h3>
+        <div class="align-items-stretch group_item">
+            <div class="pos-box">
+            <div class="scroll-box">
+                <div class="toc-box"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+</aside>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).parents("p.text-center").remove();
+	})
+</script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-tooltip/2.1/user-tooltip.js"></script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-medal/1.0.5/user-medal.js"></script>    </div>
+<div class="recommend-right  align-items-stretch clearfix" id="rightAside" data-type="recommend">
+    <aside class="recommend-right_aside">
+        <div id="recommend-right" >
+                        <div class='flex-column aside-box groupfile' id="groupfile">
+                <div class="groupfile-div">
+                <h3 class="aside-title">目录</h3>
+                <div class="align-items-stretch group_item">
+                    <div class="pos-box">
+                        <div class="scroll-box">
+                            <div class="toc-box"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+                <div id="recommendAdBox">
+                    <div id="kp_box_479" data-pid="479"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PC-博客内页右侧第一顺位 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-1076724771190722"
+     data-ad-slot="1827473444"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=479&a=3266&c=0&k=&spm=1001.2101.3001.4834&d=1&t=3&u=031bafff20a14f1fa3c5cc7f5dc6fcd3" style="display: block;width: 0px;height: 0px;"></div>
+                </div>
+            <div class="recommend-list-box d-flex flex-column aside-box" id="recommend-list-box">
+            <ul class="recommend-fixed-box align-items-stretch">
+                <li class="right-item">
+                    <a href="https://plugin.csdn.net/" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.469944.nonecase\"}","index":"1","strategy":"106_469944_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.469944.nonecase\"}","index":"1","strategy":"106_469944_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.469944.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.469944.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>CSDN官方插件，现在体验可获得永久免费去广告特权！</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lw7898/13489505" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-2.nonecase\"}","index":"2","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489505"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-2.nonecase\"}","index":"2","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489505"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-2.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-2.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金蝶云星空 V7.3_产品培训_制造_智慧工厂7.3新增功能.pptx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_37985803/article/details/110820865" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://blog.csdn.net/qq_37985803/article/details/110820865"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://blog.csdn.net/qq_37985803/article/details/110820865"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-3.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-3.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>sql经典练习50题交作业</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lw7898/13489445" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489445"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489445"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-4.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-4.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金蝶云星空 V7.3新增功能_财务_应付款管理.pptx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_52292350/article/details/110820946" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://blog.csdn.net/weixin_52292350/article/details/110820946"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://blog.csdn.net/weixin_52292350/article/details/110820946"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-5.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-5.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金融赵雯：美原油今日操作建议  想做好原油可以看看</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/li_w_ch/article/details/110820679" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/li_w_ch/article/details/110820679"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/li_w_ch/article/details/110820679"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Java使用Redis详解</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31395" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31395"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31395"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>MySQL从入门到入魔（停止报名）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31369" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31369"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31369"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>企业级项目-进出口报关云平台</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/qq_29801073/13489512" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://download.csdn.net/download/qq_29801073/13489512"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://download.csdn.net/download/qq_29801073/13489512"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Command_Line_Tools_for_Xcode_12.3_beta-2</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lw7898/13489476" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489476"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489476"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金蝶云星空 V7.3产品培训_财务_掌上资金.pptx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lw7898/13489479" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489479"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489479"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-11.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-11.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金蝶云星空 V7.3产品培训_财务_预算管理.pptx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/qq_45386653/13489407" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://download.csdn.net/download/qq_45386653/13489407"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://download.csdn.net/download/qq_45386653/13489407"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-12.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-12.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>CP210x_VCP_Win7.exe</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/sinat_28826891/article/details/110820831" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://blog.csdn.net/sinat_28826891/article/details/110820831"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://blog.csdn.net/sinat_28826891/article/details/110820831"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Java类的修饰符</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_39254190/article/details/110818519" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://blog.csdn.net/qq_39254190/article/details/110818519"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://blog.csdn.net/qq_39254190/article/details/110818519"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-14.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-14.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>centos7 安装Harbor</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/combo/detail/1952" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1952"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1952"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>小程序开发快速入门</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/u010208471/article/details/110820760" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://blog.csdn.net/u010208471/article/details/110820760"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://blog.csdn.net/u010208471/article/details/110820760"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-16.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-16.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Mac出现 command not found: adb</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/19369" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase\"}","index":"17","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/19369"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase\"}","index":"17","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/19369"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Python从入门到精通（基础篇+提高篇）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/bundled/detail/310" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://edu.csdn.net/bundled/detail/310"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://edu.csdn.net/bundled/detail/310"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-18.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-18.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>5大技术入门尝鲜礼包</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31407" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31407"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31407"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Android-开发原生应用-第一部</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31378" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31378"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31378"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-20.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-20.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>1小时快速学会Echarts图表</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/m0_50990607/article/details/110820783" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://blog.csdn.net/m0_50990607/article/details/110820783"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://blog.csdn.net/m0_50990607/article/details/110820783"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-21.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-21.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>CiteSpace采用WOS导入文献数据分析（四）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31428" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31428"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31428"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-22.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-22.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>YOLOv5(PyTorch)目标检测：原理与源码解析</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31351" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31351"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31351"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>社群运营操盘核心思维&amp;逻辑20讲&mdash;&mdash;从0构建「真社群」运营底层操作系统</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31300" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31300"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31300"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-24.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-24.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>2021终极爬虫</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lw7898/13489447" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489447"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489447"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-25.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-25.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金蝶云星空 V7.3新增功能_财务_经营会计.pptx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_36317312/article/details/109625180" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://blog.csdn.net/qq_36317312/article/details/109625180"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://blog.csdn.net/qq_36317312/article/details/109625180"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>小白入门PlatEMO(基于MATLAB的进化多目标优化平台)</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_44801959/article/details/110820694" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://blog.csdn.net/weixin_44801959/article/details/110820694"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://blog.csdn.net/weixin_44801959/article/details/110820694"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-27.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-27.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>linux  用shell 函数计算两数之和</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lw7898/13489438" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489438"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489438"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金蝶云星空 V7.3新增功能_财务_智能会计平台.pptx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_44584876/article/details/110820579" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://blog.csdn.net/weixin_44584876/article/details/110820579"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://blog.csdn.net/weixin_44584876/article/details/110820579"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-29.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-29.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Linux常用命令（三）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_43886697/article/details/110820844" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://blog.csdn.net/weixin_43886697/article/details/110820844"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://blog.csdn.net/weixin_43886697/article/details/110820844"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-30.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-30.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Python二分查找</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://jianght.blog.csdn.net/article/details/110796050" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://jianght.blog.csdn.net/article/details/110796050"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://jianght.blog.csdn.net/article/details/110796050"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-31.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-31.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>【算法】学习笔记（4）：分治思想 &amp; 归并排序</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixinhmz/article/details/110821025" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://blog.csdn.net/weixinhmz/article/details/110821025"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://blog.csdn.net/weixinhmz/article/details/110821025"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>网络安全技术入门到项目实战</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lw7898/13489458" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489458"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489458"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金蝶云星空 V7.3新增功能_财务_出纳管理.pptx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31363" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31363"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31363"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-34.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-34.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>手把手搭建SpringBoot电子商城网站【附源码】（毕设）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/Kruck/article/details/110820360" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://blog.csdn.net/Kruck/article/details/110820360"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://blog.csdn.net/Kruck/article/details/110820360"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>JavaEE+MyBatis+SpringMVC开发中遇到的坑</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_50990884/article/details/110820691" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://blog.csdn.net/qq_50990884/article/details/110820691"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://blog.csdn.net/qq_50990884/article/details/110820691"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>1602液晶程序</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/daka1/13496485" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://download.csdn.net/download/daka1/13496485"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://download.csdn.net/download/daka1/13496485"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-37.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-37.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>免费开源代码编辑器 Notepad   7.7.1.zip</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/qq_32500511/13489424" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://download.csdn.net/download/qq_32500511/13489424"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://download.csdn.net/download/qq_32500511/13489424"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>VCE 考试模拟器(Avanset VCE Exam Simulator Pro)</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31379" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31379"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31379"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-39.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-39.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Net网站权限管理系统实战（基于vs2019、c#、razor</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://yuanrengu.blog.csdn.net/article/details/110821028" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://yuanrengu.blog.csdn.net/article/details/110821028"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://yuanrengu.blog.csdn.net/article/details/110821028"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-40.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-40.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Code Review 是一场苦涩但有意思的修行</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+            </ul>
+            </div>
+        </div>
+    </aside>
+</div>
+
+</div>
+<div class="mask-dark"></div>
+<script type="text/javascript">
+    var timert = setInterval(function(){
+      sideToolbar = $(".csdn-side-toolbar");
+      if (sideToolbar.length > 0) {
+        sideToolbar.css('cssText','bottom:64px !important;')
+        clearInterval(timert);
+      }
+    }, 200);
+</script>
+<script>
+    var articleId = 1396573;
+    var commentscount = 65;
+    var curentUrl = "https://blog.csdn.net/xushiweizh/article/details/1396573";
+    var myUrl = "https://my.csdn.net/";
+    var highlight = ["C++","内存","管理","变革","2","垃圾","回收器"];//高亮数组
+    var share_card_url = "https://blog.csdn.net/xushiweizh/article/shareArticleCardPage?article_id=1396573"
+	var articleType = 1;
+    var baiduKey = "C++内存管理变革(2)：最袖珍的垃圾回收器";
+    var needInsertBaidu = true;
+    var recommendRegularDomainArr = ["blog.csdn.net/.+/article/details/","download.csdn.net/download/","edu.csdn.net/course/detail/","ask.csdn.net/questions/","bbs.csdn.net/topics/","www.csdn.net/gather_.+/"]
+    var codeStyle = "";
+    var baiduSearchType = "title";
+    var canRead = true;
+    var blogMoveHomeArticle = false;
+    var showPcWindowAd = false;
+</script>
+<script src="https://csdnimg.cn/public/sandalstrap/1.4/js/sandalstrap.min.js"></script>
+<div class="skin-boxshadow"></div>
+<div style="display:none;">
+	<img src="" onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+</div>
+</body>
+    <!-- 富文本柱状图  -->
+	<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/chart/chart.css"/>
+	<script type="text/javascript" src="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/chart/lib/chart.min.js"></script>
+    <script type="text/javascript" src="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/chart/widget2chart.js"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_highlight-db1e81323a.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_common-906586e915.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/codesnippet/lib/highlight/styles/atom-one-light.css">
+<script>
+ // 全局声明
+ if (window.csdn === undefined) {
+      window.csdn = {};
+    }
+    window.csdn.sideToolbar = {
+        options: {
+            report:{
+                isShow: true,
+            },
+            qr: {
+                isShow: false,
+            },
+            guide: {
+                isShow: true
+            }
+        }
+    }
+    $(function(){
+        $(document).on('click',"a.option-box[data-type='report']",function() {
+            window.csdn.userLogin.loadAjax(function(res){
+                showReport(false,articleTitles);
+            })
+        });
+    })
+</script>
+    <script src="https://g.csdnimg.cn/baidu-search/1.0.7/baidu-search.js"  type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/download/old_static/js/qrcode.js"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/common-b286f966c8.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/detail-c3206d1df7.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/user-ordercart/1.0.6/user-ordercart.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/column-78261cfea6.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/side-toolbar/2.8/side-toolbar.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/copyright/1.0.3/copyright.js" type="text/javascript"></script>
+<script>
+    $(".MathJax").remove();
+    if ($('div.markdown_views pre.prettyprint code.hljs').length > 0) {
+        $('div.markdown_views')[0].className = 'markdown_views';
+    }
+</script>
+<script type="text/javascript" src="https://csdnimg.cn/release/blog_mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            "HTML-CSS": {
+                    linebreaks: { automatic: true, width: "94%container" },
+                    imageFont: null
+            },
+            tex2jax: {
+                preview: "none"
+            },
+            mml2jax: {
+                preview: 'none'
+            }
+    });
+</script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/user-login/2.3.2/user-login.js"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/login-box/1.1.4/login-box.js"></script></html>

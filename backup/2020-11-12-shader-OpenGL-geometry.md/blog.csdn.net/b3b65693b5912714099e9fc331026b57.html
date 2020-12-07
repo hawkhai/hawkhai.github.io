@@ -1,0 +1,1704 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://blog.csdn.net/iron_lzn/article/details/48729849"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="report" content='{"pid": "blog", "spm":"1001.2101"}'>
+    <meta name="referrer" content="always">
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <meta name="applicable-device" content="pc">
+    <link  href="https://g.csdnimg.cn/static/logo/favicon32.ico"  rel="shortcut icon" type="image/x-icon" />
+    <title>几何着色器_道路与梦想-CSDN博客</title>
+    <script>
+      (function(){ 
+        var el = document.createElement("script"); 
+        el.src = "https://s3a.pstatp.com/toutiao/push.js?1abfa13dfe74d72d41d83c86d240de427e7cac50c51ead53b2e79d40c7952a23ed7716d05b4a0f683a653eab3e214672511de2457e74e99286eb2c33f4428830"; 
+        el.id = "ttzz"; 
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(el, s);
+      })(window)
+    </script>
+        <meta name="keywords" content="几何着色器">
+        <meta name="csdn-baidu-search"  content='{"autorun":true,"install":true,"keyword":"几何着色器"}'>
+    <meta name="description" content="通过顶点着色器和片段着色器，可以将输入的顶点经过着色器的处理显示到屏幕上。OpenGL 3.2及更新的版本支持几何着色器，介于顶点着色器和片段着色器之间，几何着色器接收顶点着色器的输出作为输入，通过高效的几何运算，将数据输出到片段着色器。假设我们想绘制如下图形：通过一个简单的函数调用就可以绘制：glDrawArrays(GL_POINTS, 0, 4);此时几何着色器就派上">
+    <script src='//g.csdnimg.cn/tingyun/1.8.3/blog.js' type='text/javascript'></script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/css/detail_enter-5f2d8f6575.min.css">
+    <script type="application/ld+json">{"@context":"https://ziyuan.baidu.com/contexts/cambrian.jsonld","@id":"https://blog.csdn.net/iron_lzn/article/details/48729849","appid":"1638831770136827","pubDate":"2015-09-25T15:13:16","title":"几何着色器_道路与梦想-CSDN博客","upDate":"2015-09-25T15:13:16"}</script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/themesSkin/skin3-template/skin3-template-45808e735f.min.css">
+    <script src="https://csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var isCorporate = false;//注释删除enterprise
+        var username =  "lizhenneng";
+        var skinImg = "white";
+        var blog_address = "https://blog.csdn.net/lizhenneng";
+        var currentUserName = "";
+        var isOwner = false;
+        var loginUrl = "http://passport.csdn.net/account/login?from=https://blog.csdn.net/iron_lzn/article/details/48729849";
+        var blogUrl = "https://blog.csdn.net/";
+        var avatar = "https://profile.csdnimg.cn/D/7/A/3_lizhenneng";
+        var articleTitle = "几何着色器";
+        var articleDesc = "通过顶点着色器和片段着色器，可以将输入的顶点经过着色器的处理显示到屏幕上。OpenGL 3.2及更新的版本支持几何着色器，介于顶点着色器和片段着色器之间，几何着色器接收顶点着色器的输出作为输入，通过高效的几何运算，将数据输出到片段着色器。假设我们想绘制如下图形：通过一个简单的函数调用就可以绘制：glDrawArrays(GL_POINTS, 0, 4);此时几何着色器就派上";
+        var articleTitles = "几何着色器_道路与梦想-CSDN博客";
+        var nickName = "lizhenneng";
+        var articleDetailUrl = "https://blog.csdn.net/lizhenneng/article/details/48729849";
+        if(window.location.host.split('.').length == 3) {
+            blog_address = blogUrl + username;
+        }
+        var skinStatus = "White";
+        var blogStaticHost = "https://csdnimg.cn/release/blogv2/"
+    </script>
+    <script src="https://g.csdnimg.cn/??fixed-sidebar/1.1.6/fixed-sidebar.js" type="text/javascript"></script>
+    <script src='//g.csdnimg.cn/common/csdn-report/report.js' type='text/javascript'></script>
+    <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css">
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+    <script src="https://dup.baidustatic.com/js/ds.js"></script>
+</head>
+<body class="nodata " style="">
+        <script>
+            var toolbarSearchExt = '{"landingWord":[],"queryWord":"","tag":["图形","gpu"],"title":"几何着色器"}';
+        </script>
+    <script src="https://g.csdnimg.cn/common/csdn-toolbar/csdn-toolbar.js" type="text/javascript"></script>
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/pc/css/blog_code-01256533b5.min.css">
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/chart-3456820cac.css" />
+<div class="main_father clearfix d-flex justify-content-center" style="height:100%;"> 
+    <div class="container clearfix" id="mainBox">
+        <main>
+<script type="text/javascript">
+    var blogSensitiveWords = "";
+</script>
+<div class="blog-content-box">
+    <div class="article-header-box">
+        <div class="article-header">
+            <div class="article-title-box">
+                <h1 class="title-article" id="articleContentId">几何着色器</h1>
+            </div>
+            <div class="article-info-box">
+                <div class="article-bar-top">
+                    <img class="article-type-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/original.png" alt="">
+                    <div class="bar-content">
+                    <a class="follow-nickName " href="https://blog.csdn.net/lizhenneng" target="_blank" rel="noopener">lizhenneng</a>
+                    <span class="time">2015-09-25 15:13:16</span>
+                    <img class="article-read-img article-heard-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/articleReadEyes.png" alt="">
+                    <span class="read-count">4396</span>
+                    <a id="blog_detail_zk_collection" class="un-collection" data-report-click='{"mod":"popu_823","spm":"1001.2101.3001.4232","ab":"new"}'>
+                        <img class="article-collect-img article-heard-img un-collect-status isdefault" style="display:inline-block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                        <img class="article-collect-img article-heard-img collect-status isactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                        <span class="name">收藏</span>
+                        <span class="get-collection">
+                            1
+                        </span>
+                    </a>
+                    </div>
+                </div>
+                <div class="blog-tags-box">
+                    <div class="tags-box artic-tag-box">
+                            <span class="label">分类专栏：</span>
+                                <a class="tag-link" href="https://blog.csdn.net/lizhenneng/category_853933.html" target="_blank" rel="noopener">tech</a>
+                            <span class="label">文章标签：</span>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"图形","ab":"new"}' class="tag-link" href="https://so.csdn.net/so/search/s.do?q=图形&t=blog&o=vip&s=&l=&f=&viparticle=" target="_blank" rel="noopener">图形</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"gpu","ab":"new"}' class="tag-link" href="https://so.csdn.net/so/search/s.do?q=gpu&t=blog&o=vip&s=&l=&f=&viparticle=" target="_blank" rel="noopener">gpu</a>
+                    </div>
+                </div>
+                <div class="up-time"><span>最后发布:2015-09-25 15:13:16</span><span>首次发布:2015-09-25 15:13:16</span></div>
+                <div class="slide-content-box">
+                    <div class="article-copyright">
+                        <div class="creativecommons">
+                            版权声明：本文为博主原创文章，遵循<a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener"> CC 4.0 BY-SA </a>版权协议，转载请附上原文出处链接和本声明。
+                        </div>
+                        <div class="article-source-link">
+                            本文链接：<a href="https://blog.csdn.net/iron_lzn/article/details/48729849" target="_blank">https://blog.csdn.net/iron_lzn/article/details/48729849</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="operating">
+                    <a class="href-article-edit slide-toggle">版权</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <article class="baidu_pl">
+        <div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-b5506197d8.css">
+                <div id="content_views" class="htmledit_views">
+                    <p>通过顶点着色器和片段着色器&#xff0c;可以将输入的顶点经过着色器的处理显示到屏幕上。OpenGL 3.2及更新的版本支持几何着色器&#xff0c;介于顶点着色器和片段着色器之间&#xff0c;几何着色器接收顶点着色器的输出作为输入&#xff0c;通过高效的几何运算&#xff0c;将数据输出到片段着色器。</p> 
+<p>假设我们想绘制如下图形&#xff1a;<br /> </p> 
+<p><img src="https://open.gl/media/img/c7_result.png" alt="End result" /></p> 
+<p>通过一个简单的函数调用就可以绘制&#xff1a;</p> 
+<p>glDrawArrays(GL_POINTS, 0, 4);</p> 
+<p>此时几何着色器就派上用场了。虽然几何着色器做的事情也可以在CPU中实现&#xff0c;不过通过几何着色器&#xff0c;你只需要传递很少的数据到显卡&#xff0c;后面的事情就交给GPU做了&#xff0c;减少了CPU的负载、内存到显卡数据的传输压力&#xff0c;同时也提升了程序运行效率&#xff08;GPU运算更快&#xff09;。</p> 
+<h2><strong>开始</strong><br /> </h2> 
+<p>首先在屏幕上绘制四个点&#xff0c;代码如下&#xff1a;</p> 
+<p>// Vertex shader<br /> const char* vertexShaderSrc &#61; GLSL(<br />     in vec2 pos;<br /> <br />     void main() {<!-- --><br />         gl_Position &#61; vec4(pos, 0.0, 1.0);<br />     }<br /> );<br /> <br /> // Fragment shader<br /> const char* fragmentShaderSrc &#61; GLSL(<br />     out vec4 outColor;<br /> <br />     void main() {<!-- --><br />         outColor &#61; vec4(1.0, 0.0, 0.0, 1.0);<br />     }<br /> );</p> 
+<p>以上声明了两个简单的顶点着色器和片段着色器。顶点着色器简单的转发每个点的顶点属性&#xff0c;片段着色器输出固定的红色。</p> 
+<p>添加GLSL版本的宏&#xff1a;</p> 
+<p>#define GLSL(src) &#34;#version 150 core\n&#34; #src<br /> </p> 
+<p>创建和编译着色器&#xff1a;</p> 
+<p>GLuint createShader(GLenum type, const GLchar* src) {<!-- --><br />     GLuint shader &#61; glCreateShader(type);<br />     glShaderSource(shader, 1, &amp;src, nullptr);<br />     glCompileShader(shader);<br />     return shader;<br /> }</p> 
+<p>main函数中通过GLEW库创建一个窗口和OpenGL上下文&#xff0c;创建着色器程序&#xff0c;添加着色器源码&#xff0c;链接源代码&#xff0c;激活着色器程序。</p> 
+<p>然后创建一个保存了顶点坐标的缓存。</p> 
+<p>GLuint vbo;<br /> glGenBuffers(1, &amp;vbo);<br /> <br /> float points[] &#61; {<!-- --><br />     -0.45f,  0.45f,<br />      0.45f,  0.45f,<br />      0.45f, -0.45f,<br />     -0.45f, -0.45f,<br /> };<br /> <br /> glBindBuffer(GL_ARRAY_BUFFER, vbo);<br /> glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);</p> 
+<p>创建四个点&#xff0c;每个点包含x和y坐标。此处坐标范围从-1到1&#xff0c;x坐标和y坐标分别为从左到右&#xff0c;从下到上&#xff0c;最终显示效果就是每个象限有一个点。</p> 
+<p>创建VAO并设置顶点格式规范&#xff1a;</p> 
+<p>// Create VAO<br /> GLuint vao;<br /> glGenVertexArrays(1, &amp;vao);<br /> glBindVertexArray(vao);<br /> <br /> // Specify layout of point data<br /> GLint posAttrib &#61; glGetAttribLocation(shaderProgram, &#34;pos&#34;);<br /> glEnableVertexAttribArray(posAttrib);<br /> glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);</p> 
+<p>进入渲染循环过程&#xff1a;</p> 
+<p>glClearColor(0.0f, 0.0f, 0.0f, 1.0f);<br /> glClear(GL_COLOR_BUFFER_BIT);<br /> <br /> glDrawArrays(GL_POINTS, 0, 4);</p> 
+<p>效果图中出现四个红点&#xff1a;</p> 
+<p><img src="https://open.gl/media/img/c7_points.png" alt="" /></p> 
+<h2>几何着色器入门</h2> 
+<p>为了理解几何着色器的工作原理&#xff0c;首先看一个几何着色器的简单例子&#xff1a;</p> 
+<p>layout(points) in;<br /> layout(line_strip, max_vertices &#61; 2) out;<br /> <br /> void main() {<!-- --><br />     gl_Position &#61; gl_in[0].gl_Position &#43; vec4(-0.1, 0.0, 0.0, 0.0);<br />     EmitVertex();<br /> <br />     gl_Position &#61; gl_in[0].gl_Position &#43; vec4(0.1, 0.0, 0.0, 0.0);<br />     EmitVertex();<br /> <br />     EndPrimitive();<br /> }</p> 
+<p>顶点着色器处理顶点&#xff0c;片段着色器处理每个小的片段&#xff0c;而几何着色器处理整个原语。第一行描述几何着色器处理的原语类型。</p> 
+<p>layout(points) in;<br /> 支持的原语类型如下&#xff0c;对应绘制命令类型&#xff1a;</p> 
+<p></p> 
+<ul><li><strong>points</strong> - GL_POINTS (1 vertex)</li><li><strong>lines</strong> - GL_LINES, GL_LINE_STRIP, GL_LINE_LIST (2 vertices)</li><li><strong>lines_adjacency</strong> - GL_LINES_ADJACENCY, GL_LINE_STRIP_ADJACENCY (4 vertices)</li><li><strong>triangles</strong> - GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN (3 vertices)</li><li><strong>triangles_adjacency</strong> - GL_TRIANGLES_ADJACENCY, GL_TRIANGLE_STRIP_ADJACENCY (6 vertices)</li></ul> 实例中绘制类型为GL_POINTS&#xff0c;此处使用points。 
+<p></p> 
+<p>输出类型</p> 
+<p>第二行描述着色的输出。通过处理&#xff0c;几何着色器能输出完全不同的几何体类型&#xff0c;生成的原语数也可以变化。</p> 
+<p>layout(line_strip, max_vertices &#61; 2) out;</p> 
+<p>此行定义输出类型和最大输出顶点数。</p> 
+<p>支持的输出类型如下&#xff1a;</p> 
+<p></p> 
+<ul><li>points</li><li>line_strip</li><li>triangle_strip</li></ul> 类型虽然很少&#xff0c;但可以充分覆盖所有的原语类型。例如&#xff0c;三个顶点的triangle_strip相当于一个普通的三角形。 
+<p></p> 
+<h2>顶点输入</h2> 
+<p>几何着色器中可通过gl_in数组访问顶点着色器中的变量gl_Position&#xff0c;gl_in为结构化的数组&#xff0c;具体如下:</p> 
+<p>in gl_PerVertex<br /> {<!-- --><br />     vec4 gl_Position;<br />     float gl_PointSize;<br />     float gl_ClipDistance[];<br /> } gl_in[];</p> 
+<p>顶点输出</p> 
+<p>几何着色器程序通过两个指定的函数产生原语&#xff1a;EmitVertex、EndPrimitive。每次调用EmitVertex&#xff0c;顶点加入到当前原语中。当添加完所有的顶点&#xff0c;几何着色器调用EndPrimitive产生原语。</p> 
+<p>void main() {<!-- --><br />     gl_Position &#61; gl_in[0].gl_Position &#43; vec4(-0.1, 0.0, 0.0, 0.0);<br />     EmitVertex();<br /> <br />     gl_Position &#61; gl_in[0].gl_Position &#43; vec4(0.1, 0.0, 0.0, 0.0);<br />     EmitVertex();<br /> <br />     EndPrimitive();<br /> }</p> 
+<p>调用EmitVertex前&#xff0c;顶点属性应该赋值给变量gl_Position&#xff0c;类似于顶点着色器中的赋值。</p> 
+<h2>创建几何着色器</h2> 
+<p>几何着色器的创建和激活方式和其他类型着色器类似。我们在只绘制了四个点的实例中添加几何着色器。</p> 
+<p>const char* geometryShaderSrc &#61; GLSL(<br />     layout(points) in;<br />     layout(points, max_vertices &#61; 1) out;<br /> <br />     void main() {<!-- --><br />         gl_Position &#61; gl_in[0].gl_Position;<br />         EmitVertex();<br />         EndPrimitive();<br />     }<br /> );</p> 
+<p>此处的几何着色器功能简单。对于每一个输入顶点&#xff0c;产生对应的一个输出顶点。我们使用最少的代码在屏幕上显示点。</p> 
+<p>使用已经封装好的代码&#xff0c;可简单的创建几何着色器&#xff1a;</p> 
+<p>GLuint geometryShader &#61; createShader(GL_GEOMETRY_SHADER, geometryShaderSrc);</p> 
+<p>添加着色器代码到着色器程序&#xff1a;</p> 
+<p>glAttachShader(shaderProgram, geometryShader);</p> 
+<p>程序运行效果同样只显示四个点。但是移除几何着色器中的代码&#xff0c;程序却没有任何显示&#xff0c;这说明几何着色器已经发挥了作用。</p> 
+<p>修改几何着色器中的代码points为line_strip&#xff0c;并设置每次传输的最大顶点数为&#xff12;&#xff0c;修改如下&#xff1a;</p> 
+<p>layout(points) in;<br /> layout(line_strip, max_vertices &#61; 2) out;<br /> <br /> void main() {<!-- --><br />     gl_Position &#61; gl_in[0].gl_Position &#43; vec4(-0.1, 0.0, 0.0, 0.0);<br />     EmitVertex();<br /> <br />     gl_Position &#61; gl_in[0].gl_Position &#43; vec4(0.1, 0.0, 0.0, 0.0);<br />     EmitVertex();<br /> <br />     EndPrimitive();<br /> }</p> 
+<p>尽管我们的绘制调用没有修改&#xff0c;不过GPU绘制的不在是点&#xff0c;而是线段。</p> 
+<p><img src="https://open.gl/media/img/c7_lines.png" alt="" /></p> 
+<h2>几何着色器和顶点属性</h2> 
+<p>我们设置每一条线的颜色。增加颜色信息作为顶点着色器的输入变量&#xff0c;为每一个顶点指定一个颜色。</p> 
+<p>in vec2 pos;<br /> in vec3 color;<br /> <br /> out vec3 vColor; // Output to geometry (or fragment) shader<br /> <br /> void main() {<!-- --><br />     gl_Position &#61; vec4(pos, 0.0, 1.0);<br />     vColor &#61; color;<br /> }</p> 
+<p>传递颜色属性&#xff1a;</p> 
+<p></p> 
+<pre><code class="cpp">GLint posAttrib &#61; glGetAttribLocation(shaderProgram, <span class="string">&#34;pos&#34;</span>);
+glEnableVertexAttribArray(posAttrib);
+glVertexAttribPointer(posAttrib, <span class="number">2</span>, GL_FLOAT, GL_FALSE, <span class="number">5</span> * <span class="keyword">sizeof</span>(<span class="keyword">float</span>), <span class="number">0</span>);
+
+GLint colAttrib &#61; glGetAttribLocation(shaderProgram, <span class="string">&#34;color&#34;</span>);
+glEnableVertexAttribArray(colAttrib);
+glVertexAttribPointer(colAttrib, <span class="number">3</span>, GL_FLOAT, GL_FALSE,</code><pre><code class="cpp">GLint posAttrib &#61; glGetAttribLocation(shaderProgram, <span class="string">&#34;pos&#34;</span>);
+glEnableVertexAttribArray(posAttrib);
+glVertexAttribPointer(posAttrib, <span class="number">2</span>, GL_FLOAT, GL_FALSE, <span class="number">5</span> * <span class="keyword">sizeof</span>(<span class="keyword">float</span>), <span class="number">0</span>);
+
+GLint colAttrib &#61; glGetAttribLocation(shaderProgram, <span class="string">&#34;color&#34;</span>);
+glEnableVertexAttribArray(colAttrib);
+glVertexAttribPointer(colAttrib, <span class="number">3</span>, GL_FLOAT, GL_FALSE,
+                      <span class="number">5</span> * <span class="keyword">sizeof</span>(<span class="keyword">float</span>), (<span class="keyword">void</span>*) (<span class="number">2</span> * <span class="keyword">sizeof</span>(<span class="keyword">float</span>)));</code></pre>                      <span class="number">5</span> * <span class="keyword">sizeof</span>(<span class="keyword">float</span>), (<span class="keyword">void</span>*) (<span class="number">2</span> * <span class="keyword">sizeof</span>(<span class="keyword">float</span>)));</pre> 更新点的坐标数据&#xff0c;为每个点添加RGB颜色属性&#xff1a; 
+<p></p> 
+<p></p> 
+<pre><code class="cpp"><span class="keyword">float</span> points[] &#61; {
+    -<span class="number">0.45</span>f,  <span class="number">0.45</span>f, <span class="number">1.0</span>f, <span class="number">0.0</span>f, <span class="number">0.0</span>f, <span class="comment">// Red point</span>
+     <span class="number">0.45</span>f,  <span class="number">0.45</span>f, <span class="number">0.0</span>f, <span class="number">1.0</span>f, <span class="number">0.0</span>f, <span class="comment">// Green point</span>
+     <span class="number">0.45</span>f, -<span class="number">0.45</span>f, <span class="number">0.0</span>f, <span class="number">0.0</span>f, <span class="number">1.0</span>f, <span class="comment">// Blue point</span>
+    -<span class="number">0.45</span>f, -<span class="number">0.45</span>f, <span class="number">1.0</span>f, <span class="number">1.0</span>f, <span class="number">0.0</span>f, <span class="comment">// Yellow point</span>
+};</code></pre> 因为添加了几何着色器&#xff0c;顶点着色器中的数据必须通过几何着色器才能传到片段着色器&#xff0c;需要在几何着色器中将vColor变量作为输入参数。 
+<p></p> 
+<p></p> 
+<pre><code class="cpp">layout(points) in;
+layout(line_strip, max_vertices &#61; <span class="number">2</span>) out;
+
+in vec3 vColor[]; <span class="comment">// Output from vertex shader for each vertex</span>
+
+out vec3 fColor; <span class="comment">// Output to fragment shader</span>
+
+<span class="keyword">void</span> main() {
+    ...</code></pre> 片段着色器中处理输入数据的方式和以前相似&#xff0c;唯一的不同就是输入必须是数组&#xff0c;因为几何着色器能接收多个顶点的原语作为输入&#xff0c;可同是作为属性传递到片段着色器。 
+<p></p> 
+<p>因为颜色属性最终要传递到片段着色器&#xff0c;我们添加fColor变量作为输出变量&#xff0c;同时在代码中赋值。</p> 
+<p></p> 
+<pre><code class="cpp"><span class="keyword">void</span> main() {
+    fColor &#61; vColor[<span class="number">0</span>]; <span class="comment">// Point has only one vertex</span>
+
+    gl_Position &#61; gl_in[<span class="number">0</span>].gl_Position &#43; vec4(-<span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.0</span>, <span class="number">0.0</span>);
+    EmitVertex();
+
+    gl_Position &#61; gl_in[<span class="number">0</span>].gl_Position &#43; vec4(<span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.0</span>, <span class="number">0.0</span>);
+    EmitVertex();
+
+    EndPrimitive();
+}</code></pre> 当执行EmitVertex()时&#xff0c;顶点属性附带颜色属性fColor将被传递到片段着色器&#xff0c;此时我们可以便可以在片段着色器访问顶点和颜色信息。 
+<p></p> 
+<p></p> 
+<pre><code class="cpp">in vec3 fColor;
+
+out vec4 outColor;
+
+<span class="keyword">void</span> main() {
+    outColor &#61; vec4(fColor, <span class="number">1.0</span>);
+}
+</code></pre> 因此&#xff0c;当定义了顶点的属性时&#xff0c;属性首先传递给顶点着色器&#xff0c;顶点着色器可选择将信息直接或者经过修改传给几何着色器&#xff0c;几何着色器通过处理再将数据传递到片段着色器。 
+<p></p> 
+<p><img src="https://open.gl/media/img/c7_color_lines.png" alt="" /></p> 
+<h2>动态生成几何图形</h2> 
+<p>几何着色器的核心功能在于能生成变化的原语数。</p> 
+<p>比如我们创建一个由圆形组成的游戏&#xff0c;你可以先绘制一个单独的模型&#xff0c;然后重复绘制此模型&#xff0c;这种方式很原始。当距离圆形很近时&#xff0c;圆形感觉不平滑&#xff0c;效果会比较差&#xff0c;当距离很远时&#xff0c;眼睛无法辨识很精细的绘制效果&#xff0c;则绘制太精细会浪费硬件资源&#xff0c;降低程序的显示性能。</p> 
+<p>此时几何着色器可以发挥作用了。几何着色器可根据运行环境&#xff08;例如眼睛离物体的距离&#xff09;产生适合分辨率的圆形。我们首先修改几何着色器围绕点绘制十条边的多边形&#xff0c;如果几何学的好&#xff0c;实现会比较容易。</p> 
+<p></p> 
+<pre><code class="cpp">layout(points) in;
+layout(line_strip, max_vertices &#61; <span class="number">11</span>) out;
+
+in vec3 vColor[];
+out vec3 fColor;
+
+<span class="keyword">const</span> <span class="keyword">float</span> PI &#61; <span class="number">3.1415926</span>;
+
+<span class="keyword">void</span> main() {
+    fColor &#61; vColor[<span class="number">0</span>];
+
+    <span class="keyword">for</span> (<span class="keyword">int</span> i &#61; <span class="number">0</span>; i &lt;&#61; <span class="number">10</span>; i&#43;&#43;) {
+        <span class="comment">// Angle between each side in radians</span>
+        <span class="keyword">float</span> ang &#61; PI * <span class="number">2.0</span> / <span class="number">10.0</span> * i;
+
+        <span class="comment">// Offset from center of point (0.3 to accomodate for aspect ratio)</span>
+        vec4 offset &#61; vec4(cos(ang) * <span class="number">0.3</span>, -sin(ang) * <span class="number">0.4</span>, <span class="number">0.0</span>, <span class="number">0.0</span>);
+        gl_Position &#61; gl_in[<span class="number">0</span>].gl_Position &#43; offset;
+
+        EmitVertex();
+    }
+
+    EndPrimitive();
+}</code></pre> 第一个点和最后一个点要相同&#xff0c;这样图形才能形成闭环&#xff0c;所以十条边需要十一各顶点。效果如下&#xff1a; 
+<p></p> 
+<p><img src="https://open.gl/media/img/c7_circles.png" alt="" /></p> 
+<p>然后增加顶点属性控制边的数量&#xff0c;增加点的属性信息&#xff0c;并传递到着色器。</p> 
+<p></p> 
+<pre><code class="cpp"><span class="keyword">float</span> points[] &#61; {
+<span class="comment">//  Coordinates  Color             Sides</span>
+    -<span class="number">0.45</span>f,  <span class="number">0.45</span>f, <span class="number">1.0</span>f, <span class="number">0.0</span>f, <span class="number">0.0</span>f,  <span class="number">4.0</span>f,
+     <span class="number">0.45</span>f,  <span class="number">0.45</span>f, <span class="number">0.0</span>f, <span class="number">1.0</span>f, <span class="number">0.0</span>f,  <span class="number">8.0</span>f,
+     <span class="number">0.45</span>f, -<span class="number">0.45</span>f, <span class="number">0.0</span>f, <span class="number">0.0</span>f, <span class="number">1.0</span>f, <span class="number">16.0</span>f,
+    -<span class="number">0.45</span>f, -<span class="number">0.45</span>f, <span class="number">1.0</span>f, <span class="number">1.0</span>f, <span class="number">0.0</span>f, <span class="number">32.0</span>f
+};
+
+...
+
+<span class="comment">// Specify layout of point data</span>
+GLint posAttrib &#61; glGetAttribLocation(shaderProgram, <span class="string">&#34;pos&#34;</span>);
+glEnableVertexAttribArray(posAttrib);
+glVertexAttribPointer(posAttrib, <span class="number">2</span>, GL_FLOAT, GL_FALSE,
+                      <span class="number">6</span> * <span class="keyword">sizeof</span>(<span class="keyword">float</span>), <span class="number">0</span>);
+
+GLint colAttrib &#61; glGetAttribLocation(shaderProgram, <span class="string">&#34;color&#34;</span>);
+glEnableVertexAttribArray(colAttrib);
+glVertexAttribPointer(colAttrib, <span class="number">3</span>, GL_FLOAT, GL_FALSE,
+                      <span class="number">6</span> * <span class="keyword">sizeof</span>(<span class="keyword">float</span>), (<span class="keyword">void</span>*) (<span class="number">2</span> * <span class="keyword">sizeof</span>(<span class="keyword">float</span>)));
+
+GLint sidesAttrib &#61; glGetAttribLocation(shaderProgram, <span class="string">&#34;sides&#34;</span>);
+glEnableVertexAttribArray(sidesAttrib);
+glVertexAttribPointer(sidesAttrib, <span class="number">1</span>, GL_FLOAT, GL_FALSE,
+                      <span class="number">6</span> * <span class="keyword">sizeof</span>(<span class="keyword">float</span>), (<span class="keyword">void</span>*) (<span class="number">5</span> * <span class="keyword">sizeof</span>(<span class="keyword">float</span>)));</code></pre> 修改顶点着色器&#xff0c;传递属性到几何着色器。 
+<p></p> 
+<p></p> 
+<pre><code class="cpp">in vec2 pos;
+in vec3 color;
+in <span class="keyword">float</span> sides;
+
+out vec3 vColor;
+out <span class="keyword">float</span> vSides;
+
+<span class="keyword">void</span> main() {
+    gl_Position &#61; vec4(pos, <span class="number">0.0</span>, <span class="number">1.0</span>);
+    vColor &#61; color;
+    vSides &#61; sides;
+}
+</code></pre> 几何着色器中使用传递的边数&#xff0c;修改输出最大顶点数。 
+<p></p> 
+<p></p> 
+<pre><code class="cpp">layout(line_strip, max_vertices &#61; <span class="number">64</span>) out;
+
+...
+
+in <span class="keyword">float</span> vSides[];
+
+...
+
+<span class="comment">// Safe, floats can represent small integers exactly</span>
+<span class="keyword">for</span> (<span class="keyword">int</span> i &#61; <span class="number">0</span>; i &lt;&#61; vSides[<span class="number">0</span>]; i&#43;&#43;) {
+        <span class="comment">// Angle between each side in radians</span>
+        <span class="keyword">float</span> ang &#61; PI * <span class="number">2.0</span> / vSides[<span class="number">0</span>] * i;
+
+        ...</code></pre> 现在可以随意修改组成圆的边数。 
+<p></p> 
+<p><img src="https://open.gl/media/img/c7_result.png" alt="End result" /></p> 
+<p>如果没有几何着色器&#xff0c;当改变圆的边数时&#xff0c;我们不得不重建整个顶点缓存&#xff0c;而使用几何着色器则只需要简单的修改顶点属性的值。在游戏中&#xff0c;这个属性可以通过玩家距离模型的距离适当调整。</p> 
+<h2>结论</h2> 
+<p>的确&#xff0c;几何着色器&#xff0c;不像真实世界模拟应用中使用帧缓冲和纹理技术那么常用&#xff0c;但是能够协助在GPU上创建数据。</p> 
+<p>如果需要重复绘制一个网格&#xff0c;像三维游戏中的立方体&#xff0c;则可以通过几何着色器使用相似的方式产生立方体&#xff0c;只是每一个产生的实例都是相同的。</p> 
+<p>最后&#xff0c;为了可移植性&#xff0c;最新的WebGL和OpenGL ES标准不在支持几何着色器&#xff0c;开发移动应用和web应用请不要使用几何着色器。<br /> </p>
+                </div>
+        </div>
+    </article>
+</div>
+<script>
+    // 敏感词替换
+    ~function(blogSensitiveWords){
+        if(blogSensitiveWords){   
+            var getContentViews = document.getElementById("content_views");
+            var getContentTitle = document.getElementById("articleContentId");
+            var contentViewsInnerHTML = getContentViews.innerHTML;
+            var contentTitleInnerHTML = getContentTitle.innerHTML;
+            var keyWordsJsonArr = [];
+            var keyWordsArr = blogSensitiveWords.split(',');
+            function repeatTimes(str, num){
+                return num > 1 ? str += repeatTimes(str, --num): str;
+            }
+            for(var i = 0; i < keyWordsArr.length; i++){
+                var keyWordsJson = {} ;
+                keyWordsJson.key = keyWordsArr[i];
+                keyWordsJson.value = repeatTimes("*",keyWordsArr[i].length);
+                keyWordsJsonArr.push(keyWordsJson);
+            }
+            var reg;
+            for(var i = 0; i < keyWordsJsonArr.length; i++){
+                var item = keyWordsJsonArr[i];
+                reg = new RegExp(item.key+"(?!([^<]*>)|([^<]*<\/a>))","ig");
+                contentViewsInnerHTML = contentViewsInnerHTML.replace(reg,item.value);
+                contentTitleInnerHTML = contentTitleInnerHTML.replace(reg,item.value);
+            }
+            getContentViews.innerHTML=contentViewsInnerHTML;
+            getContentTitle.innerHTML=contentTitleInnerHTML;
+        }
+    }(blogSensitiveWords)
+</script>
+<div class="more-toolbox" id="toolBarBox">
+    <span id="fixedBar"></span>
+    <div class="left-toolbox">
+        <ul class="toolbox-list">
+            <li class="tool-item tool-item-size tool-active is-like" id="is-like"><a>
+            <img style="display:none;" id="is-like-imgactive-animation-like" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isactive" style="display:none" id="is-like-imgactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isdefault" style="display:block" id="is-like-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUp.png" alt="">   
+            <span class="name" id="is-like-span">点赞</span>
+            <span id="spanCount" class="count">
+                    1
+            </span>
+            </a></li>
+            <li class="tool-item tool-item-size tool-active tool-item-comment">
+                <a href="#commentBox">
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarComment.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCommentactive.png" style="display:none;" alt="">
+                    <span class="name">评论</span>
+                    <span class="count">
+                        1
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-QRcode" id="tool-share">
+                <a href="javascript:;" data-report-click='{"mod":"1582594662_002","spm":"1001.2101.3001.4129","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShare.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShareactive.png" style="display:none;" alt="">
+                    <span class="name">分享</span>
+                </a>
+                <div class="QRcode" id="tool-QRcode" style="left:-92%;">
+                    <span id="QRcode-close">x</span>
+                    <p class="title">
+                    海报分享
+                    </p>
+                    <div id='shareCode'></div>
+                    <p>
+                    扫一扫，分享海报
+                    </p>
+                </div>
+            </li>
+            <li class="tool-item tool-item-size tool-active is-collection ">
+                <a href="javascript:;" data-report-click='{"mod":"popu_824","spm":"1001.2101.3001.4130","ab":"new"}'>
+                    <img style="display:none" id="is-collection-img-collection" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <img class="isdefault" id="is-collection-img" style="display:block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                    <img class="isactive" id="is-collection-imgactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <span class="name" id="is-collection">收藏</span>
+                    <span class="count get-collection" id="get-collection">
+                        1
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-reward">
+                <a  id="toolreward" data-report-click='{"mod":"popu_830","spm":"1001.2101.3001.4237","dest":"","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReward.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarRewardactive.png" style="display:none;" alt="">
+                    <span class="name">打赏</span>
+                </a>
+<div id="reward" class="reward-box">
+	<p class="rewad-title">打赏<span class="reward-close"><svg t="1567152543821" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10924" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><defs><style type="text/css"></style></defs><path d="M512 438.378667L806.506667 143.893333a52.032 52.032 0 1 1 73.6 73.621334L585.621333 512l294.485334 294.485333a52.074667 52.074667 0 0 1-73.6 73.642667L512 585.621333 217.514667 880.128a52.053333 52.053333 0 1 1-73.621334-73.642667L438.378667 512 143.893333 217.514667a52.053333 52.053333 0 1 1 73.621334-73.621334L512 438.378667z" fill="" p-id="10925"></path></svg></span></p>
+	<dl>
+		<dd>
+		<a href="https://blog.csdn.net/lizhenneng" data-report-click='{"mod":"popu_379","dest":"https://blog.csdn.net/lizhenneng","ab":"new"}'>
+			<img src="https://profile.csdnimg.cn/D/7/A/3_lizhenneng" class="avatar_pic">
+		</a>
+		</dd>
+		<dt>
+			<p class="blog-name">lizhenneng</p>
+			<p class="blog-discript">你的鼓励将是我创作的最大动力</p>
+		</dt>
+	</dl>
+	<div class="change-bt-box">
+		<span class="reward-bt reward-bt-coin">C币</span>
+		<span class="reward-bt-space"></span>
+		<span class="reward-bt reward-bt-money reward-bt-active">余额</span>
+	</div>
+	<div class="money-box">
+			<span class="choose_money choosed" data-id="2">2C币</span>
+			<span class="choose_money " data-id="4">4C币</span>
+			<span class="choose_money " data-id="6">6C币</span>
+			<span class="choose_money " data-id="10">10C币</span>
+			<span class="choose_money " data-id="20">20C币</span>
+			<span class="choose_money " data-id="50">50C币</span>
+	</div>
+	<div class="sure-box">
+		<p class="is-have-money"><a class="reward-sure">确定</a></p>
+	</div>
+</div>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-more">
+              <a class="article-report">
+                <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReport.png" alt="">
+                <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReportactive.png" style="display:none;" alt="">
+                <span class="name">举报</span>
+              </a>
+            </li>
+            <li class="tool-item">
+                    <a class="tool-attend tool-bt-button tool-bt-attend" href="javascript:;" data-report-view='{"mod":"1592215036_002","spm":"1001.2101.3001.4232","extend1":"关注"}'>关注</a>
+                <a class="tool-item-follow active-animation" style="display:none;">关注</a>
+            </li>
+            <li class="tool-item">
+                    <p class="company active" id="health-companies" href="javascript:;" >一键三连</p>
+                <span class="triplet-prompt">点赞Mark关注该博主, 随时了解TA的最新博文<img class="close-prompt" src="https://csdnimg.cn/release/blogv2/dist/pc/img/closePrompt.png"></span>
+            </li>
+        </ul>
+        <div style="display:flex">
+         </div>
+    </div>  
+</div>
+<script type=text/javascript crossorigin src="https://csdnimg.cn/release/phoenix/production/qrcode-7c90a92189.min.js"></script>
+<script src="//g.csdnimg.cn/??sharewx/1.2.1/sharewx.js" type="text/javascript"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/collection-box/2.0.2/collection-box.js"></script>
+                <div class="first-recommend-box recommend-box">
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/theresanan/3874291"  data-report-view='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-download-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/theresanan/3874291"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/theresanan/3874291" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-download-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/theresanan/3874291"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-download-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-download-BlogCommendFromMachineLearnPai2-1.control'>
+					计算机组成原理实验教程
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">12-03</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/theresanan/3874291" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-download-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/theresanan/3874291"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-download-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-download-BlogCommendFromMachineLearnPai2-1.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">西北工业大学计算机组成原理实验课唐都仪器实验帮助，同实验指导书。分为运算器，存储器，控制器，模型计算机，输入输出系统5个章节</div>
+			</a>
+		</div>
+	</div>
+</div>
+                </div>
+            <div class="second-recommend-box recommend-box">
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/zblhero/985647"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/zblhero/985647"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/zblhero/985647" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/zblhero/985647"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-1.control'>
+					linux下利用/proc进行进程树的打印
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">02-02</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/zblhero/985647" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/zblhero/985647"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-1.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">在linux下利用c语言实现的进程树的打印，主要通过/proc下的目录中的进程文件，获取status中的进程信息内容，然后利用递归实现进程树的打印</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+<a id="commentBox" name="commentBox"></a>
+<div class="comment-box">
+	<div class="comment-edit-box d-flex">
+		<a id="commentsedit"></a>
+		<div class="user-img">
+			<a href="javascript:void(0);" >
+				<img class="show_loginbox" src="https://g.csdnimg.cn/static/user-img/anonymous-User-img.png">
+			</a>
+		</div>
+		<form id="commentform">
+			<img class="comment-sofa-flag" src="https://csdnimg.cn/release/blogv2/dist/pc/img/commentFlag@2x.png">
+			<textarea class="comment-content" name="comment_content" id="comment_content" placeholder="优质评论可以帮助作者获得更高权重"
+				maxlength="1000"></textarea>
+			<div class="opt-box">
+				<div id="ubbtools" class="add_code">
+					<a href="#insertcode" code="code" target="_self"><i class="icon iconfont icon-daima"></i></a>
+				</div>
+				<input type="hidden" id="comment_replyId" name="comment_replyId">
+				<input type="hidden" id="article_id" name="article_id" value="48729849">
+				<input type="hidden" id="comment_userId" name="comment_userId" value="">
+				<input type="hidden" id="commentId" name="commentId" value="">
+				<div class="dropdown" id="myDrap">
+					<a class="dropdown-face d-flex align-items-center" data-toggle="dropdown" role="button"
+						aria-haspopup="true" aria-expanded="false">
+						<div class="txt-selected text-truncate">添加代码片</div>
+						<svg class="icon d-block" width="200px" height="100.00px" viewBox="0 0 2048 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path  d="M597.33333292 298.666667h853.333334L1023.99999992 725.333333 597.33333292 298.666667z"  /></svg>
+					</a>
+					<ul class="dropdown-menu" id="commentCode" aria-labelledby="drop4">
+						<li><a data-code="html">HTML/XML</a></li>
+						<li><a data-code="objc">objective-c</a></li>
+						<li><a data-code="ruby">Ruby</a></li>
+						<li><a data-code="php">PHP</a></li>
+						<li><a data-code="csharp">C</a></li>
+						<li><a data-code="cpp">C++</a></li>
+						<li><a data-code="javascript">JavaScript</a></li>
+						<li><a data-code="python">Python</a></li>
+						<li><a data-code="java">Java</a></li>
+						<li><a data-code="css">CSS</a></li>
+						<li><a data-code="sql">SQL</a></li>
+						<li><a data-code="plain">其它</a></li>
+					</ul>
+				</div>
+				<div class="right-box" id="rightBox" data-type="2">
+							<span id="tip_comment" class="tip">还能输入<em>1000</em>个字符</span>
+							<a data-report-view='{"spm":"3001.4374"}' data-report-click='{"spm":"3001.4374"}' class="btn btn-sm btn-quick-comment" id="quickComment">“速评一下”</a>
+							<a data-report-click='{"mod":"1582594662_003","spm":"1001.2101.3001.4227","ab":"new"}'><input type="submit"
+									class="btn btn-sm btn-comment" value="发表评论"></a>
+				</div>
+			</div>
+		</form>
+		<input type="button" class="bt-comment-show" value="评论">
+	</div>
+	<div class="comment-list-container">
+		<a id="comments"></a>
+		<div class="comment-list-box">
+		</div>
+		<div id="commentPage" class="pagination-box d-none"></div>
+		<div class="opt-box text-center">
+			<div class="btn btn-sm btn-link-blue" id="btnMoreComment"></div>
+		</div>
+	</div>
+</div>            <div class="recommend-box insert-baidu-box">
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/u010296657/7262113"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-2.control\"}","index":"2","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/u010296657/7262113"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/u010296657/7262113" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-2.control\"}","index":"2","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/u010296657/7262113"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-2.control'>
+					定量遥感中文版  梁顺林著 范闻捷译
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">04-27</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/u010296657/7262113" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-2.control\"}","index":"2","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/u010296657/7262113"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-2.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">这是梁顺林的定量遥感的中文版,由范闻捷等翻译的，是电子版PDF,解决了大家看英文费时费事的问题，希望大家下载看看,一定会有帮助的</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/yulinxx/9769051"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-3.control\"}","index":"3","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/yulinxx/9769051"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/yulinxx/9769051" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-3.control\"}","index":"3","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/yulinxx/9769051"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-3.control&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-3.control'>
+					OpenGL <em>几何</em><em>着色器</em> 传入点,绘制三角形
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">03-03</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/yulinxx/9769051" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-3.control\"}","index":"3","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/yulinxx/9769051"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-3.control&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-3.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">OpenGL <em>几何</em><em>着色器</em> 传入点,绘制三角形.rar ) http://blog.csdn.net/yulinxx/article/details/59538755</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/BugRunner/2204920"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-4.control\"}","index":"4","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/BugRunner/2204920"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/BugRunner/2204920" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-4.control\"}","index":"4","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/BugRunner/2204920"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-4.control'>
+					OpenGL Geometry Shader Tutorial（OpenGL<em>几何</em><em>着色器</em>教程）
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">04-05</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/BugRunner/2204920" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-4.control\"}","index":"4","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/BugRunner/2204920"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromMachineLearnPai2-4.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">The OpenGL Geometry Shader Tutorial from Oregon State University，it&#39;s cool...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/c1sdn19/article/details/88409389"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control\"}","index":"5","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/c1sdn19/article/details/88409389"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/c1sdn19/article/details/88409389" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control\"}","index":"5","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/c1sdn19/article/details/88409389"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control'>
+					<em>几何</em><em>着色器</em>与细分(镶嵌)<em>着色器</em>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/c1sdn19" target="_blank"><span class="blog-title">c1sdn19的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-10</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					356
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/c1sdn19/article/details/88409389" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control\"}","index":"5","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/c1sdn19/article/details/88409389"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>几何</em><em>着色器</em>与细分(镶嵌)<em>着色器</em>
+		
+		GL细分<em>着色器</em>：https://www.cnblogs.com/zenny-chen/p/4280100.html
+GL<em>几何</em><em>着色器</em>：https://blog.csdn.net/iron_lzn/article/details/48729849
+
+
+
+
+
+
+
+
+
+
+
+		
+			posted on 2018-0...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/PjBao/article/details/79314950"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control\"}","index":"6","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/PjBao/article/details/79314950"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/PjBao/article/details/79314950" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control\"}","index":"6","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/PjBao/article/details/79314950"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control'>
+					第十一章 <em>几何</em><em>着色器</em>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/PjBao" target="_blank"><span class="blog-title">PJ</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">02-27</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1546
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/PjBao/article/details/79314950" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control\"}","index":"6","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/PjBao/article/details/79314950"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">假设我们不使用细分阶段，<em>几何</em><em>着色器</em>阶段是位于顶点和像素<em>着色器</em>阶段之间的可选阶段。顶点<em>着色器</em>输入顶点，<em>几何</em><em>着色器</em>输入整个图元。例如，如果我们绘制三角形列表，则<em>几何</em><em>着色器</em>程序将为列表中的每个三角形T所执行： 
+for(UINT i = 0; i &amp;lt; numTriangles; ++i) 
+OutputPrimitiveList = GeometryShader(T[i].vertexList);...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/lele0503/article/details/105881108"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control\"}","index":"7","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/lele0503/article/details/105881108"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/lele0503/article/details/105881108" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control\"}","index":"7","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/lele0503/article/details/105881108"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control'>
+					第十章 <em>几何</em><em>着色器</em>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/lele0503" target="_blank"><span class="blog-title">lele0503的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">05-01</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					163
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/lele0503/article/details/105881108" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control\"}","index":"7","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/lele0503/article/details/105881108"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">第十章 <em>几何</em><em>着色器</em>
+创建<em>几何</em><em>着色器</em>
+使用glCreateShader()结合参数GL_GEOMETRY_SHADER创建<em>几何</em><em>着色器</em>。
+如果不需要启用光栅化可以使用glEnable(GL_RASTERIZER_DISCARD)来关闭光栅化阶段。
+<em>几何</em><em>着色器</em>的图元类型与对应的绘制模式：
+
+
+
+
+
+
+
+
+
+
+<em>几何</em><em>着色器</em>图元
+对应的绘制命令模式
+
+
+points
+GL_POINTS, GL_PATCHES...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/caoshangpa/article/details/53455411"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control\"}","index":"8","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/caoshangpa/article/details/53455411"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/caoshangpa/article/details/53455411" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control\"}","index":"8","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/caoshangpa/article/details/53455411"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control'>
+					OpenGL<em>着色器</em>介绍
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/caoshangpa" target="_blank"><span class="blog-title">灿哥哥的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">12-04</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					4445
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/caoshangpa/article/details/53455411" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control\"}","index":"8","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/caoshangpa/article/details/53455411"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">本文主要介绍如何使用OpenGL实现<em>着色器</em>程序，首先会简单介绍<em>着色器</em>在OpenGL渲染管线中是什么个位置，接着是介绍可以通过GLSL语言实现的两类<em>着色器</em>：顶点<em>着色器</em>和片段<em>着色器</em>，最后使用OpenGL实现了个DEMO（在文章最后面，提供了下载），演示如何使用OpenGL接口创建<em>着色器</em>程序。
+会例代码下载地址：https://github.com/twinklingstar20/twinklings</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/alex1992azh/article/details/81777976"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control\"}","index":"9","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/alex1992azh/article/details/81777976"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/alex1992azh/article/details/81777976" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control\"}","index":"9","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/alex1992azh/article/details/81777976"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control'>
+					Opengl-<em>几何</em><em>着色器</em>(劫持顶点的家伙)
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/alex1992azh" target="_blank"><span class="blog-title">alex1992azh的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-17</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					526
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/alex1992azh/article/details/81777976" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control\"}","index":"9","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/alex1992azh/article/details/81777976"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">
+  前言
+
+
+我们知道在片段<em>着色器</em>和顶点着色之间，有一个<em>几何</em><em>着色器</em>，我们之前说过它但是一直没有讲，这里了解一哈。
+
+<em>几何</em><em>着色器</em>的输入是一个图元（如点或三角形）的一组顶点。<em>几何</em><em>着色器</em>可以在顶点发送到下一<em>着色器</em>阶段之前对它们随意变换。然而，<em>几何</em><em>着色器</em>最有趣的地方在于，它能够将（这一组）顶点变换为完全不同的图元，并且还能生成比原来更多的顶点。
+
+#version 330 core
+layout (po...</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+            <div class="template-box">
+                <span>©️2020 CSDN</span>
+                <span>皮肤主题: 大白</span>
+                <span> 设计师:CSDN官方博客</span>
+                <span>
+                    <a href="https://blog.csdn.net/" class="back-home c-blue c-blue-hover c-blue-focus">返回首页</a>
+                </span>
+            </div>
+<div class="blog-footer-bottom" style="margin-top:10px;"></div>
+<script src="https://g.csdnimg.cn/common/csdn-footer/csdn-footer.js" data-isfootertrack="false" type="text/javascript"></script>
+<script type="text/javascript">
+    window.csdn.csdnFooter.options = {
+        el: '.blog-footer-bottom',
+        type: 2
+    }
+</script>        </main>
+<aside class="blog_container_aside">
+    <div id="asideProfile" class="aside-box">
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://blog.csdn.net/lizhenneng" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4121","dest":"https://blog.csdn.net/lizhenneng","ab":"new"}'>
+                <img src="https://profile.csdnimg.cn/D/7/A/3_lizhenneng" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex flex-column profile-intro-name-box">
+            <div class="profile-intro-name-boxTop">
+                <a href="https://blog.csdn.net/lizhenneng" class="" id="uid" title="lizhenneng" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4122","dest":"https://blog.csdn.net/lizhenneng","ab":"new"}'>
+                    <span class="name " username="lizhenneng">lizhenneng</span>
+                </a>
+                <span>
+                </span>
+                <span class="flag expert-blog">
+                <span class="bubble">CSDN认证博客专家</span>
+                </span>
+                <span class="flag company-blog">
+                <span class="bubble">CSDN认证企业博客</span>
+                </span>
+            </div>
+            <div class="profile-intro-name-boxFooter">
+                <span class="personal-home-page personal-home-years">码龄13年</span>
+                    <span class="personal-home-page">
+                    <a class="personal-home-certification" href="https://blog.csdn.net/lizhenneng?utm_source=14998968" target="_blank" title="暂无认证">
+                    <img src="https://csdnimg.cn/identity/nocErtification.png" alt="">
+                    暂无认证
+                    </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="54">
+            <a href="https://blog.csdn.net/lizhenneng" data-report-click='{"mod":"1598321000_001","spm":"1001.2101.3001.4310"}' data-report-query="t=1">  
+                <dt><span class="count">54</span></dt>
+                <dd class="font">原创</dd>
+            </a>
+        </dl>
+        <dl class="text-center" data-report-click='{"mod":"1598321000_002","spm":"1001.2101.3001.4311"}' title="161366">
+            <a href="https://blog.csdn.net/rank/writing_rank" target="_blank">
+                <dt><span class="count">16万+</span></dt>
+                <dd class="font">周排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" title="39162">
+            <a href="https://blog.csdn.net/rank/writing_rank_total" data-report-click='{"mod":"1598321000_003","spm":"1001.2101.3001.4312"}' target="_blank">
+                <dt><span class="count">3万+</span></dt>
+                <dd class="font">总排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" style="min-width:58px" title="176774">  
+            <dt><span class="count">17万+</span></dt>
+            <dd>访问</dd>
+        </dl>
+        <dl class="text-center" title="5级,点击查看等级说明">
+            <dt><a href="https://blog.csdn.net/home/help.html#level" target="_blank">
+                <img class="level" src="https://csdnimg.cn/identity/blog5.png">
+            </a>
+            </dt>
+            <dd>等级</dd>
+        </dl>
+    </div>
+    <div class="item-rank"></div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="2521">
+            <dt><span class="count">2521</span></dt>
+            <dd>积分</dd>
+        </dl>
+         <dl class="text-center" id="fanBox" title="41">
+            <dt><span class="count" id="fan">41</span></dt>
+            <dd>粉丝</dd>
+        </dl>
+        <dl class="text-center" title="14">
+            <dt><span class="count">14</span></dt>
+            <dd>获赞</dd>
+        </dl>
+        <dl class="text-center" title="10">
+            <dt><span class="count">10</span></dt>
+            <dd>评论</dd>
+        </dl>
+        <dl class="text-center" title="56">
+            <dt><span class="count">56</span></dt>
+            <dd>收藏</dd>
+        </dl>
+    </div>
+    <div class="aside-box-footer" data-report-view='{"spm":"3001.4296"}'>
+        <div class="badge-box d-flex">
+            <div class="badge d-flex">
+                <div class="icon-badge" title="1024勋章">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/1024@240.png" alt="1024勋章">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="profile-intro-name-boxOpration">
+        <div class="opt-letter-watch-box">
+        <a class="bt-button personal-letter" href="https://im.csdn.net/chat/lizhenneng" target="_blank" rel="noopener">私信</a>
+        </div>
+        <div class="opt-letter-watch-box"> 
+            <a class="personal-watch bt-button" id="btnAttent" >关注</a>  
+        </div>
+    </div>
+</div>
+<div id="asideSearchArticle" class="aside-box">
+	<div class="aside-content search-comter">
+    <div class="aside-search aside-search-blog">         
+        <input type="text" class="input-serch-blog" name="" autocomplete="off" value="" id="search-blog-words" placeholder="搜博主文章">
+        <a class="btn-search-blog">
+                    <img src="//csdnimg.cn/cdn/content-toolbar/csdn-sou.png?v=1587021042">
+        </a>
+    </div>
+    </div>
+</div>
+
+
+<div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list">
+			<li>
+				<a href="https://blog.csdn.net/lizhenneng/article/details/40584277" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/lizhenneng/article/details/40584277","ab":"new"}'>
+				linux 下修改卷标(磁盘名称)
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">23859</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/lizhenneng/article/details/53009733" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/lizhenneng/article/details/53009733","ab":"new"}'>
+				Ubuntu 16.04搭建git服务器
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">8805</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/lizhenneng/article/details/51437614" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/lizhenneng/article/details/51437614","ab":"new"}'>
+				osgearth介绍
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">8611</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/lizhenneng/article/details/51363959" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/lizhenneng/article/details/51363959","ab":"new"}'>
+				Qt 3D Overview
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">7329</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/lizhenneng/article/details/6657957" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/lizhenneng/article/details/6657957","ab":"new"}'>
+				如何隐藏QT窗口在任务栏(taskbar)的任务图标
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">6585</span>
+                </a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="asideCategory" class="aside-box flexible-box" style="display:block!important;">
+    <h3 class="aside-title">分类专栏</h3>
+    <div class="aside-content">
+        <ul>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/lizhenneng/category_853933.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/lizhenneng/category_853933.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756916.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">tech</span>
+                    </span>
+                    <span class="count float-right">51篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/lizhenneng/category_855473.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/lizhenneng/category_855473.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756916.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">life</span>
+                    </span>
+                    <span class="count float-right">9篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/lizhenneng/category_1514345.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/lizhenneng/category_1514345.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756925.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">典故</span>
+                    </span>
+                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/lizhenneng/category_1515019.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/lizhenneng/category_1515019.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756724.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">普通话</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/lizhenneng/category_1515285.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/lizhenneng/category_1515285.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756925.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">交互</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/lizhenneng/category_8362196.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/lizhenneng/category_8362196.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756757.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">育儿</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p class="text-center">
+        <a class="flexible-btn" data-fbox="aside-archive"><img class="look-more" src="https://csdnimg.cn/release/blogv2/dist/pc/img/arrowDownWhite.png" alt=""></a>
+    </p>
+</div>
+<div id="asideNewComments" class="aside-box">
+    <h3 class="aside-title">最新评论</h3>
+    <div class="aside-content">
+        <ul class="newcomment-list">
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/lizhenneng/article/details/7477125#comments_12634462" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/lizhenneng/article/details/7477125#comments_12634462","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/lizhenneng/article/details/7477125#comments_12634462","ab":"new"}'>继承QToolButon实现Qt自定义按钮遇到的事件问题</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/qq_19891691" class="user-name" target="_blank">qq_19891691: </a>
+                    <span class="code-comments">想问一下 为什么我event 加了return QToolButton::event(e)；重绘事件还是没有出现，鼠标移到按钮还是没正常显示</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/lizhenneng/article/details/39519771#comments_8261356" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/lizhenneng/article/details/39519771#comments_8261356","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/lizhenneng/article/details/39519771#comments_8261356","ab":"new"}'>QT5：QPainter+QGLWidget VS QML+SceneGraph performance</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/zhushentian" class="user-name" target="_blank">不甘平凡的小鸟: </a>
+                    <span class="code-comments">SceneGraph 和 QGLWidget 都是用OpenGL渲染的，效率自然也差不多，要对比的话应该用普通的QWidget来测试</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/lizhenneng/article/details/48729849#comments_7851555" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/lizhenneng/article/details/48729849#comments_7851555","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/lizhenneng/article/details/48729849#comments_7851555","ab":"new"}'>几何着色器</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/qq_37947654" class="user-name" target="_blank">-强者自强-: </a>
+                    <span class="code-comments">写的不错</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/lizhenneng/article/details/17789979#comments_3368993" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/lizhenneng/article/details/17789979#comments_3368993","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/lizhenneng/article/details/17789979#comments_3368993","ab":"new"}'>Linux下如何知道文件被那个进程写</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/lizhenneng" class="user-name" target="_blank">lizhenneng: </a>
+                    <span class="code-comments">查找某个文件正在被哪个进程使用,使用lsof |grep filename一般可以找到，不过也可能出现无法找到的情况。</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/lizhenneng/article/details/17789979#comments_3368987" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/lizhenneng/article/details/17789979#comments_3368987","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/lizhenneng/article/details/17789979#comments_3368987","ab":"new"}'>Linux下如何知道文件被那个进程写</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/lizhenneng" class="user-name" target="_blank">lizhenneng: </a>
+                    <span class="code-comments">系统需要安装kernel-debuginfo和kernel-debuginfo-common才能使用</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="asideArchive" class="aside-box">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix">
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/lizhenneng/article/details/86542849" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/lizhenneng/article/details/86542849","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/lizhenneng/article/details/86542849","ab":"new"}'>状态机</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/lizhenneng/article/details/84107854" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/lizhenneng/article/details/84107854","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/lizhenneng/article/details/84107854","ab":"new"}'>孩子在学校被人欺负了，应该怎么办?</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/lizhenneng/article/details/83820097" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/lizhenneng/article/details/83820097","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/lizhenneng/article/details/83820097","ab":"new"}'>grub2在nvidia 1060显卡上的启动问题</a>
+            </li>
+        </ul>
+        <div class="archive-bar"></div>
+        <div class="archive-box">
+                <div class="archive-list-item"><a href="https://blog.csdn.net/lizhenneng/article/month/2019/01" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2019年</span><span class="num">1篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/lizhenneng/article/month/2018/11" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2018年</span><span class="num">4篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/lizhenneng/article/month/2017/07" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2017年</span><span class="num">3篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/lizhenneng/article/month/2016/11" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2016年</span><span class="num">5篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/lizhenneng/article/month/2015/11" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2015年</span><span class="num">4篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/lizhenneng/article/month/2014/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2014年</span><span class="num">8篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/lizhenneng/article/month/2013/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2013年</span><span class="num">17篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/lizhenneng/article/month/2012/07" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2012年</span><span class="num">15篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/lizhenneng/article/month/2011/09" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2011年</span><span class="num">11篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/lizhenneng/article/month/2010/07" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2010年</span><span class="num">15篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/lizhenneng/article/month/2009/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2009年</span><span class="num">8篇</span></a></div>
+        </div>
+    </div>
+</div>
+	<div id="footerRightAds" class="isShowFooterAds">
+		<div class="aside-box">
+			<div id="kp_box_57" data-pid="57"><div id="protag-banner-2"></div>
+<script data-cfasync="false" type="text/javascript" src="https://protagcdn.com/s/csdn.net/bbs/protag-banner-2.js"></script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=57&a=2234&c=0&k=&spm=1001.2101.3001.5001&d=1&t=3&u=ad3a195ab8fb4221a7d9bf7917d260be" style="display: block;width: 0px;height: 0px;"></div>
+		</div>
+	</div>
+    <!-- 详情页显示目录 -->
+<!--文章目录-->
+<div id="asidedirectory" class="aside-box">
+    <div class='groupfile' id="directory">
+        <h3 class="aside-title">目录</h3>
+        <div class="align-items-stretch group_item">
+            <div class="pos-box">
+            <div class="scroll-box">
+                <div class="toc-box"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+</aside>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).parents("p.text-center").remove();
+	})
+</script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-tooltip/2.1/user-tooltip.js"></script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-medal/1.0.5/user-medal.js"></script>    </div>
+<div class="recommend-right  align-items-stretch clearfix" id="rightAside" data-type="recommend">
+    <aside class="recommend-right_aside">
+        <div id="recommend-right" >
+                        <div class='flex-column aside-box groupfile' id="groupfile">
+                <div class="groupfile-div">
+                <h3 class="aside-title">目录</h3>
+                <div class="align-items-stretch group_item">
+                    <div class="pos-box">
+                        <div class="scroll-box">
+                            <div class="toc-box"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+                <div id="recommendAdBox">
+                    <div id="kp_box_479" data-pid="479"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PC-博客内页右侧第一顺位 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-1076724771190722"
+     data-ad-slot="1827473444"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=479&a=3266&c=0&k=&spm=1001.2101.3001.4834&d=1&t=3&u=0d00515c70a9473288c4ceae8dd907ba" style="display: block;width: 0px;height: 0px;"></div>
+                </div>
+            <div class="recommend-list-box d-flex flex-column aside-box" id="recommend-list-box">
+            <ul class="recommend-fixed-box align-items-stretch">
+                <li class="right-item">
+                    <a href="https://plugin.csdn.net/" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.469961.nonecase\"}","index":"1","strategy":"106_469961_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.469961.nonecase\"}","index":"1","strategy":"106_469961_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.469961.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.469961.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>CSDN官方插件，现在体验可获得永久免费去广告特权！</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/powertime_cn/article/details/110820592" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://blog.csdn.net/powertime_cn/article/details/110820592"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://blog.csdn.net/powertime_cn/article/details/110820592"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-3.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-3.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>时代新威专业等级保护测评机构为您解读：2020年最新《定级指南》</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31373" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31373"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31373"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Python Tkinter 数字时钟小项目</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lw7898/13490674" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13490674"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13490674"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-5.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-5.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金蝶云星空 V7.3产品培训_制造_委外管理.pptx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_16613311/article/details/110821944" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/qq_16613311/article/details/110821944"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/qq_16613311/article/details/110821944"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>http请求时nginx会去掉带有下划线（_）的Header键值</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/zacji/article/details/110821943" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://blog.csdn.net/zacji/article/details/110821943"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://blog.csdn.net/zacji/article/details/110821943"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-7.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-7.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>杂米域名好不好?这类杂米域名值得投资</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lw7898/13489488" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489488"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489488"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-8.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-8.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金蝶云星空 V7.3产品培训_财务_应付款管理.pptx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/combo/detail/1964" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1964"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1964"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-9.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-9.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>数据清洗-Pandas系统视频教程</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lw7898/13489490" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489490"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489490"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金蝶云星空 V7.3产品培训_财务_网上银行.pptx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/combo/detail/1960" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1960"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1960"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-11.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-11.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Python零基础入门</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_35968965/article/details/110821942" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://blog.csdn.net/qq_35968965/article/details/110821942"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://blog.csdn.net/qq_35968965/article/details/110821942"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>TCP / IP AT命令</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_44504146/13499140" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_44504146/13499140"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_44504146/13499140"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-13.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-13.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>SpringBoot+ layui +Echarts整合图表实例（统计港口收入预估数据走势）</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/ht370671963/article/details/110822051" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://blog.csdn.net/ht370671963/article/details/110822051"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://blog.csdn.net/ht370671963/article/details/110822051"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-14.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-14.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>git 从远程仓库指定分支clone代码到本地</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31386" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31386"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31386"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Linux实用精讲课程</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31425" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31425"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31425"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>零基础Java入门课程</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31417" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase\"}","index":"17","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31417"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase\"}","index":"17","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31417"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>小白Java入门系列：入门第一课【你的第一个Java程序】</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/bundled/detail/310" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://edu.csdn.net/bundled/detail/310"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://edu.csdn.net/bundled/detail/310"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-18.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-18.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>5大技术入门尝鲜礼包</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31406" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31406"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31406"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>【精品课】Vue.js实现电商后台管理系统（企业项目实战）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/Nicker_/article/details/110819412" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://blog.csdn.net/Nicker_/article/details/110819412"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://blog.csdn.net/Nicker_/article/details/110819412"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>如何创建Cordova插件</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/guang_2011/article/details/110822097" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://blog.csdn.net/guang_2011/article/details/110822097"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://blog.csdn.net/guang_2011/article/details/110822097"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-21.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-21.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>文字变大函数</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_41512245/13499015" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_41512245/13499015"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_41512245/13499015"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-22.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-22.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>&ldquo;带货&rdquo;的逻辑-直播电商产业链研究报告.pdf</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_45851011/article/details/110822010" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://blog.csdn.net/weixin_45851011/article/details/110822010"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://blog.csdn.net/weixin_45851011/article/details/110822010"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-23.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-23.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Springboot（1）----动态获取数据库密码进行使用</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/ht370671963/article/details/110822022" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://blog.csdn.net/ht370671963/article/details/110822022"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://blog.csdn.net/ht370671963/article/details/110822022"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Flex布局-垂直居中并换行显示内容</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lw7898/13489460" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489460"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489460"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-25.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-25.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金蝶云星空 V7.3新增功能_财务_产品成本核算.pptx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/Yuan_Hang723/article/details/110821538" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://blog.csdn.net/Yuan_Hang723/article/details/110821538"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://blog.csdn.net/Yuan_Hang723/article/details/110821538"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>关于缓存穿透、缓存击穿、缓存雪崩的模拟与解决(Redis)</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/fafagege11520/article/details/110790781" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://blog.csdn.net/fafagege11520/article/details/110790781"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://blog.csdn.net/fafagege11520/article/details/110790781"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-27.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-27.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>机器学习深版04：提升</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/luosijiedenixi/13489506" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://download.csdn.net/download/luosijiedenixi/13489506"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://download.csdn.net/download/luosijiedenixi/13489506"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>csv批量合成到一个excel文件里</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/fangfu123/article/details/110821224" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://blog.csdn.net/fangfu123/article/details/110821224"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://blog.csdn.net/fangfu123/article/details/110821224"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-29.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-29.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>修改Docker容器的时区为中国时区</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_44607773/13489480" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_44607773/13489480"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_44607773/13489480"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>算法导论 第三版 完整答案 英</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/Yang_XiaoYang/13489470" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://download.csdn.net/download/Yang_XiaoYang/13489470"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://download.csdn.net/download/Yang_XiaoYang/13489470"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>划词翻译插件-沙拉查词</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/aliexken/article/details/110807152" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://blog.csdn.net/aliexken/article/details/110807152"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://blog.csdn.net/aliexken/article/details/110807152"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>OpenGL高级版本学习日志2：光照模型&amp;材质</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31356" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31356"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31356"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-33.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-33.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>数组的查找</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/Xx_Oneqian/13489498" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://download.csdn.net/download/Xx_Oneqian/13489498"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://download.csdn.net/download/Xx_Oneqian/13489498"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>AI课程精品，细致讲解，感兴趣的私聊通知我，后续课程发送</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/jessica0307/article/details/110817782" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://blog.csdn.net/jessica0307/article/details/110817782"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://blog.csdn.net/jessica0307/article/details/110817782"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>材料与化学数据库分享</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/wenlong_15/article/details/110822040" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://blog.csdn.net/wenlong_15/article/details/110822040"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://blog.csdn.net/wenlong_15/article/details/110822040"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>javascript 判断括号是否配对。</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31418" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31418"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31418"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Net公司网站开发实战（基于vs2019、SQL2012)</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31414" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31414"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31414"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-38.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-38.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>QT QML声明式状态机</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_40929065/13489464" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_40929065/13489464"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_40929065/13489464"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-39.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-39.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>三维装箱算法研究-系统后端.zip</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_51589394/article/details/110822072" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://blog.csdn.net/weixin_51589394/article/details/110822072"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://blog.csdn.net/weixin_51589394/article/details/110822072"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-40.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-40.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>实验报告，共同进步（一）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+            </ul>
+            </div>
+        </div>
+    </aside>
+</div>
+
+</div>
+<div class="mask-dark"></div>
+<script type="text/javascript">
+    var timert = setInterval(function(){
+      sideToolbar = $(".csdn-side-toolbar");
+      if (sideToolbar.length > 0) {
+        sideToolbar.css('cssText','bottom:64px !important;')
+        clearInterval(timert);
+      }
+    }, 200);
+</script>
+<script>
+    var articleId = 48729849;
+    var commentscount = 1;
+    var curentUrl = "https://blog.csdn.net/iron_lzn/article/details/48729849";
+    var myUrl = "https://my.csdn.net/";
+    var highlight = ["几何","着色器"];//高亮数组
+    var share_card_url = "https://blog.csdn.net/lizhenneng/article/shareArticleCardPage?article_id=48729849"
+	var articleType = 1;
+    var baiduKey = "几何着色器";
+    var needInsertBaidu = true;
+    var recommendRegularDomainArr = ["blog.csdn.net/.+/article/details/","download.csdn.net/download/","edu.csdn.net/course/detail/","ask.csdn.net/questions/","bbs.csdn.net/topics/","www.csdn.net/gather_.+/"]
+    var codeStyle = "";
+    var baiduSearchType = "title";
+    var canRead = true;
+    var blogMoveHomeArticle = false;
+    var showPcWindowAd = false;
+</script>
+<script src="https://csdnimg.cn/public/sandalstrap/1.4/js/sandalstrap.min.js"></script>
+<div class="skin-boxshadow"></div>
+<div style="display:none;">
+	<img src="" onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+</div>
+</body>
+    <!-- 富文本柱状图  -->
+	<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/chart/chart.css"/>
+	<script type="text/javascript" src="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/chart/lib/chart.min.js"></script>
+    <script type="text/javascript" src="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/chart/widget2chart.js"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_highlight-db1e81323a.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_common-906586e915.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/codesnippet/lib/highlight/styles/atom-one-light.css">
+<script>
+ // 全局声明
+ if (window.csdn === undefined) {
+      window.csdn = {};
+    }
+    window.csdn.sideToolbar = {
+        options: {
+            report:{
+                isShow: true,
+            },
+            qr: {
+                isShow: false,
+            },
+            guide: {
+                isShow: true
+            }
+        }
+    }
+    $(function(){
+        $(document).on('click',"a.option-box[data-type='report']",function() {
+            window.csdn.userLogin.loadAjax(function(res){
+                showReport(false,articleTitles);
+            })
+        });
+    })
+</script>
+    <script src="https://g.csdnimg.cn/baidu-search/1.0.7/baidu-search.js"  type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/download/old_static/js/qrcode.js"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/common-b286f966c8.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/detail-c3206d1df7.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/user-ordercart/1.0.6/user-ordercart.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/column-78261cfea6.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/side-toolbar/2.8/side-toolbar.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/copyright/1.0.3/copyright.js" type="text/javascript"></script>
+<script>
+    $(".MathJax").remove();
+    if ($('div.markdown_views pre.prettyprint code.hljs').length > 0) {
+        $('div.markdown_views')[0].className = 'markdown_views';
+    }
+</script>
+<script type="text/javascript" src="https://csdnimg.cn/release/blog_mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            "HTML-CSS": {
+                    linebreaks: { automatic: true, width: "94%container" },
+                    imageFont: null
+            },
+            tex2jax: {
+                preview: "none"
+            },
+            mml2jax: {
+                preview: 'none'
+            }
+    });
+</script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/user-login/2.3.2/user-login.js"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/login-box/1.1.4/login-box.js"></script></html>

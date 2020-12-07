@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="一、环境准备： 系统环境win7,64位，双显卡：集成显卡&#x2B;gt540m，gt540建议下载最新的驱动，可以支持到opengl4.3标准，一般双显的笔记本，程序默认启用的是集显，我机器的集显驱动有点老" />
+    <meta property="og:description" content="一、环境准备： 系统环境win7,64位，双显卡：集成显卡&#x2B;gt540m，gt540建议下载最新的驱动，可以支持到opengl4.3标准，一般双显的笔记本，程序默认启用的是集显，我机器的集显驱动有点老" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>win7,64bit下的OpenGL着色语言（glsl）开发环境配置（原） - 程序创造世界 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=R2wBwmwSMG0Sqiw8GFSVjHT4Payg_JFAn51R8XcuvN0" />
+    <link id="MainCss" rel="stylesheet" href="/skins/codinglife/bundle-codinglife.min.css?v=FsApk7eFqynriWBr2WTK1wLXK195LmCQXIezyTcH0Ss" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/codinglife/bundle-codinglife-mobile.min.css?v=VdN8Las2tPHZ0_VGM-H30hnBIcNWAKfCWmdIs14AsU8" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/yanhuiw/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/yanhuiw/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/yanhuiw/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 59536;
+        var currentBlogApp = 'yanhuiw';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'CodingLife';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2013-08-25 05:31';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=gWQ9VKr6FSwo14EgofSprzXJrAEO7ppQ1I5Or4uqKuo"></script>
+    
+    
+    
+</head>
+<body class="has-navbar has-bannerbar">
+    <a name="top"></a>
+            <a href="https://brands.cnblogs.com/aws/free?source=blog-bannerbar" onclick="ga('send', 'event', 'Link', 'click', 'aws-pc-bannerbar')">
+                <div class="bannerbar aws forpc">
+                    <img class="left" src="https://common.cnblogs.com/images/banner/bannerbar-aws-logo.png" alt="" />
+                    <img class="right" src="https://common.cnblogs.com/images/banner/bannerbar-aws-ssh.png?v=2" alt="" />
+                </div>
+            </a>
+        <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://brands.cnblogs.com/aws/free?source=mobile-banner" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aws-mobile-bannerbar')"><img src="https://img2020.cnblogs.com/blog/35695/202012/35695-20201203212730693-184275650.png" alt="" /></a>
+        </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/yanhuiw/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/yanhuiw/">老王闲聊</a>
+</h1>
+<h2>Aal izz well</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/yanhuiw/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E7%A8%8B%E5%BA%8F%E5%88%9B%E9%80%A0%E4%B8%96%E7%95%8C">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/yanhuiw/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 84&nbsp; </span>
+<span id="stats_article_count">文章 - 7&nbsp; </span>
+<span id="stats-comment_count">评论 - 56</span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanhuiw/p/3281028.html">
+    <span>win7,64bit下的OpenGL着色语言（glsl）开发环境配置（原）</span>
+    
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body">
+    <p>&nbsp;</p>
+<p>一、环境准备：</p>
+<p>　　系统环境win7,64位，双显卡：集成显卡+gt540m，gt540建议下载最新的驱动，可以支持到opengl4.3标准，一般双显的笔记本，程序默认启用的是集显，我机器的集显驱动有点老，只能支持到opengl3.0，所以讲默认显卡设置为独显。</p>
+<p>　　开发环境：vs2010</p>
+<p>　　PS：查看机器及显卡支持的OpenGL版本可以使用工具GPU_Caps_Viewer_v1.18.1或者更高版本</p>
+<p>二、OpenGL拓展包下载：</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; <strong>2.1 GLEW</strong>：windows开发环境，默认只支持opengl1.1的环境，但 OpenGL现在都发展到4.4了，要使用这些OpenGL的高级特性，就必须下载最新的扩展，另外，不同的显卡公司，也会发布一些只有自家显卡才支 持的扩展函数，你要想用这数涵数，不得不去寻找最新的glext.h,有了GLEW扩展库，你就再也不用为找不到函数的接口而烦恼，<span style="color: rgba(255, 0, 0, 1)">因为GLEW能自动识 别你的平台所支持的全部OpenGL高级扩展涵数。也就是说，只要包含一个glew.h头文件，你就能使用gl,glu,glext,wgl,glx的全 部函数。GLEW支持目前流行的各种操作系统</span>（including Windows, Linux, Mac OS X, FreeBSD, Irix, and Solaris）。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; GLEW下载地址：<a href="http://glew.sourceforge.net/">http://glew.sourceforge.net/</a>，目前最新版本1.10</p>
+<p>　　GLEW下载完成后，bin下面有个glewinfo.exe，直接运行，会在同目录下市场一个txt文件，显示系统显卡支持的opengl版本和具体函数。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; <strong>2.2 FreeGlut</strong>：<span style="font: normal 12px / normal 微软雅黑, Verdana, sans-serif, 宋体; text-align: left; color: rgba(102, 102, 102, 1); text-transform: none; text-indent: 0; letter-spacing: normal; word-spacing: 0; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; font-size-adjust: none; background-color: rgba(255, 255, 221, 1); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px">Freeglut是一个GLUT (OpenGL Utility Toolkit) 的开源实现，使用非常广泛。OpenGL Redbook使用Freeglut代替GLUT编写代码，因为老的glut诸多不方便的协议，所以freeglut可作为glut的替代版本，具体可以参考<a href="http://baike.baidu.com/link?url=4xGj7YahqPtwq_o_1gX0LMrnJkMTx9M8wVe1sEIXsg3AofYKfurbZ8-NZrBS3I5geNhbWnZI7YCqLZ_5T3fa0a">http://baike.baidu.com/link?url=4xGj7YahqPtwq_o_1gX0LMrnJkMTx9M8wVe1sEIXsg3AofYKfurbZ8-NZrBS3I5geNhbWnZI7YCqLZ_5T3fa0a</a></span></p>
+<p><span style="font: normal 12px / normal 微软雅黑, Verdana, sans-serif, 宋体; text-align: left; color: rgba(102, 102, 102, 1); text-transform: none; text-indent: 0; letter-spacing: normal; word-spacing: 0; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; font-size-adjust: none; background-color: rgba(255, 255, 221, 1); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FreeGLut下载地址：<a href="http://www.transmissionzero.co.uk/software/freeglut-devel/">http://www.transmissionzero.co.uk/software/freeglut-devel/</a>，目前最新版本2.8</span></p>
+<p><span style="font: normal 12px / normal 微软雅黑, Verdana, sans-serif, 宋体; text-align: left; color: rgba(102, 102, 102, 1); text-transform: none; text-indent: 0; letter-spacing: normal; word-spacing: 0; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; font-size-adjust: none; background-color: rgba(255, 255, 221, 1); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px">三、环境配置</span></p>
+<p><span style="font: normal 12px / normal 微软雅黑, Verdana, sans-serif, 宋体; text-align: left; color: rgba(102, 102, 102, 1); text-transform: none; text-indent: 0; letter-spacing: normal; word-spacing: 0; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; font-size-adjust: none; background-color: rgba(255, 255, 221, 1); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px">　　下载glew解压，讲include下面的头文件盒lib下面的库文件，拷贝到windows SDK中。不同的系统或者开发安装包可能不一样，我的机器是，头文件拷贝到：C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include\gl，库文件拷贝到C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib，如果装的vs版本太多，可能有v6，v5之类的，vs2010对应的是v7.0，vs2008对应的是v6.0,如果安装的是64位，拷贝的地址应该为：C:\Program Files \Microsoft SDKs\Windows\v7.0A\Include\gl</span></p>
+<p><span style="font: normal 12px / normal 微软雅黑, Verdana, sans-serif, 宋体; text-align: left; color: rgba(102, 102, 102, 1); text-transform: none; text-indent: 0; letter-spacing: normal; word-spacing: 0; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; font-size-adjust: none; background-color: rgba(255, 255, 221, 1); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 解压freeglut，同样拷贝头文件和库文件到glew拷贝的路径下。</span></p>
+<p><span style="font: normal 12px / normal 微软雅黑, Verdana, sans-serif, 宋体; text-align: left; color: rgba(102, 102, 102, 1); text-transform: none; text-indent: 0; letter-spacing: normal; word-spacing: 0; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; font-size-adjust: none; background-color: rgba(255, 255, 221, 1); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px"><img src="https://images0.cnblogs.com/blog/49785/201308/25172909-cb532b0774cd4e598af16853fd5e737c.png" alt=""></span></p>
+<p><span style="font: normal 12px / normal 微软雅黑, Verdana, sans-serif, 宋体; text-align: left; color: rgba(102, 102, 102, 1); text-transform: none; text-indent: 0; letter-spacing: normal; word-spacing: 0; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; font-size-adjust: none; background-color: rgba(255, 255, 221, 1); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px">四、下载示例代码</span></p>
+<p><span style="font: normal 12px / normal 微软雅黑, Verdana, sans-serif, 宋体; text-align: left; color: rgba(102, 102, 102, 1); text-transform: none; text-indent: 0; letter-spacing: normal; word-spacing: 0; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; font-size-adjust: none; background-color: rgba(255, 255, 221, 1); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px">　　如果没有写过glsl程序，可以去三光网站下载一个入门的示例代码，如：<a href="http://www.lighthouse3d.com/tutorials/glsl-tutorial/setup-for-glsl-example/">http://www.lighthouse3d.com/tutorials/glsl-tutorial/setup-for-glsl-example/</a>，一个简单的茶壶示例，具体的着色语言语法这里就不解释了，下载下来或者<a href="http://www.pudn.com/downloads569/sourcecode/graph/detail2339088.html">通过代码地址下载</a></span></p>
+<p><span style="font: normal 12px / normal 微软雅黑, Verdana, sans-serif, 宋体; text-align: left; color: rgba(102, 102, 102, 1); text-transform: none; text-indent: 0; letter-spacing: normal; word-spacing: 0; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; font-size-adjust: none; background-color: rgba(255, 255, 221, 1); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px">　　下载程序下来之后，默认应该是vc6的工程，直接讲dsw用vs2010打开</span></p>
+<p><span style="font: normal 12px / normal 微软雅黑, Verdana, sans-serif, 宋体; text-align: left; color: rgba(102, 102, 102, 1); text-transform: none; text-indent: 0; letter-spacing: normal; word-spacing: 0; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; font-size-adjust: none; background-color: rgba(255, 255, 221, 1); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 程序默认没有设置链接库，可以使用代码：</span></p>
+<p><span style="font: normal 12px / normal 微软雅黑, Verdana, sans-serif, 宋体; text-align: left; color: rgba(102, 102, 102, 1); text-transform: none; text-indent: 0; letter-spacing: normal; word-spacing: 0; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; font-size-adjust: none; background-color: rgba(255, 255, 221, 1); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px">　　#pragma comment(lib,"glew32.lib")<br>　　#pragma comment(lib,"freeglut.lib")</span></p>
+<p><span style="font: normal 12px / normal 微软雅黑, Verdana, sans-serif, 宋体; text-align: left; color: rgba(102, 102, 102, 1); text-transform: none; text-indent: 0; letter-spacing: normal; word-spacing: 0; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; font-size-adjust: none; background-color: rgba(255, 255, 221, 1); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px">　　或者在project下面的链接器-&gt;输入-&gt;附加依赖项，输入glew32.lib和freeglut.lib。</span></p>
+<p><span style="font: normal 12px / normal 微软雅黑, Verdana, sans-serif, 宋体; text-align: left; color: rgba(102, 102, 102, 1); text-transform: none; text-indent: 0; letter-spacing: normal; word-spacing: 0; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; font-size-adjust: none; background-color: rgba(255, 255, 221, 1); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px">五、直接编译，运行程序，会报glew32.dll缺失，可以讲刚才下载的glew32.dll和freeglut.dll放到程序的生成路径下，即跟生成的exe放在同一个目录中。再次运行，会出现：</span></p>
+<p><span style="font: normal 12px / normal 微软雅黑, Verdana, sans-serif, 宋体; text-align: left; color: rgba(102, 102, 102, 1); text-transform: none; text-indent: 0; letter-spacing: normal; word-spacing: 0; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; font-size-adjust: none; background-color: rgba(255, 255, 221, 1); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px"><img src="https://images0.cnblogs.com/blog/49785/201308/25172851-63ba44a4b8af4cf6854491c7e38febd2.png" alt=""></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>PS:如果用的是笔记本双显卡，如果vs启动用的是默认选择独立显卡（在启动程序上点击右键，有个“用图形显示处理器运行”选项，选择你的独立显卡），这样才能支持独立显卡的特性进行调试</p>
+<p>&nbsp;</p>
+<p>感谢的参考资料：</p>
+<p><a href="http://openglbook.com/setting-up-opengl-glew-and-freeglut-in-visual-c/">1.http://openglbook.com/setting-up-opengl-glew-and-freeglut-in-visual-c/</a></p>
+<p>2.<a href="http://www.cnblogs.com/madfrog/archive/2010/06/25/1765259.html">http://www.cnblogs.com/madfrog/archive/2010/06/25/1765259.html</a></p>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2013-08-25 17:31</span>&nbsp;
+<a href="https://www.cnblogs.com/yanhuiw/">程序创造世界</a>&nbsp;
+阅读(<span id="post_view_count">3234</span>)&nbsp;
+评论(<span id="post_comment_count">1</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=3281028" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(3281028);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 59536, cb_blogApp = 'yanhuiw', cb_blogUserGuid = 'fcb8a8e1-82fe-dd11-9e4d-001cf0cd104b';
+    var cb_entryId = 3281028, cb_entryCreatedDate = '2013-08-25 17:31', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 程序创造世界
+<br /><span id="poweredby">Powered by .NET 5.0.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+</body>
+</html>

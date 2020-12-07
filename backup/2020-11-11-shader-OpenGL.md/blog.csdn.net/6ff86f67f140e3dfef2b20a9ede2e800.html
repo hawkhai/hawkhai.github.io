@@ -1,0 +1,1922 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://blog.csdn.net/iEearth/article/details/71180457"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="report" content='{"pid": "blog", "spm":"1001.2101"}'>
+    <meta name="referrer" content="always">
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <meta name="applicable-device" content="pc">
+    <link  href="https://g.csdnimg.cn/static/logo/favicon32.ico"  rel="shortcut icon" type="image/x-icon" />
+    <title>【OpenGL ES】EGL简介_evo-CSDN博客</title>
+    <script>
+      (function(){ 
+        var el = document.createElement("script"); 
+        el.src = "https://s3a.pstatp.com/toutiao/push.js?1abfa13dfe74d72d41d83c86d240de427e7cac50c51ead53b2e79d40c7952a23ed7716d05b4a0f683a653eab3e214672511de2457e74e99286eb2c33f4428830"; 
+        el.id = "ttzz"; 
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(el, s);
+      })(window)
+    </script>
+        <meta name="keywords" content="【OpenGL ES】EGL简介">
+        <meta name="csdn-baidu-search"  content='{"autorun":true,"install":true,"keyword":"【OpenGL ES】EGL简介"}'>
+    <meta name="description" content="【参考-khronos-egl】https://www.khronos.org/egl 【参考-khronos-egl-api（目前共34个API）】https://www.khronos.org/registry/EGL/sdk/docs/man/ 【参考-khronos-egl-intro】https://www.khronos.org/registry/EGL/sdk/docs/man/h">
+    <script src='//g.csdnimg.cn/tingyun/1.8.3/blog.js' type='text/javascript'></script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/css/detail_enter-5f2d8f6575.min.css">
+    <script type="application/ld+json">{"@context":"https://ziyuan.baidu.com/contexts/cambrian.jsonld","@id":"https://blog.csdn.net/iEearth/article/details/71180457","appid":"1638831770136827","pubDate":"2017-05-04T20:28:50","title":"【OpenGL ES】EGL简介_evo-CSDN博客","upDate":"2017-05-04T20:28:50"}</script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/themesSkin/skin-blackaction/skin-blackaction-951205ffe6.min.css">
+    <script src="https://csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var isCorporate = false;//注释删除enterprise
+        var username =  "iEearth";
+        var skinImg = "white";
+        var blog_address = "https://aidear.blog.csdn.net";
+        var currentUserName = "";
+        var isOwner = false;
+        var loginUrl = "http://passport.csdn.net/account/login?from=https://blog.csdn.net/iEearth/article/details/71180457";
+        var blogUrl = "https://blog.csdn.net/";
+        var avatar = "https://profile.csdnimg.cn/D/4/8/3_ieearth";
+        var articleTitle = "【OpenGL ES】EGL简介";
+        var articleDesc = "【参考-khronos-egl】https://www.khronos.org/egl 【参考-khronos-egl-api（目前共34个API）】https://www.khronos.org/registry/EGL/sdk/docs/man/ 【参考-khronos-egl-intro】https://www.khronos.org/registry/EGL/sdk/docs/man/h";
+        var articleTitles = "【OpenGL ES】EGL简介_evo-CSDN博客";
+        var nickName = "evoo";
+        var articleDetailUrl = "https://aidear.blog.csdn.net/article/details/71180457";
+        if(window.location.host.split('.').length == 3) {
+            blog_address = blogUrl + username;
+        }
+        var skinStatus = "Black";
+        var blogStaticHost = "https://csdnimg.cn/release/blogv2/"
+    </script>
+        <meta name="toolbar" content='{"type":"1"}'>
+        <script>
+            window.csdn = window.csdn ? window.csdn : {};
+            window.csdn.toolbarIsBlack = true;
+            window.csdn.sideToolbar = {
+                options: {
+                    theme : "black"
+                }
+            }
+        </script>
+    <script src="https://g.csdnimg.cn/??fixed-sidebar/1.1.6/fixed-sidebar.js" type="text/javascript"></script>
+    <script src='//g.csdnimg.cn/common/csdn-report/report.js' type='text/javascript'></script>
+    <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css">
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+    <script src="https://dup.baidustatic.com/js/ds.js"></script>
+</head>
+<body class="nodata " style="">
+        <script>
+            var toolbarSearchExt = '{"landingWord":[],"queryWord":"","tag":["EGL"],"title":"【OpenGL ES】EGL简介"}';
+        </script>
+    <script src="https://g.csdnimg.cn/common/csdn-toolbar/csdn-toolbar.js" type="text/javascript"></script>
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/pc/css/blog_code-01256533b5.min.css">
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/chart-3456820cac.css" />
+<div class="main_father clearfix d-flex justify-content-center" style="height:100%;"> 
+    <div class="container clearfix" id="mainBox">
+        <main>
+<script type="text/javascript">
+    var blogSensitiveWords = "";
+</script>
+<div class="blog-content-box">
+    <div class="article-header-box">
+        <div class="article-header">
+            <div class="article-title-box">
+                <h1 class="title-article" id="articleContentId">【OpenGL ES】EGL简介</h1>
+            </div>
+            <div class="article-info-box">
+                <div class="article-bar-top">
+                    <img class="article-type-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/original.png" alt="">
+                    <div class="bar-content">
+                    <a class="follow-nickName " href="https://aidear.blog.csdn.net" target="_blank" rel="noopener">evoo</a>
+                    <span class="time">2017-05-04 20:28:50</span>
+                    <img class="article-read-img article-heard-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/articleReadEyes.png" alt="">
+                    <span class="read-count">14148</span>
+                    <a id="blog_detail_zk_collection" class="un-collection" data-report-click='{"mod":"popu_823","spm":"1001.2101.3001.4232","ab":"new"}'>
+                        <img class="article-collect-img article-heard-img un-collect-status isdefault" style="display:inline-block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                        <img class="article-collect-img article-heard-img collect-status isactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                        <span class="name">收藏</span>
+                        <span class="get-collection">
+                            12
+                        </span>
+                    </a>
+                    </div>
+                </div>
+                <div class="blog-tags-box">
+                    <div class="tags-box artic-tag-box">
+                            <span class="label">分类专栏：</span>
+                                <a class="tag-link" href="https://blog.csdn.net/ieearth/category_9267908.html" target="_blank" rel="noopener">图形图像</a>
+                            <span class="label">文章标签：</span>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"EGL","ab":"new"}' class="tag-link" href="https://so.csdn.net/so/search/s.do?q=EGL&t=blog&o=vip&s=&l=&f=&viparticle=" target="_blank" rel="noopener">EGL</a>
+                    </div>
+                </div>
+                <div class="up-time"><span>最后发布:2017-05-04 20:28:50</span><span>首次发布:2017-05-04 20:28:50</span></div>
+                <div class="slide-content-box">
+                    <div class="article-copyright">
+                        <div class="creativecommons">
+                            版权声明：本文为博主原创文章，遵循<a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener"> CC 4.0 BY-SA </a>版权协议，转载请附上原文出处链接和本声明。
+                        </div>
+                        <div class="article-source-link">
+                            本文链接：<a href="https://blog.csdn.net/iEearth/article/details/71180457" target="_blank">https://blog.csdn.net/iEearth/article/details/71180457</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="operating">
+                    <a class="href-article-edit slide-toggle">版权</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <article class="baidu_pl">
+        <div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-b5506197d8.css">
+                <div id="content_views" class="markdown_views prism-tomorrow-night">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <p>【参考-khronos-egl&#xff08;最新版本1.5&#xff09;】<a href="https://www.khronos.org/egl" target="_blank" rel="noopener noreferrer">https://www.khronos.org/egl</a> <br /> 【参考-khronos-egl-api&#xff08;目前共34个API&#xff0c;不包括Khronos扩展&#xff09;】<a href="https://www.khronos.org/registry/EGL/sdk/docs/man/" target="_blank" rel="noopener noreferrer">https://www.khronos.org/registry/EGL/sdk/docs/man/</a> <br /> 【参考-khronos-egl-intro】<a href="https://www.khronos.org/registry/EGL/sdk/docs/man/html/eglIntro.xhtml" target="_blank" rel="noopener noreferrer">https://www.khronos.org/registry/EGL/sdk/docs/man/html/eglIntro.xhtml</a></p> 
+<h2 id="0概述">0、概述</h2> 
+<p>EGL&#xff0c;它是图形渲染API&#xff08;如OpenGL ES&#xff09;与本地平台窗口系统的一层接口&#xff0c;保证了OpenGL ES的平台独立性。EGL提供了若干功能&#xff1a;创建rendering surface、创建graphics context、同步应用程序和本地平台渲染API、提供对显示设备的访问、提供对渲染配置的管理等。</p> 
+<p>EGL&#xff08;The Khronos Platform Graphics Interface&#xff09;提供了一种方法用于通过客户端API和本地窗口系统进行渲染&#xff0c;客户端API包括用于嵌入式系统的3D渲染器OpenGL ES、用于桌面系统的OpenGL ES的超集OpenGL、2D矢量图形渲染器OpenVG&#xff0c;本地窗口系统包括Windows、X。</p> 
+<p>基于EGL的实现&#xff0c;它或多或少与本地窗口系统紧密关联&#xff0c;大多数EGL功能都需要一个显示连接&#xff0c;这可以通过函数eglGetDisplay获得&#xff0c;然后通过函数eglInitialize初始化显示连接并获得EGL版本号。</p> 
+<p>本地窗口系统使得EGL的一系列图形可用于客户端API的渲染&#xff0c;这些图形可能是pixel格式、frame buffer配置等&#xff0c;通过这些图形还可能通过本地窗口系统的API创建window和pixmap。</p> 
+<p>EGL的surface从本地window或pixmap扩展而来&#xff0c;还带有一些额外的buffer&#xff0c;包括color buffer、depth buffer、stencil buffer和alpha mask buffer&#xff0c;在EGL的frame buffer配置中包含这些额外buffer的部分或全部。</p> 
+<p>EGL支持三种类型的surface渲染&#xff0c;分别是window、pixmap和pixel buffer。其中&#xff0c;window和pixmap类型的surface与本地窗口系统对应的资源息息相关&#xff1b;而pixel buffer则是EGL资源独享的&#xff0c;不可通过本地窗口系统进行渲染。</p> 
+<p>为了能够在EGL的surface上使用客户端API进行渲染&#xff0c;必须使用应用程序需要的渲染特性来配置合适的EGL frame buffer&#xff0c;相关的三个函数为eglChooseConfig、eglGetConfigs和eglGetConfigAttrib。对于window和pixmap类型的EGL surface来说&#xff0c;合适的本地window或pixmap匹配了本地图形时&#xff0c;应该首先被创建出来&#xff1b;对于一个给定个EGL frame buffer配置&#xff0c;可以通过eglGetConfigAttrib获取本地图形的类型和ID&#xff1b;而对于pixpel buffer来说&#xff0c;则不需本地资源。</p> 
+<p>从本地窗口创建EGL的window surface时调用eglCreateWindowSurface&#xff0c;从本地pixmap创建EGL的pixmap surface时调用eglCreatePixmapSurface&#xff0c;而创建与本地buffer无关联的EGL pixel buffer surface时&#xff0c;则使用eglCreatePbufferSurface&#xff0c;通过eglCreatePbufferFromClientBuffer创建的pbuffer surface的color buffer则是由OpenVG提供的&#xff0c;使用eglDestroySurface可以释放之前分配的资源。</p> 
+<p>绑定客户端的渲染与EGL的surface时&#xff0c;需要用到EGL渲染context&#xff0c;context与surface的frame buffer配置必须是兼容的&#xff0c;通过eglCreateContext创建EGL渲染context&#xff0c;客户端API的类型还会被第一次调用eglBindAPI而设定。</p> 
+<p>通过eglMakeCurrent可能绑定了一个EGL渲染context到一个或多个EGL surface&#xff0c;这样context和surface就建立了关系&#xff0c;后面的客户端API渲染都使用了同样的context&#xff0c;直到以不同的参数来再次调用eglMakeCurrent。</p> 
+<p>在同一个surface上可能同时执行了本地和客户端API的命令&#xff0c;但它们不是同步的&#xff0c;同步需要调用eglWaitClient或eglWaitNative&#xff0c;或者是其它的本地窗口系统命令。</p> 
+<p>下面是一个非常简单的例子&#xff0c;用于创建RGBA格式的window&#xff0c;通过OpenGL ES进行渲染&#xff0c;程序运行后&#xff0c;window颜色为黄色。</p> 
+<pre class="prettyprint"><code class=" hljs objectivec"><span class="hljs-preprocessor">#include &lt;stdlib.h&gt;</span>
+<span class="hljs-preprocessor">#include &lt;unistd.h&gt;</span>
+<span class="hljs-preprocessor">#include &lt;GLES/egl.h&gt;</span>
+<span class="hljs-preprocessor">#include &lt;GLES/gl.h&gt;</span>
+<span class="hljs-keyword">typedef</span> ... NativeWindowType;
+<span class="hljs-keyword">extern</span> NativeWindowType createNativeWindow(<span class="hljs-keyword">void</span>);
+<span class="hljs-keyword">static</span> EGLint <span class="hljs-keyword">const</span> attribute_list[] &#61; {
+        EGL_RED_SIZE, <span class="hljs-number">1</span>,
+        EGL_GREEN_SIZE, <span class="hljs-number">1</span>,
+        EGL_BLUE_SIZE, <span class="hljs-number">1</span>,
+        EGL_NONE
+};
+<span class="hljs-keyword">int</span> main(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> ** argv)
+{
+        EGLDisplay display;
+        EGLConfig config;
+        EGLContext context;
+        EGLSurface surface;
+        NativeWindowType native_window;
+        EGLint num_config;
+        <span class="hljs-comment">/* get an EGL display connection */</span>
+        display &#61; eglGetDisplay(EGL_DEFAULT_DISPLAY);
+        <span class="hljs-comment">/* initialize the EGL display connection */</span>
+        eglInitialize(display, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+        <span class="hljs-comment">/* get an appropriate EGL frame buffer configuration */</span>
+        eglChooseConfig(display, attribute_list, &amp;config, <span class="hljs-number">1</span>, &amp;num_config);
+        <span class="hljs-comment">/* create an EGL rendering context */</span>
+        context &#61; eglCreateContext(display, config, EGL_NO_CONTEXT, <span class="hljs-literal">NULL</span>);
+        <span class="hljs-comment">/* create a native window */</span>
+        native_window &#61; createNativeWindow();
+        <span class="hljs-comment">/* create an EGL window surface */</span>
+        surface &#61; eglCreateWindowSurface(display, config, native_window, <span class="hljs-literal">NULL</span>);
+        <span class="hljs-comment">/* connect the context to the surface */</span>
+        eglMakeCurrent(display, surface, surface, context);
+        <span class="hljs-comment">/* clear the color buffer */</span>
+        glClearColor(<span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>);
+        glClear(GL_COLOR_BUFFER_BIT);
+        glFlush();
+        eglSwapBuffers(display, surface);
+        sleep(<span class="hljs-number">10</span>);
+        <span class="hljs-keyword">return</span> EXIT_SUCCESS;
+}</code></pre> 
+<h2 id="1基本类型">1、基本类型</h2> 
+<p>使用EGL时&#xff0c;需要链接libEGL库文件&#xff0c;最新版本为EGL 1.5&#xff0c;相关头文件有以下几个&#xff1a;</p> 
+<pre class="prettyprint"><code class=" hljs vala"><span class="hljs-preprocessor">#include &lt;EGL/egl.h&gt;</span>
+<span class="hljs-preprocessor">#include &lt;EGL/eglext.h&gt;</span>
+<span class="hljs-preprocessor">#include &lt;EGL/eglplatform.h&gt;</span>
+<span class="hljs-preprocessor">#include &lt;KHR/khrplatform.h&gt;</span></code></pre> 
+<p>EGL的API名字基本以egl关键字开头&#xff0c;格式固定。egl.h声明了EGL API&#xff0c;eglext.h是对EGL的扩展&#xff0c;eglplatform.h保证了EGL的平台独立性。</p> 
+<p>EGL定义了如下基本类型&#xff1a;</p> 
+<pre class="prettyprint"><code class=" hljs objectivec"><span class="hljs-comment">// EGL 1.0</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> EGLBoolean;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">void</span> *EGLDisplay;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">void</span> *EGLConfig;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">void</span> *EGLSurface;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">void</span> *EGLContext;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">void</span> (*__eglMustCastToProperFunctionPointerType)(<span class="hljs-keyword">void</span>);
+
+<span class="hljs-comment">// EGL 1.2</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> EGLenum;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">void</span> *EGLClientBuffer;
+
+<span class="hljs-comment">// EGL 1.5</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">void</span> *EGLSync;
+<span class="hljs-keyword">typedef</span> intptr_t EGLAttrib; <span class="hljs-comment">// for void*</span>
+<span class="hljs-keyword">typedef</span> khronos_utime_nanoseconds_t EGLTime; <span class="hljs-comment">// uint64_t</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">void</span> *EGLImage;
+
+<span class="hljs-keyword">typedef</span> khronos_int32_t EGLint; <span class="hljs-comment">// int32_t</span>
+
+<span class="hljs-comment">// Native Type: X Window in Linux</span>
+<span class="hljs-keyword">typedef</span> Display *EGLNativeDisplayType;
+<span class="hljs-keyword">typedef</span> Pixmap   EGLNativePixmapType;
+<span class="hljs-keyword">typedef</span> Window   EGLNativeWindowType;</code></pre> 
+<p>EGL定义了如下默认/魔术值&#xff1a;</p> 
+<pre class="prettyprint"><code class=" hljs cs"><span class="hljs-comment">// EGL 1.0</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_DONT_CARE                     ((EGLint)-1)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_FALSE                         0</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_NO_CONTEXT                    ((EGLContext)0)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_NO_DISPLAY                    ((EGLDisplay)0)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_NO_SURFACE                    ((EGLSurface)0)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_TRUE                          1</span>
+
+<span class="hljs-comment">// EGL 1.2</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_UNKNOWN                       ((EGLint)-1)</span>
+
+<span class="hljs-comment">// EGL 1.4</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_DEFAULT_DISPLAY               ((EGLNativeDisplayType)0)</span>
+
+<span class="hljs-comment">// EGL 1.5</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_NO_SYNC                       ((EGLSync)0)</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_NO_IMAGE                      ((EGLImage)0)</span></code></pre> 
+<h2 id="2初始化display">2、初始化Display</h2> 
+<p>EGL提供了图形API如OpenGL ES和原生窗口系统如Linux的X Window之间的一个结合层次&#xff0c;在EGL能够确定可用的Surface类型之前&#xff0c;它必须打开和窗口系统的通信渠道&#xff0c;因为是跨平台的&#xff0c;每个窗口系统都有不同的语义&#xff0c;所以EGL提供基本的不透明类型EGLDisplay&#xff08;类型为<code>void*</code>&#xff09;&#xff0c;该类型封装了所有系统相关属性&#xff0c;用于原生窗口系统接口&#xff0c;不同的窗口系统定义了不同的Display属性&#xff0c;最终都会Native化&#xff0c;定义为EGLNativeDisplayType。任何使用EGL的应用程序必须执行的第一个操作是创建和初始化与本地EGL Display的连接&#xff0c;涉及如下两个函数。</p> 
+<pre class="prettyprint"><code class=" hljs perl">EGLAPI EGLDisplay EGLAPIENTRY eglGetDisplay(EGLNativeDisplayType display_id);
+EGLAPI EGLBoolean EGLAPIENTRY eglInitialize(EGLDisplay dpy, EGLint <span class="hljs-variable">*major</span>, EGLint <span class="hljs-variable">*minor</span>)</code></pre> 
+<p>eglGetDisplay用于获取EGL Display连接&#xff0c;display_id指定需要连接的Display&#xff0c;一般取默认值EGL_DEFAULT_DISPLAY&#xff0c;其实就是对0进行了类型转换&#xff0c;无法获取Display时返回EGL_NO_DISPLAY而不产生错误。eglInitialize用于对Display进行初始化&#xff0c;初始化已经初始化了的Display对这个Display没有影响&#xff0c;dpy为eglGetDisplay的返回值&#xff0c;major和minor获取当前的EGL版本号&#xff0c;可以为NULL&#xff0c;成功时返回EGL_TRUE&#xff0c;失败时返回EGL_FALSE&#xff0c;可能的错误为EGL_BAD_DISPLAY&#xff08;dpy不是EGL Display&#xff09;、EGL_NOT_INITIALIZED&#xff08;dpy不能被初始化&#xff09;。</p> 
+<p>另外&#xff0c;与eglInitialize对应的还有个eglTerminate&#xff0c;用于终止EGL Display连接&#xff0c;释放相关的所有资源&#xff0c;如Surface和Context&#xff0c;如果还有其它线程使用这些资源时&#xff0c;会等到它们通过eglMakeCurrent声明不再使用后再释放&#xff0c;终止以及终止过的Display对这个Display没有影响&#xff0c;成功时返回EGL_TRUE&#xff0c;失败时返回EGL_FALSE&#xff0c;可能的错误为EGL_BAD_DISPLAY&#xff08;dpy不是EGL Display&#xff09;&#xff0c;函数原型如下。</p> 
+<pre class="prettyprint"><code class=" hljs scss">EGLAPI EGLBoolean EGLAPIENTRY <span class="hljs-function">eglTerminate(EGLDisplay dpy)</span>;</code></pre> 
+<h2 id="3检查错误">3、检查错误</h2> 
+<p>EGL中的大多数API成功时返回EGL_TRUE&#xff0c;失败时返回EGL_FALSE&#xff0c;但是失败的具体原因并不直接返回&#xff0c;而是通过eglGetError获取&#xff0c;每个EGL操作都会记录一个状态码&#xff0c;初始值为EGL_SUCCESS&#xff0c;eglGetError的结果也为eglGetError&#xff0c;eglGetError返回当前线程中最近一个EGL操作的状态&#xff0c;为什么这样做而不直接返回呢&#xff1f;因为&#xff0c;检查函数的返回值是一个好的编程习惯&#xff0c;而对于已经验证正确的代码忽略错误检查则可以减少程序中的多余代码。eglGetError的函数原型及可能的返回值如下&#xff1a;</p> 
+<pre class="prettyprint"><code class=" hljs cs">EGLAPI EGLint EGLAPIENTRY eglGetError(<span class="hljs-keyword">void</span>);
+
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_SUCCESS            0x3000 // 最近一个函数成功执行</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_NOT_INITIALIZED        0x3001 // 对于指定的Display来说EGL未初始化或不能进行初始化</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BAD_ACCESS            0x3002 // EGL不能获取资源&#xff08;如被其它线程绑定的Context&#xff09;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BAD_ALLOC            0x3003 // EGL不能分配资源</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BAD_ATTRIBUTE        0x3004 // 属性列表的属性或属性值无效</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BAD_CONFIG            0x3005 // EGLConfig不是有效的frame buffer配置</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BAD_CONTEXT            0x3006 // EGLContext不是有效的渲染上下文</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BAD_CURRENT_SURFACE        0x3007 // 当前线程的Surface是window则pixel buffer和pixmap无效</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BAD_DISPLAY            0x3008 // EGLDisplay不是有效的显示连接</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BAD_MATCH            0x3009 // 参数不兼容&#xff08;如Context需要的buffer不能由Surface提供&#xff09;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BAD_NATIVE_PIXMAP        0x300A // EGLNativePixmapType无效</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BAD_NATIVE_WINDOW        0x300B // EGLNativeWindowType无效</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BAD_PARAMETER        0x300C // 参数无效</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BAD_SURFACE            0x300D // 用于GL渲染的EGLSurface不是有效的window、pixel buffer或pixmap</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_CONTEXT_LOST        0x300E // 触发了电源管理事件&#xff0c;程序必须销毁所有上下文并重新安装OpenGL ES状态和对象再进行渲染。</span></code></pre> 
+<h2 id="4配置surface">4、配置Surface</h2> 
+<p>EGL初始化Display完成后&#xff0c;就可以对Surface进行配置了&#xff0c;有两种方法&#xff0c;一种是查询每个Surface配置&#xff0c;找出最好的选择&#xff0c;另一种是指定一组需求&#xff0c;让EGL推荐最佳匹配&#xff0c;两者都返回一个EGLConfig&#xff0c;包括Surface相关的所有属性。在许多情况下&#xff0c;使用第二种方法更简单&#xff0c;而且很有可能得到用第一种方法找到的匹配&#xff0c;涉及以下三个函数。</p> 
+<pre class="prettyprint"><code class=" hljs perl">EGLAPI EGLBoolean EGLAPIENTRY eglGetConfigs(EGLDisplay dpy, EGLConfig <span class="hljs-variable">*configs</span>,
+             EGLint config_size, EGLint <span class="hljs-variable">*num_config</span>);
+EGLAPI EGLBoolean EGLAPIENTRY eglGetConfigAttrib(EGLDisplay dpy, EGLConfig config,
+                  EGLint attribute, EGLint <span class="hljs-variable">*value</span>);
+EGLAPI EGLBoolean EGLAPIENTRY eglChooseConfig(EGLDisplay dpy, const EGLint <span class="hljs-variable">*attrib_list</span>,
+               EGLConfig <span class="hljs-variable">*configs</span>, EGLint config_size,
+               EGLint <span class="hljs-variable">*num_config</span>);</code></pre> 
+<p>eglGetConfigs用于获取Display的frame buffer配置列表&#xff0c;dpy为对应的Display&#xff0c;configs返回配置列表&#xff08;可以为NULL而只是通过num_config获取配置列表可用的配置条目&#xff09;&#xff0c;size指定配置列表的大小&#xff08;size大于1时configs需要有足够的存储空间&#xff09;&#xff0c;num_config返回配置列表获取的配置条目&#xff0c;成功时返回EGL_TRUE&#xff0c;失败时返回EGL_FALSE&#xff0c;可能的错误为EGL_BAD_DISPLAY&#xff08;非EGL Display连接&#xff09;、EGL_NOT_INITIALIZED&#xff08;Display未初始化&#xff09;或EGL_BAD_PARAMETER&#xff08;num_config为NULL&#xff09;。</p> 
+<p>eglGetConfigAttrib用于获取EGL的frame buffer配置列表中某个具体属性的值&#xff0c;dpy为对应的Display&#xff0c;config为待查询的配置列表&#xff0c;attribute为待查询的具体属性&#xff0c;value返回查询的属性值&#xff0c;成功时返回EGL_TRUE&#xff0c;失败时返回EGL_FALSE&#xff0c;可能的错误为EGL_BAD_DISPLAY&#xff08;非EGL Display连接&#xff09;、EGL_NOT_INITIALIZED&#xff08;Display未初始化&#xff09;、EGL_BAD_CONFIG&#xff08;config无效&#xff09;、EGL_BAD_ATTRIBUTE&#xff08;attribute无效&#xff09;&#xff0c;attribute取值如下&#xff1a;</p> 
+<pre class="prettyprint"><code class=" hljs cs"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BUFFER_SIZE            0x3020 // 颜色缓冲区深度&#xff08;包括RGBA&#xff09;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_ALPHA_SIZE            0x3021 // 颜色缓冲区中alpha位数</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BLUE_SIZE            0x3022 // 颜色缓冲区中blue位数</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_GREEN_SIZE            0x3023 // 颜色缓冲区green位数</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_RED_SIZE            0x3024 // 颜色缓冲区red位数</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_DEPTH_SIZE            0x3025 // 深度缓冲区位数</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_STENCIL_SIZE        0x3026 // stencil缓冲区位数</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_CONFIG_CAVEAT        0x3027 // 配置说明&#xff08;EGL_NONE、EGL_SLOW_CONFIG、EGL_NON_CONFORMANT_CONFIG&#xff09;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_CONFIG_ID            0x3028 // 配置ID</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_LEVEL            0x3029 // frame buffer级别&#xff08;默认为0或表示overlay的整数和underlay的负数&#xff09;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_MAX_PBUFFER_HEIGHT        0x302A // Surface为pixel buffer时的最大高度&#xff08;像素&#xff09;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_MAX_PBUFFER_PIXELS        0x302B // Surface为pixel buffer时的最大尺寸&#xff08;像素&#xff09;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_MAX_PBUFFER_WIDTH        0x302C // Surface为pixel buffer时的最大宽度&#xff08;像素&#xff09;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_NATIVE_RENDERABLE        0x302D // 本地渲染API是否可以渲染Surface</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_NATIVE_VISUAL_ID        0x302E // 本地可视ID</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_NATIVE_VISUAL_TYPE        0x302F // 本地可视类型</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_SAMPLES            0x3031 // 每个像素采样个数</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_SAMPLE_BUFFERS        0x3032 // 多重采样缓冲区位数</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_SURFACE_TYPE        0x3033 // 支持的EGL Surface的掩码</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_TRANSPARENT_TYPE        0x3034 // 透明类型&#xff08;EGL_NONE、EGL_TRANSPARENT_RGB&#xff09;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_TRANSPARENT_BLUE_VALUE    0x3035 // 透明的blue值</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_TRANSPARENT_GREEN_VALUE    0x3036 // 透明的green值</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_TRANSPARENT_RED_VALUE    0x3037 // 透明的red值</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_NONE            0x3038 // 固定用于属性列表结尾</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BIND_TO_TEXTURE_RGB        0x3039 // 颜色缓冲区是否可以绑定RGB纹理</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_BIND_TO_TEXTURE_RGBA    0x303A // 颜色缓冲区是否可以绑定RGBA纹理</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_MIN_SWAP_INTERVAL        0x303B // eglSwapInterval参数的最小值</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_MAX_SWAP_INTERVAL        0x303C // eglSwapInterval参数的最大值</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_LUMINANCE_SIZE        0x303D // luminance缓冲区中luminance位数</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_ALPHA_MASK_SIZE        0x303E // alpha屏蔽缓冲区位数</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_COLOR_BUFFER_TYPE        0x303F // 颜色缓冲区类型&#xff08;EGL_RGB_BUFFER、EGL_LUMINANCE_BUFFER&#xff09;</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_RENDERABLE_TYPE        0x3040 // 支持的客户API上下文的掩码</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_MATCH_NATIVE_PIXMAP        0x3041</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_CONFORMANT            0x3042 // 客户API上下文与配置的一致性的掩码</span></code></pre> 
+<p>另外&#xff0c;EGL_MATCH_NATIVE_PIXMAP只支持eglChooseConfig&#xff0c;而不支持eglGetConfigAttrib。</p> 
+<p>eglChooseConfig用于获取Display的frame buffer配置列表&#xff0c;不过这个配置列表要与指定的属性列表attrib_list匹配&#xff0c;dpy为对应的Display&#xff0c;attrib_list为config需要匹配的属性列表&#xff0c;configs返回配置列表&#xff08;非NULL时&#xff0c;size为最大值&#xff0c;num_configs为实际值&#xff0c;为NULL时&#xff0c;忽略size&#xff09;&#xff0c;size指定配置列表的大小&#xff08;size大于1时configs需要有足够的存储空间&#xff09;&#xff0c;num_config返回配置列表获取的配置条目&#xff0c;成功时返回EGL_TRUE&#xff0c;失败时返回EGL_FALSE&#xff0c;可能的错误为EGL_BAD_DISPLAY&#xff08;非EGL Display连接&#xff09;、EGL_BAD_ATTRIBUTE&#xff08;属性列表的属性或属性值错误&#xff09;EGL_NOT_INITIALIZED&#xff08;Display未初始化&#xff09;或EGL_BAD_PARAMETER&#xff08;num_config为NULL&#xff09;。attrib_list有固定的格式&#xff0c;属性及属性值成对出现&#xff0c;每个属性的属性值也都有一定的要求&#xff0c;最后以EGL_NONE结尾。如果某个属性在attrib_list中没有指定&#xff0c;则使用默认值&#xff0c;如EGL_DEPTH_SIZE的默认值为0&#xff0c;有些属性的默认值为EGL_DONT_CARE&#xff0c;意思是可以为任何值&#xff0c;这些属性将不作检查。属性匹配有不同的方式&#xff0c;如EGL_LEVEL为设定值&#xff0c;而EGL_RED_SIZE设置的实际上是个最小值。如果有多个配置匹配属性时&#xff0c;将返回一个根据匹配标准进行排序的配置列表。有三个掩码类型的属性&#xff0c;EGL_CONFORMANT、EGL_RENDERABLE_TYPE和EGL_SURFACE_TYPE&#xff0c;只有掩码非0时才进行匹配。attrib_list支持的属性基本同上面介绍的eglGetConfigAttrib的属性&#xff0c;下面再作个简单介绍</p> 
+<p>EGL_ALPHA_MASK_SIZE&#xff1a;非负整数&#xff0c;指定最小值&#xff0c;默认为0&#xff0c;用于OpenGL和OpenGL ES。 <br /> EGL_ALPHA_SIZE&#xff1a;非负整数&#xff0c;为0时使用最小值&#xff0c;否则为最大值&#xff0c;默认为0。 <br /> EGL_BIND_TO_TEXTURE_RGB&#xff1a;EGL_DONT_CARE、EGL_TRUE或EGL_FALSE&#xff0c;默认为EGL_DONT_CARE&#xff0c;目前仅支持pbuffer。 <br /> EGL_BIND_TO_TEXTURE_RGBA&#xff1a;EGL_DONT_CARE、EGL_TRUE或EGL_FALSE&#xff0c;默认为EGL_DONT_CARE&#xff0c;目前仅支持pbuffer。 <br /> EGL_BLUE_SIZE&#xff1a;非负整数&#xff0c;为0时使用最小值&#xff0c;否则为最大值&#xff0c;默认为0。 <br /> EGL_BUFFER_SIZE&#xff1a;非负整数&#xff0c;指定最小值&#xff0c;默认为0。 <br /> EGL_COLOR_BUFFER_TYPE&#xff1a;EGL_RGB_BUFFER、EGL_LUMINANCE_BUFFER。 <br /> EGL_CONFIG_CAVEAT&#xff1a;EGL_DONT_CARE、EGL_NONE、EGL_SLOW_CONFIG、EGL_NON_CONFORMANT_CONFIG&#xff0c;默认为EGL_DONT_CARE。 <br /> EGL_CONFIG_ID&#xff1a;默认为EGL_DONT_CARE。 <br /> EGL_CONFORMANT&#xff1a;EGL_OPENGL_BIT、EGL_OPENGL_ES_BIT、EGL_OPENGL_ES2_BIT、EGL_OPENGL_ES3_BIT、EGL_OPENVG_BIT&#xff0c;默认为0。 <br /> EGL_DEPTH_SIZE&#xff1a;非负整数&#xff0c;非0时指定最小值&#xff0c;默认为0&#xff0c;用于OpenGL和OpenGL ES。 <br /> EGL_GREEN_SIZE&#xff1a;非负整数&#xff0c;为0时使用最小值&#xff0c;否则为最大值&#xff0c;默认为0。 <br /> EGL_LEVEL&#xff1a;默认为0。 <br /> EGL_LUMINANCE_SIZE&#xff1a;非负整数&#xff0c;为0时使用最小值&#xff0c;否则为最大值&#xff0c;默认为0。 <br /> EGL_MATCH_NATIVE_PIXMAP&#xff1a;默认为0。 <br /> EGL_NATIVE_RENDERABLE&#xff1a;EGL_DONT_CARE、EGL_TRUE、EGL_FALSE&#xff0c;默认为EGL_DONT_CARE。 <br /> EGL_MAX_SWAP_INTERVAL&#xff1a;默认为EGL_DONT_CARE。 <br /> EGL_MIN_SWAP_INTERVAL&#xff1a;默认为EGL_DONT_CARE。 <br /> EGL_RED_SIZE&#xff1a;非负整数&#xff0c;为0时使用最小值&#xff0c;否则为最大值&#xff0c;默认为0。 <br /> EGL_SAMPLE_BUFFERS&#xff1a;指定最小值&#xff0c;仅支持0和1&#xff0c;默认为0。 <br /> EGL_SAMPLES&#xff1a;指定最小值。 <br /> EGL_STENCIL_SIZE&#xff1a;非负整数&#xff0c;为0时使用最小值&#xff0c;否则为最大值&#xff0c;默认为0&#xff0c;用于OpenGL和OpenGL ES。 <br /> EGL_RENDERABLE_TYPE&#xff1a;可选值同EGL_CONFORMANT&#xff0c;默认为EGL_OPENGL_ES_BIT。 <br /> EGL_SURFACE_TYPE&#xff1a;EGL_MULTISAMPLE_RESOLVE_BOX_BIT、EGL_PBUFFER_BIT、EGL_PIXMAP_BIT、EGL_SWAP_BEHAVIOR_PRESERVED_BIT、EGL_VG_ALPHA_FORMAT_PRE_BIT、EGL_VG_COLORSPACE_LINEAR_BIT、EGL_WINDOW_BIT&#xff0c;默认为EGL_WINDOW_BIT。 <br /> EGL_TRANSPARENT_TYPE&#xff1a;EGL_NONE、EGL_TRANSPARENT_RGB&#xff0c;默认为EGL_NONE。 <br /> EGL_TRANSPARENT_RED_VALUE&#xff1a;在0到颜色缓冲区的red分量之间&#xff0c;默认为EGL_DONT_CARE。 <br /> EGL_TRANSPARENT_GREEN_VALUE&#xff1a;在0到颜色缓冲区的red分量之间&#xff0c;默认为EGL_DONT_CARE。 <br /> EGL_TRANSPARENT_BLUE_VALUE&#xff1a;在0到颜色缓冲区的red分量之间&#xff0c;默认为EGL_DONT_CARE。</p> 
+<p>下面说明上面提到的有多个配置匹配属性时的排序原则&#xff0c;优先级从高到底。 <br /> &#xff08;1&#xff09;EGL_CONFIG_CAVEAT&#xff1a;优先级从高到低是EGL_NONE、EGL_SLOW_CONFIG、EGL_NON_CONFORMANT_CONFIG。 <br /> &#xff08;2&#xff09;EGL_COLOR_BUFFER_TYPE&#xff1a;优先级从高到低是EGL_RGB_BUFFER、EGL_LUMINANCE_BUFFER。 <br /> &#xff08;3&#xff09;颜色缓冲区取颜色位数总和的较大值&#xff0c;如RGB的EGL_RED_SIZE、EGL_GREEN_SIZE、EGL_BLUE_SIZE和EGL_ALPHA_SIZE&#xff0c;或者luminance的EGL_LUMINANCE_SIZE和EGL_ALPHA_SIZE。 <br /> &#xff08;4&#xff09;EGL_BUFFER_SIZE&#xff1a;取较小值。 <br /> &#xff08;5&#xff09;EGL_SAMPLE_BUFFERS&#xff1a;取较小值。 <br /> &#xff08;6&#xff09;EGL_SAMPLES&#xff1a;取较小值。 <br /> &#xff08;7&#xff09;EGL_DEPTH_SIZE&#xff1a;取较小值。 <br /> &#xff08;8&#xff09;EGL_STENCIL_SIZE&#xff1a;取较小值。 <br /> &#xff08;9&#xff09;EGL_ALPHA_MASK_SIZE&#xff1a;取较小值。 <br /> &#xff08;10&#xff09;EGL_NATIVE_VISUAL_TYPE&#xff1a;由实现而定。 <br /> &#xff08;11&#xff09;EGL_CONFIG_ID&#xff1a;取较小值。 <br /> &#xff08;12&#xff09;其它属性不作排序。 <br /> 上面提到的颜色缓冲区包括RGB和luminance&#xff0c;如果OpenGL或OpenGL ES支持luminance颜色缓冲区&#xff0c;可以理解为GL_RED_BITS同EGL_LUMINANCE_SIZE&#xff0c;而忽略了GL_GREEN_BITS和GL_BLUE_BITS。因为第三条排序规则&#xff0c;所以为了匹配指定属性的最佳格式&#xff0c;必须添加额外的逻辑来检查返回的结果&#xff0c;例如&#xff0c;如果要求565的RGB格式&#xff0c;那么888格式将先出现在返回的结果中。</p> 
+<p>如下例子中frame buffer的级别为0&#xff0c;非overlay或underlay&#xff0c;颜色缓冲区的R、G、B最少4位&#xff0c;可能没有alpha&#xff0c;也可能没有深度缓冲区和stencil缓冲区。</p> 
+<pre class="prettyprint"><code class=" hljs fix"><span class="hljs-attribute">EGLint const attrib_list[] </span>&#61;<span class="hljs-string"> {
+        EGL_RED_SIZE, 4,
+        EGL_GREEN_SIZE, 4,
+        EGL_BLUE_SIZE, 4,
+        EGL_NONE
+};</span></code></pre> 
+<h2 id="5创建surface">5、创建Surface</h2> 
+<p>有了EGLConfig之后&#xff0c;就可以创建EGLSurface了&#xff0c;Surface不只一种类型&#xff0c;下面先介绍Window Surface&#xff0c;可以理解为EGL窗口&#xff0c;是屏幕上的渲染区域&#xff0c;由eglCreateWindowSurface创建。</p> 
+<p>eglCreateWindowSurface——</p> 
+<pre class="prettyprint"><code class=" hljs cs">EGLAPI EGLSurface EGLAPIENTRY eglCreateWindowSurface(EGLDisplay dpy, EGLConfig config,
+                  EGLNativeWindowType win,
+                  <span class="hljs-keyword">const</span> EGLint *attrib_list);</code></pre> 
+<p>eglCreateWindowSurface用于创建Window Surface&#xff0c;dpy为对应的EGL Display连接&#xff0c;config为EGL frame buffer配置&#xff0c;定义了可用于Surface的frame buffer资源&#xff0c;win为Native Window&#xff0c;是个平台相关的类型&#xff0c;attrib_list为Window Surface属性列表&#xff0c;可以为NULL&#xff0c;成功时返回新创建的EGLSurface&#xff0c;失败时返回EGL_NO_SURFACE&#xff0c;可能的错误为EGL_BAD_DISPLAY、EGL_NOT_INITIALIZED、EGL_BAD_CONFIG、EGL_BAD_NATIVE_WINDOW、EGL_BAD_ATTRIBUTE、EGL_BAD_ALLOC、EGL_BAD_MATCH。attrib_list的属性可以是&#xff1a;</p> 
+<p>EGL_RENDER_BUFFER&#xff1a;默认值为EGL_BACK_BUFFER&#xff0c;还可以选择EGL_SINGLE_BUFFER &#xff0c;OpenGL ES 3.0只支持EGL_BACK_BUFFER。 <br /> EGL_VG_ALPHA_FORMAT&#xff1a;只适用于OpenVG&#xff0c;默认值为EGL_VG_ALPHA_FORMAT_NONPRE&#xff0c;还可以选择EGL_VG_ALPHA_FORMAT_PRE。 <br /> EGL_VG_COLORSPACE&#xff1a;只适用于OpenVG&#xff0c;默认值为EGL_VG_COLORSPACE_sRGB&#xff0c;还可以选择EGL_VG_COLORSPACE_LINEAR。</p> 
+<p>eglDestroySurface——</p> 
+<pre class="prettyprint"><code class=" hljs rsl">EGLAPI EGLBoolean EGLAPIENTRY eglDestroySurface(EGLDisplay dpy, EGLSurface <span class="hljs-shader"><span class="hljs-keyword">surface</span>);</span></code></pre> 
+<p>与eglCreateXxxSurface对应的&#xff0c;还有个eglDestroySurface&#xff0c;用于销毁surface&#xff0c;dpy为对应的Display&#xff0c;surface为将要销毁的Surface&#xff0c;如果任何其它线程都没有使用这个Surface时&#xff0c;Surface将被立即销毁&#xff0c;否则要等到这个Surface不被任何线程使用时才销毁&#xff0c;另外&#xff0c;对于一个PBuffer Surface来说&#xff0c;其资源要等到绑定到纹理对象的颜色缓冲区释放后才被销毁。成功时返回EGL_TRUE&#xff0c;失败时返回EGL_FALSE&#xff0c;可能的错误为EGL_BAD_DISPLAY、EGL_NOT_INITIALIZED、EGL_BAD_SURFACE。</p> 
+<p>eglQuerySurface——</p> 
+<pre class="prettyprint"><code class=" hljs cs">EGLAPI EGLBoolean EGLAPIENTRY eglQuerySurface(EGLDisplay dpy, EGLSurface surface,
+               EGLint attribute, EGLint *<span class="hljs-keyword">value</span>);</code></pre> 
+<p>eglQuerySurface用于获取Surface信息&#xff0c;dpy为对应的Display&#xff0c;surface待查询的Surface&#xff0c;attribute为待查询的Surface属性&#xff0c;value用于返回Surface属性值&#xff0c;成功时返回EGL_TRUE&#xff0c;失败时返回EGL_FALSE&#xff0c;可能的错误为EGL_BAD_DISPLAY、EGL_NOT_INITIALIZED、EGL_BAD_SURFACE、EGL_BAD_ATTRIBUTE。attribute取值可以是&#xff1a;</p> 
+<pre class="prettyprint"><code class=" hljs ">EGL_CONFIG_ID
+EGL_HEIGHT
+EGL_HORIZONTAL_RESOLUTION
+EGL_LARGEST_PBUFFER
+EGL_MIPMAP_LEVEL
+EGL_MIPMAP_TEXTURE
+EGL_MULTISAMPLE_RESOLVE
+EGL_PIXEL_ASPECT_RATIO
+EGL_RENDER_BUFFER
+EGL_SWAP_BEHAVIOR
+EGL_TEXTURE_FORMAT
+EGL_TEXTURE_TARGET
+EGL_VERTICAL_RESOLUTION
+EGL_WIDTH</code></pre> 
+<p>eglSurfaceAttrib——</p> 
+<pre class="prettyprint"><code class=" hljs cs">EGLAPI EGLBoolean EGLAPIENTRY eglSurfaceAttrib(EGLDisplay dpy, EGLSurface surface,
+                EGLint attribute, EGLint <span class="hljs-keyword">value</span>);</code></pre> 
+<p>eglSurfaceAttrib用于设置Surface属性&#xff0c;dpy为对应的Display&#xff0c;surface为要设置的Surface&#xff0c;attribute为要设置的Surface属性&#xff0c;value为要设置的Surface属性值&#xff0c;成功时返回EGL_TRUE&#xff0c;失败时返回EGL_FALSE&#xff0c;可能的错误为EGL_BAD_DISPLAY、EGL_BAD_MATCH、EGL_NOT_INITIALIZED、EGL_BAD_SURFACE、EGL_BAD_ATTRIBUTE。attribute取值可以是&#xff1a;</p> 
+<pre class="prettyprint"><code class=" hljs ">EGL_MIPMAP_LEVEL&#xff1a;默认值为0。
+EGL_MULTISAMPLE_RESOLVE&#xff1a;EGL_MULTISAMPLE_RESOLVE_DEFAULT或EGL_MULTISAMPLE_RESOLVE_BOX&#xff0c;默认值为前者。
+EGL_SWAP_BEHAVIOR&#xff1a;EGL_BUFFER_PRESERVED或EGL_BUFFER_DESTROYED&#xff0c;默认值由实现而定。</code></pre> 
+<p>eglCreatePbufferSurface——</p> 
+<pre class="prettyprint"><code class=" hljs cs">EGLAPI EGLSurface EGLAPIENTRY eglCreatePbufferSurface(EGLDisplay dpy, EGLConfig config,
+                   <span class="hljs-keyword">const</span> EGLint *attrib_list);</code></pre> 
+<p>PBuffer Surface是不同于Window Surface的另一种EGLSurface&#xff0c;eglCreatePbufferSurface用于创建off-screen的pixel buffer Surface&#xff0c;dpy为对应的Display&#xff0c;config为frame buffer配置&#xff0c;attrib_list为PBuffer属性列表&#xff0c;可以为NULL&#xff0c;成功时返回新创建的EGLSurface&#xff0c;失败时返回EGL_NO_SURFACE&#xff0c;可能的错误为EGL_BAD_DISPLAY、EGL_NOT_INITIALIZED、EGL_BAD_CONFIG、EGL_BAD_ATTRIBUTE、EGL_BAD_ALLOC、EGL_BAD_MATCH。attrib_list的属性可以是&#xff1a;</p> 
+<pre class="prettyprint"><code class=" hljs autohotkey">EGL_HEIGHT&#xff1a;默认值为<span class="hljs-number">0</span>。
+EGL_LARGEST_PBUFFER&#xff1a;默认值为EGL_FALSE。
+EGL_MIPMAP_TEXTURE&#xff1a;默认值为EGL_FALSE。
+EGL_TEXTURE_FORMAT&#xff1a;默认值为EGL_NO_TEXTURE&#xff0c;还可以选择EGL_TEXTURE_RGB或EGL_TEXTURE_RGBA。
+EGL_TEXTURE_TARGET&#xff1a;默认值为EGL_NO_TEXTURE&#xff0c;还可以选择EGL_TEXTURE_2D。
+EGL_VG_ALPH<span class="hljs-built_in">A_FORMAT</span>&#xff1a;只适用于OpenVG&#xff0c;默认值为EGL_VG_ALPH<span class="hljs-built_in">A_FORMAT</span>_NONPRE&#xff0c;还可以选择EGL_VG_ALPH<span class="hljs-built_in">A_FORMAT</span>_PRE。
+EGL_VG_COLORSPACE&#xff1a;只适用于OpenVG&#xff0c;默认值为EGL_VG_COLORSPACE_sRGB&#xff0c;还可以选择EGL_VG_COLORSPACE_LINEAR。
+EGL_WIDTH&#xff1a;默认值为<span class="hljs-number">0</span>。</code></pre> 
+<p>PBuffer Surface与Window Surface—— <br /> 除了可以用OpenGL ES 3.0在屏幕上的窗口渲染之外&#xff0c;还可以渲染称作PBuffer&#xff08;像素缓冲区Pixel Buffer的缩写&#xff09;的不可见屏幕外表面&#xff0c;和窗口一样&#xff0c;PBuffer可以利用OpenGL ES 3.0中的任何硬件加速&#xff0c;PBuffer最常用于生成纹理贴图&#xff0c;如果想要做的是渲染到一个纹理&#xff0c;那么建议使用帧缓冲区对象&#xff08;FBO&#xff09;代替PBuffer&#xff0c;因为帧缓冲区更高效&#xff0c;不过在某些FBO无法使用的情况下&#xff0c;PBuffer仍然有用&#xff0c;例如用OpenGL ES在屏幕外表面上渲染&#xff0c;然后将其作为其它API&#xff08;如OpenVG&#xff09;中的纹理。另外&#xff0c;EGLSurface还有个Pixmap Surface&#xff0c;简单总结一下三者的特点。window是on-screen的&#xff0c;pbuffer和pixmap是off-screen的&#xff0c;window绑定到了NativeWindow&#xff0c;pixmap绑定到了NativePixmap&#xff0c;pbuffer没有任何本地绑定&#xff0c;window是双缓冲区的&#xff0c;pbuffer和pixmap是单缓冲区的&#xff0c;window默认在back buffer渲染&#xff0c;通过eglSwapBuffers交换到屏幕上显示&#xff0c;pbuffer在显存中分配&#xff0c;由EGL_HEIGHT和EGL_WIDTH指定大小&#xff0c;常用作纹理数据&#xff0c;pixmap绑定到本地的像素缓冲区&#xff0c;这个缓冲区可以被其它API使用。创建不同的EGLSurface时&#xff0c;需要在EGLConfig中配置EGL_SURFACE_TYPE&#xff0c;window、pbuffer、pixmap分别对应于EGL_WINDOW_BIT、EGL_PBUFFER_BIT、EGL_PIXMAP_BUFFER。</p> 
+<p>eglCreatePixmapSurface——</p> 
+<pre class="prettyprint"><code class=" hljs cs">EGLAPI EGLSurface EGLAPIENTRY eglCreatePixmapSurface(EGLDisplay dpy, EGLConfig config,
+                  EGLNativePixmapType pixmap,
+                  <span class="hljs-keyword">const</span> EGLint *attrib_list);</code></pre> 
+<p>eglCreatePixmapSurface用于创建off-screen的Pixmap Surface&#xff0c;dpy为对应的Display&#xff0c;config为frame buffer配置&#xff0c;pixmap为Native Pixmap&#xff0c;attrib_list为Pixmap属性列表&#xff0c;可以为NULL&#xff0c;成功时返回新创建的EGLSurface&#xff0c;失败时返回EGL_NO_SURFACE&#xff0c;失败时返回EGL_NO_SURFACE&#xff0c;可能的错误为EGL_BAD_DISPLAY、EGL_NOT_INITIALIZED、EGL_BAD_CONFIG、EGL_BAD_NATIVE_PIXMAP、EGL_BAD_ATTRIBUTE、EGL_BAD_ALLOC、EGL_BAD_MATCH。attrib_list的属性可以是&#xff1a;</p> 
+<pre class="prettyprint"><code class=" hljs autohotkey">EGL_VG_ALPH<span class="hljs-built_in">A_FORMAT</span>&#xff1a;只适用于OpenVG&#xff0c;默认值为EGL_VG_ALPH<span class="hljs-built_in">A_FORMAT</span>_NONPRE&#xff0c;还可以选择EGL_VG_ALPH<span class="hljs-built_in">A_FORMAT</span>_PRE。
+EGL_VG_COLORSPACE&#xff1a;只适用于OpenVG&#xff0c;默认值为EGL_VG_COLORSPACE_sRGB&#xff0c;还可以选择EGL_VG_COLORSPACE_LINEAR。</code></pre> 
+<p>eglSwapBuffers—— <br /> 对于Window Surface或back buffer来说&#xff0c;还需要通过eglSwapBuffers把off-sreen的back buffer交换到screen buffer&#xff0c;也就是说把EGL Surface的颜色缓冲区post到Native Window&#xff0c;内部调用了渲染API的Flush命令&#xff0c;返回EGL_FALSE时可能的原因为EGL_BAD_DISPLAY、EGL_NOT_INITIALIZED、EGL_BAD_SURFACE、EGL_CONTEXT_LOST。eglSwapBuffers对PBuffer Surface和Pixmap Surface无效。</p> 
+<pre class="prettyprint"><code class=" hljs rsl">EGLAPI EGLBoolean EGLAPIENTRY eglSwapBuffers(EGLDisplay dpy, EGLSurface <span class="hljs-shader"><span class="hljs-keyword">surface</span>);</span></code></pre> 
+<p>另外&#xff0c;swap buffer时是否保存原有的buffer数据是个值得讨论的话题&#xff0c;详见&#xff1a; <br /> <a href="https://www.khronos.org/registry/EGL/specs/EGLTechNote0001.html" target="_blank" rel="noopener noreferrer">https://www.khronos.org/registry/EGL/specs/EGLTechNote0001.html</a></p> 
+<h2 id="6创建context">6、创建Context</h2> 
+<p>eglCreateContext——</p> 
+<pre class="prettyprint"><code class=" hljs cs">EGLAPI EGLContext EGLAPIENTRY eglCreateContext(EGLDisplay dpy, EGLConfig config,
+                EGLContext share_context,
+                <span class="hljs-keyword">const</span> EGLint *attrib_list);</code></pre> 
+<p>eglCreateContext用于创建EGL渲染Context&#xff0c;dpy为对应的Display&#xff0c;config为frame buffer配置&#xff0c;share_context为其它的共享Context&#xff0c;可以设置为EGL_NO_CONTEXT&#xff0c;attrib_list为Context属性列表&#xff0c;成功时返回新创建的EGLContext&#xff0c;失败时返回EGL_NO_CONTEXT&#xff0c;可能的错误为EGL_BAD_MATCH、EGL_BAD_DISPLAY、EGL_NOT_INITIALIZED、EGL_BAD_CONFIG、EGL_BAD_CONTEXT、EGL_BAD_ATTRIBUTE、EGL_BAD_ALLOC。attrib_list属性目前只有EGL_CONTEXT_CLIENT_VERSION&#xff0c;整数值&#xff0c;指定OpenGL ES版本&#xff0c;默认值为1&#xff0c;还可以是2、3等其它版本值&#xff0c;创建OpenGL ES Context时设置这个属性&#xff0c;也就是说渲染API为EGL_OPENGL_ES_API时才设置这个属性&#xff0c;为此还要设置或查询渲染API&#xff0c;使用如下两个函数。</p> 
+<pre class="prettyprint"><code class=" hljs scss">EGLAPI EGLBoolean EGLAPIENTRY <span class="hljs-function">eglBindAPI(EGLenum api)</span>;
+EGLAPI EGLenum EGLAPIENTRY <span class="hljs-function">eglQueryAPI(void)</span>;</code></pre> 
+<p>eglBindAPI用于设置调用线程的渲染API&#xff0c;api指定渲染API类型&#xff0c;成功是返回EGL_TRUE&#xff0c;失败时返回EGL_FALSE&#xff0c;可能的错误为EGL_BAD_PARAMETER。api取值可以是&#xff1a;</p> 
+<pre class="prettyprint"><code class=" hljs cs">EGL_OPENGL_API
+EGL_OPENGL_ES_API <span class="hljs-comment">// 支持OpenGL ES时这个为默认值&#xff0c;否则为EGL_NONE。</span>
+EGL_OPENVG_API</code></pre> 
+<p>eglQueryAPI用于获取调用线程的渲染API&#xff0c;可能返回EGL_NONE&#xff0c;不产生错误。</p> 
+<p>同Surface一样&#xff0c;Context也有对应的Create、Destroy、Query函数。</p> 
+<p>eglDestroyContext——</p> 
+<pre class="prettyprint"><code class=" hljs scss">EGLAPI EGLBoolean EGLAPIENTRY <span class="hljs-function">eglDestroyContext(EGLDisplay dpy, EGLContext ctx)</span>;</code></pre> 
+<p>eglDestroyContext用于销毁渲染Context&#xff0c;dpy为对应的Display&#xff0c;ctx为要销毁的Context&#xff0c;如果有其它线程使用这个Context时就要等到不使用时再销毁&#xff0c;否则立即销毁&#xff0c;成功时返回EGL_TRUE&#xff0c;失败时返回EGL_FALSE&#xff0c;可能的错误为EGL_BAD_DISPLAY、EGL_NOT_INITIALIZED、EGL_BAD_CONTEXT。</p> 
+<p>eglQueryContext——</p> 
+<pre class="prettyprint"><code class=" hljs cs">EGLAPI EGLBoolean EGLAPIENTRY eglQueryContext(EGLDisplay dpy, EGLContext ctx,
+               EGLint attribute, EGLint *<span class="hljs-keyword">value</span>);</code></pre> 
+<p>eglQueryContext用于获取Context信息&#xff0c;dpy为对应的Display&#xff0c;ctx为要查询的Context&#xff0c;attribute为要查询的Context属性&#xff0c;value返回查询的Context属性值&#xff0c;成功时返回EGL_TRUE&#xff0c;失败时返回EGL_FALSE&#xff0c;可能的错误为EGL_BAD_DISPLAY、EGL_NOT_INITIALIZED、EGL_BAD_CONTEXT、EGL_BAD_ATTRIBUTE。attribute取值可以是&#xff1a;</p> 
+<pre class="prettyprint"><code class=" hljs ">EGL_CONFIG_ID
+EGL_CONTEXT_CLIENT_TYPE
+EGL_CONTEXT_CLIENT_VERSION
+EGL_RENDER_BUFFER</code></pre> 
+<h2 id="7eglmakecurrent">7、eglMakeCurrent</h2> 
+<pre class="prettyprint"><code class=" hljs bash">EGLAPI EGLBoolean EGLAPIENTRY eglMakeCurrent(EGLDisplay dpy, EGLSurface draw,
+              EGLSurface <span class="hljs-built_in">read</span>, EGLContext ctx);</code></pre> 
+<p>创建了Surface和Context之后&#xff0c;因为可能有多个Surface和Context&#xff0c;所以需要通过eglMakeCurrent绑定Context到Surface&#xff0c;dpy为对应的Display&#xff0c;draw用于绘制&#xff0c;read用于读&#xff0c;ctx为要绑定的Context&#xff0c;成功是返回EGL_TRUE&#xff0c;失败时返回EGL_FALSE&#xff0c;可能的错误为EGL_BAD_DISPLAY、EGL_NOT_INITIALIZED、EGL_BAD_SURFACE、EGL_BAD_CONTEXT、EGL_BAD_MATCH、EGL_BAD_ACCESS 、EGL_BAD_NATIVE_PIXMAP、EGL_BAD_NATIVE_WINDOW、EGL_BAD_CURRENT_SURFACE、EGL_BAD_ALLOC、EGL_CONTEXT_LOST。因为EGL规范要求eglMakeCurrent实现进行一次刷新&#xff0c;所以这一调用对于基于图块的架构代价很高。</p> 
+<h2 id="8同步渲染">8、同步渲染</h2> 
+<p>在一个窗口中可能不只使用了一种渲染API&#xff0c;如OpenGL、OpenGL ES和OpenVG&#xff0c;这就需要协调这些渲染API&#xff0c;涉及同步问题&#xff0c;在切换窗口系统原生渲染API之前可能不知道使用的是哪个客户端渲染API&#xff0c;为此可以调用eglWaitClient延迟客户端的执行&#xff0c;直到通过某个Khronos API的所有渲染完成&#xff0c;效果等同于glFinish和vgFinish&#xff0c;成功时返回EGL_TRUE&#xff0c;失败是返回EGL_FALSE&#xff0c;可能的错误为EGL_BAD_CURRENT_SURFACE。同样&#xff0c;如果需要保证原生窗口系统的渲染完成&#xff0c;则调用eglWaitNative&#xff0c;参数engine指定需要等待的渲染引擎&#xff0c;值为EGL_CORE_NATIVE_ENGINE&#xff0c;成功时返回EGL_TRUE&#xff0c;失败时返回EGL_FALSE&#xff0c;可能的错误为EGL_BAD_PARAMETER、EGL_BAD_CURRENT_SURFACE。</p> 
+<pre class="prettyprint"><code class=" hljs scss">EGLAPI EGLBoolean EGLAPIENTRY <span class="hljs-function">eglWaitClient(void)</span>;
+EGLAPI EGLBoolean EGLAPIENTRY <span class="hljs-function">eglWaitNative(EGLint engine)</span>;</code></pre> 
+<p>还有一个相关函数eglWaitGL&#xff0c;用于执行GL操作完毕后才继续后面的Native渲染工作&#xff0c;同glFinish&#xff0c;返回EGL_FALSE时可能的错误为EGL_BAD_CURRENT_SURFACE。</p> 
+<pre class="prettyprint"><code class=" hljs cs">EGLAPI EGLBoolean EGLAPIENTRY eglWaitGL(<span class="hljs-keyword">void</span>);</code></pre> 
+<h2 id="9其它">9、其它</h2> 
+<p>下面简单介绍一下上面没有提到的其它EGL API。</p> 
+<p>eglQueryString——</p> 
+<pre class="prettyprint"><code class=" hljs cs">EGLAPI <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> * EGLAPIENTRY eglQueryString(EGLDisplay dpy, EGLint name);</code></pre> 
+<p>eglQueryString用于获取display的某些信息&#xff0c;返回NULL时可能的错误为EGL_BAD_DISPLAY、EGL_NOT_INITIALIZED、EGL_BAD_PARAMETER&#xff0c;name取值如下&#xff1a;</p> 
+<pre class="prettyprint"><code class=" hljs cs"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_VENDOR            0x3053</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_VERSION            0x3054</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_EXTENSIONS            0x3055</span>
+<span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> EGL_CLIENT_APIS            0x308D</span></code></pre> 
+<p>eglReleaseThread——</p> 
+<pre class="prettyprint"><code class=" hljs cs">EGLAPI EGLBoolean EGLAPIENTRY eglReleaseThread(<span class="hljs-keyword">void</span>);</code></pre> 
+<p>eglReleaseThread用于清空每个线程的状态为初始值&#xff0c;如错误、API、context等。</p> 
+<p>eglCreatePbufferFromClientBuffer——</p> 
+<pre class="prettyprint"><code class=" hljs cs">EGLAPI EGLSurface EGLAPIENTRY eglCreatePbufferFromClientBuffer(
+          EGLDisplay dpy, EGLenum buftype, EGLClientBuffer buffer,
+          EGLConfig config, <span class="hljs-keyword">const</span> EGLint *attrib_list);</code></pre> 
+<p>eglCreatePbufferFromClientBuffer用于创建绑定到OpenVG图片的off-screen的pixel buffer surface&#xff0c;失败时返回EGL_NO_SURFACE&#xff0c;可能的错误为EGL_BAD_DISPLAY、EGL_NOT_INITIALIZED、EGL_BAD_CONFIG、EGL_BAD_PARAMETER、EGL_BAD_ACCESS、EGL_BAD_ATTRIBUTE、EGL_BAD_ALLOC、EGL_BAD_MATCH。buftype值为EGL_OPENVG_IMAGE&#xff0c;attrib_list的属性可以是EGL_MIPMAP_TEXTURE、EGL_TEXTURE_FORMAT、EGL_TEXTURE_TARGET。</p> 
+<p>eglBindTexImage——</p> 
+<pre class="prettyprint"><code class=" hljs rsl">EGLAPI EGLBoolean EGLAPIENTRY eglBindTexImage(EGLDisplay dpy, EGLSurface <span class="hljs-shader"><span class="hljs-keyword">surface</span>, EGLint buffer);</span></code></pre> 
+<p>eglBindTexImage用于定义二维纹理图片&#xff0c;返回EGL_FALSE时可能的错误为EGL_BAD_ACCESS、EGL_BAD_MATCH、EGL_BAD_SURFACE。</p> 
+<p>eglReleaseTexImage——</p> 
+<pre class="prettyprint"><code class=" hljs rsl">EGLAPI EGLBoolean EGLAPIENTRY eglReleaseTexImage(EGLDisplay dpy, EGLSurface <span class="hljs-shader"><span class="hljs-keyword">surface</span>, EGLint buffer);</span></code></pre> 
+<p>eglReleaseTexImage用于释放用作纹理的color buffer&#xff0c;返回EGL_FALSE时可能的错误为EGL_BAD_MATCH、EGL_BAD_SURFACE。</p> 
+<p>eglSwapInterval——</p> 
+<pre class="prettyprint"><code class=" hljs scss">EGLAPI EGLBoolean EGLAPIENTRY <span class="hljs-function">eglSwapInterval(EGLDisplay dpy, EGLint interval)</span>;</code></pre> 
+<p>eglSwapInterval用于设置buffer交换时的最小帧数&#xff0c;默认为1&#xff0c;返回EGL_FALSE时可能的错误为EGL_BAD_CONTEXT、EGL_BAD_SURFACE。</p> 
+<p>eglGetCurrentContext——</p> 
+<pre class="prettyprint"><code class=" hljs cs">EGLAPI EGLContext EGLAPIENTRY eglGetCurrentContext(<span class="hljs-keyword">void</span>);</code></pre> 
+<p>eglGetCurrentContext用于获取当前的渲染context。</p> 
+<p>eglGetCurrentSurface——</p> 
+<pre class="prettyprint"><code class=" hljs scss">EGLAPI EGLSurface EGLAPIENTRY <span class="hljs-function">eglGetCurrentSurface(EGLint readdraw)</span>;</code></pre> 
+<p>eglGetCurrentSurface用于获取当前的surface。</p> 
+<p>eglGetCurrentDisplay——</p> 
+<pre class="prettyprint"><code class=" hljs cs">EGLAPI EGLDisplay EGLAPIENTRY eglGetCurrentDisplay(<span class="hljs-keyword">void</span>);</code></pre> 
+<p>eglGetCurrentDisplay用于获取当前的display。</p> 
+<p>eglCopyBuffers——</p> 
+<pre class="prettyprint"><code class=" hljs rsl">EGLAPI EGLBoolean EGLAPIENTRY eglCopyBuffers(EGLDisplay dpy, EGLSurface <span class="hljs-shader"><span class="hljs-keyword">surface</span>,
+              EGLNativePixmapType target);</span></code></pre> 
+<p>eglCopyBuffers用于拷贝surface的颜色buffer到native pixmap&#xff0c;前者保持不变&#xff0c;返回前内部调用了glFlush&#xff0c;后续命令等到拷贝完成之后才会执行&#xff0c;返回EGL_FALSE时可能的原因为EGL_BAD_DISPLAY、EGL_NOT_INITIALIZED、EGL_BAD_SURFACE、EGL_BAD_NATIVE_PIXMAP、EGL_BAD_MATCH、EGL_CONTEXT_LOST。</p> 
+<p>eglGetProcAddress——</p> 
+<pre class="prettyprint"><code class=" hljs d"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">void</span> (*__eglMustCastToProperFunctionPointerType)(<span class="hljs-keyword">void</span>);
+EGLAPI __eglMustCastToProperFunctionPointerType EGLAPIENTRY
+       eglGetProcAddress(<span class="hljs-keyword">const</span> <span class="hljs-built_in">char</span> *procname);</code></pre> 
+<p>eglGetProcAddress用于获取GL或EGL的扩展函数&#xff0c;可能返回NULL&#xff0c;非NULL时这个函数也不一定在运行时支持&#xff0c;需要通过eglGetString(EGL_EXTENSIONS)或eglQueryString(display, EGL_EXTENSIONS)确认。</p>
+                </div>
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-d7a94ec6ab.css" rel="stylesheet">
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-ba784fbaf8.css" rel="stylesheet">
+        </div>
+    </article>
+</div>
+<script>
+    // 敏感词替换
+    ~function(blogSensitiveWords){
+        if(blogSensitiveWords){   
+            var getContentViews = document.getElementById("content_views");
+            var getContentTitle = document.getElementById("articleContentId");
+            var contentViewsInnerHTML = getContentViews.innerHTML;
+            var contentTitleInnerHTML = getContentTitle.innerHTML;
+            var keyWordsJsonArr = [];
+            var keyWordsArr = blogSensitiveWords.split(',');
+            function repeatTimes(str, num){
+                return num > 1 ? str += repeatTimes(str, --num): str;
+            }
+            for(var i = 0; i < keyWordsArr.length; i++){
+                var keyWordsJson = {} ;
+                keyWordsJson.key = keyWordsArr[i];
+                keyWordsJson.value = repeatTimes("*",keyWordsArr[i].length);
+                keyWordsJsonArr.push(keyWordsJson);
+            }
+            var reg;
+            for(var i = 0; i < keyWordsJsonArr.length; i++){
+                var item = keyWordsJsonArr[i];
+                reg = new RegExp(item.key+"(?!([^<]*>)|([^<]*<\/a>))","ig");
+                contentViewsInnerHTML = contentViewsInnerHTML.replace(reg,item.value);
+                contentTitleInnerHTML = contentTitleInnerHTML.replace(reg,item.value);
+            }
+            getContentViews.innerHTML=contentViewsInnerHTML;
+            getContentTitle.innerHTML=contentTitleInnerHTML;
+        }
+    }(blogSensitiveWords)
+</script>
+<div class="more-toolbox" id="toolBarBox">
+    <span id="fixedBar"></span>
+    <div class="left-toolbox">
+        <ul class="toolbox-list">
+            <li class="tool-item tool-item-size tool-active is-like" id="is-like"><a>
+            <img style="display:none;" id="is-like-imgactive-animation-like" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isactive" style="display:none" id="is-like-imgactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isdefault" style="display:block" id="is-like-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUp.png" alt="">   
+            <span class="name" id="is-like-span">点赞</span>
+            <span id="spanCount" class="count">
+                    6
+            </span>
+            </a></li>
+            <li class="tool-item tool-item-size tool-active tool-item-comment">
+                <a href="#commentBox">
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarComment.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCommentactive.png" style="display:none;" alt="">
+                    <span class="name">评论</span>
+                    <span class="count">
+                        2
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-QRcode" id="tool-share">
+                <a href="javascript:;" data-report-click='{"mod":"1582594662_002","spm":"1001.2101.3001.4129","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShare.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShareactive.png" style="display:none;" alt="">
+                    <span class="name">分享</span>
+                </a>
+                <div class="QRcode" id="tool-QRcode" style="left:-92%;">
+                    <span id="QRcode-close">x</span>
+                    <p class="title">
+                    海报分享
+                    </p>
+                    <div id='shareCode'></div>
+                    <p>
+                    扫一扫，分享海报
+                    </p>
+                </div>
+            </li>
+            <li class="tool-item tool-item-size tool-active is-collection ">
+                <a href="javascript:;" data-report-click='{"mod":"popu_824","spm":"1001.2101.3001.4130","ab":"new"}'>
+                    <img style="display:none" id="is-collection-img-collection" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <img class="isdefault" id="is-collection-img" style="display:block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                    <img class="isactive" id="is-collection-imgactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <span class="name" id="is-collection">收藏</span>
+                    <span class="count get-collection" id="get-collection">
+                        12
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-reward">
+                <a  id="toolreward" data-report-click='{"mod":"popu_830","spm":"1001.2101.3001.4237","dest":"","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReward.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarRewardactive.png" style="display:none;" alt="">
+                    <span class="name">打赏</span>
+                </a>
+<div id="reward" class="reward-box">
+	<p class="rewad-title">打赏<span class="reward-close"><svg t="1567152543821" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10924" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><defs><style type="text/css"></style></defs><path d="M512 438.378667L806.506667 143.893333a52.032 52.032 0 1 1 73.6 73.621334L585.621333 512l294.485334 294.485333a52.074667 52.074667 0 0 1-73.6 73.642667L512 585.621333 217.514667 880.128a52.053333 52.053333 0 1 1-73.621334-73.642667L438.378667 512 143.893333 217.514667a52.053333 52.053333 0 1 1 73.621334-73.621334L512 438.378667z" fill="" p-id="10925"></path></svg></span></p>
+	<dl>
+		<dd>
+		<a href="https://aidear.blog.csdn.net" data-report-click='{"mod":"popu_379","dest":"https://aidear.blog.csdn.net","ab":"new"}'>
+			<img src="https://profile.csdnimg.cn/D/4/8/3_ieearth" class="avatar_pic">
+		</a>
+		</dd>
+		<dt>
+			<p class="blog-name">evoo</p>
+			<p class="blog-discript">你的鼓励将是我创作的最大动力</p>
+		</dt>
+	</dl>
+	<div class="change-bt-box">
+		<span class="reward-bt reward-bt-coin">C币</span>
+		<span class="reward-bt-space"></span>
+		<span class="reward-bt reward-bt-money reward-bt-active">余额</span>
+	</div>
+	<div class="money-box">
+			<span class="choose_money choosed" data-id="2">2C币</span>
+			<span class="choose_money " data-id="4">4C币</span>
+			<span class="choose_money " data-id="6">6C币</span>
+			<span class="choose_money " data-id="10">10C币</span>
+			<span class="choose_money " data-id="20">20C币</span>
+			<span class="choose_money " data-id="50">50C币</span>
+	</div>
+	<div class="sure-box">
+		<p class="is-have-money"><a class="reward-sure">确定</a></p>
+	</div>
+</div>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-more">
+              <a class="article-report">
+                <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReport.png" alt="">
+                <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReportactive.png" style="display:none;" alt="">
+                <span class="name">举报</span>
+              </a>
+            </li>
+            <li class="tool-item">
+                    <a class="tool-attend tool-bt-button tool-bt-attend" href="javascript:;" data-report-view='{"mod":"1592215036_002","spm":"1001.2101.3001.4232","extend1":"关注"}'>关注</a>
+                <a class="tool-item-follow active-animation" style="display:none;">关注</a>
+            </li>
+            <li class="tool-item">
+                    <p class="company active" id="health-companies" href="javascript:;" >一键三连</p>
+                <span class="triplet-prompt">点赞Mark关注该博主, 随时了解TA的最新博文<img class="close-prompt" src="https://csdnimg.cn/release/blogv2/dist/pc/img/closePrompt.png"></span>
+            </li>
+        </ul>
+        <div style="display:flex">
+         </div>
+    </div>  
+</div>
+<script type=text/javascript crossorigin src="https://csdnimg.cn/release/phoenix/production/qrcode-7c90a92189.min.js"></script>
+<script src="//g.csdnimg.cn/??sharewx/1.2.1/sharewx.js" type="text/javascript"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/collection-box/2.0.2/collection-box.js"></script>
+                <div class="first-recommend-box recommend-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://zhangbin.blog.csdn.net/article/details/20485771"  data-report-view='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://zhangbin.blog.csdn.net/article/details/20485771"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://zhangbin.blog.csdn.net/article/details/20485771" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://zhangbin.blog.csdn.net/article/details/20485771"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control'>
+					<em>EGL</em>/<em>egl</em>.h: No such file or directory
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/commshare" target="_blank"><span class="blog-title">突围</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">03-04</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					7258
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://zhangbin.blog.csdn.net/article/details/20485771" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://zhangbin.blog.csdn.net/article/details/20485771"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">参考&nbsp;http://codefail.wordpr<em>es</em>s.com/2013/05/15/<em>opengl</em>-<em>es</em>-c-android-<em>egl</em><em>egl</em>-h-no-such-file-or-directory/
+参考&nbsp;http://blog.sina.com.cn/s/blog_b3801c8f0101ka0e.html
+
+
+
+查看<em>EGL</em>的支持是在2.3版本以上，所以我们需要添加平台的支持，所以需要</div>
+			</a>
+		</div>
+	</div>
+</div>
+                </div>
+            <div class="second-recommend-box recommend-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/d_uanrock/article/details/50518885"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.control\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/d_uanrock/article/details/50518885"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/d_uanrock/article/details/50518885" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.control\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/d_uanrock/article/details/50518885"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.control'>
+					Native层-<em>OpenGL</em> <em>ES</em>-双缓冲离屏渲染
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/d_uanrock" target="_blank"><span class="blog-title">段亮的博客（Android系统-VR系统）</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">01-14</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					4187
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/d_uanrock/article/details/50518885" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.control\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/d_uanrock/article/details/50518885"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.control'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>OpenGL</em> <em>ES</em>相关的数据结构：
+typedef struct {
+	<em>EGL</em>int MajorVersion;
+	<em>EGL</em>int MinorVersion;
+	<em>EGL</em>Display Display;
+	<em>EGL</em>Config Config;
+	<em>EGL</em>Surface TinySurface;
+	<em>EGL</em>Surface MainSurface;
+	<em>EGL</em>Context Context;
+} ovr<em>Egl</em>;</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+<a id="commentBox" name="commentBox"></a>
+<div class="comment-box">
+	<div class="comment-edit-box d-flex">
+		<a id="commentsedit"></a>
+		<div class="user-img">
+			<a href="javascript:void(0);" >
+				<img class="show_loginbox" src="https://g.csdnimg.cn/static/user-img/anonymous-User-img.png">
+			</a>
+		</div>
+		<form id="commentform">
+			<img class="comment-sofa-flag" src="https://csdnimg.cn/release/blogv2/dist/pc/img/commentFlag@2x.png">
+			<textarea class="comment-content" name="comment_content" id="comment_content" placeholder="优质评论可以帮助作者获得更高权重"
+				maxlength="1000"></textarea>
+			<div class="opt-box">
+				<div id="ubbtools" class="add_code">
+					<a href="#insertcode" code="code" target="_self"><i class="icon iconfont icon-daima"></i></a>
+				</div>
+				<input type="hidden" id="comment_replyId" name="comment_replyId">
+				<input type="hidden" id="article_id" name="article_id" value="71180457">
+				<input type="hidden" id="comment_userId" name="comment_userId" value="">
+				<input type="hidden" id="commentId" name="commentId" value="">
+				<div class="dropdown" id="myDrap">
+					<a class="dropdown-face d-flex align-items-center" data-toggle="dropdown" role="button"
+						aria-haspopup="true" aria-expanded="false">
+						<div class="txt-selected text-truncate">添加代码片</div>
+						<svg class="icon d-block" width="200px" height="100.00px" viewBox="0 0 2048 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path  d="M597.33333292 298.666667h853.333334L1023.99999992 725.333333 597.33333292 298.666667z"  /></svg>
+					</a>
+					<ul class="dropdown-menu" id="commentCode" aria-labelledby="drop4">
+						<li><a data-code="html">HTML/XML</a></li>
+						<li><a data-code="objc">objective-c</a></li>
+						<li><a data-code="ruby">Ruby</a></li>
+						<li><a data-code="php">PHP</a></li>
+						<li><a data-code="csharp">C</a></li>
+						<li><a data-code="cpp">C++</a></li>
+						<li><a data-code="javascript">JavaScript</a></li>
+						<li><a data-code="python">Python</a></li>
+						<li><a data-code="java">Java</a></li>
+						<li><a data-code="css">CSS</a></li>
+						<li><a data-code="sql">SQL</a></li>
+						<li><a data-code="plain">其它</a></li>
+					</ul>
+				</div>
+				<div class="right-box" id="rightBox" data-type="2">
+							<span id="tip_comment" class="tip">还能输入<em>1000</em>个字符</span>
+							<a data-report-view='{"spm":"3001.4374"}' data-report-click='{"spm":"3001.4374"}' class="btn btn-sm btn-quick-comment" id="quickComment">“速评一下”</a>
+							<a data-report-click='{"mod":"1582594662_003","spm":"1001.2101.3001.4227","ab":"new"}'><input type="submit"
+									class="btn btn-sm btn-comment" value="发表评论"></a>
+				</div>
+			</div>
+		</form>
+		<input type="button" class="bt-comment-show" value="评论">
+	</div>
+	<div class="comment-list-container">
+		<a id="comments"></a>
+		<div class="comment-list-box">
+		</div>
+		<div id="commentPage" class="pagination-box d-none"></div>
+		<div class="opt-box text-center">
+			<div class="btn btn-sm btn-link-blue" id="btnMoreComment"></div>
+		</div>
+	</div>
+</div>            <div class="recommend-box insert-baidu-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/zhying719/article/details/108067711"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control\"}","index":"2","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/zhying719/article/details/108067711"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/zhying719/article/details/108067711" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control\"}","index":"2","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/zhying719/article/details/108067711"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control'>
+					你还不知道 <em>OpenGL</em> <em>ES</em> 和 <em>EGL</em> 的关系？
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/zhying719" target="_blank"><span class="blog-title">音视频开发进阶</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-17</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					110
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/zhying719/article/details/108067711" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control\"}","index":"2","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/zhying719/article/details/108067711"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">什么是 <em>EGL</em><em>EGL</em> 是 <em>OpenGL</em> <em>ES</em> 和本地窗口系统（Native Window System）之间的通信接口，它的主要作用：与设备的原生窗口系统通信；查询绘图表面的可用类型和配...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://quantum6.blog.csdn.net/article/details/106954214"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control\"}","index":"3","strategy":"BlogCommendFromBaidu","dest":"https://quantum6.blog.csdn.net/article/details/106954214"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://quantum6.blog.csdn.net/article/details/106954214" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control\"}","index":"3","strategy":"BlogCommendFromBaidu","dest":"https://quantum6.blog.csdn.net/article/details/106954214"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control'>
+					编译错误：GL/glew.h, GL/glut.h, <em>EGL</em>/<em>egl</em>.h没有那个文件或目录
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/quantum7" target="_blank"><span class="blog-title">柳鲲鹏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">06-25</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					709
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://quantum6.blog.csdn.net/article/details/106954214" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control\"}","index":"3","strategy":"BlogCommendFromBaidu","dest":"https://quantum6.blog.csdn.net/article/details/106954214"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">In file included from AppDecGL.cpp:26:0:
+FramePr<em>es</em>enterGL.h:21:21: 致命错误：GL/glew.h：没有那个文件或目录
+#include &lt;GL/glew.h&gt;
+
+sudo yum install glew-devel
+
+In file included from AppDecGL.cpp:26:0:
+FramePr<em>es</em>enterGL.h:22:21: 致命错误：GL/glut.h：没有那个文件或目录
+#include &lt;..</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qq160816/article/details/40893297"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control\"}","index":"4","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/qq160816/article/details/40893297"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qq160816/article/details/40893297" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control\"}","index":"4","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/qq160816/article/details/40893297"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control'>
+					使用 的surface缓冲
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qq160816" target="_blank"><span class="blog-title">qq160816的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">11-07</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					2167
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qq160816/article/details/40893297" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control\"}","index":"4","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/qq160816/article/details/40893297"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">使用 的surface缓冲。
+
+3.7 粉刷上下文（Rendering Context）
+
+（1）<em>EGL</em>Boolean <em>egl</em>BindAPI(<em>EGL</em>enum api);绑定客户端api，参数可以是：<em>EGL</em>_<em>OPENGL</em>_API， <em>EGL</em>_<em>OPENGL</em>_<em>ES</em>_API，或者 <em>EGL</em>_OPENVG_API。 （2）<em>EGL</em>enum <em>egl</em>QueryAPI(void);查询当前支持的客户端api。 </div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/pizi0475/article/details/46794387"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.control\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/pizi0475/article/details/46794387"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/pizi0475/article/details/46794387" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.control\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/pizi0475/article/details/46794387"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.control'>
+					将 <em>EGL</em> 代码与 DXGI 和 Direct3D 进行比较
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/pizi0475" target="_blank"><span class="blog-title">痞子龙3D编程</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">07-07</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					2095
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/pizi0475/article/details/46794387" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.control\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/pizi0475/article/details/46794387"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">DirectX Graphics Interface (DXGI) 以及若干个 Direct3D API 所起的作用与 <em>EGL</em> 相同。本主题帮助你从 <em>EGL</em> 的角度了解 DXGI 和 Direct3D。
+
+和 <em>EGL</em> 一样，DXGI 和 Direct3D 提供配置图形资源、获取你的着色器要绘制到的呈现上下文以及在窗口中显示结果的方法。但是，DXGI 和 Direct3D 具有更多选项，因此从 </div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/ch15717502064/9647055"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-6.control\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://download.csdn.net/download/ch15717502064/9647055"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/ch15717502064/9647055" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-6.control\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://download.csdn.net/download/ch15717502064/9647055"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-6.control&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-6.control'>
+					<em>opengl</em>头文件
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">10-07</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/ch15717502064/9647055" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-6.control\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://download.csdn.net/download/ch15717502064/9647055"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-6.control&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-6.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">vc6.0<em>opengl</em>安装</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/movenostop/article/details/79696665"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.control\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/movenostop/article/details/79696665"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/movenostop/article/details/79696665" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.control\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/movenostop/article/details/79696665"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.control'>
+					<em>EGL</em>  <em>opengl</em>多线程绘制
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/movenostop" target="_blank"><span class="blog-title">movenostop的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">03-26</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					1921
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/movenostop/article/details/79696665" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.control\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/movenostop/article/details/79696665"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.control'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>opengl</em>多线程绘制实现效果：<em>opengl</em>开启两个线程，一个线程用于绘制，另一个线程用于加载纹理。实现方法：<em>opengl</em>是单线程的，其他线程不能访问另外线程的纹理资源，但是，如果两个线程共享上下文，就可以访问彼此的纹理资源。绘制线程：创建两个上下文//只有主要代码
+...
+context = <em>egl</em>CreateContext(display, config, NULL, ctxAttribs);...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://zhangbin.blog.csdn.net/article/details/107983793"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://zhangbin.blog.csdn.net/article/details/107983793"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://zhangbin.blog.csdn.net/article/details/107983793" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://zhangbin.blog.csdn.net/article/details/107983793"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control'>
+					【zz】<em>EGL</em>接口说明
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/commshare" target="_blank"><span class="blog-title">突围</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-13</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					110
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://zhangbin.blog.csdn.net/article/details/107983793" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://zhangbin.blog.csdn.net/article/details/107983793"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">原文
+-【参考-khronos-<em>egl</em>（最新版本1.5）】https://www.khronos.org/<em>egl</em>
+-【参考-khronos-<em>egl</em>-api（目前共34个API，不包括Khronos扩展）】https://www.khronos.org/registry/<em>EGL</em>/sdk/docs/man/
+-【参考-khronos-<em>egl</em>-intro】https://www.khronos.org/registry/<em>EGL</em>/sdk/docs/man/html/<em>egl</em>Intro.xhtml
+
+0、概述
+<em>EGL</em>.</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+            <div class="template-box">
+                <span>©️2020 CSDN</span>
+                <span>皮肤主题: 我行我“速” </span>
+                <span> 设计师:Amelia_0503</span>
+                <span>
+                    <a href="https://blog.csdn.net/" class="back-home c-blue c-blue-hover c-blue-focus">返回首页</a>
+                </span>
+            </div>
+<div class="blog-footer-bottom" style="margin-top:10px;"></div>
+<script src="https://g.csdnimg.cn/common/csdn-footer/csdn-footer.js" data-isfootertrack="false" type="text/javascript"></script>
+<script type="text/javascript">
+    window.csdn.csdnFooter.options = {
+        el: '.blog-footer-bottom',
+        type: 2
+    }
+</script>        </main>
+<aside class="blog_container_aside">
+    <div id="asideProfile" class="aside-box">
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://aidear.blog.csdn.net" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4121","dest":"https://aidear.blog.csdn.net","ab":"new"}'>
+                <img src="https://profile.csdnimg.cn/D/4/8/3_ieearth" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex flex-column profile-intro-name-box">
+            <div class="profile-intro-name-boxTop">
+                <a href="https://aidear.blog.csdn.net" class="" id="uid" title="evoo" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4122","dest":"https://aidear.blog.csdn.net","ab":"new"}'>
+                    <span class="name " username="iEearth">evoo</span>
+                </a>
+                <span>
+                </span>
+                <span class="flag expert-blog">
+                <img class="identity" src="https://csdnimg.cn/release/blogv2/dist/mobile/img/expertNew.png" alt="">
+                <span class="bubble">CSDN认证博客专家</span>
+                </span>
+                <span class="flag company-blog">
+                <span class="bubble">CSDN认证企业博客</span>
+                </span>
+            </div>
+            <div class="profile-intro-name-boxFooter">
+                <span class="personal-home-page personal-home-years">码龄6年</span>
+                    <span class="personal-home-page">
+                    <a class="personal-home-certification" href="https://aidear.blog.csdn.net?utm_source=14998968" target="_blank" title="暂无认证">
+                    <img src="https://csdnimg.cn/identity/nocErtification.png" alt="">
+                    暂无认证
+                    </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="292">
+            <a href="https://aidear.blog.csdn.net" data-report-click='{"mod":"1598321000_001","spm":"1001.2101.3001.4310"}' data-report-query="t=1">  
+                <dt><span class="count">292</span></dt>
+                <dd class="font">原创</dd>
+            </a>
+        </dl>
+        <dl class="text-center" data-report-click='{"mod":"1598321000_002","spm":"1001.2101.3001.4311"}' title="8129">
+            <a href="https://blog.csdn.net/rank/writing_rank" target="_blank">
+                <dt><span class="count">8129</span></dt>
+                <dd class="font">周排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" title="3843">
+            <a href="https://blog.csdn.net/rank/writing_rank_total" data-report-click='{"mod":"1598321000_003","spm":"1001.2101.3001.4312"}' target="_blank">
+                <dt><span class="count">3843</span></dt>
+                <dd class="font">总排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" style="min-width:58px" title="797836">  
+            <dt><span class="count">79万+</span></dt>
+            <dd>访问</dd>
+        </dl>
+        <dl class="text-center" title="7级,点击查看等级说明">
+            <dt><a href="https://blog.csdn.net/home/help.html#level" target="_blank">
+                <img class="level" src="https://csdnimg.cn/identity/blog7.png">
+            </a>
+            </dt>
+            <dd>等级</dd>
+        </dl>
+    </div>
+    <div class="item-rank"></div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="10848">
+            <dt><span class="count">1万+</span></dt>
+            <dd>积分</dd>
+        </dl>
+         <dl class="text-center" id="fanBox" title="332">
+            <dt><span class="count" id="fan">332</span></dt>
+            <dd>粉丝</dd>
+        </dl>
+        <dl class="text-center" title="525">
+            <dt><span class="count">525</span></dt>
+            <dd>获赞</dd>
+        </dl>
+        <dl class="text-center" title="77">
+            <dt><span class="count">77</span></dt>
+            <dd>评论</dd>
+        </dl>
+        <dl class="text-center" title="371">
+            <dt><span class="count">371</span></dt>
+            <dd>收藏</dd>
+        </dl>
+    </div>
+    <div class="aside-box-footer" data-report-view='{"spm":"3001.4296"}'>
+        <div class="badge-box d-flex">
+            <div class="badge d-flex">
+                <div class="icon-badge" title="技术圈认证（专家版）">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/blog_expert_medal@240.png" alt="技术圈认证（专家版）">
+                    </div>
+                </div>
+                <div class="icon-badge" title="专栏达人">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/zhuanlandaren@240.png" alt="专栏达人">
+                    </div>
+                </div>
+                <div class="icon-badge" title="持之以恒">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/chizhiyiheng@240.png" alt="持之以恒">
+                    </div>
+                </div>
+                <div class="icon-badge" title="勤写标兵Lv1">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/qixiebiaobing1@240.png" alt="勤写标兵Lv1">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="profile-intro-name-boxOpration">
+        <div class="opt-letter-watch-box">
+        <a class="bt-button personal-letter" href="https://im.csdn.net/chat/iEearth" target="_blank" rel="noopener">私信</a>
+        </div>
+        <div class="opt-letter-watch-box"> 
+            <a class="personal-watch bt-button" id="btnAttent" >关注</a>  
+        </div>
+    </div>
+</div>
+<div id="asideSearchArticle" class="aside-box">
+	<div class="aside-content search-comter">
+    <div class="aside-search aside-search-blog">         
+        <input type="text" class="input-serch-blog" name="" autocomplete="off" value="" id="search-blog-words" placeholder="搜博主文章">
+        <a class="btn-search-blog">
+                    <img src="//csdnimg.cn/cdn/content-toolbar/csdn-white-search.png?v=1587006908">
+        </a>
+    </div>
+    </div>
+</div>
+
+<div id="asideCustom" class="aside-box custom-box">
+    <h3 class="aside-title">HELLO WORLD</h3>
+    <div class="aside-content clearfix">
+        <a href="https://github.com/geminy">-&gt;【Github】&lt;-</a>
+    </div>
+</div>    
+
+<div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list">
+			<li>
+				<a href="https://aidear.blog.csdn.net/article/details/54707416" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://aidear.blog.csdn.net/article/details/54707416","ab":"new"}'>
+				【Bash百宝箱】从Android.mk到Android.bp
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					<span class="read">25387</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://aidear.blog.csdn.net/article/details/49952047" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://aidear.blog.csdn.net/article/details/49952047","ab":"new"}'>
+				【Linux】LD_PRELOAD用法
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					<span class="read">18244</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://aidear.blog.csdn.net/article/details/43669821" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://aidear.blog.csdn.net/article/details/43669821","ab":"new"}'>
+				【QT】在Qt中获取屏幕大小
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					<span class="read">17536</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://aidear.blog.csdn.net/article/details/71180457" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://aidear.blog.csdn.net/article/details/71180457","ab":"new"}'>
+				【OpenGL ES】EGL简介
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					<span class="read">14128</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://aidear.blog.csdn.net/article/details/46740161" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://aidear.blog.csdn.net/article/details/46740161","ab":"new"}'>
+				【Java】用Java实现九宫格
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					<span class="read">13688</span>
+                </a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="asideCategory" class="aside-box flexible-box" style="">
+    <h3 class="aside-title">分类专栏</h3>
+    <div class="aside-content">
+        <ul>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9275188.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9275188.html","ab":"new"}'>
+                    <img src="//img-blog.csdn.net/20180523211025720?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Android知识库</span>
+                    </span>
+                    <span class="count float-right">39篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9267053.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9267053.html","ab":"new"}'>
+                    <img src="https://img-blog.csdn.net/20161012093230285?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Linux之美</span>
+                    </span>
+                    <span class="count float-right">25篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9267908.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9267908.html","ab":"new"}'>
+                    <img src="https://img-blog.csdn.net/20170117162414168?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">图形图像</span>
+                    </span>
+                    <span class="count float-right">66篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9266988.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9266988.html","ab":"new"}'>
+                    <img src="https://img-blog.csdn.net/20160930094502122?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">设计与架构</span>
+                    </span>
+                    <span class="count float-right">25篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9267794.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9267794.html","ab":"new"}'>
+                    <img src="https://img-blog.csdn.net/20170105161607893?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">编程语言</span>
+                    </span>
+                    <span class="count float-right">82篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9266838.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9266838.html","ab":"new"}'>
+                    <img src="https://img-blog.csdn.net/20160914174954553?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Bash百宝箱</span>
+                    </span>
+                    <span class="count float-right">39篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9268502.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9268502.html","ab":"new"}'>
+                    <img src="https://img-blog.csdn.net/20170402071709366?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">软件开发工具集</span>
+                    </span>
+                    <span class="count float-right">18篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9269188.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9269188.html","ab":"new"}'>
+                    <img src="https://img-blog.csdn.net/20170614141835888?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">CS-计算机科学备忘录</span>
+                    </span>
+                    <span class="count float-right">7篇</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p class="text-center">
+        <a class="flexible-btn" data-fbox="aside-archive"><img class="look-more" src="https://csdnimg.cn/release/blogv2/dist/pc/img/arrowDownBlack.png" alt=""></a>
+    </p>
+</div>
+<div id="asideNewComments" class="aside-box">
+    <h3 class="aside-title">最新评论</h3>
+    <div class="aside-content">
+        <ul class="newcomment-list">
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://aidear.blog.csdn.net/article/details/45044777#comments_11931253" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://aidear.blog.csdn.net/article/details/45044777#comments_11931253","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://aidear.blog.csdn.net/article/details/45044777#comments_11931253","ab":"new"}'>【Python】10行python代码实现约瑟夫问题</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/qq_44741955" class="user-name" target="_blank">莺时廿七: </a>
+                    <span class="code-comments">非常感谢！就您的版本最简洁，就是有点看不懂death</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://aidear.blog.csdn.net/article/details/41895409#comments_11603948" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://aidear.blog.csdn.net/article/details/41895409#comments_11603948","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://aidear.blog.csdn.net/article/details/41895409#comments_11603948","ab":"new"}'>【QT】QML如何创建动态组件</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/qq_18579361" class="user-name" target="_blank">qq_18579361: </a>
+                    <span class="code-comments">使用Component中的createObject方法是不是没办法维护Component内部元素的属性？如果没有使用Loader好像没有办法拿到</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://aidear.blog.csdn.net/article/details/71180457#comments_11239504" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://aidear.blog.csdn.net/article/details/71180457#comments_11239504","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://aidear.blog.csdn.net/article/details/71180457#comments_11239504","ab":"new"}'>【OpenGL ES】EGL简介</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/qq_38743313" class="user-name" target="_blank">Y一fan: </a>
+                    <span class="code-comments">这个博客界面风格很酷，不过不利于阅读</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://aidear.blog.csdn.net/article/details/42030115#comments_11070360" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://aidear.blog.csdn.net/article/details/42030115#comments_11070360","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://aidear.blog.csdn.net/article/details/42030115#comments_11070360","ab":"new"}'>【QT】QML的Key事件(Keys)详解</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/weixin_39139505" class="user-name" target="_blank">陈乐乐happy: </a>
+                    <span class="code-comments">这个背景代码根本看不到的呢</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://aidear.blog.csdn.net/article/details/77009054#comments_10970390" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://aidear.blog.csdn.net/article/details/77009054#comments_10970390","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://aidear.blog.csdn.net/article/details/77009054#comments_10970390","ab":"new"}'>【QT】Qt对大小端字节序的处理</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/m0_37266341" class="user-name" target="_blank">m0_37266341: </a>
+                    <span class="code-comments">需要特么你把人家复制粘贴过来？你直接说函数怎么用不就行了，逼逼叨叨一大堆，屁用没有</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="asideArchive" class="aside-box">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix">
+            <li class="clearfix">
+            <a href="https://aidear.blog.csdn.net/article/details/107332395" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://aidear.blog.csdn.net/article/details/107332395","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://aidear.blog.csdn.net/article/details/107332395","ab":"new"}'>【Android】Android Support库介绍</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://aidear.blog.csdn.net/article/details/107057537" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://aidear.blog.csdn.net/article/details/107057537","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://aidear.blog.csdn.net/article/details/107057537","ab":"new"}'>【Android】Android 11（R） 新特性解读</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://aidear.blog.csdn.net/article/details/89967382" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://aidear.blog.csdn.net/article/details/89967382","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://aidear.blog.csdn.net/article/details/89967382","ab":"new"}'>【Android】Android Dalvik&amp;JVM</a>
+            </li>
+        </ul>
+        <div class="archive-bar"></div>
+        <div class="archive-box">
+                <div class="archive-list-item"><a href="https://aidear.blog.csdn.net/article/month/2020/07" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2020年</span><span class="num">2篇</span></a></div>
+                <div class="archive-list-item"><a href="https://aidear.blog.csdn.net/article/month/2019/05" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2019年</span><span class="num">15篇</span></a></div>
+                <div class="archive-list-item"><a href="https://aidear.blog.csdn.net/article/month/2018/11" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2018年</span><span class="num">15篇</span></a></div>
+                <div class="archive-list-item"><a href="https://aidear.blog.csdn.net/article/month/2017/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2017年</span><span class="num">67篇</span></a></div>
+                <div class="archive-list-item"><a href="https://aidear.blog.csdn.net/article/month/2016/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2016年</span><span class="num">75篇</span></a></div>
+                <div class="archive-list-item"><a href="https://aidear.blog.csdn.net/article/month/2015/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2015年</span><span class="num">104篇</span></a></div>
+                <div class="archive-list-item"><a href="https://aidear.blog.csdn.net/article/month/2014/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2014年</span><span class="num">22篇</span></a></div>
+        </div>
+    </div>
+</div>
+	<div id="footerRightAds" class="isShowFooterAds">
+		<div class="aside-box">
+			<div id="kp_box_57" data-pid="57"><div id="protag-banner-2"></div>
+<script data-cfasync="false" type="text/javascript" src="https://protagcdn.com/s/csdn.net/bbs/protag-banner-2.js"></script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=57&a=2234&c=0&k=&spm=1001.2101.3001.5001&d=1&t=3&u=7a94e6b105c646059a0a3c8f00376374" style="display: block;width: 0px;height: 0px;"></div>
+		</div>
+	</div>
+    <!-- 详情页显示目录 -->
+<!--文章目录-->
+<div id="asidedirectory" class="aside-box">
+    <div class='groupfile' id="directory">
+        <h3 class="aside-title">目录</h3>
+        <div class="align-items-stretch group_item">
+            <div class="pos-box">
+            <div class="scroll-box">
+                <div class="toc-box"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+</aside>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).parents("p.text-center").remove();
+	})
+</script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-tooltip/2.1/user-tooltip.js"></script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-medal/1.0.5/user-medal.js"></script>    </div>
+<div class="recommend-right  align-items-stretch clearfix" id="rightAside" data-type="recommend">
+    <aside class="recommend-right_aside">
+        <div id="recommend-right" >
+                        <div class='flex-column aside-box groupfile' id="groupfile">
+                <div class="groupfile-div">
+                <h3 class="aside-title">目录</h3>
+                <div class="align-items-stretch group_item">
+                    <div class="pos-box">
+                        <div class="scroll-box">
+                            <div class="toc-box"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+                <div id="recommendAdBox">
+                    <div id="kp_box_479" data-pid="479"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PC-博客内页右侧第一顺位 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-1076724771190722"
+     data-ad-slot="1827473444"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=479&a=3266&c=0&k=&spm=1001.2101.3001.4834&d=1&t=3&u=98e142d28fc740cb85533fc44bca9192" style="display: block;width: 0px;height: 0px;"></div>
+                </div>
+            <div class='aside-box kind_person d-flex flex-column'>
+                    <h3 class="aside-title">分类专栏</h3>
+                    <div class="align-items-stretch kindof_item" id="kind_person_column">
+                        <div class="aside-content">
+                            <ul>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9275188.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9275188.html","ab":"new"}'>
+                                        <img src="//img-blog.csdn.net/20180523211025720?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">Android知识库</span>
+                                        </span>
+                                        <span class="count float-right">39篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9267053.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9267053.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdn.net/20161012093230285?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">Linux之美</span>
+                                        </span>
+                                        <span class="count float-right">25篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9267908.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9267908.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdn.net/20170117162414168?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">图形图像</span>
+                                        </span>
+                                        <span class="count float-right">66篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9266988.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9266988.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdn.net/20160930094502122?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">设计与架构</span>
+                                        </span>
+                                        <span class="count float-right">25篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9267794.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9267794.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdn.net/20170105161607893?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">编程语言</span>
+                                        </span>
+                                        <span class="count float-right">82篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9266838.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9266838.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdn.net/20160914174954553?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">Bash百宝箱</span>
+                                        </span>
+                                        <span class="count float-right">39篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9268502.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9268502.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdn.net/20170402071709366?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">软件开发工具集</span>
+                                        </span>
+                                        <span class="count float-right">18篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/ieearth/category_9269188.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/ieearth/category_9269188.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdn.net/20170614141835888?imageView2/1/w/64/h/64/interlace/1" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">CS-计算机科学备忘录</span>
+                                        </span>
+                                        <span class="count float-right">7篇</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+            </div>
+            <div class="recommend-list-box d-flex flex-column aside-box" id="recommend-list-box">
+            <ul class="recommend-fixed-box align-items-stretch">
+                <li class="right-item">
+                    <a href="https://plugin.csdn.net/" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.469961.nonecase\"}","index":"1","strategy":"106_469961_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.469961.nonecase\"}","index":"1","strategy":"106_469961_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.469961.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.469961.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>CSDN官方插件，现在体验可获得永久免费去广告特权！</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/powertime_cn/article/details/110820592" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://blog.csdn.net/powertime_cn/article/details/110820592"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://blog.csdn.net/powertime_cn/article/details/110820592"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-3.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-3.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>时代新威专业等级保护测评机构为您解读：2020年最新《定级指南》</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31373" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31373"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31373"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Python Tkinter 数字时钟小项目</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lw7898/13490674" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13490674"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13490674"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-5.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-5.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金蝶云星空 V7.3产品培训_制造_委外管理.pptx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_16613311/article/details/110821944" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/qq_16613311/article/details/110821944"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/qq_16613311/article/details/110821944"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>http请求时nginx会去掉带有下划线（_）的Header键值</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/zacji/article/details/110821943" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://blog.csdn.net/zacji/article/details/110821943"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://blog.csdn.net/zacji/article/details/110821943"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-7.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-7.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>杂米域名好不好?这类杂米域名值得投资</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lw7898/13489488" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489488"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489488"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-8.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-8.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金蝶云星空 V7.3产品培训_财务_应付款管理.pptx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/combo/detail/1964" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1964"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1964"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-9.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-9.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>数据清洗-Pandas系统视频教程</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lw7898/13489490" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489490"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489490"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金蝶云星空 V7.3产品培训_财务_网上银行.pptx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/combo/detail/1960" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1960"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1960"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-11.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-11.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Python零基础入门</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_35968965/article/details/110821942" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://blog.csdn.net/qq_35968965/article/details/110821942"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://blog.csdn.net/qq_35968965/article/details/110821942"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>TCP / IP AT命令</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_44504146/13499140" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_44504146/13499140"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_44504146/13499140"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-13.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-13.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>SpringBoot+ layui +Echarts整合图表实例（统计港口收入预估数据走势）</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/ht370671963/article/details/110822051" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://blog.csdn.net/ht370671963/article/details/110822051"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://blog.csdn.net/ht370671963/article/details/110822051"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-14.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-14.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>git 从远程仓库指定分支clone代码到本地</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31386" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31386"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31386"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Linux实用精讲课程</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31425" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31425"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31425"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>零基础Java入门课程</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31417" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase\"}","index":"17","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31417"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase\"}","index":"17","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31417"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>小白Java入门系列：入门第一课【你的第一个Java程序】</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/bundled/detail/310" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://edu.csdn.net/bundled/detail/310"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://edu.csdn.net/bundled/detail/310"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-18.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-18.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>5大技术入门尝鲜礼包</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31406" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31406"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31406"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>【精品课】Vue.js实现电商后台管理系统（企业项目实战）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/Nicker_/article/details/110819412" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://blog.csdn.net/Nicker_/article/details/110819412"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://blog.csdn.net/Nicker_/article/details/110819412"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>如何创建Cordova插件</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/guang_2011/article/details/110822097" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://blog.csdn.net/guang_2011/article/details/110822097"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://blog.csdn.net/guang_2011/article/details/110822097"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-21.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-21.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>文字变大函数</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_41512245/13499015" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_41512245/13499015"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_41512245/13499015"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-22.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-22.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>&ldquo;带货&rdquo;的逻辑-直播电商产业链研究报告.pdf</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_45851011/article/details/110822010" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://blog.csdn.net/weixin_45851011/article/details/110822010"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://blog.csdn.net/weixin_45851011/article/details/110822010"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-23.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-23.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Springboot（1）----动态获取数据库密码进行使用</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/ht370671963/article/details/110822022" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://blog.csdn.net/ht370671963/article/details/110822022"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://blog.csdn.net/ht370671963/article/details/110822022"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Flex布局-垂直居中并换行显示内容</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lw7898/13489460" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489460"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://download.csdn.net/download/lw7898/13489460"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-25.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-25.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>金蝶云星空 V7.3新增功能_财务_产品成本核算.pptx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/Yuan_Hang723/article/details/110821538" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://blog.csdn.net/Yuan_Hang723/article/details/110821538"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://blog.csdn.net/Yuan_Hang723/article/details/110821538"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>关于缓存穿透、缓存击穿、缓存雪崩的模拟与解决(Redis)</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/fafagege11520/article/details/110790781" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://blog.csdn.net/fafagege11520/article/details/110790781"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://blog.csdn.net/fafagege11520/article/details/110790781"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-27.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-27.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>机器学习深版04：提升</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/luosijiedenixi/13489506" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://download.csdn.net/download/luosijiedenixi/13489506"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://download.csdn.net/download/luosijiedenixi/13489506"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>csv批量合成到一个excel文件里</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/fangfu123/article/details/110821224" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://blog.csdn.net/fangfu123/article/details/110821224"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://blog.csdn.net/fangfu123/article/details/110821224"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-29.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-29.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>修改Docker容器的时区为中国时区</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_44607773/13489480" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_44607773/13489480"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_44607773/13489480"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>算法导论 第三版 完整答案 英</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/Yang_XiaoYang/13489470" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://download.csdn.net/download/Yang_XiaoYang/13489470"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://download.csdn.net/download/Yang_XiaoYang/13489470"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>划词翻译插件-沙拉查词</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/aliexken/article/details/110807152" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://blog.csdn.net/aliexken/article/details/110807152"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://blog.csdn.net/aliexken/article/details/110807152"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>OpenGL高级版本学习日志2：光照模型&amp;材质</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31356" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31356"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31356"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-33.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-33.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>数组的查找</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/Xx_Oneqian/13489498" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://download.csdn.net/download/Xx_Oneqian/13489498"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://download.csdn.net/download/Xx_Oneqian/13489498"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>AI课程精品，细致讲解，感兴趣的私聊通知我，后续课程发送</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/jessica0307/article/details/110817782" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://blog.csdn.net/jessica0307/article/details/110817782"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://blog.csdn.net/jessica0307/article/details/110817782"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>材料与化学数据库分享</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/wenlong_15/article/details/110822040" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://blog.csdn.net/wenlong_15/article/details/110822040"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://blog.csdn.net/wenlong_15/article/details/110822040"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>javascript 判断括号是否配对。</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31418" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31418"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31418"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Net公司网站开发实战（基于vs2019、SQL2012)</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31414" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31414"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31414"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-38.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-38.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>QT QML声明式状态机</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_40929065/13489464" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_40929065/13489464"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_40929065/13489464"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-39.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-39.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>三维装箱算法研究-系统后端.zip</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_51589394/article/details/110822072" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://blog.csdn.net/weixin_51589394/article/details/110822072"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://blog.csdn.net/weixin_51589394/article/details/110822072"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-40.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-40.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>实验报告，共同进步（一）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+            </ul>
+            </div>
+        </div>
+    </aside>
+</div>
+
+</div>
+<div class="mask-dark"></div>
+<script type="text/javascript">
+    var timert = setInterval(function(){
+      sideToolbar = $(".csdn-side-toolbar");
+      if (sideToolbar.length > 0) {
+        sideToolbar.css('cssText','bottom:64px !important;')
+        clearInterval(timert);
+      }
+    }, 200);
+</script>
+<script>
+    var articleId = 71180457;
+    var commentscount = 2;
+    var curentUrl = "https://blog.csdn.net/iEearth/article/details/71180457";
+    var myUrl = "https://my.csdn.net/";
+    var highlight = ["OpenGL","ES","EGL","简介"];//高亮数组
+    var share_card_url = "https://blog.csdn.net/iEearth/article/shareArticleCardPage?article_id=71180457"
+	var articleType = 1;
+    var baiduKey = "【OpenGL ES】EGL简介";
+    var needInsertBaidu = true;
+    var recommendRegularDomainArr = ["blog.csdn.net/.+/article/details/","download.csdn.net/download/","edu.csdn.net/course/detail/","ask.csdn.net/questions/","bbs.csdn.net/topics/","www.csdn.net/gather_.+/"]
+    var codeStyle = "tomorrow-night";
+    var baiduSearchType = "title";
+    var canRead = true;
+    var blogMoveHomeArticle = false;
+    var showPcWindowAd = false;
+</script>
+<script src="https://csdnimg.cn/public/sandalstrap/1.4/js/sandalstrap.min.js"></script>
+<div class="skin-boxshadow"></div>
+<div style="display:none;">
+	<img src="" onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+</div>
+</body>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_highlight-db1e81323a.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_common-906586e915.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/codesnippet/lib/highlight/styles/tomorrow-night.css">
+<script>
+ // 全局声明
+ if (window.csdn === undefined) {
+      window.csdn = {};
+    }
+    window.csdn.sideToolbar = {
+        options: {
+            report:{
+                isShow: true,
+            },
+            qr: {
+                isShow: false,
+            },
+            guide: {
+                isShow: true
+            }
+        }
+    }
+    $(function(){
+        $(document).on('click',"a.option-box[data-type='report']",function() {
+            window.csdn.userLogin.loadAjax(function(res){
+                showReport(false,articleTitles);
+            })
+        });
+    })
+</script>
+    <script src="https://g.csdnimg.cn/baidu-search/1.0.7/baidu-search.js"  type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/download/old_static/js/qrcode.js"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/common-b286f966c8.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/detail-c3206d1df7.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/user-ordercart/1.0.6/user-ordercart.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/column-78261cfea6.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/side-toolbar/2.8/side-toolbar.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/copyright/1.0.3/copyright.js" type="text/javascript"></script>
+<script>
+    $(".MathJax").remove();
+    if ($('div.markdown_views pre.prettyprint code.hljs').length > 0) {
+        $('div.markdown_views')[0].className = 'markdown_views';
+    }
+</script>
+<script type="text/javascript" src="https://csdnimg.cn/release/blog_mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            "HTML-CSS": {
+                    linebreaks: { automatic: true, width: "94%container" },
+                    imageFont: null
+            },
+            tex2jax: {
+                preview: "none"
+            },
+            mml2jax: {
+                preview: 'none'
+            }
+    });
+</script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/user-login/2.3.2/user-login.js"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/login-box/1.1.4/login-box.js"></script></html>

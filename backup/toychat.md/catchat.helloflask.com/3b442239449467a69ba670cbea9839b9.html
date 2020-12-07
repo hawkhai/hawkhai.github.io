@@ -1,0 +1,683 @@
+<html>
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-122814078-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-122814078-6');
+</script>
+
+    
+        <title>CatChat</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="/static/images/logo.png">
+        
+        <link rel="stylesheet" href="/static/gen/packed.css?34546f1a">
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.css">
+    
+</head>
+<body>
+
+<div class="ui labeled icon right vertical inverted demo menu sidebar">
+    <a class="item" href="/anonymous">
+        <i class="user secret icon"></i>
+        Incognito Mode
+    </a>
+    <a class="item" href="http://helloflask.com" target="_blank">
+        <i class="home icon"></i>
+        HelloFlask.com
+    </a>
+    <a class="item" href="https://github.com/greyli/catchat" target="_blank">
+        <i class="github icon"></i>
+        Github
+    </a>
+    
+    <a class="item" id="show-help-modal">
+        <i class="help icon"></i>
+        Help
+    </a>
+    
+</div>
+
+
+    <div class="ui top fixed borderless menu">
+        <a class="item catchat" href="/">
+            <img src="/static/images/logo.png">
+            <span>CatChat</span>
+        </a>
+        <div class="item">
+            <div class="ui label black basic" title="Online users">
+                <i class="user icon"></i> <span id="user-count">0</span> / 562
+            </div>
+        </div>
+        <a class="item" id="show-about-modal">About</a>
+        <div class="right menu hide-on-mobile">
+            
+                <div class="item">
+                    <a class="ui primary button" href="/login">
+                        Sign in</a>
+                </div>
+            
+            <a class="item" id="toggle-sidebar">
+                <i class="sidebar icon"></i>
+            </a>
+        </div>
+    </div>
+
+
+<!-- Help Modal -->
+<div class="ui modal small help">
+    <div class="header">Markdown Help</div>
+    <div class="content">
+        <section class="modal--default__content" id="modal-body-region">
+            <div>
+                <div class="modal-content">
+                    <table class="ui celled striped table">
+                        <tbody>
+                        <tr>
+                            <td><strong>Bold</strong></td>
+                            <td>**bold**</td>
+                        </tr>
+                        <tr>
+                            <td><i>Italics</i></td>
+                            <td>*italics*</td>
+                        </tr>
+                        <tr>
+                            <td>Header</td>
+                            <td># H1 ## H2 ### H3</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <li>item</li>
+                            </td>
+                            <td>* item</td>
+                        </tr>
+                        <tr>
+                            <td>Blockquote</td>
+                            <td>&gt; blockquote</td>
+                        </tr>
+                        <tr>
+                            <td><a href="http://greyli.com" target="_blank">Link</a></td>
+                            <td>[title](http://...)</td>
+                        </tr>
+                        <tr>
+                            <td>Image</td>
+                            <td>![alt](http://...)</td>
+                        </tr>
+                        <tr>
+                            <td><code>code</code></td>
+                            <td>`code`</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">hello</span><span
+                                        class="p">():</span>
+    <span class="k">return</span> <span class="s2">"Hello World"</span>
+</pre>
+                                </div>
+                            </td>
+                            <td style="line-height: 100%">```python <i style="color: rgba(0,0,0,0.5)">(shift+enter for
+                                line
+                                break)</i><br>def hello():<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;return "Hello World"<br>```
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+
+            </div>
+        </section>
+    </div>
+    <div class="actions">
+        <button class="ui button cancel">Close</button>
+    </div>
+</div>
+
+<!-- Snippet Modal -->
+<div class="ui modal small snippet">
+    <div class="header">Create code or text snippets</div>
+    <div class="content">
+        <div class="ui form">
+            <textarea id="snippet-textarea" rows="20"></textarea>
+        </div>
+    </div>
+    <div class="actions">
+        <button class="ui button cancel">Cancel</button>
+        <button class="ui button orange">Help</button>
+        <button class="ui button blue approve" id="snippet-button">Create</button>
+    </div>
+</div>
+
+
+<!-- About Modal -->
+<div class="ui modal small about">
+    <div class="header">About</div>
+    <div class="content">
+<p>Hello，这是<a href="http://helloflask.com/book">《Flask Web开发实战》</a>第11章配套程序CatChat的在线Demo，请访问<a href="http://helloflask.com/book">helloflask.com/book</a>了解更多信息。请注意，网站数据不会永久保存，网站也可能随时会关闭。这个程序的源码可以在<a href="https://github.com/greyli/catchat">GitHub</a>上获取。</p>
+
+<p>如果你想让这个示例程序持续运行，可以考虑买一本<a href="http://helloflask.com/book">《Flask Web开发实战》</a>，或是通过<a href="http://greyli.com/support">其他方式</a>支持我。</p>
+
+<p>你可以在<a href="http://HelloFlask.com">HelloFlask.com</a>看到更多Flask程序。</p>
+<hr>
+
+<p>This is the companion application's demo to my book "Python Web Development with Flask", see more information on <a href="http://helloflask.com/en/book" target="_blank">http://helloflask.com/en/book</a>.</p>
+    </div>
+    <div class="actions">
+        <button class="ui button cancel">Close</button>
+    </div>
+</div>
+
+<!-- Mobile message Modal -->
+<div id="mobile-new-message-modal" class="ui modal small">
+    <div class="content">
+        <div class="ui form">
+            <textarea id="mobile-message-textarea" rows="15"></textarea>
+        </div>
+    </div>
+    <div class="actions">
+        <button class="ui button cancel">Cancel</button>
+        <button class="ui button orange approve" id="send-button">Send</button>
+    </div>
+</div>
+
+
+    <div class="pusher">
+        <div class="chat-box">
+            <div class="messages">
+                <div class="ui horizontal divider">
+                </div>
+                <div class="ui text loader">Loading messages...</div>
+                
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/550"
+             src="https://gravatar.com/avatar/dd116c5c4536a0932fc1ead2848bd146?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">haha</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-05T08:33:44Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-05T08:33:44Z</span></small>
+        <span class="message-body"><p>灰灰好帅</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/547"
+             src="https://gravatar.com/avatar/ec31a1ec0a75fd8f4ff151073627df05?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">weijiang1994</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-05T09:40:25Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-05T09:40:25Z</span></small>
+        <span class="message-body"><p>辉神啥时候出新书呀 最好可以出点flask源码解析相关的</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/547"
+             src="https://gravatar.com/avatar/ec31a1ec0a75fd8f4ff151073627df05?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">weijiang1994</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-05T09:40:59Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-05T09:40:59Z</span></small>
+        <span class="message-body"><p>soooooooooooooo strong</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/547"
+             src="https://gravatar.com/avatar/ec31a1ec0a75fd8f4ff151073627df05?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">weijiang1994</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-05T09:42:12Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-05T09:42:12Z</span></small>
+        <span class="message-body"><div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">'是否支持markdown语法?'</span><span class="p">)</span>
+</pre></div></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/547"
+             src="https://gravatar.com/avatar/ec31a1ec0a75fd8f4ff151073627df05?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">weijiang1994</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-05T09:42:30Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-05T09:42:30Z</span></small>
+        <span class="message-body"><p><code>good</code></p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/547"
+             src="https://gravatar.com/avatar/ec31a1ec0a75fd8f4ff151073627df05?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">weijiang1994</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-05T09:42:40Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-05T09:42:40Z</span></small>
+        <span class="message-body"><p><code>good</code></p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/551"
+             src="https://gravatar.com/avatar/f276e4b65223615a4ef3403ac8cdf8e3?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">daxia</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-05T16:13:23Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-05T16:13:23Z</span></small>
+        <span class="message-body"><p>dadada</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/552"
+             src="https://gravatar.com/avatar/f2f6d9ce4c34229073c33ad51f3b7d71?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">TT</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-09T15:28:32Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-09T15:28:32Z</span></small>
+        <span class="message-body"><p>非常好</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/552"
+             src="https://gravatar.com/avatar/f2f6d9ce4c34229073c33ad51f3b7d71?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">TT</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-09T15:28:36Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-09T15:28:36Z</span></small>
+        <span class="message-body"><p>让我非常开心</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/552"
+             src="https://gravatar.com/avatar/f2f6d9ce4c34229073c33ad51f3b7d71?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">TT</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-09T15:28:47Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-09T15:28:47Z</span></small>
+        <span class="message-body"><p>作为教育工作者，我希望我能做出像样的东西</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/547"
+             src="https://gravatar.com/avatar/ec31a1ec0a75fd8f4ff151073627df05?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">weijiang1994</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-11T05:36:27Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-11T05:36:27Z</span></small>
+        <span class="message-body"><p>111</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/553"
+             src="https://gravatar.com/avatar/cc7ded767fb637b502b0d561eecfe197?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">test</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-11T05:36:52Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-11T05:36:52Z</span></small>
+        <span class="message-body"><p>12414</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/554"
+             src="https://gravatar.com/avatar/625ab0b42f378cdbfa9356985fcfeb53?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">None</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-16T06:34:39Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-16T06:34:39Z</span></small>
+        <span class="message-body"><p>It's cool</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/555"
+             src="https://gravatar.com/avatar/06897fd6c455f582a3f4818af98671fa?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">hudapeng</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-17T06:45:34Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-17T06:45:34Z</span></small>
+        <span class="message-body"><p>hello</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/555"
+             src="https://gravatar.com/avatar/06897fd6c455f582a3f4818af98671fa?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">hudapeng</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-17T06:45:54Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-17T06:45:54Z</span></small>
+        <span class="message-body"><p>学习好痛苦啊</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/555"
+             src="https://gravatar.com/avatar/06897fd6c455f582a3f4818af98671fa?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">hudapeng</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-17T06:46:03Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-17T06:46:03Z</span></small>
+        <span class="message-body"><p>实验楼就是sb平台</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/556"
+             src="https://gravatar.com/avatar/8d01b07318afde57558e5fe75966fa35?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">EuAustr</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-17T07:51:11Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-17T07:51:11Z</span></small>
+        <span class="message-body"><p>???</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/557"
+             src="https://gravatar.com/avatar/a25d37c7a4f5813ca94712d00be6dc84?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">Ted</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-18T12:21:02Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-18T12:21:02Z</span></small>
+        <span class="message-body"><p>cool</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/537"
+             src="https://gravatar.com/avatar/4308cd0ba9c4d49b29c4c7e0df719386?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">geekspeng</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-20T01:56:17Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-20T01:56:17Z</span></small>
+        <span class="message-body"><p>why?</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/558"
+             src="https://gravatar.com/avatar/2ea83f2efe2176292e5f6cec886c52fa?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">追追</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-22T10:34:55Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-22T10:34:55Z</span></small>
+        <span class="message-body"><p>fdsfd</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/558"
+             src="https://gravatar.com/avatar/2ea83f2efe2176292e5f6cec886c52fa?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">追追</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-22T10:34:55Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-22T10:34:55Z</span></small>
+        <span class="message-body"><p>fdfdfdfd</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/553"
+             src="https://gravatar.com/avatar/cc7ded767fb637b502b0d561eecfe197?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">test</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-26T05:49:02Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-26T05:49:02Z</span></small>
+        <span class="message-body"><p>hello</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/553"
+             src="https://gravatar.com/avatar/cc7ded767fb637b502b0d561eecfe197?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">test</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-11-26T05:49:18Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-11-26T05:49:18Z</span></small>
+        <span class="message-body"><p>flask 写的个人博客网站 <a href="http://2dogz.cn" rel="nofollow">http://2dogz.cn</a></p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/560"
+             src="https://gravatar.com/avatar/3cd39244bc10bd946be6e0c6db689949?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">None</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-12-02T05:46:02Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-12-02T05:46:02Z</span></small>
+        <span class="message-body"><p>just come and have a look</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/553"
+             src="https://gravatar.com/avatar/cc7ded767fb637b502b0d561eecfe197?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">test</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-12-03T01:51:03Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-12-03T01:51:03Z</span></small>
+        <span class="message-body"><div class="codehilite"><pre><span></span><span class="p">.</span><span class="nc">div-info</span><span class="p">{</span>
+    <span class="k">color</span><span class="p">:</span> <span class="mh">#ea3321</span>
+<span class="p">}</span>
+</pre></div></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/562"
+             src="https://gravatar.com/avatar/659ea0b0bb415b5b08555d92e8721cf8?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">香港三级</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-12-04T17:47:26Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-12-04T17:47:26Z</span></small>
+        <span class="message-body"><p>我吃大西瓜</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/562"
+             src="https://gravatar.com/avatar/659ea0b0bb415b5b08555d92e8721cf8?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">香港三级</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-12-04T17:47:45Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-12-04T17:47:45Z</span></small>
+        <span class="message-body"><p>怎么上传图片呢</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/562"
+             src="https://gravatar.com/avatar/659ea0b0bb415b5b08555d92e8721cf8?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">香港三级</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-12-04T17:47:59Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-12-04T17:47:59Z</span></small>
+        <span class="message-body"><p>我也不知道啊</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/562"
+             src="https://gravatar.com/avatar/659ea0b0bb415b5b08555d92e8721cf8?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">香港三级</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-12-04T17:48:41Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-12-04T17:48:41Z</span></small>
+        <span class="message-body"><p>print("hello world")</p></span>
+    </div>
+    
+</div>
+
+    <div class="msg-box">
+    <div class="picture">
+        <img class="pop-card" data-position="right center" data-offset="-40"
+             data-href="/profile/563"
+             src="https://gravatar.com/avatar/50bdcf50c2c375773df23ad801574247?d=monsterid">
+    </div>
+    <div class="msg">
+        <span class="nickname">jp</span>
+        <small class="timestamp"><span class="flask-moment" data-timestamp="2020-12-06T06:24:12Z" data-format="format('lll')" data-refresh="0" style="display: none">2020-12-06T06:24:12Z</span></small>
+        <span class="message-body"><p>???</p></span>
+    </div>
+    
+</div>
+
+            </div>
+        </div>
+        <div class="input-area">
+            <div class="ui grid form">
+                <div class="ten wide column">
+                    <div class="field fluid message-box">
+                        
+                            <div class="ui floating message">Please <a href="/login">Sign in</a> or
+                                <a href="/register">Sign up</a> to send message.
+                            </div>
+                        
+                    </div>
+                </div>
+                <div class="four wide column right floated right aligned hide-on-mobile">
+                    <p>Written by <a href="http://greyli.com">Grey Li</a><br>
+                        Fork me on <a href="https://github.com/greyli/catchat">Github</a><br>
+                        2017 © <a href="https://helloflask.com">helloflask.com</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2.1.1/dist/socket.io.min.js"></script>
+    
+        <script type="text/javascript" src="/static/gen/packed.js?08040d5e"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+<script>
+moment.locale("en");
+function flask_moment_render(elem) {
+    $(elem).text(eval('moment("' + $(elem).data('timestamp') + '").' + $(elem).data('format') + ';'));
+    $(elem).removeClass('flask-moment').show();
+}
+function flask_moment_render_all() {
+    $('.flask-moment').each(function() {
+        flask_moment_render(this);
+        if ($(this).data('refresh')) {
+            (function(elem, interval) { setInterval(function() { flask_moment_render(elem) }, interval); })(this, $(this).data('refresh'));
+        }
+    })
+}
+$(document).ready(function() {
+    flask_moment_render_all();
+});
+</script>
+    <script type="text/javascript">
+        var root_url = "/";
+        var messages_url = "/messages";
+        var current_user_id = 0;
+        var csrf_token = "ImJhOWZjOGVlZjkzZTVjODkzNDQzMjkwMmUxZjUwNzczZjFlMzc2NmQi.Eq-ASw.Ywwu-u9T7S_LWpxKjyB8VnTfIE8";
+    </script>
+
+    <script type="text/javascript">
+        var socket = io('/');
+    </script>
+
+</body>
+</html>

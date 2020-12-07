@@ -1,0 +1,814 @@
+
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>	
+<meta name="viewport" content="width=device-width, initial-scale=1"/>      
+<link rel="icon" href="//www.ibm.com/favicon.ico"/>
+<link rel="canonical" href="http://www.ibm.com/developerworks/cn/linux/l-cn-hardandsymb-links/index.html"/>
+<meta name="geo.country" content="CN"/>
+<meta name="dcterms.rights" content="© Copyright IBM Corporation 2012"/>
+<meta name="dcterms.date" content="2012-12-20"/>
+<meta name="description" content="硬链接与软链接是 Linux 文件系统中的一个重要概念，其涉及文件系统中的索引节点 (index node 又称 inode)，而索引节点对象是 Linux 虚拟文件系统 (VFS) 的四个基本概念之一。通过剖析硬链接与软链接的联系与区别，我们可更好的了解 Linux 中 VFS 这一通用文件模型。并让 Linux 普通用户和系统管理员正确使用硬链接与软链接，帮助文件系统开发者获取 inode 的相关知识。"/>	
+<meta name="keywords" content="hard link, symbolic link, inode, tttlca"/>
+<meta name="robots" content="index,follow"/>
+<title>理解 Linux 的硬链接与软链接</title>
+    
+<script> 
+    digitalData = {
+        "page":{
+            "category":{
+                "primaryCategory":"SOFDCLNXCN"
+            },
+            "pageInfo":{
+                "effectiveDate":"2012-12-20",
+                "language":"zh-CN",
+                "publishDate":"2012-12-20",
+                "publisher":"IBM Corporation",
+                "version":"v18",
+                "ibm":{ 
+                    "contentDelivery":"IBM developerWorks template",
+                    "contentProducer":"IBM developerWorks",
+                    "country":"CN",
+                    "owner":"developerWorks/China/IBM",
+                    "siteID":"DEVWRKS",
+                    "subject":"SWGC0",
+                    "type":"CT316",
+                    "topic":"管理,存储",
+                    "topicId":"370,90",
+                    "contentArea":"linux",
+                    "contentAreaId":"2",
+                    "contentType":"article",
+                    "contentId":"852952",
+                },
+                "keywords":"hard link, symbolic link, inode, tttlca",
+                "description":"硬链接与软链接是 Linux 文件系统中的一个重要概念，其涉及文件系统中的索引节点 (index node 又称 inode)，而索引节点对象是 Linux 虚拟文件系统 (VFS) 的四个基本概念之一。通过剖析硬链接与软链接的联系与区别，我们可更好的了解 Linux 中 VFS 这一通用文件模型。并让 Linux 普通用户和系统管理员正确使用硬链接与软链接，帮助文件系统开发者获取 inode 的相关知识。"
+            }
+        }
+    };
+    window._analytics = {
+        "coremetrics": false,
+        "optimizely": false,
+        "googleAddServices": false,
+        "addRoll": false,
+        "intercom": false,
+        "fullStory": false,
+        "hotjar": false,
+        "tealeaf": false,
+        "nps": false,
+        "segment_key": 'HU3dbkAG5wE0F1IkRf9S1RexlAqo3jby'
+    };
+</script>
+	
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:site" content="@developerworks"/>
+<meta property="og:title" content="理解 Linux 的硬链接与软链接"/>
+<meta property="og:description" content="硬链接与软链接是 Linux 文件系统中的一个重要概念，其涉及文件系统中的索引节点 (index node 又称 inode)，而索引节点对象是 Linux 虚拟文件系统 (VFS) 的四个基本概念之一。通过剖析硬链接与软链接的联系与区别，我们可更好的了解 Linux 中 VFS 这一通用文件模型。并让 Linux 普通用户和系统管理员正确使用硬链接与软链接，帮助文件系统开发者获取 inode 的相关知识。"/>
+    <meta property="og:image" content="http://www.ibm.com/developerworks/i/dw-social-201508.png"/>
+<!-- Segment meta tag -->
+<meta name="segment" property="developerWorks (developerWorks)" productTitle="developerWorks" value="Linux Chinese (developerWorks)"/>      
+<!-- SITE MON : START (DO NOT DELETE) -->
+<!-- developerWorks monitoring token -->
+<!-- SITE MON : END (DO NOT DELETE) -->
+
+<!-- HEADER_SCRIPTS_AND_CSS_INCLUDE -->
+<!-- <script src="//cdn.optimizely.com/js/5399420604.js"></script> -->
+<!-- BEGIN: Use this section to set page specific variables for the Page Tag -->
+<script language="JavaScript">var NTPT_PGEXTRA="ibmSkillLevel=1&ibmCmaId=852952&ibmContentAreas=linux";</script>
+<!--END -->
+<script src="//1.www.s81c.com/common/stats/ida_stats.js"></script>
+<link href="//1.www.s81c.com/common/v18/css/www.css" rel="stylesheet">
+<link href="//1.www.s81c.com/common/v18/css/syntaxhighlighter.css" rel="stylesheet">
+<script src="//1.www.s81c.com/common/v18/js/www.js"></script>
+<script src="//1.www.s81c.com/common/v18/js/syntaxhighlighter.js"></script>    
+<link href="//1.www.s81c.com/common/v18/css/tables.css" rel="stylesheet">
+<script src="//1.www.s81c.com/common/v18/js/tables.js"></script>   
+<!--  Masthead/footer  -->
+<link href="//dw1.s81c.com/developerworks/css/dw-mf/v18/dw-mf-v18.css?v=111618" rel="stylesheet">
+<!-- <link href="//dw1.s81c.com/developerworks/css/dw-mf/v18/alt-signedin-ux.css" rel="stylesheet" /> -->   
+<!--[if lt IE 9]>
+    <link href="//dw1.s81c.com/developerworks/css/dw-mf/v18/dw-mf-ie8fix.css?v=022216" rel="stylesheet" />
+<![endif]-->
+<link href="//dw1.s81c.com/developerworks/css/v18/dw-article.css" rel="stylesheet">
+<script src="//dw1.s81c.com/developerworks/js/v18/dw-auth-properties.js?v=041017"></script>
+<script src="//dw1.s81c.com/developerworks/js/v18/dw-auth.js?v=031119"></script>
+<script src="//dw1.s81c.com/developerworks/js/dw-mf/v18/dw-mf.js?v=050618"></script>
+<script src="//dw1.s81c.com/developerworks/js/v18/dw-include.js"></script>     
+<script src="//dw1.s81c.com/developerworks/js/v18/dw-article.js?v=050818"></script>
+<script src="//dw1.s81c.com/developerworks/js/v18/dw-auto-links.js?v=121217"></script>     
+<script src="//www.ibm.com/software/info/js/tactic.js"></script>
+<script src="//www.ibm.com/software/info/js/tacticbindlinks.js"></script>
+
+<!-- 
+<PageMap>
+    <DataObject type="document">
+        <Attribute name="topic">管理,存储</Attribute>
+        <Attribute name="topicId">370,90</Attribute>
+        <Attribute name="contentArea">linux</Attribute>
+        <Attribute name="contentAreaId">2</Attribute>
+        <Attribute name="abstract">硬链接与软链接是 Linux 文件系统中的一个重要概念，其涉及文件系统中的索引节点 (index node 又称 inode)，而索引节点对象是 Linux 虚拟文件系统 (VFS) 的四个基本概念之一。通过剖析硬链接与软链接的联系与区别，我们可更好的了解 Linux 中 VFS 这一通用文件模型。并让 Linux 普通用户和系统管理员正确使用硬链接与软链接，帮助文件系统开发者获取 inode 的相关知识。</Attribute>
+        <Attribute name="pub.date">2012-12-20</Attribute>
+        <Attribute name="contentType">article</Attribute>
+    </DataObject>
+</PageMap>
+-->        
+
+</head>
+<body id="ibm-com" class="ibm-type dw-js-disabled">
+	
+<div id="ibm-top" class="ibm-landing-page">
+
+<!-- MASTHEAD_BEGIN -->
+<div id="ibm-masthead" role="banner" aria-label="IBM">
+    <div id="ibm-universal-nav">    
+  
+        <nav role="navigation" aria-label="IBM">
+            <div id="ibm-home"><a href="https://www.ibm.com/cn/zh/">IBM®</a></div>
+            <ul id="ibm-menu-links" role="toolbar" aria-label="站点地图">
+                <li><a href="https://www.ibm.com/sitemap/cn/zh/">站点地图</a></li>
+            </ul> 
+        </nav>
+  
+        <div id="ibm-search-module" role="search" aria-labelledby="ibm-masthead">
+            <form id="ibm-search-form" action="https://www.ibm.com/Search/" method="get">
+                <p>
+                    <label for="q">IBM</label>
+                    <input type="text" maxlength="100" value="" placeholder="搜索" name="q" id="q" aria-label="搜索 IBM Developer"/>
+                    <input type="hidden" value="utf" name="en"/>
+                    <input type="hidden" value="zh" name="lang"/>
+                    <input type="hidden" value="cn" name="cc"/>
+                    <input type="hidden" value="20" name="nr"/>
+                    <input type="hidden" value="For developers" name="tabType[0]"/>
+                    <input type="submit" id="ibm-search" class="ibm-btn-search" value="提交"/>
+                </p>
+            </form>
+        </div>
+       
+    </div>
+</div><!-- MASTHEAD_END -->
+	    
+<!-- LAYOUT -->
+<div id="ibm-content-wrapper">
+    <!-- LEADSPACE_BEGIN -->
+    <header role="banner" aria-labelledby="ibm-pagetitle-h1">
+        
+        <!-- MASTHEAD_SITENAV_BEGIN -->
+        <div class="ibm-sitenav-menu-container">
+    <div class="ibm-sitenav-menu-name">
+        <a href="//www.ibm.com/developerworks/cn/">IBM Developer</a>
+    </div>
+    <div class="ibm-sitenav-menu-list">
+        <ul role="menubar">
+            <li role="presentation">
+                <a href="//www.ibm.com/developerworks/cn/topics/" role="menuitem">学习</a>
+            </li>
+            <li role="presentation">
+                <a href="//www.ibm.com/developerworks/cn/downloads/" role="menuitem">开发</a>
+            </li>
+            <li role="presentation">
+                <!-- <a href="//www.ibm.com/developerworks/cn/community/" role="menuitem">社区</a> -->
+                <a href="//www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=3302cc3b-074e-44da-90b1-5055f1dc0d9c" role="menuitem">社区</a>
+            </li>
+            <li class="ibm-sitenav-menu-item-right">
+                <a href="//www.ibm.com/ibm/cn/partners/start/" role="menuitem">合作</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- BEGIN IBM DEVELOPER BANNER -->
+<!-- <style>
+    #dw-mast-banner {
+        background: #000;
+        box-sizing: border-box;
+    }
+    #dw-mast-banner.ibm-band, #dw-mast-strip.ibm-band { padding: 0; }
+    #dw-mast-banner p { color: #ffffff; margin-left: 1rem; display: inline-block; text-decoration: none; font-size: 1.125rem; }
+    #dw-mast-banner .dw-mast-banner-cta { padding-left: 10px; color: #ed1c24; }
+    #dw-mast-banner .dw-mast-banner-cta::after { content: "\003e"; color: #ed1c24; font-size: 0.875rem; padding-left: 4px; }
+    #dw-mast-banner img { display: inline-block; vertical-align: middle; margin-top: -4px; }
+    #dw-mast-banner .dw-mast-banner-img { margin-left: 16px; }
+    #dw-mast-strip {
+        background-color: #e9e9e9;
+        box-sizing: border-box;
+    }
+    #dw-mast-strip p { padding: 10px 20px 10px; margin-left: 2rem; color: #000; display: block; text-decoration: none; font-size: 1rem; }
+
+    @media only screen and (max-width:800px) {
+    #dw-mast-banner p { margin-right: 1rem; }
+    }
+    @media only screen and (max-width:525px) {
+    #dw-mast-banner .dw-mast-banner-cta { padding-left: 4px; }
+    }
+</style>
+<div id="dw-mast-banner" class="ibm-band" style="text-align: center">
+    <a href="https://www.ibm.com/cn-zh/cloud/redhat">
+        <div style="display:inline-block">
+            <img src="https://dw1.s81c.com/developerworks/i/dw-ibmred.png" height="60" width="201" alt="IBM and Red Hat logos"/>
+            <p class="ibm-plex-sans-semibold">IBM 和 Red Hat - 开放创新的新篇章。 <span class="dw-mast-banner-cta ibm-plex-sans-semibold">了解更多</span></p>
+        </div>
+    </a>
+</div> -->
+<!-- <div id="dw-mast-strip" class="ibm-band" style="text-align: center">
+    <div>
+        <p>developerWorks 中国 正在向 IBM Developer 过渡。 我们将为您呈现一个全新的界面和更新的主题领域，并一如既往地提供您希望获得的精彩内容。</p>
+    </div>
+</div> -->
+<!-- <div class="code_adorn_announcement" id="code_announcement">
+  <div class="code_content__wrap">
+  <style>
+    .dc-announcement{
+      background: #e9e9e9;
+      min-height: 53px;
+      box-sizing: border-box;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #1e1e1e;
+    }
+    .dc-announcement p{
+      text-align: center;
+      font-size: 1.125rem;
+      line-height: 1.625rem;
+      font-weight: 300;
+      padding: 0 20px;
+    }
+    .dc-announcement a p{
+      display: table;
+      color: #1e1e1e;
+      width: auto;
+      margin: 0 auto;
+    }
+    .dc-announcement a {
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+    .dc-announcement a p strong{
+      color: #fff !important;
+      padding: 10px 20px !important;
+      margin-left: 10px;
+      display: inline-block;
+      background-color: rgb(0, 98, 255);
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .dc-announcement a p span{
+      font-weight: 600;
+    }
+  </style>
+  <div class="dc-announcement">
+    <a href="https://developer.ibm.com/cn/digitalconference/">
+      <p><span>Digital Developer Conference:</span> 专注于云计算和人工智能的免费半天在线会议：欧洲，11 月 14 日 亚洲，11 月 23 日 <strong>立即注册</strong></p>
+    </a>
+  </div>
+</div>
+</div> -->
+ <style>
+    #dw-mast-banner {
+        background-color: #000;
+        /* min-height: 75px; */
+    }
+    #dw-mast-banner.ibm-band { padding: 0; position: static; animation: none; }
+    #dw-mast-banner .ibm-columns { padding: 0; min-height: 100px; }
+    #dw-mast-banner .dw-mast-banner-txt { padding: 15px 20px 0; color: #4ca7a5; display: inline; }
+    #dw-mast-banner .dw-mast-banner-cta { padding: 14px 0 0 20px; margin-right: 2rem; color: #4ca7a5; display: inline; }
+    #dw-mast-banner .dw-mast-banner-txt p.ibm-h4 { font-size: 1.125rem; }
+    #dw-mast-banner .dw-mast-banner-txt span { white-space: nowrap; }
+    #dw-mast-banner .ibm-btn-pri {
+        background-color: #000;
+        border: 1px solid #4ca7a5;
+        color: #4ca7a5;
+    }
+    #dw-mast-banner .ibm-btn-pri:hover {
+        background-color: #4ca7a5;
+        color: #fff;
+    }
+    @media only screen and (max-width:1100px) {
+        #dw-mast-banner .dw-mast-banner-cta { padding: 10px 0 0 20px; }
+        #dw-mast-banner .dw-mast-banner-txt p.ibm-h4 { font-size: 1.0rem; }
+    }
+    @media only screen and (max-width:999px) {
+        #dw-mast-banner .dw-mast-banner-txt { margin-left: 0.5rem; }
+        #dw-mast-banner .dw-mast-banner-cta { margin-right: 0.5rem; }
+    }
+    @media only screen and (max-width:959px) {
+        #dw-mast-banner .dw-mast-banner-txt { margin-left: 2rem; }
+        #dw-mast-banner .dw-mast-banner-cta { margin-right: 2rem; }
+        #dw-mast-banner .ibm-btn-pri { white-space: nowrap; font-size: .875rem; }
+        #dw-mast-banner .dw-mast-banner-txt p.ibm-h4 {
+            font-size: .9375rem;
+            text-align: center;
+            font-weight: 400;
+        }
+    }
+    @media only screen and (max-width:600px) {
+        #dw-mast-banner .dw-mast-banner-txt { margin-left: 1rem; }
+        #dw-mast-banner .dw-mast-banner-cta { margin-right: 1rem; }
+    }
+    @media only screen and (max-width:579px) {
+        #dw-mast-banner .dw-mast-banner-txt, #dw-mast-banner .dw-mast-banner-cta { display: block; }
+        #dw-mast-banner .dw-mast-banner-txt { margin-left: 1rem; margin-right: 1rem; }
+        #dw-mast-banner .dw-mast-banner-cta { margin-right: 0; text-align: center; }
+        #dw-mast-banner .dw-mast-banner-txt p.ibm-h4 { padding: 0; }
+        #dw-mast-banner .dw-mast-banner-cta { padding: 10px 0 0 0; }
+    }
+</style>
+<div id="dw-mast-banner" class="ibm-band">
+    <div class="ibm-vertical-center">
+        <div class="ibm-center-block ibm-vertical-center">
+            <div class="dw-mast-banner-txt ibm-plex-sans-regular">
+                <p class="ibm-h4">developerWorks 中国 正在向 IBM Developer 过渡。 我们将为您呈现一个全新的界面和更新的主题领域，并一如既往地提供您希望获得的精彩内容。</p>
+            </div>
+        </div>
+    </div>
+</div>
+        <!-- MASTHEAD_SITENAV_END -->
+        
+        <!-- NAVIGATION_TRAIL_BEGIN -->
+        <div id="ibm-leadspace-head" class="ibm-alternate">
+            <div id="ibm-leadspace-body">
+                <nav aria-label="Breadcrumb" role="navigation">                     
+                            <ul id="dw-navigation-trail" itemscope="" itemtype="http://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"><a itemprop="item" href="https://www.ibm.com/developerworks/cn/topics/"><span itemprop="name">学习</span></a><meta itemprop="position" content="1"/></li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"><a itemprop="item" href="https://www.ibm.com/developerworks/cn/linux/"><span itemprop="name">Linux</span></a><meta itemprop="position" content="2"/></li></ul>
+                </nav>
+            </div>
+        </div>
+        <!-- NAVIGATION_TRAIL_END -->
+        
+    </header>
+    <!-- LEADSPACE_END -->
+    
+    <!-- MAIN_CONTENT_BEGIN -->
+    <main role="main" aria-labelledby="ibm-pagetitle-h1"> 
+        <div id="ibm-pcon">
+            <!-- BEGIN_IBM-CONTENT -->
+            <div id="ibm-content">
+                <!-- BEGIN_IBM-CONTENT-BODY -->
+                <div id="ibm-content-body">
+                    <!-- BEGIN_IBM-CONTENT-MAIN -->
+                    <div id="ibm-content-main" class="dw-article">                        
+                        <!-- BEGIN_INTERIOR-COLUMNS -->
+                                <div class="ibm-columns dw-article-toc">
+                                    <!-- LEFT_6_2_CONTENT_COLUMN_BEGIN -->  
+                                    <div id="dw-article-toc-container" class="ibm-col-6-2">
+                                        <div id="dw-article-toc-body">
+                                            <h2>内容</h2><div class="ibm-alternate-rule"><hr/></div><ul role="directory" aria-label="内容" class="ibm-plain-list"><li><a href="#ibm-pagetitle-h1">概览</a></li><li><a href="#major1">Linux 的文件与目录</a></li><li><a href="#major2">硬链接与软链接的联系与区别</a></li><li><a href="#major3">链接相关命令</a></li><li><a href="#major4">Linux VFS</a></li><li><a href="#major5">Linux 文件系统中的 inode</a></li><li><a href="#major6">结束语</a></li><li><a href="#artrelatedtopics">相关主题</a></li><li><a href="#icomments">评论</a></li></ul>
+                                        </div>
+                                    </div>
+                                    <!-- LEFT_6_2_CONTENT_COLUMN_END -->
+                                    
+                                    <!-- CENTER_6_4_CONTENT_COLUMN_BEGIN -->
+                                    <div class="ibm-col-6-4">
+                                        <h1 id="ibm-pagetitle-h1" class="ibm-h1">理解 Linux 的硬链接与软链接</h1><p class="dw-article-subhead">从 inode 了解 Linux 文件系统</p>
+                                        <!-- Article Top Bar -->
+                                                <div class="ibm-columns dw-article-topbar">
+                                                    <!-- Author and article info. -->
+                                                    <div class="ibm-col-6-2 ibm-col-medium-6-4 dw-article-metadata">
+                                                        <div class="dw-article-avatar"><img width="42" height="42" src="//dw1.s81c.com/developerworks/i/v18/article/dw-author.png" alt=""/></div><div class="dw-article-authordate">王 华东<br /><span class="dw-article-pubdate">2012 年 12 月 20 日发布</span></div>
+                                                    </div>
+                                                    <!-- Social -->
+                                                    <div class="ibm-col-6-2 ibm-col-medium-6-4 ibm-col-small-6-2 dw-article-social">
+                                                        <!-- Sharing links -->
+                                                        <!--<div id="dw-article-share-inline">
+                                                            <div class="dw-article-sharelink-inline">
+                                                                <div class="ibm-sharethispage"></div>
+                                                            </div>
+                                                        </div>-->
+                                                        <!-- Number of comments and link to comments -->
+                                                        <!-- <div id="dw-article-cmts">
+                                                            <div class="dw-article-cmtslink">
+                                                                <a onclick="tocLink('#icomments')" href="#icomments" role="link" tabindex="0" aria-label="Comments">
+                                                                    <img src="//dw1.s81c.com/developerworks/i/v18/article/dw-article-cmt-icon.png" width="29" height="29" alt="Comments"/>
+                                                                </a>
+                                                            </div>
+                                                            <div class="dw-article-cmtslink">
+                                                                <a onclick="tocLink('#icomments')" href="#icomments" role="link" tabindex="0">
+                                                                    <div id="nCmts"></div>
+                                                                </a>
+                                                            </div>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+
+                                        <!-- Article Body -->
+                                        
+                                        <h2 id="major1" class="ibm-h2">Linux 的文件与目录</h2><p>现代操作系统为解决信息能独立于进程之外被长期存储引入了文件，文件作为进程创建信息的逻辑单元可被多个进程并发使用。在 UNIX 系统中，操作系统为磁盘上的文本与图像、鼠标与键盘等输入设备及网络交互等 I/O 操作设计了一组通用 API，使他们被处理时均可统一使用字节流方式。换言之，UNIX 系统中除进程之外的一切皆是文件，而 Linux 保持了这一特性。为了便于文件的管理，Linux 还引入了目录（有时亦被称为文件夹）这一概念。目录使文件可被分类管理，且目录的引入使 Linux 的文件系统形成一个层级结构的目录树。<a href="#listing1">清单 1.</a>所示的是普通 Linux 系统的顶层目录结构，其中 /dev 是存放了设备相关文件的目录。</p><h5 id="listing1" class="ibm-h5">清单 1. Linux 系统的顶层目录结构</h5><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> /              根目录
+├── bin     存放用户二进制文件
+├── boot    存放内核引导配置文件
+├── dev     存放设备文件
+├── etc     存放系统配置文件
+├── home    用户主目录
+├── lib     动态共享库
+├── lost+found 	文件系统恢复时的恢复文件
+├── media   可卸载存储介质挂载点
+├── mnt     文件系统临时挂载点
+├── opt     附加的应用程序包
+├── proc    系统内存的映射目录，提供内核与进程信息
+├── root    root 用户主目录
+├── sbin    存放系统二进制文件
+├── srv     存放服务相关数据
+├── sys     sys 虚拟文件系统挂载点
+├── tmp     存放临时文件
+├── usr     存放用户应用程序
+└── var     存放邮件、系统日志等变化文件</pre></span><p>Linux 与其他类 UNIX 系统一样并不区分文件与目录：目录是记录了其他文件名的文件。使用命令 mkdir 创建目录时，若期望创建的目录的名称与现有的文件名（或目录名）重复，则会创建失败。</p><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> # ls -F /usr/bin/zi* 
+ /usr/bin/zip*       /usr/bin/zipgrep*  /usr/bin/zipnote* 
+ /usr/bin/zipcloak*  /usr/bin/zipinfo*  /usr/bin/zipsplit* 
+
+ # mkdir -p /usr/bin/zip 
+ mkdir: cannot create directory `/usr/bin/zip': File exists</pre></span><p>Linux 将设备当做文件进行处理，<a href="#listing2">清单 2.</a>展示了如何打开设备文件 /dev/input/event5 并读取文件内容。文件 event5 表示一种输入设备，其可能是鼠标或键盘等。查看文件 /proc/bus/input/devices 可知 event5 对应设备的类型。设备文件 /dev/input/event5 使用 read() 以字符流的方式被读取。结构体 input_event 被定义在内核头文件 linux/input.h 中。</p><h5 id="listing2" class="ibm-h5">清单 2. 打开并读取设备文件</h5><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> int fd; 
+ struct input_event ie; 
+ fd = open("/dev/input/event5", O_RDONLY); 
+ read(fd, &amp;ie, sizeof(struct input_event)); 
+ printf("type = %d  code = %d  value = %d\n", 
+			 ie.type, ie.code, ie.value); 
+ close(fd);</pre></span><h2 id="major2" class="ibm-h2">硬链接与软链接的联系与区别</h2><p>我们知道文件都有文件名与数据，这在 Linux 上被分成两个部分：用户数据 (user data) 与元数据 (metadata)。用户数据，即文件数据块 (data block)，数据块是记录文件真实内容的地方；而元数据则是文件的附加属性，如文件大小、创建时间、所有者等信息。在 Linux 中，元数据中的 inode 号（inode 是文件元数据的一部分但其并不包含文件名，inode 号即索引节点号）才是文件的唯一标识而非文件名。文件名仅是为了方便人们的记忆和使用，系统或程序通过 inode 号寻找正确的文件数据块。<a href="#fig1">图 1.</a>展示了程序通过文件名获取文件内容的过程。</p><h5 id="fig1" class="ibm-h5">图 1. 通过文件名打开文件</h5><img src="image001.jpg" class="ibm-downsize" alt="图 1. 通过文件名打开文件" height="120" width="320"/><p class="ibm-ind-link"><a class="ibm-popup-link" onclick="IBMCore.common.widget.overlay.show('N1006F');return false;" href="#N1006F">点击查看大图</a></p><div class="ibm-common-overlay ibm-overlay-alt-three" data-widget="overlay" id="N1006F"><img alt="图 1. 通过文件名打开文件" src="image001.jpg" width="320" /></div><h5 id="listing3" class="ibm-h5">清单 3. 移动或重命名文件</h5><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> # stat /home/harris/source/glibc-2.16.0.tar.xz 
+  File: `/home/harris/source/glibc-2.16.0.tar.xz'
+  Size: 9990512   	 Blocks: 19520      IO Block: 4096   regular file 
+ Device: 807h/2055d 	 Inode: 2485677     Links: 1 
+ Access: (0600/-rw-------)  Uid: ( 1000/  harris)   Gid: ( 1000/  harris) 
+ ... 
+ ... 
+ # mv /home/harris/source/glibc-2.16.0.tar.xz /home/harris/Desktop/glibc.tar.xz 
+ # ls -i -F /home/harris/Desktop/glibc.tar.xz 
+ 2485677 /home/harris/Desktop/glibc.tar.xz</pre></span><p>在 Linux 系统中查看 inode 号可使用命令 stat 或 ls -i（若是 AIX 系统，则使用命令 istat）。<a href="#listing3">清单 3.</a>中使用命令 mv 移动并重命名文件 glibc-2.16.0.tar.xz，其结果不影响文件的用户数据及 inode 号，文件移动前后 inode 号均为：2485677。</p><p>为解决文件的共享使用，Linux 系统引入了两种链接：硬链接 (hard link) 与软链接（又称符号链接，即 soft link 或 symbolic link）。链接为 Linux 系统解决了文件的共享使用，还带来了隐藏文件路径、增加权限安全及节省存储等好处。若一个 inode 号对应多个文件名，则称这些文件为硬链接。换言之，硬链接就是同一个文件使用了多个别名（见 <a href="#fig2">图 2.</a>hard link 就是 file 的一个别名，他们有共同的 inode）。硬链接可由命令 link 或 ln 创建。如下是对文件 oldfile 创建硬链接。</p><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> link oldfile newfile 
+ ln oldfile newfile</pre></span><p>由于硬链接是有着相同 inode 号仅文件名不同的文件，因此硬链接存在以下几点特性：</p><ul class="ibm-bullet-list"><li>
+文件有相同的 inode 及 data block；</li><li>
+只能对已存在的文件进行创建；</li><li>
+不能交叉文件系统进行硬链接的创建；</li><li>
+不能对目录进行创建，只可对文件创建；</li><li>
+删除一个硬链接文件并不影响其他有相同 inode 号的文件。</li></ul><h5 id="listing4" class="ibm-h5">清单 4. 硬链接特性展示</h5><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> # ls -li 
+ total 0 
+
+ // 只能对已存在的文件创建硬连接
+ # link old.file hard.link 
+ link: cannot create link `hard.link' to `old.file': No such file or directory 
+
+ # echo "This is an original file" &gt; old.file 
+ # cat old.file 
+ This is an original file 
+ # stat old.file 
+  File: `old.file'
+  Size: 25        	 Blocks: 8          IO Block: 4096   regular file 
+ Device: 807h/2055d 	 Inode: 660650      Links: 2 
+ Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root) 
+ ... 
+ // 文件有相同的 inode 号以及 data block 
+ # link old.file hard.link | ls -li 
+ total 8 
+ 660650 -rw-r--r-- 2 root root 25 Sep  1 17:44 hard.link 
+ 660650 -rw-r--r-- 2 root root 25 Sep  1 17:44 old.file 
+
+ // 不能交叉文件系统
+ # ln /dev/input/event5 /root/bfile.txt 
+ ln: failed to create hard link `/root/bfile.txt' =&gt; `/dev/input/event5': 
+ Invalid cross-device link 
+
+ // 不能对目录进行创建硬连接
+ # mkdir -p old.dir/test 
+ # ln old.dir/ hardlink.dir 
+ ln: `old.dir/': hard link not allowed for directory 
+ # ls -iF 
+ 660650 hard.link  657948 old.dir/  660650 old.file</pre></span><p>文件 old.file 与 hard.link 有着相同的 inode 号：660650 及文件权限，inode 是随着文件的存在而存在，因此只有当文件存在时才可创建硬链接，即当 inode 存在且链接计数器（link count）不为 0 时。inode 号仅在各文件系统下是唯一的，当 Linux 挂载多个文件系统后将出现 inode 号重复的现象（如 <a href="#listing5">清单 5.</a>所示，文件 t3.jpg、sync 及 123.txt 并无关联，却有着相同的 inode 号），因此硬链接创建时不可跨文件系统。设备文件目录 /dev 使用的文件系统是 devtmpfs，而 /root（与根目录 / 一致）使用的是磁盘文件系统 ext4。<a href="#listing5">清单 5.</a>展示了使用命令 df 查看当前系统中挂载的文件系统类型、各文件系统 inode 使用情况及文件系统挂载点。</p><h5 id="listing5" class="ibm-h5">清单 5. 查找有相同 inode 号的文件</h5><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> # df -i --print-type 
+ Filesystem     Type       Inodes  IUsed    IFree IUse% Mounted on 
+ /dev/sda7      ext4      3147760 283483  2864277   10% / 
+ udev           devtmpfs   496088    553   495535    1% /dev 
+ tmpfs          tmpfs      499006    491   498515    1% /run 
+ none           tmpfs      499006      3   499003    1% /run/lock 
+ none           tmpfs      499006     15   498991    1% /run/shm 
+ /dev/sda6      fuseblk  74383900   4786 74379114    1% /media/DiskE 
+ /dev/sda8      fuseblk  29524592  19939 29504653    1% /media/DiskF 
+
+ # find / -inum 1114 
+ /media/DiskE/Pictures/t3.jpg 
+ /media/DiskF/123.txt 
+ /bin/sync</pre></span><p>值得一提的是，Linux 系统存在 inode 号被用完但磁盘空间还有剩余的情况。我们创建一个 5M 大小的 ext4 类型的 mo.img 文件，并将其挂载至目录 /mnt。然后我们使用一个 shell 脚本将挂载在 /mnt 下 ext4 文件系统的 indoe 耗尽（见清单 6.）。</p><h5 id="listing6" class="ibm-h5">清单 6. 测试文件系统 inode 耗尽但仍有磁盘空间的情景</h5><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> # dd if=/dev/zero of=mo.img bs=5120k count=1 
+ # ls -lh mo.img 
+ -rw-r--r-- 1 root root 5.0M Sep  1 17:54 mo.img 
+ # mkfs -t ext4  -F ./mo.img 
+ ... 
+ OS type: Linux 
+ Block size=1024 (log=0) 
+ Fragment size=1024 (log=0) 
+ Stride=0 blocks, Stripe width=0 blocks 
+ 1280 inodes, 5120 blocks 
+ 256 blocks (5.00%) reserved for the super user 
+ ... 
+ ... 
+ Writing superblocks and filesystem accounting information: done 
+
+ # mount -o loop ./mo.img /mnt 
+ # cat /mnt/inode_test.sh 
+ #!/bin/bash 
+
+ for ((i = 1; ; i++)) 
+ do 
+    if [ $? -eq 0 ]; then 
+        echo  "This is file_$i" &gt; file_$i 
+    else 
+        exit 0 
+    fi 
+ done 
+
+ # ./inode_test.sh 
+ ./inode_test.sh: line 6: file_1269: No space left on device 
+
+ # df -iT /mnt/; du -sh /mnt/ 
+ Filesystem     Type Inodes IUsed IFree IUse% Mounted on 
+ /dev/loop0     ext4   1280  1280     0  100% /mnt 
+ 1.3M 	 /mnt/</pre></span><p>硬链接不能对目录创建是受限于文件系统的设计（见 <a href="#listing4">清单 4.</a>对目录创建硬链接将失败）。现 Linux 文件系统中的目录均隐藏了两个个特殊的目录：当前目录（.）与父目录（..）。查看这两个特殊目录的 inode 号可知其实这两目录就是两个硬链接（注意目录 /mnt/lost+found/ 的 inode 号）。若系统允许对目录创建硬链接，则会产生目录环。</p><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> # ls -aliF /mnt/lost+found 
+ total 44 
+ 11 drwx------ 2 root root 12288 Sep  1 17:54 ./ 
+ 2 drwxr-xr-x 3 root root 31744 Sep  1 17:57 ../ 
+
+ # stat  /mnt/lost+found/ 
+  File: `/mnt/lost+found/'
+  Size: 12288     	 Blocks: 24         IO Block: 1024   directory 
+ Device: 700h/1792d 	 Inode: 11          Links: 2 
+ Access: (0700/drwx------)  Uid: (    0/    root)   Gid: (    0/    root) 
+ Access: 2012-09-01 17:57:17.000000000 +0800 
+ Modify: 2012-09-01 17:54:49.000000000 +0800 
+ Change: 2012-09-01 17:54:49.000000000 +0800 
+ Birth: -</pre></span><p>软链接与硬链接不同，若文件用户数据块中存放的内容是另一文件的路径名的指向，则该文件就是软连接。软链接就是一个普通文件，只是数据块内容有点特殊。软链接有着自己的 inode 号以及用户数据块（见 <a href="#fig2">图 2.</a>）。因此软链接的创建与使用没有类似硬链接的诸多限制：</p><ul class="ibm-bullet-list"><li>
+软链接有自己的文件属性及权限等；</li><li>
+可对不存在的文件或目录创建软链接；</li><li>
+软链接可交叉文件系统；</li><li>
+软链接可对文件或目录创建；</li><li>
+创建软链接时，链接计数 i_nlink 不会增加；</li><li>
+删除软链接并不影响被指向的文件，但若被指向的原文件被删除，则相关软连接被称为死链接（即 dangling link，若被指向路径文件被重新创建，死链接可恢复为正常的软链接）。</li></ul><h5 id="fig2" class="ibm-h5">图 2. 软链接的访问</h5><img src="image002.jpg" class="ibm-downsize" alt="图 2. 软链接的访问" height="168" width="224"/><h5 id="listing7" class="ibm-h5">清单 7. 软链接特性展示</h5><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> # ls -li 
+ total 0 
+
+ // 可对不存在的文件创建软链接
+ # ln -s old.file soft.link 
+ # ls -liF 
+ total 0 
+ 789467 lrwxrwxrwx 1 root root 8 Sep  1 18:00 soft.link -&gt; old.file 
+
+ // 由于被指向的文件不存在，此时的软链接 soft.link 就是死链接
+ # cat soft.link 
+ cat: soft.link: No such file or directory 
+
+ // 创建被指向的文件 old.file，soft.link 恢复成正常的软链接
+ # echo "This is an original file_A" &gt;&gt; old.file 
+ # cat soft.link 
+ This is an original file_A 
+
+ // 对不存在的目录创建软链接
+ # ln -s old.dir soft.link.dir 
+ # mkdir -p old.dir/test 
+ # tree . -F --inodes 
+ . 
+├── [ 789497]  old.dir/ 
+│   └── [ 789498]  test/ 
+├── [ 789495]  old.file 
+├── [ 789495]  soft.link -&gt; old.file 
+└── [ 789497]  soft.link.dir -&gt; old.dir/</pre></span><p>当然软链接的用户数据也可以是另一个软链接的路径，其解析过程是递归的。但需注意：软链接创建时原文件的路径指向使用绝对路径较好。使用相对路径创建的软链接被移动后该软链接文件将成为一个死链接（如下所示的软链接 a 使用了相对路径，因此不宜被移动），因为链接数据块中记录的亦是相对路径指向。</p><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> $ ls -li 
+ total 2136 
+ 656627 lrwxrwxrwx 1 harris harris       8 Sep  1 14:37 a -&gt; data.txt
+ 656662 lrwxrwxrwx 1 harris harris       1 Sep  1 14:37 b -&gt; a 
+ 656228 -rw------- 1 harris harris 2186738 Sep  1 14:37 data.txt 6</pre></span><h2 id="major3" class="ibm-h2">链接相关命令</h2><p>在 Linux 中查看当前系统已挂着的文件系统类型，除上述使用的命令 df，还可使用命令 mount 或查看文件 /proc/mounts。</p><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> # mount 
+ /dev/sda7 on / type ext4 (rw,errors=remount-ro) 
+ proc on /proc type proc (rw,noexec,nosuid,nodev) 
+ sysfs on /sys type sysfs (rw,noexec,nosuid,nodev) 
+ ... 
+ ... 
+ none on /run/shm type tmpfs (rw,nosuid,nodev)</pre></span><p>命令 ls 或 stat 可帮助我们区分软链接与其他文件并查看文件 inode 号，但较好的方式还是使用 find 命令，其不仅可查找某文件的软链接，还可以用于查找相同 inode 的所有硬链接。（见清单 8.）</p><h5 id="listing8" class="ibm-h5">清单 8. 使用命令 find 查找软链接与硬链接</h5><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> // 查找在路径 /home 下的文件 data.txt 的软链接
+ # find /home -lname data.txt 
+ /home/harris/debug/test2/a 
+
+ // 查看路径 /home 有相同 inode 的所有硬链接
+ # find /home -samefile /home/harris/debug/test3/old.file 
+ /home/harris/debug/test3/hard.link 
+ /home/harris/debug/test3/old.file 
+
+ # find /home -inum 660650 
+ /home/harris/debug/test3/hard.link 
+ /home/harris/debug/test3/old.file 
+
+ // 列出路径 /home/harris/debug/ 下的所有软链接文件
+ # find /home/harris/debug/ -type l -ls 
+ 656662 0 lrwxrwxrwx 1 harris harris 1 Sep 1 14:37 /home/harris/debug/test2/b -&gt; a
+ 656627 0 lrwxrwxrwx 1 harris harris 8 Sep 1 14:37 /home/harris/debug/test2/a -&gt; 
+ data.txt
+ 789467 0 lrwxrwxrwx 1 root root 8 Sep 1 18:00 /home/harris/debug/test/soft.link -&gt; 
+ old.file 
+ 789496    0 lrwxrwxrwx   1 root     root            7 Sep  1 18:01 
+ /home/harris/debug/test/soft.link.dir -&gt; old.dir</pre></span><p>系统根据磁盘的大小默认设定了 inode 的值（见清单 9.），如若必要，可在格式文件系统前对该值进行修改。如键入命令 <code>mkfs -t ext4 -I 512</code><code/><code>/</code><code>dev/sda4，</code>将使磁盘设备 /dev/sda4 格式成 inode 大小是 512 字节的 ext4 文件系统。</p><h5 id="listing9" class="ibm-h5">清单 9. 查看系统的 inode 值</h5><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> // 查看磁盘分区 /dev/sda7 上的 inode 值
+ # dumpe2fs -h /dev/sda7 | grep "Inode size"
+ dumpe2fs 1.42 (29-Nov-2011) 
+ Inode size: 	          256 
+
+ # tune2fs -l /dev/sda7 | grep "Inode size"
+ Inode size: 	          256</pre></span><h2 id="major4" class="ibm-h2">Linux VFS</h2><p>Linux 有着极其丰富的文件系统，大体上可分如下几类：</p><ol type="1"><li>
+网络文件系统，如 nfs、cifs 等；</li><li>
+磁盘文件系统，如 ext4、ext3 等；</li><li>
+特殊文件系统，如 proc、sysfs、ramfs、tmpfs 等。</li></ol><p>实现以上这些文件系统并在 Linux 下共存的基础就是 Linux VFS（Virtual File System 又称 Virtual Filesystem Switch），即虚拟文件系统。VFS 作为一个通用的文件系统，抽象了文件系统的四个基本概念：文件、目录项 (dentry)、索引节点 (inode) 及挂载点，其在内核中为用户空间层的文件系统提供了相关的接口（见 <a href="#fig3">图 3.</a>所示 VFS 在 Linux 系统的架构）。VFS 实现了 open()、read() 等系统调并使得 cp 等用户空间程序可跨文件系统。VFS 真正实现了上述内容中：在 Linux 中除进程之外一切皆是文件。</p><h5 id="fig3" class="ibm-h5">图 3. VFS 在系统中的架构</h5><img src="image003.jpg" class="ibm-downsize" alt="图 3. VFS 在系统中的架构" height="208" width="280"/><p>Linux VFS 存在四个基本对象：超级块对象 (superblock object)、索引节点对象 (inode object)、目录项对象 (dentry object) 及文件对象 (file object)。超级块对象代表一个已安装的文件系统；索引节点对象代表一个文件；目录项对象代表一个目录项，如设备文件 event5 在路径 /dev/input/event5 中，其存在四个目录项对象：/ 、dev/ 、input/ 及 event5。文件对象代表由进程打开的文件。这四个对象与进程及磁盘文件间的关系如图 4. 所示，其中 d_inode 即为硬链接。为文件路径的快速解析，Linux VFS 设计了目录项缓存（Directory Entry Cache，即 dcache）。</p><h5 id="fig4" class="ibm-h5">图 4. VFS 的对象之间的处理</h5><img src="image004.jpg" class="ibm-downsize" alt="图 4. VFS 的对象之间的处理" height="144" width="360"/><p class="ibm-ind-link"><a class="ibm-popup-link" onclick="IBMCore.common.widget.overlay.show('N1013F');return false;" href="#N1013F">点击查看大图</a></p><div class="ibm-common-overlay ibm-overlay-alt-three" data-widget="overlay" id="N1013F"><img alt="图 4. VFS 的对象之间的处理" src="image004.jpg" width="360" /></div><a id="_ 代码清单与预格式化文本"></a><h2 id="major5" class="ibm-h2">Linux 文件系统中的 inode</h2><p>在 Linux 中，索引节点结构存在于系统内存及磁盘，其可区分成 VFS inode 与实际文件系统的 inode。VFS inode 作为实际文件系统中 inode 的抽象，定义了结构体 inode 与其相关的操作 inode_operations（见内核源码 include/linux/fs.h）。</p><h5 id="listing10" class="ibm-h5">清单 10. VFS 中的 inode 与 inode_operations 结构体</h5><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> struct inode { 
+    ... 
+    const struct inode_operations   *i_op; // 索引节点操作
+    unsigned long           i_ino;      // 索引节点号
+    atomic_t                i_count;    // 引用计数器
+    unsigned int            i_nlink;    // 硬链接数目
+    ... 
+ } 
+
+ struct inode_operations { 
+    ... 
+    int (*create) (struct inode *,struct dentry *,int, struct nameidata *); 
+    int (*link) (struct dentry *,struct inode *,struct dentry *); 
+    int (*unlink) (struct inode *,struct dentry *); 
+    int (*symlink) (struct inode *,struct dentry *,const char *); 
+    int (*mkdir) (struct inode *,struct dentry *,int); 
+    int (*rmdir) (struct inode *,struct dentry *); 
+    ... 
+ }</pre></span><p>如清单 10. 所见，每个文件存在两个计数器：i_count 与 i_nlink，即引用计数与硬链接计数。结构体 inode 中的 i_count 用于跟踪文件被访问的数量，而 i_nlink 则是上述使用 ls -l 等命令查看到的文件硬链接数。或者说 i_count 跟踪文件在内存中的情况，而 i_nlink 则是磁盘计数器。当文件被删除时，则 i_nlink 先被设置成 0。文件的这两个计数器使得 Linux 系统升级或程序更新变的容易。系统或程序可在不关闭的情况下（即文件 i_count 不为 0），将新文件以同样的文件名进行替换，新文件有自己的 inode 及 data block，旧文件会在相关进程关闭后被完整的删除。</p><h5 id="listing11" class="ibm-h5">清单 11. 文件系统 ext4 中的 inode</h5><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> struct ext4_inode { 
+    ... 
+    __le32  i_atime;        // 文件内容最后一次访问时间
+    __le32  i_ctime;        // inode 修改时间
+    __le32  i_mtime;        // 文件内容最后一次修改时间
+    __le16  i_links_count;  // 硬链接计数
+    __le32  i_blocks_lo;    // Block 计数
+    __le32  i_block[EXT4_N_BLOCKS];  // 指向具体的 block 
+    ... 
+ };</pre></span><p>清单 11. 展示的是文件系统 ext4 中对 inode 的定义（见内核源码 fs/ext4/ext4.h）。其中三个时间的定义可对应与命令 stat 中查看到三个时间。i_links_count 不仅用于文件的硬链接计数，也用于目录的子目录数跟踪（目录并不显示硬链接数，命令 ls -ld 查看到的是子目录数）。由于文件系统 ext3 对 i_links_count 有限制，其最大数为：32000（该限制在 ext4 中被取消）。尝试在 ext3 文件系统上验证目录子目录及普通文件硬链接最大数可见 <a href="#listing12">清单 12</a>. 的错误信息。因此实际文件系统的 inode 之间及与 VFS inode 相较是有差异的。</p><h5 id="listing12" class="ibm-h5">清单 12. 文件系统 ext3 中 i_links_count 的限制</h5><span class="dw-code-nohighlight"><pre data-widget="syntaxhighlighter" class="brush: js; html-script: true; gutter: true;"> # ./dirtest.sh 
+ mkdir: cannot create directory `dir_31999': Too many links 
+
+ # ./linkcount.sh 
+ ln: failed to create hard link to `old.file': Too many links</pre></span><h2 id="major6" class="ibm-h2">结束语</h2><p>本文最初描述了 Linux 系统中文件与目录被引入的原因及 Linux 处理文件的方式，然后我们通过区分硬链接与软链接的不同，了解 Linux 中的索引节点的相关知识，并以此引出了 inode 的结构体。索引节点结构体存在在于 Linux VFS 以及实际文件系统中，VFS 作为通用文件模型是 Linux 中“一切皆是文件”实现的基础。文章并未深入 Linux VFS，也没涉及实际文件系统的实现，文章只是从 inode 了解 Linux 的文件系统的相关内容。若想深入文件系统的内容，查看内核文档 Documentation/filesystems/ 是一个不错的方式。</p><!--CMA ID: 852952--><!--Site ID: 10--><!--XSLT stylesheet used to transform this file: dw-document-html-8.0.xsl-->
+                                        <!-- Article Quiz -->
+                                        
+                                        <!-- Article Resources -->
+                                        <div class="ibm-alternate-rule"><hr/></div><h4 id="artrelatedtopics" class="ibm-h4">相关主题</h4><ul><li>查看文章“<a href="http://www.ibm.com/developerworks/cn/linux/l-lpic1-v3-103-3/index.html">学习 Linux，101: 文件和目录管理</a>”，熟悉 Linux 的文件和目录。</li><li>查看文章“<a href="http://www.ibm.com/developerworks/cn/linux/l-lpic1-v3-104-6/">学习 Linux，101: 创建和更改硬链接和符号链接</a>”，掌握与硬链接和软链接相关的命令。</li><li>查看 wiki 上“<a href="http://en.wikipedia.org/wiki/Hard_link">Hard link</a>”、“<a href="http://en.wikipedia.org/wiki/Symbolic_link">Symbolic link</a>”及“<a href="http://en.wikipedia.org/wiki/Inode">inode</a>”等内容。</li><li>查阅 <a href="http://www.kernel.org/doc/man-pages/online/pages/man7/symlink.7.html">symlink(7)</a>的 man 手册，了解 Linux 中的软链接。</li><li>查看文章“<a href="http://linuxgazette.net/105/pitcher.html">Q &amp; A: The difference between hard and soft links</a>”，了解硬链接与软链接的区别。</li><li>查看文章“<a href="http://ph7spot.com/musings/in-unix-everything-is-a-file">In UNIX Everything is a File</a>”，了解 UNIX 中除进程外一切皆是文件。</li><li>查看文章“<a href="http://www.ibm.com/developerworks/cn/linux/l-virtual-filesystem-switch/">Linux 虚拟系统文件交换器剖析</a>”与“<a href="http://www.ibm.com/developerworks/cn/linux/l-linux-filesystem/">Linux 文件系统剖析</a>”，获取 Linux 虚拟文件系统 (Linux VFS) 相关知识。</li><li>查看文章“<a href="http://www.ibm.com/developerworks/cn/linux/l-vfs/">解析 Linux 中的 VFS 文件系统机制</a>”，深入理解实例一个文件系统系统的过程。</li><li>查看文章“<a href="http://www.ibm.com/developerworks/cn/aix/library/au-speakingunix14/">对话 UNIX: 关于 inode</a>”，了解 inode 相关内容。</li><li>查看文章“<a href="http://www.ibm.com/developerworks/cn/linux/l-cn-usagecounter/">Linux 文件系统中元数据使用计数的机制</a>”，了解 Linux 对 dentry 和 inode 的计数操作。</li><li>查看内核源码文件 Documentation/filesystems/ext4.txt，了解文件系统 ext4 的相关内容。</li><li> 在 <a href="http://www.ibm.com/developerworks/cn/linux/"> developerWorks Linux 专区</a> 寻找为 Linux 开发人员（包括 <a href="http://www.ibm.com/developerworks/cn/linux/newto/">Linux 新手入门</a>）准备的更多参考资料，查阅我们 <a href="http://www.ibm.com/developerworks/cn/linux/best2009/index.html">最受欢迎的文章和教程</a>。 </li><li>在 developerWorks 上查阅所有 <a href="http://www.ibm.com/developerworks/cn/views/linux/libraryview.jsp?search_by=Linux+%E6%8A%80%E5%B7%A7"> Linux 技巧</a> 和 <a href="http://www.ibm.com/developerworks/cn/views/linux/libraryview.jsp?type_by=%E6%95%99%E7%A8%8B"> Linux 教程</a>。 </li><li>随时关注 developerWorks <a href="http://www.ibm.com/developerworks/cn/offers/techbriefings/">技术活动</a>和<a href="http://www.ibm.com/developerworks/cn/swi/">网络广播</a>。 </li></ul>
+                                        <!-- Commenting -->
+<!-- INLINE_COMMENTS_BEGIN:
+<div class="ibm-alternate-rule"><hr/></div>
+<div id="dw-article-cmts-top" class="ibm-columns">
+    <div class="ibm-col-6-2">
+        <h4 id="icomments" class="ibm-h4">评论</h4>
+        <div id="dw-article-cmts-login">
+            <p>添加或订阅评论，请先<a onClick="window.location=userLinks[0].url;" tabindex="0" role="link">登录</a>或<a onClick="window.location=userLinks[1].url;" tabindex="0" role="link">注册</a>。</p>
+        </div>
+    </div>    
+    <div class="ibm-col-6-2" id="dw-notify"> 
+        <input type="checkbox" value="1" name="comment_notification" id="comment_notification" disabled="disabled">
+        <label for="comment_notification">有新评论时提醒我</label>	   
+    </div>
+</div>
+
+<div class="dw-article-cmts-container">       
+    <div class="ibm-no-print" id="dw-icomments-container">	
+        
+    </div>
+</div>
+INLINE_COMMENTS_END -->                                        <!-- CENTER_6_4_CONTENT_COLUMN_END -->
+                                    </div>   
+                                </div>
+                        <!--Rating_Meta_BEGIN--><div class="metavalue">static.content.url=http://www.ibm.com/developerworks/js/artrating/</div><div class="metavalue">SITE_ID=10</div><div class="metavalue">Zone=Linux</div><div class="metavalue">ArticleID=852952</div><div class="metavalue">ArticleTitle=理解 Linux 的硬链接与软链接</div><div class="metavalue">publish-date=12202012</div><script language="javascript" type="text/javascript">document.write('<div class="metavalue">url='+location.href.replace(/</g,  '%3C')+'</div>');</script><!--Rating_Meta_END-->
+                    </div>
+                    <!-- END_IBM-CONTENT-MAIN -->
+                </div>
+                <!-- END_IBM-CONTENT-BODY -->
+            </div>
+            <!-- END_IBM-CONTENT -->
+        </div>
+        <!-- END_IBM-PCON -->
+    </main>
+    <!-- MAIN_CONTENT_END -->
+    
+    <!-- END_CONTENT-WRAPPER -->	
+</div>
+<!-- FOOTER_BEGIN -->
+<footer role="contentinfo" aria-label="IBM Developer">
+    <div id="dw-footer-module" class="dw-footer-home ibmdeveloper">
+        <section aria-label="参考资料" role="contentinfo">
+            <div class="ibm-columns">
+                <div class="ibm-col-6-1 dw-footer-col-1">
+                    <ul>
+                        <li class="dw-footer-heading" aria-label="IBM Developer"><a href="//www.ibm.com/developerworks/cn/">IBM <b>Developer</b></a></li>
+                        <li><a href="//www.ibm.com/developerworks/secure/feedback.jsp?domain=dwchina">站点反馈</a></li>
+                        <li class="dw-footer-newline"><a href="//www.ibm.com/developerworks/secure/myideas2.jsp?domain=dwchina">我要投稿</a></li>
+                        <li class="dw-footer-newline"><a href="//www.ibm.com/developerworks/community/report?lang=zh">报告滥用</a></li>
+                        <li class="dw-footer-newline"><a href="//www.ibm.com/developerworks/cn/community/terms/thirdparty/">第三方提示</a></li>
+                    </ul>
+                    <ul>
+                        <li class="dw-footer-newline"><a href="//weibo.com/ibmdw/">关注微博</a></li>
+                    </ul>
+                </div>
+                <div class="ibm-col-6-1 dw-footer-col-2">
+                    <ul>
+                        <li class="dw-footer-heading"><a href="//www-31.ibm.com/ibm/cn/ur/">大学合作</a></li>
+                    </ul>
+                    <ul class="dw-footer-lang" aria-label="选择语言">
+                        <li class="dw-footer-heading">选择语言</li>
+                        <li><a href="//developer.ibm.com">English</a></li>
+                        <li><a href="//www.ibm.com/developerworks/cn/" lang="zh">中文</a></li>
+                        <li><a href="//www.ibm.com/developerworks/jp/" lang="ja">日本語</a></li>
+                        <li><a href="//www.ibm.com/developerworks/ru/" lang="ru">Русский</a></li>
+                        <li class="dw-footer-newline"><a href="//www.ibm.com/developerworks/br/" lang="pt">Português (Brasil)</a></li>
+                        <li><a href="//www.ibm.com/developerworks/ssa/" lang="es">Español</a></li>
+                        <li><a href="//developer.ibm.com/kr/" lang="kr">한글</a></li>
+                    </ul>
+                </div>
+                <div class="ibm-col-6-1 dw-footer-col-3"> </div>
+                <div class="ibm-col-6-1 dw-footer-col-4"> </div>
+                <div class="ibm-col-6-1 dw-footer-col-5">
+                    <ul class="dw-footer-categories">
+                        <li class="dw-footer-category">
+                            <a href="//developer.ibm.com/cn/journey/">Code patterns</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="//www.ibm.com/developerworks/cn/views/global/libraryview.jsp">技术文档库</a>
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="//www.ibm.com/developerworks/cn/downloads/">软件下载</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="//developer.ibm.com/cn/">开发者中心</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="//www.ibm.com/developerworks/cn/rss/">订阅源</a>  
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="ibm-col-6-1 dw-footer-col-6">
+                    <ul class="dw-footer-categories">
+                        <li class="dw-footer-category">
+                            <a href="//www.pages03.net/ibmdeveloperworks/developerWorksChina-NewsletterSubscriptionPage-secure18rev1/">时事通讯</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="//developer.ibm.com/cn/tv/">视频</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="//developer.ibm.com/cn/blogs/">博客</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="//developer.ibm.com/cn/events/">活动</a>  
+                        </li>                        
+                        <li class="dw-footer-category">
+                            <a href="//www.ibm.com/developerworks/cn/community/">社区</a>  
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="dw-footer" class="ibm-padding-normal ibm-alternate">
+        <div class="ibm-columns">
+            <div class="ibm-col-1-1">
+                <div class="dw-footer-corporate-links">
+                <ul>
+                    <li><a href="//www.ibm.com/contact/cn/zh/">联系 IBM</a></li>
+                    <li><a href="//www.ibm.com/privacy/cn/zh/">隐私条约</a></li>
+                    <li><a href="//www.ibm.com/developerworks/cn/community/terms/use/">使用条款</a></li>
+                    <li><a href="//www.ibm.com/accessibility/cn/zh/">信息无障碍选项</a></li>
+                    <li class="ibm-feedbacklink"><a href="#">反馈</a></li>
+                    <li id="ibm-truste-cp"><a onclick="truste.eu.clickListener();return false;" href="#">Cookie 首选项</a></li>
+                </ul>                 
+                </div>    
+            </div>
+        </div>
+    </div>        
+</footer> <!-- FOOTER_END -->
+
+<!-- END_IBM-TOP -->
+</div>
+
+<!-- SCRIPTS_INCLUDE_BEGIN -->
+<!-- Styles -->
+<link rel="stylesheet" type="text/css" href="/developerworks/maverick/css/plugin/comments/jquery-comments.css">
+<link rel="stylesheet" href="/developerworks/maverick/fonts/awesome-4.5.0/css/font-awesome.min.css">
+
+<!-- Libraries -->
+<script type="text/javascript" src="/developerworks/maverick/js/plugin/comments/jquery-comments.min.js"></script>
+<script type="text/javascript" src="/developerworks/maverick/js/plugin/formatter/moment-with-locales.js"></script>
+<script type="text/javascript" src="/developerworks/maverick/js/ContentComments.js"></script>
+<script type="text/javascript" src="/developerworks/js/v18/ContentCommentsFormatter.js"></script>
+<script type="text/javascript" language="JavaScript">
+
+	IBMCore.common.module.masthead.subscribe("ready", "customjs", setupCommentsPlugin).runAsap(setupCommentsPlugin);
+
+	function setupCommentsPlugin(){
+		//debugger;
+			//alert(userLinks);
+			var commentsInitInfo = {
+				contentId : $("div[class=metavalue]:contains('ArticleID=')").text().split("=")[1],
+				siteId :  $("div[class=metavalue]:contains('SITE_ID=')").text().split("=")[1],
+				pluginDivId : '#dw-icomments-container',
+				notifyElementId : "#comment_notification",
+				loginMessageDivId : "#dw-article-cmts-login",
+				totalCommentsDivId : "#nCmts",
+						isIdea:false
+
+			};				
+								
+			ContentComments.Setup(commentsInitInfo);
+	}
+</script>
+
+<!-- SCRIPTS_INCLUDE_END -->
+
+</body>
+</html>

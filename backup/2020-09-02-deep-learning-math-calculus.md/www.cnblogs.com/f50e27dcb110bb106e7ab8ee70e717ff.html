@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="前言 某次模拟赛被矩阵虐哭，补一波线代 这篇博客偏入门，概念较多，算法相关较少 大力膜拜$3B1B$的 &amp;quot;线性代数的本质系列&amp;quot; ~~（参考资料来源，或者干脆叫观影总结吧……）~~ " />
+    <meta property="og:description" content="前言 某次模拟赛被矩阵虐哭，补一波线代 这篇博客偏入门，概念较多，算法相关较少 大力膜拜$3B1B$的 &amp;quot;线性代数的本质系列&amp;quot; ~~（参考资料来源，或者干脆叫观影总结吧……）~~ " />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>线性代数入门 - 一粒红豆 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=R2wBwmwSMG0Sqiw8GFSVjHT4Payg_JFAn51R8XcuvN0" />
+    <link id="MainCss" rel="stylesheet" href="/skins/custom/bundle-custom.min.css?v=URnzNOcYasaxFfc79Balq6aK60x2WaH4sa2e1Ty6OO4" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/knife-rose/custom.css?v=VOWfC3XQqDqWCKjHkhKwuc&#x2B;dW7o=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/custom/bundle-custom-mobile.min.css?v=NIyouwupMe17oS7E6eRYWhiJ-Ph_kl7aS2oaPYH6Gpg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/knife-rose/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/knife-rose/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/knife-rose/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 526732;
+        var currentBlogApp = 'knife-rose';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'Custom';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2019-12-27 05:16';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=gWQ9VKr6FSwo14EgofSprzXJrAEO7ppQ1I5Or4uqKuo"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+        <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://brands.cnblogs.com/aws/free?source=mobile-banner" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aws-mobile-bannerbar')"><img src="https://img2020.cnblogs.com/blog/35695/202012/35695-20201203212730693-184275650.png" alt="" /></a>
+        </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/knife-rose/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/knife-rose/">red</a>
+</h1>
+<h2>初相遇，是千山微雨，你是我人间朝夕</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/knife-rose/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+</li>
+<li>
+
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 295&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 102</span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/knife-rose/p/12107204.html">
+    <span>线性代数入门</span>
+    
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+    <h2 id="前言">前言</h2>
+<p>某次模拟赛被矩阵虐哭，补一波线代</p>
+<p>这篇博客偏入门，概念较多，算法相关较少</p>
+<p>大力膜拜<span class="math inline">\(3B1B\)</span>的<a href="https://www.bilibili.com/video/av6731067?p=4">线性代数的本质系列</a></p>
+<p><s>（参考资料来源，或者干脆叫观影总结吧……）</s></p>
+<p>完全就是观影总结<span class="math inline">\(qwq\)</span></p>
+<p>记号：不作特殊说明，本文中的大写字母均表示某个矩阵，小写字母均表示某个向量</p>
+<p>顺便一提，如果对标题分布有点混乱，那么建议看一眼博客右侧的分级目录</p>
+<h2 id="向量">向量</h2>
+<h3 id="向量的定义">向量的定义</h3>
+<p>高考课本讲的向量大概是：具有长度和方向的箭头<img src="https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=17e6afcc780e0cf3a0f749fd327d9522/cc11728b4710b9124f48f420c9fdfc0393452266.jpg" alt="" loading="lazy"></p>
+<p><span class="math inline">\(OI\)</span>中向量大部分情况下是：一个<span class="math inline">\(n*1\)</span>的矩阵，或者说具有实际含义的一列数字 <span class="math inline">\(\begin{bmatrix}1\\1\\4\\5\\1\\4\end{bmatrix}\)</span></p>
+<p>然而实际上只要满足两个事物相加或相乘有意义就可以称之为向量，后面再详细介绍这里</p>
+<p>但是这提示了我们：向量相加和相乘在线性代数中起着极为重要的作用</p>
+<p>为了更适合入门，我们下面的讲解都会优先考虑几何意义和二维平面</p>
+<p>在二维坐标系中，我们定义向量为从原点出发有长度和方向的箭头，虽然理论上向量只由长度和方向决定，与起点无关，但在线代中向量通常以原点为起点</p>
+<p>例如：</p>
+<p><img src="https://i.loli.net/2019/12/27/5tOIAjGLY4WHpso.png" alt="" loading="lazy"></p>
+<p>这里有一个我们通常意义上的向量</p>
+<p>那么这个箭头和我们的另一种形式：一列数字有什么关联呢？</p>
+<p>我们发现一个向量坐标由一对数字构成，这对数字指引你如何从原点（它的起点）出发，到达它的尖端</p>
+<p>如上图中，我们可以通过尖端<span class="math inline">\(B\)</span>的坐标<span class="math inline">\((3,2)\)</span>了解到，我们可以先由原点向<span class="math inline">\(x\)</span>轴正方向走<span class="math inline">\(3\)</span>个单位长度，再向<span class="math inline">\(y\)</span>轴走<span class="math inline">\(2\)</span>个单位长度得到</p>
+<p>如果我们规定原点是一切向量的起点，那么只要一对数字就可以唯一确定一个二维向量</p>
+<p>上图中的箭头可以表示为<span class="math inline">\(\begin{bmatrix}3\\2\end{bmatrix}\)</span> 为了与坐标区分，我们采用竖写加方括号</p>
+<p>我们应该可以脑补出三维的场景，这里我就不画图了<s>我实在画不出来了</s></p>
+<h3 id="向量加法">向量加法</h3>
+<p><img src="https://i.loli.net/2019/12/27/xdqhwQVTZnrvJpc.png" alt="" loading="lazy"></p>
+<p>如图地我们由两个向量<span class="math inline">\(u\)</span>和<span class="math inline">\(v\)</span></p>
+<p>对于求出<span class="math inline">\(w=u+v\)</span>的结果，只需要将<span class="math inline">\(v\)</span>的起点移动到<span class="math inline">\(u\)</span>的尖端，然后由<span class="math inline">\(u\)</span>的起点指向<span class="math inline">\(v\)</span>的尖端</p>
+<p><img src="https://i.loli.net/2019/12/27/8JcbfhL96vIaAoR.png" alt="" loading="lazy"></p>
+<p>这是线性代数中为数不多的允许向量的起点离开原点的情况</p>
+<p>为什么这样定义向量加法？</p>
+<p>因为我们可以将一个向量看作一段运动，可以发现在上图中，我们先按照<span class="math inline">\(u\)</span>向量所描述的方式运动，再按照<span class="math inline">\(v\)</span>向量所描述的方式运动，最后与直接按照<span class="math inline">\(w\)</span>向量所描述的方式运动是等价的</p>
+<p>它也刚好对应了向量所代表的数值上的加法运算：</p>
+<p><span class="math inline">\(\begin{bmatrix}3\\1\end{bmatrix}+\begin{bmatrix}2\\-2\end{bmatrix}=\begin{bmatrix}3+2\\1-2\end{bmatrix}=\begin{bmatrix}5\\-1\end{bmatrix}\)</span></p>
+<h3 id="向量数乘">向量数乘</h3>
+<p>对于一个向量</p>
+<p><img src="https://i.loli.net/2019/12/27/UQwxI3g2zFslT8r.png" alt="" loading="lazy"></p>
+<p>我们将它乘以一个标量<span class="math inline">\(2\)</span>得到：</p>
+<p><img src="https://i.loli.net/2019/12/27/Cs9PL4HcDjJrmaQ.png" alt="" loading="lazy"></p>
+<p>效果就是将长度伸长为原来的两倍</p>
+<p>如果我们将它乘以<span class="math inline">\(\frac{1}{2}\)</span>呢？</p>
+<p><img src="https://i.loli.net/2019/12/27/nFl4IuQOjr2sZiM.png" alt="" loading="lazy"></p>
+<p>效果就是先反向，然后长度缩小为原来的<span class="math inline">\(\frac{1}{2}\)</span></p>
+<p>实际上自始自终，标量在线性代数中的主要作用就是缩放向量</p>
+<p>从数字角度看，每个向量数乘即将每一个分量乘以这个数字</p>
+<p><span class="math inline">\(2*\begin{bmatrix}4\\2\end{bmatrix}=\begin{bmatrix}2*4\\2*2\end{bmatrix}=\begin{bmatrix}8\\4\end{bmatrix}\)</span></p>
+<h2 id="线性组合">线性组合</h2>
+<h3 id="线性组合：">线性组合：</h3>
+<p>两个向量通过改变数乘的标量而产生新的向量</p>
+<p>我们可以从另外一个角度去理解一个向量的坐标：对于一个向量的放缩</p>
+<p><img src="https://i.loli.net/2019/12/27/CEQsDOM1cn65HmS.png" alt="" loading="lazy"></p>
+<p>对于向量<span class="math inline">\(v\)</span>来说，我们可以看作是由<span class="math inline">\(i\)</span>伸长为原来的<span class="math inline">\(3\)</span>倍，<span class="math inline">\(j\)</span>反向伸长为原来的<span class="math inline">\(2\)</span>倍再相加得到的</p>
+<p><img src="https://i.loli.net/2019/12/27/96al7GhYQn3wTgU.png" alt="" loading="lazy"></p>
+<p>此时向量<span class="math inline">\(v\)</span>的横纵坐标作为一个标量对两个向量进行放缩，放缩后的向量通过加和得到了向量<span class="math inline">\(v\)</span></p>
+<p>其中<span class="math inline">\(i\)</span>和<span class="math inline">\(j\)</span>被称为坐标系的基，或者基向量，它表示它是某个的向量坐标放缩并加和的对象</p>
+<p>则二维空间中所有的向量都是由两个基向量线性组合得到的</p>
+<h3 id="张成的空间">张成的空间</h3>
+<p>两个向量线性组合得到的所有向量的集合称为张成的空间</p>
+<p>我们发现，所有的向量都可以由基向量组合表示，也就是说如果我们选取了不同的基向量那么将会产生不同的坐标系</p>
+<p>比如我们选取了下面的两个向量作为基向量</p>
+<p><img src="https://i.loli.net/2019/12/27/xdqhwQVTZnrvJpc.png" alt="" loading="lazy"></p>
+<p>那么我们仍然可以通过基向量的线性组合产生二维空间中所有的向量，虽然对于同一组向量来说它们的坐标表示也许不太相同</p>
+<p>那么我们称这组新的基向量<span class="math inline">\(u,v\)</span>张成的空间为二维平面</p>
+<p>我们考虑一种特殊情况</p>
+<p><img src="https://i.loli.net/2019/12/27/H1R3NXjkUPAthrQ.png" alt="" loading="lazy"></p>
+<p>两个向量只能组合出与当前向量共线的全部向量，我们称<span class="math inline">\(i,j\)</span>张成的空间为一条直线</p>
+<p>对于这种特殊情况，我们概括为：某一个向量的增加对于张成的空间没有添加新的维度，那么我们称这组向量是线性相关的</p>
+<p>或者说其中一个向量是由其他向量线性组合得到的，则这组向量线性相关</p>
+<p>对应地，如果我们每个向量都对张成的空间增加了新的维度，那么我们称这组向量线性无关</p>
+<p>还有更特殊的情况，比如两个向量都是原点，那么张成的空间就是一个点</p>
+<h3 id="基">基</h3>
+<p>然而注意到在特殊情况中我并没有称两个向量为基向量，因为基向量有严格的定义：</p>
+<p>向量空间中的一组基是张成该空间的一个线性无关向量集</p>
+<h2 id="线性变换">线性变换</h2>
+<h3 id="线性变换定义">线性变换定义</h3>
+<p>变换其实和函数的定义类似，不过变换是输入一个向量，再输出一个向量</p>
+<p>对于一个空间的变换其实由很多，比如拉伸，扭曲，旋转等等，但是我们考虑的只有线性变换</p>
+<p>那么什么才是线性的变换呢？</p>
+<p>1.直线在变换后仍然是直线</p>
+<p>2.原点保持固定</p>
+<p>我相信你们能够脑补出什么是线性变换，什么不是线性变换，因为这个东西我并没有找到合适的画图工具展现出来……</p>
+<p>但是对于一个经典的例子我由必要手绘一下</p>
+<p><img src="https://i.loli.net/2019/12/27/eXinxAlOyP8fSRm.png" alt="" loading="lazy"></p>
+<p>对于这样一个变换，它并不是线性的，因为某些我们没有展示在图中的线发生了扭曲</p>
+<p>可以自行脑补一下原图中<span class="math inline">\(F-N-R\)</span>这条直线变换之后的形状（草老子画不出来啊）</p>
+<p>我们其实可以认为，一个变换如果保持网格线之间平行并且等距，那么这个变换是线性变换</p>
+<p>那么我们如何通过数值去描绘一个线性变换？</p>
+<p>考虑到基向量的特殊性，我们只需要描述线性变换之后基向量在原空间中的坐标，就可以表示出这个变换的效果</p>
+<p>同时线性变换有重要的推论：对于一个向量<span class="math inline">\(v\)</span>，它在变换前和变换后都是基向量的特定的线性组合得到的</p>
+<p>即 我们设<span class="math inline">\(d^{'}\)</span>是向量<span class="math inline">\(d\)</span>经过某个线性变换的向量,那么如果</p>
+<p><span class="math inline">\(v=x*i+y*j\)</span></p>
+<p>则</p>
+<p><span class="math inline">\(v^{'}=x*i^{'}+y*j^{'}\)</span></p>
+<p>其中<span class="math inline">\(x,y\)</span>是标量</p>
+<p>举个例子，一个向量<span class="math inline">\((2,4)\)</span>，如果经过了某个线性变换，基向量由<span class="math inline">\((1,0)\)</span>和<span class="math inline">\((0,1)\)</span>变为了<span class="math inline">\((2,1)\)</span>和<span class="math inline">\((1,2)\)</span></p>
+<p>那么这个向量在变换后的坐标应该为<span class="math inline">\(2*(2,1)+4*(1,2)=(8,10)\)</span></p>
+<h3 id="线性变换与矩阵">线性变换与矩阵</h3>
+<p>由上面可以得出，对于任意一个线性变换，只要记录了变换之后的基向量，和原向量，就可以得到变换之后的新向量</p>
+<p>如果我们的基向量变为了<span class="math inline">\((2,1)和(1,2)\)</span>，那么对于任意向量<span class="math inline">\(\begin{bmatrix}x\\y\end{bmatrix}\)</span>，我们可以通过</p>
+<p><span class="math inline">\(\begin{bmatrix}x\\y\end{bmatrix}^{'}=x*\begin{bmatrix}2\\1\end{bmatrix}+y*\begin{bmatrix}1\\2\end{bmatrix}\)</span>得到变换后的向量</p>
+<p>我们通常把基向量<span class="math inline">\((a,c),(b,d)\)</span>封装为一个<span class="math inline">\(2*2\)</span>的矩阵，将变换过程称为矩阵乘法</p>
+<p><span class="math inline">\(\begin{bmatrix}a\ b\\c\ d\end{bmatrix}\ \begin{bmatrix}x\\y\end{bmatrix}=\begin{bmatrix}x\\y\end{bmatrix}^{'}\)</span></p>
+<p>在这里一个<span class="math inline">\(2*2\)</span>的矩阵即表示一个线性变换，其中每一列是变换后的一个基向量</p>
+<p>我们仔细分解一下矩阵乘法的过程</p>
+<p><span class="math inline">\(\begin{bmatrix}a\ b\\c\ d\end{bmatrix}\ \begin{bmatrix}x\\y\end{bmatrix}=x*\begin{bmatrix}a\\c\end{bmatrix}+y*\begin{bmatrix}b\\d\end{bmatrix}=
+\begin{bmatrix}x*a+y*b\\x*c+y*d\end{bmatrix}\)</span></p>
+<p>现在也许能更清楚地理解为什么矩阵乘法要这样定义了</p>
+<p>试着用矩阵描述一些变换：</p>
+<p>把空间逆时针旋转<span class="math inline">\(90^{。}\)</span></p>
+<p>意味着：<span class="math inline">\(\begin{bmatrix}\ 0\ -1\\1\ 0\end{bmatrix}\)</span>（这东西怎么这么丑啊<span class="math inline">\(qwq\)</span>）</p>
+<p>有一个特殊的概念：如果我们矩阵中的几个向量是线性相关的，会导致<s>你遭受降维打击</s>变换之后空间维度降低</p>
+<h3 id="线性变换复合与矩阵乘法">线性变换复合与矩阵乘法</h3>
+<p>有时候我们需要连续描述两个或多个线性变换，但是我们仍然可以追踪基向量的变化来实现对变换的描述</p>
+<p>不过我们可能需要借助一些工具来描述，比如矩阵</p>
+<p>假设我们要对一个空间进行两次变换：先旋转再剪切</p>
+<p>我们先将空间逆时针旋转<span class="math inline">\(90^{。}\)</span>得到</p>
+<p><span class="math inline">\(\begin{bmatrix}\ 0\ -1\\1\ 0\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}\)</span></p>
+<p>再剪切（想要知道为什么这个矩阵叫做剪切可以自己模拟一下把基向量变成矩阵的两列）</p>
+<p><span class="math inline">\(\begin{bmatrix}1\ 1\\0\ 1\end{bmatrix}\bigg(\begin{bmatrix}\ 0\ -1\\1\ 0\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}\bigg)\)</span></p>
+<p>那么它将等价于</p>
+<p><span class="math inline">\(\bigg(\begin{bmatrix}1\ 1\\0\ 1\end{bmatrix}\begin{bmatrix}\ 0\ -1\\1\ 0\end{bmatrix}\bigg)\begin{bmatrix}x\\y\end{bmatrix}=\begin{bmatrix}\ 1\ -1\\1\ 0\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}\)</span></p>
+<p>我们称左边的矩阵为等价矩阵</p>
+<p>考虑在几何中我们两个变化的描述应该为，基向量先变为了<span class="math inline">\((0,1),(-1,0)\)</span>，又在新的空间中变为了<span class="math inline">\((1,0),(1,1)\)</span>，那么以左边两个矩阵的乘法作为两个变换连续的效果是很合理的（矩阵中描述变换从右向左描述）</p>
+<p>如何计算两个矩阵相乘？</p>
+<p>还记得我们矩阵的含义吗，每一列代表了一个向量</p>
+<p>也就是说对于</p>
+<p><span class="math inline">\(\begin{bmatrix}e\ f\\g\ h\end{bmatrix}\begin{bmatrix}a\ b\\c\ d\end{bmatrix}\)</span>，我们可以看作右边的矩阵的每一列代表的向量做左边的变换</p>
+<p><span class="math inline">\(\begin{bmatrix}e\ f\\g\ h\end{bmatrix}\begin{bmatrix}a\ b\\c\ d\end{bmatrix}=
+\begin{bmatrix}e\ f\\g\ h\end{bmatrix}\begin{bmatrix}a\\c\end{bmatrix}+\begin{bmatrix}e\ f\\g\ h\end{bmatrix}\begin{bmatrix}b\\d\end{bmatrix}
+=\begin{bmatrix}ae+bg\ af+bh\\ce+dg\ cf+dh\end{bmatrix}\)</span></p>
+<p>中间应该还有一步向量乘变换，懒得展开了</p>
+<p>当然我们应该可以通过这个过程发现矩阵乘法并不满足交换律</p>
+<p>但是它为什么满足结合律呢？</p>
+<p>考虑矩阵变换是从右向左描述的，所以……矩阵乘法中加不加括号在几何意义上根本没有任何变化</p>
+<p>高维的情况应该可以自己推出来，但是实在是难以表述&amp;作出图，所以就不在这里写了</p>
+<h2 id="行列式">行列式</h2>
+<p>在线性变换中，也许我们会想要知道一个问题：在经过了某个线性变换之后，原空间受到了多少拉伸或者挤压？</p>
+<p>或者转化成一个在二维平面中等价的问题：一个给定区域的面积大小的变化</p>
+<h3 id="行列式定义">行列式定义</h3>
+<p>一个线性变换对“体积”所造成的影响。</p>
+<p>当然由于是在二维平面中的线性变换，所以我们在研究这个问题的时候可以只研究一个特殊部分：两个基向量围成的四边形的面积的变化比例</p>
+<p>比如说：一个<span class="math inline">\(2*2\)</span>矩阵的行列式为<span class="math inline">\(3\)</span>，那么说明<span class="math inline">\(i,j\)</span>两个基向量四边形的面积变为原来的三倍</p>
+<p>特殊地：有些矩阵的行列式为<span class="math inline">\(0\)</span>，例如：<span class="math inline">\(det\bigg(\begin{bmatrix}1\ 3\\0\ 0\end{bmatrix}\bigg)=0\)</span></p>
+<p>这表示在经过这个线性变换之后空间将降维</p>
+<p>另外还有<span class="math inline">\(det\bigg(\begin{bmatrix}0\ 1\\1\ 0\end{bmatrix}\bigg)=-1\)</span></p>
+<p>虽然在经过<span class="math inline">\(\begin{bmatrix}0\ 1\\1\ 0\end{bmatrix}\)</span>这个变换之后<span class="math inline">\(i,j\)</span>两个基向量之间的四边形面积仍然是<span class="math inline">\(1\)</span>，但是我们会发现，<span class="math inline">\(i\)</span>向量变到了<span class="math inline">\(j\)</span>向量的左边，两个向量的相对位置交换了，空间的定向发生了改变，所以得到的行列式值为负</p>
+<p>类比可以推出：在三维空间中，一个线性无关方程组的行列式的值代表的是三个向量确定的平行六面体的体积</p>
+<p>如果在三维情况下行列式的值为负呢？</p>
+<p>这里有一个用来描述三维空间空间定向的方法，叫做 “右手定则”</p>
+<p>在一个三维空间中，我们假设基向量为<span class="math inline">\(i,j,k\)</span>，分别对应<span class="math inline">\(x,y,z\)</span>轴</p>
+<p>一般情况下，我们右手食指指向<span class="math inline">\(i\)</span>，中指指向<span class="math inline">\(j\)</span>，大拇指指向<span class="math inline">\(k\)</span></p>
+<p>如果在某个线性变换之后，你做到这一步需要变成左手，那么说明这个三维空间的定向发生了改变，此时行列式的值应该为负</p>
+<p>对于行列式的计算我打算单独拿出来讲，因为本篇文章偏入门，这里只介绍行列式的定义和概念</p>
+<p>不过由于后面的需要，我需要指出对于<span class="math inline">\(2*2\)</span>的矩阵<span class="math inline">\(\begin{bmatrix}a\ b\\c\ d\end{bmatrix}\)</span>，它的行列式为<span class="math inline">\(ad-bc\)</span></p>
+<p>如果你真的理解了行列式的具体含义，你应该可以很轻易的理解下面这个等式</p>
+<p>设<span class="math inline">\(M_i\)</span>为某个线性变换矩阵</p>
+<p></p><div class="math display">\[det(M_1M_2)=det(M_1)det(M_2)
+\]</div><p></p><h2 id="线性方程组">线性方程组</h2>
+<p>在某些情况下，方程组会具有一个非常特殊的形式：</p>
+<p>在每个方程中，未知量只具有常系数，未知量之间只进行加和操作</p>
+<p></p><div class="math display">\[ \left\{
+\begin{aligned}
+2x+5y+3z=-3\\
+4x+0y+8z=0\\
+1x+3y+0z=2
+\end{aligned}
+\right.
+\]</div><p></p><p>整理这种方程组通常是将所有未知量放在侧坐，将相同的未知量放在同一列对齐（有可能需要补<span class="math inline">\(0\)</span>完成这一步），其他常量放在等式右侧</p>
+<p>我们称这种方程组为线性方程组</p>
+<p>其实我们会发现这种方程组对应着一个矩阵的形式</p>
+<p><span class="math inline">\(\begin{bmatrix}2\ 5\ 3\\4\ 0\ 8\\1\ 3\ 0\end{bmatrix}\begin{bmatrix}x\\y\\z\end{bmatrix}=\begin{bmatrix}-3\\0\\2\end{bmatrix}\)</span></p>
+<p>我们称左侧的系数矩阵为<span class="math inline">\(A\)</span>,包含未知量的矩阵为<span class="math inline">\(x\)</span>，右侧的结果矩阵为<span class="math inline">\(v\)</span></p>
+<p>则可以简写为<span class="math inline">\(Ax=v\)</span>，结合前面的知识，我们已经可以发现这其实是一个线性变换了</p>
+<p>那么这个求解线性方程组就具备了它的几何意义：对于一个线性变换后空间中的向量，找到在原空间的对应向量</p>
+<p>那么对于这个问题我们需要稍微分类讨论一下了，因为我们面临两种情况：<span class="math inline">\(det(A)=0\)</span>和<span class="math inline">\(det(A)\ne 0\)</span></p>
+<p>先来考虑似乎较为简单的<span class="math inline">\(det(A)\ne 0\)</span></p>
+<p>那么说明原空间经过<span class="math inline">\(A\)</span>之后并没有降低维度，原空间中应该只有一个向量与<span class="math inline">\(v\)</span>对应（这个不用解释吧应该？）</p>
+<p>但是我们只有变换之后的向量，如果要追寻原本的向量，我们应该将<span class="math inline">\(v\)</span>做一个<span class="math inline">\(A\)</span>的逆变换，记作<span class="math inline">\(A^{-1}\)</span></p>
+<p>所谓逆的含义应该在学乘法逆元的时候都有所了解了，大概可以总结为<span class="math inline">\(A^{-1}*A=E\)</span>,其中<span class="math inline">\(E\)</span>为恒等变换</p>
+<p>对于<span class="math inline">\(n\)</span>维空间，<span class="math inline">\(E\)</span>是一个对角全部为<span class="math inline">\(1\)</span>，其它区域全部为<span class="math inline">\(0\)</span>的<span class="math inline">\(n*n\)</span>的矩阵</p>
+<p>所以可以推出：</p>
+<p></p><div class="math display">\[A^{-1}Ax=A^{-1}v
+\]</div><p></p><p></p><div class="math display">\[x=A^{-1}v
+\]</div><p></p><p>但是特殊的<span class="math inline">\(det(A)=0\)</span>怎么办？</p>
+<p>经过<span class="math inline">\(A\)</span>之后，空间会直接降维，此时<span class="math inline">\(A\)</span>是不存在逆矩阵的，因为没有一种变换能使空间维度提升</p>
+<p>但是解仍然可能存在，如果你的<span class="math inline">\(v\)</span>恰好处于降完维之后的空间之中</p>
+<p>至于解是什么，就不打算在本篇说明了（雾）</p>
+<h3 id="秩">秩</h3>
+<p>经过线性变换之后空间的维度，我们称为秩</p>
+<p>比如一个平面，我们将他旋转，那么旋转之后它的秩为<span class="math inline">\(2\)</span></p>
+<p>但是如果经历了一个<span class="math inline">\(\begin{bmatrix}1\ 3\\0\ 0\end{bmatrix}\)</span>,它的秩为<span class="math inline">\(1\)</span></p>
+<p>可以发现对于每一个<s>降智</s>降秩的变换，矩阵的行列式值都为<span class="math inline">\(0\)</span></p>
+<h3 id="列空间">列空间</h3>
+<p>对于一个线性变换<span class="math inline">\(A\)</span>来说，所有可能的向量<span class="math inline">\(Av\)</span>的集合，我们称为<span class="math inline">\(A\)</span>的列空间</p>
+<p>当然这个名字的来源很好理解……因为向量<span class="math inline">\(Av\)</span>的集合其实就是构成矩阵的每一列的向量的所有线性组合成的向量</p>
+<p>所谓列空间，其实就是列向量张成的空间，所以秩更准确的定义应该是列空间的维数</p>
+<p>当秩达到最大时，与矩阵的列数相等，称之为满秩</p>
+<h3 id="零空间">零空间</h3>
+<p>值得注意：<span class="math inline">\(0\)</span>向量必定在列空间中，因为线性变换必须保持原点不动</p>
+<p>但是<span class="math inline">\(0\)</span>向量并不一定只是原点，举个例子，在某个二维变换<span class="math inline">\(A\)</span>中，若<span class="math inline">\(det(A)=0\)</span>，那么某条直线上的所有向量将会全部压缩到原点</p>
+<p>在某个线性变换<span class="math inline">\(A\)</span>中，所有变换后落在原点的向量的集合，称为零空间（或者核)</p>
+<p>所以对于<span class="math inline">\(Ax=v\)</span>中，如果<span class="math inline">\(v\)</span>是零向量，那么所有<span class="math inline">\(x\)</span>的解将是整个零空间</p>
+<h2 id="非方阵">非方阵</h2>
+<p>目前为止，我们讨论的变换方阵都是<span class="math inline">\(n*n\)</span>的方阵，那么对于非方阵我们应该怎样理解？</p>
+<p>例如一个<span class="math inline">\(3*2\)</span>的矩阵<span class="math inline">\(\begin{bmatrix}1\ 3\\4\ 1\\2\ 3\end{bmatrix}\)</span></p>
+<p>它说明我们在二维空间中的两个基向量<span class="math inline">\(i,j\)</span>在经过某个线性变换之后对应到了某个三维空间中的二维平面</p>
+<p>注意它对应到的是某个三维空间中的二维平面，而不是某个三维空间，没有一种变换能让空间升维</p>
+<p>或者令一种<span class="math inline">\(1*2\)</span>的矩阵<span class="math inline">\(\begin{bmatrix}1\ 2\end{bmatrix}\)</span></p>
+<p>意味着某个二维空间经过线性变换之后降低到了一维，但是它仍然有两个基向量</p>
+<p>这对点积有着重要的意义</p>
+<h2 id="点积">点积</h2>
+<h3 id="点积定义">点积定义</h3>
+<p>我们来回忆一下高中数学中的点积：</p>
+<p>代数意义：对于两个行数相同的矩阵<span class="math inline">\(\begin{bmatrix}a\\b\\c\end{bmatrix}·\begin{bmatrix}e\\f\\g\end{bmatrix}=ae+bf+cg\)</span>，当然不一定是三维的</p>
+<p>几何意义：<span class="math inline">\(u·v\)</span>应该是<span class="math inline">\(v\)</span>在<span class="math inline">\(u\)</span>上的投影的长度乘以<span class="math inline">\(u\)</span>的模长</p>
+<p><img src="https://i.loli.net/2019/12/27/DzCdGiNo2Z6STK9.png" alt="" loading="lazy"></p>
+<p>即<span class="math inline">\(u·v\)</span>=（<span class="math inline">\(v\)</span>的投影长度）*（<span class="math inline">\(u\)</span>的模长）</p>
+<p>如果<span class="math inline">\(v\)</span>的投影方向与<span class="math inline">\(u\)</span>相反那么点积的值应该为负</p>
+<p>现在你有没有一个问题：这两种解释有什么关系？？？？？？</p>
+<h3 id="对偶性">对偶性</h3>
+<p>根据线性变换的规定，如果我们有一个高维对一维的线性变换，那么对于原空间中等距分布在一条直线上的一些点，应用完线性变换之后在数轴上仍然等距</p>
+<p>然而对于高维对一维的线性变换，我们所有的基向量都会落在一个数轴上，也就是说会产生一个<span class="math inline">\(1*n\)</span>的变换矩阵，例如<span class="math inline">\(\begin{bmatrix}2\ 1\end{bmatrix}\)</span></p>
+<p>考虑它对原空间某个向量<span class="math inline">\(\begin{bmatrix}x\\y\end{bmatrix}\)</span>的影响<span class="math inline">\(2*x+1*y\)</span></p>
+<p>等价于矩阵乘法中<span class="math inline">\(\begin{bmatrix}2\ 1\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}\)</span></p>
+<p>然而我们发现这个过程貌似和点积是运算非常相似！</p>
+<p>这个<span class="math inline">\(1*n\)</span>的矩阵不就是一个躺倒的向量吗？</p>
+<p>但是线性代数中显然没有躺倒或者直立这种操作……但是这恰好说明一个高维对一维的线性变换和一个高维向量之间存在在某种对应关系</p>
+<p>以二维来举例子</p>
+<p>我们在二维空间中放置一条数轴，其基向量为<span class="math inline">\(u\)</span></p>
+<p><img src="https://i.loli.net/2019/12/27/uLCdbysUANij1r7.png" alt="" loading="lazy"></p>
+<p>考虑某一种线性变换：对于任意向量<span class="math inline">\(v\)</span>，求出这条向量在数轴上的投影</p>
+<p>那么我们在描述变换的时候应该考虑的就是，变换后<span class="math inline">\(i,j\)</span>的位置</p>
+<p>这里有就非常有趣的东西了！</p>
+<p><img src="https://i.loli.net/2019/12/27/2lnGK6E4uorZbBh.png" alt="" loading="lazy"></p>
+<p>我们作<span class="math inline">\(k\)</span>是角<span class="math inline">\(GCD\)</span>的角平分线，会发现<span class="math inline">\(GC=HC\)</span>，即<span class="math inline">\(i\)</span>向数轴的投影就是<span class="math inline">\(u\)</span>向<span class="math inline">\(x\)</span>轴的投影，而<span class="math inline">\(u\)</span>向<span class="math inline">\(x\)</span>轴的投影就是<span class="math inline">\(u\)</span>的横坐标！</p>
+<p>同理<span class="math inline">\(j\)</span>向数轴的投影就是<span class="math inline">\(u\)</span>的纵坐标</p>
+<p>所以这个线性变换完全可以表示为<span class="math inline">\(\begin{bmatrix}u_x\ u_y\end{bmatrix}\)</span></p>
+<p>而对于一个数轴非基向量<span class="math inline">\(u\)</span>，我们可以看作基向量的线性变换再乘以<span class="math inline">\(u\)</span>的模长</p>
+<p>这就是为什么对于一个<span class="math inline">\(v\)</span>在<span class="math inline">\(u\)</span>上的投影的长度乘以<span class="math inline">\(u\)</span>的模长这样的操作，我们用矩阵来描述就是</p>
+<p><span class="math inline">\(\begin{bmatrix}u_x\ u_y\end{bmatrix}\begin{bmatrix}v_x\\v_y\end{bmatrix}\)</span></p>
+<p>而它恰恰与<span class="math inline">\(\begin{bmatrix}u_x\\u_y\end{bmatrix}\begin{bmatrix}v_x\\v_y\end{bmatrix}\)</span>在数值上是一致的！</p>
+<p>神奇的对偶性</p>
+<h2 id="叉积">叉积</h2>
+<h3 id="叉积定义">叉积定义</h3>
+<p>两个向量的叉积，即两个向量围成的平行四边形的面积（虽然两个向量是两条线段，但是你们都懂我意思对吧~）</p>
+<p>对于<span class="math inline">\(v×u\)</span>，如果<span class="math inline">\(v\)</span>在<span class="math inline">\(u\)</span>右侧，那么结果为正，否则结果为负</p>
+<p>所以说顺序对叉积的结果是有影响的</p>
+<p><span class="math inline">\(v×u=-u×v\)</span></p>
+<p>也许你会发现这和行列式有一点相似？这是行列式计算的是基向量围成的面积</p>
+<p>那么我会告诉你，<span class="math inline">\(v×u=det\bigg(\begin{bmatrix}v_x\ u_x\\v_y\ u_y\end{bmatrix}\bigg)\)</span></p>
+<p>但是严格地说它并不是叉积……</p>
+<p>叉积严格的定义是由两个三维向量生成一个新的三维向量</p>
+<p>其长度为面积的值，方向垂直于两个向量所在的平面</p>
+<p>不过是向哪边垂直呢？我们需要右手定则</p>
+<p>右手食指指向<span class="math inline">\(v\)</span>，中指指向<span class="math inline">\(u\)</span>，大拇指就是叉积的方向</p>
+<p>我们是怎么求一个叉积的？</p>
+<p>一般计算的时候<s>也许</s>会有个老师告诉你：</p>
+<p>计算两个向量<span class="math inline">\(\begin{bmatrix}v_1\\v_2\\v_3\end{bmatrix}×\begin{bmatrix}u_1\\u_2\\u_3\end{bmatrix}=
+det\bigg(\begin{bmatrix}i\ v_1\ u_1\\j\ v_2\ u_2\\k\ v_3\ u_3\end{bmatrix}\bigg)\)</span></p>
+<p>（可能在某些书中或者博客中矩阵是横过来的，不过结果是一样的）</p>
+<p>右边矩阵的第一列居然是一组基向量？</p>
+<p>如果你头铁继续往下算，会得到<span class="math inline">\(i(v_2u_3-v_3u_2)+j(v_1u_3-v_3u_1)+k(v_1u_2-v_2u_1)\)</span></p>
+<p>虽然你不知道为什么向量能够放到矩阵中去算行列式，也不知道为什么这样算出来的结果是叉积，但是也许你有很多种方法验证发现得到的结果的确是<span class="math inline">\(v\)</span>和<span class="math inline">\(u\)</span>的叉积</p>
+<p>我们需要一个解释</p>
+<h3 id="对偶性-2">对偶性</h3>
+<p>这里我们需要用到对偶性</p>
+<p>回忆一下对偶性：</p>
+<p>任何一个高维空间向一维空间的线性变换，都能在高维空间中找到一个向量唯一对应，使得某个向量应用这个线性变换等价于于这个高维向量做点积</p>
+<p>数值上说是因为这个任何一个向量与这个线性变换做矩阵乘法和对应的高维向量做矩阵乘法结果都是一样的</p>
+<p>考虑一下如果我没有告诉你什么是真正的叉积，并且你预先也没有了解，然后在看完二维空间中叉积的计算之后，会怎样考虑三维空间的叉积？</p>
+<p>那么大概率会认为是三个向量的行列式</p>
+<p>然而事实上叉积是接收两个向量并输出一个向量</p>
+<p>那么我们假设有一个函数<span class="math inline">\(f\bigg(\begin{bmatrix}x\\y\\z\end{bmatrix}\bigg)=det\bigg(\begin{bmatrix}x\ v_1\ u_1\\y\ v_2\ u_2\\z\ v_3\ u_3\end{bmatrix}\bigg)\)</span></p>
+<p>这个函数是线性的（线性定义：<span class="math inline">\(f(a+b)=f(a)+f(b),f(ka)=kf(a)\)</span>其中<span class="math inline">\(k\)</span>是标量）</p>
+<p>这说明它对应着一个三维对一维的线性变换</p>
+<p>那么<span class="math inline">\(f\)</span>函数其实可以写成</p>
+<p><span class="math inline">\(\begin{bmatrix}p_1\ p_2\ p_3\end{bmatrix}\begin{bmatrix}x\\y\\z\end{bmatrix}=det\bigg(\begin{bmatrix}x\ v_1\ u_1\\y\ v_2\ u_2\\z\ v_3\ u_3\end{bmatrix}\bigg)\)</span></p>
+<p>根据对偶性，它等价于</p>
+<p><span class="math inline">\(\begin{bmatrix}p_1\\p_2\\p_3\end{bmatrix}·\begin{bmatrix}x\\y\\z\end{bmatrix}=det\bigg(\begin{bmatrix}x\ v_1\ u_1\\y\ v_2\ u_2\\z\ v_3\ u_3\end{bmatrix}\bigg)\)</span></p>
+<p>考虑这个式子的意义：一个向量<span class="math inline">\(p\)</span>与一个未知向量<span class="math inline">\(x\)</span>的点积等于<span class="math inline">\(x,v\)</span>和<span class="math inline">\(u\)</span>的行列式</p>
+<p>我们已经知道在三维空间中，三个线性无关向量的行列式是一个平行六面形，那我们考虑点积的几何含义：<span class="math inline">\(p\)</span>在<span class="math inline">\(x\)</span>上的投影乘以<span class="math inline">\(x\)</span>的模长（交换<span class="math inline">\(x,p\)</span>没有关系）</p>
+<p>平行六面体的体积求法应该是底面积乘以第三个向量在垂直于底面上的投影</p>
+<p>那么如果我们把<span class="math inline">\(p\)</span>看作第三个向量，那么<span class="math inline">\(x\)</span>就应该满足：长度等于平行六面体的底面积，且垂直于底面</p>
+<p>在上面的等式中底面的边是<span class="math inline">\(v,u\)</span>，这个<span class="math inline">\(x\)</span>完美符合<span class="math inline">\(v,u\)</span>叉积的定义！</p>
+<p>所以说<span class="math inline">\(v×u=det\bigg(\begin{bmatrix}i\ v_1\ u_1\\j\ v_2\ u_2\\k\ v_3\ u_3\end{bmatrix}\bigg)\)</span></p>
+<p>解出以后的<span class="math inline">\(i(v_2u_3-v_3u_2)+j(v_1u_3-v_3u_1)+k(v_1u_2-v_2u_1)\)</span>作为一个向量，就是<span class="math inline">\(\begin{bmatrix}x\\y\\z\end{bmatrix}\)</span></p>
+<p><span class="math inline">\(upd:\)</span>叉积似乎还有更高维的定义，不太了解</p>
+<h2 id="基变换">基变换</h2>
+<h3 id="不同基向量变换">不同基向量变换</h3>
+<p>在前面我们提到过，对于一个向量的坐标，我们可以解读为对于基向量的放缩</p>
+<p>例如某个向量坐标为<span class="math inline">\((3,2)\)</span>，我们可以理解为将<span class="math inline">\(i\)</span>伸长<span class="math inline">\(3\)</span>倍，再将<span class="math inline">\(j\)</span>伸长<span class="math inline">\(2\)</span>倍，然后通过相加得到向量<span class="math inline">\(\begin{bmatrix}3\\2\end{bmatrix}\)</span></p>
+<p>通常意义上我们的<span class="math inline">\(i,j\)</span>分别选取<span class="math inline">\((1,0),(0,1)\)</span></p>
+<p>但是如果选取不同的基向量呢？</p>
+<p>比如有一个帅比叫动动，它选取了<span class="math inline">\((2,1),(-1,1)\)</span>两个向量作为基向量，称之为<span class="math inline">\(t1,t2\)</span></p>
+<p>那么他对于<span class="math inline">\(\begin{bmatrix}3\\2\end{bmatrix}\)</span>应该是<span class="math inline">\(\begin{bmatrix}\frac{5}{3}\\\frac{1}{3}\end{bmatrix}\)</span></p>
+<p>因为在他看来，这个向量是由<span class="math inline">\(\frac{5}{3}t1+\frac{1}{3}t2\)</span>得到的</p>
+<p>但是这个有一个奇特的地方</p>
+<p>在动动的视角中，他认为的基向量是<span class="math inline">\((1,0),(0,1)\)</span>，所谓的<span class="math inline">\((2,1),(-1,1)\)</span>只是以我们的视角来命名的</p>
+<p>所以实际上我们的语言是不同的，对于同一向量，我们叫它<span class="math inline">\(\begin{bmatrix}3\\2\end{bmatrix}\)</span>，而动动叫它<span class="math inline">\(\begin{bmatrix}\frac{5}{3}\\\frac{1}{3}\end{bmatrix}\)</span></p>
+<p>问题就来了</p>
+<p>由于动动是帅比，你非常想和他做朋友，但是你们说着不同的语言，所以我们要学会不同语言之间的转化（不同坐标系之间的转化）</p>
+<p>具体地说，对于动动说出的一个向量<span class="math inline">\(\begin{bmatrix}-1\\2\end{bmatrix}\)</span>,在我们的语言中它应该如何表示？</p>
+<p><img src="https://i.loli.net/2019/12/29/wCEJFGidfZmX8RM.png" alt="" loading="lazy"></p>
+<p>在我们的语言中，<span class="math inline">\(t1=\begin{bmatrix}2\\1\end{bmatrix},t2=\begin{bmatrix}-1\\1\end{bmatrix}\)</span>，所以向量<span class="math inline">\(v=-1\begin{bmatrix}2\\1\end{bmatrix}+2\begin{bmatrix}-1\\1\end{bmatrix}
+=\begin{bmatrix}-4\\1\end{bmatrix}\)</span></p>
+<p>所以我们所说的<span class="math inline">\(\begin{bmatrix}-4\\1\end{bmatrix}\)</span>就是动动所说的<span class="math inline">\(\begin{bmatrix}-1\\2\end{bmatrix}\)</span></p>
+<p>结合这个形式，很容易发现这其实是一个线性变换的过程</p>
+<p>当然，这只是我们读懂了动动的语言，但是如果要做♂朋♂友，那么显然动动也要读懂我们的语言</p>
+<p>例如我们所说的<span class="math inline">\(\begin{bmatrix}3\\2\end{bmatrix}\)</span>，动动如何知道在它的语言中是<span class="math inline">\(\begin{bmatrix}\frac{5}{3}\\\frac{1}{3}\end{bmatrix}\)</span>表示</p>
+<p>观察刚才我们理解动动语言的过程，实际上动动理解我们的语言应该是一个逆过程</p>
+<p>在刚刚的线性变换中，我们把我们的坐标系变为了动动的坐标系，应用了变换矩阵<span class="math inline">\(\begin{bmatrix}2\ -1\\1\ 1\end{bmatrix}\)</span></p>
+<p>那么让动动的坐标系变为我们的坐标系，应该应用这个矩阵的逆矩阵<span class="math inline">\(\begin{bmatrix}2\ -1\\1\ 1\end{bmatrix}^{-1}\)</span></p>
+<p>它代表我们所描述的变换逆向进行</p>
+<p>可以算出<span class="math inline">\(\begin{bmatrix}2\ -1\\1\ 1\end{bmatrix}^{-1}=\begin{bmatrix}\frac{1}{3}\ \frac{1}{3}\\\frac{-1}{3}\ \frac{2}{3}\end{bmatrix}\)</span></p>
+<p>动动想要知道我们说的坐标在它的语言中如何表示，应该<span class="math inline">\(\begin{bmatrix}\frac{1}{3}\ \frac{1}{3}\\\frac{-1}{3}\ \frac{2}{3}\end{bmatrix}\begin{bmatrix}3\\2\end{bmatrix}
+=\begin{bmatrix}\frac{5}{3}\\\frac{1}{3}\end{bmatrix}\)</span></p>
+<p>其实如果换一个角度：动动是正确的坐标系，我们才是变换过的坐标系，那么这个过程很好理解</p>
+<h3 id="不同基线性变换">不同基线性变换</h3>
+<p>但是实际上动动和我们之间的语言差异并不只在某一向量上</p>
+<p>比如我们描述某一线性变换：逆时针旋转<span class="math inline">\(90^{。}\)</span>，我们用<span class="math inline">\(\begin{bmatrix}0\ 1\\-1\ 0\end{bmatrix}\)</span></p>
+<p>但是<span class="math inline">\(\begin{bmatrix}0\\1\end{bmatrix}\)</span>和<span class="math inline">\(\begin{bmatrix}-1\\0\end{bmatrix}\)</span>是我们语言中变换后的基向量，并不是动动的</p>
+<p>如果我们想对动动表达逆时针旋转<span class="math inline">\(90^{。}\)</span>，我们该怎么办？</p>
+<p>我们可以先把动动的基向量转化为我们的语言，然后应用线性变换再转化回去！</p>
+<p>比如我们想知道动动语言中的某个向量<span class="math inline">\(v\)</span>旋转后在动动语言中如何描述</p>
+<p>设<span class="math inline">\(A\)</span>为基变换矩阵，<span class="math inline">\(M\)</span>为旋转矩阵，则整个过程可以表示为 <span class="math inline">\(A^{-1}MAv\)</span>，注意矩阵从右向左变换</p>
+<p>其中<span class="math inline">\(A^{-1}MA\)</span>就是旋转在动动语言中的矩阵形式</p>
+<h2 id="特征向量与特征值">特征向量与特征值</h2>
+<h3 id="特征向量与特征值定义">特征向量与特征值定义</h3>
+<p>考虑某个线性变换<span class="math inline">\(\begin{bmatrix}3\ 0\\1\ 2\end{bmatrix}\)</span></p>
+<p>在这个线性变换下，大部分向量会离开它张成的空间</p>
+<p><img src="https://i.loli.net/2019/12/29/8moRhgNknzdZlVi.png" alt="" loading="lazy"></p>
+<p>但是有些向量很特殊，它会留在原本张成的空间中</p>
+<p><img src="https://i.loli.net/2019/12/29/d9eTBvxngQMOzla.png" alt="" loading="lazy"></p>
+<p>这个线性变换对它来说只不过是拉伸或者压缩，作用同一个标量</p>
+<p>如<span class="math inline">\(\begin{bmatrix}1\\-1\end{bmatrix}\)</span>，在经过<span class="math inline">\(\begin{bmatrix}3\ 0\\1\ 2\end{bmatrix}\)</span>只是伸长为<span class="math inline">\(2\)</span>倍</p>
+<p>同时说明对于原来<span class="math inline">\(\begin{bmatrix}1\\-1\end{bmatrix}\)</span>张成空间内的任意向量，都只是伸长为<span class="math inline">\(2\)</span>倍</p>
+<p>对于这类变换之后没有离开张成空间的向量，我们称为变换的特征向量，每一个特征向量都有一个所属的值，称为特征值，即衡量压缩或拉伸比例的值</p>
+<p>你们肯定能猜到特征值可以为负或者为零</p>
+<p>那么它有什么作用呢？</p>
+<p>事实上以前我们研究线性变换过于依赖坐标轴，但是线性变换本身应该和坐标轴是无关的，通过特征向量和特征值也许可以更深刻的理解线性变换</p>
+<h3 id="特征值的计算思想">特征值的计算思想</h3>
+<p>对于一个线性变化<span class="math inline">\(A\)</span>，设<span class="math inline">\(v\)</span>是它的某个特征向量，其特征值为<span class="math inline">\(λ\)</span></p>
+<p>那么<span class="math inline">\(Av=λv\)</span></p>
+<p>但是我们根本解不了这么个东西……因为等式左边是一个矩阵乘法而右边是向量数乘</p>
+<p>所以我们应该将<span class="math inline">\(λ\)</span>替换为某个矩阵，其效果为将任意向量乘以<span class="math inline">\(λ\)</span></p>
+<p>由于矩阵的每一列代表了变换后的基向量，所以我们只要让主对角线全部为<span class="math inline">\(λ\)</span>，其它地方全部为<span class="math inline">\(0\)</span></p>
+<p>通常也写作<span class="math inline">\(λE\)</span>，其中<span class="math inline">\(E\)</span>为恒等变换</p>
+<p>我们变形一下式子得到<span class="math inline">\((A-λE)v=0\)</span></p>
+<p>如果<span class="math inline">\(v\)</span>本身是零向量那么这个式子恒成立，但是我们一般不需要解出一个零向量作为特征向量</p>
+<p>根据前面的知识，我们知道一个非零向量经过一个线性变换变换为了一个零向量，那么这个线性变换一定降维，或者说行列式的值为<span class="math inline">\(0\)</span></p>
+<p>即<span class="math inline">\(det(A-λE)=0\)</span></p>
+<p>但是有些线性变换其实并不存在特征向量，比如旋转</p>
+<p>在这种线性变换中，我们会解出一个虚数作为它的特征值</p>
+<h3 id="特征值优化矩阵乘法">特征值优化矩阵乘法</h3>
+<p>考虑一个特殊情况：所有的基向量都是特征向量：</p>
+<p>那么我们可以发现，这个线性变换对应的矩阵是一个对角矩阵，即只有主对角线上有值，其它地方都是<span class="math inline">\(0\)</span></p>
+<p>它有什么良好的性质呢？</p>
+<p>性质就是对于一个对角矩阵，在自乘的时候复杂度为<span class="math inline">\(O(n)\)</span>而非<span class="math inline">\(n^3\)</span></p>
+<p>这对我们有一个启发：如果某个线性变换，它的特征向量很多，多到能够与维数同样多</p>
+<p>那么我们可以变换坐标系，使这些特征向量作为我们的基向量，然后进行快速的矩阵乘法，再将坐标系变换会原本的状态</p>
+<p>我们就可以<span class="math inline">\(O(n^3+nlogk)\)</span>实现矩阵快速幂</p>
+<h2 id="抽象向量空间">抽象向量空间</h2>
+<p>回到原本的问题：向量是什么？</p>
+<p>回顾行列式和特征向量的定义：</p>
+<p>一个代表某个线性变换对空间的压缩或拉伸程度</p>
+<p>一个代表某个线性变换中没有离开张成空间的向量</p>
+<p>好像和一个箭头或者一列数字都没有直接的联系</p>
+<p>为了解释向量到底是什么，我们引入一个看似与向量毫无关联的东西：函数</p>
+<p>假设我们现在有了函数<span class="math inline">\(f(x)\)</span>和<span class="math inline">\(g(x)\)</span>，考虑它们的性质</p>
+<p>我们可以把两个函数相加，得到新函数<span class="math inline">\((f+g)(x)=f(x)+g(x)\)</span>，和向量加法非常类似</p>
+<p>那么对于函数与实数相乘，得到新函数<span class="math inline">\((λf)(x)=λf(x)\)</span>，也有着和向量数乘极为类似的解释</p>
+<p>其实我们对向量能够进行的操作只有相加和数乘，那么同样具备这些操作的函数理论上来说就可以直接套用所有向量相关的推论</p>
+<p>在这里我们要重新描述一下线性的严格定义</p>
+<p>可加性：<span class="math inline">\(f(x+y)=f(x)+f(y)\)</span></p>
+<p>成比例<span class="math inline">\(f(λx)=λf(x)\)</span></p>
+<p>如果一个变换在应用之后仍然对于原<span class="math inline">\(x,y\)</span>满足这些性质，那么称这个变换是线性变换</p>
+<p>根据这个定义我们可以发现一个也许并没有听说过的定理：求导是线性运算</p>
+<p>为了类比求导与线性变换之间的关系，我们尝试用矩阵描述求导</p>
+<p>假设我们有一个多维空间，其空间组成为：全体多项式</p>
+<p>首先我们要赋予空间坐标的含义，即选取基向量，或者说基函数</p>
+<p>很自然我们应该选取<span class="math inline">\(x\)</span>的不用次幂作为基函数，因为多项式次数可以任意高，所以我们的基函数几何应该是无穷大的</p>
+<p>对于某个多项式：<span class="math inline">\(2x^2+3x+1\)</span>，我们可以表示为<span class="math inline">\(\begin{bmatrix}1\\3\\2\\0\\\vdots\end{bmatrix}\)</span></p>
+<p>在这个向量之中，求导可以用一个无限阶的矩阵来描述</p>
+<p><span class="math inline">\(\frac{d}{dx}=\begin{bmatrix}0\ 1\ 0\ 0\ \cdots\\0\ 0\ 2\ 0\ \cdots\\0\ 0\ 0\ 3\ \cdots\\\vdots\ \vdots\ \vdots\ \ddots\\\end{bmatrix}\)</span></p>
+<p>然后我们对某一个多项式求导<span class="math inline">\(\frac{d}{dx}(5x^2+4x+5)=3x^2+10x+4\)</span>，用矩阵描述为</p>
+<p><span class="math inline">\(\begin{bmatrix}0\ 1\ 0\ 0\ \cdots\\0\ 0\ 2\ 0\ \cdots\\0\ 0\ 0\ 3\ \cdots\\\vdots\ \vdots\ \vdots\ \ddots\\\end{bmatrix}\begin{bmatrix}5\\4\\5\\\vdots\end{bmatrix}
+=\begin{bmatrix}4\\10\\3\\\vdots\end{bmatrix}\)</span></p>
+<p>对求导矩阵的构造，只要将基函数每一项进行求导，然后按列排布</p>
+<p>为什么我们要类比求导和矩阵的关系？</p>
+<p>为了说明：只要我们处理的对象的集合满足相加和数乘原则，都可以称之为向量，对应的，向量的所有推论在这些对象中都适用</p>
+<p>我们可以大概概括为：向量是满足了相加和数乘原则的事物的集合</p>
+<h2 id="结尾">结尾</h2>
+<p>终于肝完了线代入门</p>
+<p>由于技术原因本文难以加入大量形象的图片，还有不了解的可以观看<a href="https://www.bilibili.com/video/av6731067?p=4">原视频</a></p>
+<p>再次大力膜拜<span class="math inline">\(3B1B\)</span></p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2019-12-27 17:16</span>&nbsp;
+<a href="https://www.cnblogs.com/knife-rose/">一粒红豆</a>&nbsp;
+阅读(<span id="post_view_count">638</span>)&nbsp;
+评论(<span id="post_comment_count">8</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12107204" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12107204);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 526732, cb_blogApp = 'knife-rose', cb_blogUserGuid = '76904e8b-c72a-4d30-d948-08d7006b4984';
+    var cb_entryId = 12107204, cb_entryCreatedDate = '2019-12-27 17:16', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 一粒红豆
+<br /><span id="poweredby">Powered by .NET 5.0.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+</body>
+</html>

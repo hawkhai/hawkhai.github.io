@@ -1,0 +1,2089 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="referrer" content="always">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-status-bar-style" content="yes">
+    <meta name="report" content='{"spm":"1004.2023"}'>
+  <link href="https://g.csdnimg.cn/static/logo/favicon32.ico"  rel="shortcut icon" type="image/x-icon" />
+  
+  
+  <script src="//csdnimg.cn/public/common/libs/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="https://g.csdnimg.cn/user-login/2.3.2/user-login.js"></script>
+  <script>
+      function check_user_status()
+      {
+          window.csdn.userLogin.loadAjax();
+          var result = window.csdn.userLogin.result;
+          return result.status || false
+      }
+  </script>
+  <link rel="stylesheet" href="//csdnimg.cn/public/common/libs/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="https://csdnimg.cn/release/bbs/dist/css/application-922fa93475.css">
+  <link rel="stylesheet" href="https://csdnimg.cn/release/bbs/dist/css/bbs_new-41130f87c7.css">
+  <script>
+      var CFG = {
+          BASE_URL: "https://csdnimg.cn/release/bbs/dist/",    //当前页面对应的虚拟路径,静态资源对应目录同<base href="">
+          LOCAL_URL:"https://bbs.csdn.net/",
+          API_URL: "https://bbs.csdn.net/",                 //当前项目默认的后端API地址
+          ROOT_URL: "https://bbs.csdn.net/",          //当前项目根路径, JS跳转
+          STATIC_URL: "https://csdnimg.cn/release/bbs/dist/",          //本项目静态资源根目录
+          STATIC_GLOBAL_URL: "https://csdnimg.cn/",    //公共静态资源根目录
+          TOPIC_ID:""
+      }
+  </script>
+   <title>如何搭建OpenGL ES 或者 GLSL的开发环境-CSDN论坛</title>
+
+  <script type="text/javascript" src="//g.csdnimg.cn/tingyun/1.8.3/bbs.js"></script>
+    <meta name="csdn-baidu-search" content='{"keyword": "如何搭建OpenGL ES 或者 GLSL的开发环境"}'/>
+  <meta name="keywords" content="如何搭建OpenGL ES 或者 GLSL的开发环境">
+  <meta name="description" content="如何搭建OpenGL ES 或者 GLSL的开发环境">
+
+  <!--
+  <script>
+      (function(config) {
+          window.AnalysysAgent = window.AnalysysAgent || []
+          window.AnalysysAgent.methods = 'identify alias reset track profileSet profileSetOnce profileIncrement profileAppend profileUnset profileDelete registerSuperProperty registerSuperProperties unRegisterSuperProperty clearSuperProperties getSuperProperty getSuperProperties pageView debugMode auto appkey name uploadURL hash visitorConfigURL autoProfile autoWebstay'.split(' ');
+
+          function factory(b) {
+              return function() {
+                  var a = Array.prototype.slice.call(arguments);
+                  a.unshift(b);
+                  window.AnalysysAgent.push(a);
+                  return window.AnalysysAgent;
+              }
+          };
+          for (var i = 0; i < AnalysysAgent.methods.length; i++) {
+              var key = window.AnalysysAgent.methods[i];
+              AnalysysAgent[key] = factory(key);
+          }
+          for (var key in config) {
+              AnalysysAgent[key](config[key])
+          }
+          var date = new Date();
+          var time = new String(date.getFullYear()) + new String(date.getMonth() + 1) + new String(date.getDate());
+
+          var d = document,
+              c = d.createElement('script'),
+              n = d.getElementsByTagName('script')[0];
+          c.type = 'text/javascript';
+          c.async = true;
+          c.id = 'devSDK';
+          c.src = 'https://csdnimg.cn/release/bbs/AnalysysAgent_JS_SDK.min.js?time1='+ time
+          n.parentNode.insertBefore(c, n);
+      })({
+          appkey: 'csdnbbsstatistics',
+          uploadURL: 'https://report.csdn.net:4089/',
+          debugMode: 2
+
+      })
+  </script>
+-->
+</head>
+<body>
+  <!-- 自动推送工具代码-->
+  <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+  <script type="text/javascript" src="https://csdnimg.cn/release/bbs/dist/js/libs/libs-f6ec322dc4.js"></script>
+    <!-- 请置于所有广告位代码之前 -->
+  <script src="//dup.baidustatic.com/js/ds.js"></script>
+  <style>
+    #topic-detail-ad-ul{width:960px;float:left;font-size:1px;margin:0;padding:0}
+    #topic-detail-ad-l{float:left;}
+    #topic-detail-ad-r{float:right;}
+    #topic-detail-ad-ul li{list-style: none;}
+  </style>
+  <script type="text/javascript" src="https://static.mediav.com/js/mvf_news_feed.js"></script>
+  <script type="text/javascript" src="https://csdnimg.cn/release/bbs/dist/js/syntaxhighlighter/syntaxhighlighter-fe278769e6.js"></script>
+  <script>
+      CFG.TOPIC_ID = 380180878;
+  </script>
+
+  <link href="//csdnimg.cn/release/bbs/assets/topic_show-dd1adea0deef4ced1600a1f12ee463bc.css" media="screen" rel="stylesheet" type="text/css" />
+<div class="container container-box clearfix csdn_main_container">
+  <link rel="stylesheet" href="https://g.csdnimg.cn/nav-second/1.0.3/css/nav-second.css">
+<style>
+  #navs{
+    float: left;
+    width: 96px;
+    margin-right: 8px;
+    line-height: 32px;
+    margin-top: 8px;
+    position: relative;
+  }
+
+</style>
+<div id="navs"></div>
+<script src="https://g.csdnimg.cn/nav-second/1.0.3/nav-second.js" type="text/javascript"></script>
+<script>
+$(function () {
+  var buttonUrl = ''
+    buttonUrl = '/topics/new?forum_id=GamesDevelop'
+  window.csdn.navSecond.init({
+      nav:[
+          {
+              value:"精选板块",
+              children:[
+                  {
+                      value:"移动开发",
+                      url:"/forums/Mobile",
+                      children:[
+                          {
+                              value: "IOS",
+                              url: "/forums/ios"
+                          },
+                          {
+                              value: "Android",
+                              url: "/forums/Android"
+                          },
+                          {
+                              value: "Qt",
+                              url: "/forums/Qt"
+                          },
+                          {
+                              value: "WP",
+                              url: "forums/WindowsMobile"
+                          }
+                      ]
+                  },
+                  {
+                      value:"云计算",
+                      url:"/forums/CloudComputing",
+                      children:[
+                          {
+                              value:"IaaS",
+                              url:"/forums/AWS"
+                          },
+                          {
+                              value:"Pass/SaaS",
+                              url:"/forums/CloudFoundry"
+                          },
+                          {
+                              value:"分布式计算/Hadoop",
+                              url:"/forums/hadoop"
+                          },
+                      ]
+                  },
+                  {
+                      value:"Java技术",
+                      url:"/forums/Java",
+                      children:[
+                          {
+                              value:"Java SE",
+                              url:"/forums/J2SE"
+                          },
+                          {
+                              value:"Java Web 开发",
+                              url:"/forums/Java_WebDevelop"
+                          },
+                          {
+                              value:"Java EE",
+                              url:"/forums/J2EE"
+                          },
+                          {
+                              value:"Java其他相关",
+                              url:"/forums/JavaOther"
+                          },
+                      ]
+                  },
+                  {
+                      value:".NET技术",
+                      url:"/forums/DotNET",
+                      children:[
+                          {
+                              value:".NETFramework",
+                              url:"/forums/DotNETFramework"
+                          },
+                          {
+                              value:"C#",
+                              url:"/forums/CSharp"
+                          },
+                          {
+                              value:".NET分析与设计",
+                              url:"/forums/DotNETAnalysisAndDesign"
+                          },
+                          {
+                              value:"ASP .NET",
+                              url:"/forums/ASPDotNET"
+                          },
+                          {
+                              value:"VB .NET",
+                              url:"/forums/VBDotNET"
+                          }
+                      ]
+                  },
+                  {
+                      value:"Web开发",
+                      url:"/forums/WebDevelop",
+                      children:[
+                          {
+                              value:"PHP",
+                              url:"/forums/PHP"
+                          },
+                          {
+                              value:"JavaScript",
+                              url:"/forums/JavaScript"
+                          },
+                          {
+                              value:"ASP",
+                              url:"/forums/ASP"
+                          },
+                          {
+                              value:"HTML(CSS)",
+                              url:"/forums/HTMLCSS"
+                          },
+                          {
+                              value:"HTML5",
+                              url:"/forums/HTML5"
+                          },
+                          {
+                              value:"Apache",
+                              url:"/forums/Apache"
+                          }
+                      ]
+                  },
+                  {
+                      value:"开发语言/框架",
+                      children:[
+                          {
+                              value:"Delphi",
+                              url:"/forums/Delphi"
+                          },
+                          {
+                              value:"VC/MFC",
+                              url:"/forums/VC"
+                          },
+                          {
+                              value:"VB",
+                              url:"/forums/VB"
+                          },
+                          {
+                              value:"C/C++",
+                              url:"/forums/Cpp"
+                          },
+                          {
+                              value:"C++ Builder",
+                              url:"/forums/BCB"
+                          },
+                          {
+                              value:"其他开发语言",
+                              url:"/forums/OtherLanguage"
+                          }
+                      ]
+                  },
+                  {
+                      value:"数据库开发",
+                      children:[
+                          {
+                              value:"MS-SQL Server",
+                              url:"/forums/MSSQL"
+                          },
+                          {
+                              value:"Oracle",
+                              url:"/forums/Oracle"
+                          },
+                          {
+                              value:"PowerBuilder",
+                              url:"/forums/PowerBuilder"
+                          },
+                          {
+                              value:"Informatica",
+                              url:"/forums/Informatica"
+                          },
+                          {
+                              value:"其他数据库开发",
+                              url:"/forums/OtherDatabase"
+                          }
+                      ]
+                  },
+                  {
+                      value:"硬件/嵌入式开发",
+                      url:"/forums/Embedded",
+                      children:[
+                          {
+                              value:"嵌入开发(WinCE)",
+                              url:"/forums/WinCE"
+                          },
+                          {
+                              value:"驱动开发/核心开发",
+                              url:"/forums/Embedded_driver"
+                          },
+                          {
+                              value:"硬件设计",
+                              url:"/forums/Embedded_hardware"
+                          },
+                          {
+                              value:"单片机/工控",
+                              url:"/forums/Embedded_SCM"
+                          },
+                          {
+                              value:"汇编语言",
+                              url:"/forums/ASM"
+                          },
+                          {
+                              value:"VxWorks开发",
+                              url:"/forums/VxWorks"
+                          }
+                      ]
+                  },
+                  {
+                      value:"Linux/Unix社区",
+                      url:"/forums/Linux",
+                      children:[
+                          {
+                              value:"系统维护与使用区",
+                              url:"/forums/Linux_System"
+                          },
+                          {
+                              value:"应用程序开发区",
+                              url:"/forums/Linux_Development"
+                          },
+                          {
+                              value:"内核源代码研究区",
+                              url:"/forums/Linux_Kernel"
+                          },
+                          {
+                              value:"驱动程序开发区",
+                              url:"/forums/Linux_Driver"
+                          },
+                          {
+                              value:"CPU和硬件区",
+                              url:"/forums/Linux_Hardware"
+                          },
+                      ]
+                  }
+              ]
+          },
+          {
+              value:"论坛牛人",
+              url:"/rank"
+          },
+          {
+              value:"排行榜",
+              url:"/total_rank"
+          },
+          {
+              value:"论坛地图",
+              url:"/map"
+          },
+          {
+              value:"论坛任务",
+              url:"/users/score_tasks"
+          },
+          {
+              value:"我的积分",
+              url:"https://bbs.csdn.net/user/point"
+          },
+          {
+              value:"论坛帮助",
+              url:"https://blogdev.blog.csdn.net/article/details/103488033"
+          },
+      ],
+      elId: "navs",
+      extraBtn: [
+          {
+            value: '我要发帖',
+            url: buttonUrl,
+            reportQuery:"spm=3001.4206",
+            reportClick:'{"spm":"3001.4206"}'
+          }
+      ]
+  })
+
+})
+</script>
+
+  <div class="clearfix fr container_main" >
+    <div id="left-box" >
+      <div class="bbs_detail_wrap" id="bbs_detail_wrap">
+        <div class="flash_messages">
+</div>
+
+        <!--帖子标题-->
+        <div class="bbs_title_h"></div>
+        <div id="bbs_title_bar" class="bbs_title_bar">
+          <div class="owner_top clearfix">
+            <h3 class="owner_h">
+              <span class="owner_title text-overflow" title="如何搭建OpenGL ES 或者 GLSL的开发环境">
+                如何搭建OpenGL ES 或者 GLSL的开发环境
+              </span>
+
+            </h3>
+            <div class="bbs_bread_wrap">
+             <div class="tips" style="display:inline-block">
+              </div>
+                <a href="/forums/OtherTechnicalForum" target="_blank">其他技术论坛</a>
+                <span style="font-size: 14px;color:#5893C2">></span>
+              <a href="/forums/GamesDevelop" target="_blank">游戏开发</a>
+              <div class="fav_box">
+                  <a data-report-click='{"spm":"3001.4211"}' href="javascript:;" onclick="window.csdn.loginBox.show()" class="fav_btn unsave">收藏</a>
+                <a data-report-click='{"spm":"3001.4212"}' href="javascript:;" class="fav_btn reply_topic" >回复</a>
+              </div>
+              <span class="fr point_num">
+                [问题点数：40分，结帖人Jackers679]
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <div id="post-380180878" class="mod_topic_wrap post topic" data-topic-id="380180878" data-post-id="380180878" data-is-topic-locked="false">
+
+  <dl class="topic_wrap clearfix">
+      <dt class="topic_l ">
+        <div data-username="" class="user_left">
+          <a href="//my.csdn.net/Jackers679" target="_blank" class="user_head_box" rel="nofollow">
+            <img src="//profile.csdnimg.cn/6/7/2/1_jackers679" class="avatar">
+              <img src="https://g.csdnimg.cn/static/user-reg-year/2x/11.png" class="user-years">
+          </a>
+          <div class="user_material">
+            <div class="user_material_bg">
+              <dl class="user_material_c">
+                <dt class="fl">
+                  <a href="//my.csdn.net/Jackers679" target="_blank" class="user_head_box" rel="nofollow">
+                    <img src="//profile.csdnimg.cn/6/7/2/1_jackers679" class="avatar">
+                  </a>
+                </dt>
+                  <dd>
+                    <ul class="topic_list">
+                        <li>
+                          <em>&sdot;</em><a href="/topics/392184581" target="_blank">mongodb有没有SELECT AS 的功能</a>
+                        </li>
+                        <li>
+                          <em>&sdot;</em><a href="/topics/390694352" target="_blank">求教：cocos2dx如何去掉图片（纹理）的背景内容</a>
+                        </li>
+                        <li>
+                          <em>&sdot;</em><a href="/topics/380190140" target="_blank">perl如何调用C可以执行文件</a>
+                        </li>
+                    </ul>
+                  </dd>
+                  <dd class="more_topic_wrap">
+                    <a href="/users/Jackers679/topics" target="_blank" class="more_topic">更多帖子</a></dd>
+                <dd class="fun_dd">
+                  <a href="javascript:;" class="follow_btn genius_att att_active" data-username="Jackers679">关注</a>
+                  <!--下面是已关注按钮样式-->
+                  <!--a.al_follow_btn(href="javascript:;") 已关注-->
+                  <a href="https://im.csdn.net/chat/Jackers679" class="att_active" target="_blank">私信</a>
+                  <a href="//my.csdn.net/Jackers679" class="att_active" target="_blank">空间</a>
+                  <a href="//blog.csdn.net/Jackers679" class="att_active" target="_blank">博客</a>
+                </dd>
+              </dl>
+            </div>
+          </div>
+          
+        </div>
+        <div class="user_right">
+          <div class="user_nick_name">
+            <div class="nick_name">
+              <a href="//my.csdn.net/Jackers679" class="Hash" rel="nofollow" target="_blank" title="Jackers679">Jackers679</a>
+            </div>
+            <div class="user_level">
+              <span class="user_right_title">等级</span>
+              <img src="../../dist/images/bbs1.png?t=1595470293682" class="topic_show_user_level">
+              <div class="topic_show_posts">
+                <div class="smallTittle">本版专家分：0</div>
+              </div>
+            </div>
+          </div>
+          <div class="close_topic">
+            结帖率 91.67%
+          </div>
+        </div>
+      </dt>
+
+    <dd class="topic_r post_info floorOwner" data-username="Jackers679" data-nickname="Jackers679" data-floor="0">
+      <div class="post_body post_body_min_h">
+        <div class="text">
+            我最近在学习GLSL和OpenGL&nbsp;ES2.0.&nbsp;&nbsp;我想用Win7+VS2010来写一些简单的程序。不知道怎么搭建环境。望高手指点。如果是linux的开发环境也行。<br />
+<br />
+我之前下了AMD的OpenGL&nbsp;ES仿真器，发现连里面的sample程序都跑不了，郁闷呀。。。。&nbsp;&nbsp;这让人怎么学习Graphic啊。
+
+
+            <div marginwidth="0" marginheight="0" scrolling="no" width="100%">
+            </div>
+        </div>
+        <!-- <div class="question_wrap"><span>问题点数：</span><em>分</em></div> -->
+      </div>
+      <div class="control control_new clearfix">
+        <div class="control_l fl">
+
+          <label class="date_time">2012-02-17 14:06:24</label>
+        </div>
+        <div class="control_r fr">
+          <label data-report-click='{"spm":"3001.4207"}' onclick="post_digg(380180878,380180878,this)" class="red_praise digg d_hide">
+            <span class="icon_praise"></span>
+            <em>点赞 </em>
+          </label>
+          <!--<span class="reply_intro">回复数 <em class="reply_num">8</em></span>-->
+            <a href="/topics/380180878?list=lz" class="only-filter d_hide" data-report-click="{&quot;spm&quot;:&quot;3001.4209&quot;}">只看楼主</a>
+          <a data-report-click='{"spm":"3001.4208"}' href="javascript:;" rel="nofollow" class="quote d_hide">引用</a>
+          <a data-report-click='{"spm":"3001.4210"}' href="javascript:;" class="report_spam d_hide">举报</a>
+          <span class="floor" id="landlord">楼主</span>
+          <span class="floor pack_up">收起</span>
+        </div>
+      </div>
+      <div class="omit_wrap">
+        <div class="tips">
+          <span>展开阅读全文</span>
+          <i></i>
+        </div>
+      </div>
+    </dd>
+  </dl>
+</div>
+  <script type="text/javascript">
+      $(document).ready(function () {
+          ajax_cache_recommends(380180878);
+      });
+
+      function ajax_cache_recommends(id) {
+          $.ajax({
+              type: 'get',
+              url: '/topics/ajax_cache_recommends?id=' + id.toString(),
+              async: false,
+              dataType: 'jsonp',
+              success: function (resobj) {
+              }
+          })
+      }
+  </script>
+
+
+        		<div id="post-390361504" class="mod_topic_wrap post" data-topic-id="380180878" data-post-id="390361504" data-is-topic-locked="false">
+			<dl class="topic_wrap clearfix">
+						<dt class="topic_l ">
+							<div data-username="" class="user_left">
+
+								<a href="//my.csdn.net/ilysony" target="_blank" class="user_head_box" rel="nofollow">
+									<img src="//profile.csdnimg.cn/6/6/9/1_ilysony" class="avatar" >
+										<img src="https://g.csdnimg.cn/static/user-reg-year/2x/13.png" class="user-years">
+								</a>
+								<div class="user_material">
+									<div class="user_material_bg">
+										<dl class="user_material_c">
+											<dt class="fl">
+												<a href="//my.csdn.net/ilysony" target="_blank" class="user_head_box" rel="nofollow">
+													<img src="//profile.csdnimg.cn/6/6/9/1_ilysony" class="avatar" >
+												</a>
+											</dt>
+												<dd>
+													<ul class="topic_list">
+															<li><em>&sdot;</em><a href="/topics/390028567" target="_blank">祝各位做程序开发的童鞋，五一快乐~</a></li>
+															<li><em>&sdot;</em><a href="/topics/380128859" target="_blank">祝大家新年快乐~</a></li>
+															<li><em>&sdot;</em><a href="/topics/360042465" target="_blank">2011元宵节散分~</a></li>
+													</ul>
+												</dd>
+												<dd class="more_topic_wrap"><a href="/users/ilysony/topics" target="_blank" class="more_topic">更多帖子</a></dd>
+											<dd class="fun_dd">
+												<a href="javascript:;" class="follow_btn genius_att  att_active" data-username="ilysony">关注</a>
+												<!--下面是已关注按钮样式-->
+												<!--a.al_follow_btn(href="javascript:;") 已关注-->
+												<a href="https://im.csdn.net/chat/ilysony" class="att_active" target="_blank">私信</a>
+												<a href="//my.csdn.net/ilysony" class="att_active" target="_blank">空间</a>
+												<a href="//blog.csdn.net/ilysony" class="att_active" target="_blank">博客</a>
+											</dd>
+										</dl>
+									</div>
+								</div>
+								
+							</div>
+							<div class="user_right">
+							    <div class="user_nick_name">
+                                    <div class="nick_name">
+                                        <a href="//my.csdn.net/ilysony" class="Hash" rel="nofollow" target="_blank" title="Sou2012">Sou2012</a>
+                                    </div>
+                                    <div class="user_level">
+                                        <span class="user_right_title">等级</span>
+                                        <img src="../../dist/images/bbs1.png?t=1595470293682" class="topic_show_user_level">
+                                        <div class="topic_show_posts">
+                                            <div class="smallTittle">本版专家分：0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="showTittleDD clearfix">
+                                        <span class="user_right_title">勋章</span>
+                                            <div class="medal_box csdn-user-medal-btn" data-username="ilysony" data-nickname="Sou2012" data-avatar="//profile.csdnimg.cn/6/6/9/1_ilysony">
+                                                    <div class="medal_pic_box">
+                                                        <img src="//csdnimg.cn/jifen/images/xunzhang/xunzhang/huanghuamiddle.png" alt="Blank" class="xunZhang" width="16">
+                                                    </div>
+                                                    <div class="showTittle">
+                                                        <div class="trangle"></div>
+                                                        <dl>
+                                                            <dt>
+                                                                <img src="//csdnimg.cn/jifen/images/xunzhang/xunzhang/huanghuamiddle.png">
+                                                            </dt>
+                                                            <dd>
+                                                                <strong>黄花</strong>
+                                                                2011年4月 专题开发/技术/项目大版内专家分月排行榜第二
+                                                            </dd>
+                                                        </dl>
+                                                    </div>
+                                            </div>
+                                    </div>
+							</div>
+						</dt>
+				<dd class="topic_r post_info pb36" data-username="ilysony" data-nickname="Sou2012" data-floor="1">
+					<div class="post_body post_body_min_h">
+							先去买本红宝书<br />
+<br />
+我这有篇OpenGL的Hello&nbsp;World<br />
+<a href="http://blog.csdn.net/ilysony/article/details/6535401" target="_blank">http://blog.csdn.net/ilysony/article/details/6535401</a><br />
+
+
+							<div>
+								
+							</div>
+					</div>
+					<div class="control control_new clearfix">
+						<div class="control_l fl">
+
+							<label class="date_time">2012-02-21 05:35:24</label>
+						</div>
+
+						<div class="control_r fr">
+							<label data-report-click='{"spm":"3001.4207"}' onclick="post_digg(380180878,390361504,this)" class="red_praise digg d_hide">
+								<span class="icon_praise"></span>
+								<em>点赞  </em>
+							</label>
+								<a href="/topics/380180878?list=2089841" class="only-filter d_hide">只看TA</a>
+							<a data-report-click='{"spm":"3001.4208"}' href="javascript:;" rel="nofollow" class="quote d_hide">引用</a>
+							<a data-report-click='{"spm":"3001.4210"}' href="javascript:;" class="report_spam d_hide">举报</a>
+							<span class="floor">#1<span>得分 1</span></span>
+						</div>
+					</div>
+				</dd>
+			</dl>
+		</div>
+		<div id="post-390362106" class="mod_topic_wrap post" data-topic-id="380180878" data-post-id="390362106" data-is-topic-locked="false">
+			<dl class="topic_wrap clearfix">
+						<dt class="topic_l ">
+							<div data-username="" class="user_left">
+
+								<a href="//my.csdn.net/Jackers679" target="_blank" class="user_head_box" rel="nofollow">
+									<img src="//profile.csdnimg.cn/6/7/2/1_jackers679" class="avatar" >
+										<img src="https://g.csdnimg.cn/static/user-reg-year/2x/11.png" class="user-years">
+								</a>
+								<div class="user_material">
+									<div class="user_material_bg">
+										<dl class="user_material_c">
+											<dt class="fl">
+												<a href="//my.csdn.net/Jackers679" target="_blank" class="user_head_box" rel="nofollow">
+													<img src="//profile.csdnimg.cn/6/7/2/1_jackers679" class="avatar" >
+												</a>
+											</dt>
+												<dd>
+													<ul class="topic_list">
+															<li><em>&sdot;</em><a href="/topics/392184581" target="_blank">mongodb有没有SELECT AS 的功能</a></li>
+															<li><em>&sdot;</em><a href="/topics/390694352" target="_blank">求教：cocos2dx如何去掉图片（纹理）的背景内容</a></li>
+															<li><em>&sdot;</em><a href="/topics/380190140" target="_blank">perl如何调用C可以执行文件</a></li>
+													</ul>
+												</dd>
+												<dd class="more_topic_wrap"><a href="/users/Jackers679/topics" target="_blank" class="more_topic">更多帖子</a></dd>
+											<dd class="fun_dd">
+												<a href="javascript:;" class="follow_btn genius_att  att_active" data-username="Jackers679">关注</a>
+												<!--下面是已关注按钮样式-->
+												<!--a.al_follow_btn(href="javascript:;") 已关注-->
+												<a href="https://im.csdn.net/chat/Jackers679" class="att_active" target="_blank">私信</a>
+												<a href="//my.csdn.net/Jackers679" class="att_active" target="_blank">空间</a>
+												<a href="//blog.csdn.net/Jackers679" class="att_active" target="_blank">博客</a>
+											</dd>
+										</dl>
+									</div>
+								</div>
+								
+							</div>
+							<div class="user_right">
+							    <div class="user_nick_name">
+                                    <div class="nick_name">
+                                        <a href="//my.csdn.net/Jackers679" class="Hash" rel="nofollow" target="_blank" title="Jackers679">Jackers679</a>
+                                    </div>
+                                    <div class="user_level">
+                                        <span class="user_right_title">等级</span>
+                                        <img src="../../dist/images/bbs1.png?t=1595470293682" class="topic_show_user_level">
+                                        <div class="topic_show_posts">
+                                            <div class="smallTittle">本版专家分：0</div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+						</dt>
+				<dd class="topic_r post_info pb36" data-username="Jackers679" data-nickname="Jackers679" data-floor="2">
+					<div class="post_body post_body_min_h">
+							<fieldset><legend class="font_bold">引用&nbsp;1&nbsp;楼&nbsp;ilysony&nbsp;的回复:</legend><blockquote>先去买本红宝书<br />
+<br />
+我这有篇OpenGL的Hello&nbsp;World<br />
+http://blog.csdn.net/ilysony/article/details/6535401</blockquote></fieldset><br />
+<br />
+你说的这个是OpenGL的环境搭建，请问你知道OpenGL&nbsp;ES怎么搭建环境吗？
+
+							<div>
+								
+							</div>
+					</div>
+					<div class="control control_new clearfix">
+						<div class="control_l fl">
+
+							<label class="date_time">2012-02-21 08:59:35</label>
+						</div>
+
+						<div class="control_r fr">
+							<label data-report-click='{"spm":"3001.4207"}' onclick="post_digg(380180878,390362106,this)" class="red_praise digg d_hide">
+								<span class="icon_praise"></span>
+								<em>点赞  </em>
+							</label>
+								<a href="/topics/380180878?list=12326664" class="only-filter d_hide">只看TA</a>
+							<a data-report-click='{"spm":"3001.4208"}' href="javascript:;" rel="nofollow" class="quote d_hide">引用</a>
+							<a data-report-click='{"spm":"3001.4210"}' href="javascript:;" class="report_spam d_hide">举报</a>
+							<span class="floor">#2<span>得分 0</span></span>
+						</div>
+					</div>
+				</dd>
+			</dl>
+		</div>
+		<div id="post-390363883" class="mod_topic_wrap post" data-topic-id="380180878" data-post-id="390363883" data-is-topic-locked="false">
+			<dl class="topic_wrap clearfix">
+						<dt class="topic_l ">
+							<div data-username="" class="user_left">
+
+								<a href="//my.csdn.net/ilysony" target="_blank" class="user_head_box" rel="nofollow">
+									<img src="//profile.csdnimg.cn/6/6/9/1_ilysony" class="avatar" >
+										<img src="https://g.csdnimg.cn/static/user-reg-year/2x/13.png" class="user-years">
+								</a>
+								<div class="user_material">
+									<div class="user_material_bg">
+										<dl class="user_material_c">
+											<dt class="fl">
+												<a href="//my.csdn.net/ilysony" target="_blank" class="user_head_box" rel="nofollow">
+													<img src="//profile.csdnimg.cn/6/6/9/1_ilysony" class="avatar" >
+												</a>
+											</dt>
+												<dd>
+													<ul class="topic_list">
+															<li><em>&sdot;</em><a href="/topics/390028567" target="_blank">祝各位做程序开发的童鞋，五一快乐~</a></li>
+															<li><em>&sdot;</em><a href="/topics/380128859" target="_blank">祝大家新年快乐~</a></li>
+															<li><em>&sdot;</em><a href="/topics/360042465" target="_blank">2011元宵节散分~</a></li>
+													</ul>
+												</dd>
+												<dd class="more_topic_wrap"><a href="/users/ilysony/topics" target="_blank" class="more_topic">更多帖子</a></dd>
+											<dd class="fun_dd">
+												<a href="javascript:;" class="follow_btn genius_att  att_active" data-username="ilysony">关注</a>
+												<!--下面是已关注按钮样式-->
+												<!--a.al_follow_btn(href="javascript:;") 已关注-->
+												<a href="https://im.csdn.net/chat/ilysony" class="att_active" target="_blank">私信</a>
+												<a href="//my.csdn.net/ilysony" class="att_active" target="_blank">空间</a>
+												<a href="//blog.csdn.net/ilysony" class="att_active" target="_blank">博客</a>
+											</dd>
+										</dl>
+									</div>
+								</div>
+								
+							</div>
+							<div class="user_right">
+							    <div class="user_nick_name">
+                                    <div class="nick_name">
+                                        <a href="//my.csdn.net/ilysony" class="Hash" rel="nofollow" target="_blank" title="Sou2012">Sou2012</a>
+                                    </div>
+                                    <div class="user_level">
+                                        <span class="user_right_title">等级</span>
+                                        <img src="../../dist/images/bbs1.png?t=1595470293682" class="topic_show_user_level">
+                                        <div class="topic_show_posts">
+                                            <div class="smallTittle">本版专家分：0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="showTittleDD clearfix">
+                                        <span class="user_right_title">勋章</span>
+                                            <div class="medal_box csdn-user-medal-btn" data-username="ilysony" data-nickname="Sou2012" data-avatar="//profile.csdnimg.cn/6/6/9/1_ilysony">
+                                                    <div class="medal_pic_box">
+                                                        <img src="//csdnimg.cn/jifen/images/xunzhang/xunzhang/huanghuamiddle.png" alt="Blank" class="xunZhang" width="16">
+                                                    </div>
+                                                    <div class="showTittle">
+                                                        <div class="trangle"></div>
+                                                        <dl>
+                                                            <dt>
+                                                                <img src="//csdnimg.cn/jifen/images/xunzhang/xunzhang/huanghuamiddle.png">
+                                                            </dt>
+                                                            <dd>
+                                                                <strong>黄花</strong>
+                                                                2011年4月 专题开发/技术/项目大版内专家分月排行榜第二
+                                                            </dd>
+                                                        </dl>
+                                                    </div>
+                                            </div>
+                                    </div>
+							</div>
+						</dt>
+				<dd class="topic_r post_info pb36" data-username="ilysony" data-nickname="Sou2012" data-floor="3">
+					<div class="post_body post_body_min_h">
+							<fieldset><legend class="font_bold">引用&nbsp;2&nbsp;楼&nbsp;jackers679&nbsp;的回复:</legend><blockquote>你说的这个是OpenGL的环境搭建，请问你知道OpenGL&nbsp;ES怎么搭建环境吗？</blockquote></fieldset><br />
+<br />
+直接在Eclipse上开发Android上就可以用了啊&nbsp;&nbsp;XCode上也可以用<br />
+
+
+							<div>
+								
+							</div>
+					</div>
+					<div class="control control_new clearfix">
+						<div class="control_l fl">
+
+							<label class="date_time">2012-02-21 10:18:02</label>
+						</div>
+
+						<div class="control_r fr">
+							<label data-report-click='{"spm":"3001.4207"}' onclick="post_digg(380180878,390363883,this)" class="red_praise digg d_hide">
+								<span class="icon_praise"></span>
+								<em>点赞  </em>
+							</label>
+								<a href="/topics/380180878?list=2089841" class="only-filter d_hide">只看TA</a>
+							<a data-report-click='{"spm":"3001.4208"}' href="javascript:;" rel="nofollow" class="quote d_hide">引用</a>
+							<a data-report-click='{"spm":"3001.4210"}' href="javascript:;" class="report_spam d_hide">举报</a>
+							<span class="floor">#3<span>得分 1</span></span>
+						</div>
+					</div>
+				</dd>
+			</dl>
+		</div>
+		<div id="post-390396914" class="mod_topic_wrap post" data-topic-id="380180878" data-post-id="390396914" data-is-topic-locked="false">
+			<dl class="topic_wrap clearfix">
+						<dt class="topic_l ">
+							<div data-username="" class="user_left">
+
+								<a href="//my.csdn.net/Jackers679" target="_blank" class="user_head_box" rel="nofollow">
+									<img src="//profile.csdnimg.cn/6/7/2/1_jackers679" class="avatar" >
+										<img src="https://g.csdnimg.cn/static/user-reg-year/2x/11.png" class="user-years">
+								</a>
+								<div class="user_material">
+									<div class="user_material_bg">
+										<dl class="user_material_c">
+											<dt class="fl">
+												<a href="//my.csdn.net/Jackers679" target="_blank" class="user_head_box" rel="nofollow">
+													<img src="//profile.csdnimg.cn/6/7/2/1_jackers679" class="avatar" >
+												</a>
+											</dt>
+												<dd>
+													<ul class="topic_list">
+															<li><em>&sdot;</em><a href="/topics/392184581" target="_blank">mongodb有没有SELECT AS 的功能</a></li>
+															<li><em>&sdot;</em><a href="/topics/390694352" target="_blank">求教：cocos2dx如何去掉图片（纹理）的背景内容</a></li>
+															<li><em>&sdot;</em><a href="/topics/380190140" target="_blank">perl如何调用C可以执行文件</a></li>
+													</ul>
+												</dd>
+												<dd class="more_topic_wrap"><a href="/users/Jackers679/topics" target="_blank" class="more_topic">更多帖子</a></dd>
+											<dd class="fun_dd">
+												<a href="javascript:;" class="follow_btn genius_att  att_active" data-username="Jackers679">关注</a>
+												<!--下面是已关注按钮样式-->
+												<!--a.al_follow_btn(href="javascript:;") 已关注-->
+												<a href="https://im.csdn.net/chat/Jackers679" class="att_active" target="_blank">私信</a>
+												<a href="//my.csdn.net/Jackers679" class="att_active" target="_blank">空间</a>
+												<a href="//blog.csdn.net/Jackers679" class="att_active" target="_blank">博客</a>
+											</dd>
+										</dl>
+									</div>
+								</div>
+								
+							</div>
+							<div class="user_right">
+							    <div class="user_nick_name">
+                                    <div class="nick_name">
+                                        <a href="//my.csdn.net/Jackers679" class="Hash" rel="nofollow" target="_blank" title="Jackers679">Jackers679</a>
+                                    </div>
+                                    <div class="user_level">
+                                        <span class="user_right_title">等级</span>
+                                        <img src="../../dist/images/bbs1.png?t=1595470293682" class="topic_show_user_level">
+                                        <div class="topic_show_posts">
+                                            <div class="smallTittle">本版专家分：0</div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+						</dt>
+				<dd class="topic_r post_info pb36" data-username="Jackers679" data-nickname="Jackers679" data-floor="5">
+					<div class="post_body post_body_min_h">
+							<fieldset><legend class="font_bold">引用&nbsp;3&nbsp;楼&nbsp;ilysony&nbsp;的回复:</legend><blockquote>引用&nbsp;2&nbsp;楼&nbsp;jackers679&nbsp;的回复:<br />
+<br />
+<br />
+你说的这个是OpenGL的环境搭建，请问你知道OpenGL&nbsp;ES怎么搭建环境吗？<br />
+<br />
+<br />
+直接在Eclipse上开发Android上就可以用了啊&nbsp;&nbsp;XCode上也可以用</blockquote></fieldset><br />
+<br />
+如果用XCode的话，我还要学点基本的X的API，这样会增加负担，&nbsp;有其他的方法吗？因为我只想写点OpenGL&nbsp;ES带shader的sample&nbsp;程序
+
+							<div>
+								
+							</div>
+					</div>
+					<div class="control control_new clearfix">
+						<div class="control_l fl">
+
+							<label class="date_time">2012-02-23 15:32:44</label>
+						</div>
+
+						<div class="control_r fr">
+							<label data-report-click='{"spm":"3001.4207"}' onclick="post_digg(380180878,390396914,this)" class="red_praise digg d_hide">
+								<span class="icon_praise"></span>
+								<em>点赞  </em>
+							</label>
+								<a href="/topics/380180878?list=12326664" class="only-filter d_hide">只看TA</a>
+							<a data-report-click='{"spm":"3001.4208"}' href="javascript:;" rel="nofollow" class="quote d_hide">引用</a>
+							<a data-report-click='{"spm":"3001.4210"}' href="javascript:;" class="report_spam d_hide">举报</a>
+							<span class="floor">#5<span>得分 0</span></span>
+						</div>
+					</div>
+				</dd>
+			</dl>
+		</div>
+		<div id="post-390506573" class="mod_topic_wrap post" data-topic-id="380180878" data-post-id="390506573" data-is-topic-locked="false">
+			<dl class="topic_wrap clearfix">
+						<dt class="topic_l ">
+							<div data-username="" class="user_left">
+
+								<a href="//my.csdn.net/wurh80" target="_blank" class="user_head_box" rel="nofollow">
+									<img src="//profile.csdnimg.cn/2/9/B/1_wurh80" class="avatar" >
+										<img src="https://g.csdnimg.cn/static/user-reg-year/2x/12.png" class="user-years">
+								</a>
+								<div class="user_material">
+									<div class="user_material_bg">
+										<dl class="user_material_c">
+											<dt class="fl">
+												<a href="//my.csdn.net/wurh80" target="_blank" class="user_head_box" rel="nofollow">
+													<img src="//profile.csdnimg.cn/2/9/B/1_wurh80" class="avatar" >
+												</a>
+											</dt>
+												<dd>
+													<ul class="topic_list">
+															<li><em>&sdot;</em><a href="/topics/392168393" target="_blank">博客莫名其妙被封 请问如何解？</a></li>
+															<li><em>&sdot;</em><a href="/topics/390874278" target="_blank">深圳沄游网络拖欠工资两年至今未还！！！</a></li>
+													</ul>
+												</dd>
+												<dd class="more_topic_wrap"><a href="/users/wurh80/topics" target="_blank" class="more_topic">更多帖子</a></dd>
+											<dd class="fun_dd">
+												<a href="javascript:;" class="follow_btn genius_att  att_active" data-username="wurh80">关注</a>
+												<!--下面是已关注按钮样式-->
+												<!--a.al_follow_btn(href="javascript:;") 已关注-->
+												<a href="https://im.csdn.net/chat/wurh80" class="att_active" target="_blank">私信</a>
+												<a href="//my.csdn.net/wurh80" class="att_active" target="_blank">空间</a>
+												<a href="//blog.csdn.net/wurh80" class="att_active" target="_blank">博客</a>
+											</dd>
+										</dl>
+									</div>
+								</div>
+								
+							</div>
+							<div class="user_right">
+							    <div class="user_nick_name">
+                                    <div class="nick_name">
+                                        <a href="//my.csdn.net/wurh80" class="Hash" rel="nofollow" target="_blank" title="无名剑">无名剑</a>
+                                    </div>
+                                    <div class="user_level">
+                                        <span class="user_right_title">等级</span>
+                                        <img src="../../dist/images/bbs1.png?t=1595470293682" class="topic_show_user_level">
+                                        <div class="topic_show_posts">
+                                            <div class="smallTittle">本版专家分：0</div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+						</dt>
+				<dd class="topic_r post_info pb36" data-username="wurh80" data-nickname="无名剑" data-floor="6">
+					<div class="post_body post_body_min_h">
+							去下个AMD的模拟器&nbsp;OpenGL&nbsp;ES&nbsp;2.0&nbsp;Emulator&nbsp;v1.0&nbsp;<br />
+吧&nbsp;<br />
+WIN7的用户就拉倒&nbsp;XP的可以玩的顺<br />
+里面的sample有教你如何初始化opengl&nbsp;es
+
+							<div>
+								
+							</div>
+					</div>
+					<div class="control control_new clearfix">
+						<div class="control_l fl">
+
+							<label class="date_time">2012-03-03 16:52:23</label>
+						</div>
+
+						<div class="control_r fr">
+							<label data-report-click='{"spm":"3001.4207"}' onclick="post_digg(380180878,390506573,this)" class="red_praise digg d_hide">
+								<span class="icon_praise"></span>
+								<em>点赞  </em>
+							</label>
+								<a href="/topics/380180878?list=4102667" class="only-filter d_hide">只看TA</a>
+							<a data-report-click='{"spm":"3001.4208"}' href="javascript:;" rel="nofollow" class="quote d_hide">引用</a>
+							<a data-report-click='{"spm":"3001.4210"}' href="javascript:;" class="report_spam d_hide">举报</a>
+							<span class="floor">#6<span>得分 18</span></span>
+						</div>
+					</div>
+				</dd>
+			</dl>
+		</div>
+		<div id="post-391257181" class="mod_topic_wrap post" data-topic-id="380180878" data-post-id="391257181" data-is-topic-locked="false">
+			<dl class="topic_wrap clearfix">
+						<dt class="topic_l ">
+							<div data-username="" class="user_left">
+
+								<a href="//my.csdn.net/zero1991" target="_blank" class="user_head_box" rel="nofollow">
+									<img src="//profile.csdnimg.cn/4/3/C/1_zero1991" class="avatar" >
+										<img src="https://g.csdnimg.cn/static/user-reg-year/2x/12.png" class="user-years">
+								</a>
+								<div class="user_material">
+									<div class="user_material_bg">
+										<dl class="user_material_c">
+											<dt class="fl">
+												<a href="//my.csdn.net/zero1991" target="_blank" class="user_head_box" rel="nofollow">
+													<img src="//profile.csdnimg.cn/4/3/C/1_zero1991" class="avatar" >
+												</a>
+											</dt>
+												<dd>
+													<ul class="topic_list">
+															<li><em>&sdot;</em><a href="/topics/390328306" target="_blank">【求助】android端视频、传感器数据保存</a></li>
+															<li><em>&sdot;</em><a href="/topics/380216126" target="_blank">【求助】关于摄像头的，软件实现dsp功能</a></li>
+													</ul>
+												</dd>
+												<dd class="more_topic_wrap"><a href="/users/zero1991/topics" target="_blank" class="more_topic">更多帖子</a></dd>
+											<dd class="fun_dd">
+												<a href="javascript:;" class="follow_btn genius_att  att_active" data-username="zero1991">关注</a>
+												<!--下面是已关注按钮样式-->
+												<!--a.al_follow_btn(href="javascript:;") 已关注-->
+												<a href="https://im.csdn.net/chat/zero1991" class="att_active" target="_blank">私信</a>
+												<a href="//my.csdn.net/zero1991" class="att_active" target="_blank">空间</a>
+												<a href="//blog.csdn.net/zero1991" class="att_active" target="_blank">博客</a>
+											</dd>
+										</dl>
+									</div>
+								</div>
+								
+							</div>
+							<div class="user_right">
+							    <div class="user_nick_name">
+                                    <div class="nick_name">
+                                        <a href="//my.csdn.net/zero1991" class="Hash" rel="nofollow" target="_blank" title="zero1991">zero1991</a>
+                                    </div>
+                                    <div class="user_level">
+                                        <span class="user_right_title">等级</span>
+                                        <img src="../../dist/images/bbs1.png?t=1595470293682" class="topic_show_user_level">
+                                        <div class="topic_show_posts">
+                                            <div class="smallTittle">本版专家分：0</div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+						</dt>
+				<dd class="topic_r post_info pb36" data-username="zero1991" data-nickname="zero1991" data-floor="7">
+					<div class="post_body post_body_min_h">
+							请问您找到解决方案了吗？我用的powervr的模拟器，教程OpenGL&nbsp;ES&nbsp;2.0&nbsp;Programming&nbsp;Guide里的hello&nbsp;triangle是可以跑得，win7。<br />
+在这里拿到书的代码：<br />
+http://code.google.com/p/opengles-book-samples/source/checkout<br />
+然后windows/Chapter_2里面是源码的核心部分，windows/common里面是源码的一些头文件和库，也得包含进来。<br />
+我最近也在学es的glsl，我是要用shader做并行计算。目前还灰常迷茫，呵呵
+
+							<div>
+								
+							</div>
+					</div>
+					<div class="control control_new clearfix">
+						<div class="control_l fl">
+
+							<label class="date_time">2012-05-09 22:06:35</label>
+						</div>
+
+						<div class="control_r fr">
+							<label data-report-click='{"spm":"3001.4207"}' onclick="post_digg(380180878,391257181,this)" class="red_praise digg d_hide">
+								<span class="icon_praise"></span>
+								<em>点赞  1</em>
+							</label>
+								<a href="/topics/380180878?list=7598203" class="only-filter d_hide">只看TA</a>
+							<a data-report-click='{"spm":"3001.4208"}' href="javascript:;" rel="nofollow" class="quote d_hide">引用</a>
+							<a data-report-click='{"spm":"3001.4210"}' href="javascript:;" class="report_spam d_hide">举报</a>
+							<span class="floor">#7<span>得分 19</span></span>
+						</div>
+					</div>
+				</dd>
+			</dl>
+		</div>
+		<div id="post-391334119" class="mod_topic_wrap post" data-topic-id="380180878" data-post-id="391334119" data-is-topic-locked="false">
+			<dl class="topic_wrap clearfix">
+						<dt class="topic_l ">
+							<div data-username="" class="user_left">
+
+								<a href="//my.csdn.net/peng_weida" target="_blank" class="user_head_box" rel="nofollow">
+									<img src="//profile.csdnimg.cn/8/6/3/1_peng_weida" class="avatar" >
+										<img src="https://g.csdnimg.cn/static/user-reg-year/2x/13.png" class="user-years">
+								</a>
+								<div class="user_material">
+									<div class="user_material_bg">
+										<dl class="user_material_c">
+											<dt class="fl">
+												<a href="//my.csdn.net/peng_weida" target="_blank" class="user_head_box" rel="nofollow">
+													<img src="//profile.csdnimg.cn/8/6/3/1_peng_weida" class="avatar" >
+												</a>
+											</dt>
+												<dd>
+													<ul class="topic_list">
+															<li><em>&sdot;</em><a href="/topics/390083318" target="_blank">100分的帖子，不能结帖~</a></li>
+															<li><em>&sdot;</em><a href="/topics/390080098" target="_blank">服务器暂时无法响应您的请求</a></li>
+															<li><em>&sdot;</em><a href="/topics/390076353" target="_blank">使用CMake时，出现Could not find ZLIB</a></li>
+													</ul>
+												</dd>
+												<dd class="more_topic_wrap"><a href="/users/peng_weida/topics" target="_blank" class="more_topic">更多帖子</a></dd>
+											<dd class="fun_dd">
+												<a href="javascript:;" class="follow_btn genius_att  att_active" data-username="peng_weida">关注</a>
+												<!--下面是已关注按钮样式-->
+												<!--a.al_follow_btn(href="javascript:;") 已关注-->
+												<a href="https://im.csdn.net/chat/peng_weida" class="att_active" target="_blank">私信</a>
+												<a href="//my.csdn.net/peng_weida" class="att_active" target="_blank">空间</a>
+												<a href="//blog.csdn.net/peng_weida" class="att_active" target="_blank">博客</a>
+											</dd>
+										</dl>
+									</div>
+								</div>
+								
+							</div>
+							<div class="user_right">
+							    <div class="user_nick_name">
+                                    <div class="nick_name">
+                                        <a href="//my.csdn.net/peng_weida" class="Hash" rel="nofollow" target="_blank" title="peng_weida">peng_weida</a>
+                                    </div>
+                                    <div class="user_level">
+                                        <span class="user_right_title">等级</span>
+                                        <img src="../../dist/images/bbs1.png?t=1595470293682" class="topic_show_user_level">
+                                        <div class="topic_show_posts">
+                                            <div class="smallTittle">本版专家分：0</div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+						</dt>
+				<dd class="topic_r post_info pb36" data-username="peng_weida" data-nickname="peng_weida" data-floor="8">
+					<div class="post_body post_body_min_h">
+							OpenGL&nbsp;Shading&nbsp;Language橙宝书
+
+							<div>
+								
+							</div>
+					</div>
+					<div class="control control_new clearfix">
+						<div class="control_l fl">
+
+							<label class="date_time">2012-05-17 10:25:46</label>
+						</div>
+
+						<div class="control_r fr">
+							<label data-report-click='{"spm":"3001.4207"}' onclick="post_digg(380180878,391334119,this)" class="red_praise digg d_hide">
+								<span class="icon_praise"></span>
+								<em>点赞  </em>
+							</label>
+								<a href="/topics/380180878?list=3560114" class="only-filter d_hide">只看TA</a>
+							<a data-report-click='{"spm":"3001.4208"}' href="javascript:;" rel="nofollow" class="quote d_hide">引用</a>
+							<a data-report-click='{"spm":"3001.4210"}' href="javascript:;" class="report_spam d_hide">举报</a>
+							<span class="floor">#8<span>得分 1</span></span>
+						</div>
+					</div>
+				</dd>
+			</dl>
+		</div>
+
+
+        <script>
+            // 点赞
+            function post_digg(topic_id,post_id,obj){
+                window.csdn.loginBox.show();
+                return false
+                var r = check_user_status();
+                if (r) {
+                    $.ajax({
+                        type:'PUT',
+                        dataType: "json",
+                        url:'/posts/'+post_id.toString()+'/digg',
+                        data: {
+                            topic_id: topic_id.toString()
+                        },
+                        success: function(json){
+                            if(json.success){
+                                $(obj).find("em").text("点赞 "+json.digg);
+                                $(obj).find("span").addClass("save")
+                            }else{
+                                alert("您已经投过票了");
+                            }
+                        }
+                    })
+                }
+            }
+
+            function post_bury(topic_id,post_id,obj){
+                var r = check_user_status();
+                if(r){
+                    $.ajax({
+                        type:'PUT',
+                        dataType: "json",
+                        url:'/posts/'+post_id.toString()+'/bury',
+                        data: {
+                            topic_id: topic_id.toString()
+                        },
+                        success: function(json){
+                            if(json.success){
+                                $(obj).find("em").text(json.bury);
+                            }else{
+                                alert("您已经投过票了");
+                            }
+                        }
+                    })
+                }
+
+            }
+
+
+        </script>
+        <div class="paginate_box_point"></div>
+        <div class="paginate_box ">
+          
+          <div class="fav_box fr">
+            <a href="javascript:;" class="fav_btn pick" >收起</a>
+          </div>
+          
+          <div class="fav_box fr">
+              <a data-report-click='{"spm":"3001.4211"}' href="javascript:;" onclick="window.csdn.loginBox.show()" class="fav_btn unsave">收藏</a>
+            <a data-report-click='{"spm":"3001.4212"}' href="javascript:;" class="fav_btn reply_topic" >回复</a>
+          </div>
+        </div>
+        <script>
+            $('em.jumpMenu').click(function() {
+                var page = $(this).parent().find('input.page_inpt').val();
+                if (page != 1) {
+                    window.location.href = (window.location.pathname + '?page=' + page);
+                } else {
+                    window.location.href = window.location.pathname;
+                }
+            });
+        </script>
+          <span class="login unuse" id="new_post">匿名用户不能发表回复！</span>
+      </div>
+      </div>
+      <!-- 右侧第三栏 -->
+      <div class="right-box" id="rightList">
+        <!-- 用户资料 -->
+        <div class="right_item">
+  <div class="user_head">
+    <a href="//my.csdn.net/Jackers679" target="_blank" class="user_head_l">
+      <img src="//profile.csdnimg.cn/6/7/2/1_jackers679">
+    </a>
+    <div class="user_head_r">
+      <a href="//my.csdn.net/Jackers679" class="user_name" rel="nofollow" target="_blank" title="Jackers679">Jackers679</a>
+      <p class="user_level">等级：<img src="../../dist/images/bbs1.png?t=1595470293682"></p>
+    </div>
+  </div>
+  <div class="user_bbs_medal">
+    <div class="showTittleDD">
+    </div>
+  </div>
+  <div class="user_bbs_foot">
+    <span class="user_btn unfollowed genius_att" data-username="Jackers679">关注</span>
+    <a href="https://im.csdn.net/chat/Jackers679" target="_blank" class="user_btn gry">私信</a>
+    <a href="//my.csdn.net/Jackers679" target="_blank" class="user_btn">TA的帖子</a>
+  </div>
+</div>
+
+        <div class="flex-box">
+          <!-- 个性化相关推荐 -->
+          <!-- 详情页右侧广告 id 516 -->
+            <div class="ad_top bbs_left_box" style="overflow: hidden;height:600px;width:300px" >
+                  <div id="kp_box_516" data-pid="516"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- pc-论坛内页右侧视窗-300*600 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-1076724771190722"
+     data-ad-slot="9406032482"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=516&a=2457&c=0&k=&spm=1004.2023.3001.4624&d=1&t=3&u=bba6b40813344a9c9e6aea1dde1335ec" style="display: block;width: 0px;height: 0px;"></div>
+            </div>
+          <div class="persion_article"></div>
+        </div>
+      </div>
+        <!--相关推荐feed-->
+        <div class="mod_topic_wrap" style="float: left">
+          <div class="post_feed_box" style="width:788px">
+            <!--样式一-->
+            <div id="post_feed_wrap" class="post_feed_wrap post_feed_style1">
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/ywl5320/article/details/80920830","strategy":"2~all~sobaiduend~default","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~sobaiduend~default-1.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/ywl5320/article/details/80920830" target="_blank" title="Android &lt;em&gt;OpenGL&lt;/em&gt; &lt;em&gt;ES&lt;/em&gt; &lt;em&gt;开发&lt;/em&gt;（一）— &lt;em&gt;环境搭建&lt;/em&gt;"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~sobaiduend~default-1.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~sobaiduend~default-1.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/ywl5320/article/details/80920830","strategy":"2~all~sobaiduend~default","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~sobaiduend~default-1.nonecase\"}"}'>Android <em>OpenGL</em> <em>ES</em> <em>开发</em>（一）— <em>环境搭建</em></a>
+                  </dt>
+                  <dd><p>我的视频课程：《Android C++ <em>OpenGL</em> 教程》     对于<em>Opengl</em>/sl/cv/......从今天开始我将给大家带来一系列的Android中<em>OpenGL</em> <em>ES</em>的使用方法（主要是基于2D平面图形的）。  一、<em>OpenGL</em> <em>ES</em>是什么?  我总结的...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/BSPLover/article/details/52523730","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-2.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/BSPLover/article/details/52523730" target="_blank" title="【&lt;em&gt;GLSL&lt;/em&gt;教程】（二）在&lt;em&gt;OpenGL&lt;/em&gt;中使用&lt;em&gt;GLSL&lt;/em&gt;"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-2.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-2.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/BSPLover/article/details/52523730","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-2.nonecase\"}"}'>【<em>GLSL</em>教程】（二）在<em>OpenGL</em>中使用<em>GLSL</em></a>
+                  </dt>
+                  <dd><p>设置<em>GLSL</em>    这一节讲述在<em>OpenGL</em>中配置<em>GLSL</em>，假设你已经写好了顶点shader和像素shader。如果你还没有准备好，可以从如下网址获得相关内容：    http://www.3dshaders.com/home/    ...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/weixin_34018169/article/details/91429507","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-3.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/weixin_34018169/article/details/91429507" target="_blank" title="&lt;em&gt;OpenGL&lt;/em&gt;之&lt;em&gt;GLSL&lt;/em&gt;"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-3.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-3.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/weixin_34018169/article/details/91429507","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-3.nonecase\"}"}'><em>OpenGL</em>之<em>GLSL</em></a>
+                  </dt>
+                  <dd><p><em>GLSL</em>是<em>OpenGL</em> Shader的编程语言，为了更好的进行视频编辑和特效<em>开发</em>，抽空学习了其语法和特性，并做此记录，留作备忘查询。 类型 类型概述    变量类别 变量类型 备注     空 void 用于标识无参函数<em>或者</em>无返回值函数...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/xhm01291212/article/details/79270836","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-4.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/xhm01291212/article/details/79270836" target="_blank" title="&lt;em&gt;GLSL&lt;/em&gt;中文手册（word文档）以及&lt;em&gt;OpenGL&lt;/em&gt; &lt;em&gt;ES&lt;/em&gt; 官方API下载"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-4.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-4.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/xhm01291212/article/details/79270836","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-4.nonecase\"}"}'><em>GLSL</em>中文手册（word文档）以及<em>OpenGL</em> <em>ES</em> 官方API下载</a>
+                  </dt>
+                  <dd><p>转载地址：...<em>OpenGL</em> <em>ES</em> API（英文版）下载地址：https://www.khronos.org/registry/<em>OpenGL</em>/specs/<em>es</em>/3.0/<em>GLSL</em>_<em>ES</em>_Specification_3.00.pdf  <em>GLSL</em> 中文手册  基本类型:          类型      说明          voi</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/yhaolpz/article/details/105346646","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-5.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/yhaolpz/article/details/105346646" target="_blank" title="Android &lt;em&gt;OpenGL&lt;/em&gt; &lt;em&gt;ES&lt;/em&gt;（一）&lt;em&gt;开发&lt;/em&gt;入门"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-5.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-5.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/yhaolpz/article/details/105346646","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-5.nonecase\"}"}'>Android <em>OpenGL</em> <em>ES</em>（一）<em>开发</em>入门</a>
+                  </dt>
+                  <dd><p>早就听过大名鼎鼎的 <em>OpenGL</em>，却迟迟没有实践学习，有些惭愧。今天开始通过实践+博文方式学习掌握 <em>OpenGL</em>。此文对于 <em>OpenGL</em> 的学习分为以下部分：  <em>OpenGL</em> 基础概念 <em>OpenGL</em> 坐标系理解 <em>OpenGL</em> 渲染管线 <em>OpenGL</em> 着色...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/weixin_34375054/article/details/94311217","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-6.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/weixin_34375054/article/details/94311217" target="_blank" title="win7,64bit下的&lt;em&gt;OpenGL&lt;/em&gt;着色语言（&lt;em&gt;glsl&lt;/em&gt;）&lt;em&gt;开发环境&lt;/em&gt;配置（原）"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-6.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-6.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/weixin_34375054/article/details/94311217","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-6.nonecase\"}"}'>win7,64bit下的<em>OpenGL</em>着色语言（<em>glsl</em>）<em>开发环境</em>配置（原）</a>
+                  </dt>
+                  <dd><p>一、环境准备：  　系统环境win7,64位，双显卡：集成显卡+gt540m，gt540建议下载最新的驱动，可以支持到<em>opengl</em>4.3标准...　<em>开发环境</em>：vs2010  　PS：查看机器及显卡支持的<em>OpenGL</em>版本可以使用工具GPU_Caps_Viewer_v1....</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/ywl5320/article/details/80964212","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-7.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/ywl5320/article/details/80964212" target="_blank" title="Android &lt;em&gt;OpenGL&lt;/em&gt; &lt;em&gt;ES&lt;/em&gt; &lt;em&gt;开发&lt;/em&gt;（二）— 绘制三角形"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-7.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-7.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/ywl5320/article/details/80964212","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-7.nonecase\"}"}'>Android <em>OpenGL</em> <em>ES</em> <em>开发</em>（二）— 绘制三角形</a>
+                  </dt>
+                  <dd><p>在前一篇博客我们知道了Android中<em>OpenGL</em> <em>ES</em>是什么，然后知道了怎么<em>搭建</em>一个<em>OpenGL</em> <em>ES</em>的运行<em>环境</em>，现在我们就来开始绘制我们自己想要的图形了（绘制图片会在后面讲解，因为绘制图形是绘制图片的基础），我们最先开始...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/qq_28637193/article/details/53178006","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-8.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/qq_28637193/article/details/53178006" target="_blank" title="&lt;em&gt;opengl&lt;/em&gt; &lt;em&gt;es&lt;/em&gt;3.0游戏&lt;em&gt;开发&lt;/em&gt;学习笔记2--绘制地月星系"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-8.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-8.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/qq_28637193/article/details/53178006","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-8.nonecase\"}"}'><em>opengl</em> <em>es</em>3.0游戏<em>开发</em>学习笔记2--绘制地月星系</a>
+                  </dt>
+                  <dd><p>我的<em>开发环境</em>是Android studio 2.1.3 自带的模拟器不支持<em>opengl</em> <em>es</em>3.0 只能在真机上调试 各个类     Celestial 类实现的是绘制星星，原理是绘制一个大的球并且在一个打球随机产生亮点，这样在内部看起来就实现天空中...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/weixin_33804990/article/details/88024821","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-9.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/weixin_33804990/article/details/88024821" target="_blank" title="&lt;em&gt;OpenGL&lt;/em&gt; &lt;em&gt;ES&lt;/em&gt;短视频&lt;em&gt;开发&lt;/em&gt;（预览）"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-9.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-9.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/weixin_33804990/article/details/88024821","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-9.nonecase\"}"}'><em>OpenGL</em> <em>ES</em>短视频<em>开发</em>（预览）</a>
+                  </dt>
+                  <dd><p>本项目基于<em>OpenGL</em> <em>ES</em>完成短视频的录制，添加美颜、贴纸，放大眼睛，实现快速、慢速播放，随意添加滤镜效果等功能。 完整项目代码可前往<em>OpenGL</em>短视频 <em>OpenGL</em> <em>ES</em>知识点 首先，<em>创建</em>C/C++ Surpport的项目，并在清单文件...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/qq_28637193/article/details/53151576","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-10.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/qq_28637193/article/details/53151576" target="_blank" title="&lt;em&gt;opengl&lt;/em&gt; &lt;em&gt;es&lt;/em&gt;3.0游戏&lt;em&gt;开发&lt;/em&gt;学习笔记1-绘制旋转的三角形"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-10.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-10.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/qq_28637193/article/details/53151576","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-10.nonecase\"}"}'><em>opengl</em> <em>es</em>3.0游戏<em>开发</em>学习笔记1-绘制旋转的三角形</a>
+                  </dt>
+                  <dd><p>打算一边学习一边整理学习笔记，我的<em>开发环境</em>是Android studio 2.1.3，不过有个问题是Android studio自带的模拟器只能支持<em>es</em>2.0  无法使用<em>es</em>3.0 所以3.0只能在真机上调试，手机必须是4.3<em>或者</em>是以上系统，我试过4.3的...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/l1216766050/article/details/102787618","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-11.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/l1216766050/article/details/102787618" target="_blank" title="Ubuntu下&lt;em&gt;搭建OpenGL开发环境&lt;/em&gt;（GLFW_3.3.1 + GLM_0.9.9 + GLAD）"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-11.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-11.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/l1216766050/article/details/102787618","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-11.nonecase\"}"}'>Ubuntu下<em>搭建OpenGL开发环境</em>（GLFW_3.3.1 + GLM_0.9.9 + GLAD）</a>
+                  </dt>
+                  <dd><p>源码安装GLFW 3.3.1 git clone git@github.com:glfw/glfw.git cd glfw mkdir build &amp;&amp; cd build cmake .. make -j4 sudo make install  直接命令二进制安装 sudo apt-get install libglfw3-dev ...在配置选...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/v_xchen_v/article/details/60468234","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-12.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/v_xchen_v/article/details/60468234" target="_blank" title="&lt;em&gt;搭建&lt;/em&gt;Mac下的&lt;em&gt;OpenGL环境&lt;/em&gt;"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-12.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-12.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/v_xchen_v/article/details/60468234","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-12.nonecase\"}"}'><em>搭建</em>Mac下的<em>OpenGL环境</em></a>
+                  </dt>
+                  <dd><p><em>OpenGL</em> library glfw下载：http://www.glfw.org/download.html Mac OS和Linux上需要下载github上的source文件并编译。 下载cmake，可以直接下载dmg双击安装：https://cmake.org/download/ 安装后在终端中还是没有...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/sx1989827/article/details/47304971","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-13.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/sx1989827/article/details/47304971" target="_blank" title="iOS下&lt;em&gt;OpenGL&lt;/em&gt; &lt;em&gt;ES&lt;/em&gt; 3.0编程入门（一）：构建Hello World&lt;em&gt;环境&lt;/em&gt;"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-13.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-13.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/sx1989827/article/details/47304971","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-13.nonecase\"}"}'>iOS下<em>OpenGL</em> <em>ES</em> 3.0编程入门（一）：构建Hello World<em>环境</em></a>
+                  </dt>
+                  <dd><p><em>OpenGL</em> <em>ES</em>简介：  <em>OpenGL</em> <em>ES</em> (<em>OpenGL</em> for Embedded Systems) 是 <em>OpenGL</em>三维图形  API 的子集，针对手机、PDA和游戏主机等嵌入式设备而设计。该API由Khronos集团定义推广，Khronos是一个图形软硬件行业协会，该协会...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/ShareUs/article/details/78715094","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-14.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/ShareUs/article/details/78715094" target="_blank" title="&lt;em&gt;OpenGLES&lt;/em&gt;2.0 Shader及着色器语言CG HLSL &lt;em&gt;GLSL&lt;/em&gt;，3D模型文件(.obj .frag .vert .mtl等)（2）"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-14.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-14.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/ShareUs/article/details/78715094","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-14.nonecase\"}"}'><em>OpenGLES</em>2.0 Shader及着色器语言CG HLSL <em>GLSL</em>，3D模型文件(.obj .frag .vert .mtl等)（2）</a>
+                  </dt>
+                  <dd><p>-- openGL固定流水线（在<em>OpenGLES</em> 2.0之前），2.0之后的使用自定义着色器渲染。    --着色器流程：    -- OpenGL 1.0的渲染管线主要包括： 1.准备顶点数据（通过VBO、VAO和Vertex attribute来传递数据给OpenGL） 2....</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/weixin_30525825/article/details/97775518","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-15.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/weixin_30525825/article/details/97775518" target="_blank" title="&lt;em&gt;OpenGLES&lt;/em&gt;2.0着色器语言&lt;em&gt;glsl&lt;/em&gt;"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-15.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-15.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/weixin_30525825/article/details/97775518","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-15.nonecase\"}"}'><em>OpenGLES</em>2.0着色器语言<em>glsl</em></a>
+                  </dt>
+                  <dd><p><em>OpenGLES</em>2.0中是强制使用可编程的渲染管线的，使用的是<em>glsl</em>着色器语言，因为着色器语言是使用的GPU,即图形处理单元，而不是CPU,这样可以使CPU从繁重的几何计算和像素的处理中解脱出来了。这就加大了处理的速度。  ...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/a568478312/article/details/80426563","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-16.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/a568478312/article/details/80426563" target="_blank" title="Android使用&lt;em&gt;OpenGL&lt;/em&gt; &lt;em&gt;ES&lt;/em&gt;显示纹理(使用NDK&lt;em&gt;开发&lt;/em&gt;）"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-16.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-16.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/a568478312/article/details/80426563","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-16.nonecase\"}"}'>Android使用<em>OpenGL</em> <em>ES</em>显示纹理(使用NDK<em>开发</em>）</a>
+                  </dt>
+                  <dd><p>第四章最后开始介绍使用<em>OpenGL</em>来显示一个2D纹理，其实做音视频2D基本满足绝大多数要求了，下面简单分析一下源码中的流程。  EGL<em>环境</em>初始化  首先我们需要在Java<em>环境</em>中初始化一个SurfaceView，然后在回调中我们传入...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/qq_32563773/article/details/106274280","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-17.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/qq_32563773/article/details/106274280" target="_blank" title="stl、obj、3DS三种3D模型加载，使用&lt;em&gt;OpenGl&lt;/em&gt;+&lt;em&gt;GLSL&lt;/em&gt;框架并添加双层纹理，并完成逐顶点光照和逐像素光照..."  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-17.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-17.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/qq_32563773/article/details/106274280","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-17.nonecase\"}"}'>stl、obj、3DS三种3D模型加载，使用<em>OpenGl</em>+<em>GLSL</em>框架并添加双层纹理，并完成逐顶点光照和逐像素光照...</a>
+                  </dt>
+                  <dd><p><em>搭建</em>自己的<em>OpenGl</em>+<em>GLSL</em>框架并添加第二张纹理 前言 在第一个实验中，我发现使用glut的一些不方便之处，同时意识到实验一中的不足，对**于OBJ文件并没有读取出其中的纹理信息，**因此，在查阅相关的文档后发现，GLFW...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/gongxiaoou/article/details/89199632","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-18.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/gongxiaoou/article/details/89199632" target="_blank" title="&lt;em&gt;OpenGL&lt;/em&gt; &lt;em&gt;ES&lt;/em&gt;之一——概念扫盲"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-18.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-18.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/gongxiaoou/article/details/89199632","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-18.nonecase\"}"}'><em>OpenGL</em> <em>ES</em>之一——概念扫盲</a>
+                  </dt>
+                  <dd><p>一.<em>OpenGL</em> <em>OpenGL</em>概念：Open Graphics Library（开放图形库）。 1.1<em>OpenGL</em>到底是什么 <em>OpenGL</em>是一个规范，解释如下： <em>OpenGL</em>到底是什么？一般它被认为是一个API(Application Programming Interface, 应用程序编程接口...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/lsh_sh/article/details/105023942","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-19.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/lsh_sh/article/details/105023942" target="_blank" title="学习笔记(02):FFmpeg+&lt;em&gt;OpenGL&lt;/em&gt; &lt;em&gt;ES&lt;/em&gt;+OpenSL &lt;em&gt;ES&lt;/em&gt;打造Android视频播放器-&lt;em&gt;OpenGL&lt;/em&gt; &lt;em&gt;ES&lt;/em&gt;-&lt;em&gt;环境搭建&lt;/em&gt;"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-19.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-19.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/lsh_sh/article/details/105023942","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-19.nonecase\"}"}'>学习笔记(02):FFmpeg+<em>OpenGL</em> <em>ES</em>+OpenSL <em>ES</em>打造Android视频播放器-<em>OpenGL</em> <em>ES</em>-<em>环境搭建</em></a>
+                  </dt>
+                  <dd><p>FFmpeg+<em>OpenGL</em> <em>ES</em>+OpenSL <em>ES</em>打造Android视频播放器教程，该课程基于C++语言，用FFmpeg、<em>OpenGL</em> <em>ES</em>、OpenSL <em>ES</em>和MediaCodec打造Android视频播放器。以录播课形式讲解课程所涉及的知识点和整体流程，每节课都有相关的...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/gongxiaoou/article/details/89289320","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-20.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/gongxiaoou/article/details/89289320" target="_blank" title="&lt;em&gt;OpenGL&lt;/em&gt; &lt;em&gt;ES&lt;/em&gt;之四——绘制点，线，三角形"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-20.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-20.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/gongxiaoou/article/details/89289320","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-20.nonecase\"}"}'><em>OpenGL</em> <em>ES</em>之四——绘制点，线，三角形</a>
+                  </dt>
+                  <dd><p>概述 上一篇中介绍了使用<em>OpenGL</em> <em>ES</em>的使用流程，完成了纯色背景的绘制。...1.配置<em>OpenGL</em> <em>ES环境</em>：在AndroidManifest.xml文件中设置使用的<em>OpenGL</em> <em>ES</em>的版本： &lt;!-- Tell the system this app requires <em>OpenGL</em> E...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/qp120291570/article/details/20768869","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-21.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/qp120291570/article/details/20768869" target="_blank" title="&lt;em&gt;OpenGL&lt;/em&gt;进阶(十八) - 从零&lt;em&gt;搭建&lt;/em&gt;基于SDL2的&lt;em&gt;GLSL&lt;/em&gt;编辑框架"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-21.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-21.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/qp120291570/article/details/20768869","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-21.nonecase\"}"}'><em>OpenGL</em>进阶(十八) - 从零<em>搭建</em>基于SDL2的<em>GLSL</em>编辑框架</a>
+                  </dt>
+                  <dd><p><em>环境</em>：Ubuntu 12.04 64bit编译assimp 版本3.0.1270Assimp（Open Asset Import Library）是一个支持读取多种模型资源的开源库，当前最新的版本是3.0版，支持读取多种类型的3D模型。下载地址：...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/zmm911zmm/article/details/90403128","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-22.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/zmm911zmm/article/details/90403128" target="_blank" title="&lt;em&gt;OpenGL&lt;/em&gt; &lt;em&gt;ES&lt;/em&gt;系列 一 ：GLSurfaceView基本使用配合理解&lt;em&gt;OpenGL&lt;/em&gt;常用概念"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-22.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-22.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/zmm911zmm/article/details/90403128","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-22.nonecase\"}"}'><em>OpenGL</em> <em>ES</em>系列 一 ：GLSurfaceView基本使用配合理解<em>OpenGL</em>常用概念</a>
+                  </dt>
+                  <dd><p>Android UI GLSurfaceView基本用法参考链接 参考链接  Android <em>OpenGL开发</em>实践 - GLSurfaceView对摄像头数据的再处理</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/guyuealian/article/details/82021607","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-23.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/guyuealian/article/details/82021607" target="_blank" title="Android使用NDK &lt;em&gt;OpenGL&lt;/em&gt; &lt;em&gt;ES&lt;/em&gt;3.0绘制一个三角形"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-23.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-23.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/guyuealian/article/details/82021607","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-23.nonecase\"}"}'>Android使用NDK <em>OpenGL</em> <em>ES</em>3.0绘制一个三角形</a>
+                  </dt>
+                  <dd><p>Android使用NDK <em>OpenGL</em> <em>ES</em>3.0绘制一个三角形  【尊重原创，转载请注明出处】https://blog.csdn.net/guyuealian/article/details/82021607   网上已经有很多OpenCV的教程，不过大都是基于Java层调用<em>openGL</em>接口，若...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/u012964944/article/details/82788620","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-24.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/u012964944/article/details/82788620" target="_blank" title="从显示一张图片开始学习&lt;em&gt;OpenGL&lt;/em&gt; &lt;em&gt;ES&lt;/em&gt;"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-24.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-24.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/u012964944/article/details/82788620","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-24.nonecase\"}"}'>从显示一张图片开始学习<em>OpenGL</em> <em>ES</em></a>
+                  </dt>
+                  <dd><p>前言  网上很多介绍<em>OpenGL</em> <em>ES</em>的文章，但由于<em>OpenGL</em> <em>ES</em>内容太多，所以这些文章难免过于臃肿杂乱，很难...如果没有掌握基本的<em>OpenGL</em> <em>Es</em>的<em>开发</em>知识，很难弄懂其中代码缘由。  目前很流行的短视频特效处理也有涉及到Open...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/qq_31518167/article/details/51982781","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-25.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/qq_31518167/article/details/51982781" target="_blank" title="一篇通俗易懂的讲解OpenGL ES的文章，&lt;em&gt;opengles&lt;/em&gt;"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-25.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-25.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/qq_31518167/article/details/51982781","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-25.nonecase\"}"}'>一篇通俗易懂的讲解OpenGL ES的文章，<em>opengles</em></a>
+                  </dt>
+                  <dd><p>一篇通俗易懂的讲解OpenGL ES的文章，<em>opengles</em>      　电脑<em>或者</em>手机上做图像处理有很多方式，但是目前为止最高效的方法是有效地使用图形处理单元，<em>或者</em>叫 GPU。你的手机包含两个不同的处理单元，CPU 和 GPU。CPU 是...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://blog.csdn.net/qq_27948659/article/details/88958879","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-blog-2~all~first_rank_v2~rank_v29-26.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://blog.csdn.net/qq_27948659/article/details/88958879" target="_blank" title="Android自定义camera2相机系列（四）&lt;em&gt;Opengles&lt;/em&gt; 预览和拍照进行实时处理"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-26.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-26.nonecase" data-report-click='{"mod":"popu_645","dest":"https://blog.csdn.net/qq_27948659/article/details/88958879","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-26.nonecase\"}"}'>Android自定义camera2相机系列（四）<em>Opengles</em> 预览和拍照进行实时处理</a>
+                  </dt>
+                  <dd><p>前面的博客，进行了部分的<em>GLSL</em>的语法学习,这一篇文章主要讲述了本人在<em>开发</em> Camera2 + GLSurfaceView + <em>GLSL</em> 的<em>开发</em>过程的记录。如有错误还望指正。    此文章部分内容都基于 Android 自定义camera2 相机 （二）中的 ...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://edu.csdn.net/course/detail/5341","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-edu_course-2~all~first_rank_v2~rank_v29-27.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://edu.csdn.net/course/detail/5341" target="_blank" title="&lt;em&gt;OpenGL&lt;/em&gt;-Shader"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-27.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-27.nonecase" data-report-click='{"mod":"popu_645","dest":"https://edu.csdn.net/course/detail/5341","strategy":"2~all~first_rank_v2~rank_v29","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--2~all~first_rank_v2~rank_v29-27.nonecase\"}"}'><em>OpenGL</em>-Shader</a>
+                  </dt>
+                  <dd><p>共六章  1.基础章节,从Shader1.0版本到新的4.5版本,介绍每一个版本中特性的用法;  2.Tesslattion Shader应用/基础案例分析  3.Gemotry Shader应用/基础案例分析  4.Compute Shader应用/基础案例分析 ...</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://edu.csdn.net/course/detail/5258","strategy":"hot","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-edu_course-hot-28.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://edu.csdn.net/course/detail/5258" target="_blank" title="MATLAB图像处理"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--hot-28.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--hot-28.nonecase" data-report-click='{"mod":"popu_645","dest":"https://edu.csdn.net/course/detail/5258","strategy":"hot","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--hot-28.nonecase\"}"}'>MATLAB图像处理</a>
+                  </dt>
+                  <dd><p>MATLAB图像处理课程 通过学习该课程系统掌握MATLAB图像处理的相关知识点。</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://download.csdn.net/download/defonds/7063747","strategy":"hot","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-download-hot-29.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://download.csdn.net/download/defonds/7063747" target="_blank" title="Java Web酒店管理系统源码 +mysql 数据库"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--hot-29.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--hot-29.nonecase" data-report-click='{"mod":"popu_645","dest":"https://download.csdn.net/download/defonds/7063747","strategy":"hot","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--hot-29.nonecase\"}"}'>Java Web酒店管理系统源码 +mysql 数据库</a>
+                  </dt>
+                  <dd><p>酒店管理系统分为前台和后台两个部分，其中后台供管理员管理系统之用，包括客房类型设置模块、客房设置模块以及操作员设置三个子模块，具体的功能模块如下。
+        客房类型设置模块：该模块用来管理酒店的所有客房类型，包括新增客房类型、编辑已有客房类型、删除客房类型等功能。
+        客房设置模块：该模块用来管理酒店的所有客房信息，包括新增客房、编辑已有客房、删除客房等功能。
+        操作员设置模块：该模块用来管理酒店的操作员信息，包括新增操作员、编辑已有操作员信息、删除操作信息等功能。
+     系统前台供酒店所有工作人员使用，包括入住登记模块、结账模块、预定模块、客户管理模块以及业务统计五个模块。具体的功能模块如下。
+        入住登记模块：该模块用来登记客户的入住信息，其中入住信息包括登记信息、客人信息以及费用信息三部分。
+        结账模块：该模块用来处理客户的退房信息，只需要知道客户所住的房间号码，就能进行退房结账。
+        预定模块：该模块用来处理客户的预定信息，除了可以新增预定信息外，还可以对已有的预定信息进行管理。
+        客户管理模块：该模块用来管理客户的登记信息，包括新增客户信息、编译已有客户信息、删除客户信息等功能。
+        业务统计模块：该模块用来统计酒店的客房出租率，并且已图形报表的形式来显示出租率信息。
+本系统的开发工具具体如下。
+        系统开发平台：MyEclipse 6.5。
+       数据库管理系统软件：MySQL 5.0。
+        java开发包：JDK 5.0以上。
+       Web服务器：Tomcat 6.0。
+本系统采用MVC架构模式开发，具体技术如下。
+        AJAX框架：使用ExtJS技术开发
+        显示层：使用JSP技术开发
+       数据访问层：使用DAO模式开发
+        持久层：使用Hibernate框架开发
+首页访问地址 ：http://localhost:8080/JavaPrj_9/首页配置 页面 修改 打开web.xml
+修改 即可
+<welcome>
+           <welcome>/WEB-INF/pages/userLogin.jsp</welcome>
+        </welcome>
+复制代码
+数据库配置 为hotel-hibernate.xml 文件
+测试了将近2个小时 系统跑的还不错 一下小细节 bug 大家可以自己去调整下</p></dd>
+                </dl>
+                <dl class="bbs_feed "
+                  data-report-view='{"mod":"popu_645","dest":"https://download.csdn.net/download/king900704/10479284","strategy":"hot","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task-download-hot-30.nonecase\"}"}'
+                >
+                  <dt>
+                    <a href="https://download.csdn.net/download/king900704/10479284" target="_blank" title="Visio_2016"  data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task--hot-30.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task--hot-30.nonecase" data-report-click='{"mod":"popu_645","dest":"https://download.csdn.net/download/king900704/10479284","strategy":"hot","extra":"{\"utm_medium\":\"distribute.pc_relevant_bbs_down.none-task--hot-30.nonecase\"}"}'>Visio_2016</a>
+                  </dt>
+                  <dd><p>visio_2016下载安装，亲测可用，不需要破解，而且无秘钥。简单方便实用</p></dd>
+                </dl>
+                  <dl style="padding: 15px 0;line-height: 16px;overflow: hidden;">
+                    <dt>
+                      <span style="font-size: 18px;color: #3d3d3d;margin-right: 8px;">相关热词</span>
+                        <span style="font-size: 12px;
+                            letter-spacing: 0;
+                            line-height: 26px;
+                            margin-left: 8px;
+                            margin-right: 8px;">
+                          <a href="https://www.csdn.net/gather_1e/MtzaQg1sNy1kb3dubG9hZAO0O0OO0O0O.html" target="_blank" style="color: #6b6b6b;">c# 窗体在哪儿</a>
+                        </span>
+                        <span style="font-size: 12px;
+                            letter-spacing: 0;
+                            line-height: 26px;
+                            margin-left: 8px;
+                            margin-right: 8px;">
+                          <a href="https://www.csdn.net/gather_17/MtzaQg2sMS1kb3dubG9hZAO0O0OO0O0O.html" target="_blank" style="color: #6b6b6b;">c# 乱码 读取txt</a>
+                        </span>
+                        <span style="font-size: 12px;
+                            letter-spacing: 0;
+                            line-height: 26px;
+                            margin-left: 8px;
+                            margin-right: 8px;">
+                          <a href="https://www.csdn.net/gather_17/MtzaQg2sMy1kb3dubG9hZAO0O0OO0O0O.html" target="_blank" style="color: #6b6b6b;">c# config 读</a>
+                        </span>
+                        <span style="font-size: 12px;
+                            letter-spacing: 0;
+                            line-height: 26px;
+                            margin-left: 8px;
+                            margin-right: 8px;">
+                          <a href="https://www.csdn.net/gather_15/MtzaQg2sNC1kb3dubG9hZAO0O0OO0O0O.html" target="_blank" style="color: #6b6b6b;">c# 添加样式</a>
+                        </span>
+                        <span style="font-size: 12px;
+                            letter-spacing: 0;
+                            line-height: 26px;
+                            margin-left: 8px;
+                            margin-right: 8px;">
+                          <a href="https://www.csdn.net/gather_16/MtzaQg2sNi1kb3dubG9hZAO0O0OO0O0O.html" target="_blank" style="color: #6b6b6b;">c# 修改注册表 显示</a>
+                        </span>
+                        <span style="font-size: 12px;
+                            letter-spacing: 0;
+                            line-height: 26px;
+                            margin-left: 8px;
+                            margin-right: 8px;">
+                          <a href="https://www.csdn.net/gather_12/MtzaQg2sNy1kb3dubG9hZAO0O0OO0O0O.html" target="_blank" style="color: #6b6b6b;">c# 在界面中语言切换</a>
+                        </span>
+                        <span style="font-size: 12px;
+                            letter-spacing: 0;
+                            line-height: 26px;
+                            margin-left: 8px;
+                            margin-right: 8px;">
+                          <a href="https://www.csdn.net/gather_13/MtzaQg2sOC1kb3dubG9hZAO0O0OO0O0O.html" target="_blank" style="color: #6b6b6b;">c#winform分辨率</a>
+                        </span>
+                        <span style="font-size: 12px;
+                            letter-spacing: 0;
+                            line-height: 26px;
+                            margin-left: 8px;
+                            margin-right: 8px;">
+                          <a href="https://www.csdn.net/gather_1c/MtzaQg2sOS1kb3dubG9hZAO0O0OO0O0O.html" target="_blank" style="color: #6b6b6b;">c# post解析器</a>
+                        </span>
+                        <span style="font-size: 12px;
+                            letter-spacing: 0;
+                            line-height: 26px;
+                            margin-left: 8px;
+                            margin-right: 8px;">
+                          <a href="https://www.csdn.net/gather_17/MtzaQg3sMC1kb3dubG9hZAO0O0OO0O0O.html" target="_blank" style="color: #6b6b6b;">c# 判断同一周</a>
+                        </span>
+                        <span style="font-size: 12px;
+                            letter-spacing: 0;
+                            line-height: 26px;
+                            margin-left: 8px;
+                            margin-right: 8px;">
+                          <a href="https://www.csdn.net/gather_12/MtzaQg3sMi1kb3dubG9hZAO0O0OO0O0O.html" target="_blank" style="color: #6b6b6b;">c# 银联开发8583</a>
+                        </span>
+                    </dt>
+                  </dl>
+                <!-- <div class="dl_no_more" style="font-size:14px; color:red; text-align:center;padding-top:10px; ">我们是很有底线的</div> -->
+              </div>
+            </div>
+          </div>
+      <div class="bbs-common-footer" style="float: left; margin-top: 10px;width: 1010px;"></div>
+  </div>
+</div>
+
+
+<!-- 对联广告 -->
+<div id="ad_left" style="display:none">
+  <div>
+    <ins data-revive-zoneid="56" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins>
+<script type="text/javascript">  
+  $(function(){
+      if ($(parent.window).width() >= 1280) {
+          parent.$('#ad_left').show();
+      }
+  });
+</script>
+  </div>
+</div>
+<div id="ad_right" style="display:none">
+  <div>
+    <ins data-revive-zoneid="57" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins>
+<script type="text/javascript">    
+    $(function(){
+        if ($(parent.window).width() >= 1280) {
+            parent.$('#ad_right').show();
+        }
+    });
+</script>
+  </div>
+</div>
+
+<script>
+  $(function(){
+    window.onresize = function(){
+      if($(parent.window).width() <= 1280){
+        $('#ad_right').hide();
+        $('#ad_left').hide();
+      } else {
+          $('#ad_right').show();
+          $('#ad_left').show();
+      }
+    };
+      if ($(parent.window).width() >= 1280) {
+          $('#ad_right').show();
+          $('#ad_left').show();
+      }
+  });
+
+</script>
+
+<script type="text/javascript" src="//g.csdnimg.cn/baidu-search/1.0.8/baidu-search.js"></script>
+<script  type="text/javascript">
+  if (window.csdn === undefined) {
+    window.csdn = {};
+  }
+  if (typeof Array.prototype.filter != "function") {
+    Array.prototype.filter = function (fn, context) {
+      var arr = [];
+      if (typeof fn === "function") {
+         for (var k = 0, length = this.length; k < length; k++) {
+            fn.call(context, this[k], k, this) && arr.push(this[k]);
+         }
+      }
+      return arr;
+    };
+  }
+  var keyword = encodeURI("如何搭建OpenGL ES 或者 GLSL的开发环境");
+  // 重新定义百度Cas对象初始化操作
+  csdn.afterCasInit=function (keyword,cse) {
+    csdn.baiduSearch(keyword, function(data){
+      var result = diff(data)
+      showResult(result);
+    })
+  }
+  function getLinkId (link) {
+    if (!String.prototype.endsWith) {
+      String.prototype.endsWith = function(search, this_len) {
+        if (this_len === undefined || this_len > this.length) {
+          this_len = this.length;
+        }
+        return this.substring(this_len - search.length, this_len) === search;
+      };
+    }
+    if (!!~link.indexOf('?')) {
+      link = link.split('?')[0]
+    } else if (!!~link.indexOf('#')) {
+      link = link.split('#')[0]
+    }
+    link = link.endsWith('/') ? link.slice(0, link.length - 1) : link
+    return link.split('/').pop()
+  }
+  // 百度搜索跟现有数组去重
+  function diff (data) {
+    var currentIdList = []
+    var elLi = $(".post_feed_wrap .bbs_feed")
+    for (var i = 0; i < elLi.length; i++) {
+      currentIdList.push(getLinkId(elLi.eq(i).find('a').attr('href')))
+    }
+    var finalData = data.filter(function (item) {
+      return currentIdList.indexOf(getLinkId(item.linkUrl)) === -1
+    })
+    return finalData
+  }
+  function showResult(data){
+    var elLi = $(".post_feed_wrap .bbs_feed");
+    var dataLength = elLi.length;
+    baiduLenght = data.length;
+    var html = "";
+    for (var i = 0; i < baiduLenght && i<10; i = i + 2) {
+      var arr = [];
+      if (data[i + 1]) {
+        arr = convert(data.slice(i, i + 2), i);
+      } else {
+        arr = convert([data[i]], i);
+      }
+      if (baiduLenght > dataLength && i >= dataLength) {
+        arr = convert(data.slice(i, baiduLenght), i);
+        html = renderHtml(arr);
+        elLi.eq(elLi.length - 1).after(html);
+        break;
+      } else {
+        html = renderHtml(arr);
+        elLi.eq(i).before(html);
+      }
+    }
+  }
+
+
+  function convert(arr, index) {
+    var recom_utm = "";
+    var popu = "";
+    var newArr = [];
+    for (var i = 0; i < arr.length; i++) {
+      var local = 1 + index + i;
+      newArr.push({
+        linkUrl: arr[i].linkUrl,
+        file_type_url:
+          "//g.csdnimg.cn/pub-recom/img/type/unknow.svg",
+        title: arr[i].title,
+        created_at: formateDate(arr[i].dispTime),
+        description: arr[i].abstract,
+        strategy: "baidujs",
+        mod: popu,
+        utm_medium:
+          recom_utm +
+          checkChannel(arr[i].linkUrl) +
+          "-baidujs-" +
+          local +
+          ".nonecase",
+      });
+    }
+    return newArr;
+  }
+  function renderHtml(arr) {
+    var s = "";
+    $.each(arr, function( index, value ) {
+      s += '<dl class="bbs_feed bbs_feed_baidu_box" data-report-view=\'{"mod":"popu_645","dest":"'+value['linkUrl']+'","strategy":"baidujs","extra":"{\\\"utm_medium\\\":\\\"distribute.pc_relevant_bbs_down.none-task-'+checkChannel(value['linkUrl'])+'-baidujs-'+(index+1)+'.nonecase\\\"}"}\'><dt><a href="'+value['linkUrl']+'" target="_blank" data-report-query="utm_medium=distribute.pc_relevant_bbs_down.none-task-'+checkChannel(value['linkUrl'])+'-baidujs-'+(index+1)+'.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task-'+checkChannel(value['linkUrl'])+'-baidujs-'+(index+1)+'.nonecase"  data-report-click=\'{"mod":"popu_645","dest":"'+value['linkUrl']+'","strategy":"baidujs","extra":"{\\\"utm_medium\\\":\\\"distribute.pc_relevant_bbs_down.none-task-'+checkChannel(value['linkUrl'])+'-baidujs-'+(index+1)+'.nonecase\\\"}"}\'>'+value['title']+'</a></dt><dd><p>'+value['description']+'</p></dd></dl>'
+    });
+    return s;
+  }
+  function checkChannel(url) {
+    var host = url.match(/^http(s)?:\/\/(.*?)\//)[0];
+    var pathname = url.replace(host, "");
+    if (host.indexOf("edu") > -1 && pathname.indexOf("detail") > -1) {
+      return "edu";
+    }
+    if (host.indexOf("download") > -1 && pathname.indexOf("download") > -1) {
+      return "download";
+    }
+    if (host.indexOf("bbs") > -1 && pathname.indexOf("topics") > -1) {
+      return "bbs";
+    }
+    if (host.indexOf("ask") > -1 && pathname.indexOf("questions") > -1) {
+      return "ask";
+    }
+    if (url.indexOf("article/details") > -1) {
+      return "blog";
+    }
+    if (url.indexOf("www.csdn.net/gather") > -1) {
+      return "gather";
+    }
+    return "other";
+  }
+  function formateDate(d) {
+    var dArr = d.split("-");
+    var nd = d;
+    if(dArr.length===3 && Number(dArr[1]) < 10 ) {
+      dArr[1] = "0" + dArr[1];
+      nd = dArr.join("-");
+    }
+    if(dArr.length===3 && Number(dArr[2]) < 10 ) {
+      dArr[2] = "0" + dArr[2];
+      nd = dArr.join("-");
+    }
+    return d == nd ? d : nd;
+  }
+
+  $(function () {
+    /** toolbar是否悬浮*/
+    window.csdn.configuration_tool_parameterv({
+        'need_first_suspend': true,//第一栏悬浮
+        'need_little_suspend': false,//第二栏悬浮
+        'little_tool_id': '' ,//第二栏id
+        'little_need_insert_type': '',//第二栏需要模块类型
+        need_change_function: function (flag) {
+          window.csdn.navSecond.changeNavFix(flag)
+        }
+    })
+  })
+
+</script>
+<script type="text/javascript">
+  // 全局设置
+  (window.csdn = window.csdn || {}, window.csdn.collectionBox = {
+      params: {
+          'url': "https://bbs.csdn.net/topics/380180878",           // 访问来源地址 必传
+          'title': "如何搭建OpenGL ES 或者 GLSL的开发环境",                                  // 访问收藏标题 必传
+          // 'description': '999',
+          'author': "Jackers679",                         // 访问作者用户 必传
+          'source_id': "380180878",                                 // 访问来源项目标识id 必传
+          'source': 'bbs'                                                  // 访问来源项目标识 必传
+      }
+  })
+  $(function () {
+    $('.answer_btn').on("click",function(){
+        window.csdn.loginBox.show();
+    })
+    $('.answer_back').on("click",function(){
+      $('#answer_box').css("display","none");
+    })
+    $('.answer_exit').on("click",function(){
+      $('#answer_box').css("display","none");
+    })
+    $('#close').on("click",function(){
+      $('#answer_box').css("display","none");
+    })
+    $('.return_answer_btn').on("click",function(){
+      window.location.href="/topics/380180878"
+    })
+
+    $(".csdn_bbs_warp span").on("click",function () {
+      $(".csdn_bbs_warp").hide();
+      $(".csdn-bbs").show();
+    })
+  })
+
+  //楼层底部吸地
+  $(window).resize(function(){
+    fixBottomboxScroll();
+    fixBottombox();
+    fixRightboxScroll();
+    fixRightbox();
+  });
+  fixRightboxScroll();
+  fixBottomboxScroll();
+  fixBottombox();
+  function fixBottomboxScroll() {
+    $(document).scroll(function (event) {
+      fixBottombox();
+    })
+  }
+  function fixBottombox() {
+      var d_left = $("#left-box").offset().left - $(window).scrollLeft();
+      var d_el = $(".paginate_box");
+      var aPoint = $(".paginate_box_point").offset().top;
+      if (aPoint >= $(window).scrollTop() && aPoint < ($(window).scrollTop() + $(window).height())) {
+          d_el.removeAttr("style");
+      } else if (aPoint < $(window).scrollTop() && aPoint < ($(window).scrollTop() + $(window).height())){
+          d_el.removeAttr("style");
+      } else {
+        d_el.css({
+            "position":"fixed",
+            "left":d_left+"px",
+            "bottom":"0",
+            "box-shadow":"0px -1px 1px 0px rgba(0,0,0,0.05)"
+          });
+      }
+  }
+
+  function fixRightboxScroll() {
+    $(document).scroll(function (event) {
+      fixRightbox();
+    })
+  }
+  function fixRightbox() {
+    var sTop = $(window).scrollTop();
+    var sLeft = $(window).scrollLeft();
+    var toolBarTop = $("#csdn-toolbar").height();
+    var rightTop = sTop>toolBarTop?10:toolBarTop;
+    var rightHeight = $("#rightList").height() + rightTop;
+    var rightleft = $("#left-box").width() + $("#left-box").offset().left - sLeft;
+    var winHeight = $(window).height();
+    var docHeight = $(document).height();
+    if(docHeight < rightHeight+85){
+    } else if(winHeight > rightHeight) {
+      if(sTop > 50){
+        $("#rightList").css({
+          "position": "fixed",
+          "z-index": "99",
+          "left": rightleft+"px",
+          "width": "300px",
+          "top": toolBarTop + "px"
+        })
+      } else {
+        $("#rightList").removeAttr("style")
+      }
+    } else {
+      if(sTop+winHeight>rightHeight){
+        $("#rightList").css({
+          "position": "fixed",
+          "bottom": "0px",
+          "z-index": "99",
+          "left": rightleft+"px",
+          "width": "300px",
+          "top": "auto"
+        })
+      } else {
+          $("#rightList").removeAttr("style")
+      }
+    }
+
+  }
+
+
+
+</script>
+<script language="javascript" type="text/javascript" src="//g.csdnimg.cn/collection-box/2.0.2/collection-box.js" id="collection-script"></script>
+<script language="javascript" type="text/javascript" src="//g.csdnimg.cn/user-medal/1.0.4/user-medal.js"></script>
+
+
+
+  <script src="//g.csdnimg.cn/common/csdn-toolbar/csdn-toolbar.js" type="text/javascript"></script>
+  <script src="https://g.csdnimg.cn/login-box/1.1.4/login-box.js"></script>
+  <script type="text/javascript" src="https://csdnimg.cn/release/bbs/dist/js/apps/bbsMin-fc24b040dd.js"></script>
+  <script>
+    if (window.csdn === undefined) {
+        window.csdn = {};
+    }
+    window.csdn.sideToolbar = {
+      options: {
+        afterFinished: function(){
+          setTimeout(function () {
+            // var viphtml = '<a class="option-box" data-type="vip" href="https://mall.csdn.net/vip" target="_blank">'+
+            //     '<img src="https://g.csdnimg.cn/side-toolbar/1.3/images/vip.png" alt="" srcset="">'+
+            //     '<span class="show-txt">VIP<br>免广告</span>'+
+            //     '</a>';
+            // $('.csdn-side-toolbar').prepend(viphtml)
+            var helphtml = '<a class="option-box" data-type="help" href="https://blogdev.blog.csdn.net/article/details/103488033" target="_blank">'+'<img src="https://g.csdnimg.cn/side-toolbar/2.9/images/bangzhucopy.png" alt="" srcset="">'+
+            '<span class="show-txt">帮助</span></a>';
+            $('.csdn-side-toolbar>a:last').before(helphtml)
+          },300)
+        },
+        contentEl: document.getElementsByClassName('csdn_main_container')[0]
+      }
+    }
+  </script>
+  <script src="https://g.csdnimg.cn/side-toolbar/2.9/side-toolbar.js"></script>
+  
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+ 
+</style>
+
+    <script>
+      $(function(){
+          CSDN.activeAttLink('.user_material_bg,.user_bbs_foot');
+          CSDN.checkFollow('.user_bbs_foot')
+          posts_page_js._form_page();
+      });
+  </script>
+    <div id="bbsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" class="modal fade">
+      <div role="document" class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+            <h4 id="bbsModalLabel" class="modal-title">New message</h4>
+          </div>
+          <div class="modal-body"></div>
+        </div>
+      </div>
+    </div>
+    <div id="reportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" class="modal fade">
+      <div role="document" class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+            <h4 id="reportModalLabel" class="modal-title">New message</h4>
+          </div>
+          <div class="modal-body"></div>
+        </div>
+      </div>
+    </div>
+  <script src="//g.csdnimg.cn/common/csdn-footer/csdn-footer.js" type="text/javascript"></script>
+  <script>
+      window.csdn.csdnFooter.options = {
+        el: '.bbs-common-footer',
+        type: 2
+      }
+  </script>
+  <script type="text/javascript" src="https://csdnimg.cn/release/bbs/dist/js/icon/iconfont_common-a4b5db6e1f.js"></script>
+  <script type="text/javascript" src="https://csdnimg.cn/release/bbs/dist/js/apps/markitUpJs-bbe619c100.js"></script>
+  <script type="text/javascript" src="//g.csdnimg.cn/preview-img/1.0.0/preview-img.js"></script>
+
+  <!--bi 上报 统计-->
+  <script src="//g.csdnimg.cn/common/csdn-report/report.js" type="text/javascript"></script>
+</body>
+</html>

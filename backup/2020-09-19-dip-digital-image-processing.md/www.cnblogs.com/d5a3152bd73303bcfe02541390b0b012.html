@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="空间变换网络(STN)原理&#x2B;2D图像空间变换&#x2B;齐次坐标系讲解 2018年11月14日 17:05:41&amp;#160;Rosemary_tu&amp;#160;阅读数 1295更多 分类专栏：&amp;#160;计算机视" />
+    <meta property="og:description" content="空间变换网络(STN)原理&#x2B;2D图像空间变换&#x2B;齐次坐标系讲解 2018年11月14日 17:05:41&amp;#160;Rosemary_tu&amp;#160;阅读数 1295更多 分类专栏：&amp;#160;计算机视" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>空间变换网络(STN)原理+2D图像空间变换+齐次坐标系讲解 - 曹明 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=R2wBwmwSMG0Sqiw8GFSVjHT4Payg_JFAn51R8XcuvN0" />
+    <link id="MainCss" rel="stylesheet" href="/skins/sea/bundle-sea.min.css?v=oF2SvRIFQNTLcLgn66nPy-bOeZ-5NDS8tPrc0Kt42ys" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/sea/bundle-sea-mobile.min.css?v=jJYTzvNqaHARpr31OSLFirEMEa7uHZHZy_fK9jYKiiA" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/think90/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/think90/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/think90/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 297101;
+        var currentBlogApp = 'think90';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'sea';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2019-09-20 01:51';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=gWQ9VKr6FSwo14EgofSprzXJrAEO7ppQ1I5Or4uqKuo"></script>
+    
+    
+    
+</head>
+<body class="has-navbar has-bannerbar">
+    <a name="top"></a>
+            <a href="https://brands.cnblogs.com/aws/free?source=blog-bannerbar" onclick="ga('send', 'event', 'Link', 'click', 'aws-pc-bannerbar')">
+                <div class="bannerbar aws forpc">
+                    <img class="left" src="https://common.cnblogs.com/images/banner/bannerbar-aws-logo.png" alt="" />
+                    <img class="right" src="https://common.cnblogs.com/images/banner/bannerbar-aws-ssh.png?v=2" alt="" />
+                </div>
+            </a>
+        <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://brands.cnblogs.com/aws/free?source=mobile-banner" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aws-mobile-bannerbar')"><img src="https://img2020.cnblogs.com/blog/35695/202012/35695-20201203212730693-184275650.png" alt="" /></a>
+        </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="header">
+	
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/think90/">曹明</a>
+<br>
+		
+	</div>
+</div>
+
+
+</div>
+
+<div id="mytopmenu">
+	
+		<div id="mylinks">
+<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+ &nbsp;
+
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/think90/">
+首页</a>
+ &nbsp;
+
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+ &nbsp;
+
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%9B%B9%E6%98%8E">
+联系</a> &nbsp;
+
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/think90/rss/">
+订阅</a>
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/think90/rss/">
+    <img src="/skins/sea/images/xml.gif" alt="订阅" />
+</a>&nbsp;
+
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+
+
+</div>
+		<DIV id="mystats">随笔 -
+493&nbsp;
+文章 -
+281&nbsp;
+评论 -
+37&nbsp;
+<!--trackbacks-<partial name="./Shared/_PingTrackCount.cshtml" model="BlogServer.Web.Models.DetailBlogPage" />-->
+</DIV>
+	
+</div>
+<div id="centercontent">
+	<div id="post_detail">
+<div class="post">
+	<h1 class = "postTitle">
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/think90/p/11556725.html">
+    <span>空间变换网络(STN)原理+2D图像空间变换+齐次坐标系讲解</span>
+    
+
+
+</a>
+</h1>
+	
+<div id="cnblogs_post_body" class="blogpost-body">
+    <p>&nbsp;</p>
+<div class="article-header-box">
+<div class="article-header">
+<div class="article-title-box">
+<h1 class="title-article">空间变换网络(STN)原理+2D图像空间变换+齐次坐标系讲解</h1>
+
+</div>
+<div class="article-info-box">
+<div class="article-bar-top"><span class="time"><span class="time">2018年11月14日 17:05:41&nbsp;<a class="follow-nickName" href="https://me.csdn.net/Rosemary_tu" rel="noopener" target="_blank">Rosemary_tu</a>&nbsp;<span class="read-count">阅读数 1295<span class="article_info_click">更多</span></span></span></span>
+<div class="tags-box space"><span class="label">分类专栏：&nbsp;<a class="tag-link" href="https://blog.csdn.net/rosemary_tu/article/category/8450254" rel="noopener" target="_blank">计算机视觉</a></span></div>
+
+</div>
+<div class="operating">&nbsp;</div>
+
+</div>
+
+</div>
+
+</div>
+<div id="article_content" class="article_content clearfix">
+<div class="article-copyright"><span class="creativecommons"><span class="creativecommons">版权声明：本文为博主原创文章，遵循<a href="http://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" target="_blank">&nbsp;CC 4.0 BY-SA&nbsp;</a>版权协议，转载请附上原文出处链接和本声明。</span></span>
+<div class="article-source-link2222">本文链接：<a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878">https://blog.csdn.net/Rosemary_tu/article/details/84069878</a></div>
+
+</div>
+<div id="content_views" class="markdown_views prism-tomorrow-night">
+<p>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;本文是对Google DeepMind 团队2015年发表的空间变换网络STN的详细讲解，笔记在编写的过程中借鉴了网上一些博客，在相应的内容位置有说明。如有侵权，请联系作者删除。</p>
+<p>&nbsp;</p>
+<p>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;感谢台湾大学<a href="https://www.youtube.com/watch?v=SoCywZ1hZak&amp;index=5&amp;list=PLJV_el3uVTsPMxPbjeX7PicgWbY7F8wW9" rel="nofollow" data-token="f781662f7c6bd5dc6fd81c9dd532890a">李宏毅</a>老师的精彩讲解！</p>
+<p>&nbsp;</p>
+<div class="toc">
+<h3><a name="t0"></a>目录</h3>
+<ul>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#1_CNN__7" rel="nofollow" target="_self" data-token="e8a5699d4b78eaf6da1c9245245d5e84">1 观点：CNN 不能学习到图像的不变性</a></li>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#2__18" rel="nofollow" target="_self" data-token="65b3cd85139ee7ef7b5603da4d088d85">2 坐标系与三维空间</a></li>
+<ul>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#21__19" rel="nofollow" target="_self" data-token="f4b064595ab4f6e7a24981c46545c943">2.1 笛卡尔坐标系</a></li>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#22__31" rel="nofollow" target="_self" data-token="8aae57b31a2ec2f124137dbefb92f228">2.2 向量和坐标</a></li>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#23_3D__39" rel="nofollow" target="_self" data-token="6ad0353b872049d93dbde752dbfa98b7">2.3 3D 空间常用坐标系</a></li>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#24__50" rel="nofollow" target="_self" data-token="ccecaad3f8f14487b68a48ed4c11e15c">2.4 三维空间中的旋转：旋转矩阵、欧拉角</a></li>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#25_Homogeneous_Transformation__53" rel="nofollow" target="_self" data-token="1ebe7d4df4f12d9fb24e63199e6abbf7">2.5 Homogeneous Transformation (齐次坐标变换)</a></li>
+
+</ul>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#3__59" rel="nofollow" target="_self" data-token="5ec44726d412d57ac72013f0f11ac6aa">3 透视投影原理</a></li>
+<ul>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#31__66" rel="nofollow" target="_self" data-token="45683930e8ff5483dc44aee66aba8eba">3.1 仿射变换和透视变换的区别</a></li>
+
+</ul>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#4_Spatial_transformer_networks_74" rel="nofollow" target="_self" data-token="3cc8d179312c07964dcd58c1dd0dc83e">4 Spatial transformer networks详细介绍</a></li>
+<ul>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#41__84" rel="nofollow" target="_self" data-token="0edb8580f215b49c981c7e73d3718f32">4.1 背景介绍</a></li>
+<ul>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#411_CNN_85" rel="nofollow" target="_self" data-token="1200c79b714ee3b995ffd926183dae73">4.1.1 CNN中存在的问题</a></li>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#412__90" rel="nofollow" target="_self" data-token="ead0df19c9caf15d2fa28600e8c76027">4.1.2 双线性插值</a></li>
+
+</ul>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#42__93" rel="nofollow" target="_self" data-token="404c6412a5f53ee1e4462aa1aa789b1c">4.2 图像/卷积特征图空间变换的直观解释</a></li>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#43__98" rel="nofollow" target="_self" data-token="ce6489040ba5897de403430734ec476b">4.3 论文介绍</a></li>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#44__105" rel="nofollow" target="_self" data-token="0e950defe04268caefc40a2054e1565f">4.4 空间变换网络的实际应用</a></li>
+<ul>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#441__109" rel="nofollow" target="_self" data-token="ed0e4f4225f35ef8906e24dba528bed9">4.4.1 空间变换网络作为网络的第一层</a></li>
+<li><a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878#442_CNN__113" rel="nofollow" target="_self" data-token="7970c03da240d8f3b937912bf12fae80">4.4.2 空间变换网络插入CNN 的中间层</a></li>
+
+</ul>
+
+</ul>
+
+</ul>
+
+</div>
+<p>&nbsp;</p>
+<h1><a name="t1"></a><a id="1_CNN__7"></a>1 观点：CNN 不能学习到图像的不变性</h1>
+<p>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;一般来说，图像经过小小的平移和变形之后，人类还是信任CNN 能够把它们泛化，识别出里面的物体。归纳偏差(Inductive Bias) 是CNN 成功的一个关键。卷积和池化的选择，就是为了赋予神经网络一些不变性，避免因为一些小的改变，就丧失了原本的判断。然而，来自耶路撒冷希伯来大学的两位研究人员发现：一幅图像被平移了几个像素之后，现在的CNN 就很容易认不出来。旋转和缩放，也是一样。<br>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该项研究利用测量习得表征(Learned epresentations) 线性度(Linearity) 的方法，来观察CNN 的不变性。测试了三种经典的CNN结构，VGG-16，ResNet-50 以及Inception<br>ResNet-V2。</p>
+<p>结果——<br>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;只是把狗狗下移了一点点，只是把瓶子放大了一点点，只是把白熊的姿势换一下，系统的识别准确率就发生了猛烈的变化。</p>
+<p>参考：<a href="http://m.elecfans.com/article/703297.html" rel="nofollow" data-token="989a0ca1c8527761bc78a9920b635684">http://m.elecfans.com/article/703297.html</a></p>
+<h1><a name="t2"></a><a id="2__18"></a>2 坐标系与三维空间</h1>
+<h2><a name="t3"></a><a id="21__19"></a>2.1 笛卡尔坐标系</h2>
+<p>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;笛卡尔坐标系是直角坐标系和斜角坐标系的统称. 对于相交于原点的两条数轴，构成了平面放射坐标系。如果两条数轴上的度量单位相等，则称此放射坐标系为笛卡尔坐标系。若两条数轴互相垂直，则称为笛卡尔直角坐标系，否则称为笛卡尔斜角坐标系.<br>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;二维平面的直角坐标系是由两条互相垂直、零点重合的数轴构成的.通常被称为x-轴和y-轴，两个坐标轴的交点，称为原点，通常记为O，既有“零”的意思，又是英语“Origin”的首字母. 这两个不同线的坐标轴决定了一个平面，称为xy-平面/笛卡尔平面. 习惯性地将x-轴水平摆放，称为横轴，指向右方；y-轴被竖直放置，称为纵轴，指向上方. 两个坐标轴这样的位置关系，称为二维的右手坐标系，或右手系。如果把这个右手系画在一张透明纸片上，则在平面内无论怎样旋转它，所得到的都叫做右手系；但如果把纸片翻转，其背面看到的坐标系则称为“左手系”。这和照镜子时左右对掉的性质有关。<br>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;直角坐标系也可以推广至三维空间（3 dimension）与高维空间(higher dimension) 。</p>
+<p>&nbsp;</p>
+<p>三维坐标系：</p>
+<p>放射坐标系和笛卡尔坐标系平面向空间的推广：相交于原点的三条不共面的数轴构成空间的放射坐标系。三条数轴上度量单位相等的放射坐标系被称为空间笛卡尔坐标系。三条数轴互相垂直的笛卡尔坐标系被称为空间笛卡尔直角坐标系，否则被称为空间笛卡尔斜角坐标系。</p>
+<h2><a name="t4"></a><a id="22__31"></a>2.2 向量和坐标</h2>
+<p><img src="https://img-blog.csdnimg.cn/20190104133731824.png#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104133749540.png#pic_center" alt="在这里插入图片描述"></p>
+<h2><a name="t5"></a><a id="23_3D__39"></a>2.3 3D 空间常用坐标系</h2>
+<ol>
+<li>世界坐标系<br>世界坐标系是一个特殊的坐标系，它建立了描述其他坐标系所需要的参考框架. 从非技术意义上讲，世界坐标系建立的是整个场景的“最大”坐标系，其他的坐标系都是参考世界坐标系而建立的.世界坐标系也被广泛地称为全局坐标系或者宇宙坐标系。对于整个场景中的每个物体，它的位置和方向一般是指它在世界坐标系中的值，它是一个绝对坐标，不随观察者方向的变化而变化。</li>
+<li>物体坐标系<br>物体坐标系是和特定的物体相关联的坐标系，也被称为模型坐标系或局部坐标系。对于场景中的每个物体都可以自己的物体坐标系，而且它和其他物体的物体坐标系是相互独立的.</li>
+
+</ol>
+<p>参考：</p>
+<ol>
+<li><a href="http://www.cnblogs.com/ojo-blogs/p/6754664.html" rel="nofollow" data-token="49155083d802be80bb37af09a1e7157c">http://www.cnblogs.com/ojo-blogs/p/6754664.html</a></li>
+<li><a href="https://blog.csdn.net/liu_yude/article/details/45194813" rel="nofollow" data-token="06ad86ff92dbc9e3e8c259276ee80d32">https://blog.csdn.net/liu_yude/article/details/45194813</a></li>
+<li><a href="https://blog.csdn.net/liu_yude/article/details/45195809?utm_source=blogxgwz1" rel="nofollow" data-token="f8a0de2b1c8864bdf1abad7b43546544">https://blog.csdn.net/liu_yude/article/details/45195809?utm_source=blogxgwz1</a></li>
+
+</ol>
+<h2><a name="t6"></a><a id="24__50"></a>2.4 三维空间中的旋转：旋转矩阵、欧拉角</h2>
+<p>参考：<a href="http://blog.miskcoo.com/2016/12/rotation-in-3d-space" rel="nofollow" data-token="04cea35a4848308bb3df9a20f777df8c">http://blog.miskcoo.com/2016/12/rotation-in-3d-space</a></p>
+<h2><a name="t7"></a><a id="25_Homogeneous_Transformation__53"></a>2.5 Homogeneous Transformation (齐次坐标变换)</h2>
+<p>参考：<a href="http://www.doc88.com/p-3592172429143.html" rel="nofollow" data-token="fc369efea61c769b2d1a89dbf2153fa7">http://www.doc88.com/p-3592172429143.html</a></p>
+<p><img src="https://img-blog.csdnimg.cn/20190104134817175.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104134702577.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104134910178.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1><a name="t8"></a><a id="3__59"></a>3 透视投影原理</h1>
+<p>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;在计算机三维图像中，投影可以看作是一种将三维坐标变换为二维坐标的方法，常用到的有正交投影和透视投影。正交投影多用于三维建模，透视投影则由于和人的视觉系统相似，多用于在二维平面中对三维世界的呈现。</p>
+<p>参考：</p>
+<ol>
+<li><a href="http://www.cnblogs.com/ojo-blogs/p/6754664.html" rel="nofollow" data-token="49155083d802be80bb37af09a1e7157c">http://www.cnblogs.com/ojo-blogs/p/6754664.html</a></li>
+<li><a href="https://www.cnblogs.com/hisiqi/p/3155813.html" rel="nofollow" data-token="ff52c68ebe132058224fb4744c8ab069">https://www.cnblogs.com/hisiqi/p/3155813.html</a></li>
+
+</ol>
+<h2><a name="t9"></a><a id="31__66"></a>3.1 仿射变换和透视变换的区别</h2>
+<p><img src="https://img-blog.csdnimg.cn/20190104135139626.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104135201258.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190104135229160.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104135246701.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1><a name="t10"></a><a id="4_Spatial_transformer_networks_74"></a>4 Spatial transformer networks详细介绍</h1>
+<p>参考：</p>
+<ol>
+<li><a href="https://blog.csdn.net/u011961856/article/details/77920970" rel="nofollow" data-token="4c02e6d7360386cbf9d1ce6a847f6f74">https://blog.csdn.net/u011961856/article/details/77920970</a></li>
+<li><a href="https://blog.csdn.net/xholes/article/details/80457210" rel="nofollow" data-token="4c0927be0417822201c8d484ac9e08d7">https://blog.csdn.net/xholes/article/details/80457210</a></li>
+<li><a href="https://blog.csdn.net/qq_14845119/article/details/79510714" rel="nofollow" data-token="752684030cc2ea50a1033afd7e7a589e">https://blog.csdn.net/qq_14845119/article/details/79510714</a></li>
+<li><a href="https://www.cnblogs.com/liaohuiqiang/p/9226335.html" rel="nofollow" data-token="2d050c42e569382e60b82a7f8475d6e2">https://www.cnblogs.com/liaohuiqiang/p/9226335.html</a></li>
+<li><a href="https://blog.csdn.net/weixin_39912556/article/details/79748671" rel="nofollow" data-token="95da431a5e3e85590ee59cfad3fe8b05">https://blog.csdn.net/weixin_39912556/article/details/79748671</a></li>
+
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/20190104135629468.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>Pointnet[7]: Pointnet: Deep learning on point sets for 3d classification and segmentation[J]. Proc. Computer Vision and Pattern Recognition (CVPR), IEEE, 2017, 1(2): 4.</p>
+<h2><a name="t11"></a><a id="41__84"></a>4.1 背景介绍</h2>
+<h3><a name="t12"></a><a id="411_CNN_85"></a>4.1.1 CNN中存在的问题</h3>
+<p><img src="https://img-blog.csdnimg.cn/20190104135516241.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104135350866.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104135414509.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104135442157.png#pic_center" alt="在这里插入图片描述"></p>
+<h3><a name="t13"></a><a id="412__90"></a>4.1.2 双线性插值</h3>
+<p><img src="https://img-blog.csdnimg.cn/20190104135817345.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2><a name="t14"></a><a id="42__93"></a>4.2 图像/卷积特征图空间变换的直观解释</h2>
+<p><img src="https://img-blog.csdnimg.cn/20190104135858100.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190104135920486.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104135942973.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2><a name="t15"></a><a id="43__98"></a>4.3 论文介绍</h2>
+<p><img src="https://img-blog.csdnimg.cn/20190104140011201.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104140045114.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>Matlab验证<br><img src="https://img-blog.csdnimg.cn/2019010414012917.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104140204554.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104140227420.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2><a name="t16"></a><a id="44__105"></a>4.4 空间变换网络的实际应用</h2>
+<p><img src="https://img-blog.csdnimg.cn/20190104140300518.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h3><a name="t17"></a><a id="441__109"></a>4.4.1 空间变换网络作为网络的第一层</h3>
+<p><img src="https://img-blog.csdnimg.cn/20190104140334535.png#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104140348538.png#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/2019010414040510.png#pic_center" alt="在这里插入图片描述"></p>
+<h3><a name="t18"></a><a id="442_CNN__113"></a>4.4.2 空间变换网络插入CNN 的中间层</h3>
+<p><img src="https://img-blog.csdnimg.cn/20190104140437155.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>本人能力有限，上述内容如有理解不当的地方，欢迎与我讨论！</p>
+
+</div>
+
+</div>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+	<div class="postDesc">posted on 
+<span id="post-date">2019-09-20 13:51</span>&nbsp;
+<a href="https://www.cnblogs.com/think90/">曹明</a>&nbsp;
+阅读(<span id="post_view_count">703</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11556725" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(11556725);return false;">收藏</a></div>
+</div>
+
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 297101, cb_blogApp = 'think90', cb_blogUserGuid = '1071a43f-9eea-e411-b908-9dcfd8948a71';
+    var cb_entryId = 11556725, cb_entryCreatedDate = '2019-09-20 13:51', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+</div>
+
+
+</div>
+<div id="leftcontent">
+	
+		<DIV id="leftcontentcontainer">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                    <script>loadBlogDefaultCalendar();</script><br>
+			<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script></DIV>
+	
+</div>
+<!--done-->
+<div class="footer">
+	Powered by: <a href="http://www.cnblogs.com">博客园</a>
+	Copyright &copy; 2020 曹明
+<br /><span id="poweredby">Powered by .NET 5.0.0 on Kubernetes</span>
+
+</div>
+
+
+
+
+
+
+    
+</body>
+</html>

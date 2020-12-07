@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="dns-prefetch" href="//cdn.bootcss.com" />
+
+    <title>Hawkhai | Prog Note -- Windows 的快捷方式，符号链接，软链接和硬链接</title>
+    <meta name="description" content="Linux 下面的 ln 命令">
+
+    <link rel="shortcut icon" type="image/png" href="/blog/favicon.png" />
+
+    <link rel="stylesheet" href="/blog/css/main.css" />
+    <link rel="canonical" href="https://sunocean.life/blog/blog/2020/09/10/win-mklink" />
+    <link rel="alternate" type="application/rss+xml" title="Hawkhai" href="https://sunocean.life/blog/feed.xml" />
+
+    <link rel='stylesheet' href='/blog/css/scope-one.css' />
+
+    <link rel='stylesheet' href='/blog/assets/syntax.css' />
+
+    <link rel="stylesheet" href="/blog/css/font-awesome.min.css" />
+    <script src="/blog/assets/jquery-3.5.1.min.js"></script>
+
+
+</head>
+
+
+<body>
+  <div class="page">
+    <header class="site-header">
+    <a class="site-title" href="/blog/">Hawkhai</a>
+    <nav class="site-nav">
+        <a href="#" class="menu-icon menu.open">
+            <object type="image/svg+xml" data="/blog/assets/menu.open.svg" >
+            </object>
+        </a>
+        <div class="trigger"><h1>Main Navigation</h1>
+            <ul class="menu">
+    
+    
+    <li><a href="/blog/invisible/" class="page-link">invisible</a>
+    
+    </li>
+    
+    
+    <li><a href="/blog/bookshelf/" class="page-link">书架</a>
+    
+    </li>
+    
+    
+    <li><a href="/blog/tags/tag" class="page-link">标签</a>
+    
+    </li>
+    
+    
+    <li><a href="/blog/disclaimer/" class="page-link">免责声明</a>
+    
+    </li>
+    
+    
+    <li><a href="/blog/about/" class="page-link">关于</a>
+    
+    </li>
+    
+</ul>
+
+        </div>
+    </nav>
+</header>
+
+
+    <div class="post" id="postdiv">
+    <header class="post-header">
+    <h1>Prog Note -- Windows 的快捷方式，符号链接，软链接和硬链接</h1>
+    <p class="post-meta">
+        Posted on September 10, 2020  (珠海)
+        <br/>
+        <span>
+            
+                
+                <a href="/blog/tags/tag?#Prog Note"><code><nobr>Prog Note</nobr></code>&nbsp;</a>
+            
+        </span>
+    </p>
+
+
+    </header>
+
+
+<div id="tocwrap">
+<div id="tocdiv" class="esa-catalog" style="display:none;"></div>
+</div>
+<script type="text/javascript" src="/blog/assets/toc.js"></script>
+
+
+
+    <h2 id="linux-下面的-ln-命令">Linux 下面的 ln 命令</h2>
+
+<p><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-hardandsymb-links/">理解 Linux 的硬链接与软链接</a></p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">ln</span> <span class="nt">-s</span> <span class="nb">source </span>dist        <span class="c"># 建立软连接</span>
+<span class="nb">ln source </span>dist           <span class="c"># 建立硬连接</span></code></pre></figure>
+
+<h2 id="windows-下面的链接">Windows 下面的链接</h2>
+
+<p><strong>注：只有 NTFS 硬盘才可实现目录联接。</strong></p>
+
+<p>Windows 7 下面，在 NTFS 文件系统下面，如果把快捷方式也算是一种链接的话，共有快捷方式，符号链接，软链接和硬链接四种方式。</p>
+
+<h2 id="windows-下面的-mklink-命令">Windows 下面的 mklink 命令</h2>
+
+<figure class="highlight"><pre><code class="language-plaintext" data-lang="plaintext">创建符号链接。
+
+MKLINK [[/D] | [/H] | [/J]] Link Target
+
+        /D      符号链接（Symbolic Link）。创建目录符号链接。默认为文件符号链接。
+        /H      硬链接（Hard Link）。创建硬链接而非符号链接。
+        /J      目录联接（Junction Point）。创建目录联接。
+        Link    指定新的符号链接名称。
+        Target  指定新链接引用的路径（相对或绝对）。</code></pre></figure>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">MKLINK Link Target</code> # 创建指向文件的符号链接</li>
+  <li><code class="language-plaintext highlighter-rouge">MKLINK /D Link Target</code> # 创建指向文件夹的符号链接</li>
+  <li><code class="language-plaintext highlighter-rouge">MKLINK /J Link Target</code> # 创建指向文件夹的软链接（联接）</li>
+  <li><code class="language-plaintext highlighter-rouge">MKLINK /H Link Target</code> # 创建指向文件的硬链接</li>
+</ol>
+
+<h2 id="符号链接">符号链接</h2>
+
+<p><strong>符号链接支持文件和文件夹</strong>。符号链接在创建时候可以使用相对路径和绝对路径，创建成功后也就是对应的相对路径和绝对路径。符号链接属性是一个快捷方式类似的。</p>
+
+<h2 id="软链接">软链接</h2>
+
+<p><strong>软链接只是支持文件夹</strong>。软链接不管在创建的时候使用的是相对路径还是绝对路径，创建后全部转换为绝对路径。软链接类型是一个和指向文件没有区别的类型。</p>
+
+<h2 id="硬链接">硬链接</h2>
+
+<p><strong>硬链接是不支持文件夹（目录）的，这和文件系统是有关系的，硬链接和软链接的区别就是硬链接完全就是一个文件</strong>，和从指向的文件是处在同级的，两个文件指向了同一块物理路径而已，所以删除任意一个，对另外一个都没有影响，而且一个文件更新，另外一个也会同样恨着更新。正因为如此，所以硬链接只能创建在同一个分区中。</p>
+
+<h2 id="横向对比">横向对比</h2>
+
+<table class="tablestyle" ntablew="16:28:28:28"></table>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>硬链接（Hard Link）</th>
+      <th>目录联接（Junction Point）</th>
+      <th>符号链接（Symbolic Link）</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>链接到文件</td>
+      <td>✔️</td>
+      <td>❌</td>
+      <td>✔️</td>
+    </tr>
+    <tr>
+      <td>链接到文件夹</td>
+      <td>❌</td>
+      <td>✔️</td>
+      <td>✔️</td>
+    </tr>
+    <tr>
+      <td>跨驱动器卷（盘符）</td>
+      <td>❌</td>
+      <td>✔️（仅本地计算机）</td>
+      <td>✔️（包括 SMB 文件或路径）</td>
+    </tr>
+    <tr>
+      <td>操作系统支持</td>
+      <td>Windows NT 3.1 开始支持<br />Windows 2000 开始有 API CreateHardLink()<br />Windows NT 6.0 开始能使用 mklink /H</td>
+      <td>Windows 2000+</td>
+      <td>Windows Vista+</td>
+    </tr>
+    <tr>
+      <td>可链接到不存在的目标</td>
+      <td>❌</td>
+      <td>✔️</td>
+      <td>✔️</td>
+    </tr>
+    <tr>
+      <td>当链接被单独删除后</td>
+      <td>只有所有指向原始文件的硬链接和原始文件全部删除后文件数据才会被删除。</td>
+      <td>Windows Vista 之后原始文件夹不受影响；Windows 2000/XP/2003 会导致原始子文件夹被删除。</td>
+      <td>原始文件夹不受影响。</td>
+    </tr>
+    <tr>
+      <td>当原始文件被单独删除后</td>
+      <td>硬链接依然能正常访问到文件的数据。</td>
+      <td>目录联接失效，指向不存在的目录。</td>
+      <td>符号链接失效，指向不存在的目录。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><a href="http://www.maxi-pedia.com/mklink">Mklink in Windows</a></p>
+
+<h2 id="限制">限制</h2>
+
+<p><a href="https://blog.csdn.net/u010977122/article/details/86518967">link</a> 符号链接在系统启动的时候是不工作的，所以下面这些文件（夹）是不可以作为符号链接替换的：</p>
+
+<ul>
+  <li>\Windows</li>
+  <li>\Windows\system32</li>
+  <li>\Windows\system32\config</li>
+</ul>
+
+<p>Windows Install 并不完全支持符号链接，所以，如果将 \Windows\Installer 使用符号链接替换将会导致大多数基于 .msi 的 Windows Install 安装程序出错失败，错误码为 2755 或 1632。</p>
+
+<p>以下文件（夹）可以被符号链接替换：</p>
+
+<ul>
+  <li>\Documents and Settings</li>
+  <li>\ProgramData</li>
+  <li>\Program Files</li>
+  <li>\Program Files (x86)</li>
+  <li>\Users</li>
+</ul>
+
+<p>但是注意：</p>
+
+<ul>
+  <li>将 \Users 和 \ProgramData 使用符号链接替换是不推荐的，这会破坏 Windows Update 自动更新和 Windows Store 中的应用。</li>
+  <li>将 \Users、\ProgramData、”\Program Files” 或 “\Program Files (x86)” 使用符号链接替换将会破坏 Windows 的安装、部署和升级。</li>
+  <li>将 “\Program Files” 或 “\Program Files (x86)” 使用符号链接替换将会破坏那些从 \Windows\WinSxS 仓库中硬性链接了文件到安装目录中的基于 Windows 组件的服务。</li>
+</ul>
+
+<h2 id="programfiles">%PROGRAMFILES%</h2>
+
+<p><a href="https://stackoverflow.com/questions/9594066/how-to-get-program-files-x86-env-variable">link</a>
+On a 64-bit machine running in 64-bit mode:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">echo %programfiles%</code> ==&gt; <code class="language-plaintext highlighter-rouge">C:\Program Files</code></li>
+  <li><code class="language-plaintext highlighter-rouge">echo %programfiles(x86)%</code> ==&gt; <code class="language-plaintext highlighter-rouge">C:\Program Files (x86)</code></li>
+</ul>
+
+<p>On a 64-bit machine running in 32-bit (WOW64) mode:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">echo %programfiles%</code> ==&gt; <code class="language-plaintext highlighter-rouge">C:\Program Files (x86)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">echo %programfiles(x86)%</code> ==&gt; <code class="language-plaintext highlighter-rouge">C:\Program Files (x86)</code></li>
+</ul>
+
+<p>On a 32-bit machine running in 32-bit mode:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">echo %programfiles%</code> ==&gt; <code class="language-plaintext highlighter-rouge">C:\Program Files</code></li>
+  <li><code class="language-plaintext highlighter-rouge">echo %programfiles(x86)%</code> ==&gt; <code class="language-plaintext highlighter-rouge">%programfiles(x86)%</code></li>
+</ul>
+
+<p>Another relevant environment variable is: <code class="language-plaintext highlighter-rouge">%ProgramW6432%</code>.<br />
+So, on a 64-bit machine running in 32-bit (WOW64) mode:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">echo %programfiles%</code> ==&gt; <code class="language-plaintext highlighter-rouge">C:\Program Files (x86)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">echo %programfiles(x86)%</code> ==&gt; <code class="language-plaintext highlighter-rouge">C:\Program Files (x86)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">echo %ProgramW6432%</code> ==&gt; <code class="language-plaintext highlighter-rouge">C:\Program Files</code></li>
+</ul>
+
+<h2 id="目录符号链接与目录连接点的区别">目录符号链接与目录连接点的区别</h2>
+
+<p>目录符号链接（/D）与目录连接点（/J）非常相似，但是本质是不同的。目录符号链接依旧是符号链接，是指向目录的符号链接，而目录连接点不属于符号链接。</p>
+
+<p>目录符号链接允许 Target 使用相对路径，当使用相对路径时创建目录符号链接之后，如果移动了符号链接文件，操作系统将无法再找到原来的目标。</p>
+
+<p>目录连接点只允许 Target 使用绝对路径，当创建目录连接点时，如果传入的参数是相对路径，mklink 命令会自动将相对路径补全为绝对路径。</p>
+
+<p>当目录符号链接使用绝对路径时，其行为与目录连接点完全一样。</p>
+
+<p>此外，目录符号链接还可以指定 SMB 远程网络中的路径，而目录连接点不可以。</p>
+
+<h2 id="符号链接与快捷方式的区别">符号链接与快捷方式的区别</h2>
+
+<p>NTFS 符号链接与 Windows 快捷方式文件不同，这是一个普通的文件。</p>
+
+<p>Windows 快捷方式文件可以在任何文件系统（比如早期的 FAT32）下创建，可以包含元数据（比如在 Windows 资源管理器中显示的图标），并且不是对应用程序透明的。当应用程序访问 Windows 快捷方式的时候，默认情况下访问到的是快捷方式文件，而不会自动指向目标文件。</p>
+
+<p>NTFS 符号链接是对用户透明的，也就是说，在绝大多数情况下，访问 NTFS 符号链接与访问目标是完全相同的。当应用程序访问 NTFS 符号链接的时候，操作系统会自动将其指向目标，此时应用程序访问到的就是目标而不是 NTFS 符号链接了。</p>
+
+<h2 id="循环挂载的情况">循环挂载的情况</h2>
+
+<p><code class="language-plaintext highlighter-rouge">os.path.realpath(path)</code> Return the canonical path of the specified filename, eliminating any symbolic links encountered in the path (if they are supported by the operating system).</p>
+
+<blockquote>
+  <p>Note When symbolic link cycles occur, the returned path will be one member of the cycle, but no guarantee is made about which member that will be.</p>
+</blockquote>
+
+<h2 id="getsymboliclinktarget">GetSymbolicLinkTarget</h2>
+
+<p><code class="language-plaintext highlighter-rouge">GetFinalPathNameByHandle</code> API Hungs. At the time when I was checking this problem in Windows Vista, I remember atleast the <code class="language-plaintext highlighter-rouge">GetFileInformationByHandleEx</code> worked in all cases. But now I experience the same problem in Windows 7.</p>
+
+<p>为了最大可能避免被挂起，首先尝试 <code class="language-plaintext highlighter-rouge">GetFileInformationByHandleEx</code>，再尝试 <code class="language-plaintext highlighter-rouge">GetFinalPathNameByHandle</code>，用线程跑，发现挂起了就 <code class="language-plaintext highlighter-rouge">TerminateThread</code>。</p>
+
+<p>有非常好的源码可以参考：<code class="language-plaintext highlighter-rouge">DWORD psutil_threaded_get_filename(HANDLE hFile)</code> from <a href="https://github.com/giampaolo/psutil.git">https://github.com/giampaolo/psutil.git</a>。</p>
+
+<p><a href="https://github.com/giampaolo/psutil/blob/release-5.6.0/psutil/arch/windows/process_handles.c">https://github.com/giampaolo/psutil/blob/release-5.6.0/psutil/arch/windows/process_handles.c</a></p>
+
+<h2 id="c-判断代码">C++ 判断代码</h2>
+
+<p>If you can write native code in JNA, you can directly call the Win32 API <code class="language-plaintext highlighter-rouge">GetFileAttributes()</code> function and check for the <code class="language-plaintext highlighter-rouge">FILE_ATTRIBUTE_REPARSE_POINT</code> flag (junctions are implemented as reparse points).</p>
+
+<p>Update: To differentiate between different types of reparse points, you have to retreive the <code class="language-plaintext highlighter-rouge">ReparseTag</code> of the actual reparse point. For a junction point, it will be set to <code class="language-plaintext highlighter-rouge">IO_REPARSE_TAG_MOUNT_POINT</code> (0xA0000003).</p>
+
+<p>There are two ways to retreive the ReparseTag:</p>
+
+<ol>
+  <li>
+    <p>Use <code class="language-plaintext highlighter-rouge">DeviceIoControl()</code> with the <code class="language-plaintext highlighter-rouge">FSCTL_GET_REPARSE_POINT</code> control code to obtain an <code class="language-plaintext highlighter-rouge">REPARSE_DATA_BUFFER</code> struct, which as a ReparseTag field. You can see an example of an <code class="language-plaintext highlighter-rouge">IsDirectoryJunction()</code> implementation using this technique in the following article:</p>
+
+    <p><a href="http://www.flexhex.com/docs/articles/hard-links.phtml">NTFS Hard Links, Directory Junctions, and Windows Shortcuts</a></p>
+  </li>
+  <li>
+    <p>Use <code class="language-plaintext highlighter-rouge">FindFirstFile()</code> to obtain a <code class="language-plaintext highlighter-rouge">WIN32_FIND_DATA</code> struct. If the path has the <code class="language-plaintext highlighter-rouge">FILE_ATTRIBUTE_REPARSE_POINT</code> attribute, the <code class="language-plaintext highlighter-rouge">dwReserved0</code> field will contain the <code class="language-plaintext highlighter-rouge">ReparseTag</code>.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">bool LocalFileHandle::isSymbolicLink() const</code> from open source cppfs: <a href="https://github.com/cginternals/cppfs/blob/master/source/cppfs/source/windows/LocalFileHandle.cpp">https://github.com/cginternals/cppfs/blob/master/source/cppfs/source/windows/LocalFileHandle.cpp</a></p>
+  </li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="kt">bool</span> <span class="n">LocalFileHandle</span><span class="o">::</span><span class="n">isSymbolicLink</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="n">readFileInfo</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">m_fileInfo</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(((</span><span class="n">WIN32_FILE_ATTRIBUTE_DATA</span> <span class="o">*</span><span class="p">)</span><span class="n">m_fileInfo</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">dwFileAttributes</span> <span class="o">&amp;</span> <span class="n">FILE_ATTRIBUTE_REPARSE_POINT</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="python-版本代码">Python 版本代码</h2>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1">#encoding=utf8
+</span><span class="kn">import</span> <span class="nn">re</span><span class="p">,</span> <span class="n">os</span><span class="p">,</span> <span class="n">sys</span>
+<span class="c1"># https://pypi.org/project/ntfsutils/
+# https://github.com/juntalis/ntfslink-python
+# https://stackoverflow.com/questions/1143260/create-ntfs-junction-point-in-python/10221068
+</span><span class="kn">from</span> <span class="nn">win32file</span> <span class="kn">import</span> <span class="o">*</span> <span class="c1"># pip install pywin32
+</span><span class="kn">from</span> <span class="nn">winioctlcon</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">struct</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">'islink'</span><span class="p">,</span> <span class="s">'readlink'</span><span class="p">]</span>
+
+<span class="c1"># Win32file doesn't seem to have this attribute.
+</span><span class="n">FILE_ATTRIBUTE_DIRECTORY</span>     <span class="o">=</span> <span class="mh">0x00000010</span>
+<span class="n">FILE_ATTRIBUTE_REPARSE_POINT</span> <span class="o">=</span> <span class="mh">0x00000400</span>
+<span class="n">IO_REPARSE_TAG_MOUNT_POINT</span>   <span class="o">=</span> <span class="mh">0xA0000003</span>
+<span class="n">IO_REPARSE_TAG_SYMLINK</span>       <span class="o">=</span> <span class="mh">0xA000000C</span>
+<span class="c1"># To make things easier.
+</span><span class="n">REPARSE_FOLDER</span> <span class="o">=</span> <span class="p">(</span><span class="n">FILE_ATTRIBUTE_DIRECTORY</span> <span class="o">|</span> <span class="n">FILE_ATTRIBUTE_REPARSE_POINT</span><span class="p">)</span>
+
+<span class="c1"># For the parse_reparse_buffer function
+</span><span class="n">SYMBOLIC_LINK</span>  <span class="o">=</span> <span class="s">'symbolic'</span>
+<span class="n">MOUNTPOINT</span>     <span class="o">=</span> <span class="s">'mountpoint'</span>
+<span class="n">GENERIC</span>        <span class="o">=</span> <span class="s">'generic'</span>
+
+<span class="k">def</span> <span class="nf">mklinkd</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="n">child</span> <span class="o">=</span> <span class="n">subprocess</span><span class="p">.</span><span class="n">Popen</span><span class="p">([</span><span class="s">'MKLINK'</span><span class="p">,</span> <span class="s">'/D'</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span>
+        <span class="n">stdout</span> <span class="o">=</span> <span class="n">subprocess</span><span class="p">.</span><span class="n">PIPE</span><span class="p">,</span>
+        <span class="n">stderr</span> <span class="o">=</span> <span class="n">subprocess</span><span class="p">.</span><span class="n">STDOUT</span><span class="p">,</span>
+        <span class="n">shell</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="n">streamdata</span> <span class="o">=</span> <span class="n">child</span><span class="p">.</span><span class="n">communicate</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">streamdata</span>
+
+<span class="k">def</span> <span class="nf">islink</span><span class="p">(</span><span class="n">fpath</span><span class="p">):</span> <span class="c1"># 原版存在 bug，修复了一下。
+</span>    <span class="s">""" Windows islink implementation. """</span>
+    <span class="n">attr</span> <span class="o">=</span> <span class="n">GetFileAttributes</span><span class="p">(</span><span class="n">fpath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">attr</span> <span class="o">&amp;</span> <span class="n">FILE_ATTRIBUTE_REPARSE_POINT</span> <span class="o">==</span> <span class="n">FILE_ATTRIBUTE_REPARSE_POINT</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="bp">False</span>
+
+<span class="k">def</span> <span class="nf">parse_reparse_buffer</span><span class="p">(</span><span class="n">original</span><span class="p">):</span>
+    <span class="s">""" Implementing the below in Python:
+
+    typedef struct _REPARSE_DATA_BUFFER {
+        ULONG  ReparseTag;
+        USHORT ReparseDataLength;
+        USHORT Reserved;
+        union {
+            struct {
+                USHORT SubstituteNameOffset;
+                USHORT SubstituteNameLength;
+                USHORT PrintNameOffset;
+                USHORT PrintNameLength;
+                ULONG Flags;
+                WCHAR PathBuffer[1];
+            } SymbolicLinkReparseBuffer;
+            struct {
+                USHORT SubstituteNameOffset;
+                USHORT SubstituteNameLength;
+                USHORT PrintNameOffset;
+                USHORT PrintNameLength;
+                WCHAR PathBuffer[1];
+            } MountPointReparseBuffer;
+            struct {
+                UCHAR  DataBuffer[1];
+            } GenericReparseBuffer;
+        } DUMMYUNIONNAME;
+    } REPARSE_DATA_BUFFER, *PREPARSE_DATA_BUFFER;
+
+    """</span>
+    <span class="c1"># Size of our data types
+</span>    <span class="n">SZULONG</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># sizeof(ULONG)
+</span>    <span class="n">SZUSHORT</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># sizeof(USHORT)
+</span>
+    <span class="c1"># Our structure.
+</span>    <span class="c1"># Probably a better way to iterate a dictionary in a particular order,
+</span>    <span class="c1"># but I was in a hurry, unfortunately, so I used pkeys.
+</span>    <span class="nb">buffer</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'tag'</span> <span class="p">:</span> <span class="n">SZULONG</span><span class="p">,</span>
+        <span class="s">'data_length'</span> <span class="p">:</span> <span class="n">SZUSHORT</span><span class="p">,</span>
+        <span class="s">'reserved'</span> <span class="p">:</span> <span class="n">SZUSHORT</span><span class="p">,</span>
+        <span class="n">SYMBOLIC_LINK</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="s">'substitute_name_offset'</span> <span class="p">:</span> <span class="n">SZUSHORT</span><span class="p">,</span>
+            <span class="s">'substitute_name_length'</span> <span class="p">:</span> <span class="n">SZUSHORT</span><span class="p">,</span>
+            <span class="s">'print_name_offset'</span> <span class="p">:</span> <span class="n">SZUSHORT</span><span class="p">,</span>
+            <span class="s">'print_name_length'</span> <span class="p">:</span> <span class="n">SZUSHORT</span><span class="p">,</span>
+            <span class="s">'flags'</span> <span class="p">:</span> <span class="n">SZULONG</span><span class="p">,</span>
+            <span class="s">'buffer'</span> <span class="p">:</span> <span class="s">u''</span><span class="p">,</span>
+            <span class="s">'pkeys'</span> <span class="p">:</span> <span class="p">[</span>
+                <span class="s">'substitute_name_offset'</span><span class="p">,</span>
+                <span class="s">'substitute_name_length'</span><span class="p">,</span>
+                <span class="s">'print_name_offset'</span><span class="p">,</span>
+                <span class="s">'print_name_length'</span><span class="p">,</span>
+                <span class="s">'flags'</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="n">MOUNTPOINT</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="s">'substitute_name_offset'</span> <span class="p">:</span> <span class="n">SZUSHORT</span><span class="p">,</span>
+            <span class="s">'substitute_name_length'</span> <span class="p">:</span> <span class="n">SZUSHORT</span><span class="p">,</span>
+            <span class="s">'print_name_offset'</span> <span class="p">:</span> <span class="n">SZUSHORT</span><span class="p">,</span>
+            <span class="s">'print_name_length'</span> <span class="p">:</span> <span class="n">SZUSHORT</span><span class="p">,</span>
+            <span class="s">'buffer'</span> <span class="p">:</span> <span class="s">u''</span><span class="p">,</span>
+            <span class="s">'pkeys'</span> <span class="p">:</span> <span class="p">[</span>
+                <span class="s">'substitute_name_offset'</span><span class="p">,</span>
+                <span class="s">'substitute_name_length'</span><span class="p">,</span>
+                <span class="s">'print_name_offset'</span><span class="p">,</span>
+                <span class="s">'print_name_length'</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="n">GENERIC</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="s">'pkeys'</span> <span class="p">:</span> <span class="p">[],</span>
+            <span class="s">'buffer'</span><span class="p">:</span> <span class="s">''</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Header stuff
+</span>    <span class="nb">buffer</span><span class="p">[</span><span class="s">'tag'</span><span class="p">]</span> <span class="o">=</span> <span class="n">struct</span><span class="p">.</span><span class="n">unpack</span><span class="p">(</span><span class="s">'L'</span><span class="p">,</span> <span class="n">original</span><span class="p">[:</span><span class="n">SZULONG</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">reparsetype</span> <span class="o">=</span> <span class="n">SYMBOLIC_LINK</span>
+    <span class="k">if</span> <span class="nb">buffer</span><span class="p">[</span><span class="s">'tag'</span><span class="p">]</span> <span class="o">==</span> <span class="n">IO_REPARSE_TAG_SYMLINK</span><span class="p">:</span>
+        <span class="n">reparsetype</span> <span class="o">=</span> <span class="n">SYMBOLIC_LINK</span>
+    <span class="k">elif</span> <span class="nb">buffer</span><span class="p">[</span><span class="s">'tag'</span><span class="p">]</span> <span class="o">==</span> <span class="n">IO_REPARSE_TAG_MOUNT_POINT</span><span class="p">:</span>
+        <span class="n">reparsetype</span> <span class="o">=</span> <span class="n">MOUNTPOINT</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="bp">False</span><span class="p">,</span> <span class="nb">buffer</span><span class="p">[</span><span class="s">'tag'</span><span class="p">]</span>
+
+    <span class="nb">buffer</span><span class="p">[</span><span class="s">'data_length'</span><span class="p">]</span> <span class="o">=</span> <span class="n">original</span><span class="p">[</span><span class="n">SZULONG</span><span class="p">:</span><span class="n">SZUSHORT</span><span class="p">]</span>
+    <span class="nb">buffer</span><span class="p">[</span><span class="s">'reserved'</span><span class="p">]</span> <span class="o">=</span> <span class="n">original</span><span class="p">[</span><span class="n">SZULONG</span><span class="o">+</span><span class="n">SZUSHORT</span><span class="p">:</span><span class="n">SZUSHORT</span><span class="p">]</span>
+    <span class="n">original</span> <span class="o">=</span> <span class="n">original</span><span class="p">[</span><span class="mi">8</span><span class="p">:]</span>
+
+    <span class="c1"># Parsing
+</span>    <span class="n">k</span> <span class="o">=</span> <span class="n">reparsetype</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">buffer</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s">'pkeys'</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="nb">buffer</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">c</span><span class="p">])</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="n">sz</span> <span class="o">=</span> <span class="nb">buffer</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">c</span><span class="p">]</span>
+            <span class="nb">bytes</span> <span class="o">=</span> <span class="n">original</span><span class="p">[:</span><span class="n">sz</span><span class="p">]</span>
+            <span class="nb">buffer</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">bytes</span><span class="p">:</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="n">b</span> <span class="c1"># ord(b)
+</span>                <span class="k">if</span> <span class="n">n</span><span class="p">:</span>
+                    <span class="nb">buffer</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="o">+=</span> <span class="n">n</span>
+            <span class="n">original</span> <span class="o">=</span> <span class="n">original</span><span class="p">[</span><span class="n">sz</span><span class="p">:]</span>
+
+    <span class="c1"># Using the offset and length's grabbed, we'll set the buffer.
+</span>    <span class="nb">buffer</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s">'buffer'</span><span class="p">]</span> <span class="o">=</span> <span class="n">original</span>
+    <span class="k">return</span> <span class="n">reparsetype</span><span class="p">,</span> <span class="nb">buffer</span>
+
+<span class="k">def</span> <span class="nf">readlink</span><span class="p">(</span><span class="n">fpath</span><span class="p">):</span>
+    <span class="s">""" Windows readlink implementation. """</span>
+    <span class="c1"># This wouldn't return true if the file didn't exist, as far as I know.
+</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">islink</span><span class="p">(</span><span class="n">fpath</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">fpath</span><span class="p">):</span>
+        <span class="n">dwFlagsAndAttributes</span> <span class="o">=</span> <span class="n">FILE_FLAG_OPEN_REPARSE_POINT</span> <span class="o">|</span> <span class="n">FILE_FLAG_BACKUP_SEMANTICS</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dwFlagsAndAttributes</span> <span class="o">=</span> <span class="n">FILE_FLAG_OPEN_REPARSE_POINT</span>
+
+    <span class="c1"># Open the file correctly depending on the string type.
+</span>    <span class="n">handle</span> <span class="o">=</span> <span class="n">CreateFileW</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">GENERIC_READ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">OPEN_EXISTING</span><span class="p">,</span> <span class="n">dwFlagsAndAttributes</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> \
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">fpath</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="s">"unicode"</span><span class="p">)</span> <span class="k">else</span> \
+            <span class="n">CreateFile</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">GENERIC_READ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">OPEN_EXISTING</span><span class="p">,</span> <span class="n">dwFlagsAndAttributes</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">handle</span> <span class="o">==</span> <span class="n">INVALID_HANDLE_VALUE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="c1"># MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16384 = (16*1024)
+</span>    <span class="nb">buffer</span> <span class="o">=</span> <span class="n">DeviceIoControl</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">FSCTL_GET_REPARSE_POINT</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mi">16</span><span class="o">*</span><span class="mi">1024</span><span class="p">)</span>
+    <span class="c1"># Above will return an ugly string (byte array), so we'll need to parse it.
+</span>
+    <span class="c1"># But first, we'll close the handle to our file so we're not locking it anymore.
+</span>    <span class="n">CloseHandle</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+
+    <span class="c1"># Minimum possible length (assuming that the length of the target is bigger than 0)
+</span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">buffer</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="c1"># Parse and return our result.
+</span>    <span class="n">reparsetype</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">parse_reparse_buffer</span><span class="p">(</span><span class="nb">buffer</span><span class="p">)</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">reparsetype</span><span class="p">][</span><span class="s">'substitute_name_offset'</span><span class="p">]</span>
+    <span class="n">ending</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">result</span><span class="p">[</span><span class="n">reparsetype</span><span class="p">][</span><span class="s">'substitute_name_length'</span><span class="p">]</span>
+    <span class="n">rpath</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">reparsetype</span><span class="p">][</span><span class="s">'buffer'</span><span class="p">][</span><span class="n">offset</span><span class="p">:</span><span class="n">ending</span><span class="p">].</span><span class="n">replace</span><span class="p">(</span><span class="s">b'</span><span class="se">\x00</span><span class="s">'</span><span class="p">,</span> <span class="s">b''</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rpath</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">rpath</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s">b'</span><span class="se">\\</span><span class="s">??</span><span class="se">\\</span><span class="s">'</span><span class="p">:</span>
+        <span class="n">rpath</span> <span class="o">=</span> <span class="n">rpath</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">rpath</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="s">"gbk"</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">realpath</span><span class="p">(</span><span class="n">fpath</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span>
+    <span class="k">while</span> <span class="n">islink</span><span class="p">(</span><span class="n">fpath</span><span class="p">):</span>
+        <span class="n">rpath</span> <span class="o">=</span> <span class="n">readlink</span><span class="p">(</span><span class="n">fpath</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">.</span><span class="n">isabs</span><span class="p">(</span><span class="n">rpath</span><span class="p">):</span>
+            <span class="n">rpath</span> <span class="o">=</span> <span class="n">path</span><span class="p">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">fpath</span><span class="p">),</span> <span class="n">rpath</span><span class="p">))</span>
+        <span class="n">fpath</span> <span class="o">=</span> <span class="n">rpath</span>
+    <span class="k">return</span> <span class="n">fpath</span>
+
+<span class="k">def</span> <span class="nf">dprint</span><span class="p">(</span><span class="n">link</span><span class="p">):</span>
+    <span class="n">linklen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+    <span class="n">linelen</span> <span class="o">=</span> <span class="mi">80</span>
+    <span class="n">sepleft</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">linelen</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">linklen</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">sepright</span> <span class="o">=</span> <span class="n">linelen</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">linklen</span> <span class="o">-</span> <span class="n">sepleft</span>
+    <span class="n">islinkp</span> <span class="o">=</span> <span class="n">islink</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'-'</span> <span class="o">*</span> <span class="n">sepleft</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="s">'-'</span> <span class="o">*</span> <span class="n">sepright</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">islinkp</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'IsLink: %s ReadLink: %s'</span> <span class="o">%</span> <span class="p">(</span><span class="n">islinkp</span><span class="p">,</span> <span class="n">readlink</span><span class="p">(</span><span class="n">link</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'IsLink: %s'</span> <span class="o">%</span> <span class="n">islinkp</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">'RealPath: %s'</span> <span class="o">%</span> <span class="n">realpath</span><span class="p">(</span><span class="n">link</span><span class="p">))</span>
+
+    <span class="c1"># https://docs.python.org/3/library/os.path.html
+</span>    <span class="c1"># os.path.islink(path)      判断路径是否为链接
+</span>    <span class="c1"># os.path.ismount(path)     判断路径是否为挂载点
+</span>    <span class="c1"># os.path.realpath(path)    返回 path 的真实路径
+</span>    <span class="k">print</span><span class="p">(</span><span class="s">"&gt;&gt;"</span><span class="p">,</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">islink</span><span class="p">(</span><span class="n">link</span><span class="p">),</span>
+          <span class="n">link</span><span class="p">,</span> <span class="s">"-&gt;"</span><span class="p">,</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">link</span><span class="p">))</span>
+
+    <span class="n">link</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">link</span><span class="p">))</span>
+    <span class="k">while</span> <span class="n">link</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">link</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span> <span class="c1"># E:\
+</span>        <span class="n">link</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="n">link</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">islink</span><span class="p">(</span><span class="n">link</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'Parent IsLink: %s -&gt; %s'</span> <span class="o">%</span> <span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">realpath</span><span class="p">(</span><span class="n">link</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'-'</span> <span class="o">*</span> <span class="n">linelen</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">example</span><span class="p">():</span>
+
+    <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">system</span><span class="p">,</span> <span class="n">unlink</span>
+    <span class="n">clear</span> <span class="o">=</span> <span class="s">"clear"</span> <span class="ow">in</span> <span class="n">sys</span><span class="p">.</span><span class="n">argv</span>
+
+    <span class="n">system</span><span class="p">(</span><span class="s">'cmd.exe /c echo test.txt &gt; test.txt'</span><span class="p">)</span>
+    <span class="n">system</span><span class="p">(</span><span class="s">'mklink test-link.txt test.txt'</span><span class="p">)</span> <span class="c1"># 文件类型为 .symlink
+</span>    <span class="n">dprint</span><span class="p">(</span><span class="s">"test.txt"</span><span class="p">)</span>
+    <span class="n">dprint</span><span class="p">(</span><span class="s">"test-link.txt"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">clear</span><span class="p">:</span>
+        <span class="n">unlink</span><span class="p">(</span><span class="s">'test-link.txt'</span><span class="p">)</span>
+        <span class="n">unlink</span><span class="p">(</span><span class="s">'test.txt'</span><span class="p">)</span>
+
+    <span class="c1"># MKLINK /D Link Target # 创建指向文件夹的符号链接
+</span>    <span class="c1"># MKLINK /J Link Target # 创建指向文件夹的软链接（联接）
+</span>    <span class="n">system</span><span class="p">(</span><span class="s">"mkdir test"</span><span class="p">)</span>
+    <span class="n">system</span><span class="p">(</span><span class="s">"mkdir test</span><span class="se">\\</span><span class="s">subtest"</span><span class="p">)</span>
+    <span class="n">system</span><span class="p">(</span><span class="s">'cmd.exe /c echo test</span><span class="se">\\</span><span class="s">subtest.txt &gt; test</span><span class="se">\\</span><span class="s">subtest.txt'</span><span class="p">)</span>
+    <span class="n">system</span><span class="p">(</span><span class="s">'cmd.exe /c echo test</span><span class="se">\\</span><span class="s">subtest</span><span class="se">\\</span><span class="s">subtest.txt &gt; test</span><span class="se">\\</span><span class="s">subtest</span><span class="se">\\</span><span class="s">subtest.txt'</span><span class="p">)</span>
+
+    <span class="n">system</span><span class="p">(</span><span class="s">"mklink /D D:</span><span class="se">\\</span><span class="s">test-dlink {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">"test"</span><span class="p">)))</span>
+    <span class="n">system</span><span class="p">(</span><span class="s">"mklink /J D:</span><span class="se">\\</span><span class="s">test-jlink test"</span><span class="p">)</span>
+    <span class="n">dprint</span><span class="p">(</span><span class="s">"D:</span><span class="se">\\</span><span class="s">test-dlink"</span><span class="p">)</span>
+    <span class="n">dprint</span><span class="p">(</span><span class="s">"D:</span><span class="se">\\</span><span class="s">test-jlink"</span><span class="p">)</span>
+
+    <span class="n">dprint</span><span class="p">(</span><span class="s">"test</span><span class="se">\\</span><span class="s">subtest</span><span class="se">\\</span><span class="s">subtest.txt"</span><span class="p">)</span>
+    <span class="n">dprint</span><span class="p">(</span><span class="s">"D:</span><span class="se">\\</span><span class="s">test-dlink</span><span class="se">\\</span><span class="s">subtest</span><span class="se">\\</span><span class="s">subtest.txt"</span><span class="p">)</span>
+    <span class="n">dprint</span><span class="p">(</span><span class="s">"D:</span><span class="se">\\</span><span class="s">test-jlink</span><span class="se">\\</span><span class="s">subtest</span><span class="se">\\</span><span class="s">subtest.txt"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">clear</span><span class="p">:</span>
+        <span class="n">unlink</span><span class="p">(</span><span class="s">'test</span><span class="se">\\</span><span class="s">subtest.txt'</span><span class="p">)</span>
+        <span class="n">unlink</span><span class="p">(</span><span class="s">'test</span><span class="se">\\</span><span class="s">subtest</span><span class="se">\\</span><span class="s">subtest.txt'</span><span class="p">)</span>
+        <span class="c1"># os.rmdir(path) # removedirs
+</span>        <span class="n">os</span><span class="p">.</span><span class="n">rmdir</span><span class="p">(</span><span class="s">"test</span><span class="se">\\</span><span class="s">subtest"</span><span class="p">)</span>
+        <span class="n">os</span><span class="p">.</span><span class="n">rmdir</span><span class="p">(</span><span class="s">"test"</span><span class="p">)</span>
+        <span class="n">os</span><span class="p">.</span><span class="n">rmdir</span><span class="p">(</span><span class="s">"D:</span><span class="se">\\</span><span class="s">test-dlink"</span><span class="p">)</span>
+        <span class="n">os</span><span class="p">.</span><span class="n">rmdir</span><span class="p">(</span><span class="s">"D:</span><span class="se">\\</span><span class="s">test-jlink"</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span><span class="o">==</span><span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">example</span><span class="p">()</span></code></pre></figure>
+
+<h3 id="运行结果">运行结果</h3>
+
+<figure class="highlight"><pre><code class="language-plaintext" data-lang="plaintext">E:\kSource\pythonx&gt;python pymklink.py clear
+为 test-link.txt &lt;&lt;===&gt;&gt; test.txt 创建的符号链接
+----------------------------------- test.txt -----------------------------------
+IsLink: False
+RealPath: test.txt
+&gt;&gt; False test.txt -&gt; E:\kSource\pythonx\test.txt
+--------------------------------------------------------------------------------
+-------------------------------- test-link.txt ---------------------------------
+IsLink: True ReadLink: test.txt
+RealPath: E:\kSource\pythonx\test.txt
+&gt;&gt; True test-link.txt -&gt; E:\kSource\pythonx\test.txt
+--------------------------------------------------------------------------------
+为 D:\test-dlink &lt;&lt;===&gt;&gt; E:\kSource\pythonx\test 创建的符号链接
+为 D:\test-jlink &lt;&lt;===&gt;&gt; test 创建的联接
+-------------------------------- D:\test-dlink ---------------------------------
+IsLink: True ReadLink: E:\kSource\pythonx\test
+RealPath: E:\kSource\pythonx\test
+&gt;&gt; True D:\test-dlink -&gt; E:\kSource\pythonx\test
+--------------------------------------------------------------------------------
+-------------------------------- D:\test-jlink ---------------------------------
+IsLink: True ReadLink: E:\kSource\pythonx\test
+RealPath: E:\kSource\pythonx\test
+&gt;&gt; False D:\test-jlink -&gt; E:\kSource\pythonx\test
+--------------------------------------------------------------------------------
+--------------------------- test\subtest\subtest.txt ---------------------------
+IsLink: False
+RealPath: test\subtest\subtest.txt
+&gt;&gt; False test\subtest\subtest.txt -&gt; E:\kSource\pythonx\test\subtest\subtest.txt
+--------------------------------------------------------------------------------
+---------------------- D:\test-dlink\subtest\subtest.txt -----------------------
+IsLink: False
+RealPath: D:\test-dlink\subtest\subtest.txt
+&gt;&gt; False D:\test-dlink\subtest\subtest.txt -&gt; E:\kSource\pythonx\test\subtest\subtest.txt
+Parent IsLink: D:\test-dlink -&gt; E:\kSource\pythonx\test
+--------------------------------------------------------------------------------
+---------------------- D:\test-jlink\subtest\subtest.txt -----------------------
+IsLink: False
+RealPath: D:\test-jlink\subtest\subtest.txt
+&gt;&gt; False D:\test-jlink\subtest\subtest.txt -&gt; E:\kSource\pythonx\test\subtest\subtest.txt
+Parent IsLink: D:\test-jlink -&gt; E:\kSource\pythonx\test
+--------------------------------------------------------------------------------</code></pre></figure>
+
+<p>dlink 和 jlink 还是存在差异，dlink 更像一个 symlink，而 jlink 跟真正的文件夹差不多了。</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/images/win-mklink/dlink.png">
+        <img src="/blog/images/win-mklink/dlink.png" />
+    </a>
+    
+
+
+&nbsp;&nbsp;
+    <a href="/blog/images/win-mklink/jlink.png">
+        <img src="/blog/images/win-mklink/jlink.png" />
+    </a>
+    
+
+
+
+</div>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+  <li>[1] <a href="https://blog.alphatr.com/windows-mklink.html">Windows 的快捷方式，符号链接，软链接和硬链接</a></li>
+  <li>[2] <a href="https://blog.walterlv.com/post/ntfs-link-comparisons.html">比较 Windows 上四种不同的文件（夹）链接方式（NTFS 的硬链接、目录联接、符号链接，和大家熟知的快捷方式）</a></li>
+  <li>[3] <a href="https://stackoverflow.com/questions/13733275/determine-whether-a-file-is-a-junction-in-windows-or-not">Determine whether a file is a junction (in Windows) or not?</a></li>
+  <li>[4] <a href="http://www.flexhex.com/docs/articles/hard-links.phtml">NTFS Links, Directory Junctions, and Windows Shortcuts</a></li>
+  <li>[5] <a href="https://www.codeproject.com/Articles/18975/Listing-Used-Files">Listing Used Files</a></li>
+</ul>
+
+
+    ---<br/>
+<!-- https://shopify.dev/docs/themes/liquid/reference/filters/string-filters -->
+<!-- https://github.com/jekyll/jekyll/issues/2491 -->
+本文短链接：<a id="short_urlx" target="_blank" href="#"></a><br/>
+<script type="text/javascript">
+var shortPrex = "https://sunocean.life/blog/t.htm?";
+var shortSeed = "/blog/2020/09/10/win-mklink";
+</script>
+
+
+    If you have any questions or feedback, please reach out <code>haihoing@qq.com</code>.
+
+
+    <hr>
+    <div style="text-align:center"><br/>
+        自由转载-非商用-非衍生-保持署名（创意共享 3.0 许可证）
+    </div>
+</div>
+
+
+
+
+
+<script type="text/javascript" src="/blog/assets/md5.min.js"></script>
+<script type="text/javascript" src="/blog/assets/blog.js"></script>
+
+
+
+
+
+
+
+
+    <footer class="site-footer">
+    Hawkhai personal website and blog.<br/>
+    Copyright (c) hawkhai, 2016-2020. All rights reserved.<br/>
+    Powered by <a href="http://jekyllrb.com/">Jekyll</a>, <a href="https://www.netlify.com/">netlify.com</a>
+    
+     | <a href="https://github.com/hawkhai/hawkhai.github.io">GitHub</a>
+    
+    <br/>
+    Sun &amp; Ocean · <a href="https://sunocean.life">WWW.SUNOCEAN.LIFE</a>
+</footer>
+
+
+  </div>
+</body>
+
+</html>

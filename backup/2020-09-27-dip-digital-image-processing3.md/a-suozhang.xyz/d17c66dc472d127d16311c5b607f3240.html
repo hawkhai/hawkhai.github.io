@@ -1,0 +1,1299 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="六畳一间のドンキホーテ.">
+    <meta name="keywords"  content="Some, Key, Words">
+    <meta name="theme-color" content="#000000">
+    
+    <title>数字图像处理笔记 - 天辰的博客 | Tianchen's Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Safari Webpage Icon    by-BY -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://a-suozhang.github.io//2019/09/06/Diigital-Image-Procss/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script type="text/javascript"src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">A_Suozhang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/bg-term.png" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/bg-term.png')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#学习笔记" title="学习笔记">学习笔记</a>
+                        
+                    </div>
+                    <h1>数字图像处理笔记</h1>
+                    
+                    
+                    <h2 class="subheading">好好学习，天天睡觉</h2>
+                    
+                    <span class="meta">Posted by tianchen on September 6, 2019</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h1 id="intro">INTRO</h1>
+<ul>
+  <li>模拟/数字图像处理:
+    <ul>
+      <li>模拟: 信息量大,处理速度块; 精度差; 可移植差; (数字反之)</li>
+    </ul>
+  </li>
+  <li>流程:
+    <ul>
+      <li>预处理: 改善图像质量,减少干扰,低级处理阶段 (图像增强,复原,编码压缩) 输入输出都是图像</li>
+      <li>识别: 中级 输入图像,输出分类结果</li>
+      <li>理解: 分析和解释图像 高级</li>
+    </ul>
+  </li>
+  <li>特点:
+    <ul>
+      <li>数据量大</li>
+      <li>数据量/频带 电视图像5.6M</li>
+      <li>像素相关性大,可压缩潜力大</li>
+      <li>二维三位</li>
+      <li>受人影响大
+        <h1 id="图像数字化">图像数字化</h1>
+      </li>
+    </ul>
+  </li>
+  <li>视觉系统是图像的信宿
+    <ul>
+      <li>人类认知: 质量评估</li>
+      <li>视角: 上下60 左右180</li>
+      <li>视觉特性:
+        <ul>
+          <li>平稳追踪运动</li>
+          <li>单栾运动</li>
+          <li>非随意运动
+   —</li>
+          <li>注意点在黑白交接处,以及拐角</li>
+          <li>对闭合图形容易像图内侧移动</li>
+          <li>容易几种在运动变化部分</li>
+          <li>容易几种在不规则处
+   —</li>
+          <li>同样速度大物体显得慢</li>
+          <li>与运动方向水平的物体显示块</li>
+          <li>若隐若现像是在运动
+   —</li>
+          <li>时空频率特性(对比度)</li>
+          <li>视觉暂留</li>
+          <li>主观亮度(非线性)</li>
+          <li>马赫效应(边缘增强 亮更亮)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>表示方法:
+    <ul>
+      <li>自然场景图: 照射函数 + 反射函数</li>
+      <li>采样,量化 (Nyquist采样) (均匀量化)</li>
+      <li>空间分辨率,灰度分辨率</li>
+    </ul>
+  </li>
+  <li>噪声分析:
+    <ul>
+      <li>不可预测,采用均值,方差或是相关函数描述</li>
+      <li>分类:
+        <ul>
+          <li>平稳非平稳 (统计特性是否随时间变化)</li>
+          <li>外部内部</li>
+          <li>分布: 高斯 瑞利 gamma</li>
+          <li>频谱形状 白噪声 1/f噪声 三角</li>
+          <li>加/乘性 (一般被近似于加性)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>质量评价:
+    <ul>
+      <li>保真度: 与标准图像之间的偏移
+        <ul>
+          <li>互相关函数R</li>
+          <li>均方误差</li>
+          <li>峰值信噪比,信噪比均方误差(PMSE)</li>
+          <li>清晰度 平均梯度</li>
+        </ul>
+      </li>
+      <li>可懂度: 提供信息能力</li>
+    </ul>
+  </li>
+  <li>彩色:
+    <ul>
+      <li>RGB / CMY</li>
+      <li>IHS彩色模型(分析人眼): - related with 图像融合
+        <h1 id="图像变换">图像变换</h1>
+      </li>
+    </ul>
+  </li>
+  <li>DIrac冲激:</li>
+  <li>二维(离散)傅里叶变换DFT
+    <ul>
+      <li>卷积和相关运算在时域计算量大</li>
+      <li>DFT可用FFT加速</li>
+      <li>一般正变换带 1/M</li>
+      <li>可分离性(2-D转1d),共轭对称性,平移性(想要把频域原点挪到图像中心,只需要对f(x,y)乘上(-1)^(x+y),再DFT)</li>
+      <li>旋转不变性</li>
+      <li>卷积定理</li>
+      <li>傅里叶变换的特点:
+        <ul>
+          <li>进行复数运算复杂</li>
+          <li>频域收敛慢,不适合图像编码</li>
+          <li>动态范围大</li>
+        </ul>
+      </li>
+      <li>最常用,但是难以实时</li>
+    </ul>
+  </li>
+  <li>离散余弦变化:DCT
+    <ul>
+      <li>问题:
+        <ul>
+          <li>复数运算</li>
+          <li>仍然需要三角函数运算,复杂度高(将矩阵中的元素变为1/-1)</li>
+          <li>理想图像压缩</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Walsh-Hadmard (DWT)
+    <ul>
+      <li>(* 自然二进制到格雷码,从高到低,与上一位做和)</li>
+      <li>由2^n阶Hadmard矩阵得</li>
+      <li>最简单,计算量小</li>
+    </ul>
+  </li>
+  <li>离散KL变换
+    <ul>
+      <li>消除特征之间的相关性,凸显差异</li>
+      <li>最精确,收敛性好
+        <h1 id="图像压缩编码">图像压缩编码</h1>
+      </li>
+    </ul>
+  </li>
+  <li>压缩方法:
+    <ul>
+      <li>平均信息法: 香农,霍夫曼</li>
+      <li>预测法: 插值脉冲调制,增量调制</li>
+      <li>变换法: 小波变换,正余弦变化</li>
+    </ul>
+  </li>
+  <li>图像熵: (平均信息量) (香农定理说明:信源熵是无失真编码的浏览极限,使用高阶熵可以获得更高压缩比)  平均码长 &gt; 信源熵  H/logr &lt;R&lt;H/logr+1</li>
+  <li>香农</li>
+  <li>霍夫曼</li>
+  <li>算术编码: 将整个符号序列映射为一个实数
+    <ul>
+      <li>前子区域左端+当前子区左端x前子区长度=新子区域左端</li>
+      <li>前子区域长度x当前字区域长度=新子区域长度</li>
+    </ul>
+  </li>
+  <li>预测法编码: (仅对内个像素中的新信息编码)
+    <ul>
+      <li>帧内线性预测: (差分编码)
+        <ul>
+          <li>给预测期加一个量化器就是有损预测编码</li>
+          <li>Delta调制; (1bit)</li>
+          <li>DPCM中图像降质:
+            <ul>
+              <li>斜率过载引起边缘模糊</li>
+              <li>颗粒噪声</li>
+              <li>假轮廓噪声</li>
+              <li>误码扩散</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>最佳线性预测: Minimize 均方误差
+        <ul>
+          <li>预测系数需要满足: e=0为量化电平,且电平数为奇数(避免极限环,减少误码扩散)</li>
+        </ul>
+      </li>
+      <li>量化:
+        <ul>
+          <li>可见度阈值: 像素预测误差绝对值一定时,能容忍的最大量化误差(是一条曲线) 对其取45`斜线,横坐标焦点为输出电平</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>变换编码: 转移到其他域进行编码(降低相关性)
+    <ul>
+      <li>缺点: 抗信道五码能力强,但是算法复杂</li>
+      <li>准则: 最大方差,区域编码; 最大赋值:门限编码</li>
+      <li>常用DCT:
+        <ul>
+          <li>没有块效应</li>
+          <li>压缩能力强</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>JPEG (Joint Photographic Experts Group)
+    <ul>
+      <li>8*8 DCT</li>
+      <li>蛇形编码</li>
+      <li>DC/AC系数</li>
+    </ul>
+  </li>
+  <li>单义码 - 唯一可译码   非续长码 - 即时码
+    <h1 id="图像增强和复原">图像增强和复原</h1>
+  </li>
+  <li>增强: 不考虑图像降质,突出有用的特征,不一定逼真原图像 -“可懂度” 空域灰度处理,频域滤波
+    <ul>
+      <li>灰度修正: 映射改变灰度分布(幂次变换 - 减小动态范围)
+        <ul>
+          <li>直方图修正: (从直方图角度修正出我们想要的分布) - 用于图像配准</li>
+          <li>直方图均衡 (相对均匀,且会导致有效灰度级减小)</li>
+        </ul>
+      </li>
+      <li>同态增晰:
+        <ul>
+          <li>自然场景: 照射函数(光线与景物无关,低频)+反射函数(景物细节,在0~1,高f) - 基于这个做滤波(可以改善过曝)</li>
+        </ul>
+      </li>
+      <li>平滑(为了减少噪声)
+        <ul>
+          <li>空域: 领域平均</li>
+          <li>频域: 低通滤波</li>
+          <li>一般线性滤波</li>
+          <li>非线性滤波(统计排序滤波 - 中值滤波)
+            <ul>
+              <li>用领域内像素的中值替代该像素</li>
+              <li>有效处理脉冲椒盐噪声</li>
+              <li>客服平滑滤波的细节模糊</li>
+              <li>但对细节多的不适合</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>锐化(使边缘和细节清晰)
+        <ul>
+          <li>微分运算,加重高频分量使图像清晰</li>
+          <li>必须要提高信噪比</li>
+          <li>空域: 直接在空域进行微分算子;  频域:在频域通过HPF来增强</li>
+          <li>梯度算子:
+            <ul>
+              <li>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>直接使用,使平滑区域变暗  G(x,y)=</td>
+                      <td>f(x+1,y+1)-f(x,y)</td>
+                      <td>+</td>
+                      <td>f(x+1,y)-f(x,y+1)</td>
+                      <td>Solu: 采用阈值</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </li>
+              <li>拉普拉斯算子:(线性+具有旋转不变性) f(i-1,j)+f(i+1,j)+f(i,j-1)+f(i,j+1)-4f(i,j)  (边缘会更细)
+                <ul>
+                  <li>缺点:
+                    <ul>
+                      <li>线性变化区域,结果为0</li>
+                      <li>直线到斜线,产生脉冲,方向与变化趋势同</li>
+                      <li>灰度突变产生双向脉冲</li>
+                      <li>存在孤立噪声中,会产生强响应 (要求图像具有较高的信噪比)</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>几何畸变 (系统的,可预测)</li>
+      <li>坐标关系估计:
+        <ul>
+          <li>设线性畸变为:找出几个点估计映射</li>
+          <li>最邻近像素法(距离采样点最近的灰度当做采样灰度)  双线性内插,利用分段函数进行灰度内插</li>
+        </ul>
+      </li>
+      <li>伪彩色处理</li>
+    </ul>
+  </li>
+  <li>复原: 要考虑讲质,要建立复原好坏的客观标准           -“保真度” 线性滤波复原
+    <ul>
+      <li>线性滤波复原
+        <ul>
+          <li>利用退化现象的鲜艳知识来重建与恢复图像
+            <ul>
+              <li>运动降质</li>
+              <li>逆滤波,维纳滤波,约束最小局方误差滤波(简化难度)
+                <h1 id="图像分割">图像分割</h1>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>非连续分割(以不同类别之间的灰度变化为基础)/相似分割(相同灰度级别或是相同组织结构)* 边缘检测算子
+    <ul>
+      <li>实际图片利用差分来代替导数</li>
+      <li>用梯度算子或是拉普拉斯算子</li>
+      <li>对噪声敏感
+        <ul>
+          <li>SOLU: 适当平滑: Marr</li>
+          <li>局部线性拟合,再用光滑函数: Facet</li>
+        </ul>
+      </li>
+      <li>评价标准: 1. 高检测概率,低虚警 2. 定位精度 3.唯一性</li>
+      <li>Marr边缘检测算法(先进行平滑滤波(Gauss平滑滤波),求导数检测边缘)</li>
+      <li>Canny算法: 高斯平滑滤波(二维高斯平滑滤波)低通,减小SNR; 梯度算子(3x3)+NMS,最后双阈值处理</li>
+      <li>Hough: 坐标变换,将给定形状的曲线变换为空间中的一个点,将曲线检测,转换为变换空间的峰值点问题</li>
+    </ul>
+  </li>
+  <li>阈值的选取非常关键:
+    <ul>
+      <li>简单直方图分割(双峰法)</li>
+      <li>最佳阈值(正态分布,选取阈值难)</li>
+      <li>类间方差阈值分割(Otsu 在判决最小二乘基础上) 算法简单,准则: 类间方差Max,类内方差最小</li>
+      <li>一/二维最大熵分割</li>
+    </ul>
+  </li>
+  <li>区域增长法:
+    <ul>
+      <li>单连接区域: 根据两个像素点之间相似性(一般取灰度)</li>
+      <li>混合连接: 整个领域来判断</li>
+      <li>中心连接区域: 从满足某种相似性准则为中心,向各个方向</li>
+    </ul>
+  </li>
+  <li>分开-合并区域
+    <ul>
+      <li>金字塔/四叉树结构的层次概念,以一定的均匀性检测准则进行分裂和合并</li>
+    </ul>
+  </li>
+  <li>:star: 形态学
+    <ul>
+      <li>形态学变换处理,与逻辑操作存在一一对应</li>
+      <li>连通域: 连在一起的黑色像素,是一个连通域</li>
+      <li>膨胀(Dilation) [用小元素位移] - 桥接断裂图像的间隙
+        <ul>
+          <li>消除连通域的边界,使边界内缩</li>
+        </ul>
+      </li>
+      <li>腐蚀(Erosion)  [在A内部以小元素位移] - 消除不相关细节
+        <ul>
+          <li>边界外扩</li>
+        </ul>
+      </li>
+      <li>开闭(Opening&amp;Closing) - 消除指纹噪声
+        <ul>
+          <li>开: [先用结构元B腐蚀,在对腐蚀结构用同样结构元膨胀] 开的结果是A的子集,利用对称的结构元B做多次相当于做一次  A`B==(A-B)+B</li>
+          <li>闭运算: [结构元B对A膨胀,再用同样结构元进行腐蚀] A.B=(A+B)-B</li>
+        </ul>
+      </li>
+      <li>击中与否(hit or miss) (形状检测的基本工具)</li>
+      <li>应用:
+        <ul>
+          <li>边界抽取: 先腐蚀后减去腐蚀结果</li>
+          <li>区域填充: 迭代膨胀</li>
+          <li>连通分量提取</li>
+          <li>灰度膨胀/腐蚀</li>
+          <li>灰度开/闭
+            <ul>
+              <li>开: 去除小而亮的细节(先腐蚀消除小细节同时图像变暗)</li>
+              <li>闭: 去除小而暗的
+                <h1 id="图像描述">图像描述</h1>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>简单几何: 面积/周长/位置(中心点为物体质心)/方向/投影</li>
+  <li>周长:
+    <ul>
+      <li>交界线长度:外围一圈方格的轮廓长度</li>
+      <li>链码:每个像素一个点</li>
+      <li>边界点数:边界方格数</li>
+    </ul>
+  </li>
+  <li>距离:
+    <ul>
+      <li>正规距离: (图像中点p到集S距离最小值)</li>
+      <li>曼哈顿</li>
+      <li>欧式距离</li>
+    </ul>
+  </li>
+  <li>拓扑特性:
+    <ul>
+      <li>邻接: 4/8邻域</li>
+      <li>连通: S是图像1个自己,PQ是S中的点,若PQ之间存在一个全部点都在S中的路径,则PQ连通
+        <ul>
+          <li>连通分量: S中任意Q,S中所有与P连通的点构成的集合</li>
+        </ul>
+      </li>
+      <li>背景: S补连通到图像边缘的点的集合,是S的背景B,S中其他连通分量使孔</li>
+      <li>包围,若S到达边缘一定与T相遇,则T包围S</li>
+    </ul>
+  </li>
+  <li>形状表述:
+    <ul>
+      <li>分散度: S=P(周长)^2/A(面积),有二义性</li>
+      <li>伸长度: A/W(宽度)^2</li>
+      <li>欧拉数: (描述连通性)区域内部连通组员个数与孔数之差</li>
+      <li>凹凸: (连线重点在体内/外)</li>
+      <li>矩不变量:
+        <ul>
+          <li>中轴变换/收缩/膨胀/细化</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>边界描述: 四/八邻域; 傅里叶形状描述子</li>
+  <li>纹理描述
+    <ul>
+      <li>灰度共生矩阵(指图像中有特定空间联系的一对像素)</li>
+    </ul>
+  </li>
+  <li>功率谱</li>
+  <li>模式识别: 数据获取-与初期-特征提取和选择-决策分类
+    <ul>
+      <li>线性决策</li>
+      <li>距离函数</li>
+      <li>似然函数</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="题目">题目</h1>
+
+<ol>
+  <li>椒盐噪声,中值滤波 Better 均值滤波
+    <ul>
+      <li>椒盐噪声均值不为0,所以不能用均值滤波</li>
+    </ul>
+  </li>
+  <li>直方图均衡的思想: 对像素个数多的灰度级展宽,像素个数少的灰度进行削减,以清晰图像
+    <ul>
+      <li>直方图分布越均匀,对比度大</li>
+    </ul>
+  </li>
+  <li>数据压缩利用了数据的冗余,不相干; 包含编码冗余,视觉认知冗余,时空冗余</li>
+  <li>中值滤波: 将窗(邻域)内的数据从小到大排列并取中间
+    <ul>
+      <li>4 邻域 8邻域</li>
+      <li>对椒盐噪声效果好,非线性滤波,能在滤波同时不让边缘模糊</li>
+      <li>中点滤波: max和min的中点</li>
+    </ul>
+  </li>
+  <li>直方图规定化: 用于匹配</li>
+  <li>图像增强: 改善图像的视觉效果,将图像清晰
+    <ul>
+      <li>图像增强主观,图像复原客观,需要了解降质模型</li>
+      <li>平滑: LPF,  锐化: HPF</li>
+    </ul>
+  </li>
+  <li>梯度算子 [-1,1] [1;-1] ||  拉普拉斯算子  (都能用于边缘提取,都对噪声敏感)
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[   1  ]
+[1,-4,1]
+[   1  ]
+</code></pre></div>    </div>
+  </li>
+  <li>图像分割: 把图像分割为互不重叠的区域,并提取ROI</li>
+  <li>Hough变换的原理: 从直线上的点的坐标变换为过点的直线的系数域,利用共线与直线相交的关系,是直线提取转化为计数</li>
+  <li>假彩色增强: 彩色 - 另一个彩色;   伪彩色: 黑白 - 彩色</li>
+  <li>如何利用Hough变换检测
+    <ul>
+      <li>Hough变换是对图像进行某种形式的映射,将原空间给定形状的曲线,变换为变换空间中的一个点,转化为求峰值</li>
+      <li>圆的方程 (x-a)^2+(y-b)^2=1与空间中的点(x,y)对应</li>
+      <li>(x,y)中的共圆点,在新空间中对应曲线相交与(x,y),将新空间量化为许多小格,累加并找出峰值(a0,b0就是拟合参数)</li>
+    </ul>
+  </li>
+  <li>二义性  矩不变量不具有,直方图具有</li>
+  <li>逆滤波复原基本原理与不足
+    <ul>
+      <li>已知降质函数H(u,v)和降质图像的傅里叶变换G(u,v)后,恢复复原图像的F(u,v)=G(u,v)/H(u,v),复原图像由Fourier反变换</li>
+      <li>噪声(只能复原SNR高的区域), H(u,v)衰减,传递函数存在零点,复原局限于离原点不太远的有线区域</li>
+    </ul>
+  </li>
+  <li>算术编码:
+    <ul>
+      <li>用0到1的线段上的一个区间定义一个符号,区间长度等于序列概率</li>
+      <li>序列数目增加,描述序列的间隔变小,二进制数目变多</li>
+      <li>解码是一个逆过程,按Qe接近0,Pe靠近1侧分割成两个区间,并判断落在哪个子区</li>
+    </ul>
+  </li>
+  <li>归一化中心距
+    <ul>
+      <li>平移 旋转 缩放不变性 都不具有</li>
+    </ul>
+  </li>
+  <li>连通:
+    <ul>
+      <li>自反/互换/传递 (没有对称(?))</li>
+    </ul>
+  </li>
+  <li>解释”图”和”像”
+    <ul>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>图:物体投射反射光的分布</td>
+              <td> </td>
+              <td>像: 人的视觉系统对图的接受在大脑中的意识</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+  </li>
+  <li>DPCM的原理
+    <ul>
+      <li>基于图像之间相邻像素的强相关性,每个像素依据已知像素来预测.</li>
+      <li>编码的不是实际值,而是与预测的差值</li>
+    </ul>
+  </li>
+  <li>区域增长:
+    <ul>
+      <li>把两个连接像素看做图中的一个节点,与相邻的像素对比,衡量是否足够相似(比如灰度之差,或是像素矢量差的膜)</li>
+    </ul>
+  </li>
+  <li>图像增强和复原
+    <ul>
+      <li>改善图像的质量,输入为图像,输出为图像</li>
+      <li>图像增强改善图像视感,突出感兴趣部分,提高”可懂性”;</li>
+      <li>图像恢复提高图像的保真度,客观</li>
+    </ul>
+  </li>
+  <li>二维最大熵:
+    <ul>
+      <li>
+        <h2 id="以原始图像各个像素的四邻域为一个区域计算区域灰度均值得出图像的灰度均值二维直方图用区域ab的后验概率表示并归一化定义二维熵并选取能让熵最大的分割">以原始图像各个像素的四邻域为一个区域,计算区域灰度均值,得出图像的灰度均值二维直方图,用区域AB的后验概率表示并归一化定义二维熵,并选取能让熵最大的分割</h2>
+      </li>
+    </ul>
+  </li>
+  <li>一阶微分:
+    <ul>
+      <li>边缘取0</li>
+      <li>像卷积核一样挪</li>
+    </ul>
+  </li>
+  <li>直方图均衡
+    <ul>
+      <li>计算各灰度级的累积概率</li>
+      <li>做舍如处理(类似于量化) 依据原图像灰度级</li>
+    </ul>
+  </li>
+  <li>Huffman编码</li>
+  <li>膨胀腐蚀运算
+    <ul>
+      <li>结构元取左上角的元素,在原图上滚,扩散</li>
+      <li>在原图的范围内看能fit几个结构元</li>
+    </ul>
+  </li>
+  <li>均值中值滤波
+    <ul>
+      <li>同样边缘不变</li>
+    </ul>
+  </li>
+  <li>灰度范围线性变化
+    <ul>
+      <li>就是一个线性映射</li>
+    </ul>
+  </li>
+  <li>腐蚀操作符合容斥原理,与补集</li>
+  <li>求灰度共生矩阵 (距离(指两个像素之间相差几个), 角度)
+    <ul>
+      <li>统计元素的个数: 比如(0,0)处就是统计按照规则的(0,0)在图像中有多少个</li>
+      <li>矩阵的大小为图像中有多少种元素65</li>
+      <li>顺序无关, 矩阵对称</li>
+    </ul>
+  </li>
+  <li>区域增长
+    <ul>
+      <li>一般是8邻域</li>
+      <li>是&lt;阈值</li>
+    </ul>
+  </li>
+  <li>边缘提取
+    <ul>
+      <li>梯度与拉普拉斯算子到了边缘上补0</li>
+    </ul>
+  </li>
+</ol>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/09/06/Embedded-System/" data-toggle="tooltip" data-placement="top" title="嵌入式笔记">
+                        Next<br>
+                        <span>嵌入式笔记</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                <!--Gitalk评论start  -->
+                
+                <!-- 引入Gitalk评论插件  -->
+                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+                <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+                <div id="gitalk-container"></div>
+                <!-- 引入一个生产md5的js，用于对id值进行处理，防止其过长 -->
+                <!-- Thank DF:https://github.com/NSDingFan/NSDingFan.github.io/issues/3#issuecomment-407496538 -->
+                <script src="/js/md5.min.js"></script>
+                <script type="text/javascript">
+                    var gitalk = new Gitalk({
+                    clientID: 'e9ac4584b1a134072e79',
+                    clientSecret: 'fbd004d0f23bf6b6809125d2a7a458d9fd2373d3',
+                    repo: 'A-suozhang.github.io',
+                    owner: 'a-suozhang',
+                    admin: ['a-suozhang'],
+                    distractionFreeMode: true,
+                    id: md5(location.pathname),
+                    });
+                    gitalk.render('gitalk-container');
+                </script>
+                
+                <!-- Gitalk end -->
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#学习笔记" title="学习笔记" rel="7">
+                                    学习笔记
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#DL" title="DL" rel="29">
+                                    DL
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#综述" title="综述" rel="17">
+                                    综述
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Linux" title="Linux" rel="3">
+                                    Linux
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#常用" title="常用" rel="9">
+                                    常用
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#环境配置" title="环境配置" rel="11">
+                                    环境配置
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#心得" title="心得" rel="5">
+                                    心得
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#嵌入式" title="嵌入式" rel="4">
+                                    嵌入式
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#博客" title="博客" rel="4">
+                                    博客
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#debug" title="debug" rel="2">
+                                    debug
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#重新学习" title="重新学习" rel="9">
+                                    重新学习
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#论文阅读" title="论文阅读" rel="22">
+                                    论文阅读
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Coding" title="Coding" rel="6">
+                                    Coding
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#CNN" title="CNN" rel="4">
+                                    CNN
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#迁移学习" title="迁移学习" rel="7">
+                                    迁移学习
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#private" title="private" rel="4">
+                                    private
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#碎片知识" title="碎片知识" rel="9">
+                                    碎片知识
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#杂项" title="杂项" rel="2">
+                                    杂项
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#课程" title="课程" rel="2">
+                                    课程
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#survey" title="survey" rel="2">
+                                    survey
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/api-reference/">ESP32-Doc</a></li>
+                    
+                        <li><a href="https://www.xilinx.com/products/design-tools/ai-inference/ai-developer-hub.html#edge">Xilinx AI Development Hub</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        // BY Fix:去除标题前的‘#’ issues:<https://github.com/qiubaiying/qiubaiying.github.io/issues/137>
+        // anchors.options = {
+        //   visible: 'always',
+        //   placement: 'right',
+        //   icon: '#'
+        // };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<script>
+        (function () {
+          var script = document.createElement("script");
+          script.type = "text/javascript";
+          script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+          document.getElementsByTagName("head")[0].appendChild(script);
+        })();
+</script>
+
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <!-- add jianshu add target = "_blank" to <a> by BY -->
+                    
+                            <li>
+                                <a target="_blank" href="https://www.jianshu.com/u/ztc19980908">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa  fa-stack-1x fa-inverse">简</i>
+                                    </span>
+                                </a>
+                            </li>
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/A_Suozhang98">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/suo-chang-20">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/A-suozhang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; A_Suozhang's Blog 2020
+                    <br>
+                    Theme on <a href="https://github.com/A-suozhang/A-suozhang.github.io">GitHub</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=A-suozhang&repo=A-suozhang.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-148467205-1';
+    var _gaDomain = 'a-suozhang.xyz';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/apple-touch-icon.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

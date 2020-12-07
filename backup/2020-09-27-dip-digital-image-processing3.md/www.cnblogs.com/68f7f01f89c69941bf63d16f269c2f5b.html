@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="1 # -*- coding: utf-8 -*- 2 &amp;quot;&amp;quot;&amp;quot; 3 Created on Tue Oct 23 20:46:45 2018 4 5 @author: Ad" />
+    <meta property="og:description" content="1 # -*- coding: utf-8 -*- 2 &amp;quot;&amp;quot;&amp;quot; 3 Created on Tue Oct 23 20:46:45 2018 4 5 @author: Ad" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>opencv+python 车牌识别 - 壳壳· - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=R2wBwmwSMG0Sqiw8GFSVjHT4Payg_JFAn51R8XcuvN0" />
+    <link id="MainCss" rel="stylesheet" href="/skins/lovelyanimal/bundle-lovelyanimal.min.css?v=OzwMHbvoiw3_7cQJ8LwP94PcTdW1oFIEsXWLkxlCLdE" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/lovelyanimal/bundle-lovelyanimal-mobile.min.css?v=iwyTBCq0yI4S4G_W1Q6v2XTVbfYZ47nSVT8NVCgIXiI" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/kekexxr/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/kekexxr/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/kekexxr/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 491872;
+        var currentBlogApp = 'kekexxr';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'LovelyAnimal';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2019-09-24 08:02';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=gWQ9VKr6FSwo14EgofSprzXJrAEO7ppQ1I5Or4uqKuo"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+        <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://brands.cnblogs.com/aws/free?source=mobile-banner" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aws-mobile-bannerbar')"><img src="https://img2020.cnblogs.com/blog/35695/202012/35695-20201203212730693-184275650.png" alt="" /></a>
+        </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div class="pagelayout">
+    
+<div id="header">
+	<span>
+		<a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/kekexxr/">壳壳·</a>
+<br/><br/>
+		
+	</span>
+</div>
+
+
+    <div id="menu">
+        
+            
+<h1>导航</h1>
+<ul class="list">
+	<li class="listitem"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+	<li class="listitem">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/kekexxr/">
+首页</a>
+</li>
+	<li class="listitem">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+	<li class="listitem">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%A3%B3%E5%A3%B3%C2%B7">
+联系</a></li>
+	<li class="listitem">
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/kekexxr/rss/">
+订阅</a>
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/kekexxr/rss/">
+    <img src="/skins/lovelyanimal/images/xml.gif" alt="订阅" />
+</a></li>
+	<li class="listitem">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+            <h1>统计</h1>
+	<ul class="list">
+		<li class="listitem">随笔 - 18</li>
+		<li class="listitem">文章 - 0</li>
+		<li class="listitem">评论 - 2</li>
+		<li class="listitem">引用 - 
+0
+	</li>
+</ul>
+
+
+            <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+            <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+        
+        <div class="spacer">
+            &nbsp;</div>
+    </div>
+    <div id="main">
+        <div id="post_detail">
+<div class="block">
+	<h1 class="block_title">
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/kekexxr/p/11574589.html">
+    <span>opencv+python 车牌识别</span>
+    
+
+
+</a>
+</h1>
+	<div class="post">
+		<div class="postcontent">
+			
+<div id="cnblogs_post_body" class="blogpost-body">
+    <p><img src="https://img2018.cnblogs.com/blog/1600182/201909/1600182-20190923202744335-378960865.png" alt="" width="843" height="227"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)">  1</span> <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> -*- coding: utf-8 -*-</span>
+<span style="color: rgba(0, 128, 128, 1)">  2</span> <span style="color: rgba(128, 0, 0, 1)">"""</span>
+<span style="color: rgba(0, 128, 128, 1)">  3</span> <span style="color: rgba(128, 0, 0, 1)">Created on Tue Oct 23 20:46:45 2018
+</span><span style="color: rgba(0, 128, 128, 1)">  4</span> 
+<span style="color: rgba(0, 128, 128, 1)">  5</span> <span style="color: rgba(128, 0, 0, 1)">@author: Administrator
+</span><span style="color: rgba(0, 128, 128, 1)">  6</span> <span style="color: rgba(128, 0, 0, 1)">"""</span>
+<span style="color: rgba(0, 128, 128, 1)">  7</span> 
+<span style="color: rgba(0, 128, 128, 1)">  8</span> <span style="color: rgba(0, 0, 255, 1)">from</span> cv2 <span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)">  cv2
+</span><span style="color: rgba(0, 128, 128, 1)">  9</span> <span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)"> numpy as np
+</span><span style="color: rgba(0, 128, 128, 1)"> 10</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 11</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 12</span> <span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> stretch(img):
+</span><span style="color: rgba(0, 128, 128, 1)"> 13</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)"> 14</span> <span style="color: rgba(128, 0, 0, 1)">    图像拉伸函数
+</span><span style="color: rgba(0, 128, 128, 1)"> 15</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)"> 16</span>     maxi=<span style="color: rgba(0, 0, 0, 1)">float(img.max())
+</span><span style="color: rgba(0, 128, 128, 1)"> 17</span>     mini=<span style="color: rgba(0, 0, 0, 1)">float(img.min())
+</span><span style="color: rgba(0, 128, 128, 1)"> 18</span>     
+<span style="color: rgba(0, 128, 128, 1)"> 19</span>     <span style="color: rgba(0, 0, 255, 1)">for</span> i <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> range(img.shape[0]):
+</span><span style="color: rgba(0, 128, 128, 1)"> 20</span>         <span style="color: rgba(0, 0, 255, 1)">for</span> j <span style="color: rgba(0, 0, 255, 1)">in</span> range(img.shape[1<span style="color: rgba(0, 0, 0, 1)">]):
+</span><span style="color: rgba(0, 128, 128, 1)"> 21</span>             img[i,j]=(255/(maxi-mini)*img[i,j]-(255*mini)/(maxi-<span style="color: rgba(0, 0, 0, 1)">mini))
+</span><span style="color: rgba(0, 128, 128, 1)"> 22</span>     
+<span style="color: rgba(0, 128, 128, 1)"> 23</span>     <span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> img
+</span><span style="color: rgba(0, 128, 128, 1)"> 24</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 25</span> <span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> dobinaryzation(img):
+</span><span style="color: rgba(0, 128, 128, 1)"> 26</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)"> 27</span> <span style="color: rgba(128, 0, 0, 1)">    二值化处理函数
+</span><span style="color: rgba(0, 128, 128, 1)"> 28</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)"> 29</span>     maxi=<span style="color: rgba(0, 0, 0, 1)">float(img.max())
+</span><span style="color: rgba(0, 128, 128, 1)"> 30</span>     mini=<span style="color: rgba(0, 0, 0, 1)">float(img.min())
+</span><span style="color: rgba(0, 128, 128, 1)"> 31</span>     
+<span style="color: rgba(0, 128, 128, 1)"> 32</span>     x=maxi-((maxi-mini)/2<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 128, 128, 1)"> 33</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">二值化,返回阈值ret  和  二值化操作后的图像thresh</span>
+<span style="color: rgba(0, 128, 128, 1)"> 34</span>     ret,thresh=cv2.threshold(img,x,255<span style="color: rgba(0, 0, 0, 1)">,cv2.THRESH_BINARY)
+</span><span style="color: rgba(0, 128, 128, 1)"> 35</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">返回二值化后的黑白图像</span>
+<span style="color: rgba(0, 128, 128, 1)"> 36</span>     <span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> thresh
+</span><span style="color: rgba(0, 128, 128, 1)"> 37</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 38</span> <span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> find_rectangle(contour):
+</span><span style="color: rgba(0, 128, 128, 1)"> 39</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)"> 40</span> <span style="color: rgba(128, 0, 0, 1)">    寻找矩形轮廓
+</span><span style="color: rgba(0, 128, 128, 1)"> 41</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)"> 42</span>     y,x=<span style="color: rgba(0, 0, 0, 1)">[],[]
+</span><span style="color: rgba(0, 128, 128, 1)"> 43</span>     
+<span style="color: rgba(0, 128, 128, 1)"> 44</span>     <span style="color: rgba(0, 0, 255, 1)">for</span> p <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> contour:
+</span><span style="color: rgba(0, 128, 128, 1)"> 45</span> <span style="color: rgba(0, 0, 0, 1)">        y.append(p[0][0])
+</span><span style="color: rgba(0, 128, 128, 1)"> 46</span>         x.append(p[0][1<span style="color: rgba(0, 0, 0, 1)">])
+</span><span style="color: rgba(0, 128, 128, 1)"> 47</span>     
+<span style="color: rgba(0, 128, 128, 1)"> 48</span>     <span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> [min(y),min(x),max(y),max(x)]
+</span><span style="color: rgba(0, 128, 128, 1)"> 49</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 50</span> <span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> locate_license(img,afterimg):
+</span><span style="color: rgba(0, 128, 128, 1)"> 51</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)"> 52</span> <span style="color: rgba(128, 0, 0, 1)">    定位车牌号
+</span><span style="color: rgba(0, 128, 128, 1)"> 53</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)"> 54</span>     contours,hierarchy=<span style="color: rgba(0, 0, 0, 1)">cv2.findContours(img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+</span><span style="color: rgba(0, 128, 128, 1)"> 55</span>     
+<span style="color: rgba(0, 128, 128, 1)"> 56</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">找出最大的三个区域</span>
+<span style="color: rgba(0, 128, 128, 1)"> 57</span>     block=<span style="color: rgba(0, 0, 0, 1)">[]
+</span><span style="color: rgba(0, 128, 128, 1)"> 58</span>     <span style="color: rgba(0, 0, 255, 1)">for</span> c <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> contours:
+</span><span style="color: rgba(0, 128, 128, 1)"> 59</span>         <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">找出轮廓的左上点和右下点，由此计算它的面积和长度比</span>
+<span style="color: rgba(0, 128, 128, 1)"> 60</span>         r=<span style="color: rgba(0, 0, 0, 1)">find_rectangle(c)
+</span><span style="color: rgba(0, 128, 128, 1)"> 61</span>         a=(r[2]-r[0])*(r[3]-r[1])   <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">面积</span>
+<span style="color: rgba(0, 128, 128, 1)"> 62</span>         s=(r[2]-r[0])*(r[3]-r[1])   <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">长度比</span>
+<span style="color: rgba(0, 128, 128, 1)"> 63</span>         
+<span style="color: rgba(0, 128, 128, 1)"> 64</span> <span style="color: rgba(0, 0, 0, 1)">        block.append([r,a,s])
+</span><span style="color: rgba(0, 128, 128, 1)"> 65</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">选出面积最大的3个区域</span>
+<span style="color: rgba(0, 128, 128, 1)"> 66</span>     block=sorted(block,key=<span style="color: rgba(0, 0, 255, 1)">lambda</span> b: b[1])[-3<span style="color: rgba(0, 0, 0, 1)">:]
+</span><span style="color: rgba(0, 128, 128, 1)"> 67</span>     
+<span style="color: rgba(0, 128, 128, 1)"> 68</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">使用颜色识别判断找出最像车牌的区域</span>
+<span style="color: rgba(0, 128, 128, 1)"> 69</span>     maxweight,maxindex=0,-1
+<span style="color: rgba(0, 128, 128, 1)"> 70</span>     <span style="color: rgba(0, 0, 255, 1)">for</span> i <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> range(len(block)):
+</span><span style="color: rgba(0, 128, 128, 1)"> 71</span>         b=afterimg[block[i][0][1]:block[i][0][3],block[i][0][0]:block[i][0][2<span style="color: rgba(0, 0, 0, 1)">]]
+</span><span style="color: rgba(0, 128, 128, 1)"> 72</span>         <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">BGR转HSV</span>
+<span style="color: rgba(0, 128, 128, 1)"> 73</span>         hsv=<span style="color: rgba(0, 0, 0, 1)">cv2.cvtColor(b,cv2.COLOR_BGR2HSV)
+</span><span style="color: rgba(0, 128, 128, 1)"> 74</span>         <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">蓝色车牌的范围</span>
+<span style="color: rgba(0, 128, 128, 1)"> 75</span>         lower=np.array([100,50,50<span style="color: rgba(0, 0, 0, 1)">])
+</span><span style="color: rgba(0, 128, 128, 1)"> 76</span>         upper=np.array([140,255,255<span style="color: rgba(0, 0, 0, 1)">])
+</span><span style="color: rgba(0, 128, 128, 1)"> 77</span>         <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">根据阈值构建掩膜</span>
+<span style="color: rgba(0, 128, 128, 1)"> 78</span>         mask=<span style="color: rgba(0, 0, 0, 1)">cv2.inRange(hsv,lower,upper)
+</span><span style="color: rgba(0, 128, 128, 1)"> 79</span>         <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">统计权值</span>
+<span style="color: rgba(0, 128, 128, 1)"> 80</span>         w1=<span style="color: rgba(0, 0, 0, 1)">0
+</span><span style="color: rgba(0, 128, 128, 1)"> 81</span>         <span style="color: rgba(0, 0, 255, 1)">for</span> m <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> mask:
+</span><span style="color: rgba(0, 128, 128, 1)"> 82</span>             w1+=m/255
+<span style="color: rgba(0, 128, 128, 1)"> 83</span>         
+<span style="color: rgba(0, 128, 128, 1)"> 84</span>         w2=<span style="color: rgba(0, 0, 0, 1)">0
+</span><span style="color: rgba(0, 128, 128, 1)"> 85</span>         <span style="color: rgba(0, 0, 255, 1)">for</span> n <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> w1:
+</span><span style="color: rgba(0, 128, 128, 1)"> 86</span>             w2+=<span style="color: rgba(0, 0, 0, 1)">n
+</span><span style="color: rgba(0, 128, 128, 1)"> 87</span>             
+<span style="color: rgba(0, 128, 128, 1)"> 88</span>         <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">选出最大权值的区域</span>
+<span style="color: rgba(0, 128, 128, 1)"> 89</span>         <span style="color: rgba(0, 0, 255, 1)">if</span> w2&gt;<span style="color: rgba(0, 0, 0, 1)">maxweight:
+</span><span style="color: rgba(0, 128, 128, 1)"> 90</span>             maxindex=<span style="color: rgba(0, 0, 0, 1)">i
+</span><span style="color: rgba(0, 128, 128, 1)"> 91</span>             maxweight=<span style="color: rgba(0, 0, 0, 1)">w2
+</span><span style="color: rgba(0, 128, 128, 1)"> 92</span>             
+<span style="color: rgba(0, 128, 128, 1)"> 93</span>     <span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> block[maxindex][0]
+</span><span style="color: rgba(0, 128, 128, 1)"> 94</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 95</span> <span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> find_license(img):
+</span><span style="color: rgba(0, 128, 128, 1)"> 96</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)"> 97</span> <span style="color: rgba(128, 0, 0, 1)">    预处理函数
+</span><span style="color: rgba(0, 128, 128, 1)"> 98</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)"> 99</span>     m=400*img.shape[0]/img.shape[1<span style="color: rgba(0, 0, 0, 1)">]
+</span><span style="color: rgba(0, 128, 128, 1)">100</span>     
+<span style="color: rgba(0, 128, 128, 1)">101</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">压缩图像</span>
+<span style="color: rgba(0, 128, 128, 1)">102</span>     img=cv2.resize(img,(400,int(m)),interpolation=<span style="color: rgba(0, 0, 0, 1)">cv2.INTER_CUBIC)
+</span><span style="color: rgba(0, 128, 128, 1)">103</span>     
+<span style="color: rgba(0, 128, 128, 1)">104</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">BGR转换为灰度图像</span>
+<span style="color: rgba(0, 128, 128, 1)">105</span>     gray_img=<span style="color: rgba(0, 0, 0, 1)">cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+</span><span style="color: rgba(0, 128, 128, 1)">106</span>     
+<span style="color: rgba(0, 128, 128, 1)">107</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">灰度拉伸</span>
+<span style="color: rgba(0, 128, 128, 1)">108</span>     stretchedimg=<span style="color: rgba(0, 0, 0, 1)">stretch(gray_img)
+</span><span style="color: rgba(0, 128, 128, 1)">109</span>     
+<span style="color: rgba(0, 128, 128, 1)">110</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span><span style="color: rgba(128, 0, 0, 1)">进行开运算，用来去除噪声</span><span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)">111</span>     r=16
+<span style="color: rgba(0, 128, 128, 1)">112</span>     h=w=r*2+1
+<span style="color: rgba(0, 128, 128, 1)">113</span>     kernel=<span style="color: rgba(0, 0, 0, 1)">np.zeros((h,w),np.uint8)
+</span><span style="color: rgba(0, 128, 128, 1)">114</span>     cv2.circle(kernel,(r,r),r,1,-1<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 128, 128, 1)">115</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">开运算</span>
+<span style="color: rgba(0, 128, 128, 1)">116</span>     openingimg=<span style="color: rgba(0, 0, 0, 1)">cv2.morphologyEx(stretchedimg,cv2.MORPH_OPEN,kernel)
+</span><span style="color: rgba(0, 128, 128, 1)">117</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">获取差分图，两幅图像做差  cv2.absdiff('图像1','图像2')</span>
+<span style="color: rgba(0, 128, 128, 1)">118</span>     strtimg=<span style="color: rgba(0, 0, 0, 1)">cv2.absdiff(stretchedimg,openingimg)
+</span><span style="color: rgba(0, 128, 128, 1)">119</span>     
+<span style="color: rgba(0, 128, 128, 1)">120</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">图像二值化</span>
+<span style="color: rgba(0, 128, 128, 1)">121</span>     binaryimg=<span style="color: rgba(0, 0, 0, 1)">dobinaryzation(strtimg)
+</span><span style="color: rgba(0, 128, 128, 1)">122</span>     
+<span style="color: rgba(0, 128, 128, 1)">123</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">canny边缘检测</span>
+<span style="color: rgba(0, 128, 128, 1)">124</span>     canny=cv2.Canny(binaryimg,binaryimg.shape[0],binaryimg.shape[1<span style="color: rgba(0, 0, 0, 1)">])
+</span><span style="color: rgba(0, 128, 128, 1)">125</span>     
+<span style="color: rgba(0, 128, 128, 1)">126</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span><span style="color: rgba(128, 0, 0, 1)">消除小的区域，保留大块的区域，从而定位车牌</span><span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)">127</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">进行闭运算</span>
+<span style="color: rgba(0, 128, 128, 1)">128</span>     kernel=np.ones((5,19<span style="color: rgba(0, 0, 0, 1)">),np.uint8)
+</span><span style="color: rgba(0, 128, 128, 1)">129</span>     closingimg=<span style="color: rgba(0, 0, 0, 1)">cv2.morphologyEx(canny,cv2.MORPH_CLOSE,kernel)
+</span><span style="color: rgba(0, 128, 128, 1)">130</span>     
+<span style="color: rgba(0, 128, 128, 1)">131</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">进行开运算</span>
+<span style="color: rgba(0, 128, 128, 1)">132</span>     openingimg=<span style="color: rgba(0, 0, 0, 1)">cv2.morphologyEx(closingimg,cv2.MORPH_OPEN,kernel)
+</span><span style="color: rgba(0, 128, 128, 1)">133</span>     
+<span style="color: rgba(0, 128, 128, 1)">134</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">再次进行开运算</span>
+<span style="color: rgba(0, 128, 128, 1)">135</span>     kernel=np.ones((11,5<span style="color: rgba(0, 0, 0, 1)">),np.uint8)
+</span><span style="color: rgba(0, 128, 128, 1)">136</span>     openingimg=<span style="color: rgba(0, 0, 0, 1)">cv2.morphologyEx(openingimg,cv2.MORPH_OPEN,kernel)
+</span><span style="color: rgba(0, 128, 128, 1)">137</span>     
+<span style="color: rgba(0, 128, 128, 1)">138</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">消除小区域，定位车牌位置</span>
+<span style="color: rgba(0, 128, 128, 1)">139</span>     rect=<span style="color: rgba(0, 0, 0, 1)">locate_license(openingimg,img)
+</span><span style="color: rgba(0, 128, 128, 1)">140</span>     
+<span style="color: rgba(0, 128, 128, 1)">141</span>     <span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> rect,img
+</span><span style="color: rgba(0, 128, 128, 1)">142</span> 
+<span style="color: rgba(0, 128, 128, 1)">143</span> <span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> cut_license(afterimg,rect):
+</span><span style="color: rgba(0, 128, 128, 1)">144</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)">145</span> <span style="color: rgba(128, 0, 0, 1)">    图像分割函数
+</span><span style="color: rgba(0, 128, 128, 1)">146</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)">147</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">转换为宽度和高度</span>
+<span style="color: rgba(0, 128, 128, 1)">148</span>     rect[2]=rect[2]-<span style="color: rgba(0, 0, 0, 1)">rect[0]
+</span><span style="color: rgba(0, 128, 128, 1)">149</span>     rect[3]=rect[3]-rect[1<span style="color: rgba(0, 0, 0, 1)">]
+</span><span style="color: rgba(0, 128, 128, 1)">150</span>     rect_copy=<span style="color: rgba(0, 0, 0, 1)">tuple(rect.copy())
+</span><span style="color: rgba(0, 128, 128, 1)">151</span>     rect=<span style="color: rgba(0, 0, 0, 1)">[0,0,0,0]
+</span><span style="color: rgba(0, 128, 128, 1)">152</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">创建掩膜</span>
+<span style="color: rgba(0, 128, 128, 1)">153</span>     mask=np.zeros(afterimg.shape[:2<span style="color: rgba(0, 0, 0, 1)">],np.uint8)
+</span><span style="color: rgba(0, 128, 128, 1)">154</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">创建背景模型  大小只能为13*5，行数只能为1，单通道浮点型</span>
+<span style="color: rgba(0, 128, 128, 1)">155</span>     bgdModel=np.zeros((1,65<span style="color: rgba(0, 0, 0, 1)">),np.float64)
+</span><span style="color: rgba(0, 128, 128, 1)">156</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">创建前景模型</span>
+<span style="color: rgba(0, 128, 128, 1)">157</span>     fgdModel=np.zeros((1,65<span style="color: rgba(0, 0, 0, 1)">),np.float64)
+</span><span style="color: rgba(0, 128, 128, 1)">158</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">分割图像</span>
+<span style="color: rgba(0, 128, 128, 1)">159</span>     cv2.grabCut(afterimg,mask,rect_copy,bgdModel,fgdModel,5<span style="color: rgba(0, 0, 0, 1)">,cv2.GC_INIT_WITH_RECT)
+</span><span style="color: rgba(0, 128, 128, 1)">160</span>     mask2=np.where((mask==2)|(mask==0),0,1).astype(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">uint8</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 128, 128, 1)">161</span>     img_show=afterimg*<span style="color: rgba(0, 0, 0, 1)">mask2[:,:,np.newaxis]
+</span><span style="color: rgba(0, 128, 128, 1)">162</span>     
+<span style="color: rgba(0, 128, 128, 1)">163</span>     <span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> img_show
+</span><span style="color: rgba(0, 128, 128, 1)">164</span> 
+<span style="color: rgba(0, 128, 128, 1)">165</span> <span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> deal_license(licenseimg):
+</span><span style="color: rgba(0, 128, 128, 1)">166</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)">167</span> <span style="color: rgba(128, 0, 0, 1)">    车牌图片二值化
+</span><span style="color: rgba(0, 128, 128, 1)">168</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)">169</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">车牌变为灰度图像</span>
+<span style="color: rgba(0, 128, 128, 1)">170</span>     gray_img=<span style="color: rgba(0, 0, 0, 1)">cv2.cvtColor(licenseimg,cv2.COLOR_BGR2GRAY)
+</span><span style="color: rgba(0, 128, 128, 1)">171</span>     
+<span style="color: rgba(0, 128, 128, 1)">172</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">均值滤波  去除噪声</span>
+<span style="color: rgba(0, 128, 128, 1)">173</span>     kernel=np.ones((3,3),np.float32)/9
+<span style="color: rgba(0, 128, 128, 1)">174</span>     gray_img=cv2.filter2D(gray_img,-1<span style="color: rgba(0, 0, 0, 1)">,kernel)
+</span><span style="color: rgba(0, 128, 128, 1)">175</span>     
+<span style="color: rgba(0, 128, 128, 1)">176</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">二值化处理</span>
+<span style="color: rgba(0, 128, 128, 1)">177</span>     ret,thresh=cv2.threshold(gray_img,120,255<span style="color: rgba(0, 0, 0, 1)">,cv2.THRESH_BINARY)
+</span><span style="color: rgba(0, 128, 128, 1)">178</span>     
+<span style="color: rgba(0, 128, 128, 1)">179</span>     <span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> thresh
+</span><span style="color: rgba(0, 128, 128, 1)">180</span> 
+<span style="color: rgba(0, 128, 128, 1)">181</span> 
+<span style="color: rgba(0, 128, 128, 1)">182</span> <span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> find_end(start,arg,black,white,width,black_max,white_max):
+</span><span style="color: rgba(0, 128, 128, 1)">183</span>     end=start+1
+<span style="color: rgba(0, 128, 128, 1)">184</span>     <span style="color: rgba(0, 0, 255, 1)">for</span> m <span style="color: rgba(0, 0, 255, 1)">in</span> range(start+1,width-1<span style="color: rgba(0, 0, 0, 1)">):
+</span><span style="color: rgba(0, 128, 128, 1)">185</span>         <span style="color: rgba(0, 0, 255, 1)">if</span> (black[m] <span style="color: rgba(0, 0, 255, 1)">if</span> arg <span style="color: rgba(0, 0, 255, 1)">else</span> white[m])&gt;(0.98*black_max <span style="color: rgba(0, 0, 255, 1)">if</span> arg <span style="color: rgba(0, 0, 255, 1)">else</span> 0.98*<span style="color: rgba(0, 0, 0, 1)">white_max):
+</span><span style="color: rgba(0, 128, 128, 1)">186</span>             end=<span style="color: rgba(0, 0, 0, 1)">m
+</span><span style="color: rgba(0, 128, 128, 1)">187</span>             <span style="color: rgba(0, 0, 255, 1)">break</span>
+<span style="color: rgba(0, 128, 128, 1)">188</span>     <span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> end
+</span><span style="color: rgba(0, 128, 128, 1)">189</span>                 
+<span style="color: rgba(0, 128, 128, 1)">190</span> 
+<span style="color: rgba(0, 128, 128, 1)">191</span> <span style="color: rgba(0, 0, 255, 1)">if</span> <span style="color: rgba(128, 0, 128, 1)">__name__</span>==<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">__main__</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+</span><span style="color: rgba(0, 128, 128, 1)">192</span>     img=cv2.imread(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">car.jpg</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">,cv2.IMREAD_COLOR)
+</span><span style="color: rgba(0, 128, 128, 1)">193</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">预处理图像</span>
+<span style="color: rgba(0, 128, 128, 1)">194</span>     rect,afterimg=<span style="color: rgba(0, 0, 0, 1)">find_license(img)
+</span><span style="color: rgba(0, 128, 128, 1)">195</span>     
+<span style="color: rgba(0, 128, 128, 1)">196</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">框出车牌号</span>
+<span style="color: rgba(0, 128, 128, 1)">197</span>     cv2.rectangle(afterimg,(rect[0],rect[1]),(rect[2],rect[3]),(0,255,0),2<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 128, 128, 1)">198</span>     cv2.imshow(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">afterimg</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">,afterimg)
+</span><span style="color: rgba(0, 128, 128, 1)">199</span>     
+<span style="color: rgba(0, 128, 128, 1)">200</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">分割车牌与背景</span>
+<span style="color: rgba(0, 128, 128, 1)">201</span>     cutimg=<span style="color: rgba(0, 0, 0, 1)">cut_license(afterimg,rect)
+</span><span style="color: rgba(0, 128, 128, 1)">202</span>     cv2.imshow(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">cutimg</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">,cutimg)
+</span><span style="color: rgba(0, 128, 128, 1)">203</span>       
+<span style="color: rgba(0, 128, 128, 1)">204</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">二值化生成黑白图</span>
+<span style="color: rgba(0, 128, 128, 1)">205</span>     thresh=<span style="color: rgba(0, 0, 0, 1)">deal_license(cutimg)
+</span><span style="color: rgba(0, 128, 128, 1)">206</span>     cv2.imshow(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">thresh</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">,thresh)
+</span><span style="color: rgba(0, 128, 128, 1)">207</span> <span style="color: rgba(0, 0, 0, 1)">    cv2.waitKey(0)
+</span><span style="color: rgba(0, 128, 128, 1)">208</span>     
+<span style="color: rgba(0, 128, 128, 1)">209</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">分割字符</span>
+<span style="color: rgba(0, 128, 128, 1)">210</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)">211</span> <span style="color: rgba(128, 0, 0, 1)">    判断底色和字色
+</span><span style="color: rgba(0, 128, 128, 1)">212</span>     <span style="color: rgba(128, 0, 0, 1)">'''</span>
+<span style="color: rgba(0, 128, 128, 1)">213</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">记录黑白像素总和</span>
+<span style="color: rgba(0, 128, 128, 1)">214</span>     white=<span style="color: rgba(0, 0, 0, 1)">[]
+</span><span style="color: rgba(0, 128, 128, 1)">215</span>     black=<span style="color: rgba(0, 0, 0, 1)">[]
+</span><span style="color: rgba(0, 128, 128, 1)">216</span>     height=thresh.shape[0]  <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">263</span>
+<span style="color: rgba(0, 128, 128, 1)">217</span>     width=thresh.shape[1]   <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">400</span>
+<span style="color: rgba(0, 128, 128, 1)">218</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">print('height',height)</span>
+<span style="color: rgba(0, 128, 128, 1)">219</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">print('width',width)</span>
+<span style="color: rgba(0, 128, 128, 1)">220</span>     white_max=<span style="color: rgba(0, 0, 0, 1)">0
+</span><span style="color: rgba(0, 128, 128, 1)">221</span>     black_max=<span style="color: rgba(0, 0, 0, 1)">0
+</span><span style="color: rgba(0, 128, 128, 1)">222</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">计算每一列的黑白像素总和</span>
+<span style="color: rgba(0, 128, 128, 1)">223</span>     <span style="color: rgba(0, 0, 255, 1)">for</span> i <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> range(width):
+</span><span style="color: rgba(0, 128, 128, 1)">224</span>         line_white=<span style="color: rgba(0, 0, 0, 1)">0
+</span><span style="color: rgba(0, 128, 128, 1)">225</span>         line_black=<span style="color: rgba(0, 0, 0, 1)">0
+</span><span style="color: rgba(0, 128, 128, 1)">226</span>         <span style="color: rgba(0, 0, 255, 1)">for</span> j <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> range(height):
+</span><span style="color: rgba(0, 128, 128, 1)">227</span>             <span style="color: rgba(0, 0, 255, 1)">if</span> thresh[j][i]==255<span style="color: rgba(0, 0, 0, 1)">:
+</span><span style="color: rgba(0, 128, 128, 1)">228</span>                 line_white+=1
+<span style="color: rgba(0, 128, 128, 1)">229</span>             <span style="color: rgba(0, 0, 255, 1)">if</span> thresh[j][i]==<span style="color: rgba(0, 0, 0, 1)">0:
+</span><span style="color: rgba(0, 128, 128, 1)">230</span>                 line_black+=1
+<span style="color: rgba(0, 128, 128, 1)">231</span>         white_max=<span style="color: rgba(0, 0, 0, 1)">max(white_max,line_white)
+</span><span style="color: rgba(0, 128, 128, 1)">232</span>         black_max=<span style="color: rgba(0, 0, 0, 1)">max(black_max,line_black)
+</span><span style="color: rgba(0, 128, 128, 1)">233</span> <span style="color: rgba(0, 0, 0, 1)">        white.append(line_white)
+</span><span style="color: rgba(0, 128, 128, 1)">234</span> <span style="color: rgba(0, 0, 0, 1)">        black.append(line_black)
+</span><span style="color: rgba(0, 128, 128, 1)">235</span>         <span style="color: rgba(0, 0, 255, 1)">print</span>(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">white</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">,white)
+</span><span style="color: rgba(0, 128, 128, 1)">236</span>         <span style="color: rgba(0, 0, 255, 1)">print</span>(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">black</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">,black)
+</span><span style="color: rgba(0, 128, 128, 1)">237</span>     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">arg为true表示黑底白字，False为白底黑字</span>
+<span style="color: rgba(0, 128, 128, 1)">238</span>     arg=<span style="color: rgba(0, 0, 0, 1)">True
+</span><span style="color: rgba(0, 128, 128, 1)">239</span>     <span style="color: rgba(0, 0, 255, 1)">if</span> black_max&lt;<span style="color: rgba(0, 0, 0, 1)">white_max:
+</span><span style="color: rgba(0, 128, 128, 1)">240</span>         arg=<span style="color: rgba(0, 0, 0, 1)">False
+</span><span style="color: rgba(0, 128, 128, 1)">241</span>     
+<span style="color: rgba(0, 128, 128, 1)">242</span>     n=1
+<span style="color: rgba(0, 128, 128, 1)">243</span>     start=1
+<span style="color: rgba(0, 128, 128, 1)">244</span>     end=2
+<span style="color: rgba(0, 128, 128, 1)">245</span>     <span style="color: rgba(0, 0, 255, 1)">while</span> n&lt;width-2<span style="color: rgba(0, 0, 0, 1)">:
+</span><span style="color: rgba(0, 128, 128, 1)">246</span>         n+=1
+<span style="color: rgba(0, 128, 128, 1)">247</span>         <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">判断是白底黑字还是黑底白字  0.05参数对应上面的0.95 可作调整</span>
+<span style="color: rgba(0, 128, 128, 1)">248</span>         <span style="color: rgba(0, 0, 255, 1)">if</span>(white[n] <span style="color: rgba(0, 0, 255, 1)">if</span> arg <span style="color: rgba(0, 0, 255, 1)">else</span> black[n])&gt;(0.02*white_max <span style="color: rgba(0, 0, 255, 1)">if</span> arg <span style="color: rgba(0, 0, 255, 1)">else</span> 0.02*<span style="color: rgba(0, 0, 0, 1)">black_max):
+</span><span style="color: rgba(0, 128, 128, 1)">249</span>             start=<span style="color: rgba(0, 0, 0, 1)">n
+</span><span style="color: rgba(0, 128, 128, 1)">250</span>             end=<span style="color: rgba(0, 0, 0, 1)">find_end(start,arg,black,white,width,black_max,white_max)
+</span><span style="color: rgba(0, 128, 128, 1)">251</span>             n=<span style="color: rgba(0, 0, 0, 1)">end
+</span><span style="color: rgba(0, 128, 128, 1)">252</span>             <span style="color: rgba(0, 0, 255, 1)">if</span> end-start&gt;5<span style="color: rgba(0, 0, 0, 1)">:
+</span><span style="color: rgba(0, 128, 128, 1)">253</span>                 cj=thresh[1<span style="color: rgba(0, 0, 0, 1)">:height,start:end]
+</span><span style="color: rgba(0, 128, 128, 1)">254</span>                 cv2.imshow(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">cutlicense</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">,cj)
+</span><span style="color: rgba(0, 128, 128, 1)">255</span> <span style="color: rgba(0, 0, 0, 1)">                cv2.waitKey(0)
+</span><span style="color: rgba(0, 128, 128, 1)">256</span>     
+<span style="color: rgba(0, 128, 128, 1)">257</span>     
+<span style="color: rgba(0, 128, 128, 1)">258</span> <span style="color: rgba(0, 0, 0, 1)">    cv2.waitKey(0)
+</span><span style="color: rgba(0, 128, 128, 1)">259</span>     cv2.destroyAllWindows()</pre>
+</div>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+		</div>
+		<div class="itemdesc">
+			posted on 
+<span id="post-date">2019-09-24 20:02</span>&nbsp;
+<a href="https://www.cnblogs.com/kekexxr/">壳壳·</a>&nbsp;
+阅读(<span id="post_view_count">3697</span>)&nbsp;
+评论(<span id="post_comment_count">1</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11574589" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(11574589);return false;">收藏</a>
+		</div>
+	</div>
+	<div class="seperator">&nbsp;</div>
+	
+	
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 491872, cb_blogApp = 'kekexxr', cb_blogUserGuid = '23bd4b4c-639e-4f16-234f-08d68db9de8b';
+    var cb_entryId = 11574589, cb_entryCreatedDate = '2019-09-24 20:02', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+</div>
+</div>
+        <div class="spacer">
+            &nbsp;</div>
+    </div>
+    <div class="footer">
+	Powered by: 
+	<br />
+	
+	<a href="https://www.cnblogs.com/" id="footer_site_link">博客园</a>
+	<br />
+	Copyright &copy; 2020 壳壳·
+<br /><span id="poweredby">Powered by .NET 5.0.0 on Kubernetes</span>
+
+</div>
+
+
+</div>
+
+
+    
+</body>
+</html>

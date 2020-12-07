@@ -1,0 +1,723 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" class="html__responsive" lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>python - Opencv：裁剪6位数的手写邮政编码 - 堆栈内存溢出</title>
+<meta name="keywords" content="python,opencv,handwriting-recognition,number-recognition" />
+<meta name="description" content=" 我正在尝试为邮政编码分类应用程序裁剪 位数的手写邮政编码，因为使用 位数的电话号码可以正常工作，但无法识别 位数的轮廓。 请更正给定的代码或提供更好的替代代码以完成上述任务。 " />
+<link rel="shortcut icon" href="/favicon.ico" />
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="applicable-device" content="pc,mobile" />
+<script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script src="https://hm.baidu.com/hm.js?f20a8a1c2b256ae89659d468148d6b17"></script><script src="https://pagead2.googlesyndication.com/pagead/js/r20201201/r20190131/reactive_library_fy2019.js"></script><script src="https://zz.bdstatic.com/linksubmit/push.js"></script><script src="https://www.googletagservices.com/activeview/js/current/osd.js?cb=%2Fr20100101"></script><script src="https://partner.googleadservices.com/gampad/cookie.js?domain=stackoom.com&amp;callback=_gfp_s_&amp;client=ca-pub-4353345653789615"></script><script src="https://pagead2.googlesyndication.com/pagead/js/r20201201/r20190131/show_ads_impl_fy2019.js" id="google_shimpl"></script><script data-ad-client="ca-pub-4353345653789615" async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" data-checked-head="true"></script>
+<noscript id="noscript-css">&lt;style&gt;body,.top-bar{margin-top:1.9em}&lt;/style&gt;</noscript>
+<style type="text/css">.post-layout i{color:grey;}</style>
+<link rel="stylesheet" type="text/css" href="https://stackoom.com/css/style.css?rand=1234567" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<style type="text/css">
+b{font-weight:normal}
+.div2{top:50px;z-index:999;position:fixed;_position:absolute}
+.sen_hover {background-color: #0FF}
+.qtip-content{font-size:14px;}
+</style>
+<link rel="preload" href="https://adservice.google.com.tw/adsid/integrator.js?domain=stackoom.com" as="script" /><script type="text/javascript" src="https://adservice.google.com.tw/adsid/integrator.js?domain=stackoom.com"></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=stackoom.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=stackoom.com"></script></head>
+<body class="question-page unified-theme" aria-hidden="false">
+	<div id="notify-container"></div>
+	<div id="custom-header"></div>
+
+	<header class="top-bar js-top-bar top-bar__network _fixed">
+		<div class="-container" role="menubar">
+        <div class="-main">
+            <a href="/" class="-logo js-gps-track"><img src="/img/logo.png" title="堆栈内存溢出" /></a>
+        </div>			
+
+            <ol class="list-reset grid gs4" role="presentation">
+                <li class="grid--cell">
+                    <a href="/" class="-marketing-link js-gps-track js-products-menu">首页</a>
+                </li>
+                <li class="grid--cell">
+                    <a href="/index?tab=Active" class="-marketing-link js-gps-track js-products-menu">活跃</a>
+                </li>
+                <li class="grid--cell">
+                    <a href="/index?tab=Frequent" class="-marketing-link js-gps-track js-products-menu">普遍</a>
+                </li>
+            </ol>
+
+			<form id="search" action="/search" method="get" class="searchbar js-searchbar">
+				<div class="ps-relative">
+					<input name="q" type="text" placeholder="在16,156,436个问题中搜索" class="s-input s-input__search js-search-field " aria-label="搜索" />
+					<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="svg-icon s-input-icon s-input-icon__search iconSearch" width="18" height="18" viewBox="0 0 18 18">
+						<path d="M18 16.5l-5.14-5.18h-.35a7 7 0 1 0-1.19 1.19v.35L16.5 18l1.5-1.5zM12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0z"/></svg>
+				</div>
+			</form>
+
+			<ol class="-secondary js-secondary-topbar-links drop-icons-responsively user-logged-out">
+			        <li class="-item searchbar-trigger js-searchbar-trigger"><a href="javascript:void(0)" class="-link"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="svg-icon iconSearch" width="18" height="18" viewBox="0 0 18 18"><path d="M18 16.5l-5.14-5.18h-.35a7 7 0 1 0-1.19 1.19v.35L16.5 18l1.5-1.5zM12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0z"/></svg></a></li>
+			</ol>
+
+		</div>
+	</header>
+
+<div class="container" style="height: auto !important;">
+
+	
+
+	<div id="content" class="snippet-hidden" style="width: calc(100%); max-width: 100%; border: 1px solid rgb(214, 217, 220); height: auto !important;">
+
+		<div itemprop="mainEntity" style="height: auto !important;">
+
+			<div class="inner-content clearfix" style="height: auto !important;">
+
+				<div id="question-header" class="grid sm:fd-column">
+					<h1 itemprop="name" class="grid--cell fs-headline1 fl1 ow-break-word mb8">
+						<a href="/question/3xNO6/Opencv-裁剪-位数的手写邮政编码" class="question-hyperlink">Opencv：裁剪6位数的手写邮政编码</a>
+                        <br /><span style="font-size:12px;">Opencv: Crop 6 digit handwritten zip code</span>						
+					</h1>
+
+				</div>
+				<div class="grid fw-wrap pb8 mb16 bb bc-black-2">
+					<div class="grid--cell ws-nowrap mr16 mb8" title="2019-10-21 05:31:33">
+						<span class="fc-light mr2">发表于</span>
+						<time itemprop="dateCreated">2019-10-21 05:31:33</time>
+					</div>
+					
+					<div class="grid--cell ws-nowrap mb8" title="Viewed 15 times">
+						<span class="fc-light mr2">查看 15 次</span>
+					</div>
+					<div class="grid--cell ws-nowrap mb8" style="padding-left:20px;">
+				   
+				   
+				     <a href="/tag/python" rel="tag">python</a>  
+				   
+				     <a href="/tag/opencv" rel="tag">opencv</a>  
+				   
+				     <a href="/tag/handwriting-recognition" rel="tag">handwriting-recognition</a>  
+				   
+				     <a href="/tag/number-recognition" rel="tag">number-recognition</a>  
+				   					
+					</div>					
+				</div>
+				<div id="mainbar" role="main" aria-label="question and answers" style="min-height: 0px !important; height: auto !important;">
+
+					<div class="question" data-questionid="58480266" id="question" style="height: auto !important;">
+
+
+						<div class="post-layout" style="height: auto !important;">
+						
+							<div class="postcell post-layout--right" style="min-width: 300px; padding: 0px; height: auto !important;">
+                                    <center>
+									<!-- stackoom_728_90 -->
+									<ins class="adsbygoogle" style="display: block; height: 280px;" data-ad-client="ca-pub-4353345653789615" data-ad-slot="1592965302" data-ad-format="auto" data-full-width-responsive="true" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:878px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_1_anchor" style="display: block; border: none; height: 280px; margin: 0px; padding: 0px; position: relative; visibility: visible; width: 878px; background-color: transparent; overflow: visible;"><iframe id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0;width:878px;height:280px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="878" height="280" frameborder="0" src="https://googleads.g.doubleclick.net/pagead/ads?guci=2.2.0.0.2.2.0.0&amp;client=ca-pub-4353345653789615&amp;output=html&amp;h=280&amp;slotname=1592965302&amp;adk=1572485517&amp;adf=2300850000&amp;pi=t.ma~as.1592965302&amp;w=878&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1607331000&amp;rafmt=1&amp;psa=0&amp;format=878x280&amp;url=https%3A%2F%2Fstackoom.com%2Fquestion%2F3xNO6%2FOpencv-%25E8%25A3%2581%25E5%2589%25AA-%25E4%25BD%258D%25E6%2595%25B0%25E7%259A%2584%25E6%2589%258B%25E5%2586%2599%25E9%2582%25AE%25E6%2594%25BF%25E7%25BC%2596%25E7%25A0%2581&amp;flash=0&amp;fwr=0&amp;fwrattr=true&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;tt_state=W3siaXNzdWVyT3JpZ2luIjoiaHR0cHM6Ly9hZHNlcnZpY2UuZ29vZ2xlLmNvbSIsInN0YXRlIjowfSx7Imlzc3Vlck9yaWdpbiI6Imh0dHBzOi8vYXR0ZXN0YXRpb24uYW5kcm9pZC5jb20iLCJzdGF0ZSI6MH1d&amp;dt=1607331000588&amp;bpp=8&amp;bdt=422&amp;idt=90&amp;shv=r20201201&amp;cbv=r20190131&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;prev_fmts=0x0&amp;nras=1&amp;correlator=4951679876551&amp;frm=20&amp;pv=1&amp;ga_vid=1716992423.1607331001&amp;ga_sid=1607331001&amp;ga_hid=100977113&amp;ga_fc=0&amp;u_tz=480&amp;u_his=2&amp;u_java=0&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_nplug=3&amp;u_nmime=4&amp;adx=17&amp;ady=194&amp;biw=912&amp;bih=889&amp;scr_x=0&amp;scr_y=0&amp;oid=3&amp;pvsid=1215291361412374&amp;pem=491&amp;rx=0&amp;eae=0&amp;fc=1920&amp;brdim=10%2C10%2C10%2C10%2C1920%2C0%2C945%2C1020%2C929%2C889&amp;vis=1&amp;rsz=d%7C%7CpeE%7Cp&amp;abl=XS&amp;pfx=0&amp;fu=8320&amp;bc=31&amp;ifi=1&amp;uci=a!1&amp;fsb=1&amp;xpc=C9bTtkuggQ&amp;p=https%3A//stackoom.com&amp;dtd=95" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!1" data-google-query-id="CIT2zsq-u-0CFYhHlgodT2gAoA" data-load-complete="true"></iframe></ins></ins></ins>
+									<script>
+									     (adsbygoogle = window.adsbygoogle || []).push({});
+									</script>	
+                                   </center>
+								<div class="post-text" itemprop="text">
+								  <div class="msg_tips"><div style="box-sizing: border-box;margin-top:5px;margin-bottom:5px;padding-top:3px;padding-bottom:3px;background-color:#f9ecad;border:1px dotted grey">温馨提示：将鼠标放在语句上可以显示对应的英文。   或者   <a href="javascript:void(0)" class="post-tag js-gps-track" rel="tag" id="changeToEnglish">切换至中英文显示</a> </div></div>
+								  <p> <i><!--I am trying to crop 6 digit handwritten zip code for zip code sorting application,given code work fine with a 10 digit phone number but fails to recognize 6 digit contours.--></i> <b data-hasqtip="0">我正在尝试为邮政编码分类应用程序裁剪6位数的手写邮政编码，因为使用10位数的电话号码可以正常工作，但无法识别6位数的轮廓。</b> <i><!--Please correct the given code or present better alternative code to accomplish the above mention task.--></i> <b data-hasqtip="1">请更正给定的代码或提供更好的替代代码以完成上述任务。</b> </p> 
+<pre><code>import numpy as np
+import cv2
+import imutils
+
+
+image = cv2.imread("pin5.jpg")
+image = imutils.resize(image, width=500)
+
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+gray = cv2.GaussianBlur(gray, (7, 7), 0)
+
+
+ret,thresh1 = cv2.threshold(gray ,127,255,cv2.THRESH_BINARY_INV)
+
+
+dilate = cv2.dilate(thresh1, None, iterations=2)
+
+
+cnts = cv2.findContours(dilate.copy(), cv2.RETR_EXTERNAL,
+    cv2.CHAIN_APPROX_SIMPLE)
+cnts = cnts[0] 
+orig = image.copy()
+i = 0
+
+for cnt in cnts:
+
+    if(cv2.contourArea(cnt) &lt; 80):
+        continue
+
+
+    x,y,w,h = cv2.boundingRect(cnt)
+
+
+    roi = image[y:y+h, x:x+w]
+
+
+    cv2.rectangle(orig,(x,y),(x+w,y+h),(0,255,0),2)
+
+    cv2.imwrite("roi" + str(i) + ".png", roi)
+
+    i = i + 1
+
+cv2.imshow("Image", orig)
+cv2.waitKey(0)
+</code></pre>
+								</div>
+
+								<div class="post-taglist grid gs4 gsy fd-column">
+									<div class="grid ps-relative d-block">
+									   
+									     <a href="/tag/python" class="post-tag js-gps-track" rel="tag">python</a>
+									   
+									     <a href="/tag/opencv" class="post-tag js-gps-track" rel="tag">opencv</a>
+									   
+									     <a href="/tag/handwriting-recognition" class="post-tag js-gps-track" rel="tag">handwriting-recognition</a>
+									   
+									     <a href="/tag/number-recognition" class="post-tag js-gps-track" rel="tag">number-recognition</a>
+									   
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+						
+					<div id="answers">
+						<a name="tab-top"></a>
+						
+
+                        
+                        <h2 class="bottom-notice" data-loc="1">
+                        <span class="fc-light mr2" style="font-size:10px;">  ask by Auraaf_10 translate from  <a href="/go/3xNO6" rel="nofollow noreferrer" target="_blank">so</a> </span>
+                        </h2>
+					</div>
+					<div id="not_have_right_answer">
+					<h2 id="h-linked"><strong>本文未有回复，本站智能推荐：</strong></h2>
+					
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="questions" class="flush-left">
+
+
+<div class="question-summary" id="question-summary-37645576">
+	<div class="statscontainer">
+		<div class="stats">
+			<div class="status answered-accepted">
+				<strong>2</strong>回复 
+			</div>
+		</div>
+	</div>
+	<div class="summary">
+		<h3>
+			<a href="/question/2XxKi/如何使用openCV对模糊数字进行分类" class="question-hyperlink" target="_blank">如何使用openCV对模糊数字进行分类</a>
+		</h3>
+		<div class="excerpt">  我想从这种图片中捕捉数字。 
+  
+  我尝试从以下链接进行多尺度匹配。 
+  http://www.pyimagesearch.com/2015/01/26/multi-scale-template-matching-using-python-opencv/ 
+  我想知道的只是红色数字。  </div>
+	</div>
+</div>
+
+
+
+<div class="question-summary" id="question-summary-46282691">
+	<div class="statscontainer">
+		<div class="stats">
+			<div class="status answered-accepted">
+				<strong>1</strong>回复 
+			</div>
+		</div>
+	</div>
+	<div class="summary">
+		<h3>
+			<a href="/question/38CF1/opencv-裁剪手写线-线段" class="question-hyperlink" target="_blank">opencv  - 裁剪手写线（线段）</a>
+		</h3>
+		<div class="excerpt">  我正在尝试使用python和opencv构建一个手写识别系统。  字符的识别不是问题，而是分割。  我成功了： 
+
+   将单词分成单个字符 
+   按要求的顺序将单个句子分成单词。 
+
+  但我无法在文档中分割不同的行。  我尝试对轮廓进行排序（以避免线分割并仅使用分词），但它不起作用。  我</div>
+	</div>
+</div>
+
+
+
+<div class="question-summary" id="question-summary-35686024">
+	<div class="statscontainer">
+		<div class="stats">
+			<div class="status answered-accepted">
+				<strong>1</strong>回复 
+			</div>
+		</div>
+	</div>
+	<div class="summary">
+		<h3>
+			<a href="/question/2PjZ2/使用Python-OpenCV的ANN实现以实现手写识别" class="question-hyperlink" target="_blank">使用Python OpenCV的ANN实现以实现手写识别</a>
+		</h3>
+		<div class="excerpt">  每50个字母有350个样本。  神经网络分为3层。  输入层400（20 * 20张图像），隐藏层200和输出50。我使用的训练参数是： 
+
+  在这种情况下可以使用的最佳值是多少？ </div>
+	</div>
+</div>
+
+
+
+<div class="question-summary" id="question-summary-35680707">
+	<div class="statscontainer">
+		<div class="stats">
+			<div class="status answered-accepted">
+				<strong>1</strong>回复 
+			</div>
+		</div>
+	</div>
+	<div class="summary">
+		<h3>
+			<a href="/question/2PiBH/支持SVM的Python-OpenCV手写识别-更改培训和测试数量" class="question-hyperlink" target="_blank">支持SVM的Python OpenCV手写识别，更改培训和测试数量</a>
+		</h3>
+		<div class="excerpt">  http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_ml/py_svm/py_svm_opencv/py_svm_opencv.html 
+  在此示例中，OpenCV给出的训练集为250，测试量也相同。</div>
+	</div>
+</div>
+
+
+
+<div class="question-summary" id="question-summary-50502004">
+	<div class="statscontainer">
+		<div class="stats">
+			<div class="status answered-accepted">
+				<strong>1</strong>回复 
+			</div>
+		</div>
+	</div>
+	<div class="summary">
+		<h3>
+			<a href="/question/3PtsS/如何使用打开的CV在边界框内打印手写文本" class="question-hyperlink" target="_blank">如何使用打开的CV在边界框内打印手写文本</a>
+		</h3>
+		<div class="excerpt">  我试图识别手写文本（大写字母和字母数字）并打印出来。 
+  我使用了此链接中提到的代码。  手写单词识别 
+  我还能够在边界框中分别获得不同的字母，并且它给出了这样的结果。  
+  我有两个问题 
+  1-我想打印出边框内的文本 
+  2-在连续书写时会考虑整个单词，如 
+  在github链</div>
+	</div>
+</div>
+
+
+
+<div class="question-summary" id="question-summary-47377775">
+	<div class="statscontainer">
+		<div class="stats">
+			<div class="status answered-accepted">
+				<strong>1</strong>回复 
+			</div>
+		</div>
+	</div>
+	<div class="summary">
+		<h3>
+			<a href="/question/3Cn7f/使用OpenCV-python对手写字符进行良好的特征提取" class="question-hyperlink" target="_blank">使用OpenCV python对手写字符进行良好的特征提取？</a>
+		</h3>
+		<div class="excerpt">  我目前正在使用cv2.goodFeaturesToTrack（）方法。  但是，它返回的角有些模糊，并不能真正实现我想要的功能，因为它会在字符轮廓上放置一些点。  这是有关如何在我的自定义数据集上运行的图像 ： 示例图像 
+
+  如果cv2.goodFeaturesToTrack（）不是从手写字</div>
+	</div>
+</div>
+
+
+
+<div class="question-summary" id="question-summary-53962171">
+	<div class="statscontainer">
+		<div class="stats">
+			<div class="status answered-accepted">
+				<strong>1</strong>回复 
+			</div>
+		</div>
+	</div>
+	<div class="summary">
+		<h3>
+			<a href="/question/3eQ1b/使用OpenCV串行执行线段分割-裁剪" class="question-hyperlink" target="_blank">使用OpenCV串行执行线段分割（裁剪）</a>
+		</h3>
+		<div class="excerpt">  我正在使用深度学习执行整页脱机手写识别。 
+  主要思想是构建一个模型，该模型可以采用一行文本图像并为其提供相应的文本。  对于此主要任务，是对页面中的每一行进行线分割并将其发送到模型。 
+  但是，我通过在此处稍加修改来在下面应用此代码。  这里出现的主要问题是，它随机裁剪了图像的线条，我将其</div>
+	</div>
+</div>
+
+
+
+<div class="question-summary" id="question-summary-46001090">
+	<div class="statscontainer">
+		<div class="stats">
+			<div class="status answered-accepted">
+				<strong>2</strong>回复 
+			</div>
+		</div>
+	</div>
+	<div class="summary">
+		<h3>
+			<a href="/question/370z4/检测文本之间的空间-OpenCV-Python" class="question-hyperlink" target="_blank">检测文本之间的空间（OpenCV，Python）</a>
+		</h3>
+		<div class="excerpt">  我有以下代码（实际上，这是运行我正在处理的所有项目所需的4的一部分。）： 
+
+  该代码用于检测和识别图像中的手写数字。  这是一个例子： 
+  
+  假设我不在乎准确性识别。 
+  我的问题如下：如您所见，该程序采用他可以看到的所有数字并将其打印在控制台中。  从控制台，我可以将它们保存在文本</div>
+	</div>
+</div>
+
+
+
+<div class="question-summary" id="question-summary-55161922">
+	<div class="statscontainer">
+		<div class="stats">
+			<div class="status answered-accepted">
+				<strong>1</strong>回复 
+			</div>
+		</div>
+	</div>
+	<div class="summary">
+		<h3>
+			<a href="/question/3jS8Q/如何在OPENCV中对手写的帐号和分类代码进行数字分割" class="question-hyperlink" target="_blank">如何在OPENCV中对手写的帐号和分类代码进行数字分割？</a>
+		</h3>
+		<div class="excerpt">  有没有一种简单的方法可以对文件进行数字分割，如下面的屏幕截图所示？ 
+  我想使用OpenCV来完成它，因为它是我用来进行其余处理的库，但是欢迎其他建议。 
+  纸质表格：  
+  文本框：  </div>
+	</div>
+</div>
+
+
+
+<div class="question-summary" id="question-summary-44429029">
+	<div class="statscontainer">
+		<div class="stats">
+			<div class="status answered-accepted">
+				<strong>1</strong>回复 
+			</div>
+		</div>
+	</div>
+	<div class="summary">
+		<h3>
+			<a href="/question/30Q1F/如何使用Java使用OpenCV从边界框读取文本" class="question-hyperlink" target="_blank">如何使用Java使用OpenCV从边界框读取文本</a>
+		</h3>
+		<div class="excerpt">  我正在研究手写表格识别系统，到目前为止我已经达到了这一步，我已经能够使用带有openCV的java检测文本，但现在我想从每个边界框中读取文本点击打开图像 
+  我正在做研究，找到使用java与openCV相同的过程，但我无法找到任何。 
+  建议使用“JAVA”执行此特定任务的一些链接，技术，方</div>
+	</div>
+</div>
+
+
+</div></div>
+					
+				</div>
+				<div id="sidebar" class="show-votes" style="height: auto !important;">
+					<div class="module sidebar-linked">
+						<h4 id="h-linked">相关问题</h4>
+						<div id="linked_items" class="linked">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spacer">
+	<a href="/question/3loR9/如何使用-位邮政编码的坐标计算-位数邮政编码的质心">
+		<div class="answer-votes answered-accepted default">0</div>
+	</a>
+	<a href="/question/3loR9/如何使用-位邮政编码的坐标计算-位数邮政编码的质心" class="question-hyperlink">如何使用4位邮政编码的坐标计算2位数邮政编码的质心</a>
+</div>
+
+<div class="spacer">
+	<a href="/question/114rZ/从-位邮政编码获得-位数的邮政编码-programmatic-api">
+		<div class="answer-votes answered-accepted default">5</div>
+	</a>
+	<a href="/question/114rZ/从-位邮政编码获得-位数的邮政编码-programmatic-api" class="question-hyperlink">从5位邮政编码获得9位数的邮政编码，programmatic，api</a>
+</div>
+
+<div class="spacer">
+	<a href="/question/61QB/Javascript正则表达式匹配-或-位数的邮政编码">
+		<div class="answer-votes answered-accepted default">8</div>
+	</a>
+	<a href="/question/61QB/Javascript正则表达式匹配-或-位数的邮政编码" class="question-hyperlink">Javascript正则表达式匹配5或9位数的邮政编码</a>
+</div>
+
+<div class="spacer">
+	<a href="/question/38CF1/opencv-裁剪手写线-线段">
+		<div class="answer-votes answered-accepted default">10</div>
+	</a>
+	<a href="/question/38CF1/opencv-裁剪手写线-线段" class="question-hyperlink">opencv  - 裁剪手写线（线段）</a>
+</div>
+
+<div class="spacer">
+	<a href="/question/3vze1/使用正则表达式简单验证五位数邮政编码">
+		<div class="answer-votes answered-accepted default">1</div>
+	</a>
+	<a href="/question/3vze1/使用正则表达式简单验证五位数邮政编码" class="question-hyperlink">使用正则表达式简单验证五位数邮政编码</a>
+</div>
+
+<div class="spacer">
+	<a href="/question/3kJc5/如何在Tableau中为包含-位数的邮政编码绘制地图">
+		<div class="answer-votes answered-accepted default">3</div>
+	</a>
+	<a href="/question/3kJc5/如何在Tableau中为包含-位数的邮政编码绘制地图" class="question-hyperlink">如何在Tableau中为包含0位数的邮政编码绘制地图？</a>
+</div>
+
+<div class="spacer">
+	<a href="/question/3un7S/使用正则表达式获取邮政编码以及四位数">
+		<div class="answer-votes answered-accepted default">0</div>
+	</a>
+	<a href="/question/3un7S/使用正则表达式获取邮政编码以及四位数" class="question-hyperlink">使用正则表达式获取邮政编码以及四位数</a>
+</div>
+
+<div class="spacer">
+	<a href="/question/2EvRf/正则表达式-从字符串中删除非-位数的邮政编码">
+		<div class="answer-votes answered-accepted default">1</div>
+	</a>
+	<a href="/question/2EvRf/正则表达式-从字符串中删除非-位数的邮政编码" class="question-hyperlink">正则表达式-从字符串中删除非5位数的邮政编码</a>
+</div>
+
+<div class="spacer">
+	<a href="/question/3bpFn/前-位数的美国邮政编码映射到状态csv或json列表">
+		<div class="answer-votes answered-accepted default">0</div>
+	</a>
+	<a href="/question/3bpFn/前-位数的美国邮政编码映射到状态csv或json列表" class="question-hyperlink">前3位数的美国邮政编码映射到状态csv或json列表</a>
+</div>
+
+<div class="spacer">
+	<a href="/question/1RvRf/在-位数excel单元格的开头添加-以使其成为邮政编码">
+		<div class="answer-votes answered-accepted default">0</div>
+	</a>
+	<a href="/question/1RvRf/在-位数excel单元格的开头添加-以使其成为邮政编码" class="question-hyperlink">在4位数excel单元格的开头添加“ 0”以使其成为邮政编码。</a>
+</div>
+</div>
+					</div>
+                    <div id="float" style="width: 300px; height: 250px;">
+					<!-- stackoom_300_250 -->
+					<ins class="adsbygoogle" style="display: block; height: 250px; width: 300px;" data-ad-client="ca-pub-4353345653789615" data-ad-slot="3438068431" data-ad-format="auto" data-full-width-responsive="true" data-adsbygoogle-status="done"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_2_anchor" style="display: block; border: none; height: 250px; margin: 0px; padding: 0px; position: relative; visibility: visible; width: 300px; background-color: transparent; overflow: hidden;"><iframe id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0;width:300px;height:250px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="300" height="250" frameborder="0" src="https://googleads.g.doubleclick.net/pagead/ads?guci=2.2.0.0.2.2.0.0&amp;client=ca-pub-4353345653789615&amp;output=html&amp;h=250&amp;slotname=3438068431&amp;adk=3411054402&amp;adf=2996866326&amp;pi=t.ma~as.3438068431&amp;w=300&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1607331000&amp;rafmt=1&amp;psa=0&amp;format=300x250&amp;url=https%3A%2F%2Fstackoom.com%2Fquestion%2F3xNO6%2FOpencv-%25E8%25A3%2581%25E5%2589%25AA-%25E4%25BD%258D%25E6%2595%25B0%25E7%259A%2584%25E6%2589%258B%25E5%2586%2599%25E9%2582%25AE%25E6%2594%25BF%25E7%25BC%2596%25E7%25A0%2581&amp;flash=0&amp;fwr=0&amp;fwrattr=true&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;tt_state=W3siaXNzdWVyT3JpZ2luIjoiaHR0cHM6Ly9hZHNlcnZpY2UuZ29vZ2xlLmNvbSIsInN0YXRlIjowfSx7Imlzc3Vlck9yaWdpbiI6Imh0dHBzOi8vYXR0ZXN0YXRpb24uYW5kcm9pZC5jb20iLCJzdGF0ZSI6MH1d&amp;dt=1607331000633&amp;bpp=1&amp;bdt=467&amp;idt=56&amp;shv=r20201201&amp;cbv=r20190131&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;prev_fmts=0x0%2C878x280&amp;nras=1&amp;correlator=4951679876551&amp;frm=20&amp;pv=1&amp;ga_vid=1716992423.1607331001&amp;ga_sid=1607331001&amp;ga_hid=100977113&amp;ga_fc=0&amp;u_tz=480&amp;u_his=2&amp;u_java=0&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_nplug=3&amp;u_nmime=4&amp;adx=306&amp;ady=1325&amp;biw=912&amp;bih=889&amp;scr_x=0&amp;scr_y=0&amp;oid=3&amp;pvsid=1215291361412374&amp;pem=491&amp;rx=0&amp;eae=0&amp;fc=1920&amp;brdim=10%2C10%2C10%2C10%2C1920%2C0%2C945%2C1020%2C929%2C889&amp;vis=1&amp;rsz=d%7C%7CpeEbr%7Cp&amp;abl=XS&amp;pfx=0&amp;fu=8320&amp;bc=31&amp;ifi=2&amp;uci=a!2&amp;btvi=1&amp;fsb=1&amp;xpc=o1tf75sl1k&amp;p=https%3A//stackoom.com&amp;dtd=59" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!2" data-google-query-id="CKb2zsq-u-0CFVs_lgodu5QFCg" data-load-complete="true"></iframe></ins></ins></ins>
+					<script>
+					     (adsbygoogle = window.adsbygoogle || []).push({});
+					</script>                 
+                    </div>						
+				</div>
+			</div>
+
+
+
+		</div>
+
+	</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/qtip2/3.0.3/jquery.qtip.min.css" />
+<script src="https://cdn.jsdelivr.net/qtip2/3.0.3/jquery.qtip.min.js"></script>
+<style type="text/css">
+.qtip-content{font-size:14px;}
+.qtip{max-width:400px;line-height:16px}
+</style>
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+	var show_delay=90;
+	var hide_delay=200;
+	var show_effect=true;
+  
+   $("b").each(function(){
+	   $(this).hover(function(){//变色选中	
+			$(this).addClass('sen_hover');	
+	   },function(){	
+			$(this).removeClass('sen_hover');	
+	   });
+	   
+	   var preI = $(this).prev();
+	   if(preI &amp;&amp; (preI.prop('nodeName') == 'i' || preI.prop('nodeName') == 'I')){
+		   var content = preI.html();
+		   content = content.replace("&lt;!--","").replace("--&gt;","");
+		   $(this).qtip({
+	             content: {
+	                 text: "英文："+content
+	             },	
+				 position: {
+					 my: 'bottom center',
+					 at: 'top center',
+					 adjust: {
+						 x: 30,	y: -25
+							}
+// 					 viewport: $(window)	
+				  },	
+				  show: {
+						delay: show_delay,
+						effect:show_effect
+					},	
+					hide: {	
+						delay: hide_delay,	fixed: true	
+					}
+	         });				   
+	   }
+   });		   
+  
+  $.ajax({
+   url:"/relate.jsp?id=58480266",
+   type:"get",
+   dataType:"text",
+   async:true,
+   success:function(data){
+	   $("#linked_items").html(data);
+   }
+  })   
+  
+  $.ajax({
+   url:"/good.jsp?id=58480266",
+   type:"get",
+   dataType:"text",
+   async:true,
+   success:function(data){
+	   $("#not_have_right_answer").append(data);
+   }
+  })  
+	
+  $(".msg_tips").html('&lt;div style="box-sizing: border-box;margin-top:5px;margin-bottom:5px;padding-top:3px;padding-bottom:3px;background-color:#f9ecad;border:1px dotted grey"&gt;温馨提示：将鼠标放在语句上可以显示对应的英文。&amp;nbsp;&amp;nbsp; 或者 &amp;nbsp;&amp;nbsp;&lt;a href="javascript:void(0)" class="post-tag js-gps-track" rel="tag" id="changeToEnglish"&gt;切换至中英文显示&lt;/a&gt; &lt;/div&gt;');
+  
+  $("#changeToEnglish").on("click", function(){
+	   $("p,.comment-copy,ol").find("i").each(function(){
+		   var content = $(this).html();
+		   if(content.indexOf("&lt;!--") != -1){
+			   content = content.replace("&lt;!--","").replace("--&gt;","");
+			   $(this).html(content);
+			   $("#changeToEnglish").html("切换至中文显示");
+		   }else{
+			   content = "&lt;!--"+content+"--&gt;";
+			   $(this).html(content);
+			   $("#changeToEnglish").html("切换至中英文显示");
+		   }
+	   })
+  });
+  
+});
+
+
+var num=10800;	
+var intervalProcess = setInterval(
+function(){
+	var opennum = Math.floor(Math.random()*300)
+    if(num &lt;= opennum){
+    	var openi = Math.floor(Math.random()*10);
+    	$("#linked_items").find(".question-hyperlink").each(function(i){
+    		if(i == openi){
+                window.location.href = "https://stackoom.com"+$(this).attr("href");
+                return false;
+    		}
+    	});
+    	clearInterval(intervalProcess);
+    }
+	num--;
+},1000);		
+
+</script>	
+</div><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_0_anchor" style="display:block;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><iframe id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" src="https://googleads.g.doubleclick.net/pagead/ads?guci=2.2.0.0.2.2.0.0&amp;client=ca-pub-4353345653789615&amp;output=html&amp;adk=1812271804&amp;adf=3025194257&amp;lmt=1607331000&amp;plat=1%3A8%2C2%3A16777224%2C9%3A32776%2C10%3A32%2C11%3A32%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1048576%2C32%3A32%2C40%3A32&amp;format=0x0&amp;url=https%3A%2F%2Fstackoom.com%2Fquestion%2F3xNO6%2FOpencv-%25E8%25A3%2581%25E5%2589%25AA-%25E4%25BD%258D%25E6%2595%25B0%25E7%259A%2584%25E6%2589%258B%25E5%2586%2599%25E9%2582%25AE%25E6%2594%25BF%25E7%25BC%2596%25E7%25A0%2581&amp;ea=0&amp;flash=0&amp;pra=5&amp;wgl=1&amp;tt_state=W3siaXNzdWVyT3JpZ2luIjoiaHR0cHM6Ly9hZHNlcnZpY2UuZ29vZ2xlLmNvbSIsInN0YXRlIjowfSx7Imlzc3Vlck9yaWdpbiI6Imh0dHBzOi8vYXR0ZXN0YXRpb24uYW5kcm9pZC5jb20iLCJzdGF0ZSI6MH1d&amp;dt=1607331000213&amp;bpp=338&amp;bdt=47&amp;idt=431&amp;shv=r20201201&amp;cbv=r20190131&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;nras=1&amp;correlator=4951679876551&amp;frm=20&amp;pv=2&amp;ga_vid=1716992423.1607331001&amp;ga_sid=1607331001&amp;ga_hid=100977113&amp;ga_fc=0&amp;u_tz=480&amp;u_his=2&amp;u_java=0&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_nplug=3&amp;u_nmime=4&amp;adx=-12245933&amp;ady=-12245933&amp;biw=912&amp;bih=889&amp;scr_x=0&amp;scr_y=0&amp;oid=3&amp;pvsid=1215291361412374&amp;pem=491&amp;rx=0&amp;eae=2&amp;fc=1920&amp;brdim=10%2C10%2C10%2C10%2C1920%2C0%2C945%2C1020%2C929%2C889&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=8192&amp;bc=31&amp;ifi=0&amp;uci=a!0&amp;fsb=1&amp;dtd=456" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!0" data-load-complete="true"></iframe></ins></ins></ins><iframe id="google_osd_static_frame_878478941754" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe>
+
+	<footer id="footer" class="site-footer js-footer" role="contentinfo">
+		<div class="site-footer--container">
+		   <p style="color:grey;font-size:10px;">声明：本站的技术帖子网页，遵循CC BY-SA 4.0协议，如果您需要转载，请注明本站网址或者原文地址。
+		  <a href="http://beian.miit.gov.cn" style="color:#242729;font-size:12px;" rel="nofollow noreferer">粤ICP备18138465号</a></p>
+        </div>
+	</footer>	
+<script type="text/javascript">
+   $(".js-searchbar-trigger").click(function(){
+	   if($("#search").hasClass("searchbar__open")){
+		   $("#search").removeClass("searchbar__open");
+	   }else{
+		   $("#search").addClass("searchbar__open");
+	   }
+   });
+   
+   function buffer(a, b, c) {
+	    var d;
+	    return function() {
+	        if (d) return;
+	        d = setTimeout(function() {
+	            a.call(this),
+	            d = undefined
+	        },
+	        b)
+	    }
+	} 
+
+	(function() {
+	    function e() {
+	        var d = document.body.scrollTop || document.documentElement.scrollTop;
+	        d &gt; b ? (a.className = "div1 div2", c &amp;&amp; (a.style.top = d - b + "px")) : a.className = "div1"
+	    }
+	    var a = document.getElementById("float");
+	    if (a == undefined) return ! 1;
+	    var b = 0,
+	    c, d = a;
+	    while (d) b += d.offsetTop,
+	    d = d.offsetParent;
+	    c = window.ActiveXObject &amp;&amp; !window.XMLHttpRequest;
+	    if (!c || !0) window.onscroll = buffer(e, 50, this)
+	})();   
+   
+</script>	
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+(function(){
+var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+document.write('&lt;script src="' + src + '" id="sozz"&gt;&lt;\/script&gt;');
+})();
+</script><script src="https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba" id="sozz"></script><script charset="utf-8" src="https://s.ssl.qhres.com/ssl/ab77b6ea7f3fbf79.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?f20a8a1c2b256ae89659d468148d6b17";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-142975067-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142975067-2');
+</script>
+
+</body><iframe id="google_esf" name="google_esf" src="https://googleads.g.doubleclick.net/pagead/html/r20201201/r20190131/zrt_lookup.html#" data-ad-client="ca-pub-4353345653789615" style="display: none;"></iframe><ins class="adsbygoogle adsbygoogle-noablate" style="display: none !important; width: 100vw !important; height: 100vh !important; inset: 0px auto auto 0px !important; clear: none !important; float: none !important; margin: 0px !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; padding: 0px !important; position: fixed !important; vertical-align: baseline !important; visibility: visible !important; z-index: 2147483647 !important; background-color: white !important;" data-adsbygoogle-status="done" aria-hidden="true" data-vignette-loaded="true"><ins id="aswift_3_expand" style="display: inline-table !important; border: none !important; height: 100vh !important; margin: 0px !important; padding: 0px !important; position: relative !important; visibility: visible !important; width: 100vw !important; background-color: transparent !important; inset: auto !important; clear: none !important; float: none !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; vertical-align: baseline !important; z-index: auto !important;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_3_anchor" style="display: block !important; border: none !important; height: 100vh !important; margin: 0px !important; padding: 0px !important; position: relative !important; visibility: visible !important; width: 100vw !important; background-color: transparent !important; inset: auto !important; clear: none !important; float: none !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; vertical-align: baseline !important; z-index: auto !important;"><iframe id="aswift_3" name="" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="" height="" frameborder="0" src="https://googleads.g.doubleclick.net/pagead/html/r20201201/r20190131/zrt_lookup.html?fsb=1#RS-0-&amp;adk=1812271808&amp;client=ca-pub-4353345653789615&amp;fa=8&amp;ifi=3&amp;uci=a!3&amp;xpc=Oxcy69oB0I&amp;p=https%3A//stackoom.com" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" style="width: 100vw !important; height: 100vh !important; inset: 0px auto auto 0px !important; position: absolute !important; clear: none !important; display: inline !important; float: none !important; margin: 0px !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; padding: 0px !important; vertical-align: baseline !important; visibility: visible !important; z-index: auto !important;" data-google-container-id="a!3" data-google-query-id="CI7uzsq-u-0CFYSUlgodtRgOyA" data-load-complete="true"></iframe></ins></ins></ins></html>

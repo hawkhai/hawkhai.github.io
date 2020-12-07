@@ -1,0 +1,215 @@
+<!doctype html><html lang=zh itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><title>OpenGL ES in iOS - 2. 画一个三角形 - Kim's Blog</title><meta name=description content="本篇主要目的是 使用 OpenGL ES 画一个三角形，包含 直接上传顶点、使用 VAO、VBO、EBO 他们的组合渲染方式。
+建议配合 Demo 工程 食用。"><meta name=author content="Kim"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"Kim\x27s Blog","url":"https:\/\/www.uiimage.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/www.uiimage.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/www.uiimage.com\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/www.uiimage.com\/post\/blog\/opengl-es\/opengl-es-2-draw-a-triangle\/","name":"Open g l e s in i o s 2. 画一个三角形"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"Kim"},"headline":"OpenGL ES in iOS - 2. 画一个三角形","description":"本篇主要目的是 使用 OpenGL ES 画一个三角形，包含 直接上传顶点、使用 VAO、VBO、EBO 他们的组合渲染方式。\n建议配合 Demo 工程 食用。\n","inLanguage":"zh","wordCount":1068,"datePublished":"2019-04-29T23:00:00","dateModified":"2019-04-29T23:00:00","image":"https:\/\/www.uiimage.com\/img\/avatar.JPG","keywords":["iOS, OpenGL ES, 音视频"],"mainEntityOfPage":"https:\/\/www.uiimage.com\/post\/blog\/opengl-es\/opengl-es-2-draw-a-triangle\/","publisher":{"@type":"Organization","name":"https:\/\/www.uiimage.com\/","logo":{"@type":"ImageObject","url":"https:\/\/www.uiimage.com\/img\/avatar.JPG","height":60,"width":60}}}</script><meta property="og:title" content="OpenGL ES in iOS - 2. 画一个三角形"><meta property="og:description" content="本篇主要目的是 使用 OpenGL ES 画一个三角形，包含 直接上传顶点、使用 VAO、VBO、EBO 他们的组合渲染方式。
+建议配合 Demo 工程 食用。"><meta property="og:image" content="https://www.uiimage.com/img/avatar.JPG"><meta property="og:url" content="https://www.uiimage.com/post/blog/opengl-es/opengl-es-2-draw-a-triangle/"><meta property="og:type" content="website"><meta property="og:site_name" content="Kim's Blog"><meta name=twitter:title content="OpenGL ES in iOS - 2. 画一个三角形"><meta name=twitter:description content="本篇主要目的是 使用 OpenGL ES 画一个三角形，包含 直接上传顶点、使用 VAO、VBO、EBO 他们的组合渲染方式。
+建议配合 Demo 工程 食用。"><meta name=twitter:image content="https://www.uiimage.com/img/avatar.JPG"><meta name=twitter:card content="summary"><link href=https://www.uiimage.com/img/avatar.JPG rel=icon type=image/x-icon><meta name=generator content="Hugo 0.69.2"><link rel=alternate href=https://www.uiimage.com/index.xml type=application/rss+xml title="Kim's Blog"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css integrity=sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y crossorigin=anonymous><link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous><link rel=stylesheet href=https://www.uiimage.com/css/main.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"><link rel=stylesheet href=https://www.uiimage.com/css/syntax.css><link rel=stylesheet href=https://www.uiimage.com/css/codeblock.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css integrity=sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css integrity=sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css></head><body><nav class="navbar navbar-default navbar-fixed-top navbar-custom"><div class=container-fluid><div class=navbar-header><button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
+<span class=sr-only>切换导航</span>
+<span class=icon-bar></span><span class=icon-bar></span><span class=icon-bar></span></button>
+<a class=navbar-brand href=https://www.uiimage.com/>Kim's Blog</a></div><div class="collapse navbar-collapse" id=main-navbar><ul class="nav navbar-nav navbar-right"><li><a title=Home href=/>Home</a></li><li><a title=Tags href=/tags>Tags</a></li><li><a title=About href=/page/about/>About</a></li></ul></div><div class=avatar-container><div class=avatar-img-border><a title="Kim's Blog" href=https://www.uiimage.com/><img class=avatar-img src=https://www.uiimage.com/img/avatar.JPG alt="Kim's Blog"></a></div></div></div></nav><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><header class=header-section><div class="intro-header no-img"><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><h1>OpenGL ES in iOS - 2. 画一个三角形</h1><span class=post-meta><i class="fas fa-calendar"></i>&nbsp;发表于 April 29, 2019
+&nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;6&nbsp;分钟
+&nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1068&nbsp;个字
+&nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;Kim</span></div></div></div></div></div></header><div class=container role=main><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><aside class=toc-article><nav id=TableOfContents><ul><li><a href=#一设置-context>一、设置 Context</a></li><li><a href=#二配置-eaglayer>二、配置 EAGLayer</a></li><li><a href=#三创建-rbo--fbo并且将-rbo-和-layer-链接绑定-rbo-和-fbo>三、创建 RBO & FBO，并且将 RBO 和 layer 链接，绑定 RBO 和 FBO</a><ul><li><a href=#1-先创建-rbo并且绑定到缓冲区>1. 先创建 RBO，并且绑定到缓冲区</a></li><li><a href=#2-再创建-fbo并且将-rbo-附着到其-gl_color_attachment0-上>2. 再创建 FBO，并且将 RBO 附着到其 <code>GL_COLOR_ATTACHMENT0</code> 上</a></li></ul></li><li><a href=#四创建-shaders-和-链接到-glprogram>四、创建 shaders 和 链接到 glProgram</a></li><li><a href=#五清屏--设置-viewport>五、清屏 & 设置 Viewport</a><ul><li><a href=#清屏>清屏</a></li><li><a href=#设置-viewport>设置 Viewport</a></li></ul></li><li><a href=#六离屏渲染顶点上传--绘制-important>六、<strong>离屏渲染（顶点上传 & 绘制）</strong> （important！）</a><ul><li><a href=#1-注意点>1. 注意点</a></li><li><a href=#2-不使用-ebo>2. 不使用 EBO</a></li><li><a href=#3-使用顶点索引>3 使用顶点索引</a></li></ul></li><li><a href=#七展示离屏渲染的-renderbuffer>七、展示离屏渲染的 <code>RenderBuffer</code></a></li><li><a href=#总结>总结</a></li></ul></nav></aside><article role=main class=blog-post><p>本篇主要目的是 <strong>使用 OpenGL ES 画一个三角形</strong>，包含 直接上传顶点、使用 VAO、VBO、EBO 他们的组合渲染方式。</p><p>建议配合 <a href=https://github.com/SourceKim/OpenGLES-iOS>Demo 工程</a> 食用。</p><p>使用 OpenGL ES 渲染一个三角形，主要有如下步骤：</p><ul><li><ol><li>设置 Context</li></ol></li><li><ol start=2><li>配置 EAGLayer</li></ol></li><li><ol start=3><li>创建 RBO & FBO，并且将 RBO 和 layer 链接，绑定 RBO 和 FBO</li></ol></li><li><ol start=4><li>创建 shaders 和 链接到 glProgram</li></ol></li><li><ol start=5><li>清屏 & 配置 ViewPort</li></ol></li><li><ol start=6><li>离屏渲染 （VAO / VBO / EBO）到 RBO 上</li></ol></li><li><ol start=7><li>展示 layer 的 RBO</li></ol></li></ul><h2 id=一设置-context>一、设置 Context</h2><p>构造一个 OpenGL ES 3.0 的 context，并设置到当前的线程</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>    _ctx <span style=color:#f92672>=</span> [[EAGLContext alloc] initWithAPI: kEAGLRenderingAPIOpenGLES3];
+    [EAGLContext setCurrentContext: _ctx];
+</code></pre></div><h2 id=二配置-eaglayer>二、配置 EAGLayer</h2><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>    _glLayer <span style=color:#f92672>=</span> [CAEAGLLayer layer];
+    _glLayer.opaque <span style=color:#f92672>=</span> true;
+    _glLayer.drawableProperties <span style=color:#f92672>=</span> <span style=color:#ae81ff>@{</span>
+        kEAGLDrawablePropertyRetainedBacking: <span style=color:#ae81ff>@(</span>false<span style=color:#ae81ff>)</span>,
+        kEAGLDrawablePropertyColorFormat: kEAGLColorFormatRGBA8,
+    <span style=color:#ae81ff>}</span>;
+    _glLayer.frame <span style=color:#f92672>=</span> self.view.bounds;
+    [self.view.layer addSublayer: _glLayer];
+</code></pre></div><h2 id=三创建-rbo--fbo并且将-rbo-和-layer-链接绑定-rbo-和-fbo>三、创建 RBO & FBO，并且将 RBO 和 layer 链接，绑定 RBO 和 FBO</h2><h3 id=1-先创建-rbo并且绑定到缓冲区>1. 先创建 RBO，并且绑定到缓冲区</h3><pre><code>绑定：用当前的 context，将上述的 layer 的储存区分配到 GL_RENDERBUFFER（即刚刚 bind 的 RBO）
+</code></pre><h3 id=2-再创建-fbo并且将-rbo-附着到其-gl_color_attachment0-上>2. 再创建 FBO，并且将 RBO 附着到其 <code>GL_COLOR_ATTACHMENT0</code> 上</h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>    <span style=color:#75715e>// 创建 Render Buffer Object
+</span><span style=color:#75715e></span>    glGenRenderbuffers(<span style=color:#ae81ff>1</span>, <span style=color:#f92672>&amp;</span>_RBO);
+    glBindRenderbuffer(GL_RENDERBUFFER, _RBO);
+    [_ctx renderbufferStorage: GL_RENDERBUFFER fromDrawable: _glLayer];
+    
+    <span style=color:#75715e>// 创建 Frame Buffer Object
+</span><span style=color:#75715e></span>    glGenFramebuffers(<span style=color:#ae81ff>1</span>, <span style=color:#f92672>&amp;</span>_FBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _RBO);
+</code></pre></div><h2 id=四创建-shaders-和-链接到-glprogram>四、创建 shaders 和 链接到 glProgram</h2><ul><li><ol><li>先新建两个文件 <code>passthrough.vsh</code> & <code>passthrough.fsh</code>，分别对应 顶点着色器 & 片元着色器。</li></ol><p>vsh:</p><p>从外部传入 position & vColor</p><p>其中 position 对应的是顶点的位置，vColor 是给 fragment shader 渲染用的</p><p>outColor 使用 varying（可变的） 修饰，意味着会传入到 fragment shader，且默认会进行线性插值</p><blockquote><p>片段的颜色由附近片段</p></blockquote><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-glsl data-lang=glsl><span style=color:#66d9ef>attribute</span> <span style=color:#66d9ef>vec4</span> position;
+<span style=color:#66d9ef>attribute</span> <span style=color:#66d9ef>vec3</span> vColor;
+
+<span style=color:#66d9ef>varying</span> <span style=color:#66d9ef>highp</span> <span style=color:#66d9ef>vec3</span> outColor;
+
+<span style=color:#66d9ef>void</span> main()
+{
+    outColor <span style=color:#f92672>=</span> vColor;
+    gl_Position <span style=color:#f92672>=</span> position;
+      
+}
+</code></pre></div><p>fsh:</p><p>由于 outColor 是经过顶点着色器插值之后得到的，因此直接使用该颜色，即可得到前文中的渐变色三角形</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-glsl data-lang=glsl><span style=color:#66d9ef>varying</span> <span style=color:#66d9ef>highp</span> <span style=color:#66d9ef>vec3</span> outColor;
+
+<span style=color:#66d9ef>void</span> main()
+{
+    gl_FragColor <span style=color:#f92672>=</span> <span style=color:#66d9ef>vec4</span>(outColor, <span style=color:#ae81ff>1.0</span>);
+}
+</code></pre></div></li></ul><h2 id=五清屏--设置-viewport>五、清屏 & 设置 Viewport</h2><h3 id=清屏>清屏</h3><p>这里没有用到 深度和模板，直接清除 颜色 即可</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>    glClearColor(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>);
+    glClear(GL_COLOR_BUFFER_BIT);
+</code></pre></div><ul><li><p>glClearColor 设置 颜色 buffer 的清除颜色，这里是黑色</p></li><li><p>glClear 清除 context 的颜色 buffer</p></li></ul><blockquote><p>如果要设置 depth buffer 的清理参数，可以这么做 <code>glClearDepth(1.0)</code></p></blockquote><blockquote><p>也可以同时清理 depth buffer & color buffer，可以用掩码同时设：<code>glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)</code></p></blockquote><h3 id=设置-viewport>设置 Viewport</h3><p>Viewport 是可见区域，这里将左下角与视图的左下角重合、宽高一致即可</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>    glViewport(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, self.view.bounds.size.width, self.view.bounds.size.height);
+</code></pre></div><h2 id=六离屏渲染顶点上传--绘制-important>六、<strong>离屏渲染（顶点上传 & 绘制）</strong> （important！）</h2><p>顶点上传分两个大类：使用 EBO（索引），不使用 EBO，</p><p>而是否使用索引又可以分为：使用 VBO 、使用 VAO、VBO & VAO 都不使用，</p><p>组合之后一共 6 种。</p><h3 id=1-注意点>1. 注意点</h3><h4 id=11-绘制参数-drawarray--gldrawelements>1.1 绘制参数 （<code>DrawArray & glDrawElements</code>）</h4><p>顶点绘制有如下两个两个方法，分别对应是否使用 EBO：</p><ul><li><p>不使用 EBO 时，用 <code>glDrawArrays (GLenum mode, GLint first, GLsizei count)</code> 绘制</p><ul><li>mode 绘制方式</li><li>first 数组的起点，一般是 0</li><li>count 顶点数量，如果画一个三角形，需要 3 个顶点，传入 3 即可</li></ul></li><li><p>使用 EBO 时，用 <code>glDrawElements (GLenum mode, GLsizei count, GLenum type, const GLvoid* indices)</code> 绘制</p><ul><li>mode 绘制方式</li><li>count 面的数量 * 组成每个面的顶点的数量。比如画一个三角形，需要 1 个 3 个顶点的面，传入 1 * 3 即可</li><li>type 索引的数据类型，使用 <code>GL_UNSIGNED_SHORT</code> 即可</li><li>indices <strong>分两种情况：使用了 VAO / VBO，传入其偏移（一般是 0）；没有使用的话传入 索引数组 指针</strong></li></ul></li></ul><h4 id=12-顶点上传到-shader-的-attribute-glvertexattribpointer>1.2 顶点上传到 shader 的 attribute <code>（glVertexAttribPointer）</code></h4><p><code>glVertexAttribPointer (GLuint indx, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid* ptr)</code></p><ul><li><p>index 对应 shader 的序号，可以通过 <code>glGetAttribLocation(_glProgram, "name");</code> 获取</p></li><li><p>size 组成每个顶点用的元素的个数，该值只能是 1 2 3 4。比如说纹理坐标是 4 个顶点，每个顶点由 x y 组成，就传入 2</p></li><li><p>type 元素的数据类型 一般是 <code>GL_FLOAT</code></p></li><li><p>normalized 是否需要归一化到 0 - 1</p></li><li><p>stride 偏移量，两个元素之间间隔多少个字节 （一般取 0，代表紧凑数据）</p></li><li><p>pointer 有两种传入方式：首个元素的指针 或者 VBO 的字节偏移量</p><ul><li><p>如果没有使用 VBO / VAO 则传入 首个元素的指针</p></li><li><p>使用了 VBO / VAO 则传入 数据在 VBO 的字节偏移量，一般是 0</p></li></ul></li></ul><h4 id=13-ebo--vbo>1.3 EBO & VBO</h4><p>EBO & VBO 都是对数据的缓冲区，在构造和使用都类似：</p><ul><li><p>构造：都是通过 <code>glGenBuffers</code> 即可构造，返回一个缓冲区的句柄</p></li><li><p>使用：</p><ul><li><p>都要先 <code>glBindBuffer</code> 再 <code>glBufferData</code>，但是传入的第一个参数不一样：EBO 要传入 <code>GL_ELEMENT_ARRAY_BUFFER</code>，而 VBO 则传入 <code>GL_ARRAY_BUFFER</code></p></li><li><p>对于 VBO 来说，一般需要和属性对应，因此还需要 上传到 shader & 激活 两个操作，分别对应 <code>glVertexAttribPointer</code> 和 <code>glEnableVertexAttribArray</code> api。</p></li></ul></li></ul><h3 id=2-不使用-ebo>2. 不使用 EBO</h3><h4 id=21-不使用-vbo--vao不使用-ebo>2.1 不使用 VBO & VAO，不使用 EBO</h4><ul><li><p>a、 上传顶点 到 shader <code>glVertexAttribPointer</code> <strong>注意，最后一个参数传入顶点的指针地址</strong></p></li><li><p>b、 激活顶点属性 <code>glEnableVertexAttribArray</code></p></li><li><p>c、 画出顶点即可 <code>glDrawArrays</code></p></li></ul><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>- (<span style=color:#66d9ef>void</span>)<span style=color:#a6e22e>renderVertex_Directly</span> {
+    
+    <span style=color:#75715e>// 1. 上传顶点
+</span><span style=color:#75715e></span>    glVertexAttribPointer(_positionLoc, <span style=color:#ae81ff>3</span>, GL_FLOAT, GL_FALSE, <span style=color:#ae81ff>0</span>, vertices);
+    glEnableVertexAttribArray(_positionLoc);
+    
+    glVertexAttribPointer(_colorLoc, <span style=color:#ae81ff>3</span>, GL_FLOAT, GL_FALSE, <span style=color:#ae81ff>0</span>, color_data);
+    glEnableVertexAttribArray(_colorLoc);
+    
+    <span style=color:#75715e>// 2. 渲染
+</span><span style=color:#75715e></span>    glDrawArrays(GL_TRIANGLES, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>3</span>);
+}
+</code></pre></div><h4 id=22-使用-vbo不使用-ebo>2.2 使用 VBO，不使用 EBO</h4><ul><li><p>a、先生成 VBO <code>glGenBuffers</code></p></li><li><p>b、往 VBO 中填充数据 <code>glBindBuffer</code> & <code>glBufferData</code></p></li><li><p>c、上传顶点 到 shader <code>glVertexAttribPointer</code>，<strong>注意，最后一个参数传入 0</strong></p></li><li><p>d、激活顶点属性 <code>glEnableVertexAttribArray</code></p></li><li><p>e、画出顶点即可 <code>glDrawArrays</code></p></li></ul><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>- (<span style=color:#66d9ef>void</span>)<span style=color:#a6e22e>renderVertex_VBO</span> {
+    
+    <span style=color:#75715e>// 1. 初始化 &amp; 激活 VBO
+</span><span style=color:#75715e></span>    GLuint VBO[<span style=color:#ae81ff>2</span>];
+    glGenBuffers(<span style=color:#ae81ff>2</span>, VBO);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[<span style=color:#ae81ff>0</span>]); <span style=color:#75715e>// 使用这个缓冲对象（缓冲区有两个对象，需要告诉 OGL 下面的代码要使用哪一个
+</span><span style=color:#75715e></span>    glBufferData(GL_ARRAY_BUFFER, <span style=color:#66d9ef>sizeof</span>(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(_positionLoc, <span style=color:#ae81ff>3</span>, GL_FLOAT, GL_FALSE, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>);
+    glEnableVertexAttribArray(_positionLoc);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[<span style=color:#ae81ff>1</span>]);
+    glBufferData(GL_ARRAY_BUFFER, <span style=color:#66d9ef>sizeof</span>(color_data), color_data, GL_STATIC_DRAW);
+    glVertexAttribPointer(_colorLoc, <span style=color:#ae81ff>3</span>, GL_FLOAT, GL_FALSE, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>);
+    glEnableVertexAttribArray(_colorLoc);
+
+    <span style=color:#75715e>// 3. 渲染
+</span><span style=color:#75715e></span>    glDrawArrays(GL_TRIANGLES, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>3</span>);
+}
+</code></pre></div><h4 id=23-使用-vao不使用-ebo>2.3 使用 VAO，不使用 EBO</h4><ul><li><p>a、创建 <code>glGenVertexArrays</code> 并且 使用 <code>glBindVertexArray</code> VAO，这样接下来的 顶点操作 都会被加入到 VBO 中</p></li><li><p>b、构造 VBO <code>glGenBuffers</code></p></li><li><p>c、往 VBO 中填充数据 <code>glBindBuffer</code> & <code>glBufferData</code></p></li><li><p>d、上传顶点 到 shader <code>glVertexAttribPointer</code>，<strong>注意，最后一个参数传入 0</strong></p></li><li><p>e、激活顶点属性 <code>glEnableVertexAttribArray</code></p></li><li><p>f、画出顶点即可 <code>glDrawArrays</code></p></li></ul><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>- (<span style=color:#66d9ef>void</span>)<span style=color:#a6e22e>renderVertex_VAO</span> {
+
+    <span style=color:#75715e>// 1. 初始化 VAO （接下来所有操作顶点操作都将加入到 VAO 中）
+</span><span style=color:#75715e></span>    GLuint VAO;
+    glGenVertexArrays(<span style=color:#ae81ff>1</span>, <span style=color:#f92672>&amp;</span>VAO);
+    glBindVertexArray(VAO);
+    
+    <span style=color:#75715e>// 1.1 构造 &amp; 激活 VBO
+</span><span style=color:#75715e></span>    GLuint VBO[<span style=color:#ae81ff>2</span>];
+    glGenBuffers(<span style=color:#ae81ff>2</span>, VBO);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[<span style=color:#ae81ff>0</span>]);
+    glBufferData(GL_ARRAY_BUFFER, <span style=color:#66d9ef>sizeof</span>(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(_positionLoc, <span style=color:#ae81ff>3</span>, GL_FLOAT, GL_FALSE, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>);
+    glEnableVertexAttribArray(_positionLoc);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[<span style=color:#ae81ff>1</span>]);
+    glBufferData(GL_ARRAY_BUFFER, <span style=color:#66d9ef>sizeof</span>(color_data), color_data, GL_STATIC_DRAW);
+    glVertexAttribPointer(_colorLoc, <span style=color:#ae81ff>3</span>, GL_FLOAT, GL_FALSE, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>);
+    glEnableVertexAttribArray(_colorLoc);
+    
+    <span style=color:#75715e>// 1.2 停用当前 VAO &amp; VBO，注意顺序 （好习惯，单个的时候可以不写）
+</span><span style=color:#75715e></span>    glBindVertexArray(<span style=color:#ae81ff>0</span>);
+    
+    glBindBuffer(VBO[<span style=color:#ae81ff>0</span>], <span style=color:#ae81ff>0</span>);
+    glBindBuffer(VBO[<span style=color:#ae81ff>1</span>], <span style=color:#ae81ff>0</span>);
+    
+    <span style=color:#75715e>// 2. 渲染
+</span><span style=color:#75715e></span>    
+    <span style=color:#75715e>// 2.1 使用 VAO，因为在 1.2 中停用了
+</span><span style=color:#75715e></span>    glBindVertexArray(VAO);
+    
+    <span style=color:#75715e>// 2.2 渲染
+</span><span style=color:#75715e></span>    glDrawArrays(GL_TRIANGLES, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>3</span>);
+}
+</code></pre></div><h3 id=3-使用顶点索引>3 使用顶点索引</h3><h4 id=31-不使用-vbo--vao使用索引-indices>3.1 不使用 VBO & VAO，使用索引 indices</h4><p>流程和 <code>【2.1 不使用 VBO & VAO，不使用 EBO】</code> 基本一样，仅是把 <code>glDrawArrays</code> 使用 <code>glDrawElements</code> 替换。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>- (<span style=color:#66d9ef>void</span>)<span style=color:#a6e22e>renderVertex_Directly_Index</span> {
+    
+    <span style=color:#75715e>// 1. 上传顶点
+</span><span style=color:#75715e></span>    glVertexAttribPointer(_positionLoc, <span style=color:#ae81ff>3</span>, GL_FLOAT, GL_FALSE, <span style=color:#ae81ff>0</span>, vertices);
+    glEnableVertexAttribArray(_positionLoc);
+    
+    glVertexAttribPointer(_colorLoc, <span style=color:#ae81ff>3</span>, GL_FLOAT, GL_FALSE, <span style=color:#ae81ff>0</span>, color_data);
+    glEnableVertexAttribArray(_colorLoc);
+    
+    <span style=color:#75715e>// 2. 渲染
+</span><span style=color:#75715e></span>    <span style=color:#75715e>// 1 * 3 代表： 1 个面，每个面由 3 个顶点组成
+</span><span style=color:#75715e></span>    glDrawElements(GL_TRIANGLE_STRIP, <span style=color:#ae81ff>1</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>3</span>, GL_UNSIGNED_SHORT, indices);
+}
+</code></pre></div><h4 id=32-使用-vbo使用-ebo>3.2 使用 VBO，使用 EBO</h4><p>流程和 <code>【2.2 使用 VBO，不使用 EBO】</code> 基本一样，</p><p>有两处不同：</p><ul><li><p>不同之处 ①：把 索引数据 绑定到 <code>GL_ELEMENT_ARRAY_BUFFER</code>。</p><p>过程和 VBO 相似，但是不需要与 attribute 相关的两个操作：<code>glVertexAttribPointer</code> & <code>glEnableVertexAttribArray</code></p><p>仅需要：</p><ul><li><p>a、构造 <code>glGenBuffers</code></p></li><li><p>b、填充索引数据 <code>glBindBuffer</code> & <code>glBufferData</code></p></li></ul></li><li><p>不同之处 ②：把 <code>glDrawArrays</code> 使用 <code>glDrawElements</code> 替换</p></li></ul><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>- (<span style=color:#66d9ef>void</span>)<span style=color:#a6e22e>renderVertex_VBO_Index</span> {
+    
+    <span style=color:#75715e>// 1. 初始化 &amp; 激活 VBO
+</span><span style=color:#75715e></span>    GLuint VBO[<span style=color:#ae81ff>2</span>];
+    glGenBuffers(<span style=color:#ae81ff>2</span>, VBO);
+    
+    
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[<span style=color:#ae81ff>0</span>]); <span style=color:#75715e>// 使用这个缓冲对象（缓冲区有两个对象，需要告诉 OGL 下面的代码要使用哪一个
+</span><span style=color:#75715e></span>    glBufferData(GL_ARRAY_BUFFER, <span style=color:#66d9ef>sizeof</span>(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(_positionLoc, <span style=color:#ae81ff>3</span>, GL_FLOAT, GL_FALSE, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>);
+    glEnableVertexAttribArray(_positionLoc);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[<span style=color:#ae81ff>1</span>]);
+    glBufferData(GL_ARRAY_BUFFER, <span style=color:#66d9ef>sizeof</span>(color_data), color_data, GL_STATIC_DRAW);
+    glVertexAttribPointer(_colorLoc, <span style=color:#ae81ff>3</span>, GL_FLOAT, GL_FALSE, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>);
+    glEnableVertexAttribArray(_colorLoc);
+    
+    <span style=color:#75715e>// 1.1 初始化 &amp; 激活 索引 VBO
+</span><span style=color:#75715e></span>    GLuint indexVBO;
+    glGenBuffers(<span style=color:#ae81ff>1</span>, <span style=color:#f92672>&amp;</span>indexVBO);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, <span style=color:#66d9ef>sizeof</span>(indices), indices, GL_STATIC_DRAW);
+
+    <span style=color:#75715e>// 3. 渲染
+</span><span style=color:#75715e></span>    <span style=color:#75715e>// 1 * 3 代表： 1 个面，每个面由 3 个顶点组成
+</span><span style=color:#75715e></span>    glDrawElements(GL_TRIANGLE_STRIP, <span style=color:#ae81ff>1</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>3</span>, GL_UNSIGNED_SHORT, <span style=color:#ae81ff>0</span>);
+}
+</code></pre></div><h4 id=33-使用-vao使用-ebo>3.3 使用 VAO，使用 EBO</h4><p>流程也是类似，结合代码看吧。</p><p>需要注意的是：EBO 数据也需要加到 VAO 中。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>    <span style=color:#75715e>// 1. 初始化 VAO （接下来所有操作顶点操作都将加入到 VAO 中）
+</span><span style=color:#75715e></span>    GLuint VAO;
+    glGenVertexArrays(<span style=color:#ae81ff>1</span>, <span style=color:#f92672>&amp;</span>VAO);
+    glBindVertexArray(VAO);
+    
+    <span style=color:#75715e>// 1.1 构造 &amp; 激活 VBO
+</span><span style=color:#75715e></span>    GLuint VBO[<span style=color:#ae81ff>2</span>];
+    glGenBuffers(<span style=color:#ae81ff>2</span>, VBO);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[<span style=color:#ae81ff>0</span>]);
+    glBufferData(GL_ARRAY_BUFFER, <span style=color:#66d9ef>sizeof</span>(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(_positionLoc, <span style=color:#ae81ff>3</span>, GL_FLOAT, GL_FALSE, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>);
+    glEnableVertexAttribArray(_positionLoc);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[<span style=color:#ae81ff>1</span>]);
+    glBufferData(GL_ARRAY_BUFFER, <span style=color:#66d9ef>sizeof</span>(color_data), color_data, GL_STATIC_DRAW);
+    glVertexAttribPointer(_colorLoc, <span style=color:#ae81ff>3</span>, GL_FLOAT, GL_FALSE, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>);
+    glEnableVertexAttribArray(_colorLoc);
+    
+    <span style=color:#75715e>// 1.1.1 初始化 &amp; 激活 索引 VBO
+</span><span style=color:#75715e></span>    GLuint indexVBO;
+    glGenBuffers(<span style=color:#ae81ff>1</span>, <span style=color:#f92672>&amp;</span>indexVBO);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, <span style=color:#66d9ef>sizeof</span>(indices), indices, GL_STATIC_DRAW);
+    
+    <span style=color:#75715e>// 1.2 停用当前 VAO &amp; VBO，注意顺序 （好习惯，单个的时候可以不写）
+</span><span style=color:#75715e></span>    glBindVertexArray(<span style=color:#ae81ff>0</span>);
+    
+    glBindBuffer(VBO[<span style=color:#ae81ff>0</span>], <span style=color:#ae81ff>0</span>);
+    glBindBuffer(VBO[<span style=color:#ae81ff>1</span>], <span style=color:#ae81ff>0</span>);
+    
+    <span style=color:#75715e>// 2. 渲染
+</span><span style=color:#75715e></span>    
+    <span style=color:#75715e>// 2.1 使用 VAO，因为在 1.2 中停用了
+</span><span style=color:#75715e></span>    glBindVertexArray(VAO);
+    
+    <span style=color:#75715e>// 2.2 渲染
+</span><span style=color:#75715e></span>    <span style=color:#75715e>// 1 * 3 代表： 1 个面，每个面由 3 个顶点组成
+</span><span style=color:#75715e></span>    glDrawElements(GL_TRIANGLE_STRIP, <span style=color:#ae81ff>1</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>3</span>, GL_UNSIGNED_SHORT, <span style=color:#ae81ff>0</span>);
+</code></pre></div><h2 id=七展示离屏渲染的-renderbuffer>七、展示离屏渲染的 <code>RenderBuffer</code></h2><p>在 <code>iOS</code> 中，通过调用 <code>EAGLContext</code> 实例的 <code>- (BOOL)presentRenderbuffer:(NSUInteger)target</code> 方法，即可将离屏渲染的 <code>RenderBuffer</code> 展示出来。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>    [_ctx presentRenderbuffer: GL_RENDERBUFFER];
+</code></pre></div><h2 id=总结>总结</h2><p>OpenGL ES 画一个三角形有如下步骤：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>    [self setupContext]; <span style=color:#75715e>// 1
+</span><span style=color:#75715e></span>    [self setupLayer]; <span style=color:#75715e>// 2
+</span><span style=color:#75715e></span>    [self createBuffers]; <span style=color:#75715e>// 3
+</span><span style=color:#75715e></span>    [self setupProgram]; <span style=color:#75715e>// 4
+</span><span style=color:#75715e></span>    [self setupDrawable]; <span style=color:#75715e>// 5
+</span><span style=color:#75715e></span>    [self renderVertex_VAO_Index]; <span style=color:#75715e>// 6
+</span><span style=color:#75715e></span>    [self present]; <span style=color:#75715e>// 7
+</span></code></pre></div><p>分别是</p><ul><li><ol><li>设置 Context</li></ol></li><li><ol start=2><li>配置 EAGLayer</li></ol></li><li><ol start=3><li>创建 RBO & FBO，并且将 RBO 和 layer 链接，绑定 RBO 和 FBO</li></ol></li><li><ol start=4><li>创建 shaders 和 链接到 glProgram</li></ol></li><li><ol start=5><li>清屏 & 配置 ViewPort</li></ol></li><li><ol start=6><li>离屏渲染 （VAO / VBO / EBO）到 RBO 上</li></ol></li><li><ol start=7><li>展示 layer 的 RBO</li></ol></li></ul><p>其中在渲染的时候有多重的组合方式：</p><p>VBO / VAO / EBO</p><p>建议使用顶点缓冲区，但是是否索引可以参考他们的优劣：</p><ul><li><p><code>glDrawArrays</code> 传输或指定的数据是最终的真实数据，在绘制时效能更好</p></li><li><p><code>glDrawElements</code> 指定的是真实数据的调用索引，在内存/显存占用上更节省</p></li></ul><div class=blog-tags><a href=https://www.uiimage.com//tags/ios/>iOS</a>&nbsp;
+<a href=https://www.uiimage.com//tags/opengl-es/>OpenGL ES</a>&nbsp;
+<a href=https://www.uiimage.com//tags/%E9%9F%B3%E8%A7%86%E9%A2%91/>音视频</a>&nbsp;</div><hr><section id=social-share><div class="list-inline footer-links"><div class=share-box aria-hidden=true><ul class=share><li><a href="//twitter.com/share?url=https%3a%2f%2fwww.uiimage.com%2fpost%2fblog%2fopengl-es%2fopengl-es-2-draw-a-triangle%2f&text=OpenGL%20ES%20in%20iOS%20-%202.%20%e7%94%bb%e4%b8%80%e4%b8%aa%e4%b8%89%e8%a7%92%e5%bd%a2&via=" target=_blank title="Share on Twitter"><i class="fab fa-twitter"></i></a></li><li><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.uiimage.com%2fpost%2fblog%2fopengl-es%2fopengl-es-2-draw-a-triangle%2f" target=_blank title="Share on Facebook"><i class="fab fa-facebook"></i></a></li><li><a href="//reddit.com/submit?url=https%3a%2f%2fwww.uiimage.com%2fpost%2fblog%2fopengl-es%2fopengl-es-2-draw-a-triangle%2f&title=OpenGL%20ES%20in%20iOS%20-%202.%20%e7%94%bb%e4%b8%80%e4%b8%aa%e4%b8%89%e8%a7%92%e5%bd%a2" target=_blank title="Share on Reddit"><i class="fab fa-reddit"></i></a></li><li><a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.uiimage.com%2fpost%2fblog%2fopengl-es%2fopengl-es-2-draw-a-triangle%2f&title=OpenGL%20ES%20in%20iOS%20-%202.%20%e7%94%bb%e4%b8%80%e4%b8%aa%e4%b8%89%e8%a7%92%e5%bd%a2" target=_blank title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a></li><li><a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fwww.uiimage.com%2fpost%2fblog%2fopengl-es%2fopengl-es-2-draw-a-triangle%2f&title=OpenGL%20ES%20in%20iOS%20-%202.%20%e7%94%bb%e4%b8%80%e4%b8%aa%e4%b8%89%e8%a7%92%e5%bd%a2" target=_blank title="Share on StumbleUpon"><i class="fab fa-stumbleupon"></i></a></li><li><a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fwww.uiimage.com%2fpost%2fblog%2fopengl-es%2fopengl-es-2-draw-a-triangle%2f&description=OpenGL%20ES%20in%20iOS%20-%202.%20%e7%94%bb%e4%b8%80%e4%b8%aa%e4%b8%89%e8%a7%92%e5%bd%a2" target=_blank title="Share on Pinterest"><i class="fab fa-pinterest"></i></a></li></ul></div></div></section><h4 class=see-also>也可以看看</h4><ul><li><a href=/post/blog/developing-normal-issues/instrument-not-symbolized/>Instrument 的函数未被符号化的问题</a></li><li><a href=/post/blog/ios/sidetables/>iOS SideTables 简单介绍</a></li><li><a href=/post/blog/developing-normal-issues/uibutton-stretch-displaying/>UIButton 图片拉伸显示</a></li><li><a href=/post/blog/ios/ios-oop/>iOS 面向对象编程</a></li><li><a href=/post/blog/developing-normal-issues/attempt-to-set-a-non-property-list-object/>[User Defaults] Attempt to set a non-property-list object 崩溃</a></li></ul></article><ul class="pager blog-pager"><li class=previous><a href=https://www.uiimage.com/post/blog/network/http2.0/ data-toggle=tooltip data-placement=top title=HTTP2.0>&larr; 前一篇</a></li><li class=next><a href=https://www.uiimage.com/post/blog/ios/weak/ data-toggle=tooltip data-placement=top title="iOS 中 weak 详细介绍">后一篇 &rarr;</a></li></ul><span id=/post/blog/opengl-es/opengl-es-2-draw-a-triangle/ class=leancloud_visitors data-flag-title="OpenGL ES in iOS - 2. 画一个三角形"><p></p></span><div id=vcomments></div><script src=//cdn1.lncld.net/static/js/3.0.4/av-min.js></script><script src=//unpkg.com/valine/dist/Valine.min.js></script><script type=text/javascript>new Valine({el:'#vcomments',appId:'Ld2PPgvVUNucDd8KP4B0kNNB-gzGzoHsz',appKey:'rijpKLUzykFXX0DGsbzHezk5',notify:false,verify:false,avatar:'robohash',placeholder:'有不当之处，求大佬指正~',visitor:false});</script></div></div></div><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center footer-links"><li><a href=mailto:18666269733@163.com title="Email me"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://github.com/SourceKim title=GitHub><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href title=RSS><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="credits copyright text-muted"><a href=https://uiimage.com>Kim</a>
+&nbsp;&bull;&nbsp;&copy;
+2020
+&nbsp;&bull;&nbsp;
+<a href=https://www.uiimage.com/>Kim's Blog</a></p><p class="credits theme-by text-muted">由 <a href=https://gohugo.io>Hugo v0.69.2</a> 强力驱动 &nbsp;&bull;&nbsp; 主题 <a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a> 移植自 <a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a></p></div></div></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js integrity=sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js integrity=sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe crossorigin=anonymous></script><script src=https://code.jquery.com/jquery-1.12.4.min.js integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin=anonymous></script><script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa crossorigin=anonymous></script><script src=https://www.uiimage.com/js/main.js></script><script>renderMathInElement(document.body);</script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js integrity=sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js integrity=sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q crossorigin=anonymous></script><script src=https://www.uiimage.com/js/load-photoswipe.js></script></body></html>

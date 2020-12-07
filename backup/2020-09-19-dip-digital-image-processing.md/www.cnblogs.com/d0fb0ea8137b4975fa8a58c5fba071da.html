@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="转载请注明出处：http://www.cnblogs.com/darkknightzh/p/5147982.html对于两直方图 $S=\left\{ {{s}_{1}},\cdots {{s}_{n" />
+    <meta property="og:description" content="转载请注明出处：http://www.cnblogs.com/darkknightzh/p/5147982.html对于两直方图 $S=\left\{ {{s}_{1}},\cdots {{s}_{n" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>（原）直方图的相似性度量 - darkknightzh - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=R2wBwmwSMG0Sqiw8GFSVjHT4Payg_JFAn51R8XcuvN0" />
+    <link id="MainCss" rel="stylesheet" href="/skins/anothereon001/bundle-anothereon001.min.css?v=9x2ZP2K8SSBJowZA6xv0D5FvOmlvd5g21u0NBEAEwfQ" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/anothereon001/bundle-anothereon001-mobile.min.css?v=hUZBXyvgRW1p4oe8x8nCxMMFQEUKHB46jHdp-1ACwJM" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/darkknightzh/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/darkknightzh/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/darkknightzh/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 201467;
+        var currentBlogApp = 'darkknightzh';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'AnotherEon001';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2016-01-21 01:37';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=gWQ9VKr6FSwo14EgofSprzXJrAEO7ppQ1I5Or4uqKuo"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="has-navbar has-bannerbar">
+    <a name="top"></a>
+            <a href="https://brands.cnblogs.com/aws/free?source=blog-bannerbar" onclick="ga('send', 'event', 'Link', 'click', 'aws-pc-bannerbar')">
+                <div class="bannerbar aws forpc">
+                    <img class="left" src="https://common.cnblogs.com/images/banner/bannerbar-aws-logo.png" alt="" />
+                    <img class="right" src="https://common.cnblogs.com/images/banner/bannerbar-aws-ssh.png?v=2" alt="" />
+                </div>
+            </a>
+        <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://brands.cnblogs.com/aws/free?source=mobile-banner" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aws-mobile-bannerbar')"><img src="https://img2020.cnblogs.com/blog/35695/202012/35695-20201203212730693-184275650.png" alt="" /></a>
+        </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="wrapper">
+<div id="header">
+
+<div id="top">
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/darkknightzh/">darkknightzh</a>
+</h1>
+<div id="subtitle"></div>
+</div>
+<div id="sub"><div class="BlogStats">随笔 - 190, 文章 - 0, 评论 - 130, 引用 - 
+0</div>
+
+</div>
+
+
+
+
+</div>
+<div id="main_container">
+<div id="main_content">
+<div id="content">
+	<div id="post_detail">
+    <div class="post">
+        <h2>
+            
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/darkknightzh/p/5147982.html">
+    <span>（原）直方图的相似性度量</span>
+    
+
+
+</a>
+
+        </h2>
+        <div class="postbody">
+            
+<div id="cnblogs_post_body" class="blogpost-body">
+    <p>转载请注明出处：</p>
+<p><a href="http://www.cnblogs.com/darkknightzh/p/5147982.html" target="_blank">&nbsp;http://www.cnblogs.com/darkknightzh/p/5147982.html</a></p>
+<p>对于两直方图 $S=\left\{ {{s}_{1}},\cdots {{s}_{n}} \right\}$ 及 $M=\left\{ {{m}_{1}},\cdots {{m}_{n}} \right\}$，n为直方图维数（如255），这两直方图之间的<strong>卡方相似性</strong>为：</p>
+<p>&nbsp;$\chi _{\omega }^{2}(S,M)=\sum\limits_{i=1}^{n}{{{\omega }_{i}}\frac{{{\left( {{s}_{i}}-{{m}_{i}} \right)}^{2}}}{{{s}_{i}}+{{m}_{i}}}}$</p>
+<p>其中， ${{\omega }_{i}}$ 为权重，可令不同维度权重取不同值。</p>
+<p>&nbsp;</p>
+<p><strong>直方图欧氏距离的相似性度量</strong>为：</p>
+<p>&nbsp;$D(S,M)={{\left( \sum\limits_{i=1}^{n}{{{\left( {{s}_{i}}-{{m}_{i}} \right)}^{2}}} \right)}^{2}}$</p>
+<p>其中， $0 \le {{s}_{i}}\le 1 $ 和 $0 \le {{m}_{i}}\le 1 $ 为归一化值（此处外部是平方还是0.5次方不确定）。</p>
+<p>归一化处理后，图像直方图的相似度的度量为：</p>
+<p>&nbsp;$D(S,M)=\frac{1}{n}\sum\limits_{i=1}^{n}{\left( 1-\frac{\left| {{s}_{i}}-{{m}_{i}} \right|}{\max ({{s}_{i}},{{m}_{i}})} \right)}$</p>
+<p>&nbsp;</p>
+<p>直方图相似性常用于人脸检测。</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+        </div>
+        <p class="postfoot">
+            posted on 
+<span id="post-date">2016-01-21 13:37</span>&nbsp;
+<a href="https://www.cnblogs.com/darkknightzh/">darkknightzh</a>&nbsp;
+阅读(<span id="post_view_count">2676</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=5147982" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(5147982);return false;">收藏</a>
+        </p>
+    </div>
+</div>
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 201467, cb_blogApp = 'darkknightzh', cb_blogUserGuid = '2ff23002-a055-e411-b908-9dcfd8948a71';
+    var cb_entryId = 5147982, cb_entryCreatedDate = '2016-01-21 13:37', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+
+
+</div>
+</div>
+<div id="leftmenu">
+
+
+<h3>导航</h3>
+<ul>
+    <li>
+        <a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+
+    </li>
+    <li>
+        
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/darkknightzh/">
+首页</a>
+
+    </li>
+    <li>
+        
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+
+    </li>
+    <li>
+        
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/darkknightzh">
+联系</a>
+    </li>
+    <li>
+        
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/darkknightzh/rss/">
+订阅</a>
+        
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/darkknightzh/rss/">
+    <img src="/skins/anothereon001/images/xml.gif" alt="订阅" />
+</a>
+    </li>
+    <li>
+        
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+
+    </li>
+</ul>
+
+
+<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+
+</div>
+</div>
+<div class="clear"></div>
+<div id="footer">
+<p id="footer">
+	Powered by: 
+	<br />
+	
+	<a href="https://www.cnblogs.com/" id="footer_site_link">博客园</a>
+	<br />
+	Copyright &copy; 2020 darkknightzh
+<br /><span id="poweredby">Powered by .NET 5.0.0 on Kubernetes</span>
+
+</p>
+
+
+</div>
+</div>
+
+
+    <div id="page_end_html">
+        <script language="javascript" type="text/javascript">
+ //生成目录索引列表
+ function GenerateContentList()
+ {
+     var jquery_h1_list = $('#cnblogs_post_body h1');
+     if (jquery_h1_list.length == 0) { return; }
+     if ($('#cnblogs_post_body').length == 0) { return; }
+ 
+     var content = '<a name="_labelTop"></a>';
+     content    += '<div id="navCategory">';
+     content    += '<p style="font-size:16px"><b><span style="color: #d2681e;">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span></b></p>';
+     content    += '<p style="font-size:24px"><b><strong><span style="color: #d2681e;">本文目录</span></strong></b></p>';
+     // 一级目录 start
+     content += '<ul class="first_class_ul">';
+ 
+     for (var i = 0; i < jquery_h1_list.length; i++)
+     {
+         var go_to_top = '<div style="text-align: right"><a href="#_labelTop">回到顶部(go to top)</a><a name="_label' + i + '"></a></div>';
+         $(jquery_h1_list[i]).before(go_to_top);
+ 
+         // 一级目录的一条
+         var li_content = '<li><a href="#_label' + i + '">' + $(jquery_h1_list[i]).text() + '</a></li>';
+ 
+         var nextH1Index = i + 1;
+         if (nextH1Index == jquery_h1_list.length) { nextH1Index = 0; }
+         var jquery_h2_list = $(jquery_h1_list[i]).nextUntil(jquery_h1_list[nextH1Index], "h2");
+         // 二级目录 start
+         if (jquery_h2_list.length > 0)
+         {
+             //li_content +='<ul style="list-style-type:none; text-align: left; margin:2px 2px;">';
+             li_content += '<ul class="second_class_ul">';
+         }
+         for (var j = 0; j < jquery_h2_list.length; j++)
+         {
+             var go_to_top2 = '<div style="text-align: right"><a name="_lab2_'+ i + '_' + j + '"></a></div>';
+             $(jquery_h2_list[j]).before(go_to_top2);
+             // 二级目录的一条
+             li_content +='<li><a href="#_lab2_'+ i +'_' + j + '">' + $(jquery_h2_list[j]).text() + '</a></li>';
+ 
+             var nextH2Index = j + 1;
+             var next;
+             if (nextH2Index == jquery_h2_list.length) 
+             {
+                 if (i + 1 == jquery_h1_list.length)
+                 {
+                     next = jquery_h1_list[0];
+                 }
+                 else
+                 {
+                     next = jquery_h1_list[i + 1];
+                 }
+             }
+             else
+             {
+                 next = jquery_h2_list[nextH2Index];
+             }
+             var jquery_h3_list = $(jquery_h2_list[j]).nextUntil(next, "h3");
+             // 三级目录 start
+             if (jquery_h3_list.length > 0)
+             {
+                 li_content += '<ul class="third_class_ul">';
+             }
+             
+             for (var k = 0; k < jquery_h3_list.length; k++)
+             {
+                 var go_to_third_Content = '<div style="text-align: right"><a name="_label3_' + i + '_' + j + '_' + k + '"></a></div>';
+                 $(jquery_h3_list[k]).before(go_to_third_Content);
+                 // 三级目录的一条
+                 li_content += '<li><a href="#_label3_' + i + '_' + j + '_' + k + '">' + $(jquery_h3_list[k]).text() + '</a></li>';
+             }
+             
+             if (jquery_h3_list.length > 0)
+             {
+                 li_content += '</ul>';
+             }
+             li_content += '</li>';
+             // 三级目录 end
+         }
+         if (jquery_h2_list.length > 0)
+         {
+             li_content +='</ul>';
+         }
+         li_content +='</li>';
+         // 二级目录 end
+ 
+         content += li_content;
+     }
+     // 一级目录 end
+     content += '</ul>';
+     content += '</div>';
+     content += '<p style="font-size:16px"><b><span style="color: #d2681e;">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span></b></p>';
+     
+ 
+     $($('#cnblogs_post_body')[0]).prepend(content);
+ }
+ 
+ GenerateContentList();
+ </script>
+    </div>
+</body>
+</html>
