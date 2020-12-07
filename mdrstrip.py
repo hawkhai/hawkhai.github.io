@@ -109,7 +109,7 @@ def collectHost(line):
                         (:[0-9]{1,4})?
                     (/[a-z0-9\&%_\./~-]*)?
                     (\?[a-z0-9\&%_\./~=:-]*)?
-                 )"""
+                )"""
 
     regex = "".join(regex.split())
     li = re.findall(regex, line, re.IGNORECASE)
