@@ -48,11 +48,65 @@ $$
 
 内积（点积、点乘或数量积）投影变换：多维空间投影到一维空间。
 
+* [向量积的种类以及表示方法 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/92274158)
+* **[向量点乘（内积）和叉乘（外积、向量积）概念及几何意义解读](https://blog.csdn.net/dcrmg/article/details/52416832)**
+
+向量的点乘，也叫向量的内积、数量积，对两个向量执行点乘运算，就是对这两个向量对应位一一相乘之后求和的操作，点乘的结果是一个标量。
+
+$$a=\left[a_{1}, a_{2}, \ldots a_{n}\right]$$
+
+$$b=\left[b_{1}, b_{2}, \ldots b_{n}\right]$$
+
+$$a \bullet b=a_{1} b_{1}+a_{2} b_{2}+\ldots+a_{\mathrm{n}} b_{n}$$
+
+#### 几何意义
+
+可以用来表征或计算两个向量之间的夹角，以及在 $b$ 向量在 $a$ 向量方向上的投影。
+
+根据这个公式就可以计算向量 $a$ 和向量 $b$ 之间的夹角。从而就可以进一步判断这两个向量是否是同一方向，是否正交（也就是垂直）等方向关系。
+
+$$
+a \bullet b=|a| \ |b| \cos \theta
+$$
+
 
 ### 正交向量
 
 
 ### 叉乘
+
+两个向量的叉乘，又叫向量积、外积、叉积，叉乘的运算结果是一个向量而不是一个标量。并且两个向量的叉积与这两个向量组成的坐标平面垂直。
+
+$$
+\begin{array}{l}
+a=\left(x_{1}, y_{1}, z_{1}\right) \\
+b=\left(x_{2}, y_{2}, z_{2}\right)
+\end{array}
+$$
+
+$$
+a \times b=\left(y_{1} z_{2}-y_{2} z_{1},-\left(x_{1} z_{2}-x_{2} z_{1}\right), x_{1} y_{2}-x_{2} y_{1}\right)
+$$
+
+#### 几何意义
+
+在三维几何中，向量 $a$ 和向量 $b$ 的叉乘结果是一个向量，更为熟知的叫法是法向量，该向量垂直于 $a$ 和 $b$ 向量构成的平面。
+
+在 3D 图像学中，叉乘的概念非常有用，可以通过两个向量的叉乘，生成第三个垂直于 a，b 的法向量，从而构建 X、Y、Z 坐标系。
+
+{% include image.html url="/images/3d-Linear-Algebra/20160902232814429.jpg" %}
+
+{% include image.html url="/images/3d-Linear-Algebra/v2-6146c5c8887f305398f3d072ca72ddd1_720w.png" %}
+
+在二维空间中，叉乘还有另外一个几何意义就是：axb 的模等于由向量 $a$ 和向量 $b$ 构成的平行四边形的面积。
+
+[向量叉乘的线性性质 几何解释](https://www.cnblogs.com/zzdyyy/p/7643267.html)
+
+$$
+| \vec a \times \vec b | = |\vec a| \cdot |\vec b| \cdot \sin \theta
+$$
+
+{% include image.html url="/images/3d-Linear-Algebra/892435-20171009220251902-371963331.png" %}
 
 
 ### 点乘内积叉乘外积比较
