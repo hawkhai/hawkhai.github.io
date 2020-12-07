@@ -76,6 +76,48 @@ def getLeftSpaceCount(line):
         count += 1
     return count
 
+def backupUrlContent(fpath, url):
+    for file in ("/qt-creator-opensource-windows-x86-4.13.2.exe",
+                 "/qt-opensource-windows-x86-5.14.1.exe",
+                 "/qt-opensource-windows-x86-5.14.2.exe",
+                 "/d2l-zh.zip",
+                 "/mingw-get-setup.exe",
+                 ):
+        if url.endswith(file):
+            return
+    assert not url.endswith(".exe"), url
+    assert not url.endswith(".zip"), url
+    # 有可能挂掉的网站，都稍微做一下备份。
+    for host in ("https://zh.wikipedia.org/", "https://en.wikipedia.org/",
+                 "https://sunocean.life/",
+                 "https://pypi.tuna.tsinghua.edu.cn/", "https://apache-mxnet.s3.cn-north-1.amazonaws.com.cn/",
+                 "https://www.bilibili.com/",
+                 "https://docs.python.org/",
+                 "http://ogre3d.cn/",
+                 "http://developer.nvidia.com/",
+                 "https://wiki.mbalib.com/",
+                 ):
+        if url.startswith(host):
+            return
+    md5 = getmd5(url)
+    print(fpath, url)
+    chrome = False
+    for host in ("https://betterexplained.com/",
+                 "https://blog.walterlv.com/",
+                 "https://opencv-python-tutroals.readthedocs.io/",
+                 "https://stackoom.com/",
+                 "https://www.freesion.com/",
+                 "https://www.jianshu.com/",
+                 "https://max.book118.com/",
+                 ):
+        if url.startswith(host):
+            chrome = True
+    mdname = os.path.split(fpath)[-1]
+    uhost = url.split("//")[1].split("/")[0]
+    umd5 = getmd5(url)
+    local = os.path.join("backup", mdname, uhost, umd5 + ".html")
+    fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=local)
+
 def createCnFile():
     page = b""
     ordch = 0x4e00
@@ -93,7 +135,7 @@ def createCnFile():
 #createCnFile()
 
 g_hostset = {}
-def collectHost(line):
+def collectHost(fpath, line):
 
     linesrc = line[:]
     xline = line[:]
@@ -126,6 +168,7 @@ def collectHost(line):
                 print(line)
                 print(url)
                 assert False, checkz
+        backupUrlContent(fpath, url)
         if not host in g_hostset:
             g_hostset[host] = 0
         g_hostset[host] += 1
@@ -213,7 +256,7 @@ def mainfile(fpath, fname, ftype):
         nextline = lines[index + 1] if index < len(lines)-1 else ""
 
         if isMdFile:
-            collectHost(line)
+            collectHost(fpath, line)
 
         tagregex = "^\\s*[#]+ "
         tagregexk = "^\\s*[#]+\\s{2,}"

@@ -60,7 +60,7 @@ caption=" 坐标系统 " %}
 厂商 | 名称
 ---- | ----
 AMD | OpenGL ES 2.0 Emulator
-ARM | OpenGL ES 2.0 Emulator v1.2 [ARM Mali Emulator](http://malideveloper.arm.com/resources/tools/opengl-es-emulator/)
+ARM | OpenGL ES 2.0 Emulator v1.2 [ARM Mali Emulator](https://developer.arm.com/tools-and-software/graphics-and-gaming/opengl-es-emulator/downloads)
 Qualcomm | Adreno SDK 2.2 [Adreno GPU SDK](https://developer.qualcomm.com/software/adreno-gpu-sdk/tools)
 NVIDIA | x86 Windows OpenGL ES 2.0 Emulator
 PowerVR | PowerVR SDK [PowerVR SDK](https://community.imgtec.com/developers/powervr/installers/)

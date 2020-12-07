@@ -149,12 +149,12 @@ $$
 
 [Alexander Telea's inpainting algorithm][1]
 
-[1]: https://www.rug.nl/research/portal/files/14404904/2004JGraphToolsTelea.pdf
+[1]: https://www.rug.nl/
 
 [![][im1_in_thumb]][im1_in]
 
-[im1_in]: https://raw.githubusercontent.com/olvb/pyheal/master/samples/tulips_in.png
-[im1_in_thumb]: https://raw.githubusercontent.com/olvb/pyheal/master/samples/tulips_in.png
+[im1_in]: https://sunocean.life/blog/assets/gitee.png
+[im1_in_thumb]: https://sunocean.life/blog/assets/opengl.png
 
 
 ## Tools
