@@ -103,15 +103,29 @@ def collectHost(line):
     for tx in li:
         line = line.replace(tx, "")
 
-    regex = r"""((https?)://
-                 ([a-z0-9\.-]+\.[a-z]{2,6})(:[0-9]{1,4})?
-                 (/[a-z0-9\&%_\./-~-]*)?)"""
+    regex = r"""(
+                    (https?)://
+                        ([a-z0-9\.-]+\.[a-z]{2,6})
+                        (:[0-9]{1,4})?
+                    (/[a-z0-9\&%_\./~-]*)?
+                    (\?[a-z0-9\&%_\./~=:-]*)?
+                 )"""
+
     regex = "".join(regex.split())
     li = re.findall(regex, line, re.IGNORECASE)
     if not li: return
     for tx in li:
         url = tx[0]
         host = tx[2]
+        checkz = line.split(url)
+        for xline in checkz[1:]:
+            checkli = ["", ")", "]", ">", " ", "*"]
+            if url in ("https://msdl.microsoft.com/download/symbols",):
+                checkli.append(";")
+            if not xline[:1] in checkli:
+                print(line)
+                print(url)
+                assert False, checkz
         if not host in g_hostset:
             g_hostset[host] = 0
         g_hostset[host] += 1
