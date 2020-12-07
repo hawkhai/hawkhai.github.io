@@ -302,3 +302,14 @@ $$
 
 
 ### [1] [程序员的数学：线性代数](https://ke.qq.com/course/411603)
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://www.cnblogs.com/seniusen/p/9959535.html]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/www.cnblogs.com/eccf30ae694a4a238ed631f15fb35132.html" %})
+- [2] [https://zhuanlan.zhihu.com/p/49820858]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/zhuanlan.zhihu.com/984ede023bc1e135b6b6eafe1e66582f.html" %})
+- [3] [https://zhuanlan.zhihu.com/p/92274158]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/zhuanlan.zhihu.com/5721ea541516d0f8069326a887b6a346.html" %})
+- [4] [https://blog.csdn.net/dcrmg/article/details/52416832]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/blog.csdn.net/76708b679f072488e3f5dfb931b6d0d3.html" %})
+- [5] [https://www.cnblogs.com/zzdyyy/p/7643267.html]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/www.cnblogs.com/38502b745d8be624c4b4ab28dd10c378.html" %})
+- [6] [https://ke.qq.com/course/411603]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/ke.qq.com/c476834da9574cc7a06e626744266082.html" %})

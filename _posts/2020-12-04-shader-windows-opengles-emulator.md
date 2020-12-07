@@ -72,3 +72,15 @@ PowerVR | PowerVR SDK [PowerVR SDK](https://community.imgtec.com/developers/powe
 - [2] [Android OpenGL 开发 -- EGL 的使用](https://www.cnblogs.com/wellcherish/p/12727906.html)
 - [3] [OpenGL ES Emulator 横向比较](https://www.cnblogs.com/gongminmin/archive/2011/04/25/2027684.html)
 - [4] [OpenGL ES Emulator 再次横向比较](http://www.klayge.org/2012/01/28/opengl-es-emulator%e5%86%8d%e6%ac%a1%e6%a8%aa%e5%90%91%e6%af%94%e8%be%83/)
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://developer.arm.com/tools-and-software/graphics-and-gaming/opengl-es-emulator/downloads]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/developer.arm.com/37ace0b1421c804520f135a65bd01689.html" %})
+- [2] [https://developer.qualcomm.com/software/adreno-gpu-sdk/tools]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/developer.qualcomm.com/df53d96aa1f521b644847378f20266c0.html" %})
+- [3] [https://community.imgtec.com/developers/powervr/installers/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/community.imgtec.com/1b0beb50133ff59365c00e54c2b53ca1.html" %})
+- [4] [https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.saschawillems.de/5efcfffd3d6f715447fe138eb7046661.html" %})
+- [5] [https://www.cnblogs.com/wellcherish/p/12727906.html]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.cnblogs.com/37af50ce6d7e06011c904dcf8456cfdb.html" %})
+- [6] [https://www.cnblogs.com/gongminmin/archive/2011/04/25/2027684.html]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.cnblogs.com/04b6eb64f673ee1d4a5ceecfbd73f72a.html" %})
+- [7] [http://www.klayge.org/2012/01/28/opengl-es-emulator%e5%86%8d%e6%ac%a1%e6%a8%aa%e5%90%91%e6%af%94%e8%be%83/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.klayge.org/08cb85c8d0ec6d64248df47c220e9bcc.html" %})

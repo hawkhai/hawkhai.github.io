@@ -71,3 +71,11 @@ $$|\lambda|=\min _{1 \leq i \leq n}\left|\lambda_{i}\right|$$
 - [1] [《动手学深度学习》](http://zh.gluon.ai/)
 - [2] [求二范数 C++ 代码](https://blog.csdn.net/tianya_team/article/details/53310617)
 - [3] **[计算方法之计算矩阵的特征值和特征量](https://wenku.baidu.com/view/095bebde2a4ac850ad02de80d4d8d15abf23004d.html)**
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [http://zh.gluon.ai/]({% include relref.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/zh.gluon.ai/b73bb84d9f51ff5f6697c65a22d79b01.html" %})
+- [2] [https://blog.csdn.net/tianya_team/article/details/53310617]({% include relref.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/blog.csdn.net/ab76a7bc9d557640d66199da6167b113.html" %})
+- [3] [https://wenku.baidu.com/view/095bebde2a4ac850ad02de80d4d8d15abf23004d.html]({% include relref.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/wenku.baidu.com/aca20332ad2a0c761b0ca9d16bdca145.html" %})

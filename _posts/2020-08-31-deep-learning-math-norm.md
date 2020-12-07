@@ -232,3 +232,11 @@ $$
 - [4] [NumPy 范数计算](http://liao.cpython.org/numpy11/)
 - [5] [理解矩阵乘法](http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html)<sup>阮一峰</sup>
 - [6] <https://blog.csdn.net/zouxy09/article/details/24971995>
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [http://zh.gluon.ai/]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/zh.gluon.ai/b73bb84d9f51ff5f6697c65a22d79b01.html" %})
+- [2] [http://liao.cpython.org/numpy11/]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/liao.cpython.org/180b77aed72051ff299abd1115039304.html" %})
+- [3] [http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/www.ruanyifeng.com/eeea32125ebd68d05eac7eddc31df0a1.html" %})

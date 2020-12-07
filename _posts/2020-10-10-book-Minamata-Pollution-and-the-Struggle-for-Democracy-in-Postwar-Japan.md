@@ -70,3 +70,9 @@ glslcanvas:
 ## 参考
 
 - [1] [日本公害往事 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/19662214)
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://zhuanlan.zhihu.com/p/19662214]({% include relref.html url="/backup/2020-10-10-book-Minamata-Pollution-and-the-Struggle-for-Democracy-in-Postwar-Japan.md/zhuanlan.zhihu.com/5fc7e9d4ba080e731461918d95520eb8.html" %})

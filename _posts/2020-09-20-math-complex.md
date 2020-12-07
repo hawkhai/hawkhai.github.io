@@ -527,3 +527,12 @@ $$
 - [2] [A Visual, Intuitive Guide to Imaginary Numbers](https://betterexplained.com/articles/a-visual-intuitive-guide-to-imaginary-numbers/)
 - [3] [《更好的解释（数学篇）》 —— 第五章 虛數](http://jakwings.is-programmer.com/posts/29547.html)
 - [4] [虚数的意义 阮一峰](https://www.ruanyifeng.com/blog/2012/09/imaginary_number.html)
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://www.matongxue.com/madocs/2066/]({% include relref.html url="/backup/2020-09-20-math-complex.md/www.matongxue.com/1c00fe52bebb1698cbc35a7418141d82.html" %})
+- [2] [https://betterexplained.com/articles/a-visual-intuitive-guide-to-imaginary-numbers/]({% include relref.html url="/backup/2020-09-20-math-complex.md/betterexplained.com/860b9b4f6a101d9be10daa1199f65270.html" %})
+- [3] [http://jakwings.is-programmer.com/posts/29547.html]({% include relref.html url="/backup/2020-09-20-math-complex.md/jakwings.is-programmer.com/f42eea180c7231efc4a1440a9104adb3.html" %})
+- [4] [https://www.ruanyifeng.com/blog/2012/09/imaginary_number.html]({% include relref.html url="/backup/2020-09-20-math-complex.md/www.ruanyifeng.com/1e3ef0cb4733d31780fb271820b6c88f.html" %})

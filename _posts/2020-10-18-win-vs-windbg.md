@@ -199,3 +199,9 @@ vertarget   // 查看系统信息、系统运行时长 System Uptime、进程启
 !peb        // 查看进程信息（进程的 ImageBaseAddress，进程的堆（Heap）起始地址， 装载了那些 DLL，命令行参数，系统的环境变量，mimidump 通常无效，可以查看 0 号线程堆栈，查看 main 函数参数）
 !teb：      // 查看进程信息（栈（stack）的起始地址，Tls Storage 的地址，异常处理的地址，LastError 的值。
 ```
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://msdl.microsoft.com/download/symbols]({% include relref.html url="/backup/2020-10-18-win-vs-windbg.md/msdl.microsoft.com/105143dce9293b5909dda382160a4f57.html" %})

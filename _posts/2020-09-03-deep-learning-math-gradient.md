@@ -155,3 +155,9 @@ $$\nabla = \sum_{j=1}^n \bigg[{\frac{\partial}{\partial x_j}}\bigg] \mathbf{\hat
 - [1] <https://blog.csdn.net/walilk/article/details/50978864>
 - [2] [维基百科·偏导数](https://zh.wikipedia.org/zh-cn/%E5%81%8F%E5%AF%BC%E6%95%B0)
 - [3] <https://blog.csdn.net/czmacd/article/details/81178650>
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://zh.wikipedia.org/zh-cn/%E5%81%8F%E5%AF%BC%E6%95%B0]({% include relref.html url="/backup/2020-09-03-deep-learning-math-gradient.md/zh.wikipedia.org/042a2c98c4b02c980d0060767e17a40e.html" %})

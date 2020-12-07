@@ -513,3 +513,10 @@ Gabor 滤波器是一种结合了高斯分布和频率变换的滤波器，用�
 
 
 ### 一百：简单物体检测第四步 —— 评估（Evaluation）：Precision、Recall、F-Score、mAP
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://www.cnblogs.com/xiongmozhou/p/9391323.html]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/www.cnblogs.com/1ec5dc1dc38ab217d5ef469bc58e003c.html" %})
+- [2] [https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/mirrors.tuna.tsinghua.edu.cn/1484ea3600a2a18bb19ab9a0c339caac.html" %})

@@ -391,3 +391,14 @@ outv = outv * (1-mask_fishergirl) + outvgril * mask_fishergirl
 ### 尝试换一个色调
 
 {% include image.html url="/source/marathon/output_images/phase3/phase3_sky_final.png_glod.png" %}
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://www.doc88.com/p-6681238446960.html]({% include relref.html url="/backup/2020-10-24-dip-image-marathon.md/www.doc88.com/f78335d1e992859c5382252dfc314368.html" %})
+- [2] [https://max.book118.com/html/2017/0903/131690968.shtm]({% include relref.html url="/backup/2020-10-24-dip-image-marathon.md/max.book118.com/57242791fcc6a927047e840685079740.html" %})
+- [3] [https://blog.csdn.net/qq_30815237/article/details/98655630]({% include relref.html url="/backup/2020-10-24-dip-image-marathon.md/blog.csdn.net/0233bfc686ceb0fe663cc58d2c85fb26.html" %})
+- [4] [https://blog.csdn.net/LuohenYJ/article/details/90640654]({% include relref.html url="/backup/2020-10-24-dip-image-marathon.md/blog.csdn.net/cb6675f5effc25ed1d40e8ead6d1db9e.html" %})
+- [5] [https://blog.csdn.net/dcrmg/article/details/53792061]({% include relref.html url="/backup/2020-10-24-dip-image-marathon.md/blog.csdn.net/f78939f0a283a8286aaacf21885fc09a.html" %})
+- [6] [http://accu.cc/content/pil/watermark/]({% include relref.html url="/backup/2020-10-24-dip-image-marathon.md/accu.cc/5433f4f7dd8c0cf80a9941e29d490117.html" %})

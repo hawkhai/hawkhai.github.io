@@ -85,3 +85,10 @@ url2="/images/tortoisegit-ssh/5-2.png" %}
 
 from [https://www.cnblogs.com/zy20160429/p/7493693.html](https://www.cnblogs.com/zy20160429/p/7493693.html)<br/>
 markdown [https://www.runoob.com/markdown/md-lists.html](https://www.runoob.com/markdown/md-lists.html)
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://www.cnblogs.com/zy20160429/p/7493693.html]({% include relref.html url="/backup/2020-08-22-tortoise-git-ssh.md/www.cnblogs.com/4fa376fa7e571994d5f2dccfa3b7a2b2.html" %})
+- [2] [https://www.runoob.com/markdown/md-lists.html]({% include relref.html url="/backup/2020-08-22-tortoise-git-ssh.md/www.runoob.com/ce4c95d501af7cbf54ecb46259766fba.html" %})

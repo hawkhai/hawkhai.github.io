@@ -633,3 +633,20 @@ void c_abs(complex f[], float out[], int n); // 复数数组取模
 - [1] [bilibili {% include relref_bili.html %}](https://www.bilibili.com/video/BV1tx41147Tx)
 - [2] [标题自动编号](https://www.cnblogs.com/36bian/p/7609304.html)
 - [3] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://www.cnblogs.com/think90/p/11556725.html]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/www.cnblogs.com/d5a3152bd73303bcfe02541390b0b012.html" %})
+- [2] [https://blog.csdn.net/Rosemary_tu/article/details/84069878]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/blog.csdn.net/949ec903af186cb5d9a5bcd907080256.html" %})
+- [3] [https://cloud.tencent.com/developer/section/1414646]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/cloud.tencent.com/1baa00d3e6264ec773bc895f2d5f939e.html" %})
+- [4] [https://www.cnblogs.com/-wenli/p/11729342.html]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/www.cnblogs.com/11348120dd205a0f21afc545b19d8741.html" %})
+- [5] [https://www.cnblogs.com/darkknightzh/p/5147982.html]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/www.cnblogs.com/d0fb0ea8137b4975fa8a58c5fba071da.html" %})
+- [6] [https://blog.csdn.net/fengbingchun/article/details/52423810]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/blog.csdn.net/b33f8ab3764c5524c3d29847ee1b5d8c.html" %})
+- [7] [https://space.bilibili.com/230105574/channel/detail?cid=67768]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/space.bilibili.com/a0a5f7a79fc447b8640d0a630cd66b43.html" %})
+- [8] [https://blog.csdn.net/Ciellee/article/details/108520298]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/blog.csdn.net/a6ebd92a1c914c2d2e274c7ac261e49d.html" %})
+- [9] [https://blog.csdn.net/luoweifu/article/details/8214959]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/blog.csdn.net/baf339c8a3f214eaac8102facceb7efc.html" %})
+- [10] [https://www.bilibili.com/video/BV1tx41147Tx]({% include relref.html url="/None" %})
+- [11] [https://www.cnblogs.com/36bian/p/7609304.html]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/www.cnblogs.com/9c1872d652a1b79c5229d5a61aa7771f.html" %})
+- [12] [https://www.cnblogs.com/-wenli/p/11744405.html]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/www.cnblogs.com/98804d9b42d4b4baa9d122b10e1a9554.html" %})

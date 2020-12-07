@@ -226,3 +226,33 @@ if __name__ == "__main__":
 - [3] [公式图形实时显示](https://www.desmos.com/calculator)
 - [4] [频域高通高斯滤波和拉普拉斯滤波](https://blog.csdn.net/baidu_41902768/article/details/95936591)
 - [5] [数学算法俱乐部 - 【直观详解】让你永远忘不了的傅里叶变换解析](https://mp.weixin.qq.com/s/9irY0ZJxYN3_QPRH6YNS-A)
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://www.bilibili.com/video/av15571608]({% include relref.html url="/None" %})
+- [2] [https://www.zhihu.com/question/23234701/answer/26017000]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/www.zhihu.com/3e37edfa60170b86f4eea95a313e7c8f.html" %})
+- [3] [https://blog.csdn.net/Ciellee/article/details/108304531]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/blog.csdn.net/52e9cead98cc5b0413e758981d50cab3.html" %})
+- [4] [https://www.zhihu.com/question/21665935]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/www.zhihu.com/624b9092d23be793278ab4060291c176.html" %})
+- [5] [https://www.matongxue.com/madocs/712]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/www.matongxue.com/6562d01d8e7cde525b6245008fe457f7.html" %})
+- [6] [https://www.bilibili.com/video/BV1pW411J7s8]({% include relref.html url="/None" %})
+- [7] [https://www.bilibili.com/video/BV11W411H7Uz]({% include relref.html url="/None" %})
+- [8] [https://www.bilibili.com/video/BV1Yb411G7u2]({% include relref.html url="/None" %})
+- [9] [https://www.bilibili.com/video/BV1MJ41147PH]({% include relref.html url="/None" %})
+- [10] [https://www.bilibili.com/video/BV1TJ41157FZ]({% include relref.html url="/None" %})
+- [11] [https://zhuanlan.zhihu.com/p/110026009]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/zhuanlan.zhihu.com/57f6c5e8f690a4c84f9439c386623c7a.html" %})
+- [12] [https://www.zhihu.com/question/23718291/answer/1057562032]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/www.zhihu.com/973666b2e9adb911792779c620d7cdf8.html" %})
+- [13] [https://www.zhihu.com/question/22085329/answer/1396150509]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/www.zhihu.com/2d06e25daa42bdd73fb709cf69f70ab2.html" %})
+- [14] [http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/www.robots.ox.ac.uk/17a9ad8d13ae4c3fb4f1e873d2475271.html" %})
+- [15] [http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/mstrzel.eletel.p.lodz.pl/30c1fa737548ba052619ba6112962a70.html" %})
+- [16] [http://pstrumil.eletel.p.lodz.pl/pstrumil/ang_po/ang_poindex.htm]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/pstrumil.eletel.p.lodz.pl/8888d8ec000203d407fdce72e86e3fb8.html" %})
+- [17] [https://www.bilibili.com/video/BV1w54y1R7LT]({% include relref.html url="/None" %})
+- [18] [https://www.bogotobogo.com/python/OpenCV_Python/python_opencv3_Signal_Processing_with_NumPy_Fourier_Transform_FFT_DFT_2.php]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/www.bogotobogo.com/3547835c327379ca877ac59233ac3546.html" %})
+- [19] [https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_transforms/py_fourier_transform/py_fourier_transform.html]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/opencv-python-tutroals.readthedocs.io/8dec14f2bfb080350ae2467889753b08.html" %})
+- [20] [http://scipy-lectures.org/intro/scipy/auto_examples/solutions/plot_fft_image_denoise.html]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/scipy-lectures.org/154e811240287f9677b13f08e22da8f4.html" %})
+- [21] [https://space.bilibili.com/230105574/channel/detail?cid=67768]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/space.bilibili.com/a0a5f7a79fc447b8640d0a630cd66b43.html" %})
+- [22] [https://www.cnblogs.com/-wenli/p/11744405.html]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/www.cnblogs.com/98804d9b42d4b4baa9d122b10e1a9554.html" %})
+- [23] [https://www.desmos.com/calculator]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/www.desmos.com/d524ddcbd00591f22d14dd0f572cf561.html" %})
+- [24] [https://blog.csdn.net/baidu_41902768/article/details/95936591]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/blog.csdn.net/dcad98904c46f8baad7e8fd8d4047d3c.html" %})
+- [25] [https://mp.weixin.qq.com/s/9irY0ZJxYN3_QPRH6YNS-A]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/mp.weixin.qq.com/b017dcc2da4e77c57b315c47ebcf9033.html" %})

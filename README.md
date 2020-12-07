@@ -59,3 +59,15 @@ $ bundle exec jekyll serve --host 0.0.0.0 --port [port]
 # Troubleshooting
 
 - If build for ruby2.3.1 fails, refer to [https://github.com/rbenv/ruby-build/wiki](https://github.com/rbenv/ruby-build/wiki).
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://github.com/gchauras/much-worse-jekyll-theme/]({% include relref.html url="/backup/README.md/github.com/14f1bec6fa447d3a3c67adb97e7761e3.html" %})
+- [2] [https://blog.hawkhai.com]({% include relref.html url="/backup/README.md/blog.hawkhai.com/051e312bbaa9c18655c485efd49048cf.html" %})
+- [3] [https://sunocean.life/blog]({% include relref.html url="/backup/README.md/sunocean.life/72283ac31cee46c8b5bd6e35c8b1183e.html" %})
+- [4] [https://github.com/rbenv/rbenv.git]({% include relref.html url="/backup/README.md/github.com/309fee200e6c9e304f8bafd623c8c36e.html" %})
+- [5] [https://github.com/rbenv/ruby-build.git]({% include relref.html url="/backup/README.md/github.com/48bc00792a4c5af49565764e26df019d.html" %})
+- [6] [https://gems.ruby-china.com/]({% include relref.html url="/backup/README.md/gems.ruby-china.com/6d6c20fba54944a55fd25c8792fad07c.html" %})
+- [7] [https://github.com/rbenv/ruby-build/wiki]({% include relref.html url="/backup/README.md/github.com/4c7e830d49c0c4e0b4967ce1b746e0b3.html" %})

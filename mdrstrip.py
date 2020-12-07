@@ -111,6 +111,8 @@ def backupUrlContent(fpath, url):
     umd5 = getmd5(url)
     local = os.path.join("backup", mdname, uhost, umd5 + ".html")
     fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=local)
+    remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5 + ".html")
+    return remote
 
 def createCnFile():
     page = b""
@@ -130,6 +132,8 @@ def createCnFile():
 
 g_hostset = {}
 def collectHost(fpath, line):
+
+    reflist = []
 
     linesrc = line[:]
     xline = line[:]
@@ -163,7 +167,8 @@ def collectHost(fpath, line):
                 print(url)
                 assert False, checkz
         assert not url.endswith("."), path +" "+ url
-        backupUrlContent(fpath, url)
+        remote = backupUrlContent(fpath, url)
+        reflist.append([url, remote])
         if not host in g_hostset:
             g_hostset[host] = 0
         g_hostset[host] += 1
@@ -178,12 +183,62 @@ def collectHost(fpath, line):
         print(li1)
         print(li2)
         assert False, linesrc
+    return reflist
 
 g_cnchar = []
 g_cschar = []
 g_enchar = []
 g_tpset = set()
 g_mdkeyset = set()
+
+def removeref(fpath, lines):
+    lineCount = len(lines)
+    headIndex = -1
+    for index in range(lineCount):
+        i = lineCount-1 - index
+        if not lines[i] or not lines[i].strip():
+            continue
+        if re.findall("^- \\[[0-9]+\\] \\[{}\\]\\({}\\)$".format(".*?", ".*?"), lines[i]):
+            continue
+        if lines[i] == "<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>":
+            headIndex = i
+            break
+        break
+
+    if headIndex != -1:
+        assert lines[headIndex-1] == "", "%r"%lines[headIndex-1]
+        assert lines[headIndex-2] == "-----", "%r"%lines[headIndex-2]
+        assert lines[headIndex-3] == "", "%r"%lines[headIndex-3]
+        lines = lines[:headIndex-3]
+    return lines
+
+def checkurlx(fpath, lines):
+    reflist = []
+
+    for index, line in enumerate(lines):
+        ireflist = collectHost(fpath, line)
+        if ireflist:
+            reflist.extend(ireflist)
+
+    if reflist:
+        lines.append("")
+        lines.append("-----")
+        lines.append("")
+        lines.append("<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>")
+        lines.append("")
+        lines.append("")
+        urlset = set()
+        count = 0
+        for url, remote in reflist:
+            if url in urlset: continue
+            urlset.add(url)
+            count = count + 1
+            from urllib.parse import unquote
+            remote = "{% " + ("include relref.html url=\"/%s\"" % (remote,)) + " %}"
+            lines.append("- [{}] [{}]({})".format(count, url, remote))
+        lines.append("")
+    return lines
+
 def mainfile(fpath, fname, ftype):
 
     ftype = ftype.lower()
@@ -231,6 +286,7 @@ def mainfile(fpath, fname, ftype):
 
     print(fpath)
     lines = readfileLines(fpath, False, False, "utf8")
+    lines = removeref(fpath, lines)
     lines = [linerstrip(line) for line in lines]
     lines.append("")
     lines.append("")
@@ -243,15 +299,15 @@ def mainfile(fpath, fname, ftype):
         while len(lines) >= 1 and not lines[-1]:
             lines = lines[:-1]
 
+    if isMdFile:
+        lines = checkurlx(fpath, lines)
+
     codestate = False
     chartstate = False
     for index, line in enumerate(lines):
 
         preline = lines[index - 1] if index > 0 else ""
         nextline = lines[index + 1] if index < len(lines)-1 else ""
-
-        if isMdFile:
-            collectHost(fpath, line)
 
         tagregex = "^\\s*[#]+ "
         tagregexk = "^\\s*[#]+\\s{2,}"

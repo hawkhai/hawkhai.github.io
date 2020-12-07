@@ -290,3 +290,10 @@ Handle 00000104
 ## Refernces
 
 - [1] [WinDbg -- 调试互斥体 (Mutex) 死锁](https://blog.csdn.net/china_jeffery/article/details/78927524)
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://mp.weixin.qq.com/s/tetpft089bWAV9VxfjCzqA]({% include relref.html url="/backup/2020-11-01-win-CriticalSection-Lock.md/mp.weixin.qq.com/f94113cf0a30b02f25e633cd980ebc68.html" %})
+- [2] [https://blog.csdn.net/china_jeffery/article/details/78927524]({% include relref.html url="/backup/2020-11-01-win-CriticalSection-Lock.md/blog.csdn.net/06aee77410674f14f5742a763c2e7728.html" %})

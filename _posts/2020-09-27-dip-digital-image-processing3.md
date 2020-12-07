@@ -210,3 +210,23 @@ glslcanvas:
 - [2] [标题自动编号](https://www.cnblogs.com/36bian/p/7609304.html)
 - [3] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
 - [4] GITHUB 数学公式展开：<https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima>
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://blog.csdn.net/mao_hui_fei/article/details/78177471]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing3.md/blog.csdn.net/1b0074e862c22ee04956a49640e84786.html" %})
+- [2] [http://www.doc88.com/p-693272517244.html]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing3.md/www.doc88.com/0d44cdd2b5112e7b9e0d52c6149efc01.html" %})
+- [3] [https://wenku.baidu.com/view/c26f1ea5492fb4daa58da0116c175f0e7cd119ea.html]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing3.md/wenku.baidu.com/19342336612cd4049f497d2ce5b5470f.html" %})
+- [4] [https://max.book118.com/html/2018/1108/8013115051001132.shtm]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing3.md/max.book118.com/885b0c746d5d5bee3db46eeb52d3f3c4.html" %})
+- [5] [https://stackoom.com/question/3xNO6/Opencv-%E8%A3%81%E5%89%AA-%E4%BD%8D%E6%95%B0%E7%9A%84%E6%89%8B%E5%86%99%E9%82%AE%E6%94%BF%E7%BC%96%E7%A0%81]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing3.md/stackoom.com/c9ec5dcbe63b62ee0eac2e1d457deb37.html" %})
+- [6] [https://www.freesion.com/article/5566190803/]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing3.md/www.freesion.com/010813753c372a43c9978832cedfaa06.html" %})
+- [7] [https://www.freesion.com/article/9575144324/]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing3.md/www.freesion.com/8e773cc1142829bb301fc6b8568851de.html" %})
+- [8] [https://www.jianshu.com/p/08ddeb0d8878]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing3.md/www.jianshu.com/fe0d15ded3c051b688973007d189e272.html" %})
+- [9] [https://www.cnblogs.com/kekexxr/p/11574589.html]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing3.md/www.cnblogs.com/68f7f01f89c69941bf63d16f269c2f5b.html" %})
+- [10] [http://zuzhiang.cn/2019/09/24/DIP/]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing3.md/zuzhiang.cn/9f0716fa82fa76934ab41286b99bc183.html" %})
+- [11] [https://a-suozhang.xyz/2019/09/06/Diigital-Image-Procss/]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing3.md/a-suozhang.xyz/d17c66dc472d127d16311c5b607f3240.html" %})
+- [12] [https://www.jianshu.com/p/926d6c15dbf9]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing3.md/www.jianshu.com/cabe09556f4fd5284d6b8816e475bf5d.html" %})
+- [13] [https://www.bilibili.com/video/BV1tx41147Tx]({% include relref.html url="/None" %})
+- [14] [https://www.cnblogs.com/36bian/p/7609304.html]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing3.md/www.cnblogs.com/9c1872d652a1b79c5229d5a61aa7771f.html" %})
+- [15] [https://www.cnblogs.com/-wenli/p/11744405.html]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing3.md/www.cnblogs.com/98804d9b42d4b4baa9d122b10e1a9554.html" %})

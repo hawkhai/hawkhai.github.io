@@ -75,3 +75,9 @@ $$
 ## 参考
 
 - [1] [线性代数的本质 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1ys411472E)
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://www.bilibili.com/video/BV1ys411472E]({% include relref.html url="/None" %})

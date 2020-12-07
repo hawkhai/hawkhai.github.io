@@ -272,3 +272,17 @@ plt.show()
 - [6] [python 库 skimage 对图像进行 gamma 校正和 log 校正](https://www.cnblogs.com/wojianxin/p/12649803.html)
 - [7] [数字图像处理实现·资料丰富](https://www.cnblogs.com/wojianxin/tag/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/default.html)
 - [8] [opencv 图像变换原理详解 图像平移 图像旋转 图像缩放](https://www.cnblogs.com/wojianxin/p/12591410.html)
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://scikit-image.org/docs/0.9.x/api/skimage.exposure.html]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/scikit-image.org/aefbde8ffd1b490ce185971fa879e078.html" %})
+- [2] [https://www.jianshu.com/p/f2e88197e81d]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/www.jianshu.com/1eca0ab98dabc8b056ef93d7f5db87de.html" %})
+- [3] [https://www.jianshu.com/p/66e6261f0279]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/www.jianshu.com/5b0af3338e06c69339af0cae6b50bc23.html" %})
+- [4] [https://www.jianshu.com/p/7693222523c0]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/www.jianshu.com/3a26618069b179911a35ffed049cbf84.html" %})
+- [5] [https://scikit-image.org/docs/stable/api/skimage.html]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/scikit-image.org/fbd6c4a50761b8cd4fdd9ee41ca37714.html" %})
+- [6] [https://cloud.tencent.com/developer/doc/1221]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/cloud.tencent.com/1c1c69eb23536dcd28907851dada1a94.html" %})
+- [7] [https://www.cnblogs.com/wojianxin/p/12649803.html]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/www.cnblogs.com/1b505f1419fd5504c1699c50e549bce8.html" %})
+- [8] [https://www.cnblogs.com/wojianxin/tag/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/default.html]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/www.cnblogs.com/5292bd0773b0da4b7595a974076a3edd.html" %})
+- [9] [https://www.cnblogs.com/wojianxin/p/12591410.html]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/www.cnblogs.com/5c2ee41d78b6bd4796bc89c9d0137711.html" %})

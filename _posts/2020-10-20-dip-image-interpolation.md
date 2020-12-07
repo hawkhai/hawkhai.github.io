@@ -196,3 +196,16 @@ if __name__ == "__main__":
 {% include image.html url="/images/image-interpolation/20201022103740.png" %}
 
 * 算法公式 [TUTORIAL: IMAGE RESCALING](https://clouard.users.greyc.fr/Pantheon/experiments/rescaling/index-en.html)
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://www.oreilly.com/library/view/python-data-science/9781491912126/ch04.html]({% include relref.html url="/backup/2020-10-20-dip-image-interpolation.md/www.oreilly.com/136b1475bdd78a8c2d0abe0147243f6a.html" %})
+- [2] [https://matplotlib.org/mpl_toolkits/mplot3d/tutorial.html]({% include relref.html url="/backup/2020-10-20-dip-image-interpolation.md/matplotlib.org/2d0be7a22797491c1c19bfa73d00e24b.html" %})
+- [3] [https://github.com/pytorch/pytorch/issues/25039]({% include relref.html url="/backup/2020-10-20-dip-image-interpolation.md/github.com/18add9eda878334d7fa902a4d95000d8.html" %})
+- [4] [https://matplotlib.org/1.4.1/examples/images_contours_and_fields/interpolation_methods.html]({% include relref.html url="/backup/2020-10-20-dip-image-interpolation.md/matplotlib.org/c55a36008606b1818add9a065d743351.html" %})
+- [5] [http://haifengl.github.io/interpolation.html]({% include relref.html url="/backup/2020-10-20-dip-image-interpolation.md/haifengl.github.io/383021a0dc373a3de6f6476fad67dde9.html" %})
+- [6] [https://blog.csdn.net/guyuealian/article/details/85097633]({% include relref.html url="/backup/2020-10-20-dip-image-interpolation.md/blog.csdn.net/819d8adde40385f454686bc20bd12f2e.html" %})
+- [7] [https://www.ipol.im/pub/art/2011/g_lmii/article.pdf]({% include relref.html url="/backup/2020-10-20-dip-image-interpolation.md/www.ipol.im/d1d612db2a41932cbc5aefebb77aa823.html" %})
+- [8] [https://clouard.users.greyc.fr/Pantheon/experiments/rescaling/index-en.html]({% include relref.html url="/backup/2020-10-20-dip-image-interpolation.md/clouard.users.greyc.fr/6137faf3a7097b5cd711906e392ba8e5.html" %})

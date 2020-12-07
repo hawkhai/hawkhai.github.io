@@ -122,3 +122,26 @@ pix2pix 来自卡内基梅隆大学的 Aayush Bansal 、Yaser Sheikh、Deva Rama
 
 * [Amazing algorithms to enhance or transform images](https://www.scriptol.com/programming/graphic-algorithms.php)
 * <http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html>
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [http://www.scale2x.it/]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/www.scale2x.it/11a3eccf60bff4dbe16ea21bf99cea2e.html" %})
+- [2] [https://code.google.com/archive/p/hqx/]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/code.google.com/147ac2dcf275f8bbc256bb5e867aff2c.html" %})
+- [3] [http://johanneskopf.de/publications/pixelart/]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/johanneskopf.de/a8679ee76ad9c31e53384dbd108d5304.html" %})
+- [4] [http://www.cs.huji.ac.il/~yweiss/Colorization/]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/www.cs.huji.ac.il/b824e8605782b61d2dca3ca678065972.html" %})
+- [5] [https://github.com/lllyasviel/style2paints]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/github.com/f2f5bca4cc013cad83752596b0e445c0.html" %})
+- [6] [http://gmic.eu/]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/gmic.eu/907f272130e72a0c32ffe42d82546d2f.html" %})
+- [7] [http://liquidrescale.wikidot.com/]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/liquidrescale.wikidot.com/367f9decb9cf96650f02e50ca58424c0.html" %})
+- [8] [http://www.faculty.idc.ac.il/arik/site/seam-carve.asp]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/www.faculty.idc.ac.il/2ae25b579509b255e7917d39510a8c92.html" %})
+- [9] [https://www.scriptol.com/design/gimp/removing-objects.php]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/www.scriptol.com/84c25ac02202bc067ced54923815217d.html" %})
+- [10] [https://www.scriptol.com/design/sketchtophoto.php]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/www.scriptol.com/4632068f6e22a0bfadf4ee51c9067630.html" %})
+- [11] [https://www.scriptol.com/programming/algorithm-pretty-face.php]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/www.scriptol.com/a8cd82720ac77f4a6da28706feca7903.html" %})
+- [12] [http://www.cs.cmu.edu/~aayushb/pixelNN/]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/www.cs.cmu.edu/e83fb9604dc348bbda4f2ca72be0e5bb.html" %})
+- [13] [http://www.cs.huji.ac.il/~danix/ShadowRemoval/index.html]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/www.cs.huji.ac.il/c03658c81bbcf3bbd8b16c3e149d4579.html" %})
+- [14] [https://youtu.be/G63goXc5MyU]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/youtu.be/ea542fbdfaa380c8bb7f767aba3a2b38.html" %})
+- [15] [https://www.scriptol.com/programming/list-algorithms.php]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/www.scriptol.com/e271894166c170a047faaa1f82f5cc5e.html" %})
+- [16] [https://www.scriptol.com/design/gimp/logo.php]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/www.scriptol.com/c6e09d20efaac071d90a0deafa29f811.html" %})
+- [17] [http://www.cs.huji.ac.il/~danix/]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/www.cs.huji.ac.il/0cf626d47d2be167cdb6ab003b7a0295.html" %})
+- [18] [https://www.scriptol.com/programming/graphic-algorithms.php]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/www.scriptol.com/608cee18af138ab17bdead053320df86.html" %})

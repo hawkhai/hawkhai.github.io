@@ -111,3 +111,14 @@ JPEG 图像压缩算法流程详解 <https://www.cnblogs.com/buaaxhzh/p/9138307.
 - [3] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
 - [4] [数字图像处理实现·资料丰富](https://www.cnblogs.com/wojianxin/tag/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/default.html)
 - [5] [opencv 图像变换原理详解 图像平移 图像旋转 图像缩放](https://www.cnblogs.com/wojianxin/p/12591410.html)
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://www.originlab.com/doc/Origin-Help/Continuous-WaveTrans]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing2.md/www.originlab.com/1c8787ea1aa0771c94ed67819fa1c3ac.html" %})
+- [2] [https://www.bilibili.com/video/BV1tx41147Tx]({% include relref.html url="/None" %})
+- [3] [https://www.cnblogs.com/36bian/p/7609304.html]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing2.md/www.cnblogs.com/9c1872d652a1b79c5229d5a61aa7771f.html" %})
+- [4] [https://www.cnblogs.com/-wenli/p/11744405.html]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing2.md/www.cnblogs.com/98804d9b42d4b4baa9d122b10e1a9554.html" %})
+- [5] [https://www.cnblogs.com/wojianxin/tag/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/default.html]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing2.md/www.cnblogs.com/5292bd0773b0da4b7595a974076a3edd.html" %})
+- [6] [https://www.cnblogs.com/wojianxin/p/12591410.html]({% include relref.html url="/backup/2020-09-27-dip-digital-image-processing2.md/www.cnblogs.com/5c2ee41d78b6bd4796bc89c9d0137711.html" %})
