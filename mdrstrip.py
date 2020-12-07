@@ -82,34 +82,28 @@ def backupUrlContent(fpath, url):
                  "/qt-opensource-windows-x86-5.14.2.exe",
                  "/d2l-zh.zip",
                  "/mingw-get-setup.exe",
-                 ):
+                ):
         if url.endswith(file):
             return
     assert not url.endswith(".exe"), url
     assert not url.endswith(".zip"), url
     # 有可能挂掉的网站，都稍微做一下备份。
-    for host in ("https://zh.wikipedia.org/", "https://en.wikipedia.org/",
-                 "https://sunocean.life/",
-                 "https://pypi.tuna.tsinghua.edu.cn/", "https://apache-mxnet.s3.cn-north-1.amazonaws.com.cn/",
+    for host in ("https://pypi.tuna.tsinghua.edu.cn/", "https://apache-mxnet.s3.cn-north-1.amazonaws.com.cn/",
                  "https://www.bilibili.com/",
-                 "https://docs.python.org/",
                  "http://ogre3d.cn/",
-                 "http://developer.nvidia.com/",
-                 "https://wiki.mbalib.com/",
-                 ):
+                ):
         if url.startswith(host):
             return
-    md5 = getmd5(url)
+
     print(fpath, url)
     chrome = False
-    for host in ("https://betterexplained.com/",
-                 "https://blog.walterlv.com/",
+    for host in ("https://blog.walterlv.com/",
+                 "https://betterexplained.com/",
                  "https://opencv-python-tutroals.readthedocs.io/",
                  "https://stackoom.com/",
                  "https://www.freesion.com/",
                  "https://www.jianshu.com/",
-                 "https://max.book118.com/",
-                 ):
+                ):
         if url.startswith(host):
             chrome = True
     mdname = os.path.split(fpath)[-1]
@@ -168,6 +162,7 @@ def collectHost(fpath, line):
                 print(line)
                 print(url)
                 assert False, checkz
+        assert not url.endswith("."), path +" "+ url
         backupUrlContent(fpath, url)
         if not host in g_hostset:
             g_hostset[host] = 0
