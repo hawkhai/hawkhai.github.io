@@ -114,6 +114,8 @@ def check(file, depth):
             print("listing directory", file)
         names = os.listdir(file)
         for name in names:
+            if name in ("backup",):
+                continue
             fullname = os.path.join(file, name)
             if ((recurse and os.path.isdir(fullname) and
                  not os.path.islink(fullname) and

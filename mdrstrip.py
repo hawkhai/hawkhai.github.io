@@ -99,7 +99,10 @@ def backupUrlContent(fpath, url):
     # 有可能挂掉的网站，都稍微做一下备份。
     for host in ("https://pypi.tuna.tsinghua.edu.cn/", "https://apache-mxnet.s3.cn-north-1.amazonaws.com.cn/",
                  "https://www.bilibili.com/",
-                 "http://ogre3d.cn/",
+                 "http://doc.qt.nokia.com/",
+                 "http://www.cuteqt.com/", "http://ogre3d.cn/",
+                 "http://en.wikipedia.org/", "https://msdn.microsoft.com/",
+                 "http://tcbuglist.rdev.kingsoft.net/", "https://ml00cz5fm4.feishu.cn/",
                 ):
         if url.startswith(host):
             return
@@ -112,6 +115,10 @@ def backupUrlContent(fpath, url):
                  "https://stackoom.com/",
                  "https://www.freesion.com/",
                  "https://www.jianshu.com/",
+                 "https://rubyinstaller.org/",
+                 "https://www.anaconda.com/",
+                 "https://bbs.pediy.com/",
+                 "http://developer.nvidia.com/",
                 ):
         if url.startswith(host):
             chrome = True
@@ -153,16 +160,17 @@ def collectHost(fpath, line):
     xline = line[:]
     for tak, src, name in linktagli:
         xline = xline.replace(tak, src)
-    li = re.findall("<.*?>", xline)
-    for tx in li:
-        line = line.replace(tx, "")
+    #li = re.findall("<.*?>", xline)
+    #for tx in li:
+    #    line = line.replace(tx, "")
 
     regex = r"""(
                     (https?)://
                         ([a-z0-9\.-]+\.[a-z]{2,6})
                         (:[0-9]{1,4})?
-                    (/[a-z0-9\&%_\./~-]*)?
+                    (/[a-z0-9\&%_\./~–-]*)?
                     (\?[a-z0-9\&%_\./~=:-]*)?
+                    (#[a-z0-9\&%_\./~=:-]*)?
                 )"""
 
     regex = "".join(regex.split())
@@ -171,11 +179,14 @@ def collectHost(fpath, line):
     for tx in li:
         url = tx[0]
         host = tx[2]
+        print(url, tx)
         checkz = line.split(url)
         for xline in checkz[1:]:
             checkli = ["", ")", "]", ">", " ", "*"]
             if url in ("https://msdl.microsoft.com/download/symbols",):
                 checkli.append(";")
+            if xline[:2] in ("{{",):
+                continue
             if not xline[:1] in checkli:
                 print(line)
                 print(url)
