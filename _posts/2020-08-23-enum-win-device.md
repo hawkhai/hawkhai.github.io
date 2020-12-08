@@ -417,3 +417,9 @@ This article has no explicit license attached to it but may contain usage terms 
 A list of licenses authors might use can be found here.
 
 from <https://www.codeproject.com/Articles/14412/Enumerating-windows-device>
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://www.codeproject.com/Articles/14412/Enumerating-windows-device]({% include relref.html url="/backup/2020-08-23-enum-win-device.md/www.codeproject.com/3f5de73a.html" %})

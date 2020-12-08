@@ -397,3 +397,4 @@ numpy 库的对象有数组和矩阵，两者看起来长得差不多，但在�
 
 - [1] [https://www.runoob.com/numpy/numpy-tutorial.html]({% include relref.html url="/backup/2020-10-01-dip-numpy-slice.md/www.runoob.com/c30f9bdf.html" %})
 - [2] [https://zhuanlan.zhihu.com/p/32242331]({% include relref.html url="/backup/2020-10-01-dip-numpy-slice.md/zhuanlan.zhihu.com/c493ef42.html" %})
+- [3] [https://blog.csdn.net/wzyaiwl/article/details/106310705]({% include relref.html url="/backup/2020-10-01-dip-numpy-slice.md/blog.csdn.net/4220be40.html" %})

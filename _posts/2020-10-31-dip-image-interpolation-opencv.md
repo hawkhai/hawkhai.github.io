@@ -520,3 +520,5 @@ int _tmain(int argc, _TCHAR* argv[])
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
 - [1] [https://docs.obspy.org/_modules/obspy/signal/interpolation.html]({% include relref.html url="/backup/2020-10-31-dip-image-interpolation-opencv.md/docs.obspy.org/5620e1bb.html" %})
+- [2] [https://blog.csdn.net/iteye_13202/article/details/82553682]({% include relref.html url="/backup/2020-10-31-dip-image-interpolation-opencv.md/blog.csdn.net/1028cdd2.html" %})
+- [3] [https://blog.csdn.net/jningwei/article/details/78822026]({% include relref.html url="/backup/2020-10-31-dip-image-interpolation-opencv.md/blog.csdn.net/5ae66be4.html" %})

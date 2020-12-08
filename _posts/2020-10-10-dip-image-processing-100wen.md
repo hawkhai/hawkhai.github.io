@@ -518,5 +518,8 @@ Gabor 滤波器是一种结合了高斯分布和频率变换的滤波器，用�
 
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
-- [1] [https://www.cnblogs.com/xiongmozhou/p/9391323.html]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/www.cnblogs.com/1ec5dc1d.html" %})
-- [2] [https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/mirrors.tuna.tsinghua.edu.cn/1484ea36.html" %})
+- [1] [https://github.com/gzr2017/ImageProcessing100Wen]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/github.com/78536fa0.html" %})
+- [2] [https://github.com/yoyoyo-yo/Gasyori100knock]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/github.com/d9ce062c.html" %})
+- [3] [https://www.cnblogs.com/xiongmozhou/p/9391323.html]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/www.cnblogs.com/1ec5dc1d.html" %})
+- [4] [https://www.anaconda.com/download/]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/www.anaconda.com/10178c41.html" %})
+- [5] [https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/mirrors.tuna.tsinghua.edu.cn/1484ea36.html" %})

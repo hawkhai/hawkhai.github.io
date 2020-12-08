@@ -176,3 +176,9 @@ void testAutoMutex() {
     // ...
 }
 ```
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://blog.csdn.net/wzy_1988/article/details/46620113]({% include relref.html url="/backup/2020-10-10-smart-handle.md/blog.csdn.net/a15a2001.html" %})

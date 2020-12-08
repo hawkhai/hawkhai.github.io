@@ -110,9 +110,9 @@ User32 和 Gdi32 中部分函数在调用的底层会加载其他 DLL。
 * [《DllMain 中不当操作导致死锁问题的分析--加载卸载 DLL 与 DllMain 死锁的关系》](http://blog.csdn.net/breaksoftware/article/details/8163362)
 * [《DllMain 中不当操作导致死锁问题的分析--导致 DllMain 中死锁的关键隐藏因子》](http://blog.csdn.net/breaksoftware/article/details/8150476)
 * [《DllMain 中不当操作导致死锁问题的分析--线程退出时产生了死锁》](http://blog.csdn.net/breaksoftware/article/details/8163663)
-* <https://msdn.microsoft.com/en-us/library/windows/desktop/ms678543(v=vs.85).aspx>
-* <https://msdn.microsoft.com/en-us/library/windows/desktop/dn633971(v=vs.85).aspx>
-* <https://msdn.microsoft.com/en-us/library/ms682583(VS.85).aspx>
+* <https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-coinitialize?redirectedfrom=MSDN>
+* <https://docs.microsoft.com/zh-cn/windows/win32/dlls/dynamic-link-library-best-practices?redirectedfrom=MSDN>
+* <https://docs.microsoft.com/zh-cn/windows/win32/dlls/dllmain?redirectedfrom=MSDN>
 * <https://bbs.pediy.com/thread-208999.htm>
 
 
@@ -134,3 +134,7 @@ User32 和 Gdi32 中部分函数在调用的底层会加载其他 DLL。
 - [1] [http://blog.csdn.net/breaksoftware/article/details/8163362]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/87294419.html" %})
 - [2] [http://blog.csdn.net/breaksoftware/article/details/8150476]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/44e57bef.html" %})
 - [3] [http://blog.csdn.net/breaksoftware/article/details/8163663]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/79314094.html" %})
+- [4] [https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-coinitialize?redirectedfrom=MSDN]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/docs.microsoft.com/488b94b8.html" %})
+- [5] [https://docs.microsoft.com/zh-cn/windows/win32/dlls/dynamic-link-library-best-practices?redirectedfrom=MSDN]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/docs.microsoft.com/67dab8c2.html" %})
+- [6] [https://docs.microsoft.com/zh-cn/windows/win32/dlls/dllmain?redirectedfrom=MSDN]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/docs.microsoft.com/2170abf7.html" %})
+- [7] [https://bbs.pediy.com/thread-208999.htm]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/bbs.pediy.com/60516d54.htm" %})

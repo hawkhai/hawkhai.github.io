@@ -295,5 +295,6 @@ Handle 00000104
 
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
-- [1] [https://mp.weixin.qq.com/s/tetpft089bWAV9VxfjCzqA]({% include relref.html url="/backup/2020-11-01-win-CriticalSection-Lock.md/mp.weixin.qq.com/f94113cf.html" %})
-- [2] [https://blog.csdn.net/china_jeffery/article/details/78927524]({% include relref.html url="/backup/2020-11-01-win-CriticalSection-Lock.md/blog.csdn.net/06aee774.html" %})
+- [1] [https://docs.microsoft.com/zh-cn/windows/win32/dlls/dynamic-link-library-best-practices]({% include relref.html url="/backup/2020-11-01-win-CriticalSection-Lock.md/docs.microsoft.com/a6f1b753.html" %})
+- [2] [https://mp.weixin.qq.com/s/tetpft089bWAV9VxfjCzqA]({% include relref.html url="/backup/2020-11-01-win-CriticalSection-Lock.md/mp.weixin.qq.com/f94113cf.html" %})
+- [3] [https://blog.csdn.net/china_jeffery/article/details/78927524]({% include relref.html url="/backup/2020-11-01-win-CriticalSection-Lock.md/blog.csdn.net/06aee774.html" %})

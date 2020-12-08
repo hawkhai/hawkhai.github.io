@@ -907,3 +907,9 @@ Determines whether the velocity of particles is unchanged.<br> example: keep_vel
 </dd> </dl>
 
 <https://ogrecave.github.io/ogre/api/latest/_particle-_scripts.html>
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://ogrecave.github.io/ogre/api/latest/_particle-_scripts.html]({% include relref.html url="/backup/2020-11-26-ogre-particle-scripts.md/ogrecave.github.io/00497f88.html" %})
