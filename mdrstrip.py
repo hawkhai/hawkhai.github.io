@@ -215,7 +215,7 @@ g_enchar = []
 g_tpset = set()
 g_mdkeyset = set()
 FONT_REF_SNAP = "<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>"
-def removeref(fpath, lines):
+def removeRefs(fpath, lines):
     lineCount = len(lines)
     headIndex = -1
     for index in range(lineCount):
@@ -236,7 +236,7 @@ def removeref(fpath, lines):
         lines = lines[:headIndex-3]
     return lines
 
-def checkurlx(fpath, lines):
+def appendRefs(fpath, lines):
     reflist = []
 
     for index, line in enumerate(lines):
@@ -310,7 +310,7 @@ def mainfile(fpath, fname, ftype):
 
     print(fpath)
     lines = readfileLines(fpath, False, False, "utf8")
-    lines = removeref(fpath, lines)
+    lines = removeRefs(fpath, lines)
     lines = [linerstrip(line) for line in lines]
     lines.append("")
     lines.append("")
@@ -324,7 +324,7 @@ def mainfile(fpath, fname, ftype):
             lines = lines[:-1]
 
     if isMdFile:
-        lines = checkurlx(fpath, lines)
+        lines = appendRefs(fpath, lines)
 
     codestate = False
     chartstate = False
