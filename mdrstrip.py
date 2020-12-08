@@ -97,29 +97,19 @@ def backupUrlContent(fpath, url):
     assert not url.endswith(".exe"), url
     assert not url.endswith(".zip"), url
     # 有可能挂掉的网站，都稍微做一下备份。
-    for host in ("https://pypi.tuna.tsinghua.edu.cn/", "https://apache-mxnet.s3.cn-north-1.amazonaws.com.cn/",
-                 "http://doc.qt.nokia.com/",
-                 "http://www.cuteqt.com/", "http://ogre3d.cn/",
-                 "http://tcbuglist.rdev.kingsoft.net/", "https://ml00cz5fm4.feishu.cn/",
+    for host in ("https://pypi.tuna.tsinghua.edu.cn/",
+                 "https://www.tapd.cn/",
+                 "https://ml00cz5fm4.feishu.cn/",
+                 "https://gitlab.liebaopay.com/",
+                 "http://tcbuglist.rdev.kingsoft.net/",
                 ):
         if url.startswith(host):
             return
 
     print(fpath, url)
     chrome = False
-    for host in ("https://blog.walterlv.com/",
-                 "https://betterexplained.com/",
-                 "https://opencv-python-tutroals.readthedocs.io/",
-                 "https://stackoom.com/",
-                 "https://www.freesion.com/",
-                 "https://www.jianshu.com/",
-                 "https://rubyinstaller.org/",
-                 "https://www.anaconda.com/",
-                 "https://bbs.pediy.com/",
-                 "http://developer.nvidia.com/",
+    for host in ("https://www.jianshu.com/",
                  "https://www.bilibili.com/",
-                 "https://msdn.microsoft.com/",
-                 "http://en.wikipedia.org/",
                 ):
         if url.startswith(host):
             chrome = True
@@ -133,6 +123,9 @@ def backupUrlContent(fpath, url):
     if os.path.exists(local):
         os.rename(local, slocal)
     fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal)
+    if url not in ("http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf",
+                   "http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf",):
+        assert len(fdata) <= 1024*1024*2, len(fdata)
     remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5[:8] + ttype)
     return remote
 
