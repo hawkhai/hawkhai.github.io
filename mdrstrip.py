@@ -190,7 +190,7 @@ g_cschar = []
 g_enchar = []
 g_tpset = set()
 g_mdkeyset = set()
-
+FONT_REF_SNAP = "<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>"
 def removeref(fpath, lines):
     lineCount = len(lines)
     headIndex = -1
@@ -200,7 +200,7 @@ def removeref(fpath, lines):
             continue
         if re.findall("^- \\[[0-9]+\\] \\[{}\\]\\({}\\)$".format(".*?", ".*?"), lines[i]):
             continue
-        if lines[i] == "<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>":
+        if lines[i] == FONT_REF_SNAP:
             headIndex = i
             break
         break
@@ -224,7 +224,7 @@ def checkurlx(fpath, lines):
         lines.append("")
         lines.append("-----")
         lines.append("")
-        lines.append("<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>")
+        lines.append(FONT_REF_SNAP)
         lines.append("")
         lines.append("")
         urlset = set()
