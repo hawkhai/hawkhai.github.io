@@ -17,7 +17,7 @@ glslcanvas:
 程序员的数学：线性代数。机器学习以及计算机图形图像学的数学基础。
 
 
-## 01
+## 01 课
 
 
 ### 从字面理解什么是线性代数
@@ -121,7 +121,7 @@ $$
 ### 零矩阵
 
 
-## 02
+## 02 课
 
 
 ### 方阵对角矩阵单位矩阵逆矩阵
@@ -141,11 +141,16 @@ $$
 
 ### LU 分解
 
+在线性代数中， LU 分解（LU Factorization）是矩阵分解的一种，可以将一个矩阵分解为一个单位下三角矩阵和一个上三角矩阵的乘积（有时是它们和一个置换矩阵的乘积）。
+LU 分解主要应用在数值分析中，用来解线性方程、求反矩阵或计算行列式。
+
 
 ### 基底
 
 
 ### 基变换
+
+矩阵的乘法的几何意义就是空间变换。
 
 
 ### 线性组合线性相关线性无关生成空间
@@ -154,7 +159,7 @@ $$
 ### 二维行列式
 
 
-## 03
+## 03 课
 
 
 ### 三维行列式
@@ -187,7 +192,7 @@ $$
 ### 行空间右零空间
 
 
-## 04
+## 04 课
 
 
 ### 图和网络
@@ -220,7 +225,7 @@ $$
 ### 投影到直线
 
 
-## 05
+## 05 课
 
 
 ### 投影到平面
@@ -253,7 +258,7 @@ $$
 ### 格拉姆-施密特正交化例子 2
 
 
-## 06
+## 06 课
 
 
 ### 特征值特征向量几何含义
@@ -283,7 +288,7 @@ $$
 ### 微分方程 3：矩阵指数
 
 
-## 07
+## 07 课
 
 
 ### 马尔科夫矩阵转移概率矩阵
@@ -300,8 +305,8 @@ $$
 
 ## References
 
-
-### [1] [程序员的数学：线性代数](https://ke.qq.com/course/411603)
+- [1] [程序员的数学：线性代数](https://ke.qq.com/course/411603)
+- [2] 3Blue1Brown [【官方双语 / 合集】线性代数的本质 - 系列合集 {% include relref_bili.html %}](https://www.bilibili.com/video/av6731067)
 
 -----
 
@@ -313,3 +318,4 @@ $$
 - [4] [https://blog.csdn.net/dcrmg/article/details/52416832]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/blog.csdn.net/76708b67.html" %})
 - [5] [https://www.cnblogs.com/zzdyyy/p/7643267.html]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/www.cnblogs.com/38502b74.html" %})
 - [6] [https://ke.qq.com/course/411603]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/ke.qq.com/c476834d.html" %})
+- [7] [https://www.bilibili.com/video/av6731067]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/www.bilibili.com/56dbd69f.html" %})

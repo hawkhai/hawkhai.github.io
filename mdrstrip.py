@@ -98,10 +98,8 @@ def backupUrlContent(fpath, url):
     assert not url.endswith(".zip"), url
     # 有可能挂掉的网站，都稍微做一下备份。
     for host in ("https://pypi.tuna.tsinghua.edu.cn/", "https://apache-mxnet.s3.cn-north-1.amazonaws.com.cn/",
-                 "https://www.bilibili.com/",
                  "http://doc.qt.nokia.com/",
                  "http://www.cuteqt.com/", "http://ogre3d.cn/",
-                 "http://en.wikipedia.org/", "https://msdn.microsoft.com/",
                  "http://tcbuglist.rdev.kingsoft.net/", "https://ml00cz5fm4.feishu.cn/",
                 ):
         if url.startswith(host):
@@ -119,6 +117,9 @@ def backupUrlContent(fpath, url):
                  "https://www.anaconda.com/",
                  "https://bbs.pediy.com/",
                  "http://developer.nvidia.com/",
+                 "https://www.bilibili.com/",
+                 "https://msdn.microsoft.com/",
+                 "http://en.wikipedia.org/",
                 ):
         if url.startswith(host):
             chrome = True

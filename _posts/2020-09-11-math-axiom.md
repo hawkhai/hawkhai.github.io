@@ -27,3 +27,9 @@ The limit became the basis of differential in place of infinitesimal in the move
 from [0.999…=1？数到底是什么？李永乐老师讲数学公理化 {% include relref_bili.html %}](https://www.bilibili.com/video/av44942988)
 
 **证明很完美，看完更不知道数学是什么了。**
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://www.bilibili.com/video/av44942988]({% include relref.html url="/backup/2020-09-11-math-axiom.md/www.bilibili.com/7c983f7d.html" %})
