@@ -162,6 +162,6 @@ while __name__ == "__main__":
 
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
-- [1] [https://qiita.com/south37/items/9a3269c28d9fba80f0b7]({% include relref.html url="/backup/2020-08-29-win-jekyll-install.md/qiita.com/b5b4e3a34094f3797fa37a75331c72bf.html" %})
-- [2] [https://issues.adblockplus.org/ticket/4950]({% include relref.html url="/backup/2020-08-29-win-jekyll-install.md/issues.adblockplus.org/22c7acf36b3d3bc80186c4bf7118ba33.html" %})
-- [3] [https://www.voidtools.com/zh-cn/]({% include relref.html url="/backup/2020-08-29-win-jekyll-install.md/www.voidtools.com/926bc44023ad4c9f899f75b2c48d4788.html" %})
+- [1] [https://qiita.com/south37/items/9a3269c28d9fba80f0b7]({% include relref.html url="/backup/2020-08-29-win-jekyll-install.md/qiita.com/b5b4e3a3.html" %})
+- [2] [https://issues.adblockplus.org/ticket/4950]({% include relref.html url="/backup/2020-08-29-win-jekyll-install.md/issues.adblockplus.org/22c7acf3.html" %})
+- [3] [https://www.voidtools.com/zh-cn/]({% include relref.html url="/backup/2020-08-29-win-jekyll-install.md/www.voidtools.com/926bc440.html" %})

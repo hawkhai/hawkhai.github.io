@@ -91,9 +91,9 @@ glslcanvas:
 
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
-- [1] [https://www.zhihu.com/question/27853904]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.zhihu.com/3e5b12f7469cb0fa4151c5c301cedf2a.html" %})
-- [2] [https://www.matongxue.com/madocs/2094/]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matongxue.com/5a678a0ef3a4a55b4a142e1b4fbd0942.html" %})
-- [3] [https://www.matongxue.com/madocs/1709]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matongxue.com/a0d592f2495101a584741f342bea26eb.html" %})
-- [4] [https://www.matongxue.com/madocs/473]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matongxue.com/4ad0074ebb1c1756078ade74b4f4727e.html" %})
-- [5] [http://www.matrix67.com/blog/archives/4294]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matrix67.com/7e5ca4ac24b0655f1cc1cd721267c320.html" %})
-- [6] [http://www.matrix67.com/blog/archives/3803]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matrix67.com/eef4c3a1ea7f21bb0a255dd335fc0b4d.html" %})
+- [1] [https://www.zhihu.com/question/27853904]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.zhihu.com/3e5b12f7.html" %})
+- [2] [https://www.matongxue.com/madocs/2094/]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matongxue.com/5a678a0e.html" %})
+- [3] [https://www.matongxue.com/madocs/1709]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matongxue.com/a0d592f2.html" %})
+- [4] [https://www.matongxue.com/madocs/473]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matongxue.com/4ad0074e.html" %})
+- [5] [http://www.matrix67.com/blog/archives/4294]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matrix67.com/7e5ca4ac.html" %})
+- [6] [http://www.matrix67.com/blog/archives/3803]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matrix67.com/eef4c3a1.html" %})

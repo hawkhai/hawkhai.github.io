@@ -237,6 +237,6 @@ $$
 
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
-- [1] [http://zh.gluon.ai/]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/zh.gluon.ai/b73bb84d9f51ff5f6697c65a22d79b01.html" %})
-- [2] [http://liao.cpython.org/numpy11/]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/liao.cpython.org/180b77aed72051ff299abd1115039304.html" %})
-- [3] [http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/www.ruanyifeng.com/eeea32125ebd68d05eac7eddc31df0a1.html" %})
+- [1] [http://zh.gluon.ai/]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/zh.gluon.ai/b73bb84d.html" %})
+- [2] [http://liao.cpython.org/numpy11/]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/liao.cpython.org/180b77ae.html" %})
+- [3] [http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/www.ruanyifeng.com/eeea3212.html" %})

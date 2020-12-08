@@ -76,6 +76,15 @@ def getLeftSpaceCount(line):
         count += 1
     return count
 
+def calcType(ttype, url):
+    url = url.split("?")[0].split("#")[0]
+    url = url.split("/")[-1].strip()
+    if not url: return ttype
+    secli = url.split(".")
+    if len(secli) <= 1: return ttype
+    if not secli[-1]: return ttype
+    return "."+secli[-1].lower()
+
 def backupUrlContent(fpath, url):
     for file in ("/qt-creator-opensource-windows-x86-4.13.2.exe",
                  "/qt-opensource-windows-x86-5.14.1.exe",
@@ -109,9 +118,14 @@ def backupUrlContent(fpath, url):
     mdname = os.path.split(fpath)[-1]
     uhost = url.split("//")[1].split("/")[0]
     umd5 = getmd5(url)
-    local = os.path.join("backup", mdname, uhost, umd5 + ".html")
-    fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=local)
-    remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5 + ".html")
+    ttype = ".html"
+    local = os.path.join("backup", mdname, uhost, umd5 + ttype)
+    ttype = calcType(ttype, url)
+    slocal = os.path.join("backup", mdname, uhost, umd5[:8] + ttype)
+    if os.path.exists(local):
+        os.rename(local, slocal)
+    fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal)
+    remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5[:8] + ttype)
     return remote
 
 def createCnFile():

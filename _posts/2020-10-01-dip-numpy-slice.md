@@ -395,5 +395,5 @@ numpy 库的对象有数组和矩阵，两者看起来长得差不多，但在�
 
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
-- [1] [https://www.runoob.com/numpy/numpy-tutorial.html]({% include relref.html url="/backup/2020-10-01-dip-numpy-slice.md/www.runoob.com/c30f9bdf814234edd7a0b36e55c07380.html" %})
-- [2] [https://zhuanlan.zhihu.com/p/32242331]({% include relref.html url="/backup/2020-10-01-dip-numpy-slice.md/zhuanlan.zhihu.com/c493ef4291bafe2e574b73503153c175.html" %})
+- [1] [https://www.runoob.com/numpy/numpy-tutorial.html]({% include relref.html url="/backup/2020-10-01-dip-numpy-slice.md/www.runoob.com/c30f9bdf.html" %})
+- [2] [https://zhuanlan.zhihu.com/p/32242331]({% include relref.html url="/backup/2020-10-01-dip-numpy-slice.md/zhuanlan.zhihu.com/c493ef42.html" %})

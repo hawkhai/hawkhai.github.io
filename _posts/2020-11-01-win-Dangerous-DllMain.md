@@ -131,6 +131,6 @@ User32 和 Gdi32 中部分函数在调用的底层会加载其他 DLL。
 
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
-- [1] [http://blog.csdn.net/breaksoftware/article/details/8163362]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/872944194f532cfdd8ae1778e16158ea.html" %})
-- [2] [http://blog.csdn.net/breaksoftware/article/details/8150476]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/44e57bef1fba355e8a21971fcc252284.html" %})
-- [3] [http://blog.csdn.net/breaksoftware/article/details/8163663]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/793140948095b6a02b15fc6b92cf655c.html" %})
+- [1] [http://blog.csdn.net/breaksoftware/article/details/8163362]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/87294419.html" %})
+- [2] [http://blog.csdn.net/breaksoftware/article/details/8150476]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/44e57bef.html" %})
+- [3] [http://blog.csdn.net/breaksoftware/article/details/8163663]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/79314094.html" %})

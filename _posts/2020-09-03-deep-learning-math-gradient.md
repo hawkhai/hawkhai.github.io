@@ -160,4 +160,4 @@ $$\nabla = \sum_{j=1}^n \bigg[{\frac{\partial}{\partial x_j}}\bigg] \mathbf{\hat
 
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
-- [1] [https://zh.wikipedia.org/zh-cn/%E5%81%8F%E5%AF%BC%E6%95%B0]({% include relref.html url="/backup/2020-09-03-deep-learning-math-gradient.md/zh.wikipedia.org/042a2c98c4b02c980d0060767e17a40e.html" %})
+- [1] [https://zh.wikipedia.org/zh-cn/%E5%81%8F%E5%AF%BC%E6%95%B0]({% include relref.html url="/backup/2020-09-03-deep-learning-math-gradient.md/zh.wikipedia.org/042a2c98.html" %})

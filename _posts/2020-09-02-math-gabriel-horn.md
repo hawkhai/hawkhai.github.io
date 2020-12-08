@@ -92,4 +92,4 @@ Gabriel 喇叭会导出一个非常诡异的悖论：如果你想用涂料把 Ga
 
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
-- [1] [https://en.wikipedia.org/wiki/Gabriel%27s_Horn]({% include relref.html url="/backup/2020-09-02-math-gabriel-horn.md/en.wikipedia.org/c31799419e88e67d33188a7235304b45.html" %})
+- [1] [https://en.wikipedia.org/wiki/Gabriel%27s_Horn]({% include relref.html url="/backup/2020-09-02-math-gabriel-horn.md/en.wikipedia.org/c3179941.html" %})

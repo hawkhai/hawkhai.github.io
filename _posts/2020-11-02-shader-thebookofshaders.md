@@ -389,13 +389,13 @@ Step-by-step guide through the abstract and complex universe of Fragment Shaders
 
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
-- [1] [https://processing.org/tutorials/pshader/]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/processing.org/867be3638733bd82021f8a5673ce6708.html" %})
-- [2] [https://openframeworks.cc/ofBook/chapters/shaders.html]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/openframeworks.cc/790196afe7bef3cab85737ca3331a5f4.html" %})
-- [3] [https://www.jianshu.com/p/64c236d5c67a]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/www.jianshu.com/4137c4a6160f0d73057859a868777c9a.html" %})
-- [4] [https://www.shadertoy.com/view/MsS3Wc]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/www.shadertoy.com/1a7822f1480e20c6f0b234486bf75ec2.html" %})
-- [5] [http://patriciogonzalezvivo.com]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/patriciogonzalezvivo.com/5d3a45d35bc45687f82d2b5c4c56c60e.html" %})
-- [6] [https://thebookofshaders.com/?lan=ch]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/thebookofshaders.com/e26e2da098be227c4e52b46307967d66.html" %})
-- [7] [https://github.com/stackgl/shader-school]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/github.com/87397fc6f5fda8283395e22a6679441e.html" %})
-- [8] [http://nopper.tv]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/nopper.tv/809dad1c11fed638ba37718fbf6fd335.html" %})
-- [9] [http://patriciogonzalezvivo.com/2015/glslViewer/]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/patriciogonzalezvivo.com/7660f1c4d4735fb03ec7ca855c5ac12e.html" %})
-- [10] [https://diwi.github.io/PixelFlow/]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/diwi.github.io/fcf5d56e825f411dd4c53cab6dcf45d1.html" %})
+- [1] [https://processing.org/tutorials/pshader/]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/processing.org/867be363.html" %})
+- [2] [https://openframeworks.cc/ofBook/chapters/shaders.html]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/openframeworks.cc/790196af.html" %})
+- [3] [https://www.jianshu.com/p/64c236d5c67a]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/www.jianshu.com/4137c4a6.html" %})
+- [4] [https://www.shadertoy.com/view/MsS3Wc]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/www.shadertoy.com/1a7822f1.html" %})
+- [5] [http://patriciogonzalezvivo.com]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/patriciogonzalezvivo.com/5d3a45d3.com" %})
+- [6] [https://thebookofshaders.com/?lan=ch]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/thebookofshaders.com/e26e2da0.html" %})
+- [7] [https://github.com/stackgl/shader-school]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/github.com/87397fc6.html" %})
+- [8] [http://nopper.tv]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/nopper.tv/809dad1c.tv" %})
+- [9] [http://patriciogonzalezvivo.com/2015/glslViewer/]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/patriciogonzalezvivo.com/7660f1c4.html" %})
+- [10] [https://diwi.github.io/PixelFlow/]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/diwi.github.io/fcf5d56e.html" %})

@@ -283,12 +283,12 @@ typedef struct _FILENAME_ATTRIBUTE { // 文件名属性的值区域
 
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
-- [1] [https://blog.csdn.net/xushiweizh/article/details/1396573]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/blog.csdn.net/0d276c4f475d13aecd0afd2b1832c406.html" %})
-- [2] [https://www.zhihu.com/question/33058061]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/www.zhihu.com/48645e8ccc177f212b76acaab661f78c.html" %})
-- [3] [https://zhuanlan.zhihu.com/p/95299255]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/zhuanlan.zhihu.com/34b177e5c4ff518597e1118b6203f8e6.html" %})
-- [4] [https://github.com/ludx/The-Lost-Art-of-C-Structure-Packing]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/github.com/679997b3d5fbd42c48949cd7a20b2c1e.html" %})
-- [5] [http://wenboo.site/2017/09/05/%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E6%9C%80%E5%90%8E%E6%88%90%E5%91%98%E4%B8%BA%E4%B8%80%E4%B8%AA%E9%9B%B6%E9%95%BF%E6%95%B0%E7%BB%84%E4%B8%8E%E4%B8%80%E4%B8%AA%E6%8C%87%E9%92%88/]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/wenboo.site/86ddea9365d7289a81912998e462229f.html" %})
-- [6] [http://wenboo.site/2017/09/05/%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E6%88%90%E5%91%98%E4%B8%BA-0-%E6%88%96-1-%E9%95%BF%E5%BA%A6%E6%95%B0%E7%BB%84-%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84%E6%88%90%E5%91%98-%E7%9A%84%E7%94%A8%E6%B3%95/]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/wenboo.site/6786ff8ee5bba30a35b171c1bb265221.html" %})
-- [7] [https://blog.csdn.net/xushiweizh/article/details/1452302]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/blog.csdn.net/8a86bc477873106e9702470ec82bf6c2.html" %})
-- [8] [https://blog.csdn.net/hgy413/article/details/6716397]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/blog.csdn.net/dee4853e6a0127c597aec8435ff21bdb.html" %})
-- [9] [https://blog.csdn.net/xushiweizh/article/details/1451083]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/blog.csdn.net/095c8316e75846a0ec6f56620683f952.html" %})
+- [1] [https://blog.csdn.net/xushiweizh/article/details/1396573]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/blog.csdn.net/0d276c4f.html" %})
+- [2] [https://www.zhihu.com/question/33058061]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/www.zhihu.com/48645e8c.html" %})
+- [3] [https://zhuanlan.zhihu.com/p/95299255]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/zhuanlan.zhihu.com/34b177e5.html" %})
+- [4] [https://github.com/ludx/The-Lost-Art-of-C-Structure-Packing]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/github.com/679997b3.html" %})
+- [5] [http://wenboo.site/2017/09/05/%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E6%9C%80%E5%90%8E%E6%88%90%E5%91%98%E4%B8%BA%E4%B8%80%E4%B8%AA%E9%9B%B6%E9%95%BF%E6%95%B0%E7%BB%84%E4%B8%8E%E4%B8%80%E4%B8%AA%E6%8C%87%E9%92%88/]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/wenboo.site/86ddea93.html" %})
+- [6] [http://wenboo.site/2017/09/05/%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E6%88%90%E5%91%98%E4%B8%BA-0-%E6%88%96-1-%E9%95%BF%E5%BA%A6%E6%95%B0%E7%BB%84-%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84%E6%88%90%E5%91%98-%E7%9A%84%E7%94%A8%E6%B3%95/]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/wenboo.site/6786ff8e.html" %})
+- [7] [https://blog.csdn.net/xushiweizh/article/details/1452302]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/blog.csdn.net/8a86bc47.html" %})
+- [8] [https://blog.csdn.net/hgy413/article/details/6716397]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/blog.csdn.net/dee4853e.html" %})
+- [9] [https://blog.csdn.net/xushiweizh/article/details/1451083]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/blog.csdn.net/095c8316.html" %})

@@ -204,4 +204,4 @@ vertarget   // 查看系统信息、系统运行时长 System Uptime、进程启
 
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
-- [1] [https://msdl.microsoft.com/download/symbols]({% include relref.html url="/backup/2020-10-18-win-vs-windbg.md/msdl.microsoft.com/105143dce9293b5909dda382160a4f57.html" %})
+- [1] [https://msdl.microsoft.com/download/symbols]({% include relref.html url="/backup/2020-10-18-win-vs-windbg.md/msdl.microsoft.com/105143dc.html" %})

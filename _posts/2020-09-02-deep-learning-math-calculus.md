@@ -165,8 +165,8 @@ $$\int_{x}^{y}f(x)dx=F(x)-F(y)$$
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
 - [1] [https://www.bilibili.com/video/BV1mb411r7bd]({% include relref.html url="/None" %})
-- [2] [http://zh.gluon.ai/]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/zh.gluon.ai/b73bb84d9f51ff5f6697c65a22d79b01.html" %})
-- [3] [https://www.cnblogs.com/knife-rose/p/12120373.html]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.cnblogs.com/2cdb7d08d4be95ec8fb4671e8178ee16.html" %})
-- [4] [http://www.fly63.com/tool/htmarkdown/]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.fly63.com/488480ab93bd666816411323a4bdff54.html" %})
-- [5] [https://www.cnblogs.com/knife-rose/p/12107204.html]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.cnblogs.com/f50e27dcb110bb106e7ab8ee70e717ff.html" %})
-- [6] [https://www.zhihu.com/question/336322284]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.zhihu.com/1fb8b25983f8c9c21905bcdc2c7de405.html" %})
+- [2] [http://zh.gluon.ai/]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/zh.gluon.ai/b73bb84d.html" %})
+- [3] [https://www.cnblogs.com/knife-rose/p/12120373.html]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.cnblogs.com/2cdb7d08.html" %})
+- [4] [http://www.fly63.com/tool/htmarkdown/]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.fly63.com/488480ab.html" %})
+- [5] [https://www.cnblogs.com/knife-rose/p/12107204.html]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.cnblogs.com/f50e27dc.html" %})
+- [6] [https://www.zhihu.com/question/336322284]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.zhihu.com/1fb8b259.html" %})

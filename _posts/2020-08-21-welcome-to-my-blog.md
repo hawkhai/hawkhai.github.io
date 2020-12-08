@@ -172,12 +172,12 @@ $$
 
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
-- [1] [https://www.zybuluo.com/yangfch3/note/267947]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.zybuluo.com/b3ceed043f981864d4aea7f11576ff39.html" %})
-- [2] [https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/math.meta.stackexchange.com/771111109fac6585e2b30574a994eb9d.html" %})
-- [3] [https://blog.csdn.net/ethmery/article/details/50670297]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/blog.csdn.net/30eba2a78eeec557f2db3d24fab89efb.html" %})
-- [4] [https://zh.wikipedia.org/wiki/%E9%A6%AC%E5%85%8B%E5%A3%AB%E5%A8%81%E6%96%B9%E7%A8%8B%E7%B5%84]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/zh.wikipedia.org/07dc9777b48efb84b73ff02f9eaec07e.html" %})
-- [5] [https://blog.csdn.net/weixin_43318626/article/details/102329794]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/blog.csdn.net/2799a43b87a0fe570aab440f51c4a280.html" %})
-- [6] [https://www.rug.nl/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.rug.nl/739d482416eb59744c15b8273b7ee65e.html" %})
-- [7] [https://sunocean.life/blog/assets/gitee.png]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/sunocean.life/5cdc5d955c6a77116bd2249b6afbfa94.html" %})
-- [8] [https://sunocean.life/blog/assets/opengl.png]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/sunocean.life/332f0f5ff03cc0452565aedd00ab4b62.html" %})
-- [9] [http://www.fly63.com/tool/htmarkdown/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.fly63.com/488480ab93bd666816411323a4bdff54.html" %})
+- [1] [https://www.zybuluo.com/yangfch3/note/267947]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.zybuluo.com/b3ceed04.html" %})
+- [2] [https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/math.meta.stackexchange.com/77111110.html" %})
+- [3] [https://blog.csdn.net/ethmery/article/details/50670297]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/blog.csdn.net/30eba2a7.html" %})
+- [4] [https://zh.wikipedia.org/wiki/%E9%A6%AC%E5%85%8B%E5%A3%AB%E5%A8%81%E6%96%B9%E7%A8%8B%E7%B5%84]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/zh.wikipedia.org/07dc9777.html" %})
+- [5] [https://blog.csdn.net/weixin_43318626/article/details/102329794]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/blog.csdn.net/2799a43b.html" %})
+- [6] [https://www.rug.nl/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.rug.nl/739d4824.html" %})
+- [7] [https://sunocean.life/blog/assets/gitee.png]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/sunocean.life/5cdc5d95.png" %})
+- [8] [https://sunocean.life/blog/assets/opengl.png]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/sunocean.life/332f0f5f.png" %})
+- [9] [http://www.fly63.com/tool/htmarkdown/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.fly63.com/488480ab.html" %})
