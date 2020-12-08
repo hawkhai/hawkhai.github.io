@@ -179,7 +179,6 @@ def collectHost(fpath, line):
     for tx in li:
         url = tx[0]
         host = tx[2]
-        print(url, tx)
         checkz = line.split(url)
         for xline in checkz[1:]:
             checkli = ["", ")", "]", ">", " ", "*"]
