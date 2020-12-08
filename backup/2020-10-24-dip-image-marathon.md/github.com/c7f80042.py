@@ -19,7 +19,7 @@
 
 
   <link crossorigin="anonymous" media="all" integrity="sha512-ry2PZfPzRdNeo8l/5UUldzmDbr0q2zsysbKVDDpRiSR92+U0s2BUoJb44bFLp6i6m0VPUklqBQ2wsKWqXs9BeQ==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-af2d8f65f3f345d35ea3c97fe5452577.css" />
-  <link crossorigin="anonymous" media="all" integrity="sha512-toyh16Xj8oEXFoADSGwViSbDGDj6rUzfdVUPpR5LEuku3uw8sexb1vGe3Dpq35Dad3YHdMJMJKdY7zLvmc1Qlw==" rel="stylesheet" href="https://github.githubassets.com/assets/site-b68ca1d7a5e3f28117168003486c1589.css" />
+  <link crossorigin="anonymous" media="all" integrity="sha512-ONCO5/6SIVO+4AGf7CqXp2pU0m7xfFTiG7iJ4zzsRZHhkKJA7qR/1MYG0X2q4bQN1t1hW2nYwOfDy1B7BqpVRg==" rel="stylesheet" href="https://github.githubassets.com/assets/site-38d08ee7fe922153bee0019fec2a97a7.css" />
     <link crossorigin="anonymous" media="all" integrity="sha512-6Npji40y3Ezyv+ayNmOnYLw8dxgmoP/5QHk3XryRk2Ht45qc9FiCUpeW2vxbBhJYLz2/vTOsvnsIefaQrRr8Pg==" rel="stylesheet" href="https://github.githubassets.com/assets/github-e8da638b8d32dc4cf2bfe6b23663a760.css" />
     
     
@@ -64,7 +64,7 @@
   <link rel="assets" href="https://github.githubassets.com/">
   
 
-  <meta name="request-id" content="BF9A:7DD9:A40D12:DF423F:5FCEF34F" data-pjax-transient="true"/><meta name="html-safe-nonce" content="acbccd4358bfe55797681b80906a32f5ba53e540e416ff5dc6ba930f7d1a085b" data-pjax-transient="true"/><meta name="visitor-payload" content="eyJyZWZlcnJlciI6IiIsInJlcXVlc3RfaWQiOiJCRjlBOjdERDk6QTQwRDEyOkRGNDIzRjo1RkNFRjM0RiIsInZpc2l0b3JfaWQiOiI3NTk1NDkxNzY0NDA1NzI4MDc5IiwicmVnaW9uX2VkZ2UiOiJhcC1ub3J0aGVhc3QtMSIsInJlZ2lvbl9yZW5kZXIiOiJhcC1ub3J0aGVhc3QtMSJ9" data-pjax-transient="true"/><meta name="visitor-hmac" content="b276c87d42cb71fc5f2acb209c2c73e84b3f6394ec908ead63c9aa1278445454" data-pjax-transient="true"/><meta name="cookie-consent-required" content="false" data-pjax-transient="true"/>
+  <meta name="request-id" content="3271:05FF:B3BCDF:F2C0A7:5FCF227B" data-pjax-transient="true"/><meta name="html-safe-nonce" content="9600735026ffdbd1cb3e21554ffef66564ef3d190a103c163134301b3b87fc25" data-pjax-transient="true"/><meta name="visitor-payload" content="eyJyZWZlcnJlciI6IiIsInJlcXVlc3RfaWQiOiIzMjcxOjA1RkY6QjNCQ0RGOkYyQzBBNzo1RkNGMjI3QiIsInZpc2l0b3JfaWQiOiIxOTU4ODkwNDk3NDczNzE2ODU5IiwicmVnaW9uX2VkZ2UiOiJhcC1ub3J0aGVhc3QtMSIsInJlZ2lvbl9yZW5kZXIiOiJhcC1ub3J0aGVhc3QtMSJ9" data-pjax-transient="true"/><meta name="visitor-hmac" content="e1c57b91e330f409d76d90e9e51c16245e4909560b8b003ddc1929375f0f98da" data-pjax-transient="true"/><meta name="cookie-consent-required" content="false" data-pjax-transient="true"/>
 
     <meta name="hovercard-subject-tag" content="repository:287903922" data-pjax-transient>
 
@@ -312,7 +312,7 @@
           spellcheck="false"
           autocomplete="off"
           >
-          <input type="hidden" data-csrf="true" class="js-data-jump-to-suggestions-path-csrf" value="daI6EVrtSEbXlWDCeBGejK6aTpruuj3aAM4Ht+JeTDqnoO9iPI1KZrf+ouCugbOwvTDY9AKSjRFJQnfJPkZ5Pw==" />
+          <input type="hidden" data-csrf="true" class="js-data-jump-to-suggestions-path-csrf" value="Van9LyzWUuKUX0mhgkvJjsjQtj1NPf0zwAZkAxUseuhIW+huYU64GFHg+tEikkhZ+Z78/gV7yZX1kKeImXwwpQ==" />
           <input type="hidden" class="js-site-search-type-field" name="type" >
             <img src="https://github.githubassets.com/images/search-key-slash.svg" alt="" class="mr-2 header-search-key-slash">
 
@@ -681,7 +681,7 @@
   
 
 
-    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="/hawkhai/hawkhai.github.io/blob/7da80b996573d7c4e971db45d06f22846ecee303/source/marathon/src/lib/watermark.py">Permalink</a>
+    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="/hawkhai/hawkhai.github.io/blob/66e3e5255a8e4e01800690b2ba2129aada5c88b8/source/marathon/src/lib/watermark.py">Permalink</a>
 
     <!-- blob contrib key: blob_contributors:v22:da33b72914064ecf02e4d3dbbc95104155c6eafe7c6358446a0e25fedec8f3c5 -->
       <signup-prompt class="signup-prompt-bg rounded-1" data-prompt="signup" data-optimizely-experiment="signup_prompt_launchpad" hidden>
@@ -692,13 +692,13 @@
           class="position-absolute top-0 right-0 btn-link link-gray"
           data-action="click:signup-prompt#dismiss"
           data-ga-click="(Logged out) Sign up prompt, clicked Dismiss, text:dismiss"
-          data-optimizely-event="click.dismiss_signup_prompt, 1326454774.1607398223"
+          data-optimizely-event="click.dismiss_signup_prompt, 918254871.1607410300"
         >
           Dismiss
         </button>
         <h3 class="pt-2">Join GitHub today</h3>
         <p class="col-6 mx-auto">GitHub is home to over 50 million developers working together to host and review code, manage projects, and build software together.</p>
-        <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 1326454774.1607398223" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/hawkhai/hawkhai.github.io/blob/master/source/marathon/src/lib/watermark.py&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="03fd2b17f608476ebcfe0563581ba2fc6dd884c233cf4cd99f6d787f09cecc37" href="/join?source=prompt-blob-show&amp;source_repo=hawkhai%2Fhawkhai.github.io">Sign up</a>
+        <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 918254871.1607410300" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/hawkhai/hawkhai.github.io/blob/master/source/marathon/src/lib/watermark.py&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="03fd2b17f608476ebcfe0563581ba2fc6dd884c233cf4cd99f6d787f09cecc37" href="/join?source=prompt-blob-show&amp;source_repo=hawkhai%2Fhawkhai.github.io">Sign up</a>
       </div>
     </div>
 
@@ -708,13 +708,13 @@
           <h3 class="h2 lh-condensed mt-sm-1 mt-lg-0">GitHub is where the world builds software</h3>
           <p class="f4 text-gray mt-2 mb-3">Millions of developers and companies build, ship, and maintain their software on GitHub &#8212; the largest and most advanced development platform in the world.</p>
           <div class="d-flex flex-items-center pb-3">
-            <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 1326454774.1607398223" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/hawkhai/hawkhai.github.io/blob/master/source/marathon/src/lib/watermark.py&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="03fd2b17f608476ebcfe0563581ba2fc6dd884c233cf4cd99f6d787f09cecc37" href="/join?source=prompt-blob-show&amp;source_repo=hawkhai%2Fhawkhai.github.io">Sign up for free</a>
+            <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 918254871.1607410300" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/hawkhai/hawkhai.github.io/blob/master/source/marathon/src/lib/watermark.py&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="03fd2b17f608476ebcfe0563581ba2fc6dd884c233cf4cd99f6d787f09cecc37" href="/join?source=prompt-blob-show&amp;source_repo=hawkhai%2Fhawkhai.github.io">Sign up for free</a>
             <button
               type="button"
               class="btn-link link-gray ml-3"
               data-action="click:signup-prompt#dismiss"
               data-ga-click="(Logged out) Sign up prompt, clicked Dismiss, text:dismiss"
-              data-optimizely-event="click.dismiss_signup_prompt, 1326454774.1607398223"
+              data-optimizely-event="click.dismiss_signup_prompt, 918254871.1607410300"
             >
               Dismiss
             </button>
@@ -2279,7 +2279,7 @@
             Copy permalink
           </clipboard-copy>
         </li>
-        <li><a class="dropdown-item js-update-url-with-hash" id="js-view-git-blame" role="menuitem" href="/hawkhai/hawkhai.github.io/blame/7da80b996573d7c4e971db45d06f22846ecee303/source/marathon/src/lib/watermark.py">View git blame</a></li>
+        <li><a class="dropdown-item js-update-url-with-hash" id="js-view-git-blame" role="menuitem" href="/hawkhai/hawkhai.github.io/blame/66e3e5255a8e4e01800690b2ba2129aada5c88b8/source/marathon/src/lib/watermark.py">View git blame</a></li>
           <li><a class="dropdown-item" id="js-new-issue" role="menuitem" href="/hawkhai/hawkhai.github.io/issues/new">Reference in new issue</a></li>
       </ul>
     </details-menu>

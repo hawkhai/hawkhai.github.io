@@ -19,7 +19,7 @@
 
 
   <link crossorigin="anonymous" media="all" integrity="sha512-ry2PZfPzRdNeo8l/5UUldzmDbr0q2zsysbKVDDpRiSR92+U0s2BUoJb44bFLp6i6m0VPUklqBQ2wsKWqXs9BeQ==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-af2d8f65f3f345d35ea3c97fe5452577.css" />
-  <link crossorigin="anonymous" media="all" integrity="sha512-toyh16Xj8oEXFoADSGwViSbDGDj6rUzfdVUPpR5LEuku3uw8sexb1vGe3Dpq35Dad3YHdMJMJKdY7zLvmc1Qlw==" rel="stylesheet" href="https://github.githubassets.com/assets/site-b68ca1d7a5e3f28117168003486c1589.css" />
+  <link crossorigin="anonymous" media="all" integrity="sha512-ONCO5/6SIVO+4AGf7CqXp2pU0m7xfFTiG7iJ4zzsRZHhkKJA7qR/1MYG0X2q4bQN1t1hW2nYwOfDy1B7BqpVRg==" rel="stylesheet" href="https://github.githubassets.com/assets/site-38d08ee7fe922153bee0019fec2a97a7.css" />
     <link crossorigin="anonymous" media="all" integrity="sha512-6Npji40y3Ezyv+ayNmOnYLw8dxgmoP/5QHk3XryRk2Ht45qc9FiCUpeW2vxbBhJYLz2/vTOsvnsIefaQrRr8Pg==" rel="stylesheet" href="https://github.githubassets.com/assets/github-e8da638b8d32dc4cf2bfe6b23663a760.css" />
     
     
@@ -64,7 +64,7 @@
   <link rel="assets" href="https://github.githubassets.com/">
   
 
-  <meta name="request-id" content="CD8F:7DD9:A3C404:DEE23E:5FCEF1D1" data-pjax-transient="true"/><meta name="html-safe-nonce" content="222c8e8ae3e43e85f7bc689e400fcc988852fae104c1d570bc8605329ebadcae" data-pjax-transient="true"/><meta name="visitor-payload" content="eyJyZWZlcnJlciI6IiIsInJlcXVlc3RfaWQiOiJDRDhGOjdERDk6QTNDNDA0OkRFRTIzRTo1RkNFRjFEMSIsInZpc2l0b3JfaWQiOiI3NzcyMzc5MjI3OTg3MzA5MDA5IiwicmVnaW9uX2VkZ2UiOiJhcC1ub3J0aGVhc3QtMSIsInJlZ2lvbl9yZW5kZXIiOiJhcC1ub3J0aGVhc3QtMSJ9" data-pjax-transient="true"/><meta name="visitor-hmac" content="160d579b88aa2cf85d927ba2ff483aad4448059ca738dfb91fb718a626f89c0a" data-pjax-transient="true"/><meta name="cookie-consent-required" content="false" data-pjax-transient="true"/>
+  <meta name="request-id" content="84C7:2040:331AA5:462E40:5FCF20BE" data-pjax-transient="true"/><meta name="html-safe-nonce" content="8b3bb803c46dded7099366ae9bcf2dde47d1e6594faebf1fe093fedf545fe6fe" data-pjax-transient="true"/><meta name="visitor-payload" content="eyJyZWZlcnJlciI6IiIsInJlcXVlc3RfaWQiOiI4NEM3OjIwNDA6MzMxQUE1OjQ2MkU0MDo1RkNGMjBCRSIsInZpc2l0b3JfaWQiOiIzNjI5NDc1MTMzMTM4MDg0MDMwIiwicmVnaW9uX2VkZ2UiOiJhcC1ub3J0aGVhc3QtMSIsInJlZ2lvbl9yZW5kZXIiOiJhcC1ub3J0aGVhc3QtMSJ9" data-pjax-transient="true"/><meta name="visitor-hmac" content="2eaa2171318224c47a426dfdda7cdf7e4e04e8f51224b0c9329ad4b666f2cf62" data-pjax-transient="true"/><meta name="cookie-consent-required" content="false" data-pjax-transient="true"/>
 
     <meta name="hovercard-subject-tag" content="repository:87018368" data-pjax-transient>
 
@@ -312,7 +312,7 @@
           spellcheck="false"
           autocomplete="off"
           >
-          <input type="hidden" data-csrf="true" class="js-data-jump-to-suggestions-path-csrf" value="n8w6dzkH99zGUZ/OS4kVboNp/YR10Wh4vFffusxiEdQPgIhD3QhzlhjDSnS6ChWNnVii2bJUScc1SUL7nGTvFA==" />
+          <input type="hidden" data-csrf="true" class="js-data-jump-to-suggestions-path-csrf" value="dGZ/36AeG5sizOdvV0nPNWXva13JLbMxDjQUhK0Wq0h5t7l0TzjfJGWKF5HklNnSwA1jowRk3hdfA48qOeDLLw==" />
           <input type="hidden" class="js-site-search-type-field" name="type" >
             <img src="https://github.githubassets.com/images/search-key-slash.svg" alt="" class="mr-2 header-search-key-slash">
 
@@ -692,13 +692,13 @@
           class="position-absolute top-0 right-0 btn-link link-gray"
           data-action="click:signup-prompt#dismiss"
           data-ga-click="(Logged out) Sign up prompt, clicked Dismiss, text:dismiss"
-          data-optimizely-event="click.dismiss_signup_prompt, 1197806380.1607397842"
+          data-optimizely-event="click.dismiss_signup_prompt, 1655991165.1607409855"
         >
           Dismiss
         </button>
         <h3 class="pt-2">Join GitHub today</h3>
         <p class="col-6 mx-auto">GitHub is home to over 50 million developers working together to host and review code, manage projects, and build software together.</p>
-        <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 1197806380.1607397842" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/cginternals/cppfs/blob/master/source/cppfs/source/windows/LocalFileHandle.cpp&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="49c48ab52d3af3ba48e9440b54ee414def7320f15a6106f0edf89c93db418181" href="/join?source=prompt-blob-show&amp;source_repo=cginternals%2Fcppfs">Sign up</a>
+        <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 1655991165.1607409855" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/cginternals/cppfs/blob/master/source/cppfs/source/windows/LocalFileHandle.cpp&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="49c48ab52d3af3ba48e9440b54ee414def7320f15a6106f0edf89c93db418181" href="/join?source=prompt-blob-show&amp;source_repo=cginternals%2Fcppfs">Sign up</a>
       </div>
     </div>
 
@@ -708,13 +708,13 @@
           <h3 class="h2 lh-condensed mt-sm-1 mt-lg-0">GitHub is where the world builds software</h3>
           <p class="f4 text-gray mt-2 mb-3">Millions of developers and companies build, ship, and maintain their software on GitHub &#8212; the largest and most advanced development platform in the world.</p>
           <div class="d-flex flex-items-center pb-3">
-            <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 1197806380.1607397842" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/cginternals/cppfs/blob/master/source/cppfs/source/windows/LocalFileHandle.cpp&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="49c48ab52d3af3ba48e9440b54ee414def7320f15a6106f0edf89c93db418181" href="/join?source=prompt-blob-show&amp;source_repo=cginternals%2Fcppfs">Sign up for free</a>
+            <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 1655991165.1607409855" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/cginternals/cppfs/blob/master/source/cppfs/source/windows/LocalFileHandle.cpp&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="49c48ab52d3af3ba48e9440b54ee414def7320f15a6106f0edf89c93db418181" href="/join?source=prompt-blob-show&amp;source_repo=cginternals%2Fcppfs">Sign up for free</a>
             <button
               type="button"
               class="btn-link link-gray ml-3"
               data-action="click:signup-prompt#dismiss"
               data-ga-click="(Logged out) Sign up prompt, clicked Dismiss, text:dismiss"
-              data-optimizely-event="click.dismiss_signup_prompt, 1197806380.1607397842"
+              data-optimizely-event="click.dismiss_signup_prompt, 1655991165.1607409855"
             >
               Dismiss
             </button>

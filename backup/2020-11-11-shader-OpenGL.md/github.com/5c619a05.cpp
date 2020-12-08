@@ -64,7 +64,7 @@
   <link rel="assets" href="https://github.githubassets.com/">
   
 
-  <meta name="request-id" content="A59A:613F:AB6AB9:E9531A:5FCF17BF" data-pjax-transient="true"/><meta name="html-safe-nonce" content="d468edb09e4b166548daa79473518a1ab2611c1e9f2e56a66aa12f6914afd714" data-pjax-transient="true"/><meta name="visitor-payload" content="eyJyZWZlcnJlciI6IiIsInJlcXVlc3RfaWQiOiJBNTlBOjYxM0Y6QUI2QUI5OkU5NTMxQTo1RkNGMTdCRiIsInZpc2l0b3JfaWQiOiI0NjkzNzg2NDIwMTM2ODQzMTk5IiwicmVnaW9uX2VkZ2UiOiJhcC1ub3J0aGVhc3QtMSIsInJlZ2lvbl9yZW5kZXIiOiJhcC1ub3J0aGVhc3QtMSJ9" data-pjax-transient="true"/><meta name="visitor-hmac" content="da69e28aa040ebfcba223504e994ce22d348ec150c2adc3b8b0c47f8f07b20c1" data-pjax-transient="true"/><meta name="cookie-consent-required" content="false" data-pjax-transient="true"/>
+  <meta name="request-id" content="A884:2432:ADCDAF:EBDDB0:5FCF2368" data-pjax-transient="true"/><meta name="html-safe-nonce" content="f68cee7901d12b0d2750f39f1357c718e3eae4d6278d307745f9068eb1262545" data-pjax-transient="true"/><meta name="visitor-payload" content="eyJyZWZlcnJlciI6IiIsInJlcXVlc3RfaWQiOiJBODg0OjI0MzI6QURDREFGOkVCRERCMDo1RkNGMjM2OCIsInZpc2l0b3JfaWQiOiI3NTkyOTczMTA5Njg0MDIwMDczIiwicmVnaW9uX2VkZ2UiOiJhcC1ub3J0aGVhc3QtMSIsInJlZ2lvbl9yZW5kZXIiOiJhcC1ub3J0aGVhc3QtMSJ9" data-pjax-transient="true"/><meta name="visitor-hmac" content="cdd56e59393a9b9d528d3d908119130071c023e7c933535db5f8d155a559567f" data-pjax-transient="true"/><meta name="cookie-consent-required" content="false" data-pjax-transient="true"/>
 
     <meta name="hovercard-subject-tag" content="repository:32736639" data-pjax-transient>
 
@@ -312,7 +312,7 @@
           spellcheck="false"
           autocomplete="off"
           >
-          <input type="hidden" data-csrf="true" class="js-data-jump-to-suggestions-path-csrf" value="DEcJiae6P8OIAyyEXZwN51zsc42aBGDYL0SqMH42xI9rvswzzc0UOqaY0AJ64nwNxfJuUGPkCCy2q8r36sSRNA==" />
+          <input type="hidden" data-csrf="true" class="js-data-jump-to-suggestions-path-csrf" value="6oO6AzDiT+zDys2Fq+DbOe2/SPAJrjyjcO8NI9eqN3ohPw7VoFnHhmNN4PL8yi/QbNM8H2aq1AHhhQQSCm5nTA==" />
           <input type="hidden" class="js-site-search-type-field" name="type" >
             <img src="https://github.githubassets.com/images/search-key-slash.svg" alt="" class="mr-2 header-search-key-slash">
 
@@ -567,8 +567,8 @@
     <svg class="octicon octicon-eye" height="16" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true"><path fill-rule="evenodd" d="M1.679 7.932c.412-.621 1.242-1.75 2.366-2.717C5.175 4.242 6.527 3.5 8 3.5c1.473 0 2.824.742 3.955 1.715 1.124.967 1.954 2.096 2.366 2.717a.119.119 0 010 .136c-.412.621-1.242 1.75-2.366 2.717C10.825 11.758 9.473 12.5 8 12.5c-1.473 0-2.824-.742-3.955-1.715C2.92 9.818 2.09 8.69 1.679 8.068a.119.119 0 010-.136zM8 2c-1.981 0-3.67.992-4.933 2.078C1.797 5.169.88 6.423.43 7.1a1.619 1.619 0 000 1.798c.45.678 1.367 1.932 2.637 3.024C4.329 13.008 6.019 14 8 14c1.981 0 3.67-.992 4.933-2.078 1.27-1.091 2.187-2.345 2.637-3.023a1.619 1.619 0 000-1.798c-.45-.678-1.367-1.932-2.637-3.023C11.671 2.992 9.981 2 8 2zm0 8a2 2 0 100-4 2 2 0 000 4z"></path></svg>
     Watch
 </a>    <a class="social-count" href="/JoeyDeVries/LearnOpenGL/watchers"
-       aria-label="249 users are watching this repository">
-      249
+       aria-label="250 users are watching this repository">
+      250
     </a>
 
   </li>
@@ -579,7 +579,7 @@
       Star
 </a>
     <a class="social-count js-social-count" href="/JoeyDeVries/LearnOpenGL/stargazers"
-      aria-label="4950 users starred this repository">
+      aria-label="4952 users starred this repository">
       5k
     </a>
 
@@ -725,13 +725,13 @@
           class="position-absolute top-0 right-0 btn-link link-gray"
           data-action="click:signup-prompt#dismiss"
           data-ga-click="(Logged out) Sign up prompt, clicked Dismiss, text:dismiss"
-          data-optimizely-event="click.dismiss_signup_prompt, 1161625017.1607407551"
+          data-optimizely-event="click.dismiss_signup_prompt, 1976597681.1607410537"
         >
           Dismiss
         </button>
         <h3 class="pt-2">Join GitHub today</h3>
         <p class="col-6 mx-auto">GitHub is home to over 50 million developers working together to host and review code, manage projects, and build software together.</p>
-        <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 1161625017.1607407551" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/1.getting_started/7.4.camera_class/camera_class.cpp&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="f603087112504c8ee3db4b58ae4d46314c96709edeb0b12ae4aaa5909eab5452" href="/join?source=prompt-blob-show&amp;source_repo=JoeyDeVries%2FLearnOpenGL">Sign up</a>
+        <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 1976597681.1607410537" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/1.getting_started/7.4.camera_class/camera_class.cpp&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="f603087112504c8ee3db4b58ae4d46314c96709edeb0b12ae4aaa5909eab5452" href="/join?source=prompt-blob-show&amp;source_repo=JoeyDeVries%2FLearnOpenGL">Sign up</a>
       </div>
     </div>
 
@@ -741,13 +741,13 @@
           <h3 class="h2 lh-condensed mt-sm-1 mt-lg-0">GitHub is where the world builds software</h3>
           <p class="f4 text-gray mt-2 mb-3">Millions of developers and companies build, ship, and maintain their software on GitHub &#8212; the largest and most advanced development platform in the world.</p>
           <div class="d-flex flex-items-center pb-3">
-            <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 1161625017.1607407551" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/1.getting_started/7.4.camera_class/camera_class.cpp&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="f603087112504c8ee3db4b58ae4d46314c96709edeb0b12ae4aaa5909eab5452" href="/join?source=prompt-blob-show&amp;source_repo=JoeyDeVries%2FLearnOpenGL">Sign up for free</a>
+            <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 1976597681.1607410537" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/1.getting_started/7.4.camera_class/camera_class.cpp&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="f603087112504c8ee3db4b58ae4d46314c96709edeb0b12ae4aaa5909eab5452" href="/join?source=prompt-blob-show&amp;source_repo=JoeyDeVries%2FLearnOpenGL">Sign up for free</a>
             <button
               type="button"
               class="btn-link link-gray ml-3"
               data-action="click:signup-prompt#dismiss"
               data-ga-click="(Logged out) Sign up prompt, clicked Dismiss, text:dismiss"
-              data-optimizely-event="click.dismiss_signup_prompt, 1161625017.1607407551"
+              data-optimizely-event="click.dismiss_signup_prompt, 1976597681.1607410537"
             >
               Dismiss
             </button>

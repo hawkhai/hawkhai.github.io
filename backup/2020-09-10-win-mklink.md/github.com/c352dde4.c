@@ -19,7 +19,7 @@
 
 
   <link crossorigin="anonymous" media="all" integrity="sha512-ry2PZfPzRdNeo8l/5UUldzmDbr0q2zsysbKVDDpRiSR92+U0s2BUoJb44bFLp6i6m0VPUklqBQ2wsKWqXs9BeQ==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-af2d8f65f3f345d35ea3c97fe5452577.css" />
-  <link crossorigin="anonymous" media="all" integrity="sha512-toyh16Xj8oEXFoADSGwViSbDGDj6rUzfdVUPpR5LEuku3uw8sexb1vGe3Dpq35Dad3YHdMJMJKdY7zLvmc1Qlw==" rel="stylesheet" href="https://github.githubassets.com/assets/site-b68ca1d7a5e3f28117168003486c1589.css" />
+  <link crossorigin="anonymous" media="all" integrity="sha512-ONCO5/6SIVO+4AGf7CqXp2pU0m7xfFTiG7iJ4zzsRZHhkKJA7qR/1MYG0X2q4bQN1t1hW2nYwOfDy1B7BqpVRg==" rel="stylesheet" href="https://github.githubassets.com/assets/site-38d08ee7fe922153bee0019fec2a97a7.css" />
     <link crossorigin="anonymous" media="all" integrity="sha512-6Npji40y3Ezyv+ayNmOnYLw8dxgmoP/5QHk3XryRk2Ht45qc9FiCUpeW2vxbBhJYLz2/vTOsvnsIefaQrRr8Pg==" rel="stylesheet" href="https://github.githubassets.com/assets/github-e8da638b8d32dc4cf2bfe6b23663a760.css" />
     
     
@@ -64,7 +64,7 @@
   <link rel="assets" href="https://github.githubassets.com/">
   
 
-  <meta name="request-id" content="924A:2040:300205:420FEA:5FCEF1CF" data-pjax-transient="true"/><meta name="html-safe-nonce" content="2e038dff1318a78cc2a671f5e39801cab8d6f7426171ec94e1f8986a25bb843e" data-pjax-transient="true"/><meta name="visitor-payload" content="eyJyZWZlcnJlciI6IiIsInJlcXVlc3RfaWQiOiI5MjRBOjIwNDA6MzAwMjA1OjQyMEZFQTo1RkNFRjFDRiIsInZpc2l0b3JfaWQiOiIxNTA5MDAxNTg1Mjc0ODQzNTk5IiwicmVnaW9uX2VkZ2UiOiJhcC1ub3J0aGVhc3QtMSIsInJlZ2lvbl9yZW5kZXIiOiJhcC1ub3J0aGVhc3QtMSJ9" data-pjax-transient="true"/><meta name="visitor-hmac" content="47e28427bcb2d5fe9fb8409e3364d330713f25167c9514a75980e4786596c6d1" data-pjax-transient="true"/><meta name="cookie-consent-required" content="false" data-pjax-transient="true"/>
+  <meta name="request-id" content="74D9:6A79:AEDF30:EDC5AB:5FCF20B6" data-pjax-transient="true"/><meta name="html-safe-nonce" content="e23e4f0b2ae1cb05644cb4aef5e23b3fd5516ec38b6148449067f44a7062f62c" data-pjax-transient="true"/><meta name="visitor-payload" content="eyJyZWZlcnJlciI6IiIsInJlcXVlc3RfaWQiOiI3NEQ5OjZBNzk6QUVERjMwOkVEQzVBQjo1RkNGMjBCNiIsInZpc2l0b3JfaWQiOiI1NDk5MjU4NzAyNzIzNDg5OTc0IiwicmVnaW9uX2VkZ2UiOiJhcC1ub3J0aGVhc3QtMSIsInJlZ2lvbl9yZW5kZXIiOiJhcC1ub3J0aGVhc3QtMSJ9" data-pjax-transient="true"/><meta name="visitor-hmac" content="8709bbbff1819e324869be0307050ee4f92acf2d8d67a4df9dea578b60888833" data-pjax-transient="true"/><meta name="cookie-consent-required" content="false" data-pjax-transient="true"/>
 
     <meta name="hovercard-subject-tag" content="repository:20101515" data-pjax-transient>
 
@@ -312,7 +312,7 @@
           spellcheck="false"
           autocomplete="off"
           >
-          <input type="hidden" data-csrf="true" class="js-data-jump-to-suggestions-path-csrf" value="U0LhhaPBPpSuH6ES3Up7FIv6Tolp+aSwWzs4W4peZMJCRp5XMThXWn+AX8J6uOIQzRVuLm8Am/ft8Rz+J/8adg==" />
+          <input type="hidden" data-csrf="true" class="js-data-jump-to-suggestions-path-csrf" value="pTipWbc9AV0z5SyAgBcRpRGqEO4uklZyWaI3S4yG8sLnSrFTtp0hiIrtdmthtvFcFjQTZ8xq5s5ulqPXREk9xQ==" />
           <input type="hidden" class="js-site-search-type-field" name="type" >
             <img src="https://github.githubassets.com/images/search-key-slash.svg" alt="" class="mr-2 header-search-key-slash">
 
@@ -579,7 +579,7 @@
       Star
 </a>
     <a class="social-count js-social-count" href="/giampaolo/psutil/stargazers"
-      aria-label="6823 users starred this repository">
+      aria-label="6825 users starred this repository">
       6.8k
     </a>
 
@@ -591,7 +591,7 @@
           Fork
 </a>
       <a href="/giampaolo/psutil/network/members" class="social-count"
-         aria-label="1065 users forked this repository">
+         aria-label="1064 users forked this repository">
         1.1k
       </a>
   </li>
@@ -713,13 +713,13 @@
           class="position-absolute top-0 right-0 btn-link link-gray"
           data-action="click:signup-prompt#dismiss"
           data-ga-click="(Logged out) Sign up prompt, clicked Dismiss, text:dismiss"
-          data-optimizely-event="click.dismiss_signup_prompt, 409534710.1607397840"
+          data-optimizely-event="click.dismiss_signup_prompt, 1901099292.1607409846"
         >
           Dismiss
         </button>
         <h3 class="pt-2">Join GitHub today</h3>
         <p class="col-6 mx-auto">GitHub is home to over 50 million developers working together to host and review code, manage projects, and build software together.</p>
-        <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 409534710.1607397840" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/giampaolo/psutil/blob/release-5.6.0/psutil/arch/windows/process_handles.c&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="1eb7751dcc63e2a7048cbe5dbab876180956e2e58fdddd9588016531faa3cb8d" href="/join?source=prompt-blob-show&amp;source_repo=giampaolo%2Fpsutil">Sign up</a>
+        <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 1901099292.1607409846" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/giampaolo/psutil/blob/release-5.6.0/psutil/arch/windows/process_handles.c&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="1eb7751dcc63e2a7048cbe5dbab876180956e2e58fdddd9588016531faa3cb8d" href="/join?source=prompt-blob-show&amp;source_repo=giampaolo%2Fpsutil">Sign up</a>
       </div>
     </div>
 
@@ -729,13 +729,13 @@
           <h3 class="h2 lh-condensed mt-sm-1 mt-lg-0">GitHub is where the world builds software</h3>
           <p class="f4 text-gray mt-2 mb-3">Millions of developers and companies build, ship, and maintain their software on GitHub &#8212; the largest and most advanced development platform in the world.</p>
           <div class="d-flex flex-items-center pb-3">
-            <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 409534710.1607397840" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/giampaolo/psutil/blob/release-5.6.0/psutil/arch/windows/process_handles.c&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="1eb7751dcc63e2a7048cbe5dbab876180956e2e58fdddd9588016531faa3cb8d" href="/join?source=prompt-blob-show&amp;source_repo=giampaolo%2Fpsutil">Sign up for free</a>
+            <a class="btn btn-primary" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" data-optimizely-event="click.signup, 1901099292.1607409846" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/giampaolo/psutil/blob/release-5.6.0/psutil/arch/windows/process_handles.c&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="1eb7751dcc63e2a7048cbe5dbab876180956e2e58fdddd9588016531faa3cb8d" href="/join?source=prompt-blob-show&amp;source_repo=giampaolo%2Fpsutil">Sign up for free</a>
             <button
               type="button"
               class="btn-link link-gray ml-3"
               data-action="click:signup-prompt#dismiss"
               data-ga-click="(Logged out) Sign up prompt, clicked Dismiss, text:dismiss"
-              data-optimizely-event="click.dismiss_signup_prompt, 409534710.1607397840"
+              data-optimizely-event="click.dismiss_signup_prompt, 1901099292.1607409846"
             >
               Dismiss
             </button>
