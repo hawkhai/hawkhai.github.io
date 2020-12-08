@@ -656,6 +656,5 @@ void c_abs(complex f[], float out[], int n); // 复数数组取模
 - [16] [https://blog.csdn.net/Ciellee/article/details/108520298]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/blog.csdn.net/a6ebd92a.html" %})
 - [17] [https://blog.csdn.net/cp1300/article/details/28850309]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/blog.csdn.net/91e8419c.html" %})
 - [18] [https://blog.csdn.net/luoweifu/article/details/8214959]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/blog.csdn.net/baf339c8.html" %})
-- [19] [https://www.bilibili.com/video/BV1tx41147Tx]({% include relref.html url="/None" %})
-- [20] [https://www.cnblogs.com/36bian/p/7609304.html]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/www.cnblogs.com/9c1872d6.html" %})
-- [21] [https://www.cnblogs.com/-wenli/p/11744405.html]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/www.cnblogs.com/98804d9b.html" %})
+- [19] [https://www.cnblogs.com/36bian/p/7609304.html]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/www.cnblogs.com/9c1872d6.html" %})
+- [20] [https://www.cnblogs.com/-wenli/p/11744405.html]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/www.cnblogs.com/98804d9b.html" %})

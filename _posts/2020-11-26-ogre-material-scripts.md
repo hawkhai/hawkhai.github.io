@@ -1952,6 +1952,5 @@ fxTest3 will end up with the default textures for the normal map and spec map se
 
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
-- [1] [http://en.wikipedia.org/wiki/Gamma_correction]({% include relref.html url="/None" %})
-- [2] [http://developer.nvidia.com/object/nvparse.html]({% include relref.html url="/backup/2020-11-26-ogre-material-scripts.md/developer.nvidia.com/7d634c33.html" %})
-- [3] [https://ogrecave.github.io/ogre/api/latest/_material-_scripts.html]({% include relref.html url="/backup/2020-11-26-ogre-material-scripts.md/ogrecave.github.io/c3de684f.html" %})
+- [1] [http://developer.nvidia.com/object/nvparse.html]({% include relref.html url="/backup/2020-11-26-ogre-material-scripts.md/developer.nvidia.com/7d634c33.html" %})
+- [2] [https://ogrecave.github.io/ogre/api/latest/_material-_scripts.html]({% include relref.html url="/backup/2020-11-26-ogre-material-scripts.md/ogrecave.github.io/c3de684f.html" %})

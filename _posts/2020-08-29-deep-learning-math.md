@@ -352,7 +352,4 @@ $$E(X) = \sum_{x} x P(X = x).$$
 <font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
 
 - [1] [https://conda.io/miniconda.html]({% include relref.html url="/backup/2020-08-29-deep-learning-math.md/conda.io/a90a7731.html" %})
-- [2] [https://zh.d2l.ai/d2l-zh.zip]({% include relref.html url="/None" %})
-- [3] [https://pypi.tuna.tsinghua.edu.cn/simple]({% include relref.html url="/None" %})
-- [4] [https://apache-mxnet.s3.cn-north-1.amazonaws.com.cn/]({% include relref.html url="/None" %})
-- [5] [http://zh.gluon.ai/]({% include relref.html url="/backup/2020-08-29-deep-learning-math.md/zh.gluon.ai/b73bb84d.html" %})
+- [2] [http://zh.gluon.ai/]({% include relref.html url="/backup/2020-08-29-deep-learning-math.md/zh.gluon.ai/b73bb84d.html" %})

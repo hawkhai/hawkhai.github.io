@@ -192,7 +192,8 @@ def collectHost(fpath, line):
                 assert False, checkz
         assert not url.endswith("."), path +" "+ url
         remote = backupUrlContent(fpath, url)
-        reflist.append([url, remote])
+        if remote:
+            reflist.append([url, remote])
         if not host in g_hostset:
             g_hostset[host] = 0
         g_hostset[host] += 1
