@@ -1,0 +1,1588 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://blog.csdn.net/newchenxf/article/details/51719597"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="report" content='{"pid": "blog", "spm":"1001.2101"}'>
+    <meta name="referrer" content="always">
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <meta name="applicable-device" content="pc">
+    <link  href="https://g.csdnimg.cn/static/logo/favicon32.ico"  rel="shortcut icon" type="image/x-icon" />
+    <title>JPEG压缩原理与DCT离散余弦变换_newchenxf的专栏-CSDN博客</title>
+    <script>
+      (function(){ 
+        var el = document.createElement("script"); 
+        el.src = "https://s3a.pstatp.com/toutiao/push.js?1abfa13dfe74d72d41d83c86d240de427e7cac50c51ead53b2e79d40c7952a23ed7716d05b4a0f683a653eab3e214672511de2457e74e99286eb2c33f4428830"; 
+        el.id = "ttzz"; 
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(el, s);
+      })(window)
+    </script>
+        <meta name="keywords" content="JPEG压缩原理与DCT离散余弦变换">
+        <meta name="csdn-baidu-search"  content='{"autorun":true,"install":true,"keyword":"JPEG压缩原理与DCT离散余弦变换"}'>
+    <meta name="description" content="入门介绍----JPEG压缩原理与DCT离散余弦变换，能让你有个大致的理解。">
+    <script src='//g.csdnimg.cn/tingyun/1.8.3/blog.js' type='text/javascript'></script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/css/detail_enter-5f2d8f6575.min.css">
+    <script type="application/ld+json">{"@context":"https://ziyuan.baidu.com/contexts/cambrian.jsonld","@id":"https://blog.csdn.net/newchenxf/article/details/51719597","appid":"1638831770136827","pubDate":"2016-06-20T15:58:47","title":"JPEG压缩原理与DCT离散余弦变换_newchenxf的专栏-CSDN博客","upDate":"2016-06-20T15:58:47"}</script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/themesSkin/skin3-template/skin3-template-45808e735f.min.css">
+    <script src="https://csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var isCorporate = false;//注释删除enterprise
+        var username =  "newchenxf";
+        var skinImg = "white";
+        var blog_address = "https://blog.csdn.net/newchenxf";
+        var currentUserName = "";
+        var isOwner = false;
+        var loginUrl = "http://passport.csdn.net/account/login?from=https://blog.csdn.net/newchenxf/article/details/51719597";
+        var blogUrl = "https://blog.csdn.net/";
+        var avatar = "https://profile.csdnimg.cn/3/3/7/3_newchenxf";
+        var articleTitle = "JPEG压缩原理与DCT离散余弦变换";
+        var articleDesc = "入门介绍----JPEG压缩原理与DCT离散余弦变换，能让你有个大致的理解。";
+        var articleTitles = "JPEG压缩原理与DCT离散余弦变换_newchenxf的专栏-CSDN博客";
+        var nickName = "长江很多号";
+        var articleDetailUrl = "https://blog.csdn.net/newchenxf/article/details/51719597";
+        if(window.location.host.split('.').length == 3) {
+            blog_address = blogUrl + username;
+        }
+        var skinStatus = "White";
+        var blogStaticHost = "https://csdnimg.cn/release/blogv2/"
+    </script>
+    <script src="https://g.csdnimg.cn/??fixed-sidebar/1.1.6/fixed-sidebar.js" type="text/javascript"></script>
+    <script src='//g.csdnimg.cn/common/csdn-report/report.js' type='text/javascript'></script>
+    <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css">
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+    <script src="https://dup.baidustatic.com/js/ds.js"></script>
+</head>
+<body class="nodata " style="">
+        <script>
+            var toolbarSearchExt = '{"landingWord":[],"queryWord":"","tag":["JPEG压缩","JPEG编码","DCT","离散余弦变换"],"title":"JPEG压缩原理与DCT离散余弦变换"}';
+        </script>
+    <script src="https://g.csdnimg.cn/common/csdn-toolbar/csdn-toolbar.js" type="text/javascript"></script>
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/pc/css/blog_code-01256533b5.min.css">
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/chart-3456820cac.css" />
+<div class="main_father clearfix d-flex justify-content-center" style="height:100%;"> 
+    <div class="container clearfix" id="mainBox">
+        <main>
+<script type="text/javascript">
+    var blogSensitiveWords = "";
+</script>
+<div class="blog-content-box">
+    <div class="article-header-box">
+        <div class="article-header">
+            <div class="article-title-box">
+                <h1 class="title-article" id="articleContentId">JPEG压缩原理与DCT离散余弦变换</h1>
+            </div>
+            <div class="article-info-box">
+                <div class="article-bar-top">
+                    <img class="article-type-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/original.png" alt="">
+                    <div class="bar-content">
+                    <a class="follow-nickName " href="https://blog.csdn.net/newchenxf" target="_blank" rel="noopener">长江很多号</a>
+                    <span class="time">2016-06-20 15:58:47</span>
+                    <img class="article-read-img article-heard-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/articleReadEyes.png" alt="">
+                    <span class="read-count">43241</span>
+                    <a id="blog_detail_zk_collection" class="un-collection" data-report-click='{"mod":"popu_823","spm":"1001.2101.3001.4232","ab":"new"}'>
+                        <img class="article-collect-img article-heard-img un-collect-status isdefault" style="display:inline-block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                        <img class="article-collect-img article-heard-img collect-status isactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                        <span class="name">收藏</span>
+                        <span class="get-collection">
+                            97
+                        </span>
+                    </a>
+                    </div>
+                </div>
+                <div class="blog-tags-box">
+                    <div class="tags-box artic-tag-box">
+                            <span class="label">分类专栏：</span>
+                                <a class="tag-link" href="https://blog.csdn.net/newchenxf/category_6272261.html" target="_blank" rel="noopener">图像处理</a>
+                            <span class="label">文章标签：</span>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"JPEG压缩","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_28/MtTaEg1sMTQyMzktYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">JPEG压缩</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"JPEG编码","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_2d/MtTaYg5sMzg5ODgtYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">JPEG编码</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"DCT","ab":"new"}' class="tag-link" href="https://so.csdn.net/so/search/s.do?q=DCT&t=blog&o=vip&s=&l=&f=&viparticle=" target="_blank" rel="noopener">DCT</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"离散余弦变换","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_2b/MtTaEg1sMjA4MDktYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">离散余弦变换</a>
+                    </div>
+                </div>
+                <div class="up-time"><span>最后发布:2016-06-20 15:58:47</span><span>首次发布:2016-06-20 15:58:47</span></div>
+                <div class="slide-content-box">
+                    <div class="article-copyright">
+                        <div class="creativecommons">
+                            版权声明：本文为博主原创文章，遵循<a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener"> CC 4.0 BY-SA </a>版权协议，转载请附上原文出处链接和本声明。
+                        </div>
+                        <div class="article-source-link">
+                            本文链接：<a href="https://blog.csdn.net/newchenxf/article/details/51719597" target="_blank">https://blog.csdn.net/newchenxf/article/details/51719597</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="operating">
+                    <a class="href-article-edit slide-toggle">版权</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <article class="baidu_pl">
+        <div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-b5506197d8.css">
+                <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <p>原文网址&#xff1a;<a href="http://blog.csdn.net/newchenxf/article/details/51719597">http://blog.csdn.net/newchenxf/article/details/51719597</a> <br /> 转载请注明出处喔</p> 
+<hr /> 
+<h1 id="1-前言">1 前言</h1> 
+<p>JPEG是joint Photographic Experts Group(联合图像专家组)的缩写&#xff0c;文件后辍名为”&#xff0e;jpg”或”&#xff0e;jpeg”。 <br /> jpg图片可以说是最常见的图片格式了&#xff0c;基本上你的自拍照&#xff0c;要么是png的&#xff0c;要么就是jpeg的了。&#xff08;有关jpeg和png的区别&#xff0c;请参考我的另一博文【<a href="http://blog.csdn.net/newchenxf/article/details/51721896">jpeg 与 png 图片格式的区别</a>】&#xff09; <br /> 但它是一种有损压缩。支持多种压缩级别&#xff0c;压缩比率通常在10&#xff1a;1到40&#xff1a;1之间&#xff0c;压缩比越大&#xff0c;品质就越低&#xff1b;相反地&#xff0c;压缩比越小&#xff0c;品质就越好。</p> 
+<p>那么&#xff0c;JPEG是如何压缩的呢&#xff1f;靠的就是传说中的DCT(离散余弦变换)。</p> 
+<p>下图是JPEG压缩/解压缩的流程图。我想你最大的疑问估计就是DCT了。 <br /> <img src="https://img-blog.csdn.net/20160616194732891" alt="这里写图片描述" title="" /></p> 
+<h1 id="2-jpeg压缩流程">2 JPEG压缩流程</h1> 
+<h2 id="21-以8x8的图象块为基本单位进行编码">2.1 以8x8的图象块为基本单位进行编码</h2> 
+<p>如下图所示。比如一个160x160大小的原始图像&#xff0c;就可以分成20x20个8x8图像块。 <br /> <img src="https://img-blog.csdn.net/20160620152124556" alt="这里写图片描述" title="" /> <br /> 每个图像块共64个像素。像素可以用RGB或YUV表示&#xff0c;需要3个byte。所以严格来说&#xff0c;上图3个箭头代表的数据&#xff0c;指的是RGB/YUV的某一个值&#xff0c;比如Y。</p> 
+<h2 id="22-将rgb转换为亮度-色调-饱和度系统yuv并重新采样">2.2 将RGB转换为亮度-色调-饱和度系统&#xff08;YUV&#xff09;&#xff0c;并重新采样</h2> 
+<p>YUV是什么&#xff1f;它也是一种很不错的图像数据表示方法&#xff0c;特别是在视频领域。 <br /> Y&#xff1a;指颜色的明视度、亮度、灰度值&#xff1b; <br /> U&#xff1a;指色调&#xff1b; <br /> V&#xff1a;指饱和度。</p> 
+<p>YUV是一个统称&#xff0c;其实有很多具体格式&#xff0c;比如YUV420, YUV444, YUV422。 <br /> YUV的某些格式&#xff0c;和RGB比起来&#xff0c;其数据量要少很多。 <br /> 比如YUV420&#xff0c;每个像素需要一个Y&#xff0c;每4个像素需要一个U/V&#xff0c;因此一个8*8图像块&#xff0c;数据量只要8x8x3/2 &#61; 96byte。而RGB需要8x8x3 &#61; 192byte。少了一半的数据量。现在很多视频都是YUV420作为色域。 <br /> 当然啦&#xff0c;在本次转换&#xff0c;用的是YUV444&#xff0c; 也就是每个像素都有YUV的值。</p> 
+<p>YUV与RGB可以互相转换。 <br /> Y&#61;0.299R&#43;0.587G&#43;0.114B <br /> U&#61;0.148R-0.289G&#43;0.473B <br /> V&#61;0.615R-0.515G-0.1B</p> 
+<h2 id="23-fdct与idct">2.3 FDCT与IDCT</h2> 
+<p>一个是正变换&#xff0c;一个是逆变换。反正都可以称为离散余弦变换。 <br /> 根据8*8的二维DCT定义 <br /> <img src="https://img-blog.csdn.net/20160617213913933" alt="这里写图片描述" title="" /> <br /> 其中&#xff1a;0&lt;&#61; u, v &lt; 8 <br /> <img src="https://img-blog.csdn.net/20160617214031089" alt="这里写图片描述" title="" /> <br /> a(v) &#61; a(u) <br /> <img src="https://img-blog.csdn.net/20160617214553169" alt="这里写图片描述" title="" /> 是输入8x8像素的坐标。 <br /> <img src="https://img-blog.csdn.net/20160617214651670" alt="这里写图片描述" title="" /> 是输出的8x8变换结果的坐标。</p> 
+<p>不要把上式看的有多难&#xff0c;也不要被“离散余弦变换”这个词给吓到&#xff0c;其实他没什么&#xff08;如果你非要去追究&#xff0c;那就打开“信号与系统”的书复习一下吧&#xff0c;我拦不住你哈&#xff09;&#xff0c;上式其实就是一个运算公式而已。 <br /> 输入就是8x8的数据矩阵&#xff0c;经过计算&#xff0c;输出还是一个8x8的数据矩阵。 <br /> 其实上式可以简化为&#xff1a; <br /> <img src="https://img-blog.csdn.net/20160617211025467" alt="这里写图片描述" title="" /> <br /> 并且A和A转置矩阵都是已知的。所以&#xff0c;说白了&#xff0c;就是个矩阵运算。对程序来说&#xff0c;很简单。</p> 
+<p>称G&#xff08;0,0&#xff09;&#xff0c;也就是输出8x8矩阵的&#xff08;0,0&#xff09;坐标的值&#xff0c;为直流系数&#xff0c;其他为交流系数。 <br /> 之所以称它为直流系数&#xff0c;是因为当u, v &#61; 0时&#xff0c;cos()结果都为0&#xff0c;所以最后结果就是输入矩阵的8x8的每个数值的和&#xff0c;再乘于a(u) x a(v) x 1/4 &#61; 1/8。</p> 
+<p>当然了&#xff0c;输入数据其实是有3个的&#xff0c;也就是YUV&#xff0c;因此对每个8x8的原始图像数据&#xff0c;需要做3次DCT。</p> 
+<h2 id="24-量化与反量化">2.4 量化与反量化</h2> 
+<p><strong>定义&#xff1a;</strong>将DCT变换后的临时结果&#xff0c;除以各自量化步长并四舍五入后取整&#xff0c;得到量化系数。 <br /> <strong>为什么可以量化&#xff1f;&#xff01;</strong> <br /> 因为经过DCT后&#xff0c;数据就不同了&#xff0c;左上方都是大数值&#xff0c;右下方都是小数值。比如左上方都是几十几百的&#xff0c;右下方附近&#xff0c;都是个位数&#xff0c;那么&#xff0c;大数值和小数值就可以分别量化。</p> 
+<p>在术语里&#xff0c;左上方称为<strong>低频数据</strong>&#xff0c;右下方称为<strong>高频数据</strong>。 <br /> 你要是不理解&#xff0c;可以这么想&#xff0c;既然G&#xff08;0,0&#xff09;都是直流分量了&#xff0c;那频率不就是0&#xff1f;不就是所谓的低频&#xff1f;^^</p> 
+<p>还是不理解&#xff1f;好吧&#xff0c;那你也可以这么想&#xff1a; <br /> 比如cos(ax)&#xff0c;a是常数&#xff0c;x是变量。那么&#xff0c;根据频率f &#61; a/2π&#xff0c;a越大&#xff0c;函数的频率越高。 <br /> 看看DCT公式&#xff1a; <br /> <img src="https://img-blog.csdn.net/20160617213913933" alt="这里写图片描述" title="" /> <br /> u,v 越大&#xff0c;则越在右下方对吧。当计算某个G(u, v)时&#xff0c;x, y是变量&#xff0c;u, v相当于常数&#xff0c;当u/v越大&#xff0c;则频率越高&#xff01; <br /> 这就是为啥右下方称为高频数据了&#xff01;</p> 
+<p>好了&#xff0c;别走偏了&#xff0c;还继续说量化。 <br /> JPEG系统分别规定了亮度分量和色度分量的量化表&#xff0c;色度分量相应的量化步长比亮度分量大。</p> 
+<p><strong>对量化系数的处理和组织</strong> <br /> 思想&#xff1a;JPEG采用定长和变长相结合的编码方法。 <br /> <strong>直流系数&#xff1a;</strong>通常相邻8*8图象块的DC分量很接近&#xff0c;因此JPEG对量化后的直流分量采用无失真DPCM编码。通常JPEG要保存所需比特数和实际差值。</p> 
+<p><strong>交流系数&#xff1a;</strong>经过量化后&#xff0c;AC分量出现较多的0。JPEG采用对0系数的行程长度编码。而对非0值&#xff0c;则要保存所需数和实际值。 <br /> ZIG-ZAG排序&#xff1a;为使连续的0个数增多&#xff0c;采用Z形编码。 <br /> <img src="https://img-blog.csdn.net/20160616195230393" alt="这里写图片描述" title="" /> <br /> 你要是不理解&#xff0c;看看下面的例子&#xff0c;就知道为啥ZIG-ZAG可以俘获更多的0了&#xff01;</p> 
+<h1 id="3-应用举例">3 应用举例</h1> 
+<h2 id="31-编码">3.1 编码</h2> 
+<p>某个图象的一个8*8方块&#xff0c;的亮度值。 <br /> <img src="https://img-blog.csdn.net/20160617205816101" alt="这里写图片描述" title="" /></p> 
+<p>由于一个字节是0~255&#xff0c;为了减小绝对值波动&#xff0c;先把数值移位一下&#xff0c;变成-128~127。 <br /> <img src="https://img-blog.csdn.net/20160620154439463" alt="这里写图片描述" title="" /></p> 
+<p>接着&#xff0c;根据DCT变换公式&#xff0c;各种计算&#xff0c;获得临时结果。 <br /> <img src="https://img-blog.csdn.net/20160617210137134" alt="这里写图片描述" title="" /></p> 
+<p>根据亮度量化表量化后得到的量化系数矩阵 <br /> <img src="https://img-blog.csdn.net/20160617210211090" alt="这里写图片描述" title="" /></p> 
+<p>获得量化结果&#xff1a; <br /> <img src="https://img-blog.csdn.net/20160617210230824" alt="这里写图片描述" title="" /></p> 
+<p>可见&#xff0c;新的数据&#xff0c;很小&#xff0c;很多是0。正如上文所说&#xff0c;这么多0&#xff0c;完全可以用游程编码&#xff0c;大大缩小数据量。</p> 
+<h2 id="32-解码">3.2 解码</h2> 
+<p>先游程编码恢复为 <br /> <img src="https://img-blog.csdn.net/20160617210230824" alt="这里写图片描述" title="" /></p> 
+<p>然后&#xff0c;根据量化表&#xff0c;恢复 <br /> <img src="https://img-blog.csdn.net/20160617215840715" alt="这里写图片描述" title="" /></p> 
+<p>再根据反离散余弦变换的公式&#xff1a; <br /> <img src="https://img-blog.csdn.net/20160617215903550" alt="这里写图片描述" title="" /></p> 
+<p>结果为&#xff1a; <br /> <img src="https://img-blog.csdn.net/20160617215919060" alt="这里写图片描述" title="" /></p> 
+<p>再右移127&#xff0c;恢复原始。 <br /> <img src="https://img-blog.csdn.net/20160617215948795" alt="这里写图片描述" title="" /></p> 
+<p>和原始图像的数据相比&#xff0c;基本是一样的&#xff0c;或者近似的&#xff01;</p> 
+<h1 id="4-其他">4 其他</h1> 
+<p>必须再强调的是&#xff0c;JPEG压缩是有损失的&#xff0c;从上面的例子就看出来&#xff0c;输出结果并不是完全等于输入。 <br /> 此外&#xff0c;JPEG压缩比例是可以控制的&#xff0c;只不过图像质量会变差。比如 <br /> 压缩率&#xff1a;10 <br /> <img src="https://img-blog.csdn.net/20160616200651445" alt="这里写图片描述" title="" /></p> 
+<p>压缩率&#xff1a;50 <br /> <img src="https://img-blog.csdn.net/20160616200710194" alt="这里写图片描述" title="" /></p> 
+<p>JPEG压缩比例&#xff0c;就是通过控制量化的多少来控制。比如&#xff0c;上面的量化矩阵Q&#xff0c;如果我把矩阵的每个数都double一下&#xff0c;那是不是会出现更多的0&#xff1f;&#xff01;说不定都只有G(0, 0)非0&#xff0c;其他都是0&#xff0c;如果这样&#xff0c;那编码时就可以更省空间啦&#xff0c;N个0只要一个游程编码搞定&#xff0c;数据量超小。但也意味着&#xff0c;恢复时&#xff0c;会带来更多的误差&#xff0c;图像质量也会变差了。</p> 
+<p><strong>参考&#xff1a;</strong> <br /> <a href="https://en.wikipedia.org/wiki/JPEG#Discrete_cosine_transform">https://en.wikipedia.org/wiki/JPEG#Discrete_cosine_transform</a></p>
+                </div>
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-d7a94ec6ab.css" rel="stylesheet">
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-ba784fbaf8.css" rel="stylesheet">
+        </div>
+    </article>
+</div>
+<script>
+    // 敏感词替换
+    ~function(blogSensitiveWords){
+        if(blogSensitiveWords){   
+            var getContentViews = document.getElementById("content_views");
+            var getContentTitle = document.getElementById("articleContentId");
+            var contentViewsInnerHTML = getContentViews.innerHTML;
+            var contentTitleInnerHTML = getContentTitle.innerHTML;
+            var keyWordsJsonArr = [];
+            var keyWordsArr = blogSensitiveWords.split(',');
+            function repeatTimes(str, num){
+                return num > 1 ? str += repeatTimes(str, --num): str;
+            }
+            for(var i = 0; i < keyWordsArr.length; i++){
+                var keyWordsJson = {} ;
+                keyWordsJson.key = keyWordsArr[i];
+                keyWordsJson.value = repeatTimes("*",keyWordsArr[i].length);
+                keyWordsJsonArr.push(keyWordsJson);
+            }
+            var reg;
+            for(var i = 0; i < keyWordsJsonArr.length; i++){
+                var item = keyWordsJsonArr[i];
+                reg = new RegExp(item.key+"(?!([^<]*>)|([^<]*<\/a>))","ig");
+                contentViewsInnerHTML = contentViewsInnerHTML.replace(reg,item.value);
+                contentTitleInnerHTML = contentTitleInnerHTML.replace(reg,item.value);
+            }
+            getContentViews.innerHTML=contentViewsInnerHTML;
+            getContentTitle.innerHTML=contentTitleInnerHTML;
+        }
+    }(blogSensitiveWords)
+</script>
+<div class="more-toolbox" id="toolBarBox">
+    <span id="fixedBar"></span>
+    <div class="left-toolbox">
+        <ul class="toolbox-list">
+            <li class="tool-item tool-item-size tool-active is-like" id="is-like"><a>
+            <img style="display:none;" id="is-like-imgactive-animation-like" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isactive" style="display:none" id="is-like-imgactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isdefault" style="display:block" id="is-like-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUp.png" alt="">   
+            <span class="name" id="is-like-span">点赞</span>
+            <span id="spanCount" class="count">
+                    62
+            </span>
+            </a></li>
+            <li class="tool-item tool-item-size tool-active tool-item-comment">
+                <a href="#commentBox">
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarComment.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCommentactive.png" style="display:none;" alt="">
+                    <span class="name">评论</span>
+                    <span class="count">
+                        17
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-QRcode" id="tool-share">
+                <a href="javascript:;" data-report-click='{"mod":"1582594662_002","spm":"1001.2101.3001.4129","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShare.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShareactive.png" style="display:none;" alt="">
+                    <span class="name">分享</span>
+                </a>
+                <div class="QRcode" id="tool-QRcode" style="left:-92%;">
+                    <span id="QRcode-close">x</span>
+                    <p class="title">
+                    海报分享
+                    </p>
+                    <div id='shareCode'></div>
+                    <p>
+                    扫一扫，分享海报
+                    </p>
+                </div>
+            </li>
+            <li class="tool-item tool-item-size tool-active is-collection ">
+                <a href="javascript:;" data-report-click='{"mod":"popu_824","spm":"1001.2101.3001.4130","ab":"new"}'>
+                    <img style="display:none" id="is-collection-img-collection" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <img class="isdefault" id="is-collection-img" style="display:block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                    <img class="isactive" id="is-collection-imgactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <span class="name" id="is-collection">收藏</span>
+                    <span class="count get-collection" id="get-collection">
+                        97
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-reward">
+                <a  id="toolreward" data-report-click='{"mod":"popu_830","spm":"1001.2101.3001.4237","dest":"","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReward.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarRewardactive.png" style="display:none;" alt="">
+                    <span class="name">打赏</span>
+                </a>
+<div id="reward" class="reward-box">
+	<p class="rewad-title">打赏<span class="reward-close"><svg t="1567152543821" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10924" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><defs><style type="text/css"></style></defs><path d="M512 438.378667L806.506667 143.893333a52.032 52.032 0 1 1 73.6 73.621334L585.621333 512l294.485334 294.485333a52.074667 52.074667 0 0 1-73.6 73.642667L512 585.621333 217.514667 880.128a52.053333 52.053333 0 1 1-73.621334-73.642667L438.378667 512 143.893333 217.514667a52.053333 52.053333 0 1 1 73.621334-73.621334L512 438.378667z" fill="" p-id="10925"></path></svg></span></p>
+	<dl>
+		<dd>
+		<a href="https://blog.csdn.net/newchenxf" data-report-click='{"mod":"popu_379","dest":"https://blog.csdn.net/newchenxf","ab":"new"}'>
+			<img src="https://profile.csdnimg.cn/3/3/7/3_newchenxf" class="avatar_pic">
+		</a>
+		</dd>
+		<dt>
+			<p class="blog-name">长江很多号</p>
+			<p class="blog-discript">你的鼓励将是我创作的最大动力</p>
+		</dt>
+	</dl>
+	<div class="change-bt-box">
+		<span class="reward-bt reward-bt-coin">C币</span>
+		<span class="reward-bt-space"></span>
+		<span class="reward-bt reward-bt-money reward-bt-active">余额</span>
+	</div>
+	<div class="money-box">
+			<span class="choose_money choosed" data-id="2">2C币</span>
+			<span class="choose_money " data-id="4">4C币</span>
+			<span class="choose_money " data-id="6">6C币</span>
+			<span class="choose_money " data-id="10">10C币</span>
+			<span class="choose_money " data-id="20">20C币</span>
+			<span class="choose_money " data-id="50">50C币</span>
+	</div>
+	<div class="sure-box">
+		<p class="is-have-money"><a class="reward-sure">确定</a></p>
+	</div>
+</div>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-more">
+              <a class="article-report">
+                <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReport.png" alt="">
+                <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReportactive.png" style="display:none;" alt="">
+                <span class="name">举报</span>
+              </a>
+            </li>
+            <li class="tool-item">
+                    <a class="tool-attend tool-bt-button tool-bt-attend" href="javascript:;" data-report-view='{"mod":"1592215036_002","spm":"1001.2101.3001.4232","extend1":"关注"}'>关注</a>
+                <a class="tool-item-follow active-animation" style="display:none;">关注</a>
+            </li>
+            <li class="tool-item">
+                    <p class="company active" id="health-companies" href="javascript:;" >一键三连</p>
+                <span class="triplet-prompt">点赞Mark关注该博主, 随时了解TA的最新博文<img class="close-prompt" src="https://csdnimg.cn/release/blogv2/dist/pc/img/closePrompt.png"></span>
+            </li>
+        </ul>
+        <div style="display:flex">
+         </div>
+    </div>  
+</div>
+<script type=text/javascript crossorigin src="https://csdnimg.cn/release/phoenix/production/qrcode-7c90a92189.min.js"></script>
+<script src="//g.csdnimg.cn/??sharewx/1.2.1/sharewx.js" type="text/javascript"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/collection-box/2.0.2/collection-box.js"></script>
+                <div class="first-recommend-box recommend-box">
+<div class="recommend-item-box type_course clearfix" data-url="https://edu.csdn.net/course/detail/5258"  data-report-view='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-course-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://edu.csdn.net/course/detail/5258"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://edu.csdn.net/course/detail/5258" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-course-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://edu.csdn.net/course/detail/5258"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-course-BlogCommendFromBaidu-1.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant_t0.none-task-course-BlogCommendFromBaidu-1.not_use_machine_learn_pai'>
+					MATLAB图像处理
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">06-27</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://edu.csdn.net/course/detail/5258" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-course-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://edu.csdn.net/course/detail/5258"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-course-BlogCommendFromBaidu-1.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant_t0.none-task-course-BlogCommendFromBaidu-1.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">MATLAB图像处理课程</div>
+			</a>
+		</div>
+	</div>
+</div>
+                </div>
+            <div class="second-recommend-box recommend-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://shenchunxu.blog.csdn.net/article/details/52965104"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://shenchunxu.blog.csdn.net/article/details/52965104"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://shenchunxu.blog.csdn.net/article/details/52965104" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://shenchunxu.blog.csdn.net/article/details/52965104"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai'>
+					<em>离散</em><em>余弦</em><em>变换</em>_<em>原理</em>及应用
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/shenziheng1" target="_blank"><span class="blog-title">沈春旭的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">10-29</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					5万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://shenchunxu.blog.csdn.net/article/details/52965104" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://shenchunxu.blog.csdn.net/article/details/52965104"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">1.预备知识
+
+
+1.1可分离<em>变换</em>
+二维傅立叶<em>变换</em>可用通用的关系式来表示：
+
+
+
+式中：x, u=0, 1, 2, &nbsp;&hellip;, &nbsp;M－1；y, &nbsp;v=0, &nbsp;1, &nbsp;2, &nbsp;&hellip;, &nbsp;N－1；g(x,y,u,v)和h(x,y,u,v)分别称为正向<em>变换</em>核和反向<em>变换</em>核。&nbsp;
+
+
+
+如果满足 :
+
+
+
+则称正、反<em>变换</em>核是可分离的。进一步，如果g1和g2，h1和h2在函数形式上一样</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+<a id="commentBox" name="commentBox"></a>
+<div class="comment-box">
+	<div class="comment-edit-box d-flex">
+		<a id="commentsedit"></a>
+		<div class="user-img">
+			<a href="javascript:void(0);" >
+				<img class="show_loginbox" src="https://g.csdnimg.cn/static/user-img/anonymous-User-img.png">
+			</a>
+		</div>
+		<form id="commentform">
+			<img class="comment-sofa-flag" src="https://csdnimg.cn/release/blogv2/dist/pc/img/commentFlag@2x.png">
+			<textarea class="comment-content" name="comment_content" id="comment_content" placeholder="优质评论可以帮助作者获得更高权重"
+				maxlength="1000"></textarea>
+			<div class="opt-box">
+				<div id="ubbtools" class="add_code">
+					<a href="#insertcode" code="code" target="_self"><i class="icon iconfont icon-daima"></i></a>
+				</div>
+				<input type="hidden" id="comment_replyId" name="comment_replyId">
+				<input type="hidden" id="article_id" name="article_id" value="51719597">
+				<input type="hidden" id="comment_userId" name="comment_userId" value="">
+				<input type="hidden" id="commentId" name="commentId" value="">
+				<div class="dropdown" id="myDrap">
+					<a class="dropdown-face d-flex align-items-center" data-toggle="dropdown" role="button"
+						aria-haspopup="true" aria-expanded="false">
+						<div class="txt-selected text-truncate">添加代码片</div>
+						<svg class="icon d-block" width="200px" height="100.00px" viewBox="0 0 2048 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path  d="M597.33333292 298.666667h853.333334L1023.99999992 725.333333 597.33333292 298.666667z"  /></svg>
+					</a>
+					<ul class="dropdown-menu" id="commentCode" aria-labelledby="drop4">
+						<li><a data-code="html">HTML/XML</a></li>
+						<li><a data-code="objc">objective-c</a></li>
+						<li><a data-code="ruby">Ruby</a></li>
+						<li><a data-code="php">PHP</a></li>
+						<li><a data-code="csharp">C</a></li>
+						<li><a data-code="cpp">C++</a></li>
+						<li><a data-code="javascript">JavaScript</a></li>
+						<li><a data-code="python">Python</a></li>
+						<li><a data-code="java">Java</a></li>
+						<li><a data-code="css">CSS</a></li>
+						<li><a data-code="sql">SQL</a></li>
+						<li><a data-code="plain">其它</a></li>
+					</ul>
+				</div>
+				<div class="right-box" id="rightBox" data-type="2">
+							<span id="tip_comment" class="tip">还能输入<em>1000</em>个字符</span>
+							<a data-report-view='{"spm":"3001.4374"}' data-report-click='{"spm":"3001.4374"}' class="btn btn-sm btn-quick-comment" id="quickComment">“速评一下”</a>
+							<a data-report-click='{"mod":"1582594662_003","spm":"1001.2101.3001.4227","ab":"new"}'><input type="submit"
+									class="btn btn-sm btn-comment" value="发表评论"></a>
+				</div>
+			</div>
+		</form>
+		<input type="button" class="bt-comment-show" value="评论">
+	</div>
+	<div class="comment-list-container">
+		<a id="comments"></a>
+		<div class="comment-list-box">
+		</div>
+		<div id="commentPage" class="pagination-box d-none"></div>
+		<div class="opt-box text-center">
+			<div class="btn btn-sm btn-link-blue" id="btnMoreComment"></div>
+		</div>
+	</div>
+</div>            <div class="recommend-box insert-baidu-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/timebomb/article/details/5960624"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.not_use_machine_learn_pai\"}","index":"2","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/timebomb/article/details/5960624"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/timebomb/article/details/5960624" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.not_use_machine_learn_pai\"}","index":"2","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/timebomb/article/details/5960624"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.not_use_machine_learn_pai'>
+					<em>DCT</em><em>变换</em>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/timebomb" target="_blank"><span class="blog-title">timebomb的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">10-23</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					4万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/timebomb/article/details/5960624" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.not_use_machine_learn_pai\"}","index":"2","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/timebomb/article/details/5960624"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>DCT</em><em>变换</em>的基本思路是将图像分解为8&times;8的子块或16&times;16的子块，并对每一个子块进行单独的<em>DCT</em><em>变换</em>，然后对<em>变换</em>结果进行量化、编码。随着子块尺寸的增加，算法的复杂度急剧上升，因此，实用中通常采用8&times;8的子块进行<em>变换</em>，但采用较大的子块可以明显减少图像分块效应。  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在图像<em>压缩</em>中，一般把图像分解为8&times;8的子块，然后对每一个子块进行<em>DCT</em><em>变换</em>、量化，并对量化后的数据进行Huffman编码。<em>DCT</em><em>变换</em>可以消除图像的空间冗余，Huffman编码可以消除图像的信息熵冗余。  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>DCT</em> 是</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/jubincn/article/details/84048994"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.not_use_machine_learn_pai\"}","index":"3","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/jubincn/article/details/84048994"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/jubincn/article/details/84048994" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.not_use_machine_learn_pai\"}","index":"3","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/jubincn/article/details/84048994"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.not_use_machine_learn_pai'>
+					<em>离散</em><em>余弦</em><em>变换</em>（Discrete Cosine Transform）
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/jubincn" target="_blank"><span class="blog-title">jubincn的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">10-17</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					480
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/jubincn/article/details/84048994" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.not_use_machine_learn_pai\"}","index":"3","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/jubincn/article/details/84048994"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">
+<em>DCT</em><em>变换</em>和FFT<em>变换</em>都属于<em>变换</em><em>压缩</em>方法(TransformCompression)，<em>变换</em><em>压缩</em>的一个特点是将从前密度均匀的信息分布<em>变换</em>为密度不同的信息分布。在图像中，低频部分的信息量要大于高频部分的信息量，尽管低频部分的数据量比高频部分的数据量要小的多。例如删除掉占50%存储空间的高频部分，信息量的损失可能还不到5%。
+
+<em>变换</em>编码有很多种。K&ndash;L<em>变换</em>的<em>压缩</em>效率很高，但算法实现困难；FFT变...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/u014518566/article/details/46432621"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai\"}","index":"4","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/u014518566/article/details/46432621"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/u014518566/article/details/46432621" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai\"}","index":"4","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/u014518566/article/details/46432621"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai'>
+					<em>DCT</em><em>变换</em>以及量化，反量化，逆<em>DCT</em><em>变换</em>的实现。
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/u014518566" target="_blank"><span class="blog-title">Huiqiang Yu的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">06-09</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/u014518566/article/details/46432621" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai\"}","index":"4","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/u014518566/article/details/46432621"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>DCT</em><em>变换</em>，量化。</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/iteye_15075/article/details/82444482"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/iteye_15075/article/details/82444482"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/iteye_15075/article/details/82444482" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/iteye_15075/article/details/82444482"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai'>
+					<em>离散</em><em>余弦</em><em>变换</em>(含源码)
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/iteye_15075" target="_blank"><span class="blog-title">专注于此刻</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">11-23</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					844
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/iteye_15075/article/details/82444482" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/iteye_15075/article/details/82444482"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">图像处理中常用的正交<em>变换</em>除了傅里叶<em>变换</em>外，还有其他一些有用的正交<em>变换</em>,其中<em>离散</em><em>余弦</em>就是一种。<em>离散</em><em>余弦</em><em>变换</em>表示为<em>DCT</em>(DiscreteCosineTransformation)，常用于图像处理和图像识别等。
+一维<em>离散</em><em>余弦</em><em>变换</em>
+正<em>变换</em>
+
+                 (1)
+
+              (2)
+
+式中F(u)是第u个<em>余弦</em><em>变换</em>系数，u是广义频率变量,u=1,2,3...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qq_40626497/article/details/105241092"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.not_use_machine_learn_pai\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/qq_40626497/article/details/105241092"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qq_40626497/article/details/105241092" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.not_use_machine_learn_pai\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/qq_40626497/article/details/105241092"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.not_use_machine_learn_pai'>
+					<em>离散</em><em>余弦</em><em>变换</em>（学习笔记）
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qq_40626497" target="_blank"><span class="blog-title">duganlx的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">04-01</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					488
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qq_40626497/article/details/105241092" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.not_use_machine_learn_pai\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/qq_40626497/article/details/105241092"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>离散</em><em>余弦</em><em>变换</em>
+<em>离散</em><em>余弦</em><em>变换</em>(Discrete Cosine Transform, <em>DCT</em>)是与傅里叶<em>变换</em>相关的一种<em>变换</em>，类似于<em>离散</em>傅里叶<em>变换</em>，但是只使用了实数
+<em>离散</em><em>余弦</em><em>变换</em>相当于一个长度大概是它两倍的<em>离散</em>傅里叶<em>变换</em>，这个<em>离散</em>傅里叶<em>变换</em>是对一个实偶函数进行的（因为一个实偶函数的傅里叶<em>变换</em>仍然是一个是偶函数）
+<em>离散</em><em>余弦</em><em>变换</em>是根据下面的公式把n个实数x(0) , x(1) ,&bdquo;x(n-1)<em>变换</em>到另外n个...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/yuechuxuan/9904345"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-7.not_use_machine_learn_pai\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://download.csdn.net/download/yuechuxuan/9904345"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/yuechuxuan/9904345" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-7.not_use_machine_learn_pai\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://download.csdn.net/download/yuechuxuan/9904345"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-7.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-7.not_use_machine_learn_pai'>
+					<em>离散</em><em>余弦</em><em>变换</em>(<em>DCT</em>)及其应用.
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">07-19</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/yuechuxuan/9904345" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-7.not_use_machine_learn_pai\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://download.csdn.net/download/yuechuxuan/9904345"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-7.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-7.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>离散</em><em>余弦</em><em>变换</em>(<em>DCT</em>)及其应用.</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/dugudaibo/article/details/78410570"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/dugudaibo/article/details/78410570"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/dugudaibo/article/details/78410570" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/dugudaibo/article/details/78410570"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai'>
+					<em>离散</em><em>余弦</em><em>变换</em>（<em>DCT</em>）的来龙去脉
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/dugudaibo" target="_blank"><span class="blog-title">dugudaibo的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">11-01</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					4万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/dugudaibo/article/details/78410570" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/dugudaibo/article/details/78410570"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">本文主要介绍<em>离散</em><em>余弦</em><em>变换</em>（<em>DCT</em>），从图像的二维<em>离散</em><em>变换</em>入手，引出<em>变换</em>核的可分性与对称性导出<em>DCT</em>，并给出实现代码。</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+            <div class="template-box">
+                <span>©️2020 CSDN</span>
+                <span>皮肤主题: 大白</span>
+                <span> 设计师:CSDN官方博客</span>
+                <span>
+                    <a href="https://blog.csdn.net/" class="back-home c-blue c-blue-hover c-blue-focus">返回首页</a>
+                </span>
+            </div>
+<div class="blog-footer-bottom" style="margin-top:10px;"></div>
+<script src="https://g.csdnimg.cn/common/csdn-footer/csdn-footer.js" data-isfootertrack="false" type="text/javascript"></script>
+<script type="text/javascript">
+    window.csdn.csdnFooter.options = {
+        el: '.blog-footer-bottom',
+        type: 2
+    }
+</script>        </main>
+<aside class="blog_container_aside">
+    <div id="asideProfile" class="aside-box">
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://blog.csdn.net/newchenxf" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4121","dest":"https://blog.csdn.net/newchenxf","ab":"new"}'>
+                <img src="https://profile.csdnimg.cn/3/3/7/3_newchenxf" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex flex-column profile-intro-name-box">
+            <div class="profile-intro-name-boxTop">
+                <a href="https://blog.csdn.net/newchenxf" class="" id="uid" title="长江很多号" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4122","dest":"https://blog.csdn.net/newchenxf","ab":"new"}'>
+                    <span class="name " username="newchenxf">长江很多号</span>
+                </a>
+                <span>
+                </span>
+                <span class="flag expert-blog">
+                <span class="bubble">CSDN认证博客专家</span>
+                </span>
+                <span class="flag company-blog">
+                <span class="bubble">CSDN认证企业博客</span>
+                </span>
+            </div>
+            <div class="profile-intro-name-boxFooter">
+                <span class="personal-home-page personal-home-years">码龄9年</span>
+                    <span class="personal-home-page">
+                    <a class="personal-home-certification" href="https://blog.csdn.net/newchenxf?utm_source=14998968" target="_blank" title="暂无认证">
+                    <img src="https://csdnimg.cn/identity/nocErtification.png" alt="">
+                    暂无认证
+                    </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="45">
+            <a href="https://blog.csdn.net/newchenxf" data-report-click='{"mod":"1598321000_001","spm":"1001.2101.3001.4310"}' data-report-query="t=1">  
+                <dt><span class="count">45</span></dt>
+                <dd class="font">原创</dd>
+            </a>
+        </dl>
+        <dl class="text-center" data-report-click='{"mod":"1598321000_002","spm":"1001.2101.3001.4311"}' title="71090">
+            <a href="https://blog.csdn.net/rank/writing_rank" target="_blank">
+                <dt><span class="count">7万+</span></dt>
+                <dd class="font">周排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" title="25073">
+            <a href="https://blog.csdn.net/rank/writing_rank_total" data-report-click='{"mod":"1598321000_003","spm":"1001.2101.3001.4312"}' target="_blank">
+                <dt><span class="count">2万+</span></dt>
+                <dd class="font">总排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" style="min-width:58px" title="322996">  
+            <dt><span class="count">32万+</span></dt>
+            <dd>访问</dd>
+        </dl>
+        <dl class="text-center" title="5级,点击查看等级说明">
+            <dt><a href="https://blog.csdn.net/home/help.html#level" target="_blank">
+                <img class="level" src="https://csdnimg.cn/identity/blog5.png">
+            </a>
+            </dt>
+            <dd>等级</dd>
+        </dl>
+    </div>
+    <div class="item-rank"></div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="3172">
+            <dt><span class="count">3172</span></dt>
+            <dd>积分</dd>
+        </dl>
+         <dl class="text-center" id="fanBox" title="173">
+            <dt><span class="count" id="fan">173</span></dt>
+            <dd>粉丝</dd>
+        </dl>
+        <dl class="text-center" title="299">
+            <dt><span class="count">299</span></dt>
+            <dd>获赞</dd>
+        </dl>
+        <dl class="text-center" title="102">
+            <dt><span class="count">102</span></dt>
+            <dd>评论</dd>
+        </dl>
+        <dl class="text-center" title="397">
+            <dt><span class="count">397</span></dt>
+            <dd>收藏</dd>
+        </dl>
+    </div>
+    <div class="aside-box-footer" data-report-view='{"spm":"3001.4296"}'>
+        <div class="badge-box d-flex">
+            <div class="badge d-flex">
+                <div class="icon-badge" title="持之以恒">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/chizhiyiheng@240.png" alt="持之以恒">
+                    </div>
+                </div>
+                <div class="icon-badge" title="勤写标兵Lv1">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/qixiebiaobing1@240.png" alt="勤写标兵Lv1">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="profile-intro-name-boxOpration">
+        <div class="opt-letter-watch-box">
+        <a class="bt-button personal-letter" href="https://im.csdn.net/chat/newchenxf" target="_blank" rel="noopener">私信</a>
+        </div>
+        <div class="opt-letter-watch-box"> 
+            <a class="personal-watch bt-button" id="btnAttent" >关注</a>  
+        </div>
+    </div>
+</div>
+<div id="asideSearchArticle" class="aside-box">
+	<div class="aside-content search-comter">
+    <div class="aside-search aside-search-blog">         
+        <input type="text" class="input-serch-blog" name="" autocomplete="off" value="" id="search-blog-words" placeholder="搜博主文章">
+        <a class="btn-search-blog">
+                    <img src="//csdnimg.cn/cdn/content-toolbar/csdn-sou.png?v=1587021042">
+        </a>
+    </div>
+    </div>
+</div>
+
+
+<div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list">
+			<li>
+				<a href="https://blog.csdn.net/newchenxf/article/details/51719597" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/newchenxf/article/details/51719597","ab":"new"}'>
+				JPEG压缩原理与DCT离散余弦变换
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">43214</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/newchenxf/article/details/51693753" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/newchenxf/article/details/51693753","ab":"new"}'>
+				图像压缩原理
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">35279</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/newchenxf/article/details/51364105" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/newchenxf/article/details/51364105","ab":"new"}'>
+				ffmpeg filter过滤器 基础实例及全面解析
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">25202</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/newchenxf/article/details/51721896" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/newchenxf/article/details/51721896","ab":"new"}'>
+				jpeg 与 png 图片格式的区别
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">22910</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/newchenxf/article/details/51750239" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/newchenxf/article/details/51750239","ab":"new"}'>
+				pkg-config 详解
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">19253</span>
+                </a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="asideCategory" class="aside-box flexible-box" style="display:block!important;">
+    <h3 class="aside-title">分类专栏</h3>
+    <div class="aside-content">
+        <ul>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/newchenxf/category_5905407.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/newchenxf/category_5905407.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756930.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">android framework</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/newchenxf/category_5735873.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/newchenxf/category_5735873.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756916.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">android应用</span>
+                    </span>
+                    <span class="count float-right">16篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/newchenxf/category_5878805.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/newchenxf/category_5878805.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756925.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">android Graphics</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/newchenxf/category_6222392.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/newchenxf/category_6222392.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756919.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">ffmpeg</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/newchenxf/category_6226100.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/newchenxf/category_6226100.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">opencv</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/newchenxf/category_6272261.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/newchenxf/category_6272261.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">图像处理</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/newchenxf/category_6281334.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/newchenxf/category_6281334.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756913.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">编译处理</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/newchenxf/category_7038045.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/newchenxf/category_7038045.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756925.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">后台开发</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/newchenxf/category_7154520.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/newchenxf/category_7154520.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">java知识</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/newchenxf/category_7218275.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/newchenxf/category_7218275.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756780.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">物联网</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/newchenxf/category_7463434.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/newchenxf/category_7463434.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756913.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">新技术-区块链</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/newchenxf/category_7467448.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/newchenxf/category_7467448.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756923.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">新技术-人工智能</span>
+                    </span>
+                    <span class="count float-right">8篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/newchenxf/category_7573172.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/newchenxf/category_7573172.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756919.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">TensorFlow</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/newchenxf/category_8346788.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/newchenxf/category_8346788.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756923.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">IT工具使用</span>
+                    </span>
+                    <span class="count float-right">5篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/newchenxf/category_8833763.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/newchenxf/category_8833763.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">电子硬件</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p class="text-center">
+        <a class="flexible-btn" data-fbox="aside-archive"><img class="look-more" src="https://csdnimg.cn/release/blogv2/dist/pc/img/arrowDownWhite.png" alt=""></a>
+    </p>
+</div>
+<div id="asideNewComments" class="aside-box">
+    <h3 class="aside-title">最新评论</h3>
+    <div class="aside-content">
+        <ul class="newcomment-list">
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/newchenxf/article/details/51719597#comments_14061392" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/newchenxf/article/details/51719597#comments_14061392","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/newchenxf/article/details/51719597#comments_14061392","ab":"new"}'>JPEG压缩原理与DCT离散余弦变换</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/weixin_47260464" class="user-name" target="_blank">weixin_47260464: </a>
+                    <span class="code-comments">很好懂啊！！感谢</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/newchenxf/article/details/51743181#comments_13870705" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/newchenxf/article/details/51743181#comments_13870705","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/newchenxf/article/details/51743181#comments_13870705","ab":"new"}'>gcc -static 命令</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/teaczjf" class="user-name" target="_blank">teaczjf: </a>
+                    <span class="code-comments">赞</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/newchenxf/article/details/51743181#comments_13708396" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/newchenxf/article/details/51743181#comments_13708396","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/newchenxf/article/details/51743181#comments_13708396","ab":"new"}'>gcc -static 命令</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/Kajima_" class="user-name" target="_blank">__LuYuan__: </a>
+                    <span class="code-comments">我自己尝试了下，我觉得gcc加了 -static 参数之后，它就去找相对应的静态库而不是动态库了，博主之所以能编译通过，是因为系统，目录下也有pthread对应的静态库文件吧</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/newchenxf/article/details/51750239#comments_13601493" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/newchenxf/article/details/51750239#comments_13601493","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/newchenxf/article/details/51750239#comments_13601493","ab":"new"}'>pkg-config 详解</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/xuhangforever" class="user-name" target="_blank">蓄丶: </a>
+                    <span class="code-comments">写的很棒。</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/newchenxf/article/details/51743181#comments_13482660" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/newchenxf/article/details/51743181#comments_13482660","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/newchenxf/article/details/51743181#comments_13482660","ab":"new"}'>gcc -static 命令</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/Betterc5" class="user-name" target="_blank">IAmLinGe: </a>
+                    <span class="code-comments">ldd 呢？？</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="asideArchive" class="aside-box">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix">
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/newchenxf/article/details/101771002" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/newchenxf/article/details/101771002","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/newchenxf/article/details/101771002","ab":"new"}'>Ubuntu设置截屏快捷键</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/newchenxf/article/details/99671901" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/newchenxf/article/details/99671901","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/newchenxf/article/details/99671901","ab":"new"}'>Android 查看项目依赖关系</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/newchenxf/article/details/97633819" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/newchenxf/article/details/97633819","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/newchenxf/article/details/97633819","ab":"new"}'>【转】Android OOM 发生时物理内存充足</a>
+            </li>
+        </ul>
+        <div class="archive-bar"></div>
+        <div class="archive-box">
+                <div class="archive-list-item"><a href="https://blog.csdn.net/newchenxf/article/month/2019/09" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2019年</span><span class="num">9篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/newchenxf/article/month/2018/11" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2018年</span><span class="num">18篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/newchenxf/article/month/2017/11" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2017年</span><span class="num">12篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/newchenxf/article/month/2016/11" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2016年</span><span class="num">13篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/newchenxf/article/month/2015/10" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2015年</span><span class="num">4篇</span></a></div>
+        </div>
+    </div>
+</div>
+	<div id="footerRightAds" class="isShowFooterAds">
+		<div class="aside-box">
+			<div id="kp_box_57" data-pid="57"><div id="protag-banner-2"></div>
+<script data-cfasync="false" type="text/javascript" src="https://protagcdn.com/s/csdn.net/bbs/protag-banner-2.js"></script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=57&a=2234&c=0&k=&spm=1001.2101.3001.5001&d=1&t=3&u=edd127c50c4445eeb0ae401536f402e2" style="display: block;width: 0px;height: 0px;"></div>
+		</div>
+	</div>
+    <!-- 详情页显示目录 -->
+<!--文章目录-->
+<div id="asidedirectory" class="aside-box">
+    <div class='groupfile' id="directory">
+        <h3 class="aside-title">目录</h3>
+        <div class="align-items-stretch group_item">
+            <div class="pos-box">
+            <div class="scroll-box">
+                <div class="toc-box"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+</aside>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).parents("p.text-center").remove();
+	})
+</script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-tooltip/2.1/user-tooltip.js"></script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-medal/1.0.5/user-medal.js"></script>    </div>
+<div class="recommend-right  align-items-stretch clearfix" id="rightAside" data-type="recommend">
+    <aside class="recommend-right_aside">
+        <div id="recommend-right" >
+                        <div class='flex-column aside-box groupfile' id="groupfile">
+                <div class="groupfile-div">
+                <h3 class="aside-title">目录</h3>
+                <div class="align-items-stretch group_item">
+                    <div class="pos-box">
+                        <div class="scroll-box">
+                            <div class="toc-box"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+                <div id="recommendAdBox">
+                    <div id="kp_box_479" data-pid="479"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PC-博客内页右侧第一顺位 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-1076724771190722"
+     data-ad-slot="1827473444"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=479&a=3266&c=0&k=&spm=1001.2101.3001.4834&d=1&t=3&u=34d02eb315654ff9a8273f781f8021c6" style="display: block;width: 0px;height: 0px;"></div>
+                </div>
+            <div class="recommend-list-box d-flex flex-column aside-box" id="recommend-list-box">
+            <ul class="recommend-fixed-box align-items-stretch">
+                <li class="right-item">
+                    <a href="https://plugin.csdn.net/" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.470242.nonecase\"}","index":"1","strategy":"106_470242_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.470242.nonecase\"}","index":"1","strategy":"106_470242_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.470242.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.470242.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>CSDN官方插件，现在体验可获得永久免费去广告特权！</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31415" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase\"}","index":"2","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31415"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase\"}","index":"2","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31415"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>3小时python轻松入门</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_53364386/13523952" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_53364386/13523952"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_53364386/13523952"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>ModScan32.zip</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31421" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31421"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31421"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>尹成Python27天入门到项目实战</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31438" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31438"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31438"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>【曾贤志】用Python处理Excel数据 - 第3季 正则篇</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/zcg_good/article/details/110437794" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/zcg_good/article/details/110437794"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/zcg_good/article/details/110437794"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Hadoop完全分布式集群搭建</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31379" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31379"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31379"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Net网站权限管理系统实战（基于vs2019、c#、razor</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31375" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31375"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31375"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>使用矩阵的方式编写人工智能框架</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_49186670/13524276" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13524276"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13524276"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>PolarMask: Single Shot Instance Segmentation with Polar Representation</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_49186670/13529374" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13529374"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13529374"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>CenterMask: single shot instance segmentation with point representation</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/q1369264370/article/details/110862681" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://blog.csdn.net/q1369264370/article/details/110862681"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://blog.csdn.net/q1369264370/article/details/110862681"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>项目启动时报错求助!!!</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/raoxiaoya/article/details/110862360" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://blog.csdn.net/raoxiaoya/article/details/110862360"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://blog.csdn.net/raoxiaoya/article/details/110862360"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>git深入理解(二)：HEAD是什么</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_44321975/article/details/110858787" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://blog.csdn.net/weixin_44321975/article/details/110858787"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://blog.csdn.net/weixin_44321975/article/details/110858787"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>SpringBoot多线程的实现</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/artisticnight/13529429" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://download.csdn.net/download/artisticnight/13529429"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://download.csdn.net/download/artisticnight/13529429"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>DrivingThirdExam.rar</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31416" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31416"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31416"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Redis入门到精通教程（2020最新录制）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31363" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31363"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31363"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>手把手搭建SpringBoot电子商城网站【附源码】（毕设）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_52148546/article/details/110862153" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://blog.csdn.net/weixin_52148546/article/details/110862153"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://blog.csdn.net/weixin_52148546/article/details/110862153"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>表单属性</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31359" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31359"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31359"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>面向对象的相关概念介绍  视频</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/m0_50635229/article/details/110862224" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://blog.csdn.net/m0_50635229/article/details/110862224"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://blog.csdn.net/m0_50635229/article/details/110862224"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Python3.6.5文件写入中文失败</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/GongmissYan/13532645" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://download.csdn.net/download/GongmissYan/13532645"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://download.csdn.net/download/GongmissYan/13532645"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>U盘读卡器-基于HAL库STM32F103C8</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/liyer_yiersan/article/details/110854142" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://blog.csdn.net/liyer_yiersan/article/details/110854142"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://blog.csdn.net/liyer_yiersan/article/details/110854142"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>祎二三的学习笔记：JAVA基础《一》</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31102" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31102"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31102"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>ARFoundation入门到精通</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_48344945/article/details/110860100" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://blog.csdn.net/weixin_48344945/article/details/110860100"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://blog.csdn.net/weixin_48344945/article/details/110860100"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>矩池云内一键安装nvcc</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31437" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31437"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31437"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>【曾贤志】openpyxl处理Excel数据 - 第2季 巩固篇</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31413" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31413"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31413"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>从新手小白进入WinForm编程 (VS2019)</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/cpongo1/13529488" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://download.csdn.net/download/cpongo1/13529488"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://download.csdn.net/download/cpongo1/13529488"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>proxycert.cmd</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_53340323/article/details/110847216" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://blog.csdn.net/weixin_53340323/article/details/110847216"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://blog.csdn.net/weixin_53340323/article/details/110847216"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>线程和进程有什么区别？</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/qq_36856393/13529490" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://download.csdn.net/download/qq_36856393/13529490"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://download.csdn.net/download/qq_36856393/13529490"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>HCIP 路由交换题库+模拟测试题</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/ttataat/13530416" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13530416"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13530416"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>住宅小区安防与智能化系统</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/ttataat/13532488" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13532488"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13532488"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>腾讯微瓴&mdash;&mdash;物联网时代，如何用微瓴开发智慧建筑应用</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/aaa15215472a/13529350" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://download.csdn.net/download/aaa15215472a/13529350"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://download.csdn.net/download/aaa15215472a/13529350"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>提取QQ和微信的语音信息修改为可播放mp3类</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/chunguang530/13529401" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://download.csdn.net/download/chunguang530/13529401"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://download.csdn.net/download/chunguang530/13529401"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>jsraw.txtApp 物联</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/ttataat/13534405" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13534405"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13534405"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>无线智慧城市解决方案书&mdash;&mdash;无线自组网宽带技术在无线智慧城市建设中应用</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_43171019/13529480" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_43171019/13529480"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_43171019/13529480"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>activation.jar</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_39206750/article/details/110862409" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://blog.csdn.net/qq_39206750/article/details/110862409"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://blog.csdn.net/qq_39206750/article/details/110862409"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>JS获取当前时间的前一天/后一天（昨天/明天）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/combo/detail/1964" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1964"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1964"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>数据清洗-Pandas系统视频教程</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lchewf/13529495" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://download.csdn.net/download/lchewf/13529495"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://download.csdn.net/download/lchewf/13529495"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>LK-Navigator_ver1.60</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_32833357/article/details/110862246" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://blog.csdn.net/qq_32833357/article/details/110862246"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://blog.csdn.net/qq_32833357/article/details/110862246"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>2020-12-08</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31372" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31372"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31372"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>小白趣味学Python编程</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+            </ul>
+            </div>
+        </div>
+    </aside>
+</div>
+
+</div>
+<div class="mask-dark"></div>
+<script type="text/javascript">
+    var timert = setInterval(function(){
+      sideToolbar = $(".csdn-side-toolbar");
+      if (sideToolbar.length > 0) {
+        sideToolbar.css('cssText','bottom:64px !important;')
+        clearInterval(timert);
+      }
+    }, 200);
+</script>
+<script>
+    var articleId = 51719597;
+    var commentscount = 17;
+    var curentUrl = "https://blog.csdn.net/newchenxf/article/details/51719597";
+    var myUrl = "https://my.csdn.net/";
+    var highlight = ["JPEG","压缩","原理","DCT","离散","余弦","变换"];//高亮数组
+    var share_card_url = "https://blog.csdn.net/newchenxf/article/shareArticleCardPage?article_id=51719597"
+	var articleType = 1;
+    var baiduKey = "JPEG压缩原理与DCT离散余弦变换";
+    var needInsertBaidu = true;
+    var recommendRegularDomainArr = ["blog.csdn.net/.+/article/details/","download.csdn.net/download/","edu.csdn.net/course/detail/","ask.csdn.net/questions/","bbs.csdn.net/topics/","www.csdn.net/gather_.+/"]
+    var codeStyle = "";
+    var baiduSearchType = "title";
+    var canRead = true;
+    var blogMoveHomeArticle = false;
+    var showPcWindowAd = false;
+</script>
+<script src="https://csdnimg.cn/public/sandalstrap/1.4/js/sandalstrap.min.js"></script>
+<div class="skin-boxshadow"></div>
+<div style="display:none;">
+	<img src="" onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+</div>
+</body>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_highlight-db1e81323a.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_common-906586e915.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/codesnippet/lib/highlight/styles/atom-one-light.css">
+<script>
+ // 全局声明
+ if (window.csdn === undefined) {
+      window.csdn = {};
+    }
+    window.csdn.sideToolbar = {
+        options: {
+            report:{
+                isShow: true,
+            },
+            qr: {
+                isShow: false,
+            },
+            guide: {
+                isShow: true
+            }
+        }
+    }
+    $(function(){
+        $(document).on('click',"a.option-box[data-type='report']",function() {
+            window.csdn.userLogin.loadAjax(function(res){
+                showReport(false,articleTitles);
+            })
+        });
+    })
+</script>
+    <script src="https://g.csdnimg.cn/baidu-search/1.0.7/baidu-search.js"  type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/download/old_static/js/qrcode.js"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/common-b286f966c8.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/detail-c3206d1df7.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/user-ordercart/1.0.6/user-ordercart.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/column-78261cfea6.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/side-toolbar/2.8/side-toolbar.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/copyright/1.0.3/copyright.js" type="text/javascript"></script>
+<script>
+    $(".MathJax").remove();
+    if ($('div.markdown_views pre.prettyprint code.hljs').length > 0) {
+        $('div.markdown_views')[0].className = 'markdown_views';
+    }
+</script>
+<script type="text/javascript" src="https://csdnimg.cn/release/blog_mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            "HTML-CSS": {
+                    linebreaks: { automatic: true, width: "94%container" },
+                    imageFont: null
+            },
+            tex2jax: {
+                preview: "none"
+            },
+            mml2jax: {
+                preview: 'none'
+            }
+    });
+</script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/user-login/2.3.2/user-login.js"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/login-box/1.1.4/login-box.js"></script></html>

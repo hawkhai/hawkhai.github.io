@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="JPEG图像压缩算法流程详解 JPEG代表 J oint P hotographic E xperts G roup（联合图像专家小组）。此团队创立于1986年，1992年发布了JPEG的标准而在19" />
+    <meta property="og:description" content="JPEG图像压缩算法流程详解 JPEG代表 J oint P hotographic E xperts G roup（联合图像专家小组）。此团队创立于1986年，1992年发布了JPEG的标准而在19" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>JPEG图像压缩算法流程详解 - 张晓辉 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=R2wBwmwSMG0Sqiw8GFSVjHT4Payg_JFAn51R8XcuvN0" />
+    <link id="MainCss" rel="stylesheet" href="/skins/blacklowkey/bundle-blacklowkey.min.css?v=1gj9-XJKL9BZFkjdvROYQPiPWjQXk-hsXXZGtqkfaSc" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/blacklowkey/bundle-blacklowkey-mobile.min.css?v=pdepUFJo7cpvzQktAZqHoGL4g936wIXvGsP3R063Gn8" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/buaaxhzh/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/buaaxhzh/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/buaaxhzh/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 381158;
+        var currentBlogApp = 'buaaxhzh';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BlackLowKey';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2018-06-19 07:16';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=gWQ9VKr6FSwo14EgofSprzXJrAEO7ppQ1I5Or4uqKuo"></script>
+    
+    
+    
+</head>
+<body class="has-navbar has-bannerbar">
+    <a name="top"></a>
+            <a href="https://brands.cnblogs.com/aws/free?source=blog-bannerbar" onclick="ga('send', 'event', 'Link', 'click', 'aws-pc-bannerbar')">
+                <div class="bannerbar aws forpc">
+                    <img class="left" src="https://common.cnblogs.com/images/banner/bannerbar-aws-logo.png" alt="" />
+                    <img class="right" src="https://common.cnblogs.com/images/banner/bannerbar-aws-ssh.png?v=2" alt="" />
+                </div>
+            </a>
+        <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://brands.cnblogs.com/aws/free?source=mobile-banner" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aws-mobile-bannerbar')"><img src="https://img2020.cnblogs.com/blog/35695/202012/35695-20201203212730693-184275650.png" alt="" /></a>
+        </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/buaaxhzh/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/buaaxhzh/">张晓辉</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/buaaxhzh/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%BC%A0%E6%99%93%E8%BE%89">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/buaaxhzh/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 3&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 6</span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/buaaxhzh/p/9138307.html">
+    <span>JPEG图像压缩算法流程详解</span>
+    
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+    <h1 id="jpeg图像压缩算法流程详解">JPEG图像压缩算法流程详解</h1>
+<p>JPEG代表<strong>J</strong>oint&nbsp;<strong>P</strong>hotographic&nbsp;<strong>E</strong>xperts&nbsp;<strong>G</strong>roup（联合图像专家小组）。此团队创立于1986年，1992年发布了JPEG的标准而在1994年获得了ISO10918-1的认定。</p>
+<p>JPEG是一种有损压缩。</p>
+<h2 id="色彩空间转换">色彩空间转换</h2>
+<p>图片由<code>RGB</code>色彩空间转换到<code>YUV</code>色彩空间，转换关系如下<br>
+<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619065201841-2094413292.png" alt="" loading="lazy"></p>
+<p>一般来说U,V是有符号的数字，但这里通过加上128，使其变为无符号数，方便存储和计算</p>
+<h2 id="采样">采样</h2>
+<p>研究发现，人眼对亮度变换的敏感度比色彩变换的敏感度高。因此，可以认为Y分量比U,V分量更为重要。故采样时通常会降低<code>U,V</code>分量的采样率，这里采用411采样方式，即<code>Y,U,V</code>三个分量的取样比例为4:1:1，其含义为在2*2的单元中，<code>Y</code>分量采样4次，<code>U,V</code>分量各采样一次。这样采样的优点是虽然损失了一定精度，但也在人眼几乎不可见的前提下减小了数据存储量。</p>
+<h2 id="分块">分块</h2>
+<p>DCT变换是对8 * 8的子块进行处理的，且<code>U,V</code>分量在2 * 2的单元中采样一次，故在DCT变换之前将原图像长宽分别用0补齐到16的倍数。之后再对<code>Y,U,V</code>三个分量分别分为8*8的块便进行后续操作。</p>
+<h2 id="离散余弦变换">离散余弦变换</h2>
+<p>离散余弦变化的公式为<br>
+<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619065325702-1355710190.png" alt="" loading="lazy"></p>
+<p>其中<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180629213555941-273645126.png" alt="" loading="lazy"></p>
+<p>由于已经明确每次进行离散余弦变化的矩阵大小为8*8，故这里不再采用上述方法进行离散余弦变换，而是利用DCT变换矩阵实现DCT变换以降低运算量。</p>
+<p>DCT变换矩阵计算公式为<br>
+<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619065437268-745661508.png" alt="" loading="lazy"></p>
+<p>故8*8的DCT变换矩阵<br>
+<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619070721392-1017683176.png" alt="" loading="lazy"></p>
+<p>其转置矩阵<br>
+<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619070736821-1562876845.png" alt="" loading="lazy"></p>
+<p>DCT可简化为T * B * T'，其中B为8*8的原矩阵。</p>
+<p>实施二维DCT可将图像的能量集中在极少的几个系数之上，其他系数相比于这些系数，绝对值要小很多。这些系数大都集中在左上角，即低频分量区。</p>
+<h2 id="数据量子化">数据量子化</h2>
+<p>量子化是JPEG算法中损失图像精度的根源， 也是产生压缩效果的源泉。</p>
+<p>人类眼睛在一个相对大范围区域，辨别亮度上细微差异是相当的好，但是在一个高频率亮度变动之确切强度的分辨上，却不是如此地好。这个事实让我们能在高频率成分上极佳地降低信息的数量。简单地把频率领域上每个成分，除以一个对于该成分的常量就可完成，且接着舍位取最接近的整数。这是整个过程中的主要有损运算。以这个结果而言，经常会把很多更高频率的成分舍位成为接近0，且剩下很多会变成小的正或负数。</p>
+<p>JPEG提供的量子化算法如下<br>
+<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180628222725077-326510681.png" alt="" loading="lazy"></p>
+<p>其中G是我们需要处理的图像矩阵，Q称作量化系数矩阵 ，round函数是取整函数。JPEG算法提供了两张标准的量化系数矩阵，分别用于处理亮度数据Y和色差数据U以及V。</p>
+<p>标准亮度量化表<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619070820158-1530286660.png" alt="" loading="lazy"></p>
+<p>标准色差量化表<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619070847097-23214446.png" alt="" loading="lazy"></p>
+<p>DCT系数矩阵中的不同位置的值代表了图像数据中不同频率的分量，这两张表中的数据时人们根据人眼对不不同频率的敏感程度的差别所积累下的经验制定的，一般来说人眼对于低频的分量比高频分量更加敏感，所以两张量化系数矩阵左上角的数值明显小于右下角区域。 这样就使得量化后的矩阵更多地保留高频信息。</p>
+<p>量化后的一个8*8矩阵：<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619070906923-2053116746.png" alt="" loading="lazy"></p>
+<p>通常一张图片中的一个8*8矩阵经过上述变化之后，矩阵都如上矩阵一样，其中的一大部分数据都会变成0，这非常有利于后面数据的压缩。</p>
+<h2 id="编码">编码</h2>
+<h3 id="差值编码和zig-zag扫描">差值编码和Zig-zag扫描</h3>
+<p>量化后矩阵左上角的值被称为直流分量DC，其他63个值被称为交流分量AC。其中DC不参与Z字形扫描，而是与前一矩阵的DC系数进行差分编码(DPCM)；AC分量则采用Z字形扫描排列并进行游程长度编码(RLE)。</p>
+<h3 id="游程长度编码run-length-encoding-rle">游程长度编码(Run-Length Encoding, RLE)</h3>
+<p>量化AC系数的特点是包含很多连续的0，故使用RLE对其进行编码。JPEG使用了1个字节的高4位来表示连续的0的个数，而使用其低四位来表示下一个非0系数需要的位数，紧随其后的是量化AC系数的值。</p>
+<p>假设Zig-zag​扫描后的一组向量的AC​分量为<br>
+<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619070937648-1317654971.png" alt="" loading="lazy"></p>
+<p>经RLE压缩后如下<br>
+<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619070950962-1391754387.png" alt="" loading="lazy"></p>
+<p>其中<code>EOB</code>表示后面都是0。实际上，用(0,0)表示<code>EOB</code>。若这组数字不以0结束，则不需要<code>EOB</code>。</p>
+<h3 id="huffman编码">Huffman编码</h3>
+<p>JEPG压缩编码时，通过查表实现霍夫曼编码器，本次实验中我使用了ISO/IEC International Standard 10918-1中JPEG推荐的典型霍夫曼表(Typical Huffman tables)，我已经将4张表格发表在<a href="https://www.cnblogs.com/buaaxhzh/p/9119870.html">个人博客</a>，篇幅所限这里就不再给出了。</p>
+<p>之所以需要四张Huffman 编码表是因为，编码时每个矩阵数据的1个DC值与63个AC值分别使用不同的Huffman 编码表，而且亮度Y与色度U,V也要使用不同的Huffman 编码表。</p>
+<p>为提高储存效率，JEPEG里并不直接保存数值，而是将数值按实际值所需要的位数分成16组，如下表所示</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center">Value</th>
+<th style="text-align: center">Size</th>
+<th style="text-align: center">Bits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">0</td>
+<td style="text-align: center">0</td>
+<td style="text-align: center">-</td>
+</tr>
+<tr>
+<td style="text-align: center">-1, 1</td>
+<td style="text-align: center">1</td>
+<td style="text-align: center">0, 1</td>
+</tr>
+<tr>
+<td style="text-align: center">-3, -2, 2, 3</td>
+<td style="text-align: center">2</td>
+<td style="text-align: center">00, 01, 10, 11</td>
+</tr>
+<tr>
+<td style="text-align: center">-7, -6, -5, -4, 4, 5, 6, 7</td>
+<td style="text-align: center">3</td>
+<td style="text-align: center">000, 001, 010, 011, 100, 101, 110, 111</td>
+</tr>
+<tr>
+<td style="text-align: center">-15, …, -8, 8, …, 15</td>
+<td style="text-align: center">4</td>
+<td style="text-align: center">0000, …, 0111, 1000, …, 1111</td>
+</tr>
+<tr>
+<td style="text-align: center">-31, …, -16, 16, …, 31</td>
+<td style="text-align: center">5</td>
+<td style="text-align: center">0 0000, …, 0 1111, 1 0000, …, 1 1111</td>
+</tr>
+<tr>
+<td style="text-align: center">-63, …, -32, 32, …, 63</td>
+<td style="text-align: center">6</td>
+<td style="text-align: center">00 0000, …, …, 11 1111</td>
+</tr>
+<tr>
+<td style="text-align: center">-127, …, -64, 64, …, 127</td>
+<td style="text-align: center">7</td>
+<td style="text-align: center">000 0000, …, …, 111 1111</td>
+</tr>
+<tr>
+<td style="text-align: center">-255, …, -128, 128, …, 255</td>
+<td style="text-align: center">8</td>
+<td style="text-align: center">0000 0000, …, …, 1111 1111</td>
+</tr>
+<tr>
+<td style="text-align: center">-511, …, -256, 256, …, 511</td>
+<td style="text-align: center">9</td>
+<td style="text-align: center">0 0000 0000, …, …, 1 1111 1111</td>
+</tr>
+<tr>
+<td style="text-align: center">-1023, …, -512, 512, …, 1023</td>
+<td style="text-align: center">10</td>
+<td style="text-align: center">00 0000 0000, …, …, 11 1111 1111</td>
+</tr>
+<tr>
+<td style="text-align: center">-2047, …, -1024, 1024, …, 2047</td>
+<td style="text-align: center">11</td>
+<td style="text-align: center">000 0000 0000, …, …, 111 1111 1111</td>
+</tr>
+<tr>
+<td style="text-align: center">-4095, …, -2048, 2048, …, 4095</td>
+<td style="text-align: center">12</td>
+<td style="text-align: center">0000 0000 0000, …, …, 1111 1111 1111</td>
+</tr>
+<tr>
+<td style="text-align: center">-8191, …, -4096, 4096, …, 8191</td>
+<td style="text-align: center">13</td>
+<td style="text-align: center">0 0000 0000 0000, …, …, 1 1111 1111 1111</td>
+</tr>
+<tr>
+<td style="text-align: center">-16383, …, -8192, 8192, …, 16383</td>
+<td style="text-align: center">14</td>
+<td style="text-align: center">00 0000 0000 0000, …, …, 11 1111 1111 1111</td>
+</tr>
+<tr>
+<td style="text-align: center">-32767, …, -16348, 16348, …, 32767</td>
+<td style="text-align: center">15</td>
+<td style="text-align: center">000 0000 0000 0000, …, …, 111 1111 1111 1111</td>
+</tr>
+</tbody>
+</table>
+<p>设一个一维化后的亮度的数据块为<br>
+<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619071018293-1609761329.png" alt="" loading="lazy"></p>
+<p>其中第一个数字代表本数据块DC值与前一数据块DC值之差为5。</p>
+<p>那么RLE压缩后的data变为<br>
+<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619071040889-47434896.png" alt="" loading="lazy"></p>
+<p>其中EOB = (0,0)。</p>
+<p><img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619071102761-1881072062.png" alt="" loading="lazy"></p>
+<p>对data'中每个数对的第二个数v求对应的s值，并将s置于数对中v之前，得到data''<br>
+<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619071201010-1420300362.png" alt="" loading="lazy"></p>
+<p>其中第一个数对为DC分量运算得到的结果。</p>
+<p>由于假设该以为数据由亮度数据块变换得来，因此对于DC和AC分量，分别对data''数对中的第一个数字查Huffman DC亮度表和Huffman AC亮度表，再对数对中的第二个数字查上表，即可得到一维数据块data编码后的序列。data''查表得结果为<img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619071218658-1098470217.png" alt="" loading="lazy"></p>
+<p>其中的标点是为了方便对照，实际编码中没有标点。</p>
+<h3 id="压缩比">压缩比</h3>
+<p>最终共用70973bit保存压缩后的数据，压缩前的数据大小为256 * 256 * 8+256 * 256/4 * 2 * 8 = 786432bit，故压缩比为70973/786432 * 100% =9.02% 。</p>
+<h2 id="解码">解码</h2>
+<p>解码过程为编码过程的逆过程，这里不再赘述。</p>
+<h3 id="解码后的图片与原图片比较">解码后的图片与原图片比较</h3>
+<p><img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619071503953-932648316.png" alt="" loading="lazy"></p>
+<center>原图片</center>
+<p><img src="https://images2018.cnblogs.com/blog/1238434/201806/1238434-20180619071530740-1010872571.png" alt="" loading="lazy"></p>
+<center>经过编码、解码的图片</center>
+<p>可以看出，处理后的图片与原图片有一定差异，推测差异是在量化和反量化过程中产生的。</p>
+<h2 id="代码链接"><a href="https://github.com/xh-zh/ImageProcessing_JPEG">代码链接</a></h2>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2018-06-19 07:16</span>&nbsp;
+<a href="https://www.cnblogs.com/buaaxhzh/">张晓辉</a>&nbsp;
+阅读(<span id="post_view_count">11238</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=9138307" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(9138307);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 381158, cb_blogApp = 'buaaxhzh', cb_blogUserGuid = '99a2e0b3-45bd-4f0f-ccff-08d4ef52ecb5';
+    var cb_entryId = 9138307, cb_entryCreatedDate = '2018-06-19 07:16', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 张晓辉
+<br /><span id="poweredby">Powered by .NET 5.0.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+</body>
+</html>

@@ -1,0 +1,1720 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://blog.csdn.net/dbzhang800/article/details/6300025"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="report" content='{"pid": "blog", "spm":"1001.2101"}'>
+    <meta name="referrer" content="always">
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <meta name="applicable-device" content="pc">
+    <link  href="https://g.csdnimg.cn/static/logo/favicon32.ico"  rel="shortcut icon" type="image/x-icon" />
+    <title>从 Qt 的 delete 说开来_1+1=10-CSDN博客</title>
+    <script>
+      (function(){ 
+        var el = document.createElement("script"); 
+        el.src = "https://s3a.pstatp.com/toutiao/push.js?1abfa13dfe74d72d41d83c86d240de427e7cac50c51ead53b2e79d40c7952a23ed7716d05b4a0f683a653eab3e214672511de2457e74e99286eb2c33f4428830"; 
+        el.id = "ttzz"; 
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(el, s);
+      })(window)
+    </script>
+        <meta name="keywords" content="从 Qt 的 delete 说开来">
+        <meta name="csdn-baidu-search"  content='{"autorun":true,"install":true,"keyword":"从 Qt 的 delete 说开来"}'>
+    <meta name="description" content="在C++中学习过程中，我们都知道：delete 和 new 必须配对使用。可是，在Qt中，我们很多时候都疯狂地用new，却很少用delete。那么缺少 delete 去哪儿了？">
+    <script src='//g.csdnimg.cn/tingyun/1.8.3/blog.js' type='text/javascript'></script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/css/detail_enter-5f2d8f6575.min.css">
+    <script type="application/ld+json">{"@context":"https://ziyuan.baidu.com/contexts/cambrian.jsonld","@id":"https://blog.csdn.net/dbzhang800/article/details/6300025","appid":"1638831770136827","pubDate":"2011-04-03T14:54:00","title":"从 Qt 的 delete 说开来_1+1=10-CSDN博客","upDate":"2011-04-03T14:54:00"}</script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/themesSkin/skin3-template/skin3-template-45808e735f.min.css">
+    <script src="https://csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var isCorporate = false;//注释删除enterprise
+        var username =  "dbzhang800";
+        var skinImg = "white";
+        var blog_address = "https://blog.csdn.net/dbzhang800";
+        var currentUserName = "";
+        var isOwner = false;
+        var loginUrl = "http://passport.csdn.net/account/login?from=https://blog.csdn.net/dbzhang800/article/details/6300025";
+        var blogUrl = "https://blog.csdn.net/";
+        var avatar = "https://profile.csdnimg.cn/5/9/3/3_dbzhang800";
+        var articleTitle = "从 Qt 的 delete 说开来";
+        var articleDesc = "在C++中学习过程中，我们都知道：delete 和 new 必须配对使用。可是，在Qt中，我们很多时候都疯狂地用new，却很少用delete。那么缺少 delete 去哪儿了？";
+        var articleTitles = "从 Qt 的 delete 说开来_1+1=10-CSDN博客";
+        var nickName = "dbzhang800";
+        var articleDetailUrl = "https://blog.csdn.net/dbzhang800/article/details/6300025";
+        if(window.location.host.split('.').length == 3) {
+            blog_address = blogUrl + username;
+        }
+        var skinStatus = "White";
+        var blogStaticHost = "https://csdnimg.cn/release/blogv2/"
+    </script>
+    <script src="https://g.csdnimg.cn/??fixed-sidebar/1.1.6/fixed-sidebar.js" type="text/javascript"></script>
+    <script src='//g.csdnimg.cn/common/csdn-report/report.js' type='text/javascript'></script>
+    <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css">
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+    <script src="https://dup.baidustatic.com/js/ds.js"></script>
+</head>
+<body class="nodata " style="">
+        <script>
+            var toolbarSearchExt = '{"landingWord":[],"queryWord":"","tag":["delete","qt","class","c","list"],"title":"从 Qt 的 delete 说开来"}';
+        </script>
+    <script src="https://g.csdnimg.cn/common/csdn-toolbar/csdn-toolbar.js" type="text/javascript"></script>
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/pc/css/blog_code-01256533b5.min.css">
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/chart-3456820cac.css" />
+<div class="main_father clearfix d-flex justify-content-center" style="height:100%;"> 
+    <div class="container clearfix" id="mainBox">
+        <main>
+<script type="text/javascript">
+    var blogSensitiveWords = "";
+</script>
+<div class="blog-content-box">
+    <div class="article-header-box">
+        <div class="article-header">
+            <div class="article-title-box">
+                <h1 class="title-article" id="articleContentId">从 Qt 的 delete 说开来</h1>
+            </div>
+            <div class="article-info-box">
+                <div class="article-bar-top">
+                    <img class="article-type-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/original.png" alt="">
+                    <div class="bar-content">
+                    <a class="follow-nickName " href="https://blog.csdn.net/dbzhang800" target="_blank" rel="noopener">dbzhang800</a>
+                    <span class="time">2011-04-03 14:54:00</span>
+                    <img class="article-read-img article-heard-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/articleReadEyes.png" alt="">
+                    <span class="read-count">47343</span>
+                    <a id="blog_detail_zk_collection" class="un-collection" data-report-click='{"mod":"popu_823","spm":"1001.2101.3001.4232","ab":"new"}'>
+                        <img class="article-collect-img article-heard-img un-collect-status isdefault" style="display:inline-block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                        <img class="article-collect-img article-heard-img collect-status isactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                        <span class="name">收藏</span>
+                        <span class="get-collection">
+                            39
+                        </span>
+                    </a>
+                    </div>
+                </div>
+                <div class="blog-tags-box">
+                    <div class="tags-box artic-tag-box">
+                            <span class="label">分类专栏：</span>
+                                <a class="tag-link" href="https://blog.csdn.net/dbzhang800/category_759342.html" target="_blank" rel="noopener">Qt</a>
+                                <a class="tag-link" href="https://blog.csdn.net/dbzhang800/category_759349.html" target="_blank" rel="noopener">C/C++</a>
+                            <span class="label">文章标签：</span>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"delete","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_2c/MtTaEg0sMzYzOTUtYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">delete</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"qt","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_24/MtzaIgwsMzM0NDctYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">qt</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"class","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_20/MtTaEg0sMzk1NTgtYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">class</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"c","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_2a/MtTaEg0sNDA0MTEtYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">c</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"list","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_2a/MtTaEg0sMjM1MzktYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">list</a>
+                    </div>
+                </div>
+                <div class="up-time"><span>最后发布:2011-04-03 14:54:00</span><span>首次发布:2011-04-03 14:54:00</span></div>
+                <div class="slide-content-box">
+                    <div class="article-copyright">
+                        <div class="creativecommons">
+                            版权声明：本文为博主原创文章，遵循<a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener"> CC 4.0 BY-SA </a>版权协议，转载请附上原文出处链接和本声明。
+                        </div>
+                        <div class="article-source-link">
+                            本文链接：<a href="https://blog.csdn.net/dbzhang800/article/details/6300025" target="_blank">https://blog.csdn.net/dbzhang800/article/details/6300025</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="operating">
+                    <a class="href-article-edit slide-toggle">版权</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <article class="baidu_pl">
+        <div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-b5506197d8.css">
+                <div id="content_views" class="htmledit_views">
+                    <p><span class="Apple-style-span" style="border-collapse: separate; color: #000000; font-family: Arial,&#39;Lucida Grande&#39;,sans-serif; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"> </span> </p> 
+<p class="line874">在C&#43;&#43;中学习过程中&#xff0c;我们都知道&#xff1a;</p> 
+<ul><li style="list-style-type: none;"><strong>delete 和 new 必须 配对使用(一 一对应)&#xff1a;delete少了&#xff0c;则内存泄露&#xff0c;多了麻烦更大。</strong> </li></ul> 
+<p class="line874">Qt作为C&#43;&#43;的库&#xff0c;显然是不会违背C&#43;&#43;的前述原则的。可是:</p> 
+<ul><li style="list-style-type: none;"><strong>在Qt中&#xff0c;我们很多时候都疯狂地用new&#xff0c;却很少用delete&#xff0c;缺少的 delete 去哪儿了&#xff1f;&#xff01;</strong> </li></ul> 
+<p> 注&#xff1a;本文暂不涉及智能指针(smart pointer)相关的东西&#xff0c;你可以考虑 <a href="http://blog.csdn.net/dbzhang800/archive/2011/05/08/6403285.aspx">Qt 智能指针学习</a> 一文</p> 
+<h2 id="A.2Ble6YmA-" style="padding: 0px 0px 0.3em; border-bottom: 3px solid #047307;">Qt半自动的内存管理</h2> 
+<p class="line874">在Qt中&#xff0c;以下情况下你new出的对象你<strong><span style="color: #0000ff;">可以不用</span> </strong> 亲自去delete (但你应该清楚delete在何处被Qt调用的&#xff0c;怎么被调用的)&#xff1a;</p> 
+<ul><li>QObject及其派生类的对象&#xff0c;如果其parent非0&#xff0c;那么其parent析构时会析构该对象(<strong>本文内容围绕这一点展开</strong> )</li></ul> 
+<p>除此之外&#xff0c;有些类的对象可以接收设置一些特别的标记&#xff0c;比如&#xff1a;</p> 
+<ul><li>QWidget及其派生类的对象&#xff0c;可以设置 Qt::WA_DeleteOnClose 标志位(当close时会析构该对象) </li><li>QAbstractAnimation派生类的对象&#xff0c;可以设置 QAbstractAnimation::DeleteWhenStopped</li><li>QRunnable::setAutoDelete()</li><li>MediaSource::setAutoDelete()</li><li>...</li></ul> 
+<p class="line874">注意&#xff1a;这些用法会有些<span style="color: #ff0000;">陷阱</span> &#xff0c;请注意看本文最后的3个小例子。</p> 
+<p class="line874">在Qt中&#xff0c;最基础和核心的类是&#xff1a;QObject 。它的魔力很大&#xff0c;本文只关注两点&#xff1a;</p> 
+<ul><li>父子关系</li><li>deleteLater </li></ul> 
+<h2 id="QObject_.2BdoSbVFKb.28.2BcjZbUFFzfPs.29" style="padding: 0px 0px 0.3em; border-bottom: 3px solid #047307;">父子关系</h2> 
+<p> 在Qt中&#xff0c;每个 QObject 内部都有一个list&#xff0c;用来保存所有的 children&#xff0c;还有一个指针&#xff0c;保存自己的parent。当它自己析构时&#xff0c;它会将自己从parent的列表中删除&#xff0c;并且析构掉所有的children。 </p> 
+<ul><li>注意&#xff1a;在 Qt 中&#xff0c;我们经常会遇到 
+  <ul><li><strong>基类、派生类&#xff0c;或父类、子类。</strong> 这是对于派生体系来说的&#xff0c;和在C&#43;&#43;相关书中看到的完全一样&#xff0c;与这的parent无关</li><li><strong>父对象、子对象、父子关系。</strong> 这是Qt中所特有的&#xff0c;也就是这儿的parent所引入的&#xff0c;与类的继承关系无关</li></ul> </li></ul> 
+<h3 id="A.2BcjZbUFFzfPte.2BnrLTg6J45Zk-" style="padding: 0px 0px 0.3em; border-bottom: 3px solid #047307;">建立与解除</h3> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">Q_INVOKABLE QObject::QObject ( QObject * parent &#61; 0 )</pre> 
+<ul><li>创建一个QObject对象时&#xff0c;如果指定了父对象&#xff0c;它就会将自己添加到父对象的 children 列表中</li></ul> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">QObject::~QObject () [virtual]</pre> 
+<ul><li>当一个QObject对象析构时&#xff0c;它会将自己从父对象的 children 列表中移除(parent非0的话)</li></ul> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">void QObject::setParent ( QObject * parent )</pre> 
+<ul><li>通过该函数&#xff0c;将自己从原父对象的children中删除&#xff0c;添加到新parent的children列表中</li></ul> 
+<p class="line874">注&#xff1a;这三个函数都是通过一个内部私有函数来实现的&#xff0c;这就是</p> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">QObjectPrivate::setParent_helper(QObject *o)</pre> 
+<h3 id="A.2Bg7dT1nI2MAFbUFv5jGE-" style="padding: 0px 0px 0.3em; border-bottom: 3px solid #047307;">获取父、子对象</h3> 
+<p class="line874">每个QObject只有一个父对象&#xff1a;</p> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">QObject * QObject::parent () const</pre> 
+<p class="line874">子对象可以有多个</p> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">const QObjectList &amp; QObject::children () const</pre> 
+<p class="line874">所以可以根据条件来查找喽&#xff1a;</p> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">T QObject::findChild ( const QString &amp; name &#61; QString() ) const
+QList&lt;T&gt; QObject::findChildren ( const QString &amp; name &#61; QString() ) const</pre> 
+<h2 id="QObject.2BdoSbVFKb.28deleteLater.29" style="padding: 0px 0px 0.3em; border-bottom: 3px solid #047307;">deleteLater</h2> 
+<p class="line874">deleteLater 包含两层意思了</p> 
+<ul><li>delete</li><li>later</li></ul> 
+<p class="line874">呵呵&#xff0c;似乎这是废话哈。</p> 
+<h3 id="A.2BUiCWZIHqXfE-" style="padding: 0px 0px 0.3em; border-bottom: 3px solid #047307;">删除自己</h3> 
+<p class="line874">在去年春节前的时候吧&#xff0c;有人对</p> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">obj-&gt; deleteLater()</pre> 
+<p class="line874">会像下面一样调用delete&#xff1a;</p> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">delete obj;</pre> 
+<p class="line874">感到不解。然后我写了这样一个C&#43;&#43;例子&#xff1a;</p> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">class A
+{
+  public:
+  A(){}
+  void deleteMe()
+  {
+      delete this;
+  }
+};
+
+int main()
+{
+  A * a &#61; new A;
+  a-&gt;deleteMe();
+  return 0;
+} </pre> 
+<p class="line874">应该不需要解释吧</p> 
+<h3 id="later" style="padding: 0px 0px 0.3em; border-bottom: 3px solid #047307;">later</h3> 
+<p class="line874">Qt 是事件驱动的&#xff0c;所以发送一个删除事件到事件系统就可以啦&#xff1a;</p> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">void QObject::deleteLater()
+{
+    QCoreApplication::postEvent(this, new QEvent(QEvent::DeferredDelete));
+}</pre> 
+<p class="line874">事件循环稍后看到该事件就会将其派发会这个widget&#xff1a;</p> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">bool QObject::event(QEvent *e)
+{
+    switch (e-&gt;type()) {
+...
+    case QEvent::DeferredDelete:
+         ...</pre> 
+<h2 id="A.2BTgBOm0.2BLW1A-" style="padding: 0px 0px 0.3em; border-bottom: 3px solid #047307;">一些例子</h2> 
+<h3 id="A.2BZeBRc3XbddL.2FHw-" style="padding: 0px 0px 0.3em; border-bottom: 3px solid #047307;">无关痛痒&#xff1f;</h3> 
+<p class="line874">很简短、很熟悉的一个例子是不&#xff1f;但是 如果你发现对象的<span style="color: #ff0000;">析构函数始终不被成功调用</span> &#xff0c;会有什么感觉&#xff1f;</p> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">#include &lt;QApplication&gt;
+#include &lt;QLabel&gt;
+int main(int argc, char *argv[])
+{
+QApplication app(argc, argv);
+QLabel *label &#61; new QLabel(&#34;Hello Qt!&#34;);
+label-&gt;show();
+return app.exec();
+}</pre> 
+<p class="line874">这是 C&#43;&#43; GUI Programming with Qt 4 一书的第一个例子。我们注意到这儿的 label 既没有指定parent&#xff0c;也没有对其调用delete。</p> 
+<p class="line874">所以&#xff0c;这儿会造成内存泄露。</p> 
+<p class="line874">书中解释说&#xff0c;对于这种小例子&#xff0c;这点内存泄露不算什么。不清楚官方这个例子的意图是什么&#xff0c;或许是一开始就让大家用指针吧。</p> 
+<p class="line874">三种改进方式</p> 
+<ul><li>分配对象到stack而不是heap中</li></ul> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">QLabel label(&#34;Hello Qt!&#34;);
+label.show();</pre> 
+<ul><li>设置标志位&#xff0c;这样&#xff0c;当我们点击关闭按钮时&#xff0c;close()函数将会调用deleteLater</li></ul> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">label-&gt;setAttribute(Qt::WA_DeleteOnClose);</pre> 
+<ul><li>动手调用delete(不就是少了一个么&#xff0c;我们补上还不行么)</li></ul> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">int ret &#61; app.exec();
+delete label;
+return ret;</pre> 
+<h3 id="A.2BU1Vy7FIXTgBOKlQn-" style="padding: 0px 0px 0.3em; border-bottom: 3px solid #047307;">单独列一个吧</h3> 
+<p class="line874">强化一下对前一个例子的了解</p> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">#include &lt;QApplication&gt;
+#include &lt;QLabel&gt;
+int main(int argc, char *argv[])
+{
+QApplication app(argc, argv);
+QLabel label(&#34;Hello Qt!&#34;);
+label.show();
+label.setAttribute(Qt::WA_DeleteOnClose);
+return app.exec();
+}</pre> 
+<p class="line874"><span style="color: #ff0000;">运行正常&#xff0c;退出时会崩溃</span> &#xff0c;因为label被close时&#xff0c;将会 delete 这儿label对象&#xff0c;但label对象却不是通过new分配到heap中的。</p> 
+<p class="line874">为了使得用户减少自己显式使用delete&#xff0c;Qt将delete隐藏的比较深。这样一来&#xff0c;不使用new为对象分配空间时&#xff0c;反倒需要多多小心了。</p> 
+<h3 id="A.2BlpCFPV.2BIbfH.2FHw-" style="padding: 0px 0px 0.3em; border-bottom: 3px solid #047307;">隐蔽很深&#xff1f;</h3> 
+<p class="line874">看个小例子&#xff1a;<span style="color: #ff0000;">这个程序退出时会直接崩溃</span> 。</p> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">#include &lt;QtGui&gt;
+int main(int argc, char* argv[])
+{
+   QApplication app(argc, argv);
+   QLabel label(tr&#34;Hello Qt!&#34;);
+   QWidget w;
+   label.setParent(&amp;w);
+   w.show();
+   return app.exec();
+}</pre> 
+<ul><li>问题出在哪儿呢&#xff1f;因为退出时&#xff0c;w 比 label 先被析构&#xff0c;当 w 被析构时&#xff0c;会删除chilren列表中的对象&#xff0c;也就是这儿的 label。但 label 却不是通过new分配在heap中&#xff0c;而是在stack中&#xff0c;可想而知&#xff0c;delete 一个再stack中的对象会怎么样了。相当于</li></ul> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">QLabel label();
+delete &amp;label;</pre> 
+<ul><li>两种改进办法&#xff1a; 
+  <ul><li>一是&#xff0c;将label分配到heap中</li></ul> </li></ul> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">   QLabel *label &#61; new QLabel(&#34;Hello Qt!&#34;);
+   label.setParent(&amp;w)</pre> 
+<ul><li>再一种就是&#xff0c;确保label先于其parent被析构(调整一下顺序)&#xff0c;这样&#xff0c;label析构时将自己从父对象的列表中移除自己&#xff0c;w析构时&#xff0c;children列表中就不会有分配在stack中的对象了。</li></ul> 
+<pre style="padding: 0.5em; font-family: courier,monospace; background-color: #f0ece6; white-space: pre-wrap; word-wrap: break-word; border: 1pt solid #c0c0c0;">   QWidget w;
+   QLabel label(tr&#34;Hello Qt!&#34;);</pre> 
+<p class="line874">Qt 对象的父子关系的引入&#xff0c;简化了我们对内存的管理&#xff0c;但是&#xff0c;由于它会在你不太注意的地方调用 delete&#xff0c;所以&#xff0c;使用时还是要当心。</p> 
+<h2 id="A.2BU8KAAw-" style="padding: 0px 0px 0.3em; border-bottom: 3px solid #047307;">参考</h2> 
+<ul><li> <p class="line891" style="margin: 0.25em 0px;"><a class="http" style="color: #047307; border-width: 0px;" href="http://doc.qt.nokia.com/4.7/qobject.html">http://doc.qt.nokia.com/4.7/qobject.html</a> </p> </li><li> <p class="line891" style="margin: 0.25em 0px;"><a class="http" style="color: #047307; border-width: 0px;" href="http://www.cuteqt.com/blog/?p&#61;824">http://www.cuteqt.com/blog/?p&#61;824</a> </p> </li></ul> 
+<p> </p>
+                </div>
+        </div>
+    </article>
+</div>
+<script>
+    // 敏感词替换
+    ~function(blogSensitiveWords){
+        if(blogSensitiveWords){   
+            var getContentViews = document.getElementById("content_views");
+            var getContentTitle = document.getElementById("articleContentId");
+            var contentViewsInnerHTML = getContentViews.innerHTML;
+            var contentTitleInnerHTML = getContentTitle.innerHTML;
+            var keyWordsJsonArr = [];
+            var keyWordsArr = blogSensitiveWords.split(',');
+            function repeatTimes(str, num){
+                return num > 1 ? str += repeatTimes(str, --num): str;
+            }
+            for(var i = 0; i < keyWordsArr.length; i++){
+                var keyWordsJson = {} ;
+                keyWordsJson.key = keyWordsArr[i];
+                keyWordsJson.value = repeatTimes("*",keyWordsArr[i].length);
+                keyWordsJsonArr.push(keyWordsJson);
+            }
+            var reg;
+            for(var i = 0; i < keyWordsJsonArr.length; i++){
+                var item = keyWordsJsonArr[i];
+                reg = new RegExp(item.key+"(?!([^<]*>)|([^<]*<\/a>))","ig");
+                contentViewsInnerHTML = contentViewsInnerHTML.replace(reg,item.value);
+                contentTitleInnerHTML = contentTitleInnerHTML.replace(reg,item.value);
+            }
+            getContentViews.innerHTML=contentViewsInnerHTML;
+            getContentTitle.innerHTML=contentTitleInnerHTML;
+        }
+    }(blogSensitiveWords)
+</script>
+<div class="more-toolbox" id="toolBarBox">
+    <span id="fixedBar"></span>
+    <div class="left-toolbox">
+        <ul class="toolbox-list">
+            <li class="tool-item tool-item-size tool-active is-like" id="is-like"><a>
+            <img style="display:none;" id="is-like-imgactive-animation-like" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isactive" style="display:none" id="is-like-imgactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isdefault" style="display:block" id="is-like-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUp.png" alt="">   
+            <span class="name" id="is-like-span">点赞</span>
+            <span id="spanCount" class="count">
+                    29
+            </span>
+            </a></li>
+            <li class="tool-item tool-item-size tool-active tool-item-comment">
+                <a href="#commentBox">
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarComment.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCommentactive.png" style="display:none;" alt="">
+                    <span class="name">评论</span>
+                    <span class="count">
+                        48
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-QRcode" id="tool-share">
+                <a href="javascript:;" data-report-click='{"mod":"1582594662_002","spm":"1001.2101.3001.4129","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShare.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShareactive.png" style="display:none;" alt="">
+                    <span class="name">分享</span>
+                </a>
+                <div class="QRcode" id="tool-QRcode" style="left:-92%;">
+                    <span id="QRcode-close">x</span>
+                    <p class="title">
+                    海报分享
+                    </p>
+                    <div id='shareCode'></div>
+                    <p>
+                    扫一扫，分享海报
+                    </p>
+                </div>
+            </li>
+            <li class="tool-item tool-item-size tool-active is-collection ">
+                <a href="javascript:;" data-report-click='{"mod":"popu_824","spm":"1001.2101.3001.4130","ab":"new"}'>
+                    <img style="display:none" id="is-collection-img-collection" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <img class="isdefault" id="is-collection-img" style="display:block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                    <img class="isactive" id="is-collection-imgactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <span class="name" id="is-collection">收藏</span>
+                    <span class="count get-collection" id="get-collection">
+                        39
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-reward">
+                <a  id="toolreward" data-report-click='{"mod":"popu_830","spm":"1001.2101.3001.4237","dest":"","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReward.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarRewardactive.png" style="display:none;" alt="">
+                    <span class="name">打赏</span>
+                </a>
+<div id="reward" class="reward-box">
+	<p class="rewad-title">打赏<span class="reward-close"><svg t="1567152543821" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10924" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><defs><style type="text/css"></style></defs><path d="M512 438.378667L806.506667 143.893333a52.032 52.032 0 1 1 73.6 73.621334L585.621333 512l294.485334 294.485333a52.074667 52.074667 0 0 1-73.6 73.642667L512 585.621333 217.514667 880.128a52.053333 52.053333 0 1 1-73.621334-73.642667L438.378667 512 143.893333 217.514667a52.053333 52.053333 0 1 1 73.621334-73.621334L512 438.378667z" fill="" p-id="10925"></path></svg></span></p>
+	<dl>
+		<dd>
+		<a href="https://blog.csdn.net/dbzhang800" data-report-click='{"mod":"popu_379","dest":"https://blog.csdn.net/dbzhang800","ab":"new"}'>
+			<img src="https://profile.csdnimg.cn/5/9/3/3_dbzhang800" class="avatar_pic">
+		</a>
+		</dd>
+		<dt>
+			<p class="blog-name">dbzhang800</p>
+			<p class="blog-discript">你的鼓励将是我创作的最大动力</p>
+		</dt>
+	</dl>
+	<div class="change-bt-box">
+		<span class="reward-bt reward-bt-coin">C币</span>
+		<span class="reward-bt-space"></span>
+		<span class="reward-bt reward-bt-money reward-bt-active">余额</span>
+	</div>
+	<div class="money-box">
+			<span class="choose_money choosed" data-id="2">2C币</span>
+			<span class="choose_money " data-id="4">4C币</span>
+			<span class="choose_money " data-id="6">6C币</span>
+			<span class="choose_money " data-id="10">10C币</span>
+			<span class="choose_money " data-id="20">20C币</span>
+			<span class="choose_money " data-id="50">50C币</span>
+	</div>
+	<div class="sure-box">
+		<p class="is-have-money"><a class="reward-sure">确定</a></p>
+	</div>
+</div>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-more">
+              <a class="article-report">
+                <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReport.png" alt="">
+                <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReportactive.png" style="display:none;" alt="">
+                <span class="name">举报</span>
+              </a>
+            </li>
+            <li class="tool-item">
+                    <a class="tool-attend tool-bt-button tool-bt-attend" href="javascript:;" data-report-view='{"mod":"1592215036_002","spm":"1001.2101.3001.4232","extend1":"关注"}'>关注</a>
+                <a class="tool-item-follow active-animation" style="display:none;">关注</a>
+            </li>
+            <li class="tool-item">
+                    <p class="company active" id="health-companies" href="javascript:;" >一键三连</p>
+                <span class="triplet-prompt">点赞Mark关注该博主, 随时了解TA的最新博文<img class="close-prompt" src="https://csdnimg.cn/release/blogv2/dist/pc/img/closePrompt.png"></span>
+            </li>
+        </ul>
+        <div style="display:flex">
+         </div>
+    </div>  
+</div>
+<script type=text/javascript crossorigin src="https://csdnimg.cn/release/phoenix/production/qrcode-7c90a92189.min.js"></script>
+<script src="//g.csdnimg.cn/??sharewx/1.2.1/sharewx.js" type="text/javascript"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/collection-box/2.0.2/collection-box.js"></script>
+                <div class="first-recommend-box recommend-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/weixin_42542969/article/details/88864939"  data-report-view='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/weixin_42542969/article/details/88864939"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/weixin_42542969/article/details/88864939" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/weixin_42542969/article/details/88864939"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai'>
+					<em>qt</em>中关于new与<em>delete</em>的使用
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/weixin_42542969" target="_blank"><span class="blog-title">weixin_42542969的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">03-28</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					2060
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/weixin_42542969/article/details/88864939" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/weixin_42542969/article/details/88864939"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">在<em>qt</em>中有些new出来的对象需要手动<em>delete</em>，有些不需要。这是因为<em>qt</em>遵循父与子的回收机制，极大的减少了我们的工作量。
+int main(int argc, char *argv[])
+{
+QApplication a(argc, argv);
+MainWindow w;
+QLabel *label =new QLabel(&ldquo;hello&rdquo;,&amp;w);
+//这里使用new之后不需要执行de...</div>
+			</a>
+		</div>
+	</div>
+</div>
+                </div>
+            <div class="second-recommend-box recommend-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/zanilia123/article/details/54598697"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/zanilia123/article/details/54598697"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/zanilia123/article/details/54598697" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/zanilia123/article/details/54598697"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai'>
+					<em>Qt</em>中的<em>delete</em>和new
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/zanilia123" target="_blank"><span class="blog-title">豆豆1212</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">01-18</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					5541
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/zanilia123/article/details/54598697" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/zanilia123/article/details/54598697"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>qt</em>的<em>delete</em>和new</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+<a id="commentBox" name="commentBox"></a>
+<div class="comment-box">
+	<div class="comment-edit-box d-flex">
+		<a id="commentsedit"></a>
+		<div class="user-img">
+			<a href="javascript:void(0);" >
+				<img class="show_loginbox" src="https://g.csdnimg.cn/static/user-img/anonymous-User-img.png">
+			</a>
+		</div>
+		<form id="commentform">
+			<img class="comment-sofa-flag" src="https://csdnimg.cn/release/blogv2/dist/pc/img/commentFlag@2x.png">
+			<textarea class="comment-content" name="comment_content" id="comment_content" placeholder="优质评论可以帮助作者获得更高权重"
+				maxlength="1000"></textarea>
+			<div class="opt-box">
+				<div id="ubbtools" class="add_code">
+					<a href="#insertcode" code="code" target="_self"><i class="icon iconfont icon-daima"></i></a>
+				</div>
+				<input type="hidden" id="comment_replyId" name="comment_replyId">
+				<input type="hidden" id="article_id" name="article_id" value="6300025">
+				<input type="hidden" id="comment_userId" name="comment_userId" value="">
+				<input type="hidden" id="commentId" name="commentId" value="">
+				<div class="dropdown" id="myDrap">
+					<a class="dropdown-face d-flex align-items-center" data-toggle="dropdown" role="button"
+						aria-haspopup="true" aria-expanded="false">
+						<div class="txt-selected text-truncate">添加代码片</div>
+						<svg class="icon d-block" width="200px" height="100.00px" viewBox="0 0 2048 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path  d="M597.33333292 298.666667h853.333334L1023.99999992 725.333333 597.33333292 298.666667z"  /></svg>
+					</a>
+					<ul class="dropdown-menu" id="commentCode" aria-labelledby="drop4">
+						<li><a data-code="html">HTML/XML</a></li>
+						<li><a data-code="objc">objective-c</a></li>
+						<li><a data-code="ruby">Ruby</a></li>
+						<li><a data-code="php">PHP</a></li>
+						<li><a data-code="csharp">C</a></li>
+						<li><a data-code="cpp">C++</a></li>
+						<li><a data-code="javascript">JavaScript</a></li>
+						<li><a data-code="python">Python</a></li>
+						<li><a data-code="java">Java</a></li>
+						<li><a data-code="css">CSS</a></li>
+						<li><a data-code="sql">SQL</a></li>
+						<li><a data-code="plain">其它</a></li>
+					</ul>
+				</div>
+				<div class="right-box" id="rightBox" data-type="2">
+							<span id="tip_comment" class="tip">还能输入<em>1000</em>个字符</span>
+							<a data-report-view='{"spm":"3001.4374"}' data-report-click='{"spm":"3001.4374"}' class="btn btn-sm btn-quick-comment" id="quickComment">“速评一下”</a>
+							<a data-report-click='{"mod":"1582594662_003","spm":"1001.2101.3001.4227","ab":"new"}'><input type="submit"
+									class="btn btn-sm btn-comment" value="发表评论"></a>
+				</div>
+			</div>
+		</form>
+		<input type="button" class="bt-comment-show" value="评论">
+	</div>
+	<div class="comment-list-container">
+		<a id="comments"></a>
+		<div class="comment-list-box">
+		</div>
+		<div id="commentPage" class="pagination-box d-none"></div>
+		<div class="opt-box text-center">
+			<div class="btn btn-sm btn-link-blue" id="btnMoreComment"></div>
+		</div>
+	</div>
+</div>            <div class="recommend-box insert-baidu-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/y24283648/article/details/78947003"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.not_use_machine_learn_pai\"}","index":"2","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/y24283648/article/details/78947003"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/y24283648/article/details/78947003" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.not_use_machine_learn_pai\"}","index":"2","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/y24283648/article/details/78947003"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.not_use_machine_learn_pai'>
+					<em>Qt</em>中new之后需不需要<em>delete</em>的问题
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/y24283648" target="_blank"><span class="blog-title">奇葩猴的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">01-01</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					7396
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/y24283648/article/details/78947003" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.not_use_machine_learn_pai\"}","index":"2","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/y24283648/article/details/78947003"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>QT</em>的父子对象机制是在 QWidget和QOject中实现的。当我们使用父对象来创建一个对象的时候 ，父对象会把这个对象添加到自己的子对象列表中。当这个父对象被删除的时候，它会遍历它的子对象类表并且删除每一个子对象，然后子对象们自己再删除它们自己的子对象，这样递归调用直到所有对象都被删除。 
+这种父子对象机制会在很大程度上简化我们的内存管理工作，减少内存泄露的风险。我们需要显试删除（就是用DELET</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_discussion_topic clearfix" data-url="https://bbs.csdn.net/topics/390535319"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-3.not_use_machine_learn_pai\"}","index":"3","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/390535319"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://bbs.csdn.net/topics/390535319" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-3.not_use_machine_learn_pai\"}","index":"3","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/390535319"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-3.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-3.not_use_machine_learn_pai'>
+					<em>Qt</em>使用类的对象，什么情况下带*，什么情况下需要new?
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">08-01</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://bbs.csdn.net/topics/390535319" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-3.not_use_machine_learn_pai\"}","index":"3","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/390535319"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-3.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-3.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">一直有个疑问，<em>Qt</em>使用类的对象，什么情况下带*，什么情况下需要new? 例如：QPalette myPalette，定义一个QPalette对象没有带* ，也没有new QPushButton *pu</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://puresoft.blog.csdn.net/article/details/105973907"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai\"}","index":"4","strategy":"BlogCommendFromBaidu","dest":"https://puresoft.blog.csdn.net/article/details/105973907"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://puresoft.blog.csdn.net/article/details/105973907" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai\"}","index":"4","strategy":"BlogCommendFromBaidu","dest":"https://puresoft.blog.csdn.net/article/details/105973907"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai'>
+					QSqlQuery内存问题分析及解决
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/ydyuse" target="_blank"><span class="blog-title">ydyuse的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">05-18</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1222
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://puresoft.blog.csdn.net/article/details/105973907" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai\"}","index":"4","strategy":"BlogCommendFromBaidu","dest":"https://puresoft.blog.csdn.net/article/details/105973907"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">在关闭数据库之前，必须使用QSqlQuery.finish()或QSqlQuery.clear。否则，Query对象中会遗漏剩余内存。线程中使用的QSqlQuery需要提升为类成员。创建QSqlQuery变量作为指针，并在关闭数据库之前删除此指针</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qq_23945057/article/details/77175526"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/qq_23945057/article/details/77175526"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qq_23945057/article/details/77175526" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/qq_23945057/article/details/77175526"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai'>
+					<em>Qt</em>中删除对象
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qq_23945057" target="_blank"><span class="blog-title">CodingSnail的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-15</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					2059
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qq_23945057/article/details/77175526" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/qq_23945057/article/details/77175526"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>Qt</em> 的父一子对象机制是在 QOhject 中实现的。当利用一个父对象创建一个子对象(一个窗口部件，一个检验器，或是任意的其他类型)时，父对象会把这个子对象添加到自己的子对象列表中。当删除这个父对象时，它会遍历子对象列表并且删除每一个子对象。然后，这些子对象再去删除它们自己所包含的每个子对象。如此反复递归调用，直至清空所有子对象为止。这种父-子对象机制可在很大程度上简化内存管理工作，降低内存泄漏的风</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_discussion_topic clearfix" data-url="https://bbs.csdn.net/topics/390209091"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-6.not_use_machine_learn_pai\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/390209091"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://bbs.csdn.net/topics/390209091" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-6.not_use_machine_learn_pai\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/390209091"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-6.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-6.not_use_machine_learn_pai'>
+					<em>Qt</em>代码为什么只需要new而不需要<em>delete</em>？
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">09-11</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://bbs.csdn.net/topics/390209091" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-6.not_use_machine_learn_pai\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/390209091"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-6.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-6.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">我是一个<em>Qt</em>开发的初学者，以前开发VC应用程序耳熟能详的是除非是使用智能指针，new出来的东西一定要<em>delete</em>的，但为什么<em>Qt</em>没有这么做呢？它不怕内存泄漏吗？</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/gaobobo138968/article/details/52176274"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.not_use_machine_learn_pai\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/gaobobo138968/article/details/52176274"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/gaobobo138968/article/details/52176274" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.not_use_machine_learn_pai\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/gaobobo138968/article/details/52176274"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.not_use_machine_learn_pai'>
+					<em>Qt</em> sqlite 查询内存泄漏
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/gaobobo138968" target="_blank"><span class="blog-title">嬴政的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-10</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1773
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/gaobobo138968/article/details/52176274" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.not_use_machine_learn_pai\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/gaobobo138968/article/details/52176274"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">QSqlDatabase db;
+       if(QSqlDatabase::contains(&quot;test&quot;))
+           db = QSqlDatabase::database(&quot;test&quot;);
+       else
+           db = QSqlDatabase::addDatabase(&quot;QSQLITE&quot;, &quot;test&quot;);
+       db.setDataba</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/duling2/article/details/80411945"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/duling2/article/details/80411945"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/duling2/article/details/80411945" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/duling2/article/details/80411945"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai'>
+					<em>qt</em>写的程序关闭时崩溃了
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/duling2" target="_blank"><span class="blog-title">duling2的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">05-22</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					3068
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/duling2/article/details/80411945" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/duling2/article/details/80411945"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">转自：点击打开链接我就说我的程序，我认为已经正常关闭了，为什么还崩溃了。<em>qt</em>不用<em>delete</em>子部件不错，但也有坑啊。学习一下</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://flywm.blog.csdn.net/article/details/78814076"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-9.not_use_machine_learn_pai\"}","index":"9","strategy":"BlogCommendFromBaidu","dest":"https://flywm.blog.csdn.net/article/details/78814076"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://flywm.blog.csdn.net/article/details/78814076" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-9.not_use_machine_learn_pai\"}","index":"9","strategy":"BlogCommendFromBaidu","dest":"https://flywm.blog.csdn.net/article/details/78814076"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-9.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-9.not_use_machine_learn_pai'>
+					<em>Qt</em>内存泄漏总结（包括检测工具）
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/a844651990" target="_blank"><span class="blog-title">亅会飞的乌龟的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">12-15</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://flywm.blog.csdn.net/article/details/78814076" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-9.not_use_machine_learn_pai\"}","index":"9","strategy":"BlogCommendFromBaidu","dest":"https://flywm.blog.csdn.net/article/details/78814076"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-9.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-9.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">原文链接：http://blog.csdn.net/taiyang1987912/article/details/29271549 
+关于堆栈不清楚的可以参考这篇文章：http://blog.csdn.net/c_base_jin/article/details/25558929一、简介&emsp;&emsp;<em>Qt</em>内存管理机制：<em>Qt</em> 在内部能够维护对象的层次结构。对于可视元素，这种层次结构就是子组件与父组件的关系；对于</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+            <div class="template-box">
+                <span>©️2020 CSDN</span>
+                <span>皮肤主题: 大白</span>
+                <span> 设计师:CSDN官方博客</span>
+                <span>
+                    <a href="https://blog.csdn.net/" class="back-home c-blue c-blue-hover c-blue-focus">返回首页</a>
+                </span>
+            </div>
+<div class="blog-footer-bottom" style="margin-top:10px;"></div>
+<script src="https://g.csdnimg.cn/common/csdn-footer/csdn-footer.js" data-isfootertrack="false" type="text/javascript"></script>
+<script type="text/javascript">
+    window.csdn.csdnFooter.options = {
+        el: '.blog-footer-bottom',
+        type: 2
+    }
+</script>        </main>
+<aside class="blog_container_aside">
+    <div id="asideProfile" class="aside-box">
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://blog.csdn.net/dbzhang800" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4121","dest":"https://blog.csdn.net/dbzhang800","ab":"new"}'>
+                <img src="https://profile.csdnimg.cn/5/9/3/3_dbzhang800" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex flex-column profile-intro-name-box">
+            <div class="profile-intro-name-boxTop">
+                <a href="https://blog.csdn.net/dbzhang800" class="" id="uid" title="dbzhang800" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4122","dest":"https://blog.csdn.net/dbzhang800","ab":"new"}'>
+                    <span class="name " username="dbzhang800">dbzhang800</span>
+                </a>
+                <span>
+                </span>
+                <span class="flag expert-blog">
+                <span class="bubble">CSDN认证博客专家</span>
+                </span>
+                <span class="flag company-blog">
+                <span class="bubble">CSDN认证企业博客</span>
+                </span>
+            </div>
+            <div class="profile-intro-name-boxFooter">
+                <span class="personal-home-page personal-home-years">码龄13年</span>
+                    <span class="personal-home-page">
+                    <a class="personal-home-certification" href="https://blog.csdn.net/dbzhang800?utm_source=14998968" target="_blank" title="暂无认证">
+                    <img src="https://csdnimg.cn/identity/nocErtification.png" alt="">
+                    暂无认证
+                    </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="181">
+            <a href="https://blog.csdn.net/dbzhang800" data-report-click='{"mod":"1598321000_001","spm":"1001.2101.3001.4310"}' data-report-query="t=1">  
+                <dt><span class="count">181</span></dt>
+                <dd class="font">原创</dd>
+            </a>
+        </dl>
+        <dl class="text-center" data-report-click='{"mod":"1598321000_002","spm":"1001.2101.3001.4311"}' title="9595">
+            <a href="https://blog.csdn.net/rank/writing_rank" target="_blank">
+                <dt><span class="count">9595</span></dt>
+                <dd class="font">周排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" title="862">
+            <a href="https://blog.csdn.net/rank/writing_rank_total" data-report-click='{"mod":"1598321000_003","spm":"1001.2101.3001.4312"}' target="_blank">
+                <dt><span class="count">862</span></dt>
+                <dd class="font">总排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" style="min-width:58px" title="2512404">  
+            <dt><span class="count">251万+</span></dt>
+            <dd>访问</dd>
+        </dl>
+        <dl class="text-center" title="7级,点击查看等级说明">
+            <dt><a href="https://blog.csdn.net/home/help.html#level" target="_blank">
+                <img class="level" src="https://csdnimg.cn/identity/blog7.png">
+            </a>
+            </dt>
+            <dd>等级</dd>
+        </dl>
+    </div>
+    <div class="item-rank"></div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="21335">
+            <dt><span class="count">2万+</span></dt>
+            <dd>积分</dd>
+        </dl>
+         <dl class="text-center" id="fanBox" title="3092">
+            <dt><span class="count" id="fan">3092</span></dt>
+            <dd>粉丝</dd>
+        </dl>
+        <dl class="text-center" title="222">
+            <dt><span class="count">222</span></dt>
+            <dd>获赞</dd>
+        </dl>
+        <dl class="text-center" title="880">
+            <dt><span class="count">880</span></dt>
+            <dd>评论</dd>
+        </dl>
+        <dl class="text-center" title="548">
+            <dt><span class="count">548</span></dt>
+            <dd>收藏</dd>
+        </dl>
+    </div>
+    <div class="aside-box-footer" data-report-view='{"spm":"3001.4296"}'>
+        <div class="badge-box d-flex">
+            <div class="badge d-flex">
+                <div class="icon-badge" title="GitHub">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/github@240.png" alt="GitHub">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="profile-intro-name-boxOpration">
+        <div class="opt-letter-watch-box">
+        <a class="bt-button personal-letter" href="https://im.csdn.net/chat/dbzhang800" target="_blank" rel="noopener">私信</a>
+        </div>
+        <div class="opt-letter-watch-box"> 
+            <a class="personal-watch bt-button" id="btnAttent" >关注</a>  
+        </div>
+    </div>
+</div>
+<div id="asideSearchArticle" class="aside-box">
+	<div class="aside-content search-comter">
+    <div class="aside-search aside-search-blog">         
+        <input type="text" class="input-serch-blog" name="" autocomplete="off" value="" id="search-blog-words" placeholder="搜博主文章">
+        <a class="btn-search-blog">
+                    <img src="//csdnimg.cn/cdn/content-toolbar/csdn-sou.png?v=1587021042">
+        </a>
+    </div>
+    </div>
+</div>
+
+
+<div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list">
+			<li>
+				<a href="https://blog.csdn.net/dbzhang800/article/details/6314073" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/dbzhang800/article/details/6314073","ab":"new"}'>
+				cmake 学习笔记(一)
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">148094</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/dbzhang800/article/details/7325698" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/dbzhang800/article/details/7325698","ab":"new"}'>
+				QTextCodec中的setCodecForTr等终于消失了 (Qt5)
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">83214</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/dbzhang800/article/details/6554104" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/dbzhang800/article/details/6554104","ab":"new"}'>
+				Qt 线程基础(QThread、QtConcurrent等)
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">64853</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/dbzhang800/article/details/6348432" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/dbzhang800/article/details/6348432","ab":"new"}'>
+				浅谈 qmake 之 pro、pri、prf、prl文件
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">56297</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/dbzhang800/article/details/6460229" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/dbzhang800/article/details/6460229","ab":"new"}'>
+				qDebug 学习小结
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">54925</span>
+                </a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="asideCategory" class="aside-box flexible-box" style="display:block!important;">
+    <h3 class="aside-title">分类专栏</h3>
+    <div class="aside-content">
+        <ul>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_759349.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_759349.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">C/C++</span>
+                    </span>
+                    <span class="count float-right">53篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_759347.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_759347.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756930.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">PyQt4/PySide</span>
+                    </span>
+                    <span class="count float-right">13篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_759348.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_759348.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756923.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Python</span>
+                    </span>
+                    <span class="count float-right">22篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_759342.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_759342.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Qt</span>
+                    </span>
+                    <span class="count float-right">122篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_821916.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_821916.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756757.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">QTBUG</span>
+                    </span>
+                    <span class="count float-right">12篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_807954.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_807954.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756913.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">tools</span>
+                    </span>
+                    <span class="count float-right">33篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_865869.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_865869.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Python源码学习</span>
+                    </span>
+                    <span class="count float-right">11篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_866220.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_866220.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">C++0x</span>
+                    </span>
+                    <span class="count float-right">5篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_866307.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_866307.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756930.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Qt5</span>
+                    </span>
+                    <span class="count float-right">17篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_890158.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_890158.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756738.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Python Issue</span>
+                    </span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_892402.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_892402.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">git</span>
+                    </span>
+                    <span class="count float-right">5篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_894128.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_894128.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756923.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">cmake/qmake</span>
+                    </span>
+                    <span class="count float-right">17篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_894136.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_894136.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756757.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">QWidget漫谈</span>
+                    </span>
+                    <span class="count float-right">13篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_894787.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_894787.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756930.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">latex</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_901594.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_901594.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756913.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">javascript</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_916546.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_916546.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756918.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Log4Qt</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_916973.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_916973.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756916.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">linux</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/dbzhang800/category_1064697.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/dbzhang800/category_1064697.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756754.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">C#/.NET</span>
+                    </span>
+                    <span class="count float-right">9篇</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p class="text-center">
+        <a class="flexible-btn" data-fbox="aside-archive"><img class="look-more" src="https://csdnimg.cn/release/blogv2/dist/pc/img/arrowDownWhite.png" alt=""></a>
+    </p>
+</div>
+<div id="asideNewComments" class="aside-box">
+    <h3 class="aside-title">最新评论</h3>
+    <div class="aside-content">
+        <ul class="newcomment-list">
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/dbzhang800/article/details/7540905#comments_13863248" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/dbzhang800/article/details/7540905#comments_13863248","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/dbzhang800/article/details/7540905#comments_13863248","ab":"new"}'>QString乱谈(2)</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/yu2yu3yu2" class="user-name" target="_blank">一笑1130: </a>
+                    <span class="code-comments">这个必须支持，谢谢</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/dbzhang800/article/details/7010114#comments_12639629" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/dbzhang800/article/details/7010114#comments_12639629","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/dbzhang800/article/details/7010114#comments_12639629","ab":"new"}'>从QWindow到QWidget(Qt5)</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/zfybs" class="user-name" target="_blank">zfybs: </a>
+                    <span class="code-comments">没看太懂，但是感觉很有用。</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/dbzhang800/article/details/6376422#comments_12495770" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/dbzhang800/article/details/6376422#comments_12495770","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/dbzhang800/article/details/6376422#comments_12495770","ab":"new"}'>用ISO C++实现自己的信号槽(Qt另类学习)</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/rendonghao" class="user-name" target="_blank">rendonghao: </a>
+                    <span class="code-comments">这里的元对象用静态变量，在有继承的情况下，会有问题吗？</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/dbzhang800/article/details/6300021#comments_12480573" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/dbzhang800/article/details/6300021#comments_12480573","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/dbzhang800/article/details/6300021#comments_12480573","ab":"new"}'>Qt 之 show,hide,setVisible,setHidden,close 等小结</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/weixin_41688258" class="user-name" target="_blank">空山雨ksy: </a>
+                    <span class="code-comments">感谢博主</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/dbzhang800/article/details/7340003#comments_12406353" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/dbzhang800/article/details/7340003#comments_12406353","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/dbzhang800/article/details/7340003#comments_12406353","ab":"new"}'>Qt设计模式(第二版)：谁最需要本书？</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/xiezhenliang" class="user-name" target="_blank">xiezhenliang: </a>
+                    <span class="code-comments">大佬，这本书什么时候上市呐，很是需要</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="asideArchive" class="aside-box">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix">
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/dbzhang800/article/details/9674361" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/dbzhang800/article/details/9674361","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/dbzhang800/article/details/9674361","ab":"new"}'>关于 QDebug 左移操作符重载</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/dbzhang800/article/details/8139078" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/dbzhang800/article/details/8139078","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/dbzhang800/article/details/8139078","ab":"new"}'>KDUpdater 入门 (Qt5)</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/dbzhang800/article/details/7542672" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/dbzhang800/article/details/7542672","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/dbzhang800/article/details/7542672","ab":"new"}'>QString 乱谈(3)-Qt5与中文</a>
+            </li>
+        </ul>
+        <div class="archive-bar"></div>
+        <div class="archive-box">
+                <div class="archive-list-item"><a href="https://blog.csdn.net/dbzhang800/article/month/2013/07" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2013年</span><span class="num">1篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/dbzhang800/article/month/2012/11" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2012年</span><span class="num">18篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/dbzhang800/article/month/2011/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2011年</span><span class="num">170篇</span></a></div>
+        </div>
+    </div>
+</div>
+	<div id="footerRightAds" class="isShowFooterAds">
+		<div class="aside-box">
+			<div id="kp_box_57" data-pid="57"><div id="protag-banner-2"></div>
+<script data-cfasync="false" type="text/javascript" src="https://protagcdn.com/s/csdn.net/bbs/protag-banner-2.js"></script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=57&a=2234&c=0&k=&spm=1001.2101.3001.5001&d=1&t=3&u=eb273b32ec0748f6afc4b1e41529997a" style="display: block;width: 0px;height: 0px;"></div>
+		</div>
+	</div>
+    <!-- 详情页显示目录 -->
+<!--文章目录-->
+<div id="asidedirectory" class="aside-box">
+    <div class='groupfile' id="directory">
+        <h3 class="aside-title">目录</h3>
+        <div class="align-items-stretch group_item">
+            <div class="pos-box">
+            <div class="scroll-box">
+                <div class="toc-box"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+</aside>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).parents("p.text-center").remove();
+	})
+</script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-tooltip/2.1/user-tooltip.js"></script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-medal/1.0.5/user-medal.js"></script>    </div>
+<div class="recommend-right  align-items-stretch clearfix" id="rightAside" data-type="recommend">
+    <aside class="recommend-right_aside">
+        <div id="recommend-right" >
+                        <div class='flex-column aside-box groupfile' id="groupfile">
+                <div class="groupfile-div">
+                <h3 class="aside-title">目录</h3>
+                <div class="align-items-stretch group_item">
+                    <div class="pos-box">
+                        <div class="scroll-box">
+                            <div class="toc-box"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+                <div id="recommendAdBox">
+                    <div id="kp_box_479" data-pid="479"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PC-博客内页右侧第一顺位 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-1076724771190722"
+     data-ad-slot="1827473444"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=479&a=3266&c=0&k=&spm=1001.2101.3001.4834&d=1&t=3&u=acdea050f27b43f5913a1f5671ba017d" style="display: block;width: 0px;height: 0px;"></div>
+                </div>
+            <div class="recommend-list-box d-flex flex-column aside-box" id="recommend-list-box">
+            <ul class="recommend-fixed-box align-items-stretch">
+                <li class="right-item">
+                    <a href="https://plugin.csdn.net/" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.470228.nonecase\"}","index":"1","strategy":"106_470228_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.470228.nonecase\"}","index":"1","strategy":"106_470228_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.470228.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.470228.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>CSDN官方插件，现在体验可获得永久免费去广告特权！</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31429" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase\"}","index":"2","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31429"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase\"}","index":"2","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31429"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>【曾贤志】用Python处理Excel数据 - 第1季 基础篇</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/sxl183216/13529414" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://download.csdn.net/download/sxl183216/13529414"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://download.csdn.net/download/sxl183216/13529414"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>使用melodic下载胡春旭ROS机器人开发实践源码所出现的问题及解决</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/u011913691/article/details/110855431" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://blog.csdn.net/u011913691/article/details/110855431"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://blog.csdn.net/u011913691/article/details/110855431"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-4.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-4.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>解码方法</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/CodingNoob/13520821" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://download.csdn.net/download/CodingNoob/13520821"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://download.csdn.net/download/CodingNoob/13520821"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-5.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-5.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>原生javascript封住处理树结构数据treejs插件</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/Pluto372/article/details/110691561" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/Pluto372/article/details/110691561"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/Pluto372/article/details/110691561"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>JavaWeb详解</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31388" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31388"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31388"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>从零开始学MQL4语言</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/cs373616511/article/details/110854793" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://blog.csdn.net/cs373616511/article/details/110854793"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://blog.csdn.net/cs373616511/article/details/110854793"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-8.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-8.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>XStream入门使用笔记</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/30634" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/30634"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/30634"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-9.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-9.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>带你实战入门golang</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_45032957/article/details/110855536" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://blog.csdn.net/weixin_45032957/article/details/110855536"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://blog.csdn.net/weixin_45032957/article/details/110855536"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-10.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-10.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Java 8 中的方法引用，轻松减少代码量，提升可读性！</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/ak1ca/13510176" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://download.csdn.net/download/ak1ca/13510176"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://download.csdn.net/download/ak1ca/13510176"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-11.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-11.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>4G低功耗智能摄像头方案-15220096219.pdf</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/wzwsq/13521493" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://download.csdn.net/download/wzwsq/13521493"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://download.csdn.net/download/wzwsq/13521493"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-12.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-12.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>获取视频第一帧相关jar包.rar</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31395" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31395"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31395"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-13.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-13.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>MySQL从入门到入魔（停止报名）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/19369" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/19369"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/19369"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-14.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-14.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Python从入门到精通（基础篇+提高篇）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_42438771/article/details/110855925" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://blog.csdn.net/qq_42438771/article/details/110855925"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://blog.csdn.net/qq_42438771/article/details/110855925"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-15.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-15.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>【Django】文件读取时路径问题</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31384" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31384"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31384"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>鸿蒙内核liteos-a移植_基于IMX6ULL</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31403" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase\"}","index":"17","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31403"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase\"}","index":"17","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31403"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-17.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>【曾贤志】用Python开发网站展示Excel数据（数据可视化呈现）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/sunyinggang/article/details/110855365" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://blog.csdn.net/sunyinggang/article/details/110855365"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://blog.csdn.net/sunyinggang/article/details/110855365"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>SpringBoot边学边用（二）SpringBoot 整合 Mybatis（xml文件形式）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31420" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31420"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31420"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Oracle19c</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/nybozhang/13529347" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://download.csdn.net/download/nybozhang/13529347"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://download.csdn.net/download/nybozhang/13529347"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-20.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-20.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>ss628-700手写板.zip</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/qq_43204462/13529345" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://download.csdn.net/download/qq_43204462/13529345"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://download.csdn.net/download/qq_43204462/13529345"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>实验五 存储器实验报告+答案</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_46846663/article/details/110853958" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://blog.csdn.net/weixin_46846663/article/details/110853958"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://blog.csdn.net/weixin_46846663/article/details/110853958"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>5</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://machi.blog.csdn.net/article/details/110855488" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://machi.blog.csdn.net/article/details/110855488"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://machi.blog.csdn.net/article/details/110855488"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-23.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-23.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>js禁用页面所有输入框以及点击事件</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31398" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31398"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31398"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-24.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-24.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>spring-mvc</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://beachboyy.blog.csdn.net/article/details/110855673" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://beachboyy.blog.csdn.net/article/details/110855673"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://beachboyy.blog.csdn.net/article/details/110855673"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-25.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-25.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Rust中Turbofish之函数后面双冒号(::)用法</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_49786076/article/details/110854427" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://blog.csdn.net/weixin_49786076/article/details/110854427"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://blog.csdn.net/weixin_49786076/article/details/110854427"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-26.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>在一行中输出能够组成的最小的数</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31397" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31397"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31397"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-27.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-27.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>微信小程序开发 快速入门 基础+提高 在线记事本项目实战视频教程</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/qq_42776455/13529342" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://download.csdn.net/download/qq_42776455/13529342"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://download.csdn.net/download/qq_42776455/13529342"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-28.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Rancher Fleet使用教程.html</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31102" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31102"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31102"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-29.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-29.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>ARFoundation入门到精通</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/yaoshixian/13514802" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://download.csdn.net/download/yaoshixian/13514802"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://download.csdn.net/download/yaoshixian/13514802"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>docker deploy zabbix.docx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/hxk0605/13525665" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://download.csdn.net/download/hxk0605/13525665"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://download.csdn.net/download/hxk0605/13525665"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>单门店员工行为规范准则.docx</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_36113741/article/details/110850569" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://blog.csdn.net/qq_36113741/article/details/110850569"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://blog.csdn.net/qq_36113741/article/details/110850569"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-32.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>机器学习中的数学-07-偏度与峰度</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31418" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31418"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31418"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-33.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-33.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Net公司网站开发实战（基于vs2019、SQL2012)</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_38826019/article/details/110854531" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://blog.csdn.net/qq_38826019/article/details/110854531"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://blog.csdn.net/qq_38826019/article/details/110854531"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-34.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-34.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Semaphore解析</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_16488989/article/details/110855159" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://blog.csdn.net/qq_16488989/article/details/110855159"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://blog.csdn.net/qq_16488989/article/details/110855159"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-35.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>模态和非模态对话框（简单易懂！）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31437" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31437"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31437"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-36.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-36.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>【曾贤志】openpyxl处理Excel数据 - 第2季 巩固篇</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/combo/detail/1960" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1960"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1960"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Python零基础入门</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/cwwei20122012/13518591" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://download.csdn.net/download/cwwei20122012/13518591"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://download.csdn.net/download/cwwei20122012/13518591"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>TextViewDemo.zip</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_53364386/13523952" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_53364386/13523952"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_53364386/13523952"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-39.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-39.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>ModScan32.zip</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/kuan__/13525063" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://download.csdn.net/download/kuan__/13525063"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://download.csdn.net/download/kuan__/13525063"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-40.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-40.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>FPGA实现LSTM算法</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+            </ul>
+            </div>
+        </div>
+    </aside>
+</div>
+
+</div>
+<div class="mask-dark"></div>
+<script type="text/javascript">
+    var timert = setInterval(function(){
+      sideToolbar = $(".csdn-side-toolbar");
+      if (sideToolbar.length > 0) {
+        sideToolbar.css('cssText','bottom:64px !important;')
+        clearInterval(timert);
+      }
+    }, 200);
+</script>
+<script>
+    var articleId = 6300025;
+    var commentscount = 48;
+    var curentUrl = "https://blog.csdn.net/dbzhang800/article/details/6300025";
+    var myUrl = "https://my.csdn.net/";
+    var highlight = ["Qt","delete","说开"];//高亮数组
+    var share_card_url = "https://blog.csdn.net/dbzhang800/article/shareArticleCardPage?article_id=6300025"
+	var articleType = 1;
+    var baiduKey = "从 Qt 的 delete 说开来";
+    var needInsertBaidu = true;
+    var recommendRegularDomainArr = ["blog.csdn.net/.+/article/details/","download.csdn.net/download/","edu.csdn.net/course/detail/","ask.csdn.net/questions/","bbs.csdn.net/topics/","www.csdn.net/gather_.+/"]
+    var codeStyle = "";
+    var baiduSearchType = "title";
+    var canRead = true;
+    var blogMoveHomeArticle = false;
+    var showPcWindowAd = false;
+</script>
+<script src="https://csdnimg.cn/public/sandalstrap/1.4/js/sandalstrap.min.js"></script>
+<div class="skin-boxshadow"></div>
+<div style="display:none;">
+	<img src="" onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+</div>
+</body>
+    <!-- 富文本柱状图  -->
+	<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/chart/chart.css"/>
+	<script type="text/javascript" src="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/chart/lib/chart.min.js"></script>
+    <script type="text/javascript" src="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/chart/widget2chart.js"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_highlight-db1e81323a.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_common-906586e915.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/codesnippet/lib/highlight/styles/atom-one-light.css">
+<script>
+ // 全局声明
+ if (window.csdn === undefined) {
+      window.csdn = {};
+    }
+    window.csdn.sideToolbar = {
+        options: {
+            report:{
+                isShow: true,
+            },
+            qr: {
+                isShow: false,
+            },
+            guide: {
+                isShow: true
+            }
+        }
+    }
+    $(function(){
+        $(document).on('click',"a.option-box[data-type='report']",function() {
+            window.csdn.userLogin.loadAjax(function(res){
+                showReport(false,articleTitles);
+            })
+        });
+    })
+</script>
+    <script src="https://g.csdnimg.cn/baidu-search/1.0.7/baidu-search.js"  type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/download/old_static/js/qrcode.js"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/common-b286f966c8.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/detail-c3206d1df7.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/user-ordercart/1.0.6/user-ordercart.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/column-78261cfea6.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/side-toolbar/2.8/side-toolbar.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/copyright/1.0.3/copyright.js" type="text/javascript"></script>
+<script>
+    $(".MathJax").remove();
+    if ($('div.markdown_views pre.prettyprint code.hljs').length > 0) {
+        $('div.markdown_views')[0].className = 'markdown_views';
+    }
+</script>
+<script type="text/javascript" src="https://csdnimg.cn/release/blog_mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            "HTML-CSS": {
+                    linebreaks: { automatic: true, width: "94%container" },
+                    imageFont: null
+            },
+            tex2jax: {
+                preview: "none"
+            },
+            mml2jax: {
+                preview: 'none'
+            }
+    });
+</script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/user-login/2.3.2/user-login.js"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/login-box/1.1.4/login-box.js"></script></html>

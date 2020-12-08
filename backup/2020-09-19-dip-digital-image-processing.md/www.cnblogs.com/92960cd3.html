@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="变换模型是指根据待匹配图像与背景图像之间几何畸变的情况，所选择的能最佳拟合两幅图像之间变化的几何变换模型。可采用的变换模型有如下几种:刚性变换、仿射变换、透视变换和非线形变换等，如下图： 参考： ht" />
+    <meta property="og:description" content="变换模型是指根据待匹配图像与背景图像之间几何畸变的情况，所选择的能最佳拟合两幅图像之间变化的几何变换模型。可采用的变换模型有如下几种:刚性变换、仿射变换、透视变换和非线形变换等，如下图： 参考： ht" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>affine transformation matrix 仿射变换矩阵 与 OpenGL - 蝈蝈俊 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=R2wBwmwSMG0Sqiw8GFSVjHT4Payg_JFAn51R8XcuvN0" />
+    <link id="MainCss" rel="stylesheet" href="/skins/habahaba/bundle-habahaba.min.css?v=MdBB5mqYjGuXqHhEOGnDf5j9Yjn3dzQG2GGvOZRv2YQ" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/habahaba/bundle-habahaba-mobile.min.css?v=iwyTBCq0yI4S4G_W1Q6v2XTVbfYZ47nSVT8NVCgIXiI" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/ghj1976/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/ghj1976/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/ghj1976/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 67898;
+        var currentBlogApp = 'ghj1976';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'HabaHaba';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2016-02-18 07:04';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=gWQ9VKr6FSwo14EgofSprzXJrAEO7ppQ1I5Or4uqKuo"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+        <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://brands.cnblogs.com/aws/free?source=mobile-banner" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aws-mobile-bannerbar')"><img src="https://img2020.cnblogs.com/blog/35695/202012/35695-20201203212730693-184275650.png" alt="" /></a>
+        </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <table width="100%" class="Framework" cellspacing="0" cellpadding="0">
+	<tr>
+		<td colspan="2">
+			
+<div id="top">
+<table width="100%" cellpadding="8" cellspacing="0">
+	<tr>
+		<td nowrap>
+			<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/ghj1976/">蝈蝈俊的技术心得</a>
+</h1>
+			
+		</td>
+	</tr>
+</table>
+</div>
+<div id="sub"><div class="BlogStats">随笔 - 523, 文章 - 0, 评论 - 212</div>
+
+</div>
+
+
+
+</td>
+	</tr>
+	<tr>
+		<td class="LeftCell">
+            <div id="leftmenu">
+                
+<h3>导航</h3>
+<ul>
+	<li>
+		<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+	<li>
+		
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/ghj1976/">
+首页</a>
+</li>
+	<li>
+		
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+	<li>
+		
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E8%9D%88%E8%9D%88%E4%BF%8A">
+联系</a></li>
+	<li>
+		
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/ghj1976/rss/">
+订阅</a></li>
+	<li>
+		
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+                <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+                <div id="blog-calendar" style="display:none"></div>
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="blog-sidecolumn"></div>
+                <script>loadBlogSideColumn();</script>
+            </div>
+		</td>
+		<td class="MainCell" width="100%">
+			<div id="main">
+				<div id="post_detail">
+	<div class="post">
+		<div class="posthead">
+			<h2>
+				
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/ghj1976/p/5199086.html">
+    <span>affine transformation matrix 仿射变换矩阵 与 OpenGL</span>
+    
+
+
+</a>
+
+			</h2>
+ 			Posted on 
+<span id="post-date">2016-02-18 19:04</span>&nbsp;
+<a href="https://www.cnblogs.com/ghj1976/">蝈蝈俊</a>&nbsp;
+阅读(<span id="post_view_count">27023</span>)&nbsp;
+评论(<span id="post_comment_count">2</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=5199086" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(5199086);return false;">收藏</a>
+			
+			
+		</div>
+		<div class="postbody">
+<div id="cnblogs_post_body" class="blogpost-body">
+    <p>变换模型是指根据待匹配图像与背景图像之间几何畸变的情况，所选择的能最佳拟合两幅图像之间变化的几何变换模型。可采用的变换模型有如下几种:刚性变换、仿射变换、透视变换和非线形变换等，如下图：</p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190315097-923395738.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190315722-2110673980.png" width="698" height="227"></a></p>  <p>参考： <a title="http://wenku.baidu.com/view/826a796027d3240c8447ef20.html" href="http://wenku.baidu.com/view/826a796027d3240c8447ef20.html">http://wenku.baidu.com/view/826a796027d3240c8447ef20.html</a></p>  <p>&nbsp;</p>  <p>其中第三个的仿射变换就是我们这节要讨论的。</p>  <p>仿射变换(Affine Transformation)    <br>Affine Transformation是<font style="background-color: rgba(255, 255, 0, 1)">一种二维坐标到二维坐标之间的线性变换</font>，保持二维图形的“<font style="background-color: rgba(255, 255, 0, 1)">平直性</font>”（译注：straightness，即变换后直线还是直线不会打弯，圆弧还是圆弧）和“<font style="background-color: rgba(255, 255, 0, 1)">平行性</font>”（译注：parallelness，其实是指保二维图形间的相对位置关系不变，平行线还是平行线，相交直线的交角不变。）。</p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190316269-2044953936.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190316988-2136192392.png" width="639" height="479"></a></p>  <p>c和d的区别可以看下图：</p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190317753-972929382.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190318191-1092432285.png" width="412" height="251"></a></p>  <p>仿射变换可以通过一系列的原子变换的复合来实现，包括：平移（Translation）、缩放（Scale）、翻转（Flip）、旋转（Rotation）和剪切（Shear）。</p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190319144-360266923.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190319738-481550993.png" width="392" height="289"></a></p>  <p>仿射变换可以用下面公式表示：</p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190320300-1769696826.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190320753-247395932.png" width="734" height="153"></a></p>  <p>参考：<a title="http://wenku.baidu.com/view/826a796027d3240c8447ef20.html" href="http://wenku.baidu.com/view/826a796027d3240c8447ef20.html">http://wenku.baidu.com/view/826a796027d3240c8447ef20.html</a></p>  <p>这个矩阵乘法的计算如下：</p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190321144-2026093329.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190321738-109230575.png" width="395" height="107"></a></p>  <p>具体到二维的仿射变换的计算如下：</p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190322128-800836281.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190322534-787254975.png" width="353" height="187"></a></p>  <p>几种典型的仿射变换如下：</p>  <h2>平移变换 Translation</h2>  <p>将每一点移动到(x+tx, y+ty)，变换矩阵为：    <br><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190322941-907729900.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190323222-1363997961.png" width="129" height="141"></a></p>  <p>平移变换是一种“刚体变换”，rigid-body transformation，就是不会产生形变的理想物体。</p>  <p>效果：</p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190323831-1569543156.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190324206-881598594.png" width="108" height="258"></a></p>  <h2>缩放变换（Scale）</h2>  <p>将每一点的横坐标放大（缩小）至sx倍，纵坐标放大（缩小）至sy倍，变换矩阵为：    <br></p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190324659-945356147.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190324941-637313860.png" width="112" height="136"></a></p>  <p>变换效果如下：</p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190325378-1258647541.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190325738-1774950602.png" width="94" height="240"></a></p>  <p>&nbsp;</p>  <h2>剪切变换（Shear）</h2>  <p>变换矩阵为：    <br></p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190325988-837440471.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190326300-1845058566.png" width="120" height="127"></a></p>  <p>相当于一个横向剪切与一个纵向剪切的复合</p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190326597-934084119.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190327050-748750067.png" width="392" height="111"></a></p>  <p>效果：</p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190327363-1722912653.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190327878-536745153.png" width="129" height="326"></a></p>  <p>&nbsp;</p>  <h2>旋转变换（Rotation）</h2>  <p>目标图形围绕原点顺时针旋转theta弧度，变换矩阵为：    <br></p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190328503-1009589587.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190328894-747068327.png" width="306" height="180"></a></p>  <p>效果：</p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190329347-1253900047.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190329691-845904295.png" width="103" height="255"></a></p>  <h2>组合</h2>  <p>&nbsp;</p>  <p>旋转变换，目标图形以(x, y)为轴心顺时针旋转theta弧度，变换矩阵为：    <br></p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190330081-726749824.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190330488-608109385.png" width="579" height="82"></a></p>  <p>相当于两次平移变换与一次原点旋转变换的复合：</p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190331019-1327246913.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190331456-900389877.png" width="575" height="91"></a></p>  <p>先移动到中心节点，然后旋转，然后再移动回去。</p>  <p>参考：    <br><a title="http://wenku.baidu.com/link?url=AtomIQH400RVIckGwh-V5vPBGmTEVN7ZBtzEjHFeEPxkqu2llowVdW1IFFPqJWaZGUQsQG1hK0OtdrFJ4JBsru3rO8bP9VKQ8Iae0Xm_wt7" href="http://wenku.baidu.com/link?url=AtomIQH400RVIckGwh-V5vPBGmTEVN7ZBtzEjHFeEPxkqu2llowVdW1IFFPqJWaZGUQsQG1hK0OtdrFJ4JBsru3rO8bP9VKQ8Iae0Xm_wt7">http://wenku.baidu.com/link?url=AtomIQH400RVIckGwh-V5vPBGmTEVN7ZBtzEjHFeEPxkqu2llowVdW1IFFPqJWaZGUQsQG1hK0OtdrFJ4JBsru3rO8bP9VKQ8Iae0Xm_wt7</a></p>  <p>&nbsp;</p>  <p>这个转换矩阵也可以下面这样描述。    <br><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160218190331863-262609191.png"><img title="image" style="border-width: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160218190332347-2105606145.png" width="492" height="303"></a></p>  <p>一些常用转换矩阵如下：</p>  <p>&nbsp;</p>  <p><a href="http://images2015.cnblogs.com/blog/120296/201602/120296-20160222070732869-1123994329.png"><img title="image" style="border: 0; background-image: none; padding-top: 0; padding-left: 0; display: inline; padding-right: 0" border="0" alt="image" src="https://images2015.cnblogs.com/blog/120296/201602/120296-20160222070734244-1956482228.png" width="716" height="959"></a></p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div></div>
+	</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 67898, cb_blogApp = 'ghj1976', cb_blogUserGuid = '969dcf34-6031-df11-ba8f-001cf0cd104b';
+    var cb_entryId = 5199086, cb_entryCreatedDate = '2016-02-18 19:04', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+</div>
+
+
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" class="FooterCell">
+			<p id="footer">
+	Powered by: 
+	<br />
+	
+	<a href="https://www.cnblogs.com/" id="footer_site_link">博客园</a>
+	<br />
+	Copyright &copy; 2020 蝈蝈俊
+<br /><span id="poweredby">Powered by .NET 5.0.0 on Kubernetes</span>
+
+</p>
+
+
+		</td>
+	</tr>
+</table>
+
+
+
+    
+</body>
+</html>

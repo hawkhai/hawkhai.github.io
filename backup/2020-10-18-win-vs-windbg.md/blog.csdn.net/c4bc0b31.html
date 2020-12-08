@@ -1,0 +1,1436 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://blog.csdn.net/cuglifangzheng/article/details/50725890"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="report" content='{"pid": "blog", "spm":"1001.2101"}'>
+    <meta name="referrer" content="always">
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <meta name="applicable-device" content="pc">
+    <link  href="https://g.csdnimg.cn/static/logo/favicon32.ico"  rel="shortcut icon" type="image/x-icon" />
+    <title>Windows调试——使用windbg查找内存泄露_cuglifangzheng的专栏-CSDN博客_windbg查看内存泄漏</title>
+    <script>
+      (function(){ 
+        var el = document.createElement("script"); 
+        el.src = "https://s3a.pstatp.com/toutiao/push.js?1abfa13dfe74d72d41d83c86d240de427e7cac50c51ead53b2e79d40c7952a23ed7716d05b4a0f683a653eab3e214672511de2457e74e99286eb2c33f4428830"; 
+        el.id = "ttzz"; 
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(el, s);
+      })(window)
+    </script>
+        <meta name="keywords" content="windbg查看内存泄漏">
+        <meta name="csdn-baidu-search"  content='{"autorun":true,"install":true,"keyword":"windbg查看内存泄漏"}'>
+    <meta name="description" content="内存泄露查找方法C++程序员经常不注意内存使用的关闭，虽然此类问题不会导致程序逻辑问题，但随着时间的推移，内存占用量越来越多，最终导致程序崩掉。对服务端的程序，内存泄漏经常是致命的。 对于已经存在内存泄露的程序，可能Windbg查找内存泄露的代码。下面介绍如果通过Windbg查找内存泄露。Windbg 加载程序依赖库所用pdb文件。挂载进程或者加载已生成的pdb文件输入命令查看内存。3.1">
+    <script src='//g.csdnimg.cn/tingyun/1.8.3/blog.js' type='text/javascript'></script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/css/detail_enter-5f2d8f6575.min.css">
+    <script type="application/ld+json">{"@context":"https://ziyuan.baidu.com/contexts/cambrian.jsonld","@id":"https://blog.csdn.net/cuglifangzheng/article/details/50725890","appid":"1638831770136827","pubDate":"2016-02-23T20:35:40","title":"Windows调试&mdash;&mdash;使用windbg查找内存泄露_cuglifangzheng的专栏-CSDN博客_windbg查看内存泄漏","upDate":"2016-02-23T20:35:40"}</script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/themesSkin/skin3-template/skin3-template-45808e735f.min.css">
+    <script src="https://csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var isCorporate = false;//注释删除enterprise
+        var username =  "cuglifangzheng";
+        var skinImg = "white";
+        var blog_address = "https://blog.csdn.net/cuglifangzheng";
+        var currentUserName = "";
+        var isOwner = false;
+        var loginUrl = "http://passport.csdn.net/account/login?from=https://blog.csdn.net/cuglifangzheng/article/details/50725890";
+        var blogUrl = "https://blog.csdn.net/";
+        var avatar = "https://profile.csdnimg.cn/4/C/E/3_cuglifangzheng";
+        var articleTitle = "Windows调试——使用windbg查找内存泄露";
+        var articleDesc = "内存泄露查找方法C++程序员经常不注意内存使用的关闭，虽然此类问题不会导致程序逻辑问题，但随着时间的推移，内存占用量越来越多，最终导致程序崩掉。对服务端的程序，内存泄漏经常是致命的。 对于已经存在内存泄露的程序，可能Windbg查找内存泄露的代码。下面介绍如果通过Windbg查找内存泄露。Windbg 加载程序依赖库所用pdb文件。挂载进程或者加载已生成的pdb文件输入命令查看内存。3.1";
+        var articleTitles = "Windows调试——使用windbg查找内存泄露_cuglifangzheng的专栏-CSDN博客_windbg查看内存泄漏";
+        var nickName = "cuglifangzheng";
+        var articleDetailUrl = "https://blog.csdn.net/cuglifangzheng/article/details/50725890";
+        if(window.location.host.split('.').length == 3) {
+            blog_address = blogUrl + username;
+        }
+        var skinStatus = "White";
+        var blogStaticHost = "https://csdnimg.cn/release/blogv2/"
+    </script>
+    <script src="https://g.csdnimg.cn/??fixed-sidebar/1.1.6/fixed-sidebar.js" type="text/javascript"></script>
+    <script src='//g.csdnimg.cn/common/csdn-report/report.js' type='text/javascript'></script>
+    <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css">
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+    <script src="https://dup.baidustatic.com/js/ds.js"></script>
+</head>
+<body class="nodata " style="">
+        <script>
+            var toolbarSearchExt = '{"landingWord":["windbg查看内存泄漏"],"queryWord":"","tag":["内存泄露","调试"],"title":"Windows调试——使用windbg查找内存泄露"}';
+        </script>
+    <script src="https://g.csdnimg.cn/common/csdn-toolbar/csdn-toolbar.js" type="text/javascript"></script>
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/pc/css/blog_code-01256533b5.min.css">
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/chart-3456820cac.css" />
+<div class="main_father clearfix d-flex justify-content-center" style="height:100%;"> 
+    <div class="container clearfix" id="mainBox">
+        <main>
+<script type="text/javascript">
+    var blogSensitiveWords = "";
+</script>
+<div class="blog-content-box">
+    <div class="article-header-box">
+        <div class="article-header">
+            <div class="article-title-box">
+                <h1 class="title-article" id="articleContentId">Windows调试——使用windbg查找内存泄露</h1>
+            </div>
+            <div class="article-info-box">
+                <div class="article-bar-top">
+                    <img class="article-type-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/reprint.png" alt="">
+                    <div class="bar-content">
+                    <a class="follow-nickName " href="https://blog.csdn.net/cuglifangzheng" target="_blank" rel="noopener">cuglifangzheng</a>
+                    <span class="time">2016-02-23 20:35:40</span>
+                    <img class="article-read-img article-heard-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/articleReadEyes.png" alt="">
+                    <span class="read-count">4400</span>
+                    <a id="blog_detail_zk_collection" class="un-collection" data-report-click='{"mod":"popu_823","spm":"1001.2101.3001.4232","ab":"new"}'>
+                        <img class="article-collect-img article-heard-img un-collect-status isdefault" style="display:inline-block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                        <img class="article-collect-img article-heard-img collect-status isactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                        <span class="name">收藏</span>
+                        <span class="get-collection">
+                            3
+                        </span>
+                    </a>
+                    </div>
+                </div>
+                <div class="blog-tags-box">
+                    <div class="tags-box artic-tag-box">
+                            <span class="label">分类专栏：</span>
+                                <a class="tag-link" href="https://blog.csdn.net/cuglifangzheng/category_1550551.html" target="_blank" rel="noopener">软件调试</a>
+                            <span class="label">文章标签：</span>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"内存泄露","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_2a/MtTaEg0sMzkyMjUtYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">内存泄露</a>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"调试","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_2d/MtTaEg0sMDU2ODItYmxvZwO0O0OO0O0O.html" target="_blank" rel="noopener">调试</a>
+                    </div>
+                </div>
+                <div class="up-time"><span>最后发布:2016-02-23 20:35:40</span><span>首次发布:2016-02-23 20:35:40</span></div>
+                <div class="slide-content-box">
+                </div>
+                <div class="operating">
+                </div>
+            </div>
+        </div>
+    </div>
+    <article class="baidu_pl">
+        <div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-b5506197d8.css">
+                <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <p>内存泄露查找方法</p> 
+<p>C&#43;&#43;程序员经常不注意内存使用的关闭&#xff0c;虽然此类问题不会导致程序逻辑问题&#xff0c;但随着时间的推移&#xff0c;内存占用量越来越多&#xff0c;最终导致程序崩掉。对服务端的程序&#xff0c;内存泄漏经常是致命的。 <br /> 对于已经存在内存泄露的程序&#xff0c;可能Windbg查找内存泄露的代码。下面介绍如果通过Windbg查找内存泄露。</p> 
+<ol><li>Windbg 加载程序依赖库所用pdb文件。</li><li>挂载进程或者加载已生成的pdb文件</li><li>输入命令查看内存。</li></ol> 
+<p>3.1 !heap –s 查看程序内存状况 <br /> 0:000&gt; !heap -s <br /> NtGlobalFlag enables following debugging aids for new heaps: <br /> stack back traces <br /> LFH Key : 0x73ccd2bf <br /> Termination on corruption : DISABLED <br /> Heap Flags Reserv Commit Virt Free List UCR Virt Lock Fast </p> 
+<h2 id="k-k-k-k-length-blocks-cont-heap"> (k) (k) (k) (k) length blocks cont. heap </h2> 
+<p>004e0000 08000002 4096 3968 4096 45 86 3 0 0 LFH <br /> 006f0000 08001002 1088 804 1088 40 3 2 0 0 LFH <br /> 002d0000 08001002 1280 292 1280 9 16 2 0 0 LFH <br /> Virtual block: 05f10000 - 05f10000 (size 00000000) <br /> Virtual block: 45fd0000 - 45fd0000 (size 00000000) <br /> Virtual block: 466d0000 - 466d0000 (size 00000000) <br /> Virtual block: 47310000 - 47310000 (size 00000000) <br /> 00b70000 08001002 250748 250044 250748 3122 925 58 4 9 LFH <br /> 00480000 08001002 256 148 256 6 1 1 0 0 LFH <br /> 04f80000 08001002 256 4 256 2 1 1 0 0 <br /> 00bb0000 08011002 256 80 256 74 3 1 0 0 <br /> 04ed0000 08001002 64 16 64 13 1 1 0 0 <br /> 059e0000 08001002 64 4 64 2 1 1 0 0 <br /> 05bd0000 08001002 64 4 64 2 1 1 0 0 <br /> 05dc0000 08001002 256 4 256 1 2 1 0 0 <br /> 04e40000 08001002 1280 300 1280 49 12 2 0 0 LFH <br /> Virtual block: 6b310000 - 6b310000 (size 00000000) <br /> Virtual block: 6b520000 - 6b520000 (size 00000000) <br /> 180f0000 08001002 1088 676 1088 267 5 2 2 23 <br /> 18740000 08001002 7232 6236 7232 3956 49 13 0 26 LFH <br /> External fragmentation 63 % (49 free blocks) <br /> 18b60000 08001002 1088 220 1088 24 8 2 0 0 LFH <br /> 04e30000 08001002 1088 148 1088 2 4 2 0 0 LFH</p> 
+<p>过一段时间再次通过!heap –s 查看程序内存状况。找出增长较快的内存块&#xff0c;如00b70000。</p> 
+<p>3.2 !heap -stat –h 查看00b70000内存详细情况 <br /> 0:000&gt; !heap -stat -h 00b70000 <br /> heap &#64; 00b70000 <br /> group-by: TOTSIZE max-display: 20 <br /> size #blocks total ( %) (percent of total busy bytes) <br /> ea60 f88 - e382300 (57.83) <br /> 9c61334 1 - 9c61334 (39.75) <br /> 1b7730 1 - 1b7730 (0.44) <br /> 147254 1 - 147254 (0.32) <br /> 124f74 1 - 124f74 (0.29) <br /> c de5e - a6c68 (0.17) <br /> 2000 41 - 82000 (0.13) <br /> 214 3d1 - 7ee54 (0.13) <br /> 28 2a67 - 6a018 (0.11) <br /> 42b0 14 - 535c0 (0.08) <br /> 1c 2914 - 47e30 (0.07) <br /> 2b70 14 - 364c0 (0.05) <br /> 14 29b4 - 34210 (0.05) <br /> 32000 1 - 32000 (0.05) <br /> 18 1ac1 - 28218 (0.04) <br /> 4 7df4 - 1f7d0 (0.03) <br /> 1d4c4 1 - 1d4c4 (0.03) <br /> 1740 14 - 1d100 (0.03) <br /> 2408 c - 1b060 (0.03) <br /> 208 cc - 19e60 (0.03)</p> 
+<p>3.3 !heap -flt s 查进程中size&#61;ea60的所有内存 <br /> 0:000&gt; !heap -flt s ea60 <br /> _HEAP &#64; 4e0000 <br /> _HEAP &#64; 6f0000 <br /> _HEAP &#64; 2d0000 <br /> _HEAP &#64; b70000 <br /> HEAP_ENTRY Size Prev Flags UserPtr UserSize - state <br /> 5272cc18 1d4f 0000 [00] 5272cc30 0ea60 - (busy) <br /> 537bc578 1d4f 1d4f [00] 537bc590 0ea60 - (busy) <br /> 537cbf98 1d4f 1d4f [00] 537cbfb0 0ea60 - (busy) <br /> 53862f20 1d4f 1d4f [00] 53862f38 0ea60 - (busy) <br /> 53871998 1d4f 1d4f [00] 538719b0 0ea60 - (busy) <br /> 53890608 1d4f 1d4f [00] 53890620 0ea60 - (busy) <br /> 538ace68 1d4f 1d4f [00] 538ace80 0ea60 - (busy) <br /> 538bb8e0 1d4f 1d4f [00] 538bb8f8 0ea60 - (busy) <br /> 538dcec8 1d4f 1d4f [00] 538dcee0 0ea60 - (busy) <br /> 53901af8 1d4f 1d4f [00] 53901b10 0ea60 - (busy) <br /> 53910570 1d4f 1d4f [00] 53910588 0ea60 - (busy) <br /> 5391efe8 1d4f 1d4f [00] 5391f000 0ea60 - (busy) <br /> 539b71a0 1d4f 1d4f [00] 539b71b8 0ea60 - (busy) <br /> 539c5c18 1d4f 1d4f [00] 539c5c30 0ea60 - (busy) <br /> 539d4690 1d4f 1d4f [00] 539d46a8 0ea60 - (busy) <br /> 539e3108 1d4f 1d4f [00] 539e3120 0ea60 - (busy) <br /> 539f1b80 1d4f 1d4f [00] 539f1b98 0ea60 - (busy) <br /> 53a005f8 1d4f 1d4f [00] 53a00610 0ea60 - (busy) <br /> 53a0f070 1d4f 1d4f [00] 53a0f088 0ea60 - (busy) <br /> 53a20f98 1d4f 1d4f [00] 53a20fb0 0ea60 - (busy) <br /> 53a2fa10 1d4f 1d4f [00] 53a2fa28 0ea60 - (busy) <br /> 53a4e6b8 1d4f 1d4f [00] 53a4e6d0 0ea60 - (busy) <br /> 53a66fa0 1d4f 1d4f [00] 53a66fb8 0ea60 - (busy) <br /> 53a75a18 1d4f 1d4f [00] 53a75a30 0ea60 - (busy) <br /> 71614e20 1d4f 1d4f [00] 71614e38 0ea60 - (busy) <br /> 71623898 1d4f 1d4f [00] 716238b0 0ea60 - (busy) <br /> 71632310 1d4f 1d4f [00] 71632328 0ea60 - (busy) <br /> …………………………….. <br /> 3.4 !heap -p –a 查看内存堆栈&#xff0c;定位泄露根源。 <br /> 0:000&gt; !heap -p -a 71614e38 <br /> address 71614e38 found in <br /> _HEAP &#64; b70000 <br /> HEAP_ENTRY Size Prev Flags UserPtr UserSize - state <br /> 71614e20 1d4f 0000 [00] 71614e38 0ea60 - (busy) <br /> Trace: 5be4158 <br /> 76f5dfa2 ntdll!RtlAllocateHeap&#43;0x00000274 <br /> 72873db8 MSVCR90!malloc&#43;0x00000079 <br /> 70e7b9dd BInterface!osip_malloc&#43;0x0000000d <br /> 70e83f93 BInterface!sdp_message_to_str&#43;0x00000073 <br /> 70e3751f BInterface!CSdpParse::sdp_to_str&#43;0x0000001f <br /> 70e14b06 BInterface!CUserAgent::DoStartStream&#43;0x00000316 <br /> 70e26e3b BInterface!BI_StartRealStream&#43;0x000000fb</p> 
+<p>0:000&gt; !heap -p -a 721acf68 <br /> address 721acf68 found in <br /> _HEAP &#64; b70000 <br /> HEAP_ENTRY Size Prev Flags UserPtr UserSize - state <br /> 721acf50 1d4f 0000 [00] 721acf68 0ea60 - (busy) <br /> Trace: 5be4158 <br /> 76f5dfa2 ntdll!RtlAllocateHeap&#43;0x00000274 <br /> 72873db8 MSVCR90!malloc&#43;0x00000079 <br /> 70e7b9dd BInterface!osip_malloc&#43;0x0000000d <br /> 70e83f93 BInterface!sdp_message_to_str&#43;0x00000073 <br /> 70e3751f BInterface!CSdpParse::sdp_to_str&#43;0x0000001f <br /> 70e14b06 BInterface!CUserAgent::DoStartStream&#43;0x00000316 <br /> 70e26e3b BInterface!BI_StartRealStream&#43;0x000000fb</p> 
+<ol><li>通过以上分析可以定位到BInterface相关接口导致内存泄露。</li></ol>
+                </div>
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-d7a94ec6ab.css" rel="stylesheet">
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-ba784fbaf8.css" rel="stylesheet">
+        </div>
+    </article>
+</div>
+<script>
+    // 敏感词替换
+    ~function(blogSensitiveWords){
+        if(blogSensitiveWords){   
+            var getContentViews = document.getElementById("content_views");
+            var getContentTitle = document.getElementById("articleContentId");
+            var contentViewsInnerHTML = getContentViews.innerHTML;
+            var contentTitleInnerHTML = getContentTitle.innerHTML;
+            var keyWordsJsonArr = [];
+            var keyWordsArr = blogSensitiveWords.split(',');
+            function repeatTimes(str, num){
+                return num > 1 ? str += repeatTimes(str, --num): str;
+            }
+            for(var i = 0; i < keyWordsArr.length; i++){
+                var keyWordsJson = {} ;
+                keyWordsJson.key = keyWordsArr[i];
+                keyWordsJson.value = repeatTimes("*",keyWordsArr[i].length);
+                keyWordsJsonArr.push(keyWordsJson);
+            }
+            var reg;
+            for(var i = 0; i < keyWordsJsonArr.length; i++){
+                var item = keyWordsJsonArr[i];
+                reg = new RegExp(item.key+"(?!([^<]*>)|([^<]*<\/a>))","ig");
+                contentViewsInnerHTML = contentViewsInnerHTML.replace(reg,item.value);
+                contentTitleInnerHTML = contentTitleInnerHTML.replace(reg,item.value);
+            }
+            getContentViews.innerHTML=contentViewsInnerHTML;
+            getContentTitle.innerHTML=contentTitleInnerHTML;
+        }
+    }(blogSensitiveWords)
+</script>
+<div class="more-toolbox" id="toolBarBox">
+    <span id="fixedBar"></span>
+    <div class="left-toolbox">
+        <ul class="toolbox-list">
+            <li class="tool-item tool-item-size tool-active is-like" id="is-like"><a>
+            <img style="display:none;" id="is-like-imgactive-animation-like" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isactive" style="display:none" id="is-like-imgactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isdefault" style="display:block" id="is-like-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUp.png" alt="">   
+            <span class="name" id="is-like-span">点赞</span>
+            <span id="spanCount" class="count">
+            </span>
+            </a></li>
+            <li class="tool-item tool-item-size tool-active tool-item-comment">
+                <a href="#commentBox">
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarComment.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCommentactive.png" style="display:none;" alt="">
+                    <span class="name">评论</span>
+                    <span class="count">
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-QRcode" id="tool-share">
+                <a href="javascript:;" data-report-click='{"mod":"1582594662_002","spm":"1001.2101.3001.4129","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShare.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShareactive.png" style="display:none;" alt="">
+                    <span class="name">分享</span>
+                </a>
+                <div class="QRcode" id="tool-QRcode" style="left:-92%;">
+                    <span id="QRcode-close">x</span>
+                    <p class="title">
+                    海报分享
+                    </p>
+                    <div id='shareCode'></div>
+                    <p>
+                    扫一扫，分享海报
+                    </p>
+                </div>
+            </li>
+            <li class="tool-item tool-item-size tool-active is-collection ">
+                <a href="javascript:;" data-report-click='{"mod":"popu_824","spm":"1001.2101.3001.4130","ab":"new"}'>
+                    <img style="display:none" id="is-collection-img-collection" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <img class="isdefault" id="is-collection-img" style="display:block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                    <img class="isactive" id="is-collection-imgactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <span class="name" id="is-collection">收藏</span>
+                    <span class="count get-collection" id="get-collection">
+                        3
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-more">
+              <a class="article-report">
+                <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReport.png" alt="">
+                <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReportactive.png" style="display:none;" alt="">
+                <span class="name">举报</span>
+              </a>
+            </li>
+            <li class="tool-item">
+                    <a class="tool-attend tool-bt-button tool-bt-attend" href="javascript:;" data-report-view='{"mod":"1592215036_002","spm":"1001.2101.3001.4232","extend1":"关注"}'>关注</a>
+                <a class="tool-item-follow active-animation" style="display:none;">关注</a>
+            </li>
+            <li class="tool-item">
+                    <p class="company active" id="health-companies" href="javascript:;" >一键三连</p>
+                <span class="triplet-prompt">点赞Mark关注该博主, 随时了解TA的最新博文<img class="close-prompt" src="https://csdnimg.cn/release/blogv2/dist/pc/img/closePrompt.png"></span>
+            </li>
+        </ul>
+        <div style="display:flex">
+         </div>
+    </div>  
+</div>
+<script type=text/javascript crossorigin src="https://csdnimg.cn/release/phoenix/production/qrcode-7c90a92189.min.js"></script>
+<script src="//g.csdnimg.cn/??sharewx/1.2.1/sharewx.js" type="text/javascript"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/collection-box/2.0.2/collection-box.js"></script>
+                <div class="first-recommend-box recommend-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/flyingleo1981/article/details/88865614"  data-report-view='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/flyingleo1981/article/details/88865614"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/flyingleo1981/article/details/88865614" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/flyingleo1981/article/details/88865614"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai'>
+					<em>使用</em><em>windbg</em>检测<em>内存</em>泄漏[有源码和截图]
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/flyingleo1981" target="_blank"><span class="blog-title">flyingleo1981的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">03-28</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					807
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/flyingleo1981/article/details/88865614" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/flyingleo1981/article/details/88865614"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>使用</em><em>windbg</em>检测<em>内存</em>泄漏[有源码和截图]
+一、基本步骤
+
+配置环境<em>windbg</em>：
+
+配置symbol文件路径：&ldquo;SRV*d:\symbols*http://msdl.microsoft.com/download/symbols&rdquo;.
+增加测试程序test.exe的pdb 文件到symbol文件路径
+采用Gflags.exe，增加userstack trace到测试程序leak.exe中。...</div>
+			</a>
+		</div>
+	</div>
+</div>
+                </div>
+            <div class="second-recommend-box recommend-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/yockie/article/details/40603511"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/yockie/article/details/40603511"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/yockie/article/details/40603511" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/yockie/article/details/40603511"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai'>
+					<em>windbg</em>检测句柄<em>泄露</em>（定位到具体代码）
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/yockie" target="_blank"><span class="blog-title">华秋实的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">10-30</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/yockie/article/details/40603511" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/yockie/article/details/40603511"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">1.构造一个测试用例</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+<a id="commentBox" name="commentBox"></a>
+<div class="comment-box">
+	<div class="comment-edit-box d-flex">
+		<a id="commentsedit"></a>
+		<div class="user-img">
+			<a href="javascript:void(0);" >
+				<img class="show_loginbox" src="https://g.csdnimg.cn/static/user-img/anonymous-User-img.png">
+			</a>
+		</div>
+		<form id="commentform">
+			<img class="comment-sofa-flag" src="https://csdnimg.cn/release/blogv2/dist/pc/img/commentFlag@2x.png">
+			<textarea class="comment-content" name="comment_content" id="comment_content" placeholder="优质评论可以帮助作者获得更高权重"
+				maxlength="1000"></textarea>
+			<div class="opt-box">
+				<div id="ubbtools" class="add_code">
+					<a href="#insertcode" code="code" target="_self"><i class="icon iconfont icon-daima"></i></a>
+				</div>
+				<input type="hidden" id="comment_replyId" name="comment_replyId">
+				<input type="hidden" id="article_id" name="article_id" value="50725890">
+				<input type="hidden" id="comment_userId" name="comment_userId" value="">
+				<input type="hidden" id="commentId" name="commentId" value="">
+				<div class="dropdown" id="myDrap">
+					<a class="dropdown-face d-flex align-items-center" data-toggle="dropdown" role="button"
+						aria-haspopup="true" aria-expanded="false">
+						<div class="txt-selected text-truncate">添加代码片</div>
+						<svg class="icon d-block" width="200px" height="100.00px" viewBox="0 0 2048 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path  d="M597.33333292 298.666667h853.333334L1023.99999992 725.333333 597.33333292 298.666667z"  /></svg>
+					</a>
+					<ul class="dropdown-menu" id="commentCode" aria-labelledby="drop4">
+						<li><a data-code="html">HTML/XML</a></li>
+						<li><a data-code="objc">objective-c</a></li>
+						<li><a data-code="ruby">Ruby</a></li>
+						<li><a data-code="php">PHP</a></li>
+						<li><a data-code="csharp">C</a></li>
+						<li><a data-code="cpp">C++</a></li>
+						<li><a data-code="javascript">JavaScript</a></li>
+						<li><a data-code="python">Python</a></li>
+						<li><a data-code="java">Java</a></li>
+						<li><a data-code="css">CSS</a></li>
+						<li><a data-code="sql">SQL</a></li>
+						<li><a data-code="plain">其它</a></li>
+					</ul>
+				</div>
+				<div class="right-box" id="rightBox" data-type="2">
+							<span id="tip_comment" class="tip">还能输入<em>1000</em>个字符</span>
+							<a data-report-view='{"spm":"3001.4374"}' data-report-click='{"spm":"3001.4374"}' class="btn btn-sm btn-quick-comment" id="quickComment">“速评一下”</a>
+							<a data-report-click='{"mod":"1582594662_003","spm":"1001.2101.3001.4227","ab":"new"}'><input type="submit"
+									class="btn btn-sm btn-comment" value="发表评论"></a>
+				</div>
+			</div>
+		</form>
+		<input type="button" class="bt-comment-show" value="评论">
+	</div>
+	<div class="comment-list-container">
+		<a id="comments"></a>
+		<div class="comment-list-box">
+		</div>
+		<div id="commentPage" class="pagination-box d-none"></div>
+		<div class="opt-box text-center">
+			<div class="btn btn-sm btn-link-blue" id="btnMoreComment"></div>
+		</div>
+	</div>
+</div>            <div class="recommend-box insert-baidu-box">
+<div class="recommend-item-box type_discussion_topic clearfix" data-url="https://bbs.csdn.net/topics/330227870"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-2.not_use_machine_learn_pai\"}","index":"2","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/330227870"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://bbs.csdn.net/topics/330227870" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-2.not_use_machine_learn_pai\"}","index":"2","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/330227870"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-2.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-2.not_use_machine_learn_pai'>
+					用<em>windbg</em>的查看<em>内存</em><em>泄露</em>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">04-13</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://bbs.csdn.net/topics/330227870" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-2.not_use_machine_learn_pai\"}","index":"2","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/330227870"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-2.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-2.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">以前记得 设置下 几个路径 ，然后 跑下程序 ，停止后 就 可以 给出 <em>内存</em><em>泄露</em>的地方， 一段时间 没弄，忘记 怎么 设置 了，打开 exe文件，然后设置 SYMBOL path， image pat</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_discussion_topic clearfix" data-url="https://bbs.csdn.net/topics/350127923"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-3.not_use_machine_learn_pai\"}","index":"3","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/350127923"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://bbs.csdn.net/topics/350127923" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-3.not_use_machine_learn_pai\"}","index":"3","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/350127923"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-3.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-3.not_use_machine_learn_pai'>
+					如何<em>使用</em><em>windbg</em>定位句柄<em>泄露</em>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">10-28</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://bbs.csdn.net/topics/350127923" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-3.not_use_machine_learn_pai\"}","index":"3","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/350127923"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-3.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-3.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">那位有资料介绍，如何<em>使用</em><em>windbg</em>定位句柄<em>泄露</em>的！</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/lxj434368832/article/details/80859828"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai\"}","index":"4","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/lxj434368832/article/details/80859828"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/lxj434368832/article/details/80859828" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai\"}","index":"4","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/lxj434368832/article/details/80859828"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai'>
+					<em>查找</em><em>Windows</em><em>内存</em><em>泄露</em>的工具与技术介绍
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/lxj434368832" target="_blank"><span class="blog-title">lxj434368832的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">06-29</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					8966
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/lxj434368832/article/details/80859828" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai\"}","index":"4","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/lxj434368832/article/details/80859828"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">如你所知，<em>内存</em><em>泄露</em>是由于疏忽或错误造成程序未能释放已经不再<em>使用</em>的<em>内存</em>的情况，随后不能重新分配。随着时间推移，会导致系统<em>内存</em>池耗尽(分页或非分页)，最终导致服务器中止。 
+　　当然，在<em>Windows</em>服务器中止之前，一般有其他<em>内存</em><em>泄露</em>的症状。主要值得注意的是来自服务器服务(SRV组件)的系统事件日志的入口。尤其是注意：
+
+　　Event ID 2019: The server was unable t...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/lixiang987654321/article/details/46852247"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/lixiang987654321/article/details/46852247"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/lixiang987654321/article/details/46852247" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/lixiang987654321/article/details/46852247"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai'>
+					WinDebug<em>查找</em><em>内存</em><em>泄露</em>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/lixiang987654321" target="_blank"><span class="blog-title">lixiang987654321的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">07-12</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					3793
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/lixiang987654321/article/details/46852247" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/lixiang987654321/article/details/46852247"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-5.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">引言
+
+对于C++的开发者来说，<em>内存</em><em>泄露</em>是一类耗时的bug。检查<em>内存</em><em>泄露</em>总是让人很抓狂，如果出问题的代码不是你写的，或者代码量很大的时候，事情就更糟糕了。
+
+现在市场上有很多工具可以用于检查分析<em>内存</em><em>泄露</em>的问题，但是一般都不是免费的。<em>Windbg</em>是一款功能强大又可免费<em>使用</em>的<em>内存</em><em>泄露</em>检查工具，通过<em>Windbg</em>可以初步定位怀疑有<em>内存</em><em>泄露</em>的代码位置。COM接口相关的问题在本文档中不涉及。
+
+W</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/chenchong_219/article/details/8375088"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.not_use_machine_learn_pai\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/chenchong_219/article/details/8375088"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/chenchong_219/article/details/8375088" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.not_use_machine_learn_pai\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/chenchong_219/article/details/8375088"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.not_use_machine_learn_pai'>
+					<em>windbg</em>定位<em>内存</em><em>泄露</em>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/chenchong_219" target="_blank"><span class="blog-title">心之所向，身之所往</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">12-22</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					2025
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/chenchong_219/article/details/8375088" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.not_use_machine_learn_pai\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/chenchong_219/article/details/8375088"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-6.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">大的<em>windbg</em>定位<em>内存</em><em>泄露</em>，两句命令搞定！&nbsp;&nbsp;
+
+2012-05-15 20:42:03|&nbsp;&nbsp;分类：&nbsp;Debug_Crack|字号&nbsp;订阅
+
+
+
+
+
+
+
+转自：http://hi.baidu.com/xingxing/item/f834ffeae93fcf2d5b7cfb9a
+
+1.简单配置
+在<em>windbg</em>程序目录下有个gflags.exe，运行后设置：
+
+
+
+运</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/suhuaiqiang_janlay/article/details/47703391"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.not_use_machine_learn_pai\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/suhuaiqiang_janlay/article/details/47703391"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/suhuaiqiang_janlay/article/details/47703391" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.not_use_machine_learn_pai\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/suhuaiqiang_janlay/article/details/47703391"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.not_use_machine_learn_pai'>
+					<em>使用</em><em>Windbg</em>定位<em>内存</em><em>泄露</em>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/suhuaiqiang_janlay" target="_blank"><span class="blog-title">suhuaiqiang_janlay的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-16</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					3572
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/suhuaiqiang_janlay/article/details/47703391" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.not_use_machine_learn_pai\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/suhuaiqiang_janlay/article/details/47703391"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-7.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">在网上看了两篇文章，整理一下，大致内容如下：
+&nbsp;
+场景一：运行Debug版本程序，用<em>Windbg</em> attach 上去，等程序退出时，基于<em>内存</em><em>泄露</em>报告，定位<em>内存</em><em>泄露</em>的位置。
+&nbsp;
+首先<em>使用</em><em>windbg</em>工具gflags.exe设置<em>内存</em>启动跟踪<em>内存</em><em>泄露</em>进程的user stack
+
+启动方法就是运行下面指令gflags.exe /i test.exe +ust 需要通过gflags.exe工具打</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/a1575386381/article/details/80667594"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/a1575386381/article/details/80667594"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/a1575386381/article/details/80667594" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/a1575386381/article/details/80667594"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai'>
+					<em>Windbg</em>检查<em>内存</em>泄漏
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/a1575386381" target="_blank"><span class="blog-title">a1575386381的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">06-12</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					617
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/a1575386381/article/details/80667594" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/a1575386381/article/details/80667594"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>Windows</em>系统中<em>内存</em><em>泄露</em>与检测工具及方法1.检测需要<em>使用</em>的工具：<em>windbg</em>工具。检测前，需要先安装<em>windbg</em>工具。安装了该工具后，会在安装目录下有一个umdh工具。假设<em>windbg</em>安装在以下目录下：D:\Program Files\Debugging Tools for <em>Windows</em> (x86)2.<em>内存</em><em>泄露</em>检测技巧	2.1 运行cmd窗口，将路径设置到安装路径下；	2.2 在该cmd窗口...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/weixin_41481284/article/details/90675831"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-9.not_use_machine_learn_pai\"}","index":"9","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/weixin_41481284/article/details/90675831"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/weixin_41481284/article/details/90675831" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-9.not_use_machine_learn_pai\"}","index":"9","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/weixin_41481284/article/details/90675831"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-9.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-9.not_use_machine_learn_pai'>
+					<em>Windbg</em>检测<em>内存</em>泄漏
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/weixin_41481284" target="_blank"><span class="blog-title">weixin_41481284的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">05-29</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					250
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/weixin_41481284/article/details/90675831" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-9.not_use_machine_learn_pai\"}","index":"9","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/weixin_41481284/article/details/90675831"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-9.not_use_machine_learn_pai&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-9.not_use_machine_learn_pai'>
+				<div class="desc ellipsis-online ellipsis-online-1">1.首先确保应用程序处于运行状态。
+2.运行起来cmd
+3.先找到windbug的安装目录，比如说我的安装目录是	C:\Program Files (x86)\Debugging Tools for <em>Windows</em> (x86)
+cmd输入     cd C:\Program Files (x86)\Debugging Tools for <em>Windows</em> (x86)
+4.设置_NT_SYMBOL_P...</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+            <div class="template-box">
+                <span>©️2020 CSDN</span>
+                <span>皮肤主题: 大白</span>
+                <span> 设计师:CSDN官方博客</span>
+                <span>
+                    <a href="https://blog.csdn.net/" class="back-home c-blue c-blue-hover c-blue-focus">返回首页</a>
+                </span>
+            </div>
+<div class="blog-footer-bottom" style="margin-top:10px;"></div>
+<script src="https://g.csdnimg.cn/common/csdn-footer/csdn-footer.js" data-isfootertrack="false" type="text/javascript"></script>
+<script type="text/javascript">
+    window.csdn.csdnFooter.options = {
+        el: '.blog-footer-bottom',
+        type: 2
+    }
+</script>        </main>
+<aside class="blog_container_aside">
+    <div id="asideProfile" class="aside-box">
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://blog.csdn.net/cuglifangzheng" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4121","dest":"https://blog.csdn.net/cuglifangzheng","ab":"new"}'>
+                <img src="https://profile.csdnimg.cn/4/C/E/3_cuglifangzheng" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex flex-column profile-intro-name-box">
+            <div class="profile-intro-name-boxTop">
+                <a href="https://blog.csdn.net/cuglifangzheng" class="" id="uid" title="cuglifangzheng" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4122","dest":"https://blog.csdn.net/cuglifangzheng","ab":"new"}'>
+                    <span class="name " username="cuglifangzheng">cuglifangzheng</span>
+                </a>
+                <span>
+                </span>
+                <span class="flag expert-blog">
+                <span class="bubble">CSDN认证博客专家</span>
+                </span>
+                <span class="flag company-blog">
+                <span class="bubble">CSDN认证企业博客</span>
+                </span>
+            </div>
+            <div class="profile-intro-name-boxFooter">
+                <span class="personal-home-page personal-home-years">码龄10年</span>
+                    <span class="personal-home-page">
+                    <a class="personal-home-certification" href="https://blog.csdn.net/cuglifangzheng?utm_source=14998968" target="_blank" title="暂无认证">
+                    <img src="https://csdnimg.cn/identity/nocErtification.png" alt="">
+                    暂无认证
+                    </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="16">
+            <a href="https://blog.csdn.net/cuglifangzheng" data-report-click='{"mod":"1598321000_001","spm":"1001.2101.3001.4310"}' data-report-query="t=1">  
+                <dt><span class="count">16</span></dt>
+                <dd class="font">原创</dd>
+            </a>
+        </dl>
+        <dl class="text-center" data-report-click='{"mod":"1598321000_002","spm":"1001.2101.3001.4311"}' title="148550">
+            <a href="https://blog.csdn.net/rank/writing_rank" target="_blank">
+                <dt><span class="count">14万+</span></dt>
+                <dd class="font">周排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" title="188800">
+            <a href="https://blog.csdn.net/rank/writing_rank_total" data-report-click='{"mod":"1598321000_003","spm":"1001.2101.3001.4312"}' target="_blank">
+                <dt><span class="count">18万+</span></dt>
+                <dd class="font">总排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" style="min-width:58px" title="45360">  
+            <dt><span class="count">4万+</span></dt>
+            <dd>访问</dd>
+        </dl>
+        <dl class="text-center" title="3级,点击查看等级说明">
+            <dt><a href="https://blog.csdn.net/home/help.html#level" target="_blank">
+                <img class="level" src="https://csdnimg.cn/identity/blog3.png">
+            </a>
+            </dt>
+            <dd>等级</dd>
+        </dl>
+    </div>
+    <div class="item-rank"></div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="522">
+            <dt><span class="count">522</span></dt>
+            <dd>积分</dd>
+        </dl>
+         <dl class="text-center" id="fanBox" title="2">
+            <dt><span class="count" id="fan">2</span></dt>
+            <dd>粉丝</dd>
+        </dl>
+        <dl class="text-center" title="2">
+            <dt><span class="count">2</span></dt>
+            <dd>获赞</dd>
+        </dl>
+        <dl class="text-center" title="0">
+            <dt><span class="count">0</span></dt>
+            <dd>评论</dd>
+        </dl>
+        <dl class="text-center" title="12">
+            <dt><span class="count">12</span></dt>
+            <dd>收藏</dd>
+        </dl>
+    </div>
+    <div class="aside-box-footer" data-report-view='{"spm":"3001.4296"}'>
+        <div class="badge-box d-flex">
+            <div class="badge d-flex">
+                <div class="icon-badge" title="持之以恒">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/chizhiyiheng@240.png" alt="持之以恒">
+                    </div>
+                </div>
+                <div class="icon-badge" title="勤写标兵Lv1">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/qixiebiaobing1@240.png" alt="勤写标兵Lv1">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="profile-intro-name-boxOpration">
+        <div class="opt-letter-watch-box">
+        <a class="bt-button personal-letter" href="https://im.csdn.net/chat/cuglifangzheng" target="_blank" rel="noopener">私信</a>
+        </div>
+        <div class="opt-letter-watch-box"> 
+            <a class="personal-watch bt-button" id="btnAttent" >关注</a>  
+        </div>
+    </div>
+</div>
+<div id="asideSearchArticle" class="aside-box">
+	<div class="aside-content search-comter">
+    <div class="aside-search aside-search-blog">         
+        <input type="text" class="input-serch-blog" name="" autocomplete="off" value="" id="search-blog-words" placeholder="搜博主文章">
+        <a class="btn-search-blog">
+                    <img src="//csdnimg.cn/cdn/content-toolbar/csdn-sou.png?v=1587021042">
+        </a>
+    </div>
+    </div>
+</div>
+
+
+<div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list">
+			<li>
+				<a href="https://blog.csdn.net/cuglifangzheng/article/details/50580279" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/cuglifangzheng/article/details/50580279","ab":"new"}'>
+				dll动态加载，LoadLibrary和LoadLibraryEx的区别
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">20509</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/cuglifangzheng/article/details/50725890" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/cuglifangzheng/article/details/50725890","ab":"new"}'>
+				Windows调试——使用windbg查找内存泄露
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">4399</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/cuglifangzheng/article/details/50723250" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/cuglifangzheng/article/details/50723250","ab":"new"}'>
+				给VC程序添加版本号与编译时间
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">3447</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/cuglifangzheng/article/details/50725748" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/cuglifangzheng/article/details/50725748","ab":"new"}'>
+				Windows调试——死锁的查找
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">2665</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/cuglifangzheng/article/details/50579640" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/cuglifangzheng/article/details/50579640","ab":"new"}'>
+				PCLint与VS集成
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">1223</span>
+                </a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="asideCategory" class="aside-box flexible-box" style="display:block!important;">
+    <h3 class="aside-title">分类专栏</h3>
+    <div class="aside-content">
+        <ul>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/cuglifangzheng/category_9883966.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/cuglifangzheng/category_9883966.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756918.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">算法</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/cuglifangzheng/category_9381878.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/cuglifangzheng/category_9381878.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756738.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">java</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/cuglifangzheng/category_9381880.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/cuglifangzheng/category_9381880.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">备忘</span>
+                    </span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/cuglifangzheng/category_9066416.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/cuglifangzheng/category_9066416.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20190918135101160.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">大数据</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/cuglifangzheng/category_8729523.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/cuglifangzheng/category_8729523.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">书单</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/cuglifangzheng/category_6346764.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/cuglifangzheng/category_6346764.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756925.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">C++</span>
+                    </span>
+                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/cuglifangzheng/category_1550551.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/cuglifangzheng/category_1550551.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">软件调试</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/cuglifangzheng/category_8850142.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/cuglifangzheng/category_8850142.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">备忘(old)</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p class="text-center">
+        <a class="flexible-btn" data-fbox="aside-archive"><img class="look-more" src="https://csdnimg.cn/release/blogv2/dist/pc/img/arrowDownWhite.png" alt=""></a>
+    </p>
+</div>
+<div id="asideArchive" class="aside-box">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix">
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/cuglifangzheng/article/details/105386741" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/cuglifangzheng/article/details/105386741","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/cuglifangzheng/article/details/105386741","ab":"new"}'>链表反转</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/cuglifangzheng/article/details/101367031" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/cuglifangzheng/article/details/101367031","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/cuglifangzheng/article/details/101367031","ab":"new"}'>内存数据库</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/cuglifangzheng/article/details/93874478" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/cuglifangzheng/article/details/93874478","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/cuglifangzheng/article/details/93874478","ab":"new"}'>BigData－‘基于代价优化’究竟是怎么一回事？</a>
+            </li>
+        </ul>
+        <div class="archive-bar"></div>
+        <div class="archive-box">
+                <div class="archive-list-item"><a href="https://blog.csdn.net/cuglifangzheng/article/month/2020/04" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2020年</span><span class="num">1篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/cuglifangzheng/article/month/2019/09" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2019年</span><span class="num">4篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/cuglifangzheng/article/month/2016/10" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2016年</span><span class="num">18篇</span></a></div>
+        </div>
+    </div>
+</div>
+	<div id="footerRightAds" class="isShowFooterAds">
+		<div class="aside-box">
+			<div id="kp_box_57" data-pid="57"><div id="protag-banner-2"></div>
+<script data-cfasync="false" type="text/javascript" src="https://protagcdn.com/s/csdn.net/bbs/protag-banner-2.js"></script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=57&a=2234&c=0&k=&spm=1001.2101.3001.5001&d=1&t=3&u=ca528e944cc14b8d9b4908e72d24ff16" style="display: block;width: 0px;height: 0px;"></div>
+		</div>
+	</div>
+    <!-- 详情页显示目录 -->
+<!--文章目录-->
+<div id="asidedirectory" class="aside-box">
+    <div class='groupfile' id="directory">
+        <h3 class="aside-title">目录</h3>
+        <div class="align-items-stretch group_item">
+            <div class="pos-box">
+            <div class="scroll-box">
+                <div class="toc-box"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+</aside>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).parents("p.text-center").remove();
+	})
+</script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-tooltip/2.1/user-tooltip.js"></script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-medal/1.0.5/user-medal.js"></script>    </div>
+<div class="recommend-right  align-items-stretch clearfix" id="rightAside" data-type="recommend">
+    <aside class="recommend-right_aside">
+        <div id="recommend-right" >
+                        <div class='flex-column aside-box groupfile' id="groupfile">
+                <div class="groupfile-div">
+                <h3 class="aside-title">目录</h3>
+                <div class="align-items-stretch group_item">
+                    <div class="pos-box">
+                        <div class="scroll-box">
+                            <div class="toc-box"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+                <div id="recommendAdBox">
+                    <div id="kp_box_479" data-pid="479"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PC-博客内页右侧第一顺位 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-1076724771190722"
+     data-ad-slot="1827473444"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=479&a=3266&c=0&k=&spm=1001.2101.3001.4834&d=1&t=3&u=9ff4724c356e48d2a35d500e9ee09307" style="display: block;width: 0px;height: 0px;"></div>
+                </div>
+            <div class="recommend-list-box d-flex flex-column aside-box" id="recommend-list-box">
+            <ul class="recommend-fixed-box align-items-stretch">
+                <li class="right-item">
+                    <a href="https://plugin.csdn.net/" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.470242.nonecase\"}","index":"1","strategy":"106_470242_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.470242.nonecase\"}","index":"1","strategy":"106_470242_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.470242.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.470242.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>CSDN官方插件，现在体验可获得永久免费去广告特权！</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31415" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase\"}","index":"2","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31415"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase\"}","index":"2","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31415"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>3小时python轻松入门</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_53364386/13523952" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_53364386/13523952"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_53364386/13523952"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>ModScan32.zip</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31421" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31421"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31421"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>尹成Python27天入门到项目实战</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31438" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31438"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31438"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>【曾贤志】用Python处理Excel数据 - 第3季 正则篇</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/zcg_good/article/details/110437794" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/zcg_good/article/details/110437794"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/zcg_good/article/details/110437794"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Hadoop完全分布式集群搭建</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31379" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31379"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31379"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Net网站权限管理系统实战（基于vs2019、c#、razor</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31375" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31375"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31375"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>使用矩阵的方式编写人工智能框架</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_49186670/13524276" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13524276"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13524276"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>PolarMask: Single Shot Instance Segmentation with Polar Representation</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_49186670/13529374" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13529374"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13529374"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>CenterMask: single shot instance segmentation with point representation</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/q1369264370/article/details/110862681" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://blog.csdn.net/q1369264370/article/details/110862681"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://blog.csdn.net/q1369264370/article/details/110862681"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>项目启动时报错求助!!!</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/raoxiaoya/article/details/110862360" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://blog.csdn.net/raoxiaoya/article/details/110862360"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://blog.csdn.net/raoxiaoya/article/details/110862360"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>git深入理解(二)：HEAD是什么</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_44321975/article/details/110858787" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://blog.csdn.net/weixin_44321975/article/details/110858787"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://blog.csdn.net/weixin_44321975/article/details/110858787"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>SpringBoot多线程的实现</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/artisticnight/13529429" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://download.csdn.net/download/artisticnight/13529429"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://download.csdn.net/download/artisticnight/13529429"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>DrivingThirdExam.rar</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31416" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31416"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31416"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Redis入门到精通教程（2020最新录制）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31363" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31363"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31363"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>手把手搭建SpringBoot电子商城网站【附源码】（毕设）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_52148546/article/details/110862153" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://blog.csdn.net/weixin_52148546/article/details/110862153"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://blog.csdn.net/weixin_52148546/article/details/110862153"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>表单属性</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31359" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31359"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31359"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>面向对象的相关概念介绍  视频</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/m0_50635229/article/details/110862224" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://blog.csdn.net/m0_50635229/article/details/110862224"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://blog.csdn.net/m0_50635229/article/details/110862224"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Python3.6.5文件写入中文失败</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/GongmissYan/13532645" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://download.csdn.net/download/GongmissYan/13532645"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://download.csdn.net/download/GongmissYan/13532645"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>U盘读卡器-基于HAL库STM32F103C8</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/liyer_yiersan/article/details/110854142" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://blog.csdn.net/liyer_yiersan/article/details/110854142"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://blog.csdn.net/liyer_yiersan/article/details/110854142"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>祎二三的学习笔记：JAVA基础《一》</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31102" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31102"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31102"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>ARFoundation入门到精通</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_48344945/article/details/110860100" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://blog.csdn.net/weixin_48344945/article/details/110860100"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://blog.csdn.net/weixin_48344945/article/details/110860100"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>矩池云内一键安装nvcc</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31437" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31437"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31437"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>【曾贤志】openpyxl处理Excel数据 - 第2季 巩固篇</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31413" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31413"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31413"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>从新手小白进入WinForm编程 (VS2019)</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/cpongo1/13529488" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://download.csdn.net/download/cpongo1/13529488"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://download.csdn.net/download/cpongo1/13529488"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>proxycert.cmd</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_53340323/article/details/110847216" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://blog.csdn.net/weixin_53340323/article/details/110847216"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://blog.csdn.net/weixin_53340323/article/details/110847216"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>线程和进程有什么区别？</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/qq_36856393/13529490" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://download.csdn.net/download/qq_36856393/13529490"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://download.csdn.net/download/qq_36856393/13529490"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>HCIP 路由交换题库+模拟测试题</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/ttataat/13530416" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13530416"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13530416"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>住宅小区安防与智能化系统</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/ttataat/13532488" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13532488"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13532488"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>腾讯微瓴&mdash;&mdash;物联网时代，如何用微瓴开发智慧建筑应用</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/aaa15215472a/13529350" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://download.csdn.net/download/aaa15215472a/13529350"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://download.csdn.net/download/aaa15215472a/13529350"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>提取QQ和微信的语音信息修改为可播放mp3类</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/chunguang530/13529401" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://download.csdn.net/download/chunguang530/13529401"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://download.csdn.net/download/chunguang530/13529401"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>jsraw.txtApp 物联</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/ttataat/13534405" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13534405"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13534405"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>无线智慧城市解决方案书&mdash;&mdash;无线自组网宽带技术在无线智慧城市建设中应用</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_43171019/13529480" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_43171019/13529480"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_43171019/13529480"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>activation.jar</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_39206750/article/details/110862409" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://blog.csdn.net/qq_39206750/article/details/110862409"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://blog.csdn.net/qq_39206750/article/details/110862409"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>JS获取当前时间的前一天/后一天（昨天/明天）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/combo/detail/1964" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1964"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1964"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>数据清洗-Pandas系统视频教程</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lchewf/13529495" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://download.csdn.net/download/lchewf/13529495"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://download.csdn.net/download/lchewf/13529495"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>LK-Navigator_ver1.60</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_32833357/article/details/110862246" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://blog.csdn.net/qq_32833357/article/details/110862246"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://blog.csdn.net/qq_32833357/article/details/110862246"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>2020-12-08</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31372" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31372"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31372"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>小白趣味学Python编程</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+            </ul>
+            </div>
+        </div>
+    </aside>
+</div>
+
+</div>
+<div class="mask-dark"></div>
+<script type="text/javascript">
+    var timert = setInterval(function(){
+      sideToolbar = $(".csdn-side-toolbar");
+      if (sideToolbar.length > 0) {
+        sideToolbar.css('cssText','bottom:64px !important;')
+        clearInterval(timert);
+      }
+    }, 200);
+</script>
+<script>
+    var articleId = 50725890;
+    var commentscount = 0;
+    var curentUrl = "https://blog.csdn.net/cuglifangzheng/article/details/50725890";
+    var myUrl = "https://my.csdn.net/";
+    var highlight = ["Windows","调试","使用","windbg","查找","内存","泄露"];//高亮数组
+    var share_card_url = "https://blog.csdn.net/cuglifangzheng/article/shareArticleCardPage?article_id=50725890"
+	var articleType = 2;
+    var baiduKey = "windbg查看内存泄漏";
+    var needInsertBaidu = true;
+    var recommendRegularDomainArr = ["blog.csdn.net/.+/article/details/","download.csdn.net/download/","edu.csdn.net/course/detail/","ask.csdn.net/questions/","bbs.csdn.net/topics/","www.csdn.net/gather_.+/"]
+    var codeStyle = "";
+    var baiduSearchType = "baidulandingword";
+    var canRead = true;
+    var blogMoveHomeArticle = false;
+    var showPcWindowAd = false;
+</script>
+<script src="https://csdnimg.cn/public/sandalstrap/1.4/js/sandalstrap.min.js"></script>
+<div class="skin-boxshadow"></div>
+<div style="display:none;">
+	<img src="" onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+</div>
+</body>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_highlight-db1e81323a.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_common-906586e915.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/codesnippet/lib/highlight/styles/atom-one-light.css">
+<script>
+ // 全局声明
+ if (window.csdn === undefined) {
+      window.csdn = {};
+    }
+    window.csdn.sideToolbar = {
+        options: {
+            report:{
+                isShow: true,
+            },
+            qr: {
+                isShow: false,
+            },
+            guide: {
+                isShow: true
+            }
+        }
+    }
+    $(function(){
+        $(document).on('click',"a.option-box[data-type='report']",function() {
+            window.csdn.userLogin.loadAjax(function(res){
+                showReport(false,articleTitles);
+            })
+        });
+    })
+</script>
+    <script src="https://g.csdnimg.cn/baidu-search/1.0.7/baidu-search.js"  type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/download/old_static/js/qrcode.js"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/common-b286f966c8.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/detail-c3206d1df7.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/user-ordercart/1.0.6/user-ordercart.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/column-78261cfea6.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/side-toolbar/2.8/side-toolbar.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/copyright/1.0.3/copyright.js" type="text/javascript"></script>
+<script>
+    $(".MathJax").remove();
+    if ($('div.markdown_views pre.prettyprint code.hljs').length > 0) {
+        $('div.markdown_views')[0].className = 'markdown_views';
+    }
+</script>
+<script type="text/javascript" src="https://csdnimg.cn/release/blog_mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            "HTML-CSS": {
+                    linebreaks: { automatic: true, width: "94%container" },
+                    imageFont: null
+            },
+            tex2jax: {
+                preview: "none"
+            },
+            mml2jax: {
+                preview: 'none'
+            }
+    });
+</script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/user-login/2.3.2/user-login.js"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/login-box/1.1.4/login-box.js"></script></html>

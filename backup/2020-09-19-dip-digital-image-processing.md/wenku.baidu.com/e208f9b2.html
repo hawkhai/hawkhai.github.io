@@ -1,0 +1,997 @@
+<!DOCTYPE html><html lang="en"><head><link href="//wkstatic.bdimg.com/static/ndpcwenku/static/ndview/css/ppt.830957d9c40d3229a16a.css" rel="stylesheet"></head><head>
+    <meta charset="utf-8">
+    <title>第三章图像的几何变换 - 百度文库</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="shortcut icon" href="https://www.baidu.com/cache/icon/favicon.ico" type="image/x-icon">
+    <link rel="icon" sizes="any" href="https://www.baidu.com/cache/icon/favicon.svg">
+    <script>
+        window.tsFP = Date.now();
+    </script>
+    
+    
+</head>
+
+<body>
+    <style>
+html {
+    color: #000;
+    background: #fff;
+}
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td {
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+fieldset,
+img {
+    border: 0;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var,
+b {
+    font-style: normal;
+    font-weight: normal;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+caption,
+th {
+    text-align: left;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size:100%;
+    font-weight:normal;
+}
+
+
+pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+abbr,
+acronym {
+    border:0;
+    font-variant:normal;
+}
+
+/*
+ * 1. Addresses CSS quotes not supported in IE6/7
+ * 2. Addresses quote property not supported in S4
+ */
+
+/* 1 */
+
+q {
+    quotes: none;
+}
+
+/* 2 */
+
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+/*
+ * Prevents sub and sup affecting line-height in all browsers
+ * gist.github.com/413930
+ */
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+/*
+ * links
+ */
+
+/*
+ * Addresses outline displayed oddly in Chrome
+ */
+
+a:focus {
+    outline: thin dotted;
+}
+
+/*
+ * Improves readability when focused and also mouse hovered in all browsers
+ * people.opera.com/patrickl/experiments/keyboard/test
+ */
+
+a:hover,
+a:active {
+    outline: 0;
+}
+
+/*
+ * form
+ */
+
+/*
+ * 1. Corrects color not being inherited in IE6/7/8/9
+ * 2. Corrects text not wrapping in FF3 
+ */
+
+legend {
+    border: 0; /* 1 */
+    white-space: normal; /* 2 */
+    color:#000;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family:inherit;
+    font-size:inherit;
+    font-weight:inherit;
+    vertical-align: baseline;
+    *vertical-align: middle;
+}
+
+/*
+ * Addresses FF3/4 setting line-height on 'input' using !important in the UA stylesheet
+ */
+
+button,
+input {
+    line-height: normal; /* 1 */
+}
+
+/*
+ * 1. Improves usability and consistency of cursor style between image-type 'input' and others
+ * 2. Corrects inability to style clickable 'input' types in iOS
+ * 3. Removes inner spacing in IE7 without affecting normal text inputs
+ *    Known issue: inner spacing remains in IE6
+ */
+
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+    cursor: pointer; /* 1 */
+    -webkit-appearance: button; /* 2 */
+    *overflow: visible;  /* 3 */
+}
+
+/*
+ * 1. Addresses box sizing set to content-box in IE8/9
+ * 2. Removes excess padding in IE8/9
+ * 3. Removes excess padding in IE7
+      Known issue: excess padding remains in IE6
+ */
+
+input[type="checkbox"],
+input[type="radio"] {
+    box-sizing: border-box; /* 1 */
+    padding: 0; /* 2 */
+    *height: 13px; /* 3 */
+    *width: 13px; /* 3 */
+}
+
+
+/*
+ * Removes inner padding and border in FF3+
+ * www.sitepen.com/blog/2008/05/14/the-devils-in-the-details-fixing-dojos-toolbar-buttons/
+ */
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/*
+ * FF3的一些版本hidden没有隐藏
+ */
+input[type="hidden"] {
+    display: none!important;
+}
+
+/*
+ * 1. Removes default vertical scrollbar in IE6/7/8/9
+ * 2. Improves readability and alignment in all browsers
+ * 3. 不让textarea可以resize
+ */
+
+textarea {
+    overflow: auto; /* 1 */
+    vertical-align: top; /* 2 */
+    resize: none; /* 3 */
+}
+
+/*
+ * font
+ */
+
+/* 
+ * 1.333为默认行高16px(16/12),去除sans-serif防止ie8\9下字体变形
+ */
+body {
+    min-width: 1280px;
+    height:100%;
+    font: 12px/1.333 "\5FAE\8F6F\96C5\9ED1", "Hiragino Sans GB", arial,helvetica,clean;
+}
+
+select,
+input,
+button,
+textarea {
+    font:100% arial,helvetica,clean;
+}
+
+table {
+    font-size: inherit;
+    font: 100%;
+}
+
+/*
+ * Corrects font family set oddly in IE6, S4/5, Chrome
+ * en.wikipedia.org/wiki/User:Davidgothberg/Test59
+ */
+
+pre,
+code,
+kbd,
+samp {
+    font-family: monospace, serif;
+    _font-family: 'courier new', monospace;
+    font-size: 100%;
+    line-height: 100%;
+}
+
+small {
+    font-size: 75%;
+}
+</style>
+
+    
+    <div id="app">
+    <header-wrapper></header-wrapper>
+    <div class="header-wrapper no-full-screen" v-if="!vueMounted">
+    
+
+
+    <div class="search-box-wrapper  ">
+    <div class="search-box-inner-wrapper">
+        <div class="search-logo-wrap">
+            <a href="/?fr=logo">
+                <span class="wk-logo-icon"></span>
+            </a>
+        </div>
+        <div class="search-tab-wrap">
+            <div class="search-tab-content">
+                <div class="search-tab-item">首页</div>
+                <div class="search-tab-item">文档</div>
+                <div class="search-tab-item">视频</div>
+                <div class="search-tab-item">音频</div>
+                <div class="search-tab-item">文集</div>
+                <div class="search-tab-item">店铺</div>
+            </div>
+        </div>
+        <div class="search-input-wrap">
+            <span class="search-input ">
+                <input id="kw" maxlength="256" tabindex="1" autocomplete="off" data-keyword="" placeholder="">
+            </span>
+            <div class="search-submit-btn ">搜索文档</div>
+        </div>
+    </div>
+</div>
+</div>
+
+    <div class="content-wrapper">
+        <div class="left-wrapper zoom-scale">
+            <div class="no-full-screen" v-if="!vueMounted">
+    <div class="doc-info-wrapper">
+        <div class="doc-info-main">
+            <div class="doc-info-left">
+                <div class="doc-tag-wrap">
+    
+        <div class="tag">几何变换 </div>
+    
+        <div class="tag">数学 </div>
+    
+        <div class="tag">初中教育 </div>
+    
+</div>
+                <div class="doc-title-wrap">
+                    <div class="doc-type-icon ppt"></div>
+                    <h3 class="doc-title">第三章图像的几何变换</h3>
+                </div>
+                <div class="doc-summary-wrap">
+    
+        <span class="doc-score">
+            4.1分
+            （超过78%的文档）
+        </span>
+    
+    <span class="divider"></span>
+    <span>28阅读</span>
+    <span class="divider"></span>
+    <span>0下载</span>
+    <span class="divider"></span>
+    <span>2020-05-12上传</span>
+    <span class="divider"></span>
+    <span>62页</span>
+</div>
+
+                <div class="doc-btns-wrap">
+    <div class="small-btn collect-btn">
+        <i class="collect-icon not-collect"></i>
+        <span>收藏</span>
+    </div>
+    <div id="doc-info-share-btn" class="small-btn share-btn">
+        <i class="share-icon"></i>
+        <span>分享</span>
+    </div>
+    <div class="small-btn cloud-storage-btn">
+        <i class="cloud-storage-icon"></i>
+        <span>转存</span>
+    </div>
+    <div class="small-btn report-btn">
+        <i class="report-icon"></i>
+        <span>举报</span>
+    </div>
+    <!-- 由于版权页未上线，故先注释，等待PM @张玉芳通知 -->
+    <div class="small-btn copyright-btn">
+        <i class="copyright-icon"></i>
+        <span>认领</span>
+    </div>
+    <div class="middle-btn client-btn">
+        <i class="client-icon"></i>
+        <span>客户端打开</span>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <doc-head-info></doc-head-info>
+            <div class="reader-wrap">
+                <div>
+                    
+                        <reader-topbar @gotopage="gotoPage"></reader-topbar>
+                    
+                    
+    <div id="reader-container"
+        class="reader-container"
+        :style="{height: readerContainerH}"
+    >
+        
+            
+                <div class="mod flow-ppt-mod">
+                    <div>
+                    <div class="ppt-page-item  batch-50-1"
+                        id="pageNo-1">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=1&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=0-52840&jpg=0-115042" alt="">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item  batch-50-1"
+                        id="pageNo-2">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=2&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=52841-105501&jpg=115043-296308" alt="">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item  batch-50-1"
+                        id="pageNo-3">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=3&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=105502-158162&jpg=296309-447412" alt="">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-4">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=4&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=158163-214508&jpg=447413-575582">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-5">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=5&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=214509-267169&jpg=575583-656802">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-6">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=6&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=267170-319830&jpg=656803-771152">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-7">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=7&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=319831-373550&jpg=771153-927162">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-8">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=8&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=373551-426211&jpg=927163-1100783">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-9">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=9&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=426212-478978&jpg=1100784-1243993">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-10">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=10&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=478979-536085&jpg=1243994-1397151">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-11">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=11&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=536086-588964&jpg=1397152-1571347">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-12">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=12&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=588965-641625&jpg=1571348-1673309">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-13">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=13&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=641626-694286&jpg=1673310-1824668">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-14">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=14&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=694287-746947&jpg=1824669-2006762">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-15">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=15&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=746948-799758&jpg=2006763-2128355">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-16">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=16&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=799759-852419&jpg=2128356-2314637">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-17">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=17&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=852420-909583&jpg=2314638-2414921">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-18">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=18&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=909584-962082&jpg=2414922-2527829">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-19">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=19&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=962083-1014463&jpg=2527830-2633704">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-20">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=20&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1014464-1069086&jpg=2633705-2803760">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-21">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=21&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1069087-1124486&jpg=2803761-2962560">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-22">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=22&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1124487-1177035&jpg=2962561-3151308">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-23">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=23&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1177036-1229696&jpg=3151309-3265809">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-24">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=24&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1229697-1282357&jpg=3265810-3434161">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-25">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=25&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1282358-1337344&jpg=3434162-3537861">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-26">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=26&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1337345-1393117&jpg=3537862-3693082">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-27">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=27&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1393118-1445778&jpg=3693083-3814963">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-28">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=28&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1445779-1500482&jpg=3814964-3913932">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-29">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=29&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1500483-1553143&jpg=3913933-4039602">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-30">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=30&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1553144-1605804&jpg=4039603-4218192">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-31">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=31&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1605805-1664748&jpg=4218193-4339015">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-32">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=32&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1664749-1717409&jpg=4339016-4509014">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-33">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=33&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1717410-1770070&jpg=4509015-4658448">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-34">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=34&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1770071-1832931&jpg=4658449-4761729">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-35">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=35&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1832932-1887473&jpg=4761730-4850260">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-36">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=36&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1887474-1940134&jpg=4850261-4993872">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-37">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=37&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1940135-1992795&jpg=4993873-5085248">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-38">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=38&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1992796-2045456&jpg=5085249-5256802">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-39">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=39&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2045457-2099707&jpg=5256803-5337933">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-40">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=40&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2099708-2152368&jpg=5337934-5479493">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-41">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=41&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2152369-2205029&jpg=5479494-5565735">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-42">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=42&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2205030-2257690&jpg=5565736-5664872">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-43">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=43&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2257691-2310351&jpg=5664873-5753712">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-44">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=44&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2310352-2476732&jpg=5753713-5897893">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-45">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=45&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2476733-2529393&jpg=5897894-6077180">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-46">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=46&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2529394-2582898&jpg=6077181-6142802">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-47">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=47&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2582899-2639934&jpg=6142803-6226341">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-48">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=48&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2639935-2695131&jpg=6226342-6356617">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-49">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=49&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2695132-2747792&jpg=6356618-6475201">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-1"
+                        id="pageNo-50">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=50&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2747793-2800453&jpg=6475202-6589566">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-2"
+                        id="pageNo-51">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=51&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2800454-2857138&jpg=6589567-6701380">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-2"
+                        id="pageNo-52">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=52&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2857139-2913492&jpg=6701381-6796056">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-2"
+                        id="pageNo-53">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=53&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2913493-2966153&jpg=6796057-6928757">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-2"
+                        id="pageNo-54">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=54&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2966154-3018814&jpg=6928758-7094115">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-2"
+                        id="pageNo-55">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=55&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3018815-3071475&jpg=7094116-7253949">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-2"
+                        id="pageNo-56">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=56&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3071476-3124136&jpg=7253950-7386160">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-2"
+                        id="pageNo-57">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=57&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3124137-3176797&jpg=7386161-7541836">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-2"
+                        id="pageNo-58">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=58&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3176798-3229458&jpg=7541837-7682287">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-2"
+                        id="pageNo-59">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=59&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3229459-3282119&jpg=7682288-7848788">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-2"
+                        id="pageNo-60">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=60&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3282120-3334780&jpg=7848789-8022800">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-2"
+                        id="pageNo-61">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=61&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3334781-3387441&jpg=8022801-8150917">
+                        </div>
+                    </div>
+                    <div class="ppt-page-item hide batch-50-2"
+                        id="pageNo-62">
+                        <div class="ppt-image-wrap ppt-4-3">
+                            <img data-src="https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=62&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3387442-&jpg=8150918-">
+                        </div>
+                    </div></div>
+                </div>
+            
+        
+    </div>
+
+
+                </div>
+                
+                    <fold-page></fold-page>
+                
+                <lazy-render tip="" :time="1000">
+                    <copyright></copyright>
+                </lazy-render>
+            </div>
+
+            <div class="no-full-screen">
+                <tool-bar></tool-bar>
+                
+                    <ad-bottom></ad-bottom>
+                
+                <lazy-render tip="" :time="1000">
+                    
+                        <relative-recommend></relative-recommend>
+                    
+                    <comment></comment>
+                </lazy-render>
+            </div>
+        </div>
+
+        <div class="right-wrapper no-full-screen" id="right-wrapper-id">
+            <div class="author-info" v-show="!vueMounted">
+    
+    
+        
+
+
+
+<div class="author-info-wrapper">
+    <div class="title-box">
+        <p class="title">关于作者</p>
+        <div class="line"></div>
+    </div>
+    <div class="user-info">
+        
+        
+            
+        
+        
+        <div class="avatar" style="background-image: url(https://wkphoto.cdn.bcebos.com/cb8065380cd791238c11e3ffa0345982b3b78043.jpg);">
+            <div class="v-tag v-tag-PGC"></div>
+        </div>
+        <div class="info">
+            <div class="nick-box">
+                <p class="nickname">
+                    静待花开
+                </p>
+                <p class="tag tag-maxw">
+                    优质作者
+                </p>
+            </div>
+            
+                <p class="subtitle">
+                    拥有丰富的IT Service Management相关的，理论与实践经验。
+                </p>
+            
+        </div>
+    </div>
+    <div class="property">
+        <div class="item">
+            <p class="title">文档</p>
+            <div class="author-info-number">304153</div>
+        </div>
+        <div class="item">
+            <p class="title">粉丝</p>
+            <div class="author-info-number">309</div>
+        </div>
+        <div class="item">
+            <p class="title">等级</p>
+            <div class="author-info-number">Lv4</div>
+        </div>
+    </div>
+    
+        <div class="card-action-box">
+            
+                <div class="common unfollow">关注</div>
+            
+            <div class="common user-info">
+                个人主页
+            </div>
+        </div>
+    
+</div>
+    
+</div>
+                
+            <author-info></author-info>
+            
+                <right-channel></right-channel>
+                <operation></operation>
+                <relative-search class="sider-edge" :fix="false"></relative-search>
+                <relative-doc class="sider-edge" :fix="false"></relative-doc>
+                <lazy-render tip="" :time="1000">
+                    <relative-course class="sider-edge" :fix="false"></relative-course>
+                </lazy-render>
+                <ad-right class="sider-edge"></ad-right>
+            
+            <lazy-render tip="" :time="1000">
+                <recommend-fix></recommend-fix>
+            </lazy-render>
+        </div>
+        
+        <div class="no-full-screen">
+            <collection-guide></collection-guide>
+        </div>
+    </div>
+    <lazy-render tip="" :time="1000">
+        <div class="footer-wrapper no-full-screen" id="footer-wrapper-id">
+            <propagation></propagation>
+        </div>
+        
+            <sidebar></sidebar>
+        
+        <vip-member-pop></vip-member-pop>
+        <reader-plugin :root-selector="'#reader-container'"></reader-plugin>
+        <wkfooter></wkfooter>
+        <vip-no-ad-dialog></vip-no-ad-dialog>
+    </lazy-render>
+</div>
+
+
+
+    <script>window.tsFMP = +(new Date());</script>
+
+    <script>
+        var pageData = {"docInfo2019":{"doc_info":{"show_doc_id":"1bdcc12227c52cc58bd63186bceb19e8b8f6ecbc","title":"第三章图像的几何变换","view_count":28,"download_count":0,"score":4.1,"score_percentage":"78","show_create_time":"20200512 02:17:13","create_time":"1589221033","update_time":"1589221033","page":"62","size":"1188889","summary":"","flag":"28","type":"3","ishide":"0","zan":0,"cover_url":"https://wkimg.bdimg.com/img/a6350495ce2f0066f5332281?new=1&w=500&p=1","show_store_id":"a6350495ce2f0066f5332281","is_creater":0,"download_token":"6d5702a6cdae08d9f9f643eece77cd97","is_vip_free_doc":false,"main_status":"2","forbidden_comment":0,"modifyLock":0,"is_legion_doc":0,"editorDocId":"","professional_doc":1,"doc_type":3,"is_inroom":0,"typeName":"ppt","view_count_show":"28","download_count_show":"0","create_time_show":"2020-05-12"},"cover_list":["https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=1&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=0-52840&jpg=0-115042","https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=2&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=52841-105501&jpg=115043-296308","https://wkretype.bdimg.com/retype/zoom/a6350495ce2f0066f5332281?pn=3&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=105502-158162&jpg=296309-447412"],"tags":[{"tag":"几何变换","url":"https://wenku.baidu.com/search?fr=view_tag2019_1&word=%BC%B8%BA%CE%B1%E4%BB%BB","type":1},{"tag":"数学","url":"https://wenku.baidu.com/search?fr=view_tag2019_1&word=%CA%FD%D1%A7","type":1},{"tag":"初中教育","url":"https://wenku.baidu.com/search?fr=view_tag2019_1&word=%B3%F5%D6%D0%BD%CC%D3%FD","type":1}],"search_words":[],"hot_words":[{"word":"几何变换","url":"https://wenku.baidu.com/search?fr=view_tag2019_1&word=%BC%B8%BA%CE%B1%E4%BB%BB"},{"word":"初中教育","url":"https://wenku.baidu.com/search?fr=view_tag2019_1&word=%B3%F5%D6%D0%BD%CC%D3%FD"},{"word":"数学","url":"https://wenku.baidu.com/search?fr=view_tag2019_1&word=%CA%FD%D1%A7"}],"creator_info":{"uid_str":"b060f31f4b73f242336c5f50","uname":"水中揽月看云起","utype":"PGC","follower_count":"309","have_followed":"0","level":"4","scienceOrg":0,"scienceRepeatSign":0,"tname":"静待花开","verify_type":"5","verify_name":"拥有丰富的IT Service Management相关的，理论与实践经验。","summary":"拥有丰富的IT Service Management相关的，理论与实践经验。","avadar":"https://wkphoto.cdn.bcebos.com/cb8065380cd791238c11e3ffa0345982b3b78043.jpg","doc_count":304153,"title":"优质作者","view_count":10312792,"value_score":"3.4","prove_url":"","phone":"","show_auth":0,"level_info":{"level":"4","is_keep":"0","total_score":"550","content_score":"372","alive_score":"663","business_score":"657","profession_score":"700","credit_score":"591","create_time":"1605098565","update_time":"1605098565","level_name":"优质作者","levelShow":"c","levelText":"金牌店铺"},"shop_follow":{"is_own_shop":0,"follow_count":0,"is_followed":0},"shop_info":{"shop_level":"4","shop_level_name":"金牌店铺","shop_name_show":"undefined的店"},"typeTitle":"个人主页"},"can_read":1,"price_info":{"doc_price":0,"doc_ticket":0,"is_payment_doc":0,"shopVoucherInfo":{}},"vip_info":[],"like_info":{"is_liked":0},"attestation_doc_result":0,"is_copyright":0,"is_exclusive":0,"copyright_flag":0,"doc_view_rec_test_type":0},"readerInfo2019":{"tpl_key":"new_view","md5sum":"&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41","pageInfo":{"pageHeight":"810","pageWidth":"1080","pageWH":["1080","810"],"other":null,"version":6},"htmlBcs":true,"htmlUrls":"[\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=1&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=0-52840&jpg=0-115042\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=2&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=52841-105501&jpg=115043-296308\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=3&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=105502-158162&jpg=296309-447412\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=4&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=158163-214508&jpg=447413-575582\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=5&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=214509-267169&jpg=575583-656802\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=6&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=267170-319830&jpg=656803-771152\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=7&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=319831-373550&jpg=771153-927162\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=8&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=373551-426211&jpg=927163-1100783\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=9&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=426212-478978&jpg=1100784-1243993\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=10&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=478979-536085&jpg=1243994-1397151\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=11&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=536086-588964&jpg=1397152-1571347\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=12&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=588965-641625&jpg=1571348-1673309\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=13&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=641626-694286&jpg=1673310-1824668\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=14&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=694287-746947&jpg=1824669-2006762\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=15&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=746948-799758&jpg=2006763-2128355\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=16&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=799759-852419&jpg=2128356-2314637\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=17&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=852420-909583&jpg=2314638-2414921\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=18&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=909584-962082&jpg=2414922-2527829\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=19&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=962083-1014463&jpg=2527830-2633704\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=20&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1014464-1069086&jpg=2633705-2803760\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=21&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1069087-1124486&jpg=2803761-2962560\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=22&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1124487-1177035&jpg=2962561-3151308\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=23&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1177036-1229696&jpg=3151309-3265809\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=24&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1229697-1282357&jpg=3265810-3434161\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=25&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1282358-1337344&jpg=3434162-3537861\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=26&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1337345-1393117&jpg=3537862-3693082\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=27&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1393118-1445778&jpg=3693083-3814963\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=28&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1445779-1500482&jpg=3814964-3913932\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=29&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1500483-1553143&jpg=3913933-4039602\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=30&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1553144-1605804&jpg=4039603-4218192\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=31&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1605805-1664748&jpg=4218193-4339015\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=32&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1664749-1717409&jpg=4339016-4509014\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=33&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1717410-1770070&jpg=4509015-4658448\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=34&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1770071-1832931&jpg=4658449-4761729\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=35&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1832932-1887473&jpg=4761730-4850260\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=36&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1887474-1940134&jpg=4850261-4993872\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=37&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1940135-1992795&jpg=4993873-5085248\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=38&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=1992796-2045456&jpg=5085249-5256802\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=39&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2045457-2099707&jpg=5256803-5337933\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=40&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2099708-2152368&jpg=5337934-5479493\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=41&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2152369-2205029&jpg=5479494-5565735\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=42&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2205030-2257690&jpg=5565736-5664872\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=43&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2257691-2310351&jpg=5664873-5753712\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=44&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2310352-2476732&jpg=5753713-5897893\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=45&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2476733-2529393&jpg=5897894-6077180\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=46&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2529394-2582898&jpg=6077181-6142802\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=47&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2582899-2639934&jpg=6142803-6226341\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=48&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2639935-2695131&jpg=6226342-6356617\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=49&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2695132-2747792&jpg=6356618-6475201\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=50&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2747793-2800453&jpg=6475202-6589566\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=51&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2800454-2857138&jpg=6589567-6701380\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=52&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2857139-2913492&jpg=6701381-6796056\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=53&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2913493-2966153&jpg=6796057-6928757\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=54&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=2966154-3018814&jpg=6928758-7094115\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=55&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3018815-3071475&jpg=7094116-7253949\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=56&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3071476-3124136&jpg=7253950-7386160\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=57&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3124137-3176797&jpg=7386161-7541836\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=58&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3176798-3229458&jpg=7541837-7682287\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=59&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3229459-3282119&jpg=7682288-7848788\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=60&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3282120-3334780&jpg=7848789-8022800\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=61&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3334781-3387441&jpg=8022801-8150917\",\"https:\\/\\/wkretype.bdimg.com\\/retype\\/zoom\\/a6350495ce2f0066f5332281?pn=62&o=jpg_6&md5sum=75dc34bc9db3cfe06e43d833e8d43f84&sign=d8246b8a41&png=3387442-&jpg=8150918-\"]","free_page":"62","show_page":"62","page":"62","editor_info":[],"rsign":""},"mixVipAndUserInfo":{"error_no":"2","userInfo":{"isLogin":false,"uip":"10.14.130.131","uipNum":"2206338570","isHadSecuremobil":0,"bjhVtype":0,"bjhVintro":""}},"vipInfo":{},"myShopInfo":null,"wkAdBlockStatus":{"errstr":"success","block_status":false},"antiClass":"wkwm17640a0dc77","hxXapgeDate":{"form_data":{"knowAd":100,"ad":100,"zyStr":5,"searchNewStyleStr":0,"viewFcReqStr":100,"searchFcReqStr":100,"newHxReqStr":100,"viewToSearchReqStr":100,"vipNoAd":{"vipNoAd":{"time":0},"vipNoAdDuiZhao":{"flow":"0/1/2/3/4/5/6/7/8/9/10","time":1440}},"zhishiReqStr":100,"zhishiSearchReqStr":100,"zhishiView":{"oldView":{"flow":"1/2/3/4/5/6/7/8/9/10"}},"searchAdTime":{"together":{"flow":"1/15"},"adAfter":{"flow":"85/100"}},"searchAdSwitch":1,"searchTopBottomAd":{"top":{"flow":"1/2/3/4/5/6/7"},"bottom":{"flow":"8/9/10"}},"guid_to_university_na":{"isopen":false}}},"controlFeature":{"pcGrayTheme":false},"saleActivityXpage":{"activity_name":"优选文档限时VIP8折","activity_subtitle":"优惠还剩","url":"https://wenku.baidu.com/ndcashier/browse/jiaoyuvipcashier?cashier_code=Viewvip8qipao","start_time":1587398400000,"end_time":1587571200000,"activity_switch":false},"viewControl":{"controll_type":2,"controll_reason":"","doc_flag":28,"main_status":"2"},"token":"1607398063_c46e01dc3790e9a8e3a5d3edff51e933","wkSmallflow":{"visible1796":true,"wkWeb2024":0},"skinViewStrategy":{"topbar_pic_url":"https://edu-tob.bdimg.com/v1/pc/PC%E5%8E%8B%E9%A1%B6-%E5%B0%8F%E5%9B%BE-1604933909358.jpg","topbar_big_pic_url":"https://edu-tob.bdimg.com/v1/pc/PC%E5%8E%8B%E9%A1%B6-%E5%A4%A7%E5%9B%BE-1604933901570.jpg","topbar_jump_url":"https://wenku.baidu.com/ndbusiness/browse/wkcoincashier?cashier_code=11","leftbar_pic1_url":"//edu-wenku.bdimg.com/v1/images/侧边栏头-1576725822251.png","leftbar_pic2_url":"//edu-wenku.bdimg.com/v1/images/%E4%BE%A7%E8%BE%B9%E6%A0%8F%E4%B8%AD-1576725820663.png","leftbar_pic3_url":"//edu-wenku.bdimg.com/v1/images/zsj-leftbar-close.png","leftbar_jump_url":"https://wenku.baidu.com/ndcashier/browse/jiaoyuvipcashier?cashier_code=ChangeFromViewxuanfu","toppos_pic_url":"https://edu-tob.bdimg.com/v1/pc/WPS%E5%9B%BE%E7%89%87-%E4%BF%AE%E6%94%B9%E5%B0%BA%E5%AF%B8-1606312056328.png","toppos_jump_url":"https://wenku.baidu.com/ndbusiness/browse/wenkuvipcashier?cashier_code=ChangeFromPCviewtop&choose_goods_id=312","topbar_is_open":false,"leftbar_is_open":false,"toppos_is_open":false,"key":"__wk_view_topbar_2020118"},"ssr":1,"giftInfo":{"giftSwitch":true,"giftIcon":"https://edu-wenku.bdimg.com/v1/pc/%E6%96%87%E9%9B%86%E4%B9%B0%E8%B5%A0%E9%9D%99%E6%80%81%E5%9B%BE%E6%A0%87/qqmusic.png","priceLimit":2990,"giftCount":{"target":"price","rules":[{"min":"29.9","max":"54.9","value":1},{"min":"54.9","max":"Infinity","value":2}]},"pcWenjiView":{"title":"送{{giftCount}}个月QQ音乐会员"},"pcWenjiPack":{"title":"买就送{{giftCount}}个月QQ音乐会员！","icon":"https://edu-wenku.bdimg.com/v1/pc/%E6%96%87%E9%9B%86%E4%B9%B0%E8%B5%A0%E9%9D%99%E6%80%81%E5%9B%BE%E6%A0%87/qqmusic.png","recommandTip":"赠会员"},"wapWenjiPack":{"title":"买就送{{giftCount}}个月QQ音乐会员！","icon":"https://edu-wenku.bdimg.com/v1/pc/%E6%96%87%E9%9B%86%E4%B9%B0%E8%B5%A0%E9%9D%99%E6%80%81%E5%9B%BE%E6%A0%87/qqmusic-1595224358151.png","recommandTip":"赠会员"},"activityPageCopy":{"wenjiListCopy":"送%s个月QQ音乐会员"},"cashier":[{"actName":"1856_packdoc_qqmusic","icon":"https://edu-wenku.bdimg.com/v1/wap/qq%E9%9F%B3%E4%B9%90-1594957488813.png","title":"送%s个月QQ音乐会员"}],"sucPcPage":[{"actName":"1856_packdoc_qqmusic","icon":"https://edu-wenku.bdimg.com/v1/wap/qq%E9%9F%B3%E4%B9%90-1594957488813.png","title":"恭喜您获得了QQ音乐会员月卡%s张","desc":"兑换码及兑换方式同样会以短信及文库站内信形式发送给您","linkText":"去查看","link":"https://wenku.baidu.com/ndwelfare/browse/cornucopia?source=63"}],"sucWapPage":[{"actName":"1856_packdoc_qqmusic","icon":"https://edu-wenku.bdimg.com/v1/wap/qq%E9%9F%B3%E4%B9%90-1594957488813.png","title":"恭喜您获得了QQ音乐会员月卡%s张","desc":"兑换码及兑换方式同样会以短信及站内信发送给您（可在电脑端登录百度文库-个人中心-我的消息查看），请注意查收~","linkText":"去查看","link":"https://wenku.baidu.com/ndwelfare/browse/cornucopia?source=63"}]},"activity":{"actImg":"https://qn13.tool.lu/202005/24/151913rdYgDQ2kAe4XSces_280x150.png","leftNum":9345,"totalNum":10000,"consume":655,"startTime":1600616459,"endTime":1600963200},"channelId":"","getGuideNaXpage":[{"guideNARefer":"1020999h","andriodRoute":"https://downpack.baidu.com/baiduwenku_AndroidPhone_1020999h.apk","codeImg":"https://edu-wenku.bdimg.com/v1/pc/sidebar_qr_code-1600926465061.png"}],"pcClientLandingPage":{"pcSwitch":true,"app":{"title":"百度文库 APP","back":"https://edu-wenku.bdimg.com/v1/pc/pcactivity/app-back.png","desc":"作业、做题辅导学习必备神器","tip":"月卡加赠7天","icon":"https://edu-wenku.bdimg.com/v1/na/0807/%E6%96%87%E5%BA%93APPicon-1603434254133.png","qrcodeAndroid":"https://edu-wenku.bdimg.com/v1/na/0807/%E6%96%87%E5%BA%93APP%20%E5%AE%89%E5%8D%93%E7%AB%AF-1602299474435.png","qrcodeIphone":"https://edu-wenku.bdimg.com/v1/na/0807/%E6%96%87%E5%BA%93APP%20iOS%E7%AB%AF-1602299504173.png","imgList":["https://edu-wenku.bdimg.com/v1/na/0807/%E5%AE%9E%E7%94%A8%E6%96%87%E6%A1%A3-1603258168544.png","https://edu-wenku.bdimg.com/v1/na/0807/%E4%B8%93%E4%B8%9A%E8%B5%84%E6%96%99-1603258274377.png","https://edu-wenku.bdimg.com/v1/na/0807/APP%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2-1603434275434.png"]},"college":{"back":"https://edu-wenku.bdimg.com/v1/pc/pcactivity/college-back.png","title":"文库大学生版","desc":"大学生搜答案搜解析必备利器","tip":"购会员享时长优惠","icon":"https://edu-wenku.bdimg.com/v1/na/0807/%E6%8B%8D%E7%85%A7%E6%90%9C%E9%A2%98icon-1603434225463.png","qrcodeAndroid":"https://edu-wenku.bdimg.com/v1/na/0807/%E6%96%87%E5%BA%93%E5%A4%A7%E5%AD%A6%E7%94%9F%E5%AE%89%E5%8D%93%E7%AB%AF-1602316540190.png","qrcodeIphone":"https://edu-wenku.bdimg.com/v1/na/0807/%E6%96%87%E5%BA%93%E5%A4%A7%E5%AD%A6%E7%94%9FiOS%E7%AB%AF-1602316512495.png","imgList":["https://edu-wenku.bdimg.com/v1/na/0807/%E7%9C%8B%E8%A7%A3%E6%9E%90-1603258193717.png","https://edu-wenku.bdimg.com/v1/na/0807/%E6%8B%8D%E7%85%A7-1603258296963.png","https://edu-wenku.bdimg.com/v1/na/0807/%E5%AD%A6%E4%B9%A0%E5%B7%A5%E5%85%B7-1603258390318.png"]},"mac":{"back":"https://edu-wenku.bdimg.com/v1/pc/pcactivity/pc-back.png","title":"文库Mac(Beta版)","desc":"轻松管理知识，助你高效工作、学习","tip":"最新版本V1.0.10","url":"https://edu-wenku.bdimg.com/v1/na/0807/PC%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%89%88%E6%9C%AC%E5%8C%85/%E7%99%BE%E5%BA%A6%E6%96%87%E5%BA%93MAC-1.0.10.dmg","imgList":["https://edu-wenku.bdimg.com/v1/na/0807/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86-1603258145504.png","https://edu-wenku.bdimg.com/v1/na/0807/%E5%85%AC%E5%BC%8F-1603258247848.png","https://edu-wenku.bdimg.com/v1/na/0807/PC-%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2-1603258335349.png"]},"win":{"back":"https://edu-wenku.bdimg.com/v1/pc/pcactivity/pc-back.png","title":"文库Windows(Beta版)","desc":"轻松管理知识，助你高效工作、学习","tip":"最新版本V1.0.10","url":"https://edu-wenku.bdimg.com/v1/na/0807/PC%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%89%88%E6%9C%AC%E5%8C%85/%E7%99%BE%E5%BA%A6%E6%96%87%E5%BA%93WIN%E7%89%88-1.0.10.exe","imgList":["https://edu-wenku.bdimg.com/v1/na/0807/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86-1603258145504.png","https://edu-wenku.bdimg.com/v1/na/0807/%E5%85%AC%E5%BC%8F-1603258247848.png","https://edu-wenku.bdimg.com/v1/na/0807/PC-%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2-1603258335349.png"]},"pcGoClientBtnSwitch":true},"tplName":"ppt","player":"ppt","reader_type":"reader_new","title":"第三章图像的几何变换 - 百度文库"};
+        window.pageData = pageData;
+        var docInfo2019 = pageData.docInfo2019;
+        var vipInfo = pageData.vipInfo;
+        var readerInfo2019 = pageData.readerInfo2019;
+        var viewControl = pageData.viewControl || {};
+        var wkSmallflow = pageData.wkSmallflow || {};
+        var priceInfo = pageData.docInfo2019.price_info || {};
+        var actInfo = priceInfo.act_info || {};
+        var actPrice = actInfo.act_price || 0;
+        var isPackageDoc = priceInfo.is_package;
+        var ispaied = +priceInfo.ispaied === 1;
+        var isVip = vipInfo.global_vip_status ? 1 : 0;
+        var isPackageDoc = priceInfo.is_package && !(priceInfo.is_discount_doc && isVip);
+        var mixVipAndUserInfo = pageData.mixVipAndUserInfo || {};
+        var userInfo = mixVipAndUserInfo.userInfo || {};
+        var shopVoucherInfo = priceInfo.shopVoucherInfo || {};
+        window.wkCommonLogParam = {
+            t1990: 1,
+            ssr: pageData.ssr,
+            v2020: 1,
+            doc_id: docInfo2019.doc_info.show_doc_id,
+            doc_title: docInfo2019.doc_info.title,
+            is_login: userInfo.isLogin ? 1 : 0,
+            is_vip: isVip,
+            page: 'view',
+            rebuild2019: 1,
+            sf_svip: 2111,
+            docValueType: +docInfo2019.doc_info.doc_type === 2,
+            // 积分 或 价格（分）
+            docPrizeOrTicket: +docInfo2019.price_info.doc_price,
+            player: pageData.player,
+            reader_type: pageData.reader_type,
+            // 以下点位本次改版新加
+            // 文档格式类型
+            type: docInfo2019.doc_info.type,
+            // 共享: 1, 付费: 2, vip专享: 3, 私有: 4
+            doc_type: docInfo2019.doc_info.doc_type,
+            // 共享文档-vip免费文档
+            is_vip_free_doc: +docInfo2019.doc_info.is_vip_free_doc,
+            // 支持全文看
+            can_read_all: +(+readerInfo2019.free_page === +readerInfo2019.page),
+            // 支持文档下载
+            is_downloadable: docInfo2019.price_info.is_downloadable || 0,
+            // 私密文档是否支持下载
+            secret_downloadable: docInfo2019.doc_info.is_downloadable || 0,
+            // 是否已经获取（购买）过
+            has_got: +docInfo2019.price_info.ispaied || 0,
+            // 打折文档
+            is_discount_doc: +docInfo2019.price_info.is_discount_doc || 0,
+            coupon_id: shopVoucherInfo.couponId,
+            coupon_drawed: shopVoucherInfo.isDraw ? 1 : 0,
+            wkTestId: wkSmallflow.testId || '',
+            wkTestData: wkSmallflow.testDataStr || '',
+            wkWeb2024: wkSmallflow.wkWeb2024 || 0
+        };
+    </script>
+    <script type="text/javascript" src="https://edu-wenku.bdimg.com/v1/pc/browserdata/browserdata-min.js"></script>
+    <script src="https://code.bdstatic.com/npm/spy-client@2.0.3/dist/spy-client-basic.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://edu-wenku.bdimg.com/v1/pc/protocolcheck/protocolcheck.js" defer></script>
+    <!-- built files will be auto injected -->
+</body>
+</html><script src="//wkstatic.bdimg.com/static/ndpcwenku/static/ndview/js/dll/vendors.21233fa8918b6c7629c5.dll.js"></script><script src="//wkstatic.bdimg.com/static/ndpcwenku/static/ndview/js/common/core.e324510b0b3f9dc7a1bf.js"></script><script src="//wkstatic.bdimg.com/static/ndpcwenku/static/ndview/js/common/common.db69a38a1a97b4414153.js"></script><script src="//wkstatic.bdimg.com/static/ndpcwenku/static/ndview/js/views/ppt.30a94adaca4e57e0cfe5.js"></script>

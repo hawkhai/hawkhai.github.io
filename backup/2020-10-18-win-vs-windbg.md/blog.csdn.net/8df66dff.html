@@ -1,0 +1,1540 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://blog.csdn.net/xxin_w/article/details/8449855"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="report" content='{"pid": "blog", "spm":"1001.2101"}'>
+    <meta name="referrer" content="always">
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <meta name="applicable-device" content="pc">
+    <link  href="https://g.csdnimg.cn/static/logo/favicon32.ico"  rel="shortcut icon" type="image/x-icon" />
+    <title>windbg定位死锁_Xxin_W的专栏-CSDN博客_windbg 死锁</title>
+    <script>
+      (function(){ 
+        var el = document.createElement("script"); 
+        el.src = "https://s3a.pstatp.com/toutiao/push.js?1abfa13dfe74d72d41d83c86d240de427e7cac50c51ead53b2e79d40c7952a23ed7716d05b4a0f683a653eab3e214672511de2457e74e99286eb2c33f4428830"; 
+        el.id = "ttzz"; 
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(el, s);
+      })(window)
+    </script>
+        <meta name="keywords" content="windbg 死锁">
+        <meta name="csdn-baidu-search"  content='{"autorun":true,"install":true,"keyword":"windbg 死锁"}'>
+    <meta name="description" content="EPOSBUG-65366694v27替换过escc,escccontrol(刘源给的11.8的文件)，出现2台主机启动之后一直离线，且无法停止ccEPOSBUG-65156694V27，非网络准入用户认证后CC不能取策略。 上述两个bug都是CC和control不能正常通信的问题，但由于测试部同事未能及时dump下cc，也没有保护好环境，造成我们开发后期不能定位修复此类bug。因此这">
+    <script src='//g.csdnimg.cn/tingyun/1.8.3/blog.js' type='text/javascript'></script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/css/detail_enter-5f2d8f6575.min.css">
+    <script type="application/ld+json">{"@context":"https://ziyuan.baidu.com/contexts/cambrian.jsonld","@id":"https://blog.csdn.net/xxin_w/article/details/8449855","appid":"1638831770136827","pubDate":"2012-12-29T10:51:13","title":"windbg定位死锁_Xxin_W的专栏-CSDN博客_windbg 死锁","upDate":"2012-12-29T10:51:13"}</script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/themesSkin/skin3-template/skin3-template-45808e735f.min.css">
+    <script src="https://csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var isCorporate = false;//注释删除enterprise
+        var username =  "Xxin_W";
+        var skinImg = "white";
+        var blog_address = "https://blog.csdn.net/Xxin_W";
+        var currentUserName = "";
+        var isOwner = false;
+        var loginUrl = "http://passport.csdn.net/account/login?from=https://blog.csdn.net/xxin_w/article/details/8449855";
+        var blogUrl = "https://blog.csdn.net/";
+        var avatar = "https://profile.csdnimg.cn/6/F/9/3_xxin_w";
+        var articleTitle = "windbg定位死锁";
+        var articleDesc = "EPOSBUG-65366694v27替换过escc,escccontrol(刘源给的11.8的文件)，出现2台主机启动之后一直离线，且无法停止ccEPOSBUG-65156694V27，非网络准入用户认证后CC不能取策略。 上述两个bug都是CC和control不能正常通信的问题，但由于测试部同事未能及时dump下cc，也没有保护好环境，造成我们开发后期不能定位修复此类bug。因此这";
+        var articleTitles = "windbg定位死锁_Xxin_W的专栏-CSDN博客_windbg 死锁";
+        var nickName = "Xxin_W";
+        var articleDetailUrl = "https://blog.csdn.net/Xxin_W/article/details/8449855";
+        if(window.location.host.split('.').length == 3) {
+            blog_address = blogUrl + username;
+        }
+        var skinStatus = "White";
+        var blogStaticHost = "https://csdnimg.cn/release/blogv2/"
+    </script>
+    <script src="https://g.csdnimg.cn/??fixed-sidebar/1.1.6/fixed-sidebar.js" type="text/javascript"></script>
+    <script src='//g.csdnimg.cn/common/csdn-report/report.js' type='text/javascript'></script>
+    <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css">
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+    <script src="https://dup.baidustatic.com/js/ds.js"></script>
+</head>
+<body class="nodata " style="">
+        <script>
+            var toolbarSearchExt = '{"landingWord":["windbg 死锁"],"queryWord":"","tag":[],"title":"windbg定位死锁"}';
+        </script>
+    <script src="https://g.csdnimg.cn/common/csdn-toolbar/csdn-toolbar.js" type="text/javascript"></script>
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/pc/css/blog_code-01256533b5.min.css">
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/chart-3456820cac.css" />
+<div class="main_father clearfix d-flex justify-content-center" style="height:100%;"> 
+    <div class="container clearfix" id="mainBox">
+        <main>
+<script type="text/javascript">
+    var blogSensitiveWords = "";
+</script>
+<div class="blog-content-box">
+    <div class="article-header-box">
+        <div class="article-header">
+            <div class="article-title-box">
+                <h1 class="title-article" id="articleContentId">windbg定位死锁</h1>
+            </div>
+            <div class="article-info-box">
+                <div class="article-bar-top">
+                    <img class="article-type-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/original.png" alt="">
+                    <div class="bar-content">
+                    <a class="follow-nickName " href="https://blog.csdn.net/Xxin_W" target="_blank" rel="noopener">Xxin_W</a>
+                    <span class="time">2012-12-29 10:51:13</span>
+                    <img class="article-read-img article-heard-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/articleReadEyes.png" alt="">
+                    <span class="read-count">14287</span>
+                    <a id="blog_detail_zk_collection" class="un-collection" data-report-click='{"mod":"popu_823","spm":"1001.2101.3001.4232","ab":"new"}'>
+                        <img class="article-collect-img article-heard-img un-collect-status isdefault" style="display:inline-block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                        <img class="article-collect-img article-heard-img collect-status isactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                        <span class="name">收藏</span>
+                        <span class="get-collection">
+                            2
+                        </span>
+                    </a>
+                    </div>
+                </div>
+                <div class="blog-tags-box">
+                    <div class="tags-box artic-tag-box">
+                            <span class="label">分类专栏：</span>
+                                <a class="tag-link" href="https://blog.csdn.net/xxin_w/category_2243773.html" target="_blank" rel="noopener">windows</a>
+                    </div>
+                </div>
+                <div class="up-time"><span>最后发布:2012-12-29 10:51:13</span><span>首次发布:2012-12-29 10:51:13</span></div>
+                <div class="slide-content-box">
+                    <div class="article-copyright">
+                        <div class="creativecommons">
+                            版权声明：本文为博主原创文章，遵循<a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener"> CC 4.0 BY-SA </a>版权协议，转载请附上原文出处链接和本声明。
+                        </div>
+                        <div class="article-source-link">
+                            本文链接：<a href="https://blog.csdn.net/xxin_w/article/details/8449855" target="_blank">https://blog.csdn.net/xxin_w/article/details/8449855</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="operating">
+                    <a class="href-article-edit slide-toggle">版权</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <article class="baidu_pl">
+        <div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-b5506197d8.css">
+                <div id="content_views" class="htmledit_views">
+                    <h3><span style="color:black">操作系统对死锁的描述如下&#xff1a;</span></h3> 
+<p><span style="color:black"><span style="font-family:宋体">所谓死锁</span></span><span style="color:black">:</span><span style="color:black"><span style="font-family:宋体">是指两个或两个以上的进程在执行过程中&#xff0c;因争夺资源而造成的一种互相等待的现象&#xff0c;若无外力作用&#xff0c;它们都将无法推进下去。</span></span><span style="color:black">   </span></p> 
+<p><span style="font-family:宋体"><strong><span style="color:black">那么为什么会产生死锁呢&#xff1f;</span></strong></span></p> 
+<p><span style="color:black">1.</span><span style="font-family:宋体"><span style="color:black">因为系统资源不足。</span></span></p> 
+<p><span style="color:black">2.</span><span style="color:black"><span style="font-family:宋体">进程运行推进的顺序不合适。</span></span><span style="color:black">   </span></p> 
+<p><span style="color:black">3.</span><span style="color:black"><span style="font-family:宋体">资源分配不当。</span></span><span style="color:black">            </span></p> 
+<p><span style="font-family:宋体"><strong><span style="color:black">而产生死锁的条件有四个&#xff1a;</span></strong></span></p> 
+<p><span style="color:black">1.</span><span style="font-family:宋体"><span style="color:black">互斥条件&#xff1a;所谓互斥就是进程在某一时间内独占资源。</span></span></p> 
+<p><span style="color:black">2.</span><span style="font-family:宋体"><span style="color:black">请求与保持条件&#xff1a;一个进程因请求资源而阻塞时&#xff0c;对已获得的资源保持不放。</span></span></p> 
+<p><span style="color:black">3.</span><span style="color:black"><span style="font-family:宋体">不剥夺条件</span></span><span style="color:black">:</span><span style="font-family:宋体"><span style="color:black">进程已获得资源&#xff0c;在末使用完之前&#xff0c;不能强行剥夺。</span></span></p> 
+<p><span style="color:black">4.</span><span style="color:black"><span style="font-family:宋体">循环等待条件</span></span><span style="color:black">:</span><span style="font-family:宋体"><span style="color:black">若干进程之间形成一种头尾相接的循环等待资源关系。</span></span></p> 
+<p><span style="color:black"> </span></p> 
+<p><span style="font-family:Calibri; font-size:14px">1&#xff09;</span>  <span style="font-size:14px"> 先用<strong><span style="color:#333333">!locks</span></strong><span style="color:#333333">查看所有的线程占用的锁</span></span></p> 
+<p></p> 
+<p><span style="color:#333333"><span style="font-size:14px"> <img src="https://img-blog.csdn.net/20131115150109906?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWHhpbl9X/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA&#61;&#61;/dissolve/70/gravity/SouthEast" alt="" /><span style="font-family:宋体"></span></span></span></p> 
+<p><span style="color:black"><span style="font-family:宋体">这里可以看到有三个线程正在等待三个锁&#xff0c;第一个线程等待的锁是</span></span><span style="color:black">0043a620</span><span style="color:black"><span style="font-family:宋体">&#xff0c;但被</span></span><span style="color:black">5e4</span><span style="color:black"><span style="font-family:宋体">这条线程占用&#xff0c;第二个线程等待的锁是</span></span><span style="color:black">0043a844</span><span style="color:black"><span style="font-family:宋体">&#xff0c;但被</span></span><span style="color:black">5dc</span><span style="color:black"><span style="font-family:宋体">线程占用&#xff0c;</span></span></p> 
+<p><span style="color:black"><span style="font-family:宋体">第三个线程等待的锁是</span></span><span style="color:black">031d40d4</span><span style="color:black"><span style="font-family:宋体">&#xff0c;也被</span></span><span style="color:black">5e4</span><span style="font-family:宋体"><span style="color:black">线程占用。</span></span></p> 
+<p><span style="color:black">2</span><span style="color:black"><span style="font-family:宋体">&#xff09;接着&#xff0c;我们需要查看</span></span><span style="color:black">5e4</span><span style="color:black"><span style="font-family:宋体">线程和</span></span><span style="color:black">5dc</span><span style="color:black"><span style="font-family:宋体">线程的</span></span><span style="color:black">id</span><span style="color:black"><span style="font-family:宋体">&#xff0c;具体可以通过查看工具栏中</span></span><span style="color:black">Processes and Threads</span><span style="color:black"><span style="font-family:宋体">&#xff0c;如下图所示&#xff0c;</span></span><span style="color:black">5e4</span><span style="color:black"><span style="font-family:宋体">的线程的</span></span><span style="color:black">id</span><span style="color:black"><span style="font-family:宋体">为</span></span><span style="color:black">53,5dc</span><span style="color:black"><span style="font-family:宋体">线程的</span></span><span style="color:black">id</span><span style="color:black"><span style="font-family:宋体">为</span></span><span style="color:black">51</span><span style="font-family:宋体"><span style="color:black">。</span></span></p> 
+<p><span style="color:black"> <img src="https://img-blog.csdn.net/20131115150206625?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWHhpbl9X/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA&#61;&#61;/dissolve/70/gravity/SouthEast" alt="" /><span style="font-family:宋体"></span></span></p> 
+<p><span style="color:black">3</span><span style="color:black">&#xff09;</span><span style="font-size:14px"><span style="color:black">分别输入</span><span style="color:black">~53kb</span><span style="color:black">和</span><span style="color:black">~51kb</span><span style="color:black">查看这个两个线程的调用栈&#xff0c;结果如下图所示</span></span></p> 
+<p><span style="color:black"> <img src="https://img-blog.csdn.net/20131115150308921?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWHhpbl9X/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA&#61;&#61;/dissolve/70/gravity/SouthEast" alt="" /><span style="font-family:宋体"></span><span lang="EN-US" style="font-family:&#39;Verdana&#39;,&#39;sans-serif&#39;; color:black; font-size:11pt"></span></span></p> 
+<p><span style="color:black">由数据可知&#xff0c;</span><span style="font-family:Calibri; font-size:14px">5e4</span>线程正在等待一把<span style="font-family:Calibri">0043a844</span>的锁&#xff0c;而<span style="font-family:Calibri">5dc</span>线程也正在等待锁<span style="font-family:Calibri">0043a620</span>。</p> 
+<p><span style="font-family:Calibri; font-size:14px">4</span>&#xff09;结合第一步获取的信息可知&#xff0c;<strong><span style="font-family:Calibri">5e4</span>线程要去获取已经被<span style="font-family:Calibri">5dc</span>占用的锁<span style="font-family:Calibri">0043a844</span>&#xff0c;而<span style="font-family:Calibri">5dc</span>又要去获取已经被<span style="font-family:Calibri">5e4</span>占用的锁<span style="font-family:Calibri">0043a620</span></strong>&#xff0c;如此形成环路&#xff0c;就产生了死锁</p> 
+<p><span style="font-family:Calibri; font-size:14px"> <img src="https://img-blog.csdn.net/20131115150345234?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWHhpbl9X/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA&#61;&#61;/dissolve/70/gravity/SouthEast" alt="" /><span lang="EN-US" style="font-family:&#39;Calibri&#39;,&#39;sans-serif&#39;; font-size:10.5pt"></span></span></p> 
+<p></p> 
+<p><span style="font-family:Calibri; font-size:14px"></span> </p> 
+<p><span style="font-size:14px">以上几步就是分析死锁的几个关键步骤</span></p> 
+<p><span style="font-family:Calibri; font-size:14px"></span> </p> 
+<p><span style="font-size:14px">参考学习资料&#xff1a;</span></p> 
+<p><a target="_blank" href="http://blog.csdn.net/hgy413/article/details/7572097" rel="noopener noreferrer"><span style="font-family:Calibri; font-size:14px">http://blog.csdn.net/hgy413/article/details/7572097</span></a></p>
+                </div>
+        </div>
+    </article>
+</div>
+<script>
+    // 敏感词替换
+    ~function(blogSensitiveWords){
+        if(blogSensitiveWords){   
+            var getContentViews = document.getElementById("content_views");
+            var getContentTitle = document.getElementById("articleContentId");
+            var contentViewsInnerHTML = getContentViews.innerHTML;
+            var contentTitleInnerHTML = getContentTitle.innerHTML;
+            var keyWordsJsonArr = [];
+            var keyWordsArr = blogSensitiveWords.split(',');
+            function repeatTimes(str, num){
+                return num > 1 ? str += repeatTimes(str, --num): str;
+            }
+            for(var i = 0; i < keyWordsArr.length; i++){
+                var keyWordsJson = {} ;
+                keyWordsJson.key = keyWordsArr[i];
+                keyWordsJson.value = repeatTimes("*",keyWordsArr[i].length);
+                keyWordsJsonArr.push(keyWordsJson);
+            }
+            var reg;
+            for(var i = 0; i < keyWordsJsonArr.length; i++){
+                var item = keyWordsJsonArr[i];
+                reg = new RegExp(item.key+"(?!([^<]*>)|([^<]*<\/a>))","ig");
+                contentViewsInnerHTML = contentViewsInnerHTML.replace(reg,item.value);
+                contentTitleInnerHTML = contentTitleInnerHTML.replace(reg,item.value);
+            }
+            getContentViews.innerHTML=contentViewsInnerHTML;
+            getContentTitle.innerHTML=contentTitleInnerHTML;
+        }
+    }(blogSensitiveWords)
+</script>
+<div class="more-toolbox" id="toolBarBox">
+    <span id="fixedBar"></span>
+    <div class="left-toolbox">
+        <ul class="toolbox-list">
+            <li class="tool-item tool-item-size tool-active is-like" id="is-like"><a>
+            <img style="display:none;" id="is-like-imgactive-animation-like" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isactive" style="display:none" id="is-like-imgactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isdefault" style="display:block" id="is-like-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUp.png" alt="">   
+            <span class="name" id="is-like-span">点赞</span>
+            <span id="spanCount" class="count">
+                    2
+            </span>
+            </a></li>
+            <li class="tool-item tool-item-size tool-active tool-item-comment">
+                <a href="#commentBox">
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarComment.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCommentactive.png" style="display:none;" alt="">
+                    <span class="name">评论</span>
+                    <span class="count">
+                        2
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-QRcode" id="tool-share">
+                <a href="javascript:;" data-report-click='{"mod":"1582594662_002","spm":"1001.2101.3001.4129","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShare.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShareactive.png" style="display:none;" alt="">
+                    <span class="name">分享</span>
+                </a>
+                <div class="QRcode" id="tool-QRcode" style="left:-92%;">
+                    <span id="QRcode-close">x</span>
+                    <p class="title">
+                    海报分享
+                    </p>
+                    <div id='shareCode'></div>
+                    <p>
+                    扫一扫，分享海报
+                    </p>
+                </div>
+            </li>
+            <li class="tool-item tool-item-size tool-active is-collection ">
+                <a href="javascript:;" data-report-click='{"mod":"popu_824","spm":"1001.2101.3001.4130","ab":"new"}'>
+                    <img style="display:none" id="is-collection-img-collection" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <img class="isdefault" id="is-collection-img" style="display:block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                    <img class="isactive" id="is-collection-imgactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <span class="name" id="is-collection">收藏</span>
+                    <span class="count get-collection" id="get-collection">
+                        2
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-reward">
+                <a  id="toolreward" data-report-click='{"mod":"popu_830","spm":"1001.2101.3001.4237","dest":"","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReward.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarRewardactive.png" style="display:none;" alt="">
+                    <span class="name">打赏</span>
+                </a>
+<div id="reward" class="reward-box">
+	<p class="rewad-title">打赏<span class="reward-close"><svg t="1567152543821" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10924" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><defs><style type="text/css"></style></defs><path d="M512 438.378667L806.506667 143.893333a52.032 52.032 0 1 1 73.6 73.621334L585.621333 512l294.485334 294.485333a52.074667 52.074667 0 0 1-73.6 73.642667L512 585.621333 217.514667 880.128a52.053333 52.053333 0 1 1-73.621334-73.642667L438.378667 512 143.893333 217.514667a52.053333 52.053333 0 1 1 73.621334-73.621334L512 438.378667z" fill="" p-id="10925"></path></svg></span></p>
+	<dl>
+		<dd>
+		<a href="https://blog.csdn.net/Xxin_W" data-report-click='{"mod":"popu_379","dest":"https://blog.csdn.net/Xxin_W","ab":"new"}'>
+			<img src="https://profile.csdnimg.cn/6/F/9/3_xxin_w" class="avatar_pic">
+		</a>
+		</dd>
+		<dt>
+			<p class="blog-name">Xxin_W</p>
+			<p class="blog-discript">你的鼓励将是我创作的最大动力</p>
+		</dt>
+	</dl>
+	<div class="change-bt-box">
+		<span class="reward-bt reward-bt-coin">C币</span>
+		<span class="reward-bt-space"></span>
+		<span class="reward-bt reward-bt-money reward-bt-active">余额</span>
+	</div>
+	<div class="money-box">
+			<span class="choose_money choosed" data-id="2">2C币</span>
+			<span class="choose_money " data-id="4">4C币</span>
+			<span class="choose_money " data-id="6">6C币</span>
+			<span class="choose_money " data-id="10">10C币</span>
+			<span class="choose_money " data-id="20">20C币</span>
+			<span class="choose_money " data-id="50">50C币</span>
+	</div>
+	<div class="sure-box">
+		<p class="is-have-money"><a class="reward-sure">确定</a></p>
+	</div>
+</div>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-more">
+              <a class="article-report">
+                <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReport.png" alt="">
+                <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReportactive.png" style="display:none;" alt="">
+                <span class="name">举报</span>
+              </a>
+            </li>
+            <li class="tool-item">
+                    <a class="tool-attend tool-bt-button tool-bt-attend" href="javascript:;" data-report-view='{"mod":"1592215036_002","spm":"1001.2101.3001.4232","extend1":"关注"}'>关注</a>
+                <a class="tool-item-follow active-animation" style="display:none;">关注</a>
+            </li>
+            <li class="tool-item">
+                    <p class="company active" id="health-companies" href="javascript:;" >一键三连</p>
+                <span class="triplet-prompt">点赞Mark关注该博主, 随时了解TA的最新博文<img class="close-prompt" src="https://csdnimg.cn/release/blogv2/dist/pc/img/closePrompt.png"></span>
+            </li>
+        </ul>
+        <div style="display:flex">
+         </div>
+    </div>  
+</div>
+<script type=text/javascript crossorigin src="https://csdnimg.cn/release/phoenix/production/qrcode-7c90a92189.min.js"></script>
+<script src="//g.csdnimg.cn/??sharewx/1.2.1/sharewx.js" type="text/javascript"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/collection-box/2.0.2/collection-box.js"></script>
+                <div class="first-recommend-box recommend-box">
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/robinhoods/763842"  data-report-view='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-download-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/robinhoods/763842"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/robinhoods/763842" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-download-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/robinhoods/763842"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-download-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-download-BlogCommendFromMachineLearnPai2-1.control'>
+					<em>WinDbg</em> 调试程序崩溃操作详解
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">11-10</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/robinhoods/763842" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-download-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://download.csdn.net/download/robinhoods/763842"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-download-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-download-BlogCommendFromMachineLearnPai2-1.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">作者有10多年编程,调试经验,详解关于Windows 平台下程序崩溃的<em>Windbg</em>调试方法及技巧;附带工具介绍 适合于分析C++等语言, .Net 平台等快速入门及提高</div>
+			</a>
+		</div>
+	</div>
+</div>
+                </div>
+            <div class="second-recommend-box recommend-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/gogoytgo/article/details/46536175"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/gogoytgo/article/details/46536175"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/gogoytgo/article/details/46536175" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/gogoytgo/article/details/46536175"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control'>
+					<em>Windbg</em>查看<em>死锁</em>实例
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/gogoytgo" target="_blank"><span class="blog-title">gogoytgo的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">06-17</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					794
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/gogoytgo/article/details/46536175" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/gogoytgo/article/details/46536175"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">首先当然是看主线程的锁的情况
+0:155:x86&gt; ~0 kb
+ChildEBP RetAddr  Args to Child              
+0018d274 77858e44 00000fc0 00000000 00000000 ntdll_77820000!ZwWaitForSingleObject+0x15
+0018d2d8 77858d28 00000000 0000000</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+<a id="commentBox" name="commentBox"></a>
+<div class="comment-box">
+	<div class="comment-edit-box d-flex">
+		<a id="commentsedit"></a>
+		<div class="user-img">
+			<a href="javascript:void(0);" >
+				<img class="show_loginbox" src="https://g.csdnimg.cn/static/user-img/anonymous-User-img.png">
+			</a>
+		</div>
+		<form id="commentform">
+			<img class="comment-sofa-flag" src="https://csdnimg.cn/release/blogv2/dist/pc/img/commentFlag@2x.png">
+			<textarea class="comment-content" name="comment_content" id="comment_content" placeholder="优质评论可以帮助作者获得更高权重"
+				maxlength="1000"></textarea>
+			<div class="opt-box">
+				<div id="ubbtools" class="add_code">
+					<a href="#insertcode" code="code" target="_self"><i class="icon iconfont icon-daima"></i></a>
+				</div>
+				<input type="hidden" id="comment_replyId" name="comment_replyId">
+				<input type="hidden" id="article_id" name="article_id" value="8449855">
+				<input type="hidden" id="comment_userId" name="comment_userId" value="">
+				<input type="hidden" id="commentId" name="commentId" value="">
+				<div class="dropdown" id="myDrap">
+					<a class="dropdown-face d-flex align-items-center" data-toggle="dropdown" role="button"
+						aria-haspopup="true" aria-expanded="false">
+						<div class="txt-selected text-truncate">添加代码片</div>
+						<svg class="icon d-block" width="200px" height="100.00px" viewBox="0 0 2048 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path  d="M597.33333292 298.666667h853.333334L1023.99999992 725.333333 597.33333292 298.666667z"  /></svg>
+					</a>
+					<ul class="dropdown-menu" id="commentCode" aria-labelledby="drop4">
+						<li><a data-code="html">HTML/XML</a></li>
+						<li><a data-code="objc">objective-c</a></li>
+						<li><a data-code="ruby">Ruby</a></li>
+						<li><a data-code="php">PHP</a></li>
+						<li><a data-code="csharp">C</a></li>
+						<li><a data-code="cpp">C++</a></li>
+						<li><a data-code="javascript">JavaScript</a></li>
+						<li><a data-code="python">Python</a></li>
+						<li><a data-code="java">Java</a></li>
+						<li><a data-code="css">CSS</a></li>
+						<li><a data-code="sql">SQL</a></li>
+						<li><a data-code="plain">其它</a></li>
+					</ul>
+				</div>
+				<div class="right-box" id="rightBox" data-type="2">
+							<span id="tip_comment" class="tip">还能输入<em>1000</em>个字符</span>
+							<a data-report-view='{"spm":"3001.4374"}' data-report-click='{"spm":"3001.4374"}' class="btn btn-sm btn-quick-comment" id="quickComment">“速评一下”</a>
+							<a data-report-click='{"mod":"1582594662_003","spm":"1001.2101.3001.4227","ab":"new"}'><input type="submit"
+									class="btn btn-sm btn-comment" value="发表评论"></a>
+				</div>
+			</div>
+		</form>
+		<input type="button" class="bt-comment-show" value="评论">
+	</div>
+	<div class="comment-list-container">
+		<a id="comments"></a>
+		<div class="comment-list-box">
+		</div>
+		<div id="commentPage" class="pagination-box d-none"></div>
+		<div class="opt-box text-center">
+			<div class="btn btn-sm btn-link-blue" id="btnMoreComment"></div>
+		</div>
+	</div>
+</div>            <div class="recommend-box insert-baidu-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/cuglifangzheng/article/details/50725748"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control\"}","index":"2","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/cuglifangzheng/article/details/50725748"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/cuglifangzheng/article/details/50725748" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control\"}","index":"2","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/cuglifangzheng/article/details/50725748"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control'>
+					Windows调试&mdash;&mdash;<em>死锁</em>的查找
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/cuglifangzheng" target="_blank"><span class="blog-title">cuglifangzheng的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">02-23</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					2673
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/cuglifangzheng/article/details/50725748" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control\"}","index":"2","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/cuglifangzheng/article/details/50725748"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">首先看看什么是<em>死锁</em>呢？<em>死锁</em>是指两个或两个以上的线程在执行过程中，因争夺资源而造成的一种互相等待的现象，若无外力作用，它们都将无法推进下去。   1）  先用!locks查看所有的线程占用的锁 
+注意，该指令在新版本的<em>windbg</em>中已经无法使用。需要使用的话必须切换版本到dbg_x86_6.10.3.233.msi。 
+   
+这里可以看到有三个线程正在等待三个锁，第一个线程等待的锁是0043a620</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/lv_yjie2011/article/details/41706231"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control\"}","index":"3","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/lv_yjie2011/article/details/41706231"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/lv_yjie2011/article/details/41706231" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control\"}","index":"3","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/lv_yjie2011/article/details/41706231"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control'>
+					<em>winDbg</em><em>定位</em>异常崩溃和线程<em>死锁</em>三步骤
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/lv_yjie2011" target="_blank"><span class="blog-title">lv_yjie2011的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">12-03</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1891
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/lv_yjie2011/article/details/41706231" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control\"}","index":"3","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/lv_yjie2011/article/details/41706231"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">第一步：&nbsp;附件进程（Attach to process）或者直接打开执行进程，通过.dump /mf C:/dump.dmp保存dump文件；此时可以stop Debuging。
+第二步：设置符合文件路径和设置代码源路径；
+第三步：分析异常（!analyze -v -hang），通过process the threads查看进程，通过 ~进程号s 转换进程，通过!cs 地址 查看其堆栈。</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/bajianxiaofendui/article/details/86983550"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control\"}","index":"4","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/bajianxiaofendui/article/details/86983550"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/bajianxiaofendui/article/details/86983550" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control\"}","index":"4","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/bajianxiaofendui/article/details/86983550"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control'>
+					（<em>Windbg</em>调试四）C++<em>死锁</em>问题<em>定位</em>与分析
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/bajianxiaofendui" target="_blank"><span class="blog-title">bajianxiaofendui的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">02-11</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1413
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/bajianxiaofendui/article/details/86983550" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control\"}","index":"4","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/bajianxiaofendui/article/details/86983550"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">C++<em>死锁</em>问题<em>定位</em>与分析一，测试代码二，等待链三，<em>死锁</em>的<em>定位</em>和分析
+&amp;amp;amp;amp;nbsp;&amp;amp;amp;amp;nbsp;&amp;amp;amp;amp;nbsp;&amp;amp;amp;amp;nbsp;&amp;amp;amp;amp;nbsp;C++程序异常一般有两种表现形式：程序崩溃和程序无响应。程序崩溃主要是由指针，数组越界等原因引起，这种情况可以直接通过在程序中加入Dump捕捉逻辑，分析dump文件，<em>定位</em>出崩溃的代码。程序无响应主要是由死循环和<em>死锁</em>两个原因</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/yuanweihuayan/article/details/11192257"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control\"}","index":"5","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/yuanweihuayan/article/details/11192257"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/yuanweihuayan/article/details/11192257" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control\"}","index":"5","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/yuanweihuayan/article/details/11192257"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control'>
+					<em>windbg</em>调试之<em>死锁</em>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/yuanweihuayan" target="_blank"><span class="blog-title">sunliangyuan的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">09-06</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1633
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/yuanweihuayan/article/details/11192257" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control\"}","index":"5","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/yuanweihuayan/article/details/11192257"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">操作系统对<em>死锁</em>的描述如下：
+
+所谓<em>死锁</em>:是指两个或两个以上的进程在执行过程中，因争夺资源而造成的一种互相等待的现象，若无外力作用，它们都将无法推进下去。&nbsp;&nbsp;&nbsp;
+
+那么为什么会产生<em>死锁</em>呢？
+
+1.因为系统资源不足。
+
+2.进程运行推进的顺序不合适。&nbsp;&nbsp;&nbsp;
+
+3.资源分配不当。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+而产生<em>死锁</em>的条件有四个：
+
+1.互斥条件：所谓互斥就是进程在某一时间内</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/weixin_30732825/article/details/96469518"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control\"}","index":"6","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/weixin_30732825/article/details/96469518"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/weixin_30732825/article/details/96469518" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control\"}","index":"6","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/weixin_30732825/article/details/96469518"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control'>
+					使用<em>Windbg</em>找出<em>死锁</em>，解决生产环境中运行的软件不响应请求的问题
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/weixin_30732825" target="_blank"><span class="blog-title">weixin_30732825的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">11-03</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					92
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/weixin_30732825/article/details/96469518" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control\"}","index":"6","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/weixin_30732825/article/details/96469518"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">前言
+本文介绍本人的一次使用<em>Windbg</em>分析dump文件找出<em>死锁</em>的过程，并重点介绍如何确定线程所等待的锁及判断是否出现了<em>死锁</em>。
+对于如何安装及设置<em>Windbg</em>请参考：《使用<em>Windbg</em>和SoS扩展调试分析.NET程序》http://www.cnblogs.com/shanyou/archive/2006/12/23/601004.html
+
+起因
+今天，部署到生产环境中的软件再次...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/lixiang987654321/article/details/46851395"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control\"}","index":"7","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/lixiang987654321/article/details/46851395"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/lixiang987654321/article/details/46851395" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control\"}","index":"7","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/lixiang987654321/article/details/46851395"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control'>
+					关于使用WinDebug查看线程<em>死锁</em>问题
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/lixiang987654321" target="_blank"><span class="blog-title">lixiang987654321的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">07-12</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					3859
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/lixiang987654321/article/details/46851395" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control\"}","index":"7","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/lixiang987654321/article/details/46851395"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">最近项目接近尾声，不过项目到了测试的时候大问题来了，偶尔界面直接卡死以至于后续无法测试，初步怀疑是哪里<em>死锁</em>了，由于自己对WinDebug不是很熟悉，只知道WinDebug有查找内存泄露问题、线程<em>死锁</em>等相关功能，于是吩咐下面的人用winDebug去查找问题，索性网络资源比较多，通过一番调研找到了WInDebug<em>死锁</em>查找的解决方法，不过作为项目开发经理，遇到<em>死锁</em>的事应该能够在其他同时不能解决的时候也能</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/swartz_lubel/article/details/54963044"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control\"}","index":"8","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/swartz_lubel/article/details/54963044"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/swartz_lubel/article/details/54963044" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control\"}","index":"8","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/swartz_lubel/article/details/54963044"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control'>
+					<em>windbg</em> 常用查看锁以及互斥量
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/swartz_lubel" target="_blank"><span class="blog-title">swartz_lubel的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">02-10</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1808
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/swartz_lubel/article/details/54963044" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control\"}","index":"8","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/swartz_lubel/article/details/54963044"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">操作系统对<em>死锁</em>的描述如下：
+所谓<em>死锁</em>:是指两个或两个以上的进程在执行过程中，因争夺资源而造成的一种互相等待的现象，若无外力作用，它们都将无法推进下去。&nbsp;&nbsp;&nbsp;
+
+那么为什么会产生<em>死锁</em>呢？
+1.因为系统资源不足。
+2.进程运行推进的顺序不合适。&nbsp;&nbsp;&nbsp;
+3.资源分配不当。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+而产生<em>死锁</em>的条件有四个：
+1.互斥条件：所谓互斥就是进程在某一时间内独占资源。
+2</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/momo459548255/article/details/108513139"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control\"}","index":"9","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/momo459548255/article/details/108513139"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/momo459548255/article/details/108513139" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control\"}","index":"9","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/momo459548255/article/details/108513139"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control'>
+					<em>windbg</em><em>定位</em><em>死锁</em>问题
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/momo459548255" target="_blank"><span class="blog-title">momo459548255的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">09-10</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					28
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/momo459548255/article/details/108513139" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control\"}","index":"9","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/momo459548255/article/details/108513139"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">操作系统对<em>死锁</em>的描述如下：
+
+所谓<em>死锁</em>:是指两个或两个以上的进程在执行过程中，因争夺资源而造成的一种互相等待的现象，若无外力作用，它们都将无法推进下去。
+
+那么为什么会产生<em>死锁</em>呢？
+
+1.因为系统资源不足。
+
+2.进程运行推进的顺序不合适。
+
+3.资源分配不当。
+
+而产生<em>死锁</em>的条件有四个：
+
+1.互斥条件：所谓互斥就是进程在某一时间内独占资源。
+
+2.请求与保持条件：一个进程因请求资源而阻塞时，对已获得的资源保持不放。
+
+3.不剥夺条件:进程已获得资源，在末使用完之前，不...</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+            <div class="template-box">
+                <span>©️2020 CSDN</span>
+                <span>皮肤主题: 大白</span>
+                <span> 设计师:CSDN官方博客</span>
+                <span>
+                    <a href="https://blog.csdn.net/" class="back-home c-blue c-blue-hover c-blue-focus">返回首页</a>
+                </span>
+            </div>
+<div class="blog-footer-bottom" style="margin-top:10px;"></div>
+<script src="https://g.csdnimg.cn/common/csdn-footer/csdn-footer.js" data-isfootertrack="false" type="text/javascript"></script>
+<script type="text/javascript">
+    window.csdn.csdnFooter.options = {
+        el: '.blog-footer-bottom',
+        type: 2
+    }
+</script>        </main>
+<aside class="blog_container_aside">
+    <div id="asideProfile" class="aside-box">
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://blog.csdn.net/Xxin_W" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4121","dest":"https://blog.csdn.net/Xxin_W","ab":"new"}'>
+                <img src="https://profile.csdnimg.cn/6/F/9/3_xxin_w" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex flex-column profile-intro-name-box">
+            <div class="profile-intro-name-boxTop">
+                <a href="https://blog.csdn.net/Xxin_W" class="" id="uid" title="Xxin_W" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4122","dest":"https://blog.csdn.net/Xxin_W","ab":"new"}'>
+                    <span class="name " username="Xxin_W">Xxin_W</span>
+                </a>
+                <span>
+                </span>
+                <span class="flag expert-blog">
+                <span class="bubble">CSDN认证博客专家</span>
+                </span>
+                <span class="flag company-blog">
+                <span class="bubble">CSDN认证企业博客</span>
+                </span>
+            </div>
+            <div class="profile-intro-name-boxFooter">
+                <span class="personal-home-page personal-home-years">码龄9年</span>
+                    <span class="personal-home-page">
+                    <a class="personal-home-certification" href="https://blog.csdn.net/Xxin_W?utm_source=14998968" target="_blank" title="暂无认证">
+                    <img src="https://csdnimg.cn/identity/nocErtification.png" alt="">
+                    暂无认证
+                    </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="11">
+            <a href="https://blog.csdn.net/Xxin_W" data-report-click='{"mod":"1598321000_001","spm":"1001.2101.3001.4310"}' data-report-query="t=1">  
+                <dt><span class="count">11</span></dt>
+                <dd class="font">原创</dd>
+            </a>
+        </dl>
+        <dl class="text-center" data-report-click='{"mod":"1598321000_002","spm":"1001.2101.3001.4311"}' title="385798">
+            <a href="https://blog.csdn.net/rank/writing_rank" target="_blank">
+                <dt><span class="count">38万+</span></dt>
+                <dd class="font">周排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" title="160577">
+            <a href="https://blog.csdn.net/rank/writing_rank_total" data-report-click='{"mod":"1598321000_003","spm":"1001.2101.3001.4312"}' target="_blank">
+                <dt><span class="count">16万+</span></dt>
+                <dd class="font">总排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" style="min-width:58px" title="51492">  
+            <dt><span class="count">5万+</span></dt>
+            <dd>访问</dd>
+        </dl>
+        <dl class="text-center" title="3级,点击查看等级说明">
+            <dt><a href="https://blog.csdn.net/home/help.html#level" target="_blank">
+                <img class="level" src="https://csdnimg.cn/identity/blog3.png">
+            </a>
+            </dt>
+            <dd>等级</dd>
+        </dl>
+    </div>
+    <div class="item-rank"></div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="652">
+            <dt><span class="count">652</span></dt>
+            <dd>积分</dd>
+        </dl>
+         <dl class="text-center" id="fanBox" title="3">
+            <dt><span class="count" id="fan">3</span></dt>
+            <dd>粉丝</dd>
+        </dl>
+        <dl class="text-center" title="3">
+            <dt><span class="count">3</span></dt>
+            <dd>获赞</dd>
+        </dl>
+        <dl class="text-center" title="4">
+            <dt><span class="count">4</span></dt>
+            <dd>评论</dd>
+        </dl>
+        <dl class="text-center" title="3">
+            <dt><span class="count">3</span></dt>
+            <dd>收藏</dd>
+        </dl>
+    </div>
+    <div class="profile-intro-name-boxOpration">
+        <div class="opt-letter-watch-box">
+        <a class="bt-button personal-letter" href="https://im.csdn.net/chat/Xxin_W" target="_blank" rel="noopener">私信</a>
+        </div>
+        <div class="opt-letter-watch-box"> 
+            <a class="personal-watch bt-button" id="btnAttent" >关注</a>  
+        </div>
+    </div>
+</div>
+<div id="asideSearchArticle" class="aside-box">
+	<div class="aside-content search-comter">
+    <div class="aside-search aside-search-blog">         
+        <input type="text" class="input-serch-blog" name="" autocomplete="off" value="" id="search-blog-words" placeholder="搜博主文章">
+        <a class="btn-search-blog">
+                    <img src="//csdnimg.cn/cdn/content-toolbar/csdn-sou.png?v=1587021042">
+        </a>
+    </div>
+    </div>
+</div>
+
+
+<div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list">
+			<li>
+				<a href="https://blog.csdn.net/Xxin_W/article/details/8449855" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/Xxin_W/article/details/8449855","ab":"new"}'>
+				windbg定位死锁
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">14287</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/Xxin_W/article/details/9096041" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/Xxin_W/article/details/9096041","ab":"new"}'>
+				UDP套接字调用recvfrom返回WSAECONNRESET(10054)
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">4785</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/Xxin_W/article/details/46907595" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/Xxin_W/article/details/46907595","ab":"new"}'>
+				当出现UnhandledExceptionFilter时，如何用windbg 定位正确堆栈
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">4046</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/Xxin_W/article/details/6896288" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/Xxin_W/article/details/6896288","ab":"new"}'>
+				依赖倒置原则
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">3635</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/Xxin_W/article/details/9088865" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/Xxin_W/article/details/9088865","ab":"new"}'>
+				RegQueryValueEx返回ERROR_MORE_DATA
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					<span class="read">3138</span>
+                </a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="asideCategory" class="aside-box flexible-box" style="display:block!important;">
+    <h3 class="aside-title">分类专栏</h3>
+    <div class="aside-content">
+        <ul>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xxin_w/category_1375165.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xxin_w/category_1375165.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756925.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">网络安全</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xxin_w/category_1808101.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xxin_w/category_1808101.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">C++编程</span>
+                    </span>
+                    <span class="count float-right">5篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xxin_w/category_1999341.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xxin_w/category_1999341.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">开源学习</span>
+                    </span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xxin_w/category_1375164.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xxin_w/category_1375164.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756925.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">UML建模</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xxin_w/category_1399853.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xxin_w/category_1399853.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756916.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">读书笔记</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xxin_w/category_1404332.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xxin_w/category_1404332.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756919.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">程序人生</span>
+                    </span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xxin_w/category_1434729.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xxin_w/category_1434729.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">编程基础</span>
+                    </span>
+                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/xxin_w/category_2243773.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/xxin_w/category_2243773.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756916.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">windows</span>
+                    </span>
+                    <span class="count float-right">11篇</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p class="text-center">
+        <a class="flexible-btn" data-fbox="aside-archive"><img class="look-more" src="https://csdnimg.cn/release/blogv2/dist/pc/img/arrowDownWhite.png" alt=""></a>
+    </p>
+</div>
+<div id="asideNewComments" class="aside-box">
+    <h3 class="aside-title">最新评论</h3>
+    <div class="aside-content">
+        <ul class="newcomment-list">
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/Xxin_W/article/details/9088865#comments_4645515" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Xxin_W/article/details/9088865#comments_4645515","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Xxin_W/article/details/9088865#comments_4645515","ab":"new"}'>RegQueryValueEx返回ERROR_MORE_DATA</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/dota_game" class="user-name" target="_blank">亻木子: </a>
+                    <span class="code-comments">楼主  牛啊   msdn看得如此仔细
+使用RegGetValue同理，调用两次就成功了</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/Xxin_W/article/details/17371861#comments_3565559" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Xxin_W/article/details/17371861#comments_3565559","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Xxin_W/article/details/17371861#comments_3565559","ab":"new"}'>UML用例图总结</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/u013648811" class="user-name" target="_blank">IT木木: </a>
+                    <span class="code-comments">mark</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/Xxin_W/article/details/8449855#comments_2922789" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Xxin_W/article/details/8449855#comments_2922789","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Xxin_W/article/details/8449855#comments_2922789","ab":"new"}'>windbg定位死锁</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/tingjun20" class="user-name" target="_blank">tingjun20: </a>
+                    <span class="code-comments">windbg 定们死锁，百度搜索排行第一 。。就你了。收藏。
+jing !QAZ2wsx</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/Xxin_W/article/details/8449855#comments_2724001" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Xxin_W/article/details/8449855#comments_2724001","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/Xxin_W/article/details/8449855#comments_2724001","ab":"new"}'>windbg定位死锁</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/darren646" class="user-name" target="_blank">darren646: </a>
+                    <span class="code-comments">good,鑫鑫</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="asideArchive" class="aside-box">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix">
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/Xxin_W/article/details/49424665" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/Xxin_W/article/details/49424665","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/Xxin_W/article/details/49424665","ab":"new"}'>ADO使用问题</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/Xxin_W/article/details/46907595" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/Xxin_W/article/details/46907595","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/Xxin_W/article/details/46907595","ab":"new"}'>当出现UnhandledExceptionFilter时，如何用windbg 定位正确堆栈</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/Xxin_W/article/details/41825931" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/Xxin_W/article/details/41825931","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/Xxin_W/article/details/41825931","ab":"new"}'>Cryptanalysis of Microsoft's PPTP Authentication Extensions (MS-CHAPv2)</a>
+            </li>
+        </ul>
+        <div class="archive-bar"></div>
+        <div class="archive-box">
+                <div class="archive-list-item"><a href="https://blog.csdn.net/Xxin_W/article/month/2015/10" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2015年</span><span class="num">2篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/Xxin_W/article/month/2014/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2014年</span><span class="num">7篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/Xxin_W/article/month/2013/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2013年</span><span class="num">10篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/Xxin_W/article/month/2012/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2012年</span><span class="num">1篇</span></a></div>
+                <div class="archive-list-item"><a href="https://blog.csdn.net/Xxin_W/article/month/2011/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2011年</span><span class="num">5篇</span></a></div>
+        </div>
+    </div>
+</div>
+	<div id="footerRightAds" class="isShowFooterAds">
+		<div class="aside-box">
+			<div id="kp_box_57" data-pid="57"><div id="protag-banner-2"></div>
+<script data-cfasync="false" type="text/javascript" src="https://protagcdn.com/s/csdn.net/bbs/protag-banner-2.js"></script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=57&a=2234&c=0&k=&spm=1001.2101.3001.5001&d=1&t=3&u=fbb4e5ad5e514f7690acdc96f63cad66" style="display: block;width: 0px;height: 0px;"></div>
+		</div>
+	</div>
+    <!-- 详情页显示目录 -->
+<!--文章目录-->
+<div id="asidedirectory" class="aside-box">
+    <div class='groupfile' id="directory">
+        <h3 class="aside-title">目录</h3>
+        <div class="align-items-stretch group_item">
+            <div class="pos-box">
+            <div class="scroll-box">
+                <div class="toc-box"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+</aside>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).parents("p.text-center").remove();
+	})
+</script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-tooltip/2.1/user-tooltip.js"></script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-medal/1.0.5/user-medal.js"></script>    </div>
+<div class="recommend-right  align-items-stretch clearfix" id="rightAside" data-type="recommend">
+    <aside class="recommend-right_aside">
+        <div id="recommend-right" >
+                        <div class='flex-column aside-box groupfile' id="groupfile">
+                <div class="groupfile-div">
+                <h3 class="aside-title">目录</h3>
+                <div class="align-items-stretch group_item">
+                    <div class="pos-box">
+                        <div class="scroll-box">
+                            <div class="toc-box"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+                <div id="recommendAdBox">
+                    <div id="kp_box_479" data-pid="479"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PC-博客内页右侧第一顺位 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-1076724771190722"
+     data-ad-slot="1827473444"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=479&a=3266&c=0&k=&spm=1001.2101.3001.4834&d=1&t=3&u=0569745b57fb46718d4caca1ca84b39a" style="display: block;width: 0px;height: 0px;"></div>
+                </div>
+            <div class="recommend-list-box d-flex flex-column aside-box" id="recommend-list-box">
+            <ul class="recommend-fixed-box align-items-stretch">
+                <li class="right-item">
+                    <a href="https://plugin.csdn.net/" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.470242.nonecase\"}","index":"1","strategy":"106_470242_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.470242.nonecase\"}","index":"1","strategy":"106_470242_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.470242.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.470242.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>CSDN官方插件，现在体验可获得永久免费去广告特权！</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31415" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase\"}","index":"2","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31415"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase\"}","index":"2","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31415"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>3小时python轻松入门</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_53364386/13523952" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_53364386/13523952"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_53364386/13523952"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>ModScan32.zip</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31421" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31421"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31421"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>尹成Python27天入门到项目实战</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31438" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31438"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31438"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>【曾贤志】用Python处理Excel数据 - 第3季 正则篇</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/zcg_good/article/details/110437794" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/zcg_good/article/details/110437794"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/zcg_good/article/details/110437794"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Hadoop完全分布式集群搭建</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31379" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31379"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31379"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Net网站权限管理系统实战（基于vs2019、c#、razor</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31375" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31375"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31375"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>使用矩阵的方式编写人工智能框架</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_49186670/13524276" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13524276"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13524276"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>PolarMask: Single Shot Instance Segmentation with Polar Representation</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_49186670/13529374" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13529374"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13529374"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>CenterMask: single shot instance segmentation with point representation</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/q1369264370/article/details/110862681" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://blog.csdn.net/q1369264370/article/details/110862681"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://blog.csdn.net/q1369264370/article/details/110862681"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>项目启动时报错求助!!!</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/raoxiaoya/article/details/110862360" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://blog.csdn.net/raoxiaoya/article/details/110862360"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://blog.csdn.net/raoxiaoya/article/details/110862360"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>git深入理解(二)：HEAD是什么</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_44321975/article/details/110858787" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://blog.csdn.net/weixin_44321975/article/details/110858787"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://blog.csdn.net/weixin_44321975/article/details/110858787"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>SpringBoot多线程的实现</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/artisticnight/13529429" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://download.csdn.net/download/artisticnight/13529429"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://download.csdn.net/download/artisticnight/13529429"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>DrivingThirdExam.rar</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31416" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31416"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31416"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Redis入门到精通教程（2020最新录制）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31363" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31363"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31363"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>手把手搭建SpringBoot电子商城网站【附源码】（毕设）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_52148546/article/details/110862153" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://blog.csdn.net/weixin_52148546/article/details/110862153"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://blog.csdn.net/weixin_52148546/article/details/110862153"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>表单属性</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31359" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31359"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31359"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>面向对象的相关概念介绍  视频</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/m0_50635229/article/details/110862224" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://blog.csdn.net/m0_50635229/article/details/110862224"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://blog.csdn.net/m0_50635229/article/details/110862224"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Python3.6.5文件写入中文失败</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/GongmissYan/13532645" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://download.csdn.net/download/GongmissYan/13532645"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://download.csdn.net/download/GongmissYan/13532645"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>U盘读卡器-基于HAL库STM32F103C8</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/liyer_yiersan/article/details/110854142" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://blog.csdn.net/liyer_yiersan/article/details/110854142"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://blog.csdn.net/liyer_yiersan/article/details/110854142"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>祎二三的学习笔记：JAVA基础《一》</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31102" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31102"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31102"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>ARFoundation入门到精通</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_48344945/article/details/110860100" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://blog.csdn.net/weixin_48344945/article/details/110860100"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://blog.csdn.net/weixin_48344945/article/details/110860100"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>矩池云内一键安装nvcc</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31437" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31437"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31437"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>【曾贤志】openpyxl处理Excel数据 - 第2季 巩固篇</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31413" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31413"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31413"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>从新手小白进入WinForm编程 (VS2019)</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/cpongo1/13529488" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://download.csdn.net/download/cpongo1/13529488"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://download.csdn.net/download/cpongo1/13529488"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>proxycert.cmd</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_53340323/article/details/110847216" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://blog.csdn.net/weixin_53340323/article/details/110847216"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://blog.csdn.net/weixin_53340323/article/details/110847216"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>线程和进程有什么区别？</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/qq_36856393/13529490" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://download.csdn.net/download/qq_36856393/13529490"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://download.csdn.net/download/qq_36856393/13529490"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>HCIP 路由交换题库+模拟测试题</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/ttataat/13530416" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13530416"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13530416"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>住宅小区安防与智能化系统</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/ttataat/13532488" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13532488"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13532488"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>腾讯微瓴&mdash;&mdash;物联网时代，如何用微瓴开发智慧建筑应用</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/aaa15215472a/13529350" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://download.csdn.net/download/aaa15215472a/13529350"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://download.csdn.net/download/aaa15215472a/13529350"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>提取QQ和微信的语音信息修改为可播放mp3类</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/chunguang530/13529401" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://download.csdn.net/download/chunguang530/13529401"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://download.csdn.net/download/chunguang530/13529401"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>jsraw.txtApp 物联</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/ttataat/13534405" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13534405"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13534405"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>无线智慧城市解决方案书&mdash;&mdash;无线自组网宽带技术在无线智慧城市建设中应用</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_43171019/13529480" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_43171019/13529480"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_43171019/13529480"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>activation.jar</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_39206750/article/details/110862409" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://blog.csdn.net/qq_39206750/article/details/110862409"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://blog.csdn.net/qq_39206750/article/details/110862409"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>JS获取当前时间的前一天/后一天（昨天/明天）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/combo/detail/1964" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1964"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1964"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>数据清洗-Pandas系统视频教程</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lchewf/13529495" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://download.csdn.net/download/lchewf/13529495"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://download.csdn.net/download/lchewf/13529495"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>LK-Navigator_ver1.60</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_32833357/article/details/110862246" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://blog.csdn.net/qq_32833357/article/details/110862246"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://blog.csdn.net/qq_32833357/article/details/110862246"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>2020-12-08</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31372" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31372"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31372"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>小白趣味学Python编程</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+            </ul>
+            </div>
+        </div>
+    </aside>
+</div>
+
+</div>
+<div class="mask-dark"></div>
+<script type="text/javascript">
+    var timert = setInterval(function(){
+      sideToolbar = $(".csdn-side-toolbar");
+      if (sideToolbar.length > 0) {
+        sideToolbar.css('cssText','bottom:64px !important;')
+        clearInterval(timert);
+      }
+    }, 200);
+</script>
+<script>
+    var articleId = 8449855;
+    var commentscount = 2;
+    var curentUrl = "https://blog.csdn.net/xxin_w/article/details/8449855";
+    var myUrl = "https://my.csdn.net/";
+    var highlight = ["windbg","定位","死锁"];//高亮数组
+    var share_card_url = "https://blog.csdn.net/Xxin_W/article/shareArticleCardPage?article_id=8449855"
+	var articleType = 1;
+    var baiduKey = "windbg 死锁";
+    var needInsertBaidu = true;
+    var recommendRegularDomainArr = ["blog.csdn.net/.+/article/details/","download.csdn.net/download/","edu.csdn.net/course/detail/","ask.csdn.net/questions/","bbs.csdn.net/topics/","www.csdn.net/gather_.+/"]
+    var codeStyle = "";
+    var baiduSearchType = "baidulandingword";
+    var canRead = true;
+    var blogMoveHomeArticle = false;
+    var showPcWindowAd = false;
+</script>
+<script src="https://csdnimg.cn/public/sandalstrap/1.4/js/sandalstrap.min.js"></script>
+<div class="skin-boxshadow"></div>
+<div style="display:none;">
+	<img src="" onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+</div>
+</body>
+    <!-- 富文本柱状图  -->
+	<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/chart/chart.css"/>
+	<script type="text/javascript" src="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/chart/lib/chart.min.js"></script>
+    <script type="text/javascript" src="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/chart/widget2chart.js"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_highlight-db1e81323a.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_common-906586e915.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/codesnippet/lib/highlight/styles/atom-one-light.css">
+<script>
+ // 全局声明
+ if (window.csdn === undefined) {
+      window.csdn = {};
+    }
+    window.csdn.sideToolbar = {
+        options: {
+            report:{
+                isShow: true,
+            },
+            qr: {
+                isShow: false,
+            },
+            guide: {
+                isShow: true
+            }
+        }
+    }
+    $(function(){
+        $(document).on('click',"a.option-box[data-type='report']",function() {
+            window.csdn.userLogin.loadAjax(function(res){
+                showReport(false,articleTitles);
+            })
+        });
+    })
+</script>
+    <script src="https://g.csdnimg.cn/baidu-search/1.0.7/baidu-search.js"  type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/download/old_static/js/qrcode.js"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/common-b286f966c8.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/detail-c3206d1df7.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/user-ordercart/1.0.6/user-ordercart.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/column-78261cfea6.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/side-toolbar/2.8/side-toolbar.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/copyright/1.0.3/copyright.js" type="text/javascript"></script>
+<script>
+    $(".MathJax").remove();
+    if ($('div.markdown_views pre.prettyprint code.hljs').length > 0) {
+        $('div.markdown_views')[0].className = 'markdown_views';
+    }
+</script>
+<script type="text/javascript" src="https://csdnimg.cn/release/blog_mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            "HTML-CSS": {
+                    linebreaks: { automatic: true, width: "94%container" },
+                    imageFont: null
+            },
+            tex2jax: {
+                preview: "none"
+            },
+            mml2jax: {
+                preview: 'none'
+            }
+    });
+</script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/user-login/2.3.2/user-login.js"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/login-box/1.1.4/login-box.js"></script></html>

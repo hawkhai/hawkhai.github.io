@@ -1,0 +1,2534 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<!-- Slide (web, intern, english) -->
+<title>GLSL - Graphics Programming - Part 9 - Chapter 1</title>
+
+<!-- Slide (web, intern, english, german) -->
+<meta charset='utf-8'>
+<link href="./jquery-ui/css/ui-lightness/jquery-ui-1.9.1.custom.css" rel="stylesheet">
+<script src="./jquery-ui/js/jquery-1.8.2.js"></script>
+<script src="./jquery-ui/js/jquery-ui-1.9.1.custom.js"></script>
+<script src='../pccanvas.js'></script>
+<script src='../slides.js'></script>
+
+<!-- Slide (web, intern, english, german) -->
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});</script>
+<script type="text/javascript" src="./MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<!-- Slide (web, intern, english, german) -->
+<!--[if lt IE 9]>
+<script>
+document.createElement('article');
+document.createElement('aside');
+alert("WARNING: Your browser does not support basic HTML5 features.");
+</script>
+<![endif]-->
+</head>
+
+<body style='display: none'>
+
+  <div class='slides layout-regular template-mpii'>
+
+    <!--
+    <audio class="slides-media-playonclick media mediacommentaudio mediacommentinvisble" controls>
+      <source src="http://playground.html5rocks.com/samples/html5_misc/rushus-modal_blues.mp3" type="audio/mpeg" />
+      <source src="http://playground.html5rocks.com/samples/html5_misc/rushus-modal_blues.ogg" type="audio/ogg" />
+      Audio tag not supported
+    </audio>
+  
+    <video class="slides-media-playonclick media mediacommentvideo mediacommentinvisble" controls>
+      <source src="http://www.html5rocks.com/en/tutorials/video/basics/Chrome_ImF.ogv" type='video/ogg; codecs="theora, vorbis"' />
+      <source src="http://www.808.dk/pics/video/gizmo.mp4" type="video/mp4" />
+    </video>
+    -->
+
+    <!-- to do: 
+     -->
+
+    <!-- Slide (web, intern, english) -->
+    <article class='biglogo'>
+      <h1>
+        Graphics Programming<br>OpenGL Shading Language (GLSL)
+      </h1>
+      <p>
+        Thorsten Thormählen <br>Dezember 13, 2019 <br> Part 9, Chapter 1
+      </p>
+      <div class='footerarea'>
+        <div class="onlyInPrint"> 
+          <p class='smaller'>
+            This is the print version of the slides. <br>
+            <!--For an interactive slide presentation press the <span class="key">&nbsp;p&nbsp;</span> key <br> -->
+            <button onmousedown="changeStyleSheet();" class="smallTopMargin">Activate presentation view</button> 
+          </p>
+        </div>
+        <div class="onlyInWeb">
+          <p class='smaller'>
+            Advance slides with the <span class="key">&rarr;</span> key or <br> 
+            by clicking on the right border of the slide<br> 
+            <button onmousedown="changeStyleSheet();" class="smallTopMargin">Activate print view</button> 
+          </p>
+        </div> 
+      </div>
+      <aside></aside>
+    </article>
+    
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>Control Keys</h3>
+      </div>
+      <div class='slidebody'>
+        <span class="key">&rarr;</span> move to next slide (also <span class="key">Enter</span> or <span class="key">Spacebar</span>).<br /> 
+        <span class="key">&larr;</span> move to previous slide.<br /> 
+        <!--<span class="key">&nbsp;a&nbsp;</span> open additional window with aside information.<br /> 
+        <span class="key">&nbsp;c&nbsp;</span> disable/enable audio commentary.<br /> -->
+        <span class="key">&nbsp;d&nbsp;</span> enable/disable drawing on slides<br /> 
+        <span class="key">&nbsp;p&nbsp;</span> toggles between print and presentation view<br />
+        <span class="key">CTRL</span> <span class="key">&nbsp;+&nbsp;</span> zoom in<br /> 
+        <span class="key">CTRL</span> <span class="key">&nbsp;-&nbsp;</span> zoom out<br /> 
+        <span class="key">CTRL</span> <span class="key">&nbsp;0&nbsp;</span> reset zoom<br />
+
+        <p class="largeTopMargin">Slides can also be advanced by clicking on the left or right border of the slide.</p>
+      </div>
+      <aside>
+        <p>
+          <b>Welcome!</b> (This field is for speaker notes and commentary.)
+        <p>
+      </aside>
+    </article>
+    
+    <!-- Slide (web, intern, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <h3>Notation</h3>
+      </div>
+      <div class='slidebody'>
+        <table>
+          <tr>
+            <th>Type</th>
+            <th>Font</th>
+            <th>Examples</th>
+          </tr>
+          <tr>
+            <td>Variables (scalars) </td>
+            <td>italics</td>
+            <td>$a, b, x, y$</td>
+          </tr>
+          <tr>
+            <td>Functions</td>
+            <td>upright</td>
+            <td>$\mathrm{f}, \mathrm{g}(x), \mathrm{max}(x)$</td>
+          </tr>
+          <tr>
+            <td>Vectors</td>
+            <td>bold, elements row-wise</td>
+            <td>$\mathbf{a}, \mathbf{b}= \begin{pmatrix}x\\y\end{pmatrix} = (x, y)^\top,$ $\mathbf{B}=(x, y, z)^\top$</td>
+          </tr>
+          <tr>
+            <td>Matrices</td>
+            <td>Typewriter</td>
+            <td>$\mathtt{A}, \mathtt{B}= \begin{bmatrix}a & b\\c & d\end{bmatrix}$</td>
+          </tr>
+          <tr>
+            <td>Sets</td>
+            <td>calligraphic</td>
+            <td>$\mathcal{A}, B=\{a, b\}, b \in \mathcal{B}$</td>
+          </tr>
+          <tr>
+            <td>Number systems, Coordinate spaces</td>
+            <td>double-struck</td>
+            <td>$\mathbb{N}, \mathbb{Z}, \mathbb{R}^2, \mathbb{R}^3$</td>
+          </tr>
+
+        </table>
+      </div>
+    </article>
+    
+  
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>OpenGL Shading Language</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>The OpenGL Shading Language (GLSL) allows writing custom programs for vertex and fragment processors</li>
+          <li>The custom GLSL programs thereby replace parts of the OpenGL pipeline that were previously performed by the fixed-function pipeline</li>
+          <li>The per-vertex-operations are partially replaced by a <b>vertex shader</b> and the per-pixel-operations by a <b>fragment shader</b>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, german, english) -->
+    <article>
+      <div class='slidetitle'>
+        <!-- Slide (web, intern, english) -->
+        <h3>Reiteration: OpenGL-Pipeline</h3>
+        <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <div style="position: relative;">
+          <div class="textOverImageLeft" style="position: absolute; top: 0px; left: 0px;">
+            <img src="media/vectorart/openglpipeline_animate0.png" alt="openglpipeline" />
+          </div>
+          <div class="build">
+            <div class="textOverImageLeft" style="position: absolute; top: 0px; left: 50px;">
+              <img src="media/vectorart/openglpipeline_animate1.png" alt="openglpipeline" />
+            </div>
+            <div class="textOverImageLeft" style="position: absolute; top: 160px; left: 0px;">
+              <img src="media/vectorart/openglpipeline_animate2.png" alt="openglpipeline" />
+            </div>
+            <div class="textOverImageLeft" style="position: absolute; top: 250px; left: 50px;">
+              <img src="media/vectorart/openglpipeline_animate3.png" alt="openglpipeline" />
+            </div>
+            <div class="textOverImageLeft" style="position: absolute; top: 300px; left: 140px;">
+              <img src="media/vectorart/openglpipeline_animate4.png" alt="openglpipeline" />
+            </div>
+            <div class="textOverImageLeft" style="position: absolute; top: 365px; left: 140px;">
+              <img src="media/vectorart/openglpipeline_animate5.png" alt="openglpipeline" />
+            </div>
+            <div class="textOverImageLeft" style="position: absolute; top: 430px; left: 140px;">
+              <img src="media/vectorart/openglpipeline_animate6.png" alt="openglpipeline" />
+            </div>
+          </div>
+        </div>
+        <!-- Slide (web, intern, english -->
+        <div class="mediaQuote">
+          <b>Source:</b> based on Mark Segal, Kurt Akeley, <i>The OpenGL Graphics System: A Specification</i> Version 2.0, 2004, Figure 2.1. Block diagram of the GL (modified)
+        </div>
+        
+         <!-- Slide (web, intern, german, english) -->
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, german, english) -->
+    <article>
+      <div class='slidetitle'>
+        <!-- Slide (web, intern, english) -->
+         <h3>Vertex Shader</h3>
+        <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <div class="centered">
+          <img src="media/vectorart/pervertex_fixedfunction_vs_shader.png" alt="pervertex_fixedfunction_vs_shader" />
+        </div>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>Fragment Shader</h3>
+      </div>
+      <div class='slidebody'>
+        <div class="centered">
+          <img src="media/vectorart/perfragment_fixedfunction_vs_shader.png" alt="perfragment_fixedfunction_vs_shader" />
+        </div>
+        <div class="mediaQuote">
+          <b>Source:</b> based on Mark Segal, Kurt Akeley, <i>The OpenGL Graphics System: A Specification</i> Version 2.0, 2004, Abb. 3.1 und 4.1.
+          (modified)
+        </div>
+      </div>
+    </article>
+    
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>Parallel Processing</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>In the vertex and fragment shaders the data is processed in parallel</li>
+          <li>Today's GPUs have up to 2600 processing units that can perform parallel calculations on the data</li>
+          <li>For all data exactly the same shader code is executed in parallel (&quot;Stream Processing&quot;)</li>
+          <li>The parallel processing is possible because the operations have a defined goal (either a transformed vertex or fragment),
+            which can be written without conflicts</li>
+        </ul>
+      </div>
+    </article>
+
+
+    
+    <!-- Slide (web, intern, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <h3>Creation of Shader Programs in OpenGL</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>The shader programs are compiled at runtime and passed to the graphics card</li>
+          <li>To create a shader program that may contain vertex and fragment shaders, the following command is used
+            <pre>progID = glCreateProgram();</pre>
+          <li>Creating, assigning, and compiling of shader code for a vertex and fragment Shader is done with: <pre>vertID = glCreateShader(GL_VERTEX_SHADER);
+fragID = glCreateShader(GL_FRAGMENT_SHADER);
+glShaderSource(vertID, 1, &vertShaderSrcCodeString, &vStrLength);
+glShaderSource(fragID, 1, &fragShaderSrcCodeString, &fStrLength);
+glCompileShader(vertID);
+glCompileShader(fragID);</pre>
+          </li>
+          <li>Then the shaders are assigned to the program and an executable is generated: <pre>glAttachShader(progID, vertID);
+glAttachShader(progID, fragID);
+glLinkProgram(progID);
+</pre>
+        </ul>
+      </div>
+    </article>
+    
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>Using Shader Programs in OpenGL</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>To activate a shader program the following command is used 
+            <pre>glUseProgram(progID);</pre>
+          </li>
+          <li>In this case, OpenGL behaves again as a state-machine,i.e., all subsequent rendering function are using the currently active shader program</li>
+          <li>This also means that swapping between different shader programs at runtime is possible (and often occurs in practice).
+            For example, different shaders are used to simulate different materials.</li>
+        </ul>
+      </div>
+    </article>
+    
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>Deleting Shader Objects</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>For deletion the following functions are used: <pre>glDeleteProgram(progID);
+glDeleteShader(vertID);
+glDeleteShader(fragID);</pre>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>Input and Output of a Vertex Shader</h3>
+      </div>
+      <div class='slidebody'>
+        <div class="centered">
+          <img src="media/vectorart/vertexshader_inout.png" alt="vertexshader_inout" />
+        </div>
+        <div class="mediaQuote">
+          <b>Source:</b> based on Randi J. Rost, Bill Licea-Kane. <i>OpenGL Shading Language</i>, Third Edition, 2010 sowie <br> John Kessenich (Dave
+          Baldwin, Randi Rost). <i><a href="http://www.opengl.org/registry/doc/GLSLangSpec.Full.1.40.05.pdf">The OpenGL Shading Language</a></i> <br>Language
+          Version: 1.40, Chapter 7, 2009 (modified)
+        </div>
+      </div>
+    </article>
+    
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>Input and Output of a Fragment Shader</h3>
+      </div>
+      <div class='slidebody'>
+        <div class="centered">
+          <img src="media/vectorart/fragmentshader_inout.png" alt="fragmentshader_inout" />
+        </div>
+        <div class="mediaQuote">
+          <b>Source:</b> based on Randi J. Rost, Bill Licea-Kane. <i>OpenGL Shading Language</i>, Third Edition, 2010 sowie <br> John Kessenich (Dave
+          Baldwin, Randi Rost). <i><a href="http://www.opengl.org/registry/doc/GLSLangSpec.Full.1.40.05.pdf">The OpenGL Shading Language</a></i> <br>Language
+          Version: 1.40, Chapter 7, 2009 (modified)
+        </div>
+      </div>
+    </article>
+
+   <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>GLSL Syntax</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>The syntax of GLSL is very similar to C (with some elements of C++)</li>
+          <li>Data types for floating point numbers: <br> <code>float, vec2, vec3, vec4, mat2, mat3, mat4</code></li>
+          <li>Integer data types: <br> <code>int, ivec2, ivec3, ivec4</code></li>
+          <li>Boolean data types: <br> <code>bool, bvec2, bvec3, bvec4</code></li>
+          <li>Sampler data types for accessing textures: <br> <code>sampler2D, sampler3D, samplerCube, ...</code>
+          </li>
+        </ul>
+      </div>
+    </article>
+    
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>GLSL Syntax</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Struct statements (as known from C) are permitted: <pre>struct Vertex { 
+  float val1; 
+  int val2; 
+  bool val3;
+};</pre></li>
+          <li>Arrays (as known from C) are also possible: <pre>float a[16];</pre></li>
+          <li>Data types must be explicitly converted<pre>float a = float(1);</pre></li>
+        </ul>
+      </div>
+    </article>
+    
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>GLSL Syntax</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Much as in C:
+            <ul>
+              <li>Conditions: <code>if, if()else</code></li>
+              <li>Loops: <code>for, while, do{}while()</code></li>
+              <li>Termination: <code>return, break, continue</code></li>
+            </ul>
+          </li>
+          <li>But not everything is allowed:
+            <ul>
+              <li>No pointers</li>
+              <li>No strings</li>
+              <li>No <code>unsigned, byte, short, long</code> types, no <code>union</code></li>
+              <li>No <code>switch()case</code></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, german, english) -->
+    <article>
+      <div class='slidetitle'>
+        <!-- Slide (web, intern, english) -->
+        <h3>Construction and Usage of Vectors</h3>
+        <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <pre>
+// construction
+vec2 a = vec2(1.0, 2.0);
+vec3 b = vec3(1.0,-1.0, 1.0);
+vec4 c = vec4(1.0, 2.0, 3.0, 4.0);
+vec4 allOne = vec4(1.0); 
+vec4 d = vec4(a, a);
+vec4 e = vec4(b, 1.0);
+// accessing elements
+float f = b[1]; // is -1.0
+float g = b.y;  // is -1.0 as well
+//conversion 
+d = c.rgba;  // stays a 4-vector
+b = c.xyz;   // convert to 3-vector
+a = c.xy;    // convert to 2-vector
+e = c.xxyy;  // e = (1.0, 1.0, 2.0, 2.0)  "swizzling"
+e.xz = vec2(0.5, 0.6); // e = (0.5, 1.0, 0.6, 2.0)
+</pre>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, german, english) -->
+    <article>
+      <div class='slidetitle'>
+        <!-- Slide (web, intern, english) -->
+        <h3>Construction and Usage of Matrices</h3>
+        <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <pre>
+// construction
+mat4 a = mat4(0.0, 0.1, 0.2, 0.3,   // column major order:
+              0.4, 0.5, 0.6, 0.7,   // transposed of the
+              0.8, 0.9, 1.0, 1.1,   // usual interpretation
+              1.2, 1.3, 1.4, 1.5); 
+mat3 b = mat3(1.0); // identity matrix
+// conversion
+mat3 c = mat3(a);   // upper 3x3 matrix
+vec4 d = a[1];      // d = (0.4, 0.5, 0.6, 0.7)
+// operations
+vec4 e = a * vec4(1.0);
+mat4 f = 2.0 * a - mat4(1.0);
+</pre>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <h3>Example: A First Triangle with GLSL</h3>
+      </div>
+      <div class='slidebody'>
+        <div class="captionBoxRight">
+          <img src="media/opengl_firstshader.png" alt="opengl_firstshader" />
+        </div>
+        <ul class="mediumTopMargin">
+          <li>The syntax learned so far is sufficient to create a first example
+          <ul>
+            <li>Source code with GLUT: <a href="./code_v2/FirstShader/glut/FirstShader.cpp" target="_blank">FirstShader.cpp</a></li>
+            <li>Source code with Qt: <a href="./code_v2/FirstShader/qt/FirstShader.cpp" target="_blank">FirstShader.cpp</a></li>
+            <li>Source code with Java: <a href="./code_v2/FirstShader/java/FirstShader.java" target="_blank">FirstShader.java</a></li>
+            <li>Source code with Android: <a href="./code_v2/FirstShader/android/FirstShader.zip" target="_blank">FirstShader.zip</a></li>
+            <li>Shader sources: <a href="./code_v2/FirstShader/java/first.vert" target="_blank">first.vert</a>, <a href="./code_v2/FirstShader/java/first.frag" target="_blank">first.frag</a></li>
+          </ul>
+          </li>
+        </ul>
+        <br>
+        <ul>
+          <li>Implementation with WebGL: <br><a href="./code/WebGLFirstShader/FirstShader.html" target="_blank">FirstShader.html</a></li>
+        </ul>
+        <ul>
+          <li>GSN Composer: <br><a href="https://www.gsn-lib.org/index.html#projectName=public3dshader&graphName=FirstShader" target="_blank">FirstShader</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, german, english) -->
+    <article>
+      <div class='slidetitle'>
+        <!-- Slide (web, intern, english) -->
+        <h3>Example: A First Triangle with GLSL</h3>
+        <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <div style="overflow: scroll; height: 500px; width: 750px;">
+          <pre style="margin: 0px">class Renderer {
+
+private:
+  struct Vertex
+  {
+    float position[3];
+    float color[4];
+  };
+
+private:
+  enum {Triangle, numVAOs};
+  enum {TriangleAll, numVBOs};
+  GLuint vaoID[numVAOs];
+  GLuint bufID[numVBOs];
+  int triangleVertNo;
+  GLuint progID;
+  GLuint vertID;
+  GLuint fragID;
+  GLint vertexLoc;
+  GLint colorLoc;
+
+public:
+  // constructor
+  Renderer() : triangleVertNo(0), progID(0), vertID(0),
+               fragID(0), vertexLoc(-1), colorLoc(-1) {}
+  //destructor
+  ~Renderer() {
+    glDeleteVertexArrays(numVAOs, vaoID);
+    glDeleteBuffers(numVBOs, bufID);
+    glDeleteProgram(progID);
+    glDeleteShader(vertID);
+    glDeleteShader(fragID);
+  }
+
+public:
+  void init() {
+    initExtensions();
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH);
+
+    setupShaders();
+
+    // create a Vertex Array Objects (VAO)
+    glGenVertexArrays(numVAOs, vaoID);
+
+    // generate a Vertex Buffer Object (VBO)
+    glGenBuffers(numVBOs, bufID);
+
+    // binding the Triangle VAO
+    glBindVertexArray(vaoID[Triangle]);
+
+    float triangleVertexData[] = {
+       0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+      -0.5f,-0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+       0.5f,-0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+    };
+    triangleVertNo = 3;
+
+    glBindBuffer(GL_ARRAY_BUFFER, bufID[TriangleAll]);
+    glBufferData(GL_ARRAY_BUFFER, triangleVertNo*sizeof(Vertex),
+                 triangleVertexData, GL_STATIC_DRAW);
+
+    int stride = sizeof(Vertex);
+    char *offset = (char*)NULL;
+
+    // position
+    if(vertexLoc != -1) {
+      glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, 
+                            GL_FALSE, stride, offset);
+      glEnableVertexAttribArray(vertexLoc);
+    }
+
+    // color
+    if(colorLoc != -1) {
+      offset = (char*)NULL + 3*sizeof(float);
+      glVertexAttribPointer(colorLoc, 4, GL_FLOAT, 
+                            GL_FALSE, stride, offset);
+      glEnableVertexAttribArray(colorLoc);
+    }
+  }
+
+  void setupShaders() {
+
+    // create shader
+    vertID = glCreateShader(GL_VERTEX_SHADER);
+    fragID = glCreateShader(GL_FRAGMENT_SHADER);
+
+    // load shader source from file
+    std::string vs = loadShaderSrc("./first.vert");
+    const char* vss = vs.c_str();
+
+    std::string fs = loadShaderSrc("./first.frag");
+    const char* fss = fs.c_str();
+
+    // specify shader source
+    glShaderSource(vertID, 1, &(vss), NULL);
+    glShaderSource(fragID, 1, &(fss), NULL);
+
+    // compile the shader
+    glCompileShader(vertID);
+    glCompileShader(fragID);
+
+    // check for errors
+    printShaderInfoLog(vertID);
+    printShaderInfoLog(fragID);
+
+    // create program and attach shaders
+    progID = glCreateProgram();
+    glAttachShader(progID, vertID);
+    glAttachShader(progID, fragID);
+
+    // "outColor" is a user-provided OUT variable
+    // of the fragment shader.
+    // Its output is bound to the first color buffer
+    // in the framebuffer
+    glBindFragDataLocation(progID, 0, "outputColor");
+
+    // link the program
+    glLinkProgram(progID);
+    // output error messages
+    printProgramInfoLog(progID);
+
+    // "inputPosition" and "inputColor" are user-provided
+    // IN variables of the vertex shader.
+    // Their locations are stored to be used later with
+    // glEnableVertexAttribArray()
+    vertexLoc = glGetAttribLocation(progID,"inputPosition");
+    colorLoc = glGetAttribLocation(progID, "inputColor");
+
+  }
+
+  void resize(int w, int h) {
+    glViewport(0, 0, w, h);
+  }
+
+  void display() {
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glUseProgram(progID);
+
+    // bind Triangle VAO
+    glBindVertexArray(vaoID[Triangle]);
+    // render data
+    glDrawArrays(GL_TRIANGLES, 0, triangleVertNo);
+  }
+  
+private:
+  void printShaderInfoLog(GLuint obj) {
+    int infoLogLength = 0;
+    int returnLength  = 0;
+    char *infoLog;
+    glGetShaderiv(obj, GL_INFO_LOG_LENGTH,&infoLogLength);
+    if (infoLogLength > 0) {
+      infoLog = (char *)malloc(infoLogLength);
+      glGetShaderInfoLog(obj, infoLogLength, 
+                         &returnLength, infoLog);
+      printf("%s\n",infoLog);
+      free(infoLog);
+    }
+  }
+
+  void printProgramInfoLog(GLuint obj) {
+    int infoLogLength = 0;
+    int returnLength  = 0;
+    char *infoLog;
+    glGetProgramiv(obj, GL_INFO_LOG_LENGTH,&infoLogLength);
+    if (infoLogLength > 0) {
+      infoLog = (char *)malloc(infoLogLength);
+      glGetProgramInfoLog(obj, infoLogLength, 
+                          &returnLength, infoLog);
+      printf("%s\n",infoLog);
+      free(infoLog);
+    }
+  }
+
+  std::string loadShaderSrc(const std::string& filename) {
+    std::ifstream is(filename);
+    if (is.is_open()) {
+      std::stringstream buffer;
+      buffer << is.rdbuf();
+      return buffer.str();
+    }
+    cerr << "Unable to open file " << filename << endl;
+    exit(1);
+  }
+};
+</pre>
+        </div>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, german, english) -->
+    <article>
+      <div class='slidetitle'>
+        <!-- Slide (web, intern, english) -->
+        <h3>Example: A First Triangle with GLSL (Shader Code)</h3>
+        <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Vertex Shader: <pre style="margin: 0px">#version 140
+in vec3 inputPosition;
+in vec4 inputColor;
+out vec3 forFragColor;
+void main(){
+    forFragColor = inputColor.rgb;
+    gl_Position =  vec4(inputPosition, 1.0);
+}</pre></li>
+        </ul>
+        <ul>
+          <li>Fragment Shader: <pre style="margin: 0px">#version 140
+in vec3 forFragColor;
+out vec4 outputColor;
+void main() {
+    outputColor = vec4(forFragColor,1.0);
+}</pre></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>Passing of Vertex Attributes</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Per-Vertex attributes can be passed to a vertex shader using <code>in</code> variables
+          </li>
+          <li>Distinctions can be made regarding special <code>in</code> variables, which are automatically generated, and user-defined 
+            <code>in</code> variables,
+            which must be passed by the application
+          </li>
+          <li>The vertex data is transferred to the graphics card via Vertex Buffer Objects (VBOs)</li>
+        </ul>
+      </div>
+    </article>
+    
+    <!-- Slide (web, intern, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <h3>Passing of Vertex Attributes</h3>
+      </div>
+      <div class='slidebody'>
+        <p>
+          To use the data of VBOs for the used-defined
+          <code>in</code>
+          variables, the usual procedure will be as follows:
+        </p>
+        <ul class="mediumTopMargin">
+          <li>With <code>glGetAttribLocation</code> a location identifier for an <code>in</code> variable is queried. 
+            For example, when the variable in the shader code is called &quot;inputColor&quot; <pre>int colorLoc = glGetAttribLocation(progID, "inputColor");</pre>
+          </li>
+          <li>The function <code>glVertexAttribPointer(colorLoc, size, type, normalized, stride, offset)</code> then defines the mapping between an <code>in</code> variable
+            and VBO attribute
+          </li>
+          <li>Finally, the attribute needs to be activated by <pre>glEnableVertexAttribArray(colorLoc);</pre>
+          </li>
+          <li>In a subsequent call to <code>glDrawArray</code> or <code>glDrawElements</code> with activated VBO the <code>in</code> variable
+            of the vertex shader is then filled with the attribute data for each drawn vertex
+          </li>
+        </ul>
+      </div>
+    </article>
+    
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>Data Input and Output in the Fragment Shader</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>User-defined <code>out</code> variables of the vertex shader are interpolated in the rasterizer and the interpolated values are supplied as <code>in</code> variables
+            to the fragment shader 
+        </ul>
+        <ul>
+          <li>The <code>out</code> variables of the fragment shader will be sent to the framebuffer
+          </li>
+          <li>For example, if the <code>out</code> variable &quot;outputColor&quot; should be written into the first color buffer
+            of the framebuffer, this can be achieved by <pre>glBindFragDataLocation(progID, 0, "outputColor");</pre></li>
+        </ul>
+      </div>
+    </article>
+
+    
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>Uniform Variables</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>In addition to <code>in</code> variables, <code>uniform</code> variables are another way to pass data to a shader</li>
+          <li>In contrast to the <code>in</code> variables that contain the vertex attributes, the <code>uniform</code> variables 
+            include data that remains constant for all vertices during a call to <code>glDrawArray</code> or <code>glDrawElements</code>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+       <h3>Uniform Variables</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>The location identifier of a <code>uniform</code> variable can be queried by <pre>paraLoc = glGetUniformLocation(progID, "parameter");</pre>
+          </li>
+          <li>Afterwards, the <code>uniform</code> variable can be set with
+          
+          <pre>glUniform1i(paraLoc, 123);</pre></li>
+          <li>or, if the variable is a float-vector
+          <pre>glUniform3fv(threeVectorLoc, 1, threeVector);</pre></li>
+          <li>and in case of a matrix
+          <pre>glUniformMatrix4fv(modelviewLoc, 1, transpose, modelview);</pre>
+          </li>
+        </ul>
+      </div>
+    </article>
+    
+    <!-- Slide (web, intern, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <h3>Example: Passing the Transformation Matrices As Uniforms</h3>
+      </div>
+
+      <div class='slidebody'>
+         <div class="captionBoxRight">
+          <img src="media/opengl_shaderuniform.png" alt="opengl_shaderuniform">
+        </div>
+        <ul>
+          <li>In this example, the modelview matrix and the projection matrix are passed as <code>uniform</code> variables.
+            The functionality of the <code>GL_MODELVIEW</code> and <code>GL_PROJECTION</code> matrices (which are known from the fixed-function pipeline) are simulated.
+          </li>
+            <li>Source with GLUT: <a href="./code_v2/ShaderUniform/glut/ShaderUniform.cpp" target="_blank">ShaderUniform.cpp</a></li>
+            <li>Source code with Qt: <a href="./code_v2/ShaderUniform/qt/ShaderUniform.cpp" target="_blank">ShaderUniform.cpp</a></li>
+            <li>Source code with Java: <a href="./code_v2/ShaderUniform/java/ShaderUniform.java" target="_blank">ShaderUniform.java</a></li>
+            <li>Source code with Android: <a href="./code_v2/ShaderUniform/android/ShaderUniform.zip" target="_blank">ShaderUniform.zip</a></li>
+            <li>Shader sources: <a href="./code_v2/ShaderUniform/java/uniform.vert" target="_blank">uniform.vert</a>, <a href="./code_v2/ShaderUniform/java/uniform.frag" target="_blank">uniform.frag</a></li>
+            <li>Implementation with WebGL: <a href="./code/WebGLShaderUniform/ShaderUniform.html" target="_blank">ShaderUniform.html</a></li>
+            <li>GSN Composer: <a href="https://www.gsn-lib.org/index.html#projectName=public3dshader&graphName=ShaderUniform" target="_blank">ShaderUniform</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, german, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <!-- Slide (web, intern, english) -->
+        <h3>Example: Passing the Transformation Matrices As Uniforms</h3>
+        <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <div style="overflow: scroll; height: 500px; width: 750px;">
+          <pre style="margin: 0px">class Renderer {
+
+private:
+  struct Vertex {
+    float position[3];
+    float color[4];
+  };
+
+public:
+  float t;
+
+private:
+  enum {Triangle, numVAOs};
+  enum {TriangleAll, numVBOs};
+  GLuint vaoID[numVAOs];
+  GLuint bufID[numVBOs];
+  int triangleVertNo;
+  GLuint progID;
+  GLuint vertID;
+  GLuint fragID;
+  GLuint vertexLoc;
+  GLuint colorLoc;
+  GLuint projectionLoc;
+  GLuint modelviewLoc;
+  float projection[16];  // projection matrix
+  float modelview[16];  // modelview matrix
+
+public:
+  // constructor
+  Renderer() : t(0.0f), triangleVertNo(0), progID(0), vertID(0), fragID(0),
+               vertexLoc(-1), colorLoc(-1), projectionLoc(-1), modelviewLoc(-1)
+               {}
+  //destructor
+  ~Renderer() {
+    glDeleteVertexArrays(numVAOs, vaoID);
+    glDeleteBuffers(numVBOs, bufID);
+    glDeleteProgram(progID);
+    glDeleteShader(vertID);
+    glDeleteShader(fragID);
+  }
+
+public:
+  void init() {
+    initExtensions();
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH);
+
+    setupShaders();
+
+    // create a Vertex Array Objects (VAO)
+    glGenVertexArrays(numVAOs, vaoID);
+
+    // generate a Vertex Buffer Object (VBO)
+    glGenBuffers(numVBOs, bufID);
+
+    // binding the Triangle VAO
+    glBindVertexArray(vaoID[Triangle]);
+
+    float triangleVertexData[] = {
+       0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+      -0.5f,-0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+       0.5f,-0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+    };
+    triangleVertNo = 3;
+
+    glBindBuffer(GL_ARRAY_BUFFER, bufID[TriangleAll]);
+    glBufferData(GL_ARRAY_BUFFER, triangleVertNo*sizeof(Vertex),
+                 triangleVertexData, GL_STATIC_DRAW);
+
+    int stride = sizeof(Vertex);
+    char *offset = (char*)NULL;
+
+    // position
+    if(vertexLoc != -1) {
+      glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, 
+      GL_FALSE, stride, offset);
+      glEnableVertexAttribArray(vertexLoc);
+    }
+
+    // color
+    if(colorLoc != -1) {
+      offset = (char*)NULL + 3*sizeof(float);
+      glVertexAttribPointer(colorLoc, 4, GL_FLOAT, 
+      GL_FALSE, stride, offset);
+      glEnableVertexAttribArray(colorLoc);
+    }
+  }
+
+  void setupShaders() {
+
+    // create shader
+    vertID = glCreateShader(GL_VERTEX_SHADER);
+    fragID = glCreateShader(GL_FRAGMENT_SHADER);
+
+    // load shader source from file
+    std::string vs = loadShaderSrc("./uniform.vert");
+    const char* vss = vs.c_str();
+
+    std::string fs = loadShaderSrc("./uniform.frag");
+    const char* fss = fs.c_str();
+
+    // specify shader source
+    glShaderSource(vertID, 1, &(vss), NULL);
+    glShaderSource(fragID, 1, &(fss), NULL);
+
+    // compile the shader
+    glCompileShader(vertID);
+    glCompileShader(fragID);
+
+    // check for errors
+    printShaderInfoLog(vertID);
+    printShaderInfoLog(fragID);
+
+    // create program and attach shaders
+    progID = glCreateProgram();
+    glAttachShader(progID, vertID);
+    glAttachShader(progID, fragID);
+
+    // "outColor" is a user-provided OUT variable
+    // of the fragment shader.
+    // Its output is bound to the first color buffer
+    // in the framebuffer
+    glBindFragDataLocation(progID, 0, "outputColor");
+
+    // link the program
+    glLinkProgram(progID);
+    // output error messages
+    printProgramInfoLog(progID);
+
+    // "inputPosition" and "inputColor" are user-provided
+    // IN variables of the vertex shader.
+    // Their locations are stored to be used later with
+    // glEnableVertexAttribArray()
+    vertexLoc = glGetAttribLocation(progID,"inputPosition");
+    colorLoc = glGetAttribLocation(progID, "inputColor");
+
+    // "projection" and "modelview" are user-provided
+    // UNIFORM variables of the vertex shader.
+    // Their locations are stored to be used later
+    projectionLoc = glGetUniformLocation(progID, "projection");
+    modelviewLoc = glGetUniformLocation(progID, "modelview");
+
+  }
+
+  void resize(int w, int h) {
+    glViewport(0, 0, w, h);
+
+    // this function replaces gluPerspective
+    mat4Perspective(projection, 45.0f, (float)w/(float)h, 0.5f, 4.0f);
+    //mat4Print(projection);
+  }
+
+  void display() {
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // camera orbits in the y=2 plane
+    // and looks at the origin
+    // mat4LookAt replaces gluLookAt
+    double rad = M_PI / 180.0f * t;
+    mat4LookAt(modelview,
+               2.0f*cos(rad), 2.0f, 2.0f*sin(rad), // eye
+               0.0f, 0.0f, 0.0f, // look at
+               0.0f, 1.0f, 0.0f); // up
+  
+    glUseProgram(progID);
+    // load the current projection and modelview matrix into the
+    // corresponding UNIFORM variables of the shader
+    glUniformMatrix4fv(projectionLoc, 1, false, projection);
+    glUniformMatrix4fv(modelviewLoc, 1, false, modelview);
+
+    // bind Triangle VAO
+    glBindVertexArray(vaoID[Triangle]);
+    // render data
+    glDrawArrays(GL_TRIANGLES, 0, triangleVertNo);
+  }
+private:
+  void printShaderInfoLog(GLuint obj) {
+    int infoLogLength = 0;
+    int returnLength  = 0;
+    char *infoLog;
+    glGetShaderiv(obj, GL_INFO_LOG_LENGTH,&infoLogLength);
+    if (infoLogLength > 0) {
+      infoLog = (char *)malloc(infoLogLength);
+      glGetShaderInfoLog(obj, infoLogLength, &returnLength, infoLog);
+      printf("%s\n",infoLog);
+      free(infoLog);
+    }
+  }
+
+  void printProgramInfoLog(GLuint obj) {
+    int infoLogLength = 0;
+    int returnLength  = 0;
+    char *infoLog;
+    glGetProgramiv(obj, GL_INFO_LOG_LENGTH,&infoLogLength);
+    if (infoLogLength > 0) {
+      infoLog = (char *)malloc(infoLogLength);
+      glGetProgramInfoLog(obj, infoLogLength, &returnLength, infoLog);
+      printf("%s\n",infoLog);
+      free(infoLog);
+    }
+  }
+
+  std::string loadShaderSrc(const std::string& filename) {
+    std::ifstream is(filename);
+    if (is.is_open()) {
+      std::stringstream buffer;
+      buffer << is.rdbuf();
+      return buffer.str();
+    }
+    cerr << "Unable to open file " << filename << endl;
+    exit(1);
+  }
+
+  // the following functions are some matrix and vector helpers
+  // they work for this demo but in general it is recommended
+  // to use more advanced matrix libraries,
+  // e.g. OpenGL Mathematics (GLM)
+  float vec3Dot( float *a, float *b) {
+    return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
+  }
+
+  void vec3Cross( float *a, float *b, float *res) {
+    res[0] = a[1] * b[2]  -  b[1] * a[2];
+    res[1] = a[2] * b[0]  -  b[2] * a[0];
+    res[2] = a[0] * b[1]  -  b[0] * a[1];
+  }
+
+  void vec3Normalize(float *a) {
+    float mag = sqrt(a[0] * a[0]  +  a[1] * a[1]  +  a[2] * a[2]);
+    a[0] /= mag; a[1] /= mag; a[2] /= mag;
+  }
+
+  void mat4Identity( float *a) {
+    for (int i = 0; i < 16; ++i) a[i] = 0.0f;
+    for (int i = 0; i < 4; ++i) a[i + i * 4] = 1.0f;
+  }
+
+  void mat4Multiply(float *a, float *b, float *res) {
+    for (int i = 0; i < 4; ++i) {
+      for (int j = 0; j < 4; ++j) {
+        res[j*4 + i] = 0.0f;
+        for (int k = 0; k < 4; ++k) {
+          res[j*4 + i] += a[k*4 + i] * b[j*4 + k];
+        }
+      }
+    }
+  }
+
+  void mat4Perspective(float *a, float fov, float aspect, float zNear, float zFar) {
+    float f = 1.0f / float(tan (fov/2.0f * (M_PI / 180.0f)));
+    mat4Identity(a);
+    a[0] = f / aspect;
+    a[1 * 4 + 1] = f;
+    a[2 * 4 + 2] = (zFar + zNear)  / (zNear - zFar);
+    a[3 * 4 + 2] = (2.0f * zFar * zNear) / (zNear - zFar);
+    a[2 * 4 + 3] = -1.0f;
+    a[3 * 4 + 3] = 0.0f;
+  }
+
+  void mat4LookAt(float *viewMatrix,
+                  float eyeX, float eyeY, float eyeZ,
+                  float centerX, float centerY, float centerZ,
+                  float upX, float upY, float upZ) {
+
+    float dir[3], right[3], up[3], eye[3];
+    up[0]=upX; up[1]=upY; up[2]=upZ;
+    eye[0]=eyeX; eye[1]=eyeY; eye[2]=eyeZ;
+
+    dir[0]=centerX-eyeX; dir[1]=centerY-eyeY; dir[2]=centerZ-eyeZ;
+    vec3Normalize(dir);
+    vec3Cross(dir,up,right);
+    vec3Normalize(right);
+    vec3Cross(right,dir,up);
+    vec3Normalize(up);
+    // first row
+    viewMatrix[0]  = right[0];
+    viewMatrix[4]  = right[1];
+    viewMatrix[8]  = right[2];
+    viewMatrix[12] = -vec3Dot(right, eye);
+    // second row
+    viewMatrix[1]  = up[0];
+    viewMatrix[5]  = up[1];
+    viewMatrix[9]  = up[2];
+    viewMatrix[13] = -vec3Dot(up, eye);
+    // third row
+    viewMatrix[2]  = -dir[0];
+    viewMatrix[6]  = -dir[1];
+    viewMatrix[10] = -dir[2];
+    viewMatrix[14] =  vec3Dot(dir, eye);
+    // forth row
+    viewMatrix[3]  = 0.0f;
+    viewMatrix[7]  = 0.0f;
+    viewMatrix[11] = 0.0f;
+    viewMatrix[15] = 1.0f;
+  }
+  void mat4Print(float* a) {
+    // opengl uses column major order
+    for (int i = 0; i < 4; ++i) {
+      for (int j = 0; j < 4; ++j) {
+        cout << a[j * 4 + i] << " ";
+      }
+      cout << endl;
+    }
+  }
+};
+</pre>
+        </div>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, german, english) -->
+    <article>
+      <div class='slidetitle'>
+        <!-- Slide (web, intern, english) -->
+        <h3>Example: Passing the Transformation Matrices As Uniforms</h3>
+        <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Vertex Shader: <pre>#version 140
+in vec3 inputPosition;
+in vec4 inputColor;
+uniform mat4 projection;
+uniform mat4 modelview;
+out vec3 forFragColor;
+ 
+void main(){
+    forFragColor = inputColor.rgb;
+    gl_Position =  projection * modelview * vec4(inputPosition, 1.0);
+}</pre></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, german, english) -->
+    <article>
+      <div class='slidetitle'>
+        <!-- Slide (web, intern, english) -->
+        <h3>Example: Passing the Transformation Matrices As Uniforms</h3>
+        <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Fragment Shader: <pre>#version 140
+in vec3 forFragColor;
+out vec4 outputColor;
+ 
+void main() {
+    outputColor = vec4(forFragColor,1.0);
+}</pre></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>Transformation of Surface Normals</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>The modelview matrix transforms vertices from the local coordinate system to the camera coordinate system</li>
+          <li>A later application of illumination models requires that the surface normal of each vertex is also transformed from the local coordinate system to the camera coordinate system</li>
+          <li>So far, the fixed-function pipeline has taken care of the transformation of normals. With shaders, this is now also a task of the programmer.</li>
+        </ul>
+      </div>
+    </article>
+    
+    <!-- Slide (web, intern, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <h3>Transformation of Surface Normals</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>When transforming surface normals, it should be considered that a normal is a unit vector that is neither translated nor scaled 
+            during a transformation with the modelview matrix $\mathtt{T}_{\mathrm{\small modelview}}$. It is only rotated.</li>
+          <li>Problem: How can the transformation matrix $\mathtt{T}_{\mathrm{\small normal}}$ of the normal be calculated from the 
+            modelview matrix $\mathtt{T}_{\mathrm{\small modelview}}$ ?</li>
+        </ul>
+        <div class="textOverImageLeft">
+          <img src="./media/vectorart/normaltrans.png" alt="local2cam2">
+          <div class="textOver" style="position: absolute; top: 70%; left: 2%; font-size: 18px;">$\mathbf{V}_1$</div>
+          <div class="textOver" style="position: absolute; top: 25%; left: 1%; font-size: 18px;">$\mathbf{V}_2$</div>
+          <div class="textOver" style="position: absolute; top: 41%; left: 70%; font-size: 18px;">$\tilde{\mathbf{V}}_2$</div>
+          <div class="textOver" style="position: absolute; top: 37%; left: 42%; font-size: 18px;">$\tilde{\mathbf{V}}_1$</div>
+          <div class="textOver" style="position: absolute; top: 60%; left: 32%; font-size: 18px;">$\mathtt{T}_{\mathrm{\small modelview}}$</div>
+          <div class="textOver" style="position: absolute; top: 59%; left: 1%; font-size: 18px;">$\mathbf{N}$</div>
+          <div class="textOver" style="position: absolute; top: 21%; left: 42%; font-size: 18px;">$\tilde{\mathbf{N}}$</div>
+          <div class="textOver" style="position: absolute; top: 23%; left: 59%; font-size: 18px;">$\tilde{\mathbf{N}}'= \mathtt{T}_{\mathrm{\small
+            normal}} \mathbf{N}$</div>
+          <div class="textOver" style="position: absolute; top: 43%; left: 0%; font-size: 18px;">$\mathbf{M}$</div>
+          <div class="textOver" style="position: absolute; top: 34%; left: 61%; font-size: 18px;">$\tilde{\mathbf{M}}$</div>
+          <div class="textOver" style="position: absolute; top: 83%; left: 57%; font-size: 18px;">Camera coordinate system</div>
+          <div class="textOver" style="position: absolute; top: 83%; left: 4%; font-size: 18px;">Local coordinate system</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <h3>Transformation of Surface Normals</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Observation: In the local coordinate system the normal&nbsp;$\mathbf{N}=(n_x,n_y,n_z,0)^{\top}$ is orthogonal to the tangent&nbsp;$\mathbf{M}=(m_x,m_y,m_z,0)^{\top}$. 
+            Because of the transformation with $\mathtt{T}_{\mathrm{\small modelview}}$ the normal is mapped wrongly, but the tangent is still pointing in the right direction</li>
+          <li>Approach: Before the transformation, it holds that $\mathbf{N}^{\top}\mathbf{M} = 0$ and this relationship should be maintained after the transformation, therefore:
+            <div class="smallTopMargin">
+            $\begin{align} \tilde{\mathbf{N}}'^{\top} \tilde{\mathbf{M}} &\stackrel{!}{=} 0 \\ (\mathtt{T}_{\mathrm{\small normal}}
+            \mathbf{N})^{\top} ( \mathtt{T}_{\mathrm{\small modelview}} \mathbf{M} ) &= 0\\ \mathbf{N}^{\top} (\mathtt{T}_{\mathrm{\small normal}})^{\top}
+            \mathtt{T}_{\mathrm{\small modelview}} \mathbf{M} &= 0 \end{align}$
+            </div>
+            <br>
+          </li>
+          <li>Thus, for $(\mathtt{T}_{\mathrm{\small normal}})^{\top} \mathtt{T}_{\mathrm{\small modelview}}=\mathtt{I}_{4 \times 4}$ the condition 
+            is satisfied and it follows that 
+            <div class="smallTopMargin">
+            $\begin{align} (\mathtt{T}_{\mathrm{\small normal}})^{\top} \mathtt{T}_{\mathrm{\small modelview}}
+            &=\mathtt{I}_{4 \times 4}\\ (\mathtt{T}_{\mathrm{\small normal}})^{\top} &= (\mathtt{T}_{\mathrm{\small modelview}})^{-1}\\
+            \mathtt{T}_{\mathrm{\small normal}} &= (\mathtt{T}_{\mathrm{\small modelview}})^{-\top}\\ \end{align}$
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+    
+    <!-- Slide (web, intern, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <h3>Example: Transformation of Surface Normals</h3>
+      </div>
+
+      <div class='slidebody'>
+        <div class="centered">
+          <img src="media/opengl_shadernormaltrans.png" width="400" alt="opengl_shadernormaltrans">
+        </div>
+        <ul class="smallTopMargin">
+            <li>Source code with GLUT: <a href="./code_v2/ShaderNormalTrans/glut/ShaderNormalTrans.cpp" target="_blank">ShaderNormalTrans.cpp</a>, <a href="./code_v2/ShaderNormalTrans/glut/ShaderNormalTrans.zip" target="_blank">ShaderNormalTrans.zip</a></li>
+            <li>Source code with Qt: <a href="./code_v2/ShaderNormalTrans/qt/ShaderNormalTrans.cpp" target="_blank">ShaderNormalTrans.cpp</a>, <a href="./code_v2/ShaderNormalTrans/qt/ShaderNormalTrans.zip" target="_blank">ShaderNormalTrans.zip</a></li>
+            <li>Source code with Java: <a href="./code_v2/ShaderNormalTrans/java/ShaderNormalTrans.java" target="_blank">ShaderNormalTrans.java</a>, <a href="./code_v2/ShaderNormalTrans/java/ShaderNormalTrans.zip" target="_blank">ShaderNormalTrans.zip</a></li>
+            <li>Source code with Android: <a href="./code_v2/ShaderNormalTrans/android/ShaderNormalTrans.zip" target="_blank">ShaderNormalTrans.zip</a></li>
+            <li>Shader source: <a href="./code_v2/ShaderNormalTrans/java/pass.vert" target="_blank">pass.vert</a>, <a href="./code_v2/ShaderNormalTrans/java/pass.frag" target="_blank">pass.frag</a></li>
+            <li>Vertex data: <a href="./code_v2/ShaderNormalTrans/java/teapot.vbo" target="_blank">teapot.vbo</a></li>
+            <li>Implementation with WebGL: <a href="./code/WebGLShaderNormalTrans/ShaderNormalTrans.html" target="_blank">ShaderNormalTrans.html</a></li>
+            <li>GSN Composer: <a href="https://www.gsn-lib.org/index.html#projectName=public3dshader&graphName=NormalTrans" target="_blank">ShaderNormalTrans</a></li>
+        </ul>
+      </div>
+    </article>
+
+    
+    <!-- Slide (web, intern, german, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <!-- Slide (web, intern, english) -->
+        <h3>Example: Transformation of Surface Normals</h3>
+        <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <div style="overflow: scroll; height: 500px; width: 750px;">
+          <pre style="margin: 0px">class Renderer {
+
+private:
+  struct Vertex {
+    float position[3];
+    float texCoord[2];
+    float normal[3];
+  };
+
+public:
+  float t;
+  int modeVal;
+private:
+  enum {Scene, numVAOs};
+  enum {SceneAll, numVBOs};
+  GLuint vaoID[numVAOs];
+  GLuint bufID[numVBOs];
+  int sceneVertNo;
+  GLuint progID;
+  GLuint vertID;
+  GLuint fragID;
+  GLint vertexLoc;
+  GLint texCoordLoc;
+  GLint normalLoc;
+  GLint projectionLoc;
+  GLint modelviewLoc;
+  GLint normalMatrixLoc;
+  GLint modeLoc;
+  float projection[16];  // projection matrix
+  float modelview[16];  // modelview matrix
+
+public:
+  // constructor
+  Renderer() : t(0.0), modeVal(1), sceneVertNo(0), progID(0), 
+               vertID(0), fragID(0),
+               vertexLoc(-1), texCoordLoc(-1), normalLoc(-1),
+               projectionLoc(-1), modelviewLoc(-1), 
+               normalMatrixLoc(-1), modeLoc(-1)
+               {}
+  //destructor
+  ~Renderer() {
+    glDeleteVertexArrays(numVAOs, vaoID);
+    glDeleteBuffers(numVBOs, bufID);
+    glDeleteProgram(progID);
+    glDeleteShader(vertID);
+    glDeleteShader(fragID);
+  }
+
+public:
+  void init() {
+    initExtensions();
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH);
+
+    setupShaders();
+
+    // create a Vertex Array Objects (VAO)
+    glGenVertexArrays(numVAOs, vaoID);
+
+    // generate a Vertex Buffer Object (VBO)
+    glGenBuffers(numVBOs, bufID);
+
+    // binding the pyramid VAO
+    glBindVertexArray(vaoID[Scene]);
+
+    std::vector &lt;float&gt; data;
+    int perVertexFloats = (3+2+3);
+    loadVertexData(string("teapot.vbo"), data, perVertexFloats);
+
+    sceneVertNo = int(data.size()) / perVertexFloats;
+
+    glBindBuffer(GL_ARRAY_BUFFER, bufID[SceneAll]);
+    glBufferData(GL_ARRAY_BUFFER, sceneVertNo*sizeof(Vertex),
+                 &data[0], GL_STATIC_DRAW);
+
+    int stride = sizeof(Vertex);
+    char *offset = (char*)NULL;
+
+    // position
+    if(vertexLoc != -1) {
+      glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 
+                            stride, offset);
+      glEnableVertexAttribArray(vertexLoc);
+    }
+
+    // texCoord
+    if(texCoordLoc != -1) {
+      offset = (char*)NULL + 3*sizeof(float);
+      glVertexAttribPointer(texCoordLoc, 2, GL_FLOAT, GL_FALSE, 
+                            stride, offset);
+      glEnableVertexAttribArray(texCoordLoc);
+    }
+
+    // normal
+    if(normalLoc != -1) {
+      offset = (char*)NULL + (3+2)*sizeof(float);
+      glVertexAttribPointer(normalLoc, 3, GL_FLOAT, GL_FALSE, 
+                            stride, offset);
+      glEnableVertexAttribArray(normalLoc);
+    }
+
+  }
+
+  void setupShaders() {
+
+    // create shader
+    vertID = glCreateShader(GL_VERTEX_SHADER);
+    fragID = glCreateShader(GL_FRAGMENT_SHADER);
+
+    // load shader source from file
+    std::string vs = loadShaderSrc("./pass.vert");
+    const char* vss = vs.c_str();
+    std::string fs = loadShaderSrc("./pass.frag");
+    const char* fss = fs.c_str();
+
+    // specify shader source
+    glShaderSource(vertID, 1, &(vss), NULL);
+    glShaderSource(fragID, 1, &(fss), NULL);
+
+    // compile the shader
+    glCompileShader(vertID);
+    glCompileShader(fragID);
+
+    // check for errors
+    printShaderInfoLog(vertID);
+    printShaderInfoLog(fragID);
+
+    // create program and attach shaders
+    progID = glCreateProgram();
+    glAttachShader(progID, vertID);
+    glAttachShader(progID, fragID);
+
+    // "outColor" is a user-provided OUT variable
+    // of the fragment shader.
+    // Its output is bound to the first color buffer
+    // in the framebuffer
+    glBindFragDataLocation(progID, 0, "outputColor");
+
+    // link the program
+    glLinkProgram(progID);
+    // output error messages
+    printProgramInfoLog(progID);
+
+    // retrieve the location of the IN variables of the vertex shader.
+    vertexLoc = glGetAttribLocation(progID,"inputPosition");
+    texCoordLoc = glGetAttribLocation(progID,"inputTexCoord");
+    normalLoc = glGetAttribLocation(progID, "inputNormal");
+
+    // retrieve the location of the UNIFORM variables of the vertex shader.
+    projectionLoc = glGetUniformLocation(progID, "projection");
+    modelviewLoc = glGetUniformLocation(progID, "modelview");
+    normalMatrixLoc = glGetUniformLocation(progID, "normalMat");
+    modeLoc = glGetUniformLocation(progID, "mode");
+  }
+
+  void resize(int w, int h) {
+    glViewport(0, 0, w, h);
+
+    // this function replaces gluPerspective
+    mat4Perspective(projection, 30.0f, (float)w/(float)h, 0.5f, 4.0f);
+    // mat4Print(projection);
+  }
+
+  void display() {
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // camera orbits in the z=2 plane
+    // and looks at the origin
+    // mat4LookAt replaces gluLookAt
+    double rad = M_PI / 180.0f * t;
+    mat4LookAt(modelview,
+               1.5f*cos(rad), 1.5f*sin(rad), 1.5f, // eye
+               0.0f, 0.0f, 0.0f, // look at
+               0.0f, 0.0f, 1.0f); // up
+
+
+    float modelviewInv[16], normalmatrix[16];
+    mat4Invert(modelview, modelviewInv);
+    mat4Transpose(modelviewInv, normalmatrix);
+
+    glUseProgram(progID);
+    // load the current projection and modelview matrix into the
+    // corresponding UNIFORM variables of the shader
+    glUniformMatrix4fv(projectionLoc, 1, false, projection);
+    glUniformMatrix4fv(modelviewLoc, 1, false, modelview);
+    glUniformMatrix4fv(normalMatrixLoc, 1, false, normalmatrix);
+    glUniform1i(modeLoc, modeVal);
+
+    // bind Triangle VAO
+    glBindVertexArray(vaoID[Scene]);
+    // render data
+    glDrawArrays(GL_TRIANGLES, 0, sceneVertNo);
+  }
+private:
+  void printShaderInfoLog(GLuint obj) {
+    int infoLogLength = 0;
+    int returnLength  = 0;
+    char *infoLog;
+    glGetShaderiv(obj, GL_INFO_LOG_LENGTH,&infoLogLength);
+    if (infoLogLength > 0) {
+      infoLog = (char *)malloc(infoLogLength);
+      glGetShaderInfoLog(obj, infoLogLength, &returnLength, infoLog);
+      printf("%s\n",infoLog);
+      free(infoLog);
+    }
+  }
+
+  void printProgramInfoLog(GLuint obj) {
+    int infoLogLength = 0;
+    int returnLength  = 0;
+    char *infoLog;
+    glGetProgramiv(obj, GL_INFO_LOG_LENGTH,&infoLogLength);
+    if (infoLogLength > 0) {
+      infoLog = (char *)malloc(infoLogLength);
+      glGetProgramInfoLog(obj, infoLogLength, &returnLength, infoLog);
+      printf("%s\n",infoLog);
+      free(infoLog);
+    }
+  }
+
+  std::string loadShaderSrc(const std::string& filename) {
+    std::ifstream is(filename);
+    if (is.is_open()) {
+      std::stringstream buffer;
+      buffer << is.rdbuf();
+      return buffer.str();
+    }
+    cerr << "Unable to open file " << filename << endl;
+    exit(1);
+  }
+
+  bool loadVertexData(std::string &filename, std::vector&lt;float&gt; &data, 
+                      unsigned perVertexFloats) 
+  {
+    // read vertex data from file
+    ifstream input(filename.c_str());
+    if(!input) {
+      QMessageBox msgBox;
+      msgBox.setText("Can not find vertex data file");
+      msgBox.exec();
+      return false;
+    }
+
+    int numFloats;
+    double vertData;
+    if(input >> numFloats) {
+      if(numFloats > 0) {
+        data.resize(numFloats);
+        int i = 0;
+        while(input >> vertData && i < numFloats) {
+          // store it in the vector
+          data[i] = float(vertData);
+          i++;
+        }
+        if(i != numFloats || numFloats % perVertexFloats) return false;
+      }
+    }else{
+      return false;
+    }
+    return true;
+  }
+
+  // the following functions are some matrix and vector helpers,
+  // which work for this demo but in general it is recommended
+  // to use more advanced matrix libraries,
+  // e.g. OpenGL Mathematics (GLM)
+  float vec3Dot( float *a, float *b) {
+    return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
+  }
+
+  void vec3Cross( float *a, float *b, float *res) {
+    res[0] = a[1] * b[2]  -  b[1] * a[2];
+    res[1] = a[2] * b[0]  -  b[2] * a[0];
+    res[2] = a[0] * b[1]  -  b[0] * a[1];
+  }
+
+  void vec3Normalize(float *a) {
+    float mag = sqrt(a[0] * a[0]  +  a[1] * a[1]  +  a[2] * a[2]);
+    a[0] /= mag; a[1] /= mag; a[2] /= mag;
+  }
+
+  void mat4Identity( float *a) {
+    for (int i = 0; i < 16; ++i) a[i] = 0.0f;
+    for (int i = 0; i < 4; ++i) a[i + i * 4] = 1.0f;
+  }
+
+  void mat4Multiply(float *a, float *b, float *res) {
+    for (int i = 0; i < 4; ++i) {
+      for (int j = 0; j < 4; ++j) {
+        res[j*4 + i] = 0.0f;
+        for (int k = 0; k < 4; ++k) {
+          res[j*4 + i] += a[k*4 + i] * b[j*4 + k];
+        }
+      }
+    }
+  }
+
+  void mat4Perspective(float *a, float fov, float aspect, 
+                       float zNear, float zFar) {
+    float f = 1.0f / float(tan (fov/2.0f * (M_PI / 180.0f)));
+    mat4Identity(a);
+    a[0] = f / aspect;
+    a[1 * 4 + 1] = f;
+    a[2 * 4 + 2] = (zFar + zNear)  / (zNear - zFar);
+    a[3 * 4 + 2] = (2.0f * zFar * zNear) / (zNear - zFar);
+    a[2 * 4 + 3] = -1.0f;
+    a[3 * 4 + 3] = 0.0f;
+  }
+
+  void mat4LookAt(float *viewMatrix,
+                  float eyeX, float eyeY, float eyeZ,
+                  float centerX, float centerY, float centerZ,
+                  float upX, float upY, float upZ) {
+
+    float dir[3], right[3], up[3], eye[3];
+    up[0]=upX; up[1]=upY; up[2]=upZ;
+    eye[0]=eyeX; eye[1]=eyeY; eye[2]=eyeZ;
+
+    dir[0]=centerX-eyeX; dir[1]=centerY-eyeY; dir[2]=centerZ-eyeZ;
+    vec3Normalize(dir);
+    vec3Cross(dir,up,right);
+    vec3Normalize(right);
+    vec3Cross(right,dir,up);
+    vec3Normalize(up);
+    // first row
+    viewMatrix[0]  = right[0];
+    viewMatrix[4]  = right[1];
+    viewMatrix[8]  = right[2];
+    viewMatrix[12] = -vec3Dot(right, eye);
+    // second row
+    viewMatrix[1]  = up[0];
+    viewMatrix[5]  = up[1];
+    viewMatrix[9]  = up[2];
+    viewMatrix[13] = -vec3Dot(up, eye);
+    // third row
+    viewMatrix[2]  = -dir[0];
+    viewMatrix[6]  = -dir[1];
+    viewMatrix[10] = -dir[2];
+    viewMatrix[14] =  vec3Dot(dir, eye);
+    // forth row
+    viewMatrix[3]  = 0.0f;
+    viewMatrix[7]  = 0.0f;
+    viewMatrix[11] = 0.0f;
+    viewMatrix[15] = 1.0f;
+  }
+
+  void mat4Print(float* a) {
+    // opengl uses column major order
+    for (int i = 0; i < 4; ++i) {
+      for (int j = 0; j < 4; ++j) {
+        cout << a[j * 4 + i] << " ";
+      }
+      cout << endl;
+    }
+  }
+
+  void mat4Transpose(float* a, float *transposed) {
+    int t = 0;
+    for (int i = 0; i < 4; ++i) {
+      for (int j = 0; j < 4; ++j) {
+        transposed[t++] = a[j * 4 + i];
+      }
+    }
+  }
+
+  bool mat4Invert(float* m, float *inverse) {
+    float inv[16];
+    inv[0] = m[5]*m[10]*m[15]-m[5]*m[11]*m[14]-m[9]*m[6]*m[15]+
+             m[9]*m[7]*m[14]+m[13]*m[6]*m[11]-m[13]*m[7]*m[10];
+    inv[4] = -m[4]*m[10]*m[15]+m[4]*m[11]*m[14]+m[8]*m[6]*m[15]-
+             m[8]*m[7]*m[14]-m[12]*m[6]*m[11]+m[12]*m[7]*m[10];
+    inv[8] = m[4]*m[9]*m[15]-m[4]*m[11]*m[13]-m[8]*m[5]*m[15]+
+             m[8]*m[7]*m[13]+m[12]*m[5]*m[11]-m[12]*m[7]*m[9];
+    inv[12]= -m[4]*m[9]*m[14]+m[4]*m[10]*m[13]+m[8]*m[5]*m[14]-
+             m[8]*m[6]*m[13]-m[12]*m[5]*m[10]+m[12]*m[6]*m[9];
+    inv[1] = -m[1]*m[10]*m[15]+m[1]*m[11]*m[14]+m[9]*m[2]*m[15]-
+             m[9]*m[3]*m[14]-m[13]*m[2]*m[11]+m[13]*m[3]*m[10];
+    inv[5] = m[0]*m[10]*m[15]-m[0]*m[11]*m[14]-m[8]*m[2]*m[15]+
+             m[8]*m[3]*m[14]+m[12]*m[2]*m[11]-m[12]*m[3]*m[10];
+    inv[9] = -m[0]*m[9]*m[15]+m[0]*m[11]*m[13]+m[8]*m[1]*m[15]-
+             m[8]*m[3]*m[13]-m[12]*m[1]*m[11]+m[12]*m[3]*m[9];
+    inv[13]= m[0]*m[9]*m[14]-m[0]*m[10]*m[13]-m[8]*m[1]*m[14]+
+             m[8]*m[2]*m[13]+m[12]*m[1]*m[10]-m[12]*m[2]*m[9];
+    inv[2] = m[1]*m[6]*m[15]-m[1]*m[7]*m[14]-m[5]*m[2]*m[15]+
+             m[5]*m[3]*m[14]+m[13]*m[2]*m[7]-m[13]*m[3]*m[6];
+    inv[6] = -m[0]*m[6]*m[15]+m[0]*m[7]*m[14]+m[4]*m[2]*m[15]-
+             m[4]*m[3]*m[14]-m[12]*m[2]*m[7]+m[12]*m[3]*m[6];
+    inv[10]= m[0]*m[5]*m[15]-m[0]*m[7]*m[13]-m[4]*m[1]*m[15]+
+             m[4]*m[3]*m[13]+m[12]*m[1]*m[7]-m[12]*m[3]*m[5];
+    inv[14]= -m[0]*m[5]*m[14]+m[0]*m[6]*m[13]+m[4]*m[1]*m[14]-
+             m[4]*m[2]*m[13]-m[12]*m[1]*m[6]+m[12]*m[2]*m[5];
+    inv[3] = -m[1]*m[6]*m[11]+m[1]*m[7]*m[10]+m[5]*m[2]*m[11]-
+             m[5]*m[3]*m[10]-m[9]*m[2]*m[7]+m[9]*m[3]*m[6];
+    inv[7] = m[0]*m[6]*m[11]-m[0]*m[7]*m[10]-m[4]*m[2]*m[11]+
+             m[4]*m[3]*m[10]+m[8]*m[2]*m[7]-m[8]*m[3]*m[6];
+    inv[11]= -m[0]*m[5]*m[11]+m[0]*m[7]*m[9]+m[4]*m[1]*m[11]-
+             m[4]*m[3]*m[9]-m[8]*m[1]*m[7]+m[8]*m[3]*m[5];
+    inv[15]= m[0]*m[5]*m[10]-m[0]*m[6]*m[9]-m[4]*m[1]*m[10]+
+             m[4]*m[2]*m[9]+m[8]*m[1]*m[6]-m[8]*m[2]*m[5];
+
+    float det = m[0]*inv[0]+m[1]*inv[4]+m[2]*inv[8]+m[3]*inv[12];
+    if (det == 0) return false;
+    det = 1.0f / det;
+    for (int i = 0; i < 16; i++) inverse[i] = inv[i] * det;
+    return true;
+  }
+}; </pre>
+        </div>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, german, english) -->
+    <article>
+      <div class='slidetitle'>
+         <!-- Slide (web, intern, english) -->
+        <h3>Example: Transformation of Surface Normals</h3>
+       <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Vertex Shader: <pre>#version 140
+in vec3 inputPosition; 
+in vec2 inputTexCoord; 
+in vec3 inputNormal;
+uniform mat4 projection, modelview, normalMat; 
+uniform int mode;
+out vec4 forFragColor;
+void main(){
+    gl_Position = projection * modelview * vec4(inputPosition, 1.0);
+    vec4 normal = normalMat * vec4(inputNormal, 0.0);
+    if(mode == 1) forFragColor = normal;
+    if(mode == 2) forFragColor = vec4(inputNormal, 1.0);
+    if(mode == 3) forFragColor = gl_Position;
+    if(mode == 4) forFragColor = vec4(inputPosition, 1.0);
+    if(mode == 5) forFragColor = vec4(inputTexCoord, 0.0, 1.0);
+}</pre></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, german, english) -->
+    <article>
+      <div class='slidetitle'>
+        <!-- Slide (web, intern, english) -->
+        <h3>Example: Transformation of Surface Normals</h3>
+        <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Fragment Shader: <pre>#version 140
+in vec4 forFragColor;
+out vec4 outputColor;
+
+void main() {
+    outputColor = forFragColor;
+}</pre></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <h3>Surface Normals in World-Space</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>The previous example transforms the normals into the camera coordinate system
+            (this corresponds to the approach in the OpenGL Fixed-Function-Pipeline)</li>
+          <li>In order to calculate normals in the world coordinate system, the model view matrix must be split in the shader:
+            <div class="smallTopMargin">
+              $\underline{\tilde{\mathbf{P}}} = \mathtt{A} \, \underbrace{\mathtt{T}_{\mathrm{\small cam}}^{-1} \, \mathtt{T}_{\mathrm{\small obj}}}_{\mathtt{T}_{\mathrm{\small modelview}}} \, \underline{\mathbf{P}}$
+            </div>
+          <li>In the following example:
+            <ul>
+              <li><code>mat4 cameraProjection</code> is the transformation $\mathtt{A}$ from the camera coordinate system into the image plane</li>
+              <li><code>mat4 cameraLookAt</code> is the transformation $\mathtt{T}_{\mathrm{\small cam}}^{-1}$ from the world coordinate system to the camera coordinate system</li>
+              <li><code>mat4 meshTransform</code> is the transformation $\mathtt{T}_{\mathrm{\small obj}}$ from the local coordinate system to the world coordinate system</li>
+              <li><code>mat4 meshTransformTransposedInverse</code> is the transformation $\mathtt{T}_{\mathrm{\small obj}}^{-\top}$ of the normal into the world coordinate system</li> 
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </article>    
+    
+    <!-- Slide (web, intern, german, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+         <!-- Slide (web, intern, english) -->
+        <h3>Example: Surface Normals in World-Space</h3>
+       <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Vertex Shader: <pre>
+#version 300 es
+precision highp float;
+in vec3 position; // input vertex position from mesh
+in vec2 texcoord; // input vertex texture coordinate from mesh
+in vec3 normal;   // input vertex normal from mesh
+
+uniform mat4 cameraLookAt;
+uniform mat4 cameraProjection;
+uniform mat4 meshTransform; 
+uniform mat4 meshTransformTransposedInverse; 
+
+out vec2 tc; // output texture coordinate of the vertex
+out vec3 wfn; // output fragment normal of vertex in the world coordinate system
+out vec3 vertPos; // output 3D position in the world coordinate system
+
+void main(){
+  tc = texcoord;
+  wfn = vec3(meshTransformTransposedInverse * vec4(normal, 0.0));
+  vec4 vertPos4 = meshTransform * vec4(position, 1.0);
+  vertPos = vec3(vertPos4) / vertPos4.w;
+  gl_Position = cameraProjection * cameraLookAt * vertPos4;
+}</pre></li>
+        </ul>
+      </div>
+    </article>
+    
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>Accessing Textures in the Shader</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Textures can be accessed both in vertex and fragment shaders</li>
+          <li>To this end, a <code>uniform</code> variable of the type <code>sampler</code> must be defined: For example, in case of a 2D texture: <pre>uniform sampler2D myTexture;</pre>
+          </li>
+          <li>With the function <code>texture(...)</code> the color value at the texture coordinate $(s,t)$ is read: <pre>texture(myTexture, vec2(s,t))</pre></li>
+        </ul>
+      </div>
+    </article>
+    
+   <!-- Slide (web, intern, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <h3>Providing Textures</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Textures are generated in the application with <code>glGenTexture</code> and <code>glBindTexture</code>, parameters are set with
+            <code>glTexParameter</code>, and the texture data is passed with <code>glTexImage</code> (as discussed in Chapter 7)
+          </li>
+          <li>To provide the texture in the shader, the location identifier of the <code>sampler</code> variable must be queried
+            <pre>texLoc = glGetUniformLocation(progID, "myTexture");</pre>
+          </li>
+          <li>Then a texture unit is selected (e.g. here the zeroth unit), the texture is activated, and the number of the selected texture unit is passed to 
+            the <code>sampler</code> variable: <pre>glActiveTexture(GL_TEXTURE0);    // activate texture unit 0
+glBindTexture(GL_TEXTURE_2D, texID); // bind texture
+glUniform1i(texLoc, 0);  // inform the shader to use texture unit 0
+</pre>
+          </li>
+        </ul>
+      </div>
+    </article>
+    
+    <!-- Slide (web, intern, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <h3>Example: Accessing Textures in the Shader</h3>
+      </div>
+      <div class='slidebody'>
+        <div class="centered">
+          <img src="media/opengl_shadertexture.png" width="400" alt="opengl_shadertexture">
+        </div>
+        <ul class="mediumTopMargin">
+          <li>Source code with GLUT: <a href="./code_v2/ShaderTexture/glut/ShaderTexture.cpp" target="_blank">ShaderTexture.cpp</a>, <a href="./code_v2/ShaderTexture/glut/ShaderTexture.zip" target="_blank">ShaderTexture.zip</a></li>
+          <li>Source code with Qt: <a href="./code_v2/ShaderTexture/qt/ShaderTexture.cpp" target="_blank">ShaderTexture.cpp</a>, <a href="./code_v2/ShaderTexture/qt/ShaderTexture.zip" target="_blank">ShaderTexture.zip</a></li>
+          <li>Source code with Java: <a href="./code_v2/ShaderTexture/java/ShaderTexture.java" target="_blank">ShaderTexture.java</a>, <a href="./code_v2/ShaderTexture/java/ShaderTexture.zip" target="_blank">ShaderTexture.zip</a></li>
+          <li>Source code with Android: <a href="./code_v2/ShaderTexture/android/ShaderTexture.zip" target="_blank">ShaderTexture.zip</a></li>
+          <li>Shader sources: <a href="./code_v2/ShaderTexture/java/texture.vert" target="_blank">texture.vert</a>, <a href="./code_v2/ShaderTexture/java/texture.frag" target="_blank">texture.frag</a>,</li>
+          <li>Implementation with WebGL: <a href="./code/WebGLShaderTexture/ShaderTexture.html" target="_blank">ShaderTexture.html</a></li>
+          <li>GSN Composer: <a href="https://www.gsn-lib.org/index.html#projectName=public3dshader&graphName=ShaderTexture" target="_blank">ShaderTexture.html</a></li>
+        </ul>
+      </div>
+    </article>
+    
+    <!-- Slide (web, intern, german, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <!-- Slide (web, intern, english) -->
+        <h3>Example: Accessing Textures in the Shader</h3>
+        <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <div style="overflow: scroll; height: 500px; width: 750px;">
+          <pre style="margin: 0px">class Renderer {
+
+private:
+  struct Vertex {
+    float position[3];
+    float color[4];
+    float texCoord[2];
+    float normal[3];
+  };
+
+public:
+  float t;
+
+private:
+  enum {Pyramid, numVAOs};
+  enum {PyramidAll, numVBOs};
+  GLuint vaoID[numVAOs];
+  GLuint bufID[numVBOs];
+  int pyramidVertNo;
+  GLuint texID;
+  GLuint progID;
+  GLuint vertID;
+  GLuint fragID;
+  GLint vertexLoc;
+  GLint colorLoc;
+  GLint texCoordLoc;
+  GLint normalLoc;
+  GLint projectionLoc;
+  GLint modelviewLoc;
+  GLint texLoc;
+  float projection[16];  // projection matrix
+  float modelview[16];  // modelview matrix
+
+public:
+  // constructor
+  Renderer() : t(0.0), pyramidVertNo(0), texID(0), progID(0), vertID(0), fragID(0),
+               vertexLoc(-1), colorLoc(-1), texCoordLoc(-1), normalLoc(-1),
+               projectionLoc(-1), modelviewLoc(-1), texLoc(-1)
+               {}
+  //destructor
+  ~Renderer() {
+    glDeleteVertexArrays(numVAOs, vaoID);
+    glDeleteBuffers(numVBOs, bufID);
+    glDeleteProgram(progID);
+    glDeleteShader(vertID);
+    glDeleteShader(fragID);
+  }
+
+public:
+  void init() {
+    initExtensions();
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH);
+
+    setupShaders();
+
+    // create a Vertex Array Objects (VAO)
+    glGenVertexArrays(numVAOs, vaoID);
+
+    // generate a Vertex Buffer Object (VBO)
+    glGenBuffers(numVBOs, bufID);
+
+    // bind the pyramid VAO
+    glBindVertexArray(vaoID[Pyramid]);
+
+    float pyramidVertexData[] = {
+       0.0f, 0.0f, 2.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.5f, 1.0f, 0.0000f,-0.9701f, 0.2425f,
+      -0.5f,-0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0000f,-0.9701f, 0.2425f,
+       0.5f,-0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0000f,-0.9701f, 0.2425f,
+       0.0f, 0.0f, 2.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.5f, 1.0f, 0.9701f, 0.0000f, 0.2425f,
+       0.5f,-0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.9701f, 0.0000f, 0.2425f,
+       0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.9701f, 0.0000f, 0.2425f,
+       0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.5f, 1.0f, 0.0000f, 0.9701f, 0.2425f,
+       0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0000f, 0.9701f, 0.2425f,
+      -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0000f, 0.9701f, 0.2425f,
+       0.0f, 0.0f, 2.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.5f, 1.0f,-0.9701f, 0.0000f, 0.2425f,
+      -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,-0.9701f, 0.0000f, 0.2425f,
+      -0.5f,-0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,-0.9701f, 0.0000f, 0.2425f
+    };
+
+    pyramidVertNo = 12;
+
+    glBindBuffer(GL_ARRAY_BUFFER, bufID[PyramidAll]);
+    glBufferData(GL_ARRAY_BUFFER, pyramidVertNo*sizeof(Vertex),
+                 pyramidVertexData, GL_STATIC_DRAW);
+
+    int stride = sizeof(Vertex);
+    char *offset = (char*)NULL;
+
+    // position
+    if(vertexLoc != -1) {
+      glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, stride, offset);
+      glEnableVertexAttribArray(vertexLoc);
+    }
+
+    // color
+    if(colorLoc != -1) {
+      offset = (char*)NULL + 3*sizeof(float);
+      glVertexAttribPointer(colorLoc, 4, GL_FLOAT, GL_FALSE, stride, offset);
+      glEnableVertexAttribArray(colorLoc);
+    }
+
+    // texCoord
+    if(texCoordLoc != -1) {
+      offset = (char*)NULL + (3+4)*sizeof(float);
+      glVertexAttribPointer(texCoordLoc, 2, GL_FLOAT, GL_FALSE, stride, offset);
+      glEnableVertexAttribArray(texCoordLoc);
+    }
+
+    // normal
+    if(normalLoc != -1) {
+      offset = (char*)NULL + (3+4+2)*sizeof(float);
+      glVertexAttribPointer(normalLoc, 3, GL_FLOAT, GL_FALSE, stride, offset);
+      glEnableVertexAttribArray(normalLoc);
+    }
+
+    std::string fileName("./checkerboard.ppm");
+    texID = loadTexture(fileName);
+
+  }
+
+  void setupShaders() {
+
+    // create shader
+    vertID = glCreateShader(GL_VERTEX_SHADER);
+    fragID = glCreateShader(GL_FRAGMENT_SHADER);
+
+    // load shader source from file
+     std::string vs = loadShaderSrc("./texture.vert");
+     const char* vss = vs.c_str();
+     std::string fs = loadShaderSrc("./texture.frag");
+     const char* fss = fs.c_str();
+
+     // specify shader source
+     glShaderSource(vertID, 1, &(vss), NULL);
+     glShaderSource(fragID, 1, &(fss), NULL);
+
+    // compile the shader
+    glCompileShader(vertID);
+    glCompileShader(fragID);
+
+    // check for errors
+    printShaderInfoLog(vertID);
+    printShaderInfoLog(fragID);
+
+    // create program and attach shaders
+    progID = glCreateProgram();
+    glAttachShader(progID, vertID);
+    glAttachShader(progID, fragID);
+
+    // "outColor" is a user-provided OUT variable
+    // of the fragment shader.
+    // Its output is bound to the first color buffer
+    // in the framebuffer
+    glBindFragDataLocation(progID, 0, "outputColor");
+
+    // link the program
+    glLinkProgram(progID);
+    // output error messages
+    printProgramInfoLog(progID);
+
+    // retrieve the location of the IN variables of the vertex shader.
+    vertexLoc = glGetAttribLocation(progID,"inputPosition");
+    colorLoc = glGetAttribLocation(progID, "inputColor");
+    texCoordLoc = glGetAttribLocation(progID,"inputTexCoord");
+    normalLoc = glGetAttribLocation(progID, "inputNormal");
+
+    // retrieve the location of the UNIFORM variables of the vertex shader.
+    projectionLoc = glGetUniformLocation(progID, "projection");
+    modelviewLoc = glGetUniformLocation(progID, "modelview");
+    texLoc = glGetUniformLocation(progID, "myTexture");
+
+  }
+
+  void resize(int w, int h) {
+    glViewport(0, 0, w, h);
+
+    // this function replaces gluPerspective
+    mat4Perspective(projection, 30.0f, (float)w/(float)h, 1.0f, 10.0f);
+    // mat4Print(projection);
+  }
+
+  void display() {
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // camera orbits in the z=5 plane
+    // and looks at the origin
+    // mat4LookAt replaces gluLookAt
+    double rad = M_PI / 180.0f * t;
+    mat4LookAt(modelview,
+               5.0f*cos(rad), 5.0f*sin(rad), 5.0f, // eye
+               0.0f, 0.0f, 0.5f, // look at
+               0.0f, 0.0f, 1.0f); // up
+
+    glUseProgram(progID);
+    // load the current projection and modelview matrix into the
+    // corresponding UNIFORM variables of the shader
+    glUniformMatrix4fv(projectionLoc, 1, false, projection);
+    glUniformMatrix4fv(modelviewLoc, 1, false, modelview);
+
+
+    // activate texture unit 0
+    glActiveTexture(GL_TEXTURE0);
+    // bind texture
+    glBindTexture(GL_TEXTURE_2D, texID);
+    // inform the shader to use texture unit 0
+    glUniform1i(texLoc, 0);
+
+    // bind pyramid VAO
+    glBindVertexArray(vaoID[Pyramid]);
+    // render data
+    glDrawArrays(GL_TRIANGLES, 0, pyramidVertNo);
+  }
+private:
+  void printShaderInfoLog(GLuint obj) {
+    int infoLogLength = 0;
+    int returnLength  = 0;
+    char *infoLog;
+    glGetShaderiv(obj, GL_INFO_LOG_LENGTH,&infoLogLength);
+    if (infoLogLength > 0) {
+      infoLog = (char *)malloc(infoLogLength);
+      glGetShaderInfoLog(obj, infoLogLength, &returnLength, infoLog);
+      printf("%s\n",infoLog);
+      free(infoLog);
+    }
+  }
+
+  void printProgramInfoLog(GLuint obj) {
+    int infoLogLength = 0;
+    int returnLength  = 0;
+    char *infoLog;
+    glGetProgramiv(obj, GL_INFO_LOG_LENGTH,&infoLogLength);
+    if (infoLogLength > 0) {
+      infoLog = (char *)malloc(infoLogLength);
+      glGetProgramInfoLog(obj, infoLogLength, &returnLength, infoLog);
+      printf("%s\n",infoLog);
+      free(infoLog);
+    }
+  }
+
+  std::string loadShaderSrc(const std::string& filename) {
+    std::ifstream is(filename);
+    if (is.is_open()) {
+      std::stringstream buffer;
+      buffer << is.rdbuf();
+      return buffer.str();
+    }
+    cerr << "Unable to open file " << filename << endl;
+    exit(1);
+  }
+
+  // the following functions are some matrix and vector helpers
+  // they work for this demo but in general it is recommended
+  // to use more advanced matrix libraries,
+  // e.g. OpenGL Mathematics (GLM)
+  float vec3Dot( float *a, float *b) {
+    return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
+  }
+
+  void vec3Cross( float *a, float *b, float *res) {
+    res[0] = a[1] * b[2]  -  b[1] * a[2];
+    res[1] = a[2] * b[0]  -  b[2] * a[0];
+    res[2] = a[0] * b[1]  -  b[0] * a[1];
+  }
+
+  void vec3Normalize(float *a) {
+    float mag = sqrt(a[0] * a[0]  +  a[1] * a[1]  +  a[2] * a[2]);
+    a[0] /= mag; a[1] /= mag; a[2] /= mag;
+  }
+
+  void mat4Identity( float *a) {
+    for (int i = 0; i < 16; ++i) a[i] = 0.0f;
+    for (int i = 0; i < 4; ++i) a[i + i * 4] = 1.0f;
+  }
+
+  void mat4Multiply(float *a, float *b, float *res) {
+    for (int i = 0; i < 4; ++i) {
+      for (int j = 0; j < 4; ++j) {
+        res[j*4 + i] = 0.0f;
+        for (int k = 0; k < 4; ++k) {
+          res[j*4 + i] += a[k*4 + i] * b[j*4 + k];
+        }
+      }
+    }
+  }
+
+  void mat4Perspective(float *a, float fov, float aspect, 
+                       float zNear, float zFar) 
+  {
+    float f = 1.0f / float(tan (fov/2.0f * (M_PI / 180.0f)));
+    mat4Identity(a);
+    a[0] = f / aspect;
+    a[1 * 4 + 1] = f;
+    a[2 * 4 + 2] = (zFar + zNear)  / (zNear - zFar);
+    a[3 * 4 + 2] = (2.0f * zFar * zNear) / (zNear - zFar);
+    a[2 * 4 + 3] = -1.0f;
+    a[3 * 4 + 3] = 0.0f;
+  }
+
+  void mat4LookAt(float *viewMatrix,
+                  float eyeX, float eyeY, float eyeZ,
+                  float centerX, float centerY, float centerZ,
+                  float upX, float upY, float upZ) {
+
+    float dir[3], right[3], up[3], eye[3];
+    up[0]=upX; up[1]=upY; up[2]=upZ;
+    eye[0]=eyeX; eye[1]=eyeY; eye[2]=eyeZ;
+
+    dir[0]=centerX-eyeX; dir[1]=centerY-eyeY; dir[2]=centerZ-eyeZ;
+    vec3Normalize(dir);
+    vec3Cross(dir,up,right);
+    vec3Normalize(right);
+    vec3Cross(right,dir,up);
+    vec3Normalize(up);
+    // first row
+    viewMatrix[0]  = right[0];
+    viewMatrix[4]  = right[1];
+    viewMatrix[8]  = right[2];
+    viewMatrix[12] = -vec3Dot(right, eye);
+    // second row
+    viewMatrix[1]  = up[0];
+    viewMatrix[5]  = up[1];
+    viewMatrix[9]  = up[2];
+    viewMatrix[13] = -vec3Dot(up, eye);
+    // third row
+    viewMatrix[2]  = -dir[0];
+    viewMatrix[6]  = -dir[1];
+    viewMatrix[10] = -dir[2];
+    viewMatrix[14] =  vec3Dot(dir, eye);
+    // forth row
+    viewMatrix[3]  = 0.0;
+    viewMatrix[7]  = 0.0;
+    viewMatrix[11] = 0.0;
+    viewMatrix[15] = 1.0f;
+  }
+  void mat4Print(float* a) {
+    // opengl uses column major order
+    for (int i = 0; i < 4; ++i) {
+      for (int j = 0; j < 4; ++j) {
+        cout << a[j * 4 + i] << " ";
+      }
+      cout << endl;
+    }
+  }
+
+  // returns a valid textureID on success, otherwise 0
+  GLuint loadTexture(std::string &filename) {
+
+    unsigned width;
+    unsigned height;
+    int level = 0;
+    int border = 0;
+    std::vector&lt;unsigned char&gt; imgData;
+
+    // load image data
+    if(!loadPPMImageFlipped(filename, width, height, imgData)) return 0;
+
+    // data is aligned in byte order
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    //request textureID
+    GLuint textureID;
+    glGenTextures( 1, &textureID);
+
+    // bind texture
+    glBindTexture( GL_TEXTURE_2D, textureID);
+
+    //define how to filter the texture (important but ignore for now)
+    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    //texture colors should replace the original color values
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE); //GL_MODULATE
+
+    // specify the 2D texture map
+    glTexImage2D(GL_TEXTURE_2D, level, GL_RGB, width, height, border, 
+                 GL_RGB, GL_UNSIGNED_BYTE, &imgData[0]);
+
+    // return unique texture identifier
+    return textureID;
+  }
+
+
+  bool loadPPMImageFlipped(std::string &filename, unsigned &width, 
+                 unsigned &height, std::vector&lt;unsigned char&gt; &imgData) 
+  {
+
+    ifstream input(filename.c_str(), ifstream::in | ifstream::binary);
+    if(!input) { // cast istream to bool to see if something went wrong
+      QMessageBox msgBox;
+      msgBox.setText(QString("Can not find texture data file ")
+                     +  QString(filename.c_str()));
+      msgBox.exec();
+      return false;
+    }
+    input.unsetf(std::ios_base::skipws);
+
+    string line;
+    input >> line >> std::ws;
+    if (line != "P6") {
+      QMessageBox msgBox;
+      msgBox.setText("File is not PPM P6 raw format");
+      msgBox.exec();
+      return false;
+    }
+
+    width = 0;
+    height = 0;
+    unsigned depth = 0;
+    unsigned readItems = 0;
+    unsigned char lastCharBeforeBinary;
+
+    while (readItems < 3) {
+      input >> std::ws;
+      if(input.peek() != '#') {
+        if (readItems == 0) input >> width;
+        if (readItems == 1) input >> height;
+        if (readItems == 2) input >> depth >> lastCharBeforeBinary;
+        readItems++;
+      }else{ // skip comments
+        std::getline(input, line);
+      }
+    }
+
+    if(depth >= 256) {
+      QMessageBox msgBox;
+      msgBox.setText("Only 8-bit PPM format is supported");
+      msgBox.exec();
+      return false;
+    }
+
+    unsigned byteCount = width * height * 3;
+    imgData.resize(byteCount);
+    input.read((char*)&imgData[0], byteCount*sizeof(unsigned char));
+
+    // vertically flip the image because the image origin
+    // in OpenGL is the lower-left corner
+    unsigned char tmpData;
+    for(unsigned y=0; y < height / 2; y++) {
+      int sourceIndex = y * width * 3;
+      int targetIndex = (height-1-y) * width *3;
+      for(unsigned x=0; x < width*3; x++) {
+          tmpData = imgData[targetIndex];
+          imgData[targetIndex] = imgData[sourceIndex];
+          imgData[sourceIndex] = tmpData;
+          sourceIndex++;
+          targetIndex++;
+      }
+    }
+
+    return true;
+  }
+};</pre>
+        </div>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, german, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <!-- Slide (web, intern, english) -->
+        <h3>Example: Accessing Textures in the Shader</h3>
+        <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Vertex Shader: <pre>#version 140
+in vec3 inputPosition;
+in vec4 inputColor;
+in vec2 inputTexCoord;
+in vec3 inputNormal;
+uniform mat4 projection, modelview;
+out vec3 forFragColor;
+out vec2 forFragTexCoord;
+
+void main(){
+    forFragColor = inputColor.rgb;
+    forFragTexCoord = inputTexCoord;
+    gl_Position =  projection * modelview * vec4(inputPosition, 1.0);
+}</pre></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, german, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <!-- Slide (web, intern, english) -->
+        <h3>Example: Accessing Textures in the Shader</h3>
+        <!-- Slide (web, intern, german, english) -->
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Fragment Shader: <pre>#version 140
+in vec3 forFragColor;
+in vec2 forFragTexCoord;
+out vec4 outputColor;
+uniform sampler2D myTexture;
+
+void main() {
+    vec3 textureColor = vec3( texture(myTexture, forFragTexCoord) );
+    outputColor = vec4(forFragColor*textureColor,1.0);
+}
+</pre></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <h3>Example: Accessing Textures in the Shader</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Fragment shader alternative: What is the functionality of this code? <pre>#version 140
+in vec3 forFragColor;
+in vec2 forFragTexCoord;
+out vec4 outputColor;
+uniform sampler2D myTexture;
+
+void main() {
+    vec3 textureColor = vec3( texture(myTexture, forFragTexCoord) );
+    outputColor = vec4(forFragColor*textureColor,1.0);
+
+    if(forFragTexCoord.x > 0.5) outputColor = vec4(1.0, 0.0, 0.0, 1.0);
+
+}
+</pre></li>
+        </ul>
+      </div>
+    </article>
+
+   <!-- Slide (web, intern, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <h3>Example: Accessing Textures in the Shader</h3>
+      </div>
+      <div class='slidebody'>
+        <ul>
+          <li>Fragment shader alternative 2: What is the functionality of this code? <pre>#version 140
+in vec3 forFragColor;
+in vec2 forFragTexCoord;
+out vec4 outputColor;
+uniform sampler2D myTexture;
+const vec2 texSize = vec2(256.0,256.0);
+void main() {
+  vec3 tC = vec3( texture(myTexture, forFragTexCoord) );
+  vec3 tC2 = vec3( texture(myTexture, forFragTexCoord + vec2(1.0/texSize.x, 0.0) ) );
+  vec3 tC3 = vec3( texture(myTexture, forFragTexCoord + vec2(0.0, 1.0/texSize.y) ) );
+  if(abs(tC.x - tC2.x) > 0.01) {
+    outputColor = vec4(1.0,1.0,1.0,1.0);
+  }else {
+    if(abs(tC.x - tC3.x) > 0.01) {
+      outputColor = vec4(1.0,1.0,0.0,1.0);
+    }else {
+      outputColor = vec4(forFragColor*tC,1.0);
+    }
+  }
+}</pre></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Slide (web, intern, english) -->
+    <article class="smaller">
+      <div class='slidetitle'>
+        <h3>Early Fragment Tests</h3>
+      </div>
+      <div class='slidebody'>
+        <div class="captionBoxRight">
+          <img width="440" src="media/vectorart/perfragment_fixedfunction_vs_shader.png" alt="perfragment_fixedfunction_vs_shader" >
+          <div class="caption">Standard Pipeline</div>
+        </div>
+        
+        <ul>
+          <li>A fragment needs to pass a series of tests before it is written to the framebuffer</li>
+          <li>According to the OpenGL standard, these tests are executed after the fragment shader</li>
+          <li>For optimization, GPUs may perform the tests before the fragment shader if this does not change the behavior of the pipeline</li>
+          <li>For example, if the depth value <code>gl_FragDepth</code> is changed by the fragment shader, the depth test cannot be performed early</li>
+          <li>As of GLSL version 4.2, <a href="https://www.khronos.org/opengl/wiki/Early_Fragment_Test">Early Fragment Tests</a> can be enforced with:
+            <pre>#version 420
+layout(early_fragment_tests) in;</pre>
+          </li>
+        </ul>
+
+        <div class="mediaQuote">
+          <b>Quelle:</b> basierend auf Mark Segal, Kurt Akeley, <i>The OpenGL Graphics System: A Specification</i> Version 2.0, 2004, Abb. 3.1 und 4.1.
+          (modifiziert)
+        </div>
+      </div>
+    </article>
+   
+    <!-- Slide (web, intern, english) -->
+    <article>
+      <div class='slidetitle'>
+        <h3>Are there any questions?</h3>
+      </div>
+      <div class='slidebody'>
+        <div class="centered">
+          <img src="media/questions_360px.jpg" alt="questions" />
+        </div>
+          <p>
+             Please notify me by <span style="white-space: nowrap;">e-mail</span> 
+             if you have questions, suggestions for improvement, or 
+             found typos: <a href="https://www.uni-marburg.de/en/fb12/research-groups/grafikmultimedia/thormae">Contact</a>
+           </p>
+        <p class="smaller smallTopMargin">
+          <a href="https://www.uni-marburg.de/en/fb12/research-groups/grafikmultimedia/lectures/graphics">More lecture slides</a>
+        </p>
+         <p class="smaller smallTopMargin">
+          <a href="https://www.uni-marburg.de/de/fb12/arbeitsgruppen/grafikmultimedia/lehre/grafik">Slides in German (Folien auf Deutsch)</a>
+        </p>
+      </div>
+    </article>
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+
+

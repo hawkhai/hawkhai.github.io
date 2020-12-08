@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="dns-prefetch" href="//cdn.bootcss.com" />
+
+    <title>Hawkhai | “数字图像处理” -- 编程马拉松 HACKATHON 2020 · TEAM24</title>
+    <meta name="description" content="编程马拉松 HACKATHON 2020 · TEAM24">
+
+    <link rel="shortcut icon" type="image/png" href="/blog/favicon.png" />
+
+    <link rel="stylesheet" href="/blog/css/main.css" />
+    <link rel="canonical" href="https://sunocean.life/blog/blog/2020/10/24/dip-image-marathon" />
+    <link rel="alternate" type="application/rss+xml" title="Hawkhai" href="https://sunocean.life/blog/feed.xml" />
+
+    <link rel='stylesheet' href='/blog/css/scope-one.css' />
+
+    <link rel='stylesheet' href='/blog/assets/syntax.css' />
+
+    <link rel="stylesheet" href="/blog/css/font-awesome.min.css" />
+    <script src="/blog/assets/jquery-3.5.1.min.js"></script>
+
+
+</head>
+
+
+<body>
+  <div class="page">
+    <header class="site-header">
+    <a class="site-title" href="/blog/">Hawkhai</a>
+    <nav class="site-nav">
+        <a href="#" class="menu-icon menu.open">
+            <object type="image/svg+xml" data="/blog/assets/menu.open.svg" >
+            </object>
+        </a>
+        <div class="trigger"><h1>Main Navigation</h1>
+            <ul class="menu">
+    
+    
+    <li><a href="/blog/invisible/" class="page-link">invisible</a>
+    
+    </li>
+    
+    
+    <li><a href="/blog/bookshelf/" class="page-link">书架</a>
+    
+    </li>
+    
+    
+    <li><a href="/blog/tags/tag" class="page-link">标签</a>
+    
+    </li>
+    
+    
+    <li><a href="/blog/disclaimer/" class="page-link">免责声明</a>
+    
+    </li>
+    
+    
+    <li><a href="/blog/about/" class="page-link">关于</a>
+    
+    </li>
+    
+</ul>
+
+        </div>
+    </nav>
+</header>
+
+
+    <div class="post" id="postdiv">
+    <header class="post-header">
+    <h1>“数字图像处理” -- 编程马拉松 HACKATHON 2020 · TEAM24</h1>
+    <p class="post-meta">
+        Posted on October 24, 2020  (珠海)
+        <br/>
+        <span>
+            
+                
+                <a href="/blog/tags/tag?#图像处理"><code><nobr>图像处理</nobr></code>&nbsp;</a>
+            
+        </span>
+    </p>
+
+<script type="text/javascript">
+    var MathJaxLocalUrl = "https://sunocean.life/blog/assets/mathjax.js";
+</script>
+
+<!-- https://jekyllrb.com/docs/liquid/filters/ -->
+<script type="text/javascript" charset="utf-8"
+    
+    src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    >
+</script>
+<script type="text/javascript" charset="utf-8"
+    src="/blog/assets/mathjax.js" >
+</script>
+
+
+    </header>
+
+
+<div id="tocwrap">
+<div id="tocdiv" class="esa-catalog" style="display:none;"></div>
+</div>
+<script type="text/javascript" src="/blog/assets/toc.js"></script>
+
+
+
+    <p><strong>编程马拉松 HACKATHON 2020 · TEAM24</strong></p>
+
+<p>完整的代码下载：<a href="https://github.com/hawkhai/hawkhai.github.io/tree/master/source/marathon">https://github.com/hawkhai/hawkhai.github.io/tree/master/source/marathon</a></p>
+
+<p>为了不那么占内存，以更好的演示效果，代码重新整理了一遍。</p>
+
+<p>输入图片有：</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/input_images/phase1/phase1_input.jpg">
+        <img src="/blog/source/marathon/input_images/phase1/phase1_input.jpg" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/input_images/phase1/phase1_input_optional.jpg">
+        <img src="/blog/source/marathon/input_images/phase1/phase1_input_optional.jpg" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/input_images/phase2/phase2_broken.jpg">
+        <img src="/blog/source/marathon/input_images/phase2/phase2_broken.jpg" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/input_images/phase3/phase3_sky.jpg">
+        <img src="/blog/source/marathon/input_images/phase3/phase3_sky.jpg" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h2 id="色彩变换">色彩变换</h2>
+
+<p>cv2 读入的图片是 BGR 顺序。</p>
+
+<h3 id="图片内存结构">图片内存结构</h3>
+
+<p>图片读入后是一个三维矩阵。</p>
+
+<h3 id="负片转正片">负片转正片</h3>
+
+<p>将彩色负片转为彩色正片，矩阵运算，255 减一下，就是答案。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 将彩色负片转为彩色正片
+</span><span class="k">def</span> <span class="nf">phase1</span><span class="p">(</span><span class="n">inputImgPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">outImgPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">kalgorithm</span><span class="p">.</span><span class="n">imgRead</span><span class="p">(</span><span class="n">inputImgPath</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">-</span> <span class="n">img</span>
+    <span class="n">kalgorithm</span><span class="p">.</span><span class="n">imgSave</span><span class="p">(</span><span class="n">outImgPath</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="仿射变换">仿射变换</h2>
+
+<p>输入底片不正，需要先寻边调整。
+图片矫正。图片输入不正的情况，方法很多，这里是：先剪裁，然后旋转矫正，最后再剪裁。</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase1/phase1_output_optional.jpg.1.jpg">
+        <img src="/blog/source/marathon/output_images/phase1/phase1_output_optional.jpg.1.jpg" />
+    </a>
+    
+
+
+&nbsp;&nbsp;
+    <a href="/blog/source/marathon/output_images/phase1/phase1_output_optional.jpg.2.jpg">
+        <img src="/blog/source/marathon/output_images/phase1/phase1_output_optional.jpg.2.jpg" />
+    </a>
+    
+
+
+
+</div>
+
+<h2 id="图片降噪">图片降噪</h2>
+
+<p>每种滤波算法都有自己的特点。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## prewitt vertical kernel 提取竖直边缘
+</span><span class="p">[[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">],</span>
+ <span class="p">[</span> <span class="mf">0.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">],</span>
+ <span class="p">[</span> <span class="mf">1.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">]]</span>
+<span class="c1">## prewitt horizontal kernel 提取左右边缘
+</span><span class="p">[[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+ <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+ <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]]</span>
+
+<span class="c1">## Sobel vertical 提取竖直边缘
+</span><span class="p">[[</span> <span class="mf">1.</span><span class="p">,</span>  <span class="mf">2.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">],</span>
+ <span class="p">[</span> <span class="mf">0.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">],</span>
+ <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">]]</span>
+<span class="c1">## Sobel horizontal 提取左右边缘
+</span><span class="p">[[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">],</span>
+ <span class="p">[</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.</span><span class="p">],</span>
+ <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">]]</span>
+</code></pre></div></div>
+
+<h3 id="均值滤波">均值滤波</h3>
+
+<p>均值滤波器使用网格内像素的平均值。图片更模糊了。</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase2/phase2_broken_mean_filter.jpg">
+        <img src="/blog/source/marathon/output_images/phase2/phase2_broken_mean_filter.jpg" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h3 id="中值滤波">中值滤波</h3>
+
+<p>中值滤波器是一种可以使图像平滑的滤波器。有的噪点没了。</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase2/phase2_broken_median_filter.jpg">
+        <img src="/blog/source/marathon/output_images/phase2/phase2_broken_median_filter.jpg" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h3 id="高斯滤波">高斯滤波</h3>
+
+<p>高斯滤波器是一种可以使图像平滑的滤波器，用于去除噪声。图片更模糊了。</p>
+
+<p>GaussianFilter Kernel=5，这些数字的和刚好是 1.0。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="p">[[</span><span class="mf">0.0097565</span>  <span class="mf">0.02370077</span> <span class="mf">0.03186045</span> <span class="mf">0.02370077</span> <span class="mf">0.0097565</span> <span class="p">]</span>
+ <span class="p">[</span><span class="mf">0.02370077</span> <span class="mf">0.0575746</span>  <span class="mf">0.07739634</span> <span class="mf">0.0575746</span>  <span class="mf">0.02370077</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">0.03186045</span> <span class="mf">0.07739634</span> <span class="mf">0.10404229</span> <span class="mf">0.07739634</span> <span class="mf">0.03186045</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">0.02370077</span> <span class="mf">0.0575746</span>  <span class="mf">0.07739634</span> <span class="mf">0.0575746</span>  <span class="mf">0.02370077</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">0.0097565</span>  <span class="mf">0.02370077</span> <span class="mf">0.03186045</span> <span class="mf">0.02370077</span> <span class="mf">0.0097565</span> <span class="p">]]</span>
+</code></pre></div></div>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase2/phase2_broken_gaussian_filter.jpg">
+        <img src="/blog/source/marathon/output_images/phase2/phase2_broken_gaussian_filter.jpg" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h2 id="图片插值">图片插值</h2>
+
+<p>不同的插值算法。越高级的算法越圆润，越耗时间，越基础的算法马赛克效果越明显。</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/images/image-marathon/63556641-eeb89400-c545-11e9-8f90-58e1c0eb0840.png">
+        <img src="/blog/images/image-marathon/63556641-eeb89400-c545-11e9-8f90-58e1c0eb0840.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<p>三维图更明显，可以看到每种插值算法的特点。</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/images/image-marathon/20201022103740.png">
+        <img src="/blog/images/image-marathon/20201022103740.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h3 id="最邻近插值">最邻近插值</h3>
+
+<h3 id="双线性二次插值">双线性二次插值</h3>
+
+<h3 id="双线性三次插值">双线性三次插值</h3>
+
+<h3 id="高级插值算法">高级插值算法</h3>
+
+<p>phase2_interpolate_Lanczos 实现了 Lanczos 算法。</p>
+
+<p>编译好的 lanczos.exe 已入库，需要 opencv_world3411d.dll 才能跑起来。</p>
+
+<h2 id="对比度增强">对比度增强</h2>
+
+<h3 id="直方图均衡">直方图均衡</h3>
+
+<ul>
+  <li><a href="https://www.doc88.com/p-6681238446960.html">彩色图像处理 PPT</a></li>
+  <li><a href="https://max.book118.com/html/2017/0903/131690968.shtm">彩色图像平滑和锐化 PPT</a></li>
+</ul>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase2/phase2_broken.Original.png">
+        <img src="/blog/source/marathon/output_images/phase2/phase2_broken.Original.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase2/phase2_broken.histEqualization.png">
+        <img src="/blog/source/marathon/output_images/phase2/phase2_broken.histEqualization.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h2 id="图片锐化">图片锐化</h2>
+
+<h3 id="空域算法">空域算法</h3>
+
+<p>空域算法比较简单，直接用算子套上去算一下就可以了。算子求和是 1。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">],</span>
+</code></pre></div></div>
+
+<h3 id="频域算法">频域算法</h3>
+
+<p>用到傅里叶变换。低频是轮廓，高频是细节。用到高频提升滤波器。
+将高频加强和直方图均衡相结合是得到边缘锐化和对比度增强的有效方法。<a href="https://blog.csdn.net/qq_30815237/article/details/98655630">频域图像增强-锐化</a></p>
+
+<p>傅里叶的原理和过程，可以参考写的另外一篇文章。<a href="/blog/blog/2020/09/26/dip-fourier-transform">傅里叶变换</a></p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/images/image-marathon/fft/v2-bad520e27c839917cf27d76e1206bb70_1440w.jpg">
+        <img src="/blog/images/image-marathon/fft/v2-bad520e27c839917cf27d76e1206bb70_1440w.jpg" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/images/image-marathon/fft/v2-73ad89919f066942a612107925152c8c_720w.jpg">
+        <img src="/blog/images/image-marathon/fft/v2-73ad89919f066942a612107925152c8c_720w.jpg" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/images/image-marathon/fft/v2-39eb0e4cd7fa4f0cd927bc97fc1c1674_720w.jpg">
+        <img src="/blog/images/image-marathon/fft/v2-39eb0e4cd7fa4f0cd927bc97fc1c1674_720w.jpg" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/images/image-marathon/fft/v2-5b1db77b17cc490cae1e9670bb34eeeb_720w.jpg">
+        <img src="/blog/images/image-marathon/fft/v2-5b1db77b17cc490cae1e9670bb34eeeb_720w.jpg" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/images/image-marathon/fft/v2-2c6301e214b1766e2b4173c2a0593bb2_720w.jpg">
+        <img src="/blog/images/image-marathon/fft/v2-2c6301e214b1766e2b4173c2a0593bb2_720w.jpg" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<p>可以编程，显示这个 Gaussian 滤波函数的可视化。</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/images/image-marathon/gaussian_1.png">
+        <img src="/blog/images/image-marathon/gaussian_1.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/images/image-marathon/gaussian_2.png">
+        <img src="/blog/images/image-marathon/gaussian_2.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<p>和原图对比，效果还行。</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase2/phase2_broken_sharpen_spatial.jpg">
+        <img src="/blog/source/marathon/output_images/phase2/phase2_broken_sharpen_spatial.jpg" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase2/phase2_sharpen_frequency_gaussian.jpg">
+        <img src="/blog/source/marathon/output_images/phase2/phase2_sharpen_frequency_gaussian.jpg" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h2 id="图片修复">图片修复</h2>
+
+<p>图片噪点去除。这个噪点的特点，通过定义核（kernel）的大小，中值滤波可以很好的修复图片了。</p>
+
+<p>OpenCV 实现了 INPAINT_TELEA : Fast Marching Method based 算法，INPAINT_NS : Navier-Stokes based Inpainting 算法。<a href="https://blog.csdn.net/LuohenYJ/article/details/90640654">OpenCV Inpainting</a> / <a href="https://blog.csdn.net/dcrmg/article/details/53792061">OpenCV 图像修复</a></p>
+
+<p>我们简单的实现了简易修复算法：先二值化，找到水印位置，然后根据位置，用最近邻算法填充。
+下载了一个 TELEA 算法的 Python 实现，效果更好，但是没用它。</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase2/phase2_broken_repair.jpg.mask.png">
+        <img src="/blog/source/marathon/output_images/phase2/phase2_broken_repair.jpg.mask.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase2/phase2_broken_repair.jpg">
+        <img src="/blog/source/marathon/output_images/phase2/phase2_broken_repair.jpg" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h2 id="二值化">二值化</h2>
+
+<h3 id="大津二值化算法">大津二值化算法</h3>
+
+<p>Otsu Binarization，大津二值化算法（Otsu’s Method）。也被称作最大类间方差法。</p>
+
+<h2 id="图像形态学">图像形态学</h2>
+
+<p>以 B 结构中心点为准心，在 A 中找能满足 B 结构的点即为腐蚀。
+把 A 结构的每个点放到 B 中心点，以 B 结构外扩即为膨胀。
+开操作表示先腐蚀后膨胀；闭操作表示先膨胀后腐蚀。</p>
+
+<h3 id="膨胀dilation">膨胀（dilation）</h3>
+
+<p>一般用来扩充边缘或填充小的孔洞。</p>
+
+<h3 id="腐蚀erosion">腐蚀（erosion）</h3>
+
+<p>可用来提取骨干信息，去掉毛刺，去掉孤立的像素。</p>
+
+<h3 id="开运算opening">开运算（opening）</h3>
+
+<p>先腐蚀再膨胀，可以消除小物体或小斑块。分裂，毛刺去掉。
+先腐蚀后膨胀的过程。开运算可以用来消除小黑点，在纤细点处分离物体、平滑较大物体的边界的同时并不明显改变其面积。</p>
+
+<h3 id="闭运算closing">闭运算（closing）</h3>
+
+<p>先膨胀再腐蚀，可用来填充孔洞。弥合，毛刺保留。
+先膨胀后腐蚀的过程。闭运算可以用来排除小黑洞。</p>
+
+<h3 id="自定义算子">自定义算子</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<p>这个算子很长条，巧妙运算，可以过滤出海平线。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 用一个 81 长的横线腐蚀一次，只剩下很长横线部分了。
+</span><span class="n">out</span> <span class="o">=</span> <span class="n">morphologyErodeLine</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">linelen</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="c1"># 用一个 81 长的横线膨胀一次，再把横线补全一下。
+</span><span class="n">out</span> <span class="o">=</span> <span class="n">morphologyDilateLine</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">linelen</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="色彩追踪">色彩追踪</h2>
+
+<p>天空识别。完成天空替换。有倒影，有剪影。</p>
+
+<p>我们把色彩变换到 HSV，然后做一个直方图，可以准确看到颜色分布情况，最高尖尖就是蓝色天空还海水部分，也是整张图的大部分颜色集中的地方。</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/images/image-marathon/color_tracking.png">
+        <img src="/blog/images/image-marathon/color_tracking.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h2 id="空域盲提水印">空域盲提水印</h2>
+
+<p>8 比特位图像的最低阶比特对人眼感知几乎没有影响，因此，可以将水印图像的高阶比特位“插入”在衬底的低阶比特位中。\(f_w = 4(\frac{f}{4}) + \frac{w}{64}\)</p>
+
+<p>LSB 水印非常脆弱，诸如裁剪、旋转、缩放，图像压缩等操作可以轻易破坏该水印。<a href="http://accu.cc/content/pil/watermark/">水印</a></p>
+
+<h2 id="频域盲提水印">频域盲提水印</h2>
+
+<h3 id="离散余弦变换">离散余弦变换</h3>
+
+<h3 id="haar-小波变换">HAAR 小波变换</h3>
+
+<h3 id="todo">TODO…</h3>
+
+<p>有空了，单独写一篇文章。
+<a href="https://github.com/hawkhai/hawkhai.github.io/blob/master/source/marathon/src/lib/watermark.py">https://github.com/hawkhai/hawkhai.github.io/blob/master/source/marathon/src/lib/watermark.py</a></p>
+
+<h2 id="渔女处理">渔女处理</h2>
+
+<h3 id="第一步修复矫正图片">第一步，修复矫正图片</h3>
+
+<p>为了计算速度，一上来把 3 倍大图缩小回去，等处理完了，最后在变大三倍。</p>
+
+<p>首先修复图片，不再累述，然后用上面的 prewitt &amp; sobel 算子计算整个图的边缘。</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase3/phase3_repair_original.png.mask.png">
+        <img src="/blog/source/marathon/output_images/phase3/phase3_repair_original.png.mask.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<p>通过自定义的算子，分离出海平线，可以发现是倾斜的。</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase3/phase3_repair_original.png.mask.line.png">
+        <img src="/blog/source/marathon/output_images/phase3/phase3_repair_original.png.mask.line.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<p>根据倾斜角度，矫正胶片，同时修复边缘。再计算出图片边缘，同时用水平投影法计算出海平线位置。</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase3/phase3_repair.png">
+        <img src="/blog/source/marathon/output_images/phase3/phase3_repair.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase3/phase3_repair_mask.png.mask.line.png">
+        <img src="/blog/source/marathon/output_images/phase3/phase3_repair_mask.png.mask.line.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h3 id="第二步分离天空海水渔女">第二步，分离天空海水渔女</h3>
+
+<p>使用色彩追踪和形态学运算得到图像中感兴趣区域，可以很准确的分离出渔女部分，贴回原图，二值化，把黑乎乎的小岛也准确识别出来。
+用闭运算处理一下毛刺，再用腐蚀把渔女变圆润一点。对分离出来的 mask 做一次均值滤波，让接头不那么生硬。</p>
+
+<h4 id="分离渔女色彩追踪">分离渔女：色彩追踪</h4>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase3/phase3_sky.jpg_fisher_girl_mask.png">
+        <img src="/blog/source/marathon/output_images/phase3/phase3_sky.jpg_fisher_girl_mask.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase3/phase3_sky.jpg_fisher_girl.png">
+        <img src="/blog/source/marathon/output_images/phase3/phase3_sky.jpg_fisher_girl.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h4 id="分离天空海平线以上减去渔女">分离天空：海平线以上减去渔女</h4>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase3/phase3_sky.jpg_sky_mask.png">
+        <img src="/blog/source/marathon/output_images/phase3/phase3_sky.jpg_sky_mask.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h4 id="分离海水海平线以下减去渔女">分离海水：海平线以下减去渔女</h4>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase3/phase3_sky.jpg_ocean_wave_mask.png">
+        <img src="/blog/source/marathon/output_images/phase3/phase3_sky.jpg_ocean_wave_mask.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h3 id="第三步合成天空">第三步，合成天空。</h3>
+
+<p>finalimage = newsky * masksky + imgsrc * (1 - masksky)</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase3/phase3_sky.jpg_sky_cloud.png">
+        <img src="/blog/source/marathon/output_images/phase3/phase3_sky.jpg_sky_cloud.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h2 id="渔女高级处理">渔女高级处理</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">outv</span> <span class="o">=</span> <span class="p">((</span><span class="n">mirrorsky</span> <span class="o">*</span> <span class="n">maskwave</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">)</span> <span class="o">+</span> <span class="c1"># 下面部分，天空倒影
+</span>        <span class="p">(</span><span class="n">imgsrc</span> <span class="o">*</span> <span class="n">maskwave</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">)</span> <span class="o">+</span> <span class="c1"># 下面部分，原图
+</span>        <span class="p">(</span><span class="n">imgsrc</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">maskwave</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">))</span> <span class="c1"># 其他部分
+# 最后再把原图渔女抠出来降低曝光度贴上去。
+</span><span class="n">outv</span> <span class="o">=</span> <span class="n">outv</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mask_fishergirl</span><span class="p">)</span> <span class="o">+</span> <span class="n">outvgril</span> <span class="o">*</span> <span class="n">mask_fishergirl</span>
+</code></pre></div></div>
+
+<h3 id="倒影处理">倒影处理</h3>
+
+<p>针对海水模板进行 7x7 的均值滤波。</p>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase3/phase3_sky_final.png_mask_sea.png">
+        <img src="/blog/source/marathon/output_images/phase3/phase3_sky_final.png_mask_sea.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h3 id="给背景加一个高斯函数">给背景加一个高斯函数</h3>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase3/phase3_sky_final.png">
+        <img src="/blog/source/marathon/output_images/phase3/phase3_sky_final.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<h3 id="尝试换一个色调">尝试换一个色调</h3>
+
+<div class="captioned-img align ">
+
+    <a href="/blog/source/marathon/output_images/phase3/phase3_sky_final.png_glod.png">
+        <img src="/blog/source/marathon/output_images/phase3/phase3_sky_final.png_glod.png" />
+    </a>
+    
+
+
+
+
+
+</div>
+
+<hr />
+
+<font class="ref_snapshot">Reference snapshot, script generated automatically.</font>
+
+<ul>
+  <li>[1] <a href="/blog/backup/2020-10-24-dip-image-marathon.md/www.doc88.com/f78335d1.html">https://www.doc88.com/p-6681238446960.html</a></li>
+  <li>[2] <a href="/blog/backup/2020-10-24-dip-image-marathon.md/max.book118.com/57242791.shtm">https://max.book118.com/html/2017/0903/131690968.shtm</a></li>
+  <li>[3] <a href="/blog/backup/2020-10-24-dip-image-marathon.md/blog.csdn.net/0233bfc6.html">https://blog.csdn.net/qq_30815237/article/details/98655630</a></li>
+  <li>[4] <a href="/blog/backup/2020-10-24-dip-image-marathon.md/blog.csdn.net/cb6675f5.html">https://blog.csdn.net/LuohenYJ/article/details/90640654</a></li>
+  <li>[5] <a href="/blog/backup/2020-10-24-dip-image-marathon.md/blog.csdn.net/f78939f0.html">https://blog.csdn.net/dcrmg/article/details/53792061</a></li>
+  <li>[6] <a href="/blog/backup/2020-10-24-dip-image-marathon.md/accu.cc/5433f4f7.html">http://accu.cc/content/pil/watermark/</a></li>
+</ul>
+
+
+    ---<br/>
+<!-- https://shopify.dev/docs/themes/liquid/reference/filters/string-filters -->
+<!-- https://github.com/jekyll/jekyll/issues/2491 -->
+本文短链接：<a id="short_urlx" target="_blank" href="#"></a><br/>
+<script type="text/javascript">
+var shortPrex = "https://sunocean.life/blog/t.htm?";
+var shortSeed = "/blog/2020/10/24/dip-image-marathon";
+</script>
+
+
+    If you have any questions or feedback, please reach out <code>haihoing@qq.com</code>.
+
+
+    <hr>
+    <div style="text-align:center"><br/>
+        自由转载-非商用-非衍生-保持署名（创意共享 3.0 许可证）
+    </div>
+</div>
+
+
+
+
+
+<script type="text/javascript" src="/blog/assets/md5.min.js"></script>
+<script type="text/javascript" src="/blog/assets/blog.js"></script>
+
+
+
+
+
+
+
+
+    <footer class="site-footer">
+    Hawkhai personal website and blog.<br/>
+    Copyright (c) hawkhai, 2016-2020. All rights reserved.<br/>
+    Powered by <a href="http://jekyllrb.com/">Jekyll</a>, <a href="https://www.netlify.com/">netlify.com</a>
+    
+     | <a href="https://github.com/hawkhai/hawkhai.github.io">GitHub</a>
+    
+    <br/>
+    Sun &amp; Ocean · <a href="https://sunocean.life">WWW.SUNOCEAN.LIFE</a>
+</footer>
+
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,1453 @@
+<!DOCTYPE HTML>
+<html lang="zh">
+<head>
+<title>向量范数和矩阵范数 - MATLAB norm
+- MathWorks 中国</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link href="/includes_content/responsive/css/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/includes_content/responsive/css/site6.css?202009" rel="stylesheet" type="text/css">
+<link href="/includes_content/responsive/css/site6_lg.css?202009" rel="stylesheet" media="screen and (min-width: 1200px)">
+<link href="/includes_content/responsive/css/site6_md.css?202009" rel="stylesheet" media="screen and (min-width: 992px) and (max-width: 1199px)">
+<link href="/includes_content/responsive/css/site6_sm+xs.css?202009" rel="stylesheet" media="screen and (max-width: 991px)">
+<link href="/includes_content/responsive/css/site6_sm.css?202009" rel="stylesheet" media="screen and (min-width: 768px) and (max-width: 991px)">
+<link href="/includes_content/responsive/css/site6_xs.css?202009" rel="stylesheet" media="screen and (max-width: 767px)">
+<link href="/includes_content/responsive/css/site6_offcanvas_v2.css?202009" rel="stylesheet" type="text/css">
+<!-- CRUX 2.0 -->
+<link href="/includes_content/responsive/css/site7_crux.css?202009" rel="stylesheet" type="text/css">
+<script src="/includes_content/responsive/scripts/jquery/jquery-latest.js"></script>
+<script src="/includes_content/responsive/scripts/bootstrap/bootstrap.min.js"></script>
+<script src="/includes_content/responsive/scripts/global.js"></script>
+<link href="https://use.typekit.net/xvy5baa.css?display=swap" rel="stylesheet">
+<link href="/includes_content/responsive/fonts/mathworks.woff" rel="preload" as="font" type="font/woff" crossorigin>
+<!-- BEGIN Adobe DTM -->
+<script src="//assets.adobedtm.com/d0cc0600946eb3957f703b9fe43c3590597a8c2c/satelliteLib-e8d23c2e444abadc572df06537e2def59c01db09.js"></script>
+<!-- END Adobe DTM -->
+<link href="/includes_content/responsive/css/localized/site6_zh_CN.css" rel="stylesheet" type="text/css">
+<link href="/includes_content/releases/R2020b/css/doc_center.css?202009" rel="stylesheet" type="text/css">
+<link href="/includes_content/releases/R2020b/css/doc_center_print.css?202009a" rel="stylesheet" type="text/css" media="print">
+<link href="/includes_content/releases/R2020b/css/doc_center_zh_CN.css?202009" rel="stylesheet" type="text/css">
+<script src="/includes_content/releases/R2020b/scripts/matlab_dialog.js?202009"></script>
+<script src="/help/releases/R2020b/includes/web/scripts/livecontrolpopoverhandler.js?202009"></script>
+<script src="/help/releases/R2020b/includes/web/scripts/livetaskpopoverhandler.js?201909"></script>
+<script src="https://openwith.mathworks.com/openwith.js?202002"></script>
+<style>
+.examples_short_list a.btn {display: none;}
+</style>
+<script src="https://ww2.mathworks.cn/help/includes/web/scripts//openInBrowser.js"></script>
+<script>
+var embeddedEndpoint = "https://login.mathworks.com/embedded-login/";
+</script>
+<script src="/includes_content/responsive/scripts/apps/embedded/dotcom_embedded_status.js"></script>
+<script src="/includes_content/responsive/scripts/MWEmbeddedStatus.js"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "BreadcrumbList",
+"itemListElement":
+[{
+"@type": "ListItem",
+"position": 1,
+"item": {
+"@id": "../index.html",
+"name": "MATLAB"
+}
+}
+,
+{
+"@type": "ListItem",
+"position": 2,
+"item": {
+"@id": "../mathematics.html",
+"name": "数学"
+}
+}
+,
+{
+"@type": "ListItem",
+"position": 3,
+"item": {
+"@id": "../linear-algebra.html",
+"name": "线性代数"
+}
+}]
+}</script><script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "ItemList",
+"name": "VisibleBreadcrumbs",
+"itemListElement":
+[
+"linear-algebra"
+],
+"itemListOrder": "http://schema.org/ItemListOrderAscending"
+}
+</script><script xmlns="http://www.w3.org/1999/xhtml" type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "ItemList",
+"name": "ExtendedCapabilities",
+"itemListElement":
+[
+{
+"@type": "ListItem",
+"position": 1,
+"item":
+{
+"@context": "http://schema.org",
+"@type": "PropertyValue",
+"name": "codegen",
+"value": "limited"
+}
+},
+{
+"@type": "ListItem",
+"position": 2,
+"item":
+{
+"@context": "http://schema.org",
+"@type": "PropertyValue",
+"name": "distributedarrays",
+"value": "full"
+}
+},
+{
+"@type": "ListItem",
+"position": 3,
+"item":
+{
+"@context": "http://schema.org",
+"@type": "PropertyValue",
+"name": "gpuarrays",
+"value": "full"
+}
+},
+{
+"@type": "ListItem",
+"position": 4,
+"item":
+{
+"@context": "http://schema.org",
+"@type": "PropertyValue",
+"name": "tall",
+"value": "full"
+}
+}
+]
+}
+</script>
+<meta xmlns="http://www.w3.org/1999/xhtml" name="chunktype" content="refpage"></meta><meta xmlns="http://www.w3.org/1999/xhtml" name="refentity" itemprop="refentity" content="function:norm"></meta>
+<meta xmlns="http://www.w3.org/1999/xhtml" http-equiv="Content-Script-Type" content="text/javascript"></meta>
+<meta xmlns="http://www.w3.org/1999/xhtml" name="toctype" itemprop="pagetype" content="fcn"></meta>
+<meta xmlns="http://www.w3.org/1999/xhtml" name="infotype" itemprop="infotype" content="ref/function"></meta>
+<meta xmlns="http://www.w3.org/1999/xhtml" name="description" itemprop="description" content="此 MATLAB 函数 返回向量 v 的欧几里德范数。此范数也称为 2-范数、向量模或欧几里德长度。"></meta><script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2020b/includes/shared/scripts/l10n.js?202009292311"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2020b/includes/shared/scripts/docscripts.js?202009292311"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2020b/includes/shared/scripts/f1help.js?202009292311"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2020b/includes/shared/scripts/mw.toc_2.js?202009292311"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2020b/includes/shared/scripts/mw.imagescaling.js?202009292311"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2020b/includes/shared/scripts/mw.imageanimation.js?202009292311"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2020b/includes/shared/scripts/mw.breadcrumb.js?202009292311"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2020b/includes/shared/scripts/jquery.highlight.js?202009292311"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2020b/includes/product/scripts/underscore-min.js?202009292311"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2020b/includes/product/scripts/examples.js?202009292311"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2020b/includes/web/scripts/doc_omniture.js?202009292311"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2020b/includes/shared/scripts/overload.js?202009292311"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2020b/includes/shared/scripts/helpservices.js?202009292311"></script>
+<!-- Additions/overrides from the doc side -->
+<style>
+.typeahead_container.typeahead_type_grouped { margin-left:0; }
+@media (min-width:768px) {
+#suggestions { margin-left:-100px }
+}
+</style>
+<script type="text/javascript" src="/help/search/R2020b/helpcenter_docsearch.js?20200128"></script>
+<script type="text/javascript" src="/includes_content/nextgen/scripts/jquery/jquery.toggleval.js?201409291140"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="/help/releases/R2020b/includes/shared/equationrenderer/release/MathRenderer.js"></script>
+<script type="text/javascript" src="/includes_content/nextgen/scripts/jquery/jquery.cookie.js"></script>
+<script type="text/javascript" src="/includes_content/domainSelect/akamai-country-code.js"></script>
+<script type="text/javascript">
+var domainCountryCodeMap = new Map();
+var countryCodeToDomainMap = new Map();
+domainCountryCodeMap.set('www.mathworks.com', 'www');
+countryCodeToDomainMap.set('www','www.mathworks.com')
+domainCountryCodeMap.set('www.mathworks.com', 'www');
+countryCodeToDomainMap.set('www','www.mathworks.com')
+domainCountryCodeMap.set('la.mathworks.com', 'la');
+countryCodeToDomainMap.set('la','la.mathworks.com')
+domainCountryCodeMap.set('au.mathworks.com', 'au');
+countryCodeToDomainMap.set('au','au.mathworks.com')
+domainCountryCodeMap.set('de.mathworks.com', 'de');
+countryCodeToDomainMap.set('de','de.mathworks.com')
+domainCountryCodeMap.set('nl.mathworks.com', 'nl');
+countryCodeToDomainMap.set('nl','nl.mathworks.com')
+domainCountryCodeMap.set('ww2.mathworks.cn', 'ww2');
+countryCodeToDomainMap.set('ww2','ww2.mathworks.cn')
+domainCountryCodeMap.set('se.mathworks.com', 'se');
+countryCodeToDomainMap.set('se','se.mathworks.com')
+domainCountryCodeMap.set('se.mathworks.com', 'se');
+countryCodeToDomainMap.set('se','se.mathworks.com')
+domainCountryCodeMap.set('fr.mathworks.com', 'fr');
+countryCodeToDomainMap.set('fr','fr.mathworks.com')
+domainCountryCodeMap.set('de.mathworks.com', 'de');
+countryCodeToDomainMap.set('de','de.mathworks.com')
+domainCountryCodeMap.set('in.mathworks.com', 'in');
+countryCodeToDomainMap.set('in','in.mathworks.com')
+domainCountryCodeMap.set('uk.mathworks.com', 'uk');
+countryCodeToDomainMap.set('uk','uk.mathworks.com')
+domainCountryCodeMap.set('it.mathworks.com', 'it');
+countryCodeToDomainMap.set('it','it.mathworks.com')
+domainCountryCodeMap.set('jp.mathworks.com', 'jp');
+countryCodeToDomainMap.set('jp','jp.mathworks.com')
+domainCountryCodeMap.set('kr.mathworks.com', 'kr');
+countryCodeToDomainMap.set('kr','kr.mathworks.com')
+domainCountryCodeMap.set('nl.mathworks.com', 'nl');
+countryCodeToDomainMap.set('nl','nl.mathworks.com')
+domainCountryCodeMap.set('nl.mathworks.com', 'nl');
+countryCodeToDomainMap.set('nl','nl.mathworks.com')
+domainCountryCodeMap.set('au.mathworks.com', 'au');
+countryCodeToDomainMap.set('au','au.mathworks.com')
+domainCountryCodeMap.set('se.mathworks.com', 'se');
+countryCodeToDomainMap.set('se','se.mathworks.com')
+domainCountryCodeMap.set('www.mathworks.com', 'www');
+countryCodeToDomainMap.set('www','www.mathworks.com')
+domainCountryCodeMap.set('es.mathworks.com', 'es');
+countryCodeToDomainMap.set('es','es.mathworks.com')
+domainCountryCodeMap.set('se.mathworks.com', 'se');
+countryCodeToDomainMap.set('se','se.mathworks.com')
+domainCountryCodeMap.set('ch.mathworks.com', 'ch');
+countryCodeToDomainMap.set('ch','ch.mathworks.com')
+domainCountryCodeMap.set('uk.mathworks.com', 'uk');
+countryCodeToDomainMap.set('uk','uk.mathworks.com')
+var countrySubdomains = {
+US: {name: 'United States', subdomain: 'www'},
+AD: {name: 'Andorra', subdomain: 'es'},
+AR: {name: 'Argentina', subdomain: 'la'},
+AU: {name: 'Australia', subdomain: 'au'},
+AT: {name: 'Austria', subdomain: 'de'},
+BE: {name: 'Belgium', subdomain: 'nl'},
+BO: {name: 'Bolivia', subdomain: 'la'},
+BV: {name: 'Bouvet Islands', subdomain: 'se'},
+CA: {name: 'Canada', subdomain: 'www'},
+CL: {name: 'Chile', subdomain: 'la'},
+CN: {name: 'China', subdomain: 'cn'},
+CX: {name: 'Christmas Island', subdomain: 'au'},
+CC: {name: 'Cocos-Keeling Islands', subdomain: 'au'},
+CO: {name: 'Colombia', subdomain: 'la'},
+CR: {name: 'Costa Rica', subdomain: 'la'},
+DK: {name: 'Denmark', subdomain: 'se'},
+DO: {name: 'Dominican Republic', subdomain: 'la'},
+EC: {name: 'Ecuador', subdomain: 'la'},
+SV: {name: 'El Salvador', subdomain: 'la'},
+EE: {name: 'Estonia', subdomain: 'se'},
+FO: {name: 'Faroe Islands', subdomain: 'se'},
+FJ: {name: 'Fiji', subdomain: 'au'},
+FI: {name: 'Finland', subdomain: 'se'},
+FR: {name: 'France', subdomain: 'fr'},
+GF: {name: 'French Guiana', subdomain: 'fr'},
+PF: {name: 'French Polynesia', subdomain: 'fr'},
+DE: {name: 'Germany', subdomain: 'de'},
+GL: {name: 'Greenland', subdomain: 'se'},
+GP: {name: 'Guadalupe', subdomain: 'fr'},
+GT: {name: 'Guatemala', subdomain: 'la'},
+HN: {name: 'Honduras', subdomain: 'la'},
+IS: {name: 'Iceland', subdomain: 'se'},
+IN: {name: 'India', subdomain: 'in'},
+IE: {name: 'Ireland', subdomain: 'uk'},
+IT: {name: 'Italy', subdomain: 'it'},
+JP: {name: 'Japan', subdomain: 'jp'},
+KR: {name: 'Korea', subdomain: 'kr'},
+LV: {name: 'Latvia', subdomain: 'se'},
+LI: {name: 'Liechtenstein', subdomain: 'ch'},
+LT: {name: 'Lithuania', subdomain: 'se'},
+LU: {name: 'Luxembourg', subdomain: 'nl'},
+MQ: {name: 'Martinique', subdomain: 'fr'},
+YT: {name: 'Mayotte Island', subdomain: 'fr'},
+MX: {name: 'Mexico', subdomain: 'la'},
+MC: {name: 'Monaco', subdomain: 'fr'},
+NL: {name: 'Netherlands', subdomain: 'nl'},
+NC: {name: 'New Caledonia', subdomain: 'fr'},
+NZ: {name: 'New Zealand', subdomain: 'au'},
+NI: {name: 'Nicaragua', subdomain: 'la'},
+NO: {name: 'Norway', subdomain: 'se'},
+PA: {name: 'Panama', subdomain: 'la'},
+PG: {name: 'Papua New Guinea', subdomain: 'au'},
+PY: {name: 'Paraguay', subdomain: 'la'},
+PE: {name: 'Peru', subdomain: 'la'},
+PT: {name: 'Portugal', subdomain: 'www'},
+PR: {name: 'Puerto Rico', subdomain: 'la'},
+RE: {name: 'Reunion Island', subdomain: 'fr'},
+ES: {name: 'Spain', subdomain: 'es'},
+LK: {name: 'Sri Lanka', subdomain: 'in'},
+SE: {name: 'Sweden', subdomain: 'se'},
+CH: {name: 'Switzerland', subdomain: 'ch'},
+GB: {name: 'United Kingdom', subdomain: 'uk'},
+UY: {name: 'Uruguay', subdomain: 'la'},
+VA: {name: 'Vatican City', subdomain: 'it'},
+VE: {name: 'Venezuela', subdomain: 'la'},
+};
+var domainUtils = {
+isExemptUrl: function (url) {
+if(window.overrideDomainSelector){
+return true;
+}
+var exemptions = [
+'/api/parts/',
+'nocookie=true',
+'client=addons',
+'requestedDomain'
+];
+return exemptions.some(function (exemption) {
+return url.indexOf(exemption) != -1;
+});
+},
+endsWith: function( str, suffix ) {
+return str.substring( str.length - suffix.length, str.length ) === suffix;
+},
+getDomain: function (url) {
+var segments = url.split('/');
+return segments[2];
+},
+getSubdomain: function (domain) {
+return domainCountryCodeMap.get(domain);
+},
+setCookies: function (domain, lang) {
+var domainCookie = 'mathworks.com';
+if (this.endsWith(location.host, 'mathworks.cn')) {
+domainCookie = 'mathworks.cn';
+}
+var selectedSubdomain = this.getSubdomain(domain);
+if (this.endsWith(domain, 'mathworks.cn')) {
+selectedSubdomain = 'cn';
+}
+if (selectedSubdomain === 'www') {
+// This is what ePS did in EQUUS and Ruby, so...
+// we're just following suit.
+selectedSubdomain = 'us';
+}
+if (selectedSubdomain !== 'cn' && selectedSubdomain !== 'ch') {
+lang = '';
+}
+var cookieNames = this.getCookieNames(domain);
+var expires = new Date();
+expires.setFullYear(expires.getFullYear() + 68);
+var myJSON = JSON.stringify({
+domain: selectedSubdomain,
+lang: lang,
+v: 2
+});
+$.cookie(cookieNames.mwaPrefsCookieName, myJSON, {path: '/', expires: 20*365, domain: domainCookie});
+},
+getCookieNames: function (domain) {
+var mwaLoginCookieName = 'mwa';
+var mwaPrefsCookieName = 'mwa_prefs';
+var subdomainSuffix = '';
+if (subdomainSuffix != "") {
+mwaLoginCookieName = mwaLoginCookieName + subdomainSuffix;
+mwaPrefsCookieName = mwaPrefsCookieName + subdomainSuffix;
+}
+return {
+mwaLoginCookieName: mwaLoginCookieName,
+mwaPrefsCookieName: mwaPrefsCookieName,
+};
+},
+switchDomain: function (targetDomain, targetLang) {
+var targetUri = location.pathname;
+targetLang = this.getValidLang(this.getSubdomain(targetDomain), targetLang);
+var url = '//' + targetDomain;
+url += targetUri + location.search;
+url = url.replace(/requestedDomain=[a-z]?[a-z]?&?/, '');
+url = url.replace(/\&$/, '');
+url = url.replace(/\?$/, '');
+var requestedDomainParam = 'requestedDomain=' + targetLang;
+if (url.indexOf('?') > -1) {
+url = url + '&' + requestedDomainParam;
+} else {
+url = url + '?' + requestedDomainParam;
+}
+window.location = url;
+},
+getPrefCookie: function(currentDomain) {
+var cookieNames = this.getCookieNames(currentDomain);
+// regex from: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
+var cookieRegex = new RegExp("(?:(?:^|.*;\\s*)"+cookieNames.mwaPrefsCookieName+"\\s*\\=\\s*([^;]*).*$)|^.*$");
+if (document.cookie) {
+var cookieValue = document.cookie.replace(cookieRegex, "$1");
+if (cookieValue) {
+return JSON.parse(decodeURIComponent(cookieValue));
+}
+}
+return "";
+},
+getPrefDomain: function (currentDomain) {
+var mwaPrefsCookieJsonObject = this.getPrefCookie(currentDomain);
+var visitorPrefDomain;
+if (!!mwaPrefsCookieJsonObject) {
+visitorPrefDomain = mwaPrefsCookieJsonObject.domain;
+if (visitorPrefDomain === 'us') {
+visitorPrefDomain = 'www';
+}else if (visitorPrefDomain === 'cn') {
+visitorPrefDomain = 'ww2';
+}
+}
+return countryCodeToDomainMap.get(visitorPrefDomain);
+},
+getPrefLang: function (currentDomain) {
+var mwaPrefsCookieJsonObject = this.getPrefCookie(currentDomain);
+var multilingualDomainLanguageSupport = {};
+multilingualDomainLanguageSupport['ch'] = ['en','de','fr'];
+multilingualDomainLanguageSupport['cn'] = ['zh','en'];
+var currentDomainLangOptions = multilingualDomainLanguageSupport[mwaPrefsCookieJsonObject.domain];
+if (currentDomainLangOptions) {
+var cookiePrefLang = mwaPrefsCookieJsonObject.lang;
+if (currentDomainLangOptions.indexOf(cookiePrefLang) >= 0) {
+return cookiePrefLang;
+} else {
+return currentDomainLangOptions[0];
+}
+}
+return '';
+},
+getCookieVersion: function (currentDomain) {
+var mwaPrefsCookieJsonObject = this.getPrefCookie(currentDomain);
+return mwaPrefsCookieJsonObject.v;
+},
+getTargetDomainForCookies: function() {
+var targetDomain = "";
+if (this.endsWith(location.host, 'mathworks.cn')) {
+targetDomain = window.location.protocol + "//" + countryCodeToDomainMap.get('www');
+}else{
+targetDomain = window.location.protocol + "//" + countryCodeToDomainMap.get('ww2');
+}
+return targetDomain;
+},
+getValidLang: function (subdomain, lang) {
+var multilingualDomainLanguageSupport = {};
+multilingualDomainLanguageSupport['ch'] = ['en','de','fr'];
+multilingualDomainLanguageSupport['cn'] = ['zh','en'];
+multilingualDomainLanguageSupport['ww2'] = ['zh','en'];
+var currentDomainLangOptions = multilingualDomainLanguageSupport[subdomain];
+if (currentDomainLangOptions) {
+if (currentDomainLangOptions.indexOf(lang) >= 0) {
+return lang;
+} else {
+return currentDomainLangOptions[0];
+}
+}
+return '';
+},
+isDefaultLang: function (subdomain, lang) {
+var multilingualDomainLanguageDefault = {};
+multilingualDomainLanguageDefault['ch'] = 'en';
+multilingualDomainLanguageDefault['cn'] = 'zh';
+multilingualDomainLanguageDefault['ww2'] = 'zh';
+var currentDomainLang = multilingualDomainLanguageDefault[subdomain];
+if (currentDomainLang) {
+if (currentDomainLang === lang) {
+return true;
+} else {
+return false;
+}
+} else if (lang) {
+return false;
+}
+return true;
+}
+};
+$(window).on('load', function() {
+var currentUrl = window.location.href;
+var currentDomain = domainUtils.getDomain(currentUrl);
+var currentSubdomain = domainUtils.getSubdomain(currentDomain);
+var requestedDomainLangRegEx = RegExp('[?&]requestedDomain=([^&]*)').exec(window.location.search);
+if (requestedDomainLangRegEx) {
+var setLang = domainUtils.getValidLang(currentSubdomain, requestedDomainLangRegEx[1])
+domainUtils.setCookies(currentDomain, setLang);
+var URLWithoutRequestedDomain = window.location.href.replace(/requestedDomain=[a-z]?[a-z]?&?/, '');
+URLWithoutRequestedDomain = URLWithoutRequestedDomain.replace(/\&$/, '');
+URLWithoutRequestedDomain = URLWithoutRequestedDomain.replace(/\?$/, '');
+history.replaceState({}, document.title, URLWithoutRequestedDomain);
+window.location = URLWithoutRequestedDomain;
+}
+$('body').on('click', '.domain_selector_link', function (e) {
+e.preventDefault();
+var selectedDomain = domainUtils.getDomain(this.href);
+var selectedLang = $(this).data('lang');
+domainUtils.setCookies(selectedDomain, selectedLang);
+domainUtils.switchDomain(selectedDomain, selectedLang);
+});
+var currentCountryText =
+$('a[data-subdomain=\'' + currentSubdomain + '\'][data-default-lang=\'true\'][data-selected-text]')
+.data('selected-text');
+$('#countrySelectorButtonText').text(currentCountryText);
+var visitorPrefDomain = domainUtils.getPrefDomain(currentDomain);
+var visitorPrefLang = domainUtils.getPrefLang(currentDomain);
+var akamaiCountryCode;
+var akamaiprofile = CQ_Analytics.ClientContextMgr.getRegisteredStore('akamaiprofile');
+if (akamaiprofile) {
+akamaiCountryCode = akamaiprofile.getProperty('countryCode');
+}
+var recommendedSubdomain;
+var recommendedLink;
+if (akamaiCountryCode) {
+if (countrySubdomains[akamaiCountryCode] !== undefined) {
+recommendedSubdomain = countrySubdomains[akamaiCountryCode].subdomain;
+} else {
+recommendedSubdomain = 'www';
+}
+if (recommendedSubdomain === 'us') {
+recommendedSubdomain = 'www';
+}else if (recommendedSubdomain === 'cn') {
+recommendedSubdomain = 'ww2';
+}
+recommendedLink = $('a[data-subdomain=\'' + recommendedSubdomain + '\'][data-recommended-text]');
+} else if (visitorPrefDomain) {
+recommendedSubdomain = domainUtils.getSubdomain(visitorPrefDomain);
+if (visitorPrefLang) {
+recommendedLink = $('a[data-subdomain=\'' + recommendedSubdomain + '\'][data-lang=\'' + visitorPrefLang + '\']');
+} else {
+recommendedLink = $('a[data-subdomain=\'' + recommendedSubdomain + '\'][data-default-lang=\'true\']');
+}
+}
+if (!recommendedLink) {
+recommendedSubdomain = 'www';
+recommendedLink = $('a[data-subdomain=\'' + recommendedSubdomain + '\'][data-recommended-text]');
+}
+$('.recommended-country').text(recommendedLink.data('recommended-text'));
+$('#recommended_domain_button').attr('href', recommendedLink.attr('href'));
+$('#recommended_domain_button').attr('data-lang', recommendedLink.attr('data-lang'));
+$('body').on('click', '#recommended_domain_button', function (e) {
+e.preventDefault();
+var selectedDomain = domainUtils.getDomain(this.href);
+var selectedLang = $(this).data('lang');
+domainUtils.setCookies(selectedDomain, selectedLang);
+domainUtils.switchDomain(selectedDomain, selectedLang);
+});
+$('a.worldwide_link').attr('href', recommendedLink.attr('href'));
+$('a.worldwide_link').data('lang', recommendedLink.data('lang'));
+$('body').on('click', 'a.worldwide_link', function (e) {
+e.preventDefault();
+var selectedDomain = domainUtils.getDomain(this.href);
+var selectedLang = $(this).data('lang');
+domainUtils.setCookies(selectedDomain, selectedLang);
+var href = e.target.getAttribute('href');
+var worldwideLink = '/company/worldwide.html?s_tid=dmselect_cta&requestedDomain=';
+if(href) {
+location.href = href + worldwideLink;
+}
+});
+if (akamaiCountryCode === 'CN') {
+$('#china_performance_alert').show();
+}
+var crossDomain = "";
+if(domainUtils.endsWith(currentDomain, '.mathworks.cn')){
+crossDomain = countryCodeToDomainMap.get('www');
+}else{
+crossDomain = countryCodeToDomainMap.get('ww2');
+}
+if ((!domainUtils.endsWith(currentDomain, '.mathworks.com') && !domainUtils.endsWith(currentDomain, '.mathworks.cn')) || domainUtils.isExemptUrl(currentUrl)) {
+return;
+}
+if (!visitorPrefDomain) {
+if (akamaiCountryCode) {
+var akamaiDeterminedSubdomain = $('a[data-country-code=\'' + akamaiCountryCode + '\']').data('subdomain');
+if ((akamaiCountryCode.toLowerCase() === currentSubdomain) || (akamaiDeterminedSubdomain === currentSubdomain)) {
+domainUtils.setCookies(currentDomain, "");
+} else {
+$('#country-unselected').modal('show');
+}
+return;
+}
+if (currentSubdomain === 'www') {
+domainUtils.setCookies(currentDomain, '');
+} else {
+$('#country-unselected').modal('show');
+}
+} else if (akamaiCountryCode === 'CN' && !(visitorPrefDomain === 'CN') && !domainUtils.getCookieVersion(currentDomain)) {
+$('#country-unselected').modal('show');
+}
+});
+</script> <script src="/includes_content/responsive/scripts/mwa/global_nav.js"></script>
+
+  <script>!function(a){var e="https://s.go-mpulse.net/boomerang/",t="addEventListener";if("False"=="True")a.BOOMR_config=a.BOOMR_config||{},a.BOOMR_config.PageParams=a.BOOMR_config.PageParams||{},a.BOOMR_config.PageParams.pci=!0,e="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="LERXA-6VNES-W6PXS-U8C7F-BXSZH",function(){function n(e){a.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!a.BOOMR||!a.BOOMR.version&&!a.BOOMR.snippetExecuted){a.BOOMR=a.BOOMR||{},a.BOOMR.snippetExecuted=!0;var i,_,o,r=document.createElement("iframe");if(a[t])a[t]("load",n,!1);else if(a.attachEvent)a.attachEvent("onload",n);r.src="javascript:void(0)",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="width:0;height:0;border:0;display:none;",o=document.getElementsByTagName("script")[0],o.parentNode.insertBefore(r,o);try{_=r.contentWindow.document}catch(O){i=document.domain,r.src="javascript:var d=document.open();d.domain='"+i+"';void(0);",_=r.contentWindow.document}_.open()._l=function(){var a=this.createElement("script");if(i)this.domain=i;a.id="boomr-if-as",a.src=e+"LERXA-6VNES-W6PXS-U8C7F-BXSZH",BOOMR_lstart=(new Date).getTime(),this.body.appendChild(a)},_.write("<bo"+'dy onload="document._l();">'),_.close()}}(),"".length>0)if(a&&"performance"in a&&a.performance&&"function"==typeof a.performance.setResourceTimingBufferSize)a.performance.setResourceTimingBufferSize();!function(){if(BOOMR=a.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var e=""=="true"?1:0,t="",n="ol73lco5ykn24x6o6g7a-f-452ed5b69-clientnsv4-s.akamaihd.net",i={"ak.v":"29","ak.cp":"31027","ak.ai":parseInt("195948",10),"ak.ol":"0","ak.cr":65,"ak.ipv":4,"ak.proto":"http/1.1","ak.rid":"1d5c09fc","ak.r":34466,"ak.a2":e,"ak.m":"ca2","ak.n":"essl","ak.bpcip":"114.255.181.0","ak.cport":61553,"ak.gh":"221.194.158.111","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.csrc":"-","ak.acc":"reno","ak.t":"1607397822","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==9ERJeT0NLkfACsFZirjeMGHpfgjX2ma4Mh9CZa8OkTzb7vYjLBH5WQGn4QCeozrNbsPv2JCyS4+wN3MrQOVyTpeXMqhLylN18F7alBLO2Xk/SDHyLeYHLIjXkicKn7Y/SZwJbnUqPHvH5ej8q+5rKCZjJClRS0hCF4SyVJS1Q9Ztk9Y25LQaS0RLEI54k9WvEA2NL/pR98N6aRx8XCMOD/ug/gbbf3fm2ZpiY+Gw7RP91PO/o9Y+An6+EUIN9MCZ/NAlMEAFo4g9RSlfv/jKPkh8GxAv9vPU/OAWIYtiGCd2sSy0OXuIvMgc9DnL+pcmHHiZk0B2rgqnvCEE7/xcZ2uXfhkNXLoEoX7DXYX1QdrxDygCveb7olBSt2rELRULxpv1uL5UN8qQUTRBBeDr1ucwtCdZXLzQqmCLHRD+NbQ=","ak.pv":"108","ak.dpoabenc":""};if(""!==t)i["ak.ruds"]=t;var _={i:!1,av:function(e){var t="http.initiator";if(e&&(!e[t]||"spa_hard"===e[t]))i["ak.feo"]=void 0!==a.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var a=["ak.bpcip","ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.r","ak.acc","ak.t"];BOOMR.removeVar(a)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:n,init:function(){if(!_.i){var a=BOOMR.subscribe;a("before_beacon",_.av,null,null),a("onbeacon",_.rv,null,null),_.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+
+<body id="responsive_offcanvas">
+  <a class="skip_link sr-only" href="#content_container">Skip to content</a>
+
+  <!-- Mobile TopNav: Start -->
+<div class="header visible-xs visible-sm" id="header_mobile" translate="no">
+<nav class="navbar navbar-default" role="navigation">
+<div class="navbar-header">
+<div class="container-fluid">
+<div class="row">
+<div class="col-xs-3">
+<button type="button" class="navbar-toggle topnav_toggle" data-toggle="collapse" data-target="#topnav_collapse">
+<span class="sr-only">Toggle Main Navigation</span>
+<span class="icon-menu"></span>
+</button>
+</div>
+<div class="col-xs-6">
+<div class="text-center">
+<a href="https://ww2.mathworks.cn?s_tid=gn_logo" class="svg_link navbar-brand">
+<img src="/images/responsive/global/pic-header-mathworks-logo.svg" class="mw_logo" alt="MathWorks">
+</a>
+</div>
+</div>
+<div class="col-xs-3">
+<div class="matrix_affordance_container_mobile" id="matrix_affordance_container_mobile"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="container-fluid">
+<div class="row visible-xs visible-sm">
+<div class="col-xs-12">
+<div class="navbar-collapse collapse" id="topnav_collapse">
+<ul class="nav navbar-nav" id="topnav">
+<li class="topnav_products "><a href="https://ww2.mathworks.cn/products.html?s_tid=gn_ps" >产品</a></li>
+<li class="topnav_solutions "><a href="https://ww2.mathworks.cn/solutions.html?s_tid=gn_sol">解决方案</a></li>
+<li class="topnav_academia "><a href="https://ww2.mathworks.cn/academia.html?s_tid=gn_acad">学术</a></li>
+<li class="topnav_support "><a href="https://ww2.mathworks.cn/support.html?s_tid=gn_supp">支持</a></li>
+<li class="topnav_community "><a href="https://ww2.mathworks.cn/matlabcentral/?s_tid=gn_mlc">社区</a></li>
+<li class="topnav_events "><a href="https://ww2.mathworks.cn/company/events.html?s_tid=gn_ev">活动</a></li>
+<li class="headernav_store"><a href="https://ww2.mathworks.cn/products/get-matlab.html?s_tid=gn_getml">获取 MATLAB</a></li>
+</ul>
+</div>
+<div class="navbar-collapse collapse" id="matrix_collapse">
+<div class="matrix_menu_container_mobile" id="matrix_menu_container_mobile"></div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</div>
+<!-- Mobile TopNav: End -->
+<!-- Desktop TopNav: Start -->
+<div class="header hidden-xs hidden-sm" id="header_desktop" translate="no">
+<nav class="navbar navbar-default" role="navigation">
+<div class="container-fluid">
+<div class="row">
+<div class="col-md-9">
+<div class="navbar-header">
+<div class="logo_container hidden-xs hidden-sm">
+<a href="https://ww2.mathworks.cn?s_tid=gn_logo" class="svg_link pull-left">
+<img src="/images/responsive/global/pic-header-mathworks-logo.svg" class="mw_logo" alt="MathWorks">
+</a>
+</div>
+<div class="navbar-collapse collapse hidden-xs hidden-sm">
+<ul class="nav navbar-nav" id="topnav">
+<li class="topnav_products "><a href="https://ww2.mathworks.cn/products.html?s_tid=gn_ps" >产品</a></li>
+<li class="topnav_solutions "><a href="https://ww2.mathworks.cn/solutions.html?s_tid=gn_sol">解决方案</a></li>
+<li class="topnav_academia "><a href="https://ww2.mathworks.cn/academia.html?s_tid=gn_acad">学术</a></li>
+<li class="topnav_support "><a href="https://ww2.mathworks.cn/support.html?s_tid=gn_supp">支持</a></li>
+<li class="topnav_community "><a href="https://ww2.mathworks.cn/matlabcentral/?s_tid=gn_mlc">社区</a></li>
+<li class="topnav_events "><a href="https://ww2.mathworks.cn/company/events.html?s_tid=gn_ev">活动</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-3">
+<div class="collapse navbar-collapse" id="headernav_collapse">
+<ul class="nav navbar-nav navbar-right" id="headernav">
+<li class="headernav_store"><a href="https://ww2.mathworks.cn/products/get-matlab.html?s_tid=gn_getml" class="btn btn_color_blue companion_btn btn-xs">获取 MATLAB</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</div>
+<!-- Desktop TopNav: End -->
+<!-- Conjoined Header: Start -->
+<!-- Section Header: Start -->
+<div class="section_header level_3">
+<div class="container-fluid">
+<div class="row" id="mobile_search_row">
+<div class="col-sm-6 col-md-7 has_horizontal_local_nav" id="section_header_title">
+<div class="section_header_content">
+<div class="section_header_title">
+<p class="h1"><a xmlns="http://www.w3.org/1999/xhtml" href="../../index.html" class="coming_from_product">文档</a><a xmlns="http://www.w3.org/1999/xhtml" href="../../index.html" class="not_coming_from_product">帮助中心</a></p>
+</div>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-5" id="mobile_search">
+<div class="search_nested_content_container">
+<div id="search_scope_support" class="collapse in"> <form id="docsearch_form" action="/support/search.html" method="get" accept-charset="utf-8" data-release="R2020b" data-language="zh_CN"><div class="input-group"><label class="sr-only">搜索支持</label><input id="docsearch" class="form-control conjoined_search" type="search" name="q" placeholder="搜索支持" autocomplete="off"><div class="input-group-btn"><button type="button" class="btn btn_search_adjacent dropdown-toggle" data-toggle="dropdown"><span class="caret"></span><span class="search_scope_label">支持</span></button><ul class="dropdown-menu list-unstyled dropdown-menu-right" role="menu"><li data-toggle="collapse" data-target="#search_scope_site" class="support_search_scope_trigger"><a href="#">MathWorks</a></li></ul><script>$(".support_search_scope_trigger").click(function() {$("#search_scope_support").removeClass("in");$("#query").val($("#search").val());});</script><button type="submit" name="submitsearch" id="support_submitsearch" class="btn icon-search btn_search_adjacent btn_search icon_16"></button></div></div></form> </div><div id="search_scope_site" class="collapse"> <form name="search" id="site_search" class="site_search" action="/search/site_search.html" method="get"><div class="input-group"><label class="sr-only">搜索 MathWorks</label><input type="hidden" name="c[]" value="entire_site"><input type="search" name="q" id="query" class="form-control conjoined_search" placeholder="搜索 MathWorks" autocomplete="off" \=""><div class="input-group-btn"><button type="button" class="btn btn_search_adjacent dropdown-toggle" data-toggle="dropdown"><span class="caret"></span><span class="search_scope_label">MathWorks</span></button><ul class="dropdown-menu list-unstyled dropdown-menu-right" role="menu"><li data-toggle="collapse" data-target="#search_scope_support" class="site_search_scope_trigger"><a href="#">支持</a></li></ul><script>$(".site_search_scope_trigger").click(function() {$("#search_scope_site").removeClass("in");$("#search").val($("#query").val());});</script><button type="submit" id="searchbutton" class="btn icon-search btn_search_adjacent btn_search icon_16"></button></div></div></form></div>
+</div>
+<button class="btn icon-remove btn_search pull-right icon_32 visible-xs" data-toggle="collapse" href="#mobile_search" aria-expanded="false" aria-controls="mobile_search"><span class="sr-only">Close Mobile Search</span></button>
+</div>
+<div class="visible-xs" id="search_actuator">
+<button class="btn icon-search btn_search pull-right icon_16" data-toggle="collapse" href="#mobile_search" aria-expanded="false" aria-controls="mobile_search"><span class="sr-only">Open Mobile Search</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Section Header: End -->
+<!-- Conjoined Header: End -->
+
+  <div class="row-offcanvas row-offcanvas-left">
+  
+    <div class="sidebar-offcanvas" id="sidebar">
+      <nav class="offcanvas_nav" role="navigation"> 
+      
+        <div class="offcanvas_actuator" data-toggle="offcanvas" data-target="#sidebar" id="nav_toggle">
+          <button type="button" class="btn">
+            <span class="sr-only">Off-Canvas Navigation Menu Toggle</span>
+            <span class="icon-menu"></span>
+          </button>
+          <span class="offcanvas_actuator_label" id="translation_icon-menu" tabindex="-1" aria-hidden="true"></span>
+          <!-- <span class="offcanvas_actuator_close" tabindex="-1" aria-hidden="true"></span> -->
+        </div>
+
+          <div class="nav_list_wrapper" id="nav_list_wrapper">
+            <nav class="offcanvas_nav" role="navigation">
+                <ul xmlns="http://www.w3.org/1999/xhtml" class="nav_breadcrumb" id="ul_left_nav_ancestors"><li itemscope="" itemtype="http://www.data-vocabulary.org/Breadcrumb" itemprop="breadcrumb"><a href="../../index.html?s_tid=CRUX_lftnav" itemprop="url"><span itemprop="title">文档主页</span></a></li></ul>
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav_disambiguation"><li><a href="../index.html?s_tid=CRUX_lftnav">MATLAB</a>
+</li>
+<li itemscope="" itemtype="http://www.data-vocabulary.org/Breadcrumb" itemprop="breadcrumb"><a href="../mathematics.html?s_tid=CRUX_lftnav" itemprop="url"><span itemprop="title">数学</span></a></li><li itemscope="" itemtype="http://www.data-vocabulary.org/Breadcrumb" itemprop="breadcrumb"><a href="../linear-algebra.html?s_tid=CRUX_lftnav" itemprop="url"><span itemprop="title">线性代数</span></a></li></ul><ul xmlns="http://www.w3.org/1999/xhtml" class="nav_scrollspy nav">
+<li class="nav_scrollspy_function"><a href="#responsive_offcanvas"><span class="refname">norm</span></a></li>
+<li class="nav_scrollspy_title" id="SSPY810-refentry">本页内容</li>
+<!--ADD_REFENTRY_TITLE_HERE 11--><li><a href="#d122e835270" class="intrnllnk">语法</a></li><li><a href="#description" class="intrnllnk">说明</a></li><li><a href="#bt0y64b-7" class="intrnllnk">示例</a><ul class="nav"><li><a href="#bt0y64c-1" class="intrnllnk">向量模</a></li></ul><ul class="nav"><li><a href="#mw_42739d32-41f7-4074-b22c-2ac33b6f47e4" class="intrnllnk">向量的 1-范数</a></li></ul><ul class="nav"><li><a href="#mw_c85cbe4a-bca2-4700-9307-00c60bb3d427" class="intrnllnk">两个点之间的欧几里德距离</a></li></ul><ul class="nav"><li><a href="#bt00e3k-1" class="intrnllnk">矩阵的 2-范数</a></li></ul><ul class="nav"><li><a href="#bt00e3t-1" class="intrnllnk">稀疏矩阵的 Frobenius 范数</a></li></ul></li><li><a href="#bt0y64b-5" class="intrnllnk">输入参数</a><ul class="nav"><li><a href="#bt0y64b-1-v" class="intrnllnk">v</a></li><li><a href="#bt0y64b-1-X" class="intrnllnk">X</a></li><li><a href="#bt0y64b-1-p" class="intrnllnk">p</a></li></ul></li><li><a href="#bt0y64b-6" class="intrnllnk">输出参数</a><ul class="nav"><li><a href="#bt0y64b-1-n" class="intrnllnk">n</a></li></ul></li><li><a href="#bvhcu_l-5" class="intrnllnk">详细信息</a><ul class="nav"><li><a href="#bvhji30-1" class="intrnllnk">欧几里德范数</a></li></ul><ul class="nav"><li><a href="#bvhji30-2" class="intrnllnk">常规向量范数</a></li></ul><ul class="nav"><li><a href="#bvhji30-3" class="intrnllnk">最大绝对列之和</a></li></ul><ul class="nav"><li><a href="#bvhji30-4" class="intrnllnk">最大绝对行之和</a></li></ul><ul class="nav"><li><a href="#bvhji30-5" class="intrnllnk">Frobenius 范数</a></li></ul></li><li><a href="#d122e835861" class="intrnllnk">提示</a></li><li><a href="#bvk3zyg-1" class="intrnllnk">扩展功能</a></li><li><a href="#bt0y64b-1_seealso" class="intrnllnk">另请参阅</a></li></ul>
+
+            </nav>
+          </div>
+        
+        <script src="/includes_content/responsive/scripts/offcanvas_v2.js?20150311"></script>
+        
+
+      </nav>       
+    </div>
+
+    <!-- MOBILE CTA - Begin -->
+    <!-- MOBILE CTA - End -->
+
+
+    <div class="offcanvas_content_container">
+
+      <div class="sticky_header_container">
+        <div class="horizontal_nav">
+          <div class="horizontal_nav_container">
+            <div class="offcanvas_horizontal_nav">
+              <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-md-7 col-lg-8 hidden-xs">
+                    
+                    <script>
+                      var translateMore = translateMore || {};
+                      translateMore.locale = "更多"; 
+                    </script>
+
+                    <nav class="navbar navbar-default" role="navigation" id="subnav">
+                      <div>
+                          <ul class="nav navbar-nav crux_browse">
+                        <li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_documentation" class="crux_resource active"><a class="not_coming_from_product">文档</a><a class="coming_from_product">所有</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_example" class="crux_resource"><a href="../examples.html?category=linear-algebra&amp;s_tid=CRUX_topnav">示例</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_function" class="crux_resource"><a href="../referencelist.html?type=function&amp;category=linear-algebra&amp;s_tid=CRUX_topnav">函数</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_videos" class="supplemental_crux_resource"><a href="/support/search.html?fq=asset_type_name:video%20category:matlab/linear-algebra&amp;s_tid=CRUX_topnav" class="not_coming_from_product">视频</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_answers" class="supplemental_crux_resource"><a href="/support/search.html?fq=asset_type_name:answer%20category:matlab/linear-algebra&amp;s_tid=CRUX_topnav" class="not_coming_from_product">MATLAB Answers</a></li>
+                        </ul>
+                      </div>
+                    </nav>
+                  </div>
+                    <div class="col-md-5 col-lg-4 hidden-xs hidden-sm">
+                      <div class="cta_box">
+<ul class="list-inline">
+<li class="cta_item cta_item_general hidden-sm hidden-xs "><a href="/campaigns/products/trials.html?prodcode=ML&amp;s_iid=doc_trial_ML_tb" class="icon-download">试用版</a></li>
+<li class="hidden-lg hidden-md "><a href="/campaigns/products/trials.html?prodcode=ML&amp;s_iid=doc_trial_ML_tb" class="btn btn_color_blue btn-block"><span class="icon-download"></span> 试用版</a></li>
+<li class="cta_item cta_item_general hidden-sm hidden-xs "><a href="/support/web_downloads_bounce.html?s_cid=1008_degr_docdn_270055" class="icon-download">产品更新</a></li>
+<li class="hidden-lg hidden-md "><a href="/support/web_downloads_bounce.html?s_cid=1008_degr_docdn_270055" class="btn btn_color_blue btn-block"><span class="icon-download"></span> 产品更新</a></li>
+</ul>
+</div>
+                    </div>
+                  <!-- Mobile CRUX Nav: START -->
+                  <div class="visible-xs">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-xs-9"> 
+                          <div class="mobile_crux_nav_trigger">
+                            <!-- Single button -->
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                资源 <span class="icon-arrow-down icon_16"></span>  
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_documentation" class="crux_resource active"><a class="not_coming_from_product">文档</a><a class="coming_from_product">所有</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_example" class="crux_resource"><a href="../examples.html?category=linear-algebra&amp;s_tid=CRUX_topnav">示例</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_function" class="crux_resource"><a href="../referencelist.html?type=function&amp;category=linear-algebra&amp;s_tid=CRUX_topnav">函数</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_videos" class="supplemental_crux_resource"><a href="/support/search.html?fq=asset_type_name:video%20category:matlab/linear-algebra&amp;s_tid=CRUX_topnav" class="not_coming_from_product">视频</a></li><li xmlns="http://www.w3.org/1999/xhtml" id="crux_nav_answers" class="supplemental_crux_resource"><a href="/support/search.html?fq=asset_type_name:answer%20category:matlab/linear-algebra&amp;s_tid=CRUX_topnav" class="not_coming_from_product">MATLAB Answers</a></li>
+                              </ul>
+                            </div>
+                            <!-- Single button -->                      
+                          </div>
+                        </div>
+                        <div class="col-xs-3">
+                          <div class="translate_placeholder"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Mobile CRUX Nav: END -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content_container" id="content_container" tabindex="-1">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12">
+              <div id="offcanvas_focus_actuator" tabindex="0" class="visible-xs"><span class="sr-only">Main Content</span></div>
+                         
+
+
+
+
+
+                         
+    
+               
+<section xmlns="http://www.w3.org/1999/xhtml" id="doc_center_content" itemprop="content" lang="zh_CN"><div id="pgtype-ref-function"><div class="function_ref"><!-- translationrelease="R2020a", translationstatus="Final" --><p>本页对应的英文页面已更新，但尚未翻译。 <a href="norm.html?lang=en" rel="nofollow">若要查看最新内容，请点击此处访问英文页面。</a></p><span id="bt0y64b-1" class="anchor_target"></span><h1 class="r2020a" itemprop="title"><span class="refname">norm</span></h1><div class="doc_topic_desc"><div class="purpose_container"><p itemprop="purpose">向量范数和矩阵范数</p><div class="switch"><a href="javascript:void(0);" id="expandAllPage" data-allexpanded="true1">全页折叠</a></div></div></div>
+<div class="ref_sect"><h2 id="d122e835270">语法</h2><div class="syntax_signature"><div class="syntax_signature_module"><div class="code_responsive"><code class="synopsis"><a href="#d122e835279" class="intrnllnk">n = norm(v)</a></code></div><div class="code_responsive"><code class="synopsis"><a href="#d122e835300" class="intrnllnk">n = norm(v,p)</a></code></div></div><div class="syntax_signature_module"><div class="code_responsive"><code class="synopsis"><a href="#d122e835323" class="intrnllnk">n = norm(X)</a></code></div><div class="code_responsive"><code class="synopsis"><a href="#d122e835343" class="intrnllnk">n = norm(X,p)</a></code></div><div class="code_responsive"><code class="synopsis"><a href="#d122e835406" class="intrnllnk">n = norm(X,'fro')</a></code></div></div></div></div><div class="clear"></div><span id="bt0y64b-2" class="anchor_target"></span><h2 id="description">说明</h2><div class="descriptions"><div class="description_module"><span id="bunpdnb" class="anchor_target"></span>
+            <div class="description_element"><p class="syntax_example"><a href="norm.html#bt0y64c-1" class="intrnllnk">示例</a></p><div class="code_responsive"><p><span id="d122e835279" itemprop="syntax"><code class="synopsis"><a href="#bt0y64b-1-n" class="intrnllnk"><code class="argument">n</code></a> = norm(<a href="#bt0y64b-1-v" class="intrnllnk"><code class="argument">v</code></a>)</code></span> 返回向量 <code class="literal">v</code> 的<a href="norm.html#bvhji30-1" class="intrnllnk">欧几里德范数</a>。此范数也称为 2-范数、向量模或欧几里德长度。</p></div></div>
+            <div class="description_element"><p class="syntax_example"><a href="norm.html#bt0y64c-1" class="intrnllnk">示例</a></p><div class="code_responsive"><p><span id="d122e835300" itemprop="syntax"><code class="synopsis"><a href="#bt0y64b-1-n" class="intrnllnk"><code class="argument">n</code></a> = norm(<a href="#bt0y64b-1-v" class="intrnllnk"><code class="argument">v</code></a>,<a href="#bt0y64b-1-p" class="intrnllnk"><code class="argument">p</code></a>)</code></span> 返回<a href="norm.html#bvhji30-2" class="intrnllnk">广义向量 p-范数</a>。</p></div></div>
+        </div><div class="description_module"><span id="bt0y64b-3" class="anchor_target"></span>
+            <div class="description_element"><p class="syntax_example"><a href="norm.html#bt00e3k-1" class="intrnllnk">示例</a></p><div class="code_responsive"><p><span id="d122e835323" itemprop="syntax"><code class="synopsis"><a href="#bt0y64b-1-n" class="intrnllnk"><code class="argument">n</code></a> = norm(<a href="#bt0y64b-1-X" class="intrnllnk"><code class="argument">X</code></a>)</code></span> 返回矩阵 <code class="literal">X</code> 的 2-范数或最大奇异值，该值近似于 <code class="literal">max(svd(X))</code>。</p></div></div>
+            <div class="description_element"><p class="syntax_example"><a href="norm.html#bt00e3k-1" class="intrnllnk">示例</a></p><div class="code_responsive"><p><span id="d122e835343" itemprop="syntax"><code class="synopsis"><a href="#bt0y64b-1-n" class="intrnllnk"><code class="argument">n</code></a> = norm(<a href="#bt0y64b-1-X" class="intrnllnk"><code class="argument">X</code></a>,<a href="#bt0y64b-1-p" class="intrnllnk"><code class="argument">p</code></a>)</code></span> 返回矩阵 <code class="literal">X</code> 的 p-范数，其中 <code class="literal">p</code> 为 <code class="literal">1</code>、<code class="literal">2</code> 或 <code class="literal">Inf</code>：</p>
+<div class="itemizedlist"><ul><li><p>如果 <code class="literal">p = 1</code>，则 <code class="literal">n</code> 是矩阵的<a href="norm.html#bvhji30-3" class="intrnllnk">最大绝对列之和</a>。</p></li><li><p>如果 <code class="literal">p = 2</code>，则 <code class="literal">n</code> 近似于 <code class="literal">max(svd(X))</code>。这相当于 <code class="literal">norm(X)</code>。</p></li><li><p>如果 <code class="literal">p = Inf</code>，则 <code class="literal">n</code> 是矩阵的<a href="norm.html#bvhji30-4" class="intrnllnk">最大绝对行之和</a>。</p></li></ul></div><p>
+</p></div></div>
+            <div class="description_element"><p class="syntax_example"><a href="norm.html#bt00e3t-1" class="intrnllnk">示例</a></p><div class="code_responsive"><p><span id="d122e835406" itemprop="syntax"><code class="synopsis"><a href="#bt0y64b-1-n" class="intrnllnk"><code class="argument">n</code></a> = norm(<a href="#bt0y64b-1-X" class="intrnllnk"><code class="argument">X</code></a>,'fro')</code></span> 返回矩阵 <code class="literal">X</code> 的 <a href="norm.html#bvhji30-5" class="intrnllnk">Frobenius 范数</a>。</p></div></div>
+        </div></div><div class="clear"></div><div class="examples"><h2 id="bt0y64b-7">示例</h2><div class="expandableContent" id="expandableExamples"><p class="switch"><a href="javascript:void(0);" class="expandAllLink" data-allexpanded="true3">全部折叠</a></p><div class="panel-group" role="tablist" aria-multiselectable="true" id="expand_panel_heading_bt0y64c-1"><div class="panel panel-default "><div role="tab" data-toggle="collapse" id="expand_panel_heading_bt0y64c-1" data-target="#expand_panel_body_bt0y64c-1" aria-controls="expand_panel_body_bt0y64c-1" class="panel-heading add_cursor_pointer" aria-expanded="true"><h3 class="panel-title" id="bt0y64c-1">向量模<br/> </h3><span class="icon-arrow-open-down icon_24"></span><span class="icon-arrow-open-right icon_24"></span></div><div role="tabpanel" id="expand_panel_body_bt0y64c-1" aria-labelledby="expand_panel_heading_bt0y64c-1" class="panel-collapse collapse in"><div class="panel-body"><div class="examples_short_list hidden_ios_android"><div data-pane="metadata" class="panel metadata_container panel-default"><div class="panel-body metadata_content"><a class="btn btn_secondary btn-block" href="matlab:openExample('matlab/VectorMagnitudeExample')">打开实时脚本</a></div></div></div><script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "DigitalDocument",
+          "headline": "向量模",
+          "description": "",
+          "thumbnailURL": "../../includes/product/images/doc_center/DefaultImage.png",
+          "genre": "Live Script",
+          "isBasedOn": {
+          "@type": "Product",
+          "name": "MATLAB"
+
+        },
+          "isPartOf": {
+          "@type": "CreativeWork",
+          "url": "norm.html"
+
+        },
+          "identifier": "matlab.VectorMagnitudeExample",
+          "name": "VectorMagnitudeExample",
+          "url": "norm.html#bt0y64c-1"
+
+        }</script><script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "PropertyValue",
+          "name": "open_command",
+          "value": "matlab:openExample('matlab/VectorMagnitudeExample')"
+
+        }</script><script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "ItemList",
+          "name": "ExampleSourceFiles",
+
+        "itemListElement":
+        [
+        "VectorMagnitudeExample.mlx"
+        ],
+        "itemListOrder": "http://schema.org/ItemListOrderAscending"
+        }
+        </script><p class="shortdesc">创建一个向量并计算模。</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>v = [1 -2 3];
+n = norm(v)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>n = 3.7417
+</pre></div></div></div><div class="procedure"></div></div></div></div></div><div itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/Example" itemprop="example" class="em_example"><meta itemprop="exampleid" content="matlab-VectorMagnitudeExample"></meta><meta itemprop="exampletitle" content="Vector Magnitude"></meta></div><div class="panel-group" role="tablist" aria-multiselectable="true" id="expand_panel_heading_mw_42739d32-41f7-4074-b22c-2ac33b6f47e4"><div class="panel panel-default "><div role="tab" data-toggle="collapse" id="expand_panel_heading_mw_42739d32-41f7-4074-b22c-2ac33b6f47e4" data-target="#expand_panel_body_mw_42739d32-41f7-4074-b22c-2ac33b6f47e4" aria-controls="expand_panel_body_mw_42739d32-41f7-4074-b22c-2ac33b6f47e4" class="panel-heading add_cursor_pointer" aria-expanded="true"><h3 class="panel-title" id="mw_42739d32-41f7-4074-b22c-2ac33b6f47e4">向量的 1-范数<br/> </h3><span class="icon-arrow-open-down icon_24"></span><span class="icon-arrow-open-right icon_24"></span></div><div role="tabpanel" id="expand_panel_body_mw_42739d32-41f7-4074-b22c-2ac33b6f47e4" aria-labelledby="expand_panel_heading_mw_42739d32-41f7-4074-b22c-2ac33b6f47e4" class="panel-collapse collapse in"><div class="panel-body"><div class="examples_short_list hidden_ios_android"><div data-pane="metadata" class="panel metadata_container panel-default"><div class="panel-body metadata_content"><a class="btn btn_secondary btn-block" href="matlab:openExample('matlab/NormOfVectorExample')">打开实时脚本</a></div></div></div><script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "DigitalDocument",
+          "headline": "向量的 1-范数",
+          "description": "",
+          "thumbnailURL": "../../includes/product/images/doc_center/DefaultImage.png",
+          "genre": "Live Script",
+          "isBasedOn": {
+          "@type": "Product",
+          "name": "MATLAB"
+
+        },
+          "isPartOf": {
+          "@type": "CreativeWork",
+          "url": "norm.html"
+
+        },
+          "identifier": "matlab.NormOfVectorExample",
+          "name": "NormOfVectorExample",
+          "url": "norm.html#mw_42739d32-41f7-4074-b22c-2ac33b6f47e4"
+
+        }</script><script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "PropertyValue",
+          "name": "open_command",
+          "value": "matlab:openExample('matlab/NormOfVectorExample')"
+
+        }</script><script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "ItemList",
+          "name": "ExampleSourceFiles",
+
+        "itemListElement":
+        [
+        "NormOfVectorExample.mlx"
+        ],
+        "itemListOrder": "http://schema.org/ItemListOrderAscending"
+        }
+        </script><p class="shortdesc">计算向量的 1-范数，该范数为元素模的总和。</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>X = [-2 3 -1];
+n = norm(X,1)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>n = 6
+</pre></div></div></div><div class="procedure"></div></div></div></div></div><div itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/Example" itemprop="example" class="em_example"><meta itemprop="exampleid" content="matlab-NormOfVectorExample"></meta><meta itemprop="exampletitle" content="1Norm of Vector"></meta></div><div class="panel-group" role="tablist" aria-multiselectable="true" id="expand_panel_heading_mw_c85cbe4a-bca2-4700-9307-00c60bb3d427"><div class="panel panel-default "><div role="tab" data-toggle="collapse" id="expand_panel_heading_mw_c85cbe4a-bca2-4700-9307-00c60bb3d427" data-target="#expand_panel_body_mw_c85cbe4a-bca2-4700-9307-00c60bb3d427" aria-controls="expand_panel_body_mw_c85cbe4a-bca2-4700-9307-00c60bb3d427" class="panel-heading add_cursor_pointer" aria-expanded="true"><h3 class="panel-title" id="mw_c85cbe4a-bca2-4700-9307-00c60bb3d427">两个点之间的欧几里德距离<br/> </h3><span class="icon-arrow-open-down icon_24"></span><span class="icon-arrow-open-right icon_24"></span></div><div role="tabpanel" id="expand_panel_body_mw_c85cbe4a-bca2-4700-9307-00c60bb3d427" aria-labelledby="expand_panel_heading_mw_c85cbe4a-bca2-4700-9307-00c60bb3d427" class="panel-collapse collapse in"><div class="panel-body"><div class="examples_short_list hidden_ios_android"><div data-pane="metadata" class="panel metadata_container panel-default"><div class="panel-body metadata_content"><a class="btn btn_secondary btn-block" href="matlab:openExample('matlab/EuclideanDistanceBetweenTwoPointsExample')">打开实时脚本</a></div></div></div><script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "DigitalDocument",
+          "headline": "两个点之间的欧几里德距离",
+          "description": "",
+          "thumbnailURL": "../../includes/product/images/doc_center/DefaultImage.png",
+          "genre": "Live Script",
+          "isBasedOn": {
+          "@type": "Product",
+          "name": "MATLAB"
+
+        },
+          "isPartOf": {
+          "@type": "CreativeWork",
+          "url": "norm.html"
+
+        },
+          "identifier": "matlab.EuclideanDistanceBetweenTwoPointsExample",
+          "name": "EuclideanDistanceBetweenTwoPointsExample",
+          "url": "norm.html#mw_c85cbe4a-bca2-4700-9307-00c60bb3d427"
+
+        }</script><script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "PropertyValue",
+          "name": "open_command",
+          "value": "matlab:openExample('matlab/EuclideanDistanceBetweenTwoPointsExample')"
+
+        }</script><script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "ItemList",
+          "name": "ExampleSourceFiles",
+
+        "itemListElement":
+        [
+        "EuclideanDistanceBetweenTwoPointsExample.mlx"
+        ],
+        "itemListOrder": "http://schema.org/ItemListOrderAscending"
+        }
+        </script><p class="shortdesc">计算两个点之间的距离作为向量元素之差的范数。</p><p>创建两个向量，表示欧几里德平面上两个点的 (x,y) 坐标。</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>a = [0 3];
+b = [-2 1];</pre></div></div></div><p> 使用 <code class="literal">norm</code> 来计算点之间的距离。</p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>d = norm(b-a)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>d = 2.8284
+</pre></div></div></div><p>在几何学上，点之间的距离等于从一个点延伸到另一个点的向量的模。</p><p></p>
+<div class="code_responsive"><p class="programlistingindent"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mtable columnalign="left"><mtr><mtd><mrow><mi>a</mi><mo>=</mo><mn>0</mn><munderover accent="true"><mrow><mi>i</mi></mrow><mrow></mrow><mrow><mo>ˆ</mo></mrow></munderover><mo>+</mo><mn>3</mn><munderover accent="true"><mrow><mi>j</mi></mrow><mrow></mrow><mrow><mo>ˆ</mo></mrow></munderover></mrow></mtd></mtr><mtr><mtd><mrow><mi>b</mi><mo>=</mo><mo>-</mo><mn>2</mn><munderover accent="true"><mrow><mi>i</mi></mrow><mrow></mrow><mrow><mo>ˆ</mo></mrow></munderover><mo>+</mo><mn>1</mn><munderover accent="true"><mrow><mi>j</mi></mrow><mrow></mrow><mrow><mo>ˆ</mo></mrow></munderover></mrow></mtd></mtr><mtr><mtd><mrow></mrow></mtd></mtr><mtr><mtd><mrow><mtable columnalign="right left"><mtr><mtd><mrow><msub><mrow><mi>d</mi></mrow><mrow><mo stretchy="false">(</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo stretchy="false">)</mo></mrow></msub></mrow></mtd><mtd><mrow><mo>=</mo><mo>|</mo><mo>|</mo><mi>b</mi><mo>-</mo><mi>a</mi><mo>|</mo><mo>|</mo></mrow></mtd></mtr><mtr><mtd><mrow></mrow></mtd><mtd><mrow><mo>=</mo><msqrt><mrow><mo stretchy="false">(</mo><mo>-</mo><mn>2</mn><mo>-</mo><mn>0</mn><msup><mrow><mo stretchy="false">)</mo></mrow><mrow><mn>2</mn></mrow></msup><mo>+</mo><mo stretchy="false">(</mo><mn>1</mn><mo>-</mo><mn>3</mn><msup><mrow><mo stretchy="false">)</mo></mrow><mrow><mn>2</mn></mrow></msup></mrow></msqrt></mrow></mtd></mtr><mtr><mtd><mrow></mrow></mtd><mtd><mrow><mo>=</mo><msqrt><mrow><mn>8</mn></mrow></msqrt></mrow></mtd></mtr></mtable></mrow></mtd></mtr></mtable></mrow></math></p></div><p></p><div class="procedure"></div></div></div></div></div><div itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/Example" itemprop="example" class="em_example"><meta itemprop="exampleid" content="matlab-EuclideanDistanceBetweenTwoPointsExample"></meta><meta itemprop="exampletitle" content="Euclidean Distance Between Two Points"></meta></div><div class="panel-group" role="tablist" aria-multiselectable="true" id="expand_panel_heading_bt00e3k-1"><div class="panel panel-default "><div role="tab" data-toggle="collapse" id="expand_panel_heading_bt00e3k-1" data-target="#expand_panel_body_bt00e3k-1" aria-controls="expand_panel_body_bt00e3k-1" class="panel-heading add_cursor_pointer" aria-expanded="true"><h3 class="panel-title" id="bt00e3k-1">矩阵的 2-范数<br/> </h3><span class="icon-arrow-open-down icon_24"></span><span class="icon-arrow-open-right icon_24"></span></div><div role="tabpanel" id="expand_panel_body_bt00e3k-1" aria-labelledby="expand_panel_heading_bt00e3k-1" class="panel-collapse collapse in"><div class="panel-body"><div class="examples_short_list hidden_ios_android"><div data-pane="metadata" class="panel metadata_container panel-default"><div class="panel-body metadata_content"><a class="btn btn_secondary btn-block" href="matlab:openExample('matlab/TwoNormOfMatrixExample')">打开实时脚本</a></div></div></div><script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "DigitalDocument",
+          "headline": "矩阵的 2-范数",
+          "description": "",
+          "thumbnailURL": "../../includes/product/images/doc_center/DefaultImage.png",
+          "genre": "Live Script",
+          "isBasedOn": {
+          "@type": "Product",
+          "name": "MATLAB"
+
+        },
+          "isPartOf": {
+          "@type": "CreativeWork",
+          "url": "norm.html"
+
+        },
+          "identifier": "matlab.TwoNormOfMatrixExample",
+          "name": "TwoNormOfMatrixExample",
+          "url": "norm.html#bt00e3k-1"
+
+        }</script><script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "PropertyValue",
+          "name": "open_command",
+          "value": "matlab:openExample('matlab/TwoNormOfMatrixExample')"
+
+        }</script><script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "ItemList",
+          "name": "ExampleSourceFiles",
+
+        "itemListElement":
+        [
+        "TwoNormOfMatrixExample.mlx"
+        ],
+        "itemListOrder": "http://schema.org/ItemListOrderAscending"
+        }
+        </script><p class="shortdesc">计算矩阵的 2-范数，该范数为最大奇异值。 </p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>X = [2 0 1;-1 1 0;-3 3 0];
+n = norm(X)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>n = 4.7234
+</pre></div></div></div><div class="procedure"></div></div></div></div></div><div itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/Example" itemprop="example" class="em_example"><meta itemprop="exampleid" content="matlab-TwoNormOfMatrixExample"></meta><meta itemprop="exampletitle" content="2Norm of Matrix"></meta></div><div class="panel-group" role="tablist" aria-multiselectable="true" id="expand_panel_heading_bt00e3t-1"><div class="panel panel-default "><div role="tab" data-toggle="collapse" id="expand_panel_heading_bt00e3t-1" data-target="#expand_panel_body_bt00e3t-1" aria-controls="expand_panel_body_bt00e3t-1" class="panel-heading add_cursor_pointer" aria-expanded="true"><h3 class="panel-title" id="bt00e3t-1">稀疏矩阵的 Frobenius 范数<br/> </h3><span class="icon-arrow-open-down icon_24"></span><span class="icon-arrow-open-right icon_24"></span></div><div role="tabpanel" id="expand_panel_body_bt00e3t-1" aria-labelledby="expand_panel_heading_bt00e3t-1" class="panel-collapse collapse in"><div class="panel-body"><div class="examples_short_list hidden_ios_android"><div data-pane="metadata" class="panel metadata_container panel-default"><div class="panel-body metadata_content"><a class="btn btn_secondary btn-block" href="matlab:openExample('matlab/FrobeniusNormofSparseMatrixExample')">打开实时脚本</a></div></div></div><script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "DigitalDocument",
+          "headline": "稀疏矩阵的 Frobenius 范数",
+          "description": "",
+          "thumbnailURL": "../../includes/product/images/doc_center/DefaultImage.png",
+          "genre": "Live Script",
+          "isBasedOn": {
+          "@type": "Product",
+          "name": "MATLAB"
+
+        },
+          "isPartOf": {
+          "@type": "CreativeWork",
+          "url": "norm.html"
+
+        },
+          "identifier": "matlab.FrobeniusNormofSparseMatrixExample",
+          "name": "FrobeniusNormofSparseMatrixExample",
+          "url": "norm.html#bt00e3t-1"
+
+        }</script><script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "PropertyValue",
+          "name": "open_command",
+          "value": "matlab:openExample('matlab/FrobeniusNormofSparseMatrixExample')"
+
+        }</script><script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "ItemList",
+          "name": "ExampleSourceFiles",
+
+        "itemListElement":
+        [
+        "FrobeniusNormofSparseMatrixExample.mlx"
+        ],
+        "itemListOrder": "http://schema.org/ItemListOrderAscending"
+        }
+        </script><p class="shortdesc">使用 <code class="literal">'fro'</code> 计算一个稀疏矩阵的 Frobenius 范数，该稀疏矩阵计算列向量 <code class="literal">S(:)</code> 的 2-范数。 </p><div class="code_responsive"><div class="programlisting"><div class="codeinput"><pre>S = sparse(1:25,1:25,1);
+n = norm(S,<span style="color:#A020F0">'fro'</span>)</pre></div></div></div><div class="code_responsive"><div class="programlisting"><div class="codeoutput"><pre>n = 5
+</pre></div></div></div><div class="procedure"></div></div></div></div></div><div itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/Example" itemprop="example" class="em_example"><meta itemprop="exampleid" content="matlab-FrobeniusNormofSparseMatrixExample"></meta><meta itemprop="exampletitle" content="Frobenius Norm of Sparse Matrix"></meta></div></div></div><div class="ref_sect"><h2 id="bt0y64b-5">输入参数</h2><div class="expandableContent"><p class="switch "><a href="javascript:void(0);" class="expandAllLink" data-allexpanded="true">全部折叠</a></p><div class="panel-group" id="bt0y64b-5_panel-group" role="tablist" aria-multiselectable="true"><div class="panel-group" role="tablist" aria-multiselectable="true"><div class="panel panel-default "><div itemscope="" itemprop="inputargument" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/NamedInputArgument" itemid="bt0y64b-1-v"><div role="tab" data-toggle="collapse" id="expand_panel_heading_bt0y64b-1-v" data-target="#expand_panel_body_bt0y64b-1-v" aria-controls="expand_panel_body_bt0y64b-1-v" class="panel-heading add_cursor_pointer" aria-expanded="true"><span id="inputarg_v" class="anchor_target"></span><h3 class="panel-title" id="bt0y64b-1-v"><code itemprop="name">v</code> - <span itemprop="purpose">输入向量</span><br/> <span class="add_font_color_general remove_bold"><span class="example_desc"><span itemprop="inputvalue">向量</span></span></span></h3><span class="icon-arrow-open-down icon_24"></span><span class="icon-arrow-open-right icon_24"></span></div><div role="tabpanel" id="expand_panel_body_bt0y64b-1-v" aria-labelledby="expand_panel_heading_bt0y64b-1-v" class="panel-collapse collapse in"><div class="panel-body">
+                    <p>输入向量。</p>
+                <p class="datatypelist"><strong>数据类型： </strong><code itemprop="datatype">single</code> | <code itemprop="datatype">double</code><br/>
+<strong>复数支持： </strong>是</p></div></div></div></div></div><div class="panel-group" role="tablist" aria-multiselectable="true"><div class="panel panel-default "><div itemscope="" itemprop="inputargument" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/NamedInputArgument" itemid="bt0y64b-1-X"><div role="tab" data-toggle="collapse" id="expand_panel_heading_bt0y64b-1-X" data-target="#expand_panel_body_bt0y64b-1-X" aria-controls="expand_panel_body_bt0y64b-1-X" class="panel-heading add_cursor_pointer" aria-expanded="true"><span id="inputarg_X" class="anchor_target"></span><h3 class="panel-title" id="bt0y64b-1-X"><code itemprop="name">X</code> - <span itemprop="purpose">输入矩阵</span><br/> <span class="add_font_color_general remove_bold"><span class="example_desc"><span itemprop="inputvalue">矩阵</span></span></span></h3><span class="icon-arrow-open-down icon_24"></span><span class="icon-arrow-open-right icon_24"></span></div><div role="tabpanel" id="expand_panel_body_bt0y64b-1-X" aria-labelledby="expand_panel_heading_bt0y64b-1-X" class="panel-collapse collapse in"><div class="panel-body">
+                    <p>输入矩阵。</p>
+                <p class="datatypelist"><strong>数据类型： </strong><code itemprop="datatype">single</code> | <code itemprop="datatype">double</code><br/>
+<strong>复数支持： </strong>是</p></div></div></div></div></div><div class="panel-group" role="tablist" aria-multiselectable="true"><div class="panel panel-default "><div itemscope="" itemprop="inputargument" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/NamedInputArgument" itemid="bt0y64b-1-p"><div role="tab" data-toggle="collapse" id="expand_panel_heading_bt0y64b-1-p" data-target="#expand_panel_body_bt0y64b-1-p" aria-controls="expand_panel_body_bt0y64b-1-p" class="panel-heading add_cursor_pointer" aria-expanded="true"><span id="inputarg_p" class="anchor_target"></span><h3 class="panel-title" id="bt0y64b-1-p"><code itemprop="name">p</code> - <span itemprop="purpose">范数类型</span><br/> <span class="add_font_color_general remove_bold"><span class="example_desc"><span itemprop="inputvalue defaultvalue">2</span> （默认） | <span itemprop="inputvalue">正整数标量</span> | <span itemprop="inputvalue"><code class="literal">Inf</code></span> | <span itemprop="inputvalue"><code class="literal remove_text_wrapping">-Inf</code></span></span></span></h3><span class="icon-arrow-open-down icon_24"></span><span class="icon-arrow-open-right icon_24"></span></div><div role="tabpanel" id="expand_panel_body_bt0y64b-1-p" aria-labelledby="expand_panel_heading_bt0y64b-1-p" class="panel-collapse collapse in"><div class="panel-body">
+                    <p>范数类型，指定为 <code class="literal">2</code>（默认值）、不同正整数标量、<code class="literal">Inf</code> 或 <code class="literal remove_text_wrapping">-Inf</code>。<code class="literal">p</code> 的有效值及其返回的内容取决于 <code class="literal">norm</code> 的第一个输入为矩阵还是向量，如表中所示。</p>
+                    <div class="alert alert-info"><span class="alert_icon icon-alert-info-reverse"></span><p class="alert_heading"><strong>注意</strong></p><p>此表并未反映计算所用的实际算法。</p></div>
+                    <div class="table-responsive"><table class="table table-condensed"><colgroup><col class="tcol1" width="33%"></col><col class="tcol2" width="33%"></col><col class="tcol3" width="33%"></col></colgroup><thead><tr><th>p</th><th>矩阵</th><th>向量</th></tr></thead><tbody><tr><td><code class="literal">1</code></td><td><code class="literal">max(sum(abs(X)))</code></td><td><code class="literal">sum(abs(X))</code></td></tr><tr><td><code class="literal">2</code>
+                                    </td><td><code class="literal">max(svd(X))</code></td><td><code class="literal">sum(abs(X).^2)^(1/2)</code></td></tr><tr><td>正的实数值 <code class="literal">p</code></td><td>&#8212;</td><td><code class="literal">sum(abs(X).^p)^(1/p)</code></td></tr><tr><td><code class="literal">Inf</code></td><td><code class="literal">max(sum(abs(X')))</code></td><td><code class="literal">max(abs(X))</code></td></tr><tr><td><code class="literal remove_text_wrapping">-Inf</code></td><td>&#8212;</td><td><code class="literal">min(abs(X))</code></td></tr></tbody></table></div>
+                </div></div></div></div></div></div></div></div><div class="ref_sect"><h2 id="bt0y64b-6">输出参数</h2><div class="expandableContent"><p class="switch "><a href="javascript:void(0);" class="expandAllLink" data-allexpanded="true">全部折叠</a></p><div class="panel-group" id="bt0y64b-6_panel-group" role="tablist" aria-multiselectable="true"><div class="panel-group" role="tablist" aria-multiselectable="true"><div class="panel panel-default "><div role="tab" data-toggle="collapse" id="expand_panel_heading_bt0y64b-1-n" data-target="#expand_panel_body_bt0y64b-1-n" aria-controls="expand_panel_body_bt0y64b-1-n" class="panel-heading add_cursor_pointer" aria-expanded="true"><span id="outputarg_n" class="anchor_target"></span><h3 class="panel-title" id="bt0y64b-1-n"><code class="name">n</code> - 矩阵或向量范数<br/> <span class="add_font_color_general remove_bold"><span class="example_desc">标量</span></span></h3><span class="icon-arrow-open-down icon_24"></span><span class="icon-arrow-open-right icon_24"></span></div><div role="tabpanel" id="expand_panel_body_bt0y64b-1-n" aria-labelledby="expand_panel_heading_bt0y64b-1-n" class="panel-collapse collapse in"><div class="panel-body">
+                    <p>矩阵或向量范数，返回为标量。范数为元素模的测度。按照惯例，如果输入包含 <code class="function">NaN</code> 值，<code class="function">norm</code> 将返回 <code class="function">NaN</code>。</p>
+                </div></div></div></div></div></div></div><div class="moreabout ref_sect"><h2 id="bvhcu_l-5">详细信息</h2><div class="expandableContent"><p class="switch"><a href="javascript:void(0);" class="expandAllLink" data-allexpanded="true2">全部折叠</a></p><div class="expand_collapse"><h3 class="expand_trigger" id="bvhji30-1" aria-expanded="true" data-toggle="collapse" data-target="#expand_body_bvhji30-1" aria-controls="expand_body_bvhji30-1"><span class="icon-arrow-open-down"></span><span class="icon-arrow-open-right"></span>欧几里德范数</h3><div id="expand_body_bvhji30-1" class="collapsible_content collapse in" aria-expanded="true"><p class="shortdesc">具有 <code class="literal">N</code> 个元素的向量 <code class="literal">v</code> 的欧几里德范数（也称为向量模、欧几里德长度或 2-范数）的定义如下：</p>
+<div id="d122e835883" class="mediaobject"><div class="code_responsive"><p class="programlistingindent"><math xmlns="http://www.w3.org/1998/Math/MathML" altimg-valign="-21px" display="block"><mrow><mrow><mo>‖</mo><mi>v</mi><mo>‖</mo></mrow><mo>=</mo><msqrt><mrow><mstyle displaystyle="true"><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><mrow><msup><mrow><mrow><mo>|</mo><mrow><msub><mi>v</mi><mi>k</mi></msub></mrow><mo>|</mo></mrow></mrow><mn>2</mn></msup></mrow></mstyle></mrow></msqrt><mtext> </mtext><mo>.</mo></mrow></math></p></div></div><p></p></div></div><div class="expand_collapse"><h3 class="expand_trigger" id="bvhji30-2" aria-expanded="true" data-toggle="collapse" data-target="#expand_body_bvhji30-2" aria-controls="expand_body_bvhji30-2"><span class="icon-arrow-open-down"></span><span class="icon-arrow-open-right"></span>常规向量范数</h3><div id="expand_body_bvhji30-2" class="collapsible_content collapse in" aria-expanded="true"><p class="shortdesc">具有 <code class="literal">N</code> 个元素的向量 <code class="literal">v</code> 的 p-范数的常规定义是 </p>
+<div id="d122e835895" class="mediaobject"><div class="code_responsive"><p class="programlistingindent"><math xmlns="http://www.w3.org/1998/Math/MathML" altimg-valign="-21px" display="block"><mrow><msub><mrow><mrow><mo>‖</mo><mi>v</mi><mo>‖</mo></mrow></mrow><mi>p</mi></msub><mo>=</mo><msup><mrow><mrow><mo>[</mo><mrow><mstyle displaystyle="true"><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><mrow><msup><mrow><mrow><mo>|</mo><mrow><msub><mi>v</mi><mi>k</mi></msub></mrow><mo>|</mo></mrow></mrow><mi>p</mi></msup></mrow></mstyle></mrow><mo>]</mo></mrow></mrow><mrow><mtext> </mtext><mn>1</mn><mo>/</mo><mi>p</mi></mrow></msup><mtext> </mtext><mo>,</mo></mrow></math></p></div></div><p>，其中 <code class="literal">p</code> 是任何正的实数值、<code class="literal">Inf</code> 或 <code class="literal remove_text_wrapping">-Inf</code>。一些值得关注的 <code class="literal">p</code> 值包括：</p><div class="itemizedlist"><ul><li><p>如果 <code class="literal">p = 1</code>，则所得的 1-范数是向量元素的绝对值之和。</p></li><li><p>如果 <code class="literal">p = 2</code>，则所得的 2-范数是向量的模或欧几里德长度。</p></li><li><p>如果 <code class="literal">p = Inf</code>，则 <span class="inlineequation"><span class="inlinemediaobject"><math xmlns="http://www.w3.org/1998/Math/MathML" altimg-valign="-11px" display="block"><mrow><msub><mrow><mrow><mo>‖</mo><mi>v</mi><mo>‖</mo></mrow></mrow><mi>&#8734;</mi></msub><mo>=</mo><msub><mrow><mi>max</mi></mrow><mi>i</mi></msub><mrow><mo>(</mo><mrow><mrow><mo>|</mo><mrow><mi>v</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow></mrow><mo>|</mo></mrow></mrow><mo>)</mo></mrow></mrow></math></span></span>。</p></li><li><p>如果 <code class="literal">p = -Inf</code>，则 <span class="inlineequation"><span class="inlinemediaobject"><math xmlns="http://www.w3.org/1998/Math/MathML" altimg-valign="-11px" display="block"><mrow><msub><mrow><mrow><mo>‖</mo><mi>v</mi><mo>‖</mo></mrow></mrow><mrow><mo>−</mo><mi>&#8734;</mi></mrow></msub><mo>=</mo><msub><mrow><mi>min</mi></mrow><mi>i</mi></msub><mrow><mo>(</mo><mrow><mrow><mo>|</mo><mrow><mi>v</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow></mrow><mo>|</mo></mrow></mrow><mo>)</mo></mrow></mrow></math></span></span>。</p></li></ul></div></div></div><div class="expand_collapse"><h3 class="expand_trigger" id="bvhji30-3" aria-expanded="true" data-toggle="collapse" data-target="#expand_body_bvhji30-3" aria-controls="expand_body_bvhji30-3"><span class="icon-arrow-open-down"></span><span class="icon-arrow-open-right"></span>最大绝对列之和</h3><div id="expand_body_bvhji30-3" class="collapsible_content collapse in" aria-expanded="true"><p class="shortdesc"><code class="literal">m</code>×<code class="literal">n</code> 矩阵 <code class="literal">X</code> (<code class="literal">m,n &gt;= 2</code>) 的最大绝对列之和由 </p>
+<div id="d122e835951" class="mediaobject"><div class="code_responsive"><p class="programlistingindent"><math xmlns="http://www.w3.org/1998/Math/MathML" altimg-valign="-21px" display="block"><mrow><msub><mrow><mrow><mo>‖</mo><mi>X</mi><mo>‖</mo></mrow></mrow><mn>1</mn></msub><mo>=</mo><munder><mrow><mi>max</mi></mrow><mrow><mn>1</mn><mo>≤</mo><mi>j</mi><mo>≤</mo><mi>n</mi></mrow></munder><mrow><mo>(</mo><mrow><mstyle displaystyle="true"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><mrow><mrow><mo>|</mo><mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow><mo>|</mo></mrow></mrow></mstyle></mrow><mo>)</mo></mrow><mo>.</mo></mrow></math></p></div></div><p> 定义</p></div></div><div class="expand_collapse"><h3 class="expand_trigger" id="bvhji30-4" aria-expanded="true" data-toggle="collapse" data-target="#expand_body_bvhji30-4" aria-controls="expand_body_bvhji30-4"><span class="icon-arrow-open-down"></span><span class="icon-arrow-open-right"></span>最大绝对行之和</h3><div id="expand_body_bvhji30-4" class="collapsible_content collapse in" aria-expanded="true"><p class="shortdesc"><code class="literal">m</code>×<code class="literal">n</code> 矩阵 <code class="literal">X</code> (<code class="literal">m,n &gt;= 2</code>) 的最大绝对行之和由 </p>
+<div id="d122e835967" class="mediaobject"><div class="code_responsive"><p class="programlistingindent"><math xmlns="http://www.w3.org/1998/Math/MathML" altimg-valign="-23px" display="block"><mrow><msub><mrow><mrow><mo>‖</mo><mi>X</mi><mo>‖</mo></mrow></mrow><mi>&#8734;</mi></msub><mo>=</mo><munder><mrow><mi>max</mi></mrow><mrow><mn>1</mn><mo>≤</mo><mi>i</mi><mo>≤</mo><mi>m</mi></mrow></munder><mrow><mo>(</mo><mrow><mstyle displaystyle="true"><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mrow><mrow><mo>|</mo><mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow><mo>|</mo></mrow></mrow></mstyle></mrow><mo>)</mo></mrow><mtext> </mtext><mo>.</mo></mrow></math></p></div></div><p> 定义</p></div></div><div class="expand_collapse"><h3 class="expand_trigger" id="bvhji30-5" aria-expanded="true" data-toggle="collapse" data-target="#expand_body_bvhji30-5" aria-controls="expand_body_bvhji30-5"><span class="icon-arrow-open-down"></span><span class="icon-arrow-open-right"></span>Frobenius 范数</h3><div id="expand_body_bvhji30-5" class="collapsible_content collapse in" aria-expanded="true"><p class="shortdesc"><code class="literal">m</code>×<code class="literal">n</code> 矩阵 <code class="literal">X</code> (<code class="literal">m,n &gt;= 2</code>) 的 Frobenius 范数由 </p>
+<div id="d122e835983" class="mediaobject"><div class="code_responsive"><p class="programlistingindent"><math xmlns="http://www.w3.org/1998/Math/MathML" altimg-valign="-23px" display="block"><mrow><msub><mrow><mrow><mo>‖</mo><mi>X</mi><mo>‖</mo></mrow></mrow><mi>F</mi></msub><mo>=</mo><msqrt><mrow><mstyle displaystyle="true"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></munderover><mrow><mstyle displaystyle="true"><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mrow><msup><mrow><mrow><mo>|</mo><mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow><mo>|</mo></mrow></mrow><mn>2</mn></msup></mrow></mstyle></mrow></mstyle></mrow></msqrt><mo>=</mo><msqrt><mrow><mtext>trace</mtext><mrow><mo>(</mo><mrow><msup><mi>X</mi><mo>†</mo></msup><mi>X</mi></mrow><mo>)</mo></mrow></mrow></msqrt><mtext> </mtext><mo>.</mo></mrow></math></p></div></div><p> 定义</p></div></div></div></div><div class="ref_sect"><h2 id="d122e835861">提示</h2><div class="itemizedlist"><ul><li><p>使用 <a href="vecnorm.html"><code class="function">vecnorm</code></a> 将矩阵或数组视为向量的集合并计算指定维度上的范数。例如，<code class="function">vecnorm</code> 可以计算矩阵中每列的范数。</p></li></ul></div></div><div class="ref_sect"><h2 id="bvk3zyg-1">扩展功能</h2><div class="expand_collapse" id="accordion_bvk3zyg-1" role="tablist" aria-multiselectable="true"><span id="bvk3zyg-2" class="anchor_target"></span><span id="bt0y64b-1" class="anchor_target"></span><h3 class="expand_trigger collapsed" id="bt0y64b-1_tall" aria-expanded="false" data-toggle="collapse" data-target="#expand_body_bt0y64b-1_tall" aria-controls="expand_body_bt0y64b-1_tall"><span class="icon-arrow-open-down"></span><span class="icon-arrow-open-right"></span>tall 数组<br/> <span class=" remove_bold add_font_color_general">对行数太多而无法放入内存的数组进行计算。 </span></h3><div id="expand_body_bt0y64b-1_tall" class="collapsible_content collapse" aria-expanded="false"><p class="shortdesc">此函数完全支持 tall 数组。有关详细信息，请参阅 <a href="../tall-arrays.html" class="a">tall 数组</a>。</p></div><span id="bvk3zyg-3" class="anchor_target"></span><span id="bt0y64b-1" class="anchor_target"></span><h3 class="expand_trigger collapsed" id="bt0y64b-1_codegen" aria-expanded="false" data-toggle="collapse" data-target="#expand_body_bt0y64b-1_codegen" aria-controls="expand_body_bt0y64b-1_codegen"><span class="icon-arrow-open-down"></span><span class="icon-arrow-open-right"></span>C/C++ 代码生成<br/>
+<span class=" remove_bold add_font_color_general">使用 MATLAB&#174; Coder&#8482; 生成 C 代码和 C++ 代码。</span></h3><div id="expand_body_bt0y64b-1_codegen" class="collapsible_content collapse" aria-expanded="false"><p>
+                <span>用法说明和限制：</span>
+            </p><p>
+                </p>
+<div class="itemizedlist"><ul><li><p>代码生成不支持对此函数使用稀疏矩阵输入。</p></li></ul></div><p>
+
+            </p></div><span id="mw_1616b5a8-6c8e-4006-9e39-60c7513f0785" class="anchor_target"></span><span id="bt0y64b-1" class="anchor_target"></span><h3 class="expand_trigger collapsed" id="bt0y64b-1_gpuarrays" aria-expanded="false" data-toggle="collapse" data-target="#expand_body_bt0y64b-1_gpuarrays" aria-controls="expand_body_bt0y64b-1_gpuarrays"><span class="icon-arrow-open-down"></span><span class="icon-arrow-open-right"></span>GPU 数组<br/> <span class=" remove_bold add_font_color_general">通过使用 Parallel Computing Toolbox&#8482; 在图形处理单元 (GPU) 上运行来加快代码执行。</span></h3><div id="expand_body_bt0y64b-1_gpuarrays" class="collapsible_content collapse" aria-expanded="false"><p>此函数完全支持 GPU 数组。有关详细信息，请参阅<a href="../../parallel-computing/run-matlab-functions-on-a-gpu.html" class="a" hreflang="en">Run MATLAB Functions on a GPU</a><span role="cross_prod"> (Parallel Computing Toolbox)</span>。</p></div><span id="mw_f9e45d10-9325-4bfe-babb-6fadd2dca297" class="anchor_target"></span><span id="bt0y64b-1" class="anchor_target"></span><h3 class="expand_trigger collapsed" id="bt0y64b-1_distributedarrays" aria-expanded="false" data-toggle="collapse" data-target="#expand_body_bt0y64b-1_distributedarrays" aria-controls="expand_body_bt0y64b-1_distributedarrays"><span class="icon-arrow-open-down"></span><span class="icon-arrow-open-right"></span>分布式数组<br/>
+<span class=" remove_bold add_font_color_general">使用 Parallel Computing Toolbox&#8482; 在群集的组合内存中对大型数组进行分区。</span></h3><div id="expand_body_bt0y64b-1_distributedarrays" class="collapsible_content collapse" aria-expanded="false"><p>此函数完全支持分布式数组。有关详细信息，请参阅<a href="../../parallel-computing/run-matlab-functions-with-distributed-arrays.html" class="a" hreflang="en">Run MATLAB Functions with Distributed Arrays</a><span role="cross_prod"> (Parallel Computing Toolbox)</span>。</p></div></div></div><div class="ref_sect"><h2 id="bt0y64b-1_seealso">另请参阅</h2><p><span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="cond.html"><span itemprop="name"><code class="function">cond</code></span></a></span> | <span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="condest.html"><span itemprop="name"><code class="function">condest</code></span></a></span> | <span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="hypot.html"><span itemprop="name"><code class="function">hypot</code></span></a></span> | <span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="double.normalize.html"><span itemprop="name"><code class="function">normalize</code></span></a></span> | <span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="normest.html"><span itemprop="name"><code class="function">normest</code></span></a></span> | <span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="rcond.html"><span itemprop="name"><code class="function">rcond</code></span></a></span> | <span itemscope="" itemtype="http://www.mathworks.com/help/schema/MathWorksDocPage/SeeAlso" itemprop="seealso"><a itemprop="url" href="vecnorm.html"><span itemprop="name"><code class="function">vecnorm</code></span></a></span></p></div><div class="release_introduced"><strong>在 R2006a 之前推出</strong></div>
+</div></div>
+<div class="modal fade" id="open-example-dialog" tabindex="-1" role="dialog" aria-labelledby="openExampleDialogLabel" aria-hidden="true"> 
+  <div class="modal-dialog"> 
+    <div class="modal-content"> 
+      <div class="modal-header"> 
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> 
+        <h2 class="modal-title">打开示例</h2> 
+      </div> 
+      <div class="modal-body" id="dialog-body"> 
+        <p>您的系统上存在此示例的修改版本。是否要打开此版本？</p> 
+      </div> 
+      <div class="modal-footer"> 
+        <a id="open-example-dialog-replace" class="btn btn_color_blue companion_btn" data-dismiss="modal">否，请覆盖修改版本</a> <a id="open-example-dialog-continue" class="btn btn_color_blue" data-dismiss="modal">是</a>
+      </div> 
+    </div> 
+  </div> 
+</div>
+<div class="clearfix"></div>
+<div align="center" class="feedbackblock"><iframe id="doc_survey"></iframe></div><script src="/help/releases/R2020b/includes/shared/scripts/docsurvey.js?202009292311"></script>
+
+<script>initDocSurvey();</script></section>
+<div class="modal fade" id="matlab-command-dialog" tabindex="-1" role="dialog" aria-labelledby="matlabCommandDialogLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h2 class="modal-title">MATLAB 命令</h2>
+      </div>
+      <div class="modal-body" id="dialog-body">
+        <p>您点击的链接对应于以下 MATLAB 命令： </p>
+        <pre id="dialog-matlab-command"></pre>
+        <p>请在 MATLAB 命令行窗口中直接输入以执行命令。Web 浏览器不支持 MATLAB 命令。</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn_secondary" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+<div id="location_content" style="display:none;"></div>
+
+
+<div class="modal fade" id="country-unselected" tabindex="-1" role="dialog" aria-labelledby="country-unselected-title" translate="no">
+<div id="country-select-container">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <img alt="MathWorks" src="/images/responsive/global/pic-header-mathworks-logo2.svg" style="width:167px; height:auto;">
+      </div>
+      <div class="modal-body">
+        <div class="row add_margin_40">
+          <div class="col-xs-12">
+            <h1 class="icon-globe icon_color_secondary" id="country-unselected-title">Select a Web Site</h1>
+            <p>Choose a web site to get translated content where available and see local events and offers. Based on your location, we recommend that you select: <strong class="recommended-country"></strong>.</p>
+            <a href="#" id="recommended_domain_button"
+						   class="btn btn_color_blue containsResourceName resourceClass-button">Select <span
+							class="recommended-country"></span> web site</a>
+          </div>
+        </div>
+        <p>You can also select a web site from the following list:</p>
+				<div class="alert alert-warning" id="china_performance_alert" style="display:none;"> <span class="alert_icon icon-alert-warning"></span>
+					<h2>How to Get Best Site Performance</h2>
+					<p>Select the China site (in Chinese or English) for best site performance. Other MathWorks country sites are not optimized for visits from your location.</p>
+				</div>
+        <div class="row add_margin_30">
+          <div class="col-sm-4 col-md-3">
+            <h3 class="add_bottom_rule">Americas</h3>
+            <ul class="list-unstyled">
+              <li><a href="https://la.mathworks.com" class="domain_selector_link" data-country-code="LA" data-subdomain="la" data-lang="es" data-default-lang="true" data-selected-text="América Latina" data-recommended-text="América Latina" data-do-not-rewrite="true">Am&eacute;rica Latina</a> (Español)</li>
+              <li><a href="https://www.mathworks.com" class="domain_selector_link" data-country-code="CA" data-subdomain="www" data-lang="en" data-do-not-rewrite="true">Canada</a> (English)</li>
+              <li><a href="https://www.mathworks.com" class="domain_selector_link" data-country-code="US" data-subdomain="www" data-lang="en" data-default-lang="true" data-selected-text="United States" data-recommended-text="United States" data-do-not-rewrite="true">United States</a> (English)</li>
+            </ul>
+          </div>
+          <div class="col-sm-4 col-md-6">
+            <h3 class="add_bottom_rule">Europe</h3>
+            <div class="row">
+              <div class="col-xs-6 col-sm-12 col-md-6">
+                <ul class="list-unstyled add_margin_0_sm">
+                  <li><a href="https://nl.mathworks.com" class="domain_selector_link" data-country-code="BE" data-subdomain="nl" data-lang="en" data-do-not-rewrite="true">Belgium</a> (English)</li>
+                  <li><a href="https://se.mathworks.com" class="domain_selector_link" data-country-code="DK" data-subdomain="se" data-lang="en" data-do-not-rewrite="true">Denmark</a> (English)</li>
+                  <li><a href="https://de.mathworks.com" class="domain_selector_link" data-country-code="DE" data-subdomain="de" data-lang="de" data-default-lang="true" data-selected-text="Deutschland" data-recommended-text="Deutschland" data-do-not-rewrite="true">Deutschland</a> (Deutsch)</li>
+                  <li><a href="https://es.mathworks.com" class="domain_selector_link" data-country-code="ES" data-subdomain="es" data-lang="es" data-default-lang="true" data-selected-text="España" data-recommended-text="España" data-do-not-rewrite="true">España</a> (Español)</li>
+                  <li><a href="https://se.mathworks.com"  class="domain_selector_link" data-country-code="FI" data-subdomain="se" data-lang="en" data-do-not-rewrite="true">Finland</a> (English)</li>
+                  <li><a href="https://fr.mathworks.com" class="domain_selector_link" data-country-code="FR" data-subdomain="fr" data-lang="fr" data-default-lang="true" data-selected-text="France" data-recommended-text="France" data-do-not-rewrite="true">France</a> (Français)</li>
+                  <li><a href="https://uk.mathworks.com" class="domain_selector_link" data-country-code="IE" data-subdomain="uk" data-lang="en" data-do-not-rewrite="true">Ireland</a> (English)</li>
+                  <li><a href="https://it.mathworks.com" class="domain_selector_link" data-country-code="IT" data-subdomain="it" data-lang="it" data-default-lang="true" data-selected-text="Italia" data-recommended-text="Italia" data-do-not-rewrite="true">Italia</a> (Italiano)</li>
+                  <li><a href="https://nl.mathworks.com" class="domain_selector_link" data-country-code="LU" data-subdomain="nl" data-lang="en" data-do-not-rewrite="true">Luxembourg</a> (English)</li>
+                </ul>
+              </div>
+              <div class="col-xs-6 col-sm-12 col-md-6">
+                <ul class="list-unstyled">
+                  <li><a href="https://nl.mathworks.com" class="domain_selector_link" data-country-code="NL" data-subdomain="nl" data-lang="en" data-default-lang="true" data-selected-text="Benelux" data-recommended-text="Netherlands" data-do-not-rewrite="true">Netherlands</a> (English)</li>
+                  <li><a href="https://se.mathworks.com" class="domain_selector_link" data-country-code="NO" data-subdomain="se" data-lang="en" data-do-not-rewrite="true">Norway</a> (English)</li>
+                  <li><a href="https://de.mathworks.com" class="domain_selector_link" data-country-code="AT" data-subdomain="de" data-lang="de" data-do-not-rewrite="true">Österreich</a> (Deutsch)</li>
+                  <li><a href="https://www.mathworks.com" class="domain_selector_link" data-country-code="PT" data-subdomain="www" data-lang="en" data-do-not-rewrite="true">Portugal</a> (English)</li>
+                  <li><a href="https://se.mathworks.com" class="domain_selector_link" data-country-code="Sweden" data-subdomain="se" data-lang="en" data-default-lang="true" data-selected-text="Nordic" data-recommended-text="Sweden" data-do-not-rewrite="true">Sweden</a> (English)</li>
+                  <li>Switzerland
+                    <ul class="list-unstyled add_indent_20">
+                      <li><a href="https://ch.mathworks.com" class="domain_selector_link" data-country-code="CH" data-subdomain="ch" data-lang="de" data-selected-text="Schweiz" data-recommended-text="Schweiz" data-do-not-rewrite="true">Deutsch</a></li>
+                      <li><a href="https://ch.mathworks.com" id="swiss_english" class="domain_selector_link" data-country-code="CH" data-subdomain="ch" data-lang="en" data-default-lang="true" data-selected-text="Switzerland" data-recommended-text="Switzerland" data-do-not-rewrite="true">English</a></li>
+                      <li><a href="https://ch.mathworks.com" class="domain_selector_link" data-country-code="CH" data-subdomain="ch" data-lang="fr" data-selected-text="Suisse" data-recommended-text="Suisse" data-do-not-rewrite="true">Français</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="https://uk.mathworks.com" class="domain_selector_link" data-country-code="GB" data-subdomain="uk" data-lang="en" data-default-lang="true" data-selected-text="United Kingdom" data-recommended-text="United Kingdom" data-do-not-rewrite="true">United Kingdom</a> (English)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-md-3">
+            <h3 class="add_bottom_rule">Asia Pacific</h3>
+            <ul class="list-unstyled">
+              <li><a href="https://au.mathworks.com" class="domain_selector_link" data-country-code="AU" data-subdomain="au" data-lang="en" data-default-lang="true" data-selected-text="Australia" data-recommended-text="Australia" data-do-not-rewrite="true">Australia</a> (English)</li>
+              <li><a href="https://in.mathworks.com" class="domain_selector_link" data-country-code="IN" data-subdomain="in" data-lang="en" data-default-lang="true" data-selected-text="India" data-recommended-text="India" data-do-not-rewrite="true">India</a> (English)</li>
+              <li><a href="https://au.mathworks.com" class="domain_selector_link" data-country-code="NZ" data-subdomain="au" data-lang="en" data-do-not-rewrite="true">New Zealand</a> (English)</li>
+              <li>中国
+                    <ul class="list-unstyled add_indent_20">
+                      <li><a href="https://ww2.mathworks.cn" class="domain_selector_link" data-country-code="CN" data-subdomain="ww2" data-lang="zh" data-default-lang="true" data-selected-text="中国" data-recommended-text="中国" data-do-not-rewrite="true">简体中文</a></li>
+                      <li><a href="https://ww2.mathworks.cn" class="domain_selector_link" data-country-code="CN" data-subdomain="ww2" data-lang="en" data-default-lang="true" data-selected-text="China" data-recommended-text="China" data-do-not-rewrite="true">English</a></li>
+                    </ul>
+               </li>
+              <li><a href="https://jp.mathworks.com" class="domain_selector_link" data-country-code="JP" data-subdomain="jp" data-lang="ja" data-default-lang="true" data-selected-text="日本" data-recommended-text="日本" data-do-not-rewrite="true">日本</a> (日本語)</li>
+              <li><a href="https://kr.mathworks.com" class="domain_selector_link" data-country-code="KR" data-subdomain="kr" data-lang="ko" data-default-lang="true" data-selected-text="한국" data-recommended-text="한국" data-do-not-rewrite="true">한국</a> (한국어)</li>
+            </ul>
+          </div>
+        </div>
+        <p class="text-center"><a href="#" class="worldwide_link">Contact your local office</a></p>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+  
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE CTA - Begin -->
+      <div class="cta_container_mobile visible-sm visible-xs">
+        <div class="container-fluid">      
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="cta_box">
+<ul class="list-inline">
+<li class="cta_item cta_item_general hidden-sm hidden-xs "><a href="/campaigns/products/trials.html?prodcode=ML&amp;s_iid=doc_trial_ML_tb" class="icon-download">试用版</a></li>
+<li class="hidden-lg hidden-md "><a href="/campaigns/products/trials.html?prodcode=ML&amp;s_iid=doc_trial_ML_tb" class="btn btn_color_blue btn-block"><span class="icon-download"></span> 试用版</a></li>
+<li class="cta_item cta_item_general hidden-sm hidden-xs "><a href="/support/web_downloads_bounce.html?s_cid=1008_degr_docdn_270055" class="icon-download">产品更新</a></li>
+<li class="hidden-lg hidden-md "><a href="/support/web_downloads_bounce.html?s_cid=1008_degr_docdn_270055" class="btn btn_color_blue btn-block"><span class="icon-download"></span> 产品更新</a></li>
+</ul>
+</div> 
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- MOBILE CTA - End -->
+
+          <!-- BODY TRAIL - Begin -->
+          <div class="body_trail_container">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="row"><div class="col-xs-12 col-sm-4"><h2><a href="../index.html?s_cid=doc_ftr">MATLAB 文档</a></h2>
+<ul class="list-unstyled hidden-xs"><li><a href="../examples.html?s_cid=doc_ftr">示例</a></li>
+<li><a href="../referencelist.html?type=function&amp;s_cid=doc_ftr">函数</a></li>
+<li><a href="../release-notes.html?s_cid=doc_ftr">发行说明</a></li>
+<li><a href="../../pdf_doc/matlab/index.html?s_cid=doc_ftr">PDF 文档</a></li>
+</ul>
+</div>
+<div class="col-xs-12 col-sm-4"><h2><a href="/support.html?s_cid=doc_ftr">支持</a></h2>
+<ul class="list-unstyled hidden-xs"><li><a href="/matlabcentral/answers/index?s_cid=doc_ftr">MATLAB Answers</a></li><li><a href="/support/install-matlab.html?s_cid=doc_ftr">安装帮助</a></li><li><a href="/support/bugreports/?s_cid=doc_ftr">错误报告</a></li><li><a href="/support/requirements/product-requirements-platform-availability-list.html?s_cid=doc_ftr">产品要求</a></li><li><a href="/downloads/?s_cid=doc_ftr">软件下载</a></li></ul>
+</div>
+<div class="col-xs-12 col-sm-4">
+<div class="panel panel_color_transparent panel_color_fill">
+<div class="panel-body">
+<div class="thumbnail add_margin_5">
+<a href="https://www.mathworks.com/campaigns/offers/deep-learning-with-matlab.html?s_iid=doc_eb_ML_footer"><img class="fluid_image" alt="Introducing Deep Learning with MATLAB" src="https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/images/responsive/supporting/campaigns/products/deep-learning-with-matlab-offer.jpg"></a>
+</div>
+<h4><a href="https://www.mathworks.com/campaigns/offers/deep-learning-with-matlab.html?s_iid=doc_eb_ML_footer">Introducing Deep Learning with MATLAB</a></h4>
+<a class="icon-download" href="https://www.mathworks.com/campaigns/offers/deep-learning-with-matlab.html?s_iid=doc_eb_ML_footer">Download ebook</a>
+</div>
+</div>
+</div>
+</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- BODY TRAIL - End -->
+
+      <footer id="footer" class="bs-footer">
+          <!-- FAT FOOTER - Begin --> 
+          <div class="container-fluid">
+            <div class="fat_footer_container">
+              <div class="execmatlabweb"> <!--Requried for Doc Test -->
+<div class="row">
+<div class="col-xs-12 col-md-12 col-lg-9 col-lg-push-3 add_margin_20">
+<div class="row">
+<div class="col-xs-12 col-sm-2">
+<p class="ff_section_title">了解产品</p>
+<ul class="list-unstyled">
+<li><a href="/products/matlab.html?s_tid=hp_ff_p_matlab">MATLAB</a></li>
+<li><a href="/products/simulink.html?s_tid=hp_ff_p_simulink">Simulink</a></li>
+<li><a href="/products/matlab/student.html?s_tid=hp_ff_p_student">学生版软件</a></li>
+<li><a href="/hardware-support/home.html?s_tid=hp_ff_p_hwsupport">硬件支持</a></li>
+<li><a href="/matlabcentral/fileexchange/?s_tid=hp_ff_p_fx">文件交换</a></li>
+</ul>
+</div>
+<div class="col-xs-12 col-sm-2">
+<p class="ff_section_title">试用或购买</p>
+<ul class="list-unstyled">
+<li><a href="/downloads/web_downloads/?s_iid=hp_ff_t_downloads">下载</a></li>
+<li><a href="/campaigns/products/trials.html?s_iid=hp_ff_p_trial">试用软件</a></li>
+<li><a href="/company/aboutus/contact_us/contact_sales.html?s_iid=hp_ff_t_sales">联系销售</a></li>
+<li><a href="/pricing-licensing.html?s_iid=hp_ff_t_pricing">定价和许可</a></li>
+<li><a href="/store/?s_tid=hp_ff_t_buy">如何购买</a></li>
+</ul>
+</div>
+<div class="col-xs-12 col-sm-2">
+<p class="ff_section_title">如何使用</p>
+<ul class="list-unstyled">
+<li><a href="/help/?s_tid=hp_ff_l_doc">文档</a></li>
+<li><a href="/support/learn-with-matlab-tutorials.html?s_tid=hp_ff_l_tutorials">教程</a></li>
+<li><a href="/help/examples.html?s_tid=hp_ff_l_examples">MATLAB Examples</a></li>
+<li><a href="/videos.html?s_tid=hp_ff_l_videos">视频与网上研讨会</a></li>
+<li><a href="/services/training.html?s_tid=hp_ff_l_training">培训</a></li>
+</ul>
+</div>
+<div class="clearfix" id="offcanvas_clearfix" style="display:none"></div>
+<div class="col-xs-12 col-sm-2">
+<p class="ff_section_title">获取支持</p>
+<ul class="list-unstyled">
+<li><a href="/support/install-matlab.html?s_tid=hp_ff_s_install">安装协助</a></li>
+<li><a href="/matlabcentral/answers/index?s_tid=hp_ff_s_answers">MATLAB Answers</a></li>
+<li><a href="/services/consulting.html?s_tid=hp_ff_s_consulting">咨询</a></li>
+<li><a href="/licensecenter/?s_tid=hp_ff_s_license">许可中心</a></li>
+<li><a href="/support/contact_us.html?s_tid=hp_ff_s_support">联系支持人员</a></li>
+</ul>
+</div>
+<div class="col-xs-12 col-sm-2">
+<p class="ff_section_title">关于 MathWorks</p>
+<ul class="list-unstyled">
+<li><a href="/company/jobs/opportunities.html?s_tid=hp_ff_a_careers">招聘</a></li>
+<li><a href="/company/newsroom.html?s_tid=hp_ff_a_newsroom">新闻室</a></li>
+<li><a href="/company/aboutus/soc_mission.html?s_tid=hp_ff_a_socialmission">社会愿景</a></li>
+<li><a href="/company/aboutus/contact_us/contact_sales.html?s_tid=hp_ff_a_sales">联系销售</a></li>
+<li><a href="/company.html?s_tid=hp_ff_a_company">关于 MathWorks</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-xs-12 col-md-12 col-lg-3 col-lg-pull-9">
+<p class="h4 add_font_futura_medium add_margin_0"><span translate="no">MathWorks</span></p>
+<p><em>Accelerating the pace of engineering and science</em></p>
+<p>MathWorks 公司是世界领先的为工程师和科学家提供数学计算软件的开发商。</p>
+<p><a href="/discovery.html?s_tid=all_disc_mw_ff">发现...</a></p>
+</div>
+</div>
+</div>
+            </div>
+          </div>
+          <!-- FAT FOOTER - End -->
+        <div class="container-fluid">
+         <div class="footer" translate="no">
+<div class="row">
+<div class="col-xs-12 col-md-9">
+<ul class="countrynav" id="countrynav">
+<li class="footernav_country">
+<a href="#" data-toggle="modal" data-target="#country-unselected">
+<span class="icon-globe icon_color_quinary icon_16"></span>中国
+</a>
+</li>
+</ul>
+<div class="clearfix"></div>
+<ul class="footernav">
+<li class="footernav_patents"><a href="https://ww2.mathworks.cn/company/aboutus/policies_statements/patents.html?s_tid=gf_pat">专利</a></li>
+<li class="footernav_trademarks"><a href="https://ww2.mathworks.cn/company/aboutus/policies_statements/trademarks.html?s_tid=gf_trd">商标</a></li>
+<li class="footernav_privacy"><a href="https://ww2.mathworks.cn/company/aboutus/policies_statements.html?s_tid=gf_priv">隐私权政策</a></li>
+<li class="footernav_piracy"><a href="https://ww2.mathworks.cn/company/aboutus/policies_statements/piracy.html?s_tid=gf_pir">防止盗版</a></li>
+<li class="footernav_status"><a href="https://status.mathworks.com/?s_tid=gf_application">应用状态</a></li>
+</ul>
+<div class="clearfix"></div>
+<div class="clearfix"></div>
+<p class="copyright" translate="no">&copy; 1994-2020 The MathWorks, Inc.</p>
+</div>
+<div class="clearfix visible-sm add_margin_10"></div>
+<div class="col-xs-12 col-md-3">
+<div class="social_media">
+<ul class="social_media_icons">
+<li>
+<a href="https://www.facebook.com/MATLAB" target="_blank" rel="nofollow noopener noreferrer" class="svg_link">
+<img src="/images/responsive/global/ico-facebook.svg" alt="Facebook" class="ico_facebook">
+</a>
+</li>
+<li>
+<a href="https://www.twitter.com/MATLAB" target="_blank" rel="nofollow noopener noreferrer" class="svg_link">
+<img src="/images/responsive/global/ico-twitter.svg" alt="Twitter" class="ico_twitter">
+</a>
+</li>
+<li>
+<a href="http://www.weibo.com/mathworks" target="_blank" rel="nofollow noopener noreferrer" class="svg_link">
+<img src="/images/responsive/global/ico-weibo.svg" alt="Weibo" class="ico_weibo">
+</a>
+</li>
+<li>
+<a data-toggle="modal" data-target="#wechatqr" href="#" class="svg_link">
+<img src="/images/responsive/global/ico-wechat.svg" alt="WeChat" class="ico_wechat">
+</a>
+<div class="modal fade" id="wechatqr">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+<h4 class="add_margin_0 text-left">WeChat</h4>
+</div>
+<div class="modal-body">
+<img src="/images/responsive/global/wechat-qr.jpg" class="fluid_image">
+</div>
+</div>
+</div>
+</div>
+</li>
+<li>
+<a href="https://www.instagram.com/matlab/" class="svg_link" target="_blank" rel="nofollow noopener noreferrer">
+<img class="ico_instagram" alt="Instagram" src="/images/responsive/global/ico-instagram.svg">
+</a>
+</li>
+<li>
+<a href="https://www.linkedin.com/company/the-mathworks_2" target="_blank" rel="nofollow noopener noreferrer" class="svg_link">
+<img src="/images/responsive/global/ico-linkedin.svg" alt="LinkedIn" class="ico_linkedin">
+</a>
+</li>
+<li>
+<a href="https://ww2.mathworks.cn/company/rss.html" class="svg_link">
+<img src="/images/responsive/global/ico-rss.svg" alt="RSS" class="ico_rss">
+</a>
+</li>
+</ul>
+<div class="clearfix"></div>
+<p><em>关注我们</em></p>
+</div>
+</div>
+</div>
+</div>
+<div id="cookie-banner-text" style="display:none;"></div>
+<!-- BEGIN Adobe DTM -->
+<script type="text/javascript">
+try {
+_satellite.pageBottom();
+} catch (e) {
+//something went wrong
+}
+</script>
+<!-- END Adobe DTM -->
+        </div>
+      </footer>
+
+    </div>
+  
+  </div>
+
+
+<!-- CRUX 2.0 -->
+<script src="/includes_content/responsive/scripts/crux_nav_truncate.js?202009"></script>
+</body>
+</html>

@@ -1,0 +1,2471 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://blog.csdn.net/sunshine_lyn/article/details/85400015"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="report" content='{"pid": "blog", "spm":"1001.2101"}'>
+    <meta name="referrer" content="always">
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <meta name="applicable-device" content="pc">
+    <link  href="https://g.csdnimg.cn/static/logo/favicon32.ico"  rel="shortcut icon" type="image/x-icon" />
+    <title>数字图像处理复习总结_sunshine_lyn的博客-CSDN博客_数字图像处理知识点总结</title>
+    <script>
+      (function(){ 
+        var el = document.createElement("script"); 
+        el.src = "https://s3a.pstatp.com/toutiao/push.js?1abfa13dfe74d72d41d83c86d240de427e7cac50c51ead53b2e79d40c7952a23ed7716d05b4a0f683a653eab3e214672511de2457e74e99286eb2c33f4428830"; 
+        el.id = "ttzz"; 
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(el, s);
+      })(window)
+    </script>
+        <meta name="keywords" content="数字图像处理知识点总结">
+        <meta name="csdn-baidu-search"  content='{"autorun":true,"install":true,"keyword":"数字图像处理知识点总结"}'>
+    <meta name="description" content="复习着感觉记不住，于是乎，有了这篇博文，如果也同样选修了数字图像处理课程的小伙伴们可以参考一哈！ 纯手码字…逢考必过！概念采样与量化灰度变换缓慢的景物：粗采样、细量化有大量细节变化的图像：细采样、粗量化采样不够出现马赛克；量化不够出现假轮廓锐化：突出灰度的过渡部分（增强图像的细节边缘和轮廓）例：高通滤波、梯度算子、拉普拉斯算子平滑：用于模糊处理和降低噪声例：低通滤波...">
+    <script src='//g.csdnimg.cn/tingyun/1.8.3/blog.js' type='text/javascript'></script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/css/detail_enter-5f2d8f6575.min.css">
+    <script type="application/ld+json">{"@context":"https://ziyuan.baidu.com/contexts/cambrian.jsonld","@id":"https://blog.csdn.net/sunshine_lyn/article/details/85400015","appid":"1638831770136827","pubDate":"2019-01-03T22:19:26","title":"数字图像处理复习总结_sunshine_lyn的博客-CSDN博客_数字图像处理知识点总结","upDate":"2019-01-03T22:19:26"}</script>
+        <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/release/blogv2/dist/pc/themesSkin/skin-blackwhale/skin-blackwhale-aeb807fe67.min.css">
+    <script src="https://csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var isCorporate = false;//注释删除enterprise
+        var username =  "sunshine_lyn";
+        var skinImg = "white";
+        var blog_address = "https://elainelv.blog.csdn.net";
+        var currentUserName = "";
+        var isOwner = false;
+        var loginUrl = "http://passport.csdn.net/account/login?from=https://blog.csdn.net/sunshine_lyn/article/details/85400015";
+        var blogUrl = "https://blog.csdn.net/";
+        var avatar = "https://profile.csdnimg.cn/5/8/C/3_sunshine_lyn";
+        var articleTitle = "数字图像处理复习总结";
+        var articleDesc = "复习着感觉记不住，于是乎，有了这篇博文，如果也同样选修了数字图像处理课程的小伙伴们可以参考一哈！ 纯手码字…逢考必过！概念采样与量化灰度变换缓慢的景物：粗采样、细量化有大量细节变化的图像：细采样、粗量化采样不够出现马赛克；量化不够出现假轮廓锐化：突出灰度的过渡部分（增强图像的细节边缘和轮廓）例：高通滤波、梯度算子、拉普拉斯算子平滑：用于模糊处理和降低噪声例：低通滤波...";
+        var articleTitles = "数字图像处理复习总结_sunshine_lyn的博客-CSDN博客_数字图像处理知识点总结";
+        var nickName = "sunshine_lyn";
+        var articleDetailUrl = "https://elainelv.blog.csdn.net/article/details/85400015";
+        if(window.location.host.split('.').length == 3) {
+            blog_address = blogUrl + username;
+        }
+        var skinStatus = "Black";
+        var blogStaticHost = "https://csdnimg.cn/release/blogv2/"
+    </script>
+        <meta name="toolbar" content='{"type":"1"}'>
+        <script>
+            window.csdn = window.csdn ? window.csdn : {};
+            window.csdn.toolbarIsBlack = true;
+            window.csdn.sideToolbar = {
+                options: {
+                    theme : "black"
+                }
+            }
+        </script>
+    <script src="https://g.csdnimg.cn/??fixed-sidebar/1.1.6/fixed-sidebar.js" type="text/javascript"></script>
+    <script src='//g.csdnimg.cn/common/csdn-report/report.js' type='text/javascript'></script>
+    <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css">
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+    <script src="https://dup.baidustatic.com/js/ds.js"></script>
+</head>
+<body class="nodata " style="">
+        <script>
+            var toolbarSearchExt = '{"landingWord":["数字图像处理知识点总结"],"queryWord":"","tag":["数字图像处理"],"title":"数字图像处理复习总结"}';
+        </script>
+    <script src="https://g.csdnimg.cn/common/csdn-toolbar/csdn-toolbar.js" type="text/javascript"></script>
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/pc/css/blog_code-01256533b5.min.css">
+<link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/chart-3456820cac.css" />
+<div class="main_father clearfix d-flex justify-content-center" style="height:100%;"> 
+    <div class="container clearfix" id="mainBox">
+        <main>
+<script type="text/javascript">
+    var blogSensitiveWords = "";
+</script>
+<div class="blog-content-box">
+    <div class="article-header-box">
+        <div class="article-header">
+            <div class="article-title-box">
+                <h1 class="title-article" id="articleContentId">数字图像处理复习总结</h1>
+            </div>
+            <div class="article-info-box">
+                <div class="article-bar-top">
+                    <img class="article-type-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/original.png" alt="">
+                    <div class="bar-content">
+                    <a class="follow-nickName " href="https://elainelv.blog.csdn.net" target="_blank" rel="noopener">sunshine_lyn</a>
+                    <span class="time">2019-01-03 22:19:26</span>
+                    <img class="article-read-img article-heard-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/articleReadEyes.png" alt="">
+                    <span class="read-count">17818</span>
+                    <a id="blog_detail_zk_collection" class="un-collection" data-report-click='{"mod":"popu_823","spm":"1001.2101.3001.4232","ab":"new"}'>
+                        <img class="article-collect-img article-heard-img un-collect-status isdefault" style="display:inline-block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                        <img class="article-collect-img article-heard-img collect-status isactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                        <span class="name">收藏</span>
+                        <span class="get-collection">
+                        </span>
+                    </a>
+                    </div>
+                </div>
+                <div class="blog-tags-box">
+                    <div class="tags-box artic-tag-box">
+                            <span class="label">分类专栏：</span>
+                                <a class="tag-link" href="https://blog.csdn.net/sunshine_lyn/category_8573941.html" target="_blank" rel="noopener">期末复习</a>
+                            <span class="label">文章标签：</span>
+                                <a data-report-click='{"mod":"popu_626","spm":"1001.2101.3001.4223","strategy":"数字图像处理","ab":"new"}' class="tag-link" href="https://www.csdn.net/gather_21/MtjaMg4sMjY5Ny1ibG9n.html" target="_blank" rel="noopener">数字图像处理</a>
+                    </div>
+                </div>
+                <div class="up-time"><span>最后发布:2019-01-03 22:19:26</span><span>首次发布:2019-01-03 22:19:26</span></div>
+                <div class="slide-content-box">
+                    <div class="article-copyright">
+                        <div class="creativecommons">
+                            版权声明：本文为博主原创文章，遵循<a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener"> CC 4.0 BY-SA </a>版权协议，转载请附上原文出处链接和本声明。
+                        </div>
+                        <div class="article-source-link">
+                            本文链接：<a href="https://blog.csdn.net/sunshine_lyn/article/details/85400015" target="_blank">https://blog.csdn.net/sunshine_lyn/article/details/85400015</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="operating">
+                    <a class="href-article-edit slide-toggle">版权</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <article class="baidu_pl">
+        <div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-b5506197d8.css">
+                <div id="content_views" class="markdown_views prism-tomorrow-night">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <blockquote> 
+ <p>复习着感觉记不住&#xff0c;于是乎&#xff0c;有了这篇博文&#xff0c;如果也同样选修了数字图像处理课程的小伙伴们可以参考一哈&#xff01; 纯手码字…逢考必过&#xff01;</p> 
+</blockquote> 
+<h2><a id="_2"></a>概念</h2> 
+<p><code>采样与量化</code></p> 
+<ul><li>灰度变换缓慢的景物&#xff1a;粗采样、细量化</li><li>有大量细节变化的图像&#xff1a;细采样、粗量化<br /> <code>采样不够出现马赛克&#xff1b;量化不够出现假轮廓</code></li></ul> 
+<p><code>锐化</code>&#xff1a;突出灰度的过渡部分&#xff08;增强图像的细节边缘和轮廓&#xff0c;有利于图像的处理&#xff09;</p> 
+<ul><li>方法&#xff1a;<code>微分法</code>和<code>高通滤波</code></li><li>微分法包括<code>梯度算子法</code>和<code>拉普拉斯算子法</code>&#xff1b;高通滤波包含<code>空域高通滤波</code>和<code>频域高通滤波</code></li></ul> 
+<p><code>平滑</code>&#xff1a;用于模糊处理和降低噪声</p> 
+<ul><li>例&#xff1a;低通滤波、均值滤波、中值滤波&#xff08;属于局部处理&#xff09;</li></ul> 
+<blockquote> 
+ <p><strong>平滑和锐化</strong><br /> 区别&#xff1a;图像锐化用于增强图像边缘&#xff0c;导致高频分量增强&#xff0c;会使图像清晰&#xff1b;图像平滑用于消除图像噪声&#xff0c;但也容易引起边缘的模糊<br /> 联系&#xff1a;都属于图像增强&#xff0c;改善图像效果</p> 
+</blockquote> 
+<p><code>图像增强</code>&#xff1a;通过某种技术有选择的突出对某一具体应用有用的信息&#xff0c;削弱或抑制一些无用的信息</p> 
+<ul><li>基于图像的<code>灰度直方图</code>&#xff0c;根据所在空间不同&#xff0c;分为空域和频域两种</li><li>常用的彩色增强有&#xff1a;真彩色增强技术、假彩色增强技术、伪彩色增强技术</li></ul> 
+<p><code>一阶微分&#xff1a;用梯度算子来计算</code></p> 
+<ul><li>特点&#xff1a;对于亮的边&#xff0c;边的变化起点是正的&#xff0c;结束是负的&#xff1b;对于暗的边&#xff0c;结论相反&#xff1b;常数部分为0</li><li>用途&#xff1a;用于检测图像中边的存在<br /> <img alt="在这里插入图片描述" src="https://img-blog.csdnimg.cn/20181230180245741.png" /></li></ul> 
+<p><code>二阶微分&#xff1a;用拉普拉斯算子来计算</code></p> 
+<ul><li>特点&#xff1a;二阶微分在亮的一边是负的&#xff0c;在暗的一边是正的。常数部分为0</li><li>用途&#xff1a; 
+  <ul><li>二次导数的符号&#xff0c;用于确定边上像素是亮的一边还是暗的一边。</li><li>0跨越&#xff0c;确定边的准确位置</li></ul> </li></ul> 
+<div align="center"> 
+ <img width="60%" alt="" src="https://img-blog.csdnimg.cn/20190102193100576.png?x-oss-process&#61;image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N1bnNoaW5lX2x5bg&#61;&#61;,size_16,color_FFFFFF,t_70" />
+</div> 
+<p><strong>一阶微分算子和二阶微分算子在提取图像细节信息时有何不同&#xff1f;</strong><br /> 一阶微分算子<code>产生较粗的边缘</code>&#xff0c;二阶微分算子处理<code>对细节有较强的响应</code>&#xff0c;如细线和孤立点。二阶微分有一个过度&#xff0c;即从正回到负。在一幅图像中&#xff0c;该现象表现为双线。</p> 
+<p><code>点处理</code>&#xff1a;</p> 
+<ul><li>例&#xff1a;二值化</li></ul> 
+<p><code>灰度方差</code>&#xff1a;说明图像对比度&#xff08;方差小&#xff0c;对比度小&#xff1b;方差大&#xff0c;对比度大&#xff09;</p> 
+<p><code>直方图均衡化</code>&#xff1a;对在图像中像素的个数多的灰度级进行展宽&#xff0c;而对像素个数少的灰度级进行缩减&#xff0c;从而达到清晰图像的目的。</p> 
+<p><code>图像分割</code>的结果图像为<strong>二值图像</strong>&#xff0c;所以通常又称为<strong>图像分割</strong>为图像的<strong>二值化处理</strong></p> 
+<p><code>腐蚀</code>是一种消除连通域边界点&#xff0c;使边界向内收缩的处理<br /> <code>膨胀</code>是将与目标区域背景点合并到该目标物中&#xff0c;使目标物边界向外部扩张的处理</p> 
+<h3><a id="_52"></a>只存在噪声的复原——空间滤波</h3> 
+<p><strong>均值滤波器&#xff1a;</strong></p> 
+<ul><li>算术均值滤波器&#xff08;最简单的均值滤波器&#xff09;</li><li>几何均值滤波器&#xff08;几何均值滤波器比算术减少了对图像的模糊&#xff09;</li><li>谐波均值滤波器&#xff08;对于&#34;盐&#34;噪声较好&#xff0c;但不适用于&#34;胡椒&#34;噪声&#xff1b;善于处理高斯噪声&#xff09;</li><li>逆谐波均值滤波器</li></ul> 
+<p><strong>统计排序滤波器&#xff1a;</strong></p> 
+<ul><li>中值滤波器&#xff08;过度重复使用可能会对图像造成模糊&#xff09;</li><li>最大值和最小值滤波器&#xff08;对于胡椒噪声&#xff08;暗&#xff0c;值非常低&#xff09;&#xff0c;用最大值滤波器&#xff0c;发现图像中最亮点非常有用&#xff1b;对于盐粒噪声&#xff0c;用最小值滤波器&#xff0c;发现图像中最暗点非常有用&#xff09;</li><li>中点滤波器</li><li>修正后的阿尔法均值滤波器</li></ul> 
+<p><code>由于脉冲噪声(椒盐噪声)的存在&#xff0c;算术均值滤波器和几何均值滤波器没有起到良好作用&#xff1b;中值滤波器和阿尔法滤波器效果更好&#xff0c;阿尔法最好。</code></p> 
+<hr /> 
+<p><code>共点直线群</code>的<strong>Hough变换</strong>是一条正弦曲线</p> 
+<p><code>边缘检测</code>是将边缘像元识别出来的一种图像分割技术<br /> <code>细化</code>&#xff1a;提取线宽为一个像元大小的中心线操作</p> 
+<p><code>图像复原</code>的关键是建立退化模型&#xff0c;原图像f(x,y)是通过一个系统H及加入加性噪声n(x,y)而退化成一幅图像g(x,y)的&#xff0c;<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        g
+       
+       
+        (
+       
+       
+        x
+       
+       
+        ,
+       
+       
+        y
+       
+       
+        )
+       
+       
+        &#61;
+       
+       
+        H
+       
+       
+        [
+       
+       
+        f
+       
+       
+        (
+       
+       
+        x
+       
+       
+        ,
+       
+       
+        y
+       
+       
+        )
+       
+       
+        ]
+       
+       
+        &#43;
+       
+       
+        n
+       
+       
+        (
+       
+       
+        x
+       
+       
+        ,
+       
+       
+        y
+       
+       
+        )
+       
+      
+      
+       g ( x , y ) &#61; H [ f ( x , y ) ] &#43; n ( x , y )
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathit" style="margin-right: 0.03em;">g</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.16em;"></span><span class="mord mathit" style="margin-right: 0.03em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.27em;"></span><span class="mrel">&#61;</span><span class="mspace" style="margin-right: 0.27em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathit" style="margin-right: 0.08em;">H</span><span class="mopen">[</span><span class="mord mathit" style="margin-right: 0.1em;">f</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.16em;"></span><span class="mord mathit" style="margin-right: 0.03em;">y</span><span class="mclose">)</span><span class="mclose">]</span><span class="mspace" style="margin-right: 0.22em;"></span><span class="mbin">&#43;</span><span class="mspace" style="margin-right: 0.22em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathit">n</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.16em;"></span><span class="mord mathit" style="margin-right: 0.03em;">y</span><span class="mclose">)</span></span></span></span></span></p> 
+<div align="center"> 
+ <img width="30%" src="https://img-blog.csdnimg.cn/20181230180313302.png" /> 
+</div> 
+<p><strong>几种噪声的运用</strong></p> 
+<ul><li><code>高斯噪声</code>源于电子电路噪声和由低照明度或高温带来的传感器噪声</li><li><code>瑞利噪声</code>对分布在图像范围内特征化噪声有用</li><li><code>伽马分布和指数分布</code>用于激光成像噪声</li><li><code>均匀密度分布</code>作为模拟随机数产生器的基础</li><li><code>脉冲噪声</code>用于成像中的短暂停留中&#xff0c;如错误的开关</li></ul> 
+<p><code>维纳滤波</code>&#xff08;最小均方误差&#xff09;通常用于复原图像&#xff0c;在对图像复原过程中要计算<code>噪声功率谱</code>和<code>图像功率谱</code></p> 
+<p>彩色图像增强时&#xff0c;<code>加权均值滤波</code>处理可以采用RGB彩色模型</p> 
+<p><code>马赫带效应</code>是指图像不同灰度级条带之间在灰度交界处存在<code>毛边现象</code></p> 
+<p>采用<code>幂次变换</code>进行图像灰度变换时&#xff0c;若图像偏亮&#xff0c;那么幂次取大于1&#xff0c;使得处理后图像变暗&#xff1b;若图像偏暗&#xff0c;那么幂次取小于1&#xff0c;使得处理后图像变亮&#xff1b;</p> 
+<p>高通滤波后的图像通常较暗&#xff0c;为改善这种情况&#xff0c;将高通滤波器的转移函数加上一常量以便引入一些低频分量。这样的滤波器叫做<code>高频提升滤波器</code></p> 
+<p>边缘检测算子中&#xff0c;<code>抗噪性能最好</code>的是<code>Prewitt算子</code></p> 
+<p><code>链码</code>&#xff1a;1&#xff09;对于起点不一样导致结果不同&#xff0c;采用起点均一化&#xff0c;2&#xff09;对于角度位置等不同导致的结果不一&#xff0c;采用差分&#xff08;当前点值减去前一个值作为结果&#xff09;</p> 
+<div align="center"> 
+ <img width="70%" src="https://img-blog.csdnimg.cn/20190104201330177.png?x-oss-process&#61;image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N1bnNoaW5lX2x5bg&#61;&#61;,size_16,color_FFFFFF,t_70" /> 
+</div> 
+<hr /> 
+<h2><a id="_106"></a>简答</h2> 
+<p><strong>当白天进入一个黑暗剧场时&#xff0c;在能看清并找到空座位时需要一段时间的适应&#xff0c;试述发生这种现象的视觉原理&#xff1f;</strong><br /> 人的视觉绝对不能同时在整个亮度适应范围工作&#xff0c;它是利用改变其亮度适应级来完成亮度适应的&#xff0c;即所谓的<code>亮度适应范围</code>。同整个亮度适应范围相比&#xff0c;能同时鉴别的光强度级的总范围很小。因此&#xff0c;白天进入黑暗剧场时&#xff0c;人的视觉系统需要改变亮度适应级&#xff0c;因此&#xff0c;需要一段时间&#xff0c;亮度适应级才能被改变。</p> 
+<hr /> 
+<p><strong>图像锐化滤波的几种方法</strong><br /> 1.直接以梯度值代替<br /> 2.辅以门限判断<br /> 3.给边缘规定一个特定的灰度级<br /> 4.给背景规定灰度级<br /> 5.根据梯度二值化图像</p> 
+<hr /> 
+<p><strong>什么是马赫带效应&#xff0c;如何利用这一效应对图像处理&#xff1f;</strong><br /> 原理&#xff1a;指图像不同灰度级条带之间在灰度交界处产生的<code>毛边现象</code>&#xff0c;使图像对比度加大&#xff0c;增加相邻灰度级的灰度差<br /> 增加灰度级、灰度差&#xff0c;达到锐化效果</p> 
+<hr /> 
+<p><strong>伪彩色增强和假彩色增强有何异同&#xff1f;</strong><br /> 伪彩色增强是对一幅灰度图像经过三种变换得到三幅图像&#xff0c;进行彩色合成得到一幅彩色图像&#xff1b;<br /> 假彩色增强则是对一幅彩色图像进行处理得到与原图像不同的彩色图像&#xff1b;</p> 
+<ul><li>主要差异&#xff1a;处理对象不同</li><li>相同点&#xff1a;利用人眼对彩色的分辨能力高于灰度分辨能力的特点&#xff0c;将目标用人眼敏感的颜色表示</li></ul> 
+<hr /> 
+<p><strong>什么是中值滤波&#xff0c;有何特点&#xff1f;</strong><br /> 中值滤波是指将当前像元的窗口&#xff08;或频域&#xff09;中所有像元灰度由小到大排序&#xff0c;中间值作为当前像元的输出值<br /> <code>特点</code>&#xff1a;是一种非线性的图像平滑法&#xff0c;它对脉冲干扰级椒盐噪声的抑制效果好&#xff0c;在抑制随机噪声的同时能有效保护边缘少受模糊</p> 
+<p><strong>对于椒盐噪声&#xff0c;为什么中值滤波效果比均值滤波效果好&#xff1f;</strong><br /> 椒盐噪声是复制近似相等但随机分布在不同的位置上&#xff0c;图像中有干净点也有污染点。中值滤波是选择适当的点来代替污染点的值&#xff0c;所以处理效果好。因为噪声的均值不为0&#xff0c;所以均值滤波不能很好地去除噪声</p> 
+<hr /> 
+<p><strong>什么是直方图均衡化&#xff1f;</strong><br /> 将原图像的直方图通过变换函数修正为均匀的直方图&#xff0c;然后按均衡直方图修正原图像。图像均衡化处理后&#xff0c;图像的直方图是平直的&#xff0c;即<code>各灰度级具有相同的出现频数</code>&#xff0c;那么由于灰度级具有均匀的概率分布&#xff0c;图像看起来就更清晰了</p> 
+<hr /> 
+<p><strong>图像增强的目的是什么&#xff1f;</strong>&#xff08;灰度变换、直方图修正、图像锐化、图像平滑&#xff09;<br /> 图像增强的目的是为了改善图像的视觉效果&#xff0c;针对给定图像的应用场合&#xff0c;<code>有目的地强调图像的整体或局部特性</code>&#xff0c;将原来不清晰的图像变得清晰或强调某些感兴趣的特征&#xff0c;扩大图像中不同物体特征之间的差别&#xff0c;<code>抑制不感兴趣的特征</code>&#xff0c;使之改善图像质量、丰富信息量&#xff0c;加强图像判读和识别效果&#xff0c;满足某些特殊分析的需要。<br /> <strong>图像增强时&#xff0c;平滑和锐化具有哪些实现方法&#xff1f;</strong><br /> 平滑&#xff1a;<code>领域平均法(均值滤波)</code>&#xff0c;<code>中值滤波</code>&#xff0c;<code>多图像平均法</code>&#xff0c;<code>频域低通滤波法</code><br /> 锐化&#xff1a;<code>微分法</code>&#xff0c;<code>高通滤波法</code></p> 
+<hr /> 
+<p><strong>简述梯度法与 Laplacian 算子检测边缘的异同点&#xff1f;</strong><br /> 答&#xff1a;梯度算子和 Laplacian 检测边缘对应的模板分别为<br /> <img alt="在这里插入图片描述" src="https://img-blog.csdnimg.cn/20181230180326546.png" /><br /> <code>梯度算子</code>是利用阶跃边缘灰度变化的<code>一阶</code>导数特性&#xff0c;认为极大值点对应于边缘点&#xff1b;而 <code>Laplacian 算子</code>检测边缘是利用阶跃边缘灰度变化的<code>二阶</code>导数特性&#xff0c;认为边缘点是零交叉点。</p> 
+<hr /> 
+<p><strong>简述基于边缘检测的<code>霍夫变换</code>的原理&#xff1f;</strong><br /> 把直线上的点的坐标变换到过点的直线的系数域&#xff0c;通过利用共线和直线相交的关系&#xff0c;使直线的提取问题转化为计数问题</p> 
+<hr /> 
+<h2><a id="_153"></a>计算题</h2> 
+<p><strong>Sobel算子</strong><br /> <img alt="在这里插入图片描述" src="https://img-blog.csdnimg.cn/2018123018033833.png?x-oss-process&#61;image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N1bnNoaW5lX2x5bg&#61;&#61;,size_16,color_FFFFFF,t_70" /></p> 
+<p><img alt="在这里插入图片描述" src="https://img-blog.csdnimg.cn/20181230180354202.png" /><br /> <img alt="在这里插入图片描述" src="https://img-blog.csdnimg.cn/2018123018040726.png?x-oss-process&#61;image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N1bnNoaW5lX2x5bg&#61;&#61;,size_16,color_FFFFFF,t_70" /></p> 
+<p><img alt="在这里插入图片描述" src="https://img-blog.csdnimg.cn/20181230180416644.png?x-oss-process&#61;image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N1bnNoaW5lX2x5bg&#61;&#61;,size_16,color_FFFFFF,t_70" /></p> 
+<p><strong>直方图均衡化&#xff08;离散情况、连续情况&#xff09;&#xff0c;下面这题为离散情况的</strong></p> 
+<div align="center"> 
+ <img width="70%" src="https://img-blog.csdnimg.cn/20190103213411555.png?x-oss-process&#61;image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N1bnNoaW5lX2x5bg&#61;&#61;,size_16,color_FFFFFF,t_70" /> 
+</div> 
+<p><strong>下面这题为连续情况&#xff1a;</strong><br /> <img alt="在这里插入图片描述" src="https://img-blog.csdnimg.cn/20181230180442230.png" /></p> 
+<hr /> 
+<p><strong>理想低通滤波器的截止频率选择不恰当时&#xff0c;会有很强的振铃效应。试从原理上解释振铃效应的产生原因。</strong></p> 
+<p>答&#xff1a;理想低通滤波器&#xff08;频域&#xff09;的传递函数为&#xff1a;<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        H
+       
+       
+        (
+       
+       
+        u
+       
+       
+        ,
+       
+       
+        v
+       
+       
+        )
+       
+       
+        &#61;
+       
+       
+        
+         {
+        
+        
+         
+          
+           
+            
+             1
+            
+           
+          
+          
+           
+            
+             
+              D
+             
+             
+              (
+             
+             
+              u
+             
+             
+              ,
+             
+             
+              v
+             
+             
+              )
+             
+             
+              ≤
+             
+             
+              
+               D
+              
+              
+               0
+              
+             
+            
+           
+          
+         
+         
+          
+           
+            
+             0
+            
+           
+          
+          
+           
+            
+             
+              D
+             
+             
+              (
+             
+             
+              u
+             
+             
+              ,
+             
+             
+              v
+             
+             
+              )
+             
+             
+              &amp;gt;
+             
+             
+              
+               D
+              
+              
+               0
+              
+             
+            
+           
+          
+         
+        
+       
+      
+      
+       H ( u , v ) &#61; \left\{ \begin{array} { l l } { 1 } &amp;amp; { D ( u , v ) \leq D _ { 0 } } \\ { 0 } &amp;amp; { D ( u , v ) &amp;gt; D _ { 0 } } \end{array} \right.
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathit" style="margin-right: 0.08em;">H</span><span class="mopen">(</span><span class="mord mathit">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.16em;"></span><span class="mord mathit" style="margin-right: 0.03em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.27em;"></span><span class="mrel">&#61;</span><span class="mspace" style="margin-right: 0.27em;"></span></span><span class="base"><span class="strut" style="height: 2.4em; vertical-align: -0.95em;"></span><span class="minner"><span class="mopen delimcenter" style="top: 0em;"><span class="delimsizing size3">{<!-- --></span></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.45em;"><span style="top: -3.61em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord">1</span></span></span></span><span style="top: -2.41em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.45em;"><span style="top: -3.61em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathit" style="margin-right: 0.02em;">D</span><span class="mopen">(</span><span class="mord mathit">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.16em;"></span><span class="mord mathit" style="margin-right: 0.03em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.27em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right: 0.27em;"></span><span class="mord"><span class="mord mathit" style="margin-right: 0.02em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3em;"><span style="top: -2.55em; margin-right: 0.05em; margin-left: -0.02em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"></span></span></span></span></span></span></span></span><span style="top: -2.41em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathit" style="margin-right: 0.02em;">D</span><span class="mopen">(</span><span class="mord mathit">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.16em;"></span><span class="mord mathit" style="margin-right: 0.03em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.27em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right: 0.27em;"></span><span class="mord"><span class="mord mathit" style="margin-right: 0.02em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3em;"><span style="top: -2.55em; margin-right: 0.05em; margin-left: -0.02em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p> 
+<p>滤波器半径交叉部分&#xff08;侧面图&#xff09;&#xff1a;</p> 
+<div align="center"> 
+ <img src="https://img-blog.csdnimg.cn/20181230180521989.png" /> 
+</div> 
+<p>对应空间域&#xff08;进行傅立叶反变换&#xff0c;为sinc函数&#xff09;&#xff1a;</p> 
+<div align="center"> 
+ <img src="https://img-blog.csdnimg.cn/20181230180531750.png" /> 
+</div> 
+<p>用理想低通滤波器滤波时&#xff0c;频域&#xff1a;<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        G
+       
+       
+        (
+       
+       
+        u
+       
+       
+        ,
+       
+       
+        v
+       
+       
+        )
+       
+       
+        &#61;
+       
+       
+        F
+       
+       
+        (
+       
+       
+        u
+       
+       
+        ,
+       
+       
+        v
+       
+       
+        )
+       
+       
+        H
+       
+       
+        (
+       
+       
+        u
+       
+       
+        ,
+       
+       
+        v
+       
+       
+        )
+       
+      
+      
+       G ( u , v ) &#61; F ( u , v ) H ( u , v )
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathit">G</span><span class="mopen">(</span><span class="mord mathit">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.16em;"></span><span class="mord mathit" style="margin-right: 0.03em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.27em;"></span><span class="mrel">&#61;</span><span class="mspace" style="margin-right: 0.27em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathit" style="margin-right: 0.13em;">F</span><span class="mopen">(</span><span class="mord mathit">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.16em;"></span><span class="mord mathit" style="margin-right: 0.03em;">v</span><span class="mclose">)</span><span class="mord mathit" style="margin-right: 0.08em;">H</span><span class="mopen">(</span><span class="mord mathit">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.16em;"></span><span class="mord mathit" style="margin-right: 0.03em;">v</span><span class="mclose">)</span></span></span></span></span></p> 
+<p>傅立叶反变换到时域有&#xff1a;<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        g
+       
+       
+        (
+       
+       
+        x
+       
+       
+        ,
+       
+       
+        y
+       
+       
+        )
+       
+       
+        &#61;
+       
+       
+        f
+       
+       
+        (
+       
+       
+        x
+       
+       
+        ,
+       
+       
+        y
+       
+       
+        )
+       
+       
+        ∗
+       
+       
+        h
+       
+       
+        (
+       
+       
+        x
+       
+       
+        ,
+       
+       
+        y
+       
+       
+        )
+       
+      
+      
+       g ( x , y ) &#61; f ( x , y ) * h ( x , y )
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathit" style="margin-right: 0.03em;">g</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.16em;"></span><span class="mord mathit" style="margin-right: 0.03em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.27em;"></span><span class="mrel">&#61;</span><span class="mspace" style="margin-right: 0.27em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathit" style="margin-right: 0.1em;">f</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.16em;"></span><span class="mord mathit" style="margin-right: 0.03em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.22em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.22em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathit">h</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.16em;"></span><span class="mord mathit" style="margin-right: 0.03em;">y</span><span class="mclose">)</span></span></span></span></span></p> 
+<p><code>频域相乘相当于时域作卷积</code>。因此&#xff0c;图像经过理想低通滤波器后&#xff0c;<code>时域上相当于原始图像与sinc函数卷积</code>&#xff0c;由于sinc函数振荡&#xff0c;则卷积后图像也会振荡&#xff1b;或者说由于sinc函数有两个负边带&#xff0c;卷积后图像信号两侧出现<code>“过冲现象”</code>&#xff0c;而且能量不集中&#xff0c;即产生<code>振铃效应</code>。若截止频率越低&#xff0c;即D0越小&#xff0c;则sinc函数主瓣越大&#xff0c;表现为中心环越宽&#xff0c;相应周围环&#xff08;旁瓣&#xff09;越大。而中心环主要决定模糊&#xff0c;旁瓣主要决定<code>振铃效应</code>。因此当截止频率较低时&#xff0c;会产生很强的振铃效应。选择适当的截止频率&#xff0c;会减小振铃效应</p> 
+<p><code>PS:这里的时域也就是空间域</code></p> 
+<hr /> 
+<p><strong>逆滤波时&#xff0c;为什么在图像存在噪声时&#xff0c;不能采用全滤波&#xff1f;试采用逆滤波原理说明&#xff0c;并给出正确的处理方法。</strong></p> 
+<p>复原由退化函数退化的图像最直接的方法是直接逆滤波&#xff0c;在该方法中&#xff0c;用退化函数除退化图像的傅里叶变换来计算原始图像的傅里叶变换。</p> 
+<p><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         F
+        
+        
+         ^
+        
+       
+       
+        (
+       
+       
+        u
+       
+       
+        ,
+       
+       
+        v
+       
+       
+        )
+       
+       
+        &#61;
+       
+       
+        
+         
+          G
+         
+         
+          (
+         
+         
+          u
+         
+         
+          ,
+         
+         
+          v
+         
+         
+          )
+         
+        
+        
+         
+          H
+         
+         
+          (
+         
+         
+          u
+         
+         
+          ,
+         
+         
+          v
+         
+         
+          )
+         
+        
+       
+       
+        &#61;
+       
+       
+        F
+       
+       
+        (
+       
+       
+        u
+       
+       
+        ,
+       
+       
+        v
+       
+       
+        )
+       
+       
+        &#43;
+       
+       
+        
+         
+          N
+         
+         
+          (
+         
+         
+          u
+         
+         
+          ,
+         
+         
+          v
+         
+         
+          )
+         
+        
+        
+         
+          H
+         
+         
+          (
+         
+         
+          u
+         
+         
+          ,
+         
+         
+          v
+         
+         
+          )
+         
+        
+       
+      
+      
+       \hat { F } ( u , v ) &#61; \frac { G ( u , v ) } { H ( u , v ) }&#61; F(u,v) &#43; \frac { N(u,v) } { H(u,v)}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.19em; vertical-align: -0.25em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.94em;"><span style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathit" style="margin-right: 0.13em;">F</span></span></span><span style="top: -3.25em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.16em;">^</span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathit">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.16em;"></span><span class="mord mathit" style="margin-right: 0.03em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.27em;"></span><span class="mrel">&#61;</span><span class="mspace" style="margin-right: 0.27em;"></span></span><span class="base"><span class="strut" style="height: 1.53em; vertical-align: -0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.01em;"><span style="top: -2.65em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right: 0.08em;">H</span><span class="mopen mtight">(</span><span class="mord mathit mtight">u</span><span class="mpunct mtight">,</span><span class="mord mathit mtight" style="margin-right: 0.03em;">v</span><span class="mclose mtight">)</span></span></span></span><span style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span style="top: -3.48em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight">G</span><span class="mopen mtight">(</span><span class="mord mathit mtight">u</span><span class="mpunct mtight">,</span><span class="mord mathit mtight" style="margin-right: 0.03em;">v</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.52em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right: 0.27em;"></span><span class="mrel">&#61;</span><span class="mspace" style="margin-right: 0.27em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathit" style="margin-right: 0.13em;">F</span><span class="mopen">(</span><span class="mord mathit">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.16em;"></span><span class="mord mathit" style="margin-right: 0.03em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.22em;"></span><span class="mbin">&#43;</span><span class="mspace" style="margin-right: 0.22em;"></span></span><span class="base"><span class="strut" style="height: 1.53em; vertical-align: -0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.01em;"><span style="top: -2.65em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right: 0.08em;">H</span><span class="mopen mtight">(</span><span class="mord mathit mtight">u</span><span class="mpunct mtight">,</span><span class="mord mathit mtight" style="margin-right: 0.03em;">v</span><span class="mclose mtight">)</span></span></span></span><span style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span style="top: -3.48em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right: 0.1em;">N</span><span class="mopen mtight">(</span><span class="mord mathit mtight">u</span><span class="mpunct mtight">,</span><span class="mord mathit mtight" style="margin-right: 0.03em;">v</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.52em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p> 
+<p>上式说明即使知道退化函数&#xff0c;也不能准确地复原未退化的图像。因为噪声是一个随机函数&#xff0c;其傅氏变换未知。并且&#xff0c;实际应用逆滤波复原方法时存在病态的问题&#xff0c;即如果退化为零或非常小的值&#xff0c;则N(u,v)/H(u,v)之比很容易决定复原函数的值。</p> 
+<p>实验证明&#xff0c;当退化图像的噪声较小&#xff0c;即轻度降质时&#xff0c;采用逆滤波复原的方法可以获得较好的结果。通常&#xff0c;在离频率平面原点较远的地方数值较小或为零&#xff0c;因此图象复原在原点周围的有限区域内进行&#xff0c;即将退化图象的傅立叶谱限制在没出现零点而且数值又不是太小的有限范围内。</p> 
+<p>也就是说&#xff0c;解决退化函数为零或为非常小的值的问题的一种方法是&#xff0c;限制滤波的频率&#xff0c;使其接近原点。</p> 
+<p><code>逢考必过&#xff01;锦鲤附体&#xff01;逢考必过&#xff01;锦鲤附体&#xff01;逢考必过&#xff01;锦鲤附体&#xff01; 重要的事情说三遍&#xff01;</code></p>
+                </div>
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-d7a94ec6ab.css" rel="stylesheet">
+                <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-ba784fbaf8.css" rel="stylesheet">
+        </div>
+    </article>
+</div>
+<script>
+    // 敏感词替换
+    ~function(blogSensitiveWords){
+        if(blogSensitiveWords){   
+            var getContentViews = document.getElementById("content_views");
+            var getContentTitle = document.getElementById("articleContentId");
+            var contentViewsInnerHTML = getContentViews.innerHTML;
+            var contentTitleInnerHTML = getContentTitle.innerHTML;
+            var keyWordsJsonArr = [];
+            var keyWordsArr = blogSensitiveWords.split(',');
+            function repeatTimes(str, num){
+                return num > 1 ? str += repeatTimes(str, --num): str;
+            }
+            for(var i = 0; i < keyWordsArr.length; i++){
+                var keyWordsJson = {} ;
+                keyWordsJson.key = keyWordsArr[i];
+                keyWordsJson.value = repeatTimes("*",keyWordsArr[i].length);
+                keyWordsJsonArr.push(keyWordsJson);
+            }
+            var reg;
+            for(var i = 0; i < keyWordsJsonArr.length; i++){
+                var item = keyWordsJsonArr[i];
+                reg = new RegExp(item.key+"(?!([^<]*>)|([^<]*<\/a>))","ig");
+                contentViewsInnerHTML = contentViewsInnerHTML.replace(reg,item.value);
+                contentTitleInnerHTML = contentTitleInnerHTML.replace(reg,item.value);
+            }
+            getContentViews.innerHTML=contentViewsInnerHTML;
+            getContentTitle.innerHTML=contentTitleInnerHTML;
+        }
+    }(blogSensitiveWords)
+</script>
+<div class="more-toolbox" id="toolBarBox">
+    <span id="fixedBar"></span>
+    <div class="left-toolbox">
+        <ul class="toolbox-list">
+            <li class="tool-item tool-item-size tool-active is-like" id="is-like"><a>
+            <img style="display:none;" id="is-like-imgactive-animation-like" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isactive" style="display:none" id="is-like-imgactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+            <img class="isdefault" style="display:block" id="is-like-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUp.png" alt="">   
+            <span class="name" id="is-like-span">点赞</span>
+            <span id="spanCount" class="count">
+                    127
+            </span>
+            </a></li>
+            <li class="tool-item tool-item-size tool-active tool-item-comment">
+                <a href="#commentBox">
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarComment.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCommentactive.png" style="display:none;" alt="">
+                    <span class="name">评论</span>
+                    <span class="count">
+                        6
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-QRcode" id="tool-share">
+                <a href="javascript:;" data-report-click='{"mod":"1582594662_002","spm":"1001.2101.3001.4129","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShare.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShareactive.png" style="display:none;" alt="">
+                    <span class="name">分享</span>
+                </a>
+                <div class="QRcode" id="tool-QRcode" style="left:-92%;">
+                    <span id="QRcode-close">x</span>
+                    <p class="title">
+                    海报分享
+                    </p>
+                    <div id='shareCode'></div>
+                    <p>
+                    扫一扫，分享海报
+                    </p>
+                </div>
+            </li>
+            <li class="tool-item tool-item-size tool-active is-collection ">
+                <a href="javascript:;" data-report-click='{"mod":"popu_824","spm":"1001.2101.3001.4130","ab":"new"}'>
+                    <img style="display:none" id="is-collection-img-collection" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <img class="isdefault" id="is-collection-img" style="display:block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                    <img class="isactive" id="is-collection-imgactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                    <span class="name" id="is-collection">收藏</span>
+                    <span class="count get-collection" id="get-collection">
+                    </span>
+                </a>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-reward">
+                <a  id="toolreward" data-report-click='{"mod":"popu_830","spm":"1001.2101.3001.4237","dest":"","ab":"new"}'>
+                    <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReward.png" alt="">
+                    <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarRewardactive.png" style="display:none;" alt="">
+                    <span class="name">打赏</span>
+                </a>
+<div id="reward" class="reward-box">
+	<p class="rewad-title">打赏<span class="reward-close"><svg t="1567152543821" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10924" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><defs><style type="text/css"></style></defs><path d="M512 438.378667L806.506667 143.893333a52.032 52.032 0 1 1 73.6 73.621334L585.621333 512l294.485334 294.485333a52.074667 52.074667 0 0 1-73.6 73.642667L512 585.621333 217.514667 880.128a52.053333 52.053333 0 1 1-73.621334-73.642667L438.378667 512 143.893333 217.514667a52.053333 52.053333 0 1 1 73.621334-73.621334L512 438.378667z" fill="" p-id="10925"></path></svg></span></p>
+	<dl>
+		<dd>
+		<a href="https://elainelv.blog.csdn.net" data-report-click='{"mod":"popu_379","dest":"https://elainelv.blog.csdn.net","ab":"new"}'>
+			<img src="https://profile.csdnimg.cn/5/8/C/3_sunshine_lyn" class="avatar_pic">
+		</a>
+		</dd>
+		<dt>
+			<p class="blog-name">sunshine_lyn</p>
+			<p class="blog-discript">你的鼓励将是我创作的最大动力</p>
+		</dt>
+	</dl>
+	<div class="change-bt-box">
+		<span class="reward-bt reward-bt-coin">C币</span>
+		<span class="reward-bt-space"></span>
+		<span class="reward-bt reward-bt-money reward-bt-active">余额</span>
+	</div>
+	<div class="money-box">
+			<span class="choose_money choosed" data-id="2">2C币</span>
+			<span class="choose_money " data-id="4">4C币</span>
+			<span class="choose_money " data-id="6">6C币</span>
+			<span class="choose_money " data-id="10">10C币</span>
+			<span class="choose_money " data-id="20">20C币</span>
+			<span class="choose_money " data-id="50">50C币</span>
+	</div>
+	<div class="sure-box">
+		<p class="is-have-money"><a class="reward-sure">确定</a></p>
+	</div>
+</div>
+            </li>
+            <li class="tool-item tool-item-size tool-active tool-more">
+              <a class="article-report">
+                <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReport.png" alt="">
+                <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReportactive.png" style="display:none;" alt="">
+                <span class="name">举报</span>
+              </a>
+            </li>
+            <li class="tool-item">
+                    <a class="tool-attend tool-bt-button tool-bt-attend" href="javascript:;" data-report-view='{"mod":"1592215036_002","spm":"1001.2101.3001.4232","extend1":"关注"}'>关注</a>
+                <a class="tool-item-follow active-animation" style="display:none;">关注</a>
+            </li>
+            <li class="tool-item">
+                    <p class="company active" id="health-companies" href="javascript:;" >一键三连</p>
+                <span class="triplet-prompt">点赞Mark关注该博主, 随时了解TA的最新博文<img class="close-prompt" src="https://csdnimg.cn/release/blogv2/dist/pc/img/closePrompt.png"></span>
+            </li>
+        </ul>
+        <div style="display:flex">
+         </div>
+    </div>  
+</div>
+<script type=text/javascript crossorigin src="https://csdnimg.cn/release/phoenix/production/qrcode-7c90a92189.min.js"></script>
+<script src="//g.csdnimg.cn/??sharewx/1.2.1/sharewx.js" type="text/javascript"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/collection-box/2.0.2/collection-box.js"></script>
+                <div class="first-recommend-box recommend-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qq_42672532/article/details/106750868"  data-report-view='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/qq_42672532/article/details/106750868"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qq_42672532/article/details/106750868" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/qq_42672532/article/details/106750868"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control'>
+					<em>数字图像处理</em>-知识点<em>总结</em>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qq_42672532" target="_blank"><span class="blog-title">方慕珩</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">06-14</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					553
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qq_42672532/article/details/106750868" target="_blank"  data-report-click='{"ab":"new","mod":"popu_871","extra":"{\"utm_medium\":\"distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/qq_42672532/article/details/106750868"}'  data-report-query='utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">（知识点来源：课本《<em>数字图像处理</em>》（贾永红），<em>总结</em>的内容是我们学校老师划的期末范围，主要目的是掌握基本概念）
+
+第二章：<em>数字图像处理</em>的基本概念
+
+2.3 图像数字化
+
+数字化是将一幅画面转化成计算机能处理的数字图像的过程。
+
+包括：采样和量化。
+
+2.3.1、2.3.2采样与量化
+
+1.采样：将空间上连续的图像变换成离散点。（采样间隔、采样孔径）
+
+2.量化：采样后的图像被分割成空间上离散的像素，但是灰度是连续的，量化就是将像素灰度转换成离散的整数值。
+
+一幅数字图像中不同灰度值的个数称为灰度级。二值图像是</div>
+			</a>
+		</div>
+	</div>
+</div>
+                </div>
+            <div class="second-recommend-box recommend-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/caozixuan98724/article/details/84203873"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.control\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/caozixuan98724/article/details/84203873"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/caozixuan98724/article/details/84203873" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.control\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/caozixuan98724/article/details/84203873"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.control'>
+					<em>数字图像处理</em>知识点
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/caozixuan98724" target="_blank"><span class="blog-title">彩虹糖的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">11-18</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					1021
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/caozixuan98724/article/details/84203873" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.control\"}","index":"1","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/caozixuan98724/article/details/84203873"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">图像技术基础
+
+
+图像和数字图像
+
+
+图：是物体反射或者透射电磁波的分布。
+
+
+像：是人的视觉系统对接收的图信息在大脑中形成的印象。
+
+
+图像：是&ldquo;图&rdquo;和&ldquo;像&rdquo;的结合。具体来说，就是用各种观测系统以不同形式和手段观测客观世界而获得的、可以直接或间接作用于人的视觉系统而产生的视知觉实体。
+
+
+模拟图像，灰度图像，彩色图像
+
+
+图像分辨率：指该图像在空间域上的采样数。指单位图像线性尺寸中所包含的像素数...</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+<a id="commentBox" name="commentBox"></a>
+<div class="comment-box">
+	<div class="comment-edit-box d-flex">
+		<a id="commentsedit"></a>
+		<div class="user-img">
+			<a href="javascript:void(0);" >
+				<img class="show_loginbox" src="https://g.csdnimg.cn/static/user-img/anonymous-User-img.png">
+			</a>
+		</div>
+		<form id="commentform">
+			<img class="comment-sofa-flag" src="https://csdnimg.cn/release/blogv2/dist/pc/img/commentFlag@2x.png">
+			<textarea class="comment-content" name="comment_content" id="comment_content" placeholder="优质评论可以帮助作者获得更高权重"
+				maxlength="1000"></textarea>
+			<div class="opt-box">
+				<div id="ubbtools" class="add_code">
+					<a href="#insertcode" code="code" target="_self"><i class="icon iconfont icon-daima"></i></a>
+				</div>
+				<input type="hidden" id="comment_replyId" name="comment_replyId">
+				<input type="hidden" id="article_id" name="article_id" value="85400015">
+				<input type="hidden" id="comment_userId" name="comment_userId" value="">
+				<input type="hidden" id="commentId" name="commentId" value="">
+				<div class="dropdown" id="myDrap">
+					<a class="dropdown-face d-flex align-items-center" data-toggle="dropdown" role="button"
+						aria-haspopup="true" aria-expanded="false">
+						<div class="txt-selected text-truncate">添加代码片</div>
+						<svg class="icon d-block" width="200px" height="100.00px" viewBox="0 0 2048 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path  d="M597.33333292 298.666667h853.333334L1023.99999992 725.333333 597.33333292 298.666667z"  /></svg>
+					</a>
+					<ul class="dropdown-menu" id="commentCode" aria-labelledby="drop4">
+						<li><a data-code="html">HTML/XML</a></li>
+						<li><a data-code="objc">objective-c</a></li>
+						<li><a data-code="ruby">Ruby</a></li>
+						<li><a data-code="php">PHP</a></li>
+						<li><a data-code="csharp">C</a></li>
+						<li><a data-code="cpp">C++</a></li>
+						<li><a data-code="javascript">JavaScript</a></li>
+						<li><a data-code="python">Python</a></li>
+						<li><a data-code="java">Java</a></li>
+						<li><a data-code="css">CSS</a></li>
+						<li><a data-code="sql">SQL</a></li>
+						<li><a data-code="plain">其它</a></li>
+					</ul>
+				</div>
+				<div class="right-box" id="rightBox" data-type="2">
+							<span id="tip_comment" class="tip">还能输入<em>1000</em>个字符</span>
+							<a data-report-view='{"spm":"3001.4374"}' data-report-click='{"spm":"3001.4374"}' class="btn btn-sm btn-quick-comment" id="quickComment">“速评一下”</a>
+							<a data-report-click='{"mod":"1582594662_003","spm":"1001.2101.3001.4227","ab":"new"}'><input type="submit"
+									class="btn btn-sm btn-comment" value="发表评论"></a>
+				</div>
+			</div>
+		</form>
+		<input type="button" class="bt-comment-show" value="评论">
+	</div>
+	<div class="comment-list-container">
+		<a id="comments"></a>
+		<div class="comment-list-box">
+		</div>
+		<div id="commentPage" class="pagination-box d-none"></div>
+		<div class="opt-box text-center">
+			<div class="btn btn-sm btn-link-blue" id="btnMoreComment"></div>
+		</div>
+	</div>
+</div>            <div class="recommend-box insert-baidu-box">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qq_33690342/article/details/82181884"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control\"}","index":"2","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/qq_33690342/article/details/82181884"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qq_33690342/article/details/82181884" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control\"}","index":"2","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/qq_33690342/article/details/82181884"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control'>
+					<em>数字图像处理</em>知识点<em>总结</em>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qq_33690342" target="_blank"><span class="blog-title">qq_33690342的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-29</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					1231
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qq_33690342/article/details/82181884" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control\"}","index":"2","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/qq_33690342/article/details/82181884"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">常用滤波器：
+
+中值滤波器：它能滤除椒盐噪声、高斯噪声，并且相对于均值滤波器来说，他不仅能过滤噪声而且不会模糊边界，保护了图像尖锐的边缘。
+
+均值滤波：平滑图像，速度较快，算法简单，只能很小程度的削弱噪声，不能消除噪声。缺点是会模糊图像细节。
+
+高斯滤波器：对于抑制服从正态分布的噪声非常有效。
+
+拉普拉斯滤波器：可以增强图像细节，找到图像边缘。
+
+梯度算子锐化滤波器：soble&nbsp; 算子、Rober...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://frankdura.blog.csdn.net/article/details/103822618"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control\"}","index":"3","strategy":"BlogCommendFromBaidu","dest":"https://frankdura.blog.csdn.net/article/details/103822618"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://frankdura.blog.csdn.net/article/details/103822618" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control\"}","index":"3","strategy":"BlogCommendFromBaidu","dest":"https://frankdura.blog.csdn.net/article/details/103822618"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control'>
+					2019 <em>数字图像处理</em>试题
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/OOFFrankDura" target="_blank"><span class="blog-title">FrankDura的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">01-03</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					1543
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://frankdura.blog.csdn.net/article/details/103822618" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control\"}","index":"3","strategy":"BlogCommendFromBaidu","dest":"https://frankdura.blog.csdn.net/article/details/103822618"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">文章目录综述2019 CS 期末第一题第二题第三题第四题第五题第六题2019 SE：数媒 期末
+综述
+2019六个大题
+满足<em>复习</em>提纲覆盖：
+
+图像表示及存储格式（交叉、顺序存贮）
+基本的图像处理 （ 对比度增强 、 插值 、 邻域 ）
+直方图（图像均匀化，归一化）
+图像滤波、图像梯度（Sobel,Laplacian)
+频域图像处理、傅里叶变换等
+形态学图像处理（膨胀和腐蚀，开闭操作等)
+卷积神经网...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/weixin_40962955/article/details/78917087"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control\"}","index":"4","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/weixin_40962955/article/details/78917087"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/weixin_40962955/article/details/78917087" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control\"}","index":"4","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/weixin_40962955/article/details/78917087"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control'>
+					<em>数字图像处理</em>及matlab实现知识点<em>总结</em> 5-10  杨杰
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/weixin_40962955" target="_blank"><span class="blog-title">公子若的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">12-27</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					1万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/weixin_40962955/article/details/78917087" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control\"}","index":"4","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/weixin_40962955/article/details/78917087"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">第五章图像增强
+
+
+
+
+
+两个方法：
+
+1）空间域增强：点处理，模板处理即领域处理 
+2）频率域增强：高低通滤波，同态滤波
+
+
+
+1.空间域图像增强
+
+
+
+1）点处理
+
+
+
+基于灰度变换
+
+
+灰度线性变换 
+作用：对每一个像素灰度做线性拉伸 
+g（x,y）=af（x,y）+bg（x,y）=af（x,y）+b 
+适用于：对曝光不足或过度的图片，即图像灰度局限在一个很小的范围。 
+ 
+
+分段线性变换</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/tongxin063/2020696"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-5.control\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://download.csdn.net/download/tongxin063/2020696"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/tongxin063/2020696" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-5.control\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://download.csdn.net/download/tongxin063/2020696"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-5.control&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-5.control'>
+					<em>数字图像处理</em>试题及答案
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">01-25</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/tongxin063/2020696" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-5.control\"}","index":"5","strategy":"BlogCommendFromBaidu","dest":"https://download.csdn.net/download/tongxin063/2020696"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-5.control&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-5.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">超全的数字图象处理试题华中科技大 厦门大学 武汉大学 杭州电子科技大</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_discussion_topic clearfix" data-url="https://bbs.csdn.net/topics/398235206"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-6.control\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/398235206"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://bbs.csdn.net/topics/398235206" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-6.control\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/398235206"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-6.control&depth_1-utm_source=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-6.control'>
+					<em>数字图像处理</em>试卷及解答下载
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">11-15</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://bbs.csdn.net/topics/398235206" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-6.control\"}","index":"6","strategy":"BlogCommendFromBaidu","dest":"https://bbs.csdn.net/topics/398235206"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-6.control&depth_1-utm_source=distribute.pc_relevant.none-task-discussion_topic-BlogCommendFromBaidu-6.control'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>数字图像处理</em>试卷及解答，比较好的学习资料！ 相关下载链接：//download.csdn.net/download/wjw06038014/2814417?utm_source=bbsseo</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/tongjianshui/1283646"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-7.control\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://download.csdn.net/download/tongjianshui/1283646"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/tongjianshui/1283646" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-7.control\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://download.csdn.net/download/tongjianshui/1283646"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-7.control&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-7.control'>
+					<em>数字图像处理</em>期末考试试题
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">05-08</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/tongjianshui/1283646" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-7.control\"}","index":"7","strategy":"BlogCommendFromBaidu","dest":"https://download.csdn.net/download/tongjianshui/1283646"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-7.control&depth_1-utm_source=distribute.pc_relevant.none-task-download-BlogCommendFromBaidu-7.control'>
+				<div class="desc ellipsis-online ellipsis-online-1"><em>数字图像处理</em>期末考试试题 有答案的 很好的</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/akadiao/article/details/73694957"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/akadiao/article/details/73694957"}'>
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/akadiao/article/details/73694957" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/akadiao/article/details/73694957"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control'>
+					<em>数字图像处理</em>概念小结
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/akadiao" target="_blank"><span class="blog-title">akadiao的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">06-24</span>
+					<span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					5428
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/akadiao/article/details/73694957" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control\"}","index":"8","strategy":"BlogCommendFromBaidu","dest":"https://blog.csdn.net/akadiao/article/details/73694957"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8.control'>
+				<div class="desc ellipsis-online ellipsis-online-1">1、图像数字化一般采用均匀采样和均匀量化方式。 
+     均匀采样，即等间隔采样。当对采样点数目有所限制时，比如说N&times;N个采样点，此时可以根据图像的特性采用自适应采样方案，有可能获得更好的效果。 
+     自适应采样方案的基本思想是：在图像函数值变化较大的区域采用精细的采样，在相对平滑的区域采用粗糙的采样。这种自适应采样方案又称为非均匀采样。 
+一般来说，采样间隔越大，所得图像像素数越少，空间分</div>
+			</a>
+		</div>
+	</div>
+</div>
+            </div>
+            <div class="template-box">
+                <span>©️2020 CSDN</span>
+                <span>皮肤主题: 鲸</span>
+                <span> 设计师:meimeiellie</span>
+                <span>
+                    <a href="https://blog.csdn.net/" class="back-home c-blue c-blue-hover c-blue-focus">返回首页</a>
+                </span>
+            </div>
+<div class="blog-footer-bottom" style="margin-top:10px;"></div>
+<script src="https://g.csdnimg.cn/common/csdn-footer/csdn-footer.js" data-isfootertrack="false" type="text/javascript"></script>
+<script type="text/javascript">
+    window.csdn.csdnFooter.options = {
+        el: '.blog-footer-bottom',
+        type: 2
+    }
+</script>        </main>
+<aside class="blog_container_aside">
+    <div id="asideProfile" class="aside-box">
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://elainelv.blog.csdn.net" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4121","dest":"https://elainelv.blog.csdn.net","ab":"new"}'>
+                <img src="https://profile.csdnimg.cn/5/8/C/3_sunshine_lyn" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex flex-column profile-intro-name-box">
+            <div class="profile-intro-name-boxTop">
+                <a href="https://elainelv.blog.csdn.net" class="" id="uid" title="sunshine_lyn" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4122","dest":"https://elainelv.blog.csdn.net","ab":"new"}'>
+                    <span class="name " username="sunshine_lyn">sunshine_lyn</span>
+                </a>
+                <span>
+                </span>
+                <span class="flag expert-blog">
+                <span class="bubble">CSDN认证博客专家</span>
+                </span>
+                <span class="flag company-blog">
+                <span class="bubble">CSDN认证企业博客</span>
+                </span>
+            </div>
+            <div class="profile-intro-name-boxFooter">
+                <span class="personal-home-page personal-home-years">码龄4年</span>
+                    <span class="personal-home-page">
+                    <a class="personal-home-certification" href="https://elainelv.blog.csdn.net?utm_source=14998968" target="_blank" title="暂无认证">
+                    <img src="https://csdnimg.cn/identity/nocErtification.png" alt="">
+                    暂无认证
+                    </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="157">
+            <a href="https://elainelv.blog.csdn.net" data-report-click='{"mod":"1598321000_001","spm":"1001.2101.3001.4310"}' data-report-query="t=1">  
+                <dt><span class="count">157</span></dt>
+                <dd class="font">原创</dd>
+            </a>
+        </dl>
+        <dl class="text-center" data-report-click='{"mod":"1598321000_002","spm":"1001.2101.3001.4311"}' title="12460">
+            <a href="https://blog.csdn.net/rank/writing_rank" target="_blank">
+                <dt><span class="count">1万+</span></dt>
+                <dd class="font">周排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" title="14854">
+            <a href="https://blog.csdn.net/rank/writing_rank_total" data-report-click='{"mod":"1598321000_003","spm":"1001.2101.3001.4312"}' target="_blank">
+                <dt><span class="count">1万+</span></dt>
+                <dd class="font">总排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" style="min-width:58px" title="415236">  
+            <dt><span class="count">41万+</span></dt>
+            <dd>访问</dd>
+        </dl>
+        <dl class="text-center" title="6级,点击查看等级说明">
+            <dt><a href="https://blog.csdn.net/home/help.html#level" target="_blank">
+                <img class="level" src="https://csdnimg.cn/identity/blog6.png">
+            </a>
+            </dt>
+            <dd>等级</dd>
+        </dl>
+    </div>
+    <div class="item-rank"></div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="4520">
+            <dt><span class="count">4520</span></dt>
+            <dd>积分</dd>
+        </dl>
+         <dl class="text-center" id="fanBox" title="157">
+            <dt><span class="count" id="fan">157</span></dt>
+            <dd>粉丝</dd>
+        </dl>
+        <dl class="text-center" title="268">
+            <dt><span class="count">268</span></dt>
+            <dd>获赞</dd>
+        </dl>
+        <dl class="text-center" title="72">
+            <dt><span class="count">72</span></dt>
+            <dd>评论</dd>
+        </dl>
+        <dl class="text-center" title="986">
+            <dt><span class="count">986</span></dt>
+            <dd>收藏</dd>
+        </dl>
+    </div>
+    <div class="aside-box-footer" data-report-view='{"spm":"3001.4296"}'>
+        <div class="badge-box d-flex">
+            <div class="badge d-flex">
+                <div class="icon-badge" title="签到新秀">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/qiandao1@240.png" alt="签到新秀">
+                    </div>
+                </div>
+                <div class="icon-badge" title="持之以恒">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/chizhiyiheng@240.png" alt="持之以恒">
+                    </div>
+                </div>
+                <div class="icon-badge" title="勤写标兵Lv3">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/qixiebiaobing3@240.png" alt="勤写标兵Lv3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="profile-intro-name-boxOpration">
+        <div class="opt-letter-watch-box">
+        <a class="bt-button personal-letter" href="https://im.csdn.net/chat/sunshine_lyn" target="_blank" rel="noopener">私信</a>
+        </div>
+        <div class="opt-letter-watch-box"> 
+            <a class="personal-watch bt-button" id="btnAttent" >关注</a>  
+        </div>
+    </div>
+</div>
+<div id="asideSearchArticle" class="aside-box">
+	<div class="aside-content search-comter">
+    <div class="aside-search aside-search-blog">         
+        <input type="text" class="input-serch-blog" name="" autocomplete="off" value="" id="search-blog-words" placeholder="搜博主文章">
+        <a class="btn-search-blog">
+                    <img src="//csdnimg.cn/cdn/content-toolbar/csdn-white-search.png?v=1587006908">
+        </a>
+    </div>
+    </div>
+</div>
+
+
+<div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list">
+			<li>
+				<a href="https://elainelv.blog.csdn.net/article/details/81174426" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://elainelv.blog.csdn.net/article/details/81174426","ab":"new"}'>
+				python3:出错！this inspection detects names that should resolve but don't.due to dynamic dispatch and d
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					<span class="read">39705</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://elainelv.blog.csdn.net/article/details/81429819" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://elainelv.blog.csdn.net/article/details/81429819","ab":"new"}'>
+				python3：Tkinter——简单的窗口视窗
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					<span class="read">34860</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://elainelv.blog.csdn.net/article/details/81054594" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://elainelv.blog.csdn.net/article/details/81054594","ab":"new"}'>
+				python3.7版本下，安装wxpython
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					<span class="read">31660</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://elainelv.blog.csdn.net/article/details/81158855" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://elainelv.blog.csdn.net/article/details/81158855","ab":"new"}'>
+				anaconda+pycharm安装
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					<span class="read">27809</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://elainelv.blog.csdn.net/article/details/82747596" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://elainelv.blog.csdn.net/article/details/82747596","ab":"new"}'>
+				快速了解B+树的插入、删除操作
+					<img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountBlack.png" alt="">
+					<span class="read">20717</span>
+                </a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="asideCategory" class="aside-box flexible-box" style="display:block!important;">
+    <h3 class="aside-title">分类专栏</h3>
+    <div class="aside-content">
+        <ul>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_10191955.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_10191955.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756780.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">单调栈</span>
+                    </span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_10191953.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_10191953.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756916.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">双指针</span>
+                    </span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_10142970.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_10142970.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756926.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">滑动窗口</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_9753262.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_9753262.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">贪心</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_9814375.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_9814375.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756780.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">位运算</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_9750794.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_9750794.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756913.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">LeetCode周赛</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_9740339.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_9740339.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756724.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">链表</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_9753068.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_9753068.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756923.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">DFS</span>
+                    </span>
+                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_9766090.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_9766090.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756926.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">回溯</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7936410.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7936410.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756926.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">linux</span>
+                    </span>
+                    <span class="count float-right">14篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7937489.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7937489.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Linux达人养成计划</span>
+                    </span>
+                    <span class="count float-right">9篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7581223.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7581223.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Python学习</span>
+                    </span>
+                    <span class="count float-right">34篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7921944.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7921944.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756925.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Tkinter</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7921935.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7921935.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756780.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Pandas</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7921933.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7921933.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756916.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Numpy</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7794512.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7794512.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756919.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">《深入理解计算机系统》的学习</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7804260.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7804260.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">算法导论</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7921949.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7921949.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">系统软件安装</span>
+                    </span>
+                    <span class="count float-right">9篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_6323462.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_6323462.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">2016-多校</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_6321173.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_6321173.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756916.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">搜索算法</span>
+                    </span>
+                    <span class="count float-right">11篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_6330961.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_6330961.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">STL</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_6390845.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_6390845.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756925.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">排序</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7445140.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7445140.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">EOJ</span>
+                    </span>
+                    <span class="count float-right">16篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7447262.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7447262.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">字符串处理</span>
+                    </span>
+                    <span class="count float-right">11篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7449445.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7449445.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756925.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">找规律</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7452658.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7452658.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756738.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">动态规划</span>
+                    </span>
+                    <span class="count float-right">23篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7457655.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7457655.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756780.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">math</span>
+                    </span>
+                    <span class="count float-right">12篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7457839.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7457839.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756724.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">并查集</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7458786.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7458786.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756918.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">HDU</span>
+                    </span>
+                    <span class="count float-right">5篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7481082.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7481082.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">枚举</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7481086.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7481086.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756918.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">九度OJ</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7483496.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7483496.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756757.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">递归</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7483892.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7483892.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756919.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">BFS</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7491227.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7491227.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756930.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">知识点整理</span>
+                    </span>
+                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7496372.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7496372.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756919.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">树</span>
+                    </span>
+                    <span class="count float-right">14篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7501763.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7501763.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">移位操作</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7503649.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7503649.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">PAT甲级</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7509165.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7509165.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756925.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">大数</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7517949.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7517949.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">最小生成树MST</span>
+                    </span>
+                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_7971781.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_7971781.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Hexo</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_8080431.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_8080431.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">git</span>
+                    </span>
+                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_8080828.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_8080828.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756923.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">数据库</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_8305476.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_8305476.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756757.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Graphs</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_8348918.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_8348918.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756738.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">Latex</span>
+                    </span>
+                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_8573941.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_8573941.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">期末复习</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="clearfix" target="_blank" href="https://blog.csdn.net/sunshine_lyn/category_8934595.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/sunshine_lyn/category_8934595.html","ab":"new"}'>
+                    <img src="https://img-blog.csdnimg.cn/20201014180756780.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                    <span class="title oneline">
+                        <span class="text">具体数学</span>
+                    </span>
+                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p class="text-center">
+        <a class="flexible-btn" data-fbox="aside-archive"><img class="look-more" src="https://csdnimg.cn/release/blogv2/dist/pc/img/arrowDownBlack.png" alt=""></a>
+    </p>
+</div>
+<div id="asideNewComments" class="aside-box">
+    <h3 class="aside-title">最新评论</h3>
+    <div class="aside-content">
+        <ul class="newcomment-list">
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://elainelv.blog.csdn.net/article/details/85400015#comments_14048612" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://elainelv.blog.csdn.net/article/details/85400015#comments_14048612","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://elainelv.blog.csdn.net/article/details/85400015#comments_14048612","ab":"new"}'>数字图像处理复习总结</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/m0_52824677" class="user-name" target="_blank">甜妹o_OO: </a>
+                    <span class="code-comments">感谢楼主</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://elainelv.blog.csdn.net/article/details/85400015#comments_13984311" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://elainelv.blog.csdn.net/article/details/85400015#comments_13984311","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://elainelv.blog.csdn.net/article/details/85400015#comments_13984311","ab":"new"}'>数字图像处理复习总结</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/qq_45823410" class="user-name" target="_blank">青城白沙: </a>
+                    <span class="code-comments">感谢楼主</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://elainelv.blog.csdn.net/article/details/81054594#comments_13907324" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://elainelv.blog.csdn.net/article/details/81054594#comments_13907324","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://elainelv.blog.csdn.net/article/details/81054594#comments_13907324","ab":"new"}'>python3.7版本下，安装wxpython</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/qq_43628672" class="user-name" target="_blank">qq_43628672: </a>
+                    <span class="code-comments">3.9版本的还没有配套的可以用吗，感谢了</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://elainelv.blog.csdn.net/article/details/87872833#comments_13867242" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://elainelv.blog.csdn.net/article/details/87872833#comments_13867242","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://elainelv.blog.csdn.net/article/details/87872833#comments_13867242","ab":"new"}'>virtualbox虚拟机内安装增强功能未能加载虚拟光盘</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/spoonhead_1217" class="user-name" target="_blank">要好村: </a>
+                    <span class="code-comments">亲测同样错误的代码，按照解决方法有用！</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://elainelv.blog.csdn.net/article/details/81118010#comments_13838885" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://elainelv.blog.csdn.net/article/details/81118010#comments_13838885","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://elainelv.blog.csdn.net/article/details/81118010#comments_13838885","ab":"new"}'>python3：面向对象（多态和继承、方法重载及模块）</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/qq_43056044" class="user-name" target="_blank">澈马奔腾: </a>
+                    <span class="code-comments">看来没学清楚啊，</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="asideArchive" class="aside-box">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix">
+            <li class="clearfix">
+            <a href="https://elainelv.blog.csdn.net/article/details/106997023" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://elainelv.blog.csdn.net/article/details/106997023","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://elainelv.blog.csdn.net/article/details/106997023","ab":"new"}'>Leetcode有关滑动窗口的题目</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://elainelv.blog.csdn.net/article/details/104968249" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://elainelv.blog.csdn.net/article/details/104968249","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://elainelv.blog.csdn.net/article/details/104968249","ab":"new"}'>LeetCode 跳跃游戏I&amp;II（贪心算法）</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://elainelv.blog.csdn.net/article/details/104927754" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://elainelv.blog.csdn.net/article/details/104927754","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://elainelv.blog.csdn.net/article/details/104927754","ab":"new"}'>LeetCode只出现一次的数字（位运算法）</a>
+            </li>
+        </ul>
+        <div class="archive-bar"></div>
+        <div class="archive-box">
+                <div class="archive-list-item"><a href="https://elainelv.blog.csdn.net/article/month/2020/06" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2020年</span><span class="num">33篇</span></a></div>
+                <div class="archive-list-item"><a href="https://elainelv.blog.csdn.net/article/month/2019/07" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2019年</span><span class="num">13篇</span></a></div>
+                <div class="archive-list-item"><a href="https://elainelv.blog.csdn.net/article/month/2018/11" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2018年</span><span class="num">134篇</span></a></div>
+                <div class="archive-list-item"><a href="https://elainelv.blog.csdn.net/article/month/2016/08" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2016年</span><span class="num">17篇</span></a></div>
+        </div>
+    </div>
+</div>
+	<div id="footerRightAds" class="isShowFooterAds">
+		<div class="aside-box">
+			<div id="kp_box_57" data-pid="57"><div id="protag-banner-2"></div>
+<script data-cfasync="false" type="text/javascript" src="https://protagcdn.com/s/csdn.net/bbs/protag-banner-2.js"></script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=57&a=2234&c=0&k=&spm=1001.2101.3001.5001&d=1&t=3&u=66ec42cdfacb42849eb2d30e6de52e26" style="display: block;width: 0px;height: 0px;"></div>
+		</div>
+	</div>
+    <!-- 详情页显示目录 -->
+<!--文章目录-->
+<div id="asidedirectory" class="aside-box">
+    <div class='groupfile' id="directory">
+        <h3 class="aside-title">目录</h3>
+        <div class="align-items-stretch group_item">
+            <div class="pos-box">
+            <div class="scroll-box">
+                <div class="toc-box"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+</aside>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).parents("p.text-center").remove();
+	})
+</script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-tooltip/2.1/user-tooltip.js"></script>
+<script type="text/javascript"  src="https://g.csdnimg.cn/user-medal/1.0.5/user-medal.js"></script>    </div>
+<div class="recommend-right  align-items-stretch clearfix" id="rightAside" data-type="recommend">
+    <aside class="recommend-right_aside">
+        <div id="recommend-right" >
+                        <div class='flex-column aside-box groupfile' id="groupfile">
+                <div class="groupfile-div">
+                <h3 class="aside-title">目录</h3>
+                <div class="align-items-stretch group_item">
+                    <div class="pos-box">
+                        <div class="scroll-box">
+                            <div class="toc-box"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+                <div id="recommendAdBox">
+                    <div id="kp_box_479" data-pid="479"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PC-博客内页右侧第一顺位 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-1076724771190722"
+     data-ad-slot="1827473444"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=479&a=3266&c=0&k=&spm=1001.2101.3001.4834&d=1&t=3&u=93900e9b01d84dbf977d68a72452f5d6" style="display: block;width: 0px;height: 0px;"></div>
+                </div>
+            <div class="recommend-list-box d-flex flex-column aside-box" id="recommend-list-box">
+            <ul class="recommend-fixed-box align-items-stretch">
+                <li class="right-item">
+                    <a href="https://plugin.csdn.net/" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.470242.nonecase\"}","index":"1","strategy":"106_470242_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.470242.nonecase\"}","index":"1","strategy":"106_470242_RCMD","dest":"https://plugin.csdn.net/"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.470242.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.470242.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>CSDN官方插件，现在体验可获得永久免费去广告特权！</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31415" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase\"}","index":"2","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31415"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase\"}","index":"2","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31415"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-2.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>3小时python轻松入门</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_53364386/13523952" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_53364386/13523952"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase\"}","index":"3","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_53364386/13523952"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-3.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>ModScan32.zip</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31421" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31421"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase\"}","index":"4","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31421"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-4.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>尹成Python27天入门到项目实战</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31438" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31438"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase\"}","index":"5","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31438"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-5.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>【曾贤志】用Python处理Excel数据 - 第3季 正则篇</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/zcg_good/article/details/110437794" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/zcg_good/article/details/110437794"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase\"}","index":"6","strategy":"alirec","dest":"https://blog.csdn.net/zcg_good/article/details/110437794"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-6.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Hadoop完全分布式集群搭建</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31379" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31379"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase\"}","index":"7","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31379"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-7.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Net网站权限管理系统实战（基于vs2019、c#、razor</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31375" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31375"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase\"}","index":"8","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31375"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-8.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>使用矩阵的方式编写人工智能框架</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_49186670/13524276" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13524276"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase\"}","index":"9","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13524276"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-9.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>PolarMask: Single Shot Instance Segmentation with Polar Representation</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_49186670/13529374" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13529374"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase\"}","index":"10","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_49186670/13529374"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-10.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>CenterMask: single shot instance segmentation with point representation</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/q1369264370/article/details/110862681" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://blog.csdn.net/q1369264370/article/details/110862681"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase\"}","index":"11","strategy":"alirec","dest":"https://blog.csdn.net/q1369264370/article/details/110862681"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-11.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>项目启动时报错求助!!!</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/raoxiaoya/article/details/110862360" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://blog.csdn.net/raoxiaoya/article/details/110862360"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase\"}","index":"12","strategy":"alirec","dest":"https://blog.csdn.net/raoxiaoya/article/details/110862360"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-12.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>git深入理解(二)：HEAD是什么</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_44321975/article/details/110858787" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://blog.csdn.net/weixin_44321975/article/details/110858787"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase\"}","index":"13","strategy":"alirec","dest":"https://blog.csdn.net/weixin_44321975/article/details/110858787"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-13.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>SpringBoot多线程的实现</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/artisticnight/13529429" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://download.csdn.net/download/artisticnight/13529429"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase\"}","index":"14","strategy":"alirec","dest":"https://download.csdn.net/download/artisticnight/13529429"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-14.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>DrivingThirdExam.rar</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31416" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31416"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase\"}","index":"15","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31416"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-15.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Redis入门到精通教程（2020最新录制）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31363" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31363"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase\"}","index":"16","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31363"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-16.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>手把手搭建SpringBoot电子商城网站【附源码】（毕设）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_52148546/article/details/110862153" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://blog.csdn.net/weixin_52148546/article/details/110862153"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase\"}","index":"18","strategy":"alirec","dest":"https://blog.csdn.net/weixin_52148546/article/details/110862153"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-18.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>表单属性</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31359" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31359"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase\"}","index":"19","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31359"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-19.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>面向对象的相关概念介绍  视频</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/m0_50635229/article/details/110862224" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://blog.csdn.net/m0_50635229/article/details/110862224"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase\"}","index":"20","strategy":"alirec","dest":"https://blog.csdn.net/m0_50635229/article/details/110862224"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-20.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>Python3.6.5文件写入中文失败</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/GongmissYan/13532645" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://download.csdn.net/download/GongmissYan/13532645"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase\"}","index":"21","strategy":"alirec","dest":"https://download.csdn.net/download/GongmissYan/13532645"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-21.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>U盘读卡器-基于HAL库STM32F103C8</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/liyer_yiersan/article/details/110854142" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://blog.csdn.net/liyer_yiersan/article/details/110854142"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase\"}","index":"22","strategy":"alirec","dest":"https://blog.csdn.net/liyer_yiersan/article/details/110854142"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-22.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>祎二三的学习笔记：JAVA基础《一》</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31102" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31102"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase\"}","index":"23","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31102"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-23.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>ARFoundation入门到精通</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_48344945/article/details/110860100" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://blog.csdn.net/weixin_48344945/article/details/110860100"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase\"}","index":"24","strategy":"alirec","dest":"https://blog.csdn.net/weixin_48344945/article/details/110860100"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-24.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>矩池云内一键安装nvcc</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31437" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31437"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase\"}","index":"25","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31437"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-25.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>【曾贤志】openpyxl处理Excel数据 - 第2季 巩固篇</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31413" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31413"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase\"}","index":"26","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31413"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-26.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>从新手小白进入WinForm编程 (VS2019)</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/cpongo1/13529488" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://download.csdn.net/download/cpongo1/13529488"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase\"}","index":"27","strategy":"alirec","dest":"https://download.csdn.net/download/cpongo1/13529488"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-27.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>proxycert.cmd</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/weixin_53340323/article/details/110847216" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://blog.csdn.net/weixin_53340323/article/details/110847216"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase\"}","index":"28","strategy":"alirec","dest":"https://blog.csdn.net/weixin_53340323/article/details/110847216"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-28.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>线程和进程有什么区别？</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/qq_36856393/13529490" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://download.csdn.net/download/qq_36856393/13529490"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase\"}","index":"29","strategy":"alirec","dest":"https://download.csdn.net/download/qq_36856393/13529490"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-29.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>HCIP 路由交换题库+模拟测试题</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/ttataat/13530416" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13530416"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase\"}","index":"30","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13530416"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-30.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>住宅小区安防与智能化系统</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/ttataat/13532488" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13532488"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase\"}","index":"31","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13532488"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-31.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>腾讯微瓴&mdash;&mdash;物联网时代，如何用微瓴开发智慧建筑应用</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/aaa15215472a/13529350" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://download.csdn.net/download/aaa15215472a/13529350"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase\"}","index":"32","strategy":"alirec","dest":"https://download.csdn.net/download/aaa15215472a/13529350"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-32.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>提取QQ和微信的语音信息修改为可播放mp3类</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/chunguang530/13529401" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://download.csdn.net/download/chunguang530/13529401"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase\"}","index":"33","strategy":"alirec","dest":"https://download.csdn.net/download/chunguang530/13529401"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-33.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>jsraw.txtApp 物联</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/ttataat/13534405" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13534405"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase\"}","index":"34","strategy":"alirec","dest":"https://download.csdn.net/download/ttataat/13534405"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-34.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>无线智慧城市解决方案书&mdash;&mdash;无线自组网宽带技术在无线智慧城市建设中应用</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/weixin_43171019/13529480" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_43171019/13529480"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase\"}","index":"35","strategy":"alirec","dest":"https://download.csdn.net/download/weixin_43171019/13529480"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-35.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>activation.jar</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_39206750/article/details/110862409" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://blog.csdn.net/qq_39206750/article/details/110862409"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase\"}","index":"36","strategy":"alirec","dest":"https://blog.csdn.net/qq_39206750/article/details/110862409"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-36.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>JS获取当前时间的前一天/后一天（昨天/明天）</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/combo/detail/1964" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1964"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase\"}","index":"37","strategy":"alirec","dest":"https://edu.csdn.net/combo/detail/1964"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-37.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>数据清洗-Pandas系统视频教程</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://download.csdn.net/download/lchewf/13529495" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://download.csdn.net/download/lchewf/13529495"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase\"}","index":"38","strategy":"alirec","dest":"https://download.csdn.net/download/lchewf/13529495"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-download-alirec-38.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>LK-Navigator_ver1.60</h5>
+                            </div>
+                            <span class="download_mark_button ">立即下载 </span>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://blog.csdn.net/qq_32833357/article/details/110862246" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://blog.csdn.net/qq_32833357/article/details/110862246"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase\"}","index":"39","strategy":"alirec","dest":"https://blog.csdn.net/qq_32833357/article/details/110862246"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-blog-alirec-39.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>2020-12-08</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+                <li class="right-item">
+                    <a href="https://edu.csdn.net/course/detail/31372" target="_blank"  data-report-view='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31372"}'  data-report-click='{"ab":"new","mod":"popu_858","extra":"{\"utm_medium\":\"distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase\"}","index":"40","strategy":"alirec","dest":"https://edu.csdn.net/course/detail/31372"}'  data-report-query='utm_medium=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase&depth_1-utm_source=distribute.pc_blog_right_sidebar.none-task-edu_course-alirec-40.nonecase'>
+                        <div class="context-box ">
+                            <div class="content clearfix ">
+                                <h5>小白趣味学Python编程</h5>
+                            </div>
+                        </div>
+                    </a>
+                </li> 
+            </ul>
+            </div>
+        </div>
+    </aside>
+</div>
+
+</div>
+<div class="mask-dark"></div>
+<script type="text/javascript">
+    var timert = setInterval(function(){
+      sideToolbar = $(".csdn-side-toolbar");
+      if (sideToolbar.length > 0) {
+        sideToolbar.css('cssText','bottom:64px !important;')
+        clearInterval(timert);
+      }
+    }, 200);
+</script>
+<script>
+    var articleId = 85400015;
+    var commentscount = 6;
+    var curentUrl = "https://blog.csdn.net/sunshine_lyn/article/details/85400015";
+    var myUrl = "https://my.csdn.net/";
+    var highlight = ["数字图像处理","复习","总结"];//高亮数组
+    var share_card_url = "https://blog.csdn.net/sunshine_lyn/article/shareArticleCardPage?article_id=85400015"
+	var articleType = 1;
+    var baiduKey = "数字图像处理知识点总结";
+    var needInsertBaidu = true;
+    var recommendRegularDomainArr = ["blog.csdn.net/.+/article/details/","download.csdn.net/download/","edu.csdn.net/course/detail/","ask.csdn.net/questions/","bbs.csdn.net/topics/","www.csdn.net/gather_.+/"]
+    var codeStyle = "tomorrow-night";
+    var baiduSearchType = "baidulandingword";
+    var canRead = true;
+    var blogMoveHomeArticle = false;
+    var showPcWindowAd = false;
+</script>
+<script src="https://csdnimg.cn/public/sandalstrap/1.4/js/sandalstrap.min.js"></script>
+<div class="skin-boxshadow"></div>
+<div style="display:none;">
+	<img src="" onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+</div>
+</body>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_highlight-db1e81323a.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/components/js/pc_wap_common-906586e915.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.6.12/ckeditor/plugins/codesnippet/lib/highlight/styles/tomorrow-night.css">
+<script>
+ // 全局声明
+ if (window.csdn === undefined) {
+      window.csdn = {};
+    }
+    window.csdn.sideToolbar = {
+        options: {
+            report:{
+                isShow: true,
+            },
+            qr: {
+                isShow: false,
+            },
+            guide: {
+                isShow: true
+            }
+        }
+    }
+    $(function(){
+        $(document).on('click',"a.option-box[data-type='report']",function() {
+            window.csdn.userLogin.loadAjax(function(res){
+                showReport(false,articleTitles);
+            })
+        });
+    })
+</script>
+    <script src="https://g.csdnimg.cn/baidu-search/1.0.7/baidu-search.js"  type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/download/old_static/js/qrcode.js"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/common-b286f966c8.min.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/detail-c3206d1df7.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/user-ordercart/1.0.6/user-ordercart.js" type="text/javascript"></script>
+<script src="https://csdnimg.cn/release/blogv2/dist/pc/js/column-78261cfea6.min.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/side-toolbar/2.8/side-toolbar.js" type="text/javascript"></script>
+<script src="https://g.csdnimg.cn/copyright/1.0.3/copyright.js" type="text/javascript"></script>
+<script>
+    $(".MathJax").remove();
+    if ($('div.markdown_views pre.prettyprint code.hljs').length > 0) {
+        $('div.markdown_views')[0].className = 'markdown_views';
+    }
+</script>
+<script type="text/javascript" src="https://csdnimg.cn/release/blog_mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            "HTML-CSS": {
+                    linebreaks: { automatic: true, width: "94%container" },
+                    imageFont: null
+            },
+            tex2jax: {
+                preview: "none"
+            },
+            mml2jax: {
+                preview: 'none'
+            }
+    });
+</script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/user-login/2.3.2/user-login.js"></script>
+<script type="text/javascript" crossorigin src="https://g.csdnimg.cn/login-box/1.1.4/login-box.js"></script></html>

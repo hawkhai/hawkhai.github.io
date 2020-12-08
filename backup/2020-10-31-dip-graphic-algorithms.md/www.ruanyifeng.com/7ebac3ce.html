@@ -1,0 +1,2513 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" id="sixapart-standard">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="Movable Type  5.2.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!--link rel="stylesheet" href="http://www.ruanyifeng.com/blog/styles.css" type="text/css" /-->
+<link rel="start" href="http://www.ruanyifeng.com/blog/" title="Home" />
+<link rel="alternate" type="application/atom+xml" title="Recent Entries" href="http://feeds.feedburner.com/ruanyifeng" />
+<script type="text/javascript" src="http://www.ruanyifeng.com/blog/mt.js"></script>
+<!--
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="http://www.ruanyifeng.com/blog/2020/11/wechat-miniprogram-tutorial-part-four.html">
+<dc:title>微信小程序入门教程之四：API 使用</dc:title>
+<dc:description>今天是这个系列教程的最后一篇。...</dc:description>
+<dc:creator>阮一峰</dc:creator>
+<dc:date>2020-11-02T18:33:01+08:00</dc:date>
+<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/3.0/" />
+</Work>
+<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/3.0/">
+</License>
+</rdf:RDF>
+-->
+
+<style>
+body {
+  background-color: #f5f5d5;
+}
+
+#container::before {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: rgba(0,0,0,0.1);
+  text-align: center;
+  content: "本站显示不正常，可能因为您使用了广告拦截器。";
+}
+
+</style>
+<script>
+function loadjscssfile(filename, filetype){
+    if (filetype=="js"){ //if filename is a external JavaScript file
+        var fileref=document.createElement('script')
+        fileref.setAttribute("type","text/javascript")
+        fileref.setAttribute("src", filename)
+    }
+    else if (filetype=="css"){ //if filename is an external CSS file
+        var fileref=document.createElement("link")
+        fileref.setAttribute("rel", "stylesheet")
+        fileref.setAttribute("type", "text/css")
+        fileref.setAttribute("href", filename)
+    }
+    if (typeof fileref!="undefined")
+        document.getElementsByTagName("head")[0].appendChild(fileref)
+}
+//loadjscssfile("http://www.ruanyifeng.com/blog/styles.css", "css");
+loadjscssfile('/static/themes/theme_scrapbook/theme_scrapbook.min.css', "css");
+
+
+function checker() {
+// var img = document.querySelector('img[src^="http://www.ruanyifeng.com/blog/images"]');
+var img = document.querySelector('a > img[src*="wangbase.com/blogimg/asset/"]');
+  if (img && window.getComputedStyle(img).display === 'none'){
+    var sponsor = document.querySelector('.entry-sponsor');
+    var prompt = document.createElement('div');
+    prompt.style = 'border: 1px solid #c6c6c6;border-radius: 4px;background-color: #f5f2f0;padding: 15px; font-size: 14px;';
+  prompt.innerHTML = '<p>您使用了广告拦截器，导致本站内容无法显示。</p><p>请将 www.ruanyifeng.com 加入白名单，解除广告屏蔽后，刷新页面。谢谢。</p>';
+    sponsor.parentNode.replaceChild(prompt, sponsor);
+    document.querySelector('#main-content').innerHTML = '';
+  }
+}
+
+setTimeout(checker, 1000);
+</script>
+
+    
+    <link rel="prev" href="http://www.ruanyifeng.com/blog/2011/08/opensource_java_web_development_tools.html" title="Java开源建站工具" />
+    <link rel="next" href="http://www.ruanyifeng.com/blog/2011/08/just_a_kiss.html" title="Just A Kiss 的 MV" />
+    
+    <title>神奇的图像处理算法 - 阮一峰的网络日志</title>
+</head>
+<body id="scrapbook" class="mt-entry-archive one-column">
+<script>
+if (/mobile/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) document.body.classList.add('mobile');
+
+/*
+window.addEventListener('load', function(event) {
+  setTimeout(function () {
+    hab('#sup-post-2');
+    hab('#cre-inner');
+  }, 1000);
+});
+*/
+</script>
+    <div id="container">
+        <div id="container-inner">
+
+            <div id="header">
+    <div id="header-inner">
+        <div id="header-content">
+
+
+            <div id="header-name">阮一峰的网络日志 <span id="site_location"> » <a href="http://www.ruanyifeng.com/blog/" accesskey="1">首页</a></span><span id="site_archive"> » <a href="http://www.ruanyifeng.com/blog/archives.html">档案</a></span>
+</div>
+
+<div id="google_search">
+<!-- SiteSearch Google -->
+<form action="https://www.baidu.com/s" target="_blank" method="get" id="cse-search-box">
+  <div>
+  <input type="text" size="20" name="origin" class="searchbox" id="sbi" value="" />
+  <input type="hidden" name="wd" value="" />
+  <!--input type="image" src="/static/themes/theme_scrapbook/images/top_search_submit.gif" class="searchbox_submit" value="" alt="搜索" name="sa" onclick="this.form.wd.value = this.form.origin.value + ' inurl:www.ruanyifeng.com/blog'" /-->
+  <input type="image" src="/static/themes/theme_scrapbook/images/top_search_submit.gif" class="searchbox_submit" value="" alt="搜索" name="sa" onclick="this.form.wd.value = this.form.origin.value + ' 阮一峰'" />
+</div>
+</form>
+
+<!-- SiteSearch Google -->
+</div>
+<div id="feed_icon">
+<a href="/feed.html" title="订阅Feed">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAUzSURBVHjavFdbbFRVFF3nPjoz7dTWTittaW0jUDRAUqaNojyqREnEQKgfUj9MqqAmhqRt/OCD4CuY+Kckoh+aiGKC+gMJbdHoRysJ8dkhhmJLNdDKtJU+6GMK87j3Hs85d2Z6HzNtMYWb3Dn3NWftvfba+5xNYDl+e6Fkj6yqb/oDRbWq14vlPBLRKCITkxf0ROLt+hNjp1PPSRK4kA3vF1dXNRcWlyA2OQU9eos9opAkAiKxD+XkKO6t15aRWO7J/MgmAZU8MEgexgZHMX518Dh72sYMmVKShnxWuWHdHtxKIDIYTgMuDzgfmSOIQkYMpdUF8OY92Hytt4/jvkg47czzU16iQovM3QFwmNck+Yyduu7D6NA0Z6JR4THntFs9V4tWQg6Ui3s6MwKDncsFTnXKLJhDSeUK3AgPtyhccDzmVs999buRt/1Vm4i0od+hX7+MRG87jPGB/w1u8FPj9xEw7McVrnYuOCvtpjTth3J/nTg99c8LRhKhr6D3dTB5R24bXFwbMXBsyZzeoXaycEpJ95TB09AGX/NpqLVNtw8urnVzLvHjFNxiFqRy2OOHuqUVnue+ACkoWzo4O6lGzTmuHq6nPvY2m9rVqjrIK2rMEKxqyG5NPAKt+wjo0LklgfNxJkZMA3KJvqRUk3z5UFY3QH14P0h+WUY79HPvgv7VuSg4ZRGY1YgZgqXmORccF17sy2ehnf9AeO085K2HQFbtXBScj0LcpgF2cN+WV+DZ/LJQu6gD4R7oV7pBJwbSgtMvfiPoVp56DySwxm7EtkMs1WdAB7qzggsDJKQYsHucSkOudrkiCPWR/fA2nYCn8SNIK4NptSMyAu3sAdDRkIsJdfth0LzSrODUoPNZ4KI9SxJI5UHk7D4GdQfz2us31c7CoHMjRkKuDPHseCMrONVhNcDJwMJpKFVvg9L4OaTiNWm1x789KCqkrXhVBiEz0WYCT2nAzQAD1/vaETv1GrRfP4Vx5cfMNcDPwvP0h0DhanPym7OIf/+O67vcJ1/PCJ4KgdzaUP6Wz+dU+5yIL6fV+PsHGAOdwlPpvvUOyeeAVGyCdqkDNB6DPjsBSrnndfOGevOh3RhGItxvA+fX1CtbGFhgYUFkFMZPR6F1HnClHq8HyubWtJexX06CRmdt33hrd7nA7SFY4qoGpnYuOKcRykPPgDCBcsHx9Iv+fNL2PueBehCWUfYQIIMGLOCcOmXDXsh1+yCt35tUPfvzGFuSvzvoinXOxqa02qOhM6733nVP2MAdaej2XN11DPKjLZCD+yBvahGCo7JfTKAN9UD7s8Oe9zUNIhz8fWI8DG2k38WCFdxugANcXrvTVd1IEbuv3Jour7Hzn7jLMBNfKs7R3i67gRVrbeCOEDhinmWhAatsqdquM2XzHZINhK2cqTjHr/XZdVJUbgN3MWAVXKbSyg9jesRW2xP9di+lwrL5ojM3m2H/kG9hwcIA37c71W6wJdW2J2S5nrjYbq/t1AHAhJsKQeyfPvf6IMJgghPJhFZ4x0KlfLFvt22du45Au/A1SOlGc0P672XXwhLtOcM0kTTEMMd0qkVmMNXxMd/tsedUjInr4SQDgOfeXMSiN0FCL5WHah4L1qqYXPJOJlttd+a5M+YpcG5poLYKQ5f+6JJ4r8bbJYP47hq4r7QAs9PjYNhHJd4o8l5taiwuOpa7AS4XKqI/5NjJbTnaWK92nLdLuhQAJayRNMiygXPBeQN+Qbvu0zDc3y+aUzhbkGR73sI7ljvUnndx2q3t+X8CDAD66FtrIL864AAAAABJRU5ErkJggg==" alt="" style="border: 0pt none;" />
+</a></div>
+
+        </div>
+    </div>
+</div>
+
+
+
+            <div id="content">
+                <div id="content-inner">
+
+
+                    <div id="alpha">
+                        <div id="alpha-inner">
+
+
+                            <div id="entry-1663" class="entry-asset asset hentry">
+                                <div class="asset-header">
+<div class="asset-nav entry-nav">
+
+<div class="entry-location">
+<ul>
+<li>上一篇：<a href="http://www.ruanyifeng.com/blog/2011/08/opensource_java_web_development_tools.html" title="Java开源建站工具">Java开源建站工具&nbsp;</a></li>
+<li>下一篇：<a href="http://www.ruanyifeng.com/blog/2011/08/just_a_kiss.html" title="Just A Kiss 的 MV">Just&nbsp;A&nbsp;Kiss</a></li>
+</ul>
+</div>
+
+
+    
+                                    <div class="entry-categories">
+                                        <p>分类<span class="delimiter">：</span></p>
+                                        <ul>
+                                            <li><a href="http://www.ruanyifeng.com/blog/sci-tech/" rel="tag">科技爱好者</a></li>
+                                        </ul>
+                                    </div>
+    
+
+
+                                            
+<div class="entry-location-mobile" style="float: right;">
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2011/08/opensource_java_web_development_tools.html" title="Java开源建站工具">⇐&nbsp;</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2011/08/just_a_kiss.html" title="Just A Kiss 的 MV">&nbsp;⇒</a></li>
+</ul>
+</div>
+
+</div>
+</div>
+
+                          
+<article class="hentry">
+                                    <h1 id="page-title" class="asset-name entry-title">神奇的图像处理算法</h1>
+                                            <div id="share_button" class="social-share" style="float:right;padding-right:2em;padding-top:1em;"></div>
+
+<div class="asset-meta">
+                                        
+
+                                            <p class="vcard author">作者： <a class="fn url" href="http://www.ruanyifeng.com">阮一峰</a></p>
+                                    <p>日期： <a href="http://www.ruanyifeng.com/blog/2011/08/"><abbr class="published" title="2011-08-13T15:55:49+08:00">2011年8月13日</abbr></a></p>
+
+
+</div>
+
+
+
+
+
+
+
+
+                                
+                                <div class="asset-content entry-content" id="main-content">
+
+                                    <!-- div class="asset-body" -->
+                                        <p>几周前，我介绍了<a href="http://www.ruanyifeng.com/blog/2011/07/principle_of_similar_image_search.html">相似图片搜索</a>。</p>
+                                    <!-- /div -->
+
+
+                                    <!-- div id="more" class="asset-more" -->
+                                        <p>这是利用数学算法，进行高难度图像处理的一个例子。事实上，图像处理的数学算法，已经发展到令人叹为观止的地步。</p>
+
+<p><a href="http://www.scriptol.com/programming/graphic-algorithms.php">Scriptol</a>列出了几种神奇的图像处理算法，让我们一起来看一下。</p>
+
+<p><strong>一、像素图生成向量图的算法</strong></p>
+
+<p><img src="/blogimg/asset/201108/bg2011081301.png" /><img src="/blogimg/asset/201108/bg2011081302.png" /></p>
+
+<p>数字时代早期的图片，分辨率很低。尤其是一些电子游戏的图片，放大后就是一个个像素方块。<a href="http://research.microsoft.com/en-us/um/people/kopf/pixelart/">Depixelizing</a>算法可以让低分辨率的像素图转化为高质量的向量图。</p>
+
+<p><strong>二、黑白图片的着色算法</strong></p>
+
+<p><img src="/blogimg/asset/201108/bg2011081303.jpg" /><img src="/blogimg/asset/201108/bg2011081304.jpg" /></p>
+
+<p>让老照片自动变成彩色的<a href="http://www.cs.huji.ac.il/~yweiss/Colorization/index.html">算法</a>。</p>
+
+<p><strong>三、消除阴影的算法</strong></p>
+
+<p><img src="/blogimg/asset/201108/bg2011081305.jpg" /></p>
+
+<p>不留痕迹地去掉照片上某件东西的阴影的<a href="http://www.cs.huji.ac.il/~danix/ShadowRemoval/index.html">算法</a>。</p>
+
+<p><strong>四、HDR照片的算法</strong></p>
+
+<p><img src="/blogimg/asset/201108/bg2011081307.jpg" /><img src="/blogimg/asset/201108/bg2011081308.jpg" /></p>
+
+<p>所谓"HDR照片"，就是扩大亮部与暗部的对比效果，亮的地方变得非常亮，暗的地方变得非常暗，亮暗部的细节都很明显。</p>
+
+<p>实现HDR的软件有很多，这里推荐<a href="http://gmic.sourceforge.net/">G'MIC</a>。它是GIMP图像编辑软件的一个插件，代码全部开源。</p>
+
+<p><strong>五、消除杂物的算法</strong></p>
+
+<p><img src="/blogimg/asset/201108/bg2011081310.jpg" /></p>
+
+<p>所谓"消除杂物"，就是在照片上划出一块区域，然后用背景自动填补。<a href="http://www.logarithmic.net/pfh/resynthesizer">Resynthesizer</a>可以做到这一点，它也是GIMP的一个插件。</p>
+
+<p><strong>六、自动合成照片的算法</strong></p>
+
+<p><img src="/blogimg/asset/201108/bg2011081311.jpg" /></p>
+
+<p>根据一张草图，选择原始照片，然后把它们合成在一起，生成新照片。这是清华大学的<a href="http://cg.cs.tsinghua.edu.cn/montage/main.htm">科研成果</a>。</p>
+
+<p><strong>七、美容算法</strong></p>
+
+<p><img src="/blogimg/asset/201108/bg2011081312.jpg" /></p>
+
+<p>自动对容貌进行"美化"的<a href="http://www.leyvand.com/research/beautification2008/">算法</a>。</p>
+
+<p>（完）<br />
+</p>
+                                    <!-- /div -->
+
+                                </div>
+    <script type="text/javascript" src="/newwindow.js"></script>
+                                <div class="asset-footer">
+
+<h3>文档信息</h3>
+<ul>
+<li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">创意共享3.0许可证</a>）</li>
+<li>发表日期： <abbr class="published" title="2011-08-13T15:55:49+08:00">2011年8月13日</abbr></li>
+
+</ul>
+                                </div>
+</article>
+                            </div>
+
+
+
+  <div style="display: inline-block ! important;width: 100%;">
+  
+  <p style="text-align:center;font-size: 16px;">
+    <a title="算法训练营体验课" target="_blank" href="https://u.geekbang.org/subject/prioralgorithm?gk_liebian=false&cus_user_wechat=university&utm_source=ruanyifeng&utm_medium=1010&utm_term=kolruanyifeng1118">算法训练营体验课</a>
+    <br>
+    <a title="算法训练营体验课" href="https://u.geekbang.org/subject/prioralgorithm?gk_liebian=false&cus_user_wechat=university&utm_source=ruanyifeng&utm_medium=1010&utm_term=kolruanyifeng1118" target="_blank"><img alt="算法训练营体验课" src="https://www.wangbase.com/blogimg/asset/202010/bg2020101303.jpg" style="border: 1px solid #666;display: block !important;width:100%;max-width:100%;" /></a>
+  </p>  
+  
+  </div>
+
+
+
+<div id="related_entries">
+<h2>相关文章</h2>
+<ul>
+
+<li><strong>2015.06.02: <a href="http://www.ruanyifeng.com/blog/2015/06/powerwall.html">能量墙与家庭电厂</a></strong>
+
+                           <div class="entry-body">
+                              去年下半年，《财新周刊》缺一个专栏作者，问我写不写。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2013.10.25: <a href="http://www.ruanyifeng.com/blog/2013/10/bitcoin.html">比特币的用途</a></strong>
+
+                           <div class="entry-body">
+                              这两周，比特币（bitcoin）的价格大幅上涨，我也凑热闹关注了一阵。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2012.12.06: <a href="http://www.ruanyifeng.com/blog/2012/12/bayer_filter.html">为什么数码相机可以拍出彩色照片？</a></strong>
+
+                           <div class="entry-body">
+                              上个月（11月13日），83岁的柯达公司退休工程师布赖斯·拜尔（Bryce Bayer）去世。
+                           </div>
+
+</li>
+
+ 
+<li><strong>2012.01.23: <a href="http://www.ruanyifeng.com/blog/2012/01/modern_medicine_timeline.html">现代医学200年</a></strong>
+
+                           <div class="entry-body">
+                              今年是世界最有影响力的医学杂志《新英格兰医学杂志》（The New England Journal of Medicine, NEJM）创刊200周年。
+                           </div>
+
+</li>
+
+ 
+</ul>
+</div>
+
+
+<div id="cre" style="display: block !important;">
+<h2>广告<a href="/support.html">（购买广告位）</a></h2>
+<div id="cre-inner">
+
+<div id="cre-left">
+<p style="font-size:16px;text-align:center;"><a title="倾城之链" href="https://nicelinks.site/explore/all" target="_blank">网络书签分享平台</a></p>
+<a title="倾城之链" href="https://nicelinks.site/explore/all" target="_blank"><image alt=="倾城之链" src="https://www.wangbase.com/blogimg/asset/202012/bg2020120409.jpg" style="border:none;" /></a>
+</div>
+
+<div id="cre-right">
+<p style="font-size:16px;text-align:center;"><a href="http://www.ruanyifeng.com/blog/2019/01/survivor-preface.html" target="_blank">未来世界的幸存者</a></p>
+<a title="未来世界的幸存者" href="http://www.ruanyifeng.com/blog/2019/01/survivor-preface.html" target="_blank"><image alt="未来世界的幸存者" src="https://www.wangbase.com/blogimg/asset/201903/bg2019032401.jpg" style="border:none;" /></a>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+                    
+
+                    <div id="comments" class="comments">
+
+
+    
+    
+        
+    <h2 class="comments-header">留言（58条）</h2>
+
+    <div id="comments-content" class="comments-content" style="clear: left;">
+        
+        <div id="comment-225488" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">ncsglz</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225488">
+            <p>沙发，算是见识了，尤其那个阴影，太牛了<br />
+而且见到了国产，虽然功能看上去有点那啥，囧</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 13, 2011  4:01 PM">2011年8月13日 16:01</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225488">#</a>
+ | <a href="#comment-text" title="引用ncsglz的这条留言" onclick="return CommentQuote('comment-quote-225488','ncsglz');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225490" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">hbr</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225490">
+            <p>所谓"HDR照片"，就是让明亮处变得更亮、让阴暗处变得更暗，从而让照片产生强烈的对比效果。<br />
+这个正好说反了，HDR是降低对比度，也就是亮处更暗，暗处更亮。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 13, 2011  4:08 PM">2011年8月13日 16:08</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225490">#</a>
+ | <a href="#comment-text" title="引用hbr的这条留言" onclick="return CommentQuote('comment-quote-225490','hbr');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225491" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://cutenotes.wordpress.com" href="http://cutenotes.wordpress.com" target="_blank" rel="nofollow">ls zhao</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225491">
+            <p>不得不说，还真神奇，PS能做这些不？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 13, 2011  4:15 PM">2011年8月13日 16:15</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225491">#</a>
+ | <a href="#comment-text" title="引用ls zhao的这条留言" onclick="return CommentQuote('comment-quote-225491','ls zhao');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225492" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">ufo</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225492">
+            <p>超分辨率算法</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 13, 2011  4:24 PM">2011年8月13日 16:24</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225492">#</a>
+ | <a href="#comment-text" title="引用ufo的这条留言" onclick="return CommentQuote('comment-quote-225492','ufo');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225494" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://michael.imblog.in" href="http://michael.imblog.in" target="_blank" rel="nofollow">Michael.Z</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225494">
+            <p>惊艳了。<br />
+不过看到阮先生开始出售广告位了。怕是那样的话这里就不cool了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 13, 2011  4:57 PM">2011年8月13日 16:57</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225494">#</a>
+ | <a href="#comment-text" title="引用Michael.Z的这条留言" onclick="return CommentQuote('comment-quote-225494','Michael.Z');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225496" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">張旭</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225496">
+            <p>太了不起了！<br />
+這些傢伙！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 13, 2011  5:26 PM">2011年8月13日 17:26</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225496">#</a>
+ | <a href="#comment-text" title="引用張旭的这条留言" onclick="return CommentQuote('comment-quote-225496','張旭');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225498" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">XX</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225498">
+            <p>黑白照片变彩色这个不靠谱，它要知道苹果是红的桔子是橙的，这智能也太可怕了吧，桌子呢？啥颜色的都有吧！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 13, 2011  7:14 PM">2011年8月13日 19:14</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225498">#</a>
+ | <a href="#comment-text" title="引用XX的这条留言" onclick="return CommentQuote('comment-quote-225498','XX');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225499" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">RedNax</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225499">
+            <p>@XX：</p>
+
+<p>请点进去看介绍页面……</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 13, 2011  7:18 PM">2011年8月13日 19:18</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225499">#</a>
+ | <a href="#comment-text" title="引用RedNax的这条留言" onclick="return CommentQuote('comment-quote-225499','RedNax');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225501" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">worker</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225501">
+            <blockquote>
+<pre>引用ls zhao的发言：</pre>
+
+<p>不得不说，还真神奇，PS能做这些不？</p>
+
+</blockquote>
+
+<p>不是ps能不能做的问题。<br />
+实际上，正是ps软件中需要大量运用这些算法。<br />
+发明、运用、改进算法程度决定了软件的地位。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 13, 2011  8:57 PM">2011年8月13日 20:57</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225501">#</a>
+ | <a href="#comment-text" title="引用worker的这条留言" onclick="return CommentQuote('comment-quote-225501','worker');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225502" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://6537825.qzone.qq.com" href="http://6537825.qzone.qq.com" target="_blank" rel="nofollow">zzz</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225502">
+            <blockquote>
+<pre>引用ls zhao的发言：</pre>
+
+<p>不得不说，还真神奇，PS能做这些不？</p>
+
+</blockquote>
+
+<p>PS现在看起来就是一个大的计算器！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 13, 2011  9:02 PM">2011年8月13日 21:02</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225502">#</a>
+ | <a href="#comment-text" title="引用zzz的这条留言" onclick="return CommentQuote('comment-quote-225502','zzz');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225508" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://towry.me" href="http://towry.me" target="_blank" rel="nofollow">towry</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225508">
+            <p>算法真的很神奇了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 13, 2011 10:14 PM">2011年8月13日 22:14</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225508">#</a>
+ | <a href="#comment-text" title="引用towry的这条留言" onclick="return CommentQuote('comment-quote-225508','towry');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225509" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">何敏</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225509">
+            <p>我就搞不懂，你都是到哪找的这些个网站啊，包罗万象啊</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 13, 2011 10:48 PM">2011年8月13日 22:48</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225509">#</a>
+ | <a href="#comment-text" title="引用何敏的这条留言" onclick="return CommentQuote('comment-quote-225509','何敏');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225515" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">nordenbox</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225515">
+            <p>黑白变彩色，看上去是需要人工干预的，有没有完全不需要人工干预的自动算法。<br />
+这对老电影数字花很有用。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 14, 2011  1:34 AM">2011年8月14日 01:34</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225515">#</a>
+ | <a href="#comment-text" title="引用nordenbox的这条留言" onclick="return CommentQuote('comment-quote-225515','nordenbox');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225527" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.cuidapeng.cn" href="http://www.cuidapeng.cn" target="_blank" rel="nofollow">崔大鹏</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225527">
+            <p>看来以后的水印、验证码要失效了，需要寻求新的保留版权和认定人工的方法了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 14, 2011  7:39 AM">2011年8月14日 07:39</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225527">#</a>
+ | <a href="#comment-text" title="引用崔大鹏的这条留言" onclick="return CommentQuote('comment-quote-225527','崔大鹏');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225529" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://ziji.cc" href="http://ziji.cc" target="_blank" rel="nofollow">小年</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225529">
+            <p>我擦。。。神算！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 14, 2011  8:54 AM">2011年8月14日 08:54</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225529">#</a>
+ | <a href="#comment-text" title="引用小年的这条留言" onclick="return CommentQuote('comment-quote-225529','小年');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225531" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://blog.sina.com.cn/yuanxiaodan1991" href="http://blog.sina.com.cn/yuanxiaodan1991" target="_blank" rel="nofollow">shadowwalker</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225531">
+            <p>我对图像算法更感兴趣了</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 14, 2011 11:07 AM">2011年8月14日 11:07</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225531">#</a>
+ | <a href="#comment-text" title="引用shadowwalker的这条留言" onclick="return CommentQuote('comment-quote-225531','shadowwalker');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225533" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://neolee.com" href="http://neolee.com" target="_blank" rel="nofollow">老N</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225533">
+            <p>感觉第二个很厉害<br />
+还有国产的那个拼图！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 14, 2011 12:30 PM">2011年8月14日 12:30</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225533">#</a>
+ | <a href="#comment-text" title="引用老N的这条留言" onclick="return CommentQuote('comment-quote-225533','老N');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225540" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">D</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225540">
+            <p>HDR是错的</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 14, 2011  4:05 PM">2011年8月14日 16:05</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225540">#</a>
+ | <a href="#comment-text" title="引用D的这条留言" onclick="return CommentQuote('comment-quote-225540','D');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225543" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">D</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225543">
+            <p>"在计算机图形学与电影摄影术中，高动态范围成像（英语：High Dynamic Range Imaging，简称HDRI或HDR）是用来实现比普通数字图像技术更大曝光动态范围（即更大的明暗差别）的一组技术。高动态范围成像的目的就是要正确地表示真实世界中从太阳光直射到最暗的阴影这样大的范围亮度。"</p>
+
+<p><a href="http://zh.wikipedia.org/wiki/%E9%AB%98%E5%8A%A8%E6%80%81%E8%8C%83%E5%9B%B4%E6%88%90%E5%83%8F" rel="nofollow">http://zh.wikipedia.org/wiki/%E9%AB%98%E5%8A%A8%E6%80%81%E8%8C%83%E5%9B%B4%E6%88%90%E5%83%8F</a></p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 14, 2011  4:10 PM">2011年8月14日 16:10</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225543">#</a>
+ | <a href="#comment-text" title="引用D的这条留言" onclick="return CommentQuote('comment-quote-225543','D');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225544" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">zphskz</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225544">
+            <p>自动合成照片的算法   <br />
+那个女人貌似不是左图那个的说0.0发型都变了。。</p>
+
+<p>最感兴趣的是 像素图生成向量图的算法 用这个技术应该能让很多以前的马赛克游戏画面变好很多\(^o^)/~</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 14, 2011  5:23 PM">2011年8月14日 17:23</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225544">#</a>
+ | <a href="#comment-text" title="引用zphskz的这条留言" onclick="return CommentQuote('comment-quote-225544','zphskz');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225551" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">狼大人</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225551">
+            <blockquote>
+<pre>引用hbr的发言：</pre>
+
+<p>这个正好说反了，HDR是降低对比度，也就是亮处更暗，暗处更亮。</p>
+
+</blockquote>
+
+<p>非常精确地把 HDR 的功能说反了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 14, 2011  8:53 PM">2011年8月14日 20:53</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225551">#</a>
+ | <a href="#comment-text" title="引用狼大人的这条留言" onclick="return CommentQuote('comment-quote-225551','狼大人');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225552" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">狼大人</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225552">
+            <blockquote>
+<pre>引用zzz的发言：</pre>
+
+<p></p>
+
+<p>PS现在看起来就是一个大的计算器！</p>
+
+</blockquote>
+
+<p>哈哈。见过用 Matlab 做照片处理和 MP3 编解码的神人。。在 Matlab 面前 PS 就是算盘啊。。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 14, 2011  8:54 PM">2011年8月14日 20:54</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225552">#</a>
+ | <a href="#comment-text" title="引用狼大人的这条留言" onclick="return CommentQuote('comment-quote-225552','狼大人');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225555" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">alreadydone</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225555">
+            <p>推荐每日更新HDR照片的一个网站：<br />
+<a href="http://www.stuckincustoms.com/" rel="nofollow">http://www.stuckincustoms.com/</a></p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 15, 2011 12:10 AM">2011年8月15日 00:10</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225555">#</a>
+ | <a href="#comment-text" title="引用alreadydone的这条留言" onclick="return CommentQuote('comment-quote-225555','alreadydone');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225559" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://wow.hankyang.idv.tw" href="http://wow.hankyang.idv.tw" target="_blank" rel="nofollow">龍達</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225559">
+            <p>HDR並不是單純<br />
+亮的地方更亮，暗的地方更暗<br />
+而是利用不同曝光級數的照片中間調組合而成<br />
+一般來說可以近乎人眼的視覺感受<br />
+範例<br />
+<a href="http://www.hdrsoft.com/" rel="nofollow">http://www.hdrsoft.com/</a></p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 15, 2011 12:57 AM">2011年8月15日 00:57</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225559">#</a>
+ | <a href="#comment-text" title="引用龍達的这条留言" onclick="return CommentQuote('comment-quote-225559','龍達');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225575" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Taro</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225575">
+            <p>那个自动着色，绝了……</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 15, 2011  8:17 AM">2011年8月15日 08:17</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225575">#</a>
+ | <a href="#comment-text" title="引用Taro的这条留言" onclick="return CommentQuote('comment-quote-225575','Taro');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225582" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.no.way" href="http://www.no.way" target="_blank" rel="nofollow">way</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225582">
+            <p>博主推崇开源的GIMP，赞一个！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 15, 2011  9:30 AM">2011年8月15日 09:30</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225582">#</a>
+ | <a href="#comment-text" title="引用way的这条留言" onclick="return CommentQuote('comment-quote-225582','way');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225617" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://ilewen.com" href="http://ilewen.com" target="_blank" rel="nofollow">Alan</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225617">
+            <blockquote>
+<pre>引用狼大人的发言：</pre>
+
+<p></p>
+
+<p>哈哈。见过用 Matlab 做照片处理和 MP3 编解码的神人。。在 Matlab 面前 PS 就是算盘啊。。</p>
+
+</blockquote>
+
+<p>matlab做图像压缩编解码什么比较正常，像PS一样处理图片。。。。？我想象不出来该怎么弄<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 15, 2011 10:43 PM">2011年8月15日 22:43</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225617">#</a>
+ | <a href="#comment-text" title="引用Alan的这条留言" onclick="return CommentQuote('comment-quote-225617','Alan');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225670" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">YOng</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225670">
+            <p>这些真实数字图像处理算法的生动教材啊~</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 16, 2011  8:35 PM">2011年8月16日 20:35</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225670">#</a>
+ | <a href="#comment-text" title="引用YOng的这条留言" onclick="return CommentQuote('comment-quote-225670','YOng');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225672" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">dc</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225672">
+            <p>和ps的差别在哪里呀？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 16, 2011  9:08 PM">2011年8月16日 21:08</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225672">#</a>
+ | <a href="#comment-text" title="引用dc的这条留言" onclick="return CommentQuote('comment-quote-225672','dc');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225708" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">蓝莓</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225708">
+            <p>最后一个如果脸没变 说明长得很美是吗</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 17, 2011 12:47 PM">2011年8月17日 12:47</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225708">#</a>
+ | <a href="#comment-text" title="引用蓝莓的这条留言" onclick="return CommentQuote('comment-quote-225708','蓝莓');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225715" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">new4everlau</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225715">
+            <p>经常关注阮老师的日志，但是曾来没发言过，呵呵<br />
+顶下阮老师！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 17, 2011  3:05 PM">2011年8月17日 15:05</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225715">#</a>
+ | <a href="#comment-text" title="引用new4everlau的这条留言" onclick="return CommentQuote('comment-quote-225715','new4everlau');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225736" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">pjimgs</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225736">
+            <p>HDR那段说挺离谱。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 17, 2011  7:50 PM">2011年8月17日 19:50</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225736">#</a>
+ | <a href="#comment-text" title="引用pjimgs的这条留言" onclick="return CommentQuote('comment-quote-225736','pjimgs');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225811" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">163victor</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225811">
+            <blockquote>
+<pre>引用XX的发言：</pre>
+
+<p>黑白照片变彩色这个不靠谱，它要知道苹果是红的桔子是橙的，这智能也太可怕了吧，桌子呢？啥颜色的都有吧！</p>
+
+</blockquote>
+我记得有用黑白底片产生彩色照片的仪器，不过色彩丰富度就不怎样了
+
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 18, 2011  8:44 PM">2011年8月18日 20:44</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225811">#</a>
+ | <a href="#comment-text" title="引用163victor的这条留言" onclick="return CommentQuote('comment-quote-225811','163victor');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225888" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Jack</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225888">
+            <p>因为数码感光器宽容度不高，导致在拍摄明暗对比强烈的画面（如阳光照射下的物体和阴影部）就得做个取舍。阴影部获得足够细节的时候，高亮的部分就会过曝，导致白花花一片；高亮部曝光合适的时候，阴影部光线不足，导致漆黑一坨。HDR是把在同一位置不同曝光级别的照片合成为一张照片，效果是高亮处曝光恰当，阴影处细节清楚。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 20, 2011 12:30 AM">2011年8月20日 00:30</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225888">#</a>
+ | <a href="#comment-text" title="引用Jack的这条留言" onclick="return CommentQuote('comment-quote-225888','Jack');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225934" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Kull</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225934">
+            <p>经常读到您的博客，非常喜欢。但是这次看您写图像处理的内容，确实大跌眼镜。只能说术业有专攻。hdr的内容解释得很离谱。如前面网友所说，hdr是高动态图像的意思，原因是自然界图像灰度的动态范围可超过十个数量级，而一般数字图像r,g,b表示各只采用8位字节，即255个灰度级，表示能力有限。我们一般用的显示器也最多是10bit的。为了解决这个问题，必须采用动态的tone mapping技术将大范围的数值压缩到数字图像所能表示的范围内，这是一个很有挑战的工作。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 21, 2011  3:38 AM">2011年8月21日 03:38</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225934">#</a>
+ | <a href="#comment-text" title="引用Kull的这条留言" onclick="return CommentQuote('comment-quote-225934','Kull');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225957" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">阮一峰</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225957">
+            <p>谢谢上面各位的指正。</p>
+
+<p>HDR的概念我确实写得不对，已经更正了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 21, 2011 10:48 AM">2011年8月21日 10:48</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-225957">#</a>
+ | <a href="#comment-text" title="引用阮一峰的这条留言" onclick="return CommentQuote('comment-quote-225957','阮一峰');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-226096" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">ncmooc</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-226096">
+            <p>hdr就是采集影像的时候采集到更多的色彩细节，包括亮度，从用途来说分为两种，一种是将这些丰富的影像细节合成到普通图片里，表现为过亮部变暗，过暗部变亮，细节丰富。二种是将影像存为16位或32位的特殊图片格式，其中包含色彩的亮度信息，比如看起来是一样的白色，却有亮度属性的区别，就是亮处更亮暗处更暗。这种hd可用来模拟3d图形渲染时候的灯光。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 23, 2011  4:03 PM">2011年8月23日 16:03</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-226096">#</a>
+ | <a href="#comment-text" title="引用ncmooc的这条留言" onclick="return CommentQuote('comment-quote-226096','ncmooc');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-226209" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">loven</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-226209">
+            <p>数字图像处理 其实也不难 就是编算法</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 25, 2011  9:51 AM">2011年8月25日 09:51</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-226209">#</a>
+ | <a href="#comment-text" title="引用loven的这条留言" onclick="return CommentQuote('comment-quote-226209','loven');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-227692" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://lonelycatme.blog.163.com/" href="http://lonelycatme.blog.163.com/" target="_blank" rel="nofollow">cmicat</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-227692">
+            <p>确实非常有用</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 11, 2011 11:36 AM">2011年9月11日 11:36</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-227692">#</a>
+ | <a href="#comment-text" title="引用cmicat的这条留言" onclick="return CommentQuote('comment-quote-227692','cmicat');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-235174" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Universion</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-235174">
+            <p>其实这些都是最简单的“链式算法”表现，相当于 iterators 之"合并同类项", 之所以让人们看着惊艳，就是因为一般人们不会像机器一样计算"算数型指数链结构"(indexed), 享受慵懒，哪里来得惊艳呢！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October  2, 2011  9:18 AM">2011年10月 2日 09:18</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-235174">#</a>
+ | <a href="#comment-text" title="引用Universion的这条留言" onclick="return CommentQuote('comment-quote-235174','Universion');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-251793" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">再起</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-251793">
+            <p>你好！ 阮老师能不能把这些源码发给我一份，我对这个非常感兴趣，没有了解的这么深，看到这个网站我非常兴奋，希望进一步深入研究，希望阮老师能够把源码打包发到我邮箱，谢谢！ 我邮箱  270353365@qq.com</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April  2, 2012 12:53 PM">2012年4月 2日 12:53</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-251793">#</a>
+ | <a href="#comment-text" title="引用再起的这条留言" onclick="return CommentQuote('comment-quote-251793','再起');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-255572" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">刘超</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-255572">
+            <p>阮老师，您好！！！我是刚开始学用Matlab进行数字图像处理，我的研究生期间就是做有关数字图像处理的东西，上面的那些好牛啊，能不能请您把上面那些个源代码发给我，谢谢！非常的感谢！！！邮箱931640049@qq.com</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 27, 2012 11:54 AM">2012年5月27日 11:54</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-255572">#</a>
+ | <a href="#comment-text" title="引用刘超的这条留言" onclick="return CommentQuote('comment-quote-255572','刘超');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-258671" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://limbo-nova.com/" href="http://limbo-nova.com/" target="_blank" rel="nofollow">Tony</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-258671">
+            <blockquote>
+<pre>引用XX的发言：</pre>
+
+<p>黑白照片变彩色这个不靠谱，它要知道苹果是红的桔子是橙的，这智能也太可怕了吧，桌子呢？啥颜色的都有吧！</p>
+
+</blockquote>
+<a href="http://www.cs.huji.ac.il/~yweiss/Colorization/index.html" rel="nofollow">http://www.cs.huji.ac.il/~yweiss/Colorization/index.html</a>
+建议认真读读原文，哪怕看看示例图也知道，需要指定区域的标记颜色。
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 13, 2012  2:22 PM">2012年7月13日 14:22</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-258671">#</a>
+ | <a href="#comment-text" title="引用Tony的这条留言" onclick="return CommentQuote('comment-quote-258671','Tony');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-261537" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">googoo</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-261537">
+            <blockquote>
+<pre>引用XX的发言：</pre>
+
+<p>黑白照片变彩色这个不靠谱，它要知道苹果是红的桔子是橙的，这智能也太可怕了吧，桌子呢？啥颜色的都有吧！</p>
+
+</blockquote>
+
+<p>颜色 这个貌似是最简单的  他能显示黑白 也是按固定灰阶显示的 知道图片编码就知道了  改为彩色 容易那</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 17, 2012 11:21 AM">2012年8月17日 11:21</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-261537">#</a>
+ | <a href="#comment-text" title="引用googoo的这条留言" onclick="return CommentQuote('comment-quote-261537','googoo');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-263105" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://EverET.org" href="http://EverET.org" target="_blank" rel="nofollow">ET</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-263105">
+            <p>好强悍。不过自动着色即使标了每个区域的颜色，但是应该也没办法保证可以准确地为一个区域着色吧，因为一个区域还是的查找还是不一定准确的吧...</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 10, 2012 10:43 AM">2012年9月10日 10:43</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-263105">#</a>
+ | <a href="#comment-text" title="引用ET的这条留言" onclick="return CommentQuote('comment-quote-263105','ET');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-264088" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Daniel</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-264088">
+            <p>非常神奇</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October  1, 2012 12:22 PM">2012年10月 1日 12:22</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-264088">#</a>
+ | <a href="#comment-text" title="引用Daniel的这条留言" onclick="return CommentQuote('comment-quote-264088','Daniel');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-265890" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">刘小姐</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-265890">
+            <p>阮老师，我准备往图像处理方向发展，但是现在基础很差，能不能麻烦您也把源代码发给我让我学习一下呢？我的QQ邮箱：552723469@qq.com</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November 11, 2012  2:19 AM">2012年11月11日 02:19</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-265890">#</a>
+ | <a href="#comment-text" title="引用刘小姐的这条留言" onclick="return CommentQuote('comment-quote-265890','刘小姐');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-266877" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">liuhuan992</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-266877">
+            <p>冒似是阮老师搜集的，并不是阮老师自己的呀，各位</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 11, 2012  9:59 AM">2012年12月11日 09:59</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-266877">#</a>
+ | <a href="#comment-text" title="引用liuhuan992的这条留言" onclick="return CommentQuote('comment-quote-266877','liuhuan992');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-267738" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://dolphinboy.me" href="http://dolphinboy.me" target="_blank" rel="nofollow">DolphinBoy</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-267738">
+            <p>这个很实用，有木有人脸识别的算法呢，哈哈！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 10, 2013 10:40 AM">2013年1月10日 10:40</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-267738">#</a>
+ | <a href="#comment-text" title="引用DolphinBoy的这条留言" onclick="return CommentQuote('comment-quote-267738','DolphinBoy');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-267792" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">华定平</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-267792">
+            <p>一直对图像处理很感兴趣</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 13, 2013  2:33 PM">2013年1月13日 14:33</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-267792">#</a>
+ | <a href="#comment-text" title="引用华定平的这条留言" onclick="return CommentQuote('comment-quote-267792','华定平');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-270809" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">吴斌</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-270809">
+            <p>阮老师，能不能麻烦您也把源代码发给我让我学习一下呢？我的QQ邮箱：305110629@qq.com</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 16, 2013  3:36 PM">2013年4月16日 15:36</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-270809">#</a>
+ | <a href="#comment-text" title="引用吴斌的这条留言" onclick="return CommentQuote('comment-quote-270809','吴斌');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-271666" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">jayle</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-271666">
+            <p>忍不住想骂人了，那些索要源码的人到底读文章了么</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 21, 2013  3:43 PM">2013年5月21日 15:43</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-271666">#</a>
+ | <a href="#comment-text" title="引用jayle的这条留言" onclick="return CommentQuote('comment-quote-271666','jayle');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-272993" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">aphantee</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-272993">
+            <blockquote>
+<pre>引用jayle的发言：</pre>
+
+<p>忍不住想骂人了，那些索要源码的人到底读文章了么</p>
+
+</blockquote>
+
+<p>是啊，这样的心态的话就算把源码打印出来给他们寄过去，估计也不会学的</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 10, 2013 10:23 PM">2013年8月10日 22:23</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-272993">#</a>
+ | <a href="#comment-text" title="引用aphantee的这条留言" onclick="return CommentQuote('comment-quote-272993','aphantee');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-273592" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">poke</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-273592">
+            <blockquote>
+<pre>引用XX的发言：</pre>
+
+<p>黑白照片变彩色这个不靠谱，它要知道苹果是红的桔子是橙的，这智能也太可怕了吧，桌子呢？啥颜色的都有吧！</p>
+
+</blockquote>
+利用色度比例，即使退色了，灰度的比例也会基本保持，然后定义一个基准色
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  5, 2013  8:17 AM">2013年9月 5日 08:17</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-273592">#</a>
+ | <a href="#comment-text" title="引用poke的这条留言" onclick="return CommentQuote('comment-quote-273592','poke');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-353116" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.puzhi.net" href="http://www.puzhi.net" target="_blank" rel="nofollow">程眘</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-353116">
+            <p>最不可思议的是清华大学的研究成果，算法居然能把前景素材里的人物都给换了个！不得不吐槽！希望只是资料收集错误，否则对中国的学术水平真不抱希望！！！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December  7, 2015  5:55 AM">2015年12月 7日 05:55</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-353116">#</a>
+ | <a href="#comment-text" title="引用程眘的这条留言" onclick="return CommentQuote('comment-quote-353116','程眘');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-356033" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">潘建平</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-356033">
+            <p>这些算法的链接都无法访问，您可否提供可以访问的链家，非常感谢。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  3, 2016  6:20 PM">2016年5月 3日 18:20</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-356033">#</a>
+ | <a href="#comment-text" title="引用潘建平的这条留言" onclick="return CommentQuote('comment-quote-356033','潘建平');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-371644" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">cymurs</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-371644">
+            <blockquote>
+<pre>引用Jack的发言：</pre>
+
+<p>因为数码感光器宽容度不高，导致在拍摄明暗对比强烈的画面（如阳光照射下的物体和阴影部）就得做个取舍。阴影部获得足够细节的时候，高亮的部分就会过曝，导致白花花一片；高亮部曝光合适的时候，阴影部光线不足，导致漆黑一坨。HDR是把在同一位置不同曝光级别的照片合成为一张照片，效果是高亮处曝光恰当，阴影处细节清楚。</p>
+
+</blockquote>
+
+<p>HDR是把在同一位置不同曝光级别的照片合成为一张照片，效果是高亮处曝光恰当，阴影处细节清楚。——一句话解释清楚HDR，这也正是每次HDR拍摄的时候，比普通拍照慢几拍的原因</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January  6, 2017 10:03 AM">2017年1月 6日 10:03</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-371644">#</a>
+ | <a href="#comment-text" title="引用cymurs的这条留言" onclick="return CommentQuote('comment-quote-371644','cymurs');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-380943" class="comment">
+    <div id="comment-last" class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">hy</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-380943">
+            <blockquote>
+<pre>引用程眘的发言：</pre>
+
+<p>最不可思议的是清华大学的研究成果，算法居然能把前景素材里的人物都给换了个！不得不吐槽！希望只是资料收集错误，否则对中国的学术水平真不抱希望！！！</p>
+
+</blockquote>
+
+<p>呵呵呵，你在抱怨吐槽的时候，有没有点进去链接看看呢？  只是截图没有全部截而已，何必那么激动。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 27, 2017  3:02 PM">2017年9月27日 15:02</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html#comment-380943">#</a>
+ | <a href="#comment-text" title="引用hy的这条留言" onclick="return CommentQuote('comment-quote-380943','hy');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    </div>
+        
+    
+
+
+    
+    
+    <div class="comments-open" id="comments-open">
+        <h2 class="comments-open-header">我要发表看法</h2>
+        <div class="comments-open-content">
+
+        
+            <div id="comment-greeting"></div>
+
+            <form method="post" action="http://www.ruanyifeng.com/cgi-bin/mtos/mt-comments.cgi" name="comments_form" id="comments-form" onsubmit="return pleaseWait();">
+                <input type="hidden" name="static" value="1" />
+                <input type="hidden" name="entry_id" value="1663" />
+                <input type="hidden" name="__lang" value="en" />
+                <input type="hidden" name="parent_id" value="" id="comment-parent-id" />
+                <input type="hidden" name="armor" value="1" />
+                <input type="hidden" name="preview" value="" />
+                <input type="hidden" name="sid" value="" />
+                <div id="comments-open-data">
+            <div id="comments-open-text">
+                    <p><label for="comment-text">您的留言
+                    （HTML标签部分可用）</label></p>
+                    <p><textarea id="comment-text" name="text" rows="10" cols="50"></textarea></p>
+                </div>
+                    <div id="comment-form-name">
+                        <p><label for="comment-author">您的大名：</label></p>
+                        <p><input id="comment-author" name="author" size="30" value="" />  <span class="hint"> &laquo;-必填</span></p>
+                    </div>
+                    <div id="comment-form-email">
+                        <p><label for="comment-email">电子邮件：</label></p>
+                        <p><input id="comment-email" name="email" size="30" value="" />  <span class="hint"> &laquo;-必填，不公开</span></p>
+                    </div>
+                    <div id="comment-form-url">
+                        <p><label for="comment-url">个人网址：</label></p>
+                        <p><input id="comment-url" name="url" size="30" value="" />  <span class="hint"> &laquo;-我信任你，不会填写广告链接</span></p>
+                    </div>
+                    <div id="comment-form-remember-me">
+                        <p>
+                        <label for="comment-bake-cookie">记住个人信息？</label><input type="checkbox" id="comment-bake-cookie" name="bakecookie" onclick="!this.checked?forgetMe(document.comments_form):rememberMe(document.comments_form)" value="1" accesskey="r" /></p>
+                    </div>
+                </div>
+                    <div id="comment-form-reply" style="display:none">
+                    <input type="checkbox" id="comment-reply" name="comment_reply" value="" onclick="mtSetCommentParentID()" />
+                    <label for="comment-reply" id="comment-reply-label"></label>
+                </div>
+                <div id="comments-open-captcha"></div>
+                <div id="comments-open-footer">
+<div id="wait" style="display:none;">
+<p><strong>正在发表您的评论，请稍候</strong></p>
+<p>
+<input type="text" name="percent" size="3" style="font-family:Arial; color:black;text-align:center; border-width:medium; border-style:none;">           
+<input type="text" name="chart" size="46" style="font-family:Arial;font-weight:bolder; color:black; padding:0px; border-style:none;">
+</p>
+</div>
+
+                    <p><input type="submit" accesskey="s" name="post" id="comment-submit" value="发表" />  <span class="hint"> &laquo;- 点击按钮</span></p>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+
+    
+
+
+</div>
+
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        <script type="text/javascript" src="http://www.ruanyifeng.com/blog/js/prism.js"></script>
+        <script type="text/javascript" src="/blog/checker.js"></script> 
+            <div id="footer">
+<div id="footer-inner">
+  <div id="footer-content">
+
+      
+<!--
+      <section> 
+     </section>
+  <p><a title="Instagram" target="_blank" href="http://instagram.com/ruanyf">Instagram</a></p>
+       <p><a title="订阅" href="https://app.feedblitz.com/f/f.fbz?Sub=348868" target="_blank">邮件订阅</a></p>
+  
+       <h2>Feed</h2>
+       <p><a title="FeedBurner" href="http://feeds.feedburner.com/ruanyifeng" target="_blank">FeedBurner</a></p>
+       <p><a title="atom.xml" href="http://www.ruanyifeng.com/blog/atom.xml" target="_blank">atom.xml</a></p>
+     
+      <p>支付宝：<a title="支付宝" href="alipays://platformapi/startapp?appId=20000067&url=http%3A%2F%2Fwww.ruanyifeng.com%2Fblog" target="_blank">yifeng.ruan@gmail.com</a></p>
+-->
+
+     <section>
+<!--
+       <h2>授权方式</h2>
+       <p><a title="许可证" href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">自由转载-非商用-非衍生-保持署名</a></p>
+       <h2>微信公号</h2>
+       <h2>社交帐号</h2>
+       <h2>联系方式</h2>
+     -->
+       <p><img src="https://www.wangbase.com/blogimg/asset/202001/bg2020013101.jpg" alt="微信扫描"></p>
+       <p>
+         <a title="微博" href="http://weibo.com/ruanyf" target="_blank">Weibo</a> | 
+         <a title="Twitter" target="_blank" href="https://twitter.com/ruanyf">Twitter</a> |
+         <a title="GitHub" target="_blank" href="https://github.com/ruanyf">GitHub</a>
+       </p>
+     
+     <p>Email: <a title="电子邮件" href="mailto:yifeng.ruan@gmail.com" target="_blank">yifeng.ruan@gmail.com</a></p>
+     </section>
+  
+  
+
+
+  </div>
+</div>
+</div>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46829782-1', 'ruanyifeng.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script type="text/javascript" src="/blog/stats.js"></script>
+<script>
+var supportImg = document.querySelector('#support-img');
+
+if (supportImg && _hmt) {
+  _hmt.push(['_trackEvent', 'banner', 'load']);
+  supportImg.addEventListener('click', function () {
+    _hmt.push(['_trackEvent', 'banner', 'click']);
+  }, false);
+}
+
+var homepageImg = document.querySelector('#homepage_sponsor');
+if (homepageImg && _hmt) {
+  _hmt.push(['_trackEvent', 'homepage-banner', 'load']);
+  homepageImg.addEventListener('click', function () {
+    _hmt.push(['_trackEvent', 'homepage-banner', 'click']);
+  }, false);
+}
+</script>
+
+
+<div id="share_button_proto" style="display:none;">
+<a class="bshareDiv" href="http://www.bshare.cn/share">分享按钮</a>
+
+
+
+<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#uuid=15e016b4-0028-44f1-a40d-a3c9d9c13c28&style=10&bgcolor=#fff&bp=weixin,qqim,qzone,qqmb,sinaminiblog,fanfou,xueqiu,douban,facebook,twitter,gplus,instapaper&ssc=false"></script>
+<script type="text/javascript" charset="utf-8">
+bShare.addEntry({
+    title: document.getElementById("page-title").innerHTML,
+url:window.location.href
+});
+</script>
+</div>
+
+<script>
+document.getElementById("share_button").innerHTML=document.getElementById("share_button_proto").innerHTML;
+</script>
+
+
+
+
+
+        </div>
+    </div>
+</body>
+</html>

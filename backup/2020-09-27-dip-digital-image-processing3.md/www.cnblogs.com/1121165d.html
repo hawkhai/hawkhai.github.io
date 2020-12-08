@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="这次分享的脚本是对图像进行增强处理，包含对图像像素的色彩增强、亮度增强、对比度增强、图像尖锐化等增强操作，主要基于PIL包的lambda和ImageEnhance模块。使用方法和上一贴一样，本文脚本进" />
+    <meta property="og:description" content="这次分享的脚本是对图像进行增强处理，包含对图像像素的色彩增强、亮度增强、对比度增强、图像尖锐化等增强操作，主要基于PIL包的lambda和ImageEnhance模块。使用方法和上一贴一样，本文脚本进" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>纯Python综合图像处理小工具（2）图像增强 - 浩克匠心 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=R2wBwmwSMG0Sqiw8GFSVjHT4Payg_JFAn51R8XcuvN0" />
+    <link id="MainCss" rel="stylesheet" href="/skins/blacklowkey/bundle-blacklowkey.min.css?v=1gj9-XJKL9BZFkjdvROYQPiPWjQXk-hsXXZGtqkfaSc" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/blacklowkey/bundle-blacklowkey-mobile.min.css?v=pdepUFJo7cpvzQktAZqHoGL4g936wIXvGsP3R063Gn8" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/sopic/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/sopic/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/sopic/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 121009;
+        var currentBlogApp = 'sopic';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BlackLowKey';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2015-05-29 10:50';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=gWQ9VKr6FSwo14EgofSprzXJrAEO7ppQ1I5Or4uqKuo"></script>
+    
+    
+    
+</head>
+<body class="has-navbar has-bannerbar">
+    <a name="top"></a>
+            <a href="https://brands.cnblogs.com/aws/free?source=blog-bannerbar" onclick="ga('send', 'event', 'Link', 'click', 'aws-pc-bannerbar')">
+                <div class="bannerbar aws forpc">
+                    <img class="left" src="https://common.cnblogs.com/images/banner/bannerbar-aws-logo.png" alt="" />
+                    <img class="right" src="https://common.cnblogs.com/images/banner/bannerbar-aws-ssh.png?v=2" alt="" />
+                </div>
+            </a>
+        <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://brands.cnblogs.com/aws/free?source=mobile-banner" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aws-mobile-bannerbar')"><img src="https://img2020.cnblogs.com/blog/35695/202012/35695-20201203212730693-184275650.png" alt="" /></a>
+        </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/sopic/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/sopic/">幻艺视界</a>
+</h1>
+<h2>把玩技术，欣赏艺术，用技术革新艺术，用创意制造财富</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/sopic/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%B5%A9%E5%85%8B%E5%8C%A0%E5%BF%83">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/sopic/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 39&nbsp; </span>
+<span id="stats_article_count">文章 - 3&nbsp; </span>
+<span id="stats-comment_count">评论 - 70</span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/sopic/p/4537718.html">
+    <span>纯Python综合图像处理小工具（2）图像增强</span>
+    
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body">
+    <p><span style="font-size: 18pt"><strong>&lt;背景&gt;</strong></span></p><div>这次分享的脚本是对图像进行增强处理，包含对图像像素的色彩增强、亮度增强、对比度增强、图像尖锐化等增强操作，主要基于PIL包的lambda和ImageEnhance模块。</div><p>使用方法和上一贴一样，本文脚本进行了多项功能的集成，一键完成所有处理，图像会即刻显示处理后的效果，并全部保存成特定名称jpeg。</p><p>&nbsp;下图是对处理后的图片的二维比较，为了更直观地比较，将处理项（亮度，颜色，对比度，锐度）作为横坐标，处理强度参数作为纵坐标（0,0.25,0.5,0.75,1）。当处理强度参数为1的时候，实际不对图像进行任何修改。</p><p><strong style="font-size: 18pt">&lt;效果&gt;&nbsp;</strong></p><p><span style="font-size: 14pt">原图：</span></p><p><img src="https://images0.cnblogs.com/blog2015/421918/201505/290922205942269.jpg" alt="" style="line-height: 1.5">&nbsp;</p><div>&nbsp;</div><p><span style="font-size: 14pt">处理后:&nbsp;</span></p><p><img src="https://images0.cnblogs.com/blog2015/421918/201505/290921416578338.jpg" alt="" style="line-height: 1.5"></p><p>&nbsp;</p><p>&nbsp;</p><p>lambda增强40%（0.4）</p><p><img src="https://images0.cnblogs.com/blog2015/421918/201505/291102110943667.jpg" alt="" style="line-height: 1.5">&nbsp;</p><p>&nbsp;</p><p><strong style="font-size: 18pt">&lt;源码分析&gt;&nbsp;</strong></p><p>&nbsp;</p><p>本文用到的是PIL的图像增强模块，即ImageEnhance 模块，这个模块可以快速对图像进行增强处理，包括色彩增强、亮度增强、对比度增强、图像尖锐化等等增强操作，所有操作都有相同形式的接口。通过相应类的enhance方法实现：色彩增强通过Color类的enhance方法实现；亮度增强通过Brightness类的enhance方法实现；对比度增强通过Contrast类的enhance方法实现；尖锐化通过Sharpness类的enhance方法实现。所有的操作都需要向类的构造函数传递一个Image对象作为参数，这个参数定义了增强作用的对象。同时所有的操作都返回一个新的Image对象。</p><p>如果传给enhance方法的参数是1.0，则不对原图像做任何改变，直接返回原图像的一个拷贝。</p><p>此外，lambda表达式可以（也仅限于）进行图像的亮度增强，&nbsp;<span style="line-height: 1.5">imgbri=img.point(lambda i : i*1.4)，代表对原图亮度增强40%。</span></p>irange代表图像增强参数的调整范围；&nbsp;<p>istep代表图像按照等步长增强后输出的图片张数；</p><p>factor代表图像增强强度参数；&nbsp;</p><div>img_enhance_color.show("Color %f" %factor)显示图像增强效果；</div><div>img_enhance_color.save("Color_%.2f.jpg" %factor) 保存增强后的图像。</div><p>&nbsp;</p><p>&nbsp;<span style="line-height: 1.5">&nbsp;</span><strong style="font-size: 18pt">&lt;全部源码&gt;&nbsp;</strong></p> <div><div class="cnblogs_code"><div><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">start</span><span style="color: rgba(0, 128, 0, 1)"><br>#</span><span style="color: rgba(0, 128, 0, 1)">&nbsp;-*-&nbsp;coding:&nbsp;cp936&nbsp;-*-</span><span style="color: rgba(0, 128, 0, 1)"><br>#</span><span style="color: rgba(0, 128, 0, 1)">阿瓦图像村出品，转载请注明出处</span><span style="color: rgba(0, 128, 0, 1)"><br>#</span><span style="color: rgba(0, 128, 0, 1)">QQ：576916092</span><span style="color: rgba(0, 128, 0, 1)"><br></span><span style="color: rgba(0, 0, 255, 1)">import</span>&nbsp;Image,ImageDraw<br><span style="color: rgba(0, 0, 255, 1)">import</span>&nbsp;ImageFilter,random,sys<br><span style="color: rgba(0, 0, 255, 1)">import</span>&nbsp;ImageEnhance<br>img&nbsp;=&nbsp;Image.open(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">1.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>)<br><br><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">#图像处理##</span><span style="color: rgba(0, 128, 0, 1)"><br></span><br><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">转换为RGB图像</span><span style="color: rgba(0, 128, 0, 1)"><br></span>img&nbsp;=&nbsp;img.convert(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">RGB</span><span style="color: rgba(128, 0, 0, 1)">"</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br><br><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">PIL图像增强lambda</span><span style="color: rgba(0, 128, 0, 1)"><br></span>imgbri=img.point(<span style="color: rgba(0, 0, 255, 1)">lambda</span>&nbsp;i&nbsp;:&nbsp;i*1.4)&nbsp;<span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">对每一个像素点进行增强</span><span style="color: rgba(0, 128, 0, 1)"><br></span>imgbri.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">1bri.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>)<br>imgbri.show()<br><br><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">PIL图像增强ImageEnhance</span><span style="color: rgba(0, 128, 0, 1)"><br></span>istep=4<br>irange=4.0<br><br>imgenhancer_Color=ImageEnhance.Color(img)<br><span style="color: rgba(0, 0, 255, 1)">for</span>&nbsp;i&nbsp;<span style="color: rgba(0, 0, 255, 1)">in</span>&nbsp;range(istep):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factor=i/irange<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img_enhance_color=imgenhancer_Color.enhance(factor)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img_enhance_color.show(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">Color&nbsp;%f</span><span style="color: rgba(128, 0, 0, 1)">"</span>&nbsp;%factor)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img_enhance_color.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">Color_%.2f.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>&nbsp;%factor)&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>imgenhancer_Brightness=ImageEnhance.Brightness(img)<br><span style="color: rgba(0, 0, 255, 1)">for</span>&nbsp;i&nbsp;<span style="color: rgba(0, 0, 255, 1)">in</span>&nbsp;range(istep):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factor=i/irange<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img_enhance_Brightness=imgenhancer_Brightness.enhance(factor)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img_enhance_Brightness.show(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">Brightness&nbsp;%f</span><span style="color: rgba(128, 0, 0, 1)">"</span>&nbsp;%factor)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img_enhance_Brightness.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">Brightness_%.2f.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>&nbsp;%factor)&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>imgenhancer_Contrast=ImageEnhance.Contrast(img)<br><span style="color: rgba(0, 0, 255, 1)">for</span>&nbsp;i&nbsp;<span style="color: rgba(0, 0, 255, 1)">in</span>&nbsp;range(istep):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factor=i/irange<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img_enhance_Contrast=imgenhancer_Contrast.enhance(factor)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img_enhance_Contrast.show(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">Contrast&nbsp;%f</span><span style="color: rgba(128, 0, 0, 1)">"</span>&nbsp;%factor)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img_enhance_Contrast.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">Contrast_%.2f.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>&nbsp;%factor)&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>imgenhancer_Sharpness=ImageEnhance.Sharpness(img)<br><span style="color: rgba(0, 0, 255, 1)">for</span>&nbsp;i&nbsp;<span style="color: rgba(0, 0, 255, 1)">in</span>&nbsp;range(istep):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factor=i/irange<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img_enhance_Sharpness=imgenhancer_Sharpness.enhance(factor)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img_enhance_Sharpness.show(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">Sharpness&nbsp;%f</span><span style="color: rgba(128, 0, 0, 1)">"</span>&nbsp;%factor)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img_enhance_Sharpness.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">Sharpness_%.2f.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>&nbsp;%factor)&nbsp;<br><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">end</span></div></div></div><p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2015-05-29 10:50</span>&nbsp;
+<a href="https://www.cnblogs.com/sopic/">浩克匠心</a>&nbsp;
+阅读(<span id="post_view_count">6971</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=4537718" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(4537718);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 121009, cb_blogApp = 'sopic', cb_blogUserGuid = '7f10b71a-62bf-e111-aa3f-842b2b196315';
+    var cb_entryId = 4537718, cb_entryCreatedDate = '2015-05-29 10:50', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 浩克匠心
+<br /><span id="poweredby">Powered by .NET 5.0.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+</body>
+</html>
