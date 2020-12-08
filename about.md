@@ -109,3 +109,10 @@ As the saying goes: Bad notes is better than good memories.
 {% highlight shell %}
 
 {% endhighlight %}
+
+-----
+
+<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+
+- [1] [https://twitter.com/]({% include relref.html url="/backup/about.md/twitter.com/4fd9c9a2.html" %})
+- [2] [https://github.com/]({% include relref.html url="/backup/about.md/github.com/008ec445.html" %})
