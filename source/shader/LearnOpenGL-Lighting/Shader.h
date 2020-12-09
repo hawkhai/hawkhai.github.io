@@ -9,8 +9,8 @@
 class Shader
 {
 public:
-	int ID;
-	void useShader();
-	Shader(const char* vertexPath, const char* fragmentPath);
-	~Shader(void);
+    int ID;
+    void useShader();
+    Shader(const char* vertexPath, const char* fragmentPath);
+    ~Shader(void);
 };

@@ -238,7 +238,7 @@ void setVertexEnv() {
 
 {% include image.html url="/images/OpenGL-GLSL/boxtest.gif" %}
 
-{% include image.html url="/source/shader/LearnOpenGL-Introduction/grab.gif" %}
+{% include image.html url="/images/OpenGL-GLSL/glIntroGrab.gif" %}
 
 -----
 

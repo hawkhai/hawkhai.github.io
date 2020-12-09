@@ -14,7 +14,7 @@ public:
 		m_vecPosition = glm::vec3(0.0f, 0.0f, 3.0f);
 		m_vecFront = glm::vec3(0.0f, 0.0f, -1.0f);
 		m_vecUp = glm::vec3(0.0f, 1.0f, 0.0f);
-		m_fFov = 45; // 摄像机 视锥上下面之间的夹角
+		m_fZoom = 45; // 摄像机 视锥上下面之间的夹角
 		m_fPitch = 0;
 		m_fYaw = 0;
 	}
@@ -44,16 +44,16 @@ public:
 	void ProcessMouseScroll(float yoffset)
 	{
 		// 调整 视野角度
-		if (m_fFov >= 1.0f && m_fFov <= 85.0f)
-			m_fFov -= yoffset;
-		if (m_fFov <= 1.0f)
-			m_fFov = 1.0f;
-		if (m_fFov >= 85.0f)
-			m_fFov = 85.0f;
+		if (m_fZoom >= 1.0f && m_fZoom <= 85.0f)
+			m_fZoom -= yoffset;
+		if (m_fZoom <= 1.0f)
+			m_fZoom = 1.0f;
+		if (m_fZoom >= 85.0f)
+			m_fZoom = 85.0f;
 	}
 
 public:
 	glm::vec3 m_vecPosition, m_vecFront, m_vecUp;
-	float m_fPitch, m_fYaw, m_fFov;
+	float m_fPitch, m_fYaw, m_fZoom;
 };
 #endif
