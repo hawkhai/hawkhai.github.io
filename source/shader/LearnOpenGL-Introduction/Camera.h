@@ -8,44 +8,52 @@ class Camera
 {
 
 public:
+
 	Camera()
 	{
-		Position= glm::vec3(0.0f,0.0f,3.0f);
-		Front=glm::vec3(0.0f,0.0f,-1.0f);
-		UP=glm::vec3(0.0f,1.0f,0.0f);
-		fov=45;
+		m_vecPosition = glm::vec3(0.0f, 0.0f, 3.0f);
+		m_vecFront = glm::vec3(0.0f, 0.0f, -1.0f);
+		m_vecUp = glm::vec3(0.0f, 1.0f, 0.0f);
+		m_fFov = 45; // 摄像机 视锥上下面之间的夹角
+		m_fPitch = 0;
+		m_fYaw = 0;
 	}
+
 	glm::mat4 GetViewMatrix()
 	{
-		return glm::lookAt(Position,Position+Front,UP);
+		return glm::lookAt(m_vecPosition, m_vecPosition + m_vecFront, m_vecUp);
 	}
-	void ProcessMouseMovement(float xoffset,float yoffset)
+
+	void ProcessMouseMovement(float xoffset, float yoffset)
 	{
-		Yaw+=xoffset*0.1;
-		Pitch+=yoffset*0.1;
+		m_fYaw += xoffset * 0.1;
+		m_fPitch += yoffset * 0.1;
 		glm::vec3 front;
 
-		if (Pitch > 89.0f)
-			Pitch = 89.0f;
-		if (Pitch < -89.0f)
-			Pitch = -89.0f;
+		if (m_fPitch > 89.0f)
+			m_fPitch = 89.0f;
+		if (m_fPitch < -89.0f)
+			m_fPitch = -89.0f;
 
-		front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-		front.y = sin(glm::radians(Pitch));
-		front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-		Front = glm::normalize(front);
+		front.x = cos(glm::radians(m_fYaw)) * cos(glm::radians(m_fPitch));
+		front.y = sin(glm::radians(m_fPitch));
+		front.z = sin(glm::radians(m_fYaw)) * cos(glm::radians(m_fPitch));
+		m_vecFront = glm::normalize(front);
 	}
+
 	void ProcessMouseScroll(float yoffset)
-    {
-		 if (fov >= 1.0f && fov <= 85.0f)
-			fov -= yoffset;
-		if (fov <= 1.0f)
-			fov = 1.0f;
-		if (fov >= 85.0f)
-			fov = 85.0f;
-    }
+	{
+		// 调整 视野角度
+		if (m_fFov >= 1.0f && m_fFov <= 85.0f)
+			m_fFov -= yoffset;
+		if (m_fFov <= 1.0f)
+			m_fFov = 1.0f;
+		if (m_fFov >= 85.0f)
+			m_fFov = 85.0f;
+	}
+
 public:
-	glm::vec3 Position,Front,UP;
-	float Pitch,Yaw,fov;
+	glm::vec3 m_vecPosition, m_vecFront, m_vecUp;
+	float m_fPitch, m_fYaw, m_fFov;
 };
 #endif

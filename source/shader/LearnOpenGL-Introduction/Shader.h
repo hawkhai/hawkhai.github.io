@@ -5,6 +5,7 @@
 //#include <fstream>
 //#include <sstream>
 #include <iostream>
+
 class Shader
 {
 public:
@@ -13,4 +14,3 @@ public:
 	Shader(void);
 	~Shader(void);
 };
-
