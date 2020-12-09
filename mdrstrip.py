@@ -314,7 +314,7 @@ def mainfile(fpath, fname, ftype):
     while len(lines) >= 1 and not lines[0]:
         lines = lines[1:]
 
-    if fname in ("relref.html", "relref_bili.html", "relref_zhihu.html",):
+    if fname in ("relref.html", "relref_bili.html", "relref_zhihu.html", "gitsrc.html",):
         while len(lines) >= 1 and not lines[-1]:
             lines = lines[:-1]
 
