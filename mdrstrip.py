@@ -182,7 +182,7 @@ def createCnFile():
 #createCnFile()
 
 def copyres(ik, fpath, line):
-    if not COPYRES: return
+    if not COPYRES: return line
     fpath = os.path.split(fpath)[-1]
     if fpath.lower().endswith(".md"):
         fpath = fpath[:-3]
@@ -198,6 +198,8 @@ def copyres(ik, fpath, line):
         copyfile(ik, fpath)
         if os.path.abspath(ik) != os.path.abspath(fpath):
             osremove(ik)
+    else:
+        assert False, ik
     return line.replace(ik, fpath.replace("\\", "/"))
 
 g_hostset = {}
