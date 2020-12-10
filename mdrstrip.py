@@ -6,6 +6,7 @@ from pythonx.funclib import *
 OPENFILE = "openfile" in sys.argv
 AUTOFORMAT = "format" in sys.argv
 REBUILD = "rebuild" in sys.argv
+COPYRES = "copyres" in sys.argv
 
 # 在西歐、北歐及東歐國家常用的字母，帶變音符，和一般英文字母不同。
 DIACRITIC = """
@@ -181,27 +182,23 @@ def createCnFile():
 #createCnFile()
 
 def copyres(ik, fpath, line):
+    if not COPYRES: return
     fpath = os.path.split(fpath)[-1]
     if fpath.lower().endswith(".md"):
         fpath = fpath[:-3]
     if re.findall("^[0-9]{4}-[0-9]{2}-[0-9]{2}-", fpath):
-        fpath = fpath[:10].replace("-","")[-6:]+"-"+fpath[11:]
+        fpath = fpath[:10].replace("-", "")[-6:]+"-"+fpath[11:]
     if len(fpath) > 32:
         fpath = fpath[:30]+"~"+getmd5(fpath)[:2]
     ikdir, ikfile = os.path.split(ik)
     if ikfile.find(".") == -1:
         ikfile = ikfile + ".jpg"
     fpath = os.path.join("assets", "images", fpath, ikfile).lower()
-    if os.path.exists(fpath):
-        if os.path.abspath(fpath) != os.path.abspath(ik):
-            osremove(ik)
-        return line.replace(ik, fpath.replace("\\", "/"))
-    return line.replace(ik, fpath.replace("\\", "/"))
     if os.path.exists(ik):
-        #copyfile(ik, fpath)
-        pass
-    else:
-        assert os.path.exists(fpath), fpath
+        copyfile(ik, fpath)
+        if os.path.abspath(ik) != os.path.abspath(fpath):
+            osremove(ik)
+    return line.replace(ik, fpath.replace("\\", "/"))
 
 g_hostset = {}
 def collectHost(fpath, line):
