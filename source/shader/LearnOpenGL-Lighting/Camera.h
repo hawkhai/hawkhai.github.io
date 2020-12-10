@@ -13,7 +13,7 @@ public:
         m_vecPosition = glm::vec3(0.0f, 0.0f, 6.0f);
         m_vecFront = glm::vec3(0.0f, 0.0f, -1.0f);
         m_vecUp = glm::vec3(0.0f, 1.0f, 0.0f);
-        m_fZoom = 45;
+        m_fFieldOfView = 45;
         m_fPitch = 0;
         m_fYaw = 0;
     }
@@ -42,16 +42,16 @@ public:
 
     void ProcessMouseScroll(float yoffset)
     {
-        if (m_fZoom >= 1.0f && m_fZoom <= 85.0f)
-            m_fZoom -= yoffset;
-        if (m_fZoom <= 1.0f)
-            m_fZoom = 1.0f;
-        if (m_fZoom >= 85.0f)
-            m_fZoom = 85.0f;
+        if (m_fFieldOfView >= 1.0f && m_fFieldOfView <= 85.0f)
+            m_fFieldOfView -= yoffset;
+        if (m_fFieldOfView <= 1.0f)
+            m_fFieldOfView = 1.0f;
+        if (m_fFieldOfView >= 85.0f)
+            m_fFieldOfView = 85.0f;
     }
 
 public:
     glm::vec3 m_vecPosition, m_vecFront, m_vecUp;
-    float m_fPitch, m_fYaw, m_fZoom;
+    float m_fPitch, m_fYaw, m_fFieldOfView;
 };
 #endif

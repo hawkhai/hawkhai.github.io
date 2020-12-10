@@ -118,7 +118,7 @@ int main()
         view = camera.GetViewMatrix();
         //view=glm::translate(view,glm::vec3(0.0f,0.0f,-3.0f));
         glm::mat4 projection;
-        projection = glm::perspective(glm::radians(camera.m_fZoom), 800.0f / 600.0f, 0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(camera.m_fFieldOfView), 800.0f / 600.0f, 0.1f, 100.0f);
         //trans=projection*view*model;
         cubeShader.useShader();
         glUniformMatrix4fv(glGetUniformLocation(cubeShader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));

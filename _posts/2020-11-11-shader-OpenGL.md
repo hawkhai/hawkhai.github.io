@@ -191,6 +191,18 @@ void setVertexEnv() {
 }
 ```
 
+- 图元连接方式
+
+{% include image.html url="/images/OpenGL-GLSL/23e3ac4c617.jpg" %}
+
+1. GL_POINTS 每个顶点在屏幕上都是单独的点。
+2. GL_LINES 每一对顶点定义一个线段。
+3. GL_LINE_STRIP 一个从第一个顶点依次经过每一个后续顶点而绘制的线条。
+4. GL_LINE_LOOP 和 GL_LINE_STRIP 相同，但是最后一个顶点和第一个顶点连接起来了。
+5. GL_TRIANGLES 每三个顶点构成一个三角形。
+6. GL_TRIANGLE_STRIP 三角形带，新增一个顶点，就复用前面的两个顶点，构成一个新的三角形。
+7. GL_TRIANGLE_FAN 以一个原点为中心，呈扇形排列，公用相邻顶点的一组三角形。
+
 
 ## 第二课
 
@@ -213,6 +225,111 @@ void setVertexEnv() {
 - 缩放旋转位移顺序问题
 
 - 坐标系统
+
+
+### 坐标系统
+
+- <https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/08%20Coordinate%20Systems/>
+- <https://www.mdeditor.tw/pl/pZYE>
+- <https://mp.weixin.qq.com/s/0HZgyZra90LQLFAq6dQJ9A>
+
+- 局部空间 (Local Space，或者称为物体空间 (Object Space))
+- 世界空间 (World Space)
+- 观察空间 (View Space，或者称为视觉空间 (Eye Space))
+- 裁剪空间 (Clip Space)
+- 屏幕空间 (Screen Space)
+
+$$
+V_{clip} = M_{projection} \cdot M_{view} \cdot M_{model} \cdot V_{local}
+$$
+
+{% include image.html url="/images/OpenGL-GLSL/coordinate_systems2.png" %}
+
+{% include image.html url="/images/OpenGL-GLSL/173184e0cdd334b3.jpg" %}
+
+在上图中，OpenGL 定义了后三个坐标系（裁剪坐标、NDC 坐标、屏幕坐标），前三个坐标（物体坐标、世界坐标、摄像机坐标）是为了用户方便而自定义的坐标。
+
+{% include image.html url="/images/OpenGL-GLSL/173184b55b0849f7.jpg" %}
+
+$$
+\left[\begin{array}{l}
+x^{\prime} \\
+y^{\prime} \\
+z^{\prime} \\
+1
+\end{array}\right]
+=
+\left[\begin{array}{llll}
+1 & 0 & 0 & \Delta x \\
+0 & 1 & 0 & \Delta y \\
+0 & 0 & 1 & \Delta z \\
+0 & 0 & 0 & 1
+\end{array}\right]
+\left[\begin{array}{l}
+x \\
+y \\
+z \\
+1
+\end{array}\right]
+=
+\left[\begin{array}{c}
+x+\Delta x \\
+y+\Delta y \\
+z+\Delta z \\
+1
+\end{array}\right]
+$$
+
+OpenGL 在每次顶点着色器运行之后，希望可见的顶点都可以转化为标准化设备坐标 (Normalized Device Coordinate, NDC)，也就是说，每个顶点的 x，y，x 坐标都应该在（-1.0，1，0）之间，超出这个坐标范围的顶点都将不可见。通常我们会自定一个坐标的范围，之后再在顶点着色器中将这些坐标转换为标准化设备坐标。然后将这些标准化的坐标传入光栅器，变换为屏幕上的二维坐标或者像素。
+
+物体坐标到世界坐标，主要是位移；世界坐标到视觉坐标，主要包含位移和旋转。最终要换算到 NDC 立方体内，显卡完成后继工作。
+glm::mat4 内存结构是列保存的：
+
+```
+ 1[0][0]  2[0][1]  3[0][2]  4[0][3]
+ 5[1][0]  6[1][1]  7[1][2]  8[1][3]
+ 9[2][0] 10[2][1] 11[2][2] 12[2][3]
+13[3][0] 14[3][1] 15[3][2] 16[3][3]
+```
+
+原始坐标：
+
+```cpp
+float vertices[] = {
+    -0.5f,-0.5f,0.0f, // left,down
+     0.5f,-0.5f,0.0f, // right,down
+     0.5f, 0.5f,0.0f, // right,top
+    -0.5f, 0.5f,0.0f, // left,top
+};
+```
+
+{% include image.html url="/images/OpenGL-GLSL/20201210173525.png" %}
+
+```cpp
+glm::mat4 model=glm::mat4(1.0f);
+// 默认应该是正交投影，饶 x 轴逆时针旋转 55°
+model=glm::rotate(model,glm::radians(55.0f),glm::vec3(1.0f,0.0f,0.0f));
+```
+
+{% include image.html url="/images/OpenGL-GLSL/20201210173853.png" %}
+
+```cpp
+glm::mat4 view = glm::mat4(1.0f);
+// 往上平移 0.5f，往后平移 1.0f。
+// 只能看到半截，因为默认是一个 [-1,1] 的立方体正交，另外半截超出边界了。
+view=glm::translate(view,glm::vec3(0.0f,0.5f,-1.0f));
+```
+
+{% include image.html url="/images/OpenGL-GLSL/20201210174245.png" %}
+
+```cpp
+glm::mat4 projection = glm::mat4(1.0f);
+// 最终结果，是一个摄像机在原点的透视。
+// 摄像机位置应该在 原点。
+projection=glm::perspective(glm::radians(90.0f),800.0f/600.0f,0.1f,10.0f);
+```
+
+{% include image.html url="/images/OpenGL-GLSL/20201210174453.png" %}
 
 
 ## 第三课
@@ -265,4 +382,7 @@ void setVertexEnv() {
 - [19] [https://www.khronos.org/opengl/wiki/Uniform_Buffer_Object]({% include relref.html url="/backup/2020-11-11-shader-OpenGL.md/www.khronos.org/04bc8242.html" %})
 - [20] [https://zgserver.com/parsing-6.html]({% include relref.html url="/backup/2020-11-11-shader-OpenGL.md/zgserver.com/060e6561.html" %})
 - [21] [https://www.uiimage.com/post/blog/opengl-es/opengl-es-2-draw-a-triangle/]({% include relref.html url="/backup/2020-11-11-shader-OpenGL.md/www.uiimage.com/9d22c628.html" %})
-- [22] [https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/1.getting_started/7.4.camera_class/camera_class.cpp]({% include relref.html url="/backup/2020-11-11-shader-OpenGL.md/github.com/5c619a05.cpp" %})
+- [22] [https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/08%20Coordinate%20Systems/]({% include relref.html url="/backup/2020-11-11-shader-OpenGL.md/learnopengl-cn.readthedocs.io/cfc9cf0a.html" %})
+- [23] [https://www.mdeditor.tw/pl/pZYE]({% include relref.html url="/backup/2020-11-11-shader-OpenGL.md/www.mdeditor.tw/c5442ada.html" %})
+- [24] [https://mp.weixin.qq.com/s/0HZgyZra90LQLFAq6dQJ9A]({% include relref.html url="/backup/2020-11-11-shader-OpenGL.md/mp.weixin.qq.com/25763337.html" %})
+- [25] [https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/1.getting_started/7.4.camera_class/camera_class.cpp]({% include relref.html url="/backup/2020-11-11-shader-OpenGL.md/github.com/5c619a05.cpp" %})
