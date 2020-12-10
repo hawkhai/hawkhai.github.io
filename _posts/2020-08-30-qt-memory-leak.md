@@ -26,12 +26,12 @@ C++ 中 delete 和 new 必须配对使用（一一对应）：delete 少了，�
 
 （1）Linux 内存图，主要了解堆栈上分配内存的不同方式。
 
-{% include image.html url="/images/qtmemory/20140612095754296.jpg" %}
-{% include image.html url="/images/qtmemory/20140612095928078.jpg" %}
+{% include image.html url="/assets/images/200830-qt-memory-leak/20140612095754296.jpg" %}
+{% include image.html url="/assets/images/200830-qt-memory-leak/20140612095928078.jpg" %}
 
 （2）在 Qt 中，最基础和核心的类是：QObject，QObject 内部有一个 list，会保存 children，还有一个指针保存 parent，当自己析构时，会自己从 parent 列表中删除并且析构所有的 children。
 
-{% include image.html url="/images/qtmemory/20140612112758250.png" %}
+{% include image.html url="/assets/images/200830-qt-memory-leak/20140612112758250.png" %}
 
 
 ## 详解
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
 
 **运行：**
 
-{% include image.html url="/images/qtmemory/20140611221500421.png" %}
+{% include image.html url="/assets/images/200830-qt-memory-leak/20140611221500421.png" %}
 
 **分析：**
 
@@ -350,7 +350,7 @@ int main(int argc, char* argv[])
 }
 {% endhighlight %}
 
-{% include image.html url="/images/qtmemory/20140612145714109.png" %}
+{% include image.html url="/assets/images/200830-qt-memory-leak/20140612145714109.png" %}
 
 在上面的代码中，创建了三个仅有一个按钮的窗口。第一个按钮点击后，会删除掉自己（通过 deleteLater() 槽），此时，cleaner 会自动将其从自己的列表中清除。第三个按钮点击后会删除 cleaner，这样做会同时删除掉所有未关闭的窗口。
 

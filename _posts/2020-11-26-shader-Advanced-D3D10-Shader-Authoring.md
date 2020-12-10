@@ -50,7 +50,7 @@ glslcanvas:
 
 ## Overview of the Pipeline
 
-{% include image.html style="background:gray;" url="/images/OpenGL-GLSL/20201126214916.png" %}
+{% include image.html style="background:gray;" url="/assets/images/201126-shader-advanced-d3d10-s~40/20201126214916.png" %}
 
 
 ## Vertex Shader 4.0
@@ -63,7 +63,7 @@ glslcanvas:
     * It’s up to you now
     * Color, Texture Coordinates, etc
 
-{% include image.html style="background:gray;" url="/images/OpenGL-GLSL/20201126215109.png" %}
+{% include image.html style="background:gray;" url="/assets/images/201126-shader-advanced-d3d10-s~40/20201126215109.png" %}
 
 
 ## System-generated Values
@@ -104,7 +104,7 @@ glslcanvas:
     * Pixel color (with alpha)
     * Optional:  depth
 
-{% include image.html style="background:gray;" url="/images/OpenGL-GLSL/20201126215428.png" %}
+{% include image.html style="background:gray;" url="/assets/images/201126-shader-advanced-d3d10-s~40/20201126215428.png" %}
 
 
 ## What This Means: Configurability
@@ -132,14 +132,14 @@ glslcanvas:
 * Use Visual Studio to edit the effect and cpp files and to build.
 * If you get stuck or need help, raise your hand.  A proctor will assist you.
 
-{% include image.html style="background:gray;" url="/images/OpenGL-GLSL/20201126215618.png" %}
+{% include image.html style="background:gray;" url="/assets/images/201126-shader-advanced-d3d10-s~40/20201126215618.png" %}
 
 
 ## The Basic Idea
 
 * GPUSpectrogram uses the GPU to analyze the raw audio data and evaluate the levels of various frequency ranges
 
-{% include image.html style="background:gray;" url="/images/OpenGL-GLSL/20201126215718.png" %}
+{% include image.html style="background:gray;" url="/assets/images/201126-shader-advanced-d3d10-s~40/20201126215718.png" %}
 
 * To check this code out and see the new integer instruction set in action, check out the GPUSpectrogram sample or GPUSpectrogram.fx included in the workshop
 
@@ -162,7 +162,7 @@ glslcanvas:
 input.Pos.y *= abs(spectrogram.r)*fScale*g_fScale;
 ```
 
-{% include image.html style="background:gray;" url="/images/OpenGL-GLSL/20201126215913.png" %}
+{% include image.html style="background:gray;" url="/assets/images/201126-shader-advanced-d3d10-s~40/20201126215913.png" %}
 
 
 ## Exercise 2: Performance
@@ -189,7 +189,7 @@ pd3dDevice->DrawIndexedInstanced( (UINT)pSubset->IndexCount, g_iNumInstances, 0,
 
 ### Exercise 2: Debugging
 
-{% include image.html style="background:gray;" url="/images/OpenGL-GLSL/20201126220136.png" %}
+{% include image.html style="background:gray;" url="/assets/images/201126-shader-advanced-d3d10-s~40/20201126220136.png" %}
 
 
 ## Exercise 3: Geometry Amplification
@@ -198,7 +198,7 @@ pd3dDevice->DrawIndexedInstanced( (UINT)pSubset->IndexCount, g_iNumInstances, 0,
 * Hint: Bob’s hiding in Exercise3.fx
 * Solution:
 
-{% include image.html style="background:gray;" url="/images/OpenGL-GLSL/20201126220331.png" %}
+{% include image.html style="background:gray;" url="/assets/images/201126-shader-advanced-d3d10-s~40/20201126220331.png" %}
 
 ```gles
 TriStream.Append( output );
@@ -221,7 +221,7 @@ TriStream.Append( output );
 8. Click “OK”
 9. Click “Start Experiment”
 
-{% include image.html style="background:gray;" url="/images/OpenGL-GLSL/20201126220454.png" %}
+{% include image.html style="background:gray;" url="/assets/images/201126-shader-advanced-d3d10-s~40/20201126220454.png" %}
 
 
 ### Exercise 4: More Debugging
@@ -242,7 +242,7 @@ tex.x += sin( input.Tex.y*40 )*0.001;
 tex.y += sin( input.Tex.y*60 )*0.001;
 ```
 
-{% include image.html style="background:gray;" url="/images/OpenGL-GLSL/20201126220554.png" %}
+{% include image.html style="background:gray;" url="/assets/images/201126-shader-advanced-d3d10-s~40/20201126220554.png" %}
 
 
 ## Exercise 6: Screen Effects
@@ -250,7 +250,7 @@ tex.y += sin( input.Tex.y*60 )*0.001;
 * Please open Exercise06.sln
 * Hint: Bob’s hiding in Exercise06.fx
 
-{% include image.html style="background:gray;" url="/images/OpenGL-GLSL/20201126220700.png" %}
+{% include image.html style="background:gray;" url="/assets/images/201126-shader-advanced-d3d10-s~40/20201126220700.png" %}
 
 * Solution (One of many!):
 

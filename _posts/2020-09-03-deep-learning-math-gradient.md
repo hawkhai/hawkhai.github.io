@@ -31,9 +31,9 @@ glslcanvas:
 
 导数与微分：
 
-{% include image.html url="/images/math-gradient/20160325131532476" %}
+{% include image.html url="/assets/images/200903-deep-learning-math-grad~44/20160325131532476.jpg" %}
 
-{% include image.html url="/images/math-gradient/20160325131644664" %}
+{% include image.html url="/assets/images/200903-deep-learning-math-grad~44/20160325131644664.jpg" %}
 
 * $Δx$：$x$ 的变化量；
 * $dx$：$x$ 的变化量 $Δx$ 趋于 $0$ 时，则记作微元 $dx$；
@@ -54,7 +54,7 @@ $$dy=f'(x_0)Δx$$
 
 偏导数的定义如下：
 
-{% include image.html url="/images/math-gradient/20160325132018016" %}
+{% include image.html url="/assets/images/200903-deep-learning-math-grad~44/20160325132018016.jpg" %}
 
 可以看到，导数与偏导数本质是一致的，都是当自变量的变化量趋于 $0$ 时，函数值的变化量与自变量变化量比值的极限。直观地说，偏导数也就是函数在某一点上沿坐标轴正方向的的变化率。
 
@@ -72,7 +72,7 @@ $$\left( \frac{\partial f}{\partial x} \right)_{y,z}$$
 
 ### 偏导数的几何意义
 
-{% include image.html url="/images/math-gradient/2018072413454973.png" %}
+{% include image.html url="/assets/images/200903-deep-learning-math-grad~44/2018072413454973.png" %}
 
 * 偏导数 $f_x(x_0,y_0)$ 就是曲面被平面 $y=y_0$ 所截得的曲线在点 $M_0$ 处的切线 $M_0T_x$ 对 $x$ 轴的斜率
 * 偏导数 $f_y(x_0,y_0)$ 就是曲面被平面 $x=x_0$ 所截得的曲线在点 $M_0$ 处的切线 $M_0T_y$ 对 $y$ 轴的斜率
@@ -82,7 +82,7 @@ $$\left( \frac{\partial f}{\partial x} \right)_{y,z}$$
 
 很多时候要考虑多元函数沿任意方向的变化率，那么就引出了方向导数。方向导数的定义如下：
 
-{% include image.html url="/images/math-gradient/20160325132224619" %}
+{% include image.html url="/assets/images/200903-deep-learning-math-grad~44/20160325132224619.jpg" %}
 
 在前面导数和偏导数的定义中，均是沿坐标轴正方向讨论函数的变化率。那么当我们讨论函数沿任意方向的变化率时，也就引出了方向导数的定义，即：某一点在某一趋近方向上的导数值。
 
@@ -95,7 +95,7 @@ $$\left( \frac{\partial f}{\partial x} \right)_{y,z}$$
 
 梯度的定义如下：
 
-{% include image.html url="/images/math-gradient/20160325132321423" %}
+{% include image.html url="/assets/images/200903-deep-learning-math-grad~44/20160325132321423.jpg" %}
 
 $$\nabla f(a) = \left(\frac{\partial f}{\partial x_1}(a), \ldots, \frac{\partial f}{\partial x_n}(a)\right)$$
 
@@ -140,11 +140,11 @@ $$\nabla = \sum_{j=1}^n \bigg[{\frac{\partial}{\partial x_j}}\bigg] \mathbf{\hat
 
 如何沿着负梯度方向减小函数值呢？既然梯度是偏导数的集合，如下：
 
-{% include image.html url="/images/math-gradient/20160325132823559" %}
+{% include image.html url="/assets/images/200903-deep-learning-math-grad~44/20160325132823559.jpg" %}
 
 同时梯度和偏导数都是向量，那么参考向量运算法则，我们在每个变量轴上减小对应变量值即可，梯度下降法可以描述如下：
 
-{% include image.html url="/images/math-gradient/20160325132853497" %}
+{% include image.html url="/assets/images/200903-deep-learning-math-grad~44/20160325132853497.jpg" %}
 
 以上就是梯度下降法的由来，大部分的机器学习任务，都可以利用 Gradient Descent 来进行优化。
 

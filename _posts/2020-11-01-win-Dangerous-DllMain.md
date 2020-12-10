@@ -102,7 +102,7 @@ User32 和 Gdi32 中部分函数在调用的底层会加载其他 DLL。
 
 11. 线程的创建和退出不会对调用了 DisableThreadLibraryCalls 的 DLL 调用 DllMain。
 
-{% include image.html url="/images/win-DangerousDllMain/image2017-11-10_15-24-53.png" %}
+{% include image.html url="/assets/images/201101-win-dangerous-dllmain/image2017-11-10_15-24-53.png" %}
 
 
 ### References

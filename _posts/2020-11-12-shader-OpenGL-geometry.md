@@ -17,7 +17,7 @@ glslcanvas:
 通过顶点着色器和片段着色器，可以将输入的顶点经过着色器的处理显示到屏幕上。
 OpenGL 3.2 及更新的版本支持几何着色器，介于顶点着色器和片段着色器之间，几何着色器接收顶点着色器的输出作为输入，通过高效的几何运算，将数据输出到片段着色器。
 
-{% include image.html url="/images/OpenGL-GLSL/20201112210938.png" %}
+{% include image.html url="/assets/images/201112-shader-opengl-geometry/20201112210938.png" %}
 
 本文源码 <a href="{% include relref.html url="/source/shader/geometry.cpp" %}" target="_blank">geometry.cpp</a>
 

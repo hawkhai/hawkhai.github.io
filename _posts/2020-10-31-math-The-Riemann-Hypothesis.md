@@ -26,7 +26,7 @@ $$J(x)=Li(x)-\sum_{\rho}Li(x^{\rho})-\ln 2 +\int_x^\infty\frac{dt}{t(t^2-1)\ln t
 
 当代入的非平凡零点越多，越准确。
 
-{% include image.html url="/images/math-riemann/zk.gif" %}
+{% include image.html url="/assets/images/201031-math-the-riemann-hypoth~4f/zk.gif" %}
 
 而黎曼猜想说的是，这些非平凡零点的所有实部都是 1/2。
 

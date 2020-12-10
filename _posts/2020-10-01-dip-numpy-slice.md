@@ -286,7 +286,7 @@ camera[outer_disk_mask] = 0
 imgshow(camera)
 ```
 
-{% include image.html url="/images/numpy-slice/qdkztdoc06.png" %}
+{% include image.html url="/assets/images/201001-dip-numpy-slice/qdkztdoc06.png" %}
 
 甚至可以进行布尔运算，可用于定义更复杂的掩码。
 
@@ -298,7 +298,7 @@ camera[lower_half_disk] = 0
 imgshow(camera)
 ```
 
-{% include image.html url="/images/numpy-slice/20201004180413.png" %}
+{% include image.html url="/assets/images/201001-dip-numpy-slice/20201004180413.png" %}
 
 
 ## 向量和矩阵的点乘和叉乘

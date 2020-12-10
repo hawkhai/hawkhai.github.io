@@ -16,7 +16,7 @@ glslcanvas:
 
 Out of Eden: The Surprising Consequences of Polygamy
 
-{% include image.html url="/images/book/20201030113711.png" %}
+{% include image.html url="/assets/images/201030-book-out-of-eden-the-su~98/20201030113711.png" %}
 
 我们绝大多数人都是普通人，卑微如尘土。长久的爱情实在是一个小概率的事件。
 

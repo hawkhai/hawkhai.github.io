@@ -34,8 +34,8 @@ $$
 \right.
 $$
 
-{% include image.html url="/images/3d-Linear-Algebra/11895466-9259fd3981ab914b.png" %}
-{% include image.html url="/images/3d-Linear-Algebra/11895466-4629c51fe4c2f984.png" %}
+{% include image.html url="/assets/images/201205-3d-linear-algebra/11895466-9259fd3981ab914b.png" %}
+{% include image.html url="/assets/images/201205-3d-linear-algebra/11895466-4629c51fe4c2f984.png" %}
 
 
 ### 向量和矩阵
@@ -94,9 +94,9 @@ $$
 
 在 3D 图像学中，叉乘的概念非常有用，可以通过两个向量的叉乘，生成第三个垂直于 a，b 的法向量，从而构建 X、Y、Z 坐标系。
 
-{% include image.html url="/images/3d-Linear-Algebra/20160902232814429.jpg" %}
+{% include image.html url="/assets/images/201205-3d-linear-algebra/20160902232814429.jpg" %}
 
-{% include image.html url="/images/3d-Linear-Algebra/v2-6146c5c8887f305398f3d072ca72ddd1_720w.png" %}
+{% include image.html url="/assets/images/201205-3d-linear-algebra/v2-6146c5c8887f305398f3d072ca72ddd1_720w.png" %}
 
 在二维空间中，叉乘还有另外一个几何意义就是：axb 的模等于由向量 $a$ 和向量 $b$ 构成的平行四边形的面积。
 
@@ -106,7 +106,7 @@ $$
 | \vec a \times \vec b | = |\vec a| \cdot |\vec b| \cdot \sin \theta
 $$
 
-{% include image.html url="/images/3d-Linear-Algebra/892435-20171009220251902-371963331.png" %}
+{% include image.html url="/assets/images/201205-3d-linear-algebra/892435-20171009220251902-371963331.png" %}
 
 
 ### 点乘内积叉乘外积比较

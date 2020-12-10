@@ -156,11 +156,11 @@ $$
 \left[\begin{array}{l}u \\v \\1\end{array}\right]=\left[\begin{array}{lll}a_{1} & b_{1} & c_{1} \\a_{2} & b_{2} & c_{2} \\0 & 0 & 1\end{array}\right]\left[\begin{array}{l}x \\y \\1\end{array}\right]
 $$
 
-{% include image.html url="/images/digital-image-processing/20180628113033537.png" %}
+{% include image.html url="/assets/images/200919-dip-digital-image-proce~28/20180628113033537.png" %}
 
 from <https://www.cnblogs.com/ghj1976/p/5199086.html>
 
-{% include image.html url="/images/digital-image-processing/120296-20160222070734244-1956482228.png" %}
+{% include image.html url="/assets/images/200919-dip-digital-image-proce~28/120296-20160222070734244-1956482228.png" %}
 
 #### 透视变换（Perspective Transformation 或 Viewing Plane / Projective Mapping）
 
@@ -195,10 +195,10 @@ z+\Delta z \\
 \end{array}\right]
 $$
 
-[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135139626.png" %}
-[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135201258.png" %}
-[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135229160.png" %}
-[^_^]: {z% include image.html url="/images/digital-image-processing/20190104135246701.png" %}
+[^_^]: {z% include image.html url="/assets/images/200919-dip-digital-image-proce~28/20190104135139626.png" %}
+[^_^]: {z% include image.html url="/assets/images/200919-dip-digital-image-proce~28/20190104135201258.png" %}
+[^_^]: {z% include image.html url="/assets/images/200919-dip-digital-image-proce~28/20190104135229160.png" %}
+[^_^]: {z% include image.html url="/assets/images/200919-dip-digital-image-proce~28/20190104135246701.png" %}
 
 
 ## 图像灰度变换
@@ -265,13 +265,13 @@ $$
 
 边缘检测，LOG 算子（高斯-拉普拉斯算子 / Laplacian of Gaussian, LoG）中心点的距离与位置加权系数的关系：
 
-{% include image.html url="/images/digital-image-processing/bki-20131208210655-949753613.png"
-url2="/images/digital-image-processing/logx.png" %}
-{% include image.html url="/images/digital-image-processing/v2-f824bd5eae07235ebf531fa0b546ba98_720w.jpg" %}
+{% include image.html url="/assets/images/200919-dip-digital-image-proce~28/bki-20131208210655-949753613.png"
+url2="/assets/images/200919-dip-digital-image-proce~28/logx.png" %}
+{% include image.html url="/assets/images/200919-dip-digital-image-proce~28/v2-f824bd5eae07235ebf531fa0b546ba98_720w.jpg" %}
 
 推演过程。高斯二阶导如下图的绿色线，蓝色线是高斯一阶导数，红色则是高斯函数。
 
-{% include image.html url="/images/digital-image-processing/20170315204708636.png" %}
+{% include image.html url="/assets/images/200919-dip-digital-image-proce~28/20170315204708636.png" %}
 
 
 ### 高频提升滤波器
@@ -308,9 +308,9 @@ G_{y}=\left(Z_{3}+2 Z_{6}+Z_{9}\right)-\left(Z_{1}+2 Z_{4}+Z_{7}\right)
 浮雕特效。从下面显示的三维表面图中，我们看到高屏障有效地将硬币从背景中分离出来。[from](https://cloud.tencent.com/developer/section/1414646)
 
 {% include image.html
-url="/images/digital-image-processing/coins.png"
-url3="/images/digital-image-processing/5h7szytqoy.jpeg"
-url2="/images/digital-image-processing/sbwsre8rsg.png" %}
+url="/assets/images/200919-dip-digital-image-proce~28/coins.png"
+url3="/assets/images/200919-dip-digital-image-proce~28/5h7szytqoy.jpeg"
+url2="/assets/images/200919-dip-digital-image-proce~28/sbwsre8rsg.png" %}
 
 #### Prewitt 边缘检测算子
 
@@ -323,7 +323,7 @@ G_{y}=\left(Z_{3}+Z_{6}+Z_{9}\right)-\left(Z_{1}+Z_{4}+Z_{7}\right)
 
 图像中的每个点都用 8 个掩模进行卷积，取八个方向的最大值作为边缘幅值的输出。掩模序号对应边缘方向的编码。卷积的结果进行比较时，比较这个八个数的绝对值，因为，这个代表的是梯度，正负号只是方向。
 
-{% include image.html url="/images/digital-image-processing/kirsch.jpg" %}
+{% include image.html url="/assets/images/200919-dip-digital-image-proce~28/kirsch.jpg" %}
 
 #### LoG_Laplacian 高斯-拉普拉斯算子
 
@@ -515,7 +515,7 @@ $$d=\left(x^{2}+y^{2}\right)^{\frac{1}{2}}$$
 
 * **黑帽（black-hat）**：将突出比原轮廓暗的部分。
 
-{% include image.html url="/images/digital-image-processing/20160903162218439.jpg" %}
+{% include image.html url="/assets/images/200919-dip-digital-image-proce~28/20160903162218439.jpg" %}
 
 
 ## 图像变换域处理
@@ -529,7 +529,7 @@ $$d=\left(x^{2}+y^{2}\right)^{\frac{1}{2}}$$
 
 ***一脸懵逼，没看懂。单独开了一篇文章。[<font color="red">傅里叶变换 /blog/2020/09/26/dip-fourier-transform</font>]({% include relref.html url="/blog/2020/09/26/dip-fourier-transform" %})***
 
-{% include image.html url="/images/digital-image-processing/20200926125139.png" %}
+{% include image.html url="/assets/images/200919-dip-digital-image-proce~28/20200926125139.png" %}
 
 一维傅里叶变换 及 逆变换 <https://blog.csdn.net/Ciellee/article/details/108359201>
 

@@ -18,7 +18,7 @@ glslcanvas:
 
 > 原文：[马同学·欧拉公式，复数域的成人礼](https://www.matongxue.com/madocs/2066/)
 
-{% include image.html url="/images/math-complex/20201006150603.png" %}
+{% include image.html url="/assets/images/200920-math-complex/20201006150603.png" %}
 
 
 ## 导言
@@ -31,7 +31,7 @@ $$a+bi,\quad (a,b\in\mathbb{R})$$
 
 但数域的扩张从来没有这么简单，就好像夫妻生下小孩只是个开始，困难的是之后的抚养、教育：
 
-{% include image.html url="/images/math-complex/1.jpg" %}
+{% include image.html url="/assets/images/200920-math-complex/1.jpg" %}
 
 复数域的扩张充满崎岖。正如欧拉的老师对他的赞扬：
 
@@ -49,26 +49,26 @@ $$
 
 来看看之前的数域是怎么扩张的吧。每次想到数域的扩张，我都有种大爆炸的画面感，宇宙从一个奇点爆炸中产生：
 
-{% include image.html url="/images/math-complex/2.gif" %}
+{% include image.html url="/assets/images/200920-math-complex/2.gif" %}
 
 
 ### 自然数到整数
 
 数学刚开始也是一片空白：
 
-{% include image.html url="/images/math-complex/3.png" %}
+{% include image.html url="/assets/images/200920-math-complex/3.png" %}
 
 0 的出现就是数学的奇点：
 
-{% include image.html url="/images/math-complex/4.png" %}
+{% include image.html url="/assets/images/200920-math-complex/4.png" %}
 
 根据皮亚诺定理（可以参考为什么 1+1=2？）“爆炸”出了自然数域（可以参考自然数是否包含 0？）：
 
-{% include image.html url="/images/math-complex/5.png" %}
+{% include image.html url="/assets/images/200920-math-complex/5.png" %}
 
 很显然上面的图像是不对称的，哪怕出于美学考虑，人们都有冲动把左边补齐，增加负数，这样就得到了整数域：
 
-{% include image.html url="/images/math-complex/6.png" %}
+{% include image.html url="/assets/images/200920-math-complex/6.png" %}
 
 添加负数之后，有一个问题就出现了：
 
@@ -118,11 +118,11 @@ $$
 
 来填满这些空隙（示意图）：
 
-{% include image.html url="/images/math-complex/7.png" %}
+{% include image.html url="/assets/images/200920-math-complex/7.png" %}
 
 还有空隙，最终用无理数（irrational number，“不可比数”）来填满这些缝隙，得到实数轴：
 
-{% include image.html url="/images/math-complex/8.png" %}
+{% include image.html url="/assets/images/200920-math-complex/8.png" %}
 
 自然会有这么一个问题：
 
@@ -158,7 +158,7 @@ $$
 
 从图像上看，$x^3-15x-4$ 与 $y=0$ 有三个交点的：
 
-{% include image.html url="/images/math-complex/9.png" %}
+{% include image.html url="/assets/images/200920-math-complex/9.png" %}
 
 套用通解会得到：
 
@@ -195,11 +195,11 @@ $$
 
 复数的几何表示和二维向量有点类似，只是横坐标是实轴（$$Re$$），纵坐标是虚轴（$$Im$$），下图还把刚才的符号给标了出来：
 
-{% include image.html url="/images/math-complex/10.png" %}
+{% include image.html url="/assets/images/200920-math-complex/10.png" %}
 
 加法的几何意义和向量也一样：
 
-{% include image.html url="/images/math-complex/11.png" %}
+{% include image.html url="/assets/images/200920-math-complex/11.png" %}
 
 但向量没有乘法（点积、叉积和实数乘法不一样），这就是复数和向量的区别。复数是对实数的扩展，所以要尽量兼容实数，必须要有加减乘除、乘方开方、对数等运算。
 
@@ -211,11 +211,11 @@ $$
 
 画出来发现，两者是正交的：
 
-{% include image.html url="/images/math-complex/12.png" %}
+{% include image.html url="/assets/images/200920-math-complex/12.png" %}
 
 还可以从另外一个角度来理解这一点，$i$ 在复平面上是这样的：
 
-{% include image.html url="/images/math-complex/13.png" %}
+{% include image.html url="/assets/images/200920-math-complex/13.png" %}
 
 那么，$(a+bi)$ 乘以虚数 $i$，就是：
 
@@ -282,11 +282,11 @@ $$
 
 画出来就是复平面上模长为 $1$，幅角也为 $1$ 的点：
 
-{% include image.html url="/images/math-complex/14.png" %}
+{% include image.html url="/assets/images/200920-math-complex/14.png" %}
 
 更一般的，欧拉公式说明，$e^{i\theta}$ 是单位圆上幅角为 $\theta$ 的点：
 
-{% include image.html url="/images/math-complex/3.gif" %}
+{% include image.html url="/assets/images/200920-math-complex/3.gif" %}
 
 但是，欧拉公式 $$\color{red}{凭什么}$$ 长这个样子！
 
@@ -328,7 +328,7 @@ $$
 
 我们来看看这个式子在几何上有什么意义。因为 $e^i$ 对应的是单位圆上幅角为 $1$ 的点，所以先给个参照物，虚线是单位圆，实线对应的幅角为 $1$：
 
-{% include image.html url="/images/math-complex/15.png" %}
+{% include image.html url="/assets/images/200920-math-complex/15.png" %}
 
 然后取 $n=3$，可以得到：
 
@@ -338,23 +338,23 @@ $$
 
 根据复数的乘法规则，可以看出：
 
-{% include image.html url="/images/math-complex/16.png" %}
+{% include image.html url="/assets/images/200920-math-complex/16.png" %}
 
 取 $n=10$：
 
-{% include image.html url="/images/math-complex/17.png" %}
+{% include image.html url="/assets/images/200920-math-complex/17.png" %}
 
 取 $n=30$，已经很接近单位圆上幅角为 $1$ 的点了：
 
-{% include image.html url="/images/math-complex/18.png" %}
+{% include image.html url="/assets/images/200920-math-complex/18.png" %}
 
 对于更一般的 $e^{i\theta}$ 也是同样的：
 
-{% include image.html url="/images/math-complex/19.png" %}
+{% include image.html url="/assets/images/200920-math-complex/19.png" %}
 
 当 $n=100$ 时，就很接近单位圆上幅角为 $\theta$ 的点了：
 
-{% include image.html url="/images/math-complex/20.png" %}
+{% include image.html url="/assets/images/200920-math-complex/20.png" %}
 
 可以证明当 $n\to\infty$ 时，$e^{i\theta}$ 为单位圆上幅角为 $\theta$ 的点，也就是得到了欧拉公式：
 
@@ -416,15 +416,15 @@ $$
 
 这是三个复数相加，加出来就是：
 
-{% include image.html url="/images/math-complex/21.png" %}
+{% include image.html url="/assets/images/200920-math-complex/21.png" %}
 
 再增加第四项 $\frac{i^3}{3!}$：
 
-{% include image.html url="/images/math-complex/22.png" %}
+{% include image.html url="/assets/images/200920-math-complex/22.png" %}
 
 随着 $n\to\infty$，仿佛一个螺旋不断地接近单位圆上幅角为 $1$ 的点。对于更一般的 $e^{i\theta}$ 也是类似的螺旋：
 
-{% include image.html url="/images/math-complex/23.png" %}
+{% include image.html url="/assets/images/200920-math-complex/23.png" %}
 
 
 ### 导数的方式
@@ -443,15 +443,15 @@ $$
 
 假设 $t$ 是时间，那么 $e^{it}$ 是运动在复平面上的点的位移函数，$t=0$ 时位置为 $e^{i0}=1$：
 
-{% include image.html url="/images/math-complex/24.png" %}
+{% include image.html url="/assets/images/200920-math-complex/24.png" %}
 
 $e^{it}$ 的运动速度，也就是导数 $ie^{it}$。这个速度很显然是一个向量，有方向，也有速度。它的方向垂直于 $e^{it}$（根据乘法规则，乘以 $i$ 表示旋转 $90^\circ$）：
 
-{% include image.html url="/images/math-complex/25.png" %}
+{% include image.html url="/assets/images/200920-math-complex/25.png" %}
 
 并且不论 $t$ 等于多少，运动方向都垂直于位移，所以只能在单位圆上运动（圆的切线始终垂直于半径）：
 
-{% include image.html url="/images/math-complex/4.gif" %}
+{% include image.html url="/assets/images/200920-math-complex/4.gif" %}
 
 而速度的大小就是速度的模长 $$\vert ie^{it}\vert $$。之前说了，对于两个复数 $z_1\times z_2$，它们的模长为 $$\vert z_1\vert \times \vert z_2\vert $$，那么：
 
@@ -467,7 +467,7 @@ $$
 
 速度大小为 $1$ 意味着 $t$ 时刻走了 $t$ 长度的路程。而 $e^{it}$ 在单位圆上运动，那么 $t$ 时刻运动了 $t$ 弧长，因为是单位圆，所以对应的幅角为 $t$：
 
-{% include image.html url="/images/math-complex/26.png" %}
+{% include image.html url="/assets/images/200920-math-complex/26.png" %}
 
 
 ## 总结

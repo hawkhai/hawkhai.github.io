@@ -24,8 +24,8 @@ Implemented by [Scale2x](http://www.scale2x.it/) (on Sourceforge). [HQX](https:/
 
 [Depixelizing pixel art](http://johanneskopf.de/publications/pixelart/).
 
-{% include image.html url="/images/graphic-algorithms/example-depixelization.jpg"
-url2="/images/graphic-algorithms/pa-teaser.png" %}
+{% include image.html url="/assets/images/201031-dip-graphic-algorithms/example-depixelization.jpg"
+url2="/assets/images/201031-dip-graphic-algorithms/pa-teaser.png" %}
 
 
 ## 灰色图片上色
@@ -34,7 +34,7 @@ It is explained in an article, [Colorization Using Optimization](http://www.cs.h
 
 A tool on GitHub allows also to color a sketch, with another image as color sample: [Style2Paint](https://github.com/lllyasviel/style2paints).
 
-{% include image.html url="/images/graphic-algorithms/colorization.jpg" %}
+{% include image.html url="/assets/images/201031-dip-graphic-algorithms/colorization.jpg" %}
 
 
 ## 图片恢复 HDR
@@ -43,17 +43,17 @@ Wisely by removing the "noise", ie the image defects such as dots and stripes, a
 
 It is implemented in a plugin for Gimp, [G'Mic](http://gmic.eu/). It can also automatically make HDR, ie increase the brightness of light areas and darken the dark parts.
 
-{% include image.html url="/images/graphic-algorithms/house-hdr.jpg" %}
+{% include image.html url="/assets/images/201031-dip-graphic-algorithms/house-hdr.jpg" %}
 
 
 ## 图片卡通化
 
-{% include image.html url="/images/graphic-algorithms/convert-photo-to-drawing.jpg" %}
+{% include image.html url="/assets/images/201031-dip-graphic-algorithms/convert-photo-to-drawing.jpg" %}
 
 
 ## Seam carving
 
-{% include image.html url="/images/graphic-algorithms/seam-carving.jpg" %}
+{% include image.html url="/assets/images/201031-dip-graphic-algorithms/seam-carving.jpg" %}
 
 Intelligent algorithm to resize images maintaining the appearance of objects within it. It is actually implemented in the resizing functions of the main graphical utilities like Gimp with the [Liquid Rescale plugin](http://liquidrescale.wikidot.com/), ImageMagick with the -liquid-rescale option.
 
@@ -66,21 +66,21 @@ This algorithm is available both as a [Gimp](https://www.scriptol.com/design/gim
 
 <http://www.logarithmic.net/pfh/resynthesizer>
 
-{% include image.html url="/images/graphic-algorithms/remove-object.jpg" %}
+{% include image.html url="/assets/images/201031-dip-graphic-algorithms/remove-object.jpg" %}
 
 
 ## 合成照片
 
 This algorithm is implemented in the software [Sketch To Photo](https://www.scriptol.com/design/sketchtophoto.php). From the article, you can download the command line program.
 
-{% include image.html url="/images/graphic-algorithms/composition.jpg" %}
+{% include image.html url="/assets/images/201031-dip-graphic-algorithms/composition.jpg" %}
 
 
 ## 美容
 
 More information about this [esthetic trick algorithm](https://www.scriptol.com/programming/algorithm-pretty-face.php).
 
-{% include image.html url="/images/graphic-algorithms/pretty-face-algorithm.jpg" %}
+{% include image.html url="/assets/images/201031-dip-graphic-algorithms/pretty-face-algorithm.jpg" %}
 
 
 ## PixelNN 算法
@@ -93,7 +93,7 @@ pix2pix 来自卡内基梅隆大学的 Aayush Bansal 、Yaser Sheikh、Deva Rama
 
 这玩意可以提高驾驶技术：用 GAN 去除（爱情）动作片中的马赛克和衣服。
 
-{% include image.html url="/images/graphic-algorithms/teaser1.png" %}
+{% include image.html url="/assets/images/201031-dip-graphic-algorithms/teaser1.png" %}
 
 <https://www.ri.cmu.edu/publications/pixelnn-example-based-image-synthesis/>
 
@@ -104,7 +104,7 @@ pix2pix 来自卡内基梅隆大学的 Aayush Bansal 、Yaser Sheikh、Deva Rama
 
 <https://www.cs.huji.ac.il/~danix/>
 
-{% include image.html url="/images/graphic-algorithms/ball_on_wood_no_shadow.jpg" %}
+{% include image.html url="/assets/images/201031-dip-graphic-algorithms/ball_on_wood_no_shadow.jpg" %}
 
 
 ## 更牛逼的

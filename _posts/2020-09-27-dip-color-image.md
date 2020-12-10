@@ -19,7 +19,7 @@ glslcanvas:
 
 ## 彩色图像处理
 
-{% include image.html url="/images/digital-image-processing2/20161108103240445.jpg" %}
+{% include image.html url="/assets/images/200927-dip-color-image/20161108103240445.jpg" %}
 
 
 ### HSI 颜色模型
@@ -28,9 +28,9 @@ glslcanvas:
 
 RGB 转换到 HSI 空间。
 
-{% include image.html url="/images/digital-image-processing2/17162015-b37e8ea4a16544e4b4f732d36172add3.jpg" %}
+{% include image.html url="/assets/images/200927-dip-color-image/17162015-b37e8ea4a16544e4b4f732d36172add3.jpg" %}
 
-{% include image.html url="/images/digital-image-processing2/9a093de900836fccfdb1d6de768343b2.png" %}
+{% include image.html url="/assets/images/200927-dip-color-image/9a093de900836fccfdb1d6de768343b2.png" %}
 
 
 ### HSV 颜色模型
@@ -43,7 +43,7 @@ RGB 转换到 HSI 空间。
 
 明度 V：明度表示颜色明亮的程度，对于光源色，明度值与发光体的光亮度有关；对于物体色，此值和物体的透射比或反射比有关。通常取值范围为 0%（黑）到 100%（白）。
 
-{% include image.html url="/images/digital-image-processing2/1353461596_7598.JPG" %}
+{% include image.html url="/assets/images/200927-dip-color-image/1353461596_7598.jpg" %}
 
 $\text{HSV}$ 即使用**色相（Hue）、饱和度（Saturation）、明度（Value）**来表示色彩的一种方式。
 
@@ -75,7 +75,7 @@ HSV 里面的 v 指的是 RGB 里面的最大的值，$v = max(max(r,g),b)$，
 
 ### Lab 颜色模型
 
-{% include image.html url="/images/digital-image-processing2/481745a5d7cd4c5eb99f62be8bbd1cbd.png" %}
+{% include image.html url="/assets/images/200927-dip-color-image/481745a5d7cd4c5eb99f62be8bbd1cbd.png" %}
 
 Lab 颜色由亮度或者光亮度分量 Lab 和 a、b 两个色度分量组成。其中 a 在的正向数值越大表示越红，在负值越大则表示越绿；b 在正向数值越大表示越黄，在负向的在数值越大表示越蓝。
 

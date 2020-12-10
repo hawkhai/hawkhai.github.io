@@ -42,7 +42,7 @@ glslcanvas:
 第一批支持着色器的 GPU 仅支持像素着色器，但随着开发者逐渐认识到着色器的强大，很快便出现了顶点着色器。
 2000 年，第一款支持可编程像素着色器的显卡 Nvidia GeForce 3（NV20）问世。Direct3D 10 和 OpenGL 3.2 则引入了几何着色器。
 
-{% include image.html url="/images/OpenGL-GLSL/faa27c0e4a3a4b7eb3436c016ce606f1.jpeg"
+{% include image.html url="/assets/images/201111-shader-opengl-intro/faa27c0e4a3a4b7eb3436c016ce606f1.jpeg"
 caption= "利用 gpu 渲染一个巨人的图像" %}
 
 [计算机图形学 OPENGL 入门 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1px41197A5)
@@ -90,8 +90,8 @@ caption= "利用 gpu 渲染一个巨人的图像" %}
         * [Uniform Buffer Object](https://www.khronos.org/opengl/wiki/Uniform_Buffer_Object)
         * error LNK2019: 无法解析的外部符号 _stbi_load -> 需要在 #include <stb_image.h> 前增加一句 #define STB_IMAGE_IMPLEMENTATION。
 
-{% include image.html url="/images/OpenGL-GLSL/ComputeShaderParticleSystem.gif" %}
-{% include image.html url="/images/OpenGL-GLSL/20201203151447.png" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/computeshaderparticlesystem.gif" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/20201203151447.png" %}
 
 - __imp__vsnprintf
 
@@ -123,7 +123,7 @@ caption= "利用 gpu 渲染一个巨人的图像" %}
 
     输入：3D 坐标；输出：2D 像素。
 
-{% include image.html url="/images/OpenGL-GLSL/20201112141055.png" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/20201112141055.png" %}
 
 - FragmentShader 片段着色器
 
@@ -193,7 +193,7 @@ void setVertexEnv() {
 
 - 图元连接方式
 
-{% include image.html url="/images/OpenGL-GLSL/23e3ac4c617.jpg" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/23e3ac4c617.jpg" %}
 
 1. GL_POINTS 每个顶点在屏幕上都是单独的点。
 2. GL_LINES 每一对顶点定义一个线段。
@@ -243,13 +243,13 @@ $$
 V_{clip} = M_{projection} \cdot M_{view} \cdot M_{model} \cdot V_{local}
 $$
 
-{% include image.html url="/images/OpenGL-GLSL/coordinate_systems2.png" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/coordinate_systems2.png" %}
 
-{% include image.html url="/images/OpenGL-GLSL/173184e0cdd334b3.jpg" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/173184e0cdd334b3.jpg" %}
 
 在上图中，OpenGL 定义了后三个坐标系（裁剪坐标、NDC 坐标、屏幕坐标），前三个坐标（物体坐标、世界坐标、摄像机坐标）是为了用户方便而自定义的坐标。
 
-{% include image.html url="/images/OpenGL-GLSL/173184b55b0849f7.jpg" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/173184b55b0849f7.jpg" %}
 
 $$
 \left[\begin{array}{l}
@@ -303,7 +303,7 @@ float vertices[] = {
 };
 ```
 
-{% include image.html url="/images/OpenGL-GLSL/20201210173525.png" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/20201210173525.png" %}
 
 ```cpp
 glm::mat4 model=glm::mat4(1.0f);
@@ -311,7 +311,7 @@ glm::mat4 model=glm::mat4(1.0f);
 model=glm::rotate(model,glm::radians(55.0f),glm::vec3(1.0f,0.0f,0.0f));
 ```
 
-{% include image.html url="/images/OpenGL-GLSL/20201210173853.png" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/20201210173853.png" %}
 
 ```cpp
 glm::mat4 view = glm::mat4(1.0f);
@@ -320,7 +320,7 @@ glm::mat4 view = glm::mat4(1.0f);
 view=glm::translate(view,glm::vec3(0.0f,0.5f,-1.0f));
 ```
 
-{% include image.html url="/images/OpenGL-GLSL/20201210174245.png" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/20201210174245.png" %}
 
 ```cpp
 glm::mat4 projection = glm::mat4(1.0f);
@@ -329,7 +329,7 @@ glm::mat4 projection = glm::mat4(1.0f);
 projection=glm::perspective(glm::radians(90.0f),800.0f/600.0f,0.1f,10.0f);
 ```
 
-{% include image.html url="/images/OpenGL-GLSL/20201210174453.png" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/20201210174453.png" %}
 
 
 ## 第三课
@@ -353,9 +353,9 @@ projection=glm::perspective(glm::radians(90.0f),800.0f/600.0f,0.1f,10.0f);
 
 相机源码：<https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/1.getting_started/7.4.camera_class/camera_class.cpp>
 
-{% include image.html url="/images/OpenGL-GLSL/boxtest.gif" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/boxtest.gif" %}
 
-{% include image.html url="/images/OpenGL-GLSL/glIntroGrab.gif" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/glintrograb.gif" %}
 
 -----
 

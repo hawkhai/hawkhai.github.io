@@ -519,8 +519,8 @@ Parent IsLink: D:\test-jlink -> E:\kSource\pythonx\test
 
 dlink 和 jlink 还是存在差异，dlink 更像一个 symlink，而 jlink 跟真正的文件夹差不多了。
 
-{% include image.html url="/images/win-mklink/dlink.png"
-url2="/images/win-mklink/jlink.png" %}
+{% include image.html url="/assets/images/200910-win-mklink/dlink.png"
+url2="/assets/images/200910-win-mklink/jlink.png" %}
 
 
 ## 参考

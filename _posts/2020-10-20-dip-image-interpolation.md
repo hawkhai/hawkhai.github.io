@@ -25,17 +25,17 @@ glslcanvas:
 
 ## 先上图
 
-{% include image.html url="/images/image-interpolation/result.png" %}
+{% include image.html url="/assets/images/201020-dip-image-interpolation/result.png" %}
 
-{% include image.html url="/images/image-interpolation/result2.png" %}
+{% include image.html url="/assets/images/201020-dip-image-interpolation/result2.png" %}
 
-{% include image.html url="/images/image-interpolation/INTER_NEAREST.png" %}
+{% include image.html url="/assets/images/201020-dip-image-interpolation/inter_nearest.png" %}
 
-{% include image.html url="/images/image-interpolation/INTER_LINEAR.png" %}
+{% include image.html url="/assets/images/201020-dip-image-interpolation/inter_linear.png" %}
 
-{% include image.html url="/images/image-interpolation/INTER_CUBIC.png" %}
+{% include image.html url="/assets/images/201020-dip-image-interpolation/inter_cubic.png" %}
 
-{% include image.html url="/images/image-interpolation/INTER_LANCZOS4.png" %}
+{% include image.html url="/assets/images/201020-dip-image-interpolation/inter_lanczos4.png" %}
 
 
 ## Python 代码
@@ -182,18 +182,18 @@ if __name__ == "__main__":
 
 * 展示各种算法差异 [Show all different interpolation methods for imshow](https://matplotlib.org/1.4.1/examples/images_contours_and_fields/interpolation_methods.html)
 
-{% include image.html url="/images/image-interpolation/interpolation_methods.png" %}
+{% include image.html url="/assets/images/201020-dip-image-interpolation/interpolation_methods.png" %}
 
 * 展示差异与原理 [Interpolation](http://haifengl.github.io/interpolation.html)
 
-{% include image.html url="/images/image-interpolation/grid-interpolation2d.png" %}
-{% include image.html url="/images/image-interpolation/63556641-eeb89400-c545-11e9-8f90-58e1c0eb0840.png" %}
+{% include image.html url="/assets/images/201020-dip-image-interpolation/grid-interpolation2d.png" %}
+{% include image.html url="/assets/images/201020-dip-image-interpolation/63556641-eeb89400-c545-11e9-8f90-58e1c0eb0840.png" %}
 
 * [OpenCV 图像缩放 resize 各种插值方式的比较](https://blog.csdn.net/guyuealian/article/details/85097633)
 
 * 有个图有点意思 [Linear Methods for Image Interpolation](https://www.ipol.im/pub/art/2011/g_lmii/article.pdf)
 
-{% include image.html url="/images/image-interpolation/20201022103740.png" %}
+{% include image.html url="/assets/images/201020-dip-image-interpolation/20201022103740.png" %}
 
 * 算法公式 [TUTORIAL: IMAGE RESCALING](https://clouard.users.greyc.fr/Pantheon/experiments/rescaling/index-en.html)
 

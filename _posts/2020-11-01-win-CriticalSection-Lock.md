@@ -53,7 +53,7 @@ DllMain 在收到 DLL_PROCESS_ATTACH 和 DLL_PROCESS_DETACH 时会进入临界�
 
 <https://docs.microsoft.com/zh-cn/windows/win32/dlls/dynamic-link-library-best-practices>
 
-{% include image.html url="/images/win-CriticalSectionLock/fig2.png" %}
+{% include image.html url="/assets/images/201101-win-criticalsection-lock/fig2.png" %}
 
 
 ## 定位到卡死位置
@@ -104,21 +104,21 @@ NTSYSAPI NTSTATUS ZwWaitForSingleObject(
 
 可以直观的看出 cs 锁的占用情况，拥有者线程。
 
-{% include image.html url="/images/win-CriticalSectionLock/20201108194937.jpg" %}
+{% include image.html url="/assets/images/201101-win-criticalsection-lock/20201108194937.jpg" %}
 
 
 ### !cs 命令
 
 除了可以看出被占用的 cs 锁，也能看到未被占用锁的情况。
 
-{% include image.html url="/images/win-CriticalSectionLock/20201108195012.jpg" %}
+{% include image.html url="/assets/images/201101-win-criticalsection-lock/20201108195012.jpg" %}
 
 
 ### !handle 命令
 
 可以查看句柄的类型，用于排查非 cs 锁的情况。
 
-{% include image.html url="/images/win-CriticalSectionLock/20201108195044.jpg" %}
+{% include image.html url="/assets/images/201101-win-criticalsection-lock/20201108195044.jpg" %}
 
 
 ## Mutex 实战
@@ -203,8 +203,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
 ### 等待链
 
-{% include image.html url="/images/win-CriticalSectionLock/wtchain.png" %}
-{% include image.html url="/images/win-CriticalSectionLock/20201109211915.png" %}
+{% include image.html url="/assets/images/201101-win-criticalsection-lock/wtchain.png" %}
+{% include image.html url="/assets/images/201101-win-criticalsection-lock/20201109211915.png" %}
 
 
 ### 崩溃分析

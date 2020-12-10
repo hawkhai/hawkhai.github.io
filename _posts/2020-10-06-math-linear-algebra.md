@@ -57,7 +57,7 @@ $$
 
 ## 线性方程组
 
-{% include image.html url="/images/linear-algebra/20201006145304.png" %}
+{% include image.html url="/assets/images/201006-math-linear-algebra/20201006145304.png" %}
 
 
 ## 点积

@@ -142,7 +142,7 @@ matplotlib.pyplot.imshow(X, cmap=None)
 **对数变换对于整体对比度偏低并且灰度值偏低的图像增强效果较好。**
 貌似低亮度的地方，提升的更剧烈，所以可能效果更好一些？QUESTION???
 
-{% include image.html url="/images/dip-skimage/20201004223851.png" %}
+{% include image.html url="/assets/images/201004-dip-skimage/20201004223851.png" %}
 
 #### gamma 调整
 
@@ -155,7 +155,7 @@ matplotlib.pyplot.imshow(X, cmap=None)
 * 如果 $$\gamma>1$$，直方图会向左移动，新图像比原图像暗；
 * 如果 $$\gamma<1$$，直方图将向右移动，新图像比原图像亮。
 
-{% include image.html url="/images/dip-skimage/1173903675.png" %}
+{% include image.html url="/assets/images/201004-dip-skimage/1173903675.png" %}
 
 #### log 对数调整
 
@@ -259,7 +259,7 @@ plt.show()
 
 效果：
 
-{% include image.html url="/images/dip-skimage/20201004171640.png" %}
+{% include image.html url="/assets/images/201004-dip-skimage/20201004171640.png" %}
 
 
 ## 参考

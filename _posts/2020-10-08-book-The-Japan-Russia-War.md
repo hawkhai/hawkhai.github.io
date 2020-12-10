@@ -14,7 +14,7 @@ mermaid:
 glslcanvas:
 ---
 
-{% include image.html url="/images/book/2war.jpg" %}
+{% include image.html url="/assets/images/201008-book-the-japan-russia-war/2war.jpg" %}
 
 
 ## 日俄战争 1

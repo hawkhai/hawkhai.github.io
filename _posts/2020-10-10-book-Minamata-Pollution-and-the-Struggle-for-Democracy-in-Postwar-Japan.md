@@ -17,7 +17,7 @@ glslcanvas:
 > 人类共同体是由所有死去的人、现在活着的人和未来出生的人共同组成的。我们多了解过去的人和事，为他们的苦难而悲伤，为他们的勇气所激励。如果一定要从中得到点儿什么，那也应该是谦卑和敬畏，而不是指点江山的浅薄，和预测未来的自大。
 > <p align="right"> —— 荣格</p>
 
-{% include image.html url="/images/book/20d5515bad0a75dfd0d314f9976c2515_720w.jpg" %}
+{% include image.html url="/assets/images/201010-book-minamata-pollution~f7/20d5515bad0a75dfd0d314f9976c2515_720w.jpg" %}
 
 
 ## 《水俣病》1 背景

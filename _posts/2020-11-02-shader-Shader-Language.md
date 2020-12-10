@@ -22,7 +22,7 @@ glslcanvas:
 * [win7, 64bit 下的 OpenGL 着色语言（glsl）开发环境配置（原）](https://www.cnblogs.com/yanhuiw/p/3281028.html)
 * [GLSL 环境搭建](https://blog.csdn.net/u010724874/article/details/48543593) / [The OpenGL® Programming Guide 9th Edition](http://opengl-redbook.com/)
 
-{% include image.html url="/images/OpenGL-GLSL/982bc51480a085f6878fe5e4656de446_720w.png" %}
+{% include image.html url="/assets/images/201102-shader-shader-language/982bc51480a085f6878fe5e4656de446_720w.png" %}
 
 
 ## Shader Language？
@@ -55,9 +55,9 @@ Cg 由 NVIDIA 公司和微软公司相互协作在标准硬件光照语言的语
 
 ## OpenGL / GLSL
 
-{% include image.html url="/images/OpenGL-GLSL/pipeline.png" %}
+{% include image.html url="/assets/images/201102-shader-shader-language/pipeline.png" %}
 
-{% include image.html url="/images/OpenGL-GLSL/gpu_pipeline.png" %}
+{% include image.html url="/assets/images/201102-shader-shader-language/gpu_pipeline.png" %}
 
 图 2.6 GPU 的渲染流水线实现。颜色表示了不同阶段的可配置性或可编程性：
 绿色表示该流水线阶段是完全可编程控制的，
@@ -65,7 +65,7 @@ Cg 由 NVIDIA 公司和微软公司相互协作在标准硬件光照语言的语
 蓝色表示该流水线阶段是由 GPU 固定实现的，开发者没有任何控制权。
 实线表示该 shader 必须由开发者编程实现，虚线表示该 Shader 是可选的。
 
-{% include image.html url="/images/OpenGL-GLSL/ScreenMapping_OpenGL_DirectX.png" %}
+{% include image.html url="/assets/images/201102-shader-shader-language/screenmapping_opengl_directx.png" %}
 
 图 2.11 OpenGL 和 DirectX 的屏幕坐标系差异。对于一张 512\*512 大小的图像，在 OpenGL 中其（0, 0）点在左下角，而在 DirectX 中其（0, 0）点在左上角。
 

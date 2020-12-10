@@ -92,7 +92,7 @@ glslcanvas:
 
 ### toP57-7 细胞识别与统计
 
-{% include image.html url="/images/digital-image-processing3/xibao.png" %}
+{% include image.html url="/assets/images/200927-dip-samples/xibao.png" %}
 
 
 ### toP55 SAR 图像分割 / 遥感图像配准

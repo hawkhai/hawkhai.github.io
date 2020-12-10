@@ -152,7 +152,7 @@ void main() {
 
 [OpenGL·投影与变换](https://www.jianshu.com/p/64c236d5c67a)
 
-{% include image.html url="/images/OpenGL-GLSL/2852335-c8a888f710b623d1.webp" %}
+{% include image.html url="/assets/images/201102-shader-thebookofshaders/2852335-c8a888f710b623d1.webp" %}
 
 
 ## 算法绘画 造型函数

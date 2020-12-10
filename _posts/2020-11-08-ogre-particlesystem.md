@@ -14,7 +14,7 @@ mermaid: truez
 glslcanvas:
 ---
 
-{% include image.html url="/images/ogre-particlesystem/v2-18e3e24cdca1fae8cc8a4a732a46decd_1440w.jpg" %}
+{% include image.html url="/assets/images/201108-ogre-particlesystem/v2-18e3e24cdca1fae8cc8a4a732a46decd_1440w.jpg" %}
 
 去年搞了一阵子 Ogre3D，对它的粒子系统进行了微调，以适应手机屏幕，并对其进行了扩充，接入了 ParticleUniverse。
 

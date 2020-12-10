@@ -19,7 +19,7 @@ glslcanvas:
 
 傅里叶分析之掐死教程 <https://zhuanlan.zhihu.com/p/19763358>
 
-{% include image.html url="/images/fourier-transform/40cf849e55ed95732a60b52d4019d609_r.jpg" %}
+{% include image.html url="/assets/images/200926-dip-fourier-transform/40cf849e55ed95732a60b52d4019d609_r.jpg" %}
 
 Part1. 三角函数的正交性 <https://www.bilibili.com/video/BV1Et411R78v>
 
@@ -47,12 +47,12 @@ Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
 三维到二维的投影。欧拉公式所描绘的，是一个随着时间变化，在复平面上做圆周运动的点，随着时间的改变，在时间轴上就成了一条螺旋线。如果只看它的实数部分，也就是螺旋线在左侧的投影，就是一个最基础的余弦函数。而右侧的投影则是一个正弦函数。
 
-{% include image.html url="/images/fourier-transform/20200901103813238.png" %}
+{% include image.html url="/assets/images/200926-dip-fourier-transform/20200901103813238.png" %}
 
 
 ### 傅里叶变换（Fourier Transformation）
 
-{% include image.html url="/images/fourier-transform/419cd0b2e965aca25d5f8a5a6362d728_720w.jpg" %}
+{% include image.html url="/assets/images/200926-dip-fourier-transform/419cd0b2e965aca25d5f8a5a6362d728_720w.jpg" %}
 
 [傅里叶级数和傅里叶变换是什么关系？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/21665935)
 
@@ -60,14 +60,14 @@ Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
 周期函数，可以通过傅里叶级数画出频域图；增长周期，频域图变得越来越密集；当周期无限大，得到傅里叶变换，频域图变为连续的曲线。
 
-{% include image.html url="/images/fourier-transform/v2-8f5dc83df22c3296f312139d2d3c74bb_720w.jpg" %}
+{% include image.html url="/assets/images/200926-dip-fourier-transform/v2-8f5dc83df22c3296f312139d2d3c74bb_720w.jpg" %}
 
 傅里叶级数的本质是将一个周期的信号分解成无限多分开的（离散的）正弦波。
 
 傅里叶变换实际上是对一个周期无限大的函数进行傅里叶变换。
 是将一个时域非周期的连续信号，转换为一个在频域非周期的连续信号。
 
-{% include image.html url="/images/fourier-transform/ece53f825c6de629befba3de12f929a7_720w.jpg" %}
+{% include image.html url="/assets/images/200926-dip-fourier-transform/ece53f825c6de629befba3de12f929a7_720w.jpg" %}
 
 [形象展示傅里叶变换 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1pW411J7s8)
 
@@ -82,24 +82,24 @@ Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
 最后这个“海螺图”还是有点没看懂。?
 
-{% include image.html url="/images/fourier-transform/f116ae26859bdc80b28ea0f8f894ccc0_720w.jpg" %}
+{% include image.html url="/assets/images/200926-dip-fourier-transform/f116ae26859bdc80b28ea0f8f894ccc0_720w.jpg" %}
 
 
 ## 图像傅里叶变换
 
 一个频率相当于一个维度，当维度变成无穷多维度，然后频率叠加就是密度。？
 
-{% include image.html url="/images/fourier-transform/v2-bad520e27c839917cf27d76e1206bb70_1440w.jpg" %}
+{% include image.html url="/assets/images/200926-dip-fourier-transform/v2-bad520e27c839917cf27d76e1206bb70_1440w.jpg" %}
 
 [以初中数学基础理解傅里叶变换 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1TJ41157FZ)
 
 [形象理解二维傅里叶变换 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/110026009)
 
-{% include image.html url="/images/fourier-transform/v2-73ad89919f066942a612107925152c8c_720w.jpg" %}
+{% include image.html url="/assets/images/200926-dip-fourier-transform/v2-73ad89919f066942a612107925152c8c_720w.jpg" %}
 
 中心低频贡献了图像的主体，周围高频提供图像的细节和边缘。
 
-{% include image.html url="/images/fourier-transform/v2-39eb0e4cd7fa4f0cd927bc97fc1c1674_720w.jpg" %}
+{% include image.html url="/assets/images/200926-dip-fourier-transform/v2-39eb0e4cd7fa4f0cd927bc97fc1c1674_720w.jpg" %}
 
 [为什么用图像二维傅里叶变换的相位谱进行反变换，能够大致得到原图的形状，而幅度谱则不行呢？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/23718291/answer/1057562032)
 
@@ -133,17 +133,17 @@ from http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf
 
 [连原子都能看清的 CT 成像 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1w54y1R7LT)
 
-{% include image.html url="/images/fourier-transform/20201006194100.png" %}
+{% include image.html url="/assets/images/200926-dip-fourier-transform/20201006194100.png" %}
 
 
 ### 指纹去噪
 
-{% include image.html url="/images/fourier-transform/v2-5b1db77b17cc490cae1e9670bb34eeeb_720w.jpg" %}
+{% include image.html url="/assets/images/200926-dip-fourier-transform/v2-5b1db77b17cc490cae1e9670bb34eeeb_720w.jpg" %}
 
 
 ### 天体表面去噪
 
-{% include image.html url="/images/fourier-transform/v2-2c6301e214b1766e2b4173c2a0593bb2_720w.jpg" %}
+{% include image.html url="/assets/images/200926-dip-fourier-transform/v2-2c6301e214b1766e2b4173c2a0593bb2_720w.jpg" %}
 
 
 ## 代码实验
@@ -214,9 +214,9 @@ if __name__ == "__main__":
 
 ```
 
-{% include image.html url="/images/fourier-transform/fft_Original_image.png" %}
-{% include image.html url="/images/fourier-transform/fft_Reconstructed_Image.png" %}
-{% include image.html url="/images/fourier-transform/fft_Blurred_image.png" %}
+{% include image.html url="/assets/images/200926-dip-fourier-transform/fft_original_image.png" %}
+{% include image.html url="/assets/images/200926-dip-fourier-transform/fft_reconstructed_image.png" %}
+{% include image.html url="/assets/images/200926-dip-fourier-transform/fft_blurred_image.png" %}
 
 
 ## 参考

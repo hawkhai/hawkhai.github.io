@@ -19,7 +19,7 @@ glslcanvas:
 
 搞了一天，终于转起来了。Windows 上用 ARM MALI OpenGL ES Emulator 模拟一个 OpenGL ES 环境。
 
-{% include image.html url="/images/OpenGL-GLSL/win-opengles-sample.gif" %}
+{% include image.html url="/assets/images/201204-shader-windows-opengles~87/win-opengles-sample.gif" %}
 
 
 ## Introduction
@@ -43,15 +43,15 @@ EGL 实际上是 OpenGL 和设备（又或者叫操作系统）间的中间件�
 
 Khronos 是 OpenGL，OpenGL ES，OpenVG 和 EGL 等规范的定义者。
 
-{% include image.html url="/images/OpenGL-GLSL/1909670-c54245befab0e77c.webp" %}
+{% include image.html url="/assets/images/201204-shader-windows-opengles~87/1909670-c54245befab0e77c.webp" %}
 
-{% include image.html url="/images/OpenGL-GLSL/1909670-1190f4934b884c90.webp"
+{% include image.html url="/assets/images/201204-shader-windows-opengles~87/1909670-1190f4934b884c90.webp"
 caption=" 图形处理的一般流程 " %}
 
-{% include image.html url="/images/OpenGL-GLSL/1909670-20d2b8256bdd054e.webp"
+{% include image.html url="/assets/images/201204-shader-windows-opengles~87/1909670-20d2b8256bdd054e.webp"
 caption=" OpenGL ES 2.0 的可编程管线 " %}
 
-{% include image.html url="/images/OpenGL-GLSL/1909670-16aeb651d6c99957.webp"
+{% include image.html url="/assets/images/201204-shader-windows-opengles~87/1909670-16aeb651d6c99957.webp"
 caption=" 坐标系统 " %}
 
 

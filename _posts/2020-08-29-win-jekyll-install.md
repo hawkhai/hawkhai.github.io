@@ -32,7 +32,7 @@ make: *** [Makefile:195：x64.release] 错误 2
 
 在基于源码的编译构建过程中，代码是临时释放的，mk 配置也是临时释放的，对于编译不过的地方，即使修改了，也会被 bundle 覆盖回滚。后来把这些改动过的代码和配置都拷贝出来，用脚本不停的尝试写入替换对应的文件，最终编译链接成功。
 
-{% include image.html url="/images/win-jekyll/win-jekyll.png" %}
+{% include image.html url="/assets/images/200829-win-jekyll-install/win-jekyll.png" %}
 
 
 ## 安装 ruby & gem
@@ -156,7 +156,7 @@ while __name__ == "__main__":
 
 ## 先把 libv8 编译过，再把 therubyracer 编译过
 
-{% include image.html url="/images/win-jekyll/win-jekyll2.png" %}
+{% include image.html url="/assets/images/200829-win-jekyll-install/win-jekyll2.png" %}
 
 -----
 

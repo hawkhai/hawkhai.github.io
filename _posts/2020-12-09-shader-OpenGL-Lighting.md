@@ -18,7 +18,7 @@ glslcanvas:
 
 本文源码 <a href="{% include gitsrc.html url="/source/shader/LearnOpenGL-Lighting" %}" target="_blank">LearnOpenGL-Lighting</a>
 
-{% include image.html url="/images/OpenGL-GLSL/glLightingGrab.gif" %}
+{% include image.html url="/assets/images/201209-shader-opengl-lighting/gllightinggrab.gif" %}
 
 
 ## OpenGL 光照
@@ -35,9 +35,9 @@ $$
 I_p=k_ai_a+\sum_{m{\in}\mathrm{lights}}{(k_d(\hat{L}_m\cdot\hat{N})i_{m,d})+k_s(\hat{R}_m\cdot\hat{V})^{\alpha}i_{m,s})}
 $$
 
-{% include image.html url="/images/OpenGL-GLSL/v2-7d9cb4f3c58bce1dd41c43902284f7d4_720w.jpg" %}
+{% include image.html url="/assets/images/201209-shader-opengl-lighting/v2-7d9cb4f3c58bce1dd41c43902284f7d4_720w.jpg" %}
 
-{% include image.html url="/images/OpenGL-GLSL/20201209104409.png" %}
+{% include image.html url="/assets/images/201209-shader-opengl-lighting/20201209104409.png" %}
 
 - 基础光照原理讲解
 
