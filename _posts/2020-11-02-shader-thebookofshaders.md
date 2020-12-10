@@ -222,7 +222,7 @@ void main(){
 }
 ```
 
-{% include canvas.html fragUrl="/shader/shader.frag" width="256" height="256" %}
+{% include canvas.html fragUrl="/source/shader/shader.frag" width="256" height="256" %}
 
 
 ### 形状
