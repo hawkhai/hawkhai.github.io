@@ -85,6 +85,33 @@ def calcType(ttype, url):
     if not secli[-1]: return ttype
     return "."+secli[-1].lower()
 
+g_snapcache = {}
+g_untouched = {}
+def buildSnapCache(rootdir):
+    rootdir = os.path.normpath(rootdir)
+    def mainfile(fpath, fname, ftype):
+        fpath = os.path.normpath(fpath)
+        if not re.findall("^[0-9a-f]{8}\\.", fname):
+            return
+        key = fname[:8]
+        g_snapcache[key] = fpath
+        g_untouched[key] = fpath
+    searchdir(rootdir, mainfile)
+
+def touchSnapCache(umd5, slocal):
+    if umd5 in g_untouched.keys() and slocal == g_untouched[umd5]:
+        del g_untouched[umd5]
+
+def getSnapCache(umd5):
+    if umd5 in g_snapcache.keys():
+        return readfile(g_snapcache[umd5])
+    return None
+
+def clearSnapCache():
+    print("ClearSnapCache", len(g_untouched))
+    for umd5 in g_untouched.keys():
+        osremove(g_untouched[umd5])
+
 def backupUrlContent(fpath, url):
     for file in ("/qt-creator-opensource-windows-x86-4.13.2.exe",
                  "/qt-opensource-windows-x86-5.14.1.exe",
@@ -123,11 +150,18 @@ def backupUrlContent(fpath, url):
     slocal = os.path.join("backup", mdname, uhost, umd5[:8] + ttype)
     if os.path.exists(local):
         os.rename(local, slocal)
-    fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal)
+
+    fdata = getSnapCache(umd5[:8])
+    if fdata:
+        writefile(slocal, fdata)
+    else:
+        fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal)
+
     if url not in ("http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf",
                    "http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf",):
         assert len(fdata) <= 1024*1024*2, len(fdata)
     remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5[:8] + ttype)
+    touchSnapCache(umd5[:8], slocal)
     return remote
 
 def createCnFile():
@@ -537,9 +571,13 @@ def main():
     print(parsePythonCmdx(__file__))
     removedirTimeout("tempdir")
     clearemptydir("tempdir")
+    buildSnapCache("backup")
     searchdir(".", mainfilew, ignorelistMore=(
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
         "Debug", "Release", ".vs", "openglcpp", "opengl-3rd",))
+    if REBUILD:
+        clearSnapCache()
+
     global g_cschar
     global g_tpset
 
