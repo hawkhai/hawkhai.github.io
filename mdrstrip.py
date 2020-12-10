@@ -180,6 +180,29 @@ def createCnFile():
     openTextFile(tempfile)
 #createCnFile()
 
+def copyres(ik, fpath, line):
+    fpath = os.path.split(fpath)[-1]
+    if fpath.lower().endswith(".md"):
+        fpath = fpath[:-3]
+    if re.findall("^[0-9]{4}-[0-9]{2}-[0-9]{2}-", fpath):
+        fpath = fpath[:10].replace("-","")[-6:]+"-"+fpath[11:]
+    if len(fpath) > 32:
+        fpath = fpath[:30]+"~"+getmd5(fpath)[:2]
+    ikdir, ikfile = os.path.split(ik)
+    if ikfile.find(".") == -1:
+        ikfile = ikfile + ".jpg"
+    fpath = os.path.join("assets", "images", fpath, ikfile).lower()
+    if os.path.exists(fpath):
+        if os.path.abspath(fpath) != os.path.abspath(ik):
+            osremove(ik)
+        return line.replace(ik, fpath.replace("\\", "/"))
+    return line.replace(ik, fpath.replace("\\", "/"))
+    if os.path.exists(ik):
+        #copyfile(ik, fpath)
+        pass
+    else:
+        assert os.path.exists(fpath), fpath
+
 g_hostset = {}
 def collectHost(fpath, line):
 
@@ -193,6 +216,29 @@ def collectHost(fpath, line):
     #for tx in li:
     #    line = line.replace(tx, "")
 
+    regex = "(?:\"/(.*?)\")|(?:'/(.*?)')"
+    li = re.findall(regex, line)
+    for ik in li:
+        ik = "".join(ik)
+        if ik.endswith("/"):
+            continue
+        if len(ik) <= 2:
+            continue
+        if ik.startswith("/player.bilibili.com/"):
+            continue
+        if ik.startswith("blog/"):
+            continue
+        if ik in ("source/hackathon2020_team24.zip",
+                  "source/2D-Fourier-transforms.pdf",
+                  "source/Fourier-transform-of-images.pdf",
+                  "source/DevMgr-SRC.zip",
+                  "source/DevMgr-DEMO.zip",
+                  "shader/shader.frag",
+                  "source/shader/geometry.cpp",):
+            continue
+        if not os.path.isdir(ik):
+            line = copyres(ik, fpath, line)
+
     regex = r"""(
                     (https?)://
                         ([a-z0-9\.-]+\.[a-z]{2,6})
@@ -204,7 +250,7 @@ def collectHost(fpath, line):
 
     regex = "".join(regex.split())
     li = re.findall(regex, line, re.IGNORECASE)
-    if not li: return
+    if not li: return reflist, line
     for tx in li:
         url = tx[0]
         host = tx[2]
@@ -237,7 +283,7 @@ def collectHost(fpath, line):
         print(li1)
         print(li2)
         assert False, linesrc
-    return reflist
+    return reflist, line
 
 g_cnchar = []
 g_cschar = []
@@ -270,7 +316,8 @@ def appendRefs(fpath, lines):
     reflist = []
 
     for index, line in enumerate(lines):
-        ireflist = collectHost(fpath, line)
+        ireflist, line = collectHost(fpath, line)
+        lines[index] = line
         if ireflist:
             reflist.extend(ireflist)
 
@@ -577,6 +624,8 @@ def main():
         "Debug", "Release", ".vs", "openglcpp", "opengl-3rd",))
     if REBUILD:
         clearSnapCache()
+        clearemptydir("images")
+        clearemptydir("source")
 
     global g_cschar
     global g_tpset
