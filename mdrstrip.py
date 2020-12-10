@@ -181,28 +181,36 @@ def createCnFile():
     openTextFile(tempfile)
 #createCnFile()
 
-def copyres(ik, fpath, line):
+g_orgremove = set()
+def organizeClear():
+    for key in g_orgremove:
+        osremove(key)
+
+def organizeRes(ik, fpath, line):
     if not COPYRES:
         assert os.path.exists(ik), fpath
         return line
-    fpath = os.path.split(fpath)[-1]
-    if fpath.lower().endswith(".md"):
-        fpath = fpath[:-3]
-    if re.findall("^[0-9]{4}-[0-9]{2}-[0-9]{2}-", fpath):
-        fpath = fpath[:10].replace("-", "")[-6:]+"-"+fpath[11:]
-    if len(fpath) > 32:
-        fpath = fpath[:30]+"~"+getmd5(fpath)[:2]
+    invisible = os.path.abspath(fpath).startswith(os.path.abspath("invisible")+"\\")
+    fname = os.path.split(fpath)[-1]
+    if fname.lower().endswith(".md"):
+        fname = fname[:-3]
+    if re.findall("^[0-9]{4}-[0-9]{2}-[0-9]{2}-", fname):
+        fname = fname[:10].replace("-", "")[-6:]+"-"+fname[11:]
+    if len(fname) > 32:
+        fname = fname[:30]+"~"+getmd5(fname)[:2]
     ikdir, ikfile = os.path.split(ik)
     if ikfile.find(".") == -1:
         ikfile = ikfile + ".jpg"
-    fpath = os.path.join("assets", "images", fpath, ikfile).lower()
+    tpath = os.path.join("assets", "images", fname, ikfile).lower()
+    if invisible:
+        tpath = os.path.join("invisible", "images", fname, ikfile).lower()
     if os.path.exists(ik):
-        copyfile(ik, fpath)
-        if os.path.abspath(ik) != os.path.abspath(fpath):
-            osremove(ik)
+        copyfile(ik, tpath)
+        if os.path.abspath(ik) != os.path.abspath(tpath):
+            g_orgremove.add(ik)
     else:
         assert False, ik
-    return line.replace(ik, fpath.replace("\\", "/"))
+    return line.replace(ik, tpath.replace("\\", "/"))
 
 g_hostset = {}
 def collectHost(fpath, line):
@@ -225,20 +233,24 @@ def collectHost(fpath, line):
             continue
         if len(ik) <= 2:
             continue
-        if ik.startswith("/player.bilibili.com/"):
-            continue
-        if ik.startswith("blog/"):
-            continue
+
+        kcontinue = False
+        for src in ("/player.bilibili.com/",
+                    "blog/", "source/shader/", "assets/glslEditor-0.0.20/"):
+            if ik.startswith(src):
+                kcontinue = True
+        if kcontinue: continue
+
         if ik in ("source/hackathon2020_team24.zip",
                   "source/2D-Fourier-transforms.pdf",
                   "source/Fourier-transform-of-images.pdf",
                   "source/DevMgr-SRC.zip",
                   "source/DevMgr-DEMO.zip",
-                  "shader/shader.frag",
+                  "images/photo.jpg",
                   "source/shader/geometry.cpp",):
             continue
         if not os.path.isdir(ik):
-            line = copyres(ik, fpath, line)
+            line = organizeRes(ik, fpath, line)
 
     regex = r"""(
                     (https?)://
@@ -291,7 +303,7 @@ g_cschar = []
 g_enchar = []
 g_tpset = set()
 g_mdkeyset = set()
-FONT_REF_SNAP = "<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>"
+SNAPSHOT_HTML = "<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>"
 def removeRefs(fpath, lines):
     lineCount = len(lines)
     headIndex = -1
@@ -301,7 +313,7 @@ def removeRefs(fpath, lines):
             continue
         if re.findall("^- \\[[0-9]+\\] \\[{}\\]\\({}\\)$".format(".*?", ".*?"), lines[i]):
             continue
-        if lines[i] == FONT_REF_SNAP:
+        if lines[i] == SNAPSHOT_HTML:
             headIndex = i
             break
         break
@@ -326,7 +338,7 @@ def appendRefs(fpath, lines):
         lines.append("")
         lines.append("-----")
         lines.append("")
-        lines.append(FONT_REF_SNAP)
+        lines.append(SNAPSHOT_HTML)
         lines.append("")
         lines.append("")
         urlset = set()
@@ -627,6 +639,7 @@ def main():
         clearSnapCache()
         clearemptydir("images")
         clearemptydir("source")
+        organizeClear()
 
     global g_cschar
     global g_tpset
