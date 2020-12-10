@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="滤镜处理是图像处理中一种非常常见的方法。比如photoshop中的滤镜效果，除了自带的滤镜，还扩展了很多第三方的滤镜效果插件，可以对图像做丰富多样的变换；很多手机app实现了实时滤镜功能，最有名的当属" />
+    <meta property="og:description" content="滤镜处理是图像处理中一种非常常见的方法。比如photoshop中的滤镜效果，除了自带的滤镜，还扩展了很多第三方的滤镜效果插件，可以对图像做丰富多样的变换；很多手机app实现了实时滤镜功能，最有名的当属" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>纯Python综合图像处理小工具（3）10种滤镜算法 - 浩克匠心 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=R2wBwmwSMG0Sqiw8GFSVjHT4Payg_JFAn51R8XcuvN0" />
+    <link id="MainCss" rel="stylesheet" href="/skins/blacklowkey/bundle-blacklowkey.min.css?v=1gj9-XJKL9BZFkjdvROYQPiPWjQXk-hsXXZGtqkfaSc" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/blacklowkey/bundle-blacklowkey-mobile.min.css?v=pdepUFJo7cpvzQktAZqHoGL4g936wIXvGsP3R063Gn8" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/sopic/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/sopic/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/sopic/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 121009;
+        var currentBlogApp = 'sopic';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BlackLowKey';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2015-05-29 05:38';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=gWQ9VKr6FSwo14EgofSprzXJrAEO7ppQ1I5Or4uqKuo"></script>
+    
+    
+    
+</head>
+<body class="has-navbar has-bannerbar">
+    <a name="top"></a>
+            <a href="https://brands.cnblogs.com/aws/free?source=blog-bannerbar" onclick="ga('send', 'event', 'Link', 'click', 'aws-pc-bannerbar')">
+                <div class="bannerbar aws forpc">
+                    <img class="left" src="https://common.cnblogs.com/images/banner/bannerbar-aws-logo.png" alt="" />
+                    <img class="right" src="https://common.cnblogs.com/images/banner/bannerbar-aws-ssh.png?v=2" alt="" />
+                </div>
+            </a>
+        <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://brands.cnblogs.com/aws/free?source=mobile-banner" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aws-mobile-bannerbar')"><img src="https://img2020.cnblogs.com/blog/35695/202012/35695-20201203212730693-184275650.png" alt="" /></a>
+        </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/sopic/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/sopic/">幻艺视界</a>
+</h1>
+<h2>把玩技术，欣赏艺术，用技术革新艺术，用创意制造财富</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/sopic/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%B5%A9%E5%85%8B%E5%8C%A0%E5%BF%83">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/sopic/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 39&nbsp; </span>
+<span id="stats_article_count">文章 - 3&nbsp; </span>
+<span id="stats-comment_count">评论 - 70</span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/sopic/p/4538052.html">
+    <span>纯Python综合图像处理小工具（3）10种滤镜算法</span>
+    
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body">
+    <p><strong style="font-size: 18pt">&lt;背景&gt;&nbsp;</strong></p>
+<p><span style="font-size: 12pt">滤镜处理是图像处理中一种非常常见的方法。比如photoshop中的滤镜效果，除了自带的滤镜，还扩展了很多第三方的滤镜效果插件，可以对图像做丰富多样的变换；很多手机app实现了实时滤镜功能，最有名的当属Instagram。</span></p>
+<p><span style="font-size: 12pt">PIL中主要涉及到卷积滤镜，其原理是针对数字图像的像素矩阵，使用一个nxn的方形矩阵做滤波器（即卷积核kernel，常见的如3x3，5x5等），对该图像像素进行卷积遍历（即截取和卷积核同等大小的像素矩阵进行卷积运算），每一个输出像素都是一定区域像素按一定权重组合计算出的结果（像素不独立，受到邻近像素的影响，邻近像素区域可以调整，选取范围越大，计算量越大，图像处理时间越长），遍历后的图像就是输出图像。如果算法经过优化，遍历的速度足够快，那就是实时滤镜（live filter），可以实时预览图像过滤后的效果。</span></p>
+<span style="font-family: Helvetica, Tahoma, Arial, sans-serif; line-height: 25.1875px; background-color: rgba(255, 255, 255, 1); font-size: 12pt">ImageFilter是Python PIL的滤镜模块，当前版本支持10种加强滤镜，通过这些预定义的滤镜，可以方便的对图片进行一些过滤操作，从而去掉图片中的噪音(部分的消除)，这样可以降低图像处理算法的复杂度(如模式识别等)，更方便的实现和预览一些算法的效果。</span>
+<p><span style="font-size: 12pt">本文脚本包含以下全部滤镜， 实现了10种图像处理滤镜的效果预览和JPEG文件保存。</span></p>
+<table width="363" border="0" style="color: rgba(0, 0, 0, 0); font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; line-height: 25.1875px; background-color: rgba(255, 255, 255, 1); height: 228px">
+     <tbody>
+         <tr>
+             <td style="font-size: 1em">
+             <p>ImageFilter.BLUR<br>
+             </p>
+             </td>
+             <td style="font-size: 1em">模糊滤镜<br>
+             </td>
+         </tr>
+         <tr>
+             <td style="font-size: 1em">ImageFilter.CONTOUR<br>
+             </td>
+             <td style="font-size: 1em">轮廓<br>
+             </td>
+         </tr>
+         <tr>
+             <td style="font-size: 1em">ImageFilter.DETAIL<br>
+             </td>
+             <td style="font-size: 1em">细节滤镜</td>
+         </tr>
+         <tr>
+             <td style="font-size: 1em">ImageFilter.EDGE_ENHANCE</td>
+             <td style="font-size: 1em">边界加强</td>
+         </tr>
+         <tr>
+             <td style="font-size: 1em">ImageFilter.EDGE_ENHANCE_MORE</td>
+             <td style="font-size: 1em">边界加强(阀值更 大)</td>
+         </tr>
+         <tr>
+             <td style="font-size: 1em">ImageFilter.EMBOSS</td>
+             <td style="font-size: 1em">浮雕滤镜</td>
+         </tr>
+         <tr>
+             <td style="font-size: 1em">ImageFilter.FIND_EDGES</td>
+             <td style="font-size: 1em">边界滤镜</td>
+         </tr>
+         <tr>
+             <td style="font-size: 1em">ImageFilter.SMOOTH</td>
+             <td style="font-size: 1em">平滑滤镜</td>
+         </tr>
+         <tr>
+             <td style="font-size: 1em">ImageFilter.SMOOTH_MORE</td>
+             <td style="font-size: 1em">平滑滤镜(阀值更大)</td>
+         </tr>
+         <tr>
+             <td style="font-size: 1em">ImageFilter.SHARPEN</td>
+             <td style="font-size: 1em">锐化滤镜</td>
+         </tr>
+     </tbody>
+</table>
+<p>&nbsp;</p>
+<p><strong style="font-size: 18pt">&lt;效果&gt;</strong>&nbsp;</p>
+<p>原图：</p>
+<p><img src="https://images0.cnblogs.com/blog2015/421918/201505/291442212196334.jpg" alt="" style="line-height: 1.5">&nbsp;</p>
+<p>&nbsp;</p>
+<p>模糊滤镜：</p>
+<p><img src="https://images0.cnblogs.com/blog2015/421918/201505/291442478606939.jpg" alt="" style="line-height: 1.5">&nbsp;</p>
+<p>&nbsp;</p>
+<p>锐度增强滤镜：&nbsp;</p>
+<p><img src="https://images0.cnblogs.com/blog2015/421918/201505/291443235797052.jpg" alt="" style="line-height: 1.5"></p>
+<p>&nbsp;</p>
+<p>细节滤镜：</p>
+<p><img src="https://images0.cnblogs.com/blog2015/421918/201505/291731167198386.jpg" alt="" style="line-height: 1.5">&nbsp;</p>
+<p>&nbsp;</p>
+<p>轮廓滤镜：</p>
+<p><img src="https://images0.cnblogs.com/blog2015/421918/201505/291443392194764.jpg" alt="" style="line-height: 1.5">&nbsp;</p>
+<p>&nbsp;</p>
+<p>边界提取滤镜：</p>
+<p><img src="https://images0.cnblogs.com/blog2015/421918/201505/291443568291278.jpg" alt="" style="line-height: 1.5">&nbsp;</p>
+<p>&nbsp;</p>
+<p>边界增强滤镜：</p>
+<p><img src="https://images0.cnblogs.com/blog2015/421918/201505/291444212352766.jpg" alt="" style="line-height: 1.5">&nbsp;</p>
+<p>&nbsp;</p>
+<p>边界增强滤镜-加强版：</p>
+<p><img src="https://images0.cnblogs.com/blog2015/421918/201505/291444388448279.jpg" alt="" style="line-height: 1.5">&nbsp;</p>
+<p>&nbsp;</p>
+<p>平滑滤镜：</p>
+<p><img src="https://images0.cnblogs.com/blog2015/421918/201505/291444586414194.jpg" alt="" style="line-height: 1.5">&nbsp;</p>
+<p>&nbsp;</p>
+<p>平滑滤镜-加强版：</p>
+<p><img src="https://images0.cnblogs.com/blog2015/421918/201505/291445110017303.jpg" alt="" style="line-height: 1.5">&nbsp;</p>
+<p>&nbsp;</p>
+<p>浮雕滤镜：</p>
+<p><img src="https://images0.cnblogs.com/blog2015/421918/201505/291445282191531.jpg" alt="" style="line-height: 1.5">&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18pt"><strong>&lt;源码分析&gt;</strong></span></p>
+<p><span style="font-size: 14pt">&nbsp;PIL库的滤镜算法可以在</span><span style="line-height: 1.5; font-size: 14pt">Python\Lib\site-packages\PIL路径下找到，如下所示：</span></p>
+<p><img src="https://images0.cnblogs.com/blog2015/421918/201505/291625547664141.png" alt="" style="line-height: 1.5">&nbsp;<span style="line-height: 1.5">&nbsp;</span></p>
+<p>&nbsp;</p><p><span style="font-size: 12pt; font-family: Arial">在PIL路径下，我们看到了三个同名但后缀不同的文件：ImageFilter.py ，ImageFilter.pyc ，ImageFilter.pyo 。</span></p>
+<p><span style="font-family: Arial"><span style="font-size: 12pt; line-height: 27px"><strong>.py文件</strong>：</span></span><span style="font-family: Arial; font-size: 12pt">存放的是脚本源代码；</span></p><p><span style="font-size: 12pt; font-family: Arial"><strong>.pyc文件</strong></span><span style="font-family: Arial; font-size: 12pt">&nbsp;：<span style="font-size: 12pt; font-family: Arial">是同名的.py编译后</span><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;">的字节</span><span style="font-size: 12pt; font-family: Arial">码文件，用来供解释器解释执行；</span></span></p>
+<p><span style="font-size: 12pt; font-family: Arial"><strong>.pyo文件</strong>&nbsp;</span><span style="font-size: 12pt; font-family: Arial">：</span><span style="font-size: 12pt; font-family: Arial">是同名的.pyc文件经过优化后的字节码文件，通常体积更小，运行更快。</span></p>
+<p><span style="font-size: 12pt; font-family: Arial">滤镜算法在ImageFilter.py文件中。</span></p>
+<p><span style="font-size: 12pt; font-family: Arial">如前文所述，每一个滤镜通常对应着一个滤波器（即kernel），PIL中的kernel均为常见的3x3和5x5方形矩阵，下面是PIL中9种滤镜对应的矩阵：</span></p>
+<p>&nbsp;</p>
+<p>模糊滤镜：</p>
+<div>
+<div class="cnblogs_code">
+<div><span style="color: rgba(0, 0, 255, 1)">class</span>&nbsp;BLUR(BuiltinFilter):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;=&nbsp;<span style="">"</span><span style="">Blur</span><span style="">"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;filterargs&nbsp;=&nbsp;(5,&nbsp;5),&nbsp;16,&nbsp;0,&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,&nbsp;&nbsp;0,&nbsp;&nbsp;0,&nbsp;&nbsp;0,&nbsp;&nbsp;1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,&nbsp;&nbsp;0,&nbsp;&nbsp;0,&nbsp;&nbsp;0,&nbsp;&nbsp;1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,&nbsp;&nbsp;0,&nbsp;&nbsp;0,&nbsp;&nbsp;0,&nbsp;&nbsp;1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</div>
+</div>
+</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</div>
+<p>&nbsp;轮廓滤镜：</p>
+<div class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">class</span>&nbsp;CONTOUR(BuiltinFilter):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;=&nbsp;<span style="">"</span><span style="">Contour</span><span style="">"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;filterargs&nbsp;=&nbsp;(3,&nbsp;3),&nbsp;1,&nbsp;255,&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1,&nbsp;-1,&nbsp;-1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1,&nbsp;&nbsp;8,&nbsp;-1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1,&nbsp;-1,&nbsp;-1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</div>
+<p>&nbsp;</p>
+<p>细节滤镜：</p>
+<div class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">class</span>&nbsp;DETAIL(BuiltinFilter):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;=&nbsp;<span style="">"</span><span style="">Detail</span><span style="">"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;filterargs&nbsp;=&nbsp;(3,&nbsp;3),&nbsp;6,&nbsp;0,&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,&nbsp;-1,&nbsp;&nbsp;0,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1,&nbsp;10,&nbsp;-1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,&nbsp;-1,&nbsp;&nbsp;0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</div>
+<p>&nbsp;</p>
+<p>边缘增强滤镜：</p>
+<div class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">class</span>&nbsp;EDGE_ENHANCE(BuiltinFilter):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;=&nbsp;<span style="">"</span><span style="">Edge-enhance</span><span style="">"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;filterargs&nbsp;=&nbsp;(3,&nbsp;3),&nbsp;2,&nbsp;0,&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1,&nbsp;-1,&nbsp;-1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1,&nbsp;10,&nbsp;-1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1,&nbsp;-1,&nbsp;-1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</div>
+<p>&nbsp;</p>
+<p>边缘增强滤镜-增强版：</p>
+该增强版和原滤镜仅仅是矩阵2行2列的一个参数大小不同，实际是修改了中心像素的权重。这个数值可以任意修改以自定义边缘增强的幅度。
+<div class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">class</span>&nbsp;EDGE_ENHANCE_MORE(BuiltinFilter):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;=&nbsp;<span style="">"</span><span style="">Edge-enhance&nbsp;More</span><span style="">"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;filterargs&nbsp;=&nbsp;(3,&nbsp;3),&nbsp;1,&nbsp;0,&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1,&nbsp;-1,&nbsp;-1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1,&nbsp;&nbsp;9,&nbsp;-1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1,&nbsp;-1,&nbsp;-1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</div>
+<p>&nbsp;</p>
+<p>&nbsp;浮雕滤镜</p>
+<div class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">class</span>&nbsp;EMBOSS(BuiltinFilter):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;=&nbsp;<span style="">"</span><span style="">Emboss</span><span style="">"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;filterargs&nbsp;=&nbsp;(3,&nbsp;3),&nbsp;1,&nbsp;128,&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1,&nbsp;&nbsp;0,&nbsp;&nbsp;0,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,&nbsp;&nbsp;1,&nbsp;&nbsp;0,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,&nbsp;&nbsp;0,&nbsp;&nbsp;0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</div>
+<p><br>
+</p>
+<p>&nbsp;边缘提取滤镜：</p>
+<div class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">class</span>&nbsp;FIND_EDGES(BuiltinFilter):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;=&nbsp;<span style="">"</span><span style="">Find&nbsp;Edges</span><span style="">"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;filterargs&nbsp;=&nbsp;(3,&nbsp;3),&nbsp;1,&nbsp;0,&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1,&nbsp;-1,&nbsp;-1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1,&nbsp;&nbsp;8,&nbsp;-1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-1,&nbsp;-1,&nbsp;-1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</div>
+<p>&nbsp;</p>
+<p>平滑滤镜：</p>
+<div class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">class</span>&nbsp;SMOOTH(BuiltinFilter):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;=&nbsp;<span style="">"</span><span style="">Smooth</span><span style="">"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;filterargs&nbsp;=&nbsp;(3,&nbsp;3),&nbsp;13,&nbsp;0,&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,&nbsp;&nbsp;5,&nbsp;&nbsp;1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<span style="font-family: verdana, &quot;courier new&quot;; font-size: 14px; line-height: 1.5">&nbsp;</span></div>
+<p>&nbsp;</p>
+<p>&nbsp;平滑滤镜-加强版：</p>
+<p>平滑滤镜的加强是增加了滤镜窗口的尺寸，有3x3扩展到5x5， 这样每一个新像素的产生会包含25个周围原始像素的加权贡献（离得越近，贡献越大），这样的结果会更加平滑自然，代价是处理速度会明显的变慢。<span style="line-height: 1.5">&nbsp;</span></p>
+<div class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">class</span>&nbsp;SMOOTH_MORE(BuiltinFilter):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;=&nbsp;<span style="">"</span><span style="">Smooth&nbsp;More</span><span style="">"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;filterargs&nbsp;=&nbsp;(5,&nbsp;5),&nbsp;100,&nbsp;0,&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,&nbsp;&nbsp;5,&nbsp;&nbsp;5,&nbsp;&nbsp;5,&nbsp;&nbsp;1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,&nbsp;&nbsp;5,&nbsp;44,&nbsp;&nbsp;5,&nbsp;&nbsp;1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,&nbsp;&nbsp;5,&nbsp;&nbsp;5,&nbsp;&nbsp;5,&nbsp;&nbsp;1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1,&nbsp;&nbsp;1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</div>
+<p><br>
+</p>
+<p>&nbsp;锐化滤镜：</p>
+<div class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">class</span>&nbsp;SHARPEN(BuiltinFilter):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;=&nbsp;<span style="">"</span><span style="">Sharpen</span><span style="">"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;filterargs&nbsp;=&nbsp;(3,&nbsp;3),&nbsp;16,&nbsp;0,&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-2,&nbsp;-2,&nbsp;-2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-2,&nbsp;32,&nbsp;-2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-2,&nbsp;-2,&nbsp;-2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</div>
+<p>&nbsp;</p><p>此外，这些滤镜不仅可以独立使用，还可以自由组合，比如边缘提取+平滑滤镜，可以得到更加干净的边缘提取图像等等，此处不一一列举。</p><p>左图为原始边界提取图，右侧为平滑后的边界图。&nbsp;</p>
+<p><img src="https://images0.cnblogs.com/blog2015/421918/201505/310912597192325.jpg" alt="" style="line-height: 1.5">&nbsp;</p><p>&nbsp;</p>
+<p><span style="font-size: 18pt"><strong>&lt;脚本源码&gt;&nbsp;</strong></span></p><div class="cnblogs_code"><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">start</span><span style="color: rgba(0, 128, 0, 1)"><br>#</span><span style="color: rgba(0, 128, 0, 1)">&nbsp;-*-&nbsp;coding:&nbsp;cp936&nbsp;-*-</span><span style="color: rgba(0, 128, 0, 1)"><br></span><span style="color: rgba(0, 0, 255, 1)">import</span>&nbsp;Image,ImageDraw<br><span style="color: rgba(0, 0, 255, 1)">import</span>&nbsp;ImageFilter,random,sys<br>img&nbsp;=&nbsp;Image.open(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">1.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>)<br><br><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">#图像处理##</span><br><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">转换为RGB图像</span><span style="color: rgba(0, 128, 0, 1)"><br></span>img&nbsp;=&nbsp;img.convert(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">RGB</span><span style="color: rgba(128, 0, 0, 1)">"</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">经过PIL自带filter处理</span><span style="color: rgba(0, 128, 0, 1)"><br></span>imgfilted_b&nbsp;=&nbsp;img.filter(ImageFilter.BLUR)<br>imgfilted_c&nbsp;=&nbsp;img.filter(ImageFilter.CONTOUR)<br>imgfilted_ee&nbsp;=&nbsp;img.filter(ImageFilter.EDGE_ENHANCE)<br>imgfilted_ee_m&nbsp;=&nbsp;img.filter(ImageFilter.EDGE_ENHANCE_MORE)<br>imgfilted_em&nbsp;=&nbsp;img.filter(ImageFilter.EMBOSS)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>imgfilted_fe&nbsp;=&nbsp;img.filter(ImageFilter.FIND_EDGES)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>imgfilted_sm&nbsp;=&nbsp;img.filter(ImageFilter.SMOOTH)<br>imgfilted_sm_m&nbsp;=&nbsp;img.filter(ImageFilter.SMOOTH_MORE)<br>imgfilted_sh&nbsp;=&nbsp;img.filter(ImageFilter.SHARPEN)<br>imgfilted_d&nbsp;=&nbsp;img.filter(ImageFilter.DETAIL)<br><br><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">#组合使用filter</span><span style="color: rgba(0, 128, 0, 1)"><br></span>group_imgfilted&nbsp;=&nbsp;img.filter(ImageFilter.CONTOUR)<br>group_imgfilted&nbsp;=&nbsp;group_imgfilted.filter(ImageFilter.SMOOTH_MORE)<br><br><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">#图像保存##</span><br>imgfilted_b.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">1b.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>)<br>imgfilted_c.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">1c.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>)<br>imgfilted_ee.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">1ee.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>)<br>imgfilted_ee_m.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">1eem.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>)<br>imgfilted_em.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">1em.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>)<br>imgfilted_fe.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">1fe.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>imgfilted_sm.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">1sm.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>)<br>imgfilted_sm_m.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">1smm.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>)<br>imgfilted_sh.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">1sh.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>)<br>imgfilted_d.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">1d.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>)<br>group_imgfilted.save(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">1group.jpg</span><span style="color: rgba(128, 0, 0, 1)">"</span>)<br><br><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">#图像显示##</span><br>imgfilted_b.show()<br>imgfilted_c.show()<br>imgfilted_ee.show()<br>imgfilted_ee_m.show()<br>imgfilted_em.show()<br>imgfilted_fe.show()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>imgfilted_sm.show()<br>imgfilted_sm_m.show()<br>imgfilted_sh.show()<br>imgfilted_d.show()<br>group_imgfilted.show()<br><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">end</span></div><p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2015-05-29 17:38</span>&nbsp;
+<a href="https://www.cnblogs.com/sopic/">浩克匠心</a>&nbsp;
+阅读(<span id="post_view_count">10725</span>)&nbsp;
+评论(<span id="post_comment_count">4</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=4538052" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(4538052);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 121009, cb_blogApp = 'sopic', cb_blogUserGuid = '7f10b71a-62bf-e111-aa3f-842b2b196315';
+    var cb_entryId = 4538052, cb_entryCreatedDate = '2015-05-29 17:38', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 浩克匠心
+<br /><span id="poweredby">Powered by .NET 5.0.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+</body>
+</html>

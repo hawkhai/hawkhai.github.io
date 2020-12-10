@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Using OpenGL ES on windows desktops via EGL - Sascha Willems</title>
+  <meta property="og:title" content="Using OpenGL ES on windows desktops via EGL" />
+  <meta name="twitter:title" content="Using OpenGL ES on windows desktops via EGL" />
+  <meta name="description" content="OpenGL ES is an embedded version of OpenGL mostly used on mobile devices that offer only limited GPU capabilities compared to modern desktop GPUS.
+Introduction Thanks to android, OpenGL ES is very widespread, and as WebGL is also based on OpenGL ES (2.0), chances are pretty high you&rsquo;ll get into contact with OpenGL ES at some point during your 3D development efforts.
+And at some point you may want to prototype your OpenGL ES applications on a desktop system (windows, linux, mac), or just distribute a desktop version of your mobile game using OpenGL ES.">
+  <meta property="og:description" content="OpenGL ES is an embedded version of OpenGL mostly used on mobile devices that offer only limited GPU capabilities compared to modern desktop GPUS.
+Introduction Thanks to android, OpenGL ES is very widespread, and as WebGL is also based on OpenGL ES (2.0), chances are pretty high you&rsquo;ll get into contact with OpenGL ES at some point during your 3D development efforts.
+And at some point you may want to prototype your OpenGL ES applications on a desktop system (windows, linux, mac), or just distribute a desktop version of your mobile game using OpenGL ES.">
+  <meta name="twitter:description" content="OpenGL ES is an embedded version of OpenGL mostly used on mobile devices that offer only limited GPU capabilities compared to modern desktop GPUS.
+Introduction Thanks to android, OpenGL ES is very …">
+  <meta name="author" content="www.saschawillems.de"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Sascha Willems",
+    
+    "url": "https://www.saschawillems.de/"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https://www.saschawillems.de/"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https://www.saschawillems.de/",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/",
+          "name": "Using open g l e s on windows desktops via e g l"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "Sascha"
+  },
+  "headline": "Using OpenGL ES on windows desktops via EGL",
+  "description" : "OpenGL ES is an embedded version of OpenGL mostly used on mobile devices that offer only limited GPU capabilities compared to modern desktop GPUS.
+Introduction Thanks to android, OpenGL ES is very widespread, and as WebGL is also based on OpenGL ES (2.0), chances are pretty high you&amp;rsquo;ll get into contact with OpenGL ES at some point during your 3D development efforts.
+And at some point you may want to prototype your OpenGL ES applications on a desktop system (windows, linux, mac), or just distribute a desktop version of your mobile game using OpenGL ES.",
+  "inLanguage" : "en",
+  "wordCount": 1109,
+  "datePublished" : "2015-04-19T20:05:03",
+  "dateModified" : "2015-04-19T20:05:03",
+  "image" : "https://www.saschawillems.de/images/logo_vic20.png",
+  "keywords" : [ "opengl-es, tutorial" ],
+  "mainEntityOfPage" : "https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https://www.saschawillems.de/",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https://www.saschawillems.de/images/logo_vic20.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Using OpenGL ES on windows desktops via EGL" />
+<meta property="og:description" content="OpenGL ES is an embedded version of OpenGL mostly used on mobile devices that offer only limited GPU capabilities compared to modern desktop GPUS.
+Introduction Thanks to android, OpenGL ES is very widespread, and as WebGL is also based on OpenGL ES (2.0), chances are pretty high you&rsquo;ll get into contact with OpenGL ES at some point during your 3D development efforts.
+And at some point you may want to prototype your OpenGL ES applications on a desktop system (windows, linux, mac), or just distribute a desktop version of your mobile game using OpenGL ES.">
+<meta property="og:image" content="https://www.saschawillems.de/images/logo_vic20.png" />
+<meta property="og:url" content="https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Sascha Willems" />
+  <meta name="twitter:title" content="Using OpenGL ES on windows desktops via EGL" />
+  <meta name="twitter:description" content="OpenGL ES is an embedded version of OpenGL mostly used on mobile devices that offer only limited GPU capabilities compared to modern desktop GPUS.
+Introduction Thanks to android, OpenGL ES is very …">
+  <meta name="twitter:image" content="https://www.saschawillems.de/images/logo_vic20.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@SaschaWillems2" />
+  <meta name="twitter:creator" content="@SaschaWillems2" />
+  <meta property="og:image" content="https://www.saschawillems.de/images/logo_vic20.png" />
+  <meta name="twitter:image" content="https://www.saschawillems.de/images/logo_vic20.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@SaschaWillems2" />
+  <meta name="twitter:creator" content="@SaschaWillems2" />
+  <meta property="og:url" content="https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Sascha Willems" />
+
+  <meta name="generator" content="Hugo 0.54.0" />
+  <link rel="alternate" href="https://www.saschawillems.de/index.xml" type="application/rss+xml" title="Sascha Willems"><link rel="stylesheet" href="https://www.saschawillems.de/css/katex.min.css" />
+  <link rel="stylesheet" href="https://www.saschawillems.de/fontawesome/css/all.css" />
+  <link rel="stylesheet" href="https://www.saschawillems.de/css/bootstrap.min.css" /><link rel="stylesheet" href="https://www.saschawillems.de/css/main.css" /><link rel="stylesheet" href="https://www.saschawillems.de/css/fonts.css" /><link rel="stylesheet" href="https://www.saschawillems.de/css/syntax.css" /><link rel="stylesheet" href="https://www.saschawillems.de/css/codeblock.css" /><link rel="stylesheet" href="https://www.saschawillems.de/css/photoswipe.min.css" />
+  <link rel="stylesheet" href="https://www.saschawillems.de/css/photoswipe.default-skin.min.css" />
+
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.saschawillems.de/">Sascha Willems</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li class="navlinks-container">
+              <a class="navlinks-parent">Vulkan</a>
+              <div class="navlinks-children">
+                
+                  <a href="/tags/vulkan/">Posts</a>
+                
+                  <a href="/tags/vulkan-tutorial/">Tutorials</a>
+                
+                  <a href="/creations/vulkan-examples">Examples</a>
+                
+                  <a href="/creations/vulkan-hardware-capability-viewer">CapsViewer</a>
+                
+                  <a href="/creations/vulkan-gltf-pbr">glTF PBR</a>
+                
+              </div>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/about">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Posts" href="/">Posts</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Creations" href="/creations/">Creations</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags/">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Sascha Willems" href="https://www.saschawillems.de/">
+            <img class="avatar-img" src="https://www.saschawillems.de/images/logo_vic20.png" alt="Sascha Willems" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Using OpenGL ES on windows desktops via EGL</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Posted on April 19, 2015
+  
+  
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;Sascha
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        
+
+<p><img src="/images/using-opengl-es-on-windows-desktops-via-egl/OpenGL_ES_logo-300x105.png" alt="OpenGL_ES_logo" /></p>
+
+<p><a href="https://www.khronos.org/#slider_opengl">OpenGL ES</a> is an embedded version of OpenGL mostly used on mobile devices that offer only limited GPU capabilities compared to modern desktop GPUS.</p>
+
+<h1 id="introduction">Introduction</h1>
+
+<p>Thanks to android, OpenGL ES is very widespread, and as <a href="https://www.khronos.org/#slider_webgl">WebGL </a>is also based on OpenGL ES (2.0), chances are pretty high you&rsquo;ll get into contact with OpenGL ES at some point during your 3D development efforts.</p>
+
+<p>And at some point you may want to prototype your OpenGL ES applications on a desktop system (windows, linux, mac), or just distribute a desktop version of your mobile game using OpenGL ES.</p>
+
+<p>Depending on the vendor of your desktop GPU, the way you access OpenGL on your desktop system differ though. While NVIDIA and INTEL expose OpenGL ES functionality via OpenGL using extensions ([<a href="http://opengl.delphigl.de/gl_listreports.php?listreportsbyextension=GLX_EXT_create_context_es_profile">1</a>] [<a href="http://opengl.delphigl.de/gl_listreports.php?listreportsbyextension=GLX_EXT_create_context_es2_profile">2</a>] [<a href="http://opengl.delphigl.de/gl_listreports.php?listreportsbyextension=WGL_EXT_create_context_es_profile">3</a>] [<a href="http://opengl.delphigl.de/gl_listreports.php?listreportsbyextension=WGL_EXT_create_context_es2_profile">4</a>]) similar to the ones for OpenGL core and compatibility contests, the situation for AMD (ATI) is very different, and that&rsquo;s what this article is about.</p>
+
+<p>It&rsquo;s a starting point for getting OpenGL ES up and running with AMD GPUs on windows (adopting to linux should be pretty easy). If you&rsquo;re on NVIDIA or INTEL, you can simply use a current <a href="http://www.glfw.org/">glfw </a>version and request an OpenGL ES context and you&rsquo;re set.</p>
+
+<p><img src="/images/using-opengl-es-on-windows-desktops-via-egl/EGL_OpenGL_Logo-300x183.png" alt="EGL_OpenGL_Logo" /></p>
+
+<p>AMD doesn&rsquo;t expose OpenGL ES on desktops via OpenGL extensions (so you won&rsquo;t find these on any AMD device), but goes the same route as Android devices and exposes OpenGL ES via EGL.</p>
+
+<p>EGL is a native platform interface that connects the windowing systems to one of Khronos&rsquo; APIs, e.g. OpenGL ES.</p>
+
+<p>So before getting to OpenGL ES on e.g. windows with AMD, you first have to setup EGL and an EGL render context using OpenGL ES as the client API.</p>
+
+<h1 id="setup">Setup</h1>
+
+<p>Before you can start using EGL on your desktop system, you need to get library files and binaries.</p>
+
+<p>You can get them from :</p>
+
+<ul>
+<li><a href="http://community.imgtec.com/developers/powervr/graphics-sdk/">PowerVR SDK</a></li>
+<li><a href="http://developer.amd.com/tools-and-sdks/graphics-development/amd-opengl-es-sdk/">AMD OpenGL ES SDK</a></li>
+<li><a href="https://code.google.com/p/angleproject/">ANGLE</a></li>
+</ul>
+
+<p>While the PowerVR SDK is the biggest download, it supports the widest range of OpenGL ES versions and operating systems. If you only want to do OpenGL ES 2 on windows, go and grab the AMD one. ANGLE is the OpenGL ES backend used in Google&rsquo;s chrome and wraps the OpenGL ES calls (for WebGL) to DirectX.</p>
+
+<p>You also need the EGL and OpenGL ES headers, which should be included in the SDK. The latest version can always be obtained via the Khronos API registry for <a href="https://www.khronos.org/registry/egl/">EGL </a>and <a href="https://www.khronos.org/registry/gles/#headers31">OpenGL ES</a>.</p>
+
+<p>If you include the headers for EGL and OpenGL ES and tell the linker where to find the libraries, it&rsquo;s time for some code.</p>
+
+<p>You can find the whole C++ demo over <a href="https://github.com/SaschaWillems/openglcpp/tree/master/eglExample">at my github repository</a>.</p>
+
+<p>The EGL man pages can be <a href="https://www.khronos.org/registry/egl/sdk/docs/man/">accessed here</a>.</p>
+
+<h1 id="step-1-connecting-to-the-display">Step 1 - Connecting to the &ldquo;display&rdquo;</h1>
+
+<p>The term display may sound a bit odd at first if you&rsquo;re used to Windows, and more familiar if you&rsquo;re coming from Linux.</p>
+
+<p>A display, in EGL terms, on Windows is just a normal HDC. So simply get a device context from your window (or control you want to paint on) and connect it to the EGL display :</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    <span style="color:#008000">// Create a new window for render output
+</span><span style="color:#008000"></span>    HWND hwnd = createWindow(winWidth, winHeight);
+    <span style="color:#008000">// Get device context from the window
+</span><span style="color:#008000"></span>    HDC hdc = GetDC(hwnd);
+    <span style="color:#008000">// Create EGL display connection
+</span><span style="color:#008000"></span>    EGLDisplay eglDisplay = eglGetDisplay(hdc);
+    <span style="color:#008000">// Initialize EGL for this display, returns EGL version
+</span><span style="color:#008000"></span>    EGLint eglVersionMajor, eglVersionMinor;
+    eglInitialize(eglDisplay, &amp;eglVersionMajor, &amp;eglVersionMinor);
+</code></pre></td></tr></table>
+</div>
+</div>
+<h1 id="step-2-binding-to-the-api">Step 2 - Binding to the API</h1>
+
+<p>Now that we&rsquo;ve got a valid EGL display, we need to select the client API we want to use. EGL supports OpenGL, OpenGL ES and OpenGL VG. Note that not all client APIs may be available on your device. We&rsquo;re going to use OpenGL ES, the version will be selected later on :</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">	eglBindAPI(EGL_OPENGL_ES_API);
+</code></pre></td></tr></table>
+</div>
+</div>
+<h1 id="step-3-selecting-a-valid-config">Step 3 - Selecting a valid config</h1>
+
+<p>Similar to finding a suitable pixel format for context creating in OpenGL, we need to find a valid EGL configuration that supports our requested client API and fits our description :</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    EGLint configAttributes[] =
+    {
+    	EGL_BUFFER_SIZE, 0,
+    	EGL_RED_SIZE, 5,
+    	EGL_GREEN_SIZE, 6,
+    	EGL_BLUE_SIZE, 5,
+    	EGL_ALPHA_SIZE, 0,
+    	EGL_COLOR_BUFFER_TYPE, EGL_RGB_BUFFER,
+    	EGL_DEPTH_SIZE, 24,
+    	EGL_LEVEL, 0,
+    	EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+    	EGL_SAMPLE_BUFFERS, 0,
+    	EGL_SAMPLES, 0,
+    	EGL_STENCIL_SIZE, 0,
+    	EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+    	EGL_TRANSPARENT_TYPE, EGL_NONE,
+    	EGL_TRANSPARENT_RED_VALUE, EGL_DONT_CARE,
+    	EGL_TRANSPARENT_GREEN_VALUE, EGL_DONT_CARE,
+    	EGL_TRANSPARENT_BLUE_VALUE, EGL_DONT_CARE,
+    	EGL_CONFIG_CAVEAT, EGL_DONT_CARE,
+    	EGL_CONFIG_ID, EGL_DONT_CARE,
+    	EGL_MAX_SWAP_INTERVAL, EGL_DONT_CARE,
+    	EGL_MIN_SWAP_INTERVAL, EGL_DONT_CARE,
+    	EGL_NATIVE_RENDERABLE, EGL_DONT_CARE,
+    	EGL_NATIVE_VISUAL_TYPE, EGL_DONT_CARE,
+    	EGL_NONE
+    };
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>We&rsquo;ll be requesting a pretty basic config with 5 bits for red, 6 for green and 5 for blue and 24 bits of depths. Note the &ldquo;EGL_RENDERABLE_TYPE&rdquo; containing the OpenGL ES 2 bit we&rsquo;re going to request a config for. Since OpenGL ES 3 is using the same base as OpenGL ES 2, while OpenGL ES and OpenGL ES 2 greatly differ, you&rsquo;d use EGL_OPENGL_ES2_BIT even if you want to use OpenGL ES 3.</p>
+
+<p>Values for attributes marked with EGL_DONT_CARE will be decided by the driver :</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    EGLint numConfigs;
+    EGLConfig windowConfig;
+    eglChooseConfig(eglDisplay, configAttributes, &amp;windowConfig, 1, &amp;numConfigs);
+</code></pre></td></tr></table>
+</div>
+</div>
+<h1 id="step-4-create-a-window-surface"> Step 4 - Create a window surface</h1>
+
+<p>Once we&rsquo;ve got a valid configuration we can create a window surface that&rsquo;ll be used for rendering :</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    EGLint surfaceAttributes[] = { EGL_NONE };
+    EGLSurface eglSurface = eglCreateWindowSurface(eglDisplay, windowConfig, hwnd, surfaceAttributes);
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>We don&rsquo;t pass any special surface attributes (for more information <a href="https://www.khronos.org/registry/egl/sdk/docs/man/html/eglCreateWindowSurface.xhtml">see here</a>), as most of them refer to OpenVG, so the default will e used, an EGL (back) render buffer.</p>
+
+<h1 id="step-5-create-a-rendering-context">Step 5 - Create a rendering context</h1>
+
+<p>Getting back to OpenGL terminology, we&rsquo;re now ready to create our OpenGL ES render context, which is also the point at which you can specify the OpenGL ES version you want to use :</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">	EGLint contextAttributes[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
+	EGLContext eglContext = eglCreateContext(eglDisplay, windowConfig, NULL, contextAttributes);
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>The EGL_CONTEXT_CLIENT_VERSION is (as of now) the only valid context creating attribute and determines the OpenGL ES version you want to use.</p>
+
+<h1 id="step-6-render-something">Step 6 - Render something :)</h1>
+
+<p>We&rsquo;re now ready to put something onto the screen. We just need to make our EGL context current :</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>And your next lines can look like this :</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    setupScene()
+    <span style="color:#00f">while</span> (!quit) {
+		renderScene();
+		eglSwapBuffers(eglDisplay, eglSurface);
+    }
+</code></pre></td></tr></table>
+</div>
+</div>
+<h1 id="closing-words">Closing words</h1>
+
+<p><img src="/images/using-opengl-es-on-windows-desktops-via-egl/screenshot-300x216.png" alt="screenshot" /></p>
+
+<p>Using EGL for accessing OpenGL ES on your AMD (ATI) desktop GPU isn&rsquo;t that hard, but since there isn&rsquo;t much information available on the net, probably because the other IHVs make it a bit easer, and the examples from the AMD SDK didn&rsquo;t work for me I decided to wrap my experiences into this small article.</p>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://www.saschawillems.de//tags/opengl-es/">opengl-es</a>&nbsp;
+            
+              <a href="https://www.saschawillems.de//tags/tutorial/">tutorial</a>&nbsp;
+            
+          </div>
+        
+
+        
+
+        
+
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://www.saschawillems.de/blog/2015/02/05/glcapsviewer-1.0-beta-release/" data-toggle="tooltip" data-placement="top" title="glCapsViewer 1.0 beta release">&larr; Previous Post</a>
+            </li>
+          
+          
+            <li class="next">
+              <a href="https://www.saschawillems.de/blog/2015/04/25/geometry-instancing-with-webgl-2/" data-toggle="tooltip" data-placement="top" title="Geometry instancing with WebGL 2">Next Post &rarr;</a>
+            </li>
+          
+        </ul>
+      
+
+
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+          <ul class="list-inline text-center footer-links">
+            
+                <li>
+                  <a href="mailto:webmaster@saschawillems.de" title="Email me">
+                    <span class="fa-stack fa-lg">
+                      <i class="fas fa-circle fa-stack-2x"></i>
+                      <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://github.com/SaschaWillems" title="GitHub">
+                    <span class="fa-stack fa-lg">
+                      <i class="fas fa-circle fa-stack-2x"></i>
+                      <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://twitter.com/SaschaWillems2" title="Twitter">
+                    <span class="fa-stack fa-lg">
+                      <i class="fas fa-circle fa-stack-2x"></i>
+                      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://reddit.com/u/SaschaWillems" title="Reddit">
+                    <span class="fa-stack fa-lg">
+                      <i class="fas fa-circle fa-stack-2x"></i>
+                      <i class="fab fa-reddit-alien fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://linkedin.com/in/sascha-willems-a896b6113" title="LinkedIn">
+                    <span class="fa-stack fa-lg">
+                      <i class="fas fa-circle fa-stack-2x"></i>
+                      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://stackoverflow.com/users/6077683/sascha-willems" title="StackOverflow">
+                    <span class="fa-stack fa-lg">
+                      <i class="fas fa-circle fa-stack-2x"></i>
+                      <i class="fab fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.youtube.com/user/saschawillems" title="Youtube">
+                    <span class="fa-stack fa-lg">
+                      <i class="fas fa-circle fa-stack-2x"></i>
+                      <i class="fab fa-youtube fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                </li>
+            
+          </ul>
+          <p class="credits copyright text-muted">
+            
+              
+                www.saschawillems.de
+              
+            
+  
+            &nbsp;&bull;&nbsp;&copy;
+            
+              2020
+            
+  
+            
+              &nbsp;&bull;&nbsp;
+              <a href="https://www.saschawillems.de/">Sascha Willems</a>
+            
+          </p>
+          
+          <p class="credits theme-by text-muted">
+            <a href="http://gohugo.io">Hugo v0.54.0</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+            
+          </p>
+          <p class="text-center">
+            <a href="/privacy-policy/">Privacy policy</a> | <a href="/impressum/">Impressum</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer><script src="https://www.saschawillems.de/js/katex.min.js"></script>
+  <script src="https://www.saschawillems.de/js/auto-render.min.js"></script>
+  <script src="https://www.saschawillems.de/js/jquery.min.js"></script>
+  <script src="https://www.saschawillems.de/js/bootstrap.min.js"></script>
+  
+  <script src="https://www.saschawillems.de/js/main.js"></script><script> renderMathInElement(document.body); </script><script src="https://www.saschawillems.de/js/photoswipe.min.js"></script>
+  <script src="https://www.saschawillems.de/js/photoswipe-ui-default.min.js"></script><script src="https://www.saschawillems.de/js/load-photoswipe.js"></script>
+  
+  
+  
+  
+  
+  
+  
+
+  
+  </body>
+</html>
+

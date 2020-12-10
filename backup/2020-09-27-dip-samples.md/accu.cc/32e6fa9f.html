@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Mohanson">
+  <link rel="shortcut icon" href="../../../img/favicon.ico">
+  <title>数字图像处理-加性高斯白噪声与去噪 - Mohanson</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="../../../css/accu.css" rel="stylesheet">
+    
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u6570\u5b57\u56fe\u50cf\u5904\u7406-\u52a0\u6027\u9ad8\u65af\u767d\u566a\u58f0\u4e0e\u53bb\u566a";
+    var mkdocs_page_input_path = "content/pil/agwn.md";
+    var mkdocs_page_url = "/content/pil/agwn/";
+  </script>
+  
+  <script src="../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+    <script data-ad-client="ca-pub-5236818090688638" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <meta name="baidu_union_verify" content="399f2ea30598ef9a698e0d9467178aea">
+ 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../.." class="icon icon-home"> Mohanson</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../..">主页</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../resume/">个人信息</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">数字图像处理</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../channel/">数字图像处理-通道</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../mean/">数字图像处理-均值</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../contrast/">数字图像处理-对比增强</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../contrast_tensile/">数字图像处理-对比拉伸</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../bit/">数字图像处理-位图切割</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../histogram_equalization/">数字图像处理-直方图均衡化</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../sub/">数字图像处理-图像减法</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">数字图像处理-加性高斯白噪声与去噪</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#_1">加性高斯白噪声</a></li>
+    
+
+    <li class="toctree-l3"><a href="#_2">加噪</a></li>
+    
+
+    <li class="toctree-l3"><a href="#_3">去噪</a></li>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../spatial_filter/">数字图像处理-空间滤波基础</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../spatial_filter_mean/">数字图像处理-空间滤波-均值滤波</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../spatial_filter_medium/">数字图像处理-空间滤波-中值滤波</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../spatial_filter_sharpening/">数字图像处理-空间滤波-锐化滤波</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../spatial_filter_gaussian_blur/">数字图像处理-空间滤波-高斯滤波</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../frequency_filter/">数字图像处理-频域滤波基础</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../frequency_filter_lpf/">数字图像处理-频域滤波-低通滤波</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../frequency_filter_hpf/">数字图像处理-频域滤波-高通滤波</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../frequency_filter_br_bp/">数字图像处理-频域滤波-带阻和带通滤波</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../noise/">数字图像处理-噪声</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../safe_color/">数字图像处理-安全色</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../macaron_color/">数字图像处理-马卡龙色</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../complementary_and_invert_color/">数字图像处理-补色和反色</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../watermark/">数字图像处理-水印</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../resize_nearst/">数字图像处理-缩放-最近邻插值法</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../resize_nearst_ghost/">数字图像处理-缩放-最近邻插值法的幽灵事件</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../resize_bilinear/">数字图像处理-缩放-双线性算法</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../resize_bicubic/">数字图像处理-缩放-双三次插值法</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../ascii/">数字图像处理-字符画</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../pil_tutorial_overview/">Python-PIL-概览</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../pil_image/">Python-PIL-Image</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../pil_imagechops/">Python-PIL-ImageChops</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../pil_imagecolor/">Python-PIL-ImageColor</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../pil_imagedraw/">Python-PIL-ImageDraw</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../pil_imageenhance/">Python-PIL-ImageEnhance</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../pil_imageops/">Python-PIL-ImageOps</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">自己动手写 Game Boy 仿真器</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../gameboy/preface/">GB-前言</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/history/emulator/">GB-虚拟机发展史-硬件仿真器</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/history/runtime/">GB-虚拟机发展史-程序虚拟机</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/history/simulator/">GB-虚拟机发展史-软件模拟器</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cartridge/about_cartridge/">GB-游戏卡带-漫谈卡带</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cartridge/cartridge_header/">GB-游戏卡带-Header</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cartridge/memory_bank_controller/">GB-游戏卡带-Memory Bank Controller</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cartridge/rom_only/">GB-游戏卡带-ROM only</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cartridge/mbc1/">GB-游戏卡带-MBC1</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cartridge/mbc2/">GB-游戏卡带-MBC2</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cartridge/mbc3/">GB-游戏卡带-MBC3</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cartridge/mbc5/">GB-游戏卡带-MBC5</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cartridge/others/">GB-游戏卡带-完整代码</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cpu/overview/">GB-CPU-概览</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cpu/alu/">GB-CPU-算术逻辑单元</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cpu/register/">GB-CPU-寄存器与存储系统</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cpu/isa/">GB-CPU-指令与指令集</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cpu/pipeline/">GB-CPU-流水线</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cpu/lr35902_standard/">GB-CPU-LR35902标准指令集</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cpu/lr35902_extension/">GB-CPU-LR35902扩展指令集</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cpu/cycles/">GB-CPU-LR35902时钟周期与频率仿真</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cpu/interrupts/">GB-CPU-LR35902中断</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/cpu/mmu/">GB-CPU-内存管理单元与主板</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/video/overview/">GB-视频-概览</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/video/dot_matrix/">GB-视频-点阵图</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/video/show/">GB-视频-显示输出</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/video/crt/">GB-视频-光栅成像原理与概念</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/video/system/">GB-视频-图像显示系统</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/video/gpu/">GB-视频-GPU 寄存器与内存结构</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/video/code/">GB-视频-代码实现</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/audio/overview/">GB-音频-概览</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/audio/sound/">GB-音频-声音的构成</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/audio/cpal/">GB-音频-Rust Cpal 库介绍</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/audio/concept/">GB-音频-音频系统概念简介</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/audio/register/">GB-音频-寄存器</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/audio/timer/">GB-音频-512 Hz 时钟信号</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/audio/frame_sequence/">GB-音频-序列发生器</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/audio/length_counter/">GB-音频-长度计数器</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/audio/vol/">GB-音频-音量包络</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/audio/frequency_sweep/">GB-音频-频率扫描器</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/audio/square/">GB-音频-方波通道 1 & 2</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/audio/wave/">GB-音频-可编程波形通道</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/audio/noise/">GB-音频-白噪音通道</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/audio/mixer/">GB-音频-混频器</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/audio/play/">GB-音频-在计算机上播放</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/other/joypad/">GB-其他-游戏手柄</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/other/serial/">GB-其他-串行通行接口</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/other/timer/">GB-其他-定时器</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/other/init/">GB-其他-硬件初始化工作</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/other/test/">GB-其他-测试</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../gameboy/foot/">GB-后记</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Linux x64 汇编</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../asm/linux_x64_part1/">入门-Hello World</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../asm/linux_x64_part2/">入门-术语和概念</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../asm/linux_x64_part3/">入门-堆栈</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../asm/linux_x64_part4/">入门-宏</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../asm/linux_x64_part5/">入门-AT&T</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../asm/linux_x64_part6/">入门-汇编与 C</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">算法心得, 高效算法的奥秘</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../hackers_delight/overview/">概览</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../hackers_delight/basic_knowledge/">基础知识</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../hackers_delight/power_of_2_boundaries/">2 的幂边界</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../hackers_delight/counting_bits/">位计数</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">算法</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../daze/ga/sga/">遗传算法-简单遗传算法</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/ga/sga_optret/">遗传算法-最优保留策略</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/ga/evolve/">遗传算法-生物进化模拟</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/ga/fooled_nn/">遗传算法-愚弄神经网络</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/dlib/install/">Dlib-安装</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/dlib/face_detect/">Dlib-人脸检测</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/dlib/face_landmark/">Dlib-人脸标注</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/dlib/face_recognition/">Dlib-人脸识别</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/dlib/face_clustering/">Dlib-人脸聚类</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/rc4/overview/">加密算法-RC4-概览</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/rc4/performance_testing/">加密算法-RC4-性能测试</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/game_of_life/overview/">生命游戏</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/sklearn/overview/">sklearn-概览</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/sklearn/liner_model/overview/">sklearn-线性模型-概览</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/sklearn/liner_model/linear_regression/">sklearn-线性模型-普通最小二乘法</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/sklearn/liner_model/ridge/">sklearn-线性模型-岭回归</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/sklearn/liner_model/logistic_regression/">sklearn-线性模型-逻辑回归</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/sklearn/tree/">sklearn-决策树</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/sklearn/bayes/">sklearn-贝叶斯分类器</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/sklearn/knn/">sklearn-kNN</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/sklearn/cluster/">sklearn-聚类</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/sklearn/svm/">sklearn-SVM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/sklearn/manifold/">sklearn-流形学习</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/sklearn/evaluation/">sklearn-评估</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/ml/neural_style_transfer/">机器学习-图像风格转移</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/ml/fasttext/">机器学习-快速文本分类</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/ml/hog/">机器学习-HOG</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/math/huffman/">Math-霍夫曼编码</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/math/variance_and_sd/">Math-方差与标准差</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/math/normal_distribution/">Math-正态分布</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../daze/math/kelly_formula/">Math-凯利公式</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">语言</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../py/np/split/">Python-np-分割与合并</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../py/plt/line/">Python-matplotlib-折线图</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../py/plt/scatter/">Python-matplotlib-散点图</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../py/plt/bar/">Python-matplotlib-柱状图</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../py/plt/pie/">Python-matplotlib-饼图</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../py/f_string/">Python-f-string</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../py/ctypes/overview/">Python-windows编程-概览</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../py/ctypes/recycle/">Python-windows编程-删除文件至回收站</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../py/setup/">Python-打包并发布代码至 PyPI</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../py/pywasm/overview/">Python-pywasm-美味尝鲜</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../py/pywasm/leb128/">Python-pywasm-LEB128</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../py/pywasm/version_1.0_released/">Python-pywasm-1.0 版本发布</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../py/pywasm/binary/">Python-pywasm-wasm 二进制文件格式解析</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../py/pywasm/jit_brief_principle_1/">Python-pywasm-JIT 原理简述(一)</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../py/pywasm/jit_brief_principle_2/">Python-pywasm-JIT 原理简述(二)</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../py/pywasm/jit_brief_principle_3/">Python-pywasm-JIT 原理简述(三)</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../go/read_file/">Go-按行读取文件</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../go/socket/">Go-socket</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../go/socket_not_accept/">Go-socket-假如服务端不调用 Accept</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../go/tls/">Go-tls</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../go/socks5/">Go-socks-version-5</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../go/cross_compiling/">Go-交叉编译</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../go/end_of_time/">Go-时间尽头</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../go/token_bucket/">Go-流量限制</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../go/fswatch/">Go-目录监听</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../go/cgo/">Go-Cgo</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../ahk/overview/">AHK-概览</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../ahk/clicker/">AHK-实现鼠标连点器</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../ahk/color/">AHK-实现屏幕取色器</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../ahk/longpress/">AHK-长按</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../ahk/loopread/">AHK-按行读取文件</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../rust/overview/">Rust-概览</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../rust/env/">Rust-开发环境搭建</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../rust/variables_and_mutability/">Rust-变量与可变性</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../rust/data_type/">Rust-数据类型</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../rust/io/">Rust-文件读取</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../rust/http/">Rust-HTTP</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../rust/concurrent/">Rust-并发</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../rust/tcp/">Rust-TCP</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../rust/json/">Rust-JSON</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">区块链</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../blockchain/evm/">EVM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../blockchain/merkle_tree/">Merkle Tree</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">竹书纪年</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../diary/2019/">Y2019</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../diary/2020/">Y2020</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">演讲</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../speech/minits/">minits, 以 LLVM 为后端的 TypeScript 静态编译器</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../speech/wasc_cn/">WASC, WebAssembly 到 RISC-V 的 AOT 编译器(中文)</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../speech/wasc_en/">WASC, WebAssembly 到 RISC-V 的 AOT 编译器(英文)</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../speech/blockchain_privacy_protection/">区块链隐私保护密码技术介绍</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../..">Mohanson</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>数字图像处理 &raquo;</li>
+        
+      
+    
+    <li>数字图像处理-加性高斯白噪声与去噪</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/mohanson/accu/edit/master/docs/content/pil/agwn.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+    
+                <h1 id="_1">加性高斯白噪声</h1>
+<p>加性高斯白噪声(Additive white Gaussian noise，AWGN)在通信领域中指的是一种功率谱函数是常数(即白噪声), 且幅度服从<a href="/content/daze/math/normal_distribution/">高斯分布</a>的噪声信号. 这类噪声通常来自感光元件, 且无法避免.</p>
+<h1 id="_2">加噪</h1>
+<p>numpy 中使用 <code>numpy.random.normal()</code> 函数生成正态分布数据.</p>
+<pre><code class="py">import numpy as np
+import matplotlib.pyplot as plt
+
+# 生成均值为 0, 标准差为 64 的正态分布数据
+data = np.random.normal(0, 64, 1024 * 8)
+
+# 在 plt 中画出直方图
+plt.hist(data, 256, normed=1)
+plt.show()
+</code></pre>
+
+<p>为图像添加高斯白噪声. 注意到添加完噪声的图像, 像素值可能低于 0 或高于 255, 此时应该对转换后的图像做一次对比拉伸.</p>
+<pre><code class="py">import PIL.Image
+import scipy.misc
+import numpy as np
+
+
+def convert_2d(r):
+    # 添加均值为 0, 标准差为 64 的加性高斯白噪声
+    s = r + np.random.normal(0, 64, r.shape)
+    if np.min(s) &gt;= 0 and np.max(s) &lt;= 255:
+        return s
+    # 对比拉伸
+    s = s - np.full(s.shape, np.min(s))
+    s = s * 255 / np.max(s)
+    s = s.astype(np.uint8)
+    return s
+
+
+def convert_3d(r):
+    s_dsplit = []
+    for d in range(r.shape[2]):
+        rr = r[:, :, d]
+        ss = convert_2d(rr)
+        s_dsplit.append(ss)
+    s = np.dstack(s_dsplit)
+    return s
+
+
+im = PIL.Image.open('/img/jp.jpg')
+im = im.convert('RGB')
+im_mat = np.asarray(im)
+im_converted_mat = convert_3d(im_mat)
+im_converted = PIL.Image.fromarray(im_converted_mat)
+im_converted.show()
+</code></pre>
+
+<p><strong>加噪后的图像</strong></p>
+<p><img alt="img" src="/img/pil/agwn/jp_agwn.jpg" /></p>
+<h1 id="_3">去噪</h1>
+<p>考虑一幅将噪声 $\eta(x, y)$ 加入到原始图像 $f(x, y)$ 形成的带有噪声的图像 $g(x, y)$, 即:</p>
+<p>$$
+g(x, y) = f(x, y) + \eta(x, y)
+$$</p>
+<p>这里假设每个坐标点 $(x, y)$ 上的噪声都不相关且均值为 0. 我们处理的目标就是通过人为加入一系列噪声图像 $g_i(x, y)$ 来减少噪声.如果对 K 幅带有不同噪声的图像取平均值, 即</p>
+<p>$$
+\bar g(x, y) = \frac{1}{K}\sum_{i=1}^Kg_i(x, y) = f(x, y) + \frac{1}{K}\sum_{i=1}^K\eta_i(x, y)
+$$</p>
+<p>当 K 足够大时, $\frac{1}{K}\sum_{i=1}^K\eta_i(x, y)$ 趋向于 0, 因此</p>
+<p>$$
+\bar g(x, y) = f(x, y)
+$$</p>
+<p>下面尝试对上述图片取 K=128 进行去噪</p>
+<pre><code class="py">import PIL.Image
+import scipy.misc
+import numpy as np
+
+
+def convert_2d(r):
+    # 添加均值为 0, 标准差为 64 的加性高斯白噪声
+    s = r + np.random.normal(0, 64, r.shape)
+    if np.min(s) &gt;= 0 and np.max(s) &lt;= 255:
+        return s
+    # 对比拉伸
+    s = s - np.full(s.shape, np.min(s))
+    s = s * 255 / np.max(s)
+    s = s.astype(np.uint8)
+    return s
+
+
+def convert_3d(r):
+    s_dsplit = []
+    for d in range(r.shape[2]):
+        rr = r[:, :, d]
+        ss = convert_2d(rr)
+        s_dsplit.append(ss)
+    s = np.dstack(s_dsplit)
+    return s
+
+
+im = PIL.Image.open('/img/jp.jpg')
+im_mat = np.asarray(im)
+
+k = 128
+
+im_converted_mat = np.zeros(im_mat.shape)
+for i in range(k):
+    im_converted_mat += convert_3d(im_mat)
+
+im_converted_mat = im_converted_mat / k
+im_converted_mat = im_converted_mat - np.full(im_converted_mat.shape, np.min(im_converted_mat))
+im_converted_mat = im_converted_mat * 255 / np.max(im_converted_mat)
+im_converted_mat = im_converted_mat.astype(np.uint8)
+
+im_converted = PIL.Image.fromarray(im_converted_mat)
+im_converted.show()
+</code></pre>
+
+<p><strong>去噪后的图像</strong></p>
+<p><img alt="img" src="/img/pil/agwn/jp_denoise.jpg" /></p>
+<p>可以看到去噪后的图像已经十分接近原始图像了. 读者可以自由选取 K=4, K=16 等不同值查看去噪效果.</p>
+              
+    <hr />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- 横向 -->
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-5236818090688638"
+        data-ad-slot="3460446284"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../spatial_filter/" class="btn btn-neutral float-right" title="数字图像处理-空间滤波基础">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../sub/" class="btn btn-neutral" title="数字图像处理-图像减法"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/mohanson/accu/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../sub/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../spatial_filter/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../js/accu.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+
+</body>
+</html>
