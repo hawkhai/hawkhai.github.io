@@ -182,7 +182,9 @@ def createCnFile():
 #createCnFile()
 
 def copyres(ik, fpath, line):
-    if not COPYRES: return line
+    if not COPYRES:
+        assert os.path.exists(ik), fpath
+        return line
     fpath = os.path.split(fpath)[-1]
     if fpath.lower().endswith(".md"):
         fpath = fpath[:-3]
