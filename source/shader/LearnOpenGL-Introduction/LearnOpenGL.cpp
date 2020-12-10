@@ -120,7 +120,7 @@ int main()
 			glm::mat4 projection;
 			// glm::perspective(float fovy, float aspect, float zNear, float zFar);
 			// 第一个参数为视锥上下面之间的夹角，第二个参数为宽高比，即视窗的宽/高，第三第四个参数分别为近截面和远界面的深度
-			projection = glm::perspective(glm::radians(camera.m_fZoom), 800.0f / 600.0f, 0.1f, 100.0f);
+			projection = glm::perspective(glm::radians(camera.m_fFieldOfView), 800.0f / 600.0f, 0.1f, 100.0f);
 			trans = projection * view * model;
 
 			myShader.useShader();
