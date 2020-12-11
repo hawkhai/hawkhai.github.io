@@ -18,6 +18,8 @@ glslcanvas:
 
 {% include image.html url="/assets/images/201211-shader-opengl-model-loa~a7/glmodelgrab.gif" %}
 
+OpenGL 模型加载。解析模型文件，得到一堆三角形数据，把这些三角形绘制出来，就是这个样子了。
+
 本文源码 <a href="{% include gitsrc.html url="/source/shader/LearnOpenGL-Model" %}" target="_blank">LearnOpenGL-Model</a>
 
 
