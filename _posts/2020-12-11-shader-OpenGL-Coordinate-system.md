@@ -32,13 +32,13 @@ $$
 V_{clip} = M_{projection} \cdot M_{view} \cdot M_{model} \cdot V_{local}
 $$
 
-{% include image.html url="/assets/images/201111-shader-opengl-intro/coordinate_systems2.png" %}
+{% include image.html url="/assets/images/201211-shader-opengl-coordinat~fa/coordinate_systems2.png" %}
 
-{% include image.html url="/assets/images/201111-shader-opengl-intro/173184e0cdd334b3.jpg" %}
+{% include image.html url="/assets/images/201211-shader-opengl-coordinat~fa/173184e0cdd334b3.jpg" %}
 
 在上图中，OpenGL 定义了后三个坐标系（裁剪坐标、NDC 坐标、屏幕坐标），前三个坐标（物体坐标、世界坐标、摄像机坐标）是为了用户方便而自定义的坐标。
 
-{% include image.html url="/assets/images/201111-shader-opengl-intro/173184b55b0849f7.jpg" %}
+{% include image.html url="/assets/images/201211-shader-opengl-coordinat~fa/173184b55b0849f7.jpg" %}
 
 $$
 \left[\begin{array}{l}
@@ -92,7 +92,7 @@ float vertices[] = {
 };
 ```
 
-{% include image.html url="/assets/images/201111-shader-opengl-intro/20201210173525.png" %}
+{% include image.html url="/assets/images/201211-shader-opengl-coordinat~fa/20201210173525.png" %}
 
 ```cpp
 glm::mat4 model=glm::mat4(1.0f);
@@ -100,7 +100,7 @@ glm::mat4 model=glm::mat4(1.0f);
 model=glm::rotate(model,glm::radians(55.0f),glm::vec3(1.0f,0.0f,0.0f));
 ```
 
-{% include image.html url="/assets/images/201111-shader-opengl-intro/20201210173853.png" %}
+{% include image.html url="/assets/images/201211-shader-opengl-coordinat~fa/20201210173853.png" %}
 
 ```cpp
 glm::mat4 view = glm::mat4(1.0f);
@@ -109,7 +109,7 @@ glm::mat4 view = glm::mat4(1.0f);
 view=glm::translate(view,glm::vec3(0.0f,0.5f,-1.0f));
 ```
 
-{% include image.html url="/assets/images/201111-shader-opengl-intro/20201210174245.png" %}
+{% include image.html url="/assets/images/201211-shader-opengl-coordinat~fa/20201210174245.png" %}
 
 ```cpp
 glm::mat4 projection = glm::mat4(1.0f);
@@ -118,7 +118,7 @@ glm::mat4 projection = glm::mat4(1.0f);
 projection=glm::perspective(glm::radians(90.0f),800.0f/600.0f,0.1f,10.0f);
 ```
 
-{% include image.html url="/assets/images/201111-shader-opengl-intro/20201210174453.png" %}
+{% include image.html url="/assets/images/201211-shader-opengl-coordinat~fa/20201210174453.png" %}
 
 -----
 
