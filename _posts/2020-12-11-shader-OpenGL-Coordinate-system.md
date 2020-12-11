@@ -14,6 +14,8 @@ mermaid:
 glslcanvas:
 ---
 
+> OpenGL 坐标系统。开创者没用整数，就用 -1 到 1 的浮点数，装下了整个数学，也装下了整个 UNIVERSE，可以无穷大，也可以无穷小。
+
 - <https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/08%20Coordinate%20Systems/>
 - <https://www.mdeditor.tw/pl/pZYE>
 - <https://mp.weixin.qq.com/s/0HZgyZra90LQLFAq6dQJ9A>
