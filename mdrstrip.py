@@ -2,53 +2,12 @@
 import re, os, sys
 sys.path.append("../")
 from pythonx.funclib import *
+from pythonx.coderstrip import *
 
 OPENFILE = "openfile" in sys.argv
 AUTOFORMAT = "format" in sys.argv
 REBUILD = "rebuild" in sys.argv
 COPYRES = "copyres" in sys.argv
-
-# 在西歐、北歐及東歐國家常用的字母，帶變音符，和一般英文字母不同。
-DIACRITIC = """
-À Á Â Ã Ä Å Æ Ā Ă Ą
-Ç Ć Ĉ Ċ
-Ð Ď Đ
-È É Ê Ë Ē Ė Ę Ě Ə
-Ĝ Ġ Ģ
-Ĥ Ħ
-Ì Í Î Ï Ī Į Ĳ
-Ĵ
-Ķ
-Ļ Ł
-Ñ Ń Ņ Ň
-Ò Ó Ô Õ Ö Ø Ő Œ
-Ŕ Ř
-ẞ Ś Ŝ Ş Š Ș Þ
-Ţ Ť Ț
-Ù Ú Û Ü Ū Ŭ Ů Ű Ų
-Ŵ
-Ý Ŷ
-Ÿ Ź Ż Ž
-à á â ã ä å æ ā ă ą
-ç ć ĉ ċ
-ð ď đ
-è é ê ë ē ė ę ě ə
-ĝ ġ ģ
-ĥ ħ
-ì í î ï ī į ĳ
-ĵ
-ķ
-ļ ł
-ñ ń ņ ň
-ò ó ô õ ö ø ő œ
-ŕ ř
-ß ś ŝ ş š ș þ
-ţ ť ț
-ù ú û ü ū ŭ ů ű ų
-ŵ
-ý ŷ
-ÿ ź ż ž"""
-DIACRITIC = "[{}]".format("".join(DIACRITIC.split()))
 
 linktagli = (("{% include relref_bili.html %}]",     "bilibili]",    "bilibili"),
              ("{% include relref_zhihu.html %}]",    "zhihu]",       "zhihu"),)
@@ -67,24 +26,6 @@ mathjax
 glslcanvas
 permalink
 toc""".split()
-
-def getLeftSpaceCount(line):
-    line = line[:]
-    assert not line.startswith("\t"), line
-    count = 0
-    while line and line[0] == " ":
-        line = line[1:]
-        count += 1
-    return count
-
-def calcType(ttype, url):
-    url = url.split("?")[0].split("#")[0]
-    url = url.split("/")[-1].strip()
-    if not url: return ttype
-    secli = url.split(".")
-    if len(secli) <= 1: return ttype
-    if not secli[-1]: return ttype
-    return "."+secli[-1].lower()
 
 g_snapcache = {}
 g_untouched = {}
@@ -164,22 +105,6 @@ def backupUrlContent(fpath, url):
     remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5[:8] + ttype)
     touchSnapCache(umd5[:8], slocal)
     return remote
-
-def createCnFile():
-    page = b""
-    ordch = 0x4e00
-    count = 0
-    while ordch <= 0x9fa5:
-        ch = chr(ordch)
-        ordch += 1
-        page += ch.encode("utf8")
-        count += 1
-        if count % 50 == 0:
-            page += b"\r\n"
-    tempfile = tempfile = os.path.join("tempdir", "tempfile.txt")
-    writefile(tempfile, page)
-    openTextFile(tempfile)
-#createCnFile()
 
 g_orgremove = set()
 def organizeClear():
@@ -441,7 +366,7 @@ def mainfile(fpath, fname, ftype):
         for ch in line:
             ordch = ord(ch)
             regch = "\\u%04x"%(ordch)
-            if ordch <= 0x7F or re.findall(DIACRITIC, ch):
+            if ordch <= 0x7F or isDiacritic(ch):
                 g_enchar.append(ch)
                 continue
             if ordch >= 0x4e00 and ordch <= 0x9fa5:
@@ -590,7 +515,7 @@ def viewchar(lichar, xfile, xmin, xmax):
         page += tchar
         if (index + 1) % 50 == 0:
             page += "\r\n"
-        if re.findall(DIACRITIC, tchar):
+        if isDiacritic(tchar):
             continue
         minv = min(minv, ord(tchar))
         maxv = max(maxv, ord(tchar))
@@ -603,19 +528,6 @@ def viewchar(lichar, xfile, xmin, xmax):
     print([("%04x"%ord(k), k) for k in li[:5]]),
     print([("%04x"%ord(k), k) for k in li[-5:]])
     assert xmin <= minv and maxv <= xmax
-
-def checklog(fpath1, fpath2):
-    localfile = os.path.join("tempdir", getFileMd5(fpath1), getFileMd5(fpath2))
-    return os.path.exists(localfile)
-
-def savelog(fpath1, fpath2):
-    localfile = os.path.join("tempdir", getFileMd5(fpath1), getFileMd5(fpath2))
-    copyfile(fpath2, localfile)
-
-def removelog(fpath1, fpath2):
-    localfile = os.path.join("tempdir", getFileMd5(fpath1), getFileMd5(fpath2))
-    if os.path.exists(localfile):
-        os.remove(localfile)
 
 def mainfilew(fpath, fname, ftype):
     if checklog(__file__, fpath) and not REBUILD:
