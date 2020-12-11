@@ -103,16 +103,13 @@ void Draw(Shader& shader)
 ```
 
 
-## 文档
-
-- [1] [LearnOpenGL 模型加载](https://learnopengl-cn.github.io/03%20Model%20Loading/01%20Assimp/)
-
-
 ## 最终效果
 
 {% include image.html url="/assets/images/201211-shader-opengl-model-loa~a7/model_diffuse.png" %}
 
 {% include image.html url="/assets/images/201211-shader-opengl-model-loa~a7/model_lighting.png" %}
+
+[LearnOpenGL 模型加载](https://learnopengl-cn.github.io/03%20Model%20Loading/01%20Assimp/)
 
 -----
 
