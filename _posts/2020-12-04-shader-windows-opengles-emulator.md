@@ -75,7 +75,7 @@ PowerVR | PowerVR SDK [PowerVR SDK](https://community.imgtec.com/developers/powe
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://www.khronos.org/registry/OpenGL/index_es.php]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.khronos.org/bb75bed1.php" %})
 - [2] [https://developer.arm.com/tools-and-software/graphics-and-gaming/opengl-es-emulator/downloads]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/developer.arm.com/37ace0b1.html" %})

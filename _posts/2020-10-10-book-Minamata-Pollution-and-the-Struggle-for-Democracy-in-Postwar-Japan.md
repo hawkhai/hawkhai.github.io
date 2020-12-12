@@ -73,6 +73,6 @@ glslcanvas:
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://zhuanlan.zhihu.com/p/19662214]({% include relref.html url="/backup/2020-10-10-book-Minamata-Pollution-and-the-Struggle-for-Democracy-in-Postwar-Japan.md/zhuanlan.zhihu.com/5fc7e9d4.html" %})

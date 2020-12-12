@@ -22,7 +22,26 @@ layout: default
 
     {{ content }}
 
-    ---<br/>
+{% if page.cluster %}
+<div class="block_section">
+    <font class="blog_cluster">{{ page.cluster }} 系列文章</font>
+    <div><ul>
+    {% for post in site.posts %}
+        {% if post.cluster == page.cluster %}
+        {% if post.visibility != "hidden" %}
+            <li>
+            {% if post.title != page.title %}<a href="{{ post.url | prepend: site.baseurl }}">{% endif %}
+            {{ post.title }} | {{ post.date | date_to_string }}
+            {% if post.title != page.title %}</a>{% endif %}
+            </li>
+        {% endif %}{% endif %}
+    {% endfor %}
+    </ul></div>
+</div>
+{% endif %}
+
+    <hr/>
+<div class="block_section">
 <!-- https://shopify.dev/docs/themes/liquid/reference/filters/string-filters -->
 <!-- https://github.com/jekyll/jekyll/issues/2491 -->
 本文短链接：<a id="short_urlx" target="_blank" href="#"></a><br/>
@@ -34,15 +53,16 @@ var shortSeed = "{{ page.url | replace:'index.html','' }}";
 {% if site.email_address %}
     If you have any questions or feedback, please reach out <code>{{ site.email_address }}</code>.
 {% endif %}
-
-    <hr>
+</div>
+    <hr/>
     <div style="text-align:center"><br/>
-        自由转载-非商用-非衍生-保持署名（创意共享 3.0 许可证）
+        自由转载-非商用-非衍生-保持署名<br/>（创意共享 3.0 许可证）
     </div>
+</div>
 </div>
 
 {% if page.comments %}
-<hr>
+<hr/>
 <div id="gitalk-container"></div>
 <script>
 var gitalk = new Gitalk({

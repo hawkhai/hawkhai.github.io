@@ -160,7 +160,7 @@ glslcanvas:
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://www.bilibili.com/video/BV1Ps411V7mS]({% include relref.html url="/backup/2020-09-12-math-formula.md/www.bilibili.com/6a5d90f1.html" %})
 - [2] [https://blog.csdn.net/KooShua/article/details/95621867]({% include relref.html url="/backup/2020-09-12-math-formula.md/blog.csdn.net/b912a88d.html" %})

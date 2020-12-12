@@ -420,6 +420,6 @@ from <https://www.codeproject.com/Articles/14412/Enumerating-windows-device>
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://www.codeproject.com/Articles/14412/Enumerating-windows-device]({% include relref.html url="/backup/2020-08-23-enum-win-device.md/www.codeproject.com/3f5de73a.html" %})

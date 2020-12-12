@@ -125,7 +125,7 @@ pix2pix 来自卡内基梅隆大学的 Aayush Bansal 、Yaser Sheikh、Deva Rama
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [http://www.scale2x.it/]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/www.scale2x.it/11a3eccf.html" %})
 - [2] [https://code.google.com/archive/p/hqx/]({% include relref.html url="/backup/2020-10-31-dip-graphic-algorithms.md/code.google.com/147ac2dc.html" %})

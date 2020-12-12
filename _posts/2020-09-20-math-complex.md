@@ -530,7 +530,7 @@ $$
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://www.matongxue.com/madocs/2066/]({% include relref.html url="/backup/2020-09-20-math-complex.md/www.matongxue.com/1c00fe52.html" %})
 - [2] [https://betterexplained.com/articles/a-visual-intuitive-guide-to-imaginary-numbers/]({% include relref.html url="/backup/2020-09-20-math-complex.md/betterexplained.com/860b9b4f.html" %})

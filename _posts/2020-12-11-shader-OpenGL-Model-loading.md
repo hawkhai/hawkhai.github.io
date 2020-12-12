@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+cluster: "LearnOpenGL"
 ---
 
 不同 3D 引擎实现千差万别，但模型都是由非常多的三角形拼接组成。解析模型数据，然后得到所有三角形并完成绘制。
@@ -113,6 +114,6 @@ void Draw(Shader& shader)
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://learnopengl-cn.github.io/03%20Model%20Loading/01%20Assimp/]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Model-loading.md/learnopengl-cn.github.io/a7063ebf.html" %})

@@ -275,7 +275,7 @@ plt.show()
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://scikit-image.org/docs/0.9.x/api/skimage.exposure.html]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/scikit-image.org/aefbde8f.html" %})
 - [2] [https://www.jianshu.com/p/f2e88197e81d]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/www.jianshu.com/1eca0ab9.html" %})

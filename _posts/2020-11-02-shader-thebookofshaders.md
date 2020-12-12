@@ -387,7 +387,7 @@ Step-by-step guide through the abstract and complex universe of Fragment Shaders
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://thebookofshaders.com/edit.php]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/thebookofshaders.com/3f2fc15d.php" %})
 - [2] [https://developer.mozilla.org/zh-CN/docs/Tools/Shader_Editor]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/developer.mozilla.org/971a6524.html" %})

@@ -213,7 +213,7 @@ glslcanvas:
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://www.jb51.net/article/133880.htm]({% include relref.html url="/backup/2020-09-27-dip-samples.md/www.jb51.net/e089c4c3.htm" %})
 - [2] [https://github.com/HanpuLiang/Simple-Handwritten-Numerel-Recogntion]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/de4a224d.html" %})

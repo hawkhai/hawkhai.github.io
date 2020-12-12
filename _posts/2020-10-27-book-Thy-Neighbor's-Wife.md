@@ -61,6 +61,6 @@ glslcanvas:
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://kaix.in/0001/neighbors-wife/]({% include relref.html url="/backup/2020-10-27-book-Thy-Neighbor's-Wife.md/kaix.in/6cd42b8c.html" %})

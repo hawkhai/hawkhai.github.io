@@ -114,7 +114,7 @@ JPEG 图像压缩算法流程详解 <https://www.cnblogs.com/buaaxhzh/p/9138307.
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://blog.csdn.net/chenaiyanmie/article/details/80246108]({% include relref.html url="/backup/2020-09-27-dip-color-image.md/blog.csdn.net/8f1617a3.html" %})
 - [2] [https://www.originlab.com/doc/Origin-Help/Continuous-WaveTrans]({% include relref.html url="/backup/2020-09-27-dip-color-image.md/www.originlab.com/1c8787ea.html" %})

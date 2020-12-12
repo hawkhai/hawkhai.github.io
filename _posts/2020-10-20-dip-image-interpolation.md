@@ -199,7 +199,7 @@ if __name__ == "__main__":
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://www.oreilly.com/library/view/python-data-science/9781491912126/ch04.html]({% include relref.html url="/backup/2020-10-20-dip-image-interpolation.md/www.oreilly.com/136b1475.html" %})
 - [2] [https://matplotlib.org/mpl_toolkits/mplot3d/tutorial.html]({% include relref.html url="/backup/2020-10-20-dip-image-interpolation.md/matplotlib.org/2d0be7a2.html" %})

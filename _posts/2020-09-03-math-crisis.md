@@ -58,6 +58,6 @@ The unreasonable effectiveness of mathematics in the natural sciences
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E5%8D%B1%E6%9C%BA]({% include relref.html url="/backup/2020-09-03-math-crisis.md/zh.wikipedia.org/be0d016d.html" %})

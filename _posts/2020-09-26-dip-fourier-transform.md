@@ -229,7 +229,7 @@ if __name__ == "__main__":
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://zhuanlan.zhihu.com/p/19763358]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/zhuanlan.zhihu.com/41b0fdae.html" %})
 - [2] [https://www.bilibili.com/video/BV1Et411R78v]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/www.bilibili.com/19ee7320.html" %})

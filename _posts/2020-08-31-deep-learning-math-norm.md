@@ -235,7 +235,7 @@ $$
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [http://zh.gluon.ai/]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/zh.gluon.ai/b73bb84d.html" %})
 - [2] [https://ww2.mathworks.cn/help/matlab/ref/norm.html]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/ww2.mathworks.cn/a7e5323f.html" %})

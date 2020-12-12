@@ -78,6 +78,6 @@ $$
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://www.bilibili.com/video/BV1ys411472E]({% include relref.html url="/backup/2020-10-06-math-linear-algebra.md/www.bilibili.com/c113c40a.html" %})

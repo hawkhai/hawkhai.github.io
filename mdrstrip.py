@@ -71,6 +71,9 @@ def backupUrlContent(fpath, url):
                  "https://ml00cz5fm4.feishu.cn/",
                  "https://gitlab.liebaopay.com/",
                  "http://tcbuglist.rdev.kingsoft.net/",
+                 "https://blog.hawkhai.com/",
+                 "https://sunocean.life/",
+                 "https://github.com/hawkhai/hawkhai.github.io/",
                 ):
         if url.startswith(host):
             return
@@ -228,7 +231,7 @@ g_cschar = []
 g_enchar = []
 g_tpset = set()
 g_mdkeyset = set()
-SNAPSHOT_HTML = "<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>"
+SNAPSHOT_HTML = "<font class='ref_snapshot'>参考资料快照</font>"
 def removeRefs(fpath, lines):
     lineCount = len(lines)
     headIndex = -1

@@ -533,7 +533,7 @@ url2="/assets/images/200910-win-mklink/jlink.png" %}
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://www.ibm.com/developerworks/cn/linux/l-cn-hardandsymb-links/]({% include relref.html url="/backup/2020-09-10-win-mklink.md/www.ibm.com/f4d9cec1.html" %})
 - [2] [http://www.maxi-pedia.com/mklink]({% include relref.html url="/backup/2020-09-10-win-mklink.md/www.maxi-pedia.com/6454a12e.html" %})

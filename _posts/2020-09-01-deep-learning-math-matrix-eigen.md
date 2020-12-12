@@ -74,7 +74,7 @@ $$|\lambda|=\min _{1 \leq i \leq n}\left|\lambda_{i}\right|$$
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [http://zh.gluon.ai/]({% include relref.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/zh.gluon.ai/b73bb84d.html" %})
 - [2] [https://blog.csdn.net/tianya_team/article/details/53310617]({% include relref.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/blog.csdn.net/ab76a7bc.html" %})

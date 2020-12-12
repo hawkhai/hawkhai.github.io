@@ -516,7 +516,7 @@ Gabor 滤波器是一种结合了高斯分布和频率变换的滤波器，用�
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://github.com/gzr2017/ImageProcessing100Wen]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/github.com/78536fa0.html" %})
 - [2] [https://github.com/yoyoyo-yo/Gasyori100knock]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/github.com/d9ce062c.html" %})

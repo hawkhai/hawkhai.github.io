@@ -74,7 +74,7 @@ mathjax mermaid glslcanvas
 permalink
 """.split())
     igkeylist = """
-l2dwidget
+l2dwidget cluster
 """.split()
 
     kvmap = {}

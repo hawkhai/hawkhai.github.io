@@ -84,7 +84,7 @@ Cg 由 NVIDIA 公司和微软公司相互协作在标准硬件光照语言的语
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://www.cnblogs.com/gispathfinder/p/6985769.html]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/www.cnblogs.com/7f811159.html" %})
 - [2] [https://developer.mozilla.org/zh-CN/docs/Games/Techniques/3D_on_the_web/GLSL_Shaders]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/developer.mozilla.org/06f81e32.html" %})

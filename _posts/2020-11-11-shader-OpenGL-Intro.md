@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+cluster: "LearnOpenGL"
 ---
 
 以前随便找点代码，改吧改吧就能跑，今天算是入门学习了一下。
@@ -254,7 +255,7 @@ void setVertexEnv() {
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://github.com/hawkhai/LearnOpenGL.git]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/github.com/1371fb1d.git" %})
 - [2] [https://gitee.com/hawkhai/opengl-3rd.git]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/gitee.com/3cdcc6e8.git" %})

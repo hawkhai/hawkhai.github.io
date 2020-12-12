@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+cluster: "LearnOpenGL"
 ---
 
 <https://ke.qq.com/course/package/25480?flowToken=1019441>
@@ -318,7 +319,7 @@ vec3 CalcSpotLight(SpotLight light)
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://ke.qq.com/course/package/25480?flowToken=1019441]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/ke.qq.com/3fd1c97a.html" %})
 - [2] [https://blog.csdn.net/zhaoyin214/article/details/81625964]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/blog.csdn.net/f8bddaa8.html" %})

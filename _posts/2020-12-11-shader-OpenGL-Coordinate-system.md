@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+cluster: "LearnOpenGL"
 ---
 
 > OpenGL 坐标系统。开创者没用整数，就用 -1 到 1 的浮点数，装下了整个数学，也装下了整个 UNIVERSE，可以无穷大，也可以无穷小。
@@ -122,7 +123,7 @@ projection=glm::perspective(glm::radians(90.0f),800.0f/600.0f,0.1f,10.0f);
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/08%20Coordinate%20Systems/]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/learnopengl-cn.readthedocs.io/cfc9cf0a.html" %})
 - [2] [https://www.mdeditor.tw/pl/pZYE]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.mdeditor.tw/c5442ada.html" %})

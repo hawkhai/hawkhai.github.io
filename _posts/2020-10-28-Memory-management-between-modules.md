@@ -281,7 +281,7 @@ typedef struct _FILENAME_ATTRIBUTE { // 文件名属性的值区域
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://blog.csdn.net/xushiweizh/article/details/1396573]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/blog.csdn.net/0d276c4f.html" %})
 - [2] [https://www.zhihu.com/question/33058061]({% include relref.html url="/backup/2020-10-28-Memory-management-between-modules.md/www.zhihu.com/48645e8c.html" %})

@@ -89,7 +89,7 @@ glslcanvas:
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://www.zhihu.com/question/27853904]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.zhihu.com/3e5b12f7.html" %})
 - [2] [https://www.matongxue.com/madocs/2094/]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matongxue.com/5a678a0e.html" %})

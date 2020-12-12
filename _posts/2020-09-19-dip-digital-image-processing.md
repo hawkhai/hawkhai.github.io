@@ -636,7 +636,7 @@ void c_abs(complex f[], float out[], int n); // 复数数组取模
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://zhuanlan.zhihu.com/p/80852438]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/zhuanlan.zhihu.com/3fba183f.html" %})
 - [2] [https://wenku.baidu.com/view/1bdcc12227c52cc58bd63186bceb19e8b8f6ecbc.html]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/wenku.baidu.com/e208f9b2.html" %})

@@ -170,7 +170,7 @@ $$
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://www.zybuluo.com/yangfch3/note/267947]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.zybuluo.com/b3ceed04.html" %})
 - [2] [https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/math.meta.stackexchange.com/77111110.html" %})
@@ -181,13 +181,11 @@ $$
 - [7] [https://blog.csdn.net/qq_36148847/article/details/79419814]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/blog.csdn.net/b40f77e7.html" %})
 - [8] [https://www.szdev.com/blog/Hexo/mathjax-config-and-tutorial/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.szdev.com/c7cf6953.html" %})
 - [9] [https://www.rug.nl/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.rug.nl/739d4824.html" %})
-- [10] [https://sunocean.life/blog/assets/gitee.png]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/sunocean.life/5cdc5d95.png" %})
-- [11] [https://sunocean.life/blog/assets/opengl.png]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/sunocean.life/332f0f5f.png" %})
-- [12] [https://kerzol.github.io/markdown-mathjax/editor.html]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/kerzol.github.io/554e5cc8.html" %})
-- [13] [https://latex.codecogs.com/eqneditor/editor.php]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/latex.codecogs.com/eb52cd36.php" %})
-- [14] [http://www.mdeditor.com/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.mdeditor.com/1e2faf1f.html" %})
-- [15] [https://www.zybuluo.com/mdeditor]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.zybuluo.com/eb3376cc.html" %})
-- [16] [https://gongshi.wang/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/gongshi.wang/d6fb7cac.html" %})
-- [17] [https://mathpix.com/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/mathpix.com/6a3d6789.html" %})
-- [18] [http://domchristie.github.io/turndown/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/domchristie.github.io/9cfffeb1.html" %})
-- [19] [http://www.fly63.com/tool/htmarkdown/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.fly63.com/488480ab.html" %})
+- [10] [https://kerzol.github.io/markdown-mathjax/editor.html]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/kerzol.github.io/554e5cc8.html" %})
+- [11] [https://latex.codecogs.com/eqneditor/editor.php]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/latex.codecogs.com/eb52cd36.php" %})
+- [12] [http://www.mdeditor.com/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.mdeditor.com/1e2faf1f.html" %})
+- [13] [https://www.zybuluo.com/mdeditor]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.zybuluo.com/eb3376cc.html" %})
+- [14] [https://gongshi.wang/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/gongshi.wang/d6fb7cac.html" %})
+- [15] [https://mathpix.com/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/mathpix.com/6a3d6789.html" %})
+- [16] [http://domchristie.github.io/turndown/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/domchristie.github.io/9cfffeb1.html" %})
+- [17] [http://www.fly63.com/tool/htmarkdown/]({% include relref.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.fly63.com/488480ab.html" %})

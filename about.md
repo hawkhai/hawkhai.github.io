@@ -112,7 +112,7 @@ As the saying goes: Bad notes is better than good memories.
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://twitter.com/]({% include relref.html url="/backup/about.md/twitter.com/4fd9c9a2.html" %})
 - [2] [https://github.com/]({% include relref.html url="/backup/about.md/github.com/008ec445.html" %})

@@ -444,7 +444,7 @@ Qt 简化了我们对内存的管理，但是，由于它会在不太注意的�
 
 -----
 
-<font class='ref_snapshot'>Reference snapshot, script generated automatically.</font>
+<font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [http://doc.qt.nokia.com/4.7/qobject.html]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/doc.qt.nokia.com/18e16541.html" %})
 - [2] [http://www.cuteqt.com/blog/?p=824]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/www.cuteqt.com/b627226e.html" %})
