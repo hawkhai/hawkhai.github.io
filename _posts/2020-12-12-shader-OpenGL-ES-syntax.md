@@ -108,6 +108,21 @@ r[1].z = m[0].z * n[1].x + m[1].z * n[1].y + m[2].z * n[1].z;
 r[2].z = m[0].z * n[2].x + m[1].z * n[2].y + m[2].z * n[2].z;
 ```
 
+```glsl
+// 创建一个 2x2 的矩阵
+mat2 two = mat2(0.1, 0.2, // 第一列
+                0.3, 0.4); // 第二列
+// 0.1	0.3
+// 0.2	0.4
+// 创建一个 3x3 的矩阵
+mat3 three = mat3(0.1, 0.2, 0.3, // 第一列
+                  0.4, 0.5, 0.6, // 第二列
+                  0.7, 0.8, 0.9); // 第三列
+// 0.1	0.4	0.7
+// 0.2	0.5	0.8
+// 0.3	0.6	0.9
+```
+
 
 ### 结构体
 
@@ -699,6 +714,7 @@ void main (void) {
 - [OpenGL-ES-2_0-Reference-card.pdf](https://www.khronos.org/opengles/sdk/docs/reference_cards/OpenGL-ES-2_0-Reference-card.pdf)
 - [OpenGL® ES Common Profile Specification Version 2.0.25 (Full Specification)](https://www.khronos.org/registry/OpenGL/specs/es/2.0/es_full_spec_2.0.pdf)
 - [The OpenGL® ES Shading Language](https://www.khronos.org/registry/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf)
+- [The OpenGL® Shading Language](https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.1.20.pdf)
 - [OpenGL ES 开篇](http://colin1994.github.io/2017/04/01/OpenGLES-Lesson00/)
 - [OpenGL ES 基础概念](http://colin1994.github.io/2017/04/01/OpenGLES-Lesson01/)
 - [OpenGL ES 渲染基本图元](http://colin1994.github.io/2017/04/18/OpenGLES-Lesson03/)
@@ -706,19 +722,22 @@ void main (void) {
 - [GLSL 详解（高级篇）](http://colin1994.github.io/2017/11/12/OpenGLES-Lesson05/)
 - [OpenGL ES 2.0 着色器语言 GLSL（一）](https://aillieo.cn/post/2017-01-15-opengl-es-glsl-01/)
 - [OpenGL ES 2.0 着色器语言 GLSL（二）](https://aillieo.cn/post/2017-01-15-opengl-es-glsl-02/)
+- [GLSL 语法入门](https://www.cnblogs.com/kefeiGame/p/10972139.html)
 
 -----
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://github.com/wshxbqq/GLSL-Card]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-syntax.md/github.com/eb0ca84c.html" %})
-- [2] [https://www.khronos.org/opengles/sdk/docs/reference_cards/OpenGL-ES-2_0-Reference-card.pdf]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-syntax.md/www.khronos.org/98468c82.pdf" %})
-- [3] [https://www.khronos.org/registry/OpenGL/specs/es/2.0/es_full_spec_2.0.pdf]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-syntax.md/www.khronos.org/3de8e2e8.pdf" %})
-- [4] [https://www.khronos.org/registry/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-syntax.md/www.khronos.org/c9f59425.pdf" %})
-- [5] [http://colin1994.github.io/2017/04/01/OpenGLES-Lesson00/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-syntax.md/colin1994.github.io/8dca1d49.html" %})
-- [6] [http://colin1994.github.io/2017/04/01/OpenGLES-Lesson01/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-syntax.md/colin1994.github.io/9d400944.html" %})
-- [7] [http://colin1994.github.io/2017/04/18/OpenGLES-Lesson03/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-syntax.md/colin1994.github.io/ccc07110.html" %})
-- [8] [http://colin1994.github.io/2017/11/11/OpenGLES-Lesson04/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-syntax.md/colin1994.github.io/38603e34.html" %})
-- [9] [http://colin1994.github.io/2017/11/12/OpenGLES-Lesson05/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-syntax.md/colin1994.github.io/83ea5c3d.html" %})
-- [10] [https://aillieo.cn/post/2017-01-15-opengl-es-glsl-01/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-syntax.md/aillieo.cn/b0590368.html" %})
-- [11] [https://aillieo.cn/post/2017-01-15-opengl-es-glsl-02/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-syntax.md/aillieo.cn/86b76eca.html" %})
+- [1] [https://github.com/wshxbqq/GLSL-Card]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/github.com/eb0ca84c.html" %})
+- [2] [https://www.khronos.org/opengles/sdk/docs/reference_cards/OpenGL-ES-2_0-Reference-card.pdf]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/www.khronos.org/98468c82.pdf" %})
+- [3] [https://www.khronos.org/registry/OpenGL/specs/es/2.0/es_full_spec_2.0.pdf]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/www.khronos.org/3de8e2e8.pdf" %})
+- [4] [https://www.khronos.org/registry/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/www.khronos.org/c9f59425.pdf" %})
+- [5] [https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.1.20.pdf]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/www.khronos.org/50b1dcae.pdf" %})
+- [6] [http://colin1994.github.io/2017/04/01/OpenGLES-Lesson00/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/colin1994.github.io/8dca1d49.html" %})
+- [7] [http://colin1994.github.io/2017/04/01/OpenGLES-Lesson01/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/colin1994.github.io/9d400944.html" %})
+- [8] [http://colin1994.github.io/2017/04/18/OpenGLES-Lesson03/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/colin1994.github.io/ccc07110.html" %})
+- [9] [http://colin1994.github.io/2017/11/11/OpenGLES-Lesson04/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/colin1994.github.io/38603e34.html" %})
+- [10] [http://colin1994.github.io/2017/11/12/OpenGLES-Lesson05/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/colin1994.github.io/83ea5c3d.html" %})
+- [11] [https://aillieo.cn/post/2017-01-15-opengl-es-glsl-01/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/aillieo.cn/b0590368.html" %})
+- [12] [https://aillieo.cn/post/2017-01-15-opengl-es-glsl-02/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/aillieo.cn/86b76eca.html" %})
+- [13] [https://www.cnblogs.com/kefeiGame/p/10972139.html]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/www.cnblogs.com/6116a7a5.html" %})
