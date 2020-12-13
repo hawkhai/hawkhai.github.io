@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="GLSL 详解（高级篇）"/>
+
+
+
+
+  <meta name="keywords" content="iOS开发,OpenGLES,图像处理," />
+
+
+
+
+  <link rel="alternate" href="/rss2.xml" title="Colin's Nest">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
+
+
+
+<link rel="canonical" href="http://http://colin1994.github.io/2017/11/12/OpenGLES-Lesson05/"/>
+
+
+<meta name="description" content="PS：无特殊说明，文中的 GLSL 均指 OpenGL ES 2.0 的着色语言。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GLSL 详解（高级篇）">
+<meta property="og:url" content="http://http://colin1994.github.io/2017/11/12/OpenGLES-Lesson05/index.html">
+<meta property="og:site_name" content="Colin's Nest">
+<meta property="og:description" content="PS：无特殊说明，文中的 GLSL 均指 OpenGL ES 2.0 的着色语言。">
+<meta property="og:updated_time" content="2019-12-23T01:02:31.289Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GLSL 详解（高级篇）">
+<meta name="twitter:description" content="PS：无特殊说明，文中的 GLSL 均指 OpenGL ES 2.0 的着色语言。">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+
+
+
+
+
+<script>
+  var CONFIG = {
+    search: true,
+    searchPath: "/search.xml",
+    fancybox: true,
+    toc: true,
+  }
+</script>
+
+
+
+
+  
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131205955-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-131205955-1');
+</script>
+
+
+
+
+<script data-ad-client="ca-pub-9798409996369414" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+</script>
+
+<amp-auto-ads type="adsense"
+        data-ad-client="ca-pub-9798409996369414">
+</amp-auto-ads>
+
+    <title> GLSL 详解（高级篇） · Colin's Nest </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">Colin's Nest</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            Tags
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            About
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">Colin's Nest</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              标签
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+      
+        <li class="menu-search">
+          <form>
+            <i class="iconfont icon-search" id="open-search"></i>
+            <input type="text" class="search-input" id="search-input" />
+            <i class="iconfont icon-close" id="close-search"></i>
+          </form>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          GLSL 详解（高级篇）
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          Nov 12, 2017
+        </span>
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-_预处理"><span class="toc-text">7. 预处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-_内置变量"><span class="toc-text">8. 内置变量</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#顶点着色器内置变量"><span class="toc-text">顶点着色器内置变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#片段着色器内置变量"><span class="toc-text">片段着色器内置变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uniform_状态变量"><span class="toc-text">uniform 状态变量</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-_内置常量"><span class="toc-text">9. 内置常量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-_内置函数"><span class="toc-text">10. 内置函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#角度和三角函数"><span class="toc-text">角度和三角函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#指数函数"><span class="toc-text">指数函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#通用函数"><span class="toc-text">通用函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#几何函数"><span class="toc-text">几何函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#矩阵函数"><span class="toc-text">矩阵函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#矢量关系函数"><span class="toc-text">矢量关系函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#纹理查找函数"><span class="toc-text">纹理查找函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-_自测"><span class="toc-text">11. 自测</span></a></li></ol>
+    </div>
+  </div>
+
+
+    <div class="post-content">
+      
+        <blockquote>
+<p>PS：<br>无特殊说明，文中的 GLSL 均指 OpenGL ES 2.0 的着色语言。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="7-_预处理">7. 预处理</h3><p>GLSL 中预处理指令的使用也跟 C 语言的预处理指令相似。以下代码是宏及宏的条件判断：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>注意与 C 语言中不同，<strong>宏不能带参数定义</strong>。使用 <code>#if</code>，<code>#else</code> 和 <code>#elif</code> 可以用来判断宏是否被定义过。以下是一些预先定义好的宏及它们的描述：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__LINE__ 	<span class="comment">// 当前源码中的行号.</span></span><br><span class="line">__FILE__ 	<span class="comment">// OpenGL ES 2.0 中始终为 0.</span></span><br><span class="line">__VERSION__ <span class="comment">// 一个整数,指示当前的 glsl版本. 比如 100 ps: 100 = v1.00</span></span><br><span class="line">GL_ES 		<span class="comment">// 如果当前是在 OPGL ES 环境中运行则 GL_ES 被设置成1,一般用来检查当前环境是不是 OPENGL ES.</span></span><br></pre></td></tr></table></figure>
+<p>在着色器编译过程中，<strong><code>#error</code> 指令会触发编译错误并向日志中写入内容。使用 <code>#pragma</code> 指令可以向编译器明确与实现相关的指令</strong>。还有一种与 C 语言中不同的预处理指令是 <strong><code>#version</code></strong>，<strong>它指定了编译着色器的 GLSL 对应版本</strong>，可以在未来更新的版本中据此判断着色器的语言版本，以使用对应的版本来完成编译。这一标记需要写在代码的最开始位置，对于OpenGL ES 2.0 的着色器应将此值设置为 100。如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#version 100 <span class="comment">// OpenGL ES Shading Language v1.00</span></span></span><br></pre></td></tr></table></figure>
+<p><strong>实例:</strong></p>
+<p><strong>Q：1，如何通过判断系统环境，来选择合适的精度：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> GL_ES</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> GL_FRAGMENT_PRECISION_HIGH</span></span><br><span class="line">precision highp <span class="keyword">float</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">precision mediump <span class="keyword">float</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p><strong>Q：2，如何自定义宏：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NUM 100</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> NUM==100</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>预处理指令中另一个非常重要的是 <code>#extension</code>，<strong>用来控制是否启用某些扩展的功能。</strong>当供应商扩展 GLSL 时，会增加新的语言扩展明细，如 <code>GL_OES_texture_3D</code> 等。着色器必须告知编译器是否允许使用扩展或以怎样的行为方式出现，这就需要使用 <code>#extension</code> 指令来完成，如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Set behavior for an extension</span></span><br><span class="line"><span class="meta">#extension extension_name : behavior</span></span><br><span class="line"><span class="comment">// Set behavior for ALL extensions</span></span><br><span class="line"><span class="meta">#extension all : behavior</span></span><br></pre></td></tr></table></figure>
+<p>第一个参数应为扩展的名称或者 “all”，“all” 表示该行为方式适用于所有的扩展。</p>
+<table>
+<thead>
+<tr>
+<th>扩展的行为方式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>require</td>
+<td>指明扩展是必须的，如果该扩展不被支持，预处理器会抛出错误。如果扩展参数为 “all” 则一定会抛出错误。</td>
+</tr>
+<tr>
+<td>enable</td>
+<td>指明扩展是启用的，如果该扩展不被支持，预处理器会发出警告。代码会按照扩展被启用的状态执行，如果扩展参数为“all”则一定会抛出错误。</td>
+</tr>
+<tr>
+<td>warn</td>
+<td>除非是因为该扩展被其它处于启用状态的扩展所需要，否则在使用该扩展时会发出警告。如果扩展参数为 “all” 则无论何时使用扩展都会抛出警告。除此之外，如果扩展不被支持，也会发出警告。</td>
+</tr>
+<tr>
+<td>disable</td>
+<td>指明扩展被禁用，如果使用该扩展会抛出错误。如果扩展参数为 “all”（即默认设置），则不允许使用任何扩展。</td>
+</tr>
+</tbody>
+</table>
+<p>例如，实现不支持 3D 纹理扩展，如果你希望处理器发出警告（此时着色器也会同样被执行，如同实现支持 3D 纹理扩展一样），应当在着色器顶部加入以下代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#extension GL_OES_texture_3D : enable</span></span><br></pre></td></tr></table></figure>
+<h3 id="8-_内置变量">8. 内置变量</h3><h4 id="顶点着色器内置变量">顶点着色器内置变量</h4><p>顶点着色器中有变量 <code>gl_Position</code>，此变量用于写入齐次顶点位置坐标。一个完整的顶点着色器的所有执行命令都应该向此变量写入值。写入的时机可以是着色器执行过程中的任意时间。当被写入之后也同样可以读取此变量的值。在处理顶点之后的图元装配、剪切（clipping）、剔除（culling）等对于图元的固定功能操作中将会使用此值。如果编译器发现 <code>gl_Position</code> 未写入或在写入之前有读取行为将会产生一条诊断信息，但并非所有的情况都能发现。如果执行顶点着色器而未写入 <code>gl_Position</code>，则 <code>gl_Position</code> 的值将是未定义。<br>顶点着色器中有变量 <code>gl_PointSize</code>，此变量用于为顶点着色器写入将要栅格化的点的大小，以像素为单位。<br>顶点着色器中的这些内置变量固有的声明类型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">highp vec4 gl_Position; <span class="comment">// should be written to</span></span><br><span class="line">mediump <span class="keyword">float</span> gl_PointSize; <span class="comment">// may be written to</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>这些变量如果未写入或在在写入之前读取，则取到的值是未定义值。</li>
+<li>如果被写入多次，则在后续步骤中使用的是最后一次写入的值。</li>
+<li>这些内置变量拥有全局作用域。</li>
+<li>OpenGL ES 中没有内置的 attribute 名称。</li>
+</ul>
+<h4 id="片段着色器内置变量">片段着色器内置变量</h4><p>OpenGL ES 渲染管线最后的步骤会对片段着色器的输出进行处理。<br>如果没有使用过 <code>discard</code> 关键字，则片段着色器使用内置变量 <code>gl_FragColor</code> 和 <code>gl_FragData</code> 来向渲染管线输出数据。</p>
+<p>同样，</p>
+<ul>
+<li>在片段着色器中，并非必须要对 <code>gl_FragColor</code> 和 <code>gl_FragData</code> 的值进行写入。</li>
+<li>这些变量可以多次写入值，这样管线中后续步骤使用的是最后一次赋的值。</li>
+<li>写入的值可以再次读取出，如果在写入之前读取则会得到未定义值。</li>
+<li>写入的 <code>gl_FragColor</code> 值定义了后续固定功能管线中使用的片段的颜色。而变量 <code>gl_FragData</code> 是一个数组，写入的数值 <code>gl_FragData[n]</code> 指定了后续固定功能管线中对应于数据 <code>n</code> 的片段数据。</li>
+<li>如果着色器为 <code>gl_FragColor</code> 静态赋值，则可不必为 <code>gl_FragData</code> 赋值，同样如果着色器为 <code>gl_FragData</code> 中任意元素静态赋值，则可不必为 <code>gl_FragColor</code> 赋值。每个着色器应为二者之一赋值，而非二者同时。（在着色器中，如果某个变量在该着色器完成预处理之后，不受运行时的流程控制语句影响，一定会被写入值，则称之为对该变量的静态赋值）。</li>
+<li>如果着色器执行了<code>discard</code> 关键字，则该片段被丢弃，且 <code>gl_FragColor</code> 和 <code>gl_FragData</code> 不再相关。</li>
+<li>片段着色器中有一个只读变量 <code>gl_FragCoord</code>，存储了片段的窗口相对坐标 <code>x</code>、<code>y</code>、<code>z</code> 及 <code>1/w</code>。该值是在顶点处理阶段之后对图元插值生成片段计算所得。<code>z</code> 分量是深度值用来表示片段的深度。</li>
+<li>片段着色器可以访问内置的只读变量 <code>gl_FrontFacing</code> ，如果片段属于正面向前（front-facing）的图元，则该变量的值为 <code>true</code>。该变量可以选取顶点着色器计算出的两个颜色之一以模拟两面光照。</li>
+<li>片段着色器有只读变量 <code>gl_PointCoord</code>。<code>gl_PointCoord</code> 存储的是当前片段所在点图元的二维坐标。点的范围是 0.0 到 1.0。如果当前的图元不是一个点，那么从 <code>gl_PointCoord</code> 读出的值是未定义的。</li>
+</ul>
+<p>片段着色器中这些内置变量固有声明类型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mediump vec4 gl_FragCoord;</span><br><span class="line"><span class="keyword">bool</span> gl_FrontFacing;</span><br><span class="line">mediump vec4 gl_FragColor;</span><br><span class="line">mediump vec4 gl_FragData[gl_MaxDrawBuffers];</span><br><span class="line">mediump vec2 gl_PointCoord;</span><br></pre></td></tr></table></figure>
+<p>但是它们实际的行为并不像是无存储限定符，而是像上边描述的样子。<br>这些内置变量拥有全局作用域。</p>
+<h4 id="uniform_状态变量">uniform 状态变量</h4><p>GLSL 中还有一种内置的 uniform 状态变量,  <code>gl_DepthRange</code> 它用来表明全局深度范围。</p>
+<p>结构如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> gl_DepthRangeParameters &#123;</span><br><span class="line"> highp <span class="keyword">float</span> near; <span class="comment">// n</span></span><br><span class="line"> highp <span class="keyword">float</span> far; <span class="comment">// f</span></span><br><span class="line"> highp <span class="keyword">float</span> diff; <span class="comment">// f - n</span></span><br><span class="line"> &#125;;</span><br><span class="line"> uniform gl_DepthRangeParameters gl_DepthRange;</span><br></pre></td></tr></table></figure>
+<p>除了  gl_DepthRange 外的所有 uniform 状态常量都已在 GLSL 1.30 中废弃。</p>
+<h3 id="9-_内置常量">9. 内置常量</h3><p>以下是提供给顶点着色器或片段着色器的内置常量：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Implementation dependent constants. The example values below</span></span><br><span class="line"><span class="comment">// are the minimum values allowed for these maximums.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// gl_MaxVertexAttribs 表示在vertex shader(顶点着色器)中可用的最大attributes数.这个值的大小取决于 OpenGL ES 在某设备上的具体实现, 不过最低不能小于 8 个.</span></span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxVertexAttribs = <span class="number">8</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// gl_MaxVertexUniformVectors 表示在vertex shader(顶点着色器)中可用的最大uniform vectors数. 这个值的大小取决于 OpenGL ES 在某设备上的具体实现, 不过最低不能小于 128 个.</span></span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxVertexUniformVectors = <span class="number">128</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// gl_MaxVaryingVectors 表示在vertex shader(顶点着色器)中可用的最大varying vectors数. 这个值的大小取决于 OpenGL ES 在某设备上的具体实现, 不过最低不能小于 8 个.</span></span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxVaryingVectors = <span class="number">8</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// gl_MaxCombinedTextureImageUnits 表示在vertex shader(顶点着色器)中可用的最大纹理单元数(贴图). 这个值的大小取决于 OpenGL ES 在某设备上的具体实现, 甚至可以一个都没有(无法获取顶点纹理)</span></span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxVertexTextureImageUnits = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// gl_MaxCombinedTextureImageUnits 表示在 vertex Shader和fragment Shader总共最多支持多少个纹理单元. 这个值的大小取决于 OpenGL ES 在某设备上的具体实现, 不过最低不能小于 8 个.</span></span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxCombinedTextureImageUnits = <span class="number">8</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// gl_MaxTextureImageUnits 表示在 fragment Shader(片元着色器)中能访问的最大纹理单元数,这个值的大小取决于 OpenGL ES 在某设备上的具体实现, 不过最低不能小于 8 个.</span></span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxTextureImageUnits = <span class="number">8</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// gl_MaxFragmentUniformVectors 表示在 fragment Shader(片元着色器)中可用的最大uniform vectors数,这个值的大小取决于 OpenGL ES 在某设备上的具体实现, 不过最低不能小于 16 个.</span></span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxFragmentUniformVectors = <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// gl_MaxDrawBuffers 表示可用的drawBuffers数,在OpenGL ES 2.0中这个值为1, 在将来的版本可能会有所变化.</span></span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxDrawBuffers = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="10-_内置函数">10. 内置函数</h3><p>在 GLSL 中还有很多内置的函数，如下边的例子是片段着色器中用来计算镜面光的代码。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> nDotL = dot(normal , light);</span><br><span class="line"><span class="keyword">float</span> rDotV = dot(viewDir, (<span class="number">2.0</span> * normal) * nDotL – light);</span><br><span class="line"><span class="keyword">float</span> specular = <span class="function">specularColor * <span class="title">pow</span><span class="params">(rDotV, specularPower)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>在上边的代码中，使用内置函数 <code>dot</code> 来计算两个矢量的点乘积，使用内置函数 <code>pow</code> 来完成标量的幂计算。<br>在编写着色程序时，GLSL 中有大量的内置函数供使用。绝大多数的内置函数可用于多种着色器，也有一些只适用于一种特定的着色器。这些内置函数大致可分为以下三类：</p>
+<ul>
+<li><p>将一些必要的硬件功能显露成方便调用的函数，如访问纹理图。着色器无法用语言模拟这些函数。</p>
+</li>
+<li><p>代表一系列琐碎的操作，虽然这些操作可以由用户直接编写完成，但是这些操作都很常用并且可能会有一些硬件支持。编译器处理表达式于汇编指令的映射是非常困难的事情。</p>
+</li>
+<li><p>代表可获得图形硬件加速的操作，如三角函数属于这一分类。</p>
+<p>​</p>
+</li>
+</ul>
+<p>很多函数与一些常见的 C 语言库里的同名函数相似，但这些内置函数不仅支持标量输入，还可以支持矢量输入。应用程序中应当尽量使用这些内置函数而不是有相同计算的自定义代码，因为内置函数很可能是最优化的（如可能是硬件直接支持的）。用户函数可以重载内置函数，但不能将其重定义。</p>
+<p>在下边的内置函数中，函数的输入参数（及相对应的输出）可以是 float、vec2、vec3 或 vec4，则使用 genType 来作为参数。在实际使用一个函数时，所有的参数类型及返回类型必须是一致的。对于 mat 也相似，其具体类型可以是 mat2、mat3 或 mat4。</p>
+<p>参数和返回值的精度限定符不显示。对于纹理函数，返回类型的精度与采样器的类型相匹配。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">uniform lowp sampler2D sampler;</span><br><span class="line">highp vec2 coord;</span><br><span class="line">...</span><br><span class="line">lowp vec4 col = texture2D (sampler, coord); <span class="comment">// texture2D returns lowp</span></span><br></pre></td></tr></table></figure>
+<p>其它内置函数的形式参数的精度限定符则无关。调用这些内置函数将会返回一个匹配输入参数的最高精度级的精度限定符。</p>
+<p>按功能大致可以分成 7 类：</p>
+<h4 id="角度和三角函数">角度和三角函数</h4><p>函数参数是以弧度为单位的角度值。以下内置函数是按逐个分量进行操作，但按单个分量操作进行描述。</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>genType radians (genType degrees)</td>
+<td>Converts degrees to radians</td>
+</tr>
+<tr>
+<td>genType degrees (genType radians)</td>
+<td>Converts radians to degrees</td>
+</tr>
+<tr>
+<td>genType sin (genType angle)</td>
+<td>The standard trigonometric sine function.</td>
+</tr>
+<tr>
+<td>genType cos (genType angle)</td>
+<td>The standard trigonometric cosine function.</td>
+</tr>
+<tr>
+<td>genType tan (genType angle)</td>
+<td>The standard trigonometric tangent.</td>
+</tr>
+<tr>
+<td>genType asin (genType x)</td>
+<td>Arc sine. Returns an angle whose sine is x. The range of values returned by this function is[-π/2,π/2] .Results are undefined if ∣x∣ &gt; 1.</td>
+</tr>
+<tr>
+<td>genType acos (genType x)</td>
+<td>Arc cosine. Returns an angle whose cosine is x. The range of values returned by this function is [0, π]. Results are undefined if ∣x∣ &gt; 1.</td>
+</tr>
+<tr>
+<td>genType atan (genType y, genType x)</td>
+<td>Arc tangent. Returns an angle whose tangent is y/x. The signs of x and y are used to determine what quadrant the angle is in . The range of values returned by this function is [−π,π]. Results are undefined if x and y are both 0.</td>
+</tr>
+<tr>
+<td>genType atan (genType y_over_x)</td>
+<td>Arc tangent. Returns an angle whose tangent is y_over_x. The range of values returned by this function is [−π/2,π/2]</td>
+</tr>
+</tbody>
+</table>
+<h4 id="指数函数">指数函数</h4><p>以下内置函数是按逐个分量进行操作，但按单个分量操作进行描述。</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>genType pow (genType x, genType y)</td>
+<td>Returns x raised to the y power. Results are undefined if x &lt; 0 .Results are undefined if x = 0 and y &lt;= 0.</td>
+</tr>
+<tr>
+<td>genType exp (genType x)</td>
+<td>Returns the natural exponentiation of x.</td>
+</tr>
+<tr>
+<td>genType log (genType x)</td>
+<td>Returns the natural logarithm of x. Results are undefined if x &lt;= 0.</td>
+</tr>
+<tr>
+<td>genType exp2 (genType x)</td>
+<td>Returns 2 raised to the x power.</td>
+</tr>
+<tr>
+<td>genType log2 (genType x)</td>
+<td>Returns the base 2 logarithm of x. Results are undefined if x &lt;= 0.</td>
+</tr>
+<tr>
+<td>genType sqrt (genType x)</td>
+<td>Returns square root of x. Results are undefined if x &lt; 0.</td>
+</tr>
+<tr>
+<td>genType inversesqrt (genType x)</td>
+<td>Returns 1/sqrt(x) . Results are undefined if x &lt;= 0.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="通用函数">通用函数</h4><p>以下内置函数是按逐个分量进行操作，但按单个分量操作进行描述。</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>genType abs (genType x)</td>
+<td>Returns x if x &gt;= 0, otherwise it returns –x.</td>
+</tr>
+<tr>
+<td>genType sign (genType x)</td>
+<td>Returns 1.0 if x &gt; 0, 0.0 if x = 0, or –1.0 if x &lt; 0</td>
+</tr>
+<tr>
+<td>genType floor (genType x)</td>
+<td>Returns a value equal to the nearest integer that is less than or equal to x</td>
+</tr>
+<tr>
+<td>genType ceil (genType x)</td>
+<td>Returns a value equal to the nearest integer that is greater than or equal to x</td>
+</tr>
+<tr>
+<td>genType fract (genType x)</td>
+<td>Returns x – floor (x)</td>
+</tr>
+<tr>
+<td>genType mod (genType x, float y)</td>
+<td>Modulus (modulo). Returns x – y ∗ floor (x/y)</td>
+</tr>
+<tr>
+<td>genType mod (genType x, genType y)</td>
+<td>Modulus. Returns x – y ∗ floor (x/y)</td>
+</tr>
+<tr>
+<td>genType min (genType x, genType y)genType min (genType x, float y)</td>
+<td>Returns y if y &lt; x, otherwise it returns x</td>
+</tr>
+<tr>
+<td>genType max (genType x, genType y) genType max (genType x, float y)</td>
+<td>Returns y if x &lt; y, otherwise it returns x.</td>
+</tr>
+<tr>
+<td>genType clamp (genType x,genType minVal, genType maxVal)genType clamp (genType x, float minVal,float maxVal)</td>
+<td>Returns min (max (x, minVal), maxVal) Results are undefined if minVal &gt; maxVal.</td>
+</tr>
+<tr>
+<td>genType mix (genType x,genType y,genType a)genType mix (genType x,genType y, float a)</td>
+<td>Returns the linear blend of x and y: x<em>(1-a)+y</em>a</td>
+</tr>
+<tr>
+<td>genType step (genType edge, genType x)genType step (float edge, genType x)</td>
+<td>Returns 0.0 if x &lt; edge, otherwise it returns 1.0</td>
+</tr>
+<tr>
+<td>genType smoothstep (genType edge0,genType edge1,genType x)genType smoothstep (float edge0,float edge1,genType x)</td>
+<td>Returns 0.0 if x &lt;= edge0 and 1.0 if x &gt;= edge1 and performs smooth Hermite interpolation between 0 and 1 when edge0 &lt; x &lt; edge1. This is useful in cases where you would want a threshold function with a smooth transition. This is equivalent to: <code>genType t; t = clamp ((x – edge0) / (edge1 – edge0), 0, 1); return t * t * (3 – 2 * t);</code> Results are undefined if edge0 &gt;= edge1.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="几何函数">几何函数</h4><p>以下内置函数是按逐个分量进行操作，但按单个分量操作进行描述。</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>float length (genType x)</td>
+<td>Returns the length of vector x.</td>
+</tr>
+<tr>
+<td>float distance (genType p0, genType p1)</td>
+<td>Returns the distance between p0 and p1.</td>
+</tr>
+<tr>
+<td>float dot (genType x, genType y)</td>
+<td>Returns the dot product of x and y.</td>
+</tr>
+<tr>
+<td>vec3 cross (vec3 x, vec3 y)</td>
+<td>Returns the cross product of x and y.</td>
+</tr>
+<tr>
+<td>genType normalize (genType x)</td>
+<td>Returns a vector in the same direction as x but with a length of 1.</td>
+</tr>
+<tr>
+<td>genType faceforward(genType N,genType I,genType Nref)</td>
+<td>If dot(Nref, I) &lt; 0 return N, otherwise return –N.</td>
+</tr>
+<tr>
+<td>genType reflect (genType I, genType N)</td>
+<td>For the incident vector I and surface orientation N,returns the reflection direction: I – 2 ∗ dot(N, I) ∗ N. N must already be normalized in order to achieve the desired result.</td>
+</tr>
+<tr>
+<td>genType refract(genType I, genType N,float eta)</td>
+<td>For the incident vector I and surface normal N, and the ratio of indices of refraction eta, return the refraction vector. The result is computed by <code>k = 1.0 - eta * eta * (1.0 - dot(N, I) * dot(N, I)); if (k &lt; 0.0) return genType(0.0) else return eta * I - (eta * dot(N, I) + sqrt(k)) * N</code>. The input parameters for the incident vector I and thesurface normal N must already be normalized to get the desired results.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="矩阵函数">矩阵函数</h4><table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mat matrixCompMult (mat x, mat y)</td>
+<td>Multiply matrix x by matrix y component-wise, i.e.,result[i][j] is the scalar product of x[i][j] and y[i][j]. Note: to get linear algebraic matrix multiplication, usethe multiply operator (*).</td>
+</tr>
+</tbody>
+</table>
+<h4 id="矢量关系函数">矢量关系函数</h4><p>矢量之间的比较关系符号（&lt;, &lt;=, &gt;, &gt;=, ==, !=）被定义（或保留）比较产生一个标量的布尔型结果。使用下边的函数可以得到矢量结果。</p>
+<p>以下的 ”bvec” 指代 ”bvec2”、”bvec3” 或 ”bvec4” 之一，”ivec” 指代 ”ivec2”、”ivec3” 或 ”ivec4” 之一，”vec” 指代 ”vec2”、”vec3” 或 ”vec4”之一。输入参数和返回值各矢量的大小必须一致。</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bvec lessThan(vec x, vec y)bvec lessThan(ivec x, ivec y)</td>
+<td>Returns the component-wise compare of x &lt; y.</td>
+</tr>
+<tr>
+<td>bvec lessThanEqual(vec x, vec y)bvec lessThanEqual(ivec x, ivec y)</td>
+<td>Returns the component-wise compare of x &lt;= y.</td>
+</tr>
+<tr>
+<td>bvec greaterThan(vec x, vec y)bvec greaterThan(ivec x, ivec y)</td>
+<td>Returns the component-wise compare of x &gt; y.</td>
+</tr>
+<tr>
+<td>bvec greaterThanEqual(vec x, vec y)bvec greaterThanEqual(ivec x, ivec y)</td>
+<td>Returns the component-wise compare of x &gt;= y.</td>
+</tr>
+<tr>
+<td>bvec equal(vec x, vec y)bvec equal(ivec x, ivec y)bvec equal(bvec x, bvec y)bvec notEqual(vec x, vec y)bvec notEqual(ivec x, ivec y)bvec notEqual(bvec x, bvec y)</td>
+<td>Returns the component-wise compare of x == y; Returns the component-wise compare of x != y.</td>
+</tr>
+<tr>
+<td>bool any(bvec x)</td>
+<td>Returns true if any component of x is true.</td>
+</tr>
+<tr>
+<td>bool all(bvec x)</td>
+<td>Returns true only if all components of x are true.</td>
+</tr>
+<tr>
+<td>bvec not(bvec x)</td>
+<td>Returns the component-wise logical complement of x.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="纹理查找函数">纹理查找函数</h4><p>纹理查询的最终目的是从 sampler 中提取指定坐标的颜色信息。</p>
+<p>顶点着色器和片段着色器中都可以使用纹理查找函数。但是在顶点着色器中不会计算细节层次（level of detail），所以二者的纹理查找函数略有不同。</p>
+<p>图像纹理有两种：一种是平面2d纹理，另一种是盒纹理。针对不同的纹理类型有不同访问方法。</p>
+<ul>
+<li>函数中带有 Cube 字样的是指需要传入盒状纹理。</li>
+<li>带有 Proj 字样的是指带投影的版本。</li>
+</ul>
+<p>以下函数只在顶点着色器中可用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vec4 <span class="title">texture2DLod</span><span class="params">(sampler2D sampler, vec2 coord, <span class="keyword">float</span> lod)</span></span>;</span><br><span class="line"><span class="function">vec4 <span class="title">texture2DProjLod</span><span class="params">(sampler2D sampler, vec3 coord, <span class="keyword">float</span> lod)</span></span>;</span><br><span class="line"><span class="function">vec4 <span class="title">texture2DProjLod</span><span class="params">(sampler2D sampler, vec4 coord, <span class="keyword">float</span> lod)</span></span>;</span><br><span class="line"><span class="function">vec4 <span class="title">textureCubeLod</span><span class="params">(samplerCube sampler, vec3 coord, <span class="keyword">float</span> lod)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>以下函数只在片段着色器中可用:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vec4 <span class="title">texture2D</span><span class="params">(sampler2D sampler, vec2 coord, <span class="keyword">float</span> bias)</span></span>;</span><br><span class="line"><span class="function">vec4 <span class="title">texture2DProj</span><span class="params">(sampler2D sampler, vec3 coord, <span class="keyword">float</span> bias)</span></span>;</span><br><span class="line"><span class="function">vec4 <span class="title">texture2DProj</span><span class="params">(sampler2D sampler, vec4 coord, <span class="keyword">float</span> bias)</span></span>;</span><br><span class="line"><span class="function">vec4 <span class="title">textureCube</span><span class="params">(samplerCube sampler, vec3 coord, <span class="keyword">float</span> bias)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>在定点着色器和片段着色器中都可用:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vec4 <span class="title">texture2D</span><span class="params">(sampler2D sampler, vec2 coord)</span></span>;</span><br><span class="line"><span class="function">vec4 <span class="title">texture2DProj</span><span class="params">(sampler2D sampler, vec3 coord)</span></span>;</span><br><span class="line"><span class="function">vec4 <span class="title">texture2DProj</span><span class="params">(sampler2D sampler, vec4 coord)</span></span>;</span><br><span class="line"><span class="function">vec4 <span class="title">textureCube</span><span class="params">(samplerCube sampler, vec3 coord)</span></span>;</span><br></pre></td></tr></table></figure>
+<h3 id="11-_自测">11. 自测</h3><p>下面是官方的一段实例着色器。如果你可以一眼看懂，说明你已经对 GLSL 语言基本掌握了，那么这篇文章就没有白写了~</p>
+<p><strong>Vertex Shader:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">uniform mat4 mvp_matrix; 	<span class="comment">// 透视矩阵 * 视图矩阵 * 模型变换矩阵</span></span><br><span class="line">uniform mat3 normal_matrix; <span class="comment">// 法线变换矩阵(用于物体变换后法线跟着变换)</span></span><br><span class="line">uniform vec3 ec_light_dir; 	<span class="comment">// 光照方向</span></span><br><span class="line">attribute vec4 a_vertex; 	<span class="comment">// 顶点坐标</span></span><br><span class="line">attribute vec3 a_normal; 	<span class="comment">// 顶点法线</span></span><br><span class="line">attribute vec2 a_texcoord; 	<span class="comment">// 纹理坐标</span></span><br><span class="line">varying <span class="keyword">float</span> v_diffuse; 	<span class="comment">// 法线与入射光的夹角</span></span><br><span class="line">varying vec2 v_texcoord; 	<span class="comment">// 2d纹理坐标</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 归一化法线</span></span><br><span class="line">  vec3 ec_normal = normalize(normal_matrix * a_normal);</span><br><span class="line">  <span class="comment">// v_diffuse 是法线与光照的夹角.根据向量点乘法则,当两向量长度为1是 乘积即cosθ值</span></span><br><span class="line">  v_diffuse = max(dot(ec_light_dir, ec_normal), <span class="number">0.0</span>);</span><br><span class="line">  v_texcoord = a_texcoord;</span><br><span class="line">  gl_Position = mvp_matrix * a_vertex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Fragment Shader:</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">precision mediump <span class="keyword">float</span>;</span><br><span class="line">uniform sampler2D t_reflectance;</span><br><span class="line">uniform vec4 i_ambient;</span><br><span class="line">varying <span class="keyword">float</span> v_diffuse;</span><br><span class="line">varying vec2 v_texcoord;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span> <span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">  vec4 color = texture2D(t_reflectance, v_texcoord);</span><br><span class="line">  <span class="comment">// 这里分解开来是 color*vec3(1,1,1)*v_diffuse + color*i_ambient</span></span><br><span class="line">  <span class="comment">// 色*光*夹角cos + 色*环境光</span></span><br><span class="line">  gl_FragColor = color*(vec4(v_diffuse) + i_ambient);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+  <div class="post-reward">
+    <input type="checkbox" name="reward" id="reward" hidden />
+    <label class="reward-button" for="reward">赞赏支持</label>
+    <div class="qr-code">
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="/image/reward/wechat.png" title="wechat">
+        </label>
+      
+      
+        <label class="qr-code-image" for="reward">
+          <img class="image" src="/image/reward/alipay.png" title="alipay">
+        </label>
+      
+    </div>
+  </div>
+
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/iOS开发/">iOS开发</a>
+            
+              <a href="/tags/OpenGLES/">OpenGLES</a>
+            
+              <a href="/tags/图像处理/">图像处理</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2018/08/25/metal-tutorial/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Metal 系列教程</span>
+        <span class="prev-text nav-mobile">上一篇</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/11/11/OpenGLES-Lesson04/">
+        <span class="next-text nav-default">GLSL 详解（基础篇）</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>  
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:hitwhylz@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/colin1994" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+        
+          <a href="http://www.weibo.com/u/3171165012" class="iconfont icon-weibo" title="weibo"></a>
+        
+      
+    
+      
+    
+      
+    
+    
+    
+      <a href="/rss2.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+  </span>
+  
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2020
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Colin丶</span>
+  </span>
+</div>
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+  
+  
+
+
+
+
+    
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
+
+    
+  <script type="text/html" id="search-result">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <a href="$url$" class="post-link">
+            $title$
+          </a>
+        </h1>
+      </header>
+      <div class="post-content">
+        $content$
+        <div class="read-more">
+          <a href="$url$" class="read-more-link">
+            阅读更多
+          </a>
+        </div>
+      </div>
+    </article>
+  </script>
+  <script type="text/html" id="no-search-result">
+    <div class="no-result">
+      <h2>No result found!</h2>
+    </div>
+  </script>
+  <script type="text/javascript" src="/js/src/search.js?v=2.4.x"></script>
+
+  </body>
+</html>

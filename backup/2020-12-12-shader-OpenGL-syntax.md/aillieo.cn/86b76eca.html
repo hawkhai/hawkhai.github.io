@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"aillieo.cn","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"EM0NG1L32X","apiKey":"862c62ca101f920300ddfebb30fcba33","indexName":"aillieo-collection","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文上接OpenGL ES 2.0 着色器语言GLSL（一），继续讲解GLSL的一些基本的概念。如无特殊说明，文中的GLSL均指OpenGL ES的着色语言，基于OpenGL ES 2.0。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenGL ES 2.0 着色器语言GLSL（二）">
+<meta property="og:url" content="http://aillieo.cn/post/2017-01-15-opengl-es-glsl-02/index.html">
+<meta property="og:site_name" content="Aillieo Collection">
+<meta property="og:description" content="本文上接OpenGL ES 2.0 着色器语言GLSL（一），继续讲解GLSL的一些基本的概念。如无特殊说明，文中的GLSL均指OpenGL ES的着色语言，基于OpenGL ES 2.0。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-01-15T11:46:13.000Z">
+<meta property="article:modified_time" content="2020-07-09T16:06:33.042Z">
+<meta property="article:author" content="Aillieo">
+<meta property="article:tag" content="OpenGL">
+<meta property="article:tag" content="OpenGL ES">
+<meta property="article:tag" content="GLSL">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://aillieo.cn/post/2017-01-15-opengl-es-glsl-02/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>OpenGL ES 2.0 着色器语言GLSL（二） | Aillieo Collection</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Aillieo Collection</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">SUBTITLE</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://aillieo.cn/post/2017-01-15-opengl-es-glsl-02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Aillieo">
+      <meta itemprop="description" content="PROGRAMMING | GAMES | DESIGN">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Aillieo Collection">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OpenGL ES 2.0 着色器语言GLSL（二）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-01-15 19:46:13" itemprop="dateCreated datePublished" datetime="2017-01-15T19:46:13+08:00">2017-01-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-10 00:06:33" itemprop="dateModified" datetime="2020-07-10T00:06:33+08:00">2020-07-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ComputerGraphics/" itemprop="url" rel="index"><span itemprop="name">ComputerGraphics</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ComputerGraphics/OpenGL-ES/" itemprop="url" rel="index"><span itemprop="name">OpenGL ES</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文上接<a href="http://aillieo.cn/post/2017-01-15-opengl-es-glsl-01/">OpenGL ES 2.0 着色器语言GLSL（一）</a>，继续讲解GLSL的一些基本的概念。如无特殊说明，文中的GLSL均指OpenGL ES的着色语言，基于OpenGL ES 2.0。</p>
+<a id="more"></a>
+
+<h2 id="着色器的预处理指令"><a href="#着色器的预处理指令" class="headerlink" title="着色器的预处理指令"></a>着色器的预处理指令</h2><p>GLSL中预处理指令的使用也跟C++的预处理指令相似。以下代码是宏及宏的条件判断：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>注意与C++中不同，宏不能带参数定义。使用<code>#if</code>，<code>#else</code>和<code>#elif</code>可以用来判断宏是否被定义过。以下是一些预先定义好的宏及它们的描述：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__LINE__ <span class="comment">// Replaced with the current line number in a shader</span></span><br><span class="line">__FILE__ <span class="comment">// Always 0 in OpenGL ES 2.0</span></span><br><span class="line">__VERSION__ <span class="comment">// The OpenGL ES shading language version (e.g., 100)</span></span><br><span class="line">GL_ES <span class="comment">// This will be defined for ES shaders to a value of 1</span></span><br></pre></td></tr></table></figure>
+
+<p>在着色器编译过程中，<code>#error</code>指令会触发编译错误并向日志中写入内容。使用<code>#pragma</code>指令可以向编译器明确与实现相关的指令。还有一种与C++中不同的预处理指令是<code>#version</code>，对于OpenGL ES 2.0的着色器应将此值设置为100。<code>#version</code>指定了编译着色器的GLSL对应版本，可以在未来更新的版本中据此判断着色器的语言版本，以实用对应的版本来完成编译。这一标记需要写在代码的最开始位置。以下是一个示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#version 100 <span class="comment">// OpenGL ES Shading Language v1.00</span></span></span><br></pre></td></tr></table></figure>
+
+<p>预处理指令中另一个非常重要的是<code>#extension</code>，用来控制是否启用某些扩展的功能。当供应商扩展GLSL时，会增加新的语言扩展明细，如<code>GL_OES_texture_3D</code>等。着色器必须告知编译器是否允许使用扩展或以怎样的行为方式出现，这就需要使用<code>#extension</code>指令来完成，以下是一些用例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Set behavior for an extension</span></span><br><span class="line"><span class="meta">#extension extension_name : behavior</span></span><br><span class="line"><span class="comment">// Set behavior for ALL extensions</span></span><br><span class="line"><span class="meta">#extension all : behavior</span></span><br></pre></td></tr></table></figure>
+
+<p>第一个参数应为扩展的名称或者“all”，“all”表示该行为方式适用于所有的扩展。 </p>
+<table>
+<thead>
+<tr>
+<th>扩展的行为方式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>require</td>
+<td>指明扩展是必须的，如果该扩展不被支持，预处理器会抛出错误。如果扩展参数为“all”则一定会抛出错误。</td>
+</tr>
+<tr>
+<td>enable</td>
+<td>指明扩展是启用的，如果该扩展不被支持，预处理器会发出警告。代码会按照扩展被启用的状态执行，如果扩展参数为“all”则一定会抛出错误。</td>
+</tr>
+<tr>
+<td>warn</td>
+<td>除非是因为该扩展被其它处于启用状态的扩展所需要，否则在使用该扩展时会发出警告。如果扩展参数为“all”则无论何时使用扩展都会抛出警告。除此之外，如果扩展不被支持，也会发出警告。</td>
+</tr>
+<tr>
+<td>disable</td>
+<td>指明扩展被禁用，如果使用该扩展会抛出错误。如果扩展参数为“all”（即默认设置），则不允许使用任何扩展。</td>
+</tr>
+</tbody></table>
+<p>例如，实现不支持3D纹理扩展，如果你希望处理器发出警告（此时着色器也会同样被执行，如同实现支持3D纹理扩展一样），应当在着色器顶部加入以下代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#extension GL_OES_texture_3D : enable</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="内置变量与内置函数"><a href="#内置变量与内置函数" class="headerlink" title="内置变量与内置函数"></a>内置变量与内置函数</h2><h3 id="顶点着色器内置变量"><a href="#顶点着色器内置变量" class="headerlink" title="顶点着色器内置变量"></a>顶点着色器内置变量</h3><p>顶点着色器中有变量<code>gl_Position</code>，此变量用于写入齐次顶点位置坐标。一个完整的顶点着色器的所有执行命令都应该向此变量写入值。写入的时机可以是着色器执行过程中的任意时间。当被写入之后也同样可以读取此变量的值。在处理顶点之后的图元组装、剪切（clipping）、剔除（culling）等对于图元的固定功能操作中将会使用此值。如果编译器发现<code>gl_Position</code>未写入或在写入之前有读取行为将会产生一条诊断信息，但并非所有的情况都能发现。如果执行顶点着色器而未写入<code>gl_Position</code>，则<code>gl_Position</code>的值将是未定义。<br>顶点着色器中有变量<code>gl_PointSize</code>，此变量用于为顶点着色器写入将要栅格化的点的大小，以像素为单位。<br>顶点着色器中的这些内置变量固有的声明类型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">highp vec4 gl_Position; <span class="comment">// should be written to</span></span><br><span class="line">mediump <span class="keyword">float</span> gl_PointSize; <span class="comment">// may be written to</span></span><br></pre></td></tr></table></figure>
+<p>这些变量如果未写入或在在写入之前读取，则取到的值是未定义值。如果被写入多次，则在后续步骤中使用的是最后一次写入的值。<br>这些内置变量拥有全局作用域。<br>OpenGL ES中没有内置的attribute名称。</p>
+<h3 id="片段着色器内置变量"><a href="#片段着色器内置变量" class="headerlink" title="片段着色器内置变量"></a>片段着色器内置变量</h3><p>OpenGL ES渲染管线最后的步骤会对片段着色器的输出进行处理。<br>如果没有使用过<code>discard</code>关键字，则片段着色器使用内置变量<code>gl_FragColor</code>和<code>gl_FragData</code>来向渲染管线输出数据。在片段着色器中，并非必须要对<code>gl_FragColor</code>和<code>gl_FragData</code>的值进行写入。这些变量可以多次写入值，这样管线中后续步骤使用的是最后一次赋的值。写入的值可以再次读取出，如果在写入之前读取则会得到未定义值。写入的<code>gl_FragColor</code>值定义了后续固定功能管线中使用的片段的颜色。而变量<code>gl_FragData</code>是一个数组，写入的数值<code>gl_FragData[n]</code>指定了后续固定功能管线中对应于数据<code>n</code>的片段数据。如果着色器为<code>gl_FragColor</code>静态赋值，则可不必为<code>gl_FragData</code>赋值，同样如果着色器为<code>gl_FragData</code>中任意元素静态赋值，则可不必为<code>gl_FragColor</code>赋值。每个着色器应为二者之一赋值，而非二者同时。（在着色器中，如果某个变量在该着色器完成预处理之后，不受运行时的流程控制语句影响，一定会被写入值，则称之为对该变量的静态赋值）。如果着色器执行了<code>discard</code>关键字，则该片段被丢弃，且<code>gl_FragColor</code>和<code>gl_FragData</code>不再相关。<br>片段着色器中有一个只读变量<code>gl_FragCoord</code>，存储了片段的窗口相对坐标<code>x</code>、<code>y</code>、<code>z</code>及<code>1/w</code>。该值是在顶点处理阶段之后对图元插值生成片段计算所得。<code>z</code>分量是深度值用来表示片段的深度。<br>片段着色器可以访问内置的只读变量<code>gl_FrontFacing</code>，如果片段属于正面向前（front-facing）的图元，则该变量的值为<code>true</code>。该变量可以选取顶点着色器计算出的两个颜色之一以模拟两面光照。<br>片段着色器有只读变量<code>gl_PointCoord</code>。<code>gl_PointCoord</code>存储的是当前片段所在点图元的二维坐标。点的范围是0.0到1.0。如果当前的图元不是一个点，那么从<code>gl_PointCoord</code>读出的值是未定义的。<br>片段着色器中这些内置变量固有声明类型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mediump vec4 gl_FragCoord;</span><br><span class="line"><span class="keyword">bool</span> gl_FrontFacing;</span><br><span class="line">mediump vec4 gl_FragColor;</span><br><span class="line">mediump vec4 gl_FragData[gl_MaxDrawBuffers];</span><br><span class="line">mediump vec2 gl_PointCoord;</span><br></pre></td></tr></table></figure>
+<p>但是它们实际的行为并不像是无存储限定符，而是像上边描述的样子。<br>这些内置变量拥有全局作用域。</p>
+<h3 id="内置常量"><a href="#内置常量" class="headerlink" title="内置常量"></a>内置常量</h3><p>以下是提供给顶点着色器或片段着色器的内置常量：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Implementation dependent constants. The example values below</span></span><br><span class="line"><span class="comment">// are the minimum values allowed for these maximums.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxVertexAttribs = <span class="number">8</span>;</span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxVertexUniformVectors = <span class="number">128</span>;</span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxVaryingVectors = <span class="number">8</span>;</span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxVertexTextureImageUnits = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxCombinedTextureImageUnits = <span class="number">8</span>;</span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxTextureImageUnits = <span class="number">8</span>;</span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxFragmentUniformVectors = <span class="number">16</span>;</span><br><span class="line"><span class="keyword">const</span> mediump <span class="keyword">int</span> gl_MaxDrawBuffers = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="内置uniform状态参数"><a href="#内置uniform状态参数" class="headerlink" title="内置uniform状态参数"></a>内置uniform状态参数</h3><p>GLSL内置了以下uniform变量用于获取OpenGL ES处理状态。如果一种实现在片段着色器中不支持<code>highp</code>精度并且所列状态为<code>highp</code>，则实际在片段着色器中可使用的是<code>mediump</code>精度。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Depth range in window coordinates</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">gl_DepthRangeParameters</span> &#123;</span></span><br><span class="line">	highp <span class="keyword">float</span> near; <span class="comment">// n</span></span><br><span class="line">	highp <span class="keyword">float</span> far; <span class="comment">// f</span></span><br><span class="line">	highp <span class="keyword">float</span> diff; <span class="comment">// f - n</span></span><br><span class="line">&#125;;</span><br><span class="line">uniform gl_DepthRangeParameters gl_DepthRange;</span><br></pre></td></tr></table></figure>
+
+<h3 id="内置函数"><a href="#内置函数" class="headerlink" title="内置函数"></a>内置函数</h3><p>在GLSL中还有很多内置的函数，如下边的例子是片段着色器中用来计算镜面光的代码。 </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> nDotL = dot(normal , light);</span><br><span class="line"><span class="keyword">float</span> rDotV = dot(viewDir, (<span class="number">2.0</span> * normal) * nDotL – light);</span><br><span class="line"><span class="keyword">float</span> specular = specularColor * <span class="built_in">pow</span>(rDotV, specularPower);</span><br></pre></td></tr></table></figure>
+
+<p>在上边的代码中，使用内置函数 <code>dot</code>来计算两个矢量的点乘积，使用内置函数<code>pow</code>来完成标量的幂计算。<br>在编写着色程序时，GLSL中有大量的内置函数供使用。绝大多数的内置函数可用于多种着色器，也有一些只适用于一种特定的着色器。这些内置函数大致可分为以下三类：</p>
+<ul>
+<li>将一些必要的硬件功能显露成方便调用的函数，如访问纹理图。着色器无法用语言模拟这些函数。</li>
+<li>代表一系列琐碎的操作，虽然这些操作可以由用户直接编写完成，但是这些操作都很常用并且可能会有一些硬件支持。编译器处理表达式于汇编指令的映射是非常困难的事情。</li>
+<li>代表可获得图形硬件加速的操作，如三角函数属于这一分类。<br>很多函数与一些常见的C语言库里的同名函数相似，但这些内置函数不仅支持标量输入，还可以支持矢量输入。应用程序中应当尽量使用这些内置函数而不是有相同计算的自定义代码，因为内置函数很可能是最优化的（如可能是硬件直接支持的）。用户函数可以重载内置函数，但不能将其重定义。<br>在下边的内置函数中，函数的输入参数（及相对应的输出）可以是float、vec2、vec3或vec4，则使用genType来作为参数。在实际使用一个函数时，所有的参数类型及返回类型必须是一致的。对于mat也相似，其具体类型可以是mat2、mat3或mat4。<br>参数和返回值的精度限定符不显示。对于纹理函数，返回类型的精度与采样器的类型相匹配。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">uniform lowp sampler2D sampler;</span><br><span class="line">highp vec2 coord;</span><br><span class="line">...</span><br><span class="line">lowp vec4 col = texture2D (sampler, coord); <span class="comment">// texture2D returns lowp</span></span><br></pre></td></tr></table></figure>
+
+<p>其它内置函数的形式参数的精度限定符则无关。调用这些内置函数将会返回一个匹配输入参数的最高精度级的精度限定符。</p>
+<h4 id="角度和三角函数"><a href="#角度和三角函数" class="headerlink" title="角度和三角函数"></a>角度和三角函数</h4><p>函数参数是以弧度为单位的角度值。以下内置函数是按逐个分量进行操作，但按单个分量操作进行描述。</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>genType radians (genType degrees)</td>
+<td>Converts degrees to radians</td>
+</tr>
+<tr>
+<td>genType degrees (genType radians)</td>
+<td>Converts radians to degrees</td>
+</tr>
+<tr>
+<td>genType sin (genType angle)</td>
+<td>The standard trigonometric sine function.</td>
+</tr>
+<tr>
+<td>genType cos (genType angle)</td>
+<td>The standard trigonometric cosine function.</td>
+</tr>
+<tr>
+<td>genType tan (genType angle)</td>
+<td>The standard trigonometric tangent.</td>
+</tr>
+<tr>
+<td>genType asin (genType x)</td>
+<td>Arc sine. Returns an angle whose sine is x. The range of values returned by this function is[-π/2,π/2] .Results are undefined if ∣x∣ &gt; 1.</td>
+</tr>
+<tr>
+<td>genType acos (genType x)</td>
+<td>Arc cosine. Returns an angle whose cosine is x. The range of values returned by this function is [0, π]. Results are undefined if ∣x∣ &gt; 1.</td>
+</tr>
+<tr>
+<td>genType atan (genType y, genType x)</td>
+<td>Arc tangent. Returns an angle whose tangent is y/x. The signs of x and y are used to determine what quadrant the angle is in . The range of values returned by this function is [−π,π]. Results are undefined if x and y are both 0.</td>
+</tr>
+<tr>
+<td>genType atan (genType y_over_x)</td>
+<td>Arc tangent. Returns an angle whose tangent is y_over_x. The range of values returned by this function is [−π/2,π/2]</td>
+</tr>
+</tbody></table>
+<h4 id="指数函数"><a href="#指数函数" class="headerlink" title="指数函数"></a>指数函数</h4><p>以下内置函数是按逐个分量进行操作，但按单个分量操作进行描述。</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>genType pow (genType x, genType y)</td>
+<td>Returns x raised to the y power. Results are undefined if x &lt; 0 .Results are undefined if x = 0 and y &lt;= 0.</td>
+</tr>
+<tr>
+<td>genType exp (genType x)</td>
+<td>Returns the natural exponentiation of x.</td>
+</tr>
+<tr>
+<td>genType log (genType x)</td>
+<td>Returns the natural logarithm of x. Results are undefined if x &lt;= 0.</td>
+</tr>
+<tr>
+<td>genType exp2 (genType x)</td>
+<td>Returns 2 raised to the x power.</td>
+</tr>
+<tr>
+<td>genType log2 (genType x)</td>
+<td>Returns the base 2 logarithm of x. Results are undefined if x &lt;= 0.</td>
+</tr>
+<tr>
+<td>genType sqrt (genType x)</td>
+<td>Returns square root of x. Results are undefined if x &lt; 0.</td>
+</tr>
+<tr>
+<td>genType inversesqrt (genType x)</td>
+<td>Returns 1/sqrt(x) . Results are undefined if x &lt;= 0.</td>
+</tr>
+</tbody></table>
+<h4 id="通用函数"><a href="#通用函数" class="headerlink" title="通用函数"></a>通用函数</h4><p>以下内置函数是按逐个分量进行操作，但按单个分量操作进行描述。</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>genType abs (genType x)</td>
+<td>Returns x if x &gt;= 0, otherwise it returns –x.</td>
+</tr>
+<tr>
+<td>genType sign (genType x)</td>
+<td>Returns 1.0 if x &gt; 0, 0.0 if x = 0, or –1.0 if x &lt; 0</td>
+</tr>
+<tr>
+<td>genType floor (genType x)</td>
+<td>Returns a value equal to the nearest integer that is less than or equal to x</td>
+</tr>
+<tr>
+<td>genType ceil (genType x)</td>
+<td>Returns a value equal to the nearest integer that is greater than or equal to x</td>
+</tr>
+<tr>
+<td>genType fract (genType x)</td>
+<td>Returns x – floor (x)</td>
+</tr>
+<tr>
+<td>genType mod (genType x, float y)</td>
+<td>Modulus (modulo). Returns x – y ∗ floor (x/y)</td>
+</tr>
+<tr>
+<td>genType mod (genType x, genType y)</td>
+<td>Modulus. Returns x – y ∗ floor (x/y)</td>
+</tr>
+<tr>
+<td>genType min (genType x, genType y)<br>genType min (genType x, float y)</td>
+<td>Returns y if y &lt; x, otherwise it returns x</td>
+</tr>
+<tr>
+<td>genType max (genType x, genType y) <br>genType max (genType x, float y)</td>
+<td>Returns y if x &lt; y, otherwise it returns x.</td>
+</tr>
+<tr>
+<td>genType clamp (genType x,genType minVal, genType maxVal)<br>genType clamp (genType x,    float minVal,float maxVal)</td>
+<td>Returns min (max (x, minVal), maxVal) Results are undefined if minVal &gt; maxVal.</td>
+</tr>
+<tr>
+<td>genType mix (genType x,genType y,genType a)<br>genType mix (genType x,genType y,                                float a)</td>
+<td>Returns the linear blend of x and y: x<em>(1-a)+y</em>a</td>
+</tr>
+<tr>
+<td>genType step (genType edge, genType x)<br>genType step (float edge, genType x)</td>
+<td>Returns 0.0 if x &lt; edge, otherwise it returns 1.0</td>
+</tr>
+<tr>
+<td>genType smoothstep (genType edge0,genType edge1,genType x)<br>genType smoothstep (float edge0,float edge1,genType x)</td>
+<td>Returns 0.0 if x &lt;= edge0 and 1.0 if x &gt;= edge1 and performs smooth Hermite interpolation between 0 and 1 when edge0 &lt; x &lt; edge1. This is useful in cases where you would want a threshold function with a smooth transition. This is equivalent to: <code>genType t; t = clamp ((x – edge0) / (edge1 – edge0), 0, 1); return t * t * (3 – 2 * t);</code> Results are undefined if edge0 &gt;= edge1.</td>
+</tr>
+</tbody></table>
+<h4 id="几何函数"><a href="#几何函数" class="headerlink" title="几何函数"></a>几何函数</h4><p>以下内置函数是按逐个分量进行操作，但按单个分量操作进行描述。</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>float length (genType x)</td>
+<td>Returns the length of vector x.</td>
+</tr>
+<tr>
+<td>float distance (genType p0, genType p1)</td>
+<td>Returns the distance between p0 and p1.</td>
+</tr>
+<tr>
+<td>float dot (genType x, genType y)</td>
+<td>Returns the dot product of x and y.</td>
+</tr>
+<tr>
+<td>vec3 cross (vec3 x, vec3 y)</td>
+<td>Returns the cross product of x and y.</td>
+</tr>
+<tr>
+<td>genType normalize (genType x)</td>
+<td>Returns a vector in the same direction as x but with a length of 1.</td>
+</tr>
+<tr>
+<td>genType faceforward(genType N,genType I,genType Nref)</td>
+<td>If dot(Nref, I) &lt; 0 return N, otherwise return –N.</td>
+</tr>
+<tr>
+<td>genType reflect (genType I, genType N)</td>
+<td>For the incident vector I and surface orientation N,returns the reflection direction: I – 2 ∗ dot(N, I) ∗ N. N must already be normalized in order to achieve the desired result.</td>
+</tr>
+<tr>
+<td>genType refract(genType I, genType N,float eta)</td>
+<td>For the incident vector I and surface normal N, and the ratio of indices of refraction eta, return the refraction vector. The result is computed by    <code>k = 1.0 - eta * eta * (1.0 - dot(N, I) * dot(N, I)); if (k &lt; 0.0)    return genType(0.0) else return eta * I - (eta * dot(N, I) + sqrt(k)) * N</code>. The input parameters for the incident vector I and thesurface normal N must already be normalized to get the desired results.</td>
+</tr>
+</tbody></table>
+<h4 id="矩阵函数"><a href="#矩阵函数" class="headerlink" title="矩阵函数"></a>矩阵函数</h4><table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mat matrixCompMult (mat x, mat y)</td>
+<td>Multiply matrix x by matrix y component-wise, i.e.,result[i][j] is the scalar product of x[i][j] and y[i][j].                                Note: to get linear algebraic matrix multiplication, usethe multiply operator (*).</td>
+</tr>
+</tbody></table>
+<h4 id="矢量关系函数"><a href="#矢量关系函数" class="headerlink" title="矢量关系函数"></a>矢量关系函数</h4><p>矢量之间的比较关系符号（&lt;, &lt;=, &gt;, &gt;=, ==, !=）被定义（或保留）比较产生一个标量的布尔型结果。使用下边的函数可以得到矢量结果。以下的”bvec”指代”bvec2”、”bvec3”或”bvec4”之一，”ivec”指代”ivec2”、”ivec3”或”ivec4”之一，”vec”指代”vec2”、”vec3”或”vec4”之一。输入参数和返回值各矢量的大小必须一致。</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>bvec lessThan(vec x, vec y)<br>bvec lessThan(ivec x, ivec y)</td>
+<td>Returns the component-wise compare of x &lt; y.</td>
+</tr>
+<tr>
+<td>bvec lessThanEqual(vec x, vec y)<br>bvec lessThanEqual(ivec x, ivec y)</td>
+<td>Returns the component-wise compare of x &lt;= y.</td>
+</tr>
+<tr>
+<td>bvec greaterThan(vec x, vec y)<br>bvec greaterThan(ivec x, ivec y)</td>
+<td>Returns the component-wise compare of x &gt; y.</td>
+</tr>
+<tr>
+<td>bvec greaterThanEqual(vec x, vec y)<br>bvec greaterThanEqual(ivec x, ivec y)</td>
+<td>Returns the component-wise compare of x &gt;= y.</td>
+</tr>
+<tr>
+<td>bvec equal(vec x, vec y)<br>bvec equal(ivec x, ivec y)<br>bvec equal(bvec x, bvec y)<br>bvec notEqual(vec x, vec y)<br>bvec notEqual(ivec x, ivec y)<br>bvec notEqual(bvec x, bvec y)</td>
+<td>Returns the component-wise compare of x == y; Returns the component-wise compare of x != y.</td>
+</tr>
+<tr>
+<td>bool any(bvec x)</td>
+<td>Returns true if any component of x is true.</td>
+</tr>
+<tr>
+<td>bool all(bvec x)</td>
+<td>Returns true only if all components of x are true.</td>
+</tr>
+<tr>
+<td>bvec not(bvec x)</td>
+<td>Returns the component-wise logical complement of x.</td>
+</tr>
+</tbody></table>
+<h4 id="纹理查找函数"><a href="#纹理查找函数" class="headerlink" title="纹理查找函数"></a>纹理查找函数</h4><p>顶点着色器和片段着色器中都可以使用纹理查找函数。但是在顶点着色器中不会计算细节层次（level of detail），所以二者的纹理查找函数略有不同。以下的函数可以通过采样器访问纹理。<br>只有在片段着色器中才可以使用包含偏移参数（bias）的函数。如果有偏移参数，则在要将其加到细节层次之后再获取纹理。如果没有提供偏移参数，则实现会自动选择细节层次：如果纹理没有mip-map，则直接使用纹理。如果有mip-map且在片段着色器中，则会使用实现计算出来的LOD来进行纹理查找。如果有mip-map且在顶点着色器中，则会使用基础纹理。以”LoD”为前缀的函数只能用在顶点着色器中。</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>vec4 texture2D (sampler2D sampler,vec2 coord )<br>vec4 texture2D (sampler2D sampler,vec2 coord, float bias)<br>vec4 texture2DProj (sampler2D sampler,vec3 coord )<br>vec4 texture2DProj (sampler2D sampler,vec3 coord, float bias)<br>vec4 texture2DProj (sampler2D sampler,vec4 coord)<br>vec4 texture2DProj (sampler2D sampler,vec4 coord, float bias)<br>vec4 texture2DLod (sampler2D sampler,vec2 coord, float lod)<br>vec4 texture2DProjLod (sampler2D sampler,vec3 coord, float lod)<br>vec4 texture2DProjLod (sampler2D sampler,vec4 coord, float lod)</td>
+<td>Use the texture coordinate coord to do a texture lookup in the 2D texture currently bound to sampler. For the projective(“Proj”) versions, the texture coordinate(coord.s, coord.t) is divided by the lastcomponent of coord. The third componentof coord is ignored for the vec4 coordvariant.</td>
+</tr>
+<tr>
+<td>vec4 textureCube (samplerCube sampler,vec3 coord )<br>vec4 textureCube (samplerCube sampler,vec3 coord, float bias )<br>vec4 textureCubeLod (samplerCube sampler,vec3 coord, float lod)</td>
+<td>Use the texture coordinate coord to do a texture lookup in the cube map texture currently bound to sampler. The direction of coord is used to select which face to do a 2-dimensional texture lookup in</td>
+</tr>
+</tbody></table>
+<h2 id="REFERENCE"><a href="#REFERENCE" class="headerlink" title="REFERENCE"></a>REFERENCE</h2><p><a href="https://www.khronos.org/registry/gles/specs/2.0/es_full_spec_2.0.25.pdf" target="_blank" rel="noopener">OpenGL ES Common Profile Specification</a><br><a href="https://book.douban.com/subject/3175883/" target="_blank" rel="noopener">OpenGL ES 2.0 ProgrammingGuide</a><br><a href="https://www.khronos.org/registry/gles/specs/2.0/GLSL_ES_Specification_1.0.17.pdf" target="_blank" rel="noopener">The OpenGL ES Shading Language</a><br><a href="https://book.douban.com/subject/26220248" target="_blank" rel="noopener">OpenGL编程指南（原书第8版）</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OpenGL/" rel="tag"># OpenGL</a>
+              <a href="/tags/OpenGL-ES/" rel="tag"># OpenGL ES</a>
+              <a href="/tags/GLSL/" rel="tag"># GLSL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/post/2017-01-15-opengl-es-glsl-01/" rel="prev" title="OpenGL ES 2.0 着色器语言GLSL（一）">
+      <i class="fa fa-chevron-left"></i> OpenGL ES 2.0 着色器语言GLSL（一）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/post/2017-01-24-svn-cheatsheet/" rel="next" title="SVN Cheatsheet">
+      SVN Cheatsheet <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#着色器的预处理指令"><span class="nav-number">1.</span> <span class="nav-text">着色器的预处理指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内置变量与内置函数"><span class="nav-number">2.</span> <span class="nav-text">内置变量与内置函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#顶点着色器内置变量"><span class="nav-number">2.1.</span> <span class="nav-text">顶点着色器内置变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#片段着色器内置变量"><span class="nav-number">2.2.</span> <span class="nav-text">片段着色器内置变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内置常量"><span class="nav-number">2.3.</span> <span class="nav-text">内置常量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内置uniform状态参数"><span class="nav-number">2.4.</span> <span class="nav-text">内置uniform状态参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内置函数"><span class="nav-number">2.5.</span> <span class="nav-text">内置函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#角度和三角函数"><span class="nav-number">2.5.1.</span> <span class="nav-text">角度和三角函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指数函数"><span class="nav-number">2.5.2.</span> <span class="nav-text">指数函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通用函数"><span class="nav-number">2.5.3.</span> <span class="nav-text">通用函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#几何函数"><span class="nav-number">2.5.4.</span> <span class="nav-text">几何函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#矩阵函数"><span class="nav-number">2.5.5.</span> <span class="nav-text">矩阵函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#矢量关系函数"><span class="nav-number">2.5.6.</span> <span class="nav-text">矢量关系函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#纹理查找函数"><span class="nav-number">2.5.7.</span> <span class="nav-text">纹理查找函数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REFERENCE"><span class="nav-number">3.</span> <span class="nav-text">REFERENCE</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Aillieo</p>
+  <div class="site-description" itemprop="description">PROGRAMMING | GAMES | DESIGN</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">111</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Aillieo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd4356b728d7738b0b7c9',
+      clientSecret: '5258ccaf1be51bbe4467ac2c996d54b32602d41e',
+      repo        : 'https://github.com/aillieo/aillieo.github.io',
+      owner       : 'aillieo',
+      admin       : [''],
+      id          : '70323d8aa825e84a8849500c3ea7ecb5',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
