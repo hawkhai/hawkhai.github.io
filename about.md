@@ -19,6 +19,12 @@ permalink: /about/
 
 Hi, my name is hawkhai and welcome to my blog.
 
+This is my personal web site.
+I started to convert my notes into the web pages since mid 2020.
+These are mostly fundamental information or tutorials to share with others.
+I hope you find what you are looking for here.
+And, I welcome any feedback on the contents and your suggestions.
+
 
 ## 为什么要写博客（Why write blog）
 
@@ -34,6 +40,9 @@ You can also read back and communicate with others.
 
 Document-based knowledge iteration is more stable and reliable than brain-based iteration.
 As the saying goes: Bad notes is better than good memories.
+
+> You do not need to leave your room. Remain sitting at your table and listen. Do not even listen, simply wait, be quiet still and solitary. The world will freely offer itself to you to be unmasked, it has no choice, it will roll in ecstasy at your feet.
+> <font style="text-align:right;">-- Franz Kafka</font>
 
 
 ## 关于文档

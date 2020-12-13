@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<title>OpenGL Sphere</title>
+
+<meta charset="utf-8" />
+<meta name="description" content="creating 3D sphere for OpenGL" />
+<meta name="keywords" content="sphere icosphere" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Song Ho Ahn" />
+<meta name="generator" content="editplus" />
+<meta name="robots" content="index,follow" />
+
+<!-- CSS -->
+<link rel="stylesheet" media="screen" href="../css/screen.css" />
+<link rel="stylesheet" media="print" href="../css/print.css" />
+<link rel="stylesheet" media="screen" href="files/css/gl_webgl.css" />
+
+<!-- Javascript -->
+<script src="../js/songho.js"></script>
+<script src="files/js/gl_sphere.js"></script>
+<!-- WebGL libraries -->
+<script src="../glsl/files/js/Logger.js"></script>
+<script src="../glsl/files/js/Vectors.js"></script>
+<script src="../glsl/files/js/Matrices.js"></script>
+<script src="../glsl/files/js/Quaternion.js"></script>
+<script src="../glsl/files/js/Light.js"></script>
+<script src="../glsl/files/js/Material.js"></script>
+<script src="../glsl/files/js/Timer.js"></script>
+<script src="../glsl/files/js/FrameRate.js"></script>
+<script src="../glsl/files/js/MouseState.js"></script>
+<script src="../glsl/files/js/OrbitCamera.js"></script>
+<script src="../glsl/files/js/ShaderManager.js"></script>
+<script src="../glsl/files/js/Sphere.js"></script>
+<script src="../glsl/files/js/webglUtils.js"></script>
+
+</head>
+
+
+<body>
+<div id="wrap">
+
+<div id="leftblock">
+<div class="innerblock">
+
+<!-- nav -->
+<div style="clear:both; font-size:80%">
+<a href="./index.html">&larr;Back</a>
+</div>
+
+
+<h1>OpenGL Sphere</h1>
+
+<p>
+<b>Related Topics:</b> <a href="./gl_cylinder.html">OpenGL Cylinder, Prism &amp; Pipe</a>
+<br>
+<b>Download:</b> <a href="files/sphere.zip">sphere.zip</a>, <a href="files/sphereShader.zip">sphereShader.zip</a>, <a href="files/icosphere.zip">icosphere.zip</a>, <a href="files/icosphereShader.zip">icosphereShader.zip</a>, <a href="files/cubesphere.zip">cubesphere.zip</a>, <a href="files/cubesphereShader.zip">cubesphereShader.zip</a>
+</p>
+
+<ul>
+	<li><a href="#sphere">Sphere</a></li>
+	<li><a href="#example_sphere">Example: Sphere</a></li>
+	<li><a href="#icosphere">IcoSphere</a></li>
+	<li><a href="#example_icosphere">Example: Icosphere</a></li>
+	<li><a href="#cubesphere">CubeSphere</a></li>
+	<li><a href="#example_cubesphere">Example: Cubesphere</a></li>
+	<li><a href="#webgl_sphere">Example: WebGL Sphere (Interactive Demo)</a></li>
+</ul>
+
+<p>
+This page describes how to generate various spherical geometries using C++ and how to draw them with OpenGL.
+</p>
+
+
+<h3 id="sphere">Sphere</h3>
+<p>
+The definition of sphere is a 3D closed surface where every point on the sphere is same distance (radius) from a given point. The equation of a sphere at the origin is <img src="files/gl_sphere_eq01.png" class="center" width="156" height="22" alt="equation of sphere">.
+</p>
+<p>
+Since we cannot draw all the points on a sphere, we only sample a limited amount of points by dividing the sphere by sectors (longitude) and stacks (latitude). Then connect these sampled points together to form surfaces of the sphere.
+</p>
+<div class="flexrow">
+<div style="text-align:center; margin-right:40px">
+<img src="files/gl_sphere02.png" width="300" height="309" alt="Sectors and stacks of a sphere" />
+<br />
+<span class="caption">Sectors and stacks of a sphere</span>
+</div>
+<div style="text-align:center">
+<img src="files/gl_sphere01.png" width="313" height="309" alt="Parametric equation of a sphere" />
+<br />
+<span class="caption">A point on a sphere using sector and stack angles </span>
+</div>
+</div>
+
+<p style="clear:both">
+An arbitrary point (<em>x, y, z</em>) on a sphere can be computed by parametric equations with the corresponding sector angle <em>&theta;</em> and stack angle <em>&straightphi;</em>.
+</p>
+<p>
+<img src="files/gl_sphere_eq02.png" width="209" height="82" alt="formula to find a point on a sphere" />
+</p>
+<p>
+The range of sector angles is from 0 to 360 degrees, and the stack angles are from 90 (top) to -90 degrees (bottom). The sector and stack angle for each step can be calculated by the following;
+<br />
+<img src="files/gl_sphere_eq03.png" width="244" height="95" alt="">
+</p>
+<p>
+The following C++ code generates all vertices of the sphere for the given radius, sectors and stacks. It also creates other vertex attributes; surface normals and texture coordinates. For more details, please refer to <strong>buildVerticesSmooth()</strong> or <strong>buildVerticesFlat()</strong> functions in <a href="files/sphere.zip">Sphere.cpp</a> class.
+</p>
+<p style="clear:both;">
+</p>
+
+<pre><code class="codeblock">
+<span class="comment">// clear memory of prev arrays</span>
+std::vector&lt;float&gt;().swap(vertices);
+std::vector&lt;float&gt;().swap(normals);
+std::vector&lt;float&gt;().swap(texCoords);
+
+float x, y, z, xy;                              <span class="comment">// vertex position</span>
+float nx, ny, nz, lengthInv = 1.0f / radius;    <span class="comment">// vertex normal</span>
+float s, t;                                     <span class="comment">// vertex texCoord</span>
+
+float sectorStep = 2 * PI / sectorCount;
+float stackStep = PI / stackCount;
+float sectorAngle, stackAngle;
+
+for(int i = 0; i &lt;= stackCount; ++i)
+{
+    stackAngle = PI / 2 - i * stackStep;        <span class="comment">// starting from pi/2 to -pi/2</span>
+    xy = radius * cosf(stackAngle);             <span class="comment">// r * cos(u)</span>
+    z = radius * sinf(stackAngle);              <span class="comment">// r * sin(u)</span>
+
+    <span class="comment">// add (sectorCount+1) vertices per stack</span>
+    <span class="comment">// the first and last vertices have same position and normal, but different tex coords</span>
+    for(int j = 0; j &lt;= sectorCount; ++j)
+    {
+        sectorAngle = j * sectorStep;           <span class="comment">// starting from 0 to 2pi</span>
+
+        <span class="comment">// vertex position (x, y, z)</span>
+        x = xy * cosf(sectorAngle);             <span class="comment">// r * cos(u) * cos(v)</span>
+        y = xy * sinf(sectorAngle);             <span class="comment">// r * cos(u) * sin(v)</span>
+        vertices.push_back(x);
+        vertices.push_back(y);
+        vertices.push_back(z);
+
+        <span class="comment">// normalized vertex normal (nx, ny, nz)</span>
+        nx = x * lengthInv;
+        ny = y * lengthInv;
+        nz = z * lengthInv;
+        normals.push_back(nx);
+        normals.push_back(ny);
+        normals.push_back(nz);
+
+        <span class="comment">// vertex tex coord (s, t) range between [0, 1]</span>
+        s = (float)j / sectorCount;
+        t = (float)i / stackCount;
+        texCoords.push_back(s);
+        texCoords.push_back(t);
+    }
+}
+
+</code></pre>
+
+<div style="float:left; text-align:center">
+<img src="files/gl_sphere03.png" width="400" height="250" alt="vertex indices of sphere" />
+<br />
+<span class="caption">vertex indices to draw triangles of a sphere</span>
+</div>
+<p>
+In order to draw the surface of a sphere in OpenGL, you must triangulate adjacent vertices to form polygons. It is possible to use a single triangle strip to render the whole sphere. However, if the shared vertices have different normals or texture coordinates, then a single triangle strip cannot be used.
+</p>
+<p>
+Each sector in a stack requires 2 triangles. If the first vertex index in the current stack is <em>k1</em> and the next stack is <em>k2</em>, then the counterclockwise orders of vertex indices of 2 triangles are;
+<br />
+<em>k1 &xrarr; k2 &xrarr; k1+1</em>
+<br />
+<em>k1+1 &xrarr; k2 &xrarr; k2+1</em>
+</p>
+<p>
+But, the top and bottom stacks require only one triangle per sector. The code snippet to generate all triangles of a sphere may look like;
+</p>
+
+<pre><code class="codeblock" style="clear:both;">
+<span class="comment">// generate CCW index list of sphere triangles</span>
+std::vector&lt;int&gt; indices;
+int k1, k2;
+for(int i = 0; i &lt; stackCount; ++i)
+{
+    k1 = i * (sectorCount + 1);     <span class="comment">// beginning of current stack</span>
+    k2 = k1 + sectorCount + 1;      <span class="comment">// beginning of next stack</span>
+
+    for(int j = 0; j &lt; sectorCount; ++j, ++k1, ++k2)
+    {
+        <span class="comment">// 2 triangles per sector excluding first and last stacks</span>
+        <span class="comment">// k1 =&gt; k2 =&gt; k1+1</span>
+        if(i != 0)
+        {
+            indices.push_back(k1);
+            indices.push_back(k2);
+            indices.push_back(k1 + 1);
+        }
+
+        <span class="comment">// k1+1 =&gt; k2 =&gt; k2+1</span>
+        if(i != (stackCount-1))
+        {
+            indices.push_back(k1 + 1);
+            indices.push_back(k2);
+            indices.push_back(k2 + 1);
+        }
+    }
+}
+
+</code></pre>
+
+<h3 id="example_sphere">Example: Sphere</h3>
+<p>
+<img src="files/gl_sphere04.png" width="790" height="283" alt="example of drawing sphere">
+<br />
+<strong>Download:</strong> <a href="files/sphere.zip">sphere.zip</a>, <a href="files/sphereShader.zip">sphereShader.zip</a> <em>(Updated: 2020-05-20)</em>
+</p>
+<p>
+This example constructs spheres with 36 sectors and 18 stacks, but with different shadings; flat, smooth or textured. <a href="files/sphere.zip">Sphere.cpp</a> class provides pre-defined functions; <strong>draw()</strong>, <strong>drawWithLines()</strong> and <strong>drawLines()</strong>, to draw a sphere using OpenGL <a href="gl_vertexarray.html">VertexArray</a>.
+</p>
+<pre><code class="codeblock" style="clear:both;">
+<span class="comment">// create a sphere with radius=1, sectors=36, stacks=18, smooth=true (default)</span>
+Sphere sphere(1.0f, 36, 18);
+
+<span class="comment">// can change parameters later</span>
+sphere.setRadius(2.0f);
+sphere.setSectorCount(72);
+sphere.setStackCount(24);
+sphere.setSmooth(false);
+...
+
+<span class="comment">// draw sphere using vertexarray</span>
+sphere.draw();
+
+</code></pre>
+
+<p>
+This C++ class also provides <strong>getVertices()</strong>, <strong>getIndices()</strong>, <strong>getInterleavedVertices()</strong>, etc. in order to access the vertex data in GLSL. The following code draws a sphere with interleaved vertex data using <a href="gl_vbo.html">VBO</a> and GLSL. Or, download <a href="files/sphereShader.zip">sphereShader.zip</a> for more details.
+</p>
+<pre><code class="codeblock" style="clear:both;">
+<span class="comment">// create a sphere with default params; radius=1, sectors=36, stacks=18, smooth=true</span>
+Sphere sphere;
+
+<span class="comment">// copy interleaved vertex data (V/N/T) to VBO</span>
+GLuint vboId;
+glGenBuffers(1, &amp;vboId);
+glBindBuffer(GL_ARRAY_BUFFER, vboId);           <span class="comment">// for vertex data</span>
+glBufferData(GL_ARRAY_BUFFER,                   <span class="comment">// target</span>
+             sphere.getInterleavedVertexSize(), <span class="comment">// data size, # of bytes</span>
+             sphere.getInterleavedVertices(),   <span class="comment">// ptr to vertex data</span>
+             GL_STATIC_DRAW);                   <span class="comment">// usage</span>
+
+<span class="comment">// copy index data to VBO</span>
+GLuint iboId;
+glGenBuffers(1, &amp;iboId);
+glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);   <span class="comment">// for index data</span>
+glBufferData(GL_ELEMENT_ARRAY_BUFFER,           <span class="comment">// target</span>
+             sphere.getIndexSize(),             <span class="comment">// data size, # of bytes</span>
+             sphere.getIndices(),               <span class="comment">// ptr to index data</span>
+             GL_STATIC_DRAW);                   <span class="comment">// usage</span>
+...
+
+
+<span class="comment">// bind VBOs</span>
+glBindBuffer(GL_ARRAY_BUFFER, vboId);
+glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
+
+<span class="comment">// activate attrib arrays</span>
+glEnableVertexAttribArray(attribVertex);
+glEnableVertexAttribArray(attribNormal);
+glEnableVertexAttribArray(attribTexCoord);
+
+<span class="comment">// set attrib arrays with stride and offset</span>
+int stride = sphere.getInterleavedStride();     <span class="comment">// should be 32 bytes</span>
+glVertexAttribPointer(attribVertex,   3, GL_FLOAT, false, stride, (void*)0);
+glVertexAttribPointer(attribNormal,   3, GL_FLOAT, false, stride, (void*)(sizeof(float)*3));
+glVertexAttribPointer(attribTexCoord, 2, GL_FLOAT, false, stride, (void*)(sizeof(float)*6));
+
+<span class="comment">// draw a sphere with VBO</span>
+glDrawElements(GL_TRIANGLES,                    <span class="comment">// primitive type</span>
+               sphere.getIndexCount(),          <span class="comment">// # of indices</span>
+               GL_UNSIGNED_INT,                 <span class="comment">// data type</span>
+               (void*)0);                       <span class="comment">// offset to indices</span>
+
+<span class="comment">// deactivate attrib arrays</span>
+glDisableVertexAttribArray(attribVertex);
+glDisableVertexAttribArray(attribNormal);
+glDisableVertexAttribArray(attribTexCoord);
+
+<span class="comment">// unbind VBOs</span>
+glBindBuffer(GL_ARRAY_BUFFER, 0);
+glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+</code></pre>
+<p>
+Since this C++ class uses cylindrical texture mapping, there is a squeeze/distortion at the north and south pole area. This problem can be solved using <a href="#icosphere">Icosphere</a> or <a href="#cubesphere">Cubesphere</a>.
+</p>
+
+<h3 id="icosphere">Icosphere / Geosphere</h3>
+<p>
+Another way to create a spherical geometry is subdividing an icosahedron multiple times. Icosahedron is a regular polyhedron with 12 vertices and 20 equilateral triangles (the first left image below). Each triangle of an icosahedron is divided into 4 equal sub-triangles per subdivision.
+</p>
+<div class="flexrow">
+<div style="float:left; text-align:center; margin-left:-10px;">
+<img src="files/gl_sphere05.png" width="198" height="198" alt="icosphere at subdivision 0">
+<br />
+<span class="caption">Icosphere at subdivision 0</span>
+</div>
+<div style="float:left; text-align:center;">
+<img src="files/gl_sphere06-2.png" width="198" height="198" alt="icosphere at subdivision 1">
+<br />
+<span class="caption">Icosphere at subdivision 1</span>
+</div>
+<div style="float:left; text-align:center;">
+<img src="files/gl_sphere07-2.png" width="198" height="198" alt="icosphere at subdivision 2">
+<br />
+<span class="caption">Icosphere at subdivision 2</span>
+</div>
+<div style="float:left; text-align:center;">
+<img src="files/gl_sphere08-2.png" width="198" height="198" alt="icosphere at subdivision 3">
+<br />
+<span class="caption">Icosphere at subdivision 3</span>
+</div>
+</div>
+
+<p>
+One way to construct 12 vertices of an icosahedron is using spherical coordinates; aligning 2 vertices at the north and south poles, and the other 10 vertices are placed at latitude <img style="vertical-align:middle;" src="files/gl_sphere_eq04.png" width="98" height="25" alt="arctan(1/2)"> degrees and 72&deg; aside on the same latitude. Please see the following orthogonal projection images of icosahedron.
+</p>
+<div class="flexrow">
+<div style="float:left; text-align:center;">
+<img src="files/gl_sphere09.png" width="455" height="350" alt="side view of icosahedron">
+<br />
+<span class="caption">Side View of Icosahedron
+<br />
+2 vertices are at north/south pole and 10 vertices are at elevation &plusmn;26.565&deg;</span>
+</div>
+<div style="float:left; text-align:center;">
+<img src="files/gl_sphere10.png" width="326" height="350" alt="side view of icosahedron">
+<br />
+<span class="caption">Top View of Icosahedron
+<br />
+5 vertices are 72&deg; apart at the same elevation</span>
+</div>
+</div>
+<p class="clear">
+</p>
+
+<p>
+A typical point at latitude 26.565&deg; and radius <em>r</em> can be computed by;
+<br />
+<img src="files/gl_sphere_eq05.png" width="335" height="93" alt="">
+</p>
+<p>
+Note that <img style="vertical-align:middle;" src="files/gl_sphere_eq06.png" width="153" height="26" alt="the elevation of 26.565 degree"> is the elevation (height) of the point and <img style="vertical-align:middle;" src="files/gl_sphere_eq07.png" width="151" height="26" alt="projected length on XY plane"> is the length of the projected line segment on XY plane.
+<br>
+(<em>Reference: <a href="https://en.wikipedia.org/wiki/Regular_icosahedron#Spherical_coordinates">Spherical Coordinates of Regular Icosahedron from Wikipedia</a></em>)
+</p>
+
+<p>
+The following C++ code is to generate 12 vertices of an icosahedron for a given radius, or you can find the complete implementation of <a href="files/icosahedron.zip">Icosahedron.cpp</a> or <a href="files/icosphere.zip">Icosphere.cpp</a> class.
+</p>
+<pre><code class="codeblock">
+<span class="comment">// constants</span>
+const float PI = 3.1415926f;
+const float H_ANGLE = PI / 180 * 72;    <span class="comment">// 72 degree = 360 / 5</span>
+const float V_ANGLE = atanf(1.0f / 2);  <span class="comment">// elevation = 26.565 degree</span>
+
+std::vector&lt;float&gt; vertices(12 * 3);    <span class="comment">// array of 12 vertices (x,y,z)</span>
+int i1, i2;                             <span class="comment">// indices</span>
+float z, xy;                            <span class="comment">// coords</span>
+float hAngle1 = -PI / 2 - H_ANGLE / 2;  <span class="comment">// start from -126 deg at 1st row</span>
+float hAngle2 = -PI / 2;                <span class="comment">// start from -90 deg at 2nd row</span>
+
+<span class="comment">// the first top vertex at (0, 0, r)</span>
+vertices[0] = 0;
+vertices[1] = 0;
+vertices[2] = radius;
+
+<span class="comment">// compute 10 vertices at 1st and 2nd rows</span>
+for(int i = 1; i &lt;= 5; ++i)
+{
+    i1 = i * 3;         <span class="comment">// index for 1st row</span>
+    i2 = (i + 5) * 3;   <span class="comment">// index for 2nd row</span>
+
+    z  = radius * sinf(V_ANGLE);            <span class="comment">// elevaton</span>
+    xy = radius * cosf(V_ANGLE);            <span class="comment">// length on XY plane</span>
+
+    vertices[i1] = xy * cosf(hAngle1);      <span class="comment">// x</span>
+    vertices[i2] = xy * cosf(hAngle2);
+    vertices[i1 + 1] = xy * sinf(hAngle1);  <span class="comment">// y</span>
+    vertices[i2 + 1] = xy * sinf(hAngle2);
+    vertices[i1 + 2] = z;                   <span class="comment">// z</span>
+    vertices[i2 + 2] = -z;
+
+    <span class="comment">// next horizontal angles</span>
+    hAngle1 += H_ANGLE;
+    hAngle2 += H_ANGLE;
+}
+
+<span class="comment">// the last bottom vertex at (0, 0, -r)</span>
+i1 = 11 * 3;
+vertices[i1] = 0;
+vertices[i1 + 1] = 0;
+vertices[i1 + 2] = -radius;
+
+</code></pre>
+
+<p>
+The subdivision algorithm is splitting the 3 edge lines of each triangle in half, then extruding the new middle point outward, so its length (the distance from the center<b></b>) is the same as sphere's radius.
+</p>
+<pre><code class="codeblock">
+std::vector&lt;float&gt; tmpVertices;
+std::vector&lt;float&gt; tmpIndices;
+const float *v1, *v2, *v3;          <span class="comment">// ptr to original vertices of a triangle</span>
+float newV1[3], newV2[3], newV3[3]; <span class="comment">// new vertex positions</span>
+unsigned int index;
+
+<span class="comment">// iterate all subdivision levels</span>
+for(int i = 1; i &lt;= subdivision; ++i)
+{
+    <span class="comment">// copy prev vertex/index arrays and clear</span>
+    tmpVertices = vertices;
+    tmpIndices = indices;
+    vertices.clear();
+    indices.clear();
+    index = 0;
+
+    <span class="comment">// perform subdivision for each triangle</span>
+    for(int j = 0; j &lt; tmpIndices.size(); j += 3)
+    {
+        <span class="comment">// get 3 vertices of a triangle</span>
+        v1 = &amp;tmpVertices[tmpIndices[j] * 3];
+        v2 = &amp;tmpVertices[tmpIndices[j + 1] * 3];
+        v3 = &amp;tmpVertices[tmpIndices[j + 2] * 3];
+
+        <span class="comment">// compute 3 new vertices by spliting half on each edge</span>
+        <span class="comment">//         v1       </span>
+        <span class="comment">//        / \       </span>
+        <span class="comment">// newV1 *---* newV3</span>
+        <span class="comment">//      / \ / \     </span>
+        <span class="comment">//    v2---*---v3   </span>
+        <span class="comment">//       newV2      </span>
+        computeHalfVertex(v1, v2, newV1);
+        computeHalfVertex(v2, v3, newV2);
+        computeHalfVertex(v1, v3, newV3);
+
+        <span class="comment">// add 4 new triangles to vertex array</span>
+        addVertices(v1,    newV1, newV3);
+        addVertices(newV1, v2,    newV2);
+        addVertices(newV1, newV2, newV3);
+        addVertices(newV3, newV2, v3);
+
+        <span class="comment">// add indices of 4 new triangles</span>
+        addIndices(index,   index+1, index+2);
+        addIndices(index+3, index+4, index+5);
+        addIndices(index+6, index+7, index+8);
+        addIndices(index+9, index+10,index+11);
+        index += 12;    <span class="comment">// next index</span>
+    }
+}
+
+
+<span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
+<span class="comment">// find middle point of 2 vertices</span>
+<span class="comment">// NOTE: new vertex must be resized, so the length is equal to the radius</span>
+<span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
+void computeHalfVertex(const float v1[3], const float v2[3], float newV[3])
+{
+    newV[0] = v1[0] + v2[0];    <span class="comment">// x</span>
+    newV[1] = v1[1] + v2[1];    <span class="comment">// y</span>
+    newV[2] = v1[2] + v2[2];    <span class="comment">// z</span>
+    float scale = radius / sqrtf(newV[0]*newV[0] + newV[1]*newV[1] + newV[2]*newV[2]);
+    newV[0] *= scale;
+    newV[1] *= scale;
+    newV[2] *= scale;
+}
+
+</code></pre>
+
+<p>
+In order to generate a texture map of an icosphere, you need to unwrap the 3D geometry on a plane (paper model). I use the following texture coordinates of vertices instead of normalized coordinates from 0 to 1, so the coordinate of each vertex can be snapped to an exact pixel on the image. For example, if a texture size is 2048x1024, then the horizontal step is 186 pixels and the vertical step is 322 pixels.
+</p>
+<div style="text-align:center;">
+<img src="files/gl_sphere11.png" width="780" height="380" alt="texture coordinates of icosphere">
+<br />
+<span class="caption">Texture coordinates of Icosphere, where S=186/2048, T=322/1024</span>
+</div>
+
+
+<h3 id="example_icosphere">Example: Icosphere</h3>
+<p>
+<img src="files/gl_sphere12.png" width="785" height="412" alt="example of drawing icosphere">
+<br />
+This example is to draw an icosphere with a texture. Press the spacebar key to change the subdivision level. If the subdivision is 2, the icosphere consists of 320 triangles, and if the subdivision is 5, it has 20,480 triangles.
+<br />
+<strong>Download:</strong> <a href="files/icosphere.zip">icosphere.zip</a>, <a href="files/icosphereShader.zip">icosphereShader.zip</a>, <a href="files/icosahedron.zip">icosahedron.zip</a> <em>(Updated: 2019-12-29)</em>
+</p>
+<p>
+Drawing an icosphere in OpenGL is identical to Sphere C++ class object. Please refer to <a href="#example_sphere">Sphere example</a> section above. To construct an icosphere object, it requires 3 parameters; radius, subdivision and surface smoothness. You can change the radius and subdivision level after it has been constructed. If the subdivision is 0, then it is the same as an icosahedron.
+</p>
+<pre><code class="codeblock">
+<span class="comment">// create icosphere with radius=1, subdivision=5 and smooth shading=true</span>
+Icosphere sphere(1.0f, 5, true);
+
+<span class="comment">// can change parameters later</span>
+sphere.setRadius(2.0f);
+sphere.setSubdivision(6);
+sphere.setSmooth(false);
+...
+
+<span class="comment">// draw icosphere using vertexarray</span>
+sphere.draw();
+...
+
+<span class="comment">// copy interleaved vertex data (V/N/T) to VBO</span>
+GLuint vboId;
+glGenBuffers(1, &amp;vboId);
+glBindBuffer(GL_ARRAY_BUFFER, vboId);           <span class="comment">// for vertex data</span>
+glBufferData(GL_ARRAY_BUFFER,                   <span class="comment">// target</span>
+             sphere.getInterleavedVertexSize(), <span class="comment">// data size, # of bytes</span>
+             sphere.getInterleavedVertices(),   <span class="comment">// ptr to vertex data</span>
+             GL_STATIC_DRAW);                   <span class="comment">// usage</span>
+
+<span class="comment">// copy index data to VBO</span>
+GLuint iboId;
+glGenBuffers(1, &amp;iboId);
+glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);   <span class="comment">// for index data</span>
+glBufferData(GL_ELEMENT_ARRAY_BUFFER,           <span class="comment">// target</span>
+             sphere.getIndexSize(),             <span class="comment">// data size, # of bytes</span>
+             sphere.getIndices(),               <span class="comment">// ptr to index data</span>
+             GL_STATIC_DRAW);                   <span class="comment">// usage</span>
+...
+
+<span class="comment">// draw icosphere using VBO and GLSL</span>
+int stride = sphere.getInterleavedStride();     <span class="comment">// should be 32 bytes</span>
+glVertexAttribPointer(attribVertex,   3, GL_FLOAT, false, stride, (void*)0);
+glVertexAttribPointer(attribNormal,   3, GL_FLOAT, false, stride, (void*)(sizeof(float)*3));
+glVertexAttribPointer(attribTexCoord, 2, GL_FLOAT, false, stride, (void*)(sizeof(float)*6));
+glDrawElements(GL_TRIANGLES,
+               sphere.getIndexCount(),
+               GL_UNSIGNED_INT,
+               (void*)0);
+...
+
+</code></pre>
+
+<h3 id="cubesphere">Cubesphere</h3>
+<p>
+Similar to subdividing an icosahedron, a cubesphere is subdividing a cube (a regular polyhedron with 6 faces) N times to construct a sphere geometry. The characteristic of a cubesphere is that the spherical surface of the sphere is decomposed into 6 equal-area regions (+X, -X, +Y, -Y, +Z and -Z faces). It is somewhat related to the cube map, which is a method of environment mapping in computer graphics.
+</p>
+<div class="flexrow">
+<div style="float:left; text-align:center; margin-left:-10px;">
+<img src="files/gl_sphere13a.png" width="198" height="198" alt="cubesphere at subdivision 0">
+<br />
+<span class="caption">Cubesphere at subdivision 0</span>
+</div>
+<div style="float:left; text-align:center;">
+<img src="files/gl_sphere13b.png" width="198" height="198" alt="cubesphere at subdivision 1">
+<br />
+<span class="caption">Cubesphere at subdivision 1</span>
+</div>
+<div style="float:left; text-align:center;">
+<img src="files/gl_sphere13c.png" width="198" height="198" alt="cubesphere at subdivision 2">
+<br />
+<span class="caption">Cubesphere at subdivision 2</span>
+</div>
+<div style="float:left; text-align:center;">
+<img src="files/gl_sphere13d.png" width="198" height="198" alt="cubesphere at subdivision 3">
+<br />
+<span class="caption">Cubesphere at subdivision 3</span>
+</div>
+</div>
+
+<p>
+The following images represent how to construct one of the 6 regions of a cubesphere by intersecting angularly equal-distant longitudinal and latitudinal lines from -45 degree to 45 degree. A vertex on a cubesphere can be computed by the <a href="../math/plane/plane.html#intersect_2planes">intersection of 2 plane equations</a>. If the normal vector of the latitudinal plane is <img src="files/gl_sphere_eq08.png" class="center" width="19" height="18" alt="normal vector n1"> and the normal of the longitudinal plane is <img src="files/gl_sphere_eq09.png" class="center" width="19" height="18" alt="normal vector n2">, then the direction vector of the intersect line is <img src="files/gl_sphere_eq10.png" class="center" width="105" height="18" alt="direction vector v">. Finally, the vertex on the cubesphere is scaling the normalized direction vector by the radius of the sphere, <img src="files/gl_sphere_eq11.png" class="center" width="21" height="15" alt="radius times direction vector">.
+</p>
+
+<div class="flexrow">
+<div style="float:left; text-align:center;">
+<img src="files/gl_sphere14.png" width="350" height="350" alt="a face of a cubesphere">
+<br />
+<span class="caption">A face of cubesphere by intersecting longitudinal and latitudinal lines from -45 to +45 degree</span>
+</div>
+<div style="float:left; text-align:center;">
+<img src="files/gl_sphere15.png" width="377" height="350" alt="intersection of latitude and longitude planes">
+<br />
+<span class="caption">An intersect point of latitudinal and longitudinal planes</span>
+</div>
+</div>
+
+<p>
+The following C++ code is generating a face of a unit cubesphere, which is facing +X axis and the radius is 1.
+</p>
+<pre><code class="codeblock">
+<span class="comment">// generate vertices for +X face only by intersecting 2 circular planes</span>
+<span class="comment">// (longitudinal and latitudinal) at the given longitude/latitude angles</span>
+std::vector&lt;float&gt; buildUnitPositiveX(int subdivision)
+{
+    const float DEG2RAD = acos(-1) / 180.0f;
+
+    std::vector&lt;float&gt; vertices;
+    float n1[3];        <span class="comment">// normal of longitudinal plane rotating along Y-axis</span>
+    float n2[3];        <span class="comment">// normal of latitudinal plane rotating along Z-axis</span>
+    float v[3];         <span class="comment">// direction vector intersecting 2 planes, n1 x n2</span>
+    float a1;           <span class="comment">// longitudinal angle along Y-axis</span>
+    float a2;           <span class="comment">// latitudinal angle along Z-axis</span>
+
+    <span class="comment">// compute the number of vertices per row, 2^n + 1</span>
+    int pointsPerRow = (int)pow(2, subdivision) + 1;
+
+    <span class="comment">// rotate latitudinal plane from 45 to -45 degrees along Z-axis (top-to-bottom)</span>
+    for(unsigned int i = 0; i &lt; pointsPerRow; ++i)
+    {
+        <span class="comment">// normal for latitudinal plane</span>
+        <span class="comment">// if latitude angle is 0, then normal vector of latitude plane is n2=(0,1,0)</span>
+        <span class="comment">// therefore, it is rotating (0,1,0) vector by latitude angle a2</span>
+        a2 = DEG2RAD * (45.0f - 90.0f * i / (pointsPerRow - 1));
+        n2[0] = -sin(a2);
+        n2[1] = cos(a2);
+        n2[2] = 0;
+
+        <span class="comment">// rotate longitudinal plane from -45 to 45 along Y-axis (left-to-right)</span>
+        for(unsigned int j = 0; j &lt; pointsPerRow; ++j)
+        {
+            <span class="comment">// normal for longitudinal plane</span>
+            <span class="comment">// if longitude angle is 0, then normal vector of longitude is n1=(0,0,-1)</span>
+            <span class="comment">// therefore, it is rotating (0,0,-1) vector by longitude angle a1</span>
+            a1 = DEG2RAD * (-45.0f + 90.0f * j / (pointsPerRow - 1));
+            n1[0] = -sin(a1);
+            n1[1] = 0;
+            n1[2] = -cos(a1);
+
+            <span class="comment">// find direction vector of intersected line, n1 x n2</span>
+            v[0] = n1[1] * n2[2] - n1[2] * n2[1];
+            v[1] = n1[2] * n2[0] - n1[0] * n2[2];
+            v[2] = n1[0] * n2[1] - n1[1] * n2[0];
+
+            <span class="comment">// normalize direction vector</span>
+            float scale = 1 / sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
+            v[0] *= scale;
+            v[1] *= scale;
+            v[2] *= scale;
+
+            <span class="comment">// add a vertex into array</span>
+            vertices.push_back(v[0]);
+            vertices.push_back(v[1]);
+            vertices.push_back(v[2]);
+        }
+    }
+
+    return vertices;
+}
+
+</code></pre>
+
+<p>
+The other 5 faces can be generated by repeating the above procedure, or swapping and/or negating axis of the vertices of +X face to optimize redundant sine/cosine computations. For example, the vertices of -X face are only negating x and z coordinates of +X face, and +Y face requires swapping x &rarr; y, y &rarr; -z, and z &rarr; -x.
+</p>
+<p>
+Please see the detail implementation in <strong>buildVerticesFlat()</strong> and <strong>buildVerticesSmooth()</strong> of C++ <a href="files/cubesphere.zip">Cubesphere</a> class to construct all 6 faces.
+</p>
+
+
+<h3 id="example_cubesphere">Example: Cubesphere</h3>
+<p>
+<img src="files/gl_sphere17.png" width="790" height="283" alt="example of drawing spheres using cubesphere">
+<br />
+<strong>Download:</strong> <a href="files/cubesphere.zip">cubesphere.zip</a>, <a href="files/sphereShader.zip">cubesphereShader.zip</a> <em>(Updated: 2020-01-08)</em>
+</p>
+<p>
+This example is to draw cubespheres with various shadings; the left sphere is without texture, the center sphere is applying a 2D texture to all the 6 faces, and the right sphere is with a cube map texture (<strong>GL_ARB_texture_cube_map</strong> extension required). Press the space key to change the subdivision levels.
+</p>
+
+<p>
+To construct a cubesphere object, it requires 3 parameters; radius, subdivision and surface smoothness. You can change the radius and subdivision level after it has been constructed. If the subdivision is 0, then the shape is a cube.
+</p>
+<pre><code class="codeblock">
+<span class="comment">// create cubesphere with default constructor</span>
+<span class="comment">// radius=1, subdivision=3 and smooth shading=true</span>
+Cubesphere sphere;
+Cubesphere sphere(1, 3, true); <span class="comment">// same as above</span>
+
+<span class="comment">// can change parameters later</span>
+sphere.setRadius(2.0f);
+sphere.setSubdivision(6);
+sphere.setSmooth(false);
+...
+
+<span class="comment">// draw cubesphere using vertexarray</span>
+sphere.draw();          <span class="comment">// draw surface only</span>
+sphere.drawWithLines(); <span class="comment">// draw surface and lines</span>
+sphere.drawFace(0);     <span class="comment">// draw only +X face, face index:0~5</span>
+...
+
+</code></pre>
+
+<p>
+This C++ class provides an additional function, <strong>drawFace()</strong> to draw only the selected face for the given face index. The valid face index is 0 to 5; +X, -X, +Y, -Y, +Z, -Z face respectively.
+</p>
+
+
+<!-- shader -->
+<script id="vert-simple" type="x-shader/x-vertex">
+// per-vertex lighting with a directional light source
+
+// vertex attributes
+attribute vec3 vertexPosition;
+attribute vec3 vertexNormal;
+attribute vec2 vertexTexCoord0;
+
+// uniforms
+uniform mat4 matrixNormal;
+uniform mat4 matrixView;
+uniform mat4 matrixModelView;
+uniform mat4 matrixModelViewProjection;
+uniform bool lightEnabled;
+uniform vec4 lightPosition;             // should be on the eye space
+uniform vec4 lightColor;
+uniform vec3 lightAttenuations;         // constant, linear, quadratic attanuations
+uniform vec4 materialAmbient;           // material ambient color
+uniform vec4 materialDiffuse;           // material diffuse color
+uniform vec4 materialSpecular;          // material specular color
+uniform float materialShininess;        // material specular exponent
+
+// varying variables
+varying vec4 ambient;
+varying vec4 diffuse;
+varying vec4 normalVec;
+varying vec3 lightVec;
+varying vec3 halfVec;
+varying float lightDistance;
+varying vec2 texCoord0;
+
+void main(void)
+{
+    // transform vertex position to clip space
+    gl_Position = matrixModelViewProjection * vec4(vertexPosition, 1);
+
+    if(!lightEnabled)
+    {
+        diffuse = materialDiffuse;
+        return;
+    }
+
+    ambient = materialAmbient;
+    diffuse = materialDiffuse * lightColor;
+
+    // directional
+    if(lightPosition.w == 0.0)
+    {
+        lightVec = lightPosition.xyz;   // assume lightPosition is normalized
+        lightDistance = -1.0;           // negative for directional
+    }
+    // positional
+    else
+    {
+        // transform vertex pos to eye space
+        vec4 eyeVertexVec = matrixModelView * vec4(vertexPosition, 1.0);
+
+        // compute light vector and distance for positional
+        lightVec = lightPosition.xyz - eyeVertexVec.xyz;
+        lightDistance = sqrt(dot(lightVec, lightVec));
+        lightVec = normalize(lightVec);
+    }
+
+    // transform the normal vector from object space to eye space
+    // assume vertexNormal was already normalized.
+    normalVec = matrixNormal * vec4(vertexNormal, 1.0);
+
+    // compute half vector
+    halfVec = normalize(lightVec + vec3(0,0,1));
+
+    // pass texture coord
+    texCoord0 = vertexTexCoord0;
+}
+</script>
+
+
+
+<script id="frag-simple" type="x-shader/x-fragment">
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+#else
+    precision mediump float;
+#endif
+
+// uniforms
+uniform bool lightEnabled;
+uniform vec4 lightColor;
+uniform vec3 lightAttenuations;         // constant, linear, quadratic attanuations
+uniform vec4 materialSpecular;          // material specular color
+uniform float materialShininess;        // material specular exponent
+uniform bool textureEnabled;
+uniform sampler2D map0;
+
+// varying variables
+varying vec4 ambient;
+varying vec4 diffuse;
+varying vec4 normalVec;
+varying vec3 lightVec;
+varying vec3 halfVec;
+varying float lightDistance;
+varying vec2 texCoord0;
+
+void main(void)
+{
+    if(!lightEnabled)
+    {
+        if(textureEnabled)
+            gl_FragColor = texture2D(map0, texCoord0) * diffuse;
+        else
+            gl_FragColor = diffuse;
+        return;
+    }
+
+    // re-normalize varying vars and store them as local vars
+    vec3 normal = normalize(normalVec.xyz);
+    vec3 halfv = normalize(halfVec);
+    vec3 light = normalize(lightVec);
+
+    // compute attenuations for positional light
+    float dotNL = max(dot(normal, light), 0.0);
+    float dotNH = max(dot(normal, halfv), 0.0);
+
+    // start with ambient
+    vec3 color = ambient.xyz;
+
+    // add diffuse
+    color += dotNL * diffuse.xyz;
+
+    // apply texturing before specular
+    if(textureEnabled)
+    {
+        vec4 texel = texture2D(map0, texCoord0);
+        color *= texel.rgb;     // modulate
+    }
+
+    // add specular
+    color += pow(dotNH, materialShininess) * materialSpecular.xyz * lightColor.xyz;
+
+    gl_FragColor = vec4(color, diffuse.a);  // keep alpha as original material has
+}
+</script>
+
+<h3 id="webgl_sphere">Example: WebGL Sphere (Interactive Demo)</h3>
+<div class="flexbox">
+<div class="flexitem1">
+<canvas id="webglView">
+</canvas>
+</div>
+
+<div class="flexitem2">
+<div>
+<span>Radius</span>
+<br>
+<div style="display:flex;align-items:center;">
+<input id="rangeRadius" class="slider" type="range" min="0" max="5" step="0.1" value="1" style="flex:1;"><label id="labelRadius" style="flex:0 0 2em;margin-left:5px;">1</label>
+</div>
+</div>
+<div>
+<span>Sector Count</span>
+<br>
+<div style="display:flex;align-items:center;">
+<input id="rangeSector" class="slider" type="range" min="3" max="50" step="1" value="36" style="flex:1;"><label id="labelSector" style="flex:0 0 2em;margin-left:5px;">36</label>
+</div>
+</div>
+<div>
+<span>Stack Count</span>
+<br>
+<div style="display:flex;align-items:center;">
+<input id="rangeStack" class="slider" type="range" min="2" max="50" step="1" value="18" style="flex:1;"><label id="labelStack" style="flex:0 0 2em;margin-left:5px;">18</label>
+</div>
+</div>
+<div>
+<label><input style="margin-bottom:20px;" type="checkbox" id="checkTexture">Show Texture</label>
+<br>
+<label><input style="margin-bottom:20px;" type="checkbox" id="checkWireframe">Show Wireframe</label>
+<br>
+<label><input style="margin-bottom:20px;" type="checkbox" id="checkSmooth">Smooth Shading</label>
+</div>
+<button type="reset" id="buttonReset" style="width:100%; padding:5px;">Reset</button>
+</div> <!-- end of flexitem2 -->
+</div> <!-- end of flexbox -->
+
+<p>
+<br>
+It is a JavaScript version of Sphere class, <a href="../glsl/files/js/Sphere.js">Sphere.js</a>, and rendering it with WebGL. Drag the sliders to change the parameters of the sphere. The fullscreen version is available <a href="../glsl/test_sphere.html">here</a>.</p>
+<p>
+The following JavaScript code is to create and to render a sphere object.
+</p>
+<pre><code class="codeblock" style="clear:both;">
+<span class="comment">// create a sphere with 4 params: radius, sectors, stacks, smooth</span>
+let sphere = new Sphere(1, 36, 18, false);
+...
+
+<span class="comment">// change params of sphere later</span>
+sphere.setRadius(2);
+sphere.setSectorCount(8);
+sphere.setStackCount(4);
+sphere.setSmooth(true);
+...
+
+<span class="comment">// draw a sphere with interleaved mode</span>
+gl.bindBuffer(gl.ARRAY_BUFFER, sphere.vboVertex);
+gl.vertexAttribPointer(gl.program.attribPosition, 3, gl.FLOAT, false, sphere.stride, 0);
+gl.vertexAttribPointer(gl.program.attribNormal, 3, gl.FLOAT, false, sphere.stride, 12);
+gl.vertexAttribPointer(gl.program.attribTexCoord0, 2, gl.FLOAT, false, sphere.stride, 24);
+
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sphere.vboIndex);
+gl.drawElements(gl.TRIANGLES, sphere.getIndexCount(), gl.UNSIGNED_SHORT, 0);
+...
+
+</code></pre>
+
+
+
+<!-- footer -->
+<div id="footer">
+<div style="float:left">
+&copy;&nbsp;2018 - 2020 <a href="mailto:song.ahn@gmail.com">Song Ho Ahn (<span lang="ko">안성호</span>)</a>
+</div>
+<div style="float:right">
+<img src="../files/html5_gray32.png" width="32" height="32" alt="HTML5 Logo" />
+</div>
+<div style="float:right">
+<a href="https://validator.w3.org/check?uri=referer"><img src="../files/I_heart_validator.png" width="80" height="15" alt="HTML Validator" /></a>
+</div>
+</div>
+
+<!-- nav -->
+<div style="clear:both; font-size:80%">
+<a href="../index.html">&larr;Back</a>
+</div>
+
+</div>
+</div> <!-- END OF LEFTBLOCK -->
+
+
+<!-- right content block ============================================ -->
+<div id="rightblock">
+<div class="innerblock">
+
+<!-- DISQUS block =============================== -->
+<div id="commentblock">
+<div id="buttonDisqus" class="cssbutton">
+Hide Comments
+</div>
+
+<div id="disqus_thread">
+</div>
+<script>
+var disqus_shortname = 'songho'; // required: replace example with your forum shortname
+//var disqus_identifier = 'test';
+var disqus_config = function() {
+    this.discovery.disable_all = true;
+};
+(function() {
+    var dsq=document.createElement('script'); dsq.type='text/javascript'; dsq.async=true;
+    dsq.src='https://'+disqus_shortname+'.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>
+Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+<!-- END OF DISQUS BLOCK ======================== -->
+
+<div>
+&nbsp;
+</div>
+
+</div>
+</div>
+<!-- END OF RIGHT BLOCK ============================================= -->
+
+</div>
+<!-- END OF WRAP ==================================================== -->
+
+</body>
+</html>

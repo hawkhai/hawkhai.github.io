@@ -76,11 +76,15 @@ OpenGL 在每次顶点着色器运行之后，希望可见的顶点都可以转�
 glm::mat4 内存结构是列保存的（**刚好是上面数学矩阵的转置**）：
 
 ```
- 1[0][0]  2[0][1]  3[0][2]  4[0][3]
- 5[1][0]  6[1][1]  7[1][2]  8[1][3]
- 9[2][0] 10[2][1] 11[2][2] 12[2][3]
-13[3][0] 14[3][1] 15[3][2] 16[3][3]
+// 列优先记法
+| 0 4  8 12 |
+| 1 5  9 13 |
+| 2 6 10 14 |
+| 3 7 11 15 |
 ```
+
+* [OpenGL Projection Matrix](http://www.songho.ca/opengl/gl_projectionmatrix.html)
+* [OpenGL Sphere](http://www.songho.ca/opengl/gl_sphere.html)
 
 原始坐标：
 
@@ -128,3 +132,5 @@ projection=glm::perspective(glm::radians(90.0f),800.0f/600.0f,0.1f,10.0f);
 - [1] [https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/08%20Coordinate%20Systems/]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/learnopengl-cn.readthedocs.io/cfc9cf0a.html" %})
 - [2] [https://www.mdeditor.tw/pl/pZYE]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.mdeditor.tw/c5442ada.html" %})
 - [3] [https://mp.weixin.qq.com/s/0HZgyZra90LQLFAq6dQJ9A]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/mp.weixin.qq.com/25763337.html" %})
+- [4] [http://www.songho.ca/opengl/gl_projectionmatrix.html]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.songho.ca/7c7467ff.html" %})
+- [5] [http://www.songho.ca/opengl/gl_sphere.html]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.songho.ca/ca4b2763.html" %})
