@@ -175,6 +175,8 @@ GLSL 中函数不能够递归调用，且必须声明返回值类型（无返回
 没有任何限定符的全局变量如果没有在定义时初始化或者在程序中被初始化，则其值在进入 main() 函数之后是未定义的。
 uniform、attribute 和 varying 限定符修饰的变量不能在初始化时被赋值，这些变量的值由 OpenGL ES 计算提供。
 
+全局变量限制符只能为 const、attribute、uniform 和 varying 中的一个，不可复合。
+
 
 ### const 限定符
 
@@ -238,6 +240,11 @@ invariant Color; // make existing Color be invariant
 invariant varying mediump vec3 Color;
 ```
 
+```glsl
+#pragma STDGL invariant(all) // 所有输出变量为 invariant
+invariant varying texCoord; // varying 在传递数据的时候声明为 invariant
+```
+
 
 ### precision 限定符
 
@@ -268,6 +275,9 @@ precision mediump float;
 | highp | (-2^62, 2^62) | (2^-62, 2^62) | 相对：2^-16 | (-2^16, 2^16) |
 | mediump | (-2^14, 2^14) | (2^-14, 2^14) | 相对：2^-10 | (-2^10, 2^10) |
 | lowp | (-2, 2) | (2^-8, 2) | 绝对：2^-8 | (-2^8, 2^8) |
+
+
+### 限定符的顺序
 
 * 在一般变量中：invariant > storage > precision （storage：存储，precision：精度）
 * 在函数参数中：storage > parameter > precision （parameter：参数）
@@ -457,6 +467,41 @@ gl_MaxDrawBuffers 表示可用的 drawBuffers 数。
 </dl>
 
 
+### 内置的特殊变量
+
+**在 vertex Shader 中：**
+
+output 类型的内置变量：
+
+<table class="tablestyle" ntablew="2:3:1"></table>
+
+| 变量 | 说明 | 单位 |
+|---|---|---|
+|highp vec4 `gl_Position`;| gl\_Position 放置顶点坐标信息 |vec4|
+|mediump float `gl_PointSize`;| gl\_PointSize 需要绘制点的大小（只在 gl.POINTS 模式下有效） |float|
+
+**在 fragment Shader 中：**
+
+input 类型的内置变量：
+
+<table class="tablestyle" ntablew="2:3:1"></table>
+
+| 变量 | 说明 | 单位 |
+|---|---|---|
+|mediump vec4 `gl_FragCoord`;| 片元在 framebuffer 画面的相对位置 |vec4|
+|bool `gl_FrontFacing`;| 标志当前图元是不是正面图元的一部分 |bool|
+|mediump vec2 `gl_PointCoord`;| 经过插值计算后的纹理坐标，点的范围是 0.0 到 1.0 |vec2|
+
+output 类型的内置变量：
+
+<table class="tablestyle" ntablew="2:3:1"></table>
+
+| 变量 | 说明 | 单位 |
+|---|---|---|
+|mediump vec4 `gl_FragColor`;| 设置当前片点的颜色 |vec4 RGBA color|
+|mediump vec4 `gl_FragData[n]`;| 设置当前片点的颜色，使用 glDrawBuffers 数据数组 |vec4 RGBA color|
+
+
 ## 内置函数
 
 片段着色器中用来计算镜面光的代码：
@@ -491,16 +536,29 @@ lowp vec4 col = texture2D(sampler, coord); // texture2D returns lowp
 Syntax & Description
 
 <dl>
-<dt> genType radians (genType degrees) </dt><dd> Converts degrees to radians. </dd>
-<dt> genType degrees (genType radians) </dt><dd> Converts radians to degrees. </dd>
-<dt> genType sin (genType angle) </dt><dd> The standard trigonometric sine function. </dd>
-<dt> genType cos (genType angle) </dt><dd> The standard trigonometric cosine function. </dd>
-<dt> genType tan (genType angle) </dt><dd> The standard trigonometric tangent. </dd>
-<dt> genType asin (genType x) </dt><dd> Arc sine. Returns an angle whose sine is x. The range of values returned by this function is [-π/2, π/2]. Results are undefined if ∣x∣ > 1. </dd>
-<dt> genType acos (genType x) </dt><dd> Arc cosine. Returns an angle whose cosine is x. The range of values returned by this function is [0, π]. Results are undefined if ∣x∣ > 1. </dd>
-<dt> genType atan (genType y, genType x) </dt><dd> Arc tangent. Returns an angle whose tangent is y/x. The signs of x and y are used to determine what quadrant the angle is in. The range of values returned by this function is [−π,π]. Results are undefined if x and y are both 0. </dd>
-<dt> genType atan (genType y_over_x) </dt><dd> Arc tangent. Returns an angle whose tangent is y_over_x. The range of values returned by this function is [−π/2, π/2]. </dd>
+<dt> T radians (T degrees) </dt><dd> 角度转弧度。Converts degrees to radians. </dd>
+<dt> T degrees (T radians) </dt><dd> 弧度转角度。Converts radians to degrees. </dd>
+<dt> T sin (T angle) </dt><dd> 正弦函数，角度是弧度。The standard trigonometric sine function. </dd>
+<dt> T cos (T angle) </dt><dd> 余弦函数，角度是弧度。The standard trigonometric cosine function. </dd>
+<dt> T tan (T angle) </dt><dd> 正切函数，角度是弧度。The standard trigonometric tangent. </dd>
+<dt> T asin (T x) </dt><dd> 反正弦函数，返回值是弧度。Arc sine. Returns an angle whose sine is x. The range of values returned by this function is [-π/2, π/2]. Results are undefined if ∣x∣ > 1. </dd>
+<dt> T acos (T x) </dt><dd> 反余弦函数，返回值是弧度。Arc cosine. Returns an angle whose cosine is x. The range of values returned by this function is [0, π]. Results are undefined if ∣x∣ > 1. </dd>
+<dt> T atan (T y, T x) </dt><dd> 反正切函数，返回值是弧度。Arc tangent. Returns an angle whose tangent is y/x. The signs of x and y are used to determine what quadrant the angle is in. The range of values returned by this function is [−π,π]. Results are undefined if x and y are both 0. </dd>
+<dt> T atan (T y_over_x) </dt><dd> 反正切函数，返回值是弧度。Arc tangent. Returns an angle whose tangent is y_over_x. The range of values returned by this function is [−π/2, π/2]. </dd>
 </dl>
+
+
+### 指数函数
+
+| 方法 | 说明 |
+|---|---|
+|T pow(T x, T y)| 返回 x 的 y 次幂 x<sub>y</sub>|
+|T exp(T x)| 返回 x 的自然指数幂 e<sub>x</sub>|
+|T log(T x)| 返回 x 的自然对数 ln|
+|T exp2(T x)| 返回 2 的 x 次幂 2<sub>x</sub>|
+|T log2(T x)| 返回 2 为底的对数 log2|
+|T sqrt(T x)| 开根号 √x|
+|T inversesqrt(T x)| 先开根号，在取倒数，就是 1/√x|
 
 
 ### 通用函数
@@ -508,35 +566,36 @@ Syntax & Description
 Syntax & Description
 
 <dl>
-<dt> genType abs (genType x) </dt><dd> Returns x if x >= 0, otherwise it returns –x. </dd>
-<dt> genType sign (genType x) </dt><dd> Returns 1.0 if x > 0, 0.0 if x = 0, or –1.0 if x < 0. </dd>
-<dt> genType floor (genType x) </dt><dd> Returns a value equal to the nearest integer that is less than or equal to x. </dd>
-<dt> genType ceil (genType x) </dt><dd> Returns a value equal to the nearest integer that is greater than or equal to x. </dd>
+<dt> T abs (T x) </dt><dd> 返回 x 的绝对值。Returns x if x >= 0, otherwise it returns –x. </dd>
+<dt> T sign (T x) </dt><dd> 比较 x 与 0 的值。大于、等于、小于 分别返回 1.0, 0.0, -1.0。Returns 1.0 if x > 0, 0.0 if x = 0, or –1.0 if x < 0. </dd>
+<dt> T floor (T x) </dt><dd> 返回 <=x 的最大整数。Returns a value equal to the nearest integer that is less than or equal to x. </dd>
+<dt> T ceil (T x) </dt><dd> 返回 >= 等于 x 的最小整数。Returns a value equal to the nearest integer that is greater than or equal to x. </dd>
 
-<dt> genType fract (genType x) </dt><dd> Returns x – floor (x). </dd>
-<dt> genType mod (genType x, float y) </dt><dd> Modulus (modulo). Returns x – y ∗ floor (x/y). </dd>
-<dt> genType mod (genType x, genType y) </dt><dd> Modulus. Returns x – y ∗ floor (x/y). </dd>
+<dt> T fract (T x) </dt><dd> 获取 x 的小数部分。Returns x – floor (x). </dd>
+<dt> T mod (T x, float y) </dt><dd> 取 x, y 的余数。Modulus (modulo). Returns x – y ∗ floor (x/y). </dd>
+<dt> T mod (T x, T y) </dt><dd> 取 x, y 的余数。Modulus. Returns x – y ∗ floor (x/y). </dd>
 
-<dt> genType min (genType x, genType y) </dt>
-<dt> genType min (genType x, float y) </dt><dd> Returns y if y < x, otherwise it returns x. </dd>
+<dt> T min (T x, T y) </dt>
+<dt> T min (T x, float y) </dt><dd> 取 x, y 的最小值。Returns y if y < x, otherwise it returns x. </dd>
 
-<dt> genType max (genType x, genType y) </dt>
-<dt> genType max (genType x, float y) </dt><dd> Returns y if x < y, otherwise it returns x. </dd>
+<dt> T max (T x, T y) </dt>
+<dt> T max (T x, float y) </dt><dd> 取 x, y 的最大值。Returns y if x < y, otherwise it returns x. </dd>
 
-<dt> genType clamp (genType x, genType minVal, genType maxVal) </dt>
-<dt> genType clamp (genType x, float minVal, float maxVal) </dt><dd> Returns min (max (x, minVal), maxVal) Results are undefined if minVal > maxVal. </dd>
+<dt> T clamp (T x, T minVal, T maxVal) </dt>
+<dt> T clamp (T x, float minVal, float maxVal) </dt><dd> min(max(x, minVal), maxVal)，返回值被限定在 minVal, maxVal 之间。Returns min (max (x, minVal), maxVal) Results are undefined if minVal > maxVal. </dd>
 
-<dt> genType mix (genType x, genType y, genType a) </dt>
-<dt> genType mix (genType x, genType y, float a) </dt><dd> Returns the linear blend of x and y: x(1-a)+ya. </dd>
+<dt> T mix (T x, T y, T a) </dt>
+<dt> T mix (T x, T y, float a) </dt><dd> 取 x, y 的线性混合，x*(1-a)+y*a。Returns the linear blend of x and y: x(1-a)+ya. </dd>
 
-<dt> genType step (genType edge, genType x) </dt>
-<dt> genType step (float edge, genType x) </dt><dd> Returns 0.0 if x < edge, otherwise it returns 1.0. </dd>
+<dt> T step (T edge, T x) </dt>
+<dt> T step (float edge, T x) </dt><dd> 如果 x<edge 返回 0.0 否则返回 1.0。Returns 0.0 if x < edge, otherwise it returns 1.0. </dd>
 
-<dt> genType smoothstep (genType edge0, genType edge1, genType x) </dt>
-<dt> genType smoothstep (float edge0, float edge1, genType x) </dt><dd>
+<dt> T smoothstep (T edge0, T edge1, T x) </dt>
+<dt> T smoothstep (float edge0, float edge1, T x) </dt><dd>
+如果 x<edge0 返回 0.0 如果 x>edge1 返回 1.0，否则返回 Hermite 插值。
 Returns 0.0 if x <= edge0 and 1.0 if x >= edge1 and performs smooth Hermite interpolation between 0 and 1 when edge0 < x < edge1.
 This is useful in cases where you would want a threshold function with a smooth transition.
-This is equivalent to: genType t; t = clamp ((x – edge0) / (edge1 – edge0), 0, 1);
+This is equivalent to: T t; t = clamp ((x – edge0) / (edge1 – edge0), 0, 1);
 return t * t * (3 – 2 * t); Results are undefined if edge0 >= edge1. </dd>
 </dl>
 
@@ -546,14 +605,15 @@ return t * t * (3 – 2 * t); Results are undefined if edge0 >= edge1. </dd>
 Syntax & Description
 
 <dl>
-<dt> float length (genType x) </dt><dd> Returns the length of vector x. </dd>
-<dt> float distance (genType p0, genType p1) </dt><dd> Returns the distance between p0 and p1. </dd>
-<dt> float dot (genType x, genType y) </dt><dd> Returns the dot product of x and y. </dd>
-<dt> vec3 cross (vec3 x, vec3 y) </dt><dd> Returns the cross product of x and y. </dd>
-<dt> genType normalize (genType x) </dt><dd> Returns a vector in the same direction as x but with a length of 1. </dd>
-<dt> genType faceforward(genType N, genType I, genType Nref) </dt><dd> If dot(Nref, I) < 0 return N, otherwise return –N. </dd>
-<dt> genType reflect (genType I, genType N) </dt><dd> For the incident vector I and surface orientation N, returns the reflection direction: I – 2 ∗ dot(N, I) ∗ N. N must already be normalized in order to achieve the desired result. </dd>
-<dt> genType refract(genType I, genType N, float eta) </dt><dd>
+<dt> float length (T x) </dt><dd> 返回矢量 x 的长度。Returns the length of vector x. </dd>
+<dt> float distance (T p0, T p1) </dt><dd> 返回 p0 p1 两点的距离。Returns the distance between p0 and p1. </dd>
+<dt> float dot (T x, T y) </dt><dd> 返回 x y 的点积。Returns the dot product of x and y. </dd>
+<dt> vec3 cross (vec3 x, vec3 y) </dt><dd> 返回 x y 的叉积。Returns the cross product of x and y. </dd>
+<dt> T normalize (T x) </dt><dd> 对 x 进行归一化，保持向量方向不变但长度变为 1。Returns a vector in the same direction as x but with a length of 1. </dd>
+<dt> T faceforward(T N, T I, T Nref) </dt><dd> 根据 矢量 N 与 Nref 调整法向量。If dot(Nref, I) < 0 return N, otherwise return –N. </dd>
+<dt> T reflect (T I, T N) </dt><dd> 返回 I-2*dot(N,I)*N，结果是入射矢量 I 关于法向量 N 的镜面反射矢量。For the incident vector I and surface orientation N, returns the reflection direction: I – 2 ∗ dot(N, I) ∗ N. N must already be normalized in order to achieve the desired result. </dd>
+<dt> T refract(T I, T N, float eta) </dt><dd>
+返回入射矢量 I 关于法向量 N 的折射矢量，折射率为 eta。
 For the incident vector I and surface normal N, and the ratio of indices of refraction eta, return the refraction vector.
 The result is computed by k = 1.0 - eta * eta * (1.0 - dot(N, I) * dot(N, I));
 if (k < 0.0) return genType(0.0) else return eta * I - (eta * dot(N, I) + sqrt(k)) * N.
@@ -567,6 +627,7 @@ Syntax & Description
 
 <dl>
 <dt> mat matrixCompMult (mat x, mat y) </dt><dd>
+将矩阵 x 和 y 的元素逐分量相乘。
 Multiply matrix x by matrix y component-wise, i.e., result[i][j] is the scalar product of x[i][j] and y[i][j].
 Note: to get linear algebraic matrix multiplication, usethe multiply operator (*).
 </dd>
@@ -579,22 +640,22 @@ Syntax & Description
 
 <dl>
 <dt> bvec lessThan(vec x, vec y) </dt>
-<dt> bvec lessThan(ivec x, ivec y) </dt><dd> Returns the component-wise compare of x < y.</dd>
+<dt> bvec lessThan(ivec x, ivec y) </dt><dd> 逐分量比较 x < y，将结果写入 bvec 对应位置。Returns the component-wise compare of x < y.</dd>
 <dt> bvec lessThanEqual(vec x, vec y) </dt>
-<dt> bvec lessThanEqual(ivec x, ivec y) </dt><dd> Returns the component-wise compare of x <= y.</dd>
+<dt> bvec lessThanEqual(ivec x, ivec y) </dt><dd> 逐分量比较 x <= y，将结果写入 bvec 对应位置。Returns the component-wise compare of x <= y.</dd>
 <dt> bvec greaterThan(vec x, vec y) </dt>
-<dt> bvec greaterThan(ivec x, ivec y) </dt><dd> Returns the component-wise compare of x > y.</dd>
+<dt> bvec greaterThan(ivec x, ivec y) </dt><dd> 逐分量比较 x > y，将结果写入 bvec 对应位置。Returns the component-wise compare of x > y.</dd>
 <dt> bvec greaterThanEqual(vec x, vec y) </dt>
-<dt> bvec greaterThanEqual(ivec x, ivec y) </dt><dd> Returns the component-wise compare of x >= y.</dd>
+<dt> bvec greaterThanEqual(ivec x, ivec y) </dt><dd> 逐分量比较 x >= y，将结果写入 bvec 对应位置。Returns the component-wise compare of x >= y.</dd>
 <dt> bvec equal(vec x, vec y) </dt>
 <dt> bvec equal(ivec x, ivec y) </dt>
-<dt> bvec equal(bvec x, bvec y) </dt>
+<dt> bvec equal(bvec x, bvec y) </dt><dd>逐分量比较 x == y，将结果写入 bvec 对应位置。</dt>
 <dt> bvec notEqual(vec x, vec y) </dt>
 <dt> bvec notEqual(ivec x, ivec y) </dt>
-<dt> bvec notEqual(bvec x, bvec y) </dt><dd> Returns the component-wise compare of x == y; Returns the component-wise compare of x != y.</dd>
-<dt> bool any(bvec x) </dt><dd> Returns true if any component of x is true.</dd>
-<dt> bool all(bvec x) </dt><dd> Returns true only if all components of x are true.</dd>
-<dt> bvec not(bvec x) </dt><dd> Returns the component-wise logical complement of x.</dd>
+<dt> bvec notEqual(bvec x, bvec y) </dt><dd> 逐分量比较 x != y，将结果写入 bvec 对应位置。Returns the component-wise compare of x == y; Returns the component-wise compare of x != y.</dd>
+<dt> bool any(bvec x) </dt><dd> 如果 x 的任意一个分量是 true，则结果为 true。Returns true if any component of x is true.</dd>
+<dt> bool all(bvec x) </dt><dd> 如果 x 的所有分量是 true，则结果为 true。Returns true only if all components of x are true.</dd>
+<dt> bvec not(bvec x) </dt><dd> bool 矢量的逐分量取反。Returns the component-wise logical complement of x.</dd>
 </dl>
 
 
