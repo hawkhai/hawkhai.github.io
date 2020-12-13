@@ -649,7 +649,7 @@ Syntax & Description
 <dt> bvec greaterThanEqual(ivec x, ivec y) </dt><dd> 逐分量比较 x >= y，将结果写入 bvec 对应位置。Returns the component-wise compare of x >= y.</dd>
 <dt> bvec equal(vec x, vec y) </dt>
 <dt> bvec equal(ivec x, ivec y) </dt>
-<dt> bvec equal(bvec x, bvec y) </dt><dd>逐分量比较 x == y，将结果写入 bvec 对应位置。</dt>
+<dt> bvec equal(bvec x, bvec y) </dt><dd>逐分量比较 x == y，将结果写入 bvec 对应位置。</dd>
 <dt> bvec notEqual(vec x, vec y) </dt>
 <dt> bvec notEqual(ivec x, ivec y) </dt>
 <dt> bvec notEqual(bvec x, bvec y) </dt><dd> 逐分量比较 x != y，将结果写入 bvec 对应位置。Returns the component-wise compare of x == y; Returns the component-wise compare of x != y.</dd>
