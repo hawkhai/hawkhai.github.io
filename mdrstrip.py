@@ -208,13 +208,13 @@ def collectHost(fpath, line):
         url = tx[0]
         host = tx[2]
         checkz = line.split(url)
-        for xline in checkz[1:]:
+        for iline in checkz[1:]:
             checkli = ["", ")", "]", ">", " ", "*"]
             if url in ("https://msdl.microsoft.com/download/symbols",):
                 checkli.append(";")
-            if xline[:2] in ("{{",):
+            if iline[:2] in ("{{",):
                 continue
-            if not xline[:1] in checkli:
+            if not iline[:1] in checkli:
                 print(line)
                 print(url)
                 assert False, checkz
