@@ -138,6 +138,9 @@ def organizeRes(ik, fpath, line):
             g_orgremove.add(ik)
     else:
         assert False, ik
+    if not ikfile.split(".")[-1] in ("pdf", "png", "jpg", "gif", "jpeg", "webp",):
+        print(ik, fpath, line)
+        assert False, ik
     return line.replace(ik, tpath.replace("\\", "/"))
 
 g_hostset = {}
