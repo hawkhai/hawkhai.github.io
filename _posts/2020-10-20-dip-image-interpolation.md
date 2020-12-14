@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“数字图像处理”笔记 -- 图像缩放插值算法直观感受"
+title: "数字图像处理笔记 -- 图像缩放插值算法直观感受"
 author:
 location: "珠海"
 categories: ["图像处理"]

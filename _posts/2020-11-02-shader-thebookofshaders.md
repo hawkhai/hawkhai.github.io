@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“特效编程”笔记 --《The Book of Shaders》读书笔记"
+title: "特效编程笔记 --《The Book of Shaders》读书笔记"
 author:
 location: "珠海"
 categories: ["特效"]

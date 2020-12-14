@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“特效编程”笔记 -- GLSL ES 语法详解"
+title: "特效编程笔记 -- GLSL ES 语法详解"
 author:
 location: "珠海"
 categories: ["特效"]

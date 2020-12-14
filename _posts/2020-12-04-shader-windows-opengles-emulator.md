@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“特效编程”笔记 -- ARM MALI OpenGL ES Emulator for Windows"
+title: "特效编程笔记 -- ARM MALI OpenGL ES Emulator for Windows"
 author:
 location: "珠海"
 categories: ["特效"]

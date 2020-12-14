@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“特效编程”笔记 -- 高级 D3D10 着色器创作"
+title: "特效编程笔记 -- 高级 D3D10 着色器创作"
 author:
 location: "珠海"
 categories: ["特效"]

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“Ogre3D”笔记 -- Ogre3D 脚本系统关键字说明"
+title: "Ogre3D 笔记 -- Ogre3D 脚本系统关键字说明"
 author:
 location: "珠海"
 categories: ["Ogre3D"]

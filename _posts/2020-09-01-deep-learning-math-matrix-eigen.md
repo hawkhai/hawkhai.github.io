@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“深度学习”笔记 -- 数学×矩阵的特征值和特征向量"
+title: "深度学习笔记 -- 数学×矩阵的特征值和特征向量"
 author:
 location: "珠海"
 categories: ["深度学习"]

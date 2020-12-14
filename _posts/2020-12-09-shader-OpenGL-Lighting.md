@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“特效编程”笔记 -- OpenGL 图形学 / 冯氏光照模型"
+title: "特效编程笔记 -- OpenGL 图形学 / 冯氏光照模型"
 author:
 location: "珠海"
 categories: ["特效"]

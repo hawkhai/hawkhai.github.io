@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“数字图像处理”笔记 -- OpenCV 中 resize 函数五种插值算法的实现过程"
+title: "数字图像处理笔记 -- OpenCV 中 resize 函数五种插值算法的实现过程"
 author:
 location: "珠海"
 categories: ["图像处理"]

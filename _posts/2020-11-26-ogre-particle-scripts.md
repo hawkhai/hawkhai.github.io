@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“Ogre3D”笔记 -- Ogre3D 粒子脚本文档  Particle Scripts"
+title: "Ogre3D 笔记 -- Ogre3D 粒子脚本文档  Particle Scripts"
 author:
 location: "珠海"
 categories: ["Ogre3D"]

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“特效编程”笔记 -- Shader Language 入门初探"
+title: "特效编程笔记 -- Shader Language 入门初探"
 author:
 location: "珠海"
 categories: ["特效"]

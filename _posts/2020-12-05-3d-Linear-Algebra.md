@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“特效编程”笔记 -- 3D 引擎数学：线性代数"
+title: "特效编程笔记 -- 3D 引擎数学：线性代数"
 author:
 location: "珠海"
 categories: ["特效"]

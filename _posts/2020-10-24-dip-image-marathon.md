@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“数字图像处理” -- 编程马拉松 HACKATHON 2020 · TEAM24"
+title: "数字图像处理 -- 编程马拉松 HACKATHON 2020 · TEAM24"
 author:
 location: "珠海"
 categories: ["图像处理"]

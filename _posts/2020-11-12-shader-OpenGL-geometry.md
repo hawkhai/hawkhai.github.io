@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“特效编程”笔记 -- OPENGL 入门（几何着色器）"
+title: "特效编程笔记 -- OPENGL 入门（几何着色器）"
 author:
 location: "珠海"
 categories: ["特效"]

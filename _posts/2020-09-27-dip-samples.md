@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "“数字图像处理”笔记 -- 几个实验 (DIP)"
+title: "数字图像处理笔记 -- 几个实验 (DIP)"
 author:
 location: "珠海"
 categories: ["图像处理"]
