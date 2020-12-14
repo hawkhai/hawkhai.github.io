@@ -86,7 +86,7 @@ MKLINK [[/D] | [/H] | [/J]] Link Target
 
 ## 限制
 
-[link](https://blog.csdn.net/u010977122/article/details/86518967) 符号链接在系统启动的时候是不工作的，所以下面这些文件（夹）是不可以作为符号链接替换的：
+[link {% include relref_csdn.html %}](https://blog.csdn.net/u010977122/article/details/86518967) 符号链接在系统启动的时候是不工作的，所以下面这些文件（夹）是不可以作为符号链接替换的：
 
 * \Windows
 * \Windows\system32

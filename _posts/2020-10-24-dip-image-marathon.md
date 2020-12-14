@@ -184,7 +184,7 @@ phase2_interpolate_Lanczos 实现了 Lanczos 算法。
 用到傅里叶变换。低频是轮廓，高频是细节。用到高频提升滤波器。
 将高频加强和直方图均衡相结合是得到边缘锐化和对比度增强的有效方法。[频域图像增强-锐化]
 
-[频域图像增强-锐化]: https://blog.csdn.net/qq_30815237/article/details/98655630
+[频域图像增强-锐化 {% include relref_csdn.html %}]: https://blog.csdn.net/qq_30815237/article/details/98655630
 
 傅里叶的原理和过程，可以参考写的另外一篇文章。[傅里叶变换]
 
@@ -219,8 +219,8 @@ phase2_interpolate_Lanczos 实现了 Lanczos 算法。
 
 OpenCV 实现了 INPAINT_TELEA : Fast Marching Method based 算法，INPAINT_NS : Navier-Stokes based Inpainting 算法。[OpenCV Inpainting] / [OpenCV 图像修复]
 
-[OpenCV Inpainting]: https://blog.csdn.net/LuohenYJ/article/details/90640654
-[OpenCV 图像修复]: https://blog.csdn.net/dcrmg/article/details/53792061
+[OpenCV Inpainting {% include relref_csdn.html %}]: https://blog.csdn.net/LuohenYJ/article/details/90640654
+[OpenCV 图像修复 {% include relref_csdn.html %}]: https://blog.csdn.net/dcrmg/article/details/53792061
 
 我们简单的实现了简易修复算法：先二值化，找到水印位置，然后根据位置，用最近邻算法填充。
 下载了一个 TELEA 算法的 Python 实现，效果更好，但是没用它。

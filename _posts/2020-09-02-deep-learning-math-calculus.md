@@ -154,9 +154,9 @@ $$\int_{x}^{y}f(x)dx=F(x)-F(y)$$
 
 <div id="refer-anchor-1"></div>
 - [1] [《动手学深度学习》](http://zh.gluon.ai/)
-- [2] [微积分入门](https://www.cnblogs.com/knife-rose/p/12120373.html)
+- [2] [微积分入门 {% include relref_cnblogs.html %}](https://www.cnblogs.com/knife-rose/p/12120373.html)
 - [3] [Html 转 MarkDown](http://www.fly63.com/tool/htmarkdown/)
-- [4] [线性代数入门](https://www.cnblogs.com/knife-rose/p/12107204.html)
+- [4] [线性代数入门 {% include relref_cnblogs.html %}](https://www.cnblogs.com/knife-rose/p/12107204.html)
 - [5] [微积分到底是什么 {% include relref_zhihu.html %}](https://www.zhihu.com/question/336322284)
 - [6] 马同学 <https://www.matongxue.com/madocs/247/>
 

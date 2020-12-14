@@ -16,11 +16,11 @@ glslcanvas:
 
 用 vscode+glsl canvas 插件可以作为一个 shader 开发环境。最终选择了：glsl。
 
-* [OpenGL 学习 -- 开发环境](https://www.cnblogs.com/gispathfinder/p/6985769.html)
+* [OpenGL 学习 -- 开发环境 {% include relref_cnblogs.html %}](https://www.cnblogs.com/gispathfinder/p/6985769.html)
 * [3D games on the Web GLSL 着色器](https://developer.mozilla.org/zh-CN/docs/Games/Techniques/3D_on_the_web/GLSL_Shaders)
-* [如何搭建 OpenGL ES 或者 GLSL 的开发环境](https://bbs.csdn.net/topics/380180878)
-* [win7, 64bit 下的 OpenGL 着色语言（glsl）开发环境配置（原）](https://www.cnblogs.com/yanhuiw/p/3281028.html)
-* [GLSL 环境搭建](https://blog.csdn.net/u010724874/article/details/48543593) / [The OpenGL® Programming Guide 9th Edition](http://opengl-redbook.com/)
+* [如何搭建 OpenGL ES 或者 GLSL 的开发环境 {% include relref_csdn.html %}](https://bbs.csdn.net/topics/380180878)
+* [win7, 64bit 下的 OpenGL 着色语言（glsl）开发环境配置（原） {% include relref_cnblogs.html %}](https://www.cnblogs.com/yanhuiw/p/3281028.html)
+* [GLSL 环境搭建 {% include relref_csdn.html %}](https://blog.csdn.net/u010724874/article/details/48543593) / [The OpenGL® Programming Guide 9th Edition](http://opengl-redbook.com/)
 
 {% include image.html url="/assets/images/201102-shader-shader-language/982bc51480a085f6878fe5e4656de446_720w.png" %}
 

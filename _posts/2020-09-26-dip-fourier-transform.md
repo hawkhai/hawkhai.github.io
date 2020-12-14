@@ -40,7 +40,7 @@ Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
 [复数的物理意义是什么？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/23234701/answer/26017000)
 
-转载文章：[傅里叶变换分析之掐死教程](https://blog.csdn.net/Ciellee/article/details/108304531)
+转载文章：[傅里叶变换分析之掐死教程 {% include relref_csdn.html %}](https://blog.csdn.net/Ciellee/article/details/108304531)
 
 高维空间我们感知不到，只能通过投射到三维，甚至二维，直观感受其投影。
 数学是我们最有力的分析工具。事情直接处理很难，升维或者变维后却变的很简单，处理完后再变换回去，搞定。
@@ -222,9 +222,9 @@ if __name__ == "__main__":
 ## 参考
 
 - [1] [bilibili {% include relref_bili.html %}](https://space.bilibili.com/230105574/channel/detail?cid=67768)
-- [2] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
+- [2] [课程目录 {% include relref_cnblogs.html %}](https://www.cnblogs.com/-wenli/p/11744405.html)
 - [3] [公式图形实时显示](https://www.desmos.com/calculator)
-- [4] [频域高通高斯滤波和拉普拉斯滤波](https://blog.csdn.net/baidu_41902768/article/details/95936591)
+- [4] [频域高通高斯滤波和拉普拉斯滤波 {% include relref_csdn.html %}](https://blog.csdn.net/baidu_41902768/article/details/95936591)
 - [5] [数学算法俱乐部 - 【直观详解】让你永远忘不了的傅里叶变换解析](https://mp.weixin.qq.com/s/9irY0ZJxYN3_QPRH6YNS-A)
 
 -----

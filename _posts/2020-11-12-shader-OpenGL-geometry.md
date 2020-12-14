@@ -148,7 +148,7 @@ void createGeometryShader() {
 
 ## References
 
-- [1] [几何着色器](https://blog.csdn.net/iron_lzn/article/details/48729849)
+- [1] [几何着色器 {% include relref_csdn.html %}](https://blog.csdn.net/iron_lzn/article/details/48729849)
 - [2] [LearnOpenGL CN 几何着色器](https://learnopengl-cn.github.io/04%20Advanced%20OpenGL/09%20Geometry%20Shader/)
 
 -----

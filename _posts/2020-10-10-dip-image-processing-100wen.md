@@ -23,7 +23,7 @@ glslcanvas:
 
 ## 环境搭建
 
-[windows 安装并使用 Anaconda](https://www.cnblogs.com/xiongmozhou/p/9391323.html)
+[windows 安装并使用 Anaconda {% include relref_cnblogs.html %}](https://www.cnblogs.com/xiongmozhou/p/9391323.html)
 
 * Anaconda 下载地址 <https://www.anaconda.com/download/>
 

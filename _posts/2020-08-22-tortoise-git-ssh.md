@@ -83,7 +83,7 @@ url2="/assets/images/200822-tortoise-git-ssh/5-2.png" %}
 
 - 打开 Pageant，点击 Add Key，选择前一步所保存的 \.ppk 文件所在的位置即可。
 
-from [https://www.cnblogs.com/zy20160429/p/7493693.html](https://www.cnblogs.com/zy20160429/p/7493693.html)<br/>
+from [使用 TortoiseGit，设置 ssh 方式连接 git 仓库。 {% include relref_cnblogs.html %}](https://www.cnblogs.com/zy20160429/p/7493693.html)<br/>
 markdown [https://www.runoob.com/markdown/md-lists.html](https://www.runoob.com/markdown/md-lists.html)
 
 -----

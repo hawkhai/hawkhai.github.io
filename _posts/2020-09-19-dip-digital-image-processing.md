@@ -137,8 +137,8 @@ $$
 PPT: <https://wenku.baidu.com/view/1bdcc12227c52cc58bd63186bceb19e8b8f6ecbc.html>
 
 资料：空间变换网络（STN）原理 + 2D 图像空间变换 + 齐次坐标系讲解。
-<sup>[疑似转载](https://www.cnblogs.com/think90/p/11556725.html)</sup>
-<sup>[**貌似原版**](https://blog.csdn.net/Rosemary_tu/article/details/84069878)</sup>
+<sup>[疑似转载 {% include relref_cnblogs.html %}](https://www.cnblogs.com/think90/p/11556725.html)</sup>
+<sup>[**貌似原版** {% include relref_csdn.html %}](https://blog.csdn.net/Rosemary_tu/article/details/84069878)</sup>
 
 
 ### 仿射变换 & 透视变换
@@ -391,7 +391,7 @@ class E orange;
 
 <https://blog.csdn.net/qq_43409114/article/details/104714828>
 
-[课件](https://www.cnblogs.com/-wenli/p/11729342.html)
+[课件 {% include relref_cnblogs.html %}](https://www.cnblogs.com/-wenli/p/11729342.html)
 
 #### 衡量直方图间的相似性
 
@@ -408,7 +408,7 @@ $$m_{2}=\frac{\sum z h_{2}(z)}{\sum h_{2}(z)} \quad \sigma_{2}^{2}=\frac{\sum\le
 
 #### other
 
-[其他资料](https://www.cnblogs.com/darkknightzh/p/5147982.html)
+[其他资料 {% include relref_cnblogs.html %}](https://www.cnblogs.com/darkknightzh/p/5147982.html)
 对于两直方图 $$S=\left\{ {s_{1}},\cdots {s_{n}} \right\}$$ 及 $$M=\left\{ {m_{1}},\cdots {m_{n}} \right\}$$，$n$ 为直方图维数（如 255），这两直方图之间的卡方相似性为：
 
 $$
@@ -503,7 +503,7 @@ $$d=\left(x^{2}+y^{2}\right)^{\frac{1}{2}}$$
 把 A 结构的每个点放到 B 中心点，以 B 结构外扩即为膨胀。
 开操作表示先腐蚀后膨胀；闭操作表示先膨胀后腐蚀。
 
-闭运算，弥合，毛刺保留；开运算，分裂，毛刺去掉。[from](https://blog.csdn.net/fengbingchun/article/details/52423810)
+闭运算，弥合，毛刺保留；开运算，分裂，毛刺去掉。[from {% include relref_csdn.html %}](https://blog.csdn.net/fengbingchun/article/details/52423810)
 
 * **开运算（open）**：先腐蚀后膨胀的过程。开运算可以用来消除小黑点，在纤细点处分离物体、平滑较大物体的边界的同时并不明显改变其面积。
 
@@ -589,7 +589,7 @@ $$f(x).real =\left( a\cos(u x \frac{2\pi} M) - b \sin(u x \frac{2\pi} M) \right)
 
 $$f(x).imag =\left( a \sin(u x \frac{2\pi} M) + b\cos(u x \frac{2\pi} M) \right) \cdot j$$
 
-> 这里有几张图。[BMP 图像的 FFT 快速傅里叶变换及 IFFT 逆变换](https://blog.csdn.net/Ciellee/article/details/108520298)
+> 这里有几张图。[BMP 图像的 FFT 快速傅里叶变换及 IFFT 逆变换 {% include relref_csdn.html %}](https://blog.csdn.net/Ciellee/article/details/108520298)
 
 > 源代码：<https://blog.csdn.net/cp1300/article/details/28850309>
 
@@ -625,14 +625,14 @@ void c_abs(complex f[], float out[], int n); // 复数数组取模
 
 图像的离散余弦变换广泛用于图像的压缩。对原始图像进行离散余弦变换，变换后 DCT 系数能量主要集中在左上角，其余大部分系数接近于零，DCT 具有适用于图像压缩的特性。将变换后的 DCT 系数进行门限操作，将小于一定值得系数归零，这就是图像压缩中的量化过程，然后进行逆 DCT 运算，可以得到压缩后的图像。
 
-[离散余弦变换（含源码）](https://blog.csdn.net/luoweifu/article/details/8214959)
+[离散余弦变换（含源码） {% include relref_csdn.html %}](https://blog.csdn.net/luoweifu/article/details/8214959)
 
 
 ## 参考
 
 - [1] [bilibili {% include relref_bili.html %}](https://www.bilibili.com/video/BV1tx41147Tx)
-- [2] [标题自动编号](https://www.cnblogs.com/36bian/p/7609304.html)
-- [3] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
+- [2] [标题自动编号 {% include relref_cnblogs.html %}](https://www.cnblogs.com/36bian/p/7609304.html)
+- [3] [课程目录 {% include relref_cnblogs.html %}](https://www.cnblogs.com/-wenli/p/11744405.html)
 
 -----
 

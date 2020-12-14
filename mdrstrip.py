@@ -156,14 +156,7 @@ g_hostset = {}
 def collectHost(fpath, line):
 
     reflist = []
-
     linesrc = line[:]
-    xline = line[:]
-    for tak, src, name, host in linktagli:
-        xline = xline.replace(tak, src)
-    #li = re.findall("<.*?>", xline)
-    #for tx in li:
-    #    line = line.replace(tx, "")
 
     regex = "(?:\"/(.*?)\")|(?:'/(.*?)')"
     li = re.findall(regex, line)
@@ -226,6 +219,12 @@ def collectHost(fpath, line):
             g_hostset[host] = 0
         g_hostset[host] += 1
 
+    xline = line[:]
+    for tak, src, name, host in linktagli:
+        xline = xline.replace(tak, src)
+    li = re.findall("<.*?>", xline)
+    for tx in li:
+        xline = xline.replace(tx, "")
     for tak, src, name, host in linktagli:
         # 视频要特别标注域名。
         li1 = re.findall(host, xline)
@@ -235,6 +234,7 @@ def collectHost(fpath, line):
         print(xline)
         print(li1)
         print(li2)
+        openTextFile(fpath)
         assert False, linesrc
     return reflist, line
 

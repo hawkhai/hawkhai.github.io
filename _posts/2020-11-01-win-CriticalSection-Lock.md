@@ -289,7 +289,7 @@ Handle 00000104
 
 ## Refernces
 
-- [1] [WinDbg -- 调试互斥体 (Mutex) 死锁](https://blog.csdn.net/china_jeffery/article/details/78927524)
+- [1] [WinDbg -- 调试互斥体 (Mutex) 死锁 {% include relref_csdn.html %}](https://blog.csdn.net/china_jeffery/article/details/78927524)
 
 -----
 

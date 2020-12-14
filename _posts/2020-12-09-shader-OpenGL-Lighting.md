@@ -377,10 +377,10 @@ vec3 CalcSpotLight(SpotLight light)
 
 ## 参考资料
 
-- [1] [冯氏光照模型](https://blog.csdn.net/zhaoyin214/article/details/81625964)
+- [1] [冯氏光照模型 {% include relref_csdn.html %}](https://blog.csdn.net/zhaoyin214/article/details/81625964)
 - [2] [冯氏光照模型 简书](https://www.jianshu.com/p/bc384e81d590)
 - [3] [其它源码](https://learnopengl.com/code_viewer_gh.php?code=src/2.lighting/6.multiple_lights/multiple_lights.cpp)
-- [4] [Opengl 中 reflect 反射算法](https://blog.csdn.net/qq_32974399/article/details/107096490)
+- [4] [Opengl 中 reflect 反射算法 {% include relref_csdn.html %}](https://blog.csdn.net/qq_32974399/article/details/107096490)
 
 -----
 

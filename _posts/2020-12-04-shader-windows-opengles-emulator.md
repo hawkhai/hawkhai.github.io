@@ -69,8 +69,8 @@ PowerVR | PowerVR SDK [PowerVR SDK](https://community.imgtec.com/developers/powe
 ## References
 
 - [1] [Using OpenGL ES on windows desktops via EGL](https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/)
-- [2] [Android OpenGL 开发 -- EGL 的使用](https://www.cnblogs.com/wellcherish/p/12727906.html)
-- [3] [OpenGL ES Emulator 横向比较](https://www.cnblogs.com/gongminmin/archive/2011/04/25/2027684.html)
+- [2] [Android OpenGL 开发 -- EGL 的使用 {% include relref_cnblogs.html %}](https://www.cnblogs.com/wellcherish/p/12727906.html)
+- [3] [OpenGL ES Emulator 横向比较 {% include relref_cnblogs.html %}](https://www.cnblogs.com/gongminmin/archive/2011/04/25/2027684.html)
 - [4] [OpenGL ES Emulator 再次横向比较](http://www.klayge.org/2012/01/28/opengl-es-emulator%e5%86%8d%e6%ac%a1%e6%a8%aa%e5%90%91%e6%af%94%e8%be%83/)
 
 -----

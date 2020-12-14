@@ -22,7 +22,7 @@ glslcanvas:
 
 ### 从字面理解什么是线性代数
 
-1. [线性代数之 —— 行图像和列图像](https://www.cnblogs.com/seniusen/p/9959535.html)
+1. [线性代数之 —— 行图像和列图像 {% include relref_cnblogs.html %}](https://www.cnblogs.com/seniusen/p/9959535.html)
 2. [线性代数之 —— 行图像和列图像 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/49820858)
 
 $$
@@ -49,7 +49,7 @@ $$
 内积（点积、点乘或数量积）投影变换：多维空间投影到一维空间。
 
 * [向量积的种类以及表示方法 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/92274158)
-* **[向量点乘（内积）和叉乘（外积、向量积）概念及几何意义解读](https://blog.csdn.net/dcrmg/article/details/52416832)**
+* **[向量点乘（内积）和叉乘（外积、向量积）概念及几何意义解读 {% include relref_csdn.html %}](https://blog.csdn.net/dcrmg/article/details/52416832)**
 
 向量的点乘，也叫向量的内积、数量积，对两个向量执行点乘运算，就是对这两个向量对应位一一相乘之后求和的操作，点乘的结果是一个标量。
 
@@ -100,7 +100,7 @@ $$
 
 在二维空间中，叉乘还有另外一个几何意义就是：axb 的模等于由向量 $a$ 和向量 $b$ 构成的平行四边形的面积。
 
-[向量叉乘的线性性质 几何解释](https://www.cnblogs.com/zzdyyy/p/7643267.html)
+[向量叉乘的线性性质 几何解释 {% include relref_cnblogs.html %}](https://www.cnblogs.com/zzdyyy/p/7643267.html)
 
 $$
 | \vec a \times \vec b | = |\vec a| \cdot |\vec b| \cdot \sin \theta

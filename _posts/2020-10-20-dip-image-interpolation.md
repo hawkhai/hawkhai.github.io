@@ -189,7 +189,7 @@ if __name__ == "__main__":
 {% include image.html url="/assets/images/201020-dip-image-interpolation/grid-interpolation2d.png" %}
 {% include image.html url="/assets/images/201020-dip-image-interpolation/63556641-eeb89400-c545-11e9-8f90-58e1c0eb0840.png" %}
 
-* [OpenCV 图像缩放 resize 各种插值方式的比较](https://blog.csdn.net/guyuealian/article/details/85097633)
+* [OpenCV 图像缩放 resize 各种插值方式的比较 {% include relref_csdn.html %}](https://blog.csdn.net/guyuealian/article/details/85097633)
 
 * 有个图有点意思 [Linear Methods for Image Interpolation](https://www.ipol.im/pub/art/2011/g_lmii/article.pdf)
 

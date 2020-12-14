@@ -32,7 +32,7 @@ glslcanvas:
 
 ## 邮政编码识别
 
-* [图像识别与处理笔记 —— 字符识别、邮政编码识别（10 月 8 日暂存）](https://blog.csdn.net/mao_hui_fei/article/details/78177471)
+* [图像识别与处理笔记 —— 字符识别、邮政编码识别（10 月 8 日暂存） {% include relref_csdn.html %}](https://blog.csdn.net/mao_hui_fei/article/details/78177471)
 
 * [2010 毕业设计](http://www.doc88.com/p-693272517244.html)
 
@@ -64,7 +64,7 @@ glslcanvas:
 
 * [使用 opencv 和 python 实现车牌区域提取](https://www.jianshu.com/p/08ddeb0d8878)
 
-* [opencv + python 车牌识别](https://www.cnblogs.com/kekexxr/p/11574589.html)
+* [opencv + python 车牌识别 {% include relref_cnblogs.html %}](https://www.cnblogs.com/kekexxr/p/11574589.html)
 
 * <https://github.com/DataXujing/vehicle-license-plate-recognition>
 
@@ -207,8 +207,8 @@ glslcanvas:
 ## 参考
 
 - [1] [bilibili {% include relref_bili.html %}](https://www.bilibili.com/video/BV1tx41147Tx)
-- [2] [标题自动编号](https://www.cnblogs.com/36bian/p/7609304.html)
-- [3] [课程目录](https://www.cnblogs.com/-wenli/p/11744405.html)
+- [2] [标题自动编号 {% include relref_cnblogs.html %}](https://www.cnblogs.com/36bian/p/7609304.html)
+- [3] [课程目录 {% include relref_cnblogs.html %}](https://www.cnblogs.com/-wenli/p/11744405.html)
 - [4] GITHUB 数学公式展开：<https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima>
 
 -----

@@ -69,7 +69,7 @@ $$|\lambda|=\min _{1 \leq i \leq n}\left|\lambda_{i}\right|$$
 
 <div id="refer-anchor-1"></div>
 - [1] [《动手学深度学习》](http://zh.gluon.ai/)
-- [2] [求二范数 C++ 代码](https://blog.csdn.net/tianya_team/article/details/53310617)
+- [2] [求二范数 C++ 代码 {% include relref_csdn.html %}](https://blog.csdn.net/tianya_team/article/details/53310617)
 - [3] **[计算方法之计算矩阵的特征值和特征量](https://wenku.baidu.com/view/095bebde2a4ac850ad02de80d4d8d15abf23004d.html)**
 
 -----
