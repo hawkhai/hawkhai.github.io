@@ -26,15 +26,89 @@ cluster: "LearnOpenGL"
 
 冯氏光照模型的主要结构由 3 个分量组成：环境 (Ambient)、漫反射 (Diffuse) 和镜面 (Specular) 光照。
 
-**环境光照 (Ambient Lighting)**：物体几乎永远不会是完全黑暗的。所以环境光照一般是个常量。
+朗伯反射：漫反射模型，即物体表面亮度各向同性，亮度服从朗伯余弦定理。
 
-**漫反射光照 (Diffuse Lighting)**：模拟光源对物体的方向性影响，物体的某一部分越是正对着光源，它就会越亮。
+* **环境光照 (Ambient Lighting)**：物体几乎永远不会是完全黑暗的。所以环境光照一般是个常量。
+* **漫反射光照 (Diffuse Lighting)**：模拟光源对物体的方向性影响，物体的某一部分越是正对着光源，它就会越亮。
+* **镜面光照 (Specular Lighting)**：模拟有光泽物体上面出现的亮点。镜面光照的颜色相比于物体的颜色会更倾向于光的颜色。
 
-**镜面光照 (Specular Lighting)**：模拟有光泽物体上面出现的亮点。镜面光照的颜色相比于物体的颜色会更倾向于光的颜色。
+冯氏反射 = 环境 + 漫反射 + 镜面反射。朗伯反射：漫反射模型，即物体表面亮度各向同性，亮度服从朗伯余弦定理。
+
+* $$k_s$$：镜面反射常数
+* $$k_d$$：漫反射常数（朗伯反射）
+* $$k_a$$：环境反射常数
+* $$\alpha$$：光泽常数
+* $$i_s$$：光源镜面反射强度
+* $$i_d$$：光源漫反射强度
+* $$i_a$$：环境光强度
+* $$i_l$$：入射光强度
+
+{% include image.html url="/assets/images/201209-shader-opengl-lighting/220px-blinn_vectors.svg.png" %}
+
+* $$m$$：光源编号
+* $$\hat{L}_m$$：反射点指向光源 $$m$$ 的向量
+* $$\hat{N}$$：反射点处法向量
+* $$\hat{R}_m$$：反射点处光源 $$m$$ 的镜面反射方向，$$\hat{R}_m=2(\hat{L}_m{\cdot}\hat{N})\hat{N}-\hat{L}_m$$
+* $$\hat{V}$$：反射点指向观察者的向量
+
+在曲面上点 $$p$$ 处，冯氏反射模型给出的亮度公式为：
 
 $$
-I_p=k_ai_a+\sum_{m{\in}\mathrm{lights}}{(k_d(\hat{L}_m\cdot\hat{N})i_{m,d})+k_s(\hat{R}_m\cdot\hat{V})^{\alpha}i_{m,s})}
+I_p=k_ai_a+\sum_{m{\in}\mathrm{lights}}{(k_d(\hat{L}_m\cdot\hat{N})i_{m,d}+k_s(\hat{R}_m\cdot\hat{V})^{\alpha}i_{m,s})}
 $$
+
+$$
+环境光照 = 环境反射常数 * 环境光强度
+$$
+
+$$
+漫反射光照 = 漫反射常数 * (\hat{L}_m\cdot\hat{N}) * 光源漫反射强度
+$$
+
+$$
+镜面光照 = 镜面反射常数 * (\hat{R}_m\cdot\hat{V})^{ 光泽常数 } * 光源镜面反射强度
+$$
+
+而其中点乘的本质是和夹角 $$cos$$ 关联起来，点乘的输入都需要 $normalize$ 一下：
+
+$$
+a \bullet b=|a| \ |b| \cos \theta
+$$
+
+```glsl
+vec3 CalcPointLight(Light light)
+{
+    vec3 lightDir;
+    float distance=1.0;
+    if(light.lightDir.w==0.0)//direction
+        lightDir=normalize(-vec3(light.lightDir)); // 反射点指向光源的向量
+    else if(light.lightDir.w==1.0)//position
+    {
+        distance=length(vec3(light.lightDir)-FragPos); // 距离
+        lightDir=normalize(vec3(light.lightDir)-FragPos); // 反射点指向光源的向量
+    }
+    // 光线衰减
+    float attenuation=1.0/(light.constant+light.linear*distance+light.quadratic*distance*distance);
+    // 计算 漫反射光照
+    // 点乘法向量和光源方向。
+    float diffuse=max(dot(Normal,lightDir),0.0);
+
+    // 反射点指向观察者的向量
+    vec3 viewDir=normalize(viewPos-FragPos);
+    // 反射点处光源的镜面反射方向
+    vec3 reflectDir=reflect(-lightDir,Normal);
+    // 计算 镜面光照
+    float specular=pow(max(dot(reflectDir,viewDir),0.0),material.shininess);
+
+    vec3 result=vec3(0.0,0.0,0.0);
+    // 冯氏光照模型
+    result = (light.ambient*material.ambient+
+        diffuse*light.diffuse*material.diffuse+
+        specular*light.specular*material.specular)*lightColor*attenuation;
+
+    return result;
+}
+```
 
 {% include image.html url="/assets/images/201209-shader-opengl-lighting/v2-7d9cb4f3c58bce1dd41c43902284f7d4_720w.jpg" %}
 
@@ -55,6 +129,26 @@ $$
 - 聚光手电筒效果
 
 - 多光源 shader 函数封装
+
+
+### OpenGL 中 reflect 反射算法
+
+{% include image.html url="/assets/images/201209-shader-opengl-lighting/20200703000210859.png" %}
+
+$$reflect$$ 函数 用来计算光的反射向量，他的参数就是入射光向量和像素法线向量。$$reflect(R, N)$$。
+
+$$L$$ 就是入射向量，$$N$$ 就是法线，$$R$$ 就是反射向量，$$r$$ 是 $$R$$ 平移到 $$L$$ 的箭头上和 $$N$$ 构成了一个三角形（向量没有位置，只有方向，所以可以随便平移），
+$$l$$ 是 $$L$$ 平移到 $$R$$ 的箭头上和 $$N$$ 构成了一个三角形，于是这就构成了一个菱形。
+
+我们根据三角公式：$$a = |L| cosθ$$ <br/>
+如果 $$L$$ 是单位向量，则 $$a = cosθ$$ <br/>
+那么菱形的垂直中线长度 $$t = 2·cosθ$$ <br/>
+然后我们乘以 $$N$$ 的单位向量，把 $$t$$ 从标量变成向量：$$T = 2·cosθ·N$$ <br/>
+根据向量的特性，$$r = 2·cosθ·N - L$$ <br/>
+因为 $$N$$ 和 $$L$$ 都是单位向量，我们根据向量点积运算：$$L·N = |L||N|cosθ$$ <br/>
+因为单位向量的长度为 $$1$$，于是整个方程又可以简化为：$$L·N = cosθ$$ <br/>
+于是 $$r = 2·dot(L,N)·N - L$$ <br/>
+以上便是 $$reflect$$ 的运算公式。
 
 
 ## 坐标关系
@@ -248,36 +342,6 @@ void main()
     FragColor=vec4(result,1.0);
 }
 
-vec3 CalcPointLight(Light light)
-{
-    vec3 lightDir;
-    float distance;
-    if(light.lightDir.w==0.0)//direction
-        lightDir=normalize(-vec3(light.lightDir));
-    else if(light.lightDir.w==1.0)//position
-    {
-        distance=length(vec3(light.lightDir)-FragPos);
-        lightDir=normalize(vec3(light.lightDir)-FragPos);
-    }
-    // 光线衰减
-    float attenuation=1.0/(light.constant+light.linear*distance+light.quadratic*distance*distance);
-    // 计算 漫反射光照
-    float diffuse=max(dot(Normal,lightDir),0.0);
-
-    vec3 viewDir=normalize(viewPos-FragPos);
-    vec3 reflectDir=reflect(-lightDir,Normal);
-    // 计算 镜面光照
-    float specular=pow(max(dot(reflectDir,viewDir),0.0),material.shininess);
-
-    vec3 result=vec3(0.0,0.0,0.0);
-    // 冯氏光照模型
-    result = (light.ambient*material.ambient+
-        diffuse*light.diffuse*material.diffuse+
-        specular*light.specular*material.specular)*lightColor*attenuation;
-
-    return result;
-}
-
 vec3 CalcSpotLight(SpotLight light)
 {
     float theta=dot(normalize(vec3(light.position)-FragPos),-light.direction);
@@ -316,6 +380,7 @@ vec3 CalcSpotLight(SpotLight light)
 - [1] [冯氏光照模型](https://blog.csdn.net/zhaoyin214/article/details/81625964)
 - [2] [冯氏光照模型 简书](https://www.jianshu.com/p/bc384e81d590)
 - [3] [其它源码](https://learnopengl.com/code_viewer_gh.php?code=src/2.lighting/6.multiple_lights/multiple_lights.cpp)
+- [4] [Opengl 中 reflect 反射算法](https://blog.csdn.net/qq_32974399/article/details/107096490)
 
 -----
 
@@ -325,3 +390,4 @@ vec3 CalcSpotLight(SpotLight light)
 - [2] [https://blog.csdn.net/zhaoyin214/article/details/81625964]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/blog.csdn.net/f8bddaa8.html" %})
 - [3] [https://www.jianshu.com/p/bc384e81d590]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/www.jianshu.com/5a656440.html" %})
 - [4] [https://learnopengl.com/code_viewer_gh.php?code=src/2.lighting/6.multiple_lights/multiple_lights.cpp]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/learnopengl.com/f55884a3.php" %})
+- [5] [https://blog.csdn.net/qq_32974399/article/details/107096490]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/blog.csdn.net/d3e53ee8.html" %})

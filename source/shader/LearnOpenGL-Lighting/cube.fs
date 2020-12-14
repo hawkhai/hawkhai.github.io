@@ -96,20 +96,23 @@ void main()
 vec3 CalcPointLight(Light light)
 {
     vec3 lightDir;
-    float distance;
+    float distance=1.0;
     if(light.lightDir.w==0.0)//direction
-        lightDir=normalize(-vec3(light.lightDir));
+        lightDir=normalize(-vec3(light.lightDir)); // 反射点指向光源的向量
     else if(light.lightDir.w==1.0)//position
     {
-        distance=length(vec3(light.lightDir)-FragPos);
-        lightDir=normalize(vec3(light.lightDir)-FragPos);
+        distance=length(vec3(light.lightDir)-FragPos); // 距离
+        lightDir=normalize(vec3(light.lightDir)-FragPos); // 反射点指向光源的向量
     }
     // 光线衰减
     float attenuation=1.0/(light.constant+light.linear*distance+light.quadratic*distance*distance);
     // 计算 漫反射光照
+    // 点乘法向量和光源方向。
     float diffuse=max(dot(Normal,lightDir),0.0);
 
+    // 反射点指向观察者的向量
     vec3 viewDir=normalize(viewPos-FragPos);
+    // 反射点处光源的镜面反射方向
     vec3 reflectDir=reflect(-lightDir,Normal);
     // 计算 镜面光照
     float specular=pow(max(dot(reflectDir,viewDir),0.0),material.shininess);
