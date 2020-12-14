@@ -91,7 +91,7 @@ def backupUrlContent(fpath, url):
     umd5 = getmd5(url)
     ttype = ".html"
     local = os.path.join("backup", mdname, uhost, umd5 + ttype)
-    ttype = calcType(ttype, url)
+    ttype = calcType(ttype, url.split(uhost)[-1])
     slocal = os.path.join("backup", mdname, uhost, umd5[:8] + ttype)
     if os.path.exists(local):
         os.rename(local, slocal)
@@ -107,6 +107,11 @@ def backupUrlContent(fpath, url):
         assert len(fdata) <= 1024*1024*2, len(fdata)
     remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5[:8] + ttype)
     touchSnapCache(umd5[:8], slocal)
+
+    if not slocal.split(".")[-1] in ("pdf", "html", "git", "php", "c", "phtml", "cpp", "htm", "shtm",
+                                     "ipynb", "py", "asp",):
+        print(fpath, url)
+        assert False, slocal
     return remote
 
 g_orgremove = set()
@@ -138,6 +143,7 @@ def organizeRes(ik, fpath, line):
             g_orgremove.add(ik)
     else:
         assert False, ik
+
     if not ikfile.split(".")[-1] in ("pdf", "png", "jpg", "gif", "jpeg", "webp",):
         print(ik, fpath, line)
         assert False, ik
