@@ -9,8 +9,11 @@ AUTOFORMAT = "format" in sys.argv
 REBUILD = "rebuild" in sys.argv
 COPYRES = "copyres" in sys.argv
 
-linktagli = (("{% include relref_bili.html %}]",     "bilibili]",    "bilibili"),
-             ("{% include relref_zhihu.html %}]",    "zhihu]",       "zhihu"),)
+linktagli = (("{% include relref_bili.html %}]",    "bilibili]", "bilibili", "bilibili.com"),
+             ("{% include relref_zhihu.html %}]",   "zhihu]",    "zhihu",    "zhihu.com"),
+             ("{% include relref_cnblogs.html %}]", "cnblogs]",  "cnblogs",  "cnblogs.com"),
+             ("{% include relref_csdn.html %}]",    "csdn]",     "csdn",     "csdn.net"),
+            )
 
 mdkeylist = """
 categories
@@ -156,7 +159,7 @@ def collectHost(fpath, line):
 
     linesrc = line[:]
     xline = line[:]
-    for tak, src, name in linktagli:
+    for tak, src, name, host in linktagli:
         xline = xline.replace(tak, src)
     #li = re.findall("<.*?>", xline)
     #for tx in li:
@@ -223,9 +226,9 @@ def collectHost(fpath, line):
             g_hostset[host] = 0
         g_hostset[host] += 1
 
-    for tak, src, name in linktagli:
+    for tak, src, name, host in linktagli:
         # 视频要特别标注域名。
-        li1 = re.findall(name+".com", xline)
+        li1 = re.findall(host, xline)
         li2 = re.findall(name+"\\]", xline)
         if len(li1) == len(li2):
             continue
@@ -322,7 +325,7 @@ def mainfile(fpath, fname, ftype):
 
     def linerstrip(line):
         if isMdFile:
-            for tak, src, name in linktagli:
+            for tak, src, name, host in linktagli:
                 # 移除多余空格
                 line = line.replace("  "+tak, tak)
                 line = line.replace(" "+tak, tak)
@@ -346,7 +349,7 @@ def mainfile(fpath, fname, ftype):
     while len(lines) >= 1 and not lines[0]:
         lines = lines[1:]
 
-    if fname in ("relref.html", "relref_bili.html", "relref_zhihu.html", "gitsrc.html",):
+    if fname in ("gitsrc.html",) or re.findall("^relref[a-z_]*\\.html$", fname):
         while len(lines) >= 1 and not lines[-1]:
             lines = lines[:-1]
 
