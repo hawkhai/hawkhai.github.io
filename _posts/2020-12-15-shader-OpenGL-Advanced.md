@@ -34,6 +34,19 @@ $$
 就要把屏幕坐标一步一步还原成世界坐标。
 
 
+### 鼠标点击获取模型点坐标
+
+```cpp
+glfwGetCursorPos(window, &winX, &winY);
+glReadPixels((int)winX, 600 - (int)winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
+float x = (2.0f*winX) / 800.0f - 1.0f;
+float y = 1.0f - (2.0f*winY) / 600.0f;
+float z = winZ * 2.0 - 1.0f;
+float w = near * far / (near*winZ - far * winZ + far);
+glm::vec4 wolrdPostion = glm::inverse(view)*glm::inverse(projection)*w*glm::vec4(x, y, z, 1);
+```
+
+
 ### [Mouse Picking with Ray Casting](https://antongerdelan.net/opengl/raycasting.html)
 
 Instead of starting with a mesh in local space, we are starting with a 2d mouse cursor position in viewport space. We work backwards through the transformation by using inverse matrices, and arrive with a ray in world space.
@@ -65,7 +78,7 @@ $$
 
 ## 面剔除
 
-```glsl
+```cpp
 glEnable(GL_CULL_FACE);
 glCullFace(GL_BACK);
 glFrontFace(GL_CW);
