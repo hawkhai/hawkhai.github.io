@@ -13,7 +13,8 @@ linktagli = (("{% include relref_bili.html %}]",    "bilibili]", "bilibili", "bi
              ("{% include relref_zhihu.html %}]",   "zhihu]",    "zhihu",    "zhihu.com"),
              ("{% include relref_cnblogs.html %}]", "cnblogs]",  "cnblogs",  "cnblogs.com"),
              ("{% include relref_csdn.html %}]",    "csdn]",     "csdn",     "csdn.net"),
-             ("{% include relref_github.html %}]",  "github]",   "github",   "github.com"),
+             ("{% include relref_github.html %}]",  "github]",   "github",   "github.com|github.io"),
+             ("{% include relref_github.html %}]",  "github]",   "github",   "github.com|github.io"),
              ("{% include relref_jianshu.html %}]", "jianshu]",  "jianshu",  "jianshu.com"),
             )
 

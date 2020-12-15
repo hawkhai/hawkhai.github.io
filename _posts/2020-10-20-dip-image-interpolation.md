@@ -184,7 +184,7 @@ if __name__ == "__main__":
 
 {% include image.html url="/assets/images/201020-dip-image-interpolation/interpolation_methods.png" %}
 
-* 展示差异与原理 [Interpolation](http://haifengl.github.io/interpolation.html)
+* 展示差异与原理 [Interpolation {% include relref_github.html %}](http://haifengl.github.io/interpolation.html)
 
 {% include image.html url="/assets/images/201020-dip-image-interpolation/grid-interpolation2d.png" %}
 {% include image.html url="/assets/images/201020-dip-image-interpolation/63556641-eeb89400-c545-11e9-8f90-58e1c0eb0840.png" %}

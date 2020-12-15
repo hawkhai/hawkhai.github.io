@@ -110,7 +110,7 @@ void Draw(Shader& shader)
 
 {% include image.html url="/assets/images/201211-shader-opengl-model-loa~a7/model_lighting.png" %}
 
-[LearnOpenGL 模型加载](https://learnopengl-cn.github.io/03%20Model%20Loading/01%20Assimp/)
+[LearnOpenGL 模型加载 {% include relref_github.html %}](https://learnopengl-cn.github.io/03%20Model%20Loading/01%20Assimp/)
 
 -----
 

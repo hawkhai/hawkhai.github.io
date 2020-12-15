@@ -383,7 +383,7 @@ Step-by-step guide through the abstract and complex universe of Fragment Shaders
 
     Fluid Simulation + SoftBody Dynamics + Optical Flow + Rendering + Image Processing + Particle Systems + Physics + ...
 
-    [PixelFlow](https://diwi.github.io/PixelFlow/)
+    [PixelFlow {% include relref_github.html %}](https://diwi.github.io/PixelFlow/)
 
 -----
 
