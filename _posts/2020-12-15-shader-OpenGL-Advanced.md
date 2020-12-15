@@ -33,10 +33,8 @@ $$
 
 就要把屏幕坐标一步一步还原成世界坐标。
 
-
-### 鼠标点击获取模型点坐标
-
 ```cpp
+Model ourModel("E:/kSource/LearnOpenGLz/LearnOpenGL-og/resources/objects/nanosuit/nanosuit.obj");
 glfwGetCursorPos(window, &winX, &winY);
 glReadPixels((int)winX, 600 - (int)winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
 float x = (2.0f*winX) / 800.0f - 1.0f;
@@ -44,6 +42,9 @@ float y = 1.0f - (2.0f*winY) / 600.0f;
 float z = winZ * 2.0 - 1.0f;
 float w = near * far / (near*winZ - far * winZ + far);
 glm::vec4 wolrdPostion = glm::inverse(view)*glm::inverse(projection)*w*glm::vec4(x, y, z, 1);
+
+// 遍历模型，根据距离判断哪个被选中了。
+float _distance=glm::distance(_modelsIter->second.first+glm::vec3(0,7.5,0),glm::vec3(wolrdPostion));
 ```
 
 
@@ -62,6 +63,32 @@ It can be useful to click on, or "pick" a 3d object in our scene using the mouse
 2. 渲染物体，更新模板缓冲的内容。
 3. 禁用模板缓冲的写入。
 4. 渲染（其它）物体，这次根据模板缓冲的内容丢弃特定的片段。
+
+```cpp
+// 开启
+glEnable(GL_DEPTH_TEST);
+glEnable(GL_STENCIL_TEST);
+glStencilOp(GL_KEEP,GL_KEEP,GL_REPLACE);
+
+// 每次绘制。
+glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+
+// 如果选中了。
+glStencilFunc(GL_ALWAYS,1,0xFF);
+_modelsIter->second.second.Draw(modelShader); // 绘制模型
+glStencilFunc(GL_NOTEQUAL,1,0xFF);
+glStencilMask(0x00);
+_modelsIter->second.second.Draw(stencilShader); // 绘制边界
+glStencilMask(0xFF);
+
+// 如果没选中。
+glStencilFunc(GL_ALWAYS,1,0xFF);
+_modelsIter->second.second.Draw(modelShader); // 绘制模型
+```
+
+{% include image.html url="/assets/images/201215-shader-opengl-advanced/grabmodelselect.gif" %}
+
+{% include video.html url="/assets/images/201215-shader-opengl-advanced/grabmodelselect.mp4" %}
 
 
 ## 混合

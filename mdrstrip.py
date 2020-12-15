@@ -150,7 +150,7 @@ def organizeRes(ik, fpath, line):
     else:
         assert False, ik
 
-    if not ikfile.split(".")[-1] in ("pdf", "png", "jpg", "gif", "jpeg", "webp",):
+    if not ikfile.split(".")[-1] in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4",):
         print(ik, fpath, line)
         assert False, ik
     return line.replace(ik, tpath.replace("\\", "/"))
