@@ -13,6 +13,8 @@ linktagli = (("{% include relref_bili.html %}]",    "bilibili]", "bilibili", "bi
              ("{% include relref_zhihu.html %}]",   "zhihu]",    "zhihu",    "zhihu.com"),
              ("{% include relref_cnblogs.html %}]", "cnblogs]",  "cnblogs",  "cnblogs.com"),
              ("{% include relref_csdn.html %}]",    "csdn]",     "csdn",     "csdn.net"),
+             ("{% include relref_github.html %}]",  "github]",   "github",   "github.com"),
+             ("{% include relref_jianshu.html %}]", "jianshu]",  "jianshu",  "jianshu.com"),
             )
 
 mdkeylist = """
@@ -230,6 +232,8 @@ def collectHost(fpath, line):
         li1 = re.findall(host, xline)
         li2 = re.findall(name+"\\]", xline)
         if len(li1) == len(li2):
+            continue
+        if xline.find("[")==-1 and xline.find("<")==-1 and xline.find("(")==-1:
             continue
         print(xline)
         print(li1)

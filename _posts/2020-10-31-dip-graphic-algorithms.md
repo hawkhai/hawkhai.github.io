@@ -32,7 +32,7 @@ url2="/assets/images/201031-dip-graphic-algorithms/pa-teaser.png" %}
 
 It is explained in an article, [Colorization Using Optimization](http://www.cs.huji.ac.il/~yweiss/Colorization/) giving several examples.
 
-A tool on GitHub allows also to color a sketch, with another image as color sample: [Style2Paint](https://github.com/lllyasviel/style2paints).
+A tool on GitHub allows also to color a sketch, with another image as color sample: [Style2Paint {% include relref_github.html %}](https://github.com/lllyasviel/style2paints).
 
 {% include image.html url="/assets/images/201031-dip-graphic-algorithms/colorization.jpg" %}
 

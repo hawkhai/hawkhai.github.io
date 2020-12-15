@@ -73,7 +73,7 @@ caption= "利用 gpu 渲染一个巨人的图像" %}
         * [Using OpenGL ES on windows desktops via EGL](https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/)
         * [SimpleGL Example](https://wiki.maemo.org/SimpleGL_example)
         * [OpenGL ES EGL 简介 -- 完整的一个文档用例 {% include relref_csdn.html %}](https://blog.csdn.net/iEearth/article/details/71180457)
-        * [EGL 1.5 implementation for Windows and X11 supporting OpenGL.](https://github.com/McNopper/EGL)
+        * [EGL 1.5 implementation for Windows and X11 supporting OpenGL. {% include relref_github.html %}](https://github.com/McNopper/EGL)
 
     * geometryShaderSimple.vcxproj / geometryShader.sln
         * This geometry shader takes a single GL_POINT as input and generates triangles for a complete circle.

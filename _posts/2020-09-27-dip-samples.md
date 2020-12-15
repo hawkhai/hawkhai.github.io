@@ -62,7 +62,7 @@ glslcanvas:
 
 * 代码还可以 [PYTHON 实现车牌识别](https://www.freesion.com/article/9575144324/)
 
-* [使用 opencv 和 python 实现车牌区域提取](https://www.jianshu.com/p/08ddeb0d8878)
+* [使用 opencv 和 python 实现车牌区域提取 {% include relref_jianshu.html %}](https://www.jianshu.com/p/08ddeb0d8878)
 
 * [opencv + python 车牌识别 {% include relref_cnblogs.html %}](https://www.cnblogs.com/kekexxr/p/11574589.html)
 
@@ -131,7 +131,7 @@ glslcanvas:
 
 * [数字图像处理笔记](https://a-suozhang.xyz/2019/09/06/Diigital-Image-Procss/)
 
-* **这个不错 [数字图像处理 —— 知识点](https://www.jianshu.com/p/926d6c15dbf9)**
+* **这个不错 [数字图像处理 —— 知识点 {% include relref_jianshu.html %}](https://www.jianshu.com/p/926d6c15dbf9)**
 
 * 数字图像处理 总结 <https://blog.csdn.net/u011178262/article/details/79067643>
 

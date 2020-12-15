@@ -1,4 +1,4 @@
-This is a modified version of [Gaurav Chaurasia's Much-Worse Jekyll theme](https://github.com/gchauras/much-worse-jekyll-theme/).
+This is a modified version of [Gaurav Chaurasia's Much-Worse Jekyll theme {% include relref_github.html %}](https://github.com/gchauras/much-worse-jekyll-theme/).
 
 Source for [https://blog.hawkhai.com](https://blog.hawkhai.com).
 
@@ -58,7 +58,7 @@ $ bundle exec jekyll serve --host 0.0.0.0 --port [port]
 
 # Troubleshooting
 
-- If build for ruby2.3.1 fails, refer to [https://github.com/rbenv/ruby-build/wiki](https://github.com/rbenv/ruby-build/wiki).
+- If build for ruby2.3.1 fails, refer to <https://github.com/rbenv/ruby-build/wiki>.
 
 -----
 

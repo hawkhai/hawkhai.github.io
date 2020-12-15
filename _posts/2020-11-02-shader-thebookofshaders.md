@@ -150,7 +150,7 @@ void main() {
 }
 ```
 
-[OpenGL·投影与变换](https://www.jianshu.com/p/64c236d5c67a)
+[OpenGL·投影与变换 {% include relref_jianshu.html %}](https://www.jianshu.com/p/64c236d5c67a)
 
 {% include image.html url="/assets/images/201102-shader-thebookofshaders/2852335-c8a888f710b623d1.webp" %}
 
@@ -358,7 +358,7 @@ Step-by-step guide through the abstract and complex universe of Fragment Shaders
 
 <https://github.com/stackgl/shader-school>
 
-[A workshopper for GLSL shaders and graphics programming](https://github.com/stackgl/shader-school)
+[A workshopper for GLSL shaders and graphics programming {% include relref_github.html %}](https://github.com/stackgl/shader-school)
 
 
 ### Other

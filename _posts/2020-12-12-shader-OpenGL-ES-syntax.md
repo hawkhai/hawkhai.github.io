@@ -16,7 +16,7 @@ glslcanvas: true
 
 > 无特殊说明，文中的 GLSL 均指 OpenGL ES 2.0 的着色语言。
 
-[着色器语言 GLSL (opengl-shader-language) 入门大全](https://github.com/wshxbqq/GLSL-Card)
+[着色器语言 GLSL (opengl-shader-language) 入门大全 {% include relref_github.html %}](https://github.com/wshxbqq/GLSL-Card)
 
 
 ## 基本语法

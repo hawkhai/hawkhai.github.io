@@ -264,9 +264,9 @@ plt.show()
 
 ## 参考
 
-- [1] [python skimage 图像处理（一）](https://www.jianshu.com/p/f2e88197e81d)
-- [2] [python skimage 图像处理（二）](https://www.jianshu.com/p/66e6261f0279)
-- [3] [python skimage 图像处理（三）](https://www.jianshu.com/p/7693222523c0)
+- [1] [python skimage 图像处理（一） {% include relref_jianshu.html %}](https://www.jianshu.com/p/f2e88197e81d)
+- [2] [python skimage 图像处理（二） {% include relref_jianshu.html %}](https://www.jianshu.com/p/66e6261f0279)
+- [3] [python skimage 图像处理（三） {% include relref_jianshu.html %}](https://www.jianshu.com/p/7693222523c0)
 - [4] [skimage &mdash; skimage v0.17.2 docs](https://scikit-image.org/docs/stable/api/skimage.html)
 - [5] [scikit-image 教程](https://cloud.tencent.com/developer/doc/1221)
 - [6] [python 库 skimage 对图像进行 gamma 校正和 log 校正 {% include relref_cnblogs.html %}](https://www.cnblogs.com/wojianxin/p/12649803.html)
