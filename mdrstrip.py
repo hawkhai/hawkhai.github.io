@@ -50,7 +50,7 @@ def touchSnapCache(umd5, slocal):
     if umd5 in g_untouched.keys() and slocal == g_untouched[umd5]:
         del g_untouched[umd5]
 
-def getSnapCache(umd5):
+def querySnapCache(umd5):
     if umd5 in g_snapcache.keys():
         return readfile(g_snapcache[umd5])
     return None
@@ -102,7 +102,7 @@ def backupUrlContent(fpath, url):
     if os.path.exists(local):
         os.rename(local, slocal)
 
-    fdata = getSnapCache(umd5[:8])
+    fdata = querySnapCache(umd5[:8])
     if fdata:
         writefile(slocal, fdata)
     else:

@@ -40,7 +40,7 @@ Instead of starting with a mesh in local space, we are starting with a 2d mouse 
 
 It can be useful to click on, or "pick" a 3d object in our scene using the mouse cursor. One way of doing this is to project a 3d ray from the mouse, through the camera, into the scene, and then check if that ray intersects with any objects. This is usually called ray casting. This is an entirely mathematical exercise - we don't use any OpenGL code or draw any graphics - this means that it will apply to any 3d application the same way. The mathematical subject is usually called geometric intersection testing.
 
-{% include image.html url="/images/OpenGL-GLSL/newtranspipe.png" %}
+{% include image.html url="/assets/images/201215-shader-opengl-advanced/newtranspipe.png" %}
 
 
 ## stencil 模板測試
