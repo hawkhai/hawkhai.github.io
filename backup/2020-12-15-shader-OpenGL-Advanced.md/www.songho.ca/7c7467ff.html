@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<title>OpenGL Projection Matrix</title>
+
+<meta charset="utf-8" />
+<meta name="description" content="how to construct OpenGL projection matrix" />
+<meta name="keywords" content="OpenGL, transformation, projection Matrix" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Song Ho Ahn" />
+<meta name="generator" content="editplus" />
+<meta name="robots" content="index,follow" />
+
+
+<!-- CSS -->
+<link rel="stylesheet" media="screen" href="../css/screen.css" />
+<link rel="stylesheet" media="print" href="../css/print.css" />
+
+<!-- Javascript -->
+<script src="../js/songho.js"></script>
+
+</head>
+
+
+<body>
+<div id="wrap">
+
+<div id="leftblock">
+<div class="innerblock">
+
+
+<!-- nav -->
+<div style="clear:both; font-size:80%">
+<a href="./gl_transform.html#projection">&larr;Back</a>
+</div>
+
+
+<h1>OpenGL Projection Matrix</h1>
+
+<p>
+<b>Related Topics:</b> <a href="./gl_transform.html">OpenGL Transformation</a>, <a href="./gl_matrix.html">OpenGL Matrix</a>
+</p>
+
+<ul>
+	<li><a href="#overview">Overview</a></li>
+	<li><a href="#perspective">Perspective Projection</a></li>
+	<li><a href="#ortho">Orthographic Projection</a></li>
+</ul>
+
+<p>
+<b>Updates:</b> The MathML version is available <a href="gl_projectionmatrix_mathml.html">here.</a>
+</p>
+
+<h3 id="overview">Overview</h3>
+<p>
+A computer monitor is a 2D surface. A 3D scene rendered by OpenGL must be projected onto the computer screen as a 2D image. GL_PROJECTION <a href="./gl_matrix.html">matrix</a> is used for this projection <a href="./gl_transform.html">transformation</a>. First, it transforms all vertex data from the eye coordinates to the clip coordinates. Then, these clip coordinates are also transformed to the normalized device coordinates (NDC) by dividing with <em>w</em> component of the clip coordinates.
+</p>
+
+<div style="float:right; text-align:center;">
+<img src="files/gl_frustumclip.png" width="300" height="200" alt="A triangle clipped by frustum" />
+<br />
+<span class="caption">A triangle clipped by frustum</span>
+</div>
+
+<p>
+Therefore, we have to keep in mind that both clipping (frustum culling) and NDC transformations are integrated into <strong>GL_PROJECTION</strong> <a href="./gl_matrix.html">matrix</a>. The following sections describe how to build the projection matrix from 6 parameters; <em>left</em>, <em>right</em>, <em>bottom</em>, <em>top</em>, <em>near</em> and <em>far</em> boundary values.
+</p>
+
+<p>
+Note that the frustum culling (clipping) is performed in the clip coordinates, just before dividing by w<sub>c</sub>. The clip coordinates, x<sub>c</sub>, y<sub>c</sub> and z<sub>c</sub> are tested by comparing with w<sub>c</sub>. If any clip coordinate is less than -w<sub>c</sub>, or greater than w<sub>c</sub>, then the vertex will be discarded.
+<br />
+<img src="files/gl_projectionmatrix_eq27.png" width="191" height="15" alt="" />
+</p>
+<p>
+Then, OpenGL will reconstruct the edges of the polygon where clipping occurs.
+</p>
+
+<h3 id="perspective" style="clear:both;">Perspective Projection</h3>
+<div style="float:left; text-align:center">
+<img src="files/gl_projectionmatrix01.png" width="480" height="230" alt="OpenGL Perspective Frustum and NDC" />
+<br />
+<span class="caption">Perspective Frustum and Normalized Device Coordinates (NDC)</span>
+</div>
+<p>
+In perspective projection, a 3D point in a truncated pyramid frustum (eye coordinates) is mapped to a cube (NDC); the range of x-coordinate from [l, r] to [-1, 1], the y-coordinate from [b, t] to [-1, 1] and the z-coordinate from [-n, -f] to [-1, 1].
+</p>
+<p>
+Note that the eye coordinates are defined in the right-handed coordinate system, but NDC uses the left-handed coordinate system. That is, the camera at the origin is looking along -Z axis in eye space, but it is looking along +Z axis in NDC. Since <strong>glFrustum()</strong> accepts only positive values of <em>near</em> and <em>far</em> distances, we need to negate them during the construction of GL_PROJECTION matrix.
+</p>
+<p>
+In OpenGL, a 3D point in eye space is projected onto the <em>near</em> plane (projection plane). The following diagrams show how a point (x<sub>e</sub>, y<sub>e</sub>, z<sub>e</sub>) in eye space is projected to (x<sub>p</sub>, y<sub>p</sub>, z<sub>p</sub>) on the <em>near</em> plane.
+</p>
+<div style="float:left; text-align:center">
+<img src="files/gl_projectionmatrix03.png" width="360" height="300" alt="Top View of Frustum" />
+<br />
+<span class="caption">Top View of Frustum</span>
+</div>
+<div style="float:left; text-align:center; margin-left:20px;">
+<img src="files/gl_projectionmatrix04.png" width="360" height="300" alt="Side View of Frustum" />
+<br />
+<span class="caption">Side View of Frustum</span>
+</div>
+<p style="clear:both">
+From the top view of the frustum, the x-coordinate of eye space, x<sub>e</sub> is mapped to x<sub>p</sub>, which is calculated by using the ratio of similar triangles;
+<br />
+<img src="files/gl_projectionmatrix_eq01.png" width="199" height="92" alt="" />
+</p>
+<p>
+From the side view of the frustum, y<sub>p</sub> is also calculated in a similar way;
+<br />
+<img src="files/gl_projectionmatrix_eq02.png" width="194" height="93" alt="" />
+</p>
+<p>
+Note that both x<sub>p</sub> and y<sub>p</sub> depend on z<sub>e</sub>; they are inversely propotional to -z<sub>e</sub>. In other words, they are both divided by -z<sub>e</sub>. It is a very first clue to construct GL_PROJECTION matrix. After the eye coordinates are transformed by multiplying GL_PROJECTION matrix, the clip coordinates are still a <a href="../math/homogeneous/homogeneous.html">homogeneous coordinates</a>. It finally becomes the normalized device coordinates (NDC) by divided by the w-component of the clip coordinates. (<em>See more details on <a href="./gl_transform.html">OpenGL Transformation</a>.</em>)
+<br />
+<img src="files/gl_transform08.png" width="287" height="99" alt="Clip Coordinates" />
+<span>,&nbsp;&nbsp;&nbsp;</span>
+<img src="files/gl_transform12.png" width="221" height="74" alt="Normalized Device Coordinates" />
+</p>
+<p>
+Therefore, we can set the w-component of the clip coordinates as -z<sub>e</sub>. And, the 4th of GL_PROJECTION matrix becomes (0, 0, -1, 0).
+<br />
+<img src="files/gl_projectionmatrix_eq03.png" width="459" height="99" alt="" />
+</p>
+<p>
+Next, we map x<sub>p</sub> and y<sub>p</sub> to x<sub>n</sub> and y<sub>n</sub> of NDC with linear relationship; [l, r] &rArr; [-1, 1] and [b, t] &rArr; [-1, 1].
+</p>
+<div style="float:left; text-align:center">
+<img src="files/gl_projectionmatrix05.png" width="210" height="170" alt="" />
+<br />
+<span class="caption">Mapping from x<sub>p</sub> to x<sub>n</sub></span>
+</div>
+<img src="files/gl_projectionmatrix_eq04.png" width="457" height="254" alt="" />
+<p style="clear:both">
+&nbsp;
+</p>
+
+<div style="float:left; text-align:center">
+<img src="files/gl_projectionmatrix06.png" width="210" height="170" alt="" />
+<br />
+<span class="caption">Mapping from y<sub>p</sub> to y<sub>n</sub></span>
+</div>
+<img src="files/gl_projectionmatrix_eq05.png" width="451" height="254" alt="" />
+<p style="clear:both">
+&nbsp;
+</p>
+
+<p>
+Then, we substitute x<sub>p</sub> and y<sub>p</sub> into the above equations.
+</p>
+<div style="float:left">
+<img src="files/gl_projectionmatrix_eq06.png" width="340" height="415" alt="" />
+</div>
+<div style="float:left; height:388px; border-right:1px solid #999; padding-right:10px; margin-right:10px">
+</div>
+<div style="float:left">
+<img src="files/gl_projectionmatrix_eq07.png" width="336" height="416" alt="" />
+</div>
+<p style="clear:both">
+Note that we make both terms of each equation divisible by -z<sub>e</sub> for perspective division (x<sub>c</sub>/w<sub>c</sub>, y<sub>c</sub>/w<sub>c</sub>). And we set w<sub>c</sub> to -z<sub>e</sub> earlier, and the terms inside parentheses become x<sub>c</sub> and y<sub>c</sub> of the clip coordiantes.
+</p>
+<p>
+From these equations, we can find the 1st and 2nd rows of GL_PROJECTION matrix.
+<br />
+<img src="files/gl_projectionmatrix_eq08.png" width="342" height="176" alt="" />
+</p>
+
+<p>
+Now, we only have the 3rd row of GL_PROJECTION matrix to solve. Finding z<sub>n</sub> is a little different from others because z<sub>e</sub> in eye space is always projected to -n on the near plane. But we need unique z value for the clipping and depth test. Plus, we should be able to unproject (inverse transform) it. Since we know z does not depend on x or y value, we borrow w-component to find the relationship between z<sub>n</sub> and z<sub>e</sub>. Therefore, we can specify the 3rd row of GL_PROJECTION matrix like this.
+<br />
+<img src="files/gl_projectionmatrix_eq10.png" width="640" height="176" alt="" />
+</p>
+<p>
+In eye space, w<sub>e</sub> equals to 1. Therefore, the equation becomes;
+<br />
+<img src="files/gl_projectionmatrix_eq11.png" width="127" height="46" alt="" />
+</p>
+<p>
+To find the coefficients, <em>A</em> and <em>B</em>, we use the (z<sub>e</sub>, z<sub>n</sub>) relation; (-n, -1) and (-f, 1), and put them into the above equation.
+<br />
+<img src="files/gl_projectionmatrix_eq12.png" width="445" height="119" alt="" />
+</p>
+<p>
+To solve the equations for <em>A</em> and <em>B</em>, rewrite eq.(1) for B;
+<br />
+<img src="files/gl_projectionmatrix_eq13.png" width="182" height="21" alt="" />
+</p>
+<p>Substitute eq.(1') to <em>B</em> in eq.(2), then solve for A;
+<br />
+<img src="files/gl_projectionmatrix_eq14.png" width="278" height="128" alt="" />
+</p>
+<p>Put <em>A</em> into eq.(1) to find <em>B</em>;
+<br />
+<img src="files/gl_projectionmatrix_eq15.png" width="608" height="198" alt="" />
+</p>
+<p>
+We found <em>A</em> and <em>B</em>. Therefore, the relation between z<sub>e</sub> and z<sub>n</sub> becomes;
+<br />
+<img src="files/gl_projectionmatrix_eq17.png" width="276" height="55" alt="" />
+</p>
+<p>
+Finally, we found all entries of GL_PROJECTION matrix. The complete projection <a href="./gl_matrix.html">matrix</a> is;
+<br />
+<img src="files/gl_projectionmatrix_eq16.png" width="259" height="187" alt="OpenGL Perspective Projection Matrix" />
+<br />
+<span class="caption">OpenGL Perspective Projection Matrix</span>
+</p>
+<p>
+This projection <a href="./gl_matrix.html">matrix</a> is for a general frustum. If the viewing volume is symmetric, which is <img src="files/gl_projectionmatrix_eq18.png" width="58" height="14" alt="" /> and <img src="files/gl_projectionmatrix_eq19.png" width="60" height="14" alt="" />, then it can be simplified as;
+<br />
+<img src="files/gl_projectionmatrix_eq20.png" width="413" height="285" alt="" />
+</p>
+<p>
+Before we move on, please take a look at the relation between z<sub>e</sub> and z<sub>n</sub>, eq.(3) once again. You notice it is a rational function and is non-linear relationship between z<sub>e</sub> and z<sub>n</sub>. It means there is very high precision at the <em>near</em> plane, but very little precision at the <em>far</em> plane. If the range [-n, -f] is getting larger, it causes a depth precision problem (z-fighting); a small change of z<sub>e</sub> around the <em>far</em> plane does not affect on z<sub>n</sub> value. The distance between <em>n</em> and <em>f</em> should be short as possible to minimize the depth buffer precision problem.
+</p>
+<div style="text-align:center">
+<img src="files/gl_projectionmatrix07.png" width="650" height="200" alt="Comparison of depth precision" />
+<br />
+<span class="caption">Comparison of Depth Buffer Precisions</span>
+</div>
+
+<h3 id="ortho">Orthographic Projection</h3>
+<div style="float:left; text-align:center">
+<img src="files/gl_projectionmatrix02.png" width="540" height="230" alt="OpenGL Orthographic Volume and NDC" />
+<br />
+<span class="caption">Orthographic Volume and Normalized Device Coordinates (NDC)</span>
+</div>
+<p>
+Constructing GL_PROJECTION <a href="./gl_matrix.html">matrix</a> for orthographic projection is much simpler than perspective mode.
+</p>
+<p>
+All x<sub>e</sub>, y<sub>e</sub> and z<sub>e</sub> components in eye space are linearly mapped to NDC. We just need to scale a rectangular volume to a cube, then move it to the origin. Let's find out the elements of GL_PROJECTION using linear relationship.
+</p>
+<p style="clear:both;">
+&nbsp;
+</p>
+
+<div style="float:left; text-align:center;">
+<img src="files/gl_projectionmatrix08.png" width="210" height="160" alt="" />
+<br />
+<span class="caption">Mapping from x<sub>e</sub> to x<sub>n</sub></span>
+</div>
+<img src="files/gl_projectionmatrix_eq21.png" width="456" height="201" alt="" />
+<p style="clear:both">
+&nbsp;
+</p>
+
+<div style="float:left; text-align:center;">
+<img src="files/gl_projectionmatrix09.png" width="210" height="160" alt="" />
+<br />
+<span class="caption">Mapping from y<sub>e</sub> to y<sub>n</sub></span>
+</div>
+<img src="files/gl_projectionmatrix_eq22.png" width="450" height="201" alt="" />
+<p style="clear:both">
+&nbsp;
+</p>
+
+<div style="float:left; text-align:center">
+<img src="files/gl_projectionmatrix10.png" width="210" height="160" alt="" />
+<br />
+<span class="caption">Mapping from z<sub>e</sub> to z<sub>n</sub></span>
+</div>
+<img src="files/gl_projectionmatrix_eq23.png" width="477" height="214" alt="" />
+<p style="clear:both">
+&nbsp;
+</p>
+
+<p style="clear:both">
+Since w-component is not necessary for orthographic projection, the 4th row of GL_PROJECTION matrix remains as (0, 0, 0, 1). Therefore, the complete GL_PROJECTION <a href="./gl_matrix.html">matrix</a> for orthographic projection is;
+<br />
+<img src="files/gl_projectionmatrix_eq24.png" width="242" height="179" alt="OpenGL Orthographic Projection Matrix" />
+<br />
+<span class="caption">OpenGL Orthographic Projection Matrix</span>
+</p>
+<p>
+It can be further simplified if the viewing volume is symmetrical, <img src="files/gl_projectionmatrix_eq18.png" width="58" height="14" alt="" /> and <img src="files/gl_projectionmatrix_eq19.png" width="60" height="14" alt="" />.
+<br />
+<img src="files/gl_projectionmatrix_eq25.png" width="393" height="261" alt="OpenGL Symmetric Orthographic Projection Matrix" />
+</p>
+
+
+
+
+<!-- footer -->
+<div id="footer">
+<div style="float:left">
+&copy;&nbsp;2008 - 2019 <a href="mailto:song.ahn@gmail.com">Song Ho Ahn (<span lang="ko">안성호</span>)</a>
+</div>
+<div style="float:right">
+<img src="../files/html5_gray32.png" width="32" height="32" alt="HTML5 Logo" />
+</div>
+<div style="float:right">
+<a href="https://validator.w3.org/check?uri=referer"><img src="../files/I_heart_validator.png" width="80" height="15" alt="HTML Validator" /></a>
+</div>
+</div>
+
+<!-- nav -->
+<div style="clear:both; font-size:80%">
+<a href="./gl_transform.html#projection">&larr;Back</a>
+</div>
+
+
+</div>
+</div> <!-- END OF LEFTBLOCK -->
+
+
+<!-- right content block ============================================ -->
+<div id="rightblock">
+<div class="innerblock">
+
+
+<!-- DISQUS block =============================== -->
+<div id="commentblock">
+<div id="buttonDisqus" class="cssbutton">
+Hide Comments
+</div>
+
+<div id="disqus_thread">
+</div>
+<script>
+var disqus_shortname = 'songho'; // required: replace example with your forum shortname
+//var disqus_identifier = 'test';
+var disqus_config = function() {
+    this.discovery.disable_all = true;
+};
+(function() {
+    var dsq=document.createElement('script'); dsq.type='text/javascript'; dsq.async=true;
+    dsq.src='https://'+disqus_shortname+'.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>
+Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+<!-- END OF DISQUS BLOCK ======================== -->
+
+<div>
+&nbsp;
+</div>
+
+</div>
+</div>
+<!-- END OF RIGHT BLOCK ============================================= -->
+
+</div>
+<!-- END OF WRAP ==================================================== -->
+
+</body>
+</html>

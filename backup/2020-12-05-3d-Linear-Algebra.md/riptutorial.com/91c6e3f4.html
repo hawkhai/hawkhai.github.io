@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+        <meta name="baidu-site-verification" content="yxyLMvJwcA" />
+        <meta name="google-site-verification" content="zXL2CVbtC_Krma8l8C6ZtsG0LYFNWiAR5ZI70hz4xAM" />
+        <meta name="msvalidate.01" content="89359D9C492A475C0061398008D105FB" />
+        <meta name="yandex-verification" content="dd35362233c19552" />
+
+
+    <title>opengl - 矩阵简介 | opengl Tutorial</title>
+
+    <!-- icon !-->
+    <link rel="icon" type="image/png" href="/Images/logo_rip.png">
+
+    <!-- css !-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="/styles/master.min.css?v=1.0.0.27000">
+    
+    
+    
+
+    <!-- Open Graph Tags -->
+    <meta name="title" property="og:title" content="opengl - 矩阵简介 | opengl Tutorial">
+    <meta name="description" property="og:description" content="opengl documentation: 矩阵简介">
+    <meta name="url" property="og:url" content="https://riptutorial.com/zh-CN/opengl/example/14159/矩阵简介" />
+    <meta name="image" property="og:image" content="/Images/home.jpg" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="opengl - 矩阵简介 | opengl Tutorial">
+    <meta name="twitter:description" content="opengl documentation: 矩阵简介">
+    <meta name="twitter:url" content="https://riptutorial.com/zh-CN/opengl/example/14159/矩阵简介" />
+    <meta name="twitter:image" content="/Images/home.jpg" />
+    
+    
+    
+
+    
+    
+    
+    
+<script src="//m2d.m2.ai/pghb.riptutorial.article.js" async> </script>    
+    
+</head>
+
+<body>
+<!-- facebook
+<div id="fb-root"></div>
+<script>
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+-->
+<!-- twitter
+<script>
+    !function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+        if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + '://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+    }(document, 'script', 'twitter-wjs');
+</script>
+-->
+<header class="site-header">
+    <nav class="container-fluid navbar navbar-light navbar-expand-lg">
+        <a class="navbar-brand" href="/zh-CN/home">
+            <img src="/Images/logo_rip_full_white.png" />
+                <div>RIP <span class="text-z">Tutorial</span></div>
+
+        </a>
+        <div>
+            <div class="container-language-selector hidden-lg-up">
+                <button class="btn dropdown-toggle" type="button" id="dropdownLanguagesSelectorMobile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         zh-CN
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownLanguagesSelectorMobile">
+                    <div>
+                        <a class="dropdown-item" href="https://riptutorial.com/opengl/example/14159/introduction-to-matrices" onclick="gtag('event', 'click', {'event_action': 'button-language'});">English (en)</a>
+                        <a class="dropdown-item" href="https://riptutorial.com/fr/opengl/example/14159/introduction-aux-matrices" onclick="gtag('event', 'click', {'event_action': 'button-language'});">Français (fr)</a>
+                        <a class="dropdown-item" href="https://riptutorial.com/es/opengl/example/14159/introduccion-a-las-matrices-" onclick="gtag('event', 'click', {'event_action': 'button-language'});">Español (es)</a>
+                        <a class="dropdown-item" href="https://riptutorial.com/it/opengl/example/14159/introduzione-alle-matrici" onclick="gtag('event', 'click', {'event_action': 'button-language'});">Italiano (it)</a>
+                        <a class="dropdown-item" href="https://riptutorial.com/de/opengl/example/14159/einfuhrung-in-matrizen" onclick="gtag('event', 'click', {'event_action': 'button-language'});">Deutsch (de)</a>
+                        <a class="dropdown-item" href="https://riptutorial.com/hi/opengl/example/14159/------------------" onclick="gtag('event', 'click', {'event_action': 'button-language'});">हिंदी (hi)</a>
+                        <a class="dropdown-item" href="https://riptutorial.com/nl/opengl/example/14159/inleiding-tot-matrices" onclick="gtag('event', 'click', {'event_action': 'button-language'});">Nederlands (nl)</a>
+                        <a class="dropdown-item" href="https://riptutorial.com/ru/opengl/example/14159/введение-в-матрицы" onclick="gtag('event', 'click', {'event_action': 'button-language'});">русский (ru)</a>
+                        <a class="dropdown-item" href="https://riptutorial.com/ko/opengl/example/14159/행렬-소개" onclick="gtag('event', 'click', {'event_action': 'button-language'});">한국어 (ko)</a>
+                        <a class="dropdown-item" href="https://riptutorial.com/ja/opengl/example/14159/行列の紹介" onclick="gtag('event', 'click', {'event_action': 'button-language'});">日本語 (ja)</a>
+                        <a class="dropdown-item" href="https://riptutorial.com/pl/opengl/example/14159/wprowadzenie-do-matryc" onclick="gtag('event', 'click', {'event_action': 'button-language'});">Polskie (pl)</a>
+                        <a class="dropdown-item" href="https://riptutorial.com/sv/opengl/example/14159/introduktion-till-matriser" onclick="gtag('event', 'click', {'event_action': 'button-language'});">Svenska (sv)</a>
+                        <a class="dropdown-item" href="https://riptutorial.com/zh-CN/opengl/example/14159/矩阵简介" onclick="gtag('event', 'click', {'event_action': 'button-language'});">中文简体 (zh-CN)</a>
+                        <a class="dropdown-item" href="https://riptutorial.com/zh-TW/opengl/example/14159/矩陣簡介" onclick="gtag('event', 'click', {'event_action': 'button-language'});">中文繁體 (zh-TW)</a>
+                    </div>
+                </div>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-site-menu"
+                    aria-controls="nav-site-menu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse" id="nav-site-menu">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="/zh-CN/tag" class="nav-link">Tags</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/zh-CN/topic" class="nav-link">Topics</a>
+                </li>
+                    <li class="nav-item">
+                        <a href="/zh-CN/example" class="nav-link">Examples</a>
+                    </li>
+                                    <li class="nav-item">
+                        <a href="/zh-CN/ebook" class="nav-link">eBooks</a>
+                    </li>
+            </ul>
+        </div>
+        <div class="navbar-collapse collapse justify-content-end" id="site-header-nav-site-menu">
+<div id="ript_desk_article_lb1" class="d-none d-lg-block"></div>        </div>
+    </nav>
+</header>
+
+<div class="container-fluid site-body">
+    
+
+<div class="nav-site">
+    <a href="/ebook/opengl" id="pdf-download-btn" class="btn btn-z bordered" onclick="gtag('event', 'click', {'event_action': 'button-aside-download'});"><i class="fas fa-file-pdf" aria-hidden="true"></i> Download opengl (PDF)</a>
+    <nav class="navbar navbar-light navbar-expand-lg hidden-lg-up" style="padding-left: 0; padding-right: 0;">
+        <a class="nav-brand"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-sidebar"
+                aria-controls="nav-sidebar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="navbar-collapse collapse justify-content-end" id="nav-sidebar">
+            <br />
+            <div class="section-sidebar">
+
+                <h2><span class="tag-title">opengl</span></h2>
+                <ul>
+                        <li>
+                            <a href="/zh-CN/opengl/topic/814/开始使用opengl">开始使用opengl</a>
+                        </li>
+                        <li>
+                            <a href="/zh-CN/opengl/topic/4063/3d数学">3d数学</a>
+                        </li>
+                            <ul>
+                                    <li>
+                                        <a href="/zh-CN/opengl/example/14159/矩阵简介" class="bold">矩阵简介</a>
+                                    </li>
+                            </ul>
+                        <li>
+                            <a href="/zh-CN/opengl/topic/10680/ogl视图和投影">OGL视图和投影</a>
+                        </li>
+                        <li>
+                            <a href="/zh-CN/opengl/topic/6194/opengl上下文创建-">OpenGL上下文创建。</a>
+                        </li>
+                        <li>
+                            <a href="/zh-CN/opengl/topic/7556/使用c-plusplus-raii封装opengl对象">使用C ++ RAII封装OpenGL对象</a>
+                        </li>
+                        <li>
+                            <a href="/zh-CN/opengl/topic/9237/使用vao">使用VAO</a>
+                        </li>
+                        <li>
+                            <a href="/zh-CN/opengl/topic/4209/基本照明">基本照明</a>
+                        </li>
+                        <li>
+                            <a href="/zh-CN/opengl/topic/8647/实例化">实例化</a>
+                        </li>
+                        <li>
+                            <a href="/zh-CN/opengl/topic/7038/帧缓冲区">帧缓冲区</a>
+                        </li>
+                        <li>
+                            <a href="/zh-CN/opengl/topic/5065/着色器">着色器</a>
+                        </li>
+                        <li>
+                            <a href="/zh-CN/opengl/topic/8685/着色器加载和编译">着色器加载和编译</a>
+                        </li>
+                        <li>
+                            <a href="/zh-CN/opengl/topic/10805/程序自省">程序自省</a>
+                        </li>
+                        <li>
+                            <a href="/zh-CN/opengl/topic/3461/纹理">纹理</a>
+                        </li>
+                </ul>
+
+            </div>
+            <br /><br />
+        </div>
+    </nav>
+</div>
+<div class="row whole-container">
+    <div class="col-lg-2 section-sidebar desktop hidden-md-down">
+        <div class="section-sidebar-overflow custom-scrollbar" data-mcs-theme="dark">
+            <h2><span class="tag-title">opengl</span></h2>
+            <ul>
+                    <li>
+                        <a href="/zh-CN/opengl/topic/814/开始使用opengl">开始使用opengl</a>
+                    </li>
+                    <li>
+                        <a href="/zh-CN/opengl/topic/4063/3d数学">3d数学</a>
+                    </li>
+                        <ul>
+                                <li>
+                                    <a href="/zh-CN/opengl/example/14159/矩阵简介" class="bold active">矩阵简介</a>
+                                </li>
+                        </ul>
+                    <li>
+                        <a href="/zh-CN/opengl/topic/10680/ogl视图和投影">OGL视图和投影</a>
+                    </li>
+                    <li>
+                        <a href="/zh-CN/opengl/topic/6194/opengl上下文创建-">OpenGL上下文创建。</a>
+                    </li>
+                    <li>
+                        <a href="/zh-CN/opengl/topic/7556/使用c-plusplus-raii封装opengl对象">使用C ++ RAII封装OpenGL对象</a>
+                    </li>
+                    <li>
+                        <a href="/zh-CN/opengl/topic/9237/使用vao">使用VAO</a>
+                    </li>
+                    <li>
+                        <a href="/zh-CN/opengl/topic/4209/基本照明">基本照明</a>
+                    </li>
+                    <li>
+                        <a href="/zh-CN/opengl/topic/8647/实例化">实例化</a>
+                    </li>
+                    <li>
+                        <a href="/zh-CN/opengl/topic/7038/帧缓冲区">帧缓冲区</a>
+                    </li>
+                    <li>
+                        <a href="/zh-CN/opengl/topic/5065/着色器">着色器</a>
+                    </li>
+                    <li>
+                        <a href="/zh-CN/opengl/topic/8685/着色器加载和编译">着色器加载和编译</a>
+                    </li>
+                    <li>
+                        <a href="/zh-CN/opengl/topic/10805/程序自省">程序自省</a>
+                    </li>
+                    <li>
+                        <a href="/zh-CN/opengl/topic/3461/纹理">纹理</a>
+                    </li>
+            </ul>
+
+        </div>
+    </div>
+    <div class="col-lg-8 section-article">
+        
+            <div class="row align-items-stretch h-100">
+                <div class="col-1 next-prev">
+                    
+                </div>
+                <div class="col-12 col-lg-10">
+                    <div class="header-article">
+                            <div class="ask4keywords-box">
+                                    <div>Looking for opengl Answers? <a href="https://ask4knowledgebase.com/?q=opengl+%e7%9f%a9%e9%98%b5%e7%ae%80%e4%bb%8b" style="font-size: 16px; font-weight: bold;">Try Ask4KnowledgeBase</a></div>
+                                    <div>Looking for opengl Keywords? <a href="https://ask4keywords.com/tags/opengl" style="font-size: 16px; font-weight: bold;">Try Ask4Keywords</a></div>
+                            </div>
+
+                        <h1>
+                            <span>opengl</span>
+                            矩阵简介
+                        </h1>
+                            <div id="ript_desk_article_lb2" class="d-none d-lg-block"></div>
+                            <div id="ript_mob_mpu1" class="d-lg-none"></div>
+                            <br/>
+
+                        
+                        <!-- Horizontal-Responsive -->
+                        
+                        
+
+                    </div>
+
+        <div class="body-article">
+                    <h2 id="-">例</h2>
+<p>当您使用OpenGL或任何其他图形API进行编程时，如果您的数学不是很好，那么您将会遇到困难。在这里，我将用示例代码解释如何使用3d对象实现移动/缩放和许多其他很酷的东西。 </p><p>让我们来看一个真实的案例......你在OpenGL中制作了一个很棒的（三维）立方体，你想把它移到任何方向。 </p><pre><code>glUseProgram(cubeProgram)
+glBindVertexArray(cubeVAO)
+glEnableVertexAttribArray ( 0 );
+glDrawArrays ( GL_TRIANGLES, 0,cubeVerticesSize)
+</code></pre> <p>在像Unity3d这样的游戏引擎中，这很容易。您只需调用transform.Translate（）并完成它，但OpenGL不包含数学库。 </p><p>一个好的数学库是<a href="http://glm.g-truc.net/0.9.7/index.html" rel="nofollow">glm</a>但是为了得到我的观点，我会为你编写所有（重要的）数学方法。 </p><p>首先，我们必须了解OpenGL中的3d对象包含大量信息，有许多变量相互依赖。管理所有这些变量的一种聪明方法是使用矩阵。 </p><p>矩阵是用列和行写的变量的集合。矩阵可以是1x1,2x4或任意数字。 </p><pre><code>[1|2|3]
+[4|5|6]
+[7|8|9] //A 3x3 matrix
+</code></pre> <p>你可以用它们做很酷的东西......但是他们怎么能帮助我移动我的立方体？要真正理解这一点，我们首先需要了解一些事情。 </p><ul><li>你如何从一个位置制作矩阵？ </li><li>你如何翻译矩阵？ </li><li>你如何将它传递给OpenGL？ </li></ul><p>让我们创建一个包含所有重要矩阵数据和方法的类（用c ++编写） </p><pre><code>template&lt;typename T&gt;
+//Very simple vector containing 4 variables
+struct Vector4{
+    T x, y, z, w;
+    Vector4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w){}
+    Vector4(){}
+
+    Vector4&lt;T&gt;&amp; operator=(Vector4&lt;T&gt; other){
+        this-&gt;x = other.x;
+        this-&gt;y = other.y;
+        this-&gt;z = other.z;
+        this-&gt;w = other.w;
+        return *this;
+    }
+}
+
+template&lt;typename T&gt;
+struct Matrix4x4{
+     /*!
+     *  You see there are columns and rows like this
+     */
+    Vector4&lt;T&gt; row1,row2,row3,row4;
+
+    /*!
+     *  Initializes the matrix with a identity matrix. (all zeroes except the ones diagonal)
+     */
+    Matrix4x4(){
+        row1 = Vector4&lt;T&gt;(1,0,0,0);
+        row2 = Vector4&lt;T&gt;(0,1,0,0);
+        row3 = Vector4&lt;T&gt;(0,0,1,0);
+        row4 = Vector4&lt;T&gt;(0,0,0,1);
+    }
+
+    static Matrix4x4&lt;T&gt; identityMatrix(){
+        return Matrix4x4&lt;T&gt;(
+                        Vector4&lt;T&gt;(1,0,0,0),
+                        Vector4&lt;T&gt;(0,1,0,0),
+                        Vector4&lt;T&gt;(0,0,1,0),
+                        Vector4&lt;T&gt;(0,0,0,1));
+    }
+
+
+
+    Matrix4x4(const Matrix4x4&lt;T&gt;&amp; other){
+        this-&gt;row1 = other.row1;
+        this-&gt;row2 = other.row2;
+        this-&gt;row3 = other.row3;
+        this-&gt;row4 = other.row4;
+    }
+
+    Matrix4x4(Vector4&lt;T&gt; r1, Vector4&lt;T&gt; r2, Vector4&lt;T&gt; r3, Vector4&lt;T&gt; r4){
+        this-&gt;row1 = r1;
+        this-&gt;row2 = r2;
+        this-&gt;row3 = r3;
+        this-&gt;row4 = r4;
+    }
+
+      /*!
+     *  Get all the data in an Vector
+     *  @return rawData The vector with all the row data
+     */
+    std::vector&lt;T&gt; getRawData() const{
+        return{
+            row1.x,row1.y,row1.z,row1.w,
+            row2.x,row2.y,row2.z,row2.w,
+            row3.x,row3.y,row3.z,row3.w,
+            row4.x,row4.y,row4.z,row4.w
+        };
+    }
+
+}
+</code></pre> <p>首先，我们注意到4×4矩阵的默认构造函数中有一个非常奇怪的东西。当被调用时，它不会从零开始，但是像： </p><pre><code>[1|0|0|0]
+[0|1|0|0]
+[0|0|1|0]
+[0|0|0|1] //A identity 4 by 4 matrix
+</code></pre> <p>所有矩阵都应该从对角线上的矩阵开始。 （只是因为&gt;。&lt;） </p><p>好吧，让我们在史诗立方体上宣布一个4乘4的矩阵。 </p><pre><code>glUseProgram(cubeProgram)
+Matrix4x4&lt;float&gt; position;
+glBindVertexArray(cubeVAO)
+glUniformMatrix4fv(shaderRef, 1, GL_TRUE, cubeData);
+glEnableVertexAttribArray ( 0 );
+glDrawArrays ( GL_TRIANGLES, 0,cubeVerticesSize)
+</code></pre> <p>现在我们实际上已经拥有了所有变量，我们终于可以开始做一些数学了！我们做翻译吧。如果您已经在Unity3d中编程，您可能还记得Transform.Translate函数。让我们在我们自己的矩阵类中实现它</p><pre><code> /*!
+ *  Translates the matrix to
+ *  @param vector, The vector you wish to translate to
+ */
+static Matrix4x4&lt;T&gt; translate(Matrix4x4&lt;T&gt; mat, T x, T y, T z){
+    Matrix4x4&lt;T&gt; result(mat);
+    result.row1.w += x;
+    result.row2.w += y;
+    result.row3.w += z;
+    return result;
+}
+</code></pre> <p>这是移动立方体所需的所有数学运算（不是旋转或缩放），它适用于所有角度。让我们在现实生活中实现这一点</p><pre><code>glUseProgram(cubeProgram)
+Matrix4x4&lt;float&gt; position;
+position = Matrix4x4&lt;float&gt;::translate(position, 1,0,0);
+glBindVertexArray(cubeVAO)
+glUniformMatrix4fv(shaderRef, 1, GL_TRUE, &amp;position.getRawData()[0]);
+glEnableVertexAttribArray ( 0 );
+glDrawArrays ( GL_TRIANGLES, 0,cubeVerticesSize)
+</code></pre> <p>我们的着色器需要使用我们的奇妙矩阵</p><pre><code>#version 410 core
+uniform mat4 mv_matrix;
+layout(location = 0) in vec4 position;
+
+void main(void){
+    gl_Position = v_matrix * position;
+}
+</code></pre> <p>它应该工作....但似乎我们的程序中已经有一个错误。当您沿z轴移动时，您的物体似乎消失在空气中。这是因为我们没有投影矩阵。要解决这个bug，我们需要知道两件事： </p><ol><li>投影矩阵如何？ </li><li>我们如何将它与我们的位置矩阵结合起来？ </li></ol><p>那么我们可以制作一个视角（我们毕竟使用三个维度）矩阵代码</p><pre><code>template&lt;typename T&gt;
+Matrix4x4&lt;T&gt; perspective(T fovy, T aspect, T near, T far){
+    
+    T q = 1.0f / tan((0.5f * fovy) * (3.14 / 180));
+    T A = q / aspect;
+    T B = (near + far) / (near - far);
+    T C = (2.0f * near * far) / (near - far);
+    
+    return Matrix4x4&lt;T&gt;(
+        Vector4&lt;T&gt;(A,0,0,0),
+        Vector4&lt;T&gt;(0,q,0,0),
+        Vector4&lt;T&gt;(0,0,B,-1),
+        Vector4&lt;T&gt;(0,0,C,0));
+}
+</code></pre> <p>它看起来很可怕，但是这个方法实际上会计算一个矩阵，表示您希望查看距离（以及接近距离）和您的视野的距离。 </p><p>现在我们有一个投影矩阵和一个位置矩阵。但是我们如何将它们结合起来呢？好玩的是，我们实际上可以相互增加两个矩阵。 </p><pre><code>/*!
+ *  Multiplies a matrix with an other matrix
+ *  @param other, the matrix you wish to multiply with
+ */
+static Matrix4x4&lt;T&gt; multiply(const Matrix4x4&lt;T&gt;&amp; first,const Matrix4x4&lt;T&gt;&amp; other){
+    //generate temporary matrix
+    Matrix4x4&lt;T&gt; result;
+    //Row 1
+    result.row1.x = first.row1.x * other.row1.x + first.row1.y * other.row2.x + first.row1.z * other.row3.x + first.row1.w * other.row4.x;
+    result.row1.y = first.row1.x * other.row1.y + first.row1.y * other.row2.y + first.row1.z * other.row3.y + first.row1.w * other.row4.y;
+    result.row1.z = first.row1.x * other.row1.z + first.row1.y * other.row2.z + first.row1.z * other.row3.z + first.row1.w * other.row4.z;
+    result.row1.w = first.row1.x * other.row1.w + first.row1.y * other.row2.w + first.row1.z * other.row3.w + first.row1.w * other.row4.w;
+    
+    //Row2
+    result.row2.x = first.row2.x * other.row1.x + first.row2.y * other.row2.x + first.row2.z * other.row3.x + first.row2.w * other.row4.x;
+    result.row2.y = first.row2.x * other.row1.y + first.row2.y * other.row2.y + first.row2.z * other.row3.y + first.row2.w * other.row4.y;
+    result.row2.z = first.row2.x * other.row1.z + first.row2.y * other.row2.z + first.row2.z * other.row3.z + first.row2.w * other.row4.z;
+    result.row2.w = first.row2.x * other.row1.w + first.row2.y * other.row2.w + first.row2.z * other.row3.w + first.row2.w * other.row4.w;
+    
+    //Row3
+    result.row3.x = first.row3.x * other.row1.x + first.row3.y * other.row2.x + first.row3.z * other.row3.x + first.row3.w * other.row4.x;
+    result.row3.y = first.row3.x * other.row1.y + first.row3.y * other.row2.y + first.row3.z * other.row3.y + first.row3.w * other.row4.y;
+    result.row3.z = first.row3.x * other.row1.z + first.row3.y * other.row2.z + first.row3.z * other.row3.z + first.row3.w * other.row4.z;
+    result.row3.w = first.row3.x * other.row1.w + first.row3.y * other.row2.w + first.row3.z * other.row3.w + first.row3.w * other.row4.w;
+    
+    //Row4
+    result.row4.x = first.row4.x * other.row1.x + first.row4.y * other.row2.x + first.row4.z * other.row3.x + first.row4.w * other.row4.x;
+    result.row4.y = first.row4.x * other.row1.y + first.row4.y * other.row2.y + first.row4.z * other.row3.y + first.row4.w * other.row4.y;
+    result.row4.z = first.row4.x * other.row1.z + first.row4.y * other.row2.z + first.row4.z * other.row3.z + first.row4.w * other.row4.z;
+    result.row4.w = first.row4.x * other.row1.w + first.row4.y * other.row2.w + first.row4.z * other.row3.w + first.row4.w * other.row4.w;
+    
+    return result;
+}
+</code></pre> <p> Ooef ..这是很多代码，实际上看起来更加可怕。它可以在for循环中完成，但我（可能是错误地）认为这对于从未使用矩阵的人来说会更清楚。 </p><p>查看代码并注意重复模式。将列与行相乘，将其添加并继续。（对于任何大小的矩阵，这都是相同的） </p><p> *请注意，与矩阵的乘法与正常乘法不同。 AXB！= B x A * </p><p>现在我们知道如何投影并将其添加到我们的位置矩阵中，我们的实际代码可能如下所示： </p><pre><code>glUseProgram(cubeProgram)
+Matrix4x4&lt;float&gt; position;
+position = Matrix4x4&lt;float&gt;::translate(position, 1,0,0);
+position = Matrix4x4&lt;float&gt;::multiply(Matrix&lt;float&gt;::perspective&lt;float&gt;(50, 1 , 0.1f, 100000.0f), position);
+glBindVertexArray(cubeVAO)
+glUniformMatrix4fv(shaderRef, 1, GL_TRUE, &amp;position.getRawData()[0]);
+glEnableVertexAttribArray ( 0 );
+glDrawArrays ( GL_TRIANGLES, 0,cubeVerticesSize)
+</code></pre> <p>现在我们的小虫被压扁了，我们的立方体在远处看起来非常史诗。如果你想扩展你的立方体公式是这样的： </p><pre><code> /*!
+ *  Scales the matrix with given vector
+ *  @param s The vector you wish to scale with
+ */
+static Matrix4x4&lt;T&gt; scale(const Matrix4x4&lt;T&gt;&amp; mat, T x, T y, T z){
+    Matrix4x4&lt;T&gt; tmp(mat);
+    tmp.row1.x *= x;
+    tmp.row2.y *= y;
+    tmp.row3.z *= z;
+    return tmp;
+}
+</code></pre> <p>您只需要调整对角线变量。 </p><p>如需轮换，您需要仔细查看四元数。 </p>
+
+            <!-- Horizontal-Responsive -->
+            
+                <br/>
+                <div id="ript_desk_article_lb3" class="d-none d-lg-block"></div>
+                <div id="ript_mob_mpu2" class="d-lg-none"></div>
+                <br /><br/>
+            
+                <div class="container-download-pdf-section">
+                    <img src="/Images/icon-pdf-2.png">
+                    <a href="/ebook/opengl" class="" onclick="gtag('event', 'click', {'event_action': 'button-footer-download'});">
+                        <b>PDF</b> - Download <span>opengl</span> for free
+                    </a>
+                </div>
+            <br>
+            <div class="addthis_inline_share_toolbox_oxub" data-url="https://riptutorial.com/zh-CN/opengl/example/14159/矩阵简介" data-title="Learn opengl - Over 1000 Free Tutorial:" onclick="gtag('event', 'click', {'event_action': 'button-share'});"></div>
+            <br />
+            <div class="container-next-prev">
+                <a href="/zh-CN/opengl/topic/4063/3d数学" onclick="gtag('event', 'click', { 'event_action': 'button-previous' });"><i class="fas fa-angle-left"></i> Previous</a>
+                <a href="/zh-CN/opengl/topic/10680/ogl视图和投影" class="text-right" onclick="gtag('event', 'click', { 'event_action': 'button-next' });"> Next <i class="fas fa-angle-right"></i> </a>
+            </div>
+
+
+            
+
+        
+            
+                <div class="awesome-lists-footer">
+                    <span class="title">Related Tags</span>
+                    <ul>
+                            <li><a href="/zh-CN/c" onclick="gtag('event', 'click', { 'event_action': 'link-related-tag' });">C Language</a></li>
+                            <li><a href="/zh-CN/csharp" onclick="gtag('event', 'click', { 'event_action': 'link-related-tag' });">C# Language</a></li>
+                            <li><a href="/zh-CN/cplusplus" onclick="gtag('event', 'click', { 'event_action': 'link-related-tag' });">C++</a></li>
+                            <li><a href="/zh-CN/haskell" onclick="gtag('event', 'click', { 'event_action': 'link-related-tag' });">Haskell Language</a></li>
+                            <li><a href="/zh-CN/java" onclick="gtag('event', 'click', { 'event_action': 'link-related-tag' });">Java Language</a></li>
+                            <li><a href="/zh-CN/linux" onclick="gtag('event', 'click', { 'event_action': 'link-related-tag' });">GNU/Linux</a></li>
+                            <li><a href="/zh-CN/objective-c" onclick="gtag('event', 'click', { 'event_action': 'link-related-tag' });">Objective-C Language</a></li>
+                            <li><a href="/zh-CN/opencv" onclick="gtag('event', 'click', { 'event_action': 'link-related-tag' });">opencv</a></li>
+                            <li><a href="/zh-CN/python" onclick="gtag('event', 'click', { 'event_action': 'link-related-tag' });">Python Language</a></li>
+                            <li><a href="/zh-CN/qt" onclick="gtag('event', 'click', { 'event_action': 'link-related-tag' });">Qt</a></li>
+                    </ul>
+                </div>
+
+        </div>
+
+
+               <div class="legal-container">
+                   <div>This modified text is an extract of the original Stack Overflow Documentation created by following <a href="/zh-CN/contributor?exampleId=14159">contributors</a> and released under <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank">CC BY-SA 3.0</a></div>
+                   <div>This website is not affiliated with <a href="https://stackoverflow.com/questions/tagged/opengl" target="_blank">Stack Overflow</a></div>
+                   <div>Email: <a href="mailto: tutorialpedia@outlook.com">tutorialpedia@outlook.com</a></div>
+               </div>
+
+        </div>
+                <div class="col-1 next-prev">
+                    
+                </div>
+            </div>
+        
+
+        
+
+       </div>
+
+        <div class="col-lg-2 section-aside">
+            <div id="stats-share">
+                    <div class="dropdown language-selector text-center">
+                        <button class="btn dropdown-toggle" type="button" id="dropdownLanguagesSelector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-globe"></i> 中文简体 (zh-CN)
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownLanguagesSelector">
+                            <div>
+                                <a class="dropdown-item" href="https://riptutorial.com/opengl/example/14159/introduction-to-matrices" onclick="gtag('event', 'click', { 'event_action': 'button-language' });">English (en)</a>
+                                <a class="dropdown-item" href="https://riptutorial.com/fr/opengl/example/14159/introduction-aux-matrices" onclick="gtag('event', 'click', { 'event_action': 'button-language' });">Français (fr)</a>
+                                <a class="dropdown-item" href="https://riptutorial.com/es/opengl/example/14159/introduccion-a-las-matrices-" onclick="gtag('event', 'click', { 'event_action': 'button-language' });">Español (es)</a>
+                                <a class="dropdown-item" href="https://riptutorial.com/it/opengl/example/14159/introduzione-alle-matrici" onclick="gtag('event', 'click', { 'event_action': 'button-language' });">Italiano (it)</a>
+                                <a class="dropdown-item" href="https://riptutorial.com/de/opengl/example/14159/einfuhrung-in-matrizen" onclick="gtag('event', 'click', { 'event_action': 'button-language' });">Deutsch (de)</a>
+                                <a class="dropdown-item" href="https://riptutorial.com/hi/opengl/example/14159/------------------" onclick="gtag('event', 'click', { 'event_action': 'button-language' });">हिंदी (hi)</a>
+                                <a class="dropdown-item" href="https://riptutorial.com/nl/opengl/example/14159/inleiding-tot-matrices" onclick="gtag('event', 'click', { 'event_action': 'button-language' });">Nederlands (nl)</a>
+                                <a class="dropdown-item" href="https://riptutorial.com/ru/opengl/example/14159/введение-в-матрицы" onclick="gtag('event', 'click', { 'event_action': 'button-language' });">русский (ru)</a>
+                                <a class="dropdown-item" href="https://riptutorial.com/ko/opengl/example/14159/행렬-소개" onclick="gtag('event', 'click', { 'event_action': 'button-language' });">한국어 (ko)</a>
+                                <a class="dropdown-item" href="https://riptutorial.com/ja/opengl/example/14159/行列の紹介" onclick="gtag('event', 'click', { 'event_action': 'button-language' });">日本語 (ja)</a>
+                                <a class="dropdown-item" href="https://riptutorial.com/pl/opengl/example/14159/wprowadzenie-do-matryc" onclick="gtag('event', 'click', { 'event_action': 'button-language' });">Polskie (pl)</a>
+                                <a class="dropdown-item" href="https://riptutorial.com/sv/opengl/example/14159/introduktion-till-matriser" onclick="gtag('event', 'click', { 'event_action': 'button-language' });">Svenska (sv)</a>
+                                <a class="dropdown-item" href="https://riptutorial.com/zh-CN/opengl/example/14159/矩阵简介" onclick="gtag('event', 'click', { 'event_action': 'button-language' });">中文简体 (zh-CN)</a>
+                                <a class="dropdown-item" href="https://riptutorial.com/zh-TW/opengl/example/14159/矩陣簡介" onclick="gtag('event', 'click', { 'event_action': 'button-language' });">中文繁體 (zh-TW)</a>
+                            </div>
+                        </div>
+                    </div>
+
+                <div>
+                    <form action="/zh-CN/example" method="get" style="display: block;">
+                        <div class="form-group">
+                            <input class="form-control search grow" name="q" placeholder="搜索…" type="text" onclick="gtag('event', 'click', { 'event_action': 'header-search' });">
+                        </div>
+                    </form>
+                </div>
+                <br/>
+
+                    <div id="ript_desk_skyscraper" class="d-none d-lg-block"></div>
+                <br/>
+                
+                
+                <!-- Vertical-Responsive 
+                <ins class="adsbygoogle"
+                     style="display: block"
+                     data-ad-client="ca-pub-7869211898023730"
+                     data-ad-slot="2663230744"
+                     data-ad-format="auto"
+                     
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>-->
+
+                
+
+                
+
+                
+
+                <!-- Vertical-Responsive 
+                <ins class="adsbygoogle"
+                     style="display: block"
+                     data-ad-client="ca-pub-7869211898023730"
+                     data-ad-slot="9037067406"
+                     data-ad-format="auto"
+                     
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>-->
+
+                
+
+
+
+                
+
+
+
+
+                <!-- Vertical-Responsive 
+                <ins class="adsbygoogle"
+                     style="display: block"
+                     data-ad-client="ca-pub-7869211898023730"
+                     data-ad-slot="2886592024"
+                     data-ad-format="auto"
+                     
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>-->
+
+
+                
+            </div>
+            <br />
+            
+        </div>
+    </div>
+
+
+<script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "computerLanguage",
+    "additionalType": "HowTo",
+    "name": "opengl",
+    "description": "矩阵简介"
+    }
+</script>
+
+</div>
+
+
+<a href="#" id="scroll-to-top" class="back-to-top"><i class="fa fa-angle-up" aria-hidden="true"></i></a>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript" src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-550f227d1d434855" async="async"></script>
+
+<script>
+    $(document).ready(function () {
+        $('a').each(function() {
+            var a = new RegExp('/' + window.location.host + '/');
+            if (!a.test(this.href)) {
+                $(this).attr("target","_blank");
+            }
+        });
+        $( ".reader-mode-enabler" ).click(function() {
+            $("body").toggleClass("reader-mode");
+        });
+    });
+
+    $(document).ready(function () {
+        $('.body-article h2, .body-article h3, .body-article h4').each(function () {
+            $(this).html("<div>" + $(this).html() + "<a href=" + "#" + $(this).attr('id') + ">" + "#" + "</a></div>");
+        });
+    });
+</script>
+<script>
+    $(function() {
+        $("table").addClass("table table-bordered table-hover table-responsive-sm table-striped");
+        $("thead").addClass("thead-dark");
+
+        $('aside a').each(function() {
+            if ($(this).attr('href') == '/{{page.permalink}}' ||
+                $(this).attr('href') == '{{ site.github.url }}/{{page.permalink}}') {
+                $(this).addClass('font-weight-bold');
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        //$(".custom-scrollbar").mCustomScrollbar({ scrollInertia: 0 });
+        //scrollSidebar();
+        sideMenuMayweatherCalculator();
+    });
+
+    /*
+     TODO: Fix it (no longer defined) or remove
+    $(window).scroll(function () {
+        heightCalculator();
+    });*/
+
+
+
+    $(window).resize(function () {
+        sideMenuMayweatherCalculator();
+    });
+
+    function sideMenuMayweatherCalculator() {
+        var sideBarHeight = $("#stats-share").outerHeight();
+        var availableSpace = $(window).height() - 71;
+
+        if (availableSpace < sideBarHeight) {
+            $('.section-aside').css("position", "relative");
+            $('.section-aside').css("height", "auto");
+            $('.section-aside').css("top", "auto");
+        } else {
+            $('.section-aside').css("position", "sticky");
+            $('.section-aside').css("height", "calc(100vh - 4rem)");
+            $('.section-aside').css("top", "4rem");
+        }
+    }
+
+
+    $(window).scroll(function () {
+        if ($(this).scrollTop() >= 600) {
+            $('#scroll-to-top').fadeIn(200);
+        } else {
+            $('#scroll-to-top').fadeOut(200);
+        }
+    });
+
+    function scrollSidebar() {
+        var activeItems = $(".section-sidebar-overflow .active");
+
+        if (activeItems.length > 0) {
+            var activeItem = $(activeItems[0]);
+            if (activeItem.offset().top > ($(window).height() / 3) * 2) {
+                $(".custom-scrollbar").mCustomScrollbar('scrollTo', activeItem.offset().top - 120);
+            }
+        }
+    }
+
+</script>
+
+
+
+
+</body>
+</html>

@@ -16,6 +16,25 @@ glslcanvas:
 
 程序员的数学：线性代数。机器学习以及计算机图形图像学的数学基础。
 
+那么我们可以制作一个视角（我们毕竟使用三个维度）矩阵代码：
+
+```glsl
+template<typename T>
+Matrix4x4<T> perspective(T fovy, T aspect, T near, T far){
+
+    T q = 1.0f / tan((0.5f * fovy) * (3.14 / 180));
+    T A = q / aspect;
+    T B = (near + far) / (near - far);
+    T C = (2.0f * near * far) / (near - far);
+
+    return Matrix4x4<T>(
+        Vector4<T>(A,0,0,0),
+        Vector4<T>(0,q,0,0),
+        Vector4<T>(0,0,B,-1),
+        Vector4<T>(0,0,C,0));
+}
+```
+
 
 ## 01 课
 
@@ -307,6 +326,7 @@ LU 分解主要应用在数值分析中，用来解线性方程、求反矩阵�
 
 - [1] [程序员的数学：线性代数](https://ke.qq.com/course/411603)
 - [2] 3Blue1Brown [【官方双语 / 合集】线性代数的本质 - 系列合集 {% include relref_bili.html %}](https://www.bilibili.com/video/av6731067)
+- [3] [3D 数学，矩阵简介](https://riptutorial.com/zh-CN/opengl/example/14159/%E7%9F%A9%E9%98%B5%E7%AE%80%E4%BB%8B)
 
 -----
 
@@ -319,3 +339,4 @@ LU 分解主要应用在数值分析中，用来解线性方程、求反矩阵�
 - [5] [https://www.cnblogs.com/zzdyyy/p/7643267.html]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/www.cnblogs.com/38502b74.html" %})
 - [6] [https://ke.qq.com/course/411603]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/ke.qq.com/c476834d.html" %})
 - [7] [https://www.bilibili.com/video/av6731067]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/www.bilibili.com/56dbd69f.html" %})
+- [8] [https://riptutorial.com/zh-CN/opengl/example/14159/%E7%9F%A9%E9%98%B5%E7%AE%80%E4%BB%8B]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/riptutorial.com/91c6e3f4.html" %})
