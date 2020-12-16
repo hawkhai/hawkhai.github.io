@@ -144,7 +144,7 @@ def organizeRes(ik, fpath, line):
     ikdir, ikfile = os.path.split(ik)
     if ikfile.find(".") == -1:
         ikfile = ikfile + ".jpg"
-    iktype = ik.split(".")[-1].lower()
+    iktype = ikfile.split(".")[-1].lower()
     if iktype == "mp4":
         ffmpegConvert(ik)
 
