@@ -88,7 +88,7 @@ def backupUrlContent(fpath, url):
     chrome = False
     for host in (#"https://www.jianshu.com/",
                  #"https://www.bilibili.com/",
-                 #"https://learnopengl-cn.readthedocs.io/",
+                 "https://learnopengl-cn.readthedocs.io/",
                 ):
         if url.startswith(host):
             chrome = True
