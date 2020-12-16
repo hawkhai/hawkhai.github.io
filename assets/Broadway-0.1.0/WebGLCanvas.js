@@ -22,7 +22,6 @@
 
 // modified by Matthias Behrens (github.com/soliton4) for Broadway.js
 
-
 // universal module definition
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -38,7 +37,6 @@
         root.WebGLCanvas = factory();
     }
 }(this, function () {
-
 
 /**
  * This class can be used to render output pictures from an H264bsdDecoder to a canvas element.
@@ -89,7 +87,7 @@ H264bsdCanvas.prototype.isWebGL = function() {
 
       if(!gl || typeof gl.getParameter !== "function") {
         gl = null;
-      }    
+      }
 
       ++nameIndex;
     };
@@ -128,7 +126,7 @@ H264bsdCanvas.prototype.initProgram = function() {
             '1.1643828125, 2.017234375, 0, -1.081390625,',
             '0, 0, 0, 1',
         ');',
-      
+
         'void main(void) {',
             'highp float y = texture2D(ySampler,  textureCoord).r;',
             'highp float u = texture2D(uSampler,  textureCoord).r;',
@@ -160,7 +158,7 @@ H264bsdCanvas.prototype.initProgram = function() {
     }
 
     gl.useProgram(program);
-    
+
     this.shaderProgram = program;
 };
 
@@ -253,7 +251,7 @@ H264bsdCanvas.prototype.drawNextOuptutPictureGL = function(width, height, croppi
     var texturePosBuffer = this.texturePosBuffer;
     var yTextureRef = this.yTextureRef;
     var uTextureRef = this.uTextureRef;
-    var vTextureRef = this.vTextureRef;    
+    var vTextureRef = this.vTextureRef;
 
     if(croppingParams === null) {
         gl.viewport(0, 0, width, height);
@@ -290,7 +288,7 @@ H264bsdCanvas.prototype.drawNextOuptutPictureGL = function(width, height, croppi
     gl.bindTexture(gl.TEXTURE_2D, vTextureRef);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, width/2, height/2, 0, gl.LUMINANCE, gl.UNSIGNED_BYTE, crData);
 
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); 
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 };
 
 /**
@@ -313,7 +311,7 @@ H264bsdCanvas.prototype.drawNextOuptutPictureRGBA = function(width, height, crop
         ctx.putImageData(imageData, -croppingParams.left, -croppingParams.top, 0, 0, croppingParams.width, croppingParams.height);
     }
 };
-  
+
   return H264bsdCanvas;
-  
+
 }));

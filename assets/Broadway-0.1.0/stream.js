@@ -4,7 +4,7 @@ var Stream = (function stream() {
   function constructor(url) {
     this.url = url;
   }
-  
+
   constructor.prototype = {
     readAll: function(progress, complete) {
       var xhr = new XMLHttpRequest();
@@ -29,5 +29,3 @@ var Stream = (function stream() {
   };
   return constructor;
 })();
-
-

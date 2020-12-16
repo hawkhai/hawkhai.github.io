@@ -13,9 +13,9 @@
         root.Decoder = factory();
     }
 }(this, function () {
-  
+
   var global;
-  
+
   function initglobal(){
     global = this;
     if (!global){
@@ -27,48 +27,41 @@
     };
   };
   initglobal();
-  
-  
+
   function error(message) {
     console.error(message);
     console.trace();
   };
 
-  
   function assert(condition, message) {
     if (!condition) {
       error(message);
     };
   };
-  
-  
+
   return (function(){
     "use strict";
 
-
-
-  
   var getModule = function(_broadwayOnHeadersDecoded, _broadwayOnPictureDecoded){
-    
+
     var window = this;
     //console.log(typeof window);
-    
+
     window._broadwayOnHeadersDecoded = _broadwayOnHeadersDecoded;
     window._broadwayOnPictureDecoded = _broadwayOnPictureDecoded;
-    
+
     var Module = {
       'print': function(text) { console.log('stdout: ' + text); },
       'printErr': function(text) { console.log('stderr: ' + text); }
     };
-    
-    
+
     /*
-    
+
       The reason why this is all packed into one file is that this file can also function as worker.
       you can integrate the file into your build system and provide the original file to be loaded into a worker.
-    
+
     */
-    
+
 function d(a){throw a;}var g=void 0,i=!0,k=null,m=!1;function n(){return function(){}}var p;p||(p=eval("(function() { try { return Module || {} } catch(e) { return {} } })()"));var aa={},r;for(r in p)p.hasOwnProperty(r)&&(aa[r]=p[r]);var t="object"===typeof process&&"function"===typeof null,ba="object"===typeof window,ca="function"===typeof importScripts,da=!ba&&!t&&!ca;
 if(t){p.print||(p.print=function(a){process.stdout.write(a+"\n")});p.printErr||(p.printErr=function(a){process.stderr.write(a+"\n")});var fa=(null)("fs"),ga=(null)("path");p.read=function(a,b){var a=ga.normalize(a),c=fa.readFileSync(a);!c&&a!=ga.resolve(a)&&(a=path.join(__dirname,"..","src",a),c=fa.readFileSync(a));c&&!b&&(c=c.toString());return c};p.readBinary=function(a){return p.read(a,i)};p.load=function(a){ha(read(a))};p.thisProgram=1<process.argv.length?process.argv[1].replace(/\\/g,"/"):
 "unknown-program";p.arguments=process.argv.slice(2);"undefined"!==typeof module&&(module.exports=p);process.on("uncaughtException",function(a){a instanceof ia||d(a)})}else da?(p.print||(p.print=print),"undefined"!=typeof printErr&&(p.printErr=printErr),p.read="undefined"!=typeof read?read:function(){d("no read() available (jsc?)")},p.readBinary=function(a){if("function"===typeof readbuffer)return new Uint8Array(readbuffer(a));a=read(a,"binary");w("object"===typeof a);return a},"undefined"!=typeof scriptArgs?
@@ -247,7 +240,6 @@ function yc(b,e,f,g){b=b|0;e=e|0;f=f|0;g=g|0;var h=0,j=0,k=0,l=0,m=0,n=0,o=0,p=0
 // EMSCRIPTEN_END_FUNCS
 var xa=[qd,fc,ec,qd];return{_strlen:md,_free:kd,_broadwayGetMajorVersion:dd,_get_h264bsdClip:Lb,_broadwayExit:cd,_memset:nd,_broadwayCreateStream:Zc,_malloc:jd,_memcpy:od,_broadwayGetMinorVersion:ed,_broadwayPlayStream:$c,_broadwaySetStreamLength:_c,_broadwayInit:ad,runPostSets:ld,stackAlloc:ya,stackSave:za,stackRestore:Aa,setThrew:Ba,setTempRet0:Ea,getTempRet0:Fa,dynCall_viiiii:pd}})
 
-
 // EMSCRIPTEN_END_ASM
 (p.Xc,p.Yc,Q),Bb=p._strlen=$._strlen,Ea=p._free=$._free;p._broadwayGetMajorVersion=$._broadwayGetMajorVersion;p._get_h264bsdClip=$._get_h264bsdClip;p._broadwayExit=$._broadwayExit;var Gb=p._memset=$._memset;p._broadwayCreateStream=$._broadwayCreateStream;var Ca=p._malloc=$._malloc,gc=p._memcpy=$._memcpy;
 p._broadwayGetMinorVersion=$._broadwayGetMinorVersion;p._broadwayPlayStream=$._broadwayPlayStream;p._broadwaySetStreamLength=$._broadwaySetStreamLength;p._broadwayInit=$._broadwayInit;p.runPostSets=$.runPostSets;p.dynCall_viiiii=$.dynCall_viiiii;z.pb=$.stackAlloc;z.Tb=$.stackSave;z.Sb=$.stackRestore;z.Yd=$.setTempRet0;z.xd=$.getTempRet0;
@@ -259,15 +251,14 @@ Na(Oa);!(0<S)&&!p.calledRun&&(p.setStatus?(p.setStatus("Running..."),setTimeout(
 function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort() is unexpected, build with -s ASSERTIONS=1 which can give more information.")}p.abort=p.abort=A;if(p.preInit)for("function"==typeof p.preInit&&(p.preInit=[p.preInit]);0<p.preInit.length;)p.preInit.pop()();var lc=m;p.noInitialRun&&(lc=m);mc();
 
     var resultModule = window.Module || global.Module || Module;
-    
+
     return resultModule;
   };
-  
-  
+
   var nowValue = function(){
     return (new Date()).getTime();
   };
-  
+
   if (typeof performance != "undefined"){
     if (performance.now){
       nowValue = function(){
@@ -275,18 +266,17 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
       };
     };
   };
-  
-  
+
   var Broadway = function(parOptions){
     this.options = parOptions || {};
-    
+
     this.now = nowValue;
-    
+
     var asmInstance;
-    
+
     var fakeWindow = {
     };
-    
+
     var Module = getModule.apply(fakeWindow, [function () {
 
     }, function ($buffer, width, height) {
@@ -294,7 +284,7 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
       if (!buffer) {
         buffer = this.pictureBuffers[$buffer] = toU8Array($buffer, (width * height * 3) / 2);
       };
-      
+
       var infos;
       var doInfo = false;
       if (this.infoAr.length){
@@ -302,7 +292,7 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
         infos = this.infoAr;
       };
       this.infoAr = [];
-      
+
       if (this.options.rgb){
         if (!asmInstance){
           asmInstance = getAsm(width, height);
@@ -312,16 +302,16 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
 
         var copyU8 = new Uint8Array(asmInstance.outSize);
         copyU8.set( asmInstance.out );
-        
+
         if (doInfo){
           infos[0].finishDecoding = nowValue();
         };
-        
+
         this.onPictureDecoded(copyU8, width, height, infos);
         return;
-        
+
       };
-      
+
       if (doInfo){
         infos[0].finishDecoding = nowValue();
       };
@@ -334,14 +324,13 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
     var HEAP32 = Module.HEAP32;
     var _h264bsdClip = Module._get_h264bsdClip();
 
-    
     var MAX_STREAM_BUFFER_LENGTH = 1024 * 1024;
-  
+
     // from old constructor
     Module._broadwayInit();
-    
+
     /**
-   * Creates a typed array from a HEAP8 pointer. 
+   * Creates a typed array from a HEAP8 pointer.
    */
     function toU8Array(ptr, length) {
       return HEAPU8.subarray(ptr, ptr + length);
@@ -350,11 +339,11 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
     this.pictureBuffers = {};
     // collect extra infos that are provided with the nal units
     this.infoAr = [];
-    
+
     this.onPictureDecoded = function (buffer, width, height, infos) {
-      
+
     };
-    
+
     /**
      * Decodes a stream buffer. This may be one single (unframed) NAL unit without the
      * start code, or a sequence of NAL units with framing start code prefixes. This
@@ -367,15 +356,13 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
         this.infoAr.push(parInfo);
         parInfo.startDecoding = nowValue();
       };
-      
+
       this.streamBuffer.set(buffer);
       Module._broadwaySetStreamLength(buffer.length);
       Module._broadwayPlayStream();
     };
 
-
-    
-    function patchOptimizations(config, patches) { 
+    function patchOptimizations(config, patches) {
       var scope = getGlobalScope();
       for (var name in patches) {
         var patch = patches[name];
@@ -392,7 +379,7 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
         }
       }
     };
-    
+
     var patches = {
       "filter": {
         name: "_h264bsdFilterPicture",
@@ -437,7 +424,7 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
     function getGlobalScope() {
       return function () { return this; }.call(null);
     };
-    
+
     /* Optimizations */
 
     function clip(x, y, z) {
@@ -592,29 +579,24 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
     }
   };
 
-  
   Broadway.prototype = {
     configure: function (config) {
       // patchOptimizations(config, patches);
       console.info("Broadway Configured: " + JSON.stringify(config));
     }
-    
+
   };
-  
-  
-  
-  
+
   /*
-  
+
     asm.js implementation of a yuv to rgb convertor
     provided by @soliton4
-    
-    based on 
+
+    based on
     http://www.wordsaretoys.com/2013/10/18/making-yuv-conversion-a-little-faster/
-  
+
   */
-  
-  
+
   // factory to create asm.js yuv -> rgb convertor for a given resolution
   var asmInstances = {};
   var getAsm = function(parWidth, parHeight){
@@ -650,7 +632,6 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
     return res;
   };
 
-
   function asmFactory(stdlib, foreign, heap) {
     "use asm";
 
@@ -683,7 +664,6 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
     var widthFour = 0;
 
     var cacheStart = 0;
-
 
     function init(parWidth, parHeight){
       parWidth = parWidth|0;
@@ -856,26 +836,22 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
 
     };
 
-
-
     return {
       init: init,
       doit: doit
     };
   };
 
-  
   /*
     potential worker initialization
-  
+
   */
-  
-  
+
   if (typeof self != "undefined"){
     var isWorker = false;
     var decoder;
     var reuseMemory = false;
-    
+
     var memAr = [];
     var getMem = function(length){
       if (memAr.length){
@@ -888,10 +864,10 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
         };
       };
       return new ArrayBuffer(length);
-    }; 
-    
+    };
+
     self.addEventListener('message', function(e) {
-      
+
       if (isWorker){
         if (reuseMemory){
           if (e.data.reuse){
@@ -901,16 +877,16 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
         if (e.data.buf){
           decoder.decode(new Uint8Array(e.data.buf, e.data.offset || 0, e.data.length), e.data.info);
         };
-        
+
       }else{
         if (e.data && e.data.type === "Broadway.js - Worker init"){
           isWorker = true;
           decoder = new Broadway(e.data.options);
-          
+
           if (e.data.options.reuseMemory){
             reuseMemory = true;
             decoder.onPictureDecoded = function (buffer, width, height, infos) {
-              
+
               //var buf = getMem();
 
               // buffer needs to be copied because we give up ownership
@@ -918,15 +894,15 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
               copyU8.set( buffer, 0, buffer.length );
 
               postMessage({
-                buf: copyU8.buffer, 
+                buf: copyU8.buffer,
                 length: buffer.length,
-                width: width, 
-                height: height, 
+                width: width,
+                height: height,
                 infos: infos
               }, [copyU8.buffer]); // 2nd parameter is used to indicate transfer of ownership
 
             };
-            
+
           }else{
             decoder.onPictureDecoded = function (buffer, width, height, infos) {
               if (buffer) {
@@ -938,10 +914,10 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
               copyU8.set( buffer, 0, buffer.length );
 
               postMessage({
-                buf: copyU8.buffer, 
+                buf: copyU8.buffer,
                 length: buffer.length,
-                width: width, 
-                height: height, 
+                width: width,
+                height: height,
                 infos: infos
               }, [copyU8.buffer]); // 2nd parameter is used to indicate transfer of ownership
 
@@ -951,16 +927,13 @@ function A(a){a&&(p.print(a),p.fa(a));H=i;d("abort() at "+Fa()+"\nIf this abort(
         };
       };
 
-
     }, false);
   };
-  
-  Broadway.nowValue = nowValue;
-  
-  return Broadway;
-  
-  })();
-  
-  
-}));
 
+  Broadway.nowValue = nowValue;
+
+  return Broadway;
+
+  })();
+
+}));
