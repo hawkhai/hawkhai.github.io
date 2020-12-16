@@ -10,7 +10,6 @@ uniform vec3 objectColor;
 uniform vec4 lightPos;
 uniform vec3 viewPos;
 uniform vec3 front;
-
 struct Material{
 	vec3 ambient;
 	vec3 diffuse;
@@ -70,7 +69,7 @@ void main()
 	light.linear=0.09;
 	light.quadratic=0.032;
 	light.lightDir=lightPos;
-	light.ambient=vec3(0.2,0.2,0.2);
+	light.ambient=vec3(0.9,0.9,0.9);
 	light.diffuse=vec3(0.6,0.6,0.6);
 	light.specular=vec3(1.0,1.0,1.0);
 	
@@ -78,6 +77,7 @@ void main()
 	result+=CalcPointLight(light);
 	result+=CalcSpotLight(spotLight);
 	
+
 	FragColor=vec4(result,1.0);
 }
 vec3 CalcPointLight(Light light)
@@ -104,7 +104,6 @@ vec3 CalcPointLight(Light light)
 
 	return result;
 }
-
 vec3 CalcSpotLight(SpotLight light)
 {
 	float theta=dot(normalize(vec3(light.position)-FragPos),-light.direction);
