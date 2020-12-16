@@ -125,7 +125,29 @@ def organizeClear():
     for key in g_orgremove:
         osremove(key)
 
+def ffmpegConvert(fpath):
+    if fpath.endswith(".264.mp4"): return
+    tpath = fpath + ".264.mp4"
+    if os.path.exists(tpath): return
+    ffmpeg = r"C:\Program Files\ImageMagick-6.9.11-Q16-HDRI\ffmpeg.exe"
+    cmdx = r"""
+    "{}" -y -i "{}" -r 30000/1001
+    -b:a 2M -bt 4M -vcodec libx264 -pass 1
+    -coder 0 -bf 0 -flags -loop -wpredp 0
+    -an "{}"
+    """.format(ffmpeg, fpath, tpath)
+    cmdx = " ".join(cmdx.split()).strip()
+    ossystem(cmdx)
+
 def organizeRes(ik, fpath, line):
+
+    ikdir, ikfile = os.path.split(ik)
+    if ikfile.find(".") == -1:
+        ikfile = ikfile + ".jpg"
+    iktype = ik.split(".")[-1].lower()
+    if iktype == "mp4":
+        ffmpegConvert(ik)
+
     if not COPYRES:
         assert os.path.exists(ik), fpath
         return line
@@ -137,9 +159,7 @@ def organizeRes(ik, fpath, line):
         fname = fname[:10].replace("-", "")[-6:]+"-"+fname[11:]
     if len(fname) > 32:
         fname = fname[:30]+"~"+getmd5(fname)[:2]
-    ikdir, ikfile = os.path.split(ik)
-    if ikfile.find(".") == -1:
-        ikfile = ikfile + ".jpg"
+
     tpath = os.path.join("assets", "images", fname, ikfile).lower()
     if invisible:
         tpath = os.path.join("invisible", "images", fname, ikfile).lower()
@@ -150,7 +170,8 @@ def organizeRes(ik, fpath, line):
     else:
         assert False, ik
 
-    if not ikfile.split(".")[-1] in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4",):
+    iktype = ikfile.split(".")[-1].lower()
+    if not iktype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4",):
         print(ik, fpath, line)
         assert False, ik
     return line.replace(ik, tpath.replace("\\", "/"))
