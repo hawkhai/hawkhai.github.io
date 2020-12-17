@@ -128,13 +128,25 @@ $$
 * $$\color{green}F_{source}$$：源因子值。指定了 alpha 值对源颜色的影响。
 * $$\color{red}F_{destination}$$：目标因子值。指定了 alpha 值对目标颜色的影响。
 
+```cpp
+glEnable(GL_BLEND);
+glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+```
+
+* 关闭深度测试，新的颜色会直接替换掉颜色缓冲区存在的老的颜色。
+* 开启深度测试，用深度值来判断，离近裁剪面越近的颜色会替换原有的颜色。
+* 开启混合：glEnable(GL_BLEND)，会将目标颜色和源颜色按照混合方程式来计算最终的颜色。
+
 
 ## 面剔除
 
 ```cpp
-glEnable(GL_CULL_FACE);
-glCullFace(GL_BACK);
-glFrontFace(GL_CW);
+glEnable (GL_CULL_FACE); // 开启正背面剔除，默认剔除背面
+glDisable(GL_CULL_FACE); // 关闭正背面剔除
+// 选择剔除正面还是背面，mode：GL_FRONT（正面）GL_BACK（背面）GL_FRONT_AND_BACK（正背面）
+void glCullFace(GLenum mode);
+// 设置正面，mode：GL_CW（顺时针）GL_CCW（逆时针）
+void glFrontFace(GLenum mode);
 ```
 
 

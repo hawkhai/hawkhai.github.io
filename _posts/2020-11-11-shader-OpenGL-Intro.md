@@ -245,6 +245,30 @@ void setVertexEnv() {
 
 - 代码整理 Camera 封装
 
+```cpp
+// i 表示 32 位整形
+// f 表示 32 位浮点型
+// ub 表示 8 位无符号 byte
+// ui 表示 32 位无符号整形
+// v 表示接受相应的指针类型
+
+void setInt(int value)          glUniform1i(value);
+void setBool(bool value)        glUniform1i((int)value);
+void setFloat(float value)      glUniform1f(value);
+
+void setVec2(glm::vec2 &value)  glUniform2fv(1, &value[0]);
+void setVec3(glm::vec3 &value)  glUniform3fv(1, &value[0]);
+void setVec4(glm::vec4 &value)  glUniform4fv(1, &value[0]);
+
+void setVec2(float x, float y)  glUniform2f(x, y);
+void setVec3(float x, float y, float z) glUniform3f(x, y, z);
+void setVec4(float x, float y, float z, float w) glUniform4f(x, y, z, w);
+
+void setMat2(glm::mat2 &mat)    glUniformMatrix2fv(1, &mat[0][0]);
+void setMat3(glm::mat3 &mat)    glUniformMatrix3fv(1, &mat[0][0]);
+void setMat4(glm::mat4 &mat)    glUniformMatrix4fv(1, &mat[0][0]);
+```
+
 
 ## 运行结果
 

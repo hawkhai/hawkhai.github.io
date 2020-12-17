@@ -60,36 +60,26 @@ def clearSnapCache():
     for umd5 in g_untouched.keys():
         osremove(g_untouched[umd5])
 
+def readfileIglist(fpath):
+    li = readfile(fpath, "utf8").split("\n")
+    li = [i.strip() for i in li if i.strip()]
+    assert li, fpath
+    return li
+
 def backupUrlContent(fpath, url):
-    for file in ("/qt-creator-opensource-windows-x86-4.13.2.exe",
-                 "/qt-opensource-windows-x86-5.14.1.exe",
-                 "/qt-opensource-windows-x86-5.14.2.exe",
-                 "/d2l-zh.zip",
-                 "/mingw-get-setup.exe",
-                ):
+    for file in readfileIglist("mdrstrip_fileIgnore.txt"):
         if url.endswith(file):
             return
     assert not url.endswith(".exe"), url
     assert not url.endswith(".zip"), url
     # 有可能挂掉的网站，都稍微做一下备份。
-    for host in ("https://pypi.tuna.tsinghua.edu.cn/",
-                 "https://www.tapd.cn/",
-                 "https://ml00cz5fm4.feishu.cn/",
-                 "https://gitlab.liebaopay.com/",
-                 "http://tcbuglist.rdev.kingsoft.net/",
-                 "https://blog.hawkhai.com/",
-                 "https://sunocean.life/",
-                 "https://github.com/hawkhai/hawkhai.github.io/",
-                ):
+    for host in readfileIglist("mdrstrip_hostIgnore.txt"):
         if url.startswith(host):
             return
 
     print(fpath, url)
     chrome = False
-    for host in (#"https://www.jianshu.com/",
-                 #"https://www.bilibili.com/",
-                 "https://learnopengl-cn.readthedocs.io/",
-                ):
+    for host in readfileIglist("mdrstrip_hostChrome.txt"):
         if url.startswith(host):
             chrome = True
     mdname = os.path.split(fpath)[-1]
