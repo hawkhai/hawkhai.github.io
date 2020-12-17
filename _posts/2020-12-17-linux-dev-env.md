@@ -4,7 +4,7 @@ title: "开发环境 -- CentOS7 环境设置 & 各种环境"
 author:
 location: "珠海"
 categories: ["开发环境"]
-tags: ["Prog Env", "CentOS7"]
+tags: ["Prog Env", "Linux"]
 toc: true
 toclistyle:
 comments:
