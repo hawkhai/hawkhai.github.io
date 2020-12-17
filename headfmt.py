@@ -68,6 +68,7 @@ layout title author location
 categories tags toc toclistyle
 comments visibility
 mathjax mermaid glslcanvas
+codeprint
 """.split()
     if not _posts:
         mdkeylist.extend("""

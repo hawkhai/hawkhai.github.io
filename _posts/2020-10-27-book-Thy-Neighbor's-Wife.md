@@ -12,6 +12,7 @@ visibility:
 mathjax:
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 > 不可贪图邻人的房产。不可贪爱邻人的妻子、奴婢、牛驴或他的任何东西。

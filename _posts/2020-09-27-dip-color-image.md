@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid: truez
 glslcanvas:
+codeprint:
 ---
 
 第十一章 $\Rightarrow$ 第十四章

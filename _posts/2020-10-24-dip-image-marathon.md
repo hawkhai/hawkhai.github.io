@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 **编程马拉松 HACKATHON 2020 · TEAM24**

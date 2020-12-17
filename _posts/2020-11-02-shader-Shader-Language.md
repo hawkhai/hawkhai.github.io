@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 用 vscode+glsl canvas 插件可以作为一个 shader 开发环境。最终选择了：glsl。

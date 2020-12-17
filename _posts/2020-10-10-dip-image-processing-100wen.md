@@ -12,6 +12,7 @@ visibility: hiddenz
 mathjax: true
 mermaid: truez
 glslcanvas:
+codeprint:
 ---
 
 「画像処理 100 本ノック」中文版本！为图像处理初学者设计的 100 个问题。

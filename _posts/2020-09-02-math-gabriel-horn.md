@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 [维基百科·加百列的号角](https://en.wikipedia.org/wiki/Gabriel%27s_Horn)

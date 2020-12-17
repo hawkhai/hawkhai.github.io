@@ -12,6 +12,7 @@ visibility:
 mathjax:
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 如果使用 32 位的 windbg，windbg 加载完 dump 文件后，窗口会显示 wow64cpu，表示是 64 位进程，需要切换到 64 位环境：

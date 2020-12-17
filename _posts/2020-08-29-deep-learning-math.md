@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 《动手学深度学习》[<sup>[1]</sup>](#refer-anchor-1)

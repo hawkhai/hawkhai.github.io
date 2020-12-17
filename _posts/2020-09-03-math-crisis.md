@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 [维基百科·数学危机](https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E5%8D%B1%E6%9C%BA)

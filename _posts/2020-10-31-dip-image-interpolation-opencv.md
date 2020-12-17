@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 老版本的 OpenCV 代码还能扣出来跑一下，最新版本，已经基本上没这个可能了。

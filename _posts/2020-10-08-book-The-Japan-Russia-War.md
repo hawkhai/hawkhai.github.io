@@ -12,6 +12,7 @@ visibility:
 mathjax:
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 {% include image.html url="/assets/images/201008-book-the-japan-russia-war/2war.jpg" %}

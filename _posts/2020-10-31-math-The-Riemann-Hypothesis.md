@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 > 数学中的皇冠 —— 数论 —— 2000 年来一直没有任何实际应用，是最纯粹的数学。直到计算机，尤其是现代密码学的出现，才让数论第一次走出数学，走进了人们的生活中。

@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 前段时间看了好多文章，几张图印象深刻，惊叹数学的想象力：**首先是反直觉，然后数学推导出来，最终得以验证。感觉数学是认知这个世界最牛的工具了。**

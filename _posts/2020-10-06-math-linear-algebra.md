@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 线性代数存在完整的空间意义，平时的写法只是一种简写。

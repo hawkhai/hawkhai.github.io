@@ -12,6 +12,7 @@ visibility:
 mathjax:
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 阿伯特广受赞誉的三部曲《婚姻史》《情妇史》《独身史》。

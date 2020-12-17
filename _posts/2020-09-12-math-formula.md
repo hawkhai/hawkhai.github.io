@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 科学家才能弄懂这十个公式！李永乐老师带你了解十个最美物理公式（2018 最新）

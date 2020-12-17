@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 偶然发现 D3D10 对频谱可视化支持的很好。惊讶。

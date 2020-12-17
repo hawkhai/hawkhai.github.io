@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 程序员的数学：线性代数。机器学习以及计算机图形图像学的数学基础。

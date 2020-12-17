@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 写了一个 Python 直观感受各种图像缩放插值算法。越高级的算法越圆润，越基础的算法马赛克效果越明显。

@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 虽然作者署名，不能转载。但是文章实在太优美了，隔了半个月还印象深刻，最终还是转了。所有公式一个字母一个字母重新敲的。

@@ -12,6 +12,7 @@ visibility: hiddenz
 mathjax: true
 mermaid: truez
 glslcanvas:
+codeprint:
 ---
 
 基于 python 脚本语言开发的数字图片处理包，比如 PIL, Pillow, opencv, scikit-image 等。

@@ -12,6 +12,7 @@ visibility:
 mathjax:
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 [^_^]: IPC 卡死 twiki 78250087

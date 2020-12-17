@@ -12,6 +12,7 @@ visibility:
 mathjax:
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 很多 Windows API 设计的歪瓜裂枣、奇形怪状的，搞不清楚为什么，后来发现了原因。

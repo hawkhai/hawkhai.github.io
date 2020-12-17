@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 通过顶点着色器和片段着色器，可以将输入的顶点经过着色器的处理显示到屏幕上。

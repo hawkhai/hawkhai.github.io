@@ -12,6 +12,7 @@ visibility:
 mathjax:
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 利用 C++ 类生命周期，自动释放 HANDLE 句柄，香。

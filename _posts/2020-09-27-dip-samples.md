@@ -12,6 +12,7 @@ visibility: hidden
 mathjax: true
 mermaid: truez
 glslcanvas:
+codeprint:
 ---
 
 

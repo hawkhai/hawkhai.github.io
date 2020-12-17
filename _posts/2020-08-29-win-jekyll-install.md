@@ -12,6 +12,7 @@ visibility:
 mathjax:
 mermaid:
 glslcanvas:
+codeprint:
 ---
 
 Windows 搭建 Jekyll 环境。`bundle install` 的时候，`libv8` 和 `therubyracer` 会失败，主要是工程配置和源代码 Windows 平台的兼容性么有做好。

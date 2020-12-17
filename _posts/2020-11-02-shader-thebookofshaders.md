@@ -12,6 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas: true
+codeprint:
 ---
 
 The Book of Shaders -- 这是一本非常坑爹的书，因为作者没写完。

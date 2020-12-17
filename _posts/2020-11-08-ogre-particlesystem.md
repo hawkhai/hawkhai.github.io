@@ -12,6 +12,7 @@ visibility: hiddenz
 mathjax: true
 mermaid: truez
 glslcanvas:
+codeprint:
 ---
 
 {% include image.html url="/assets/images/201108-ogre-particlesystem/v2-18e3e24cdca1fae8cc8a4a732a46decd_1440w.jpg" %}
