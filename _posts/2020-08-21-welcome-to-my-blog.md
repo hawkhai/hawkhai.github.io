@@ -37,7 +37,7 @@ Inline MathJax: $E = mc^2$.
 
 ### Display MathJax
 
-[维基百科·麦克斯韦方程组](https://zh.wikipedia.org/wiki/%E9%A6%AC%E5%85%8B%E5%A3%AB%E5%A8%81%E6%96%B9%E7%A8%8B%E7%B5%84)。初等数学不是这个世界的真相，高等数学才是。麦克斯韦方程组有三种形式，表达的居然是同一个东西：积分形式、微分形式、复数形式。将电现象、磁现象与光的本质有机地统一在完整的电磁场理论中。
+[维基百科·麦克斯韦方程组 {% include relref_wiki.html %}](https://zh.wikipedia.org/wiki/%E9%A6%AC%E5%85%8B%E5%A3%AB%E5%A8%81%E6%96%B9%E7%A8%8B%E7%B5%84)。初等数学不是这个世界的真相，高等数学才是。麦克斯韦方程组有三种形式，表达的居然是同一个东西：积分形式、微分形式、复数形式。将电现象、磁现象与光的本质有机地统一在完整的电磁场理论中。
 
 #### [麦克斯韦方程 {% include relref_csdn.html %}](https://blog.csdn.net/weixin_43318626/article/details/102329794)
 
@@ -160,12 +160,13 @@ $$
 
 ## domain tag sample
 
-[域名标记样例 {% include relref_bili.html %}](bilibili.com)<br/>
-[域名标记样例 {% include relref_github.html %}](github.com)<br/>
-[域名标记样例 {% include relref_cnblogs.html %}](cnblogs.com)<br/>
-[域名标记样例 {% include relref_jianshu.html %}](jianshu.com)<br/>
-[域名标记样例 {% include relref_csdn.html %}](csdn.net)<br/>
-[域名标记样例 {% include relref_zhihu.html %}](zhihu.com)<br/>
+[域名标记样例 {% include relref_bili.html %}](bilibili.com)bilibili 样例。<br/>
+[域名标记样例 {% include relref_github.html %}](github.com)github 样例。<br/>
+[域名标记样例 {% include relref_cnblogs.html %}](cnblogs.com)cnblogs 样例。<br/>
+[域名标记样例 {% include relref_jianshu.html %}](jianshu.com)jianshu 简书。<br/>
+[域名标记样例 {% include relref_csdn.html %}](csdn.net)csdn 样例。<br/>
+[域名标记样例 {% include relref_zhihu.html %}](zhihu.com)zhihu 知乎。<br/>
+[域名标记样例 {% include relref_wiki.html %}](wikipedia.org)wikipedia 维基百科。<br/>
 
 
 ## Tools

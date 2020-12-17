@@ -154,7 +154,7 @@ $$\nabla = \sum_{j=1}^n \bigg[{\frac{\partial}{\partial x_j}}\bigg] \mathbf{\hat
 
 <div id="refer-anchor-1"></div>
 - [1] <https://blog.csdn.net/walilk/article/details/50978864>
-- [2] [维基百科·偏导数](https://zh.wikipedia.org/zh-cn/%E5%81%8F%E5%AF%BC%E6%95%B0)
+- [2] [维基百科·偏导数 {% include relref_wiki.html %}](https://zh.wikipedia.org/zh-cn/%E5%81%8F%E5%AF%BC%E6%95%B0)
 - [3] <https://blog.csdn.net/czmacd/article/details/81178650>
 
 -----
