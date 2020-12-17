@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "数字图像处理笔记 -- 几个实验 (DIP)"
+title: "图像处理笔记 -- 几个实验 (DIP)"
 author:
 location: "珠海"
 categories: ["图像处理"]
@@ -130,7 +130,7 @@ codeprint:
 
 * [数字图像处理学习笔记](http://zuzhiang.cn/2019/09/24/DIP/)
 
-* [数字图像处理笔记](https://a-suozhang.xyz/2019/09/06/Diigital-Image-Procss/)
+* [图像处理笔记](https://a-suozhang.xyz/2019/09/06/Diigital-Image-Procss/)
 
 * **这个不错 [数字图像处理 —— 知识点 {% include relref_jianshu.html %}](https://www.jianshu.com/p/926d6c15dbf9)**
 

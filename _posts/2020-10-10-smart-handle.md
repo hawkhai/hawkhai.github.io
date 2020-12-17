@@ -4,7 +4,7 @@ title: "编程 C++ -- 利用 C++ 类生命周期，自动释放 HANDLE 句柄，
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["Prog Note", "C++"]
+tags: ["编程笔记", "C++"]
 toc: true
 toclistyle:
 comments:

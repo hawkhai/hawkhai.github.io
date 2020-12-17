@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "数字图像处理笔记 -- 神奇的图像处理算法"
+title: "图像处理笔记 -- 神奇的图像处理算法"
 author:
 location: "珠海"
 categories: ["图像处理"]

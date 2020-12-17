@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "开发环境 -- CentOS7 环境设置 & 各种环境"
+title: "开发环境 -- Linux 环境设置 & 各种环境"
 author:
 location: "珠海"
 categories: ["开发环境"]
-tags: ["Prog Env", "Linux"]
+tags: ["开发环境", "Linux"]
 toc: true
 toclistyle:
 comments:

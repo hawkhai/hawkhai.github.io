@@ -4,7 +4,7 @@ title: "编程 C++ -- Enumerating windows device"
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["Prog Note", "C++"]
+tags: ["编程笔记", "C++"]
 toc: true
 toclistyle:
 comments:

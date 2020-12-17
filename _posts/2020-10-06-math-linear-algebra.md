@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "数学 NOTE -- 线性代数的本质"
+title: "数学笔记 -- 线性代数的本质"
 author:
 location: "珠海"
 categories: ["数学"]

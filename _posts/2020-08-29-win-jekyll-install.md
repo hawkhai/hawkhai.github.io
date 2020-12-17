@@ -4,7 +4,7 @@ title: "开发环境 -- 搭建 Windows Jekyll 环境"
 author:
 location: "珠海"
 categories: ["开发环境"]
-tags: ["Prog Env", "Jekyll"]
+tags: ["开发环境", "Jekyll"]
 toc: true
 toclistyle:
 comments:

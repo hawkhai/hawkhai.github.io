@@ -4,7 +4,7 @@ title: "开发环境 -- 使用 TortoiseGit，设置 ssh 方式连接 git 仓库"
 author:
 location: "珠海"
 categories: ["开发环境"]
-tags: ["Prog Env", "TortoiseGit"]
+tags: ["开发环境", "TortoiseGit"]
 toc:
 toclistyle:
 comments:

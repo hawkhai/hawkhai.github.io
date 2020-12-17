@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Prog Note -- Windows 的快捷方式，符号链接，软链接和硬链接"
+title: "编程笔记 -- Windows 的快捷方式，符号链接，软链接和硬链接"
 author:
 location: "珠海"
-categories: ["Prog Note"]
-tags: ["Prog Note"]
+categories: ["编程笔记"]
+tags: ["编程笔记"]
 toc: true
 toclistyle:
 comments:
