@@ -16,7 +16,21 @@ linktagli = (("{% include relref_bili.html %}]",    "bilibili]", "bilibili", "bi
              ("{% include relref_github.html %}]",  "github]",   "github",   "github.com|github.io"),
              ("{% include relref_github.html %}]",  "github]",   "github",   "github.com|github.io"),
              ("{% include relref_jianshu.html %}]", "jianshu]",  "jianshu",  "jianshu.com"),
+             ("{% include relref_wiki.html %}]",    "wiki]",     "wiki",     "wikipedia.org"),
             )
+
+def isHostIgnore(hostk):
+    for tak, src, name, host in linktagli:
+        if re.findall("^({})$".format(host), hostk):
+            return True
+        if re.findall("\\.{}$".format(host), hostk):
+            return True
+    for host in ("sunocean.life", "hawkhai.com",):
+        if re.findall("^({})$".format(host), hostk):
+            return True
+        if re.findall("\\.{}$".format(host), hostk):
+            return True
+    return False
 
 mdkeylist = """
 categories
@@ -229,6 +243,9 @@ def collectHost(fpath, line):
         remote = backupUrlContent(fpath, url)
         if remote:
             reflist.append([url, remote])
+
+        if isHostIgnore(host):
+            continue
         if not host in g_hostset:
             g_hostset[host] = 0
         g_hostset[host] += 1
