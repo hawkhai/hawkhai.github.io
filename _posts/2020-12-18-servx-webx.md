@@ -16,6 +16,11 @@ codeprint:
 ---
 
 
+## NetBeans 忽略配置
+
+NetBeans 源码忽略报错后，配置存在：`C:\Users\86138\AppData\Roaming\NetBeans\11.0\var\attributes.xml`。
+
+
 ## HTML5 视频播放
 
 [HTML5 视频直播（二）](https://imququ.com/post/html5-live-player-2.html)
