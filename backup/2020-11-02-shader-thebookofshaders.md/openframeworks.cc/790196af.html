@@ -1,10 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
-<meta content="text/css" http-equiv="Content-Style-Type"/>
-<meta content="pandoc" name="generator"/>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<meta content="text/css" http-equiv="Content-Style-Type" />
+<meta content="pandoc" name="generator" />
 <title>ofBook - Introducing Shaders</title>
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -13,27 +10,27 @@ table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
 table.sourceCode { width: 100%; line-height: 100%; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
 td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; }
-code > span.dt { color: #902000; }
-code > span.dv { color: #40a070; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #4070a0; }
-code > span.co { color: #60a0b0; font-style: italic; }
-code > span.ot { color: #007020; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #06287e; }
-code > span.er { color: #ff0000; font-weight: bold; }
+code &gt; span.kw { color: #007020; font-weight: bold; }
+code &gt; span.dt { color: #902000; }
+code &gt; span.dv { color: #40a070; }
+code &gt; span.bn { color: #40a070; }
+code &gt; span.fl { color: #40a070; }
+code &gt; span.ch { color: #4070a0; }
+code &gt; span.st { color: #4070a0; }
+code &gt; span.co { color: #60a0b0; font-style: italic; }
+code &gt; span.ot { color: #007020; }
+code &gt; span.al { color: #ff0000; font-weight: bold; }
+code &gt; span.fu { color: #06287e; }
+code &gt; span.er { color: #ff0000; font-weight: bold; }
   </style>
-<link href="../style/bootstrap.min.css" rel="stylesheet">
-<link href="../style/style.css" rel="stylesheet" type="text/css"/>
-<link href="http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic|Merriweather:400,300,300italic,400italic,700,900,700italic,900italic" rel="stylesheet" type="text/css">
+<link href="../style/bootstrap.min.css" rel="stylesheet" />
+<link href="../style/style.css" rel="stylesheet" type="text/css" />
+<link href="http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic|Merriweather:400,300,300italic,400italic,700,900,700italic,900italic" rel="stylesheet" type="text/css" />
 <script src="../javascript/jquery-1.8.3.min.js"></script>
 <script src="../javascript/bootstrap.min.js"></script>
 <script src="../javascript/navbar.js"></script>
-</link></link></head>
-<body>
+</head>
+<body style="zoom: 1;">
 <div class="banner">
 <div class="content-wrapper">
 <b>Work in progress!</b>
@@ -53,7 +50,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h3 id="the-graphics-pipeline">The graphics pipeline</h3>
 <p>The triangle is the root of making 3d or even 2d scenes. We spend a lot of time trying to hide this or make them fancier, flashing, sparklier, etc, but the truth is: pretty much everything is a triangle. The OpenGL pipeline is pretty oriented towards the following work path: your OF app fills OpenGL-managed memory buffers with arrays of points in 3d space (we're going to call these "vertices") and these "vertices" are projected into screen space, put together into triangles, and finally turned into pixel-sized fragments in a process called "rasterization". Finally, every fragment (read: pixel) is assigned a color value and drawn to the framebuffer so that you can actually see it. When we're talking about shaders, the whole "figuring out where vertices go in screen space" is a Vertex Shader and the whole "assign a color value to each pixel" is a Fragment Shader. The flow looks more or less like this (excuse the over-simplification)</p>
 <div class="figure"><div class="inner">
-<div style="image"><a href="../images/shaders/images/shaders_pipeline.png" target="_blank"><img alt="The pipeline" src="../images/shaders/images/shaders_pipeline.png"/></a></div><div class="caption">The pipeline</div>
+<div style="image"><a href="../images/shaders/images/shaders_pipeline.png" target="_blank"><img alt="The pipeline" src="../images/shaders/images/shaders_pipeline.png" /></a></div><div class="caption">The pipeline</div>
 </div></div>
 <p>Walking from the upper left to the lower right we have:</p>
 <ul>
@@ -175,7 +172,7 @@ out vec4 outputColor;
 }</code></pre>
 <p>That should look like the following when you run it:</p>
 <div class="figure"><div class="inner">
-<div style="image"><a href="../images/shaders/images/001.png" target="_blank"><img alt="IMG" src="../images/shaders/images/001.png"/></a></div><div class="caption">IMG</div>
+<div style="image"><a href="../images/shaders/images/001.png" target="_blank"><img alt="IMG" src="../images/shaders/images/001.png" /></a></div><div class="caption">IMG</div>
 </div></div>
 <p>Let's break some of the things in there down a little bit. At the top of the fragment and vertex shaders, you can see a lot of "uniforms". A uniform is a value passed to each shader from your program that sets some additional values that you use at each stage of your shading. Uniform variables act as constants, at least for the duration of your OF applications <em>draw()</em> method. You're OF application feeds these variables to the graphics pipeline so that they're accessible in both stages of shading. Any shader can access any uniform variable as long as it declares the variable like we do in both shaders in our example. Note though that these variables are read-only in the shaders. If you want to update the value of a uniform, you can do it in your OF application by calling:</p>
 <pre class="sourceCode cpp"><code class="sourceCode cpp">shader.setUniform1f(<span class="st">"myUniform"</span>, <span class="fl">1.f</span>);</code></pre>
@@ -850,5 +847,6 @@ out vec4 outputColor;
 <div id="help"><i>please note that this book / chapter is a work in progress.  Feel free to suggest edits / corrections <a href="https://github.com/openframeworks/ofbook" target="_blank">here</a></i></div>
 </div>
 </div>
-</body>
-</html>
+
+
+</body></html>
