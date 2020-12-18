@@ -174,6 +174,7 @@ function initToc(tocdiv) {
         tocdiv.toc({
             title: '<i class="back-to-top">目录索引</i>',
             showEffect: 'fadeIn',
+            minimumHeaders: 1,
         });
 
         // https://codepen.io/eksch/pen/xwdOeK
