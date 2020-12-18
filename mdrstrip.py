@@ -95,9 +95,10 @@ def backupUrlContent(fpath, url):
 
     print(fpath, url)
     chrome = True # 可能有 js 代码，所以必须都用 Chrome 进行缓存
+    chromeDialog = False
     for host in readfileIglist("mdrstrip_hostChrome.txt"):
         if url.startswith(host):
-            chrome = True
+            chromeDialog = True
     mdname = os.path.split(fpath)[-1]
     uhost = url.split("//")[1].split("/")[0]
     umd5 = getmd5(url)
@@ -115,11 +116,11 @@ def backupUrlContent(fpath, url):
     if fdata:
         writefile(slocal, fdata)
     else:
-        fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal, shotpath=slocal+".selenium.jpg")
+        fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal, shotpath=slocal+".selenium.jpg", chromeDialog=chromeDialog)
 
-    if url not in ("http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf",
-                   "http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf",):
-        assert len(fdata) < 1024*1024*1, len(fdata)
+        if url not in ("http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf",
+                       "http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf",):
+            assert len(fdata) < 1024*1024*1, len(fdata)
     remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5[:8] + ttype)
     touchSnapCache(umd5[:8], slocal)
 
