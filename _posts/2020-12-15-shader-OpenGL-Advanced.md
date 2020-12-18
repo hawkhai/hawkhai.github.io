@@ -161,6 +161,55 @@ void glFrontFace(GLenum mode);
 
 前面的简单，后面的慢慢有难度了，基本原理简单，代码是怎么做到的，就是一大坨代码。
 
+```cpp
+unsigned int FBO; // 创建一个帧缓冲对象
+glGenFramebuffers(1, &FBO);
+glBindFramebuffer(GL_FRAMEBUFFER, FBO); // 开启 glBindFramebuffer
+
+unsigned int texColorBuffer = 0;
+glGenTextures(1, &texColorBuffer); // 纹理附件
+glBindTexture(GL_TEXTURE_2D, texColorBuffer);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 600, 450, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+// 它附加到帧缓冲上
+glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texColorBuffer, 0);
+
+unsigned int RBO; // 缓冲对象附件
+glGenRenderbuffers(1, &RBO);
+glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 600, 450);
+
+// 把帧缓冲对象附加上
+glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+
+if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+    std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+
+glBindFramebuffer(GL_FRAMEBUFFER, 0); // 关闭 glBindFramebuffer
+
+// 用这个帧缓纹理创建一个网格 texColorBuffer
+Mesh mesh = getMesh(texColorBuffer);
+
+while (!glfwWindowShouldClose(window))
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, FBO); // 开启 glBindFramebuffer
+
+    // 将内容绘制到自定义帧缓冲的纹理附件
+    ... // 一大坨代码
+
+    // 使用纹理绘制窗户
+    glBindFramebuffer(GL_FRAMEBUFFER, 0); // 关闭 glBindFramebuffer
+
+    mesh.Draw(caoShader); // mesh 用到的就是上面绘制的帧缓冲
+}
+
+glDeleteFramebuffers(1, &FBO);
+```
+
+{% include image.html url="/assets/images/201215-shader-opengl-advanced/grabframebuffer-256.gif" %}
+
 
 ## 参考资料
 

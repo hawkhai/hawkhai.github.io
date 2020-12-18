@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Model.h"
 #include <map>
+#include <windows.h>
 
 //声明
 #pragma region
@@ -23,7 +24,7 @@ void modelPicking();
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 float currentFrame = glfwGetTime();
-float near = 0.1f, far = 100.0f, winZ;
+float inear = 0.1f, ifar = 100.0f, winZ = 0;
 bool pickingModelWorldPosition = false;
 double winX, winY;
 Camera camera;
@@ -42,6 +43,16 @@ glm::mat4 model;
 glm::mat4 view;
 glm::mat4 projection;
 #pragma endregion
+
+int main();
+
+int APIENTRY WinMain(HINSTANCE hInstance,
+    HINSTANCE hPrevInstance,
+    LPSTR lpCmdLine,
+    int nCmdShow)
+{
+    return main();
+}
 
 Mesh getMesh(unsigned int textureColorbuffer)
 {
@@ -160,7 +171,7 @@ int main()
         view = glm::mat4(1.0f);
         view = camera.GetViewMatrix();
         projection = glm::mat4(1.0f);;
-        projection = glm::perspective(glm::radians(camera.fov), 600.0f / 450.0f, near, far);
+        projection = glm::perspective(glm::radians(camera.fov), 600.0f / 450.0f, inear, ifar);
         setShader(&modelShader);
         setShader(&caoShader);
         setShader(&stencilShader);
@@ -229,6 +240,7 @@ int main()
             _lastTime = glfwGetTime();
 
         }
+        Sleep(1);
     }
 
     glDeleteFramebuffers(1, &FBO);
@@ -246,7 +258,7 @@ GLFWwindow* init()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    window = glfwCreateWindow(600, 450, "OPENGL", NULL, NULL);
+    window = glfwCreateWindow(600, 450, "OPENGLzz", NULL, NULL);
     if (window == NULL)
     {
         printf("err:windows is NULL");
@@ -326,8 +338,8 @@ void modelPicking()
         //有像素被点中
         if (winZ < 1.0f)
         {
-            //float w = (2.0 * near * far) / (far + near - z * (far - near));
-            float w = near * far / (near*winZ - far * winZ + far);
+            //float w = (2.0 * inear * ifar) / (ifar + inear - z * (ifar - inear));
+            float w = inear * ifar / (inear*winZ - ifar * winZ + ifar);
             glm::vec4 wolrdPostion = glm::inverse(view)*glm::inverse(projection)*w*glm::vec4(x, y, z, 1);
             //cout<<" x:"<<wolrdPostion.r<<" y:"<<wolrdPostion.g<<" z:"<<wolrdPostion.b<<" w:"<<w<<endl;
             for (_modelsIter = _models.begin(); _modelsIter != _models.end(); _modelsIter++)
