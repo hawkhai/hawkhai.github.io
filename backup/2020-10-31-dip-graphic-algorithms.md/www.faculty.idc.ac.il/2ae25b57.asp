@@ -1,9 +1,17 @@
-<html>
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<script type="text/javascript">
+(function(){
+window["loaderConfig"] = "/TSPD/?type=21";
+})();
+
+</script>
+
+<script type="text/javascript" src="/TSPD/?type=18"></script>
+
     <link rel="stylesheet" type="text/css" href="styles/layout.css" />
     <link rel="stylesheet" type="text/css" href="styles/main.css" />
     <link rel="stylesheet" type="text/css" href="styles/misc.css" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <!--[if IE]>
     <link rel="stylesheet" type="text/css" href="styles/ie-fix.css" />
     <![endif]-->
@@ -30,11 +38,11 @@
 	</a>
 	
 	<table id="menu">
-	    <tr>
+	    <tbody><tr>
 		<td>
 		    <a href="index.asp" class="menu" id="home">
 			<div class="menu-fix" onclick="location.href='index.asp';">
-			    <img src="images/layout/home-ovr.jpg" class="menu-ovr" />
+			    <img src="images/layout/home-ovr.jpg" class="menu-ovr" style="opacity: 0;" />
 			</div>
 			Home
 		    </a>
@@ -43,7 +51,7 @@
 		<td>
 		    <a href="research.asp" class="menu" id="research">
 			<div class="menu-fix" onclick="location.href='research.asp';">
-			    <img src="images/layout/research-ovr.jpg" class="menu-ovr" />
+			    <img src="images/layout/research-ovr.jpg" class="menu-ovr" style="opacity: 0;" />
 			</div>
 			Research
 		    </a>
@@ -52,7 +60,7 @@
 		<td>
 		    <a href="teaching.asp" class="menu" id="teaching">
 			<div class="menu-fix" onclick="location.href='teaching.asp';">
-			    <img src="images/layout/teaching-ovr.jpg" class="menu-ovr" />
+			    <img src="images/layout/teaching-ovr.jpg" class="menu-ovr" style="opacity: 0;" />
 			</div>
 			Teaching
 		    </a>
@@ -61,7 +69,7 @@
 		<td>
 		    <a href="industry.asp" class="menu" id="industry">
 			<div class="menu-fix" onclick="location.href='industry.asp';">
-			    <img src="images/layout/industry-ovr.jpg" class="menu-ovr" />
+			    <img src="images/layout/industry-ovr.jpg" class="menu-ovr" style="opacity: 0;" />
 			</div>
 			Industry
 		    </a>
@@ -70,13 +78,13 @@
 		<td>
 		    <a href="others.asp" class="menu" id="others">
 			<div class="menu-fix" onclick="location.href='others.asp';">
-			    <img src="images/layout/others-ovr.jpg" class="menu-ovr" />
+			    <img src="images/layout/others-ovr.jpg" class="menu-ovr" style="opacity: 0;" />
 			</div>
 			Others
 		    </a>
 		</td>
 	    </tr>
-	</table>
+	</tbody></table>
     </div>
     <div class="side-box"><div class="br"><div class="tl"><div class="tr">
 	<h1>Categories</h1>
@@ -129,7 +137,7 @@
 		<param name="allowfullscreen" value="true" />
 		<param name="allowscriptaccess" value="always" />
 		<param name="movie" value="http://www.vimeo.com/moogaloop.swf?clip_id=1347424&amp;server=www.vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=3C477C&amp;fullscreen=1" />
-		<embed src="http://www.vimeo.com/moogaloop.swf?clip_id=1347424&amp;server=www.vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=3C477C&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="510" height="340"></embed>
+		<embed src="http://www.vimeo.com/moogaloop.swf?clip_id=1347424&amp;server=www.vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=3C477C&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="510" height="340" />
 	    </object>
 	</div>
 
@@ -165,7 +173,7 @@
 	<p>
 	    <img src="images/layout/PDF.gif" class="file-icon" />
 	    <a href="https://faculty.idc.ac.il/arik/SCWeb/imret/imret.pdf">The Paper (PDF)</a>
-	    &nbsp;&nbsp;
+	      
 	    <img src="images/layout/MOV.gif" class="file-icon" />
 	    <a href="https://faculty.idc.ac.il/arik/SCWeb/imret/IMRet-All.mov">The Video (MOV)</a>
 	</p>
@@ -185,8 +193,8 @@
     <div id="footer">
 	<hr />
 	<a href="site-map.asp">Site Map</a> | <a href="index.asp">Contact</a>
-	<p class="subfooter">Designed By J.S. Best viewed at 1024 � 768 or higher.</p>
+	<p class="subfooter">Designed By J.S. Best viewed at 1024 × 768 or higher.</p>
     </div>
 </div>
-</body>
-</html>
+
+<iframe name="TS_Injection" style="width: 0px; height: 0px; visibility: hidden; display: none;"></iframe></body></html>

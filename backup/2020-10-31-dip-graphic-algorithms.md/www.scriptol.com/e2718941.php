@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name=viewport content="width=device-width, initial-scale=1">
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>List of Algorithms</title>
-<link type="text/css" href="/scriptol.css" rel="stylesheet">
-</head>
-<body>
+<link type="text/css" href="/scriptol.css" rel="stylesheet" />
+<link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.scriptol.com" as="script" /><script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script src="https://www.googletagservices.com/activeview/js/current/osd.js?cb=%2Fr20100101"></script><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.scriptol.com"></script><script src="https://scriptol.disqus.com/embed.js" data-timestamp="1608279049793"></script><script charset="utf-8" src="https://platform.twitter.com/js/button.63c51c903061d0dbd843c41e8a00aa5a.js"></script><style></style></head>
+<body><div class="cc-revoke cc-bottom cc-animate cc-color-override-358643213" style="display: none;">Cookie Policy</div><div role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window cc-banner cc-type-opt-out cc-theme-block cc-bottom cc-color-override-358643213 " style=""><!--googleoff: all--><span id="cookieconsent:desc" class="cc-message">Cookies are used on this site only by publishers to make ads relevants. <a aria-label="learn more about cookies" role="button" tabindex="0" class="cc-link" href="http://cookiesandyou.com" target="_blank">Learn more</a></span><div class="cc-compliance cc-highlight"><a aria-label="deny cookies" role="button" tabindex="0" class="cc-btn cc-deny">Refuse</a><a aria-label="dismiss cookie message" role="button" tabindex="0" class="cc-btn cc-dismiss">Ignore</a></div><!--googleon: all--></div>
 
 <div id="saat">
-<script type="text/javascript">
+<script src="https://partner.googleadservices.com/gampad/cookie.js?domain=www.scriptol.com&amp;callback=_gfp_s_&amp;client=ca-pub-2681794164750401&amp;cookie=ID%3Da46f76b4d342bd39-22bd2b383ac5002d%3AT%3D1608268875%3ART%3D1608268875%3AS%3DALNI_MatRqIzLSiSZHJ3CJ1d6liOFsNLBw"></script><script src="https://pagead2.googlesyndication.com/pagead/js/r20201203/r20190131/show_ads_impl_fy2019.js" id="google_shimpl"></script><script type="text/javascript">
 window.google_analytics_uacct = "UA-6574971-2";
 </script>
 </div>
@@ -29,34 +27,31 @@ window.google_analytics_uacct = "UA-6574971-2";
 <span class="tentry"><a href="https://www.scriptol.com/how-to/" target="_top">How to</a></span>  
 </div>
 
-<div id="logoback"><a href="https://www.scriptol.com/"><img src="/scriptol.png" alt="Scriptol.com, programming techniques"></a></div>
-<div id="dict" onclick="location.href='https://www.scriptol.com/dictionary.php'" title="Dictionary"><img src="/images/dict.png"></div>
+<div id="logoback"><a href="https://www.scriptol.com/"><img src="/scriptol.png" alt="Scriptol.com, programming techniques" /></a></div>
+<div id="dict" onclick="location.href='https://www.scriptol.com/dictionary.php'" title="Dictionary"><img src="/images/dict.png" /></div>
 
 </div><div id="menupanel">
  <div class="menuhead"><a href="https://www.scriptol.com/programming/" target="_top">Programming</a></div>
 
 <div class="menu">     
 <div class="menulist"> 
-<a href="https://www.scriptol.com/programming/list-programming-languages.php" target="_top">List of all languages</a><br>
-<a href="https://www.scriptol.com/programming/history.php" target="_top">History of languages</a><br>
-<a href="https://www.scriptol.com/programming/sieve.php" target="_top">Sieve in all languages</a><br>
+<a href="https://www.scriptol.com/programming/list-programming-languages.php" target="_top">List of all languages</a><br />
+<a href="https://www.scriptol.com/programming/history.php" target="_top">History of languages</a><br />
+<a href="https://www.scriptol.com/programming/sieve.php" target="_top">Sieve in all languages</a><br />
 <a href="https://www.scriptol.com/programming/quotes.php" target="_top">Quotes</a></div>
 </div>
 
 <div class="menu">     
 <div class="menutitle">Algorithms</div>
 <div class="menulist">
-<a href="https://www.scriptol.com/programming/list-algorithms.php" target="_top">List of algorithms</a><br>
+<a href="https://www.scriptol.com/programming/list-algorithms.php" target="_top">List of algorithms</a><br />
 <a href="https://www.scriptol.com/programming/graphic-algorithms.php" target="_top">Amazing algorithms</a> 
 </div>
 </div>
 
 <div class="menu">
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:inline-block;width:180px;height:90px"
-     data-ad-client="ca-pub-2681794164750401"
-     data-ad-slot="5844506056"></ins>
+<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:inline-block;width:180px;height:90px" data-ad-client="ca-pub-2681794164750401" data-ad-slot="5844506056" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:180px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:180px;background-color:transparent;"><iframe id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0;width:180px;height:90px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="180" height="90" frameborder="0" src="https://googleads.g.doubleclick.net/pagead/ads?guci=2.2.0.0.2.2.0.0&amp;client=ca-pub-2681794164750401&amp;output=html&amp;h=90&amp;slotname=5844506056&amp;adk=3019008660&amp;adf=3199192565&amp;pi=t.ma~as.5844506056&amp;w=180&amp;lmt=1608279049&amp;psa=1&amp;url=https%3A%2F%2Fwww.scriptol.com%2Fprogramming%2Flist-algorithms.php&amp;flash=0&amp;wgl=1&amp;tt_state=W3siaXNzdWVyT3JpZ2luIjoiaHR0cHM6Ly9hZHNlcnZpY2UuZ29vZ2xlLmNvbSIsInN0YXRlIjowfSx7Imlzc3Vlck9yaWdpbiI6Imh0dHBzOi8vYXR0ZXN0YXRpb24uYW5kcm9pZC5jb20iLCJzdGF0ZSI6MH1d&amp;dt=1608279049559&amp;bpp=5&amp;bdt=128&amp;idt=12&amp;shv=r20201203&amp;cbv=r20190131&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3Da46f76b4d342bd39-22bd2b383ac5002d%3AT%3D1608268875%3ART%3D1608268875%3AS%3DALNI_MatRqIzLSiSZHJ3CJ1d6liOFsNLBw&amp;correlator=1700395943495&amp;frm=20&amp;pv=2&amp;ga_vid=602716950.1608268876&amp;ga_sid=1608279050&amp;ga_hid=735663392&amp;ga_fc=1&amp;ga_wpids=UA-6574971-2&amp;u_tz=480&amp;u_his=2&amp;u_java=0&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_nplug=3&amp;u_nmime=4&amp;adx=719&amp;ady=385&amp;biw=912&amp;bih=915&amp;scr_x=0&amp;scr_y=0&amp;eid=21068946&amp;oid=3&amp;pvsid=630432898216328&amp;pem=62&amp;rx=0&amp;eae=0&amp;fc=640&amp;brdim=86%2C9%2C86%2C9%2C1920%2C0%2C945%2C1020%2C929%2C932&amp;vis=1&amp;rsz=%7C%7CoeE%7C&amp;abl=CS&amp;pfx=0&amp;fu=9224&amp;bc=31&amp;ifi=1&amp;uci=a!1&amp;fsb=1&amp;xpc=Q6cadSkij3&amp;p=https%3A//www.scriptol.com&amp;dtd=26" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!1" data-load-complete="true" data-google-query-id="CLz-wquK1-0CFRPETAIdkeoHrA"></iframe></ins></ins></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
@@ -65,7 +60,7 @@ window.google_analytics_uacct = "UA-6574971-2";
 <div class="menu">     
 <div class="menutitle">Tools</div>
 <div class="menulist"> 
-<a href="https://www.scriptol.com/programming/ide.php" target="_top">List of IDEs</a><br>
+<a href="https://www.scriptol.com/programming/ide.php" target="_top">List of IDEs</a><br />
 <a href="https://www.scriptol.com/programming/gui.php" target="_top">List of GUIs</a>
 </div>
 </div>
@@ -86,7 +81,7 @@ window.google_analytics_uacct = "UA-6574971-2";
           <li class="sli"><a href="#neural">Neural networks</a></li>
           <li class="sli"><a href="#learning">Machine learning</a> </li>
         </ul>
-        <li><a href="#Bioinformatics">Bioinformatics and cheminformatics<br>
+        <li><a href="#Bioinformatics">Bioinformatics and cheminformatics<br />
         </a></li>
         <li><a href="#Compression">Compression</a></li>
         <ul>
@@ -158,12 +153,12 @@ window.google_analytics_uacct = "UA-6574971-2";
         <li><strong>CLA</strong>. Cortical Learning Algorithm. For robotic learning, based on three properties, sparse distributed representation, temporal inference, on-linelearning. Code available through the NuPic project from Numenta.</li>
         <li><b>DE </b>(Differential evolution)<b>. </b>Solve the Chebyshev 
           polynomial fitting problem, which applies to  electronic filters.</li>
-        <li><strong>Semi-Supervised Recognition of Sarcastic Sentences in Online Product Reviews</strong>. <br>
+        <li><strong>Semi-Supervised Recognition of Sarcastic Sentences in Online Product Reviews</strong>. <br />
 Algorithm that recognize  sacarsms or irony in a   tweet or an online  document. A such algorithm will be essential for <a href="https://www.scriptol.com/robotics/humanoid-robots.php" target="_top">humanoid robots</a> programming too. </li>
         <li><strong>Sentiment analysis</strong>. Actually a combination of algos, naive Bayes, maximum entropy and SVM (Support Vector Machine classifieur). </li>
       </ul>
 
-      <h3 id="Computer-vision" >Computer vision</h3>
+      <h3 id="Computer-vision">Computer vision</h3>
       <ul>
         <li><b>Epitome</b>. Represent an image or video by a smaller one.</li>
         <li><b>Counting objects in an image</b>. Uses the connected-component 
@@ -214,7 +209,7 @@ Algorithm that recognize  sacarsms or irony in a   tweet or an online  document.
         <li><b>Needleman-Wunsch.</b> Performs a global alignment on two sequences, 
           for protein or nucleotide sequences. </li>
         <li><b>Smith-Waterman. </b>Variation of the Needleman-Wunsch.</li>
-        <li>Ullmann's algorithm for <strong>subgraph isomorphism</strong> solving. (1976). Determine if two graphs have isomorphic subgraphs. <br>
+        <li>Ullmann's algorithm for <strong>subgraph isomorphism</strong> solving. (1976). Determine if two graphs have isomorphic subgraphs. <br />
         The maximum common subgraph isomorphism problem may be computed with a modular product graph. </li>
       </ul>
 
@@ -397,7 +392,7 @@ Algorithm that recognize  sacarsms or irony in a   tweet or an online  document.
           directed graph.</li>
         <li><strong>Hopcroft–Karp algorithm</strong>. From a bipartite graph, returns the  maximum number of edges with no common endpoints. Alternatives are    breadth-first and depth-first algos. </li>
         <li><b>Kruskal</b>. Finds a minimum spanning tree for a graph.</li>
-        <li><b>Prim's</b>. Finds a minimum spanning tree for a graph. Also called DJP ,  Jarn&iacute;k or Prim&ndash;Jarn&iacute;k algorithm.</li>
+        <li><b>Prim's</b>. Finds a minimum spanning tree for a graph. Also called DJP ,  Jarník or Prim–Jarník algorithm.</li>
         <li><b>Boruvka</b>. Finds a minimum spanning tree for a graph.</li>
         <li><b>Ford-Fulkerson</b>. Computes the maximum flow in a graph.</li>
         <li><b>Edmonds-Karp.</b> Implementation of Ford-Fulkerson.</li>
@@ -443,7 +438,7 @@ Algorithm that recognize  sacarsms or irony in a   tweet or an online  document.
           algorithm</a><b>.</b> It is an implementation of the slope-intercept 
           formula for drawing a line. </li>
         <li><b>Spline interpolation</b>. Reduces error with Runge's phenomenon.</li>
-        <li><a href="http://news-service.stanford.edu/news/2008/november12/video-111208.html" target="_top">3D Surface Tracker Technology</a>. Adding images or vid&eacute;o on walls in a vid&eacute;o, hidden surfaces being taken into account. </li>
+        <li><a href="http://news-service.stanford.edu/news/2008/november12/video-111208.html" target="_top">3D Surface Tracker Technology</a>. Adding images or vidéo on walls in a vidéo, hidden surfaces being taken into account. </li>
       </ul>
       <h2 id="Lists"></h2>
       <h2>Lists, arrays and trees</h2>
@@ -485,7 +480,7 @@ Algorithm that recognize  sacarsms or irony in a   tweet or an online  document.
           sort</a> (or bidirectional bubble, shaker, ripple, shuttle, happy 
           hour sort). Variation of bubble sort that sorts in both directions 
           each pass through the list.</li>
-        <li><a href="https://www.scriptol.com/programming/sources/comb-sort.c" target="_top">Comb sort</a><b>.</b> Efficient variation of bubble sort that eliminates &quot;turtles&quot;, 
+        <li><a href="https://www.scriptol.com/programming/sources/comb-sort.c" target="_top">Comb sort</a><b>.</b> Efficient variation of bubble sort that eliminates "turtles", 
           the small values near the end of the list and makes use of gaps 
           bewteen values.</li>
         <li><b>Counting sort.</b> It uses the range of numbers in the list 
@@ -532,14 +527,14 @@ Algorithm that recognize  sacarsms or irony in a   tweet or an online  document.
 
       <h2 id="logic">Logic programming </h2>
       <ul>
-        <li><strong>Davis&ndash;Putnam algorithm</strong>. Checks the validity of a first-order formula. </li>
+        <li><strong>Davis–Putnam algorithm</strong>. Checks the validity of a first-order formula. </li>
       </ul>
 	  
 
       <h2 id="Number-theory">Mathematics</h2>
       <h3 id="Algebra">Algebra</h3>
       <ul>
-        <li><b>Buchberger's algorithm</b>. Finds a Gr&auml;bner basis.</li>
+        <li><b>Buchberger's algorithm</b>. Finds a Gräbner basis.</li>
         <li><b>Extended Euclidean algorithm</b>. Solves the equation ax+by= 
           c.</li>
         <li><b>Fourier transform multiplication. </b>For very big numbers, 
@@ -762,7 +757,7 @@ Algorithm that recognize  sacarsms or irony in a   tweet or an online  document.
           production probabilities in probabilistic context-free grammars.</li>
       </ul>
       <h4>LL Parsers </h4>
-      <p>Parse a LL context-free grammar top-down from left to right. <br>
+      <p>Parse a LL context-free grammar top-down from left to right. <br />
         Such as <a href="https://www.antlr.org" target="_top">ANTLR</a> that is LL(*). </p>
       <h4>LR Parsers </h4>
       Bottom-up parsers for context-free grammars.
@@ -995,7 +990,7 @@ Algorithm that recognize  sacarsms or irony in a   tweet or an online  document.
           root form. </li>
       </ul>
       <h2 id="Utilities">Utilities</h2>
-      <ul >
+      <ul>
         <li><a href="https://www.scriptol.com/programming/sources/dow.sol" target="_top">Doomsday</a>. Day of the week.</li>
         <li><a href="https://www.scriptol.com/programming/sources/xorswap.c">Xor swap</a>. Swaps the values 
           of two variables without using a buffer by xoring the values.</li>
@@ -1026,12 +1021,8 @@ Algorithm that recognize  sacarsms or irony in a   tweet or an online  document.
       </ul>
 	  
 <div class="pub" id="ad76890">
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-2681794164750401"
-     data-ad-slot="1228452856"
-     data-ad-format="auto"></ins>
+<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display: block; height: 280px;" data-ad-client="ca-pub-2681794164750401" data-ad-slot="1228452856" data-ad-format="auto" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:662px;background-color:transparent;"><ins id="aswift_1_anchor" style="display:block;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:662px;background-color:transparent;"></ins></ins></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
@@ -1040,11 +1031,11 @@ Algorithm that recognize  sacarsms or irony in a   tweet or an online  document.
     <p><strong>Legal</strong>: You are free to print and distribute a printed version of this page. Don't 
       put it on another website, put a link on it instead.</p>
 <p><em>Last update: Septembre 25, 2014. </em></p>
-<br>
+<br />
     
   <table class="social">
-  <tr>
-  <td><a href="https://twitter.com/share" class="twitter-share-button" data-count="vertical">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script></td>
+  <tbody><tr>
+  <td><iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" style="position: static; visibility: visible; width: 63px; height: 20px;" title="Twitter Tweet Button" src="https://platform.twitter.com/widgets/tweet_button.96fd96193cc66c3e11d4c5e4c7c7ec97.en.html#dnt=false&amp;id=twitter-widget-0&amp;lang=en&amp;original_referer=https%3A%2F%2Fwww.scriptol.com%2Fprogramming%2Flist-algorithms.php&amp;size=m&amp;text=List%20of%20Algorithms&amp;time=1608279050063&amp;type=share&amp;url=https%3A%2F%2Fwww.scriptol.com%2Fprogramming%2Flist-algorithms.php"></iframe><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script></td>
   <td><script src="http://www.stumbleupon.com/hostedbadge.php?s=5"></script></td>
 
  
@@ -1053,7 +1044,7 @@ Algorithm that recognize  sacarsms or irony in a   tweet or an online  document.
 <script type="text/javascript" src="http://apis.google.com/js/plusone.js"></script></td>
  
   <td>
-<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.scriptol.com%2Fprogramming%2Flist-of-algorithms.php&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.scriptol.com%2Fprogramming%2Flist-of-algorithms.php&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowtransparency="true"></iframe>
   </td>
   
   <td>
@@ -1062,7 +1053,7 @@ Algorithm that recognize  sacarsms or irony in a   tweet or an online  document.
   </td>
   
    </tr>
-  </table>
+  </tbody></table>
 
 <div id="disqus_thread"></div>
 <script>
@@ -1075,12 +1066,12 @@ s.setAttribute('data-timestamp', +new Date());
 </script>
                           
 
-<div id="footer"> &copy; 2006-2018  <a href="https://www.scriptol.com/programming/" target="_top" >Scriptol.com</a></div>
+<div id="footer"> © 2006-2018  <a href="https://www.scriptol.com/programming/" target="_top">Scriptol.com</a></div>
     
-</div>
+</div><iframe id="google_osd_static_frame_7783049372132" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe>
 
 <div id="sea">
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-6574971-2"></script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-6574971-2"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -1112,6 +1103,7 @@ window.cookieconsent.initialise({
   }  
 })});
 </script>
-</body>
-</html>
 
+
+
+<ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_2_anchor" style="display:block;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><iframe id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" src="https://googleads.g.doubleclick.net/pagead/ads?guci=2.2.0.0.2.2.0.0&amp;client=ca-pub-2681794164750401&amp;output=html&amp;adk=1812271804&amp;adf=3025194257&amp;lmt=1608279049&amp;plat=1%3A8%2C2%3A8%2C9%3A32776%2C10%3A32%2C11%3A32%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1048576%2C32%3A32%2C40%3A32&amp;format=0x0&amp;url=https%3A%2F%2Fwww.scriptol.com%2Fprogramming%2Flist-algorithms.php&amp;ea=0&amp;flash=0&amp;pra=7&amp;wgl=1&amp;tt_state=W3siaXNzdWVyT3JpZ2luIjoiaHR0cHM6Ly9hZHNlcnZpY2UuZ29vZ2xlLmNvbSIsInN0YXRlIjowfSx7Imlzc3Vlck9yaWdpbiI6Imh0dHBzOi8vYXR0ZXN0YXRpb24uYW5kcm9pZC5jb20iLCJzdGF0ZSI6MH1d&amp;dt=1608279049798&amp;bpp=1&amp;bdt=367&amp;idt=1&amp;shv=r20201203&amp;cbv=r20190131&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3Da46f76b4d342bd39-22bd2b383ac5002d%3AT%3D1608268875%3ART%3D1608268875%3AS%3DALNI_MatRqIzLSiSZHJ3CJ1d6liOFsNLBw&amp;prev_slotnames=5844506056&amp;nras=1&amp;correlator=1700395943495&amp;frm=20&amp;pv=1&amp;ga_vid=602716950.1608268876&amp;ga_sid=1608279050&amp;ga_hid=735663392&amp;ga_fc=0&amp;ga_wpids=UA-6574971-2&amp;u_tz=480&amp;u_his=2&amp;u_java=0&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_nplug=3&amp;u_nmime=4&amp;adx=-12245933&amp;ady=-12245933&amp;biw=912&amp;bih=872&amp;scr_x=0&amp;scr_y=0&amp;eid=21068946&amp;oid=3&amp;pvsid=630432898216328&amp;pem=62&amp;rx=0&amp;eae=2&amp;fc=896&amp;brdim=86%2C9%2C86%2C9%2C1920%2C0%2C945%2C1020%2C929%2C889&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=9224&amp;bc=31&amp;ifi=2&amp;uci=a!2&amp;fsb=1&amp;dtd=13" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!2" data-load-complete="true"></iframe></ins></ins></ins><iframe scrolling="no" frameborder="0" allowtransparency="true" src="https://platform.twitter.com/widgets/widget_iframe.96fd96193cc66c3e11d4c5e4c7c7ec97.html?origin=https%3A%2F%2Fwww.scriptol.com" title="Twitter settings iframe" style="display: none;"></iframe><iframe id="rufous-sandbox" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" style="position: absolute; visibility: hidden; display: none; width: 0px; height: 0px; padding: 0px; border: none;" title="Twitter analytics iframe"></iframe></body><iframe id="google_esf" name="google_esf" src="https://googleads.g.doubleclick.net/pagead/html/r20201203/r20190131/zrt_lookup.html#" data-ad-client="ca-pub-2681794164750401" style="display: none;"></iframe></html>
