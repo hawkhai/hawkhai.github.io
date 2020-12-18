@@ -28,7 +28,8 @@ public:
 	{
 
 	}
-	Model(const char *path)
+
+	Model(const  char *path)
 	{
 		loadModel(path);
 	}

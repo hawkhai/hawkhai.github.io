@@ -55,7 +55,7 @@ def buildSnapCache(rootdir):
         fpath = os.path.normpath(fpath)
         if not re.findall("^[0-9a-f]{8}\\.", fname):
             return
-        if fname.find(".selenium.jpg") != -1:
+        if fname.find(".selenium.png") != -1:
             return
         key = fname[:8]
         g_snapcache[key] = fpath
@@ -116,7 +116,7 @@ def backupUrlContent(fpath, url):
     if fdata:
         writefile(slocal, fdata)
     else:
-        fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal, shotpath=slocal+".selenium.jpg", chromeDialog=chromeDialog)
+        fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal, shotpath=slocal+".selenium.png", chromeDialog=chromeDialog)
 
         if url not in ("http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf",
                        "http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf",):

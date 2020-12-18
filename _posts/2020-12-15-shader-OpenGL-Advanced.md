@@ -156,6 +156,11 @@ void glFrontFace(GLenum mode);
 1. 纹理
 2. 渲染缓冲对象（Renderbuffer Object）
 
+* [OpenGL 之 帧缓冲 使用实践](https://mp.weixin.qq.com/s/l5eYzkYAzR-m21-iYBoyCw)
+* [帧缓冲的基础知识](https://riptutorial.com/zh-CN/opengl/example/23675/%E5%B8%A7%E7%BC%93%E5%86%B2%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86)
+
+前面的简单，后面的慢慢有难度了，基本原理简单，代码是怎么做到的，就是一大坨代码。
+
 
 ## 参考资料
 
@@ -169,4 +174,6 @@ void glFrontFace(GLenum mode);
 - [1] [https://antongerdelan.net/opengl/raycasting.html]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/antongerdelan.net/fdb6a2ef.html" %})
 - [2] [https://zhuanlan.zhihu.com/p/115230970]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/zhuanlan.zhihu.com/45793866.html" %})
 - [3] [https://blog.csdn.net/korekara88730/article/details/42213217]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/blog.csdn.net/e53c4341.html" %})
-- [4] [http://www.songho.ca/opengl/gl_projectionmatrix.html]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/www.songho.ca/7c7467ff.html" %})
+- [4] [https://mp.weixin.qq.com/s/l5eYzkYAzR-m21-iYBoyCw]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/mp.weixin.qq.com/6c5f2acd.html" %})
+- [5] [https://riptutorial.com/zh-CN/opengl/example/23675/%E5%B8%A7%E7%BC%93%E5%86%B2%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/riptutorial.com/404c0ecf.html" %})
+- [6] [http://www.songho.ca/opengl/gl_projectionmatrix.html]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/www.songho.ca/7c7467ff.html" %})
