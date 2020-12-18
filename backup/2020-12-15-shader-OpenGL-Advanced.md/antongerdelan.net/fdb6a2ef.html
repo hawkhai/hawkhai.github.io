@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html>
-
-<head>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head>
 	<title>Mouse Picking with Ray Casting - Anton's OpenGL 4 Tutorials</title>
-	<link rel="stylesheet" type="text/css" href="../greysans.css">
-	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-	<link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="../greysans.css" />
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -27,7 +24,7 @@
 	</p>
 
 	<div class="centre">
-		<img src="images/newtranspipe.png" width="512px">
+		<img src="images/newtranspipe.png" width="512px" />
 		<br />
 		<small><i>Instead of starting with a mesh in local space, we are starting with a
 				2d mouse cursor position in viewport space. We work backwards through the
@@ -83,8 +80,7 @@
 		something like this:
 	</p>
 
-	<pre>
-void mouse_click_callback(int b, int s, int mouse_x, int mouse_y);</pre>
+	<pre>void mouse_click_callback(int b, int s, int mouse_x, int mouse_y);</pre>
 
 	<p>
 		This gives us an x in the range of <tt>0:width</tt> and y from
@@ -104,8 +100,7 @@ void mouse_click_callback(int b, int s, int mouse_x, int mouse_y);</pre>
 		y already, so we scale their range, and reverse the direction of y.
 	</p>
 
-	<pre>
-float x = (2.0f * mouse_x) / width - 1.0f;
+	<pre>float x = (2.0f * mouse_x) / width - 1.0f;
 float y = 1.0f - (2.0f * mouse_y) / height;
 float z = 1.0f;
 vec3 ray_nds = vec3(x, y, z);</pre>
@@ -126,8 +121,7 @@ vec3 ray_nds = vec3(x, y, z);</pre>
 		<var>w</var>, just so that we have a 4d vector.
 	</p>
 
-	<pre>
-vec4 ray_clip = vec4(ray_nds.xy, -1.0, 1.0);</pre>
+	<pre>vec4 ray_clip = vec4(ray_nds.xy, -1.0, 1.0);</pre>
 
 	<p>
 		<b>Note:</b> we <u>do not need to reverse perspective division here</u> because
@@ -148,16 +142,14 @@ vec4 ray_clip = vec4(ray_nds.xy, -1.0, 1.0);</pre>
 		matrix.
 	</p>
 
-	<pre>
-vec4 ray_eye = inverse(projection_matrix) * ray_clip;</pre>
+	<pre>vec4 ray_eye = inverse(projection_matrix) * ray_clip;</pre>
 
 	<p>
 		Now, we only needed to un-project the <var>x,y</var> part, so let's manually set
 		the <var>z,w</var> part to mean "forwards, and not a point".
 	</p>
 
-	<pre>
-ray_eye = vec4(ray_eye.xy, -1.0, 0.0);</pre>
+	<pre>ray_eye = vec4(ray_eye.xy, -1.0, 0.0);</pre>
 
 	<h3>Step 4: 4d World Coordinates</h3>
 
@@ -171,8 +163,7 @@ ray_eye = vec4(ray_eye.xy, -1.0, 0.0);</pre>
 		isn't normalised. We should do this before we use it.
 	</p>
 
-	<pre>
-vec3 ray_wor = (inverse(view_matrix) * ray_eye).xyz;
+	<pre>vec3 ray_wor = (inverse(view_matrix) * ray_eye).xyz;
 // don't forget to normalise the vector at some point
 ray_wor = normalise(ray_wor);</pre>
 
@@ -206,7 +197,7 @@ ray_wor = normalise(ray_wor);</pre>
 	</p>
 
 	<div class="centre">
-		<img src="images/plane.png" width="512px">
+		<img src="images/plane.png" width="512px" />
 	</div>
 
 	<div class="centre">
@@ -245,7 +236,7 @@ ray_wor = normalise(ray_wor);</pre>
 				which says "anything that is radius <var>r</var> distance from centre point
 				<var>C</var>". The idea is to replace <var>P</var> with the points-along-a-ray
 				equation, and solve for <var>t</var>. I skipped the re-arrangement steps, but if
-				you're interested in a full discussion have a look at Akenine-M&ouml;ller
+				you're interested in a full discussion have a look at Akenine-Möller
 				<i>et al.</i>
 				<a href="http://www.realtimerendering.com/book.html">Real-Time Rendering</a>.
 			</i></small>
@@ -336,6 +327,6 @@ ray_wor = normalise(ray_wor);</pre>
 		first - no point testing all of the triangles if the ray has missed the whole
 		object!
 	</p>
-</body>
 
-</html>
+
+</body></html>
