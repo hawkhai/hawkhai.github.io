@@ -55,6 +55,8 @@ def buildSnapCache(rootdir):
         fpath = os.path.normpath(fpath)
         if not re.findall("^[0-9a-f]{8}\\.", fname):
             return
+        if fname.find(".selenium.jpg") != -1:
+            return
         key = fname[:8]
         g_snapcache[key] = fpath
         g_untouched[key] = fpath
@@ -92,7 +94,7 @@ def backupUrlContent(fpath, url):
             return
 
     print(fpath, url)
-    chrome = False
+    chrome = True # 可能有 js 代码，所以必须都用 Chrome 进行缓存
     for host in readfileIglist("mdrstrip_hostChrome.txt"):
         if url.startswith(host):
             chrome = True
@@ -106,15 +108,18 @@ def backupUrlContent(fpath, url):
     if os.path.exists(local):
         os.rename(local, slocal)
 
+    if ttype.endswith(".pdf"): # pdf 下载
+        chrome = False
+
     fdata = querySnapCache(umd5[:8])
     if fdata:
         writefile(slocal, fdata)
     else:
-        fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal)
+        fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal, shotpath=slocal+".selenium.jpg")
 
     if url not in ("http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf",
                    "http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf",):
-        assert len(fdata) <= 1024*1024*2, len(fdata)
+        assert len(fdata) < 1024*1024*1, len(fdata)
     remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5[:8] + ttype)
     touchSnapCache(umd5[:8], slocal)
 
