@@ -12,7 +12,7 @@ visibility:
 mathjax: true
 mermaid:
 glslcanvas:
-codeprint: true
+codeprint:
 cluster: "LearnOpenGL"
 ---
 
