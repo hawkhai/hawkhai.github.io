@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="zh-cn">
-<head>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="referrer" content="never" />
-    <meta name="description" content="空间变换网络(STN)原理&#x2B;2D图像空间变换&#x2B;齐次坐标系讲解 2018年11月14日 17:05:41&amp;#160;Rosemary_tu&amp;#160;阅读数 1295更多 分类专栏：&amp;#160;计算机视" />
-    <meta property="og:description" content="空间变换网络(STN)原理&#x2B;2D图像空间变换&#x2B;齐次坐标系讲解 2018年11月14日 17:05:41&amp;#160;Rosemary_tu&amp;#160;阅读数 1295更多 分类专栏：&amp;#160;计算机视" />
+    <meta name="description" content="空间变换网络(STN)原理+2D图像空间变换+齐次坐标系讲解 2018年11月14日 17:05:41&amp;#160;Rosemary_tu&amp;#160;阅读数 1295更多 分类专栏：&amp;#160;计算机视" />
+    <meta property="og:description" content="空间变换网络(STN)原理+2D图像空间变换+齐次坐标系讲解 2018年11月14日 17:05:41&amp;#160;Rosemary_tu&amp;#160;阅读数 1295更多 分类专栏：&amp;#160;计算机视" />
     <meta http-equiv="Cache-Control" content="no-transform" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -20,7 +18,7 @@
     <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/think90/rss" />
     <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/think90/rsd.xml" />
     <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/think90/wlwmanifest.xml" />
-    <script>
+    <script src="https://www.googletagservices.com/activeview/js/current/osd.js?cb=%2Fr20100101"></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script>
         var currentBlogId = 297101;
         var currentBlogApp = 'think90';
         var cb_enable_mathjax = false;
@@ -33,11 +31,11 @@
             var currentPostDateAdded = '2019-09-20 01:51';
         </script>
     <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
-    <script src="/js/blog-common.min.js?v=gWQ9VKr6FSwo14EgofSprzXJrAEO7ppQ1I5Or4uqKuo"></script>
+    <script src="/js/blog-common.min.js?v=fF0V4GI7mbdrRh5FVzZECWvuJT-UrF5wINdTKezXLFA"></script>
     
     
     
-</head>
+<meta http-equiv="origin-trial" content="A1H+PzQW00tt6dlReHFzfO4EtBaEtEImIF9ZNiF54JpDi1bO6/7PK96Q0qxy017wgzSy9ByDKoju2mo57DH+MwoAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MTAzOTg0NTIsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2020120801.js" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script><link rel="prefetch" href="https://f8ca22452829b29fdff25521b1cf1602.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html" /><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-37/html/container.html" /></head>
 <body class="has-navbar has-bannerbar">
     <a name="top"></a>
             <a href="https://brands.cnblogs.com/aws/free?source=blog-bannerbar" onclick="ga('send', 'event', 'Link', 'click', 'aws-pc-bannerbar')">
@@ -47,7 +45,9 @@
                 </div>
             </a>
         <div id="bannerbar" class="bannerbar-mobile formobile">
-            <a href="https://brands.cnblogs.com/aws/free?source=mobile-banner" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aws-mobile-bannerbar')"><img src="https://img2020.cnblogs.com/blog/35695/202012/35695-20201203212730693-184275650.png" alt="" /></a>
+            <a href="https://brands.cnblogs.com/aws/free?source=mobile-banner" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aws-mobile-bannerbar')">
+            <img src="https://img2020.cnblogs.com/blog/35695/202012/35695-20201211073419417-355442931.jpg" alt="" />
+            </a>
         </div>
     <div id="top_nav" class="navbar forpc">
         <nav id="nav_main" class="navbar-main">
@@ -70,14 +70,14 @@
                     </form>
                 </li>
                 <li id="navbar_login_status" class="navbar-list">
-                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
                         <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
                     </a>
-                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
                         <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
                         <span id="msg_count" style="display: none"></span>
                     </a>
-                    <div id="user_info" class="navbar-user-info dropdown">
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
                         <a class="dropdown-button" href="https://home.cnblogs.com/">
                             <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
                         </a>
@@ -88,8 +88,8 @@
                             <a href="javascript:void(0)" onclick="logout();">退出登录</a>
                         </div>
                     </div>
-                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
-                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()">登录</a>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()" style="display: inline;">登录</a>
                 </li>
             </ul>
         </nav>
@@ -103,7 +103,7 @@
 <div class="header">
 	<div class="headerText">
 		<a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/think90/">曹明</a>
-<br>
+<br />
 		
 	</div>
 </div>
@@ -116,45 +116,45 @@
 		<div id="mylinks">
 <a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
 博客园</a>
- &nbsp;
+  
 
 <a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/think90/">
 首页</a>
- &nbsp;
+  
 
 
 <a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
 新随笔</a>
- &nbsp;
+  
 
 <a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%9B%B9%E6%98%8E">
-联系</a> &nbsp;
+联系</a>  
 
 <a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/think90/rss/">
 订阅</a>
 <a id="blog_nav_rss_image" href="https://www.cnblogs.com/think90/rss/">
     <img src="/skins/sea/images/xml.gif" alt="订阅" />
-</a>&nbsp;
+</a> 
 
 <a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
 管理</a>
 
 
 </div>
-		<DIV id="mystats">随笔 -
-493&nbsp;
+		<div id="mystats">随笔 -
+493 
 文章 -
-281&nbsp;
+281 
 评论 -
-37&nbsp;
+39 
 <!--trackbacks-<partial name="./Shared/_PingTrackCount.cshtml" model="BlogServer.Web.Models.DetailBlogPage" />-->
-</DIV>
+</div>
 	
 </div>
 <div id="centercontent">
 	<div id="post_detail">
 <div class="post">
-	<h1 class = "postTitle">
+	<h1 class="postTitle">
 <a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/think90/p/11556725.html">
     <span>空间变换网络(STN)原理+2D图像空间变换+齐次坐标系讲解</span>
     
@@ -164,7 +164,7 @@
 </h1>
 	
 <div id="cnblogs_post_body" class="blogpost-body">
-    <p>&nbsp;</p>
+    <p> </p>
 <div class="article-header-box">
 <div class="article-header">
 <div class="article-title-box">
@@ -172,11 +172,11 @@
 
 </div>
 <div class="article-info-box">
-<div class="article-bar-top"><span class="time"><span class="time">2018年11月14日 17:05:41&nbsp;<a class="follow-nickName" href="https://me.csdn.net/Rosemary_tu" rel="noopener" target="_blank">Rosemary_tu</a>&nbsp;<span class="read-count">阅读数 1295<span class="article_info_click">更多</span></span></span></span>
-<div class="tags-box space"><span class="label">分类专栏：&nbsp;<a class="tag-link" href="https://blog.csdn.net/rosemary_tu/article/category/8450254" rel="noopener" target="_blank">计算机视觉</a></span></div>
+<div class="article-bar-top"><span class="time"><span class="time">2018年11月14日 17:05:41 <a class="follow-nickName" href="https://me.csdn.net/Rosemary_tu" rel="noopener" target="_blank">Rosemary_tu</a> <span class="read-count">阅读数 1295<span class="article_info_click">更多</span></span></span></span>
+<div class="tags-box space"><span class="label">分类专栏： <a class="tag-link" href="https://blog.csdn.net/rosemary_tu/article/category/8450254" rel="noopener" target="_blank">计算机视觉</a></span></div>
 
 </div>
-<div class="operating">&nbsp;</div>
+<div class="operating"> </div>
 
 </div>
 
@@ -184,15 +184,15 @@
 
 </div>
 <div id="article_content" class="article_content clearfix">
-<div class="article-copyright"><span class="creativecommons"><span class="creativecommons">版权声明：本文为博主原创文章，遵循<a href="http://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" target="_blank">&nbsp;CC 4.0 BY-SA&nbsp;</a>版权协议，转载请附上原文出处链接和本声明。</span></span>
+<div class="article-copyright"><span class="creativecommons"><span class="creativecommons">版权声明：本文为博主原创文章，遵循<a href="http://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" target="_blank"> CC 4.0 BY-SA </a>版权协议，转载请附上原文出处链接和本声明。</span></span>
 <div class="article-source-link2222">本文链接：<a href="https://blog.csdn.net/Rosemary_tu/article/details/84069878">https://blog.csdn.net/Rosemary_tu/article/details/84069878</a></div>
 
 </div>
 <div id="content_views" class="markdown_views prism-tomorrow-night">
-<p>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;本文是对Google DeepMind 团队2015年发表的空间变换网络STN的详细讲解，笔记在编写的过程中借鉴了网上一些博客，在相应的内容位置有说明。如有侵权，请联系作者删除。</p>
-<p>&nbsp;</p>
-<p>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;感谢台湾大学<a href="https://www.youtube.com/watch?v=SoCywZ1hZak&amp;index=5&amp;list=PLJV_el3uVTsPMxPbjeX7PicgWbY7F8wW9" rel="nofollow" data-token="f781662f7c6bd5dc6fd81c9dd532890a">李宏毅</a>老师的精彩讲解！</p>
-<p>&nbsp;</p>
+<p>         本文是对Google DeepMind 团队2015年发表的空间变换网络STN的详细讲解，笔记在编写的过程中借鉴了网上一些博客，在相应的内容位置有说明。如有侵权，请联系作者删除。</p>
+<p> </p>
+<p>         感谢台湾大学<a href="https://www.youtube.com/watch?v=SoCywZ1hZak&amp;index=5&amp;list=PLJV_el3uVTsPMxPbjeX7PicgWbY7F8wW9" rel="nofollow" data-token="f781662f7c6bd5dc6fd81c9dd532890a">李宏毅</a>老师的精彩讲解！</p>
+<p> </p>
 <div class="toc">
 <h3><a name="t0"></a>目录</h3>
 <ul>
@@ -233,23 +233,23 @@
 </ul>
 
 </div>
-<p>&nbsp;</p>
+<p> </p>
 <h1><a name="t1"></a><a id="1_CNN__7"></a>1 观点：CNN 不能学习到图像的不变性</h1>
-<p>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;一般来说，图像经过小小的平移和变形之后，人类还是信任CNN 能够把它们泛化，识别出里面的物体。归纳偏差(Inductive Bias) 是CNN 成功的一个关键。卷积和池化的选择，就是为了赋予神经网络一些不变性，避免因为一些小的改变，就丧失了原本的判断。然而，来自耶路撒冷希伯来大学的两位研究人员发现：一幅图像被平移了几个像素之后，现在的CNN 就很容易认不出来。旋转和缩放，也是一样。<br>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该项研究利用测量习得表征(Learned epresentations) 线性度(Linearity) 的方法，来观察CNN 的不变性。测试了三种经典的CNN结构，VGG-16，ResNet-50 以及Inception<br>ResNet-V2。</p>
-<p>结果——<br>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;只是把狗狗下移了一点点，只是把瓶子放大了一点点，只是把白熊的姿势换一下，系统的识别准确率就发生了猛烈的变化。</p>
+<p>         一般来说，图像经过小小的平移和变形之后，人类还是信任CNN 能够把它们泛化，识别出里面的物体。归纳偏差(Inductive Bias) 是CNN 成功的一个关键。卷积和池化的选择，就是为了赋予神经网络一些不变性，避免因为一些小的改变，就丧失了原本的判断。然而，来自耶路撒冷希伯来大学的两位研究人员发现：一幅图像被平移了几个像素之后，现在的CNN 就很容易认不出来。旋转和缩放，也是一样。<br />       该项研究利用测量习得表征(Learned epresentations) 线性度(Linearity) 的方法，来观察CNN 的不变性。测试了三种经典的CNN结构，VGG-16，ResNet-50 以及Inception<br />ResNet-V2。</p>
+<p>结果——<br />         只是把狗狗下移了一点点，只是把瓶子放大了一点点，只是把白熊的姿势换一下，系统的识别准确率就发生了猛烈的变化。</p>
 <p>参考：<a href="http://m.elecfans.com/article/703297.html" rel="nofollow" data-token="989a0ca1c8527761bc78a9920b635684">http://m.elecfans.com/article/703297.html</a></p>
 <h1><a name="t2"></a><a id="2__18"></a>2 坐标系与三维空间</h1>
 <h2><a name="t3"></a><a id="21__19"></a>2.1 笛卡尔坐标系</h2>
-<p>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;笛卡尔坐标系是直角坐标系和斜角坐标系的统称. 对于相交于原点的两条数轴，构成了平面放射坐标系。如果两条数轴上的度量单位相等，则称此放射坐标系为笛卡尔坐标系。若两条数轴互相垂直，则称为笛卡尔直角坐标系，否则称为笛卡尔斜角坐标系.<br>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;二维平面的直角坐标系是由两条互相垂直、零点重合的数轴构成的.通常被称为x-轴和y-轴，两个坐标轴的交点，称为原点，通常记为O，既有“零”的意思，又是英语“Origin”的首字母. 这两个不同线的坐标轴决定了一个平面，称为xy-平面/笛卡尔平面. 习惯性地将x-轴水平摆放，称为横轴，指向右方；y-轴被竖直放置，称为纵轴，指向上方. 两个坐标轴这样的位置关系，称为二维的右手坐标系，或右手系。如果把这个右手系画在一张透明纸片上，则在平面内无论怎样旋转它，所得到的都叫做右手系；但如果把纸片翻转，其背面看到的坐标系则称为“左手系”。这和照镜子时左右对掉的性质有关。<br>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;直角坐标系也可以推广至三维空间（3 dimension）与高维空间(higher dimension) 。</p>
-<p>&nbsp;</p>
+<p>         笛卡尔坐标系是直角坐标系和斜角坐标系的统称. 对于相交于原点的两条数轴，构成了平面放射坐标系。如果两条数轴上的度量单位相等，则称此放射坐标系为笛卡尔坐标系。若两条数轴互相垂直，则称为笛卡尔直角坐标系，否则称为笛卡尔斜角坐标系.<br />         二维平面的直角坐标系是由两条互相垂直、零点重合的数轴构成的.通常被称为x-轴和y-轴，两个坐标轴的交点，称为原点，通常记为O，既有“零”的意思，又是英语“Origin”的首字母. 这两个不同线的坐标轴决定了一个平面，称为xy-平面/笛卡尔平面. 习惯性地将x-轴水平摆放，称为横轴，指向右方；y-轴被竖直放置，称为纵轴，指向上方. 两个坐标轴这样的位置关系，称为二维的右手坐标系，或右手系。如果把这个右手系画在一张透明纸片上，则在平面内无论怎样旋转它，所得到的都叫做右手系；但如果把纸片翻转，其背面看到的坐标系则称为“左手系”。这和照镜子时左右对掉的性质有关。<br />         直角坐标系也可以推广至三维空间（3 dimension）与高维空间(higher dimension) 。</p>
+<p> </p>
 <p>三维坐标系：</p>
 <p>放射坐标系和笛卡尔坐标系平面向空间的推广：相交于原点的三条不共面的数轴构成空间的放射坐标系。三条数轴上度量单位相等的放射坐标系被称为空间笛卡尔坐标系。三条数轴互相垂直的笛卡尔坐标系被称为空间笛卡尔直角坐标系，否则被称为空间笛卡尔斜角坐标系。</p>
 <h2><a name="t4"></a><a id="22__31"></a>2.2 向量和坐标</h2>
-<p><img src="https://img-blog.csdnimg.cn/20190104133731824.png#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104133749540.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190104133731824.png#pic_center" alt="在这里插入图片描述" /><br /><img src="https://img-blog.csdnimg.cn/20190104133749540.png#pic_center" alt="在这里插入图片描述" /></p>
 <h2><a name="t5"></a><a id="23_3D__39"></a>2.3 3D 空间常用坐标系</h2>
 <ol>
-<li>世界坐标系<br>世界坐标系是一个特殊的坐标系，它建立了描述其他坐标系所需要的参考框架. 从非技术意义上讲，世界坐标系建立的是整个场景的“最大”坐标系，其他的坐标系都是参考世界坐标系而建立的.世界坐标系也被广泛地称为全局坐标系或者宇宙坐标系。对于整个场景中的每个物体，它的位置和方向一般是指它在世界坐标系中的值，它是一个绝对坐标，不随观察者方向的变化而变化。</li>
-<li>物体坐标系<br>物体坐标系是和特定的物体相关联的坐标系，也被称为模型坐标系或局部坐标系。对于场景中的每个物体都可以自己的物体坐标系，而且它和其他物体的物体坐标系是相互独立的.</li>
+<li>世界坐标系<br />世界坐标系是一个特殊的坐标系，它建立了描述其他坐标系所需要的参考框架. 从非技术意义上讲，世界坐标系建立的是整个场景的“最大”坐标系，其他的坐标系都是参考世界坐标系而建立的.世界坐标系也被广泛地称为全局坐标系或者宇宙坐标系。对于整个场景中的每个物体，它的位置和方向一般是指它在世界坐标系中的值，它是一个绝对坐标，不随观察者方向的变化而变化。</li>
+<li>物体坐标系<br />物体坐标系是和特定的物体相关联的坐标系，也被称为模型坐标系或局部坐标系。对于场景中的每个物体都可以自己的物体坐标系，而且它和其他物体的物体坐标系是相互独立的.</li>
 
 </ol>
 <p>参考：</p>
@@ -263,9 +263,9 @@
 <p>参考：<a href="http://blog.miskcoo.com/2016/12/rotation-in-3d-space" rel="nofollow" data-token="04cea35a4848308bb3df9a20f777df8c">http://blog.miskcoo.com/2016/12/rotation-in-3d-space</a></p>
 <h2><a name="t7"></a><a id="25_Homogeneous_Transformation__53"></a>2.5 Homogeneous Transformation (齐次坐标变换)</h2>
 <p>参考：<a href="http://www.doc88.com/p-3592172429143.html" rel="nofollow" data-token="fc369efea61c769b2d1a89dbf2153fa7">http://www.doc88.com/p-3592172429143.html</a></p>
-<p><img src="https://img-blog.csdnimg.cn/20190104134817175.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104134702577.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104134910178.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190104134817175.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /><br /><img src="https://img-blog.csdnimg.cn/20190104134702577.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /><br /><img src="https://img-blog.csdnimg.cn/20190104134910178.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /></p>
 <h1><a name="t8"></a><a id="3__59"></a>3 透视投影原理</h1>
-<p>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;在计算机三维图像中，投影可以看作是一种将三维坐标变换为二维坐标的方法，常用到的有正交投影和透视投影。正交投影多用于三维建模，透视投影则由于和人的视觉系统相似，多用于在二维平面中对三维世界的呈现。</p>
+<p>         在计算机三维图像中，投影可以看作是一种将三维坐标变换为二维坐标的方法，常用到的有正交投影和透视投影。正交投影多用于三维建模，透视投影则由于和人的视觉系统相似，多用于在二维平面中对三维世界的呈现。</p>
 <p>参考：</p>
 <ol>
 <li><a href="http://www.cnblogs.com/ojo-blogs/p/6754664.html" rel="nofollow" data-token="49155083d802be80bb37af09a1e7157c">http://www.cnblogs.com/ojo-blogs/p/6754664.html</a></li>
@@ -273,8 +273,8 @@
 
 </ol>
 <h2><a name="t9"></a><a id="31__66"></a>3.1 仿射变换和透视变换的区别</h2>
-<p><img src="https://img-blog.csdnimg.cn/20190104135139626.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104135201258.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20190104135229160.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104135246701.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190104135139626.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /><br /><img src="https://img-blog.csdnimg.cn/20190104135201258.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /></p>
+<p><img src="https://img-blog.csdnimg.cn/20190104135229160.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /><br /><img src="https://img-blog.csdnimg.cn/20190104135246701.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /></p>
 <h1><a name="t10"></a><a id="4_Spatial_transformer_networks_74"></a>4 Spatial transformer networks详细介绍</h1>
 <p>参考：</p>
 <ol>
@@ -285,23 +285,23 @@
 <li><a href="https://blog.csdn.net/weixin_39912556/article/details/79748671" rel="nofollow" data-token="95da431a5e3e85590ee59cfad3fe8b05">https://blog.csdn.net/weixin_39912556/article/details/79748671</a></li>
 
 </ol>
-<p><img src="https://img-blog.csdnimg.cn/20190104135629468.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>Pointnet[7]: Pointnet: Deep learning on point sets for 3d classification and segmentation[J]. Proc. Computer Vision and Pattern Recognition (CVPR), IEEE, 2017, 1(2): 4.</p>
+<p><img src="https://img-blog.csdnimg.cn/20190104135629468.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /><br />Pointnet[7]: Pointnet: Deep learning on point sets for 3d classification and segmentation[J]. Proc. Computer Vision and Pattern Recognition (CVPR), IEEE, 2017, 1(2): 4.</p>
 <h2><a name="t11"></a><a id="41__84"></a>4.1 背景介绍</h2>
 <h3><a name="t12"></a><a id="411_CNN_85"></a>4.1.1 CNN中存在的问题</h3>
-<p><img src="https://img-blog.csdnimg.cn/20190104135516241.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104135350866.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104135414509.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104135442157.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190104135516241.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /><br /><img src="https://img-blog.csdnimg.cn/20190104135350866.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /><br /><img src="https://img-blog.csdnimg.cn/20190104135414509.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /><br /><img src="https://img-blog.csdnimg.cn/20190104135442157.png#pic_center" alt="在这里插入图片描述" /></p>
 <h3><a name="t13"></a><a id="412__90"></a>4.1.2 双线性插值</h3>
-<p><img src="https://img-blog.csdnimg.cn/20190104135817345.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190104135817345.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /></p>
 <h2><a name="t14"></a><a id="42__93"></a>4.2 图像/卷积特征图空间变换的直观解释</h2>
-<p><img src="https://img-blog.csdnimg.cn/20190104135858100.png#pic_center" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20190104135920486.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104135942973.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190104135858100.png#pic_center" alt="在这里插入图片描述" /></p>
+<p><img src="https://img-blog.csdnimg.cn/20190104135920486.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /><br /><img src="https://img-blog.csdnimg.cn/20190104135942973.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /></p>
 <h2><a name="t15"></a><a id="43__98"></a>4.3 论文介绍</h2>
-<p><img src="https://img-blog.csdnimg.cn/20190104140011201.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104140045114.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>Matlab验证<br><img src="https://img-blog.csdnimg.cn/2019010414012917.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104140204554.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104140227420.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190104140011201.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /><br /><img src="https://img-blog.csdnimg.cn/20190104140045114.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /><br />Matlab验证<br /><img src="https://img-blog.csdnimg.cn/2019010414012917.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /><br /><img src="https://img-blog.csdnimg.cn/20190104140204554.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /><br /><img src="https://img-blog.csdnimg.cn/20190104140227420.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /></p>
 <h2><a name="t16"></a><a id="44__105"></a>4.4 空间变换网络的实际应用</h2>
-<p><img src="https://img-blog.csdnimg.cn/20190104140300518.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190104140300518.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /></p>
 <h3><a name="t17"></a><a id="441__109"></a>4.4.1 空间变换网络作为网络的第一层</h3>
-<p><img src="https://img-blog.csdnimg.cn/20190104140334535.png#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190104140348538.png#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/2019010414040510.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190104140334535.png#pic_center" alt="在这里插入图片描述" /><br /><img src="https://img-blog.csdnimg.cn/20190104140348538.png#pic_center" alt="在这里插入图片描述" /><br /><img src="https://img-blog.csdnimg.cn/2019010414040510.png#pic_center" alt="在这里插入图片描述" /></p>
 <h3><a name="t18"></a><a id="442_CNN__113"></a>4.4.2 空间变换网络插入CNN 的中间层</h3>
-<p><img src="https://img-blog.csdnimg.cn/20190104140437155.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190104140437155.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Jvc2VtYXJ5X3R1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" /></p>
 <p>本人能力有限，上述内容如有理解不当的地方，欢迎与我讨论！</p>
 
 </div>
@@ -310,17 +310,64 @@
 </div>
 <div id="MySignature"></div>
 <div class="clear"></div>
-<div id="blog_post_info_block">
-    <div id="blog_post_info"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/think90/category/1542464.html" target="_blank">深度学习</a></div>
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(11556725,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('1071a43f-9eea-e411-b908-9dcfd8948a71');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/think90/" target="_blank"><img src="https://pic.cnblogs.com/face/sample_face.gif" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/think90/">曹明</a><br />
+            <a href="https://home.cnblogs.com/u/think90/followees/">关注 - 0</a><br />
+            <a href="https://home.cnblogs.com/u/think90/followers/">粉丝 - 136</a>
+        </div>
+    </div>
     <div class="clear"></div>
-    <div id="post_next_prev"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('1071a43f-9eea-e411-b908-9dcfd8948a71');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(11556725,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(11556725,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/think90/p/11555893.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/think90/p/11555893.html" title="发布于 2019-09-20 11:25">S4VM解析</a>
+    <br />
+    <a href="https://www.cnblogs.com/think90/p/11557516.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/think90/p/11557516.html" title="发布于 2019-09-20 15:29">Python实现语音识别和语音合成</a>
+
+</div>
 </div>
 	<div class="postDesc">posted on 
-<span id="post-date">2019-09-20 13:51</span>&nbsp;
-<a href="https://www.cnblogs.com/think90/">曹明</a>&nbsp;
-阅读(<span id="post_view_count">703</span>)&nbsp;
-评论(<span id="post_comment_count">0</span>)&nbsp;
-<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11556725" rel="nofollow">编辑</a>&nbsp;
+<span id="post-date">2019-09-20 13:51</span> 
+<a href="https://www.cnblogs.com/think90/">曹明</a> 
+阅读(<span id="post_view_count">738</span>) 
+评论(<span id="post_comment_count">0</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11556725" rel="nofollow">编辑</a> 
 <a href="javascript:void(0)" onclick="AddToWz(11556725);return false;">收藏</a></div>
 </div>
 
@@ -341,18 +388,37 @@
     <a name="commentform"></a>
     <div id="divCommentShow"></div>
     <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
-    <div id="comment_form_container"></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页
+</div>
+<a href="https://www.cnblogs.com/cmt/p/14003277.html" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-login-tip-aws')">写给园友们的一封求助信</a>
+</div>
     <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
-    <div id="ad_t2"></div>
+    <div id="ad_t2"><a href="http://www.softbam.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-ucancode-1103')">【推荐】News: 大型组态、工控、仿真、CADGIS 50万行VC++源码免费下载</a><br /><a href="https://www.wenjuan.com/s/UZBZJvjEKs/#《博客园用户消费观调查》，快来参与吧。【问卷网提供支持】" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-博客园问卷')">【推荐】有你助力，更好为你——博客园用户消费观调查，附带小惊喜！</a><br /><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为专区')">【推荐】了不起的开发者，挡不住的华为，园子里的品牌专区</a><br /><a href="https://brands.cnblogs.com/aws/free?source=CH" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-AWS')">【福利】AWS携手博客园为开发者送免费套餐+50元京东E卡</a><br /><a href="https://brands.cnblogs.com/agora" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-声网专区')">【推荐】未知数的距离，毫秒间的传递，声网与你实时互动</a><br /></div>
     <div id="opt_under_post"></div>
     <div id="cnblogs_c1" class="c_ad_block">
-        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CMqonJuA1-0CFdcOvAodc9sD3g"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
     </div>
-    <div id="under_post_news"></div>
-    <div id="cnblogs_c2" class="c_ad_block">
-        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
-    </div>
-    <div id="under_post_kb"></div>
+    <div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br />·  <a title="视觉里程计：2D-2D对极几何" href="https://www.cnblogs.com/long5683/p/11992551.html" target="_blank" onclick="clickRecomItmem(11992551)">视觉里程计：2D-2D对极几何</a><br />·  <a title="Flatten2DVector" href="https://www.cnblogs.com/FLAGyuri/p/12078572.html" target="_blank" onclick="clickRecomItmem(12078572)">Flatten2DVector</a><br />·  <a title="Halcon2DMeasurement" href="https://www.cnblogs.com/larry-xia/p/12092434.html" target="_blank" onclick="clickRecomItmem(12092434)">Halcon2DMeasurement</a><br />·  <a title="[LC]240.Searcha2DMatrixII" href="https://www.cnblogs.com/xuanlu/p/12021735.html" target="_blank" onclick="clickRecomItmem(12021735)">[LC]240.Searcha2DMatrixII</a><br />·  <a title="[LC]74.Searcha2DMatrix" href="https://www.cnblogs.com/xuanlu/p/12021561.html" target="_blank" onclick="clickRecomItmem(12021561)">[LC]74.Searcha2DMatrix</a><br />»  <a target="_blank" href="https://recomm.cnblogs.com/blogpost/11556725">更多推荐...</a></div></div>
+    <div id="cnblogs_c2" class="c_ad_block"><a href="https://brands.cnblogs.com/aws/free?source=C2" target="_blank"><img width="468" height="60" src="https://img2020.cnblogs.com/blog/2016690/202011/2016690-20201107113124642-85659290.png" alt="AWS免费套餐" onclick="ga('send', 'event', 'Link', 'click', 'C2-AWS');" /></a></div>
+    <div id="under_post_kb">
+<div class="itnews c_ad_block">
+    <b>最新 IT 新闻</b>:
+    <br />
+ ·          <a href="//news.cnblogs.com/n/683532/" target="_blank">谷歌21亿美元收购Fitbit获欧盟有条件批准</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/683531/" target="_blank">募资5.69亿元！「品高云」年内第二家云厂商科创板IPO过会</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/683493/" target="_blank">夜探“暴风眼”中芯国际 偶遇怒递辞呈CEO梁孟松</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/683495/" target="_blank">多多钱包上线，到底是奇袭支付宝还是微信支付？</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/683523/" target="_blank">基于GAN的“真人捏脸”已上线，照片逼真无死角：脸型、五官、表情等均可控制</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
     <div id="HistoryToday" class="c_ad_block"></div>
     <script type="text/javascript">
        var commentManager = new blogCommentManager();
@@ -376,22 +442,1633 @@ LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId
 </div>
 <div id="leftcontent">
 	
-		<DIV id="leftcontentcontainer">
-			<div id="sidebar_news" class="newsItem">
-            <script>loadBlogNews();</script>
+		<div id="leftcontentcontainer">
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<div class="newsItem">
+	
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/think90/">
+            曹明
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/think90/" title="入园时间：2015-04-25">
+            5年7个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/think90/followers/">
+            136
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/think90/followees/">
+            0
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('1071a43f-9eea-e411-b908-9dcfd8948a71')">+加关注</a></div>
+        <script>getFollowStatus('1071a43f-9eea-e411-b908-9dcfd8948a71');</script>
+    </div>
+</div>
+</div>
+
 </div>
 <div id="sidebar_c3"></div>
-			<div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
-                    <script>loadBlogDefaultCalendar();</script><br>
-			<div id="blog-sidecolumn"></div>
-                    <script>loadBlogSideColumn();</script></DIV>
+			<div id="calendar"><div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2020/11/18'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2020年12月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2021/01/18'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                        <td class="" align="center">
+                            4
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        5
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            6
+                        </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                            <td class="" align="center">
+                                9
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            12
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            13
+                        </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                            <td class="" align="center">
+                                16
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="CalTodayDay" align="center">
+                                18
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            19
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            20
+                        </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            26
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            27
+                        </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="" align="center">
+                                31
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            2
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            3
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                8
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            9
+                        </td>
+                </tr>
+    </tbody>
+</table></div></div>                
+                    <script>loadBlogDefaultCalendar();</script><br />
+			<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk" /> <input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    
+<li><a href="https://www.cnblogs.com/think90/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/think90/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/think90/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/think90/RecentComments.html" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/think90/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"></div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <h3 class="catListTitle">
+        
+随笔分类
+
+
+
+    </h3>
+    <ul class="catList">
+            <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1150628.html" rel="" target="">
+    hadoop(1)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/903889.html" rel="" target="">
+    Hbase(5)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1022445.html" rel="" target="">
+    Hive(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/862177.html" rel="" target="">
+    HTML/CSS(8)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/862188.html" rel="" target="">
+    html5(1)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1031150.html" rel="" target="">
+    Java(74)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/862180.html" rel="" target="">
+    javascript(6)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/862193.html" rel="" target="">
+    jQuery(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1581329.html" rel="" target="">
+    latex(1)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1538276.html" rel="" target="">
+    Leetcode面试题(10)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1022593.html" rel="" target="">
+    python(28)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1025935.html" rel="" target="">
+    R(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/903888.html" rel="" target="">
+    spark(7)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1022324.html" rel="" target="">
+    Tensorflow(17)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/903893.html" rel="" target="">
+    ubuntu(3)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/862191.html" rel="" target="">
+    web app(24)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1558690.html" rel="" target="">
+    贝叶斯(4)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/862186.html" rel="" target="">
+    笔试题(49)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1024449.html" rel="" target="">
+    程序员(17)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1538241.html" rel="" target="">
+    分布式(11)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1552530.html" rel="" target="">
+    机器学习(20)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1022428.html" rel="" target="">
+    内蒙师范大学授课(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1542464.html" rel="" target="">
+    深度学习(70)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/945038.html" rel="" target="">
+    数据结构与算法(14)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/873850.html" rel="" target="">
+    数据挖掘(29)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/862182.html" rel="" target="">
+    项目(26)
+</a>
+
+
+            </li>                <li class="catListItem"><a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a></li>
+    </ul>
+    <h3 class="catListTitle">
+        
+随笔档案
+
+
+
+    </h3>
+    <ul class="catList">
+            <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/archive/2020/07.html" rel="" target="">
+    2020年7月(1)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/archive/2020/06.html" rel="" target="">
+    2020年6月(8)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/archive/2020/05.html" rel="" target="">
+    2020年5月(5)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/archive/2020/03.html" rel="" target="">
+    2020年3月(11)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/archive/2020/02.html" rel="" target="">
+    2020年2月(12)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/archive/2020/01.html" rel="" target="">
+    2020年1月(3)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/archive/2019/12.html" rel="" target="">
+    2019年12月(12)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/archive/2019/11.html" rel="" target="">
+    2019年11月(25)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/archive/2019/10.html" rel="" target="">
+    2019年10月(26)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/archive/2019/09.html" rel="" target="">
+    2019年9月(98)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/archive/2019/08.html" rel="" target="">
+    2019年8月(25)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/archive/2019/06.html" rel="" target="">
+    2019年6月(4)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/archive/2019/05.html" rel="" target="">
+    2019年5月(3)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/archive/2019/03.html" rel="" target="">
+    2019年3月(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/archive/2019/02.html" rel="" target="">
+    2019年2月(1)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2018/11.html" rel="" target="">
+    2018年11月(11)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2018/10.html" rel="" target="">
+    2018年10月(11)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2018/09.html" rel="" target="">
+    2018年9月(4)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2018/08.html" rel="" target="">
+    2018年8月(22)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2018/07.html" rel="" target="">
+    2018年7月(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2018/06.html" rel="" target="">
+    2018年6月(3)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2018/05.html" rel="" target="">
+    2018年5月(13)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2018/04.html" rel="" target="">
+    2018年4月(15)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2018/03.html" rel="" target="">
+    2018年3月(10)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2018/02.html" rel="" target="">
+    2018年2月(9)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2018/01.html" rel="" target="">
+    2018年1月(13)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2017/12.html" rel="" target="">
+    2017年12月(19)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2017/11.html" rel="" target="">
+    2017年11月(1)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2017/10.html" rel="" target="">
+    2017年10月(12)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2017/08.html" rel="" target="">
+    2017年8月(4)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2017/07.html" rel="" target="">
+    2017年7月(9)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2017/06.html" rel="" target="">
+    2017年6月(14)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2017/02.html" rel="" target="">
+    2017年2月(8)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2016/12.html" rel="" target="">
+    2016年12月(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2016/11.html" rel="" target="">
+    2016年11月(7)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2016/08.html" rel="" target="">
+    2016年8月(67)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/archive/2016/07.html" rel="" target="">
+    2016年7月(1)
+</a>
+
+
+            </li>                <li class="catListItem"><a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a></li>
+    </ul>
+    <h3 class="catListTitle">
+        
+文章分类
+
+
+
+    </h3>
+    <ul class="catList">
+            <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1625896.html" rel="" target="">
+    Android(3)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1604819.html" rel="" target="">
+    app(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1538018.html" rel="" target="">
+    Django(6)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1538002.html" rel="" target="">
+    FastDFS(1)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1538019.html" rel="" target="">
+    Flask(1)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1656109.html" rel="" target="">
+    java(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1539426.html" rel="" target="">
+    js(6)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1540115.html" rel="" target="">
+    Linux(1)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1538005.html" rel="" target="">
+    Luence(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1654878.html" rel="" target="">
+    maven(1)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1540109.html" rel="" target="">
+    Mysql(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1538246.html" rel="" target="">
+    netty(1)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1538865.html" rel="" target="">
+    Nignx(6)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1576320.html" rel="" target="">
+    plot(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/think90/category/1596759.html" rel="" target="">
+    python(22)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1538013.html" rel="" target="">
+    Solr(1)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1538008.html" rel="" target="">
+    Spring(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1538011.html" rel="" target="">
+    Spring Boot(4)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1538020.html" rel="" target="">
+    tornado(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1546870.html" rel="" target="">
+    Unity3d(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1538866.html" rel="" target="">
+    WebRTC(1)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1538004.html" rel="" target="">
+    Zookeeper(1)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1537999.html" rel="" target="">
+    大数据(7)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1537997.html" rel="" target="">
+    后端(14)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1543560.html" rel="" target="">
+    机器学习(36)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/862176.html" rel="" target="">
+    前端(21)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1662994.html" rel="" target="">
+    区域连(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1538016.html" rel="" target="">
+    深度学习(117)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1545835.html" rel="" target="">
+    微信(1)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1538014.html" rel="" target="">
+    物体分类(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/think90/category/1538015.html" rel="" target="">
+    物体检测(6)
+</a>
+
+
+            </li>                <li class="catListItem"><a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a></li>
+    </ul>
+    <h3 class="catListTitle">
+        
+web
+
+
+
+    </h3>
+    <ul class="catList">
+            <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://edu.csdn.net/course/detail/2135" rel="nofollow noopener noreferrer" target="">
+    course
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://github.com/qianxueseng-com/js-projects/issues/1" rel="nofollow noopener noreferrer" target="">
+    一周左右的项目备选
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://www.topcss.org/%e8%b4%9f%e5%80%bc%e4%b9%8b%e7%be%8e%ef%bc%9a%e8%b4%9f%e5%80%bc%e5%9c%a8%e9%a1%b5%e9%9d%a2%e5%b8%83%e5%b1%80%e4%b8%ad%e7%9a%84%e5%ba%94%e7%94%a8/" rel="nofollow noopener noreferrer" target="">
+    进步博客
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://www.itwendao.com/interview/java/" rel="nofollow noopener noreferrer" target="">
+    java面试题
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/column/details/13670.html?&amp;page=1" rel="nofollow noopener noreferrer" target="">
+    R语言与自然语言处理
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://baijiahao.baidu.com/s?id=1579864262803334261&amp;wfr=spider&amp;for=pc" rel="nofollow noopener noreferrer" target="">
+    Java架构师掌握的技术
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/u012562943/article/category/6046713/2" rel="" target="">
+    Java web学习总结
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/xp541130126/article/category/6860627" rel="" target="">
+    SSM博客系统
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://www.java1234.com/" rel="nofollow noopener noreferrer" target="">
+    Java学习
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/a2011480169/article/category/6433431/2" rel="" target="">
+    spark系列修炼
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/column/details/howtomcatworks.html" rel="nofollow noopener noreferrer" target="">
+    How tomcat works 读书笔记
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/qq838419230" rel="nofollow noopener noreferrer" target="">
+    Java学习笔记
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://docs.djangoproject.com/zh-hans/2.0/" rel="nofollow noopener noreferrer" target="">
+    Django官方文档
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://docs.jinkan.org/docs/flask/" rel="nofollow noopener noreferrer" target="">
+    Flask中文文档
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://github.com/awangdev/LintCode" rel="nofollow noopener noreferrer" target="">
+    lintcode
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://tensorflow.google.cn/api_docs/" rel="nofollow noopener noreferrer" target="">
+    tensorflow
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.echartsjs.com/zh/index.html" rel="nofollow noopener noreferrer" target="">
+    echart
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="http://www.tornadoweb.org/en/stable/" rel="nofollow noopener noreferrer" target="">
+    tornadoweb
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://flutterchina.club/" rel="nofollow noopener noreferrer" target="">
+    Flutter
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://d3js.org/" rel="nofollow noopener noreferrer" target="">
+    d3
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://matplotlib.org/gallery/index.html" rel="nofollow noopener noreferrer" target="">
+    matplotlib
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.highcharts.com.cn/demo/highcharts" rel="nofollow noopener noreferrer" target="">
+    highcharts
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="http://www.statsmodels.org/devel/tsa.html" rel="nofollow noopener noreferrer" target="">
+    statsmodels
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.anaconda.com/distribution/" rel="nofollow noopener noreferrer" target="">
+    anaconda
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://docs.spring.io/spring-boot/docs/2.0.4.RELEASE/reference/html/" rel="nofollow noopener noreferrer" target="">
+    spring boot
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://keras.io/examples/" rel="nofollow noopener noreferrer" target="">
+    keras文档
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.SpectralClustering.html" rel="nofollow noopener noreferrer" target="">
+    sklearn api
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.mysqlzh.com/" rel="nofollow noopener noreferrer" target="">
+    mysql中文文档
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://spring.io/" rel="nofollow noopener noreferrer" target="">
+    spring官网
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/" rel="nofollow noopener noreferrer" target="">
+    spring文档
+</a>
+
+
+            </li>                <li class="catListItem"><a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a></li>
+    </ul>
+    <h3 class="catListTitle">
+        
+机器学习和深度学习
+
+
+
+    </h3>
+    <ul class="catList">
+            <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://keras.io/zh/        https://blog.csdn.net/wyx100/article/details/80647379" rel="nofollow noopener noreferrer" target="">
+    keras
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://tensorflow.google.cn/api_docs/" rel="nofollow noopener noreferrer" target="">
+    tensorflow
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://pytorch.org/" rel="nofollow noopener noreferrer" target="">
+    pytorch
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://pandas.pydata.org/" rel="nofollow noopener noreferrer" target="">
+    pandas
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://abloz.com/hbase/book.html" rel="nofollow noopener noreferrer" target="">
+    hbase
+</a>
+
+
+            </li>                
+    </ul>
+    <h3 class="catListTitle">
+        
+框架学习
+
+
+
+    </h3>
+    <ul class="catList">
+            <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/column/details/ngx-learn.html" rel="nofollow noopener noreferrer" target="">
+    Nginx学习笔记系列
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/ashan_li" rel="nofollow noopener noreferrer" target="">
+    Mybatis3源码分析
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://www.cnblogs.com/GoodHelper/archive/2009/11/20/SpringNet_Index.html" rel="" target="">
+    Spring.NET学习笔记——目录(原)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://suichangkele.iteye.com/category/352932" rel="" target="">
+    shiro学习
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/elim168/article/category/2665715" rel="" target="">
+    spring学习
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/kniost" rel="nofollow noopener noreferrer" target="">
+    Android编程权威指南（第二版）学习笔记
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/column/details/spring-mvc.html" rel="nofollow noopener noreferrer" target="">
+    springmvc学习
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/column/details/howtomcatworks.html" rel="nofollow noopener noreferrer" target="">
+    How tomcat works 读书笔记
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://my.oschina.net/zudajun/blog?sort=time&amp;p=3&amp;temp=1516324814365" rel="nofollow noopener noreferrer" target="">
+    Mybatis3.3.x技术内幕
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/column/details/sys-communication.html?&amp;page=3" rel="nofollow noopener noreferrer" target="">
+    架构设计:系统间通信
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/linuu/article/list/3" rel="nofollow noopener noreferrer" target="">
+    netty学习
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/ZuoAnYinXiang/article/list/3" rel="nofollow noopener noreferrer" target="">
+    zookeeper学习
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://yq.aliyun.com/articles/250186" rel="nofollow noopener noreferrer" target="">
+    maven实战
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.didispace.com/Spring-Cloud%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/" rel="nofollow noopener noreferrer" target="">
+    Spring Cloud基础教程
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/qq_32347977/article/list/6" rel="nofollow noopener noreferrer" target="">
+    redis学习记录
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="http://blog.csdn.net/chunlongyu/article/list/3" rel="nofollow noopener noreferrer" target="">
+    Kafka源码深度解析
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="false" style="display: none">
+                
+<a href="http://blog.csdn.net/codetomylaw" rel="nofollow noopener noreferrer" target="">
+    React-Native系列
+</a>
+
+
+            </li>                <li class="catListItem"><a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a></li>
+    </ul>
+    <h3 class="catListTitle">
+        
+面试
+
+
+
+    </h3>
+    <ul class="catList">
+            <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://github.com/grandyang/leetcode" rel="nofollow noopener noreferrer" target="">
+    LeetCode All in One 题目讲解汇总(持续更新中.) 
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://leetcode-cn.com/problemset/all/" rel="nofollow noopener noreferrer" target="">
+    leedcode所有题目
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://leetcode.com/problemset/all/" rel="nofollow noopener noreferrer" target="">
+    leecode
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://hihocoder.com/problemset" rel="nofollow noopener noreferrer" target="">
+    hihocoder
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.lintcode.com/problem/" rel="nofollow noopener noreferrer" target="">
+    lintcode all
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://code.google.com/codejam/" rel="nofollow noopener noreferrer" target="">
+    codejam
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://code.google.com/codejam/" rel="nofollow noopener noreferrer" target="">
+    Google Code Jam Kickstart
+</a>
+
+
+            </li>                
+    </ul>
+    <h3 class="catListTitle">
+        
+项目
+
+
+
+    </h3>
+    <ul class="catList">
+            <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://www.w3cfuns.com/notes/22982/2b79fd4fba8032b5b0840847f8b7d23f.html" rel="nofollow noopener noreferrer" target="">
+    一个移动端注册页面及验证
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/column/details/leetcode-solutions.html" rel="nofollow noopener noreferrer" target="">
+    Leecode试题
+</a>
+
+
+            </li>                
+    </ul>
+    <h3 class="catListTitle">
+        
+学习网站
+
+
+
+    </h3>
+    <ul class="catList">
+            <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://wiki.jikexueyuan.com/list/java/" rel="nofollow noopener noreferrer" target="">
+    极客学院
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://www.yiibai.com/" rel="nofollow noopener noreferrer" target="">
+    易百教程
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/iyangdi/article/list/1" rel="nofollow noopener noreferrer" target="">
+    面试题
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/column/details/leetcode-solutions.html" rel="nofollow noopener noreferrer" target="">
+    leetcode试题
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="http://blog.csdn.net/nameix/article/category/6316841/2" rel="" target="">
+    华为OJ
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.jianshu.com/c/b413ef6d1ffe" rel="nofollow noopener noreferrer" target="">
+    lintcode解题
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://obook.cc/" rel="nofollow noopener noreferrer" target="">
+    偶书
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://dev.mysql.com/doc/" rel="nofollow noopener noreferrer" target="">
+    mysql文档
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.w3school.com.cn/sql/sql_top.asp" rel="nofollow noopener noreferrer" target="">
+    w3school
+</a>
+
+
+            </li>                
+    </ul>
+</div>
+
+<!-- 最新评论 -->
+<div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap" class="RecentComment">
+    <h3 class="catListTitle">最新评论</h3>
+    <div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/think90/articles/13215338.html">1. Re:表面缺陷检测数据集汇总及其相关项目推荐</a></li>
+                    <li class="recent_comment_body"><p>想问一下作者，有没有验证利用声波检测金属缺陷的模型好坏的标杆数据呀，找了很多文献都是针对自己做的实验自己采集的。小白跪求</p>
+</li>
+                    <li class="recent_comment_author">--辣条小仙女儿</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/think90/p/8414264.html">2. Re:Java架构师必会的技能</a></li>
+                    <li class="recent_comment_body"><p>java架构师必会的技能我也整理了一份需要的可以加1160405674群，无偿分享给需要的朋友</p>
+</li>
+                    <li class="recent_comment_author">--图灵学院在线</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/think90/p/12535035.html">3. Re:800java面试题</a></li>
+                    <li class="recent_comment_body"><p>怎么看不到</p>
+</li>
+                    <li class="recent_comment_author">--南熙</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/think90/p/8414264.html">4. Re:Java架构师必会的技能</a></li>
+                    <li class="recent_comment_body">博主你这文章写不错啊，你这文章正好帮助我学习这块，可以的。我也是专注于Java架构技术的程序员，欢迎关注 : Java架构技术方案...</li>
+                    <li class="recent_comment_author">--jack_wang_king</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/think90/p/8159178.html">5. Re:程序员需要的各种PDF格式电子书【附网盘免费下载资源地址】</a></li>
+                    <li class="recent_comment_body"><p>我打开之后：  啊哦，你来晚了，分享的文件已经被取消了，下次要早点哟。</p>
+</li>
+                    <li class="recent_comment_author">--Ezharjan</li>
+        </ul>
+    </div>
+</div></div>
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block">
+<div id="topview_posts_wrap">
+    <h3 class="catListTitle">阅读排行榜</h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/think90/p/7133753.html">
+                            1. 【机器学习】确定最佳聚类数目的10种方法(34683)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/think90/p/8146312.html">
+                            2. Java后台面试 常见问题(21294)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/think90/p/5737046.html">
+                            3. javaWEB简单商城项目(15471)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/think90/p/8159178.html">
+                            4. 程序员需要的各种PDF格式电子书【附网盘免费下载资源地址】(15446)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/think90/p/8231415.html">
+                            5. Github优秀java项目集合（中文版） - 涉及java所有的知识体系(15442)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+    <h3 class="catListTitle">评论排行榜</h3>
+    <div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/think90/p/8159178.html">
+                            1. 程序员需要的各种PDF格式电子书【附网盘免费下载资源地址】(8)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/think90/p/8146312.html">
+                            2. Java后台面试 常见问题(3)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/think90/p/7133753.html">
+                            3. 【机器学习】确定最佳聚类数目的10种方法(3)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/think90/p/5737046.html">
+                            4. javaWEB简单商城项目(3)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/think90/p/11590469.html">
+                            5. 指针生成网络(Pointer-Generator-Network)原理与实战(2)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/think90/p/8615606.html">
+                                1. 我的阿里之路+Java面经考点(5)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/think90/p/8146312.html">
+                                2. Java后台面试 常见问题(5)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/think90/p/8986278.html">
+                                3. 后端架构师技术图谱(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/think90/p/7629826.html">
+                                4. JAVA后端常用框架SSM，redis,dubbo等(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/think90/p/7133753.html">
+                                5. 【机器学习】确定最佳聚类数目的10种方法(2)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div></div>
+                    <script>loadBlogSideColumn();</script></div>
 	
 </div>
 <!--done-->
 <div class="footer">
 	Powered by: <a href="http://www.cnblogs.com">博客园</a>
-	Copyright &copy; 2020 曹明
-<br /><span id="poweredby">Powered by .NET 5.0.0 on Kubernetes</span>
+	Copyright © 2020 曹明
+<br /><span id="poweredby">Powered by .NET 5.0.1-servicing.20575.16 on Kubernetes</span>
 
 </div>
 
@@ -401,5 +2078,6 @@ LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId
 
 
     
-</body>
-</html>
+
+
+<iframe id="google_osd_static_frame_9877367878628" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body></html>
