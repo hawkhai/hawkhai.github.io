@@ -444,6 +444,9 @@ def mainfile(fpath, fname, ftype):
         for itmp in re.findall("“.*?”", line): # 忽略双引号
             linec = linec.replace(itmp, "“”")
 
+        for itmp in ('"Web前端"',):
+            linec = linec.replace(itmp, "\"\"")
+
         lix1 = re.findall("[{}][^{} *]".format(cnregex, cnregex), linec, re.IGNORECASE)
         lix2 = re.findall("[^{} *][{}]".format(cnregex, cnregex), linec, re.IGNORECASE)
         lix = []
