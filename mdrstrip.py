@@ -175,7 +175,7 @@ def organizeRes(ik, fpath, line):
         assert False, ik
 
     iktype = ikfile.split(".")[-1].lower()
-    if not iktype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4",):
+    if not iktype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4", "zip"):
         print(ik, fpath, line)
         assert False, ik
     return line.replace(ik, tpath.replace("\\", "/"))
@@ -202,13 +202,9 @@ def collectHost(fpath, line):
                 kcontinue = True
         if kcontinue: continue
 
-        if ik in ("source/hackathon2020_team24.zip",
-                  "source/2D-Fourier-transforms.pdf",
-                  "source/Fourier-transform-of-images.pdf",
-                  "source/DevMgr-SRC.zip",
-                  "source/DevMgr-DEMO.zip",
-                  "images/photo.jpg",
-                  "source/shader/geometry.cpp",):
+        if ik in ("images/photo.jpg",):
+            continue
+        if ik.startswith("source/"):
             continue
         if not os.path.isdir(ik):
             line = organizeRes(ik, fpath, line)
