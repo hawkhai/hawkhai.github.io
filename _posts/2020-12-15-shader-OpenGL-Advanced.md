@@ -216,6 +216,21 @@ glDeleteFramebuffers(1, &FBO);
 
 ## 天空盒
 
+天空盒的核心是，不能有位移，对 view 矩阵进行处理即可：
+
+```cpp
+view = glm::mat4(glm::mat3(camera.GetViewMatrix())); // 去掉位移部分，保持边界刚好覆盖。
+glDepthFunc(GL_LEQUAL);
+```
+
+```glsl
+gl_Position = view * vec4(aPos, 1.0);
+float w = -gl_Position.z;
+
+gl_Position = projection * view * vec4(aPos, 1.0);
+gl_Position.z = gl_Position.w; // == w
+```
+
 
 ## 环境映射反射贴图
 
