@@ -160,13 +160,13 @@ $$
 
 ## domain tag sample
 
-[域名标记样例 {% include relref_bili.html %}](bilibili.com)bilibili 样例。<br/>
-[域名标记样例 {% include relref_github.html %}](github.com)github 样例。<br/>
-[域名标记样例 {% include relref_cnblogs.html %}](cnblogs.com)cnblogs 样例。<br/>
-[域名标记样例 {% include relref_jianshu.html %}](jianshu.com)jianshu 简书。<br/>
-[域名标记样例 {% include relref_csdn.html %}](csdn.net)csdn 样例。<br/>
-[域名标记样例 {% include relref_zhihu.html %}](zhihu.com)zhihu 知乎。<br/>
-[域名标记样例 {% include relref_wiki.html %}](wikipedia.org)wikipedia 维基百科。<br/>
+[域名标记样例 {% include relref_bili.html %} 样例](bilibili.com)<br/>
+[域名标记样例 {% include relref_github.html %} 样例](github.com)<br/>
+[域名标记样例 {% include relref_cnblogs.html %} 样例](cnblogs.com)<br/>
+[域名标记样例 {% include relref_jianshu.html %} 样例](jianshu.com)<br/>
+[域名标记样例 {% include relref_csdn.html %} 样例](csdn.net)<br/>
+[域名标记样例 {% include relref_zhihu.html %} 样例](zhihu.com)<br/>
+[域名标记样例 {% include relref_wiki.html %} 样例](wikipedia.org)<br/>
 
 
 ## Tools
