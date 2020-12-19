@@ -55,13 +55,6 @@ void glStencilFunc(GLenum func, GLint ref, GLuint mask);
     * 比较基准值 ref
     * 比较时需要用到的 mask
 
-在描述算法之前让我们先设定好一些变量：
-
-* stencilmask.mask 表示 glStencilMask 里面的 mask
-* sfailop 表示 stencil test 失败的操作，dpfailop 表示 stencil test 成功，depth test 失败的操作，dppassop 表示 stencil test 成功，depth test 成功的操作，stencilop 表示 stencil test 后的操作
-* stencilfunc.func 表示 glStencilFunc 里面的 func，stencilfunc.ref 表示 glStencilFunc.ref，stencilfunc.mask 表示 glStencilFunc.mask
-* stencilbuf[] 来表示 stencil buffer，[x,y] 代表 fragment 的坐标
-
 伪代码：
 
 ```cpp
