@@ -226,7 +226,7 @@ if __name__ == "__main__":
 - [2] [课程目录 {% include relref_cnblogs.html %}](https://www.cnblogs.com/-wenli/p/11744405.html)
 - [3] [公式图形实时显示](https://www.desmos.com/calculator)
 - [4] [频域高通高斯滤波和拉普拉斯滤波 {% include relref_csdn.html %}](https://blog.csdn.net/baidu_41902768/article/details/95936591)
-- [5] [数学算法俱乐部 - 【直观详解】让你永远忘不了的傅里叶变换解析](https://mp.weixin.qq.com/s/9irY0ZJxYN3_QPRH6YNS-A)
+- [5] [数学算法俱乐部 - 【直观详解】让你永远忘不了的傅里叶变换解析 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/9irY0ZJxYN3_QPRH6YNS-A)
 
 -----
 

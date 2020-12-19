@@ -156,7 +156,7 @@ void glFrontFace(GLenum mode);
 1. 纹理
 2. 渲染缓冲对象（Renderbuffer Object）
 
-* [OpenGL 之 帧缓冲 使用实践](https://mp.weixin.qq.com/s/l5eYzkYAzR-m21-iYBoyCw)
+* [OpenGL 之 帧缓冲 使用实践 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/l5eYzkYAzR-m21-iYBoyCw)
 * [帧缓冲的基础知识](https://riptutorial.com/zh-CN/opengl/example/23675/%E5%B8%A7%E7%BC%93%E5%86%B2%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86)
 
 前面的简单，后面的慢慢有难度了，基本原理简单，代码是怎么做到的，就是一大坨代码。

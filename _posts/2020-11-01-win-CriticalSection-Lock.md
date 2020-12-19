@@ -97,7 +97,7 @@ NTSYSAPI NTSTATUS ZwWaitForSingleObject(
 
 ## windbg 死锁分析
 
-[link](https://mp.weixin.qq.com/s/tetpft089bWAV9VxfjCzqA)
+[link {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/tetpft089bWAV9VxfjCzqA)
 资源管理器的等待链分析功能。
 
 
