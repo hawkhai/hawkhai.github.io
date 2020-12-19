@@ -16,7 +16,7 @@ codeprint:
 cluster: "LearnOpenGL"
 ---
 
-深度测试、鼠标点击选取模型、模板测试、混合、剔除面、帧缓冲、高级数据，高级 GLSL、集合说色器、实例化、抗锯齿等。
+深度测试、鼠标点击选取模型、模板测试、混合、面剔除、帧缓冲、高级数据，高级 GLSL、几何着色器、实例化、抗锯齿等。
 
 前面的简单，看到后面，慢慢的有难度了，stencil 模板測試，要看好久才能理解。
 
@@ -209,6 +209,39 @@ glDeleteFramebuffers(1, &FBO);
 ```
 
 {% include image.html url="/assets/images/201215-shader-opengl-advanced/grabframebuffer-256.gif" %}
+
+
+## 后期处理核效果
+
+
+## 天空盒
+
+
+## 环境映射反射贴图
+
+
+## 高级数据
+
+
+## 高级 GLSL
+
+
+## 几何着色器
+
+
+## 爆破物体
+
+
+## 法向量可视化
+
+
+## 实例化 (Instancing)
+
+
+## 小行星带
+
+
+## 抗锯齿 MSAA、离屏 MSAA
 
 
 ## 参考资料
