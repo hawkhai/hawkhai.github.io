@@ -59,23 +59,28 @@ def buildSnapCache(rootdir):
         if fname.find(".selenium.png") != -1:
             return
         key = fname[:8]
-        g_snapcache[key] = fpath
-        g_untouched[key] = fpath
+        if not key in g_snapcache.keys():
+            g_snapcache[key] = []
+        g_snapcache[key].append(fpath)
+        if not key in g_untouched.keys():
+            g_untouched[key] = []
+        g_untouched[key].append(fpath)
     searchdir(rootdir, mainfile)
 
 def touchSnapCache(umd5, slocal):
-    if umd5 in g_untouched.keys() and slocal == g_untouched[umd5]:
-        del g_untouched[umd5]
+    if umd5 in g_untouched.keys() and slocal in g_untouched[umd5]:
+        g_untouched[umd5] = [i for i in g_untouched[umd5] if i != slocal]
 
 def querySnapCache(umd5):
-    if umd5 in g_snapcache.keys():
-        return readfile(g_snapcache[umd5])
+    if umd5 in g_snapcache.keys() and g_snapcache[umd5]:
+        return readfile(g_snapcache[umd5][0])
     return None
 
 def clearSnapCache():
     print("ClearSnapCache", len(g_untouched))
     for umd5 in g_untouched.keys():
-        osremove(g_untouched[umd5])
+        for x in g_untouched[umd5]:
+            osremove(x)
 
 def readfileIglist(fpath):
     li = readfile(fpath, "utf8").split("\n")
