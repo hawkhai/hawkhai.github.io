@@ -27,8 +27,6 @@ cluster: "LearnOpenGL"
 [Polytonic/Glitter {% include relref_github.html %}](https://github.com/Polytonic/Glitter)
 一个简单的样板项目，它已经提前配置了所有相关的库。
 
-![alt 属性文本](https://camo.githubusercontent.com/96a40083ee00e5319de5d18a6d262c4f3f2bc3200afe03f06fdf5053b174840c/687474703a2f2f692e696d6775722e636f6d2f4d446f327273792e6a7067 " 可选标题 ")
-
 Functionality           | Library
 ----------------------- | ------------------------------------------
 Mesh Loading            | [assimp {% include relref_github.html %}](https://github.com/assimp/assimp)
@@ -204,12 +202,11 @@ https://learnopengl-cn.github.io/
 - [1] [https://learnopengl-cn.github.io/]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/learnopengl-cn.github.io/e0710dd2.html" %})
 - [2] [https://ke.qq.com/course/package/25480?flowToken=1019441]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/ke.qq.com/3fd1c97a.html" %})
 - [3] [https://github.com/Polytonic/Glitter]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/github.com/e303322e.html" %})
-- [4] [https://camo.githubusercontent.com/96a40083ee00e5319de5d18a6d262c4f3f2bc3200afe03f06fdf5053b174840c/687474703a2f2f692e696d6775722e636f6d2f4d446f327273792e6a7067]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/camo.githubusercontent.com/b2f16552.html" %})
-- [5] [https://github.com/assimp/assimp]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/github.com/01f8d32b.html" %})
-- [6] [https://github.com/bulletphysics/bullet3]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/github.com/863fe200.html" %})
-- [7] [https://github.com/Dav1dde/glad]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/github.com/18cd3ae8.html" %})
-- [8] [https://github.com/glfw/glfw]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/github.com/0f399271.html" %})
-- [9] [https://github.com/g-truc/glm]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/github.com/277752ea.html" %})
-- [10] [https://github.com/nothings/stb]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/github.com/6439e35a.html" %})
-- [11] [https://v.youku.com/v_show/id_XNzkyOTIyMTI=.html]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/v.youku.com/6f3e2a8f.html" %})
-- [12] [https://blog.csdn.net/zsc2014030403015/article/details/51719990]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/blog.csdn.net/cdb6b2c2.html" %})
+- [4] [https://github.com/assimp/assimp]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/github.com/01f8d32b.html" %})
+- [5] [https://github.com/bulletphysics/bullet3]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/github.com/863fe200.html" %})
+- [6] [https://github.com/Dav1dde/glad]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/github.com/18cd3ae8.html" %})
+- [7] [https://github.com/glfw/glfw]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/github.com/0f399271.html" %})
+- [8] [https://github.com/g-truc/glm]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/github.com/277752ea.html" %})
+- [9] [https://github.com/nothings/stb]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/github.com/6439e35a.html" %})
+- [10] [https://v.youku.com/v_show/id_XNzkyOTIyMTI=.html]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/v.youku.com/6f3e2a8f.html" %})
+- [11] [https://blog.csdn.net/zsc2014030403015/article/details/51719990]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/blog.csdn.net/cdb6b2c2.html" %})
