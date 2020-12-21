@@ -5,360 +5,410 @@
 #include "Camera.h"
 #include "Model.h"
 #include <map>
-#include <windows.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-//声明
-#pragma region
+#include <iostream>
 
-glm::vec3 cubePositions[] = {
-    glm::vec3(0.0f,0.0f,0.0f),//cube
-    glm::vec3(0.0f, 5.0f, 20.0f),//lamp
-    glm::vec3(-10.0f,1.0f,-10.0f),//cube2
-};
-GLFWwindow* init();
-void processInput(GLFWwindow* window);
-void mouse_callback(GLFWwindow* window, double xpose, double ypose);
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-void mouse_button_callback(GLFWwindow * window, int button, int action, int mods);
-void modelPicking();
+void processInput(GLFWwindow *window);
+unsigned int loadTexture(const char *path);
+
+// settings
+const unsigned int SCR_WIDTH = 1280;
+const unsigned int SCR_HEIGHT = 720;
+
+// camera
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+float lastX = (float)SCR_WIDTH / 2.0;
+float lastY = (float)SCR_HEIGHT / 2.0;
+bool firstMouse = true;
+
+// timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
-float currentFrame = glfwGetTime();
-float inear = 0.1f, ifar = 100.0f, winZ = 0;
-bool pickingModelWorldPosition = false;
-double winX, winY;
-Camera camera;
-string modelSelected = "NULL";
-glm::vec3 modelPos;
-struct modelStruct
-{
-    Model * model;
-    glm::mat4 modelMatrix;
-    glm::vec3 worldPosition;
-};
-modelStruct modelObject;
-map<string, modelStruct> _models;
-map<string, modelStruct>::iterator _modelsIter;
-glm::mat4 model;
-glm::mat4 view;
-glm::mat4 projection;
-#pragma endregion
 
-int main();
-
-int APIENTRY WinMain(HINSTANCE hInstance,
-    HINSTANCE hPrevInstance,
-    LPSTR lpCmdLine,
-    int nCmdShow)
-{
-    return main();
-}
-
-Mesh getMesh(unsigned int textureColorbuffer)
-{
-    vector<Vertex> vertices;
-    vector<unsigned int> indices;
-    vector<Texture> textures;
-    float transparentVertices[] = {
-        // positions      // texture Coords (swapped y coordinates because texture is flipped upside down)
-        0.0f,  0.5f,  0.0f,  0.0f,  1.0 - 0.0f,
-        0.0f, -0.5f,  0.0f,  0.0f,  1.0 - 1.0f,
-        1.0f, -0.5f,  0.0f,  1.0f,  1.0 - 1.0f,
-
-        0.0f,  0.5f,  0.0f,  0.0f,  1.0 - 0.0f,
-        1.0f, -0.5f,  0.0f,  1.0f,  1.0 - 1.0f,
-        1.0f,  0.5f,  0.0f,  1.0f,  1.0 - 0.0f
-    };
-
-    for (int i = 0; i < 6; i++)
-    {
-        Vertex _vertex;
-        _vertex.Position = glm::vec3(transparentVertices[i * 5 + 0], transparentVertices[i * 5 + 1], transparentVertices[i * 5 + 2]);
-        _vertex.Normal = glm::vec3(0, 0, 1);
-        _vertex.TexCoords = glm::vec2(transparentVertices[i * 5 + 3], transparentVertices[i * 5 + 4]);
-        vertices.push_back(_vertex);
-    }
-    for (int i = 0; i < 6; i++)
-    {
-        indices.push_back(i);
-    }
-    Texture _tex;
-    _tex.id = textureColorbuffer;
-    _tex.type = "texture_diffuse";
-    _tex.path = "cao.png";
-    textures.push_back(_tex);
-    return Mesh(vertices, indices, textures);
-}
-void setShader(Shader * shader)
-{
-    shader->useShader();
-    shader->setMat4("projection", projection);
-    shader->setMat4("view", view);
-    shader->setVec4("lightPos", cubePositions[1].r, cubePositions[1].g, cubePositions[1].b, 1);
-    shader->setVec3("viewPos", camera.Position.r, camera.Position.g, camera.Position.b);
-    shader->setVec3("front", camera.Front.r, camera.Front.g, camera.Front.b);
-    shader->setVec3("lightColor", 1.0f, 1.0f, 1.0f);
-}
 int main()
 {
-    GLFWwindow* window = init();
-    Shader modelShader("cube.vs", "cube.fs");
-    Shader stencilShader("cube.vs", "stencil.fs");
-    Shader caoShader("cube.vs", "cao.fs");
+    // glfw: initialize and configure
+    // ------------------------------
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
+#endif
+
+    // glfw window creation
+    // --------------------
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+    if (window == NULL)
+    {
+        std::cout << "Failed to create GLFW window" << std::endl;
+        glfwTerminate();
+        return -1;
+    }
+    glfwMakeContextCurrent(window);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // tell GLFW to capture our mouse
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-    Model ourModel("D:/WK/opengl/bin/nanosuit/nanosuit.obj");
-    modelObject.model = &ourModel;
-    _models["Zhang3"] = modelObject;
-    modelObject.worldPosition = cubePositions[2];
-    _models["Li4"] = modelObject;
-
-    vector<glm::vec3> windowsPos;
-    windowsPos.push_back(glm::vec3(-0.5f, 7.5f, 18.48f));
-    map<float, glm::vec3> sortedWindowsPos;
-    for (int i = 0; i < windowsPos.size(); i++)
+    // glad: load all OpenGL function pointers
+    // ---------------------------------------
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        float distance = glm::length(camera.Position - windowsPos[i]);
-        sortedWindowsPos[distance] = windowsPos[i];
+        std::cout << "Failed to initialize GLAD" << std::endl;
+        return -1;
     }
 
-    unsigned int FBO; // 创建一个帧缓冲对象
-    glGenFramebuffers(1, &FBO);
-    glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+    // configure global opengl state
+    // -----------------------------
+    glEnable(GL_DEPTH_TEST);
 
-    unsigned int texColorBuffer = 0;
-    glGenTextures(1, &texColorBuffer); // 纹理附件
-    glBindTexture(GL_TEXTURE_2D, texColorBuffer);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 600, 450, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // build and compile shaders
+    // -------------------------
+    Shader shader("fb.vs", "fb.fs");
+    Shader screenShader("fbscreen.vs", "fbscreen.fs");
 
-    // 它附加到帧缓冲上
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texColorBuffer, 0);
+    // set up vertex data (and buffer(s)) and configure vertex attributes
+    // ------------------------------------------------------------------
+    float cubeVertices[] = {
+        // positions          // texture Coords
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-    unsigned int RBO; // 缓冲对象附件
-    glGenRenderbuffers(1, &RBO);
-    glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 600, 450);
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 
-    // 把帧缓冲对象附加上
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    };
+    float planeVertices[] = {
+        // positions          // texture Coords 
+         5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
+        -5.0f, -0.5f,  5.0f,  0.0f, 0.0f,
+        -5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
+
+         5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
+        -5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
+         5.0f, -0.5f, -5.0f,  2.0f, 2.0f
+    };
+    float quadVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
+        // positions   // texCoords
+        -1.0f,  1.0f,  0.0f, 1.0f,
+        -1.0f, -1.0f,  0.0f, 0.0f,
+         1.0f, -1.0f,  1.0f, 0.0f,
+
+        -1.0f,  1.0f,  0.0f, 1.0f,
+         1.0f, -1.0f,  1.0f, 0.0f,
+         1.0f,  1.0f,  1.0f, 1.0f
+    };
+    // cube VAO
+    unsigned int cubeVAO, cubeVBO;
+    glGenVertexArrays(1, &cubeVAO);
+    glGenBuffers(1, &cubeVBO);
+    glBindVertexArray(cubeVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), &cubeVertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    // plane VAO
+    unsigned int planeVAO, planeVBO;
+    glGenVertexArrays(1, &planeVAO);
+    glGenBuffers(1, &planeVBO);
+    glBindVertexArray(planeVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), &planeVertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    // screen quad VAO
+    unsigned int quadVAO, quadVBO;
+    glGenVertexArrays(1, &quadVAO);
+    glGenBuffers(1, &quadVBO);
+    glBindVertexArray(quadVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+
+    // load textures
+    // -------------
+    unsigned int cubeTexture = loadTexture("smile.jpg");
+    unsigned int floorTexture = loadTexture("smile.jpg");
+
+    // shader configuration
+    // --------------------
+    shader.use();
+    shader.setInt("texture1", 0);
+
+    screenShader.use();
+    screenShader.setInt("screenTexture", 0);
+
+   // configure MSAA framebuffer
+    // --------------------------
+    unsigned int framebuffer;
+    glGenFramebuffers(1, &framebuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+    // create a multisampled color attachment texture
+    unsigned int textureColorBufferMultiSampled;
+    glGenTextures(1, &textureColorBufferMultiSampled);
+    glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, textureColorBufferMultiSampled);
+    glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGB, SCR_WIDTH, SCR_HEIGHT, GL_TRUE);
+    glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, textureColorBufferMultiSampled, 0);
+    // create a (also multisampled) renderbuffer object for depth and stencil attachments
+    unsigned int rbo;
+    glGenRenderbuffers(1, &rbo);
+    glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+    glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH24_STENCIL8, SCR_WIDTH, SCR_HEIGHT);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
 
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
-
+        cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << endl;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-    Mesh mesh = getMesh(texColorBuffer);
+	 // configure second post-processing framebuffer
+    unsigned int intermediateFBO;
+    glGenFramebuffers(1, &intermediateFBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, intermediateFBO);
+    // create a color attachment texture
+    unsigned int screenTexture;
+    glGenTextures(1, &screenTexture);
+    glBindTexture(GL_TEXTURE_2D, screenTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, screenTexture, 0);	// we only need a color buffer
 
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        cout << "ERROR::FRAMEBUFFER:: Intermediate framebuffer is not complete!" << endl;
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    // draw as wireframe
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    // render loop
+    // -----------
     while (!glfwWindowShouldClose(window))
     {
-        currentFrame = glfwGetTime();
+        // per-frame time logic
+        // --------------------
+        float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
+        // input
+        // -----
         processInput(window);
-        float radius = 10.0f;
-        float camX = sin(glfwGetTime())*radius;
-        float camZ = cos(glfwGetTime())*radius;
 
-        glm::mat4 trans = glm::mat4(1.0f);
+
+        // render
+        // ------
+        // bind to framebuffer and draw scene as we normally would to color texture 
+        glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+        glEnable(GL_DEPTH_TEST); // enable depth testing (is disabled for rendering screen-space quad)
+
+        // make sure we clear the framebuffer's content
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        shader.use();
+        glm::mat4 model = glm::mat4(1.0f);
+        glm::mat4 view = camera.GetViewMatrix();
+        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        shader.setMat4("view", view);
+        shader.setMat4("projection", projection);
+        // cubes
+        glBindVertexArray(cubeVAO);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, cubeTexture);
+        model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
+        shader.setMat4("model", model);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
         model = glm::mat4(1.0f);
-        view = glm::mat4(1.0f);
-        view = camera.GetViewMatrix();
-        projection = glm::mat4(1.0f);;
-        projection = glm::perspective(glm::radians(camera.fov), 600.0f / 450.0f, inear, ifar);
-        setShader(&modelShader);
-        setShader(&caoShader);
-        setShader(&stencilShader);
+        model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
+        shader.setMat4("model", model);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+        // floor
+        glBindVertexArray(planeVAO);
+        glBindTexture(GL_TEXTURE_2D, floorTexture);
+        shader.setMat4("model", glm::mat4(1.0f));
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glBindVertexArray(0);
 
-        //将内容绘制到自定义帧缓冲的纹理附件
-        glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+		       // 2. now blit multisampled buffer(s) to normal colorbuffer of intermediate FBO. Image is stored in screenTexture
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, intermediateFBO);
+        glBlitFramebuffer(0, 0, SCR_WIDTH, SCR_HEIGHT, 0, 0, SCR_WIDTH, SCR_HEIGHT, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
-        glEnable(GL_DEPTH_TEST);
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-        for (_modelsIter = _models.begin(); _modelsIter != _models.end(); _modelsIter++)
-        {
-            glStencilFunc(GL_ALWAYS, 1, 0xFF);
-            model = glm::translate(trans, _modelsIter->second.worldPosition);
-            //_modelsIter->second.modelMatrix=model=glm::rotate(model,(float)glfwGetTime(),glm::vec3(0.0f,1.0f,0.0f));
-            if (_modelsIter->first == modelSelected)
-            {
-                modelShader.useShader();
-                modelShader.setMat4("model", model);
-                _modelsIter->second.model->Draw(modelShader);
-                glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-                glStencilMask(0x00);
-                float scale = 1.02;
-                model = glm::translate(model, glm::vec3(0.0f, 7.5f, 0.0f));
-                model = glm::scale(model, scale*glm::vec3(1, 1, 1));
-                _modelsIter->second.modelMatrix = model = glm::translate(model, glm::vec3(0.0f, -7.5f, 0.0f));
-                stencilShader.useShader();
-                stencilShader.setMat4("model", model);
-                _modelsIter->second.model->Draw(stencilShader);
-                glStencilMask(0xFF);
-            }
-            else {
-
-                modelShader.useShader();
-                modelShader.setMat4("model", model);
-                _modelsIter->second.model->Draw(modelShader);
-            }
-        }
-        //使用纹理绘制窗户
+        // now bind back to default framebuffer and draw a quad plane with the attached framebuffer color texture
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glDisable(GL_DEPTH_TEST);
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
+        // clear all relevant buffers
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set clear color to white (not really necessery actually, since we won't be able to see behind the quad anyways)
         glClear(GL_COLOR_BUFFER_BIT);
-        map<float, glm::vec3>::reverse_iterator iter;
-        for (iter = sortedWindowsPos.rbegin(); iter != sortedWindowsPos.rend(); ++iter)
-        {
-            model = glm::translate(trans, iter->second);
-            caoShader.useShader();
-            caoShader.setMat4("model", model);
-            mesh.Draw(caoShader);
-        }
 
-        glfwPollEvents();
+        screenShader.use();
+        glBindVertexArray(quadVAO);
+        glBindTexture(GL_TEXTURE_2D, screenTexture);	// use the color attachment texture as the texture of the quad plane
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
-        modelPicking();
-
-        static int ticks = -1;
-        ticks++;
-        static double _lastTime = glfwGetTime();
-
-        if (ticks == 60)
-        {
-            double deltaTime = glfwGetTime() - _lastTime;
-            cout << "帧数：" << ticks / deltaTime << endl;
-            ticks = 0;
-            _lastTime = glfwGetTime();
-
-        }
-        Sleep(1);
+        glfwPollEvents();
     }
 
-    glDeleteFramebuffers(1, &FBO);
+    // optional: de-allocate all resources once they've outlived their purpose:
+    // ------------------------------------------------------------------------
+    glDeleteVertexArrays(1, &cubeVAO);
+    glDeleteVertexArrays(1, &planeVAO);
+    glDeleteVertexArrays(1, &quadVAO);
+    glDeleteBuffers(1, &cubeVBO);
+    glDeleteBuffers(1, &planeVBO);
+    glDeleteBuffers(1, &quadVBO);
 
-    //退出
     glfwTerminate();
     return 0;
 }
 
-GLFWwindow* init()
+// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
+// ---------------------------------------------------------------------------------------------------------
+void processInput(GLFWwindow *window)
 {
-    //初始化
-    GLFWwindow * window;
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    window = glfwCreateWindow(600, 450, "OPENGLzz", NULL, NULL);
-    if (window == NULL)
-    {
-        printf("err:windows is NULL");
-        glfwTerminate();
-    }
-
-    glfwMakeContextCurrent(window);
-
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        printf("err:gladLoadGLLoader is NULL");
-    }
-    return window;
-}
-
-void processInput(GLFWwindow* window)
-{
-    glfwSetMouseButtonCallback(window, mouse_button_callback);
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-    {
-        glfwSetCursorPosCallback(window, mouse_callback);
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    }
-
-    float cameraSpeed = 2.5f*deltaTime;
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        camera.Position += cameraSpeed * camera.Front;
+        camera.ProcessKeyboard(FORWARD, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        camera.Position -= cameraSpeed * camera.Front;;
+        camera.ProcessKeyboard(BACKWARD, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        camera.Position -= glm::normalize(glm::cross(camera.Front, camera.UP))*cameraSpeed;
+        camera.ProcessKeyboard(LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        camera.Position += glm::normalize(glm::cross(camera.Front, camera.UP))*cameraSpeed;
+        camera.ProcessKeyboard(RIGHT, deltaTime);
 }
 
-void mouse_callback(GLFWwindow* window, double xpose, double ypose)
+// glfw: whenever the window size changed (by OS or user resize) this callback function executes
+// ---------------------------------------------------------------------------------------------
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    static float yaw = -90.0f, pitch = 0.0f, lastX = 600.0f / 2, lastY = 450.0f / 2, xoffset, yoffset;
-    xoffset = xpose - lastX;
-    yoffset = lastY - ypose;
-    lastX = xpose;
-    lastY = ypose;
+    // make sure the viewport matches the new window dimensions; note that width and 
+    // height will be significantly larger than specified on retina displays.
+    glViewport(0, 0, width, height);
+}
+
+// glfw: whenever the mouse moves, this callback is called
+// -------------------------------------------------------
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    if (firstMouse)
+    {
+        lastX = xpos;
+        lastY = ypos;
+        firstMouse = false;
+    }
+
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+    lastX = xpos;
+    lastY = ypos;
+
     camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
+// glfw: whenever the mouse scroll wheel scrolls, this callback is called
+// ----------------------------------------------------------------------
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     camera.ProcessMouseScroll(yoffset);
 }
 
-void mouse_button_callback(GLFWwindow * window, int button, int action, int mods)
+// utility function for loading a 2D texture from file
+// ---------------------------------------------------
+unsigned int loadTexture(char const * path)
 {
-    if (action == GLFW_PRESS) switch (button)
+	stbi_set_flip_vertically_on_load(true);
+    unsigned int textureID;
+    glGenTextures(1, &textureID);
+
+    int width, height, nrComponents;
+    unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
+    if (data)
     {
-    case GLFW_MOUSE_BUTTON_LEFT:
-        glfwGetCursorPos(window, &winX, &winY);
-        pickingModelWorldPosition = true;
-        break;
-    default:
-        return;
-    }
-    return;
-}
+        GLenum format;
+        if (nrComponents == 1)
+            format = GL_RED;
+        else if (nrComponents == 3)
+            format = GL_RGB;
+        else if (nrComponents == 4)
+            format = GL_RGBA;
 
-void modelPicking()
-{
-    if (pickingModelWorldPosition == true)
+        glBindTexture(GL_TEXTURE_2D, textureID);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        stbi_image_free(data);
+    }
+    else
     {
-        glReadPixels((int)winX, 450 - (int)winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
-        float x = (2.0f*winX) / 600.0f - 1.0f;
-        float y = 1.0f - (2.0f*winY) / 450.0f;
-        float z = winZ * 2.0 - 1.0f;
-        pickingModelWorldPosition = false;
-        //有像素被点中
-        if (winZ < 1.0f)
-        {
-            //float w = (2.0 * inear * ifar) / (ifar + inear - z * (ifar - inear));
-            float w = inear * ifar / (inear*winZ - ifar * winZ + ifar);
-            glm::vec4 wolrdPostion = glm::inverse(view)*glm::inverse(projection)*w*glm::vec4(x, y, z, 1);
-            //cout<<" x:"<<wolrdPostion.r<<" y:"<<wolrdPostion.g<<" z:"<<wolrdPostion.b<<" w:"<<w<<endl;
-            for (_modelsIter = _models.begin(); _modelsIter != _models.end(); _modelsIter++)
-            {
-                float _distance = glm::distance(_modelsIter->second.worldPosition + glm::vec3(0, 7.5, 0), glm::vec3(wolrdPostion));
-                if (_distance < 7.5)
-                {
-                    modelPos = glm::inverse(_modelsIter->second.modelMatrix)*wolrdPostion;
-                    modelSelected = _modelsIter->first;
-                    cout << _modelsIter->first << "模型被选中..." << endl;
-                }
-
-            }
-        }
-        else
-        {
-            modelSelected = "NULL";
-            //cout<<"没有点中模型...."<<endl;
-        }
-
+        std::cout << "Texture failed to load at path: " << path << std::endl;
+        stbi_image_free(data);
     }
+
+    return textureID;
 }

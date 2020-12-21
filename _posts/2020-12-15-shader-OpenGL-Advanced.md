@@ -213,10 +213,52 @@ glDeleteFramebuffers(1, &FBO);
 
 ## 后期处理核效果
 
+```glsl
+#version 400 core
+out vec4 FragColor;
+in vec2 TexCoords;
+uniform sampler2D texture_diffuse1;
+
+void main()
+{
+    const float offset = 1.0 / 300.0;
+    vec2 offsets[9] = vec2[](
+        vec2(-offset,  offset), // 左上
+        vec2( 0.0f,    offset), // 正上
+        vec2( offset,  offset), // 右上
+        vec2(-offset,  0.0f),   // 左
+        vec2( 0.0f,    0.0f),   // 中
+        vec2( offset,  0.0f),   // 右
+        vec2(-offset, -offset), // 左下
+        vec2( 0.0f,   -offset), // 正下
+        vec2( offset, -offset)  // 右下
+    );
+
+    float kernel[9] = float[](
+        -1, -1, -1,
+        -1,  9, -1,
+        -1, -1, -1
+    );
+
+    vec3 sampleTex[9];
+    for(int i = 0; i < 9; i++)
+    {
+        sampleTex[i] = vec3(texture(texture_diffuse1, TexCoords.st + offsets[i]));
+    }
+    vec3 col = vec3(0.0);
+    for(int i = 0; i < 9; i++)
+        col += sampleTex[i] * kernel[i];
+
+    FragColor=vec4(col,1);
+}
+```
+
+{% include image.html url="/assets/images/201215-shader-opengl-advanced/20201221104559.png" %}
+
 
 ## 天空盒
 
-天空盒的核心是，不能有位移，对 view 矩阵进行处理即可：
+天空盒的核心是，模型坐标全部在 -1, 1 上，然后不能有位移，对 view 矩阵进行处理即可：
 
 ```cpp
 view = glm::mat4(glm::mat3(camera.GetViewMatrix())); // 去掉位移部分，保持边界刚好覆盖。
@@ -224,11 +266,28 @@ glDepthFunc(GL_LEQUAL);
 ```
 
 ```glsl
-gl_Position = view * vec4(aPos, 1.0);
-float w = -gl_Position.z;
+#version 400 core
+layout (location=0) in vec3 aPos;
+out vec3 TexCoords;
+uniform mat4 projection;
+uniform mat4 view;
+void main()
+{
+    TexCoords=aPos;
+    gl_Position=view*vec4(aPos,1.0);
+    float w=-gl_Position.z;
+    gl_Position=projection*view*vec4(aPos,1.0);
+    gl_Position.z=w; // == gl_Position.w
+}
 
-gl_Position = projection * view * vec4(aPos, 1.0);
-gl_Position.z = gl_Position.w; // == w
+#version 400 core
+out vec4 FragColor;
+in vec3 TexCoords;
+uniform samplerCube skybox;
+void main()
+{
+    FragColor=texture(skybox,TexCoords);
+}
 ```
 
 
@@ -243,11 +302,43 @@ gl_Position.z = gl_Position.w; // == w
 
 ## 几何着色器
 
+{% include image.html url="/assets/images/201215-shader-opengl-advanced/glgeograb.gif" %}
+
 
 ## 爆破物体
 
 
 ## 法向量可视化
+
+```glsl
+#version 330 core
+layout (triangles) in;
+layout (line_strip, max_vertices = 6) out;
+
+in VS_OUT {
+    vec3 normal;
+} gs_in[];
+
+const float MAGNITUDE = 0.4;
+
+void GenerateLine(int index)
+{
+    gl_Position = gl_in[index].gl_Position;
+    EmitVertex();
+    gl_Position = gl_in[index].gl_Position + vec4(gs_in[index].normal, 0.0) * MAGNITUDE;
+    EmitVertex();
+    EndPrimitive();
+}
+
+void main()
+{
+    GenerateLine(0); // first vertex normal
+    GenerateLine(1); // second vertex normal
+    GenerateLine(2); // third vertex normal
+}
+```
+
+{% include image.html url="/assets/images/201215-shader-opengl-advanced/20201221114335.png" %}
 
 
 ## 实例化 (Instancing)
@@ -257,6 +348,18 @@ gl_Position.z = gl_Position.w; // == w
 
 
 ## 抗锯齿 MSAA、离屏 MSAA
+
+```cpp
+// configure second post-processing framebuffer
+unsigned int intermediateFBO;
+glGenFramebuffers(1, &intermediateFBO);
+glBindFramebuffer(GL_FRAMEBUFFER, intermediateFBO);
+
+// 2. now blit multisampled buffer(s) to normal colorbuffer of intermediate FBO. Image is stored in screenTexture
+glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
+glBindFramebuffer(GL_DRAW_FRAMEBUFFER, intermediateFBO);
+glBlitFramebuffer(0, 0, SCR_WIDTH, SCR_HEIGHT, 0, 0, SCR_WIDTH, SCR_HEIGHT, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+```
 
 
 ## 参考资料
