@@ -138,7 +138,7 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 * 开启混合：glEnable(GL_BLEND)，会将目标颜色和源颜色按照混合方程式来计算最终的颜色。
 
 
-## 面剔除
+## 面剔除 FaceCulling
 
 ```cpp
 glEnable (GL_CULL_FACE); // 开启正背面剔除，默认剔除背面

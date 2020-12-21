@@ -48,6 +48,39 @@ vec3 specular = lightColor * spec;
 {% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/advanced_lighting_comparrison.png" caption=" 模型效果比较 "%}
 
 
+## gamma 校正原理
+
+
+## shadowMapping
+
+
+## Point Shadows 帧缓冲深度附件
+
+
+## Point Shadows 渲染阴影
+
+
+## 法线图贴
+
+
+## Parallax Mapping 视差贴图
+
+
+## Steep Parallax Mapping
+
+
+## HDR
+
+
+## Bloom
+
+
+## deferred shading 延迟渲染
+
+
+## 屏幕空间环境光屏蔽 SSAO
+
+
 ## 参考资料
 
 - [Blinn-Phong 光照](http://morimiya.me/2019/02/24/Blinn-Phong%E5%85%89%E7%85%A7/)
