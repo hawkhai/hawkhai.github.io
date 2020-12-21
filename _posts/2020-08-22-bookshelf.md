@@ -4,7 +4,7 @@ title: "读书笔记 -- New 'Bookshelf' page"
 author:
 location: "Japan"
 categories: ["读书"]
-tags:
+tags: ["读书"]
 toc:
 toclistyle:
 comments: true

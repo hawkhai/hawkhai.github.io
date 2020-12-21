@@ -4,7 +4,7 @@ title: "生活 -- Welcome to my blog"
 author:
 location: "Japan"
 categories: ["生活"]
-tags:
+tags: ["生活"]
 toc: true
 toclistyle:
 comments: true
