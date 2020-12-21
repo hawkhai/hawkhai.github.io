@@ -53,6 +53,8 @@ vec3 specular = lightColor * spec;
 
 ## shadowMapping
 
+有点难度。还没有彻底明白。
+
 
 ## Point Shadows 帧缓冲深度附件
 
