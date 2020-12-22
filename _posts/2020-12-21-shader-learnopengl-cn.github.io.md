@@ -190,10 +190,211 @@ Normal = mat3(transpose(inverse(model))) * aNormal;
 > 即使是对于着色器来说，逆矩阵也是一个开销比较大的运算，因此，只要可能就应该避免在着色器中进行逆矩阵运算，它们必须为你场景中的每个顶点都进行这样的处理。用作学习目这样做是可以的，但是对于一个对效率有要求的应用来说，在绘制之前你最好用 CPU 计算出法线矩阵，然后通过 uniform 把值传递给着色器（像模型矩阵一样）。
 
 
+### 材质
+
+```glsl
+#version 330 core
+struct Material {
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+    float shininess;
+};
+
+uniform Material material;
+
+// c++ 部分
+lightingShader.setVec3("material.ambient",  1.0f, 0.5f, 0.31f);
+lightingShader.setVec3("material.diffuse",  1.0f, 0.5f, 0.31f);
+lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+lightingShader.setFloat("material.shininess", 32.0f);
+```
+
+
+### 平行光
+
+```glsl
+struct Light {
+    // vec3 position; // 使用定向光就不再需要了
+    vec3 direction;
+
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+};
+...
+void main()
+{
+    vec3 lightDir = normalize(-light.direction);
+    ...
+}
+
+// c++ 部分
+lightingShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f);
+
+if(lightVector.w == 0.0) // 注意浮点数据类型的误差
+  // 执行定向光照计算
+else if(lightVector.w == 1.0)
+  // 根据光源的位置做光照计算（与上一节一样）
+```
+
+
+## 模型加载 Model Loading
+
+
+## 高级 Advanced OpenGL
+
+
+### 深度冲突 (Z-fighting)
+
+* 永远不要把多个物体摆得太靠近，以至于它们的一些三角形会重叠。never place objects too close to each other in a way that some of their triangles closely overlap.
+* 尽可能将近平面设置远一些。set the near plane as far as possible.
+* 使用更高精度的深度缓冲。use a higher precision depth buffer.
+
+
+### 物体轮廓
+
+```cpp
+glEnable(GL_DEPTH_TEST);
+glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE); // 模板测试和深度测试都通过时 REPLACE
+
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+glStencilMask(0x00); // 记得保证我们在绘制地板的时候不会更新模板缓冲
+normalShader.use();
+DrawFloor()
+
+glStencilFunc(GL_ALWAYS, 1, 0xFF);
+glStencilMask(0xFF); // 开启模板测试，把两个箱子写入 Stencil
+DrawTwoContainers();
+
+glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+glStencilMask(0x00); // 关闭模板测试
+glDisable(GL_DEPTH_TEST);
+shaderSingleColor.use();
+DrawTwoScaledUpContainers(); // 再次根据 Stencil 绘制箱子，GL_NOTEQUAL 1
+glStencilMask(0xFF);
+glEnable(GL_DEPTH_TEST);
+```
+
+当绘制一个有不透明和透明物体的场景的时候，大体的原则如下：
+
+* 先绘制所有不透明的物体。
+* 对所有透明的物体排序。
+* 按顺序绘制所有透明的物体。
+
+
+### 帧缓冲 framebuffers
+
+核处理：你在网上找到的大部分核将所有的权重加起来之后都应该会等于 1，如果它们加起来不等于 1，这就意味着最终的纹理颜色将会比原纹理值更亮或者更暗了。
+
+```cpp
+// framebuffer configuration
+// -------------------------
+unsigned int framebuffer;
+glGenFramebuffers(1, &framebuffer);
+glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+
+// create a color attachment texture
+unsigned int textureColorbuffer;
+glGenTextures(1, &textureColorbuffer);
+glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
+
+// create a renderbuffer object for depth and stencil attachment (we won't be sampling these)
+unsigned int rbo;
+glGenRenderbuffers(1, &rbo);
+glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, SCR_WIDTH, SCR_HEIGHT); // use a single renderbuffer object for both a depth AND stencil buffer.
+glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); // now actually attach it
+
+// now that we actually created the framebuffer and added all attachments we want to check if it is actually complete now
+if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+    cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << endl;
+glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+// render loop
+// -----------
+while (!glfwWindowShouldClose(window))
+{
+    // render
+    // ------
+    // bind to framebuffer and draw scene as we normally would to color texture
+    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+    glEnable(GL_DEPTH_TEST); // enable depth testing (is disabled for rendering screen-space quad)
+
+    // make sure we clear the framebuffer's content
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    shader.use();
+    glm::mat4 model = glm::mat4(1.0f);
+    glm::mat4 view = camera.GetViewMatrix();
+    glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+    shader.setMat4("view", view);
+    shader.setMat4("projection", projection);
+
+    // cubes
+    glBindVertexArray(cubeVAO);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, cubeTexture);
+    model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
+    shader.setMat4("model", model);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
+    shader.setMat4("model", model);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+
+    // floor
+    glBindVertexArray(planeVAO);
+    glBindTexture(GL_TEXTURE_2D, floorTexture);
+    shader.setMat4("model", glm::mat4(1.0f));
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
+
+    // now bind back to default framebuffer and draw a quad plane with the attached framebuffer color texture
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
+    // clear all relevant buffers
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set clear color to white (not really necessary actually, since we won't be able to see behind the quad anyways)
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    screenShader.use();
+    glBindVertexArray(quadVAO);
+    glBindTexture(GL_TEXTURE_2D, textureColorbuffer); // use the color attachment texture as the texture of the quad plane
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+    // -------------------------------------------------------------------------------
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+}
+```
+
+
 ## todo
 
+Advanced Lighting
+PBR
+In Practice
+Guest Articles
+Code repository
+Translations
+About
+
+写绩效。
 https://learnopengl-cn.github.io/
-02%20Lighting/03%20Materials/
+04%20Advanced%20OpenGL/06%20Cubemaps/
+
+
+## Refs
+
+- [1][Welcome to songho.ca](http://www.songho.ca/index.html)
+- [2][songho.ca OpenGL](http://www.songho.ca/opengl/index.html)
 
 -----
 
@@ -210,3 +411,5 @@ https://learnopengl-cn.github.io/
 - [9] [https://github.com/nothings/stb]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/github.com/6439e35a.html" %})
 - [10] [https://v.youku.com/v_show/id_XNzkyOTIyMTI=.html]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/v.youku.com/6f3e2a8f.html" %})
 - [11] [https://blog.csdn.net/zsc2014030403015/article/details/51719990]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/blog.csdn.net/cdb6b2c2.html" %})
+- [12] [http://www.songho.ca/index.html]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/www.songho.ca/564bb2d2.html" %})
+- [13] [http://www.songho.ca/opengl/index.html]({% include relref.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/www.songho.ca/d4f46261.html" %})
