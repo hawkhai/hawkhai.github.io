@@ -168,6 +168,7 @@ $$
 [域名标记 {% include relref_zhihu.html %} 样例](zhihu.com)<br/>
 [域名标记 {% include relref_wiki.html %} 样例](wikipedia.org)<br/>
 [域名标记 {% include relref_weixin.html %} 样例](weixin.qq.com)<br/>
+[域名标记 {% include relref_keqq.html %} 样例](ke.qq.com)<br/>
 
 
 ## Tools
