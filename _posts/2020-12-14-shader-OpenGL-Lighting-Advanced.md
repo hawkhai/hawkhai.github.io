@@ -45,15 +45,46 @@ float spec = pow(max(dot(normal, halfwayDir), 0.0), shininess);
 vec3 specular = lightColor * spec;
 ```
 
+```glsl
+void main()
+{
+    [...]
+    float spec = 0.0;
+    if(blinn)
+    {
+        vec3 halfwayDir = normalize(lightDir + viewDir);
+        spec = pow(max(dot(normal, halfwayDir), 0.0), 16.0);
+    }
+    else
+    {
+        vec3 reflectDir = reflect(-lightDir, normal);
+        spec = pow(max(dot(viewDir, reflectDir), 0.0), 8.0);
+    }
+}
+```
+
 {% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/advanced_lighting_comparrison.png" caption=" 模型效果比较 "%}
 
 
 ## gamma 校正原理
 
+{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/gamma_correction_gamma_curves.png" %}
+
+Gamma 校正是一个**上拱**的过程。
+
+{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/gamma_correction_example.png" %}
+
 
 ## shadowMapping
 
-有点难度。还没有彻底明白。
+{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/shadow_mapping_theory_spaces.png" %}
+
+通过移动视口到光源位置，可以观察到这个位置每个东西都是明亮的，因为从光的角度来看是没有阴影的。
+从光源的角度将场景的深度渲染到一张深度缓冲区中，我们可以在场景中获得一张阴影或者无阴影的贴图，一张阴影贴图。
+
+高级光照阴影 ShadowMapping，实在没看透彻，源码抄了一遍，才透彻了。
+
+{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/shadow_mapping_theory.gif" %}
 
 
 ## Point Shadows 帧缓冲深度附件
