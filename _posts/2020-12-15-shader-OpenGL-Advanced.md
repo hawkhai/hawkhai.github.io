@@ -300,10 +300,158 @@ void main()
 ## 环境映射反射贴图
 
 
+### 反射
+
+{% include image.html url="/assets/images/201215-shader-opengl-advanced/cubemaps_reflection_theory.png" %}
+
+```glsl
+void main()
+{
+    Normal = mat3(transpose(inverse(model))) * aNormal;
+    Position = vec3(model * vec4(aPos, 1.0));
+    // 使用了一个法向量，所以我们将再次使用法线矩阵 (Normal Matrix) 来变换它们。
+    gl_Position = projection * view * model * vec4(aPos, 1.0);
+}
+
+void main()
+{
+    vec3 I = normalize(Position - cameraPos);
+    vec3 R = reflect(I, normalize(Normal));
+    FragColor = vec4(texture(skybox, R).rgb, 1.0);
+}
+```
+
+
+### 折射
+
+折射是通过斯涅尔定律 (Snell’s Law) 来描述的。
+
+{% include image.html url="/assets/images/201215-shader-opengl-advanced/cubemaps_refraction_theory.png" %}
+
+```glsl
+void main()
+{
+    float ratio = 1.00 / 1.52;
+    vec3 I = normalize(Position - cameraPos);
+    vec3 R = refract(I, normalize(Normal), ratio);
+    FragColor = vec4(texture(skybox, R).rgb, 1.0);
+}
+```
+
+
 ## 高级数据
+
+分批处理顶点属性。我们可以做的是把每种类型的属性的所有向量数据批量保存在一个布局，而不是交叉布局。与交叉布局 123123123123 不同，我们采取批量方式 111122223333。
+
+```cpp
+void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const void * data);
+
+void glCopyBufferSubData(GLenum readtarget, GLenum writetarget, GLintptr readoffset,
+                         GLintptr writeoffset, GLsizeiptr size);
+```
+
+```cpp
+GLfloat positions[] = { ... };
+GLfloat normals[] = { ... };
+GLfloat tex[] = { ... };
+// 填充缓冲
+glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(positions), &positions);
+glBufferSubData(GL_ARRAY_BUFFER, sizeof(positions), sizeof(normals), &normals);
+glBufferSubData(GL_ARRAY_BUFFER, sizeof(positions) + sizeof(normals), sizeof(tex), &tex);
+
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)(sizeof(positions)));
+glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid*)(sizeof(positions) + sizeof(normals)));
+```
 
 
 ## 高级 GLSL
+
+```glsl
+void main()
+{
+    if(gl_FragCoord.x < 400) // 屏幕坐标
+        FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    else
+        FragColor = vec4(0.0, 1.0, 0.0, 1.0);
+
+    if(gl_FrontFacing) // 判断正反面
+        FragColor = texture(frontTexture, TexCoords);
+    else
+        FragColor = texture(backTexture, TexCoords);
+
+    // 如果着色器没有写入值到 gl_FragDepth，它会自动取用 gl_FragCoord.z 的值。
+    // 我们自己设置深度值有一个很大的缺点，只要我们在片段着色器中对 gl_FragDepth 进行写入，
+    // OpenGL 就会禁用所有的提前深度测试 (Early Depth Testing)。
+    // 它被禁用的原因是，OpenGL 无法在片段着色器运行之前得知片段将拥有的深度值，
+    // 因为片段着色器可能会完全修改这个深度值。
+    gl_FragDepth = 0.0; // 这个片段现在的深度值为 0.0
+}
+```
+
+
+### 接口块 (Interface Block)
+
+```glsl
+#version 330 core
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec2 aTexCoords;
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
+out VS_OUT
+{
+    vec2 TexCoords;
+} vs_out;
+
+void main()
+{
+    gl_Position = projection * view * model * vec4(aPos, 1.0);
+    vs_out.TexCoords = aTexCoords;
+}
+
+#version 330 core
+out vec4 FragColor;
+
+in VS_OUT
+{
+    vec2 TexCoords;
+} fs_in;
+
+uniform sampler2D texture;
+
+void main()
+{
+    FragColor = texture(texture, fs_in.TexCoords);
+}
+```
+
+
+### Uniform 缓冲对象
+
+```glsl
+layout (std140) uniform ExampleBlock
+{
+                     // 基准对齐量      // 对齐偏移量
+    float value;     // 4               // 0
+    vec3 vector;     // 16              // 16  ( 必须是 16 的倍数，所以 4->16)
+    mat4 matrix;     // 16              // 32  ( 列 0)
+                     // 16              // 48  ( 列 1)
+                     // 16              // 64  ( 列 2)
+                     // 16              // 80  ( 列 3)
+    float values[3]; // 16              // 96  (values[0])
+                     // 16              // 112 (values[1])
+                     // 16              // 128 (values[2])
+    bool boolean;    // 4               // 144
+    int integer;     // 4               // 148
+};
+```
+
+{% include image.html url="/assets/images/201215-shader-opengl-advanced/advanced_glsl_binding_points.png" %}
+
+当你达到了 uniform 的最大数量时，你总是可以选择使用 Uniform 缓冲对象。
 
 
 ## 几何着色器
@@ -349,6 +497,8 @@ void main()
 
 ## 实例化 (Instancing)
 
+glDrawArraysInstanced & gl_InstanceID
+
 
 ## 小行星带
 
@@ -365,6 +515,19 @@ glBindFramebuffer(GL_FRAMEBUFFER, intermediateFBO);
 glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
 glBindFramebuffer(GL_DRAW_FRAMEBUFFER, intermediateFBO);
 glBlitFramebuffer(0, 0, SCR_WIDTH, SCR_HEIGHT, 0, 0, SCR_WIDTH, SCR_HEIGHT, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+```
+
+
+### 多重采样纹理附件
+
+```cpp
+glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, tex);
+glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, GL_RGB, width, height, GL_TRUE);
+glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
+
+glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, tex, 0);
+
+glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH24_STENCIL8, width, height);
 ```
 
 

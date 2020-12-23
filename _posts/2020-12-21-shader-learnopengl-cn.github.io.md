@@ -388,13 +388,13 @@ About
 
 写绩效。
 https://learnopengl-cn.github.io/
-04%20Advanced%20OpenGL/06%20Cubemaps/
+05%20Advanced%20Lighting/01%20Advanced%20Lighting/
 
 
 ## Refs
 
-- [1][Welcome to songho.ca](http://www.songho.ca/index.html)
-- [2][songho.ca OpenGL](http://www.songho.ca/opengl/index.html)
+- [1] [Welcome to songho.ca](http://www.songho.ca/index.html)
+- [2] [songho.ca OpenGL](http://www.songho.ca/opengl/index.html)
 
 -----
 
