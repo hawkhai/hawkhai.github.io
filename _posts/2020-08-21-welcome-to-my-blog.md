@@ -171,6 +171,19 @@ $$
 [域名标记 {% include relref_keqq.html %} 样例](ke.qq.com)<br/>
 
 
+## log
+
+```cpp
+FILE *fp = NULL;
+fp = fopen("D:\\camera.txt", "a");
+if (fp)
+{
+    fprintf(fp, "%s %d \n", __FILE__, __LINE__);
+    fclose(fp);
+}
+```
+
+
 ## Tools
 
 * 公式在线编辑 <https://kerzol.github.io/markdown-mathjax/editor.html>
