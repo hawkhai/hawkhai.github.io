@@ -82,7 +82,8 @@ Gamma 校正是一个**上拱**的过程。
 通过移动视口到光源位置，可以观察到这个位置每个东西都是明亮的，因为从光的角度来看是没有阴影的。
 从光源的角度将场景的深度渲染到一张深度缓冲区中，我们可以在场景中获得一张阴影或者无阴影的贴图，一张阴影贴图。
 
-高级光照阴影 ShadowMapping，实在没看透彻，源码抄了一遍，才透彻了。
+高级光照阴影 ShadowMapping，实在没看透彻，源码抄了一遍，才透彻了。能感受到暴力美学。
+***[<font color="red">高级光照阴影 ShadowMapping /blog/2020/12/24/shader-OpenGL-Lighting-Advanced-shadowMapping</font>]({% include relref.html url="/blog/2020/12/24/shader-OpenGL-Lighting-Advanced-shadowMapping" %})***
 
 {% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/shadow_mapping_theory.gif" %}
 

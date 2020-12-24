@@ -77,7 +77,7 @@ int main() {
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
     glBindVertexArray(0);
 
-    unsigned int woodTexture = loadTexture(FileSystem::getPath("E:/kSource/LearnOpenGLz/LearnOpenGL-og/resources/textures/wood.png").c_str());
+    unsigned int woodTexture = loadTexture("E:/kSource/LearnOpenGLz/LearnOpenGL-og/resources/textures/wood.png");
 
     const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
     unsigned int depthMapFBO;

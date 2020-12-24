@@ -346,7 +346,7 @@ void main() {
 ## <font color="red">The Book of Shaders</font>
 
 TODO: <https://thebookofshaders.com/13/?lan=ch>
--- **<font color="red">后面的看不了了？</font>**
+-- **<font color="red">后面的看不了了？喔靠。</font>**
 
 <https://github.com/patriciogonzalezvivo/thebookofshaders>
 
