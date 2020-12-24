@@ -29,6 +29,13 @@ cluster: "LearnOpenGL"
 {% include image.html url="/assets/images/201224-shader-opengl-lighting-~55/shadow_mapping_theory.gif" %}
 
 
+## 详解
+
+从光源处得到的深度图片，越近越黑，越远越白。最下面纯白，是没有任何绘制的边界了。
+
+{% include image.html url="/assets/images/201224-shader-opengl-lighting-~55/20201224121704.png" %}
+
+
 ## Refs
 
 - [1] [Shadow Mapping](https://learnopengl.com/Advanced-Lighting/Shadows/Shadow-Mapping)
