@@ -79,7 +79,6 @@ function simulate(){
 
         force = V3.scale(dir, Math.pow(1/dist, 3)*20000);
 
-
         V3.add(jellyfishTargets[i].pos, force, jellyfishTargets[i].pos);
         //}
       }

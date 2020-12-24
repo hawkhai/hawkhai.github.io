@@ -36,7 +36,7 @@ function initBuffer(name, data) {
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffer[name]);
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data.vertexPositions), gl.STATIC_DRAW);
   vertexPositionBuffer[name].itemSize = 3;
-  vertexPositionBuffer[name].numItems = data.vertexPositions.length/3;  
+  vertexPositionBuffer[name].numItems = data.vertexPositions.length/3;
 
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexNormalBuffer[name]);
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data.vertexNormals), gl.STATIC_DRAW);
@@ -91,7 +91,7 @@ function drawBuffer(name){
 
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexTextureCoordBuffer[name]);
     gl.vertexAttribPointer(currentProgram.textureCoordAttribute, vertexTextureCoordBuffer[name].itemSize, gl.FLOAT, false, 0, 0);
-    
+
     gl.bindBuffer(gl.ARRAY_BUFFER, skinWeightBuffer[name]);
     gl.vertexAttribPointer(currentProgram.skinWeightAttribute, skinWeightBuffer[name].itemSize, gl.FLOAT, false, 0, 0);
 

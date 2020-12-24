@@ -1423,7 +1423,6 @@ M4x4.scale1 = function M4x4_scale1(k, m, r) {
         return m;
     }
 
-
     if (r == undefined)
         r = new MJS_FLOAT_ARRAY_TYPE(16);
 
@@ -1474,7 +1473,6 @@ M4x4.scale = function M4x4_scale(v, m, r) {
 
     if (r == undefined)
         r = new MJS_FLOAT_ARRAY_TYPE(16);
-
 
     r[0] = m[0] * x;
     r[1] = m[1] * x;
@@ -1588,7 +1586,6 @@ M4x4.translate3 = function M4x4_translate3 (x, y, z, m, r) {
     var m33 = m[10];
     var m43 = m[11];
 
-
     r[0] = m11;
     r[1] = m21;
     r[2] = m31;
@@ -1695,7 +1692,7 @@ M4x4.makeLookAt = function M4x4_makeLookAt (eye, center, up, r) {
     var y = V3.normalize(V3.direction(eye, center, V3._temp1), V3._temp1);
     var x = V3.normalize(V3.cross(up, y, V3._temp2), V3._temp2);
     var z = V3.normalize(V3.cross(y, x, V3._temp3), V3._temp3);
-        
+
     var tm1 = M4x4._temp1;
     var tm2 = M4x4._temp2;
 
@@ -1780,7 +1777,6 @@ M4x4.transpose = function M4x4_transpose (m, r) {
     return r;
 };
 
-
 /*
  * Function: M4x4.transformPoint
  */
@@ -1831,7 +1827,6 @@ M4x4.transformLine = function M4x4_transformLine(m, v, r) {
 
     return r;
 };
-
 
 /*
  * Function: M4x4.transformPointAffine

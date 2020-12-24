@@ -26,9 +26,9 @@ function animate(){
 }
 
 window.requestAnimFrame = (function(){
-  return  window.requestAnimationFrame || 
-  window.webkitRequestAnimationFrame   || 
-  window.mozRequestAnimationFrame      || 
-  window.oRequestAnimationFrame        || 
+  return  window.requestAnimationFrame ||
+  window.webkitRequestAnimationFrame   ||
+  window.mozRequestAnimationFrame      ||
+  window.oRequestAnimationFrame        ||
   window.msRequestAnimationFrame
 })();

@@ -54,16 +54,16 @@ function createProgram(fragmentShaderID, vertexShaderID) {
   gl.enableVertexAttribArray(program.vertexColorAttribute);
   program.textureCoordAttribute = gl.getAttribLocation(program,     "aTextureCoord");
   gl.enableVertexAttribArray(program.textureCoordAttribute);
-  
+
   program.skinWeightAttribute = gl.getAttribLocation(program,     "aSkinWeight");
   gl.enableVertexAttribArray(program.skinWeightAttribute);
-  
+
   program.world = gl.getUniformLocation(program,              "uWorld");
   program.worldView = gl.getUniformLocation(program,          "uWorldView");
   program.worldViewProj = gl.getUniformLocation(program,      "uWorldViewProj");
   program.viewInv = gl.getUniformLocation(program,            "uView");
   program.viewInv = gl.getUniformLocation(program,            "uViewInv");
-  
+
   program.sampler = [];
   program.sampler[0] = gl.getUniformLocation(program,           "uSampler0");
   program.sampler[1] = gl.getUniformLocation(program,           "uSampler1");
@@ -77,13 +77,13 @@ function createProgram(fragmentShaderID, vertexShaderID) {
 
   program.currentTime = gl.getUniformLocation(program,          "uCurrentTime");
   program.currentJellyfishTime = gl.getUniformLocation(program, "uCurrentJellyfishTime");
- 
+
   return program;
 }
 
 var currentProgram;
 var shaderProgram = {};
-  
+
 function initShaders() {
   shaderProgram["jellyfish"] = createProgram("jellyfish-fs", "jellyfish-vs");
   currentProgram = shaderProgram["jellyfish"];
