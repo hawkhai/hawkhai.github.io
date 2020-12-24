@@ -16,6 +16,18 @@ codeprint:
 ---
 
 
+## 找代码的几个地方
+
+* <https://sourceforge.net/>
+* <http://www.codeproject.com>
+* <http://search.csdn.net/>
+
+
+## 用 FileZilla 搭建 FTP 服务器及相关问题
+
+<https://segmentfault.com/a/1190000009033181>
+
+
 ## NetBeans 忽略配置
 
 NetBeans 源码忽略报错后，配置存在：`C:\Users\86138\AppData\Roaming\NetBeans\11.0\var\attributes.xml`。
@@ -32,4 +44,8 @@ NetBeans 源码忽略报错后，配置存在：`C:\Users\86138\AppData\Roaming\
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://imququ.com/post/html5-live-player-2.html]({% include relref.html url="/backup/2020-12-18-servx-webx.md/imququ.com/df29ec8c.html" %})
+- [1] [https://sourceforge.net/]({% include relref.html url="/backup/2020-12-18-servx-webx.md/sourceforge.net/f577c4c2.html" %})
+- [2] [http://www.codeproject.com]({% include relref.html url="/backup/2020-12-18-servx-webx.md/www.codeproject.com/05a0c83e.html" %})
+- [3] [http://search.csdn.net/]({% include relref.html url="/backup/2020-12-18-servx-webx.md/search.csdn.net/37e536ff.html" %})
+- [4] [https://segmentfault.com/a/1190000009033181]({% include relref.html url="/backup/2020-12-18-servx-webx.md/segmentfault.com/a7e55d6e.html" %})
+- [5] [https://imququ.com/post/html5-live-player-2.html]({% include relref.html url="/backup/2020-12-18-servx-webx.md/imququ.com/df29ec8c.html" %})

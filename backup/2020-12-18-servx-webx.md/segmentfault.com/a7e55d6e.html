@@ -1,0 +1,1742 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" class="fontawesome-i2svg-active fontawesome-i2svg-complete"><head>
+    <meta charset="UTF-8" />
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible" />
+    <meta content="webkit" name="renderer" />
+    <meta content="15317273575564615446375" property="qc:admins" />
+    <meta content="LkzCRJ7rPEUwt6fVey2vhxiw1vQ" name="alexaVerifyID" />
+    <meta content="app-id=958101793, app-argument=" name="apple-itunes-app" />
+                <title>用FileZilla搭建FTP服务器及相关问题_Better - SegmentFault 思否</title>
+    
+            <meta name="description" content="因为在拷贝某些大文件的时候，Windows系统会有限制，经常拷贝失败，此时可考虑使用FTP Server来解决文件的传输问题，这里选择开源的FileZilla，专业实用快捷。版本没有强制要求，根据自身情况选择。" />
+    
+            <meta name="keywords" content="ftp,filezilla" />
+    
+    <style type="text/css">svg:not(:root).svg-inline--fa {
+  overflow: visible;
+}
+
+.svg-inline--fa {
+  display: inline-block;
+  font-size: inherit;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+}
+.svg-inline--fa.fa-lg {
+  vertical-align: -0.225em;
+}
+.svg-inline--fa.fa-w-1 {
+  width: 0.0625em;
+}
+.svg-inline--fa.fa-w-2 {
+  width: 0.125em;
+}
+.svg-inline--fa.fa-w-3 {
+  width: 0.1875em;
+}
+.svg-inline--fa.fa-w-4 {
+  width: 0.25em;
+}
+.svg-inline--fa.fa-w-5 {
+  width: 0.3125em;
+}
+.svg-inline--fa.fa-w-6 {
+  width: 0.375em;
+}
+.svg-inline--fa.fa-w-7 {
+  width: 0.4375em;
+}
+.svg-inline--fa.fa-w-8 {
+  width: 0.5em;
+}
+.svg-inline--fa.fa-w-9 {
+  width: 0.5625em;
+}
+.svg-inline--fa.fa-w-10 {
+  width: 0.625em;
+}
+.svg-inline--fa.fa-w-11 {
+  width: 0.6875em;
+}
+.svg-inline--fa.fa-w-12 {
+  width: 0.75em;
+}
+.svg-inline--fa.fa-w-13 {
+  width: 0.8125em;
+}
+.svg-inline--fa.fa-w-14 {
+  width: 0.875em;
+}
+.svg-inline--fa.fa-w-15 {
+  width: 0.9375em;
+}
+.svg-inline--fa.fa-w-16 {
+  width: 1em;
+}
+.svg-inline--fa.fa-w-17 {
+  width: 1.0625em;
+}
+.svg-inline--fa.fa-w-18 {
+  width: 1.125em;
+}
+.svg-inline--fa.fa-w-19 {
+  width: 1.1875em;
+}
+.svg-inline--fa.fa-w-20 {
+  width: 1.25em;
+}
+.svg-inline--fa.fa-pull-left {
+  margin-right: 0.3em;
+  width: auto;
+}
+.svg-inline--fa.fa-pull-right {
+  margin-left: 0.3em;
+  width: auto;
+}
+.svg-inline--fa.fa-border {
+  height: 1.5em;
+}
+.svg-inline--fa.fa-li {
+  width: 2em;
+}
+.svg-inline--fa.fa-fw {
+  width: 1.25em;
+}
+
+.fa-layers svg.svg-inline--fa {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.fa-layers {
+  display: inline-block;
+  height: 1em;
+  position: relative;
+  text-align: center;
+  vertical-align: -0.125em;
+  width: 1em;
+}
+.fa-layers svg.svg-inline--fa {
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter, .fa-layers-text {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+}
+
+.fa-layers-text {
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter {
+  background-color: #ff253a;
+  border-radius: 1em;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #fff;
+  height: 1.5em;
+  line-height: 1;
+  max-width: 5em;
+  min-width: 1.5em;
+  overflow: hidden;
+  padding: 0.25em;
+  right: 0;
+  text-overflow: ellipsis;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-bottom-right {
+  bottom: 0;
+  right: 0;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+}
+
+.fa-layers-bottom-left {
+  bottom: 0;
+  left: 0;
+  right: auto;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+}
+
+.fa-layers-top-right {
+  right: 0;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-top-left {
+  left: 0;
+  right: auto;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top left;
+          transform-origin: top left;
+}
+
+.fa-lg {
+  font-size: 1.3333333333em;
+  line-height: 0.75em;
+  vertical-align: -0.0667em;
+}
+
+.fa-xs {
+  font-size: 0.75em;
+}
+
+.fa-sm {
+  font-size: 0.875em;
+}
+
+.fa-1x {
+  font-size: 1em;
+}
+
+.fa-2x {
+  font-size: 2em;
+}
+
+.fa-3x {
+  font-size: 3em;
+}
+
+.fa-4x {
+  font-size: 4em;
+}
+
+.fa-5x {
+  font-size: 5em;
+}
+
+.fa-6x {
+  font-size: 6em;
+}
+
+.fa-7x {
+  font-size: 7em;
+}
+
+.fa-8x {
+  font-size: 8em;
+}
+
+.fa-9x {
+  font-size: 9em;
+}
+
+.fa-10x {
+  font-size: 10em;
+}
+
+.fa-fw {
+  text-align: center;
+  width: 1.25em;
+}
+
+.fa-ul {
+  list-style-type: none;
+  margin-left: 2.5em;
+  padding-left: 0;
+}
+.fa-ul &gt; li {
+  position: relative;
+}
+
+.fa-li {
+  left: -2em;
+  position: absolute;
+  text-align: center;
+  width: 2em;
+  line-height: inherit;
+}
+
+.fa-border {
+  border: solid 0.08em #eee;
+  border-radius: 0.1em;
+  padding: 0.2em 0.25em 0.15em;
+}
+
+.fa-pull-left {
+  float: left;
+}
+
+.fa-pull-right {
+  float: right;
+}
+
+.fa.fa-pull-left,
+.fas.fa-pull-left,
+.far.fa-pull-left,
+.fal.fa-pull-left,
+.fab.fa-pull-left {
+  margin-right: 0.3em;
+}
+.fa.fa-pull-right,
+.fas.fa-pull-right,
+.far.fa-pull-right,
+.fal.fa-pull-right,
+.fab.fa-pull-right {
+  margin-left: 0.3em;
+}
+
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+          animation: fa-spin 2s infinite linear;
+}
+
+.fa-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
+          animation: fa-spin 1s infinite steps(8);
+}
+
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.fa-rotate-90 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.fa-rotate-180 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.fa-rotate-270 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+}
+
+.fa-flip-horizontal {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+
+.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(1, -1);
+          transform: scale(1, -1);
+}
+
+.fa-flip-both, .fa-flip-horizontal.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(-1, -1);
+          transform: scale(-1, -1);
+}
+
+:root .fa-rotate-90,
+:root .fa-rotate-180,
+:root .fa-rotate-270,
+:root .fa-flip-horizontal,
+:root .fa-flip-vertical,
+:root .fa-flip-both {
+  -webkit-filter: none;
+          filter: none;
+}
+
+.fa-stack {
+  display: inline-block;
+  height: 2em;
+  position: relative;
+  width: 2.5em;
+}
+
+.fa-stack-1x,
+.fa-stack-2x {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.svg-inline--fa.fa-stack-1x {
+  height: 1em;
+  width: 1.25em;
+}
+.svg-inline--fa.fa-stack-2x {
+  height: 2em;
+  width: 2.5em;
+}
+
+.fa-inverse {
+  color: #fff;
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.sr-only-focusable:active, .sr-only-focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+.svg-inline--fa .fa-primary {
+  fill: var(--fa-primary-color, currentColor);
+  opacity: 1;
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa .fa-secondary {
+  fill: var(--fa-secondary-color, currentColor);
+  opacity: 0.4;
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-primary {
+  opacity: 0.4;
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-secondary {
+  opacity: 1;
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa mask .fa-primary,
+.svg-inline--fa mask .fa-secondary {
+  fill: black;
+}
+
+.fad.fa-inverse {
+  color: #fff;
+}</style><link href="/opensearch.xml" rel="search" title="SegmentFault" type="application/opensearchdescription+xml" />
+    <link rel="shortcut icon" href="https://assets.segmentfault.com/v-5fdaf840/global/img/favicon.ico" />
+    <link rel="apple-touch-icon" href="https://assets.segmentfault.com/v-5fdaf840/global/img/static/touch-icon.png" />
+
+    <meta content="#00965e" name="msapplication-TileColor" />
+    <meta name="msapplication-square150x150logo" content="https://assets.segmentfault.com/v-5fdaf840/global/img/static/touch-icon.png" />
+    <meta content="bcf7fd80dca60d53d46d5b46e1b990ca" name="baidu_union_verify" />
+
+        <meta name="sogou_site_verification" content="MKVKCoIjwL" />
+    <meta name="360-site-verification" content="737314c9bf48873a1a0a22295203d9d1" />
+    <meta name="msvalidate.01" content="2C018C53297C8388F3E7052F5E9CA6AF" />
+
+            <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://segmentfault.com/img/bVbtMTO?w=502&amp;amp;h=391" />
+    <meta name="twitter:site" content="@segment_fault" />
+    <meta name="twitter:creator" content="@segmentfault" />
+    <meta name="twitter:title" content="用FileZilla搭建FTP服务器及相关问题" />
+        <meta name="og:type" content="article" />
+    <meta name="og:image" content="https://segmentfault.com/img/bVbtMTO?w=502&amp;amp;h=391" />
+    <meta name="og:title" content="用FileZilla搭建FTP服务器及相关问题" />
+    <link href="/feeds/questions" rel="alternate" title="SegmentFault 最新问题" type="application/atom+xml" />
+    <link href="/feeds/blogs" rel="alternate" title="SegmentFault 最新文章" type="application/atom+xml" />
+    
+    
+    
+    
+    
+            <link rel="stylesheet" href="https://assets.segmentfault.com/v-5fdaf840/css/global.css" />
+        <link rel="stylesheet" href="https://assets.segmentfault.com/v-5fdaf840/css/vendors.css" />
+    
+            <link rel="stylesheet" href="https://assets.segmentfault.com/v-5fdaf840/css/detail.css" />
+    
+    
+    <script src="https://www.googletagservices.com/activeview/js/current/osd.js?cb=%2Fr20100101"></script><script src="https://partner.googleadservices.com/gampad/cookie.js?domain=segmentfault.com&amp;callback=_gfp_s_&amp;client=ca-pub-6330872677300335"></script><script src="https://pagead2.googlesyndication.com/pagead/js/r20201203/r20190131/show_ads_impl_fy2019.js" id="google_shimpl"></script><script async="" defer="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script async="" defer="" src="https://sponsor.segmentfault.com/fl.js"></script><script async="" defer="" src="https://sponsor.segmentfault.com/spc.php?zones=1%7C2%7C3%7C4%7C5%7C6%7C7%7C9%7C10%7C11%7C12%7C13%7C14%7C15%7C16%7C17%7C24%7C25%7C26%7C27%7C28%7C29%7C31%7C32&amp;source=&amp;r=16052929&amp;block=1&amp;repu=0&amp;tag=ftp%2Cfilezilla&amp;v=5fd9cb14&amp;charset=UTF-8&amp;loc=https%3A//segmentfault.com/a/1190000009033181"></script><script src="https://hm.baidu.com/hm.js?e23800c454aa573c0ccb16b52665ac26"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script async="" defer="" src="https://sponsor.segmentfault.com/spcjs.php?id=1&amp;block=1&amp;repu=0&amp;tag=ftp,filezilla&amp;v=5fd9cb14"></script><script>
+var _oa = [], OA_google = true;
+
+function OA_script(src, cb) {
+    var s = document.createElement('script'), m = document.getElementsByTagName('script')[0];
+    
+    if (cb) {
+        s.onload = cb;
+    }
+    
+    s.async = 1;
+    s.defer = 1;
+    s.src = src;
+    m.parentNode.insertBefore(s, m);
+}
+
+function OA_show(name) {
+    _oa.push(name);
+    document.write('&lt;div id="OA_holder_' + name + '"&gt;&lt;/div&gt;');
+}
+
+OA_script('https://sponsor.segmentfault.com/spcjs.php?id=1&amp;block=1&amp;repu=0&amp;tag=ftp,filezilla&amp;v=5fd9cb14');
+</script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+                    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-918487-8"></script>
+            <script>
+          window.dataLayer = window.dataLayer || [];
+
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+
+          gtag('js', new Date());
+          gtag('config', 'UA-918487-8');
+                  </script>
+    <link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=segmentfault.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=segmentfault.com"></script></head>
+<body><div class="custome-alert alert alert-warning topframe text-center my-0 sticky-top d-none rounded-0">
+                <span class="alert-content"></span>
+                <button type="button" class="close">
+                    <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                </button>
+            </div>
+
+    <img style="height: 0; width: 0; display: none" src="https://assets.segmentfault.com/v-5fdaf840/global/img/static/touch-icon.png" />
+
+<div class="d-none d-lg-block text-center" style="display: block;">
+    <script type="text/javascript">
+        OA_show(5);
+    </script><div id="OA_holder_5"><div class="ad-close" style="position: relative;">
+<style>#OA_holder_5 a { display: block; }</style><div style="background-color: #082017"><a href="https://sponsor.segmentfault.com/ck.php?oaparams=2__bannerid=441__zoneid=5__cb=b703017639__oadest=http%3A%2F%2Fsegmentfault.com%2Fa%2F1190000038597979" target="_blank"><img src="https://sponsor-static.segmentfault.com/1866acf38c4c2327657613e8933146d6.png" width="970" height="60" alt="" title="" border="0" /></a><div id="beacon_b703017639" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="https://sponsor.segmentfault.com/lg.php?bannerid=441&amp;campaignid=6&amp;zoneid=5&amp;loc=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000009033181&amp;cb=b703017639" width="0" height="0" alt="" style="width: 0px; height: 0px;" /></div></div><div class="sflex-center ad-close-div" style="width: 16px; height: 16px; position: absolute; right: 8px; top: 8px; background-color: rgba(0, 0, 0, 0.75); cursor: pointer; pointer-events: none; border-radius: 50%;"><span class="ad-close-span" style="width: 8px; height: 8px; display: block; background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath fill='%23FFF' fill-rule='evenodd' d='M6.6667 0L8 1.3333 5.333 4 8 6.6667 6.6667 8 4 5.333 1.3333 8 0 6.6667 2.666 4 0 1.3333 1.3333 0 4 2.667 6.6667 0z'/%3E%3C/svg%3E&quot;); background-repeat: no-repeat; background-position: center center; pointer-events: auto;"></span></div></div>
+</div>
+</div>
+<div id="gridMapHoverBox" style="position:absolute; border: 1px solid #00965e; z-index: 99; font-size: 10px; background:#fff"></div>
+
+
+<nav id="sf-header" class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand text-hide sf-header-logo" href="/">SegmentFault</a>
+
+                    <a class="btn btn-primary d-lg-none ml-auto mr-2" href="/user/login">注册登录</a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav font-weight-bold">
+                <li class="nav-item">
+                    <a href="/" class="nav-link ">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/questions" class="nav-link ">问答</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/blogs" class="nav-link active">专栏</a>
+                </li>
+                 <li class="nav-item">
+                    <a href="/news" class="nav-link ">资讯</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://ke.sifou.com" class="nav-link ">课程</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/events" class="nav-link ">活动</a>
+                </li>
+                <li class="nav-item dropdown hover-down">
+                    <a href="###" id="navbarDiscover" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link  dropdown-toggle ">发现</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDiscover">
+                        <a class="dropdown-item" href="/groups">圈子</a>
+                        <a class="dropdown-item" href="/tags">标签</a>
+                        <a class="dropdown-item" href="/groups?tab=jobs">酷工作</a>
+                        <a class="dropdown-item" href="/users">排行榜</a>
+                        <a class="dropdown-item" href="/badges">徽章</a>
+                        <a class="dropdown-item" href="/notes">笔记</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="https://docs.segmentfault.com" target="_blank">开发手册</a>
+                        <a class="dropdown-item" href="https://business.segmentfault.com/ads?utm_source=sf-header" target="_blank">广告投放<svg class="svg-inline--fa fa-external-link-square fa-w-14 ml-2 text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="external-link-square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M448 80v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h352c26.51 0 48 21.49 48 48zm-64 47.111C384 109.929 370.071 96 352.889 96H220.667c-12.887 0-23.333 10.447-23.333 23.334v14.904c0 13.138 10.843 23.686 23.976 23.324l56.002-1.588L69.908 361.908c-7.858 7.802-7.88 20.504-.05 28.334l19.899 19.899c7.83 7.83 20.532 7.808 28.334-.05l205.935-207.404-1.588 56.003c-.362 13.133 10.186 23.976 23.324 23.976h14.904c12.887 0 23.334-10.447 23.334-23.333V127.111z"/></svg><!-- <i class="ml-2 text-warning fas fa-external-link-square"></i> -->
+                        </a>
+                    </div>
+                </li>
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0 flex-fill d-none d-xl-block px-4" action="/search">
+                <input class="form-control w-100" id="searchBox" name="q" type="search" value="" placeholder="搜索关键字" aria-label="搜索" />
+            </form>
+
+            <ul class="navbar-nav navbar-user ml-auto align-items-lg-center">
+                                    <li class="nav-item d-none d-lg-flex">
+                        <a href="/user/login" class="btn btn-link mr-2 require-login">立即登录</a>
+                    </li>
+                    <li class="nav-item d-none d-lg-flex">
+                        <a href="/user/register" class="btn btn-primary require-login">免费注册</a>
+                    </li>
+                            </ul>
+        </div>
+    </div>
+</nav>
+
+    <input id="articleId" value="1190000009033181" class="hidden" />
+    <div class="d-none d-xl-flex justify-content-center" style="display: none !important;">
+        <script type="text/javascript">
+          OA_show(2);
+        </script><div id="OA_holder_2"><div id="beacon_e4b3f3fdc3" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="https://sponsor.segmentfault.com/lg.php?bannerid=0&amp;campaignid=0&amp;zoneid=2&amp;loc=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000009033181&amp;cb=e4b3f3fdc3" width="0" height="0" alt="" style="width: 0px; height: 0px;" /></div>
+</div>
+    </div>
+    <div class="position-relative articledetail-wrap">
+        <div class="container my-sm-4 my-1" id="sf-article">
+            <div class="row">
+                                <div class="col-12 col-xl w-0">
+                    
+                                                            
+                    <div class="card border-0 mb-4">
+                        <div class="card-body p-lg-30">
+                            <div class="d-flex justify-content-between align-items-center mb-3" id="sf-article_author">
+                                <div class="information d-flex align-items-center">
+                                    <a class="d-flex align-items-centers mr-1" href="/u/gobetter">
+                                        <picture class="mr-2 d-sm-block d-none">
+                                            <img class="d-inline-block rounded-circle " width="32" src="https://avatar-static.segmentfault.com/363/774/3637740585-5cda895b7a1b9_big64" aria-hidden="true" />
+                                        </picture>
+                                        <strong class="align-self-center">Ably</strong>
+                                    </a>
+                                    <ul class="list-inline mb-0 authentication-info sflex-center font-size-14">
+                                                                                <li class="list-inline-item">
+                                            <svg class="svg-inline--fa fa-dice-d8 fa-w-16" style="color: #BF7158;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dice-d8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M225.53 2.52L2.36 233.83c-4.21 4.37-2.56 11.71 3.1 13.77l234.13 85.06V8.39c-.01-7.49-8.91-11.21-14.06-5.87zm284.11 231.31L286.47 2.52C281.32-2.82 272.41.9 272.41 8.4v324.27l234.13-85.06c5.66-2.07 7.31-9.42 3.1-13.78zM33.53 310.38l192 199.1c5.15 5.34 14.06 1.62 14.06-5.88V368.29L42.13 296.61c-8.21-2.98-14.72 7.43-8.6 13.77zm436.34-13.77l-197.46 71.68V503.6c0 7.5 8.91 11.22 14.06 5.88l192-199.1c6.12-6.34-.39-16.75-8.6-13.77z"/></svg><!-- <i class="fas fa-dice-d8" style="color:#BF7158"></i> -->
+                                            <span style="color: #BF7158;font-weight:bold">559</span>
+                                        </li>
+                                        
+                                                                            </ul>
+                                </div>
+
+                            </div><div></div>
+                            <div class="functional-area-left sticky-top d-none d-xl-flex"><div class="text-center"><div class="btn-group like-group " role="group">
+            <button data-type="question" class="func-btn mainLike like-btn btn btn-outline-primary &#10;                            " data-id="1190000009033181">
+                            <svg class="svg-inline--fa fa-thumbs-up fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"/></svg><!-- <i class="far fa-thumbs-up"></i> -->
+                            <span class="mainLikeNum">14</span>
+                        </button></div><button class="func-btn mainBookmark btn btn-outline-secondary &#10;                                 " data-id="1190000009033181">
+                                <svg class="svg-inline--fa fa-bookmark fa-w-12" aria-hidden="true" focusable="false" data-prefix="far" data-icon="bookmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M336 0H48C21.49 0 0 21.49 0 48v464l192-112 192 112V48c0-26.51-21.49-48-48-48zm0 428.43l-144-84-144 84V54a6 6 0 0 1 6-6h276c3.314 0 6 2.683 6 5.996V428.43z"/></svg><!-- <i class="far fa-bookmark"></i> -->
+                                
+                            </button><a class="func-btn show-column btn btn-outline-secondary&#10;                              " href="#comment-area">
+                            <svg class="svg-inline--fa fa-comment-alt-lines fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="comment-alt-lines" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M448 0H64C28.7 0 0 28.7 0 64v288c0 35.3 28.7 64 64 64h96v84c0 7.1 5.8 12 12 12 2.4 0 4.9-.7 7.1-2.4L304 416h144c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64zm16 352c0 8.8-7.2 16-16 16H288l-12.8 9.6L208 428v-60H64c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16h384c8.8 0 16 7.2 16 16v288zm-96-216H144c-8.8 0-16 7.2-16 16v16c0 8.8 7.2 16 16 16h224c8.8 0 16-7.2 16-16v-16c0-8.8-7.2-16-16-16zm-96 96H144c-8.8 0-16 7.2-16 16v16c0 8.8 7.2 16 16 16h128c8.8 0 16-7.2 16-16v-16c0-8.8-7.2-16-16-16z"/></svg><!-- <i class="far fa-comment-alt-lines"></i> -->
+                            
+                        </a><div class="dropdown dropup d-inline-block">
+                        <button class="func-btn btn btn-outline-secondary&#10;                        " id="func_share" data-toggle="dropdown">
+                        <svg class="svg-inline--fa fa-share-alt fa-w-14" aria-hidden="true" focusable="false" data-prefix="far" data-icon="share-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M352 320c-25.6 0-48.9 10-66.1 26.4l-98.3-61.5c5.9-18.8 5.9-39.1 0-57.8l98.3-61.5C303.1 182 326.4 192 352 192c53 0 96-43 96-96S405 0 352 0s-96 43-96 96c0 9.8 1.5 19.6 4.4 28.9l-98.3 61.5C144.9 170 121.6 160 96 160c-53 0-96 43-96 96s43 96 96 96c25.6 0 48.9-10 66.1-26.4l98.3 61.5c-2.9 9.4-4.4 19.1-4.4 28.9 0 53 43 96 96 96s96-43 96-96-43-96-96-96zm0-272c26.5 0 48 21.5 48 48s-21.5 48-48 48-48-21.5-48-48 21.5-48 48-48zM96 304c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm256 160c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48z"/></svg><!-- <i class="far fa-share-alt"></i> -->
+                        
+                        </button>
+                        <div class="dropdown-menu shareContent" aria-labelledby="func_share">
+                            <div class="text-center mt-2" style="cursor: auto">
+                                <div class="qr"><img crossorigin="anonymous" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHYAAAB2CAYAAAAdp2cRAAAGvElEQVR4Xu2dW3IqMQxEkz1l/yvInnILLkUx1AxHx/KEgXR+ZclStx62A8nnz8/Pz0d+3g6BzxOxX19fvxrY9/f3Yj/a/349Odu1R/q0v42P7Fn5af8Qu4JaiLWpdFlvMzoV64BOxW7g9bYVayuE8ukeqNn2996/639XfyS+1Rk7G/i9AxsJnHRu5V3/u/rk65r9EEuofXx8dInp6pOLIXbj8DYCHOnMrHjaa5hYe5igU6+V3wdm/bnXt/t3K470bTwV/0uteI+NOxlt/Qmxg/fM3wYuxD5+udu8x1KpU88nfStPK14iUMHvkK147w5gK757/cuM3WgFlQw1MzvEXtDqAtHN2BCbVnxGoJtINArojEFnAkpUsk/6hz08UWBd4Il42t/q0/o9OuJLHJ4IaHu4IaBpP6tP60Ns8XA1mxjbWu36EBtizwhMm7FUASSnVmQznNbbGUz+UUXRKCD7hB/Jh38JQIZJbgPrrg+xGx9mowwkIqmiyH6IdQinYjfwokR6m1bs8sWvrgz/W6sW+KPb94g5jcN+SvHoxHT9czT51SH2gtlvdwRPldMIse9OrMuH/Vd3K2j2qZwiplM+6e8hP78V72G4YzPEdtD7rxtiVzCk6419AOnT5C2E2Hcm1maozdjZrdXnr9Mgf8ma1bf4V65bU74fS4cHCpTkBORsedcfqx9iZzO4Yc8S8+xTePmt2OKXil0iZhNjt4qljCOiiVjSp/279p8NtI3fxrtZsQQsOWYdIXuWiNn2ZlcQ+WcPo8TX9UmRFpJjIdb9FZzZeKZiL4hSIr5txVJGUeB0zyL7BDzpW/+sPRvfM+IZenmywNH67oyxo8QCTTOf4rP7zYgnxFK5TvjKSIgtzkDiYnYFvWzFWse7M4b26xJH+uQ/ycl+V24rvPzyRIGRnGZmiH1MfYgdLA1KTJIPbltWC7FlqJYLiTiSD25bVtuNWNtK915PQHflhDgB3R0tM6439zZKv48l4ELs8g95UyJQIs041YdYQnnla4tUYSF2495KrW22nLglosgfsk+JQh1xzf6UiqXAyXHb6kcCvdUhIrpyGy8RT615DY8QW/yGuEmMEFtsxZTRe3cM6ii0P3UAii8VSwhd5AR0V/6yFUv4UYZRBdgZSkRYf7sVSP7MxmfajLVAEVE20L0rIsRuMGyJsutD7OPSOiXm0Kk4Ffv4pekwrZiIIjkF0q0wsm/lNBooXorH6lt/KN6TvaGPxlBg3Rll7VOg3VZPRJF90g+xxXvv7FM3ERNii/fIVOzyA+gWj2srnp1xlOGz5d0KpVZOwFI81j9qzRV/S6dicvzZcgscrbdnBIqf9uvqr/kbYgufG07FUurtJLcVQevfpmIJb5rBBARl/G8DTfHSjKN4SJ9mJOFN9sv3WNooxC5fogj4ELtxb7UVYyuUiLH7245EhVTxr/TyRBulYg9asdQabIbOrhBKrEoG366heElOeFCiUzy2wtfwLv3fHQqkSyQRQ0CQPvnfBbKbCOS/tX89PFlFC7QlnoAme7ZiaL+uPUqsEEuMDh623pbYIl6by6iCu8CRf7bjWHtUUWSvKx+Jr3QqJsdCLCHUk4fYYismmG2ikr2uPMSG2GsOrbZiyljKQDtTu/vNnoFUIbP9JTxH4guxK6iG2I1US8XaGnTr6V59faCwF2hyI8QSQj35MLG9bb22nVmUOORBBZhHNshfa5/sUTxrM3jKPdZu3O0QIfYx4id8QuxAVlKFpWIvoBJQdNzv6ltuab/DEEuO2sBpvQ3ctm5q1bR/97pj9yf8rb3rqZgME1FWTsCSPfJ3BIjbPUMsMVC851ozIZb/YNhTPjCeinX/HGKkAw19NKZbYUSsrUiawXY/CyS1bsLLxlvZL8QWvuJBQJI8xBavP90KtBVOxJE8xIbY1Rywo2HzukOGKANJnyqO7FPFzX7Q2NvebPvXJ0VqJTTcrWMh9nHqUmFQ4odYQqh4D7eJT9uG2MGZ3CWiC/yfIXbvUUAz+RWIepQMa/iV7rE2wwmortxmfIi9IEDAW2BtRc7eP8SG2DMCtkN1E93qVxL1kK2YAj3a9cpe36iDVYi7XfMyMzbELhGgRAixNmM21hPQtI3Vp/UhlhAvygloMmP1af0wseQoyUccs/c2s55mNMVjZ6BdPwOv0uHJBjo7EGuP1ofYLqMX/RkZSKfAVOwSgVRs4Z8SUn5T4lIHoQcZKz/td4gPs1lgCGgCkvTpXkoPGEQEjQLCg+QhdoPhEEupXwSukoGDW53VqMKogmwHSMUWD1cdUv80sV3gon88BP4BXkrrRLv8rs0AAAAASUVORK5CYII=" width="118" height="118" style="width: 118px; height: 118px;" /></div>
+                                扫一扫分享
+                            </div>
+                            <div class="dropdown-divider"></div>
+                        <a class="dropdown-item share_weibo" data-share="weibo" href="http://weibo.com/segmentfault" target="_blank"><svg class="svg-inline--fa fa-weibo fa-w-16 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="weibo" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg><!-- <i class="fab fa-weibo fa-fw"></i> --> 新浪微博</a><a class="dropdown-item share_twitter" data-share="twitter" href="https://twitter.com/segment_fault" target="_blank"><svg class="svg-inline--fa fa-twitter fa-w-16 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg><!-- <i class="fab fa-twitter fa-fw"></i> --> Twitter</a><a class="dropdown-item share_facebook" data-share="facebook" href="javascript:;" target="_blank"><svg class="svg-inline--fa fa-facebook-square fa-w-14 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="facebook-square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"/></svg><!-- <i class="fab fa-facebook-square fa-fw"></i> --> Facebook</a></div>
+                    </div></div></div>
+                            <h1 class="h2 mb-3" id="sf-article_title">
+                                <a class="text-body" href="/a/1190000009033181">用FileZilla搭建FTP服务器及相关问题</a>
+                            </h1>
+                            <div class="d-sm-flex d-none flex-wrap align-items-center mb-4" id="sf-article_tags">
+                                <div class="m-n1"><a class="m-1 badge-tag" href="/t/ftp" data-toggle="popover" data-img="" data-placement="top" data-original-title="ftp" data-id="1040000000089893">
+                                                                                        ftp
+                                        </a><a class="m-1 badge-tag" href="/t/filezilla" data-toggle="popover" data-img="" data-placement="top" data-original-title="filezilla" data-id="1040000000357373">
+                                                                                        filezilla
+                                        </a></div>
+                                <div class="font-size-14">
+                                                                            <time datetime="2017-04-12T09:40:21+08:00" itemprop="datePublished" class="text-secondary ml-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="更新于 2019-06-12 ">发布于
+                                            2017-04-12 </time>
+                                                                                                                                                                                </div>
+                            </div>
+
+                            <script type="text/javascript">
+                              OA_show(25);
+                            </script><div id="OA_holder_25"><div id="beacon_967b1d078a" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="https://sponsor.segmentfault.com/lg.php?bannerid=0&amp;campaignid=0&amp;zoneid=25&amp;loc=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000009033181&amp;cb=967b1d078a" width="0" height="0" alt="" style="width: 0px; height: 0px;" /></div>
+</div>
+
+                            <article class="article fmt article-content" data-id="1190000009033181" data-license="cc">
+                                
+<h2 id="item-1">版本信息</h2>
+<ul><li>官方资源下载链接：<br /><a href="https://www.filezilla.cn/download/client" rel="nofollow noreferrer" target="_blank">客户端</a>，或者直接点击下载“<a href="http://download.filezilla.cn/client/windows/FileZilla_3.24.0_win64-setup.exe" rel="nofollow noreferrer" target="_blank">FileZilla_3.24.0_win64-setup.exe</a>”；<br /><a href="https://www.filezilla.cn/download/server" rel="nofollow noreferrer" target="_blank">服务端</a>，或者直接点击下载“<a href="http://download.filezilla.cn/server/windows/FileZilla_Server-0_9_60_2.exe" rel="nofollow noreferrer" target="_blank">FileZilla_Server-0_9_60_2.exe</a>”；</li></ul>
+<p>注意大版本信息是否一致，小版本差别不大（仅供参考）！！</p>
+<h2 id="item-2">FileZilla的安装配置</h2>
+<p>因为在拷贝某些大文件的时候，Windows系统会有限制，经常拷贝失败，此时可考虑使用FTP Server来解决文件的传输问题，这里选择开源的FileZilla，专业实用快捷。版本没有强制要求，根据自身情况选择。</p>
+<h2 id="item-3">服务端的安装配置</h2>
+<p>建议在负责接收文件的操作系统上安装。</p>
+<ol>
+<li>右键点击安装包，选择以管理员身份运行，选择“I Agree”，如下图： <br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMTO?w=502&amp;h=391" src="/img/bVbtMTO?w=502&amp;h=391" alt="I Agree" title="I Agree" /></span>
+</li>
+<li>接下来的配置默认即可，直接下一步（Next）<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMUl?w=506&amp;h=394" src="/img/bVbtMUl?w=506&amp;h=394" alt="Next - 1" title="Next - 1" /></span><br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMVY?w=377&amp;h=293" src="/img/bVbtMVY?w=377&amp;h=293" alt="Next - 2" title="Next - 2" /></span><br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMWH?w=377&amp;h=293" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="Next - 3" title="Next - 3" /></span><br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMWX?w=377&amp;h=295" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="Next - 4" title="Next - 4" /></span><br /> 安装过程中，如下图：<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMXc?w=308&amp;h=240" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="安装过程中···" title="安装过程中···" /></span>
+</li>
+<li>安装完成，点击close关闭窗口。<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMXh?w=313&amp;h=243" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="安装完成" title="安装完成" /></span>
+</li>
+<li>勾选总是连接此服务，其他配置默认即可，然后点击连接（Connect）。<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMXr?w=366&amp;h=361" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="点击连接（Connect）" title="点击连接（Connect）" /></span>
+</li>
+<li>配置FileZilla Server的基本设置（General settings）<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMXx?w=554&amp;h=430" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="配置FileZilla Server的基本设置（General settings）" title="配置FileZilla Server的基本设置（General settings）" /></span>
+</li>
+<li>配置TLS加密设置，包含证书的生成步骤，其中填写的信息可随意。<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMXN?w=554&amp;h=397" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="配置TLS加密设置" title="配置TLS加密设置" /></span><br /> 证书生成结果提示，如下图：<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMX2?w=402&amp;h=444" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="证书生成结果提示" title="证书生成结果提示" /></span><br /> 证书密码（Key password）可自行选择是否设置，如下图：<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMYd?w=554&amp;h=383" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="证书密码设置" title="证书密码设置" /></span>
+</li>
+<li>配置端口与ip，如下图，根据自身情况修改IP，然后点击OK。<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMYA?w=554&amp;h=383" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="配置端口与ip" title="配置端口与ip" /></span><br /> 服务启动后的提示信息如下图：<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMYE?w=554&amp;h=361" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="服务启动后的提示信息" title="服务启动后的提示信息" /></span>
+</li>
+<li>参照文档的防火墙配置方法，在防火墙中对端口14140-14149进行放行（添加入站规则端口）。</li>
+<li>配置用户，如下图：<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMYK?w=554&amp;h=441" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="clipboard.png" title="clipboard.png" /></span><br /> 设置用户密码，如下图：<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMYP?w=554&amp;h=373" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="设置密码" title="设置密码" /></span>
+</li>
+<li>为用户配置文件夹，如下图：<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMY4?w=554&amp;h=373" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="为用户配置文件夹" title="为用户配置文件夹" /></span>
+</li>
+</ol>
+<h2 id="item-4">客户端的配置</h2>
+<p>客户端的安装跟其他软件没什么差别，自行选择安装路径进行安装。<br />1)    客户端的配置如下图：<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMZh?w=463&amp;h=411" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="客户端的配置" title="客户端的配置" /></span></p>
+<p>2)    选择信任证书，如下图：<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMZk?w=350&amp;h=437" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="选择信任证书" title="选择信任证书" /></span></p>
+<p>3)    连接成功，客户端提示，如下图：<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMZt?w=478&amp;h=446" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="连接成功，客户端提示" title="连接成功，客户端提示" /></span></p>
+<p>4)    服务端提示如下图：<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMZz?w=554&amp;h=411" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="服务端提示" title="服务端提示" /></span></p>
+<p>5)    文件传输，如下图：<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbtMZE?w=554&amp;h=424" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="文件传输" title="文件传输" /></span></p>
+<h2 id="item-5">问题与警告</h2>
+<ul>
+<li>问题：<code>You appear to be behind a NAT router. Please configure the passive mode settings and forward a range of ports in your router.</code><br /> 解决方法：<br /> “Edit”-“Setting”或直接点击设置按钮（齿轮）;<br /> 选择“Passive mode settings”选项卡，勾选“Use the following IP:”并填写服务器的IP地址，之后点击“OK”保存；<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVL32E?w=687&amp;h=468" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="passive mode settings" title="passive mode settings" /></span><br /> 接下来的提示信息中不再提示上述问题；</li>
+<li>问题：<code>响应:   425 Can't open data connection for transfer of "/"</code><br /> 配置过程中没有设置“<code>Use custom port range</code>”，那么在客户端连接服务端读取目录时就会报此错误<br /> 这个问题主要是由于使用Passive Mode模式造成的。<br /> 解决方法：<br /> 在上面的设置窗口中要勾选该项，设置端口范围，并在后面的防火墙设置中，将端口范围加入到入站端口中。</li>
+<li>警告：<code>Warning: FTP over TLS is not enabled, users cannot securely log in.</code><br /> 解决方法：启用TLS传输，具体操作如下：<br /> “Edit”-“Setting”或直接点击设置按钮（齿轮）;<br /> 选择“FTP over TLS settings”选项卡，点击“Generate new certificate...”；<br /> 生成验证时Key size”根据自己的喜好选择即可，其他信息可以根据自己的情况随意填写，然后选择保存地址（最好放到安装路径下） “；<br /> 其中的<code>Common name(Server address)</code>是连接时使用的域名或IP，如我这里填写<code>pro.ftp.cool.com</code>，后面用客户端连接时，<code>主机(H)</code>就填写<code>pro.ftp.cool.com</code>。同时还需要将该域名解析到FTP服务器的外网IP。<code>Key size</code>最好选择<code>4096bit</code><br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVL33e?w=392&amp;h=430" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="生成验证" title="生成验证" /></span><br /> 名称默认为“certificate.crt”就好，最终选择生成；<br /> 提示“Certificate generated successfully”则说明生成没有问题，点击“确定”关闭弹窗；<br /> 点击“OK”保存设置；<br /> 之后的信息提示不再出现警告。</li>
+<li>
+<p>接下来就是创建“Group”，“Users”并设置“Shared folders”</p>
+<p>不做详细解说，只需注意：</p>
+<ol>
+<li>添加用户时为用户分配组；</li>
+<li>为用户分配文件夹的权限，并指定Home文件夹（即“Set as home dir”，路径前出现“H”即可），如下图；<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVbpr6F?w=651&amp;h=431" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="Set as home dir" title="Set as home dir" /></span>
+</li>
+</ol>
+</li>
+<li>端口设置<br /> 默认端口：21，上面修改为14149<br /> 加密端口：990，上面修改为14148 自定义的端口范围：14140-14149（根据自己的情况更改）<br /> 可以自行设置，但是需要注意的是无论使用什么端口，在后面一定要添加到防火墙的入站规则中去。<br /> 默认端口及加密端口可以自行更改。</li>
+<li>在本地安装客户端<br /> 通过客户端连接服务器就可以了。<br /> 初次连接时会提示如下，选择信任，确定即可。<br /><span class="img-wrap"><img referrerpolicy="no-referrer" data-src="/img/bVL36f?w=495&amp;h=642" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/squares.svg" alt="证书信任提示" title="证书信任提示" /></span>
+</li>
+</ul>
+<p>因为近期整理文档，顺便更新一下完整的步骤。<br />Ably更新于2019年6月12日11:35:59</p>
+
+                            </article>
+
+                            
+                            <script type="text/javascript">
+                              OA_show(3);
+                            </script><div id="OA_holder_3"><div class="d-none d-lg-flex justify-content-center">
+<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 中部横幅广告位 -->
+<ins class="adsbygoogle" style="display: inline-block; width: 728px; height: 0px;" data-ad-client="ca-pub-6330872677300335" data-ad-slot="5598290435" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display: inline-table; border: none; height: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; width: 728px; background-color: transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_0_anchor" style="display: block; border: none; height: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; width: 728px; background-color: transparent; overflow: hidden; opacity: 0;"><iframe id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0;width:728px;height:90px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="728" height="90" frameborder="0" src="https://googleads.g.doubleclick.net/pagead/ads?guci=2.2.0.0.2.2.0.0&amp;client=ca-pub-6330872677300335&amp;output=html&amp;h=90&amp;slotname=5598290435&amp;adk=207822121&amp;adf=2801183808&amp;pi=t.ma~as.5598290435&amp;w=728&amp;lmt=1608825831&amp;psa=0&amp;format=728x90&amp;url=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000009033181&amp;flash=0&amp;wgl=1&amp;tt_state=W3siaXNzdWVyT3JpZ2luIjoiaHR0cHM6Ly9hZHNlcnZpY2UuZ29vZ2xlLmNvbSIsInN0YXRlIjowfSx7Imlzc3Vlck9yaWdpbiI6Imh0dHBzOi8vYXR0ZXN0YXRpb24uYW5kcm9pZC5jb20iLCJzdGF0ZSI6MH1d&amp;dt=1608825830904&amp;bpp=15&amp;bdt=13039&amp;idt=71&amp;shv=r20201203&amp;cbv=r20190131&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;correlator=5275204604335&amp;frm=20&amp;pv=2&amp;ga_vid=1223960144.1608825827&amp;ga_sid=1608825831&amp;ga_hid=1662524963&amp;ga_fc=0&amp;u_tz=480&amp;u_his=2&amp;u_java=0&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_nplug=3&amp;u_nmime=4&amp;adx=-12245933&amp;ady=-12245933&amp;biw=912&amp;bih=889&amp;scr_x=0&amp;scr_y=0&amp;eid=21066432%2C21066923%2C21068768&amp;oid=3&amp;pvsid=1454073520289701&amp;pem=255&amp;rx=0&amp;eae=0&amp;fc=896&amp;brdim=10%2C10%2C10%2C10%2C1920%2C0%2C945%2C1020%2C929%2C889&amp;vis=1&amp;rsz=o%7Co%7CenEr%7C&amp;abl=NS&amp;pfx=0&amp;fu=8200&amp;bc=31&amp;ifi=1&amp;uci=a!1&amp;fsb=1&amp;xpc=nEv8fG34j9&amp;p=https%3A//segmentfault.com&amp;dtd=120" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!1" data-load-complete="true" data-google-query-id="CP-OzaD_5u0CFcMJlgodFI8DGQ"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="beacon_eba0c1905b" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="https://sponsor.segmentfault.com/lg.php?bannerid=2&amp;campaignid=1&amp;zoneid=3&amp;loc=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000009033181&amp;cb=eba0c1905b" width="0" height="0" alt="" style="width: 0px; height: 0px;" /></div></div>
+</div>
+
+                            <div class="text-secondary font-size-14 mt-3 mb-5 d-flex justify-content-between row">
+                                                                    <div class="col-6 text-secondary" id="sf-article_metas" data-viewsword="62315">阅读
+                                        62.3k
+                                        <span class="split-dot"></span>
+                                        <time data-toggle="tooltip" data-placement="top" datetime="2017-04-12T09:40:21+08:00" itemprop="datePublished" title="" data-original-title="发布于 2017-04-12 ">更新于
+                                            2019-06-12 </time>
+                                    </div>
+                                                                <div class="operation col-6 text-right">
+                                                                                                                                                                                                                        
+                                                                                                        </div>
+                            </div>
+
+                            <div class="functional-area-bottom"><div class="text-center"><div class="btn-group like-group mr-2" role="group">
+            <button data-type="question" class="func-btn mainLike like-btn btn btn-outline-primary &#10;                            " data-id="1190000009033181">
+                            <svg class="svg-inline--fa fa-thumbs-up fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"/></svg><!-- <i class="far fa-thumbs-up"></i> -->
+                            <span class="ml-1">赞</span> <span class="mainLikeNum">14</span>
+                        </button></div><button class="func-btn mainBookmark btn btn-outline-secondary &#10;                                mr-2 " data-id="1190000009033181">
+                                <svg class="svg-inline--fa fa-bookmark fa-w-12" aria-hidden="true" focusable="false" data-prefix="far" data-icon="bookmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M336 0H48C21.49 0 0 21.49 0 48v464l192-112 192 112V48c0-26.51-21.49-48-48-48zm0 428.43l-144-84-144 84V54a6 6 0 0 1 6-6h276c3.314 0 6 2.683 6 5.996V428.43z"/></svg><!-- <i class="far fa-bookmark"></i> -->
+                                <span class="ml-1">收藏</span> <span class="bookmarkNum">12</span>
+                            </button><button class="func-btn show-row article-reward-btn btn btn-outline-danger&#10;                        mr-2 ">
+                        <svg class="svg-inline--fa fa-yen-sign fa-w-12" aria-hidden="true" focusable="false" data-prefix="far" data-icon="yen-sign" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M347.983 32h-44.065a12.001 12.001 0 0 0-10.555 6.291l-73.76 133.313c-13.96 29.825-27.286 64.725-27.286 64.725h-1.269s-13.326-34.901-27.287-64.725L90.689 38.328A12 12 0 0 0 80.115 32H36.017c-9.157 0-14.94 9.844-10.481 17.843L119.746 216H68c-6.627 0-12 5.373-12 12v24c0 6.627 5.373 12 12 12h77.18l14.775 26.267V312H68c-6.627 0-12 5.373-12 12v24c0 6.627 5.373 12 12 12h91.955v108c0 6.627 5.373 12 12 12h39.456c6.627 0 12-5.373 12-12V360H316c6.627 0 12-5.373 12-12v-24c0-6.627-5.373-12-12-12h-92.589v-21.733L238.185 264H316c6.627 0 12-5.373 12-12v-24c0-6.627-5.373-12-12-12h-52.367L358.45 49.87c4.485-7.999-1.296-17.87-10.467-17.87z"/></svg><!-- <i class="far fa-yen-sign"></i> -->
+                        <span class="ml-1">赞赏</span>
+                    </button><div class="dropdown dropup d-inline-block">
+                        <button class="func-btn btn btn-outline-secondary&#10;                        " id="func_share" data-toggle="dropdown">
+                        <svg class="svg-inline--fa fa-share-alt fa-w-14" aria-hidden="true" focusable="false" data-prefix="far" data-icon="share-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M352 320c-25.6 0-48.9 10-66.1 26.4l-98.3-61.5c5.9-18.8 5.9-39.1 0-57.8l98.3-61.5C303.1 182 326.4 192 352 192c53 0 96-43 96-96S405 0 352 0s-96 43-96 96c0 9.8 1.5 19.6 4.4 28.9l-98.3 61.5C144.9 170 121.6 160 96 160c-53 0-96 43-96 96s43 96 96 96c25.6 0 48.9-10 66.1-26.4l98.3 61.5c-2.9 9.4-4.4 19.1-4.4 28.9 0 53 43 96 96 96s96-43 96-96-43-96-96-96zm0-272c26.5 0 48 21.5 48 48s-21.5 48-48 48-48-21.5-48-48 21.5-48 48-48zM96 304c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm256 160c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48z"/></svg><!-- <i class="far fa-share-alt"></i> -->
+                        <span class="ml-1 show-row">分享</span>
+                        </button>
+                        <div class="dropdown-menu shareContent" aria-labelledby="func_share">
+                            <div class="text-center mt-2" style="cursor: auto">
+                                <div class="qr"><img crossorigin="anonymous" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHYAAAB2CAYAAAAdp2cRAAAGvElEQVR4Xu2dW3IqMQxEkz1l/yvInnILLkUx1AxHx/KEgXR+ZclStx62A8nnz8/Pz0d+3g6BzxOxX19fvxrY9/f3Yj/a/349Odu1R/q0v42P7Fn5af8Qu4JaiLWpdFlvMzoV64BOxW7g9bYVayuE8ukeqNn2996/639XfyS+1Rk7G/i9AxsJnHRu5V3/u/rk65r9EEuofXx8dInp6pOLIXbj8DYCHOnMrHjaa5hYe5igU6+V3wdm/bnXt/t3K470bTwV/0uteI+NOxlt/Qmxg/fM3wYuxD5+udu8x1KpU88nfStPK14iUMHvkK147w5gK757/cuM3WgFlQw1MzvEXtDqAtHN2BCbVnxGoJtINArojEFnAkpUsk/6hz08UWBd4Il42t/q0/o9OuJLHJ4IaHu4IaBpP6tP60Ns8XA1mxjbWu36EBtizwhMm7FUASSnVmQznNbbGUz+UUXRKCD7hB/Jh38JQIZJbgPrrg+xGx9mowwkIqmiyH6IdQinYjfwokR6m1bs8sWvrgz/W6sW+KPb94g5jcN+SvHoxHT9czT51SH2gtlvdwRPldMIse9OrMuH/Vd3K2j2qZwiplM+6e8hP78V72G4YzPEdtD7rxtiVzCk6419AOnT5C2E2Hcm1maozdjZrdXnr9Mgf8ma1bf4V65bU74fS4cHCpTkBORsedcfqx9iZzO4Yc8S8+xTePmt2OKXil0iZhNjt4qljCOiiVjSp/279p8NtI3fxrtZsQQsOWYdIXuWiNn2ZlcQ+WcPo8TX9UmRFpJjIdb9FZzZeKZiL4hSIr5txVJGUeB0zyL7BDzpW/+sPRvfM+IZenmywNH67oyxo8QCTTOf4rP7zYgnxFK5TvjKSIgtzkDiYnYFvWzFWse7M4b26xJH+uQ/ycl+V24rvPzyRIGRnGZmiH1MfYgdLA1KTJIPbltWC7FlqJYLiTiSD25bVtuNWNtK915PQHflhDgB3R0tM6439zZKv48l4ELs8g95UyJQIs041YdYQnnla4tUYSF2495KrW22nLglosgfsk+JQh1xzf6UiqXAyXHb6kcCvdUhIrpyGy8RT615DY8QW/yGuEmMEFtsxZTRe3cM6ii0P3UAii8VSwhd5AR0V/6yFUv4UYZRBdgZSkRYf7sVSP7MxmfajLVAEVE20L0rIsRuMGyJsutD7OPSOiXm0Kk4Ffv4pekwrZiIIjkF0q0wsm/lNBooXorH6lt/KN6TvaGPxlBg3Rll7VOg3VZPRJF90g+xxXvv7FM3ERNii/fIVOzyA+gWj2srnp1xlOGz5d0KpVZOwFI81j9qzRV/S6dicvzZcgscrbdnBIqf9uvqr/kbYgufG07FUurtJLcVQevfpmIJb5rBBARl/G8DTfHSjKN4SJ9mJOFN9sv3WNooxC5fogj4ELtxb7UVYyuUiLH7245EhVTxr/TyRBulYg9asdQabIbOrhBKrEoG366heElOeFCiUzy2wtfwLv3fHQqkSyQRQ0CQPvnfBbKbCOS/tX89PFlFC7QlnoAme7ZiaL+uPUqsEEuMDh623pbYIl6by6iCu8CRf7bjWHtUUWSvKx+Jr3QqJsdCLCHUk4fYYismmG2ikr2uPMSG2GsOrbZiyljKQDtTu/vNnoFUIbP9JTxH4guxK6iG2I1US8XaGnTr6V59faCwF2hyI8QSQj35MLG9bb22nVmUOORBBZhHNshfa5/sUTxrM3jKPdZu3O0QIfYx4id8QuxAVlKFpWIvoBJQdNzv6ltuab/DEEuO2sBpvQ3ctm5q1bR/97pj9yf8rb3rqZgME1FWTsCSPfJ3BIjbPUMsMVC851ozIZb/YNhTPjCeinX/HGKkAw19NKZbYUSsrUiawXY/CyS1bsLLxlvZL8QWvuJBQJI8xBavP90KtBVOxJE8xIbY1Rywo2HzukOGKANJnyqO7FPFzX7Q2NvebPvXJ0VqJTTcrWMh9nHqUmFQ4odYQqh4D7eJT9uG2MGZ3CWiC/yfIXbvUUAz+RWIepQMa/iV7rE2wwmortxmfIi9IEDAW2BtRc7eP8SG2DMCtkN1E93qVxL1kK2YAj3a9cpe36iDVYi7XfMyMzbELhGgRAixNmM21hPQtI3Vp/UhlhAvygloMmP1af0wseQoyUccs/c2s55mNMVjZ6BdPwOv0uHJBjo7EGuP1ofYLqMX/RkZSKfAVOwSgVRs4Z8SUn5T4lIHoQcZKz/td4gPs1lgCGgCkvTpXkoPGEQEjQLCg+QhdoPhEEupXwSukoGDW53VqMKogmwHSMUWD1cdUv80sV3gon88BP4BXkrrRLv8rs0AAAAASUVORK5CYII=" width="118" height="118" style="width: 118px; height: 118px;" /></div>
+                                扫一扫分享
+                            </div>
+                            <div class="dropdown-divider"></div>
+                        <a class="dropdown-item share_weibo" data-share="weibo" href="http://weibo.com/segmentfault" target="_blank"><svg class="svg-inline--fa fa-weibo fa-w-16 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="weibo" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg><!-- <i class="fab fa-weibo fa-fw"></i> --> 新浪微博</a><a class="dropdown-item share_twitter" data-share="twitter" href="https://twitter.com/segment_fault" target="_blank"><svg class="svg-inline--fa fa-twitter fa-w-16 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg><!-- <i class="fab fa-twitter fa-fw"></i> --> Twitter</a><a class="dropdown-item share_facebook" data-share="facebook" href="javascript:;" target="_blank"><svg class="svg-inline--fa fa-facebook-square fa-w-14 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="facebook-square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"/></svg><!-- <i class="fab fa-facebook-square fa-fw"></i> --> Facebook</a></div>
+                    </div></div></div>
+
+                            <div class="text-center mb-5 mt-3 text-secondary font-size-14">
+
+                                本作品系原创，
+                                                                            <a target="_blank" class="text-secondary" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">采用《署名-非商业性使用-禁止演绎
+                                            4.0
+                                            国际》许可协议</a>
+                                                                                                </div>
+                            <hr class="mb-0" />
+                            <div class="article-author d-flex flex-sm-row align-items-center pt-4 row">
+                                <div class="d-flex align-items-center flex-grow-1 author-left col-sm-9 col-12">
+                                    <a href="/u/gobetter">
+                                        <img class="rounded-circle mr-3" width="64" src="https://avatar-static.segmentfault.com/363/774/3637740585-5cda895b7a1b9_big64" aria-hidden="true" />
+                                    </a>
+                                    <div>
+                                        <h5>
+                                            <a class="text-body" href="/u/gobetter">Ably</a>
+                                        </h5>
+                                        <ul class="list-inline mb-0 authentication-info">
+                                                                                        <li class="list-inline-item">
+                                                <svg class="svg-inline--fa fa-dice-d8 fa-w-16" style="color: #BF7158;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dice-d8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M225.53 2.52L2.36 233.83c-4.21 4.37-2.56 11.71 3.1 13.77l234.13 85.06V8.39c-.01-7.49-8.91-11.21-14.06-5.87zm284.11 231.31L286.47 2.52C281.32-2.82 272.41.9 272.41 8.4v324.27l234.13-85.06c5.66-2.07 7.31-9.42 3.1-13.78zM33.53 310.38l192 199.1c5.15 5.34 14.06 1.62 14.06-5.88V368.29L42.13 296.61c-8.21-2.98-14.72 7.43-8.6 13.77zm436.34-13.77l-197.46 71.68V503.6c0 7.5 8.91 11.22 14.06 5.88l192-199.1c6.12-6.34-.39-16.75-8.6-13.77z"/></svg><!-- <i class="fas fa-dice-d8" style="color:#BF7158"></i> -->
+                                                <span style="color: #BF7158; font-size:16px; font-weight:bold">559</span>
+                                            </li>
+                                                                                    </ul>
+                                    </div>
+                                </div>
+                                <div class="author-right flex-shrink-0 col-sm-3 col-12 text-sm-right text-left mt-sm-0 mt-3">
+                                                                                                                <button type="button" class="btn btn-primary follow-user sf_do" data-dotype="post" data-content="{&quot;type&quot;:&quot;state&quot;,&quot;state&quot;:false,&quot;true&quot;:&quot;\u5173\u6ce8\u4f5c\u8005&quot;,&quot;false&quot;:&quot;\u5df2\u7ecf\u5173\u6ce8&quot;}" data-api="/iteration/api/user/1030000005601606/follow">关注作者
+                                        </button>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+                                                            <div id="comment-area" class="my-4" data-type="article" data-id="1190000009033181" data-page="1" data-user="null"><div class="d-flex justify-content-between mb-2">
+                <div id="comment-total" class="h5 mb-0">7 条评论</div>
+                <div>
+                    <a href="javascript:;" class="sort text-dark" data-sort="default">得票</a><span class="split-dot"></span><a href="javascript:;" class="sort text-secondary" data-sort="desc">时间</a>
+                </div>
+            </div><div class="card border-0">
+                <div class="card-body">
+                    <div class="media">
+                        <img src="https://assets.segmentfault.com/v-5fdaf840//global/img/static/user-128.png" class="rounded-circle mr-3" width="38" aria-hidden="true" />
+                        <form class="media-body" action="/api/article/1190000009033181/comments/add">
+                            <div class="form-group">
+                                <textarea autoheight="true" class="form-control comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 38px;" name="text"></textarea>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button data-js-replay-submit-btn="" type="button" submit-type="comment" class="btn btn-primary float-right" disabled="">提交评论</button>
+                                <input type="hidden" name="objectId" value="1190000009033181" autocomplete="off" />
+                            </div>
+                        </form>
+                    </div>
+                    <div id="comment-body"><div class="media mb-4" id="comment-1050000009185892">
+        <img class="d-block rounded-circle mr-3" width="38" height="38" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/user-64.png" alt="" />
+        <div class="media-body w-0">
+            <div class="commentUnit">
+                <div class="mb-2">
+                    <a class="d-uname" href="/u/valy9523" target="_blank"><strong>Valy9523</strong></a>
+                     ：
+                    <div class="parsedText fmt"><p>解决了我的问题，谢谢！</p></div>
+                </div>
+
+                <form class="d-none edit-form edit-top-comment-form" action="/api/comment/1050000009185892/edit" method="post">
+                    <div class="form-group">
+                        <textarea autoheight="true" class="form-control comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="解决了我的问题，谢谢！"></textarea>
+                    </div>
+                    <div class="my-3 d-flex align-content-center justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                            取消
+                        </button>
+                        <button type="button" submit-type="comment-edit" class="btn btn-primary btn-sm">
+                            提交
+                        </button>
+                        <input type="hidden" name="objectId" value="1190000009033181" autocomplete="off" />
+                        <input type="hidden" name="id" value="1050000009185892" autocomplete="off" />
+                    </div>
+                </form>
+
+                <div class="handle-bar font-size-14 d-flex justify-content-between">
+                    <div>
+                        <a class="text-secondary" href="javascript:;">
+                        <span class="mainLike-comment " data-id="1050000009185892">
+                            <svg class="svg-inline--fa fa-thumbs-up fa-w-16 mr-1" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"/></svg><!-- <i class="far fa-thumbs-up mr-1"></i> -->
+                        </span>
+                            <span data-icon-count-size="" data-count-hidden="true" class="mainLike-commentNum">
+                                </span>
+                        </a>
+                        <span class="split-dot"></span>
+                        <a class="text-secondary btn-comment" href="javascript:;" data-id="1050000009185892">回复</a>
+                        <span class="split-dot"></span>
+                        <span class="ml-1 text-secondary">2017-04-25 </span>
+                    </div>
+                    <div class="control-area d-none">
+                        
+                        
+                        
+
+                    </div>
+                </div>
+
+                <div class="card bg-light border-0 mt-2 d-none" id="comment-1050000009185892-form">
+                    <form class="card-body my-2 add-comment-form py-0 pt-3" action="/api/comment/1050000009185892/reply" method="post">
+                        <div class="form-group">
+                            <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" aria-placeholder="撰写评论..."></textarea>
+                        </div>
+                        <div class="mt-y d-flex align-content-center justify-content-end">
+                            <button type="button" submit-type="reply" class="btn btn-primary btn-sm" data-commentid="1050000009185892">
+                                提交评论
+                            </button>
+                            <input type="hidden" name="objectId" value="1050000009185892" autocomplete="off" />
+                            <input type="hidden" name="replyUserId" value="1030000009185823" autocomplete="off" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="replies">
+
+            
+            <div class="card bg-light border-0 mt-2">
+                <div class="card-body py-0" style="min-height:0">
+                    <ul class="list-group list-group-flush reply-list" data-page="1">
+
+                    <li class="list-group-item px-0 bg-light border-0 commentUnit">
+    <div class="font-size-14 mb-2">
+        <a class="d-uname" href="/u/gobetter" target="_blank"><strong>Ably</strong></a>：
+        <div class="parsedText fmt"><p>不用客气。</p></div>
+    </div>
+    <form class="d-none edit-form edit-reply-form" action="/api/comment/1050000017057192/edit" method="post">
+        <div class="form-group">
+            <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="不用客气。"></textarea>
+        </div>
+        <div class="my-3 d-flex align-content-center justify-content-end">
+            <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                取消
+            </button>
+            <button type="button" submit-type="reply-edit" class="btn btn-primary btn-sm">
+                提交
+            </button>
+            <input type="hidden" name="id" value="1050000017057192" autocomplete="off" />
+        </div>
+    </form>
+    <div class="handle-bar font-size-14 d-flex justify-content-between">
+        <div>
+            <a class="text-secondary" href="Javascript:;">
+            <span class="mainLike-comment " data-id="1050000017057192">
+                <svg class="svg-inline--fa fa-thumbs-up fa-w-16 mr-1" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"/></svg><!-- <i class="far fa-thumbs-up mr-1"></i> -->
+            </span>
+            <span data-icon-count-size="" data-count-hidden="true" class="mainLike-commentNum">
+                </span> </a>
+            <span class="split-dot"></span>
+            <a class="text-secondary btn-reply" href="Javascript:;" data-id="1050000017057192">回复</a>
+            <span class="split-dot"></span>
+            <span class="ml-1 text-secondary">2018-11-19 </span>
+        </div>
+        <div class="comment-control-area d-none">
+            
+            
+            
+
+        </div>
+    </div>
+    <form id="reply-1050000017057192-form" class="d-none my-2 add-comment-form" action="/api/comment/1050000009185892/reply" method="post">
+        <div class="form-group">
+            <textarea autoheight="true" class="form-control form-control-sm reply-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text"></textarea>
+        </div>
+        <div class="mt-y d-flex align-content-center justify-content-end">
+            <button type="button" submit-type="reply" class="btn btn-primary btn-sm" data-commentid="1050000009185892">
+                提交评论
+            </button>
+            <input type="hidden" name="replyUserId" value="1030000005601606" autocomplete="off" />
+        </div>
+    </form>
+</li></ul>
+
+                    
+                </div>
+            </div></div>
+        </div>
+    </div><div class="media mb-4" id="comment-1050000017880210">
+        <img class="d-block rounded-circle mr-3" width="38" height="38" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/user-64.png" alt="" />
+        <div class="media-body w-0">
+            <div class="commentUnit">
+                <div class="mb-2">
+                    <a class="d-uname" href="/u/wordless" target="_blank"><strong>wordless</strong></a>
+                     ：
+                    <div class="parsedText fmt"><p>也解决了我遇到的问题，专门注册回复感谢作者！</p></div>
+                </div>
+
+                <form class="d-none edit-form edit-top-comment-form" action="/api/comment/1050000017880210/edit" method="post">
+                    <div class="form-group">
+                        <textarea autoheight="true" class="form-control comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="也解决了我遇到的问题，专门注册回复感谢作者！"></textarea>
+                    </div>
+                    <div class="my-3 d-flex align-content-center justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                            取消
+                        </button>
+                        <button type="button" submit-type="comment-edit" class="btn btn-primary btn-sm">
+                            提交
+                        </button>
+                        <input type="hidden" name="objectId" value="1190000009033181" autocomplete="off" />
+                        <input type="hidden" name="id" value="1050000017880210" autocomplete="off" />
+                    </div>
+                </form>
+
+                <div class="handle-bar font-size-14 d-flex justify-content-between">
+                    <div>
+                        <a class="text-secondary" href="javascript:;">
+                        <span class="mainLike-comment " data-id="1050000017880210">
+                            <svg class="svg-inline--fa fa-thumbs-up fa-w-16 mr-1" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"/></svg><!-- <i class="far fa-thumbs-up mr-1"></i> -->
+                        </span>
+                            <span data-icon-count-size="" data-count-hidden="true" class="mainLike-commentNum">
+                                </span>
+                        </a>
+                        <span class="split-dot"></span>
+                        <a class="text-secondary btn-comment" href="javascript:;" data-id="1050000017880210">回复</a>
+                        <span class="split-dot"></span>
+                        <span class="ml-1 text-secondary">2019-01-14 </span>
+                    </div>
+                    <div class="control-area d-none">
+                        
+                        
+                        
+
+                    </div>
+                </div>
+
+                <div class="card bg-light border-0 mt-2 d-none" id="comment-1050000017880210-form">
+                    <form class="card-body my-2 add-comment-form py-0 pt-3" action="/api/comment/1050000017880210/reply" method="post">
+                        <div class="form-group">
+                            <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" aria-placeholder="撰写评论..."></textarea>
+                        </div>
+                        <div class="mt-y d-flex align-content-center justify-content-end">
+                            <button type="button" submit-type="reply" class="btn btn-primary btn-sm" data-commentid="1050000017880210">
+                                提交评论
+                            </button>
+                            <input type="hidden" name="objectId" value="1050000017880210" autocomplete="off" />
+                            <input type="hidden" name="replyUserId" value="1030000017880175" autocomplete="off" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="replies">
+
+            
+            <div class="card bg-light border-0 mt-2">
+                <div class="card-body py-0" style="min-height:0">
+                    <ul class="list-group list-group-flush reply-list" data-page="1">
+
+                    <li class="list-group-item px-0 bg-light border-0 commentUnit">
+    <div class="font-size-14 mb-2">
+        <a class="d-uname" href="/u/gobetter" target="_blank"><strong>Ably</strong></a>：
+        <div class="parsedText fmt"><p>太客气了</p></div>
+    </div>
+    <form class="d-none edit-form edit-reply-form" action="/api/comment/1050000017885278/edit" method="post">
+        <div class="form-group">
+            <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="太客气了"></textarea>
+        </div>
+        <div class="my-3 d-flex align-content-center justify-content-end">
+            <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                取消
+            </button>
+            <button type="button" submit-type="reply-edit" class="btn btn-primary btn-sm">
+                提交
+            </button>
+            <input type="hidden" name="id" value="1050000017885278" autocomplete="off" />
+        </div>
+    </form>
+    <div class="handle-bar font-size-14 d-flex justify-content-between">
+        <div>
+            <a class="text-secondary" href="Javascript:;">
+            <span class="mainLike-comment " data-id="1050000017885278">
+                <svg class="svg-inline--fa fa-thumbs-up fa-w-16 mr-1" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"/></svg><!-- <i class="far fa-thumbs-up mr-1"></i> -->
+            </span>
+            <span data-icon-count-size="" data-count-hidden="true" class="mainLike-commentNum">
+                </span> </a>
+            <span class="split-dot"></span>
+            <a class="text-secondary btn-reply" href="Javascript:;" data-id="1050000017885278">回复</a>
+            <span class="split-dot"></span>
+            <span class="ml-1 text-secondary">2019-01-14 </span>
+        </div>
+        <div class="comment-control-area d-none">
+            
+            
+            
+
+        </div>
+    </div>
+    <form id="reply-1050000017885278-form" class="d-none my-2 add-comment-form" action="/api/comment/1050000017880210/reply" method="post">
+        <div class="form-group">
+            <textarea autoheight="true" class="form-control form-control-sm reply-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text"></textarea>
+        </div>
+        <div class="mt-y d-flex align-content-center justify-content-end">
+            <button type="button" submit-type="reply" class="btn btn-primary btn-sm" data-commentid="1050000017880210">
+                提交评论
+            </button>
+            <input type="hidden" name="replyUserId" value="1030000005601606" autocomplete="off" />
+        </div>
+    </form>
+</li></ul>
+
+                    
+                </div>
+            </div></div>
+        </div>
+    </div><div class="media mb-4" id="comment-1050000018556569">
+        <img class="d-block rounded-circle mr-3" width="38" height="38" src="https://avatar-static.segmentfault.com/363/774/3637740585-5cda895b7a1b9_big64" alt="" />
+        <div class="media-body w-0">
+            <div class="commentUnit">
+                <div class="mb-2">
+                    <a class="d-uname" href="/u/gobetter" target="_blank"><strong>Ably</strong></a>
+                    <span class="text-secondary">（作者）</span> ：
+                    <div class="parsedText fmt"><p>如遇到服务端（FTP Server）连接到服务器失败的问题，直接重新覆盖安装（不要卸载）即可（原本的设置会保留），然后重新打开之后就可以正常连接了。</p></div>
+                </div>
+
+                <form class="d-none edit-form edit-top-comment-form" action="/api/comment/1050000018556569/edit" method="post">
+                    <div class="form-group">
+                        <textarea autoheight="true" class="form-control comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="如遇到服务端（FTP Server）连接到服务器失败的问题，直接重新覆盖安装（不要卸载）即可（原本的设置会保留），然后重新打开之后就可以正常连接了。"></textarea>
+                    </div>
+                    <div class="my-3 d-flex align-content-center justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                            取消
+                        </button>
+                        <button type="button" submit-type="comment-edit" class="btn btn-primary btn-sm">
+                            提交
+                        </button>
+                        <input type="hidden" name="objectId" value="1190000009033181" autocomplete="off" />
+                        <input type="hidden" name="id" value="1050000018556569" autocomplete="off" />
+                    </div>
+                </form>
+
+                <div class="handle-bar font-size-14 d-flex justify-content-between">
+                    <div>
+                        <a class="text-secondary" href="javascript:;">
+                        <span class="mainLike-comment " data-id="1050000018556569">
+                            <svg class="svg-inline--fa fa-thumbs-up fa-w-16 mr-1" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"/></svg><!-- <i class="far fa-thumbs-up mr-1"></i> -->
+                        </span>
+                            <span data-icon-count-size="" data-count-hidden="true" class="mainLike-commentNum">
+                                </span>
+                        </a>
+                        <span class="split-dot"></span>
+                        <a class="text-secondary btn-comment" href="javascript:;" data-id="1050000018556569">回复</a>
+                        <span class="split-dot"></span>
+                        <span class="ml-1 text-secondary">2019-03-18 </span>
+                    </div>
+                    <div class="control-area d-none">
+                        
+                        
+                        
+
+                    </div>
+                </div>
+
+                <div class="card bg-light border-0 mt-2 d-none" id="comment-1050000018556569-form">
+                    <form class="card-body my-2 add-comment-form py-0 pt-3" action="/api/comment/1050000018556569/reply" method="post">
+                        <div class="form-group">
+                            <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" aria-placeholder="撰写评论..."></textarea>
+                        </div>
+                        <div class="mt-y d-flex align-content-center justify-content-end">
+                            <button type="button" submit-type="reply" class="btn btn-primary btn-sm" data-commentid="1050000018556569">
+                                提交评论
+                            </button>
+                            <input type="hidden" name="objectId" value="1050000018556569" autocomplete="off" />
+                            <input type="hidden" name="replyUserId" value="1030000005601606" autocomplete="off" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="replies">
+
+            
+            <div class="card bg-light border-0 mt-2">
+                <div class="card-body py-0" style="min-height:0">
+                    <ul class="list-group list-group-flush reply-list" data-page="1">
+
+                    </ul>
+
+                    
+                </div>
+            </div></div>
+        </div>
+    </div><div class="media mb-4" id="comment-1050000020665930">
+        <img class="d-block rounded-circle mr-3" width="38" height="38" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/user-64.png" alt="" />
+        <div class="media-body w-0">
+            <div class="commentUnit">
+                <div class="mb-2">
+                    <a class="d-uname" href="/u/jintao_5da1ab6b0cb23" target="_blank"><strong>金涛</strong></a>
+                     ：
+                    <div class="parsedText fmt"><p>不错！非常详细！</p></div>
+                </div>
+
+                <form class="d-none edit-form edit-top-comment-form" action="/api/comment/1050000020665930/edit" method="post">
+                    <div class="form-group">
+                        <textarea autoheight="true" class="form-control comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="不错！非常详细！"></textarea>
+                    </div>
+                    <div class="my-3 d-flex align-content-center justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                            取消
+                        </button>
+                        <button type="button" submit-type="comment-edit" class="btn btn-primary btn-sm">
+                            提交
+                        </button>
+                        <input type="hidden" name="objectId" value="1190000009033181" autocomplete="off" />
+                        <input type="hidden" name="id" value="1050000020665930" autocomplete="off" />
+                    </div>
+                </form>
+
+                <div class="handle-bar font-size-14 d-flex justify-content-between">
+                    <div>
+                        <a class="text-secondary" href="javascript:;">
+                        <span class="mainLike-comment " data-id="1050000020665930">
+                            <svg class="svg-inline--fa fa-thumbs-up fa-w-16 mr-1" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"/></svg><!-- <i class="far fa-thumbs-up mr-1"></i> -->
+                        </span>
+                            <span data-icon-count-size="" data-count-hidden="true" class="mainLike-commentNum">
+                                </span>
+                        </a>
+                        <span class="split-dot"></span>
+                        <a class="text-secondary btn-comment" href="javascript:;" data-id="1050000020665930">回复</a>
+                        <span class="split-dot"></span>
+                        <span class="ml-1 text-secondary">2019-10-12 </span>
+                    </div>
+                    <div class="control-area d-none">
+                        
+                        
+                        
+
+                    </div>
+                </div>
+
+                <div class="card bg-light border-0 mt-2 d-none" id="comment-1050000020665930-form">
+                    <form class="card-body my-2 add-comment-form py-0 pt-3" action="/api/comment/1050000020665930/reply" method="post">
+                        <div class="form-group">
+                            <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" aria-placeholder="撰写评论..."></textarea>
+                        </div>
+                        <div class="mt-y d-flex align-content-center justify-content-end">
+                            <button type="button" submit-type="reply" class="btn btn-primary btn-sm" data-commentid="1050000020665930">
+                                提交评论
+                            </button>
+                            <input type="hidden" name="objectId" value="1050000020665930" autocomplete="off" />
+                            <input type="hidden" name="replyUserId" value="1030000020665897" autocomplete="off" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="replies">
+
+            
+            <div class="card bg-light border-0 mt-2">
+                <div class="card-body py-0" style="min-height:0">
+                    <ul class="list-group list-group-flush reply-list" data-page="1">
+
+                    </ul>
+
+                    
+                </div>
+            </div></div>
+        </div>
+    </div><div class="media mb-4" id="comment-1050000038508386">
+        <img class="d-block rounded-circle mr-3" width="38" height="38" src="https://cdn.segmentfault.com/v-5fd9cb14/global/img/user-64.png" alt="" />
+        <div class="media-body w-0">
+            <div class="commentUnit">
+                <div class="mb-2">
+                    <a class="d-uname" href="/u/hiburing" target="_blank"><strong>HiBuring</strong></a>
+                     ：
+                    <div class="parsedText fmt"><p>很详细，谢谢楼主</p></div>
+                </div>
+
+                <form class="d-none edit-form edit-top-comment-form" action="/api/comment/1050000038508386/edit" method="post">
+                    <div class="form-group">
+                        <textarea autoheight="true" class="form-control comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" data-init="很详细，谢谢楼主"></textarea>
+                    </div>
+                    <div class="my-3 d-flex align-content-center justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mr-2 edit-top-comment-cancel-btn cancelEdit">
+                            取消
+                        </button>
+                        <button type="button" submit-type="comment-edit" class="btn btn-primary btn-sm">
+                            提交
+                        </button>
+                        <input type="hidden" name="objectId" value="1190000009033181" autocomplete="off" />
+                        <input type="hidden" name="id" value="1050000038508386" autocomplete="off" />
+                    </div>
+                </form>
+
+                <div class="handle-bar font-size-14 d-flex justify-content-between">
+                    <div>
+                        <a class="text-secondary" href="javascript:;">
+                        <span class="mainLike-comment " data-id="1050000038508386">
+                            <svg class="svg-inline--fa fa-thumbs-up fa-w-16 mr-1" aria-hidden="true" focusable="false" data-prefix="far" data-icon="thumbs-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M466.27 286.69C475.04 271.84 480 256 480 236.85c0-44.015-37.218-85.58-85.82-85.58H357.7c4.92-12.81 8.85-28.13 8.85-46.54C366.55 31.936 328.86 0 271.28 0c-61.607 0-58.093 94.933-71.76 108.6-22.747 22.747-49.615 66.447-68.76 83.4H32c-17.673 0-32 14.327-32 32v240c0 17.673 14.327 32 32 32h64c14.893 0 27.408-10.174 30.978-23.95 44.509 1.001 75.06 39.94 177.802 39.94 7.22 0 15.22.01 22.22.01 77.117 0 111.986-39.423 112.94-95.33 13.319-18.425 20.299-43.122 17.34-66.99 9.854-18.452 13.664-40.343 8.99-62.99zm-61.75 53.83c12.56 21.13 1.26 49.41-13.94 57.57 7.7 48.78-17.608 65.9-53.12 65.9h-37.82c-71.639 0-118.029-37.82-171.64-37.82V240h10.92c28.36 0 67.98-70.89 94.54-97.46 28.36-28.36 18.91-75.63 37.82-94.54 47.27 0 47.27 32.98 47.27 56.73 0 39.17-28.36 56.72-28.36 94.54h103.99c21.11 0 37.73 18.91 37.82 37.82.09 18.9-12.82 37.81-22.27 37.81 13.489 14.555 16.371 45.236-5.21 65.62zM88 432c0 13.255-10.745 24-24 24s-24-10.745-24-24 10.745-24 24-24 24 10.745 24 24z"/></svg><!-- <i class="far fa-thumbs-up mr-1"></i> -->
+                        </span>
+                            <span data-icon-count-size="" data-count-hidden="true" class="mainLike-commentNum">
+                                </span>
+                        </a>
+                        <span class="split-dot"></span>
+                        <a class="text-secondary btn-comment" href="javascript:;" data-id="1050000038508386">回复</a>
+                        <span class="split-dot"></span>
+                        <span class="ml-1 text-secondary">12月17日</span>
+                    </div>
+                    <div class="control-area d-none">
+                        
+                        
+                        
+
+                    </div>
+                </div>
+
+                <div class="card bg-light border-0 mt-2 d-none" id="comment-1050000038508386-form">
+                    <form class="card-body my-2 add-comment-form py-0 pt-3" action="/api/comment/1050000038508386/reply" method="post">
+                        <div class="form-group">
+                            <textarea autoheight="true" class="form-control form-control-sm comment-text" rows="1" placeholder="撰写评论 ..." style="overflow: hidden; overflow-wrap: break-word; resize: none;" name="text" aria-placeholder="撰写评论..."></textarea>
+                        </div>
+                        <div class="mt-y d-flex align-content-center justify-content-end">
+                            <button type="button" submit-type="reply" class="btn btn-primary btn-sm" data-commentid="1050000038508386">
+                                提交评论
+                            </button>
+                            <input type="hidden" name="objectId" value="1050000038508386" autocomplete="off" />
+                            <input type="hidden" name="replyUserId" value="1030000003800961" autocomplete="off" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="replies">
+
+            
+            <div class="card bg-light border-0 mt-2">
+                <div class="card-body py-0" style="min-height:0">
+                    <ul class="list-group list-group-flush reply-list" data-page="1">
+
+                    </ul>
+
+                    
+                </div>
+            </div></div>
+        </div>
+    </div></div><div class="sflex-center comment-pagination"></div>
+                </div>
+            </div></div>
+                                        <h5 class="mt-4">推荐阅读</h5>
+                    <div class="card border-0 mb-4">
+                        <div class="list-group list-group-flush" id="paradigm-article-related"><a href="/a/1190000021823644?utm_source=sf-related" target="_blank" class="list-group-item list-group-item-action py-3">
+                                <h5 class="text-body">使用FileZilla Server快速搭建本地FTP服务器</h5>
+                                <p class="mb-2 text-truncate text-secondary">原本打算使用Wind系统的Internet信息服务配置FTP服务器，后面配置到怀疑人生，果断放弃。强烈不建议使用Wind系统的Internet信息服务配置FTP服务器，因为繁琐，又各种问题，容易出错</p>
+                                <p class="text-secondary mb-0 font-size-14">
+                                    <span class="text-primary">阿山</span>
+                                    <span class="split-dot"></span> 阅读 1.6k
+                                    <span class="split-dot"></span> 33 赞
+                                    
+                                </p>
+                            </a><a href="/a/1190000022009773?utm_source=sf-related" target="_blank" class="list-group-item list-group-item-action py-3">
+                                <h5 class="text-body">如何配置 PureFTPd 和 FileZilla 以在 CentOS 7.2 上使用 TLS 会话</h5>
+                                <p class="mb-2 text-truncate text-secondary">您应该在 CentOS 7.2 服务器上设置工作的 PureFTPd 设置，例如本教程所示：在 CentOS 7.2 上具有 PureFTPd、MariaDB 和虚拟用户的 FTP 服务器（包括配额和带宽管理）</p>
+                                <p class="text-secondary mb-0 font-size-14">
+                                    <span class="text-primary">猪八戒吃苹果</span>
+                                    <span class="split-dot"></span> 阅读 492
+                                    <span class="split-dot"></span> 1 赞
+                                    
+                                </p>
+                            </a><a href="/a/1190000018057359?utm_source=sf-related" target="_blank" class="list-group-item list-group-item-action py-3">
+                                <h5 class="text-body">linux 搭建FTP服务器</h5>
+                                <p class="mb-2 text-truncate text-secondary">一：安装FTP {代码...} 输入vsftpd -v判断是否安装成功 启动/停止/重启FTP {代码...} 二：添加ftp用户 1：创建ftp用户并设置密码 {代码...} 2：配置该用户仅能通过 FTP 访问 {代码...} 三：FTP配置 1:FTP的配置文...</p>
+                                <p class="text-secondary mb-0 font-size-14">
+                                    <span class="text-primary">huaweichenai</span>
+                                    <span class="split-dot"></span> 阅读 2.1k
+                                    <span class="split-dot"></span> 1 赞
+                                    
+                                </p>
+                            </a><a href="/a/1190000009036435?utm_source=sf-related" target="_blank" class="list-group-item list-group-item-action py-3">
+                                <h5 class="text-body">ubuntu下搭建FTP服务器并使用FileZilla上传下载</h5>
+                                <p class="mb-2 text-truncate text-secondary">简书地址：[链接] 为了让实验室同学在共享文件时更加方便，我们决定在实验室电脑上搭建一个FTP服务器，ubuntu系统版本为16.04，下面就是我的搭建流程 ubuntu上搭建FTP 1.安装ftp {代码...} 2.添加ftp用户 {代码.....</p>
+                                <p class="text-secondary mb-0 font-size-14">
+                                    <span class="text-primary">豆清</span>
+                                    <span class="split-dot"></span> 阅读 8.7k
+                                    <span class="split-dot"></span> 1 赞
+                                    
+                                </p>
+                            </a><a href="/a/1190000037483156?utm_source=sf-related" target="_blank" class="list-group-item list-group-item-action py-3">
+                                <h5 class="text-body">filezilla设置中文，filezilla中文设置选项</h5>
+                                <p class="mb-2 text-truncate text-secondary">| FileZilla是一个免费开源的FTP软件，分为客户端版本和服务器版本，它具备所有的FTP软件功能。使用linux系统的用户可能对它比较了解吧，一般在该系统中它都是充当客户端向服务器传输文件的中介。一般来说，该软...</p>
+                                <p class="text-secondary mb-0 font-size-14">
+                                    <span class="text-primary">只爱宅</span>
+                                    <span class="split-dot"></span> 阅读 20
+                                    
+                                    
+                                </p>
+                            </a><a href="/a/1190000022502964?utm_source=sf-related" target="_blank" class="list-group-item list-group-item-action py-3">
+                                <h5 class="text-body">FileZilla for mac(FTP客户端) v3.48.0中文版</h5>
+                                <p class="mb-2 text-truncate text-secondary">FileZilla mac中文版是一种快速、可信赖的FTP客户端以及服务器端开放源代码程式，具有多种特色、直觉的接口。可控性、有条理的界面和管理多站点的简化方式使得Filezilla客户端版成为一个方便高效的FTP客户端工具。</p>
+                                <p class="text-secondary mb-0 font-size-14">
+                                    <span class="text-primary">余生不止</span>
+                                    <span class="split-dot"></span> 阅读 4
+                                    
+                                    
+                                </p>
+                            </a><a href="/a/1190000012862120?utm_source=sf-related" target="_blank" class="list-group-item list-group-item-action py-3">
+                                <h5 class="text-body">FileGee+FileZilla实现数据或文件的远程备份</h5>
+                                <p class="mb-2 text-truncate text-secondary">之前遇到过数据库的远程备份问题，是用SQLServer的代理作业实现的。文件传输主要是通过共享文件夹，但是这种方式的限制太大，只能是局域网的。后来想着通过FTP自动上传，但是FileZilla的客户端并没有这个功能，只...</p>
+                                <p class="text-secondary mb-0 font-size-14">
+                                    <span class="text-primary">Ably</span>
+                                    <span class="split-dot"></span> 阅读 5.3k
+                                    
+                                    
+                                </p>
+                            </a><a href="/a/1190000024518719?utm_source=sf-related" target="_blank" class="list-group-item list-group-item-action py-3">
+                                <h5 class="text-body">服务器ftp软件，4个值得使用的服务器ftp软件</h5>
+                                <p class="mb-2 text-truncate text-secondary">服务器ftp软件是一种文件传输下载方式，它是TCP/IP协议栈的一部分；其中FTP又由两部分组成，一部分是FTP的服务器，另一部分是FTP的客户端！它能够高效安全地进行文件传输下载操作！因此，选择一款正确值得使用的...</p>
+                                <p class="text-secondary mb-0 font-size-14">
+                                    <span class="text-primary">欧尼酱</span>
+                                    <span class="split-dot"></span> 阅读 205
+                                    
+                                    
+                                </p>
+                            </a></div>
+                    </div>
+
+                </div>
+
+                                <div class="col-12 col-xl-auto">
+                    <div class="w-xl-300">
+                                                    <div class="blog card mb-4 border-0">
+                            <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="media-avatar rounded mr-3" aria-hidden="true"></div>
+                                <div style="flex:1">
+                                    <h5>
+                                        <a class="text-body" href="/blog/better">Better</a>
+                                    </h5>
+                                    <span class="badge badge-primary" style="background-color: #007bff">用户专栏</span>
+                                </div>
+                            </div>
+                            <p class="text-secondary text-truncate-2">不积跬步无以至千里，不积小流无以成江海。</p>
+                            <div class="d-flex mb-3">
+                                <div class="mr-4">
+                                    <strong id="blog-followers-count" class="followNum">17</strong>
+                                    <span class="text-secondary">人关注</span>
+                                </div>
+                                <div>
+                                    <strong>58</strong>
+                                    <span class="text-secondary">篇文章</span>
+                                </div>
+                            </div>
+                                                    <div class="d-flex">
+                                                                    <button type="button" class="btn btn-primary mr-2 sf_do" data-number-tag-class="followNum" data-dotype="post" data-content="{&quot;type&quot;:&quot;state&quot;,&quot;state&quot;:false,&quot;true&quot;:&quot;\u5173\u6ce8\u4e13\u680f&quot;,&quot;false&quot;:&quot;\u5df2\u7ecf\u5173\u6ce8&quot;}" data-api="/iteration/api/blog/1200000005602670/follow">关注专栏
+
+                                    </button>
+                                
+                                <a class="btn btn-outline-primary" href="/blog/better">专栏主页</a>
+                            </div>
+                            </div>
+                            </div><div></div>
+                            <!-- / 专栏信息 -->
+                        
+                        <div id="first-ad" class="card border-0 overflow-hidden d-none d-xl-flex justify-content-center align-items-center float-ads mb-4">
+                            <script type="text/javascript">
+                              OA_show(1);
+                            </script><div id="OA_holder_1"><div style="line-height: 0"><script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 文章详情 - 侧栏矩形 -->
+<ins class="adsbygoogle" style="display: inline-block; width: 300px; height: 0px;" data-ad-client="ca-pub-6330872677300335" data-ad-slot="6800875204" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display: inline-table; border: none; height: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; width: 300px; background-color: transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_1_anchor" style="display: block; border: none; height: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; width: 300px; background-color: transparent; overflow: hidden; opacity: 0;"><iframe id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0;width:300px;height:250px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="300" height="250" frameborder="0" src="https://googleads.g.doubleclick.net/pagead/ads?guci=2.2.0.0.2.2.0.0&amp;client=ca-pub-6330872677300335&amp;output=html&amp;h=250&amp;slotname=6800875204&amp;adk=11265504&amp;adf=923867145&amp;pi=t.ma~as.6800875204&amp;w=300&amp;lmt=1608825831&amp;psa=0&amp;format=300x250&amp;url=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000009033181&amp;flash=0&amp;wgl=1&amp;tt_state=W3siaXNzdWVyT3JpZ2luIjoiaHR0cHM6Ly9hZHNlcnZpY2UuZ29vZ2xlLmNvbSIsInN0YXRlIjowfSx7Imlzc3Vlck9yaWdpbiI6Imh0dHBzOi8vYXR0ZXN0YXRpb24uYW5kcm9pZC5jb20iLCJzdGF0ZSI6MH1d&amp;dt=1608825830920&amp;bpp=6&amp;bdt=13054&amp;idt=118&amp;shv=r20201203&amp;cbv=r20190131&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;prev_fmts=728x90&amp;correlator=5275204604335&amp;frm=20&amp;pv=1&amp;ga_vid=1223960144.1608825827&amp;ga_sid=1608825831&amp;ga_hid=1662524963&amp;ga_fc=0&amp;u_tz=480&amp;u_his=2&amp;u_java=0&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_nplug=3&amp;u_nmime=4&amp;adx=-12245933&amp;ady=-12245933&amp;biw=912&amp;bih=889&amp;scr_x=0&amp;scr_y=0&amp;eid=21066432%2C21066923%2C21068768&amp;oid=3&amp;pvsid=1454073520289701&amp;pem=255&amp;rx=0&amp;eae=0&amp;fc=896&amp;brdim=10%2C10%2C10%2C10%2C1920%2C0%2C945%2C1020%2C929%2C889&amp;vis=1&amp;rsz=o%7Co%7CeonEr%7C&amp;abl=NS&amp;pfx=0&amp;fu=8200&amp;bc=31&amp;ifi=2&amp;uci=a!2&amp;fsb=1&amp;xpc=v1VZoyJAbS&amp;p=https%3A//segmentfault.com&amp;dtd=126" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!2" data-load-complete="true" data-google-query-id="CNWGzaD_5u0CFffBFgUdsksH7A"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="beacon_b27013719c" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="https://sponsor.segmentfault.com/lg.php?bannerid=202&amp;campaignid=1&amp;zoneid=1&amp;loc=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000009033181&amp;cb=b27013719c" width="0" height="0" alt="" style="width: 0px; height: 0px;" /></div></div>
+</div>
+                        </div>
+                        <!-- / 矩形广告位 -->
+
+                        <div class="card border-0 d-none d-xl-flex mb-4">
+                            <div class="card-body">
+                                <div class="text-center mb-3">
+                                    <div class="mb25 hidden-md hidden-sm hidden-xs">
+    <img src="https://cdn.segmentfault.com/sponsor/20201225.png" alt="Planets" usemap="#gridsMap" width="255" height="136" />
+    <map name="gridsMap" id="gridsMap"><area shape="rect" target="_blank" onmouseover="SFGridAd.d(this)" onmouseout="SFGridAd.e(this)" coords="238,119,255,136" href="/sponsor/1750000022197859/redirect" stitle="萌搜 小众搜索引擎" /><area shape="rect" target="_blank" onmouseover="SFGridAd.d(this)" onmouseout="SFGridAd.e(this)" coords="51,85,153,102" href="/sponsor/1750000023565095/redirect" stitle="零代码搭建CRM、OA、ERP、进销存等各类管理系统" /><area shape="rect" target="_blank" onmouseover="SFGridAd.d(this)" onmouseout="SFGridAd.e(this)" coords="153,85,170,102" href="/sponsor/1750000023948580/redirect" stitle="免费开源的内网穿透软件，支持安卓和iOS，永久免费，欢迎fork，star" /><area shape="rect" target="_blank" onmouseover="SFGridAd.d(this)" onmouseout="SFGridAd.e(this)" coords="51,51,204,68" href="/sponsor/1750000038464102/redirect" stitle="MeEdu - 开源知识付费系统" /><area shape="rect" target="_blank" onmouseover="SFGridAd.d(this)" onmouseout="SFGridAd.e(this)" coords="0,119,68,136" href="/sponsor/1750000038554675/redirect" stitle="站长论坛" /></map>
+    <div style="text-align: center;"><a style="color:#9E9E9E; font-size:12px" href="/sponsor">广告位促销，月曝光三千万，10 元/天</a></div>
+        <script async="" src="https://cdn.segmentfault.com/sponsor/20201225.js"></script>
+</div>
+                                </div>
+
+                                <div class="side-promote-link">
+                                    <script type="text/javascript">
+                                      OA_show(7);
+                                      OA_show(9);
+                                      OA_show(10);
+                                      OA_show(15);
+                                      OA_show(16);
+                                    </script><div id="OA_holder_7"><a href="https://sponsor.segmentfault.com/ck.php?oaparams=2__bannerid=439__zoneid=7__cb=08f84752e1__oadest=https%3A%2F%2Fke.sifou.com%2Fcourse%2F1650000037651959%3Futm_source%3Dsegmentfault%26utm_medium%3Dbanner_Tlink" target="_blank"><strong>前端性能优化设计12问</strong><br />
+<small style="color: #6c757d">前端性能优化,面试的必问题目</small></a><div id="beacon_08f84752e1" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="https://sponsor.segmentfault.com/lg.php?bannerid=439&amp;campaignid=14&amp;zoneid=7&amp;loc=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000009033181&amp;cb=08f84752e1" width="0" height="0" alt="" style="width: 0px; height: 0px;" /></div>
+</div><div id="OA_holder_9"><a href="https://sponsor.segmentfault.com/ck.php?oaparams=2__bannerid=440__zoneid=9__cb=d68b82d43b__oadest=https%3A%2F%2Fke.sifou.com%2Fcourse%2F1650000037773462%3Futm_source%3Dsegmentfault%26utm_medium%3Dbanner_Tlink" target="_blank"><strong>Python 业务开发常见错误案例集</strong><br />
+<small style="color: #6c757d">教你避开 Python 开发中的常见坑点</small></a><div id="beacon_d68b82d43b" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="https://sponsor.segmentfault.com/lg.php?bannerid=440&amp;campaignid=14&amp;zoneid=9&amp;loc=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000009033181&amp;cb=d68b82d43b" width="0" height="0" alt="" style="width: 0px; height: 0px;" /></div>
+</div><div id="OA_holder_10"><a href="https://sponsor.segmentfault.com/ck.php?oaparams=2__bannerid=401__zoneid=10__cb=647faa55da__oadest=https%3A%2F%2Fke.sifou.com%2Fcourse%2F1650000037474720%3Futm_source%3Dsegmentfault%26utm_medium%3Dbanner_Tlink" target="_blank"><strong>专家带你构建一个高性能秒杀系统</strong><br />
+<small style="color: #6c757d">大厂电商 Java 秒杀系统架构实战</small></a><div id="beacon_647faa55da" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="https://sponsor.segmentfault.com/lg.php?bannerid=401&amp;campaignid=14&amp;zoneid=10&amp;loc=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000009033181&amp;cb=647faa55da" width="0" height="0" alt="" style="width: 0px; height: 0px;" /></div>
+</div><div id="OA_holder_15"><a href="https://sponsor.segmentfault.com/ck.php?oaparams=2__bannerid=400__zoneid=15__cb=c09aae0a97__oadest=https%3A%2F%2Fke.sifou.com%2Fcourse%2F1650000023864436%3Futm_source%3Dsegmentfault%26utm_medium%3Dbanner_Tlink" target="_blank"><strong>自顶向下学 React 源码</strong><br />
+<small style="color: #6c757d">从理念到架构到实现到代码，透彻理解 </small></a><div id="beacon_c09aae0a97" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="https://sponsor.segmentfault.com/lg.php?bannerid=400&amp;campaignid=14&amp;zoneid=15&amp;loc=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000009033181&amp;cb=c09aae0a97" width="0" height="0" alt="" style="width: 0px; height: 0px;" /></div>
+</div><div id="OA_holder_16"><a href="https://sponsor.segmentfault.com/ck.php?oaparams=2__bannerid=387__zoneid=16__cb=b848e45387__oadest=https%3A%2F%2Fke.sifou.com%2Fcourse%2F1650000023696750%3Futm_source%3Dsegmentfault%26utm_medium%3Dbanner_Tlink" target="_blank"><strong>Node.js高级实战·带你搭建动漫网站</strong><br />
+<small style="color: #6c757d">紧贴业务，扩大前端职能，顺利迈入全栈 </small></a><div id="beacon_b848e45387" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="https://sponsor.segmentfault.com/lg.php?bannerid=387&amp;campaignid=14&amp;zoneid=16&amp;loc=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000009033181&amp;cb=b848e45387" width="0" height="0" alt="" style="width: 0px; height: 0px;" /></div>
+</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- / 格子广告、链接广告 -->
+
+                        <div class="card border-0 overflow-hidden d-none d-xl-flex mb-4" data-article-nav="" style="">
+                            <div class="card-body py-3">
+                                <h6 class="nav-header py-1 mb-0 position-relative bg-white collapsed" style="" for="collapseTarget" data-toggle="collapse" href="#collapseTarget" aria-expanded="false" aria-controls="collapseTarget">
+                                    <span class="right">▶</span>
+                                    <span class="down hidden">▼</span>
+                                    目录
+                                </h6>
+                                <div class="collapse" id="collapseTarget">
+                                    <nav id="article-nav-list" data-article-nav-list="" class="font-size-14"><a class="nav-link text-secondary p-0 my-1 text-truncate" scroll-href="#item-1" href="javascript:;" data-offsettop="0">版本信息</a><a class="nav-link text-secondary p-0 my-1 text-truncate" scroll-href="#item-2" href="javascript:;" data-offsettop="0">FileZilla的安装配置</a><a class="nav-link text-secondary p-0 my-1 text-truncate" scroll-href="#item-3" href="javascript:;" data-offsettop="0">服务端的安装配置</a><a class="nav-link text-secondary p-0 my-1 text-truncate" scroll-href="#item-4" href="javascript:;" data-offsettop="0">客户端的配置</a><a class="nav-link text-secondary p-0 my-1 text-truncate" scroll-href="#item-5" href="javascript:;" data-offsettop="0">问题与警告</a></nav>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- / 目录 -->
+                        <div id="second-ad" class="card border-0 overflow-hidden d-none d-xl-flex justify-content-center align-items-center">
+                            <script type="text/javascript">
+                              OA_show(31);
+                            </script><div id="OA_holder_31"><div class="rounded overflow-hidden"><a href="https://sponsor.segmentfault.com/ck.php?oaparams=2__bannerid=334__zoneid=31__cb=52cd1ab88c__oadest=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000020336555" target="_blank"><img src="https://sponsor-static.segmentfault.com/bb270f7c8f4604f08f8530813cc9e40c.png" width="300" height="100" alt="程序员求职攻略" title="程序员求职攻略" border="0" /></a><div id="beacon_52cd1ab88c" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="https://sponsor.segmentfault.com/lg.php?bannerid=334&amp;campaignid=84&amp;zoneid=31&amp;loc=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000009033181&amp;cb=52cd1ab88c" width="0" height="0" alt="" style="width: 0px; height: 0px;" /></div></div>
+</div>
+                        </div>
+                        <!-- / 公众号广告位 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+      var ARTICLE = {
+        articleId: 1190000009033181,
+        title: "用FileZilla搭建FTP服务器及相关问题",
+        isLiked: false,
+        votes: 14,
+        isBookmarked: false,
+        bookmarks: 12,
+        canReward: true
+      };
+    </script>
+
+                        
+
+
+
+
+
+
+
+<script type="text/javascript">
+  OA_show(4);
+</script><div id="OA_holder_4"><div id="beacon_5669c3a6d1" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="https://sponsor.segmentfault.com/lg.php?bannerid=0&amp;campaignid=0&amp;zoneid=4&amp;loc=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000009033181&amp;cb=5669c3a6d1" width="0" height="0" alt="" style="width: 0px; height: 0px;" /></div>
+</div>
+
+<footer id="footer" class="bg-white py-5 font-size-14">
+    <div class="container">
+        <div class="row">
+            <dl class="col-4 col-md-2">
+                <dt class="h6">产品</dt>
+                                <dd class="my-1"><a class="text-secondary" href="/questions/hottest?utm_source=sf-footer" target="_blank">热门问答</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/blogs/hottest?utm_source=sf-footer" target="_blank">热门专栏</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/lives?utm_source=sf-footer" target="_blank">热门课程</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/events?utm_source=sf-footer" target="_blank">最新活动</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/groups?utm_source=sf-footer" target="_blank">技术圈</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/groups?tab=jobs&amp;utm_source=sf-footer" target="_blank">酷工作</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/app?utm_source=sf-footer" target="_blank">移动客户端</a></dd>
+                            </dl>
+
+            <dl class="col-4 col-md-2">
+                <dt class="h6">课程</dt>
+                                <dd class="my-1"><a class="text-secondary" href="/lives/edu?tag=java&amp;sort=hottest&amp;utm_source=sf-footer" target="_blank">Java 开发课程</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/lives/edu?tag=php&amp;sort=hottest&amp;utm_source=sf-footer" target="_blank">PHP 开发课程</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/lives/edu?tag=python&amp;sort=hottest&amp;utm_source=sf-footer" target="_blank">Python 开发课程</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/lives/edu?category=1&amp;sort=hottest&amp;utm_source=sf-footer" target="_blank">前端开发课程</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/lives/study?category=3&amp;sort=hottest&amp;utm_source=sf-footer" target="_blank">移动开发课程</a></dd>
+                            </dl>
+
+            <dl class="col-4 col-md-2 ">
+                <dt class="h6">资源</dt>
+                                <dd class="my-1"><a class="text-secondary" href="/weekly?utm_source=sf-footer" target="_blank">每周精选</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/users?utm_source=sf-footer" target="_blank">用户排行榜</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/badges?utm_source=sf-footer" target="_blank">徽章</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/faq?utm_source=sf-footer" target="_blank">帮助中心</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/repu?utm_source=sf-footer" target="_blank">声望与权限</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/community?utm_source=sf-footer" target="_blank">社区服务中心</a></dd>
+                            </dl>
+
+            <dl class="col-4 col-md-2">
+                <dt class="h6">合作</dt>
+                                <dd class="my-1"><a class="text-secondary" href="https://about.segmentfault.com/?utm_source=sf-footer" target="_blank">关于我们</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://business.segmentfault.com/ads?utm_source=sf-footer" target="_blank">广告投放</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/groups?tab=jobs&amp;utm_source=sf-footer" target="_blank">职位发布</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://jinshuju.net/f/HK5r9K?utm_source=sf-footer" target="_blank">讲师招募</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="https://about.segmentfault.com/contact.html?utm_source=sf-footer" target="_blank">联系我们</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/link?utm_source=sf-footer" target="_blank">合作伙伴</a></dd>
+                            </dl>
+
+            <dl class="col-4 col-md-2">
+                <dt class="h6">关注</dt>
+                                <dd class="my-1"><a class="text-secondary" href="/blog/segmentfault?utm_source=sf-footer" target="_blank">产品技术日志</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/blog/community_admin?utm_source=sf-footer" target="_blank">社区运营日志</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/blog/segmentfault_news?utm_source=sf-footer" target="_blank">市场运营日志</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/blog/segmentfault_team?utm_source=sf-footer" target="_blank">团队日志</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/blog/interview?utm_source=sf-footer" target="_blank">社区访谈</a></dd>
+                            </dl>
+
+            <dl class="col-4 col-md-2" id="license">
+                <dt class="h6">条款</dt>
+                                <dd class="my-1"><a class="text-secondary" href="/tos?utm_source=sf-footer" target="_blank">服务条款</a></dd>
+                                <dd class="my-1"><a class="text-secondary" href="/privacy?utm_source=sf-footer" target="_blank">隐私政策</a></dd>
+                                <dd class="my-1">
+                    <a class="text-secondary" href="/app?utm_source=sf-footer">下载 App</a>
+                </dd>
+                <dd class="my-1">
+                    <div class="weixin-qrcode ml-n1" title="微信公众号"></div>
+                </dd>
+            </dl>
+        </div>
+        <hr class="mt-2 mb-4" />
+        <div class="row">
+            <div class="col-md-8">
+                <div class="text-secondary">
+                    <p class="mb-1">Copyright © 2011-2020 SegmentFault.</p>
+                    <p class="mb-1">
+                        <a class="text-secondary mr-2" target="_blank" href="http://beian.miit.gov.cn" rel="nofollow">浙ICP备15005796号-2</a>
+                        <a class="text-secondary mr-2" target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602002000" rel="nofollow">浙公网安备33010602002000号</a>
+                        杭州堆栈科技有限公司版权所有
+                    </p>
+                    <div style="width: 100px">
+                        <a id="seal_knowsafe" href="https://www.knowsafe.com" sid="fa5bfd40493bf2d889a06f32db929207" slang="zh" sdomain="https://seal.knowsafe.com" target="_blank" style="display: none;">iTrust</a><script src="https://seal.knowsafe.com/static/js/itrustcert.js" charset="utf-8" type="text/javascript"></script><a target="_blank" href="https://seal.knowsafe.com/seal/itrustcert?id=fa5bfd40493bf2d889a06f32db929207&amp;lang=zh" title="iTrust"><img style="width: 114px; height: 40px;" border="0" src="https://seal.knowsafe.com/seal/certimg?id=fa5bfd40493bf2d889a06f32db929207&amp;lang=zh" /></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-right">
+                <div class="shareContent ">
+                <a class="share_weixin" data-share="weixin" href="javascript:;" data-original-title="" title=""><svg class="svg-inline--fa fa-weixin fa-w-18 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="weixin" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M385.2 167.6c6.4 0 12.6.3 18.8 1.1C387.4 90.3 303.3 32 207.7 32 100.5 32 13 104.8 13 197.4c0 53.4 29.3 97.5 77.9 131.6l-19.3 58.6 68-34.1c24.4 4.8 43.8 9.7 68.2 9.7 6.2 0 12.1-.3 18.3-.8-4-12.9-6.2-26.6-6.2-40.8-.1-84.9 72.9-154 165.3-154zm-104.5-52.9c14.5 0 24.2 9.7 24.2 24.4 0 14.5-9.7 24.2-24.2 24.2-14.8 0-29.3-9.7-29.3-24.2.1-14.7 14.6-24.4 29.3-24.4zm-136.4 48.6c-14.5 0-29.3-9.7-29.3-24.2 0-14.8 14.8-24.4 29.3-24.4 14.8 0 24.4 9.7 24.4 24.4 0 14.6-9.6 24.2-24.4 24.2zM563 319.4c0-77.9-77.9-141.3-165.4-141.3-92.7 0-165.4 63.4-165.4 141.3S305 460.7 397.6 460.7c19.3 0 38.9-5.1 58.6-9.9l53.4 29.3-14.8-48.6C534 402.1 563 363.2 563 319.4zm-219.1-24.5c-9.7 0-19.3-9.7-19.3-19.6 0-9.7 9.7-19.3 19.3-19.3 14.8 0 24.4 9.7 24.4 19.3 0 10-9.7 19.6-24.4 19.6zm107.1 0c-9.7 0-19.3-9.7-19.3-19.6 0-9.7 9.7-19.3 19.3-19.3 14.5 0 24.4 9.7 24.4 19.3.1 10-9.9 19.6-24.4 19.6z"/></svg><!-- <i class="fab fa-weixin fa-fw"></i> --> </a><a class="share_weibo" data-share="weibo" href="http://weibo.com/segmentfault" target="_blank"><svg class="svg-inline--fa fa-weibo fa-w-16 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="weibo" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg><!-- <i class="fab fa-weibo fa-fw"></i> --> </a><a class="share_github" data-share="github" href="https://github.com/SegmentFault" target="_blank"><svg class="svg-inline--fa fa-github fa-w-16 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-fa-i2svg=""><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg><!-- <i class="fab fa-github fa-fw"></i> --> </a><a class="share_twitter" data-share="twitter" href="https://twitter.com/segment_fault" target="_blank"><svg class="svg-inline--fa fa-twitter fa-w-16 fa-fw" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg><!-- <i class="fab fa-twitter fa-fw"></i> --> </a></div>
+            </div>
+        </div>
+    </div>
+</footer>
+                    
+<script>
+  window.serverTime = 1608825811000;
+</script>
+
+<script>
+  (function (w) {
+    w.SF = {
+      staticUrl: "https://assets.segmentfault.com/v-5fdaf840/"
+    };
+    w.SF.token = (function () {
+    var _2DikyK = ''///*'U'*/'U'
++//'D'
+'D'+//'W'
+'W'+//'tM'
+'5'+//'mO'
+'68'+//'A'
+'6'+'0'//'H'
++//'4'
+'660'+//'YD'
+'YD'+//'5b'
+'b3'+'e09'//'ROI'
++'c'//'G'
++'c'//'PK6'
++'b7'//'e'
++//'0X'
+'5'+'899'//'m'
++'e2'//'uci'
++//'xaw'
+'5'+//'w3a'
+'841'+//'VGu'
+'8'+'99e'//'AV'
++'f'//'4B'
+, _CikVdA1 = [[0,1],[0,1],[8,10]];
+
+    for (var i = 0; i &lt; _CikVdA1.length; i ++) {
+        _2DikyK = _2DikyK.substring(0, _CikVdA1[i][0]) + _2DikyK.substring(_CikVdA1[i][1]);
+    }
+
+    return _2DikyK;
+})();;
+
+        })(window);
+
+        var lock = {
+    type: "",
+    text: '',
+    table: {"ban_post":[1,"\u4f60\u5df2\u7ecf\u88ab\u7981\u8a00, \u65e0\u6cd5\u8fdb\u884c\u6b64\u64cd\u4f5c, \u5982\u6709\u7591\u4e49\u8bf7\u63d0\u4ea4\u7533\u8bc9, \u6216\u8005\u53d1\u90ae\u4ef6\u5230pr@segmentfault.com"]}
+  };
+
+    var ddosMode = false;
+  
+    (function (currentUrl) {
+    if (typeof URL != 'undefined') {
+      var baseUrl = new URL('https://segmentfault.com');
+
+      if (baseUrl.protocol != currentUrl.protocol || baseUrl.host != currentUrl.host) {
+        window.location.href = baseUrl.protocol + '//' + baseUrl.host
+          + currentUrl.pathname + currentUrl.search + currentUrl.hash;
+      }
+    }
+  })(window.location);
+  </script>
+
+<script src="https://assets.segmentfault.com/v-5fdaf840/js/jquery.js"></script>
+<script src="https://assets.segmentfault.com/v-5fdaf840/js/vendors.js"></script>
+  <script src="https://assets.segmentfault.com/v-5fdaf840/js/detail.bundle.js"></script>
+
+    <script>
+      if (!!navigator.userAgent.match(/MicroMessenger/i)) {
+        $.getScript(`https://res.wx.qq.com/open/js/jweixin-1.2.0.js`, function () {
+          var share = {"title":"\u7528FileZilla\u642d\u5efaFTP\u670d\u52a1\u5668\u53ca\u76f8\u5173\u95ee\u9898","desc":"\u56e0\u4e3a\u5728\u62f7\u8d1d\u67d0\u4e9b\u5927\u6587\u4ef6\u7684\u65f6\u5019\uff0cWindows\u7cfb\u7edf\u4f1a\u6709\u9650\u5236\uff0c\u7ecf\u5e38\u62f7\u8d1d\u5931\u8d25\uff0c\u6b64\u65f6\u53ef\u8003\u8651\u4f7f\u7528FTP Server\u6765\u89e3\u51b3\u6587\u4ef6\u7684\u4f20\u8f93\u95ee\u9898\uff0c\u8fd9\u91cc\u9009\u62e9\u5f00\u6e90\u7684FileZilla\uff0c\u4e13\u4e1a\u5b9e\u7528\u5feb\u6377\u3002\u7248\u672c\u6ca1\u6709\u5f3a\u5236\u8981\u6c42\uff0c\u6839\u636e\u81ea\u8eab\u60c5\u51b5\u9009\u62e9\u3002","link":"https:\/\/segmentfault.com\/a\/1190000009033181","imgUrl":"https:\/\/segmentfault.com\/img\/bVbtMTO?w=502&amp;amp;h=391"};
+          share.title += ' - SegmentFault 思否';
+          share.imgUrl = "https://assets.segmentfault.com/v-5fdaf840/global/img/static/touch-icon.png";
+          $.getJSON('/api/util/weixin/jsapi', function (o) {
+            methods = o.data.jsApiList.slice();
+
+            wx.config(o.data);
+            wx.error(console.error);
+            wx.ready(function () {
+              methods.forEach(function (method) {
+                wx[method](share);
+              });
+            });
+          });
+        })
+      }
+    </script>
+
+<script>
+  var _hmt = _hmt || [];
+  (function () {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e23800c454aa573c0ccb16b52665ac26";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+<iframe id="p_analyse_iframe" src="https://cookie.pingxx.com/?puid=oz2SrlNK6U13JEEORubG9W8J1FWoKY4v" style="display: none;"></iframe>
+    <div class="is-active ImageView p-4" style="display: none;">
+        <div class="ImageView-inner" style="overflow: auto;">
+            <img src="" class="ImageView-img" alt="preview" style="max-width: 100%" />
+        </div>
+    </div><div id="fixedTools" class="position-fixed d-none" style="right: 24px; bottom: 24px">
+            <button type="button" class="btn btn-light" title="回顶部">▲</button>
+        </div><div id="atwho-container"><div id="atwho-ground-04088e5a1608825822725"><div class="atwho-view" id="at-view-64"><ul class="atwho-view-ul"></ul></div></div></div><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_2_anchor" style="display:block;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><iframe id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" src="https://googleads.g.doubleclick.net/pagead/ads?guci=2.2.0.0.2.2.0.0&amp;client=ca-pub-6330872677300335&amp;output=html&amp;adk=1812271804&amp;adf=3025194257&amp;lmt=1608825831&amp;plat=1%3A8%2C2%3A8%2C9%3A32776%2C10%3A32%2C11%3A32%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1048576%2C32%3A32%2C40%3A32&amp;format=0x0&amp;url=https%3A%2F%2Fsegmentfault.com%2Fa%2F1190000009033181&amp;ea=0&amp;flash=0&amp;pra=7&amp;wgl=1&amp;tt_state=W3siaXNzdWVyT3JpZ2luIjoiaHR0cHM6Ly9hZHNlcnZpY2UuZ29vZ2xlLmNvbSIsInN0YXRlIjowfSx7Imlzc3Vlck9yaWdpbiI6Imh0dHBzOi8vYXR0ZXN0YXRpb24uYW5kcm9pZC5jb20iLCJzdGF0ZSI6MH1d&amp;dt=1608825830927&amp;bpp=2&amp;bdt=13061&amp;idt=127&amp;shv=r20201203&amp;cbv=r20190131&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;prev_fmts=728x90%2C300x250&amp;nras=1&amp;correlator=5275204604335&amp;frm=20&amp;pv=1&amp;ga_vid=1223960144.1608825827&amp;ga_sid=1608825831&amp;ga_hid=1662524963&amp;ga_fc=0&amp;u_tz=480&amp;u_his=2&amp;u_java=0&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_nplug=3&amp;u_nmime=4&amp;adx=-12245933&amp;ady=-12245933&amp;biw=912&amp;bih=889&amp;scr_x=0&amp;scr_y=0&amp;eid=21066432%2C21066923%2C21068768&amp;oid=3&amp;pvsid=1454073520289701&amp;pem=255&amp;rx=0&amp;eae=2&amp;fc=896&amp;brdim=10%2C10%2C10%2C10%2C1920%2C0%2C945%2C1020%2C929%2C889&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=8200&amp;bc=31&amp;ifi=2&amp;uci=a!2&amp;fsb=1&amp;dtd=135" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!2" data-load-complete="true"></iframe></ins></ins></ins><iframe id="google_osd_static_frame_6010749079179" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body><iframe id="google_esf" name="google_esf" src="https://googleads.g.doubleclick.net/pagead/html/r20201203/r20190131/zrt_lookup.html#" data-ad-client="ca-pub-6330872677300335" style="display: none;"></iframe></html>
