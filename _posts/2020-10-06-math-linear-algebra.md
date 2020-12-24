@@ -73,12 +73,35 @@ $$
 ## toP10
 
 
+## 编程与线性代数
+
+模型的作用就是把一部分复杂性隐藏到模型中，使得模型的使用者可以更加简单地解决问题。曾经有人质疑 C++ 太复杂，C++ 之父 Bjarne Stroustrup 这样回答：
+
+> Complexity will go somewhere: if not the language then the application code.
+
+线性代数的核心：向量模型。给定三维坐标系中的一点 $$(x_0, y_0, z_0)$$ 和一个平面 $$a*x + b*y + c*z + d = 0$$，求点到平面的垂直距离？
+
+{% include image.html url="/assets/images/201006-math-linear-algebra/rr3qru.jpeg" %}
+
+根据平面方程，平面的法向量 $$(Normal Vector)$$ 是 $$v=(a, b, c)$$，设从平面上任意一点 $$(x, y, z)$$ 到 $$(x_0, y_0, z_0)$$ 的向量为 $$w$$，
+那么通过内积 $$dot\_product(w, v)$$ 算出 $$w$$ 到 $$v$$ 的投影向量 $$p$$，其大小就是 $$(x_0, y_0, z_0)$$ 到平面 $$a*x + b*y + c*z + d = 0$$ 的垂直距离。
+这里用到了向量模型的基本概念：法向量，投影向量，内积，整个问题解决过程简洁明快。
+
+
 ## 参考
 
 - [1] [线性代数的本质 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1ys411472E)
+- [2] [數學對於程式設計來說重要嗎？程式設計大佬眼裡的線性代數](https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/637653/)
+- [3] [数学对于编程来说重要吗？编程眼里的线性代数](https://cloud.tencent.com/developer/news/319028)
+- [4] [编程大佬眼中的线性代数，到底是什么样的？](https://www.eet-china.com/mp/a24399.html)
+- [5] [编程与线性代数](https://www.sohu.com/a/283978289_701814)
 
 -----
 
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [1] [https://www.bilibili.com/video/BV1ys411472E]({% include relref.html url="/backup/2020-10-06-math-linear-algebra.md/www.bilibili.com/c113c40a.html" %})
+- [2] [https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/637653/]({% include relref.html url="/backup/2020-10-06-math-linear-algebra.md/codertw.com/12bf289a.html" %})
+- [3] [https://cloud.tencent.com/developer/news/319028]({% include relref.html url="/backup/2020-10-06-math-linear-algebra.md/cloud.tencent.com/a7a13242.html" %})
+- [4] [https://www.eet-china.com/mp/a24399.html]({% include relref.html url="/backup/2020-10-06-math-linear-algebra.md/www.eet-china.com/98597c33.html" %})
+- [5] [https://www.sohu.com/a/283978289_701814]({% include relref.html url="/backup/2020-10-06-math-linear-algebra.md/www.sohu.com/aba00d75.html" %})
