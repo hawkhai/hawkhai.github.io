@@ -21,8 +21,9 @@ cluster: "LearnOpenGL"
 
 {% include image.html url="/assets/images/201224-shader-opengl-lighting-~55/shadow_mapping_theory_spaces.png" %}
 
+阴影是怎么算出来的？
 通过移动视口到光源位置，可以观察到这个位置每个东西都是明亮的，因为从光的角度来看是没有阴影的。
-从光源的角度将场景的深度渲染到一张深度缓冲区中，我们可以在场景中获得一张阴影或者无阴影的贴图，一张阴影贴图。
+从光源的角度将场景的深度渲染到一张深度缓冲区中，我们可以在场景中获得一张阴影贴图，真正绘制的时候根据其深度值判断是否在阴影中。
 
 高级光照阴影 ShadowMapping，实在没看透彻，源码抄了一遍，才透彻了。**这一章节应该是到目前为止最难的了。**[原文 {% include relref_github.html %}](https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/) 写的非常好，就是有点难懂。
 
