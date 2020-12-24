@@ -4,7 +4,7 @@ title: "特效编程笔记 -- 编程与线性代数 "
 author:
 location: "珠海"
 categories: ["特效"]
-tags: ["特效", "OpenGL", "数学"]
+tags: ["数学"]
 toc: true
 toclistyle:
 comments:
