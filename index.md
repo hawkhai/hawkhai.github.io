@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Blog
+title: 博客笔记
 author:
 location:
 categories:
