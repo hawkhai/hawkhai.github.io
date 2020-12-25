@@ -126,6 +126,16 @@ codeprint:
 冈萨雷斯《数字图像处理》RafaelC.Gonzalez
 
 
+### Python 徒手实现识别手写数字
+
+这个 demo 还勉强不错的。
+
+* https://zhuanlan.zhihu.com/p/30120447
+* https://zhuanlan.zhihu.com/p/32996841
+* https://zhuanlan.zhihu.com/p/30590235
+* https://zhuanlan.zhihu.com/p/30212013
+
+
 ### 一堆复习笔记
 
 * [数字图像处理学习笔记](http://zuzhiang.cn/2019/09/24/DIP/)
@@ -236,32 +246,36 @@ codeprint:
 - [18] [https://github.com/iwuqing/Digital-Image-Processing]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/15f2c7ed.html" %})
 - [19] [https://github.com/MAhaitao999/digital_image_processing]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/7ec74c4a.html" %})
 - [20] [https://github.com/ljy9826/Digital-Image-Processing_code]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/0f2ed824.html" %})
-- [21] [http://zuzhiang.cn/2019/09/24/DIP/]({% include relref.html url="/backup/2020-09-27-dip-samples.md/zuzhiang.cn/9f0716fa.html" %})
-- [22] [https://a-suozhang.xyz/2019/09/06/Diigital-Image-Procss/]({% include relref.html url="/backup/2020-09-27-dip-samples.md/a-suozhang.xyz/d17c66dc.html" %})
-- [23] [https://www.jianshu.com/p/926d6c15dbf9]({% include relref.html url="/backup/2020-09-27-dip-samples.md/www.jianshu.com/cabe0955.html" %})
-- [24] [https://blog.csdn.net/u011178262/article/details/79067643]({% include relref.html url="/backup/2020-09-27-dip-samples.md/blog.csdn.net/d7aad285.html" %})
-- [25] [https://blog.csdn.net/sunshine_lyn/article/details/85400015]({% include relref.html url="/backup/2020-09-27-dip-samples.md/blog.csdn.net/214b1181.html" %})
-- [26] [https://blog.csdn.net/weixin_37625243/article/details/102556940]({% include relref.html url="/backup/2020-09-27-dip-samples.md/blog.csdn.net/67ada943.html" %})
-- [27] [https://github.com/tesfagabir/Digital-Image-Processing/blob/master/01-Implementing-Discrete-Fourier-Transform-Using-Python.ipynb]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/fbe3fa6d.ipynb" %})
-- [28] [https://github.com/tesfagabir/Digital-Image-Processing/blob/master/02-Implementing-Fast-Fourier-Transform-Using-Python.ipynb]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/f116888c.ipynb" %})
-- [29] [https://github.com/mohammaduzair9/Basic-Image-Processing]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/110f6b2d.html" %})
-- [30] [https://github.com/histolab/histolab]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/8c9935a8.html" %})
-- [31] [https://github.com/sunnyshah2894/DigitalHairRemoval]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/90be912e.html" %})
-- [32] [https://github.com/Nagakiran1/4-simple-steps-in-Builiding-OCR]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/96f537de.html" %})
-- [33] [https://github.com/thisismyjam/jam-image-filter]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/69e9af72.html" %})
-- [34] [https://github.com/fish2000/instakit]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/4560b447.html" %})
-- [35] [https://github.com/tody411/GuidedFilter]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/640e9b83.html" %})
-- [36] [https://github.com/FerryYoungFan/FanselineImageToolbox]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/8fc91886.html" %})
-- [37] [https://github.com/PerpetualSmile/BeautyCamera]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/fa004f53.html" %})
-- [38] [https://github.com/Ssssix40/Cameo1.1/blob/master/filters.py]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/5c0de854.py" %})
-- [39] [https://github.com/tranleanh/wiener-filter-image-restoration]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/e075a6d5.html" %})
-- [40] [https://github.com/vikasgola/image-filtering]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/c76332a5.html" %})
-- [41] [https://github.com/JNingWei/Image_Filter]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/e22166be.html" %})
-- [42] [https://www.cnblogs.com/sopic/p/4537718.html]({% include relref.html url="/backup/2020-09-27-dip-samples.md/www.cnblogs.com/1121165d.html" %})
-- [43] [https://www.cnblogs.com/sopic/p/4538052.html]({% include relref.html url="/backup/2020-09-27-dip-samples.md/www.cnblogs.com/2f2e4ebe.html" %})
-- [44] [https://zhuanlan.zhihu.com/p/62737338]({% include relref.html url="/backup/2020-09-27-dip-samples.md/zhuanlan.zhihu.com/a05596ef.html" %})
-- [45] [https://www.cnblogs.com/sopic/p/4665946.html]({% include relref.html url="/backup/2020-09-27-dip-samples.md/www.cnblogs.com/a5e9a3be.html" %})
-- [46] [https://www.bilibili.com/video/BV1tx41147Tx]({% include relref.html url="/backup/2020-09-27-dip-samples.md/www.bilibili.com/57d122ce.html" %})
-- [47] [https://www.cnblogs.com/36bian/p/7609304.html]({% include relref.html url="/backup/2020-09-27-dip-samples.md/www.cnblogs.com/9c1872d6.html" %})
-- [48] [https://www.cnblogs.com/-wenli/p/11744405.html]({% include relref.html url="/backup/2020-09-27-dip-samples.md/www.cnblogs.com/98804d9b.html" %})
-- [49] [https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima]({% include relref.html url="/backup/2020-09-27-dip-samples.md/chrome.google.com/b204bb6b.html" %})
+- [21] [https://zhuanlan.zhihu.com/p/30120447]({% include relref.html url="/backup/2020-09-27-dip-samples.md/zhuanlan.zhihu.com/ab62cffa.html" %})
+- [22] [https://zhuanlan.zhihu.com/p/32996841]({% include relref.html url="/backup/2020-09-27-dip-samples.md/zhuanlan.zhihu.com/3d3fbae2.html" %})
+- [23] [https://zhuanlan.zhihu.com/p/30590235]({% include relref.html url="/backup/2020-09-27-dip-samples.md/zhuanlan.zhihu.com/dfa67855.html" %})
+- [24] [https://zhuanlan.zhihu.com/p/30212013]({% include relref.html url="/backup/2020-09-27-dip-samples.md/zhuanlan.zhihu.com/abf47696.html" %})
+- [25] [http://zuzhiang.cn/2019/09/24/DIP/]({% include relref.html url="/backup/2020-09-27-dip-samples.md/zuzhiang.cn/9f0716fa.html" %})
+- [26] [https://a-suozhang.xyz/2019/09/06/Diigital-Image-Procss/]({% include relref.html url="/backup/2020-09-27-dip-samples.md/a-suozhang.xyz/d17c66dc.html" %})
+- [27] [https://www.jianshu.com/p/926d6c15dbf9]({% include relref.html url="/backup/2020-09-27-dip-samples.md/www.jianshu.com/cabe0955.html" %})
+- [28] [https://blog.csdn.net/u011178262/article/details/79067643]({% include relref.html url="/backup/2020-09-27-dip-samples.md/blog.csdn.net/d7aad285.html" %})
+- [29] [https://blog.csdn.net/sunshine_lyn/article/details/85400015]({% include relref.html url="/backup/2020-09-27-dip-samples.md/blog.csdn.net/214b1181.html" %})
+- [30] [https://blog.csdn.net/weixin_37625243/article/details/102556940]({% include relref.html url="/backup/2020-09-27-dip-samples.md/blog.csdn.net/67ada943.html" %})
+- [31] [https://github.com/tesfagabir/Digital-Image-Processing/blob/master/01-Implementing-Discrete-Fourier-Transform-Using-Python.ipynb]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/fbe3fa6d.ipynb" %})
+- [32] [https://github.com/tesfagabir/Digital-Image-Processing/blob/master/02-Implementing-Fast-Fourier-Transform-Using-Python.ipynb]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/f116888c.ipynb" %})
+- [33] [https://github.com/mohammaduzair9/Basic-Image-Processing]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/110f6b2d.html" %})
+- [34] [https://github.com/histolab/histolab]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/8c9935a8.html" %})
+- [35] [https://github.com/sunnyshah2894/DigitalHairRemoval]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/90be912e.html" %})
+- [36] [https://github.com/Nagakiran1/4-simple-steps-in-Builiding-OCR]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/96f537de.html" %})
+- [37] [https://github.com/thisismyjam/jam-image-filter]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/69e9af72.html" %})
+- [38] [https://github.com/fish2000/instakit]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/4560b447.html" %})
+- [39] [https://github.com/tody411/GuidedFilter]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/640e9b83.html" %})
+- [40] [https://github.com/FerryYoungFan/FanselineImageToolbox]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/8fc91886.html" %})
+- [41] [https://github.com/PerpetualSmile/BeautyCamera]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/fa004f53.html" %})
+- [42] [https://github.com/Ssssix40/Cameo1.1/blob/master/filters.py]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/5c0de854.py" %})
+- [43] [https://github.com/tranleanh/wiener-filter-image-restoration]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/e075a6d5.html" %})
+- [44] [https://github.com/vikasgola/image-filtering]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/c76332a5.html" %})
+- [45] [https://github.com/JNingWei/Image_Filter]({% include relref.html url="/backup/2020-09-27-dip-samples.md/github.com/e22166be.html" %})
+- [46] [https://www.cnblogs.com/sopic/p/4537718.html]({% include relref.html url="/backup/2020-09-27-dip-samples.md/www.cnblogs.com/1121165d.html" %})
+- [47] [https://www.cnblogs.com/sopic/p/4538052.html]({% include relref.html url="/backup/2020-09-27-dip-samples.md/www.cnblogs.com/2f2e4ebe.html" %})
+- [48] [https://zhuanlan.zhihu.com/p/62737338]({% include relref.html url="/backup/2020-09-27-dip-samples.md/zhuanlan.zhihu.com/a05596ef.html" %})
+- [49] [https://www.cnblogs.com/sopic/p/4665946.html]({% include relref.html url="/backup/2020-09-27-dip-samples.md/www.cnblogs.com/a5e9a3be.html" %})
+- [50] [https://www.bilibili.com/video/BV1tx41147Tx]({% include relref.html url="/backup/2020-09-27-dip-samples.md/www.bilibili.com/57d122ce.html" %})
+- [51] [https://www.cnblogs.com/36bian/p/7609304.html]({% include relref.html url="/backup/2020-09-27-dip-samples.md/www.cnblogs.com/9c1872d6.html" %})
+- [52] [https://www.cnblogs.com/-wenli/p/11744405.html]({% include relref.html url="/backup/2020-09-27-dip-samples.md/www.cnblogs.com/98804d9b.html" %})
+- [53] [https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima]({% include relref.html url="/backup/2020-09-27-dip-samples.md/chrome.google.com/b204bb6b.html" %})
