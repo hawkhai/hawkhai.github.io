@@ -1,6 +1,6 @@
 ---
 layout: bookshelf
-title: Bookshelf
+title: 书架
 author:
 location:
 categories:

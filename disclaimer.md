@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Disclaimer
+title: 免责声明
 author:
 location:
 categories:
