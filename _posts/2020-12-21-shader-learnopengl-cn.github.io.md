@@ -386,9 +386,9 @@ Code repository
 Translations
 About
 
-写绩效。
+看到这里，就基本上没看了：
 https://learnopengl-cn.github.io/
-05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/
+05%20Advanced%20Lighting/03%20Shadows/02%20Point%20Shadows/
 
 
 ## Refs

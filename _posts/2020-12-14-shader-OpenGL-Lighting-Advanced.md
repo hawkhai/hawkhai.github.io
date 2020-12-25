@@ -96,6 +96,12 @@ Gamma 校正是一个**上拱**的过程。
 
 ## 法线图贴
 
+伴随矩阵 (Adjugate Matrix)：
+
+$$
+\begin{bmatrix} T_x & T_y & T_z \\ B_x & B_y & B_z \end{bmatrix}  = \frac{1}{\Delta U_1 \Delta V_2 - \Delta U_2 \Delta V_1} \begin{bmatrix} \Delta V_2 & -\Delta V_1 \\ -\Delta U_2 & \Delta U_1 \end{bmatrix} \begin{bmatrix} E_{1x} & E_{1y} & E_{1z} \\ E_{2x} & E_{2y} & E_{2z} \end{bmatrix}
+$$
+
 
 ## Parallax Mapping 视差贴图
 
@@ -108,11 +114,18 @@ Gamma 校正是一个**上拱**的过程。
 
 ## Bloom
 
+{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/bloom.png" %}
+
 
 ## deferred shading 延迟渲染
 
 
 ## 屏幕空间环境光屏蔽 SSAO
+
+屏幕空间环境光遮蔽 (Screen-Space Ambient Occlusion, SSAO)。
+在 2007 年，Crytek 公司发布了一款叫做屏幕空间环境光遮蔽 (Screen-Space Ambient Occlusion, SSAO) 的技术，并用在了他们的看家作孤岛危机上。
+
+{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/ssao_overview.png" %}
 
 
 ## 参考资料

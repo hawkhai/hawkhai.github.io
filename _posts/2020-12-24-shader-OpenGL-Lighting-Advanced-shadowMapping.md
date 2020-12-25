@@ -123,6 +123,13 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 ```
 
 
+## 更高级形式
+
+点光源阴影，生成深度立方体贴图。
+
+{% include image.html url="/assets/images/201224-shader-opengl-lighting-~55/point_shadows.png" %}
+
+
 ## Refs
 
 - [1] [Shadow Mapping](https://learnopengl.com/Advanced-Lighting/Shadows/Shadow-Mapping)
