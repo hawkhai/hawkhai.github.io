@@ -90,7 +90,9 @@ stencilbuf[x,y] = (stencil_new_value & glStencilMask.mask) | (stencilbuf[x,y] & 
 ```cpp
 glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
 glStencilFunc(GL_ALWAYS, ref, mask);
+```
 
+```cpp
 glStencilOp(GL_KEEP, GL_REPLACE, GL_REPLACE);
 glStencilFunc(GL_NOTEQUAL, ref, mask);
 ```
