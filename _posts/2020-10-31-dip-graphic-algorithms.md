@@ -63,7 +63,7 @@ Intelligent algorithm to resize images maintaining the appearance of objects wit
 
 ## 杂物移除
 
-This algorithm is available both as a [Gimp](https://www.scriptol.com/design/gimp/removing-objects.php) plugin to install or in Photoshop.
+This algorithm is available both as a [Gimp {% include relref_scriptol.html %}](https://www.scriptol.com/design/gimp/removing-objects.php) plugin to install or in Photoshop.
 
 <http://www.logarithmic.net/pfh/resynthesizer>
 
@@ -72,14 +72,14 @@ This algorithm is available both as a [Gimp](https://www.scriptol.com/design/gim
 
 ## 合成照片
 
-This algorithm is implemented in the software [Sketch To Photo](https://www.scriptol.com/design/sketchtophoto.php). From the article, you can download the command line program.
+This algorithm is implemented in the software [Sketch To Photo {% include relref_scriptol.html %}](https://www.scriptol.com/design/sketchtophoto.php). From the article, you can download the command line program.
 
 {% include image.html url="/assets/images/201031-dip-graphic-algorithms/composition.jpg" %}
 
 
 ## 美容
 
-More information about this [esthetic trick algorithm](https://www.scriptol.com/programming/algorithm-pretty-face.php).
+More information about this [esthetic trick algorithm {% include relref_scriptol.html %}](https://www.scriptol.com/programming/algorithm-pretty-face.php).
 
 {% include image.html url="/assets/images/201031-dip-graphic-algorithms/pretty-face-algorithm.jpg" %}
 
@@ -112,16 +112,16 @@ pix2pix 来自卡内基梅隆大学的 Aayush Bansal 、Yaser Sheikh、Deva Rama
 
 [Animating a photo, a sketch](https://youtu.be/G63goXc5MyU). This algo of artificial intelligence makes the subject walk on a picture! Not available in a toolbox for now.
 
-[List of all algorithms](https://www.scriptol.com/programming/list-algorithms.php).
+[List of all algorithms {% include relref_scriptol.html %}](https://www.scriptol.com/programming/list-algorithms.php).
 
-[Creating a logo from a simple sketch](https://www.scriptol.com/design/gimp/logo.php).
+[Creating a logo from a simple sketch {% include relref_scriptol.html %}](https://www.scriptol.com/design/gimp/logo.php).
 
 [Image improvements](http://www.cs.huji.ac.il/~danix/). Demos of various algos for processing pictures to improve or restore them (the sources files are not linked).
 
 
 ## 参考
 
-* [Amazing algorithms to enhance or transform images](https://www.scriptol.com/programming/graphic-algorithms.php)
+* [Amazing algorithms to enhance or transform images {% include relref_scriptol.html %}](https://www.scriptol.com/programming/graphic-algorithms.php)
 * <http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html>
 
 -----

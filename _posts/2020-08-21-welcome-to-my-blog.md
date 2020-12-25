@@ -170,6 +170,10 @@ $$
 [域名标记 {% include relref_weixin.html %} 样例](weixin.qq.com)<br/>
 [域名标记 {% include relref_keqq.html %} 样例](ke.qq.com)<br/>
 
+[域名标记 {% include relref_scriptol.html %} 样例](scriptol.com)<br/>
+[域名标记 {% include relref_khronos.html %} 样例](khronos.org)<br/>
+[域名标记 {% include relref_gluon.html %} 样例](gluon.ai)<br/>
+
 
 ## log
 

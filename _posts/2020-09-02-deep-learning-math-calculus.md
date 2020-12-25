@@ -154,7 +154,7 @@ $$\int_{x}^{y}f(x)dx=F(x)-F(y)$$
 ## 参考
 
 <div id="refer-anchor-1"></div>
-- [1] [《动手学深度学习》](http://zh.gluon.ai/)
+- [1] [《动手学深度学习》 {% include relref_gluon.html %}](http://zh.gluon.ai/)
 - [2] [微积分入门 {% include relref_cnblogs.html %}](https://www.cnblogs.com/knife-rose/p/12120373.html)
 - [3] [Html 转 MarkDown](http://www.fly63.com/tool/htmarkdown/)
 - [4] [线性代数入门 {% include relref_cnblogs.html %}](https://www.cnblogs.com/knife-rose/p/12107204.html)

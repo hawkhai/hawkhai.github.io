@@ -89,7 +89,7 @@ caption= "利用 gpu 渲染一个巨人的图像" %}
         * OpenGL example - Indexed triangle rendering
         * <https://learnopengl-cn.github.io/04%20Advanced%20OpenGL/08%20Advanced%20GLSL/#uniform>
         * [Unform Buffer Objecct(UBO) {% include relref_cnblogs.html %}](https://www.cnblogs.com/chen9510/p/11447292.html)
-        * [Uniform Buffer Object](https://www.khronos.org/opengl/wiki/Uniform_Buffer_Object)
+        * [Uniform Buffer Object {% include relref_khronos.html %}](https://www.khronos.org/opengl/wiki/Uniform_Buffer_Object)
         * error LNK2019: 无法解析的外部符号 _stbi_load -> 需要在 #include <stb_image.h> 前增加一句 #define STB_IMAGE_IMPLEMENTATION。
 
 {% include image.html url="/assets/images/201111-shader-opengl-intro/computeshaderparticlesystem.gif" %}

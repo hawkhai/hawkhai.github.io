@@ -19,6 +19,9 @@ linktagli = (("{% include relref_bili.html %}]",    "bilibili]", "bilibili", "bi
              ("{% include relref_wiki.html %}]",    "wiki]",     "wiki",     "wikipedia.org"),
              ("{% include relref_weixin.html %}]",  "weixin]",   "weixin",   "weixin.qq.com"),
              ("{% include relref_keqq.html %}]",    "keqq]",     "keqq",     "ke.qq.com"),
+             ("{% include relref_scriptol.html %}]","scriptol]", "scriptol", "scriptol.com"),
+             ("{% include relref_khronos.html %}]", "khronos]",  "khronos",  "khronos.org"),
+             ("{% include relref_gluon.html %}]",   "gluon]",    "gluon",    "gluon.ai"),
             )
 
 def isHostIgnore(hostk):

@@ -227,7 +227,7 @@ $$
 ## 参考
 
 <div id="refer-anchor-1"></div>
-- [1] [《动手学深度学习》](http://zh.gluon.ai/)
+- [1] [《动手学深度学习》 {% include relref_gluon.html %}](http://zh.gluon.ai/)
 - [2] <https://ww2.mathworks.cn/help/matlab/ref/norm.html>
 - [3] <https://mathpix.com/><sup>图片转公式貌似要收钱</sup>
 - [4] [NumPy 范数计算](http://liao.cpython.org/numpy11/)

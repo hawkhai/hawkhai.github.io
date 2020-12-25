@@ -773,10 +773,10 @@ void main (void) {
 
 ## 参考
 
-- [OpenGL-ES-2_0-Reference-card.pdf](https://www.khronos.org/opengles/sdk/docs/reference_cards/OpenGL-ES-2_0-Reference-card.pdf)
-- [OpenGL® ES Common Profile Specification Version 2.0.25 (Full Specification)](https://www.khronos.org/registry/OpenGL/specs/es/2.0/es_full_spec_2.0.pdf)
-- [The OpenGL® ES Shading Language](https://www.khronos.org/registry/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf)
-- [The OpenGL® Shading Language](https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.1.20.pdf)
+- [OpenGL-ES-2_0-Reference-card.pdf {% include relref_khronos.html %}](https://www.khronos.org/opengles/sdk/docs/reference_cards/OpenGL-ES-2_0-Reference-card.pdf)
+- [OpenGL® ES Common Profile Specification Version 2.0.25 (Full Specification) {% include relref_khronos.html %}](https://www.khronos.org/registry/OpenGL/specs/es/2.0/es_full_spec_2.0.pdf)
+- [The OpenGL® ES Shading Language {% include relref_khronos.html %}](https://www.khronos.org/registry/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf)
+- [The OpenGL® Shading Language {% include relref_khronos.html %}](https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.1.20.pdf)
 - [OpenGL ES 开篇 {% include relref_github.html %}](http://colin1994.github.io/2017/04/01/OpenGLES-Lesson00/)
 - [OpenGL ES 基础概念 {% include relref_github.html %}](http://colin1994.github.io/2017/04/01/OpenGLES-Lesson01/)
 - [OpenGL ES 渲染基本图元 {% include relref_github.html %}](http://colin1994.github.io/2017/04/18/OpenGLES-Lesson03/)
