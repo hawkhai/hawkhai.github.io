@@ -1109,6 +1109,8 @@ source1 点积 source2
 
 **wave_type**
 
+波形：sine 正弦，triangle 三角，square 方形，sawtooth 锯齿，inverse_sawtooth 反锯齿。
+
 **sine**
 
 典型的正弦波，在最小值和最大值之间平稳地循环。
@@ -1127,13 +1129,15 @@ source1 点积 source2
 
 **inverse_sawtooth**
 
-经过一段时间，从最大逐渐持续减少到最小，最后又立即返回最大。::**base**
+经过一段时间，从最大逐渐持续减少到最小，最后又立即返回最大。
+
+**base**
 
 基值，如果 amplitude &gt; 0 就是指最小值，amplitdue &lt; 0 就是指最大值。
 
 **frequency**
 
-波每秒重复的次数，即速度。
+频率，波每秒重复的次数，即速度。
 
 **phase**
 
@@ -1141,7 +1145,7 @@ source1 点积 source2
 
 **amplitude**
 
-波的大小。
+波的大小。幅度（可负）。
 
 波的输出范围在 {base, base+amplitude}。所以，以在 x 方向调整纹理为例，沿正弦波方向从 1（标准值）调整到 5，即表示每 5 秒一个周期（每秒 0.2 个波）。
 
