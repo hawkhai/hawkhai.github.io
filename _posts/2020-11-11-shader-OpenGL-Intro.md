@@ -45,7 +45,7 @@ cluster: "LearnOpenGL"
 2000 年，第一款支持可编程像素着色器的显卡 Nvidia GeForce 3（NV20）问世。Direct3D 10 和 OpenGL 3.2 则引入了几何着色器。
 
 {% include image.html url="/assets/images/201111-shader-opengl-intro/faa27c0e4a3a4b7eb3436c016ce606f1.jpeg"
-caption= "利用 gpu 渲染一个巨人的图像" %}
+caption="利用 gpu 渲染一个巨人的图像" %}
 
 [计算机图形学 OPENGL 入门 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1px41197A5)
 

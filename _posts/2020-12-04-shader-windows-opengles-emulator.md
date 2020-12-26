@@ -47,13 +47,13 @@ Khronos 是 OpenGL，OpenGL ES，OpenVG 和 EGL 等规范的定义者。
 {% include image.html url="/assets/images/201204-shader-windows-opengles~87/1909670-c54245befab0e77c.webp" %}
 
 {% include image.html url="/assets/images/201204-shader-windows-opengles~87/1909670-1190f4934b884c90.webp"
-caption=" 图形处理的一般流程 " %}
+caption="图形处理的一般流程" %}
 
 {% include image.html url="/assets/images/201204-shader-windows-opengles~87/1909670-20d2b8256bdd054e.webp"
-caption=" OpenGL ES 2.0 的可编程管线 " %}
+caption="OpenGL ES 2.0 的可编程管线" %}
 
 {% include image.html url="/assets/images/201204-shader-windows-opengles~87/1909670-16aeb651d6c99957.webp"
-caption=" 坐标系统 " %}
+caption="坐标系统" %}
 
 
 ## OpenGL ES Emulator 横向比较

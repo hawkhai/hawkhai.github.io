@@ -21,12 +21,12 @@ cluster: "LearnOpenGL"
 
 * 在镜面光分量上，当视线与反射光向量夹角大于 90° 时，镜面光值将会变为 0，在反光度非常小的情况下，会产生较明显的边界情况。
 
-{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/advanced_lighting_over_90.png" caption=" 镜面光临界情况 "%}
+{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/advanced_lighting_over_90.png" caption="镜面光临界情况" %}
 
 
 ## Blinn-Phong 光照
 
-{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/advanced_lighting_halfway_vector.png" caption=" 镜面光临界情况 "%}
+{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/advanced_lighting_halfway_vector.png" caption="镜面光临界情况" %}
 
 * Blinn-Phong 光照模型是建立在冯氏光照模型的基础上对镜面光计算进行修改的算法，Blinn-Phong 模型不再依赖于反射向量，而是采用了半程向量 (Halfway Vector)，
 即光线与视线夹角一半方向上的一个单位向量。当半程向量与法线向量越接近时，镜面光分量就越大。
@@ -63,7 +63,7 @@ void main()
 }
 ```
 
-{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/advanced_lighting_comparrison.png" caption=" 模型效果比较 "%}
+{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/advanced_lighting_comparrison.png" caption="模型效果比较" %}
 
 
 ## gamma 校正原理

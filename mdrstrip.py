@@ -135,7 +135,7 @@ def backupUrlContent(fpath, url):
     touchSnapCache(umd5[:8], slocal)
 
     if not slocal.split(".")[-1] in ("pdf", "html", "git", "php", "c", "phtml", "cpp", "htm", "shtm",
-                                     "ipynb", "py", "asp",):
+                                     "ipynb", "py", "asp", "shtml",):
         print(fpath, url)
         assert False, slocal
     return remote
@@ -456,6 +456,8 @@ def mainfile(fpath, fname, ftype):
 
         for itmp in ('"Web前端"',):
             linec = linec.replace(itmp, "\"\"")
+
+        linec = linec.replace('caption="', 'caption=" ')
 
         lix1 = re.findall("[{}][^{} *]".format(cnregex, cnregex), linec, re.IGNORECASE)
         lix2 = re.findall("[^{} *][{}]".format(cnregex, cnregex), linec, re.IGNORECASE)
