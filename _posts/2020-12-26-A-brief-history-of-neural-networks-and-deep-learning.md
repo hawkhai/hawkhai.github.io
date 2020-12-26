@@ -15,6 +15,10 @@ glslcanvas:
 codeprint:
 ---
 
+Andrey Kurenkov
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/failures.png" %}
+
 
 ## 从感知机到 BP 算法 (1950s-1980s)
 
@@ -169,15 +173,18 @@ codeprint:
 
 ### 后记：现状
 
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/118309788_31_2017120708490293.jpg" caption="LTSM RNNs 的死灰复燃以及分布式表征的代表" %}
+
 
 ## 参考
 
 - [1] [深度｜神经网络和深度学习简史（第一部分）：从感知机到 BP 算法 {% include relref_jianshu.html %}](https://www.jianshu.com/p/f90d923b73b5)
 - [2] [深度｜神经网络和深度学习简史（第二部分）：BP 算法之后的又一突破 —— 信念网络 {% include relref_jianshu.html %}](https://www.jianshu.com/p/9dc4c2320732)
 - [3] [深度｜神经网络和深度学习简史（第三部分）：90 年代的兴衰 —— 强化学习与递归神经网络 {% include relref_jianshu.html %}](https://www.jianshu.com/p/5db8170d4bcb)
-- [4] [深度｜神经网络和深度学习简史第四部分：深度学习终迎伟大复兴 {% include relref_jianshu.html %}](https://www.jianshu.com/p/e1bac195f06d)
+- [4] [深度｜神经网络和深度学习简史（第四部分）：深度学习终迎伟大复兴 {% include relref_jianshu.html %}](https://www.jianshu.com/p/e1bac195f06d)
 - [5] <http://www.360doc.com/content/17/1207/08/1609415_710706921.shtml>
 - [6] <https://www.skynettoday.com/overviews/neural-net-history>
+- [7] <https://www.andreykurenkov.com/writing/life/lessons-learned-from-failures/>
 
 -----
 
@@ -189,3 +196,4 @@ codeprint:
 - [4] [https://www.jianshu.com/p/e1bac195f06d]({% include relref.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.jianshu.com/f80ec7b0.html" %})
 - [5] [http://www.360doc.com/content/17/1207/08/1609415_710706921.shtml]({% include relref.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.360doc.com/68c30233.shtml" %})
 - [6] [https://www.skynettoday.com/overviews/neural-net-history]({% include relref.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.skynettoday.com/3fb22ab6.html" %})
+- [7] [https://www.andreykurenkov.com/writing/life/lessons-learned-from-failures/]({% include relref.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.andreykurenkov.com/8920000a.html" %})
