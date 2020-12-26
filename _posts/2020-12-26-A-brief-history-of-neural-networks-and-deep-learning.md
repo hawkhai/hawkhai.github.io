@@ -84,11 +84,90 @@ codeprint:
 
 {% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-4d3633f89c7f2fda.webp" caption="聚类，一种很常用的非监督式学习应用" %}
 
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-398f4d3580c1a683.webp" caption="自组织映射神经网络" %}
+
+自组织映射神经网络：将输入的一个大向量映射到一个神经输出的网格中，在其中，每个输出都是一个聚类。相邻的神经元表示同样的聚类。
+
+
+### 神经网络迎来信念网络
+
+玻尔兹曼机器就是类似神经网络的网络，并有着和感知器（Perceptrons）非常相似的单元，但该机器并不是根据输入和权重来计算输出，在给定相连单元值和权重的情况下，网络中的每个单元都能计算出自身概率，取得值为 1 或 0。
+因此，这些单元都是随机的 —— 它们依循的是概率分布而非一种已知的决定性方式。
+玻尔兹曼部分和概率分布有关，它需要考虑系统中粒子的状态，这些状态本身基于粒子的能量和系统本身的热力学温度。
+这一分布不仅决定了玻尔兹曼机器的数学方法，也决定了其推理方法 —— 网络中的单元本身拥有能量和状况，学习是由最小化系统能量和热力学直接刺激完成的。
+虽然不太直观，但这种基于能量的推理演绎实际上恰是一种基于能量的模型实例，并能够适用于基于能量的学习理论框架，而很多学习算法都能用这样的框架进行表述。
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-c8de5df311b235b7.webp" caption="一个简单的信念网络" %}
+
+一个简单的信念，或者说贝叶斯网络 —— 玻尔兹曼机器基本上就是如此，但有着非直接 / 对称联系和可训练式权重，能够学习特定模式下的概率。
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-d987d7aca07b0579.webp" caption="玻尔兹曼机器实例" %}
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-25de789aee57ee80.webp" caption="An explanation of belief nets" %}
+
 
 ## 90 年代的兴衰 —— 强化学习与递归神经网络 (2000s-2010s)
 
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-b5dd96d6bbcb1bd9.webp" caption="强化学习" %}
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-4fbb0ee4d4a611f6.webp" caption="双摆控制问题" %}
+
+双摆控制问题 —— 单摆问题进阶版本，是一个经典的控制和强化学习任务。
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-2d0584dfda47216e.webp" caption="西洋双陆棋游戏中，掌握专家级别水平的神经网络" %}
+
+
+### 神经网络变得呆头呆脑
+
+要解决理解语音的问题，研究人员试图修改神经网络来处理一系列输入（就像语音中的那样）而不是批量输入（像图片中那样）。
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-a7db517568c2e635.webp" caption="时延神经网络" %}
+
+将神经元回路接回神经网络，赋予神经网络记忆就被优雅地解决了。
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-55be164812717615.webp" caption="递归神经网络图。还记得之前的玻尔兹曼机吗？大吃一惊吧！那些是递归性神经网络。" %}
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-beefa436cd189c44.webp" caption="通过时间概念反向传播的直观图解" %}
+
+
+### 新的冬日黎明
+
+用它们来工作是十分麻烦的 —— 电脑不够快、算法不够聪明，人们不开心。
+
 
 ## 深度学习终迎伟大复兴
+
+试问机器学习领域的任何一人，是什么让神经网络研究进行下来，对方很可能提及这几个名字中的一个或全部：Geoffrey Hinton，加拿大同事 Yoshua Bengio 以及脸书和纽约大学的 Yann LeCun。
+
+
+### 深度学习的密谋
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-4d6b2da090e95ad2.webp" caption="受限的玻尔兹曼机器" %}
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-319fedf1a3c8fbe3.webp" caption="Hinton 引入的层式预训练" %}
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-9197a5a2839b4498.webp" caption="关于非监督式预训练的另一种看法，利用自动代码取代 RBM" %}
+
+
+### 蛮力的重要性
+
+大型训练数据集与快速腭化计算的蛮力方法是一个关键。
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-3b81b0bae7b4864c.webp" caption="谷歌最著名的神经网络学习猫。这是输入到一个神经元中最佳的一张" %}
+
+
+### 深度学习的上升
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-540672fd868ac270.webp" caption="不同的激活函数。ReLU 是修正线性单元" %}
+
+深度学习 = 许多训练数据 + 并行计算 + 规模化、灵巧的的算法
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-088afe4fb9bd4415.webp" %}
+
+{% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-8d610fda7cec0db6.webp" %}
+
+
+### 后记：现状
 
 
 ## 参考
