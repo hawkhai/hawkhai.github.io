@@ -61,7 +61,7 @@ caption="利用 gpu 渲染一个巨人的图像" %}
 - 几个完整得范例：<https://github.com/hawkhai/openglcpp.git>
 
     * computeShaderParticleSystem.vcxproj / computeShader.sln
-        * OpenGL Compute Shader Particle System
+        * OpenGL Compute Shader Particle System：Attraction based compute shader particle system using SSBOs.
         * \#define GL_COMPUTE_SHADER 0x91B9
         * \#define GL_VERTEX_SHADER 0x8B31
         * \#define GL_FRAGMENT_SHADER 0x8B30
@@ -70,20 +70,27 @@ caption="利用 gpu 渲染一个巨人的图像" %}
         * 平常我们使用的 Shader 有顶点着色器、几何着色器、片段着色器，这几个都是为光栅化图形渲染服务的，**OpenGL 4.3（发布日期：2012 年 8 月 6 日）**之后新出了一个 Compute Shader，用于通用计算并行加速。[link {% include relref_cnblogs.html %}](https://www.cnblogs.com/chen9510/p/12000320.html)
         * OpenGL ES 3.1 使用计算着色器（Compute Shader）[link {% include relref_csdn.html %}](https://blog.csdn.net/qq_39561000/article/details/103112147)
 
-    * ?eglExample.vcxproj / eglExample.sln [没运行成功] -- \eglapp\app.vcxproj 完成了。[Debug x64]
+    * eglExample.vcxproj / eglExample.sln [没运行成功] -- \eglapp\app.vcxproj 完成了。[Debug x64]
+        * Shows how to use EGL for setting up OpenGL ES 2.0 on a windows desktop. Only works for vendors that support EGL on desktop.
         * [Using OpenGL ES on windows desktops via EGL](https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/)
         * [SimpleGL Example](https://wiki.maemo.org/SimpleGL_example)
         * [OpenGL ES EGL 简介 -- 完整的一个文档用例 {% include relref_csdn.html %}](https://blog.csdn.net/iEearth/article/details/71180457)
         * [EGL 1.5 implementation for Windows and X11 supporting OpenGL. {% include relref_github.html %}](https://github.com/McNopper/EGL)
 
     * geometryShaderSimple.vcxproj / geometryShader.sln
+        * Very simple geometry shader demo.
         * This geometry shader takes a single GL_POINT as input and generates triangles for a complete circle.
 
-    * ?instancing.vcxproj
+    * instancing.vcxproj [没运行成功]
+        * 多实例的 demo，LearnOpenGL 里面有类似的例子：`glDrawElementsInstanced`。
+        * Mesh instancing (OpenGL 3.3+) demo. Made to compare against the same Vulkan example.
 
-    * ?raypicking.vcxproj / raypicking.sln
+    * raypicking.vcxproj / raypicking.sln [没运行成功]
+        * CPU based ray picking for object selection.
 
-    * ?SPIRVShader.vcxproj / SPIRVShader.sln
+    * SPIRVShader.vcxproj / SPIRVShader.sln [没运行成功]
+        * Shows how to load binary SPIR-V Shaders with OpenGL. SPIR-V has initially been introduced as the binary shader format for Vulkan, but is also available on OpenGL via the GL_ARB_gl_spirv extension.
+        * This example loads two basic binary SPIR-V shaders instead of GLSL shaders from text. SPIR-V shaders for OpenGL can be generated using the glslang reference compiler. If you're using Visual Studio, you can use my SPIRV-VSExtension to generate SPIR-V from GLSL directly out of the IDE.
 
     * triangle.vcxproj / triangle.sln
         * OpenGL example - Indexed triangle rendering
@@ -101,6 +108,144 @@ caption="利用 gpu 渲染一个巨人的图像" %}
 
 原因：问题是 glfw 静态 libs 是用与您正在使用的版本不同的 visual studio 版本构建的。
 > 你也可以添加一个额外的库到你的链接器输入，即 legacy_stdio_definitions.lib。进入“属性”>“链接器”>“输入”。在其他依赖项中添加上面提到的库。<https://zgserver.com/parsing-6.html>
+
+
+### vulkan 与 SPIR-V
+
+* 小科普 -- 图形接口 vulkan 与 SPIR-V
+
+Khronos 组织在 GDC 2015 大会上发布了 Vulkan API。关于 Vulkan 的细节，类似于 AMD Mantle 和微软 DirectX 12，Vulkan 是一个底层 3D 图形 API，允许开发者获得硬件底层控制能力，同时减少性能开销，Vulkan 为开发人员提供通常留给驱动程序的控制能力，如线程管理，内存管理和错误检查等等功能。
+
+Standard, Portable Intermediate Representation - V (SPIR-V)
+OpenGL 4.6 的最大变化就是 支持 SPIR-V，一种用于 GPU 通用计算和图形学的中间语言，Khronos 开发设计，最初是为 OpenCL 规范准备的，和下一代图形标准 Vulkan 差不多同时提出，也在不断发展完善。
+
+{% include image.html url="/assets/images/201111-shader-opengl-intro/microsoft-shader-conductor-architecture.jpg" %}
+
+
+### instancing.vcxproj
+
+* 每个 Instance 不一样的数据
+
+```cpp
+struct UboInstanceData {
+    // Model matrix for each instance
+    glm::mat4 model;
+    // Color for each instance
+    // vec4 is used due to memory alignment
+    // GPU aligns at 16 bytes
+    glm::vec4 color;
+};
+
+glGenBuffers(1, &UBOInst);
+glBindBuffer(GL_UNIFORM_BUFFER, UBOInst);
+glBufferData(GL_UNIFORM_BUFFER, uboInstance.size() * sizeof(UboInstanceData), uboInstance.data(), GL_DYNAMIC_DRAW);
+glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+glBindBuffer(GL_UNIFORM_BUFFER, UBO);
+GLvoid* p = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
+memcpy(p, &uboVS, sizeof(uboVS));
+glUnmapBuffer(GL_UNIFORM_BUFFER);
+```
+
+* 所有模型都一样的数据
+
+```cpp
+struct GlobalMatricesData {
+    // Global matrices
+    struct MatricesData {
+        glm::mat4 projection;
+        glm::mat4 view;
+    } matrices;
+    // Seperate data for each instance
+} uboVS;
+
+// Uniform buffer object
+glGenBuffers(1, &UBO);
+glBindBuffer(GL_UNIFORM_BUFFER, UBO);
+glBufferData(GL_UNIFORM_BUFFER, sizeof(uboVS), &uboVS, GL_DYNAMIC_DRAW);
+glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+glBindBuffer(GL_UNIFORM_BUFFER, UBOInst);
+GLvoid* p = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
+memcpy(p, uboInstance.data(), uboSize);
+glUnmapBuffer(GL_UNIFORM_BUFFER);
+```
+
+```glsl
+#version 450
+
+#extension GL_ARB_separate_shader_objects : enable
+#extension GL_ARB_shading_language_420pack : enable
+
+layout (location = 0) in vec3 inPos;
+layout (location = 1) in vec3 inNormal;
+layout (location = 3) in vec3 inColor;
+
+struct Instance
+{
+    mat4 model;
+    vec4 color;
+};
+
+layout (binding = 0) uniform UBO
+{
+    mat4 projection;
+    mat4 view;
+} ubo;
+
+layout (binding = 1) uniform UBOInst
+{
+    Instance instance[343];
+} uboinstance;
+
+layout (location = 0) out vec3 outNormal;
+layout (location = 1) out vec3 outColor;
+layout (location = 2) out vec3 outEyePos;
+layout (location = 3) out vec3 outLightVec;
+
+void main()
+{
+    outNormal = inNormal;
+    outColor = inColor;
+    outColor = uboinstance.instance[gl_InstanceID].color.rgb;
+    mat4 modelView = ubo.view * uboinstance.instance[gl_InstanceID].model;
+    gl_Position = ubo.projection * modelView * vec4(inPos.xyz, 1.0);
+    outEyePos = (gl_Position).xyz;
+    vec4 lightPos = vec4(0.0, 0.0, 0.0, 1.0) * modelView;
+    outLightVec = normalize(lightPos.xyz - outEyePos);
+}
+```
+
+```glsl
+#version 450
+
+#extension GL_ARB_separate_shader_objects : enable
+#extension GL_ARB_shading_language_420pack : enable
+
+layout (location = 0) in vec3 inNormal;
+layout (location = 1) in vec3 inColor;
+layout (location = 2) in vec3 inEyePos;
+layout (location = 3) in vec3 inLightVec;
+
+layout (location = 0) out vec4 outFragColor;
+
+void main()
+{
+    vec3 N = normalize(inNormal);
+    vec3 L = normalize(vec3(1.0));
+
+    vec3 Eye = normalize(-inEyePos);
+    vec3 Reflected = normalize(reflect(-inLightVec, inNormal));
+
+    vec4 IAmbient = vec4(vec3(0.1), 1.0);
+    vec4 IDiffuse = vec4(1.0) * max(dot(inNormal, inLightVec), 0.0);
+
+    float specular = 0.75;
+    vec4 ISpecular = vec4(0.5, 0.5, 0.5, 1.0) * pow(max(dot(Reflected, Eye), 0.0), 4.0) * specular;
+
+    outFragColor = vec4((IAmbient + IDiffuse) * vec4(inColor, 1.0) + ISpecular);
+}
+```
 
 
 ## 第一课
