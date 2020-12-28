@@ -70,7 +70,7 @@ caption="利用 gpu 渲染一个巨人的图像" %}
         * 平常我们使用的 Shader 有顶点着色器、几何着色器、片段着色器，这几个都是为光栅化图形渲染服务的，**OpenGL 4.3（发布日期：2012 年 8 月 6 日）**之后新出了一个 Compute Shader，用于通用计算并行加速。[link {% include relref_cnblogs.html %}](https://www.cnblogs.com/chen9510/p/12000320.html)
         * OpenGL ES 3.1 使用计算着色器（Compute Shader）[link {% include relref_csdn.html %}](https://blog.csdn.net/qq_39561000/article/details/103112147)
 
-    * ?eglExample.vcxproj / eglExample.sln
+    * ?eglExample.vcxproj / eglExample.sln [没运行成功] -- \eglapp\app.vcxproj 完成了。[Debug x64]
         * [Using OpenGL ES on windows desktops via EGL](https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/)
         * [SimpleGL Example](https://wiki.maemo.org/SimpleGL_example)
         * [OpenGL ES EGL 简介 -- 完整的一个文档用例 {% include relref_csdn.html %}](https://blog.csdn.net/iEearth/article/details/71180457)
