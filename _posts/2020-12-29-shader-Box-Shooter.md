@@ -27,12 +27,13 @@ Bullet 的主要作者为 Erwin Coumans，曾经就职于索尼电脑娱乐美�
 
 A simple game that one can throw box to a pile of boxes to drop some of them. The implementation is using using *OpenGL* and *Bullet Physics*.
 
+源码位置：<https://github.com/hawkhai/box_shooter.git>
 实验效果：
 
 {% include image.html url="/assets/images/201229-shader-box-shooter/boxshooter.webp" %}
 
 
-## Installing Box Shooter
+### Installing Box Shooter
 
 To install Box Shooter, follow these steps:
 
@@ -200,7 +201,7 @@ for (int i = 0; i < objectArray.size(); ++i)
 
 ## 相机控制
 
-右手正交。移除 roll。Z 轴正方向为前进方向。
+右手坐标系。移除 roll。Z 轴正方向为前进方向。
 
 {% include image.html url="/assets/images/201229-shader-box-shooter/20190827164053851.png" %}
 
@@ -233,6 +234,423 @@ glm::mat4 Camera::calculateViewMatrix()
 ```
 
 
+## 空间位置
+
+
+### 创建箱子
+
+```cpp
+static GLfloat vertices[] = {
+    // front
+    -1.0, -1.0, 1.0 ,
+    1.0, -1.0 , 1.0,
+    1.0, 1.0, 1.0,
+    -1.0, 1.0, 1.0,
+    // back
+    -1.0, -1.0, -1.0,
+    1.0, -1.0, -1.0,
+    1.0, 1.0, -1.0,
+    -1.0, 1.0, -1.0 };
+```
+
+箱子边长为 2。
+
+
+### 创建场景
+
+```cpp
+Box *ground = new Box(2, -2, 2);
+ground->scaleBox(glm::vec3(10.0f, 1.0f, 10.0f));
+```
+
+地板放在 (2, -2, 2)，然后变大的地板为：20 x 2 x 20。
+
+```cpp
+for (int i = 0; i < 5; i++)
+{
+    for (int j = 0; j < 5; j++)
+    {
+        for (int k = 0; k < 5; k++)
+        {
+            shapes.push_back(new Box(i, j, k));
+        }
+    }
+}
+```
+
+125 个箱子，放在了 [[0,4], [0,4], [0,4]] 位置。程序启动可以发现，箱子由于挤压，存在一个变大和下落的过程。
+
+相机位置为 (-20.0f, 20.0f, -20.0f)，左右摇头 45 度，上下点头 30 度：
+
+```cpp
+camera = new Camera(
+    glm::vec3(-20.0f, 20.0f, -20.0f), // glm::vec3 Position
+    glm::vec3(.0f, 1.0f, .0f), // glm::vec3 Up
+    45.0f, // GLfloat Yaw 左右摇头 45 度。
+    -30.0f, // GLfloat Pitch 上下点头，30 度。
+    5.0f); // GLfloat Movespeed
+```
+
+
+### 抛箱子
+
+从相机位置抛箱子 `new Box(-20.0f, 20.0f, -20.0f)`。
+从相机的角度抛出去。
+
+```cpp
+auto camera_dir = camera->get_front();
+
+direction.setX(camera_dir.x);
+direction.setY(camera_dir.y);
+direction.setZ(camera_dir.z);
+body->setLinearVelocity(direction * 25); // 初始线速度
+```
+
+
+## 源码解析
+
+
+### 初始化 物理空间 init_physics
+
+```cpp
+void init_physics()
+{
+    collisionConfiguration = new btDefaultCollisionConfiguration();
+    dispatcher = new btCollisionDispatcher(collisionConfiguration);
+    overlappingPairCache = new btDbvtBroadphase();
+    solver = new btSequentialImpulseConstraintSolver;
+    dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver,
+        collisionConfiguration);
+}
+```
+
+
+### 创建视觉 箱子 init_visual_shapes
+
+```cpp
+void init_visual_shapes()
+{
+    // Items
+    // Ground
+    Box *ground = new Box(2, -2, 2);
+    ground->scaleBox(glm::vec3(10.0f, 1.0f, 10.0f));
+
+    shapes.push_back(ground);
+    // Other
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                shapes.push_back(new Box(i, j, k));
+            }
+        }
+    }
+}
+```
+
+
+### 创建物理 箱子 init_collision_shapes
+
+```cpp
+void init_collision_shapes()
+{
+    // create a few basic rigid bodies
+    {
+        btCollisionShape *groundShape = new btBoxShape(btVector3(btScalar(10.), btScalar(1.), btScalar(10.)));
+        collisionShapes.push_back(groundShape);
+
+        btTransform groundTransform;
+        groundTransform.setIdentity();
+        auto origin = shapes[0]->getOrigin();
+        groundTransform.setOrigin(btVector3(origin.x, origin.y, origin.z));
+
+        btScalar mass(0.);
+
+        // rigidboy is dynamic if and only if mass is non zero, otherwise static
+        bool isDynamic = (mass != 0.f);
+
+        btVector3 localInertia(0, 0, 0);
+        if (isDynamic)
+            groundShape->calculateLocalInertia(mass, localInertia);
+
+        // using motionstate is optional, is provides interpolation capabilities, and only synchronizes 'active' objects
+        btDefaultMotionState *myMotionState = new btDefaultMotionState(groundTransform);
+        btRigidBody rbInfo(mass, myMotionState, groundShape, localInertia);
+        btRigidBody *body = new btRigidBody(rbInfo);
+
+        // add the body to the dynamics world
+        dynamicsWorld->addRigidBody(body);
+    }
+
+    // create a dynamic rididbody
+    {
+        for (auto shape : shapes)
+        {
+            if (shape->getOrigin().y < 0) // Skip the round.
+                continue;
+            auto origin = shape->getOrigin();
+            btCollisionShape *colShape = new btBoxShape(btVector3(1, 1, 1));
+            collisionShapes.push_back(colShape);
+
+            // Create Dynamic Objects
+            btTransform startTransform;
+            startTransform.setIdentity();
+
+            btScalar mass(1.f);
+
+            // rigidbody is dynamic if and only if mass is non zero, otherwise static
+            bool isDynamic = (mass != 0.0f);
+
+            btVector3 localInertia(0, 0, 0);
+            if (isDynamic)
+                colShape->calculateLocalInertia(mass, localInertia);
+
+            startTransform.setOrigin(btVector3(origin.x, origin.y, origin.z));
+
+            // using motionstate is recommended, is provides interpolation capabilities, and only synchronizes 'active' objects
+            btDefaultMotionState *myMontionState = new btDefaultMotionState(startTransform);
+            btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMontionState, colShape, localInertia);
+            btRigidBody *body = new btRigidBody(rbInfo);
+
+            dynamicsWorld->addRigidBody(body);
+        }
+    }
+}
+```
+
+
+### 检查物理变化 check_collisions
+
+步进一下，然后取每个箱子状态，该移除的就移除。
+
+```cpp
+void check_collisions()
+{
+    dynamicsWorld->stepSimulation(deltaTime, 10); // 步进一下
+
+    // print positions of all objects
+    for (int j = dynamicsWorld->getNumCollisionObjects() - 1; j >= 0; j--)
+    {
+        btCollisionObject *obj = dynamicsWorld->getCollisionObjectArray()[j];
+        btRigidBody *body = btRigidBody::upcast(obj);
+        btTransform trans;
+        if (body && body->getMotionState())
+        {
+            body->getMotionState()->getWorldTransform(trans);
+        }
+        else
+        {
+            trans = obj->getWorldTransform();
+        }
+
+        trans.getOpenGLMatrix(glm::value_ptr(shapes.at(j)->set_transformation()));
+        if (float(trans.getOrigin().getY() > -100.0))
+            continue;
+
+        // Delete form bullet
+        if (body && body->getMotionState())
+        {
+            delete body->getMotionState();
+        }
+        dynamicsWorld->removeCollisionObject(obj);
+        delete obj;
+        btCollisionShape *shape = collisionShapes[j];
+        collisionShapes[j] = 0;
+        shapes.erase(std::begin(shapes) + j);
+    }
+}
+```
+
+
+### 鼠标点击发射 箱子 process_keys
+
+```cpp
+void process_keys()
+{
+    int posx, posy;
+    bool mouse_clicked;
+    std::tie(posx, posy, mouse_clicked) = mainwindow->mouse_feedback();
+
+    if (mouse_clicked)
+    {
+        shapes.push_back(new Box(-20.0f, 20.0f, -20.0f));
+        auto origin = shapes.back()->getOrigin();
+        btCollisionShape *colShape = new btBoxShape(btVector3(1, 1, 1));
+        collisionShapes.push_back(colShape);
+
+        // Create Dynamic Objects
+        btTransform startTransform;
+        startTransform.setIdentity();
+
+        btScalar mass(1.f);
+
+        // rigidbody is dynamic if and only if mass is no zero, otherwise static
+        bool isDynamic = (mass != 0.f);
+
+        btVector3 localInertia(0, 0, 0);
+        if (isDynamic)
+            colShape->calculateLocalInertia(mass, localInertia);
+
+        startTransform.setOrigin(btVector3(origin.x, origin.y, origin.z));
+
+        // using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
+        btDefaultMotionState *myMontionState = new btDefaultMotionState(startTransform);
+        btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMontionState, colShape, localInertia);
+        btRigidBody *body = new btRigidBody(rbInfo);
+        btVector3 direction;
+        auto camera_dir = camera->get_front();
+
+        direction.setX(camera_dir.x);
+        direction.setY(camera_dir.y);
+        direction.setZ(camera_dir.z);
+        body->setLinearVelocity(direction * 25);
+        dynamicsWorld->addRigidBody(body);
+    }
+}
+```
+
+
+### 清理 物理空间 delete_physics
+
+```cpp
+void delete_physics()
+{
+    // delete dynamics world
+    delete dynamicsWorld;
+
+    // delete solver
+    delete solver;
+
+    // delete broadphase
+    delete overlappingPairCache;
+
+    // delete dispatcher
+    delete dispatcher;
+
+    delete collisionConfiguration;
+
+    // next line is optionl: it will be cleared by the destructor when the array goes out of scope
+    collisionShapes.clear();
+}
+```
+
+
+## CMakeLists.txt
+
+这两个工程配置也非常简洁。
+
+
+### external
+
+```cmake
+add_definitions(
+    -DTW_STATIC
+    -DTW_NO_LIB_PRAGMA
+    -DTW_NO_DIRECT3D
+    -DGLEW_STATIC
+    -D_CRT_SECURE_NO_WARNINGS
+)
+
+### GLFW ###
+
+add_subdirectory (glfw-3.1.2)
+
+include_directories(
+    glfw-3.1.2/include/GLFW/
+    glew-1.13.0/include/
+)
+
+set(OPENGL_LIBRARY
+    ${OPENGL_LIBRARY}
+    -lGL -lGLU -lXrandr -lXext -lX11 -lrt
+    ${CMAKE_DL_LIBS}
+    ${GLFW_LIBRARIES}
+)
+
+### GLEW ###
+
+set(GLEW_SOURCE
+    glew-1.13.0/src/glew.c
+)
+
+set(GLEW_HEADERS
+)
+
+add_library( GLEW_1130 STATIC
+    ${GLEW_SOURCE}
+    ${GLEW_INCLUDE}
+)
+
+target_link_libraries(GLEW_1130
+    ${OPENGL_LIBRARY}
+    ${EXTRA_LIBS}
+)
+
+### BULLET ###
+# Bullet already has a CMakeLists.txt so let's use these
+
+set(BULLET_VERSION 2.81)
+include_directories(
+    bullet-2.81-rev2613/src
+)
+add_subdirectory( bullet-2.81-rev2613/src/BulletSoftBody )
+add_subdirectory( bullet-2.81-rev2613/src/BulletCollision )
+add_subdirectory( bullet-2.81-rev2613/src/BulletDynamics )
+add_subdirectory( bullet-2.81-rev2613/src/LinearMath )
+```
+
+
+### box_shooter
+
+```cmake
+# CMake entry point
+cmake_minimum_required (VERSION 3.0)
+project (Box_Shooter)
+
+find_package(OpenGL REQUIRED)
+
+# Compile external dependencies
+add_subdirectory (external)
+
+include_directories(
+    external/glfw-3.1.2/include/
+    external/glm-0.9.7.1/
+    external/glew-1.13.0/include/
+    external/bullet-2.81-rev2613/src/
+)
+
+set(ALL_LIBS
+    ${OPENGL_LIBRARY}
+    glfw
+    GLEW_1130
+)
+
+add_definitions(
+    -DTW_STATIC
+    -DTW_NO_LIB_PRAGMA
+    -DTW_NO_DIRECT3D
+    -DGLEW_STATIC
+    -D_CRT_SECURE_NO_WARNINGS
+)
+LINK_LIBRARIES(
+    BulletDynamics BulletCollision LinearMath
+)
+
+add_executable(box_shooter
+    src/box_shooter.cpp
+    src/Mesh.cpp
+    src/Shader.cpp
+    src/Window.cpp
+    src/Camera.cpp
+)
+target_link_libraries(box_shooter
+    ${ALL_LIBS}
+)
+```
+
+
 ## Refs
 
 - [1] [C++ 3D 物理引擎库 BulletPhysics 基本使用 {% include relref_cnblogs.html %}](https://www.cnblogs.com/KillerAery/archive/2004/01/13/9223947.html)
@@ -243,6 +661,7 @@ glm::mat4 Camera::calculateViewMatrix()
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://www.cnblogs.com/KillerAery/archive/2004/01/13/9223947.html]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/www.cnblogs.com/8a2b5679.html" %})
-- [2] [https://blog.csdn.net/azri81226/article/details/101691134]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/blog.csdn.net/1c18af48.html" %})
-- [3] [https://www.cnblogs.com/esCharacter/p/8490355.html]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/www.cnblogs.com/465dd1d7.html" %})
+- [1] [https://github.com/hawkhai/box_shooter.git]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/github.com/c666eeb9.git" %})
+- [2] [https://www.cnblogs.com/KillerAery/archive/2004/01/13/9223947.html]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/www.cnblogs.com/8a2b5679.html" %})
+- [3] [https://blog.csdn.net/azri81226/article/details/101691134]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/blog.csdn.net/1c18af48.html" %})
+- [4] [https://www.cnblogs.com/esCharacter/p/8490355.html]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/www.cnblogs.com/465dd1d7.html" %})

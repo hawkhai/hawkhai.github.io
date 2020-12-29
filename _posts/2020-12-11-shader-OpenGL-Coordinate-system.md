@@ -22,6 +22,9 @@ cluster: "LearnOpenGL"
 - <https://www.mdeditor.tw/pl/pZYE>
 - <https://mp.weixin.qq.com/s/0HZgyZra90LQLFAq6dQJ9A>
 
+
+## 理论
+
 主要有 5 个不同的坐标系统：
 
 - 局部空间 (Local Space，或者称为物体空间 (Object Space))
@@ -87,6 +90,9 @@ glm::mat4 内存结构是列保存的（**刚好是上面数学矩阵的转置**
 * [OpenGL Projection Matrix](http://www.songho.ca/opengl/gl_projectionmatrix.html)
 * [OpenGL Sphere](http://www.songho.ca/opengl/gl_sphere.html)
 
+
+## 示例
+
 原始坐标：
 
 ```cpp
@@ -125,6 +131,19 @@ projection=glm::perspective(glm::radians(90.0f),800.0f/600.0f,0.1f,10.0f);
 ```
 
 {% include image.html url="/assets/images/201211-shader-opengl-coordinat~fa/20201210174453.png" %}
+
+
+## 相机控制
+
+右手坐标系。Z 轴正方向为前进方向。
+
+{% include image.html url="/assets/images/201211-shader-opengl-coordinat~fa/20190827164053851.png" %}
+
+{% include image.html url="/assets/images/201211-shader-opengl-coordinat~fa/pitch.gif" caption="pitch()：俯仰，将物体绕 X 轴旋转（localRotationX）" %}
+
+{% include image.html url="/assets/images/201211-shader-opengl-coordinat~fa/yaw.gif" caption="yaw()：航向，将物体绕 Y 轴旋转（localRotationY）" %}
+
+{% include image.html url="/assets/images/201211-shader-opengl-coordinat~fa/roll.gif" caption="roll()：横滚，将物体绕 Z 轴旋转（localRotationZ）" %}
 
 -----
 
