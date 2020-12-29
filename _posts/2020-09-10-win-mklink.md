@@ -9,7 +9,7 @@ toc: true
 toclistyle:
 comments:
 visibility:
-mathjax:
+mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
@@ -76,13 +76,17 @@ MKLINK [[/D] | [/H] | [/J]] Link Target
 | ---- | ---- | ---- | ---- |
 | 链接到文件 | ✔️ | ❌ | ✔️ |
 | 链接到文件夹 | ❌ | ✔️ | ✔️ |
+| 需要提升为管理员权限 | 需要 | 不需要 | 通常需要 $$坑 1$$ |
 | 跨驱动器卷（盘符） | ❌ | ✔️（仅本地计算机） | ✔️（包括 SMB 文件或路径） |
 | 操作系统支持 | Windows NT 3.1 开始支持<br/>Windows 2000 开始有 API CreateHardLink()<br/>Windows NT 6.0 开始能使用 mklink /H | Windows 2000+ | 	Windows Vista+ |
 | 可链接到不存在的目标 | ❌ | ✔️ | ✔️ |
+| 可链接到相对目录 | ❌ | ❌（可以使用相对路径创建，但创建完即变绝对路径） | ✔️ |
 | 当链接被单独删除后 | 只有所有指向原始文件的硬链接和原始文件全部删除后文件数据才会被删除。 | Windows Vista 之后原始文件夹不受影响；Windows 2000/XP/2003 会导致原始子文件夹被删除。 | 原始文件夹不受影响。 |
 | 当原始文件被单独删除后 | 硬链接依然能正常访问到文件的数据。 | 目录联接失效，指向不存在的目录。 | 符号链接失效，指向不存在的目录。 |
 
 [Mklink in Windows](http://www.maxi-pedia.com/mklink)
+
+$$坑 1$$: 在微软的官方博客中已有说明：从 Windows 10 Insiders build 14972 开始，符号链接对开发者将不再需要管理员权限，这可以让开发者像在 Linux 或 macOS 上一样高效地工作。（通过如下图所示的开关来决定此操作是否需要管理员权限，打开则无需管理员权限。）
 
 
 ## 限制
@@ -531,6 +535,7 @@ url2="/assets/images/200910-win-mklink/jlink.png" %}
 * [3] [Determine whether a file is a junction \(in Windows\) or not?](https://stackoverflow.com/questions/13733275/determine-whether-a-file-is-a-junction-in-windows-or-not)
 * [4] [NTFS Links, Directory Junctions, and Windows Shortcuts](http://www.flexhex.com/docs/articles/hard-links.phtml)
 * [5] [Listing Used Files](https://www.codeproject.com/Articles/18975/Listing-Used-Files)
+* [6] [玩转 WIN7 的 MKLINK {% include relref_cnblogs.html %}](https://www.cnblogs.com/shangdawei/p/4516869.html)
 
 -----
 
@@ -552,3 +557,4 @@ url2="/assets/images/200910-win-mklink/jlink.png" %}
 - [14] [https://blog.walterlv.com/post/ntfs-link-comparisons.html]({% include relref.html url="/backup/2020-09-10-win-mklink.md/blog.walterlv.com/6d55cc40.html" %})
 - [15] [https://stackoverflow.com/questions/13733275/determine-whether-a-file-is-a-junction-in-windows-or-not]({% include relref.html url="/backup/2020-09-10-win-mklink.md/stackoverflow.com/f954d202.html" %})
 - [16] [https://www.codeproject.com/Articles/18975/Listing-Used-Files]({% include relref.html url="/backup/2020-09-10-win-mklink.md/www.codeproject.com/e6def969.html" %})
+- [17] [https://www.cnblogs.com/shangdawei/p/4516869.html]({% include relref.html url="/backup/2020-09-10-win-mklink.md/www.cnblogs.com/f76e190e.html" %})

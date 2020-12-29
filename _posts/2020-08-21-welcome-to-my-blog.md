@@ -185,6 +185,9 @@ if (fp)
     fprintf(fp, "%s %d \n", __FILE__, __LINE__);
     fclose(fp);
 }
+
+char fpath[1024] = "";
+_fullpath(fpath, fileLocation, 1024);
 ```
 
 
