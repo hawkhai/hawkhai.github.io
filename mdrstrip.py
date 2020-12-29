@@ -88,7 +88,7 @@ def clearSnapCache():
 
 def readfileIglist(fpath):
     li = readfile(fpath, "utf8").split("\n")
-    li = [i.strip() for i in li if i.strip()]
+    li = [i.strip().split("#")[0].strip() for i in li if i.strip().split("#")[0].strip()]
     assert li, fpath
     return li
 
@@ -339,6 +339,7 @@ def appendRefs(fpath, lines):
     return lines
 
 def mainfile(fpath, fname, ftype):
+    checkfilesize(fpath, fname, ftype)
 
     ftype = ftype.lower()
     errcnt = 0
@@ -604,14 +605,38 @@ def mainfilew(fpath, fname, ftype):
         savelog(__file__, fpath)
     return errcnt
 
+g_checkfilesize = set()
+def checkfilesize(fpath, fname, ftype):
+    fmd5 = getFileMd5(fpath)
+    if not g_checkfilesize:
+        for ifmd5 in readfileIglist("mdrstrip_bigfiles.txt"):
+            g_checkfilesize.add(ifmd5)
+
+    if not (fmd5 in g_checkfilesize):
+        size = os.path.getsize(fpath) / 1024.0 / 1024.0
+        if size >= 1.0:
+            print(getFileMd5(fpath), "#", fpath, "#", "%.1f MB"%size)
+            g_checkfilesize.add(fmd5)
+
 def main():
     print(parsePythonCmdx(__file__))
     removedirTimeout("tempdir")
     clearemptydir("tempdir")
     buildSnapCache("backup")
+
+    CHECK_IGNORE_LIST = (
+        "backup", "tempdir", "_site",
+        "Debug", "Release", ".vs", "opengl-3rd",
+        "UserDataSpider",
+        )
+    searchdir(".", checkfilesize, ignorelistMore=CHECK_IGNORE_LIST)
+    searchdir("backup", checkfilesize, ignorelistMore=CHECK_IGNORE_LIST)
+
     searchdir(".", mainfilew, ignorelistMore=(
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
-        "Debug", "Release", ".vs", "openglcpp", "opengl-3rd",))
+        "Debug", "Release", ".vs", "openglcpp", "opengl-3rd",
+        "UserDataSpider",
+        ))
     if REBUILD:
         clearSnapCache()
         clearemptydir("images")
