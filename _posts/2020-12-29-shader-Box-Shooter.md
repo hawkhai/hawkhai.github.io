@@ -16,6 +16,7 @@ codeprint:
 ---
 
 A simple box shooter using Bullet Physics and OpenGL.
+物理碰撞。用 Bullet Physics 和 OpenGL 实现的 抛箱子。有机会实现一个桌面泡泡，泡泡之间可以撞来撞去。
 
 Bullet Physics 是一个开源的物理模拟引擎，世界三大物理引擎之一（另外两种是 Havok 和 PhysX）。
 Bullet 是一个跨平台的开源物理引擎，支持三维碰撞检测、柔体动力学和刚体动力学，多用于游戏开发和电影制作中。Bullet 物理库在 zlib 协议下发布。
