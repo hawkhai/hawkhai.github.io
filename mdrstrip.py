@@ -617,6 +617,7 @@ def checkfilesize(fpath, fname, ftype):
         if size >= 1.0:
             print(getFileMd5(fpath), "#", fpath, "#", "%.1f MB"%size)
             g_checkfilesize.add(fmd5)
+            assert False, "大文件最好不要入库..."
 
 def main():
     print(parsePythonCmdx(__file__))
