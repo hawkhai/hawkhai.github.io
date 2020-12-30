@@ -145,6 +145,37 @@ projection=glm::perspective(glm::radians(90.0f),800.0f/600.0f,0.1f,10.0f);
 
 {% include image.html url="/assets/images/201211-shader-opengl-coordinat~fa/roll.gif" caption="roll()：横滚，将物体绕 Z 轴旋转（localRotationZ）" %}
 
+
+## 四元数概念及其应用
+
+[四元数概念及其应用](http://www.cppblog.com/kongque/archive/2010/08/18/123824.html)
+
+
+### 什么是四元数
+
+$i$，$j$，$k$ 为虚数。
+
+$Q = w + xi + yj + zk$
+
+其中 $w$ 是实数，而 $x$，$y$，$z$ 为复数。
+
+另外一种常见的表达方式是：
+
+$Q = [w, v]$
+
+其中 $v=(x,y,z)$ 称为矢量部（虽然称为矢量，但是这个不是三维空间中的矢量，而是四维空间的，想象吧 L），$w$ 称为标量部。
+使用一个单位四元数来描述方向，请记住必须是单位四元数才可以描述方向。
+
+
+### 使用四元数来避免 Gimbal Lock
+
+基本思路如下：
+
+1. 使用一个四元数来标识一个方向。
+2. 创建一个临时的四元数来标识当前方向到新方向的变化。
+3. 右乘临时的四元数和初始四元数，结果是一个合并了两个四元数的新的四元数。
+4. 将四元数转换成矩阵。
+
 -----
 
 <font class='ref_snapshot'>参考资料快照</font>
@@ -154,3 +185,4 @@ projection=glm::perspective(glm::radians(90.0f),800.0f/600.0f,0.1f,10.0f);
 - [3] [https://mp.weixin.qq.com/s/0HZgyZra90LQLFAq6dQJ9A]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/mp.weixin.qq.com/25763337.html" %})
 - [4] [http://www.songho.ca/opengl/gl_projectionmatrix.html]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.songho.ca/7c7467ff.html" %})
 - [5] [http://www.songho.ca/opengl/gl_sphere.html]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.songho.ca/ca4b2763.html" %})
+- [6] [http://www.cppblog.com/kongque/archive/2010/08/18/123824.html]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.cppblog.com/e2810916.html" %})
