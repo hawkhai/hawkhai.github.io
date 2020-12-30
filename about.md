@@ -43,13 +43,14 @@ Document-based knowledge iteration is more stable and reliable than brain-based 
 As the saying goes: Bad notes is better than good memories.
 
 > You do not need to leave your room. Remain sitting at your table and listen. Do not even listen, simply wait, be quiet still and solitary. The world will freely offer itself to you to be unmasked, it has no choice, it will roll in ecstasy at your feet.
-> <font style="text-align:right;">-- Franz Kafka</font>
+> <p style="text-align:right;">-- Franz Kafka</p>
 
 
 ## 关于文档
 
 为什么一定要写文档？
 自己一年前写的东西，没有文档，居然看不懂了。再看懂跑起来，基本上算重写了。十分痛苦。
+写作即思考，把学习的知识按自己的结构整理记录，方便日后查阅。
 
 以前也做笔记，但是后来发现很多网址打不开了，你说找谁说理去？
 这个博客系统加入了自动外链快照功能，博文里面包含的网址，会自动爬取快照存档。
