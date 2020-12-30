@@ -1,0 +1,310 @@
+<!--?xml version="1.0" encoding="iso-8859-1"?--><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head>
+<title>Irrlicht Engine - A free open source 3d engine</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+<!-- (c) 2005 by N.Gebhardt -->
+</head>
+<body>
+<div align="center"><br />
+  <table cellspacing="0" class="main">
+    <tbody><tr> 
+      <td colspan="2" class="logobar"><img alt="Irrlicht Engine logo" src="images/general/irrlichtlogo.gif" width="233" height="60" /></td>
+    </tr>
+    <tr> 
+      <td colspan="2" class="linkbar"><a href="index.html">Home</a> | <a href="phpBB2/index.php">Forum</a> 
+        | <a href="docu/index.html" target="_blank">API</a> | <a href="http://www.google.com/custom?domains=irrlicht.sourceforge.net&amp;sitesearch=irrlicht.sourceforge.net" target="_blank">Search</a></td>
+    </tr>
+    <tr> 
+      <td class="sidebar"> <div class="sidebarentry"> 
+          <p class="sideBarTitle">Engine</p>
+          <a href="index.html">News</a> <a href="features.html">Features</a> <a href="screenshots.html">Screenshots</a> 
+          <a href="downloads.html">Downloads</a> <a href="development.html">Development</a>
+	  <a href="toolset.html">Tool set</a> 
+        </div>
+        <div class="sidebarentry"> 
+          <p class="sideBarTitle">Documentation</p>
+          <a href="faq.html">FAQ</a> <a href="docu/index.html" target="_blank">API</a> 
+          <a href="docu.net/index.html" target="_blank">API.NET</a> <a href="tutorials.html">Tutorials</a> 
+          <a href="license.html">License</a> <a href="newsarchive.html">News-Archive</a> 
+          <a href="http://www.irrlicht3d.org/wiki" target="_blank">Wiki</a> </div>
+        <div class="sidebarentry"> 
+          <p class="sideBarTitle">Sourceforge</p>
+          <a href="http://sourceforge.net/projects/irrlicht/">Project Page</a> 
+          <a href="phpBB2/index.php">Forums</a>
+	  <a href="shirts.html">Shirts</a> </div>
+        <div class="sidebarentry"> 
+          <p class="sideBarTitle">Contact</p>
+          <a href="links.html">Links</a> <a href="author.html">Author</a> <a href="impressum.html">Impressum</a> </div>
+        <p><a href="http://irrlicht.sourceforge.net"><br />
+          <img alt="Irrlicht Engine logo button" src="images/general/irrlicht.png" width="88" height="31" border="0" /></a></p>
+        <p><a href="http://sourceforge.net"> <img src="http://sourceforge.net/sflogo.php?group_id=74339&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a></p>
+        <p> <a href="http://opensource.org/" target="_blank"><img alt="OSI Certified logo" src="images/general/osi-certified-72x60-t.png" width="72" height="60" border="0" /></a> 
+        </p>
+        <p>  </p></td>
+      <td class="mainframe"> <table class="newsbox">
+          <tbody><tr> 
+            <td class="newscontent"><p><strong>Tutorial: Tokamak &amp; Irrlicht 
+                </strong>by <a href="matthewcouch@bellsouth.net">Matthew Couch</a> 
+                <br />
+                Code based off Irrlicht tutorial 3, Creating a Custom Scene Node 
+                Found here: <a href="http://irrlicht.sourceforge.net/tut003.html">http://irrlicht.sourceforge.net/tut003.html</a><br />
+                <br />
+                With tokamak information taken from Adam Dawes' cube stacking 
+                tutorial found here:<br />
+                <a href="http://www.adamdawes.com/programming/tokamak/02_Cubes.html" target="_blank">http://www.adamdawes.com/programming/tokamak/02_Cubes.html</a><br />
+                <br />
+                I will go over the entire code, however the vast majority of it 
+                comes from one tutorial or the other. I will note which is which, 
+                and any alterations I have made. I will also note my own code.<br />
+                <br />
+                A very important note is that irrlicht and tokamak use the same 
+                names for some data types. This causes all sorts of errors. Thankfully 
+                irrlicht has been written with integration in mind, and is built 
+                using namespaces. Tokamak, on the other had, does not. This means 
+                that you are forced to reference the irrlich namespace rather 
+                use the "using" keyword to simplify tasks. You do this 
+                by placing "irr::" in front of all irrlicht specific 
+                calls.<br />
+                <br />
+                I'm going to concentrate on the integration stuff, and skim over 
+                the rest, since I don't want to cover what's already been taken 
+                care of thanks to the tutorials above.<br />
+                <br />
+                Irr denotes Irrlicht<br />
+                Tok denotes Tokamak </p>
+              <p> Includes<br />
+                These come from both tutorials. The irrlicht and tokamk libraries 
+                are self explanitary, while the others are a little strange. These 
+                are used for the timing functions. Nothing to magical beyond that.</p>
+              <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">#include &lt;irrlicht.h&gt;<br />#include &lt;tokamak.h&gt;<br />#include &lt;windows.h&gt;<br />#include &lt;time.h&gt;;</font></pre></td>
+                </tr>
+              </tbody></table>
+              <p> Inclusion of the specific libraries. Again, the abbaration is 
+                the winmm library, used for the timeGetTime() function. </p>
+              <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">#pragma comment(lib, "Irrlicht.lib")<br /><br />#ifdef _DEBUG<br />#pragma comment(lib, "tokamak_d.lib")<br />#else<br />#pragma comment(lib, "tokamak.lib")<br />#endif<br /><br />#pragma comment(lib, "winmm.lib")</font><br /></pre></td>
+                </tr>
+              </tbody></table>
+              <p>Defines to make playing with the simulation easier.<br />
+                <br />
+                PI is used to convert from Degrees to Radians.<br />
+                CUBECOUNT is the number of cubes to stack<br />
+                CUBEX/Y/Z are the dimentions of the cube (any size box you want)<br />
+                CUBEMASS is the mass of the cube<br />
+                FLOORSIZE is the size of the square "floor" that the 
+                cubes fall on.<br />
+                <br />
+                Play with the cube information and see what happens (to heavy, 
+                or to small cubes seem to fall through the floor) </p>
+              <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">#define PI 3.1415926<br />#define CUBECOUNT 30<br />#define CUBEX 5.0<br />#define CUBEY 5.0<br />#define CUBEZ 5.0<br />#define CUBEMASS 50.0f<br />#define FLOORSIZE 300</font><br /></pre></td>
+                </tr>
+              </tbody></table>
+              <p><font size="2">irr - We need a camera pointer to recieve the 
+                user's input.<br />
+                Take note of the namespace references.</font></p>
+              <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">irr::scene::ICameraSceneNode* camera = 0;</font></pre></td>
+                </tr>
+              </tbody></table>
+              <p>tok - Global variables for Tokamak:<br />
+                First the simulator itself.</p>
+              <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">neSimulator *gSim = NULL;<br /></font></pre></td>
+                </tr>
+              </tbody></table>
+              <p>The cube pointer array.</p>
+              <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">neRigidBody *gCubes[CUBECOUNT];<br />neAnimatedBody *gFloor = NULL;</font><br /></pre></td>
+                </tr>
+              </tbody></table>
+              <p>Timer variables.</p>
+              <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">bool gbUseHFTimer;<br />INT64 gCurrentTime;<br />float gfTimeScale;</font></pre></td>
+                </tr>
+              </tbody></table>
+              <p>irr - the reciever to take move camera events.</p>
+              <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">class MyEventReceiver : public irr::IEventReceiver<br />{<br />public:<br /> virtual bool OnEvent(irr::SEvent event)<br /> {<br />    if (camera)<br />       return camera-&gt;OnEvent(event);<br /><br />    return false;<br /> }<br />};</font></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              irr - the next two sections are directly from the irrlicht tutorial 
+              with one major alteration. Instead of a pyramid, we'rr creating 
+              a cube and a big, flat square.<br /> <br /> <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">class PhysicsCubeNode: public irr::scene::ISceneNode<br />{<br />  irr::core::aabbox3d&lt;irr::f32&gt; Box;<br />  irr::video::S3DVertex Vertices[8];<br />  irr::video::SMaterial Material;<br /><br />public:<br /><br />  PhysicsCubeNode(irr::scene::ISceneNode* parent,<br />     irr::scene::ISceneManager* mgr, irr::s32 id)<br />  : irr::scene::ISceneNode(parent, mgr, id)<br />  {<br />     Material.Wireframe = false;<br />     Material.Lighting = false;</font></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              Eight Vertices rather than 4. Note the centering of the cube on 
+              the origin. This isn't to set in stone, just make sure everything 
+              you use is centered identically, otherwise you'll get overlap.<br /> 
+              <br /> <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2"> Vertices[0] = irr::video::S3DVertex(<br />   -CUBEX/2,-CUBEY / 2,-CUBEZ/2, 1,1,0,<br />   irr::video::SColor(255,0,255,255), 0, 1);<br /> Vertices[1] = irr::video::S3DVertex( <br />   CUBEX/2,-CUBEY / 2,-CUBEZ/2, 1,0,0,<br />   irr::video::SColor(255,255,0,255), 1, 1);<br /> Vertices[2] = irr::video::S3DVertex(<br />   CUBEX/2,-CUBEY / 2, CUBEZ/2, 0,1,1,<br />   irr::video::SColor(255,255,255,0), 1, 0);<br /> Vertices[3] = irr::video::S3DVertex(<br />   -CUBEX/2,-CUBEY / 2, CUBEZ/2, 0,0,1,<br />   irr::video::SColor(255,0,255,0), 0, 0);<br /> Vertices[4] = irr::video::S3DVertex(<br />   -CUBEX/2, CUBEY / 2,-CUBEZ/2, 0,0,1,<br />   irr::video::SColor(255,0,0,255), 0, 0);<br /> Vertices[5] = irr::video::S3DVertex(<br />   CUBEX/2, CUBEY / 2,-CUBEZ/2, 0,0,1,<br />   irr::video::SColor(255,255,0,0), 0, 0);<br /> Vertices[6] = irr::video::S3DVertex(<br />   CUBEX/2, CUBEY / 2, CUBEZ/2, 0,0,1,<br />   irr::video::SColor(255,0,0,0), 0, 0);<br /> Vertices[7] = irr::video::S3DVertex(<br />   -CUBEX/2, CUBEY / 2, CUBEZ/2, 0,0,1,<br />   irr::video::SColor(255,255,255,255), 0, 0);<br /><br /> Box.reset(Vertices[0].Pos); <br /> for (s32 i=1; i&lt;8; ++i)<br />   Box.addInternalPoint(Vertices[i].Pos);<br />}<br /><br /><br />virtual void OnPreRender()<br />{<br />  if (IsVisible)<br />    SceneManager-&gt;registerNodeForRendering(this);<br /><br />  ISceneNode::OnPreRender();<br />}<br /></font></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              Here we draw the cube, 12 triangles (2 per side).<br /> <br /> <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2"> virtual void render()<br /> {<br />  irr::u16 indices[] = {0,1,2,<br />  0,2,3,<br />  1,6,2,<br />  1,5,6,<br />  0,5,1,<br />  0,4,5,<br />  0,3,7,<br />  0,7,4,<br />  2,7,3,<br />  2,6,7,<br />  4,6,5,<br />  4,7,6 };<br /><br />  irr::video::IVideoDriver* driver = SceneManager-&gt;getVideoDriver();<br /><br />  driver-&gt;setMaterial(Material);<br />  driver-&gt;setTransform(irr::video::TS_WORLD, AbsoluteTransformation);<br />  driver-&gt;drawIndexedTriangleList(&amp;Vertices[0], 8, &amp;indices[0], 12);<br /> }<br /><br /> virtual const irr::core::aabbox3d&lt;f32&gt;&amp; getBoundingBox() const<br /> {<br />   return Box;<br /> }<br /> <br /> virtual s32 getMaterialCount()<br /> {<br />  return 1;<br /> }<br /><br /> virtual irr::video::SMaterial&amp; getMaterial(s32 i)<br /> {<br />   return Material;<br /> }<br />};</font><br /></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              And the floor<br /> <br /> <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2"> class PhysicsFloorNode: public irr::scene::ISceneNode<br /> {<br /> private:<br /> irr::core::aabbox3d&lt;irr::f32&gt; Box;<br /> irr::video::S3DVertex Vertices[4];<br /> irr::video::SMaterial Material;<br /><br /> public:<br /><br /> PhysicsFloorNode(irr::scene::ISceneNode* parent,<br />  irr::scene::ISceneManager* mgr, irr::s32 id)<br /> : irr::scene::ISceneNode(parent, mgr, id)<br /> {<br />  Material.Wireframe = false;<br />  Material.Lighting = false;<br /><br />  Vertices[0] = irr::video::S3DVertex(<br />    -FLOORSIZE/2,0.0,-FLOORSIZE/2, 1,1,0,<br />    irr::video::SColor(255,0,0,0), 0, 1);<br />  Vertices[1] = irr::video::S3DVertex(<br />    FLOORSIZE/2,0.0,-FLOORSIZE/2, 1,0,0,<br />    irr::video::SColor(255,0,0,0), 1, 1);<br />  Vertices[2] = irr::video::S3DVertex(<br />    FLOORSIZE/2,0.0, FLOORSIZE/2, 0,1,1,<br />    irr::video::SColor(255,0,0,0), 1, 0);<br />  Vertices[3] = irr::video::S3DVertex(<br />    -FLOORSIZE/2,0.0, FLOORSIZE/2, 0,0,1,<br />    irr::video::SColor(255,0,0,0), 0, 0);<br /><br />  Box.reset(Vertices[0].Pos);<br />  for (s32 i=1; i&lt;4; ++i)<br />    Box.addInternalPoint(Vertices[i].Pos);<br /> }<br /><br /> virtual void OnPreRender()<br /> {<br />  if (IsVisible)<br />    SceneManager-&gt;registerNodeForRendering(this);<br /><br />  ISceneNode::OnPreRender();<br /> }<br /><br /> virtual void render()<br /> {<br />  irr::u16 indices[] = {0,1,2,<br />   0,2,3,<br />   0,2,1,<br />   0,3,2};<br /><br />  irr::video::IVideoDriver* driver = SceneManager-&gt;getVideoDriver();<br /><br />  driver-&gt;setMaterial(Material);<br />  driver-&gt;setTransform(irr::video::TS_WORLD, AbsoluteTransformation);<br />  driver-&gt;drawIndexedTriangleList(&amp;Vertices[0], 4, &amp;indices[0], 4);<br /> }<br /><br />  virtual const irr::core::aabbox3d&lt;f32&gt;&amp; getBoundingBox() const<br />  {<br />    return Box;<br />  }<br /><br />  virtual s32 getMaterialCount()<br />  {<br />    return 1;<br />  }<br /><br />  virtual irr::video::SMaterial&amp; getMaterial(s32 i)<br />  {<br />    return Material;<br />  }<br />};</font><br /></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              tok - almost straight from the tok tutorial, we initialize the physics 
+              engine: <br /> <br /> <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">bool InitPhysics(void)<br />{<br /> neGeometry *geom; // Pointer to a Geometry object<br />                   // which we'll use to define the shape/size<br />                   // of each cube<br /> neV3 boxSize1;    // A variable to store the length, width<br />                   // and height of the cube<br /> neV3 gravity;     // A vector to store the direction and <br />                   //intensity of gravity<br /> neV3 pos;         // The position of a cube<br /> f32 mass;         // The mass of our cubes<br /> neSimulatorSizeInfo sizeInfo; // SizeInfo stores data <br />                  // about how manyobjects we are going to model<br /> int i;</font><br /></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              Create and initialise the simulator.<br />
+              Tell the simulator how many rigid bodies we have. <br /> <br /> 
+              <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">sizeInfo.rigidBodiesCount = CUBECOUNT;</font><br /></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              Tell the simulator how many animated bodies we have.<br /> <br /> 
+              <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">sizeInfo.animatedBodiesCount = 1;<br /></font></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              Tell the simulator how many bodies we have in total.<br /> <br /> 
+              <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">s32 totalBody = sizeInfo.rigidBodiesCount +<br />   sizeInfo.animatedBodiesCount;<br />sizeInfo.geometriesCount = totalBody;</font><br /></pre></td>
+                </tr>
+              </tbody></table>
+              <p> The overlapped pairs count defines how many bodies it is possible 
+                to be in collision at a single time. The SDK states this should 
+                be calculated as:<br />
+                bodies * (bodies-1) / 2<br />
+                So we'll take its word for it. :-)</p>
+              <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td><pre><font size="2">sizeInfo.overlappedPairsCount = <br />     totalBody * (totalBody - 1) / 2;</font></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              We're not using any of these so set them all to zero.<br /> <br /> 
+              <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">sizeInfo.rigidParticleCount = 0;<br />sizeInfo.constraintsCount = 0;<br />sizeInfo.terrainNodesStartCount = 0;</font></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              Set the gravity. Try changing this to see the effect on the objects.<br /> 
+              <br /> <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">gravity.Set(0.0f, -10.0f, 0.0f);</font></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              Ready to go, create the simulator object.<br /> <br /> <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">gSim = neSimulator::CreateSimulator(sizeInfo, NULL, &amp;gravity);</font></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              Now we need to add some other elements to the physics engine, namely 
+              the cubes and the floor. <br />
+              Create rigid bodies for the cubes.<br /> <br /> <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">srand(time(0));<br /><br />for (i=0; i&lt;CUBECOUNT; i++)<br />{<br />  // Create a rigid body<br />  gCubes[i] = gSim-&gt;CreateRigidBody();<br />
+  // Add geometry to the body and set it to be a box<br />  // of dimensions 1, 1, 1<br />  geom = gCubes[i]-&gt;AddGeometry();<br />  boxSize1.Set(CUBEX, CUBEY, CUBEZ);<br />  geom-&gt;SetBoxSize(boxSize1[0], boxSize1[1], boxSize1[2]);
+<br />  // Update the bounding info of the object -- must always call this<br />  // after changing a body's geometry.<br />  gCubes[i]-&gt;UpdateBoundingInfo();<br /><br />  // Set other properties of the object (mass, position, etc.)<br />  mass =CUBEMASS;<br />  gCubes[i]-&gt;SetInertiaTensor(<br />    neBoxInertiaTensor(boxSize1[0], boxSize1[1], boxSize1[2], mass));<br />  gCubes[i]-&gt;SetMass(mass);<br /><br />  // Vary the position so the cubes don't all exactly<br />  // stack on top of each other<br />  // (makes for a more interesting simulation)<br /><br />  // MC - You may need to play with the randomization <br />  // stuff, since your cubemay be to big to<br />  // be easily destabelized<br />  pos.Set((rand()%10) / 20.0f * CUBEX, 4.0f + i * (CUBEY + 1),<br />   (rand()%10)/ 20.0f * CUBEZ);<br />  gCubes[i]-&gt;SetPos(pos);<br />}</font><br /></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              Create an animated body for the floor<br /> <br /> <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">gFloor = gSim-&gt;CreateAnimatedBody();</font></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              Add geometry to the floor and set it to be a box with size as defined 
+              by the FLOORSIZE constant. <br /> <br /> <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">geom = gFloor-&gt;AddGeometry();<br />boxSize1.Set(FLOORSIZE, 0.0f, FLOORSIZE);<br />geom-&gt;SetBoxSize(boxSize1[0],boxSize1[1],boxSize1[2]);<br />gFloor-&gt;UpdateBoundingInfo();</font><br /></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              Set the position of the box within the simulator.<br /> <br /> <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2"> pos.Set(0.0f, 0.0f, 0.0f);<br /> gFloor-&gt;SetPos(pos);<br /> // All done<br /> return true;<br />}</font></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              tok - again, cut &amp; pasted<br /> <br /> <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">void KillPhysics(void)<br />{<br /> if (gSim)<br /> {<br />   // Destroy the simulator.<br />   // Note that this will release all related <br />   // resources that we've allocated.<br />   neSimulator::DestroySimulator(gSim);<br />   gSim = NULL;<br /> }<br />}</font></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              tok - cut/paste.<br /> <br /> <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">bool InitTimer(void)<br />{<br />  INT64 TimerFrequency;<br /><br />  // Can we use the high performance timer?<br />  if (QueryPerformanceFrequency( (LARGE_INTEGER*)&amp;TimerFrequency))<br />  {<br />    // High performance timer available, let's get ready to use it<br />    gfTimeScale = 1.0f / TimerFrequency;<br />    QueryPerformanceCounter((LARGE_INTEGER *) &amp;gCurrentTime);<br />    gbUseHFTimer = true;<br />    return true;<br />  }<br />  else<br />  {<br />    // No high precision timer to be seen,<br />    // let's use the Windows multimedia<br />    // timer instead<br />    gfTimeScale = 0.001f;<br />    gCurrentTime = timeGetTime();<br />    gbUseHFTimer = false;<br />    return true;<br />  }<br /><br />  // No timer available at all (should never happen)<br />  return false;<br />}</font></pre></td>
+                </tr>
+              </tbody></table>
+              <p> tok - cut/paste...again</p>
+              <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">float GetElapsedTime()<br />{<br />  INT64 newTime;<br />  float fElapsed;<br /><br />  if (gbUseHFTimer)<br />    QueryPerformanceCounter((LARGE_INTEGER *) &amp;newTime);<br />  else<br />    newTime=timeGetTime();<br /><br />  // Scale accordingly<br />  fElapsed = (float)((newTime - gCurrentTime) * gfTimeScale);<br /><br />  // Save the new time value for the next time we're called<br />  gCurrentTime = newTime;<br /><br />  return fElapsed;<br />}</font></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              OK, the main function, where the meat is. Here's where I had the 
+              most fun.<br /> <br /> <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">int main()<br />{<br />  //irr - variable<br />  MyEventReceiver receiver;<br /><br />  //tok - timer stuff<br />  float fElapsed;<br />  static float fLastElapsed;<br />  int i;<br /><br />  //MC - I needed a vector3df to pass to the Node movement functions<br />  irr::core::vector3df TempVect;<br /><br />  irr::IrrlichtDevice *device =<br />  irr::createDevice(irr::video::DT_OPENGL,<br />  irr::core::dimension2d&lt;irr::s32&gt;(640, 480), 16,<br />     false, false, &amp;receiver);<br /><br />  irr::video::IVideoDriver* driver = device-&gt;getVideoDriver();<br />  irr::scene::ISceneManager* smgr = device-&gt;getSceneManager();<br /><br />  camera = smgr-&gt;addCameraSceneNodeFPS(0, 100.0f, 100.0f);<br /><br />  //MC - I moved the camera so the initial view is more interesting<br />  //     then turned it toward the origin, there the cubes fall<br />  camera-&gt;setPosition(irr::core::vector3df(20,30,20));<br />  camera-&gt;setTarget(irr::core::vector3df(-20,-30,-20));<br /> <br />  device-&gt;getCursorControl()-&gt;setVisible(false);<br /> <br /><br /> //MC - This is a major step, in case it's not obvious.<br /> // Initialize Tokamak<br /> InitPhysics();<br /><br /> //MC - Here we set up our array of cubes then create them.<br /> // Make sure you DO NOT drop() the cubes, since we need to<br /> // use the pointer to refer back to the<br /> // cubes to position them<br /> PhysicsCubeNode *CubeNode[CUBECOUNT];<br /><br /> for (i=0; i&lt;CUBECOUNT;i++)<br /> {<br />   CubeNode[i] = new PhysicsCubeNode(<br />      smgr-&gt;getRootSceneNode(), smgr, 666);<br /> }<br /><br /> //MC - I'm one of those programmers that will fit 2 <br /> // or more commands on one line if I can.  Plus, I<br /> // think this is a really cute way of calling and<br /> // dropping a node without using a variable. I use<br /> // the magic of C++ to create a new Node and drop<br /> // that same node in the same look.  If I was doing <br /> // this the long way I would need a PhysicsFloorNode<br /> // pointer<br /> (new PhysicsFloorNode(smgr-&gt;getRootSceneNode(),<br />     smgr, 666))-&gt;drop();<br /><br /> //tok - Initialize the timer and the variable to<br /> // count the last number of milliseconds.<br /> //      this makes sure there isn't a wierd jump in the program.<br /> InitTimer();<br /> fLastElapsed = 0;<br /><br /> //irr - This will give us something to reference the last FPS count<br /> int lastFPS = -1;</font></pre></td>
+                </tr>
+              </tbody></table>
+              <br />
+              Now the fun begins.<br /> <br /> <table width="95%" border="0" cellspacing="2" cellpadding="0" bgcolor="#CCCCCC" align="center">
+                <tbody><tr> 
+                  <td> <pre><font size="2">while(device-&gt;run())<br />{<br /><br />  //tok - Find out how much time has elapsed <br />  //      since we were last called<br />  fElapsed = GetElapsedTime();<br />
+  //tok - Prevent the elapsed time from being more <br />  //      than 20% greater or less than the previous <br />  //      elapsed time.<br />  if (fLastElapsed != 0)<br />  {<br />    if (fElapsed &gt; fLastElapsed * 1.2f) <br />      fElapsed = fLastElapsed * 1.2f;<br />    if (fElapsed &lt; fLastElapsed * 0.8f)<br />      fElapsed = fLastElapsed * 0.8f;<br />  }<br /><br />  // Stop the elapsed time from exceeding 1/45th of a second.<br />  if (fElapsed &gt; 1.0f / 45.0f)<br />     fElapsed = 1.0f / 45.0f;<br />  // Store the elapsed time so that we can use <br />  //it the next time around<br />  fLastElapsed = fElapsed;<br /><br />  gSim-&gt;Advance(fElapsed);<br /><br />  //MC - here where the real magic happens.  <br />  //     We loop through each cube;<br />  for (i=0; i&lt;CUBECOUNT; i++)<br />  {<br /><br />    //First, we get the position from the Tokamak cube<br /><br />    neV3 p = gCubes[i]-&gt;GetPos();<br /><br />    //Now, we set up out temporary vector<br />    TempVect.X = p[0];<br />    TempVect.Y = p[1];<br />    TempVect.Z = p[2];<br /><br />    //And set the position of the cube that Irrlicht is going to draw<br />    CubeNode[i]-&gt;setPosition(TempVect);<br /><br />    //Last, we get the rotation from the Tokamak cube<br />    // This is a the rotation quaternion, I believe<br />    // More information is found here:<br />    // <a href="http://www.gamedev.net/reference/articles/article1095.asp%20" target="_blank">http://www.gamedev.net/reference/articles/article1095.asp </a><br />    // (Thanks to unnamed forum user)<br />    neQ q = gCubes[i]-&gt;GetRotationQ();<br />
+    //Again, the temporary vector is set<br />    TempVect.Y = q.Y; <br />    TempVect.X = q.X;<br />    TempVect.Z = q.Z;<br /><br />    //we convert it to degrees and set the Irrlicht cube's rotation<br />    TempVect *= 180 / PI;<br />    CubeNode[i]-&gt;setRotation(TempVect);<br />  }<br />
+  //irr - Now we draw it all<br />  driver-&gt;beginScene(true, true, irr::video::SColor(0,100,100,100));<br /><br />  smgr-&gt;drawAll();<br /><br />  driver-&gt;endScene();<br /><br />  int fps = driver-&gt;getFPS();<br /><br />  if (lastFPS != fps)<br />  {<br />   wchar_t tmp[1024];<br />   swprintf(tmp, 1024, L"Physics Example- Irrlicht &amp; Tokamak"\<br />   L" Engines(fps:%d)", fps);<br />  <br />   device-&gt;setWindowCaption(tmp);<br />   lastFPS = fps;<br />  }<br />}<br />
+ 
+ //tok - When we're one, we kill the physics engine<br /> KillPhysics();<br /><br /> //MC - And drop all the node pointers that we don't need anymore<br /> for (i=0; i&lt;CUBECOUNT;i++)<br /> CubeNode[i]-&gt;drop();<br /><br /> //irr - and we finish off everything by dropping the device<br /> device-&gt;drop();<br /><br /> return 0;<br />}</font><br /><br /></pre></td>
+                </tr>
+              </tbody></table>
+              <p>  </p>
+              </td>
+          </tr>
+        </tbody></table>
+        <p> </p>
+        <p> </p></td>
+    </tr>
+  </tbody></table>  
+  <div align="right"><br />
+    <a href="http://validator.w3.org/check?uri=referer" target="_blank"><img src="images/general/valid-xhtml10.png" alt="Valid XHTML 1.0!" width="88" height="31" border="0" /></a> 
+    <a href="http://jigsaw.w3.org/css-validator/" target="_blank"><img src="images/general/vcss.gif" alt="Valid CSS!" width="88" height="31" border="0" /></a></div>
+</div>
+<p class="copyrighttext"><br />
+  Irrlicht Engine and Irrlicht Engine webpage © 2003-2005 by Nikolaus Gebhardt</p>
+
+
+</body></html>
