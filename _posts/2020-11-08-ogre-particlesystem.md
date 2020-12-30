@@ -2873,6 +2873,7 @@ material Fur
 
 - [1] [Ogre3D 脚本系统关键字说明 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/74046682)
 - [2] [Html 转换为 MarkDown 工具](https://www.bejson.com/convert/html2markdown/)
+- [3] [3.3 粒子 Particle {% include relref_cnblogs.html %}](https://www.cnblogs.com/wiki3d/p/4658247.html)
 
 -----
 
@@ -2882,3 +2883,4 @@ material Fur
 - [2] [http://www.lmnopc.com/bitmapfontbuilder/]({% include relref.html url="/backup/2020-11-08-ogre-particlesystem.md/www.lmnopc.com/724c7cfb.html" %})
 - [3] [https://zhuanlan.zhihu.com/p/74046682]({% include relref.html url="/backup/2020-11-08-ogre-particlesystem.md/zhuanlan.zhihu.com/2e9faf96.html" %})
 - [4] [https://www.bejson.com/convert/html2markdown/]({% include relref.html url="/backup/2020-11-08-ogre-particlesystem.md/www.bejson.com/0f492a91.html" %})
+- [5] [https://www.cnblogs.com/wiki3d/p/4658247.html]({% include relref.html url="/backup/2020-11-08-ogre-particlesystem.md/www.cnblogs.com/e4fb1631.html" %})

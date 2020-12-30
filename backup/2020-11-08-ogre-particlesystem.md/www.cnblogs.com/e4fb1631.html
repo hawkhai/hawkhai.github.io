@@ -1,0 +1,739 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="3.3 粒子Particle粒子系统脚本可以作为模板，在运行时创建多个粒子系统粒子系统脚本在初始化时加载，默认为所有公共资源位置（Root::addResourceLocation）下的’.parti" />
+    <meta property="og:description" content="3.3 粒子Particle粒子系统脚本可以作为模板，在运行时创建多个粒子系统粒子系统脚本在初始化时加载，默认为所有公共资源位置（Root::addResourceLocation）下的’.parti" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Ogre参考手册(六）3.3 粒子 - wiki3D - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=R2wBwmwSMG0Sqiw8GFSVjHT4Payg_JFAn51R8XcuvN0" />
+    <link id="MainCss" rel="stylesheet" href="/skins/book/bundle-book-2.min.css" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/book/bundle-book-mobile.min.css?v=oE-WHcI11pvUkPckXbIHx_nEt7ShbL7ORWDJcnq42Rk" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/wiki3d/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/wiki3d/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/wiki3d/wlwmanifest.xml" />
+    <script src="https://www.googletagservices.com/activeview/js/current/osd.js?cb=%2Fr20100101"></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 204338;
+        var currentBlogApp = 'wiki3d';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BOOK';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2015-07-19 10:20';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=V0BbkkQE24zt1D_4TRGfRwcCB1E3YoBpH5YOp1qKoxA"></script>
+    <script type="text/x-mathjax-config;executed=true">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom &gt; * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd &gt; * {display: block!important}
+.MJXp-script-box &gt; *  {display: table!important; height: 50%}
+.MJXp-script-box &gt; * &gt; * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box &gt; *:last-child &gt; * {vertical-align: bottom}
+.MJXp-script-box &gt; * &gt; * &gt; * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover, .MJXp-munder {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over &gt; * {display: block!important}
+.MJXp-munderover &gt; *, .MJXp-munder &gt; * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable &gt; * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr &gt; .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child &gt; .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr &gt; .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child &gt; .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2020120801.js" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script><link rel="prefetch" href="https://907f1bd5d1e9e51dfa53456e8b2b8623.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html" /><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-37/html/container.html" /></head>
+<body class="has-navbar has-bannerbar"><div id="MathJax_Message" style="display: none;"></div>
+    <a name="top"></a>
+            <div id="bannerbar" class="bannerbar-mobile formobile">
+                <a href="https://www.cnblogs.com/cmt/p/14152738.html" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'sephora-mobile-bannerbar')">
+                    <img src="https://img2020.cnblogs.com/blog/35695/202012/35695-20201220150937714-1104069346.png" alt="" />
+                </a>
+            </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <script type="text/javascript">
+	try {
+		if (screen.availWidth &gt; 1200) {
+			document.getElementById("MainCss").href = '/skins/book/bundle-book-2.min.css';
+		}
+	} catch (e) { }
+</script>
+
+<div id="header">
+<div id="HeaderTitle">
+<div id="Title">
+<a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/wiki3d/">wiki3D</a>
+
+</div>
+<div id="subTitle">致力于3D技术</div>
+</div>
+</div>
+
+
+<div id="main">
+	<div id="post_detail">
+    <div class="post">
+        <h2>
+            
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wiki3d/p/4658247.html">
+    <span>Ogre参考手册(六）3.3 粒子</span>
+    
+
+
+</a>
+
+        </h2>
+        
+<div id="cnblogs_post_body" class="blogpost-body">
+    <h2>3.3 粒子Particle</h2>
+<p>粒子系统脚本可以作为模板，在运行时创建多个粒子系统</p>
+<p>粒子系统脚本在初始化时加载，默认为所有公共资源位置（Root::addResourceLocation）下的’.particle’文件。你可以通过ParticleSystemManager::getSingleton().parseAllSources方法加载自定义扩展名的文件类型，或者通过ParticleSystemManager::getSingleton().parseScript解析单个脚本文件</p>
+<p><strong>示例：</strong></p>
+<p align="left">particle_system Examples/PurpleFountain</p>
+<p align="left">{</p>
+<p align="left">    material Examples/Flare2</p>
+<p align="left">    quota 10000</p>
+<p align="left">    billboard_type oriented_self</p>
+<p align="left"> </p>
+<p align="left">    emitter Point</p>
+<p align="left">    {</p>
+<p align="left">        emission_rate 75</p>
+<p align="left">    }</p>
+<p align="left"> </p>
+<p align="left">    affector LinearForce</p>
+<p align="left">    {</p>
+<p align="left">        force_vector 0 -100 0</p>
+<p align="left">    }</p>
+<p align="left"> </p>
+<p align="left">    affector ColourFader</p>
+<p align="left">    {</p>
+<p align="left">        red -0.25</p>
+<p align="left">    }</p>
+<p align="left">}</p>
+<p>粒子需要全局唯一的名字，如:Examples/PurpleFountain。粒子系统支持一些公共属性和粒子发射器（创建粒子）、影响器（修改粒子）。发射器和影响器的的参数依赖于各发射器和影响器的类型。</p>
+<h3>3.3.1 属性</h3>
+<h4>quota</h4>
+<p>粒子系统最多包含粒子数量, 例：quota 10000</p>
+<p><strong> </strong></p>
+<h4>material</h4>
+<p>材质,例：material Example/Flare</p>
+<p><strong> </strong></p>
+<h4>paticle_width / paticle_height</h4>
+<p>世界坐标系中的粒子宽\高。例：paticle_width 100。</p>
+<p>注：当billboard_type为point或perpendicular_self时该属性为固定的，billboard_type为oriented_comon\oriented_set\perpendicular_common时将根据方向矢量(dirction vector)的长度缩放</p>
+<p> </p>
+<h4>cull_each</h4>
+<p>是否独立裁剪。默认情况下粒子系统根据包围盒整体裁剪，某些情况下可以设为true以优化性能。</p>
+<p>例：cull_each true</p>
+<h4>renderer</h4>
+<p>渲染器。粒子系统通过ParticleRenderer类渲染，类可以通过管理类注册。Ogre提供默认的billboard基础的渲染器。可以通过插件注册其它渲染器，每个指定唯一的名字。</p>
+<p>示例：renderer billboard</p>
+<p> </p>
+<h4>sorted</h4>
+<p>默认情况粒子并不排序，可通过设置为true实现更好的渲染效果</p>
+<p> </p>
+<h4>local_space</h4>
+<p>默认情况下粒子发射到世界空间，可通过设置为true修改为本地空间</p>
+<p> </p>
+<h4>billboard_type</h4>
+<p>billboard渲染器属性，默认值point，用法：</p>
+<p>billboard_type point|oriented_common|oriented_self|perpendicular_common| perpendicular_self</p>
+<p>说明：</p>
+<p>point 朝向相机，采用相机的x, y轴（up矢量），适合含糊的球面，如闪光（light flare）</p>
+<p>oriented_common 采用common_direction作为公共y轴，并绕该轴旋转以朝向相机。适合暴风雨、星空</p>
+<p>oriented_self 采用独自的direction vector作为y轴，适合laser fire、烟火等条带状有着各自朝向的粒子</p>
+<p>perpendicular_common采用common_direction作为公共z轴，y轴通过z与common_up_vector计算。这种类型粒子不旋转，因此需要设置双面纹理，避免背面裁剪。适合光环，比perpendicular_self稍快</p>
+<p>perpendicular_self 各自独立的方向矢量作为z轴，适合堆积的环，有各自的方向（rings stack）</p>
+<p> </p>
+<h4>common_direction  &lt;x y z&gt;</h4>
+<p>设置oriented_commo、perpendicular_common类型公告牌采用的公共方向矢量(common direction)</p>
+<p> </p>
+<h4>common_up_vector  &lt;x y z&gt;</h4>
+<p>设置perpendicular_common\perpendicular_self类型公告牌采用的公共上矢量(common up vector)</p>
+<p> </p>
+<h4>billboard_origin  &lt;top/center/bottom_left/(center)/right&gt;</h4>
+<p>粒子原点类型，默认为中心</p>
+<p>例：billboard_orign top_left ，默认: billboard_orign center</p>
+<p> </p>
+<h4>billboard_rotation_type  &lt;vertex/texcoord&gt;</h4>
+<p>旋转类型，公告牌粒子默认采用纹理旋转作为粒子旋转实现。但这样旋转时原来角部纹理会丢失，在重叠采样（wrap address）或者采用子纹理时角部也会出现不需要纹理。可通过设置为旋转顶点(vertex)解决，但效率稍低</p>
+<p>用法： billboard_rotaion_type vertex/texcoord</p>
+<p> </p>
+<h4>point_rendering  &lt;true/false&gt;</h4>
+<p>公告牌默认采用四个顶点的四边形渲染，可设置true采用硬件点渲染（速度并不明显提高），此时受硬件渲染状态控制，并有以下限制：</p>
+<p>l  只支持point 类型公告牌</p>
+<p>l  粒子显示受所采用材质渲染通道控制：(point_size, point_size_attenuation, point_sprites)</p>
+<p>l  受图形卡显示，最大点大小为64-256像素</p>
+<p>例：point_rendering true</p>
+<p>同时材质通道需开启点精灵渲染：</p>
+<p>             point_sprites on</p>
+<p>                   point_size_attenuation on 0 10 0</p>
+<p> </p>
+<h4>accurate_facing  on/off</h4>
+<p>默认关闭off，即采用相机朝向的反方向。开启后on将单个计算各公告牌指向相机的方向</p>
+<p> </p>
+<h4>iteration_interval &lt;float&gt;</h4>
+<p>粒子系统默认按帧率更新，可以设置固定更新时间（秒），0表示按帧率更新</p>
+<p>示例：iteration_interval 0.01</p>
+<p> </p>
+<h4>nonvisible_update_timeout &lt;float&gt;</h4>
+<p>粒子系统在不可见的情况下默认一直更新以便保持一致，可设置超时时间(秒)以便不可见一段时间后停止更新。默认值0，表示一直更新。 示例：nonvisible_update_timeout 5</p>
+<p> </p>
+<h4>emit_emitter_quota &lt;int&gt;</h4>
+<p>被发射的发射器限额，发射器也可以被发射，这个参数控制被发射器发射的发射器个数</p>
+<p> </p>
+<h4>emitter</h4>
+<p>指定发射器，用法:emitter &lt;type&gt; { … }</p>
+<p>例：</p>
+<p>emitter Box { … }</p>
+<h3>3.3.2 发射器emitter</h3>
+<p>发射器为emitter内嵌指令：emitter &lt;type&gt; { … }， type为发射器类型，区分大小写。Ogre当前支持’Point点、Box盒、Cylinder圆柱、Ellipsod椭球、HollowEllipsoid中空椭球、Ring圆环等几种类型发射器，可以通过插件注册新的发射器类型</p>
+<h3>3.3.3 发射器公共属性</h3>
+<p>各种发射器含有以下公共属性，除此之外各发射器还含有自身特殊属性：</p>
+<p> </p>
+<h4>name  &lt;name&gt;</h4>
+<p>发射器名称，当被用于其它发射器时使用</p>
+<p> </p>
+<h4>position  &lt;x y z&gt;</h4>
+<p>发射器相对粒子系统所属场景节点位置</p>
+<p> </p>
+<h4>direction  &lt;x y z&gt;</h4>
+<p>粒子发射方向</p>
+<p> </p>
+<h4>angle &lt;degrees&gt;</h4>
+<p>最大偏离方向角度，180表示全方向发射， 默认 0严格按照发射方向发射粒子</p>
+<p> </p>
+<h4>emission_rate  &lt;num&gt;</h4>
+<p>每秒发射粒子个数</p>
+<p> </p>
+<h4>velocity &lt;float&gt;</h4>
+<p>发射速度，每秒世界坐标单位</p>
+<h4>velocity_min &amp; velocity_max</h4>
+<p>发射速度范围，避免相同的发射速度，需要成对设置覆盖velocity</p>
+<p> </p>
+<h4>colour</h4>
+<p>颜色， 用法：colour &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]</p>
+<h4>colour_range_start &amp; colour_range_end</h4>
+<p>颜色范围</p>
+<p> </p>
+<h4>time_to_live &lt;float&gt;</h4>
+<p>粒子存活时间</p>
+<h4>time_to_live_min &amp; time_to_live_max</h4>
+<p>粒子存活时间范围，成对设置</p>
+<p> </p>
+<h4>duration &lt;float&gt;</h4>
+<p>发射器持续活动时间，默认0表示无限长</p>
+<h4>duration_min &amp; duration_max</h4>
+<p>发射器持续活动时间范围</p>
+<p> </p>
+<h4>repeat_delay &lt;float&gt;</h4>
+<p>发射器停止后（因duration过期）重新启动时间</p>
+<h4>repeat_delay_min &amp; repeat_delay_max</h4>
+<p>重启时间范围</p>
+<p> </p>
+<h4>emit_emitter &lt;name&gt;</h4>
+<p>发射发射器：当前发射的粒子结束时在该位置发射指定名称的发射器，类似于烟花</p>
+<p>示例：</p>
+<p>particle_system Examples/Fireworks</p>
+<p>{</p>
+<p>    material Examples/Flare</p>
+<p>    quota                      1000</p>
+<p>    emit_emitter_quota         10   //最多发射10个发射器：mainEmitter粒子</p>
+<p>    // 发射发射器的发射器</p>
+<p>    {</p>
+<p>        emit_emitter            explosion //发射explosion发射器</p>
+<p>        emission_rate           1000</p>
+<p>        time_to_live            3</p>
+<p>    }</p>
+<p>    // 被发射的发射器</p>
+<p>    emitter Point</p>
+<p>    {</p>
+<p>        name                    explosion</p>
+<p>        emission_rate           1000</p>
+<p>        time_to_live            2</p>
+<p>        duration                0.1</p>
+<p>        repeat_delay_min        2</p>
+<p>        repeat_delay_max        3</p>
+<p>}</p>
+<p>}</p>
+<h3>3.3.4 Ogre粒子发射器</h3>
+<p>Ogre实现了以下粒子发射器。可以通过插件实现新的粒子发射器，可参考:Plugin_ParticleFX项目</p>
+<p> </p>
+<h4>Point 点发射器</h4>
+<p>从单个点发射粒子，没有自己特定的属性</p>
+<p>示例： emitter Point { }</p>
+<p> </p>
+<h4>Box 箱/盒发射器</h4>
+<p>从三维大小的盒子任意位置发射粒子，额外属性：</p>
+<p>width &lt;units&gt; 宽，默认 100,</p>
+<p>height &lt;units&gt; 高，默认100</p>
+<p>depth &lt;unit&gt; 高/深， 默认 100</p>
+<p> </p>
+<h4>Cylingder 圆柱发射器</h4>
+<p>与Box相同，含width\height\depth三个自有属性</p>
+<p> </p>
+<h4>Ellipsoid 椭球发射器</h4>
+<p>与Box相同，含width\height\depth三个自有属性</p>
+<p> </p>
+<h4>HollowEllipsoid 椭球发射器</h4>
+<p>与Ellipsoid相同，中空部分不发射粒子，含width\height\depth三个自有属性</p>
+<p>同时包含三个属性指明中空的椭球大小：inner_width\ inner_height\ inner_depth</p>
+<p> </p>
+<h4>Ring 圆环发射器</h4>
+<p>与HollowEllipsoid类似相同，区别在于为二维，除width\height外</p>
+<p>另包括：inner_width\ inner_height 两个属性</p>
+<p> </p>
+<h3>3.3.5 影响器affector</h3>
+<p>影响器为affector内嵌指令：affector &lt;type&gt; { … }， type为影响器类型，区分大小写。Ogre当前支持LinearForce和ColourFader两种类型影响器，可以通过插件注册新的影响器类型。</p>
+<p>影响器没有公共属性</p>
+<p> </p>
+<h3>3.3.6 Ogre粒子影响器</h3>
+<p>Ogre实现了以下影响器。可以通过插件实现新的粒子影响器，可参考:Plugin_ParticleFX项目</p>
+<p> </p>
+<h4>LinearForce 线性力</h4>
+<p>对所有粒子应用线性力矢量，改变粒子的运动速度和方向，用于模仿重力、风等</p>
+<p>属性：</p>
+<p>force_vector      &lt;x&gt; &lt;y&gt; &lt;z&gt;</p>
+<p>力矢量，x y z 大小代表力的大小</p>
+<p> </p>
+<p>force_application &lt;add|average&gt;</p>
+<p>力叠加方式:</p>
+<p> add 累加，每秒增加力矢量大小</p>
+<p> average 平均（每次刷新时与当前速度取平均，因为刷新率很高，原始速度按指数递减，粒子瞬间到达力矢量速度，实际上没有用处）</p>
+<p> </p>
+<h4>ColourFader 颜色</h4>
+<p>改变粒子的颜色，包含以下四个属性：</p>
+<p>red &lt;float&gt; 每秒改变红色成份</p>
+<p>green/blue/alpha &lt; float &gt;</p>
+<p> </p>
+<h4>ColourFader2 两阶段颜色变化</h4>
+<p>改变粒子的颜色，包含以下属性：</p>
+<p>red1/green1/blue1/alpha1 第一阶段颜色每秒变化</p>
+<p>state_change&lt;float &gt;第二阶段时长（粒子存活结束时间前的state_change时间段为第二阶段，很糟的设计）</p>
+<p>red2/green2/blue2/alpha2 第二阶段颜色变化</p>
+<p> </p>
+<h4>Scaler  缩放</h4>
+<p>rate&lt;float&gt;每秒缩放倍数</p>
+<p> </p>
+<h4>Rotator 旋转</h4>
+<p>默认旋转纹理方式旋转粒子</p>
+<p>rotation_speed_range_start/end &lt;degress_per_sercond&gt;</p>
+<p>每秒旋转度数范围</p>
+<p>rotation_range_start/end &lt;degrees&gt;</p>
+<p>初始旋转角度数范围</p>
+<p> </p>
+<h4>ColourInterpolator 颜色差值</h4>
+<p>任意指定阶段时间相对长度和颜色值, 最多指定6个阶段(注：各阶段一半的时间用于前一阶段渐变):</p>
+<p>time0/1/2/3/4/5 &lt;rate&gt;     </p>
+<p>colour0/1/2/3/4/5 &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]</p>
+<p>例：time0 0.5</p>
+<p>      colour0 1 0 0</p>
+<p>      time1 0.5</p>
+<p>      colour1 0 1 0</p>
+<p> </p>
+<h4>ColourImage 一维图片渐变</h4>
+<p>根据一维的图片渐变粒子颜色，与ColourInterpolator类似：</p>
+<p>image &lt;image_name&gt;, 例： image smokecolors.png</p>
+<p> </p>
+<h4>DeflectorPlane 反弹平面</h4>
+<p>粒子碰撞后反弹：</p>
+<p>plane_point &lt;x y z&gt;      平面上一点</p>
+<p>plane_normal &lt;x y z&gt; 平面法线</p>
+<p>bounce &lt;rate&gt; 反射速度比例，0-1.0，默认1</p>
+<p> </p>
+<h4>DirectionRandomiser 随机方向</h4>
+<p>应用随机量影响粒子运动，可以模拟雪花、树叶</p>
+<p>randomness 随机量大小</p>
+<p>scope    影响粒子比例（0-1.0），默认1.0即全部</p>
+<p>keep_velocity 是否保持速度不变，默认false</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="EntryTag">
+    标签: 
+            <a href="https://www.cnblogs.com/wiki3d/tag/Ogre%E5%8F%82%E8%80%83%E6%89%8B%E5%86%8C/">Ogre参考手册</a>,             <a href="https://www.cnblogs.com/wiki3d/tag/Ogre%E4%B8%AD%E6%96%87%E6%89%8B%E5%86%8C/">Ogre中文手册</a></div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(4658247,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('a6113441-0f68-e411-b908-9dcfd8948a71');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/wiki3d/" target="_blank"><img src="https://pic.cnblogs.com/face/sample_face.gif" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/wiki3d/">wiki3D</a><br />
+            <a href="https://home.cnblogs.com/u/wiki3d/followees/">关注 - 6</a><br />
+            <a href="https://home.cnblogs.com/u/wiki3d/followers/">粉丝 - 9</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('a6113441-0f68-e411-b908-9dcfd8948a71');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(4658247,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(4658247,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/wiki3d/p/4658241.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/wiki3d/p/4658241.html" title="发布于 2015-07-19 10:18">Ogre参考手册(五）3.2 合成器</a>
+    <br />
+    <a href="https://www.cnblogs.com/wiki3d/p/4658255.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/wiki3d/p/4658255.html" title="发布于 2015-07-19 10:22">Ogre参考手册(七）3.4 表层(overlay)，3.5 字体定义</a>
+
+</div>
+</div>
+        <p class="postfoot">
+            posted on 
+<span id="post-date">2015-07-19 10:20</span> 
+<a href="https://www.cnblogs.com/wiki3d/">wiki3D</a> 
+阅读(<span id="post_view_count">660</span>) 
+评论(<span id="post_comment_count">0</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=4658247" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(4658247);return false;">收藏</a>
+        </p>
+    </div>
+</div>
+
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 204338, cb_blogApp = 'wiki3d', cb_blogUserGuid = 'a6113441-0f68-e411-b908-9dcfd8948a71';
+    var cb_entryId = 4658247, cb_entryCreatedDate = '2015-07-19 10:20', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页
+</div>
+<a href="https://www.cnblogs.com/cmt/p/14003277.html" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-login-tip-aws')">写给园友们的一封求助信</a>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="http://www.softbam.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-ucancode-1103')">【推荐】News: 大型组态、工控、仿真、CADGIS 50万行VC++源码免费下载</a><br /><a href="https://www.wenjuan.com/s/UZBZJvjEKs/#《博客园用户消费观调查》，快来参与吧。【问卷网提供支持】" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-博客园问卷')">【推荐】有你助力，更好为你——博客园用户消费观调查，附带小惊喜！</a><br /><a href="https://www.cnblogs.com/cmt/p/14152738.html" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-丝芙兰-圣诞')">【推荐】博客园x丝芙兰-圣诞特别活动：圣诞选礼，美力送递</a><br /><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为专区')">【推荐】了不起的开发者，挡不住的华为，园子里的品牌专区</a><br /><a href="https://brands.cnblogs.com/aws/free?source=CH" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-AWS')">【福利】AWS携手博客园为开发者送免费套餐+50元京东E卡</a><br /><a href="https://brands.cnblogs.com/agora" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-声网专区')">【推荐】未知数的距离，毫秒间的传递，声网与你实时互动</a><br /><a href="https://brands.cnblogs.com/aerospike" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-Aerospike专区')">【推荐】新一代 NoSQL 数据库，Aerospike专区新鲜入驻</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CNOls4Hq9O0CFY8EXAodSk4DLg"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br />·  <a title="Unity3D学习笔记——组件之Effects（效果/特效）——Particle System（粒子系统）" href="https://www.cnblogs.com/qinghuaideren/p/3597666.html" target="_blank" onclick="clickRecomItmem(3597666)">Unity3D学习笔记——组件之Effects（效果/特效）——Particle System（粒子系统）</a><br />·  <a title="粒子编辑器的选择1" href="https://www.cnblogs.com/cocos2d-x/archive/2012/06/17/2552635.html" target="_blank" onclick="clickRecomItmem(2552635)">粒子编辑器的选择1</a><br />·  <a title="[原]Unity3D深入浅出 - 粒子系统(Particle System)" href="https://www.cnblogs.com/tonge/p/3922545.html" target="_blank" onclick="clickRecomItmem(3922545)">[原]Unity3D深入浅出 - 粒子系统(Particle System)</a><br />·  <a title="Unity3D ParticleSystem粒子系统（3.5版）【初级】" href="https://www.cnblogs.com/fortomorrow/archive/2012/11/03/unity10.html" target="_blank" onclick="clickRecomItmem(2751926)">Unity3D ParticleSystem粒子系统（3.5版）【初级】</a><br />·  <a title="[原]Unity3D深入浅出 - 新版粒子系统 (Shuriken)" href="https://www.cnblogs.com/tonge/p/3924861.html" target="_blank" onclick="clickRecomItmem(3924861)">[原]Unity3D深入浅出 - 新版粒子系统 (Shuriken)</a><br />»  <a target="_blank" href="https://recomm.cnblogs.com/blogpost/4658247">更多推荐...</a></div></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;" data-google-query-id="CNSls4Hq9O0CFY8EXAodSk4DLg"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="2" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_kb">
+<div class="itnews c_ad_block">
+    <b>最新 IT 新闻</b>:
+    <br />
+ ·          <a href="//news.cnblogs.com/n/684244/" target="_blank">淘宝揭晓年度“丑东西”：羊毛毡买家秀“拔得头丑”</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/684243/" target="_blank">太空垃圾增多威胁地球安全？日本研发木制卫星</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/684242/" target="_blank">沈向洋：人工智能社区将创造更多工具释放人类创造力</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/684241/" target="_blank">业内首创！小米MIUI 12.5无障碍触感新功能发布</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/684240/" target="_blank">字节跳动申请抖音支付商标</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+
+
+	<p id="footer">
+	Powered by: 
+	<br />
+	
+	<a href="https://www.cnblogs.com/" id="footer_site_link">博客园</a>
+	<br />
+	Copyright © 2020 wiki3D
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+</p>
+
+
+</div>
+<div id="rightmenu">
+	
+		<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+		
+<h3>导航</h3>
+<ul>
+			<li>
+</li>
+			<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/wiki3d/">
+首页</a>
+</li>
+			<li>
+
+
+</li>
+			<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/wiki3D">
+联系</a></li>
+			<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/wiki3d/rss/">
+订阅</a>
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/wiki3d/rss/">
+    <img src="/skins/book/images/xml.gif" alt="订阅" />
+</a></li>
+			<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		
+<h3>统计</h3>
+<ul>
+    <li>随笔 - 54</li>
+    <li>文章 - 0</li>
+    <li>评论 - 12</li>
+    <li>
+        引用 - 
+0
+    </li>
+</ul>
+
+
+		
+<div id="sidebar_c3"></div>
+		<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    
+</div>
+
+<!-- 常用链接 -->
+
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+</div>
+
+<!-- 最新评论 -->
+
+
+
+<!-- 阅读排行榜 -->
+
+
+<!-- 评论排行榜 -->
+
+
+<!-- 推荐排行榜 -->
+</div>
+                    <script>loadBlogSideColumn();</script>
+	
+</div>
+			
+			
+			
+			
+			 
+
+	
+
+
+    
+
+
+<iframe id="google_osd_static_frame_2015921231562" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body></html>
