@@ -161,6 +161,9 @@ def ffmpegConvert(fpath):
 
 def organizeRes(ik, fpath, line):
 
+    if ik in ("subsystem:windows /ENTRY:mainCRTStartup",):
+        return line
+
     ikdir, ikfile = os.path.split(ik)
     if ikfile.find(".") == -1:
         ikfile = ikfile + ".jpg"
@@ -169,7 +172,7 @@ def organizeRes(ik, fpath, line):
         ffmpegConvert(ik)
 
     if not COPYRES:
-        assert os.path.exists(ik), fpath
+        assert os.path.exists(ik), fpath +"  "+ ik
         return line
     invisible = os.path.abspath(fpath).startswith(os.path.abspath("invisible")+"\\")
     fname = os.path.split(fpath)[-1]
@@ -637,7 +640,7 @@ def main():
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
         "Debug", "Release", ".vs", "openglcpp", "opengl-3rd",
         "UserDataSpider",
-        ))
+        ), reverse=True)
     if REBUILD:
         clearSnapCache()
         clearemptydir("images")
@@ -671,4 +674,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    print(parsePythonCmdx(__file__))
     os.system(r"cd invisible & python tempd.py encrypt")

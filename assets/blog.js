@@ -169,6 +169,18 @@ function checkFlowChart() {
     });
 }
 
+function checkHrefTagk() {
+    $(".post a[href^=http]").each(function() {
+        var $this = $(this);
+        var href = $this.find("> img.domaintag");
+        if (!href.length) {
+            $this.addClass("ahref_withimg");
+        }
+    });
+    // https://blog.csdn.net/leewhoee/article/details/20520981
+    return;
+}
+
 // 文档加载完成时
 $(document).ready(function () {
     checkVideo();
@@ -179,6 +191,7 @@ $(document).ready(function () {
     calcShortUrlx();
     checkFlowChart();
     changePositionk();
+    checkHrefTagk();
 });
 // 窗口大小变化时
 $(window).resize(function () {
