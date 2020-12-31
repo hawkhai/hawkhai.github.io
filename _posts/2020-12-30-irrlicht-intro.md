@@ -55,31 +55,40 @@ int main();
 
 <table class="tablestyle" ntablew="3:8:2:3:3"></table>
 
-| Name | Summary | Difficulty | Shot | Note |
-| ---- | ---- | ---- | :----: | ---- |
-| [1.HelloWorld] | Shows how to set up the Visual Studio IDE for using the Irrlicht Engine and how to write a simple HelloWorld program with it. The tutorial will show how to use the basics of the VideoDriver, the GUIEnvironment and the SceneManager. | easy | ![s001shot.jpg] | HelloWorld |
-| [2.Quake3Map] | This tutorial shows how to load a Quake 3 map into the engine, create a SceneNode for optimizing the speed of rendering and how to create a user controlled camera. | easy | ![s002shot.jpg] | 加载一个地图 |
-| [3.Custom SceneNode] | This tutorials shows how to create a custom scene node and how to use it in the engine. This is useful if you want to extend the render techniques of the Irrlicht Engine. | advanced | ![s003shot.jpg] | 自定义场景节点 |
-| [4.Movement] | This Tutorial shows how to move and animate SceneNodes. The basic concept of SceneNodeAnimators is shown as well as manual movement of nodes using the keyboard. | easy | ![s004shot.jpg] | 移动和动画 |
-| [5.User Interface] | This tutorial shows how to use the built in User Interface of the Irrlicht Engine. It will give a brief overview and show how to create and use windows, buttons, scroll bars, static texts and list boxes. | average | ![s005shot.jpg] | 用户界面控件 |
-| [6.2D Graphics] | This Tutorial shows how to do 2d graphics with the Irrlicht Engine. It shows how to draw images, keycolor based sprites, transparent rectangles and different fonts. You will may consider this useful if you want to make a 2d game with the engine, or if you want to draw a cool interface or head up display for your 3d game. | easy | ![s006shot.jpg] | 2D 绘制 |
-| [7.Collision] | In this tutorial, I will show how to collision detection with the Irrlicht Engine. I will describe 3 methods: Automatic collision detection for moving through 3d worlds with stair climbing and sliding, manual triangle picking and manual scene node picking. | average | ![s007shot.jpg] | 3D 选择器 |
-| [8.SpecialFX] | This tutorials describes how to do special effects. It shows how to use stencil buffer shadows, the particle system, billboards, dynamic light and the water surface scene node. | average | ![s008shot.jpg] | 特效：阴影，粒子系统，公告板，动态光和水 |
-| [9.MeshViewer] | This tutorial shows how to create a more complex application with the engine. We construct a simple mesh viewer using the user interface API and the scene management of Irrlicht. | advanced | ![s009.jpg] | 模型预览器 |
-| [10.Shaders] | This tutorial shows how to use shaders for D3D8, D3D9 and OpenGL with the engine and how to create new material types with them. It also shows how to disable the generation of mipmaps at texture loading, and how to use text scene nodes. | advanced | ![s010shot.jpg] | 使用 Shaders |
-| [11.Per Pixel Lighting] | This tutorial shows how to use one of the built in more complex materials in irrlicht: Per pixel lighted surfaces using normal maps and parallax mapping. It will also show how to use fog and moving particle systems. And don’t panic: You dont need any experience with shaders to use these materials in Irrlicht. | average | ![s011shot.jpg] |  |
-| [12.Terrain Rendering] | This tutorial will briefly show how to use the terrain renderer of Irrlicht. It will also show the terrain triangle selector to be able to do collision detection with terrain. | easy | ![s012shot.jpg] |  |
-| [13.Render To Texture] | This tutorial shows how to render to a texture using Irrlicht. Render to texture is a feature with which it is possible to create nice special effects. In addition, this tutorial shows how to enable specular highlights. | average | ![s013shot.jpg] |  |
-| [14.Win32 window] | This example only runs in Windows and demonstrates that Irrlicht can run inside a win32 window. MFC and .NET Windows.Forms windows are possible too. | easy | ![s014shot.jpg] |  |
-| [15.Load .irr file] | This tutorial shows how to use .irr files. | easy | ![s015shot.jpg] |  |
-| [16.Quake3Map Shader] | This tutorial shows how to work with all elements and effects from a q3 map. | average | ![s016shot.jpg] |  |
-| [17.Hello World Mobile] | This tutorial shows Irrlicht for Windows CE. | advanced | ![s017shot.jpg] |  |
-| [18.SplitScreen] | This tutorial presents usage of split screen setups. Developed by Max Winkel. | average | ![s018shot.jpg] |  |
-| [19.Mouse And Joystick] | This tutorial explains joystick and mouse usage in Irrlicht. | easy | ![s019shot.jpg] |  |
-| [20.Managed Lights] | Irrlicht supports special light setup via light managers. This tutorial shows several possibilities to choose the proper lights from the scene. | advanced | ![s020shot.jpg] |  |
-| [21.Quake3Explorer] | This tutorial contains a full q3 map explorer. One can load q3 maps, walk through the maps, and play around with the advanced GUI. | advanced | ![s021shot.jpg] |  |
-| [22.MaterialViewer] | This tutorial allows to test all material settings Irrlicht provides. One can use this app to prepare manually configured materials for an own app. | easy | ![s022shot.jpg] |  |
-| [23.SMeshHandling] | This tutorial explains how to manually create meshes in Irrlicht. In contrast to example 3, this technique is pretty easy, does not require that much code, and can use all the advanced things of Irrlicht’s mesh handling. | average | ![s023shot.jpg] |  |
+| Name | Summary | Difficulty | Shot |
+| ---- | ---- | ---- | :----: |
+| [1.HelloWorld] | Shows how to set up the Visual Studio IDE for using the Irrlicht Engine and how to write a simple HelloWorld program with it. The tutorial will show how to use the basics of the VideoDriver, the GUIEnvironment and the SceneManager. | easy | ![s001shot.jpg] |
+| [2.Quake3Map] | This tutorial shows how to load a Quake 3 map into the engine, create a SceneNode for optimizing the speed of rendering and how to create a user controlled camera. | easy | ![s002shot.jpg] |
+| [3.Custom SceneNode] | This tutorials shows how to create a custom scene node and how to use it in the engine. This is useful if you want to extend the render techniques of the Irrlicht Engine. | advanced | ![s003shot.jpg] |
+| [4.Movement] | This Tutorial shows how to move and animate SceneNodes. The basic concept of SceneNodeAnimators is shown as well as manual movement of nodes using the keyboard. | easy | ![s004shot.jpg] |
+| [5.User Interface] | This tutorial shows how to use the built in User Interface of the Irrlicht Engine. It will give a brief overview and show how to create and use windows, buttons, scroll bars, static texts and list boxes. | average | ![s005shot.jpg] |
+| [6.2D Graphics] | This Tutorial shows how to do 2d graphics with the Irrlicht Engine. It shows how to draw images, keycolor based sprites, transparent rectangles and different fonts. You will may consider this useful if you want to make a 2d game with the engine, or if you want to draw a cool interface or head up display for your 3d game. | easy | ![s006shot.jpg] |
+| [7.Collision] | In this tutorial, I will show how to collision detection with the Irrlicht Engine. I will describe 3 methods: Automatic collision detection for moving through 3d worlds with stair climbing and sliding, manual triangle picking and manual scene node picking. | average | ![s007shot.jpg] |
+| [8.SpecialFX] | This tutorials describes how to do special effects. It shows how to use stencil buffer shadows, the particle system, billboards, dynamic light and the water surface scene node. | average | ![s008shot.jpg] |
+| [9.MeshViewer] | This tutorial shows how to create a more complex application with the engine. We construct a simple mesh viewer using the user interface API and the scene management of Irrlicht. | advanced | ![s009.jpg] |
+| [10.Shaders] | This tutorial shows how to use shaders for D3D8, D3D9 and OpenGL with the engine and how to create new material types with them. It also shows how to disable the generation of mipmaps at texture loading, and how to use text scene nodes. | advanced | ![s010shot.jpg] |
+| [11.Per Pixel Lighting] | This tutorial shows how to use one of the built in more complex materials in irrlicht: Per pixel lighted surfaces using normal maps and parallax mapping. It will also show how to use fog and moving particle systems. And don’t panic: You dont need any experience with shaders to use these materials in Irrlicht. | average | ![s011shot.jpg] |
+| [12.Terrain Rendering] | This tutorial will briefly show how to use the terrain renderer of Irrlicht. It will also show the terrain triangle selector to be able to do collision detection with terrain. | easy | ![s012shot.jpg] |
+| [13.Render To Texture] | This tutorial shows how to render to a texture using Irrlicht. Render to texture is a feature with which it is possible to create nice special effects. In addition, this tutorial shows how to enable specular highlights. | average | ![s013shot.jpg] |
+| [14.Win32 window] | This example only runs in Windows and demonstrates that Irrlicht can run inside a win32 window. MFC and .NET Windows.Forms windows are possible too. | easy | ![s014shot.jpg] |
+| [15.Load .irr file] | This tutorial shows how to use .irr files. | easy | ![s015shot.jpg] |
+| [16.Quake3Map Shader] | This tutorial shows how to work with all elements and effects from a q3 map. | average | ![s016shot.jpg] |
+| [17.Hello World Mobile] | This tutorial shows Irrlicht for Windows CE. | advanced | ![s017shot.jpg] |
+| [18.SplitScreen] | This tutorial presents usage of split screen setups. Developed by Max Winkel. | average | ![s018shot.jpg] |
+| [19.Mouse And Joystick] | This tutorial explains joystick and mouse usage in Irrlicht. | easy | ![s019shot.jpg] |
+| [20.Managed Lights] | Irrlicht supports special light setup via light managers. This tutorial shows several possibilities to choose the proper lights from the scene. | advanced | ![s020shot.jpg] |
+| [21.Quake3Explorer] | This tutorial contains a full q3 map explorer. One can load q3 maps, walk through the maps, and play around with the advanced GUI. | advanced | ![s021shot.jpg] |
+| [22.MaterialViewer] | This tutorial allows to test all material settings Irrlicht provides. One can use this app to prepare manually configured materials for an own app. | easy | ![s022shot.jpg] |
+| [23.SMeshHandling] | This tutorial explains how to manually create meshes in Irrlicht. In contrast to example 3, this technique is pretty easy, does not require that much code, and can use all the advanced things of Irrlicht’s mesh handling. | average | ![s023shot.jpg] |
+| [24.CursorControl] | Show how to modify cursors and offer some useful tool-functions for creating cursors. It can also be used for experiments with the mouse in general. | ? | ![] |
+| [25.XmlHandling] | Demonstrates loading and saving of configurations via XML. This demo features a fully usable system for configuration handling. The code
+can easily be integrated into own apps. | ? | ![] |
+| [26.OcclusionQuery] | This tutorial shows how to speed up rendering by use of the OcclusionQuery feature. The usual rendering tries to avoid rendering of scene nodes by culling those nodes which are outside the visible area, the view frustum. | ? | ![] |
+| [27.PostProcessing] | This tutorial shows how to create a screen quad. A simple color inverse example is presented in this tutorial. The effect is written in HLSL and GLSL. | ? | ![] |
+| [28.CubeMapping] | Shows usage of cubemap textures and how to do some simple environment mapping. | ? | ![] |
+| [29.HardwareSkinning] | x | ? | ![] |
+| [30.Profiling] | There exist several independent profiling tools. | ? | ![] |
+| [Demo] | x | ? | ![] |
 
 [1.HelloWorld]: http://irrlicht.sourceforge.net/docu/example001.html
 [2.Quake3Map]: http://irrlicht.sourceforge.net/docu/example002.html
@@ -133,16 +142,16 @@ External Tutorials (not included in SDK, written by external authors)
 
 <table class="tablestyle" ntablew="3:8:2:3:3"></table>
 
-| Name | Summary | Difficulty | Shot | Note |
-| ---- | ---- | ---- | :----: | ---- |
-| [DevCpp] | A detailed tutorial on how to use the engine with Dev C++, written by Andy Spurgeon. | easy | ![s001bshot.jpg] |  |
-| [Code::Blocks] | A detailed on how to use the engine with the Code::Blocks IDE, written by Alvaro F. Celis. | easy | ![codeblocks.jpg] |  |
-| [Codewarrior] | A detailed tutorial on how to use the engine with Metroworks Codewarrior, written by André Simon. | easy | ![s001cshot.jpg] |  |
-| [ODE Integration] | Another popular and open source physics engine is ODE. This tutorial shows how to use Irrlicht with ODE. | advanced | ![odelogo.jpg] |  |
-| [Tokamak Integration] | Tokamak is a popular physics engine. Matthew Couch wrote this tutorial which shows how to integrate Tokamak into the Irrlicht Engine. | advanced | ![s008bshot.jpg] |  |
-| [PhysX Integration] | Ageia PhysX is the physics engine formerly called Novodex. This tutorials, written by Andrew J Santa Maria shows how to use it with Irrlicht. | advanced | ![physx.jpg] |  |
-| [Newton Integration] | Another cool physics engine is Newton Game Dynamics. This external tutorial, written by mercior shows how to use it with Irrlicht. | advanced | ![newston.jpg] |  |
-| [Newton DevC++ Integration] | This small tutorial will explain how to integrate the Newton Physics SDK together with Irrlicht into Dev-C++. | average | ![devcpp_newton.jpg] |  |
+| Name | Summary | Difficulty | Shot |
+| ---- | ---- | ---- | :----: |
+| [DevCpp] | A detailed tutorial on how to use the engine with Dev C++, written by Andy Spurgeon. | easy | ![s001bshot.jpg] |
+| [Code::Blocks] | A detailed on how to use the engine with the Code::Blocks IDE, written by Alvaro F. Celis. | easy | ![codeblocks.jpg] |
+| [Codewarrior] | A detailed tutorial on how to use the engine with Metroworks Codewarrior, written by André Simon. | easy | ![s001cshot.jpg] |
+| [ODE Integration] | Another popular and open source physics engine is ODE. This tutorial shows how to use Irrlicht with ODE. | advanced | ![odelogo.jpg] |
+| [Tokamak Integration] | Tokamak is a popular physics engine. Matthew Couch wrote this tutorial which shows how to integrate Tokamak into the Irrlicht Engine. | advanced | ![s008bshot.jpg] |
+| [PhysX Integration] | Ageia PhysX is the physics engine formerly called Novodex. This tutorials, written by Andrew J Santa Maria shows how to use it with Irrlicht. | advanced | ![physx.jpg] |
+| [Newton Integration] | Another cool physics engine is Newton Game Dynamics. This external tutorial, written by mercior shows how to use it with Irrlicht. | advanced | ![newston.jpg] |
+| [Newton DevC++ Integration] | This small tutorial will explain how to integrate the Newton Physics SDK together with Irrlicht into Dev-C++. | average | ![devcpp_newton.jpg] |
 
 [DevCpp]: http://irrlicht.sourceforge.net/tut_devcpp.html)
 [Code::Blocks]: http://irrlicht.sourceforge.net/tut_codeblocks.html)
@@ -311,6 +320,21 @@ int main()
 
 
 ## Tutorial 26: OcclusionQuery
+
+
+## 27.PostProcessing
+
+
+## 28.CubeMapping
+
+
+## 29.HardwareSkinning
+
+
+## 30.Profiling
+
+
+## Demo
 
 -----
 
