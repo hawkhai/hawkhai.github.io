@@ -349,9 +349,10 @@ def mainfile(fpath, fname, ftype):
 
     warnCnEnSpace    = ftype in ("md", "php", "html", "htm",) # 英文中文空符检查
     warnTitleSpace   = ftype in ("md",) # 标题前后空行检查
-    warnIndentSpace  = ftype in ("md", "php",) # 缩进检查
+    warnIndentSpace  = ftype in ("md", "php", "scss",) # 缩进检查
     isMdFile         = ftype in ("md",)
-    isSrcFile        = ftype in ("md", "py", "php", "html", "htm", "js",)
+    isSrcFile        = ftype in ("md", "py", "php", "html", "htm", "js", "css", "scss", "svg",)
+    keepStripFile    = ftype in ("svg",) or fname in ("gitsrc.html",) or re.findall("^relref[a-z_]*\\.html$", fname)
 
     if not isSrcFile:
         if fpath.find("\\_site\\") != -1:
@@ -398,7 +399,7 @@ def mainfile(fpath, fname, ftype):
     while len(lines) >= 1 and not lines[0]:
         lines = lines[1:]
 
-    if fname in ("gitsrc.html",) or re.findall("^relref[a-z_]*\\.html$", fname):
+    if keepStripFile:
         while len(lines) >= 1 and not lines[-1]:
             lines = lines[:-1]
 
@@ -660,7 +661,7 @@ def main():
     print("".join(g_cschar))
     imgset  = ("jpeg", "jpg", "png", "gif", )
     fontset = ("eot", "ttf", "woff", "svg", "woff2", )
-    codeset = ("cc", "js", "txt", "xml", "css", "mk", "lock", "zip", "makefile", )
+    codeset = ("cc", "js", "txt", "xml", "css", "mk", "lock", "zip", "makefile", "scss",)
     g_tpset -= set(imgset)
     g_tpset -= set(fontset)
     g_tpset -= set(codeset)
