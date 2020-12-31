@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Irrlicht 笔记 -- Irrlicht 初探"
+title: "Irrlicht3D 笔记 -- Irrlicht3D 初探"
 author:
 location: "珠海"
-categories: ["Irrlicht"]
-tags: ["Irrlicht"]
+categories: ["Irrlicht3D"]
+tags: ["Irrlicht3D"]
 toc: true
 toclistyle: none
 comments:
