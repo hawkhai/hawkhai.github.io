@@ -633,10 +633,10 @@ def main():
         "Debug", "Release", ".vs", "opengl-3rd",
         "UserDataSpider",
         )
-    searchdir(".", checkfilesize, ignorelistMore=CHECK_IGNORE_LIST)
-    searchdir("backup", checkfilesize, ignorelistMore=CHECK_IGNORE_LIST)
+    searchdir(".", checkfilesize, ignorelist=CHECK_IGNORE_LIST)
+    searchdir("backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST)
 
-    searchdir(".", mainfilew, ignorelistMore=(
+    searchdir(".", mainfilew, ignorelist=(
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
         "Debug", "Release", ".vs", "openglcpp", "opengl-3rd",
         "UserDataSpider",

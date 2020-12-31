@@ -116,7 +116,7 @@ def mainxkeyfile(fpath, fname, ftype):
 
 def mainxkey():
     print("***" * 30)
-    searchdir(".", mainxkeyfile, ignorelistMore=("backup", "_site", "_drafts", "opengl-3rd"))
+    searchdir(".", mainxkeyfile, ignorelist=("backup", "_site", "_drafts", "opengl-3rd"))
 
     headnote = []
     for key in gkvmap.keys():
