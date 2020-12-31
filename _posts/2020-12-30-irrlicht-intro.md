@@ -32,7 +32,7 @@ OpenGL ES driver | svn://svn.code.sf.net/p/irrlicht/code/branches/ogl-es
 <table class="tablestyle" ntablew="3:8:2:3"></table>
 
 | Name | Summary | Difficulty | Shot |
-| ---- | ---- | ---- | ---- |
+| ---- | ---- | ---- | :----: |
 | [1.HelloWorld] | Shows how to set up the Visual Studio IDE for using the Irrlicht Engine and how to write a simple HelloWorld program with it. The tutorial will show how to use the basics of the VideoDriver, the GUIEnvironment and the SceneManager. | easy | ![s001shot.jpg] |
 | [2.Quake3Map] | This tutorial shows how to load a Quake 3 map into the engine, create a SceneNode for optimizing the speed of rendering and how to create a user controlled camera. | easy | ![s002shot.jpg] |
 | [3.Custom SceneNode] | This tutorials shows how to create a custom scene node and how to use it in the engine. This is useful if you want to extend the render techniques of the Irrlicht Engine. | advanced | ![s003shot.jpg] |
@@ -110,7 +110,7 @@ External Tutorials (not included in SDK, written by external authors)
 <table class="tablestyle" ntablew="3:8:2:3"></table>
 
 | Name | Summary | Difficulty | Shot |
-| ---- | ---- | ---- | ---- |
+| ---- | ---- | ---- | :----: |
 | [DevCpp] | A detailed tutorial on how to use the engine with Dev C++, written by Andy Spurgeon. | easy | ![s001bshot.jpg] |
 | [Code::Blocks] | A detailed on how to use the engine with the Code::Blocks IDE, written by Alvaro F. Celis. | easy | ![codeblocks.jpg] |
 | [Codewarrior] | A detailed tutorial on how to use the engine with Metroworks Codewarrior, written by André Simon. | easy | ![s001cshot.jpg] |
