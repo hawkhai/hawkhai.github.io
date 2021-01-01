@@ -130,7 +130,7 @@ def backupUrlContent(fpath, url):
 
         if url not in ("http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf",
                        "http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf",):
-            assert len(fdata) < 1024*1024*1, len(fdata)
+            assert len(fdata) < 1024*1024*1, len(fdata) / 1024.0 / 1024.0
     remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5[:8] + ttype)
     touchSnapCache(umd5[:8], slocal)
 

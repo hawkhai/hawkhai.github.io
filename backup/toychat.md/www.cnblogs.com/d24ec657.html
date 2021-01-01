@@ -1,0 +1,2501 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="Spy++是微软出品的用来获取Window窗口信息的一个小工具。实现的原理其实不难，通过调用某些特定的Windows API即可。于是，我打算用Python也实现一个功能简化版本的小工具，取名叫PyS" />
+    <meta property="og:description" content="Spy++是微软出品的用来获取Window窗口信息的一个小工具。实现的原理其实不难，通过调用某些特定的Windows API即可。于是，我打算用Python也实现一个功能简化版本的小工具，取名叫PyS" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Python天天美味(36) - 用Python实现Spy++ - CoderZh - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=R2wBwmwSMG0Sqiw8GFSVjHT4Payg_JFAn51R8XcuvN0" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue.min.css?v=2hjghzSZyhYA1HxvSxKnXih3JbC120DBjeO9V9T_nSs" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/coderzh/custom.css?v=ITN6IO8fTStiSfG81CbWf0MVBkg=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue-mobile.min.css?v=Ze1z2HxlDRvAdBIUQC-yTq6H7mFmqP7CFlT8-PtiBTo" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/coderzh/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/coderzh/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/coderzh/wlwmanifest.xml" />
+    <script src="https://www.googletagservices.com/activeview/js/current/osd.js?cb=%2Fr20100101"></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="https://common.cnblogs.com/script/encoder.js"></script><script src="//hm.baidu.com/hm.js?bd94e02dee15052ca0ab2f0e51d8413c"></script><script async="" src="//www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 20472;
+        var currentBlogApp = 'coderzh';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleBlue';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2010-05-02 03:41';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=V0BbkkQE24zt1D_4TRGfRwcCB1E3YoBpH5YOp1qKoxA"></script>
+    
+    
+    
+<meta http-equiv="origin-trial" content="A1H+PzQW00tt6dlReHFzfO4EtBaEtEImIF9ZNiF54JpDi1bO6/7PK96Q0qxy017wgzSy9ByDKoju2mo57DH+MwoAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MTAzOTg0NTIsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2020120801.js" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script><link rel="prefetch" href="https://7a5f78ead26f9616aa3c6d368dd85e6d.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html" /><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-37/html/container.html" /></head>
+<body class="has-navbar has-bannerbar">
+    <a name="top"></a>
+            <div id="bannerbar" class="bannerbar-mobile formobile">
+                <a href="https://www.cnblogs.com/cmt/p/14152738.html" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'sephora-mobile-bannerbar')">
+                    <img src="https://img2020.cnblogs.com/blog/35695/202012/35695-20201220150807860-80833722.png" alt="" />
+                </a>
+            </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            <div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/coderzh/">CoderZh的技术博客</a>
+</div>
+<div class="subtitle">一个程序员的思考与总结(请移步至：http://blog.coderzh.com/)</div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/coderzh/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/CoderZh">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/coderzh/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                
+<span id="stats_post_count">随笔 - 234 </span>
+<span id="stats_article_count">文章 - 10 </span>
+<!-- <span id="stats-comment_count"></span> -->
+<span id="stats_comment_count">评论 - 2080</span>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                <div id="post_detail">
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/coderzh/archive/2010/05/02/python-cookbook-pyspy.html">
+    <span>Python天天美味(36) - 用Python实现Spy++</span>
+    
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body">
+    <p>Spy++是微软出品的用来获取Window窗口信息的一个小工具。实现的原理其实不难，通过调用某些特定的Windows API即可。于是，我打算用Python也实现一个功能简化版本的小工具，取名叫PySpy++。Python中调用Windows API一般使用pywin32这套库，界面库我使用PyQT4。</p>  <h3><br />Spy++原理</h3>  <p>Spy++中，最常用的一个功能，就是识别窗口。其中主要需要用到的Windows API有：</p>  <p><strong>获取当前鼠标位置</strong>：</p>  <div class="cnblogs_code"><div><span style="color: rgba(0, 0, 0, 1)">BOOL GetCursorPos( LPPOINT lpPoint );</span></div></div><p><strong></strong></p>  <p><strong>获取位于指定位置的窗口句柄</strong>：</p>  <div class="cnblogs_code"><div><span style="color: rgba(0, 0, 0, 1)">HWND WindowFromPoint( POINT Point );</span></div></div><p><strong></strong></p>  <p><strong>获取窗口类别</strong>：</p>  <div class="cnblogs_code"><div><span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> GetClassName( HWND hWnd, LPTSTR lpClassName, </span><span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> nMaxCount );</span></div></div><p><strong></strong></p>  <p><strong>获取窗口内容或标题</strong>：</p>  <p>方法一：</p>  <div class="cnblogs_code"><div><span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> GetWindowText( HWND hWnd, LPTSTR lpString, </span><span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> nMaxCount );</span></div></div><p><strong></strong></p>  <p>这个API有时候不能取到某些控件的值，因此，使用方法二。</p>  <p>方法二：</p>  <p>给窗口发送WM_GETTEXT消息：</p>  <div class="cnblogs_code"><div><span style="color: rgba(0, 0, 0, 1)">LRESULT SendMessage( HWND hWnd, UINT Msg, WPARAM  wParam, LPARAM lParam );</span></div></div><p><strong></strong></p>  <p><strong>高亮选中的窗口</strong>：</p>  <p>先获取当前窗口的大小，然后画一个矩形框。</p><div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" class="code_img_closed" id="code_img_closed_b406a3cc-6fd5-4155-b3c5-661aeedad0eb" style="display: none" alt="" /><div id="cnblogs_code_open_b406a3cc-6fd5-4155-b3c5-661aeedad0eb"><div><span style="color: rgba(0, 0, 0, 1)">BOOL GetWindowRect( HWND hWnd, LPRECT lpRect );<br /><br />BOOL Rectangle(<br />    HDC hdc, </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> handle to DC</span><span style="color: rgba(0, 128, 0, 1)"><br /></span><span style="color: rgba(0, 0, 0, 1)">    </span><span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> nLeftRect, </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> x-coord of upper-left corner of rectangle</span><span style="color: rgba(0, 128, 0, 1)"><br /></span><span style="color: rgba(0, 0, 0, 1)">    </span><span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> nTopRect, </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> y-coord of upper-left corner of rectangle</span><span style="color: rgba(0, 128, 0, 1)"><br /></span><span style="color: rgba(0, 0, 0, 1)">    </span><span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> nRightRect, </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> x-coord of lower-right corner of rectangle</span><span style="color: rgba(0, 128, 0, 1)"><br /></span><span style="color: rgba(0, 0, 0, 1)">    </span><span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> nBottomRect </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> y-coord of lower-right corner of rectangle</span><span style="color: rgba(0, 128, 0, 1)"><br /></span><span style="color: rgba(0, 0, 0, 1)">);</span></div></div><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div><p>鼠标移开窗口后，窗口需要恢复原状，需要重新刷新：</p><div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div><div><span style="color: rgba(0, 0, 0, 1)">BOOL InvalidateRect(<br />    HWND hWnd, </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> handle to window</span><span style="color: rgba(0, 128, 0, 1)"><br /></span><span style="color: rgba(0, 0, 0, 1)">    CONST RECT</span><span style="color: rgba(0, 0, 0, 1)">*</span><span style="color: rgba(0, 0, 0, 1)"> lpRect, </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> rectangle coordinates</span><span style="color: rgba(0, 128, 0, 1)"><br /></span><span style="color: rgba(0, 0, 0, 1)">    BOOL bErase </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> erase state</span><span style="color: rgba(0, 128, 0, 1)"><br /></span><span style="color: rgba(0, 0, 0, 1)">);<br /><br />BOOL UpdateWindow(<br />    HWND hWnd </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> handle to window</span><span style="color: rgba(0, 128, 0, 1)"><br /></span><span style="color: rgba(0, 0, 0, 1)">);<br /><br />BOOL RedrawWindow(<br />    HWND hWnd, </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> handle to window</span><span style="color: rgba(0, 128, 0, 1)"><br /></span><span style="color: rgba(0, 0, 0, 1)">    CONST RECT </span><span style="color: rgba(0, 0, 0, 1)">*</span><span style="color: rgba(0, 0, 0, 1)">lprcUpdate, </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> update rectangle</span><span style="color: rgba(0, 128, 0, 1)"><br /></span><span style="color: rgba(0, 0, 0, 1)">    HRGN hrgnUpdate, </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> handle to update region</span><span style="color: rgba(0, 128, 0, 1)"><br /></span><span style="color: rgba(0, 0, 0, 1)">    UINT flags </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> array of redraw flags</span><span style="color: rgba(0, 128, 0, 1)"><br /></span><span style="color: rgba(0, 0, 0, 1)">);</span></div><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div><p><br /></p><h3>PyWin32对应的函数</h3>  <p>在Python中调用Windows API，首先下载PyWin32，地址：<a target="_blank" title="http://pywin32.sourceforge.net/" href="http://pywin32.sourceforge.net/">http://pywin32.sourceforge.net/</a></p>  <p>安装完成后，打开帮助文档Python for Windows Documentation，里面有所有需要的东西，随时用来查看。</p>  <p>常用的API在win32api模块里，界面相关的API在win32gui模块里，API参数中定义的一些常量在win32con模块中。上面的Windows API对应PyWin32中的函数为：</p><div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" class="code_img_closed" id="code_img_closed_0bb3057d-fe77-413c-862e-d5513ed8c35e" style="display: none" alt="" /><div id="cnblogs_code_open_0bb3057d-fe77-413c-862e-d5513ed8c35e"><div><span style="color: rgba(0, 0, 0, 1)">(int, int) </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.</span><span style="color: rgba(0, 0, 255, 1)"><strong>GetCursorPos</strong></span><span style="color: rgba(0, 0, 0, 1)">()<br />int </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.</span><span style="color: rgba(0, 0, 255, 1)"><strong>WindowFromPoint</strong></span><span style="color: rgba(0, 0, 0, 1)">(point)<br />string </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.</span><span style="color: rgba(0, 0, 255, 1)"><strong>GetClassName</strong></span><span style="color: rgba(0, 0, 0, 1)">(hwnd)</span><span style="color: rgba(0, 0, 0, 1)"><br />string </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.</span><span style="color: rgba(0, 0, 255, 1)"><strong>GetWindowText</strong></span><span style="color: rgba(0, 0, 0, 1)">(hwnd)<br />int </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.</span><span style="color: rgba(0, 0, 255, 1)"><strong>SendMessage</strong></span><span style="color: rgba(0, 0, 0, 1)">(hwnd, message , wparam , lparam )<br />(left, top, right, bottom) </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.</span><span style="color: rgba(0, 0, 255, 1)"><strong>GetWindowRect</strong></span><span style="color: rgba(0, 0, 0, 1)">(hwnd)<br />win32gui.</span><span style="color: rgba(0, 0, 255, 1)"><strong>Rectangle</strong></span><span style="color: rgba(0, 0, 0, 1)">(hdc, LeftRect, TopRect, RightRect, BottomRect)<br />win32gui.</span><span style="color: rgba(0, 0, 255, 1)"><strong>InvalidateRect</strong></span><span style="color: rgba(0, 0, 0, 1)">(hWnd, Rect, Erase)<br />win32gui.</span><span style="color: rgba(0, 0, 255, 1)"><strong>UpdateWindow</strong></span><span style="color: rgba(0, 0, 0, 1)">(hwnd)</span><span style="color: rgba(0, 0, 0, 1)"><br />win32gui.</span><span style="color: rgba(0, 0, 255, 1)"><strong>RedrawWindow</strong></span><span style="color: rgba(0, 0, 0, 1)">(hWnd, rcUpdate, hrgnUpdate, flags)</span></div></div><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div><p><br /></p><h3>代码实现</h3>  <p>界面库使用PyQT4，参考资料可以从我之前的一篇博客里了解：<a target="_blank" href="http://www.cnblogs.com/coderzh/archive/2009/06/28/1512654.html">PyQt4 学习资料汇总</a></p>  <p>工具对话框窗口有两个控件，一个是QLabel控件，一个是QTextEdit控件。QLabel控件就是那个用来鼠标按下去后去捕捉窗口，QTextEdit控件用来显示窗口的信息。为了让QTextEdit响应自定义的鼠标事件，我创建了一个自定义QLabel控件SpyLabel，继承自QLabel。</p>  <div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" class="code_img_closed" id="code_img_closed_6f02d0d9-05ac-42f9-976b-64d94619fb30" style="display: none" alt="" /><div id="cnblogs_code_open_6f02d0d9-05ac-42f9-976b-64d94619fb30"><div><span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> SpyLabel(QtGui.QLabel):<br />    </span><span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> </span><span style="color: rgba(128, 0, 128, 1)">__init__</span><span style="color: rgba(0, 0, 0, 1)">(self, parent </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> None):<br />        QtGui.QLabel.</span><span style="color: rgba(128, 0, 128, 1)">__init__</span><span style="color: rgba(0, 0, 0, 1)">(self, parent)<br />        self.parent </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> parent<br />        self.spying </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> False<br />        self.rectanglePen </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.CreatePen(win32con.PS_SOLID, </span><span style="color: rgba(0, 0, 0, 1)">3</span><span style="color: rgba(0, 0, 0, 1)">, win32api.RGB(</span><span style="color: rgba(0, 0, 0, 1)">255</span><span style="color: rgba(0, 0, 0, 1)">, 0, 0))<br />        self.prevWindow </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> None<br />        self.<strong>setCursor</strong>(QtCore.Qt.SizeAllCursor)</span></div></div><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>  <p>SpyLabel中处理鼠标移动事件：</p><div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div><div><span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> mouseMoveEvent(self, event):<br />    </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> self.spying:<br />        curX, curY </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.GetCursorPos()<br />        hwnd </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.</span><strong><span style="color: rgba(0, 0, 255, 1)">WindowFromPoint</span></strong><span style="color: rgba(0, 0, 0, 1)">((curX, curY))<br /><br />        </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> self.checkWindowValidity(hwnd):               <br />            </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> self.prevWindow:<br />                self.refreshWindow(self.prevWindow)<br />            self.prevWindow </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> hwnd<br />            self.highlightWindow(hwnd)<br />            self.displayWindowInformation(hwnd)</span></div><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div><p>鼠标松开事件：</p><div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div><div><span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> mouseReleaseEvent(self, event):<br />    </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> self.spying:<br />        </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> self.prevWindow:<br />            self.refreshWindow(self.prevWindow)<br />        win32gui.ReleaseCapture()<br />        self.spying </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> False</span></div><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div><p>高亮窗口的函数：</p><div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div><div><span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> highlightWindow(self, hwnd):<br />    left, top, right, bottom </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.GetWindowRect(hwnd)<br />    windowDc </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.GetWindowDC(hwnd)<br />    </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> windowDc:<br />        prevPen </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.SelectObject(windowDc, self.rectanglePen)<br />        prevBrush </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.SelectObject(windowDc, win32gui.GetStockObject(win32con.HOLLOW_BRUSH))<br /><br />        win32gui.</span><strong><span style="color: rgba(0, 0, 255, 1)">Rectangle</span></strong><span style="color: rgba(0, 0, 0, 1)">(windowDc, 0, 0, right </span><span style="color: rgba(0, 0, 0, 1)">-</span><span style="color: rgba(0, 0, 0, 1)"> left, bottom </span><span style="color: rgba(0, 0, 0, 1)">-</span><span style="color: rgba(0, 0, 0, 1)"> top)<br />        win32gui.SelectObject(windowDc, prevPen)<br />        win32gui.SelectObject(windowDc, prevBrush)<br />        win32gui.ReleaseDC(hwnd, windowDc)</span></div><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div><p>刷新窗口的函数：</p>  <div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div><div><span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> refreshWindow(self, hwnd):<br />    win32gui.</span><strong><span style="color: rgba(0, 0, 255, 1)">InvalidateRect</span></strong><span style="color: rgba(0, 0, 0, 1)">(hwnd, None, True)<br />    win32gui.</span><strong><span style="color: rgba(0, 0, 255, 1)">UpdateWindow</span></strong><span style="color: rgba(0, 0, 0, 1)">(hwnd)<br />    win32gui.</span><strong><span style="color: rgba(0, 0, 255, 1)">RedrawWindow</span></strong><span style="color: rgba(0, 0, 0, 1)">(hwnd, <br />        None, <br />        None,  <br />        win32con.RDW_FRAME</span><span style="color: rgba(0, 0, 0, 1)">|</span><span style="color: rgba(0, 0, 0, 1)"><br />            win32con.RDW_INVALIDATE</span><span style="color: rgba(0, 0, 0, 1)">|</span><span style="color: rgba(0, 0, 0, 1)"><br />            win32con.RDW_UPDATENOW</span><span style="color: rgba(0, 0, 0, 1)">|</span><span style="color: rgba(0, 0, 0, 1)"><br />            win32con.RDW_ALLCHILDREN)</span></div><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>  <p>显示窗口信息：<br /></p><div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div><div><span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> displayWindowInformation(self, hwnd):<br />    className </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.GetClassName(hwnd)<br />    buf_size </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> </span><span style="color: rgba(0, 0, 0, 1)">1</span><span style="color: rgba(0, 0, 0, 1)"> </span><span style="color: rgba(0, 0, 0, 1)">+</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.</span><strong><span style="color: rgba(0, 0, 255, 1)">SendMessage</span></strong><span style="color: rgba(0, 0, 0, 1)">(hwnd, win32con.WM_GETTEXTLENGTH, 0, 0)<br />    buffer </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.PyMakeBuffer(buf_size)<br />    win32gui.</span><strong><span style="color: rgba(0, 0, 255, 1)">SendMessage</span></strong><span style="color: rgba(0, 0, 0, 1)">(hwnd, win32con.WM_GETTEXT, buf_size, buffer)<br />    windowText </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> buffer[:buf_size]<br /><br />    </span><span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)">:<br />        windowText </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> unicode(windowText, </span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">gbk</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)<br />    </span><span style="color: rgba(0, 0, 255, 1)">except</span><span style="color: rgba(0, 0, 0, 1)">:<br />        </span><span style="color: rgba(0, 0, 255, 1)">pass</span><span style="color: rgba(0, 0, 0, 1)"><br /><br />    message </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> [</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Handle:\t</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)"> </span><span style="color: rgba(0, 0, 0, 1)">+</span><span style="color: rgba(0, 0, 0, 1)"> str(hwnd),<br />               </span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Class Name:\t</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)"> </span><span style="color: rgba(0, 0, 0, 1)">+</span><span style="color: rgba(0, 0, 0, 1)"> className,<br />               </span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Window Text:\t</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)"> </span><span style="color: rgba(0, 0, 0, 1)">+</span><span style="color: rgba(0, 0, 0, 1)"> windowText]<br />    self.output(</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">\r\n</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">.join(message))</span></div><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div><p>注意到上面SendMessage函数，需要传入一个分配的缓冲区，用于获取返回的内容。这里使用了：</p><div class="cnblogs_code"><div><span style="color: rgba(0, 0, 0, 1)">buffer </span><span style="color: rgba(0, 0, 0, 1)">=</span><span style="color: rgba(0, 0, 0, 1)"> win32gui.PyMakeBuffer(buf_size)</span></div></div>  <p>由于返回的内容中可能有中文，因此使用unicode(windowText, 'gbk')进行一下转换。   <br /></p>  <h3><br />演示</h3>  <p><img title="image" style="border: 0 none; display: inline" alt="image" src="https://images.cnblogs.com/cnblogs_com/coderzh/WindowsLiveWriter/Python36PythonSpy_B49/image_thumb_1.png" border="0" height="355" width="950" /> </p>  <p><img title="image" style="border: 0 none; display: inline" alt="image" src="https://images.cnblogs.com/cnblogs_com/coderzh/WindowsLiveWriter/Python36PythonSpy_B49/image_thumb.png" border="0" height="345" width="761" /> </p>  <p> </p>  <p>二进制下载：</p><p><a target="_blank" href="http://pyspyplusplus.googlecode.com/files/pyspy%2B%2B.exe">http://pyspyplusplus.googlecode.com/files/pyspy++.exe</a> </p>  <p>源代码：</p><p><a target="_blank" href="http://code.google.com/p/pyspyplusplus/">http://code.google.com/p/pyspyplusplus/</a> </p><p> </p><p> </p><h4><a target="_blank" href="http://www.cnblogs.com/coderzh/archive/2008/07/08/pythoncookbook.html">Python  天天美味系列（总）</a></h4><a target="_blank" href="http://www.cnblogs.com/coderzh/archive/2008/09/21/1295434.html">Python  天天美味(31) - python数据结构与算法之插入排序</a>  <p><a target="_blank" href="http://www.cnblogs.com/coderzh/archive/2008/09/22/1296195.html">Python  天天美味(32) - python数据结构与算法之堆排序</a> </p> <p><a target="_blank" href="http://www.cnblogs.com/coderzh/archive/2008/12/07/1349735.html">Python  天天美味(33) - 五分钟理解元类（Metaclasses）[转]</a></p> <a target="_blank" id="homepage1_HomePageDays_DaysList_ctl01_DayItem_DayList_ctl00_TitleUrl" href="http://www.cnblogs.com/coderzh/archive/2010/04/27/python-cookbook33-Decorators.html">Python  天天美味(34) - Decorators详解</a> <p><a target="_blank" id="ctl04_TitleUrl" href="http://www.cnblogs.com/coderzh/archive/2010/04/30/python-cookbook-lambda.html">Python  天天美味(35) - 细品lambda</a> </p>
+</div>
+<div id="MySignature" style="display: block;"><div style="border: 1px dashed #e0e0e0; padding: 10px 10px 10px 10px; background-color: #fffeee; background-repeat: no-repeat; background-attachment: scroll; background-position: 1% 50%">
+<div style="float: left; margin-top: 0px">
+     <img src="https://blog.coderzh.com/public/qrcode.jpg" width="129px" height="129px" />
+      <div style="text-align: center">微信扫一扫交流</div>
+</div>
+<div>
+       <p style="margin-top: 0px">作者：<a target="_blank" href="http://blog.coderzh.com/">CoderZh</a>
+        <br />公众号：hacker-thinking （一个程序员的思考）
+        <br />独立博客：<a target="_blank" href="http://blog.coderzh.com/">http://blog.coderzh.com</a>
+        <br />博客园博客将不再更新，请关注我的「微信公众号」或「独立博客」。
+        <br />作为一个程序员，思考程序的每一行代码，思考生活的每一个细节，思考人生的每一种可能。
+         <br />文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
+</div>
+</div></div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/coderzh/category/133952.html" target="_blank">Python</a></div>
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(1725984,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('3b5c360b-63cf-dd11-9e4d-001cf0cd104b');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/coderzh/" target="_blank"><img src="https://pic.cnblogs.com/face/u16913.jpg" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/coderzh/">CoderZh</a><br />
+            <a href="https://home.cnblogs.com/u/coderzh/followees/">关注 - 10</a><br />
+            <a href="https://home.cnblogs.com/u/coderzh/followers/">粉丝 - 911</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('3b5c360b-63cf-dd11-9e4d-001cf0cd104b');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(1725984,'Digg')">
+        <span class="diggnum" id="digg_count">6</span>
+    </div>
+    <div class="buryit" onclick="votePost(1725984,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/coderzh/archive/2010/05/02/ubuntu-upgrade-from-910-to-1004.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/coderzh/archive/2010/05/02/ubuntu-upgrade-from-910-to-1004.html" title="发布于 2010-05-02 12:16">成功将ubuntu9.10升级到了10.04</a>
+    <br />
+    <a href="https://www.cnblogs.com/coderzh/archive/2010/05/05/python-IHTMLDocument2-automation.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/coderzh/archive/2010/05/05/python-IHTMLDocument2-automation.html" title="发布于 2010-05-05 00:57">Python操作IHTMLDocument2用于自动化测试</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2010-05-02 15:41</span> 
+<a href="https://www.cnblogs.com/coderzh/">CoderZh</a> 
+阅读(<span id="post_view_count">20125</span>) 
+评论(<span id="post_comment_count">24</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=1725984" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(1725984);return false;">收藏</a></div>
+        </div>
+        <script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 20472, cb_blogApp = 'coderzh', cb_blogUserGuid = '3b5c360b-63cf-dd11-9e4d-001cf0cd104b';
+    var cb_entryId = 1725984, cb_entryCreatedDate = '2010-05-02 15:41', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+        <a name="!comments"></a>
+<div id="blog-comments-placeholder">
+
+<div id="comment_pager_top">
+    
+</div>
+
+
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>
+
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1815154" class="layer">#1楼</a>
+<a name="1815154" id="comment_anchor_1815154"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-02 16:25</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1815154" href="https://www.cnblogs.com/xn620/" target="_blank">飘不走的坚定</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1815154" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    嗯~~楼主挺有研究精神，下载了学习学习~
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1815154, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1815154, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1815160" class="layer">#2楼</a>
+<a name="1815160" id="comment_anchor_1815160"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-02 17:08</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1815160" href="https://www.cnblogs.com/jingyan/" target="_blank">jings</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1815160" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    python windows我咋下载安装不了？
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1815160, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1815160, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1815224" class="layer">#3楼</a>
+<a name="1815224" id="comment_anchor_1815224"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-02 20:56</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1815224" title="未注册用户">
+            zhongruibo
+        </a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1815224" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    fafdaf
+</div>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1815241" class="layer">#4楼</a>
+<a name="1815241" id="comment_anchor_1815241"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-02 21:42</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1815241" href="https://www.cnblogs.com/gowk/" target="_blank">gowk</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1815241" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    关注Python中。。
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1815241, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1815241, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_1815241_avatar" style="display:none">
+            https://pic.cnblogs.com/face/25700/20201104093411.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1815272" class="layer">#5楼</a>
+<a name="1815272" id="comment_anchor_1815272"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-02 22:29</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1815272" href="https://www.cnblogs.com/yuylyp/" target="_blank">木子二鸟</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1815272" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    技术含量大大的，一定要顶。。。
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1815272, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1815272, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_1815272_avatar" style="display:none">
+            https://pic.cnblogs.com/face/u16497.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1815274" class="layer">#6楼</a>
+<a name="1815274" id="comment_anchor_1815274"></a>
+[<span class="louzhu">楼主</span>]
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-02 22:31</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1815274" href="https://www.cnblogs.com/coderzh/" target="_blank">CoderZh</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1815274" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    <a href="#1815160" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,1815160);">@</a>
+jings<br />你说的是pywin32装不了吗？你看看是不是你选错python版本了
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1815274, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1815274, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_1815274_avatar" style="display:none">
+            https://pic.cnblogs.com/face/u16913.jpg
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1815275" class="layer">#7楼</a>
+<a name="1815275" id="comment_anchor_1815275"></a>
+[<span class="louzhu">楼主</span>]
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-02 22:31</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1815275" href="https://www.cnblogs.com/coderzh/" target="_blank">CoderZh</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1815275" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    <a href="#1815272" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,1815272);">@</a>
+尘尘<br />谢谢！
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1815275, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1815275, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_1815275_avatar" style="display:none">
+            https://pic.cnblogs.com/face/u16913.jpg
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1815293" class="layer">#8楼</a>
+<a name="1815293" id="comment_anchor_1815293"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-02 23:41</span>
+
+
+            <!--NameLink-->
+            
+            <a id="a_comment_author_1815293" href="http://www.cnitblog.com/r.aspx?url=http://www.92duanxin.com" target="_blank" rel="nofollow" title="未注册用户">
+                博百优网
+            </a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1815293" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    python windows我咋下载安装不了？<br /><br />我跟你的情况一样，不知道怎么去弄，哎，郁闷
+</div>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1815295" class="layer">#9楼</a>
+<a name="1815295" id="comment_anchor_1815295"></a>
+[<span class="louzhu">楼主</span>]
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-02 23:44</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1815295" href="https://www.cnblogs.com/coderzh/" target="_blank">CoderZh</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1815295" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    <a href="#1815293" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,1815293);">@</a>
+博百优网<br />请问，你是Python安装不了，还是PyWin32安装不了？
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1815295, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1815295, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_1815295_avatar" style="display:none">
+            https://pic.cnblogs.com/face/u16913.jpg
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1815319" class="layer">#10楼</a>
+<a name="1815319" id="comment_anchor_1815319"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-03 02:58</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1815319" href="https://home.cnblogs.com/u/69432/" target="_blank">rad</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1815319" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    请教一下，关于缩小py2exe或pyinstaller生成的exe文件体积有没有什么好办法?例如您这个spy就有9m多，明明是个“小”软件，确要下载这么久...
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1815319, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1815319, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1815326" class="layer">#11楼</a>
+<a name="1815326" id="comment_anchor_1815326"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-03 06:35</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1815326" href="https://www.cnblogs.com/geniusvczh/" target="_blank">陈梓瀚(vczh)</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1815326" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    <a href="#1815319" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,1815319);">@</a>
+rad<br />exe要包含python虚拟机的，怎可能小。
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1815326, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1815326, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1815360" class="layer">#12楼</a>
+<a name="1815360" id="comment_anchor_1815360"></a>
+[<span class="louzhu">楼主</span>]
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-03 09:56</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1815360" href="https://www.cnblogs.com/coderzh/" target="_blank">CoderZh</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1815360" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    <a href="#1815326" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,1815326);">@</a>
+陈梓瀚(vczh)<br />@rad<br />是的，我也想生成的exe小一些。陈梓瀚(vczh)说的没错。
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1815360, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1815360, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_1815360_avatar" style="display:none">
+            https://pic.cnblogs.com/face/u16913.jpg
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1815424" class="layer">#13楼</a>
+<a name="1815424" id="comment_anchor_1815424"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-03 13:21</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1815424" href="https://www.cnblogs.com/simoncook/" target="_blank">chen.simon</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1815424" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    感谢CoderZh的分享<br />我想请教下，我目前用的一个测试tool，用你的这个小工具去侦测那些控件或者窗口均不能读到其名字，也不能像正常程序那样会自动锁定那些控件并绘出绿色小框框...<br />之前我也尝试过用pywinauto去list，也未果<br />我想请教对于这种情况有什么好办法解决，或者有什么途径能知道我这个测试tool用什么语言写的界面，，，，<br />
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1815424, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1815424, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1815425" class="layer">#14楼</a>
+<a name="1815425" id="comment_anchor_1815425"></a>
+[<span class="louzhu">楼主</span>]
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-03 13:24</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1815425" href="https://www.cnblogs.com/coderzh/" target="_blank">CoderZh</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1815425" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    <a href="#1815424" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,1815424);">@</a>
+xiaguangme<br />你有用spy++试过吗？还有uispy？
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1815425, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1815425, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_1815425_avatar" style="display:none">
+            https://pic.cnblogs.com/face/u16913.jpg
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1815427" class="layer">#15楼</a>
+<a name="1815427" id="comment_anchor_1815427"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-03 13:29</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1815427" href="https://www.cnblogs.com/simoncook/" target="_blank">chen.simon</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1815427" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    <a href="#1815425" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,1815425);">@</a>
+CoderZh<br />嗯，我试下，，<br />
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1815427, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1815427, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1824934" class="layer">#16楼</a>
+<a name="1824934" id="comment_anchor_1824934"></a>
+[<span class="louzhu">楼主</span>]
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-15 18:53</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1824934" href="https://www.cnblogs.com/coderzh/" target="_blank">CoderZh</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1824934" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    <a href="#1815319" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,1815319);">@</a>
+rad<br />exe很大的一个重要原因是PyQt比较大。一个QtGui4.dll就9.9M了。打算换成wxpython
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1824934, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1824934, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_1824934_avatar" style="display:none">
+            https://pic.cnblogs.com/face/u16913.jpg
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1826997" class="layer">#17楼</a>
+<a name="1826997" id="comment_anchor_1826997"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-18 11:33</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1826997" href="https://home.cnblogs.com/u/69432/" target="_blank">rad</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1826997" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    wx也很大，打完包最少也要7、8M。<br />事实上不用UI，仅仅一个控制台生成exe后也要5、6M，我对python不是十分熟，我在想是不是他把python的runtime全部打包进exe，可不可以只打包需要的呢？ 
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1826997, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1826997, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1827298" class="layer">#18楼</a>
+<a name="1827298" id="comment_anchor_1827298"></a>
+[<span class="louzhu">楼主</span>]
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-05-18 16:54</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_1827298" href="https://www.cnblogs.com/coderzh/" target="_blank">CoderZh</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1827298" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    <a href="#1826997" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,1826997);">@</a>
+rad<br />这个工具我用wx实现了，的确也很大，有6.6M
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1827298, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(1827298, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_1827298_avatar" style="display:none">
+            https://pic.cnblogs.com/face/u16913.jpg
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#1950347" class="layer">#19楼</a>
+<a name="1950347" id="comment_anchor_1950347"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2010-11-03 13:03</span>
+
+
+            <!--NameLink-->
+            
+            <a id="a_comment_author_1950347" href="http://www.cnitblog.com/r.aspx?url=http://baidu.is" target="_blank" rel="nofollow" title="未注册用户">
+                百度黑板报
+            </a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_1950347" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    <a href="#1824934" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,1824934);">@</a>
+CoderZh<br />推荐wxpython~~
+</div>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#2202500" class="layer">#20楼</a>
+<a name="2202500" id="comment_anchor_2202500"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2011-09-19 14:33</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_2202500" href="https://www.cnblogs.com/nianhuaxpj/" target="_blank">小弱</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_2202500" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    楼主大神，获取控件字体颜色应该调用哪个函数呢？
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2202500, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(2202500, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#2459312" class="layer">#21楼</a>
+<a name="2459312" id="comment_anchor_2459312"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2012-08-29 18:30</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_2459312" href="https://home.cnblogs.com/u/278525/" target="_blank">hiv</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_2459312" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    这个方法很好啊。简单。
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2459312, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(2459312, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#2469152" class="layer">#22楼</a>
+<a name="2469152" id="comment_anchor_2469152"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2012-09-10 23:43</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_2469152" href="https://www.cnblogs.com/hollyspirit/" target="_blank">hollyspirit</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_2469152" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    学习了。
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2469152, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(2469152, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                  
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="#2853107" class="layer">#23楼</a>
+<a name="2853107" id="comment_anchor_2853107"></a>
+    <span id="comment-maxId" style="display: none">2853107</span>
+    <span id="comment-maxDate" style="display: none">2014/1/6 下午3:20:31</span>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2014-01-06 15:20</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_2853107" href="https://www.cnblogs.com/zhaoweiwei/" target="_blank">weiwei22844</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_2853107" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    Good job!
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2853107, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(2853107, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_2853107_avatar" style="display:none">
+            https://pic.cnblogs.com/face/465567/20180903161443.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+
+
+<div id="comment_pager_bottom">
+    
+</div>
+</div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="http://www.softbam.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-ucancode-1103')">【推荐】News: 大型组态、工控、仿真、CADGIS 50万行VC++源码免费下载</a><br /><a href="https://www.wenjuan.com/s/UZBZJvjEKs/#《博客园用户消费观调查》，快来参与吧。【问卷网提供支持】" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-博客园问卷')">【推荐】有你助力，更好为你——博客园用户消费观调查，附带小惊喜！</a><br /><a href="https://brands.cnblogs.com/aws/free?source=CH" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-AWS')">【推荐】AWS携手博客园为开发者送福利，注册立享12个月免费套餐</a><br /><a href="https://www.cnblogs.com/cmt/p/14152738.html" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-丝芙兰-圣诞')">【推荐】博客园x丝芙兰-圣诞特别活动：圣诞选礼，美力送递</a><br /><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为专区')">【推荐】了不起的开发者，挡不住的华为，园子里的品牌专区</a><br /><a href="https://brands.cnblogs.com/agora" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-声网专区')">【推荐】未知数的距离，毫秒间的传递，声网与你实时互动</a><br /><a href="https://brands.cnblogs.com/aerospike" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-Aerospike专区')">【推荐】新一代 NoSQL 数据库，Aerospike专区新鲜入驻</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CIynoqLH-u0CFUYQvQodqQkI2A"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br />·  <a title="Python天天美味(总)" href="https://www.cnblogs.com/coderzh/archive/2008/07/08/pythoncookbook.html" target="_blank" onclick="clickRecomItmem(1237921)">Python天天美味(总)</a><br />·  <a title="Python天天美味(35) - 细品lambda" href="https://www.cnblogs.com/coderzh/archive/2010/04/30/python-cookbook-lambda.html" target="_blank" onclick="clickRecomItmem(1725413)">Python天天美味(35) - 细品lambda</a><br />·  <a title="Python 天天美味(37) - 让python的unittest像gtest一样输出" href="https://www.cnblogs.com/coderzh/archive/2010/08/23/custom-python-unittestoutput-as-gtest.html" target="_blank" onclick="clickRecomItmem(1806096)">Python 天天美味(37) - 让python的unittest像gtest一样输出</a><br />·  <a title="Python天天美味(25) - 深入理解yield" href="https://www.cnblogs.com/coderzh/archive/2008/05/18/1202040.html" target="_blank" onclick="clickRecomItmem(1202040)">Python天天美味(25) - 深入理解yield</a><br />·  <a title="Python天天美味(24) - 初始化多维数组" href="https://www.cnblogs.com/coderzh/archive/2008/05/18/1201993.html" target="_blank" onclick="clickRecomItmem(1201993)">Python天天美味(24) - 初始化多维数组</a><br />»  <a target="_blank" href="https://recomm.cnblogs.com/blogpost/1725984">更多推荐...</a></div></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;" data-google-query-id="CI2noqLH-u0CFUYQvQodqQkI2A"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="2" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_kb">
+<div class="itnews c_ad_block">
+    <b>最新 IT 新闻</b>:
+    <br />
+ ·          <a href="//news.cnblogs.com/n/684386/" target="_blank">微信视频号只欠内容</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/684385/" target="_blank">当跨年晚会不再“合家欢”：小众的胜利，流量的狂欢</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/684384/" target="_blank">Soul前员工因“栽赃”被判刑，互联网内卷化殃及创业</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/684383/" target="_blank">微软称SolarWinds黑客攻击波及公司内部的源代码存储库</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/684382/" target="_blank">程序员开发抢茅台脚本 两天就刷榜GitHub</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div id="sidebar_news" class="newsItem">
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    <p>这里的博客将不再更新，最新博客请移步至：</p>
+<p>我的独立博客：</p><a href="http://blog.coderzh.com/">http://blog.coderzh.com/</a>
+<div class="qrcode">
+    <img src="https://blog.coderzh.com/public/qrcode.jpg" width="129px" height="129px" /><p>微信公众号：<br />hacker-thinking</p>
+</div>
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/coderzh/">
+            CoderZh
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/coderzh/" title="入园时间：2006-08-04">
+            14年4个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/coderzh/followers/">
+            911
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/coderzh/followees/">
+            10
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('3b5c360b-63cf-dd11-9e4d-001cf0cd104b')">+加关注</a></div>
+        <script>getFollowStatus('3b5c360b-63cf-dd11-9e4d-001cf0cd104b');</script>
+    </div>
+</div></div>
+<div id="sidebar_c3"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+
+
+<!-- 积分与排名 -->
+<div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+    <h3 class="catListTitle">积分与排名</h3>
+    <ul>
+        <li class="liScore">
+            积分 - 
+554508
+        </li>
+        <li class="liRank">
+            排名 - 
+584
+        </li>
+    </ul>
+</div></div>
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div class="catListPostCategory">
+        <h3 class="catListTitle">
+            
+随笔分类
+
+
+
+        </h3>
+        <ul>
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/242135.html" rel="" target="">
+    Agile(2)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/238033.html" rel="" target="">
+    Android(3)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/231715.html" rel="" target="">
+    ASP.NET(3)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/105545.html" rel="" target="">
+    C#(20)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/144185.html" rel="" target="">
+    C/C++(24)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/698458.html" rel="" target="">
+    Cocos2d-x(1)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/225744.html" rel="" target="">
+    Emacs(2)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/166086.html" rel="" target="">
+    Google App Engine(7)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/171272.html" rel="" target="">
+    JAVA(3)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/145344.html" rel="" target="">
+    Linux(1)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/272901.html" rel="" target="">
+    Lua(2)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/133952.html" rel="" target="">
+    Python(66)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/144199.html" rel="" target="">
+    Ubuntu(9)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/109492.html" rel="" target="">
+    VBS(4)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/151315.html" rel="" target="">
+    安全性测试(9)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/208456.html" rel="" target="">
+    测试生活感悟(7)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/107865.html" rel="" target="">
+    程序人生(15)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/173075.html" rel="" target="">
+    代码安全(3)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/183698.html" rel="" target="">
+    单元测试(19)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/123909.html" rel="" target="">
+    公告(13)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/106344.html" rel="" target="">
+    每周总结(4)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/100498.html" rel="" target="">
+    软件测试(30)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/129338.html" rel="" target="">
+    性能测试(7)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/category/68385.html" rel="" target="">
+    学习笔记(27)
+</a>
+
+                    
+
+                </li>
+                                        <li><a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a></li>
+        </ul>
+    </div>    <div class="catListPostArchive">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+
+        </h3>
+        <ul>
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2015/09.html" rel="" target="">
+    2015年9月(1)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2015/08.html" rel="" target="">
+    2015年8月(2)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2015/06.html" rel="" target="">
+    2015年6月(4)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2015/05.html" rel="" target="">
+    2015年5月(2)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2015/04.html" rel="" target="">
+    2015年4月(5)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2015/03.html" rel="" target="">
+    2015年3月(1)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2014/05.html" rel="" target="">
+    2014年5月(2)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2014/04.html" rel="" target="">
+    2014年4月(2)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2011/05.html" rel="" target="">
+    2011年5月(1)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2011/03.html" rel="" target="">
+    2011年3月(1)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2011/01.html" rel="" target="">
+    2011年1月(1)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2010/12.html" rel="" target="">
+    2010年12月(3)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2010/11.html" rel="" target="">
+    2010年11月(3)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2010/10.html" rel="" target="">
+    2010年10月(2)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2010/09.html" rel="" target="">
+    2010年9月(6)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2010/08.html" rel="" target="">
+    2010年8月(2)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2010/07.html" rel="" target="">
+    2010年7月(4)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2010/06.html" rel="" target="">
+    2010年6月(3)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2010/05.html" rel="" target="">
+    2010年5月(4)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2010/04.html" rel="" target="">
+    2010年4月(9)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2010/03.html" rel="" target="">
+    2010年3月(6)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2010/02.html" rel="" target="">
+    2010年2月(3)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2010/01.html" rel="" target="">
+    2010年1月(16)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2009/12.html" rel="" target="">
+    2009年12月(6)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2009/11.html" rel="" target="">
+    2009年11月(3)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2009/10.html" rel="" target="">
+    2009年10月(4)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2009/09.html" rel="" target="">
+    2009年9月(3)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2009/08.html" rel="" target="">
+    2009年8月(2)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2009/07.html" rel="" target="">
+    2009年7月(7)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2009/06.html" rel="" target="">
+    2009年6月(2)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2009/04.html" rel="" target="">
+    2009年4月(12)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2009/03.html" rel="" target="">
+    2009年3月(5)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2009/02.html" rel="" target="">
+    2009年2月(2)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2009/01.html" rel="" target="">
+    2009年1月(3)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2008/12.html" rel="" target="">
+    2008年12月(7)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2008/11.html" rel="" target="">
+    2008年11月(9)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2008/09.html" rel="" target="">
+    2008年9月(8)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2008/08.html" rel="" target="">
+    2008年8月(7)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2008/07.html" rel="" target="">
+    2008年7月(8)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2008/06.html" rel="" target="">
+    2008年6月(9)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2008/05.html" rel="" target="">
+    2008年5月(33)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2008/04.html" rel="" target="">
+    2008年4月(6)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2008/02.html" rel="" target="">
+    2008年2月(1)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2007/12.html" rel="" target="">
+    2007年12月(3)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2007/11.html" rel="" target="">
+    2007年11月(3)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2007/10.html" rel="" target="">
+    2007年10月(7)
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/coderzh/archive/2007/09.html" rel="" target="">
+    2007年9月(1)
+</a>
+
+                    
+
+                </li>
+                                        <li><a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a></li>
+        </ul>
+    </div>    <div class="catList">
+        <h3 class="catListTitle">
+            
+ 系列文章
+
+
+
+        </h3>
+        <ul>
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.cnblogs.com/coderzh/archive/2008/07/08/pythoncookbook.html" rel="" target="">
+    Python天天美味系列
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.cnblogs.com/coderzh/archive/2009/04/06/1426755.html" rel="" target="">
+    玩转gtest系列
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.cnblogs.com/coderzh/archive/2010/04/30/security.html" rel="" target="">
+    攻击方式学习系列
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.cnblogs.com/coderzh/archive/2010/09/11/thincilent.html" rel="" target="">
+    瘦客户端那些事
+</a>
+
+                    
+
+                </li>
+                                        
+        </ul>
+    </div>    <div class="catList">
+        <h3 class="catListTitle">
+            
+读书笔记
+
+
+
+        </h3>
+        <ul>
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.cnblogs.com/coderzh/archive/2008/06/10/1216962.html" rel="" target="">
+    Python网络编程
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.cnblogs.com/coderzh/archive/2010/01/23/xUnit-Test-Patterns.html" rel="" target="">
+    xUnit Test Patterns
+</a>
+
+                    
+
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.cnblogs.com/coderzh/archive/2009/07/18/1526082.html" rel="" target="">
+    卓有成效的程序员
+</a>
+
+                    
+
+                </li>
+                                        
+        </ul>
+    </div></div>
+
+<!-- 最新评论 -->
+<div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap" class="RecentComment">
+    <h3 class="catListTitle">最新评论</h3>
+    <div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/coderzh/archive/2009/04/11/1433744.html">1. Re:玩转Google开源C++单元测试框架Google Test系列(gtest)之七 - 深入解析gtest</a></li>
+                    <li class="recent_comment_body">博主，我想问下，主函数内只有 testing::InitGoogleTest(&amp;argc, argv); return RUN_ALL_TESTS(); TEST的具体使用没看见在哪儿？没看见代码具体...</li>
+                    <li class="recent_comment_author">--qianrushiniuren</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/coderzh/archive/2009/04/08/1431297.html">2. Re:玩转Google开源C++单元测试框架Google Test系列(gtest)之四 - 参数化</a></li>
+                    <li class="recent_comment_body"><p><a href="" target="blank"></a></p>
+<p>对应于这篇博客的google test的官方案例，结合这个官方案例理解更佳。</p>
+</li>
+                    <li class="recent_comment_author">--lingr7</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/coderzh/archive/2009/08/02/1536901.html">3. Re:gtest中如何跳出当前测试案例</a></li>
+                    <li class="recent_comment_body">谢谢楼主的分享。不过我在1.8的gtest中试验，关于异常的捕获，是这样的：getst默认会捕获异常，而如果不想捕获异常，可以把--gtest_catch_exceptions设成0.如下是官方文档的...</li>
+                    <li class="recent_comment_author">--大鹏1979</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/coderzh/archive/2008/06/27/1230935.html">4. Re:TCP/IP详解卷1，2，3PDF下载</a></li>
+                    <li class="recent_comment_body"><p>链接打不开？</p>
+</li>
+                    <li class="recent_comment_author">--十一度</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/coderzh/archive/2009/04/12/1434155.html">5. Re:玩转Google开源C++单元测试框架Google Test系列(gtest)之八 - 打造自己的单元测试框架</a></li>
+                    <li class="recent_comment_body"><p>学习打卡 条理清晰</p>
+</li>
+                    <li class="recent_comment_author">--MixChaos</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/coderzh/archive/2008/12/31/1365994.html">6. Re:代码安全系列(2) - Race Condition</a></li>
+                    <li class="recent_comment_body"><p>博主写的很明了</p>
+</li>
+                    <li class="recent_comment_author">--西红柿鸡蛋面</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/coderzh/archive/2009/04/08/1431297.html">7. Re:玩转Google开源C++单元测试框架Google Test系列(gtest)之四 - 参数化</a></li>
+                    <li class="recent_comment_body">问下楼主，就是那个类型参数化的第一个方案，我写static T shared_; 写成静态变量，编译不过去怎么回事啊，提示link2001，无法识别的public::FooTest ::static&lt;...</li>
+                    <li class="recent_comment_author">--2的很别致</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/coderzh/archive/2010/01/09/beautiful-testcase.html">8. Re:编写优美的GTest测试案例</a></li>
+                    <li class="recent_comment_body">@Cod "首先，如果能够对系统进行重构，你可以参与进去，提一些可测试性意见。 其次，尝试使用mock替代依赖对象。可参考gmock框架。 第三，复杂系统难免会遇到你说的问题，也比较正常。找到最小的合...</li>
+                    <li class="recent_comment_author">--Simpsonh</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/coderzh/archive/2009/03/29/1424344.html">9. Re:代码覆盖率浅谈</a></li>
+                    <li class="recent_comment_body">@飞林沙 全是黑盒，页面点点点...</li>
+                    <li class="recent_comment_author">--划过天空阿忠</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/coderzh/p/OpenCppCoverage.html">10. Re:C++开源代码覆盖率工具OpenCppCoverage介绍(Windows)</a></li>
+                    <li class="recent_comment_body">请问OpenCppCoverage能支持基本路径覆盖统计吗</li>
+                    <li class="recent_comment_author">--muzigef</li>
+        </ul>
+    </div>
+</div></div>
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block">
+<div id="topview_posts_wrap">
+    <h3 class="catListTitle">阅读排行榜</h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2009/04/06/1426755.html">
+                            1. 玩转Google开源C++单元测试框架Google Test系列(gtest)(总)(294038)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2009/04/06/1426758.html">
+                            2. 玩转Google开源C++单元测试框架Google Test系列(gtest)之一 - 初识gtest(205221)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2009/04/06/1430364.html">
+                            3. 玩转Google开源C++单元测试框架Google Test系列(gtest)之二 - 断言(161860)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2009/04/06/1430396.html">
+                            4. 玩转Google开源C++单元测试框架Google Test系列(gtest)之三 - 事件机制(98804)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2009/04/10/1432789.html">
+                            5. 玩转Google开源C++单元测试框架Google Test系列(gtest)之六 - 运行参数(82989)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2009/04/08/1431297.html">
+                            6. 玩转Google开源C++单元测试框架Google Test系列(gtest)之四 - 参数化(77671)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2009/03/29/1424344.html">
+                            7. 代码覆盖率浅谈(74859)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2009/04/11/1433744.html">
+                            8. 玩转Google开源C++单元测试框架Google Test系列(gtest)之七 - 深入解析gtest(67424)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2008/11/25/1340862.html">
+                            9. C# 中使用JSON - DataContractJsonSerializer(63703)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2009/04/12/1434155.html">
+                            10. 玩转Google开源C++单元测试框架Google Test系列(gtest)之八 - 打造自己的单元测试框架(60987)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+    <h3 class="catListTitle">评论排行榜</h3>
+    <div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2009/06/28/1512654.html">
+                            1. PyQt4学习资料汇总(154)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2008/05/20/1203574.html">
+                            2. 开源Granados介绍 - SSH连接远程Linux服务器(C#)(66)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2008/09/06/1285500.html">
+                            3. (原创)攻击方式学习之(1) - 跨站式脚本(Cross-Site Scripting) (50)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2010/03/27/three-years-work-thinking.html">
+                            4. 三年之痒(44)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2009/12/25/nancyblog.html">
+                            5. NancyBlog - 我的Google App Engine Blog(42)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/p/three_years_programming_thinking.html">
+                            6. 创业三年来的一些感想 - 游戏篇(40)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2009/04/05/1429858.html">
+                            7. CCNET+MSBuild+SVN实时构建的优化总结(40)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2008/07/28/1255061.html">
+                            8. CoderZh首款Python联机对战游戏 - NancyTetris1.0倾情发布（一）(37)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2009/06/13/1500042.html">
+                            9. 程序员的信仰(35)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/coderzh/archive/2008/12/15/1355530.html">
+                            10. 代码安全系列(1) - Log的注入(35)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/coderzh/archive/2009/04/06/1426755.html">
+                                1. 玩转Google开源C++单元测试框架Google Test系列(gtest)(总)(31)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/coderzh/archive/2009/03/29/1424344.html">
+                                2. 代码覆盖率浅谈(16)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/coderzh/p/three_years_programming_thinking.html">
+                                3. 创业三年来的一些感想 - 游戏篇(14)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/coderzh/archive/2009/07/18/1526082.html">
+                                4. 程序员的共鸣 - 读《卓有成效的程序员》(12)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/coderzh/archive/2009/04/06/1426758.html">
+                                5. 玩转Google开源C++单元测试框架Google Test系列(gtest)之一 - 初识gtest(11)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright © 2021 CoderZh
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+    </div>
+</div>
+
+    <div id="page_end_html">
+        <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-10147768-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script src="https://s4.cnzz.com/stat.php?id=1076326&amp;web_id=1076326" language="JavaScript"></script><script src="https://c.cnzz.com/core.php?web_id=1076326&amp;t=z" charset="utf-8" type="text/javascript"></script><a href="https://www.cnzz.com/stat/website.php?web_id=1076326" target="_blank" title="站长统计">站长统计</a>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?bd94e02dee15052ca0ab2f0e51d8413c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+    </div>
+
+
+<iframe id="google_osd_static_frame_1203245346220" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body></html>
