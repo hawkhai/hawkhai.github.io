@@ -354,6 +354,9 @@ def mainfile(fpath, fname, ftype):
     isSrcFile        = ftype in ("md", "py", "php", "html", "htm", "js", "css", "scss", "svg",)
     keepStripFile    = ftype in ("svg",) or fname in ("gitsrc.html",) or re.findall("^relref[a-z_]*\\.html$", fname)
 
+    if fpath.find("\\winfinder\\") != -1:
+        isSrcFile = isSrcFile or ftype in ("h", "cpp", "rc", "c",)
+
     if not isSrcFile:
         if fpath.find("\\_site\\") != -1:
             g_tpset.add(ftype)
@@ -389,7 +392,11 @@ def mainfile(fpath, fname, ftype):
         return line.rstrip()
 
     print(fpath)
-    lines = readfileLines(fpath, False, False, "utf8")
+    try:
+        lines = readfileLines(fpath, False, False, "utf8")
+    except Exception as ex:
+        openTextFile(fpath)
+        raise ex
     lines = removeRefs(fpath, lines)
     lines = [linerstrip(line) for line in lines]
     lines.append("")
