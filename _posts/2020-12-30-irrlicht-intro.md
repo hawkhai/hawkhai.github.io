@@ -81,8 +81,7 @@ int main();
 | [22.MaterialViewer] | This tutorial allows to test all material settings Irrlicht provides. One can use this app to prepare manually configured materials for an own app. | easy | ![s022shot.jpg] |
 | [23.SMeshHandling] | This tutorial explains how to manually create meshes in Irrlicht. In contrast to example 3, this technique is pretty easy, does not require that much code, and can use all the advanced things of Irrlicht’s mesh handling. | average | ![s023shot.jpg] |
 | [24.CursorControl] | Show how to modify cursors and offer some useful tool-functions for creating cursors. It can also be used for experiments with the mouse in general. | ? | ![] |
-| [25.XmlHandling] | Demonstrates loading and saving of configurations via XML. This demo features a fully usable system for configuration handling. The code
-can easily be integrated into own apps. | ? | ![] |
+| [25.XmlHandling] | Demonstrates loading and saving of configurations via XML. This demo features a fully usable system for configuration handling. The code can easily be integrated into own apps. | ? | ![] |
 | [26.OcclusionQuery] | This tutorial shows how to speed up rendering by use of the OcclusionQuery feature. The usual rendering tries to avoid rendering of scene nodes by culling those nodes which are outside the visible area, the view frustum. | ? | ![] |
 | [27.PostProcessing] | This tutorial shows how to create a screen quad. A simple color inverse example is presented in this tutorial. The effect is written in HLSL and GLSL. | ? | ![] |
 | [28.CubeMapping] | Shows usage of cubemap textures and how to do some simple environment mapping. | ? | ![] |
@@ -176,7 +175,7 @@ External Tutorials (not included in SDK, written by external authors)
 
 ## Tutorial 1: HelloWorld
 
-{% include image.html url="/assets/images/201230-irrlicht-intro/helloworld.webp" %}
+{% include image.html url="/assets/images/201230-irrlicht-intro/01.helloworld.webp" %}
 
 ```cpp
 #ifdef _MSC_VER
