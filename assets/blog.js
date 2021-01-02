@@ -192,6 +192,9 @@ $(document).ready(function () {
     checkFlowChart();
     changePositionk();
     checkHrefTagk();
+    // https://www.jq22.com/jquery-info390
+    // $("img.lazyload").lazyload({effect: "fadeIn"});
+    $("img.lazyload").lazyload({threshold: 1000, effect: "show", failurelimit: 10});
 });
 // 窗口大小变化时
 $(window).resize(function () {
