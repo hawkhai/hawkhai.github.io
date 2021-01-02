@@ -79,14 +79,14 @@ int main();
 | [21.Quake3Explorer] | q3 map 浏览器。可以完成管理。 | advanced | ![s021shot.jpg] |
 | [22.MaterialViewer] | material 测试，可以手工编辑。 | easy | ![s022shot.jpg] |
 | [23.SMeshHandling] | 手工创建 meshes，支持定制处理。 | average | ![s023shot.jpg] |
-| [24.CursorControl] | 修改 鼠标 cursors。 | ? | ![024shot.jpg] |
-| [25.XmlHandling] | XML 的使用，可以用来加载和保存配置。 | ? | ![025shot.jpg] |
-| [26.OcclusionQuery] | 用 OcclusionQuery 渲染加速。超出视距的节点不绘制。 | ? | ![026shot.jpg] |
-| [27.PostProcessing] | 创建屏幕双缓冲。颜色反转，用 HLSL and GLSL 写的。 | ? | ![] |
-| [28.CubeMapping] | cubemap textures 使用，和环境 mapping。 | ? | ![] |
-| [29.HardwareSkinning] | x | ? | ![] |
-| [30.Profiling] | 一些 profiling tools。 | ? | ![] |
-| [Demo] | 一个完整的游戏 demo。 | ? | ![] |
+| [24.CursorControl] | 修改 鼠标 cursors。 | x | ![024shot.jpg] |
+| [25.XmlHandling] | XML 的使用，可以用来加载和保存配置。 | x | ![025shot.jpg] |
+| [26.OcclusionQuery] | 用 OcclusionQuery 渲染加速。超出视距的节点不绘制。 | x | ![026shot.jpg] |
+| [27.PostProcessing] | 创建屏幕双缓冲。颜色反转，用 HLSL and GLSL 写的。 | x | ![] |
+| [28.CubeMapping] | cubemap textures 使用，和环境 mapping。 | x | ![] |
+| [29.HardwareSkinning] | HardwareSkinning | x | ![] |
+| [30.Profiling] | 一些 profiling tools。 | x | ![] |
+| [Demo] | 一个完整的游戏 demo。 | x | ![] |
 
 [1.HelloWorld]: http://irrlicht.sourceforge.net/docu/example001.html
 [2.Quake3Map]: http://irrlicht.sourceforge.net/docu/example002.html
@@ -111,6 +111,10 @@ int main();
 [21.Quake3Explorer]: http://irrlicht.sourceforge.net/docu/example021.html
 [22.MaterialViewer]: http://irrlicht.sourceforge.net/docu/example022.html
 [23.SMeshHandling]: http://irrlicht.sourceforge.net/docu/example023.html
+
+[24.CursorControl]: http://irrlicht.sourceforge.net/docu/example024.html
+[25.XmlHandling]: http://irrlicht.sourceforge.net/docu/example025.html
+[26.OcclusionQuery]: http://irrlicht.sourceforge.net/docu/example026.html
 
 [s001shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s001shot.jpg" %}
 [s002shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s002shot.jpg" %}
@@ -425,11 +429,14 @@ Usage: MeshConverter.exe [options] <srcFile> <destFile>
 - [22] [http://irrlicht.sourceforge.net/docu/example021.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/0cfa7b9f.html" %})
 - [23] [http://irrlicht.sourceforge.net/docu/example022.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/6e7ceb41.html" %})
 - [24] [http://irrlicht.sourceforge.net/docu/example023.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/e6faf851.html" %})
-- [25] [http://irrlicht.sourceforge.net/tut_devcpp.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/f1b6649e.html" %})
-- [26] [http://irrlicht.sourceforge.net/tut_codeblocks.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/959cf6e9.html" %})
-- [27] [http://irrlicht.sourceforge.net/tut_codew.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/a455348c.html" %})
-- [28] [http://irrlicht.sourceforge.net/tut_ode.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/f195a7b1.html" %})
-- [29] [http://irrlicht.sourceforge.net/tut_toka.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/b00f362b.html" %})
-- [30] [http://irrlicht.sourceforge.net/tut_physx.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/7270aa13.html" %})
-- [31] [http://irrlicht.sourceforge.net/tut_newton.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/ac6f4f9d.html" %})
-- [32] [http://irrlicht.sourceforge.net/tut_newtondevcpp.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/a2cfe98f.html" %})
+- [25] [http://irrlicht.sourceforge.net/docu/example024.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/30c4976c.html" %})
+- [26] [http://irrlicht.sourceforge.net/docu/example025.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/2872869b.html" %})
+- [27] [http://irrlicht.sourceforge.net/docu/example026.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/e17a2c6d.html" %})
+- [28] [http://irrlicht.sourceforge.net/tut_devcpp.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/f1b6649e.html" %})
+- [29] [http://irrlicht.sourceforge.net/tut_codeblocks.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/959cf6e9.html" %})
+- [30] [http://irrlicht.sourceforge.net/tut_codew.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/a455348c.html" %})
+- [31] [http://irrlicht.sourceforge.net/tut_ode.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/f195a7b1.html" %})
+- [32] [http://irrlicht.sourceforge.net/tut_toka.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/b00f362b.html" %})
+- [33] [http://irrlicht.sourceforge.net/tut_physx.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/7270aa13.html" %})
+- [34] [http://irrlicht.sourceforge.net/tut_newton.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/ac6f4f9d.html" %})
+- [35] [http://irrlicht.sourceforge.net/tut_newtondevcpp.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/a2cfe98f.html" %})
