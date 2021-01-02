@@ -8,7 +8,7 @@ tags: ["Irrlicht3D"]
 toc: true
 toclistyle: none
 comments:
-visibility: hidden
+visibility:
 mathjax: true
 mermaid: truez
 glslcanvas:

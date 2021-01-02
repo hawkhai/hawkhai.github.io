@@ -7,7 +7,7 @@
  */
 ;(function(factory){
     if(typeof define === 'function' && define.amd){ // AMD
-        // you may need to change `define([------>'jquery'<------], factory)` 
+        // you may need to change `define([------>'jquery'<------], factory)`
         // if you use zepto, change it rely name, such as `define(['zepto'], factory)`
         define(['jquery'], factory)
         // define(['zepto'], factory)
@@ -103,14 +103,14 @@
             }
             function appear(){
                 $element.trigger('_lazyload_appear')
-                // if we found an image we'll load, reset the counter 
+                // if we found an image we'll load, reset the counter
                 counter = 0
             }
             // If vertical_only is set to true, only check the vertical to decide appear or not
             // In most situations, page can only scroll vertically, set vertical_only to true will improve performance
             if(options.vertical_only){
                 if(abovethetop($element, options)){
-                    // Nothing. 
+                    // Nothing.
                 }else if(!belowthefold($element, options)){
                     appear()
                 }else{
@@ -120,7 +120,7 @@
                 }
             }else{
                 if(abovethetop($element, options) || leftofbegin($element, options)){
-                    // Nothing. 
+                    // Nothing.
                 }else if(!belowthefold($element, options) && !rightoffold($element, options)){
                     appear()
                 }else{
@@ -132,7 +132,7 @@
         })
     }
 
-    // Remove image from array so it is not looped next time. 
+    // Remove image from array so it is not looped next time.
     function getUnloadElements($elements){
         return $elements.filter(function(i,e){
             return !$elements.eq(i)._lazyload_loadStarted
@@ -184,7 +184,7 @@
                         options[k] = v
                     }
                 }else if(k == 'container'){ // options.container can be a seletor string \ dom \ jQuery object
-                    if(options.hasOwnProperty(k)){   
+                    if(options.hasOwnProperty(k)){
                         if(options[k] == w || options[k] == document){
                             options._$container = $window
                         }else{
@@ -227,15 +227,15 @@
 
                 $element._lazyload_loadStarted = false
 
-                // If element is an img and no src attribute given, use placeholder. 
+                // If element is an img and no src attribute given, use placeholder.
                 if(isImg && !placeholderSrc){
                     // For browsers that do not support data image.
                     $element.one('error',function(){ // `on` -> `one` : IE6 triggered twice error event sometimes
                         $element.attr('src',options.placeholder_real_img)
                     }).attr('src',options.placeholder_data_img)
                 }
-                
-                // When appear is triggered load original image. 
+
+                // When appear is triggered load original image.
                 $element.one('_lazyload_appear',function(){
                     var effectParamsIsArray = $.isArray(options.effect_params),
                         effectIsNotImmediacyShow
@@ -286,8 +286,8 @@
                     }
                 })
 
-                // When wanted event is triggered load original image 
-                // by triggering appear.                              
+                // When wanted event is triggered load original image
+                // by triggering appear.
                 if (!isScrollTypeEvent){
                     $element.on(options.event, function(){
                         if (!$element._lazyload_loadStarted){
@@ -297,24 +297,24 @@
                 }
             })
 
-            // Fire one scroll event per scroll. Not one scroll event per image. 
+            // Fire one scroll event per scroll. Not one scroll event per image.
             if(isScrollTypeEvent){
                 options._$container.on(options.event, function(){
                     throttleCheckAppear($elements, options)
                 })
             }
 
-            // Check if something appears when window is resized. 
-            // Force initial check if images should appear when window is onload. 
+            // Check if something appears when window is resized.
+            // Force initial check if images should appear when window is onload.
             $window.on('resize load', function(){
                 throttleCheckAppear($elements, options)
             })
 
-            // Force initial check if images should appear. 
+            // Force initial check if images should appear.
             $(function(){
                 throttleCheckAppear($elements, options)
             })
-            
+
             return this
         }
     }

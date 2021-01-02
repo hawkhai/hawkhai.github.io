@@ -192,7 +192,7 @@ $(document).ready(function () {
     checkFlowChart();
     changePositionk();
     checkHrefTagk();
-    // https://www.jq22.com/jquery-info390
+    // https://github.com/jieyou/lazyload
     // $("img.lazyload").lazyload({effect: "fadeIn"});
     $("img.lazyload").lazyload({threshold: 1000, effect: "show", failurelimit: 10});
 });
