@@ -192,7 +192,7 @@ $(document).ready(function () {
     checkFlowChart();
     changePositionk();
     checkHrefTagk();
-    // https://github.com/jieyou/lazyload
+    // https://github.com/jieyou/lazyload -- 这玩意有 bug，图片会下载两次。
     // $("img.lazyload").lazyload({effect: "fadeIn"});
     // $("img.lazyload").lazyload({threshold: 1000, effect: "show", failurelimit: 10});
 });
