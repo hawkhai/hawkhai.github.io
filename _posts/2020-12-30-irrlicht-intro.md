@@ -82,11 +82,11 @@ int main();
 | [24.CursorControl] | 修改 鼠标 cursors。 | x | ![024shot.jpg] |
 | [25.XmlHandling] | XML 的使用，可以用来加载和保存配置。 | x | ![025shot.jpg] |
 | [26.OcclusionQuery] | 用 OcclusionQuery 渲染加速。超出视距的节点不绘制。 | x | ![026shot.jpg] |
-| [27.PostProcessing] | 创建屏幕双缓冲。颜色反转，用 HLSL and GLSL 写的。 | x | ![] |
-| [28.CubeMapping] | cubemap textures 使用，和环境 mapping。 | x | ![] |
-| [29.HardwareSkinning] | HardwareSkinning | x | ![] |
-| [30.Profiling] | 一些 profiling tools。 | x | ![] |
-| [Demo] | 一个完整的游戏 demo。 | x | ![] |
+| [27.PostProcessing] | 创建屏幕双缓冲。颜色反转，用 HLSL and GLSL 写的。 | x | ![027shot.jpg] |
+| [28.CubeMapping] | cubemap textures 使用，和环境 mapping。 | x | ![028shot.jpg] |
+| [29.HardwareSkinning] | HardwareSkinning | x | ![029shot.jpg] |
+| [30.Profiling] | 一些 profiling tools。 | x | ![030shot.jpg] |
+| [Demo] | 一个完整的游戏 demo。 | x | ![demoshot.jpg] |
 
 [1.HelloWorld]: http://irrlicht.sourceforge.net/docu/example001.html
 [2.Quake3Map]: http://irrlicht.sourceforge.net/docu/example002.html
@@ -135,15 +135,21 @@ int main();
 [s017shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s017shot.jpg" %}
 [s018shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s018shot.jpg" %}
 
-[s019shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s019shot.jpg" %}
-[s020shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s020shot.jpg" %}
-[s021shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s021shot.jpg" %}
-[s022shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s022shot.jpg" %}
-[s023shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s023shot.jpg" %}
+[s019shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/019shot.jpg" %}
+[s020shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/020shot.jpg" %}
+[s021shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/021shot.jpg" %}
+[s022shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/022shot.jpg" %}
+[s023shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/023shot.jpg" %}
 
 [024shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/024shot.jpg" %}
 [025shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/025shot.jpg" %}
 [026shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/026shot.jpg" %}
+
+[027shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s019shot.jpg" %}
+[028shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s020shot.jpg" %}
+[029shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s021shot.jpg" %}
+[030shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s022shot.jpg" %}
+[demoshot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s023shot.jpg" %}
 
 
 ## External Tutorials
