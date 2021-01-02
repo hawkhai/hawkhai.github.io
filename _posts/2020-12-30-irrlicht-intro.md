@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Irrlicht3D 笔记 -- Irrlicht3D 初探"
+title: "Irrlicht 3D 笔记 -- Irrlicht 初探"
 author:
 location: "珠海"
-categories: ["Irrlicht3D"]
-tags: ["Irrlicht3D"]
+categories: ["Irrlicht"]
+tags: ["Irrlicht"]
 toc: true
 toclistyle: none
 comments:
@@ -23,16 +23,14 @@ codeprint:
 
 ## development code
 
-version | svn addr
----- | ----
-development code | svn://svn.code.sf.net/p/irrlicht/code/trunk [unstable]
-1.8.5 | svn://svn.code.sf.net/p/irrlicht/code/branches/releases/1.8
-OpenGL ES driver | svn://svn.code.sf.net/p/irrlicht/code/branches/ogl-es
+version | svn addr | note
+---- | ---- | ----
+下一个版本 | svn://svn.code.sf.net/p/irrlicht/code/trunk | 可能不稳定或存在 api 变更
+1.8.5 bugfix | svn://svn.code.sf.net/p/irrlicht/code/branches/releases/1.8 | 推荐这个
+OpenGL ES | svn://svn.code.sf.net/p/irrlicht/code/branches/ogl-es | 实验性质
 
 
 ## Namespace List
-
-Here is a list of all namespaces with brief descriptions:
 
 irr | Everything
 irr::core | vectors, planes, arrays, lists, and so on
@@ -58,37 +56,37 @@ int main();
 
 | Name | Summary | Difficulty | Shot |
 | ---- | ---- | ---- | :----: |
-| [1.HelloWorld] | Shows how to set up the Visual Studio IDE for using the Irrlicht Engine and how to write a simple HelloWorld program with it. The tutorial will show how to use the basics of the VideoDriver, the GUIEnvironment and the SceneManager. | easy | ![s001shot.jpg] |
-| [2.Quake3Map] | This tutorial shows how to load a Quake 3 map into the engine, create a SceneNode for optimizing the speed of rendering and how to create a user controlled camera. | easy | ![s002shot.jpg] |
-| [3.Custom SceneNode] | This tutorials shows how to create a custom scene node and how to use it in the engine. This is useful if you want to extend the render techniques of the Irrlicht Engine. | advanced | ![s003shot.jpg] |
-| [4.Movement] | This Tutorial shows how to move and animate SceneNodes. The basic concept of SceneNodeAnimators is shown as well as manual movement of nodes using the keyboard. | easy | ![s004shot.jpg] |
-| [5.User Interface] | This tutorial shows how to use the built in User Interface of the Irrlicht Engine. It will give a brief overview and show how to create and use windows, buttons, scroll bars, static texts and list boxes. | average | ![s005shot.jpg] |
-| [6.2D Graphics] | This Tutorial shows how to do 2d graphics with the Irrlicht Engine. It shows how to draw images, keycolor based sprites, transparent rectangles and different fonts. You will may consider this useful if you want to make a 2d game with the engine, or if you want to draw a cool interface or head up display for your 3d game. | easy | ![s006shot.jpg] |
-| [7.Collision] | In this tutorial, I will show how to collision detection with the Irrlicht Engine. I will describe 3 methods: Automatic collision detection for moving through 3d worlds with stair climbing and sliding, manual triangle picking and manual scene node picking. | average | ![s007shot.jpg] |
-| [8.SpecialFX] | This tutorials describes how to do special effects. It shows how to use stencil buffer shadows, the particle system, billboards, dynamic light and the water surface scene node. | average | ![s008shot.jpg] |
-| [9.MeshViewer] | This tutorial shows how to create a more complex application with the engine. We construct a simple mesh viewer using the user interface API and the scene management of Irrlicht. | advanced | ![s009.jpg] |
-| [10.Shaders] | This tutorial shows how to use shaders for D3D8, D3D9 and OpenGL with the engine and how to create new material types with them. It also shows how to disable the generation of mipmaps at texture loading, and how to use text scene nodes. | advanced | ![s010shot.jpg] |
-| [11.Per Pixel Lighting] | This tutorial shows how to use one of the built in more complex materials in irrlicht: Per pixel lighted surfaces using normal maps and parallax mapping. It will also show how to use fog and moving particle systems. And don’t panic: You dont need any experience with shaders to use these materials in Irrlicht. | average | ![s011shot.jpg] |
-| [12.Terrain Rendering] | This tutorial will briefly show how to use the terrain renderer of Irrlicht. It will also show the terrain triangle selector to be able to do collision detection with terrain. | easy | ![s012shot.jpg] |
-| [13.Render To Texture] | This tutorial shows how to render to a texture using Irrlicht. Render to texture is a feature with which it is possible to create nice special effects. In addition, this tutorial shows how to enable specular highlights. | average | ![s013shot.jpg] |
-| [14.Win32 window] | This example only runs in Windows and demonstrates that Irrlicht can run inside a win32 window. MFC and .NET Windows.Forms windows are possible too. | easy | ![s014shot.jpg] |
-| [15.Load .irr file] | This tutorial shows how to use .irr files. | easy | ![s015shot.jpg] |
-| [16.Quake3Map Shader] | This tutorial shows how to work with all elements and effects from a q3 map. | average | ![s016shot.jpg] |
-| [17.Hello World Mobile] | This tutorial shows Irrlicht for Windows CE. | advanced | ![s017shot.jpg] |
-| [18.SplitScreen] | This tutorial presents usage of split screen setups. Developed by Max Winkel. | average | ![s018shot.jpg] |
-| [19.Mouse And Joystick] | This tutorial explains joystick and mouse usage in Irrlicht. | easy | ![s019shot.jpg] |
-| [20.Managed Lights] | Irrlicht supports special light setup via light managers. This tutorial shows several possibilities to choose the proper lights from the scene. | advanced | ![s020shot.jpg] |
-| [21.Quake3Explorer] | This tutorial contains a full q3 map explorer. One can load q3 maps, walk through the maps, and play around with the advanced GUI. | advanced | ![s021shot.jpg] |
-| [22.MaterialViewer] | This tutorial allows to test all material settings Irrlicht provides. One can use this app to prepare manually configured materials for an own app. | easy | ![s022shot.jpg] |
-| [23.SMeshHandling] | This tutorial explains how to manually create meshes in Irrlicht. In contrast to example 3, this technique is pretty easy, does not require that much code, and can use all the advanced things of Irrlicht’s mesh handling. | average | ![s023shot.jpg] |
-| [24.CursorControl] | Show how to modify cursors and offer some useful tool-functions for creating cursors. It can also be used for experiments with the mouse in general. | ? | ![] |
-| [25.XmlHandling] | Demonstrates loading and saving of configurations via XML. This demo features a fully usable system for configuration handling. The code can easily be integrated into own apps. | ? | ![] |
-| [26.OcclusionQuery] | This tutorial shows how to speed up rendering by use of the OcclusionQuery feature. The usual rendering tries to avoid rendering of scene nodes by culling those nodes which are outside the visible area, the view frustum. | ? | ![] |
-| [27.PostProcessing] | This tutorial shows how to create a screen quad. A simple color inverse example is presented in this tutorial. The effect is written in HLSL and GLSL. | ? | ![] |
-| [28.CubeMapping] | Shows usage of cubemap textures and how to do some simple environment mapping. | ? | ![] |
+| [1.HelloWorld] | VideoDriver, GUIEnvironment and SceneManager. | easy | ![s001shot.jpg] |
+| [2.Quake3Map] | 加载 Quake 3 map，创建 SceneNode 并优化渲染速度，创建可控相机位。 | easy | ![s002shot.jpg] |
+| [3.Custom SceneNode] | 创建定制的 scene node，shader 写的。 | advanced | ![s003shot.jpg] |
+| [4.Movement] | 移动 SceneNode，创建 SceneNode 动画 SceneNodeAnimators，也可以通过键盘控制移动。 | easy | ![s004shot.jpg] |
+| [5.User Interface] | 用内建的 User Interface 创建 windows, buttons, scroll bars, static texts and list boxes。 | average | ![s005shot.jpg] |
+| [6.2D Graphics] | 2d graphics，draw images, keycolor based sprites, transparent rectangles and different fonts. | easy | ![s006shot.jpg] |
+| [7.Collision] | collision 检测，三种方法：stair climbing，拾取三角形，拾取 scene node。 | average | ![s007shot.jpg] |
+| [8.SpecialFX] | 特效演示。深度缓冲阴影，粒子系统，广告牌，动态光，水表面。 | average | ![s008shot.jpg] |
+| [9.MeshViewer] | mesh viewer。涉及用户接口和场景管理。 | advanced | ![s009.jpg] |
+| [10.Shaders] | shaders for D3D8, D3D9 and OpenGL。创建 shader material，关闭 texture mipmaps，使用 text scene nodes。 | advanced | ![s010shot.jpg] |
+| [11.Per Pixel Lighting] | 复杂 material。用 normal maps and parallax mapping 计算每个像素的光照。烟雾的使用，和移动粒子系统。 | average | ![s011shot.jpg] |
+| [12.Terrain Rendering] | 地形渲染。用地形三角进行物理碰撞检测。 | easy | ![s012shot.jpg] |
+| [13.Render To Texture] | 渲染到一个纹理。使用 specular highlights。 | average | ![s013shot.jpg] |
+| [14.Win32 window] | win32 窗口中使用引擎。 | easy | ![s014shot.jpg] |
+| [15.Load .irr file] | 使用 .irr files。 | easy | ![s015shot.jpg] |
+| [16.Quake3Map Shader] | q3 map 特效和加载。 | average | ![s016shot.jpg] |
+| [17.Hello World Mobile] | Windows CE 样例。 | advanced | ![s017shot.jpg] |
+| [18.SplitScreen] | split screen 演示。 | average | ![s018shot.jpg] |
+| [19.Mouse And Joystick] | 手柄和鼠标的使用。 | easy | ![s019shot.jpg] |
+| [20.Managed Lights] | 多光源管理。根据场景选择合适的光源。 | advanced | ![s020shot.jpg] |
+| [21.Quake3Explorer] | q3 map 浏览器。可以完成管理。 | advanced | ![s021shot.jpg] |
+| [22.MaterialViewer] | material 测试，可以手工编辑。 | easy | ![s022shot.jpg] |
+| [23.SMeshHandling] | 手工创建 meshes，支持定制处理。 | average | ![s023shot.jpg] |
+| [24.CursorControl] | 修改 鼠标 cursors。 | ? | ![024shot.jpg] |
+| [25.XmlHandling] | XML 的使用，可以用来加载和保存配置。 | ? | ![025shot.jpg] |
+| [26.OcclusionQuery] | 用 OcclusionQuery 渲染加速。超出视距的节点不绘制。 | ? | ![026shot.jpg] |
+| [27.PostProcessing] | 创建屏幕双缓冲。颜色反转，用 HLSL and GLSL 写的。 | ? | ![] |
+| [28.CubeMapping] | cubemap textures 使用，和环境 mapping。 | ? | ![] |
 | [29.HardwareSkinning] | x | ? | ![] |
-| [30.Profiling] | There exist several independent profiling tools. | ? | ![] |
-| [Demo] | x | ? | ![] |
+| [30.Profiling] | 一些 profiling tools。 | ? | ![] |
+| [Demo] | 一个完整的游戏 demo。 | ? | ![] |
 
 [1.HelloWorld]: http://irrlicht.sourceforge.net/docu/example001.html
 [2.Quake3Map]: http://irrlicht.sourceforge.net/docu/example002.html
@@ -122,7 +120,7 @@ int main();
 [s006shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s006shot.jpg" %}
 [s007shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s007shot.jpg" %}
 [s008shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s008shot.jpg" %}
-[s009.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s009.jpg" %}
+[s009shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s009shot.jpg" %}
 [s010shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s010shot.jpg" %}
 [s011shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s011shot.jpg" %}
 [s012shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s012shot.jpg" %}
@@ -132,26 +130,32 @@ int main();
 [s016shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s016shot.jpg" %}
 [s017shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s017shot.jpg" %}
 [s018shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s018shot.jpg" %}
+
 [s019shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s019shot.jpg" %}
 [s020shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s020shot.jpg" %}
 [s021shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s021shot.jpg" %}
 [s022shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s022shot.jpg" %}
 [s023shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s023shot.jpg" %}
 
-External Tutorials (not included in SDK, written by external authors)
+[024shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/024shot.jpg" %}
+[025shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/025shot.jpg" %}
+[026shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/026shot.jpg" %}
+
+
+## External Tutorials
 
 <table class="tablestyle" ntablew="3:8:2:3:3"></table>
 
 | Name | Summary | Difficulty | Shot |
 | ---- | ---- | ---- | :----: |
-| [DevCpp] | A detailed tutorial on how to use the engine with Dev C++, written by Andy Spurgeon. | easy | ![s001bshot.jpg] |
-| [Code::Blocks] | A detailed on how to use the engine with the Code::Blocks IDE, written by Alvaro F. Celis. | easy | ![codeblocks.jpg] |
-| [Codewarrior] | A detailed tutorial on how to use the engine with Metroworks Codewarrior, written by André Simon. | easy | ![s001cshot.jpg] |
-| [ODE Integration] | Another popular and open source physics engine is ODE. This tutorial shows how to use Irrlicht with ODE. | advanced | ![odelogo.jpg] |
-| [Tokamak Integration] | Tokamak is a popular physics engine. Matthew Couch wrote this tutorial which shows how to integrate Tokamak into the Irrlicht Engine. | advanced | ![s008bshot.jpg] |
-| [PhysX Integration] | Ageia PhysX is the physics engine formerly called Novodex. This tutorials, written by Andrew J Santa Maria shows how to use it with Irrlicht. | advanced | ![physx.jpg] |
-| [Newton Integration] | Another cool physics engine is Newton Game Dynamics. This external tutorial, written by mercior shows how to use it with Irrlicht. | advanced | ![newston.jpg] |
-| [Newton DevC++ Integration] | This small tutorial will explain how to integrate the Newton Physics SDK together with Irrlicht into Dev-C++. | average | ![devcpp_newton.jpg] |
+| [DevCpp] | Dev C++ 使用。 | easy | ![s001bshot.jpg] |
+| [Code::Blocks] | Code::Blocks IDE 使用。 | easy | ![codeblocks.jpg] |
+| [Codewarrior] | Metroworks Codewarrior 使用。 | easy | ![s001cshot.jpg] |
+| [ODE Integration] | 物理引擎 ODE。 | advanced | ![odelogo.jpg] |
+| [Tokamak Integration] | 物理引擎 Tokamak。 | advanced | ![s008bshot.jpg] |
+| [PhysX Integration] | 物理引擎 Ageia PhysX （Novodex）。 | advanced | ![physx.jpg] |
+| [Newton Integration] | 物理引擎 Newton Game Dynamics。 | advanced | ![newston.jpg] |
+| [Newton DevC++ Integration] | Dev-C++，物理引擎 Newton Physics SDK。 | average | ![devcpp_newton.jpg] |
 
 [DevCpp]: http://irrlicht.sourceforge.net/tut_devcpp.html)
 [Code::Blocks]: http://irrlicht.sourceforge.net/tut_codeblocks.html)
@@ -170,6 +174,9 @@ External Tutorials (not included in SDK, written by external authors)
 [physx.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/physx.jpg" %}
 [newston.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/newston.jpg" %}
 [devcpp_newton.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/devcpp_newton.jpg" %}
+
+
+## Hello World $code$
 
 ```cpp
 #ifdef _MSC_VER
