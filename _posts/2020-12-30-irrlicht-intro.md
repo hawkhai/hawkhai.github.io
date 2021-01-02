@@ -64,7 +64,7 @@ int main();
 | [6.2D Graphics] | 2d graphics，draw images, keycolor based sprites, transparent rectangles and different fonts. | easy | ![s006shot.jpg] |
 | [7.Collision] | collision 检测，三种方法：stair climbing，拾取三角形，拾取 scene node。 | average | ![s007shot.jpg] |
 | [8.SpecialFX] | 特效演示。深度缓冲阴影，粒子系统，广告牌，动态光，水表面。 | average | ![s008shot.jpg] |
-| [9.MeshViewer] | mesh viewer。涉及用户接口和场景管理。 | advanced | ![s009.jpg] |
+| [9.MeshViewer] | mesh viewer。涉及用户接口和场景管理。 | advanced | ![s009shot.jpg] |
 | [10.Shaders] | shaders for D3D8, D3D9 and OpenGL。创建 shader material，关闭 texture mipmaps，使用 text scene nodes。 | advanced | ![s010shot.jpg] |
 | [11.Per Pixel Lighting] | 复杂 material。用 normal maps and parallax mapping 计算每个像素的光照。烟雾的使用，和移动粒子系统。 | average | ![s011shot.jpg] |
 | [12.Terrain Rendering] | 地形渲染。用地形三角进行物理碰撞检测。 | easy | ![s012shot.jpg] |
