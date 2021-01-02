@@ -194,7 +194,7 @@ $(document).ready(function () {
     checkHrefTagk();
     // https://github.com/jieyou/lazyload
     // $("img.lazyload").lazyload({effect: "fadeIn"});
-    $("img.lazyload").lazyload({threshold: 1000, effect: "show", failurelimit: 10});
+    // $("img.lazyload").lazyload({threshold: 1000, effect: "show", failurelimit: 10});
 });
 // 窗口大小变化时
 $(window).resize(function () {
