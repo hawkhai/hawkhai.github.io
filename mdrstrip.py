@@ -190,6 +190,15 @@ def organizeRes(ik, fpath, line):
         copyfile(ik, tpath)
         if os.path.abspath(ik) != os.path.abspath(tpath):
             g_orgremove.add(ik)
+        # 同样大小的小图片先占位... lazyload
+        sizepath = tpath + ".thumbnail.webp"
+        if not os.path.exists(sizepath) and iktype in ("png", "jpg", "gif", "jpeg", "webp",):
+            from PIL import Image
+            img = Image.open(tpath)
+            width, height = img.size
+            img = img.resize((100, round(100.0*height/width)), Image.ANTIALIAS).resize((width, height))
+            # 小于 100K...
+            img.save(sizepath)
     else:
         assert False, ik
 
