@@ -18,6 +18,7 @@ codeprint:
 官网：<http://irrlicht.sourceforge.net/>
 
 把所有官方 Tutorial 跑一遍，可以感受到作者对 OpenGL 底层的封装，一些思路。
+截图有点困难，还专门写了一个小程序完成截图，每个 demo 都截了动态图，便于查阅。
 
 
 ## development code
@@ -170,13 +171,6 @@ External Tutorials (not included in SDK, written by external authors)
 [newston.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/newston.jpg" %}
 [devcpp_newton.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/devcpp_newton.jpg" %}
 
-<p class="counter-reset h2counter"></p>
-
-
-## Tutorial 1: HelloWorld
-
-{% include image.html url="/assets/images/201230-irrlicht-intro/01.helloworld.webp" %}
-
 ```cpp
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
@@ -187,56 +181,36 @@ External Tutorials (not included in SDK, written by external authors)
 #include "exampleHelper.h"
 
 using namespace irr;
-
 using namespace core;
 using namespace scene;
 using namespace video;
 using namespace io;
 using namespace gui;
 
-int main()
-{
-    IrrlichtDevice* device =
-        createDevice(video::EDT_OPENGL, dimension2d<u32>(640, 480), 16,
-            false, false, false, 0);
-    if (!device)
-        return 1;
-
+int main() {
+    IrrlichtDevice* device = createDevice(video::EDT_OPENGL, dimension2d<u32>(640, 480), 16, false, false, false, 0);
     device->setWindowCaption(L"Hello World! - Irrlicht Engine Demo");
 
     IVideoDriver* driver = device->getVideoDriver();
     ISceneManager* smgr = device->getSceneManager();
     IGUIEnvironment* guienv = device->getGUIEnvironment();
 
-    guienv->addStaticText(L"Hello World! This is Irrlicht with the burnings software renderer!",
-        rect<s32>(10, 10, 260, 22), true);
+    guienv->addStaticText(L"Hello World! This is Irrlicht with the burnings software renderer!", rect<s32>(10, 10, 260, 22), true);
 
     const io::path mediaPath = getExampleMediaPath();
-
     IAnimatedMesh* mesh = smgr->getMesh(mediaPath + "sydney.md2");
-    if (!mesh)
-    {
-        device->drop();
-        return 1;
-    }
-
     IAnimatedMeshSceneNode* node = smgr->addAnimatedMeshSceneNode(mesh);
-    if (node)
-    {
+    if (node) {
         node->setMaterialFlag(EMF_LIGHTING, false);
         node->setMD2Animation(scene::EMAT_STAND);
         node->setMaterialTexture(0, driver->getTexture(mediaPath + "sydney.bmp"));
     }
 
     smgr->addCameraSceneNode(0, vector3df(0, 30, -40), vector3df(0, 5, 0));
-
-    while (device->run())
-    {
+    while (device->run()) {
         driver->beginScene(ECBF_COLOR | ECBF_DEPTH, SColor(255, 100, 101, 140));
-
         smgr->drawAll();
         guienv->drawAll();
-
         driver->endScene();
     }
 
@@ -245,50 +219,87 @@ int main()
 }
 ```
 
+<p class="counter-reset h2counter"></p>
+
+
+## Tutorial 1: HelloWorld
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/01.helloworld.webp" %}
+
 
 ## Tutorial 2: Quake3Map
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/02.quake3map_4.webp" %}
 
 
 ## Tutorial 3: Custom SceneNode
 
+{% include image.html url="/assets/images/201230-irrlicht-intro/03.customscenenode.webp" %}
+
 
 ## Tutorial 4: Movement
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/04.movement.webp" %}
 
 
 ## Tutorial 5: User Interface
 
+{% include image.html url="/assets/images/201230-irrlicht-intro/05.userinterface_2.webp" %}
+
 
 ## Tutorial 6: 2D Graphics
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/06.2dgraphics_2.webp" %}
 
 
 ## Tutorial 7: Collision
 
+{% include image.html url="/assets/images/201230-irrlicht-intro/07.collision_4.webp" %}
+
 
 ## Tutorial 8: SpecialFX
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/08.specialfx_3.webp" %}
 
 
 ## Tutorial 9: Mesh Viewer
 
+{% include image.html url="/assets/images/201230-irrlicht-intro/09.meshviewer_2.webp" %}
+
 
 ## Tutorial 10: Shaders
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/10.shaders_2.webp" %}
 
 
 ## Tutorial 11: Per-Pixel Lighting
 
+{% include image.html url="/assets/images/201230-irrlicht-intro/11.perpixellighting_4.webp" %}
+
 
 ## Tutorial 12: Terrain Rendering
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/12.terrainrendering.webp" %}
 
 
 ## Tutorial 13: Render To Texture
 
+{% include image.html url="/assets/images/201230-irrlicht-intro/13.rendertotexture.webp" %}
+
 
 ## Tutorial 14: Win32 Window
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/14.win32window.webp" %}
 
 
 ## Tutorial 15: Loading Scenes from .irr Files
 
+{% include image.html url="/assets/images/201230-irrlicht-intro/15.loadirrfile_2.webp" %}
+
 
 ## Tutorial 16: Quake3 Map Shader Support
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/16.quake3mapshader_3.webp" %}
 
 
 ## Tutorial 17: Helloworld mobile
@@ -296,35 +307,57 @@ int main()
 
 ## Tutorial 18: Splitscreen
 
+{% include image.html url="/assets/images/201230-irrlicht-intro/18.splitscreen_3.webp" %}
+
 
 ## Tutorial 19: Mouse and Joystick
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/19.mouseandjoystick.webp" %}
 
 
 ## Tutorial 20: Managed Lights
 
+{% include image.html url="/assets/images/201230-irrlicht-intro/20.managedlights_2.webp" %}
+
 
 ## Tutorial 21: Quake3 Explorer
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/21.quake3explorer.webp" %}
 
 
 ## Tutorial 22: Material Viewer
 
+{% include image.html url="/assets/images/201230-irrlicht-intro/22.materialviewer.webp" %}
+
 
 ## Tutorial 23: SMeshBufferHandling
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/23.smeshhandling.webp" %}
 
 
 ## Tutorial 24: CursorControl
 
+{% include image.html url="/assets/images/201230-irrlicht-intro/24.cursorcontrol.webp" %}
+
 
 ## Tutorial 25: Xml Handling
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/25.xmlhandling.webp" %}
 
 
 ## Tutorial 26: OcclusionQuery
 
+{% include image.html url="/assets/images/201230-irrlicht-intro/26.occlusionquery.webp" %}
+
 
 ## 27.PostProcessing
 
+{% include image.html url="/assets/images/201230-irrlicht-intro/27.postprocessing.webp" %}
+
 
 ## 28.CubeMapping
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/28.cubemapping_4.webp" %}
 
 
 ## 29.HardwareSkinning
@@ -332,8 +365,30 @@ int main()
 
 ## 30.Profiling
 
+{% include image.html url="/assets/images/201230-irrlicht-intro/30.profiling.webp" %}
+
 
 ## Demo
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/demo_start.webp" %}
+{% include image.html url="/assets/images/201230-irrlicht-intro/demo_4.webp" %}
+
+
+## fonttool & guieditor
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/fonttool.webp" %}
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/guieditor.webp" %}
+
+
+## MeshConverter.exe
+
+```
+Usage: MeshConverter.exe [options] <srcFile> <destFile>
+  where options are
+ --createTangents: convert to tangents mesh is possible.
+ --format=[irrmesh|collada|stl|obj|ply]: Choose target format
+```
 
 -----
 
