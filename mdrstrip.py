@@ -196,7 +196,8 @@ def organizeRes(ik, fpath, line):
             from PIL import Image
             img = Image.open(tpath)
             width, height = img.size
-            img = img.resize((100, round(100.0*height/width)), Image.ANTIALIAS).resize((width, height))
+            if width > 100:
+                img = img.resize((100, round(100.0*height/width)), Image.ANTIALIAS).resize((width, height))
             # 小于 100K...
             img.save(sizepath)
     else:
