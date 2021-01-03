@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Irrlicht 3D 笔记 -- Irrlicht 初探，所有 Tutorial 截图整理"
+title: "Irrlicht 3D 笔记 -- Irrlicht 3D 所有 Tutorial 动态图概览"
 author:
 location: "珠海"
 categories: ["Irrlicht"]
