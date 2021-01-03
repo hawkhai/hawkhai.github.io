@@ -20,6 +20,8 @@ codeprint:
 把所有官方 Tutorial 跑一遍，可以感受到作者对 OpenGL 底层的封装，一些思路。对 Irrlicht 的能力，也能有一个整体感知。
 截图有点困难，还专门写了一个小程序完成截图，每个 demo 都截了动态图，便于查阅。
 
+花了两天完成，Irrlicht 3D 所有 Tutorial 动态图概览。
+
 
 ## development code
 
