@@ -245,153 +245,215 @@ int main() {
 
 ## Tutorial 1: HelloWorld
 
+VideoDriver, GUIEnvironment and SceneManager.
+
 {% include image.html url="/assets/images/201230-irrlicht-intro/01.helloworld.webp" url2="/assets/images/201230-irrlicht-intro/001shot.jpg" %}
 
 
 ## Tutorial 2: Quake3Map
+
+加载 Quake 3 map，创建 SceneNode 并优化渲染速度，创建可控相机位。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/02.quake3map_4.webp" url2="/assets/images/201230-irrlicht-intro/002shot.jpg" %}
 
 
 ## Tutorial 3: Custom SceneNode
 
+创建定制的 scene node，shader 写的。
+
 {% include image.html url="/assets/images/201230-irrlicht-intro/03.customscenenode.webp" url2="/assets/images/201230-irrlicht-intro/003shot.jpg" %}
 
 
 ## Tutorial 4: Movement
+
+移动 SceneNode，创建 SceneNode 动画 SceneNodeAnimators，也可以通过键盘控制移动。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/04.movement.webp" url2="/assets/images/201230-irrlicht-intro/004shot.jpg" %}
 
 
 ## Tutorial 5: User Interface
 
+用内建的 User Interface 创建 windows, buttons, scroll bars, static texts and list boxes。
+
 {% include image.html url="/assets/images/201230-irrlicht-intro/05.userinterface_2.webp" url2="/assets/images/201230-irrlicht-intro/005shot.jpg" %}
 
 
 ## Tutorial 6: 2D Graphics
+
+2d graphics, draw images, keycolor based sprites, transparent rectangles and different fonts.
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/06.2dgraphics_2.webp" url2="/assets/images/201230-irrlicht-intro/006shot.jpg" %}
 
 
 ## Tutorial 7: Collision
 
+collision 检测，三种方法：stair climbing，拾取三角形，拾取 scene node。
+
 {% include image.html url="/assets/images/201230-irrlicht-intro/07.collision_4.webp" url2="/assets/images/201230-irrlicht-intro/007shot.jpg" %}
 
 
 ## Tutorial 8: SpecialFX
+
+特效演示。深度缓冲阴影，粒子系统，广告牌，动态光，水表面。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/08.specialfx_3.webp" url2="/assets/images/201230-irrlicht-intro/008shot.jpg" %}
 
 
 ## Tutorial 9: Mesh Viewer
 
+mesh viewer。涉及用户接口和场景管理。
+
 {% include image.html url="/assets/images/201230-irrlicht-intro/09.meshviewer_2.webp" url2="/assets/images/201230-irrlicht-intro/009shot.jpg" %}
 
 
 ## Tutorial 10: Shaders
+
+shaders for D3D8, D3D9 and OpenGL。创建 shader material，关闭 texture mipmaps，使用 text scene nodes。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/10.shaders_2.webp" url2="/assets/images/201230-irrlicht-intro/010shot.jpg" %}
 
 
 ## Tutorial 11: Per-Pixel Lighting
 
+复杂 material。用 normal maps and parallax mapping 计算每个像素的光照。烟雾的使用，和移动粒子系统。
+
 {% include image.html url="/assets/images/201230-irrlicht-intro/11.perpixellighting_4.webp" url2="/assets/images/201230-irrlicht-intro/011shot.jpg" %}
 
 
 ## Tutorial 12: Terrain Rendering
+
+地形渲染。用地形三角进行物理碰撞检测。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/12.terrainrendering.webp" url2="/assets/images/201230-irrlicht-intro/012shot.jpg" %}
 
 
 ## Tutorial 13: Render To Texture
 
+渲染到一个纹理。使用 specular highlights。
+
 {% include image.html url="/assets/images/201230-irrlicht-intro/13.rendertotexture.webp" url2="/assets/images/201230-irrlicht-intro/013shot.jpg" %}
 
 
 ## Tutorial 14: Win32 Window
+
+win32 窗口中使用引擎。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/14.win32window.webp" url2="/assets/images/201230-irrlicht-intro/014shot.jpg" %}
 
 
 ## Tutorial 15: Loading Scenes from .irr Files
 
+使用 .irr files。
+
 {% include image.html url="/assets/images/201230-irrlicht-intro/15.loadirrfile_2.webp" url2="/assets/images/201230-irrlicht-intro/015shot.jpg" %}
 
 
 ## Tutorial 16: Quake3 Map Shader Support
+
+q3 map 特效和加载。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/16.quake3mapshader_3.webp" url2="/assets/images/201230-irrlicht-intro/016shot.jpg" %}
 
 
 ## Tutorial 17: Helloworld mobile
 
+Windows CE 样例。
+
 {% include image.html url="/assets/images/201230-irrlicht-intro/017shot.jpg" %}
 
 
 ## Tutorial 18: Splitscreen
+
+split screen 演示。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/18.splitscreen_3.webp" url2="/assets/images/201230-irrlicht-intro/018shot.jpg" %}
 
 
 ## Tutorial 19: Mouse and Joystick
 
+手柄和鼠标的使用。
+
 {% include image.html url="/assets/images/201230-irrlicht-intro/19.mouseandjoystick.webp" url2="/assets/images/201230-irrlicht-intro/019shot.jpg" %}
 
 
 ## Tutorial 20: Managed Lights
+
+多光源管理。根据场景选择合适的光源。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/20.managedlights_2.webp" url2="/assets/images/201230-irrlicht-intro/020shot.jpg" %}
 
 
 ## Tutorial 21: Quake3 Explorer
 
+q3 map 浏览器。可以完成管理。
+
 {% include image.html url="/assets/images/201230-irrlicht-intro/21.quake3explorer.webp" url2="/assets/images/201230-irrlicht-intro/021shot.jpg" %}
 
 
 ## Tutorial 22: Material Viewer
+
+material 测试，可以手工编辑。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/22.materialviewer.webp" url2="/assets/images/201230-irrlicht-intro/022shot.jpg" %}
 
 
 ## Tutorial 23: SMeshBufferHandling
 
+手工创建 meshes，支持定制处理。
+
 {% include image.html url="/assets/images/201230-irrlicht-intro/23.smeshhandling.webp" url2="/assets/images/201230-irrlicht-intro/023shot.jpg" %}
 
 
 ## Tutorial 24: CursorControl
+
+修改 鼠标 cursors。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/24.cursorcontrol.webp" url2="/assets/images/201230-irrlicht-intro/024shot.jpg" %}
 
 
 ## Tutorial 25: Xml Handling
 
+XML 的使用，可以用来加载和保存配置。
+
 {% include image.html url="/assets/images/201230-irrlicht-intro/25.xmlhandling.webp" url2="/assets/images/201230-irrlicht-intro/025shot.jpg" %}
 
 
 ## Tutorial 26: OcclusionQuery
+
+用 OcclusionQuery 渲染加速。超出视距的节点不绘制。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/26.occlusionquery.webp" url2="/assets/images/201230-irrlicht-intro/026shot.jpg" %}
 
 
 ## 27.PostProcessing
 
+创建屏幕双缓冲。颜色反转，用 HLSL and GLSL 写的。
+
 {% include image.html url="/assets/images/201230-irrlicht-intro/27.postprocessing.webp" %}
 
 
 ## 28.CubeMapping
+
+cubemap textures 使用，和环境 mapping。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/28.cubemapping_4.webp" %}
 
 
 ## 29.HardwareSkinning
 
+HardwareSkinning
+
 
 ## 30.Profiling
+
+一些 profiling tools。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/30.profiling.webp" %}
 
 
 ## Demo
+
+一个完整的游戏 demo。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/demo_start.webp" %}
 {% include image.html url="/assets/images/201230-irrlicht-intro/demo_4.webp" %}
