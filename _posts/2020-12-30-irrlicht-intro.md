@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Irrlicht 3D 笔记 -- Irrlicht 初探"
+title: "Irrlicht 3D 笔记 -- Irrlicht 初探，所有 Tutorial 截图整理"
 author:
 location: "珠海"
 categories: ["Irrlicht"]
@@ -17,7 +17,7 @@ codeprint:
 
 官网：<http://irrlicht.sourceforge.net/>
 
-把所有官方 Tutorial 跑一遍，可以感受到作者对 OpenGL 底层的封装，一些思路。
+把所有官方 Tutorial 跑一遍，可以感受到作者对 OpenGL 底层的封装，一些思路。对 Irrlicht 的能力，也能有一个整体感知。
 截图有点困难，还专门写了一个小程序完成截图，每个 demo 都截了动态图，便于查阅。
 
 
@@ -280,7 +280,7 @@ int main() {
 
 ## Tutorial 8: SpecialFX
 
-{% include image.html url="/assets/images/201230-irrlicht-intro/08.specialfx_3.webp" url2="/assets/images/201230-irrlicht-intro/007shot.jpg" %}
+{% include image.html url="/assets/images/201230-irrlicht-intro/08.specialfx_3.webp" url2="/assets/images/201230-irrlicht-intro/008shot.jpg" %}
 
 
 ## Tutorial 9: Mesh Viewer
