@@ -197,7 +197,17 @@ def organizeRes(ik, fpath, line):
             img = Image.open(tpath)
             width, height = img.size
             if width > 100:
-                img = img.resize((100, round(100.0*height/width)), Image.ANTIALIAS).resize((width, height))
+                img = img.resize((100, round(100.0*height/width)), Image.ANTIALIAS).convert("RGB")
+                img = img.resize((width, height), Image.ANTIALIAS) # 恢复到原来大小，便于客户端排版。
+
+                from PIL import Image, ImageFont, ImageDraw # 导入模块
+                draw = ImageDraw.Draw(img, "RGBA") # 修改图片
+                font = ImageFont.truetype(r"assets\logos\方正楷体_GB2312.ttf", size = 20)
+                draw.rectangle(((0, 0), (img.size[0], 40)), fill=(0,0,0,127))
+                draw.text((10, 10), u'图片加载中, 请稍后....', fill="#ffffff", font=font)
+                #img.show()
+                #exit(0)
+
             # 小于 100K...
             img.save(sizepath)
     else:
