@@ -58,7 +58,7 @@ codeprint:
 
 ## 参考
 
-<https://kaix.in/0001/neighbors-wife/>
+- [1] <https://kaix.in/0001/neighbors-wife/>
 
 -----
 

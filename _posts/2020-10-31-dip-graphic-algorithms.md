@@ -121,8 +121,8 @@ pix2pix 来自卡内基梅隆大学的 Aayush Bansal 、Yaser Sheikh、Deva Rama
 
 ## 参考
 
-* [Amazing algorithms to enhance or transform images {% include relref_scriptol.html %}](https://www.scriptol.com/programming/graphic-algorithms.php)
-* <http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html>
+- [1] [Amazing algorithms to enhance or transform images {% include relref_scriptol.html %}](https://www.scriptol.com/programming/graphic-algorithms.php)
+- [2] <http://www.ruanyifeng.com/blog/2011/08/amazing_algorithms_of_image_processing.html>
 
 -----
 

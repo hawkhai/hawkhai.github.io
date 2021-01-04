@@ -530,12 +530,12 @@ url2="/assets/images/200910-win-mklink/jlink.png" %}
 
 ## 参考
 
-* [1] [Windows 的快捷方式，符号链接，软链接和硬链接](https://blog.alphatr.com/windows-mklink.html)
-* [2] [比较 Windows 上四种不同的文件（夹）链接方式（NTFS 的硬链接、目录联接、符号链接，和大家熟知的快捷方式）](https://blog.walterlv.com/post/ntfs-link-comparisons.html)
-* [3] [Determine whether a file is a junction \(in Windows\) or not?](https://stackoverflow.com/questions/13733275/determine-whether-a-file-is-a-junction-in-windows-or-not)
-* [4] [NTFS Links, Directory Junctions, and Windows Shortcuts](http://www.flexhex.com/docs/articles/hard-links.phtml)
-* [5] [Listing Used Files](https://www.codeproject.com/Articles/18975/Listing-Used-Files)
-* [6] [玩转 WIN7 的 MKLINK {% include relref_cnblogs.html %}](https://www.cnblogs.com/shangdawei/p/4516869.html)
+- [1] [Windows 的快捷方式，符号链接，软链接和硬链接](https://blog.alphatr.com/windows-mklink.html)
+- [2] [比较 Windows 上四种不同的文件（夹）链接方式（NTFS 的硬链接、目录联接、符号链接，和大家熟知的快捷方式）](https://blog.walterlv.com/post/ntfs-link-comparisons.html)
+- [3] [Determine whether a file is a junction \(in Windows\) or not?](https://stackoverflow.com/questions/13733275/determine-whether-a-file-is-a-junction-in-windows-or-not)
+- [4] [NTFS Links, Directory Junctions, and Windows Shortcuts](http://www.flexhex.com/docs/articles/hard-links.phtml)
+- [5] [Listing Used Files](https://www.codeproject.com/Articles/18975/Listing-Used-Files)
+- [6] [玩转 WIN7 的 MKLINK {% include relref_cnblogs.html %}](https://www.cnblogs.com/shangdawei/p/4516869.html)
 
 -----
 

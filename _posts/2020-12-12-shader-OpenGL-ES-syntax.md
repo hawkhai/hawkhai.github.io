@@ -783,18 +783,18 @@ void main (void) {
 
 ## 参考
 
-- [OpenGL-ES-2_0-Reference-card.pdf {% include relref_khronos.html %}](https://www.khronos.org/opengles/sdk/docs/reference_cards/OpenGL-ES-2_0-Reference-card.pdf)
-- [OpenGL® ES Common Profile Specification Version 2.0.25 (Full Specification) {% include relref_khronos.html %}](https://www.khronos.org/registry/OpenGL/specs/es/2.0/es_full_spec_2.0.pdf)
-- [The OpenGL® ES Shading Language {% include relref_khronos.html %}](https://www.khronos.org/registry/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf)
-- [The OpenGL® Shading Language {% include relref_khronos.html %}](https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.1.20.pdf)
-- [OpenGL ES 开篇 {% include relref_github.html %}](http://colin1994.github.io/2017/04/01/OpenGLES-Lesson00/)
-- [OpenGL ES 基础概念 {% include relref_github.html %}](http://colin1994.github.io/2017/04/01/OpenGLES-Lesson01/)
-- [OpenGL ES 渲染基本图元 {% include relref_github.html %}](http://colin1994.github.io/2017/04/18/OpenGLES-Lesson03/)
-- [GLSL 详解（基础篇） {% include relref_github.html %}](http://colin1994.github.io/2017/11/11/OpenGLES-Lesson04/)
-- [GLSL 详解（高级篇） {% include relref_github.html %}](http://colin1994.github.io/2017/11/12/OpenGLES-Lesson05/)
-- [OpenGL ES 2.0 着色器语言 GLSL（一）](https://aillieo.cn/post/2017-01-15-opengl-es-glsl-01/)
-- [OpenGL ES 2.0 着色器语言 GLSL（二）](https://aillieo.cn/post/2017-01-15-opengl-es-glsl-02/)
-- [GLSL 语法入门 {% include relref_cnblogs.html %}](https://www.cnblogs.com/kefeiGame/p/10972139.html)
+- [1] [OpenGL-ES-2_0-Reference-card.pdf {% include relref_khronos.html %}](https://www.khronos.org/opengles/sdk/docs/reference_cards/OpenGL-ES-2_0-Reference-card.pdf)
+- [2] [OpenGL® ES Common Profile Specification Version 2.0.25 (Full Specification) {% include relref_khronos.html %}](https://www.khronos.org/registry/OpenGL/specs/es/2.0/es_full_spec_2.0.pdf)
+- [3] [The OpenGL® ES Shading Language {% include relref_khronos.html %}](https://www.khronos.org/registry/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf)
+- [4] [The OpenGL® Shading Language {% include relref_khronos.html %}](https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.1.20.pdf)
+- [5] [OpenGL ES 开篇 {% include relref_github.html %}](http://colin1994.github.io/2017/04/01/OpenGLES-Lesson00/)
+- [6] [OpenGL ES 基础概念 {% include relref_github.html %}](http://colin1994.github.io/2017/04/01/OpenGLES-Lesson01/)
+- [7] [OpenGL ES 渲染基本图元 {% include relref_github.html %}](http://colin1994.github.io/2017/04/18/OpenGLES-Lesson03/)
+- [8] [GLSL 详解（基础篇） {% include relref_github.html %}](http://colin1994.github.io/2017/11/11/OpenGLES-Lesson04/)
+- [9] [GLSL 详解（高级篇） {% include relref_github.html %}](http://colin1994.github.io/2017/11/12/OpenGLES-Lesson05/)
+- [10] [OpenGL ES 2.0 着色器语言 GLSL（一）](https://aillieo.cn/post/2017-01-15-opengl-es-glsl-01/)
+- [11] [OpenGL ES 2.0 着色器语言 GLSL（二）](https://aillieo.cn/post/2017-01-15-opengl-es-glsl-02/)
+- [12] [GLSL 语法入门 {% include relref_cnblogs.html %}](https://www.cnblogs.com/kefeiGame/p/10972139.html)
 
 -----
 

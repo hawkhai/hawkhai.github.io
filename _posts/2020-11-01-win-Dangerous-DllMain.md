@@ -108,13 +108,13 @@ User32 和 Gdi32 中部分函数在调用的底层会加载其他 DLL。
 
 ### References
 
-* [《DllMain 中不当操作导致死锁问题的分析--加载卸载 DLL 与 DllMain 死锁的关系》 {% include relref_csdn.html %}](http://blog.csdn.net/breaksoftware/article/details/8163362)
-* [《DllMain 中不当操作导致死锁问题的分析--导致 DllMain 中死锁的关键隐藏因子》 {% include relref_csdn.html %}](http://blog.csdn.net/breaksoftware/article/details/8150476)
-* [《DllMain 中不当操作导致死锁问题的分析--线程退出时产生了死锁》 {% include relref_csdn.html %}](http://blog.csdn.net/breaksoftware/article/details/8163663)
-* <https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-coinitialize?redirectedfrom=MSDN>
-* <https://docs.microsoft.com/zh-cn/windows/win32/dlls/dynamic-link-library-best-practices?redirectedfrom=MSDN>
-* <https://docs.microsoft.com/zh-cn/windows/win32/dlls/dllmain?redirectedfrom=MSDN>
-* <https://bbs.pediy.com/thread-208999.htm>
+- [1] [《DllMain 中不当操作导致死锁问题的分析--加载卸载 DLL 与 DllMain 死锁的关系》 {% include relref_csdn.html %}](http://blog.csdn.net/breaksoftware/article/details/8163362)
+- [2] [《DllMain 中不当操作导致死锁问题的分析--导致 DllMain 中死锁的关键隐藏因子》 {% include relref_csdn.html %}](http://blog.csdn.net/breaksoftware/article/details/8150476)
+- [3] [《DllMain 中不当操作导致死锁问题的分析--线程退出时产生了死锁》 {% include relref_csdn.html %}](http://blog.csdn.net/breaksoftware/article/details/8163663)
+- [4] <https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-coinitialize?redirectedfrom=MSDN>
+- [5] <https://docs.microsoft.com/zh-cn/windows/win32/dlls/dynamic-link-library-best-practices?redirectedfrom=MSDN>
+- [6] <https://docs.microsoft.com/zh-cn/windows/win32/dlls/dllmain?redirectedfrom=MSDN>
+- [7] <https://bbs.pediy.com/thread-208999.htm>
 
 
 ## IPC 卡死

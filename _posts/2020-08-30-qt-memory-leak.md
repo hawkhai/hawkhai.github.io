@@ -435,13 +435,13 @@ Qt 简化了我们对内存的管理，但是，由于它会在不太注意的�
 
 ## 参考
 
-* <http://doc.qt.nokia.com/4.7/qobject.html>
-* <http://www.cuteqt.com/blog/?p=824>
-* <http://blog.csdn.net/dbzhang800/article/details/6300025>
-* <http://blog.csdn.net/dbzhang800/article/details/6403285>
-* <http://devbean.blog.51cto.com/448512/526734/>
-* **<https://blog.csdn.net/taiyang1987912/article/details/29271549>**
-* **<https://www.cnblogs.com/senior-engineer/p/10037920.html>**
+- [1] <http://doc.qt.nokia.com/4.7/qobject.html>
+- [2] <http://www.cuteqt.com/blog/?p=824>
+- [3] <http://blog.csdn.net/dbzhang800/article/details/6300025>
+- [4] <http://blog.csdn.net/dbzhang800/article/details/6403285>
+- [5] <http://devbean.blog.51cto.com/448512/526734/>
+- [6] **<https://blog.csdn.net/taiyang1987912/article/details/29271549>**
+- [7] **<https://www.cnblogs.com/senior-engineer/p/10037920.html>**
 
 -----
 

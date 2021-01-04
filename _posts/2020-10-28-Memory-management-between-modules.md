@@ -270,15 +270,15 @@ typedef struct _FILENAME_ATTRIBUTE { // 文件名属性的值区域
 
 ## 参考
 
-* [C++ 内存管理变革 \(2\)：最袖珍的垃圾回收器 {% include relref_csdn.html %}](https://blog.csdn.net/xushiweizh/article/details/1396573)
-* [windows api 设计的如何？C 语言怎么从函数中返回未知长度的字符串，可以让它的调用者优雅地接收？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/33058061)
-* [C 接口中的内存分配释放 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/95299255)
-* [失传的 C 结构体打包技艺 {% include relref_github.html %}](https://github.com/ludx/The-Lost-Art-of-C-Structure-Packing)
-* [结构体中最后成员为一个零长数组与一个指针](http://wenboo.site/2017/09/05/%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E6%9C%80%E5%90%8E%E6%88%90%E5%91%98%E4%B8%BA%E4%B8%80%E4%B8%AA%E9%9B%B6%E9%95%BF%E6%95%B0%E7%BB%84%E4%B8%8E%E4%B8%80%E4%B8%AA%E6%8C%87%E9%92%88/)
-* [结构体中最后一个成员为 \[0\] 或 \[1\] 长度数组 \(柔性数组成员\) 的用法](http://wenboo.site/2017/09/05/%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E6%88%90%E5%91%98%E4%B8%BA-0-%E6%88%96-1-%E9%95%BF%E5%BA%A6%E6%95%B0%E7%BB%84-%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84%E6%88%90%E5%91%98-%E7%9A%84%E7%94%A8%E6%B3%95/)
-* [跨模块内存管理的陷阱 许式伟 {% include relref_csdn.html %}](https://blog.csdn.net/xushiweizh/article/details/1452302)
-* [17. c++ - 谁分配谁释放 HEAP {% include relref_csdn.html %}](https://blog.csdn.net/hgy413/article/details/6716397)
-* [最快速度找到内存泄漏 许式伟 {% include relref_csdn.html %}](https://blog.csdn.net/xushiweizh/article/details/1451083)
+- [1] [C++ 内存管理变革 \(2\)：最袖珍的垃圾回收器 {% include relref_csdn.html %}](https://blog.csdn.net/xushiweizh/article/details/1396573)
+- [2] [windows api 设计的如何？C 语言怎么从函数中返回未知长度的字符串，可以让它的调用者优雅地接收？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/33058061)
+- [3] [C 接口中的内存分配释放 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/95299255)
+- [4] [失传的 C 结构体打包技艺 {% include relref_github.html %}](https://github.com/ludx/The-Lost-Art-of-C-Structure-Packing)
+- [5] [结构体中最后成员为一个零长数组与一个指针](http://wenboo.site/2017/09/05/%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E6%9C%80%E5%90%8E%E6%88%90%E5%91%98%E4%B8%BA%E4%B8%80%E4%B8%AA%E9%9B%B6%E9%95%BF%E6%95%B0%E7%BB%84%E4%B8%8E%E4%B8%80%E4%B8%AA%E6%8C%87%E9%92%88/)
+- [6] [结构体中最后一个成员为 \[0\] 或 \[1\] 长度数组 \(柔性数组成员\) 的用法](http://wenboo.site/2017/09/05/%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E6%88%90%E5%91%98%E4%B8%BA-0-%E6%88%96-1-%E9%95%BF%E5%BA%A6%E6%95%B0%E7%BB%84-%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84%E6%88%90%E5%91%98-%E7%9A%84%E7%94%A8%E6%B3%95/)
+- [7] [跨模块内存管理的陷阱 许式伟 {% include relref_csdn.html %}](https://blog.csdn.net/xushiweizh/article/details/1452302)
+- [8] [17. c++ - 谁分配谁释放 HEAP {% include relref_csdn.html %}](https://blog.csdn.net/hgy413/article/details/6716397)
+- [9] [最快速度找到内存泄漏 许式伟 {% include relref_csdn.html %}](https://blog.csdn.net/xushiweizh/article/details/1451083)
 
 -----
 

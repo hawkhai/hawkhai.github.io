@@ -138,8 +138,8 @@ $$
 
 ## 参考资料
 
-- [Blinn-Phong 光照](http://morimiya.me/2019/02/24/Blinn-Phong%E5%85%89%E7%85%A7/)
-- [高级光照 learnopengl-cn {% include relref_github.html %}](https://learnopengl-cn.github.io/05%20Advanced%20Lighting/01%20Advanced%20Lighting/)
+- [1] [Blinn-Phong 光照](http://morimiya.me/2019/02/24/Blinn-Phong%E5%85%89%E7%85%A7/)
+- [2] [高级光照 learnopengl-cn {% include relref_github.html %}](https://learnopengl-cn.github.io/05%20Advanced%20Lighting/01%20Advanced%20Lighting/)
 
 -----
 

@@ -319,7 +319,7 @@ def removeRefs(fpath, lines):
         i = lineCount-1 - index
         if not lines[i] or not lines[i].strip():
             continue
-        if re.findall("^- \\[[0-9]+\\] \\[{}\\]\\({}\\)$".format(".*?", ".*?"), lines[i]):
+        if re.findall("^- \\[{}\\]\\({}\\)$".format(".*?", ".*?"), lines[i]): # \\[[0-9]+\\]
             continue
         if lines[i] == SNAPSHOT_HTML:
             headIndex = i
