@@ -64,6 +64,12 @@ $$
 ## 点积
 
 
+## 叉乘 Cross product
+
+{% include image.html url="/assets/images/201006-math-linear-algebra/220px-cross_product.gif" url2="/assets/images/201006-math-linear-algebra/220px-right_hand_rule_cross_product.svg.png" %}
+{% include image.html url="/assets/images/201006-math-linear-algebra/220px-cross_product_parallelogram.svg.png" url2="/assets/images/201006-math-linear-algebra/220px-cross_product_vector.svg.png" %}
+
+
 ## 抽象向量空间
 
 

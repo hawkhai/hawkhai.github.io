@@ -600,6 +600,16 @@ This is equivalent to: T t; t = clamp ((x – edge0) / (edge1 – edge0), 0, 1);
 return t * t * (3 – 2 * t); Results are undefined if edge0 >= edge1. </dd>
 </dl>
 
+#### smoothstep
+
+smoothstep 函数与 linstep 函数的工作方式类似，不过其将在最小值和最大值之间的中间值附近更快地增加值。该函数使用最小值和最大值之间的 hermite 插值。
+
+```gles
+float smoothstep(float start, float end, float parameter);
+```
+
+{% include image.html url="/assets/images/201212-shader-opengl-es-syntax/comp_mel242.png" %}
+
 
 ### 几何函数
 
