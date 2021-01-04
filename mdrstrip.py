@@ -357,7 +357,7 @@ def appendRefs(fpath, lines):
             count = count + 1
             from urllib.parse import unquote
             remote = "{% " + ("include relref.html url=\"/%s\"" % (remote,)) + " %}"
-            lines.append("- [{}] [{}]({})".format(count, url, remote))
+            lines.append("- [{}]({})".format(url, remote)) # count
         lines.append("")
     return lines
 

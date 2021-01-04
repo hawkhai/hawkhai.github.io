@@ -161,6 +161,6 @@ $$\nabla = \sum_{j=1}^n \bigg[{\frac{\partial}{\partial x_j}}\bigg] \mathbf{\hat
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://blog.csdn.net/walilk/article/details/50978864]({% include relref.html url="/backup/2020-09-03-deep-learning-math-gradient.md/blog.csdn.net/9d5ef2a4.html" %})
-- [2] [https://zh.wikipedia.org/zh-cn/%E5%81%8F%E5%AF%BC%E6%95%B0]({% include relref.html url="/backup/2020-09-03-deep-learning-math-gradient.md/zh.wikipedia.org/042a2c98.html" %})
-- [3] [https://blog.csdn.net/czmacd/article/details/81178650]({% include relref.html url="/backup/2020-09-03-deep-learning-math-gradient.md/blog.csdn.net/d5b20e18.html" %})
+- [https://blog.csdn.net/walilk/article/details/50978864]({% include relref.html url="/backup/2020-09-03-deep-learning-math-gradient.md/blog.csdn.net/9d5ef2a4.html" %})
+- [https://zh.wikipedia.org/zh-cn/%E5%81%8F%E5%AF%BC%E6%95%B0]({% include relref.html url="/backup/2020-09-03-deep-learning-math-gradient.md/zh.wikipedia.org/042a2c98.html" %})
+- [https://blog.csdn.net/czmacd/article/details/81178650]({% include relref.html url="/backup/2020-09-03-deep-learning-math-gradient.md/blog.csdn.net/d5b20e18.html" %})

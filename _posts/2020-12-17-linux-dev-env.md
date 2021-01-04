@@ -63,5 +63,5 @@ ln -s libstdc++.so.6.0.21 libstdc++.so.6
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://cloud.tencent.com/developer/article/1668873]({% include relref.html url="/backup/2020-12-17-linux-dev-env.md/cloud.tencent.com/68a27e33.html" %})
-- [2] [https://blog.csdn.net/rznice/article/details/51090966]({% include relref.html url="/backup/2020-12-17-linux-dev-env.md/blog.csdn.net/6d068a72.html" %})
+- [https://cloud.tencent.com/developer/article/1668873]({% include relref.html url="/backup/2020-12-17-linux-dev-env.md/cloud.tencent.com/68a27e33.html" %})
+- [https://blog.csdn.net/rznice/article/details/51090966]({% include relref.html url="/backup/2020-12-17-linux-dev-env.md/blog.csdn.net/6d068a72.html" %})

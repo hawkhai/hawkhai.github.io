@@ -387,8 +387,8 @@ vec3 CalcSpotLight(SpotLight light)
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://ke.qq.com/course/package/25480?flowToken=1019441]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/ke.qq.com/3fd1c97a.html" %})
-- [2] [https://blog.csdn.net/zhaoyin214/article/details/81625964]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/blog.csdn.net/f8bddaa8.html" %})
-- [3] [https://www.jianshu.com/p/bc384e81d590]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/www.jianshu.com/5a656440.html" %})
-- [4] [https://learnopengl.com/code_viewer_gh.php?code=src/2.lighting/6.multiple_lights/multiple_lights.cpp]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/learnopengl.com/f55884a3.php" %})
-- [5] [https://blog.csdn.net/qq_32974399/article/details/107096490]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/blog.csdn.net/d3e53ee8.html" %})
+- [https://ke.qq.com/course/package/25480?flowToken=1019441]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/ke.qq.com/3fd1c97a.html" %})
+- [https://blog.csdn.net/zhaoyin214/article/details/81625964]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/blog.csdn.net/f8bddaa8.html" %})
+- [https://www.jianshu.com/p/bc384e81d590]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/www.jianshu.com/5a656440.html" %})
+- [https://learnopengl.com/code_viewer_gh.php?code=src/2.lighting/6.multiple_lights/multiple_lights.cpp]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/learnopengl.com/f55884a3.php" %})
+- [https://blog.csdn.net/qq_32974399/article/details/107096490]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/blog.csdn.net/d3e53ee8.html" %})

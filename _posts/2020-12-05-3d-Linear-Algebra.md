@@ -333,11 +333,11 @@ LU 分解主要应用在数值分析中，用来解线性方程、求反矩阵�
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://www.cnblogs.com/seniusen/p/9959535.html]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/www.cnblogs.com/eccf30ae.html" %})
-- [2] [https://zhuanlan.zhihu.com/p/49820858]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/zhuanlan.zhihu.com/984ede02.html" %})
-- [3] [https://zhuanlan.zhihu.com/p/92274158]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/zhuanlan.zhihu.com/5721ea54.html" %})
-- [4] [https://blog.csdn.net/dcrmg/article/details/52416832]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/blog.csdn.net/76708b67.html" %})
-- [5] [https://www.cnblogs.com/zzdyyy/p/7643267.html]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/www.cnblogs.com/38502b74.html" %})
-- [6] [https://ke.qq.com/course/411603]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/ke.qq.com/c476834d.html" %})
-- [7] [https://www.bilibili.com/video/av6731067]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/www.bilibili.com/56dbd69f.html" %})
-- [8] [https://riptutorial.com/zh-CN/opengl/example/14159/%E7%9F%A9%E9%98%B5%E7%AE%80%E4%BB%8B]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/riptutorial.com/91c6e3f4.html" %})
+- [https://www.cnblogs.com/seniusen/p/9959535.html]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/www.cnblogs.com/eccf30ae.html" %})
+- [https://zhuanlan.zhihu.com/p/49820858]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/zhuanlan.zhihu.com/984ede02.html" %})
+- [https://zhuanlan.zhihu.com/p/92274158]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/zhuanlan.zhihu.com/5721ea54.html" %})
+- [https://blog.csdn.net/dcrmg/article/details/52416832]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/blog.csdn.net/76708b67.html" %})
+- [https://www.cnblogs.com/zzdyyy/p/7643267.html]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/www.cnblogs.com/38502b74.html" %})
+- [https://ke.qq.com/course/411603]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/ke.qq.com/c476834d.html" %})
+- [https://www.bilibili.com/video/av6731067]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/www.bilibili.com/56dbd69f.html" %})
+- [https://riptutorial.com/zh-CN/opengl/example/14159/%E7%9F%A9%E9%98%B5%E7%AE%80%E4%BB%8B]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/riptutorial.com/91c6e3f4.html" %})

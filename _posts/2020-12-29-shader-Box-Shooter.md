@@ -663,7 +663,7 @@ target_link_libraries(box_shooter
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://github.com/hawkhai/box_shooter.git]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/github.com/c666eeb9.git" %})
-- [2] [https://www.cnblogs.com/KillerAery/archive/2004/01/13/9223947.html]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/www.cnblogs.com/8a2b5679.html" %})
-- [3] [https://blog.csdn.net/azri81226/article/details/101691134]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/blog.csdn.net/1c18af48.html" %})
-- [4] [https://www.cnblogs.com/esCharacter/p/8490355.html]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/www.cnblogs.com/465dd1d7.html" %})
+- [https://github.com/hawkhai/box_shooter.git]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/github.com/c666eeb9.git" %})
+- [https://www.cnblogs.com/KillerAery/archive/2004/01/13/9223947.html]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/www.cnblogs.com/8a2b5679.html" %})
+- [https://blog.csdn.net/azri81226/article/details/101691134]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/blog.csdn.net/1c18af48.html" %})
+- [https://www.cnblogs.com/esCharacter/p/8490355.html]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/www.cnblogs.com/465dd1d7.html" %})

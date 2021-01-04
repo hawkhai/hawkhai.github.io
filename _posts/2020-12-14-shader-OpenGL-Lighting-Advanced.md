@@ -145,7 +145,7 @@ $$
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://www.ndt.net/article/wcndt00/papers/idn256/idn256.htm]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.ndt.net/368552c1.htm" %})
-- [2] [https://www.cnblogs.com/kalluwa/p/7092532.html]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.cnblogs.com/7b29365d.html" %})
-- [3] [http://morimiya.me/2019/02/24/Blinn-Phong%E5%85%89%E7%85%A7/]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/morimiya.me/7ce24540.html" %})
-- [4] [https://learnopengl-cn.github.io/05%20Advanced%20Lighting/01%20Advanced%20Lighting/]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/learnopengl-cn.github.io/6e82a48b.html" %})
+- [https://www.ndt.net/article/wcndt00/papers/idn256/idn256.htm]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.ndt.net/368552c1.htm" %})
+- [https://www.cnblogs.com/kalluwa/p/7092532.html]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.cnblogs.com/7b29365d.html" %})
+- [http://morimiya.me/2019/02/24/Blinn-Phong%E5%85%89%E7%85%A7/]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/morimiya.me/7ce24540.html" %})
+- [https://learnopengl-cn.github.io/05%20Advanced%20Lighting/01%20Advanced%20Lighting/]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/learnopengl-cn.github.io/6e82a48b.html" %})

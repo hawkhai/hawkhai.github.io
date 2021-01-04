@@ -33,4 +33,4 @@ from [0.999…=1？数到底是什么？李永乐老师讲数学公理化 {% inc
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://www.bilibili.com/video/av44942988]({% include relref.html url="/backup/2020-09-11-math-axiom.md/www.bilibili.com/7c983f7d.html" %})
+- [https://www.bilibili.com/video/av44942988]({% include relref.html url="/backup/2020-09-11-math-axiom.md/www.bilibili.com/7c983f7d.html" %})

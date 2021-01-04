@@ -45,4 +45,4 @@ $$\sum_{k=1}^nP(x_i)=1$$
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://wiki.mbalib.com/wiki/%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83]({% include relref.html url="/backup/2020-09-04-deep-learning-math-probability.md/wiki.mbalib.com/b55ce3d4.html" %})
+- [https://wiki.mbalib.com/wiki/%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83]({% include relref.html url="/backup/2020-09-04-deep-learning-math-probability.md/wiki.mbalib.com/b55ce3d4.html" %})

@@ -2879,8 +2879,8 @@ material Fur
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [http://ogre3d.cn/wiki/index.php?title=%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1_%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%22%20%5Cl%20%22billboard_type%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7]({% include relref.html url="/backup/2020-11-08-ogre-particlesystem.md/ogre3d.cn/e5405f6b.php" %})
-- [2] [http://www.lmnopc.com/bitmapfontbuilder/]({% include relref.html url="/backup/2020-11-08-ogre-particlesystem.md/www.lmnopc.com/724c7cfb.html" %})
-- [3] [https://zhuanlan.zhihu.com/p/74046682]({% include relref.html url="/backup/2020-11-08-ogre-particlesystem.md/zhuanlan.zhihu.com/2e9faf96.html" %})
-- [4] [https://www.bejson.com/convert/html2markdown/]({% include relref.html url="/backup/2020-11-08-ogre-particlesystem.md/www.bejson.com/0f492a91.html" %})
-- [5] [https://www.cnblogs.com/wiki3d/p/4658247.html]({% include relref.html url="/backup/2020-11-08-ogre-particlesystem.md/www.cnblogs.com/e4fb1631.html" %})
+- [http://ogre3d.cn/wiki/index.php?title=%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1_%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%22%20%5Cl%20%22billboard_type%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7]({% include relref.html url="/backup/2020-11-08-ogre-particlesystem.md/ogre3d.cn/e5405f6b.php" %})
+- [http://www.lmnopc.com/bitmapfontbuilder/]({% include relref.html url="/backup/2020-11-08-ogre-particlesystem.md/www.lmnopc.com/724c7cfb.html" %})
+- [https://zhuanlan.zhihu.com/p/74046682]({% include relref.html url="/backup/2020-11-08-ogre-particlesystem.md/zhuanlan.zhihu.com/2e9faf96.html" %})
+- [https://www.bejson.com/convert/html2markdown/]({% include relref.html url="/backup/2020-11-08-ogre-particlesystem.md/www.bejson.com/0f492a91.html" %})
+- [https://www.cnblogs.com/wiki3d/p/4658247.html]({% include relref.html url="/backup/2020-11-08-ogre-particlesystem.md/www.cnblogs.com/e4fb1631.html" %})

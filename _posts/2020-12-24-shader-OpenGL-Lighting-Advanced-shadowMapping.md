@@ -139,5 +139,5 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/]({% include relref.html url="/backup/2020-12-24-shader-OpenGL-Lighting-Advanced-shadowMapping.md/learnopengl-cn.github.io/43cc6489.html" %})
-- [2] [https://learnopengl.com/Advanced-Lighting/Shadows/Shadow-Mapping]({% include relref.html url="/backup/2020-12-24-shader-OpenGL-Lighting-Advanced-shadowMapping.md/learnopengl.com/296bb720.html" %})
+- [https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/]({% include relref.html url="/backup/2020-12-24-shader-OpenGL-Lighting-Advanced-shadowMapping.md/learnopengl-cn.github.io/43cc6489.html" %})
+- [https://learnopengl.com/Advanced-Lighting/Shadows/Shadow-Mapping]({% include relref.html url="/backup/2020-12-24-shader-OpenGL-Lighting-Advanced-shadowMapping.md/learnopengl.com/296bb720.html" %})

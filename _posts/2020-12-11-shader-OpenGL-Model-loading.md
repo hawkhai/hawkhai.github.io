@@ -117,4 +117,4 @@ void Draw(Shader& shader)
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://learnopengl-cn.github.io/03%20Model%20Loading/01%20Assimp/]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Model-loading.md/learnopengl-cn.github.io/a7063ebf.html" %})
+- [https://learnopengl-cn.github.io/03%20Model%20Loading/01%20Assimp/]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Model-loading.md/learnopengl-cn.github.io/a7063ebf.html" %})

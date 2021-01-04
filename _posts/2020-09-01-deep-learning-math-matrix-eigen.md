@@ -77,6 +77,6 @@ $$|\lambda|=\min _{1 \leq i \leq n}\left|\lambda_{i}\right|$$
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [http://zh.gluon.ai/]({% include relref.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/zh.gluon.ai/b73bb84d.html" %})
-- [2] [https://blog.csdn.net/tianya_team/article/details/53310617]({% include relref.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/blog.csdn.net/ab76a7bc.html" %})
-- [3] [https://wenku.baidu.com/view/095bebde2a4ac850ad02de80d4d8d15abf23004d.html]({% include relref.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/wenku.baidu.com/aca20332.html" %})
+- [http://zh.gluon.ai/]({% include relref.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/zh.gluon.ai/b73bb84d.html" %})
+- [https://blog.csdn.net/tianya_team/article/details/53310617]({% include relref.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/blog.csdn.net/ab76a7bc.html" %})
+- [https://wenku.baidu.com/view/095bebde2a4ac850ad02de80d4d8d15abf23004d.html]({% include relref.html url="/backup/2020-09-01-deep-learning-math-matrix-eigen.md/wenku.baidu.com/aca20332.html" %})

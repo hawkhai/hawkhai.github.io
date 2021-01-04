@@ -163,7 +163,7 @@ while __name__ == "__main__":
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://rubyinstaller.org/downloads/]({% include relref.html url="/backup/2020-08-29-win-jekyll-install.md/rubyinstaller.org/c3bd0173.html" %})
-- [2] [https://qiita.com/south37/items/9a3269c28d9fba80f0b7]({% include relref.html url="/backup/2020-08-29-win-jekyll-install.md/qiita.com/b5b4e3a3.html" %})
-- [3] [https://issues.adblockplus.org/ticket/4950]({% include relref.html url="/backup/2020-08-29-win-jekyll-install.md/issues.adblockplus.org/22c7acf3.html" %})
-- [4] [https://www.voidtools.com/zh-cn/]({% include relref.html url="/backup/2020-08-29-win-jekyll-install.md/www.voidtools.com/926bc440.html" %})
+- [https://rubyinstaller.org/downloads/]({% include relref.html url="/backup/2020-08-29-win-jekyll-install.md/rubyinstaller.org/c3bd0173.html" %})
+- [https://qiita.com/south37/items/9a3269c28d9fba80f0b7]({% include relref.html url="/backup/2020-08-29-win-jekyll-install.md/qiita.com/b5b4e3a3.html" %})
+- [https://issues.adblockplus.org/ticket/4950]({% include relref.html url="/backup/2020-08-29-win-jekyll-install.md/issues.adblockplus.org/22c7acf3.html" %})
+- [https://www.voidtools.com/zh-cn/]({% include relref.html url="/backup/2020-08-29-win-jekyll-install.md/www.voidtools.com/926bc440.html" %})

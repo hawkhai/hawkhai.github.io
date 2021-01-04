@@ -163,7 +163,7 @@ codeprint:
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://www.bilibili.com/video/BV1Ps411V7mS]({% include relref.html url="/backup/2020-09-12-math-formula.md/www.bilibili.com/6a5d90f1.html" %})
-- [2] [https://blog.csdn.net/KooShua/article/details/95621867]({% include relref.html url="/backup/2020-09-12-math-formula.md/blog.csdn.net/b912a88d.html" %})
-- [3] [https://www.sohu.com/a/328612612_472787]({% include relref.html url="/backup/2020-09-12-math-formula.md/www.sohu.com/8c391799.html" %})
-- [4] [https://blog.csdn.net/weixin_30778805/article/details/95370334]({% include relref.html url="/backup/2020-09-12-math-formula.md/blog.csdn.net/e9d48880.html" %})
+- [https://www.bilibili.com/video/BV1Ps411V7mS]({% include relref.html url="/backup/2020-09-12-math-formula.md/www.bilibili.com/6a5d90f1.html" %})
+- [https://blog.csdn.net/KooShua/article/details/95621867]({% include relref.html url="/backup/2020-09-12-math-formula.md/blog.csdn.net/b912a88d.html" %})
+- [https://www.sohu.com/a/328612612_472787]({% include relref.html url="/backup/2020-09-12-math-formula.md/www.sohu.com/8c391799.html" %})
+- [https://blog.csdn.net/weixin_30778805/article/details/95370334]({% include relref.html url="/backup/2020-09-12-math-formula.md/blog.csdn.net/e9d48880.html" %})

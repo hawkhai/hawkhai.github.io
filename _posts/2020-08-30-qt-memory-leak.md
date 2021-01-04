@@ -447,10 +447,10 @@ Qt 简化了我们对内存的管理，但是，由于它会在不太注意的�
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [http://doc.qt.nokia.com/4.7/qobject.html]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/doc.qt.nokia.com/18e16541.html" %})
-- [2] [http://www.cuteqt.com/blog/?p=824]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/www.cuteqt.com/b627226e.html" %})
-- [3] [http://blog.csdn.net/dbzhang800/article/details/6300025]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/blog.csdn.net/4086787e.html" %})
-- [4] [http://blog.csdn.net/dbzhang800/article/details/6403285]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/blog.csdn.net/2673c15f.html" %})
-- [5] [http://devbean.blog.51cto.com/448512/526734/]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/devbean.blog.51cto.com/936d9538.html" %})
-- [6] [https://blog.csdn.net/taiyang1987912/article/details/29271549]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/blog.csdn.net/c9e47bb7.html" %})
-- [7] [https://www.cnblogs.com/senior-engineer/p/10037920.html]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/www.cnblogs.com/ea4b4878.html" %})
+- [http://doc.qt.nokia.com/4.7/qobject.html]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/doc.qt.nokia.com/18e16541.html" %})
+- [http://www.cuteqt.com/blog/?p=824]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/www.cuteqt.com/b627226e.html" %})
+- [http://blog.csdn.net/dbzhang800/article/details/6300025]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/blog.csdn.net/4086787e.html" %})
+- [http://blog.csdn.net/dbzhang800/article/details/6403285]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/blog.csdn.net/2673c15f.html" %})
+- [http://devbean.blog.51cto.com/448512/526734/]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/devbean.blog.51cto.com/936d9538.html" %})
+- [https://blog.csdn.net/taiyang1987912/article/details/29271549]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/blog.csdn.net/c9e47bb7.html" %})
+- [https://www.cnblogs.com/senior-engineer/p/10037920.html]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/www.cnblogs.com/ea4b4878.html" %})

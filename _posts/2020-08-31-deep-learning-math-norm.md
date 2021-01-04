@@ -238,9 +238,9 @@ $$
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [http://zh.gluon.ai/]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/zh.gluon.ai/b73bb84d.html" %})
-- [2] [https://ww2.mathworks.cn/help/matlab/ref/norm.html]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/ww2.mathworks.cn/a7e5323f.html" %})
-- [3] [https://mathpix.com/]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/mathpix.com/6a3d6789.html" %})
-- [4] [http://liao.cpython.org/numpy11/]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/liao.cpython.org/180b77ae.html" %})
-- [5] [http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/www.ruanyifeng.com/eeea3212.html" %})
-- [6] [https://blog.csdn.net/zouxy09/article/details/24971995]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/blog.csdn.net/bb20dd8a.html" %})
+- [http://zh.gluon.ai/]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/zh.gluon.ai/b73bb84d.html" %})
+- [https://ww2.mathworks.cn/help/matlab/ref/norm.html]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/ww2.mathworks.cn/a7e5323f.html" %})
+- [https://mathpix.com/]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/mathpix.com/6a3d6789.html" %})
+- [http://liao.cpython.org/numpy11/]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/liao.cpython.org/180b77ae.html" %})
+- [http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/www.ruanyifeng.com/eeea3212.html" %})
+- [https://blog.csdn.net/zouxy09/article/details/24971995]({% include relref.html url="/backup/2020-08-31-deep-learning-math-norm.md/blog.csdn.net/bb20dd8a.html" %})

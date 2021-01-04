@@ -180,9 +180,9 @@ $Q = [w, v]$
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/08%20Coordinate%20Systems/]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/learnopengl-cn.readthedocs.io/cfc9cf0a.html" %})
-- [2] [https://www.mdeditor.tw/pl/pZYE]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.mdeditor.tw/c5442ada.html" %})
-- [3] [https://mp.weixin.qq.com/s/0HZgyZra90LQLFAq6dQJ9A]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/mp.weixin.qq.com/25763337.html" %})
-- [4] [http://www.songho.ca/opengl/gl_projectionmatrix.html]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.songho.ca/7c7467ff.html" %})
-- [5] [http://www.songho.ca/opengl/gl_sphere.html]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.songho.ca/ca4b2763.html" %})
-- [6] [http://www.cppblog.com/kongque/archive/2010/08/18/123824.html]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.cppblog.com/e2810916.html" %})
+- [https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/08%20Coordinate%20Systems/]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/learnopengl-cn.readthedocs.io/cfc9cf0a.html" %})
+- [https://www.mdeditor.tw/pl/pZYE]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.mdeditor.tw/c5442ada.html" %})
+- [https://mp.weixin.qq.com/s/0HZgyZra90LQLFAq6dQJ9A]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/mp.weixin.qq.com/25763337.html" %})
+- [http://www.songho.ca/opengl/gl_projectionmatrix.html]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.songho.ca/7c7467ff.html" %})
+- [http://www.songho.ca/opengl/gl_sphere.html]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.songho.ca/ca4b2763.html" %})
+- [http://www.cppblog.com/kongque/archive/2010/08/18/123824.html]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.cppblog.com/e2810916.html" %})

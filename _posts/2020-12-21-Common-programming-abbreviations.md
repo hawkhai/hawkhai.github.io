@@ -5196,5 +5196,5 @@ The following standard word abbreviations should be used in naming records, fiel
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://blog.csdn.net/wf19930209/article/details/78577918]({% include relref.html url="/backup/2020-12-21-Common-programming-abbreviations.md/blog.csdn.net/b68bc603.html" %})
-- [2] [https://blog.csdn.net/carpinter/article/details/6975740]({% include relref.html url="/backup/2020-12-21-Common-programming-abbreviations.md/blog.csdn.net/4dcdb15e.html" %})
+- [https://blog.csdn.net/wf19930209/article/details/78577918]({% include relref.html url="/backup/2020-12-21-Common-programming-abbreviations.md/blog.csdn.net/b68bc603.html" %})
+- [https://blog.csdn.net/carpinter/article/details/6975740]({% include relref.html url="/backup/2020-12-21-Common-programming-abbreviations.md/blog.csdn.net/4dcdb15e.html" %})

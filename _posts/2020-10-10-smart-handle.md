@@ -182,4 +182,4 @@ void testAutoMutex() {
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://blog.csdn.net/wzy_1988/article/details/46620113]({% include relref.html url="/backup/2020-10-10-smart-handle.md/blog.csdn.net/a15a2001.html" %})
+- [https://blog.csdn.net/wzy_1988/article/details/46620113]({% include relref.html url="/backup/2020-10-10-smart-handle.md/blog.csdn.net/a15a2001.html" %})

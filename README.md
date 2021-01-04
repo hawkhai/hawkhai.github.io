@@ -64,9 +64,9 @@ $ bundle exec jekyll serve --host 0.0.0.0 --port [port]
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://github.com/gchauras/much-worse-jekyll-theme/]({% include relref.html url="/backup/README.md/github.com/14f1bec6.html" %})
-- [2] [https://blog.hawkhai.com]({% include relref.html url="/backup/README.md/blog.hawkhai.com/051e312b.html" %})
-- [3] [https://github.com/rbenv/rbenv.git]({% include relref.html url="/backup/README.md/github.com/309fee20.git" %})
-- [4] [https://github.com/rbenv/ruby-build.git]({% include relref.html url="/backup/README.md/github.com/48bc0079.git" %})
-- [5] [https://gems.ruby-china.com/]({% include relref.html url="/backup/README.md/gems.ruby-china.com/6d6c20fb.html" %})
-- [6] [https://github.com/rbenv/ruby-build/wiki]({% include relref.html url="/backup/README.md/github.com/4c7e830d.html" %})
+- [https://github.com/gchauras/much-worse-jekyll-theme/]({% include relref.html url="/backup/README.md/github.com/14f1bec6.html" %})
+- [https://blog.hawkhai.com]({% include relref.html url="/backup/README.md/blog.hawkhai.com/051e312b.html" %})
+- [https://github.com/rbenv/rbenv.git]({% include relref.html url="/backup/README.md/github.com/309fee20.git" %})
+- [https://github.com/rbenv/ruby-build.git]({% include relref.html url="/backup/README.md/github.com/48bc0079.git" %})
+- [https://gems.ruby-china.com/]({% include relref.html url="/backup/README.md/gems.ruby-china.com/6d6c20fb.html" %})
+- [https://github.com/rbenv/ruby-build/wiki]({% include relref.html url="/backup/README.md/github.com/4c7e830d.html" %})

@@ -54,11 +54,11 @@ gif2webp -q 75 -lossy -m 6 picture.gif -o picture.webp
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://sourceforge.net/]({% include relref.html url="/backup/2020-12-18-servx-webx.md/sourceforge.net/f577c4c2.html" %})
-- [2] [http://www.codeproject.com]({% include relref.html url="/backup/2020-12-18-servx-webx.md/www.codeproject.com/05a0c83e.html" %})
-- [3] [http://search.csdn.net/]({% include relref.html url="/backup/2020-12-18-servx-webx.md/search.csdn.net/37e536ff.html" %})
-- [4] [https://segmentfault.com/a/1190000009033181]({% include relref.html url="/backup/2020-12-18-servx-webx.md/segmentfault.com/a7e55d6e.html" %})
-- [5] [https://imququ.com/post/html5-live-player-2.html]({% include relref.html url="/backup/2020-12-18-servx-webx.md/imququ.com/df29ec8c.html" %})
-- [6] [https://developers.google.com/speed/webp/docs/gif2webp]({% include relref.html url="/backup/2020-12-18-servx-webx.md/developers.google.com/6b2fb33f.html" %})
-- [7] [https://developers.google.com/speed/webp/download]({% include relref.html url="/backup/2020-12-18-servx-webx.md/developers.google.com/a83dd668.html" %})
-- [8] [https://www.jianshu.com/p/be308b80f7aa]({% include relref.html url="/backup/2020-12-18-servx-webx.md/www.jianshu.com/4187b943.html" %})
+- [https://sourceforge.net/]({% include relref.html url="/backup/2020-12-18-servx-webx.md/sourceforge.net/f577c4c2.html" %})
+- [http://www.codeproject.com]({% include relref.html url="/backup/2020-12-18-servx-webx.md/www.codeproject.com/05a0c83e.html" %})
+- [http://search.csdn.net/]({% include relref.html url="/backup/2020-12-18-servx-webx.md/search.csdn.net/37e536ff.html" %})
+- [https://segmentfault.com/a/1190000009033181]({% include relref.html url="/backup/2020-12-18-servx-webx.md/segmentfault.com/a7e55d6e.html" %})
+- [https://imququ.com/post/html5-live-player-2.html]({% include relref.html url="/backup/2020-12-18-servx-webx.md/imququ.com/df29ec8c.html" %})
+- [https://developers.google.com/speed/webp/docs/gif2webp]({% include relref.html url="/backup/2020-12-18-servx-webx.md/developers.google.com/6b2fb33f.html" %})
+- [https://developers.google.com/speed/webp/download]({% include relref.html url="/backup/2020-12-18-servx-webx.md/developers.google.com/a83dd668.html" %})
+- [https://www.jianshu.com/p/be308b80f7aa]({% include relref.html url="/backup/2020-12-18-servx-webx.md/www.jianshu.com/4187b943.html" %})

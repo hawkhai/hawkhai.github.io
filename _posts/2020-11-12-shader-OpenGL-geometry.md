@@ -156,5 +156,5 @@ void createGeometryShader() {
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://blog.csdn.net/iron_lzn/article/details/48729849]({% include relref.html url="/backup/2020-11-12-shader-OpenGL-geometry.md/blog.csdn.net/b3b65693.html" %})
-- [2] [https://learnopengl-cn.github.io/04%20Advanced%20OpenGL/09%20Geometry%20Shader/]({% include relref.html url="/backup/2020-11-12-shader-OpenGL-geometry.md/learnopengl-cn.github.io/09c8e082.html" %})
+- [https://blog.csdn.net/iron_lzn/article/details/48729849]({% include relref.html url="/backup/2020-11-12-shader-OpenGL-geometry.md/blog.csdn.net/b3b65693.html" %})
+- [https://learnopengl-cn.github.io/04%20Advanced%20OpenGL/09%20Geometry%20Shader/]({% include relref.html url="/backup/2020-11-12-shader-OpenGL-geometry.md/learnopengl-cn.github.io/09c8e082.html" %})

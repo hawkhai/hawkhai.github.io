@@ -145,5 +145,5 @@ codeprint:
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [http://www.atoolbox.net/Tool.php?Id=715]({% include relref.html url="/backup/2020-12-21-medication-blacklist-pregnancy.md/www.atoolbox.net/ecf02067.php" %})
-- [2] [https://www.bejson.com/convert/html2markdown/]({% include relref.html url="/backup/2020-12-21-medication-blacklist-pregnancy.md/www.bejson.com/0f492a91.html" %})
+- [http://www.atoolbox.net/Tool.php?Id=715]({% include relref.html url="/backup/2020-12-21-medication-blacklist-pregnancy.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.bejson.com/convert/html2markdown/]({% include relref.html url="/backup/2020-12-21-medication-blacklist-pregnancy.md/www.bejson.com/0f492a91.html" %})

@@ -92,10 +92,10 @@ codeprint:
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://www.zhihu.com/question/27853904]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.zhihu.com/3e5b12f7.html" %})
-- [2] [https://www.matongxue.com/madocs/2094/]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matongxue.com/5a678a0e.html" %})
-- [3] [https://www.matongxue.com/madocs/1709]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matongxue.com/a0d592f2.html" %})
-- [4] [https://www.matongxue.com/madocs/473]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matongxue.com/4ad0074e.html" %})
-- [5] [http://www.matrix67.com/blog/archives/4294]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matrix67.com/7e5ca4ac.html" %})
-- [6] [https://betterexplained.com/]({% include relref.html url="/backup/2020-09-12-math-imagination.md/betterexplained.com/4e5be8bd.html" %})
-- [7] [http://www.matrix67.com/blog/archives/3803]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matrix67.com/eef4c3a1.html" %})
+- [https://www.zhihu.com/question/27853904]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.zhihu.com/3e5b12f7.html" %})
+- [https://www.matongxue.com/madocs/2094/]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matongxue.com/5a678a0e.html" %})
+- [https://www.matongxue.com/madocs/1709]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matongxue.com/a0d592f2.html" %})
+- [https://www.matongxue.com/madocs/473]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matongxue.com/4ad0074e.html" %})
+- [http://www.matrix67.com/blog/archives/4294]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matrix67.com/7e5ca4ac.html" %})
+- [https://betterexplained.com/]({% include relref.html url="/backup/2020-09-12-math-imagination.md/betterexplained.com/4e5be8bd.html" %})
+- [http://www.matrix67.com/blog/archives/3803]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.matrix67.com/eef4c3a1.html" %})

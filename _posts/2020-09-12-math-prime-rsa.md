@@ -134,4 +134,4 @@ RSA 算法本身没什么问题，因为只要你的密钥是真正随机产生�
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://en.wikipedia.org/wiki/Miller%e2%80%93Rabin_primality_test]({% include relref.html url="/backup/2020-09-12-math-prime-rsa.md/en.wikipedia.org/5e1ad223.html" %})
+- [https://en.wikipedia.org/wiki/Miller%e2%80%93Rabin_primality_test]({% include relref.html url="/backup/2020-09-12-math-prime-rsa.md/en.wikipedia.org/5e1ad223.html" %})

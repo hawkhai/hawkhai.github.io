@@ -138,5 +138,5 @@ if (1.0f + src.dotProduct(dir) < 0.0001f) {
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [1] [https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/08%20Coordinate%20Systems/]({% include relref.html url="/backup/2020-12-26-ogre-camera.md/learnopengl-cn.readthedocs.io/cfc9cf0a.html" %})
-- [2] [https://blog.csdn.net/kira8dao7/article/details/6309671]({% include relref.html url="/backup/2020-12-26-ogre-camera.md/blog.csdn.net/7e7e982c.html" %})
+- [https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/08%20Coordinate%20Systems/]({% include relref.html url="/backup/2020-12-26-ogre-camera.md/learnopengl-cn.readthedocs.io/cfc9cf0a.html" %})
+- [https://blog.csdn.net/kira8dao7/article/details/6309671]({% include relref.html url="/backup/2020-12-26-ogre-camera.md/blog.csdn.net/7e7e982c.html" %})
