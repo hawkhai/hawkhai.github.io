@@ -41,6 +41,27 @@ git checkout ea8f3ada185a44c77087a6735bf9a4c77fe875f6
 
 ### 比较版本差异
 
+```
+E:\kSource\pythonx>python codecompare.py allcode
+3806
+targetCount 4257 diffCount 0 missCount 0
+```
+
+
+### irrlicht Android
+
+* [irrlicht for opengles {% include relref_github.html %}](https://github.com/wangtianhang/irrlicht)
+* [My port of irrlicht to Android {% include relref_github.html %}](https://github.com/dschaefer/irrlicht-android) [Example projects {% include relref_github.html %}](https://github.com/dschaefer/irrlicht-examples)
+* [Android Port for the opengl-es version of Irrlicht {% include relref_github.html %}](https://github.com/reizencroft/irrAndroid)
+* [3d graphics engine for android {% include relref_github.html %}](https://github.com/nonameentername/irrlicht-android)
+* 这个有点新。[irrlicht-android {% include relref_github.html %}](https://github.com/vell001/irrlicht-android)
+* [rrlicht-code-5603-branches-ogl-es on android {% include relref_github.html %}](https://github.com/marky0720/irrlicht_Android_ogl_es)
+
+* Skylicht Engine is C++ Game Engine based on Irrlicht 3D。<https://github.com/skylicht-lab/skylicht-engine> Skylicht Particle Component is a cleanup version of SPARK. We have optimized by GPU Billboard Instancing.
+* [SPARK Particle Engine {% include relref_github.html %}](https://github.com/Synxis/SPARK)
+
+* 这个可以看看。[3D 引擎，渲染系统使用的 OpenGL 及 OpenGL ES，Windows 上 OpenGL ES 使用 AMD 的 ES 模拟器](https://gitee.com/panqingyun/E3D-Engine)
+
 -----
 
 <font class='ref_snapshot'>参考资料快照</font>
@@ -51,3 +72,13 @@ git checkout ea8f3ada185a44c77087a6735bf9a4c77fe875f6
 - [4] [https://gitee.com/sinriv/irrSky]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/gitee.com/d80898a7.html" %})
 - [5] [https://qilinzi.blog.csdn.net/article/details/89464394]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/qilinzi.blog.csdn.net/a65eca94.html" %})
 - [6] [https://medium.com/@avseoul/ray-marching-metaball-in-unity3d-fc6f83766c5d]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/medium.com/e863e277.html" %})
+- [7] [https://github.com/wangtianhang/irrlicht]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/ac80b636.html" %})
+- [8] [https://github.com/dschaefer/irrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/952c0493.html" %})
+- [9] [https://github.com/dschaefer/irrlicht-examples]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/5ed0c1f8.html" %})
+- [10] [https://github.com/reizencroft/irrAndroid]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/6a912d5e.html" %})
+- [11] [https://github.com/nonameentername/irrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/e73734fa.html" %})
+- [12] [https://github.com/vell001/irrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/87c6d55b.html" %})
+- [13] [https://github.com/marky0720/irrlicht_Android_ogl_es]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/ae50da7e.html" %})
+- [14] [https://github.com/skylicht-lab/skylicht-engine]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/bc413eab.html" %})
+- [15] [https://github.com/Synxis/SPARK]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/6726b92b.html" %})
+- [16] [https://gitee.com/panqingyun/E3D-Engine]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/gitee.com/0f8e6927.html" %})

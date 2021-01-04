@@ -151,8 +151,8 @@ int main();
 [025shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/025shot.jpg" %}
 [026shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/026shot.jpg" %}
 
-[027shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/027shot.png" %}
-[028shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/028shot.png" %}
+[027shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/027shot.jpg" %}
+[028shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/028shot.jpg" %}
 [029shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s023shot.jpg" %}
 [030shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/030shot.png" %}
 [demoshot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/demoshot.png" %}
