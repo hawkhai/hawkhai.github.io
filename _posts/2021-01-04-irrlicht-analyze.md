@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Irrlicht 3D 笔记 -- Irrlicht 3D 代码简析 🐬"
+title: "Irrlicht 3D 笔记 -- Irrlicht 3D 代码简析"
 author:
 location: "珠海"
 categories: ["Irrlicht"]

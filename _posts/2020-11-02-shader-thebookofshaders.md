@@ -347,6 +347,8 @@ void main() {
 
 <https://www.shadertoy.com/view/lsXcWn>
 
+{% include image.html url="/assets/images/201102-shader-thebookofshaders/chrome_2.webp" %}
+
 理论：<https://zhuanlan.zhihu.com/p/274849965>
 
 
