@@ -20,6 +20,8 @@ cluster: "Irrlicht OpenGL-ES2 Driver"
 OpenGL ES 2.x Driver 底层一共包含 22 个 Shader 文件。逐个文件翻译分析，可以感受到作者的封装思路。
 
 肯定抽象的不错的，因为抽象过后，基本上支持了主流的显卡技术：D3D，OpenGL，OpenGL-ES2 and its own software renderers。
+日拱一卒无有尽，功不唐捐终入海。开始觉得很难，拱到最后，发现整个引擎还是挺简陋的。
+整个 3D 引擎是构建在 显卡之上，最终 CPU 都需要把数据传给 GPU 完成绘制，这些 Shader 是整个引擎的地基。
 
 * COGLES2DetailMap.fsh
 * COGLES2LightmapAdd.fsh
