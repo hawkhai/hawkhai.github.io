@@ -477,6 +477,11 @@ Usage: MeshConverter.exe [options] <srcFile> <destFile>
  --format=[irrmesh|collada|stl|obj|ply]: Choose target format
 ```
 
+
+## Refs
+
+- [1] [Irrlicht 引擎例子说明及中文链接 {% include relref_cnblogs.html %}](https://www.cnblogs.com/lancidie/archive/2011/03/13/1982741.html)
+
 -----
 
 <font class='ref_snapshot'>参考资料快照</font>
@@ -516,3 +521,4 @@ Usage: MeshConverter.exe [options] <srcFile> <destFile>
 - [http://irrlicht.sourceforge.net/tut_physx.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/7270aa13.html" %})
 - [http://irrlicht.sourceforge.net/tut_newton.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/ac6f4f9d.html" %})
 - [http://irrlicht.sourceforge.net/tut_newtondevcpp.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/a2cfe98f.html" %})
+- [https://www.cnblogs.com/lancidie/archive/2011/03/13/1982741.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/www.cnblogs.com/949091ac.html" %})

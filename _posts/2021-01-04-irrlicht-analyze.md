@@ -16,6 +16,7 @@ codeprint:
 ---
 
 Irrlicht 是四大开源 3D 引擎之一（其余三者为 Orge、Nebula 与 KlayGE）。
+Changes in 1.8.4 (9th July 2016, svn r5321)
 
 * libgdx It has the Box2D physics engine integrated.
 * [Irrlicht 网页版本 HelloWorld](http://michaelzeilfelder.de/pub/emscripten/01.HelloWorld.html)
