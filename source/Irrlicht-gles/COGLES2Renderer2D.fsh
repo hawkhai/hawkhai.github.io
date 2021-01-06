@@ -2,8 +2,8 @@ precision mediump float;
 
 /* Uniforms */
 
-uniform int uTextureUsage;
-uniform sampler2D uTextureUnit;
+uniform int uTextureUsage; // 是否采用纹理。
+uniform sampler2D uTextureUnit; // 纹理单元。
 
 /* Varyings */
 
@@ -14,7 +14,7 @@ void main()
 {
     vec4 Color = vVertexColor;
 
-    if (bool(uTextureUsage))
+    if (bool(uTextureUsage)) // 如果采用纹理，就把纹理 乘上去。
         Color *= texture2D(uTextureUnit, vTextureCoord);
 
     gl_FragColor = Color;

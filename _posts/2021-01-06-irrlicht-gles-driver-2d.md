@@ -22,13 +22,13 @@ cluster: "Irrlicht OpenGL-ES2 Driver"
 ```glsl
 /* Attributes */
 
-attribute vec4 inVertexPosition;
-attribute vec4 inVertexColor;
-attribute vec2 inTexCoord0;
+attribute vec4 inVertexPosition; // 顶点坐标
+attribute vec4 inVertexColor; // 顶点颜色，采用 bgra 存储。
+attribute vec2 inTexCoord0; // 纹理坐标。
 
 /* Uniforms */
 
-uniform float uThickness;
+uniform float uThickness; // 线条粗细。
 
 /* Varyings */
 
@@ -42,7 +42,6 @@ void main()
     vTextureCoord = inTexCoord0;
     vVertexColor = inVertexColor.bgra;
 }
-
 ```
 
 
@@ -53,8 +52,8 @@ precision mediump float;
 
 /* Uniforms */
 
-uniform int uTextureUsage;
-uniform sampler2D uTextureUnit;
+uniform int uTextureUsage; // 是否采用纹理。
+uniform sampler2D uTextureUnit; // 纹理单元。
 
 /* Varyings */
 
@@ -65,12 +64,11 @@ void main()
 {
     vec4 Color = vVertexColor;
 
-    if (bool(uTextureUsage))
+    if (bool(uTextureUsage)) // 如果采用纹理，就把纹理 乘上去。
         Color *= texture2D(uTextureUnit, vTextureCoord);
 
     gl_FragColor = Color;
 }
-
 ```
 
 
@@ -86,5 +84,4 @@ void main()
 {
     gl_FragColor = vVertexColor;
 }
-
 ```
