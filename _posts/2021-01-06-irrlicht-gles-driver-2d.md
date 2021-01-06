@@ -23,17 +23,17 @@ cluster: "Irrlicht OpenGL-ES2 Driver"
 /* Attributes */
 
 attribute vec4 inVertexPosition; // 顶点坐标
-attribute vec4 inVertexColor; // 顶点颜色，采用 bgra 存储。
-attribute vec2 inTexCoord0; // 纹理坐标。
+attribute vec4 inVertexColor; // 顶点颜色
+attribute vec2 inTexCoord0; // 纹理坐标
 
 /* Uniforms */
 
-uniform float uThickness; // 线条粗细。
+uniform float uThickness; // 绘制的粗细。
 
 /* Varyings */
 
-varying vec2 vTextureCoord;
-varying vec4 vVertexColor;
+varying vec2 vTextureCoord; // 纹理坐标
+varying vec4 vVertexColor; // 顶点颜色
 
 void main()
 {
@@ -57,8 +57,8 @@ uniform sampler2D uTextureUnit; // 纹理单元。
 
 /* Varyings */
 
-varying vec2 vTextureCoord;
-varying vec4 vVertexColor;
+varying vec2 vTextureCoord; // 纹理坐标
+varying vec4 vVertexColor; // 顶点颜色
 
 void main()
 {
@@ -78,7 +78,7 @@ void main()
 precision mediump float;
 
 /* Varyings */
-varying vec4 vVertexColor;
+varying vec4 vVertexColor; // 顶点颜色
 
 void main()
 {

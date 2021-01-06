@@ -33,6 +33,8 @@ OpenGL ES 2.x Driver 底层一共包含 22 个 Shader 文件。逐个文件翻�
 
 * COGLES2Solid.fsh
 * COGLES2Solid.vsh
+* COGLES2Solid2.vsh
+* COGLES2Solid2Layer.fsh
 
 * COGLES2DetailMap.fsh
 * COGLES2LightmapAdd.fsh
@@ -44,8 +46,6 @@ OpenGL ES 2.x Driver 底层一共包含 22 个 Shader 文件。逐个文件翻�
 * COGLES2ParallaxMap.vsh
 * COGLES2Reflection2Layer.fsh
 * COGLES2Reflection2Layer.vsh
-* COGLES2Solid2.vsh
-* COGLES2Solid2Layer.fsh
 * COGLES2SphereMap.fsh
 * COGLES2SphereMap.vsh
 * COGLES2TransparentAlphaChannel.fsh
@@ -262,15 +262,14 @@ void COGLES2Driver::createMaterialRenderers()
     addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, Solid2LayerCB, EMT_SOLID);
 
     VertexShader = "COGLES2Solid2.vsh";
-    FragmentShader = "COGLES2LightmapModulate.fsh";
-    COGLES2MaterialLightmapCB* LightmapCB = new COGLES2MaterialLightmapCB(1.f);
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, LightmapCB, EMT_SOLID);
-
     FragmentShader = "COGLES2LightmapAdd.fsh";
     COGLES2MaterialLightmapCB* LightmapAddCB = new COGLES2MaterialLightmapCB(1.f);
     addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, LightmapAddCB, EMT_SOLID);
 
     FragmentShader = "COGLES2LightmapModulate.fsh";
+    COGLES2MaterialLightmapCB* LightmapCB = new COGLES2MaterialLightmapCB(1.f);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, LightmapCB, EMT_SOLID);
+
     COGLES2MaterialLightmapCB* LightmapM2CB = new COGLES2MaterialLightmapCB(2.f);
     addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, LightmapM2CB, EMT_SOLID);
 

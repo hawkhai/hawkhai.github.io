@@ -200,7 +200,7 @@ uniform float uFogDensity; // 雾的密度
 varying vec2 vTextureCoord0; // 纹理坐标
 varying vec4 vVertexColor; // 顶点颜色
 varying vec4 vSpecularColor; // 镜面反射颜色
-varying float vFogCoord; // 雾气的厚度
+varying float vFogCoord; // 雾的厚度，可以理解为深度。
 
 float computeFog()
 {
@@ -243,5 +243,44 @@ void main()
     }
 
     gl_FragColor = Color;
+}
+```
+
+
+## COGLES2Solid2.vsh
+
+在 COGLES2Solid.vsh 的基础上，增加了一个纹理。
+
+```glsl
+attribute vec2 inTexCoord1; // 纹理坐标 2
+uniform mat4 uTMatrix1; // 纹理矩阵 2
+varying vec2 vTextureCoord1; // 纹理坐标 2
+
+void main()
+{
+    vec4 TextureCoord1 = vec4(inTexCoord1.x, inTexCoord1.y, 1.0, 1.0);
+    vTextureCoord1 = vec4(uTMatrix1 * TextureCoord1).xy;
+}
+```
+
+
+## COGLES2Solid2Layer.fsh
+
+在 COGLES2Solid.fsh 的基础上，增加了一个纹理。根据顶点的颜色 alpha 通道混合。
+
+```glsl
+void main()
+{
+    vec4 Color0 = vec4(1.0, 1.0, 1.0, 1.0);
+    vec4 Color1 = vec4(1.0, 1.0, 1.0, 1.0);
+
+    if (bool(uTextureUsage0))
+        Color0 = texture2D(uTextureUnit0, vTextureCoord0);
+
+    if (bool(uTextureUsage1))
+        Color1 = texture2D(uTextureUnit1, vTextureCoord1);
+
+    vec4 FinalColor = (Color0 * vVertexColor.a + Color1 * (1.0 - vVertexColor.a)) * vVertexColor;
+    FinalColor += vSpecularColor;
 }
 ```
