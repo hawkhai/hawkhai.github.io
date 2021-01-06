@@ -57,9 +57,11 @@ Changes in 1.8.4 (9th July 2016, svn r5321)
 * irrlicht 引擎：硬件蒙皮骨骼动画。[麒麟子 {% include relref_csdn.html %}](https://blog.csdn.net/qq_36720848/article/details/89464731)
 * 流体 3D 效果，很酷。[Ray Marching Metaball in Unity3D](https://medium.com/@avseoul/ray-marching-metaball-in-unity3d-fc6f83766c5d)
 
-{% include image.html url="/assets/images/210104-irrlicht-analyze/1_tkrfrnv-ypcyqhjvc4dawq.webp"
-caption="Inigo Quilez’s Metaball on Shadertoy"
-url2="/assets/images/210104-irrlicht-analyze/1_5pb-g7j7rcn1nfcgxemowq.gif" caption2="okay" %}
+{% include image.html url="/assets/images/210104-irrlicht-analyze/1_tkrfrnv-ypcyqhjvc4dawq.webp" caption="Inigo Quilez’s Metaball on Shadertoy" %}
+
+{% include image.html url="/assets/images/210104-irrlicht-analyze/1_5pb-g7j7rcn1nfcgxemowq.gif" caption="okay" %}
+
+{% include image.html url="/assets/images/210104-irrlicht-analyze/1_butc_yqwin57a1e3s1fwvg.webp" caption="Shading and Lighting" %}
 
 
 ## 前置代码检查

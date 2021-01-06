@@ -649,6 +649,12 @@ def checkfilesize(fpath, fname, ftype):
         if size >= 1.0:
             print(getFileMd5(fpath), "#", fpath, "#", "%.1f MB"%size)
             g_checkfilesize.add(fmd5)
+
+            if ftype in ("gif",):
+                from pythonx import pygrab
+                pygrab.gifbuildwebp(fpath)
+
+            openTextFile("mdrstrip_bigfiles.txt")
             assert False, "大文件最好不要入库..."
 
 def main():

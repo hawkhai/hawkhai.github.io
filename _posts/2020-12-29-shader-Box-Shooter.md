@@ -653,6 +653,14 @@ target_link_libraries(box_shooter
 ```
 
 
+## 流固耦合模拟
+
+流体与刚体交互模拟。流体采用 SPH 算法，刚体使用 Bullet 计算。
+刚体由粒子组成，使用 btCompoundShape 实现，用于计算流体对刚体的作用力。
+
+{% include image.html url="/assets/images/201229-shader-box-shooter/1024150-20180302110012328-1500050830.webp" %}
+
+
 ## Refs
 
 - [1] [C++ 3D 物理引擎库 BulletPhysics 基本使用 {% include relref_cnblogs.html %}](https://www.cnblogs.com/KillerAery/archive/2004/01/13/9223947.html)
