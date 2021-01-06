@@ -253,101 +253,68 @@ void COGLES2Driver::createMaterialRenderers()
     // Create built-in materials.
     core::stringc VertexShader = "COGLES2Solid.vsh";
     core::stringc FragmentShader = "COGLES2Solid.fsh";
-    COGLES2MaterialSolidCB* SolidCB = new COGLES2MaterialSolidCB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, SolidCB, EMT_SOLID);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialSolidCB(), EMT_SOLID);
 
     VertexShader = "COGLES2Solid2.vsh";
     FragmentShader = "COGLES2Solid2Layer.fsh";
-    COGLES2MaterialSolid2CB* Solid2LayerCB = new COGLES2MaterialSolid2CB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, Solid2LayerCB, EMT_SOLID);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialSolid2CB(), EMT_SOLID);
 
     VertexShader = "COGLES2Solid2.vsh";
     FragmentShader = "COGLES2LightmapAdd.fsh";
-    COGLES2MaterialLightmapCB* LightmapAddCB = new COGLES2MaterialLightmapCB(1.f);
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, LightmapAddCB, EMT_SOLID);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialLightmapCB(1.f), EMT_SOLID);
 
     FragmentShader = "COGLES2LightmapModulate.fsh";
-    COGLES2MaterialLightmapCB* LightmapCB = new COGLES2MaterialLightmapCB(1.f);
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, LightmapCB, EMT_SOLID);
-
-    COGLES2MaterialLightmapCB* LightmapM2CB = new COGLES2MaterialLightmapCB(2.f);
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, LightmapM2CB, EMT_SOLID);
-
-    COGLES2MaterialLightmapCB* LightmapM4CB = new COGLES2MaterialLightmapCB(4.f);
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, LightmapM4CB, EMT_SOLID);
-
-    COGLES2MaterialLightmapCB* LightmapLightingCB = new COGLES2MaterialLightmapCB(1.f);
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, LightmapLightingCB, EMT_SOLID);
-
-    COGLES2MaterialLightmapCB* LightmapLightingM2CB = new COGLES2MaterialLightmapCB(2.f);
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, LightmapLightingM2CB, EMT_SOLID);
-
-    COGLES2MaterialLightmapCB* LightmapLightingM4CB = new COGLES2MaterialLightmapCB(4.f);
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, LightmapLightingM4CB, EMT_SOLID);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialLightmapCB(1.f), EMT_SOLID);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialLightmapCB(2.f), EMT_SOLID);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialLightmapCB(4.f), EMT_SOLID);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialLightmapCB(1.f), EMT_SOLID);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialLightmapCB(2.f), EMT_SOLID);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialLightmapCB(4.f), EMT_SOLID);
 
     VertexShader = "COGLES2Solid2.vsh";
     FragmentShader = "COGLES2DetailMap.fsh";
-    COGLES2MaterialSolid2CB* DetailMapCB = new COGLES2MaterialSolid2CB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, DetailMapCB, EMT_SOLID);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialSolid2CB(), EMT_SOLID);
 
     VertexShader = "COGLES2SphereMap.vsh";
     FragmentShader = "COGLES2SphereMap.fsh";
-    COGLES2MaterialReflectionCB* SphereMapCB = new COGLES2MaterialReflectionCB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, SphereMapCB, EMT_SOLID);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialReflectionCB(), EMT_SOLID);
 
     VertexShader = "COGLES2Reflection2Layer.vsh";
     FragmentShader = "COGLES2Reflection2Layer.fsh";
-    COGLES2MaterialReflectionCB* Reflection2LayerCB = new COGLES2MaterialReflectionCB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, Reflection2LayerCB, EMT_SOLID);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialReflectionCB(), EMT_SOLID);
 
     VertexShader = "COGLES2Solid.vsh";
     FragmentShader = "COGLES2Solid.fsh";
-    COGLES2MaterialSolidCB* TransparentAddColorCB = new COGLES2MaterialSolidCB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, TransparentAddColorCB, EMT_TRANSPARENT_ADD_COLOR);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialSolidCB(), EMT_TRANSPARENT_ADD_COLOR);
 
     FragmentShader = "COGLES2TransparentAlphaChannel.fsh";
-    COGLES2MaterialSolidCB* TransparentAlphaChannelCB = new COGLES2MaterialSolidCB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, TransparentAlphaChannelCB, EMT_TRANSPARENT_ALPHA_CHANNEL);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialSolidCB(), EMT_TRANSPARENT_ALPHA_CHANNEL);
 
     FragmentShader = "COGLES2TransparentAlphaChannelRef.fsh";
-    COGLES2MaterialSolidCB* TransparentAlphaChannelRefCB = new COGLES2MaterialSolidCB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, TransparentAlphaChannelRefCB, EMT_SOLID);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialSolidCB(), EMT_SOLID);
 
     FragmentShader = "COGLES2TransparentVertexAlpha.fsh";
-    COGLES2MaterialSolidCB* TransparentVertexAlphaCB = new COGLES2MaterialSolidCB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, TransparentVertexAlphaCB, EMT_TRANSPARENT_ALPHA_CHANNEL);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialSolidCB(), EMT_TRANSPARENT_ALPHA_CHANNEL);
 
     VertexShader = "COGLES2Reflection2Layer.vsh";
     FragmentShader = "COGLES2Reflection2Layer.fsh";
-    COGLES2MaterialReflectionCB* TransparentReflection2LayerCB = new COGLES2MaterialReflectionCB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, TransparentReflection2LayerCB, EMT_TRANSPARENT_ALPHA_CHANNEL);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialReflectionCB(), EMT_TRANSPARENT_ALPHA_CHANNEL);
 
     VertexShader = "COGLES2NormalMap.vsh";
     FragmentShader = "COGLES2NormalMap.fsh";
-    COGLES2MaterialNormalMapCB* NormalMapCB = new COGLES2MaterialNormalMapCB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, NormalMapCB, EMT_SOLID);
-
-    COGLES2MaterialNormalMapCB* NormalMapAddColorCB = new COGLES2MaterialNormalMapCB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, NormalMapAddColorCB, EMT_TRANSPARENT_ADD_COLOR);
-
-    COGLES2MaterialNormalMapCB* NormalMapVertexAlphaCB = new COGLES2MaterialNormalMapCB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, NormalMapVertexAlphaCB, EMT_TRANSPARENT_ALPHA_CHANNEL);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialNormalMapCB(), EMT_SOLID);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialNormalMapCB(), EMT_TRANSPARENT_ADD_COLOR);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialNormalMapCB(), EMT_TRANSPARENT_ALPHA_CHANNEL);
 
     VertexShader = "COGLES2ParallaxMap.vsh";
     FragmentShader = "COGLES2ParallaxMap.fsh";
-    COGLES2MaterialParallaxMapCB* ParallaxMapCB = new COGLES2MaterialParallaxMapCB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, ParallaxMapCB, EMT_SOLID);
-
-    COGLES2MaterialParallaxMapCB* ParallaxMapAddColorCB = new COGLES2MaterialParallaxMapCB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, ParallaxMapAddColorCB, EMT_TRANSPARENT_ADD_COLOR);
-
-    COGLES2MaterialParallaxMapCB* ParallaxMapVertexAlphaCB = new COGLES2MaterialParallaxMapCB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, ParallaxMapVertexAlphaCB, EMT_TRANSPARENT_ALPHA_CHANNEL);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialParallaxMapCB(), EMT_SOLID);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialParallaxMapCB(), EMT_TRANSPARENT_ADD_COLOR);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialParallaxMapCB(), EMT_TRANSPARENT_ALPHA_CHANNEL);
 
     VertexShader = "COGLES2Solid.vsh";
     FragmentShader = "COGLES2OneTextureBlend.fsh";
-    COGLES2MaterialOneTextureBlendCB* OneTextureBlendCB = new COGLES2MaterialOneTextureBlendCB();
-    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, OneTextureBlendCB, EMT_ONETEXTURE_BLEND);
+    addHighLevelShaderMaterialFromFiles(VertexShader, FragmentShader, COGLES2MaterialOneTextureBlendCB(), EMT_ONETEXTURE_BLEND);
 
     // Create 2D material renderers
     c8* vs2DData = 0;
