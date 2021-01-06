@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Irrlicht 3D 笔记 -- OpenGL ES 2.x Driver 源码剖析 3D 基础部分"
+title: "Irrlicht 3D 笔记 -- OpenGL ES 2.x Driver 源码剖析 3D 部分"
 author:
 location: "珠海"
 categories: ["Irrlicht"]
@@ -432,6 +432,64 @@ void main()
 ```
 
 
+## COGLES2NormalMap.vsh
+
+```glsl
+#define MAX_LIGHTS 2 // 最多两个光源
+
+/* Attributes */
+
+attribute vec3 inVertexPosition; // 顶点坐标
+attribute vec3 inVertexNormal; // 顶点法线
+attribute vec3 inVertexTangent; // 顶点切线
+attribute vec3 inVertexBinormal; // 顶点副法线
+attribute vec4 inVertexColor; // 顶点颜色
+attribute vec2 inTexCoord0; // 纹理坐标
+
+/* Uniforms */
+
+uniform mat4 uWVPMatrix; // 透视矩阵
+uniform mat4 uWVMatrix; // 世界矩阵
+uniform vec3 uLightPosition[MAX_LIGHTS]; // 光源位置
+uniform vec4 uLightColor[MAX_LIGHTS]; // 光源颜色
+
+/* Varyings */
+
+varying vec2 vTexCoord; // 纹理坐标
+varying vec3 vLightVector[MAX_LIGHTS]; // 光源向量
+varying vec4 vLightColor[MAX_LIGHTS]; // 光源颜色
+varying float vFogCoord; // 雾的厚度，可以理解为深度。
+
+void main()
+{
+    gl_Position = uWVPMatrix * vec4(inVertexPosition, 1.0);
+
+    vTexCoord = inTexCoord0;
+
+    for (int i = 0; i < int(MAX_LIGHTS); i++)
+    {
+        vec3 LightVector = uLightPosition[i] - inVertexPosition;
+
+        vLightVector[i].x = dot(inVertexTangent, LightVector);
+        vLightVector[i].y = dot(inVertexBinormal, LightVector);
+        vLightVector[i].z = dot(inVertexNormal, LightVector);
+
+        vLightColor[i].x = dot(LightVector, LightVector);
+        vLightColor[i].x *= uLightColor[i].a;
+        vLightColor[i] = vec4(inversesqrt(vLightColor[i].x));
+        vLightColor[i] *= uLightColor[i];
+        vLightColor[i].a = inVertexColor.a;
+
+        vLightColor[i].x = clamp(vLightColor[i].x, 0.0, 1.0);
+        vLightColor[i].y = clamp(vLightColor[i].y, 0.0, 1.0);
+        vLightColor[i].z = clamp(vLightColor[i].z, 0.0, 1.0);
+    }
+
+    vFogCoord = length((uWVMatrix * vec4(inVertexPosition, 1.0)).xyz);
+}
+```
+
+
 ## COGLES2NormalMap.fsh
 
 实体法线图渲染器。第一个图为纹理图，第二个图为法线图。
@@ -439,8 +497,52 @@ void main()
 可以使用 `IMeshManipulator::createMeshWithTangent()` 将任何网格转换成所需格式。
 [Irrlicht 学习笔记 (10)--PerPixelLighting](http://www.voidcn.com/article/p-ncwwekol-bad.html)
 
+```glsl
+#define MAX_LIGHTS 2 // 最多两个光源
 
-## COGLES2NormalMap.vsh
+precision mediump float;
+
+/* Uniforms */
+
+uniform sampler2D uTextureUnit0; // 纹理单元
+uniform sampler2D uTextureUnit1; // 纹理单元 2
+uniform int uFogEnable; // 是否雾
+uniform int uFogType; // 雾的类型
+uniform vec4 uFogColor; // 雾的颜色
+uniform float uFogStart; // 雾的开始 Linear FogType
+uniform float uFogEnd; // 雾的结束 Linear FogType
+uniform float uFogDensity; // 雾的密度
+
+/* Varyings */
+
+varying vec2 vTexCoord; // 纹理坐标
+varying vec3 vLightVector[MAX_LIGHTS]; // 光源向量
+varying vec4 vLightColor[MAX_LIGHTS]; // 光源颜色
+varying float vFogCoord; // 雾的厚度，可以理解为深度。
+
+void main()
+{
+    vec4 Color  = texture2D(uTextureUnit0, vTexCoord);
+    vec3 Normal = texture2D(uTextureUnit1, vTexCoord).xyz *  2.0 - 1.0;
+
+    vec4 FinalColor = vec4(0.0, 0.0, 0.0, 0.0);
+
+    for (int i = 0; i < int(MAX_LIGHTS); i++)
+    {
+        vec3 LightVector = normalize(vLightVector[i]);
+
+        float Lambert = max(dot(LightVector, Normal), 0.0);
+        FinalColor += vec4(Lambert) * vLightColor[i];
+    }
+
+    FinalColor *= Color;
+    FinalColor.w = vLightColor[0].w;
+
+    if (bool(uFogEnable)) ...
+
+    gl_FragColor = FinalColor;
+}
+```
 
 
 ## COGLES2ParallaxMap.vsh
@@ -450,6 +552,23 @@ void main()
 法线贴图只能在明暗效果上作假（模拟凹凸），无法控制表面的凹凸程度。
 即使我们使用图像软件强制调出一个凹凸相对明显的法线贴图，但正如为什么要引入视差贴图？中的两个图，法线贴图下的凹凸效果明显真实感不高！
 
+相比法线贴图，多点相机位置。
+
+```glsl
+uniform vec3 uEyePosition; // 相机坐标
+varying vec3 vEyeVector; // 相机向量
+
+void main()
+{
+    vec3 EyeVector = uEyePosition - inVertexPosition;
+
+    vEyeVector.x = dot(inVertexTangent, EyeVector);
+    vEyeVector.y = dot(inVertexBinormal, EyeVector);
+    vEyeVector.z = dot(inVertexNormal, EyeVector);
+    vEyeVector *= vec3(1.0, -1.0, -1.0);
+}
+```
+
 
 ## COGLES2ParallaxMap.fsh
 
@@ -458,8 +577,70 @@ void main()
 法线图纹理需要在其透明度通道中包含高度信息，高度信息可以通过函数 IVideoDriver::makeNormalMapTexture 自动设置，
 函数参数：第一个纹理图（其 alpha 通道可改变），第二个 amplitude 缩放比例。
 
+关键代码只有两行，主要是微调一下纹理采样的坐标，偏移 `EyeVector.xy * TempFetch.w` 模拟：
+
+```glsl
+vec3 EyeVector = normalize(vEyeVector);
+vec2 TexCoord = EyeVector.xy * TempFetch.w + vTexCoord;
+```
+
+在 COGLES2NormalMap.fsh 的基础上，多点点代码。
+
+```glsl
+uniform float uFactor; // 纹理颜色的乘积参数
+varying vec3 vEyeVector; // 相机向量
+
+void main()
+{
+    vec4 TempFetch = texture2D(uTextureUnit1, vTexCoord) *  2.0 - 1.0;
+    TempFetch *= uFactor;
+
+    vec3 EyeVector = normalize(vEyeVector);
+    vec2 TexCoord = EyeVector.xy * TempFetch.w + vTexCoord;
+
+    // vec4 Color  = texture2D(uTextureUnit0, vTexCoord);
+    vec4 Color  = texture2D(uTextureUnit0, TexCoord);
+    // vec3 Normal = texture2D(uTextureUnit1, vTexCoord).xyz *  2.0 - 1.0;
+    vec3 Normal = texture2D(uTextureUnit1, TexCoord).xyz *  2.0 - 1.0;
+}
+```
+
 
 ## COGLES2OneTextureBlend.fsh
+
+主要是根据纹理参数，决定混合参数。
+$$BlendFunc = source * sourceFactor + dest * destFactor ( E\_BLEND\_FUNC )$$
+
+The blend function is set to SMaterial::MaterialTypeParam with pack_textureBlendFunc (for 2D) or pack_textureBlendFuncSeparate (for 3D).
+
+```glsl
+uniform int uBlendType; // 混合类型，采用 Color0/Color1
+
+void main()
+{
+    vec4 Color0 = vVertexColor;
+    vec4 Color1 = vec4(1.0, 1.0, 1.0, 1.0);
+
+    if (bool(uTextureUsage0))
+        Color1 = texture2D(uTextureUnit0, vTextureCoord0);
+
+    vec4 FinalColor = Color0 * Color1;
+    FinalColor += vSpecularColor;
+
+    if (uBlendType == 1)
+    {
+        FinalColor.w = Color0.w;
+    }
+    else if (uBlendType == 2)
+    {
+        FinalColor.w = Color1.w;
+    }
+
+    if (bool(uFogEnable)) ...
+
+    gl_FragColor = FinalColor;
+}
+```
 
 -----
 
