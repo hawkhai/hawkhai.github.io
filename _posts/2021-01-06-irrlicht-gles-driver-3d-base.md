@@ -284,3 +284,180 @@ void main()
     FinalColor += vSpecularColor;
 }
 ```
+
+
+## COGLES2LightmapAdd.fsh
+
+跟 COGLES2Solid2Layer.fsh 一样，只是颜色混合方式不太一样。
+
+```glsl
+void main()
+{
+    vec4 FinalColor = (Color0 + Color1) * vVertexColor + vSpecularColor;
+}
+```
+
+
+## COGLES2LightmapModulate.fsh
+
+跟 COGLES2Solid2Layer.fsh 一样，只是颜色混合方式不太一样。
+
+```glsl
+void main()
+{
+    vec4 FinalColor = (Color0 * Color1 * uModulate) * vVertexColor + vSpecularColor;
+}
+```
+
+
+## COGLES2DetailMap.fsh
+
+跟 COGLES2Solid2Layer.fsh 一样，只是颜色混合方式不太一样。
+
+```glsl
+void main()
+{
+    vec4 FinalColor = vec4(Color0 + (Color1 - 0.5)) * vVertexColor + vSpecularColor;
+}
+```
+
+
+## COGLES2SphereMap.vsh
+
+主要用于天空盒贴图。和 COGLES2Solid.vsh 得主要不同是：
+
+```glsl
+void main()
+{
+    vec3 Position = (uWVMatrix * vec4(inVertexPosition, 1.0)).xyz;
+
+    vec3 P = normalize(Position);
+    vec3 N = normalize(vec4(uNMatrix * vec4(inVertexNormal, 0.0)).xyz);
+    vec3 R = reflect(P, N);
+
+    float V = 2.0 * sqrt(R.x*R.x + R.y*R.y + (R.z+1.0)*(R.z+1.0));
+    vTextureCoord0 = vec2(R.x/V + 0.5, R.y/V + 0.5);
+}
+```
+
+
+## COGLES2SphereMap.fsh
+
+代码和 COGLES2Solid.fsh 完全一样。
+
+
+## COGLES2Reflection2Layer.fsh
+
+代码在 COGLES2Solid2.vsh 的基础上，纹理 2 采用反射得到：
+
+```glsl
+void main()
+{
+    vec3 Position = (uWVMatrix * vec4(inVertexPosition, 1.0)).xyz;
+    vec3 P = normalize(Position);
+    vec3 N = normalize(vec4(uNMatrix * vec4(inVertexNormal, 0.0)).xyz);
+    vec3 R = reflect(P, N);
+
+    float V = 2.0 * sqrt(R.x*R.x + R.y*R.y + (R.z+1.0)*(R.z+1.0));
+    vTextureCoord1 = vec2(R.x/V + 0.5, R.y/V + 0.5);
+}
+```
+
+
+## COGLES2Reflection2Layer.vsh
+
+```glsl
+void main()
+{
+    vec4 FinalColor = (Color0 * Color1) * vVertexColor + vSpecularColor;
+}
+```
+
+
+## COGLES2TransparentVertexAlpha.fsh
+
+乘上纹理的值。
+
+```glsl
+void main()
+{
+    vec4 Color = vVertexColor;
+
+    if (bool(uTextureUsage0))
+        Color *= texture2D(uTextureUnit0, vTextureCoord0);
+    Color += vSpecularColor;
+}
+```
+
+
+## COGLES2TransparentAlphaChannelRef.fsh
+
+乘上纹理的值，小于 uAlphaRef 就抛弃。
+
+```glsl
+void main()
+{
+    vec4 Color = vVertexColor;
+
+    if (bool(uTextureUsage0))
+        Color *= texture2D(uTextureUnit0, vTextureCoord0);
+
+    if (Color.a < uAlphaRef)
+        discard;
+
+    Color += vSpecularColor;
+}
+```
+
+
+## COGLES2TransparentAlphaChannel.fsh
+
+和上面一个区别是，乘上纹理的值，uTextureUsage0 并且小于 uAlphaRef 就抛弃。
+
+```glsl
+void main()
+{
+    vec4 Color = vVertexColor;
+
+    if (bool(uTextureUsage0))
+    {
+        Color *= texture2D(uTextureUnit0, vTextureCoord0);
+
+        // TODO: uAlphaRef should rather control sharpness of alpha, don't know how to do that right now and this works in most cases.
+        if (Color.a < uAlphaRef)
+            discard;
+    }
+    Color += vSpecularColor;
+}
+```
+
+
+## COGLES2NormalMap.fsh
+
+实体法线图渲染器。第一个图为纹理图，第二个图为法线图。
+只有当顶点是 S3DVertexTangents(EVT_TANGENTS) 格式才可以使用这种材质。
+可以使用 `IMeshManipulator::createMeshWithTangent()` 将任何网格转换成所需格式。
+[Irrlicht 学习笔记 (10)--PerPixelLighting](http://www.voidcn.com/article/p-ncwwekol-bad.html)
+
+
+## COGLES2NormalMap.vsh
+
+
+## COGLES2ParallaxMap.fsh
+
+和 EMT_NORMAL_MAP_SOLID 差不多，只是只有的是 parallax 图，更加真实。
+第一个图为纹理图，第二个图为法线图 (32bits)（高度图）。
+法线图纹理需要在其透明度通道中包含高度信息，高度信息可以通过函数 IVideoDriver::makeNormalMapTexture 自动设置，
+函数参数：第一个纹理图（其 alpha 通道可改变），第二个 amplitude 缩放比例。
+
+
+## COGLES2ParallaxMap.vsh
+
+
+## COGLES2OneTextureBlend.fsh
+
+-----
+
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [http://www.voidcn.com/article/p-ncwwekol-bad.html]({% include relref.html url="/backup/2021-01-06-irrlicht-gles-driver-3d-base.md/www.voidcn.com/b445f1f6.html" %})

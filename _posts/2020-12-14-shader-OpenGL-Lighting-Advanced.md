@@ -136,6 +136,12 @@ $$
 {% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/20210104160558.png" %}
 
 
+## RTR (Real Time Rendering)
+
+更多高级光照知识：[RTR4 拾遗（一）-- 图形学的 B 面 {% include relref_csdn.html %}](https://blog.csdn.net/leonwei/article/details/84821309)
+[PBR--RTR4 笔记 -- 第八章 光与颜色 {% include relref_csdn.html %}](https://blog.csdn.net/gqkly/article/details/88086791)
+
+
 ## 参考资料
 
 - [1] [Blinn-Phong 光照](http://morimiya.me/2019/02/24/Blinn-Phong%E5%85%89%E7%85%A7/)
@@ -147,5 +153,7 @@ $$
 
 - [https://www.ndt.net/article/wcndt00/papers/idn256/idn256.htm]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.ndt.net/368552c1.htm" %})
 - [https://www.cnblogs.com/kalluwa/p/7092532.html]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.cnblogs.com/7b29365d.html" %})
+- [https://blog.csdn.net/leonwei/article/details/84821309]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/blog.csdn.net/5d77c232.html" %})
+- [https://blog.csdn.net/gqkly/article/details/88086791]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/blog.csdn.net/275cbb7d.html" %})
 - [http://morimiya.me/2019/02/24/Blinn-Phong%E5%85%89%E7%85%A7/]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/morimiya.me/7ce24540.html" %})
 - [https://learnopengl-cn.github.io/05%20Advanced%20Lighting/01%20Advanced%20Lighting/]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/learnopengl-cn.github.io/6e82a48b.html" %})

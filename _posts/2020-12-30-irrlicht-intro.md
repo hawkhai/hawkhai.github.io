@@ -318,6 +318,7 @@ shaders for D3D8, D3D9 and OpenGL。创建 shader material，关闭 texture mipm
 ## Tutorial 11: Per-Pixel Lighting
 
 复杂 material。用 normal maps and parallax mapping 计算每个像素的光照。烟雾的使用，和移动粒子系统。
+[Irrlicht 学习笔记 (10)--PerPixelLighting {% include relref_csdn.html %}](https://blog.csdn.net/gqkly/article/details/51870182)
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/11.perpixellighting_4.webp" urlx="/assets/images/201230-irrlicht-intro/011shot.jpg" %}
 
@@ -366,7 +367,8 @@ Windows CE 样例。
 
 ## Tutorial 18: Splitscreen
 
-split screen 演示。
+split screen 演示。分屏技术。将视口分为 4 部分，三个显示 fixed camera 和一个用户控制 camera。
+[Irrlicht 引擎学习笔记 (14)--Splitscreen {% include relref_csdn.html %}](https://blog.csdn.net/gqkly/article/details/51870581)
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/18.splitscreen_3.webp" urlx="/assets/images/201230-irrlicht-intro/018shot.jpg" %}
 
@@ -381,6 +383,18 @@ split screen 演示。
 ## Tutorial 20: Managed Lights
 
 多光源管理。根据场景选择合适的光源。
+
+光源管理器。为了使用超过 8 个的灯光，注册一个可选光源管理器，允许可以在渲染的时候开关特定灯光。
+如果没有注册光源管理器，默认的基于距离（距离照相机）的流程将被激活。
+
+* NO_MANAGEMENT: 关闭光源管理器，展示引擎默认的光源行为。将依据照相机与灯光距离，选择最进的 8 个光源。
+* LIGHTS_NEAREST_NODE: 展示为每个场景节点启用有限数量的光源。如果为正在渲染的节点找到了三个光源，启用它们而关闭其他的光源，这里可行。
+    但是应用到整个场景，就处理不好了。会看到闪烁现象，这是由于光源在切换其所关联的节点造成的。
+* LIGHTS_IN_ZONE: 展示依据 "zone" 来开关光源的技术。每个空的场景节点作为一个 zone 的父节点。
+    当节点被渲染的时候，关闭所有光源，找到父 "zone" 节点并打开在其内的光源。
+    这能为每个节点实现，实现本地光源的效果。这可以用于单个房间内绑定本地光源，而每个房间光源与其他房间的光源是隔离的。
+
+[Irrlicht 引擎学习笔记 (15)--LightManager {% include relref_csdn.html %}](https://blog.csdn.net/gqkly/article/details/51870636)
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/20.managedlights_2.webp" urlx="/assets/images/201230-irrlicht-intro/020shot.jpg" %}
 
@@ -478,9 +492,22 @@ Usage: MeshConverter.exe [options] <srcFile> <destFile>
 ```
 
 
+## 八叉树 Octree
+
+如在室内场景管理中有两个经常用到的层次体系：BSP(Binary Space Partitioning) 树，这是八叉树的推广，和包围体树 (Boundingvolume tree)。前者用于加速剔除，而后者主要用于碰撞检测。
+
+一般来说，对于室内场景使用 BSP 树，因为 1）室内场景遮挡比较严重，使用 BSP 树在特定的位置分割有助于提升效率；2）室内很可能朝某个方向延伸比较多，比如一条细长的走廊。
+对于大规模室外场景，使用八叉树比较好，因为场景中的物体比较分散，而且不会出现太多的遮挡，
+由于不用存储分割平面位置，使用八叉树这种规则的空间结构能够提高效率。
+当然，如果这个大规模室外场景的物体主要集中在地面，使用四叉树进行空间管理会比较好。
+
+{% include image.html url="/assets/images/201230-irrlicht-intro/1010823-20190507135423258-1913374272.png" %}
+
+
 ## Refs
 
 - [1] [Irrlicht 引擎例子说明及中文链接 {% include relref_cnblogs.html %}](https://www.cnblogs.com/lancidie/archive/2011/03/13/1982741.html)
+- [2] [3D 游戏场景管理概述 {% include relref_csdn.html %}](https://blog.csdn.net/u012234115/article/details/47156217)
 
 -----
 
@@ -521,4 +548,8 @@ Usage: MeshConverter.exe [options] <srcFile> <destFile>
 - [http://irrlicht.sourceforge.net/tut_physx.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/7270aa13.html" %})
 - [http://irrlicht.sourceforge.net/tut_newton.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/ac6f4f9d.html" %})
 - [http://irrlicht.sourceforge.net/tut_newtondevcpp.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/a2cfe98f.html" %})
+- [https://blog.csdn.net/gqkly/article/details/51870182]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/blog.csdn.net/055cce4d.html" %})
+- [https://blog.csdn.net/gqkly/article/details/51870581]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/blog.csdn.net/4ad69362.html" %})
+- [https://blog.csdn.net/gqkly/article/details/51870636]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/blog.csdn.net/615e3a13.html" %})
 - [https://www.cnblogs.com/lancidie/archive/2011/03/13/1982741.html]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/www.cnblogs.com/949091ac.html" %})
+- [https://blog.csdn.net/u012234115/article/details/47156217]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/blog.csdn.net/fd396aec.html" %})
