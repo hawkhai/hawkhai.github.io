@@ -16,7 +16,7 @@ uniform float uFogDensity; // 雾的密度
 varying vec2 vTextureCoord0; // 纹理坐标
 varying vec4 vVertexColor; // 顶点颜色
 varying vec4 vSpecularColor; // 镜面反射颜色
-varying float vFogCoord; // 雾气的厚度
+varying float vFogCoord; // 雾的厚度，可以理解为深度。
 
 float computeFog()
 {

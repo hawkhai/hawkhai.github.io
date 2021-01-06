@@ -29,10 +29,11 @@ def main():
         for index, line in enumerate(lines):
             srcline = line[:]
             line = line.strip().split("//", 1)[0]
+            line = line.strip()
             if not line: continue
             if not line.split()[0] in ("uniform", "attribute", "varying", "#define",): continue
             if line in cmtmap.keys():
-                newline = srcline.split("//", 1)[0] + " // " + cmtmap[line]
+                newline = srcline.split("//", 1)[0].rstrip() + " // " + cmtmap[line]
                 lines[index] = newline
         fdata = "\r\n".join(lines)
         writefile(fpath, fdata, "utf8")
