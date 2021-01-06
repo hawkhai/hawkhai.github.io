@@ -18,6 +18,8 @@ cluster: "Irrlicht OpenGL-ES2 Driver"
 
 Irrlicht 采用了标准的 Blinn-Phong 光照模型。但是它是在 顶点着色器 里面计算的光照，这样更解决 GPU，相比放在片段着色器里面计算，光照效果更生硬。
 
+Irrlicht 总体说来还是比较简陋。主要包含 Blinn-Phong 光照模型，反射、天空盒、法线纹理、视差纹理等等。
+
 
 ## COGLES2Solid.vsh
 
