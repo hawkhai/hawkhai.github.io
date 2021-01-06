@@ -23,6 +23,14 @@ OpenGL ES 2.x Driver 底层一共包含 22 个 Shader 文件。逐个文件翻�
 日拱一卒无有尽，功不唐捐终入海。开始觉得很难，拱到最后，发现整个引擎还是挺简陋的。
 整个 3D 引擎是构建在 显卡之上，最终 CPU 都需要把数据传给 GPU 完成绘制，这些 Shader 是整个引擎的地基。
 
+2D 部分：
+
+* COGLES2Renderer2D.fsh
+* COGLES2Renderer2D.vsh
+* COGLES2Renderer2D_noTex.fsh
+
+3D 部分：
+
 * COGLES2DetailMap.fsh
 * COGLES2LightmapAdd.fsh
 * COGLES2LightmapModulate.fsh
@@ -33,9 +41,6 @@ OpenGL ES 2.x Driver 底层一共包含 22 个 Shader 文件。逐个文件翻�
 * COGLES2ParallaxMap.vsh
 * COGLES2Reflection2Layer.fsh
 * COGLES2Reflection2Layer.vsh
-* COGLES2Renderer2D.fsh
-* COGLES2Renderer2D.vsh
-* COGLES2Renderer2D_noTex.fsh
 * COGLES2Solid.fsh
 * COGLES2Solid.vsh
 * COGLES2Solid2.vsh

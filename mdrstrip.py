@@ -134,6 +134,7 @@ def backupUrlContent(fpath, url):
     remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5[:8] + ttype)
     touchSnapCache(umd5[:8], slocal)
 
+    # 外链类型 断言...
     if not slocal.split(".")[-1] in ("pdf", "html", "git", "php", "c", "phtml", "cpp", "htm", "shtm",
                                      "ipynb", "py", "asp", "shtml",):
         print(fpath, url)
@@ -367,11 +368,11 @@ def mainfile(fpath, fname, ftype):
     ftype = ftype.lower()
     errcnt = 0
 
-    warnCnEnSpace    = ftype in ("md", "php", "html", "htm",) # 英文中文空符检查
+    warnCnEnSpace    = ftype in ("md", "php", "html", "htm", "vsh", "fsh",) # 英文中文空符检查
     warnTitleSpace   = ftype in ("md",) # 标题前后空行检查
-    warnIndentSpace  = ftype in ("md", "php", "scss",) # 缩进检查
+    warnIndentSpace  = ftype in ("md", "php", "scss", "vsh", "fsh",) # 缩进检查
     isMdFile         = ftype in ("md",)
-    isSrcFile        = ftype in ("md", "py", "php", "html", "htm", "js", "css", "scss", "svg",)
+    isSrcFile        = ftype in ("md", "php", "html", "htm", "js", "css", "scss", "svg", "py", "vsh", "fsh",)
     keepStripFile    = ftype in ("svg",) or fname in ("gitsrc.html",) or re.findall("^relref[a-z_]*\\.html$", fname)
 
     if fpath.find("\\winfinder\\") != -1:
