@@ -6,7 +6,7 @@ location: "珠海"
 categories: ["Irrlicht"]
 tags: ["Irrlicht"]
 toc: true
-toclistyle: none
+toclistyle:
 comments:
 visibility:
 mathjax: true
@@ -443,15 +443,20 @@ void main()
 ## COGLES2NormalMap.vsh
 
 
+## COGLES2ParallaxMap.vsh
+
+视差贴图。法线贴图可以在低面片数的模型上表现出高面片数模型的很多细节。
+法线贴图并不是把模型的面数提高了，而是使用法线贴图中的法线来计算光照，通过明暗效果作假，让观察者误以为模型有凹凸。
+法线贴图只能在明暗效果上作假（模拟凹凸），无法控制表面的凹凸程度。
+即使我们使用图像软件强制调出一个凹凸相对明显的法线贴图，但正如为什么要引入视差贴图？中的两个图，法线贴图下的凹凸效果明显真实感不高！
+
+
 ## COGLES2ParallaxMap.fsh
 
 和 EMT_NORMAL_MAP_SOLID 差不多，只是只有的是 parallax 图，更加真实。
 第一个图为纹理图，第二个图为法线图 (32bits)（高度图）。
 法线图纹理需要在其透明度通道中包含高度信息，高度信息可以通过函数 IVideoDriver::makeNormalMapTexture 自动设置，
 函数参数：第一个纹理图（其 alpha 通道可改变），第二个 amplitude 缩放比例。
-
-
-## COGLES2ParallaxMap.vsh
 
 
 ## COGLES2OneTextureBlend.fsh

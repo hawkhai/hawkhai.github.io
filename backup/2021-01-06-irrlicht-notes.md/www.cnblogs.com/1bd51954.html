@@ -1,0 +1,907 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="使用顶点光照的模型，当模型的面数很少的时候，光照效果会显得很奇怪，因为只有顶点上的光照是正确计算出来的，三角面上的光照都是通过硬件插值得到，所以难免会出现问题。基于像素的光照可以很好的改善这个问题。如" />
+    <meta property="og:description" content="使用顶点光照的模型，当模型的面数很少的时候，光照效果会显得很奇怪，因为只有顶点上的光照是正确计算出来的，三角面上的光照都是通过硬件插值得到，所以难免会出现问题。基于像素的光照可以很好的改善这个问题。如" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>视差贴图（Parallax Mapping） - winning11 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=R2wBwmwSMG0Sqiw8GFSVjHT4Payg_JFAn51R8XcuvN0" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=uknaX_hejnSu-njQgx4Hj1R0JiPLwUhFPUlwWNmWyB4" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/jim-game-dev/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/jim-game-dev/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/jim-game-dev/wlwmanifest.xml" />
+    <script src="https://www.googletagservices.com/activeview/js/current/osd.js?cb=%2Fr20100101"></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 229037;
+        var currentBlogApp = 'jim-game-dev';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2016-04-19 10:40';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=V0BbkkQE24zt1D_4TRGfRwcCB1E3YoBpH5YOp1qKoxA"></script>
+    
+    
+    
+<meta http-equiv="origin-trial" content="A2shzsdPO+RKe83bUqT9oVkYwGZN6j9O7nrcOASNFPuQz8HefgVYb9qAqn6coNCSDIRtXoi6ybCrjEsYh3caFgIAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MTM0OTU4NjgsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2020120801.js" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script><link rel="prefetch" href="https://21ba3277bbe48cfa0711ac25c9b5e2cd.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html" /><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-37/html/container.html" /></head>
+<body class="has-navbar has-bannerbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/jim-game-dev/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/jim-game-dev/">jim-game-dev</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/jim-game-dev/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/winning11">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/jim-game-dev/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 62  </span>
+<span id="stats_article_count">文章 - 0  </span>
+<span id="stats-comment_count">评论 - 1</span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/jim-game-dev/p/5410529.html">
+    <span>视差贴图（Parallax Mapping）</span>
+    
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+    <p>使用顶点光照的模型，当模型的面数很少的时候，光照效果会显得很奇怪，因为只有顶点上的光照是正确计算出来的，三角面上的光照都是通过硬件插值得到，所以难免会出现问题。基于像素的光照可以很好的改善这个问题。如果想要表现出模型表面凹凸不平，那就需要很高的面数制作出凹凸的模型。</p>
+<p><img src="https://images2015.cnblogs.com/blog/720042/201604/720042-20160419223419757-333560788.jpg" alt="" loading="lazy" /></p>
+<p>然后就出现法线贴图。法线贴图可以在低面数的模型上表现出高面数模型的很多细节。法线贴图并不是把模型的面数提高了，而是使用法线贴图中的法线来计算光照，通过明暗效果作假，让观察者误以为模型有凹凸。法线贴图只能在明暗效果上作假（模拟凹凸），无法控制表面的凹凸程度。即使我们使用图像软件强制调出一个凹凸非常明显的法线贴图，通过仔细观察，会法线效果也是有问题的。</p>
+<p><img src="https://images2015.cnblogs.com/blog/720042/201604/720042-20160419223444054-697366859.jpg" alt="" loading="lazy" /></p>
+<p>上面的是一张用了法线贴图的地面，在红色圆圈的地方是有问题的。我们使用一张平面图来分析下。</p>
+<p><img src="https://images2015.cnblogs.com/blog/720042/201604/720042-20160419223458648-1478512536.jpg" alt="" loading="lazy" /></p>
+<p>这是一张凸起砖块的截面图，绿色箭头表示视线的方向，白色线条表示砖块的横截面。按照常识来看，我们能看到砖块的最远的一点是蓝色点，因为蓝色点后面（红色线条部分）的砖块由于高度较低，被前面挡住了。但是从上面那张使用了法线贴图的地面效果图上可以看到，蓝色点后的砖块并没有被挡住，甚至能够看到黄色点的位置，这种效果显然是不正确的。而这是法线贴图无法避免的问题，因为上文已经说过了，法线贴图只能模拟明暗，也就是说最多只能将红色线条部分变暗（以此来模拟背光）。这就是视差贴图可以解决的一个问题，它可以让背面被遮挡住的部分完全不显示出来，除此之外还能在一定范围内调整砖块凹凸的程度。视差贴图也只是模拟作假，并没有真的改变模型表面，下面就开始分析视差贴图吧。</p>
+<p><img src="https://images2015.cnblogs.com/blog/720042/201604/720042-20160419223511101-1149856047.jpg" alt="" loading="lazy" /></p>
+<p>如图所示，视线 e 落点是点 a，但是因为模型并不是真的有凹凸，而是一个平面，所以真实的落点是在点 b。这样就变成了如何将点 a 纠正到点 b 的问题了。让我们再在参考图上加上一些辅助参数。</p>
+<p><img src="https://images2015.cnblogs.com/blog/720042/201604/720042-20160419223524538-495077862.jpg" alt="" loading="lazy" /></p>
+<p>需要说明的是我们在分析视差贴图的时候使用的是切线空间，这和法线贴图是一样的，切线空间中的切线和副切线是与纹理坐标 uv 对齐的，上图中只显示了 u 方向上的情况，在 v 方向上是一样的。当前实际的落点是点 b，u 坐标是 ub，而理想的落点是在点 a，u坐标是 ua。如果能有一个 delta 量，把 ub 加上 delta 等于 ua，似乎就可以了。但是还有个问题是，因为视线的方向是一直在变化的，这就导致了 delta 量不可能是一个固定的值。所以暂且没有什么好的办法求出 delta，那么就把问题想简单点。这里不要求精确的 delta，只要近似的就可以。于是有了一张称为高度图的纹理，它存储了点 b 在切线空间的真实凹凸表面的凹陷或凸起程度。黑色（0）表示不凸起，白色（1）表示完全凸起。我们可以试着使用这个值来最大可能的近似模拟出 delta 值。</p>
+<p><img src="https://images2015.cnblogs.com/blog/720042/201604/720042-20160419223537070-72704474.jpg" alt="" loading="lazy" /></p>
+<pre><code class="hljs cpp"><span class="hljs-comment">// 计算 uv 的偏移 delta</span>
+<span class="hljs-function"><span class="hljs-keyword">inline</span> float2 <span class="hljs-title">ParallaxUvDelta</span><span class="hljs-params">(v2f i)</span>
+</span>{
+	<span class="hljs-comment">// 高度图中描述的高度数据</span>
+	half h = tex2D(_ParallaxMap, i.uvMain).r;
+	<span class="hljs-comment">// 切线空间中的视线方向</span>
+	float3 viewDir = normalize(i.viewDir);
+	<span class="hljs-comment">// 将三维的视线向量投影到二维的 uv 平面，乘以高度数据</span>
+	<span class="hljs-comment">// _ParallaxScale 是一个用户可调节的值，根据效果需要进行调节，数值太大造成视觉上的严重错误</span>
+	float2 delta = viewDir.xy / viewDir.z * h * _ParallaxScale;
+	<span class="hljs-keyword">return</span> delta;
+}
+
+float2 uvDelta = ParallaxUvDelta(i);
+i.uvMain += uvDelta;
+i.uvBump += uvDelta;
+</code></pre>
+<p>以上就是如何利用高度图计算 uv 的偏移量的代码了。需要注意，因为这只是近似模拟，所以能否得到完美的效果完全取决于各个参数调整的是否合理。其实上面的代码只是一个框架，在此基础上可以试着对 <code>h</code>，<code>viewDir.z</code> 这些参数进行一定的偏移，或许能够得到更好的效果。完成后的效果图如下，可以看到砖块就像真的凸起了一样，上文法线贴图红圈指出的问题也没有了。</p>
+<p><img src="https://images2015.cnblogs.com/blog/720042/201604/720042-20160419223549898-1070388367.jpg" alt="" loading="lazy" /></p>
+<p>不足之处是你无法让砖块无限制的凸起，当到了某个临界值后，效果就完全穿帮了。</p>
+<p><img src="https://images2015.cnblogs.com/blog/720042/201604/720042-20160419223600991-1935095574.jpg" alt="" loading="lazy" /></p>
+<p>由于 uv 的 delta 偏移量是一个估计值，并不是精确值，所以才会出现这样的情况。下面我们的目标就是让 delta uv 尽可能的精确。上面的方法中，我们只对高度图进行了一次采样，很难一下就找准落点，显然一次是不够的，因此需要对其进行改进，我们将使用逐步逼近的方式，来获得一个更精确的 delta uv。</p>
+<p><img src="https://images2015.cnblogs.com/blog/720042/201604/720042-20160419223612976-1383637724.jpg" alt="" loading="lazy" /></p>
+<p>从图中可以看出：最上层的高度值为1，最下层的高度值为0，对中间值划分为四等分（划分得越细，最终计算出来的精度就越高，效果也就越好，当然计算量也越大），这些值和高度图中的值是对应的。视线 e 会和等分线产生交点（红点），直接使用交点的 uv 对高度图进行采样，会得到对应的几个高度值（蓝点）。最理想的情况下计算出来的结果是正好在黄点上，观察下红点和蓝点，在黄点左边的蓝点高于红点，在黄点右边的红点高于蓝点，我们可以通过这个规律找到位于黄点两边最近的两个红点和蓝点。这样就可以确定黄点就在这两个红点的中间。最后，沿着 e 的方向，在这两个红点之间进行插值，即可获得黄点的位置了，而插值需要用到 h1 和 h2 这两个线段的长度（红蓝两点的间距）。差值的精确度和一开始划分的精细度有关。这就是原理描述了，下面解释下代码。</p>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">inline</span> float2 <span class="hljs-title">ParallaxUvDelta</span><span class="hljs-params">(Input i)</span>
+</span>{
+	float3 viewDir = normalize(i.viewDir);
+	
+	<span class="hljs-comment">// 细分的层数</span>
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">float</span> numLayers = <span class="hljs-number">20</span>;
+
+    <span class="hljs-comment">// 单层步进的高度</span>
+    <span class="hljs-keyword">float</span> layerHeight = <span class="hljs-number">1.0</span> / numLayers;
+    <span class="hljs-comment">// 最高的高度值</span>
+    <span class="hljs-keyword">float</span> currentLayerHeight = <span class="hljs-number">1.0</span>;
+    <span class="hljs-comment">// delta 最大值</span>
+    float2 P = viewDir.xy * _ParallaxScale; 
+    <span class="hljs-comment">// delta 单步逼近值</span>
+    float2 deltaTexCoords = P / numLayers;
+    
+    <span class="hljs-comment">// 开始一步步逼近，直到找到合适的红点</span>
+    float2 currentTexCoords = i.uv_MainTex;
+	<span class="hljs-keyword">float</span> currentDepthMapValue = tex2D(_ParallaxMap, currentTexCoords).r;
+	<span class="hljs-keyword">while</span>(currentLayerHeight &gt; currentDepthMapValue)
+	{
+	    currentTexCoords -= deltaTexCoords;
+	    currentDepthMapValue = tex2D(_ParallaxMap, currentTexCoords).r;  
+	    currentLayerHeight -= layerHeight;  
+	}
+	
+	<span class="hljs-comment">// 计算 h1 和 h2</span>
+	float2 prevTexCoords = currentTexCoords + deltaTexCoords;
+	<span class="hljs-keyword">float</span> afterHeight  = currentDepthMapValue - currentLayerHeight;
+	<span class="hljs-keyword">float</span> beforeHeight = currentLayerHeight + layerHeight - tex2D(_ParallaxMap, prevTexCoords).r;
+	<span class="hljs-comment">// 利用 h1 h2 得到权重，在两个红点间使用权重进行差值</span>
+	<span class="hljs-keyword">float</span> weight = afterHeight / (afterHeight + beforeHeight);
+	float2 finalTexCoords = prevTexCoords * weight + currentTexCoords * (<span class="hljs-number">1.0</span> - weight);
+	
+	<span class="hljs-keyword">return</span> finalTexCoords - i.uv_MainTex;
+}
+
+float2 uvDelta = ParallaxUvDelta(i);
+i.uvMain += uvDelta;
+i.uvBump += uvDelta;
+</code></pre>
+<p>效果图。Parallax Mapping 从性能上来说消耗是很大的，所有的操作都是像素级别的，并且其中包含大量的纹理采样，根据需要使用。</p>
+<p><img src="https://images2015.cnblogs.com/blog/720042/201604/720042-20160419223629273-2088581231.jpg" alt="" loading="lazy" /></p>
+<p>最后，关于 Shader 中编写循环指令的代码，并且循环指令无法在编译期间展开，比如 <code>while(condition)</code> <code>for(condition)</code>，使用 cg 语言编写的话，是无法通过编译的，因为被编译出的中间 ARB VP/FP 不包含循环指令。所以需要添加上 ‘#pragma glsl’，让编译器直接编译成 glsl。</p>
+<p>goto <a href="https://chengkehan.github.io/ParallaxMapping.html" target="_blank">blog</a></p>
+
+</div>
+<div id="MySignature" style="display: block;">https://chengkehan.github.io</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="EntryTag">
+    标签: 
+            <a href="https://www.cnblogs.com/jim-game-dev/tag/%E8%A7%86%E5%B7%AE%E8%B4%B4%E5%9B%BE/">视差贴图</a>,             <a href="https://www.cnblogs.com/jim-game-dev/tag/Parallax%20Mapping/">Parallax Mapping</a></div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(5410529,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('cb0a561c-dfa9-e411-b908-9dcfd8948a71');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/jim-game-dev/" target="_blank"><img src="https://pic.cnblogs.com/face/sample_face.gif" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/jim-game-dev/">winning11</a><br />
+            <a href="https://home.cnblogs.com/u/jim-game-dev/followees/">关注 - 2</a><br />
+            <a href="https://home.cnblogs.com/u/jim-game-dev/followers/">粉丝 - 4</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('cb0a561c-dfa9-e411-b908-9dcfd8948a71');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(5410529,'Digg')">
+        <span class="diggnum" id="digg_count">3</span>
+    </div>
+    <div class="buryit" onclick="votePost(5410529,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/jim-game-dev/p/5398632.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/jim-game-dev/p/5398632.html" title="发布于 2016-04-16 16:35">法线贴图</a>
+    <br />
+    <a href="https://www.cnblogs.com/jim-game-dev/p/5425731.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/jim-game-dev/p/5425731.html" title="发布于 2016-04-23 21:35">基于物理渲染的基础理论（译）</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2016-04-19 22:40</span> 
+<a href="https://www.cnblogs.com/jim-game-dev/">winning11</a> 
+阅读(<span id="post_view_count">10375</span>) 
+评论(<span id="post_comment_count">0</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=5410529" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(5410529);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 229037, cb_blogApp = 'jim-game-dev', cb_blogUserGuid = 'cb0a561c-dfa9-e411-b908-9dcfd8948a71';
+    var cb_entryId = 5410529, cb_entryCreatedDate = '2016-04-19 22:40', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="http://www.softbam.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-ucancode-1103')">【推荐】News: 大型组态、工控、仿真、CADGIS 50万行VC++源码免费下载</a><br /><a href="https://www.wenjuan.com/s/UZBZJvjEKs/#《博客园用户消费观调查》，快来参与吧。【问卷网提供支持】" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-博客园问卷')">【推荐】有你助力，更好为你——博客园用户消费观调查，附带小惊喜！</a><br /><a href="https://brands.cnblogs.com/aws/free?source=CH" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-AWS')">【推荐】AWS携手博客园为开发者送福利，注册立享12个月免费套餐</a><br /><a href="https://sensors.qiniu.com/t/kgU" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-七牛云')">【推荐】七牛云新老用户同享 1 分钱抢 CDN 1TB流量大礼包！</a><br /><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为专区')">【推荐】了不起的开发者，挡不住的华为，园子里的品牌专区</a><br /><a href="https://brands.cnblogs.com/agora" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-声网专区')">【推荐】未知数的距离，毫秒间的传递，声网与你实时互动</a><br /><a href="https://brands.cnblogs.com/aerospike" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-Aerospike专区')">【推荐】新一代 NoSQL 数据库，Aerospike专区新鲜入驻</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CIS3rpugh-4CFYl4vAodyH0PPg"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br />·  <a title="凹凸贴图与法线贴图" href="https://www.cnblogs.com/starfallen/archive/2013/03/29/2989277.html" target="_blank" onclick="clickRecomItmem(2989277)">凹凸贴图与法线贴图</a><br />·  <a title="置换贴图 Displacement Mapping" href="https://www.cnblogs.com/jim-game-dev/p/5476336.html" target="_blank" onclick="clickRecomItmem(5476336)">置换贴图 Displacement Mapping</a><br />·  <a title="3D游戏常用技巧Normal Mapping (法线贴图)原理解析——基础篇" href="https://www.cnblogs.com/wangchengfeng/p/3470310.html" target="_blank" onclick="clickRecomItmem(3470310)">3D游戏常用技巧Normal Mapping (法线贴图)原理解析——基础篇</a><br />·  <a title="bump mapping &amp; parallax mapping (update)" href="https://www.cnblogs.com/chaz/archive/2005/01/07/82752.html" target="_blank" onclick="clickRecomItmem(82752)">bump mapping &amp; parallax mapping (update)</a><br />·  <a title="3D游戏常用技巧Normal Mapping (法线贴图)原理解析——高级篇" href="https://www.cnblogs.com/wangchengfeng/p/3475489.html" target="_blank" onclick="clickRecomItmem(3475489)">3D游戏常用技巧Normal Mapping (法线贴图)原理解析——高级篇</a><br />»  <a target="_blank" href="https://recomm.cnblogs.com/blogpost/5410529">更多推荐...</a></div></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;" data-google-query-id="CIW3rpugh-4CFYl4vAodyH0PPg"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="2" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_kb">
+<div class="itnews c_ad_block">
+    <b>最新 IT 新闻</b>:
+    <br />
+ ·          <a href="//news.cnblogs.com/n/684682/" target="_blank">不卖菜，互联网巨头应该卖什么？</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/684681/" target="_blank">微软公开美国政府访问客户数据要求的细节信息</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/684680/" target="_blank">为何开源驱动无法在HDMI上实现FreeSync输出？</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/684679/" target="_blank">谷歌即将发布2021 Nest家用安防摄像头产品线</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/684678/" target="_blank">Mac官方应用商店迎来10周岁生日！</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/jim-game-dev/">
+            winning11
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/jim-game-dev/" title="入园时间：2015-02-01">
+            5年11个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/jim-game-dev/followers/">
+            4
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/jim-game-dev/followees/">
+            2
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('cb0a561c-dfa9-e411-b908-9dcfd8948a71')">+加关注</a></div>
+        <script>getFollowStatus('cb0a561c-dfa9-e411-b908-9dcfd8948a71');</script>
+    </div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2020/12/06'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2021年1月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2021/02/06'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">27</td>
+                            <td class="CalOtherMonthDay" align="center">28</td>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                            <td class="CalOtherMonthDay" align="center">31</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        2
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            3
+                        </td>
+                            <td class="" align="center">
+                                4
+                            </td>
+                            <td class="" align="center">
+                                5
+                            </td>
+                            <td class="CalTodayDay" align="center">
+                                6
+                            </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            9
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            10
+                        </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            16
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            17
+                        </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            23
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            24
+                        </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            30
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            31
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            6
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk" /> <input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block"><div class="catListLink">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    
+<li><a href="https://www.cnblogs.com/jim-game-dev/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/jim-game-dev/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/jim-game-dev/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/jim-game-dev/RecentComments.html" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/jim-game-dev/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"><div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+        <li>
+            <a href="https://www.cnblogs.com/jim-game-dev/tag/Fresnel/">Fresnel<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/jim-game-dev/tag/PBR/">PBR<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/jim-game-dev/tag/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E6%B8%B2%E6%9F%93/">基于物理渲染<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/jim-game-dev/tag/%E5%BE%AE%E8%A1%A8%E9%9D%A2/">微表面<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/jim-game-dev/tag/%E7%BD%AE%E6%8D%A2%E8%B4%B4%E5%9B%BE/">置换贴图<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/jim-game-dev/tag/%E7%9F%A9%E9%98%B5/">矩阵<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/jim-game-dev/tag/%E8%A7%86%E5%B7%AE%E8%B4%B4%E5%9B%BE/">视差贴图<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/jim-game-dev/tag/%E4%BD%93%E7%A7%AF%E9%9B%BE/">体积雾<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/jim-game-dev/tag/Perlin%20Noise/">Perlin Noise<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/jim-game-dev/tag/Point%20Shadow/">Point Shadow<span class="tag-count">(1)</span></a>
+        </li>
+    <li>
+        <a href="https://www.cnblogs.com/jim-game-dev/tag/">更多</a>
+    </li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/jim-game-dev/archive/2017/06.html" rel="" target="">
+    2017年6月(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/jim-game-dev/archive/2017/04.html" rel="" target="">
+    2017年4月(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/jim-game-dev/archive/2017/02.html" rel="" target="">
+    2017年2月(5)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/jim-game-dev/archive/2017/01.html" rel="" target="">
+    2017年1月(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/jim-game-dev/archive/2016/12.html" rel="" target="">
+    2016年12月(6)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/jim-game-dev/archive/2016/11.html" rel="" target="">
+    2016年11月(5)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/jim-game-dev/archive/2016/10.html" rel="" target="">
+    2016年10月(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/jim-game-dev/archive/2016/09.html" rel="" target="">
+    2016年9月(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/jim-game-dev/archive/2016/08.html" rel="" target="">
+    2016年8月(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/jim-game-dev/archive/2016/07.html" rel="" target="">
+    2016年7月(8)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/jim-game-dev/archive/2016/06.html" rel="" target="">
+    2016年6月(8)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/jim-game-dev/archive/2016/05.html" rel="" target="">
+    2016年5月(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/jim-game-dev/archive/2016/04.html" rel="" target="">
+    2016年4月(6)
+</a>
+ 
+
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+<div id="sidebar_recentcomments" class="sidebar-block"><div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/jim-game-dev/p/5349681.html">1. Re:goto gamedev blog</a></li>
+                    <li class="recent_comment_body">mark</li>
+                    <li class="recent_comment_author">--Kunana</li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block"><div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/jim-game-dev/p/5410529.html">
+                            1. 视差贴图（Parallax Mapping）(10369)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/jim-game-dev/p/5476336.html">
+                            2. 置换贴图 Displacement Mapping(7910)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/jim-game-dev/p/5380849.html">
+                            3. 体积雾(4924)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/jim-game-dev/p/5453453.html">
+                            4. Perlin Noise 及其应用(4013)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/jim-game-dev/p/5425731.html">
+                            5. 基于物理渲染的基础理论（译）(3394)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"><div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/jim-game-dev/p/5349681.html">
+                            1. goto gamedev blog(1)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/jim-game-dev/p/5410529.html">
+                                1. 视差贴图（Parallax Mapping）(3)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/jim-game-dev/p/5365897.html">
+                                2. 点阴影(3)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/jim-game-dev/p/5453453.html">
+                                3. Perlin Noise 及其应用(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/jim-game-dev/p/5425731.html">
+                                4. 基于物理渲染的基础理论（译）(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/jim-game-dev/p/5380849.html">
+                                5. 体积雾(1)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2021 winning11
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+
+<iframe id="google_osd_static_frame_3317255100353" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body></html>

@@ -317,7 +317,7 @@ shaders for D3D8, D3D9 and OpenGL。创建 shader material，关闭 texture mipm
 
 ## Tutorial 11: Per-Pixel Lighting
 
-复杂 material。用 normal maps and parallax mapping 计算每个像素的光照。烟雾的使用，和移动粒子系统。
+逐像素光照、雾、移动光、粒子。复杂 material。用 normal maps and parallax mapping 计算每个像素的光照。烟雾的使用，和移动粒子系统。
 [Irrlicht 学习笔记 (10)--PerPixelLighting {% include relref_csdn.html %}](https://blog.csdn.net/gqkly/article/details/51870182)
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/11.perpixellighting_4.webp" urlx="/assets/images/201230-irrlicht-intro/011shot.jpg" %}

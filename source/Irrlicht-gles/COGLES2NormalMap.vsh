@@ -5,7 +5,7 @@
 attribute vec3 inVertexPosition; // 顶点坐标
 attribute vec3 inVertexNormal; // 顶点法线
 attribute vec3 inVertexTangent; // 顶点切线
-attribute vec3 inVertexBinormal; // 顶点次法线
+attribute vec3 inVertexBinormal; // 顶点副法线
 attribute vec4 inVertexColor; // 顶点颜色
 attribute vec2 inTexCoord0; // 纹理坐标
 

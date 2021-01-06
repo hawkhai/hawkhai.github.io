@@ -6,7 +6,7 @@ location: "珠海"
 categories: ["Irrlicht"]
 tags: ["Irrlicht"]
 toc: true
-toclistyle: none
+toclistyle:
 comments:
 visibility: hidden
 mathjax: true
@@ -22,6 +22,20 @@ Changes in 1.8.4 (9th July 2016, svn r5321)
 * [Irrlicht 网页版本 HelloWorld](http://michaelzeilfelder.de/pub/emscripten/01.HelloWorld.html)
 * 同作者，open source WebGL 3D library。[CopperLicht](https://www.ambiera.com/copperlicht/)
 * 同作者，free easy-to-use 3D engine。[CopperCube](https://www.ambiera.com/coppercube/)
+* [基于 GPU 的粒子碰撞（实践篇） {% include relref_github.html %}](https://chengkehan.github.io/ParticleCollisionGPUPractice.html)
+* [基于 GPU 的粒子碰撞（总结篇） {% include relref_github.html %}](https://chengkehan.github.io/ParticleCollisionGPUConclusion.html)
+* [基于物理渲染的基础理论（译） {% include relref_github.html %}](https://chengkehan.github.io/BasicTheoryOfPhysicallyBasedRendering.html)
+
+{% include image.html url="/assets/images/210104-irrlicht-analyze/3p.gif" %}
+
+[渲染帧抓取工具 {% include relref_github.html %}](https://chengkehan.github.io/FrameCaptureTools.html)
+
+几个有用的工具，用来抓取图形渲染帧，在分析其它项目以及排查渲染方面的 bug 时非常有用。
+
+* [adreno-gpu-profiler](https://developer.qualcomm.com/software/adreno-gpu-profiler)
+* [renderdoc {% include relref_github.html %}](https://github.com/baldurk/renderdoc)
+* [tegra-graphics-debugger](https://developer.nvidia.com/tegra-graphics-debugger)
+* [Intel Graphics Performance Analyzers](https://software.intel.com/en-us/gpa)
 
 
 ## Textures and Mapping
@@ -95,6 +109,14 @@ targetCount 4257 diffCount 0 missCount 0
 - [http://michaelzeilfelder.de/pub/emscripten/01.HelloWorld.html]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/michaelzeilfelder.de/cca4ee41.html" %})
 - [https://www.ambiera.com/copperlicht/]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/www.ambiera.com/64c21d36.html" %})
 - [https://www.ambiera.com/coppercube/]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/www.ambiera.com/d0f56d20.html" %})
+- [https://chengkehan.github.io/ParticleCollisionGPUPractice.html]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/chengkehan.github.io/a6cbbd0a.html" %})
+- [https://chengkehan.github.io/ParticleCollisionGPUConclusion.html]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/chengkehan.github.io/7e9d7f8f.html" %})
+- [https://chengkehan.github.io/BasicTheoryOfPhysicallyBasedRendering.html]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/chengkehan.github.io/13dc14d1.html" %})
+- [https://chengkehan.github.io/FrameCaptureTools.html]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/chengkehan.github.io/8cad55e3.html" %})
+- [https://developer.qualcomm.com/software/adreno-gpu-profiler]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/developer.qualcomm.com/a5a0a370.html" %})
+- [https://github.com/baldurk/renderdoc]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/bb00e08f.html" %})
+- [https://developer.nvidia.com/tegra-graphics-debugger]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/developer.nvidia.com/1e05e468.html" %})
+- [https://software.intel.com/en-us/gpa]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/software.intel.com/5d46a23a.html" %})
 - [https://www.ambiera.com/irredit/index.html]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/www.ambiera.com/d99c5582.html" %})
 - [https://blog.csdn.net/jiangcaiyang123/column/info/irrlicht-game]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/blog.csdn.net/7c644017.html" %})
 - [https://github.com/SingingRivulet/Smoothly]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/f44cb2d3.html" %})

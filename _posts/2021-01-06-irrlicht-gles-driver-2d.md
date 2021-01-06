@@ -6,7 +6,7 @@ location: "珠海"
 categories: ["Irrlicht"]
 tags: ["Irrlicht"]
 toc: true
-toclistyle: none
+toclistyle:
 comments:
 visibility:
 mathjax: true
