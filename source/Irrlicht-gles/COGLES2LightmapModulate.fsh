@@ -2,25 +2,25 @@ precision mediump float;
 
 /* Uniforms */
 
-uniform float uModulate;
-uniform int uTextureUsage0;
-uniform int uTextureUsage1;
-uniform sampler2D uTextureUnit0;
-uniform sampler2D uTextureUnit1;
-uniform int uFogEnable;
-uniform int uFogType;
-uniform vec4 uFogColor;
-uniform float uFogStart;
-uniform float uFogEnd;
-uniform float uFogDensity;
+uniform float uModulate; // 颜色混合的乘积 参数
+uniform int uTextureUsage0; // 是否采用纹理
+uniform int uTextureUsage1; // 是否采用纹理 2
+uniform sampler2D uTextureUnit0; // 纹理单元
+uniform sampler2D uTextureUnit1; // 纹理单元 2
+uniform int uFogEnable; // 是否雾
+uniform int uFogType; // 雾的类型
+uniform vec4 uFogColor; // 雾的颜色
+uniform float uFogStart; // 雾的开始 Linear FogType
+uniform float uFogEnd; // 雾的结束 Linear FogType
+uniform float uFogDensity; // 雾的密度
 
 /* Varyings */
 
-varying vec2 vTextureCoord0;
-varying vec2 vTextureCoord1;
-varying vec4 vVertexColor;
-varying vec4 vSpecularColor;
-varying float vFogCoord;
+varying vec2 vTextureCoord0; // 纹理坐标
+varying vec2 vTextureCoord1; // 纹理坐标 2
+varying vec4 vVertexColor; // 顶点颜色
+varying vec4 vSpecularColor; // 镜面反射颜色
+varying float vFogCoord; // 雾的厚度，可以理解为深度。
 
 float computeFog()
 {

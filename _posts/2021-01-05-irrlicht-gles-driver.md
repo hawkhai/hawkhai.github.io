@@ -31,6 +31,9 @@ OpenGL ES 2.x Driver 底层一共包含 22 个 Shader 文件。逐个文件翻�
 
 3D 部分：
 
+* COGLES2Solid.fsh
+* COGLES2Solid.vsh
+
 * COGLES2DetailMap.fsh
 * COGLES2LightmapAdd.fsh
 * COGLES2LightmapModulate.fsh
@@ -41,8 +44,6 @@ OpenGL ES 2.x Driver 底层一共包含 22 个 Shader 文件。逐个文件翻�
 * COGLES2ParallaxMap.vsh
 * COGLES2Reflection2Layer.fsh
 * COGLES2Reflection2Layer.vsh
-* COGLES2Solid.fsh
-* COGLES2Solid.vsh
 * COGLES2Solid2.vsh
 * COGLES2Solid2Layer.fsh
 * COGLES2SphereMap.fsh

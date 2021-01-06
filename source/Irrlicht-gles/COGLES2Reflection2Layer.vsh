@@ -1,45 +1,45 @@
-#define MAX_LIGHTS 8
+#define MAX_LIGHTS 8 // 最多的光源数
 
 /* Attributes */
 
-attribute vec3 inVertexPosition;
-attribute vec3 inVertexNormal;
-attribute vec4 inVertexColor;
-attribute vec2 inTexCoord0;
-attribute vec2 inTexCoord1;
+attribute vec3 inVertexPosition; // 顶点坐标
+attribute vec3 inVertexNormal; // 顶点法线
+attribute vec4 inVertexColor; // 顶点颜色
+attribute vec2 inTexCoord0; // 纹理坐标
+attribute vec2 inTexCoord1; // 纹理坐标 2
 
 /* Uniforms */
 
-uniform mat4 uWVPMatrix;
-uniform mat4 uWVMatrix;
-uniform mat4 uNMatrix;
-uniform mat4 uTMatrix0;
+uniform mat4 uWVPMatrix; // 透视矩阵
+uniform mat4 uWVMatrix; // 世界矩阵
+uniform mat4 uNMatrix; // 法线矩阵
+uniform mat4 uTMatrix0; // 纹理矩阵
 
-uniform vec4 uGlobalAmbient;
-uniform vec4 uMaterialAmbient;
-uniform vec4 uMaterialDiffuse;
-uniform vec4 uMaterialEmissive;
-uniform vec4 uMaterialSpecular;
-uniform float uMaterialShininess;
+uniform vec4 uGlobalAmbient; // 全局环境光
+uniform vec4 uMaterialAmbient; // 材质环境光
+uniform vec4 uMaterialDiffuse; // 材质漫反射
+uniform vec4 uMaterialEmissive; // 材质自发光
+uniform vec4 uMaterialSpecular; // 材质镜面反射
+uniform float uMaterialShininess; // 材质镜面反射光泽度
 
-uniform int uLightCount;
-uniform int uLightType[MAX_LIGHTS];
-uniform vec3 uLightPosition[MAX_LIGHTS];
-uniform vec3 uLightDirection[MAX_LIGHTS];
-uniform vec3 uLightAttenuation[MAX_LIGHTS];
-uniform vec4 uLightAmbient[MAX_LIGHTS];
-uniform vec4 uLightDiffuse[MAX_LIGHTS];
-uniform vec4 uLightSpecular[MAX_LIGHTS];
+uniform int uLightCount; // 光源个数
+uniform int uLightType[MAX_LIGHTS]; // 光源类型
+uniform vec3 uLightPosition[MAX_LIGHTS]; // 光源位置
+uniform vec3 uLightDirection[MAX_LIGHTS]; // 光源方向
+uniform vec3 uLightAttenuation[MAX_LIGHTS]; // 光源衰减
+uniform vec4 uLightAmbient[MAX_LIGHTS]; // 光源环境光
+uniform vec4 uLightDiffuse[MAX_LIGHTS]; // 光源漫反射
+uniform vec4 uLightSpecular[MAX_LIGHTS]; // 光源镜面反射
 
-uniform float uThickness;
+uniform float uThickness; // 绘制的粗细。
 
 /* Varyings */
 
-varying vec2 vTextureCoord0;
-varying vec2 vTextureCoord1;
-varying vec4 vVertexColor;
-varying vec4 vSpecularColor;
-varying float vFogCoord;
+varying vec2 vTextureCoord0; // 纹理坐标
+varying vec2 vTextureCoord1; // 纹理坐标 2
+varying vec4 vVertexColor; // 顶点颜色
+varying vec4 vSpecularColor; // 镜面反射颜色
+varying float vFogCoord; // 雾的厚度，可以理解为深度。
 
 void dirLight(in int index, in vec3 position, in vec3 normal, inout vec4 ambient, inout vec4 diffuse, inout vec4 specular)
 {

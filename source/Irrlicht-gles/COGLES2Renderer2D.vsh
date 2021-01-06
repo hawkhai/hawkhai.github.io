@@ -10,8 +10,8 @@ uniform float uThickness; // 线条粗细。
 
 /* Varyings */
 
-varying vec2 vTextureCoord;
-varying vec4 vVertexColor;
+varying vec2 vTextureCoord; // 纹理坐标
+varying vec4 vVertexColor; // 顶点颜色
 
 void main()
 {

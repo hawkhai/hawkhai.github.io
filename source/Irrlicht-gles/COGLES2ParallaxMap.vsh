@@ -1,29 +1,29 @@
-#define MAX_LIGHTS 2
+#define MAX_LIGHTS 2 // 最多两个光源
 
 /* Attributes */
 
-attribute vec3 inVertexPosition;
-attribute vec3 inVertexNormal;
-attribute vec3 inVertexTangent;
-attribute vec3 inVertexBinormal;
-attribute vec4 inVertexColor;
-attribute vec2 inTexCoord0;
+attribute vec3 inVertexPosition; // 顶点坐标
+attribute vec3 inVertexNormal; // 顶点法线
+attribute vec3 inVertexTangent; // 顶点切线
+attribute vec3 inVertexBinormal; // 顶点次法线
+attribute vec4 inVertexColor; // 顶点颜色
+attribute vec2 inTexCoord0; // 纹理坐标
 
 /* Uniforms */
 
-uniform mat4 uWVPMatrix;
-uniform mat4 uWVMatrix;
-uniform vec3 uEyePosition;
-uniform vec3 uLightPosition[MAX_LIGHTS];
-uniform vec4 uLightColor[MAX_LIGHTS];
+uniform mat4 uWVPMatrix; // 透视矩阵
+uniform mat4 uWVMatrix; // 世界矩阵
+uniform vec3 uEyePosition; // 相机坐标
+uniform vec3 uLightPosition[MAX_LIGHTS]; // 光源位置
+uniform vec4 uLightColor[MAX_LIGHTS]; // 光源颜色
 
 /* Varyings */
 
-varying vec2 vTexCoord;
-varying vec3 vEyeVector;
-varying vec3 vLightVector[MAX_LIGHTS];
-varying vec4 vLightColor[MAX_LIGHTS];
-varying float vFogCoord;
+varying vec2 vTexCoord; // 纹理坐标
+varying vec3 vEyeVector; // 相机向量
+varying vec3 vLightVector[MAX_LIGHTS]; // 光源向量
+varying vec4 vLightColor[MAX_LIGHTS]; // 光源颜色
+varying float vFogCoord; // 雾的厚度，可以理解为深度。
 
 void main()
 {
