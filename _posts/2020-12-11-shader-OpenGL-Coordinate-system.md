@@ -176,6 +176,38 @@ $Q = [w, v]$
 3. 右乘临时的四元数和初始四元数，结果是一个合并了两个四元数的新的四元数。
 4. 将四元数转换成矩阵。
 
+
+### Shader 四元数旋转
+
+[Shader 四元数旋转 {% include relref_github.html %}](https://chengkehan.github.io/QuaternionShader.html)
+
+```glsl
+#define Quaternion float4
+
+inline Quaternion SetAxisAngle(float3 axis, float radian)
+{
+    float sinValue = 0;
+    float cosValue = 0;
+    sincos(radian * 0.5, sinValue, cosValue);
+    Quaternion q = Quaternion(sinValue * axis.xyz, cosValue);
+    return q;
+}
+
+inline float3 MultiplyQP(Quaternion rotation, float3 p)
+{
+    float3 xyz = rotation.xyz * 2;
+    float3 xx_yy_zz = rotation.xyz * xyz.xyz;
+    float3 xy_xz_yz = rotation.xxy * xyz.yzz;
+    float3 wx_wy_wz = rotation.www * xyz.xyz;
+
+    float3 res;
+    res.x = (1 - (xx_yy_zz.y + xx_yy_zz.z)) * p.x + (xy_xz_yz.x - wx_wy_wz.z) * p.y + (xy_xz_yz.y + wx_wy_wz.y) * p.z;
+    res.y = (xy_xz_yz.x + wx_wy_wz.z) * p.x + (1 - (xx_yy_zz.x + xx_yy_zz.z)) * p.y + (xy_xz_yz.z - wx_wy_wz.x) * p.z;
+    res.z = (xy_xz_yz.y - wx_wy_wz.y) * p.x + (xy_xz_yz.z + wx_wy_wz.x) * p.y + (1 - (xx_yy_zz.x + xx_yy_zz.y)) * p.z;
+    return res;
+}
+```
+
 -----
 
 <font class='ref_snapshot'>参考资料快照</font>
@@ -186,3 +218,4 @@ $Q = [w, v]$
 - [http://www.songho.ca/opengl/gl_projectionmatrix.html]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.songho.ca/7c7467ff.html" %})
 - [http://www.songho.ca/opengl/gl_sphere.html]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.songho.ca/ca4b2763.html" %})
 - [http://www.cppblog.com/kongque/archive/2010/08/18/123824.html]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.cppblog.com/e2810916.html" %})
+- [https://chengkehan.github.io/QuaternionShader.html]({% include relref.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/chengkehan.github.io/e4504ae9.html" %})

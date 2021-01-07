@@ -16,6 +16,10 @@ codeprint:
 cluster: "LearnOpenGL"
 ---
 
+无意中看到一篇文章 “Real Shading in Unreal Engine 4”，还是 13 年的。要实现一个好的光照模型究竟有多难。
+<a href="{% include relref.html url="/source/2013SiggraphPresentationsNotes-26915738.pdf" %}" target="_blank">2013SiggraphPresentationsNotes-26915738.pdf</a>
+[from](https://de45xmedrsdbp.cloudfront.net/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf)
+
 
 ## 冯氏光照模型的不足
 
@@ -151,6 +155,7 @@ $$
 
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://de45xmedrsdbp.cloudfront.net/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/de45xmedrsdbp.cloudfront.net/5e127a5d.pdf" %})
 - [https://www.ndt.net/article/wcndt00/papers/idn256/idn256.htm]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.ndt.net/368552c1.htm" %})
 - [https://www.cnblogs.com/kalluwa/p/7092532.html]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.cnblogs.com/7b29365d.html" %})
 - [https://blog.csdn.net/leonwei/article/details/84821309]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/blog.csdn.net/5d77c232.html" %})

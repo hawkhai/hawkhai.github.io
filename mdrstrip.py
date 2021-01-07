@@ -4,6 +4,9 @@ sys.path.append("../")
 from pythonx.funclib import *
 from pythonx.coderstrip import *
 
+# ".thumbnail.webp"
+# ".selenium.png"
+
 OPENFILE = "openfile" in sys.argv
 AUTOFORMAT = "format" in sys.argv
 REBUILD = "rebuild" in sys.argv
@@ -129,7 +132,8 @@ def backupUrlContent(fpath, url):
         fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal, shotpath=slocal+".selenium.png", chromeDialog=chromeDialog)
 
         if url not in ("http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf",
-                       "http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf",):
+                       "http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf",
+                       "https://de45xmedrsdbp.cloudfront.net/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf",):
             assert len(fdata) < 1024*1024*1, len(fdata) / 1024.0 / 1024.0
     remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5[:8] + ttype)
     touchSnapCache(umd5[:8], slocal)

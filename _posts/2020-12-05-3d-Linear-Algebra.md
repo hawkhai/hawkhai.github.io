@@ -36,6 +36,8 @@ Matrix4x4<T> perspective(T fovy, T aspect, T near, T far){
 }
 ```
 
+[如何直观理解矩阵和线性代数？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/21082351)
+
 
 ## 01 课
 
@@ -333,6 +335,7 @@ LU 分解主要应用在数值分析中，用来解线性方程、求反矩阵�
 
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.zhihu.com/question/21082351]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/www.zhihu.com/6ec968fa.html" %})
 - [https://www.cnblogs.com/seniusen/p/9959535.html]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/www.cnblogs.com/eccf30ae.html" %})
 - [https://zhuanlan.zhihu.com/p/49820858]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/zhuanlan.zhihu.com/984ede02.html" %})
 - [https://zhuanlan.zhihu.com/p/92274158]({% include relref.html url="/backup/2020-12-05-3d-Linear-Algebra.md/zhuanlan.zhihu.com/5721ea54.html" %})
