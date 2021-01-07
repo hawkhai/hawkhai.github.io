@@ -140,6 +140,24 @@ $$
 {% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/20210104160558.png" %}
 
 
+## Metaballs - Quintic
+
+Metaball。纯 Shader 实现，代码只有 200 多行，满满的数学知识。
+
+{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/preview0.webp" %}
+{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/preview1.webp" %}
+{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/preview2.webp" %}
+
+* https://www.shadertoy.com/view/XssXDl
+* https://www.shadertoy.com/view/ld2GRz
+* https://github.com/millsvonmilski/Unity3D_RayMarching_MetaBall
+
+Bounded metaballs with quintic falloff.
+Literature often recommends cubic (smoothstep) falloffs (rather than exponential or 1/dÂ²) for they are bounded.
+However they produce discontinuities in normals/lighting.
+Quintic falloffs solves the problem.
+
+
 ## RTR (Real Time Rendering)
 
 更多高级光照知识：[RTR4 拾遗（一）-- 图形学的 B 面 {% include relref_csdn.html %}](https://blog.csdn.net/leonwei/article/details/84821309)
@@ -158,6 +176,9 @@ $$
 - [https://de45xmedrsdbp.cloudfront.net/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/de45xmedrsdbp.cloudfront.net/5e127a5d.pdf" %})
 - [https://www.ndt.net/article/wcndt00/papers/idn256/idn256.htm]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.ndt.net/368552c1.htm" %})
 - [https://www.cnblogs.com/kalluwa/p/7092532.html]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.cnblogs.com/7b29365d.html" %})
+- [https://www.shadertoy.com/view/XssXDl]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.shadertoy.com/2ed3e251.html" %})
+- [https://www.shadertoy.com/view/ld2GRz]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.shadertoy.com/9f397b54.html" %})
+- [https://github.com/millsvonmilski/Unity3D_RayMarching_MetaBall]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/github.com/e5fcf488.html" %})
 - [https://blog.csdn.net/leonwei/article/details/84821309]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/blog.csdn.net/5d77c232.html" %})
 - [https://blog.csdn.net/gqkly/article/details/88086791]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/blog.csdn.net/275cbb7d.html" %})
 - [http://morimiya.me/2019/02/24/Blinn-Phong%E5%85%89%E7%85%A7/]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/morimiya.me/7ce24540.html" %})

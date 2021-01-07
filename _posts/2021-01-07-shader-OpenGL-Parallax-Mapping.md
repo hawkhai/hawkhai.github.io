@@ -186,10 +186,18 @@ i.uvBump += uvDelta;
 [为什么需要基于物理的渲染 {% include relref_github.html %}](https://chengkehan.github.io/WhyWeNeedPBR.html)
 
 Physically Based Rendering。
+基于物理材质是以后游戏开发的一个趋势，所以我们有必要从现在就开始逐步把制作思路从原来的模拟光照转变为现在物理真实的光照。
+
+近来，基于物理的渲染（PBR）是一项令人激动的实时渲染的趋势。
+这个术语包含了很多内容，通常会让人产生困惑，以至于不明白它到底是什么。
+
+基于物理的渲染系统不同于以往的渲染系统，大部分更细节的原因是关于光和表面的行为。
+着色能力有了很大的进步，一些老旧的近似模拟的效果和制作方法可以抛弃了。
 
 * [基于物理的着色 1（译） {% include relref_github.html %}](https://chengkehan.github.io/PhysicallyBasedShading1.html)
 * [基于物理的着色 2（译） {% include relref_github.html %}](https://chengkehan.github.io/PhysicallyBasedShading2.html)
 * [实现基于物理的渲染 {% include relref_github.html %}](https://chengkehan.github.io/MyPBR.html)
+* [学习 PBR 的一些资料 {% include relref_github.html %}](https://chengkehan.github.io/LearningPBR.html)
 
 
 ## Refs
@@ -213,6 +221,7 @@ Physically Based Rendering。
 - [https://chengkehan.github.io/PhysicallyBasedShading1.html]({% include relref.html url="/backup/2021-01-07-shader-OpenGL-Parallax-Mapping.md/chengkehan.github.io/6ac9df91.html" %})
 - [https://chengkehan.github.io/PhysicallyBasedShading2.html]({% include relref.html url="/backup/2021-01-07-shader-OpenGL-Parallax-Mapping.md/chengkehan.github.io/ad5a3085.html" %})
 - [https://chengkehan.github.io/MyPBR.html]({% include relref.html url="/backup/2021-01-07-shader-OpenGL-Parallax-Mapping.md/chengkehan.github.io/e314f54c.html" %})
+- [https://chengkehan.github.io/LearningPBR.html]({% include relref.html url="/backup/2021-01-07-shader-OpenGL-Parallax-Mapping.md/chengkehan.github.io/6a9ca14c.html" %})
 - [https://blog.csdn.net/weixin_30920091/article/details/96251306]({% include relref.html url="/backup/2021-01-07-shader-OpenGL-Parallax-Mapping.md/blog.csdn.net/3bf38417.html" %})
 - [https://chengkehan.github.io/]({% include relref.html url="/backup/2021-01-07-shader-OpenGL-Parallax-Mapping.md/chengkehan.github.io/f33e1112.html" %})
 - [https://blog.csdn.net/xiaoge132/article/details/51173002]({% include relref.html url="/backup/2021-01-07-shader-OpenGL-Parallax-Mapping.md/blog.csdn.net/1e81b63c.html" %})
