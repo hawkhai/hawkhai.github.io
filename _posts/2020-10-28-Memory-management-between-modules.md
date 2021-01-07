@@ -250,7 +250,7 @@ typedef struct _FILENAME_ATTRIBUTE { // 文件名属性的值区域
 ## 复杂的堆
 
 在 linux 下，每个进程只有一个 heap，在任何一个动态库模块 so 中通过 new 或者 malloc 来分配内存的时候都是从这个唯一的 heap 中分配的，那么自然你在其它随便什么地方都可以释放。这个模型是简单的。
-但是在 windows 下面，问题变得复杂了。
+但是在 windows 下面，问题变得复杂了。**这里主要讨论 MT 模式。**
 
 1. windows 允许一个进程中有多个 heap，那么这样就需要指明一块内存要在哪个 heap 上分配，win32 的 HeapAlloc 函数就是这样设计的，给出一个 heap 的句柄，给出一个 size，然后返回一个指针。每个进程都至少有一个主 heap，可以通过 GetProcessHeap 来获得，其它的堆，可以通过 GetProcessHeaps 取到。同样，内存释放的时候通过 HeapFree 来完成，还是需要指定一个堆。
 
