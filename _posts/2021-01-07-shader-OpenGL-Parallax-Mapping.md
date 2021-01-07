@@ -172,6 +172,8 @@ i.uvBump += uvDelta;
 
 4 年后，又有人在 Real-time relief mapping on arbitrary polygonal surfaces 一文中提出了终极加强版，浮雕贴图。
 
+维护一个 3D 引擎工作量非常大，因为硬件在不断升级，算法也在不断升级。
+
 {% include image.html url="/assets/images/210107-shader-opengl-parallax-~bd/parallax_mapping.png" caption="parallax mapping" %}
 
 {% include image.html url="/assets/images/210107-shader-opengl-parallax-~bd/steep_parallax_mapping.png" caption="steep parallax mapping" %}
