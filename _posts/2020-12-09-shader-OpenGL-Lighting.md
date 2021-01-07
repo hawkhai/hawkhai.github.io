@@ -20,7 +20,7 @@ cluster: "LearnOpenGL"
 
 本文源码 <a href="{% include gitsrc.html url="/source/shader/LearnOpenGL-Lighting" %}" target="_blank">LearnOpenGL-Lighting</a>
 
-{% include image.html url="/assets/images/201209-shader-opengl-lighting/gllightinggrab.gif" %}
+{% include image.html url="/assets/images/201209-shader-opengl-lighting/gllightinggrab.webp" %}
 
 
 ## OpenGL 光照

@@ -20,7 +20,7 @@ codeprint:
 
 搞了一天，终于转起来了。Windows 上用 ARM MALI OpenGL ES Emulator 模拟一个 OpenGL ES 环境。
 
-{% include image.html url="/assets/images/201204-shader-windows-opengles~87/win-opengles-sample.gif" %}
+{% include image.html url="/assets/images/201204-shader-windows-opengles~87/win-opengles-sample.webp" %}
 
 
 ## Introduction

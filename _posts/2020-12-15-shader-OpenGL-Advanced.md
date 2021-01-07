@@ -208,7 +208,7 @@ while (!glfwWindowShouldClose(window))
 glDeleteFramebuffers(1, &FBO);
 ```
 
-{% include image.html url="/assets/images/201215-shader-opengl-advanced/grabframebuffer-256.gif" %}
+{% include image.html url="/assets/images/201215-shader-opengl-advanced/grabframebuffer-256.webp" %}
 
 
 ## 后期处理核效果
@@ -456,7 +456,7 @@ layout (std140) uniform ExampleBlock
 
 ## 几何着色器
 
-{% include image.html url="/assets/images/201215-shader-opengl-advanced/glgeograb.gif" %}
+{% include image.html url="/assets/images/201215-shader-opengl-advanced/glgeograb.webp" %}
 
 
 ## 爆破物体

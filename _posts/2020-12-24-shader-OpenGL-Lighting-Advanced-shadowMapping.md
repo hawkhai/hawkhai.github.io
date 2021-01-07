@@ -83,7 +83,7 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 }
 ```
 
-{% include image.html url="/assets/images/201224-shader-opengl-lighting-~55/shadow_mapping_base.gif" %}
+{% include image.html url="/assets/images/201224-shader-opengl-lighting-~55/shadow_mapping_base.webp" %}
 
 这个效果存在很大的问题。**阴影失真 (Shadow Acne)** 造成这个问题的原因是浮点数计算误差，黑色条纹是被误认为阴影的。
 里面的大量锯齿，差不多也是 浮点精度不够，倾斜，深度缓冲尺寸不够大 三个组合原因。

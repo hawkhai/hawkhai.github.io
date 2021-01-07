@@ -99,7 +99,7 @@ caption="利用 gpu 渲染一个巨人的图像" %}
         * [Uniform Buffer Object {% include relref_khronos.html %}](https://www.khronos.org/opengl/wiki/Uniform_Buffer_Object)
         * error LNK2019: 无法解析的外部符号 _stbi_load -> 需要在 #include <stb_image.h> 前增加一句 #define STB_IMAGE_IMPLEMENTATION。
 
-{% include image.html url="/assets/images/201111-shader-opengl-intro/computeshaderparticlesystem.gif" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/computeshaderparticlesystem.webp" %}
 {% include image.html url="/assets/images/201111-shader-opengl-intro/20201203151447.png" %}
 
 - __imp__vsnprintf
@@ -419,9 +419,9 @@ void setMat4(glm::mat4 &mat)    glUniformMatrix4fv(1, &mat[0][0]);
 
 相机源码：<https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/1.getting_started/7.4.camera_class/camera_class.cpp>
 
-{% include image.html url="/assets/images/201111-shader-opengl-intro/boxtest.gif" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/boxtest.webp" %}
 
-{% include image.html url="/assets/images/201111-shader-opengl-intro/glintrograb.gif" %}
+{% include image.html url="/assets/images/201111-shader-opengl-intro/glintrograb.webp" %}
 
 -----
 

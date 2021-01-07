@@ -89,7 +89,7 @@ Gamma 校正是一个**上拱**的过程。
 高级光照阴影 ShadowMapping，实在没看透彻，源码抄了一遍，才透彻了。能感受到暴力美学。
 ***[<font color="red">高级光照阴影 ShadowMapping /blog/2020/12/24/shader-OpenGL-Lighting-Advanced-shadowMapping</font>]({% include relref.html url="/blog/2020/12/24/shader-OpenGL-Lighting-Advanced-shadowMapping" %})***
 
-{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/shadow_mapping_theory.gif" %}
+{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/shadow_mapping_theory.webp" %}
 
 
 ## Point Shadows 帧缓冲深度附件

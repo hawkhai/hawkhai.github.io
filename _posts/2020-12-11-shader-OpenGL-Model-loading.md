@@ -18,7 +18,7 @@ cluster: "LearnOpenGL"
 
 不同 3D 引擎实现千差万别，但模型都是由非常多的三角形拼接组成。解析模型数据，然后得到所有三角形并完成绘制。
 
-{% include image.html url="/assets/images/201211-shader-opengl-model-loa~a7/glmodelgrab.gif" %}
+{% include image.html url="/assets/images/201211-shader-opengl-model-loa~a7/glmodelgrab.webp" %}
 
 OpenGL 模型加载。解析模型文件，得到一堆三角形数据，把这些三角形绘制出来，就是这个样子了。
 
