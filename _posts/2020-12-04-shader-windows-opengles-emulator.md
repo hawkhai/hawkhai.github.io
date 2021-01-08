@@ -60,11 +60,28 @@ caption="坐标系统" %}
 
 厂商 | 名称
 ---- | ----
-AMD | OpenGL ES 2.0 Emulator
+AMD | ~~OpenGL ES 2.0 Emulator~~ 感觉已经没有了
 ARM | OpenGL ES 2.0 Emulator v1.2 [ARM Mali Emulator](https://developer.arm.com/tools-and-software/graphics-and-gaming/opengl-es-emulator/downloads)
 Qualcomm | Adreno SDK 2.2 [Adreno GPU SDK](https://developer.qualcomm.com/software/adreno-gpu-sdk/tools)
-NVIDIA | x86 Windows OpenGL ES 2.0 Emulator
+NVIDIA | ~~x86 Windows OpenGL ES 2.0 Emulator~~ 没有找到地方下载
 PowerVR | PowerVR SDK [PowerVR SDK](https://community.imgtec.com/developers/powervr/installers/)
+
+费不尽力的老力，都下载下来，整理好了：<https://gitee.com/hawkhai/opengl-3rd.git>
+
+维基百科给出的列表，也不知道真的假的。[link {% include relref_wiki.html %}](https://zh.wikipedia.org/wiki/Adreno)
+
+* PowerVR – Imagination Technologies 研发的移动 GPU，用于第三方授权。
+* Mali – ARM Norway 研发的移动 GPU，用于第三方授权。
+* Vivante – 图芯技术 研发的移动 GPU，用于第三方授权。
+* Tegra – NVIDIA 研发的移动 SoC，不向第三方授权。
+* VideoCore – Broadcom 研发的移动 GPU，允许第三方授权。
+* Intel Atom – Intel 计算机处理器产品，不向第三方授权。
+* AMD APU – AMD 计算机处理器产品，不向第三方授权。
+
+
+### ARM Mali
+
+eglChooseConfig 的第二个参数里必须包含 EGL_OPENGL_ES2_BIT 才能建立 ES 2.0 的 context。
 
 
 ## References
@@ -73,6 +90,7 @@ PowerVR | PowerVR SDK [PowerVR SDK](https://community.imgtec.com/developers/powe
 - [2] [Android OpenGL 开发 -- EGL 的使用 {% include relref_cnblogs.html %}](https://www.cnblogs.com/wellcherish/p/12727906.html)
 - [3] [OpenGL ES Emulator 横向比较 {% include relref_cnblogs.html %}](https://www.cnblogs.com/gongminmin/archive/2011/04/25/2027684.html)
 - [4] [OpenGL ES Emulator 再次横向比较](http://www.klayge.org/2012/01/28/opengl-es-emulator%e5%86%8d%e6%ac%a1%e6%a8%aa%e5%90%91%e6%af%94%e8%be%83/)
+- [5] [OpenGL ES Emulator 横向比较](http://www.klayge.org/2011/04/20/opengl-es-emulator%E6%A8%AA%E5%90%91%E6%AF%94%E8%BE%83/)
 
 -----
 
@@ -82,7 +100,10 @@ PowerVR | PowerVR SDK [PowerVR SDK](https://community.imgtec.com/developers/powe
 - [https://developer.arm.com/tools-and-software/graphics-and-gaming/opengl-es-emulator/downloads]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/developer.arm.com/37ace0b1.html" %})
 - [https://developer.qualcomm.com/software/adreno-gpu-sdk/tools]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/developer.qualcomm.com/df53d96a.html" %})
 - [https://community.imgtec.com/developers/powervr/installers/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/community.imgtec.com/1b0beb50.html" %})
+- [https://gitee.com/hawkhai/opengl-3rd.git]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/gitee.com/3cdcc6e8.git" %})
+- [https://zh.wikipedia.org/wiki/Adreno]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/zh.wikipedia.org/1c77f069.html" %})
 - [https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.saschawillems.de/5efcfffd.html" %})
 - [https://www.cnblogs.com/wellcherish/p/12727906.html]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.cnblogs.com/37af50ce.html" %})
 - [https://www.cnblogs.com/gongminmin/archive/2011/04/25/2027684.html]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.cnblogs.com/04b6eb64.html" %})
 - [http://www.klayge.org/2012/01/28/opengl-es-emulator%e5%86%8d%e6%ac%a1%e6%a8%aa%e5%90%91%e6%af%94%e8%be%83/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.klayge.org/08cb85c8.html" %})
+- [http://www.klayge.org/2011/04/20/opengl-es-emulator%E6%A8%AA%E5%90%91%E6%AF%94%E8%BE%83/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.klayge.org/2e190eaf.html" %})
