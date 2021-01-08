@@ -26,6 +26,31 @@ OpenGL ES 2.x Driver 底层一共包含 22 个 Shader 文件。逐个文件翻�
 后继逐个剖析每个 shader 的具体实现。
 
 
+## EDriverTypes.h
+
+* **EDT_NULL** NullDriver. 只加载纹理，不渲染。
+
+* **EDT_SOFTWARE** Software Renderer. 支持所有平台，所有硬件。
+    只渲染 2D 图形和一些基本的 3D 函数。速度快，但是不准确，不支持剪裁。
+
+* **EDT_BURNINGSVIDEO** Burning's Video.
+    模拟了整个 3D 光栅化。能正确的 3D 剪裁、透视矫正、纹理映射 等等。
+
+* **DEPRECATED_EDT_DIRECT3D8_NO_LONGER_EXISTS** Direct3D 8.1. 不再支持。
+
+* **EDT_DIRECT3D9** Direct3D 9.0c.
+
+* **EDT_OPENGL** OpenGL 1.x/2.x/3.x .
+
+* **EDT_OGLES1** OpenGL ES1.
+
+* **EDT_OGLES2** OpenGL ES2.
+
+* **EDT_WEBGL1** WebGL 1. WebGL1 friendly subset of OpenGL-ES 2.x driver for Emscripten.
+
+* **EDT_COUNT** No driver, just for counting the elements.
+
+
 ## addHighLevelShaderMaterialFromFiles
 
 ```cpp
