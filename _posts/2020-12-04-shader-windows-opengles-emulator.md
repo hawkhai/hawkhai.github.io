@@ -58,12 +58,14 @@ caption="坐标系统" %}
 
 ## OpenGL ES Emulator 横向比较
 
+PowerVR、Adreno、Mali 三大主流移动 GPU。[from](https://www.expreview.com/44528-all.html)
+
 厂商 | 名称
 ---- | ----
-AMD | ~~OpenGL ES 2.0 Emulator~~ 感觉已经没有了
+AMD | ~~OpenGL ES 2.0 Emulator~~ 2008 年卖给了高通（Qualcomm）
 ARM | OpenGL ES 2.0 Emulator v1.2 [ARM Mali Emulator](https://developer.arm.com/tools-and-software/graphics-and-gaming/opengl-es-emulator/downloads)
 Qualcomm | Adreno SDK 2.2 [Adreno GPU SDK](https://developer.qualcomm.com/software/adreno-gpu-sdk/tools)
-NVIDIA | ~~x86 Windows OpenGL ES 2.0 Emulator~~ 没有找到地方下载
+NVIDIA | ~~x86 Windows OpenGL ES 2.0 Emulator~~ Tegra 没有找到地方下载
 PowerVR | PowerVR SDK [PowerVR SDK](https://community.imgtec.com/developers/powervr/installers/)
 
 费不尽力的老力，都下载下来，整理好了：<https://gitee.com/hawkhai/opengl-3rd.git>
@@ -84,6 +86,15 @@ PowerVR | PowerVR SDK [PowerVR SDK](https://community.imgtec.com/developers/powe
 eglChooseConfig 的第二个参数里必须包含 EGL_OPENGL_ES2_BIT 才能建立 ES 2.0 的 context。
 
 
+### gpu profiling tools
+
+There are three major mobile GPU vendors nowadays and they provide decent graphics profiling tools:
+
+* For ARM Mali GPU: https://malideveloper.arm.com/resources/tools/mali-graphics-debugger/
+* For Imagination PowerVR GPU: https://community.imgtec.com/developers/powervr/tools/pvrtune/
+* For Qualcomm Adreno GPU: https://developer.qualcomm.com/software/adreno-gpu-profiler
+
+
 ## References
 
 - [1] [Using OpenGL ES on windows desktops via EGL](https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/)
@@ -98,10 +109,14 @@ eglChooseConfig 的第二个参数里必须包含 EGL_OPENGL_ES2_BIT 才能建�
 
 - [https://www.khronos.org/registry/OpenGL/index_es.php]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.khronos.org/bb75bed1.php" %})
 - [https://developer.arm.com/tools-and-software/graphics-and-gaming/opengl-es-emulator/downloads]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/developer.arm.com/37ace0b1.html" %})
+- [https://www.expreview.com/44528-all.html]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.expreview.com/a785c1d4.html" %})
 - [https://developer.qualcomm.com/software/adreno-gpu-sdk/tools]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/developer.qualcomm.com/df53d96a.html" %})
 - [https://community.imgtec.com/developers/powervr/installers/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/community.imgtec.com/1b0beb50.html" %})
 - [https://gitee.com/hawkhai/opengl-3rd.git]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/gitee.com/3cdcc6e8.git" %})
 - [https://zh.wikipedia.org/wiki/Adreno]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/zh.wikipedia.org/1c77f069.html" %})
+- [https://malideveloper.arm.com/resources/tools/mali-graphics-debugger/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/malideveloper.arm.com/d774b230.html" %})
+- [https://community.imgtec.com/developers/powervr/tools/pvrtune/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/community.imgtec.com/2fe6cf9a.html" %})
+- [https://developer.qualcomm.com/software/adreno-gpu-profiler]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/developer.qualcomm.com/a5a0a370.html" %})
 - [https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.saschawillems.de/5efcfffd.html" %})
 - [https://www.cnblogs.com/wellcherish/p/12727906.html]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.cnblogs.com/37af50ce.html" %})
 - [https://www.cnblogs.com/gongminmin/archive/2011/04/25/2027684.html]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.cnblogs.com/04b6eb64.html" %})
