@@ -29,7 +29,7 @@ cluster: "LearnOpenGL"
 
 高级光照阴影 ShadowMapping，实在没看透彻，源码抄了一遍，才透彻了。**这一章节应该是到目前为止最难的了。**[原文 {% include relref_github.html %}](https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/) 写的非常好，就是有点难懂。
 
-{% include image.html url="/assets/images/201224-shader-opengl-lighting-~55/shadow_mapping_theory.gif" %}
+{% include image.html url="/assets/images/201224-shader-opengl-lighting-~55/shadow_mapping_theory.webp" %}
 
 
 ## 详解

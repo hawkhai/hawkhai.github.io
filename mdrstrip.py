@@ -662,7 +662,7 @@ def checkfilesize(fpath, fname, ftype):
             g_checkfilesize.add(ifmd5)
 
     if not (fmd5 in g_checkfilesize):
-        size = os.path.getsize(fpath) / 1024.0 / 1024.0
+        size = os.path.getsize(fpath) / 1024.0 / 1000.0 # 1000 KB
         if size >= 1.0:
             print(getFileMd5(fpath), "#", fpath, "#", "%.1f MB"%size)
             g_checkfilesize.add(fmd5)

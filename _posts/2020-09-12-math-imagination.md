@@ -51,7 +51,7 @@ codeprint:
 
 {% include image.html url="/assets/images/200912-math-imagination/v2-e621c04193e55a685d8ae5b27a91fbd2_hd.gif" %}
 
-{% include image.html url="/assets/images/200912-math-imagination/v2-b15c09911091a411e9081a2fdc5b3834_hd.gif" %}
+{% include image.html url="/assets/images/200912-math-imagination/v2-b15c09911091a411e9081a2fdc5b3834_hd.webp" %}
 
 
 ## 复数，让我们大开眼界
