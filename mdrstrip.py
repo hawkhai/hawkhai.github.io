@@ -4,13 +4,14 @@ sys.path.append("../")
 from pythonx.funclib import *
 from pythonx.coderstrip import *
 
-# ".thumbnail.webp"
-# ".selenium.png"
+THUMBNAIL = ".thumbnail.webp"
+SELENIUM = ".selenium.png"
 
 OPENFILE = "openfile" in sys.argv
 AUTOFORMAT = "format" in sys.argv
 REBUILD = "rebuild" in sys.argv
 COPYRES = "copyres" in sys.argv
+CLEARIMG = "clearimg" in sys.argv
 
 linktagli = (("{% include relref_bili.html %}]",    "bilibili]", "bilibili", "bilibili.com"),
              ("{% include relref_zhihu.html %}]",   "zhihu]",    "zhihu",    "zhihu.com"),
@@ -63,7 +64,7 @@ def buildSnapCache(rootdir):
         fpath = os.path.normpath(fpath)
         if not re.findall("^[0-9a-f]{8}\\.", fname):
             return
-        if fname.find(".selenium.png") != -1:
+        if fname.find(SELENIUM) != -1:
             return
         key = fname[:8]
         if not key in g_snapcache.keys():
@@ -129,7 +130,7 @@ def backupUrlContent(fpath, url):
     if fdata:
         writefile(slocal, fdata)
     else:
-        fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal, shotpath=slocal+".selenium.png", chromeDialog=chromeDialog)
+        fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal, shotpath=slocal+SELENIUM, chromeDialog=chromeDialog)
 
         if url not in ("http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf",
                        "http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf",
@@ -164,6 +165,15 @@ def ffmpegConvert(fpath):
     cmdx = " ".join(cmdx.split()).strip()
     ossystem(cmdx)
 
+def organizeResCollect(rootdir):
+    def mainfile(fpath, fname, ftype):
+        if fname.endswith(THUMBNAIL):
+            if not os.path.exists(fpath[:-len(THUMBNAIL)]):
+                osremove(fpath)
+        else:
+            g_orgremove.add(os.path.relpath(fpath, ".").lower())
+    searchdir(rootdir, mainfile)
+
 def organizeRes(ik, fpath, line):
 
     if ik in ("subsystem:windows /ENTRY:mainCRTStartup",):
@@ -194,9 +204,12 @@ def organizeRes(ik, fpath, line):
     if os.path.exists(ik):
         copyfile(ik, tpath)
         if os.path.abspath(ik) != os.path.abspath(tpath):
-            g_orgremove.add(ik)
+            g_orgremove.add(os.path.relpath(ik, ".").lower())
+        if os.path.relpath(tpath, ".").lower() in g_orgremove:
+            g_orgremove.remove(os.path.relpath(tpath, ".").lower())
+
         # 同样大小的小图片先占位... lazyload
-        sizepath = tpath + ".thumbnail.webp"
+        sizepath = tpath + THUMBNAIL
         if not os.path.exists(sizepath) and iktype in ("png", "jpg", "gif", "jpeg", "webp",):
             from PIL import Image
             img = Image.open(tpath)
@@ -666,6 +679,9 @@ def main():
     removedirTimeout("tempdir")
     clearemptydir("tempdir")
     buildSnapCache("backup")
+    if CLEARIMG:
+        organizeResCollect("assets\\images")
+        organizeResCollect("invisible\\images")
 
     CHECK_IGNORE_LIST = (
         "backup", "tempdir", "_site",
