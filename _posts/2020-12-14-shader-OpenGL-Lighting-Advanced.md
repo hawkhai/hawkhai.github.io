@@ -158,6 +158,13 @@ However they produce discontinuities in normals/lighting.
 Quintic falloffs solves the problem.
 
 
+## FurEffect
+
+[SoftPixel Engine](http://softpixelengine.sourceforge.net/screenshots_gallery.html)
+
+{% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/galleryfureffect.jpg" %}
+
+
 ## RTR (Real Time Rendering)
 
 更多高级光照知识：[RTR4 拾遗（一）-- 图形学的 B 面 {% include relref_csdn.html %}](https://blog.csdn.net/leonwei/article/details/84821309)
@@ -179,6 +186,7 @@ Quintic falloffs solves the problem.
 - [https://www.shadertoy.com/view/XssXDl]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.shadertoy.com/2ed3e251.html" %})
 - [https://www.shadertoy.com/view/ld2GRz]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.shadertoy.com/9f397b54.html" %})
 - [https://github.com/millsvonmilski/Unity3D_RayMarching_MetaBall]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/github.com/e5fcf488.html" %})
+- [http://softpixelengine.sourceforge.net/screenshots_gallery.html]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/softpixelengine.sourceforge.net/5dda551b.html" %})
 - [https://blog.csdn.net/leonwei/article/details/84821309]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/blog.csdn.net/5d77c232.html" %})
 - [https://blog.csdn.net/gqkly/article/details/88086791]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/blog.csdn.net/275cbb7d.html" %})
 - [http://morimiya.me/2019/02/24/Blinn-Phong%E5%85%89%E7%85%A7/]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/morimiya.me/7ce24540.html" %})

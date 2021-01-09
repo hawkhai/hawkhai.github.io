@@ -685,7 +685,7 @@ def main():
 
     CHECK_IGNORE_LIST = (
         "backup", "tempdir", "_site",
-        "Debug", "Release", ".vs", "opengl-3rd",
+        "Debug", "Release", ".vs", "opengl-3rd", "opengles3-book", "opengles-book-samples",
         "UserDataSpider",
         )
     searchdir(".", checkfilesize, ignorelist=CHECK_IGNORE_LIST)
@@ -693,7 +693,7 @@ def main():
 
     searchdir(".", mainfilew, ignorelist=(
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
-        "Debug", "Release", ".vs", "openglcpp", "opengl-3rd",
+        "Debug", "Release", ".vs", "openglcpp", "opengl-3rd", "opengles3-book", "opengles-book-samples",
         "UserDataSpider",
         ), reverse=True)
     if REBUILD:
