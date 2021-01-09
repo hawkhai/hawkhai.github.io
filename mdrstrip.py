@@ -210,7 +210,7 @@ def organizeRes(ik, fpath, line):
 
         # 同样大小的小图片先占位... lazyload
         sizepath = tpath + THUMBNAIL
-        if not os.path.exists(sizepath) and iktype in ("png", "jpg", "gif", "jpeg", "webp",):
+        if not os.path.exists(sizepath) and iktype in ("png", "jpg", "gif", "jpeg", "webp", "bmp",):
             from PIL import Image
             img = Image.open(tpath)
             width, height = img.size
@@ -232,7 +232,7 @@ def organizeRes(ik, fpath, line):
         assert False, ik
 
     iktype = ikfile.split(".")[-1].lower()
-    if not iktype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4", "zip"):
+    if not iktype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4", "zip", "bmp",):
         print(ik, fpath, line)
         assert False, ik
     return line.replace(ik, tpath.replace("\\", "/"))
@@ -713,7 +713,7 @@ def main():
     g_cschar = list(set(g_cschar))
     g_cschar.sort()
     print("".join(g_cschar))
-    imgset  = ("jpeg", "jpg", "png", "gif", )
+    imgset  = ("jpeg", "jpg", "png", "gif", "bmp",)
     fontset = ("eot", "ttf", "woff", "svg", "woff2", )
     codeset = ("cc", "js", "txt", "xml", "css", "mk", "lock", "zip", "makefile", "scss",)
     g_tpset -= set(imgset)

@@ -79,6 +79,7 @@ PowerVR | PowerVR SDK [PowerVR SDK](https://community.imgtec.com/developers/powe
 * VideoCore – Broadcom 研发的移动 GPU，允许第三方授权。
 * Intel Atom – Intel 计算机处理器产品，不向第三方授权。
 * AMD APU – AMD 计算机处理器产品，不向第三方授权。
+* Adreno – Qualcomm 研发的移动 GPU，用于第三方授权。
 
 
 ### ARM Mali
