@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 博客笔记
+title: Hawkhai 博客笔记
 author:
 location:
 categories:
