@@ -66,7 +66,7 @@ AMD | ~~OpenGL ES 2.0 Emulator~~ 2008 年卖给了高通（Qualcomm）
 ARM | OpenGL ES 2.0 Emulator v1.2 [ARM Mali Emulator](https://developer.arm.com/tools-and-software/graphics-and-gaming/opengl-es-emulator/downloads)
 Qualcomm | Adreno SDK 2.2 [Adreno GPU SDK](https://developer.qualcomm.com/software/adreno-gpu-sdk/tools)
 NVIDIA | ~~x86 Windows OpenGL ES 2.0 Emulator~~ Tegra 没有找到地方下载
-PowerVR | PowerVR SDK [PowerVR SDK](https://community.imgtec.com/developers/powervr/installers/)
+PowerVR | PowerVR SDK [PowerVR Graphics SDK {% include relref_github.html %}](https://powervr-graphics.github.io/)
 
 费不尽力的老力，都下载下来，整理好了：<https://gitee.com/hawkhai/opengl-3rd.git>
 
@@ -112,7 +112,7 @@ There are three major mobile GPU vendors nowadays and they provide decent graphi
 - [https://developer.arm.com/tools-and-software/graphics-and-gaming/opengl-es-emulator/downloads]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/developer.arm.com/37ace0b1.html" %})
 - [https://www.expreview.com/44528-all.html]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.expreview.com/a785c1d4.html" %})
 - [https://developer.qualcomm.com/software/adreno-gpu-sdk/tools]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/developer.qualcomm.com/df53d96a.html" %})
-- [https://community.imgtec.com/developers/powervr/installers/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/community.imgtec.com/1b0beb50.html" %})
+- [https://powervr-graphics.github.io/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/powervr-graphics.github.io/ad82179d.html" %})
 - [https://gitee.com/hawkhai/opengl-3rd.git]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/gitee.com/3cdcc6e8.git" %})
 - [https://zh.wikipedia.org/wiki/Adreno]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/zh.wikipedia.org/1c77f069.html" %})
 - [https://malideveloper.arm.com/resources/tools/mali-graphics-debugger/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/malideveloper.arm.com/d774b230.html" %})
