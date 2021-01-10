@@ -8,7 +8,7 @@ tags: ["编程笔记"]
 toc: true
 toclistyle:
 comments:
-visibility: hidden
+visibility:
 mathjax:
 mermaid:
 glslcanvas:
