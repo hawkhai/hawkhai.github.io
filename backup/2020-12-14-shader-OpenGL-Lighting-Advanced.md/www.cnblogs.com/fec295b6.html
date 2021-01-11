@@ -1,0 +1,1124 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="1、简介 在计算机图形学的词典里，Shading表示“对受光物体的渲染”，这个渲染过程包括下面几步[1]： 1） 计算几何多边形（也就是Mesh）。2） 决定表面材质特性，例如法线、双向反射分布函数（" />
+    <meta property="og:description" content="1、简介 在计算机图形学的词典里，Shading表示“对受光物体的渲染”，这个渲染过程包括下面几步[1]： 1） 计算几何多边形（也就是Mesh）。2） 决定表面材质特性，例如法线、双向反射分布函数（" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Deferred Shading（延迟渲染） - 水煮鱼丸 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=R2wBwmwSMG0Sqiw8GFSVjHT4Payg_JFAn51R8XcuvN0" />
+    <link id="MainCss" rel="stylesheet" href="/skins/anothereon001/bundle-anothereon001.min.css?v=9x2ZP2K8SSBJowZA6xv0D5FvOmlvd5g21u0NBEAEwfQ" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/anothereon001/bundle-anothereon001-mobile.min.css?v=hUZBXyvgRW1p4oe8x8nCxMMFQEUKHB46jHdp-1ACwJM" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/wangchengfeng/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/wangchengfeng/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/wangchengfeng/wlwmanifest.xml" />
+    <script src="https://www.googletagservices.com/activeview/js/current/osd.js?cb=%2Fr20100101"></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 169604;
+        var currentBlogApp = 'wangchengfeng';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'AnotherEon001';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2013-12-03 02:23';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=V0BbkkQE24zt1D_4TRGfRwcCB1E3YoBpH5YOp1qKoxA"></script>
+    <script type="text/x-mathjax-config;executed=true">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom &gt; * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd &gt; * {display: block!important}
+.MJXp-script-box &gt; *  {display: table!important; height: 50%}
+.MJXp-script-box &gt; * &gt; * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box &gt; *:last-child &gt; * {vertical-align: bottom}
+.MJXp-script-box &gt; * &gt; * &gt; * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover, .MJXp-munder {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over &gt; * {display: block!important}
+.MJXp-munderover &gt; *, .MJXp-munder &gt; * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable &gt; * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr &gt; .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child &gt; .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr &gt; .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child &gt; .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><meta http-equiv="origin-trial" content="A2shzsdPO+RKe83bUqT9oVkYwGZN6j9O7nrcOASNFPuQz8HefgVYb9qAqn6coNCSDIRtXoi6ybCrjEsYh3caFgIAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MTM0OTU4NjgsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021010901.js?21069772" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script><link rel="prefetch" href="https://d7014d19a7c92a3908a7468c435f032e.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html" /><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-37/html/container.html" /></head>
+<body class="has-navbar has-bannerbar"><div id="MathJax_Message" style="display: none;"></div>
+    <a name="top"></a>
+        <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://developer.aliyun.com/learning/trainingcamp/mysql/1?utm_content=g_1000228441" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aliyun-mobile-bannerbar')">
+                <img src="https://img2020.cnblogs.com/blog/35695/202101/35695-20210108153439560-110941850.png" alt="" />
+            </a>
+        </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="wrapper">
+<div id="header">
+
+<div id="top">
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/wangchengfeng/">水煮鱼丸</a>
+</h1>
+<div id="subtitle">If it looks like computer graphics, it is not good computer graphics</div>
+</div>
+<div id="sub"><div class="BlogStats">随笔 - 45, 文章 - 0, 评论 - 207, 引用 - 
+0</div>
+
+</div>
+
+
+
+
+</div>
+<div id="main_container">
+<div id="main_content">
+<div id="content">
+	<div id="post_detail">
+    <div class="post">
+        <h2>
+            
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wangchengfeng/p/3440097.html">
+    <span>Deferred Shading（延迟渲染）</span>
+    
+
+
+</a>
+
+        </h2>
+        <div class="postbody">
+            
+<div id="cnblogs_post_body" class="blogpost-body">
+    <div>
+<div><span style="font-family: 宋体"><strong>1、简介</strong></span></div>
+<div><span style="font-family: 宋体">     在计算机图形学的词典里，Shading表示“对受光物体的渲染”，这个渲染过程包括下面几步[1]：</span></div>
+<span style="font-family: 宋体">     1） 计算几何多边形（也就是Mesh）。<br />
+     2） 决定表面材质特性，例如法线、双向反射分布函数（bidirectional reflectance distribution function, BRDF）等等。<br />
+     3） 计算入射光照。<br />
+     4） 计算光照对表面的影响，并最终显示。</span></div>
+<div><span style="font-family: 宋体">     一般渲染引擎，渲染场景中的物体的时候，是将这四步一次执行完的。延迟渲染则将前两步和后两步分开到渲染管道相互独立的两个部分来执行。</span></div>
+<div><span style="font-family: 宋体"><strong>2、背景知识</strong><br /></span>
+<div><span style="font-family: 宋体">     对比前向渲染（聚光灯的最简单的前向渲染见DirectX 9.0c的sample"Shadow Map"），前向渲染有多种问题[1]：</span></div>
+
+
+
+
+
+<span style="font-family: 宋体">
+     1） 计算每个几何体受那些光影响耗费了CPU的时间，更坏的是，这是个O(n*m)的操作。<br />
+     2） Shader经常需要超过一次以上的Pass来渲染光照，渲染n个灯光，对于复杂的Shader，可能需要O(n)次运算。<br />
+     3） 增加新的光照模型和新的光源类型，可能需要改变所有Effect的源文件。<br />
+     4） Shader很快就将达到或者超出SM2的指令限制。<br /></span>
+<div><span style="font-family: 宋体">     在MMO里，我们对游戏环境很少会有过于苛求的要求。我们无法控制同屏可见的玩家数量、无法控制同屏会有多少特效和光源。由于传统前向渲染缺乏对环境的控制，且对于光源的复杂度难于估量，因此我们选择了延迟渲染。这可以让我们的画面更接近于当今顶尖的游戏引擎，并且让光照所耗费的资源独立于场景的几何复杂度。</span></div>
+<div><span style="font-family: 宋体">     延迟渲染提供了下面的好处：</span></div>
+<div><span style="font-family: 宋体">     1） 光照所耗费的资源独立于场景复杂度，这样就不用再费尽心机去想着处理那些光源影响几何体了。<br />
+     2） 不必要再为几何体的受光提供附加的Pass了，这样就节省了Draw Call和状态切换的数量。<br />
+     3） 在增加新的光源类型和光照模型时，材质的Shader不需要做出任何改变。<br />
+     4） 材质Shader不产生光照，这样就节省了计算额外的几何体的指令数。<br />
+     延迟渲染需要显卡提供MRT的支持，且利用了不断增加的存储器的带宽——这也就意味着我们可能得对玩家所使用的硬件提出更高的要求。因此我们既实现了前向渲染，也实现了延迟渲染。我们优化了前向渲染管道，并在此基础上完成了延迟渲染管道。</span></div>
+<div><span style="font-family: 宋体"><strong>3、基本原理</strong></span></div>
+<div><span style="font-family: 宋体">     目前我们看到最终画面都是2D的，只能看到有限的像素数，理论上我们只要处理(指光照，阴影处理)最终我们可以看到的点的效果就够了，多余的处理是浪费的。而正常的前向渲染(Forward Shading)流程是把空间的点进行各种剪裁后，进行处理，所处理量远远大于我们最终看到的。所以延迟渲染出现了。它先将摄像机空间的点光栅化转化成屏幕坐标后再进行处理。这样就能减少处理的次数，从而提高效率[5]。</span></div>
+<div><span style="font-family: 宋体">     既然把处理流程放在了后面，那么处理所需要的参数也必须带到后面的流程。这里使用MRT(multi target render)就很重要，RT占用的显存越大，对显卡的的带宽要求也就越高，DX10支持8个MRT（DX11的MRT数量我没查到，在DX11的新特征中，也没有提到增加MRT，所以可能也是8个）。后面的处理至少需要空间位置信息，可以通过Depth(至少16位)获得，其他可以将法线信息(normal)，高光信息(specular)，AO系数，diffuse，自发光(emissive)，材质编号等信息放入MRT中。</span></div>
+<div><span style="font-family: 宋体">     延迟渲染管线可分为四个阶段（和第一节说的4个阶段有一些不同，只是某些功能进行不一样的划分而已，大致还是一样的）：Geometry,Lighting, Composition, Post-processing[4]，Post-processing阶段与传统的forward shading没有太大差别，这里不提，只说明一下前三个阶段。</span></div>
+
+
+
+
+
+<span style="font-family: 宋体">
+     1） Geometry阶段：将本帧所有的几何信息光栅化到G-buffer。包括位置，法线，贴图等。<br />
+     2） Lighting阶段：以G-buffer作为输入（位置，法线）进行逐像素的光照计算，将diffuse lighting和specular lighting 结果分别保存在两张RT上作为lighting buffer。<br />
+     3） Composition阶段：将G-buffer中的贴图buffer和lighting buffer融合，得到渲染结果。</span></div>
+<div><span style="font-family: 宋体"><strong>4、延迟</strong><strong>渲染</strong><strong>核心部分</strong></span></div>
+<div><span style="font-family: 宋体"><strong>  4.1、G-buffer</strong></span></div>
+<div><span style="font-family: 宋体">     Geometry阶段将几何信息渲染到multi render target上（MRT），当前最多支持4个MRT。并且驱动要求4个MRT必须相同的bit宽度。RT对显存占用过大会增加带宽，降低cache命中。而简单格式的RT又会影响画质。因此决定使用32bit的RT（如A8R8G8B8，R16G16F）或64bit宽度的RT（如A16R16G16B16F）。需要在画质和性能间做出折衷。（开发时尽可能可以方便的配置）[3]。</span></div>
+<p><span style="font-family: 宋体">
+     MRT中必须的信息：position(depth), normal, diffuse(texture)<br />
+     可能需要的信息：specular, power, emissive, ao, material id<br />
+     这些信息需要在这4个RT上用合理格式，合理的组织。这里还可以就存储空间和shader的复杂性做折衷。如只保存depth，然后在光照时计算position，以及用球面坐标保存法线。以目前的资料得出的结论是应该尽可能地pack数据，减少内存占用，多出来的若干条shader指令不会明显影响性能。</span></p>
+<div><span style="font-family: 宋体"><strong>  4.2、光照计算及相关优化</strong></span></div>
+<div><span style="font-family: 宋体">     使用延迟渲染技术最大的好处就是可以渲染光照极为复杂的场景。这里场景中的光照可以分为两类。影响整个场景的scenelight。如directionallight。渲染一个screenquad，逐像素光照计算，没什么好说的；另一类是只影响一部分区域的locallight，如点光源、聚光灯、和特效等等。这些locallight只影响到屏幕上的某些像素，当然不需要逐像素的进行光照计算。最简单的方法是绘制这些光源的包围体（点光源的包围体是球，聚光灯的包围体是圆锥），包围体的大小要大于等于光源的衰减范围。这些包围体经过变换投影到屏幕上的对应区域，随后在pixelshader中计算光照[3]。</span></div>
+<p><span style="font-family: 宋体">
+     优化：<br />     1.光源包围体的视锥剔除，遮挡剔除。<br />     2.光源包围体投影后很小时剔除；若干个靠的比较近的小光源合并成一个较大的光源<br />     3.光源包围体的backfaceculling<br />     4.屏幕空间中没有被光源照到的，或者被更近的物体遮挡住的像素不需要光照计算，因此可以逐像素的深度剔除。有两种方法：a.使用正确的stencillightvolume。类似shadowvolume的方案，将渲染lightvolume的正反两面，得到正确的stencilmask，然后光照计算时使用stencilbuffer。这种方法可以得到正确的结果，但是需要渲染每盏灯时频繁改变renderstate，可能会带来一定性能上的损失。b.使用ztest，可以得到“一定程度上正确”的结果。</span></p>
+<div><span style="font-family: 宋体"><strong>  4.3、阴影计算</strong></span></div>
+<div><span style="font-family: 宋体">     光照计算的同时计算阴影。使用传统的shadowmap，预先生成一张阴影图（相关）。考虑在编辑场景的时候指定那些重要的光源才会产生阴影。在计算shadowmap时要针对光源的bindingvolume进行剔除[3]。</span></div>
+<p><span style="font-family: 宋体">
+     方向光和聚光灯可以使用基本的Shadow Map投影（正交投影，透视投影），点光源会复杂一些，需要使用Cube Shadow Map，由于较老的硬件不支持在不同纹理之间插值，使得不同纹理之间会有接缝（见[6] P171），在DX10中才支持Cube Map纹理之间的插值。</span></p>
+<div><span style="font-family: 宋体"><strong>5、优缺点分析</strong><br /></span>
+<div><span style="font-family: 宋体">     延迟渲染主要的好处包括[1,6]：</span></div>
+<div><span style="font-family: 宋体">     1） 光照的开销与场景复杂度无关。</span><br /><span style="font-family: 宋体">     2） Shader可以访问深度和其他像素信息。</span><br /><span style="font-family: 宋体">     3） 每个象素对每个光源仅运行一次。也就是说，那些被遮挡的像素是不会被光照计算到的。</span><br /><span style="font-family: 宋体">     4） 材质和光照的Shader完全分开。</span></div>
+<div><span style="font-family: 宋体">     延迟渲染还需要克服的主要障碍包括：</span></div>
+
+
+
+
+
+<span style="font-family: 宋体">
+     1） 较高的显存带宽占用</span></div>
+<div><span style="font-family: 宋体">　　 2） G-buffer消耗较多的填充率，这个问题在游戏机上比较严重<br />     3） 无硬件反锯齿的支持<br /></span>
+<div><span style="font-family: 宋体">     4） 对Alpha Blend支持较差</span></div>
+<div><span style="font-family: 宋体">     解决方案：</span></div>
+<div><span style="font-family: 宋体">     1） 我们发现当前驻留的显卡已经可以在稍低的分辨率下解决贷款问题了，而在当今最高端的机器上，可以在开启全部特性的前提下，适应更高的分辨率。在DX10 即便显卡上，ATI和NVIDIA都增强了MRT的性能。DX10和SM4都提供了GPU支持的整数处理，以及从深度缓冲中读取数据。所有这些都可以减少显存带宽。当提供了新的硬件和特性时，性能自然就会提升。<br />
+     2） 在合适的Filter作用下，精确的边缘检测可以减少几何体边缘的锯齿。虽然这些方法并不像硬件全场景反锯齿那样精确，但是仍然可以以假乱真。<br />
+     3） 对不透明物体采用延迟渲染，透明物体采用正向渲染，可以解决<span>Alpha Blend的问题（Unity3D采用这种解决方案）。</span></span></div>
+<div><span style="font-family: 宋体"> </span></div>
+
+
+
+
+
+<span style="font-family: 宋体">
+PS：对某个具体项目的说明，包括其中的一些优化见资料[1]，GPU GEMS2和3中都有这个引擎延迟渲染的文章，值得一看。</span></div>
+<div><span style="font-family: 宋体"> </span></div>
+<div><span style="font-family: 微软雅黑"><strong>参考文献：</strong></span></div>
+<div><span style="font-family: 微软雅黑">[1]</span><span style="font-family: 微软雅黑"><a href="http://blog.csdn.net/noslopforever/article/details/3951273" target="_blank">http://blog.csdn.net/noslopforever/article/details/3951273</a></span></div>
+<div><span style="font-family: 微软雅黑">[2]<a href="http://www.opengpu.org/forum.php?mod=viewthread&amp;tid=434">http://www.opengpu.org/forum.php?mod=viewthread&amp;tid=434</a></span></div>
+<div><span style="font-family: 微软雅黑">[3]<a href="http://blog.csdn.net/pizi0475/article/details/7521394">http://blog.csdn.net/pizi0475/article/details/7521394</a></span></div>
+<div><span style="font-family: 微软雅黑">[4]<a href="http://blog.csdn.net/Garuda/article/details/5273106">http://blog.csdn.net/Garuda/article/details/5273106</a></span></div>
+<div><span style="font-family: 微软雅黑">[5]<a href="http://blog.sina.com.cn/s/blog_766f82770100p2kc.html">http://blog.sina.com.cn/s/blog_766f82770100p2kc.html</a></span></div>
+<div><span style="font-family: 微软雅黑">[6]Akenine-Möller T, Haines E, Hoffman N. Real-time rendering 3 [M]. </span></div>
+<p> </p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/wangchengfeng/category/535674.html" target="_blank">计算机图形学</a></div>
+<div id="EntryTag">
+    标签: 
+            <a href="https://www.cnblogs.com/wangchengfeng/tag/%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/">延迟渲染</a></div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(3440097,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('07a1cee8-2f53-e311-8d02-90b11c0b17d6');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/wangchengfeng/" target="_blank"><img src="https://pic.cnblogs.com/face/584891/20131127153102.png" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/wangchengfeng/">水煮鱼丸</a><br />
+            <a href="https://home.cnblogs.com/u/wangchengfeng/followees/">关注 - 34</a><br />
+            <a href="https://home.cnblogs.com/u/wangchengfeng/followers/">粉丝 - 75</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('07a1cee8-2f53-e311-8d02-90b11c0b17d6');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(3440097,'Digg')">
+        <span class="diggnum" id="digg_count">4</span>
+    </div>
+    <div class="buryit" onclick="votePost(3440097,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/wangchengfeng/p/3453194.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/wangchengfeng/p/3453194.html" title="发布于 2013-12-01 23:30">三角形内部线性插值方法</a>
+    <br />
+    <a href="https://www.cnblogs.com/wangchengfeng/p/3469183.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/wangchengfeng/p/3469183.html" title="发布于 2013-12-11 13:19">正则表达式30分钟入门教程</a>
+
+</div>
+</div>
+        </div>
+        <p class="postfoot">
+            posted on 
+<span id="post-date">2013-12-03 14:23</span> 
+<a href="https://www.cnblogs.com/wangchengfeng/">水煮鱼丸</a> 
+阅读(<span id="post_view_count">11173</span>) 
+评论(<span id="post_comment_count">0</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=3440097" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(3440097);return false;">收藏</a>
+        </p>
+    </div>
+</div>
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 169604, cb_blogApp = 'wangchengfeng', cb_blogUserGuid = '07a1cee8-2f53-e311-8d02-90b11c0b17d6';
+    var cb_entryId = 3440097, cb_entryCreatedDate = '2013-12-03 14:23', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="https://developer.aliyun.com/learning/trainingcamp/mysql/1?utm_content=g_1000228441" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云-MySQL')">【推荐】阿里出品，对标P7！限时免费，七天深入MySQL实战营报名开启</a><br /><a href="http://www.softbam.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-ucancode')">【推荐】大型组态、工控、仿真、CADGIS 50万行VC++源码免费下载</a><br /><a href="https://brands.cnblogs.com/aws/free?source=CH" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-AWS')">【推荐】AWS携手博客园为开发者送福利，注册立享12个月免费套餐</a><br /><a href="https://brands.cnblogs.com/aerospike" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-品牌专区-Aerospike')">【推荐】第一个NoSQL数据库，在大规模和一致性之间找到了平衡</a><br /><a href="https://sensors.qiniu.com/t/kgU" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-七牛云')">【推荐】七牛云新老用户同享 1 分钱抢 CDN 1TB流量大礼包！</a><br /><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为专区')">【推荐】了不起的开发者，挡不住的华为，园子里的品牌专区</a><br /><a href="https://brands.cnblogs.com/agora" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-声网专区')">【推荐】未知数的距离，毫秒间的传递，声网与你实时互动</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CMqS5fe3k-4CFUUDXAodr8wMBw"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br />·  <a title="延迟渲染技术文献摘录" href="https://www.cnblogs.com/lancidie/archive/2011/08/18/2144748.html" target="_blank" onclick="clickRecomItmem(2144748)">延迟渲染技术文献摘录</a><br />·  <a title="一天干掉一只Monkey计划（三）——延迟渲染，及材质ID" href="https://www.cnblogs.com/Zephyroal/archive/2012/01/29/2331292.html" target="_blank" onclick="clickRecomItmem(2331292)">一天干掉一只Monkey计划（三）——延迟渲染，及材质ID</a><br />·  <a title="Unity5 的新旧延迟渲染Deferred Lighting Rendering Path" href="https://www.cnblogs.com/zhanlang96/p/4837281.html" target="_blank" onclick="clickRecomItmem(4837281)">Unity5 的新旧延迟渲染Deferred Lighting Rendering Path</a><br />·  <a title="Deferred Shading" href="https://www.cnblogs.com/rickerliang/archive/2011/05/07/2040062.html" target="_blank" onclick="clickRecomItmem(2040062)">Deferred Shading</a><br />·  <a title="延迟着色" href="https://www.cnblogs.com/ghl_carmack/p/4150232.html" target="_blank" onclick="clickRecomItmem(4150232)">延迟着色</a><br />»  <a target="_blank" href="https://recomm.cnblogs.com/blogpost/3440097">更多推荐...</a></div></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;" data-google-query-id="CMuS5fe3k-4CFUUDXAodr8wMBw"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="2" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_kb">
+<div class="itnews c_ad_block">
+    <b>最新 IT 新闻</b>:
+    <br />
+ ·          <a href="//news.cnblogs.com/n/685004/" target="_blank">联手吉利造车 百度宣布组建智能汽车公司：何小鹏一句话评价</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/685003/" target="_blank">2020年B站百大UP主揭晓：冯提莫、罗翔、小艾大叔上榜</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/685002/" target="_blank">特斯拉Model Y国内首撞！网友：路边绿化树“完败”</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/685001/" target="_blank">"芯片自由"后荣耀CEO赵明发声：发布新机,冲击高端</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/685000/" target="_blank">微软重新设计Windows 10控制面板“存储空间”：添加到设置中</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+
+
+</div>
+</div>
+<div id="leftmenu">
+
+
+<h3>导航</h3>
+<ul>
+    <li>
+        <a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+
+    </li>
+    <li>
+        
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/wangchengfeng/">
+首页</a>
+
+    </li>
+    <li>
+        
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+
+    </li>
+    <li>
+        
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%B0%B4%E7%85%AE%E9%B1%BC%E4%B8%B8">
+联系</a>
+    </li>
+    <li>
+        
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/wangchengfeng/rss/">
+订阅</a>
+        
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/wangchengfeng/rss/">
+    <img src="/skins/anothereon001/images/xml.gif" alt="订阅" />
+</a>
+    </li>
+    <li>
+        
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+
+    </li>
+</ul>
+
+
+<div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2020/12/11'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2021年1月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2021/02/11'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">27</td>
+                            <td class="CalOtherMonthDay" align="center">28</td>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                            <td class="CalOtherMonthDay" align="center">31</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        2
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            3
+                        </td>
+                            <td class="" align="center">
+                                4
+                            </td>
+                            <td class="" align="center">
+                                5
+                            </td>
+                            <td class="" align="center">
+                                6
+                            </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            9
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            10
+                        </td>
+                            <td class="CalTodayDay" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            16
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            17
+                        </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            23
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            24
+                        </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            30
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            31
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            6
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script>
+<div id="sidebar_news" class="newsItem"><meta name="vs_showGrid" content="False" />
+<h3>公告</h3>
+
+<div id="blog-news">
+    <p> <span style="line-height: 1.5"> 访问人数：</span></p><div align="left">  <a href="http://www.amazingcounter.com/"><img border="0" src="https://cc.amazingcounters.com/counter.php?i=3156870&amp;c=9470923" alt="Free Hit Counter" /></a></div>
+<p> <span style="line-height: 1.5"> 总访问量：</span></p><div align="left">  <a href="http://www.amazingcounter.com/"><img border="0" src="https://cc.amazingcounters.com/counter.php?i=3157667&amp;c=9473314" alt="Free Hit Counter" /></a></div>
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/wangchengfeng/">
+            水煮鱼丸
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/wangchengfeng/" title="入园时间：2013-11-22">
+            7年1个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/wangchengfeng/followers/">
+            75
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/wangchengfeng/followees/">
+            34
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('07a1cee8-2f53-e311-8d02-90b11c0b17d6')">+加关注</a></div>
+        <script>getFollowStatus('07a1cee8-2f53-e311-8d02-90b11c0b17d6');</script>
+    </div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk" /> <input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    
+<li><a href="https://www.cnblogs.com/wangchengfeng/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/wangchengfeng/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/wangchengfeng/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/wangchengfeng/RecentComments.html" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/wangchengfeng/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block">
+<h3>我的标签</h3>
+<div id="MyTag">
+    <ul>
+                <li>
+            <a href="https://www.cnblogs.com/wangchengfeng/tag/unity3d/">unity3d<span class="tag-count">(4)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/wangchengfeng/tag/Normal%20Maping/">Normal Maping<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/wangchengfeng/tag/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">游戏引擎<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/wangchengfeng/tag/%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">源码编译<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/wangchengfeng/tag/OGRE/">OGRE<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/wangchengfeng/tag/Python/">Python<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/wangchengfeng/tag/DirectX/">DirectX<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/wangchengfeng/tag/HDR/">HDR<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/wangchengfeng/tag/NGUI/">NGUI<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/wangchengfeng/tag/xtion/">xtion<span class="tag-count">(1)</span></a>
+        </li>
+    <li>
+        <a href="https://www.cnblogs.com/wangchengfeng/tag/">更多</a>
+    </li>
+
+    </ul>
+</div>
+</div>
+
+<!-- 积分与排名 -->
+<div id="sidebar_scorerank" class="sidebar-block"><h3>积分与排名</h3>
+<ul>
+    <li>
+        积分 - 
+77446
+    </li>
+    <li>
+        排名 - 
+12597
+    </li>
+</ul></div>
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <h3>
+        
+随笔分类
+
+
+
+    </h3>
+    <ul>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/category/545334.html" rel="" target="">
+    C#(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/category/543909.html" rel="" target="">
+    C/C++(5)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/category/562622.html" rel="" target="">
+    Game Engine(2)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/category/541402.html" rel="" target="">
+    Math(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/category/536746.html" rel="" target="">
+    OGRE(2)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/category/562285.html" rel="" target="">
+    Python(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/category/535673.html" rel="" target="">
+    Unity3D(8)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/category/535672.html" rel="" target="">
+    VC编程(4)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/category/541389.html" rel="" target="">
+    故事(3)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/category/535674.html" rel="" target="">
+    计算机图形学(12)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/category/535676.html" rel="" target="">
+    杂七杂八(10)
+</a>
+
+
+            </li>
+        
+    </ul>
+    <h3>
+        
+随笔档案
+
+
+
+    </h3>
+    <ul>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/archive/2015/04.html" rel="" target="">
+    2015年4月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/archive/2014/05.html" rel="" target="">
+    2014年5月(6)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/archive/2014/04.html" rel="" target="">
+    2014年4月(8)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/archive/2014/03.html" rel="" target="">
+    2014年3月(5)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/archive/2014/02.html" rel="" target="">
+    2014年2月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/archive/2014/01.html" rel="" target="">
+    2014年1月(5)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/archive/2013/12.html" rel="" target="">
+    2013年12月(11)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/wangchengfeng/archive/2013/11.html" rel="" target="">
+    2013年11月(8)
+</a>
+
+
+            </li>
+        
+    </ul>
+</div>
+
+<!-- 最新评论 -->
+<div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap" class="RecentComment">
+    <h3 class="catListTitle">最新评论</h3>
+    <div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/wangchengfeng/p/3470310.html">1. Re:3D游戏常用技巧Normal Mapping (法线贴图)原理解析——基础篇</a></li>
+                    <li class="recent_comment_body">谢谢分享，之前看维基百科没能完全理解，现在算是理解了</li>
+                    <li class="recent_comment_author">--JokerLD</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/wangchengfeng/p/3495954.html">2. Re:3D游戏引擎中常见的三维场景管理方法</a></li>
+                    <li class="recent_comment_body">学习了</li>
+                    <li class="recent_comment_author">--_Loser</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/wangchengfeng/p/3724377.html">3. Re:【吐血推荐】简要分析unity3d中剪不断理还乱的yield</a></li>
+                    <li class="recent_comment_body">用IEnumerator创建出来的是 “枚举器”， 用IEnumerable创建出来的是 “可枚举类型”。可以把后者看作一个容器（比如说c#内置的array 就是个 “可枚举类型”），而前者（枚举器）...</li>
+                    <li class="recent_comment_author">--turesnake</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/wangchengfeng/p/4451778.html">4. Re:Unity3D中灵活绘制进度条</a></li>
+                    <li class="recent_comment_body">hello。能把package私信我学习一下嘛？ asset store 一直下不下来</li>
+                    <li class="recent_comment_author">--SandyNie</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/wangchengfeng/p/3724377.html">5. Re:【吐血推荐】简要分析unity3d中剪不断理还乱的yield</a></li>
+                    <li class="recent_comment_body">不错，通俗易懂</li>
+                    <li class="recent_comment_author">--看那有只猫</li>
+        </ul>
+    </div>
+</div></div>
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block">
+<div id="topview_posts_wrap">
+    <h3 class="catListTitle">阅读排行榜</h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/wangchengfeng/p/3470310.html">
+                            1. 3D游戏常用技巧Normal Mapping (法线贴图)原理解析——基础篇(22312)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/wangchengfeng/p/3453194.html">
+                            2. 三角形内部线性插值方法(11606)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/wangchengfeng/p/3562085.html">
+                            3. VS 2005部署应用程序提示“应用程序无法正常启动( 0x0150002)” 解决方案(11254)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/wangchengfeng/p/3440097.html">
+                            4. Deferred Shading（延迟渲染）(11171)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/wangchengfeng/p/3664895.html">
+                            5. Unity3D学习笔记——递归+非递归遍历GameObject的子物体(9146)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+    <h3 class="catListTitle">评论排行榜</h3>
+    <div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/wangchengfeng/p/3608749.html">
+                            1. 教材，教材，国内的教材你为何如此不堪入目？码农，码农，你到底该如何脱离码农？(89)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/wangchengfeng/p/3651124.html">
+                            2. 历时一周，unity3d+xtion打造我的第一个休闲体感小游戏《空降奇兵》(48)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/wangchengfeng/p/3440110.html">
+                            3. Unity3D中Ragdoll的用法(19)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/wangchengfeng/p/3445605.html">
+                            4. 关于游戏中的运动模糊的一点思考(11)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/wangchengfeng/p/3523202.html">
+                            5. DirectX考试判卷心得(10)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/wangchengfeng/p/3608749.html">
+                                1. 教材，教材，国内的教材你为何如此不堪入目？码农，码农，你到底该如何脱离码农？(36)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/wangchengfeng/p/3651124.html">
+                                2. 历时一周，unity3d+xtion打造我的第一个休闲体感小游戏《空降奇兵》(26)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/wangchengfeng/p/3470310.html">
+                                3. 3D游戏常用技巧Normal Mapping (法线贴图)原理解析——基础篇(6)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/wangchengfeng/p/3618469.html">
+                                4. 浅析游戏引擎的资源管理机制——扒一扒Unity3D中隐藏在背后的资源管理(5)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/wangchengfeng/p/3445605.html">
+                                5. 关于游戏中的运动模糊的一点思考(5)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div></div>
+                    <script>loadBlogSideColumn();</script>
+
+</div>
+</div>
+<div class="clear"></div>
+<div id="footer">
+<p id="footer">
+	Powered by: 
+	<br />
+	
+	<a href="https://www.cnblogs.com/" id="footer_site_link">博客园</a>
+	<br />
+	Copyright © 2021 水煮鱼丸
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+</p>
+
+
+</div>
+</div>
+
+
+    
+
+
+<iframe id="google_osd_static_frame_7867408375434" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body></html>

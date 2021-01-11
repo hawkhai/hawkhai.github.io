@@ -123,6 +123,200 @@ $$
 
 ## deferred shading 延迟渲染
 
+目前我们看到最终画面都是 2D 的，只能看到有限的像素数，理论上我们只要处理（指光照，阴影处理）最终我们可以看到的点的效果就够了，
+多余的处理是浪费的。而正常的前向渲染 (Forward Shading) 流程是把空间的点进行各种剪裁后，进行处理，所处理量远远大于我们最终看到的。
+所以延迟渲染出现了。它先将摄像机空间的点光栅化转化成屏幕坐标后再进行处理。这样就能减少处理的次数，从而提高效率。
+
+> 我一直认为，延迟渲染跟阴影，是图形学的一个分水岭。能深刻的理解了延迟渲染、阴影，那么至少图形学算是入门了，至少对渲染架构，渲染的一些基本算法，入门了，不再是门外汉了。[延迟渲染 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/102134614)
+
+延时其实指的是在渲染场景之后，再来进行光照计算，也就是延时光照计算在后期进行，
+正向渲染的着色器采取物体 + 光照同时进行计算，也就是在渲染物体的时候，直接利用物体的物质，法线和颜色进行光照计算；
+而延时渲染，是先渲染场景，在 G-buffer 中存储光照计算所需要的数据。[from {% include relref_csdn.html %}](https://blog.csdn.net/qq_41286360/article/details/102794290)
+
+```cpp
+/**
+延迟渲染主要步骤：
+1. 几何处理阶段；
+2. 光照处理阶段；
+*/
+int main() {
+    // G-buffer 的创建
+    unsigned int gBuffer;
+    glGenFramebuffers(1, &gBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
+
+    unsigned int gPosition, gNormal, gAlbedoSpec;
+    // position - 位置信息
+    // normal - 法线信息
+    // albedospec - 颜色信息
+
+    // 深度附件
+
+    // MRT-Multiple Render Targets 多渲染目标技术
+    unsigned int attachments[3] = { GL_COLOR_ATTACHMENT0,GL_COLOR_ATTACHMENT1,GL_COLOR_ATTACHMENT2 };
+    glDrawBuffers(3, attachments);
+
+    // 多光源
+    // 渲染步骤
+    while (!glfwWindowShouldClose(window)) {
+        // 几何处理阶段
+
+        // 光照处理阶段
+
+        renderQuad();
+        if (LightBox)
+        {
+            // 绘制光源
+        }
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
+    return 0;
+}
+
+// 绘制铺满整个屏幕的矩形
+unsigned int quadVAO = 0;
+unsigned int quadVBO;
+void renderQuad() {
+}
+```
+
+
+### g-buffer.fs
+
+```glsl
+#version 330 core
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec3 aNormal;
+layout (location = 2) in vec2 aTexCoords;
+
+out vec3 FragPos;
+out vec2 TexCoords;
+out vec3 Normal;
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
+void main()
+{
+    vec4 worldPos = model * vec4(aPos, 1.0);
+    FragPos = worldPos.xyz;
+    TexCoords = aTexCoords;
+
+    mat3 normalMatrix = transpose(inverse(mat3(model)));
+    Normal = normalMatrix * aNormal;
+
+    gl_Position = projection * view * worldPos;
+}
+```
+
+
+### g-buffer.vs
+
+```glsl
+#version 330 core
+layout (location = 0) out vec3 gPosition;
+layout (location = 1) out vec3 gNormal;
+layout (location = 2) out vec4 gAlbedoSpec;
+
+in vec2 TexCoords;
+in vec3 FragPos;
+in vec3 Normal;
+
+uniform sampler2D texture_diffuse1;
+
+void main()
+{
+    gPosition = FragPos;
+    gNormal = normalize(Normal);
+    gAlbedoSpec.rgb = texture(texture_diffuse1, TexCoords).rgb;
+}
+```
+
+
+### deferred_shading.vs
+
+```glsl
+#version 330 core
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec2 aTexCoords;
+
+out vec2 TexCoords;
+
+void main()
+{
+    TexCoords = aTexCoords;
+    gl_Position = vec4(aPos, 1.0);
+}
+```
+
+
+### deferred_shading.fs
+
+```glsl
+#version 330 core
+out vec4 FragColor;
+
+in vec2 TexCoords;
+
+uniform sampler2D gPosition;
+uniform sampler2D gNormal;
+uniform sampler2D gAlbedoSpec;
+uniform float num;
+
+struct Light {
+    vec3 Position;
+    vec3 Color;
+};
+const int NR_LIGHTS = 50;
+uniform Light lights[NR_LIGHTS];
+uniform vec3 viewPos;
+
+void main()
+{
+    // 从 G-buffer 中提取数据
+    vec3 FragPos = texture(gPosition, TexCoords).rgb;
+    vec3 Normal = texture(gNormal, TexCoords).rgb;
+    vec3 Diffuse = texture(gAlbedoSpec, TexCoords).rgb;
+    float Specular = 1.0f;
+
+    // 光照计算
+    vec3 lighting = Diffuse * 0.9;
+    vec3 viewDir = normalize(viewPos - FragPos);
+    for(int i = 0; i < NR_LIGHTS; ++i)
+    {
+        // 环境光
+        vec3 ambient = Diffuse * 0.01;
+        // 漫反射
+        vec3 lightDir = normalize(lights[i].Position - FragPos);
+        vec3 diffuse = max(dot(Normal, lightDir), 0.0) * Diffuse * lights[i].Color;
+        // 镜面高光
+        vec3 halfwayDir = normalize(lightDir + viewDir);
+        float spec = pow(max(dot(Normal, halfwayDir), 0.0), 16.0);
+        vec3 specular = lights[i].Color * spec * Specular;
+
+        lighting += ambient + diffuse + specular;
+    }
+    FragColor = vec4(lighting/num, 1.0);
+}
+```
+
+[Deferred Shading（延迟渲染） {% include relref_cnblogs.html %}](https://www.cnblogs.com/wangchengfeng/p/3440097.html)
+
+
+### 延时渲染的缺点
+
+* 不可以用混合技术，因此透明对象无法渲染。
+* 没法实现基于硬件实现的多重采样抗锯齿功能；因为渲染过程发生在上面的第二步，第二步只有一个样本，
+    但是基于硬件实现的多重采样抗锯齿需要多个样本。
+* 需要高带宽的显卡。
+* 显卡不支持 mrt（multi render target）技术，还可以实现延时渲染吗？可以做，可以通过建立三个帧缓冲，分别存储位置，法线和延时信息，
+    渲染三次场景提取信息并存储在三个附件中，但是不建议，这样显卡的负担会很大。
+
 
 ## 屏幕空间环境光屏蔽 SSAO
 
@@ -181,6 +375,9 @@ Quintic falloffs solves the problem.
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://de45xmedrsdbp.cloudfront.net/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/de45xmedrsdbp.cloudfront.net/5e127a5d.pdf" %})
+- [https://zhuanlan.zhihu.com/p/102134614]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/zhuanlan.zhihu.com/4b44882b.html" %})
+- [https://blog.csdn.net/qq_41286360/article/details/102794290]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/blog.csdn.net/cf63d6f4.html" %})
+- [https://www.cnblogs.com/wangchengfeng/p/3440097.html]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.cnblogs.com/fec295b6.html" %})
 - [https://www.ndt.net/article/wcndt00/papers/idn256/idn256.htm]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.ndt.net/368552c1.htm" %})
 - [https://www.cnblogs.com/kalluwa/p/7092532.html]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.cnblogs.com/7b29365d.html" %})
 - [https://www.shadertoy.com/view/XssXDl]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.shadertoy.com/2ed3e251.html" %})

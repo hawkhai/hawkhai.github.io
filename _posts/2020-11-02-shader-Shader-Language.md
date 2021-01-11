@@ -71,6 +71,17 @@ Cg 由 NVIDIA 公司和微软公司相互协作在标准硬件光照语言的语
 图 2.11 OpenGL 和 DirectX 的屏幕坐标系差异。对于一张 512\*512 大小的图像，在 OpenGL 中其（0, 0）点在左下角，而在 DirectX 中其（0, 0）点在左上角。
 
 
+## EGL 介绍和使用
+
+[EGL 介绍和使用 link {% include relref_csdn.html %}](https://blog.csdn.net/afei__/article/details/84867104)
+
+EGL 是渲染 API（如 OpenGL ES）和原生窗口系统之间的接口。
+
+通常来说，OpenGL 是一个操作 GPU 的 API，它通过驱动向 GPU 发送相关指令，控制图形渲染管线状态机的运行状态，但是当涉及到与本地窗口系统进行交互时，就需要这么一个中间层，且它最好是与平台无关的。
+
+因此 EGL 被设计出来，作为 OpenGL 和原生窗口系统之间的桥梁。
+
+
 ## 一些牛逼
 
 [士郎 Shader --- 实时水面模拟与渲染（一）](http://www.manew.com/thread-112638-1-1.html)
@@ -93,6 +104,7 @@ Cg 由 NVIDIA 公司和微软公司相互协作在标准硬件光照语言的语
 - [https://www.cnblogs.com/yanhuiw/p/3281028.html]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/www.cnblogs.com/50e502ac.html" %})
 - [https://blog.csdn.net/u010724874/article/details/48543593]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/blog.csdn.net/1d2af137.html" %})
 - [http://opengl-redbook.com/]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/opengl-redbook.com/02741bc9.html" %})
+- [https://blog.csdn.net/afei__/article/details/84867104]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/blog.csdn.net/c9956269.html" %})
 - [http://www.manew.com/thread-112638-1-1.html]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/www.manew.com/cd5185d7.html" %})
 - [https://docs.unity3d.com/Manual/class-ComputeShader.html]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/docs.unity3d.com/7518bb35.html" %})
 - [https://zhuanlan.zhihu.com/p/47433678]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/zhuanlan.zhihu.com/92aa76cb.html" %})
