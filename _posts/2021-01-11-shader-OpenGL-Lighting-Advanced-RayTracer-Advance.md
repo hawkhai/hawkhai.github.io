@@ -26,6 +26,8 @@ Unity 和 Unreal 共同支持全球 90% 的游戏，现在在其引擎中支持�
 * [光线追踪器 Ray Tracer：入门篇](https://yangwc.com/2019/05/08/RayTracer-Basis/)
 * [光线追踪器 Ray Tracer：进阶篇](https://yangwc.com/2019/05/23/RayTracer-Advance/)
 
+{% include image.html url="/assets/images/210111-shader-opengl-lighting-~2a/e066a486-ec44-42fe-9205-c345fe0fa356.png" %}
+
 
 ## 光线追踪纵览
 
@@ -79,6 +81,7 @@ Unity 和 Unreal 共同支持全球 90% 的游戏，现在在其引擎中支持�
 - [2] [光线追踪器 Ray Tracer：进阶篇](https://yangwc.com/2019/05/23/RayTracer-Advance/)
 - [3] [浅谈光线追踪 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/45087397)
 - [4] [《赛博朋克 2077》光线追踪效果展示 光追效果截图](https://wap.gamersky.com/gl/Content-1340332.html)
+- [5] [光线追踪-引擎 Jan 3, 2020 • Huailiang {% include relref_github.html %}](https://huailiang.github.io/blog/2020/ray/)
 
 -----
 
@@ -91,3 +94,4 @@ Unity 和 Unreal 共同支持全球 90% 的游戏，现在在其引擎中支持�
 - [https://3c.3dmgame.com/show-14-12283-1.html]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/3c.3dmgame.com/43a63afe.html" %})
 - [https://zhuanlan.zhihu.com/p/45087397]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/zhuanlan.zhihu.com/f04a523c.html" %})
 - [https://wap.gamersky.com/gl/Content-1340332.html]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/wap.gamersky.com/9312b476.html" %})
+- [https://huailiang.github.io/blog/2020/ray/]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/huailiang.github.io/48dc6f83.html" %})
