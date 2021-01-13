@@ -170,11 +170,11 @@ namespace geometry {
             // inverse hill
             y = 1.0f - abs(sin(x));
             // SawTooth
-            y = clamp(mod(x, 1.0f), 0.0, 1.0);
+            y = clamp(mod(x / 5.0, 1.0f), 0.0, 1.0);
             // Inverse SawTooth
-            y = 1.0f - clamp(mod(x, 1.0f), 0.0, 1.0);
+            //y = 1.0f - clamp(mod(x / 5.0, 1.0f), 0.0, 1.0);
             // Square
-            y = round(sin(x));
+            //y = round(sin(x));
         }
 
         void main() {
