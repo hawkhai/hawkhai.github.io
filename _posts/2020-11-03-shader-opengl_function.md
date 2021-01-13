@@ -24,12 +24,12 @@ codeprint:
 
 ## Gallary
 
-{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-sin.webp" caption="sin $y = sin(x);$" %}
-{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-square.webp" caption="Square $y = round(sin(x));$" %}
-{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-sawtooth.webp" caption="SawTooth $y = clamp(mod(x / 5.0, 1.0f), 0.0, 1.0);$" %}
-{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-inverse-sawtooth.webp" caption="Inverse SawTooth $y = 1.0f - clamp(mod(x / 5.0, 1.0f), 0.0, 1.0);$" %}
-{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-hill.webp" caption="hill $y = abs(sin(x));$" %}
-{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-inverse-hill.webp" caption="inverse hill $y = 1.0f - abs(sin(x));$" %}
+{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-sin.webp" caption="sin $y = (sin(x) + 1.0) / 2.0$" %}
+{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-square.webp" caption="Square $y = (round(sin(x)) + 1.0) / 2.0$" %}
+{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-sawtooth.webp" caption="SawTooth $y = clamp(mod(x / 5.0, 1.0f), 0.0, 1.0)$" %}
+{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-inverse-sawtooth.webp" caption="Inverse SawTooth $y = 1.0f - clamp(mod(x / 5.0, 1.0f), 0.0, 1.0)$" %}
+{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-hill.webp" caption="hill $y = abs(sin(x))$" %}
+{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-inverse-hill.webp" caption="inverse hill $y = 1.0f - abs(sin(x))$" %}
 
 
 ## Code
@@ -164,17 +164,17 @@ namespace geometry {
         void calc(in float x, out float y) {
 
             // perfect sin
-            y = sin(x);
+            y = (sin(x) + 1.0) / 2.0;
             // hill
-            y = abs(sin(x));
+            //y = abs(sin(x));
             // inverse hill
-            y = 1.0f - abs(sin(x));
+            //y = 1.0f - abs(sin(x));
             // SawTooth
-            y = clamp(mod(x / 5.0, 1.0f), 0.0, 1.0);
+            //y = clamp(mod(x / 5.0, 1.0f), 0.0, 1.0);
             // Inverse SawTooth
             //y = 1.0f - clamp(mod(x / 5.0, 1.0f), 0.0, 1.0);
             // Square
-            //y = round(sin(x));
+            y = (round(sin(x)) + 1.0) / 2.0;
         }
 
         void main() {
