@@ -1,0 +1,741 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="最初的网页链接已经挂了, 在此贴一个中间的转载链接 https://blog.csdn.net/zhazhiqiang/article/details/51577523 一 概要 vs中导出 dll的" />
+    <meta property="og:description" content="最初的网页链接已经挂了, 在此贴一个中间的转载链接 https://blog.csdn.net/zhazhiqiang/article/details/51577523 一 概要 vs中导出 dll的" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>dll导出函数的两种方式的比较 - talenth - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=R2wBwmwSMG0Sqiw8GFSVjHT4Payg_JFAn51R8XcuvN0" />
+    <link id="MainCss" rel="stylesheet" href="/skins/habahaba/bundle-habahaba.min.css?v=VEh2n-0o9wvu6MLSGg-02yLSQexJr7iba86RBalgzIg" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/habahaba/bundle-habahaba-mobile.min.css?v=iwyTBCq0yI4S4G_W1Q6v2XTVbfYZ47nSVT8NVCgIXiI" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/talenth/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/talenth/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/talenth/wlwmanifest.xml" />
+    <script src="https://www.googletagservices.com/activeview/js/current/osd.js?cb=%2Fr20100101"></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 301466;
+        var currentBlogApp = 'talenth';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'HabaHaba';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2018-09-04 04:26';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=V0BbkkQE24zt1D_4TRGfRwcCB1E3YoBpH5YOp1qKoxA"></script>
+    
+    
+    
+<meta http-equiv="origin-trial" content="A2shzsdPO+RKe83bUqT9oVkYwGZN6j9O7nrcOASNFPuQz8HefgVYb9qAqn6coNCSDIRtXoi6ybCrjEsYh3caFgIAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MTM0OTU4NjgsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021010903.js" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script><link rel="prefetch" href="https://ee0d3a3475f495cb9f0fa56702d9e549.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html" /><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-37/html/container.html" /></head>
+<body class="has-navbar has-bannerbar">
+    <a name="top"></a>
+        <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://developer.aliyun.com/learning/trainingcamp/postgresql/1?utm_content=g_1000229822" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aliyun-mobile-bannerbar')">
+                <img src="https://img2020.cnblogs.com/blog/1/202101/1-20210113175211659-1159921719.png" alt="" />
+            </a>
+        </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <table width="100%" class="Framework" cellspacing="0" cellpadding="0">
+	<tbody><tr>
+		<td colspan="2">
+			
+<div id="top">
+<table width="100%" cellpadding="8" cellspacing="0">
+	<tbody><tr>
+		<td nowrap="">
+			<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/talenth/">talenth</a>
+</h1>
+			
+		</td>
+	</tr>
+</tbody></table>
+</div>
+<div id="sub"><div class="BlogStats">随笔 - 113, 文章 - 0, 评论 - 14</div>
+
+</div>
+
+
+
+</td>
+	</tr>
+	<tr>
+		<td class="LeftCell">
+            <div id="leftmenu">
+                
+<h3>导航</h3>
+<ul>
+	<li>
+		<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+	<li>
+		
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/talenth/">
+首页</a>
+</li>
+	<li>
+		
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+	<li>
+		
+</li>
+	<li>
+		
+</li>
+	<li>
+		
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+                <div id="sidebar_news" class="newsItem"><h3>公告</h3>
+<div id="news">
+	
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/talenth/">
+            talenth
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/talenth/" title="入园时间：2014-05-10">
+            6年8个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/talenth/followers/">
+            7
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/talenth/followees/">
+            2
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('fd1e9fcf-f0d7-e311-8d02-90b11c0b17d6')">+加关注</a></div>
+        <script>getFollowStatus('fd1e9fcf-f0d7-e311-8d02-90b11c0b17d6');</script>
+    </div>
+</div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+                <div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2020/12/15'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2021年1月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2021/02/15'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">27</td>
+                            <td class="CalOtherMonthDay" align="center">28</td>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                            <td class="CalOtherMonthDay" align="center">31</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        2
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            3
+                        </td>
+                            <td class="" align="center">
+                                4
+                            </td>
+                            <td class="" align="center">
+                                5
+                            </td>
+                            <td class="" align="center">
+                                6
+                            </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            9
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            10
+                        </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                            <td class="CalTodayDay" align="center">
+                                15
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            16
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            17
+                        </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            23
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            24
+                        </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            30
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            31
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            6
+                        </td>
+                </tr>
+    </tbody>
+</table></div>
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    
+<li><a href="https://www.cnblogs.com/talenth/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/talenth/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/talenth/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/talenth/RecentComments.html" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/talenth/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block">
+<h3>我的标签</h3>
+<div id="MyTag">
+    <ul>
+                <li>
+            <a href="https://www.cnblogs.com/talenth/tag/windows/">windows<span class="tag-count">(45)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/talenth/tag/c%2B%2B/">c++<span class="tag-count">(9)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/talenth/tag/%E6%B1%87%E7%BC%96/">汇编<span class="tag-count">(8)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/talenth/tag/python/">python<span class="tag-count">(7)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/talenth/tag/linux/">linux<span class="tag-count">(6)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/talenth/tag/mysql/">mysql<span class="tag-count">(3)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/talenth/tag/OllyDbg/">OllyDbg<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/talenth/tag/http/">http<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/talenth/tag/json/">json<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/talenth/tag/driver/">driver<span class="tag-count">(2)</span></a>
+        </li>
+    <li>
+        <a href="https://www.cnblogs.com/talenth/tag/">更多</a>
+    </li>
+
+    </ul>
+</div>
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+</div>
+
+<!-- 最新评论 -->
+<div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap" class="RecentComment">
+    <h3 class="catListTitle">最新评论</h3>
+    <div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/talenth/p/6867513.html">1. Re:关于OllyDbg的一些设置</a></li>
+                    <li class="recent_comment_body"><p>原始的字体大小，看的我狗眼都要瞎了...</p>
+</li>
+                    <li class="recent_comment_author">--Ajanuw</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/talenth/p/11904052.html">2. Re:不弹出程序兼容性助手</a></li>
+                    <li class="recent_comment_body">@ 黑衫老腰告诉操作系统, 这个程序跟列的这些系统是兼容的, 原生的测试过, 没有问题; .net没有测试过...</li>
+                    <li class="recent_comment_author">--talenth</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/talenth/p/11904052.html">3. Re:不弹出程序兼容性助手</a></li>
+                    <li class="recent_comment_body">请教第二种方法的原理是什么，哪儿有介绍？原生的win32和.net托管程序是否都适合？</li>
+                    <li class="recent_comment_author">--黑衫老腰</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/talenth/p/7068392.html">4. Re:完成端口IOCP详解</a></li>
+                    <li class="recent_comment_body">感谢大神！文章对我非常有用！</li>
+                    <li class="recent_comment_author">--雒珣</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/talenth/p/7068392.html">5. Re:完成端口IOCP详解</a></li>
+                    <li class="recent_comment_body">大佬，膜拜再读</li>
+                    <li class="recent_comment_author">--土豆哥哥</li>
+        </ul>
+    </div>
+</div></div>
+
+
+<!-- 阅读排行榜 -->
+
+
+<!-- 评论排行榜 -->
+
+
+<!-- 推荐排行榜 -->
+</div>
+                <script>loadBlogSideColumn();</script>
+            </div>
+		</td>
+		<td class="MainCell" width="100%">
+			<div id="main">
+				<div id="post_detail">
+	<div class="post">
+		<div class="posthead">
+			<h2>
+				
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/talenth/p/9585208.html">
+    <span>dll导出函数的两种方式的比较</span>
+    
+
+
+</a>
+
+			</h2>
+ 			Posted on 
+<span id="post-date">2018-09-04 16:26</span> 
+<a href="https://www.cnblogs.com/talenth/">talenth</a> 
+阅读(<span id="post_view_count">6562</span>) 
+评论(<span id="post_comment_count">0</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=9585208" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(9585208);return false;">收藏</a>
+			
+			
+		</div>
+		<div class="postbody">
+<div id="cnblogs_post_body" class="blogpost-body">
+    <p>最初的网页链接已经挂了, 在此贴一个中间的转载链接</p>
+<p>https://blog.csdn.net/zhazhiqiang/article/details/51577523</p>
+<p>一 概要</p>
+<p>　　vs中导出 dll的方法有两种: 一种是使用__declspec(dllexport), 另一种就是使用.def文件方式,</p>
+<p>　　这两种方式的最主要区别是在导出函数的名字上, 其次还有一些操作的灵活性上以及功能的强弱</p>
+<p>二 一个具体的例子</p>
+<p style="margin-left: 30px" align="left">1 __declspec(dllexport) 方式<br />首先对C和C++编译(extern "C")与调用约定(__cdecl、__stdcall、__fastcall)进行组合测试：<br />&lt;1&gt; C++编译<br />__declspec(dllexport) int add(int, int);</p>
+<p style="margin-left: 60px" align="left"><img src="https://img2018.cnblogs.com/blog/632353/201809/632353-20180904162755028-1519997000.png" alt="" /></p>
+<p style="margin-left: 30px">__declspec(dllexport) int __cdecl add(int, int);</p>
+<p style="margin-left: 60px" align="left"><img src="https://img2018.cnblogs.com/blog/632353/201809/632353-20180904162812590-44820080.png" alt="" /></p>
+<p style="margin-left: 30px">__declspec(dllexport) int __stdcall add(int, int);</p>
+<p style="margin-left: 60px" align="left"><img src="https://img2018.cnblogs.com/blog/632353/201809/632353-20180904162822390-722876879.png" alt="" /></p>
+<p style="margin-left: 30px">__declspec(dllexport) int __fastcall add(int, int);</p>
+<p style="margin-left: 60px" align="left"><img src="https://img2018.cnblogs.com/blog/632353/201809/632353-20180904162845970-1658299139.png" alt="" /></p>
+<p style="margin-left: 30px" align="left">对于C++编译器的函数名修饰规则：不管__cdecl, __fastcall还是__stdcall调用方式，函数修饰名都是以"?"开始，后面是函数在名字，再后面是函数返回类型和参数类型按照代号拼出的参数表。对于__stdcall方式，参数表的开始标示是"@@YG”,对于__cdecl方式则是"@@YA”,对于__fastcall方式则是"@@YI”.<br />参数表后以"@Z”标示整个名字的结束，如果该函数无参数，则以"Z”标识结束。 <br /><br /></p>
+<p style="margin-left: 30px" align="left">&lt;2&gt; C编译<br />extern "C" __declspec(dllexport) int add(int, int);</p>
+<p style="margin-left: 60px" align="left"><img src="https://img2018.cnblogs.com/blog/632353/201809/632353-20180904162900687-483646682.png" alt="" /></p>
+<p style="margin-left: 30px">extern "C" __declspec(dllexport) int __cdecl add(int, int);</p>
+<p style="margin-left: 60px" align="left"><img src="https://img2018.cnblogs.com/blog/632353/201809/632353-20180904164216907-1400578503.png" alt="" /></p>
+<p style="margin-left: 30px">extern "C" __declspec(dllexport) int __stdcall add(int, int);</p>
+<p style="margin-left: 60px" align="left"><img src="https://img2018.cnblogs.com/blog/632353/201809/632353-20180904164223433-1206003218.png" alt="" /></p>
+<p style="margin-left: 30px">extern "C" __declspec(dllexport) int __fastcall add(int, int);</p>
+<p style="margin-left: 60px" align="left"><img src="https://img2018.cnblogs.com/blog/632353/201809/632353-20180904164229061-354285467.png" alt="" /></p>
+<p style="margin-left: 30px" align="left"><span class="wp_keywordlink">&lt;3&gt; 备注<br />__declspec(dllexport)的位置：<br />To export functions, the __declspec(dllexport) keyword must appear to the left of the calling-convention keyword, if a keyword is specified.</span></p>
+<p style="margin-left: 30px" align="left">For example:<br />__declspec(dllexport) void __cdecl Function1(void);</p>
+<p style="margin-left: 30px" align="left"><br />To export all of the public data members and member functions in a class, the keyword must appear to the left of the class name as follows:<br />class __declspec(dllexport) CExampleExport : public CObject</p>
+<p style="margin-left: 30px" align="left">{  class definition  };<br /><br /></p>
+<p style="margin-left: 30px" align="left">2 def文件导出方式(项目中添加一个def后缀的文件, 然后在项目属性-&gt;连接器-&gt;所有选项-&gt;模块定义文件)</p>
+<p style="margin-left: 30px" align="left">具体到测试实例，我们的def文件内容如下：<br />LIBRARY "win"</p>
+<p style="margin-left: 30px" align="left">EXPORTS<br />add @1</p>
+<p style="margin-left: 30px" align="left">其中LIBRARY指定dll的模块名称，即dll名字，EXPORTS后的每一行指定一个导出函数名字，这个名字和头文件中的声明一致，后面可以跟@序号指定该函数的序号（这个是可选的，后面按序号导入函数的时候再详细说）。</p>
+<p style="margin-left: 30px" align="left">然后再测试一下__stdcall和__fastcall是否会对导出函数改名，测试结果如下，均未改名:</p>
+<p style="margin-left: 30px" align="left">extern "C" int __stdcall add();</p>
+<p style="margin-left: 30px" align="left"><img src="https://img2018.cnblogs.com/blog/632353/201809/632353-20180904163009476-810404713.png" alt="" /></p>
+<p style="margin-left: 30px">extern "C" int __fastcall add();</p>
+<p style="margin-left: 30px" align="left"> <img src="https://img2018.cnblogs.com/blog/632353/201809/632353-20180904163720298-2059319065.png" alt="" /></p>
+<p style="margin-left: 30px">另外一种方案是在<span class="wp_keywordlink"><a title="代码" href="http://www.xuebuyuan.com/" rel="nofollow" target="_blank">代码</a>中给链接器指定导出函数名字：<br />extern "C" __declspec(dllexport) int __fastcall add(int a, int b);<br />#pragma comment(linker, "/export:add=@add@8")<br />这里告诉链接器，导出一个函数名为add的函数，函数入口点和@add@8相同</span></p>
+<p style="margin-left: 30px" align="left"><img src="https://img2018.cnblogs.com/blog/632353/201809/632353-20180904163659485-452797473.png" alt="" /></p>
+<p style="margin-left: 30px" align="left">这样，我们既可以使用add，也可以使用@add@8了。<br />__stdcall方式和这类似，为add=_add@8。</p>
+<p style="margin-left: 30px" align="left">【按序号而不是按名称从dll导出函数】<br /><a href="http://msdn.microsoft.com/zh-cn/library/e7tsx612%28VS.80%29.aspx" rel="nofollow" target="_blank">http://msdn.microsoft.com/zh-cn/library/e7tsx612%28VS.80%29.aspx</a><br />def文件定义如下：<br />LIBRARY "win"</p>
+<p style="margin-left: 30px" align="left">EXPORTS<br />add @1 NONAME</p>
+<p style="margin-left: 30px" align="left"><img src="https://img2018.cnblogs.com/blog/632353/201809/632353-20180904163138263-521698741.png" alt="" /></p>
+<p style="margin-left: 30px" align="left">函数名称和Hint都不见了。<br />这样也可以用来隐藏dll中一些重要函数。</p>
+<p style="margin-left: 30px" align="left">隐藏了函数名称，在应用程序中使用序号来导入函数：<br />#include &lt;windows.h&gt;<br />#include &lt;stdio.h&gt;</p>
+<p style="margin-left: 30px" align="left">int main()<br />{<br />　　typedef int (* AddFunc)(int, int);<br />　　HMODULE hModule = LoadLibrary("dll.dll");<br />　　AddFunc add = (AddFunc)GetProcAddress(hModule, MAKEINTRESOURCE(1)); //注意这里序号的指定方式<br />　　printf("%d\n", add(1, 2));<br />　　return 0;<br />}</p>
+<p align="left"><br />三 总结：</p>
+<p style="margin-left: 30px">1 __declspec(dllexport)</p>
+<div style="margin-left: 30px">在 32 位编译器版本中，可以使用 __declspec(dllexport) 关键字从 DLL 导出数据、函数、类或类成员函数。__declspec(dllexport) 在link时会将导出指令添加到obj文件中，因此不需要使用 .def 文件。当然，即使用了__declspec(dllexport)依然可以使用*.def文件，因为不同编译器对于类的成员函数的name mangling规则不同，可以定义.def文件通过序号调用。为每个dll写def显得很繁杂，目前def使用已经比较少了，更多的是使用__declspec(dllexport)在<span class="wp_keywordlink"><span class="wp_keywordlink"><a title="源代码" href="http://www.xuebuyuan.com/" rel="nofollow" target="_blank">源代码</a>中定义dll的输出函数。</span></span>
+<p>若要输出类的所有成员：数据or函数，__declspec(dllexport)要放在类名左边声明：<br />class __declspec(dllexport) Class1{}<br />如果类没有数据成员，__declspec(dllexport)放在class关键字前声明就会被编译器忽略，就没有lib生成，如下：<br />__declspec(dllexport) class Class1{}</p>
+<div>使用 __declspec(dllexport) 的优缺点(zz)<br />使用 __declspec(dllexport) 非常方便，因为不必考虑维护 .def 文件和获取导出函数的修饰名。例如，如果您设计的 DLL 供自己控制的应用程序使用，则此方法很适用。如果通过新的导出函数重新生成 DLL，还必须重新生成应用程序，因为如果使用不同版本的编译器进行重新编译，则导出的 C++ 函数的修饰名可能会发生变化。</div>
+<div> </div>
+<div>2 def文件</div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<div style="margin-left: 30px">其实def文件的功能相当于extern “C” __declspec(dllexport)</div>
+<div style="margin-left: 30px">def文件中PRIVTATE的作用
+<div>The optional keyword PRIVATE prevents entryname from being placed in the import library generated by LINK. It has no</div>
+<div>effect on the export in the image also generated by LINK.用了PRIVATE，生成的lib里没有对应方法或者数据的entryname因此不能被客户隐式调用。
+<p>使用 .DEF 文件的优缺点(zz)<br />在 .def 文件中导出函数使您得以控制导出序号。当将附加的导出函数添加到 DLL 时，可以给它们分配更高的序号值（高于任何其他导出函数）。当您进行此操作时，使用隐式链接的应用程序不必与包含新函数的新导入库重新链接。这非常重要，例如，在设计将由许多应用程序使用的第三方DLL 时。可以通过添加附加功能不断地增强 DLL，同时确保现有应用程序继续正常使用新的 DLL。MFC DLL 是使用 .def 文件生成的。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<div style="margin-left: 30px">使用 .def 文件的另一个优点是：可以使用 NONAME 属性导出函数，该属性仅将序号放到 DLL 的导出表中。对具有大量导出函数的 DLL，使用NONAME 属性可以减小 DLL 文件的大小。有关编写模块定义语句的信息，请参见模块定义语句的规则。有关序号导出的更多信息，请参见按序号而不是按名称从 DLL 导出函数。</div>
+<div style="margin-left: 30px">使用 .def 文件的主要缺点是：在 C++ 文件中导出函数时，必须将修饰名放到 .def 文件中，或者通过使用外部“C”用标准 C 链接定义导出函数，以避免编译器进行名称修饰。如果需要将修饰名放到 .def 文件中，则可以通过使用 DUMPBIN 工具或 /MAP 链接器选项来获取修饰名。请注意，编译器产生的修饰名是编译器特定的。如果将 Visual C++ 编译器产生的修饰名放到 .def 文件中，则链接到 DLL 的应用程序必须也是用相同版本的 Visual C++ 生成的，这样调用应用程序中的修饰名才能与<br />DLL 的 .def 文件中的导出名相匹配。 </div>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="EntryTag">
+    标签: 
+            <a href="https://www.cnblogs.com/talenth/tag/windows/">windows</a>,             <a href="https://www.cnblogs.com/talenth/tag/dll/">dll</a></div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(9585208,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('fd1e9fcf-f0d7-e311-8d02-90b11c0b17d6');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/talenth/" target="_blank"><img src="https://pic.cnblogs.com/face/632353/20140510112939.png" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/talenth/">talenth</a><br />
+            <a href="https://home.cnblogs.com/u/talenth/followees/">关注 - 2</a><br />
+            <a href="https://home.cnblogs.com/u/talenth/followers/">粉丝 - 7</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('fd1e9fcf-f0d7-e311-8d02-90b11c0b17d6');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(9585208,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(9585208,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/talenth/p/9577143.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/talenth/p/9577143.html" title="发布于 2018-09-03 10:16">windows下共享式服务开发</a>
+    <br />
+    <a href="https://www.cnblogs.com/talenth/p/9626077.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/talenth/p/9626077.html" title="发布于 2018-09-11 10:29">ring0与ring3通信方式</a>
+
+</div>
+</div></div>
+	</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 301466, cb_blogApp = 'talenth', cb_blogUserGuid = 'fd1e9fcf-f0d7-e311-8d02-90b11c0b17d6';
+    var cb_entryId = 9585208, cb_entryCreatedDate = '2018-09-04 16:26', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="https://developer.aliyun.com/learning/trainingcamp/mysql/1?utm_content=g_1000228441" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云-MySQL')">【推荐】阿里出品，对标P7！限时免费七天玩转 PostgreSQL 创新营报名开启</a><br /><a href="https://developer.aliyun.com/topic/2021act?utm_content=g_1000227941" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云-新年礼包')">【推荐】变强吧2021！零门槛速抢阿里云开发者新年加油包，最高6000元</a><br /><a href="https://brands.cnblogs.com/aws/register" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-AWS')">【推荐】AWS携手博客园为开发者送福利，新用户立享12个月免费套餐</a><br /><a href="http://www.softbam.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-ucancode')">【推荐】大型组态、工控、仿真、CADGIS 50万行VC++源码免费下载</a><br /><a href="https://brands.cnblogs.com/aerospike" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-品牌专区-Aerospike')">【推荐】第一个NoSQL数据库，在大规模和一致性之间找到了平衡</a><br /><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为专区')">【推荐】了不起的开发者，挡不住的华为，园子里的品牌专区</a><br /><a href="https://brands.cnblogs.com/agora" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-声网专区')">【推荐】未知数的距离，毫秒间的传递，声网与你实时互动</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CODc2OC5ne4CFQ-zvAodbgAFAg"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br />·  <a title="dll" href="https://www.cnblogs.com/lijianming180/p/12037955.html" target="_blank" onclick="clickRecomItmem(12037955)">dll</a><br />·  <a title="[DllImport(&quot;kernel32.dll&quot;)]" href="https://www.cnblogs.com/bedfly/p/12071830.html" target="_blank" onclick="clickRecomItmem(12071830)">[DllImport("kernel32.dll")]</a><br />·  <a title="windows-DLL注入" href="https://www.cnblogs.com/csnd/p/12062293.html" target="_blank" onclick="clickRecomItmem(12062293)">windows-DLL注入</a><br />·  <a title="windows-DLL注入" href="https://www.cnblogs.com/csnd/p/12062292.html" target="_blank" onclick="clickRecomItmem(12062292)">windows-DLL注入</a><br />·  <a title="DLL注入-APC注入" href="https://www.cnblogs.com/csnd/p/12062139.html" target="_blank" onclick="clickRecomItmem(12062139)">DLL注入-APC注入</a><br />»  <a target="_blank" href="https://recomm.cnblogs.com/blogpost/9585208">更多推荐...</a></div></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;" data-google-query-id="COLc2OC5ne4CFQ-zvAodbgAFAg"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="2" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_kb">
+<div class="itnews c_ad_block">
+    <b>最新 IT 新闻</b>:
+    <br />
+ ·          <a href="//news.cnblogs.com/n/685346/" target="_blank">Dropbox 裁员 11%，COO 将辞职</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/685345/" target="_blank">亚马逊在2000年至2003年差点儿完蛋，为降低成本由Sun改用HP/Linux：才成就了AWS</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/685344/" target="_blank">特朗普拉黑小米！任期最后一周还要求美投资者在“双11”前撤资</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/685343/" target="_blank">悟空问答关停：字节跳动的第一场败仗</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/685342/" target="_blank">地球自转变快致每日时间变短：科学家提议将1分钟缩短至59秒</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+</div>
+
+
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" class="FooterCell">
+			<p id="footer">
+	Powered by: 
+	<br />
+	
+	<a href="https://www.cnblogs.com/" id="footer_site_link">博客园</a>
+	<br />
+	Copyright © 2021 talenth
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+</p>
+
+
+		</td>
+	</tr>
+</tbody></table>
+
+
+
+    
+
+
+<iframe id="google_osd_static_frame_7645044824906" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body></html>

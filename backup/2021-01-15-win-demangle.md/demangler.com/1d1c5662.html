@@ -1,0 +1,475 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
+      <title>GCC and MSVC C++ Demangler
+ </title>
+      <meta name="description" content="Enter your mangled GCC or MSVC C++ symbols and we will return them unmangled and readable! One step. Nothing to install.&#10;" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />      
+
+      <script async="" src="//www.google-analytics.com/analytics.js"></script><script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+     
+        ga('create', 'UA-28859461-1', 'auto');
+        ga('send', 'pageview'); 
+      </script>
+
+      <style type="text/css">
+
+html {
+  font-family: sans-serif; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+body {
+  margin: 0;
+}
+
+a {
+  background-color: transparent;
+}
+
+a:active,
+a:hover {
+  outline: 0;
+}
+
+b,
+strong {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+pre {
+  overflow: auto;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit; /* 1 */
+  font: inherit; /* 2 */
+  margin: 0; /* 3 */
+}
+
+button,
+html input[type="button"], /* 1 */
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button; /* 2 */
+  cursor: pointer; /* 3 */
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+input {
+  line-height: normal;
+}
+
+textarea {
+  overflow: auto;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box; }
+
+/* For devices larger than 400px */
+@media (min-width: 400px) {
+  .container {
+    width: 85%;
+    padding: 0; }
+}
+
+/* For devices larger than 550px */
+@media (min-width: 550px) {
+  .container {
+    width: 80%; }
+}
+
+html {
+  font-size: 62.5%; }
+body {
+  font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #222; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-weight: 300; }
+h1 { font-size: 4.0rem; line-height: 1.2;  letter-spacing: -.1rem;}
+h3 { font-size: 3.0rem; line-height: 1.3;  letter-spacing: -.1rem; }
+
+/* Larger than phablet */
+@media (min-width: 550px) {
+  h1 { font-size: 5.0rem; }
+  h3 { font-size: 3.6rem; }
+}
+
+p {
+  margin-top: 0; }
+
+
+a {
+  color: #1EAEDB; }
+a:hover {
+  color: #0FA0CE; }
+
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  display: inline-block;
+  height: 38px;
+  padding: 0 30px;
+  color: #555;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  cursor: pointer;
+  box-sizing: border-box; }
+.button:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+.button:focus,
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+  color: #333;
+  border-color: #888;
+  outline: 0; }
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea,
+select {
+  height: 38px;
+  padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+  background-color: #fff;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box; }
+/* Removes awkward default styles on some inputs for iOS */
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none; }
+textarea {
+  min-height: 65px;
+  padding-top: 6px;
+  padding-bottom: 6px; }
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  border: 1px solid #33C3F0;
+  outline: 0; }
+code {
+  padding: .2rem .5rem;
+  margin: 0 .2rem;
+  font-size: 90%;
+  white-space: nowrap;
+  background: #F1F1F1;
+  border: 1px solid #E1E1E1;
+  border-radius: 4px; }
+button,
+.button {
+  margin-bottom: 1rem; }
+input,
+textarea,
+select,
+fieldset {
+  margin-bottom: 1.5rem; }
+pre,
+blockquote,
+dl,
+figure,
+table,
+p,
+ul,
+ol,
+form {
+  margin-bottom: 2.5rem; }
+
+.container:after,
+.row:after,
+.u-cf {
+  content: "";
+  display: table;
+  clear: both; }
+div.container {
+   font: normal 1.3rem Arial, Helvetica, Sans-serif;
+   text-align:left;
+   padding:2px;
+   width: 100%;
+   max-width: 100%;
+   min-width: 200px;
+}
+
+h1 {
+    font-size: 2.4rem;
+}
+
+a {
+   color:#447;
+}
+
+a:hover {
+   color:#66A;
+}
+
+a:visited {
+   color:#777;
+}
+
+pre {
+   white-space: pre-wrap;
+}
+
+input.button
+{
+    background-color: #FF6;
+    height: 30px;
+    line-height: 30px;
+    color: #333;
+    margin: 0px;
+}
+
+form
+{
+    margin-bottom: 0.0rem;
+}
+
+div.rounded {
+    margin:2px;
+    padding-top:17px;
+    padding-bottom:17px;
+    padding-left:15px;
+    padding-right:15px;
+    border-radius:5px;
+    -moz-border-radius:5px;
+
+    border-style:solid;
+    border-width:1px;
+}
+
+div.pageHeader {
+   background:#E0E0E0;
+   border-color:#D0D0D0;
+}
+
+div.pageHeader h1,h2,h3 {
+   margin:0;
+}
+
+div.pageHeader a {
+   color:#333;
+   text-decoration:none;
+}
+
+div.pageHeader a:hover {
+   color:#333;
+   text-decoration:none;
+}
+
+div.pageHeader a:visited {
+   color:#333;
+   text-decoration:none;
+}
+
+div.section {
+   background:#F0F0F0;
+   border-color:#D0D0D0;
+}
+
+#idontgetit {
+   background:#FFFFF0;
+   margin:2px;
+   margin-top:15px;
+   padding-top:10px;
+   padding-bottom:10px;
+   padding-left:15px;
+   padding-right:15px;
+   border-radius:5px;
+    -moz-border-radius:5px;
+
+    border-style:solid;
+    border-width:1px;
+    border-color:#D0D0C0;
+}
+
+textarea
+{
+    height: auto;
+    width: 100%;
+}
+
+@media only screen and (max-device-width: 480px) { h1 { font-size: 1.8rem; } }
+@media only screen and (max-device-height: 670px) { textarea { height: 320px; } }
+@media only screen and (max-device-height: 640px) { textarea { height: 290px; } }
+@media only screen and (max-device-height: 600px) { textarea { height: 250px; } }
+@media only screen and (max-device-height: 570px) { textarea { height: 240px; } }
+@media only screen and (max-device-height: 480px) { textarea { height: 130px; } }
+</style>
+
+   </head>
+   
+   <body>
+      <div class="container">
+            <div class="pageHeader rounded">
+      <h1><a href="http://demangler.com">GCC and MSVC C++ Demangler
+</a>
+</h1>
+   </div>
+
+<div>
+      <div class="section rounded">
+      Enter your mangled GCC or MSVC C++ symbols or Java symbols in the text box below to demangle them. <a href="javascript:" onmousedown="if(document.getElementById('idontgetit').style.display == 'none'){ document.getElementById('idontgetit').style.display = 'block'; }else{ document.getElementById('idontgetit').style.display = 'none'; }">(I don't get it.)</a>
+<div id="idontgetit" style="display:none">
+
+<p>C++ compilers need to generate multiple library symbols 
+in compiled code for functions and data that have the same name. For example you may have two functions 
+in a program with the same name but different function arguments.</p>
+
+<p>To solve this problem C++ compilers will compile object code using <i>name mangling</i>. This is a 
+technique where the symbol's name is changed to encode type information, such as the type of a 
+function's arguments or signature.</p>
+
+<p>This can be a problem later when examining object code, such as when you dump the symbol tables of 
+compiled programs or libraries using binary file dumpers like 'nm' or 'dumpbin'. You will often see 
+mangled debugging symbols in stack traces, crash dumps or log files. The symbols reported are often unreable. </p>
+
+<p>Here are some mangled GCC symbols from part of an 'nm' dump that you can try out:</p>
+
+<pre>0000000000461fae W _ZNK8KxVectorI16KxfArcFileRecordjEixEj
+000000000042ea8a W _ZNK8KxVectorI5KxSpeIcjEjE4sizeEv
+000000000042d0e4 W _ZNK8KxVectorI5KxSpeIcjEjEixEj
+0000000000433ec6 W _ZNK8KxVectorI6DlAtomjE4sizeEv
+000000000043dfb0 W _ZNK8KxVectorI6DlAtomjEixEj
+0000000000435f04 W _ZNK8KxVectorI6DlTypejE4sizeEv
+000000000043df92 W _ZNK8KxVectorI6DlTypejEixEj
+000000000042c3c8 W _ZNK8KxVectorI7KSrvHMEjE4sizeEv
+00000000004435f8 W _ZNK8KxVectorIN4DlDb7DlDatumEjE4sizeEv
+000000000043dc6c W _ZNK8KxVectorIN4DlDb7DlDatumEjEixEj
+00000000004776da W _ZNK8KxVectorIP13KxLogObserverjE10idxIsValidEj
+0000000000477684 W _ZNK8KxVectorIP13KxLogObserverjE4findERKS1_
+</pre>
+
+<p>And here are some mangled symbols produced by MSVC, dumped from 'dumpbin':</p>
+
+<pre>68E 00000000 SECT1FD notype       External    | ??_R3?$KxSet@V?$KxSpe@DI@@I@@8
+691 00000000 SECT1FE notype       External    | ??_R2?$KxSet@V?$KxSpe@DI@@I@@8
+694 00000000 SECT1FF notype       External    | ??_R1A@?0A@EA@?$KxSet@V?$KxSpe@DI@@I@@8
+697 00000000 SECT200 notype       External    | ??_R1A@?0A@EA@?$KxTree@V?$KxSpe@DI@@I@@8
+69A 00000000 SECT201 notype       External    | ??_R0?AV?$KxTree@V?$KxSpe@DI@@I@@@8 
+69D 00000000 SECT202 notype       External    | ??_R3?$KxTree@V?$KxSpe@DI@@I@@8
+6A0 00000000 SECT203 notype       External    | ??_R2?$KxTree@V?$KxSpe@DI@@I@@8
+6A3 00000000 SECT204 notype       External    | ??_R4?$KxTree@V?$KxSpe@DI@@I@@6B@
+6A6 00000000 SECT205 notype       External    | ??_R4?$KxSet@VKxSymbol32@@I@@6B@
+6A9 00000000 SECT206 notype       External    | ??_R0?AV?$KxSet@VKxSymbol32@@I@@@8
+6AC 00000000 SECT207 notype       External    | ??_R3?$KxSet@VKxSymbol32@@I@@8
+6AF 00000000 SECT208 notype       External    | ??_R2?$KxSet@VKxSymbol32@@I@@8
+6B2 00000000 SECT209 notype       External    | ??_R1A@?0A@EA@?$KxSet@VKxSymbol32@@I@@8
+</pre>
+
+<p>This site can translate C++ and Java mangled names back to their original form, with the entire type 
+or function signature.</p>
+
+<p>We support mangled symbols generated by GCC, G++, MSVC and Java only.</p>
+
+<p>Simply enter any text containing obfuscated symbols in the window below, and press "Demangle it!"</p>
+
+<p><strong>Using Demangle as a web API</strong></p>
+
+<p>You can demangle text programatically by making a POST request to:</p>
+
+<pre>https://demangler.com/raw
+</pre>
+
+<p>The body of the request should be encoded as a classic www-url encoded form content, or JSON or XML, with a single parameter <i>input</i>. 
+You can use this for example to create a shell script that will demangle the output of another program:</p>
+
+<pre>#!/bin/bash
+curl --data-urlencode input@- https://demangler.com/raw</pre>
+
+<p>Which you can use like this:</p>
+
+<pre>nm libmylib.a | demangle.sh</pre>
+
+<p><strong>Contact</strong></p>
+
+<p>Email questions and comments to <a href="mailto:rafael@demangler.com">rafael@demangler.com</a></p>
+
+<p><a href="javascript:;" onmousedown="if(document.getElementById('idontgetit').style.display == 'none'){ document.getElementById('idontgetit').style.display = 'block'; }else{ document.getElementById('idontgetit').style.display = 'none'; }">(Now I get it.)</a>
+</p></div>
+
+   </div>
+
+   <div class="section rounded">
+      <form action="/" method="POST" name="demangle_form">
+         <textarea class="demangle_input" name="input" rows="15" cols="50" wrap="virtual"></textarea>
+         <input type="submit" name="S1" value="Demangle it!" class="button" />
+      </form>
+   </div>
+</div>
+
+
+      </div>
+   
+
+</body></html>
