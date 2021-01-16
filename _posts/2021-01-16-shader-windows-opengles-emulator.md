@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "特效编程笔记 -- OpenGL ES Emulator for Windows / PowerVR, Adreno, Mali"
+title: "特效编程笔记 -- OpenGL ES Emulator for Windows / PowerVR Adreno Mali"
 author:
 location: "珠海"
 categories: ["特效"]
@@ -57,9 +57,18 @@ Samples are a little bit more complex than tutorials. They show how to achieve i
 If you are new to OpenGL ES 2.0, then we suggest that you go through the tutorials first, and then move on to sample programs. Currently there are no tutorials for OpenSL ES. However, future versions of the SDK may include this.
 
 
-### opengl adreno 仿真报错 Could not Load from Adreno device driver: eglGetError
+### opengl adreno 仿真报错
 
-将 adreno 中的 AdrenoSDK\Bin_d\driver 文件夹拷贝执行文件夹位置。
+**Could not Load from Adreno device driver: eglGetError**
+[answer](https://stackoverflow.com/questions/22971187/how-to-fix-could-not-load-from-adreno-device-drivereglgeterror)
+
+* 将 adreno 中的 AdrenoSDK\Bin_d\driver 文件夹拷贝执行文件夹位置。
+* After a long struggle and some answers from [qualcomm developer site](https://developer.qualcomm.com/forum/qdn-forums/maximize-hardware/mobile-gaming-graphics-adreno/27651) got the solution.
+Install the x86 version of this redist. http://www.microsoft.com/en-us/download/details.aspx?id=30679
+
+这个加载逻辑有点怪。如果都搞好了，win32 的加载顺序包含：
+
+{% include image.html url="/assets/images/210116-shader-windows-opengles~28/20210116132811.png" %}
 
 
 ## Imagination PowerVR
@@ -96,6 +105,9 @@ The PowerVR SDK has a number of third-party dependencies, each of which may have
 - [https://developer.qualcomm.com/software/adreno-gpu-sdk/tools]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/developer.qualcomm.com/df53d96a.html" %})
 - [https://powervr-graphics.github.io/]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/powervr-graphics.github.io/ad82179d.html" %})
 - [https://gitee.com/hawkhai/opengl-3rd.git]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/gitee.com/3cdcc6e8.git" %})
+- [https://stackoverflow.com/questions/22971187/how-to-fix-could-not-load-from-adreno-device-drivereglgeterror]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/stackoverflow.com/e2968e58.html" %})
+- [https://developer.qualcomm.com/forum/qdn-forums/maximize-hardware/mobile-gaming-graphics-adreno/27651]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/developer.qualcomm.com/94e2f3fd.html" %})
+- [http://www.microsoft.com/en-us/download/details.aspx?id=30679]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/www.microsoft.com/1e45c851.aspx" %})
 - [https://github.com/g-truc/glm]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/github.com/277752ea.html" %})
 - [https://github.com/zeux/pugixml]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/github.com/9f7a73a3.html" %})
 - [https://github.com/cameron314/concurrentqueue]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/github.com/dcb43f62.html" %})
