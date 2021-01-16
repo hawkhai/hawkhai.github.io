@@ -17,6 +17,8 @@ codeprint:
 
 OpenGL ES is an embedded version of OpenGL mostly used on mobile devices that offer only limited GPU capabilities compared to modern desktop GPUS.
 
+{% include image.html url="/assets/images/210116-shader-windows-opengles~28/20210117002134.png" %}
+
 EGL is a native platform interface that connects the windowing systems to one of Khronos’ APIs, e.g. OpenGL ES.
 
 相关下载：<https://www.khronos.org/registry/OpenGL/index_es.php>
@@ -42,19 +44,38 @@ PowerVR | PowerVR SDK [PowerVR Graphics SDK {% include relref_github.html %}](ht
 
 ## Qualcomm Adreno
 
+Welcome to QUALCOMM's Adreno™ Software Development Kit (SDK). This is version 3.0.0 of the SDK that includes support for OpenGL ES 2.0 and 3.0 through PC emulation under Windows XP. The SDK is provided as a development environment for QUALCOMM's Adreno™ graphics processors, and is intended to help ease the learning curve of said technology.
+
+
+### OpenGL ES Unified Emulators
+
+QUALCOMM's OpenGL ES 2.0 / 3.0 Emulator is designed to emulate functionality exposed by QUALCOMM's Adreno™ GPUs. The purpose of this emulator is to aid developers in their design of OpenGL ES games and applications. The emulator allows developers to get a head start designing their graphics code before hardware supporting OpenGL ES is available, and even after this hardware becomes available developing on a PC is often advantageous due to superior developer and debugging tools.
+
+The emulator has five major features:
+
+* Support of core OpenGL ES 2.0 / 3.0 functionality
+* Support for many important OpenGL ES 2.0 extensions
+* Support of core OpenGL ES 1.x functionality
+* Support for many OpenGL ES 1.x extensions
+* Support for EGL 1.3
+
 
 ### About Demos
 
 Samples are to tutorials, what demos are to samples. While samples showcase complex effects that may make use of multiple tutorial concepts, demos make use of a combination of sample effects to show off the capabilities of QUALCOMM mobile graphics hardware.
 
 
-### About Tutorials and Samples
+### About Tutorials
 
 Tutorials are example programs that demonstrate a specific 2D or 3D capability of our hardware. These programs are simpler to understand than sample applications, and are the recommended starting point for anyone new to OpenGL ES. Additionally, tutorials do not rely upon a framework, and do not require user input.
 
-Samples are a little bit more complex than tutorials. They show how to achieve interesting effects using our hardware sometimes through the use of a combination of multiple tutorial techniques. Samples make use of a common code base called the "Sample Framework" that provides a platform agnostic development environment. They also make use of runtime data that have been preprocessed by our utilities such as the FontMaker, and the ShaderPreprocessor. This encapsulates some of the bare bones OpenGL ES 2.0/ OpenGL ES 3.0 / OpenSL ES 1.0 code at times to make it more straight forward to develop more complicated applications. Finally, all sample programs come with a standard user interface that allows users to view the current frame rate, the values of pertinent variables, and to find out what keys can be pressed to interact with the application.
 
-If you are new to OpenGL ES 2.0, then we suggest that you go through the tutorials first, and then move on to sample programs. Currently there are no tutorials for OpenSL ES. However, future versions of the SDK may include this.
+### About Samples
+
+**Samples are a little bit more complex than tutorials.** They show how to achieve interesting effects using our hardware sometimes through the use of a combination of multiple tutorial techniques. Samples make use of a common code base called the "Sample Framework" that provides a platform agnostic development environment.
+
+进阶路线：$$Tutorials \leadsto Samples \leadsto Demos$$。
+If you are new to OpenGL ES 2.0, then we suggest that you go through the tutorials first, and then move on to sample programs. Currently there are no tutorials for OpenSL ES.
 
 
 ### opengl adreno 仿真报错
@@ -62,9 +83,9 @@ If you are new to OpenGL ES 2.0, then we suggest that you go through the tutoria
 **Could not Load from Adreno device driver: eglGetError**
 [answer](https://stackoverflow.com/questions/22971187/how-to-fix-could-not-load-from-adreno-device-drivereglgeterror)
 
-* 将 adreno 中的 AdrenoSDK\Bin_d\driver 文件夹拷贝执行文件夹位置。
+* 将 adreno 中的 `AdrenoSDK\Bin_d\driver` 文件夹拷贝执行文件夹位置。
 * After a long struggle and some answers from [qualcomm developer site](https://developer.qualcomm.com/forum/qdn-forums/maximize-hardware/mobile-gaming-graphics-adreno/27651) got the solution.
-Install the x86 version of this redist. http://www.microsoft.com/en-us/download/details.aspx?id=30679
+Install the x86 version of this redist. <http://www.microsoft.com/en-us/download/details.aspx?id=30679>
 
 这个加载逻辑有点怪。如果都搞好了，win32 的加载顺序包含：
 
@@ -72,6 +93,10 @@ Install the x86 version of this redist. http://www.microsoft.com/en-us/download/
 
 
 ## Imagination PowerVR
+
+PVRVFrame is provided for platforms without native support for OpenGL ES but where OpenGL is supported.
+
+PVRVFrame is included as part of the PowerVR SDK and provides a set of desktop emulation libraries for OpenGL ES wrapping desktop OpenGL allowing deployment of OpenGL ES applications on desktop Windows, macOS, and Linux which can help to speed up development times and improve productivity.
 
 The PVRVFrame library filenames are:
 
@@ -83,7 +108,7 @@ The PowerVR SDK has a number of third-party dependencies, each of which may have
 
 * [glm {% include relref_github.html %}](https://github.com/g-truc/glm): OpenGL Mathematics
 * [pugixml {% include relref_github.html %}](https://github.com/zeux/pugixml): Light-weight, simple and fast XML parser for C++ with XPath support
-* [concurrentqueue {% include relref_github.html %}](https://github.com/cameron314/concurrentqueue): A fast multi-producer, multi-consumer lock-free concurrent queue for C++11
+* **[concurrentqueue {% include relref_github.html %}](https://github.com/cameron314/concurrentqueue)**: A fast multi-producer, multi-consumer lock-free concurrent queue for C++11
 * [glslang {% include relref_github.html %}](https://github.com/KhronosGroup/glslang): Shader front end and validator
 * [tinygltf {% include relref_github.html %}](https://github.com/syoyo/tinygltf): Header only C++11 tiny glTF 2.0 library
 * [vma {% include relref_github.html %}](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator): Vulkan Memory Allocator

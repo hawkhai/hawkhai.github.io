@@ -24,12 +24,12 @@ codeprint:
 
 ## Gallary
 
-{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-sin.webp" caption="sin $y = (sin(x) + 1.0) / 2.0$" %}
-{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-square.webp" caption="Square $y = (round(sin(x)) + 1.0) / 2.0$" %}
-{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-sawtooth.webp" caption="SawTooth $y = clamp(mod(x / 5.0, 1.0f), 0.0, 1.0)$" %}
-{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-inverse-sawtooth.webp" caption="Inverse SawTooth $y = 1.0f - clamp(mod(x / 5.0, 1.0f), 0.0, 1.0)$" %}
-{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-hill.webp" caption="hill $y = abs(sin(x))$" %}
-{% include image.html url="/assets/images/201103-shader-opengl_function/learngl-inverse-hill.webp" caption="inverse hill $y = 1.0f - abs(sin(x))$" %}
+{% include image.html url="/assets/images/201103-shader-opengl-function/learngl-sin.webp" caption="sin $y = (sin(x) + 1.0) / 2.0$" %}
+{% include image.html url="/assets/images/201103-shader-opengl-function/learngl-square.webp" caption="Square $y = (round(sin(x)) + 1.0) / 2.0$" %}
+{% include image.html url="/assets/images/201103-shader-opengl-function/learngl-sawtooth.webp" caption="SawTooth $y = clamp(mod(x / 5.0, 1.0f), 0.0, 1.0)$" %}
+{% include image.html url="/assets/images/201103-shader-opengl-function/learngl-inverse-sawtooth.webp" caption="Inverse SawTooth $y = 1.0f - clamp(mod(x / 5.0, 1.0f), 0.0, 1.0)$" %}
+{% include image.html url="/assets/images/201103-shader-opengl-function/learngl-hill.webp" caption="hill $y = abs(sin(x))$" %}
+{% include image.html url="/assets/images/201103-shader-opengl-function/learngl-inverse-hill.webp" caption="inverse hill $y = 1.0f - abs(sin(x))$" %}
 
 
 ## Code
@@ -503,6 +503,6 @@ int geometryShader() {
 
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://blog.csdn.net/liu_if_else/article/details/77712935]({% include relref.html url="/backup/2020-11-03-shader-opengl_function.md/blog.csdn.net/e82c31b3.html" %})
-- [https://blog.csdn.net/liu_if_else/article/details/77144264]({% include relref.html url="/backup/2020-11-03-shader-opengl_function.md/blog.csdn.net/bb01545a.html" %})
-- [https://blog.csdn.net/liu_if_else/article/details/78086749]({% include relref.html url="/backup/2020-11-03-shader-opengl_function.md/blog.csdn.net/061f0782.html" %})
+- [https://blog.csdn.net/liu_if_else/article/details/77712935]({% include relref.html url="/backup/2020-11-03-shader-opengl-function.md/blog.csdn.net/e82c31b3.html" %})
+- [https://blog.csdn.net/liu_if_else/article/details/77144264]({% include relref.html url="/backup/2020-11-03-shader-opengl-function.md/blog.csdn.net/bb01545a.html" %})
+- [https://blog.csdn.net/liu_if_else/article/details/78086749]({% include relref.html url="/backup/2020-11-03-shader-opengl-function.md/blog.csdn.net/061f0782.html" %})
