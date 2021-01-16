@@ -43,6 +43,25 @@ PowerVR | PowerVR SDK [PowerVR Graphics SDK {% include relref_github.html %}](ht
 ## Qualcomm Adreno
 
 
+### About Demos
+
+Samples are to tutorials, what demos are to samples. While samples showcase complex effects that may make use of multiple tutorial concepts, demos make use of a combination of sample effects to show off the capabilities of QUALCOMM mobile graphics hardware.
+
+
+### About Tutorials and Samples
+
+Tutorials are example programs that demonstrate a specific 2D or 3D capability of our hardware. These programs are simpler to understand than sample applications, and are the recommended starting point for anyone new to OpenGL ES. Additionally, tutorials do not rely upon a framework, and do not require user input.
+
+Samples are a little bit more complex than tutorials. They show how to achieve interesting effects using our hardware sometimes through the use of a combination of multiple tutorial techniques. Samples make use of a common code base called the "Sample Framework" that provides a platform agnostic development environment. They also make use of runtime data that have been preprocessed by our utilities such as the FontMaker, and the ShaderPreprocessor. This encapsulates some of the bare bones OpenGL ES 2.0/ OpenGL ES 3.0 / OpenSL ES 1.0 code at times to make it more straight forward to develop more complicated applications. Finally, all sample programs come with a standard user interface that allows users to view the current frame rate, the values of pertinent variables, and to find out what keys can be pressed to interact with the application.
+
+If you are new to OpenGL ES 2.0, then we suggest that you go through the tutorials first, and then move on to sample programs. Currently there are no tutorials for OpenSL ES. However, future versions of the SDK may include this.
+
+
+### opengl adreno 仿真报错 Could not Load from Adreno device driver: eglGetError
+
+将 adreno 中的 AdrenoSDK\Bin_d\driver 文件夹拷贝执行文件夹位置。
+
+
 ## Imagination PowerVR
 
 The PVRVFrame library filenames are:
