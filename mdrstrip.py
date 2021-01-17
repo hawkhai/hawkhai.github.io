@@ -232,6 +232,12 @@ def organizeRes(ik, fpath, line):
 
             # 小于 100K...
             img.save(sizepath)
+        else:
+            from PIL import Image
+            img = Image.open(tpath)
+            width, height = img.size
+            img = Image.open(sizepath)
+            assert img.size == (width, height), tpath
     else:
         assert False, ik
 
