@@ -40,7 +40,7 @@ OpenGL ES 2.x Driver 底层一共包含 22 个 Shader 文件。逐个文件翻�
 
 * **EDT_DIRECT3D9** Direct3D 9.0c.
 
-* **EDT_OPENGL** OpenGL 1.x/2.x/3.x .
+* **EDT_OPENGL** OpenGL 1.x/2.x/3.x.
 
 * **EDT_OGLES1** OpenGL ES1.
 

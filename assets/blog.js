@@ -162,7 +162,8 @@ function checkFlowChart() {
     if (!getQueryValue("nochart")) {
         return;
     }
-    $("div.mermaid").each(function() {
+    // <code class="language-mermaid">
+    $("div.mermaid,code.language-mermaid").each(function() {
         var $this = $(this);
         var imagek = $this.attr("image");
         $this.remove(); // $this.hide();
