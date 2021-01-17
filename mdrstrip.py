@@ -203,6 +203,10 @@ def organizeRes(ik, fpath, line):
         tpath = os.path.join("invisible", "images", fname, ikfile).lower()
     if os.path.exists(ik):
         copyfile(ik, tpath)
+        iknail = ik + THUMBNAIL
+        tpathnail = tpath + THUMBNAIL
+        if os.path.exists(iknail):
+            copyfile(iknail, tpathnail)
         if os.path.abspath(ik) != os.path.abspath(tpath):
             g_orgremove.add(os.path.relpath(ik, ".").lower())
         if os.path.relpath(tpath, ".").lower() in g_orgremove:
@@ -656,6 +660,13 @@ def mainfilew(fpath, fname, ftype):
 
 g_checkfilesize = set()
 def checkfilesize(fpath, fname, ftype):
+
+    if fname.endswith(THUMBNAIL):
+        srcimg = fpath[:-len(THUMBNAIL)]
+        if not os.path.exists(srcimg):
+            osremove(fpath)
+            return
+
     fmd5 = getFileMd5(fpath)
     if not g_checkfilesize:
         for ifmd5 in readfileIglist("mdrstrip_bigfiles.txt"):
