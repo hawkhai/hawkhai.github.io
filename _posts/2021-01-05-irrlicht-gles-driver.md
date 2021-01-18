@@ -275,6 +275,12 @@ $\color{red}{= 0x7fffffff}$
 This value is not used. It only forces this enumeration to compile to 32 bit.
 
 
+## 书上翻译的
+
+{% include image.html url="/assets/images/210105-irrlicht-gles-driver/20210118132805.jpg" %}
+{% include image.html url="/assets/images/210105-irrlicht-gles-driver/20210118132823.jpg" %}
+
+
 ## Source Code
 
 ```cpp
