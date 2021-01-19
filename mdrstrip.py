@@ -214,8 +214,8 @@ def organizeRes(ik, fpath, line):
 
         # 同样大小的小图片先占位... lazyload
         sizepath = tpath + THUMBNAIL
+        from PIL import Image
         if not os.path.exists(sizepath) and iktype in ("png", "jpg", "gif", "jpeg", "webp", "bmp",):
-            from PIL import Image
             img = Image.open(tpath)
             width, height = img.size
             if width > 100:
@@ -232,12 +232,14 @@ def organizeRes(ik, fpath, line):
 
             # 小于 100K...
             img.save(sizepath)
-        else:
-            from PIL import Image
+        elif os.path.exists(sizepath):
             img = Image.open(tpath)
             width, height = img.size
             img = Image.open(sizepath)
-            assert img.size == (width, height), tpath
+            if img.size != (width, height):
+                img.close()
+                osremove(sizepath)
+                return organizeRes(ik, fpath, line)
     else:
         assert False, ik
 
