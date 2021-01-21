@@ -8,7 +8,7 @@ tags: ["特效", "OpenGL"]
 toc: true
 toclistyle:
 comments:
-visibility: hidden
+visibility:
 mathjax: true
 mermaid:
 glslcanvas:

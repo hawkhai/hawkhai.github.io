@@ -8,7 +8,7 @@ tags: ["图像处理"]
 toc: true
 toclistyle:
 comments:
-visibility: hidden
+visibility:
 mathjax: true
 mermaid: truez
 glslcanvas:
