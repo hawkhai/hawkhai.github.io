@@ -89,20 +89,6 @@ EXT 扩展由多个供应商共同完成。一段时间后，它们可能会成�
 
 <https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions>
 
-The function of interest here is wglGetProcAddress. This function takes an ASCII string that exactly matches (case-sensitive) the function name in question.
-The functions can be OpenGL functions or platform-specific WGL functions.
-
-This function only works in the presence of a valid OpenGL context. Indeed, the function pointers it returns are themselves context-specific.
-The Windows documentation for this function states that the functions returned may work with another context, depending on the vendor of that context and that context's pixel format.
-
-In practice, if two contexts come from the same vendor and refer to the same GPU, then the function pointers pulled from one context will work in the other.
-This is important when creating an OpenGL context in Windows, as you need to create a "dummy" context to get WGL extension functions to create the real one.
-
-While the MSDN documentation says that wglGetProcAddress returns NULL on failure, some implementations will return other values. 1, 2, and 3 are used, as well as -1.
-
-wglGetProcAddress will not return function pointers from any OpenGL functions that are directly exported by the OpenGL32.DLL itself.
-This means the old ones from OpenGL version 1.1. Fortunately those functions can be obtained by the Win32's GetProcAddress.
-On the other hand GetProcAddress will not work for the functions for which wglGetProcAddress works.
 So in order to get the address of any GL function one can try with wglGetProcAddress and if it fails, try again with the Win32's GetProcAddress:
 
 ```cpp
