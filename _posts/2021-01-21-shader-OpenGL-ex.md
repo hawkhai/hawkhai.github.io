@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "特效编程笔记 -- OpenGL 的 Windows 组件"
+title: "特效编程笔记 -- OpenGL 的 Windows 组件 和 扩展"
 author:
 location: "珠海"
 categories: ["特效"]
@@ -16,6 +16,7 @@ codeprint:
 ---
 
 <https://riptutorial.com/zh-CN/opengl>
+OpenGL 是由一些充满智慧的人设计的，他们拥有丰富的图形程序设计 API 设计经验。
 
 
 ## WGL
@@ -107,6 +108,57 @@ void *GetAnyGLFuncAddress(const char *name)
 }
 ```
 
+
+## OpenGL ARB
+
+[from {% include relref_csdn.html %}](https://blog.csdn.net/qq_31243065/article/details/105466436)
+这样 OpenGL 体系结构审核委员会 (ARB, OpenGL Architecture Reiview Board) 就诞生了。
+
+```cpp
+GLint nNum;
+glGetIntegerv(GL_NUM_EXTENSIONS, &nNum); // 跟上一个示例一样，获取扩展支持数量
+
+// 遍历所有扩展
+for (GLint i = 0; i < nNum; ++i) {
+    // 判断是否支持扩展名为: WGL_EXT_swap_control 的扩展
+    if (strcmp("WGL_EXT_swap_control", (const char *)glGetStringi(GL_EXTENSIONS, i)) == 0)
+    {
+        // 支持则获取这个扩展函数的函数指针
+        wglSwapIntervalExt = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalExt");
+        if (wglSwapIntervalExt != NULL) {
+            // 调用设置这个扩展
+            wglSwapIntervalExt(1);
+        }
+     }
+}
+```
+
+
+## OpenGL 扩展识别示例
+
+前缀 | 提 供 商
+---- | ----
+SGI_ | Silicon Graphics
+ATI_ | ATI Tenchnologies
+AMD_ | Advanced Micro Devices
+NV_ | NVIDIA
+IBM_ | IBM
+WGL_ | Microsoft
+EXT_ | Cross-Vendor
+ARB_ | ARB Approved
+
+[第十二课：OpenGL 扩展 {% include relref_csdn.html %}](https://blog.csdn.net/qq_22822335/article/details/50682294)
+
+ARB vs EXT vs …
+扩展的名字暗示了它的适用范围：
+
+* GL_: 所有平台；
+* GLX_: 只有 Linux 和 Mac 下可使用（X11）；
+* WGL_: 只有 Windows 下可使用。
+* EXT: 通用的扩展。
+* ARB: 已经被 OpenGL 架构评审委员会的所有成员接受（EXT 扩展没多久后就经常被提升为 ARB）的扩展。
+* NV/AMD/INTEL: 顾名思义。
+
 -----
 
 <font class='ref_snapshot'>参考资料快照</font>
@@ -114,3 +166,5 @@ void *GetAnyGLFuncAddress(const char *name)
 - [https://riptutorial.com/zh-CN/opengl]({% include relref.html url="/backup/2021-01-21-shader-OpenGL-ex.md/riptutorial.com/d14cbeb5.html" %})
 - [https://docs.microsoft.com/zh-cn/windows/win32/opengl/wgl-functions]({% include relref.html url="/backup/2021-01-21-shader-OpenGL-ex.md/docs.microsoft.com/2204bf30.html" %})
 - [https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions]({% include relref.html url="/backup/2021-01-21-shader-OpenGL-ex.md/www.khronos.org/108527e1.html" %})
+- [https://blog.csdn.net/qq_31243065/article/details/105466436]({% include relref.html url="/backup/2021-01-21-shader-OpenGL-ex.md/blog.csdn.net/213dac02.html" %})
+- [https://blog.csdn.net/qq_22822335/article/details/50682294]({% include relref.html url="/backup/2021-01-21-shader-OpenGL-ex.md/blog.csdn.net/ea7981bb.html" %})
