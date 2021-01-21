@@ -186,6 +186,14 @@ if (fp)
     fclose(fp);
 }
 
+FILE* fp = NULL;
+errno_t err = fopen_s(&fp, "E:\\irrlicht.txt", "a");
+if (err == 0 && fp)
+{
+    fprintf(fp, "%s@x\n", lpcstr);
+    fclose(fp);
+}
+
 char fpath[1024] = "";
 _fullpath(fpath, fileLocation, 1024);
 ```
