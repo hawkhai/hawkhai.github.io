@@ -129,7 +129,7 @@ User32 和 Gdi32 中部分函数在调用的底层会加载其他 DLL。
 3. 新线程起来：LdrInitializeThunk -> LdrpDrainWorkQueue 中的 LdrpLoadCompleteEvent 锁
 
 -----
-
+<p class='reviewtip'>2021-01-04: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://blog.csdn.net/breaksoftware/article/details/8163362]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/87294419.html" %})

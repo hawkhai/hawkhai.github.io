@@ -636,7 +636,7 @@ void c_abs(complex f[], float out[], int n); // 复数数组取模
 - [3] [课程目录 {% include relref_cnblogs.html %}](https://www.cnblogs.com/-wenli/p/11744405.html)
 
 -----
-
+<p class='reviewtip'>2021-01-04: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://zhuanlan.zhihu.com/p/80852438]({% include relref.html url="/backup/2020-09-19-dip-digital-image-processing.md/zhuanlan.zhihu.com/3fba183f.html" %})

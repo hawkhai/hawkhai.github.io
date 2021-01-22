@@ -384,7 +384,7 @@ vec3 CalcSpotLight(SpotLight light)
 - [4] [Opengl 中 reflect 反射算法 {% include relref_csdn.html %}](https://blog.csdn.net/qq_32974399/article/details/107096490)
 
 -----
-
+<p class='reviewtip'>2021-01-07: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://ke.qq.com/course/package/25480?flowToken=1019441]({% include relref.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/ke.qq.com/3fd1c97a.html" %})

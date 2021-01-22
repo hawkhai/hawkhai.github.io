@@ -444,7 +444,7 @@ Qt 简化了我们对内存的管理，但是，由于它会在不太注意的�
 - [7] **<https://www.cnblogs.com/senior-engineer/p/10037920.html>**
 
 -----
-
+<p class='reviewtip'>2021-01-04: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://doc.qt.nokia.com/4.7/qobject.html]({% include relref.html url="/backup/2020-08-30-qt-memory-leak.md/doc.qt.nokia.com/18e16541.html" %})

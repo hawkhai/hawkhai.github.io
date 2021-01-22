@@ -424,7 +424,7 @@ void setMat4(glm::mat4 &mat)    glUniformMatrix4fv(1, &mat[0][0]);
 {% include image.html url="/assets/images/201111-shader-opengl-intro/glintrograb.webp" %}
 
 -----
-
+<p class='reviewtip'>2021-01-07: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://github.com/hawkhai/LearnOpenGL.git]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/github.com/1371fb1d.git" %})

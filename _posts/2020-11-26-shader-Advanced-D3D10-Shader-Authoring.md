@@ -268,3 +268,6 @@ float4 color = BoxFilter( g_samLinearClamp, tex, 3 );
 return color * 0.80;
 ```
 ## www.xna.com
+
+-----
+<p class='reviewtip'>2020-12-17: review</p>

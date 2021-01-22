@@ -160,7 +160,7 @@ ARB vs EXT vs …
 * NV/AMD/INTEL: 顾名思义。
 
 -----
-
+<p class='reviewtip'>2021-01-21: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://riptutorial.com/zh-CN/opengl]({% include relref.html url="/backup/2021-01-21-shader-OpenGL-ex.md/riptutorial.com/d14cbeb5.html" %})

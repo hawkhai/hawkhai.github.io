@@ -396,7 +396,7 @@ Step-by-step guide through the abstract and complex universe of Fragment Shaders
     [PixelFlow {% include relref_github.html %}](https://diwi.github.io/PixelFlow/)
 
 -----
-
+<p class='reviewtip'>2021-01-05: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://thebookofshaders.com/edit.php]({% include relref.html url="/backup/2020-11-02-shader-thebookofshaders.md/thebookofshaders.com/3f2fc15d.php" %})

@@ -349,7 +349,7 @@ $$E(X) = \sum_{x} x P(X = x).$$
 - [1] [《动手学深度学习》 {% include relref_gluon.html %}](http://zh.gluon.ai/)
 
 -----
-
+<p class='reviewtip'>2021-01-04: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://conda.io/miniconda.html]({% include relref.html url="/backup/2020-08-29-deep-learning-math.md/conda.io/a90a7731.html" %})

@@ -597,7 +597,7 @@ ReleaseSpecific/ToolsAndUtilities.htm
 ## VectorAdd.exe
 
 -----
-
+<p class='reviewtip'>2021-01-09: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://chengkehan.github.io/Fur.html]({% include relref.html url="/backup/2021-01-08-gles-qualcomm-Adreno.md/chengkehan.github.io/2d825edb.html" %})

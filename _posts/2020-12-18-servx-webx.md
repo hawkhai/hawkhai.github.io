@@ -51,7 +51,7 @@ gif2webp -q 75 -lossy -m 6 picture.gif -o picture.webp
 ```
 
 -----
-
+<p class='reviewtip'>2021-01-04: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://sourceforge.net/]({% include relref.html url="/backup/2020-12-18-servx-webx.md/sourceforge.net/f577c4c2.html" %})
