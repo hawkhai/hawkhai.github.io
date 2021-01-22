@@ -4,7 +4,7 @@ title: "特效编程笔记 -- Irrlicht OpenGL 扩展支持 整理文档"
 author:
 location: "珠海"
 categories: ["特效"]
-tags: ["特效", "OpenGL"]
+tags: ["特效", "OpenGL", "Irrlicht"]
 toc: true
 toclistyle:
 comments:
@@ -18,7 +18,7 @@ codeprint:
 $$NV/AMD/INTEL/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
 
 一个 3D 引擎为了更好的性能，就只能适配这些不同的硬件。Irrlicht 用到的 284 个 API。
-这些 API 就像后山上的野花，**一簇一簇的**，这个是也是 状态机 C 风格的函数接口的特点决定的。
+这些 API 就像后山上的野花，**一簇一簇的**，这个也是 状态机 C 风格的函数接口的特点决定的。
 
 
 ## 遮挡查询 occlusion query
@@ -123,35 +123,42 @@ $$NV/AMD/INTEL/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
 * glDeleteProgram gles&ogladdr
 * glLinkProgram gles&ogladdr
 * glUseProgram gles&ogladdr
+
 * glCreateShader gles&ogladdr
 * glDeleteShader gles&ogladdr
 * glCompileShader gles&ogladdr
 * glAttachShader gles&ogladdr
+
 * glGetAttachedShaders gles&ogladdr
 * glGetProgramInfoLog gles&ogladdr // extGlGetProgramInfoLog
 * glGetShaderInfoLog gles&ogladdr
 * glGetProgramiv gles&ogladdr // extGlGetProgramiv
 * glGetShaderiv gles&ogladdr
+* glShaderSource gles&ogladdr
+
 * glGenProgramsNV, glGenProgramsARB // extGlGenPrograms
 * glBindProgramNV, glBindProgramARB // extGlBindProgram
 * glDeleteProgramsNV, glDeleteProgramsARB // extGlDeletePrograms
 * glLoadProgramNV // extGlLoadProgram
+* glLinkProgramARB // extGlLinkProgramARB
 * glCreateProgramObjectARB // extGlCreateProgramObject
 * glCreateShaderObjectARB // extGlCreateShaderObject
-* glLinkProgramARB // extGlLinkProgramARB
+* glProgramStringARB // extGlProgramString
+* glShaderSourceARB // extGlShaderSourceARB
 * glCompileShaderARB // extGlCompileShaderARB
 * glUseProgramObjectARB // extGlUseProgramObject
 * glProgramParameteriEXT, glProgramParameteriARB // extGlProgramParameteri
 * glProgramLocalParameter4fvARB // extGlProgramLocalParameter4fv
-* glShaderSource gles&ogladdr
-* glProgramStringARB // extGlProgramString
-* glShaderSourceARB // extGlShaderSourceARB
+
+* glAttachObjectARB // extGlAttachObject
+* glDeleteObjectARB // extGlDeleteObject
+* glGetAttachedObjectsARB // extGlGetAttachedObjects
+* glGetObjectParameterivARB // extGlGetObjectParameteriv
 
 
-## ATI framebuffer objects
+## framebuffer objects
 
 * glGenFramebuffers gles&ogladdr
-* glActiveTexture gles&ogladdr
 * glBindFramebuffer gles&ogladdr
 * glCheckFramebufferStatus gles&ogladdr
 * glFramebufferTexture2D gles&ogladdr
@@ -179,13 +186,20 @@ $$NV/AMD/INTEL/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
 * glGenRenderbuffersEXT // irrGlGenRenderbuffers
 * glRenderbufferStorageEXT // irrGlRenderbufferStorage
 
+* glDrawBuffer ogl
+* glDrawBuffersATI, glDrawBuffersARB // irrGlDrawBuffers
+
+
+## vertex buffer object
+
 * glBindBuffer gles
 * glBufferData gles
 * glBufferSubData gles
 * glDeleteBuffers gles
 * glGenBuffers gles
 
-* glDrawBuffersATI, glDrawBuffersARB // irrGlDrawBuffers
+* glReadBuffer gles&ogl
+* glReadPixels gles&ogl
 
 * glMapBufferARB // extGlMapBuffer
 * glUnmapBufferARB // extGlUnmapBuffer
@@ -199,9 +213,8 @@ $$NV/AMD/INTEL/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
 * glGetBufferPointervARB // extGlGetBufferPointerv
 * glGetBufferSubDataARB // extGlGetBufferSubData
 
-* glDrawBuffer ogl
-* glReadBuffer gles&ogl
-* glReadPixels gles&ogl
+* glProvokingVertexEXT // extGlProvokingVertex
+* glProvokingVertex ogladdr
 
 
 ## 深度测试
@@ -212,69 +225,64 @@ $$NV/AMD/INTEL/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
 * glDepthMask gles&ogl
 
 
-## AMD indexed
+## 颜色混合 Blend
 
-glBlendEquationIndexedAMD, glBlendEquationiARB // irrGlBlendEquationIndexed
-glBlendEquationSeparateIndexedAMD, glBlendEquationSeparateiARB // irrGlBlendEquationSeparateIndexed
-glBlendFuncIndexedAMD, glBlendFunciARB // irrGlBlendFuncIndexed
-glBlendFuncSeparateIndexedAMD, glBlendFuncSeparateiARB // irrGlBlendFuncSeparateIndexed
+* glBlendEquationIndexedAMD, glBlendEquationiARB // irrGlBlendEquationIndexed
+* glBlendFuncSeparateIndexedAMD, glBlendFuncSeparateiARB // irrGlBlendFuncSeparateIndexed
+* glBlendFuncIndexedAMD, glBlendFunciARB // irrGlBlendFuncIndexed
+* glBlendEquationSeparateIndexedAMD, glBlendEquationSeparateiARB // irrGlBlendEquationSeparateIndexed
+
+* glBlendEquationEXT // irrGlBlendEquation
+* glBlendFuncSeparateEXT // irrGlBlendFuncSeparate
+* glBlendEquationSeparateEXT // ?
+* glDisableIndexedEXT // irrGlDisableIndexed
+* glEnableIndexedEXT // irrGlEnableIndexed
+* glColorMaskIndexedEXT // irrGlColorMaskIndexed
+
+* glBlendEquation gles&ogladdr
+* glBlendFuncSeparate gles&ogladdr
+* glBlendFunc gles&ogl
+* glBlendEquationSeparate ogladdr
 
 
-## EXT framebuffer objects
+### 纹理
 
-glBlendEquationEXT // irrGlBlendEquation
-glBlendEquationSeparateEXT // ?
-glBlendFuncSeparateEXT // irrGlBlendFuncSeparate
+* glTexStorage2D ogladdr
+* glTexStorage3D ogladdr
+* glTextureParameterf ogladdr
+* glTextureParameterfv ogladdr
+* glTextureParameteri ogladdr
+* glTextureParameteriv ogladdr
+* glTextureStorage2D ogladdr
+* glTextureStorage3D ogladdr
+* glTextureSubImage2D ogladdr
+* glTextureStorage2DEXT // extGlTextureStorage2D
+* glTextureStorage3DEXT // extGlTextureStorage3D
+* glTextureSubImage2DEXT // extGlTextureSubImage2D
 
-glColorMaskIndexedEXT // irrGlColorMaskIndexed
+* glActiveTexture gles&ogladdr
+* glGenTextures gles&ogl
+* glBindTexture gles&ogl
+* glDeleteTextures gles&ogl
 
-glDisableIndexedEXT // irrGlDisableIndexed
-glEnableIndexedEXT // irrGlEnableIndexed
+* glBindTextures ogladdr
+* glCreateTextures ogladdr
+* glGenerateTextureMipmap ogladdr
+* glGetTextureImage ogladdr
 
-glGenerateMipmapEXT // irrGlGenerateMipmap
-glGenerateTextureMipmapEXT // extGlGenerateTextureMipmap
-glGetTextureImageEXT // extGlGetTextureImage
+* glGenerateMipmapEXT // irrGlGenerateMipmap
+* glGenerateTextureMipmapEXT // extGlGenerateTextureMipmap
+* glGetTextureImageEXT // extGlGetTextureImage
+* glActiveTextureARB // irrGlActiveTexture
+* glClientActiveTextureARB // irrGlClientActiveTexture
 
-glProvokingVertexEXT // extGlProvokingVertex
 
-glTextureStorage2DEXT // extGlTextureStorage2D
-glTextureStorage3DEXT // extGlTextureStorage3D
-glTextureSubImage2DEXT // extGlTextureSubImage2D
-
-glActiveTextureARB // irrGlActiveTexture
-
-glAttachObjectARB // extGlAttachObject
-
-glClientActiveTextureARB // irrGlClientActiveTexture
-
-glDeleteObjectARB // extGlDeleteObject
-
-glGetAttachedObjectsARB // extGlGetAttachedObjects
+## framebuffer objects
 
 glGetInfoLogARB // extGlGetInfoLog
-glGetObjectParameterivARB // extGlGetObjectParameteriv
 
 glPointParameterfARB // extGlPointParameterf
 glPointParameterfvARB // extGlPointParameterfv
-
-###
-
-glTexStorage2D ogladdr
-glTexStorage3D ogladdr
-glTextureParameterf ogladdr
-glTextureParameterfv ogladdr
-glTextureParameteri ogladdr
-glTextureParameteriv ogladdr
-glTextureStorage2D ogladdr
-glTextureStorage3D ogladdr
-glTextureSubImage2D ogladdr
-
-
-### gles&ogladdr
-
-glBlendEquation gles&ogladdr
-
-glBlendFuncSeparate gles&ogladdr
 
 
 ### GLES Only
@@ -288,16 +296,6 @@ glVertexAttribPointer gles
 
 
 ## OpenGL 扩展？
-
-glBindTextures ogladdr
-glBlendEquationSeparate ogladdr
-
-glCreateTextures ogladdr
-
-glGenerateTextureMipmap ogladdr
-glProvokingVertex ogladdr
-
-glGetTextureImage ogladdr
 
 
 ### GLES & OpenGL 扩展
@@ -352,7 +350,6 @@ glMultMatrixf ogl
 ## 都支持的
 
 glFrontFace gles&ogl
-glGenTextures gles&ogl
 
 glPixelStorei gles&ogl
 glPolygonOffset gles&ogl
@@ -382,11 +379,8 @@ glDrawElements gles&ogl
 glEnable gles&ogl
 glFlush gles&ogl
 
-glBlendFunc gles&ogl
-glBindTexture gles&ogl
 glColorMask gles&ogl
 glCopyTexSubImage2D gles&ogl
-glDeleteTextures gles&ogl
 
 glDisable gles&ogl
 glGetString gles&ogl
