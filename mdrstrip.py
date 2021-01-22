@@ -1,5 +1,6 @@
 #encoding=utf8
 import re, os, sys
+import datetime
 sys.path.append("../")
 from pythonx.funclib import *
 from pythonx.coderstrip import *
@@ -382,6 +383,8 @@ def appendRefs(fpath, lines):
     cmdx = 'git log -n 1 --pretty=format:"%ad" --date=short -- "{}"'.format(frel)
     datestr = popenCmd(cmdx)
     datestr = bytesToString(datestr)
+    if not datestr:
+        datestr = datetime.datetime.now().date()
     review = FORMAT_REVIEW.format(datestr)
     assert re.findall(REGEX_REVIEW, review), review
 

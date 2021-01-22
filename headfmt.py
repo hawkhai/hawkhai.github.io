@@ -25,6 +25,8 @@ toc: true
 
 def getPostValue(fpath, xkey):
     fdata = readfile(fpath, True, "utf8")
+    if len(fdata.split("---")) <= 1:
+        print(fpath)
     fdata = fdata.split("---")[1]
     for line in fdata.split("\n"):
         line = line.strip()
@@ -38,6 +40,7 @@ def main():
     print(parsePythonCmdx(__file__))
     fnamelist = []
     def mainfile(fpath, fname, ftype):
+        if ftype in ("py",): return
         regularTitle(fpath)
         # print(fname[11:])
         fnamelist.append("%-64s"%fname[11:] + "\t" + getPostValue(fpath, "title"))

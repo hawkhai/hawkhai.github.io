@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "特效编程笔记 -- OpenGL 的 Windows 组件 和 扩展"
+title: "特效编程笔记 -- Irrlicht OpenGL 的 Windows 组件 和 扩展"
 author:
 location: "珠海"
 categories: ["特效"]
