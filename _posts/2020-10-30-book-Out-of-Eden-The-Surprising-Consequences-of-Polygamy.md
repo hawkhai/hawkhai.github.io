@@ -49,4 +49,4 @@ Out of Eden: The Surprising Consequences of Polygamy
 无论以何种方式，人总要承受生活的负担。相信爱情，比不相信好。
 
 -----
-<p class='reviewtip'>2020-12-17: review</p>
+<p class='reviewtip'>2021-01-22: review</p>

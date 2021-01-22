@@ -229,7 +229,7 @@ if __name__ == "__main__":
 - [5] [数学算法俱乐部 - 【直观详解】让你永远忘不了的傅里叶变换解析 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/9irY0ZJxYN3_QPRH6YNS-A)
 
 -----
-<p class='reviewtip'>2021-01-04: review</p>
+<p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://zhuanlan.zhihu.com/p/19763358]({% include relref.html url="/backup/2020-09-26-dip-fourier-transform.md/zhuanlan.zhihu.com/41b0fdae.html" %})

@@ -61,7 +61,7 @@ $ bundle exec jekyll serve --host 0.0.0.0 --port [port]
 - If build for ruby2.3.1 fails, refer to <https://github.com/rbenv/ruby-build/wiki>.
 
 -----
-<p class='reviewtip'>2021-01-04: review</p>
+<p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://github.com/gchauras/much-worse-jekyll-theme/]({% include relref.html url="/backup/README.md/github.com/14f1bec6.html" %})

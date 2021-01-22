@@ -172,4 +172,4 @@ Kernel32 提供的堆管理函数。CRT 内存分配如：malloc、free、reallo
 访问块开始之前的内容 | 在释放后发现 | 立即发现
 
 -----
-<p class='reviewtip'>2020-12-26: review</p>
+<p class='reviewtip'>2021-01-22: review</p>

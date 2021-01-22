@@ -106,7 +106,7 @@ There are three major mobile GPU vendors nowadays and they provide decent graphi
 - [5] [OpenGL ES Emulator 横向比较](http://www.klayge.org/2011/04/20/opengl-es-emulator%E6%A8%AA%E5%90%91%E6%AF%94%E8%BE%83/)
 
 -----
-<p class='reviewtip'>2021-01-16: review</p>
+<p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.khronos.org/registry/OpenGL/index_es.php]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.khronos.org/bb75bed1.php" %})

@@ -114,7 +114,7 @@ JPEG 图像压缩算法流程详解 <https://www.cnblogs.com/buaaxhzh/p/9138307.
 - [5] [opencv 图像变换原理详解 图像平移 图像旋转 图像缩放 {% include relref_cnblogs.html %}](https://www.cnblogs.com/wojianxin/p/12591410.html)
 
 -----
-<p class='reviewtip'>2021-01-04: review</p>
+<p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://blog.csdn.net/chenaiyanmie/article/details/80246108]({% include relref.html url="/backup/2020-09-27-dip-color-image.md/blog.csdn.net/8f1617a3.html" %})

@@ -199,7 +199,7 @@ if __name__ == "__main__":
 * 算法公式 [TUTORIAL: IMAGE RESCALING](https://clouard.users.greyc.fr/Pantheon/experiments/rescaling/index-en.html)
 
 -----
-<p class='reviewtip'>2021-01-04: review</p>
+<p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.oreilly.com/library/view/python-data-science/9781491912126/ch04.html]({% include relref.html url="/backup/2020-10-20-dip-image-interpolation.md/www.oreilly.com/136b1475.html" %})

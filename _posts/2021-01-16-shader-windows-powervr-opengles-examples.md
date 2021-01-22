@@ -422,7 +422,7 @@ PVRAssets 和 POD 文件支持使用完全变换矩阵进行蒙皮，或者使�
 * Esc - Close
 
 -----
-<p class='reviewtip'>2021-01-17: review</p>
+<p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://docs.imgtec.com/PBR_with_IBL_for_PVR/topics/pbr_ibl_introduction.html]({% include relref.html url="/backup/2021-01-16-shader-windows-powervr-opengles-examples.md/docs.imgtec.com/bca9d913.html" %})

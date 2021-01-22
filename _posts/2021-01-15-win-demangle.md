@@ -151,7 +151,7 @@ static void demangle(const char* mangled_name, bool quiet) {
 - [3] [dll 导出函数的两种方式的比较 {% include relref_cnblogs.html %}](https://www.cnblogs.com/talenth/p/9585208.html)
 
 -----
-<p class='reviewtip'>2021-01-15: review</p>
+<p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://github.com/eklitzke/demangle]({% include relref.html url="/backup/2021-01-15-win-demangle.md/github.com/ae250947.html" %})
