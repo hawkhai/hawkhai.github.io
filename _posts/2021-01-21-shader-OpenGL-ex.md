@@ -168,7 +168,7 @@ OpenGL ES & OpenGL 存在大量 API 交叉的情况。分了五类：
 * 只支持 OpenGL & wglGetProcAddress: ogladdr
 * 只支持 OpenGL: ogl
 * 两个都支持 OpenGL & wglGetProcAddress: gles&ogladdr
-* 两个都支持: gles&ogl
+* 两个都支持：gles&ogl
 
 Irrlicht 用到的 284 个 API：
 
