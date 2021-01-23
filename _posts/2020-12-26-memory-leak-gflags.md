@@ -171,5 +171,5 @@ Kernel32 提供的堆管理函数。CRT 内存分配如：malloc、free、reallo
 访问块结尾之后的内容 | 在释放后发现 | 立即发现
 访问块开始之前的内容 | 在释放后发现 | 立即发现
 
------
+<hr class='reviewline'/>
 <p class='reviewtip'>2021-01-22: review</p>

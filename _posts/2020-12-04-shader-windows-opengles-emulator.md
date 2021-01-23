@@ -105,7 +105,7 @@ There are three major mobile GPU vendors nowadays and they provide decent graphi
 - [4] [OpenGL ES Emulator 再次横向比较](http://www.klayge.org/2012/01/28/opengl-es-emulator%e5%86%8d%e6%ac%a1%e6%a8%aa%e5%90%91%e6%af%94%e8%be%83/)
 - [5] [OpenGL ES Emulator 横向比较](http://www.klayge.org/2011/04/20/opengl-es-emulator%E6%A8%AA%E5%90%91%E6%AF%94%E8%BE%83/)
 
------
+<hr class='reviewline'/>
 <p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 

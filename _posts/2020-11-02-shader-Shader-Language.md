@@ -94,7 +94,7 @@ EGL 是渲染 API（如 OpenGL ES）和原生窗口系统之间的接口。
 - [3] [《Unity Shader 入门精要》随书彩色插图 {% include relref_github.html %}](http://candycat1992.github.io/unity_shaders_book/unity_shaders_book_images.html)
 - [4] [可编程渲染管线比固定管线的优势在哪？有什么应用？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/28024422/answer/39097192)
 
------
+<hr class='reviewline'/>
 <p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 

@@ -406,7 +406,7 @@ https://learnopengl-cn.github.io/
 - [1] [Welcome to songho.ca](http://www.songho.ca/index.html)
 - [2] [songho.ca OpenGL](http://www.songho.ca/opengl/index.html)
 
------
+<hr class='reviewline'/>
 <p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 

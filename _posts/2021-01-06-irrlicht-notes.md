@@ -355,7 +355,7 @@ Shading 方式的。
 
 - [1] [irrlicht 学习笔记 (6.21-6.24) -- zj](https://wenku.baidu.com/view/f3e3532bcfc789eb172dc8e0.html)
 
------
+<hr class='reviewline'/>
 <p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 

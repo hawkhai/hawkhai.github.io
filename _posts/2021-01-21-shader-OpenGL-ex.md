@@ -1906,7 +1906,7 @@ $$NV/AMD/INTEL/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
 178. wglGetProcAddress ogl
 179. wglMakeCurrent ogl
 
------
+<hr class='reviewline'/>
 <p class='reviewtip'>2021-01-23: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 

@@ -134,7 +134,7 @@ if (1.0f + src.dotProduct(dir) < 0.0001f) {
 - [1] [OpenGL 坐标系统](https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/08%20Coordinate%20Systems/)
 - [2] [Reiiden 制作笔记 D（OGRE 摄像机方向总结） {% include relref_csdn.html %}](https://blog.csdn.net/kira8dao7/article/details/6309671)
 
------
+<hr class='reviewline'/>
 <p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 

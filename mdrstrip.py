@@ -361,11 +361,11 @@ def removeRefs(fpath, lines):
 
     if headIndex != -1:
         assert lines[headIndex-1] == "" or re.findall(REGEX_REVIEW, lines[headIndex-1]), "%r"%lines[headIndex-1]
-        assert lines[headIndex-2] == "-----", "%r"%lines[headIndex-2]
+        assert lines[headIndex-2] in ("-----", "<hr class='reviewline'/>"), "%r"%lines[headIndex-2]
         assert lines[headIndex-3] == "", "%r"%lines[headIndex-3]
         lines = lines[:headIndex-3]
     else:
-        while lines and (lines[-1] == "" or lines[-1] == "-----" or
+        while lines and (lines[-1] in ("", "-----", "<hr class='reviewline'/>") or
                 re.findall(REGEX_REVIEW, lines[-1])):
             lines = lines[:-1]
     return lines
@@ -390,7 +390,7 @@ def appendRefs(fpath, lines):
 
     if reflist:
         lines.append("")
-        lines.append("-----")
+        lines.append("<hr class='reviewline'/>")
         lines.append(review)
         lines.append(SNAPSHOT_HTML)
         lines.append("")
@@ -407,7 +407,7 @@ def appendRefs(fpath, lines):
         lines.append("")
     else:
         lines.append("")
-        lines.append("-----")
+        lines.append("<hr class='reviewline'/>")
         lines.append(review)
         lines.append("")
     return lines

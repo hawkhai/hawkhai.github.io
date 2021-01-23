@@ -61,5 +61,5 @@ codeprint:
 
 怎么诊断一个公司是不是患有大公司病呢？就是看一个公司内两个部门之间的合作是不是比和外人谈合作更困难。
 
------
+<hr class='reviewline'/>
 <p class='reviewtip'>2021-01-22: review</p>

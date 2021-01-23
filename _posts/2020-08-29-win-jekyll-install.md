@@ -159,7 +159,7 @@ while __name__ == "__main__":
 
 {% include image.html url="/assets/images/200829-win-jekyll-install/win-jekyll2.png" %}
 
------
+<hr class='reviewline'/>
 <p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 

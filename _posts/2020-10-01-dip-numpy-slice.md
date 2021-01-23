@@ -392,7 +392,7 @@ numpy 库的对象有数组和矩阵，两者看起来长得差不多，但在�
 - [2] [Python 之 Numpy 基础 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/32242331)
 - [3] <https://blog.csdn.net/wzyaiwl/article/details/106310705>
 
------
+<hr class='reviewline'/>
 <p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 

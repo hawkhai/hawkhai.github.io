@@ -57,7 +57,7 @@ The unreasonable effectiveness of mathematics in the natural sciences
 
 - [1] [维基百科·数学危机 {% include relref_wiki.html %}](https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E5%8D%B1%E6%9C%BA)
 
------
+<hr class='reviewline'/>
 <p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 

@@ -385,5 +385,5 @@ void COGLES2Driver::createMaterialRenderers()
 }
 ```
 
------
+<hr class='reviewline'/>
 <p class='reviewtip'>2021-01-22: review</p>

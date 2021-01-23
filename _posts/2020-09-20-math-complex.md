@@ -529,7 +529,7 @@ $$
 - [3] [《更好的解释（数学篇）》 —— 第五章 虛數](http://jakwings.is-programmer.com/posts/29547.html)
 - [4] [虚数的意义 阮一峰](https://www.ruanyifeng.com/blog/2012/09/imaginary_number.html)
 
------
+<hr class='reviewline'/>
 <p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 

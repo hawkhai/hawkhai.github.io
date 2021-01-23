@@ -348,7 +348,7 @@ $$E(X) = \sum_{x} x P(X = x).$$
 <div id="refer-anchor-1"></div>
 - [1] [《动手学深度学习》 {% include relref_gluon.html %}](http://zh.gluon.ai/)
 
------
+<hr class='reviewline'/>
 <p class='reviewtip'>2021-01-22: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
