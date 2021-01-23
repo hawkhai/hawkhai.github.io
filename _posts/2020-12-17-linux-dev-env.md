@@ -60,7 +60,7 @@ ln -s libstdc++.so.6.0.21 libstdc++.so.6
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-22: review</p>
+<p class='reviewtip'>2021-01-23: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://cloud.tencent.com/developer/article/1668873]({% include relref.html url="/backup/2020-12-17-linux-dev-env.md/cloud.tencent.com/68a27e33.html" %})

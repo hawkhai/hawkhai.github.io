@@ -106,7 +106,7 @@ glStencilFunc(GL_NOTEQUAL, ref, mask);
 - [4] [高级 OpenGL » 模板测试](https://learnopengl-cn.readthedocs.io/zh/latest/04%20Advanced%20OpenGL/02%20Stencil%20testing/)
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-22: review</p>
+<p class='reviewtip'>2021-01-23: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://community.arm.com/cn/b/blog/posts/stencil-test]({% include relref.html url="/backup/2020-12-16-shader-OpenGL-Advanced-stencil-test.md/community.arm.com/113572ca.html" %})

@@ -345,6 +345,7 @@ g_mdkeyset = set()
 SNAPSHOT_HTML = "<font class='ref_snapshot'>参考资料快照</font>"
 REGEX_REVIEW  = "^(<p class='reviewtip'>)?[0-9]{4}-[0-9]{2}-[0-9]{2}: review(</p>)?$"
 FORMAT_REVIEW = "<p class='reviewtip'>{}: review</p>"
+LINE_REVIEW = "<hr class='reviewline'/>"
 def removeRefs(fpath, lines):
     lineCount = len(lines)
     headIndex = -1
@@ -361,11 +362,11 @@ def removeRefs(fpath, lines):
 
     if headIndex != -1:
         assert lines[headIndex-1] == "" or re.findall(REGEX_REVIEW, lines[headIndex-1]), "%r"%lines[headIndex-1]
-        assert lines[headIndex-2] in ("-----", "<hr class='reviewline'/>"), "%r"%lines[headIndex-2]
+        assert lines[headIndex-2] in ("-----", LINE_REVIEW), "%r"%lines[headIndex-2]
         assert lines[headIndex-3] == "", "%r"%lines[headIndex-3]
         lines = lines[:headIndex-3]
     else:
-        while lines and (lines[-1] in ("", "-----", "<hr class='reviewline'/>") or
+        while lines and (lines[-1] in ("", "-----", LINE_REVIEW) or
                 re.findall(REGEX_REVIEW, lines[-1])):
             lines = lines[:-1]
     return lines
@@ -390,7 +391,7 @@ def appendRefs(fpath, lines):
 
     if reflist:
         lines.append("")
-        lines.append("<hr class='reviewline'/>")
+        lines.append(LINE_REVIEW)
         lines.append(review)
         lines.append(SNAPSHOT_HTML)
         lines.append("")
@@ -407,7 +408,7 @@ def appendRefs(fpath, lines):
         lines.append("")
     else:
         lines.append("")
-        lines.append("<hr class='reviewline'/>")
+        lines.append(LINE_REVIEW)
         lines.append(review)
         lines.append("")
     return lines

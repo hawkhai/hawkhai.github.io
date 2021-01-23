@@ -2876,7 +2876,7 @@ material Fur
 - [3] [3.3 粒子 Particle {% include relref_cnblogs.html %}](https://www.cnblogs.com/wiki3d/p/4658247.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-22: review</p>
+<p class='reviewtip'>2021-01-23: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://ogre3d.cn/wiki/index.php?title=%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1_%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%22%20%5Cl%20%22billboard_type%22%20%5Co%20%22%E6%96%87%E6%A1%A3:%E6%89%8B%E5%86%8C:1-4-0:3.3.1%20%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7]({% include relref.html url="/backup/2020-11-08-ogre-particlesystem.md/ogre3d.cn/e5405f6b.php" %})
