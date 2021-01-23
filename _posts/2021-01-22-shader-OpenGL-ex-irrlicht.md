@@ -376,4 +376,4 @@ OpenGL ES & OpenGL 存在大量 API 交叉的情况，为了兼容，很多 API 
 * glTexImage2D gles&ogl // 根据指定的参数，生成一个 2D 纹理
 
 -----
-<p class='reviewtip'>2021-01-22: review</p>
+<p class='reviewtip'>2021-01-23: review</p>
