@@ -22,17 +22,17 @@ $$NV/AMD/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
 
 开始觉得很难，学了一段时间的 OpenGL，觉得也就那样，尝试改造 3D 引擎，发现一千多个 API，常用的 284 个，而且 OpenGL & OpenGL ES 存在巨大差异，不同硬件之间还存在差异，唏嘘不已。
 
-* **GLES 扩展 333 个：<https://www.khronos.org/registry/OpenGL/index_es.php>
-* **OpenGL 扩展 554 个：<https://www.khronos.org/registry/OpenGL/index_gl.php>
-* docs.GL <http://docs.gl/>
+* GLES 扩展 333 个：<https://www.khronos.org/registry/OpenGL/index_es.php>
+* OpenGL 扩展 554 个：<https://www.khronos.org/registry/OpenGL/index_gl.php>
+* *docs.GL* <http://docs.gl/>
 
 OpenGL ES & OpenGL 存在大量 API 交叉的情况，为了兼容，很多 API 采用 wglGetProcAddress 函数指针的形式。包含厂商后缀的都是 wglGetProcAddress，<font color="#FF00FF">ogladdr</font>。分了五类：
 
-* **只支持 GLES: <font color="#0000FF">gles</font>（大概 36 个）
-* **只支持 OpenGL & wglGetProcAddress: <font color="#FF00FF">ogladdr</font>（大概 140 个）
-* **只支持 OpenGL: <font color="red">ogl</font>（大概 43 个）
-* **两个都支持 OpenGL & wglGetProcAddress: <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>（大概 27 个）
-* **两个都支持：<font color="#0000FF">gles</font>&<font color="red">ogl</font>（大概 38 个）
+* 只支持 GLES: <font color="#0000FF">gles</font>（大概 36 个）
+* 只支持 OpenGL & wglGetProcAddress: <font color="#FF00FF">ogladdr</font>（大概 140 个）
+* 只支持 OpenGL: <font color="red">ogl</font>（大概 43 个）
+* 两个都支持 OpenGL & wglGetProcAddress: <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>（大概 27 个）
+* 两个都支持：<font color="#0000FF">gles</font>&<font color="red">ogl</font>（大概 38 个）
 
 {'<font color="#0000FF">gles</font>': 36, '<font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>': 27, '<font color="#FF00FF">ogladdr</font>': 140, '<font color="red">ogl</font>': 43, '<font color="#0000FF">gles</font>&<font color="red">ogl</font>': 38}
 
