@@ -239,7 +239,7 @@ OpenGL ES & OpenGL 存在大量 API 交叉的情况，为了兼容，很多 API 
 * **glProvokingVertexEXT** <font color="#FF00FF">ogladdr</font> // extGlProvokingVertex
 * **glProvokingVertex** <font color="#FF00FF">ogladdr</font>
     * specifiy the vertex to be used as the source of data for flat shaded varyings。
-    * 指定哪个点的数据作为平面着色的数据源。[from cnblogs](https://www.cnblogs.com/striver-zhu/p/4539160.html)
+    * 指定哪个点的数据作为平面着色的数据源。[from {% include relref_cnblogs.html %}](https://www.cnblogs.com/striver-zhu/p/4539160.html)
 * **glProgramParameteriEXT**, **glProgramParameteriARB** <font color="#FF00FF">ogladdr</font> // extGlProgramParameteri
     * glProgramParameteri — specify a parameter for a program object。
 
@@ -499,3 +499,5 @@ OpenGL ES & OpenGL 存在大量 API 交叉的情况，为了兼容，很多 API 
 
 - [https://www.khronos.org/registry/OpenGL/index_es.php]({% include relref.html url="/backup/2021-01-22-shader-OpenGL-ex-irrlicht.md/www.khronos.org/bb75bed1.php" %})
 - [https://www.khronos.org/registry/OpenGL/index_gl.php]({% include relref.html url="/backup/2021-01-22-shader-OpenGL-ex-irrlicht.md/www.khronos.org/a9a79c0a.php" %})
+- [http://docs.gl/]({% include relref.html url="/backup/2021-01-22-shader-OpenGL-ex-irrlicht.md/docs.gl/378832af.html" %})
+- [https://www.cnblogs.com/striver-zhu/p/4539160.html]({% include relref.html url="/backup/2021-01-22-shader-OpenGL-ex-irrlicht.md/www.cnblogs.com/7b349b94.html" %})
