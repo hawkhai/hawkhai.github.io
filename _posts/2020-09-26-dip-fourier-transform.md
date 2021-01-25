@@ -53,6 +53,8 @@ Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
 ### 傅里叶变换（Fourier Transformation）
 
+{% include image.html url="/assets/images/200926-dip-fourier-transform/fourier_series_and_transform.gif" %}
+
 {% include image.html url="/assets/images/200926-dip-fourier-transform/419cd0b2e965aca25d5f8a5a6362d728_720w.jpg" %}
 
 [傅里叶级数和傅里叶变换是什么关系？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/21665935)
