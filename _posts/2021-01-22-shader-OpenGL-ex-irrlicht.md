@@ -24,6 +24,7 @@ $$NV/AMD/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
 
 * **GLES 扩展 333 个：<https://www.khronos.org/registry/OpenGL/index_es.php>
 * **OpenGL 扩展 554 个：<https://www.khronos.org/registry/OpenGL/index_gl.php>
+* docs.GL <http://docs.gl/>
 
 OpenGL ES & OpenGL 存在大量 API 交叉的情况，为了兼容，很多 API 采用 wglGetProcAddress 函数指针的形式。包含厂商后缀的都是 wglGetProcAddress，<font color="#FF00FF">ogladdr</font>。分了五类：
 
@@ -237,7 +238,10 @@ OpenGL ES & OpenGL 存在大量 API 交叉的情况，为了兼容，很多 API 
 * **glGetBufferPointervARB** <font color="#FF00FF">ogladdr</font> // extGlGetBufferPointerv
 * **glProvokingVertexEXT** <font color="#FF00FF">ogladdr</font> // extGlProvokingVertex
 * **glProvokingVertex** <font color="#FF00FF">ogladdr</font>
+    * specifiy the vertex to be used as the source of data for flat shaded varyings。
+    * 指定哪个点的数据作为平面着色的数据源。[from cnblogs](https://www.cnblogs.com/striver-zhu/p/4539160.html)
 * **glProgramParameteriEXT**, **glProgramParameteriARB** <font color="#FF00FF">ogladdr</font> // extGlProgramParameteri
+    * glProgramParameteri — specify a parameter for a program object。
 
 
 ## 纹理
