@@ -15,7 +15,7 @@ glslcanvas:
 codeprint:
 ---
 
-$$NV/AMD/INTEL/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
+$$NV/AMD/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
 
 一个 3D 引擎为了更好的性能，就只能适配这些不同的硬件。Irrlicht 用到的 284 个 API。
 这些 API 就像后山上的野花，**一簇一簇的**，这个也是 状态机 C 风格函数接口的特点。
@@ -25,396 +25,467 @@ $$NV/AMD/INTEL/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
 * **GLES 扩展 333 个：<https://www.khronos.org/registry/OpenGL/index_es.php>
 * **OpenGL 扩展 554 个：<https://www.khronos.org/registry/OpenGL/index_gl.php>
 
-OpenGL ES & OpenGL 存在大量 API 交叉的情况，为了兼容，很多 API 采用 wglGetProcAddress 函数指针的形式。包含厂商后缀的都是 wglGetProcAddress，ogladdr。分了五类：
+OpenGL ES & OpenGL 存在大量 API 交叉的情况，为了兼容，很多 API 采用 wglGetProcAddress 函数指针的形式。包含厂商后缀的都是 wglGetProcAddress，<font color="#FF00FF">ogladdr</font>。分了五类：
 
-* **只支持 GLES: gles（大概 36 个）
-* **只支持 OpenGL & wglGetProcAddress: ogladdr（大概 140 个）
-* **只支持 OpenGL: ogl（大概 43 个）
-* **两个都支持 OpenGL & wglGetProcAddress: gles&ogladdr（大概 27 个）
-* **两个都支持：gles&ogl（大概 38 个）
+* **只支持 GLES: <font color="#0000FF">gles</font>（大概 36 个）
+* **只支持 OpenGL & wglGetProcAddress: <font color="#FF00FF">ogladdr</font>（大概 140 个）
+* **只支持 OpenGL: <font color="red">ogl</font>（大概 43 个）
+* **两个都支持 OpenGL & wglGetProcAddress: <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>（大概 27 个）
+* **两个都支持：<font color="#0000FF">gles</font>&<font color="red">ogl</font>（大概 38 个）
 
-{'gles': 36, 'gles&ogladdr': 27, 'ogladdr': 140, 'ogl': 43, 'gles&ogl': 38}
+{'<font color="#0000FF">gles</font>': 36, '<font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>': 27, '<font color="#FF00FF">ogladdr</font>': 140, '<font color="red">ogl</font>': 43, '<font color="#0000FF">gles</font>&<font color="red">ogl</font>': 38}
 
 
 ## 遮挡查询 occlusion query
 
-* **glBeginOcclusionQueryNV**, **glBeginQueryARB** // extGlBeginQuery
-* **glDeleteOcclusionQueriesNV**, **glDeleteQueriesARB** // extGlDeleteQueries
-* **glEndOcclusionQueryNV**, **glEndQueryARB** // extGlEndQuery
-* **glGenOcclusionQueriesNV**, **glGenQueriesARB** // extGlGenQueries
-* **glGetOcclusionQueryivNV**, **glGetQueryObjectivARB** // extGlGetQueryObjectiv
-* **glGetOcclusionQueryuivNV**, **glGetQueryObjectuivARB** // extGlGetQueryObjectuiv
-* **glGetQueryivARB** // extGlGetQueryiv
-* **glIsOcclusionQueryNV**, **glIsQueryARB** // extGlIsQuery
+* **glBeginOcclusionQueryNV**, **glBeginQueryARB** <font color="#FF00FF">ogladdr</font> // extGlBeginQuery
+* **glDeleteOcclusionQueriesNV**, **glDeleteQueriesARB** <font color="#FF00FF">ogladdr</font> // extGlDeleteQueries
+* **glEndOcclusionQueryNV**, **glEndQueryARB** <font color="#FF00FF">ogladdr</font> // extGlEndQuery
+* **glGenOcclusionQueriesNV**, **glGenQueriesARB** <font color="#FF00FF">ogladdr</font> // extGlGenQueries
+* **glGetOcclusionQueryivNV**, **glGetQueryObjectivARB** <font color="#FF00FF">ogladdr</font> // extGlGetQueryObjectiv
+* **glGetOcclusionQueryuivNV**, **glGetQueryObjectuivARB** <font color="#FF00FF">ogladdr</font> // extGlGetQueryObjectuiv
+* **glGetQueryivARB** <font color="#FF00FF">ogladdr</font> // extGlGetQueryiv
+* **glIsOcclusionQueryNV**, **glIsQueryARB** <font color="#FF00FF">ogladdr</font> // extGlIsQuery
 
 
 ## OpenGL WGL
 
-* **wglCreateContext** ogl
-* **wglDeleteContext** ogl
-* **wglGetCurrentDC** ogl
-* **wglGetProcAddress** ogl
-* **wglMakeCurrent** ogl
-* **wglChoosePixelFormatARB** // ? 请求并选择一个匹配的像素格式
-* **wglCreateContextAttribsARB** // ? 创建和使用 OpenGL
-* **wglGetExtensionsStringARB** // ? 检查是否支持 WGL_ARB_extensions_string 扩展
-* **wglSwapIntervalEXT** // extGlSwapInterval 是否启用垂直同步
+* **wglCreateContext** <font color="red">ogl</font>
+* **wglDeleteContext** <font color="red">ogl</font>
+* **wglGetCurrentDC** <font color="red">ogl</font>
+* **wglGetProcAddress** <font color="red">ogl</font>
+* **wglMakeCurrent** <font color="red">ogl</font>
+* **wglChoosePixelFormatARB** <font color="#FF00FF">ogladdr</font> // ? 请求并选择一个匹配的像素格式
+* **wglCreateContextAttribsARB** <font color="#FF00FF">ogladdr</font> // ? 创建和使用 OpenGL
+* **wglGetExtensionsStringARB** <font color="#FF00FF">ogladdr</font> // ? 检查是否支持 WGL_ARB_extensions_string 扩展
+* **wglSwapIntervalEXT** <font color="#FF00FF">ogladdr</font> // extGlSwapInterval 是否启用垂直同步
 
 
 ## GLES EGL
 
-* **eglBindAPI** gles
-* **eglChooseConfig** gles
-* **eglCreateContext** gles
-* **eglCreateWindowSurface** gles
-* **eglDestroyContext** gles
-* **eglDestroySurface** gles
-* **eglGetConfigAttrib** gles
-* **eglGetConfigs** gles
-* **eglGetDisplay** gles
-* **eglGetError** gles
-* **eglInitialize** gles
-* **eglMakeCurrent** gles
-* **eglSwapBuffers** gles
-* **eglSwapInterval** gles
-* **eglTerminate** gles
+* **eglBindAPI** <font color="#0000FF">gles</font>
+* **eglChooseConfig** <font color="#0000FF">gles</font>
+* **eglCreateContext** <font color="#0000FF">gles</font>
+* **eglCreateWindowSurface** <font color="#0000FF">gles</font>
+* **eglDestroyContext** <font color="#0000FF">gles</font>
+* **eglDestroySurface** <font color="#0000FF">gles</font>
+* **eglGetConfigAttrib** <font color="#0000FF">gles</font>
+* **eglGetConfigs** <font color="#0000FF">gles</font>
+* **eglGetDisplay** <font color="#0000FF">gles</font>
+* **eglGetError** <font color="#0000FF">gles</font>
+* **eglInitialize** <font color="#0000FF">gles</font>
+* **eglMakeCurrent** <font color="#0000FF">gles</font>
+* **eglSwapBuffers** <font color="#0000FF">gles</font>
+* **eglSwapInterval** <font color="#0000FF">gles</font>
+* **eglTerminate** <font color="#0000FF">gles</font>
 
 
 ## glUniform 系列
 
-* **glUniform1fv** gles
-* **glUniform1iv** gles
-* **glUniform1uiv** ogladdr
-* **glUniform2fv** gles
-* **glUniform2iv** gles
-* **glUniform2uiv** ogladdr
-* **glUniform3fv** gles
-* **glUniform3iv** gles
-* **glUniform3uiv** ogladdr
-* **glUniform4fv** gles
-* **glUniform4iv** gles
-* **glUniform4uiv** ogladdr
-* **glUniformMatrix2fv** gles
-* **glUniformMatrix2x3fv** ogladdr
-* **glUniformMatrix2x4fv** ogladdr
-* **glUniformMatrix3fv** gles
-* **glUniformMatrix3x2fv** ogladdr
-* **glUniformMatrix3x4fv** ogladdr
-* **glUniformMatrix4fv** gles
-* **glUniformMatrix4x2fv** ogladdr
-* **glUniformMatrix4x3fv** ogladdr
-* **glUniform1fvARB** // extGlUniform1fv
-* **glUniform1ivARB** // extGlUniform1iv
-* **glUniform2fvARB** // extGlUniform2fv
-* **glUniform2ivARB** // extGlUniform2iv
-* **glUniform3fvARB** // extGlUniform3fv
-* **glUniform3ivARB** // extGlUniform3iv
-* **glUniform4fvARB** // extGlUniform4fv
-* **glUniform4ivARB** // extGlUniform4iv
-* **glUniformMatrix2fvARB** // extGlUniformMatrix2fv
-* **glUniformMatrix3fvARB** // extGlUniformMatrix3fv
-* **glUniformMatrix4fvARB** // extGlUniformMatrix4fv
-* **glGetActiveUniformARB** // extGlGetActiveUniformARB
-* **glGetUniformLocationARB** // extGlGetUniformLocationARB
-* **glGetActiveUniform** gles&ogladdr
-* **glGetUniformLocation** gles&ogladdr
+* **glUniform1fv** <font color="#0000FF">gles</font>
+* **glUniform1iv** <font color="#0000FF">gles</font>
+* **glUniform1uiv** <font color="#FF00FF">ogladdr</font>
+* **glUniform2fv** <font color="#0000FF">gles</font>
+* **glUniform2iv** <font color="#0000FF">gles</font>
+* **glUniform2uiv** <font color="#FF00FF">ogladdr</font>
+* **glUniform3fv** <font color="#0000FF">gles</font>
+* **glUniform3iv** <font color="#0000FF">gles</font>
+* **glUniform3uiv** <font color="#FF00FF">ogladdr</font>
+* **glUniform4fv** <font color="#0000FF">gles</font>
+* **glUniform4iv** <font color="#0000FF">gles</font>
+* **glUniform4uiv** <font color="#FF00FF">ogladdr</font>
+* **glUniformMatrix2fv** <font color="#0000FF">gles</font>
+* **glUniformMatrix2x3fv** <font color="#FF00FF">ogladdr</font>
+* **glUniformMatrix2x4fv** <font color="#FF00FF">ogladdr</font>
+* **glUniformMatrix3fv** <font color="#0000FF">gles</font>
+* **glUniformMatrix3x2fv** <font color="#FF00FF">ogladdr</font>
+* **glUniformMatrix3x4fv** <font color="#FF00FF">ogladdr</font>
+* **glUniformMatrix4fv** <font color="#0000FF">gles</font>
+* **glUniformMatrix4x2fv** <font color="#FF00FF">ogladdr</font>
+* **glUniformMatrix4x3fv** <font color="#FF00FF">ogladdr</font>
+* **glUniform1fvARB** <font color="#FF00FF">ogladdr</font> // extGlUniform1fv
+* **glUniform1ivARB** <font color="#FF00FF">ogladdr</font> // extGlUniform1iv
+* **glUniform2fvARB** <font color="#FF00FF">ogladdr</font> // extGlUniform2fv
+* **glUniform2ivARB** <font color="#FF00FF">ogladdr</font> // extGlUniform2iv
+* **glUniform3fvARB** <font color="#FF00FF">ogladdr</font> // extGlUniform3fv
+* **glUniform3ivARB** <font color="#FF00FF">ogladdr</font> // extGlUniform3iv
+* **glUniform4fvARB** <font color="#FF00FF">ogladdr</font> // extGlUniform4fv
+* **glUniform4ivARB** <font color="#FF00FF">ogladdr</font> // extGlUniform4iv
+* **glUniformMatrix2fvARB** <font color="#FF00FF">ogladdr</font> // extGlUniformMatrix2fv
+* **glUniformMatrix3fvARB** <font color="#FF00FF">ogladdr</font> // extGlUniformMatrix3fv
+* **glUniformMatrix4fvARB** <font color="#FF00FF">ogladdr</font> // extGlUniformMatrix4fv
+* **glGetActiveUniformARB** <font color="#FF00FF">ogladdr</font> // extGlGetActiveUniformARB
+* **glGetUniformLocationARB** <font color="#FF00FF">ogladdr</font> // extGlGetUniformLocationARB
+* **glGetActiveUniform** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glGetUniformLocation** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
 
 
 ## 模板测试
 
-* **glClearStencil** gles&ogl
-* **glStencilFunc** gles&ogl
-* **glStencilMask** gles&ogl
-* **glStencilOp** gles&ogl
-* **glStencilFuncSeparate** ogladdr
-* **glStencilOpSeparate** ogladdr
-* **glStencilFuncSeparateATI** // extGlStencilFuncSeparate
-* **glStencilOpSeparateATI** // extGlStencilOpSeparate
+* **glClearStencil** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
+* **glStencilFunc** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
+* **glStencilMask** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
+* **glStencilOp** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
+* **glStencilFuncSeparate** <font color="#FF00FF">ogladdr</font>
+* **glStencilOpSeparate** <font color="#FF00FF">ogladdr</font>
+* **glStencilFuncSeparateATI** <font color="#FF00FF">ogladdr</font> // extGlStencilFuncSeparate
+* **glStencilOpSeparateATI** <font color="#FF00FF">ogladdr</font> // extGlStencilOpSeparate
 
 
 ## general functions
 
-* **glActiveTexture** gles&ogladdr
-* **glCompressedTexImage2D** gles&ogladdr
-* **glCompressedTexSubImage2D** gles&ogladdr
-* **glActiveTextureARB** // irrGlActiveTexture
-* **glClientActiveTextureARB** // irrGlClientActiveTexture
-* **glPointParameterfARB** // extGlPointParameterf
-* **glPointParameterfvARB** // extGlPointParameterfv
+* **glActiveTexture** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glCompressedTexImage2D** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glCompressedTexSubImage2D** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glActiveTextureARB** <font color="#FF00FF">ogladdr</font> // irrGlActiveTexture
+* **glClientActiveTextureARB** <font color="#FF00FF">ogladdr</font> // irrGlClientActiveTexture
+* **glPointParameterfARB** <font color="#FF00FF">ogladdr</font> // extGlPointParameterf
+* **glPointParameterfvARB** <font color="#FF00FF">ogladdr</font> // extGlPointParameterfv
 
 
 ## shader programming
 
-* **glGenProgramsNV**, **glGenProgramsARB** // extGlGenPrograms
-* **glBindProgramNV**, **glBindProgramARB** // extGlBindProgram
-* **glLoadProgramNV** // extGlLoadProgram
-* **glProgramStringARB** // extGlProgramString, 貌似跟上面一个用途一样
-* **glDeleteProgramsNV**, **glDeleteProgramsARB** // extGlDeletePrograms
-* **glProgramLocalParameter4fvARB** // extGlProgramLocalParameter4fv
-* **glCreateProgramObjectARB** // extGlCreateProgramObject
-* **glCreateShaderObjectARB** // extGlCreateShaderObject
+* **glGenProgramsNV**, **glGenProgramsARB** <font color="#FF00FF">ogladdr</font> // extGlGenPrograms
+* **glBindProgramNV**, **glBindProgramARB** <font color="#FF00FF">ogladdr</font> // extGlBindProgram
+* **glLoadProgramNV** <font color="#FF00FF">ogladdr</font> // extGlLoadProgram
+* **glProgramStringARB** <font color="#FF00FF">ogladdr</font> // extGlProgramString, 貌似跟上面一个用途一样
+* **glDeleteProgramsNV**, **glDeleteProgramsARB** <font color="#FF00FF">ogladdr</font> // extGlDeletePrograms
+* **glProgramLocalParameter4fvARB** <font color="#FF00FF">ogladdr</font> // extGlProgramLocalParameter4fv
+* **glCreateProgramObjectARB** <font color="#FF00FF">ogladdr</font> // extGlCreateProgramObject
+* **glCreateShaderObjectARB** <font color="#FF00FF">ogladdr</font> // extGlCreateShaderObject
 <hr/>
-* **glCreateProgram** gles&ogladdr
-* **glDeleteProgram** gles&ogladdr
-* **glLinkProgram** gles&ogladdr
-* **glUseProgram** gles&ogladdr
+* **glCreateProgram** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glDeleteProgram** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glLinkProgram** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glUseProgram** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
 <hr/>
-* **glCreateShader** gles&ogladdr
-* **glDeleteShader** gles&ogladdr
-* **glCompileShader** gles&ogladdr
-* **glAttachShader** gles&ogladdr
+* **glCreateShader** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glDeleteShader** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glCompileShader** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glAttachShader** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
 <hr/>
-* **glGetAttachedShaders** gles&ogladdr
-* **glGetProgramInfoLog** gles&ogladdr // extGlGetProgramInfoLog
-* **glGetShaderInfoLog** gles&ogladdr
-* **glGetProgramiv** gles&ogladdr // extGlGetProgramiv
-* **glGetShaderiv** gles&ogladdr
-* **glShaderSource** gles&ogladdr
+* **glGetAttachedShaders** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glGetProgramInfoLog** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font> // extGlGetProgramInfoLog
+* **glGetShaderInfoLog** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glGetProgramiv** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font> // extGlGetProgramiv
+* **glGetShaderiv** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glShaderSource** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
 <hr/>
-* **glShaderSourceARB** // extGlShaderSourceARB
-* **glCompileShaderARB** // extGlCompileShaderARB
-* **glLinkProgramARB** // extGlLinkProgramARB
-* **glGetInfoLogARB** // extGlGetInfoLog
-* **glGetObjectParameterivARB** // extGlGetObjectParameteriv
-* **glUseProgramObjectARB** // extGlUseProgramObject
-* **glAttachObjectARB** // extGlAttachObject
-* **glDeleteObjectARB** // extGlDeleteObject
-* **glGetAttachedObjectsARB** // extGlGetAttachedObjects
+* **glShaderSourceARB** <font color="#FF00FF">ogladdr</font> // extGlShaderSourceARB
+* **glCompileShaderARB** <font color="#FF00FF">ogladdr</font> // extGlCompileShaderARB
+* **glLinkProgramARB** <font color="#FF00FF">ogladdr</font> // extGlLinkProgramARB
+* **glGetInfoLogARB** <font color="#FF00FF">ogladdr</font> // extGlGetInfoLog
+* **glGetObjectParameterivARB** <font color="#FF00FF">ogladdr</font> // extGlGetObjectParameteriv
+* **glUseProgramObjectARB** <font color="#FF00FF">ogladdr</font> // extGlUseProgramObject
+* **glAttachObjectARB** <font color="#FF00FF">ogladdr</font> // extGlAttachObject
+* **glDeleteObjectARB** <font color="#FF00FF">ogladdr</font> // extGlDeleteObject
+* **glGetAttachedObjectsARB** <font color="#FF00FF">ogladdr</font> // extGlGetAttachedObjects
 
 
 ## framebuffer objects
 
-* **glGenFramebuffers** gles&ogladdr
-* **glBindFramebuffer** gles&ogladdr
-* **glCheckFramebufferStatus** gles&ogladdr
-* **glFramebufferTexture2D** gles&ogladdr
-* **glDeleteFramebuffers** gles&ogladdr // irrGlDeleteFramebuffers
-* **glGenerateMipmap** gles&ogladdr
+* **glGenFramebuffers** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glBindFramebuffer** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glCheckFramebufferStatus** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glFramebufferTexture2D** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+* **glDeleteFramebuffers** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font> // irrGlDeleteFramebuffers
+* **glGenerateMipmap** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
 <hr/>
-* **glGenFramebuffersEXT** // irrGlGenFramebuffers
-* **glBindFramebufferEXT** // irrGlBindFramebuffer
-* **glCheckFramebufferStatusEXT** // irrGlCheckFramebufferStatus
-* **glFramebufferTexture2DEXT** // irrGlFramebufferTexture2D
-* **glDeleteFramebuffersEXT** // irrGlDeleteFramebuffers
+* **glGenFramebuffersEXT** <font color="#FF00FF">ogladdr</font> // irrGlGenFramebuffers
+* **glBindFramebufferEXT** <font color="#FF00FF">ogladdr</font> // irrGlBindFramebuffer
+* **glCheckFramebufferStatusEXT** <font color="#FF00FF">ogladdr</font> // irrGlCheckFramebufferStatus
+* **glFramebufferTexture2DEXT** <font color="#FF00FF">ogladdr</font> // irrGlFramebufferTexture2D
+* **glDeleteFramebuffersEXT** <font color="#FF00FF">ogladdr</font> // irrGlDeleteFramebuffers
 <hr/>
-* **glBindRenderbuffer** ogladdr
-* **glDeleteRenderbuffers** ogladdr
-* **glGenRenderbuffers** ogladdr
-* **glRenderbufferStorage** ogladdr
-* **glFramebufferRenderbuffer** ogladdr
-* **glFramebufferTexture** ogladdr
+* **glBindRenderbuffer** <font color="#FF00FF">ogladdr</font>
+* **glDeleteRenderbuffers** <font color="#FF00FF">ogladdr</font>
+* **glGenRenderbuffers** <font color="#FF00FF">ogladdr</font>
+* **glRenderbufferStorage** <font color="#FF00FF">ogladdr</font>
+* **glFramebufferRenderbuffer** <font color="#FF00FF">ogladdr</font>
+* **glFramebufferTexture** <font color="#FF00FF">ogladdr</font>
 <hr/>
-* **glBindRenderbufferEXT** // irrGlBindRenderbuffer
-* **glDeleteRenderbuffersEXT** // irrGlDeleteRenderbuffers
-* **glGenRenderbuffersEXT** // irrGlGenRenderbuffers
-* **glRenderbufferStorageEXT** // irrGlRenderbufferStorage
-* **glFramebufferRenderbufferEXT** // irrGlFramebufferRenderbuffer
-* **glGenerateMipmapEXT** // irrGlGenerateMipmap
+* **glBindRenderbufferEXT** <font color="#FF00FF">ogladdr</font> // irrGlBindRenderbuffer
+* **glDeleteRenderbuffersEXT** <font color="#FF00FF">ogladdr</font> // irrGlDeleteRenderbuffers
+* **glGenRenderbuffersEXT** <font color="#FF00FF">ogladdr</font> // irrGlGenRenderbuffers
+* **glRenderbufferStorageEXT** <font color="#FF00FF">ogladdr</font> // irrGlRenderbufferStorage
+* **glFramebufferRenderbufferEXT** <font color="#FF00FF">ogladdr</font> // irrGlFramebufferRenderbuffer
+* **glGenerateMipmapEXT** <font color="#FF00FF">ogladdr</font> // irrGlGenerateMipmap
 <hr/>
-* **glDrawBuffer** ogl
-* **glDrawBuffersATI**, **glDrawBuffersARB** // irrGlDrawBuffers
+* **glDrawBuffer** <font color="red">ogl</font>
+* **glDrawBuffersATI**, **glDrawBuffersARB** <font color="#FF00FF">ogladdr</font> // irrGlDrawBuffers
 
 
 ## vertex buffer object
 
-* **glGenBuffers** gles
-* **glBindBuffer** gles
-* **glBufferData** gles
-* **glBufferSubData** gles
-* **glDeleteBuffers** gles
+* **glGenBuffers** <font color="#0000FF">gles</font>
+* **glBindBuffer** <font color="#0000FF">gles</font>
+* **glBufferData** <font color="#0000FF">gles</font>
+* **glBufferSubData** <font color="#0000FF">gles</font>
+* **glDeleteBuffers** <font color="#0000FF">gles</font>
 <hr/>
-* **glGenBuffersARB** // extGlGenBuffers
-* **glBindBufferARB** // extGlBindBuffer
-* **glBufferDataARB** // extGlBufferData
-* **glDeleteBuffersARB** // extGlDeleteBuffers
+* **glGenBuffersARB** <font color="#FF00FF">ogladdr</font> // extGlGenBuffers
+* **glBindBufferARB** <font color="#FF00FF">ogladdr</font> // extGlBindBuffer
+* **glBufferDataARB** <font color="#FF00FF">ogladdr</font> // extGlBufferData
+* **glDeleteBuffersARB** <font color="#FF00FF">ogladdr</font> // extGlDeleteBuffers
 <hr/>
-* **glBufferSubDataARB** // extGlBufferSubData
-* **glGetBufferSubDataARB** // extGlGetBufferSubData
-* **glMapBufferARB** // extGlMapBuffer
-* **glUnmapBufferARB** // extGlUnmapBuffer
-* **glIsBufferARB** // extGlIsBuffer
-* **glGetBufferParameterivARB** // extGlGetBufferParameteriv
-* **glGetBufferPointervARB** // extGlGetBufferPointerv
-* **glProvokingVertexEXT** // extGlProvokingVertex
-* **glProvokingVertex** ogladdr
-* **glProgramParameteriEXT**, **glProgramParameteriARB** // extGlProgramParameteri
+* **glBufferSubDataARB** <font color="#FF00FF">ogladdr</font> // extGlBufferSubData
+* **glGetBufferSubDataARB** <font color="#FF00FF">ogladdr</font> // extGlGetBufferSubData
+* **glMapBufferARB** <font color="#FF00FF">ogladdr</font> // extGlMapBuffer
+* **glUnmapBufferARB** <font color="#FF00FF">ogladdr</font> // extGlUnmapBuffer
+* **glIsBufferARB** <font color="#FF00FF">ogladdr</font> // extGlIsBuffer
+* **glGetBufferParameterivARB** <font color="#FF00FF">ogladdr</font> // extGlGetBufferParameteriv
+* **glGetBufferPointervARB** <font color="#FF00FF">ogladdr</font> // extGlGetBufferPointerv
+* **glProvokingVertexEXT** <font color="#FF00FF">ogladdr</font> // extGlProvokingVertex
+* **glProvokingVertex** <font color="#FF00FF">ogladdr</font>
+* **glProgramParameteriEXT**, **glProgramParameteriARB** <font color="#FF00FF">ogladdr</font> // extGlProgramParameteri
 
 
 ## 纹理
 
-* **glTextureSubImage2D** ogladdr
-* **glTexSubImage2D** gles&ogl
-* **glTextureStorage2D** ogladdr
-* **glTexStorage2D** ogladdr
-* **glTextureStorage3D** ogladdr
-* **glTexStorage3D** ogladdr
-* **glGetTextureImage** ogladdr
-* **glGetTexImage** ogl
-* **glTextureStorage2DEXT** // extGlTextureStorage2D
-* **glTextureSubImage2DEXT** // extGlTextureSubImage2D
-* **glTextureStorage3DEXT** // extGlTextureStorage3D
-* **glGetTextureImageEXT** // extGlGetTextureImage
+* **glTextureSubImage2D**, **glTexSubImage2D** <font color="#FF00FF">ogladdr</font>
+    * specify a two-dimensional texture subimage.
+* **glTextureStorage2D**, **glTexStorage2D** <font color="#FF00FF">ogladdr</font>
+    * glTexStorage2D, glTextureStorage2D — simultaneously specify storage for all levels of a two-dimensional or one-dimensional array texture.
+* **glTextureStorage3D**, **glTexStorage3D** <font color="#FF00FF">ogladdr</font>
+    * glTexStorage3D, glTextureStorage3D — simultaneously specify storage for all levels of a three-dimensional, two-dimensional array or cube-map array texture.
+* **glGetTextureImage** <font color="#FF00FF">ogladdr</font>
+    * 红宝书 p206 获取纹理数据。
+    * 从纹理 texture 中获取图像数据。level 表示细节层次的层数。format 和 type 表示所需数据的像素格式和数据类型。pixels 可以被理解为用户内存中的一个地址，用来存储图像数据，或者如果当前有缓存对象绑定到 GL_PIXEL_PACK_BUFFER，这里设置的就是图像数据传递到缓存对象时的数据偏移地址。
+* **glGetTexImage** <font color="red">ogl</font>
+    * glGetTexImage — return a texture image.
+* **glTextureStorage2DEXT** <font color="#FF00FF">ogladdr</font> // extGlTextureStorage2D
+* **glTextureSubImage2DEXT** <font color="#FF00FF">ogladdr</font> // extGlTextureSubImage2D
+* **glTextureStorage3DEXT** <font color="#FF00FF">ogladdr</font> // extGlTextureStorage3D
+* **glGetTextureImageEXT** <font color="#FF00FF">ogladdr</font> // extGlGetTextureImage
 <hr/>
-* **glNamedFramebufferTexture** ogladdr
-* **glNamedFramebufferTextureEXT** // extGlNamedFramebufferTexture
-* **glTextureParameterf** ogladdr
-* **glTextureParameterfv** ogladdr
-* **glTextureParameteri** ogladdr
-* **glTextureParameteriv** ogladdr
+* **glNamedFramebufferTexture** <font color="#FF00FF">ogladdr</font>
+    * glFramebufferTexture — attach a level of a texture object as a logical buffer of a framebuffer object。
+* **glNamedFramebufferTextureEXT** <font color="#FF00FF">ogladdr</font> // extGlNamedFramebufferTexture
+* **glTextureParameterf** <font color="#FF00FF">ogladdr</font>
+    * set texture parameters。
+* **glTextureParameterfv** <font color="#FF00FF">ogladdr</font>
+* **glTextureParameteri** <font color="#FF00FF">ogladdr</font>
+* **glTextureParameteriv** <font color="#FF00FF">ogladdr</font>
+    * set texture parameters。
 <hr/>
-* **glCreateTextures** ogladdr
-* **glCreateFramebuffers** ogladdr
-* **glBindTextures** ogladdr
+* **glCreateTextures** <font color="#FF00FF">ogladdr</font>
+    * create texture objects。Create a new 2D texture object。
+* **glCreateFramebuffers** <font color="#FF00FF">ogladdr</font>
+    * create framebuffer objects。
+* **glBindTextures** <font color="#FF00FF">ogladdr</font>
+    * bind one or more named textures to a sequence of consecutive texture units。
 <hr/>
-* **glGenTextures** gles&ogl
-* **glBindTexture** gles&ogl
-* **glDeleteTextures** gles&ogl
+* **glGenTextures** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
+    * generate texture names。
+    * 生成纹理的函数。函数根据纹理参数返回 n 个纹理索引。纹理名称集合不必是一个连续的整数集合。
+* **glBindTexture** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
+    * bind a named texture to a texturing target。
+    * 允许建立一个绑定到目标纹理的有名称的纹理。
+* **glDeleteTextures** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
+    * delete named textures。
 <hr/>
-* **glGenerateTextureMipmap** ogladdr
-* **glGenerateTextureMipmapEXT** // extGlGenerateTextureMipmap
+* **glGenerateTextureMipmap** <font color="#FF00FF">ogladdr</font>
+* **glGenerateTextureMipmapEXT** <font color="#FF00FF">ogladdr</font> // extGlGenerateTextureMipmap
+    * glGenerateMipmap, glGenerateTextureMipmap — generate mipmaps for a specified texture object。
 
 
 ## 深度测试
 
-* **glClearDepthf** gles
-* **glClearDepth** ogl
-* **glDepthFunc** gles&ogl
-* **glDepthMask** gles&ogl
+* **glClearDepthf** <font color="#0000FF">gles</font>
+    * specify the clear value for the depth buffer。
+* **glClearDepth** <font color="red">ogl</font>
+    * specify the clear value for the depth buffer。
+    * 设置深度缓存的清除值。
+* **glDepthFunc** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
+    * specify the value used for depth buffer comparisons。
+    * 通过目标像素与当前像素在 z 方向上值大小的比较是否满足参数指定的条件，来决定在深度（z 方向）上是否绘制该目标像素。该函数只有启用“深度测试”时才有效，参考 glEnable(GL_DEPTH_TEST) 和 glDisable(GL_DEPTH_TEST)。
+* **glDepthMask** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
+    * enable or disable writing into the depth buffer。
 
 
 ## 颜色混合 Blend indexed
 
-* **glDisableIndexedEXT** // irrGlDisableIndexed
-* **glEnableIndexedEXT** // irrGlEnableIndexed
-* **glColorMaskIndexedEXT** // irrGlColorMaskIndexed
+* **glDisableIndexedEXT** <font color="#FF00FF">ogladdr</font> // irrGlDisableIndexed
+* **glEnableIndexedEXT** <font color="#FF00FF">ogladdr</font> // irrGlEnableIndexed
+* **glColorMaskIndexedEXT** <font color="#FF00FF">ogladdr</font> // irrGlColorMaskIndexed
+    * glColorMask — enable and disable writing of frame buffer color components。
 <hr/>
-* **glBlendFuncIndexedAMD**, **glBlendFunciARB** // irrGlBlendFuncIndexed
-* **glBlendFuncSeparateIndexedAMD**, **glBlendFuncSeparateiARB** // irrGlBlendFuncSeparateIndexed
-* **glBlendEquationIndexedAMD**, **glBlendEquationiARB** // irrGlBlendEquationIndexed
-* **glBlendEquationSeparateIndexedAMD**, **glBlendEquationSeparateiARB** // irrGlBlendEquationSeparateIndexed
+* **glBlendFuncIndexedAMD**, **glBlendFunciARB** <font color="#FF00FF">ogladdr</font> // irrGlBlendFuncIndexed
+* **glBlendFuncSeparateIndexedAMD**, **glBlendFuncSeparateiARB** <font color="#FF00FF">ogladdr</font> // irrGlBlendFuncSeparateIndexed
+* **glBlendEquationIndexedAMD**, **glBlendEquationiARB** <font color="#FF00FF">ogladdr</font> // irrGlBlendEquationIndexed
+* **glBlendEquationSeparateIndexedAMD**, **glBlendEquationSeparateiARB** <font color="#FF00FF">ogladdr</font> // irrGlBlendEquationSeparateIndexed
 <hr/>
-* **glBlendEquationEXT** // irrGlBlendEquation
-* **glBlendEquationSeparateEXT** // ?
-* **glBlendFuncSeparateEXT** // irrGlBlendFuncSeparate
+* **glBlendEquationEXT** <font color="#FF00FF">ogladdr</font> // irrGlBlendEquation
+* **glBlendEquationSeparateEXT** <font color="#FF00FF">ogladdr</font> // ?
+* **glBlendFuncSeparateEXT** <font color="#FF00FF">ogladdr</font> // irrGlBlendFuncSeparate
 <hr/>
-* **glBlendEquation** gles&ogladdr
-* **glBlendFuncSeparate** gles&ogladdr
-* **glBlendFunc** gles&ogl
-* **glBlendEquationSeparate** ogladdr
+* **glBlendEquation** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+    * specify the equation used for both the RGB blend equation and the Alpha blend equation。
+    * 设置 BLEND 方程式。
+* **glBlendEquationSeparate** <font color="#FF00FF">ogladdr</font>
+    * 对 RGB 和 Alpha 分别设置 BLEND 方程式。
+* **glBlendFuncSeparate** <font color="#0000FF">gles</font>&<font color="#FF00FF">ogladdr</font>
+    * specify pixel arithmetic for RGB and alpha components separately。
+    * 对 RGB 和 Alpha 分别设置 BLEND 函数。
+* **glBlendFunc** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
+    * 设置 BLEND 函数。
 
 
 ## GLES Only
 
-* **glBindAttribLocation** gles
-* **glDisableVertexAttribArray** gles
-* **glEnableVertexAttribArray** gles
-* **glVertexAttribPointer** gles
+* **glBindAttribLocation** <font color="#0000FF">gles</font>
+    * Associates a generic vertex attribute index with a named attribute variable。
+    * 指定属性变量名和通用属性索引之间的关联。
+* **glDisableVertexAttribArray** <font color="#0000FF">gles</font>
+    * 禁用 index 指定的通用顶点属性数组。
+    * Enable or disable a generic vertex attribute array。
+* **glEnableVertexAttribArray** <font color="#0000FF">gles</font>
+    * Enable or disable a generic vertex attribute array。
+* **glVertexAttribPointer** <font color="#0000FF">gles</font>
+    * define an array of generic vertex attribute data。
 
 
 ## OpenGL Only
 
-* **glDisableClientState** ogl
-* **glEnableClientState** ogl
-* **glClipPlane** ogl // 定义一个裁剪平面
-* **glColor4ub** ogl
-* **glColorMaterial** ogl
-* **glColorPointer** ogl
-* **glFogf** ogl
-* **glFogfv** ogl
-* **glFogi** ogl
-* **glLightModelfv** ogl
-* **glLightModeli** ogl
-* **glLightf** ogl
-* **glLightfv** ogl
-* **glNormalPointer** ogl
-* **glPointSize** ogl
-* **glPolygonMode** ogl
-* **glPopAttrib** ogl
-* **glPopMatrix** ogl
-* **glRectf** ogl
-* **glAlphaFunc** ogl
-* **glVertexPointer** ogl
-* **glTranslatef** ogl
-* **glTexCoordPointer** ogl
-* **glTexEnvf** ogl
-* **glTexEnvi** ogl
-* **glTexGeni** ogl
-* **glShadeModel** ogl
-* **glPushAttrib** ogl
-* **glPushMatrix** ogl
-* **glLoadIdentity** ogl
-* **glLoadMatrixf** ogl
-* **glMaterialf** ogl
-* **glMaterialfv** ogl
-* **glMatrixMode** ogl
-* **glMultMatrixf** ogl
+* **glDisableClientState** <font color="red">ogl</font>
+    * enable or disable client-side capability。
+    * The glEnableClientState and glDisableClientState functions enable and disable arrays respectively.
+* **glEnableClientState** <font color="red">ogl</font>
+    * enable or disable client-side capability。
+* **glClipPlane** <font color="red">ogl</font>
+    * 定义一个裁剪平面。
+    * specify a plane against which all geometry is clipped。
+* **glColor4ub** <font color="red">ogl</font>
+    * Sets the current color.
+* **glColorMaterial** <font color="red">ogl</font>
+    * cause a material color to track the current color。
+* **glColorPointer** <font color="red">ogl</font>
+    * define an array of colors。
+* **glFogf** <font color="red">ogl</font>
+    * The glFogf and function specifies fog parameters.
+* **glFogfv** <font color="red">ogl</font>
+    * The glFogfv function specifies fog parameters.
+* **glFogi** <font color="red">ogl</font>
+    * The glFogi function specifies fog parameters.
+* **glLightModelfv** <font color="red">ogl</font>
+    * The glLightModelfv function sets lighting model parameters.
+* **glLightModeli** <font color="red">ogl</font>
+    * The glLightModeli function sets lighting model parameters.
+* **glLightf** <font color="red">ogl</font>
+    * The glLightf function returns light source parameter values.
+* **glLightfv** <font color="red">ogl</font>
+    * The glLightfv function returns light source parameter values.
+* **glNormalPointer** <font color="red">ogl</font>
+    * define an array of normals。
+* **glPointSize** <font color="red">ogl</font>
+    * specify the diameter of rasterized points。
+* **glPolygonMode** <font color="red">ogl</font>
+    * select a polygon rasterization mode。
+* **glRectf** <font color="red">ogl</font>
+    * draw a rectangle。
+* **glAlphaFunc** <font color="red">ogl</font>
+    * specify the alpha test function。
+* **glVertexPointer** <font color="red">ogl</font>
+    * define an array of vertex data。
+* **glTranslatef** <font color="red">ogl</font>
+    * multiply the current matrix by a translation matrix。
+* **glTexCoordPointer** <font color="red">ogl</font>
+    * define an array of texture coordinates。
+* **glTexEnvf** <font color="red">ogl</font>
+    * The glTexEnvf function sets a texture environment parameter.
+* **glTexEnvi** <font color="red">ogl</font>
+    * set texture environment parameters。
+* **glTexGeni** <font color="red">ogl</font>
+    * control the generation of texture coordinates。
+* **glShadeModel** <font color="red">ogl</font>
+    * select flat or smooth shading。
+* **glPushAttrib** <font color="red">ogl</font>
+    * push and pop the server attribute stack。
+* **glPushMatrix** <font color="red">ogl</font>
+    * push and pop the current matrix stack。
+* **glPopAttrib** <font color="red">ogl</font>
+    * push and pop the server attribute stack。
+* **glPopMatrix** <font color="red">ogl</font>
+    * push and pop the current matrix stack。
+* **glLoadIdentity** <font color="red">ogl</font>
+    * replace the current matrix with the identity matrix。
+* **glLoadMatrixf** <font color="red">ogl</font>
+    * replace the current matrix with the specified matrix。
+* **glMaterialf** <font color="red">ogl</font>
+    * specify material parameters for the lighting model。
+* **glMaterialfv** <font color="red">ogl</font>
+    * 指定用于光照计算的当前材质属性。
+* **glMatrixMode** <font color="red">ogl</font>
+    * specify which matrix is the current matrix。
+* **glMultMatrixf** <font color="red">ogl</font>
+    * multiply the current matrix with the specified matrix。
 
 
 ## 都支持的基本 API
 
-* **glReadBuffer** gles&ogl
+* **glReadBuffer** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * select a color buffer source for pixels。
-* **glReadPixels** gles&ogl
+* **glReadPixels** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * read a block of pixels from the frame buffer。
-* **glDrawArrays** gles&ogl
+* **glDrawArrays** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * render primitives from array data。
-* **glDrawElements** gles&ogl
+* **glDrawElements** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * render primitives from array data。
-* **glEnable** gles&ogl
+* **glEnable** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * enable or disable server-side GL capabilities。
-* **glDisable** gles&ogl
+* **glDisable** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * enable or disable server-side GL capabilities。
-* **glIsEnabled** gles&ogl
+* **glIsEnabled** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * test whether a capability is enabled。
-* **glClear** gles&ogl
+* **glClear** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * clear buffers to preset values。
-* **glClearColor** gles&ogl
+* **glClearColor** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * specify clear values for the color buffers。
-* **glFrontFace** gles&ogl
+* **glFrontFace** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * define front- and back-facing polygons。
-* **glCullFace** gles&ogl
+* **glCullFace** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * specify whether front- or back-facing facets can be culled。
-* **glFlush** gles&ogl
+* **glFlush** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * 强制刷新缓冲。
     * force execution of GL commands in finite time。
-* **glViewport** gles&ogl
+* **glViewport** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * set the viewport。
-* **glGetString** gles&ogl
+* **glGetString** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     *  return a string describing the current GL connection。
-* **glGetError** gles&ogl
+* **glGetError** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * return error information。
-* **glGetFloatv** gles&ogl
+* **glGetFloatv** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * return the value or values of a selected parameter。
-* **glGetIntegerv** gles&ogl
+* **glGetIntegerv** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * return the value or values of a selected parameter。
-* **glHint** gles&ogl
+* **glHint** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * specify implementation-specific hints。
     * 指定特定于实现的提示。
-* **glTexParameterf** gles&ogl
+* **glTexParameterf** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * set texture parameters。
     * 纹理过滤函数。
-* **glTexParameteri** gles&ogl
+* **glTexParameteri** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * set texture parameters。
     * 纹理过滤函数。
-* **glLineWidth** gles&ogl
+* **glLineWidth** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * specify the width of rasterized lines。
     * 设置线段的宽度。
-* **glScissor** gles&ogl
+* **glScissor** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * define the scissor box。
     * 剪裁测试用于限制绘制区域。
-* **glCopyTexSubImage2D** gles&ogl
+* **glCopyTexSubImage2D** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * copy a two-dimensional texture subimage。
     * 复制二维纹理子图像。
-* **glColorMask** gles&ogl
+* **glColorMask** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * enable and disable writing of color buffer components。
     * 启用和禁用帧缓冲区颜色分量的写入。
-* **glPolygonOffset** gles&ogl
+* **glPolygonOffset** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * set the scale and units used to calculate depth values。
     * 设置计算深度值的拉伸比和单位。
-* **glPixelStorei** gles&ogl
+* **glPixelStorei** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * set pixel storage modes。
     * 设置像素存储模式。
-* **glTexImage2D** gles&ogl
+* **glTexImage2D** <font color="#0000FF">gles</font>&<font color="red">ogl</font>
     * specify a two-dimensional texture image。
     * 指定一个二维的纹理图片。
 
