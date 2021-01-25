@@ -493,6 +493,23 @@ OpenGL ES & OpenGL 存在大量 API 交叉的情况，为了兼容，很多 API 
     * specify a two-dimensional texture image。
     * 指定一个二维的纹理图片。
 
+
+## JS CODE for docs.gl
+
+```js
+var lip = $("li");
+for (var i = 0; i < lip.length; i++) {
+    var span = $(lip[i]).find("span");
+    if (!span.length) continue;
+    var subli = $(lip[i]).find("li");
+    console.log("#", span.text(), subli.length);
+    for (var j = 0; j < subli.length; j++) {
+        var li = $(subli[j]);
+        console.log(li.text(), span.text());
+    }
+}
+```
+
 <hr class='reviewline'/>
 <p class='reviewtip'>2021-01-25: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
