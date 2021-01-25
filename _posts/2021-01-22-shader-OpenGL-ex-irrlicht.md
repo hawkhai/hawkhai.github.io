@@ -353,35 +353,73 @@ OpenGL ES & OpenGL 存在大量 API 交叉的情况，为了兼容，很多 API 
 ## 都支持的基本 API
 
 * **glReadBuffer** gles&ogl
+    * select a color buffer source for pixels。
 * **glReadPixels** gles&ogl
+    * read a block of pixels from the frame buffer。
 * **glDrawArrays** gles&ogl
+    * render primitives from array data。
 * **glDrawElements** gles&ogl
+    * render primitives from array data。
 * **glEnable** gles&ogl
+    * enable or disable server-side GL capabilities。
 * **glDisable** gles&ogl
+    * enable or disable server-side GL capabilities。
 * **glIsEnabled** gles&ogl
+    * test whether a capability is enabled。
 * **glClear** gles&ogl
+    * clear buffers to preset values。
 * **glClearColor** gles&ogl
+    * specify clear values for the color buffers。
 * **glFrontFace** gles&ogl
+    * define front- and back-facing polygons。
 * **glCullFace** gles&ogl
+    * specify whether front- or back-facing facets can be culled。
 * **glFlush** gles&ogl
+    * 强制刷新缓冲。
+    * force execution of GL commands in finite time。
 * **glViewport** gles&ogl
+    * set the viewport。
 * **glGetString** gles&ogl
+    *  return a string describing the current GL connection。
 * **glGetError** gles&ogl
+    * return error information。
 * **glGetFloatv** gles&ogl
+    * return the value or values of a selected parameter。
 * **glGetIntegerv** gles&ogl
-* **glHint** gles&ogl // 指定特定于实现的提示
-* **glTexParameterf** gles&ogl // 纹理过滤函数
-* **glTexParameteri** gles&ogl // 纹理过滤函数
+    * return the value or values of a selected parameter。
+* **glHint** gles&ogl
+    * specify implementation-specific hints。
+    * 指定特定于实现的提示。
+* **glTexParameterf** gles&ogl
+    * set texture parameters。
+    * 纹理过滤函数。
+* **glTexParameteri** gles&ogl
+    * set texture parameters。
+    * 纹理过滤函数。
 * **glLineWidth** gles&ogl
-* **glScissor** gles&ogl // 剪裁测试用于限制绘制区域
-* **glCopyTexSubImage2D** gles&ogl // 复制二维纹理子图像
-* **glColorMask** gles&ogl // 启用和禁用帧缓冲区颜色分量的写入
+    * specify the width of rasterized lines。
+    * 设置线段的宽度。
+* **glScissor** gles&ogl
+    * define the scissor box。
+    * 剪裁测试用于限制绘制区域。
+* **glCopyTexSubImage2D** gles&ogl
+    * copy a two-dimensional texture subimage。
+    * 复制二维纹理子图像。
+* **glColorMask** gles&ogl
+    * enable and disable writing of color buffer components。
+    * 启用和禁用帧缓冲区颜色分量的写入。
 * **glPolygonOffset** gles&ogl
+    * set the scale and units used to calculate depth values。
+    * 设置计算深度值的拉伸比和单位。
 * **glPixelStorei** gles&ogl
-* **glTexImage2D** gles&ogl // 根据指定的参数，生成一个 2D 纹理
+    * set pixel storage modes。
+    * 设置像素存储模式。
+* **glTexImage2D** gles&ogl
+    * specify a two-dimensional texture image。
+    * 指定一个二维的纹理图片。
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-23: review</p>
+<p class='reviewtip'>2021-01-25: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.khronos.org/registry/OpenGL/index_es.php]({% include relref.html url="/backup/2021-01-22-shader-OpenGL-ex-irrlicht.md/www.khronos.org/bb75bed1.php" %})
