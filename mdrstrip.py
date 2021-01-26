@@ -142,7 +142,7 @@ def backupUrlContent(fpath, url):
 
     # 外链类型 断言...
     if not slocal.split(".")[-1] in ("pdf", "html", "git", "php", "c", "phtml", "cpp", "htm", "shtm",
-                                     "ipynb", "py", "asp", "shtml", "aspx",):
+                                     "ipynb", "py", "asp", "shtml", "aspx", "xhtml", "md",):
         print(fpath, url)
         assert False, slocal
     return remote
