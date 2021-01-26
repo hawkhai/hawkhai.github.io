@@ -59,40 +59,40 @@ EGL 是渲染 API（如 OpenGL ES）和原生窗口系统之间的接口。
 ```cpp
 // 初始化
 EGLBoolean eglInitialize(EGLDisplay display, // 创建步骤时返回的对象
-                         EGLint *majorVersion, // 返回 EGL 主版本号
-                         EGLint *minorVersion); // 返回 EGL 次版本号
+                EGLint *majorVersion, // 返回 EGL 主版本号
+                EGLint *minorVersion); // 返回 EGL 次版本号
 // 获取所有配置的函数
 EGLBoolean eglGetConfigs(EGLDisplay display, // 指定显示的连接
-                         EGLConfig *configs, // 指定 GLConfig 列表
-                         EGLint maxReturnConfigs, // 最多返回的 GLConfig 数
-                         EGLint *numConfigs); // 实际返回的 GLConfig 数
+                EGLConfig *configs, // 指定 GLConfig 列表
+                EGLint maxReturnConfigs, // 最多返回的 GLConfig 数
+                EGLint *numConfigs); // 实际返回的 GLConfig 数
 // 查询 EGLConfig 配置
 EGLBoolean eglGetConfigAttrib(EGLDisplay display, // 指定显示的连接
-                              EGLConfig config, // 指定要查询的 GLConfig
-                              EGLint attribute, // 返回特定属性
-                              EGLint *value); // 返回值
+                EGLConfig config, // 指定要查询的 GLConfig
+                EGLint attribute, // 返回特定属性
+                EGLint *value); // 返回值
 // 让 EGL 选择配置
 EGLBoolean eglChooseChofig(EGLDispay display, // 指定显示的连接
-                           const EGLint *attribList, // 指定 configs 匹配的属性列表，可以为 NULL
-                           EGLConfig *config,   // 调用成功，返会符合条件的 EGLConfig 列表
-                           EGLint maxReturnConfigs, // 最多返回的符合条件的 GLConfig 数
-                           ELGint *numConfigs );  // 实际返回的符合条件的 EGLConfig 数
+                const EGLint *attribList, // 指定 configs 匹配的属性列表，可以为 NULL
+                EGLConfig *config,   // 调用成功，返会符合条件的 EGLConfig 列表
+                EGLint maxReturnConfigs, // 最多返回的符合条件的 GLConfig 数
+                ELGint *numConfigs );  // 实际返回的符合条件的 EGLConfig 数
 // 创建渲染区域 Surface
 EGLSurface eglCreateWindowSurface(EGLDisplay display, // 指定显示的连接
-                                  EGLConfig config, // 符合条件的 EGLConfig
-                                  EGLNatvieWindowType window, // 指定原生窗口
-                                  const EGLint *attribList); // 指定窗口属性列表，可为 NULL
+                EGLConfig config, // 符合条件的 EGLConfig
+                EGLNatvieWindowType window, // 指定原生窗口
+                const EGLint *attribList); // 指定窗口属性列表，可为 NULL
 // 创建上下文
 EGLContext eglCreateContext(EGLDisplay display, // 指定显示的连接
-                            EGLConfig config, // 前面选好的 EGLConfig
-                            EGLContext shareContext, // 允许其它 EGLContext 共享数据，使用 EGL_NO_CONTEXT 表示不共享
-                            const EGLint* attribList); // 指定操作的属性列表，只能接受一个属性 EGL_CONTEXT_CLIENT_VERSION
+                EGLConfig config, // 前面选好的 EGLConfig
+                EGLContext shareContext, // 允许其它 EGLContext 共享数据，使用 EGL_NO_CONTEXT 表示不共享
+                const EGLint* attribList); // 指定操作的属性列表，只能接受一个属性 EGL_CONTEXT_CLIENT_VERSION
 
 // 关联上下文
 EGLBoolean eglMakeCurrent(EGLDisplay display, // 指定显示的连接
-                          EGLSurface draw, // EGL 绘图表面
-                          EGLSurface read, // EGL 读取表面
-                          EGLContext context); // 指定连接到该表面的上下文
+                EGLSurface draw, // EGL 绘图表面
+                EGLSurface read, // EGL 读取表面
+                EGLContext context); // 指定连接到该表面的上下文
 ```
 
 
@@ -479,7 +479,10 @@ HWND createWindow(int width, int height) {
     int style = WS_BORDER | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME;
     AdjustWindowRect(&rect, style, FALSE);
 
-    HWND hwnd = CreateWindow(L"eglsamplewnd", L"EGL OpenGL ES 2.0 example", style, CW_USEDEFAULT, CW_USEDEFAULT, rect.right - rect.left, rect.bottom - rect.top, NULL, NULL, GetModuleHandle(NULL), NULL);
+    HWND hwnd = CreateWindow(L"eglsamplewnd", L"EGL OpenGL ES 2.0 example",
+            style, CW_USEDEFAULT, CW_USEDEFAULT,
+            rect.right - rect.left,
+            rect.bottom - rect.top, NULL, NULL, GetModuleHandle(NULL), NULL);
     ShowWindow(hwnd, SW_SHOW);
 
     return hwnd;
@@ -561,7 +564,8 @@ void renderScene(double timeFactor) {
     matrices.modelView = glm::rotate(matrices.modelView, deg_to_rad(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
     matrices.modelView = glm::rotate(matrices.modelView, deg_to_rad(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
 
-    matrices.modelViewProjection = glm::perspective(45.0f, (float)winWidth / (float)winHeight, 0.1f, 100.0f) * matrices.modelView;
+    matrices.modelViewProjection = glm::perspective(45.0f,
+            (float)winWidth / (float)winHeight, 0.1f, 100.0f) * matrices.modelView;
 
     glUniformMatrix4fv(shaderHandles.mvpMatrix, 1, false, &matrices.modelViewProjection[0][0]);
     glUniformMatrix4fv(shaderHandles.mvMatrix, 1, false, &matrices.modelView[0][0]);
