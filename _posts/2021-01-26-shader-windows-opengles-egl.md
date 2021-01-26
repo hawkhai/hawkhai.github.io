@@ -345,6 +345,12 @@ LRESULT CALLBACK CELLWinApp::lpfnWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 {% include image.html url="/assets/images/210126-shader-windows-opengles~f7/eglexample.webp" %}
 
+这里有个坑，早期版本，默认是单位矩阵，新版本要参数 1.0 才是单位矩阵。
+
+```cpp
+matrices.modelView = glm::mat4(1.0);
+```
+
 ```cpp
 #include "stdafx.h"
 #include <iostream>
