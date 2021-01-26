@@ -394,7 +394,7 @@ def appendRefs(fpath, lines):
     else:
         frel = "assets\\reviewjs\\" + frel
     reviewjs = REVIEW_JS_PATH % (frel)
-    writefile(reviewjs, """document.write("%s: review");""" % datestr)
+    writefile(reviewjs, """document.write("%s: review");\r\n""" % datestr)
     review = REVIEW_FORMAT % (frel.replace("\\", "/"))
     assert re.findall(REVIEW_REGEX, review), review
 
