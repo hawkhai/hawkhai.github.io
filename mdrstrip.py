@@ -343,9 +343,10 @@ g_enchar = []
 g_tpset = set()
 g_mdkeyset = set()
 SNAPSHOT_HTML = "<font class='ref_snapshot'>参考资料快照</font>"
-REGEX_REVIEW  = "^(<p class='reviewtip'>)?[0-9]{4}-[0-9]{2}-[0-9]{2}: review(</p>)?$"
-FORMAT_REVIEW = "<p class='reviewtip'>{}: review</p>"
-LINE_REVIEW = "<hr class='reviewline'/>"
+REVIEW_REGEX  = "^<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url=\".*?\" %}'></script></p>$"
+REVIEW_FORMAT = "<p class='reviewtip'><script type='text/javascript' src='{%% include relref.html url=\"/%s.js\" %%}'></script></p>"
+REVIEW_LINE   = "<hr class='reviewline'/>"
+REVIEW_JS_PATH = "%s.js"
 def removeRefs(fpath, lines):
     lineCount = len(lines)
     headIndex = -1
@@ -361,13 +362,13 @@ def removeRefs(fpath, lines):
         break
 
     if headIndex != -1:
-        assert lines[headIndex-1] == "" or re.findall(REGEX_REVIEW, lines[headIndex-1]), "%r"%lines[headIndex-1]
-        assert lines[headIndex-2] in ("-----", LINE_REVIEW), "%r"%lines[headIndex-2]
+        assert lines[headIndex-1] == "" or re.findall(REVIEW_REGEX, lines[headIndex-1]), "%r"%lines[headIndex-1]
+        assert lines[headIndex-2] in ("-----", REVIEW_LINE), "%r"%lines[headIndex-2]
         assert lines[headIndex-3] == "", "%r"%lines[headIndex-3]
         lines = lines[:headIndex-3]
     else:
-        while lines and (lines[-1] in ("", "-----", LINE_REVIEW) or
-                re.findall(REGEX_REVIEW, lines[-1])):
+        while lines and (lines[-1] in ("", "-----", REVIEW_LINE) or
+                re.findall(REVIEW_REGEX, lines[-1])):
             lines = lines[:-1]
     return lines
 
@@ -386,12 +387,20 @@ def appendRefs(fpath, lines):
     datestr = bytesToString(datestr)
     if not datestr:
         datestr = datetime.datetime.now().date()
-    review = FORMAT_REVIEW.format(datestr)
-    assert re.findall(REGEX_REVIEW, review), review
+    if frel.startswith("_posts\\"):
+        frel = frel.replace("_posts\\", "blogs\\")
+    if frel.startswith("invisible\\"):
+        frel = "invisible\\reviewjs\\" + frel[len("invisible\\"):]
+    else:
+        frel = "assets\\reviewjs\\" + frel
+    reviewjs = REVIEW_JS_PATH % (frel)
+    writefile(reviewjs, """document.write("%s: review");""" % datestr)
+    review = REVIEW_FORMAT % (frel.replace("\\", "/"))
+    assert re.findall(REVIEW_REGEX, review), review
 
     if reflist:
         lines.append("")
-        lines.append(LINE_REVIEW)
+        lines.append(REVIEW_LINE)
         lines.append(review)
         lines.append(SNAPSHOT_HTML)
         lines.append("")
@@ -408,7 +417,7 @@ def appendRefs(fpath, lines):
         lines.append("")
     else:
         lines.append("")
-        lines.append(LINE_REVIEW)
+        lines.append(REVIEW_LINE)
         lines.append(review)
         lines.append("")
     return lines
