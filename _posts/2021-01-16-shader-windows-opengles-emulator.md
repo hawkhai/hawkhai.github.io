@@ -41,6 +41,8 @@ PowerVR | PowerVR SDK [PowerVR Graphics SDK {% include relref_github.html %}](ht
 
 ## ARM Mali
 
+{% include image.html url="/assets/images/210116-shader-windows-opengles~28/20210126101649.png" %}
+
 
 ## Qualcomm Adreno
 
@@ -93,6 +95,8 @@ Install the x86 version of this redist. <http://www.microsoft.com/en-us/download
 
 
 ## Imagination PowerVR
+
+{% include image.html url="/assets/images/210116-shader-windows-opengles~28/20210126101757.png" %}
 
 PVRVFrame is provided for platforms without native support for OpenGL ES but where OpenGL is supported.
 
