@@ -1907,7 +1907,7 @@ $$NV/AMD/INTEL/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
 179. wglMakeCurrent ogl
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-23: review</p>
+<p class='reviewtip'>2021-01-26: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://riptutorial.com/zh-CN/opengl]({% include relref.html url="/backup/2021-01-21-shader-OpenGL-ex.md/riptutorial.com/d14cbeb5.html" %})
