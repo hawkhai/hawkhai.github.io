@@ -41,6 +41,8 @@ PowerVR | PowerVR SDK [PowerVR Graphics SDK {% include relref_github.html %}](ht
 
 ## ARM Mali
 
+{% include image.html url="/assets/images/210116-shader-windows-opengles~28/20210126101649.png" %}
+
 
 ## Qualcomm Adreno
 
@@ -94,6 +96,8 @@ Install the x86 version of this redist. <http://www.microsoft.com/en-us/download
 
 ## Imagination PowerVR
 
+{% include image.html url="/assets/images/210116-shader-windows-opengles~28/20210126101757.png" %}
+
 PVRVFrame is provided for platforms without native support for OpenGL ES but where OpenGL is supported.
 
 PVRVFrame is included as part of the PowerVR SDK and provides a set of desktop emulation libraries for OpenGL ES wrapping desktop OpenGL allowing deployment of OpenGL ES applications on desktop Windows, macOS, and Linux which can help to speed up development times and improve productivity.
@@ -121,7 +125,7 @@ The PowerVR SDK has a number of third-party dependencies, each of which may have
 - [2] [Android OpenGL 开发 -- EGL 的使用 {% include relref_cnblogs.html %}](https://www.cnblogs.com/wellcherish/p/12727906.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-23: review</p>
+<p class='reviewtip'>2021-01-26: review</p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.khronos.org/registry/OpenGL/index_es.php]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/www.khronos.org/bb75bed1.php" %})
