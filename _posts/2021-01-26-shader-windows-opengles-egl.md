@@ -100,13 +100,14 @@ EGLBoolean eglMakeCurrent(EGLDisplay display, // 指定显示的连接
 
 ```cpp
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-                     _In_opt_ HINSTANCE hPrevInstance,
-                     _In_ LPWSTR    lpCmdLine,
-                     _In_ int       nCmdShow)
+                      _In_opt_ HINSTANCE hPrevInstance,
+                      _In_ LPWSTR    lpCmdLine,
+                      _In_ int       nCmdShow)
 {
     CELLWinApp app(hInstance);
     app.main(800, 600);
     return 0;
+}
 ```
 
 
