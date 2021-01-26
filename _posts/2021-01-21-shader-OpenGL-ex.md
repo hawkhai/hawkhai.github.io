@@ -28,7 +28,7 @@ Microsoft 系统支持的默认 OpenGL 版本为 1.1。这是一个非常旧的�
 可以在此处找到 WGL 功能的完整列表。
 [from](https://docs.microsoft.com/zh-cn/windows/win32/opengl/wgl-functions)
 
-```
+```cpp
 wglCopyContext
 wglCreateContext
 wglCreateLayerContext
