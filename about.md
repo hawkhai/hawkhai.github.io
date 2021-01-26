@@ -125,7 +125,7 @@ As the saying goes: Bad notes is better than good memories.
 {% endhighlight %}
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-23: review</p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/about.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://twitter.com/]({% include relref.html url="/backup/about.md/twitter.com/4fd9c9a2.html" %})

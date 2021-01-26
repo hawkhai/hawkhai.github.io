@@ -187,7 +187,7 @@ Andrey Kurenkov
 - [7] <https://www.andreykurenkov.com/writing/life/lessons-learned-from-failures/>
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-23: review</p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.jianshu.com/p/f90d923b73b5]({% include relref.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.jianshu.com/041824b2.html" %})

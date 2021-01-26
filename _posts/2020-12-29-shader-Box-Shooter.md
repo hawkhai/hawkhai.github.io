@@ -668,7 +668,7 @@ target_link_libraries(box_shooter
 - [3] [【Bullet 引擎】复杂碰撞体 —— btCompoundShape {% include relref_cnblogs.html %}](https://www.cnblogs.com/esCharacter/p/8490355.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-23: review</p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-29-shader-Box-Shooter.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://github.com/hawkhai/box_shooter.git]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/github.com/c666eeb9.git" %})

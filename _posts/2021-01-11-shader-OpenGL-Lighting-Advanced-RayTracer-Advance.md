@@ -84,7 +84,7 @@ Unity 和 Unreal 共同支持全球 90% 的游戏，现在在其引擎中支持�
 - [5] [光线追踪-引擎 Jan 3, 2020 • Huailiang {% include relref_github.html %}](https://huailiang.github.io/blog/2020/ray/)
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-23: review</p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://yangwc.com/]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/yangwc.com/3cebfc82.html" %})

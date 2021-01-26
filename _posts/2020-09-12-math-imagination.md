@@ -89,7 +89,7 @@ codeprint:
 - [7] [Cramer 悖论：线性代数的萌芽](http://www.matrix67.com/blog/archives/3803)
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-23: review</p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-09-12-math-imagination.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.zhihu.com/question/27853904]({% include relref.html url="/backup/2020-09-12-math-imagination.md/www.zhihu.com/3e5b12f7.html" %})

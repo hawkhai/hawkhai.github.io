@@ -103,7 +103,7 @@ $$
 - [5] [编程与线性代数](https://www.sohu.com/a/283978289_701814)
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-23: review</p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-10-06-math-linear-algebra.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.bilibili.com/video/BV1ys411472E]({% include relref.html url="/backup/2020-10-06-math-linear-algebra.md/www.bilibili.com/c113c40a.html" %})

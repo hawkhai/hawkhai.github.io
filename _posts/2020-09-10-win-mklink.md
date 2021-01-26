@@ -538,7 +538,7 @@ url2="/assets/images/200910-win-mklink/jlink.png" %}
 - [6] [玩转 WIN7 的 MKLINK {% include relref_cnblogs.html %}](https://www.cnblogs.com/shangdawei/p/4516869.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-23: review</p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-09-10-win-mklink.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.ibm.com/developerworks/cn/linux/l-cn-hardandsymb-links/]({% include relref.html url="/backup/2020-09-10-win-mklink.md/www.ibm.com/f4d9cec1.html" %})

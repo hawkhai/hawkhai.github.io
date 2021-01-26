@@ -106,7 +106,7 @@ targetCount 4257 diffCount 0 missCount 0
 * 320 次提交，1 年前。[3D 引擎，渲染系统使用的 OpenGL 及 OpenGL ES，Windows 上 OpenGL ES 使用 AMD 的 ES 模拟器](https://gitee.com/panqingyun/E3D-Engine) 这个 AMD 的 ES 模拟器 可以尝试跑一下。
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-23: review</p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-04-irrlicht-analyze.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://michaelzeilfelder.de/pub/emscripten/01.HelloWorld.html]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/michaelzeilfelder.de/cca4ee41.html" %})

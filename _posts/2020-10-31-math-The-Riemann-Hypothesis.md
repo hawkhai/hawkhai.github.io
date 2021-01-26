@@ -99,7 +99,7 @@ $$J(x)=Li(x)-\sum_{\rho}Li(x^{\rho})-\ln 2 +\int_x^\infty\frac{dt}{t(t^2-1)\ln t
 和密码学关系重大。
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-23: review</p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-10-31-math-The-Riemann-Hypothesis.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://zhuanlan.zhihu.com/p/25055731]({% include relref.html url="/backup/2020-10-31-math-The-Riemann-Hypothesis.md/zhuanlan.zhihu.com/0a80ae3c.html" %})

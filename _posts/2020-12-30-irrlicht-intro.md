@@ -510,7 +510,7 @@ Usage: MeshConverter.exe [options] <srcFile> <destFile>
 - [2] [3D 游戏场景管理概述 {% include relref_csdn.html %}](https://blog.csdn.net/u012234115/article/details/47156217)
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-23: review</p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-30-irrlicht-intro.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://irrlicht.sourceforge.net/]({% include relref.html url="/backup/2020-12-30-irrlicht-intro.md/irrlicht.sourceforge.net/4ce0a4f4.html" %})

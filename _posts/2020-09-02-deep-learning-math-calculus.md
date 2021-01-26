@@ -162,7 +162,7 @@ $$\int_{x}^{y}f(x)dx=F(x)-F(y)$$
 - [6] 马同学 <https://www.matongxue.com/madocs/247/>
 
 <hr class='reviewline'/>
-<p class='reviewtip'>2021-01-23: review</p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-09-02-deep-learning-math-calculus.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.bilibili.com/video/BV1mb411r7bd]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.bilibili.com/5bd25d30.html" %})
