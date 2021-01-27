@@ -123,14 +123,14 @@ def backupUrlContent(fpath, url):
     if ttype.endswith(".md"): # 不能是这个，否则会被 Jekyll 自动格式化。
         ttype = ".html"
 
+    if ttype.endswith(".pdf"): # pdf 下载
+        chrome = False
+
     mdxfile = False
     if chrome and uhost in readfileIglist("mdrstrip_hostJekyll.txt"):
         mdxfile = True
         ttype = ".md" # 借用 Jekyll 格式化
     slocal = os.path.join("backup", mdname, uhost, umd5[:8] + ttype)
-
-    if ttype.endswith(".pdf"): # pdf 下载
-        chrome = False
 
     fdata = querySnapCache(umd5[:8])
     if fdata:
