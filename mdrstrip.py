@@ -138,11 +138,6 @@ def backupUrlContent(fpath, url):
     else:
         fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal, shotpath=slocal+SELENIUM, chromeDialog=chromeDialog)
 
-        if url not in ("http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf",
-                "http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf",
-                "https://de45xmedrsdbp.cloudfront.net/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf",):
-            assert len(fdata) < 1024*1024*1, len(fdata) / 1024.0 / 1024.0
-
     def addmdhead(fdata):
         xtime = formatTimeStamp(time.time())
         xurl = url
@@ -178,14 +173,19 @@ title : %(title)s
             fdata = addmdhead(fdata)
             writefile(slocal, fdata, "utf8")
 
+    fmd5 = getFileMd5(slocal) # 大文件，错误已经铸成，改不了了。
+    if not fmd5 in readfileIglist("mdrstrip_bigfiles.txt"):
+        if len(fdata) >= 1024*1024*1:
+            assert False, (len(fdata) / 1024.0 / 1024.0, url)
+
     remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5[:8] + (".html" if mdxfile else ttype))
     touchSnapCache(umd5[:8], slocal)
 
     # 外链类型 断言...
-    if not slocal.split(".")[-1] in ("pdf", "html", "git", "php", "c", "phtml", "cpp", "htm", "shtm",
-                                     "ipynb", "py", "asp", "shtml", "aspx", "xhtml", "md",):
+    if not remote.split(".")[-1] in ("pdf", "html", "git", "php", "c", "phtml", "cpp", "htm", "shtm",
+                                     "ipynb", "py", "asp", "shtml", "aspx", "xhtml",):
         print(fpath, url)
-        assert False, slocal
+        assert False, remote
     return remote
 
 g_orgremove = set()
@@ -423,7 +423,12 @@ def appendRefs(fpath, lines):
             reflist.extend(ireflist)
 
     frel = os.path.relpath(fpath, ".")
-    cmdx = 'git log -n 1 --pretty=format:"%ad" --date=short -- "{}"'.format(frel)
+    frelgit = frel
+    if os.path.exists(frel+".tempd"):
+        frelgit = frel+".tempd"
+    cmdx = 'git log -n 1 --pretty=format:"%ad" --date=short -- "{}"'.format(frelgit)
+    if frelgit.startswith("invisible\\"):
+        cmdx = 'cd {} & git log -n 1 --pretty=format:"%ad" --date=short -- "{}"'.format(*(frelgit.split("\\", 1)))
     datestr = popenCmd(cmdx)
     datestr = bytesToString(datestr)
     if not datestr:
