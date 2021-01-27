@@ -531,6 +531,13 @@ glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH24_STENCIL8, width,
 ```
 
 
+## Vulkan 动态地形细分 (Tessellation Shader)
+
+[from {% include relref_csdn.html %}](https://blog.csdn.net/qq_35312463/article/details/107283286)
+
+{% include image.html url="/assets/images/201215-shader-opengl-advanced/20200711141335447.webp" %}
+
+
 ## 参考资料
 
 - [1] [Mouse Picking with Ray Casting](https://antongerdelan.net/opengl/raycasting.html)
@@ -545,4 +552,5 @@ glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH24_STENCIL8, width,
 - [https://blog.csdn.net/korekara88730/article/details/42213217]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/blog.csdn.net/e53c4341.html" %})
 - [https://mp.weixin.qq.com/s/l5eYzkYAzR-m21-iYBoyCw]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/mp.weixin.qq.com/6c5f2acd.html" %})
 - [https://riptutorial.com/zh-CN/opengl/example/23675/%E5%B8%A7%E7%BC%93%E5%86%B2%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/riptutorial.com/404c0ecf.html" %})
+- [https://blog.csdn.net/qq_35312463/article/details/107283286]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/blog.csdn.net/637a5312.html" %})
 - [http://www.songho.ca/opengl/gl_projectionmatrix.html]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/www.songho.ca/7c7467ff.html" %})

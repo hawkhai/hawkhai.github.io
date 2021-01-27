@@ -25,6 +25,8 @@ cluster: "LearnOpenGL"
 * [视差贴图（Parallax Mapping）HappyKocola {% include relref_csdn.html %}](https://blog.csdn.net/happykocola/article/details/72812081)
 * [Parallax Mapping soilwork {% include relref_csdn.html %}](https://blog.csdn.net/soilwork/article/details/1452437)
 
+[Vulkan_ 法线映射、视差映射、陡视差映射和视差遮挡映射 {% include relref_csdn.html %}](https://blog.csdn.net/qq_35312463/article/details/106980557)
+
 
 ## Parallax Mapped
 
@@ -217,6 +219,7 @@ Physically Based Rendering。
 - [https://www.cnblogs.com/jim-game-dev/p/5410529.html]({% include relref.html url="/backup/2021-01-07-shader-OpenGL-Parallax-Mapping.md/www.cnblogs.com/1bd51954.html" %})
 - [https://blog.csdn.net/happykocola/article/details/72812081]({% include relref.html url="/backup/2021-01-07-shader-OpenGL-Parallax-Mapping.md/blog.csdn.net/541773f9.html" %})
 - [https://blog.csdn.net/soilwork/article/details/1452437]({% include relref.html url="/backup/2021-01-07-shader-OpenGL-Parallax-Mapping.md/blog.csdn.net/1a0a3554.html" %})
+- [https://blog.csdn.net/qq_35312463/article/details/106980557]({% include relref.html url="/backup/2021-01-07-shader-OpenGL-Parallax-Mapping.md/blog.csdn.net/e063a0ee.html" %})
 - [https://chengkehan.github.io/WhyWeNeedPBR.html]({% include relref.html url="/backup/2021-01-07-shader-OpenGL-Parallax-Mapping.md/chengkehan.github.io/f22db73a.html" %})
 - [https://chengkehan.github.io/PhysicallyBasedShading1.html]({% include relref.html url="/backup/2021-01-07-shader-OpenGL-Parallax-Mapping.md/chengkehan.github.io/6ac9df91.html" %})
 - [https://chengkehan.github.io/PhysicallyBasedShading2.html]({% include relref.html url="/backup/2021-01-07-shader-OpenGL-Parallax-Mapping.md/chengkehan.github.io/ad5a3085.html" %})

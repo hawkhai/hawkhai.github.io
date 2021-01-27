@@ -75,6 +75,12 @@ Unity 和 Unreal 共同支持全球 90% 的游戏，现在在其引擎中支持�
 而对于离线光线追踪，每个静态物体都要根据光照 UV 生成 M 个 Patch（数量和 Lightmap 大小有关），每个 Patch 要向法线方向的半球发射 N 条射线（数量由用户采样数量决定），最终对 N 条射线进行蒙特卡洛积分，得到这个物体的 Lightmap。
 
 
+## Vulkan-光线追踪（计算着色器实现）
+
+[from {% include relref_csdn.html %}](https://blog.csdn.net/qq_35312463/article/details/106171311)
+{% include image.html url="/assets/images/210111-shader-opengl-lighting-~2a/20200517125349977.png" %}
+
+
 ## Refs
 
 - [1] [iGame GeForce RTX 显卡邀你抢先体验光线追踪版《我的世界》](https://3c.3dmgame.com/show-14-12283-1.html)
@@ -91,6 +97,7 @@ Unity 和 Unreal 共同支持全球 90% 的游戏，现在在其引擎中支持�
 - [https://yangwc.com/2019/05/08/RayTracer-Basis/]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/yangwc.com/aae340fb.html" %})
 - [https://yangwc.com/2019/05/23/RayTracer-Advance/]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/yangwc.com/d2661e77.html" %})
 - [https://zhuanlan.zhihu.com/p/102397700]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/zhuanlan.zhihu.com/8582b378.html" %})
+- [https://blog.csdn.net/qq_35312463/article/details/106171311]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/blog.csdn.net/086bb667.html" %})
 - [https://3c.3dmgame.com/show-14-12283-1.html]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/3c.3dmgame.com/43a63afe.html" %})
 - [https://zhuanlan.zhihu.com/p/45087397]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/zhuanlan.zhihu.com/f04a523c.html" %})
 - [https://wap.gamersky.com/gl/Content-1340332.html]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/wap.gamersky.com/9312b476.html" %})

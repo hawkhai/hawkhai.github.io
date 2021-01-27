@@ -23,6 +23,8 @@ EGL is a native platform interface that connects the windowing systems to one of
 
 相关下载：<https://www.khronos.org/registry/OpenGL/index_es.php>
 
+[GPU 架构与管线总结 Life of a Triangle {% include relref_csdn.html %}](https://blog.csdn.net/qq_35312463/article/details/108561115)
+
 
 ## OpenGL ES Emulator 横向比较
 
@@ -130,6 +132,7 @@ The PowerVR SDK has a number of third-party dependencies, each of which may have
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.khronos.org/registry/OpenGL/index_es.php]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/www.khronos.org/bb75bed1.php" %})
+- [https://blog.csdn.net/qq_35312463/article/details/108561115]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/blog.csdn.net/aa100f11.html" %})
 - [https://www.expreview.com/44528-all.html]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/www.expreview.com/a785c1d4.html" %})
 - [https://developer.arm.com/tools-and-software/graphics-and-gaming/opengl-es-emulator/downloads]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/developer.arm.com/37ace0b1.html" %})
 - [https://developer.qualcomm.com/software/adreno-gpu-sdk/tools]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/developer.qualcomm.com/df53d96a.html" %})
