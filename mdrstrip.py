@@ -126,11 +126,19 @@ def backupUrlContent(fpath, url):
     if ttype.endswith(".pdf"): # pdf 下载
         chrome = False
 
+    def buildlocal(ftype):
+        slocal = os.path.join("backup", mdname, uhost, umd5[:8] + ftype)
+        return slocal
+
     mdxfile = False
+    slocal = buildlocal(ttype)
     if chrome and uhost in readfileIglist("mdrstrip_hostJekyll.txt"):
         mdxfile = True
         ttype = ".md" # 借用 Jekyll 格式化
-    slocal = os.path.join("backup", mdname, uhost, umd5[:8] + ttype)
+        newlocal = buildlocal(ttype)
+        if os.path.exists(slocal):
+            os.rename(slocal, newlocal)
+        slocal = newlocal
 
     fdata = querySnapCache(umd5[:8])
     if fdata:
@@ -175,10 +183,10 @@ title : %(title)s
 
     fmd5 = getFileMd5(slocal) # 大文件，错误已经铸成，改不了了。
     if not fmd5 in readfileIglist("mdrstrip_bigfiles.txt"):
-        if len(fdata) >= 1024*1024*1:
-            assert False, (len(fdata) / 1024.0 / 1024.0, url)
+        if len(fdata) >= 1024*1000*1:
+            assert False, (len(fdata) / 1024.0 / 1000.0, url)
 
-    remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5[:8] + (".html" if mdxfile else ttype))
+    remote = buildlocal(".html" if mdxfile else ttype).replace("\\", "/")
     touchSnapCache(umd5[:8], slocal)
 
     # 外链类型 断言...
