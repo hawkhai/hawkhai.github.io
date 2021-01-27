@@ -1,6 +1,6 @@
 #encoding=utf8
 import re, os, sys
-import datetime
+import datetime, time
 sys.path.append("../")
 from pythonx.funclib import *
 from pythonx.coderstrip import *
@@ -117,12 +117,17 @@ def backupUrlContent(fpath, url):
     mdname = os.path.split(fpath)[-1]
     uhost = url.split("//")[1].split("/")[0]
     umd5 = getmd5(url)
+
     ttype = ".html"
-    local = os.path.join("backup", mdname, uhost, umd5 + ttype)
     ttype = calcType(ttype, url.split(uhost)[-1])
+    if ttype.endswith(".md"): # 不能是这个，否则会被 Jekyll 自动格式化。
+        ttype = ".html"
+
+    mdxfile = False
+    if chrome and uhost in readfileIglist("mdrstrip_hostJekyll.txt"):
+        mdxfile = True
+        ttype = ".md" # 借用 Jekyll 格式化
     slocal = os.path.join("backup", mdname, uhost, umd5[:8] + ttype)
-    if os.path.exists(local):
-        os.rename(local, slocal)
 
     if ttype.endswith(".pdf"): # pdf 下载
         chrome = False
@@ -134,10 +139,46 @@ def backupUrlContent(fpath, url):
         fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal, shotpath=slocal+SELENIUM, chromeDialog=chromeDialog)
 
         if url not in ("http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf",
-                       "http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf",
-                       "https://de45xmedrsdbp.cloudfront.net/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf",):
+                "http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf",
+                "https://de45xmedrsdbp.cloudfront.net/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf",):
             assert len(fdata) < 1024*1024*1, len(fdata) / 1024.0 / 1024.0
-    remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5[:8] + ttype)
+
+    def addmdhead(fdata):
+        xtime = formatTimeStamp(time.time())
+        xurl = url
+        fdata = """---
+title : %(title)s
+---
+
+* TIME: %(time)s
+* URL: <%(url)s>
+
+-----
+
+""" % { "time": xtime, "url": xurl, "title": "自动快照存档", } + fdata
+        return fdata
+
+    def ismdhead(fdata):
+        return fdata and fdata.startswith("---")
+
+    def html2md(fdata):
+        import html2text
+        h = html2text.HTML2Text()
+        h.ignore_links = False
+        fdata = h.handle(fdata)
+        return fdata
+
+    if mdxfile:
+        fdata = bytesToString(fdata, "utf8")
+        if fdata.lower().find("<body") != -1 and fdata.lower().find("<html") != -1:
+            fdata = html2md(fdata)
+            fdata = addmdhead(fdata)
+            writefile(slocal, fdata, "utf8")
+        elif not ismdhead(fdata):
+            fdata = addmdhead(fdata)
+            writefile(slocal, fdata, "utf8")
+
+    remote = "{}/{}/{}/{}".format("backup", mdname, uhost, umd5[:8] + (".html" if mdxfile else ttype))
     touchSnapCache(umd5[:8], slocal)
 
     # 外链类型 断言...
