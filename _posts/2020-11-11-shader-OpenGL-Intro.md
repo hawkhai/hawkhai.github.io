@@ -427,8 +427,6 @@ void setMat4(glm::mat4 &mat)    glUniformMatrix4fv(1, &mat[0][0]);
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-11-11-shader-OpenGL-Intro.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://github.com/hawkhai/LearnOpenGL.git]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/github.com/1371fb1d.git" %})
-- [https://gitee.com/hawkhai/opengl-3rd.git]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/gitee.com/3cdcc6e8.git" %})
 - [https://www.uni-marburg.de/en/fb12/research-groups/grafikmultimedia/lectures/graphics]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/www.uni-marburg.de/2b3b5349.html" %})
 - [https://www.mathematik.uni-marburg.de/~thormae/lectures/graphics1/graphics_9_1_eng_web.html]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/www.mathematik.uni-marburg.de/cda8cdff.html" %})
 - [http://ogldev.atspace.co.uk/index.html]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/ogldev.atspace.co.uk/dc93b5ea.html" %})
@@ -436,7 +434,6 @@ void setMat4(glm::mat4 &mat)    glUniformMatrix4fv(1, &mat[0][0]);
 - [https://ke.qq.com/course/package/25480?flowToken=1019441]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/ke.qq.com/3fd1c97a.html" %})
 - [https://learnopengl-cn.github.io/]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/learnopengl-cn.github.io/e0710dd2.html" %})
 - [https://github.com/Groovounet/ogl-samples]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/github.com/da66ecca.html" %})
-- [https://github.com/hawkhai/openglcpp.git]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/github.com/24544c96.git" %})
 - [https://www.cnblogs.com/chen9510/p/12000320.html]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/www.cnblogs.com/717083ae.html" %})
 - [https://blog.csdn.net/qq_39561000/article/details/103112147]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/blog.csdn.net/b11e47b9.html" %})
 - [https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/www.saschawillems.de/5efcfffd.html" %})

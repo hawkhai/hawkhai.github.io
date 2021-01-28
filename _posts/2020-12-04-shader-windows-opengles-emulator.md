@@ -115,7 +115,6 @@ There are three major mobile GPU vendors nowadays and they provide decent graphi
 - [https://www.expreview.com/44528-all.html]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.expreview.com/a785c1d4.html" %})
 - [https://developer.qualcomm.com/software/adreno-gpu-sdk/tools]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/developer.qualcomm.com/df53d96a.html" %})
 - [https://powervr-graphics.github.io/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/powervr-graphics.github.io/ad82179d.html" %})
-- [https://gitee.com/hawkhai/opengl-3rd.git]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/gitee.com/3cdcc6e8.git" %})
 - [https://zh.wikipedia.org/wiki/Adreno]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/zh.wikipedia.org/1c77f069.html" %})
 - [https://docs.cocos2d-x.org/cocos2d-x/v3/en/advanced_topics/optimizing.html]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/docs.cocos2d-x.org/a4ba856f.html" %})
 - [https://malideveloper.arm.com/resources/tools/mali-graphics-debugger/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/malideveloper.arm.com/d774b230.html" %})
