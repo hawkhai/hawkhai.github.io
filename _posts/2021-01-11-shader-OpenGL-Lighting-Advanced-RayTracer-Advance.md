@@ -81,6 +81,23 @@ Unity 和 Unreal 共同支持全球 90% 的游戏，现在在其引擎中支持�
 {% include image.html url="/assets/images/210111-shader-opengl-lighting-~2a/20200517125349977.png" %}
 
 
+## 游戏画质设置教程
+
+[游戏画质设置教程 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Zz4y1U7aB)
+
+1. 环境光遮蔽：通过使用颜色更深的阴影来增加物体的立体感。
+2. 体积质量（体积云、体积雾、体积光等），通过光影来提高云朵、雾气、光线等的立体感。
+3. LOD 细节层次（也叫 细节层次、视野距离）：游戏中，距离玩家较远的模型会被低分辨率渲染，而视野距离的等级就是这个“不会被低分辨率渲染”的范围，设置等级越高，“不会被低分辨率渲染”的范围就越高。
+4. 曲面细分：用于给顶配置显卡锦上添花的设置选项。
+5. 抗锯齿。视频中提到了 DLSS，MFAA 和 MSAA，TAA，FXAA，SMAA。
+    * DLSS，深度学习超采样，现如今最好的抗锯齿技术，不仅抗锯齿还能增加帧数，是 N 卡的黑科技，深度学习。
+    * MSAA，一种老久的抗锯齿技术。
+    * MFAA，是 N 卡对 MSAA 做出的一个优化，在 N 卡面板设置中开启 MFAA 后，在游戏中开启 MSAA 会对帧率有很大的改善。
+    * TAA，近十年来比较流行的一种抗锯齿技术，抗锯齿效果非常不错，效果比 MSAA、FXAA、SMAA 都好，唯一的缺点是让画面变模糊。
+    * FXAA，一种已经被淘汰的技术，抗锯齿效果并不好的同时会让画面变模糊，可以说 TAA 完全吊打 FXAA 吧。
+    * SMAA，抗锯齿效果高于 FXAA，低于 TAA。缺点是无法解决远处模型的锯齿，比如远处的树木仍会闪烁。
+
+
 ## Refs
 
 - [1] [iGame GeForce RTX 显卡邀你抢先体验光线追踪版《我的世界》](https://3c.3dmgame.com/show-14-12283-1.html)
@@ -98,6 +115,7 @@ Unity 和 Unreal 共同支持全球 90% 的游戏，现在在其引擎中支持�
 - [https://yangwc.com/2019/05/23/RayTracer-Advance/]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/yangwc.com/d2661e77.html" %})
 - [https://zhuanlan.zhihu.com/p/102397700]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/zhuanlan.zhihu.com/8582b378.html" %})
 - [https://blog.csdn.net/qq_35312463/article/details/106171311]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/blog.csdn.net/086bb667.html" %})
+- [https://www.bilibili.com/video/BV1Zz4y1U7aB]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/www.bilibili.com/95223c7c.html" %})
 - [https://3c.3dmgame.com/show-14-12283-1.html]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/3c.3dmgame.com/43a63afe.html" %})
 - [https://zhuanlan.zhihu.com/p/45087397]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/zhuanlan.zhihu.com/f04a523c.html" %})
 - [https://wap.gamersky.com/gl/Content-1340332.html]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/wap.gamersky.com/9312b476.html" %})
