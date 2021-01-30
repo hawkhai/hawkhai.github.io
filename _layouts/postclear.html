@@ -24,6 +24,24 @@ layout: defaultclear
     {{ content }}
 </div>
 
+{% if page.cluster %}
+<div class="block_section" id="section_cluster">
+    <font class="blog_cluster">{{ page.cluster }} 系列文章</font>
+    <div><ul>
+    {% for post in site.pages %}
+        {% if post.cluster == page.cluster %}
+        {% if post.visibility != "hidden" %}
+            <li>
+            {% if post.title != page.title %}<a href="{{ post.url | prepend: site.baseurl }}">{% endif %}
+            {{ post.title }}{% if post.date %} | {{ post.date | date_to_string }}{% endif %}
+            {% if post.title != page.title %}</a>{% endif %}
+            </li>
+        {% endif %}{% endif %}
+    {% endfor %}
+    </ul></div>
+</div>
+{% endif %}
+
     <hr/>
 </div>
 
