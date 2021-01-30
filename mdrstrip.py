@@ -117,10 +117,13 @@ def backupUrlContent(fpath, url):
     mdname = os.path.split(fpath)[-1]
     uhost = url.split("//")[1].split("/")[0]
     umd5 = getmd5(url)
+    invdir = isInvisibleDir(fpath)
 
     ttype = ".html"
     ttype = calcType(ttype, url.split(uhost)[-1])
     if ttype.endswith(".md"): # 不能是这个，否则会被 Jekyll 自动格式化。
+        ttype = ".html"
+    if ttype in (".action",):
         ttype = ".html"
 
     if ttype.endswith(".pdf"): # pdf 下载
@@ -128,6 +131,8 @@ def backupUrlContent(fpath, url):
 
     def buildlocal(ftype):
         slocal = os.path.join("backup", mdname, uhost, umd5[:8] + ftype)
+        if invdir:
+            slocal = os.path.join("invisible", slocal)
         return slocal
 
     mdxfile = False
@@ -181,6 +186,11 @@ title : %(title)s
             fdata = addmdhead(fdata)
             writefile(slocal, fdata, "utf8")
 
+        if uhost == "www.shadertoy.com":
+            li = re.findall(r"""\r?\n\r?\n[0-9]+\r?\n\r?\n    \r?\n    \r?\n    """, fdata)
+            for i in li: fdata = fdata.replace(i, "\r\n    ")
+            writefile(slocal, fdata, "utf8")
+
     fmd5 = getFileMd5(slocal) # 大文件，错误已经铸成，改不了了。
     if not fmd5 in readfileIglist("mdrstrip_bigfiles.txt"):
         if len(fdata) >= 1024*1000*1:
@@ -224,6 +234,10 @@ def organizeResCollect(rootdir):
             g_orgremove.add(os.path.relpath(fpath, ".").lower())
     searchdir(rootdir, mainfile)
 
+def isInvisibleDir(fpath):
+    invdir = os.path.abspath(fpath).lower().startswith(os.path.abspath("invisible").lower()+"\\")
+    return invdir
+
 def organizeRes(ik, fpath, line):
 
     if ik in ("subsystem:windows /ENTRY:mainCRTStartup",):
@@ -239,7 +253,7 @@ def organizeRes(ik, fpath, line):
     if not COPYRES:
         assert os.path.exists(ik), fpath +"  "+ ik
         return line
-    invisible = os.path.abspath(fpath).startswith(os.path.abspath("invisible")+"\\")
+    invdir = isInvisibleDir(fpath)
     fname = os.path.split(fpath)[-1]
     if fname.lower().endswith(".md"):
         fname = fname[:-3]
@@ -249,7 +263,7 @@ def organizeRes(ik, fpath, line):
         fname = fname[:30]+"~"+getmd5(fname)[:2]
 
     tpath = os.path.join("assets", "images", fname, ikfile).lower()
-    if invisible:
+    if invdir:
         tpath = os.path.join("invisible", "images", fname, ikfile).lower()
     if os.path.exists(ik):
         copyfile(ik, tpath)
@@ -430,12 +444,13 @@ def appendRefs(fpath, lines):
         if ireflist:
             reflist.extend(ireflist)
 
+    invdir = isInvisibleDir(fpath)
     frel = os.path.relpath(fpath, ".")
     frelgit = frel
     if os.path.exists(frel+".tempd"):
         frelgit = frel+".tempd"
     cmdx = 'git log -n 1 --pretty=format:"%ad" --date=short -- "{}"'.format(frelgit)
-    if frelgit.startswith("invisible\\"):
+    if invdir:
         cmdx = 'cd {} & git log -n 1 --pretty=format:"%ad" --date=short -- "{}"'.format(*(frelgit.split("\\", 1)))
     datestr = popenCmd(cmdx)
     datestr = bytesToString(datestr)
@@ -443,7 +458,7 @@ def appendRefs(fpath, lines):
         datestr = datetime.datetime.now().date()
     if frel.startswith("_posts\\"):
         frel = frel.replace("_posts\\", "blogs\\")
-    if frel.startswith("invisible\\"):
+    if invdir:
         frel = "invisible\\reviewjs\\" + frel[len("invisible\\"):]
     else:
         frel = "assets\\reviewjs\\" + frel
@@ -783,6 +798,7 @@ def main():
     removedirTimeout("tempdir")
     clearemptydir("tempdir")
     buildSnapCache("backup")
+    buildSnapCache("invisible\\backup")
     if CLEARIMG:
         organizeResCollect("assets\\images")
         organizeResCollect("invisible\\images")
@@ -794,6 +810,7 @@ def main():
         )
     searchdir(".", checkfilesize, ignorelist=CHECK_IGNORE_LIST)
     searchdir("backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST)
+    searchdir("invisible\\backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST)
 
     searchdir(".", mainfilew, ignorelist=(
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
