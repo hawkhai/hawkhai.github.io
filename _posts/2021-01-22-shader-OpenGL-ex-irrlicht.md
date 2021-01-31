@@ -25,6 +25,7 @@ $$NV/AMD/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
 * GLES 扩展 333 个：<https://www.khronos.org/registry/OpenGL/index_es.php>
 * OpenGL 扩展 554 个：<https://www.khronos.org/registry/OpenGL/index_gl.php>
 * *docs.GL* <http://docs.gl/>
+* *MicrosoftDocs OpenGL* <https://github.com/MicrosoftDocs/win32/tree/docs/desktop-src/OpenGL>
 
 OpenGL ES & OpenGL 存在大量 API 交叉的情况，为了兼容，很多 API 采用 wglGetProcAddress 函数指针的形式。包含厂商后缀的都是 wglGetProcAddress，$$\color{pink}{ogladdr}$$。分了五类：
 
