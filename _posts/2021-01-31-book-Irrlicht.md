@@ -18,6 +18,8 @@ codeprint:
 > 上帝说，要有光，于是，就有了光。
 > [站在巨人的肩膀上：游戏引擎导论 {% include relref_csdn.html %}](https://blog.csdn.net/poem_qianmo/article/details/8250057)
 
+**Irrlicht 有的地方设计的有点奇怪，开始的时候没有理解，后来发现了原因：Irrlicht 诞生于固定管线时代，后来支持的可编程管线。**
+
 {% include image.html url="/assets/images/210131-book-irrlicht/048057-01.jpg" %}
 
 **前言**
@@ -388,6 +390,10 @@ void CSceneManager::drawAll()
 
 #### Minkowski 和与 Minkowski 差 180
 
+{% include image.html url="/assets/images/210131-book-irrlicht/1.jpg" %}
+{% include image.html url="/assets/images/210131-book-irrlicht/2.jpg" %}
+{% include image.html url="/assets/images/210131-book-irrlicht/3.jpg" %}
+
 #### 包围体 181
 
 
@@ -465,10 +471,11 @@ Gooch & Toon 着色器。有点意思。
 
 ### 进一步了解着色器 223
 
-编辑器：
-* [DirectX HLSL 编辑器](https://developer.nvidia.com/fx-composer)
+着色器 GUI 编辑器：
+* [DirectX HLSL 编辑器 FX Composer](https://developer.nvidia.com/fx-composer)
 * [TyphoonLabs' OpenGL Shader Designer](http://www.opengl.org/sdk/tools/ShaderDesigner/)
 * [Shader Maker](https://cgvr.cs.uni-bremen.de/teaching/shader_maker/)
+    Shader Maker is a simple, cross-platform GLSL editor. It works on Windows, Linux, and Mac OS X.
 
 
 ## 游戏人工智能 224
@@ -511,9 +518,12 @@ Gooch & Toon 着色器。有点意思。
 
 #### 计算代价与预处理 229
 
+更新寄存器主要有轮询（polling）和事件（event）。
+
 
 ### OpenSteer 230
 
+帮助编写游戏 AI 的类库：
 [OpenSteer -- Steering Behaviors for Autonomous Characters](http://opensteer.sourceforge.net/)
 
 
@@ -528,6 +538,7 @@ Gooch & Toon 着色器。有点意思。
 #### 在 Windows 平台下部署 Irrlicht 应用程序 232
 
 * 打包成 exe [Inno Setup](https://jrsoftware.org/isinfo.php)
+    Inno Setup is a free installer for Windows programs by Jordan Russell and Martijn Laan. First introduced in 1997, Inno Setup today rivals and even surpasses many commercial installers in feature set and stability.
 * 打包成 msi [WixEdit -- The editor for WiX XML source files {% include relref_github.html %}](https://wixedit.github.io/)
 
 #### 在 Linux 平台下部署 Irrlicht 应用程序 233
