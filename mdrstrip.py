@@ -410,6 +410,8 @@ REVIEW_REGEX  = "^<p class='reviewtip'><script type='text/javascript' src='{% in
 REVIEW_FORMAT = "<p class='reviewtip'><script type='text/javascript' src='{%% include relref.html url=\"/%s.js\" %%}'></script></p>"
 REVIEW_LINE   = "<hr class='reviewline'/>"
 REVIEW_JS_PATH = "%s.js"
+ROUGIFY_LIST = re.findall("\n([^\\s:]+):", readfile("rougify_list.txt", True), re.MULTILINE)
+assert len(ROUGIFY_LIST) == 199, len(ROUGIFY_LIST)
 def removeRefs(fpath, lines):
     lineCount = len(lines)
     headIndex = -1
@@ -569,6 +571,17 @@ def mainfile(fpath, fname, ftype):
 
         preline = lines[index - 1] if index > 0 else ""
         nextline = lines[index + 1] if index < len(lines)-1 else ""
+
+        # ```java
+        # {% highlight ruby %}
+        # https://github.com/rouge-ruby/rouge/wiki/List-of-supported-languages-and-lexers
+        li1 = re.findall("```\\s*([0-9a-z_-]+)", line, re.IGNORECASE)
+        li2 = re.findall("\\{%\\s*highlight\\s*([0-9a-z_-]+)", line, re.IGNORECASE)
+        for i in li1: li2.append(i)
+        for i in li2:
+            if not i in ROUGIFY_LIST:
+                openTextFile(fpath)
+                assert False, i
 
         tagregex = "^\\s*[#]+ "
         tagregexk = "^\\s*[#]+\\s{2,}"
