@@ -159,7 +159,7 @@ codeprint:
 * Hint: Bob’s hiding in Exercise01.fx
 * Solution:
 
-```gles
+```hlsl
 input.Pos.y *= abs(spectrogram.r)*fScale*g_fScale;
 ```
 
@@ -183,7 +183,7 @@ We’ll be using PIX to do performance analysis
 * You might want to look in Exercise02.cpp
 * Solution:
 
-```gles
+```hlsl
 pd3dDevice->DrawIndexedInstanced( (UINT)pSubset->IndexCount, g_iNumInstances, 0, (UINT)pSubset->VertexStart, 0 );
 ```
 
@@ -201,7 +201,7 @@ pd3dDevice->DrawIndexedInstanced( (UINT)pSubset->IndexCount, g_iNumInstances, 0,
 
 {% include image.html style="background:gray;" url="/assets/images/201126-shader-advanced-d3d10-s~40/20201126220331.png" %}
 
-```gles
+```hlsl
 TriStream.Append( output );
 ```
 
@@ -238,7 +238,7 @@ TriStream.Append( output );
 * Hint: Bob’s hiding in Exercise05.fx
 * Solution:
 
-```gles
+```hlsl
 tex.x += sin( input.Tex.y*40 )*0.001;
 tex.y += sin( input.Tex.y*60 )*0.001;
 ```
@@ -255,7 +255,7 @@ tex.y += sin( input.Tex.y*60 )*0.001;
 
 * Solution (One of many!):
 
-```gles
+```hlsl
 float2 tex = input.Tex.xy*2 - 1;
 float texMag = length( tex );
 tex /= texMag;

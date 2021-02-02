@@ -604,7 +604,7 @@ return t * t * (3 – 2 * t); Results are undefined if edge0 >= edge1. </dd>
 
 smoothstep 函数与 linstep 函数的工作方式类似，不过其将在最小值和最大值之间的中间值附近更快地增加值。该函数使用最小值和最大值之间的 hermite 插值。
 
-```gles
+```glsl
 float smoothstep(float start, float end, float parameter);
 ```
 

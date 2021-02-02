@@ -42,21 +42,6 @@ def isHostIgnore(hostk):
             return True
     return False
 
-mdkeylist = """
-categories
-tags
-location
-comments
-toclistyle
-layout
-visibility
-mermaid
-title
-mathjax
-glslcanvas
-permalink
-toc""".split()
-
 g_snapcache = {}
 g_untouched = {}
 def buildSnapCache(rootdir):
@@ -400,6 +385,25 @@ def collectHost(fpath, line):
         assert False, linesrc
     return reflist, line
 
+def loadRougifyList():
+    ROUGIFY_LIST_FILE = "rougify_list_json.txt"
+    ROUGIFY_LIST = readfileJson(ROUGIFY_LIST_FILE)
+    if not ROUGIFY_LIST:
+        ROUGIFY_LIST_SRC = readfile("rougify_list.txt", True)
+        ROUGIFY_LIST = re.findall("\n([^\\s:]+):", ROUGIFY_LIST_SRC, re.MULTILINE)
+        ROUGIFY_LIST2 = re.findall("\\[\\s*aliases\\s*:(.*?)\\]", ROUGIFY_LIST_SRC)
+        for temp in ROUGIFY_LIST2:
+            temp = temp.strip().split(",")
+            for itemp in temp:
+                itemp = itemp.strip()
+                if not itemp: continue
+                ROUGIFY_LIST.append(itemp)
+        assert len(ROUGIFY_LIST) == 366, len(ROUGIFY_LIST)
+        writefileJson(ROUGIFY_LIST_FILE, ROUGIFY_LIST)
+    for i in ROUGIFY_LIST:
+        assert re.findall("^([0-9a-z_#+-]+)$", i, re.IGNORECASE), i
+    return ROUGIFY_LIST
+
 g_cnchar = []
 g_cschar = []
 g_enchar = []
@@ -410,8 +414,8 @@ REVIEW_REGEX  = "^<p class='reviewtip'><script type='text/javascript' src='{% in
 REVIEW_FORMAT = "<p class='reviewtip'><script type='text/javascript' src='{%% include relref.html url=\"/%s.js\" %%}'></script></p>"
 REVIEW_LINE   = "<hr class='reviewline'/>"
 REVIEW_JS_PATH = "%s.js"
-ROUGIFY_LIST = re.findall("\n([^\\s:]+):", readfile("rougify_list.txt", True), re.MULTILINE)
-assert len(ROUGIFY_LIST) == 199, len(ROUGIFY_LIST)
+ROUGIFY_LIST = loadRougifyList()
+
 def removeRefs(fpath, lines):
     lineCount = len(lines)
     headIndex = -1
@@ -575,8 +579,8 @@ def mainfile(fpath, fname, ftype):
         # ```java
         # {% highlight ruby %}
         # https://github.com/rouge-ruby/rouge/wiki/List-of-supported-languages-and-lexers
-        li1 = re.findall("```\\s*([0-9a-z_-]+)", line, re.IGNORECASE)
-        li2 = re.findall("\\{%\\s*highlight\\s*([0-9a-z_-]+)", line, re.IGNORECASE)
+        li1 = re.findall("```\\s*([0-9a-z_#+-]+)", line, re.IGNORECASE)
+        li2 = re.findall("\\{%\\s*highlight\\s*([0-9a-z_#+-]+)", line, re.IGNORECASE)
         for i in li1: li2.append(i)
         for i in li2:
             if not i in ROUGIFY_LIST:
