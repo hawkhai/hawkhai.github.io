@@ -70,12 +70,13 @@ caption="利用 gpu 渲染一个巨人的图像" %}
         * 平常我们使用的 Shader 有顶点着色器、几何着色器、片段着色器，这几个都是为光栅化图形渲染服务的，**OpenGL 4.3（发布日期：2012 年 8 月 6 日）**之后新出了一个 Compute Shader，用于通用计算并行加速。[link {% include relref_cnblogs.html %}](https://www.cnblogs.com/chen9510/p/12000320.html)
         * OpenGL ES 3.1 使用计算着色器（Compute Shader）[link {% include relref_csdn.html %}](https://blog.csdn.net/qq_39561000/article/details/103112147)
 
-    * eglExample.vcxproj / eglExample.sln [没运行成功] -- \eglapp\app.vcxproj 完成了。[Debug x64]
+    * eglExample.vcxproj / eglExample.sln -- \eglapp\app.vcxproj 完成了。[Debug x64]
         * Shows how to use EGL for setting up OpenGL ES 2.0 on a windows desktop. Only works for vendors that support EGL on desktop.
         * [Using OpenGL ES on windows desktops via EGL](https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/)
         * [SimpleGL Example](https://wiki.maemo.org/SimpleGL_example)
         * [OpenGL ES EGL 简介 -- 完整的一个文档用例 {% include relref_csdn.html %}](https://blog.csdn.net/iEearth/article/details/71180457)
         * [EGL 1.5 implementation for Windows and X11 supporting OpenGL. {% include relref_github.html %}](https://github.com/McNopper/EGL)
+        * 这里有个坑，早期版本，默认是单位矩阵，新版本要参数 1.0 才是单位矩阵。`matrices.modelView = glm::mat4(1.0);`
 
     * geometryShaderSimple.vcxproj / geometryShader.sln
         * Very simple geometry shader demo.
@@ -97,8 +98,9 @@ caption="利用 gpu 渲染一个巨人的图像" %}
         * <https://learnopengl-cn.github.io/04%20Advanced%20OpenGL/08%20Advanced%20GLSL/#uniform>
         * [Unform Buffer Objecct(UBO) {% include relref_cnblogs.html %}](https://www.cnblogs.com/chen9510/p/11447292.html)
         * [Uniform Buffer Object {% include relref_khronos.html %}](https://www.khronos.org/opengl/wiki/Uniform_Buffer_Object)
-        * error LNK2019: 无法解析的外部符号 _stbi_load -> 需要在 #include <stb_image.h> 前增加一句 #define STB_IMAGE_IMPLEMENTATION。
+        * error LNK2019: 无法解析的外部符号 _stbi_load --> 需要在 #include <stb_image.h> 前增加一句 #define STB_IMAGE_IMPLEMENTATION。
 
+{% include image.html url="/assets/images/201111-shader-opengl-intro/eglexample.webp" caption="eglExample.vcxproj" %}
 {% include image.html url="/assets/images/201111-shader-opengl-intro/computeshaderparticlesystem.webp" %}
 {% include image.html url="/assets/images/201111-shader-opengl-intro/20201203151447.png" %}
 

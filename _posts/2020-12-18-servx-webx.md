@@ -23,6 +23,25 @@ codeprint:
 * <http://search.csdn.net/>
 
 
+## SWIG
+
+把 C/C++ 提供给高级语言调用。
+SWIG is a software development tool that connects programs written in C and C++ with a variety of high-level programming languages.
+
+
+## Emscripten
+
+Branches for Emscripten, native (BridJ), and SWIG.
+把 C/C++ 编译成 JS 代码。
+Emscripten: An LLVM-to-Web Compiler
+
+
+## Youtube 视频下载
+
+https://zh.savefrom.net/7/
+https://ctb.doutui.net/youtube.php
+
+
 ## 用 FileZilla 搭建 FTP 服务器及相关问题
 
 <https://segmentfault.com/a/1190000009033181>
@@ -57,6 +76,8 @@ gif2webp -q 75 -lossy -m 6 picture.gif -o picture.webp
 - [https://sourceforge.net/]({% include relref.html url="/backup/2020-12-18-servx-webx.md/sourceforge.net/f577c4c2.html" %})
 - [http://www.codeproject.com]({% include relref.html url="/backup/2020-12-18-servx-webx.md/www.codeproject.com/05a0c83e.html" %})
 - [http://search.csdn.net/]({% include relref.html url="/backup/2020-12-18-servx-webx.md/search.csdn.net/37e536ff.html" %})
+- [https://zh.savefrom.net/7/]({% include relref.html url="/backup/2020-12-18-servx-webx.md/zh.savefrom.net/3ae75bbb.html" %})
+- [https://ctb.doutui.net/youtube.php]({% include relref.html url="/backup/2020-12-18-servx-webx.md/ctb.doutui.net/f1de05f9.php" %})
 - [https://segmentfault.com/a/1190000009033181]({% include relref.html url="/backup/2020-12-18-servx-webx.md/segmentfault.com/a7e55d6e.html" %})
 - [https://imququ.com/post/html5-live-player-2.html]({% include relref.html url="/backup/2020-12-18-servx-webx.md/imququ.com/df29ec8c.html" %})
 - [https://developers.google.com/speed/webp/docs/gif2webp]({% include relref.html url="/backup/2020-12-18-servx-webx.md/developers.google.com/6b2fb33f.html" %})
