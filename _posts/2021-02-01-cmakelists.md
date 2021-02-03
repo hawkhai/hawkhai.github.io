@@ -335,6 +335,7 @@ ENDIF (expression) # 一定要有 ENDIF 与 IF 对应
 * IF (DEFINED var) 如果变量被定义，为真
 * IF (var MATCHES regex) 此处 var 可以用 var 名，也可以用 ${var}
 * IF (string MATCHES regex)
+
 ```bash
 # 当给定的变量或者字符串能够匹配正则表达式 regex 时为真。比如：
 IF ("hello" MATCHES "ell")
@@ -396,6 +397,7 @@ WHILE(condition)
     ...
 ENDWHILE(condition)
 ```
+
 其真假判断条件可以参考 IF 指令
 
 
@@ -406,6 +408,7 @@ FOREACH 指令的使用方法有三种形式：
 #### 列表
 
 语法：
+
 ```bash
 FOREACH(loop_var arg1 arg2 ...)
     COMMAND1(ARGS ...)
@@ -415,6 +418,7 @@ ENDFOREACH(loop_var)
 ```
 
 示例：
+
 ```bash
 AUX_SOURCE_DIRECTORY(. SRC_LIST)
 FOREACH(F ${SRC_LIST})
@@ -454,6 +458,7 @@ ENDFOREACH(VAR)
 #### 范围和步进
 
 语法：
+
 ```bash
 FOREACH(loop_var RANGE start stop [step])
      COMMAND1(ARGS ...)
@@ -498,6 +503,7 @@ ENDFOREACH(A)
   TARGET_LINK_LIBRARIES(t4 hello) # 链接动态库
   #TARGET_LINK_LIBRARIES(t4 libhello.a) # 链接静态库
   ```
+
 * t5 示例如何使用 cmake 预定义的 cmake 模块（以 FindCURL.cmake 为例演示）
   ```cmake
   AUX_SOURCE_DIRECTORY(. SRC_LIST)
@@ -520,6 +526,7 @@ ENDFOREACH(A)
   # • <name>_INCLUDE_DIR or <name>_INCLUDES
   # • <name>_LIBRARY or <name>_LIBRARIES
   ```
+
 * t6 示例如何使用自定义的 cmake 模块（编写了自定义的 FindHELLO.cmake）
 
   ```cmake
@@ -587,10 +594,12 @@ ENDFOREACH(A)
 
 * 如上 ADD\_SUBDIRECTORY 的时候指定目标二进制文件输出路径（推荐使用下面这种）
 * 使用 SET 命令重新定义 EXECUTABLE\_OUTPUT\_PATH 和 LIBRARY\_OUTPUT\_PATH 变量来指定最终的二进制文件的位置
+
 ```bash
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 ```
+
 上面的两条命令通常紧跟 ADD\_EXECUTABLE 和 ADD\_LIBRARY，与其写在同一个 CMakeLists.txt 即可
 
 ```cmake
