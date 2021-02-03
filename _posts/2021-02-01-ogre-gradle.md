@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "编程 C++ -- OGRE Android gradle 构建配置文件"
+title: "编程配置 -- OGRE Android gradle&CMake 构建配置文件"
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["编程笔记", "Android"]
+tags: ["编程笔记", "Android", "Ogre3D"]
 toc: true
 toclistyle:
 comments:

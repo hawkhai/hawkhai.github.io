@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "编程 C++ -- Android CMake CMakeLists.txt 构建配置文件"
+title: "编程配置 -- Android CMake CMakeLists.txt 构建配置文件"
 author:
 location: "珠海"
 categories: ["编程"]
@@ -69,6 +69,21 @@ set_target_properties( lib_gmath PROPERTIES IMPORTED_LOCATION
 include_directories( ${lib_src_DIR}/include )
 target_link_libraries( native-lib ... lib_gmath )
 ```
+
+
+### 区分不同平台
+
+* ANDROID：安卓的编译环境；
+* APPLE：是否是苹果系列的编译环境；
+* IOS：是否是苹果手机环境；
+* UNIX：是否是 UNIX 或者 UNIX-like 的环境；
+* WIN32、MSVC：是否是 Windows。
+
+Android.mk & Application.mk
+
+* LOCAL_CFLAGS 可选的编译器选项，在编译 C 代码文件的时候使用。
+* LOCAL_CXXFLAGS Same as LOCAL_CFLAGS for C++ source files
+* LOCAL_CPPFLAGS 与 LOCAL_CFLAGS 相同，但是对 C 和 C++ source files 都适用。
 
 
 ## CMake 预定义变量
