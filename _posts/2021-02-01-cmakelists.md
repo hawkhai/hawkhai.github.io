@@ -154,7 +154,8 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 * cmake 变量使用 ${} 方式取值，但是在 IF 控制语句中是直接使用变量名
 * 环境变量使用 $ENV{} 方式取值，使用 SET(ENV{VAR} VALUE) 赋值
 * 指令 (arg1 arg2...) 参数使用括弧括起，参数之间使用空格或分号分开。
-  ```bash
+
+  ```cmake
   以 ADD_EXECUTABLE 指令为例：
   ADD_EXECUTABLE(hello main.c func.c) 或者
   ADD_EXECUTABLE(hello main.c;func.c)
@@ -207,13 +208,13 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
 ### CMAKE\_MINIMUM\_REQUIRED
 
-* `CMAKE_MINIMUM_REQUIRED(VERSION version_number [FATAL_ERROR])
+* `CMAKE_MINIMUM_REQUIRED(VERSION version_number [FATAL_ERROR])`
 * 声明 CMake 的版本要求
 
 
 ### ADD\_SUBDIRECTORY
 
-* `ADD_SUBDIRECTORY(src_dir [binary_dir] [EXCLUDE_FROM_ALL])
+* `ADD_SUBDIRECTORY(src_dir [binary_dir] [EXCLUDE_FROM_ALL])`
 * 向当前工程添加存放源文件的子目录，并可以指定中间二进制和目标二进制的存放位置
 * EXCLUDE\_FROM\_ALL 含义：将这个目录从编译过程中排除
 
@@ -268,7 +269,8 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
 * `EXEC_PROGRAM(Executable [dir where to run] [ARGS <args>][OUTPUT_VARIABLE <var>] [RETURN_VALUE <value>])`
 * 用于在指定目录运行某个程序（默认为当前 CMakeLists.txt 所在目录），通过 ARGS 添加参数，通过 OUTPUT\_VARIABLE 和 RETURN\_VALUE 获取输出和返回值，如下示例
-  ```bash
+
+  ```cmake
   # 在 src 中运行 ls 命令，在 src/CMakeLists.txt 添加
   EXEC_PROGRAM(ls ARGS "*.c" OUTPUT_VARIABLE LS_OUTPUT RETURN_VALUE LS_RVALUE)
   IF (not LS_RVALUE)
@@ -292,7 +294,8 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
     * VAR 变量代表找到的文件全路径，包含文件名
 * FIND\_LIBRARY(&lt;VAR> name path1 path2 ...)
     * VAR 变量代表找到的库全路径，包含库文件名
-  ```bash
+
+  ```cmake
   FIND_LIBRARY(libX X11 /usr/lib)
   IF (NOT libx)
       MESSAGE(FATAL_ERROR "libX not found")
@@ -312,7 +315,7 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
 语法：
 
-```bash
+```cmake
 IF (expression)
     COMMAND1(ARGS ...)
     COMMAND2(ARGS ...)
@@ -336,7 +339,7 @@ ENDIF (expression) # 一定要有 ENDIF 与 IF 对应
 * IF (var MATCHES regex) 此处 var 可以用 var 名，也可以用 ${var}
 * IF (string MATCHES regex)
 
-```bash
+```cmake
 # 当给定的变量或者字符串能够匹配正则表达式 regex 时为真。比如：
 IF ("hello" MATCHES "ell")
     MESSAGE("true")
@@ -359,7 +362,7 @@ ENDIF ("hello" MATCHES "ell")
 * IF (variable STREQUAL string)
 * IF (string STREQUAL string)
 
-```bash
+```cmake
 一个小例子，用来判断平台差异：
 IF (WIN32)
     MESSAGE(STATUS “This is windows.”)
@@ -390,7 +393,7 @@ ENDIF (WIN32)
 
 语法：
 
-```bash
+```cmake
 WHILE(condition)
     COMMAND1(ARGS ...)
     COMMAND2(ARGS ...)
@@ -409,7 +412,7 @@ FOREACH 指令的使用方法有三种形式：
 
 语法：
 
-```bash
+```cmake
 FOREACH(loop_var arg1 arg2 ...)
     COMMAND1(ARGS ...)
     COMMAND2(ARGS ...)
@@ -419,7 +422,7 @@ ENDFOREACH(loop_var)
 
 示例：
 
-```bash
+```cmake
 AUX_SOURCE_DIRECTORY(. SRC_LIST)
 FOREACH(F ${SRC_LIST})
     MESSAGE(${F})
@@ -428,7 +431,7 @@ ENDFOREACH(F)
 
 #### 范围
 
-```bash
+```cmake
 FOREACH(loop_var RANGE total)
     COMMAND1(ARGS ...)
     COMMAND2(ARGS ...)
@@ -436,7 +439,7 @@ FOREACH(loop_var RANGE total)
 ENDFOREACH(loop_var)
 ```
 
-```bash
+```cmake
 从 0 到 total 以 １ 为步进
 FOREACH(VAR RANGE 10)
     MESSAGE(${VAR})
@@ -459,7 +462,7 @@ ENDFOREACH(VAR)
 
 语法：
 
-```bash
+```cmake
 FOREACH(loop_var RANGE start stop [step])
      COMMAND1(ARGS ...)
      COMMAND2(ARGS ...)
@@ -470,7 +473,7 @@ ENDFOREACH(loop_var)
 从 start 开始到 stop 结束，以 step 为步进，
 **注意：**直到遇到 ENDFOREACH 指令，整个语句块才会得到真正的执行。
 
-```bash
+```cmake
 FOREACH(A RANGE 5 15 3)
      MESSAGE(${A})
 ENDFOREACH(A)
@@ -490,8 +493,19 @@ ENDFOREACH(A)
 
 ## cmake 中如何使用动态库和静态库（查找库的路径）
 
+```cmake
+# 指定生成目标
+add_executable(Demo main.cc)
+# 添加链接库
+target_link_libraries(Demo MathFunctions)
+
+# 生成链接库
+add_library (MathFunctions ${DIR_LIB_SRCS})
+```
+
 参考 INCLUDE\_DIRECTORIES, LINK\_DIRECTORIES, TARGET\_LINK\_LIBRARIES 用法
 * t4 示例使用动态库或静态库
+
   ```cmake
   AUX_SOURCE_DIRECTORY(. SRC_LIST)
   LINK_DIRECTORIES(/home/carl/cmake/t3/build/lib) # 这行一定要在 ADD_EXECUTABLE 前面
@@ -505,6 +519,7 @@ ENDFOREACH(A)
   ```
 
 * t5 示例如何使用 cmake 预定义的 cmake 模块（以 FindCURL.cmake 为例演示）
+
   ```cmake
   AUX_SOURCE_DIRECTORY(. SRC_LIST)
   ADD_EXECUTABLE(curltest ${SRC_LIST})
@@ -587,7 +602,7 @@ ENDFOREACH(A)
   ENDIF (HELLO_FOUND)
   ```
 
-**注意**读 t5 和 t6 的 CMakeLists.txt 和 FindHELLO.cmake 中的注释部分。
+**注意** 读 t5 和 t6 的 CMakeLists.txt 和 FindHELLO.cmake 中的注释部分。
 
 
 ## cmake 中如何指定生成文件的输出路径
@@ -595,7 +610,7 @@ ENDFOREACH(A)
 * 如上 ADD\_SUBDIRECTORY 的时候指定目标二进制文件输出路径（推荐使用下面这种）
 * 使用 SET 命令重新定义 EXECUTABLE\_OUTPUT\_PATH 和 LIBRARY\_OUTPUT\_PATH 变量来指定最终的二进制文件的位置
 
-```bash
+```cmake
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 ```
@@ -638,7 +653,9 @@ cmake..，这样就不会污染源代码，如果不想要这些自动生成的�
 
 ```cmake
 cmake_minimum_required(VERSION 3.4.1)
-project(demo) # 它会引入两个变量 demo_BINARY_DIR 和 demo_SOURCE_DIR，PROJECT_BINARY_DIR 和 PROJECT_SOURCE_DIR。
+# 等价的变量 PROJECT_BINARY_DIR 和 PROJECT_SOURCE_DIR。
+# 它会引入两个变量 demo_BINARY_DIR 和 demo_SOURCE_DIR。
+project(demo)
 
 # 设置编译类型
 add_executable(demo demo.cpp) # 生成可执行文件
@@ -673,12 +690,64 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+```
 
+
+### 配置编译参数
+
+```cmake
 # 加入一个配置头文件，用于处理 CMake 对源码的设置
 configure_file (
     "${PROJECT_SOURCE_DIR}/config.h.in"
     "${PROJECT_BINARY_DIR}/config.h"
 )
+
+# 是否使用自己的 MathFunctions 库
+option (USE_MYMATH
+       "Use provided math implementation" ON) # 设置为 ON，或 OFF
+
+# 是否加入 MathFunctions 库
+if (USE_MYMATH)
+    include_directories ("${PROJECT_SOURCE_DIR}/math")
+    add_subdirectory (math)
+    set (EXTRA_LIBS ${EXTRA_LIBS} MathFunctions)
+endif (USE_MYMATH)
+
+# 查找当前目录下的所有源文件
+# 并将名称保存到 DIR_SRCS 变量
+aux_source_directory(. DIR_SRCS)
+
+# 指定生成目标
+add_executable(Demo ${DIR_SRCS})
+target_link_libraries (Demo ${EXTRA_LIBS})
+```
+
+config.h.in：
+
+```cpp
+// 这样 CMake 会自动根据 CMakeLists 配置文件中的设置自动生成 config.h 文件。
+#cmakedefine USE_MYMATH
+
+// the configured options and settings for Tutorial
+#define Demo_VERSION_MAJOR @Demo_VERSION_MAJOR@
+#define Demo_VERSION_MINOR @Demo_VERSION_MINOR@
+```
+
+
+### 安装与测试
+
+```cmake
+set(CMAKE_BUILD_TYPE "Debug")
+set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
+set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
+
+# 指定 MathFunctions 库的安装路径
+install (TARGETS MathFunctions DESTINATION bin)
+install (FILES MathFunctions.h DESTINATION include)
+
+# 指定安装路径
+install (TARGETS Demo DESTINATION bin)
+install (FILES "${PROJECT_BINARY_DIR}/config.h" DESTINATION include)
 ```
 
 
@@ -717,11 +786,49 @@ add_library(accliblibrary SHARED library.cpp library.h) # 诉生成一个库文�
 ```
 
 
+## 如何在 gradle 中使用 cmake 的变量
+
+```gradle
+android {
+    ...
+    defaultConfig {
+        ...
+        externalNativeBuild {
+            cmake {
+                // 指定一些编译选项
+                cppFlags "-std=c++11 -frtti -fexceptions"
+                ...
+
+                // 也可以使用下面这种语法向变量传递参数：
+                // arguments "-DVARNAME=ARGV".
+                arguments "-DANDROID_ARM_NEON=TRUE",
+                // 使用下面这种语法向变量传递多个参数（参数之间使用空格隔开）：
+                // arguments "-DVARNAME=arg1 arg2"
+                    "-DANDROID_CPP_FEATURES=rtti exceptions"
+
+                // 指定 ABI
+                abiFilters "armeabi-v7a", "arm64-v8a"
+            }
+        }
+    }
+    buildTypes {...}
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+}
+```
+
+
 ## Refs
 
 - [1] [Cmake 语法与实战入门 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/267803605)
 - [2] [cmake demo {% include relref_github.html %}](https://github.com/carl-wang-cn/demo/tree/master/cmake)
 - [3] [CMake 入门 / 基本语法](https://zh.m.wikibooks.org/zh-hans/CMake_%E5%85%A5%E9%96%80/%E5%9F%BA%E6%9C%AC%E8%AA%9E%E6%B3%95)
+- [4] [CMake 语法 - 详解 CMakeLists.txt（最后包含了 OGRE 的例子） {% include relref_jianshu.html %}](https://www.jianshu.com/p/528eeb266f83)
+- [5] [CMakeLists.txt 语法介绍与实例演练（这个颜色好） {% include relref_csdn.html %}](https://blog.csdn.net/afei__/article/details/81201039)
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-01-cmakelists.md.js" %}'></script></p>
@@ -732,3 +839,5 @@ add_library(accliblibrary SHARED library.cpp library.h) # 诉生成一个库文�
 - [https://zhuanlan.zhihu.com/p/267803605]({% include relref.html url="/backup/2021-02-01-cmakelists.md/zhuanlan.zhihu.com/d33bbe25.html" %})
 - [https://github.com/carl-wang-cn/demo/tree/master/cmake]({% include relref.html url="/backup/2021-02-01-cmakelists.md/github.com/bd0e5b28.html" %})
 - [https://zh.m.wikibooks.org/zh-hans/CMake_%E5%85%A5%E9%96%80/%E5%9F%BA%E6%9C%AC%E8%AA%9E%E6%B3%95]({% include relref.html url="/backup/2021-02-01-cmakelists.md/zh.m.wikibooks.org/c46fcb62.html" %})
+- [https://www.jianshu.com/p/528eeb266f83]({% include relref.html url="/backup/2021-02-01-cmakelists.md/www.jianshu.com/7e0846cb.html" %})
+- [https://blog.csdn.net/afei__/article/details/81201039]({% include relref.html url="/backup/2021-02-01-cmakelists.md/blog.csdn.net/e4e068fd.html" %})
