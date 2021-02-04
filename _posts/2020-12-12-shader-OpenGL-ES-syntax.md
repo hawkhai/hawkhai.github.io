@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "特效编程笔记 -- GLSL ES 语法详解"
+title: "图形学笔记 -- GLSL ES 语法详解"
 author:
 location: "珠海"
-categories: ["特效"]
-tags: ["特效", "OpenGL"]
+categories: ["图形学"]
+tags: ["图形学", "OpenGL"]
 toc: true
 toclistyle:
 comments:

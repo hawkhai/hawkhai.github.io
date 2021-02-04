@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "特效编程笔记 -- LearnOpenGL CN 学习笔记（原书复习）"
+title: "图形学笔记 -- LearnOpenGL CN 学习笔记（原书复习）"
 author:
 location: "珠海"
-categories: ["特效"]
-tags: ["特效", "OpenGL"]
+categories: ["图形学"]
+tags: ["图形学", "OpenGL"]
 toc: true
 toclistyle:
 comments:

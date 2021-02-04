@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "特效编程笔记 -- 高级 D3D10 着色器创作"
+title: "图形学笔记 -- 高级 D3D10 着色器创作"
 author:
 location: "珠海"
-categories: ["特效"]
-tags: ["特效", "DirectX"]
+categories: ["图形学"]
+tags: ["图形学", "DirectX"]
 toc: true
 toclistyle:
 comments:

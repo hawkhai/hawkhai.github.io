@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "特效编程笔记 -- OpenGL 图形学 / 高级光照 Blinn-Phong & 阴影"
+title: "图形学笔记 -- OpenGL 图形学 / 高级光照 Blinn-Phong & 阴影"
 author:
 location: "珠海"
-categories: ["特效"]
-tags: ["特效", "OpenGL"]
+categories: ["图形学"]
+tags: ["图形学", "OpenGL"]
 toc: true
 toclistyle:
 comments:

@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "特效编程笔记 -- OpenGL 图形学 / 高级 OpenGL：深度测试、面剔除、帧缓冲 等"
+title: "图形学笔记 -- OpenGL 图形学 / 高级 OpenGL：深度测试、面剔除、帧缓冲 等"
 author:
 location: "珠海"
-categories: ["特效"]
-tags: ["特效", "OpenGL"]
+categories: ["图形学"]
+tags: ["图形学", "OpenGL"]
 toc: true
 toclistyle:
 comments:

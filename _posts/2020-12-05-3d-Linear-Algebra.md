@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "特效编程笔记 -- 3D 引擎数学：线性代数"
+title: "图形学笔记 -- 3D 引擎数学：线性代数"
 author:
 location: "珠海"
-categories: ["特效"]
-tags: ["特效", "OpenGL", "数学"]
+categories: ["图形学"]
+tags: ["图形学", "OpenGL", "数学"]
 toc: true
 toclistyle:
 comments:

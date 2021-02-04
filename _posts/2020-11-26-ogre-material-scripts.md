@@ -4,7 +4,7 @@ title: "Ogre3D 笔记 -- Ogre3D 材质脚本文档 Material Scripts"
 author:
 location: "珠海"
 categories: ["Ogre3D"]
-tags: ["特效", "Ogre3D"]
+tags: ["图形学", "Ogre3D"]
 toc: true
 toclistyle: none
 comments:

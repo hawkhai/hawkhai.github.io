@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "特效编程笔记 -- 用 Bullet Physics 和 OpenGL 实现的 抛箱子"
+title: "图形学笔记 -- 用 Bullet Physics 和 OpenGL 实现的 抛箱子"
 author:
 location: "珠海"
-categories: ["特效"]
-tags: ["特效", "OpenGL"]
+categories: ["图形学"]
+tags: ["图形学", "OpenGL"]
 toc: true
 toclistyle:
 comments:

@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "特效编程笔记 -- GPU OpenGL ES 应用性能优化"
+title: "图形学笔记 -- GPU OpenGL ES 应用性能优化"
 author:
 location: "珠海"
-categories: ["特效"]
-tags: ["特效", "OpenGL", "Irrlicht"]
+categories: ["图形学"]
+tags: ["图形学", "OpenGL", "Irrlicht"]
 toc: true
 toclistyle:
 comments:

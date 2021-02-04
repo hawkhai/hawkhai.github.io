@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "特效编程笔记 -- Irrlicht OpenGL 的 Windows 组件 和 扩展"
+title: "图形学笔记 -- Irrlicht OpenGL 的 Windows 组件 和 扩展"
 author:
 location: "珠海"
-categories: ["特效"]
-tags: ["特效", "OpenGL", "Irrlicht"]
+categories: ["图形学"]
+tags: ["图形学", "OpenGL", "Irrlicht"]
 toc: true
 toclistyle:
 comments:
