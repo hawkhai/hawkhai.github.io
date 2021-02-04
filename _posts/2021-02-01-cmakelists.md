@@ -70,6 +70,9 @@ include_directories( ${lib_src_DIR}/include )
 target_link_libraries( native-lib ... lib_gmath )
 ```
 
+target_link_libraries 为库或二进制可执行文件添加库链接，要用在 add_executable 之后。
+上述指令中的 target 是指通过 add_executable() 和 add_library() 指令生成已经创建的目标文件。
+
 
 ### 区分不同平台
 
