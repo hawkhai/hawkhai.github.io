@@ -40,7 +40,7 @@ ndk.dir=D\:\\Android\\Sdk\\ndk-bundle # 最新版已经不需要了。
 
 [Android Studio: “Error initializing ADB: Android Debug Bridge not found” 且找不到 Project Structure {% include relref_csdn.html %}](https://blog.csdn.net/dingxianding/article/details/106017010)
 
-**删除了本地的.idea文件夹**，然后重启 Android Studio。
+**删除了本地的 .idea 文件夹**，然后重启 Android Studio。
 
 发生这种情况，估计是创建项目时，gitignore 中没有忽略 .idea 文件夹，导致 git 拉取项目后用的是别人项目的 .idea 文件夹，这时候就会发生这种诡异的事。所以用 idea 开发的时候，一定要把 .idea 文件夹加到 gitignore 中哦！
 
