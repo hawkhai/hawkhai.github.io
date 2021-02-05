@@ -447,4 +447,4 @@ void setMat4(glm::mat4 &mat)    glUniformMatrix4fv(1, &mat[0][0]);
 - [https://www.khronos.org/opengl/wiki/Uniform_Buffer_Object]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/www.khronos.org/04bc8242.html" %})
 - [https://zgserver.com/parsing-6.html]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/zgserver.com/060e6561.html" %})
 - [https://www.uiimage.com/post/blog/opengl-es/opengl-es-2-draw-a-triangle/]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/www.uiimage.com/9d22c628.html" %})
-- [https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/1.getting_started/7.4.camera_class/camera_class.cpp]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/github.com/5c619a05.cpp" %})
+- [https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/1.getting_started/7.4.camera_class/camera_class.cpp]({% include relref.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/github.com/5c619a05.html" %})

@@ -87,6 +87,37 @@ targetCount 4257 diffCount 0 missCount 0
 
 ### irrlicht Android
 
+1. https://github.com/nonameentername/irrlicht-android
+2. https://github.com/dschaefer/irrlicht-android
+3. https://github.com/reizencroft/irrAndroid
+4. https://github.com/skylicht-lab/skylicht-engine
+5. https://github.com/nailgun/android_irrlicht_vuforia
+6. https://github.com/iaco79/IrrGameDemo
+7. https://github.com/dschaefer/irrlicht-examples
+8. https://github.com/havlenapetr/gamekit
+9. https://github.com/cskeyn/BulletAndroid
+10. https://github.com/marky0720/IrrlichtAndroid
+11. https://github.com/nonameentername/pyirrlicht-android
+12. https://github.com/xiaomingzhong/IrrlichtAndroid-master
+13. https://github.com/ghd214/irrlichtAndroidGame
+14. https://github.com/vell001/irrlicht-android
+15. https://github.com/xiaomingzhong/irrlicht-android
+16. https://github.com/disktree/irrlicht
+17. https://github.com/xiaomingzhong/irrlicht-android-studio
+18. https://github.com/xiaobenshu/irrlicht_Android
+19. https://github.com/okuoku/irrlicht-android
+20. https://github.com/nailgun/irrlicht_android
+21. https://github.com/marky0720/irrlicht_Android_ogl_es
+22. https://github.com/arris69/IrrLicht-Android
+23. https://github.com/nailgun/irrlicht_android_viewer
+24. https://github.com/vell001/Irrlicht-vell
+25. https://github.com/danyr/gamekit
+26. https://github.com/antmuse/AntThread
+27. https://github.com/Picaroon/gamekit
+
+
+### irrlicht Android
+
 * [wrapirrlicht-for-android](https://code.google.com/archive/p/wrapirrlicht-for-android/source)
     [Wrapping Irrlicht For Android](https://www.codeproject.com/articles/333135/wrapping-irrlicht-for-android)
 * 37 commits，4 years ago。[irrlicht for opengles {% include relref_github.html %}](https://github.com/wangtianhang/irrlicht)
@@ -129,19 +160,35 @@ targetCount 4257 diffCount 0 missCount 0
 - [https://blog.csdn.net/boyuejiang/article/details/8908379]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/blog.csdn.net/cf839113.html" %})
 - [https://blog.csdn.net/qq_36720848/article/details/89464731]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/blog.csdn.net/88012b77.html" %})
 - [https://medium.com/@avseoul/ray-marching-metaball-in-unity3d-fc6f83766c5d]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/medium.com/e863e277.html" %})
+- [https://github.com/nonameentername/irrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/e73734fa.html" %})
+- [https://github.com/dschaefer/irrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/952c0493.html" %})
+- [https://github.com/reizencroft/irrAndroid]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/6a912d5e.html" %})
+- [https://github.com/skylicht-lab/skylicht-engine]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/bc413eab.html" %})
+- [https://github.com/nailgun/android_irrlicht_vuforia]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/78ef1963.html" %})
+- [https://github.com/iaco79/IrrGameDemo]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/07dfbea5.html" %})
+- [https://github.com/dschaefer/irrlicht-examples]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/5ed0c1f8.html" %})
+- [https://github.com/havlenapetr/gamekit]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/b9bcafef.html" %})
+- [https://github.com/cskeyn/BulletAndroid]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/5f10f216.html" %})
+- [https://github.com/marky0720/IrrlichtAndroid]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/59036d28.html" %})
+- [https://github.com/nonameentername/pyirrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/e39426a3.html" %})
+- [https://github.com/xiaomingzhong/IrrlichtAndroid-master]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/849732cd.html" %})
+- [https://github.com/ghd214/irrlichtAndroidGame]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/1e3635bc.html" %})
+- [https://github.com/vell001/irrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/87c6d55b.html" %})
+- [https://github.com/xiaomingzhong/irrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/ae10ec45.html" %})
+- [https://github.com/disktree/irrlicht]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/5cc1d8e2.html" %})
+- [https://github.com/xiaomingzhong/irrlicht-android-studio]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/8afaee92.html" %})
+- [https://github.com/xiaobenshu/irrlicht_Android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/8f711333.html" %})
+- [https://github.com/okuoku/irrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/64b51a86.html" %})
+- [https://github.com/nailgun/irrlicht_android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/a197b51d.html" %})
+- [https://github.com/marky0720/irrlicht_Android_ogl_es]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/ae50da7e.html" %})
+- [https://github.com/arris69/IrrLicht-Android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/bcf56cc0.html" %})
+- [https://github.com/nailgun/irrlicht_android_viewer]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/983d7ba1.html" %})
+- [https://github.com/vell001/Irrlicht-vell]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/f38373f4.html" %})
+- [https://github.com/danyr/gamekit]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/09b59859.html" %})
+- [https://github.com/antmuse/AntThread]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/0f8fb319.html" %})
+- [https://github.com/Picaroon/gamekit]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/c90ca4ec.html" %})
 - [https://code.google.com/archive/p/wrapirrlicht-for-android/source]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/code.google.com/4ee9cd81.html" %})
 - [https://www.codeproject.com/articles/333135/wrapping-irrlicht-for-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/www.codeproject.com/caf8ea4d.html" %})
 - [https://github.com/wangtianhang/irrlicht]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/ac80b636.html" %})
-- [https://github.com/dschaefer/irrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/952c0493.html" %})
-- [https://github.com/dschaefer/irrlicht-examples]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/5ed0c1f8.html" %})
-- [https://github.com/reizencroft/irrAndroid]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/6a912d5e.html" %})
-- [https://github.com/nonameentername/irrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/e73734fa.html" %})
-- [https://github.com/vell001/irrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/87c6d55b.html" %})
-- [https://github.com/vell001/Irrlicht-vell]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/f38373f4.html" %})
-- [https://github.com/marky0720/irrlicht_Android_ogl_es]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/ae50da7e.html" %})
-- [https://github.com/iaco79/IrrGameDemo]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/07dfbea5.html" %})
-- [https://github.com/ghd214/irrlichtAndroidGame]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/1e3635bc.html" %})
-- [https://github.com/arris69/IrrLicht-Android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/bcf56cc0.html" %})
-- [https://github.com/skylicht-lab/skylicht-engine]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/bc413eab.html" %})
 - [https://github.com/Synxis/SPARK]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/6726b92b.html" %})
 - [https://gitee.com/panqingyun/E3D-Engine]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/gitee.com/0f8e6927.html" %})

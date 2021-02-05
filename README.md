@@ -66,7 +66,7 @@ $ bundle exec jekyll serve --host 0.0.0.0 --port [port]
 
 - [https://github.com/gchauras/much-worse-jekyll-theme/]({% include relref.html url="/backup/README.md/github.com/14f1bec6.html" %})
 - [https://blog.hawkhai.com]({% include relref.html url="/backup/README.md/blog.hawkhai.com/051e312b.html" %})
-- [https://github.com/rbenv/rbenv.git]({% include relref.html url="/backup/README.md/github.com/309fee20.git" %})
-- [https://github.com/rbenv/ruby-build.git]({% include relref.html url="/backup/README.md/github.com/48bc0079.git" %})
+- [https://github.com/rbenv/rbenv.git]({% include relref.html url="/backup/README.md/github.com/309fee20.html" %})
+- [https://github.com/rbenv/ruby-build.git]({% include relref.html url="/backup/README.md/github.com/48bc0079.html" %})
 - [https://gems.ruby-china.com/]({% include relref.html url="/backup/README.md/gems.ruby-china.com/6d6c20fb.html" %})
 - [https://github.com/rbenv/ruby-build/wiki]({% include relref.html url="/backup/README.md/github.com/4c7e830d.html" %})
