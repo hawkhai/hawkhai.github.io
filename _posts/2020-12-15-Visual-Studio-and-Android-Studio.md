@@ -31,9 +31,29 @@ ndk.dir=D\:\\Android\\Sdk\\ndk-bundle
 
 ### NDK 调试问题
 
-{% include image.html url="/assets/images/201215-visual-studio-and-andro~6d/20180902012723348.jpg" %}
+#### The application could not be installed: INSTALL_FAILED_TEST_ONLY
 
-<https://developer.android.com/studio/projects/install-ndk>
+在项目中的 gradle.properties 全局配置中设置：
+`android.injected.testOnly=false`
+
+#### Waiting For Debugger
+
+{% include image.html url="/assets/images/201215-visual-studio-and-andro~6d/20210205105349.png" %}
+
+```gradle
+buildTypes {
+    debug {
+        minifyEnabled false
+        debuggable true
+        jniDebuggable true
+    }
+}
+```
+
+* 勾掉这两个，重启 IDE，就可以调试 Java 代码了，但是还是调试不了 C++ 代码。[android studio JNI 调试 （debug） {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/77427951)
+
+{% include image.html url="/assets/images/201215-visual-studio-and-andro~6d/20210205110750.png" %}
+{% include image.html url="/assets/images/201215-visual-studio-and-andro~6d/20210205110931.png" %}
 
 
 ## Windows 命令行编码
@@ -65,4 +85,4 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Visual-Studio-and-Android-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://developer.android.com/studio/projects/install-ndk]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/developer.android.com/6fc38ff6.html" %})
+- [https://zhuanlan.zhihu.com/p/77427951]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/zhuanlan.zhihu.com/bc1d4621.html" %})

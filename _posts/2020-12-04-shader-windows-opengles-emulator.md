@@ -98,6 +98,33 @@ There are three major mobile GPU vendors nowadays and they provide decent graphi
 * For Qualcomm Adreno GPU: https://developer.qualcomm.com/software/adreno-gpu-profiler
 
 
+### Android 模拟器
+
+```
+D/libEGL: loaded /vendor/lib/egl/libEGL_emulation.so
+D/libEGL: loaded /vendor/lib/egl/libGLESv1_CM_emulation.so
+D/libEGL: loaded /vendor/lib/egl/libGLESv2_emulation.so
+D/EGL_emulation: eglCreateContext: 0xf279fb20: maj 3 min 0 rcv 3
+D/EGL_emulation: eglMakeCurrent: 0xf279fb20: ver 3 0 (tinfo 0xf2af3030) (first time)
+D/HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1
+                                      ANDROID_EMU_native_sync_v2
+                                      ANDROID_EMU_native_sync_v3
+                                      ANDROID_EMU_native_sync_v4
+                                      ANDROID_EMU_dma_v1
+                                      ANDROID_EMU_direct_mem
+                                      ANDROID_EMU_host_composition_v1
+                                      ANDROID_EMU_host_composition_v2
+                                      ANDROID_EMU_YUV_Cache
+                                      ANDROID_EMU_async_unmap_buffer
+                                      GL_OES_EGL_image_external_essl3
+                                      GL_OES_vertex_array_object
+                                      GL_KHR_texture_compression_astc_ldr
+                                      ANDROID_EMU_host_side_tracing
+                                      ANDROID_EMU_async_frame_commands
+                                      ANDROID_EMU_gles_max_version_3_0
+```
+
+
 ## References
 
 - [1] [Using OpenGL ES on windows desktops via EGL](https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/)
