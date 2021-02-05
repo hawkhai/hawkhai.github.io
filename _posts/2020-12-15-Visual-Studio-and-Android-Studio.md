@@ -8,7 +8,7 @@ tags: ["开发环境", "Android"]
 toc: true
 toclistyle:
 comments:
-visibility: hidden
+visibility:
 mathjax:
 mermaid:
 glslcanvas:
@@ -25,7 +25,14 @@ local.properties 不完整，造成的问题。
 
 ```
 sdk.dir=D\:\\Android\\Sdk
-ndk.dir=D\:\\Android\\Sdk\\ndk-bundle
+
+# NDK was located by using ndk.dir property.
+# This method is deprecated and will be removed in a future release.
+# Please delete ndk.dir from local.properties and set android.ndkVersion
+# to [21.1.6352462] in all native modules in the project.
+# https://developer.android.com/r/studio-ui/ndk-dir
+# Affected Modules: app
+ndk.dir=D\:\\Android\\Sdk\\ndk-bundle # 最新版已经不需要了。
 ```
 
 
@@ -50,10 +57,33 @@ buildTypes {
 }
 ```
 
-* 勾掉这两个，重启 IDE，就可以调试 Java 代码了，但是还是调试不了 C++ 代码。[android studio JNI 调试 （debug） {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/77427951)
+* 勾上这两个，重启 IDE，就可以调试 Java 代码了，但是还是调试不了 C++ 代码。[android studio JNI 调试 （debug） {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/77427951)
 
 {% include image.html url="/assets/images/201215-visual-studio-and-andro~6d/20210205110750.png" %}
 {% include image.html url="/assets/images/201215-visual-studio-and-andro~6d/20210205110931.png" %}
+
+{% include image.html url="/assets/images/201215-visual-studio-and-andro~6d/20210205155832.png" %}
+
+**巨坑。NDK 里面带了 python.exe，和本机的 python 冲突，`LLDB server` 成功起来后就好了。**
+
+```
+02/05 16:41:05: Launching 'app' on Galaxy Nexus API 30.
+Install successfully finished in 680 ms.
+$ adb shell am start -n "com.cfgame.myapp/com.cfgame.myapp.MainActivity" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -D
+Waiting for application to come online: com.cfgame.myapp.test | com.cfgame.myapp
+Waiting for application to come online: com.cfgame.myapp.test | com.cfgame.myapp
+Waiting for application to come online: com.cfgame.myapp.test | com.cfgame.myapp
+Connecting to com.cfgame.myapp
+Now Launching Native Debug Session
+$ adb shell cat /data/local/tmp/lldb-server | run-as com.cfgame.myapp sh -c 'cat > /data/data/com.cfgame.myapp/lldb/bin/lldb-server && chmod 700 /data/data/com.cfgame.myapp/lldb/bin/lldb-server'
+$ adb shell cat /data/local/tmp/start_lldb_server.sh | run-as com.cfgame.myapp sh -c 'cat > /data/data/com.cfgame.myapp/lldb/bin/start_lldb_server.sh && chmod 700 /data/data/com.cfgame.myapp/lldb/bin/start_lldb_server.sh'
+Starting LLDB server: /data/data/com.cfgame.myapp/lldb/bin/start_lldb_server.sh /data/data/com.cfgame.myapp/lldb unix-abstract /com.cfgame.myapp-0 platform-1612514467397.sock "lldb process:gdb-remote packets"
+
+Executing commands in 'E:\android-studio-ide-181.5014246-windows\android-studio\bin\lldb\shared\stl_printers\load_script'.
+(lldb) script import sys
+(lldb) script import os
+(lldb) script ...
+```
 
 
 ## Windows 命令行编码
@@ -85,4 +115,5 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Visual-Studio-and-Android-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://developer.android.com/r/studio-ui/ndk-dir]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/developer.android.com/a3b9e8b2.html" %})
 - [https://zhuanlan.zhihu.com/p/77427951]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/zhuanlan.zhihu.com/bc1d4621.html" %})
