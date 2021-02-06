@@ -64,6 +64,8 @@ Changes in 1.8.4 (9th July 2016, svn r5321)
 
 {% include image.html url="/assets/images/210104-irrlicht-analyze/1_butc_yqwin57a1e3s1fwvg.webp" caption="Shading and Lighting" %}
 
+{% include image.html url="/assets/images/210104-irrlicht-analyze/04181351-50925b16c31b4032a8f2a1d6ad865e6b.png" caption="irrlicht 引擎：真实的水面渲染" %}
+
 
 ## 前置代码检查
 
@@ -114,6 +116,15 @@ targetCount 4257 diffCount 0 missCount 0
 25. https://github.com/danyr/gamekit
 26. https://github.com/antmuse/AntThread
 27. https://github.com/Picaroon/gamekit
+
+https://github.com/wangtianhang/irrlicht
+https://github.com/Synxis/SPARK
+
+这几个还需要 gitee 查找资料。
+
+https://code.google.com/archive/p/wrapirrlicht-for-android/source
+https://www.codeproject.com/articles/333135/wrapping-irrlicht-for-android
+https://gitee.com/panqingyun/E3D-Engine
 
 
 ### irrlicht Android
@@ -187,8 +198,8 @@ targetCount 4257 diffCount 0 missCount 0
 - [https://github.com/danyr/gamekit]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/09b59859.html" %})
 - [https://github.com/antmuse/AntThread]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/0f8fb319.html" %})
 - [https://github.com/Picaroon/gamekit]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/c90ca4ec.html" %})
-- [https://code.google.com/archive/p/wrapirrlicht-for-android/source]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/code.google.com/4ee9cd81.html" %})
-- [https://www.codeproject.com/articles/333135/wrapping-irrlicht-for-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/www.codeproject.com/caf8ea4d.html" %})
 - [https://github.com/wangtianhang/irrlicht]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/ac80b636.html" %})
 - [https://github.com/Synxis/SPARK]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/6726b92b.html" %})
+- [https://code.google.com/archive/p/wrapirrlicht-for-android/source]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/code.google.com/4ee9cd81.html" %})
+- [https://www.codeproject.com/articles/333135/wrapping-irrlicht-for-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/www.codeproject.com/caf8ea4d.html" %})
 - [https://gitee.com/panqingyun/E3D-Engine]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/gitee.com/0f8e6927.html" %})
