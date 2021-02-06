@@ -89,19 +89,19 @@ targetCount 4257 diffCount 0 missCount 0
 
 ### irrlicht Android
 
-1. https://github.com/nonameentername/irrlicht-android
-2. https://github.com/dschaefer/irrlicht-android
-3. https://github.com/reizencroft/irrAndroid
-4. https://github.com/skylicht-lab/skylicht-engine
-5. https://github.com/nailgun/android_irrlicht_vuforia
-6. https://github.com/iaco79/IrrGameDemo
+1. https://github.com/nonameentername/irrlicht-android 9 years ago，22 commits，实现了基本的 JNI，是一个完整的例子，但是没有跑起来。
+2. ~~ https://github.com/dschaefer/irrlicht-android ~~ 811 commits，10 years ago，没找打 AndroidManifest.xml。
+3. ~~ https://github.com/reizencroft/irrAndroid ~~ 24 commits，9 years ago，非 JNI 模式。
+4. https://github.com/skylicht-lab/skylicht-engine 815 commits，14 days ago。Irrlicht 引擎升级，涉及到一些纹理的处理，SPARK 粒子引擎值得研究一下。是一个非常完整的引擎，官网：skylicht.com。
+5. https://github.com/nailgun/android_irrlicht_vuforia Vuforia 扩增实境软件开发工具包。没跑起来。Demo android application with irrlicht and vuforia. Source based on image targets vuforia sample.
+6. https://github.com/iaco79/IrrGameDemo 具备参考价值。Game Demo for Android / Win32 with Irrlicht, sdl2.0, librocket, box2d。
 7. https://github.com/dschaefer/irrlicht-examples
 8. https://github.com/havlenapetr/gamekit
 9. https://github.com/cskeyn/BulletAndroid
 10. https://github.com/marky0720/IrrlichtAndroid
 11. https://github.com/nonameentername/pyirrlicht-android
 12. https://github.com/xiaomingzhong/IrrlichtAndroid-master
-13. https://github.com/ghd214/irrlichtAndroidGame
+13. https://github.com/ghd214/irrlichtAndroidGame a game demo on android using irrlicht，就这里突破吧。
 14. https://github.com/vell001/irrlicht-android
 15. https://github.com/xiaomingzhong/irrlicht-android
 16. https://github.com/disktree/irrlicht
@@ -109,7 +109,7 @@ targetCount 4257 diffCount 0 missCount 0
 18. https://github.com/xiaobenshu/irrlicht_Android
 19. https://github.com/okuoku/irrlicht-android
 20. https://github.com/nailgun/irrlicht_android
-21. https://github.com/marky0720/irrlicht_Android_ogl_es
+21. ~~ https://github.com/marky0720/irrlicht_Android_ogl_es ~~ 非 JNI 模式。
 22. https://github.com/arris69/IrrLicht-Android
 23. https://github.com/nailgun/irrlicht_android_viewer
 24. https://github.com/vell001/Irrlicht-vell

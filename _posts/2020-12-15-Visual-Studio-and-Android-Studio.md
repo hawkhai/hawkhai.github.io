@@ -36,13 +36,59 @@ ndk.dir=D\:\\Android\\Sdk\\ndk-bundle # 最新版已经不需要了。
 ```
 
 
+### Android.mk & Gradle
+
+```gradle
+android{
+    externalNativeBuild {
+        ndkBuild {
+            path'src/main/jni/Android.mk'
+        }
+    }
+    sourceSets { main { jni.srcDirs = ['src/main/jni', 'src/main/jni/'] } }
+}
+
+defaultConfig {
+    externalNativeBuild {
+        ndkBuild {
+            ...
+            abiFilters "armeabi-v7a", "arm64-v8a"
+        }
+    }
+}
+```
+
+* `Android.mk`
+
+```
+# __android_log_print(ANDROID_LOG_INFO, "log", message);
+# error: format string is not a string literal (potentially insecure) [-Werror,-Wformat-security]
+LOCAL_CFLAGS += -Wformat-security -Wreturn-type
+LOCAL_CPPFLAGS += -Wno-error=c++11-narrowing -Wformat-security -Wreturn-type
+# 增加对 异常 和 rtti 的支持
+LOCAL_CPPFLAGS += -fexceptions -frtti
+LOCAL_SHORT_COMMANDS := true # ndk 编译报 make (e=87): 参数错误
+```
+
+* `Application.mk`
+
+```
+APP_PLATFORM := android-10
+APP_STL := c++_static
+APP_SHORT_COMMANDS := true # ndk 编译报 make (e=87): 参数错误
+APP_ABI := armeabi-v7a arm64-v8a
+APP_CPPFLAGS += -Wno-error=format-security
+APP_CFLAGS += -Wno-error=format-security
+```
+
+
 ### Android Studio: “Error initializing ADB: Android Debug Bridge not found”
 
 [Android Studio: “Error initializing ADB: Android Debug Bridge not found” 且找不到 Project Structure {% include relref_csdn.html %}](https://blog.csdn.net/dingxianding/article/details/106017010)
 
 **删除了本地的 .idea 文件夹**，然后重启 Android Studio。
 
-发生这种情况，估计是创建项目时，gitignore 中没有忽略 .idea 文件夹，导致 git 拉取项目后用的是别人项目的 .idea 文件夹，这时候就会发生这种诡异的事。所以用 idea 开发的时候，一定要把 .idea 文件夹加到 gitignore 中哦！
+发生这种情况，估计是创建项目时，gitignore 中没有忽略 .idea 文件夹，导致 git 拉取项目后用的是别人项目的 .idea 文件夹。
 
 
 ### NDK 调试问题
