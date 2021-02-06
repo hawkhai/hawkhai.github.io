@@ -473,6 +473,9 @@ def appendRefs(fpath, lines):
     review = REVIEW_FORMAT % (frel.replace("\\", "/"))
     assert re.findall(REVIEW_REGEX, review), review
 
+    if "sortrefs: true" in lines:
+        reflist = sorted(reflist, key=lambda x: x[1], reverse=False)
+
     if reflist:
         lines.append("")
         lines.append(REVIEW_LINE)
