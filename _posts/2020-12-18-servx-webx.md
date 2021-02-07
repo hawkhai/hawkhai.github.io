@@ -69,6 +69,12 @@ NetBeans 源码忽略报错后，配置存在：`C:\Users\86138\AppData\Roaming\
 gif2webp -q 75 -lossy -m 6 picture.gif -o picture.webp
 ```
 
+
+## Windows 8.1 磁盘占用 100% 解决办法
+
+<https://jingyan.baidu.com/article/9c69d48fbd146713c9024e04.html>
+开机后磁盘占用高，是因为 windows 8.1 默认启用了 superfetch 服务。
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-18-servx-webx.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
@@ -83,3 +89,4 @@ gif2webp -q 75 -lossy -m 6 picture.gif -o picture.webp
 - [https://developers.google.com/speed/webp/docs/gif2webp]({% include relref.html url="/backup/2020-12-18-servx-webx.md/developers.google.com/6b2fb33f.html" %})
 - [https://developers.google.com/speed/webp/download]({% include relref.html url="/backup/2020-12-18-servx-webx.md/developers.google.com/a83dd668.html" %})
 - [https://www.jianshu.com/p/be308b80f7aa]({% include relref.html url="/backup/2020-12-18-servx-webx.md/www.jianshu.com/4187b943.html" %})
+- [https://jingyan.baidu.com/article/9c69d48fbd146713c9024e04.html]({% include relref.html url="/backup/2020-12-18-servx-webx.md/jingyan.baidu.com/484816be.html" %})

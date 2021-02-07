@@ -34,10 +34,10 @@ Changes in 1.8.4 (9th July 2016, svn r5321)
 几个有用的工具，用来抓取图形渲染帧，在分析其它项目以及排查渲染方面的 bug 时非常有用。
 [渲染帧抓取工具 {% include relref_github.html %}](https://chengkehan.github.io/FrameCaptureTools.html)
 
-* [adreno-gpu-profiler](https://developer.qualcomm.com/software/adreno-gpu-profiler)
-* [renderdoc {% include relref_github.html %}](https://github.com/baldurk/renderdoc)
-* [tegra-graphics-debugger](https://developer.nvidia.com/tegra-graphics-debugger)
-* [Intel Graphics Performance Analyzers](https://software.intel.com/en-us/gpa)
+* [Adreno GPU Profiler](https://developer.qualcomm.com/software/adreno-gpu-profiler)
+* [RenderDoc {% include relref_github.html %}](https://github.com/baldurk/renderdoc) is a stand-alone graphics debugging tool.
+* [Tegra Graphics Debugger](https://developer.nvidia.com/tegra-graphics-debugger)
+* [Intel® Graphics Performance Analyzers](https://software.intel.com/en-us/gpa)
 
 
 ## Textures and Mapping
@@ -53,7 +53,7 @@ Changes in 1.8.4 (9th July 2016, svn r5321)
 * 地图编辑器。[irrEdit -- realtime 3D world editor](https://www.ambiera.com/irredit/index.html)
 * 一些不错的文章。[Irrlicht 游戏开发 {% include relref_csdn.html %}](https://blog.csdn.net/jiangcaiyang123/column/info/irrlicht-game)
 * 一个完整的游戏。[基于 irrlicht 的多人第一人称即时战术沙盒生存游戏 {% include relref_github.html %}](https://github.com/SingingRivulet/Smoothly)
-* 基于 irrlicht 的体积云。[基于 irrlicht 的实时体积云 {% include relref_github.html %}](https://github.com/SingingRivulet/irrSky)
+    * 基于 irrlicht 的体积云。[基于 irrlicht 的实时体积云 {% include relref_github.html %}](https://github.com/SingingRivulet/irrSky)
 * 真实的水面渲染。[irrlicht 引擎：真实的水面渲染 {% include relref_csdn.html %}](https://qilinzi.blog.csdn.net/article/details/89464394)
     [原创网址 {% include relref_csdn.html %}](https://blog.csdn.net/boyuejiang/article/details/8908379)
 * irrlicht 引擎：硬件蒙皮骨骼动画。[麒麟子 {% include relref_csdn.html %}](https://blog.csdn.net/qq_36720848/article/details/89464731)
@@ -90,9 +90,43 @@ targetCount 4257 diffCount 0 missCount 0
 
 ### irrlicht Android
 
-1. https://github.com/nonameentername/irrlicht-android 9 years ago，22 commits，实现了基本的 JNI，是一个完整的例子，但是没有跑起来。
-2. ~~ https://github.com/dschaefer/irrlicht-android ~~ 811 commits，10 years ago，没找打 AndroidManifest.xml。
-3. ~~ https://github.com/reizencroft/irrAndroid ~~ 24 commits，9 years ago，非 JNI 模式。
+1. https://github.com/ghd214/irrlichtAndroidGame 9 years ago，a game demo on android using irrlicht，编译出来了，包含音乐等，还不错。
+1. https://github.com/nonameentername/irrlicht-android 9 years ago，通过 swig 链接，实现了基本的 JNI，是一个完整的例子，但是没有跑起来。
+  ```shell
+$(shell swig -c++ -java -package $(PACKAGE_NAME) \
+    -outdir $(JAVA_DIR) \
+    -o $(NDK_DIR)/wrapper_wrap.cpp \
+    $(LOCAL_PATH)/wrapper.i \
+)
+  ```
+  {% highlight cpp %}
+#ifndef __IRRLICHT_NATIVE_H__
+#define __IRRLICHT_NATIVE_H__
+
+#include <string>
+
+class NativeIrrlicht {
+public:
+    NativeIrrlicht();
+    ~NativeIrrlicht();
+
+    void onCreate();
+    void onPause();
+    void onResume();
+    void onDestroy();
+    void init();
+    void initGL(int w, int h);
+    void onResize(int w, int h);
+    void sendEvent(int action, float x, float y);
+    bool getStatus();
+    void setPath(std::string path);
+    void drawIteration();
+};
+#endif
+  {% endhighlight %}
+
+2. ~~<https://github.com/dschaefer/irrlicht-android>~~ 811 commits，10 years ago，没找打 AndroidManifest.xml。
+3. ~~<https://github.com/reizencroft/irrAndroid>~~ 24 commits，9 years ago，非 JNI 模式。
 4. https://github.com/skylicht-lab/skylicht-engine 815 commits，14 days ago。Irrlicht 引擎升级，涉及到一些纹理的处理，SPARK 粒子引擎值得研究一下。是一个非常完整的引擎，官网：skylicht.com。
 5. https://github.com/nailgun/android_irrlicht_vuforia Vuforia 扩增实境软件开发工具包。没跑起来。Demo android application with irrlicht and vuforia. Source based on image targets vuforia sample.
 6. https://github.com/iaco79/IrrGameDemo 具备参考价值。Game Demo for Android / Win32 with Irrlicht, sdl2.0, librocket, box2d。
@@ -102,7 +136,7 @@ targetCount 4257 diffCount 0 missCount 0
 10. https://github.com/marky0720/IrrlichtAndroid
 11. https://github.com/nonameentername/pyirrlicht-android
 12. https://github.com/xiaomingzhong/IrrlichtAndroid-master
-13. https://github.com/ghd214/irrlichtAndroidGame a game demo on android using irrlicht，就这里突破吧。
+
 14. https://github.com/vell001/irrlicht-android
 15. https://github.com/xiaomingzhong/irrlicht-android
 16. https://github.com/disktree/irrlicht
@@ -110,7 +144,7 @@ targetCount 4257 diffCount 0 missCount 0
 18. https://github.com/xiaobenshu/irrlicht_Android
 19. https://github.com/okuoku/irrlicht-android
 20. https://github.com/nailgun/irrlicht_android
-21. ~~ https://github.com/marky0720/irrlicht_Android_ogl_es ~~ 非 JNI 模式。
+21. ~~<https://github.com/marky0720/irrlicht_Android_ogl_es>~~ 非 JNI 模式。
 22. https://github.com/arris69/IrrLicht-Android
 23. https://github.com/nailgun/irrlicht_android_viewer
 24. https://github.com/vell001/Irrlicht-vell
@@ -141,7 +175,6 @@ https://gitee.com/panqingyun/E3D-Engine
     [另外一个版本 {% include relref_github.html %}](https://github.com/vell001/Irrlicht-vell)
 * 9 commits，3 years ago。[irrlicht-code-5603-branches-ogl-es on android {% include relref_github.html %}](https://github.com/marky0720/irrlicht_Android_ogl_es)
 * [Game Demo for Android /Win32 with Irrlicht, sdl2.0, librocket, box2d {% include relref_github.html %}](https://github.com/iaco79/IrrGameDemo)
-* [a game demo on android using irrlicht {% include relref_github.html %}](https://github.com/ghd214/irrlichtAndroidGame)
 * [arris69 / IrrLicht-Android {% include relref_github.html %}](https://github.com/arris69/IrrLicht-Android)
 * 815 commits，14 days ago。Skylicht Engine is C++ Game Engine based on Irrlicht 3D。<https://github.com/skylicht-lab/skylicht-engine>
     Skylicht Particle Component is a cleanup version of SPARK. We have optimized by GPU Billboard Instancing.

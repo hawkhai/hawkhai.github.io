@@ -345,8 +345,10 @@ def collectHost(fpath, line):
         checkz = line.split(url)
         for iline in checkz[1:]:
             checkli = ["", ")", "]", ">", " ", "*"]
-            if url in ("https://msdl.microsoft.com/download/symbols",):
+            if url in readfileIglist("mdrstrip_urlIgnore.txt"):
                 checkli.append(";")
+                checkli.append("\"")
+                checkli.append("\'")
             if iline[:2] in ("{{",):
                 continue
             if not iline[:1] in checkli:

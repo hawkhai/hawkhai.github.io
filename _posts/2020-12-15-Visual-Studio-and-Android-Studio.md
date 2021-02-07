@@ -56,6 +56,16 @@ defaultConfig {
         }
     }
 }
+
+allprojects {
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/jcenter" }
+        maven { url "https://dl.bintray.com/umsdk/release" }
+        google()
+        jcenter()
+    }
+}
 ```
 
 * `Android.mk`
@@ -63,11 +73,12 @@ defaultConfig {
 ```
 # __android_log_print(ANDROID_LOG_INFO, "log", message);
 # error: format string is not a string literal (potentially insecure) [-Werror,-Wformat-security]
-LOCAL_CFLAGS += -Wformat-security -Wreturn-type
-LOCAL_CPPFLAGS += -Wno-error=c++11-narrowing -Wformat-security -Wreturn-type
+LOCAL_CFLAGS += -Wno-error=format-security -Wreturn-type
+LOCAL_CPPFLAGS += -Wno-error=c++11-narrowing -Wno-error=format-security -Wreturn-type
 # 增加对 异常 和 rtti 的支持
 LOCAL_CPPFLAGS += -fexceptions -frtti
 LOCAL_SHORT_COMMANDS := true # ndk 编译报 make (e=87): 参数错误
+LOCAL_CFLAGS += -I$(LOCAL_PATH)/../../include/
 ```
 
 * `Application.mk`
@@ -76,7 +87,7 @@ LOCAL_SHORT_COMMANDS := true # ndk 编译报 make (e=87): 参数错误
 APP_PLATFORM := android-10
 APP_STL := c++_static
 APP_SHORT_COMMANDS := true # ndk 编译报 make (e=87): 参数错误
-APP_ABI := armeabi-v7a arm64-v8a
+APP_ABI := armeabi-v7a arm64-v8a # 感觉没用，还是把所有版本都编译出来了，尴尬。
 APP_CPPFLAGS += -Wno-error=format-security
 APP_CFLAGS += -Wno-error=format-security
 ```
@@ -171,5 +182,8 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://developer.android.com/r/studio-ui/ndk-dir]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/developer.android.com/a3b9e8b2.html" %})
+- [http://maven.aliyun.com/nexus/content/groups/public/]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/maven.aliyun.com/f69c0880.html" %})
+- [http://maven.aliyun.com/nexus/content/repositories/jcenter]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/maven.aliyun.com/e33967a3.html" %})
+- [https://dl.bintray.com/umsdk/release]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/dl.bintray.com/2871e588.html" %})
 - [https://blog.csdn.net/dingxianding/article/details/106017010]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/blog.csdn.net/b7b79d7f.html" %})
 - [https://zhuanlan.zhihu.com/p/77427951]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/zhuanlan.zhihu.com/bc1d4621.html" %})

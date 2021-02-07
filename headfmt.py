@@ -79,6 +79,7 @@ permalink
 """.split())
     igkeylist = """
 l2dwidget cluster
+sortrefs archived
 """.split()
 
     kvmap = {}
