@@ -18,6 +18,18 @@ codeprint:
 一些很有意思的代码片段。
 
 
+## GetStringUTFChars
+
+```cpp
+const char* GetStringUTFChars(JNIEnv*env, jstring string, jboolean *isCopy);
+```
+
+当从 JNI 函数 GetStringUTFChars 函数中返回得到字符串 B 时，
+1. 如果 B 是原始字符串 java.lang.String 的一份拷贝，则 isCopy 被赋值为 JNI_TRUE。
+2. 如果 B 是和原始字符串指向的是 JVM 中的同一份数据，则 isCopy 被赋值为 JNI_FALSE。当 isCopy 为 JNI_FALSE 时，本地代码绝不能修改字符串的内容，否则 JVM 中的原始字符串也会被修改，这会打破 Java 语言中字符串不可变的规则。
+3. 通常，我们不必关心 JVM 是否会返回原始字符串的拷贝，只需要为 isCopy 传递 NULL 作为参数。
+
+
 ## stringaling.h
 
 ```cpp
