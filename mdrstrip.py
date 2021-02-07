@@ -129,6 +129,11 @@ def backupUrlContent(fpath, url):
         if os.path.exists(slocal):
             os.rename(slocal, newlocal)
         slocal = newlocal
+        ttype = ".html" # 太多了，严重影响速度，改成 html。
+        newlocal = buildlocal(ttype)
+        if os.path.exists(slocal):
+            os.rename(slocal, newlocal)
+        slocal = newlocal
 
     fdata = querySnapCache(umd5[:8])
     if fdata:

@@ -92,14 +92,16 @@ targetCount 4257 diffCount 0 missCount 0
 
 1. https://github.com/ghd214/irrlichtAndroidGame 9 years ago，a game demo on android using irrlicht，编译出来了，包含音乐等，还不错。
 1. https://github.com/nonameentername/irrlicht-android 9 years ago，通过 swig 链接，实现了基本的 JNI，是一个完整的例子，但是没有跑起来。
-  ```shell
+
+```shell
 $(shell swig -c++ -java -package $(PACKAGE_NAME) \
     -outdir $(JAVA_DIR) \
     -o $(NDK_DIR)/wrapper_wrap.cpp \
     $(LOCAL_PATH)/wrapper.i \
 )
-  ```
-  {% highlight cpp %}
+```
+
+```cpp
 #ifndef __IRRLICHT_NATIVE_H__
 #define __IRRLICHT_NATIVE_H__
 
@@ -122,8 +124,7 @@ public:
     void setPath(std::string path);
     void drawIteration();
 };
-#endif
-  {% endhighlight %}
+```
 
 2. ~~<https://github.com/dschaefer/irrlicht-android>~~ 811 commits，10 years ago，没找打 AndroidManifest.xml。
 3. ~~<https://github.com/reizencroft/irrAndroid>~~ 24 commits，9 years ago，非 JNI 模式。
