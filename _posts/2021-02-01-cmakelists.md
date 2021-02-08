@@ -4,7 +4,7 @@ title: "编程配置 -- Android CMake CMakeLists.txt 构建配置文件"
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["编程笔记", "Android"]
+tags: ["编程", "Android"]
 toc: true
 toclistyle:
 comments:

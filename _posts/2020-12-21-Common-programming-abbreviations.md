@@ -3,8 +3,8 @@ layout: post
 title: "编程笔记 -- 常见编程命名缩写"
 author:
 location: "珠海"
-categories: ["编程笔记"]
-tags: ["编程笔记"]
+categories: ["编程"]
+tags: ["编程"]
 toc: true
 toclistyle:
 comments:
