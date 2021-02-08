@@ -36,27 +36,24 @@ ndk.dir=D\:\\Android\\Sdk\\ndk-bundle # 最新版已经不需要了。
 ```
 
 
-### Android.mk & Gradle
+### ERROR: ABIs [arm64-v8a] are not supported for platform.
+
+ERROR: ABIs [arm64-v8a] are not supported for platform.
+Supported ABIs are [armeabi-v7a, x86].
+Affected Modules: app
+
+当我使用的 compileSdkVersion 19 时，就会报上面的错，改成 compileSdkVersion 26 就可以了。
+说明不同的编译版本，它们所支持的平台不一样。
+
+```
+$(call import-add-path, $(LOCAL_PATH)) # 没有这一行，下面这行会报错。
+$(call import-module, box2d)
+```
+
+
+### CMake & Gradle
 
 ```gradle
-android{
-    externalNativeBuild {
-        ndkBuild {
-            path'src/main/jni/Android.mk'
-        }
-    }
-    sourceSets { main { jni.srcDirs = ['src/main/jni', 'src/main/jni/'] } }
-}
-
-defaultConfig {
-    externalNativeBuild {
-        ndkBuild {
-            ...
-            abiFilters "armeabi-v7a", "arm64-v8a"
-        }
-    }
-}
-
 allprojects {
     repositories {
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
@@ -68,11 +65,81 @@ allprojects {
 }
 ```
 
-* `Android.mk`
+```gradle
+android {
+    defaultConfig {
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++11"
+            }
+        }
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a"
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.10.2"
+        }
+    }
+}
+```
+
+```cmake
+cmake_minimum_required(VERSION 3.4.1)
+
+find_library(log-lib log)
+
+add_library(native-lib SHARED native-lib.cpp)
+target_link_libraries(native-lib ${log-lib})
+```
+
+
+### Android.mk & Gradle
+
+[认识 Android.mk 和 Application.mk {% include relref_jianshu.html %}](https://www.jianshu.com/p/f23df3aa342c)
+[Android: NDK 中的 Android.mk 和 Application.mk {% include relref_cnblogs.html %}](https://www.cnblogs.com/yongdaimi/p/12061298.html)
+
+```gradle
+android {
+    defaultConfig {
+        ndk {
+            moduleName "gamedemo"
+            abiFilters "armeabi-v7a", "arm64-v8a"
+        }
+    }
+
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
+        }
+    }
+}
+```
+
+app/src/main/jni/Application.mk & Android.mk。like hawkhai/IrrGameDemo.git。
+
+#### `Android.mk`
+
+```
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := calculator
+LOCAL_SRC_FILES := calculator.c
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/irrlicht/include $(LOCAL_PATH)/SDL/include
+
+LOCAL_LDLIBS := -llog
+include $(BUILD_SHARED_LIBRARY)
+```
 
 ```
 # __android_log_print(ANDROID_LOG_INFO, "log", message);
 # error: format string is not a string literal (potentially insecure) [-Werror,-Wformat-security]
+# APP_CLAGS：列出编译器标识，在编译任何模块的 C 和 C++ 源文件时这些标志都会被传给编译器
+# APP_CPPFLAGS：列出编译器标识，在编译任何模块的 C++ 源文件时这些标志都会被传给编译器
 LOCAL_CFLAGS += -Wno-error=format-security -Wreturn-type
 LOCAL_CPPFLAGS += -Wno-error=c++11-narrowing -Wno-error=format-security -Wreturn-type
 # 增加对 异常 和 rtti 的支持
@@ -81,13 +148,21 @@ LOCAL_SHORT_COMMANDS := true # ndk 编译报 make (e=87): 参数错误
 LOCAL_CFLAGS += -I$(LOCAL_PATH)/../../include/
 ```
 
-* `Application.mk`
+#### `Application.mk`
+
+```
+NDK_TOOLCHAIN_VERSION := 4.9
+APP_ABI := armeabi-v7a arm64-v8a # 这玩意貌似无效了。
+APP_STL := stlport_static # 这个也不行了。c++_static/c++_shared
+APP_PLATFORM := android-21
+APP_CPPFLAGS += -fexceptions -frtti
+```
 
 ```
 APP_PLATFORM := android-10
 APP_STL := c++_static
 APP_SHORT_COMMANDS := true # ndk 编译报 make (e=87): 参数错误
-APP_ABI := armeabi-v7a arm64-v8a # 感觉没用，还是把所有版本都编译出来了，尴尬。
+APP_ABI := armeabi-v7a arm64-v8a # 感觉没用，尴尬。android/defaultConfig/ndk 里面指定才有用。
 APP_CPPFLAGS += -Wno-error=format-security
 APP_CFLAGS += -Wno-error=format-security
 ```
@@ -185,5 +260,7 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 - [http://maven.aliyun.com/nexus/content/groups/public/]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/maven.aliyun.com/f69c0880.html" %})
 - [http://maven.aliyun.com/nexus/content/repositories/jcenter]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/maven.aliyun.com/e33967a3.html" %})
 - [https://dl.bintray.com/umsdk/release]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/dl.bintray.com/2871e588.html" %})
+- [https://www.jianshu.com/p/f23df3aa342c]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/www.jianshu.com/6a23ff97.html" %})
+- [https://www.cnblogs.com/yongdaimi/p/12061298.html]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/www.cnblogs.com/a12e7578.html" %})
 - [https://blog.csdn.net/dingxianding/article/details/106017010]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/blog.csdn.net/b7b79d7f.html" %})
 - [https://zhuanlan.zhihu.com/p/77427951]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/zhuanlan.zhihu.com/bc1d4621.html" %})

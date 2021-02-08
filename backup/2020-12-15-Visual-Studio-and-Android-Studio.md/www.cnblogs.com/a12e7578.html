@@ -1,0 +1,1783 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="1.&amp;#160;简介 Android.mk 可用来描述要编译的某个具体模块的相关信息。比如：指定编译该模块时所需要的源文件、编译该模块时要链接的库文件、该模块编译完成后生成的库的名字等等。Applic" />
+    <meta property="og:description" content="1.&amp;#160;简介 Android.mk 可用来描述要编译的某个具体模块的相关信息。比如：指定编译该模块时所需要的源文件、编译该模块时要链接的库文件、该模块编译完成后生成的库的名字等等。Applic" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Android: NDK中的Android.mk和Application.mk - 夜行过客 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=Ey2dEx6TCJEMq7i5rGGloHkehiHv58PKGLPsLJ6UZME" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=uknaX_hejnSu-njQgx4Hj1R0JiPLwUhFPUlwWNmWyB4" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/yongdaimi/custom.css?v=wn2qFj9AeC9CrfRLDCVBNDfGCPo=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/yongdaimi/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/yongdaimi/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/yongdaimi/wlwmanifest.xml" />
+    <script async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="https://common.cnblogs.com/script/encoder.js"></script><script>
+        var currentBlogId = 288657;
+        var currentBlogApp = 'yongdaimi';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2019-12-18 06:08';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=PjiBvg1YcXX76a9_P7Fm2d90D0nqx4dvpdaDNs1tl_Q"></script>
+    
+    
+    
+<script src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script></head>
+<body class="has-navbar has-bannerbar">
+    <a name="top"></a>
+    <div id="bannerbar" class="bannerbar-mobile formobile">
+        <a href="https://developer.aliyun.com/learning/course/55?utm_content=g_1000235546" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aliyun-mobile-bannerbar')">
+            <img src="https://img2020.cnblogs.com/blog/35695/202102/35695-20210206120843087-2008423753.jpg" alt="" />
+        </a>
+    </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/yongdaimi/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/yongdaimi/">夜行过客</a>
+</h1>
+<h2>纸上得来终觉浅，绝知此事要躬行。</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/yongdaimi/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+</li>
+<li>
+
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 620  </span>
+<span id="stats_article_count">文章 - 0  </span>
+<span id="stats-comment_count">评论 - 15  </span>
+<span id="stats-total-view-count">阅读 - 
+<span title="总阅读数: 1303564">
+130万</span></span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yongdaimi/p/12061298.html">
+    <span>Android: NDK中的Android.mk和Application.mk</span>
+    
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body">
+    <p><strong><span style="font-size: 14pt">1. 简介</span></strong></p>
+<p>Android.mk  可用来描述要编译的某个具体模块的相关信息。比如：指定编译该模块时所需要的源文件、编译该模块时要链接的库文件、该模块编译完成后生成的库的名字等等。<br />Application.mk 可用来描述整个应用程序编译时的相关信息。比如：指定编译支持的ABI平台(armeabi-V7a, arm64-v8a, all...)、指定NDK编译时的模块列表、指定目标Android 平台的名称等等。</p>
+<p><strong><span style="font-size: 14pt">2. 一个简单的Android.mk文件</span></strong></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre>LOCAL_PATH := $(call my-<span style="color: rgba(0, 0, 0, 1)">dir)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    :</span>= hello-<span style="color: rgba(0, 0, 0, 1)">jni
+LOCAL_SRC_FILES :</span>= hello-<span style="color: rgba(0, 0, 0, 1)">jni.c  jnihelp.cpp Calculator.cpp<br />
+include $(BUILD_SHARED_LIBRARY)</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p><span style="font-family: &quot;courier new&quot;, courier">LOCAL_PATH</span>：  必须位于Android.mk文件的开始，用来定义源文件的位置，$(call my-dir)返回当前路径，即android.mk所在的目录。my-dir是构建系统提供的宏函数，它将会返回当前目录的路径；<br /><span style="font-family: &quot;courier new&quot;, courier">include $(CLEAR_VARS)</span>： 清除除LOCAL_PATH之外的所有LOCAL_XXX变量。这个清理动作是必须的，因为所有的编译控制文件都是由同一个GNU Make解析和执行，其变量是全局的，只有清理后才能避免相互影响。<br /><span style="font-family: &quot;courier new&quot;, courier">LOCAL_MODULE</span>： 表示Android.mk所在模块的模块名，名字必须唯一且不包含空格。构建系统在生成最终的so库文件时，会参考该模块名生成最终的so库，如：libhello-jni.so；<br /><span style="font-family: &quot;courier new&quot;, courier">LOCAL_SRC_FILES</span>： 编译该模块时所需的C/C++源文件，如果有多个文件需要用空格分离，如果想换行则需要在每个源文件末尾加上反斜杠"\" ,类似于C语言中的多行宏定义；<br /><span style="font-family: &quot;courier new&quot;, courier">include ${BUILD_SHARED_LIBRARY}</span>： 确定要构建的内容及其操作方法。BUILD_SHARED_LIBRARY  表示要编译为动态库，构建系统会生成后缀名为.so的库文件；BUILD_STATIC_LIBRARY 表示要编译为静态库，构建系统会生成后缀名为.a 的为文件。</p>
+<p>该文件中的一些扩展的变量：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(0, 128, 0, 1)"># 指定头文件所在的目录</span>
+LOCAL_C_INCLUDES :</span>= $(LOCAL_PATH)
+<span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(0, 128, 0, 1)">
+# 指定在构建动态库或可执行文件时需要链接的其它库列表，如Android系统提供的日志库，OpenGL ES, EGL等</span>
+<span style="color: rgba(0, 128, 0, 1)"># 每个链接的库文件都必须加上</span></span><span style="color: rgba(0, 128, 0, 1)">-</span><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(0, 128, 0, 1)">l 前缀(注意是小写英文字母l,不是数字1)</span>
+<span style="color: rgba(0, 128, 0, 1)"># 多个链接的库文件使用空格分隔</span>
+LOCAL_LDLIBS </span>+=  -llog -landroid -lc</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p><span style="font-size: 14pt"><strong>3. 一个简单的Application.mk文件</strong></span></p>
+<div class="cnblogs_code">
+<pre>APP_ABI =<span style="color: rgba(0, 0, 0, 1)"> armeabi-v7a
+APP_MODULES </span>= hello-jni</pre>
+</div>
+<p>APP_ABI：指定支持的ABI平台。上面所示为armeabi-v7a, 可选的值有all (代表全平台)、arm64-v8a、x86、x86_64，多个平台用空格隔开。<br />APP_MODULES：如果指定，那么NDK只会编译列出的模块列表，模块名用空格隔开，如果没有指定那么NDK会编译所有的Android.mk声明的所有的LOCAL_MODULE模块。</p>
+<p>该文件的一些扩展的变量：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(0, 128, 0, 1)"># 指定目标Android平台的名称</span>
+APP_PLATFORM </span>= android-<span style="color: rgba(128, 0, 128, 1)">26</span><span style="color: rgba(0, 128, 0, 1)">
+
+# 是否支持C++</span><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(0, 128, 0, 1)">标准库</span>
+APP_STL :</span>=<span style="color: rgba(0, 0, 0, 1)"> stlport_static
+
+<span style="color: rgba(0, 128, 0, 1)"># 为项目中的所有C</span></span><span style="color: rgba(0, 128, 0, 1)">++</span><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(0, 128, 0, 1)">编译传递的标记</span>
+APP_CPPFLAGS :</span>= -frtti -fexceptions -std=c++<span style="color: rgba(128, 0, 128, 1)">11</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p><strong><span style="font-size: 14pt">4. 多个编译模块的处理</span></strong></p>
+<p>有时候要编译的模块(UDP、FFmpeg、Openssl、libyuv)比较多，如果把所有的C/C++代码放到同一个目录下会显得比较乱，因此可以在每一个模块下都定义一个Android.mk文件，然后在jni 的根目录下放置一个Android.mk文件，内容如下：</p>
+<div class="cnblogs_code">
+<pre>include $(call all-subdir-makefiles)</pre>
+</div>
+<p>比如：</p>
+<p><img src="https://img2018.cnblogs.com/blog/653161/201912/653161-20191218175644524-25788747.png" alt="" /></p>
+<p><strong><span style="font-size: 14pt">5. 其它注意事项</span></strong></p>
+<p>1. 以LOCAL_、PRIVATE_、NDK_、APP_ 开头的名称是NDK编译系统的保留变量名称，在自定义变量时不要以以上变量名打头。如果你想在Android.mk文件中定义自己的变量，建议在名称前附加 MY_；</p>
+<p>2. Makefile中的 ：= 、？=、+=、= 的区别。= 是最基本的赋值，:= 是覆盖之前的值，?= 是如果没有被赋值过就赋予等号后面的值，+= 是添加等号后面的值。</p>
+<p>参考链接：</p>
+<p>1. <a href="https://developer.android.com/ndk/guides/android_mk?hl=zh-cn" target="_blank">Google Developers —— NDK Android.mk说明</a><br />2. <a href="https://www.cnblogs.com/tang-skillhunter/p/9133947.html" target="_blank">Android.mk中以LOCAL_ 打头的变量说明</a><br />3. <a href="https://blog.csdn.net/libinbin147256369/article/details/80026182" target="_blank">Android 中的android.mk 和 application.mk 文件编写(总结版)</a><br />4. <a href="https://www.cnblogs.com/zgq0/p/8716150.html" target="_blank">Makefile 中:= ?= += =的区别</a><br />5. <a href="https://blog.csdn.net/johnWcheung/article/details/81367388" target="_blank">JNI学习——关于Android.mk / Application.mk</a></p>
+<p> </p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/yongdaimi/category/1022687.html" target="_blank">android-jni</a></div>
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(12061298,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('e97941e1-6e11-e411-8d02-90b11c0b17d6');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/yongdaimi/" target="_blank"><img src="https://pic.cnblogs.com/face/653161/20200628173510.png" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/yongdaimi/">夜行过客</a><br />
+            <a href="https://home.cnblogs.com/u/yongdaimi/followees/">关注 - 15</a><br />
+            <a href="https://home.cnblogs.com/u/yongdaimi/followers/">粉丝 - 82</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('e97941e1-6e11-e411-8d02-90b11c0b17d6');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(12061298,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(12061298,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/yongdaimi/p/12021132.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/yongdaimi/p/12021132.html" title="发布于 2019-12-11 10:50">eclispe:  修改所有文件默认编码为UTF-8</a>
+    <br />
+    <a href="https://www.cnblogs.com/yongdaimi/p/12074507.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/yongdaimi/p/12074507.html" title="发布于 2019-12-20 18:08">Java: Java终止线程的几种方式</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2019-12-18 18:08</span> 
+<a href="https://www.cnblogs.com/yongdaimi/">夜行过客</a> 
+阅读(<span id="post_view_count">1202</span>) 
+评论(<span id="post_comment_count">0</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12061298" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(12061298);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 288657, cb_blogApp = 'yongdaimi', cb_blogUserGuid = 'e97941e1-6e11-e411-8d02-90b11c0b17d6';
+    var cb_entryId = 12061298, cb_entryCreatedDate = '2019-12-18 18:08', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="https://developer.aliyun.com/learning/topic/covid-19/2021?utm_content=g_1000236147" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云-就地过年')">【推荐】就地过年，云上充电，阿里云战“疫”装备免费领</a><br /><a href="https://developer.aliyun.com/learning/trainingcamp/java/1?utm_content=g_1000236192" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云java训练营')">【推荐】阿里云Java训练营第一期：结合理论与实践，实现知识套现</a><br /><a href="https://developer.aliyun.com/learning/21study01?utm_content=g_1000236191" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云21天')">【推荐】阿里云寒假充电季，防疫不停学，21天打卡进阶Java工程师</a><br /><a href="https://developer.aliyun.com/learning/course/58?utm_content=g_1000235545" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云-flink')">【推荐】PMC 大佬手把手实操演示，8天 Flink 零基础入门教程</a><br /><a href="http://www.softbam.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-ucancode')">【推荐】大型组态、工控、仿真、CADGIS 50万行VC++源码免费下载</a><br /><a href="https://brands.cnblogs.com/agora/p/2038" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-声网专区')">【推荐】Agora 教程 | 如何在 Android 中创建一个 AR 远程协助APP</a><br /><a href="https://developer.aliyun.com/learning/course/55?utm_content=g_1000235548" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里2月大数据')">【推荐】阿里云专家领学，2021数仓之旅免费必修课，加入学习</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;"></div>
+    </div>
+    <div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br />·  <a title="AndroidNDK编译选项设置" href="https://www.cnblogs.com/adong7639/p/12061690.html" target="_blank" onclick="clickRecomItmem(12061690)">AndroidNDK编译选项设置</a><br />·  <a title="Android流媒体开发之路三:基于NDK开发Android平台RTSP播放器" href="https://www.cnblogs.com/haibindev/p/12081565.html" target="_blank" onclick="clickRecomItmem(12081565)">Android流媒体开发之路三:基于NDK开发Android平台RTSP播放器</a><br />·  <a title="androidandroidstudioerror" href="https://www.cnblogs.com/YZFHKMS-X/p/12078381.html" target="_blank" onclick="clickRecomItmem(12078381)">androidandroidstudioerror</a><br />·  <a title="AndroidsignalR" href="https://www.cnblogs.com/fhmsha/p/12092555.html" target="_blank" onclick="clickRecomItmem(12092555)">AndroidsignalR</a><br />·  <a title="AndroidSDK" href="https://www.cnblogs.com/uni5/p/12018002.html" target="_blank" onclick="clickRecomItmem(12018002)">AndroidSDK</a><br />»  <a target="_blank" href="https://recomm.cnblogs.com/blogpost/12061298">更多推荐...</a></div></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;"></div>
+    </div>
+    <div id="under_post_kb">
+<div class="itnews c_ad_block">
+    <b>最新 IT 新闻</b>:
+    <br />
+ ·          <a href="//news.cnblogs.com/n/687975/" target="_blank">微信健康码一周岁：展示240+亿次</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/687974/" target="_blank">银保监会：警惕网络平台模糊利息，诱导过度借贷</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/687973/" target="_blank">美新政府上任，业内：广告客户对TikTok更放心了</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/687972/" target="_blank">唯品会回应被罚300万元：接受行政处罚决定 将进行全面整改</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/687971/" target="_blank">消息称现代与起亚否认与苹果讨论电动车合作 股价均应声下跌</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="c_ad_block">
+<b>历史上的今天：</b>
+<br />
+
+2017-12-18    <a href="https://www.cnblogs.com/yongdaimi/p/8060260.html">内存控制函数(1)-mmap() 建立内存映射</a>
+    <br />
+</div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/yongdaimi/">
+            夜行过客
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/yongdaimi/" title="入园时间：2014-07-22">
+            6年6个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/yongdaimi/followers/">
+            82
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/yongdaimi/followees/">
+            15
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('e97941e1-6e11-e411-8d02-90b11c0b17d6')">+加关注</a></div>
+        <script>getFollowStatus('e97941e1-6e11-e411-8d02-90b11c0b17d6');</script>
+    </div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔分类
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1283760.html" rel="" target="">
+    android framework-拾遗(9)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1187880.html" rel="" target="">
+    android framework-准备工作(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1543963.html" rel="" target="">
+    android- 适配和差异(3)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1681180.html" rel="" target="">
+    android-adb 相关(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1121465.html" rel="" target="">
+    android-android.animation(7)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1356390.html" rel="" target="">
+    android-android.app(6)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1656678.html" rel="" target="">
+    android-android.content.ContentResolver(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1392180.html" rel="" target="">
+    android-android.content.Context(3)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1077495.html" rel="" target="">
+    android-android.graphics(12)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1595198.html" rel="" target="">
+    android-android.hardware.usb(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1552680.html" rel="" target="">
+    android-android.os(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1581880.html" rel="" target="">
+    android-android.support.v7(3)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1585633.html" rel="" target="">
+    android-android.util(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1121464.html" rel="" target="">
+    android-android.view.animation(3)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1305933.html" rel="" target="">
+    android-android.view.View(9)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1303282.html" rel="" target="">
+    android-android.widget(6)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1656675.html" rel="" target="">
+    android-androidx(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/918914.html" rel="" target="">
+    android-Dialog相关(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1304168.html" rel="" target="">
+    android-drawable资源(3)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1308407.html" rel="" target="">
+    android-GestureDetector API(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/920532.html" rel="" target="">
+    android-Google相关(3)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/906680.html" rel="" target="">
+    android-Gradle(6)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1429690.html" rel="" target="">
+    android-IME输入法相关(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1022687.html" rel="" target="">
+    android-jni(12)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1430720.html" rel="" target="">
+    android-Math API(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1452158.html" rel="" target="">
+    android-Matrix API(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1474204.html" rel="" target="">
+    android-multimedia(7)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1447443.html" rel="" target="">
+    android-OpenGL ES(5)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1490515.html" rel="" target="">
+    android-OpenSL ES(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/910433.html" rel="" target="">
+    android-Permission API(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/982722.html" rel="" target="">
+    android-proguard(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/896415.html" rel="" target="">
+    android-RecyclerView(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/950867.html" rel="" target="">
+    android-Service(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1102204.html" rel="" target="">
+    android-Sqlite API(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1424620.html" rel="" target="">
+    android-Touch API(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1582554.html" rel="" target="">
+    android-values(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/909633.html" rel="" target="">
+    android-错误笔记(10)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1390224.html" rel="" target="">
+    android-第三方类库(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1459237.html" rel="" target="">
+    android-反编译(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/902451.html" rel="" target="">
+    android-分享功能(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1213589.html" rel="" target="">
+    android-进阶知识(7)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/922927.html" rel="" target="">
+    android-屏幕相关(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1216069.html" rel="" target="">
+    android-签名相关(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1459349.html" rel="" target="">
+    android-时间相关(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/912708.html" rel="" target="">
+    android-新特性(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1130497.html" rel="" target="">
+    android-性能优化(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/914363.html" rel="" target="">
+    android-自定义控件(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/991275.html" rel="" target="">
+    C/C++错误笔记(5)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1033970.html" rel="" target="">
+    C++标准模板库(STL)(5)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1240087.html" rel="" target="">
+    C++错误记录(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1021347.html" rel="" target="">
+    C++和C的区别(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1029222.html" rel="" target="">
+    C++基础提高(5)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1021350.html" rel="" target="">
+    C++基础知识(25)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1288836.html" rel="" target="">
+    C++拾遗(10)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/983865.html" rel="" target="">
+    C语言基础提高(16)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/927994.html" rel="" target="">
+    C语言基础知识(24)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1221609.html" rel="" target="">
+    C语言-日常使用(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1063458.html" rel="" target="">
+    C语言总结(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1435806.html" rel="" target="">
+    FFmpeg-API分析(5)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1316796.html" rel="" target="">
+    FFmpeg-编译相关(5)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1321179.html" rel="" target="">
+    FFmpeg-拾遗(3)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1441600.html" rel="" target="">
+    FFmpeg-示例代码(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1319411.html" rel="" target="">
+    FFmpeg-学习记录(17)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1087674.html" rel="" target="">
+    Git-日常使用(14)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/891822.html" rel="" target="">
+    IDE-android studio(47)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1544620.html" rel="" target="">
+    IDE-Codeblocks(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/896407.html" rel="" target="">
+    IDE-eclipse(7)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/903016.html" rel="" target="">
+    IDE-SourceInsight(7)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/928021.html" rel="" target="">
+    IDE-Visual Studio(7)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/893932.html" rel="" target="">
+    IDE-Xcode(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/926287.html" rel="" target="">
+    iOS-Autolayout(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/894472.html" rel="" target="">
+    iOS-category(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/926804.html" rel="" target="">
+    iOS-iPad开发(15)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/897290.html" rel="" target="">
+    iOS-错误整理(9)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/895658.html" rel="" target="">
+    iOS-开发技巧(3)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/924239.html" rel="" target="">
+    iOS-数据库相关(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/893935.html" rel="" target="">
+    iOS-项目相关(64)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/929129.html" rel="" target="">
+    iOS-新特性(3)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1214631.html" rel="" target="">
+    Java-java.lang(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1620644.html" rel="" target="">
+    Java-java.util(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/899880.html" rel="" target="">
+    Java-NIO(11)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1039465.html" rel="" target="">
+    Java-集合框架(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1468693.html" rel="" target="">
+    Java-设计模式(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/899664.html" rel="" target="">
+    Java-随笔(6)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/898012.html" rel="" target="">
+    Java-网络编程(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/885968.html" rel="" target="">
+    Java-位运算(5)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1039467.html" rel="" target="">
+    Java-线程并发库(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1201997.html" rel="" target="">
+    Java-正则表达式(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1148261.html" rel="" target="">
+    Linux C-Socket相关函数(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1129562.html" rel="" target="">
+    Linux C-管道相关函数(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1142061.html" rel="" target="">
+    Linux C-进程控制函数(3)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1133343.html" rel="" target="">
+    Linux C-内存控制函数(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1160837.html" rel="" target="">
+    Linux C-日期时间函数(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1145398.html" rel="" target="">
+    Linux C-线程相关函数(7)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1137548.html" rel="" target="">
+    Linux C-信号处理函数(3)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1546592.html" rel="" target="">
+    Linux-Socket通信(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/907413.html" rel="" target="">
+    Linux常用指令(6)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1105975.html" rel="" target="">
+    Linux错误笔记(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1134306.html" rel="" target="">
+    Linux-日常使用(11)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/category/1441440.html" rel="" target="">
+    Linux系统编程-示例代码(1)
+</a>
+ 
+
+                </li>                
+            <li>
+                <a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a>
+            </li>
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2021/02.html" rel="" target="">
+    2021年2月(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2021/01.html" rel="" target="">
+    2021年1月(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2020/12.html" rel="" target="">
+    2020年12月(5)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2020/11.html" rel="" target="">
+    2020年11月(7)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2020/10.html" rel="" target="">
+    2020年10月(3)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2020/09.html" rel="" target="">
+    2020年9月(11)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2020/08.html" rel="" target="">
+    2020年8月(5)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2020/07.html" rel="" target="">
+    2020年7月(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2020/06.html" rel="" target="">
+    2020年6月(9)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2020/05.html" rel="" target="">
+    2020年5月(6)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2020/04.html" rel="" target="">
+    2020年4月(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2020/03.html" rel="" target="">
+    2020年3月(13)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2020/02.html" rel="" target="">
+    2020年2月(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2020/01.html" rel="" target="">
+    2020年1月(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2019/12.html" rel="" target="">
+    2019年12月(13)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2019/11.html" rel="" target="">
+    2019年11月(17)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2019/10.html" rel="" target="">
+    2019年10月(9)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2019/09.html" rel="" target="">
+    2019年9月(16)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2019/08.html" rel="" target="">
+    2019年8月(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2019/07.html" rel="" target="">
+    2019年7月(13)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2019/06.html" rel="" target="">
+    2019年6月(18)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2019/05.html" rel="" target="">
+    2019年5月(6)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2019/04.html" rel="" target="">
+    2019年4月(21)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2019/03.html" rel="" target="">
+    2019年3月(7)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2019/01.html" rel="" target="">
+    2019年1月(14)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2018/12.html" rel="" target="">
+    2018年12月(4)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2018/11.html" rel="" target="">
+    2018年11月(3)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2018/10.html" rel="" target="">
+    2018年10月(24)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2018/09.html" rel="" target="">
+    2018年9月(9)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2018/08.html" rel="" target="">
+    2018年8月(13)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2018/07.html" rel="" target="">
+    2018年7月(7)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2018/06.html" rel="" target="">
+    2018年6月(1)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2018/05.html" rel="" target="">
+    2018年5月(8)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2018/04.html" rel="" target="">
+    2018年4月(3)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2018/03.html" rel="" target="">
+    2018年3月(6)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2018/02.html" rel="" target="">
+    2018年2月(5)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2018/01.html" rel="" target="">
+    2018年1月(18)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2017/12.html" rel="" target="">
+    2017年12月(18)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2017/11.html" rel="" target="">
+    2017年11月(7)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2017/10.html" rel="" target="">
+    2017年10月(6)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2017/09.html" rel="" target="">
+    2017年9月(7)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2017/08.html" rel="" target="">
+    2017年8月(6)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2017/07.html" rel="" target="">
+    2017年7月(23)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2017/06.html" rel="" target="">
+    2017年6月(34)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2017/05.html" rel="" target="">
+    2017年5月(9)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2017/04.html" rel="" target="">
+    2017年4月(6)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2017/03.html" rel="" target="">
+    2017年3月(8)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2017/02.html" rel="" target="">
+    2017年2月(6)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2017/01.html" rel="" target="">
+    2017年1月(14)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2016/12.html" rel="" target="">
+    2016年12月(56)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2016/11.html" rel="" target="">
+    2016年11月(53)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2016/10.html" rel="" target="">
+    2016年10月(52)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/yongdaimi/archive/2016/09.html" rel="" target="">
+    2016年9月(2)
+</a>
+ 
+
+                </li>                
+            <li>
+                <a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a>
+            </li>
+        </ul>
+
+
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block"><div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/yongdaimi/p/7600052.html">
+                            1. Git-查看远程分支、本地分支、创建分支(128544)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yongdaimi/p/9772158.html">
+                            2. unzip：unzip解压文件到指定目录(70952)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yongdaimi/p/9674710.html">
+                            3. layer-list：Android中layer-list使用详解(25976)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yongdaimi/p/6067319.html">
+                            4. android-解决 Android N 上 报错：android.os.FileUriExposedException(24372)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yongdaimi/p/9565996.html">
+                            5. C++中的mutable关键字(19752)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<!-- 评论排行榜 -->
+
+
+<!-- 推荐排行榜 -->
+</div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2021 夜行过客
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script language="javascript" type="text/javascript">
+//生成目录索引列表
+function GenerateContentList()
+{
+    var jquery_h3_list = $('#cnblogs_post_body h3');//如果你的章节标题不是h3,只需要将这里的h3换掉即可
+    if(jquery_h3_list.length&gt;0)
+    {
+        var content = '&lt;a name="_labelTop"&gt;&lt;/a&gt;';
+        content    += '&lt;div id="navCategory"&gt;';
+        content    += '&lt;p style="font-size:18px"&gt;&lt;b&gt;阅读目录&lt;/b&gt;&lt;/p&gt;';
+        content    += '&lt;ul&gt;';
+        for(var i =0;i&lt;jquery_h3_list.length;i++)
+        {
+            var go_to_top = '&lt;div style="text-align: right"&gt;&lt;a href="#_labelTop"&gt;回到顶部&lt;/a&gt;&lt;a name="_label' + i + '"&gt;&lt;/a&gt;&lt;/div&gt;';
+            $(jquery_h3_list[i]).before(go_to_top);
+            var li_content = '&lt;li&gt;&lt;a href="#_label' + i + '"&gt;' + $(jquery_h3_list[i]).text() + '&lt;/a&gt;&lt;/li&gt;';
+            content += li_content;
+        }
+        content    += '&lt;/ul&gt;';
+        content    += '&lt;/div&gt;';
+        if($('#cnblogs_post_body').length != 0 )
+        {
+            $($('#cnblogs_post_body')[0]).prepend(content);
+        }
+    }    
+}
+GenerateContentList();
+</script>
+    </div>
+
+
+</body></html>

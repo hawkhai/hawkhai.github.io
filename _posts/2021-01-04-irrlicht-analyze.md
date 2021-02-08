@@ -88,16 +88,23 @@ targetCount 4257 diffCount 0 missCount 0
 ```
 
 
-### irrlicht Android
+## irrlicht Android
 
-1. https://github.com/ghd214/irrlichtAndroidGame 9 years ago，a game demo on android using irrlicht，编译出来了，包含音乐等，还不错。
-1. https://github.com/nonameentername/irrlicht-android 9 years ago，通过 swig 链接，实现了基本的 JNI，是一个完整的例子，但是没有跑起来。
+
+### [ghd214/irrlichtAndroidGame {% include relref_github.html %}](https://github.com/ghd214/irrlichtAndroidGame) [9 years ago]
+
+a game demo on android using irrlicht，编译出来了，包含音乐等，还不错。
+
+
+### [nonameentername/irrlicht-android {% include relref_github.html %}](https://github.com/nonameentername/irrlicht-android) [9 years ago]
+
+通过 swig 链接，实现了基本的 JNI，是一个完整的例子，但是没有跑起来。
 
 ```shell
 $(shell swig -c++ -java -package $(PACKAGE_NAME) \
-    -outdir $(JAVA_DIR) \
-    -o $(NDK_DIR)/wrapper_wrap.cpp \
-    $(LOCAL_PATH)/wrapper.i \
+     -outdir $(JAVA_DIR) \
+     -o $(NDK_DIR)/wrapper_wrap.cpp \
+     $(LOCAL_PATH)/wrapper.i \
 )
 ```
 
@@ -126,11 +133,50 @@ public:
 };
 ```
 
-2. ~~<https://github.com/dschaefer/irrlicht-android>~~ 811 commits，10 years ago，没找打 AndroidManifest.xml。
-3. ~~<https://github.com/reizencroft/irrAndroid>~~ 24 commits，9 years ago，非 JNI 模式。
-4. https://github.com/skylicht-lab/skylicht-engine 815 commits，14 days ago。Irrlicht 引擎升级，涉及到一些纹理的处理，SPARK 粒子引擎值得研究一下。是一个非常完整的引擎，官网：skylicht.com。
-5. https://github.com/nailgun/android_irrlicht_vuforia Vuforia 扩增实境软件开发工具包。没跑起来。Demo android application with irrlicht and vuforia. Source based on image targets vuforia sample.
-6. https://github.com/iaco79/IrrGameDemo 具备参考价值。Game Demo for Android / Win32 with Irrlicht, sdl2.0, librocket, box2d。
+
+### ~~[dschaefer/irrlicht-android {% include relref_github.html %}](https://github.com/dschaefer/irrlicht-android)~~ [11 years ago]
+
+没找到 AndroidManifest.xml。
+
+
+### ~~[reizencroft/irrAndroid {% include relref_github.html %}](https://github.com/reizencroft/irrAndroid)~~ [9 years ago]
+
+非 JNI 模式。
+
+
+### [skylicht-lab/skylicht-engine {% include relref_github.html %}](https://github.com/skylicht-lab/skylicht-engine) [2 months ago]
+
+* Skylicht Engine, which is an evolution of the Irrlicht Project. We have upgraded more features: Sound Engine, Physics Engine, Particle Engine...
+* Irrlicht 引擎升级，涉及到一些纹理的处理，SPARK 粒子引擎值得研究一下。是一个非常完整的引擎，官网：skylicht.com。
+* Skylicht Particle Component is a cleanup version of SPARK. We have optimized by GPU Billboard Instancing.
+
+{% include image.html url="/assets/images/210104-irrlicht-analyze/sample_magic.jpg" %}
+
+
+### ~~[nailgun/android_irrlicht_vuforia {% include relref_github.html %}](https://github.com/nailgun/android_irrlicht_vuforia)~~ [9 years ago]
+
+* Vuforia 扩增实境软件开发工具包（英语：Vuforia Augmented Reality SDK），是高通推出的针对移动设备扩增实境应用的软件开发工具包。
+    它利用计算机视觉技术实时识别和捕捉平面图像或简单的三维物体（例如盒子），
+    然后允许开发者通过照相机取景器放置虚拟物体并调整物体在镜头前实体背景上的位置。没跑起来。
+* Demo android application with irrlicht and vuforia. Source based on image targets vuforia sample.
+
+
+### [iaco79/IrrGameDemo {% include relref_github.html %}](https://github.com/iaco79/IrrGameDemo) [8 years ago]
+
+* 具备参考价值。Game Demo for Android / Win32 with Irrlicht, sdl2.0, librocket, box2d。
+* 更新，而且是 EDT_OGLES2。
+
+* $(call import-module, box2d)
+* $(call import-module, irrlicht)
+* $(call import-module, freetype2_static)
+* $(call import-module, librocket) 最主要的理念是以 css 和 html 的形式来设计界面，可以极大的降低开发界面的成本。
+* $(call import-module, libogg-1.3.0) The libogg package contains the Ogg file structure. This is useful for creating (encoding) or playing (decoding) a single physical bit stream.
+* $(call import-module, tremor) This README covers the Ogg Vorbis 'Tremor' integer playback codec source as of date 2002 09 02, version 1.0.0.
+* $(call import-module, sdl) SDL（Simple DirectMedia Layer）是一套开放源代码的跨平台多媒体开发库，使用 C 语言写成。SDL 提供了数种控制图像、声音、输出入的函数，让开发者只要用相同或是相似的代码就可以开发出跨多个平台（Linux、Windows、Mac OS X 等）的应用软件。目前 SDL 多用于开发游戏、模拟器、媒体播放器等多媒体应用领域。
+* $(call import-module, sdl_mixer) SDL_mixer is a sound mixing library that is used with the SDL library, and almost as portable.
+
+{% include image.html url="/assets/images/210104-irrlicht-analyze/gamedemo.webp" %}
+
 7. https://github.com/dschaefer/irrlicht-examples
 8. https://github.com/havlenapetr/gamekit
 9. https://github.com/cskeyn/BulletAndroid
@@ -163,7 +209,7 @@ https://www.codeproject.com/articles/333135/wrapping-irrlicht-for-android
 https://gitee.com/panqingyun/E3D-Engine
 
 
-### irrlicht Android
+## irrlicht Android
 
 * [wrapirrlicht-for-android](https://code.google.com/archive/p/wrapirrlicht-for-android/source)
     [Wrapping Irrlicht For Android](https://www.codeproject.com/articles/333135/wrapping-irrlicht-for-android)
