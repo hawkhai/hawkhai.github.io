@@ -102,9 +102,9 @@ a game demo on android using irrlicht，编译出来了，包含音乐等，还�
 
 ```shell
 $(shell swig -c++ -java -package $(PACKAGE_NAME) \
-     -outdir $(JAVA_DIR) \
-     -o $(NDK_DIR)/wrapper_wrap.cpp \
-     $(LOCAL_PATH)/wrapper.i \
+    -outdir $(JAVA_DIR) \
+    -o $(NDK_DIR)/wrapper_wrap.cpp \
+    $(LOCAL_PATH)/wrapper.i \
 )
 ```
 
