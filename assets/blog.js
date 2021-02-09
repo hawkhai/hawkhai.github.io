@@ -181,14 +181,14 @@ function checkHrefTagk() {
         var href = $this.find("> img.domaintag");
         if (!href.length) {
             $this.addClass("ahref_withimg");
-            var textv = $this.text();
+            var textv = $this.html();
             var hrefv = $this.attr("href");
             if (textv.indexOf(hrefv) == -1) {
                 var host = getHostName(hrefv);
                 if (host.indexOf("www.") == 0) {
                     host = host.substr(4);
                 }
-                $this.text(textv + " | " + host);
+                $this.html(textv + " | <sub class='domaintag_host'>"+host+"</sub>");
             }
         }
     });
