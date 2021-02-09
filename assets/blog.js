@@ -170,12 +170,26 @@ function checkFlowChart() {
     });
 }
 
+function getHostName(url) {
+    var m = url.match(/^https?:\/\/([^/]+)/i);
+    return m ? m[1] : url;
+}
+
 function checkHrefTagk() {
     $(".post a[href^=http]").each(function() {
         var $this = $(this);
         var href = $this.find("> img.domaintag");
         if (!href.length) {
             $this.addClass("ahref_withimg");
+            var textv = $this.text();
+            var hrefv = $this.attr("href");
+            if (textv.indexOf(hrefv) == -1) {
+                var host = getHostName(hrefv);
+                if (host.indexOf("www.") == 0) {
+                    host = host.substr(4);
+                }
+                $this.text(textv + " | " + host);
+            }
         }
     });
     // https://blog.csdn.net/leewhoee/article/details/20520981

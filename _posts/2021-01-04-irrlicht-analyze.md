@@ -34,10 +34,10 @@ Changes in 1.8.4 (9th July 2016, svn r5321)
 几个有用的工具，用来抓取图形渲染帧，在分析其它项目以及排查渲染方面的 bug 时非常有用。
 [渲染帧抓取工具 {% include relref_github.html %}](https://chengkehan.github.io/FrameCaptureTools.html)
 
-* [Adreno GPU Profiler :qualcomm](https://developer.qualcomm.com/software/adreno-gpu-profiler)
+* [Adreno GPU Profiler](https://developer.qualcomm.com/software/adreno-gpu-profiler)
 * [RenderDoc {% include relref_github.html %}](https://github.com/baldurk/renderdoc) is a stand-alone graphics debugging tool.
-* [Tegra Graphics Debugger :nvidia](https://developer.nvidia.com/tegra-graphics-debugger)
-* [Intel® Graphics Performance Analyzers :intel](https://software.intel.com/en-us/gpa)
+* [Tegra Graphics Debugger](https://developer.nvidia.com/tegra-graphics-debugger)
+* [Intel® Graphics Performance Analyzers](https://software.intel.com/en-us/gpa)
 
 
 ## Textures and Mapping
