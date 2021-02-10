@@ -188,7 +188,7 @@ function checkHrefTagk() {
                 if (host.indexOf("www.") == 0) {
                     host = host.substr(4);
                 }
-                $this.html(textv + " | <sub class='domaintag_host'>"+host+"</sub>");
+                $this.html(textv + "<span class='domaintag_sep'> | </span><sub class='domaintag_host'>"+host+"</sub>");
             }
         }
     });
