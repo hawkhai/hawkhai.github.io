@@ -37,7 +37,8 @@ ARM | OpenGL ES 2.0 Emulator v1.2 [ARM Mali Emulator](https://developer.arm.com/
 Qualcomm | Adreno SDK 2.2 [Adreno GPU SDK](https://developer.qualcomm.com/software/adreno-gpu-sdk/tools)
 NVIDIA | ~~Windows OpenGL ES 2.0 Emulator~~ Tegra 没有找到地方下载
 PowerVR | PowerVR SDK [PowerVR Graphics SDK {% include relref_github.html %}](https://powervr-graphics.github.io/)
-**Google** | Angle 没找打地方下载。Chrome、Qt and Webgl 也是基于他实现的！
+**Google** | Angle 没找打地方下载。Chrome、Qt & Webgl 也是基于它实现的！
+**QT GLES & Android emulator** | Qt & 安卓模拟器等里面貌似也带了 EGL & GLESv2.dll，这个没有试过，应该也是可以的。仿真非常普遍，无处不在。
 
 费不尽力的老力，都下载下来，整理好了：<https://gitee.com/hawkhai/opengl-3rd.git>
 
