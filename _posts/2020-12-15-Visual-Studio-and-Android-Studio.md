@@ -18,7 +18,7 @@ codeprint:
 
 ## Android Studio
 
-AndroidStudio代码达到指定字符长度时自动换行。
+AndroidStudio 代码达到指定字符长度时自动换行。
 1. 设置每行最大字符个数，超过这个数字 将会自动换行。
 2. Line breaks 选中表示隐藏性保持断行。Ensure right margin is not exceeded 选中表示代码超过标准线 就自动换行。
 
