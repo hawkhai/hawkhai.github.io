@@ -32,35 +32,29 @@ And, I welcome any feedback on the contents and your suggestions.
 工作很多年后，发现什么都没留下，一直忙于赶路，很多东西搞过，然后都忘记了。
 稍微放慢一点，写写博客，既可以整理思路，又可以系统化知识结构，自己也可以回头阅读，还方便与他人交流。
 
+* 文档是代码的一部分，是同步更新的，代码改了，文档也要同步得到更新。
+* 写文档和写单元测试类似，可以帮助我们写出逻辑更清晰，设计更合理的代码。
+* 写作即思考，把学习的知识按自己的结构整理记录，方便日后查阅。
+* 短期看，写文档是浪费时间的；长期看，是节约时间的；更长期看，没有文档的代码甚至价值都不大，因为去理解它，重新用起来，需要的成本太大了。
+
 基于文档的知识迭代，比基于脑袋的迭代，更稳固、更可靠。正所谓：好记性不如烂笔头。
 
-After working for many years, I found that nothing was left.
-I have been busy rushing, done many things, and then forgot.
-Slow down a little and write a blog, which can not only organize ideas, but also systematize the knowledge structure.
-You can also read back and communicate with others.
-
-Document-based knowledge iteration is more stable and reliable than brain-based iteration.
-As the saying goes: Bad notes is better than good memories.
-
-> You do not need to leave your room. Remain sitting at your table and listen. Do not even listen, simply wait, be quiet still and solitary. The world will freely offer itself to you to be unmasked, it has no choice, it will roll in ecstasy at your feet.
-> <p style="text-align:right;">-- Franz Kafka</p>
-
-
-## 关于文档
-
-为什么一定要写文档？
-自己一年前写的东西，没有文档，居然看不懂了。再看懂跑起来，基本上算重写了。十分痛苦。
-写作即思考，把学习的知识按自己的结构整理记录，方便日后查阅。
+1. 边做边写文档，描述自己做的东西 --- 如果要改，成本能低一些；
+2. 关键的东西需要写清楚用法 --- 如果要用，不用去理解实现；
+3. 工程配置及编译会遇到的问题 --- 想跑起来，成本不用那么大。
 
 以前也做笔记，但是后来发现很多网址打不开了，你说找谁说理去？
 这个博客系统加入了自动外链快照功能，博文里面包含的网址，会自动爬取快照存档。
+
+> You do not need to leave your room. Remain sitting at your table and listen. Do not even listen, simply wait, be quiet still and solitary. The world will freely offer itself to you to be unmasked, it has no choice, it will roll in ecstasy at your feet.
+> -- Franz Kafka
 
 
 ## 关于代码
 
 程序的复杂度分两种：一种是这个逻辑本身就非常复杂，另一种是代码混乱和规模造成的复杂。
 
-大部分时候，考验的是我们的基本功和知识面。
+大部分时候，考验的是我们的基本功和知识储备。
 同时用工整的代码和精巧的结构去对抗复杂，这就需要对设计模式有一定的了解。
 
 客户端应用研发，大部分都是界面、回调、事件、线程之类，写来写去就那些东西。
