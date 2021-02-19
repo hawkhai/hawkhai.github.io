@@ -79,7 +79,7 @@ permalink
 """.split())
     igkeylist = """
 l2dwidget cluster
-sortrefs archived
+sortrefs archived date
 """.split()
 
     kvmap = {}
@@ -89,6 +89,8 @@ sortrefs archived
         key, value = line.split(":", 1)
         key, value = key.strip(), value.strip()
         value = formatValue(value)
+        if key == "date":
+            assert re.findall("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} \\+[0-9]{4}$", value), value
         if not key in igkeylist:
             assert key in mdkeylist, line
         else:
