@@ -3,7 +3,7 @@ layout: post
 title: "Pregnancy Prepare -- 饮食黑名单 & 用药黑名单"
 author:
 location: "Japan"
-categories: ["Pregnancy"]
+categories: ["生活"]
 tags: ["生活"]
 toc: true
 toclistyle:
