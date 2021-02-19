@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "编程 C++ -- GFlags 检查内存越界、野指针等作用的工具使用"
+title: "调试 C++ -- GFlags 检查内存越界、野指针等作用的工具使用"
 author:
 location: "珠海"
-categories: ["编程"]
-tags: ["编程", "Memory", "C++"]
+categories: ["调试"]
+tags: ["调试", "Memory", "C++"]
 toc: true
 toclistyle:
 comments:

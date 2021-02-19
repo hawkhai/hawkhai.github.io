@@ -4,7 +4,7 @@ title: "图形学笔记 -- GPU OpenGL ES 应用性能优化"
 author:
 location: "珠海"
 categories: ["图形学"]
-tags: ["图形学", "OpenGL", "Irrlicht"]
+tags: ["图形学", "OpenGL"]
 toc: true
 toclistyle:
 comments:
