@@ -100,8 +100,25 @@ sortrefs archived date
         kvmap[key] = value
         if not key in gkvmap.keys():
             gkvmap[key] = []
-        if value and not value in gkvmap[key]:
-            gkvmap[key].append(value)
+
+        def appvalue(value):
+            if value and not value in gkvmap[key]:
+                gkvmap[key].append(value)
+
+        if value:
+            if value.startswith("\"") and value.endswith("\""):
+                value = value[1:-1]
+                appvalue(value)
+            elif value.startswith("["):
+                for val in json.loads(value):
+                    appvalue(val)
+            elif re.findall("^[a-z]+$", value):
+                appvalue(value)
+            elif key in ('title', 'permalink', 'date', 'author'):
+                appvalue(value)
+            else:
+                assert False, (key, value)
+
     newli = []
     for key in mdkeylist:
         value = kvmap[key] if key in kvmap else ""
@@ -126,12 +143,29 @@ def mainxkey():
     print("***" * 30)
     searchdir(".", mainxkeyfile, ignorelist=("backup", "_site", "_drafts", "opengl-3rd"))
 
-    headnote = []
+    nctrl = {
+        "title": 2,
+        "date": 2,
+    }
+
+    headnote = {}
     for key in gkvmap.keys():
-        key, value = key, gkvmap[key][:5]
-        print(key, value, "..." if len(gkvmap[key]) > 5 else "")
-        headnote.append("{} {}".format(key, value))
-    writefile("headnote.txt", "\r\n".join(headnote), "utf8")
+        gkvmap[key].sort()
+        ctrln = 1000
+        if key in nctrl.keys():
+            ctrln = nctrl[key]
+        key, value = key, gkvmap[key]
+
+        testset = set()
+        for tt in value:
+            testset.add(tt.lower())
+        assert len(testset) == len(value), (key, value)
+
+        key, value = key, gkvmap[key][:ctrln]
+        print(key, value, "..." if len(gkvmap[key]) > ctrln else "")
+        headnote[key] = value
+    # (path, data, ascii=True, encoding="ISO8859-1"):
+    writefileJson("headnote.txt", headnote, False, "utf8")
 
 if __name__ == "__main__":
     main()
