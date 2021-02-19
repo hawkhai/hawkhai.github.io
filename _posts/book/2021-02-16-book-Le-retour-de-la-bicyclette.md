@@ -79,7 +79,7 @@ codeprint:
 * [NO.1294 城市应该划分功能区吗？](https://www.ljsw.io/knowl/article/SF.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/book/2021-02-16-book-Le-retour-de-la-bicyclette.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-16-book-Le-retour-de-la-bicyclette.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://web699250.com/archiver/?tid-15889.html]({% include relref.html url="/backup/2021-02-16-book-Le-retour-de-la-bicyclette.md/web699250.com/a4ba838d.html" %})

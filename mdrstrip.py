@@ -470,7 +470,7 @@ def appendRefs(fpath, lines):
     if not datestr:
         datestr = datetime.datetime.now().date()
     if frel.startswith("_posts\\"):
-        frel = frel.replace("_posts\\", "blogs\\")
+        frel = os.path.join("blogs", frel.split("\\")[-1])
     if invdir:
         frel = "invisible\\reviewjs\\" + frel[len("invisible\\"):]
     else:
@@ -643,7 +643,7 @@ def mainfile(fpath, fname, ftype):
         for itmp in re.findall("“.*?”", line): # 忽略双引号
             linec = linec.replace(itmp, "“”")
 
-        for itmp in ('"Web前端"',):
+        for itmp in ('"WEB前端"',):
             linec = linec.replace(itmp, "\"\"")
 
         linec = linec.replace('caption="', 'caption=" ')

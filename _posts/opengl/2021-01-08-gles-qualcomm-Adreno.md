@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenGL-ES2 -- QUALCOMM Adreno™ SDK Tutorials 动态图概览"
+title: "图形学 -- QUALCOMM Adreno™ SDK Tutorials 动态图概览"
 author:
 location: "珠海"
 categories: ["图形学"]

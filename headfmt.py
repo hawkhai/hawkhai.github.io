@@ -21,7 +21,9 @@ toc: true
     categories = json.loads(categories)
     category = categories[0]
     regex = "^.*?{}.*? --( |《)[^《]".format(category)
-    assert re.findall(regex, title), regex
+    if not re.findall(regex, title):
+        openTextFile(fpath)
+        assert False, regex
 
 def getPostValue(fpath, xkey):
     fdata = readfile(fpath, True, "utf8")

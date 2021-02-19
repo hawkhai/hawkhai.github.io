@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Pregnancy Prepare -- 饮食黑名单 & 用药黑名单"
+title: "生活 -- Pregnancy Prepare 饮食黑名单 & 用药黑名单"
 author:
 location: "Japan"
 categories: ["生活"]
