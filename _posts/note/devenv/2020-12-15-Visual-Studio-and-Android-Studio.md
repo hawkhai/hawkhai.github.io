@@ -16,6 +16,20 @@ codeprint:
 ---
 
 
+## error MSB3073: 命令“... :VCEnd”已退出，代码为 4。
+
+```
+1>MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(153,5): error MSB3073: 命令“
+1>    if not exist E:\Android\cfwpe\cfwpe\..\..\product mkdir E:\Android\cfwpe\cfwpe\..\..\product
+1>    xcopy /v /y /f E:\Android\Debug\cfwpen.* E:\Android\cfwpe\cfwpe\..\..\product
+1>    xcopy /v /y /f E:\Android\cfwpe\cfwpe\include\irrKlang\bin\*.* E:\Android\Debug\
+1>    xcopy /v /y /f E:\Android\cfwpe\cfwpe\include\irrKlang\bin\*.* E:\Android\cfwpe\cfwpe\..\..\product
+1>    :VCEnd”已退出，代码为 4。
+```
+
+命令列表中，某个命令返回失败了。比如：xcopy 的 源文件或者文件夹不存在。
+
+
 ## Android Studio
 
 AndroidStudio 代码达到指定字符长度时自动换行。
