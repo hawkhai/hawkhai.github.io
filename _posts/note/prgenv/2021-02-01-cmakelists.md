@@ -76,37 +76,37 @@ target_link_libraries 为库或二进制可执行文件添加库链接，要用�
 
 ### 区分不同平台
 
-* ANDROID：安卓的编译环境；
-* APPLE：是否是苹果系列的编译环境；
-* IOS：是否是苹果手机环境；
-* UNIX：是否是 UNIX 或者 UNIX-like 的环境；
-* WIN32、MSVC：是否是 Windows。
+* **ANDROID**：安卓的编译环境；
+* **APPLE**：是否是苹果系列的编译环境；
+* **IOS**：是否是苹果手机环境；
+* **UNIX**：是否是 UNIX 或者 UNIX-like 的环境；
+* **WIN32、MSVC**：是否是 Windows。
 
 Android.mk & Application.mk
 
-* LOCAL_CFLAGS 可选的编译器选项，在编译 C 代码文件的时候使用。
-* LOCAL_CXXFLAGS Same as LOCAL_CFLAGS for C++ source files
-* LOCAL_CPPFLAGS 与 LOCAL_CFLAGS 相同，但是对 C 和 C++ source files 都适用。
+* **LOCAL_CFLAGS** 可选的编译器选项，在编译 C 代码文件的时候使用。
+* **LOCAL_CXXFLAGS** Same as LOCAL_CFLAGS for C++ source files
+* **LOCAL_CPPFLAGS** 与 LOCAL_CFLAGS 相同，但是对 C 和 C++ source files 都适用。
 
 
 ## CMake 预定义变量
 
-* PROJECT\_SOURCE\_DIR 工程的根目录
-* PROJECT\_BINARY\_DIR 运行 cmake 命令的目录，通常是 ${PROJECT\_SOURCE\_DIR}/build
-* CMAKE\_INCLUDE\_PATH 环境变量，非 cmake 变量
-* CMAKE\_LIBRARY\_PATH 环境变量
-* CMAKE\_CURRENT\_SOURCE\_DIR 当前处理的 CMakeLists.txt 所在的路径
-* CMAKE\_CURRENT\_BINARY\_DIR target 编译目录
+* **PROJECT\_SOURCE\_DIR** 工程的根目录
+* **PROJECT\_BINARY\_DIR** 运行 cmake 命令的目录，通常是 ${PROJECT\_SOURCE\_DIR}/build
+* **CMAKE\_INCLUDE\_PATH** 环境变量，非 cmake 变量
+* **CMAKE\_LIBRARY\_PATH** 环境变量
+* **CMAKE\_CURRENT\_SOURCE\_DIR** 当前处理的 CMakeLists.txt 所在的路径
+* **CMAKE\_CURRENT\_BINARY\_DIR** target 编译目录
     * 使用 ADD\_SURDIRECTORY(src bin) 可以更改此变量的值
     * SET(EXECUTABLE\_OUTPUT\_PATH &lt;newPath>) 并不会对此变量有影响，只是改变了最终目标文件的存储路径
-* CMAKE\_CURRENT\_LIST\_FILE 输出调用这个变量的 CMakeLists.txt 的完整路径
-* CMAKE\_CURRENT\_LIST\_LINE 输出这个变量所在的行
-* CMAKE\_MODULE\_PATH 定义自己的 cmake 模块所在的路径
+* **CMAKE\_CURRENT\_LIST\_FILE** 输出调用这个变量的 CMakeLists.txt 的完整路径
+* **CMAKE\_CURRENT\_LIST\_LINE** 输出这个变量所在的行
+* **CMAKE\_MODULE\_PATH** 定义自己的 cmake 模块所在的路径
     * SET(CMAKE\_MODULE\_PATH ${PROJECT\_SOURCE\_DIR}/cmake)，然后可以用 INCLUDE 命令来调用自己的模块
-* EXECUTABLE\_OUTPUT\_PATH 重新定义目标二进制可执行文件的存放位置
-* LIBRARY\_OUTPUT\_PATH 重新定义目标链接库文件的存放位置
-* PROJECT\_NAME 返回通过 PROJECT 指令定义的项目名称
-* CMAKE\_ALLOW\_LOOSE\_LOOP\_CONSTRUCTS 用来控制 IF ELSE 语句的书写方式
+* **EXECUTABLE\_OUTPUT\_PATH** 重新定义目标二进制可执行文件的存放位置
+* **LIBRARY\_OUTPUT\_PATH** 重新定义目标链接库文件的存放位置
+* **PROJECT\_NAME** 返回通过 PROJECT 指令定义的项目名称
+* **CMAKE\_ALLOW\_LOOSE\_LOOP\_CONSTRUCTS** 用来控制 IF ELSE 语句的书写方式
 
 ```cmake
 PROJECT(T1)
@@ -120,21 +120,21 @@ ADD_EXECUTABLE(t1 ${SRC_LIST})
 ```
 
 系统信息
-* CMAKE\_MAJOR\_VERSION cmake 主版本号，如 2.8.6 中的 2
-* CMAKE\_MINOR\_VERSION cmake 次版本号，如 2.8.6 中的 8
-* CMAKE\_PATCH\_VERSION cmake 补丁等级，如 2.8.6 中的 6
-* CMAKE\_SYSTEM 系统名称，例如 Linux-2.6.22
-* CAMKE\_SYSTEM\_NAME 不包含版本的系统名，如 Linux
-* CMAKE\_SYSTEM\_VERSION 系统版本，如 2.6.22
-* CMAKE\_SYSTEM\_PROCESSOR 处理器名称，如 i686
-* UNIX 在所有的类 UNIX 平台为 TRUE，包括 OS X 和 cygwin
-* WIN32 在所有的 win32 平台为 TRUE，包括 cygwin
+* **CMAKE\_MAJOR\_VERSION** cmake 主版本号，如 2.8.6 中的 2
+* **CMAKE\_MINOR\_VERSION** cmake 次版本号，如 2.8.6 中的 8
+* **CMAKE\_PATCH\_VERSION** cmake 补丁等级，如 2.8.6 中的 6
+* **CMAKE\_SYSTEM** 系统名称，例如 Linux-2.6.22
+* **CAMKE\_SYSTEM\_NAME** 不包含版本的系统名，如 Linux
+* **CMAKE\_SYSTEM\_VERSION** 系统版本，如 2.6.22
+* **CMAKE\_SYSTEM\_PROCESSOR** 处理器名称，如 i686
+* **UNIX** 在所有的类 UNIX 平台为 TRUE，包括 OS X 和 cygwin
+* **WIN32** 在所有的 win32 平台为 TRUE，包括 cygwin
 
 开关选项
-* BUILD\_SHARED\_LIBS 控制默认的库编译方式。
+* **BUILD\_SHARED\_LIBS** 控制默认的库编译方式。
     * 如果未进行设置，使用 ADD\_LIBRARY 时又没有指定库类型，默认编译生成的库都是静态库 （可在 t3 中稍加修改进行验证）
-* CMAKE\_C\_FLAGS 设置 C 编译选项
-* CMAKE\_CXX\_FLAGS 设置 C++ 编译选项
+* **CMAKE\_C\_FLAGS** 设置 C 编译选项
+* **CMAKE\_CXX\_FLAGS** 设置 C++ 编译选项
 
 ```cmake
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
@@ -345,17 +345,17 @@ ELSE (expression)
 ENDIF (expression) # 一定要有 ENDIF 与 IF 对应
 ```
 
-* IF (expression)，expression 不为：空, 0, N, NO, OFF, FALSE, NOTFOUND 或 &lt;var>\_NOTFOUND，为真
-* IF (not exp)，与上面相反
-* IF (var1 AND var2)
-* IF (var1 OR var2)
-* IF (COMMAND cmd) 如果 cmd 确实是命令并可调用，为真
-* IF (EXISTS dir) IF (EXISTS file) 如果目录或文件存在，为真
-* IF (file1 IS\_NEWER\_THAN file2)，当 file1 比 file2 新，或 file1/file2 中有一个不存在时为真，文件名需使用全路径
-* IF (IS\_DIRECTORY dir) 当 dir 是目录时，为真
-* IF (DEFINED var) 如果变量被定义，为真
-* IF (var MATCHES regex) 此处 var 可以用 var 名，也可以用 ${var}
-* IF (string MATCHES regex)
+* **IF (expression)**，expression 不为：空, 0, N, NO, OFF, FALSE, NOTFOUND 或 &lt;var>\_NOTFOUND，为真
+* **IF (not exp)**，与上面相反
+* **IF (var1 AND var2)**
+* **IF (var1 OR var2)**
+* **IF (COMMAND cmd)** 如果 cmd 确实是命令并可调用，为真
+* **IF (EXISTS dir) IF (EXISTS file)** 如果目录或文件存在，为真
+* **IF (file1 IS\_NEWER\_THAN file2)**，当 file1 比 file2 新，或 file1/file2 中有一个不存在时为真，文件名需使用全路径
+* **IF (IS\_DIRECTORY dir)** 当 dir 是目录时，为真
+* **IF (DEFINED var)** 如果变量被定义，为真
+* **IF (var MATCHES regex)** 此处 var 可以用 var 名，也可以用 ${var}
+* **IF (string MATCHES regex)**
 
 ```cmake
 # 当给定的变量或者字符串能够匹配正则表达式 regex 时为真。比如：
@@ -365,20 +365,20 @@ ENDIF ("hello" MATCHES "ell")
 ```
 
 **数字比较表达式**
-* IF (variable LESS number)
-* IF (string LESS number)
-* IF (variable GREATER number)
-* IF (string GREATER number)
-* IF (variable EQUAL number)
-* IF (string EQUAL number)
+* **IF (variable LESS number)**
+* **IF (string LESS number)**
+* **IF (variable GREATER number)**
+* **IF (string GREATER number)**
+* **IF (variable EQUAL number)**
+* **IF (string EQUAL number)**
 
 **按照字母表顺序进行比较**
-* IF (variable STRLESS string)
-* IF (string STRLESS string)
-* IF (variable STRGREATER string)
-* IF (string STRGREATER string)
-* IF (variable STREQUAL string)
-* IF (string STREQUAL string)
+* **IF (variable STRLESS string)**
+* **IF (string STRLESS string)**
+* **IF (variable STRGREATER string)**
+* **IF (string STRGREATER string)**
+* **IF (variable STREQUAL string)**
+* **IF (string STREQUAL string)**
 
 ```cmake
 一个小例子，用来判断平台差异：
