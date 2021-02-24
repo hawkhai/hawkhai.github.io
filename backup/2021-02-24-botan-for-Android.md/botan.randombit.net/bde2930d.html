@@ -1,0 +1,1203 @@
+<!DOCTYPE html><!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]--><!--[if gt IE 8]><!--><html xmlns="http://www.w3.org/1999/xhtml" class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths" lang="en" style=""><!--<![endif]--><head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Building The Library — Botan</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="search" type="application/opensearchdescription+xml" title="Search within Botan" href="_static/opensearch.xml" />
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="api_ref/contents.html" />
+    <link rel="prev" title="Support Information" href="support.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="contents.html" class="icon icon-home"> botan
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.17
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="goals.html">Project Goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support Information</a></li>
+<li class="toctree-l1 current"><a class="reference internal current" href="#"><span class="toctree-expand"></span>Building The Library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#configuring-the-build">Configuring the Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cross-compiling">Cross Compiling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#on-unix">On Unix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#on-macos">On macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#on-windows">On Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#for-ios-using-xcode">For iOS using XCode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#for-android"><span class="toctree-expand"></span>For Android</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#docker">Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#emscripten-webassembly">Emscripten (WebAssembly)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#supporting-older-distros">Supporting Older Distros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other-build-related-tasks"><span class="toctree-expand"></span>Other Build-Related Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#building-the-documentation">Building The Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-amalgamation-build">The Amalgamation Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modules-relying-on-third-party-libraries">Modules Relying on Third Party Libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multiple-builds">Multiple Builds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-distribution-info">Setting Distribution Info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#local-configuration-settings">Local Configuration Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enabling-or-disabling-use-of-certain-os-features">Enabling or Disabling Use of Certain OS Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-parameters">Configuration Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#building-applications"><span class="toctree-expand"></span>Building Applications</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#unix">Unix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#language-wrappers"><span class="toctree-expand"></span>Language Wrappers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#building-the-python-wrappers">Building the Python wrappers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#minimized-builds">Minimized Builds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configure-script-options"><span class="toctree-expand"></span>Configure Script Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cpu-cpu"><code class="docutils literal notranslate"><span class="pre">--cpu=CPU</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#os-os"><code class="docutils literal notranslate"><span class="pre">--os=OS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cc-compiler"><code class="docutils literal notranslate"><span class="pre">--cc=COMPILER</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cc-min-version-major-minor"><code class="docutils literal notranslate"><span class="pre">--cc-min-version=MAJOR.MINOR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cc-bin-binary"><code class="docutils literal notranslate"><span class="pre">--cc-bin=BINARY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cc-abi-flags-flags"><code class="docutils literal notranslate"><span class="pre">--cc-abi-flags=FLAGS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cxxflags-flags"><code class="docutils literal notranslate"><span class="pre">--cxxflags=FLAGS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extra-cxxflags-flags"><code class="docutils literal notranslate"><span class="pre">--extra-cxxflags=FLAGS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ldflags-flags"><code class="docutils literal notranslate"><span class="pre">--ldflags=FLAGS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ar-command-ar"><code class="docutils literal notranslate"><span class="pre">--ar-command=AR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ar-options-ar-options"><code class="docutils literal notranslate"><span class="pre">--ar-options=AR_OPTIONS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#msvc-runtime-rt"><code class="docutils literal notranslate"><span class="pre">--msvc-runtime=RT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-endian-order"><code class="docutils literal notranslate"><span class="pre">--with-endian=ORDER</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-os-features-feat"><code class="docutils literal notranslate"><span class="pre">--with-os-features=FEAT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#without-os-features-feat"><code class="docutils literal notranslate"><span class="pre">--without-os-features=FEAT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-sse2"><code class="docutils literal notranslate"><span class="pre">--disable-sse2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-ssse3"><code class="docutils literal notranslate"><span class="pre">--disable-ssse3</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-sse4-1"><code class="docutils literal notranslate"><span class="pre">--disable-sse4.1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-sse4-2"><code class="docutils literal notranslate"><span class="pre">--disable-sse4.2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-avx2"><code class="docutils literal notranslate"><span class="pre">--disable-avx2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-bmi2"><code class="docutils literal notranslate"><span class="pre">--disable-bmi2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-rdrand"><code class="docutils literal notranslate"><span class="pre">--disable-rdrand</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-rdseed"><code class="docutils literal notranslate"><span class="pre">--disable-rdseed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-aes-ni"><code class="docutils literal notranslate"><span class="pre">--disable-aes-ni</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-sha-ni"><code class="docutils literal notranslate"><span class="pre">--disable-sha-ni</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-altivec"><code class="docutils literal notranslate"><span class="pre">--disable-altivec</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-neon"><code class="docutils literal notranslate"><span class="pre">--disable-neon</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-armv8crypto"><code class="docutils literal notranslate"><span class="pre">--disable-armv8crypto</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-powercrypto"><code class="docutils literal notranslate"><span class="pre">--disable-powercrypto</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-debug-info"><code class="docutils literal notranslate"><span class="pre">--with-debug-info</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-sanitizers"><code class="docutils literal notranslate"><span class="pre">--with-sanitizers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enable-sanitizers-san"><code class="docutils literal notranslate"><span class="pre">--enable-sanitizers=SAN</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#without-stack-protector"><code class="docutils literal notranslate"><span class="pre">--without-stack-protector</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-coverage"><code class="docutils literal notranslate"><span class="pre">--with-coverage</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-coverage-info"><code class="docutils literal notranslate"><span class="pre">--with-coverage-info</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-shared-library"><code class="docutils literal notranslate"><span class="pre">--disable-shared-library</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-static-library"><code class="docutils literal notranslate"><span class="pre">--disable-static-library</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optimize-for-size"><code class="docutils literal notranslate"><span class="pre">--optimize-for-size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#no-optimizations"><code class="docutils literal notranslate"><span class="pre">--no-optimizations</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#debug-mode"><code class="docutils literal notranslate"><span class="pre">--debug-mode</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">--amalgamation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#system-cert-bundle-path"><code class="docutils literal notranslate"><span class="pre">--system-cert-bundle=PATH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-build-dir-dir"><code class="docutils literal notranslate"><span class="pre">--with-build-dir=DIR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-external-includedir-dir"><code class="docutils literal notranslate"><span class="pre">--with-external-includedir=DIR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-external-libdir-dir"><code class="docutils literal notranslate"><span class="pre">--with-external-libdir=DIR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#define-build-macro"><code class="docutils literal notranslate"><span class="pre">--define-build-macro</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-sysroot-dir-dir"><code class="docutils literal notranslate"><span class="pre">--with-sysroot-dir=DIR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-openmp"><code class="docutils literal notranslate"><span class="pre">--with-openmp</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#link-method-method"><code class="docutils literal notranslate"><span class="pre">--link-method=METHOD</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-local-config-file"><code class="docutils literal notranslate"><span class="pre">--with-local-config=FILE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distribution-info-string"><code class="docutils literal notranslate"><span class="pre">--distribution-info=STRING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#maintainer-mode"><code class="docutils literal notranslate"><span class="pre">--maintainer-mode</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#werror-mode"><code class="docutils literal notranslate"><span class="pre">--werror-mode</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#no-install-python-module"><code class="docutils literal notranslate"><span class="pre">--no-install-python-module</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-python-versions-n-m"><code class="docutils literal notranslate"><span class="pre">--with-python-versions=N.M</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-valgrind"><code class="docutils literal notranslate"><span class="pre">--with-valgrind</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unsafe-fuzzer-mode"><code class="docutils literal notranslate"><span class="pre">--unsafe-fuzzer-mode</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-fuzzers-type"><code class="docutils literal notranslate"><span class="pre">--build-fuzzers=TYPE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-fuzzer-lib-lib"><code class="docutils literal notranslate"><span class="pre">--with-fuzzer-lib=LIB</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-targets-build-targets"><code class="docutils literal notranslate"><span class="pre">--build-targets=BUILD_TARGETS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#boost-library-name"><code class="docutils literal notranslate"><span class="pre">--boost-library-name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#without-documentation"><code class="docutils literal notranslate"><span class="pre">--without-documentation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-sphinx"><code class="docutils literal notranslate"><span class="pre">--with-sphinx</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-pdf"><code class="docutils literal notranslate"><span class="pre">--with-pdf</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-rst2man"><code class="docutils literal notranslate"><span class="pre">--with-rst2man</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-doxygen"><code class="docutils literal notranslate"><span class="pre">--with-doxygen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-policy-pol"><code class="docutils literal notranslate"><span class="pre">--module-policy=POL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enable-modules-mods"><code class="docutils literal notranslate"><span class="pre">--enable-modules=MODS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-modules-mods"><code class="docutils literal notranslate"><span class="pre">--disable-modules=MODS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minimized-build"><code class="docutils literal notranslate"><span class="pre">--minimized-build</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-boost"><code class="docutils literal notranslate"><span class="pre">--with-boost</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-bzip2"><code class="docutils literal notranslate"><span class="pre">--with-bzip2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-lzma"><code class="docutils literal notranslate"><span class="pre">--with-lzma</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-zlib"><code class="docutils literal notranslate"><span class="pre">--with-zlib</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-openssl"><code class="docutils literal notranslate"><span class="pre">--with-openssl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-commoncrypto"><code class="docutils literal notranslate"><span class="pre">--with-commoncrypto</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-sqlite3"><code class="docutils literal notranslate"><span class="pre">--with-sqlite3</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-tpm"><code class="docutils literal notranslate"><span class="pre">--with-tpm</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#program-suffix-suffix"><code class="docutils literal notranslate"><span class="pre">--program-suffix=SUFFIX</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#library-suffix-suffix"><code class="docutils literal notranslate"><span class="pre">--library-suffix=SUFFIX</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prefix-dir"><code class="docutils literal notranslate"><span class="pre">--prefix=DIR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docdir-dir"><code class="docutils literal notranslate"><span class="pre">--docdir=DIR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bindir-dir"><code class="docutils literal notranslate"><span class="pre">--bindir=DIR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#libdir-dir"><code class="docutils literal notranslate"><span class="pre">--libdir=DIR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mandir-dir"><code class="docutils literal notranslate"><span class="pre">--mandir=DIR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#includedir-dir"><code class="docutils literal notranslate"><span class="pre">--includedir=DIR</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_ref/contents.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deprecated.html">Deprecated Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="roadmap.html">Development Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="abi.html">ABI Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packaging.html">Notes for Distributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security Advisories</a></li>
+<li class="toctree-l1"><a class="reference internal" href="side_channels.html">Side Channels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev_ref/contents.html">Developer Reference</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="old_news.html">Release Notes: 0.7.0 to 1.11.34</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="contents.html">botan</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="contents.html">Docs</a> »</li>
+        
+      <li>Building The Library</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr />
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="building-the-library">
+<span id="building"></span><h1>Building The Library<a class="headerlink" href="#building-the-library" title="Permalink to this headline">¶</a></h1>
+<p>This document describes how to build Botan on Unix/POSIX and Windows
+systems. The POSIX oriented descriptions should apply to most
+common Unix systems (including OS X), along with POSIX-ish systems
+like BeOS, QNX, and Plan 9. Currently, systems other than Windows and
+POSIX (such as VMS, MacOS 9, OS/390, OS/400, …) are not supported by
+the build system, primarily due to lack of access. Please contact the
+maintainer if you would like to build Botan on such a system.</p>
+<p>Botan’s build is controlled by configure.py, which is a <a class="reference external" href="https://www.python.org">Python</a> script. Python 2.6 or later is required.</p>
+<p>For the impatient, this works for most systems:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./configure.py [--prefix=/some/directory]
+$ make
+$ make install
+</pre></div>
+</div>
+<p>Or using <code class="docutils literal notranslate"><span class="pre">nmake</span></code>, if you’re compiling on Windows with Visual C++. On
+platforms that do not understand the ‘#!’ convention for beginning
+script files, or that have Python installed in an unusual spot, you
+might need to prefix the <code class="docutils literal notranslate"><span class="pre">configure.py</span></code> command with <code class="docutils literal notranslate"><span class="pre">python</span></code> or
+<code class="docutils literal notranslate"><span class="pre">/path/to/python</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ python ./configure.py [arguments]
+</pre></div>
+</div>
+<div class="section" id="configuring-the-build">
+<h2>Configuring the Build<a class="headerlink" href="#configuring-the-build" title="Permalink to this headline">¶</a></h2>
+<p>The first step is to run <code class="docutils literal notranslate"><span class="pre">configure.py</span></code>, which is a Python script
+that creates various directories, config files, and a Makefile for
+building everything. This script should run under a vanilla install of
+Python 2.6, 2.7, or 3.x.</p>
+<p>The script will attempt to guess what kind of system you are trying to
+compile for (and will print messages telling you what it guessed).
+You can override this process by passing the options <code class="docutils literal notranslate"><span class="pre">--cc</span></code>,
+<code class="docutils literal notranslate"><span class="pre">--os</span></code>, and <code class="docutils literal notranslate"><span class="pre">--cpu</span></code>.</p>
+<p>You can pass basically anything reasonable with <code class="docutils literal notranslate"><span class="pre">--cpu</span></code>: the script
+knows about a large number of different architectures, their
+sub-models, and common aliases for them. You should only select the
+64-bit version of a CPU (such as “sparc64” or “mips64”) if your
+operating system knows how to handle 64-bit object code - a 32-bit
+kernel on a 64-bit CPU will generally not like 64-bit code.</p>
+<p>By default the script tries to figure out what will work on your
+system, and use that. It will print a display at the end showing which
+algorithms have and have not been enabled. For instance on one system
+we might see lines like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>INFO: Skipping (dependency failure): certstor_sqlite3 sessions_sqlite3
+INFO: Skipping (incompatible CPU): aes_power8
+INFO: Skipping (incompatible OS): darwin_secrandom getentropy win32_stats
+INFO: Skipping (incompatible compiler): aes_armv8 pmull sha1_armv8 sha2_32_armv8
+INFO: Skipping (no enabled compression schemes): compression
+INFO: Skipping (requires external dependency): boost bzip2 lzma openssl sqlite3 tpm zlib
+</pre></div>
+</div>
+<p>The ones that are skipped because they are require an external
+dependency have to be explicitly asked for, because they rely on third
+party libraries which your system might not have or that you might not
+want the resulting binary to depend on. For instance to enable zlib
+support, add <code class="docutils literal notranslate"><span class="pre">--with-zlib</span></code> to your invocation of <code class="docutils literal notranslate"><span class="pre">configure.py</span></code>.
+All available modules can be listed with <code class="docutils literal notranslate"><span class="pre">--list-modules</span></code>.</p>
+<p>You can control which algorithms and modules are built using the
+options <code class="docutils literal notranslate"><span class="pre">--enable-modules=MODS</span></code> and <code class="docutils literal notranslate"><span class="pre">--disable-modules=MODS</span></code>, for
+instance <code class="docutils literal notranslate"><span class="pre">--enable-modules=zlib</span></code> and <code class="docutils literal notranslate"><span class="pre">--disable-modules=xtea,idea</span></code>.
+Modules not listed on the command line will simply be loaded if needed
+or if configured to load by default. If you use <code class="docutils literal notranslate"><span class="pre">--minimized-build</span></code>,
+only the most core modules will be included; you can then explicitly
+enable things that you want to use with <code class="docutils literal notranslate"><span class="pre">--enable-modules</span></code>. This is
+useful for creating a minimal build targeting to a specific
+application, especially in conjunction with the amalgamation option;
+see <a class="reference internal" href="#amalgamation"><span class="std std-ref">The Amalgamation Build</span></a> and <a class="reference internal" href="#minimized-builds"><span class="std std-ref">Minimized Builds</span></a>.</p>
+<p>For instance:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./configure.py --minimized-build --enable-modules=rsa,eme_oaep,emsa_pssr
+</pre></div>
+</div>
+<p>will set up a build that only includes RSA, OAEP, PSS along with any
+required dependencies. Note that a minimized build does not by default
+include any random number generator, which is needed for example to
+generate keys, nonces and IVs. See <a class="reference internal" href="api_ref/rng.html"><span class="doc">Random Number Generators</span></a> on which random number
+generators are available.</p>
+</div>
+<div class="section" id="cross-compiling">
+<h2>Cross Compiling<a class="headerlink" href="#cross-compiling" title="Permalink to this headline">¶</a></h2>
+<p>Cross compiling refers to building software on one type of host (say Linux
+x86-64) but creating a binary for some other type (say MinGW x86-32). This is
+completely supported by the build system. To extend the example, we must tell
+<cite>configure.py</cite> to use the MinGW tools:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./configure.py --os=mingw --cpu=x86_32 --cc-bin=i686-w64-mingw32-g++ --ar-command=i686-w64-mingw32-ar
+...
+$ make
+...
+$ file botan.exe
+botan.exe: PE32 executable (console) Intel 80386, for MS Windows
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For whatever reason, some distributions of MinGW lack support for
+threading or mutexes in the C++ standard library. You can work around
+this by disabling thread support using <code class="docutils literal notranslate"><span class="pre">--without-os-feature=threads</span></code></p>
+</div>
+<p>You can also specify the alternate tools by setting the <cite>CXX</cite> and <cite>AR</cite>
+environment variables (instead of the <cite>–cc-bin</cite> and <cite>–ar-command</cite> options), as
+is commonly done with autoconf builds.</p>
+</div>
+<div class="section" id="on-unix">
+<h2>On Unix<a class="headerlink" href="#on-unix" title="Permalink to this headline">¶</a></h2>
+<p>The basic build procedure on Unix and Unix-like systems is:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./configure.py [--enable-modules=&lt;list&gt;] [--cc=CC]
+$ make
+$ make check
+</pre></div>
+</div>
+<p>If the tests look OK, install:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make install
+</pre></div>
+</div>
+<p>On Unix systems the script will default to using GCC; use <code class="docutils literal notranslate"><span class="pre">--cc</span></code> if
+you want something else. For instance use <code class="docutils literal notranslate"><span class="pre">--cc=icc</span></code> for Intel C++
+and <code class="docutils literal notranslate"><span class="pre">--cc=clang</span></code> for Clang.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> target has a default directory in which it will
+install Botan (typically <code class="docutils literal notranslate"><span class="pre">/usr/local</span></code>). You can override this by
+using the <code class="docutils literal notranslate"><span class="pre">--prefix</span></code> argument to <code class="docutils literal notranslate"><span class="pre">configure.py</span></code>, like so:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./configure.py --prefix=/opt &lt;other arguments&gt;
+</pre></div>
+</div>
+<p>On some systems shared libraries might not be immediately visible to
+the runtime linker. For example, on Linux you may have to edit
+<code class="docutils literal notranslate"><span class="pre">/etc/ld.so.conf</span></code> and run <code class="docutils literal notranslate"><span class="pre">ldconfig</span></code> (as root) in order for new
+shared libraries to be picked up by the linker. An alternative is to
+set your <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> shell variable to include the directory
+that the Botan libraries were installed into.</p>
+</div>
+<div class="section" id="on-macos">
+<h2>On macOS<a class="headerlink" href="#on-macos" title="Permalink to this headline">¶</a></h2>
+<p>A build on macOS works much like that on any other Unix-like system.</p>
+<p>To build a universal binary for macOS, you need to set some additional
+build flags. Do this with the <cite>configure.py</cite> flag <cite>–cc-abi-flags</cite>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>--cc-abi-flags="-force_cpusubtype_ALL -mmacosx-version-min=10.4 -arch i386 -arch ppc"
+</pre></div>
+</div>
+</div>
+<div class="section" id="on-windows">
+<h2>On Windows<a class="headerlink" href="#on-windows" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The earliest versions of Windows supported are Windows 7 and Windows 2008 R2</p>
+</div>
+<p>You need to have a copy of Python installed, and have both Python and
+your chosen compiler in your path. Open a command shell (or the SDK
+shell), and run:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ python configure.py --cc=msvc --os=windows
+$ nmake
+$ nmake check
+$ nmake install
+</pre></div>
+</div>
+<p>Botan supports the nmake replacement <a class="reference external" href="https://wiki.qt.io/Jom">Jom</a>
+which enables you to run multiple build jobs in parallel.</p>
+<p>For MinGW, use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ python configure.py --cc=gcc --os=mingw
+$ make
+</pre></div>
+</div>
+<p>By default the install target will be <code class="docutils literal notranslate"><span class="pre">C:\botan</span></code>; you can modify
+this with the <code class="docutils literal notranslate"><span class="pre">--prefix</span></code> option.</p>
+<p>When building your applications, all you have to do is tell the
+compiler to look for both include files and library files in
+<code class="docutils literal notranslate"><span class="pre">C:\botan</span></code>, and it will find both. Or you can move them to a
+place where they will be in the default compiler search paths (consult
+your documentation and/or local expert for details).</p>
+</div>
+<div class="section" id="for-ios-using-xcode">
+<h2>For iOS using XCode<a class="headerlink" href="#for-ios-using-xcode" title="Permalink to this headline">¶</a></h2>
+<p>For iOS, you typically build for 3 architectures: armv7 (32 bit, older
+iOS devices), armv8-a (64 bit, recent iOS devices) and x86_64 for
+the iPhone simulator. You can build for these 3 architectures and then
+create a universal binary containing code for all of these
+architectures, so you can link to Botan for the simulator as well as
+for an iOS device.</p>
+<p>To cross compile for armv7, configure and make with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./configure.py --os=ios --prefix="iphone-32" --cpu=armv7 --cc=clang \
+                 --cc-abi-flags="-arch armv7"
+$ xcrun --sdk iphoneos make install
+</pre></div>
+</div>
+<p>To cross compile for armv8-a, configure and make with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./configure.py --os=ios --prefix="iphone-64" --cpu=armv8-a --cc=clang \
+                 --cc-abi-flags="-arch arm64"
+$ xcrun --sdk iphoneos make install
+</pre></div>
+</div>
+<p>To compile for the iPhone Simulator, configure and make with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./configure.py --os=ios --prefix="iphone-simulator" --cpu=x86_64 --cc=clang \
+                 --cc-abi-flags="-arch x86_64"
+$ xcrun --sdk iphonesimulator make install
+</pre></div>
+</div>
+<p>Now create the universal binary and confirm the library is compiled
+for all three architectures:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ xcrun --sdk iphoneos lipo -create -output libbotan-2.a \
+               iphone-32/lib/libbotan-2.a \
+               iphone-64/lib/libbotan-2.a \
+               iphone-simulator/lib/libbotan-2.a
+$ xcrun --sdk iphoneos lipo -info libbotan-2.a
+Architectures in the fat file: libbotan-2.a are: armv7 x86_64 armv64
+</pre></div>
+</div>
+<p>The resulting static library can be linked to your app in Xcode.</p>
+</div>
+<div class="section" id="for-android">
+<h2>For Android<a class="headerlink" href="#for-android" title="Permalink to this headline">¶</a></h2>
+<p>Modern versions of Android NDK use Clang and support C++11. Simply
+configure using the appropriate NDK compiler:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ export CXX=/opt/android-ndk/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang++
+$ ./configure.py --os=android --cc=clang --cpu=arm64
+</pre></div>
+</div>
+<div class="section" id="docker">
+<h3>Docker<a class="headerlink" href="#docker" title="Permalink to this headline">¶</a></h3>
+<p>To build android version, there is the possibility to use
+the docker way:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo ANDROID_SDK_VER=21 ANDROID_ARCH=arm64 src/scripts/docker-android.sh
+</pre></div>
+</div>
+<p>This will produce the docker-builds/android folder containing
+each architecture compiled.</p>
+</div>
+</div>
+<div class="section" id="emscripten-webassembly">
+<h2>Emscripten (WebAssembly)<a class="headerlink" href="#emscripten-webassembly" title="Permalink to this headline">¶</a></h2>
+<p>To build for WebAssembly using Emscripten, try:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CXX=em++ ./configure.py --cc=clang --cpu=llvm --os=emscripten
+make
+</pre></div>
+</div>
+<p>This will produce bitcode files <code class="docutils literal notranslate"><span class="pre">botan-test.bc</span></code> and <code class="docutils literal notranslate"><span class="pre">botan.bc</span></code>
+along with a static archive <code class="docutils literal notranslate"><span class="pre">libbotan-2.a</span></code> which can linked with
+other modules.  To convert the tests into a WASM file which can be
+executed on a browser, use:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>em++ -s ALLOW_MEMORY_GROWTH=1 -s DISABLE_EXCEPTION_CATCHING=0 -s WASM=1 \
+   --preload-file src/tests/data botan-test.bc -o botan-test.html
+</pre></div>
+</div>
+</div>
+<div class="section" id="supporting-older-distros">
+<h2>Supporting Older Distros<a class="headerlink" href="#supporting-older-distros" title="Permalink to this headline">¶</a></h2>
+<p>Some “stable” distributions, notably RHEL/CentOS, ship very obsolete
+versions of binutils, which do not support more recent CPU instructions.
+As a result when building you may receive errors like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Error: no such instruction: `sha256rnds2 %xmm0,%xmm4,%xmm3'
+</pre></div>
+</div>
+<p>Depending on how old your binutils is, you may need to disable BMI2,
+AVX2, SHA-NI, and/or RDSEED. These can be disabled by passing the
+flags <code class="docutils literal notranslate"><span class="pre">--disable-bmi2</span></code>, <code class="docutils literal notranslate"><span class="pre">--disable-avx2</span></code>, <code class="docutils literal notranslate"><span class="pre">--disable-sha-ni</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">--disable-rdseed</span></code> to <code class="docutils literal notranslate"><span class="pre">configure.py</span></code>.</p>
+</div>
+<div class="section" id="other-build-related-tasks">
+<h2>Other Build-Related Tasks<a class="headerlink" href="#other-build-related-tasks" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="building-the-documentation">
+<span id="building-docs"></span><h3>Building The Documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline">¶</a></h3>
+<p>There are two documentation options available, Sphinx and Doxygen.
+Sphinx will be used if <code class="docutils literal notranslate"><span class="pre">sphinx-build</span></code> is detected in the PATH, or if
+<code class="docutils literal notranslate"><span class="pre">--with-sphinx</span></code> is used at configure time. Doxygen is only enabled
+if <code class="docutils literal notranslate"><span class="pre">--with-doxygen</span></code> is used. Both are generated by the makefile
+target <code class="docutils literal notranslate"><span class="pre">docs</span></code>.</p>
+</div>
+<div class="section" id="the-amalgamation-build">
+<span id="amalgamation"></span><h3>The Amalgamation Build<a class="headerlink" href="#the-amalgamation-build" title="Permalink to this headline">¶</a></h3>
+<p>You can also configure Botan to be built using only a single source file; this
+is quite convenient if you plan to embed the library into another application.</p>
+<p>To generate the amalgamation, run <code class="docutils literal notranslate"><span class="pre">configure.py</span></code> with whatever options you
+would ordinarily use, along with the option <code class="docutils literal notranslate"><span class="pre">--amalgamation</span></code>. This will create
+two (rather large) files, <code class="docutils literal notranslate"><span class="pre">botan_all.h</span></code> and <code class="docutils literal notranslate"><span class="pre">botan_all.cpp</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The library will as usual be configured to target some specific operating
+system and CPU architecture. You can use the CPU target “generic” if you need
+to target multiple CPU architectures, but this has the effect of disabling
+<em>all</em> CPU specific features such as SIMD, AES instruction sets, or inline
+assembly. If you need to ship amalgamations for multiple targets, it would be
+better to create different amalgamation files for each individual target.</p>
+</div>
+<p>Whenever you would have included a botan header, you can then include
+<code class="docutils literal notranslate"><span class="pre">botan_all.h</span></code>, and include <code class="docutils literal notranslate"><span class="pre">botan_all.cpp</span></code> along with the rest of the source
+files in your build. If you want to be able to easily switch between amalgamated
+and non-amalgamated versions (for instance to take advantage of prepackaged
+versions of botan on operating systems that support it), you can instead ignore
+<code class="docutils literal notranslate"><span class="pre">botan_all.h</span></code> and use the headers from <code class="docutils literal notranslate"><span class="pre">build/include</span></code> as normal.</p>
+<p>You can also build the library using Botan’s build system (as normal) but
+utilizing the amalgamation instead of the individual source files by running
+something like <code class="docutils literal notranslate"><span class="pre">./configure.py</span> <span class="pre">--amalgamation</span> <span class="pre">&amp;&amp;</span> <span class="pre">make</span></code>. This is essentially a
+very simple form of link time optimization; because the entire library source is
+visible to the compiler, it has more opportunities for interprocedural
+optimizations.  Additionally (assuming you are not making use of a compiler
+cache such as <code class="docutils literal notranslate"><span class="pre">ccache</span></code> or <code class="docutils literal notranslate"><span class="pre">sccache</span></code>) amalgamation builds usually have
+significantly shorter compile times for full rebuilds.</p>
+</div>
+<div class="section" id="modules-relying-on-third-party-libraries">
+<h3>Modules Relying on Third Party Libraries<a class="headerlink" href="#modules-relying-on-third-party-libraries" title="Permalink to this headline">¶</a></h3>
+<p>Currently <code class="docutils literal notranslate"><span class="pre">configure.py</span></code> cannot detect if external libraries are
+available, so using them is controlled explicitly at build time
+by the user using</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--with-bzip2</span></code> enables the filters providing bzip2 compression and
+decompression. Requires the bzip2 development libraries to be installed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--with-zlib</span></code> enables the filters providing zlib compression and
+decompression. Requires the zlib development libraries to be installed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--with-lzma</span></code> enables the filters providing lzma compression and
+decompression. Requires the lzma development libraries to be installed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--with-sqlite3</span></code> enables using sqlite3 databases in various contexts
+(TLS session cache, PSK database, etc).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--with-openssl</span></code> adds an engine that uses OpenSSL for some ciphers, hashes,
+and public key operations. OpenSSL 1.0.2 or later is supported. LibreSSL can
+also be used.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--with-tpm</span></code> adds support for using TPM hardware via the TrouSerS library.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--with-boost</span></code> enables using some Boost libraries. In particular
+Boost.Filesystem is used for a few operations (but on most platforms, a
+native API equivalent is available), and Boost.Asio is used to provide a few
+extra TLS related command line utilities.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="multiple-builds">
+<h3>Multiple Builds<a class="headerlink" href="#multiple-builds" title="Permalink to this headline">¶</a></h3>
+<p>It may be useful to run multiple builds with different configurations.
+Specify <code class="docutils literal notranslate"><span class="pre">--with-build-dir=&lt;dir&gt;</span></code> to set up a build environment in a
+different directory.</p>
+</div>
+<div class="section" id="setting-distribution-info">
+<h3>Setting Distribution Info<a class="headerlink" href="#setting-distribution-info" title="Permalink to this headline">¶</a></h3>
+<p>The build allows you to set some information about what distribution
+this build of the library comes from.  It is particularly relevant to
+people packaging the library for wider distribution, to signify what
+distribution this build is from. Applications can test this value by
+checking the string value of the macro <code class="docutils literal notranslate"><span class="pre">BOTAN_DISTRIBUTION_INFO</span></code>. It
+can be set using the <code class="docutils literal notranslate"><span class="pre">--distribution-info</span></code> flag to <code class="docutils literal notranslate"><span class="pre">configure.py</span></code>,
+and otherwise defaults to “unspecified”. For instance, a <a class="reference external" href="https://www.gentoo.org">Gentoo</a> ebuild might set it with
+<code class="docutils literal notranslate"><span class="pre">--distribution-info="Gentoo</span> <span class="pre">${PVR}"</span></code> where <code class="docutils literal notranslate"><span class="pre">${PVR}</span></code> is an ebuild
+variable automatically set to a combination of the library and ebuild
+versions.</p>
+</div>
+<div class="section" id="local-configuration-settings">
+<h3>Local Configuration Settings<a class="headerlink" href="#local-configuration-settings" title="Permalink to this headline">¶</a></h3>
+<p>You may want to do something peculiar with the configuration; to
+support this there is a flag to <code class="docutils literal notranslate"><span class="pre">configure.py</span></code> called
+<code class="docutils literal notranslate"><span class="pre">--with-local-config=&lt;file&gt;</span></code>. The contents of the file are
+inserted into <code class="docutils literal notranslate"><span class="pre">build/build.h</span></code> which is (indirectly) included
+into every Botan header and source file.</p>
+</div>
+<div class="section" id="enabling-or-disabling-use-of-certain-os-features">
+<h3>Enabling or Disabling Use of Certain OS Features<a class="headerlink" href="#enabling-or-disabling-use-of-certain-os-features" title="Permalink to this headline">¶</a></h3>
+<p>Botan uses compile-time flags to enable or disable use of certain operating
+specific functions. You can also override these at build time if desired.</p>
+<p>The default feature flags are given in the files in <code class="docutils literal notranslate"><span class="pre">src/build-data/os</span></code> in the
+<code class="docutils literal notranslate"><span class="pre">target_features</span></code> block. For example Linux defines flags like <code class="docutils literal notranslate"><span class="pre">proc_fs</span></code>,
+<code class="docutils literal notranslate"><span class="pre">getauxval</span></code>, and <code class="docutils literal notranslate"><span class="pre">sockets</span></code>.  The <code class="docutils literal notranslate"><span class="pre">configure.py</span></code> option
+<code class="docutils literal notranslate"><span class="pre">--list-os-features</span></code> will display all the feature flags for all operating
+system targets.</p>
+<p>To disable a default-enabled flag, use <code class="docutils literal notranslate"><span class="pre">--without-os-feature=feat1,feat2,...</span></code></p>
+<p>To enable a flag that isn’t otherwise enabled, use <code class="docutils literal notranslate"><span class="pre">--with-os-feature=feat</span></code>.
+For example, modern Linux systems support the <code class="docutils literal notranslate"><span class="pre">getentropy</span></code> call, but it is not
+enabled by default because many older systems lack it. However if you know you
+will only deploy to recently updated systems you can use
+<code class="docutils literal notranslate"><span class="pre">--with-os-feature=getentropy</span></code> to enable it.</p>
+<p>A special case if dynamic loading, which applications for certain environments
+will want to disable. There is no specific feature flag for this, but
+<code class="docutils literal notranslate"><span class="pre">--disable-modules=dyn_load</span></code> will prevent it from being used.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Disabling <code class="docutils literal notranslate"><span class="pre">dyn_load</span></code> module will also disable the PKCS #11
+wrapper, which relies on dynamic loading.</p>
+</div>
+</div>
+<div class="section" id="configuration-parameters">
+<h3>Configuration Parameters<a class="headerlink" href="#configuration-parameters" title="Permalink to this headline">¶</a></h3>
+<p>There are some configuration parameters which you may want to tweak
+before building the library. These can be found in <code class="docutils literal notranslate"><span class="pre">build.h</span></code>. This
+file is overwritten every time the configure script is run (and does
+not exist until after you run the script for the first time).</p>
+<p>Also included in <code class="docutils literal notranslate"><span class="pre">build/build.h</span></code> are macros which let applications
+check which features are included in the current version of the
+library. All of them begin with <code class="docutils literal notranslate"><span class="pre">BOTAN_HAS_</span></code>. For example, if
+<code class="docutils literal notranslate"><span class="pre">BOTAN_HAS_RSA</span></code> is defined, then an application knows that this
+version of the library has RSA available.</p>
+<p><code class="docutils literal notranslate"><span class="pre">BOTAN_MP_WORD_BITS</span></code>: This macro controls the size of the words used for
+calculations with the MPI implementation in Botan.  It must be set to either 32
+or 64 bits. The default is chosen based on the target processor. There is
+normally no reason to change this.</p>
+<p><code class="docutils literal notranslate"><span class="pre">BOTAN_DEFAULT_BUFFER_SIZE</span></code>: This constant is used as the size of
+buffers throughout Botan. The default should be fine for most
+purposes, reduce if you are very concerned about runtime memory usage.</p>
+</div>
+</div>
+<div class="section" id="building-applications">
+<h2>Building Applications<a class="headerlink" href="#building-applications" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="unix">
+<h3>Unix<a class="headerlink" href="#unix" title="Permalink to this headline">¶</a></h3>
+<p>Botan usually links in several different system libraries (such as
+<code class="docutils literal notranslate"><span class="pre">librt</span></code> or <code class="docutils literal notranslate"><span class="pre">libz</span></code>), depending on which modules are configured at
+compile time. In many environments, particularly ones using static
+libraries, an application has to link against the same libraries as
+Botan for the linking step to succeed. But how does it figure out what
+libraries it <em>is</em> linked against?</p>
+<p>The answer is to ask the <code class="docutils literal notranslate"><span class="pre">botan</span></code> command line tool using
+the <code class="docutils literal notranslate"><span class="pre">config</span></code> and <code class="docutils literal notranslate"><span class="pre">version</span></code> commands.</p>
+<p><code class="docutils literal notranslate"><span class="pre">botan</span> <span class="pre">version</span></code>: Print the Botan version number.</p>
+<p><code class="docutils literal notranslate"><span class="pre">botan</span> <span class="pre">config</span> <span class="pre">prefix</span></code>: If no argument, print the prefix where Botan is
+installed (such as <code class="docutils literal notranslate"><span class="pre">/opt</span></code> or <code class="docutils literal notranslate"><span class="pre">/usr/local</span></code>).</p>
+<p><code class="docutils literal notranslate"><span class="pre">botan</span> <span class="pre">config</span> <span class="pre">cflags</span></code>: Print options that should be passed to the
+compiler whenever a C++ file is compiled. Typically this is used for
+setting include paths.</p>
+<p><code class="docutils literal notranslate"><span class="pre">botan</span> <span class="pre">config</span> <span class="pre">libs</span></code>: Print options for which libraries to link to
+(this will include a reference to the botan library itself).</p>
+<p>Your <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> can run <code class="docutils literal notranslate"><span class="pre">botan</span> <span class="pre">config</span></code> and get the options
+necessary for getting your application to compile and link, regardless
+of whatever crazy libraries Botan might be linked against.</p>
+</div>
+<div class="section" id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<p>No special help exists for building applications on Windows. However,
+given that typically Windows software is distributed as binaries, this
+is less of a problem - only the developer needs to worry about it. As
+long as they can remember where they installed Botan, they just have
+to set the appropriate flags in their Makefile/project file.</p>
+</div>
+</div>
+<div class="section" id="language-wrappers">
+<h2>Language Wrappers<a class="headerlink" href="#language-wrappers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="building-the-python-wrappers">
+<h3>Building the Python wrappers<a class="headerlink" href="#building-the-python-wrappers" title="Permalink to this headline">¶</a></h3>
+<p>The Python wrappers for Botan use ctypes and the C89 API so no special
+build step is required, just import botan2.py</p>
+<p>See <a class="reference internal" href="api_ref/python.html"><span class="doc">Python Bindings</span></a> for more information about
+the Python bindings.</p>
+</div>
+</div>
+<div class="section" id="minimized-builds">
+<span id="id1"></span><h2>Minimized Builds<a class="headerlink" href="#minimized-builds" title="Permalink to this headline">¶</a></h2>
+<p>Many developers wish to configure a minimized build which contains only the
+specific features their application will use. In general this is straighforward:
+use <code class="docutils literal notranslate"><span class="pre">--minimized-build</span></code> plus <code class="docutils literal notranslate"><span class="pre">--enable-modules=</span></code> to enable the specific modules
+you wish to use. Any such configurations should build and pass the tests; if you
+encounter a case where it doesn’t please file an issue.</p>
+<p>The only trick is knowing which features you want to enable. The most common
+difficulty comes with entropy sources. By default, none are enabled, which means
+if you attempt to use <code class="docutils literal notranslate"><span class="pre">AutoSeeded_RNG</span></code>, it will fail. The easiest resolution
+is to also enable <code class="docutils literal notranslate"><span class="pre">system_rng</span></code> which can act as either an entropy source or
+used directly as the RNG.</p>
+<p>If you are building for x86, ARM, or POWER, it can be beneficial to enable
+hardware support for the relevant instruction sets with modules such as
+<code class="docutils literal notranslate"><span class="pre">aes_ni</span></code> and <code class="docutils literal notranslate"><span class="pre">clmul</span></code> for x86, or <code class="docutils literal notranslate"><span class="pre">aes_armv8</span></code>, <code class="docutils literal notranslate"><span class="pre">pmull</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">sha2_32_armv8</span></code> on ARMv8. SIMD optimizations such as <code class="docutils literal notranslate"><span class="pre">chacha_avx2</span></code> also can
+provide substantial performance improvements.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In a future release, hardware specific modules will be enabled by default if
+the underlying “base” module is enabled.</p>
+</div>
+<p>If you are building a TLS application, you may (or may not) want to include
+<code class="docutils literal notranslate"><span class="pre">tls_cbc</span></code> which enables support for CBC ciphersuites. If <code class="docutils literal notranslate"><span class="pre">tls_cbc</span></code> is
+disabled, then it will not be possible to negotiate TLS v1.0/v1.1. In general
+this should be considered a feature; only enable this if you need backward
+compatability with obsolete clients or servers.</p>
+<p>For TLS another useful feature which is not enabled by default is the
+ChaCha20Poly1305 ciphersuites. To enable these, add <code class="docutils literal notranslate"><span class="pre">chacha20poly1305</span></code>.</p>
+</div>
+<div class="section" id="configure-script-options">
+<h2>Configure Script Options<a class="headerlink" href="#configure-script-options" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cpu-cpu">
+<h3><code class="docutils literal notranslate"><span class="pre">--cpu=CPU</span></code><a class="headerlink" href="#cpu-cpu" title="Permalink to this headline">¶</a></h3>
+<p>Set the target CPU architecture. If not used, the arch of the current
+system is detected (using Python’s platform module) and used.</p>
+</div>
+<div class="section" id="os-os">
+<h3><code class="docutils literal notranslate"><span class="pre">--os=OS</span></code><a class="headerlink" href="#os-os" title="Permalink to this headline">¶</a></h3>
+<p>Set the target operating system.</p>
+</div>
+<div class="section" id="cc-compiler">
+<h3><code class="docutils literal notranslate"><span class="pre">--cc=COMPILER</span></code><a class="headerlink" href="#cc-compiler" title="Permalink to this headline">¶</a></h3>
+<p>Set the desired build compiler</p>
+</div>
+<div class="section" id="cc-min-version-major-minor">
+<h3><code class="docutils literal notranslate"><span class="pre">--cc-min-version=MAJOR.MINOR</span></code><a class="headerlink" href="#cc-min-version-major-minor" title="Permalink to this headline">¶</a></h3>
+<p>Set the minimal version of the target
+compiler. Use –cc-min-version=0.0 to support all compiler
+versions. Default is auto detection.</p>
+</div>
+<div class="section" id="cc-bin-binary">
+<h3><code class="docutils literal notranslate"><span class="pre">--cc-bin=BINARY</span></code><a class="headerlink" href="#cc-bin-binary" title="Permalink to this headline">¶</a></h3>
+<p>Set path to compiler binary</p>
+<p>If not provided, the value of the <code class="docutils literal notranslate"><span class="pre">CXX</span></code> environment variable is used if set.</p>
+</div>
+<div class="section" id="cc-abi-flags-flags">
+<h3><code class="docutils literal notranslate"><span class="pre">--cc-abi-flags=FLAGS</span></code><a class="headerlink" href="#cc-abi-flags-flags" title="Permalink to this headline">¶</a></h3>
+<p>Set ABI flags, which for the purposes of this option mean options
+which should be passed to both the compiler and linker.</p>
+</div>
+<div class="section" id="cxxflags-flags">
+<h3><code class="docutils literal notranslate"><span class="pre">--cxxflags=FLAGS</span></code><a class="headerlink" href="#cxxflags-flags" title="Permalink to this headline">¶</a></h3>
+<p>Override all compiler flags. This is equivalent to setting <code class="docutils literal notranslate"><span class="pre">CXXFLAGS</span></code>
+in the environment.</p>
+</div>
+<div class="section" id="extra-cxxflags-flags">
+<h3><code class="docutils literal notranslate"><span class="pre">--extra-cxxflags=FLAGS</span></code><a class="headerlink" href="#extra-cxxflags-flags" title="Permalink to this headline">¶</a></h3>
+<p>Set extra compiler flags, which are appended to the default set.  This
+is useful if you want to set just one or two additional options but
+leave the normal logic for selecting flags alone.</p>
+</div>
+<div class="section" id="ldflags-flags">
+<h3><code class="docutils literal notranslate"><span class="pre">--ldflags=FLAGS</span></code><a class="headerlink" href="#ldflags-flags" title="Permalink to this headline">¶</a></h3>
+<p>Set flags to pass to the linker. This is equivalent to setting <code class="docutils literal notranslate"><span class="pre">LDFLAGS</span></code></p>
+</div>
+<div class="section" id="ar-command-ar">
+<h3><code class="docutils literal notranslate"><span class="pre">--ar-command=AR</span></code><a class="headerlink" href="#ar-command-ar" title="Permalink to this headline">¶</a></h3>
+<p>Set the path to the tool to use to create static archives (<code class="docutils literal notranslate"><span class="pre">ar</span></code>).
+This is normally only used for cross-compilation.</p>
+<p>If not provided, the value of the <code class="docutils literal notranslate"><span class="pre">AR</span></code> environment variable is used if set.</p>
+</div>
+<div class="section" id="ar-options-ar-options">
+<h3><code class="docutils literal notranslate"><span class="pre">--ar-options=AR_OPTIONS</span></code><a class="headerlink" href="#ar-options-ar-options" title="Permalink to this headline">¶</a></h3>
+<p>Specify the options to pass to <code class="docutils literal notranslate"><span class="pre">ar</span></code>.</p>
+<p>If not provided, the value of the <code class="docutils literal notranslate"><span class="pre">AR_OPTIONS</span></code> environment variable is used if set.</p>
+</div>
+<div class="section" id="msvc-runtime-rt">
+<h3><code class="docutils literal notranslate"><span class="pre">--msvc-runtime=RT</span></code><a class="headerlink" href="#msvc-runtime-rt" title="Permalink to this headline">¶</a></h3>
+<p>Specify the MSVC runtime to use (MT, MD, MTd, or MDd). If not specified,
+picks either MD or MDd depending on if debug mode is set.</p>
+</div>
+<div class="section" id="with-endian-order">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-endian=ORDER</span></code><a class="headerlink" href="#with-endian-order" title="Permalink to this headline">¶</a></h3>
+<p>The parameter should be either “little” or “big”. If not used then if
+the target architecture has a default, that is used. Otherwise left
+unspecified, which causes less optimal codepaths to be used but will
+work on either little or big endian.</p>
+</div>
+<div class="section" id="with-os-features-feat">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-os-features=FEAT</span></code><a class="headerlink" href="#with-os-features-feat" title="Permalink to this headline">¶</a></h3>
+<p>Specify an OS feature to enable. See <code class="docutils literal notranslate"><span class="pre">src/build-data/os</span></code> and
+<code class="docutils literal notranslate"><span class="pre">doc/os.rst</span></code> for more information.</p>
+</div>
+<div class="section" id="without-os-features-feat">
+<h3><code class="docutils literal notranslate"><span class="pre">--without-os-features=FEAT</span></code><a class="headerlink" href="#without-os-features-feat" title="Permalink to this headline">¶</a></h3>
+<p>Specify an OS feature to disable.</p>
+</div>
+<div class="section" id="disable-sse2">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-sse2</span></code><a class="headerlink" href="#disable-sse2" title="Permalink to this headline">¶</a></h3>
+<p>Disable use of SSE2 intrinsics</p>
+</div>
+<div class="section" id="disable-ssse3">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-ssse3</span></code><a class="headerlink" href="#disable-ssse3" title="Permalink to this headline">¶</a></h3>
+<p>Disable use of SSSE3 intrinsics</p>
+</div>
+<div class="section" id="disable-sse4-1">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-sse4.1</span></code><a class="headerlink" href="#disable-sse4-1" title="Permalink to this headline">¶</a></h3>
+<p>Disable use of SSE4.1 intrinsics</p>
+</div>
+<div class="section" id="disable-sse4-2">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-sse4.2</span></code><a class="headerlink" href="#disable-sse4-2" title="Permalink to this headline">¶</a></h3>
+<p>Disable use of SSE4.2 intrinsics</p>
+</div>
+<div class="section" id="disable-avx2">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-avx2</span></code><a class="headerlink" href="#disable-avx2" title="Permalink to this headline">¶</a></h3>
+<p>Disable use of AVX2 intrinsics</p>
+</div>
+<div class="section" id="disable-bmi2">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-bmi2</span></code><a class="headerlink" href="#disable-bmi2" title="Permalink to this headline">¶</a></h3>
+<p>Disable use of BMI2 intrinsics</p>
+</div>
+<div class="section" id="disable-rdrand">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-rdrand</span></code><a class="headerlink" href="#disable-rdrand" title="Permalink to this headline">¶</a></h3>
+<p>Disable use of RDRAND intrinsics</p>
+</div>
+<div class="section" id="disable-rdseed">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-rdseed</span></code><a class="headerlink" href="#disable-rdseed" title="Permalink to this headline">¶</a></h3>
+<p>Disable use of RDSEED intrinsics</p>
+</div>
+<div class="section" id="disable-aes-ni">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-aes-ni</span></code><a class="headerlink" href="#disable-aes-ni" title="Permalink to this headline">¶</a></h3>
+<p>Disable use of AES-NI intrinsics</p>
+</div>
+<div class="section" id="disable-sha-ni">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-sha-ni</span></code><a class="headerlink" href="#disable-sha-ni" title="Permalink to this headline">¶</a></h3>
+<p>Disable use of SHA-NI intrinsics</p>
+</div>
+<div class="section" id="disable-altivec">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-altivec</span></code><a class="headerlink" href="#disable-altivec" title="Permalink to this headline">¶</a></h3>
+<p>Disable use of AltiVec intrinsics</p>
+</div>
+<div class="section" id="disable-neon">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-neon</span></code><a class="headerlink" href="#disable-neon" title="Permalink to this headline">¶</a></h3>
+<p>Disable use of NEON intrinsics</p>
+</div>
+<div class="section" id="disable-armv8crypto">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-armv8crypto</span></code><a class="headerlink" href="#disable-armv8crypto" title="Permalink to this headline">¶</a></h3>
+<p>Disable use of ARMv8 Crypto intrinsics</p>
+</div>
+<div class="section" id="disable-powercrypto">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-powercrypto</span></code><a class="headerlink" href="#disable-powercrypto" title="Permalink to this headline">¶</a></h3>
+<p>Disable use of POWER Crypto intrinsics</p>
+</div>
+<div class="section" id="with-debug-info">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-debug-info</span></code><a class="headerlink" href="#with-debug-info" title="Permalink to this headline">¶</a></h3>
+<p>Include debug symbols.</p>
+</div>
+<div class="section" id="with-sanitizers">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-sanitizers</span></code><a class="headerlink" href="#with-sanitizers" title="Permalink to this headline">¶</a></h3>
+<p>Enable some default set of sanitizer checks. What exactly is enabled
+depends on the compiler.</p>
+</div>
+<div class="section" id="enable-sanitizers-san">
+<h3><code class="docutils literal notranslate"><span class="pre">--enable-sanitizers=SAN</span></code><a class="headerlink" href="#enable-sanitizers-san" title="Permalink to this headline">¶</a></h3>
+<p>Enable specific sanitizers. See <code class="docutils literal notranslate"><span class="pre">src/build-data/cc</span></code> for more information.</p>
+</div>
+<div class="section" id="without-stack-protector">
+<h3><code class="docutils literal notranslate"><span class="pre">--without-stack-protector</span></code><a class="headerlink" href="#without-stack-protector" title="Permalink to this headline">¶</a></h3>
+<p>Disable stack smashing protections. <strong>not recommended</strong></p>
+</div>
+<div class="section" id="with-coverage">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-coverage</span></code><a class="headerlink" href="#with-coverage" title="Permalink to this headline">¶</a></h3>
+<p>Add coverage info and disable optimizations</p>
+</div>
+<div class="section" id="with-coverage-info">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-coverage-info</span></code><a class="headerlink" href="#with-coverage-info" title="Permalink to this headline">¶</a></h3>
+<p>Add coverage info, but leave optimizations alone</p>
+</div>
+<div class="section" id="disable-shared-library">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-shared-library</span></code><a class="headerlink" href="#disable-shared-library" title="Permalink to this headline">¶</a></h3>
+<p>Disable building a shared library</p>
+</div>
+<div class="section" id="disable-static-library">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-static-library</span></code><a class="headerlink" href="#disable-static-library" title="Permalink to this headline">¶</a></h3>
+<p>Disable building static library</p>
+</div>
+<div class="section" id="optimize-for-size">
+<h3><code class="docutils literal notranslate"><span class="pre">--optimize-for-size</span></code><a class="headerlink" href="#optimize-for-size" title="Permalink to this headline">¶</a></h3>
+<p>Optimize for code size.</p>
+</div>
+<div class="section" id="no-optimizations">
+<h3><code class="docutils literal notranslate"><span class="pre">--no-optimizations</span></code><a class="headerlink" href="#no-optimizations" title="Permalink to this headline">¶</a></h3>
+<p>Disable all optimizations for debugging.</p>
+</div>
+<div class="section" id="debug-mode">
+<h3><code class="docutils literal notranslate"><span class="pre">--debug-mode</span></code><a class="headerlink" href="#debug-mode" title="Permalink to this headline">¶</a></h3>
+<p>Enable debug info and disable optimizations</p>
+</div>
+<div class="section" id="id2">
+<h3><code class="docutils literal notranslate"><span class="pre">--amalgamation</span></code><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Use amalgamation to build</p>
+</div>
+<div class="section" id="system-cert-bundle-path">
+<h3><code class="docutils literal notranslate"><span class="pre">--system-cert-bundle=PATH</span></code><a class="headerlink" href="#system-cert-bundle-path" title="Permalink to this headline">¶</a></h3>
+<p>Set a path to a file containing one or more trusted CA certificates in
+PEM format. If not given, some default locations are checked.</p>
+</div>
+<div class="section" id="with-build-dir-dir">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-build-dir=DIR</span></code><a class="headerlink" href="#with-build-dir-dir" title="Permalink to this headline">¶</a></h3>
+<p>Setup the build in a specified directory instead of <code class="docutils literal notranslate"><span class="pre">./build</span></code></p>
+</div>
+<div class="section" id="with-external-includedir-dir">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-external-includedir=DIR</span></code><a class="headerlink" href="#with-external-includedir-dir" title="Permalink to this headline">¶</a></h3>
+<p>Search for includes in this directory. Provide this parameter multiple times to
+define multiple additional include directories.</p>
+</div>
+<div class="section" id="with-external-libdir-dir">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-external-libdir=DIR</span></code><a class="headerlink" href="#with-external-libdir-dir" title="Permalink to this headline">¶</a></h3>
+<p>Add DIR to the link path. Provide this parameter multiple times to define
+multiple additional library link directories.</p>
+</div>
+<div class="section" id="define-build-macro">
+<h3><code class="docutils literal notranslate"><span class="pre">--define-build-macro</span></code><a class="headerlink" href="#define-build-macro" title="Permalink to this headline">¶</a></h3>
+<p>Set a compile-time pre-processor definition (i.e. add a -D… to the compiler
+invocations). Provide this parameter multiple times to add multiple compile-time
+definitions. Both KEY=VALUE and KEY (without specific value) are supported.</p>
+</div>
+<div class="section" id="with-sysroot-dir-dir">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-sysroot-dir=DIR</span></code><a class="headerlink" href="#with-sysroot-dir-dir" title="Permalink to this headline">¶</a></h3>
+<p>Use specified dir for system root while cross-compiling</p>
+</div>
+<div class="section" id="with-openmp">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-openmp</span></code><a class="headerlink" href="#with-openmp" title="Permalink to this headline">¶</a></h3>
+<p>Enable use of OpenMP</p>
+</div>
+<div class="section" id="link-method-method">
+<h3><code class="docutils literal notranslate"><span class="pre">--link-method=METHOD</span></code><a class="headerlink" href="#link-method-method" title="Permalink to this headline">¶</a></h3>
+<p>During build setup a directory linking to each header file is created.
+Choose how the links are performed (options are “symlink”, “hardlink”,
+or “copy”).</p>
+</div>
+<div class="section" id="with-local-config-file">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-local-config=FILE</span></code><a class="headerlink" href="#with-local-config-file" title="Permalink to this headline">¶</a></h3>
+<p>Include the contents of FILE into the generated build.h</p>
+</div>
+<div class="section" id="distribution-info-string">
+<h3><code class="docutils literal notranslate"><span class="pre">--distribution-info=STRING</span></code><a class="headerlink" href="#distribution-info-string" title="Permalink to this headline">¶</a></h3>
+<p>Set distribution specific version information</p>
+</div>
+<div class="section" id="maintainer-mode">
+<h3><code class="docutils literal notranslate"><span class="pre">--maintainer-mode</span></code><a class="headerlink" href="#maintainer-mode" title="Permalink to this headline">¶</a></h3>
+<p>A build configuration used by library developers, which enables extra
+warnings and turns most warnings into errors.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When this option is used, all relevant warnings available in the
+most recent release of GCC/Clang are enabled, so it may fail to
+build if your compiler is not sufficiently recent. In addition
+there may be non-default configurations or unusual platforms which
+cause warnings which are converted to errors. Patches addressing
+such warnings are welcome, but otherwise no support is available
+when using this option.</p>
+</div>
+</div>
+<div class="section" id="werror-mode">
+<h3><code class="docutils literal notranslate"><span class="pre">--werror-mode</span></code><a class="headerlink" href="#werror-mode" title="Permalink to this headline">¶</a></h3>
+<p>Turns most warnings into errors.</p>
+</div>
+<div class="section" id="no-install-python-module">
+<h3><code class="docutils literal notranslate"><span class="pre">--no-install-python-module</span></code><a class="headerlink" href="#no-install-python-module" title="Permalink to this headline">¶</a></h3>
+<p>Skip installing Python module.</p>
+</div>
+<div class="section" id="with-python-versions-n-m">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-python-versions=N.M</span></code><a class="headerlink" href="#with-python-versions-n-m" title="Permalink to this headline">¶</a></h3>
+<p>Where to install botan2.py. By default this is chosen to be the
+version of Python that is running <code class="docutils literal notranslate"><span class="pre">configure.py</span></code>.</p>
+</div>
+<div class="section" id="with-valgrind">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-valgrind</span></code><a class="headerlink" href="#with-valgrind" title="Permalink to this headline">¶</a></h3>
+<p>Use valgrind API to perform additional checks. Not needed by end users.</p>
+</div>
+<div class="section" id="unsafe-fuzzer-mode">
+<h3><code class="docutils literal notranslate"><span class="pre">--unsafe-fuzzer-mode</span></code><a class="headerlink" href="#unsafe-fuzzer-mode" title="Permalink to this headline">¶</a></h3>
+<p>Disable essential checks for testing. <strong>UNSAFE FOR PRODUCTION</strong></p>
+</div>
+<div class="section" id="build-fuzzers-type">
+<h3><code class="docutils literal notranslate"><span class="pre">--build-fuzzers=TYPE</span></code><a class="headerlink" href="#build-fuzzers-type" title="Permalink to this headline">¶</a></h3>
+<p>Select which interface the fuzzer uses. Options are “afl”,
+“libfuzzer”, “klee”, or “test”. The “test” mode builds fuzzers that
+read one input from stdin and then exit.</p>
+</div>
+<div class="section" id="with-fuzzer-lib-lib">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-fuzzer-lib=LIB</span></code><a class="headerlink" href="#with-fuzzer-lib-lib" title="Permalink to this headline">¶</a></h3>
+<p>Specify an additional library that fuzzer binaries must link with.</p>
+</div>
+<div class="section" id="build-targets-build-targets">
+<h3><code class="docutils literal notranslate"><span class="pre">--build-targets=BUILD_TARGETS</span></code><a class="headerlink" href="#build-targets-build-targets" title="Permalink to this headline">¶</a></h3>
+<p>Build only the specific targets and tools
+(<code class="docutils literal notranslate"><span class="pre">static</span></code>, <code class="docutils literal notranslate"><span class="pre">shared</span></code>, <code class="docutils literal notranslate"><span class="pre">cli</span></code>, <code class="docutils literal notranslate"><span class="pre">tests</span></code>, <code class="docutils literal notranslate"><span class="pre">bogo_shim</span></code>).</p>
+</div>
+<div class="section" id="boost-library-name">
+<h3><code class="docutils literal notranslate"><span class="pre">--boost-library-name</span></code><a class="headerlink" href="#boost-library-name" title="Permalink to this headline">¶</a></h3>
+<p>Provide an alternative name for a boost library. Depending on the platform and
+boost’s build configuration these library names differ significantly (see <a class="reference external" href="https://www.boost.org/doc/libs/1_70_0/more/getting_started/unix-variants.html#library-naming">Boost docs</a>).
+The provided library name must be suitable as identifier in a linker parameter,
+e.g on unix: <code class="docutils literal notranslate"><span class="pre">boost_system</span></code> or windows: <code class="docutils literal notranslate"><span class="pre">libboost_regex-vc71-x86-1_70</span></code>.</p>
+</div>
+<div class="section" id="without-documentation">
+<h3><code class="docutils literal notranslate"><span class="pre">--without-documentation</span></code><a class="headerlink" href="#without-documentation" title="Permalink to this headline">¶</a></h3>
+<p>Skip building/installing documentation</p>
+</div>
+<div class="section" id="with-sphinx">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-sphinx</span></code><a class="headerlink" href="#with-sphinx" title="Permalink to this headline">¶</a></h3>
+<p>Use Sphinx to generate the handbook</p>
+</div>
+<div class="section" id="with-pdf">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-pdf</span></code><a class="headerlink" href="#with-pdf" title="Permalink to this headline">¶</a></h3>
+<p>Use Sphinx to generate PDF doc</p>
+</div>
+<div class="section" id="with-rst2man">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-rst2man</span></code><a class="headerlink" href="#with-rst2man" title="Permalink to this headline">¶</a></h3>
+<p>Use rst2man to generate a man page for the CLI</p>
+</div>
+<div class="section" id="with-doxygen">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-doxygen</span></code><a class="headerlink" href="#with-doxygen" title="Permalink to this headline">¶</a></h3>
+<p>Use Doxygen to generate API reference</p>
+</div>
+<div class="section" id="module-policy-pol">
+<h3><code class="docutils literal notranslate"><span class="pre">--module-policy=POL</span></code><a class="headerlink" href="#module-policy-pol" title="Permalink to this headline">¶</a></h3>
+<p>The option <code class="docutils literal notranslate"><span class="pre">--module-policy=POL</span></code> enables modules required by and
+disables modules prohibited by a text policy in <code class="docutils literal notranslate"><span class="pre">src/build-data/policy</span></code>.
+Additional modules can be enabled if not prohibited by the policy.
+Currently available policies include <code class="docutils literal notranslate"><span class="pre">bsi</span></code>, <code class="docutils literal notranslate"><span class="pre">nist</span></code> and <code class="docutils literal notranslate"><span class="pre">modern</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./configure.py --module-policy=bsi --enable-modules=tls,xts
+</pre></div>
+</div>
+</div>
+<div class="section" id="enable-modules-mods">
+<h3><code class="docutils literal notranslate"><span class="pre">--enable-modules=MODS</span></code><a class="headerlink" href="#enable-modules-mods" title="Permalink to this headline">¶</a></h3>
+<p>Enable some specific modules</p>
+</div>
+<div class="section" id="disable-modules-mods">
+<h3><code class="docutils literal notranslate"><span class="pre">--disable-modules=MODS</span></code><a class="headerlink" href="#disable-modules-mods" title="Permalink to this headline">¶</a></h3>
+<p>Disable some specific modules</p>
+</div>
+<div class="section" id="minimized-build">
+<h3><code class="docutils literal notranslate"><span class="pre">--minimized-build</span></code><a class="headerlink" href="#minimized-build" title="Permalink to this headline">¶</a></h3>
+<p>Start with the bare minimum. This is mostly useful in conjuction with
+<code class="docutils literal notranslate"><span class="pre">--enable-modules</span></code> to get a build that has just the features a
+particular application requires.</p>
+</div>
+<div class="section" id="with-boost">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-boost</span></code><a class="headerlink" href="#with-boost" title="Permalink to this headline">¶</a></h3>
+<p>Use Boost.Asio for networking support. This primarily affects the
+command line utils.</p>
+</div>
+<div class="section" id="with-bzip2">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-bzip2</span></code><a class="headerlink" href="#with-bzip2" title="Permalink to this headline">¶</a></h3>
+<p>Enable bzip2 compression</p>
+</div>
+<div class="section" id="with-lzma">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-lzma</span></code><a class="headerlink" href="#with-lzma" title="Permalink to this headline">¶</a></h3>
+<p>Enable lzma compression</p>
+</div>
+<div class="section" id="with-zlib">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-zlib</span></code><a class="headerlink" href="#with-zlib" title="Permalink to this headline">¶</a></h3>
+<p>Enable using zlib compression</p>
+</div>
+<div class="section" id="with-openssl">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-openssl</span></code><a class="headerlink" href="#with-openssl" title="Permalink to this headline">¶</a></h3>
+<p>Enable using OpenSSL for certain operations</p>
+</div>
+<div class="section" id="with-commoncrypto">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-commoncrypto</span></code><a class="headerlink" href="#with-commoncrypto" title="Permalink to this headline">¶</a></h3>
+<p>Enable using CommonCrypto for certain operations</p>
+</div>
+<div class="section" id="with-sqlite3">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-sqlite3</span></code><a class="headerlink" href="#with-sqlite3" title="Permalink to this headline">¶</a></h3>
+<p>Enable using sqlite3 for data storage</p>
+</div>
+<div class="section" id="with-tpm">
+<h3><code class="docutils literal notranslate"><span class="pre">--with-tpm</span></code><a class="headerlink" href="#with-tpm" title="Permalink to this headline">¶</a></h3>
+<p>Enable support for TPM</p>
+</div>
+<div class="section" id="program-suffix-suffix">
+<h3><code class="docutils literal notranslate"><span class="pre">--program-suffix=SUFFIX</span></code><a class="headerlink" href="#program-suffix-suffix" title="Permalink to this headline">¶</a></h3>
+<p>A string to append to all program binaries.</p>
+</div>
+<div class="section" id="library-suffix-suffix">
+<h3><code class="docutils literal notranslate"><span class="pre">--library-suffix=SUFFIX</span></code><a class="headerlink" href="#library-suffix-suffix" title="Permalink to this headline">¶</a></h3>
+<p>A string to append to all library names.</p>
+</div>
+<div class="section" id="prefix-dir">
+<h3><code class="docutils literal notranslate"><span class="pre">--prefix=DIR</span></code><a class="headerlink" href="#prefix-dir" title="Permalink to this headline">¶</a></h3>
+<p>Set the install prefix.</p>
+</div>
+<div class="section" id="docdir-dir">
+<h3><code class="docutils literal notranslate"><span class="pre">--docdir=DIR</span></code><a class="headerlink" href="#docdir-dir" title="Permalink to this headline">¶</a></h3>
+<p>Set the documentation installation dir.</p>
+</div>
+<div class="section" id="bindir-dir">
+<h3><code class="docutils literal notranslate"><span class="pre">--bindir=DIR</span></code><a class="headerlink" href="#bindir-dir" title="Permalink to this headline">¶</a></h3>
+<p>Set the binary installation dir.</p>
+</div>
+<div class="section" id="libdir-dir">
+<h3><code class="docutils literal notranslate"><span class="pre">--libdir=DIR</span></code><a class="headerlink" href="#libdir-dir" title="Permalink to this headline">¶</a></h3>
+<p>Set the library installation dir.</p>
+</div>
+<div class="section" id="mandir-dir">
+<h3><code class="docutils literal notranslate"><span class="pre">--mandir=DIR</span></code><a class="headerlink" href="#mandir-dir" title="Permalink to this headline">¶</a></h3>
+<p>Set the man page installation dir.</p>
+</div>
+<div class="section" id="includedir-dir">
+<h3><code class="docutils literal notranslate"><span class="pre">--includedir=DIR</span></code><a class="headerlink" href="#includedir-dir" title="Permalink to this headline">¶</a></h3>
+<p>Set the include file installation dir.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="api_ref/contents.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="support.html" class="btn btn-neutral float-left" title="Support Information" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr />
+
+  <div role="contentinfo">
+    <p>
+      <span class="lastupdated">
+        Last updated on 2020-12-21.
+      </span>
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+
+</body></html>
