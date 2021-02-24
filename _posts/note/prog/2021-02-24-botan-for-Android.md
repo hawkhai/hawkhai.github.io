@@ -77,35 +77,35 @@ $ ./configure.py --os=android --cc=clang --cpu=arm64
 set path=D:\Android\Sdk\ndk\22.0.7026061\toolchains\llvm\prebuilt\windows-x86_64\bin;%path% # 直接找到 clang++
 python configure.py --os=android --cc=clang --cpu=x86_64 \
     --minimized-build --amalgamation --disable-shared-library \
-    --enable-modules=aes,sha2_32,md5,cbc,filters,zlib
+    --enable-modules=aes,sha2_32,md5,cbc,filters,zlib --without-os-feature=getauxval
 ```
 
 ```bat
 set CXX=D:\Android\Sdk\ndk\22.0.7026061\toolchains\llvm\prebuilt\windows-x86_64\bin\aarch64-linux-android28-clang++.cmd
 python configure.py --os=android --cc=clang --cpu=arm64 \
     --minimized-build --amalgamation --disable-shared-library \
-    --enable-modules=aes,sha2_32,md5,cbc,filters,zlib
+    --enable-modules=aes,sha2_32,md5,cbc,filters,zlib --without-os-feature=getauxval
 ```
 
 ```bat
 set CXX=D:\Android\Sdk\ndk\22.0.7026061\toolchains\llvm\prebuilt\windows-x86_64\bin\armv7a-linux-androideabi28-clang++.cmd
 python configure.py --os=android --cc=clang --cpu=arm \
     --minimized-build --amalgamation --disable-shared-library \
-    --enable-modules=aes,sha2_32,md5,cbc,filters,zlib
+    --enable-modules=aes,sha2_32,md5,cbc,filters,zlib --without-os-feature=getauxval
 ```
 
 ```bat
 set CXX=D:\Android\Sdk\ndk\22.0.7026061\toolchains\llvm\prebuilt\windows-x86_64\bin\i686-linux-android28-clang++.cmd
 python configure.py --os=android --cc=clang --cpu=x86 \
     --minimized-build --amalgamation --disable-shared-library \
-    --enable-modules=aes,sha2_32,md5,cbc,filters,zlib
+    --enable-modules=aes,sha2_32,md5,cbc,filters,zlib --without-os-feature=getauxval
 ```
 
 ```bat
 set CXX=D:\Android\Sdk\ndk\22.0.7026061\toolchains\llvm\prebuilt\windows-x86_64\bin\x86_64-linux-android28-clang++.cmd
 python configure.py --os=android --cc=clang --cpu=x86_64 \
     --minimized-build --amalgamation --disable-shared-library \
-    --enable-modules=aes,sha2_32,md5,cbc,filters,zlib
+    --enable-modules=aes,sha2_32,md5,cbc,filters,zlib --without-os-feature=getauxval
 ```
 
 
