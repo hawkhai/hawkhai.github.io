@@ -840,6 +840,198 @@ android {
 ```
 
 
+## CMake CMAKE_CXX_FLAGS_DEBUG
+
+[from {% include relref_csdn.html %}](https://blog.csdn.net/Huoon/article/details/108520571)
+[stackoverflow](https://stackoverflow.com/questions/8591762/ifdef-debug-with-cmake-independent-from-platform)
+
+* CMAKE_CXX_FLAGS 是 CMake 传给 C++ 编译器的编译选项，通过设置这个值就好比 g++ -std=c++11 -g -Wall
+* CMAKE_CXX_FLAGS_DEBUG 是除了 CMAKE_CXX_FLAGS 外，在 Debug 配置下，额外的参数
+* CMAKE_CXX_FLAGS_RELEASE 同理，是除了 CMAKE_CXX_FLAGS 外，在 Release 配置下，额外的参数
+
+
+### 默认值
+
+```cmake
+CMAKE_C_FLAGS =
+CMAKE_C_FLAGS_DEBUG = -g
+CMAKE_C_FLAGS_MINSIZEREL = -Os -DNDEBUG
+CMAKE_C_FLAGS_RELEASE = -O3 -DNDEBUG
+CMAKE_C_FLAGS_RELWITHDEBINFO = -O2 -g -DNDEBUG
+
+CMAKE_CXX_FLAGS =
+CMAKE_CXX_FLAGS_DEBUG = -g
+CMAKE_CXX_FLAGS_MINSIZEREL = -Os -DNDEBUG
+CMAKE_CXX_FLAGS_RELEASE = -O3 -DNDEBUG
+CMAKE_CXX_FLAGS_RELWITHDEBINFO = -O2 -g -DNDEBUG
+```
+
+
+### 解决方案
+
+```cmake
+# https://github.com/juj/MathGeoLib/blob/master/CommonOptions.cmake
+# Add the global _DEBUG flag from WIN32 platform to all others, which is universally used in MGL to
+# perform debug-mode-specific compilation.
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -D_DEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_DEBUG")
+
+IF (WIN32 AND NOT CYGWIN)
+    SET(CMAKE_C_FLAGS_DEBUG "-D_DEBUG")
+ENDIF ()
+```
+
+可以在代码里面检查：
+
+```cpp
+// check that exactly one of NDEBUG and _DEBUG is defined
+#if !defined(NDEBUG) ^ defined(_DEBUG)
+#error Exactly one of NDEBUG and _DEBUG needs to be defined!
+#endif
+
+#ifdef CMAKE_INTDIR
+#if defined(_MSC_VER) && !defined(NDEBUG)
+#define _DEBUG
+#endif // defined(_MSC_VER) && !defined(NDEBUG)
+#endif // CMAKE_INTDIR
+
+/*! `NDEBUG` or `_DEBUG` mean not build on `DEBUG` mode. */
+#ifndef NDEBUG
+#ifndef _DEBUG
+#define _DEBUG
+#endif /* _DEBUG */
+#endif /* NDEBUG */
+
+// https://apache.github.io/xalan-c/api/PlatformDefinitions_8hpp_source.html
+#if defined(_DEBUG) && defined(NDEBUG)
+#error NDEBUG must not be defined when _DEBUG is defined.
+#elif !defined(_DEBUG) && !defined(NDEBUG)
+#error NDEBUG must be defined when _DEBUG is not defined.
+#endif
+```
+
+
+### [实验 {% include relref_csdn.html %}](https://blog.csdn.net/icbm/article/details/52336497)
+
+```cmake
+cmake_minimum_required(VERSION 3.4)
+
+message(STATUS "CMAKE_C_FLAGS = " ${CMAKE_C_FLAGS})
+message(STATUS "CMAKE_C_FLAGS_DEBUG = " ${CMAKE_C_FLAGS_DEBUG})
+message(STATUS "CMAKE_C_FLAGS_MINSIZEREL = " ${CMAKE_C_FLAGS_MINSIZEREL})
+message(STATUS "CMAKE_C_FLAGS_RELEASE = " ${CMAKE_C_FLAGS_RELEASE})
+message(STATUS "CMAKE_C_FLAGS_RELWITHDEBINFO = " ${CMAKE_C_FLAGS_RELWITHDEBINFO})
+
+message(STATUS "CMAKE_CXX_FLAGS = " ${CMAKE_CXX_FLAGS})
+message(STATUS "CMAKE_CXX_FLAGS_DEBUG = " ${CMAKE_CXX_FLAGS_DEBUG})
+message(STATUS "CMAKE_CXX_FLAGS_MINSIZEREL = " ${CMAKE_CXX_FLAGS_MINSIZEREL})
+message(STATUS "CMAKE_CXX_FLAGS_RELEASE = " ${CMAKE_CXX_FLAGS_RELEASE})
+message(STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO = " ${CMAKE_CXX_FLAGS_RELWITHDEBINFO})
+
+message(STATUS "CMAKE_EXE_LINKER_FLAGS = " ${CMAKE_EXE_LINKER_FLAGS})
+message(STATUS "CMAKE_EXE_LINKER_FLAGS_DEBUG = " ${CMAKE_EXE_LINKER_FLAGS_DEBUG})
+message(STATUS "CMAKE_EXE_LINKER_FLAGS_MINSIZEREL = " ${CMAKE_EXE_LINKER_FLAGS_MINSIZEREL})
+message(STATUS "CMAKE_EXE_LINKER_FLAGS_RELEASE = " ${CMAKE_EXE_LINKER_FLAGS_RELEASE})
+message(STATUS "CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO = " ${CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO})
+
+message(STATUS "CMAKE_MODULE_LINKER_FLAGS = " ${CMAKE_MODULE_LINKER_FLAGS})
+message(STATUS "CMAKE_MODULE_LINKER_FLAGS_DEBUG = " ${CMAKE_MODULE_LINKER_FLAGS_DEBUG})
+message(STATUS "CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL = " ${CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL})
+message(STATUS "CMAKE_MODULE_LINKER_FLAGS_RELEASE = " ${CMAKE_MODULE_LINKER_FLAGS_RELEASE})
+message(STATUS "CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO = " ${CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO})
+
+message(STATUS "CMAKE_SHARED_LINKER_FLAGS = " ${CMAKE_SHARED_LINKER_FLAGS})
+message(STATUS "CMAKE_SHARED_LINKER_FLAGS_DEBUG = " ${CMAKE_SHARED_LINKER_FLAGS_DEBUG})
+message(STATUS "CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL = " ${CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL})
+message(STATUS "CMAKE_SHARED_LINKER_FLAGS_RELEASE = " ${CMAKE_SHARED_LINKER_FLAGS_RELEASE})
+message(STATUS "CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO = " ${CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO})
+
+message(STATUS "CMAKE_STATIC_LINKER_FLAGS = " ${CMAKE_STATIC_LINKER_FLAGS})
+message(STATUS "CMAKE_STATIC_LINKER_FLAGS_DEBUG = " ${CMAKE_STATIC_LINKER_FLAGS_DEBUG})
+message(STATUS "CMAKE_STATIC_LINKER_FLAGS_MINSIZEREL = " ${CMAKE_STATIC_LINKER_FLAGS_MINSIZEREL})
+message(STATUS "CMAKE_STATIC_LINKER_FLAGS_RELEASE = " ${CMAKE_STATIC_LINKER_FLAGS_RELEASE})
+message(STATUS "CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO = " ${CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO})
+```
+
+#### Windows 平台 64 位编译输出
+
+```bat
+C:\chenchang\VMs\share\test\bld_win32>cmake -G "Visual Studio 14 2015 Win64" ..
+-- CMAKE_C_FLAGS =  /DWIN32 /D_WINDOWS /W3
+-- CMAKE_C_FLAGS_DEBUG = /D_DEBUG /MDd /Zi /Ob0 /Od /RTC1
+-- CMAKE_C_FLAGS_MINSIZEREL = /MD /O1 /Ob1 /D NDEBUG
+-- CMAKE_C_FLAGS_RELEASE = /MD /O2 /Ob2 /D NDEBUG
+-- CMAKE_C_FLAGS_RELWITHDEBINFO = /MD /Zi /O2 /Ob1 /D NDEBUG
+-- CMAKE_CXX_FLAGS =  /DWIN32 /D_WINDOWS /W3 /GR /EHsc
+-- CMAKE_CXX_FLAGS_DEBUG = /D_DEBUG /MDd /Zi /Ob0 /Od /RTC1
+-- CMAKE_CXX_FLAGS_MINSIZEREL = /MD /O1 /Ob1 /D NDEBUG
+-- CMAKE_CXX_FLAGS_RELEASE = /MD /O2 /Ob2 /D NDEBUG
+-- CMAKE_CXX_FLAGS_RELWITHDEBINFO = /MD /Zi /O2 /Ob1 /D NDEBUG
+-- CMAKE_EXE_LINKER_FLAGS =  /machine:x64
+-- CMAKE_EXE_LINKER_FLAGS_DEBUG = /debug /INCREMENTAL
+-- CMAKE_EXE_LINKER_FLAGS_MINSIZEREL = /INCREMENTAL:NO
+-- CMAKE_EXE_LINKER_FLAGS_RELEASE = /INCREMENTAL:NO
+-- CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO = /debug /INCREMENTAL
+-- CMAKE_MODULE_LINKER_FLAGS =  /machine:x64
+-- CMAKE_MODULE_LINKER_FLAGS_DEBUG = /debug /INCREMENTAL
+-- CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL = /INCREMENTAL:NO
+-- CMAKE_MODULE_LINKER_FLAGS_RELEASE = /INCREMENTAL:NO
+-- CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO = /debug /INCREMENTAL
+-- CMAKE_SHARED_LINKER_FLAGS =  /machine:x64
+-- CMAKE_SHARED_LINKER_FLAGS_DEBUG = /debug /INCREMENTAL
+-- CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL = /INCREMENTAL:NO
+-- CMAKE_SHARED_LINKER_FLAGS_RELEASE = /INCREMENTAL:NO
+-- CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO = /debug /INCREMENTAL
+-- CMAKE_STATIC_LINKER_FLAGS =  /machine:x64
+-- CMAKE_STATIC_LINKER_FLAGS_DEBUG =
+-- CMAKE_STATIC_LINKER_FLAGS_MINSIZEREL =
+-- CMAKE_STATIC_LINKER_FLAGS_RELEASE =
+-- CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO =
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/chenchang/VMs/share/test/bld_win32
+```
+
+#### Ubuntu Linux 16.04 64 位编译输出
+
+```shell
+root@chanchen-VirtualBox:/mnt/share/test/bld_lnx# cmake ..
+-- CMAKE_C_FLAGS =
+-- CMAKE_C_FLAGS_DEBUG = -g
+-- CMAKE_C_FLAGS_MINSIZEREL = -Os -DNDEBUG
+-- CMAKE_C_FLAGS_RELEASE = -O3 -DNDEBUG
+-- CMAKE_C_FLAGS_RELWITHDEBINFO = -O2 -g -DNDEBUG
+-- CMAKE_CXX_FLAGS =
+-- CMAKE_CXX_FLAGS_DEBUG = -g
+-- CMAKE_CXX_FLAGS_MINSIZEREL = -Os -DNDEBUG
+-- CMAKE_CXX_FLAGS_RELEASE = -O3 -DNDEBUG
+-- CMAKE_CXX_FLAGS_RELWITHDEBINFO = -O2 -g -DNDEBUG
+-- CMAKE_EXE_LINKER_FLAGS =
+-- CMAKE_EXE_LINKER_FLAGS_DEBUG =
+-- CMAKE_EXE_LINKER_FLAGS_MINSIZEREL =
+-- CMAKE_EXE_LINKER_FLAGS_RELEASE =
+-- CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO =
+-- CMAKE_MODULE_LINKER_FLAGS =
+-- CMAKE_MODULE_LINKER_FLAGS_DEBUG =
+-- CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL =
+-- CMAKE_MODULE_LINKER_FLAGS_RELEASE =
+-- CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO =
+-- CMAKE_SHARED_LINKER_FLAGS =
+-- CMAKE_SHARED_LINKER_FLAGS_DEBUG =
+-- CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL =
+-- CMAKE_SHARED_LINKER_FLAGS_RELEASE =
+-- CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO =
+-- CMAKE_STATIC_LINKER_FLAGS =
+-- CMAKE_STATIC_LINKER_FLAGS_DEBUG =
+-- CMAKE_STATIC_LINKER_FLAGS_MINSIZEREL =
+-- CMAKE_STATIC_LINKER_FLAGS_RELEASE =
+-- CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO =
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /mnt/share/test/bld_lnx
+```
+
+
 ## Refs
 
 - [1] [Cmake 语法与实战入门 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/267803605)
@@ -854,6 +1046,11 @@ android {
 
 - [https://developer.android.com/studio/projects/configure-cmake]({% include relref.html url="/backup/2021-02-01-cmakelists.md/developer.android.com/e400582b.html" %})
 - [https://cmake.org/cmake/help/latest/manual/cmake-commands.7.html]({% include relref.html url="/backup/2021-02-01-cmakelists.md/cmake.org/dae0cbfc.html" %})
+- [https://blog.csdn.net/Huoon/article/details/108520571]({% include relref.html url="/backup/2021-02-01-cmakelists.md/blog.csdn.net/43695850.html" %})
+- [https://stackoverflow.com/questions/8591762/ifdef-debug-with-cmake-independent-from-platform]({% include relref.html url="/backup/2021-02-01-cmakelists.md/stackoverflow.com/0392352f.html" %})
+- [https://github.com/juj/MathGeoLib/blob/master/CommonOptions.cmake]({% include relref.html url="/backup/2021-02-01-cmakelists.md/github.com/24e305e7.html" %})
+- [https://apache.github.io/xalan-c/api/PlatformDefinitions_8hpp_source.html]({% include relref.html url="/backup/2021-02-01-cmakelists.md/apache.github.io/eeffe529.html" %})
+- [https://blog.csdn.net/icbm/article/details/52336497]({% include relref.html url="/backup/2021-02-01-cmakelists.md/blog.csdn.net/5403caaa.html" %})
 - [https://zhuanlan.zhihu.com/p/267803605]({% include relref.html url="/backup/2021-02-01-cmakelists.md/zhuanlan.zhihu.com/d33bbe25.html" %})
 - [https://github.com/carl-wang-cn/demo/tree/master/cmake]({% include relref.html url="/backup/2021-02-01-cmakelists.md/github.com/bd0e5b28.html" %})
 - [https://zh.m.wikibooks.org/zh-hans/CMake_%E5%85%A5%E9%96%80/%E5%9F%BA%E6%9C%AC%E8%AA%9E%E6%B3%95]({% include relref.html url="/backup/2021-02-01-cmakelists.md/zh.m.wikibooks.org/c46fcb62.html" %})
