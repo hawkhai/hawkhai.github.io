@@ -17,6 +17,11 @@ codeprint:
 
 每次都想走捷径，最后还是得倒回来，认认真真学习这些鸟语法。
 
+```bat
+mkdir build && cd build
+cmake ..
+```
+
 
 ## 基本使用
 
@@ -840,7 +845,7 @@ android {
 ```
 
 
-## CMake CMAKE_CXX_FLAGS_DEBUG
+## CMAKE_CXX_FLAGS_DEBUG
 
 [from {% include relref_csdn.html %}](https://blog.csdn.net/Huoon/article/details/108520571)
 [stackoverflow](https://stackoverflow.com/questions/8591762/ifdef-debug-with-cmake-independent-from-platform)
