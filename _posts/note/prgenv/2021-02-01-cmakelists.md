@@ -508,13 +508,13 @@ ENDFOREACH(A)
 ```
 
 
-## cmake 中如何生成动态库和静态库
+## 如何生成动态库和静态库
 
 参考 ADD\_LIBRARY 和 SET\_TARGET\_PROPERTIES 用法
 * t3 示例
 
 
-## cmake 中如何使用动态库和静态库（查找库的路径）
+## 如何使用动态库和静态库（查找库的路径）
 
 ```cmake
 # 指定生成目标
@@ -628,7 +628,7 @@ add_library (MathFunctions ${DIR_LIB_SRCS})
 **注意** 读 t5 和 t6 的 CMakeLists.txt 和 FindHELLO.cmake 中的注释部分。
 
 
-## cmake 中如何指定生成文件的输出路径
+## 如何指定生成文件的输出路径
 
 * 如上 ADD\_SUBDIRECTORY 的时候指定目标二进制文件输出路径（推荐使用下面这种）
 * 使用 SET 命令重新定义 EXECUTABLE\_OUTPUT\_PATH 和 LIBRARY\_OUTPUT\_PATH 变量来指定最终的二进制文件的位置
@@ -647,24 +647,24 @@ SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 ```
 
 
-## cmake 中如何增加编译选项
+## 如何增加编译选项
 
 * 使用变量 CMAKE\_C\_FLAGS 添加 C 编译选项
 * 使用变量 CMAKE\_CXX\_FLAGS 添加 C++ 编译选项
 * 使用 ADD\_DEFINITION 添加
 
 
-## cmake 中如何增加头文件路径
+## 如何增加头文件路径
 
 * 参考 INCLUDE\_DIRECTORIES 命令用法
 
 
-## cmake 中如何在屏幕上打印信息
+## 如何在屏幕上打印信息
 
 * 参考 MESSAGE 用法
 
 
-## cmake 中如何给变量赋值
+## 如何给变量赋值
 
 * 参考 SET 和 AUX\_SOURCE\_DIRECTORY 用法
 
@@ -960,7 +960,7 @@ message(STATUS "CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO = " ${CMAKE_STATIC_LINK
 
 #### Windows 平台 64 位编译输出
 
-```bat
+```shell
 C:\chenchang\VMs\share\test\bld_win32>cmake -G "Visual Studio 14 2015 Win64" ..
 -- CMAKE_C_FLAGS =  /DWIN32 /D_WINDOWS /W3
 -- CMAKE_C_FLAGS_DEBUG = /D_DEBUG /MDd /Zi /Ob0 /Od /RTC1
