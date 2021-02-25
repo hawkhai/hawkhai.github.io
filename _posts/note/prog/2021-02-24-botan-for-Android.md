@@ -18,6 +18,7 @@ codeprint:
 Cryptography Toolkit
 botan.randombit.net
 [Botan: Crypto and TLS for Modern C++ {% include relref_github.html %}](https://github.com/randombit/botan)
+这个库有点特（sāo）别（qì），需要针对每个平台运行 configure.py 生成对应平台的代码，Star 1.6k，非常流（niú）行（bī）。
 
 有文档 [Building Botan](https://botan.randombit.net/handbook/building.html)，用 botan-2.13.0 版本搞事情。
 
