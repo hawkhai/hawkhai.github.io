@@ -1037,6 +1037,11 @@ root@chanchen-VirtualBox:/mnt/share/test/bld_lnx# cmake ..
 ```
 
 
+## 其它
+
+* add_subdirectory 最好在 include_directories 前面，否则 incdir 会形成递归重复。
+
+
 ## Refs
 
 - [1] [Cmake 语法与实战入门 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/267803605)
