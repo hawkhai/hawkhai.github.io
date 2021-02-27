@@ -189,6 +189,8 @@ Hello 世界！
 
 ```cpp
 size_t mbstowcs(wchar_t *wcstr, const char *mbstr, size_t count);
+// 通过这玩意调节编码："zh_CN.utf8" / "Chinese_China.936"
+setlocale(LC_CTYPE, "zh_CN.utf8");
 ```
 
 ```cpp
