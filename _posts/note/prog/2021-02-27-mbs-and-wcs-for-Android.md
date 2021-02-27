@@ -185,7 +185,7 @@ Hello 世界！
 
 ## Android & Linux
 
-悲剧。mbstowcs() 和 wcstombs()。
+悲剧。mbstowcs() 和 wcstombs()。多线程中这玩意悲剧。
 
 ```cpp
 size_t mbstowcs(wchar_t *wcstr, const char *mbstr, size_t count);
@@ -268,7 +268,7 @@ jstring stoJstring(JNIEnv* env, const char* pat)
 
 ### iconv()
 
-转换描述符不能再多线程中同时使用。GBK，UTF−8。
+**转换描述符不能再多线程中同时使用。** GBK，UTF−8。
 
 ```cpp
 #include <iconv.h>
