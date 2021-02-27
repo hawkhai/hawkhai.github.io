@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "编程 C++ -- Android OpenGL ES 渲染 Java & C++ 混合编程 JNI 实现原理"
+title: "编程 C++ -- Android OpenGL ES 渲染 Java & C++ JNI 实现原理"
 author:
 location: "珠海"
 categories: ["编程"]
@@ -14,6 +14,8 @@ mermaid:
 glslcanvas:
 codeprint:
 ---
+
+> 寂寞啦，怀念小时候的胡同和弄堂啦，怎么办呢？就坐飞机去那些柯布西耶的科学还没照耀到的偏远古镇，旅游一下。
 
 
 ## Android JNI OpenGL ES -- eglCreateWindowSurface
@@ -215,4 +217,4 @@ public class IrrlichtGLView extends SurfaceView implements SurfaceHolder.Callbac
 * 崩溃的位置不一定是出问题的位置，可以从参数问题上顺藤摸瓜，直到找到真正的原因。崩溃在 C++，最后改在 Java。
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-20-some-interesting-bugs.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-20-Android-opengles-jni-render.md.js" %}'></script></p>
