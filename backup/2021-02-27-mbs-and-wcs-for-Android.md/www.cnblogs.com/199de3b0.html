@@ -1,0 +1,1405 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="转自：http://blog.chinaunix.net/uid-26760055-id-3222699.htmllocale这个单词中文翻译成地区或者地域，其实这个单词包含的意义要宽泛很多。Loca" />
+    <meta property="og:description" content="转自：http://blog.chinaunix.net/uid-26760055-id-3222699.htmllocale这个单词中文翻译成地区或者地域，其实这个单词包含的意义要宽泛很多。Loca" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>locale的设定及LANG、LC_CTYPE、LC_ALL环境变量 - Lo0ong - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=nRvqhaj9MXRohE8ixbA4Nxk4i6s0BrlN9RGLhJMxKaE" />
+    <link id="MainCss" rel="stylesheet" href="/skins/anothereon001/bundle-anothereon001.min.css?v=9x2ZP2K8SSBJowZA6xv0D5FvOmlvd5g21u0NBEAEwfQ" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/anothereon001/bundle-anothereon001-mobile.min.css?v=9rSoEtHeFk9h5_N1kBMdE0_HXOut3tuzMtm_paL3cM8" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/xlmeng1988/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/xlmeng1988/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/xlmeng1988/wlwmanifest.xml" />
+    <script src="https://www.googletagservices.com/activeview/js/current/osd.js?cb=%2Fr20100101"></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 112196;
+        var currentBlogApp = 'xlmeng1988';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'AnotherEon001';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2013-01-16 04:00';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=wxEeHXigTyfQobqUQg-3defmfVyJHgKBrmmhsqBzOMY"></script><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style>
+    
+    
+    
+<meta http-equiv="origin-trial" content="A+pvvGjoiNPDAn2JQFsT0CQbtlBZ8PLmAA4ReIHeP5mnOrPRuXf1nuQa1Dlu/MdwAmPuAC7cVDJLU1oBuOqMkQkAAAB5eyJvcmlnaW4iOiJodHRwczovL2dvb2dsZWFwaS5jb206NDQzIiwiZmVhdHVyZSI6IlRydXN0VG9rZW5zIiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A9ZgbRtm4pU3oZiuNzOsKcC8ppFSZdcjP2qYcdQrFKVzkmiWH1kdYY1Mi9x7G8+PS8HV9Ha9Cz0gaMdKsiVZIgMAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AxL6oBxcpn5rQDPKSAs+d0oxNyJYq2/4esBUh3Yx5z8QfcLu+AU8iFCXYRcr/CEEfDnkxxLTsvXPJFQBxHfvkgMAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A9KPtG5kl3oLTk21xqynDPGQ5t18bSOpwt0w6kGa6dEWbuwjpffmdUpR3W+faZDubGT+KIk2do0BX2ca16x8qAcAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A3HucHUo1oW9s+9kIKz8mLkbcmdaj5lxt3eiIMp1Nh49dkkBlg1Fhg4Fd/r0vL69mRRA36YutI9P/lJUfL8csQoAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021022301.js" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script><link rel="prefetch" href="https://99375155367e6dd89eae0fc1a7a42931.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html" /><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-37/html/container.html" /></head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=oS4PkibyMjZ9rGD5XAcLt99uW_s76Javy2up4dbnZNY" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="wrapper">
+<div id="header">
+
+<div id="top">
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/xlmeng1988/">神の左手</a>
+</h1>
+<div id="subtitle">时光如水，总是无言。若你安好，便是晴天。</div>
+</div>
+<div id="sub"><div class="BlogStats">随笔 - 107, 文章 - 0, 评论 - 8, 阅读 - 
+<span title="总阅读数: 353569">
+35万</span></div>
+
+</div>
+
+
+
+
+</div>
+<div id="main_container">
+<div id="main_content">
+<div id="content">
+	<div id="post_detail">
+    <div class="post">
+        <h2>
+            
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/16/locale.html">
+    <span>locale的设定及LANG、LC_CTYPE、LC_ALL环境变量</span>
+    
+
+
+</a>
+
+        </h2>
+        <div class="postbody">
+            
+<div id="cnblogs_post_body" class="blogpost-body">
+    <p><span style="font-family: 宋体">转自：<a href="http://blog.chinaunix.net/uid-26760055-id-3222699.html">http://blog.chinaunix.net/uid-26760055-id-3222699.html</a></span></p>
+<p><span style="font-family: 宋体">locale这个单词中文翻译成地区或者地域，其实这个单词包含的意义要宽泛很多。Locale是根据计算机用户所使用的语言，所在国家或者地区，以及当地的文化传统所定义的一个软件运行时的语言环境。<br />
+<br />
+[oracle@game ~]$ <span style="color: rgba(0, 0, 255, 1)">locale</span><br />
+<span style="color: rgba(255, 0, 0, 1)">LANG=en_US.UTF-8</span><br />
+<span style="color: rgba(255, 0, 0, 1)">LC_CTYPE="en_US.UTF-8"</span><br />
+LC_NUMERIC="en_US.UTF-8"<br />
+LC_TIME="en_US.UTF-8"<br />
+LC_COLLATE="en_US.UTF-8"<br />
+LC_MONETARY="en_US.UTF-8"<br />
+LC_MESSAGES="en_US.UTF-8"<br />
+LC_PAPER="en_US.UTF-8"<br />
+LC_NAME="en_US.UTF-8"<br />
+LC_ADDRESS="en_US.UTF-8"<br />
+LC_TELEPHONE="en_US.UTF-8"<br />
+LC_MEASUREMENT="en_US.UTF-8"<br />
+LC_IDENTIFICATION="en_US.UTF-8"<br />
+<span style="color: rgba(255, 0, 0, 1)">LC_ALL=en_US.UTF-8</span><br />
+[oracle@game ~]$  <br />
+<br />
+</span><span style="font-family: 宋体">locale把按照所涉及到的文化传统的各个方面分成12个大类，这12个大类分别是： <br />
+<br />
+<span style="color: rgba(255, 0, 0, 1)">1、语言符号及其分类(LC_CTYPE) </span><br />
+2、数字(LC_NUMERIC) <br />
+3、比较和排序习惯(LC_COLLATE) <br />
+4、时间显示格式(LC_TIME) <br />
+5、货币单位(LC_MONETARY) <br />
+6、信息主要是提示信息,错误信息,状态信息,标题,标签,按钮和菜单等(LC_MESSAGES) <br />
+7、姓名书写方式(LC_NAME) <br />
+8、地址书写方式(LC_ADDRESS) <br />
+9、电话号码书写方式(LC_TELEPHONE) <br />
+10、度量衡表达方式 (LC_MEASUREMENT) <br />
+11、默认纸张尺寸大小(LC_PAPER) <br />
+12、对locale自身包含信息的概述(LC_IDENTIFICATION)。</span><br />
+<span style="font-family: 宋体"> <br />
+所以说，locale就是某一个地域内的人们的语言习惯和文化传统和生活习惯。一个地区的locale就是根据这几大类的习惯定义的，这些locale定
+义文件放在/usr/share/i18n/locales目录下面，例如en_US, zh_CN and 
+de_DE@euro都是locale的定义文件，这些文件都是用文本格式书写的，你可以用写字板打开，看看里边的内容，当然出了有限的注释以外，大部分
+东西可能你都看不懂，因为是用的Unicode的字符索引方式。<br />
+<br />
+[oracle@game ~]$ <span style="color: rgba(0, 0, 255, 1)">cd /usr/share/i18n/locales</span><br />
+[oracle@game locales]$ <span style="color: rgba(0, 0, 255, 1)">ls</span><br />
+aa_DJ          ar_YE         el_GR         es_ES         fr_CH          
+   iso14651_t1  ne_NP         so_ET                    translit_hangul<br />
+aa_ER          az_AZ         el_GR@euro  es_ES@euro  fr_FR             
+it_CH          nl_BE         so_KE                    translit_narrow<br />
+aa_ER@saaho  be_BY         en_AU         es_GT         fr_FR@euro       
+ it_IT          nl_BE@euro  so_SO                    translit_neutral<br />
+aa_ET          bg_BG         en_BW         es_HN         fr_LU          
+   it_IT@euro     nl_NL         sq_AL                    translit_small<br />
+af_ZA          bn_BD         en_CA         es_MX         fr_LU@euro     
+   iw_IL          nl_NL@euro  sr_CS                    translit_wide<br />
+am_ET          bn_IN         en_DK         es_NI         ga_IE          
+   ja_JP          nn_NO         st_ZA                    tr_TR<br />
+an_ES          br_FR         en_GB         es_PA         ga_IE@euro     
+   ka_GE          no_NO         sv_FI                    tt_RU<br />
+ar_AE          br_FR@euro  en_HK         es_PE         gd_GB            
+ kk_KZ          oc_FR         sv_FI@euro               uk_UA<br />
+ar_BH          bs_BA         en_IE         es_PR         gez_ER         
+   kl_GL          om_ET         sv_SE                    ur_PK<br />
+ar_DZ          byn_ER        en_IE@euro  es_PY         gez_ER@abegede  
+kn_IN          om_KE         ta_IN                    uz_UZ<br />
+ar_EG          ca_ES         en_IN         es_SV         gez_ET         
+   ko_KR          pa_IN         te_IN                    uz_UZ@cyrillic<br />
+ar_IN          ca_ES@euro  en_NZ         es_US         gez_ET@abegede  
+kw_GB          pl_PL         tg_TJ                    vi_VN<br />
+ar_IQ          cs_CZ         en_PH         es_UY         gl_ES          
+   lg_UG          POSIX         th_TH                    wa_BE<br />
+ar_JO          cy_GB         en_SG         es_VE         gl_ES@euro     
+   lo_LA          pt_BR         ti_ER                    wa_BE@euro<br />
+ar_KW          da_DK         en_US         et_EE         gu_IN          
+   lt_LT          pt_PT         ti_ET                    wal_ET<br />
+ar_LB          de_AT         en_ZA         eu_ES         gv_GB          
+   lv_LV          pt_PT@euro  tig_ER                   xh_ZA<br />
+ar_LY          de_AT@euro  en_ZW         eu_ES@euro  he_IL             
+mi_NZ          ro_RO         tl_PH                    yi_US<br />
+ar_MA          de_BE         es_AR         fa_IR         hi_IN          
+   mk_MK          ru_RU         translit_circle          zh_CN<br />
+ar_OM          de_BE@euro  es_BO         fi_FI         hr_HR            
+ ml_IN          ru_UA         translit_cjk_compat      zh_HK<br />
+ar_QA          de_CH         es_CL         fi_FI@euro  hu_HU            
+ mn_MN          se_NO         translit_cjk_variants  zh_SG<br />
+ar_SA          de_DE         es_CO         fo_FO         hy_AM          
+   mr_IN          sid_ET        translit_combining       zh_TW<br />
+ar_SD          de_DE@euro  es_CR         fr_BE         i18n             
+ ms_MY          sk_SK         translit_compat          zu_ZA<br />
+ar_SY          de_LU         es_DO         fr_BE@euro  id_ID             mt_MT          sl_SI         translit_font<br />
+ar_TN          de_LU@euro  es_EC         fr_CA         is_IS             nb_NO          so_DJ         translit_fraction<br />
+[oracle@game locales]$  <br />
+<br />
+对于de_DE@euro的一点说明，@后边是修正项，也就是说你可以看到两个德国的locale：/usr/share/i18n/locales
+/de_DE@euro和/usr/share/i18n/locales/de_DE。打开这两个locale定义，你就会知道它们的差别在于
+de_DE@euro使用的是欧洲的排序、比较和缩进习惯，而de_DE用的是德国的标准习惯。 <br />
+<br />
+上面我们说到了zh_CN.GB18030的前半部分，后半部分是什么呢？大部分Linux用户都知道是系统采用的字符集。 </span><br />
+<br />
+<span style="font-family: 宋体">zh_CN.GB2312到底是在说什么？ <span style="color: rgba(255, 0, 0, 1)">Locale是软件在运行时的语言环境, 它包括语言(Language), 地域 (Territory) 和字符集(Codeset)。一个locale的书写格式为: 语言[_地域[.字符集]]。</span>所以说呢，locale总是和一定的字符集相联系的。下面举几个例子： <br />
+<br />
+1、我说中文，身处中华人民共和国，使用国标2312字符集来表达字符。zh_CN.GB2312＝中文_中华人民共和国＋国标2312字符集。 <br />
+<br />
+2、我说中文，身处中华人民共和国，使用国标18030字符集来表达字符。zh_CN.GB18030＝中文_中华人民共和国＋国标18030字符集。 <br />
+<br />
+3、我说中文，身处中华人民共和国台湾省，使用国标Big5字符集来表达字符。zh_TW.BIG5=中文_台湾.大五码字符集 <br />
+<br />
+4、我说英文，身处大不列颠，使用ISO-8859-1字符集来表达字符。 en_GB.ISO-8859-1=英文_大不列颠.ISO-8859-1字符集 <br />
+<br />
+5、我说德语，身处德国，使用UTF-8字符集，习惯了欧洲风格。</span><a href="mailto:de_DE.UTF-8@euro=%E5%BE%B7%E8%AF%AD_%E5%BE%B7%E5%9B%BD.UTF" target="_blank"><span style="color: rgba(0, 0, 0, 1); font-family: 宋体">de_DE.UTF-8@euro＝德语_德国.UTF</span></a><span style="font-family: 宋体">-8字符集@按照欧洲习惯加以修正，注意不是</span><a href="mailto:de_DE@euro.UTF" target="_blank"><span style="color: rgba(0, 0, 0, 1); font-family: 宋体">de_DE@euro.UTF</span></a><span style="font-family: 宋体">-8，<span style="color: rgba(255, 0, 0, 1)">所以完全的locale表达方式是 [语言[_地域][.字符集] [@修正值]。 </span><br />
+<br />
+</span><span style="font-family: 宋体"><span style="color: rgba(255, 0, 0, 1)">其中，与中文输入关系最密切的就是LC_CTYPE，LC_CTYPE规定了系统内有效的字符以及这些字符的分类</span>，
+诸如什么是大写字母，小写字母，大小写转换，标点符号、可打印字符和其他的字符属性等方面。而locale定 
+义zh_CN中最最重要的一项就是定义了汉字(Class“hanzi”)这一个大类，当然也是用Unicode描述的，这就让中文字符在Linux系统
+中成为合法的有效字符，而且不论它们是用什么字符集编码的。 <br />
+<br />
+</span><span style="font-family: 宋体"><strong>怎样设定locale呢？ </strong><br />
+<br />
+设定locale就是设定12大类的locale分类属性，即12个LC_*。除了这12个变量可以设定以外，<span style="color: rgba(255, 0, 0, 1)">为了简便起见，还有两个变量：LC_ALL和LANG。<strong>它们之间有一个优先级的关系：LC_ALL &gt; LC_* &gt;LANG</strong></span><strong>。</strong>可以这么说，LC_ALL是最上级设定或者强制设定，而LANG是默认设定值。 <br />
+<br />
+1、如果你设定了LC_ALL＝zh_CN.UTF-8，那么不管LC_*和LANG设定成什么值，它们都会被强制服从LC_ALL的设定，成为 zh_CN.UTF-8。 <br />
+<br />
+2、假如你设定了LANG＝zh_CN.UTF-8，而其他的LC_*=en_US.UTF-8，并且没有设定LC_ALL的话，那么系统的locale设定以LC_*=en_US.UTF-8。 <br />
+<br />
+3、假如你设定了LANG＝zh_CN.UTF-8，而其他的LC_*，和LC_ALL均未设定的话，系统会将LC_*设定成默认值，也就是LANG的值zh_CN.UTF-8。 <br />
+<br />
+4、假如你设定了LANG＝zh_CN.UTF-8，而其他的LC_CTYPE=en_US.UTF-8，其他的LC_*，和LC_ALL均未设定的话，
+那么系统的locale设定将是：LC_CTYPE=en_US.UTF-8，其余的 
+LC_COLLATE，LC_MESSAGES等等均会采用默认值，也就是 LANG的值，也就是LC_COLLATE＝LC_MESSAGES＝……＝
+ LC_PAPER＝LANG＝zh_CN.UTF-8。 <br />
+<br />
+<strong>所以，locale是这样设定的： </strong><br />
+<br />
+<span style="color: rgba(255, 0, 0, 1)">1、如果你需要一个纯中文的系统的话，设定LC_ALL= zh_CN.XXXX，或者LANG=zh_CN.XXXX都可以</span>，当然你可以两个都设定，但正如上面所讲，LC_ALL的值将覆盖所有其他的locale设定，不要作无用功。 <br />
+<br />
+<strong><span style="color: rgba(255, 0, 0, 1)">2、如果你只想要一个可以输入中文的环境，而保持菜单、标题，系统信息等等为英文界面，那么只需要设定 LC_CTYPE＝zh_CN.XXXX，LANG=en_US.XXXX就可以了。</span></strong>这样LC_CTYPE＝zh_CN.XXXX，而LC_COLLATE＝LC_MESSAGES＝……＝ LC_PAPER＝LANG＝en_US.XXXX。 <br />
+<br />
+3、假如你高兴的话，可以把12个LC_*一一设定成你需要的值，打造一个古灵精怪的系统： 
+LC_CTYPE＝zh_CN.GBK/GBK(使用中文编码内码GBK字符集)； 
+LC_NUMERIC=en_GB.ISO-8859-1(使用大不列颠的数字系统) 
+LC_MEASUREMEN=de_DE@euro.ISO-8859-15(德国的度量衡使用ISO-8859-15字符集) 
+罗马的地址书写方式，美国的纸张设定……。估计没人这么干吧。 <br />
+<br />
+<span style="color: rgba(255, 0, 0, 1)">4、假如你什么也不做的话，也就是LC_ALL，LANG和LC_*均不指定特定值的话，系统将采用POSIX作为lcoale，也就是C locale。</span></span><br />
+<br />
+<strong>另外LANG和LANGUAGE有什么区别呢？</strong><br />
+<br />
+LANG - Specifies the default locale for all unset locale variables<br />
+LANGUAGE - Most programs use this for the language of its interface<br />
+LANGUAGE是设置应用程序的界面语言。而LANG是优先级很低的一个变量，它指定所有与locale有关的变量的默认值，</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/xlmeng1988/category/367356.html" target="_blank">Linux</a></div>
+<div id="EntryTag">
+    标签: 
+            <a href="https://www.cnblogs.com/xlmeng1988/tag/linux%20%E6%97%A5%E5%B8%B8/">linux 日常</a></div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(2862927,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('84341f51-9290-df11-ba8f-001cf0cd104b');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/xlmeng1988/" target="_blank"><img src="https://pic.cnblogs.com/face/u146566.jpg?id=19213849" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/xlmeng1988/">Lo0ong</a><br />
+            <a href="https://home.cnblogs.com/u/xlmeng1988/followees/">关注 - 4</a><br />
+            <a href="https://home.cnblogs.com/u/xlmeng1988/followers/">粉丝 - 14</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('84341f51-9290-df11-ba8f-001cf0cd104b');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(2862927,'Digg')">
+        <span class="diggnum" id="digg_count">8</span>
+    </div>
+    <div class="buryit" onclick="votePost(2862927,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/16/2862780.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/16/2862780.html" title="发布于 2013-01-16 14:56">valgrind: 一款用于内存调试、内存泄漏检测以及性能分析的软件开发工具</a>
+    <br />
+    <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/18/find.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/18/find.html" title="发布于 2013-01-18 11:14">[linux常用命令]find</a>
+
+</div>
+</div>
+        </div>
+        <p class="postfoot">
+            posted on 
+<span id="post-date">2013-01-16 16:00</span> 
+<a href="https://www.cnblogs.com/xlmeng1988/">Lo0ong</a> 
+阅读(<span id="post_view_count">23637</span>) 
+评论(<span id="post_comment_count">3</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=2862927" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(2862927);return false;">收藏</a>
+        </p>
+    </div>
+</div>
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 112196, cb_blogApp = 'xlmeng1988', cb_blogUserGuid = '84341f51-9290-df11-ba8f-001cf0cd104b';
+    var cb_entryId = 2862927, cb_entryCreatedDate = '2013-01-16 16:00', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder">
+
+<div id="comment_pager_top">
+    
+</div>
+
+<a name="评论"></a>
+<div id="comments">
+    <h3>评论</h3>
+    <div class="feedbackNoItems"></div>
+
+        <div class="post">
+            <h2>
+                
+<a href="#2710749" class="layer">#1楼</a>
+<a name="2710749" id="comment_anchor_2710749"></a>
+
+                  
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </h2>
+            
+<div id="comment_body_2710749" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    受教了。谢谢
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2710749, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(2710749, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            <div class="postfoot">
+                
+<span class="comment_date">2013-06-21 17:04</span>
+
+ | 
+        <a id="a_comment_author_2710749" href="https://home.cnblogs.com/u/520854/" target="_blank">lisalala</a>
+
+            </div>
+        </div>
+        <div class="post">
+            <h2>
+                
+<a href="#3612698" class="layer">#2楼</a>
+<a name="3612698" id="comment_anchor_3612698"></a>
+
+                  
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </h2>
+            
+<div id="comment_body_3612698" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    4、假如你什么也不做的话，也就是LC_ALL，LANG和LC_*均不指定特定值的话，系统将采用POSIX作为lcoale，也就是C locale。<br /><br />这个怎么理解。
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3612698, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3612698, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            <div class="postfoot">
+                
+<span class="comment_date">2017-02-06 14:58</span>
+
+ | 
+        <a id="a_comment_author_3612698" href="https://home.cnblogs.com/u/1063192/" target="_blank">云中喝酒</a>
+
+            </div>
+        </div>
+        <div class="post">
+            <h2>
+                
+<a href="#3613703" class="layer">#3楼</a>
+<a name="3613703" id="comment_anchor_3613703"></a>
+[<span class="louzhu">楼主</span>]    <span id="comment-maxId" style="display: none">3613703</span>
+    <span id="comment-maxDate" style="display: none">2017/2/7 下午5:59:15</span>
+
+                  
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </h2>
+            
+<div id="comment_body_3613703" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    <a href="#3612698" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3612698);">@</a>
+云中喝酒<br />也就是说如果没有设置这些环境变量的时候，在系统安装好的时候这些环境变量是有默认值的，默认值是POSIX。（这应该只针对英文系统，装中文系统的话，这些变量的默认值应该不是POSIX了。）<br /><a href="http://pubs.opengroup.org/onlinepubs/007908799/xbd/locale.html" target="_blank">http://pubs.opengroup.org/onlinepubs/007908799/xbd/locale.html</a><br /><a href="http://pubs.opengroup.org/onlinepubs/007908799/xbd/locale.html#tag_005_002" target="_blank">http://pubs.opengroup.org/onlinepubs/007908799/xbd/locale.html#tag_005_002</a><br />这有Locale和POSIX locale的说明，有兴趣自己研究一下吧。<br /><br />我的理解是，locale就相当于一个编码字符集，POSIX字符集里没有中文编码，所有如果使用POSIX编码的字符集去打开中文文件的话，就会出现乱码。
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3613703, 'Digg', this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3613703, 'Bury', this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3613703_avatar" style="display:none">
+            https://pic.cnblogs.com/face/u146566.jpg?id=19213849
+        </span>
+
+            <div class="postfoot">
+                
+<span class="comment_date">2017-02-07 17:59</span>
+
+ | 
+        <a id="a_comment_author_3613703" href="https://www.cnblogs.com/xlmeng1988/" target="_blank">Lo0ong</a>
+
+            </div>
+        </div>
+
+</div>
+
+<div id="comment_pager_bottom">
+    
+</div>
+
+
+</div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="http://www.softbam.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-ucancode')">【推荐】大型组态、工控、仿真、CADGIS 50万行VC++源码免费下载</a><br /><a href="https://www.cnblogs.com/cmt/p/14408628.html" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-AWS')">【求助】注册 Amazon Web Services(AWS) 账户，助园子一臂之力</a><br /><a href="https://brands.cnblogs.com/huawei/topic/harmonyos-development-tutorial" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为专区')">【推荐】万物互联的时代，由你的代码定义，创建HarmonyOS应用</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CNCry6u2ie8CFUJivQodHvkJgQ"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card"><b>AWS免费产品</b>：<br />· <a onclick="ga(&quot;send&quot;, &quot;event&quot;, &quot;Link&quot;, &quot;click&quot;, &quot;aws-underpost-card&quot;)" href="https://aws.amazon.com/cn/free/webapps/?trk=ba_a134p000006vc6OAAQ&amp;trkCampaign=webapps&amp;sc_channel=ba&amp;sc_campaign=cnblogs&amp;sc_outcome=Acquisition&amp;sc_geo=CHNA&amp;sc_country=CN&amp;sc_publisher=Others" target="_blank">如何在AWS上免费构建网站</a><br />· <a onclick="ga(&quot;send&quot;, &quot;event&quot;, &quot;Link&quot;, &quot;click&quot;, &quot;aws-underpost-card&quot;)" href="https://aws.amazon.com/cn/free/storage/?trk=ba_a134p000006vc7JAAQ&amp;trkCampaign=storage&amp;sc_channel=ba&amp;sc_campaign=cnblogs&amp;sc_outcome=Acquisition&amp;sc_geo=CHNA&amp;sc_country=CN&amp;sc_publisher=Others" target="_blank">AWS免费云存储解决方案</a><br />· <a onclick="ga(&quot;send&quot;, &quot;event&quot;, &quot;Link&quot;, &quot;click&quot;, &quot;aws-underpost-card&quot;)" href="https://aws.amazon.com/cn/free/database/?trk=ba_a134p000006vc7YAAQ&amp;trkCampaign=database&amp;sc_channel=ba&amp;sc_campaign=cnblogs&amp;sc_outcome=Acquisition&amp;sc_geo=CHNA&amp;sc_country=CN&amp;sc_publisher=Others" target="_blank">在AWS上免费构建数据库</a><br />· <a onclick="ga(&quot;send&quot;, &quot;event&quot;, &quot;Link&quot;, &quot;click&quot;, &quot;aws-underpost-card&quot;)" href="https://aws.amazon.com/cn/free/machine-learning/?trk=ba_a134p000006vc7nAAA&amp;trkCampaign=ML&amp;sc_channel=ba&amp;sc_campaign=cnblogs&amp;sc_outcome=Acquisition&amp;sc_geo=CHNA&amp;sc_country=CN&amp;sc_publisher=Others" target="_blank">AWS上的免费机器学习</a></div></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;" data-google-query-id="CK2hzKu2ie8CFUJivQodHvkJgQ"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" srcdoc="" style="border: 0px; vertical-align: bottom;" data-google-container-id="2" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>最新新闻</b>：
+    <br />
+ ·          <a href="//news.cnblogs.com/n/689084/" target="_blank">Airbnb上市后首份“年度成绩单”：预订总额下滑37%，亏损是收入的1.36倍</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/689083/" target="_blank">获投即巅峰，烧钱盈利难？奈雪的茶难改“网红”经济宿命</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/689082/" target="_blank">2020全球CEO年薪大榜：劈柴哥年入2.8亿美元登顶</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/689081/" target="_blank">净利转正，毛利率下降，理想汽车需要故事</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/689080/" target="_blank">B站需警惕：游戏收入环比下降，基本盘在动摇？</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+
+
+</div>
+</div>
+<div id="leftmenu">
+
+
+<h3>导航</h3>
+<ul>
+    <li>
+        <a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+
+    </li>
+    <li>
+        
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/xlmeng1988/">
+首页</a>
+
+    </li>
+    <li>
+        
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+
+    </li>
+    <li>
+        
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/Lo0ong">
+联系</a>
+    </li>
+    <li>
+        
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/xlmeng1988/rss/">
+订阅</a>
+        
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/xlmeng1988/rss/">
+    <img src="/skins/anothereon001/images/xml.gif" alt="订阅" />
+</a>
+    </li>
+    <li>
+        
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+
+    </li>
+</ul>
+
+
+<div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2012/12/16'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2013年1月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2013/02/16'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                            <td class="CalOtherMonthDay" align="center">31</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                        <td class="" align="center">
+                            <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/04.html"><u>4</u></a>
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/05.html"><u>5</u></a>
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/06.html"><u>6</u></a>
+                        </td>
+                            <td class="" align="center">
+                                <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/07.html"><u>7</u></a>
+                            </td>
+                            <td class="" align="center">
+                                <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/08.html"><u>8</u></a>
+                            </td>
+                            <td class="" align="center">
+                                <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/09.html"><u>9</u></a>
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            12
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            13
+                        </td>
+                            <td class="" align="center">
+                                <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/14.html"><u>14</u></a>
+                            </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                            <td class="" align="center">
+                                <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/16.html"><u>16</u></a>
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="" align="center">
+                                <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/18.html"><u>18</u></a>
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            19
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            20
+                        </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            26
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            27
+                        </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="" align="center">
+                                31
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            2
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            3
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                8
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            9
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script>
+<div id="sidebar_news" class="newsItem"><meta name="vs_showGrid" content="False" />
+<h3>公告</h3>
+
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/xlmeng1988/">
+            Lo0ong
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/xlmeng1988/" title="入园时间：2010-07-16">
+            10年7个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/xlmeng1988/followers/">
+            14
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/xlmeng1988/followees/">
+            4
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('84341f51-9290-df11-ba8f-001cf0cd104b')">+加关注</a></div>
+        <script>getFollowStatus('84341f51-9290-df11-ba8f-001cf0cd104b');</script>
+    </div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk" /> <input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    
+<li><a href="https://www.cnblogs.com/xlmeng1988/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/xlmeng1988/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/xlmeng1988/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/xlmeng1988/RecentComments.html" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/xlmeng1988/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block">
+<h3>我的标签</h3>
+<div id="MyTag">
+    <ul>
+                <li>
+            <a href="https://www.cnblogs.com/xlmeng1988/tag/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Linux常用命令<span class="tag-count">(11)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/xlmeng1988/tag/linux_shell/">linux_shell<span class="tag-count">(6)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/xlmeng1988/tag/linux%20%E6%97%A5%E5%B8%B8/">linux 日常<span class="tag-count">(5)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/xlmeng1988/tag/Cygwin/">Cygwin<span class="tag-count">(4)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/xlmeng1988/tag/vim/">vim<span class="tag-count">(4)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/xlmeng1988/tag/windows/">windows<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/xlmeng1988/tag/%E5%94%AE%E5%90%8E/">售后<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/xlmeng1988/tag/%E6%B3%A8%E5%86%8C%E7%A0%81/">注册码<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/xlmeng1988/tag/mysql/">mysql<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/xlmeng1988/tag/source%20insight%203/">source insight 3<span class="tag-count">(1)</span></a>
+        </li>
+    <li>
+        <a href="https://www.cnblogs.com/xlmeng1988/tag/">更多</a>
+    </li>
+
+    </ul>
+</div>
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <h3>
+        
+随笔分类
+
+
+
+    </h3>
+    <ul>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/category/365000.html" rel="" target="">
+    C/C++(14)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/category/367356.html" rel="" target="">
+    Linux(50)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/category/365001.html" rel="" target="">
+    Network(4)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/category/453944.html" rel="" target="">
+    Web(3)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/category/386340.html" rel="" target="">
+    Windows(7)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/category/367383.html" rel="" target="">
+    北京游记(3)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/category/482121.html" rel="" target="">
+    读书笔记(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/category/364999.html" rel="" target="">
+    随想(11)
+</a>
+
+
+            </li>
+        
+    </ul>
+    <h3>
+        
+随笔档案
+
+
+
+    </h3>
+    <ul>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2018/02.html" rel="" target="">
+    2018年2月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2017/12.html" rel="" target="">
+    2017年12月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2017/10.html" rel="" target="">
+    2017年10月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2017/01.html" rel="" target="">
+    2017年1月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2016/10.html" rel="" target="">
+    2016年10月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2016/06.html" rel="" target="">
+    2016年6月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2016/03.html" rel="" target="">
+    2016年3月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2015/04.html" rel="" target="">
+    2015年4月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2014/11.html" rel="" target="">
+    2014年11月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2014/10.html" rel="" target="">
+    2014年10月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2014/09.html" rel="" target="">
+    2014年9月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2014/07.html" rel="" target="">
+    2014年7月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2013/11.html" rel="" target="">
+    2013年11月(2)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2013/09.html" rel="" target="">
+    2013年9月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2013/08.html" rel="" target="">
+    2013年8月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2013/07.html" rel="" target="">
+    2013年7月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2013/05.html" rel="" target="">
+    2013年5月(5)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2013/04.html" rel="" target="">
+    2013年4月(2)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2013/03.html" rel="" target="">
+    2013年3月(8)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2013/02.html" rel="" target="">
+    2013年2月(6)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01.html" rel="" target="">
+    2013年1月(20)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2012/12.html" rel="" target="">
+    2012年12月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2012/11.html" rel="" target="">
+    2012年11月(5)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2012/10.html" rel="" target="">
+    2012年10月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2012/09.html" rel="" target="">
+    2012年9月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2012/08.html" rel="" target="">
+    2012年8月(3)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2012/07.html" rel="" target="">
+    2012年7月(1)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2012/06.html" rel="" target="">
+    2012年6月(11)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2012/05.html" rel="" target="">
+    2012年5月(10)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2012/04.html" rel="" target="">
+    2012年4月(10)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="false" style="display: none">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/archive/2012/03.html" rel="" target="">
+    2012年3月(6)
+</a>
+
+
+            </li>
+        <li><a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a></li>
+    </ul>
+    <h3>
+        
+相册
+
+
+
+    </h3>
+    <ul>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/gallery/367459.html" rel="nofollow noopener noreferrer" target="">
+    【2012.03.25】京西古道(9)
+</a>
+
+
+            </li>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/xlmeng1988/gallery/372835.html" rel="nofollow noopener noreferrer" target="">
+    【2012.04.14】圆明园(24)
+</a>
+
+
+            </li>
+        
+    </ul>
+</div>
+
+<!-- 最新评论 -->
+<div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap" class="RecentComment">
+    <h3 class="catListTitle">最新评论</h3>
+    <div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/16/locale.html">1. Re:locale的设定及LANG、LC_CTYPE、LC_ALL环境变量</a></li>
+                    <li class="recent_comment_body">@ 云中喝酒也就是说如果没有设置这些环境变量的时候，在系统安装好的时候这些环境变量是有默认值的，默认值是POSIX。（这应该只针对英文系统，装中文系统的话，这些变量的默认值应该不是POSIX了。）这有...</li>
+                    <li class="recent_comment_author">--Lo0ong</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/16/locale.html">2. Re:locale的设定及LANG、LC_CTYPE、LC_ALL环境变量</a></li>
+                    <li class="recent_comment_body">4、假如你什么也不做的话，也就是LC_ALL，LANG和LC_*均不指定特定值的话，系统将采用POSIX作为lcoale，也就是C locale。<br /><br />这个怎么理解。</li>
+                    <li class="recent_comment_author">--云中喝酒</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/xlmeng1988/p/5236756.html">3. Re:Virtual Box上安装CentOS7</a></li>
+                    <li class="recent_comment_body">thanks!</li>
+                    <li class="recent_comment_author">--brant-ruan</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/14/cygwin_cn.html">4. Re:[cygwin]mintty窗口中输出的中文是乱码</a></li>
+                    <li class="recent_comment_body">你好，在吗，可以给我教我下cygwin吗？ 我安装了很久了，总是失败？ 是不是压缩包的问题， 给我一个完整压缩包可以吗  zhaisongfang@sinosoft.com.cn</li>
+                    <li class="recent_comment_author">--疯狂_java</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/14/cygwin_cn.html">5. Re:[cygwin]mintty窗口中输出的中文是乱码</a></li>
+                    <li class="recent_comment_body">解决了我的问题，谢谢</li>
+                    <li class="recent_comment_author">--hemingway</li>
+        </ul>
+    </div>
+</div></div>
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block">
+<div id="topview_posts_wrap">
+    <h3 class="catListTitle">阅读排行榜</h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/05/22/3092447.html">
+                            1. [转]CentOS设置程序开机自启动的方法(76814)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/xlmeng1988/archive/2012/04/24/telnet-server.html">
+                            2. Centos 开启telnet-service服务(42694)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/08/shell_color.html">
+                            3. [linux_shell]linux下设置ls命令显示文件、文件夹颜色(24598)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/16/locale.html">
+                            4. locale的设定及LANG、LC_CTYPE、LC_ALL环境变量(23634)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/xlmeng1988/archive/2012/06/04/ctrl.html">
+                            5. ctrl+c,ctrl+d,ctrl+z在linux中意义(22268)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+    <h3 class="catListTitle">评论排行榜</h3>
+    <div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/16/locale.html">
+                            1. locale的设定及LANG、LC_CTYPE、LC_ALL环境变量(3)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/14/cygwin_cn.html">
+                            2. [cygwin]mintty窗口中输出的中文是乱码(2)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/xlmeng1988/p/5236756.html">
+                            3. Virtual Box上安装CentOS7(1)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/xlmeng1988/archive/2012/11/06/2756481.html">
+                            4. [转]malloc()与calloc区别(1)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/xlmeng1988/archive/2012/04/24/telnet-server.html">
+                            5. Centos 开启telnet-service服务(1)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/16/locale.html">
+                                1. locale的设定及LANG、LC_CTYPE、LC_ALL环境变量(8)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/05/22/3092447.html">
+                                2. [转]CentOS设置程序开机自启动的方法(3)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/xlmeng1988/archive/2013/01/14/cygwin_cn.html">
+                                3. [cygwin]mintty窗口中输出的中文是乱码(3)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/xlmeng1988/archive/2012/04/24/telnet-server.html">
+                                4. Centos 开启telnet-service服务(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/xlmeng1988/p/3343748.html">
+                                5. EVEREST Ultimate Edition 5.50 正式版 序列号(1)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div></div>
+                    <script>loadBlogSideColumn();</script>
+
+</div>
+</div>
+<div class="clear"></div>
+<div id="footer">
+<p id="footer">
+	Powered by: 
+	<br />
+	
+	<a href="https://www.cnblogs.com/" id="footer_site_link">博客园</a>
+	<br />
+	Copyright © 2021 Lo0ong
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+</p>
+
+
+</div>
+</div>
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8EklyHYHyB5Oj4onWtxTnxYQYWyGzitE-ML3KQThklS3F6VbGtf3DsqqAv5pW2JqXLI0EQWCLtTiQRLthQtcd3Hb4WHev2IcEBwQ0Jarjf3thB9hMXYqAo6giUFTM4AfU5vq1rkMQFUpTBgyeLiukd0" />
+
+
+<iframe id="google_osd_static_frame_9580926561854" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body></html>
