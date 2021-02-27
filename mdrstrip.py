@@ -519,6 +519,7 @@ def mainfile(fpath, fname, ftype):
     isMdFile         = ftype in ("md",)
     isSrcFile        = ftype in ("md", "php", "html", "htm", "js", "css", "scss", "svg", "py", "vsh", "fsh",)
     keepStripFile    = ftype in ("svg",) or fname in ("gitsrc.html",) or re.findall("^relref[a-z_]*\\.html$", fname)
+    keepFileTypeList = ("rar", "zip", "pdf", "mp4",)
 
     if fpath.find("\\winfinder\\") != -1:
         isSrcFile = isSrcFile or ftype in ("h", "cpp", "rc", "c",)
@@ -582,6 +583,10 @@ def mainfile(fpath, fname, ftype):
     codestate = False
     chartstate = False
     for index, line in enumerate(lines):
+
+        for kftype in keepFileTypeList:
+            line = line.replace(" ."+kftype, "."+kftype)
+            lines[index] = line
 
         preline = lines[index - 1] if index > 0 else ""
         nextline = lines[index + 1] if index < len(lines)-1 else ""
@@ -680,8 +685,11 @@ def mainfile(fpath, fname, ftype):
             if cy in ("\"",) and ((line+"]").count(ix+"]") == 1 or (line+",").count(ix+",") == 1):
                 continue
 
-            if cy in (".") and (line.count(ix+"rar") == 1 or line.count(ix+"zip") == 1):
-                continue
+            tagcontinue = False
+            for kftype in keepFileTypeList:
+                if cy in (".",) and (line.count(ix+kftype) == 1):
+                    tagcontinue = True
+            if tagcontinue: continue
 
             if not warnCnEnSpace:
                 continue
