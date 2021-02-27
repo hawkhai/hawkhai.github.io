@@ -85,7 +85,7 @@ void myprint(const char* tag, const char* pstr)
 }
 
 int trytrans(char const* locale, const wchar_t* pwchello) {
-    char* localeInfo = setlocale(LC_ALL, locale);
+    char* localeInfo = setlocale(LC_CTYPE, locale);
     printf("Locale information set to %s\n", localeInfo);
 
     int requiredSize = wcstombs(NULL, pwchello, 0);
@@ -100,7 +100,7 @@ int trytrans(char const* locale, const wchar_t* pwchello) {
 }
 
 int trytrans(char const* locale, const char* pmbhello) {
-    char* localeInfo = setlocale(LC_ALL, locale);
+    char* localeInfo = setlocale(LC_CTYPE, locale);
     printf("Locale information set to %s\n", localeInfo);
 
     int requiredSize = mbstowcs(NULL, pmbhello, 0);
@@ -194,6 +194,15 @@ setlocale(LC_CTYPE, "zh_CN.utf8");
 ```
 
 ```cpp
+setlocale(LC_CTYPE, "chs");
+// 使 setlocale 只针对当前线程起作用
+_configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
+// 使 setlocale 对所有线程的设置都有用（默认值）
+_configthreadlocale(_DISABLE_PER_THREAD_LOCALE);
+setlocale 只能在当前进程各自的运行时库里生效
+```
+
+```cpp
 inline std::string wstr2str(const std::wstring& xsistr)
 {
     if (xsistr.empty()) {
@@ -266,6 +275,29 @@ jstring stoJstring(JNIEnv* env, const char* pat)
 ```
 
 
+### locale
+
+locale 把按照所涉及到的文化传统的各个方面分成 12 个大类，这 12 个大类分别是：
+
+1. 语言符号及其分类 (LC_CTYPE)
+2. 数字 (LC_NUMERIC)
+3. 比较和排序习惯 (LC_COLLATE)
+4. 时间显示格式 (LC_TIME)
+5. 货币单位 (LC_MONETARY)
+6. 信息主要是提示信息 , 错误信息 , 状态信息 , 标题 , 标签 , 按钮和菜单等 (LC_MESSAGES)
+7. 姓名书写方式 (LC_NAME)
+8. 地址书写方式 (LC_ADDRESS)
+9. 电话号码书写方式 (LC_TELEPHONE)
+10. 度量衡表达方式 (LC_MEASUREMENT)
+11. 默认纸张尺寸大小 (LC_PAPER)
+12. 对 locale 自身包含信息的概述 (LC_IDENTIFICATION)。
+
+Locale 是软件在运行时的语言环境, 它包括语言 (Language), 地域 (Territory) 和字符集 (Codeset)。一个 locale 的书写格式为 : 语言 [_ 地域 [. 字符集]]。
+
+1. 我说中文，身处中华人民共和国，使用国标 2312 字符集来表达字符。zh_CN.GB2312＝中文 _ 中华人民共和国＋国标 2312 字符集。
+3. 我说中文，身处中华人民共和国台湾省，使用国标 Big5 字符集来表达字符。zh_TW.BIG5= 中文 _ 台湾 . 大五码字符集
+
+
 ### iconv()
 
 **转换描述符不能再多线程中同时使用。** GBK，UTF−8。
@@ -277,5 +309,13 @@ size_t iconv(iconv_t cd, char **inbuf, size_t *inbytesleft, char **outbuf, size_
 int iconv_close(iconv_t cd);
 ```
 
+
+## Refs
+
+- [1] [locale 的设定及 LANG、LC_CTYPE、LC_ALL 环境变量 {% include relref_cnblogs.html %}](https://www.cnblogs.com/xlmeng1988/archive/2013/01/16/locale.html)
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-27-mbs-and-wcs-for-Android.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://www.cnblogs.com/xlmeng1988/archive/2013/01/16/locale.html]({% include relref.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/www.cnblogs.com/199de3b0.html" %})
