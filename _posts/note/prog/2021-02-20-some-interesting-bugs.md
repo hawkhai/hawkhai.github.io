@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "编程 C++ -- Android JNI 一些有趣的 bugfix"
+title: "编程 C++ -- Android OpenGL ES 渲染 Java & C++ 混合编程 JNI 实现原理"
 author:
 location: "珠海"
 categories: ["编程"]
