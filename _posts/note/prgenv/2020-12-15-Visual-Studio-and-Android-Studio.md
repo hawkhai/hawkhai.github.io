@@ -248,11 +248,6 @@ Executing commands in 'E:\android-studio-ide-181.5014246-windows\android-studio\
 ```
 
 
-## Windows 命令行编码
-
-设置 命令行 utf8，`chcp 65001`。
-
-
 ## 字体和空格
 
 工具 > 选项。
