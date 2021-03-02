@@ -647,6 +647,8 @@ def mainfile(fpath, fname, ftype):
             linec = linec.replace(itmp, "$$$$")
         for itmp in re.findall("“.*?”", line): # 忽略双引号
             linec = linec.replace(itmp, "“”")
+        for itmp in re.findall("`.*?`", line): # 忽略代码部分
+            linec = linec.replace(itmp, "“”")
 
         for itmp in ('"WEB前端"',):
             linec = linec.replace(itmp, "\"\"")

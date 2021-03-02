@@ -1,0 +1,687 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" class="js" lang="zh-TW" prefix="og: http://ogp.me/ns#"><head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="profile" href="https://gmpg.org/xfn/11" />
+    <title>編寫ios和android共用的c/c++庫時 使用iconv的問題 - IT閱讀</title>
+<script>document.documentElement.className = document.documentElement.className.replace("no-js","js");</script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet" />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+<meta name="referrer" content="never" />
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="hueman-main-style-css" href="/img/css/main.info.css" type="text/css" media="all" />
+<link href="https://www.itread01.com/img/prettify.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/assets/prettify.css" />
+<style id="hueman-main-style-inline-css" type="text/css">
+body { font-family:'Source Sans Pro', Arial, sans-serif;font-size:1.00rem }@media only screen and (min-width: 720px) {
+        .nav &gt; li { font-size:1.00rem; }
+      }::selection { background-color: #fca61b; }
+::-moz-selection { background-color: #fca61b; }a,.themeform label .required,#flexslider-featured .flex-direction-nav .flex-next:hover,#flexslider-featured .flex-direction-nav .flex-prev:hover,.post-hover:hover .post-title a,.post-title a:hover,.sidebar.s1 .post-nav li a:hover i,.content .post-nav li a:hover i,.post-related a:hover,.sidebar.s1 .widget_rss ul li a,#footer .widget_rss ul li a,.sidebar.s1 .widget_calendar a,#footer .widget_calendar a,.sidebar.s1 .alx-tab .tab-item-category a,.sidebar.s1 .alx-posts .post-item-category a,.sidebar.s1 .alx-tab li:hover .tab-item-title a,.sidebar.s1 .alx-tab li:hover .tab-item-comment a,.sidebar.s1 .alx-posts li:hover .post-item-title a,#footer .alx-tab .tab-item-category a,#footer .alx-posts .post-item-category a,#footer .alx-tab li:hover .tab-item-title a,#footer .alx-tab li:hover .tab-item-comment a,#footer .alx-posts li:hover .post-item-title a,.comment-tabs li.active a,.comment-awaiting-moderation,.child-menu a:hover,.child-menu .current_page_item &gt; a,.wp-pagenavi a{ color: #fca61b; }.themeform input[type="submit"],.themeform button[type="submit"],.sidebar.s1 .sidebar-top,.sidebar.s1 .sidebar-toggle,#flexslider-featured .flex-control-nav li a.flex-active,.post-tags a:hover,.sidebar.s1 .widget_calendar caption,#footer .widget_calendar caption,.author-bio .bio-avatar:after,.commentlist li.bypostauthor &gt; .comment-body:after,.commentlist li.comment-author-admin &gt; .comment-body:after{ background-color: #fca61b; }.post-format .format-container { border-color: #fca61b; }.sidebar.s1 .alx-tabs-nav li.active a,#footer .alx-tabs-nav li.active a,.comment-tabs li.active a,.wp-pagenavi a:hover,.wp-pagenavi a:active,.wp-pagenavi span.current{ border-bottom-color: #fca61b!important; }.sidebar.s2 .post-nav li a:hover i,
+.sidebar.s2 .widget_rss ul li a,
+.sidebar.s2 .widget_calendar a,
+.sidebar.s2 .alx-tab .tab-item-category a,
+.sidebar.s2 .alx-posts .post-item-category a,
+.sidebar.s2 .alx-tab li:hover .tab-item-title a,
+.sidebar.s2 .alx-tab li:hover .tab-item-comment a,
+.sidebar.s2 .alx-posts li:hover .post-item-title a { color: #3bcfe2; }
+.sidebar.s2 .sidebar-top,.sidebar.s2 .sidebar-toggle,.post-comments,.jp-play-bar,.jp-volume-bar-value,.sidebar.s2 .widget_calendar caption{ background-color: #3bcfe2; }.sidebar.s2 .alx-tabs-nav li.active a { border-bottom-color: #3bcfe2; }
+.post-comments span:before { border-right-color: #3bcfe2; }
+      .search-expand,
+              #nav-topbar.nav-container { background-color: #303030}@media only screen and (min-width: 720px) {
+                #nav-topbar .nav ul { background-color: #303030; }
+              }.is-scrolled #header .nav-container.desktop-sticky,
+              .is-scrolled #header .search-expand { background-color: #303030; background-color: rgba(48,48,48,0.90) }.is-scrolled .topbar-transparent #nav-topbar.desktop-sticky .nav ul { background-color: #303030; background-color: rgba(48,48,48,0.95) }#header { background-color: #363944; }
+@media only screen and (min-width: 720px) {
+  #nav-header .nav ul { background-color: #363944; }
+}
+        .is-scrolled #header #nav-mobile { background-color: #454e5c; background-color: rgba(69,78,92,0.90) }body { background-color: #eaeaea; }
+		.entry-inner h1{ font-size:20px; font-weight:bold;}
+		.entry-inner h2,h3,h4{ font-size:18px; font-weight:bold;}
+</style>
+ 
+
+<link rel="stylesheet" id="hueman-font-awesome-css" href="/img/css/font-awesome.min.css" type="text/css" media="all" />
+<script type="text/javascript">
+/* &lt;![CDATA[ */
+var monsterinsights_frontend = {"js_events_tracking":"true","is_debug_mode":"false","download_extensions":"","inbound_paths":"","home_url":"https:\/\/www.itread01.com","track_download_as":"event","internal_label":"int","hash_tracking":"false"};
+/* ]]&gt; */
+</script>
+<script type="text/javascript" src="/img/css/js/frontend.min.js"></script>
+<script type="text/javascript" src="/img/css/js/jquery.js?ver=1.12.4"></script>
+<script type="text/javascript" src="/img/css/jsjquery-migrate.min.js?ver=1.4.1"></script>
+<script src="/styles/highlight.js"></script>
+<link rel="stylesheet" type="text/css" href="/styles/default.css" />
+<meta name="generator" content="WordPress 4.8.2" />
+<!--[if lt IE 9]>
+<script src="/img/css/js/html5shiv-printshiv.min.js"></script>
+<script src="/img/css/js/selectivizr.js"></script>
+<![endif]-->
+<style>.ios7.web-app-mode.has-fixed header{ background-color: rgba(45,53,63,.88);}</style></head>
+<body data-rsssl="1" class="post-template-default single single-post postid-43193 single-format-standard wp-custom-logo col-2cl full-width topbar-enabled header-desktop-sticky header-mobile-sticky chrome hu-smoothscroll">
+    <div id="wrapper">
+        <header id="header" class="specific-mobile-menu-on one-mobile-menu mobile_menu header-ads-desktop header-ads-mobile topbar-transparent no-header-img fixed-header-on" style="height: 146px; padding-top: 50px;">
+        <nav class="nav-container group mobile-menu mobile-sticky " id="nav-mobile" data-menu-id="header-1">
+  <div class="mobile-title-logo-in-header"><p class="site-title"><a class="custom-logo-link" href="https://www.itread01.com/" rel="home" title="首頁"><img src="https://www.itread01.com/logo.png" /></a></p>
+                </div>
+        <div class="ham__navbar-toggler-two collapsed" title="Menu" aria-expanded="false">
+          <div class="ham__navbar-span-wrapper">
+            <span class="line line-1"></span>
+            <span class="line line-2"></span>
+            <span class="line line-3"></span>
+          </div>
+        </div>
+            
+      <div class="nav-text"></div>
+      <div class="nav-wrap container">
+                  <ul class="nav container-inner group mobile-search">
+                            <li>
+                  <form class="searchform themeform" onsubmit="return searchKw(this)">
+	<div>
+		<input type="text" name="kw" class="search" onblur="if(this.value=='')this.value='輸入關鍵字後搜尋';" onfocus="if(this.value=='輸入關鍵字後搜尋')this.value='';" value="輸入關鍵字後搜尋" />
+	</div>
+</form>    
+<script>function searchKw(c){var b=c.getElementsByTagName("input")[0],a=b.value.replace(/^\s+|\s+$/g,"");a=a.replace(/['"]/g,"");location.href="https://www.itread01.com/search/"+encodeURIComponent(a)+"";return false};</script>            </li>
+                      </ul>
+                <ul id="menu-top" class="nav container-inner group">
+                 <li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="/">首頁</a></li>
+				<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="https://www.itread01.com/%E7%A7%91%E6%8A%80/">科技</a></li>
+						  <li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="https://www.itread01.com/info/">程式語言</a></li>
+ 
+</ul>      </div>
+</nav><!--/#nav-topbar-->  
+        <nav class="nav-container group desktop-menu desktop-sticky " id="nav-topbar" data-menu-id="header-2" style="max-width: 912px;">
+    <div class="nav-text"></div>
+  <div class="topbar-toggle-down">
+    <i class="fas fa-angle-double-down" aria-hidden="true" data-toggle="down" title="展開功能表清單"></i>
+    <i class="fas fa-angle-double-up" aria-hidden="true" data-toggle="up" title="折疊功能表清單"></i>
+  </div>
+  <div class="nav-wrap container">
+    <ul id="menu-footer" class="nav container-inner group"> 
+    <li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="https://www.itread01.com/" rel="nofollow">首頁</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="/study/mysql-tutorial.html">MySQL教學</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="/t/網站技巧/1/">網站技巧</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="/t/網路程式設計/1/">網路程式設計</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="/t/軟體程式設計/1/">軟體程式設計</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="/t/資料庫/1/">資料庫</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="/t/作業系統/1/">作業系統</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="/t/指令碼專欄/1/">其它</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="https://www.itread01.com/coupons/">優惠碼</a></li>
+ 
+</ul>  </div>
+      <div id="topbar-header-search" class="container">
+      <div class="container-inner">
+        <div class="toggle-search"><i class="fas fa-search"></i></div>
+        <div class="search-expand">
+          <div class="search-expand-inner"><form class="searchform themeform" onsubmit="return searchKw(this)">
+	<div>
+		<input type="text" class="search" name="kw" onblur="if(this.value=='')this.value='輸入關鍵字後搜尋';" onfocus="if(this.value=='輸入關鍵字後搜尋')this.value='';" value="輸入關鍵字後搜尋" />
+	</div>
+</form></div>
+        </div>
+      </div><!--/.container-inner-->
+    </div><!--/.container-->
+  
+</nav><!--/#nav-topbar-->  
+  <div class="container group">
+        <div class="container-inner">
+
+                    <div class="group pad central-header-zone">
+                  <div class="logo-tagline-group">
+                                        <p class="site-title"><a class="custom-logo-link" href="https://www.itread01.com/" rel="home"><img src="https://www.itread01.com/logo.png" /></a></p>
+                                                        </div>
+
+                                        <div id="header-widgets">
+                          <div id="custom_html-2" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><!-- /109765683/728_Banner -->
+ </div></div>                      </div><!--/#header-ads-->
+                                </div>
+                <nav class="nav-container group desktop-menu " id="nav-header" data-menu-id="header-3">
+    <div class="nav-text"><!-- put your mobile menu text here --></div>
+  <div class="nav-wrap container">
+        <ul id="menu-top-1" class="nav container-inner group">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="/">首頁</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="https://www.itread01.com/%E7%A7%91%E6%8A%80/">科技</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="https://www.itread01.com/info/">程式語言</a></li>
+</ul>  </div>
+</nav><!--/#nav-header-->      
+    </div><!--/.container-inner-->
+      </div><!--/.container-->
+</header><!--/#header-->        
+        <div class="container" id="page">
+            <div class="container-inner">
+
+                                <div class="main">
+                    <div class="main-inner group">
+                        
+              <section class="content">
+              <div class="page-title pad group">
+          	    		<ul class="meta-single group">
+    			<li class="category"><a href="/infolist/其他/1/">其他</a></li>
+    			    		</ul>
+
+    	
+    </div><!--/.page-title-->
+          <div class="pad group">
+              <article class="post-43193 post type-post status-publish format-standard has-post-thumbnail hentry category-news tag-stripe tag-32305 tag-32306 tag-4550 tag-5237 tag-31545 tag-6260">
+    <div class="post-inner group">
+
+      <h1 class="post-title entry-title">編寫ios和android共用的c/c++庫時 使用iconv的問題</h1>
+<p class="post-byline"><span class="vcard author">
+     <span class="fn"><a href="/infolist/其他/1/">其他</a></span>
+   </span> ·
+                            發表 <time class="published" datetime="2019-02-19">2019-02-19</time>
+             
+               </p>
+               <ins id="scupio-sc-4995-17811-847678_registed" class="scupioadslot" style="display: inline-block; width: 100%; height: 100px; position: relative;" data-sca-pub="lRIJBAgyQA==" data-sca-web="4995" data-sca-category="17" data-sca-cid="17811" data-sca-slot-type="PRA" data-sca-status="callback" undefined="0"><iframe name="scupioadframe" marginwidth="0" marginheight="0" frameborder="0" id="scupio-sc-4995-17811-847678_frame_1c93939b-e666-467d-aed7-18eea8dd72de" src="https://img.scupio.com/html/ad.html?v=1.0.49" style="box-sizing: content-box; overflow: hidden; display: none; border: 0px; padding: 0px; margin: 0px; width: 100%; height: 100px;"></iframe><ins class="scupioadslot" data-sca-pub="lRIJBAgyQA==" data-sca-web="4995" data-sca-category="17" data-sca-cid="17812" data-sca-slot-type="STA" data-sca-status="done" undefined="3" id="_registed" style="display: inline-block; width: 100%; height: 100px; margin: auto;"><iframe name="scupioadframe" marginwidth="0" marginheight="0" frameborder="0" id="sc-1614654559055-828140832467_frame_07486073-3edf-4e0a-98f9-e5b1deeec13b" src="https://img.scupio.com/html/ad.html?v=1.0.49" style="box-sizing: content-box; overflow: hidden; display: inline; border: 0px; padding: 0px; margin: 0px; width: 100%; height: 100px;"></iframe></ins></ins>
+<script async="" src="https://img.scupio.com/js/ad.js"></script>
+<script>
+(function(s, c, u, p, i, o, a, d) {
+    'use strict';
+    var z=function(t,e,r){var a,n=document.createElement('ins'),s=n.style;for(a in n.className='scupioadslot',r&amp;&amp;(n.id=r),t)t.hasOwnProperty(a)&amp;&amp;(s[a]=t[a]);for(a in e)e.hasOwnProperty(a)&amp;&amp;n.setAttribute('data-sca-'+a,e[a]);return n};
+    (d = s.Scupioads = s.Scupioads || []).push({
+        id: u,
+        callback: function() {
+            p = c.getElementById(u);
+            i = p.style;
+            o = 'inline-block';
+            p.appendChild(z({
+                display: o,
+                width: '100%',
+                height: '100px',
+                margin: 'auto'
+            }, {
+                'pub': 'lRIJBAgyQA==',
+                'web': '4995',
+                'category': '17',
+                'cid': '17812',
+                'slot-type': 'STA'
+            }));
+            i.width = '100%';
+            i.height = '100px';
+            i.display = o;
+        }
+    });
+    setTimeout(function(){if(!s.Scupioads.init)for(i=d.length-1;0&lt;=i;i--)if(d[i].id===u){d[i].callback(),d[i].callback=function(){};break}},1e3);
+})(window, document, 'scupio-sc-4995-17811-847678');
+</script>
+      
+      <div class="clear"></div>
+ 
+      <div class="entry themeform share">
+        <div class="entry-inner">
+		<div class="htmledit_views" id="content_views">
+                
+<p><span style="font-size:12px;">因為在專案中需要同時維護ios和android，不同的程式碼不利於開發的便捷和以後的維護，所以在最近的一個專案中，兩種手機應用的通訊部分打算使用c/c++庫來統一編寫，ios呼叫.a靜態庫，android呼叫.so動態庫的方式來實現。</span></p>
+<p><span style="font-size:12px;">由於通訊時，從服務端獲取到的中文資料為GBK編碼，android和ios通過c++庫獲取到的中文亂碼，於是打算在c++庫層統一將GBK轉成UTF-8後再傳遞給上層應用。</span></p>
+<p><span style="font-size:12px;">由於優先考慮跨平臺的方案，最終我採用iconv庫來實現轉碼功能。參考網上搜到的一個程式碼如下</span></p>
+
+<pre class="hljs cs"><code class="language-cpp"><span class="hljs-meta">#ifndef STRINGUTIL_H_</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> STRINGUTIL_H_</span>
+
+<span class="hljs-meta">#include &lt;cstring&gt;</span>
+<span class="hljs-meta">#include &lt;iconv.h&gt;</span>
+
+<span class="hljs-meta">#ifdef _WIN32</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> comment(lib,"iconv.lib")</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">code_convert</span>(<span class="hljs-params"><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *from_charset,<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *to_charset,<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *inbuf,size_t inlen,<span class="hljs-keyword">char</span> *outbuf,size_t outlen</span>) </span>{
+ iconv_t cd;
+ <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> **pin = &amp;inbuf;
+ <span class="hljs-keyword">char</span> **pout = &amp;outbuf;
+
+ cd = iconv_open(to_charset,from_charset);
+ <span class="hljs-keyword">if</span> (cd==<span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+ memset(outbuf,<span class="hljs-number">0</span>,outlen);
+ iconv(cd, const_cast&lt;<span class="hljs-keyword">char</span>**&gt;(pin), &amp;inlen,pout, &amp;outlen);
+ iconv_close(cd);
+ <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-comment">/* UTF-8 to GBK  */</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">u2g</span>(<span class="hljs-params"><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *inbuf, size_t inlen, <span class="hljs-keyword">char</span> *outbuf, size_t outlen</span>) </span>{
+ <span class="hljs-keyword">return</span> code_convert(<span class="hljs-string">"UTF-8"</span>,<span class="hljs-string">"GBK"</span>,inbuf,inlen,outbuf,outlen);
+}
+
+<span class="hljs-comment">/* GBK to UTF-8 */</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">g2u</span>(<span class="hljs-params"><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *inbuf, size_t inlen, <span class="hljs-keyword">char</span> *outbuf, size_t outlen</span>) </span>{
+ <span class="hljs-keyword">return</span> code_convert(<span class="hljs-string">"GBK"</span>, <span class="hljs-string">"UTF-8"</span>, inbuf, inlen, outbuf, outlen);
+}
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span> /* STRINGUTIL_H_ */</span>
+&lt;/span&gt;</code></pre><span style="font-size:12px;"><br />
+程式碼用g++編譯，在ubuntu上測試正常，但在移植到ios和android均出現問題。</span>
+
+<p><span style="font-size:12px;">1.首先講ios上出現的問題，這個比較簡單。</span></p>
+<p><span style="font-size:12px;">使用xcode能夠成功編譯出.a靜態庫，但是在ios應用編譯時，出現如下問題：</span></p>
+
+<p class="p1"><span style="font-size:12px;">Undefined symbols for architecture x86_64:</span></p>
+<p class="p1"><span style="font-size:12px;">  "_iconv", referenced from:</span></p>
+<p class="p1"><span style="font-size:12px;">      code_convert(char const*, char const*, char const*, unsigned long, char*, unsigned long) in libVmNet.a(VmNet-EA133239D29A369D.o)</span></p>
+<p class="p1"><span style="font-size:12px;">  "_iconv_close", referenced from:</span></p>
+<p class="p1"><span style="font-size:12px;">      code_convert(char const*, char const*, char const*, unsigned long, char*, unsigned long) in libVmNet.a(VmNet-EA133239D29A369D.o)</span></p>
+<p class="p1"><span style="font-size:12px;">  "_iconv_open", referenced from:</span></p>
+<p class="p1"><span style="font-size:12px;">      code_convert(char const*, char const*, char const*, unsigned long, char*, unsigned long) in libVmNet.a(VmNet-EA133239D29A369D.o)</span></p>
+<p class="p1"><span style="font-size:12px;">ld: symbol(s) not found for architecture x86_64</span></p>
+<p class="p1"><span style="font-size:12px;">clang: error: linker command failed with exit code 1 (use -v to see invocation)</span></p>
+<p><span style="font-size:12px;">後來在網上搜到的解決方法，原來需要在專案中新增libiconv.2.4.0.tbd動態庫。然後重新編譯app成功執行。<img src="https://img-blog.csdn.net/20161024215639959" alt="" referrerpolicy="no-referrer" class="img-fluid" /><img src="https://img-blog.csdn.net/20161024215639959" alt="" referrerpolicy="no-referrer" class="img-fluid" /></span></p>
+
+<p><span style="font-size:12px;">2.接下來講在android上出現的問題。</span></p>
+<p><span style="font-size:12px;">在android studio中編譯.so庫，使用的是最新版的2.2.2，預設使用的是cmake編譯。</span></p>
+<p><span style="font-size:12px;">編譯中，出現找不到iconv.h標頭檔案，網上搜索解決方法，大致有以下幾種方法：</span></p>
+<p><span style="font-size:12px;">1.專案中新增iconv庫的原始碼，跟專案一起編譯。用到了android.mk，這個又跟現在官方推薦使用的cmake相違背了，我下載了iconv的原始碼，一大堆，不太懂，暫時放棄這條路子。</span></p>
+<p><span style="font-size:12px;">2.先編譯一個libiconv.so的動態庫，然後編譯自己的庫。這個是用到了android.mk，不想用這個，嫌麻煩，放棄。</span></p>
+<p><span style="font-size:12px;">3.據說ndk自帶了iconv的支援，只是需要在android.mk中增加</span></p>
+<p><span style="font-size:12px;"><span style="line-height:24px;color:rgb(51,51,51);font-family:'Helvetica Neue', Helvetica, STheiti, '微軟雅黑', '黑體', Arial, Tahoma, sans-serif, serif;">LOCAL_WHOLE_STATIC_LIBRARIES += android_support</span><br style="line-height:24px;color:rgb(51,51,51);font-family:'Helvetica Neue', Helvetica, STheiti, '微軟雅黑', '黑體', Arial, Tahoma, sans-serif, serif;" /></span></p>
+<p style="color:rgb(54,46,43);font-family:Arial;line-height:26px;"><span style="line-height:24px;color:rgb(51,51,51);font-family:'Helvetica Neue', Helvetica, STheiti, '微軟雅黑', '黑體', Arial, Tahoma, sans-serif, serif;"><span style="font-size:12px;">$(call import-module,<a href="http://lib.csdn.net/base/android" rel="nofollow" class="replace_word" title="Android知識庫" style="color:rgb(223,52,52);text-decoration:none;font-weight:bold;" target="_blank">Android</a><span class="hu-external"></span>/support)</span></span></p>
+<p><span style="font-family:'Helvetica Neue', Helvetica, STheiti, '微軟雅黑', '黑體', Arial, Tahoma, sans-serif, serif;font-size:12px;color:#333333;"><span style="line-height:24px;">又是android.mk，但我用的是cmake，放棄。</span></span></p>
+<p><span style="font-family:'Helvetica Neue', Helvetica, STheiti, '微軟雅黑', '黑體', Arial, Tahoma, sans-serif, serif;"><span style="line-height:24px;"><span style="font-size:12px;color:rgb(51,51,51);">雖然放棄了方法3，但是從中可以知道ndk有自帶的iconv功能，在一個叫android_support的靜態庫中，於是，我找到了iconv.h所在的路徑</span></span></span></p>
+<pre style="font-family:Menlo;" class="hljs makefile"><span style="font-size:12px;"><span style="color:#333333;background-color:rgb(255,255,255);">/Users/zhourui/Library/Android/sdk/ndk-bundle/sources/android/support/<span class="hljs-keyword">include</span>，libandroid_support.a所在路徑</span></span></pre><pre style="color:rgb(51,51,51);font-family:Menlo;font-size:9pt;background-color:rgb(255,255,255);" class="hljs ruby">/Users/zhourui/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++<span class="hljs-regexp">/libs/</span>${ANDROID_ABI}/libandroid_support.a;</pre><pre style="color:rgb(51,51,51);font-family:Menlo;font-size:9pt;background-color:rgb(255,255,255);" class="hljs css">於是參考了<span class="hljs-selector-tag">google</span>安卓官方文件中對<span class="hljs-selector-tag">cmake</span>引數的解釋，在<span class="hljs-selector-tag">CMakeLists</span><span class="hljs-selector-class">.txt</span>中添加了以下引數：</pre><pre style="font-family:Menlo;font-size:9pt;background-color:rgb(255,255,255);" class="hljs ruby"><span style="color:#ff0000;"><span class="hljs-comment"># 相當於g++ 中的 -I引數，這個引數讓cmake能找到iconv.h這個標頭檔案</span>
+include_directories(<span class="hljs-regexp">/Users/zhourui</span><span class="hljs-regexp">/Library/</span>Android/sdk/ndk-bundle/sources/android/support/<span class="hljs-keyword">include</span>)</span></pre><pre style="color:rgb(51,51,51);font-family:Menlo;font-size:9pt;background-color:rgb(255,255,255);" class="hljs bash">target_link_libraries( <span class="hljs-comment"># 這是我需要生成的庫檔案VmNet.so</span>
+                       VmNet</pre><pre style="font-family:Menlo;font-size:9pt;background-color:rgb(255,255,255);" class="hljs ruby"><span style="color:#333333;">                       <span class="hljs-comment"># Links the target library to the log library</span>
+                       <span class="hljs-comment"># included in the NDK.</span>
+                      </span><span style="color:#ff0000;"> <span class="hljs-comment"># 使用android_support.a庫</span>
+                       /Users/zhourui/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++<span class="hljs-regexp">/libs/</span>${ANDROID_ABI}/libandroid_support.a</span><span style="color:#333333;">
+                       ${log-lib} )</span></pre><pre style="line-height:24px;color:rgb(51,51,51);font-family:Menlo;font-size:9pt;background-color:rgb(255,255,255);" class="hljs css"><span class="hljs-selector-tag">CMakeLists</span><span class="hljs-selector-class">.txt</span>中只需要這麼配置即可。完成了標頭檔案路徑搜尋和靜態庫的連結。</pre><pre style="line-height:24px;color:rgb(51,51,51);font-family:Menlo;font-size:9pt;background-color:rgb(255,255,255);" class="hljs">但是直接編譯還是會出錯，會提示</pre><pre style="line-height:24px;color:rgb(51,51,51);font-family:Menlo;font-size:9pt;background-color:rgb(255,255,255);" class="hljs bash">error:unknown <span class="hljs-built_in">type</span> name <span class="hljs-string">'iconv_t'</span></pre><pre style="line-height:24px;color:rgb(51,51,51);font-family:Menlo;font-size:9pt;background-color:rgb(255,255,255);" class="hljs sql">error:<span class="hljs-keyword">use</span> <span class="hljs-keyword">of</span> undeclared identifier <span class="hljs-string">'iconv_open'</span></pre><span style="color:#333333;">到使用到iconv.h的轉碼檔案中檢視，發現能找到iconv.h檔案，但是iconv_t怎麼會未定義呢，於是進入到iconv.h檔案中檢視，發現iconv.h的程式碼如下</span><pre class="hljs cpp"><code class="language-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">ifndef</span> NDK_ANDROID_SUPPORT_ICONV_H</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> NDK_ANDROID_SUPPORT_ICONV_H</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> !defined(__LP64__)</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> __cplusplus</span>
+<span class="hljs-keyword">extern</span> <span class="hljs-string">"C"</span> {
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stddef.h&gt;</span></span>
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">void</span>* <span class="hljs-keyword">iconv_t</span>;
+
+<span class="hljs-keyword">iconv_t</span> iconv_open(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>*, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>*);
+<span class="hljs-keyword">size_t</span>  iconv(<span class="hljs-keyword">iconv_t</span>, <span class="hljs-keyword">char</span>**, <span class="hljs-keyword">size_t</span>*, <span class="hljs-keyword">char</span>**, <span class="hljs-keyword">size_t</span>*);
+<span class="hljs-function"><span class="hljs-keyword">int</span>     <span class="hljs-title">iconv_close</span><span class="hljs-params">(<span class="hljs-keyword">iconv_t</span>)</span></span>;
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> __cplusplus</span>
+}  <span class="hljs-comment">// extern "C"</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span> <span class="hljs-comment">// !__LP64__&lt;/span&gt;</span></span></code></pre><span style="color:#333333;"><br />我發現其中有一段是我用紅色標註的，</span><span style="color:rgb(255,0,0);font-size:9pt;background-color:rgb(240,240,240);">#if !defined(__LP64__) </span><span style="font-size:9pt;background-color:rgb(240,240,240);">這句表示在編譯64位程式時，標頭檔案便是空的了，那麼便表示ndk中的iconv不支援64位。</span><pre style="font-size:9pt;line-height:24px;font-family:Menlo;background-color:rgb(255,255,255);" class="hljs css"><span style="color:#333333;">到<span class="hljs-selector-tag">app</span>下的<span class="hljs-selector-tag">build</span><span class="hljs-selector-class">.gradle</span>中檢視有這麼一段：</span></pre><pre style="font-size:9pt;line-height:24px;font-family:Menlo;background-color:rgb(255,255,255);" class="hljs nginx"><span style="font-size:9pt;"><span class="hljs-section">externalNativeBuild</span> {</span></pre><pre style="font-family:Menlo;font-size:9pt;background-color:rgb(255,255,255);" class="hljs nginx">  <span class="hljs-section">cmake</span> {
+    <span class="hljs-attribute">cppFlags</span> <span style="color:rgb(0,128,0);"><strong><span class="hljs-string">"-std=c++11 -fexceptions"</span>
+</strong></span>abiFilters <span style="color:#008000;"><strong><span class="hljs-string">'x86'</span></strong></span>, <span style="color:#008000;"><strong><span class="hljs-string">'x86_64'</span></strong></span>, <span style="color:#008000;"><strong><span class="hljs-string">'armeabi'</span></strong></span>, <span style="color:#008000;"><strong><span class="hljs-string">'armeabi-v7a'</span></strong></span>, <span style="color:#008000;"><strong><span class="hljs-string">'arm64-v8a'</span>
+</strong></span>}
+}</pre><pre style="font-family:Menlo;font-size:9pt;background-color:rgb(255,255,255);" class="hljs css">這個表示編譯出<span class="hljs-selector-class">.so</span>動態庫包含<span class="hljs-selector-tag">x86_64</span>和<span class="hljs-selector-tag">arm64-v8a</span>兩種64位庫，那麼將這兩種<span class="hljs-selector-tag">abi</span>去除即可。</pre><pre style="font-size:9pt;font-family:Menlo;background-color:rgb(255,255,255);" class="hljs nginx"><span style="font-size:9pt;"><span class="hljs-section">externalNativeBuild</span> {</span></pre><pre style="font-family:Menlo;font-size:9pt;background-color:rgb(255,255,255);" class="hljs nginx">  <span class="hljs-section">cmake</span> {
+    <span class="hljs-attribute">cppFlags</span> <span style="color:rgb(0,128,0);"><strong><span class="hljs-string">"-std=c++11 -fexceptions"</span>
+</strong></span>abiFilters <span style="color:rgb(0,128,0);"><strong><span class="hljs-string">'x86'</span></strong></span>, <span style="color:rgb(0,128,0);"><strong><span class="hljs-string">'armeabi'</span></strong></span>, <span style="color:rgb(0,128,0);"><strong><span class="hljs-string">'armeabi-v7a'</span> </strong></span><span style="color:rgb(128,128,128);font-size:9pt;"><strong><em>// 由於不支援<span class="hljs-number">64</span>位，所以只保留<span class="hljs-number">32</span>位</em></strong></span>}
+}</pre><pre style="font-family:Menlo;font-size:9pt;background-color:rgb(255,255,255);" class="hljs css">再次編譯出<span class="hljs-selector-class">.so</span>動態庫，使用在<span class="hljs-selector-tag">app</span>專案中編譯成功後能正常執行並轉碼。</pre><br />
+
+            </div>
+                
+        
+	 <center><ins id="scupio-sc-4995-17522-26274_registed" class="scupioadslot" style="display: inline-block; width: 300px; height: 250px; position: relative;" data-sca-pub="lRIJBAgyQA==" data-sca-web="4995" data-sca-category="17" data-sca-cid="17522" data-sca-slot-type="PRA" data-sca-status="callback" undefined="1"><iframe name="scupioadframe" marginwidth="0" marginheight="0" frameborder="0" id="scupio-sc-4995-17522-26274_frame_58bd8df2-5ab1-4a67-967e-3829c240f047" src="https://img.scupio.com/html/ad.html?v=1.0.49" style="box-sizing: content-box; overflow: hidden; display: none; border: 0px; padding: 0px; margin: 0px; width: 300px; height: 250px;"></iframe><ins class="scupioadslot" data-sca-pub="lRIJBAgyQA==" data-sca-web="4995" data-sca-category="17" data-sca-cid="17523" data-sca-slot-type="STA" data-sca-status="done" undefined="4" id="_registed" style="display: inline-block; width: 300px; height: 250px; margin: auto;"><iframe name="scupioadframe" marginwidth="0" marginheight="0" frameborder="0" id="sc-1614654559058-379206240648_frame_71a69c66-d798-4fb7-a21c-8176c3c4ad65" src="https://img.scupio.com/html/ad.html?v=1.0.49" style="box-sizing: content-box; overflow: hidden; display: inline; border: 0px; padding: 0px; margin: 0px; width: 300px; height: 250px;"></iframe></ins></ins>
+<script async="" src="https://img.scupio.com/js/ad.js"></script>
+<script>
+(function(s, c, u, p, i, o, a, d) {
+    'use strict';
+    var z=function(t,e,r){var a,n=document.createElement('ins'),s=n.style;for(a in n.className='scupioadslot',r&amp;&amp;(n.id=r),t)t.hasOwnProperty(a)&amp;&amp;(s[a]=t[a]);for(a in e)e.hasOwnProperty(a)&amp;&amp;n.setAttribute('data-sca-'+a,e[a]);return n};
+    (d = s.Scupioads = s.Scupioads || []).push({
+        id: u,
+        callback: function() {
+            p = c.getElementById(u);
+            i = p.style;
+            o = 'inline-block';
+            p.appendChild(z({
+                display: o,
+                width: '300px',
+                height: '250px',
+                margin: 'auto'
+            }, {
+                'pub': 'lRIJBAgyQA==',
+                'web': '4995',
+                'category': '17',
+                'cid': '17523',
+                'slot-type': 'STA'
+            }));
+            i.width = '300px';
+            i.height = '250px';
+            i.display = o;
+        }
+    });
+    setTimeout(function(){if(!s.Scupioads.init)for(i=d.length-1;0&lt;=i;i--)if(d[i].id===u){d[i].callback(),d[i].callback=function(){};break}},1e3);
+})(window, document, 'scupio-sc-4995-17522-26274');
+</script></center>
+          <nav class="pagination group">
+                      </nav><!--/.pagination-->
+        </div>
+
+    
+        <div class="clear"></div>
+      </div><!--/.entry-->
+
+    </div><!--/.post-inner-->
+  </article><!--/.post-->
+
+<div class="clear"></div>
+
+<p class="post-tags"><span>標籤：</span>  </p>
+
+<center>
+</center>
+
+
+<h4 class="heading">
+	<i class="far fa-hand-point-right"></i>您可能也會喜歡…</h4>
+
+ <ul class="lrelated-posts group">
+		 	<li><a href="/content/1550578686.html" target="_blank">編寫ios和android共用的c/c++庫時 使用iconv的問題</a> </li>
+    	<li><a href="/content/1550555297.html" target="_blank">在IDEA中編寫mybatis，需要注意的問題</a> </li>
+    	<li><a href="/content/1550331384.html" target="_blank">win10子系統編譯ffmpeg for android遇到的問題記錄</a> </li>
+    	<li><a href="/content/1549641459.html" target="_blank">c# 結構體 編寫自帶索引器的問題</a> </li>
+    	<li><a href="/content/1543368440.html" target="_blank">編寫api介面遇到的問題</a> </li>
+    	<li><a href="/content/1519834803.html" target="_blank">ajax編寫購物車遇到的問題</a> </li>
+    	<li><a href="/content/1503381374.html" target="_blank">LoadRunner接口腳本web_submit_data編寫過程中遇到的問題及分享</a> </li>
+    	<li><a href="/content/1503381366.html" target="_blank">LoadRunner接口腳本編寫過程中遇到的問題及分享</a> </li>
+    	<li><a href="/content/1549897031.html" target="_blank">使用Autowired和Qualifier解決多個相同型別的bean如何共存的問題</a> </li>
+    	<li><a href="/content/1548116118.html" target="_blank">reactnative toast(ios 和android 通用)</a> </li>
+    	<li><a href="/content/1548057260.html" target="_blank">《React-Native系列》元件封裝之Dialog（iOS和Android通用）</a> </li>
+    	<li><a href="/content/1547921000.html" target="_blank">python在設定編碼和寫csv檔案遇到的問題以及解決方案</a> </li>
+    	<li><a href="/content/1546518616.html" target="_blank">IOS和Android開發的一些個人感受</a> </li>
+    	<li><a href="/content/1545577384.html" target="_blank">解決Ubuntu中vi命令的編輯模式下不能正常使用方向鍵和退格鍵的問題</a> </li>
+    	<li><a href="/content/1545378496.html" target="_blank">微信小程式區別ios和android平臺的方式</a> </li>
+     
+</ul><!--/.post-related-->
+
+
+
+        </div><!--/.pad-->
+        </section><!--/.content-->
+          
+
+	<div class="sidebar s1 collapsed" data-position="right" data-layout="col-2cl" data-sb-id="s1" style="transform: translateZ(0px);">
+
+		<a class="sidebar-toggle" title="延伸側邊欄位"><i class="fas icon-sidebar-toggle"></i></a>
+
+		<div class="sidebar-content">
+
+			  			<div class="sidebar-top group">
+                        <p>贊助商廣告</p>
+             
+           			</div>
+		 
+				<ul class="post-nav group">
+      
+ 
+		<li class="previous"> </li>
+  
+  
+		 <li class="next">  </li>
+ 
+	</ul>
+
+<div id="custom_html-3" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><!-- /109765683/300x250 -->
+<ins id="scupio-sc-4995-17521-400386_registed" class="scupioadslot" style="display:inline-block;width:300px;height:250px;" data-sca-pub="lRIJBAgyQA==" data-sca-web="4995" data-sca-category="17" data-sca-cid="17521" data-sca-slot-type="PRA" data-sca-status="timeout" undefined="2"><iframe name="scupioadframe" marginwidth="0" marginheight="0" frameborder="0" id="scupio-sc-4995-17521-400386_frame_dc7102f2-7723-4af4-9a9d-e184de47a04b" src="https://img.scupio.com/html/ad.html?v=1.0.49" style="box-sizing: content-box; overflow: hidden; display: none; border: 0px; padding: 0px; margin: 0px; width: 300px; height: 250px;"></iframe><ins class="scupioadslot" data-sca-pub="lRIJBAgyQA==" data-sca-web="4995" data-sca-category="17" data-sca-cid="17518" data-sca-slot-type="STA" style="display: inline-block; width: 300px; height: 250px; margin: auto;"></ins></ins>
+<script async="" src="https://img.scupio.com/js/ad.js"></script>
+<script>
+(function(s, c, u, p, i, o, a, d) {
+    'use strict';
+    var z=function(t,e,r){var a,n=document.createElement('ins'),s=n.style;for(a in n.className='scupioadslot',r&amp;&amp;(n.id=r),t)t.hasOwnProperty(a)&amp;&amp;(s[a]=t[a]);for(a in e)e.hasOwnProperty(a)&amp;&amp;n.setAttribute('data-sca-'+a,e[a]);return n};
+    (d = s.Scupioads = s.Scupioads || []).push({
+        id: u,
+        callback: function() {
+            p = c.getElementById(u);
+            i = p.style;
+            o = 'inline-block';
+            p.appendChild(z({
+                display: o,
+                width: '300px',
+                height: '250px',
+                margin: 'auto'
+            }, {
+                'pub': 'lRIJBAgyQA==',
+                'web': '4995',
+                'category': '17',
+                'cid': '17518',
+                'slot-type': 'STA'
+            }));
+            i.width = '300px';
+            i.height = '250px';
+            i.display = o;
+        }
+    });
+    setTimeout(function(){if(!s.Scupioads.init)for(i=d.length-1;0&lt;=i;i--)if(d[i].id===u){d[i].callback(),d[i].callback=function(){};break}},1e3);
+})(window, document, 'scupio-sc-4995-17521-400386');
+</script>
+</div></div><div id="text-7" class="widget widget_text">			 
+		</div>
+        
+        <div id="alxtabs-2" class="widget widget_hu_tabs">
+<h3 class="widget-title"></h3>
+<ul class="alx-tabs-nav group tab-count-3"><li class="alx-tab tab-recent active"><a href="#tab-recent-2" title="熱門文章"><i class="far fa-clock"></i></a></li><li class="alx-tab tab-tags"><a href="#tab-tags-2" title="標籤"><i class="fas fa-star"></i> </a></li></ul>
+	<div class="alx-tabs-container">						
+			<ul id="tab-recent-2" class="alx-tab group" style="display: block;">
+								 
+					      
+                  <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="/content/1550578688.html">Kubernetes怎麼讀？ </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="/content/1550578689.html">匈牙利演算法優化 </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="/content/1550578691.html">python3中的常見知識點3------reduce()函式 </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="/content/1550578692.html">pycharm中django框架連線mysql資料庫 </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="/content/1550578693.html">Android studio NDK開發 從入門到實踐二 </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="/content/1550578695.html">機器字長 ，字長，儲存單元 </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="/content/1550578696.html">iOS 獲取剩餘電量 </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="/content/1550578697.html">xss,csrf,cookie,session </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="/content/1550578698.html">webstorm 永久啟用 (親測管用) </a></p>
+										</div>
+				</li>
+                
+                
+                 <li>
+					<div class="tab-item-inner group">
+						 						
+                        <p class="tab-item-title"> <a href="/content/1550578701.html">用python + selenium 做網頁截圖 </a></p>
+										</div>
+				</li>
+                
+                
+  	 
+				</ul><!--/.alx-tab-->
+
+			<ul id="tab-tags-2" class="alx-tab group" style="display: none;">
+				<li>
+					<a href="https://www.itread01.com/android/" class="tag-cloud-link tag-link-9 tag-link-position-1" style="font-size: 12.15625pt;">Android</a> 	
+					<a href="https://www.itread01.com/study/itools_download.html" class="tag-cloud-link tag-link-9 tag-link-position-1" style="font-size: 12.15625pt;">iTools</a> 
+					<a href="https://www.itread01.com/mysql/" class="tag-cloud-link tag-link-9 tag-link-position-1" style="font-size: 12.15625pt;">Mysql</a> 
+					<a href="https://www.itread01.com/windows/" class="tag-cloud-link tag-link-9 tag-link-position-1" style="font-size: 12.15625pt;">Windows</a> 
+					<a href="https://www.3du.tw/" class="tag-cloud-link tag-link-9 tag-link-position-1" style="font-size: 12.15625pt;">三度辭典</a> 
+					 
+                   </li>
+			</ul><!--/.alx-tab-->
+
+			</div>
+</div>
+		</div><!--/.sidebar-content-->
+
+	</div><!--/.sidebar-->
+
+	
+
+        </div><!--/.main-inner-->
+      </div><!--/.main-->
+    </div><!--/.container-inner-->
+  </div><!--/.container-->
+    <footer id="footer">
+          <nav class="nav-container group" id="nav-footer" data-menu-id="footer-4" data-menu-scrollable="false">
+                      <!-- <div class="ham__navbar-toggler collapsed" aria-expanded="false">
+          <div class="ham__navbar-span-wrapper">
+            <span class="ham-toggler-menu__span"></span>
+          </div>
+        </div> -->
+        <div class="ham__navbar-toggler-two collapsed" title="Menu" aria-expanded="false">
+          <div class="ham__navbar-span-wrapper">
+            <span class="line line-1"></span>
+            <span class="line line-2"></span>
+            <span class="line line-3"></span>
+          </div>
+        </div>
+                    <div class="nav-text"></div>
+        <div class="nav-wrap">
+          <ul id="menu-top-2" class="nav container group">
+           <li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="/" rel="nofollow">首頁</a></li>
+		   <li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="/study/python-tutorial.html">Python教學</a></li>
+ 
+</ul>        </div>
+      </nav><!--/#nav-footer-->
+    
+    <section class="container" id="footer-bottom">
+      <div class="container-inner">
+
+        <a id="back-to-top" href="#"><i class="fas fa-angle-up"></i></a>
+
+        <div class="pad group">
+
+          <div class="grid one-half">
+                        
+            <div id="copyright">
+                              <p>ITREAD01.COM © 2018. 版權所有。 </p>
+                          </div><!--/#copyright-->
+          </div>
+        </div><!--/.pad-->
+
+      </div><!--/.container-inner-->
+    </section><!--/.container-->
+
+  </footer><!--/#footer-->
+
+</div><!--/#wrapper-->
+
+<!-- Powered by WPtouch: 4.3.27 --><script type="text/javascript" src="/img/css/js/jQuerySharrre.min.js?ver=4.8.2"></script>
+<script type="text/javascript" src="/img/css/js/underscore.min.js?ver=1.8.3"></script>
+<script type="text/javascript">
+/* &lt;![CDATA[ */
+var HUParams = {"_disabled":[],"SmoothScroll":{"Enabled":true,"Options":{"touchpadSupport":false}},"centerAllImg":"1","timerOnScrollAllBrowsers":"1","extLinksStyle":"1","extLinksTargetExt":"1","extLinksSkipSelectors":{"classes":["btn","button"],"ids":[]},"imgSmartLoadEnabled":"","imgSmartLoadOpts":{"parentSelectors":[".container .content",".container .sidebar","#footer","#header-widgets"],"opts":{"excludeImg":[".tc-holder-img"],"fadeIn_options":100}},"goldenRatio":"1.618","gridGoldenRatioLimit":"350","sbStickyUserSettings":{"desktop":true,"mobile":false},"isWPMobile":"","menuStickyUserSettings":{"desktop":"stick_up","mobile":"stick_up"},"isDevMode":"","ajaxUrl":"https:\/\/www.itread01.com\/?huajax=1","frontNonce":{"id":"HuFrontNonce","handle":"d9125fec3b"},"userStarted":{"with":"with|3.3.27","on":{"date":"2018-03-27 03:41:18.000000","timezone_type":3,"timezone":"UTC"}},"isWelcomeNoteOn":"","welcomeContent":""};
+/* ]]&gt; */
+</script>
+<script type="text/javascript" src="/img/css/js/scripts.min.js?ver=3.3.27"></script>
+<script type="text/javascript" src="/img/css/js/wp-embed.min.js?ver=4.8.2"></script>
+
+<!--[if lt IE 9]>
+<script src="/img/css/js/respond.js"></script>
+<![endif]-->
+<div style="display:none"><script type="text/javascript" src="/js/c.js"></script><script src="https://s19.cnzz.com/z_stat.php?id=1275098034&amp;web_id=1275098034" language="JavaScript"></script><script src="https://c.cnzz.com/core.php?web_id=1275098034&amp;t=z" charset="utf-8" type="text/javascript"></script><a href="https://www.cnzz.com/stat/website.php?web_id=1275098034" target="_blank" title="站长统计">站长统计</a>
+0.68741512298584</div>
+
+    <!-- Bootstrap core JavaScript ================================================== -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     
+        <!-- Placed at the end of the document so the pages load faster -->
+        
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+function joinUrl(url, concat) {
+  var url1 = url.split('/');
+  var url2 = concat.split('/');
+  var url3 = [ ];
+  for (var i = 0, l = url1.length; i &lt; l; i ++) {
+    if (url1[i] == '..') {
+      url3.pop();
+    } else if (url1[i] == '.') {
+      continue;
+    } else {
+      url3.push(url1[i]);
+    }
+  }
+  for (var i = 0, l = url2.length; i &lt; l; i ++) {
+    if (url2[i] == '..') {
+      url3.pop();
+    } else if (url2[i] == '.') {
+      continue;
+    } else {
+      url3.push(url2[i]);
+    }
+  }
+  return url3.join('/');
+}
+$(document).ready(function() {
+    $('pre').each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+	var source = $('#source-url').html();
+	if(source.indexOf('segmentfault.com') &gt; 0) {
+		var imgs = $('#main-content').find('img');
+		$.each(imgs, function(index, img) {
+			var data_src = $(img).attr('data-src');
+			data_src = 'https://segmentfault.com' + data_src;
+			console.log(data_src);
+			$(img).attr('src', data_src);
+			// $(img).attr('src', '');
+		});
+	}
+});
+</script></body></html>
