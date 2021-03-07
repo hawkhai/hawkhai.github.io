@@ -1,0 +1,171 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN"><head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>更吹落星如雨 ｜ VC++程序捕获所有异常</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="异常,exception" />
+    <meta name="description" content="VC++程序捕获所有异常" />
+
+    
+
+    <style type="text/css">
+        .navbar {
+            background-color: #6c757d;
+        }
+
+        .li-item {
+            border: 1px solid #ddd;
+        }
+
+        img{
+            max-width:100%;
+            max-height:100%;
+        }
+
+        pre {
+            background-color:rgb(255,255,232);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            padding: 5px;
+        }
+</style>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://gclxry-1.disqus.com/embed.js" data-timestamp="1615109947440"></script></head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-center navbar-expand-sm navbar-dark fixed-top justify-content-center">
+    <div class="col-lg-8">
+        <div class="row justify-content-center">
+            <a class="navbar-brand" href="/">更吹落星如雨</a>
+            <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">关于</a>
+                    </li>
+
+                    
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">管理</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-sm-0 search-form" role="search" method="get" action="/search/">
+                    <input aria-label="Search" class="search-field form-control m-sm-2" placeholder="Search..." type="search" name="s" />
+                    <button class="btn btn-secondary my-sm-0 search-submit" type="submit">搜索</button>
+                </form>
+            </div>
+        <div class="col-lg-8 ">
+    </div>
+</div></div></nav>
+
+
+    <div class="container mt-4 pt-2">
+        <div class="row mt-4 py-4 justify-content-center">
+            <div class="col-lg-8 ">
+                
+
+<h1 class="mt-4">VC++程序捕获所有异常</h1>
+
+<hr />
+
+<p>
+    <span class="text-secondary mr-2">发布于 2020-02-29</span>
+</p>
+<hr />
+
+<section class="entry-content">
+    <p>前两天同事说他客户端有时候crash了抓不到dump，问我有没有遇到类似情况。在Windows平台，抓不到dump原因大概有以下几种情况：</p>
+<ul>
+<li>异常发生在调用<code>SetUnhandledExceptionFilter</code>之前，导致捕获不到</li>
+<li>调用<code>SetUnhandledExceptionFilter</code>之后，其他模块（加载的三方库内部、被注入的dll）也调用了该函数，导致期望的异常处理函数被覆盖了</li>
+<li>设置的异常处理函数不够完整</li>
+</ul>
+<p>我之前写过一篇博客 <a href="https://gclxry.com/dbghelp-tutorial-3-minidump/">DbgHelp教程3——Minidump</a> 简单介绍了异常的处理回调函数，但是不够完整。这篇博客更详细的介绍VC++程序处理异常。</p>
+<h2 id="windows">Windows异常处理框架</h2>
+<p>Windows异常处理分为两种，SEH(Structured Exception Handling) 和 VEH(Vectored Exception Handling)。主要是一些Windows系统支持的一些异常，比如访问无效的内存地址、除0错误、数组越界等等，如 <a href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-exception_record">Exception Code</a> 所显示。</p>
+<p>SEH 通过一些关键字<code>__try</code>、<code>__except</code>、<code>__finally</code>、<code>__leave</code>，定义了一套自己的异常处理。而VEH允许使用<code>AddVectoredExceptionHandler</code>来注册一到多个回调函数来处理异常。</p>
+<p>因为有多个异常处理函数，他们之间处理的顺序是：</p>
+<ol>
+<li>VEH 异常处理函数</li>
+<li>SEH 异常处理函数</li>
+<li><code>SetUnhandledExceptionFilter</code>注册的异常处理函数</li>
+</ol>
+<h2 id="crt">CRT异常处理</h2>
+<p>Windows的异常处理捕获不到CRT里面一些异常。因此我们需要对其设置做一些设置：</p>
+<ol>
+<li><code>_set_invalid_parameter_handler</code> 设置处理无效的参数异常</li>
+<li><code>_set_purecall_handler</code> 设置处理虚函数异常</li>
+<li><code>set_terminate</code> 设置处理terminate异常</li>
+<li><code>signal(SIGABRT, abort_handler)</code> 设置处理abort异常</li>
+<li><code>_set_new_handler</code> 设置处理new内存失败异常</li>
+<li><code>_set_new_mode(1)</code> 设置处理malloc内存失败异常跟new行为一样</li>
+</ol>
+<h2 id="dump">dump处理</h2>
+<p>为了尽可能的捕获异常来生成dump，通常通过<code>SetUnhandledExceptionFilter</code>注册最后全局的异常处理函数，它可以捕获进程内所有线程的Windows异常。然后Hook住<code>SetUnhandledExceptionFilter</code>函数，阻止后续其他代码再调用它，以免覆盖我们自己的异常处理函数。</p>
+<p>对于CRT的异常，在其异常处理函数里调用<code>__debugbreak();</code>，从而触发一个Windows上的异常，再被<code>SetUnhandledExceptionFilter</code>设置的回调函数捕获到。然而CRT的异常处理函数也存在被后续代码设置回调函数覆盖的问题，处理同<code>SetUnhandledExceptionFilter</code>。</p>
+<h2 id="_1">参考</h2>
+<ul>
+<li><a href="https://www.codeproject.com/Articles/207464/Exception-Handling-in-Visual-Cplusplus">Effective Exception Handling in Visual C++</a></li>
+</ul>
+</section>
+
+
+
+
+        <section class="entry-comment">
+            <div id="disqus_thread"></div>
+            <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://gclxry-1.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+            </script>
+            <noscript>Please enable JavaScript to view the &lt;a href="https://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;</noscript>
+        </section>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <nav class="navbar sticky-bottom py-1">
+    <div class="container">
+        <div class="col">
+            <p class="text-center text-white">Gclxry © 2012-2020, All rights reserved.
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5791300'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/stat.php%3Fid%3D5791300' type='text/javascript'%3E%3C/script%3E"));</script><span id="cnzz_stat_icon_5791300"><a href="https://www.cnzz.com/stat/website.php?web_id=5791300" target="_blank" title="站长统计">站长统计</a></span><script src=" https://s13.cnzz.com/stat.php?id=5791300" type="text/javascript"></script><script src="https://c.cnzz.com/core.php?web_id=5791300&amp;t=z" charset="utf-8" type="text/javascript"></script>
+            </p>
+
+       
+        </div>
+    </div>
+</nav>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+</body></html>

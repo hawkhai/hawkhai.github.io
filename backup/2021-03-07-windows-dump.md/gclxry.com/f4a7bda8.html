@@ -1,0 +1,264 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN"><head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>更吹落星如雨 ｜ Windows上锁的实现</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="lock,cpp,synchronization,spinlock,critical,section,mutex,atomic" />
+    <meta name="description" content="Windows上锁的实现" />
+
+    
+
+    <style type="text/css">
+        .navbar {
+            background-color: #6c757d;
+        }
+
+        .li-item {
+            border: 1px solid #ddd;
+        }
+
+        img{
+            max-width:100%;
+            max-height:100%;
+        }
+
+        pre {
+            background-color:rgb(255,255,232);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            padding: 5px;
+        }
+</style>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://gclxry-1.disqus.com/embed.js" data-timestamp="1615110009556"></script></head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-center navbar-expand-sm navbar-dark fixed-top justify-content-center">
+    <div class="col-lg-8">
+        <div class="row justify-content-center">
+            <a class="navbar-brand" href="/">更吹落星如雨</a>
+            <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">关于</a>
+                    </li>
+
+                    
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">管理</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-sm-0 search-form" role="search" method="get" action="/search/">
+                    <input aria-label="Search" class="search-field form-control m-sm-2" placeholder="Search..." type="search" name="s" />
+                    <button class="btn btn-secondary my-sm-0 search-submit" type="submit">搜索</button>
+                </form>
+            </div>
+        <div class="col-lg-8 ">
+    </div>
+</div></div></nav>
+
+
+    <div class="container mt-4 pt-2">
+        <div class="row mt-4 py-4 justify-content-center">
+            <div class="col-lg-8 ">
+                
+
+<h1 class="mt-4">Windows上锁的实现</h1>
+
+<hr />
+
+<p>
+    <span class="text-secondary mr-2">发布于 2019-03-10</span>
+</p>
+<hr />
+
+<section class="entry-content">
+    <p>最近研究一下Windows平台上各种线程同步手段的锁的实现，比较它们的效率。根据任务的耗时、编译器的开关、线程的数量、循环的次数、CPU的规格，结果有很大差异，这不是一个权威的评测。仅仅是想实现各种锁，并亲自体会一下各自的差异。</p>
+<p>《windows核心编程》里面提到过几种用户模式下的线程同步效果，总体来说，内核模式下的线程同步手段，比如信号、互斥量的耗时比用户态高2个数量级，一般不考虑用它们实现锁，除非是了为了跨进程的同步。</p>
+<pre><code>class CSLock {
+public:
+  CSLock() { InitializeCriticalSection(&amp;m_cs); }
+  virtual ~CSLock() { DeleteCriticalSection(&amp;m_cs); }
+
+  void Lock() { EnterCriticalSection(&amp;m_cs); }
+  void UnLock() { LeaveCriticalSection(&amp;m_cs); }
+
+private:
+  CRITICAL_SECTION m_cs;
+
+  // DISALLOW_COPY_AND_ASSIGN
+  CSLock(const CSLock &amp;) = delete;
+  CSLock &amp;operator=(const CSLock &amp;) = delete;
+};
+</code></pre>
+
+<p>最常见的是用关键段CRITICAL_SECTION去实现，性能中规中矩。在保护耗时小代码性能相对较差，保护耗时大代码基本跟其他持平。所以以它为评测的基准。</p>
+<p>通常一个优化是用带自旋锁的关键段。它在尝试得到关键段之前，会自旋一些次数。微软自己的堆内存管理器是设置自旋4000次。</p>
+<pre><code>class CSSpinLock {
+public:
+  CSSpinLock() { InitializeCriticalSectionAndSpinCount(&amp;m_cs, 4000); }
+  virtual ~CSSpinLock() { DeleteCriticalSection(&amp;m_cs); }
+
+  void Lock() { EnterCriticalSection(&amp;m_cs); }
+  void UnLock() { LeaveCriticalSection(&amp;m_cs); }
+
+private:
+  CRITICAL_SECTION m_cs;
+
+  // DISALLOW_COPY_AND_ASSIGN
+  CSSpinLock(const CSSpinLock &amp;) = delete;
+  CSSpinLock &amp;operator=(const CSSpinLock &amp;) = delete;
+};
+</code></pre>
+
+<p>根据我自测的一些结果来看，CSLock、CSSpinLock的效率几乎差不多，某些情况下CSSpinLock可能稍快10%~20%。但是选择自旋的次数，是个玄学，姑且顺大流都是用4000次吧。</p>
+<p>此外我们还可以使用c++标准库的<code>std::mutex</code>。</p>
+<pre><code>class StdMutexLock {
+public:
+  StdMutexLock() {}
+  virtual ~StdMutexLock() {}
+
+  void Lock() { mutex_.lock(); }
+  void UnLock() { mutex_.unlock(); }
+
+private:
+  std::mutex mutex_;
+
+  // DISALLOW_COPY_AND_ASSIGN
+  StdMutexLock(const StdMutexLock &amp;) = delete;
+  StdMutexLock &amp;operator=(const StdMutexLock &amp;) = delete;
+};
+</code></pre>
+
+<p>大多数情况下，<code>std::mutex</code>性能是优于CSLock、CSSpinLock的，耗时小代码情况下甚至比CSLock快5倍以上。</p>
+<p>还有Slim读写锁，在保护耗时小代码的情况下，它的性能比CSLock快10倍。</p>
+<pre><code>class SrwLock {
+public:
+  SrwLock() {}
+  virtual ~SrwLock() {}
+
+  void Lock() {
+    ::AcquireSRWLockExclusive(reinterpret_cast&lt;PSRWLOCK&gt;(&amp;m_lock));
+  }
+  void UnLock() {
+    ::ReleaseSRWLockExclusive(reinterpret_cast&lt;PSRWLOCK&gt;(&amp;m_lock));
+  }
+
+private:
+  SRWLOCK m_lock = SRWLOCK_INIT;
+
+  // DISALLOW_COPY_AND_ASSIGN
+  SrwLock(const SrwLock &amp;) = delete;
+  SrwLock &amp;operator=(const SrwLock &amp;) = delete;
+};
+</code></pre>
+
+<p>有个真正的自旋锁，代码我是从chromium项目里扒出来的：</p>
+<pre><code>class SpinLock {
+public:
+  SpinLock() = default;
+  virtual ~SpinLock() = default;
+
+  void Lock() override {
+    if ((!lock_.exchange(true, std::memory_order_acquire)))
+      return;
+    LockSlow();
+  }
+  void UnLock() override { lock_.store(false, std::memory_order_release); }
+  std::string name() override { return std::string("SpinLock"); }
+
+private:
+  void LockSlow() {
+    static const int kYieldProcessorTries = 1000;
+    static const int kYieldThreadTries = 10;
+    int yield_thread_count = 0;
+    do {
+      do {
+        for (int count = 0; count &lt; kYieldProcessorTries; ++count) {
+          YieldProcessor();
+          if (!lock_.load(std::memory_order_relaxed) &amp;&amp;
+              !lock_.exchange(true, std::memory_order_acquire))
+            return;
+        }
+
+        if (yield_thread_count &lt; kYieldThreadTries) {
+          ++yield_thread_count;
+          SwitchToThread();
+        } else {
+          ::Sleep(1);
+        }
+      } while (lock_.load(std::memory_order_relaxed));
+    } while (lock_.exchange(true, std::memory_order_acquire));
+  }
+
+  std::atomic&lt;bool&gt; lock_ = {0};
+};
+</code></pre>
+
+<p>SpinLock的性能居中，一般比CSLock快3倍。</p>
+<p>此外对于简单的数据同步修改，还可以用windows原子锁<code>Interlocked</code>系列API，还有c++标准库的<code>std::atomic</code>系列。</p>
+<p>因为数据同步修改都是耗时小代码，所以直接跟保护耗时小代码性能最好的SrwLock比较。三者差异通常不大，根据不同条件有的会好一些，有的会差一些，竟然某些情况下<code>SrwLock</code>反而更优。</p>
+<p>因此，为了代码的通用性，一般任务就使用<code>std::mutex</code>，保护数据就使用<code>std::atomic</code>，它们的性能通常都不错的。如果要追求极致性能就用<code>SrwLock</code>。至于关键段CRITICAL_SECTION实现的锁，通常不是最好的选择。</p>
+</section>
+
+
+
+
+        <section class="entry-comment">
+            <div id="disqus_thread"></div>
+            <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://gclxry-1.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+            </script>
+            <noscript>Please enable JavaScript to view the &lt;a href="https://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;</noscript>
+        </section>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <nav class="navbar sticky-bottom py-1">
+    <div class="container">
+        <div class="col">
+            <p class="text-center text-white">Gclxry © 2012-2020, All rights reserved.
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5791300'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/stat.php%3Fid%3D5791300' type='text/javascript'%3E%3C/script%3E"));</script><span id="cnzz_stat_icon_5791300"><a href="https://www.cnzz.com/stat/website.php?web_id=5791300" target="_blank" title="站长统计">站长统计</a></span><script src=" https://s13.cnzz.com/stat.php?id=5791300" type="text/javascript"></script><script src="https://c.cnzz.com/core.php?web_id=5791300&amp;t=z" charset="utf-8" type="text/javascript"></script>
+            </p>
+
+       
+        </div>
+    </div>
+</nav>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+</body></html>
