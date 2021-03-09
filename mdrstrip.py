@@ -240,6 +240,9 @@ def organizeRes(ik, fpath, line):
     if iktype == "mp4":
         ffmpegConvert(ik)
 
+    if ik in ("Yu${pch_header}", "Yc${pch_header}",):
+        return ik
+
     if not COPYRES:
         assert os.path.exists(ik), fpath +"  "+ ik
         return line

@@ -15,6 +15,9 @@ glslcanvas:
 codeprint:
 ---
 
+**前面一篇文章。[编程配置 -- Android CMake CMakeLists.txt 构建配置文件]({% include relref.html url="/blog/2021/02/01/cmakelists" %})**
+[^_^]: http://jekyllcn.com/docs/templates/
+
 
 ## 其它
 
@@ -34,6 +37,20 @@ source_group(uav FILES ${UAVSRC})
 
 # Create the source groups for source tree with root at CMAKE_CURRENT_SOURCE_DIR.
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_LIST})
+```
+
+
+## 参数定义
+
+```cmake
+if (CMAKE_CL_64)
+    add_definitions(-D_WIN64)
+endif()
+
+set(JSON_BuildTests OFF CACHE INTERNAL "") # 外面
+# 里面：
+option(JSON_BuildTests "Build the unit tests when BUILD_TESTING is enabled." ON)
+    if(BUILD_TESTING AND JSON_BuildTests) ...
 ```
 
 [from {% include relref_cnblogs.html %}](https://www.cnblogs.com/zjutzz/p/7284114.html)
@@ -64,6 +81,58 @@ function(my_add_executable)
 endfunction(my_add_executable)
 
 my_add_executable(hello include/hello.hpp src/hello.cpp)
+```
+
+
+## skylicht-engine CMakeVisualStudioSourceGroup.cmake
+
+```cmake
+# group source on visual project
+function(setup_project_group project_source current_dir)
+    foreach(source IN LISTS project_source)
+        # get source path
+        get_filename_component(source_path ${source} PATH)
+
+        # get source relative path
+        string(REPLACE "${current_dir}/./" "" source_relative ${source_path})
+
+        if(MSVC OR XCODE)
+            # get group name
+            string(REPLACE "/" "\\" group_name ${source_relative})
+        else()
+            set(group_name ${source_relative})
+        endif()
+
+        if("${source_relative}" STREQUAL "${source_path}")
+            # no need group because source is in $current_dir
+        else()
+            # setup project group
+            source_group("${group_name}" FILES "${source}")
+        endif()
+    endforeach()
+endfunction()
+
+function(add_source_group project_source group_name)
+    foreach(source IN LISTS project_source)
+        # setup project group
+        source_group("${group_name}" FILES "${source}")
+    endforeach()
+endfunction()
+```
+
+
+## skylicht-engine CMakeVisualStudioPCH.cmake
+
+```cmake
+function(target_precompiled_header project_target pch_source project_sources)
+if(MSVC)
+    get_filename_component(pch_basename ${pch_source} NAME_WE)
+    set(pch_header "${pch_basename}.h")
+
+Yu${pch_header}
+Yc${pch_header}
+endif(MSVC)
+endfunction()
 ```
 
 
@@ -116,6 +185,7 @@ arg = abc
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-26-CMakeLists-Advanced.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [http://jekyllcn.com/docs/templates/]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/jekyllcn.com/a06345ca.html" %})
 - [https://blog.csdn.net/iceboy314159/article/details/104696565]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/blog.csdn.net/28e181b5.html" %})
 - [https://www.cnblogs.com/likemao/p/11061951.html]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.cnblogs.com/97ec105a.html" %})
 - [https://www.cnblogs.com/zjutzz/p/7284114.html]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.cnblogs.com/57bb48f4.html" %})
