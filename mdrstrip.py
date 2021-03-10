@@ -241,7 +241,7 @@ def organizeRes(ik, fpath, line):
         ffmpegConvert(ik)
 
     if ik in ("Yu${pch_header}", "Yc${pch_header}",):
-        return ik
+        return line
 
     if not COPYRES:
         assert os.path.exists(ik), fpath +"  "+ ik

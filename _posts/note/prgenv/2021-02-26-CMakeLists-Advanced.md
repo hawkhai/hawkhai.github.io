@@ -8,8 +8,8 @@ tags: ["编程", "Android", "CMake"]
 toc: true
 toclistyle:
 comments:
-visibility: hidden
-mathjax: true
+visibility:
+mathjax:
 mermaid:
 glslcanvas:
 codeprint:
@@ -21,9 +21,12 @@ cluster: "CMake"
 [^_^]: http://jekyllcn.com/docs/templates/
 
 
-## notes
+## Notes
 
 * add_subdirectory 最好在 include_directories 前面，否则 incdir 会形成递归重复。
+* [cmake 函数参数解析 {% include relref_csdn.html %}](https://blog.csdn.net/sakaue/article/details/38377661)
+    * ${SRC} 在 function 外是完整的 4 个元素，而在 function 却只剩下了头一个元素。
+    * [cmake_parse_arguments(MY_INSTALL "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} ) from](https://cmake.org/cmake/help/v3.0/module/CMakeParseArguments.html?highlight=cmake_parse_arguments)
 
 
 ## CMake 设置 VS 工程筛选器
@@ -39,6 +42,12 @@ source_group(uav FILES ${UAVSRC})
 
 # Create the source groups for source tree with root at CMAKE_CURRENT_SOURCE_DIR.
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_LIST})
+
+# https://github.com/juj/MathGeoLib/blob/master/CommonOptions.cmake
+# Add the global _DEBUG flag from WIN32 platform to all others, which is universally used in MGL to
+# perform debug-mode-specific compilation.
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -D_DEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_DEBUG")
 ```
 
 
@@ -86,17 +95,24 @@ my_add_executable(hello include/hello.hpp src/hello.cpp)
 ```
 
 
-## skylicht-engine CMakeVisualStudioSourceGroup.cmake
+## skylicht-engine vsSourceGroup.cmake
 
 ```cmake
 # group source on visual project
-function(setup_project_group project_source current_dir)
-    foreach(source IN LISTS project_source)
+# setup_project_group(PROJ_SRCS ${PROJ_SRCS} CUR_DIR ${CUR_DIR})
+function(setup_project_group)
+
+    CMAKE_PARSE_ARGUMENTS(
+        ARGV "" "CUR_DIR" "PROJ_SRCS"
+        ${ARGN}
+    )
+
+    foreach(source IN LISTS ARGV_PROJ_SRCS)
         # get source path
         get_filename_component(source_path ${source} PATH)
 
         # get source relative path
-        string(REPLACE "${current_dir}/./" "" source_relative ${source_path})
+        string(REPLACE "${ARGV_CUR_DIR}/./" "" source_relative ${source_path})
 
         if(MSVC OR XCODE)
             # get group name
@@ -106,7 +122,8 @@ function(setup_project_group project_source current_dir)
         endif()
 
         if("${source_relative}" STREQUAL "${source_path}")
-            # no need group because source is in $current_dir
+            source_group("${group_name}" FILES "${source}")
+            # no need group because source is in $ARGV_CUR_DIR
         else()
             # setup project group
             source_group("${group_name}" FILES "${source}")
@@ -114,25 +131,31 @@ function(setup_project_group project_source current_dir)
     endforeach()
 endfunction()
 
-function(add_source_group project_source group_name)
-    foreach(source IN LISTS project_source)
+function(add_source_group)
+
+    CMAKE_PARSE_ARGUMENTS(
+        ARGV "" "GROUP_NAME" "PROJ_SRCS"
+        ${ARGN}
+    )
+
+    foreach(source IN LISTS ARGV_PROJ_SRCS)
         # setup project group
-        source_group("${group_name}" FILES "${source}")
+        source_group("${ARGV_GROUP_NAME}" FILES "${source}")
     endforeach()
 endfunction()
 ```
 
 
-## skylicht-engine CMakeVisualStudioPCH.cmake
+## skylicht-engine vsPCH.cmake
 
 ```cmake
-function(target_precompiled_header project_target pch_source project_sources)
+function(target_precompiled_header project_target pch_source)
 if(MSVC)
     get_filename_component(pch_basename ${pch_source} NAME_WE)
     set(pch_header "${pch_basename}.h")
 
-Yu${pch_header}
-Yc${pch_header}
+    set_target_properties(${project_target} PROPERTIES COMPILE_FLAGS "/Yu${pch_header}")
+    set_source_files_properties(${pch_source} PROPERTIES COMPILE_FLAGS "/Yc${pch_header}")
 endif(MSVC)
 endfunction()
 ```
@@ -188,8 +211,11 @@ arg = abc
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://jekyllcn.com/docs/templates/]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/jekyllcn.com/a06345ca.html" %})
+- [https://blog.csdn.net/sakaue/article/details/38377661]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/blog.csdn.net/0f86d44d.html" %})
+- [https://cmake.org/cmake/help/v3.0/module/CMakeParseArguments.html?highlight=cmake_parse_arguments]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/cmake.org/0fae8de9.html" %})
 - [https://blog.csdn.net/iceboy314159/article/details/104696565]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/blog.csdn.net/28e181b5.html" %})
 - [https://www.cnblogs.com/likemao/p/11061951.html]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.cnblogs.com/97ec105a.html" %})
+- [https://github.com/juj/MathGeoLib/blob/master/CommonOptions.cmake]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/github.com/24e305e7.html" %})
 - [https://www.cnblogs.com/zjutzz/p/7284114.html]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.cnblogs.com/57bb48f4.html" %})
 - [https://www.bookstack.cn/read/CMake-Cookbook/content-chapter7-7.4-chinese.md]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.bookstack.cn/04ed1da9.html" %})
 - [https://www.bookstack.cn/read/CMake-Cookbook/content-chapter7-7.5-chinese.md]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.bookstack.cn/9a399d1f.html" %})
