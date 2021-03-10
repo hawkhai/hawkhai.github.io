@@ -258,6 +258,8 @@ Executing commands in 'E:\android-studio-ide-181.5014246-windows\android-studio\
     然后打开相关文件即可完成。
 * 都搞完了，要重启一下系统。
 
+{% include image.html url="/assets/images/201215-visual-studio-and-andro~6d/20210310222741.png" %}
+
 
 ## 字体和空格
 
