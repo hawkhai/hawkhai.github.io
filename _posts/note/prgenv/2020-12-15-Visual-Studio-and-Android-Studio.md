@@ -248,6 +248,17 @@ Executing commands in 'E:\android-studio-ide-181.5014246-windows\android-studio\
 ```
 
 
+## Visual Studio 设置 shader（CG、GLSL）语法提示及高亮和显示行号
+
+[from {% include relref_csdn.html %}](https://blog.csdn.net/weixin_41330389/article/details/89319945)
+
+* 工具，安装“扩展和更新”，“GLSL language integration”。
+* 工具 –> “选项”，从左侧选项卡找到“GLSL language integration”，
+    此时可以为指定类型文件编辑自定义的扩展名，注意多个扩展名之间用英文分号分隔，
+    然后打开相关文件即可完成。
+* 都搞完了，要重启一下系统。
+
+
 ## 字体和空格
 
 工具 > 选项。
@@ -280,3 +291,4 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 - [https://www.cnblogs.com/yongdaimi/p/12061298.html]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/www.cnblogs.com/a12e7578.html" %})
 - [https://blog.csdn.net/dingxianding/article/details/106017010]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/blog.csdn.net/b7b79d7f.html" %})
 - [https://zhuanlan.zhihu.com/p/77427951]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/zhuanlan.zhihu.com/bc1d4621.html" %})
+- [https://blog.csdn.net/weixin_41330389/article/details/89319945]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/blog.csdn.net/8fdc4aa4.html" %})
