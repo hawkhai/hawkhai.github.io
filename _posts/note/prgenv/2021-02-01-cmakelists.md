@@ -99,6 +99,8 @@ Android.mk & Application.mk
 
 * **PROJECT\_SOURCE\_DIR** 工程的根目录
 * **PROJECT\_BINARY\_DIR** 运行 cmake 命令的目录，通常是 ${PROJECT\_SOURCE\_DIR}/build
+    * *project(demo) 它会引入两个变量 demo_BINARY_DIR 和 demo_SOURCE_DIR*，
+        同时，cmake 自动定义了两个等价的变量 PROJECT_BINARY_DIR 和 PROJECT_SOURCE_DIR。
 * **CMAKE\_INCLUDE\_PATH** 环境变量，非 cmake 变量
 * **CMAKE\_LIBRARY\_PATH** 环境变量
 * **CMAKE\_CURRENT\_SOURCE\_DIR** 当前处理的 CMakeLists.txt 所在的路径
