@@ -52,9 +52,9 @@ Build in cmd.exe, run command as: msbuild dprofiler.sln
     * WPA（Windows Performance Analyzer）是一个日志分析工具，使用它可以对 WPR 生成的 .etl 日志文件加以分析得出方便人阅读的数据图表
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-28-win-prog-note.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-28-win-prog-notes.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://jingyan.baidu.com/article/9c69d48fbd146713c9024e04.html]({% include relref.html url="/backup/2021-02-28-win-prog-note.md/jingyan.baidu.com/484816be.html" %})
-- [https://bbs.pediy.com/thread-195774.htm]({% include relref.html url="/backup/2021-02-28-win-prog-note.md/bbs.pediy.com/10890851.htm" %})
-- [https://github.com/xwlan/dprofiler]({% include relref.html url="/backup/2021-02-28-win-prog-note.md/github.com/faf10891.html" %})
+- [https://jingyan.baidu.com/article/9c69d48fbd146713c9024e04.html]({% include relref.html url="/backup/2021-02-28-win-prog-notes.md/jingyan.baidu.com/484816be.html" %})
+- [https://bbs.pediy.com/thread-195774.htm]({% include relref.html url="/backup/2021-02-28-win-prog-notes.md/bbs.pediy.com/10890851.htm" %})
+- [https://github.com/xwlan/dprofiler]({% include relref.html url="/backup/2021-02-28-win-prog-notes.md/github.com/faf10891.html" %})

@@ -4,7 +4,7 @@ title: "编程配置 -- Android CMake CMakeLists.txt 构建配置文件"
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["编程", "Android"]
+tags: ["编程", "Android", "CMake"]
 toc: true
 toclistyle:
 comments:
@@ -13,6 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
+cluster: "CMake"
 ---
 
 每次都想走捷径，最后还是得倒回来，认认真真学习这些鸟语法。

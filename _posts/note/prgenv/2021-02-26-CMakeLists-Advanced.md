@@ -4,7 +4,7 @@ title: "编程配置 -- CMake CMakeLists.txt 高级特性"
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["编程", "Android"]
+tags: ["编程", "Android", "CMake"]
 toc: true
 toclistyle:
 comments:
@@ -13,13 +13,15 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
+cluster: "CMake"
 ---
 
 **前面一篇文章。[编程配置 -- Android CMake CMakeLists.txt 构建配置文件]({% include relref.html url="/blog/2021/02/01/cmakelists" %})**
+
 [^_^]: http://jekyllcn.com/docs/templates/
 
 
-## 其它
+## notes
 
 * add_subdirectory 最好在 include_directories 前面，否则 incdir 会形成递归重复。
 
