@@ -58,6 +58,8 @@ Changes in 1.8.4 (9th July 2016, svn r5321)
     [原创网址 {% include relref_csdn.html %}](https://blog.csdn.net/boyuejiang/article/details/8908379)
 * irrlicht 引擎：硬件蒙皮骨骼动画。[麒麟子 {% include relref_csdn.html %}](https://blog.csdn.net/qq_36720848/article/details/89464731)
 * 流体 3D 效果，很酷。[Ray Marching Metaball in Unity3D](https://medium.com/@avseoul/ray-marching-metaball-in-unity3d-fc6f83766c5d)
+* <https://github.com/millsvonmilski/Unity3D_RayMarching_MetaBall>
+* <https://qunkong.com.cn/5628/ray-marching-metaball%E5%9C%A8unity3d%E4%B8%AD/>
 
 {% include image.html url="/assets/images/210104-irrlicht-analyze/1_tkrfrnv-ypcyqhjvc4dawq.webp" caption="Inigo Quilez’s Metaball on Shadertoy" %}
 
@@ -273,12 +275,14 @@ https://gitee.com/panqingyun/E3D-Engine
 - [https://github.com/arris69/IrrLicht-Android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/bcf56cc0.html" %})
 - [https://github.com/Picaroon/gamekit]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/c90ca4ec.html" %})
 - [https://github.com/nonameentername/pyirrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/e39426a3.html" %})
+- [https://github.com/millsvonmilski/Unity3D_RayMarching_MetaBall]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/e5fcf488.html" %})
 - [https://github.com/nonameentername/irrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/e73734fa.html" %})
 - [https://github.com/vell001/Irrlicht-vell]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/f38373f4.html" %})
 - [https://github.com/SingingRivulet/Smoothly]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/f44cb2d3.html" %})
 - [https://medium.com/@avseoul/ray-marching-metaball-in-unity3d-fc6f83766c5d]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/medium.com/e863e277.html" %})
 - [http://michaelzeilfelder.de/pub/emscripten/01.HelloWorld.html]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/michaelzeilfelder.de/cca4ee41.html" %})
 - [https://qilinzi.blog.csdn.net/article/details/89464394]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/qilinzi.blog.csdn.net/a65eca94.html" %})
+- [https://qunkong.com.cn/5628/ray-marching-metaball%E5%9C%A8unity3d%E4%B8%AD/]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/qunkong.com.cn/f971b154.html" %})
 - [https://software.intel.com/en-us/gpa]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/software.intel.com/5d46a23a.html" %})
 - [https://www.ambiera.com/copperlicht/]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/www.ambiera.com/64c21d36.html" %})
 - [https://www.ambiera.com/coppercube/]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/www.ambiera.com/d0f56d20.html" %})
