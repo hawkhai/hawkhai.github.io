@@ -1,0 +1,307 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>  Ray Marching Metaball在Unity3D中 群控编程网</title>
+
+    <meta property="og:image" content="http://mdm.miximages.com/Unity3d/1buTc_yqWin57a1E3S1FWvg.gif" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://qunkong.com.cn/5628/ray-marching-metaball%e5%9c%a8unity3d%e4%b8%ad/" />
+	<meta property="og:site_name" content="群控编程网" />
+	<meta property="og:title" content="Ray Marching Metaball在Unity3D中" />
+	<meta property="og:description" content="由于每个像素的位置都必须位于世界空间坐标中，因此我们将其向下缩放至2个单位的宽度和高度，并将原点偏移到中心。 现在，通过从ray_origin减去lookat_target并将其标准化，我们从摄像机获得了一个指向上面定义的lookat_target的方向向量。 我们可以将此方向矢量假定为相机的前向矢量。 有了这个前向向量，我们可以通过与垂直向量的叉积获得左向量和上向量。 在这三个轴内，我们可以为相机构造视线旋转矩阵。 我们通过乘以该矩阵来平移每个像素，从而使用它来对准朝着射线源的图像平面。 代码如下： //朝向lookat_target的相机外观旋转矩阵 vec3 world_up = vec3（0.0，1.0，0.0）; vec3 cam_forward = normalize（lookat_target-ray_origin）; vec3 cam_left = normalize（cross（cam_forward，world_up））; vec3 cam_up = normalize（交叉（cam_left，cam_forward））; 由于图像平面需要属于相机矩阵才能构成视野，因此以下代码可以做到这一点： //原始代码 vec3 ray_direction = normalize（pixel.x * cam_left + pixel.y * cam_up + 2.0 * cam_forward）; 击穿-------&gt; ＃1 浮动focus_length = 2.0 vec3 image_plane = vec3（pixel，focus_length） ＃2 image_plane = vec3（ image_plane.x * […]" />
+	<meta name="twitter:site" content="@群控编程网" />
+   	<meta property="twitter:title" content="Ray Marching Metaball在Unity3D中" />
+	<meta property="twitter:description" content="由于每个像素的位置都必须位于世界空间坐标中，因此我们将其向下缩放至2个单位的宽度和高度，并将原点偏移到中心。 现在，通过从ray_origin减去lookat_target并将其标准化，我们从摄像机获得了一个指向上面定义的lookat_target的方向向量。 我们可以将此方向矢量假定为相机的前向矢量。 有了这个前向向量，我们可以通过与垂直向量的叉积获得左向量和上向量。 在这三个轴内，我们可以为相机构造视线旋转矩阵。 我们通过乘以该矩阵来平移每个像素，从而使用它来对准朝着射线源的图像平面。 代码如下： //朝向lookat_target的相机外观旋转矩阵 vec3 world_up = vec3（0.0，1.0，0.0）; vec3 cam_forward = normalize（lookat_target-ray_origin）; vec3 cam_left = normalize（cross（cam_forward，world_up））; vec3 cam_up = normalize（交叉（cam_left，cam_forward））; 由于图像平面需要属于相机矩阵才能构成视野，因此以下代码可以做到这一点： //原始代码 vec3 ray_direction = normalize（pixel.x * cam_left + pixel.y * cam_up + 2.0 * cam_forward）; 击穿-------&gt; ＃1 浮动focus_length = 2.0 vec3 image_plane = vec3（pixel，focus_length） ＃2 image_plane = vec3（ image_plane.x * […]" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:image:src" content="http://mdm.miximages.com/Unity3d/1buTc_yqWin57a1E3S1FWvg.gif" />
+    <!-- Bootstrap core CSS -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <!-- Custom styles for this template -->
+    <link href="/style/offcanvas.css" rel="stylesheet" />
+  </head>
+  <body class="bg-light ">    
+<div class="nav-scroller bg-white shadow-sm fixed-top">
+  <nav class="nav nav-underline container text-uppercase">
+    <a class="nav-link active" href="/">Home</a>
+      <a href="https://qunkong.com.cn/kong/metaball/" rel="tag">Metaball</a><a href="https://qunkong.com.cn/kong/raymarching/" rel="tag">Raymarching</a><a href="https://qunkong.com.cn/kong/shadertoy/" rel="tag">Shadertoy</a><a href="https://qunkong.com.cn/kong/unity/" rel="tag">Unity</a><a href="https://qunkong.com.cn/kong/unity3d/" rel="tag">Unity3d</a>  </nav>
+</div>      
+<main role="main" class="container pt-5">
+  <nav aria-label="breadcrumb">
+    <form class="form-inline my-lg-0 float-right pt-1 d-none d-md-block" action="https://www.google.com/search">
+      <input class="form-control d-none" type="search" name="q" value="site:qunkong.com.cn" />
+        <input class="form-control mr-sm-2" type="search" name="q" placeholder="" />
+      <button class="btn btn-secondary my-2 my-sm-0 icon-search" type="submit">Search</button>
+    </form>
+  <ol class="breadcrumb bg-light mt-2 mb-1 px-0">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="https://qunkong.com.cn/qun/unity/" rel="category tag">Unity</a></li>
+  </ol>
+</nav>
+<div class="row ">
+    
+<div class="col-md-8">
+         <div class="py-3 mb-3 bg-white shadow-sm"><h1 class="text-uppercase px-3 mb-0">Ray Marching Metaball在Unity3D中</h1></div>
+    <article>
+      <p> 由于每个像素的位置都必须位于世界空间坐标中，因此我们将其向下缩放至2个单位的宽度和高度，并将原点偏移到中心。 </p>
+<p>现在，通过从<code>ray_origin</code>减去<code>lookat_target</code>并将其标准化，我们从摄像机获得了一个指向上面定义的<code>lookat_target</code>的方向向量。 我们可以将此方向矢量假定为相机的前向矢量。 有了这个前向向量，我们可以通过与垂直向量的叉积获得左向量和上向量。 在这三个轴内，我们可以为相机构造视线旋转矩阵。 我们通过乘以该矩阵来平移每个像素，从而使用它来对准朝着射线源的图像平面。 代码如下： </p>
+<pre>  //朝向lookat_target的相机外观旋转矩阵 <br />  <strong>vec3 world_up = vec3（0.0，1.0，0.0）;</strong> <strong><br /></strong>  <strong>vec3 cam_forward = normalize（lookat_target-ray_origin）;</strong> <strong><br /></strong>  <strong>vec3 cam_left = normalize（cross（cam_forward，world_up））;</strong> <strong><br /></strong>  <strong>vec3 cam_up = normalize（交叉（cam_left，cam_forward））;</strong> </pre>
+<figure><img src="http://mdm.miximages.com/Unity3d/1dprycJE2PbefSLPMfVCfAQ.gif" /></figure>
+<p> 由于图像平面需要属于相机矩阵才能构成视野，因此以下代码可以做到这一点： </p>
+<pre>  //原始代码 <br />  <strong>vec3 ray_direction = normalize（pixel.x * cam_left + pixel.y * cam_up + 2.0 * cam_forward）;</strong> </pre>
+<pre> 击穿-------&gt; </pre>
+<pre>  ＃1 <br />  <strong>浮动focus_length = 2.0</strong> <strong><br /></strong>  <strong>vec3 image_plane = vec3（pixel，focus_length）</strong> </pre>
+<pre>  ＃2 <br />  <strong>image_plane = vec3（</strong> <strong><br /></strong>  <strong>image_plane.x * cam_left +</strong> <strong><br /></strong>  <strong>image_plane.y * cam_up +</strong> <strong><br /></strong>  <strong>image_plane.z * cam_forward）</strong> </pre>
+<pre>  ＃3 <br />  <strong>image_plane = ray_origin + image_plane</strong> </pre>
+<pre>  ＃4 <br />  <strong>vec3 ray_direction =归一化（image_plane-ray_origin）</strong> </pre>
+<p> 这部分需要更多细分。 我在上面的代码中编写了该过程，我将逐步解释。 </p><ul class="relate"><li><a href="https://qunkong.com.cn/39070/%e8%ae%a1%e7%ae%97%e7%9d%80%e8%89%b2%e5%99%a8%ef%bc%9a%e8%8d%89%e8%8d%89%e6%b8%b2%e6%9f%93/" rel="bookmark" title="计算着色器：草草渲染">计算着色器：草草渲染</a></li><li><a href="https://qunkong.com.cn/7571/%e9%9b%86%e4%bd%93%e5%af%8c%e8%a3%95/" rel="bookmark" title="集体富裕">集体富裕</a></li><li><a href="https://qunkong.com.cn/45837/%e5%85%b3%e7%b3%bb%e4%b8%8e%e8%87%aa%e7%84%b6/" rel="bookmark" title="关系与自然">关系与自然</a></li><li><a href="https://qunkong.com.cn/4883/jelly-shader%ef%bc%8c%e7%ac%ac5%e9%83%a8%e5%88%86%ef%bc%9a%e7%8e%a9%e5%ae%b6%e4%ba%92%e5%8a%a8/" rel="bookmark" title="Jelly Shader，第5部分：玩家互动">Jelly Shader，第5部分：玩家互动</a></li><li><a href="https://qunkong.com.cn/675/unity%ef%bc%9acreando-un-juego-2d-de-naves/" rel="bookmark" title="Unity：Creando un juego 2d de naves">Unity：Creando un juego 2d de naves</a></li></ul>
+<figure><img src="http://mdm.miximages.com/Unity3d/1nATAjgaSwKb7CIlmgTUh3Q.gif" /></figure>
+<ul>
+<li>  ＃1：通过将Z值赋予像平面，现在将像平面放置在世界空间中，沿着Z轴距离根（0，0，0）2个单位（0，0，2）。 </li>
+</ul>
+<figure><img src="http://mdm.miximages.com/Unity3d/1qaYLrC-felH945HvL2tjjg.gif" /></figure>
+<ul>
+<li>  ＃2：通过将lookat旋转矩阵乘以图像平面中每个像素的位置，现在该平面始终面向射线原点。 </li>
+</ul>
+<figure><img src="http://mdm.miximages.com/Unity3d/1y28HAg6Foz5oNYC-Z5D5xw.gif" /></figure>
+<ul>
+<li>  ＃3：现在，通过增加射线原点的位置，它与射线原点一起移动，同时朝向2个单位远的射线原点。 我们可以假设这是像素在图像平面上的世界位置。 </li>
+<li>  ＃4：由于<code>image_plane = ray_origin + image_plane</code> ，我们可以确认<code>normalize(pixels_in_world_space — ray_origin)</code>与原始代码<code>normalize( pixel.x*cam_left + pixel.y*cam_up + 2.0*cam_forward )</code> </li>
+</ul>
+<p>  <strong><em>b。</em></strong>  <strong><em>三月的光芒</em></strong> </p>
+<pre>  //您要用来确定光线是否足够接近曲面的一小部分。 <br />  <strong>const float precis = 0.01;</strong> </pre>
+<pre>  // ro-ray_origin <br />  // rd-ray_direction <br />  <strong>vec2相交（在vec3 ro中，在vec3 rd中）</strong> <strong><br /></strong>  <strong>{</strong> </pre>
+<pre>  //最大距离-如果射线比这更远，我们将假设没有任何东西 <br />  <strong>float maxd = 10.0;</strong> </pre>
+<pre>  //距离场的行进步长-当前射线位置和曲面之间的最近距离 <strong><br /></strong>  <strong>浮点数h =精度* 2.0;</strong> </pre>
+<pre>  //射线的总传播距离-射线源与曲面之间的距离 <br />  <strong>浮点数t = 0.0;</strong> </pre>
+<pre>  //这对我来说有点神秘。.根据代码，它仅指示射线是否超出最大值。 也许在特定情况下还有其他用法，但在此示例中没有？ <br />  <strong>浮点数= 1.0;</strong> <strong><br /><br /></strong>  //前进的步骤数-迭代的次数越多，精度就越高。 而且还增加了计算成本。 <strong><br /></strong>  <strong>for（int i = 0; i &lt;75; i ++）</strong> <strong><br /></strong>  <strong>{</strong> <strong><br /></strong>  //当光线足够接近表面或总传播距离大于最大距离时，请中断循环 <br />  <strong>if（h  maxd）中断；</strong> </pre>
+<pre>  //使用上一个循环的更新行进距离更新总行驶距离 <br />  <strong>t + = h;</strong> </pre>
+<pre>  //从距离字段更新行进距离 <br />  // ro + rd * t-射线的当前位置 <br />  // map（ray）-返回光线与场景之间的最近距离 <br />  <strong>h = map（ro + rd * t）;</strong> <strong><br /></strong>  <strong>}</strong> </pre>
+<pre>  //如果光线传播的距离超过最大距离，则更新m。 在此示例中，此值将用于确定我们渲染背景还是元球 <br />  <strong>如果（t&gt; maxd）</strong> <strong><br /></strong>  <strong>m = -1.0；</strong> <strong><br /><br /></strong>  <strong>返回vec2（t，m）;</strong> <strong><br /></strong>  <strong>}</strong> </pre>
+<p> 此函数使ray进行多次迭代，以找到足够靠近场景表面的点。 我认为代码说明了自己，因此我只在上面的代码中留下注释以简要说明细节。 </p>
+<p>  <strong><em>C。</em></strong>  <strong><em>距离场</em></strong> </p>
+<p> 正如我在上文中简要提到的，“距离”字段为您提供当前射线位置和场景之间的最接近距离。 在此示例中，我们仅渲染metabll，因此距离字段函数与metaball的距离函数等效，如下面的代码所示，因此，我们继续进行metaball的距离函数。 </p>
+<pre>  //距离字段功能。 也称为距离图或距离变换 <br />  <strong>浮动图（在vec3 p中）</strong> <strong><br /></strong>  <strong>{</strong> <strong><br /></strong>  <strong>返回sdMetaBalls（p）;</strong> <strong><br /></strong>  <strong>}</strong> </pre>
+<p>  *如果您想了解如何构造具有各种距离函数的距离场，建议阅读Inigo Quilez的“ <em>使用距离函数建模”</em> 。 </p>
+<p>  <strong><em>d。</em></strong>  <strong><em>渲染<a href="https://qunkong.com.cn/kong/metaball/" title="Topics of Metaball" target="_blank">Metaball</a></em></strong> </p>
+<p> 在此示例中，以下是metaball的距离函数： </p>
+<pre>  vec4 blobs [numballs]; </pre>
+<pre> 浮动sdMetaBalls（vec3 pos） <br />  { <br /> 浮点数m = 0.0; <br /> 浮点p = 0.0; <br /> 浮点数dmin = 1e20; <br /><br /> 浮点数h = 1.0;  //追踪Lipschitz常数 <br /><br />  for（int i = 0; i &lt;numballs; i ++） <br />  { <br />  //球的边界球 <br />  float db = length（blobs [i] .xyz-pos）; <br />  if（db &lt;blobs [i] .w） <br />  { <br /> 浮点数x = db / blobs [i] .w; <br />  p + = 1.0-x * x * x *（x *（x * 6.0-15.0）+10.0）; <br />  m + = 1.0； <br />  h = max（h，0.5333 * blobs [i] .w）; <br />  } <br />  else //弹起球面距离 <br />  { <br />  dmin = min（dmin，db-blobs [i] .w）; <br />  } <br />  } <br /> 浮点数d = dmin + 0.1; <br /><br /> 如果（m&gt; 0.5） <br />  { <br /> 浮点数= 0.2; <br />  d = h *（th-p）; <br />  } <br /><br /> 返回d; <br />  } </pre>
+<p>  *我应该提到元球部分的分解是根据我在撰写本文时的快速研究得出的，因此我不得不在许多部分上依赖该假设。 因此，请理解，请随时为我指出。 </p>
+<p> 所以……让我深吸一口气……然后我们开始。 </p>
+<p> 我们可以将此metaball函数分为两大部分： </p>
+<ul>
+<li> 界球 </li>
+<li> 水上运动场 </li>
+</ul>
+<p>  <strong><em>d-1。</em></strong>  <strong><em>界球</em></strong> </p>
+<p> 出于性能原因，我们将忽略对元球场的计算，直到射线照射到Blob组中的任何边界球上为止。 边界球的半径由每个Blob的半径<code>blobs[i].w</code> </p>
+<pre>  //当前射线与最近的斑点表面之间的最小距离。 从足够大的数字开始。 <br />  <strong>浮点数dmin = 1e20;</strong> </pre>
+<pre>  <strong>for（int i = 0; i &lt;numballs; i ++）</strong> <strong><br /></strong>  <strong>{</strong> <br />  //当前光线和当前Blob之间的距离 <br />  <strong>float db = length（blobs [i] .xyz-pos）;</strong> </pre>
+<pre>  //如果距离短于当前Blob的半径 <br />  <strong>if（db &lt;blobs [i] .w）</strong> <strong><br /></strong>  <strong>{</strong> <strong><br /></strong>  //射线在斑点中 <br />  //做元球场计算 <br />  <strong>}</strong> <strong><br /></strong>  <strong>其他</strong> <strong><br /></strong>  <strong>{</strong> <br />  //光线仍然不在当前Blob的边界内 <br />  //用当前射线和斑点表面之间的最近距离更新dmin <em><br /></em>  <strong>dmin = min（dmin，db-blobs [i] .w）;</strong> <strong><br /></strong>  <strong>}</strong> <strong><br /></strong>  <strong>}</strong> </pre>
+<pre>  //添加足够大的光线以在光线撞击边界球时将其推入斑点。 <br />  <strong>浮点数d = dmin + 0.1;</strong> </pre>
+<pre>  //返回下一步的更新距离 <br />  <strong>返回d;</strong> </pre>
+<p> 让我详细说明将0.1添加到最接近距离的原因。 为了简化和更好地理解，我们假设在2D空间中只有2个斑点。 见下图： </p>
+<figure><img src="http://mdm.miximages.com/Unity3d/1dGYbmE7mq5cGq0E9OUV10A.jpg" /></figure>
+<p> 假设射线几乎不靠近Blob <code>P1</code>的表面。 它很可能会更接近下一次迭代，也许可能会小于光线行进函数中的<code>precision = 0.01</code>值。 这意味着，射线行进功能将停止射线并返回当前距离，该距离是射线与边界球（不是元球）之间的最近距离。 我们只需要将边界球作为射线进入元球场的入口（让我们在斑点内说），所以我们加起来就足以愚弄行进功能，并让射线跳入边界球。 如果我们放大图像： </p>
+<figure><img src="http://mdm.miximages.com/Unity3d/1lL2SmCG7xFDrfVA7TC-eyg.jpg" /></figure>
+<p>  <strong>较深的灰色曲线</strong>是边界球的边缘， <strong>红点</strong>是当前射线， <strong>蓝线</strong>是射线与曲面之间的最近距离， <strong>绿线</strong>也是应用于射线方向的最近距离， <strong>红线</strong>是稍微推一下<code><strong>d = dmin + 0.1</strong></code>以使下<code><strong>d = dmin + 0.1</strong></code>光线进入边界球并防止终止光线行进函数的迭代。 再次，没有一点推动，光线行进功能将仅返回最接近边界球的距离。 请注意，一旦我们跳入边界球，就不再需要这种小的推动。 我将在下一部分再次指出。 </p>
+<p> 因此，我们处于一团糟。 让我们夸大他们。 </p>
+<p>  <strong><em>d-2。</em></strong>  <strong><em>水上运动场</em></strong> </p>
+<pre>  <strong>浮点数m = 0.0;</strong> <strong><br /></strong>  <strong>浮点p = 0.0;</strong> <br />  <em>浮点数dmin = 1e20;</em> <br /><br />  <strong>浮点数h = 1.0;</strong>  <strong>//追踪Lipschitz常数</strong> <br /><br />  <strong>for（int i = 0; i &lt;numballs; i ++）</strong> <strong><br /></strong>  <strong>{</strong> <br />  //球的边界球 <br />  <strong>float db = length（blobs [i] .xyz-pos）;</strong> <strong><br /></strong>  <strong>if（db &lt;blobs [i] .w）</strong> <strong><br /></strong>  <strong>{</strong> <strong><br /></strong>  <strong>浮点数x = db / blobs [i] .w;</strong> <strong><br /></strong>  <strong>p + = 1.0-x * x * x *（x *（x * 6.0-15.0）+10.0）;</strong> <strong><br /></strong>  <strong>m + = 1.0；</strong> <strong><br /></strong>  <strong>h = max（h，0.5333 * blobs [i] .w）;</strong> <strong><br /></strong>  <strong>}</strong> <br />  <em>else //弹起球面距离</em> <em><br /></em>  <em>{</em> <em><br /></em>  <em>dmin = min（dmin，db-blobs [i] .w）;</em> <em><br /></em>  <em>}</em> <br />  <strong>}</strong> <br />  <em>浮点数d = dmin + 0.1;</em> <br /><br />  <strong>如果（m&gt; 0.5）</strong> <strong><br /></strong>  <strong>{</strong> <strong><br /></strong>  <strong>浮点数= 0.2;</strong> <strong><br /></strong>  <strong>d = h *（th-p）;</strong> <strong><br /></strong>  <strong>}</strong> <br /><br />  <strong>返回d;</strong> </pre>
+<p> 请注意，由于我们位于边界球之内，因此不再使用斜体线。 就像我提到的那样，不再使用小推，因为它已被以下行覆盖： <code>d = h * (th — p)</code> <strong>。</strong> </p>
+<p> 在直接解释代码之前，让我们从射线仅在一个blob内的情况开始： </p>
+<figure><img src="http://mdm.miximages.com/Unity3d/1_V5oUV1A1AP43xexEA3HiQ.jpg" /></figure>
+<p> 为了简单起见，我将射线的方向设置为与Blob中心的中心对齐，因此我们无需将距离与射线的方向重新对齐。 </p>
+<p> 由于我们位于blob中，因此我们知道db小于blob的半径，因此可以通过<code><strong>x = db/blobs[i].w</strong></code>对其进行归一化<strong>。</strong> 通过这样做，我们可以描述射线与斑点中心之间的当前距离（相对比例为0-1）。 因此，假设射线在每个斑点的中心和表面之间的中间，那么可以说它们在每个斑点的坐标中距离每个斑点的中心0.5个单位： </p>
+<figure><img src="http://mdm.miximages.com/Unity3d/1XRJGjWFRNg9u7BslAg8dpg.jpg" /></figure>
+<p> 以图形形式： </p>
+<figure><img src="http://mdm.miximages.com/Unity3d/10iGi4wE4-9eHWSeFCxmRyw.png" /></figure>
+<p> 通过使用此归一化的距离，我们将使用此反多项式方程来计算元球的衰减： </p>
+<pre>  <strong>p + = 1.0-x * x * x *（x *（x * 6.0-15.0）+10.0）;</strong> </pre>
+<p> 请注意，我们将其反转是因为我们需要将光线行进到斑点中，而不是相反，因此应该从表面测量距离： </p>
+<figure><img src="http://mdm.miximages.com/Unity3d/1H5Artpg28_pZlrDy8DrfaA.jpg" /></figure>
+<p> 现在方向是从表面到中心。 即使比例相同，也可以通过方程式平滑渐变。 您可以在图中看到： </p>
+<figure><img src="http://mdm.miximages.com/Unity3d/1anDzTYnSSvfunwQ_Qqsc9A.png" /></figure>
+<p> 因此，现在我们有了一个平滑的曲线，可以应对metaball的衰减。 现在，我们需要使用以下代码来确定阈值和重量的变形球的体积： </p>
+<pre> 如果（m&gt; 0.5） <br />  { <strong><br /></strong>  <strong>浮点数= 0.2;</strong> <strong><br /></strong>  <strong>d = h *（th-p）;</strong> <strong><br /></strong>  } </pre>
+<p>  <code>h</code>是元球衰减的权重，它也将归一化的距离缩放回世界坐标，并由以下代码确定： </p>
+<pre>  <strong>h = max（h，0.5333 * blobs [i] .w）;</strong> </pre>
+<p> 老实说，我仍然不完全理解为什么必须将其乘以数字。 不加倍，我看到了金属球表面上的一些人工制品。 目前，我最好的猜测是基于他在原始代码中的注释，校准元球从多项式方程式的衰减。 一旦我有了更好的理解，我将立即跟进。 我将他的原始评论留作参考。 </p>
+<blockquote>
+<p> 五次多项式p（x）= 6x ^ 5–15x ^ 4 + 10x ^ 3在其角上具有零个一阶和二阶导数。 最大斜率p”（x）= 0发生在中间x = 1/2，其值为p’（1/2）= 15/8。 因此，到metaball的最小距离（在metaball规范坐标中）至少为8/15 = 0.533333 </p>
+</blockquote>
+<p> 回到决定Metaball的音量。 从代码中可以看到，如果衰减大于阈值<code>th = 0.2</code> <strong>，</strong>则距离变为负数。 这意味着射线位于元球体积之内，并且射线行进功能将返回当前行进距离，因为该距离变得小于<code>precision = 0.01</code> 。 </p>
+<p> 如果我们将其应用于光线在2个斑点的边界球的交点的情况下，则总p值为p1和p2之和： </p>
+<figure><img src="http://mdm.miximages.com/Unity3d/1yFQIExatzVr9c4YTk5OSlg.jpg" /></figure>
+<p> 在3D空间中，此过程产生的元球的距离图如下所示： </p>
+<figure><img src="http://mdm.miximages.com/Unity3d/1dUEPb8Lp1zzDt_HnrXw-oQ.gif" /></figure>
+<p>  <strong><em>e。</em></strong>  <strong><em>表面几何和法线</em></strong> </p>
+<p> 由于我们知道到射线源和场景表面的距离，因此可以基于以下信息构建虚拟几何表面： </p>
+<p> <code>surface_geometry = ray_origin + distance_field * ray_direction</code> </p>
+<p> 现在我们需要表面法线才能应用照明技术。 使用多边形，我们可以通过对三角形的顶点法线进行插值来计算表面法线，但是我们没有三角形，而只能从当前光线知道表面的位置（ <code>surface_geometry</code> ）。 因此，我们需要通过获取2点的梯度来估计表面法线，这两个点位于当前射线的后面，而另一个位于当前射线的前面。 我们以非常小的步长对这两个点进行采样，并获得从后到前的方向，然后该方向几乎垂直于该位置，我们可以将其假定为表面法线。 在代码中： </p>
+<pre>  vec3 epsilon = vec3（精度，0.0,0.0）; </pre>
+<pre>  vec3 surface_normal = normalize（vec3（ <br />  map（pos + epsilon.xyy）—地图（pos-epsilon.xyy）， <br />  map（pos + epsilon.yxy）— map（pos-epsilon.yxy）， <br />  map（pos + epsilon.yyx）— map（pos-epsilon.yyx）） <br />  ）; </pre>
+<p> 但是在此示例中，我们在metaball的distance函数中使用了for循环来迭代blob的数组，这效率不高，因为我们需要将循环运行6次以上。 因此，Inigo通过使用多项式来使用解析方法： </p>
+<pre>  vec3也= vec3（0.0，0.0001，0.0）; <br /><br />  for（int i = 0; i &lt;numballs; i ++） <br />  { <br />  float db = length（blobs [i] .xyz — pos）; <br /> 浮点数x =钳位（db / blobs [i] .w，0.0，1.0）; <br /> 浮点p = x * x *（30.0 * x * x-60.0 * x + 30.0）; <br /> 也+ = normalize（pos-blobs [i] .xyz）* p / blobs [i] .w; <br />  } <br /><br /> 返回normalize（nor）; </pre>
+<figure><img src="http://mdm.miximages.com/Unity3d/19jIYH7yECWnLfEtaVVS-rw.jpg" /></figure>
+<p> 目前，我最好的猜测是，可以用<code>normalize( pos — blobs[i].xyz )</code>计算出元球的球面法线。 该多项式将主要用于衰减。 在进行更多研究后，一旦我有了更好的理解，我将立即跟进。 </p>
+<h4>  2.在<a href="https://qunkong.com.cn/kong/unity/" title="Topics of Unity" target="_blank">Unity</a>3D中实施 </h4>
+<h4>  2-1。 在Unity3D中实现-计算Blob的属性 </h4>
+<p> 基于示例，为了在片段着色器中对元球进行射线行进，要求是每个斑点开始在片段着色器中渲染之前的属性值，例如位置和半径。 <br /> 因此，我决定使用计算着色器来计算它们并将其导出为纹理，然后将其传递给片段着色器。 </p>
+<p>  <strong><em>一种。</em></strong>  <strong><em>渲染纹理设置</em></strong> <em><br /></em> 我使用2个渲染纹理对来写入/读取Blob的属性。 为了简单起见，纹理的尺寸决定斑点的数量（texture.width * texture.height）。 以下是我的渲染纹理设置。 </p>
+<pre>  RenderTexture create_cs_out_texture（int _w，int _h） <br />  { <br />  RenderTexture _out =新的RenderTexture（_w，_h，24）; <br />  _out.format = RenderTextureFormat.ARGBFloat; <br />  _out.filterMode = FilterMode.Point; <br />  _out.wrapMode = TextureWrapMode.Clamp; <br />  _out.enableRandomWrite = true; <br />  _out.Create（）; </pre>
+<pre> 返回_out; <br />  } </pre>
+<pre> 对于（int i = 0; i &lt;2; i ++） <br />  { <br />  m_cs_out_pos_and_life [i] = create_cs_out_texture（tex_w，tex_h）; <br />  m_cs_out_vel_and_scale [i] = create_cs_out_texture（tex_w，tex_h）; <br />  } </pre>
+<pre>  num_particles = tex_w * tex_h; </pre>
+<p> 注意 ： </p>
+<ul>
+<li>  <strong><em>为什么配对？</em></strong> <em><br /></em>  <em>–</em>我将它们设计为基于力的粒子系统，因此所有属性都会根据其先前值进行更新和关联。 </li>
+</ul>
+<pre>  //传递渲染纹理以计算阴影更新的上一个循环 <br />  cs.SetTexture（kernel_id，“ out_pos_and_life”，tex_a [cur_frame ^ 1]）; <br />  cs.SetTexture（kernel_id，“ out_vel_and_scale”，tex_b [cur_frame ^ 1]）; </pre>
+<pre>  //更新当前的渲染纹理 <br />  cs.Dispatch（内核ID，num_cs_threadGroup，num_cs_threadGroup，1）; </pre>
+<pre>  //在0-1之间交换索引 <br />  cur_frame ^ = 1; </pre>
+<ul>
+<li>  <strong><em>32位浮点数用于ARGB通道纹理格式</em></strong> <em> </em> <strong><br /></strong>  <strong>–</strong>我需要8个通道（2 x ARGB）才能以更高的精度写入blob的position（float3），lifespan（float），speed（float3）和scale（float）值 </li>
+<li>  <strong><em>点过滤器</em></strong> <em><br /></em>  <em>–</em>没有过滤器插值，因此我可以按照编写的方式读取正确的值。 </li>
+<li>  <strong><em>EnableRandomWrite</em></strong> <strong><br /></strong>  – <strong> </strong> 为了允许计算着色器写入纹理的任意位置— Unity3D计算着色器文档 </li>
+</ul>
+<p>  <strong><em>b。</em></strong>  <strong><em>计算着色器设置</em></strong> <em><br /></em>  Compute shader有2个内核，一个用于安装，另一个用于更新。 如前所述，compute shader会计算blob的属性并将其写入2个渲染纹理。 </p>
+<pre>  out_pos_and_life [global_id.xy] = float4（m_pos，m_life）; <br />  out_vel_and_scale [global_id.xy] = float4（m_vel，m_scale）; </pre>
+<p>  Blob属性的基本规则如下： </p>
+<ul>
+<li> 基于具有不同种子的3d单工噪声梯度来启动blob的属性。 我使用高桥敬二郎的Unity噪声着色器库。 以下是我用于设置的功能。 </li>
+</ul>
+<pre>  float4 reset_pos_and_life（在float3 _seed中） <br />  { <br />  float4 _data = snoise_grad（_seed * 5678.9012）; <br />  float3 pos = _data.xyz; <br /> 浮动寿命= abs（_data.w * 3. + 1.）; </pre>
+<pre> 返回float4（pos，life）; <br />  } </pre>
+<pre>  float4 reset_vel_and_scale（在float3 _seed中） <br />  { <br />  float4 _data = snoise_grad（_seed * 1234.5678）; <br />  float3 vel = _data.xyz * 2 .; <br /> 浮标=长度（（vel * .1 + .9）* .9）; </pre>
+<pre> 返回float4（vel，scale）; <br />  } </pre>
+<pre>  [numthreads（8，8，1）] <br />  void cs_init_buffers（uint3 id：SV_DispatchThreadID） <br />  { <br />  float4种子= reset_pos_and_life（float3（id））; <br />  out_pos_and_life [id.xy] =种子； <br />  out_vel_and_scale [id.xy] = reset_vel_and_scale（seed.xyz）; <br />  } </pre>
+<ul>
+<li> 当blob通过调用以下函数死亡时，这些函数用于重新初始化。 请注意，在<code><em>reset_pos_and_life(_pos)</em></code>之后更新seed（ <code><em>_pos</em></code> ）。 </li>
+</ul>
+<pre>  void revive（inout float3 _pos，inout float _life，inout float3 _vel，inout float _scale） <br />  { <br />  float4 _data = <strong>reset_pos_and_life</strong> （_pos）; <br />  _pos = _data.xyz;  <strong>// &lt;-种子已更新</strong> <br />  _life = _data.w; <br /><br />  <strong>_data</strong> = <strong>reset_vel_and_scale</strong> （_pos）; <br />  _vel = _data.xyz; <br />  _scale = _data.w; <br />  } </pre>
+<ul>
+<li> 设置完成后，blob的属性将在更新内核中更新。 规则基本上是： <br />  <strong>。</strong> 从我在渲染纹理设置中前面提到的先前纹理中获取属性的先前值。 <br />  <strong>。</strong> 速度和寿命在每个循环中均被除以（小于1的值）（从快到慢） <br />  <strong>。</strong> 刻度随着果冻般的弹跳运动而更新，并且当寿命低于1之后，它开始减小并消失 <br />  <strong>。</strong> 通过在速度更新后对其自身添加速度来更新位置 <br />  <strong>。</strong>  Blob停留在一定大小的立方体中，以便通过让彼此接触来强调元球效应 <br />  <strong>。</strong> 当他们死亡时，可以通过调用上面提到的函数使它们恢复生命 </li>
+</ul>
+<pre>  [numthreads（8，8，1）] <br />  void cs_update_buffers（uint3 global_id：SV_DispatchThreadID，uint3 local_id：SV_GroupThreadID） <br />  { <br />  //将数据解压缩到vars <br />  float4 _data = u_p_pos_and_life.Load（int3（global_id.xy，0））; <br />  float3 m_pos = _data.xyz; <br />  float m_life = _data.w; <br />  _data = u_p_vel_and_scale.Load（int3（global_id.xy，0））; <br />  float3 m_vel = _data.xyz; <br /> 浮点数m_scale = _data.w; </pre>
+<pre>  //更新事件 <br /> 如果（m_life &lt;.001） <br />  revive（m_pos，m_life，m_vel，m_scale）; <br />  stay_in_cube（m_pos，m_scale，m_vel）; </pre>
+<pre>  //更新数据 <br />  clip_vel（m_vel）; </pre>
+<pre>  m_vel * = 0.96; <br />  m_life * = .96; </pre>
+<pre>  float _rad = u_time_delta * u_time * 3.1459 / 180。 <br />  m_scale + = 0.06 * sin（（_ rad + m_life）* 30.）/ sqrt（（_ rad + m_life））*（1.-sqrt（（_ rad + m_life）））; <br />  m_scale * = min（m_life * 15.，1.）; <br />  m_scale = max（m_scale，0.）; </pre>
+<pre>  m_pos + = m_vel * u_time_delta; <br /><br />  //输出数据 <br />  out_pos_and_life [global_id.xy] = float4（m_pos，m_life）; <br />  out_vel_and_scale [global_id.xy] = float4（m_vel，m_scale）; <br />  } </pre>
+<p>  <strong><em>C。</em></strong>  <strong><em>使用实例网格调试Blob的属性</em></strong> <br /> 因此，现在我有了blob属性的值，以便在开始与它们进行光线行进之前查看它们是否按预期工作，我使用实例化网格对其进行渲染。 </p>
+<figure><img src="http://mdm.miximages.com/Unity3d/15PB-G7j7RCN1NFCGxEMOwQ.gif" /></figure>
+<p> 我使用<em>DrawMeshInstancedIndirect</em>使用自定义着色器和刚更新的渲染纹理渲染实例网格。 基本上，我遵循Unity的文档来设置<em>.cs</em>和shader，但是在本文档中，它使用Compute Buffer而不是我正在使用的Render Texture。 因此请注意，使用InstanceID查找值略有不同。 参见下面的比较： </p>
+<pre>  //在文档中 <br />  StructuredBuffer  buf; <br />  float4数据= buf [unity_InstanceID]; </pre>
+<pre>  -----------&gt; </pre>
+<pre>  // 我的情况 <br />  Texture2D tex; <br /> 浮动tex_w; </pre>
+<pre>  //因为实例数与tex.w * tex.h相同 <br />  int3 _coords = int3（ <br />  unity_InstanceID％（int）tex_w， <br />  （int）（（float）unity_InstanceID / tex_w）， <br />  0）; <br />  ）; <br />  float4数据= tex.Load（_coords） </pre>
+<h4>  2–2。 在Unity3D中实现—在片段着色器中渲染元球 </h4>
+<p>  <strong><em>一种。</em></strong>  <strong><em>设置.cs脚本进行射线行进</em></strong> </p>
+<p>  Unity3D为您提供预定义的功能，以供您访问事件的特定阶段。 由于光线行进基于片段着色器，因此我选择在<em>OnRenderImage</em>上实现它 <em> </em> 这是屏幕渲染的最后阶段。 该函数的结构如下： </p>
+<pre> 无效的OnRenderImage（RenderTexture _src，RenderTexture _dst） <br />  { <br />  *将更新的纹理传递给计算着色器和其他制服 </pre>
+<pre>  Graphics.Blit（_src，_dst，raymarching_material）; <br />  } </pre>
+<p> 该函数为您提供渲染纹理<em>（</em> <code><em>_src</em></code> <em>），这</em>是一个帧缓冲区，其中包含场景的渲染图像作为纹理。 运行<code>Graphics. <em>Blit</em></code>时，它将作为内置的统一sampler2D <em>_MainTex</em>传递到材质<code>Graphics. <em>Blit</em></code> <code>Graphics. <em>Blit</em></code> <em> </em> 然后处理附着在材质上的光线行进着色器，以将处理后的图像输出到由函数（ <code><em>_dst</em></code> <em>）</em>给定的渲染纹理中 <em> </em> 将在屏幕上呈现的最终帧缓冲区。 </p>
+<p>  *请注意，此.cs脚本需要附加到渲染的相机上。 </p>
+<p>  <strong><em>b。</em></strong>  <strong><em>设置用于光线行进的着色器</em></strong> <strong><em><br /></em></strong> 前进到射线行进。 我使用自定义<em>图像效果着色器</em> <em> </em> 这为您提供了一个模板，让您可以直接开始为Blit编写片段着色器代码。 </p>
+<p> 基本上，我只是将代码从<a href="https://qunkong.com.cn/kong/shadertoy/" title="Topics of Shadertoy" target="_blank">Shadertoy</a>（GLSL）转换为Unity3D（HLSL），因此基本结构相同，但语法略有不同。 因此，我将不解释完整的代码，而仅介绍不同实现的内容。 </p>
+<p>  <strong><em>b-1。</em></strong>  <strong><em>设置射线</em></strong> <strong><em><br /></em></strong> 记得示例中设置光线有多复杂吗？ 幸运的是，它在Unity3D中非常简单，因为它为您提供了大量有用的预定义函数和变量。 以下是我设置光线的方法： </p>
+<pre>  //设置光线 </pre>
+<pre>  // NDC空间中的图像平面-UNITY_NEAR_CLIP_VALUE将根据您正在使用的平台为您提供近平面值。 例如，Direct3D平台使用0.0，而OpenGL平台使用–1.0。 <br />  // https://docs.unity3d.com/Manual/SL-BuiltinMacros.html <br />  <strong>float4 m_pixels = float4（_uv * 2-1.，UNITY_NEAR_CLIP_VALUE，1）;</strong> </pre>
+<pre>  //查看空间 <br />  <strong>m_pixels = mul（unity_CameraInvProjection，m_pixels）;</strong> <strong><br /></strong>  //透视划分 <br />  <strong>m_pixels.xyz / = m_pixels.w;</strong> </pre>
+<pre>  //进入世界空间 </pre>
+<pre>  //您可以在.cs上获得逆视图矩阵 <br />  // cam.cameraToWorldMatrix <br />  <strong>m_pixels = mul（u_inv_view，m_pixels）;</strong> </pre>
+<pre>  //相机在世界空间中的位置 <br />  <strong>float3 m_rayOrigin = _WorldSpaceCameraPos;</strong> </pre>
+<pre>  //计算射线方向 <br />  <strong>float3 m_rayDir = normalize（m_pixels.xyz-m_rayOrigin）;</strong> </pre>
+<p> 这与我们在示例中所做的稍有不同。 在示例中，我们手动定义了相机的行为，例如视野和变换矩阵。 但是，在Unity3D中，我们可以使用引擎提供的相机对象的属性，因此我们只需要以相反的顺序撤消<em>矩阵变换即可</em> 。 </p>
+<p> 如您所见，我使用了引擎提供的一些预定义变量<code>UNITY_NEAR_CLIP_VALUE</code> ， <code>unity_CameraInvProjection</code>和<code>_WorldSpaceCameraPos</code> 。 您可以通过其<em>有关着色器</em>的<em>官方文档</em>找到更多信息。 </p>
+<figure><img src="http://mdm.miximages.com/Unity3d/1_rlBAcZA8V44MH7tSLAeTw.gif" /></figure>
+<p> 为了查看是否正确设置了射线，我在实例多维数据集的顶部渲染了射线行进球体。 我们可以看到它是对齐的。 </p>
+<p> 由于光线行进发生在网格渲染之后，因此，它会覆盖帧缓冲区顶部的像素，如您在上面看到的那样。 但是，可以通过使用深度缓冲区将光线行进对象与真实网格合成。 在这个项目中，我还没有尝试过它，但是您可以<em>在</em> Adrian <em>Biagioli撰写的</em>博客文章<em><a href="https://qunkong.com.cn/kong/raymarching/" title="Topics of Raymarching" target="_blank">Raymarching</a> Distance Fields：Concepts and Implementation in Unity中</em>看到它是如何完成的。 </p>
+<p>  <strong><em>b-2。</em></strong>  <strong><em>雷行进metaball</em></strong> </p>
+<p> 距离函数与示例相同，但只有我从纹理获取blob的属性： </p>
+<pre> 对于（int i = 0; i &lt;8; i ++） <br />  { <br /> 对于（int j = 0; j &lt;8; j ++） <br />  { <br />  <strong>int3 _texel_coords = int3（i，j，0）;</strong> <strong><br /></strong>  <strong>float3 blob_pos = u_tex_pos_life.Load（_texel_coords）.xyz;</strong> <strong><br /></strong>  <strong>float blob_scale = u_tex_vel_scale.Load（_texel_coords）.w;</strong> </pre>
+<pre>  //球的边界球 <br />  float db =长度（blob_pos-_point）; <br /> 如果（db &lt;blob_scale） <br />  { <br /> 浮点数x = db / blob_scale; <br />  p + = 1.0-x * x * x *（x *（x * 6.0-15.0）+ 10.0）; <br />  is_in_sphere = 1.0; <br />  h = max（h，0.5333 * blob_scale）; <br />  } <br /> 其他 <br />  { <br />  dmin = min（dmin，db-blob_scale）; <br />  } <br />  } <br />  } </pre>
+<p>  <strong><em>b-3。</em></strong>  <strong><em>阴影和照明</em></strong> </p>
+<p> 我从Inigo的另一个sharttoy草图<em>Angles中</em>借用了一个照明方程<em>。</em> 对于斑点的颜色和照度由斑点的方向和速度来定义。 我决定在另一篇文章中跟踪光线行进中的阴影和照明，因为这篇文章已经太长了。 如果您感到好奇，请在这篇文章中附加项目源代码。 </p>
+<figure><img src="http://mdm.miximages.com/Unity3d/1buTc_yqWin57a1E3S1FWvg.gif" /></figure>
+<p></p>    </article>
+    <div id="tags" class="mb-2">
+    
+    </div>
+    <div class="row px-3">
+        <div class="col-md-6 my-3 px-3 pb-2 bg-light rounded shadow-sm relate"><p class="py-2 mb-0">Related Content</p><p class="p-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/45200/%e7%ab%8b%e5%8d%b3%e5%8f%91%e5%b8%83%ef%bc%88%e4%bd%9b%e7%bd%97%e9%87%8c%e8%be%be%e5%b7%9e%e8%bf%88%e9%98%bf%e5%af%86%ef%bc%89%ef%bc%8c3%e6%9c%8821%e6%97%a5%ef%bc%9a%e9%a9%ac%e4%b8%81%c2%b7%e8%b7%af/" rel="bookmark" class="nav-link p-0">立即发布（佛罗里达州迈阿密），3月21日：马丁·路德·金经济发展公司…</a></p><p class="p-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/51931/%e5%9c%a8unity%e4%b8%ad%e4%bc%98%e5%8c%96%e9%98%b4%e5%bd%b1/" rel="bookmark" class="nav-link p-0">在Unity中优化阴影</a></p><p class="p-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/51044/%e7%ac%ac%e4%b8%80%e5%a4%a9%e3%80%82%e4%bd%bf%e7%94%a8mapbox%e5%88%b6%e4%bd%9c%e6%b8%b8%e6%88%8f%e3%80%82/" rel="bookmark" class="nav-link p-0">第一天。使用Mapbox制作游戏。</a></p><p class="p-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/12290/%e5%af%b9%e6%b0%91%e4%b8%bb%e5%85%9a%e4%ba%ba%e7%9a%84%e5%85%84%e5%bc%9f%ef%bc%9a%e6%88%91%e4%bb%ac%e8%83%bd%e6%8b%a5%e6%8a%b1%e5%ae%83%e5%90%97%ef%bc%9f/" rel="bookmark" class="nav-link p-0">对民主党人的“兄弟”：“我们能拥抱它吗？”</a></p><p class="p-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/2193/%e7%a4%be%e5%8c%ba%e8%93%9d%e5%9b%be/" rel="bookmark" class="nav-link p-0">社区蓝图</a></p></div>    <div class="my-3 align-right rounded shadow-sm col-md-6">
+    <div class="card text-white">
+        <img src="/girls/a.jpg" class="card-img" />
+    </div>    
+    </div>
+    </div>
+    <div class="row mx-0">
+        <div class="col-md-6 text-left bg-white shadow-sm py-2"><a href="https://qunkong.com.cn/5627/%e6%8e%8c%e6%8f%a1reactjs%e7%9a%84%e4%b8%96%e7%95%8c-%e7%ac%ac3%e6%9c%9f/" rel="prev">掌握ReactJS的世界-第3期</a></div>
+        <div class="col-md-6 text-right bg-white shadow-sm py-2"><a href="https://qunkong.com.cn/5630/%e4%b9%8b%e5%90%8e%e6%88%91%e4%bb%ac%e5%a6%82%e4%bd%95%e5%9b%a2%e7%bb%93%e8%b5%b7%e6%9d%a5%ef%bc%9f/" rel="next">之后我们如何团结起来？</a></div>
+    </div>
+    
+    
+
+
+			<!-- If comments are open, but there are no comments. -->
+
+	     
+    <div class="my-3 px-3 pb-2 bg-light rounded shadow-sm relate">
+    <p class="py-2 mb-0">More Interesting</p><p class="py-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/51377/%e5%9b%a2%e7%bb%93%ef%bc%9a%e8%bf%90%e5%8a%a8%e5%92%8c%e4%ba%ba%e7%89%a9/" rel="bookmark" class="nav-link p-0">团结：运动和人物</a></p><p class="py-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/21255/%e5%be%88%e9%9a%be%e8%8e%b7%e5%be%97/" rel="bookmark" class="nav-link p-0">很难获得</a></p><p class="py-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/48927/%e6%a0%bc%e9%87%8c%c2%b7%e7%ba%b3%e8%af%ba%e6%96%af%ef%bc%88gerry-nanos%ef%bc%89/" rel="bookmark" class="nav-link p-0">格里·纳诺斯（Gerry Nanos）</a></p><p class="py-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/49623/%e5%9b%a2%e7%bb%93%e8%81%94%e7%9b%9f/" rel="bookmark" class="nav-link p-0">团结联盟</a></p><p class="py-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/9918/%e4%bd%bf%e7%94%a8unity%e5%9c%a8%e7%a7%bb%e5%8a%a8%e8%ae%be%e5%a4%87%e4%b8%8a%e8%bf%9b%e8%a1%8c%e4%ba%ba%e7%be%a4%e6%b8%b2%e6%9f%93/" rel="bookmark" class="nav-link p-0">使用Unity在移动设备上进行人群渲染</a></p><p class="py-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/39881/%e6%95%99%e5%8c%ba%e9%95%bf%e5%b8%95%e7%89%b9%c2%b7%e5%85%8b%e6%b4%9b%e6%96%af%ef%bc%88pat-close%ef%bc%89%e5%90%91%e6%a0%bc%e8%95%be%e4%b8%9d%e6%95%99%e5%a0%82%e9%81%93%e5%88%ab/" rel="bookmark" class="nav-link p-0">教区长帕特·克洛斯（Pat Close）向格蕾丝教堂道别</a></p><p class="py-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/25004/%e5%9c%a8unity%e4%b8%ad%e5%88%9b%e5%bb%ba%e7%a8%8b%e5%ba%8f%e8%a1%8c%e6%98%9f-%e7%ac%ac3%e9%83%a8%e5%88%86/" rel="bookmark" class="nav-link p-0">在Unity中创建程序行星-第3部分</a></p><p class="py-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/17260/%e5%af%b9%e6%9d%83%e5%a8%81%e6%96%bd%e5%8a%a0%e5%90%8c%e6%83%85/" rel="bookmark" class="nav-link p-0">对权威施加同情</a></p><p class="py-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/22115/%e5%af%b9%e5%b8%90%e5%92%8c%e7%bb%9f%e4%b8%80/" rel="bookmark" class="nav-link p-0">对帐和统一</a></p><p class="py-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/14069/%e5%8a%b3%e6%8b%89%c2%b7%e6%96%bd%e7%93%a6%e5%85%b9%e6%95%99%e7%bb%83%e5%9c%a8%e7%90%83%e5%9c%ba%e4%b8%8a%e5%b1%95%e7%8e%b0%e6%bf%80%e6%83%85/" rel="bookmark" class="nav-link p-0">劳拉·施瓦兹教练在球场上展现激情</a></p><p class="py-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/4206/unity%e6%8f%90%e7%a4%ba%ef%bc%9a-meta%e6%96%87%e4%bb%b6/" rel="bookmark" class="nav-link p-0">Unity提示：.meta文件</a></p><p class="py-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/28646/%e4%b8%ba%e6%ad%bb%e8%80%85%e8%80%8c%e5%a5%8b%e6%96%97/" rel="bookmark" class="nav-link p-0">“为死者而奋斗”</a></p><p class="py-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/4428/%ef%bc%83bahubali2%e4%b9%8b%e7%b1%bb%e7%9a%84%e7%94%b5%e5%bd%b1%e5%a6%82%e4%bd%95%e5%bc%a5%e5%90%88%e5%9c%b0%e5%8c%ba%e5%b7%ae%e8%b7%9d%e5%b9%b6%e5%9b%a2%e7%bb%93%e5%8d%b0%e5%ba%a6/" rel="bookmark" class="nav-link p-0">＃Bahubali2之类的电影如何弥合地区差距并团结印度</a></p><p class="py-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/15156/unity-2d-%e5%a6%82%e4%bd%95%e4%bd%bf%e5%af%b9%e8%b1%a1%e4%b8%8a%e4%b8%8b%e5%8f%8d%e5%bc%b9%ef%bc%9f/" rel="bookmark" class="nav-link p-0">Unity 2D —如何使对象上下反弹？</a></p><p class="py-2 mb-0 border-top border-gray">
+        <a href="https://qunkong.com.cn/35203/unity-ecs-ecs%e7%9a%84%e5%8d%95%e5%85%83%e6%b5%8b%e8%af%95%e9%97%ae%e9%a2%98/" rel="bookmark" class="nav-link p-0">[Unity ECS] ECS的单元测试问题</a></p></div>    
+
+	    	</div>
+	<div class="col-md-4 pb-3">
+        
+    </div>
+</div>
+</main>
+<footer class="footer mt-auto py-3">
+  <div class="container">
+    <ul class="list-inline text-center relate small">
+        <li class="list-inline-item">Copyright © <a href="https://qunkong.com.cn">群控网</a> - All Rights Reserved.</li>
+        <li class="list-inline-item"><a href="/topics">Topics</a></li>
+        <li class="list-inline-item"><a href="#">Terms</a></li>
+        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<!-- Default Statcounter code for Qunkong.com.cn
+https://qunkong.com.cn -->
+<script type="text/javascript">
+var sc_project=12207567; 
+var sc_invisible=1; 
+var sc_security="6a359ccd"; 
+</script>
+<script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+<noscript>&lt;div class="statcounter"&gt;&lt;a title="Web Analytics"
+href="https://statcounter.com/" target="_blank"&gt;&lt;img
+class="statcounter"
+src="https://c.statcounter.com/12207567/0/6a359ccd/1/"
+alt="Web Analytics"&gt;&lt;/a&gt;&lt;/div&gt;</noscript>
+<!-- End of Statcounter Code -->
+</body></html>
