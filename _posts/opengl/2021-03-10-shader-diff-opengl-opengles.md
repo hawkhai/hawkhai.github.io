@@ -15,6 +15,29 @@ glslcanvas:
 codeprint:
 ---
 
+
+## 工具
+
+[^_^]: <https://chengkehan.github.io/Links.html>
+几个有用的工具，用来抓取图形渲染帧，在分析其它项目以及排查渲染方面的 bug 时非常有用。
+[渲染帧抓取工具 {% include relref_github.html %}](https://chengkehan.github.io/FrameCaptureTools.html)
+OpenGLES 以及 shader 开发调试工具。
+1. shader 开发编辑器 kodelife，地址：<https://hexler.net/products/kodelife>
+2. shader 调试工具 GAPID，google 开源的一个项目，地址：<https://github.com/google/gapid>
+3. shader 调试工具 RenderDoc，地址：<https://renderdoc.org/>
+4. [Adreno GPU Profiler](https://developer.qualcomm.com/software/adreno-gpu-profiler)
+5. [RenderDoc {% include relref_github.html %}](https://github.com/baldurk/renderdoc) is a stand-alone graphics debugging tool.
+6. [Tegra Graphics Debugger](https://developer.nvidia.com/tegra-graphics-debugger)
+7. [Intel® Graphics Performance Analyzers](https://software.intel.com/en-us/gpa)
+
+* shader：RenderMonkey、FX Composer、OpenGL Shader Designer
+* Tegra Debugger/SnapProfiler/Intel GPA
+* Android：PerfHUD ES（Tegra）、Adreno Profiler（Adreno）、PVRTrace（PowerVR）、Mali Graphics Debugger（Mali）
+* IOS：Xcode OpenGL ES Tools
+
+
+## 正文
+
 OpenGL_ES_2.x 为可编程渲染管线（Programmable）而设计。
 2.x 并不向下兼容 1.x。
 
@@ -32,11 +55,6 @@ OpenGL ES 相对 OpenGL 删减了一切低效能的操作方式，有高性能�
 3. 取消了 GL_QUADS / GL_POLYGONS 这两种 primitive 类型。
 4. vertex 的所有资讯（包含本身的位置、颜色、normal 等等）都变成以抽象的 vertex attrib 来处理，需要自行定义并在 vertex shader 裡计算。
 5. Lighting、material 也都是以抽象的形式，以 uniform 变数形式传进 shader 并自行计算。
-
-OpenGLES 以及 shader 开发调试工具
-1. shader 开发编辑器 kodelife，地址：https://hexler.net/products/kodelife
-2. shader 调试工具 GAPID，google 开源的一个项目，地址：https://github.com/google/gapid
-3. shader 调试工具 RenderDoc，地址：https://renderdoc.org/
 
 
 ## 数据类型
@@ -125,8 +143,14 @@ eglSwapBuffers(eglDisplay, eglSurface);
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-10-shader-diff-opengl-opengles.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://kheresy.wordpress.com/2010/04/09/opengl-es-2-0-%E7%B0%A1%E5%96%AE%E4%BB%8B%E7%B4%B9/]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/kheresy.wordpress.com/38817f5a.html" %})
-- [https://www.aies.cn/]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/www.aies.cn/4c5019a6.html" %})
+- [https://chengkehan.github.io/Links.html]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/chengkehan.github.io/0d02c1f4.html" %})
+- [https://chengkehan.github.io/FrameCaptureTools.html]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/chengkehan.github.io/8cad55e3.html" %})
 - [https://hexler.net/products/kodelife]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/hexler.net/b2c63114.html" %})
 - [https://github.com/google/gapid]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/github.com/769c7e97.html" %})
 - [https://renderdoc.org/]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/renderdoc.org/2eb66df8.html" %})
+- [https://developer.qualcomm.com/software/adreno-gpu-profiler]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/developer.qualcomm.com/a5a0a370.html" %})
+- [https://github.com/baldurk/renderdoc]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/github.com/bb00e08f.html" %})
+- [https://developer.nvidia.com/tegra-graphics-debugger]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/developer.nvidia.com/1e05e468.html" %})
+- [https://software.intel.com/en-us/gpa]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/software.intel.com/5d46a23a.html" %})
+- [https://kheresy.wordpress.com/2010/04/09/opengl-es-2-0-%E7%B0%A1%E5%96%AE%E4%BB%8B%E7%B4%B9/]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/kheresy.wordpress.com/38817f5a.html" %})
+- [https://www.aies.cn/]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/www.aies.cn/4c5019a6.html" %})
