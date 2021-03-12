@@ -15,6 +15,11 @@ glslcanvas:
 codeprint:
 ---
 
+A conformant OpenGL ES implementation for Windows, Mac, Linux, iOS and Android.
+[Google / ANGLE {% include relref_github.html %}](https://github.com/google/angle)
+-- Almost Native Graphics Layer Engine
+https://github.com/Microsoft/angle
+
 Shader 预处理器，从各个角度说来，都是必要的。
 
 * [自制游戏引擎 - 5 Shader Preprocessor {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/34274224)
@@ -48,6 +53,8 @@ caption="The preprocessor transforms a shader into an intermediate representatio
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-12-shader-Shader-Preprocessor.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://github.com/google/angle]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/bb7c3f0b.html" %})
+- [https://github.com/Microsoft/angle]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/67457015.html" %})
 - [https://zhuanlan.zhihu.com/p/34274224]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/zhuanlan.zhihu.com/b975adfe.html" %})
 - [https://wallpaper-engine.fandom.com/wiki/Shader_Preprocessor]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/wallpaper-engine.fandom.com/0b3cdf8b.html" %})
 - [http://man.hubwiz.com/docset/Unity_3D.docset/Contents/Resources/Documents/docs.unity3d.com/Manual/SL-BuiltinMacros.html]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/man.hubwiz.com/f60d6798.html" %})
