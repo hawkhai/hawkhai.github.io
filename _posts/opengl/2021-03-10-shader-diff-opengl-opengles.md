@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "图形学笔记 -- OpenGL ES 与 OpenGL 的区别"
+title: "图形学笔记 -- Shader：OpenGL ES 与 OpenGL 的区别"
 author:
 location: "珠海"
 categories: ["图形学"]
