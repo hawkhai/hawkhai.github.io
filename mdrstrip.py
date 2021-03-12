@@ -4,6 +4,7 @@ import datetime, time
 sys.path.append("../")
 from pythonx.funclib import *
 from pythonx.coderstrip import *
+from pythonx.kangxi import TranslateKangXi
 
 THUMBNAIL = ".thumbnail.webp"
 SELENIUM = ".selenium.png"
@@ -770,6 +771,7 @@ def mainfile(fpath, fname, ftype):
     for i in range(len(codeli1z)):
         page = page.replace(codeli2z[i], codeli1z[i])
 
+    page = TranslateKangXi(page)
     writefile(fpath, page.encode("utf8"))
     return errcnt
 
