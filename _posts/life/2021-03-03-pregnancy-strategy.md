@@ -17,6 +17,10 @@ codeprint:
 
 * C:\Users\hawkhai\Documents\28. 孕期全攻略
 * C:\Users\hawkhai\Documents\06. 孕期全攻略（完结）
+* [KANGXI RADICAL unicode 正规化 {% include relref_csdn.html %}](https://blog.csdn.net/gstianfu/article/details/84643320)
+* https://www.unicode.org/Public/13.0.0/ucd/CJKRadicals.txt
+* https://www.unicode.org/Public/13.0.0/ucd/EquivalentUnifiedIdeograph.txt
+* http://mlp.cs.nyu.edu/chunom/xradicals.html
 
 
 ## 备孕
@@ -27,14 +31,17 @@ codeprint:
 1. 备孕期，叶酸绝对不能少。
     * 备孕一定要吃足够的叶酸，这能预防胎儿神经管畸形和先天性心脏病，还能促进红细胞成熟和血红蛋白合成。
 2. 补够碘，也很重要。
-    * 孕期缺碘，容易引起胎儿的神经系统发育落后，严重的会增加早产和流产的⻛险。
-    * 比如海带、紫菜、裙带菜、海⻥和⻉壳类⻝物，来增加碘的摄取。
+    * 孕期缺碘，容易引起胎儿的神经系统发育落后，严重的会增加早产和流产的风险。
+    * 比如海带、紫菜、裙带菜、海鱼和贝壳类食物，来增加碘的摄取。
 3. 备孕期建议不要吃生肉，避免烟酒，减少含咖啡因的饮料，一定要养成勤洗手习惯。
-    * 为了避免感染寄生虫，尤其是弓形虫，不要吃任何没有彻底煮熟的肉类，包括生⻥片、醉虾、醉蟹、牛肉刺身、未全熟的牛排等等。
-    * 生⻝的蔬菜，比如沙拉，如果不能确保卫生的，也尽量少吃或者不吃，水果之类不确定是否卫生的，也建议削皮后再吃。
-    * 大型的⻝肉⻥类，建议不要吃。因为这些⻥类，往往汞含量比较高，而汞可是所有环境毒素中致畸⻛险最高的元素。
-        这些大型⻝肉⻥类包括：⻢鲛⻥、金枪⻥、剑⻥、旗⻥、鲨⻥。
-    * 鲭⻥、鳕⻥、鲱⻥、鲈⻥、小梭⻥、沙丁⻥、罗非⻥，都是美国 FDA 推荐的备孕期⻥类的好选择，可以每周吃两到三次。
+    * 为了避免感染寄生虫，尤其是弓形虫，不要吃任何没有彻底煮熟的肉类，包括生鱼片、醉虾、醉蟹、牛肉刺身、未全熟的牛排等等。
+    * 生食的蔬菜，比如沙拉，如果不能确保卫生的，也尽量少吃或者不吃，水果之类不确定是否卫生的，也建议削皮后再吃。
+    * 大型的食肉鱼类，建议不要吃。因为这些鱼类，往往汞含量比较高，而汞可是所有环境毒素中致畸风险最高的元素。
+        这些大型食肉鱼类包括：马鲛鱼、金枪鱼、剑鱼、旗鱼、鲨鱼。
+    * 鲭鱼、鳕鱼、鲱鱼、鲈鱼、小梭鱼、沙丁鱼、罗非鱼，都是美国 FDA 推荐的备孕期鱼类的好选择，可以每周吃两到三次。
+
+事实上，不建议孕妇吃的食物，并不多，只有以下三种：没有煮熟的食物，包括肉、蛋、海鲜，没有消毒
+的牛奶；然后是烟酒和含汞量高的鱼，一般是大型深海鱼。
 
 
 ### 不孕不育
@@ -62,13 +69,13 @@ codeprint:
 ### 孕期营养
 
 * 有的妈妈在孕早期，因为孕吐的关系，会吃不下东
-⻄，就特别担心自己营养不均衡。其实这个时候胎
-儿很小，⻓到 3 个月也就 5 公分⻓，完全不会因为
+西，就特别担心自己营养不均衡。其实这个时候胎
+儿很小，长到 3 个月也就 5 公分长，完全不会因为
 妈妈吃得少了一点而影响发育。
-* 厨房和冰箱的⻝物要生熟分
-开，叫外卖的话尽量不吃冷盘熟⻝、凉拌菜和鲜榨
+* 厨房和冰箱的食物要生熟分
+开，叫外卖的话尽量不吃冷盘熟食、凉拌菜和鲜榨
 果汁，还有生吃的海鲜、河鲜，没有充分加热的鸡
-蛋、香肠、火腿、培根，以及来源不明的ᰀ生⻥类
+蛋、香肠、火腿、培根，以及来源不明的ᰀ生鱼类
 、河鲜等，都不要吃。
 
 
@@ -94,7 +101,7 @@ codeprint:
 和煮熟的蔬菜等等，以及养宠物猫还曾亲自清理猫
 砂的情况。
 * 维生素 A 摄入过量会导致胚胎毒性，如果饮
-⻝均衡不需要吃补充剂，如果服用补剂，一般也
+食均衡不需要吃补充剂，如果服用补剂，一般也
 不主张补充大于 700 微克的维生素 A 。
 
 
@@ -105,6 +112,9 @@ codeprint:
 
 
 ## 临产
+
+胎动不好一定要去医院，胎动不好一定要去医院，胎动
+不好一定要去医院!
 
 
 ## 其它
@@ -119,5 +129,9 @@ codeprint:
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-03-pregnancy-strategy.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://blog.csdn.net/gstianfu/article/details/84643320]({% include relref.html url="/backup/2021-03-03-pregnancy-strategy.md/blog.csdn.net/1e7a41ac.html" %})
+- [https://www.unicode.org/Public/13.0.0/ucd/CJKRadicals.txt]({% include relref.html url="/backup/2021-03-03-pregnancy-strategy.md/www.unicode.org/0ebeb802.txt" %})
+- [https://www.unicode.org/Public/13.0.0/ucd/EquivalentUnifiedIdeograph.txt]({% include relref.html url="/backup/2021-03-03-pregnancy-strategy.md/www.unicode.org/cd98bbe9.txt" %})
+- [http://mlp.cs.nyu.edu/chunom/xradicals.html]({% include relref.html url="/backup/2021-03-03-pregnancy-strategy.md/mlp.cs.nyu.edu/d3b59c9f.html" %})
 - [https://www.cheesebook.cn/course/6312.html]({% include relref.html url="/backup/2021-03-03-pregnancy-strategy.md/www.cheesebook.cn/54892b5c.html" %})
 - [https://www.zhuzhuwang.com/item/2089]({% include relref.html url="/backup/2021-03-03-pregnancy-strategy.md/www.zhuzhuwang.com/58d4d2f1.html" %})
