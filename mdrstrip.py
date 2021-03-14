@@ -771,7 +771,8 @@ def mainfile(fpath, fname, ftype):
     for i in range(len(codeli1z)):
         page = page.replace(codeli2z[i], codeli1z[i])
 
-    page = TranslateKangXi(page)
+    if not fname in ("2021-03-14-Equivalent-Unified-Ideograph.md",):
+        page = TranslateKangXi(page)
     writefile(fpath, page.encode("utf8"))
     return errcnt
 
