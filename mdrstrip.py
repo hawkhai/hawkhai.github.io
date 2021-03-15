@@ -78,7 +78,7 @@ def clearSnapCache():
             osremove(x)
 
 def readfileIglist(fpath):
-    li = readfile(fpath, "utf8").split("\n")
+    li = readfile(fpath, True, "utf8").split("\n")
     li = [i.strip().split("#")[0].strip() for i in li if i.strip().split("#")[0].strip()]
     assert li, fpath
     return li
@@ -141,6 +141,14 @@ def backupUrlContent(fpath, url):
         writefile(slocal, fdata)
     else:
         fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal, shotpath=slocal+SELENIUM, chromeDialog=chromeDialog)
+
+    itag = bytesToString("无法访问此网站".encode("utf8"))
+    idata = bytesToString(fdata)
+    if not url in readfileIglist("mdrstrip_InvalidURL.txt"):
+        if idata.find("ERR_CONNECTION_TIMED_OUT") != -1 or idata.find(itag) != -1:
+            print("无法访问此网站", fpath, url)
+            os.system("pause")
+            return backupUrlContent(fpath, url)
 
     def addmdhead(fdata):
         xtime = formatTimeStamp(time.time())

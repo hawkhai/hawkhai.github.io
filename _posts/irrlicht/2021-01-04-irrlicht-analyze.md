@@ -213,6 +213,9 @@ https://gitee.com/panqingyun/E3D-Engine
 
 ## irrlicht Android
 
+* https://github.com/PolygonTek/BlueshiftEngine Star344
+* https://github.com/skylicht-lab/skylicht-engine Star81
+
 * [wrapirrlicht-for-android](https://code.google.com/archive/p/wrapirrlicht-for-android/source)
     [Wrapping Irrlicht For Android](https://www.codeproject.com/articles/333135/wrapping-irrlicht-for-android)
 * 37 commits，4 years ago。[irrlicht for opengles {% include relref_github.html %}](https://github.com/wangtianhang/irrlicht)
@@ -274,6 +277,7 @@ https://gitee.com/panqingyun/E3D-Engine
 - [https://github.com/skylicht-lab/skylicht-engine]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/bc413eab.html" %})
 - [https://github.com/arris69/IrrLicht-Android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/bcf56cc0.html" %})
 - [https://github.com/Picaroon/gamekit]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/c90ca4ec.html" %})
+- [https://github.com/PolygonTek/BlueshiftEngine]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/d3a40588.html" %})
 - [https://github.com/nonameentername/pyirrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/e39426a3.html" %})
 - [https://github.com/millsvonmilski/Unity3D_RayMarching_MetaBall]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/e5fcf488.html" %})
 - [https://github.com/nonameentername/irrlicht-android]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/e73734fa.html" %})
