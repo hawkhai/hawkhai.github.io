@@ -1046,6 +1046,92 @@ root@chanchen-VirtualBox:/mnt/share/test/bld_lnx# cmake ..
 
 * add_subdirectory 最好在 include_directories 前面，否则 incdir 会形成递归重复。
 
+```cmake
+cmake_minimum_required(VERSION 3.4.1)
+
+# https://github.com/juj/MathGeoLib/blob/master/CommonOptions.cmake
+# Add the global _DEBUG flag from WIN32 platform to all others, which is universally used in MGL to
+# perform debug-mode-specific compilation.
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -D_DEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_DEBUG")
+
+add_definitions(-DUNICODE -D_UNICODE)
+
+set(OGL3RD_DIR      "${CMAKE_CURRENT_SOURCE_DIR}/../opengl-3rd")
+set(FAKEDRIVER_DIR  "E:/cfwpe/irrlicht/fakedriver")
+
+#[[
+# fakedriver fakedriverAdapter
+add_subdirectory(${FAKEDRIVER_DIR}/fakedriverAdapter fakedriverAdapter.build)
+add_subdirectory(${FAKEDRIVER_DIR}/fakedriver fakedriver.build)
+# fakelib
+add_subdirectory(${FAKEDRIVER_DIR}/fakelib fakelib.build)
+#]]
+
+include_directories(
+    ${FAKEDRIVER_DIR}/fakelib/include
+    ${OGL3RD_DIR}/glad/include
+    ${OGL3RD_DIR}/glfw-3.3.2.bin.WIN32/glfw-3.3.2.bin.WIN32/include
+    ${OGL3RD_DIR}/glew-2.2.0-win32/glew-2.2.0/include
+    ${OGL3RD_DIR}/glm-0.9.9.8/glm
+    ${OGL3RD_DIR}/SOIL/include/SOIL
+    ${OGL3RD_DIR}/assimp-5.0.1/assimp-5.0.1/include
+    ${OGL3RD_DIR}/assimp-5.0.1/assimp-5.0.1/lib/vs2017_win32
+    ${OGL3RD_DIR}/learnopengl
+    ${OGL3RD_DIR}/stb
+    ${OGL3RD_DIR}
+)
+
+link_directories(
+    ${OGL3RD_DIR}/glew-2.2.0-win32/glew-2.2.0/lib/Release/Win32
+    ${OGL3RD_DIR}/glfw-3.3.2.bin.WIN32/glfw-3.3.2.bin.WIN32/lib-vc2017
+    ${OGL3RD_DIR}/SOIL/lib/vs2017/Release
+    ${OGL3RD_DIR}/glad/lib/vs2017_win32/Release
+)
+
+FILE(GLOB_RECURSE OGL_HEADERS
+        RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
+        "${OGL3RD_DIR}/learnopengl/*.*"
+)
+source_group(TREE "${OGL3RD_DIR}" FILES ${OGL_HEADERS})
+
+set(
+    DEMO_SOURCES
+    irrtest.cpp
+    myshader.h
+    shaders/irrtest.vert
+    shaders/irrtest.frag
+)
+#[[
+FILE(GLOB_RECURSE DEMO_SOURCES
+        RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
+        "${CMAKE_CURRENT_SOURCE_DIR}/5.2.framebuffers_exercise1/*.*"
+)
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${DEMO_SOURCES})
+#]]
+
+# https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/08%20Coordinate%20Systems/
+add_executable(
+    irrtest
+    ${DEMO_SOURCES}
+    #${OGL_HEADERS}
+)
+target_link_libraries(
+    irrtest
+    glfw3 glew32s
+    SOIL
+    opengl32 # fakedriver
+    glad
+)
+set_target_properties(irrtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_CURRENT_SOURCE_DIR}/product")
+set_target_properties(irrtest PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/product")
+# https://www.cnblogs.com/tangxin-blog/p/8283460.html
+#set(CMAKE_DEBUG_POSTFIX "_d")
+#set(CMAKE_RELEASE_POSTFIX "_r")
+#set_target_properties(${TARGET_NAME} PROPERTIES DEBUG_POSTFIX "_d")
+#set_target_properties(${TARGET_NAME} PROPERTIES RELEASE_POSTFIX "_r")
+```
+
 
 ## Refs
 
@@ -1066,6 +1152,8 @@ root@chanchen-VirtualBox:/mnt/share/test/bld_lnx# cmake ..
 - [https://github.com/juj/MathGeoLib/blob/master/CommonOptions.cmake]({% include relref.html url="/backup/2021-02-01-cmakelists.md/github.com/24e305e7.html" %})
 - [https://apache.github.io/xalan-c/api/PlatformDefinitions_8hpp_source.html]({% include relref.html url="/backup/2021-02-01-cmakelists.md/apache.github.io/eeffe529.html" %})
 - [https://blog.csdn.net/icbm/article/details/52336497]({% include relref.html url="/backup/2021-02-01-cmakelists.md/blog.csdn.net/5403caaa.html" %})
+- [https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/08%20Coordinate%20Systems/]({% include relref.html url="/backup/2021-02-01-cmakelists.md/learnopengl-cn.readthedocs.io/cfc9cf0a.html" %})
+- [https://www.cnblogs.com/tangxin-blog/p/8283460.html]({% include relref.html url="/backup/2021-02-01-cmakelists.md/www.cnblogs.com/efb145d7.html" %})
 - [https://zhuanlan.zhihu.com/p/267803605]({% include relref.html url="/backup/2021-02-01-cmakelists.md/zhuanlan.zhihu.com/d33bbe25.html" %})
 - [https://github.com/carl-wang-cn/demo/tree/master/cmake]({% include relref.html url="/backup/2021-02-01-cmakelists.md/github.com/bd0e5b28.html" %})
 - [https://zh.m.wikibooks.org/zh-hans/CMake_%E5%85%A5%E9%96%80/%E5%9F%BA%E6%9C%AC%E8%AA%9E%E6%B3%95]({% include relref.html url="/backup/2021-02-01-cmakelists.md/zh.m.wikibooks.org/c46fcb62.html" %})

@@ -1,0 +1,1325 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta name="description" content="一.&amp;#160;SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../bin) 上面的语句能设置可执行文件的输出目录 在Win + VS环境下,会自动" />
+    <meta property="og:description" content="一.&amp;#160;SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../bin) 上面的语句能设置可执行文件的输出目录 在Win + VS环境下,会自动" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>CMake 设置Target输出目录和后缀名 - 你好阿汤哥 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=P3k-D-amDANFSS5vFrVnHEHOwCanyZeYKJStZJu7TPI" />
+    <link id="MainCss" rel="stylesheet" href="/skins/en_summergarden/bundle-en_summergarden.min.css?v=gu9D42SICRpSF20TsqaDDdlzi8l6wrVo-xl5ayWWci4" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/en_summergarden/bundle-en_summergarden-mobile.min.css?v=p9oHKzdjHOpDQRECqFt19AEtTuyvjreyaezSID0mxbI" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/tangxin-blog/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/tangxin-blog/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/tangxin-blog/wlwmanifest.xml" />
+    <script src="https://www.googletagservices.com/activeview/js/current/osd.js?cb=%2Fr20100101"></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 183923;
+        var currentBlogApp = 'tangxin-blog';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'En_summerGarden';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2018-01-14 03:42';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=A4L4hs6RykHM9y16VO7IxTujdrqDx4KITJdQJgFs304"></script><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style>
+    <script type="text/x-mathjax-config;executed=true">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom &gt; * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd &gt; * {display: block!important}
+.MJXp-script-box &gt; *  {display: table!important; height: 50%}
+.MJXp-script-box &gt; * &gt; * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box &gt; *:last-child &gt; * {vertical-align: bottom}
+.MJXp-script-box &gt; * &gt; * &gt; * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover, .MJXp-munder {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over &gt; * {display: block!important}
+.MJXp-munderover &gt; *, .MJXp-munder &gt; * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable &gt; * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr &gt; .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child &gt; .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr &gt; .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child &gt; .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><meta http-equiv="origin-trial" content="A+b/H0b8RPXNaJgaNFpO0YOFuGK6myDQXlwnJB3SwzvNMfcndat4DZYMrP4ClJIzYWo3/yP2S+8FTZ/lpqbPAAEAAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzVGhpcmRQYXJ0eSI6dHJ1ZX0=" /><meta http-equiv="origin-trial" content="A9ZgbRtm4pU3oZiuNzOsKcC8ppFSZdcjP2qYcdQrFKVzkmiWH1kdYY1Mi9x7G8+PS8HV9Ha9Cz0gaMdKsiVZIgMAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AxL6oBxcpn5rQDPKSAs+d0oxNyJYq2/4esBUh3Yx5z8QfcLu+AU8iFCXYRcr/CEEfDnkxxLTsvXPJFQBxHfvkgMAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A9KPtG5kl3oLTk21xqynDPGQ5t18bSOpwt0w6kGa6dEWbuwjpffmdUpR3W+faZDubGT+KIk2do0BX2ca16x8qAcAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A3HucHUo1oW9s+9kIKz8mLkbcmdaj5lxt3eiIMp1Nh49dkkBlg1Fhg4Fd/r0vL69mRRA36YutI9P/lJUfL8csQoAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021031001.js" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script><link rel="prefetch" href="https://7c6d12e5755872c21f138faafe8b00b1.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html" /><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-37/html/container.html" /></head>
+<body class="no-navbar"><div id="MathJax_Message" style="display: none;"></div>
+    <a name="top"></a>
+            <div id="bannerbar" class="bannerbar-mobile formobile">
+                <a href="https://developer.aliyun.com/learning/trainingcamp/java/3?utm_content=g_1000245300" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aliyun-java-blog-mobile-banner')">
+                    <img src="https://img2020.cnblogs.com/blog/35695/202103/35695-20210314142403484-1393794195.jpg" alt="" />
+                </a>
+            </div>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a href="https://www.cnblogs.com/tangxin-blog/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="Return Home" /></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/tangxin-blog/">阿汤的博客</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+CnBlogs</a>
+</li>
+	<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/tangxin-blog/">
+Home</a>
+</li>
+	<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+New Post</a>
+</li>
+	<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%BD%A0%E5%A5%BD%E9%98%BF%E6%B1%A4%E5%93%A5">
+Contact</a></li>
+	<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+Admin</a>
+</li>
+	<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/tangxin-blog/rss/">
+Subscription</a>
+	
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/tangxin-blog/rss/">
+    <img src="/skins/en_summergarden/images/xml.gif" alt="订阅" />
+</a></li>
+</ul>
+
+
+
+		<div class="blogStats">
+			
+			<!--done-->
+Posts - 128 
+Articles - 0 
+Comments - 44 
+Views - 
+<span title="总阅读数: 382637">
+38万</span> 
+
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/tangxin-blog/p/8283460.html">
+    <span>CMake 设置Target输出目录和后缀名</span>
+    
+
+
+
+</a>
+
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>一. <span class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">SET</span>(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../bin)</span> </p>
+<p>上面的语句能设置可执行文件的输出目录</p>
+<p>在Win + VS环境下,会自动在你所设置的目录后面扩展一层 <span class="cnblogs_code">&lt;CONFIG&gt;</span> 目录,所以最终生成的Debug版本程序会在 <span class="cnblogs_code">${PROJECT_SOURCE_DIR}/../bin/<span style="color: rgba(0, 0, 255, 1)">Debug</span></span> 目录下,Release版本程序会在 <span class="cnblogs_code">${PROJECT_SOURCE_DIR}/../bin/Release</span> 目录下.</p>
+<p>在Linux + GCC环境下,无论是Debug还是Release,生成的可执行程序会直接放在你所设置的目录下,不会有差异.</p>
+<p> </p>
+<p>二. <span class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">SET</span>(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../lib)</span> </p>
+<p>上面的语句能设置库文件的输出目录</p>
+<p>在Win + VS环境下,会自动在你所设置的目录后面扩展一层 <span class="cnblogs_code">&lt;CONFIG&gt;</span> 目录,所以最终生成的Debug版本库会在 <span class="cnblogs_code">${PROJECT_SOURCE_DIR}/../lib/<span style="color: rgba(0, 0, 255, 1)">Debug</span></span> 目录下,Release版本库会在 <span class="cnblogs_code">${PROJECT_SOURCE_DIR}/../lib/Release</span> 目录下.</p>
+<p>在Linux + GCC环境下,无论是Debug还是Release,生成的库文件会直接放在你所设置的目录下,不会有差异.</p>
+<p> </p>
+<p>三. <span class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">set</span>(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/../bin)</span>    <span class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">set</span>(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/../bin)</span> </p>
+<p>上面两条语句分别设置了Debug版本和Release版本可执行文件的输出目录,</p>
+<p>一旦设置上面的属性,在任何环境下生成的可执行文件都将直接放在你所设置的目录.</p>
+<p> </p>
+<p>四. <span class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">set</span>(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/../lib)</span>    <span class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">set</span>(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/../lib)</span> </p>
+<p>上面两条语句分别设置了Debug版本和Release版本库文件的输出目录,</p>
+<p>一旦设置上面的属性,在任何环境下生成的库文件都将直接放在你所设置的目录.</p>
+<p> </p>
+<p>五. <span class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">set</span>(CMAKE_DEBUG_POSTFIX "_d")</span>    <span class="cnblogs_code"><span style="color: rgba(0, 0, 255, 1)">set</span>(CMAKE_RELEASE_POSTFIX "_r")</span> </p>
+<p>上面两条语句分别设置了Debug版本和Release版本下库文件的后缀名.</p>
+<p> </p>
+<p>六. <span class="cnblogs_code">set_target_properties(${TARGET_NAME} PROPERTIES DEBUG_POSTFIX "_d")</span>     <span class="cnblogs_code">set_target_properties(${TARGET_NAME} PROPERTIES RELEASE_POSTFIX "_r")</span> </p>
+<p>上面两条语句分别设置了Debug版本和Release版本下可执行文件的后缀名.</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/tangxin-blog/category/776633.html" target="_blank">C++</a></div>
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(8283460,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('8f282d59-a7cb-e311-8d02-90b11c0b17d6');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/tangxin-blog/" target="_blank"><img src="https://pic.cnblogs.com/face/627533/20170805154712.png" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/tangxin-blog/">你好阿汤哥</a><br />
+            <a href="https://home.cnblogs.com/u/tangxin-blog/followees/">关注 - 15</a><br />
+            <a href="https://home.cnblogs.com/u/tangxin-blog/followers/">粉丝 - 4</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('8f282d59-a7cb-e311-8d02-90b11c0b17d6');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(8283460,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(8283460,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/tangxin-blog/p/8110186.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/tangxin-blog/p/8110186.html" title="发布于 2017-12-25 16:58">CMake 按照文件目录组织VS工程的筛选器</a>
+    <br />
+    <a href="https://www.cnblogs.com/tangxin-blog/p/8283765.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/tangxin-blog/p/8283765.html" title="发布于 2018-01-14 17:24">C++ 字符串分割函数 str_split</a>
+
+</div>
+</div>
+		</div>
+		<div class="postDesc">posted @ 
+<span id="post-date">2018-01-14 15:42</span> 
+<a href="https://www.cnblogs.com/tangxin-blog/">你好阿汤哥</a> 
+Views(<span id="post_view_count">19257</span>) 
+Comments(<span id="post_comment_count">0</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=8283460" rel="nofollow">Edit</a> 
+<a href="javascript:void(0)" onclick="AddToWz(8283460);return false;">收藏</a></div>
+	</div>
+	
+	
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 183923, cb_blogApp = 'tangxin-blog', cb_blogUserGuid = '8f282d59-a7cb-e311-8d02-90b11c0b17d6';
+    var cb_entryId = 8283460, cb_entryCreatedDate = '2018-01-14 15:42', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login('commentform');">登录</a> 或
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="https://developer.aliyun.com/learning/trainingcamp/java/3?utm_content=g_1000245300" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云-java3')">【推荐】阿里云Java训练营第3期-实战Spring Cloud，结营抢小米耳机</a><br /><a href="https://developer.aliyun.com/learning/topic/campus/2021?utm_content=g_1000240877" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云-offer')">【推荐】更好的世界，更好的你-阿里巴巴2021实习生招聘专场来啦！</a><br /><a href="https://developer.aliyun.com/learning/trainingcamp/java/2?utm_content=g_1000245293" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云-java2')">【推荐】阿里云Java训练营第2期-实战Spring Boot 2.5，抢智能音箱</a><br /><a href="http://www.uccpsoft.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-ucancode')">【推荐】大型组态、工控、仿真、CAD\GIS 50万行VC++源码免费下载!</a><br /><a href="https://developer.aliyun.com/learning/trainingcamp/sc/3?utm_content=g_1000248097" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云-flink')">【推荐】阿里云实战应用实时计算 Flink 开发技能，4天突破抢天猫精灵！</a><br /><a href="https://www.cnblogs.com/cmt/p/14469606.html" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-AWS')">【推荐】注册 Amazon Web Services(AWS) 账号，成为博客园赞助者</a><br /><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为专区')">【推荐】HarmonyOS开发者创新大赛，一起创造无限可能</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CO_2t5HBtO8CFYxovAodQjYKew"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card"><b>AWS免费产品</b>：<br />· <a onclick="ga(&quot;send&quot;, &quot;event&quot;, &quot;Link&quot;, &quot;click&quot;, &quot;aws-underpost-card&quot;)" href="https://aws.amazon.com/cn/free/webapps/?trk=ba_a134p000006vc6OAAQ&amp;trkCampaign=webapps&amp;sc_channel=ba&amp;sc_campaign=cnblogs&amp;sc_outcome=Acquisition&amp;sc_geo=CHNA&amp;sc_country=CN&amp;sc_publisher=Others" target="_blank">如何在AWS上免费构建网站</a><br />· <a onclick="ga(&quot;send&quot;, &quot;event&quot;, &quot;Link&quot;, &quot;click&quot;, &quot;aws-underpost-card&quot;)" href="https://aws.amazon.com/cn/free/storage/?trk=ba_a134p000006vc7JAAQ&amp;trkCampaign=storage&amp;sc_channel=ba&amp;sc_campaign=cnblogs&amp;sc_outcome=Acquisition&amp;sc_geo=CHNA&amp;sc_country=CN&amp;sc_publisher=Others" target="_blank">AWS免费云存储解决方案</a><br />· <a onclick="ga(&quot;send&quot;, &quot;event&quot;, &quot;Link&quot;, &quot;click&quot;, &quot;aws-underpost-card&quot;)" href="https://aws.amazon.com/cn/free/database/?trk=ba_a134p000006vc7YAAQ&amp;trkCampaign=database&amp;sc_channel=ba&amp;sc_campaign=cnblogs&amp;sc_outcome=Acquisition&amp;sc_geo=CHNA&amp;sc_country=CN&amp;sc_publisher=Others" target="_blank">在AWS上免费构建数据库</a><br />· <a onclick="ga(&quot;send&quot;, &quot;event&quot;, &quot;Link&quot;, &quot;click&quot;, &quot;aws-underpost-card&quot;)" href="https://aws.amazon.com/cn/free/machine-learning/?trk=ba_a134p000006vc7nAAA&amp;trkCampaign=ML&amp;sc_channel=ba&amp;sc_campaign=cnblogs&amp;sc_outcome=Acquisition&amp;sc_geo=CHNA&amp;sc_country=CN&amp;sc_publisher=Others" target="_blank">AWS上的免费机器学习</a></div></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;" data-google-query-id="CPD2t5HBtO8CFYxovAodQjYKew"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="2" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>最新新闻</b>：
+    <br />
+ ·          <a href="//news.cnblogs.com/n/690342/" target="_blank">为站稳高端手机市场，OPPO 拼了</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/690332/" target="_blank">你的脸正在被偷走，你却对此无能为力</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/690333/" target="_blank">废旧笔记本屏幕不要扔，不到200元就能DIY成便携显示器</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/690341/" target="_blank">给机器人装上蝗虫耳朵，以色列科学家实现生物传感器新突破！</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/690334/" target="_blank">只用静态图像，就能实时渲染出丝滑3D效果 | CVPR 2021 Oral</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/tangxin-blog/">
+            你好阿汤哥
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/tangxin-blog/" title="入园时间：2014-04-24">
+            6年10个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/tangxin-blog/followers/">
+            4
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/tangxin-blog/followees/">
+            15
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('8f282d59-a7cb-e311-8d02-90b11c0b17d6')">+加关注</a></div>
+        <script>getFollowStatus('8f282d59-a7cb-e311-8d02-90b11c0b17d6');</script>
+    </div>
+</div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+			<div id="calendar"><div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2021/02/16'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2021年3月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2021/04/16'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">28</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                        <td class="" align="center">
+                            4
+                        </td>
+                        <td class="" align="center">
+                            5
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        6
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            7
+                        </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                            <td class="" align="center">
+                                9
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            13
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            14
+                        </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                            <td class="CalTodayDay" align="center">
+                                16
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            20
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            21
+                        </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            27
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            28
+                        </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="" align="center">
+                                31
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            3
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            4
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                8
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                9
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            10
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">Search</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk" /> <input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block">
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"><div class="catListTag">
+<h3 class="catListTitle">My Tags</h3>
+<ul>
+        <li>
+            <a href="https://www.cnblogs.com/tangxin-blog/tag/C%2B%2B/">C++<span class="tag-count">(4)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/tangxin-blog/tag/%E7%BC%96%E8%AF%91%E6%8F%90%E9%80%9F/">编译提速<span class="tag-count">(3)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/tangxin-blog/tag/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%96%E8%AF%91/">分布式编译<span class="tag-count">(3)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/tangxin-blog/tag/%E5%BC%80%E6%BA%90/">开源<span class="tag-count">(3)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/tangxin-blog/tag/%E8%81%94%E5%90%88%E7%BC%96%E8%AF%91/">联合编译<span class="tag-count">(3)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/tangxin-blog/tag/%E5%85%8D%E8%B4%B9/">免费<span class="tag-count">(3)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/tangxin-blog/tag/lua/">lua<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/tangxin-blog/tag/OpenGL%E9%85%8D%E7%BD%AE/">OpenGL配置<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/tangxin-blog/tag/rapidxml/">rapidxml<span class="tag-count">(1)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/tangxin-blog/tag/snprintf/">snprintf<span class="tag-count">(1)</span></a>
+        </li>
+    <li>
+        <a href="https://www.cnblogs.com/tangxin-blog/tag/">更多</a>
+    </li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div class="catListPostCategory">
+        <h3 class="catListTitle">
+            
+PostCategories
+<span style="font-size:11px;font-weight:normal">(130)</span>
+
+
+        </h3>
+
+        <ul>
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/776637.html" rel="" target="">
+    ACM(4)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/777092.html" rel="" target="">
+    bat(5)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/776633.html" rel="" target="">
+    C++(39)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/1387866.html" rel="" target="">
+    Lua(2)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/803733.html" rel="" target="">
+    Python(5)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/864603.html" rel="" target="">
+    Shell(5)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/846097.html" rel="" target="">
+    SQL(2)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/1386677.html" rel="" target="">
+    Windows(4)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/776631.html" rel="" target="">
+    第三方库(10)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/776632.html" rel="" target="">
+    多线程(3)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/776634.html" rel="" target="">
+    计算机图形学(4)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/776639.html" rel="" target="">
+    开发环境搭建(12)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/843576.html" rel="" target="">
+    日常练手(12)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/776636.html" rel="" target="">
+    设计模式(1)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/776630.html" rel="" target="">
+    数据结构(5)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/782591.html" rel="" target="">
+    算法(6)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/776635.html" rel="" target="">
+    网络(4)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/category/785771.html" rel="" target="">
+    运维(7)
+</a>
+ 
+
+                </li>                        <li>
+                <a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a>
+            </li>
+        </ul>
+    </div>    <div class="catListPostArchive">
+        <h3 class="catListTitle">
+            
+PostArchives
+<span style="font-size:11px;font-weight:normal">(128)</span>
+
+
+        </h3>
+
+        <ul>
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2019/01.html" rel="" target="">
+    2019/1(4)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2018/08.html" rel="" target="">
+    2018/8(1)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2018/07.html" rel="" target="">
+    2018/7(1)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2018/06.html" rel="" target="">
+    2018/6(1)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2018/04.html" rel="" target="">
+    2018/4(3)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2018/03.html" rel="" target="">
+    2018/3(4)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2018/02.html" rel="" target="">
+    2018/2(2)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2018/01.html" rel="" target="">
+    2018/1(4)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2017/12.html" rel="" target="">
+    2017/12(2)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2017/11.html" rel="" target="">
+    2017/11(1)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2017/10.html" rel="" target="">
+    2017/10(2)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2017/09.html" rel="" target="">
+    2017/9(1)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2017/08.html" rel="" target="">
+    2017/8(6)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2017/07.html" rel="" target="">
+    2017/7(1)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2017/06.html" rel="" target="">
+    2017/6(2)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2017/05.html" rel="" target="">
+    2017/5(3)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2017/03.html" rel="" target="">
+    2017/3(1)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2017/01.html" rel="" target="">
+    2017/1(3)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2016/12.html" rel="" target="">
+    2016/12(3)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2016/11.html" rel="" target="">
+    2016/11(9)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2016/10.html" rel="" target="">
+    2016/10(1)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2016/09.html" rel="" target="">
+    2016/9(1)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2016/08.html" rel="" target="">
+    2016/8(9)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2016/07.html" rel="" target="">
+    2016/7(13)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2016/06.html" rel="" target="">
+    2016/6(13)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2016/05.html" rel="" target="">
+    2016/5(6)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2016/04.html" rel="" target="">
+    2016/4(2)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2016/03.html" rel="" target="">
+    2016/3(2)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2016/02.html" rel="" target="">
+    2016/2(1)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2016/01.html" rel="" target="">
+    2016/1(6)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2015/12.html" rel="" target="">
+    2015/12(1)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2015/11.html" rel="" target="">
+    2015/11(2)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2015/10.html" rel="" target="">
+    2015/10(4)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2015/09.html" rel="" target="">
+    2015/9(3)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2015/08.html" rel="" target="">
+    2015/8(4)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2015/04.html" rel="" target="">
+    2015/4(1)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2015/01.html" rel="" target="">
+    2015/1(1)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2014/12.html" rel="" target="">
+    2014/12(1)
+</a>
+ 
+
+                </li>                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/tangxin-blog/archive/2014/11.html" rel="" target="">
+    2014/11(3)
+</a>
+ 
+
+                </li>                        <li>
+                <a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a>
+            </li>
+        </ul>
+    </div></div>
+
+<!-- 最新评论 -->
+<div id="sidebar_recentcomments" class="sidebar-block"><div class="catListComment">
+<h3 class="catListTitle">Recent Comments</h3>
+
+	<div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/tangxin-blog/p/8653715.html">1. Re:在FASTBuild中使用Distribution</a></li>
+                    <li class="recent_comment_body"><p>这个性能上是不是有极限的。<br />
+我发现配置好之后，只能增加到大概10-12台的机器，再多的机器，实际进行分布式编译，并没有参与编译。不知道是不是10-12台达到了极限？</p>
+</li>
+                    <li class="recent_comment_author">--yijie_zheng</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/tangxin-blog/p/8653715.html">2. Re:在FASTBuild中使用Distribution</a></li>
+                    <li class="recent_comment_body">@你好阿汤哥 好的，感谢回复...</li>
+                    <li class="recent_comment_author">--queuelovestack</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/tangxin-blog/p/8653715.html">3. Re:在FASTBuild中使用Distribution</a></li>
+                    <li class="recent_comment_body">@queuelovestack 还有一个可能原因是网速。编译的时候，看下主机的网络带宽使用率是不是接近100%，如果其他工作机都参与了编译，而主机的网络传输能力有限，这时候带宽就会是限制编译速度的短板...</li>
+                    <li class="recent_comment_author">--你好阿汤哥</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/tangxin-blog/p/8653715.html">4. Re:在FASTBuild中使用Distribution</a></li>
+                    <li class="recent_comment_body">@queuelovestack FBuildWorker.exe运行起来之后会有一个UI界面，上面会显示本台机器有几个CPU核心参与了编译，如果显示的是idel，表示本台机器没有参与编译，你可以看下，...</li>
+                    <li class="recent_comment_author">--你好阿汤哥</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/tangxin-blog/p/8653715.html">5. Re:在FASTBuild中使用Distribution</a></li>
+                    <li class="recent_comment_body">@你好阿汤哥 好吧，我们大概4~5台，但是效果不是特别明显...</li>
+                    <li class="recent_comment_author">--queuelovestack</li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block"><div class="catListView">
+<h3 class="catListTitle">Top Posts</h3>
+	<div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/tangxin-blog/p/5698137.html">
+                            1. 在windows上一键编译各种版本的protobuf(2017-12-05修改)(27638)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/tangxin-blog/p/6077746.html">
+                            2. C++  Windows 下 根据进程名获取进程ID 以及该进程下所有窗口的句柄(23317)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/tangxin-blog/p/6065017.html">
+                            3. vscode 编写python如何禁止 flake8 提示 line too long(21362)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/tangxin-blog/p/5724071.html">
+                            4. Windows 一键安装OpenSSL(20341)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/tangxin-blog/p/5703146.html">
+                            5. BAT 遍历文件夹和子文件夹下所有文件(20051)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"><!--
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/tangxin-blog/p/8653715.html">
+                            1. 在FASTBuild中使用Distribution(18)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/tangxin-blog/p/5698137.html">
+                            2. 在windows上一键编译各种版本的protobuf(2017-12-05修改)(14)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/tangxin-blog/p/8649567.html">
+                            3. 在FASTBuild中使用Caching(5)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/tangxin-blog/p/7067155.html">
+                            4. pugixml 的常见读写操作(2)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/tangxin-blog/p/6107468.html">
+                            5. C++ 利用 libxl 将 Excel 文件转化为 Xml 文件(2)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+-->
+
+</div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/tangxin-blog/p/6065017.html">
+                                1. vscode 编写python如何禁止 flake8 提示 line too long(4)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/tangxin-blog/p/5724071.html">
+                                2. Windows 一键安装OpenSSL(3)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/tangxin-blog/p/10230086.html">
+                                3. sprintf、vsprintf、sprintf_s、vsprintf_s、_snprintf、_vsnprintf、snprintf、vsnprintf 函数辨析(1)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/tangxin-blog/p/8635438.html">
+                                4. 初识FASTBuild  一个大幅提升C/C++项目编译速度的分布式编译工具(1)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/tangxin-blog/p/6999563.html">
+                                5. cmake 如何生成一个win32工程(1)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2021 你好阿汤哥
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8EklyHYHyB5Oj4onWtxTnxa1j30XE97sAqieR-NFjO15w7Zo1S7jwJDHMUbgypvp-Erpeg0AXRu84HzKR7hGsiJhoskncVzaDN-gUKoakN1e6oLP2ezan8sqBXDRW_whKErv92BZxAyIDb1o6o4FYC0" />
+
+
+<iframe id="google_osd_static_frame_2981445258124" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body></html>
