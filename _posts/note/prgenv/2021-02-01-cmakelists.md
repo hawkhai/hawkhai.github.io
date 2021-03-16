@@ -1070,6 +1070,8 @@ add_subdirectory(${FAKEDRIVER_DIR}/fakelib fakelib.build)
 
 include_directories(
     ${FAKEDRIVER_DIR}/fakelib/include
+    ${FAKEDRIVER_DIR}/include/khronos
+    ${FAKEDRIVER_DIR}/include
     ${OGL3RD_DIR}/glad/include
     ${OGL3RD_DIR}/glfw-3.3.2.bin.WIN32/glfw-3.3.2.bin.WIN32/include
     ${OGL3RD_DIR}/glew-2.2.0-win32/glew-2.2.0/include
@@ -1123,13 +1125,10 @@ target_link_libraries(
     opengl32 # fakedriver
     glad
 )
+
+# https://www.cnblogs.com/tangxin-blog/p/8283460.html
 set_target_properties(irrtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_CURRENT_SOURCE_DIR}/product")
 set_target_properties(irrtest PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/product")
-# https://www.cnblogs.com/tangxin-blog/p/8283460.html
-#set(CMAKE_DEBUG_POSTFIX "_d")
-#set(CMAKE_RELEASE_POSTFIX "_r")
-#set_target_properties(${TARGET_NAME} PROPERTIES DEBUG_POSTFIX "_d")
-#set_target_properties(${TARGET_NAME} PROPERTIES RELEASE_POSTFIX "_r")
 ```
 
 
