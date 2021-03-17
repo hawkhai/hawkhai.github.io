@@ -18,6 +18,9 @@ codeprint:
 Unicode 中文字符集中存在两个极为相似的汉字但编码不同的情况，主要是因为康熙部首和扩展部首中存在和基本汉字相似的汉字。
 看起来一样，实际编码是不一样的，而康熙部首很容易呈现乱码的情况（Chrome 能正常显示，Notepad++ 就显示乱码）。
 
+{% include image.html url="/assets/images/210314-equivalent-unified-ideo~d1/20210317110836.png"
+url2="/assets/images/210314-equivalent-unified-ideo~d1/20210317111809.png" %}
+
 
 ## 前因后果
 
@@ -41,7 +44,7 @@ This table includes URN (Unicode Radical Number), 214 KangXi radicals [codes U+2
 
 ## Equivalent UnifiedIdeograph 13.0.0 json
 
-翻译成了 JSON 方便直接使用：
+翻译成了 JSON 方便直接使用（UTF8 编码）：
 
 ```json
 {
