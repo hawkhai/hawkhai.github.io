@@ -16,6 +16,12 @@ codeprint:
 ---
 
 
+## VS 没有生成 lib 库
+
+* Lib 生成路径设置不对。
+* 宏定义不对。在 debug 里有个预定义，在 release 忘记预定义了，导致 __declspec( dllexport ) 没有生效，没有导出函数，就没有导出库 .lib
+
+
 ## error MSB3073: 命令“... :VCEnd”已退出，代码为 4。
 
 ```
