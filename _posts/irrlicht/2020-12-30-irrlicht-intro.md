@@ -261,7 +261,7 @@ VideoDriver, GUIEnvironment and SceneManager.
 
 ## Tutorial 3: Custom SceneNode
 
-创建定制的 scene node，shader 写的。
+创建定制的 scene node，没有用到 shader。
 
 {% include image.html url="/assets/images/201230-irrlicht-intro/03.customscenenode.webp" urlx="/assets/images/201230-irrlicht-intro/003shot.jpg" %}
 
