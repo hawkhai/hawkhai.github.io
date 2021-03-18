@@ -13,6 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas: true
 codeprint:
+cluster: "OpenGL Shader"
 ---
 
 > 无特殊说明，文中的 GLSL 均指 OpenGL ES 2.0 的着色语言。

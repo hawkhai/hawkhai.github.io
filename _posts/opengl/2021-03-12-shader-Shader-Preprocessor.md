@@ -13,6 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
+cluster: "OpenGL Shader"
 ---
 
 

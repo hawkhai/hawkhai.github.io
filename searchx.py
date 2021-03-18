@@ -6,11 +6,13 @@ from pythonx.funclib import *
 KEY_OR       = "or"
 KEY_OPENFILE = "openfile"
 KEY_REMOVE   = "removefile"
-KEY_LIST     = (KEY_OR, KEY_OPENFILE, KEY_REMOVE)
+KEY_BACKUPDIR = "backupdir"
+KEY_LIST     = (KEY_OR, KEY_OPENFILE, KEY_REMOVE, KEY_BACKUPDIR)
 
 OPENFILE = KEY_OPENFILE in sys.argv
 OP_OR    = KEY_OR in sys.argv
 REMOVEFILE = KEY_REMOVE in sys.argv
+BACKUPDIR = KEY_BACKUPDIR in sys.argv
 
 keywords = sys.argv[1:]
 keywords = [bytesToString(key.encode("utf8")).lower() for key in keywords if key not in KEY_LIST]
@@ -31,8 +33,12 @@ def readfileIglist(fpath):
 def mainsearch():
 
     def mainfile(fpath, fname, ftype):
-        if not ftype.lower() in ("md",) and fpath.find("backup") == -1:
-            return
+        sdoc = False
+        if ftype.lower() in ("md",): sdoc = True
+        if fpath.find("backup") != -1 and BACKUPDIR: sdoc = True
+        if fpath.find("_site") != -1: sdoc = False
+        if not sdoc: return
+
         fdata = readfile(fpath, True).lower()
 
         itag = bytesToString("无法访问此网站".encode("utf8"))
