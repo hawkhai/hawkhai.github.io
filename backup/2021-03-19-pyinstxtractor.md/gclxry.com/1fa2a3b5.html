@@ -1,0 +1,177 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN"><head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>更吹落星如雨 ｜ 使用windbg定位句柄泄漏</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="handle,windbg,leaks,debug" />
+    <meta name="description" content="使用windbg定位句柄泄漏" />
+
+    
+
+    <style type="text/css">
+        .navbar {
+            background-color: #6c757d;
+        }
+
+        .li-item {
+            border: 1px solid #ddd;
+        }
+
+        img{
+            max-width:100%;
+            max-height:100%;
+        }
+
+        pre {
+            background-color:rgb(255,255,232);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            padding: 5px;
+        }
+</style>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://gclxry-1.disqus.com/embed.js" data-timestamp="1615109960993"></script></head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-center navbar-expand-sm navbar-dark fixed-top justify-content-center">
+    <div class="col-lg-8">
+        <div class="row justify-content-center">
+            <a class="navbar-brand" href="/">更吹落星如雨</a>
+            <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">关于</a>
+                    </li>
+
+                    
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">管理</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-sm-0 search-form" role="search" method="get" action="/search/">
+                    <input aria-label="Search" class="search-field form-control m-sm-2" placeholder="Search..." type="search" name="s" />
+                    <button class="btn btn-secondary my-sm-0 search-submit" type="submit">搜索</button>
+                </form>
+            </div>
+        <div class="col-lg-8 ">
+    </div>
+</div></div></nav>
+
+
+    <div class="container mt-4 pt-2">
+        <div class="row mt-4 py-4 justify-content-center">
+            <div class="col-lg-8 ">
+                
+
+<h1 class="mt-4">使用windbg定位句柄泄漏</h1>
+
+<hr />
+
+<p>
+    <span class="text-secondary mr-2">发布于 2013-03-10</span>
+</p>
+<hr />
+
+<section class="entry-content">
+    <p>运行windbg，打开要调试的程序，并使其跑起来；此时你查看任务管理器中的句柄信息，会发现相应进程句柄一直在增加。</p>
+<p>windbg用ctrl+break命令中断进程运行，用!htrace -enable命令开启句柄检测。htrace提供了进行句柄相关检测的命令，可查看windbg帮助。</p>
+<pre><code>0:001&gt; !htrace -enable
+Handle tracing enabled.
+Handle tracing information snapshot successfully taken.
+</code></pre>
+
+<p>然后用g命令让程序运行。</p>
+<p>操作一段时间程序再次中断进程，使用!htrace -snapshot命令，获得此时进程句柄的快照。并再次让程序运行。</p>
+<pre><code>0:001&gt; !htrace -snapshot
+Handle tracing information snapshot successfully taken.
+</code></pre>
+
+<p>第三次中断进程运行，我们再使用!htrace -diff命令获得当前句柄状态与第4步snapshot快照句柄的差异。</p>
+<pre><code>Handle = 0x00000110 - OPEN
+Thread ID = 0x00000624, Process ID = 0x00001bcc
+
+0x772655b4: ntdll!ZwCreateEvent+0x0000000c
+0x751c7926: KERNELBASE!CreateEventExW+0x0000006e
+0x751c7976: KERNELBASE!CreateEventW+0x00000027
+0x0103145e: My!CMyDlg::OnBnClickedOk+0x0000000e
+0x77add375: mfc90u!CCmdTarget::OnCmdMsg+0x00000124
+0x77acb1e5: mfc90u!CDialog::OnCmdMsg+0x0000001d
+0x77aafefe: mfc90u!CWnd::OnCommand+0x00000092
+0x77aaf701: mfc90u!CWnd::OnWndMsg+0x00000066
+0x77aaf674: mfc90u!CWnd::WindowProc+0x00000024
+0x77aae29a: mfc90u!AfxCallWndProc+0x000000a3
+0x77aae526: mfc90u!AfxWndProc+0x00000037
+0x77aac1dd: mfc90u!AfxWndProcBase+0x00000056
+</code></pre>
+
+<p>我们使用lsa 传递指定位置对应的代码，lsa My!CMyDlg::OnBnClickedOk+0x0000000e。到这里，我们就找到了泄露句柄的函数。</p>
+<pre><code>0:001&gt; lsa My!CMyDlg::OnBnClickedOk+0x0000000e
+   158:     // TODO: Add your control notification handler code here
+   159: //    OnOK();
+   160:     HANDLE hEvent2;
+   161:     hEvent2 = CreateEvent(NULL,TRUE,TRUE,NULL);
+&gt;  162: }
+</code></pre>
+</section>
+
+
+
+
+        <section class="entry-comment">
+            <div id="disqus_thread"></div>
+            <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://gclxry-1.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+            </script>
+            <noscript>Please enable JavaScript to view the &lt;a href="https://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;</noscript>
+        </section>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <nav class="navbar sticky-bottom py-1">
+    <div class="container">
+        <div class="col">
+            <p class="text-center text-white">Gclxry © 2012-2020, All rights reserved.
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5791300'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/stat.php%3Fid%3D5791300' type='text/javascript'%3E%3C/script%3E"));</script><span id="cnzz_stat_icon_5791300"><a href="https://www.cnzz.com/stat/website.php?web_id=5791300" target="_blank" title="站长统计">站长统计</a></span><script src=" https://s13.cnzz.com/stat.php?id=5791300" type="text/javascript"></script><script src="https://c.cnzz.com/core.php?web_id=5791300&amp;t=z" charset="utf-8" type="text/javascript"></script>
+            </p>
+
+       
+        </div>
+    </div>
+</nav>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+</body></html>
