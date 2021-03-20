@@ -21,6 +21,20 @@ cluster: "CMake"
 [^_^]: http://jekyllcn.com/docs/templates/
 
 
+## $<$<CONFIG:Debug>:Release> $<$<CONFIG:Release>:Debug>
+
+這是一個 CMake generator expression。
+像 $<...>這樣的表達式是在 CMake 2.8 中引入的 generator exressions。這些表達式的主要特徵是它們在構建時進行評估，而不是在配置時進行評估，就像正常的 CMake 變量一樣。
+<https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html>
+
+```cmake
+if current_configuration == "Debug"
+    output "Release"
+if current_configureation == "Release"
+    output "Debug"
+```
+
+
 ## Notes
 
 * add_subdirectory 最好在 include_directories 前面，否则 incdir 会形成递归重复。
@@ -211,6 +225,7 @@ arg = abc
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://jekyllcn.com/docs/templates/]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/jekyllcn.com/a06345ca.html" %})
+- [https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/cmake.org/1e5863d8.html" %})
 - [https://blog.csdn.net/sakaue/article/details/38377661]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/blog.csdn.net/0f86d44d.html" %})
 - [https://cmake.org/cmake/help/v3.0/module/CMakeParseArguments.html?highlight=cmake_parse_arguments]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/cmake.org/0fae8de9.html" %})
 - [https://blog.csdn.net/iceboy314159/article/details/104696565]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/blog.csdn.net/28e181b5.html" %})
