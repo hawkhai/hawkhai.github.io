@@ -17,6 +17,8 @@ cluster: "CMake"
 ---
 
 每次都想走捷径，最后还是得倒回来，认认真真学习这些鸟语法。
+This project aims to facilitate the conversion of Visual Studio to CMake projects.
+[CMake Converter {% include relref_github.html %}](https://github.com/pavelliavonau/cmakeconverter)
 
 ```bat
 mkdir build && cd build
@@ -1144,6 +1146,7 @@ set_target_properties(irrtest PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-01-cmakelists.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://github.com/pavelliavonau/cmakeconverter]({% include relref.html url="/backup/2021-02-01-cmakelists.md/github.com/551473f5.html" %})
 - [https://developer.android.com/studio/projects/configure-cmake]({% include relref.html url="/backup/2021-02-01-cmakelists.md/developer.android.com/e400582b.html" %})
 - [https://cmake.org/cmake/help/latest/manual/cmake-commands.7.html]({% include relref.html url="/backup/2021-02-01-cmakelists.md/cmake.org/dae0cbfc.html" %})
 - [https://blog.csdn.net/Huoon/article/details/108520571]({% include relref.html url="/backup/2021-02-01-cmakelists.md/blog.csdn.net/43695850.html" %})
