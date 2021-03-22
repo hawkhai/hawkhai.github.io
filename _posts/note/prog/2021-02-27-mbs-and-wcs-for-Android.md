@@ -26,6 +26,18 @@ codeprint:
     * UTF-8（8-bit Unicode Transformation Format）是最流行的一种对 Unicode 进行传播和存储的编码方式。
         它用不同的 bytes 来表示每一个代码点。ASCII 字符每个只需要用一个 byte，与 ASCII 的编码是一样的。所以说 ASCII 是 UTF-8 的一个子集。
 
+```cpp
+#include "kIrrCompileConfig.h"
+// 常用的几个。
+#ifdef _MSC_VER /* Visual Studio */
+#ifdef _KIRR_WINDOWS_
+#ifdef __ANDROID__
+// 不常用不建议采用的。
+#ifdef _WIN32 // _WINDOWS
+#ifdef _KIRR_ANDROID_PLATFORM_
+#ifdef _KIRR_WINDOWS_API_
+```
+
 
 ## libiconv build in android
 

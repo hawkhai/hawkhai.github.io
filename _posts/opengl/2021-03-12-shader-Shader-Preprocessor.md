@@ -17,6 +17,32 @@ cluster: "OpenGL Shader"
 ---
 
 
+## OpenGL API 之 glTexEnv
+
+[from {% include relref_csdn.html %}](https://blog.csdn.net/csxiaoshui/article/details/53505933)
+
+通过上面的组合，模拟 glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD); 的效果：
+
+```cpp
+glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE);
+glTexEnvf(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_ADD);
+glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE0_RGB, GL_PRIMARY_COLOR);
+glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE1_RGB, GL_TEXTURE);
+glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
+glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB, GL_SRC_COLOR);
+
+glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_MODULATE);
+glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA, GL_PRIMARY_COLOR);
+glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA, GL_TEXTURE);
+glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA);
+glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA, GL_SRC_ALPHA);
+```
+
+{% include image.html url="/assets/images/210312-shader-shader-preproces~18/20161208163641478.png" %}
+
+[Docs » 高级 OpenGL » 混合](https://learnopengl-cn.readthedocs.io/zh/latest/04%20Advanced%20OpenGL/03%20Blending/)
+
+
 ## GLSL
 
 [GLSL-Card {% include relref_github.html %}](https://github.com/wshxbqq/GLSL-Card)
@@ -413,6 +439,8 @@ caption="The preprocessor transforms a shader into an intermediate representatio
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-12-shader-Shader-Preprocessor.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://blog.csdn.net/csxiaoshui/article/details/53505933]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/blog.csdn.net/698b3f27.html" %})
+- [https://learnopengl-cn.readthedocs.io/zh/latest/04%20Advanced%20OpenGL/03%20Blending/]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/learnopengl-cn.readthedocs.io/7ca72863.html" %})
 - [https://github.com/wshxbqq/GLSL-Card]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/eb0ca84c.html" %})
 - [https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/05%20Shaders/]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/learnopengl-cn.readthedocs.io/f2954ddb.html" %})
 - [http://www.kankanews.com/ICkengine/archives/120870.shtml]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/www.kankanews.com/230ed89c.shtml" %})
