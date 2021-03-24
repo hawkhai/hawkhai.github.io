@@ -32,6 +32,10 @@ if current_configuration == "Debug"
     output "Release"
 if current_configureation == "Release"
     output "Debug"
+
+# MacOS     -Winconsistent-missing-override
+# GCC 5.1   -Werror=suggest-override
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -pthread -Werror=return-type")
 ```
 
 

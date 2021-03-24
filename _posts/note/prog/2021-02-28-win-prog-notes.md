@@ -15,6 +15,21 @@ glslcanvas:
 codeprint:
 ---
 
+```cpp
+#include "kminwindef.h"
+
+#include "kIrrCompileConfig.h"
+#ifdef _KIRR_WINDOWS_
+#ifdef _KIRR_ANDROID_PLATFORM_
+#ifdef _KIRR_WINDOWS_API_
+
+// 常用的几个。
+#ifdef _MSC_VER /* Visual Studio */
+#ifdef __ANDROID__
+// 不常用不建议采用的。
+#ifdef _WIN32 // _WINDOWS
+```
+
 
 ## Windows 命令行编码
 
