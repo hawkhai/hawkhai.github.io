@@ -60,6 +60,8 @@ caption="坐标系统" %}
 
 PowerVR、Adreno、Mali 三大主流移动 GPU。[from](https://www.expreview.com/44528-all.html)
 
+<table class="tablestyle" ntablew="2:8"></table>
+
 厂商 | 名称
 ---- | ----
 AMD | ~~OpenGL ES 2.0 Emulator~~ 2008 年卖给了高通（Qualcomm）
@@ -67,8 +69,10 @@ ARM | OpenGL ES 2.0 Emulator v1.2 [ARM Mali Emulator](https://developer.arm.com/
 Qualcomm | Adreno SDK 2.2 [Adreno GPU SDK](https://developer.qualcomm.com/software/adreno-gpu-sdk/tools)
 NVIDIA | ~~Windows OpenGL ES 2.0 Emulator~~ Tegra 没有找到地方下载
 PowerVR | PowerVR SDK [PowerVR Graphics SDK {% include relref_github.html %}](https://powervr-graphics.github.io/)
-**Google** | Angle 没找打地方下载。Chrome、Qt & Webgl 也是基于它实现的！
-**QT GLES & Android emulator** | Qt & 安卓模拟器等里面貌似也带了 EGL & GLESv2.dll，这个没有试过，应该也是可以的。仿真非常普遍，无处不在。
+**Google** | [ANGLE - Almost Native Graphics Layer Engine](http://angleproject.org/) Chrome、Qt & Webgl 也是基于它实现的！**QT GLES & Android emulator** **自己编译 Angle 有点费力，在最新版本的 cocos2dx 拷贝出来不能用，最后发现：从最新版本的 QT 包里面把 EGL & GLESv2.dll 拷贝出来，跑的非常完美。**
+
+[ANGLE {% include relref_github.html %}](https://github.com/google/angle)
+A conformant OpenGL ES implementation for Windows, Mac, Linux, iOS and Android.
 
 费不尽力的老力，都下载下来，整理好了：<https://gitee.com/hawkhai/opengl-3rd.git>
 
@@ -133,6 +137,7 @@ D/HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1
 - [3] [OpenGL ES Emulator 横向比较 {% include relref_cnblogs.html %}](https://www.cnblogs.com/gongminmin/archive/2011/04/25/2027684.html)
 - [4] [OpenGL ES Emulator 再次横向比较](http://www.klayge.org/2012/01/28/opengl-es-emulator%e5%86%8d%e6%ac%a1%e6%a8%aa%e5%90%91%e6%af%94%e8%be%83/)
 - [5] [OpenGL ES Emulator 横向比较](http://www.klayge.org/2011/04/20/opengl-es-emulator%E6%A8%AA%E5%90%91%E6%AF%94%E8%BE%83/)
+- [6] [全球知名 GPU 厂家（附其深度报告） {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/uANsBYLG4l2v-dUx6FIpcw)
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-04-shader-windows-opengles-emulator.md.js" %}'></script></p>
@@ -143,6 +148,8 @@ D/HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1
 - [https://www.expreview.com/44528-all.html]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.expreview.com/a785c1d4.html" %})
 - [https://developer.qualcomm.com/software/adreno-gpu-sdk/tools]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/developer.qualcomm.com/df53d96a.html" %})
 - [https://powervr-graphics.github.io/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/powervr-graphics.github.io/ad82179d.html" %})
+- [http://angleproject.org/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/angleproject.org/9fa646c0.html" %})
+- [https://github.com/google/angle]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/github.com/bb7c3f0b.html" %})
 - [https://zh.wikipedia.org/wiki/Adreno]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/zh.wikipedia.org/1c77f069.html" %})
 - [https://docs.cocos2d-x.org/cocos2d-x/v3/en/advanced_topics/optimizing.html]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/docs.cocos2d-x.org/a4ba856f.html" %})
 - [https://malideveloper.arm.com/resources/tools/mali-graphics-debugger/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/malideveloper.arm.com/d774b230.html" %})
@@ -153,3 +160,4 @@ D/HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1
 - [https://www.cnblogs.com/gongminmin/archive/2011/04/25/2027684.html]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.cnblogs.com/04b6eb64.html" %})
 - [http://www.klayge.org/2012/01/28/opengl-es-emulator%e5%86%8d%e6%ac%a1%e6%a8%aa%e5%90%91%e6%af%94%e8%be%83/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.klayge.org/08cb85c8.html" %})
 - [http://www.klayge.org/2011/04/20/opengl-es-emulator%E6%A8%AA%E5%90%91%E6%AF%94%E8%BE%83/]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.klayge.org/2e190eaf.html" %})
+- [https://mp.weixin.qq.com/s/uANsBYLG4l2v-dUx6FIpcw]({% include relref.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/mp.weixin.qq.com/7f95cacc.html" %})

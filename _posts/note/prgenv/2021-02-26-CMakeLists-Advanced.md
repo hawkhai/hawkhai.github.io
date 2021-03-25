@@ -32,10 +32,56 @@ if current_configuration == "Debug"
     output "Release"
 if current_configureation == "Release"
     output "Debug"
+```
 
+
+## 编译期函数返回值检查
+
+```cmake
 # MacOS     -Winconsistent-missing-override
 # GCC 5.1   -Werror=suggest-override
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -pthread -Werror=return-type")
+```
+
+
+### How to convert warning C4715 to error
+
+C4715：不是所有的控件路径都返回值。Two ways of doing this
+`#pragma warning (error : 4715)`
+Compiling with `/we4715` option passed to cl.exe
+
+[PlatformWindowsMSVC.cmake {% include relref_github.html %}](https://github.com/kateyy/geohazardvis/blob/master/cmake/PlatformWindowsMSVC.cmake)
+
+```cmake
+# MacOS     -Winconsistent-missing-override
+# GCC 5.1   -Werror=suggest-override
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+if (MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /we4715") # makes missing return as error
+endif()
+
+# version specific compile flags
+# 1800: Visual Studio 12 2013
+# 1900: Visual Studio 14 2015
+if(MSVC_VERSION VERSION_LESS 1900)
+
+    list(APPEND DEFAULT_COMPILE_FLAGS
+        <<CONFIG:Debug>: /Zi>     # this is set in RelWithDebInfo builds for all MSVC versions
+        <<CONFIG:RelNoOptimization>: /Zi>
+    )
+
+else() # Visual Studio 14 2015 as minimum
+
+    list(APPEND DEFAULT_COMPILE_FLAGS
+        /Zc:referenceBinding /Zc:strictStrings /Zc:throwingNew
+        # allow native edit and continue
+        <<CONFIG:Debug>:             /ZI>
+        <<CONFIG:RelNoOptimization>: /ZI>
+        # Enable compiler generation of Control Flow Guard security checks. (incompatible with /ZI)
+        <<CONFIG:Release>:           /guard:cf>
+        <<CONFIG:RelWithDebInfo>:    /guard:cf>
+    )
+endif()
 ```
 
 
@@ -230,6 +276,7 @@ arg = abc
 
 - [http://jekyllcn.com/docs/templates/]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/jekyllcn.com/a06345ca.html" %})
 - [https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/cmake.org/1e5863d8.html" %})
+- [https://github.com/kateyy/geohazardvis/blob/master/cmake/PlatformWindowsMSVC.cmake]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/github.com/95b75574.html" %})
 - [https://blog.csdn.net/sakaue/article/details/38377661]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/blog.csdn.net/0f86d44d.html" %})
 - [https://cmake.org/cmake/help/v3.0/module/CMakeParseArguments.html?highlight=cmake_parse_arguments]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/cmake.org/0fae8de9.html" %})
 - [https://blog.csdn.net/iceboy314159/article/details/104696565]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/blog.csdn.net/28e181b5.html" %})

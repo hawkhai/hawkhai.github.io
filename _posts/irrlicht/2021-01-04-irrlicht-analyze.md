@@ -69,6 +69,8 @@ Changes in 1.8.4 (9th July 2016, svn r5321)
 
 {% include image.html url="/assets/images/210104-irrlicht-analyze/04181351-50925b16c31b4032a8f2a1d6ad865e6b.png" caption="irrlicht 引擎：真实的水面渲染" %}
 
+* [Skybolt Engine {% include relref_github.html %}](https://github.com/Piraxus/Skybolt) Rendering engine and aerospace simulation tools.
+
 
 ## 前置代码检查
 
@@ -252,6 +254,7 @@ https://gitee.com/panqingyun/E3D-Engine
 - [https://github.com/iaco79/IrrGameDemo]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/07dfbea5.html" %})
 - [https://github.com/danyr/gamekit]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/09b59859.html" %})
 - [https://github.com/antmuse/AntThread]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/0f8fb319.html" %})
+- [https://github.com/Piraxus/Skybolt]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/1020ea5a.html" %})
 - [https://github.com/ghd214/irrlichtAndroidGame]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/1e3635bc.html" %})
 - [https://github.com/SingingRivulet/irrSky]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/4979c7ca.html" %})
 - [https://github.com/marky0720/IrrlichtAndroid]({% include relref.html url="/backup/2021-01-04-irrlicht-analyze.md/github.com/59036d28.html" %})

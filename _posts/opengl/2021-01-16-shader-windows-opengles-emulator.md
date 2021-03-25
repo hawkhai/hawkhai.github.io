@@ -30,6 +30,8 @@ EGL is a native platform interface that connects the windowing systems to one of
 
 PowerVR、Adreno、Mali 三大主流移动 GPU。[from](https://www.expreview.com/44528-all.html)
 
+<table class="tablestyle" ntablew="2:8"></table>
+
 厂商 | 名称
 ---- | ----
 AMD | ~~OpenGL ES 2.0 Emulator~~ 2008 年卖给了高通（Qualcomm）
@@ -37,10 +39,20 @@ ARM | OpenGL ES 2.0 Emulator v1.2 [ARM Mali Emulator](https://developer.arm.com/
 Qualcomm | Adreno SDK 2.2 [Adreno GPU SDK](https://developer.qualcomm.com/software/adreno-gpu-sdk/tools)
 NVIDIA | ~~Windows OpenGL ES 2.0 Emulator~~ Tegra 没有找到地方下载
 PowerVR | PowerVR SDK [PowerVR Graphics SDK {% include relref_github.html %}](https://powervr-graphics.github.io/)
-**Google** | Angle 没找打地方下载。Chrome、Qt & Webgl 也是基于它实现的！
-**QT GLES & Android emulator** | Qt & 安卓模拟器等里面貌似也带了 EGL & GLESv2.dll，这个没有试过，应该也是可以的。仿真非常普遍，无处不在。
+**Google** | [ANGLE - Almost Native Graphics Layer Engine](http://angleproject.org/) Chrome、Qt & Webgl 也是基于它实现的！**QT GLES & Android emulator** **自己编译 Angle 有点费力，在最新版本的 cocos2dx 拷贝出来不能用，最后发现：从最新版本的 QT 包里面把 EGL & GLESv2.dll 拷贝出来，跑的非常完美。**
+
+[ANGLE {% include relref_github.html %}](https://github.com/google/angle)
+A conformant OpenGL ES implementation for Windows, Mac, Linux, iOS and Android.
 
 费不尽力的老力，都下载下来，整理好了：<https://gitee.com/hawkhai/opengl-3rd.git>
+
+2020 年 9 月 13 日，英伟达 NVIDIA 宣布以 400 亿美元收购 ARM。
+
+{% include image.html url="/assets/images/210116-shader-windows-opengles~28/640.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-opengles~28/640_1.webp" %}
+{% include image.html url="/assets/images/210116-shader-windows-opengles~28/640_2.webp" %}
+{% include image.html url="/assets/images/210116-shader-windows-opengles~28/640_3.webp" %}
+{% include image.html url="/assets/images/210116-shader-windows-opengles~28/640_4.webp" %}
 
 
 ## ARM Mali
@@ -138,6 +150,8 @@ The PowerVR SDK has a number of third-party dependencies, each of which may have
 - [https://developer.arm.com/tools-and-software/graphics-and-gaming/opengl-es-emulator/downloads]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/developer.arm.com/37ace0b1.html" %})
 - [https://developer.qualcomm.com/software/adreno-gpu-sdk/tools]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/developer.qualcomm.com/df53d96a.html" %})
 - [https://powervr-graphics.github.io/]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/powervr-graphics.github.io/ad82179d.html" %})
+- [http://angleproject.org/]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/angleproject.org/9fa646c0.html" %})
+- [https://github.com/google/angle]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/github.com/bb7c3f0b.html" %})
 - [https://stackoverflow.com/questions/22971187/how-to-fix-could-not-load-from-adreno-device-drivereglgeterror]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/stackoverflow.com/e2968e58.html" %})
 - [https://developer.qualcomm.com/forum/qdn-forums/maximize-hardware/mobile-gaming-graphics-adreno/27651]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/developer.qualcomm.com/94e2f3fd.html" %})
 - [http://www.microsoft.com/en-us/download/details.aspx?id=30679]({% include relref.html url="/backup/2021-01-16-shader-windows-opengles-emulator.md/www.microsoft.com/1e45c851.aspx" %})
