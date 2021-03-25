@@ -18,7 +18,7 @@ codeprint:
 
 ## Windows 命令行编码
 
-设置 命令行 utf8，`chcp 65001`。
+设置 命令行 utf8，`chcp 65001`。`shutdown -r -t 0`。
 
 
 ## Windows 8.1 磁盘占用 100% 解决办法
