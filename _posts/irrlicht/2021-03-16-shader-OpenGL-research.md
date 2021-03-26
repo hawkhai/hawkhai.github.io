@@ -155,6 +155,44 @@ glBindTexture(GL_TEXTURE_2D, tex_id); // tex_id 与 GL_TEXTUR1 关联
 平时使用单张纹理怎么不需要 glActiveTexture？<br/>
 **sampler2D 默认值为 0，纹理也默认与 GL_TEXTURE0 关联。**
 
+```cpp
+GLuint GetDebugTextureId() {
+    static GLuint texture = 0;
+    if (texture != 0) {
+        return texture;
+    }
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    if (true) {
+        GLubyte data[] = {
+            255, 0, 0, 155,
+            0, 255, 0, 155,
+            0, 0, 255, 155,
+            255, 255, 255, 155 };
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+        GLsizei width = 2;
+        GLsizei height = 2;
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    glBindTexture(GL_TEXTURE_2D, 0);
+    return texture;
+}
+
+GLint SetProgramUniformTexture(GLuint program, const GLchar* name, GLuint texture) {
+    glActiveTexture(GL_TEXTURE0);
+    // texture 和 GL_TEXTURE0 绑定
+    glBindTexture(GL_TEXTURE_2D, texture);
+    int location = glGetUniformLocation(program, name);
+    // Shader 和 GL_TEXTURE0 绑定。
+    glUniform1i(location, 0);
+}
+```
+
 
 ## 获取当前 gles 环境参数
 
