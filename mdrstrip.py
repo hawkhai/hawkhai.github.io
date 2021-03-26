@@ -844,12 +844,37 @@ def checkfilesize(fpath, fname, ftype):
             openTextFile("mdrstrip_bigfiles.txt")
             assert False, "大文件最好不要入库..."
 
+def findPostMd(rootdir, fnamek):
+    fpathk = fnamek
+    def mainfile(fpath, fname, ftype):
+        if fname == fnamek:
+            nonlocal fpathk
+            fpathk = fpath
+    searchdir(rootdir, mainfile)
+    return fpathk
+
+def checkReviewJS(jsdir, rootdir):
+    def mainfile(fpath, fname, ftype):
+        assert fname.endswith(".md.js"), fname
+        jsfile = os.path.relpath(fpath, jsdir)
+        mdfile = jsfile[:-len(".js")]
+        if mdfile.startswith("blogs\\"):
+            mdfile = findPostMd("_posts", mdfile.split("\\")[-1])
+            mdfile = os.path.relpath(mdfile, rootdir)
+        mdfile = os.path.join(rootdir, mdfile)
+        if not os.path.exists(mdfile):
+            osremove(fpath)
+    searchdir(jsdir, mainfile)
+
 def main():
     print(parsePythonCmdx(__file__))
     removedirTimeout("tempdir")
     clearemptydir("tempdir")
     buildSnapCache("backup")
     buildSnapCache("invisible\\backup")
+    if REBUILD:
+        checkReviewJS("assets\\reviewjs", ".")
+        checkReviewJS("invisible\\reviewjs", "invisible")
     if CLEARIMG:
         organizeResCollect("assets\\images")
         organizeResCollect("invisible\\images")
