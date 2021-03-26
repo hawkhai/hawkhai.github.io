@@ -46,14 +46,14 @@ https://docs.microsoft.com/zh-cn/sysinternals/downloads/sysinternals-suite
 ## 逆向分析
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-06-windows.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-06-windows-Core-Programming.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://docs.microsoft.com/en-us/windows-hardware/drivers/ifs]({% include relref.html url="/backup/2021-03-06-windows.md/docs.microsoft.com/3f7eeeb1.html" %})
-- [https://docs.microsoft.com/en-us/windows-hardware/drivers/network/windows-filtering-platform-callout-drivers2]({% include relref.html url="/backup/2021-03-06-windows.md/docs.microsoft.com/6c6aee69.html" %})
-- [https://github.com/microsoft/Detours]({% include relref.html url="/backup/2021-03-06-windows.md/github.com/f10fd70b.html" %})
-- [https://github.com/reactos/reactos]({% include relref.html url="/backup/2021-03-06-windows.md/github.com/f366a913.html" %})
-- [https://sysprogs.com/legacy/virtualkd]({% include relref.html url="/backup/2021-03-06-windows.md/sysprogs.com/6caf3e13.html" %})
-- [https://www.sourceinsight.com]({% include relref.html url="/backup/2021-03-06-windows.md/www.sourceinsight.com/8f9f2ff2.html" %})
-- [https://ntcore.com/?page_id=388]({% include relref.html url="/backup/2021-03-06-windows.md/ntcore.com/fdf592d1.html" %})
-- [https://docs.microsoft.com/zh-cn/sysinternals/downloads/sysinternals-suite]({% include relref.html url="/backup/2021-03-06-windows.md/docs.microsoft.com/0c438a9b.html" %})
+- [https://docs.microsoft.com/en-us/windows-hardware/drivers/ifs]({% include relref.html url="/backup/2021-03-06-windows-Core-Programming.md/docs.microsoft.com/3f7eeeb1.html" %})
+- [https://docs.microsoft.com/en-us/windows-hardware/drivers/network/windows-filtering-platform-callout-drivers2]({% include relref.html url="/backup/2021-03-06-windows-Core-Programming.md/docs.microsoft.com/6c6aee69.html" %})
+- [https://github.com/microsoft/Detours]({% include relref.html url="/backup/2021-03-06-windows-Core-Programming.md/github.com/f10fd70b.html" %})
+- [https://github.com/reactos/reactos]({% include relref.html url="/backup/2021-03-06-windows-Core-Programming.md/github.com/f366a913.html" %})
+- [https://sysprogs.com/legacy/virtualkd]({% include relref.html url="/backup/2021-03-06-windows-Core-Programming.md/sysprogs.com/6caf3e13.html" %})
+- [https://www.sourceinsight.com]({% include relref.html url="/backup/2021-03-06-windows-Core-Programming.md/www.sourceinsight.com/8f9f2ff2.html" %})
+- [https://ntcore.com/?page_id=388]({% include relref.html url="/backup/2021-03-06-windows-Core-Programming.md/ntcore.com/fdf592d1.html" %})
+- [https://docs.microsoft.com/zh-cn/sysinternals/downloads/sysinternals-suite]({% include relref.html url="/backup/2021-03-06-windows-Core-Programming.md/docs.microsoft.com/0c438a9b.html" %})
