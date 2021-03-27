@@ -16,6 +16,22 @@ codeprint:
 ---
 
 
+## 错误 RC1015 cannot open include file 'afxres.h'.
+
+Or, if you don't want to install MFC, you can replace the line:
+#include "afxres.h"
+with:
+#include <windows.h>
+#include <winres.h>
+
+
+## namespace "ATL" 没有成员 AtlGetCommCtrlVersion
+
+vs 工程使用了 wtl-80，提示 namespace "ATL" 没有成员 AtlGetCommCtrlVersion
+
+[namespace "ATL" 没有成员 AtlGetCommCtrlVersion {% include relref_csdn.html %}](https://blog.csdn.net/hellokandy/article/details/100931904)
+
+
 ## VS 没有生成 lib 库
 
 * Lib 生成路径设置不对。
@@ -291,6 +307,7 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Visual-Studio-and-Android-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://blog.csdn.net/hellokandy/article/details/100931904]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/blog.csdn.net/e2e3de3c.html" %})
 - [https://developer.android.com/r/studio-ui/ndk-dir]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/developer.android.com/a3b9e8b2.html" %})
 - [http://maven.aliyun.com/nexus/content/groups/public/]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/maven.aliyun.com/f69c0880.html" %})
 - [http://maven.aliyun.com/nexus/content/repositories/jcenter]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/maven.aliyun.com/e33967a3.html" %})
