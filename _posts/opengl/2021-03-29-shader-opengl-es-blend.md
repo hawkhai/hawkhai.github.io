@@ -198,7 +198,7 @@ void glTexEnvf(GLenum target, GLenum pname, GLfloat param);
 void glTexEnvi(GLenum target, GLenum pname, GLint param);
 ```
 
-{% include image.html url="/assets/images/210312-shader-shader-preproces~18/20161208163641478.png" %}
+{% include image.html url="/assets/images/210329-shader-opengl-es-blend/20161208163641478.png" %}
 
 [Docs » 高级 OpenGL » 混合](https://learnopengl-cn.readthedocs.io/zh/latest/04%20Advanced%20OpenGL/03%20Blending/)
 
