@@ -314,6 +314,7 @@ Irrlicht 统计分析，存在两个 API 都混用的情况，貌似也跑的好
 * 当输入颜色值为 RGB 时，混合计算时，A 值默认为 0.0。
 
 * [OpenGL ES -- 混合](https://www.heqiangfly.com/2020/04/30/opengl-es-color-blend/)
+* [VAO 与 VBO 的前世今生 {% include relref_csdn.html %}](https://blog.csdn.net/xufeng0991/article/details/80813594)
 
 ```glsl
 #version 330 core
@@ -349,3 +350,4 @@ void main()
 - [https://learnopengl-cn.readthedocs.io/zh/latest/04%20Advanced%20OpenGL/03%20Blending/]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/learnopengl-cn.readthedocs.io/7ca72863.html" %})
 - [https://blog.csdn.net/alicehyxx/article/details/4263058]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/blog.csdn.net/aca962c2.html" %})
 - [https://www.heqiangfly.com/2020/04/30/opengl-es-color-blend/]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/www.heqiangfly.com/721ce01e.html" %})
+- [https://blog.csdn.net/xufeng0991/article/details/80813594]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/blog.csdn.net/736e356f.html" %})
