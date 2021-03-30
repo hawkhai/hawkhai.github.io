@@ -167,6 +167,39 @@ pass these values to the GLSL attribute identified by your_glsl_attrib_index.
 Do something like copy_arr += stride. At this point, copy_arr == 0x20014.
 
 
+### GL_ELEMENT_ARRAY_BUFFER
+
+为什么在 VAO 里面可以解绑 VBO，却不能解绑 EBO 呢？
+
+// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+// **remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.**
+//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+作者用注释解释了原因，懂则懂之，不懂请结合前述 VAO 的数据结构，相信你能豁然开朗。
+
+```cpp
+struct VertexAttribute
+{
+    bool bIsEnabled = GL_FALSE;
+    int iSize = 4; // This is the number of elements in this attribute, 1-4.
+    unsigned int iStride = 0;
+    VertexAttribType eType = GL_FLOAT;
+    bool bIsNormalized = GL_FALSE;
+    bool bIsIntegral = GL_FALSE;
+    void * pBufferObjectOffset = 0;
+    BufferObject * pBufferObj = 0;
+};
+
+struct VertexArrayObject
+{
+    BufferObject *pElementArrayBufferObject = NULL;
+    VertexAttribute attributes[GL_MAX_VERTEX_ATTRIB];
+}
+```
+
+
 ## OpenGL ES glBlendFunc
 
 [OpenGL ES 绘制贝塞尔曲线 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/111611096)
