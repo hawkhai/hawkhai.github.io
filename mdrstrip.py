@@ -71,6 +71,11 @@ def querySnapCache(umd5):
         return readfile(g_snapcache[umd5][0])
     return None
 
+def removeSnapCache(umd5):
+    if umd5 in g_snapcache.keys() and g_snapcache[umd5]:
+        return osremove(g_snapcache[umd5][0])
+    return None
+
 def clearSnapCache():
     print("ClearSnapCache", len(g_untouched))
     for umd5 in g_untouched.keys():
@@ -148,6 +153,7 @@ def backupUrlContent(fpath, url):
         if idata.find("ERR_CONNECTION_TIMED_OUT") != -1 or idata.find(itag) != -1:
             print("无法访问此网站", fpath, url)
             os.system("pause")
+            removeSnapCache(umd5[:8])
             return backupUrlContent(fpath, url)
 
     def addmdhead(fdata):
