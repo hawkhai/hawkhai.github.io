@@ -32,6 +32,10 @@ if current_configuration == "Debug"
     output "Release"
 if current_configureation == "Release"
     output "Debug"
+
+set(RCFILE app.rc)
+source_group("rcfile" FILES ${RCFILE})
+set_source_files_properties(${RCFILE} PROPERTIES LANGUAGE RC)
 ```
 
 
