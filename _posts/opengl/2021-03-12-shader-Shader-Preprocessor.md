@@ -16,6 +16,17 @@ codeprint:
 cluster: "OpenGL Shader"
 ---
 
+不要在 VAO.release() 之前调用 VBO 或 EBO 的 release() 函数，VAO 也是一个状态机。[from {% include relref_csdn.html %}](https://blog.csdn.net/qq_40946921/article/details/108041536)
+
+```cpp
+struct VAO{
+    int ID;
+    int VBO_ID;
+    int EBO_ID;
+    // ...
+}
+```
+
 
 ## GLSL
 
@@ -415,6 +426,7 @@ GITHUB Preprocess and format the shader code.
 <p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-03-12-shader-Shader-Preprocessor.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://blog.csdn.net/qq_40946921/article/details/108041536]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/blog.csdn.net/a9b0bbcb.html" %})
 - [https://github.com/wshxbqq/GLSL-Card]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/eb0ca84c.html" %})
 - [https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/05%20Shaders/]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/learnopengl-cn.readthedocs.io/f2954ddb.html" %})
 - [http://www.kankanews.com/ICkengine/archives/120870.shtml]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/www.kankanews.com/230ed89c.shtml" %})
