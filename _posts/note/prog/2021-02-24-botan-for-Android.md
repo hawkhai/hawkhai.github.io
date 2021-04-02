@@ -148,10 +148,10 @@ botan_all_android_clang_arm32 vs botan_all_android_clang_x86_64 主要差异；
 还需要从 https://www.zlib.net/ 下载：zlib-1.2.11.tar.gz 配合食用。^_^
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-24-botan-for-Android.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-02-24-botan-for-Android.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://github.com/randombit/botan]({% include relref.html url="/backup/2021-02-24-botan-for-Android.md/github.com/85f12777.html" %})
-- [https://botan.randombit.net/handbook/building.html]({% include relref.html url="/backup/2021-02-24-botan-for-Android.md/botan.randombit.net/bde2930d.html" %})
-- [https://developer.android.com/ndk/guides/cpu-features]({% include relref.html url="/backup/2021-02-24-botan-for-Android.md/developer.android.com/11aa3d2a.html" %})
-- [https://www.zlib.net/]({% include relref.html url="/backup/2021-02-24-botan-for-Android.md/www.zlib.net/1215b7e1.html" %})
+- [https://github.com/randombit/botan]({% include relrefx.html url="/backup/2021-02-24-botan-for-Android.md/github.com/85f12777.html" %})
+- [https://botan.randombit.net/handbook/building.html]({% include relrefx.html url="/backup/2021-02-24-botan-for-Android.md/botan.randombit.net/bde2930d.html" %})
+- [https://developer.android.com/ndk/guides/cpu-features]({% include relrefx.html url="/backup/2021-02-24-botan-for-Android.md/developer.android.com/11aa3d2a.html" %})
+- [https://www.zlib.net/]({% include relrefx.html url="/backup/2021-02-24-botan-for-Android.md/www.zlib.net/1215b7e1.html" %})

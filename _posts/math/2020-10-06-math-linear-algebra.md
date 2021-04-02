@@ -103,11 +103,11 @@ $$
 - [5] [编程与线性代数](https://www.sohu.com/a/283978289_701814)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-10-06-math-linear-algebra.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-10-06-math-linear-algebra.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://www.bilibili.com/video/BV1ys411472E]({% include relref.html url="/backup/2020-10-06-math-linear-algebra.md/www.bilibili.com/c113c40a.html" %})
-- [https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/637653/]({% include relref.html url="/backup/2020-10-06-math-linear-algebra.md/codertw.com/12bf289a.html" %})
-- [https://cloud.tencent.com/developer/news/319028]({% include relref.html url="/backup/2020-10-06-math-linear-algebra.md/cloud.tencent.com/a7a13242.html" %})
-- [https://www.eet-china.com/mp/a24399.html]({% include relref.html url="/backup/2020-10-06-math-linear-algebra.md/www.eet-china.com/98597c33.html" %})
-- [https://www.sohu.com/a/283978289_701814]({% include relref.html url="/backup/2020-10-06-math-linear-algebra.md/www.sohu.com/aba00d75.html" %})
+- [https://www.bilibili.com/video/BV1ys411472E]({% include relrefx.html url="/backup/2020-10-06-math-linear-algebra.md/www.bilibili.com/c113c40a.html" %})
+- [https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/637653/]({% include relrefx.html url="/backup/2020-10-06-math-linear-algebra.md/codertw.com/12bf289a.html" %})
+- [https://cloud.tencent.com/developer/news/319028]({% include relrefx.html url="/backup/2020-10-06-math-linear-algebra.md/cloud.tencent.com/a7a13242.html" %})
+- [https://www.eet-china.com/mp/a24399.html]({% include relrefx.html url="/backup/2020-10-06-math-linear-algebra.md/www.eet-china.com/98597c33.html" %})
+- [https://www.sohu.com/a/283978289_701814]({% include relrefx.html url="/backup/2020-10-06-math-linear-algebra.md/www.sohu.com/aba00d75.html" %})

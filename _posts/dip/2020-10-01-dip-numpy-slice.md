@@ -393,9 +393,9 @@ numpy 库的对象有数组和矩阵，两者看起来长得差不多，但在�
 - [3] <https://blog.csdn.net/wzyaiwl/article/details/106310705>
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-10-01-dip-numpy-slice.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-10-01-dip-numpy-slice.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://www.runoob.com/numpy/numpy-tutorial.html]({% include relref.html url="/backup/2020-10-01-dip-numpy-slice.md/www.runoob.com/c30f9bdf.html" %})
-- [https://zhuanlan.zhihu.com/p/32242331]({% include relref.html url="/backup/2020-10-01-dip-numpy-slice.md/zhuanlan.zhihu.com/c493ef42.html" %})
-- [https://blog.csdn.net/wzyaiwl/article/details/106310705]({% include relref.html url="/backup/2020-10-01-dip-numpy-slice.md/blog.csdn.net/4220be40.html" %})
+- [https://www.runoob.com/numpy/numpy-tutorial.html]({% include relrefx.html url="/backup/2020-10-01-dip-numpy-slice.md/www.runoob.com/c30f9bdf.html" %})
+- [https://zhuanlan.zhihu.com/p/32242331]({% include relrefx.html url="/backup/2020-10-01-dip-numpy-slice.md/zhuanlan.zhihu.com/c493ef42.html" %})
+- [https://blog.csdn.net/wzyaiwl/article/details/106310705]({% include relrefx.html url="/backup/2020-10-01-dip-numpy-slice.md/blog.csdn.net/4220be40.html" %})

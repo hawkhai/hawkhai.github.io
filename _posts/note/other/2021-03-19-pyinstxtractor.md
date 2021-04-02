@@ -204,22 +204,22 @@ if __name__ == '__main__':
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-19-pyinstxtractor.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-03-19-pyinstxtractor.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://gclxry.com/article/avoid-python-conflicts-via-bat-on-windows/]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/gclxry.com/43348a06.html" %})
-- [https://docs.microsoft.com/zh-cn/visualstudio/debugger/how-to-set-a-thread-name-in-native-code?view=vs-2019]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/docs.microsoft.com/0e272c9c.html" %})
-- [https://gclxry.com/article/use-windbg-to-locate-handle-leaks/]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/gclxry.com/1fa2a3b5.html" %})
-- [https://gclxry.com/article/windows-memory-introduction/]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/gclxry.com/8aaf20da.html" %})
-- [https://zhuanlan.zhihu.com/p/109266820]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/zhuanlan.zhihu.com/161c2608.html" %})
-- [https://github.com/extremecoders-re/pyinstxtractor]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/github.com/90c1b6cf.html" %})
-- [https://docs.conda.io/en/latest/miniconda.html]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/docs.conda.io/29df5080.html" %})
-- [https://github.com/pyenv/pyenv]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/github.com/477faba6.html" %})
-- [https://pypi.org/project/tinyaes/]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/pypi.org/0fc1f0c7.html" %})
-- [https://github.com/rocky/python-uncompyle6/]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/github.com/1bcbcaee.html" %})
-- [http://tools.bugscaner.com/decompyle/]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/tools.bugscaner.com/cfa1ae9d.html" %})
-- [https://pyob.oxyry.com/]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/pyob.oxyry.com/c10ddfd1.html" %})
-- [https://blog.csdn.net/ir0nf1st/article/details/61650984]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/blog.csdn.net/b6a1cb65.html" %})
-- [https://www.94e.cn/info/74]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/www.94e.cn/8920d488.html" %})
-- [https://pyob.oxyry.com/obfuscate]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/pyob.oxyry.com/5ff36f08.html" %})
-- [http://pyob.oxyry.com/]({% include relref.html url="/backup/2021-03-19-pyinstxtractor.md/pyob.oxyry.com/fa80ee50.html" %})
+- [https://gclxry.com/article/avoid-python-conflicts-via-bat-on-windows/]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/gclxry.com/43348a06.html" %})
+- [https://docs.microsoft.com/zh-cn/visualstudio/debugger/how-to-set-a-thread-name-in-native-code?view=vs-2019]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/docs.microsoft.com/0e272c9c.html" %})
+- [https://gclxry.com/article/use-windbg-to-locate-handle-leaks/]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/gclxry.com/1fa2a3b5.html" %})
+- [https://gclxry.com/article/windows-memory-introduction/]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/gclxry.com/8aaf20da.html" %})
+- [https://zhuanlan.zhihu.com/p/109266820]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/zhuanlan.zhihu.com/161c2608.html" %})
+- [https://github.com/extremecoders-re/pyinstxtractor]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/github.com/90c1b6cf.html" %})
+- [https://docs.conda.io/en/latest/miniconda.html]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/docs.conda.io/29df5080.html" %})
+- [https://github.com/pyenv/pyenv]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/github.com/477faba6.html" %})
+- [https://pypi.org/project/tinyaes/]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/pypi.org/0fc1f0c7.html" %})
+- [https://github.com/rocky/python-uncompyle6/]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/github.com/1bcbcaee.html" %})
+- [http://tools.bugscaner.com/decompyle/]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/tools.bugscaner.com/cfa1ae9d.html" %})
+- [https://pyob.oxyry.com/]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/pyob.oxyry.com/c10ddfd1.html" %})
+- [https://blog.csdn.net/ir0nf1st/article/details/61650984]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/blog.csdn.net/b6a1cb65.html" %})
+- [https://www.94e.cn/info/74]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/www.94e.cn/8920d488.html" %})
+- [https://pyob.oxyry.com/obfuscate]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/pyob.oxyry.com/5ff36f08.html" %})
+- [http://pyob.oxyry.com/]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/pyob.oxyry.com/fa80ee50.html" %})

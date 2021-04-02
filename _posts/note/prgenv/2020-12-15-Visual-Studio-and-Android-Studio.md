@@ -304,16 +304,16 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 文件 > 首选项 > 设置 中搜索 detectIndentation，将值设置为 false（即关闭自动检测功能），就可以正常使用用户设置里面的 tab 缩进啦。
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Visual-Studio-and-Android-Studio.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-15-Visual-Studio-and-Android-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://blog.csdn.net/hellokandy/article/details/100931904]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/blog.csdn.net/e2e3de3c.html" %})
-- [https://developer.android.com/r/studio-ui/ndk-dir]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/developer.android.com/a3b9e8b2.html" %})
-- [http://maven.aliyun.com/nexus/content/groups/public/]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/maven.aliyun.com/f69c0880.html" %})
-- [http://maven.aliyun.com/nexus/content/repositories/jcenter]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/maven.aliyun.com/e33967a3.html" %})
-- [https://dl.bintray.com/umsdk/release]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/dl.bintray.com/2871e588.html" %})
-- [https://www.jianshu.com/p/f23df3aa342c]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/www.jianshu.com/6a23ff97.html" %})
-- [https://www.cnblogs.com/yongdaimi/p/12061298.html]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/www.cnblogs.com/a12e7578.html" %})
-- [https://blog.csdn.net/dingxianding/article/details/106017010]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/blog.csdn.net/b7b79d7f.html" %})
-- [https://zhuanlan.zhihu.com/p/77427951]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/zhuanlan.zhihu.com/bc1d4621.html" %})
-- [https://blog.csdn.net/weixin_41330389/article/details/89319945]({% include relref.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/blog.csdn.net/8fdc4aa4.html" %})
+- [https://blog.csdn.net/hellokandy/article/details/100931904]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/blog.csdn.net/e2e3de3c.html" %})
+- [https://developer.android.com/r/studio-ui/ndk-dir]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/developer.android.com/a3b9e8b2.html" %})
+- [http://maven.aliyun.com/nexus/content/groups/public/]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/maven.aliyun.com/f69c0880.html" %})
+- [http://maven.aliyun.com/nexus/content/repositories/jcenter]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/maven.aliyun.com/e33967a3.html" %})
+- [https://dl.bintray.com/umsdk/release]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/dl.bintray.com/2871e588.html" %})
+- [https://www.jianshu.com/p/f23df3aa342c]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/www.jianshu.com/6a23ff97.html" %})
+- [https://www.cnblogs.com/yongdaimi/p/12061298.html]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/www.cnblogs.com/a12e7578.html" %})
+- [https://blog.csdn.net/dingxianding/article/details/106017010]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/blog.csdn.net/b7b79d7f.html" %})
+- [https://zhuanlan.zhihu.com/p/77427951]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/zhuanlan.zhihu.com/bc1d4621.html" %})
+- [https://blog.csdn.net/weixin_41330389/article/details/89319945]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/blog.csdn.net/8fdc4aa4.html" %})

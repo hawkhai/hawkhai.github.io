@@ -91,8 +91,8 @@ pause
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-18-windows-vmware-upgrade.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-18-windows-vmware-upgrade.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://kb.vmware.com/s/article/1308]({% include relref.html url="/backup/2020-12-18-windows-vmware-upgrade.md/kb.vmware.com/8dbdee8d.html" %})
-- [https://kb.vmware.com/s/article/2145285]({% include relref.html url="/backup/2020-12-18-windows-vmware-upgrade.md/kb.vmware.com/1f45748c.html" %})
+- [https://kb.vmware.com/s/article/1308]({% include relrefx.html url="/backup/2020-12-18-windows-vmware-upgrade.md/kb.vmware.com/8dbdee8d.html" %})
+- [https://kb.vmware.com/s/article/2145285]({% include relrefx.html url="/backup/2020-12-18-windows-vmware-upgrade.md/kb.vmware.com/1f45748c.html" %})

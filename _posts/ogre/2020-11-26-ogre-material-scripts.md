@@ -1950,9 +1950,9 @@ fxTest3 will end up with the default textures for the normal map and spec map se
 <https://ogrecave.github.io/ogre/api/latest/_material-_scripts.html>
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-11-26-ogre-material-scripts.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-11-26-ogre-material-scripts.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [http://en.wikipedia.org/wiki/Gamma_correction]({% include relref.html url="/backup/2020-11-26-ogre-material-scripts.md/en.wikipedia.org/dae24972.html" %})
-- [http://developer.nvidia.com/object/nvparse.html]({% include relref.html url="/backup/2020-11-26-ogre-material-scripts.md/developer.nvidia.com/7d634c33.html" %})
-- [https://ogrecave.github.io/ogre/api/latest/_material-_scripts.html]({% include relref.html url="/backup/2020-11-26-ogre-material-scripts.md/ogrecave.github.io/c3de684f.html" %})
+- [http://en.wikipedia.org/wiki/Gamma_correction]({% include relrefx.html url="/backup/2020-11-26-ogre-material-scripts.md/en.wikipedia.org/dae24972.html" %})
+- [http://developer.nvidia.com/object/nvparse.html]({% include relrefx.html url="/backup/2020-11-26-ogre-material-scripts.md/developer.nvidia.com/7d634c33.html" %})
+- [https://ogrecave.github.io/ogre/api/latest/_material-_scripts.html]({% include relrefx.html url="/backup/2020-11-26-ogre-material-scripts.md/ogrecave.github.io/c3de684f.html" %})

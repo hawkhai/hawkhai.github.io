@@ -70,16 +70,16 @@ gif2webp -q 75 -lossy -m 6 picture.gif -o picture.webp
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-18-servx-webx.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-18-servx-webx.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://sourceforge.net/]({% include relref.html url="/backup/2020-12-18-servx-webx.md/sourceforge.net/f577c4c2.html" %})
-- [http://www.codeproject.com]({% include relref.html url="/backup/2020-12-18-servx-webx.md/www.codeproject.com/05a0c83e.html" %})
-- [http://search.csdn.net/]({% include relref.html url="/backup/2020-12-18-servx-webx.md/search.csdn.net/37e536ff.html" %})
-- [https://zh.savefrom.net/7/]({% include relref.html url="/backup/2020-12-18-servx-webx.md/zh.savefrom.net/3ae75bbb.html" %})
-- [https://ctb.doutui.net/youtube.php]({% include relref.html url="/backup/2020-12-18-servx-webx.md/ctb.doutui.net/f1de05f9.php" %})
-- [https://segmentfault.com/a/1190000009033181]({% include relref.html url="/backup/2020-12-18-servx-webx.md/segmentfault.com/a7e55d6e.html" %})
-- [https://imququ.com/post/html5-live-player-2.html]({% include relref.html url="/backup/2020-12-18-servx-webx.md/imququ.com/df29ec8c.html" %})
-- [https://developers.google.com/speed/webp/docs/gif2webp]({% include relref.html url="/backup/2020-12-18-servx-webx.md/developers.google.com/6b2fb33f.html" %})
-- [https://developers.google.com/speed/webp/download]({% include relref.html url="/backup/2020-12-18-servx-webx.md/developers.google.com/a83dd668.html" %})
-- [https://www.jianshu.com/p/be308b80f7aa]({% include relref.html url="/backup/2020-12-18-servx-webx.md/www.jianshu.com/4187b943.html" %})
+- [https://sourceforge.net/]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/sourceforge.net/f577c4c2.html" %})
+- [http://www.codeproject.com]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/www.codeproject.com/05a0c83e.html" %})
+- [http://search.csdn.net/]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/search.csdn.net/37e536ff.html" %})
+- [https://zh.savefrom.net/7/]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/zh.savefrom.net/3ae75bbb.html" %})
+- [https://ctb.doutui.net/youtube.php]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/ctb.doutui.net/f1de05f9.php" %})
+- [https://segmentfault.com/a/1190000009033181]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/segmentfault.com/a7e55d6e.html" %})
+- [https://imququ.com/post/html5-live-player-2.html]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/imququ.com/df29ec8c.html" %})
+- [https://developers.google.com/speed/webp/docs/gif2webp]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/developers.google.com/6b2fb33f.html" %})
+- [https://developers.google.com/speed/webp/download]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/developers.google.com/a83dd668.html" %})
+- [https://www.jianshu.com/p/be308b80f7aa]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/www.jianshu.com/4187b943.html" %})

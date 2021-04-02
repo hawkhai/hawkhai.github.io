@@ -26,8 +26,8 @@ codeprint:
 * [ZwqXin](http://www.zwqxin.com/)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-26-blogs-backup.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-03-26-blogs-backup.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://chengkehan.github.io/]({% include relref.html url="/backup/2021-03-26-blogs-backup.md/chengkehan.github.io/f33e1112.html" %})
-- [http://www.zwqxin.com/]({% include relref.html url="/backup/2021-03-26-blogs-backup.md/www.zwqxin.com/189e4f4f.html" %})
+- [https://chengkehan.github.io/]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/chengkehan.github.io/f33e1112.html" %})
+- [http://www.zwqxin.com/]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/www.zwqxin.com/189e4f4f.html" %})

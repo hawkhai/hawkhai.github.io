@@ -910,7 +910,7 @@ Determines whether the velocity of particles is unchanged.<br> example: keep_vel
 <https://ogrecave.github.io/ogre/api/latest/_particle-_scripts.html>
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-11-26-ogre-particle-scripts.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-11-26-ogre-particle-scripts.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://ogrecave.github.io/ogre/api/latest/_particle-_scripts.html]({% include relref.html url="/backup/2020-11-26-ogre-particle-scripts.md/ogrecave.github.io/00497f88.html" %})
+- [https://ogrecave.github.io/ogre/api/latest/_particle-_scripts.html]({% include relrefx.html url="/backup/2020-11-26-ogre-particle-scripts.md/ogrecave.github.io/00497f88.html" %})

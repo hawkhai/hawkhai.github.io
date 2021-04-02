@@ -162,14 +162,14 @@ $$\int_{x}^{y}f(x)dx=F(x)-F(y)$$
 - [6] 马同学 <https://www.matongxue.com/madocs/247/>
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-09-02-deep-learning-math-calculus.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-09-02-deep-learning-math-calculus.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://www.bilibili.com/video/BV1mb411r7bd]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.bilibili.com/5bd25d30.html" %})
-- [https://haokan.baidu.com/v?pd=wisenatural&vid=8400832456233984742]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/haokan.baidu.com/d7497192.html" %})
-- [http://zh.gluon.ai/]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/zh.gluon.ai/b73bb84d.html" %})
-- [https://www.cnblogs.com/knife-rose/p/12120373.html]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.cnblogs.com/2cdb7d08.html" %})
-- [http://www.fly63.com/tool/htmarkdown/]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.fly63.com/488480ab.html" %})
-- [https://www.cnblogs.com/knife-rose/p/12107204.html]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.cnblogs.com/f50e27dc.html" %})
-- [https://www.zhihu.com/question/336322284]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.zhihu.com/1fb8b259.html" %})
-- [https://www.matongxue.com/madocs/247/]({% include relref.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.matongxue.com/e48beb85.html" %})
+- [https://www.bilibili.com/video/BV1mb411r7bd]({% include relrefx.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.bilibili.com/5bd25d30.html" %})
+- [https://haokan.baidu.com/v?pd=wisenatural&vid=8400832456233984742]({% include relrefx.html url="/backup/2020-09-02-deep-learning-math-calculus.md/haokan.baidu.com/d7497192.html" %})
+- [http://zh.gluon.ai/]({% include relrefx.html url="/backup/2020-09-02-deep-learning-math-calculus.md/zh.gluon.ai/b73bb84d.html" %})
+- [https://www.cnblogs.com/knife-rose/p/12120373.html]({% include relrefx.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.cnblogs.com/2cdb7d08.html" %})
+- [http://www.fly63.com/tool/htmarkdown/]({% include relrefx.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.fly63.com/488480ab.html" %})
+- [https://www.cnblogs.com/knife-rose/p/12107204.html]({% include relrefx.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.cnblogs.com/f50e27dc.html" %})
+- [https://www.zhihu.com/question/336322284]({% include relrefx.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.zhihu.com/1fb8b259.html" %})
+- [https://www.matongxue.com/madocs/247/]({% include relrefx.html url="/backup/2020-09-02-deep-learning-math-calculus.md/www.matongxue.com/e48beb85.html" %})

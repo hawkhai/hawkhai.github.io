@@ -24,8 +24,8 @@ cartographer 是扫地机器人的核心算法。
 - [2] [五年无人驾驶工作总结及展望 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/273756780)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-11-autonomous-driving.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-02-11-autonomous-driving.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://blog.csdn.net/Gavinmiaoc/article/details/88786229]({% include relref.html url="/backup/2021-02-11-autonomous-driving.md/blog.csdn.net/119aa711.html" %})
-- [https://zhuanlan.zhihu.com/p/273756780]({% include relref.html url="/backup/2021-02-11-autonomous-driving.md/zhuanlan.zhihu.com/04d27759.html" %})
+- [https://blog.csdn.net/Gavinmiaoc/article/details/88786229]({% include relrefx.html url="/backup/2021-02-11-autonomous-driving.md/blog.csdn.net/119aa711.html" %})
+- [https://zhuanlan.zhihu.com/p/273756780]({% include relrefx.html url="/backup/2021-02-11-autonomous-driving.md/zhuanlan.zhihu.com/04d27759.html" %})

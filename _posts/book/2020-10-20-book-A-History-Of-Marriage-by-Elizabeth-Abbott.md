@@ -63,4 +63,4 @@ codeprint:
 加拿大、荷兰、比利时和西班牙是世界上四个承认“同性婚姻”合法的国家。
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-10-20-book-A-History-Of-Marriage-by-Elizabeth-Abbott.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-10-20-book-A-History-Of-Marriage-by-Elizabeth-Abbott.md.js" %}'></script></p>

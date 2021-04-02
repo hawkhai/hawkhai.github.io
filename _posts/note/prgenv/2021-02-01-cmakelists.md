@@ -1143,21 +1143,21 @@ set_target_properties(irrtest PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_
 - [5] [CMakeLists.txt 语法介绍与实例演练（这个颜色好） {% include relref_csdn.html %}](https://blog.csdn.net/afei__/article/details/81201039)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-01-cmakelists.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-02-01-cmakelists.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://github.com/pavelliavonau/cmakeconverter]({% include relref.html url="/backup/2021-02-01-cmakelists.md/github.com/551473f5.html" %})
-- [https://developer.android.com/studio/projects/configure-cmake]({% include relref.html url="/backup/2021-02-01-cmakelists.md/developer.android.com/e400582b.html" %})
-- [https://cmake.org/cmake/help/latest/manual/cmake-commands.7.html]({% include relref.html url="/backup/2021-02-01-cmakelists.md/cmake.org/dae0cbfc.html" %})
-- [https://blog.csdn.net/Huoon/article/details/108520571]({% include relref.html url="/backup/2021-02-01-cmakelists.md/blog.csdn.net/43695850.html" %})
-- [https://stackoverflow.com/questions/8591762/ifdef-debug-with-cmake-independent-from-platform]({% include relref.html url="/backup/2021-02-01-cmakelists.md/stackoverflow.com/0392352f.html" %})
-- [https://github.com/juj/MathGeoLib/blob/master/CommonOptions.cmake]({% include relref.html url="/backup/2021-02-01-cmakelists.md/github.com/24e305e7.html" %})
-- [https://apache.github.io/xalan-c/api/PlatformDefinitions_8hpp_source.html]({% include relref.html url="/backup/2021-02-01-cmakelists.md/apache.github.io/eeffe529.html" %})
-- [https://blog.csdn.net/icbm/article/details/52336497]({% include relref.html url="/backup/2021-02-01-cmakelists.md/blog.csdn.net/5403caaa.html" %})
-- [https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/08%20Coordinate%20Systems/]({% include relref.html url="/backup/2021-02-01-cmakelists.md/learnopengl-cn.readthedocs.io/cfc9cf0a.html" %})
-- [https://www.cnblogs.com/tangxin-blog/p/8283460.html]({% include relref.html url="/backup/2021-02-01-cmakelists.md/www.cnblogs.com/efb145d7.html" %})
-- [https://zhuanlan.zhihu.com/p/267803605]({% include relref.html url="/backup/2021-02-01-cmakelists.md/zhuanlan.zhihu.com/d33bbe25.html" %})
-- [https://github.com/carl-wang-cn/demo/tree/master/cmake]({% include relref.html url="/backup/2021-02-01-cmakelists.md/github.com/bd0e5b28.html" %})
-- [https://zh.m.wikibooks.org/zh-hans/CMake_%E5%85%A5%E9%96%80/%E5%9F%BA%E6%9C%AC%E8%AA%9E%E6%B3%95]({% include relref.html url="/backup/2021-02-01-cmakelists.md/zh.m.wikibooks.org/c46fcb62.html" %})
-- [https://www.jianshu.com/p/528eeb266f83]({% include relref.html url="/backup/2021-02-01-cmakelists.md/www.jianshu.com/7e0846cb.html" %})
-- [https://blog.csdn.net/afei__/article/details/81201039]({% include relref.html url="/backup/2021-02-01-cmakelists.md/blog.csdn.net/e4e068fd.html" %})
+- [https://github.com/pavelliavonau/cmakeconverter]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/github.com/551473f5.html" %})
+- [https://developer.android.com/studio/projects/configure-cmake]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/developer.android.com/e400582b.html" %})
+- [https://cmake.org/cmake/help/latest/manual/cmake-commands.7.html]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/cmake.org/dae0cbfc.html" %})
+- [https://blog.csdn.net/Huoon/article/details/108520571]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/blog.csdn.net/43695850.html" %})
+- [https://stackoverflow.com/questions/8591762/ifdef-debug-with-cmake-independent-from-platform]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/stackoverflow.com/0392352f.html" %})
+- [https://github.com/juj/MathGeoLib/blob/master/CommonOptions.cmake]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/github.com/24e305e7.html" %})
+- [https://apache.github.io/xalan-c/api/PlatformDefinitions_8hpp_source.html]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/apache.github.io/eeffe529.html" %})
+- [https://blog.csdn.net/icbm/article/details/52336497]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/blog.csdn.net/5403caaa.html" %})
+- [https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/08%20Coordinate%20Systems/]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/learnopengl-cn.readthedocs.io/cfc9cf0a.html" %})
+- [https://www.cnblogs.com/tangxin-blog/p/8283460.html]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/www.cnblogs.com/efb145d7.html" %})
+- [https://zhuanlan.zhihu.com/p/267803605]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/zhuanlan.zhihu.com/d33bbe25.html" %})
+- [https://github.com/carl-wang-cn/demo/tree/master/cmake]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/github.com/bd0e5b28.html" %})
+- [https://zh.m.wikibooks.org/zh-hans/CMake_%E5%85%A5%E9%96%80/%E5%9F%BA%E6%9C%AC%E8%AA%9E%E6%B3%95]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/zh.m.wikibooks.org/c46fcb62.html" %})
+- [https://www.jianshu.com/p/528eeb266f83]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/www.jianshu.com/7e0846cb.html" %})
+- [https://blog.csdn.net/afei__/article/details/81201039]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/blog.csdn.net/e4e068fd.html" %})

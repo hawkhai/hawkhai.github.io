@@ -114,15 +114,15 @@ JPEG 图像压缩算法流程详解 <https://www.cnblogs.com/buaaxhzh/p/9138307.
 - [5] [opencv 图像变换原理详解 图像平移 图像旋转 图像缩放 {% include relref_cnblogs.html %}](https://www.cnblogs.com/wojianxin/p/12591410.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-09-27-dip-color-image.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-09-27-dip-color-image.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://blog.csdn.net/chenaiyanmie/article/details/80246108]({% include relref.html url="/backup/2020-09-27-dip-color-image.md/blog.csdn.net/8f1617a3.html" %})
-- [https://www.originlab.com/doc/Origin-Help/Continuous-WaveTrans]({% include relref.html url="/backup/2020-09-27-dip-color-image.md/www.originlab.com/1c8787ea.html" %})
-- [https://blog.csdn.net/newchenxf/article/details/51719597]({% include relref.html url="/backup/2020-09-27-dip-color-image.md/blog.csdn.net/55caa543.html" %})
-- [https://www.cnblogs.com/buaaxhzh/p/9138307.html]({% include relref.html url="/backup/2020-09-27-dip-color-image.md/www.cnblogs.com/d90fb3c3.html" %})
-- [https://www.bilibili.com/video/BV1tx41147Tx]({% include relref.html url="/backup/2020-09-27-dip-color-image.md/www.bilibili.com/57d122ce.html" %})
-- [https://www.cnblogs.com/36bian/p/7609304.html]({% include relref.html url="/backup/2020-09-27-dip-color-image.md/www.cnblogs.com/9c1872d6.html" %})
-- [https://www.cnblogs.com/-wenli/p/11744405.html]({% include relref.html url="/backup/2020-09-27-dip-color-image.md/www.cnblogs.com/98804d9b.html" %})
-- [https://www.cnblogs.com/wojianxin/tag/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/default.html]({% include relref.html url="/backup/2020-09-27-dip-color-image.md/www.cnblogs.com/5292bd07.html" %})
-- [https://www.cnblogs.com/wojianxin/p/12591410.html]({% include relref.html url="/backup/2020-09-27-dip-color-image.md/www.cnblogs.com/5c2ee41d.html" %})
+- [https://blog.csdn.net/chenaiyanmie/article/details/80246108]({% include relrefx.html url="/backup/2020-09-27-dip-color-image.md/blog.csdn.net/8f1617a3.html" %})
+- [https://www.originlab.com/doc/Origin-Help/Continuous-WaveTrans]({% include relrefx.html url="/backup/2020-09-27-dip-color-image.md/www.originlab.com/1c8787ea.html" %})
+- [https://blog.csdn.net/newchenxf/article/details/51719597]({% include relrefx.html url="/backup/2020-09-27-dip-color-image.md/blog.csdn.net/55caa543.html" %})
+- [https://www.cnblogs.com/buaaxhzh/p/9138307.html]({% include relrefx.html url="/backup/2020-09-27-dip-color-image.md/www.cnblogs.com/d90fb3c3.html" %})
+- [https://www.bilibili.com/video/BV1tx41147Tx]({% include relrefx.html url="/backup/2020-09-27-dip-color-image.md/www.bilibili.com/57d122ce.html" %})
+- [https://www.cnblogs.com/36bian/p/7609304.html]({% include relrefx.html url="/backup/2020-09-27-dip-color-image.md/www.cnblogs.com/9c1872d6.html" %})
+- [https://www.cnblogs.com/-wenli/p/11744405.html]({% include relrefx.html url="/backup/2020-09-27-dip-color-image.md/www.cnblogs.com/98804d9b.html" %})
+- [https://www.cnblogs.com/wojianxin/tag/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/default.html]({% include relrefx.html url="/backup/2020-09-27-dip-color-image.md/www.cnblogs.com/5292bd07.html" %})
+- [https://www.cnblogs.com/wojianxin/p/12591410.html]({% include relrefx.html url="/backup/2020-09-27-dip-color-image.md/www.cnblogs.com/5c2ee41d.html" %})

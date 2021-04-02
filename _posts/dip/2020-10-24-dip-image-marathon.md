@@ -394,12 +394,12 @@ outv = outv * (1-mask_fishergirl) + outvgril * mask_fishergirl
 {% include image.html url="/assets/images/201024-dip-image-marathon/phase3_sky_final.png_glod.png" %}
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-10-24-dip-image-marathon.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-10-24-dip-image-marathon.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://www.doc88.com/p-6681238446960.html]({% include relref.html url="/backup/2020-10-24-dip-image-marathon.md/www.doc88.com/f78335d1.html" %})
-- [https://max.book118.com/html/2017/0903/131690968.shtm]({% include relref.html url="/backup/2020-10-24-dip-image-marathon.md/max.book118.com/57242791.shtm" %})
-- [https://blog.csdn.net/qq_30815237/article/details/98655630]({% include relref.html url="/backup/2020-10-24-dip-image-marathon.md/blog.csdn.net/0233bfc6.html" %})
-- [https://blog.csdn.net/LuohenYJ/article/details/90640654]({% include relref.html url="/backup/2020-10-24-dip-image-marathon.md/blog.csdn.net/cb6675f5.html" %})
-- [https://blog.csdn.net/dcrmg/article/details/53792061]({% include relref.html url="/backup/2020-10-24-dip-image-marathon.md/blog.csdn.net/f78939f0.html" %})
-- [http://accu.cc/content/pil/watermark/]({% include relref.html url="/backup/2020-10-24-dip-image-marathon.md/accu.cc/5433f4f7.html" %})
+- [https://www.doc88.com/p-6681238446960.html]({% include relrefx.html url="/backup/2020-10-24-dip-image-marathon.md/www.doc88.com/f78335d1.html" %})
+- [https://max.book118.com/html/2017/0903/131690968.shtm]({% include relrefx.html url="/backup/2020-10-24-dip-image-marathon.md/max.book118.com/57242791.shtm" %})
+- [https://blog.csdn.net/qq_30815237/article/details/98655630]({% include relrefx.html url="/backup/2020-10-24-dip-image-marathon.md/blog.csdn.net/0233bfc6.html" %})
+- [https://blog.csdn.net/LuohenYJ/article/details/90640654]({% include relrefx.html url="/backup/2020-10-24-dip-image-marathon.md/blog.csdn.net/cb6675f5.html" %})
+- [https://blog.csdn.net/dcrmg/article/details/53792061]({% include relrefx.html url="/backup/2020-10-24-dip-image-marathon.md/blog.csdn.net/f78939f0.html" %})
+- [http://accu.cc/content/pil/watermark/]({% include relrefx.html url="/backup/2020-10-24-dip-image-marathon.md/accu.cc/5433f4f7.html" %})

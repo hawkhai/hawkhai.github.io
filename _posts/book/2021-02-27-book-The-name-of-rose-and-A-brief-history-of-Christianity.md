@@ -108,9 +108,9 @@ codeprint:
 - [3] [gh0106《玫瑰的名字》3：三个顶尖头脑的争论](http://web699250.com/archiver/?tid-16296.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-27-book-The-name-of-rose-and-A-brief-history-of-Christianity.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-02-27-book-The-name-of-rose-and-A-brief-history-of-Christianity.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [http://web699250.com/archiver/?tid-16270.html]({% include relref.html url="/backup/2021-02-27-book-The-name-of-rose-and-A-brief-history-of-Christianity.md/web699250.com/4cf72a7d.html" %})
-- [http://web699250.com/archiver/?tid-16285.html]({% include relref.html url="/backup/2021-02-27-book-The-name-of-rose-and-A-brief-history-of-Christianity.md/web699250.com/b524e6c0.html" %})
-- [http://web699250.com/archiver/?tid-16296.html]({% include relref.html url="/backup/2021-02-27-book-The-name-of-rose-and-A-brief-history-of-Christianity.md/web699250.com/1750192a.html" %})
+- [http://web699250.com/archiver/?tid-16270.html]({% include relrefx.html url="/backup/2021-02-27-book-The-name-of-rose-and-A-brief-history-of-Christianity.md/web699250.com/4cf72a7d.html" %})
+- [http://web699250.com/archiver/?tid-16285.html]({% include relrefx.html url="/backup/2021-02-27-book-The-name-of-rose-and-A-brief-history-of-Christianity.md/web699250.com/b524e6c0.html" %})
+- [http://web699250.com/archiver/?tid-16296.html]({% include relrefx.html url="/backup/2021-02-27-book-The-name-of-rose-and-A-brief-history-of-Christianity.md/web699250.com/1750192a.html" %})

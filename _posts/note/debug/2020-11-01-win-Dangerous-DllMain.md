@@ -129,13 +129,13 @@ User32 和 Gdi32 中部分函数在调用的底层会加载其他 DLL。
 3. 新线程起来：LdrInitializeThunk -> LdrpDrainWorkQueue 中的 LdrpLoadCompleteEvent 锁
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-11-01-win-Dangerous-DllMain.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-11-01-win-Dangerous-DllMain.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [http://blog.csdn.net/breaksoftware/article/details/8163362]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/87294419.html" %})
-- [http://blog.csdn.net/breaksoftware/article/details/8150476]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/44e57bef.html" %})
-- [http://blog.csdn.net/breaksoftware/article/details/8163663]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/79314094.html" %})
-- [https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-coinitialize?redirectedfrom=MSDN]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/docs.microsoft.com/488b94b8.html" %})
-- [https://docs.microsoft.com/zh-cn/windows/win32/dlls/dynamic-link-library-best-practices?redirectedfrom=MSDN]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/docs.microsoft.com/67dab8c2.html" %})
-- [https://docs.microsoft.com/zh-cn/windows/win32/dlls/dllmain?redirectedfrom=MSDN]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/docs.microsoft.com/2170abf7.html" %})
-- [https://bbs.pediy.com/thread-208999.htm]({% include relref.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/bbs.pediy.com/60516d54.htm" %})
+- [http://blog.csdn.net/breaksoftware/article/details/8163362]({% include relrefx.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/87294419.html" %})
+- [http://blog.csdn.net/breaksoftware/article/details/8150476]({% include relrefx.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/44e57bef.html" %})
+- [http://blog.csdn.net/breaksoftware/article/details/8163663]({% include relrefx.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/blog.csdn.net/79314094.html" %})
+- [https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-coinitialize?redirectedfrom=MSDN]({% include relrefx.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/docs.microsoft.com/488b94b8.html" %})
+- [https://docs.microsoft.com/zh-cn/windows/win32/dlls/dynamic-link-library-best-practices?redirectedfrom=MSDN]({% include relrefx.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/docs.microsoft.com/67dab8c2.html" %})
+- [https://docs.microsoft.com/zh-cn/windows/win32/dlls/dllmain?redirectedfrom=MSDN]({% include relrefx.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/docs.microsoft.com/2170abf7.html" %})
+- [https://bbs.pediy.com/thread-208999.htm]({% include relrefx.html url="/backup/2020-11-01-win-Dangerous-DllMain.md/bbs.pediy.com/60516d54.htm" %})

@@ -88,11 +88,11 @@ codeprint:
 * [NO.1294 城市应该划分功能区吗？](https://www.ljsw.io/knowl/article/SF.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-16-book-Le-retour-de-la-bicyclette.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-02-16-book-Le-retour-de-la-bicyclette.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [http://web699250.com/archiver/?tid-15889.html]({% include relref.html url="/backup/2021-02-16-book-Le-retour-de-la-bicyclette.md/web699250.com/a4ba838d.html" %})
-- [http://web699250.com/archiver/?tid-15897.html]({% include relref.html url="/backup/2021-02-16-book-Le-retour-de-la-bicyclette.md/web699250.com/bed3c602.html" %})
-- [http://web699250.com/archiver/?tid-15907.html]({% include relref.html url="/backup/2021-02-16-book-Le-retour-de-la-bicyclette.md/web699250.com/34ae7bc0.html" %})
-- [http://web699250.com/archiver/?tid-15915.html]({% include relref.html url="/backup/2021-02-16-book-Le-retour-de-la-bicyclette.md/web699250.com/eb779ac7.html" %})
-- [https://www.ljsw.io/knowl/article/SF.html]({% include relref.html url="/backup/2021-02-16-book-Le-retour-de-la-bicyclette.md/www.ljsw.io/414a5668.html" %})
+- [http://web699250.com/archiver/?tid-15889.html]({% include relrefx.html url="/backup/2021-02-16-book-Le-retour-de-la-bicyclette.md/web699250.com/a4ba838d.html" %})
+- [http://web699250.com/archiver/?tid-15897.html]({% include relrefx.html url="/backup/2021-02-16-book-Le-retour-de-la-bicyclette.md/web699250.com/bed3c602.html" %})
+- [http://web699250.com/archiver/?tid-15907.html]({% include relrefx.html url="/backup/2021-02-16-book-Le-retour-de-la-bicyclette.md/web699250.com/34ae7bc0.html" %})
+- [http://web699250.com/archiver/?tid-15915.html]({% include relrefx.html url="/backup/2021-02-16-book-Le-retour-de-la-bicyclette.md/web699250.com/eb779ac7.html" %})
+- [https://www.ljsw.io/knowl/article/SF.html]({% include relrefx.html url="/backup/2021-02-16-book-Le-retour-de-la-bicyclette.md/www.ljsw.io/414a5668.html" %})

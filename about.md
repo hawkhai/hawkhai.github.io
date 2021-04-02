@@ -120,8 +120,8 @@ And, I welcome any feedback on the contents and your suggestions.
 {% endhighlight %}
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/about.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/about.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://twitter.com/]({% include relref.html url="/backup/about.md/twitter.com/4fd9c9a2.html" %})
-- [https://github.com/]({% include relref.html url="/backup/about.md/github.com/008ec445.html" %})
+- [https://twitter.com/]({% include relrefx.html url="/backup/about.md/twitter.com/4fd9c9a2.html" %})
+- [https://github.com/]({% include relrefx.html url="/backup/about.md/github.com/008ec445.html" %})

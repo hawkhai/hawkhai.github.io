@@ -516,11 +516,11 @@ Gabor 滤波器是一种结合了高斯分布和频率变换的滤波器，用�
 ### 一百：简单物体检测第四步 —— 评估（Evaluation）：Precision、Recall、F-Score、mAP
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-10-10-dip-image-processing-100wen.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-10-10-dip-image-processing-100wen.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://github.com/gzr2017/ImageProcessing100Wen]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/github.com/78536fa0.html" %})
-- [https://github.com/yoyoyo-yo/Gasyori100knock]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/github.com/d9ce062c.html" %})
-- [https://www.cnblogs.com/xiongmozhou/p/9391323.html]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/www.cnblogs.com/1ec5dc1d.html" %})
-- [https://www.anaconda.com/download/]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/www.anaconda.com/10178c41.html" %})
-- [https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/]({% include relref.html url="/backup/2020-10-10-dip-image-processing-100wen.md/mirrors.tuna.tsinghua.edu.cn/1484ea36.html" %})
+- [https://github.com/gzr2017/ImageProcessing100Wen]({% include relrefx.html url="/backup/2020-10-10-dip-image-processing-100wen.md/github.com/78536fa0.html" %})
+- [https://github.com/yoyoyo-yo/Gasyori100knock]({% include relrefx.html url="/backup/2020-10-10-dip-image-processing-100wen.md/github.com/d9ce062c.html" %})
+- [https://www.cnblogs.com/xiongmozhou/p/9391323.html]({% include relrefx.html url="/backup/2020-10-10-dip-image-processing-100wen.md/www.cnblogs.com/1ec5dc1d.html" %})
+- [https://www.anaconda.com/download/]({% include relrefx.html url="/backup/2020-10-10-dip-image-processing-100wen.md/www.anaconda.com/10178c41.html" %})
+- [https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/]({% include relrefx.html url="/backup/2020-10-10-dip-image-processing-100wen.md/mirrors.tuna.tsinghua.edu.cn/1484ea36.html" %})

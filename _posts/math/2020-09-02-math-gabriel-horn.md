@@ -90,9 +90,9 @@ Gabriel 喇叭会导出一个非常诡异的悖论：如果你想用涂料把 Ga
 - [3] <https://baijiahao.baidu.com/s?id=1660502466103090640>
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-09-02-math-gabriel-horn.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-09-02-math-gabriel-horn.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://en.wikipedia.org/wiki/Gabriel%27s_Horn]({% include relref.html url="/backup/2020-09-02-math-gabriel-horn.md/en.wikipedia.org/c3179941.html" %})
-- [http://www.matrix67.com/blog/archives/773]({% include relref.html url="/backup/2020-09-02-math-gabriel-horn.md/www.matrix67.com/3e0aa503.html" %})
-- [https://baijiahao.baidu.com/s?id=1660502466103090640]({% include relref.html url="/backup/2020-09-02-math-gabriel-horn.md/baijiahao.baidu.com/f90f4671.html" %})
+- [https://en.wikipedia.org/wiki/Gabriel%27s_Horn]({% include relrefx.html url="/backup/2020-09-02-math-gabriel-horn.md/en.wikipedia.org/c3179941.html" %})
+- [http://www.matrix67.com/blog/archives/773]({% include relrefx.html url="/backup/2020-09-02-math-gabriel-horn.md/www.matrix67.com/3e0aa503.html" %})
+- [https://baijiahao.baidu.com/s?id=1660502466103090640]({% include relrefx.html url="/backup/2020-09-02-math-gabriel-horn.md/baijiahao.baidu.com/f90f4671.html" %})

@@ -187,13 +187,13 @@ Andrey Kurenkov
 - [7] <https://www.andreykurenkov.com/writing/life/lessons-learned-from-failures/>
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://www.jianshu.com/p/f90d923b73b5]({% include relref.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.jianshu.com/041824b2.html" %})
-- [https://www.jianshu.com/p/9dc4c2320732]({% include relref.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.jianshu.com/b7378314.html" %})
-- [https://www.jianshu.com/p/5db8170d4bcb]({% include relref.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.jianshu.com/4ca64f65.html" %})
-- [https://www.jianshu.com/p/e1bac195f06d]({% include relref.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.jianshu.com/f80ec7b0.html" %})
-- [http://www.360doc.com/content/17/1207/08/1609415_710706921.shtml]({% include relref.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.360doc.com/68c30233.shtml" %})
-- [https://www.skynettoday.com/overviews/neural-net-history]({% include relref.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.skynettoday.com/3fb22ab6.html" %})
-- [https://www.andreykurenkov.com/writing/life/lessons-learned-from-failures/]({% include relref.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.andreykurenkov.com/8920000a.html" %})
+- [https://www.jianshu.com/p/f90d923b73b5]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.jianshu.com/041824b2.html" %})
+- [https://www.jianshu.com/p/9dc4c2320732]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.jianshu.com/b7378314.html" %})
+- [https://www.jianshu.com/p/5db8170d4bcb]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.jianshu.com/4ca64f65.html" %})
+- [https://www.jianshu.com/p/e1bac195f06d]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.jianshu.com/f80ec7b0.html" %})
+- [http://www.360doc.com/content/17/1207/08/1609415_710706921.shtml]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.360doc.com/68c30233.shtml" %})
+- [https://www.skynettoday.com/overviews/neural-net-history]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.skynettoday.com/3fb22ab6.html" %})
+- [https://www.andreykurenkov.com/writing/life/lessons-learned-from-failures/]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.andreykurenkov.com/8920000a.html" %})

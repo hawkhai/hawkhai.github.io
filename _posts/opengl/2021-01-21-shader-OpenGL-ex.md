@@ -1907,11 +1907,11 @@ $$NV/AMD/INTEL/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
 179. wglMakeCurrent ogl
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-21-shader-OpenGL-ex.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-01-21-shader-OpenGL-ex.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://riptutorial.com/zh-CN/opengl]({% include relref.html url="/backup/2021-01-21-shader-OpenGL-ex.md/riptutorial.com/d14cbeb5.html" %})
-- [https://docs.microsoft.com/zh-cn/windows/win32/opengl/wgl-functions]({% include relref.html url="/backup/2021-01-21-shader-OpenGL-ex.md/docs.microsoft.com/2204bf30.html" %})
-- [https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions]({% include relref.html url="/backup/2021-01-21-shader-OpenGL-ex.md/www.khronos.org/108527e1.html" %})
-- [https://blog.csdn.net/qq_31243065/article/details/105466436]({% include relref.html url="/backup/2021-01-21-shader-OpenGL-ex.md/blog.csdn.net/213dac02.html" %})
-- [https://blog.csdn.net/qq_22822335/article/details/50682294]({% include relref.html url="/backup/2021-01-21-shader-OpenGL-ex.md/blog.csdn.net/ea7981bb.html" %})
+- [https://riptutorial.com/zh-CN/opengl]({% include relrefx.html url="/backup/2021-01-21-shader-OpenGL-ex.md/riptutorial.com/d14cbeb5.html" %})
+- [https://docs.microsoft.com/zh-cn/windows/win32/opengl/wgl-functions]({% include relrefx.html url="/backup/2021-01-21-shader-OpenGL-ex.md/docs.microsoft.com/2204bf30.html" %})
+- [https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions]({% include relrefx.html url="/backup/2021-01-21-shader-OpenGL-ex.md/www.khronos.org/108527e1.html" %})
+- [https://blog.csdn.net/qq_31243065/article/details/105466436]({% include relrefx.html url="/backup/2021-01-21-shader-OpenGL-ex.md/blog.csdn.net/213dac02.html" %})
+- [https://blog.csdn.net/qq_22822335/article/details/50682294]({% include relrefx.html url="/backup/2021-01-21-shader-OpenGL-ex.md/blog.csdn.net/ea7981bb.html" %})

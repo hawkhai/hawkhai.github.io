@@ -371,20 +371,20 @@ Quintic falloffs solves the problem.
 - [2] [高级光照 learnopengl-cn {% include relref_github.html %}](https://learnopengl-cn.github.io/05%20Advanced%20Lighting/01%20Advanced%20Lighting/)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-14-shader-OpenGL-Lighting-Advanced.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-14-shader-OpenGL-Lighting-Advanced.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://de45xmedrsdbp.cloudfront.net/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/de45xmedrsdbp.cloudfront.net/5e127a5d.pdf" %})
-- [https://zhuanlan.zhihu.com/p/102134614]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/zhuanlan.zhihu.com/4b44882b.html" %})
-- [https://blog.csdn.net/qq_41286360/article/details/102794290]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/blog.csdn.net/cf63d6f4.html" %})
-- [https://www.cnblogs.com/wangchengfeng/p/3440097.html]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.cnblogs.com/fec295b6.html" %})
-- [https://www.ndt.net/article/wcndt00/papers/idn256/idn256.htm]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.ndt.net/368552c1.htm" %})
-- [https://www.cnblogs.com/kalluwa/p/7092532.html]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.cnblogs.com/7b29365d.html" %})
-- [https://www.shadertoy.com/view/XssXDl]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.shadertoy.com/2ed3e251.html" %})
-- [https://www.shadertoy.com/view/ld2GRz]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.shadertoy.com/9f397b54.html" %})
-- [https://github.com/millsvonmilski/Unity3D_RayMarching_MetaBall]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/github.com/e5fcf488.html" %})
-- [http://softpixelengine.sourceforge.net/screenshots_gallery.html]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/softpixelengine.sourceforge.net/5dda551b.html" %})
-- [https://blog.csdn.net/leonwei/article/details/84821309]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/blog.csdn.net/5d77c232.html" %})
-- [https://blog.csdn.net/gqkly/article/details/88086791]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/blog.csdn.net/275cbb7d.html" %})
-- [http://morimiya.me/2019/02/24/Blinn-Phong%E5%85%89%E7%85%A7/]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/morimiya.me/7ce24540.html" %})
-- [https://learnopengl-cn.github.io/05%20Advanced%20Lighting/01%20Advanced%20Lighting/]({% include relref.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/learnopengl-cn.github.io/6e82a48b.html" %})
+- [https://de45xmedrsdbp.cloudfront.net/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf]({% include relrefx.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/de45xmedrsdbp.cloudfront.net/5e127a5d.pdf" %})
+- [https://zhuanlan.zhihu.com/p/102134614]({% include relrefx.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/zhuanlan.zhihu.com/4b44882b.html" %})
+- [https://blog.csdn.net/qq_41286360/article/details/102794290]({% include relrefx.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/blog.csdn.net/cf63d6f4.html" %})
+- [https://www.cnblogs.com/wangchengfeng/p/3440097.html]({% include relrefx.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.cnblogs.com/fec295b6.html" %})
+- [https://www.ndt.net/article/wcndt00/papers/idn256/idn256.htm]({% include relrefx.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.ndt.net/368552c1.htm" %})
+- [https://www.cnblogs.com/kalluwa/p/7092532.html]({% include relrefx.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.cnblogs.com/7b29365d.html" %})
+- [https://www.shadertoy.com/view/XssXDl]({% include relrefx.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.shadertoy.com/2ed3e251.html" %})
+- [https://www.shadertoy.com/view/ld2GRz]({% include relrefx.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/www.shadertoy.com/9f397b54.html" %})
+- [https://github.com/millsvonmilski/Unity3D_RayMarching_MetaBall]({% include relrefx.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/github.com/e5fcf488.html" %})
+- [http://softpixelengine.sourceforge.net/screenshots_gallery.html]({% include relrefx.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/softpixelengine.sourceforge.net/5dda551b.html" %})
+- [https://blog.csdn.net/leonwei/article/details/84821309]({% include relrefx.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/blog.csdn.net/5d77c232.html" %})
+- [https://blog.csdn.net/gqkly/article/details/88086791]({% include relrefx.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/blog.csdn.net/275cbb7d.html" %})
+- [http://morimiya.me/2019/02/24/Blinn-Phong%E5%85%89%E7%85%A7/]({% include relrefx.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/morimiya.me/7ce24540.html" %})
+- [https://learnopengl-cn.github.io/05%20Advanced%20Lighting/01%20Advanced%20Lighting/]({% include relrefx.html url="/backup/2020-12-14-shader-OpenGL-Lighting-Advanced.md/learnopengl-cn.github.io/6e82a48b.html" %})

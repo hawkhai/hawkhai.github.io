@@ -217,4 +217,4 @@ public class IrrlichtGLView extends SurfaceView implements SurfaceHolder.Callbac
 * 崩溃的位置不一定是出问题的位置，可以从参数问题上顺藤摸瓜，直到找到真正的原因。崩溃在 C++，最后改在 Java。
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-20-Android-opengles-jni-render.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-02-20-Android-opengles-jni-render.md.js" %}'></script></p>

@@ -334,20 +334,20 @@ void main()
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-29-shader-opengl-es-blend.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-03-29-shader-opengl-es-blend.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://developer.aliyun.com/article/782026]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/developer.aliyun.com/156f5476.html" %})
-- [https://docs.nvidia.com/gameworks/content/technologies/mobile/native_android_opengles.htm]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/docs.nvidia.com/9718b03b.htm" %})
-- [https://tool.oschina.net/uploads/apidocs/android/resources/tutorials/opengl/opengl-es20.html]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/tool.oschina.net/c495466f.html" %})
-- [https://arm-software.github.io/opengl-es-sdk-for-android/simple_triangle.html]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/arm-software.github.io/09de944d.html" %})
-- [https://developer.android.com/training/graphics/opengl/environment]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/developer.android.com/e0fe5c7d.html" %})
-- [https://developer.android.com/guide/topics/graphics/opengl]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/developer.android.com/39561e3a.html" %})
-- [https://stackoverflow.com/questions/15380491/glvertexattribpointer-in-opengl-and-in-opengles]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/stackoverflow.com/a2d1f30c.html" %})
-- [https://community.arm.com/developer/tools-software/graphics/b/blog/posts/stride-argument-in-opengl-es-2-0]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/community.arm.com/714cb84e.html" %})
-- [https://zhuanlan.zhihu.com/p/111611096]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/zhuanlan.zhihu.com/7e4d93d1.html" %})
-- [https://blog.csdn.net/csxiaoshui/article/details/53505933]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/blog.csdn.net/698b3f27.html" %})
-- [https://learnopengl-cn.readthedocs.io/zh/latest/04%20Advanced%20OpenGL/03%20Blending/]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/learnopengl-cn.readthedocs.io/7ca72863.html" %})
-- [https://blog.csdn.net/alicehyxx/article/details/4263058]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/blog.csdn.net/aca962c2.html" %})
-- [https://www.heqiangfly.com/2020/04/30/opengl-es-color-blend/]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/www.heqiangfly.com/721ce01e.html" %})
-- [https://blog.csdn.net/xufeng0991/article/details/80813594]({% include relref.html url="/backup/2021-03-29-shader-opengl-es-blend.md/blog.csdn.net/736e356f.html" %})
+- [https://developer.aliyun.com/article/782026]({% include relrefx.html url="/backup/2021-03-29-shader-opengl-es-blend.md/developer.aliyun.com/156f5476.html" %})
+- [https://docs.nvidia.com/gameworks/content/technologies/mobile/native_android_opengles.htm]({% include relrefx.html url="/backup/2021-03-29-shader-opengl-es-blend.md/docs.nvidia.com/9718b03b.htm" %})
+- [https://tool.oschina.net/uploads/apidocs/android/resources/tutorials/opengl/opengl-es20.html]({% include relrefx.html url="/backup/2021-03-29-shader-opengl-es-blend.md/tool.oschina.net/c495466f.html" %})
+- [https://arm-software.github.io/opengl-es-sdk-for-android/simple_triangle.html]({% include relrefx.html url="/backup/2021-03-29-shader-opengl-es-blend.md/arm-software.github.io/09de944d.html" %})
+- [https://developer.android.com/training/graphics/opengl/environment]({% include relrefx.html url="/backup/2021-03-29-shader-opengl-es-blend.md/developer.android.com/e0fe5c7d.html" %})
+- [https://developer.android.com/guide/topics/graphics/opengl]({% include relrefx.html url="/backup/2021-03-29-shader-opengl-es-blend.md/developer.android.com/39561e3a.html" %})
+- [https://stackoverflow.com/questions/15380491/glvertexattribpointer-in-opengl-and-in-opengles]({% include relrefx.html url="/backup/2021-03-29-shader-opengl-es-blend.md/stackoverflow.com/a2d1f30c.html" %})
+- [https://community.arm.com/developer/tools-software/graphics/b/blog/posts/stride-argument-in-opengl-es-2-0]({% include relrefx.html url="/backup/2021-03-29-shader-opengl-es-blend.md/community.arm.com/714cb84e.html" %})
+- [https://zhuanlan.zhihu.com/p/111611096]({% include relrefx.html url="/backup/2021-03-29-shader-opengl-es-blend.md/zhuanlan.zhihu.com/7e4d93d1.html" %})
+- [https://blog.csdn.net/csxiaoshui/article/details/53505933]({% include relrefx.html url="/backup/2021-03-29-shader-opengl-es-blend.md/blog.csdn.net/698b3f27.html" %})
+- [https://learnopengl-cn.readthedocs.io/zh/latest/04%20Advanced%20OpenGL/03%20Blending/]({% include relrefx.html url="/backup/2021-03-29-shader-opengl-es-blend.md/learnopengl-cn.readthedocs.io/7ca72863.html" %})
+- [https://blog.csdn.net/alicehyxx/article/details/4263058]({% include relrefx.html url="/backup/2021-03-29-shader-opengl-es-blend.md/blog.csdn.net/aca962c2.html" %})
+- [https://www.heqiangfly.com/2020/04/30/opengl-es-color-blend/]({% include relrefx.html url="/backup/2021-03-29-shader-opengl-es-blend.md/www.heqiangfly.com/721ce01e.html" %})
+- [https://blog.csdn.net/xufeng0991/article/details/80813594]({% include relrefx.html url="/backup/2021-03-29-shader-opengl-es-blend.md/blog.csdn.net/736e356f.html" %})
