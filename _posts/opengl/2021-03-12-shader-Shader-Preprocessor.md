@@ -19,7 +19,7 @@ cluster: "OpenGL Shader"
 不要在 VAO.release() 之前调用 VBO 或 EBO 的 release() 函数，VAO 也是一个状态机。[from {% include relref_csdn.html %}](https://blog.csdn.net/qq_40946921/article/details/108041536)
 
 ```cpp
-struct VAO{
+struct VAO {
     int ID;
     int VBO_ID;
     int EBO_ID;
