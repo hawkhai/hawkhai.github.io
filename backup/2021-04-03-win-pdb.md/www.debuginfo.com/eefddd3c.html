@@ -1,0 +1,689 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>DebugInfo.com - Matching debug information</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="../default.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+&lt;!--
+	@import url("../layout.css");
+--&gt;
+</style>
+</head>
+<body class="subpage2">
+<div id="header">
+	<div id="logo">
+		<a class="nodecor" href="../index.html" accesskey="1" title="">
+			<div id="logotext">
+				<h1 class="ctext2">DEBUGINFO.COM</h1>
+				<h2 class="ctext3">find bugs quickly</h2>
+			</div>
+		</a>
+	</div>
+	<div id="menu">
+		<ul>
+			<li><a class="nodecor" href="../products.html" id="menu1" accesskey="2" title=""><div id="menudiv1" class="ctext4">Products</div></a></li>
+			<li><a class="nodecor" href="../services.html" id="menu2" accesskey="3" title=""><div id="menudiv2" class="ctext4">Services</div></a></li>
+			<li><a class="nodecor" href="../resources.html" id="menu3" accesskey="4" title=""><div id="menudiv2" class="ctext4">Resources</div></a></li>
+			<li><a class="nodecor" href="../contact.html" id="menu4" accesskey="5" title=""><div id="menudiv2" class="ctext4">Contact</div></a></li>
+		</ul>
+	</div>
+</div>
+<div id="header2">
+	<div id="box1" class="bg1">
+		<!--<h2 class="text2">Make your software work</h2>-->
+		<!--<h3 class="text3">Amet nonummy etiam</h3>-->
+	</div>
+	<div id="search" class="bg2">
+	</div>
+</div>
+<div id="content">
+	<div id="box2">
+		<h2 class="text4">Matching debug information</h2>
+
+		<div id="articletext">
+
+<p>
+Updated: 23.11.2004
+</p>
+
+<p>
+<a href="#intro">Introduction</a><br />
+<a href="#debuginfoinpe">Debug information in PE executables</a><br />
+<a href="#debugdirexample">DebugDir example</a><br />
+<a href="#debuginfosepfile">Debug information in a separate file</a><br />
+<a href="#pdbfiles">PDB files</a><br />
+<a href="#dbgfiles">DBG files</a><br />
+<a href="#details">Matching debug information - the details</a><br />
+<a href="#loadunmatched">When matching is not desirable</a><br />
+<a href="#chkmatch">ChkMatch tool</a><br />
+</p>
+
+<h3 class="ctext5">
+<a name="intro">
+Introduction
+</a>
+</h3>
+
+<p>
+We know that debug information (symbols) helps debuggers to analyze the internal layout 
+of the debugged application. In particular, it helps the debugger to locate addresses 
+of variables and functions, display values of variables (including complex structures and 
+classes with nontrivial binary layout), and map raw addresses in the executable to the lines 
+of the source code. (See <a href="gendebuginfo.html">this article</a> for more information 
+about debug information and its contents). 
+</p>
+
+<p>
+When we modify the source code and rebuild the executable, its internal layout changes. 
+Some functions and variables can move to other locations, structures and classes can be 
+extended with new members while some old members can be removed, and so on. These changes 
+should be properly reflected in the debug information, which also must be updated to correctly 
+describe the new layout of the executable. 
+</p>
+
+<p>
+We also know that debug information is often stored separately from the executable, 
+usually in a PDB or DBG file. Now lets imagine what can happen if the debugger picks 
+up a wrong (or outdated) debug information file and tries to use it to debug the application. 
+In the best case, the user will see that some variables have incorrect values. In the worst 
+case, the debugger will not be able to display variables and step through the source code at all. 
+As a result, effective debugging is not possible, and the reason is that debug information does 
+not match the executable.
+</p>
+
+<p>
+It is clear that debuggers should do something to prevent such situations. It is achieved 
+through the concept of “matching debug information”. At the time when the executable is built 
+and debug information file is generated, the build tool (linker, for example) assigns a unique 
+identifier to the debug information file. Then this unique identifier is stored in two 
+places – in the executable and in the debug information file. When the debugger starts debugging 
+the executable, it refuses to load a debug information file if its unique identifier is not the same 
+as the identifier stored in the executable. At every subsequent rebuild, the build tool changes 
+the unique identifier, so that an old debug information file cannot be used to debug the new 
+executable, and vice versa. 
+</p>
+
+<p>
+<img src="pic/uniqueid.gif" alt="Unique identifier explained" />
+</p>
+
+<p>
+This is how the process of matching works, in brief. In the remainder of this article, we will 
+explore the details of debug information matching. We will see what kinds of unique identifiers 
+are used, where and how they are stored. We will also discuss situations when matching is not 
+desirable, and see what we can do to disable it if needed. 
+</p>
+
+
+<h3 class="ctext5">
+<a name="debuginfoinpe">
+Debug information in PE executables
+</a>
+</h3>
+
+<p>
+As usual, lets start with some theory and explore how debug information is stored in a typical 
+PE executable. Fortunately, PE format itself is well documented, so I don’t have to talk too much 
+about it here (<a href="http://www.microsoft.com/whdc/system/platform/firmware/PECOFF.mspx">PE 
+specification</a> and Matt Pietrek’s <a href="http://msdn.microsoft.com/msdnmag/issues/02/02/PE/default.aspx">articles</a> 
+are good sources of information <link />). In brief, a typical PE file starts with a set of headers 
+that contain various important information about the layout and characteristics of the executable. 
+Headers are followed by a set of contiguous data blocks, called “sections”, which contain the actual 
+code and data of the executable. At the end of the file, after the sections, other arbitrary data 
+can be placed. 
+</p>
+
+<p>
+<img src="pic/peformat.gif" alt="PE format" />
+</p>
+
+<p>
+When an executable is built with debug information, the debug information has to be stored somewhere. 
+Some debug information formats (COFF and CodeView) assume that the debug information is stored in 
+the executable. Other formats (Program Database, and also CodeView) allow storing debug information 
+in a separate file. But even in the latter case, the executable still contains a small piece of debug 
+information that tells the debugger that a separate file exists, and helps to find that file. 
+</p>
+
+<p>
+There is no common agreement between various build tools on the exact place in PE file where debug 
+information should be stored. Some tools put debug information into one of the sections, others 
+append it to the end of the file after all sections. But debuggers do not complain, because every 
+executable contains a “roadmap” that helps to find the place where debug information is stored. 
+</p>
+
+<p>
+The road to debug information starts in the file’s optional header (IMAGE_OPTIONAL_HEADER, see WINNT.H). 
+Needless to say that this header, while called “optional”, is always present in PE executables. 
+At the end of the optional header, there is DataDirectory member which serves as the address book 
+of the executable, pointing to various important locations in it. DataDirectory is actually an array 
+of IMAGE_DATA_DIRECTORY structures. 
+</p>
+
+<pre>typedef struct _IMAGE_DATA_DIRECTORY {
+    DWORD   VirtualAddress;
+    DWORD   Size;
+} IMAGE_DATA_DIRECTORY, *PIMAGE_DATA_DIRECTORY;
+
+typedef struct _IMAGE_OPTIONAL_HEADER {
+    WORD    Magic;
+    … // Many other fields
+    IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
+} IMAGE_OPTIONAL_HEADER32, *PIMAGE_OPTIONAL_HEADER32;
+</pre>
+
+<p>
+The entry at index 6 (IMAGE_DIRECTORY_ENTRY_DEBUG) contains the address and size of the executable’s 
+debug directory, which is the place where to look for the real location of debug information in the 
+executable file. Debug directory is stored in one of the PE sections, and consists of an array of 
+IMAGE_DEBUG_DIRECTORY structures. 
+</p>
+
+<pre>typedef struct _IMAGE_DEBUG_DIRECTORY {
+    DWORD   Characteristics;
+    DWORD   TimeDateStamp;
+    WORD    MajorVersion;
+    WORD    MinorVersion;
+    DWORD   Type;
+    DWORD   SizeOfData;
+    DWORD   AddressOfRawData;
+    DWORD   PointerToRawData;
+} IMAGE_DEBUG_DIRECTORY, *PIMAGE_DEBUG_DIRECTORY;
+</pre>
+
+<p>
+The number of entries in the debug directory can be obtained by dividing the size of the debug directory 
+(as specified in the optional header’s data directory entry) by the size of IMAGE_DEBUG_DIRECTORY structure. 
+</p>
+
+<p>
+The fact that the debug directory is an array clearly shows that an executable can contain more 
+than one kind of debug information at the same time. For example, executables built with Visual 
+C++ 6.0 contain both COFF and CodeView debug information when /debugtype:both linker option is used. 
+</p>
+
+<p>
+The kind of debug information described by a particular debug directory entry is specified in Type 
+field of IMAGE_DEBUG_DIRECTORY structure. It can have one of the following values (defined in WINNT.H): 
+</p>
+
+<pre>#define IMAGE_DEBUG_TYPE_UNKNOWN          0
+#define IMAGE_DEBUG_TYPE_COFF             1
+#define IMAGE_DEBUG_TYPE_CODEVIEW         2
+#define IMAGE_DEBUG_TYPE_FPO              3
+#define IMAGE_DEBUG_TYPE_MISC             4
+#define IMAGE_DEBUG_TYPE_EXCEPTION        5
+#define IMAGE_DEBUG_TYPE_FIXUP            6
+#define IMAGE_DEBUG_TYPE_OMAP_TO_SRC      7
+#define IMAGE_DEBUG_TYPE_OMAP_FROM_SRC    8
+#define IMAGE_DEBUG_TYPE_BORLAND          9
+#define IMAGE_DEBUG_TYPE_RESERVED10       10
+#define IMAGE_DEBUG_TYPE_CLSID            11
+</pre>
+
+<p>
+When working with PE executables built by Microsoft tools, we usually have to deal with only a subset of types: 
+</p>
+
+<table border="1">
+
+<tbody><tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>IMAGE_DEBUG_TYPE_COFF</td>
+<td>
+COFF debug information (stored in the executable)
+</td>
+</tr>
+
+<tr>
+<td>IMAGE_DEBUG_TYPE_CODEVIEW</td>
+<td>
+CodeView debug information (stored in the executable) or Program Database debug information (stored in PDB file)
+</td>
+</tr>
+
+<tr>
+<td>IMAGE_DEBUG_TYPE_MISC</td>
+<td>
+CodeView debug information (stored in DBG file)
+</td>
+</tr>
+
+<tr>
+<td>IMAGE_DEBUG_TYPE_FPO</td>
+<td>
+Frame pointer omission information, which helps debug optimised executables
+</td>
+</tr>
+
+</tbody></table>
+
+<p>
+FileOffset and Size members of IMAGE_DEBUG_DIRECTORY structure specify the actual location of the debug information of the given type in the executable file. 
+</p>
+
+<p>
+To summarize, when a debugger wants to find debug information for an executable, it performs the following steps: 
+</p>
+
+<p>
+1. Read the optional header’s data directory entry which describes the debug information 
+(IMAGE_OPTIONAL_HEADER.DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG]) and determine the location and size 
+of the executable’s debug directory. 
+</p>
+
+<p>
+2. Read debug directory entries and pick up the ones the debugger is interested in. Use FileOffset and Size 
+members of the corresponding IMAGE_DEBUG_DIRECTORY structure to determine the actual location and size 
+of the debug information. 
+</p>
+
+<p>
+3. Read the debug information. (If the main part of debug information is stored in a separate file, 
+read the file name from the debug information stored in the executable, and load that file). 
+</p>
+
+<p>
+<img src="pic/debuginforoadmap.gif" alt="Debug information roadmap" />
+</p>
+
+
+<h3 class="ctext5">
+<a name="debugdirexample">
+DebugDir example
+</a>
+</h3>
+
+<p>
+DebugDir <a href="../examples/debugdir.html">example</a> shows the process of finding the location of debug 
+information in an executable in details. 
+</p>
+
+
+<h3 class="ctext5">
+<a name="debuginfosepfile">
+Debug information in a separate file
+</a>
+</h3>
+
+<p>
+Now I have to remind myself that I was actually going to discuss matching debug information. 
+Thus, while it could be interesting to talk about all possible formats of debug information 
+that we can find in a PE file, there is no sense in doing it here. This is because if the whole 
+debug information is stored in the executable, it is always matched. So lets focus only on 
+the cases where debug information is stored in a separate file. At the time being, there are 
+only two such cases: 
+</p><ul>
+<li>Debug information stored in PDB file (with two existing formats – PDB 2.0 and PDB 7.0)</li>
+<li>Debug information stored in DBG file</li>
+</ul>
+<p></p>
+
+
+<h3 class="ctext5">
+<a name="pdbfiles">
+PDB files
+</a>
+</h3>
+
+<p>
+When debug information for an executable is stored in PDB file, the executable’s debug directory 
+contains an entry of type IMAGE_DEBUG_TYPE_CODEVIEW. This entry points to a small data block, which 
+tells the debugger where to look for the PDB file. But before we proceed to the details of the data 
+stored in this block, a word about CodeView debug information in general should be said.
+</p>
+
+<p>
+If we look at CodeView format specification (available in older versions of MSDN), we can notice 
+that several kinds of CodeView information exist. Since all of them are called “CodeView” and use 
+the same type of debug directory entry (IMAGE_DEBUG_TYPE_CODEVIEW), debuggers must be given a way 
+to determine which CodeView format is actually used. This is achieved with the help of a DWORD-sized 
+signature, which is always placed at the beginning of CodeView debug information. The most known 
+signatures for CodeView debug information stored in the executable are “NB09” (CodeView 4.10) and 
+“NB11” (CodeView 5.0). When CodeView information refers to a PDB file, the signature can be “NB10” 
+(which is used with PDB 2.0 files) or “RSDS” (for PDB 7.0 files). 
+</p>
+
+<p>
+In most kinds of CodeView information, the signature is followed by another DWORD-sized value, 
+Offset, which specifies the offset to the start of the actual debug information from the beginning 
+of the CodeView data. CodeView signature and offset together are sometimes described as CV_HEADER 
+structure: 
+</p>
+
+<pre>struct CV_HEADER
+{
+  DWORD Signature;
+  DWORD Offset;
+};
+</pre>
+
+<p>
+Now lets discuss the exact format of CodeView data block that refers to a PDB 2.0 file. It can be 
+represented with the following structure: 
+</p>
+
+<pre>struct CV_INFO_PDB20
+{
+  CV_HEADER CvHeader;
+  DWORD Signature;
+  DWORD Age;
+  BYTE PdbFileName[];
+};
+</pre>
+
+<p>
+Members of this structure are described in the following table: 
+</p>
+
+<table border="1">
+
+<tbody><tr>
+<th>Member</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>CvHeader.Signature</td>
+<td>
+CodeView signature, equal to “NB10”
+</td>
+</tr>
+
+<tr>
+<td>CvHeader.Offset</td>
+<td>
+CodeView offset. Set to 0, because debug information is stored in a separate file. 
+</td>
+</tr>
+
+<tr>
+<td>Signature</td>
+<td>
+The time when debug information was created (in seconds since 01.01.1970)
+</td>
+</tr>
+
+<tr>
+<td>Age</td>
+<td>
+Ever-incrementing value, which is initially set to 1 and incremented every time when a part of the PDB 
+file is updated without rewriting the whole file. 
+</td>
+</tr>
+
+<tr>
+<td>PdbFileName</td>
+<td>
+Null-terminated name of the PDB file. It can also contain full or partial path to the file. 
+</td>
+</tr>
+
+</tbody></table>
+
+<p>
+If the CodeView data block refers to a PDB 7.0 file, a different format is used: 
+</p>
+
+<pre>struct CV_INFO_PDB70
+{
+  DWORD  CvSignature;
+  GUID Signature;
+  DWORD Age;
+  BYTE PdbFileName[];
+} ;
+</pre>
+
+<p>
+Note that the structure does not include Offset field (and thus does not start with CV_HEADER structure), 
+while CodeView signature is still present. The absence of Offset field makes this structure an unusual 
+member of CodeView family. 
+</p>
+
+<p>
+The members of the structure are described in the following table: 
+</p>
+
+<table border="1">
+
+<tbody><tr>
+<th>Member</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>CvSignature</td>
+<td>
+CodeView signature, equal to “RSDS”
+</td>
+</tr>
+
+<tr>
+<td>Signature</td>
+<td>
+A unique identifier, which changes with every rebuild of the executable and PDB file. 
+</td>
+</tr>
+
+<tr>
+<td>Age</td>
+<td>
+Ever-incrementing value, which is initially set to 1 and incremented every time when a part of the PDB file 
+is updated without rewriting the whole file. 
+</td>
+</tr>
+
+<tr>
+<td>PdbFileName</td>
+<td>
+Null-terminated name of the PDB file. It can also contain full or partial path to the file. 
+</td>
+</tr>
+
+</tbody></table>
+
+
+<h3 class="ctext5">
+<a name="dbgfiles">
+DBG files
+</a>
+</h3>
+
+<p>
+When debug information for an executable is stored in a DBG file, the executable’s debug directory 
+contains an entry of type IMAGE_DEBUG_TYPE_MISC. This entry points to a small block of data, which 
+tells the debugger where to look for the DBG file. This data block has the following format (defined 
+in WINNT.H): 
+</p>
+
+<pre>#define IMAGE_DEBUG_MISC_EXENAME    1
+
+typedef struct _IMAGE_DEBUG_MISC {
+    DWORD       DataType;
+    DWORD       Length;
+    BOOLEAN     Unicode;
+    BYTE        Reserved[ 3 ];
+    BYTE        Data[ 1 ]; 
+} IMAGE_DEBUG_MISC, *PIMAGE_DEBUG_MISC;
+</pre>
+
+<p>
+The members of this structure are described in the following table: 
+</p>
+
+<table border="1">
+
+<tbody><tr>
+<th>Member</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>DataType</td>
+<td>
+Type of the data. Always set to 1 (IMAGE_DEBUG_MISC_EXENAME)
+</td>
+</tr>
+
+<tr>
+<td>Length</td>
+<td>
+Total length of the data block, multiple of four.
+</td>
+</tr>
+
+<tr>
+<td>Unicode</td>
+<td>
+If TRUE, subsequent data is Unicode string; if FALSE, the data is ANSI string.
+</td>
+</tr>
+
+<tr>
+<td>Reserved</td>
+<td>
+Reserved and unused.
+</td>
+</tr>
+
+<tr>
+<td>Data</td>
+<td>
+The name of the DBG file.
+</td>
+</tr>
+
+</tbody></table>
+
+<p>
+In addition to IMAGE_DEBUG_MISC structure, the executable whose debug information is stored in DBG file 
+also contains IMAGE_FILE_DEBUG_STRIPPED flag set in Characteristics field of the executable’s file header 
+(IMAGE_FILE_HEADER.Characteristics). 
+</p>
+
+
+<h3 class="ctext5">
+<a name="details">
+Matching debug information - the details
+</a>
+</h3>
+
+<p>
+Now we know enough theory to proceed to the details of debug information matching. Lets recall that 
+the executable and the debug information file are considered matched only when they both contain 
+the same unique identifier. So, what kinds of unique identifiers are used?
+</p>
+
+<p>
+In the case of PDB 2.0 debug information, the unique identifier consists of two values – signature and age, 
+which are stored in CV_INFO_PDB20 structure in the executable (CV_INFO_PDB20.Signature and CV_INFO_PDB20.Age 
+fields) and in a special data stream in the PDB file. When the debugger checks whether a PDB file matches 
+the executable, it reads the signature and age from the PDB file and compares them with the values stored 
+in CV_INFO_PDB20 structure in the executable. If the values are not the same, the PDB file is considered 
+unmatched, and the debugger refuses to load it. 
+</p>
+
+<p>
+PDB 7.0 debug information also uses signature and age to check for the match (CV_INFO_PDB70.Signature and 
+CV_INFO_PDB700.Age, respectively). But the fact that CV_INFO_PDB70.Signature is a GUID makes the identifier 
+much more unique than in the case of timestamp-based PDB 2.0 signature. 
+</p>
+
+<p>
+DBG files use a similar approach, where the role of the unique identifier is assigned to the executable’s 
+timestamp (which is stored in the executable’s file header, IMAGE_FILE_HEADER.TimeDateStamp). The same 
+timestamp is stored in the header of the DBG file (IMAGE_SEPARATE_DEBUG_HEADER.TimeDateStamp). When 
+a debugger checks whether a DBG file matches the executable, it reads the timestamp from the DBG file 
+and compares it with the timestamp stored in the executable. If timestamps are not equal, the DBG file 
+is considered unmatched. In addition, Visual Studio debuggers also check for presence of 
+IMAGE_FILE_DEBUG_STRIPPED flag in Characteristics field of the executable’s file header 
+(IMAGE_FILE_HEADER.Characteristics), and refuse to load the DBG file if the flag is not set 
+(actually, they check the flag first and do not look for DBG file at all if the flag is not set). 
+WinDbg debugger does not check this flag in the default configuration, and uses only timestamp 
+to verify that the DBG file is matched. 
+</p>
+
+
+<h3 class="ctext5">
+<a name="loadunmatched">
+When matching is not desirable
+</a>
+</h3>
+
+<p>
+While it is usually good that debuggers verify that debug information files and executables are matched 
+(thus saving us from loading a wrong debug information file by mistake), there are situations when such 
+a pedantic approach is not desirable. Consider the situation when our application crashes on the customer’s 
+system, and we have to debug a crash dump. Suddenly we realize that something failed in our established 
+CM process, and debug information file for the application is lost. What to do? Can we rebuild the application 
+and produce a new debug information file? Or can we use debug information file from an older build? 
+Of course, we understand that debug information from an older or newer build may not be 100 percent accurate, 
+but it is still better than nothing. We try to load the debug information file and notice that the debugger 
+refuses to load it because…it is unmatched! Yes, the unique identifier, which is used to check for matching, 
+changes with every build. What can we do? How can we ask the debugger to load an unmatched debug 
+information file? 
+</p>
+
+<p>
+It turns out that with Visual Studio debugger we cannot do much. No Visual Studio 6.0, no Visual Studio.NET 
+debugger allows to load unmatched debug information files. Fortunately, the situation is much better with 
+WinDbg. While by default it also does not allow to load unmatched debug information, .symopt debugger command 
+can change the default behaviour. After we have issued “.symopt+0x40” command, the debugger will happily 
+accept and load unmatched PDB and DBG files.
+</p>
+
+
+<h3 class="ctext5">
+<a name="chkmatch">
+ChkMatch tool
+</a>
+</h3>
+
+<p>
+I like WinDbg, but I also like Visual Studio debuggers. And sometimes I need them to load unmatched debug 
+information files. While VS debuggers themselves do not offer a workaround, it is possible to make 
+an executable and debug information file match by reading the unique identifier from the executable and 
+writing it to the proper place in the debug information file. This is exactly what 
+<a href="../tools/chkmatch.html">ChkMatch</a> tool does. 
+</p>
+
+<p>
+When started as “chkmatch –m myapp.exe myapp.pdb”, the tool reads the identifier from the executable and 
+writes it to the proper place in the debug information file, thus enforcing the match and allowing VS debugger 
+to load the previously unmatched file. (At the time being, only signature mismatch can be handled for PDB 
+files; age mismatch cannot be handled yet – this is a subject for future research).
+</p>
+
+<p>
+Another option allows to check whether an executable and debug information file are 
+matched: “chkmatch –c myapp.exe myapp.pdb”. This is accomplished by reading the identifier 
+from the debug information file and comparing it with the identifier stored in the executable. 
+</p>
+
+<h3 class="ctext5">
+Contact
+</h3>
+
+<p>
+Have questions or comments? Free free to contact Oleg Starodumov at firstname@debuginfo.com.
+</p>
+
+		</div>
+
+	</div>
+	<div style="clear: both; height: 15px;"> </div>
+	<div style="clear: both;"> </div>
+</div>
+<div id="footer" class="bg5">
+	<p id="footer-menu" class="style1"><a href="../products.html">Products</a>  |  <a href="../services.html">Services</a>  |  <a href="../resources.html">Resources</a>  |  <a href="../contact.html">Contact</a></p>
+	<p id="legals" class="style2">Copyright (c) 2006-2010 T:mi DebugInfo. All rights reserved.</p>
+</div>
+<script language="JavaScript" type="text/javascript" src="setup.js"></script>
+
+
+</body></html>
