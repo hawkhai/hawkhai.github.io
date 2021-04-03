@@ -214,22 +214,22 @@ eglSwapBuffers(eglDisplay, eglSurface);
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-10-shader-diff-opengl-opengles.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-03-10-shader-diff-opengl-opengles.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://chengkehan.github.io/Links.html]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/chengkehan.github.io/0d02c1f4.html" %})
-- [https://chengkehan.github.io/FrameCaptureTools.html]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/chengkehan.github.io/8cad55e3.html" %})
-- [https://hexler.net/products/kodelife]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/hexler.net/b2c63114.html" %})
-- [https://github.com/google/gapid]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/github.com/769c7e97.html" %})
-- [https://renderdoc.org/]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/renderdoc.org/2eb66df8.html" %})
-- [https://developer.qualcomm.com/software/adreno-gpu-profiler]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/developer.qualcomm.com/a5a0a370.html" %})
-- [https://github.com/baldurk/renderdoc]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/github.com/bb00e08f.html" %})
-- [https://developer.nvidia.com/tegra-graphics-debugger]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/developer.nvidia.com/1e05e468.html" %})
-- [https://software.intel.com/en-us/gpa]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/software.intel.com/5d46a23a.html" %})
-- [https://www.cnblogs.com/beeasy/p/6339313.html]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/www.cnblogs.com/4e5820ec.html" %})
-- [http://www.c-jump.com/bcc/common/Talk3/OpenGL/Wk03_shader_intro/W03_0090_glsl_version_number.htm]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/www.c-jump.com/6b7517e9.htm" %})
-- [https://en.wikipedia.org/wiki/OpenGL_Shading_Language]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/en.wikipedia.org/f01b7d53.html" %})
-- [https://github.com/mattdesl/lwjgl-basics/wiki/GLSL-Versions]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/github.com/83c1e163.html" %})
-- [https://blog.csdn.net/weiwangchao_/article/details/7831044]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/blog.csdn.net/c61a6284.html" %})
-- [https://kheresy.wordpress.com/2010/04/09/opengl-es-2-0-%E7%B0%A1%E5%96%AE%E4%BB%8B%E7%B4%B9/]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/kheresy.wordpress.com/38817f5a.html" %})
-- [https://www.aies.cn/]({% include relref.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/www.aies.cn/4c5019a6.html" %})
+- [https://chengkehan.github.io/Links.html]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/chengkehan.github.io/0d02c1f4.html" %})
+- [https://chengkehan.github.io/FrameCaptureTools.html]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/chengkehan.github.io/8cad55e3.html" %})
+- [https://hexler.net/products/kodelife]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/hexler.net/b2c63114.html" %})
+- [https://github.com/google/gapid]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/github.com/769c7e97.html" %})
+- [https://renderdoc.org/]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/renderdoc.org/2eb66df8.html" %})
+- [https://developer.qualcomm.com/software/adreno-gpu-profiler]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/developer.qualcomm.com/a5a0a370.html" %})
+- [https://github.com/baldurk/renderdoc]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/github.com/bb00e08f.html" %})
+- [https://developer.nvidia.com/tegra-graphics-debugger]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/developer.nvidia.com/1e05e468.html" %})
+- [https://software.intel.com/en-us/gpa]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/software.intel.com/5d46a23a.html" %})
+- [https://www.cnblogs.com/beeasy/p/6339313.html]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/www.cnblogs.com/4e5820ec.html" %})
+- [http://www.c-jump.com/bcc/common/Talk3/OpenGL/Wk03_shader_intro/W03_0090_glsl_version_number.htm]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/www.c-jump.com/6b7517e9.htm" %})
+- [https://en.wikipedia.org/wiki/OpenGL_Shading_Language]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/en.wikipedia.org/f01b7d53.html" %})
+- [https://github.com/mattdesl/lwjgl-basics/wiki/GLSL-Versions]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/github.com/83c1e163.html" %})
+- [https://blog.csdn.net/weiwangchao_/article/details/7831044]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/blog.csdn.net/c61a6284.html" %})
+- [https://kheresy.wordpress.com/2010/04/09/opengl-es-2-0-%E7%B0%A1%E5%96%AE%E4%BB%8B%E7%B4%B9/]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/kheresy.wordpress.com/38817f5a.html" %})
+- [https://www.aies.cn/]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/www.aies.cn/4c5019a6.html" %})

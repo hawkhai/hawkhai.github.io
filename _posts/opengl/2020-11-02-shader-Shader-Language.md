@@ -95,18 +95,18 @@ EGL 是渲染 API（如 OpenGL ES）和原生窗口系统之间的接口。
 - [4] [可编程渲染管线比固定管线的优势在哪？有什么应用？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/28024422/answer/39097192)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-11-02-shader-Shader-Language.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-11-02-shader-Shader-Language.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://www.cnblogs.com/gispathfinder/p/6985769.html]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/www.cnblogs.com/7f811159.html" %})
-- [https://developer.mozilla.org/zh-CN/docs/Games/Techniques/3D_on_the_web/GLSL_Shaders]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/developer.mozilla.org/06f81e32.html" %})
-- [https://bbs.csdn.net/topics/380180878]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/bbs.csdn.net/4fadc9bd.html" %})
-- [https://www.cnblogs.com/yanhuiw/p/3281028.html]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/www.cnblogs.com/50e502ac.html" %})
-- [https://blog.csdn.net/u010724874/article/details/48543593]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/blog.csdn.net/1d2af137.html" %})
-- [http://opengl-redbook.com/]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/opengl-redbook.com/02741bc9.html" %})
-- [https://blog.csdn.net/afei__/article/details/84867104]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/blog.csdn.net/c9956269.html" %})
-- [http://www.manew.com/thread-112638-1-1.html]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/www.manew.com/cd5185d7.html" %})
-- [https://docs.unity3d.com/Manual/class-ComputeShader.html]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/docs.unity3d.com/7518bb35.html" %})
-- [https://zhuanlan.zhihu.com/p/47433678]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/zhuanlan.zhihu.com/92aa76cb.html" %})
-- [http://candycat1992.github.io/unity_shaders_book/unity_shaders_book_images.html]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/candycat1992.github.io/6aae0a5d.html" %})
-- [https://www.zhihu.com/question/28024422/answer/39097192]({% include relref.html url="/backup/2020-11-02-shader-Shader-Language.md/www.zhihu.com/e04b6106.html" %})
+- [https://www.cnblogs.com/gispathfinder/p/6985769.html]({% include relrefx.html url="/backup/2020-11-02-shader-Shader-Language.md/www.cnblogs.com/7f811159.html" %})
+- [https://developer.mozilla.org/zh-CN/docs/Games/Techniques/3D_on_the_web/GLSL_Shaders]({% include relrefx.html url="/backup/2020-11-02-shader-Shader-Language.md/developer.mozilla.org/06f81e32.html" %})
+- [https://bbs.csdn.net/topics/380180878]({% include relrefx.html url="/backup/2020-11-02-shader-Shader-Language.md/bbs.csdn.net/4fadc9bd.html" %})
+- [https://www.cnblogs.com/yanhuiw/p/3281028.html]({% include relrefx.html url="/backup/2020-11-02-shader-Shader-Language.md/www.cnblogs.com/50e502ac.html" %})
+- [https://blog.csdn.net/u010724874/article/details/48543593]({% include relrefx.html url="/backup/2020-11-02-shader-Shader-Language.md/blog.csdn.net/1d2af137.html" %})
+- [http://opengl-redbook.com/]({% include relrefx.html url="/backup/2020-11-02-shader-Shader-Language.md/opengl-redbook.com/02741bc9.html" %})
+- [https://blog.csdn.net/afei__/article/details/84867104]({% include relrefx.html url="/backup/2020-11-02-shader-Shader-Language.md/blog.csdn.net/c9956269.html" %})
+- [http://www.manew.com/thread-112638-1-1.html]({% include relrefx.html url="/backup/2020-11-02-shader-Shader-Language.md/www.manew.com/cd5185d7.html" %})
+- [https://docs.unity3d.com/Manual/class-ComputeShader.html]({% include relrefx.html url="/backup/2020-11-02-shader-Shader-Language.md/docs.unity3d.com/7518bb35.html" %})
+- [https://zhuanlan.zhihu.com/p/47433678]({% include relrefx.html url="/backup/2020-11-02-shader-Shader-Language.md/zhuanlan.zhihu.com/92aa76cb.html" %})
+- [http://candycat1992.github.io/unity_shaders_book/unity_shaders_book_images.html]({% include relrefx.html url="/backup/2020-11-02-shader-Shader-Language.md/candycat1992.github.io/6aae0a5d.html" %})
+- [https://www.zhihu.com/question/28024422/answer/39097192]({% include relrefx.html url="/backup/2020-11-02-shader-Shader-Language.md/www.zhihu.com/e04b6106.html" %})

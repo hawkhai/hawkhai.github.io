@@ -558,16 +558,16 @@ Gooch & Toon 着色器。有点意思。
 - [1] [Irrlicht 3D 游戏引擎程序设计](http://www.tup.tsinghua.edu.cn/booksCenter/BOOK_04805701.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-31-book-Irrlicht.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-01-31-book-Irrlicht.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://blog.csdn.net/poem_qianmo/article/details/8250057]({% include relref.html url="/backup/2021-01-31-book-Irrlicht.md/blog.csdn.net/47230e7d.html" %})
-- [https://baike.baidu.com/item/Irrlicht%203D%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/22344168]({% include relref.html url="/backup/2021-01-31-book-Irrlicht.md/baike.baidu.com/99fa3fc0.html" %})
-- [http://mew.cx/glsl/glsldemo/]({% include relref.html url="/backup/2021-01-31-book-Irrlicht.md/mew.cx/a0bcb8f7.html" %})
-- [https://developer.nvidia.com/fx-composer]({% include relref.html url="/backup/2021-01-31-book-Irrlicht.md/developer.nvidia.com/cf354232.html" %})
-- [http://www.opengl.org/sdk/tools/ShaderDesigner/]({% include relref.html url="/backup/2021-01-31-book-Irrlicht.md/www.opengl.org/ab208a0b.html" %})
-- [https://cgvr.cs.uni-bremen.de/teaching/shader_maker/]({% include relref.html url="/backup/2021-01-31-book-Irrlicht.md/cgvr.cs.uni-bremen.de/a27bd13e.html" %})
-- [http://opensteer.sourceforge.net/]({% include relref.html url="/backup/2021-01-31-book-Irrlicht.md/opensteer.sourceforge.net/f3224cda.html" %})
-- [https://jrsoftware.org/isinfo.php]({% include relref.html url="/backup/2021-01-31-book-Irrlicht.md/jrsoftware.org/9690ed4e.php" %})
-- [https://wixedit.github.io/]({% include relref.html url="/backup/2021-01-31-book-Irrlicht.md/wixedit.github.io/ec7dbe39.html" %})
-- [http://www.tup.tsinghua.edu.cn/booksCenter/BOOK_04805701.html]({% include relref.html url="/backup/2021-01-31-book-Irrlicht.md/www.tup.tsinghua.edu.cn/d2f80721.html" %})
+- [https://blog.csdn.net/poem_qianmo/article/details/8250057]({% include relrefx.html url="/backup/2021-01-31-book-Irrlicht.md/blog.csdn.net/47230e7d.html" %})
+- [https://baike.baidu.com/item/Irrlicht%203D%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/22344168]({% include relrefx.html url="/backup/2021-01-31-book-Irrlicht.md/baike.baidu.com/99fa3fc0.html" %})
+- [http://mew.cx/glsl/glsldemo/]({% include relrefx.html url="/backup/2021-01-31-book-Irrlicht.md/mew.cx/a0bcb8f7.html" %})
+- [https://developer.nvidia.com/fx-composer]({% include relrefx.html url="/backup/2021-01-31-book-Irrlicht.md/developer.nvidia.com/cf354232.html" %})
+- [http://www.opengl.org/sdk/tools/ShaderDesigner/]({% include relrefx.html url="/backup/2021-01-31-book-Irrlicht.md/www.opengl.org/ab208a0b.html" %})
+- [https://cgvr.cs.uni-bremen.de/teaching/shader_maker/]({% include relrefx.html url="/backup/2021-01-31-book-Irrlicht.md/cgvr.cs.uni-bremen.de/a27bd13e.html" %})
+- [http://opensteer.sourceforge.net/]({% include relrefx.html url="/backup/2021-01-31-book-Irrlicht.md/opensteer.sourceforge.net/f3224cda.html" %})
+- [https://jrsoftware.org/isinfo.php]({% include relrefx.html url="/backup/2021-01-31-book-Irrlicht.md/jrsoftware.org/9690ed4e.php" %})
+- [https://wixedit.github.io/]({% include relrefx.html url="/backup/2021-01-31-book-Irrlicht.md/wixedit.github.io/ec7dbe39.html" %})
+- [http://www.tup.tsinghua.edu.cn/booksCenter/BOOK_04805701.html]({% include relrefx.html url="/backup/2021-01-31-book-Irrlicht.md/www.tup.tsinghua.edu.cn/d2f80721.html" %})

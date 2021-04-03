@@ -240,4 +240,4 @@ install(FILES ${HEADER_FILES} DESTINATION include/OGRE/Plugins/ParticleUniverse)
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-01-ogre-gradle.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-02-01-ogre-gradle.md.js" %}'></script></p>

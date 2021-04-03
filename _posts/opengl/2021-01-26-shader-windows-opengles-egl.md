@@ -735,13 +735,13 @@ int _tmain(int argc, _TCHAR* argv[])
 - [5] [EGL 介绍和使用 {% include relref_csdn.html %}](https://blog.csdn.net/afei__/article/details/84867104)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-26-shader-windows-opengles-egl.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-01-26-shader-windows-opengles-egl.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://www.khronos.org/registry/EGL/sdk/docs/man/html/eglChooseConfig.xhtml]({% include relref.html url="/backup/2021-01-26-shader-windows-opengles-egl.md/www.khronos.org/97f7cafc.xhtml" %})
-- [http://docs.neomades.com/en/current/GenericAPI/reference/javax/microedition/khronos/egl/EGL10.html]({% include relref.html url="/backup/2021-01-26-shader-windows-opengles-egl.md/docs.neomades.com/a1c25f33.html" %})
-- [https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/]({% include relref.html url="/backup/2021-01-26-shader-windows-opengles-egl.md/www.saschawillems.de/5efcfffd.html" %})
-- [https://github.com/havenow/OpenGLES]({% include relref.html url="/backup/2021-01-26-shader-windows-opengles-egl.md/github.com/82a2418c.html" %})
-- [https://github.com/havenow/OpenGLES/blob/master/%E7%AE%80%E5%8D%95%E7%9A%84%E4%BD%BF%E7%94%A8EGL.md]({% include relref.html url="/backup/2021-01-26-shader-windows-opengles-egl.md/github.com/ad2ee01a.html" %})
-- [https://github.com/havenow/Android-Smooth-Emulator-for-Develop]({% include relref.html url="/backup/2021-01-26-shader-windows-opengles-egl.md/github.com/9a266167.html" %})
-- [https://blog.csdn.net/afei__/article/details/84867104]({% include relref.html url="/backup/2021-01-26-shader-windows-opengles-egl.md/blog.csdn.net/c9956269.html" %})
+- [https://www.khronos.org/registry/EGL/sdk/docs/man/html/eglChooseConfig.xhtml]({% include relrefx.html url="/backup/2021-01-26-shader-windows-opengles-egl.md/www.khronos.org/97f7cafc.xhtml" %})
+- [http://docs.neomades.com/en/current/GenericAPI/reference/javax/microedition/khronos/egl/EGL10.html]({% include relrefx.html url="/backup/2021-01-26-shader-windows-opengles-egl.md/docs.neomades.com/a1c25f33.html" %})
+- [https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/]({% include relrefx.html url="/backup/2021-01-26-shader-windows-opengles-egl.md/www.saschawillems.de/5efcfffd.html" %})
+- [https://github.com/havenow/OpenGLES]({% include relrefx.html url="/backup/2021-01-26-shader-windows-opengles-egl.md/github.com/82a2418c.html" %})
+- [https://github.com/havenow/OpenGLES/blob/master/%E7%AE%80%E5%8D%95%E7%9A%84%E4%BD%BF%E7%94%A8EGL.md]({% include relrefx.html url="/backup/2021-01-26-shader-windows-opengles-egl.md/github.com/ad2ee01a.html" %})
+- [https://github.com/havenow/Android-Smooth-Emulator-for-Develop]({% include relrefx.html url="/backup/2021-01-26-shader-windows-opengles-egl.md/github.com/9a266167.html" %})
+- [https://blog.csdn.net/afei__/article/details/84867104]({% include relrefx.html url="/backup/2021-01-26-shader-windows-opengles-egl.md/blog.csdn.net/c9956269.html" %})

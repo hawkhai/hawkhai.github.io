@@ -32,6 +32,10 @@ if current_configuration == "Debug"
     output "Release"
 if current_configureation == "Release"
     output "Debug"
+
+set(RCFILE app.rc)
+source_group("rcfile" FILES ${RCFILE})
+set_source_files_properties(${RCFILE} PROPERTIES LANGUAGE RC)
 ```
 
 
@@ -271,17 +275,17 @@ arg = abc
 [7.5 重新定义函数和宏](https://www.bookstack.cn/read/CMake-Cookbook/content-chapter7-7.5-chinese.md)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-26-CMakeLists-Advanced.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-02-26-CMakeLists-Advanced.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [http://jekyllcn.com/docs/templates/]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/jekyllcn.com/a06345ca.html" %})
-- [https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/cmake.org/1e5863d8.html" %})
-- [https://github.com/kateyy/geohazardvis/blob/master/cmake/PlatformWindowsMSVC.cmake]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/github.com/95b75574.html" %})
-- [https://blog.csdn.net/sakaue/article/details/38377661]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/blog.csdn.net/0f86d44d.html" %})
-- [https://cmake.org/cmake/help/v3.0/module/CMakeParseArguments.html?highlight=cmake_parse_arguments]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/cmake.org/0fae8de9.html" %})
-- [https://blog.csdn.net/iceboy314159/article/details/104696565]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/blog.csdn.net/28e181b5.html" %})
-- [https://www.cnblogs.com/likemao/p/11061951.html]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.cnblogs.com/97ec105a.html" %})
-- [https://github.com/juj/MathGeoLib/blob/master/CommonOptions.cmake]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/github.com/24e305e7.html" %})
-- [https://www.cnblogs.com/zjutzz/p/7284114.html]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.cnblogs.com/57bb48f4.html" %})
-- [https://www.bookstack.cn/read/CMake-Cookbook/content-chapter7-7.4-chinese.md]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.bookstack.cn/04ed1da9.html" %})
-- [https://www.bookstack.cn/read/CMake-Cookbook/content-chapter7-7.5-chinese.md]({% include relref.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.bookstack.cn/9a399d1f.html" %})
+- [http://jekyllcn.com/docs/templates/]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/jekyllcn.com/a06345ca.html" %})
+- [https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/cmake.org/1e5863d8.html" %})
+- [https://github.com/kateyy/geohazardvis/blob/master/cmake/PlatformWindowsMSVC.cmake]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/github.com/95b75574.html" %})
+- [https://blog.csdn.net/sakaue/article/details/38377661]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/blog.csdn.net/0f86d44d.html" %})
+- [https://cmake.org/cmake/help/v3.0/module/CMakeParseArguments.html?highlight=cmake_parse_arguments]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/cmake.org/0fae8de9.html" %})
+- [https://blog.csdn.net/iceboy314159/article/details/104696565]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/blog.csdn.net/28e181b5.html" %})
+- [https://www.cnblogs.com/likemao/p/11061951.html]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.cnblogs.com/97ec105a.html" %})
+- [https://github.com/juj/MathGeoLib/blob/master/CommonOptions.cmake]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/github.com/24e305e7.html" %})
+- [https://www.cnblogs.com/zjutzz/p/7284114.html]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.cnblogs.com/57bb48f4.html" %})
+- [https://www.bookstack.cn/read/CMake-Cookbook/content-chapter7-7.4-chinese.md]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.bookstack.cn/04ed1da9.html" %})
+- [https://www.bookstack.cn/read/CMake-Cookbook/content-chapter7-7.5-chinese.md]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.bookstack.cn/9a399d1f.html" %})

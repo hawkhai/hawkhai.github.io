@@ -636,15 +636,15 @@ int iconv_close(iconv_t cd);
 - [1] [locale 的设定及 LANG、LC_CTYPE、LC_ALL 环境变量 {% include relref_cnblogs.html %}](https://www.cnblogs.com/xlmeng1988/archive/2013/01/16/locale.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-27-mbs-and-wcs-for-Android.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-02-27-mbs-and-wcs-for-Android.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://www.gnu.org/software/libiconv/]({% include relref.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/www.gnu.org/66303c8e.html" %})
-- [https://my.oschina.net/u/1538135/blog/4686164]({% include relref.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/my.oschina.net/bd649d53.html" %})
-- [https://medium.com/@zw3rk/building-iconv-for-android-e3581a52668f]({% include relref.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/medium.com/5ef0d465.html" %})
-- [https://www.itread01.com/content/1550578686.html]({% include relref.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/www.itread01.com/7d5ac543.html" %})
-- [https://www.gnu.org/software/libc/manual/html_node/Setting-the-Locale.html]({% include relref.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/www.gnu.org/4ee554e9.html" %})
-- [https://blog.weghos.com/skia/Skia/src/gpu/GrAutoLocaleSetter.h.html]({% include relref.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/blog.weghos.com/55bbfd99.html" %})
-- [https://blog.csdn.net/Sky_qing/article/details/8995201]({% include relref.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/blog.csdn.net/f6a36d61.html" %})
-- [https://github.com/shinchiro/mpv-winbuild-cmake]({% include relref.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/github.com/d42e8069.html" %})
-- [https://www.cnblogs.com/xlmeng1988/archive/2013/01/16/locale.html]({% include relref.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/www.cnblogs.com/199de3b0.html" %})
+- [https://www.gnu.org/software/libiconv/]({% include relrefx.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/www.gnu.org/66303c8e.html" %})
+- [https://my.oschina.net/u/1538135/blog/4686164]({% include relrefx.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/my.oschina.net/bd649d53.html" %})
+- [https://medium.com/@zw3rk/building-iconv-for-android-e3581a52668f]({% include relrefx.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/medium.com/5ef0d465.html" %})
+- [https://www.itread01.com/content/1550578686.html]({% include relrefx.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/www.itread01.com/7d5ac543.html" %})
+- [https://www.gnu.org/software/libc/manual/html_node/Setting-the-Locale.html]({% include relrefx.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/www.gnu.org/4ee554e9.html" %})
+- [https://blog.weghos.com/skia/Skia/src/gpu/GrAutoLocaleSetter.h.html]({% include relrefx.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/blog.weghos.com/55bbfd99.html" %})
+- [https://blog.csdn.net/Sky_qing/article/details/8995201]({% include relrefx.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/blog.csdn.net/f6a36d61.html" %})
+- [https://github.com/shinchiro/mpv-winbuild-cmake]({% include relrefx.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/github.com/d42e8069.html" %})
+- [https://www.cnblogs.com/xlmeng1988/archive/2013/01/16/locale.html]({% include relrefx.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/www.cnblogs.com/199de3b0.html" %})

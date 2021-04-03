@@ -151,12 +151,12 @@ static void demangle(const char* mangled_name, bool quiet) {
 - [3] [dll 导出函数的两种方式的比较 {% include relref_cnblogs.html %}](https://www.cnblogs.com/talenth/p/9585208.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-15-win-demangle.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-01-15-win-demangle.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://github.com/eklitzke/demangle]({% include relref.html url="/backup/2021-01-15-win-demangle.md/github.com/ae250947.html" %})
-- [https://github.com/rui314/msvc-demangler]({% include relref.html url="/backup/2021-01-15-win-demangle.md/github.com/f170810d.html" %})
-- [http://demangler.com/]({% include relref.html url="/backup/2021-01-15-win-demangle.md/demangler.com/1d1c5662.html" %})
-- [http://www.3scard.com/index.php?m=blog&f=view&id=10]({% include relref.html url="/backup/2021-01-15-win-demangle.md/www.3scard.com/4598f332.php" %})
-- [https://www.jianshu.com/p/c0f3a3ac88b2]({% include relref.html url="/backup/2021-01-15-win-demangle.md/www.jianshu.com/462a0ca3.html" %})
-- [https://www.cnblogs.com/talenth/p/9585208.html]({% include relref.html url="/backup/2021-01-15-win-demangle.md/www.cnblogs.com/3aaa0090.html" %})
+- [https://github.com/eklitzke/demangle]({% include relrefx.html url="/backup/2021-01-15-win-demangle.md/github.com/ae250947.html" %})
+- [https://github.com/rui314/msvc-demangler]({% include relrefx.html url="/backup/2021-01-15-win-demangle.md/github.com/f170810d.html" %})
+- [http://demangler.com/]({% include relrefx.html url="/backup/2021-01-15-win-demangle.md/demangler.com/1d1c5662.html" %})
+- [http://www.3scard.com/index.php?m=blog&f=view&id=10]({% include relrefx.html url="/backup/2021-01-15-win-demangle.md/www.3scard.com/4598f332.php" %})
+- [https://www.jianshu.com/p/c0f3a3ac88b2]({% include relrefx.html url="/backup/2021-01-15-win-demangle.md/www.jianshu.com/462a0ca3.html" %})
+- [https://www.cnblogs.com/talenth/p/9585208.html]({% include relrefx.html url="/backup/2021-01-15-win-demangle.md/www.cnblogs.com/3aaa0090.html" %})

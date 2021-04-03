@@ -814,13 +814,13 @@ This table includes URN (Unicode Radical Number), 214 KangXi radicals [codes U+2
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-14-Equivalent-Unified-Ideograph.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-03-14-Equivalent-Unified-Ideograph.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [http://mlp.cs.nyu.edu/chunom/xradicals.html]({% include relref.html url="/backup/2021-03-14-Equivalent-Unified-Ideograph.md/mlp.cs.nyu.edu/d3b59c9f.html" %})
-- [https://blog.csdn.net/qq_40734108/article/details/105104412]({% include relref.html url="/backup/2021-03-14-Equivalent-Unified-Ideograph.md/blog.csdn.net/049c4a4b.html" %})
-- [https://blog.csdn.net/gstianfu/article/details/84643320]({% include relref.html url="/backup/2021-03-14-Equivalent-Unified-Ideograph.md/blog.csdn.net/1e7a41ac.html" %})
-- [https://www.unicode.org/Public/13.0.0/ucd/EquivalentUnifiedIdeograph.txt]({% include relref.html url="/backup/2021-03-14-Equivalent-Unified-Ideograph.md/www.unicode.org/cd98bbe9.txt" %})
-- [https://www.unicode.org/Public/13.0.0/ucd/CJKRadicals.txt]({% include relref.html url="/backup/2021-03-14-Equivalent-Unified-Ideograph.md/www.unicode.org/0ebeb802.txt" %})
-- [http://www.unicode.org/terms_of_use.html]({% include relref.html url="/backup/2021-03-14-Equivalent-Unified-Ideograph.md/www.unicode.org/ab3c7f65.html" %})
-- [http://www.unicode.org/reports/tr44/]({% include relref.html url="/backup/2021-03-14-Equivalent-Unified-Ideograph.md/www.unicode.org/24de9f24.html" %})
+- [http://mlp.cs.nyu.edu/chunom/xradicals.html]({% include relrefx.html url="/backup/2021-03-14-Equivalent-Unified-Ideograph.md/mlp.cs.nyu.edu/d3b59c9f.html" %})
+- [https://blog.csdn.net/qq_40734108/article/details/105104412]({% include relrefx.html url="/backup/2021-03-14-Equivalent-Unified-Ideograph.md/blog.csdn.net/049c4a4b.html" %})
+- [https://blog.csdn.net/gstianfu/article/details/84643320]({% include relrefx.html url="/backup/2021-03-14-Equivalent-Unified-Ideograph.md/blog.csdn.net/1e7a41ac.html" %})
+- [https://www.unicode.org/Public/13.0.0/ucd/EquivalentUnifiedIdeograph.txt]({% include relrefx.html url="/backup/2021-03-14-Equivalent-Unified-Ideograph.md/www.unicode.org/cd98bbe9.txt" %})
+- [https://www.unicode.org/Public/13.0.0/ucd/CJKRadicals.txt]({% include relrefx.html url="/backup/2021-03-14-Equivalent-Unified-Ideograph.md/www.unicode.org/0ebeb802.txt" %})
+- [http://www.unicode.org/terms_of_use.html]({% include relrefx.html url="/backup/2021-03-14-Equivalent-Unified-Ideograph.md/www.unicode.org/ab3c7f65.html" %})
+- [http://www.unicode.org/reports/tr44/]({% include relrefx.html url="/backup/2021-03-14-Equivalent-Unified-Ideograph.md/www.unicode.org/24de9f24.html" %})

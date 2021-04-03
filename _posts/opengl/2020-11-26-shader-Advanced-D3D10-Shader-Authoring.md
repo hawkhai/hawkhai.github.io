@@ -270,4 +270,4 @@ return color * 0.80;
 ## www.xna.com
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-11-26-shader-Advanced-D3D10-Shader-Authoring.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-11-26-shader-Advanced-D3D10-Shader-Authoring.md.js" %}'></script></p>

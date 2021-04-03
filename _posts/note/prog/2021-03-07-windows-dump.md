@@ -57,13 +57,13 @@ private:
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-07-windows-dump.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-03-07-windows-dump.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://gclxry.com/article/catch-all-exceptions-in-visual-cpp/]({% include relref.html url="/backup/2021-03-07-windows-dump.md/gclxry.com/788b277a.html" %})
-- [https://gclxry.com/article/use-windbg-to-locate-handle-leaks/]({% include relref.html url="/backup/2021-03-07-windows-dump.md/gclxry.com/1fa2a3b5.html" %})
-- [https://gclxry.com/article/implement-a-right-cpp-singleton/]({% include relref.html url="/backup/2021-03-07-windows-dump.md/gclxry.com/a115665e.html" %})
-- [https://gclxry.com/article/windows-memory-introduction/]({% include relref.html url="/backup/2021-03-07-windows-dump.md/gclxry.com/8aaf20da.html" %})
-- [https://gclxry.com/article/implement-a-cpp-lock-on-windows/]({% include relref.html url="/backup/2021-03-07-windows-dump.md/gclxry.com/f4a7bda8.html" %})
-- [https://gclxry.com/article/avoid-python-conflicts-via-bat-on-windows/]({% include relref.html url="/backup/2021-03-07-windows-dump.md/gclxry.com/43348a06.html" %})
-- [https://www.codeproject.com/Articles/207464/Exception-Handling-in-Visual-Cplusplus]({% include relref.html url="/backup/2021-03-07-windows-dump.md/www.codeproject.com/2468bc01.html" %})
+- [https://gclxry.com/article/catch-all-exceptions-in-visual-cpp/]({% include relrefx.html url="/backup/2021-03-07-windows-dump.md/gclxry.com/788b277a.html" %})
+- [https://gclxry.com/article/use-windbg-to-locate-handle-leaks/]({% include relrefx.html url="/backup/2021-03-07-windows-dump.md/gclxry.com/1fa2a3b5.html" %})
+- [https://gclxry.com/article/implement-a-right-cpp-singleton/]({% include relrefx.html url="/backup/2021-03-07-windows-dump.md/gclxry.com/a115665e.html" %})
+- [https://gclxry.com/article/windows-memory-introduction/]({% include relrefx.html url="/backup/2021-03-07-windows-dump.md/gclxry.com/8aaf20da.html" %})
+- [https://gclxry.com/article/implement-a-cpp-lock-on-windows/]({% include relrefx.html url="/backup/2021-03-07-windows-dump.md/gclxry.com/f4a7bda8.html" %})
+- [https://gclxry.com/article/avoid-python-conflicts-via-bat-on-windows/]({% include relrefx.html url="/backup/2021-03-07-windows-dump.md/gclxry.com/43348a06.html" %})
+- [https://www.codeproject.com/Articles/207464/Exception-Handling-in-Visual-Cplusplus]({% include relrefx.html url="/backup/2021-03-07-windows-dump.md/www.codeproject.com/2468bc01.html" %})

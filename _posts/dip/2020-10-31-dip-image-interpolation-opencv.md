@@ -517,9 +517,9 @@ int _tmain(int argc, _TCHAR* argv[])
 - [3] <https://blog.csdn.net/jningwei/article/details/78822026>
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-10-31-dip-image-interpolation-opencv.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-10-31-dip-image-interpolation-opencv.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://docs.obspy.org/_modules/obspy/signal/interpolation.html]({% include relref.html url="/backup/2020-10-31-dip-image-interpolation-opencv.md/docs.obspy.org/5620e1bb.html" %})
-- [https://blog.csdn.net/iteye_13202/article/details/82553682]({% include relref.html url="/backup/2020-10-31-dip-image-interpolation-opencv.md/blog.csdn.net/1028cdd2.html" %})
-- [https://blog.csdn.net/jningwei/article/details/78822026]({% include relref.html url="/backup/2020-10-31-dip-image-interpolation-opencv.md/blog.csdn.net/5ae66be4.html" %})
+- [https://docs.obspy.org/_modules/obspy/signal/interpolation.html]({% include relrefx.html url="/backup/2020-10-31-dip-image-interpolation-opencv.md/docs.obspy.org/5620e1bb.html" %})
+- [https://blog.csdn.net/iteye_13202/article/details/82553682]({% include relrefx.html url="/backup/2020-10-31-dip-image-interpolation-opencv.md/blog.csdn.net/1028cdd2.html" %})
+- [https://blog.csdn.net/jningwei/article/details/78822026]({% include relrefx.html url="/backup/2020-10-31-dip-image-interpolation-opencv.md/blog.csdn.net/5ae66be4.html" %})

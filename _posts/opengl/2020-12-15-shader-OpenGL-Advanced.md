@@ -544,13 +544,13 @@ glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH24_STENCIL8, width,
 - [2] [OpenGL Projection Matrix](http://www.songho.ca/opengl/gl_projectionmatrix.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-shader-OpenGL-Advanced.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-15-shader-OpenGL-Advanced.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://antongerdelan.net/opengl/raycasting.html]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/antongerdelan.net/fdb6a2ef.html" %})
-- [https://zhuanlan.zhihu.com/p/115230970]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/zhuanlan.zhihu.com/45793866.html" %})
-- [https://blog.csdn.net/korekara88730/article/details/42213217]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/blog.csdn.net/e53c4341.html" %})
-- [https://mp.weixin.qq.com/s/l5eYzkYAzR-m21-iYBoyCw]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/mp.weixin.qq.com/6c5f2acd.html" %})
-- [https://riptutorial.com/zh-CN/opengl/example/23675/%E5%B8%A7%E7%BC%93%E5%86%B2%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/riptutorial.com/404c0ecf.html" %})
-- [https://blog.csdn.net/qq_35312463/article/details/107283286]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/blog.csdn.net/637a5312.html" %})
-- [http://www.songho.ca/opengl/gl_projectionmatrix.html]({% include relref.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/www.songho.ca/7c7467ff.html" %})
+- [https://antongerdelan.net/opengl/raycasting.html]({% include relrefx.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/antongerdelan.net/fdb6a2ef.html" %})
+- [https://zhuanlan.zhihu.com/p/115230970]({% include relrefx.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/zhuanlan.zhihu.com/45793866.html" %})
+- [https://blog.csdn.net/korekara88730/article/details/42213217]({% include relrefx.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/blog.csdn.net/e53c4341.html" %})
+- [https://mp.weixin.qq.com/s/l5eYzkYAzR-m21-iYBoyCw]({% include relrefx.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/mp.weixin.qq.com/6c5f2acd.html" %})
+- [https://riptutorial.com/zh-CN/opengl/example/23675/%E5%B8%A7%E7%BC%93%E5%86%B2%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86]({% include relrefx.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/riptutorial.com/404c0ecf.html" %})
+- [https://blog.csdn.net/qq_35312463/article/details/107283286]({% include relrefx.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/blog.csdn.net/637a5312.html" %})
+- [http://www.songho.ca/opengl/gl_projectionmatrix.html]({% include relrefx.html url="/backup/2020-12-15-shader-OpenGL-Advanced.md/www.songho.ca/7c7467ff.html" %})

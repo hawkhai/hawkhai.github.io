@@ -106,10 +106,10 @@ glStencilFunc(GL_NOTEQUAL, ref, mask);
 - [4] [高级 OpenGL » 模板测试](https://learnopengl-cn.readthedocs.io/zh/latest/04%20Advanced%20OpenGL/02%20Stencil%20testing/)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-16-shader-OpenGL-Advanced-stencil-test.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-16-shader-OpenGL-Advanced-stencil-test.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://community.arm.com/cn/b/blog/posts/stencil-test]({% include relref.html url="/backup/2020-12-16-shader-OpenGL-Advanced-stencil-test.md/community.arm.com/113572ca.html" %})
-- [https://blog.csdn.net/korekara88730/article/details/42213217]({% include relref.html url="/backup/2020-12-16-shader-OpenGL-Advanced-stencil-test.md/blog.csdn.net/e53c4341.html" %})
-- [https://blog.csdn.net/jaryguo/article/details/52627151]({% include relref.html url="/backup/2020-12-16-shader-OpenGL-Advanced-stencil-test.md/blog.csdn.net/162243d8.html" %})
-- [https://learnopengl-cn.readthedocs.io/zh/latest/04%20Advanced%20OpenGL/02%20Stencil%20testing/]({% include relref.html url="/backup/2020-12-16-shader-OpenGL-Advanced-stencil-test.md/learnopengl-cn.readthedocs.io/a758e9ee.html" %})
+- [https://community.arm.com/cn/b/blog/posts/stencil-test]({% include relrefx.html url="/backup/2020-12-16-shader-OpenGL-Advanced-stencil-test.md/community.arm.com/113572ca.html" %})
+- [https://blog.csdn.net/korekara88730/article/details/42213217]({% include relrefx.html url="/backup/2020-12-16-shader-OpenGL-Advanced-stencil-test.md/blog.csdn.net/e53c4341.html" %})
+- [https://blog.csdn.net/jaryguo/article/details/52627151]({% include relrefx.html url="/backup/2020-12-16-shader-OpenGL-Advanced-stencil-test.md/blog.csdn.net/162243d8.html" %})
+- [https://learnopengl-cn.readthedocs.io/zh/latest/04%20Advanced%20OpenGL/02%20Stencil%20testing/]({% include relrefx.html url="/backup/2020-12-16-shader-OpenGL-Advanced-stencil-test.md/learnopengl-cn.readthedocs.io/a758e9ee.html" %})

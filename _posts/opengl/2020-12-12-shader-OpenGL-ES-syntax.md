@@ -798,19 +798,19 @@ void main (void) {
 - [12] [GLSL 语法入门 {% include relref_cnblogs.html %}](https://www.cnblogs.com/kefeiGame/p/10972139.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-12-shader-OpenGL-ES-syntax.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-12-shader-OpenGL-ES-syntax.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://github.com/wshxbqq/GLSL-Card]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/github.com/eb0ca84c.html" %})
-- [https://www.khronos.org/opengles/sdk/docs/reference_cards/OpenGL-ES-2_0-Reference-card.pdf]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/www.khronos.org/98468c82.pdf" %})
-- [https://www.khronos.org/registry/OpenGL/specs/es/2.0/es_full_spec_2.0.pdf]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/www.khronos.org/3de8e2e8.pdf" %})
-- [https://www.khronos.org/registry/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/www.khronos.org/c9f59425.pdf" %})
-- [https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.1.20.pdf]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/www.khronos.org/50b1dcae.pdf" %})
-- [http://colin1994.github.io/2017/04/01/OpenGLES-Lesson00/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/colin1994.github.io/8dca1d49.html" %})
-- [http://colin1994.github.io/2017/04/01/OpenGLES-Lesson01/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/colin1994.github.io/9d400944.html" %})
-- [http://colin1994.github.io/2017/04/18/OpenGLES-Lesson03/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/colin1994.github.io/ccc07110.html" %})
-- [http://colin1994.github.io/2017/11/11/OpenGLES-Lesson04/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/colin1994.github.io/38603e34.html" %})
-- [http://colin1994.github.io/2017/11/12/OpenGLES-Lesson05/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/colin1994.github.io/83ea5c3d.html" %})
-- [https://aillieo.cn/post/2017-01-15-opengl-es-glsl-01/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/aillieo.cn/b0590368.html" %})
-- [https://aillieo.cn/post/2017-01-15-opengl-es-glsl-02/]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/aillieo.cn/86b76eca.html" %})
-- [https://www.cnblogs.com/kefeiGame/p/10972139.html]({% include relref.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/www.cnblogs.com/6116a7a5.html" %})
+- [https://github.com/wshxbqq/GLSL-Card]({% include relrefx.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/github.com/eb0ca84c.html" %})
+- [https://www.khronos.org/opengles/sdk/docs/reference_cards/OpenGL-ES-2_0-Reference-card.pdf]({% include relrefx.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/www.khronos.org/98468c82.pdf" %})
+- [https://www.khronos.org/registry/OpenGL/specs/es/2.0/es_full_spec_2.0.pdf]({% include relrefx.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/www.khronos.org/3de8e2e8.pdf" %})
+- [https://www.khronos.org/registry/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf]({% include relrefx.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/www.khronos.org/c9f59425.pdf" %})
+- [https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.1.20.pdf]({% include relrefx.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/www.khronos.org/50b1dcae.pdf" %})
+- [http://colin1994.github.io/2017/04/01/OpenGLES-Lesson00/]({% include relrefx.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/colin1994.github.io/8dca1d49.html" %})
+- [http://colin1994.github.io/2017/04/01/OpenGLES-Lesson01/]({% include relrefx.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/colin1994.github.io/9d400944.html" %})
+- [http://colin1994.github.io/2017/04/18/OpenGLES-Lesson03/]({% include relrefx.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/colin1994.github.io/ccc07110.html" %})
+- [http://colin1994.github.io/2017/11/11/OpenGLES-Lesson04/]({% include relrefx.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/colin1994.github.io/38603e34.html" %})
+- [http://colin1994.github.io/2017/11/12/OpenGLES-Lesson05/]({% include relrefx.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/colin1994.github.io/83ea5c3d.html" %})
+- [https://aillieo.cn/post/2017-01-15-opengl-es-glsl-01/]({% include relrefx.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/aillieo.cn/b0590368.html" %})
+- [https://aillieo.cn/post/2017-01-15-opengl-es-glsl-02/]({% include relrefx.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/aillieo.cn/86b76eca.html" %})
+- [https://www.cnblogs.com/kefeiGame/p/10972139.html]({% include relrefx.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/www.cnblogs.com/6116a7a5.html" %})

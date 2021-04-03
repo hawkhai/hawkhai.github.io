@@ -151,12 +151,12 @@ codeprint:
 - [2] [丁香妈妈 - 孕期全攻略](https://www.zhuzhuwang.com/item/2089)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-03-pregnancy-strategy.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-03-03-pregnancy-strategy.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://blog.csdn.net/gstianfu/article/details/84643320]({% include relref.html url="/backup/2021-03-03-pregnancy-strategy.md/blog.csdn.net/1e7a41ac.html" %})
-- [https://www.unicode.org/Public/13.0.0/ucd/CJKRadicals.txt]({% include relref.html url="/backup/2021-03-03-pregnancy-strategy.md/www.unicode.org/0ebeb802.txt" %})
-- [https://www.unicode.org/Public/13.0.0/ucd/EquivalentUnifiedIdeograph.txt]({% include relref.html url="/backup/2021-03-03-pregnancy-strategy.md/www.unicode.org/cd98bbe9.txt" %})
-- [http://mlp.cs.nyu.edu/chunom/xradicals.html]({% include relref.html url="/backup/2021-03-03-pregnancy-strategy.md/mlp.cs.nyu.edu/d3b59c9f.html" %})
-- [https://www.cheesebook.cn/course/6312.html]({% include relref.html url="/backup/2021-03-03-pregnancy-strategy.md/www.cheesebook.cn/54892b5c.html" %})
-- [https://www.zhuzhuwang.com/item/2089]({% include relref.html url="/backup/2021-03-03-pregnancy-strategy.md/www.zhuzhuwang.com/58d4d2f1.html" %})
+- [https://blog.csdn.net/gstianfu/article/details/84643320]({% include relrefx.html url="/backup/2021-03-03-pregnancy-strategy.md/blog.csdn.net/1e7a41ac.html" %})
+- [https://www.unicode.org/Public/13.0.0/ucd/CJKRadicals.txt]({% include relrefx.html url="/backup/2021-03-03-pregnancy-strategy.md/www.unicode.org/0ebeb802.txt" %})
+- [https://www.unicode.org/Public/13.0.0/ucd/EquivalentUnifiedIdeograph.txt]({% include relrefx.html url="/backup/2021-03-03-pregnancy-strategy.md/www.unicode.org/cd98bbe9.txt" %})
+- [http://mlp.cs.nyu.edu/chunom/xradicals.html]({% include relrefx.html url="/backup/2021-03-03-pregnancy-strategy.md/mlp.cs.nyu.edu/d3b59c9f.html" %})
+- [https://www.cheesebook.cn/course/6312.html]({% include relrefx.html url="/backup/2021-03-03-pregnancy-strategy.md/www.cheesebook.cn/54892b5c.html" %})
+- [https://www.zhuzhuwang.com/item/2089]({% include relrefx.html url="/backup/2021-03-03-pregnancy-strategy.md/www.zhuzhuwang.com/58d4d2f1.html" %})

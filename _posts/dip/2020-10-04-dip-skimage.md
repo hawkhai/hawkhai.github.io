@@ -275,15 +275,15 @@ plt.show()
 - [8] [opencv 图像变换原理详解 图像平移 图像旋转 图像缩放 {% include relref_cnblogs.html %}](https://www.cnblogs.com/wojianxin/p/12591410.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-10-04-dip-skimage.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-10-04-dip-skimage.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://scikit-image.org/docs/0.9.x/api/skimage.exposure.html]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/scikit-image.org/aefbde8f.html" %})
-- [https://www.jianshu.com/p/f2e88197e81d]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/www.jianshu.com/1eca0ab9.html" %})
-- [https://www.jianshu.com/p/66e6261f0279]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/www.jianshu.com/5b0af333.html" %})
-- [https://www.jianshu.com/p/7693222523c0]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/www.jianshu.com/3a266180.html" %})
-- [https://scikit-image.org/docs/stable/api/skimage.html]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/scikit-image.org/fbd6c4a5.html" %})
-- [https://cloud.tencent.com/developer/doc/1221]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/cloud.tencent.com/1c1c69eb.html" %})
-- [https://www.cnblogs.com/wojianxin/p/12649803.html]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/www.cnblogs.com/1b505f14.html" %})
-- [https://www.cnblogs.com/wojianxin/tag/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/default.html]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/www.cnblogs.com/5292bd07.html" %})
-- [https://www.cnblogs.com/wojianxin/p/12591410.html]({% include relref.html url="/backup/2020-10-04-dip-skimage.md/www.cnblogs.com/5c2ee41d.html" %})
+- [https://scikit-image.org/docs/0.9.x/api/skimage.exposure.html]({% include relrefx.html url="/backup/2020-10-04-dip-skimage.md/scikit-image.org/aefbde8f.html" %})
+- [https://www.jianshu.com/p/f2e88197e81d]({% include relrefx.html url="/backup/2020-10-04-dip-skimage.md/www.jianshu.com/1eca0ab9.html" %})
+- [https://www.jianshu.com/p/66e6261f0279]({% include relrefx.html url="/backup/2020-10-04-dip-skimage.md/www.jianshu.com/5b0af333.html" %})
+- [https://www.jianshu.com/p/7693222523c0]({% include relrefx.html url="/backup/2020-10-04-dip-skimage.md/www.jianshu.com/3a266180.html" %})
+- [https://scikit-image.org/docs/stable/api/skimage.html]({% include relrefx.html url="/backup/2020-10-04-dip-skimage.md/scikit-image.org/fbd6c4a5.html" %})
+- [https://cloud.tencent.com/developer/doc/1221]({% include relrefx.html url="/backup/2020-10-04-dip-skimage.md/cloud.tencent.com/1c1c69eb.html" %})
+- [https://www.cnblogs.com/wojianxin/p/12649803.html]({% include relrefx.html url="/backup/2020-10-04-dip-skimage.md/www.cnblogs.com/1b505f14.html" %})
+- [https://www.cnblogs.com/wojianxin/tag/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/default.html]({% include relrefx.html url="/backup/2020-10-04-dip-skimage.md/www.cnblogs.com/5292bd07.html" %})
+- [https://www.cnblogs.com/wojianxin/p/12591410.html]({% include relrefx.html url="/backup/2020-10-04-dip-skimage.md/www.cnblogs.com/5c2ee41d.html" %})

@@ -597,7 +597,7 @@ ReleaseSpecific/ToolsAndUtilities.htm
 ## VectorAdd.exe
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-08-gles-qualcomm-Adreno.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-01-08-gles-qualcomm-Adreno.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://chengkehan.github.io/Fur.html]({% include relref.html url="/backup/2021-01-08-gles-qualcomm-Adreno.md/chengkehan.github.io/2d825edb.html" %})
+- [https://chengkehan.github.io/Fur.html]({% include relrefx.html url="/backup/2021-01-08-gles-qualcomm-Adreno.md/chengkehan.github.io/2d825edb.html" %})

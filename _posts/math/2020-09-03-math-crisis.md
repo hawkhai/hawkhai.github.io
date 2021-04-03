@@ -58,7 +58,7 @@ The unreasonable effectiveness of mathematics in the natural sciences
 - [1] [维基百科·数学危机 {% include relref_wiki.html %}](https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E5%8D%B1%E6%9C%BA)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-09-03-math-crisis.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-09-03-math-crisis.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E5%8D%B1%E6%9C%BA]({% include relref.html url="/backup/2020-09-03-math-crisis.md/zh.wikipedia.org/be0d016d.html" %})
+- [https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%A6%E5%8D%B1%E6%9C%BA]({% include relrefx.html url="/backup/2020-09-03-math-crisis.md/zh.wikipedia.org/be0d016d.html" %})

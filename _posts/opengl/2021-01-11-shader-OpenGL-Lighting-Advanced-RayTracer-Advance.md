@@ -135,17 +135,17 @@ Unity 和 Unreal 共同支持全球 90% 的游戏，现在在其引擎中支持�
 - [5] [光线追踪-引擎 Jan 3, 2020 • Huailiang {% include relref_github.html %}](https://huailiang.github.io/blog/2020/ray/)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://yangwc.com/]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/yangwc.com/3cebfc82.html" %})
-- [https://yangwc.com/2019/05/08/RayTracer-Basis/]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/yangwc.com/aae340fb.html" %})
-- [https://yangwc.com/2019/05/23/RayTracer-Advance/]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/yangwc.com/d2661e77.html" %})
-- [https://mp.weixin.qq.com/s/sgyLTmUycPCFnDGvNXYJmQ]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/mp.weixin.qq.com/bf7f7508.html" %})
-- [https://zhuanlan.zhihu.com/p/102397700]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/zhuanlan.zhihu.com/8582b378.html" %})
-- [https://blog.csdn.net/qq_35312463/article/details/106171311]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/blog.csdn.net/086bb667.html" %})
-- [https://www.bilibili.com/video/BV1Zz4y1U7aB]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/www.bilibili.com/95223c7c.html" %})
-- [https://3c.3dmgame.com/show-14-12283-1.html]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/3c.3dmgame.com/43a63afe.html" %})
-- [https://zhuanlan.zhihu.com/p/45087397]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/zhuanlan.zhihu.com/f04a523c.html" %})
-- [https://wap.gamersky.com/gl/Content-1340332.html]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/wap.gamersky.com/9312b476.html" %})
-- [https://huailiang.github.io/blog/2020/ray/]({% include relref.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/huailiang.github.io/48dc6f83.html" %})
+- [https://yangwc.com/]({% include relrefx.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/yangwc.com/3cebfc82.html" %})
+- [https://yangwc.com/2019/05/08/RayTracer-Basis/]({% include relrefx.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/yangwc.com/aae340fb.html" %})
+- [https://yangwc.com/2019/05/23/RayTracer-Advance/]({% include relrefx.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/yangwc.com/d2661e77.html" %})
+- [https://mp.weixin.qq.com/s/sgyLTmUycPCFnDGvNXYJmQ]({% include relrefx.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/mp.weixin.qq.com/bf7f7508.html" %})
+- [https://zhuanlan.zhihu.com/p/102397700]({% include relrefx.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/zhuanlan.zhihu.com/8582b378.html" %})
+- [https://blog.csdn.net/qq_35312463/article/details/106171311]({% include relrefx.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/blog.csdn.net/086bb667.html" %})
+- [https://www.bilibili.com/video/BV1Zz4y1U7aB]({% include relrefx.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/www.bilibili.com/95223c7c.html" %})
+- [https://3c.3dmgame.com/show-14-12283-1.html]({% include relrefx.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/3c.3dmgame.com/43a63afe.html" %})
+- [https://zhuanlan.zhihu.com/p/45087397]({% include relrefx.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/zhuanlan.zhihu.com/f04a523c.html" %})
+- [https://wap.gamersky.com/gl/Content-1340332.html]({% include relrefx.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/wap.gamersky.com/9312b476.html" %})
+- [https://huailiang.github.io/blog/2020/ray/]({% include relrefx.html url="/backup/2021-01-11-shader-OpenGL-Lighting-Advanced-RayTracer-Advance.md/huailiang.github.io/48dc6f83.html" %})

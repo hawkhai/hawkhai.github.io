@@ -356,14 +356,14 @@ Shading 方式的。
 - [1] [irrlicht 学习笔记 (6.21-6.24) -- zj](https://wenku.baidu.com/view/f3e3532bcfc789eb172dc8e0.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-06-irrlicht-notes.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-01-06-irrlicht-notes.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [http://blog.sina.com.cn/s/blog_5497d613010006qu.html]({% include relref.html url="/backup/2021-01-06-irrlicht-notes.md/blog.sina.com.cn/bc80254b.html" %})
-- [http://blog.csdn.net/soilwork/archive/2006/12/22/1452437.aspx]({% include relref.html url="/backup/2021-01-06-irrlicht-notes.md/blog.csdn.net/df7043bb.aspx" %})
-- [https://blog.csdn.net/happykocola/article/details/72812081]({% include relref.html url="/backup/2021-01-06-irrlicht-notes.md/blog.csdn.net/541773f9.html" %})
-- [https://www.cnblogs.com/jim-game-dev/p/5410529.html]({% include relref.html url="/backup/2021-01-06-irrlicht-notes.md/www.cnblogs.com/1bd51954.html" %})
-- [https://chengkehan.github.io/ParallaxMapping.html]({% include relref.html url="/backup/2021-01-06-irrlicht-notes.md/chengkehan.github.io/ca717f6a.html" %})
-- [https://blog.csdn.net/weixin_30920091/article/details/96251306]({% include relref.html url="/backup/2021-01-06-irrlicht-notes.md/blog.csdn.net/3bf38417.html" %})
-- [http://blog.csdn.net/weili_2007/archive/2008/01/07/2028804.aspx]({% include relref.html url="/backup/2021-01-06-irrlicht-notes.md/blog.csdn.net/733ae918.aspx" %})
-- [https://wenku.baidu.com/view/f3e3532bcfc789eb172dc8e0.html]({% include relref.html url="/backup/2021-01-06-irrlicht-notes.md/wenku.baidu.com/53d6a8ae.html" %})
+- [http://blog.sina.com.cn/s/blog_5497d613010006qu.html]({% include relrefx.html url="/backup/2021-01-06-irrlicht-notes.md/blog.sina.com.cn/bc80254b.html" %})
+- [http://blog.csdn.net/soilwork/archive/2006/12/22/1452437.aspx]({% include relrefx.html url="/backup/2021-01-06-irrlicht-notes.md/blog.csdn.net/df7043bb.aspx" %})
+- [https://blog.csdn.net/happykocola/article/details/72812081]({% include relrefx.html url="/backup/2021-01-06-irrlicht-notes.md/blog.csdn.net/541773f9.html" %})
+- [https://www.cnblogs.com/jim-game-dev/p/5410529.html]({% include relrefx.html url="/backup/2021-01-06-irrlicht-notes.md/www.cnblogs.com/1bd51954.html" %})
+- [https://chengkehan.github.io/ParallaxMapping.html]({% include relrefx.html url="/backup/2021-01-06-irrlicht-notes.md/chengkehan.github.io/ca717f6a.html" %})
+- [https://blog.csdn.net/weixin_30920091/article/details/96251306]({% include relrefx.html url="/backup/2021-01-06-irrlicht-notes.md/blog.csdn.net/3bf38417.html" %})
+- [http://blog.csdn.net/weili_2007/archive/2008/01/07/2028804.aspx]({% include relrefx.html url="/backup/2021-01-06-irrlicht-notes.md/blog.csdn.net/733ae918.aspx" %})
+- [https://wenku.baidu.com/view/f3e3532bcfc789eb172dc8e0.html]({% include relrefx.html url="/backup/2021-01-06-irrlicht-notes.md/wenku.baidu.com/53d6a8ae.html" %})

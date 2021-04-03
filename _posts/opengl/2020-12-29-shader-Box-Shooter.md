@@ -668,9 +668,9 @@ target_link_libraries(box_shooter
 - [3] [【Bullet 引擎】复杂碰撞体 —— btCompoundShape {% include relref_cnblogs.html %}](https://www.cnblogs.com/esCharacter/p/8490355.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-29-shader-Box-Shooter.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-29-shader-Box-Shooter.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://www.cnblogs.com/KillerAery/archive/2004/01/13/9223947.html]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/www.cnblogs.com/8a2b5679.html" %})
-- [https://blog.csdn.net/azri81226/article/details/101691134]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/blog.csdn.net/1c18af48.html" %})
-- [https://www.cnblogs.com/esCharacter/p/8490355.html]({% include relref.html url="/backup/2020-12-29-shader-Box-Shooter.md/www.cnblogs.com/465dd1d7.html" %})
+- [https://www.cnblogs.com/KillerAery/archive/2004/01/13/9223947.html]({% include relrefx.html url="/backup/2020-12-29-shader-Box-Shooter.md/www.cnblogs.com/8a2b5679.html" %})
+- [https://blog.csdn.net/azri81226/article/details/101691134]({% include relrefx.html url="/backup/2020-12-29-shader-Box-Shooter.md/blog.csdn.net/1c18af48.html" %})
+- [https://www.cnblogs.com/esCharacter/p/8490355.html]({% include relrefx.html url="/backup/2020-12-29-shader-Box-Shooter.md/www.cnblogs.com/465dd1d7.html" %})

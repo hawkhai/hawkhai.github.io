@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "图形学笔记 -- opengl shader & Preprocessor"
+title: "图形学笔记 -- opengl shader 语法 & Preprocessor"
 author:
 location: "珠海"
 categories: ["图形学"]
@@ -16,31 +16,16 @@ codeprint:
 cluster: "OpenGL Shader"
 ---
 
-
-## OpenGL API 之 glTexEnv
-
-[from {% include relref_csdn.html %}](https://blog.csdn.net/csxiaoshui/article/details/53505933)
-
-通过上面的组合，模拟 glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD); 的效果：
+不要在 VAO.release() 之前调用 VBO 或 EBO 的 release() 函数，VAO 也是一个状态机。[from {% include relref_csdn.html %}](https://blog.csdn.net/qq_40946921/article/details/108041536)
 
 ```cpp
-glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE);
-glTexEnvf(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_ADD);
-glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE0_RGB, GL_PRIMARY_COLOR);
-glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE1_RGB, GL_TEXTURE);
-glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
-glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB, GL_SRC_COLOR);
-
-glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_MODULATE);
-glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA, GL_PRIMARY_COLOR);
-glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA, GL_TEXTURE);
-glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA);
-glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA, GL_SRC_ALPHA);
+struct VAO {
+    int ID;
+    int VBO_ID;
+    int EBO_ID;
+    // ...
+}
 ```
-
-{% include image.html url="/assets/images/210312-shader-shader-preproces~18/20161208163641478.png" %}
-
-[Docs » 高级 OpenGL » 混合](https://learnopengl-cn.readthedocs.io/zh/latest/04%20Advanced%20OpenGL/03%20Blending/)
 
 
 ## GLSL
@@ -433,24 +418,25 @@ caption="The preprocessor transforms a shader into an intermediate representatio
 
 {% include image.html url="/assets/images/210312-shader-shader-preproces~18/ogles2-shader-example-137862.png" %}
 {% include image.html url="/assets/images/210312-shader-shader-preproces~18/ogles-ifdef-compile-shader-example-137862.png" %}
+
+GITHUB Preprocess and format the shader code.
 {% include image.html url="/assets/images/210312-shader-shader-preproces~18/tb1lkmzul1tbunjy0fjxxajyxxa-1170-1254.png_600x600.png" %}
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-12-shader-Shader-Preprocessor.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-03-12-shader-Shader-Preprocessor.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://blog.csdn.net/csxiaoshui/article/details/53505933]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/blog.csdn.net/698b3f27.html" %})
-- [https://learnopengl-cn.readthedocs.io/zh/latest/04%20Advanced%20OpenGL/03%20Blending/]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/learnopengl-cn.readthedocs.io/7ca72863.html" %})
-- [https://github.com/wshxbqq/GLSL-Card]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/eb0ca84c.html" %})
-- [https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/05%20Shaders/]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/learnopengl-cn.readthedocs.io/f2954ddb.html" %})
-- [http://www.kankanews.com/ICkengine/archives/120870.shtml]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/www.kankanews.com/230ed89c.shtml" %})
-- [http://www.opengl.org/sdk/docs/man/]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/www.opengl.org/15d12e71.html" %})
-- [https://github.com/google/angle]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/bb7c3f0b.html" %})
-- [https://github.com/Microsoft/angle]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/67457015.html" %})
-- [https://zhuanlan.zhihu.com/p/34274224]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/zhuanlan.zhihu.com/b975adfe.html" %})
-- [https://wallpaper-engine.fandom.com/wiki/Shader_Preprocessor]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/wallpaper-engine.fandom.com/0b3cdf8b.html" %})
-- [http://man.hubwiz.com/docset/Unity_3D.docset/Contents/Resources/Documents/docs.unity3d.com/Manual/SL-BuiltinMacros.html]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/man.hubwiz.com/f60d6798.html" %})
-- [https://software.intel.com/content/www/us/en/develop/blogs/using-ifdef-in-opengl-es-20-shaders.html]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/software.intel.com/66440f24.html" %})
-- [https://github.com/06wj/shaderViewer/tree/master]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/d9d0b48e.html" %})
-- [https://github.com/Chris-Zou/Preprocessor]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/6b6b7240.html" %})
-- [https://www.ogre3d.org/docs/manual18/manual_21.html]({% include relref.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/www.ogre3d.org/0488937e.html" %})
+- [https://blog.csdn.net/qq_40946921/article/details/108041536]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/blog.csdn.net/a9b0bbcb.html" %})
+- [https://github.com/wshxbqq/GLSL-Card]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/eb0ca84c.html" %})
+- [https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/05%20Shaders/]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/learnopengl-cn.readthedocs.io/f2954ddb.html" %})
+- [http://www.kankanews.com/ICkengine/archives/120870.shtml]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/www.kankanews.com/230ed89c.shtml" %})
+- [http://www.opengl.org/sdk/docs/man/]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/www.opengl.org/15d12e71.html" %})
+- [https://github.com/google/angle]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/bb7c3f0b.html" %})
+- [https://github.com/Microsoft/angle]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/67457015.html" %})
+- [https://zhuanlan.zhihu.com/p/34274224]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/zhuanlan.zhihu.com/b975adfe.html" %})
+- [https://wallpaper-engine.fandom.com/wiki/Shader_Preprocessor]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/wallpaper-engine.fandom.com/0b3cdf8b.html" %})
+- [http://man.hubwiz.com/docset/Unity_3D.docset/Contents/Resources/Documents/docs.unity3d.com/Manual/SL-BuiltinMacros.html]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/man.hubwiz.com/f60d6798.html" %})
+- [https://software.intel.com/content/www/us/en/develop/blogs/using-ifdef-in-opengl-es-20-shaders.html]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/software.intel.com/66440f24.html" %})
+- [https://github.com/06wj/shaderViewer/tree/master]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/d9d0b48e.html" %})
+- [https://github.com/Chris-Zou/Preprocessor]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/6b6b7240.html" %})
+- [https://www.ogre3d.org/docs/manual18/manual_21.html]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/www.ogre3d.org/0488937e.html" %})
