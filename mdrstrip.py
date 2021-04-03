@@ -1,7 +1,8 @@
 #encoding=utf8
+import sys
 import re, os, sys
-import datetime, time
 sys.path.append("../")
+import datetime, time
 from pythonx.funclib import *
 from pythonx.coderstrip import *
 from pythonx.kangxi import TranslateKangXi
