@@ -149,15 +149,19 @@ def backupUrlContent(fpath, url):
     fdata = querySnapCache(umd5[:8])
     if fdata:
         writefile(slocal, fdata)
+        fdatalocal = True
     else:
         fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal, shotpath=slocal+SELENIUM, chromeDialog=chromeDialog)
+        fdatalocal = False
 
     itag = bytesToString("无法访问此网站".encode("utf8"))
+    itag2 = bytesToString('<div class="Qrcode-title">扫码登录</div>'.encode("utf8")) # 知乎的问题
     idata = bytesToString(fdata)
     if not url in readfileIglist("mdrstrip_InvalidURL.txt"):
-        if idata.find("ERR_CONNECTION_TIMED_OUT") != -1 or idata.find(itag) != -1:
+        if idata.find("ERR_CONNECTION_TIMED_OUT") != -1 or (
+                idata.find(itag) != -1 or idata.find(itag2) != -1):
             print("无法访问此网站", fpath, url)
-            os.system("pause")
+            if not fdatalocal: os.system("pause")
             removeSnapCache(umd5[:8])
             return backupUrlContent(fpath, url)
 
