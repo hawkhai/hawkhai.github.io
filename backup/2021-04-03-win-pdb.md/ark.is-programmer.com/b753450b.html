@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" lang="zh"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="robots" content="all" />
+<meta name="author" content="" />
+<meta name="description" content="下载微软符号文件的方法-&#9;我们都知道IDA和Windbg都能在微软的服务器上下载指定文件的符号。但是我遇到了个很头疼的问题，就是如果需要符号的文件在内网，无法连接到外网。外&#9;网的机器虽然可以连接微软的符号服务器，但是又缺少需要符号的文件。所以在这样的情况下IDA和Windbg都没有办法下载指定文件的符号。于是我就想到自己写一个工具来绕过这个限制，从而在外网下载到需要的符号，然后传到内网。&#9;&#9;..." />
+<meta name="keywords" content="" />
+<link rel="shortcut icon" type="image/x-icon" href="http://ark.is-programmer.com/user_files/Ark/config/favicon.ico" />
+<link href="http://ark.is-programmer.com/posts.rss" rel="alternate" title="Blog RSS" type="application/rss+xml" />
+<link href="http://ark.is-programmer.com/comments.rss" rel="alternate" title="Comments RSS" type="application/rss+xml" />
+<link href="http://ark.is-programmer.com/messages.rss" rel="alternate" title="Messages RSS" type="application/rss+xml" />
+<link href="http://ark.is-programmer.com/site.rss" rel="alternate" title="is-Programmer.com RSS" type="application/rss+xml" />
+<link href="/stylesheets/common.css?1375031774" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/admin/smoothness/jquery-ui.css?1375031774" media="screen" rel="stylesheet" type="text/css" />
+<link href="/themes/user/elitecircle/stylesheets/EliteCircle.css?1375032041" media="screen" rel="stylesheet" type="text/css" />
+
+
+<meta content="authenticity_token" name="csrf-param" />
+<meta content="2WK2zeYVoSIXJRfL/rAUlu9ojwEqbx3o4o/qLPR6kek=" name="csrf-token" />
+<script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script><script src="/javascripts/jquery-1.6.2.min.js?1375031774" type="text/javascript"></script>
+<title>下载微软符号文件的方法 - Ark's Blog</title>
+<link href="/plugins/syntaxhighlighter/stylesheets/shCore.css?1375032041" media="screen" rel="stylesheet" type="text/css" />
+<link href="/plugins/syntaxhighlighter/stylesheets/shThemeDefault.css?1375032041" media="screen" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1563106-1']);
+  _gaq.push(['_setDomainName', 'none']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<link href="/plugin.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	
+	<!-- header starts here -->
+	<div id="header-wrap"><div id="header-content">	
+		
+		<h1 id="logo"><a href="/">Ark's Blog</a></h1>	
+		<h2 id="slogan">Happy coding</h2>		
+		
+		<div id="header-links">
+		</div>
+		<ul>
+					<li><a href="/">首页</a></li>
+					<li><a href="/guestbook">留言板</a></li>
+					<li><a href="/admin">管理</a></li>
+		</ul>					
+	
+	</div></div>
+				
+	<!-- content-wrap starts here -->
+	<div id="content-wrap"><div id="content">	 
+	
+	<div id="main">		
+	
+<div id="article_wrap">
+  <div class="pre_next_post">
+	<div></div> 
+        <div></div>
+  </div>
+
+  <h1>下载微软符号文件的方法</h1>
+
+  <div id="article_header">
+    <strong> Ark</strong> 
+    posted @ 2010年8月31日 07:39
+     in <a href="/categories/5261/posts">Debug</a>
+	with tags 
+	<a href="/tag/debug;symbols;pe">debug;symbols;pe</a>  
+    , 5473 阅读
+        </div>
+
+  
+  
+  <div id="article_body">
+    <div id="article_content"><p>
+	        我们都知道IDA和Windbg都能在微软的服务器上下载指定文件的符号。但是我遇到了个很头疼的问题，就是如果需要符号的文件在内网，无法连接到外网。外</p>
+<p>
+	        网的机器虽然可以连接微软的符号服务器，但是又缺少需要符号的文件。所以在这样的情况下IDA和Windbg都没有办法下载指定文件的符号。于是我就想到自己写一个工具来绕过这个限制，从而在外网下载到需要的符号，然后传到内网。</p>
+<p>
+	<br />
+	        在分析了几个下载符号的小工具之后，大概明白了这一过程，同时确定我的方案是可行的。简单说来就是调用dbghelp.dll中的SymFindFileInPath函数。这个函数非常的好用，他的主要功能就是从指定目录寻找指定的符号文件，如果指定的目录中含</p>
+<p>
+	        有微软的符号服务器地址，那么他会在没有找到匹配符号的时候，访问微软的服务器，自动的下载所需要的符号。<br />
+	函数原型如下：</p>
+<div><div id="highlighter_462013" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp color1 bold">BOOL</code> <code class="cpp plain">SymFindFileInPath(</code></div><div class="line number2 index1 alt1"><code class="cpp spaces">  </code><code class="cpp color1 bold">HANDLE</code> <code class="cpp plain">hprocess,</code></div><div class="line number3 index2 alt2"><code class="cpp spaces">  </code><code class="cpp color1 bold">LPSTR</code>  <code class="cpp plain">SearchPath,</code></div><div class="line number4 index3 alt1"><code class="cpp spaces">  </code><code class="cpp color1 bold">LPSTR</code>  <code class="cpp plain">FileName,</code></div><div class="line number5 index4 alt2"><code class="cpp spaces">  </code><code class="cpp color1 bold">PVOID</code>  <code class="cpp plain">id,</code></div><div class="line number6 index5 alt1"><code class="cpp spaces">  </code><code class="cpp color1 bold">DWORD</code>  <code class="cpp plain">two,</code></div><div class="line number7 index6 alt2"><code class="cpp spaces">  </code><code class="cpp color1 bold">DWORD</code>  <code class="cpp plain">three,</code></div><div class="line number8 index7 alt1"><code class="cpp spaces">  </code><code class="cpp color1 bold">DWORD</code>  <code class="cpp plain">flags,</code></div><div class="line number9 index8 alt2"><code class="cpp spaces">  </code><code class="cpp color1 bold">LPSTR</code>  <code class="cpp plain">FilePath,</code></div><div class="line number10 index9 alt1"><code class="cpp spaces">  </code><code class="cpp plain">PFINDFILEINPATHCALLBACK callback,</code></div><div class="line number11 index10 alt2"><code class="cpp spaces">  </code><code class="cpp color1 bold">PVOID</code> <code class="cpp plain">context</code></div><div class="line number12 index11 alt1"><code class="cpp plain">);</code></div></div></td></tr></tbody></table></div></div>
+<p>
+	<br />
+	        看参数确实够吓人了，two，three...但是，在经过一定的调试之后，并且结合msdn的解释，大概明白这个函数的用法了。hprocess是调用此函数的进程句柄，msdn的说法是这个进程必须调用过SymInitialize函数。但是从对某个软件调试情况来看，似乎这个值为0时，函数也可以正常工作。SearchPath用来指定函数搜索的目录，这里可以指定多个目录，只要用分号隔开就行了。值得注意的如果想从微软的服务器上下载符号，这里就必须填上服务器的地址，例如srv*c:\\DownstreamStore*http://msdl.microsoft.com/download/symbols，这样符号就会下载到c:\\DownstreamStore目录了。callback和context可以见到的赋值为NULL，具体的用法可以参考msdn，这里不需要他们。参数three没有用，赋为0即可。<br />
+	        重点来了，就是FileName，id，two，flags这四个参数。首先介绍flags，如果要查找的文件的pdb，那么这里就应该指定为SSRVOPT_GUIDPTR，因为这个标志会影响到参数id和参数two的意义。FileName是需要下载的符号的pdb的文件名，比如kernel32.dll所需要的pdb就是kernel32.pdb。当然如果直接用该文件名的方法获取符号文件名显然是不可靠的。后面我会介绍这么获取他。id这个参数，在flags的标志为SSRVOPT_GUIDPTR的时候，它是pdb的signature。这时候的two参数是pdb的age。</p>
+<p>
+	        OK，现在的问题就是，如果从文件中获得这些参数。</p>
+<p>
+	        这就涉及到一些PE结构的知识了。这并不是一片讲解PE结构的文章，所以具体PE的内容可以到网上搜索。这里我主要关注的就是调试节，不用猜关于调试的所有信息都放在这个地方。<br />
+	 </p>
+<div><div id="highlighter_601916" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">IMAGE_NT_HEADERS32</code></div><div class="line number2 index1 alt1"><code class="cpp spaces"> </code><code class="cpp plain">|</code></div><div class="line number3 index2 alt2"><code class="cpp spaces"> </code><code class="cpp plain">+------------- IMAGE_OPTIONAL_HEADER32</code></div><div class="line number4 index3 alt1"><code class="cpp spaces">    </code><code class="cpp plain">|</code></div><div class="line number5 index4 alt2"><code class="cpp spaces">    </code><code class="cpp plain">+---------------------IMAGE_DATA_DIRECTORY</code></div></div></td></tr></tbody></table></div></div>
+<p>
+	<br />
+	        这里会看到VirtualAddress和Size。如图，这是kernel32.dll的数据。</p>
+<p>
+	        <img alt="" height="138" src="/user_files/Ark/Image/debugdir.jpg" width="308" /></p>
+<p>
+	 </p>
+<p>
+	        <img alt="" height="60" src="/user_files/Ark/Image/debugdircode.jpg" width="534" /></p>
+<p>
+	 </p>
+<p>
+	        这些数据实际上表达了一个调试的信息的结构<br />
+	 </p>
+<div><div id="highlighter_885723" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp keyword bold">typedef</code> <code class="cpp keyword bold">struct</code> <code class="cpp plain">_IMAGE_DEBUG_DIRECTORY {</code></div><div class="line number2 index1 alt1"><code class="cpp spaces">    </code><code class="cpp color1 bold">DWORD</code>   <code class="cpp plain">Characteristics;</code></div><div class="line number3 index2 alt2"><code class="cpp spaces">    </code><code class="cpp color1 bold">DWORD</code>   <code class="cpp plain">TimeDateStamp;</code></div><div class="line number4 index3 alt1"><code class="cpp spaces">    </code><code class="cpp color1 bold">WORD</code>    <code class="cpp plain">MajorVersion;</code></div><div class="line number5 index4 alt2"><code class="cpp spaces">    </code><code class="cpp color1 bold">WORD</code>    <code class="cpp plain">MinorVersion;</code></div><div class="line number6 index5 alt1"><code class="cpp spaces">    </code><code class="cpp color1 bold">DWORD</code>   <code class="cpp plain">Type;</code></div><div class="line number7 index6 alt2"><code class="cpp spaces">    </code><code class="cpp color1 bold">DWORD</code>   <code class="cpp plain">SizeOfData;</code></div><div class="line number8 index7 alt1"><code class="cpp spaces">    </code><code class="cpp color1 bold">DWORD</code>   <code class="cpp plain">AddressOfRawData;</code></div><div class="line number9 index8 alt2"><code class="cpp spaces">    </code><code class="cpp color1 bold">DWORD</code>   <code class="cpp plain">PointerToRawData;</code></div><div class="line number10 index9 alt1"><code class="cpp plain">} IMAGE_DEBUG_DIRECTORY, *PIMAGE_DEBUG_DIRECTORY;</code></div></div></td></tr></tbody></table></div></div>
+<p>
+	<br />
+	        看看下图，其中原始数据指针就是我们想要的（PointerToRawData）。从这个地址，我们就可以得到SymFindFileInPath真正需要的信息了。</p>
+<p>
+	        <img alt="" height="215" src="/user_files/Ark/Image/debugformat.jpg" width="202" /></p>
+<p>
+	        <img alt="" height="45" src="/user_files/Ark/Image/debugres.jpg" width="535" /></p>
+<p>
+	        这段数据是一个CV_INFO_PDB70结构，前四个字节是一个结构的标示，后面连续的16个字节是SymFindFileInPath所需要的id，它是一个GUID结构，其后面的四个字节是我们所需要的two，它是一个DWORD，最后就是pdb的文件名了。</p>
+<p>
+	        最后，需要提醒的一点，SymFindFileInPath是dbghelp.dll里的函数，但是他也用到了symsrv.dll，所以我们必须把写好的程序和这两个dll放在一起，否则函数SymFindFileInPath会返回错误。</p>
+<p>
+	        OK，有了这些，我也实现了我预先期望的效果。在内网中分析PE文件，dump出PE的调试信息，保存在txt上。然后在外网机器上，创建一个txt，把内网的txt内容“<span style="color: #ff0000">敲</span>”到外网的txt中，然后用下载程序分析txt的内容下载正确的pdb。整个过程还是挺纠结的，但是有符号总比没有好。</p>
+</div>
+  </div>
+
+  
+
+  <div id="comments_wrap">
+      
+
+<div class="articlefooter">
+        <span class="comments">
+	<a href="/posts/20932.rss"><img alt="Small_feed" class="feed" src="/images/small_feed.png?1375031774" /></a>
+	评论 (0)
+    </span>
+</div>
+    <div id="comments">
+        
+ 
+    </div>
+
+
+
+<script src="/javascripts/ckeditor/ckeditor.js?1375031774" type="text/javascript"></script><br />
+<div id="post_comment">
+    <a href="#" id="cancel_reply_link" onclick="cancel_reply_to_id();event.returnValue = false;return false;" style="display:none;">[取消回复评论]</a>
+
+<form accept-charset="UTF-8" action="/posts/20932/comments" data-remote="true" id="rform_chito_comment" method="post" onsubmit="return false;"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓" /><input name="authenticity_token" type="hidden" value="2WK2zeYVoSIXJRfL/rAUlu9ojwEqbx3o4o/qLPR6kek=" /></div>
+     <div id="comment_error" style="display: none;"></div>
+
+
+     
+    	 <label>昵称</label>
+         <input id="comment_writer" name="comment[writer]" size="10" type="text" value="" /> 
+         <a href="http://ark.is-programmer.com/login?jump=http%3A%2F%2Fark.is-programmer.com%2Fposts%2F20932.html">登录</a> 
+         <label>E-mail:</label>
+         <input id="comment_email" name="comment[email]" size="30" type="text" value="" /> *
+         <br />
+         <label>Web:</label>
+         <input id="comment_homepage" name="comment[homepage]" size="30" type="text" value="" />
+         <br />
+         <label>Twitter:</label>
+         <input id="comment_twitter" name="comment[twitter]" size="12" type="text" value="" />
+         <br />
+         <input id="comment_info" name="comment[info]" size="6" type="text" value="" class="comment_info_field" autocomplete="off" /> 
+         <input id="comment_value" name="comment[value]" type="hidden" value="some" />
+
+     <div id="comment_editor">
+       <input id="comment_mode" name="comment[mode]" type="hidden" value="plain" />	
+       <input id="comment_reply_to" name="comment[reply_to]" type="hidden" value="" />
+       <textarea class="pc" cols="40" id="comment_content" name="comment[content]" onkeydown="if(event.ctrlKey&amp;&amp;event.keyCode==13){document.getElementById('subm_chito_comment').click();return false};" rows="3"></textarea>
+       <input type="button" id="comment_editor_button" onclick="show_editor();" />
+     </div>
+         <label><input id="enable_notifier" name="enable_notifier" type="checkbox" value="1" />当有新评论通过 E-mail 通知我 </label>
+     <div id="comment_extra">
+         <div id="show_simple_captcha"><!-- Copyright (c) 2007 [Sur http://expressica.com] -->
+
+<style type="text/CSS">
+  
+  #simple_captcha{padding: 5px 0 0 0 !important;}
+  #simple_captcha,
+  #simple_captcha div{display: table;}
+  #simple_captcha .simple_captcha_field,
+  #simple_captcha .simple_captcha_image{
+    margin: 0px 0px 2px 0px !important;
+    padding: 0px !important;
+  }
+  #simple_captcha .simple_captcha_image img{
+    margin: 0px !important;
+    padding: 0px !important;
+    width: 110px !important;
+  }
+  #simple_captcha .simple_captcha_label{font-size: 12px;}
+  #simple_captcha .simple_captcha_field input{
+    width: 120px !important;
+    border: 1px solid #ccc;
+    background-color: #efefef;
+  }
+</style>
+
+<div id="simple_captcha">
+  <div class="simple_captcha_image">
+    <img src="http://ark.is-programmer.com/simple_captcha/simple_captcha?distortion=high&amp;image_style=simply_green&amp;simple_captcha_key=5bed25bef38deaaf2ec3163e0e80179c73d700b4&amp;time=1617432780" alt="loading captcha image..." />
+  </div>
+  
+  <div class="simple_captcha_field">
+    <input id="captcha" name="captcha" type="text" />
+  </div>
+  
+  <div class="simple_captcha_label">
+    (输入验证码)
+  </div>
+</div>
+</div>
+     </div>
+         <input autocomplete="off" data-disable-with="发送评论中……" id="subm_chito_comment" name="commit" type="submit" value="发送" />
+         <span id="crtl_enter_tip" style="color:#ccc;font-size:small;"> or Ctrl+Enter</span>
+</form>
+
+</div>
+ <script type="text/javascript">
+//&lt;![CDATA[
+        $('#subm_chito_comment').click(function(){
+            $(this).attr("disabled",true);
+            $(this).val('发送评论中……');
+            update_field();
+            $('#comment_value').val('');
+            $.post('/posts/20932/comments', $('#rform_chito_comment').find('input').serialize() + '&amp;' + $('#rform_chito_comment').find('textarea').serialize(), function(){
+                $('#subm_chito_comment').val('发送');
+                $('#subm_chito_comment').attr("disabled",false);
+            });
+
+            return false;
+        });
+
+//]]&gt;
+</script>
+
+
+  </div>
+  <div class="page_clear"></div>
+
+</div>
+
+									
+		</div>		
+	
+		
+		<div id="sidebar">	
+				    <h1>Ark</h1>
+				    <div id="head">
+<img alt="Avatar" height="120" src="/user_files/Ark/config/avatar.png?1375032393" width="120" />
+    <div id="info"></div>
+</div>
+
+				    <br />
+				    <h1>分类</h1>
+				        <ul id="category">
+	<li class="category">
+	        <a href="/categories/5228/posts">未分类</a>
+	</li>
+	<li class="category">
+	        <a href="/categories/5261/posts">Debug</a>
+	</li>
+    </ul>
+
+				    <br />
+				    <h1>最新评论</h1>
+				    <ul class="navlist">
+	
+</ul>	
+
+				    <br />
+				    <h1>最新留言</h1>
+				    <ul class="navlist">
+            <li><a href="http://ark.is-programmer.com/guestbook#comment5896301">KelPymN : Std Med...</a></li>
+	
+</ul>	
+
+				    <br />
+				    <h1>链接</h1>
+				    <ul class="navlist">
+</ul>	
+
+				    <br />
+				    <h1>功能</h1>
+				    <ul class="navlist">
+	<li><a href="http://ark.is-programmer.com/add">注册</a></li>
+	    <li><a href="http://ark.is-programmer.com/login">登录</a></li>
+	    <li><a href="/forgot_password">忘记密码？</a></li>
+	<li><a href="http://ark.is-programmer.com/posts.rss"><abbr title="Really Simple Syndication">文章 RSS</abbr></a></li>
+	<li><a href="http://ark.is-programmer.com/comments.rss"><abbr title="Really Simple Syndication">评论 RSS</abbr></a></li>
+	<li><a href="http://ark.is-programmer.com/messages.rss"><abbr title="Really Simple Syndication">留言 RSS</abbr></a></li>
+</ul>	
+
+				    <br />
+								
+		</div>			
+	
+	<!-- content-wrap ends here -->		
+	</div></div>
+<script src="/javascripts/jquery-ui-1.8.16.min.js?1375031774" type="text/javascript"></script>
+<script src="/javascripts/jquery.rails.js?1375031774" type="text/javascript"></script>
+<script src="/javascripts/blog.js?1375031774" type="text/javascript"></script>
+
+
+<script src="/plugins/syntaxhighlighter/javascripts/shCore.js?1375032041" type="text/javascript"></script>
+<script src="/plugins/syntaxhighlighter/javascripts/shBrushes.js?1375032041" type="text/javascript"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script><script src="/plugins/img_resize/javascripts/core.js?1375032041" type="text/javascript"></script>
+ <script type="text/javascript">
+                    function auto_resize_img(){
+                        img_resize_normal(400, "在新窗口打开");
+                    }
+                    $(document).ready(auto_resize_img);
+                    </script>
+
+	<!-- footer starts here -->	
+	<div id="footer-wrap"><div id="footer-content">
+	
+
+		
+	
+			<p>
+			Host by <a href="http://www.is-programmer.com">is-Programmer.com</a> | Power by <a href="http://github.com/galeki/chito">Chito 1.3.3 beta</a> | 
+			Design by: <a href="http://www.styleshout.com">styleshout</a>    
+			</p>
+		
+		<br class="clear" />
+	
+	</div></div>
+	<!-- footer ends here -->
+
+
+
+</body></html>
