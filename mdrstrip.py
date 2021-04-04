@@ -7,14 +7,17 @@ from pythonx.funclib import *
 from pythonx.coderstrip import *
 from pythonx.kangxi import TranslateKangXi
 
-THUMBNAIL = ".thumbnail.webp"
-SELENIUM = ".selenium.png"
+__file__   = os.path.abspath(__file__)
 
-OPENFILE = "openfile" in sys.argv
+THUMBNAIL  = ".thumbnail.webp"
+SELENIUM   = ".selenium.png"
+
+OPENFILE   = "openfile" in sys.argv
 AUTOFORMAT = "format" in sys.argv
-REBUILD = "rebuild" in sys.argv
-COPYRES = "copyres" in sys.argv
-CLEARIMG = "clearimg" in sys.argv
+REBUILD    = "rebuild" in sys.argv
+COPYRES    = "copyres" in sys.argv
+CLEARIMG   = "clearimg" in sys.argv
+IGNOREERR  = "ignoreerr" in sys.argv
 
 linktagli = (("{% include relref_bili.html %}]",    "bilibili]", "bilibili", "bilibili.com"),
              ("{% include relref_zhihu.html %}]",   "zhihu]",    "zhihu",    "zhihu.com"),
@@ -86,7 +89,8 @@ def clearSnapCache():
 def readfileIglist(fpath):
     li = readfile(fpath, True, "utf8").split("\n")
     li = [i.strip().split("#")[0].strip() for i in li if i.strip().split("#")[0].strip()]
-    assert li, fpath
+    if not IGNOREERR:
+        assert li, fpath
     return li
 
 def backupUrlContent(fpath, url):
@@ -932,6 +936,14 @@ def main():
         print(hostx)
 
 if __name__ == "__main__":
-    main()
+    print(sys.argv)
+    if len(sys.argv) >= 2 and os.path.isdir(sys.argv[1]):
+        workdir = sys.argv[1]
+        @CwdDirRun(workdir)
+        def maingo():
+            main()
+        maingo()
+    else:
+        main()
+        os.system(r"cd invisible & python tempd.py encrypt")
     print(parsePythonCmdx(__file__))
-    os.system(r"cd invisible & python tempd.py encrypt")
