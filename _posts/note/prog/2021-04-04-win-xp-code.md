@@ -32,7 +32,7 @@ int main()
     HWND  hStatus = ::FindWindow("Shell_TrayWnd", NULL); // 得到任务栏句柄
     HWND  hNotify = FindWindowEx(hStatus, NULL, "TrayNotifyWnd", NULL); // 右下角区域
     HWND  hNotify1 = FindWindowEx(hNotify, NULL, "SysPager", NULL);
-    HWND  hNotify1_0 = FindWindowEx(hNotify1, NULL, "ToolBarWindow32", NULL); // 右下角区域 ( 不包括时间 )
+    HWND  hNotify1_0 = FindWindowEx(hNotify1, NULL, "ToolBarWindow32", NULL); // 右下角区域（不包括时间）
     DWORD  pid = 0;
     GetWindowThreadProcessId(hNotify1_0, &pid);
     HANDLE  hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_ALL_ACCESS, true, pid);

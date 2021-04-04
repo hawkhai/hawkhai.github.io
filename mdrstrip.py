@@ -531,6 +531,7 @@ def appendRefs(fpath, lines):
     return lines
 
 def mainfile(fpath, fname, ftype):
+    fpathsrc, fnamesrc, ftypesrc = fpath, fname, ftype
     checkfilesize(fpath, fname, ftype)
 
     ftype = ftype.lower()
@@ -732,6 +733,15 @@ def mainfile(fpath, fname, ftype):
                 line = line.replace(ix, cx+" "+cy)
                 lines[index] = line
 
+        if isMdFile:
+            lixyx = re.findall("[{}] [,()] [{}]".format(cnregex, cnregex), linec, re.IGNORECASE)
+            lixyx.extend(re.findall("[{}] [,()]$".format(cnregex), linec, re.IGNORECASE))
+            if lixyx:
+                openTextFile(fpath)
+                print("中文符号问题 {}:{} \"{}\"".format(fpath, index+1, line))
+                os.system("pause")
+                return mainfile(fpathsrc, fnamesrc, ftypesrc)
+
         fxline = "".join(line.split())
         if fxline.startswith("<divclass=\"mermaid\"") and not chartstate:
             chartstate = True
@@ -758,14 +768,18 @@ def mainfile(fpath, fname, ftype):
         if warnTitleSpace and (prelinetag or nextlinetag):
             if line:
                 openTextFile(fpath)
-                assert False, "{}:{} {}".format(fpath, index+1, line)
+                print("标题前后空行问题 {}:{} \"{}\"".format(fpath, index+1, line))
+                os.system("pause")
+                return mainfile(fpathsrc, fnamesrc, ftypesrc)
 
         countspace = getLeftSpaceCount(line if warnIndentSpace else line.replace("\t", " "*4))
         if countspace > 12 or countspace % idtcnt == 0:
             pass # ok
         elif warnIndentSpace:
             openTextFile(fpath)
-            assert False, "{}:{} \"{}\"".format(fpath, index+1, line)
+            print("空格缩进问题 {}:{} \"{}\"".format(fpath, index+1, line))
+            os.system("pause")
+            return mainfile(fpathsrc, fnamesrc, ftypesrc)
 
     page = "\r\n".join(lines)
     while page.find("\r\n" * 3) != -1:

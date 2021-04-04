@@ -84,7 +84,7 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex);
 
 * The pthread_mutex_lock(), pthread_mutex_trylock() and pthread_mutex_unlock() functions may fail if:
     * [EINVAL] mutex 指向的 mutex 未被初始化。
-    * [EAGAIN] Mutex 的 lock count( 锁数量 ) 已经超过 递归索的最大值，无法再获得该 mutex 锁。
+    * [EAGAIN] Mutex 的 lock count（锁数量）已经超过 递归索的最大值，无法再获得该 mutex 锁。
 
 * pthread_mutex_lock() 函数在一下情况下会失败：
     * [EDEADLK] 当前线程已经获得该 mutex 锁。

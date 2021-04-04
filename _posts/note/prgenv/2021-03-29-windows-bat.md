@@ -25,7 +25,7 @@ codeprint:
 3. 批处理的编程能力远不如 C 语言等编程语言，也十分不规范。
 4. 每个编写好的批处理文件都相当于一个 DOS 的外部命令，把它所在的目录放到 DOS 搜索路径 (path) 中，即可在任意位置运行。
 5. C:\AUTOEXEC.BAT 是每次系统启动时都会自动运行的，可以将每次启动时都要运行的命令放入该文件中。
-6. 大小写不敏感 ( 命令符忽略大小写 )
+6. 大小写不敏感（命令符忽略大小写）
 7. 批处理的文件扩展名为 .bat 或 .cmd。
 8. 在命令提示下键入批处理文件的名称，或者双击该批处理文件，系统就会调用 Cmd.exe 来运行该文件。
 
@@ -39,14 +39,14 @@ codeprint:
 
 ### 传递参数给批处理文件
 
-%[1-9] 表示参数，参数是指在运行批处理文件时在文件名后加的以空格 ( 或者 Tab) 分隔的字符串。
+%[1-9] 表示参数，参数是指在运行批处理文件时在文件名后加的以空格（或者 Tab）分隔的字符串。
 
 变量可以从 %0 到 %9，%0 表示批处理命令本身，其它参数字符串用 %1 到 %9 顺序表示。
 
 Sample：
 
 ```
-call test2.bat "hello" "haha" ( 执行同目录下的“test2.bat”文件，并输入两个参数 )
+call test2.bat "hello" "haha" （执行同目录下的“test2.bat”文件，并输入两个参数）
 ```
 
 在“test2.bat”文件里写 :
@@ -64,15 +64,15 @@ echo %19 ( 打印: "hello"9)
 ```
 Sample： echo off
 Sample： echo hello world ( 显示出“hello world”)
-Sample： echo Windows Registry Editor Version 5.00 > c:\setupreg.reg ( 此前还没有 setupreg.reg 这个文件 )
-Sample： echo "SourcePath"="D:\\Win2003\\" >> c:\setupreg.reg ( 追加内容进 setupreg.reg 这个文件 )
+Sample： echo Windows Registry Editor Version 5.00 > c:\setupreg.reg （此前还没有 setupreg.reg 这个文件）
+Sample： echo "SourcePath"="D:\\Win2003\\" >> c:\setupreg.reg （追加内容进 setupreg.reg 这个文件）
 ```
 
 
 ### 比较运算符
 
-* EQU - 等于 ( 一般使用“==”)
-* NEQ - 不等于 ( 没有 “!=”，改用“ if not 1==1 ”的写法 )
+* EQU - 等于（一般使用“==”）
+* NEQ - 不等于（没有 “!=”，改用“ if not 1==1 ”的写法）
 * LSS - 小于
 * LEQ - 小于或等于
 * GTR - 大于
