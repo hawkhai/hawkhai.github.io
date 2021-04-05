@@ -634,7 +634,7 @@ def mainfile(fpath, fname, ftype):
         tagregexk = "^\\s*[#]+\\s{2,}"
         prelinetag = re.findall(tagregex, preline)
         nextlinetag = re.findall(tagregex, nextline)
-        if warnTitleSpace:
+        if warnTitleSpace and not codestate:
             assert not re.findall(tagregexk, preline), preline
 
         if re.findall("^\\s*[*-]+ ", line):

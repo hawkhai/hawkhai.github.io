@@ -1,0 +1,593 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+    <meta charset="utf-8" />
+    <title>Practical tips for using Git with large Subversion repositories</title>
+    
+    <meta name="author" content="Janos Gyerik" />
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/bs3/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/themes/bs3/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/assets/themes/bs3/css/syntax.css" rel="stylesheet" type="text/css" media="all" />
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/assets/themes/bs3/../images/favicon.ico" />
+  <!-- Update these with your own images
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="http://www.janosgyerik.com/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed" />
+    <link href="http://www.janosgyerik.com/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed" />
+
+  <script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script><script type="text/javascript" async="" src="http://janosgyerikcom.disqus.com/embed.js"></script></head>
+
+  <body>
+    <div id="wrap">
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://www.janosgyerik.com">Janos Gyerik</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              
+              
+              
+
+
+  
+
+  
+    
+      
+    
+      
+    
+      
+    
+      
+        
+      
+    
+      
+        
+          
+          <li><a href="http://www.janosgyerik.com/blog/">Blog</a></li>
+          
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+    
+      
+        
+          
+          <li><a href="http://www.janosgyerik.com/apps/">Apps</a></li>
+          
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          
+          <li><a href="http://www.janosgyerik.com/websites/">Websites</a></li>
+          
+        
+      
+    
+      
+    
+      
+    
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          
+          <li><a href="http://www.janosgyerik.com/writing/">Writing</a></li>
+          
+        
+      
+    
+      
+    
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          
+          <li><a href="http://www.janosgyerik.com/tools/">Tools</a></li>
+          
+        
+      
+    
+      
+    
+      
+    
+      
+    
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+
+
+
+
+
+
+            </ul>
+            <form class="navbar-form navbar-right" role="search" action="https://duckduckgo.com/">
+              <div class="form-group">
+                <input type="text" name="q" class="form-control" placeholder="Search" />
+                <input type="hidden" name="sites" value="janosgyerik.com" />
+              </div>
+              <button type="submit" class="btn btn-default">Go</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="content">
+          <!--
+<div class="alert alert-block alert-warning">
+I'm in the process of migrating from <a href="http://blog.janosgyerik.com/">my old WordPress blog</a> hosted on <a href="http://www.dreamhost.com/r.cgi?455568">DreamHost</a> to this shiny new <a href="http://jekyllbootstrap.com/">Jekyll</a> site <a href="http://github.com/janosgyerik/homepage">hosted on GitHub</a>.
+</div>
+-->
+          
+
+<div class="page-header">
+  <h1>Practical tips for using Git with large Subversion repositories
+    <small>—26 January 2013</small>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="content col-lg-12">
+    <p>So you want to use Git with Subversion? That’s a great idea! If the Subversion repository is small, you should not have too big problems. If on the other hand the repository is relatively large, you may have quite a few issues.</p>
+
+<p>What is large? Let’s define large as: cloning the trunk takes more than 4 hours.</p>
+
+<p>Before you embark on this road and start using Git as your Subversion client, here are some warnings up front:</p>
+
+<ul>
+  <li>Tracking all Subversion branches and tags will NOT be practical. If you are ok with tracking only the trunk and a bunch of selected branches, that’s fine.</li>
+  <li>The initial clone will take a long time, it may be interrupted, and you may need to resume manually several times.</li>
+  <li>The initial clone of the trunk may crash completely and doesn’t work at all. This doesn’t happen often. But if it does, then game over, you’re stuck with Subversion.</li>
+  <li>You may have issues with line ending characters if LF and CR-LF are mixed in the project. The potential issues are not negligible, for example you may not be able to view the blame annotations. However this is something that can and should be fixed in the project.</li>
+  <li>At the time of this writing you cannot push your commits back to Subversion from Eclipse. You have to use the command line for that.</li>
+  <li>Do read the <strong>CAVEATS</strong> section in http://www.kernel.org/pub/software/scm/git/docs/git-svn.html</li>
+</ul>
+
+<p>Scared? No? Ok let’s do it then!</p>
+
+<h3 id="clone-the-trunk-from-subversion">Clone the trunk from Subversion</h3>
+
+<p>Provided you have git-svn installed, clone the trunk with:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git svn clone http://example.com/path/to/project-x/trunk project-x
+</code></pre></div></div>
+
+<p>Do not clone the entire repository. Online tutorials will tell you that you can track branches and tags by parameterizing the initial clone. Unfortunately, most probably that won’t work out very well with a large repository.</p>
+
+<p>If the repository is sufficiently large, the cloning may be interrupted. You will have a <code class="language-plaintext highlighter-rouge">project-x</code> directory with only a <code class="language-plaintext highlighter-rouge">.git</code> subdirectory in it. Not to worry, go inside the <code class="language-plaintext highlighter-rouge">project-x</code> directory and resume with:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git svn fetch
+</code></pre></div></div>
+
+<p>Depending on the size of the repository, you may have to repeat this a couple of times. Eventually it should work.</p>
+
+<p>By the way, git svn fetch is not very chatty at first. Usually for many minutes or even hours it may seem like nothing is happening, but actually it’s working, so don’t interrupt.</p>
+
+<p>Once the clone is finally completed, you probably want to generate a <code class="language-plaintext highlighter-rouge">.gitignore</code> file based on Subversion’s meta data:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git svn show-ignore &gt;&gt; .gitignore
+</code></pre></div></div>
+
+<h3 id="working-with-git">Working with Git</h3>
+
+<p>Once you have the clone from Subversion, you have a Git repository, use it as usual…</p>
+
+<p>However! To keep things clean, and to avoid impacting your coworkers, it might be a good idea to keep <code class="language-plaintext highlighter-rouge">master</code> “pristine”. That is, never do any work on <code class="language-plaintext highlighter-rouge">master</code>, use it only for interacting with the remote Subversion repository such as pull updates and pushing local commits. Do all your work on branches, stay off the <code class="language-plaintext highlighter-rouge">master</code>.</p>
+
+<h3 id="getting-updates-from-subversion">Getting updates from Subversion</h3>
+
+<p>You might think that the right way to get new revisions from Subversion will involve a pull command. No. The right way is to rebase:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout master
+git svn rebase
+</code></pre></div></div>
+
+<p>I checkout <code class="language-plaintext highlighter-rouge">master</code> just to highlight that ideally you should be working on other branches, not the <code class="language-plaintext highlighter-rouge">master</code>. The rebase works as usual, and if you haven’t touched the <code class="language-plaintext highlighter-rouge">master</code> than this is like a fast-forward merge with no possibility of conflicts.</p>
+
+<h3 id="committing-to-subversion">Committing to Subversion</h3>
+
+<p>Let’s assume you fixed a bug on a branch called <code class="language-plaintext highlighter-rouge">bug123</code> and never touched <code class="language-plaintext highlighter-rouge">master</code>. You have two main options:</p>
+
+<ul>
+  <li>Preserve your individual commits in <code class="language-plaintext highlighter-rouge">bug123</code></li>
+  <li>Squash your individual commits in <code class="language-plaintext highlighter-rouge">bug123</code> and apply the changes in a single commit</li>
+</ul>
+
+<h3 id="preserving-individual-commits">Preserving individual commits</h3>
+
+<p>Since Subversion doesn’t have the notion of branches as Git, the easiest way to preserve your individual commits is to rebase your branch on top of the Subversion <code class="language-plaintext highlighter-rouge">trunk</code> (= <code class="language-plaintext highlighter-rouge">master</code>) and then push your commits to Subversion:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout master  # first, update from the remote trunk
+git svn rebase
+git checkout bug123  # next, rebase bug123 on top of master
+git rebase master
+git checkout master
+git merge bug123     # this should be a fast-forward
+git svn dcommit
+</code></pre></div></div>
+
+<h3 id="squashing-individual-commits">Squashing individual commits</h3>
+
+<p>Nothing special is needed here. In the rare case that the Subversion repository has not changed since our last rebase and the <code class="language-plaintext highlighter-rouge">bug123</code> branch was based on that revision, then the merge operation will be a fast-forward by default, preserving individual commits. Normally this is not the case, and the merged revisions will be committed to Subversion as a single change.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout master  # first, update from the remote trunk
+git svn rebase
+git merge bug123     # possibly but not likely a fast-forward
+git svn dcommit
+</code></pre></div></div>
+
+<h3 id="getting-other-subversion-branches">Getting other Subversion branches</h3>
+
+<p>To get other branches not only the trunk, we have to tell Git the urls of the branches and how to label them in Git commands. At the moment <code class="language-plaintext highlighter-rouge">.git/config</code> should look something like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[svn-remote "svn"]
+        url = http://example.com/path/to/project-x/trunk
+        fetch = :refs/remotes/git-svn
+</code></pre></div></div>
+
+<p>The trick is to add multiple fetch configurations. The general format of a fetch configuration value is <code class="language-plaintext highlighter-rouge">RELPATH:refs/remotes/LABEL</code> where <code class="language-plaintext highlighter-rouge">RELPATH</code> is the relative path of the branch from the url configuration, and <code class="language-plaintext highlighter-rouge">LABEL</code> can be anything you want. At the moment <code class="language-plaintext highlighter-rouge">RELPATH</code> is blank, because url already corresponds to the url of the branch.</p>
+
+<p>Let’s say we want to get <code class="language-plaintext highlighter-rouge">branch1</code>, whose url is <code class="language-plaintext highlighter-rouge">http://example.com/path/to/project-x/branches/branch1</code>. Let’s change <code class="language-plaintext highlighter-rouge">.git/config</code> to be like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[svn-remote "svn"]
+        url = http://example.com/path/to/project-x
+        fetch = trunk:refs/remotes/git-svn
+        fetch = branches/branch1:refs/remotes/branch1
+</code></pre></div></div>
+
+<p>Note that although we changed the first fetch line, we did not change the meaning: the url of the git-svn remote is still http://example.com/path/to/project-x/trunk</p>
+
+<p>In the second fetch line we tell Git the path to the other branch that we want, and the label to use for it in Git commands.</p>
+
+<p>After adding more fetch lines, get the branches with:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git svn fetch
+</code></pre></div></div>
+
+<p>The same way as when cloning, this may get interrupted. Simply repeat the command to resume, as many times as it takes.</p>
+
+<p>After the fetch is completed, you can confirm the new branch was correctly fetched with:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch -r
+</code></pre></div></div>
+
+<p>You can create a local branch based on the remote and switch to it with:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout -b local-branch1 remotes/branch1
+</code></pre></div></div>
+
+<p>You can add more fetch lines easily using <code class="language-plaintext highlighter-rouge">git config</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config --add svn-remote.svn.fetch branches/branch2:refs/remotes/branch2
+</code></pre></div></div>
+
+<p>By the way, the documentation mentions this alternative configuration:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[svn-remote "svn"]
+        url = http://example.com/path/to/project-x
+        fetch = trunk:refs/remotes/git-svn
+        branches = branches/{red,green}:refs/remotes/*
+</code></pre></div></div>
+
+<p>It’s a great idea, except that as of version 1.7.10 this does not work well: it works only once!!! You create the settings, you do <code class="language-plaintext highlighter-rouge">git svn fetch</code>, it looks all good, but if you add another branch later and try to do <code class="language-plaintext highlighter-rouge">git svn fetch</code> again, it will do nothing. It’s not the end of the world though, as you can just fall back to the technique of adding multiple fetch lines…</p>
+
+  </div>
+</div>
+
+
+<div class="row">
+  <ul class="categories pager">
+    
+    
+
+
+  
+     
+    	<li><a href="http://www.janosgyerik.com/categories#hacks-ref">
+    		hacks (211)
+    	</a></li>
+     
+    	<li><a href="http://www.janosgyerik.com/categories#software-ref">
+    		software (154)
+    	</a></li>
+    
+  
+
+
+
+  </ul>
+</div>
+  
+
+  
+
+<div class="row">
+  <ul class="pager">
+  
+    <li class=""><a href="http://www.janosgyerik.com/sharing-files-between-windows7-host-and-debian-guest-with-virtualbox/" title="Sharing files between Windows7 host and Debian guest with VirtualBox">← Previous</a></li>
+  
+    <li><a href="http://www.janosgyerik.com/archive.html">Archive</a></li>
+  
+    <li class=""><a href="http://www.janosgyerik.com/how-to-show-hidden-files-in-finder-on-mac-os-x/" title="How to show hidden files in Finder on Mac OS X">Next →</a></li>
+  
+  </ul>
+</div>
+
+<div class="row">
+  <hr />
+  
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_shortname = 'janosgyerikcom'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the &lt;a href="http://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;</noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+</div>
+
+
+        </div>
+      </div>
+    </div>
+
+    <footer id="footer">
+      <div class="container">
+        <p class="text-muted">© 2019 Janos Gyerik
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </div>
+    </footer>
+
+    
+
+
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-40473074-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  
+
+
+</body></html>
