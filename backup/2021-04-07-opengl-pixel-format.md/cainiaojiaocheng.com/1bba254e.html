@@ -1,0 +1,444 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous" />
+<script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-176021406-1"></script>
+<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-176021406-1');
+    </script>
+<title>
+使用glTexImage2D的结果很奇怪|菜鸟教程
+</title>
+</head>
+<body>
+<header class="navbar navbar-expand-lg navbar-dark bg-primary">
+<div class="navbar-nav-scroll">
+<ul class="navbar-nav bd-navbar-nav flex-row">
+<li class="nav-item">
+<a class="navbar-brand " href="/">首页</a>
+</li>
+</ul>
+</div>
+</header>
+<div class="container-fluid">
+<div class="row flex-xl-nowarp">
+<div class="col">
+</div>
+</div>
+<div class="row">
+<div class="col-12 breadcrumb">
+<div class="container">
+<h5 class="title">使用glTexImage2D的结果很奇怪</h5>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-lg-2 d-none d-lg-block sidebar">
+</div>
+<div class="col-12 col-lg-7 content">
+<div class="row">
+<div class="col-1 rank-info">
+<p><i class="fas fa-arrow-up"></i></p>
+<p>5</p>
+<p><i class="fas fa-arrow-down"></i></p>
+<br />
+<p><i class="fas fa-star"></i></p>
+<p>2</p>
+</div>
+<div class="col-11">
+<p></p><div class="sect4">
+<h5 id="_使用glteximage2d的结果很奇怪">使用glTexImage2D的结果很奇怪</h5>
+<div class="paragraph">
+<p>我一直在尝试弄清楚glTexImage2D的工作原理，并从一些非常清晰的代码中看到一些奇怪的结果。 我的代码只是将一个粗糙的圆画成一个256 * 256长的无符号数组，然后将数据发送出去成为纹理。 但是，无论我在图像创建循环中选择哪种组合，显示的纹理都会变成红色和橙色的变体：</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>unsigned* data = new unsigned[256*256];
+for (int y = 0; y &lt; 256; ++y)
+    for (int x = 0; x &lt; 256; ++x)
+        if ((x - 100)*(x - 100) + (y - 156)*(y - 156) &lt; 75*75)
+            data[256*y + x] = ((156 &lt;&lt; 24) | (256 &lt;&lt; 16) | (156 &lt;&lt; 8) | (200 &lt;&lt; 0));
+        else
+            data[256*y + x] = 0;  // I'd expect this to be transparent and the above to be slightly transparent and green, but it's red somehow.
+
+glBindTexture(GL_TEXTURE_2D, texid);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)data);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>OpenGL选项：</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    glEnable(GL_TEXTURE_2D);
+glShadeModel(GL_SMOOTH);
+glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
+glClearDepth(1.0f);
+glEnable(GL_DEPTH_TEST);
+glDepthFunc(GL_LEQUAL);
+glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+//glEnable(GL_BLEND);
+//glDisable(GL_CULL_FACE);
+
+glGenTextures(1, &amp;leaf[0]);
+    createLeaf(leaf[0]);  // createLeaf(GLuint&amp; texid) is posted entirely above</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>其余代码什么都不做，只在窗口的单个四边形上显示纹理。 （x64 win7）</p>
+</div>
+<div class="paragraph">
+<p>编辑：我完全尝试了里卡德的解决方案，但我仍然遇到一个紫色的圆圈。</p>
+</div>
+</div>
+<p></p>
+<div class="row">
+<div class="col-md-12 content-tag">
+<span class="badge badge-pill badge-light">
+<a href="/questions/tag/c%2B%2B">c++</a>
+</span>
+<span class="badge badge-pill badge-light">
+<a href="/questions/tag/opengl">opengl</a>
+</span>
+</div>
+</div>
+<div class="row mt-5">
+<div class="col-md-2">
+<p><a href="https://stackoverflow.com/questions/6636847" class="text-muted" target="_blank">来源</a></p>
+</div>
+<div class="col-md-2">
+</div>
+</div>
+</div>
+</div>
+<div class="row answer-title">
+<div class="col-md-12">
+<p><strong>
+<span>
+2
+</span> 答案</strong></p>
+<hr class="my-1" />
+</div>
+</div>
+<div class="answers">
+<div class="answer-item">
+<div class="row">
+<div class="col-1 rank-info">
+<p><i class="fas fa-arrow-up"></i></p>
+<p>14</p>
+<p><i class="fas fa-arrow-down"></i></p>
+<br />
+<i class="fas fa-check"></i>
+</div>
+<div class="col-11">
+<p></p><div class="literalblock">
+<div class="content">
+<pre>glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)data);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>首先是积极的事情。 您使用内部尺寸格式（GL_RGBA8，而不是GL_RGBA）。 这是非常好的;继续这样做。 您对内部格式（GL_RGBA8）和像素传输格式（GL_RGBA）之间的区别有清楚的了解。 这也很好。</p>
+</div>
+<div class="paragraph">
+<p>问题是这个。 您告诉OpenGL，您的数据是无符号字节流。 但这不是一个无符号字节流；这是未签名的_integers_的流。 那就是你声明“ data”的方式，那就是你填写“ data”的方式。 那么，为什么要对OpenGL撒谎呢？</p>
+</div>
+<div class="paragraph">
+<p>问题出在你的颜色上。 这是您的颜色值之一：</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre> ((156 &lt;&lt; 24) | (256 &lt;&lt; 16) | (156 &lt;&lt; 8) | (200 &lt;&lt; 0))</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>首先，256不是有效的颜色。 十六进制256是0x100，它是两个字节，而不是一个字节。</p>
+</div>
+<div class="paragraph">
+<p>您将从中获得的无符号整数是：</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre> 0x9D009CC8</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>如果按顺序将这些颜色指定为RGBA颜色，则红色为0x9D，绿色为0x00，蓝色为0x9C，alpha为0xC8。</p>
+</div>
+<div class="paragraph">
+<p>现在，因为您可能正在使用小端计算机，所以这4个字节被翻转存储，如下所示：</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre> 0xC89C009D</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>当您告诉OpenGL假装这是一个字节数组（不是）时，您将丢失小尾数转换。 因此OpenGL看到以0xC8开头的字节数组，因此为红色值。 等等。</p>
+</div>
+<div class="paragraph">
+<p>您需要告诉OpenGL实际操作：您将四个8位无符号值存储在一个无符号32位整数中。 为此，请使用以下命令：</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, (GLvoid*)data);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>GL_UNSIGNED_INT_8_8_8_8表示您正在向OpenGL提供一个无符号的32位整数数组（您是）。 32位整数的前8位是红色，第二个是绿色，第三个是蓝色，第四个是alpha。</p>
+</div>
+<div class="paragraph">
+<p>因此，要完全修复您的代码，您需要这样做：</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>GLuint* data = new GLuint[256*256]; //Use OpenGL's types
+for (int y = 0; y &lt; 256; ++y)
+    for (int x = 0; x &lt; 256; ++x)
+        if ((x - 100)*(x - 100) + (y - 156)*(y - 156) &lt; 75*75)
+            data[256*y + x] = ((0x9C &lt;&lt; 24) | (0xFF &lt;&lt; 16) | (0x9C &lt;&lt; 8) | (0xC8 &lt;&lt; 0));
+        else
+            data[256*y + x] = 0;  // I'd expect this to be transparent and the above to be slightly transparent and green, but it's red somehow.
+
+glBindTexture(GL_TEXTURE_2D, texid);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);  //Always set the base and max mipmap levels of a texture.
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, (GLvoid*)data);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>“”“””</p>
+</div>
+<div class="paragraph">
+<p><em><em>_ </em><em>
+透明和绿色，但以某种方式为红色。
+</em><em> </em>_</em></p>
+</div>
+<div class="paragraph">
+<p>Alpha的意思不是_transparent_；除非您赋予它含义，否则它什么也没有。 仅当您使用混合并设置混合模式以使较低的Alpha使事物透明时，Alpha才表示透明度。 否则，它什么都没有。</p>
+</div>
+<p></p>
+<div class="row mt-5">
+<div class="col-md-2">
+<p>
+<a href="https://stackoverflow.com/questions/6636847/6637317" class="text-muted" target="_blank">来源</a>
+</p>
+</div>
+<div class="col-md-2">
+</div>
+</div>
+</div>
+</div>
+<hr />
+</div>
+<div class="answer-item">
+<div class="row">
+<div class="col-1 rank-info">
+<p><i class="fas fa-arrow-up"></i></p>
+<p>2</p>
+<p><i class="fas fa-arrow-down"></i></p>
+<br />
+</div>
+<div class="col-11">
+<p></p><div class="paragraph">
+<p>如果我在哪里做与您相同的事情，我将使用无符号字符数组，而不是长度为4倍的无符号整数。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>unsigned char* data = new unsigned char[256*256*4];
+for (int y = 0; y &lt; 256; ++y)
+    for (int x = 0; x &lt; 256; ++x)
+        if ((x - 100)*(x - 100) + (y - 156)*(y - 156) &lt; 75*75){
+            data[(256*y + x)*4+0] = 156;
+            data[(256*y + x)*4+1] = 256;
+            data[(256*y + x)*4+2] = 156;
+            data[(256*y + x)*4+3] = 200;
+        }else{
+            data[(256*y + x)*4+0] = 0;
+            data[(256*y + x)*4+1] = 0;
+            data[(256*y + x)*4+2] = 0;
+            data[(256*y + x)*4+3] = 0;
+        }
+
+glBindTexture(GL_TEXTURE_2D, texid);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)data);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>但是您的代码对我来说似乎正确，我不确定上面的代码是否会更改任何内容。 如果结果相同，则尝试将GL_RGBA8更改为GL_RGBA。 texid的可变类型是什么？ [直通] <strong>我一直通过refrense（＆texid）调用glBindTexture和GLuint，但是如果您的texid是指向GLuint的指针（GLuint * texid;），那么我猜该部分就可以了。</strong>（编辑：只需意识到im最后一部分是错误的，我在考虑glGenTexture而不是glBindTexture）</p>
+</div>
+<p></p>
+<div class="row mt-5">
+<div class="col-md-2">
+<p>
+<a href="https://stackoverflow.com/questions/6636847/6636960" class="text-muted" target="_blank">来源</a>
+</p>
+</div>
+<div class="col-md-2">
+</div>
+</div>
+</div>
+</div>
+<hr />
+</div>
+</div>
+</div>
+<div class="col-12 col-lg-3 sidebar">
+<div class="card border-light mb-3">
+<div class="card-header">相关</div>
+<ul class="list-group">
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/574908/how-to-properly-setup-opengl-scene-for-visualizing-single-objects" style="font-size: 0.8rem">
+如何正确设置OpenGL场景以可视化单个对象
+</a>
+<span class="badge badge-light badge-pill">2</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/1034474/i-need-to-calculate-the-edges-of-visible-space-from-current-opengl-state" style="font-size: 0.8rem">
+我需要从当前的OpenGL状态计算可见空间的边缘
+</a>
+<span class="badge badge-light badge-pill">2</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/1856640/the-procedure-entry-point-ftol2-could-not-be-located-in-the-dynamic-link-library-msvcrt-dll" style="font-size: 0.8rem">
+无法在动态链接库msvcrt.dll中找到过程入口点_ftol2
+</a>
+<span class="badge badge-light badge-pill">3</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/1878257/how-can-i-draw-a-cylinder-that-connects-two-points-in-opengl" style="font-size: 0.8rem">
+如何在OpenGL中绘制连接两个点的圆柱体
+</a>
+<span class="badge badge-light badge-pill">0</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/1995062/why-can-t-i-run-my-opengl-program-outside-of-visual-studio" style="font-size: 0.8rem">
+为什么我不能在Visual Studio之外运行我的OpenGL程序？
+</a>
+<span class="badge badge-light badge-pill">1</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/3589422/using-opengl-glutdisplayfunc-within-class" style="font-size: 0.8rem">
+在类中使用OpenGL glutDisplayFunc
+</a>
+<span class="badge badge-light badge-pill">25</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/3728919/qtopengl-and-macos-x-software-rendering" style="font-size: 0.8rem">
+QtOpenGL和MacOS X - 软件渲染？
+</a>
+<span class="badge badge-light badge-pill">2</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/3756462/simple-opengl-code-always-causes-a-segmentation-fault-c-on-ubuntu-virtual-machine" style="font-size: 0.8rem">
+简单的OpenGL代码总是会导致分段错误（Ubuntu上的C，虚拟机）
+</a>
+<span class="badge badge-light badge-pill">3</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/3904248/is-cl-opengl-glut-mature" style="font-size: 0.8rem">
+cl-opengl glut成熟吗？
+</a>
+<span class="badge badge-light badge-pill">5</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/4064757/what-web-apps-can-be-made-or-are-made-with-opengl" style="font-size: 0.8rem">
+使用OpenGL可以制作（或制作）哪些Web应用程序？
+</a>
+<span class="badge badge-light badge-pill">2</span>
+</li>
+</ul>
+</div>
+<div class="card border-light mb-3">
+<div class="card-header">推荐</div>
+<ul class="list-group">
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/293799/how-do-i-use-std-tr1-mem-fun-in-visual-studio-2-8-sp1" style="font-size: 0.8rem">
+如何在Visual Studio 2008 SP1中使用std :: tr1 :: mem_fun？
+</a>
+<span class="badge badge-light badge-pill">2</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/455434/how-should-i-use-formatmessage-properly-in-c" style="font-size: 0.8rem">
+我应该如何在C中正确使用FormatMessage（）？
+</a>
+<span class="badge badge-light badge-pill">82</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/1256240/why-is-boost-scoped-lock-not-unlocking-the-mutex" style="font-size: 0.8rem">
+为什么Boost scoped_lock没有解锁互斥锁？
+</a>
+<span class="badge badge-light badge-pill">12</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/1761379/is-returning-string-reference-the-best-case-in-below" style="font-size: 0.8rem">
+返回字符串参考是下面的最佳案例
+</a>
+<span class="badge badge-light badge-pill">1</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/2412238/when-do-c-stream-objects-use-mutexes" style="font-size: 0.8rem">
+c ++流对象何时使用互斥体？
+</a>
+<span class="badge badge-light badge-pill">2</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/3644271/numerical-error-in-simple-cuda-code" style="font-size: 0.8rem">
+简单CUDA代码中的数值错误
+</a>
+<span class="badge badge-light badge-pill">3</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/3901977/c-string-array-loading-lines-of-text-from-file" style="font-size: 0.8rem">
+C字符串数组，从文件加载文本行
+</a>
+<span class="badge badge-light badge-pill">2</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/3902005/combine-two-list-into-one-list" style="font-size: 0.8rem">
+将两个列表合并为一个列表
+</a>
+<span class="badge badge-light badge-pill">1</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/4035019/dialogblocks-on-windows-msvcr8-d-dll-is-missing" style="font-size: 0.8rem">
+Windows上的DialogBlocks：缺少MSVCR80D.dll
+</a>
+<span class="badge badge-light badge-pill">0</span>
+</li>
+<li class="list-group-item d-flex justify-content-between align-items-center text-primary related-item">
+<a href="/questions/4178938/finding-current-mouse-position-in-qt" style="font-size: 0.8rem">
+在QT中查找当前鼠标位置
+</a>
+<span class="badge badge-light badge-pill">2</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer class="py-5">
+<div class="container">
+<p>
+dmca
+</p>
+<p>
+<span>根据许可<a rel="nofollow" href="https://creativecommons.org/licenses/by-sa/3.0/">cc by-sa 3.0</a></span>
+</p>
+Copyright © <span>2021</span>
+</div>
+</footer>
+
+
+</body></html>
