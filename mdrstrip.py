@@ -254,7 +254,7 @@ def isInvisibleDir(fpath):
 
 def organizeRes(ik, fpath, line):
 
-    if ik in ("subsystem:windows /ENTRY:mainCRTStartup",):
+    if ik in readfileIglist("mdrstrip_fakefiles.txt"):
         return line
 
     ikdir, ikfile = os.path.split(ik)
@@ -263,9 +263,6 @@ def organizeRes(ik, fpath, line):
     iktype = ikfile.split(".")[-1].lower()
     if iktype == "mp4":
         ffmpegConvert(ik)
-
-    if ik in ("Yu${pch_header}", "Yc${pch_header}",):
-        return line
 
     if not COPYRES:
         assert os.path.exists(ik), fpath +"  "+ ik
