@@ -116,8 +116,7 @@ BOOL NullFunction() {
     __try {
         *_p = 0;
     }__except(EXCEPTION_EXECUTE_HANDLER){}
-        return TRUE;
-    }
+    return TRUE;
 }
 
 // 准备在远程运行的代码
