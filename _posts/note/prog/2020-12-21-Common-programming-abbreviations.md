@@ -156,7 +156,7 @@ codeprint:
 - [4] [编程常用缩写 {% include relref_csdn.html %}](https://blog.csdn.net/zhaoguanghui2012/article/details/51144156)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-21-Common-programming-abbreviations.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-21-Common-programming-abbreviations.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://blog.csdn.net/wf19930209/article/details/78577918]({% include relrefx.html url="/backup/2020-12-21-Common-programming-abbreviations.md/blog.csdn.net/b68bc603.html" %})

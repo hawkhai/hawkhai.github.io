@@ -645,7 +645,7 @@ void main()
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-01-06-irrlicht-gles-driver-3d.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-06-irrlicht-gles-driver-3d.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://www.voidcn.com/article/p-ncwwekol-bad.html]({% include relrefx.html url="/backup/2021-01-06-irrlicht-gles-driver-3d.md/www.voidcn.com/b445f1f6.html" %})

@@ -172,4 +172,4 @@ Kernel32 提供的堆管理函数。CRT 内存分配如：malloc、free、reallo
 访问块开始之前的内容 | 在释放后发现 | 立即发现
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-26-memory-leak-gflags.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-26-memory-leak-gflags.md.js" %}'></script></p>

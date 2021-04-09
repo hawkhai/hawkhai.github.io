@@ -87,4 +87,4 @@ void main()
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-01-06-irrlicht-gles-driver-2d.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-06-irrlicht-gles-driver-2d.md.js" %}'></script></p>

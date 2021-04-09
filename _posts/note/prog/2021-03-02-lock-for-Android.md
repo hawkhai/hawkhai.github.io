@@ -423,7 +423,7 @@ template<class Callable, class ...Args>
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-03-02-lock-for-Android.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-02-lock-for-Android.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://pubs.opengroup.org/onlinepubs/7908799/xsh/pthread_mutex_lock.html]({% include relrefx.html url="/backup/2021-03-02-lock-for-Android.md/pubs.opengroup.org/717c42d5.html" %})

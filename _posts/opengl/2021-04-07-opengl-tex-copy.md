@@ -52,4 +52,4 @@ glBindFramebuffer(GL_FRAMEBUFFER, 0);
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-04-07-opengl-tex-copy.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-04-07-opengl-tex-copy.md.js" %}'></script></p>

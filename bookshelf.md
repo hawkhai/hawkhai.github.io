@@ -35,4 +35,4 @@ Current: **颈椎病康复指南**
   * 《水俣病》蒂莫西·乔治
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/bookshelf.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/bookshelf.md.js" %}'></script></p>

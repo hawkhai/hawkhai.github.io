@@ -158,7 +158,7 @@ $$\nabla = \sum_{j=1}^n \bigg[{\frac{\partial}{\partial x_j}}\bigg] \mathbf{\hat
 - [3] <https://blog.csdn.net/czmacd/article/details/81178650>
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-09-03-deep-learning-math-gradient.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-09-03-deep-learning-math-gradient.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://blog.csdn.net/walilk/article/details/50978864]({% include relrefx.html url="/backup/2020-09-03-deep-learning-math-gradient.md/blog.csdn.net/9d5ef2a4.html" %})

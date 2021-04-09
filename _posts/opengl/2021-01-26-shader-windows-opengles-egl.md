@@ -735,7 +735,7 @@ int _tmain(int argc, _TCHAR* argv[])
 - [5] [EGL 介绍和使用 {% include relref_csdn.html %}](https://blog.csdn.net/afei__/article/details/84867104)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-01-26-shader-windows-opengles-egl.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-26-shader-windows-opengles-egl.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.khronos.org/registry/EGL/sdk/docs/man/html/eglChooseConfig.xhtml]({% include relrefx.html url="/backup/2021-01-26-shader-windows-opengles-egl.md/www.khronos.org/97f7cafc.xhtml" %})

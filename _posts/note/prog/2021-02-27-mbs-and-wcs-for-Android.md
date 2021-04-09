@@ -636,7 +636,7 @@ int iconv_close(iconv_t cd);
 - [1] [locale 的设定及 LANG、LC_CTYPE、LC_ALL 环境变量 {% include relref_cnblogs.html %}](https://www.cnblogs.com/xlmeng1988/archive/2013/01/16/locale.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-02-27-mbs-and-wcs-for-Android.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-27-mbs-and-wcs-for-Android.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.gnu.org/software/libiconv/]({% include relrefx.html url="/backup/2021-02-27-mbs-and-wcs-for-Android.md/www.gnu.org/66303c8e.html" %})

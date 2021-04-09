@@ -223,7 +223,7 @@ codeprint:
 - [4] GITHUB 数学公式展开：<https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima>
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-09-27-dip-samples.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-09-27-dip-samples.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.jb51.net/article/133880.htm]({% include relrefx.html url="/backup/2020-09-27-dip-samples.md/www.jb51.net/e089c4c3.htm" %})

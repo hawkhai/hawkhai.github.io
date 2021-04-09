@@ -73,7 +73,7 @@ codeprint:
 - [1] [日本公害往事 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/19662214)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-10-10-book-Minamata-Pollution-and-the-Struggle-for-Democracy-in-Postwar-Japan.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-10-10-book-Minamata-Pollution-and-the-Struggle-for-Democracy-in-Postwar-Japan.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://zhuanlan.zhihu.com/p/19662214]({% include relrefx.html url="/backup/2020-10-10-book-Minamata-Pollution-and-the-Struggle-for-Democracy-in-Postwar-Japan.md/zhuanlan.zhihu.com/5fc7e9d4.html" %})

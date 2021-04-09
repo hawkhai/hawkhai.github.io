@@ -647,7 +647,7 @@ gl_Position = vec4(aPos, 1.0);
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-03-16-shader-OpenGL-research.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-16-shader-OpenGL-research.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://blog.csdn.net/keneyr/article/details/102727363]({% include relrefx.html url="/backup/2021-03-16-shader-OpenGL-research.md/blog.csdn.net/c07f06d3.html" %})

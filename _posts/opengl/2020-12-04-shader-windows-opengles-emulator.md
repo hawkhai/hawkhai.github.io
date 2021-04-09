@@ -140,7 +140,7 @@ D/HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1
 - [6] [全球知名 GPU 厂家（附其深度报告） {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/uANsBYLG4l2v-dUx6FIpcw)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-04-shader-windows-opengles-emulator.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-04-shader-windows-opengles-emulator.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.khronos.org/registry/OpenGL/index_es.php]({% include relrefx.html url="/backup/2020-12-04-shader-windows-opengles-emulator.md/www.khronos.org/bb75bed1.php" %})

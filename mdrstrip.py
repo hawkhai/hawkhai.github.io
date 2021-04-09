@@ -442,7 +442,7 @@ g_tpset = set()
 g_mdkeyset = set()
 SNAPSHOT_HTML = "<font class='ref_snapshot'>参考资料快照</font>"
 REVIEW_REGEX  = "^<p class='reviewtip'><script type='text/javascript' src='{% include relrefx?.html url=\".*?\" %}'></script></p>$"
-REVIEW_FORMAT = "<p class='reviewtip'><script type='text/javascript' src='{%% include relrefx.html url=\"/%s.js\" %%}'></script></p>"
+REVIEW_FORMAT = "<p class='reviewtip'><script type='text/javascript' src='{%% include relref.html url=\"/%s.js\" %%}'></script></p>"
 REVIEW_LINE   = "<hr class='reviewline'/>"
 REVIEW_JS_PATH = "%s.js"
 ROUGIFY_LIST = loadRougifyList()

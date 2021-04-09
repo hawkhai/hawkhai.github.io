@@ -147,4 +147,4 @@ So for example ECF_A8R8G8B8 is BGRA in memory same as in DX9's D3DFMT_A8R8G8B8 f
     * 内存里面为了速度，是小端存储的，存储到文件是大端的。小端的根本目的，可以用 int 加速运算。
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-04-08-opengl-little-endian-and-big-endian.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-04-08-opengl-little-endian-and-big-endian.md.js" %}'></script></p>

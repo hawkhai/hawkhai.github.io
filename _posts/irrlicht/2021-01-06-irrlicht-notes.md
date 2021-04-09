@@ -356,7 +356,7 @@ Shading 方式的。
 - [1] [irrlicht 学习笔记 (6.21-6.24) -- zj](https://wenku.baidu.com/view/f3e3532bcfc789eb172dc8e0.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-01-06-irrlicht-notes.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-06-irrlicht-notes.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://blog.sina.com.cn/s/blog_5497d613010006qu.html]({% include relrefx.html url="/backup/2021-01-06-irrlicht-notes.md/blog.sina.com.cn/bc80254b.html" %})

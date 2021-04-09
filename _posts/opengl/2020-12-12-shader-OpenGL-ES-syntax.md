@@ -798,7 +798,7 @@ void main (void) {
 - [12] [GLSL 语法入门 {% include relref_cnblogs.html %}](https://www.cnblogs.com/kefeiGame/p/10972139.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-12-shader-OpenGL-ES-syntax.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-12-shader-OpenGL-ES-syntax.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://github.com/wshxbqq/GLSL-Card]({% include relrefx.html url="/backup/2020-12-12-shader-OpenGL-ES-syntax.md/github.com/eb0ca84c.html" %})

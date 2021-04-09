@@ -426,7 +426,7 @@ void setMat4(glm::mat4 &mat)    glUniformMatrix4fv(1, &mat[0][0]);
 {% include image.html url="/assets/images/201111-shader-opengl-intro/glintrograb.webp" %}
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-11-11-shader-OpenGL-Intro.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-11-11-shader-OpenGL-Intro.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.uni-marburg.de/en/fb12/research-groups/grafikmultimedia/lectures/graphics]({% include relrefx.html url="/backup/2020-11-11-shader-OpenGL-Intro.md/www.uni-marburg.de/2b3b5349.html" %})

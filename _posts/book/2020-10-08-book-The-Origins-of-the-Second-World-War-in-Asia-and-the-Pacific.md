@@ -62,4 +62,4 @@ codeprint:
 怎么诊断一个公司是不是患有大公司病呢？就是看一个公司内两个部门之间的合作是不是比和外人谈合作更困难。
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-10-08-book-The-Origins-of-the-Second-World-War-in-Asia-and-the-Pacific.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-10-08-book-The-Origins-of-the-Second-World-War-in-Asia-and-the-Pacific.md.js" %}'></script></p>

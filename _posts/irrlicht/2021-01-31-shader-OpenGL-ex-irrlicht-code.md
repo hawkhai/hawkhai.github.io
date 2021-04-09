@@ -124,4 +124,4 @@ static size_t multibyteToWString(string<wchar_t>& destination, const char* sourc
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-01-31-shader-OpenGL-ex-irrlicht-code.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-31-shader-OpenGL-ex-irrlicht-code.md.js" %}'></script></p>

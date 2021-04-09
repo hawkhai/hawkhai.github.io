@@ -89,4 +89,4 @@ int main()
 [from](https://twiki.cmcm.com/pages/viewpage.action?pageId=154895089)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-04-04-win-xp-code.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-04-04-win-xp-code.md.js" %}'></script></p>

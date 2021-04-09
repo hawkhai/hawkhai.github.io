@@ -95,7 +95,7 @@ EGL 是渲染 API（如 OpenGL ES）和原生窗口系统之间的接口。
 - [4] [可编程渲染管线比固定管线的优势在哪？有什么应用？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/28024422/answer/39097192)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-11-02-shader-Shader-Language.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-11-02-shader-Shader-Language.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.cnblogs.com/gispathfinder/p/6985769.html]({% include relrefx.html url="/backup/2020-11-02-shader-Shader-Language.md/www.cnblogs.com/7f811159.html" %})

@@ -46,7 +46,7 @@ https://docs.microsoft.com/zh-cn/sysinternals/downloads/sysinternals-suite
 ## 逆向分析
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-03-06-windows-Core-Programming.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-06-windows-Core-Programming.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://docs.microsoft.com/en-us/windows-hardware/drivers/ifs]({% include relrefx.html url="/backup/2021-03-06-windows-Core-Programming.md/docs.microsoft.com/3f7eeeb1.html" %})

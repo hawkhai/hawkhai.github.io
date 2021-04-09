@@ -212,7 +212,7 @@ Physically Based Rendering。
 - [6] [视差贴图（Parallax Mapping）以及浮雕贴图（Relief Mapping）在 Unity 中的实现 {% include relref_jianshu.html %}](https://www.jianshu.com/p/edf6589122b2)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-01-07-shader-OpenGL-Parallax-Mapping.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-07-shader-OpenGL-Parallax-Mapping.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://chengkehan.github.io/ParallaxMapping.html]({% include relrefx.html url="/backup/2021-01-07-shader-OpenGL-Parallax-Mapping.md/chengkehan.github.io/ca717f6a.html" %})

@@ -70,7 +70,7 @@ gif2webp -q 75 -lossy -m 6 picture.gif -o picture.webp
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-18-servx-webx.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-18-servx-webx.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://sourceforge.net/]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/sourceforge.net/f577c4c2.html" %})

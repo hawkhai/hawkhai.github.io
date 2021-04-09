@@ -209,7 +209,7 @@ inline float3 MultiplyQP(Quaternion rotation, float3 p)
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-11-shader-OpenGL-Coordinate-system.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-11-shader-OpenGL-Coordinate-system.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://learnopengl-cn.readthedocs.io/zh/latest/01%20Getting%20started/08%20Coordinate%20Systems/]({% include relrefx.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/learnopengl-cn.readthedocs.io/cfc9cf0a.html" %})

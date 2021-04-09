@@ -214,7 +214,7 @@ eglSwapBuffers(eglDisplay, eglSurface);
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-03-10-shader-diff-opengl-opengles.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-10-shader-diff-opengl-opengles.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://chengkehan.github.io/Links.html]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/chengkehan.github.io/0d02c1f4.html" %})

@@ -334,7 +334,7 @@ void main()
 ```
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-03-29-shader-opengl-es-blend.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-29-shader-opengl-es-blend.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://developer.aliyun.com/article/782026]({% include relrefx.html url="/backup/2021-03-29-shader-opengl-es-blend.md/developer.aliyun.com/156f5476.html" %})

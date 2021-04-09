@@ -530,7 +530,7 @@ $$
 - [4] [虚数的意义 阮一峰](https://www.ruanyifeng.com/blog/2012/09/imaginary_number.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-09-20-math-complex.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-09-20-math-complex.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.matongxue.com/madocs/2066/]({% include relrefx.html url="/backup/2020-09-20-math-complex.md/www.matongxue.com/1c00fe52.html" %})

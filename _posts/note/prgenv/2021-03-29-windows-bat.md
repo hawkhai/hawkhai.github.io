@@ -79,7 +79,7 @@ Sample： echo "SourcePath"="D:\\Win2003\\" >> c:\setupreg.reg （追加内容�
 * GEQ - 大于或等于
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2021-03-29-windows-bat.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-29-windows-bat.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://blog.csdn.net/qq_36838191/article/details/83046599]({% include relrefx.html url="/backup/2021-03-29-windows-bat.md/blog.csdn.net/d1b7bb3a.html" %})

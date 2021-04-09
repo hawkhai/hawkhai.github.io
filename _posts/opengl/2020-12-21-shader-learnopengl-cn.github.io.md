@@ -407,7 +407,7 @@ https://learnopengl-cn.github.io/
 - [2] [songho.ca OpenGL](http://www.songho.ca/opengl/index.html)
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relrefx.html url="/assets/reviewjs/blogs/2020-12-21-shader-learnopengl-cn.github.io.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-21-shader-learnopengl-cn.github.io.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://learnopengl-cn.github.io/]({% include relrefx.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/learnopengl-cn.github.io/e0710dd2.html" %})
