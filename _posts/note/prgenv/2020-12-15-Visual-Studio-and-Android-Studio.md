@@ -16,6 +16,30 @@ codeprint:
 ---
 
 
+## WTL 工程出现的 LINK 错误解决
+
+VS2005 WTL 工程编译 Debug 无问题，编译 Release 时出现 Link 错误
+
+```
+1>正在链接 ...
+1>LIBCMT.lib(tidtable.obj) : error LNK2005: __encode_pointer 已经在 atlmincrt.lib(atlinit.obj) 中定义
+1>LIBCMT.lib(tidtable.obj) : error LNK2005: __encoded_null 已经在 atlmincrt.lib(atlinit.obj) 中定义
+1>LIBCMT.lib(tidtable.obj) : error LNK2005: __decode_pointer 已经在 atlmincrt.lib(atlinit.obj) 中定义
+1>LIBCMT.lib(crt0dat.obj) : error LNK2005: __get_osplatform 已经在 atlmincrt.lib(atlinit.obj) 中定义
+1>LIBCMT.lib(crt0dat.obj) : error LNK2005: __osplatform 已经在 atlmincrt.lib(atlinit.obj) 中定义
+1>LIBCMT.lib(calloc.obj) : error LNK2005: _calloc 已经在 atlmincrt.lib(atlinit.obj) 中定义
+1>LIBCMT.lib(dosmap.obj) : error LNK2005: __errno 已经在 atlmincrt.lib(atlinit.obj) 中定义
+1>LIBCMT.lib(dosmap.obj) : error LNK2005: __set_errno 已经在 atlmincrt.lib(atlinit.obj) 中定义
+1>LIBCMT.lib(dosmap.obj) : error LNK2005: __get_errno 已经在 atlmincrt.lib(atlinit.obj) 中定义
+1>LIBCMT.lib(crt0.obj) : error LNK2019: 无法解析的外部符号 _main，该符号在函数 ___tmainCRTStartup 中被引用
+1>Release\KugouUIDemo.exe : fatal error LNK1120: 1 个无法解析的外部命令
+```
+
+解决方法：
+
+属性页 -> 配置属性 -> 常规 -> 项目默认值 -> 在 ATL 中最小使用 CRT -> 否
+
+
 ## 错误 RC1015 cannot open include file 'afxres.h'.
 
 Or, if you don't want to install MFC, you can replace the line:
