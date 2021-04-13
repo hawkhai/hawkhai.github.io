@@ -1,0 +1,305 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head>
+<title>Reference Compiler</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
+<link rel="shortcut icon" href="//www.khronos.org/favicon.ico" type="image/ico" />
+<link rel="stylesheet" href="//www.khronos.org/opengles/sdk/inc/sdk.css" type="text/css" media="screen" />
+
+<script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" async="" src="https://cse.google.com/cse.js?cx=017055583490642512057:_ak1bpok_no"></script><script>
+(function() {var cx = '017055583490642512057:_ak1bpok_no';var gcse = document.createElement('script');gcse.type = 'text/javascript';gcse.async = true;gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(gcse, s);})();
+</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-1759693-1"></script>
+<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-1759693-1');</script>
+</head>
+<body>
+<div id="header">
+<div id="branding">
+<a class="branding-logo" target="_top" href="https://www.khronos.org/opengles/" title="The Standard for Embedded Accelerated 3D Graphics">
+    <img src="//www.khronos.org/opengles/images/opengles_75px.png" alt="OpenGL ES SDK" height="75" width="204" />
+</a>
+<div class="branding-title">
+    <h1>OpenGL ES Software Development Kit</h1>
+    <h4>Documentation, Sample Code, Libraries, and Tools<br />for creating OpenGL ES-based Applications</h4>
+</div>
+
+<div id="nav" class="clearfix">
+	<ul id="navlist" class="clearfix">
+		<li class="small-screen"><a target="_top" href="/opengles/sdk/">SDK Home</a></li>
+		<li><a target="_top" href="/opengles/sdk/docs/">Documentation</a></li>
+		<li><a target="_top" href="/opengles/sdk/libs/">Libraries</a></li>
+		<li><a target="_top" href="/opengles/sdk/tools/">Tools</a></li>
+		<li><a target="_new" href="http://www.khronos.org/message_boards/">Forums</a></li>
+	</ul>
+</div>
+
+</div>
+</div>
+
+
+
+
+<h1>OpenGL / OpenGL ES Reference Compiler</h1>
+
+<p>Glslang is the official reference compiler front end for the OpenGL
+ES and OpenGL shading languages. It implements a strict interpretation
+of the specifications for these languages. It is open and free for
+anyone to use, either from a command line or programmatically. The OpenGL
+and OpenGL ES working groups are committed to maintaining consistency
+between the reference compiler and the corresponding shading language
+specifications.</p>
+
+<h2>Purpose</h2>
+
+<p>The primary purpose of the reference compiler is to identify shader
+portability issues. If glslang accepts a shader without errors, then
+all OpenGL and OpenGL ES implementations claiming to support the
+shader's language version should also accept the shader without
+errors. Likewise, if glslang reports an error when compiling a shader,
+all OpenGL and OpenGL ES implementations for that language version
+should report errors, unless the glslang errors are caused by
+differences in implementation-defined limits or extension support (see
+below).</p>
+
+<p>Secondarily, glslang is also suitable for programmatic use in a
+tool chain or a driver, translating the input source into an abstract
+syntax tree that can be translated into an intermediate representation
+for machine-independent processing and lowering to machine-specific
+code. Glslang can also return (even from the command line) uniform
+variable reflection information (before optimization).</p>
+
+<h2>Using Glslang from the Command Line</h2>
+
+<p>Basic use from the command line is simple. Put your shader in a
+file, e.g., shader.frag, and execute:</p>
+
+<p><code>
+glslangValidator shader.frag </code>
+</p>
+
+<p>Any GLSL errors in shader.frag will be printed out. Be sure that
+your shader includes the appropriate #version statement; the default
+is #version 100, i.e., the shading language supported in OpenGL ES
+2.0. The stage is indicated by the file's extension:</p>
+
+<p><code>
+    .vert - a vertex shader<br />
+    .tesc - a tessellation control shader<br />
+    .tese - a tessellation evaluation shader<br />
+    .geom - a geometry shader<br />
+    .frag - a fragment shader<br />
+    .comp - a compute shader</code></p>
+<p>There is also a non-shader file extension:</p>
+<p><code>.conf - a configuration file of implementation-dependent limits</code></p>
+<p>Multiple shaders can be specified on the same command line.</p>
+<h2>Specifying implementation-dependent limits</h2>
+
+<p>Some versions of GLSL ES allow compilation to fail if a shader uses
+too many hardware resources, or if it uses constructs that are
+optional in the language version (e.g. dynamic looping and array
+indexing in GLSL ES 1.0). By default, glslang tries to enforce these
+constraints by rejecting shaders that
+exceed the minimum limits required in the language specification.</p>
+
+<p>To override the default limits, you can supply a .conf file along
+with your shader. An example default .conf file can be generated by
+using the '-c' command-line option. You can put this configuration
+information into a file with a .conf extension, edit it, and then
+include it on the command line with your shader, e.g.,</p>
+
+<p><code>glslangValidator -c &gt; my.conf<br />
+    # edit my.conf<br />
+    glslangValidator my.conf shader.frag</code></p>
+
+<p>We encourage hardware vendors to provide .conf files that encode
+the hardware limits of their GPUs, so that glslang can be used to
+predict whether a given shader will compile on a given GPU. However,
+be aware that only shaders that compile with the
+default configuration are expected to compile on any correct
+compiler.</p>
+
+<p>The default use described above will report any compile-time
+issues. To detect link-time issues, use the '-l' (for link) command-line
+option. You can supply multiple shader files, which glslang will
+attempt to link as appropriate for the language version you are
+using.</p>
+
+<p>Other options are available. Execute glslangValidator with no
+arguments to get a usage statement, which will show additional
+options.</p>
+
+<h2>Using the Reference Compiler in Programs</h2>
+
+<p>There is a C++ class-oriented interface for using glslang
+programmatically. See the top-level README.txt in the Khronos SVN
+project in the section "Programmatic Interfaces". 
+A C-style functional interface is also provided.</p>
+
+<h2>Where to Get Glslang</h2>
+
+<p><strong>Binaries</strong></p>
+
+<p>To get pre-compiled binaries for the command-line tool, use a
+Subversion client to access (or save the files from your web browser) <a href="https://github.com/KhronosGroup/glslang/releases/tag/master-tot">https://github.com/KhronosGroup/glslang/releases/tag/master-tot</a>. There is a Windows directory and a Linux directory.
+
+The binaries can be placed where desired, and invoked directly as
+"glslangValidator".</p>
+
+<p><strong>Source Code</strong></p>
+
+<p>Full source is available at GitHub at SVN from <a href="https://github.com/KhronosGroup/glslang">https://github.com/KhronosGroup/glslang</a>. See
+the README.txt in that directory for more information.
+
+Build solutions are based on CMake, which is actively used on multiple platforms.</p>
+
+<h2>Reporting Problems</h2>
+
+<p>In most cases, differences in behavior between the reference
+compiler and a specific GPU vendor's compiler should be reported to
+the GPU vendor. Including the reference compiler version number and
+output on your shaders will help the vendor address the problem
+quickly. If the vendor determines that the problem is in the reference
+compiler, they'll report it to us and we will fix it.</p>
+
+<p>If you find a bug in the reference compiler itself (e.g. it crashes
+or produces clearly incorrect output), please file a bug on the
+Khronos public bugzilla at [<a href="https://www.khronos.org/bugzilla/">1</a>]. Use product
+"OpenGL" or "OpenGL-ES" as appropriate, with
+Component "GLSL Reference Implementation". Please include
+the exact version number (obtainable via the '-v' command-line
+option), and a set of inputs that triggers the problem. If you have a
+fix for the problem, you can also attach a patch file against the
+appropriate source version.</p>
+
+<p>More general issues with glslang can be handled using GitHub issues or even submitting a pull request, at
+<a href="https://github.com/KhronosGroup/glslang">https://github.com/KhronosGroup/glslang</a>.</p>
+
+<h2>Current Status</h2>
+<p>Glslang is complete for compile-time validation of:</p>
+<ul>
+    <li>OpenGL ES 2.0 (ESSL #version 100)</li>
+    <li>OpenGL ES 3.0 (ESSL #version 300 es)</li>
+    <li>OpenGL 2.0 (GLSL #version 110)</li>
+    <li>OpenGL 2.1 (GLSL #version 120)</li>
+    <li>OpenGL 3.0 (GLSL #version 130)</li>
+    <li>OpenGL 3.1 (GLSL #version 140)</li>
+    <li>OpenGL 3.2 (GLSL #version 150)</li>
+    <li>OpenGL 3.3 (GLSL #version 330)</li>
+</ul>
+
+<p>Glslang also provides compile-time validation of:</p>
+<ul>
+    <li>OpenGL ES 3.1: complete except for arrays of arrays</li>
+    <li>OpenGL 4.0: tessellation shaders and texture gather built-ins</li>
+    <li>OpenGL 4.1: separate shader objects</li>
+    <li>OpenGL 4.2: all 4.2-specific featers are complete</li>
+    <li>OpenGL 4.3: compute shaders and shader storage buffer objects, </li>
+    <li>OpenGL 4.4: all 4.4-specific features are complete</li>
+    <li>OpenGL 4.5: all 4.5-specific features are complete</li>
+</ul>
+(The main missing features are doubles, subroutines, "precise", and arrays of arrays.)
+
+<p>Glslang also provides compile-time validation of these extensions:</p>
+<ul>
+    <li>GL_OES_texture_3D</li>
+    <li>GL_OES_standard_derivatives</li>
+    <li>GL_EXT_frag_depth</li>
+    <li>GL_OES_EGL_image_external</li>
+    <li>GL_EXT_shader_texture_lod</li>
+    <li>GL_ARB_texture_rectangle</li>
+    <li>GL_ARB_shading_language_420pack</li>
+    <li>GL_ARB_texture_gather</li>
+    <li>GL_ARB_gpu_shader5 (partial)</li>
+    <li>GL_ARB_separate_shader_objects</li>
+    <li>GL_ARB_tessellation_shader</li>
+    <li>GL_ARB_enhanced_layouts</li>
+    <li>GL_ARB_texture_cube_map_array</li>
+    <li>GL_ARB_shader_texture_lod</li>
+    <li>GL_ARB_explicit_attrib_location</li>
+    <li>GL_ARB_shader_image_load_store</li>
+    <li>GL_ARB_shader_atomic_counters</li>
+    <li>GL_ARB_derivative_control</li>
+    <li>GL_ARB_viewport_array</li>
+    <li>GL_EXT_geometry_shader</li>
+    <li>GL_EXT_geometry_point_size</li>
+    <li>GL_EXT_shader_io_blocks</li>
+    <li>GL_EXT_tessellation_shader</li>
+    <li>GL_EXT_tessellation_point_size</li>
+    <li>GL_OES_geometry_shader</li>
+    <li>GL_OES_geometry_point_size</li>
+    <li>GL_OES_shader_io_blocks</li>
+    <li>GL_OES_tessellation_shader</li>
+    <li>GL_OES_tessellation_point_size</li>
+</ul>
+
+<p>Our goal is to provide 
+coverage for new versions of the shading languages as they are released.</p>
+
+<p>Glslang also detects many link-time error conditions for supported
+versions of
+GLSL and ESSL when the '-l' command-line option is provided.  However,
+at this time we are only committing to providing complete 
+compile-time validation.</p>
+
+<h2>Extensions</h2>
+<p>GLslang has support for many commonly used language extensions, and
+our intention is to support all Khronos-ratified (KHR, ARB, and OES)
+extensions eventually.</p>
+
+
+<h2>SPIR-V Support</h2>
+<p>GLSL SPIR-V support in glslang is experimental and non-optimized.  Use the -V option to create SPIR-V in file stage.spv.
+Use the -H option to see a human readable form.</p>
+
+<p>For more on SPIR-V and for providing feedback, see <a href="https://www.khronos.org/spir/">https://www.khronos.org/spir.</a></p>
+<h2>History and Contributions</h2>
+<p>LunarG took the glslang written by 3Dlabs for the original GLSL 1.1 and has rewritten it to a higher quality and to simultaneously support multiple versions and extensions.</p>
+<p>Glslang is based on the grammar published in the GLSL specification, reflects a strict interpretation of the semantics in the specification, and is shaped from input of Khronos,
+multiple IHVs, and multiple ISVs.</p>
+<p>For more information about LunarG, its projects, or getting involved, see <a href="http://lunarg.com/">http://lunarg.com/</a>.</p>
+
+<h2>Copyright</h2>
+<p>The following modified BSD license is the copyright/license used in the source files.</p>
+<p><code>//<br />
+    //Copyright (C) 2002-2005  3Dlabs Inc. Ltd.<br />
+    //Copyright (C) 2012-2013 LunarG, Inc.<br />
+    //<br />
+    //All rights reserved.<br />
+    //<br />
+    //Redistribution and use in source and binary forms, with or without<br />
+    //modification, are permitted provided that the following conditions<br />
+    //are met:<br />
+    //<br />
+    //    Redistributions of source code must retain the above copyright<br />
+    //    notice, this list of conditions and the following disclaimer.<br />
+    //<br />
+    //    Redistributions in binary form must reproduce the above<br />
+    //    copyright notice, this list of conditions and the following<br />
+    //    disclaimer in the documentation and/or other materials provided<br />
+    //    with the distribution.<br />
+    //<br />
+    //    Neither the name of 3Dlabs Inc. Ltd. nor the names of its<br />
+    //    contributors may be used to endorse or promote products derived<br />
+    //    from this software without specific prior written permission.<br />
+    //<br />
+    //THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS<br />
+    //"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT<br />
+    //LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS<br />
+    //FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE<br />
+    //COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,<br />
+    //INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,<br />
+    //BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;<br />
+    //LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER<br />
+    //CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT<br />
+    //LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN<br />
+    //ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE<br />
+    //POSSIBILITY OF SUCH DAMAGE.<br />
+    //</code></p>
+
+
+
+
+
+
+
+
+</body></html>

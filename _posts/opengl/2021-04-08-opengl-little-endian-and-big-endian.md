@@ -43,6 +43,37 @@ Little-Endian 和 Big-Endian 表示的是计算机字节顺序，
 TCP/IP 各层协议将字节序定义为 Big-Endian，因此 TCP/IP 协议中使用的字节序通常称之为网络字节序。
 
 
+## 包装的像素格式
+
+对于一些更小的经过包装的像素格式，在显示设备上能够节省存储空间和有更快处理速度。
+这种经过包装的像素格式仍然可以在一些 PC 硬件中找到，并且在将来也可能发挥作用。
+
+经过包装的像素格式把颜色数据尽可能地压缩的更小。例如：
+GL_UNSIGNED_BYTE_3_3_2 格式用 3 位存储第一个成分，3 位存储第二个成分，2 位存储第三个成分。
+颜色成分的顺序依靠于 glDrawPixels 函数中设置的 format 参数（如有 GL_RGB, GL_BGR 等）。
+颜色成分的顺序是从最高位到最低位。GL_UNSIGNED_BYTE_2_3_3_REV 反转了这个顺序，即把最后的那个颜色成分用头两位表示。
+
+{% include image.html url="/assets/images/210408-opengl-little-endian-an~c1/150225154387413.png" %}
+
+* **GL_UNSIGNED_BYTE_3_3_2，从高位到地位 332 取，然后存入 GL_RGB 或 GL_BGR 等。**
+* **GL_UNSIGNED_BYTE_2_3_3_REV，从高位到地位 233 取，然后反向存入 GL_RGB 或 GL_BGR 等。**
+
+```cpp
+case ECF_A8R8G8B8: // 小端模式
+    colorformat = GL_BGRA_EXT;
+    if (Driver->Version > 101)
+        type=GL_UNSIGNED_INT_8_8_8_8_REV; // 高位取到低位 ARGB，然后反向存入 BGRA
+    internalformat = GL_RGBA;
+    break;
+case ECF_R8G8B8A8: // 小端模式
+    colorformat = GL_RGBA;
+    if (Driver->Version > 101)
+        type = GL_UNSIGNED_INT_8_8_8_8; // 高位取到低位 RGBA，然后存入 RGBA
+    internalformat = GL_RGBA;
+    break;
+```
+
+
 ## 举例
 
 例如，假设从内存地址 0x0000 开始有以下数据：0x12 0x34 0xab 0xcd。
@@ -132,19 +163,78 @@ void CColorConverter::convert_R8G8B8toR8G8B8A8(const void* sP, s32 sN, void* dP)
 ```
 
 
-## Irrlicht
+## Irrlicht 最终解密
 
-吭人的 Irrlicht。
+吭人的 Irrlicht（Irrlicht 表示很委屈，因为这些格式刚好和 OpenGL 可以对应上）。
 
 enum ECOLOR_FORMAT
 NOTE: Byte order in memory is usually flipped (it's probably correct in bitmap files, but flipped on reading).
 So for example ECF_A8R8G8B8 is BGRA in memory same as in DX9's D3DFMT_A8R8G8B8 format.
 
 * ECF_A1R5G5B5 # Little-Endian
-* ECF_R5G6B5 # Little-Endian
-* ECF_R8G8B8 # 这个是大端存储的，蛋疼。
+* ECF_R5G6B5 # Little-Endian，刚好对应 GL_UNSIGNED_SHORT_5_6_5
+* ECF_R8G8B8 # 这个是大端存储的，蛋疼。只能搞一个 GL_UNSIGNED_BYTE 了。
 * ECF_A8R8G8B8 # Warning: This tends to be BGRA in memory (it's ARGB on file, but with usual big-endian memory it's flipped)
     * 内存里面为了速度，是小端存储的，存储到文件是大端的。小端的根本目的，可以用 int 加速运算。
+
+**Irrlicht 这些格式刚好和 OpenGL 可以对应上**
+
+```cpp
+bool COGLES2Driver::getColorFormatParameters(ECOLOR_FORMAT format, GLint& internalFormat, GLenum& pixelFormat,
+    GLenum& pixelType, void(**converter)(const void*, s32, void*)) const
+{
+    bool supported = false;
+    pixelFormat = GL_RGBA;
+    pixelType = GL_UNSIGNED_BYTE; // 每个字节取，直接就是内存顺序 RGBA
+    *converter = 0;
+    switch (format)
+    {
+    case ECF_A1R5G5B5:
+        // 先转化为 R5G5B5A1 然后从高位到低位 5_5_5_1 为 RGBA。
+        supported = true;
+        pixelFormat = GL_RGBA;
+        pixelType = GL_UNSIGNED_SHORT_5_5_5_1;
+        *converter = CColorConverter::convert_A1R5G5B5toR5G5B5A1;
+        break;
+    case ECF_R5G6B5:
+        // 高位到低位，刚好对应小端模式。
+        supported = true;
+        pixelFormat = GL_RGB;
+        pixelType = GL_UNSIGNED_SHORT_5_6_5;
+        break;
+    case ECF_R8G8B8:
+        // 高位到低位，刚好对应小端模式。
+        supported = true;
+        pixelFormat = GL_RGB;
+        pixelType = GL_UNSIGNED_BYTE;
+        break;
+    case ECF_R8G8B8A8:
+        // 内存里面要先反转一下，对应 RGBA
+        supported = true;
+        pixelType = GL_UNSIGNED_BYTE;
+        pixelFormat = GL_RGBA; // little-endian??
+        *converter = CColorConverter::convert_R8G8B8A8toR8G8B8A8_BEND; // 新加的代码逻辑，也跟着反过来。
+        break;
+    case ECF_A8R8G8B8:
+        supported = true;
+        if (queryGLESFeature(COGLESCoreExtensionHandler::IRR_GL_IMG_texture_format_BGRA8888) ||
+            queryGLESFeature(COGLESCoreExtensionHandler::IRR_GL_EXT_texture_format_BGRA8888) ||
+            queryGLESFeature(COGLESCoreExtensionHandler::IRR_GL_APPLE_texture_format_BGRA8888))
+        {
+            // 直接就可以，免去转换过程。
+            pixelFormat = GL_BGRA; // 是反过来的，little-endian??
+        }
+        else
+        {
+            pixelFormat = GL_RGBA; // Android little-endian??
+            *converter = CColorConverter::convert_A8R8G8B8toA8B8G8R8; // 也是反过来的。
+        }
+        pixelType = GL_UNSIGNED_BYTE;
+        break;
+    }
+    ...
+}
+```
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-04-08-opengl-little-endian-and-big-endian.md.js" %}'></script></p>

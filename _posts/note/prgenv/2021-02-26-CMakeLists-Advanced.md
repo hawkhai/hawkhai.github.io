@@ -44,6 +44,7 @@ set_source_files_properties(${RCFILE} PROPERTIES LANGUAGE RC)
 ```cmake
 # MacOS     -Winconsistent-missing-override
 # GCC 5.1   -Werror=suggest-override
+# -pthread for g++
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -pthread -Werror=return-type")
 ```
 
@@ -59,7 +60,7 @@ Compiling with `/we4715` option passed to cl.exe
 ```cmake
 # MacOS     -Winconsistent-missing-override
 # GCC 5.1   -Werror=suggest-override
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread") # -pthread for g++
 if (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /we4715") # makes missing return as error
 endif()

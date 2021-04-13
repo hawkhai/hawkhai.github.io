@@ -38,6 +38,19 @@ OpenGLES 以及 shader 开发调试工具。
 
 ## GLSL Versions vs GLSL ES Versions
 
+[OpenGL / OpenGL ES Reference Compiler {% include relref_khronos.html %}](https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/)
+
+```
+OpenGL ES 2.0 (ESSL #version 100)
+OpenGL ES 3.0 (ESSL #version 300 es)
+OpenGL 2.0 (GLSL #version 110)
+OpenGL 2.1 (GLSL #version 120)
+OpenGL 3.0 (GLSL #version 130)
+OpenGL 3.1 (GLSL #version 140)
+OpenGL 3.2 (GLSL #version 150)
+OpenGL 3.3 (GLSL #version 330)
+```
+
 
 ### GLSL Versions
 
@@ -226,6 +239,7 @@ eglSwapBuffers(eglDisplay, eglSurface);
 - [https://github.com/baldurk/renderdoc]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/github.com/bb00e08f.html" %})
 - [https://developer.nvidia.com/tegra-graphics-debugger]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/developer.nvidia.com/1e05e468.html" %})
 - [https://software.intel.com/en-us/gpa]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/software.intel.com/5d46a23a.html" %})
+- [https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/www.khronos.org/b532b03c.html" %})
 - [https://www.cnblogs.com/beeasy/p/6339313.html]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/www.cnblogs.com/4e5820ec.html" %})
 - [http://www.c-jump.com/bcc/common/Talk3/OpenGL/Wk03_shader_intro/W03_0090_glsl_version_number.htm]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/www.c-jump.com/6b7517e9.htm" %})
 - [https://en.wikipedia.org/wiki/OpenGL_Shading_Language]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/en.wikipedia.org/f01b7d53.html" %})
