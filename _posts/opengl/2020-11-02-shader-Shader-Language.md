@@ -15,6 +15,8 @@ glslcanvas:
 codeprint:
 ---
 
+> 图形编程可以带来很多的乐趣，然而如果什么东西渲染错误，或者甚至根本就没有渲染，它同样可以给你带来大量的沮丧感！由于我们大部分时间都在与像素打交道，当出现错误的时候寻找错误的源头可能会非常困难。调试 (Debug) 这样的视觉错误与往常熟悉的 CPU 调试不同。我们没有一个可以用来输出文本的控制台，在 GLSL 代码中也不能设置断点，更没有方法检测 GPU 的运行状态。
+
 用 vscode+glsl canvas 插件可以作为一个 shader 开发环境。最终选择了：glsl。
 
 * [OpenGL 学习 -- 开发环境 {% include relref_cnblogs.html %}](https://www.cnblogs.com/gispathfinder/p/6985769.html)
