@@ -62,7 +62,7 @@ GL_UNSIGNED_BYTE_3_3_2 格式用 3 位存储第一个成分，3 位存储第二�
 case ECF_A8R8G8B8: // 小端模式
     colorformat = GL_BGRA_EXT;
     if (Driver->Version > 101)
-        type=GL_UNSIGNED_INT_8_8_8_8_REV; // 高位取到低位 ARGB，然后反向存入 BGRA
+        type = GL_UNSIGNED_INT_8_8_8_8_REV; // 高位取到低位 ARGB，然后反向存入 BGRA
     internalformat = GL_RGBA;
     break;
 case ECF_R8G8B8A8: // 小端模式
