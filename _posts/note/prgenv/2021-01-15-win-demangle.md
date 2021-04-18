@@ -17,6 +17,15 @@ codeprint:
 
 调用约定 (Calling Conventions) (__cdecl、__stdcall、__fastcall) C++ 函数名修饰 (Name Mangling)。
 
+{% include image.html url="/assets/images/210115-win-demangle/20210418151424.png" %}
+{% include image.html url="/assets/images/210115-win-demangle/20210418152412.png" %}
+
+代码防护思路：配置文件简单加密，避免字符串硬编码。
+* 关键函数 / 文件采用无意义名字
+* **避免明文存储，配置文件 hash 化**
+* 尽量减少无用提示
+* 无关代码注释删除（特别是调试日志代码）
+
 
 ## 调用约定
 

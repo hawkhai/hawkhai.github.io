@@ -26,6 +26,10 @@ These are mostly fundamental information or tutorials to share with others.
 I hope you find what you are looking for here.
 And, I welcome any feedback on the contents and your suggestions.
 
+以前笔记都记录在 Evernote 里面，搞了几年，发现越来越多、越来越乱，没法玩了。
+搞成 blog，并按照一定的结构整理存档，更利于查阅和迭代。
+接下来几年会逐步把一些笔记整理成 blog。
+
 
 ## 为什么要写博客（Why write blog）
 
