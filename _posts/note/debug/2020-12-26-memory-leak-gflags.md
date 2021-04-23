@@ -171,5 +171,21 @@ Kernel32 提供的堆管理函数。CRT 内存分配如：malloc、free、reallo
 访问块结尾之后的内容 | 在释放后发现 | 立即发现
 访问块开始之前的内容 | 在释放后发现 | 立即发现
 
+
+## Others
+
+1. 注册内存分配 / 释放钩子函数 (hook)。在 Linux 下可以 malloc_hook, free_hook 等 5 个钩子函数，
+    在 Windows 下可以注册 _CrtSetAllocHook 钩子函数，这样在分配内存的时候就可以捕获这一请求并加以处理。
+    Visual Leak Detecter 和 mtrace 使用此方式。
+2. 使用宏定义替换。将用户代码中的 malloc, free 替换为宏定义的 mwMalloc(sz, \__FILE__, \__LINE__) 等自定义函数，
+    从而跟踪内存请求，memwatch 即使用此方式。
+3. 操作符重载。此方法仅用于 C++ 语言中，通过重载 new、delete 操作符来实现跟踪内存请求，
+    重载后的操作符类似于钩子函数意义。debug_new 采用此方式。
+
+* [Using UMDH to Find a User-Mode Memory Leak](https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/using-umdh-to-find-a-user-mode-memory-leak)
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-26-memory-leak-gflags.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/using-umdh-to-find-a-user-mode-memory-leak]({% include relrefx.html url="/backup/2020-12-26-memory-leak-gflags.md/docs.microsoft.com/2856424b.html" %})
