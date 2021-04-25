@@ -88,5 +88,30 @@ int main()
 
 [from](https://twiki.cmcm.com/pages/viewpage.action?pageId=154895089)
 
+**桌面图标清理的刷新机制**
+win7\win10 系统，如果删除桌面 \ 任务栏图标文件，需要同时刷新下系统界面，否则可能会有图标残留，刷新 API 为：
+
+```cpp
+SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL)
+void SHChangeNotify(
+    LONG wEventId,
+    UINT uFlags,
+    LPCVOID dwItem1,
+    LPCVOID dwItem2);
+```
+
+Notifies the system of an event that an application has performed.
+An application should use this function if it performs an action that may affect the Shell.
+
+其中：**wEventId**:
+Describes the event that has occurred. Typically, only one event is specified at a time.
+If more than one event is specified, the values contained in the dwItem1 and dwItem2 parameters must be the same,
+respectively, for all specified events. This parameter can be one or more of the following values.
+
+**SHCNE_ASSOCCHANGED**
+A file type association has changed. SHCNF_IDLIST must be specified in the uFlags parameter.
+dwItem1 and dwItem2 are not used and must be NULL.
+This event should also be sent for registered protocols.
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-04-04-win-xp-code.md.js" %}'></script></p>
