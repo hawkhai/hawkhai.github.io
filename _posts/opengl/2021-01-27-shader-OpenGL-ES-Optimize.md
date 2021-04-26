@@ -15,6 +15,8 @@ glslcanvas:
 codeprint:
 ---
 
+> Kunth 大神说过的“过早的优化是万恶之源 + 寻找真正的瓶颈”。
+
 GLSL optimizer based on Mesa's GLSL compiler. Used in Unity for mobile shader optimization.
 [glsl-optimizer {% include relref_github.html %}](https://github.com/aras-p/glsl-optimizer)
 
