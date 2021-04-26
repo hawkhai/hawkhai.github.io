@@ -1,0 +1,174 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN"><head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>更吹落星如雨 ｜ Windows内存类型介绍</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="windows,memory" />
+    <meta name="description" content="介绍windows内存类型" />
+
+    
+
+    <style type="text/css">
+        .navbar {
+            background-color: #6c757d;
+        }
+
+        .li-item {
+            border: 1px solid #ddd;
+        }
+
+        img{
+            max-width:100%;
+            max-height:100%;
+        }
+
+        pre {
+            background-color:rgb(255,255,232);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            padding: 5px;
+        }
+</style>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://gclxry-1.disqus.com/embed.js" data-timestamp="1615109994597"></script></head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-center navbar-expand-sm navbar-dark fixed-top justify-content-center">
+    <div class="col-lg-8">
+        <div class="row justify-content-center">
+            <a class="navbar-brand" href="/">更吹落星如雨</a>
+            <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">关于</a>
+                    </li>
+
+                    
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">管理</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-sm-0 search-form" role="search" method="get" action="/search/">
+                    <input aria-label="Search" class="search-field form-control m-sm-2" placeholder="Search..." type="search" name="s" />
+                    <button class="btn btn-secondary my-sm-0 search-submit" type="submit">搜索</button>
+                </form>
+            </div>
+        <div class="col-lg-8 ">
+    </div>
+</div></div></nav>
+
+
+    <div class="container mt-4 pt-2">
+        <div class="row mt-4 py-4 justify-content-center">
+            <div class="col-lg-8 ">
+                
+
+<h1 class="mt-4">Windows内存类型介绍</h1>
+
+<hr />
+
+<p>
+    <span class="text-secondary mr-2">发布于 2018-10-19</span>
+</p>
+<hr />
+
+<section class="entry-content">
+    <p>Windows上的内存有好几种说法，比如工作集(Working Set)、提交大小（Private Bytes）、虚拟大小（Virtual Size）。究竟这几种说法有什么区别？每种内存到底指的是什么？哪种内存才能真正反映程序使用的内存情况？虽然做Windows开发这么久，一直对这些只有模糊的认识。如果你去网上找寻答案，可能会找到一些错误的或者矛盾的说法，这更加让人感到迷惑。最近要处理Chromium内核一些因此内存不足而导致的崩溃问题，所以才深入去研究一下这个问题。</p>
+<p>Windows上的程序都有自己专有的虚拟地址空间，比如32位的程序地址空间大小是4GB，这是因为32位指针可以表示从0x00000000到0xFFFFFFFF之间的任一值。每个进程的地址空间是专有的，当前进程只能访问到该进程的内存，看不到其他进程的内存。不同进程虽然访问同一个内存地址，实际上它们得到的数据是不同的。</p>
+<p>虚拟地址空间不是真正的内存，不能够直接读写。当程序需要读写的时候，操作系统会在背后把物理存储器分配或者映射到相应的地址空间，否则将会导致访问违例（access violation）。</p>
+<p>我们可以通过VirtualAlloc API分配一块地址空间的区域，这个操作被称之为预订（reserving）。当程序预订地址空间区域时，操作系统会确保区域的起始地址正好是分配粒度的整数倍。分配粒度会根据不同的CPU平台而有所不同。目前Windows分配粒度是64KB大小。页面是一个内存单元，系统通过它来管理内存。与分配粒度类似，页面大小会根据不同CPU而有所不同，x86和x64页面大小是4KB，而IA-64系统页面大小是8KB。</p>
+<p>为了使用预订的地址空间区域，我们还必须分配物理存储器，并将存储器映射到所预订的的区域，这个过程被称之为调拨（committing）物理存储器。物理存储器始终都以页面为单位来调拨。</p>
+<p>当我们调拨物理存储器给区域时，并不需要给整个区域都调拨物理存储器。当程序不再需要访问所预订的区域中已调拨的物理存储器时，应该释放物理存储器。这个过程被称之为撤销调拨（decommitting）物理存储器。</p>
+<p>当今操作系统能让磁盘空间看起来像内存一样。磁盘上的文件被称之为页交换文件（paging file）。页交换文件以一种透明的方式增大了程序可用的内存（或存储器）的总量。如果一台电脑装备了1GB的内存条，硬盘上还有1GB的页交换文件，那么应用程序会认为可用的内存总量为2GB。</p>
+<p>我写了一个inspect_memory的程序来验证各种分配内存方式对不同内存指标的影响：</p>
+<ul>
+<li>通过new分配内存10MB，工作集(Working Set)增加10MB，提交大小（Private Bytes）增加10MB，虚拟大小（Virtual Size）增加10MB。</li>
+<li>通过VirtualAlloc预订（reserving）内存10MB，工作集(Working Set)大小不变，提交大小（Private Bytes）大小不变，虚拟大小（Virtual Size）增加10MB。</li>
+<li>通过VirtualAlloc预订（reserving）并调拨（committing）内存10MB，工作集(Working Set)增加10MB，提交大小（Private Bytes）增加10MB，虚拟大小（Virtual Size）增加10MB。</li>
+<li>运行多个inspect_memory实例。在每个实例上通过new分配了很多内存，比如工作集(Working Set)、（Private Bytes）、虚拟大小（Virtual Size）都接近2GB停止。任务管理性能tab上显示的可用的物理内存很少时，发现先前实例的工作集(Working Set)在慢慢减少，而（Private Bytes）、虚拟大小（Virtual Size）保持不变。</li>
+</ul>
+<p>通过上述实验，参考https://stackoverflow.com/questions/1984186/what-is-private-bytes-virtual-bytes-working-set可以得出结论：</p>
+<ul>
+<li>提交大小（Private Bytes）是进程分配的内存大小。这些内存可能存在于RAM中，也可以存在于页交换文件（paging file）中。</li>
+<li>工作集(Working Set)是进程存在于RAM中内存的大小，即不引起page fault异常就能够访问的内存。它通常包括一些可与其他进程共享的内存，比如内存映射文件。</li>
+<li>虚拟大小（Virtual Size）是进程地址空间预订的区域大小。</li>
+<li>操作系统会自动调度程序工作集(Working Set)内存的使用。</li>
+</ul>
+<p>因此我觉得用提交大小（Private Bytes）来衡量程序使用内存的情况比较恰当，虽然提交大小（Private Bytes）不一定真正的占用RAM内存，但是提交大小（Private Bytes）一直增加，那么程序很可能存在内存使用不当的情况。
+除了操作系统去调度程序工作集(Working Set)内存的大小，我们也可以通过SetProcessWorkingSetSize,、SetProcessWorkingSetSizeEx、EmptyWorkingSet等API去手动设置工作集(Working Set)的大小。360安全卫士的内存优化功能大概就是通过这些API去实现的。使用这些API减少工作集Working Set)的大小有点像掩耳盗铃，它是把进程存在于RAM中的内存交换到页交换文件（paging file）里，表面上是减少了物理内存的使用，实际上程序真正需要访问这些数据的时候，又需要操作系统把页交换文件（paging file）里数据交换到RAM内存中，增加了不必要的调度，反而影响了程序的运行性能，我们未必有操作系统的工作集(Working Set)调度做的好。</p>
+<p>这些内存数据我们可以通过系统提供的API获得：</p>
+<ul>
+<li>GetProcessMemoryInfo获得PROCESS_MEMORY_COUNTERS_EX数据，WorkingSetSize字段表示进程的工作集(Working Set)大小。</li>
+<li>GetProcessMemoryInfo获得PROCESS_MEMORY_COUNTERS_EX数据，PrivateUsage字段表示进程的提交大小（Private Bytes）大小。</li>
+<li>GlobalMemoryStatusEx获得MEMORYSTATUSEX数据，ullTotalVirtual减去ullAvailVirtual就是虚拟大小（Virtual Size）大小。</li>
+</ul>
+<p>参考：</p>
+<ul>
+<li>https://bbs.pediy.com/thread-156036.htm</li>
+<li>https://stackoverflow.com/questions/1984186/what-is-private-bytes-virtual-bytes-working-set</li>
+<li>https://docs.microsoft.com/zh-cn/windows/desktop/Memory/working-set</li>
+<li>Windows核心编程</li>
+</ul>
+</section>
+
+
+
+
+        <section class="entry-comment">
+            <div id="disqus_thread"></div>
+            <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://gclxry-1.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+            </script>
+            <noscript>Please enable JavaScript to view the &lt;a href="https://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;</noscript>
+        </section>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <nav class="navbar sticky-bottom py-1">
+    <div class="container">
+        <div class="col">
+            <p class="text-center text-white">Gclxry © 2012-2020, All rights reserved.
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_5791300'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/stat.php%3Fid%3D5791300' type='text/javascript'%3E%3C/script%3E"));</script><span id="cnzz_stat_icon_5791300"><a href="https://www.cnzz.com/stat/website.php?web_id=5791300" target="_blank" title="站长统计">站长统计</a></span><script src=" https://s13.cnzz.com/stat.php?id=5791300" type="text/javascript"></script><script src="https://c.cnzz.com/core.php?web_id=5791300&amp;t=z" charset="utf-8" type="text/javascript"></script>
+            </p>
+
+       
+        </div>
+    </div>
+</nav>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+</body></html>
