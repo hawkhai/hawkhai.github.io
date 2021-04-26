@@ -1,0 +1,288 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Minidumps 和 modules匹配</title>
+<link href="https://pic.ikafan.com/staticx/bbsmax/1/assets/prettify.css?ab" type="text/css" rel="stylesheet" />
+<!-- <meta name="referrer" content="never">
+h -->
+<style>
+ .menu li { float: left; }
+</style>
+<link rel="stylesheet" type="text/css" href="/assets/prettify.css" />
+<link rel="stylesheet" href="https://pic.ikafan.com/staticx/bbsmax/1/css.grace/style.css?ad" />
+<!-- <link rel="stylesheet" href="//bbsmax.ikafan.com/css.grace/fontello.css?ac"> -->
+<!-- <link rel="stylesheet" href="//bbsmax.ikafan.com/css.grace/animation.css?ac"> -->
+<script src="https://pagead2.googlesyndication.com/pagead/js/r20210414/r20190131/reactive_library_fy2019.js"></script><script src="https://www.googletagservices.com/activeview/js/current/osd.js?cb=%2Fr20100101"></script><script src="https://partner.googleadservices.com/gampad/cookie.js?domain=www.bbsmax.com&amp;callback=_gfp_s_&amp;client=ca-pub-6527383233809815"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script src="https://pagead2.googlesyndication.com/pagead/js/r20210414/r20190131/show_ads_impl_fy2019.js" id="google_shimpl"></script><script src="https://hm.baidu.com/hm.js?f2adcef0bf5f8333f378fa05eda393f4"></script><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?f2adcef0bf5f8333f378fa05eda393f4";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-180204751-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-180204751-3');
+</script>
+
+
+<meta http-equiv="origin-trial" content="A+b/H0b8RPXNaJgaNFpO0YOFuGK6myDQXlwnJB3SwzvNMfcndat4DZYMrP4ClJIzYWo3/yP2S+8FTZ/lpqbPAAEAAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzVGhpcmRQYXJ0eSI6dHJ1ZX0=" /><meta http-equiv="origin-trial" content="A9ZgbRtm4pU3oZiuNzOsKcC8ppFSZdcjP2qYcdQrFKVzkmiWH1kdYY1Mi9x7G8+PS8HV9Ha9Cz0gaMdKsiVZIgMAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AxL6oBxcpn5rQDPKSAs+d0oxNyJYq2/4esBUh3Yx5z8QfcLu+AU8iFCXYRcr/CEEfDnkxxLTsvXPJFQBxHfvkgMAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A9KPtG5kl3oLTk21xqynDPGQ5t18bSOpwt0w6kGa6dEWbuwjpffmdUpR3W+faZDubGT+KIk2do0BX2ca16x8qAcAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A3HucHUo1oW9s+9kIKz8mLkbcmdaj5lxt3eiIMp1Nh49dkkBlg1Fhg4Fd/r0vL69mRRA36YutI9P/lJUfL8csQoAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A0OysezhLoCRYomumeYlubLurZTCmsjTb087OvtCy95jNM65cfEsbajrJnhaGwiTxhz38ZZbm+UhUwQuXfVPTg0AAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="AxoOxdZQmIoA1WeAPDixRAeWDdgs7ZtVFfH2y19ziTgD1iaHE5ZGz2UdSjubkWvob9C5PrjUfkWi4ZSLgWk3Xg8AAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A7+rMYR5onPnACrz+niKSeFdH3xw1IyHo2AZSHmxrofRk9w4HcQPMYcpBUKu6OQ6zsdxf4m/vqa6tG6Na4OLpAQAAAB4eyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A+b/H0b8RPXNaJgaNFpO0YOFuGK6myDQXlwnJB3SwzvNMfcndat4DZYMrP4ClJIzYWo3/yP2S+8FTZ/lpqbPAAEAAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzVGhpcmRQYXJ0eSI6dHJ1ZX0=" /><meta http-equiv="origin-trial" content="A9ZgbRtm4pU3oZiuNzOsKcC8ppFSZdcjP2qYcdQrFKVzkmiWH1kdYY1Mi9x7G8+PS8HV9Ha9Cz0gaMdKsiVZIgMAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AxL6oBxcpn5rQDPKSAs+d0oxNyJYq2/4esBUh3Yx5z8QfcLu+AU8iFCXYRcr/CEEfDnkxxLTsvXPJFQBxHfvkgMAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A9KPtG5kl3oLTk21xqynDPGQ5t18bSOpwt0w6kGa6dEWbuwjpffmdUpR3W+faZDubGT+KIk2do0BX2ca16x8qAcAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A3HucHUo1oW9s+9kIKz8mLkbcmdaj5lxt3eiIMp1Nh49dkkBlg1Fhg4Fd/r0vL69mRRA36YutI9P/lJUfL8csQoAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A0OysezhLoCRYomumeYlubLurZTCmsjTb087OvtCy95jNM65cfEsbajrJnhaGwiTxhz38ZZbm+UhUwQuXfVPTg0AAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="AxoOxdZQmIoA1WeAPDixRAeWDdgs7ZtVFfH2y19ziTgD1iaHE5ZGz2UdSjubkWvob9C5PrjUfkWi4ZSLgWk3Xg8AAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A7+rMYR5onPnACrz+niKSeFdH3xw1IyHo2AZSHmxrofRk9w4HcQPMYcpBUKu6OQ6zsdxf4m/vqa6tG6Na4OLpAQAAAB4eyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1RoaXJkUGFydHkiOnRydWV9" /><script src="https://www.bbsmax.com/vlog/?ref="></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.bbsmax.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.bbsmax.com"></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.bbsmax.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.bbsmax.com"></script></head>
+<body aria-hidden="false">
+<div id="header" class="navbar navbar-default navbar-fixed-top header-01">
+	<div class="container">
+		<h1 class="logo">
+			<a href="/" title="bbsmax">
+							<img src="https://pic.ikafan.com/staticx/bbsmax/1/images.grace/logo.png?ab" alt="bbsmax" />
+			</a>
+		</h1>
+				<div role="navigation" class="site-nav  primary-menu">
+			<div class="menu-fix-box">
+				 <ul id="menu-navigation" class="menu">
+<li>首页</li>
+<li>Python</li>
+<li>Java</li>
+<li>PHP</li>
+<li>IOS</li>
+<li>Andorid</li>
+<li>NodeJS</li>
+<li>JavaScript</li>
+<li>HTML5</li>
+</ul>					 			</div>
+		</div>
+				<!--<div class="right-nav">
+				<button class="js-toggle-search"><i class="icon-search"></i></button>
+		</div>-->
+       
+			</div>	
+</div>
+
+
+<div id="page-content">
+	<div class="container">
+		<div class="row">
+			
+			<div class="blog-post">
+								<!--<div class="posts-top-cjtz clearfix"></div>-->
+								<div class="post">
+										<div class="post-title">
+						<!--<div class="post-entry-categories"><a href="/tag/abc" rel="tag">tag</a><a href="/tag/abc" rel="tag">tag2</a></div>-->
+						<h1 class="title">Minidumps 和 modules匹配</h1>
+						<div class="post_icon"> 
+															<span class="icon-user-o"> 活着的虫子</span>															
+															<span class="icon-clock-1"> 2019-11-20 </span>
+															<span class="icon-article-1"> <a href="/link/TXlKeE4yeWFkbg==" target="_blank" rel="noindex,nofollow,oarchive">原文</a> </span>
+					</div>
+										<div class="post-content">
+													<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display: block; text-align: center; height: 200px;" data-ad-format="fluid" data-ad-layout="in-article" data-ad-client="ca-pub-6527383233809815" data-ad-slot="7460572068" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:200px;margin:0;padding:0;position:relative;visibility:visible;width:852px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_0_anchor" style="display:block;border:none;height:200px;margin:0;padding:0;position:relative;visibility:visible;width:852px;background-color:transparent;"><iframe id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0;width:852px;height:200px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="852" height="200" frameborder="0" src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-6527383233809815&amp;output=html&amp;h=200&amp;slotname=7460572068&amp;adk=1395952934&amp;adf=4241515176&amp;pi=t.ma~as.7460572068&amp;w=852&amp;fwrn=4&amp;lmt=1618767078&amp;rafmt=11&amp;psa=0&amp;format=852x200&amp;url=https%3A%2F%2Fwww.bbsmax.com%2FA%2FMyJxN2yadn%2F&amp;flash=0&amp;wgl=1&amp;dt=1618767077597&amp;bpp=12&amp;bdt=1717&amp;idt=414&amp;shv=r20210414&amp;cbv=r20190131&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;correlator=3853715475367&amp;frm=20&amp;pv=2&amp;ga_vid=607357882.1618767078&amp;ga_sid=1618767078&amp;ga_hid=777221105&amp;ga_fc=0&amp;rplot=4&amp;u_tz=480&amp;u_his=2&amp;u_java=0&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_nplug=3&amp;u_nmime=4&amp;adx=30&amp;ady=213&amp;biw=912&amp;bih=889&amp;scr_x=0&amp;scr_y=0&amp;eid=44740079&amp;oid=3&amp;pvsid=1966266187644030&amp;pem=561&amp;eae=0&amp;fc=896&amp;brdim=-1907%2C9%2C-1907%2C9%2C1920%2C0%2C945%2C1020%2C929%2C889&amp;vis=1&amp;rsz=%7C%7CeE%7C&amp;abl=CS&amp;pfx=0&amp;fu=128&amp;bc=31&amp;ifi=1&amp;uci=a!1&amp;fsb=1&amp;xpc=T7a61WjIgp&amp;p=https%3A//www.bbsmax.com&amp;dtd=445" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!1" data-google-query-id="CLbE66SpiPACFQOYlgodJj8Gaw" data-load-complete="true"></iframe></ins></ins></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+											
+		<h3>简介</h3>
+<p>调试应用程序时，调试器必须加载可执行模块的符号，以便能够显示有意义的调用堆栈、当前源代码行、变量值等。如果您曾经调试过在另一个系统上创建的小型转储，那么您已经知道除了符号之外，调试器还需要访问创建转储时由应用程序加载的相同版本的模块。如果调试器找不到与模块完全相同的版本（即匹配的模块），则无法加载模块的符号，从而严重限制了成功调试的可能性。在本文中，我们将讨论VS.NET和WinDbg调试器用来识别和定位匹配模块的规则。我们将看到如何告诉调试器在哪里查找匹配的模块。我们还将讨论无法找到匹配模块的情况，并尝试找到解决方法。</p>
+<h3>模块匹配</h3>
+<p>调试器如何决定模块是否匹配？他们如何知道需要什么版本的模块？让我们看看Minidump里面。每个小型转储都包含转储进程加载的模块列表。此列表存储为小型转储模块结构的数组（如DbgHelp文档中所述）。此结构声明如下：</p>
+<div>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><span class="kwd">typedef</span><span class="pln"> </span><span class="kwd">struct</span><span class="pln"> _MINIDUMP_MODULE </span><span class="pun">{</span><br /></li><li class="L1"><span class="pln">    ULONG64 </span><span class="typ">BaseOfImage</span><span class="pun">;</span><br /></li><li class="L2"><span class="pln">    ULONG32 </span><span class="typ">SizeOfImage</span><span class="pun">;</span><br /></li><li class="L3"><span class="pln">    ULONG32 </span><span class="typ">CheckSum</span><span class="pun">;</span><br /></li><li class="L4"><span class="pln">    ULONG32 </span><span class="typ">TimeDateStamp</span><span class="pun">;</span><br /></li><li class="L5"><span class="pln">    RVA </span><span class="typ">ModuleNameRva</span><span class="pun">;</span><br /></li><li class="L6"><span class="pln">    VS_FIXEDFILEINFO </span><span class="typ">VersionInfo</span><span class="pun">;</span><br /></li><li class="L7"><span class="pln">    MINIDUMP_LOCATION_DESCRIPTOR </span><span class="typ">CvRecord</span><span class="pun">;</span><br /></li><li class="L8"><span class="pln">    MINIDUMP_LOCATION_DESCRIPTOR </span><span class="typ">MiscRecord</span><span class="pun">;</span><br /></li><li class="L9"><span class="pln">    ULONG64 </span><span class="typ">Reserved0</span><span class="pun">;</span><span class="pln">                          </span><span class="com">// Reserved for future use.</span><br /></li><li class="L0"><span class="pln">    ULONG64 </span><span class="typ">Reserved1</span><span class="pun">;</span><span class="pln">                          </span><span class="com">// Reserved for future use.</span><br /></li><li class="L1"><span class="pun">}</span><span class="pln"> MINIDUMP_MODULE</span><span class="pun">,</span><span class="pln"> </span><span class="pun">*</span><span class="pln">PMINIDUMP_MODULE</span><span class="pun">;</span></li></ol></pre>
+</div>
+<p>下表描述了结构的成员：</p>
+<table>
+<tbody>
+<tr>
+<th>Member</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>BaseOfImage</td>
+<td>Base address of the module in memory.</td>
+</tr>
+<tr>
+<td>SizeOfImage</td>
+<td>Size of the module (in bytes) equal to the value stored in the module’s optional header (IMAGE_OPTIONAL_HEADER.SizeOfImage).</td>
+</tr>
+<tr>
+<td>CheckSum</td>
+<td>Checksum of the module, equal to the value stored in the module’s optional header (IMAGE_OPTIONAL_HEADER.CheckSum). This value can be 0, unless the module was linked with /release option.</td>
+</tr>
+<tr>
+<td>TimeDateStamp</td>
+<td>Time/date stamp of the module, equal to the value in the module’s file header (IMAGE_FILE_HEADER.TimeDateStamp).</td>
+</tr>
+<tr>
+<td>ModuleNameRva</td>
+<td>This is a relative address (from the beginning of the minidump) of MINIDUMP_STRING structure that contains the file name (and path) of the module.</td>
+</tr>
+<tr>
+<td>VersionInfo</td>
+<td>This structure contains the version information of the module (including file version and product version). More information about the contents of this structure can be found in Platform SDK documentation.</td>
+</tr>
+<tr>
+<td>CvRecord</td>
+<td>This is a structure that contains the so-called debug record. You can find more information about its contents in <a href="http://www.debuginfo.com/articles/debuginfomatch.html" rel="external nofollow noreferrer">this article</a> (see CV_INFO_PDB20 and CV_INFO_PDB70 structures). This structure is present only if debug information for the module is stored in .PDB file.</td>
+</tr>
+<tr>
+<td>MiscRecord</td>
+<td>This structure also contains the debug record, but in another format (IMAGE_DEBUG_MISC). This structure is present only if debug information for the module is stored in .DBG file.</td>
+</tr>
+</tbody>
+</table>
+<p>如果要显示小型转储的模块信息，可以使用小型转储视图工具。例如，以下是kernel32.dll的模块信息：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><em><span class="typ">Module</span><span class="pun">:</span><span class="pln">                C</span><span class="pun">:</span><span class="pln">\WINNT\system32\KERNEL32</span><span class="pun">.</span><span class="pln">DLL</span><br /></em></li><li class="L1"><em><span class="typ">Address</span><span class="pun">:</span><span class="pln">               </span><span class="lit">7c4e0000</span><br /></em></li><li class="L2"><em><span class="typ">Size</span><span class="pun">:</span><span class="pln">                  </span><span class="lit">000b9000</span><br /></em></li><li class="L3"><em><span class="typ">CheckSum</span><span class="pun">:</span><span class="pln">              </span><span class="lit">000bdbb3</span><br /></em></li><li class="L4"><em><span class="typ">TimeDateStamp</span><span class="pun">:</span><span class="pln">         </span><span class="lit">3ef274dc</span><br /></em></li><li class="L5"><em><span class="typ">File</span><span class="pln"> version</span><span class="pun">:</span><span class="pln">          </span><span class="lit">5.0</span><span class="pun">.</span><span class="lit">2195.6688</span><br /></em></li><li class="L6"><em><span class="typ">Product</span><span class="pln"> version</span><span class="pun">:</span><span class="pln">       </span><span class="lit">5.0</span><span class="pun">.</span><span class="lit">2195.6688</span><br /></em></li><li class="L7"><em><span class="pln">MISC record</span><span class="pun">:</span><span class="pln">           </span><span class="typ">Available</span></em></li></ol></pre>
+<p>如我们所见，小型转储允许非常精确地标识模块。我们可以确定模块的文件和产品版本，它在文件系统中的位置，并有足够的信息来加载匹配的调试信息文件。但是调试器真的使用所有这些信息来识别模块吗？结果是，它们没有。VS.NET调试器只使用以下数据来检查模块是否匹配：</p>
+<ul><li>File name (MINIDUMP_MODULE.ModuleNameRva)</li>
+<li>Module size (MINIDUMP_MODULE.SizeOfImage)</li>
+<li>Module timestamp (MINIDUMP_MODULE.TimeDateStamp)</li></ul>
+<p>WinDbg更精确一些，因为它还使用模块的校验和。以下是WinDbg用来检查模块是否匹配的数据列表：</p>
+<ul><li>File name (MINIDUMP_MODULE.ModuleNameRva)</li>
+<li>Module size (MINIDUMP_MODULE.SizeOfImage)</li>
+<li>Module timestamp (MINIDUMP_MODULE.TimeDateStamp)</li>
+<li>Module checksum (MINIDUMP_MODULE.CheckSum)</li></ul>
+<p>有趣的是，模块的版本信息（MINIDUMP_module.VersionInfo）根本没有考虑在内。</p>
+<h3>模块搜索路径</h3>
+<h4>VS.NET debugger</h4>
+<p>调试器在哪里寻找匹配的模块？它们搜索预定义的一组目录。这里记录了VS.NET调试器的模块搜索路径。值得注意的是，调试器检查了两个最重要的位置：</p>
+<ul><li>存储小型转储的目录（及其一些子目录）</li>
+<li>在创建转储的系统上模块所在的目录</li></ul>
+<p>如果我们想指定其他目录在哪里搜索模块，我们可以这样做。有两种可能的方法-在注册表和项目设置中。以下注册表设置可用于指定系统范围内的目录：<em><strong>HKLM\Software\Microsoft\VisualStudio\xxx.xxx\NativeDE\Dumps GlobalModPath = REG_SZ</strong></em>。此设置可以包含用分号分隔的目录列表。类似的设置允许指定用户的模块搜索路径。</p>
+<p>在“项目设置”中，我们必须将目录列表输入以下设置：<em><strong>Project properties | Configuration Properties | Debugging | Command Arguments。</strong></em>目录列表的前缀应为“MODPATH=”。例如：<em><strong>MODPATH=c:\modules\testapp;d:\bin\testapp。</strong></em>如下图</p>
+<p><img src="//bbsmax.ikafan.com/static/L3Byb3h5L2h0dHBzL2ltZzIwMTguY25ibG9ncy5jb20vaS1iZXRhLzEyNTE0MzMvMjAxOTExLzEyNTE0MzMtMjAxOTExMjAxMTAyNDE0MDgtMTY5NzU1NTY0OS5wbmc=.jpg" /></p>
+<p>如果同时使用两种指定模块搜索路径的方法（注册表和项目设置），则生成的模块搜索路径是这两种方法的组合。首先检查项目设置中的目录。</p>
+<h4>WinDbg</h4>
+<p>WinDbg有更自然的方法来指定模块搜索路径-.exepath命令、-i命令行选项和_NT_EXECUTABLE_IMAGE_PATH环境变量。假如我不记得WinDbg默认使用什么路径，但可以通过以下命令轻松检查：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><em><span class="pun">!</span><span class="pln">sym noisy</span><br /></em></li><li class="L1"><em><span class="pun">.</span><span class="pln">reload </span><span class="pun">/</span><span class="pln">f yourmodule</span><span class="pun">.</span><span class="pln">dl</span></em></li></ol></pre>
+<h3>如果我们没有匹配的模块，怎么办？</h3>
+<p>要确保自己构建的所有模块都存储在一个安全的位置，并且在需要调试崩溃转储时可以找到这些模块并不困难。但是系统dll呢？我们如何确保能够找到安装在客户系统上的相同版本的系统dll？尤其是考虑到热修复之类的东西？</p>
+<p>最简单的方法是使用完整的内存内容来生成Minidumps, 如果使用MiniDumpWithFullMemory函数，使用MiniDumpWithFullMemory内存选项，使用NTSD调试器“.dump /ma”，或者检查Watson配置配置中的“崩溃转储类型”设置（这个设置只存在于WindowsXP之后，旧系统总是产生完全崩溃转储）。如果模块的完整内容存储在minidump中，那么理论上，调试器不必在其他地方查找匹配的模块。实际上，似乎只有WinDbg能够在小型转储中利用模块的内容.NET调试器有时只能从小型转储加载模块，但在大多数情况下，它拒绝这样做，并坚持从磁盘加载匹配的模块（如果找不到匹配的模块，则拒绝加载符号）。</p><div class="google-auto-placed ap_container" style="width: 100%; height: auto; clear: both; text-align: center;"><ins data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-6527383233809815" data-adsbygoogle-status="done" style="display: block; margin: auto; background-color: transparent; height: 280px;"><ins id="aswift_3_expand" style="display:inline-table;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:852px;background-color:transparent;"><ins id="aswift_3_anchor" style="display:block;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:852px;background-color:transparent;"></ins></ins></ins></div>
+<p>当然，具有完整内存内容的小型转储有一个严重的缺点——它们是巨大的。如果我们负担不起自己从客户向开发人员传输许多兆字节的小型转储数据，我们就必须寻找更好的选择。幸运的是，Windows XP和Windows Server 2003操作系统存在一个简单的解决方案——它们的模块在符号服务器上可用，还有符号，调试器（带有符号服务器支持）可以下载它们。我们应该如何配置调试器从symbol服务器下载模块？如果符号服务器的路径是在_NT_SYMBOL_PATH环境变量中指定的，或使用.sympath/.symfix命令指定的，则WinDbg不需要任何其他步骤。VS.NET调试器无法使用_NT_SYMBOL_PATH或符号路径设置进行模块下载。相反，我们必须使用指定模块搜索路径的注册表或项目设置。尽管可以（而且工作正常）在命令参数| MODPATH设置中指定符号服务器的路径，但我发现使用系统范围的注册表设置更方便：<em><strong> HKLM\Software\Microsoft\VisualStudio\xxx.xxx\NativeDE\Dumps GlobalModPath = "srv*c:\symbols*http://msdl.microsoft.com/download/symbols"</strong></em>。</p>
+<p>建议再执行一个步骤，以确保VS.NET的模块下载可靠–升级symsrv.dll。这个负责符号服务器访问的小DLL的最新版本可以通过Windows的调试工具获得。我们应该将symsrv.dll从调试工具的安装目录复制到&lt;VSInstallDir&gt;\Common7\IDE目录中，覆盖旧版本的dll。</p>
+<p>不幸的是，符号服务器上没有旧操作系统（Windows 2000和更早版本）的系统dll。看来调试器在这种情况下几乎无能为力。即使系统dll的符号在符号服务器上，调试器也无法下载它们，因为它们找不到匹配的模块。WinDbg通过在符号路径上查找任何不匹配的.DBG和.PDB文件提供了一点帮助，但无论如何都没有太大帮助。VS.NET调试器甚至不能做到这一点。</p>
+<h3>模块化</h3>
+<p>幸运的是，小型转储中的信息通常足以手动生成一个模块，该模块允许调试器从符号服务器下载符号，即使找不到真正匹配的模块。</p>												<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display: block; text-align: center; height: 200px;" data-ad-format="fluid" data-ad-layout="in-article" data-ad-client="ca-pub-6527383233809815" data-ad-slot="2451787962" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:200px;margin:0;padding:0;position:relative;visibility:visible;width:852px;background-color:transparent;"><ins id="aswift_1_anchor" style="display:block;border:none;height:200px;margin:0;padding:0;position:relative;visibility:visible;width:852px;background-color:transparent;"></ins></ins></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+											<h2><a href="/R/MyJxN2yadn/">Minidumps 和 modules匹配的更多相关文章</a></h2>	
+<ol>
+								<li><a href="https://www.bbsmax.com/A/D8547gxvJE/">在vmware 6.5+ubuntu12.04上安装VMware tools出现问题的分析</a>
+		<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">笔者已经写了一篇关于安装"VMware Tools",以实现文件共享的文章,那篇文章对于你实现共享操作是足够了, 所以,倘若你赶时间不如直接去在虚拟机的linux中利用VMware ...</p>
+		</li>
+						<li><a href="https://www.bbsmax.com/A/xl569xmJrZ/">webpack配置别名alias出现的错误匹配</a>
+		<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">@(webpack) webpack是一款功能强大的前端构建工具,不仅仅是针对js,它也可通过各种loader来构建相关的less,html,image等各种资源,将webpack配合流程制定工具gu ...</p>
+		</li>
+						<li><a href="https://www.bbsmax.com/A/B0zqPm2Zdv/">TypeScript Modules(模块)</a>
+		<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">本文概述了TypeScript中如何使用模块以各种方式来组织代码.我们将涵括内部和外部的模块,并且讨论他们在适合在何时使用和怎么使用.我们也会学习一些如何使用外部模块的高级技巧,并且解决一些当我们使用 ...</p>
+		</li>
+						<li><a href="https://www.bbsmax.com/A/WpdKD6lXzV/">Linux LSM(Linux Security Modules) Hook Technology</a>
+		<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">目录 . 引言 . Linux Security Module Framework Introduction . LSM Sourcecode Analysis . LSMs Hook Engine: ...</p>
+		</li>
+						<li><a href="https://www.bbsmax.com/A/xl56Zyrm5r/">[转]使用 Minidumps 和 Visual Studio .NET 进行崩溃后调试</a>
+		<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">本文关键字:Minidumps, Windows, SEH, VisualC, .NET 摘要 本文讲述了 minidumps 是怎样工作的.当你的程序崩溃的时候应该如何生成它们.以及如何在 Visu ...</p>
+		</li>
+						<li><a href="https://www.bbsmax.com/A/l1dymExbde/">elasticsearch文档-modules</a>
+		<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">elasticsearch文档-modules modules 模块 cluster 原文 基本概念 cluster: 集群,一个集群通常由很多节点(node)组成 node: 节点,比如集群中的每台 ...</p>
+		</li>
+						<li><a href="https://www.bbsmax.com/A/WpdKXXbrzV/">Vulkan Tutorial 11 Shader modules</a>
+		<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">操作系统:Windows8.1 显卡:Nivida GTX965M 开发工具:Visual Studio 2017 与之前的图像API不同,Vulkan中的着色器代码必须以二进制字节码的格式使用,而不 ...</p>
+		</li>
+						<li><a href="https://www.bbsmax.com/A/A7zgm1r154/">ASP.NET MVC5写.php路由匹配时的问题 ASP.NET MVC 4 在 .NET 4.0 与.NET 4.5 的專案範本差異</a>
+		<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">由于外包公司结束合作,所以考虑把其APP服务替换过来,因原后台是用php写的,在不影响员客户端使用的情况下在MVC下重写路由配置实现处理原php链接地址的请求,但实现时发现怎么也匹配不到自己写的路由, ...</p>
+		</li>
+						<li><a href="https://www.bbsmax.com/A/B0zqVqR8Jv/">OpenCV特征点检测匹配图像-----添加包围盒</a>
+		<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">最终效果: 其实这个小功能非常有用,甚至加上只有给人感觉好像人脸检测,目标检测直接成了demo了,主要代码如下: // localize the object std::vector&lt;Point ...</p>
+		</li>
+		</ol>
+	
+
+<h2>随机推荐</h2>	
+<ol>
+									<li><a href="https://www.bbsmax.com/A/nAJvmAnzrk/">Java web会话简单应用</a>
+			<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">Java会话主要分为两块:Cookie和HttpSessionCookie技术:会话数据保存在浏览器客户端.Session技术:会话数据保存在服务器端.一.下面介绍一下Cookie的应用1. Cook ...</p>
+			</li>
+						<li><a href="https://www.bbsmax.com/A/obzbV7yzED/">Ubuntu 14.04.4官方默认更新源sources.list</a>
+			<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">Ubuntu 14.04.4官方默认更新源sources.list # deb cdrom:[Ubuntu LTS _Trusty Tahr_ - Release amd64 (20160217.1) ...</p>
+			</li>
+						<li><a href="https://www.bbsmax.com/A/pRdBEe65nx/">wamp(win1064位家庭版+apache2.4.20+php5.5.37+mysql5.5.50)环境搭建</a>
+			<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">wamp环境搭建之软件准备 *php:http://windows.php.net/downloads/releases/php-5.5.37-Win32-VC11-x86.zip *apache:h ...</p>
+			</li>
+						<li><a href="https://www.bbsmax.com/A/nAJv6bvQJr/">模拟退火解决TSP问题</a>
+			<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">// monituihuo.cpp : 定义控制台应用程序的入口点. // #include "stdafx.h" #include &lt;stdio.h&gt; #includ ...</p>
+			</li>
+						<li><a href="https://www.bbsmax.com/A/amd0M2amzg/">JS写的CRC16校验算法（查表法）</a>
+			<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">var CRC = {}; CRC._auchCRCHi = [ 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0 ...</p>
+			</li>
+						<li><a href="https://www.bbsmax.com/A/Vx5MjjmmdN/">理清fineuploader无刷新上传的一些事</a>
+			<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">1.fineuploader是一款不依赖与jquery的异步无刷新上传组件,fineuploader采用ajax方式实现对文件上传,返回值都是以json的格式,对后台服务器操作和前端dom对象一些操作 ...</p>
+			</li>
+						<li><a href="https://www.bbsmax.com/A/WpdKPvnXzV/">jQuery+JSON+jPlayer实现QQ空间音乐查询</a>
+			<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">演示地址: http://bejson.com/demos/qqmusic/ 代码下载:http://www.jqdemo.com/932.html 查询QQ音乐是很早前就出来的一个接口. 这里使用j ...</p>
+			</li>
+						<li><a href="https://www.bbsmax.com/A/Ae5RBDvr5Q/">dynalist 配额</a>
+			<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">2018-8-29 dynalist 配额 提示有一个G的配额 就是使用的流量用光了.仅有1个G</p>
+			</li>
+						<li><a href="https://www.bbsmax.com/A/x9J2G0Ve56/">jQuery筛选--find(expr|obj|ele)和siblings([expr])</a>
+			<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">find(expr|obj|ele) 概述 搜索所有与指定表达式匹配的元素.这个函数是找出正在处理的元素的后代元素的好方法 参数 expr  用于查找的表达式 jQuery object   一个用于 ...</p>
+			</li>
+						<li><a href="https://www.bbsmax.com/A/6pdDPpVkdw/">Task 1 四则运算</a>
+			<p style="color: rgba(0, 0, 0, 0.32);margin-bottom: 8px;">第一节课作业 1.设计思想:随机产生30道题目,主体是一个for循环,在循环体中加上相应的内容,包括随机数函数得到两个运算数值以及运算符号,再利用switch,case结构输出相应的题目即可. 2.源 ...</p>
+			</li>
+			</ol>			
+							
+					</div>
+
+					
+					<!--<div class="shareBox  clearfix">
+
+					</div>-->
+					<!--<div class="posts-cjtz content-cjtz clearfix"><img src="/images.grace/2865270162.png" alt="" /></div>	-->										<div class="next-prev-posts clearfix">
+</div>
+						 
+				</div>
+				
+	<div class="clear"></div>
+
+			</div>	</div>
+</div>
+</div>
+
+
+<div class="clearfix"></div>
+<div id="footer" class="two-s-footer">
+	<div class="footer-box">
+		<div class="container">
+			<div class="row" style="padding-left: 15px;padding-right: 15px;">
+			<div class="nav-footer">
+				<a href="/">Home</a>
+				</div>
+				<div class="copyright-footer">
+					<p>Powered By WordPress</p>
+				</div>
+							</div>
+		</div>
+	</div>
+</div>
+<div style="display:none">
+<script src="https://s22.cnzz.com/z_stat.php?id=1273180860&amp;web_id=1273180860" language="JavaScript"></script><script src="https://c.cnzz.com/core.php?web_id=1273180860&amp;t=z" charset="utf-8" type="text/javascript"></script><a href="https://www.cnzz.com/stat/website.php?web_id=1273180860" target="_blank" title="站长统计">站长统计</a>
+<a href="https://www.bbsmax.com/articleIndex.html">BS</a>
+</div>
+<script>
+var ac_referer = '' + document.referrer;
+try {ac_referer = '' + top.document.referrer} catch (ex) {ac_referer = '' + document.referrer}
+var ac_referer_raw = ac_referer;
+ac_referer = ac_referer.substring(0, 600);
+ac_referer = encodeURIComponent(ac_referer);
+var ac_protocol = (('https:' == document.location.protocol) ? 'https://' : 'http://');
+var ac_script = document.createElement('script');
+ac_script.src = ac_protocol + document.domain + '/vlog/?ref=' + ac_referer;
+document.getElementsByTagName('head')[0].appendChild(ac_script);
+// document.writeln('&lt;sc' + 'ript type="text/jav'+'ascr'+'ipt" src="' + ac_protocol + document.domain + '/vlog/?ref=' + ac_referer + '"&gt;&lt;/scr' + 'ipt&gt;');
+</script>
+
+
+</div><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_2_anchor" style="display:block;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><iframe id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-6527383233809815&amp;output=html&amp;adk=1812271804&amp;adf=3025194257&amp;lmt=1618767078&amp;plat=1%3A8%2C2%3A8%2C9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1048576%2C32%3A32&amp;format=0x0&amp;url=https%3A%2F%2Fwww.bbsmax.com%2FA%2FMyJxN2yadn%2F&amp;ea=0&amp;flash=0&amp;pra=7&amp;wgl=1&amp;dt=1618767077678&amp;bpp=5&amp;bdt=1798&amp;idt=378&amp;shv=r20210414&amp;cbv=r20190131&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;prev_fmts=852x200&amp;nras=1&amp;correlator=3853715475367&amp;frm=20&amp;pv=1&amp;ga_vid=607357882.1618767078&amp;ga_sid=1618767078&amp;ga_hid=777221105&amp;ga_fc=0&amp;u_tz=480&amp;u_his=2&amp;u_java=0&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_nplug=3&amp;u_nmime=4&amp;adx=-12245933&amp;ady=-12245933&amp;biw=912&amp;bih=889&amp;scr_x=0&amp;scr_y=0&amp;eid=44740079&amp;oid=3&amp;pvsid=1966266187644030&amp;pem=561&amp;eae=2&amp;fc=896&amp;brdim=-1907%2C9%2C-1907%2C9%2C1920%2C0%2C945%2C1020%2C929%2C889&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=0&amp;bc=31&amp;ifi=3&amp;uci=a!3&amp;fsb=1&amp;dtd=388" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!3" data-load-complete="true"></iframe></ins></ins></ins><iframe id="google_osd_static_frame_7734570893804" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body><iframe id="google_esf" name="google_esf" src="https://googleads.g.doubleclick.net/pagead/html/r20210414/r20190131/zrt_lookup.html#" data-ad-client="ca-pub-6527383233809815" style="display: none;"></iframe><ins class="adsbygoogle adsbygoogle-noablate" style="display: none !important; width: 100vw !important; height: 100vh !important; bottom: auto !important; clear: none !important; float: none !important; left: 0px !important; margin: 0px !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; padding: 0px !important; position: fixed !important; right: auto !important; top: 0px !important; vertical-align: baseline !important; visibility: visible !important; z-index: 2147483647 !important; background-color: transparent;" data-adsbygoogle-status="done" aria-hidden="true" data-vignette-loaded="true"><ins id="aswift_4_expand" style="display: inline-table !important; border: none !important; height: 100vh !important; margin: 0px !important; padding: 0px !important; position: relative !important; visibility: visible !important; width: 100vw !important; background-color: transparent !important; bottom: auto !important; clear: none !important; float: none !important; left: auto !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; right: auto !important; top: auto !important; vertical-align: baseline !important; z-index: auto !important;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_4_anchor" style="display: block !important; border: none !important; height: 100vh !important; margin: 0px !important; padding: 0px !important; position: relative !important; visibility: visible !important; width: 100vw !important; background-color: transparent !important; bottom: auto !important; clear: none !important; float: none !important; left: auto !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; right: auto !important; top: auto !important; vertical-align: baseline !important; z-index: auto !important;"><iframe id="aswift_4" name="" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="" height="" frameborder="0" src="https://googleads.g.doubleclick.net/pagead/html/r20210414/r20190131/zrt_lookup.html?fsb=1#RS-0-&amp;adk=1812271808&amp;client=ca-pub-6527383233809815&amp;fa=8&amp;ifi=5&amp;uci=a!5&amp;xpc=tSmUG9RLz5&amp;p=https%3A//www.bbsmax.com" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" style="width: 100vw !important; height: 100vh !important; left: 0px !important; position: absolute !important; top: 0px !important; bottom: auto !important; clear: none !important; display: inline !important; float: none !important; margin: 0px !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; padding: 0px !important; right: auto !important; vertical-align: baseline !important; visibility: visible !important; z-index: auto !important;" data-google-container-id="a!5" data-google-query-id="CKTJ66SpiPACFUW6lgodGR0Edg" data-load-complete="true"></iframe></ins></ins></ins></html>
