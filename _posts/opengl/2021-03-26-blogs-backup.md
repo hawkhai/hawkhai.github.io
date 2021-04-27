@@ -22,8 +22,18 @@ codeprint:
 
 ## 图形学
 
+> 怎么判断游戏技术是不是牛逼？看画面是不是够亮，越亮全局光做的越牛逼。
+
+{% include image.html url="/assets/images/210326-blogs-backup/borderlads3.jpg" %}
+{% include image.html url="/assets/images/210326-blogs-backup/sekiro_shadows_die_twice.jpg" %}
+
 * [Jim's GameDev Blog {% include relref_github.html %}](https://chengkehan.github.io/)
 * [ZwqXin](http://www.zwqxin.com/)
+* [Skywind Inside](http://www.skywind.me/blog/)
+
+* [GAMES101: 现代计算机图形学入门](https://sites.cs.ucsb.edu/~lingqi/teaching/games101.html)
+* [GAMES202: 高质量实时渲染](https://sites.cs.ucsb.edu/~lingqi/teaching/games202.html)
+* [GAMES101-现代计算机图形学入门-闫令琪 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1X7411F744)
 
 
 ### 萤火之森 http://frankorz.com/
@@ -43,6 +53,10 @@ codeprint:
 
 - [https://chengkehan.github.io/]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/chengkehan.github.io/f33e1112.html" %})
 - [http://www.zwqxin.com/]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/www.zwqxin.com/189e4f4f.html" %})
+- [http://www.skywind.me/blog/]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/www.skywind.me/7299c1fb.html" %})
+- [https://sites.cs.ucsb.edu/~lingqi/teaching/games101.html]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/sites.cs.ucsb.edu/066e265f.html" %})
+- [https://sites.cs.ucsb.edu/~lingqi/teaching/games202.html]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/sites.cs.ucsb.edu/c77d447b.html" %})
+- [https://www.bilibili.com/video/BV1X7411F744]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/www.bilibili.com/99e29ea3.html" %})
 - [http://frankorz.com/]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/frankorz.com/c46de77d.html" %})
 - [https://www.notion.so/ce300124a4444c2cacc90a5ea0a5a19b]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/www.notion.so/1349fe0c.html" %})
 - [https://www.notion.so/2cbfd6f8e62f40b5abb0b236b045d6b4]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/www.notion.so/b271a93a.html" %})
