@@ -34,21 +34,25 @@ layout: default
 <div class="block_section" id="section_cluster">
     <font class="blog_cluster">{{ page.cluster }} 系列文章</font>
     <div><ul>
-    {% for post in site.posts %}
-        {% if post.cluster == page.cluster %}
-        {% if post.visibility != "hidden" %}
-            <li>
-            {% if post.title != page.title %}<a href="{{ post.url | prepend: site.baseurl }}">{% endif %}
-            {{ post.title }} | {{ post.date | date_to_string }}
-            {% if post.title != page.title %}</a>{% endif %}
-            </li>
-        {% endif %}{% endif %}
-    {% endfor %}
+    {% for post in site.posts %}{% if post.cluster == page.cluster %}
+    {% if post.visibility != "hidden" %}
+        <li>
+        {% if post.title != page.title %}<a href="{{ post.url | prepend: site.baseurl }}">{% endif %}
+        {{ post.title }} | {{ post.date | date_to_string }}
+        {% if post.title != page.title %}</a>{% endif %}
+        </li>
+    {% else %}
+        <li>
+        <font color="gray" style="text-decoration:line-through;">{{ post.title }} | {{ post.date | date_to_string }}</font>
+        </li>
+    {% endif %}
+    {% endif %}{% endfor %}
     </ul></div>
 </div>
 {% endif %}
 
     <hr/>
+{% if page.layoutclear == null %}
 <div class="block_section" id="section_info">
 <!-- https://shopify.dev/docs/themes/liquid/reference/filters/string-filters -->
 <!-- https://github.com/jekyll/jekyll/issues/2491 -->
@@ -66,6 +70,7 @@ var shortSeed = "{{ page.url | replace:'index.html','' }}";
     <div style="text-align:center" class="post-footer">
         自由转载-非商用-非衍生-保持署名<br/>（创意共享 3.0 许可证）
     </div>
+{% endif %}
 </div>
 
 {% if page.comments %}

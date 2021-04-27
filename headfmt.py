@@ -82,6 +82,7 @@ permalink
     igkeylist = """
 l2dwidget cluster
 sortrefs archived date
+layoutclear
 """.split()
 
     kvmap = {}
