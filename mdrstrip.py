@@ -215,7 +215,7 @@ title : %(title)s
 
     # 外链类型 断言...
     if not remote.split(".")[-1] in ("pdf", "html", "git", "php", "c", "phtml", "cpp", "htm", "shtm",
-                                     "ipynb", "py", "asp", "shtml", "aspx", "xhtml", "txt",):
+                                     "ipynb", "py", "asp", "shtml", "aspx", "xhtml", "txt", "mspx",):
         print(fpath, url)
         assert False, remote
     return remote

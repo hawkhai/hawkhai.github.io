@@ -11,26 +11,42 @@ function changeSnapPositionk() {
     cluster.insertBefore(snapshot);
 }
 
+// <span imgid="3.3" />
+// {% include image.html url="/images/img.png" caption="..." relocate="3.3" %}
 function changeImagePositionk() {
     var lrelocate = $("#postdiv div[relocate]");
+    lrelocate = $(lrelocate.get().reverse()); // 倒叙，保证多图的情况能正常。
     lrelocate.each(function() {
         var imgnode = $(this);
         var target = imgnode;
-        while (target[0].tagName.toUpperCase() != "OL") {
+        var tname = target[0].tagName.toUpperCase();
+        while (tname != "OL" && tname != "UL" && target.length) {
             target = target.prev();
+            tname = target[0].tagName.toUpperCase();
         }
-        var li = imgnode.attr("relocate").split("."); // ["2", "3"]
-        for (var i = 0; i < li.length; i++) {
+        var relocate = imgnode.attr("relocate");
+        if (target.length && relocate) {
+            // <span imgid="3.3" />
+            var insert = target.find("span[imgid='"+relocate+"']");
+            if (insert.length) {
+                imgnode.insertAfter(insert);
+                return;
+            }
+        }
+        var li = relocate.split("."); // ["2", "3"]
+        for (var i = 0; i < li.length && target.length; i++) {
             // https://www.cnblogs.com/ooo0/p/6278102.html
             if (i == 0) {
                 var children = target.children("li");
                 target = children.eq(parseInt(li[i]) - 1);
             } else {
-                var children = target.children("ol").children("li");
+                var children = target.children("ol,ul").children("li");
                 target = children.eq(parseInt(li[i]) - 1);
             }
         }
-        imgnode.insertAfter(target);
+        if (target.length) {
+            imgnode.insertAfter(target);
+        }
     });
 }
 
