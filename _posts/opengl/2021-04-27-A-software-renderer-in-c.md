@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "图形学笔记 -- 何开始用 C++ 写一个光栅化渲染器？"
+title: "图形学笔记 -- 如何开始用 C++ 写一个光栅化渲染器？"
 author:
 location: "珠海"
 categories: ["图形学"]
