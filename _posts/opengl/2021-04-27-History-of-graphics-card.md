@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "图形学笔记 -- 显卡的发展历史：精彩！ "
+title: "图形学笔记 -- 显卡的发展历史：精彩！"
 author:
 location: "珠海"
 categories: ["图形学"]
