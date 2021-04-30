@@ -10,12 +10,238 @@ toclistyle:
 comments:
 visibility:
 mathjax:
-mermaid:
+mermaid: true
 glslcanvas:
 codeprint:
 ---
 
 用 Jekyll Markdown 写 blog 文档，受到一些限制，通过 JS 扩展了几个简单的语法。
+
+
+## Mermaid 流程图
+
+
+### 新引擎结构图
+
+```
+<div class="mermaid">
+graph TB
+    subgraph 引擎
+        Irrlicht(Irrlicht) --> OpenGL[Driver OpenGL]
+        Irrlicht --> OpenGLES[Driver OpenGL ES]
+        OpenGL -- "OpenGL" --> Windows[Windows]
+        OpenGLES -- "OpenGL ES" --> Emulator[OpenGL ES Emulator]
+        Emulator -- "OpenGL" --> Windows
+        OpenGLES -- "OpenGL ES" --> Android
+        OpenGLES -- "OpenGL ES" --> iOS
+    end
+
+    subgraph 特效
+        Windows -.- OpenGLShader>支持 OpenGL 特效]
+        Windows -.- OpenGLESShader>支持 OpenGL ES 特效]
+        Android -.- OpenGLESShader
+        iOS -.- OpenGLESShader
+    end
+
+    新引擎结构图
+
+classDef orange fill:#f96;
+classDef yellow fill:#fefe00;
+classDef dotbox fill:#ffc864,stroke:#f668,stroke-width:1px;
+classDef titlec fill:#ccc1,stroke:#aaa4,stroke-width:1px,stroke:1;
+class Irrlicht orange;
+class Windows orange;
+class Android orange;
+class iOS orange;
+class OpenGL yellow;
+class OpenGLES yellow;
+class 新引擎结构图 titlec;
+class OpenGLShader dotbox;
+class OpenGLESShader dotbox;
+</div>
+```
+
+<div class="mermaid">
+graph TB
+    subgraph 引擎
+        Irrlicht(Irrlicht) --> OpenGL[Driver OpenGL]
+        Irrlicht --> OpenGLES[Driver OpenGL ES]
+        OpenGL -- "OpenGL" --> Windows[Windows]
+        OpenGLES -- "OpenGL ES" --> Emulator[OpenGL ES Emulator]
+        Emulator -- "OpenGL" --> Windows
+        OpenGLES -- "OpenGL ES" --> Android
+        OpenGLES -- "OpenGL ES" --> iOS
+    end
+
+    subgraph 特效
+        Windows -.- OpenGLShader>支持 OpenGL 特效]
+        Windows -.- OpenGLESShader>支持 OpenGL ES 特效]
+        Android -.- OpenGLESShader
+        iOS -.- OpenGLESShader
+    end
+
+    新引擎结构图
+
+classDef orange fill:#f96;
+classDef yellow fill:#fefe00;
+classDef dotbox fill:#ffc864,stroke:#f668,stroke-width:1px;
+classDef titlec fill:#ccc1,stroke:#aaa4,stroke-width:1px,stroke:1;
+class Irrlicht orange;
+class Windows orange;
+class Android orange;
+class iOS orange;
+class OpenGL yellow;
+class OpenGLES yellow;
+class 新引擎结构图 titlec;
+class OpenGLShader dotbox;
+class OpenGLESShader dotbox;
+</div>
+
+
+### 第一组配色
+
+```
+<div class="mermaid">
+graph TB
+    subgraph 第一组配色
+        橙色 [橙色<br/>#F93]
+        淡橙色 [淡橙色<br/>#FFB366]
+        蓝色 [蓝色<br/>#66B2FF]
+        淡紫色 [淡紫色<br/>#CCE5FF]
+        绿色 [绿色<br/>#6F6]
+        浅蓝色 [浅蓝色<br/>#9FF]
+        黄色 [黄色<br/>#FF0]
+    end
+
+    DEMO
+
+classDef corange   fill:#F93;
+classDef corangelt fill:#FFB366;
+classDef cblue     fill:#66B2FF;
+classDef cpurplelt fill:#CCE5FF;
+classDef cgreen    fill:#6F6;
+classDef cbluelt   fill:#9FF;
+classDef cyellow   fill:#FF0;
+
+classDef dotbox fill:#ffc864,stroke:#f668,stroke-width:1px;
+classDef titlec fill:#ccc1,stroke:#aaa4,stroke-width:1px,stroke:1;
+
+class 橙色 corange;
+class 淡橙色 corangelt;
+class 蓝色 cblue;
+class 淡紫色 cpurplelt;
+class 绿色 cgreen;
+class 浅蓝色 cbluelt;
+class 黄色 cyellow;
+class DEMO titlec;
+</div>
+```
+
+<div class="mermaid">
+graph TB
+    subgraph 第一组配色
+        橙色[橙色<br/>#F93]
+        淡橙色[淡橙色<br/>#FFB366]
+        蓝色[蓝色<br/>#66B2FF]
+        淡紫色[淡紫色<br/>#CCE5FF]
+        绿色[绿色<br/>#6F6]
+        浅蓝色[浅蓝色<br/>#9FF]
+        黄色[黄色<br/>#FF0]
+    end
+
+    DEMO
+
+classDef corange   fill:#F93;
+classDef corangelt fill:#FFB366;
+classDef cblue     fill:#66B2FF;
+classDef cpurplelt fill:#CCE5FF;
+classDef cgreen    fill:#6F6;
+classDef cbluelt   fill:#9FF;
+classDef cyellow   fill:#FF0;
+
+classDef dotbox fill:#ffc864,stroke:#f668,stroke-width:1px;
+classDef titlec fill:#ccc1,stroke:#aaa4,stroke-width:1px,stroke:1;
+
+class 橙色 corange;
+class 淡橙色 corangelt;
+class 蓝色 cblue;
+class 淡紫色 cpurplelt;
+class 绿色 cgreen;
+class 浅蓝色 cbluelt;
+class 黄色 cyellow;
+class DEMO titlec;
+</div>
+
+
+### 第二组配色
+
+<div class="mermaid">
+graph TB
+    subgraph 第二组配色
+        靛蓝色[靛蓝色<br/>#4273c1]
+        绿色2[绿色2<br/>#6eaf49]
+        灰色2[灰色2<br/>#a1a5a6]
+        蓝色2[蓝色2<br/>#5c9ad1]
+        黄色2[黄色2<br/>#fbbe04]
+        橙色2[橙色2<br/>#ea7c2e]
+    end
+
+    DEMO2
+
+classDef indigo    fill:#4273c1;
+classDef green     fill:#6eaf49;
+classDef gray      fill:#a1a5a6;
+classDef blue      fill:#5c9ad1;
+classDef yellow    fill:#fbbe04;
+classDef orange    fill:#ea7c2e;
+
+classDef dotbox fill:#ffc864,stroke:#f668,stroke-width:1px;
+classDef titlec fill:#ccc1,stroke:#aaa4,stroke-width:1px,stroke:1;
+
+class DEMO2 titlec;
+
+class 靛蓝色 indigo;
+class 绿色2 green;
+class 灰色2 gray;
+class 蓝色2 blue;
+class 黄色2 yellow;
+class 橙色2 orange;
+</div>
+
+```
+<div class="mermaid">
+graph TB
+    subgraph 第二组配色
+        靛蓝色[靛蓝色<br/>#4273c1]
+        绿色2[绿色2<br/>#6eaf49]
+        灰色2[灰色2<br/>#a1a5a6]
+        蓝色2[蓝色2<br/>#5c9ad1]
+        黄色2[黄色2<br/>#fbbe04]
+        橙色2[橙色2<br/>#ea7c2e]
+    end
+
+    DEMO2
+
+classDef indigo    fill:#4273c1;
+classDef green     fill:#6eaf49;
+classDef gray      fill:#a1a5a6;
+classDef blue      fill:#5c9ad1;
+classDef yellow    fill:#fbbe04;
+classDef orange    fill:#ea7c2e;
+
+classDef dotbox fill:#ffc864,stroke:#f668,stroke-width:1px;
+classDef titlec fill:#ccc1,stroke:#aaa4,stroke-width:1px,stroke:1;
+
+class DEMO2 titlec;
+
+class 靛蓝色 indigo;
+class 绿色2 green;
+class 灰色2 gray;
+class 蓝色2 blue;
+class 黄色2 yellow;
+class 橙色2 orange;
+</div>
+```
 
 
 ## 列表插入图片
@@ -77,7 +303,7 @@ $(document).ready(function () {
 ```
 
 
-### 样例：
+### 样例
 
 ```
 1. gitee
@@ -180,7 +406,7 @@ $(document).ready(function () {
 ```
 
 
-### 样例：
+### 样例
 
 ```
 <table class="tablestyle" ntablew="2:3:5"></table>
