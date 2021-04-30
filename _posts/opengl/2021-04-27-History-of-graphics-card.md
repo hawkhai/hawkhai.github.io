@@ -22,17 +22,17 @@ codeprint:
 * [显卡的发展历史：精彩！](https://www.sohu.com/a/117375685_351912)
 
 
-## 第一集：[20 年前的游戏与 PC：探秘 3D 游戏史上最辉煌的岁月（上） {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Hb41177JB)
+## [20 年前的游戏与 PC：探秘 3D 游戏史上最辉煌的岁月（上） {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Hb41177JB)
 
 {% include embedvideo.html source="//player.bilibili.com/player.html?cid=82408688&aid=47052564&page=1&high_quality=1" %}
 
 
-## 第二集：[N 卡是如何崛起的？20 年前的 PC 和游戏（下） {% include relref_bili.html %}](https://www.bilibili.com/video/BV1C4411J7cR)
+## [N 卡是如何崛起的？20 年前的 PC 和游戏（下） {% include relref_bili.html %}](https://www.bilibili.com/video/BV1C4411J7cR)
 
 {% include embedvideo.html source="//player.bilibili.com/player.html?cid=92109804&aid=52635956&page=1&high_quality=1" %}
 
 
-## 第三集：[A 卡崛起之路：重现当年 AN 显卡巅峰对决！ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1YJ411h7aY)
+## [A 卡崛起之路：重现当年 AN 显卡巅峰对决！ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1YJ411h7aY)
 
 {% include embedvideo.html source="//player.bilibili.com/player.html?cid=145346025&aid=81437021&page=1&high_quality=1" %}
 
