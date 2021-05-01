@@ -1,4 +1,5 @@
 #encoding=utf8
+import sys
 import re, os, sys
 sys.path.append("../")
 from pythonx.funclib import *
