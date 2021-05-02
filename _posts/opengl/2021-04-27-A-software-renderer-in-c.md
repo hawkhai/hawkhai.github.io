@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "图形学笔记 -- 如何开始用 C++ 写一个光栅化渲染器？"
+title: "图形学笔记 -- OpenGL 毕业报告 / 模拟显卡 GPU，C++ 实现光栅化渲染器"
 author:
 location: "珠海"
 categories: ["图形学"]
@@ -8,7 +8,7 @@ tags: ["图形学", "OpenGL"]
 toc: true
 toclistyle:
 comments:
-visibility: hidden
+visibility:
 mathjax: true
 mermaid:
 glslcanvas:

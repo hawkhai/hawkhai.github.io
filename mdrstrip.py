@@ -297,7 +297,11 @@ def organizeRes(ik, fpath, line):
             img = Image.open(tpath)
             width, height = img.size
             if width > 100:
-                img = img.resize((100, round(100.0*height/width)), Image.ANTIALIAS).convert("RGB")
+                try:
+                    img = img.resize((100, round(100.0*height/width)), Image.ANTIALIAS).convert("RGB")
+                except OSError as ex: # broken data stream when reading image file
+                    print("Image.resize OSError", tpath)
+                    raise ex
                 img = img.resize((width, height), Image.ANTIALIAS) # 恢复到原来大小，便于客户端排版。
 
                 from PIL import Image, ImageFont, ImageDraw # 导入模块
@@ -313,7 +317,13 @@ def organizeRes(ik, fpath, line):
         elif os.path.exists(sizepath):
             img = Image.open(tpath)
             width, height = img.size
-            img = Image.open(sizepath)
+            try:
+                img = Image.open(sizepath)
+            except RuntimeError as ex: # could not create decoder object
+                print("Image.open RuntimeError", sizepath)
+                osremove(sizepath)
+                return organizeRes(ik, fpath, line)
+                raise ex
             if img.size != (width, height):
                 img.close()
                 osremove(sizepath)
