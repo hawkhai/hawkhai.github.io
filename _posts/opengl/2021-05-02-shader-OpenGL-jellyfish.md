@@ -8,14 +8,15 @@ tags: ["图形学", "OpenGL"]
 toc: true
 toclistyle:
 comments:
-visibility: hidden
+visibility:
 mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
 ---
 
-不依赖任何 3D 引擎，全部采用原生 OpenGL API 实现。
+不依赖任何 3D 引擎，全部采用原生 OpenGL API 实现。程序下载：
+<a href="{% include relref.html url="/source/jellyfish.zip" %}" target="_blank">jellyfish.zip</a>
 
 
 ## 先上效果
@@ -72,9 +73,9 @@ glm::vec3 V3_normalize(glm::vec3 a);
 glm::vec3 V3_neg(glm::vec3 a);
 ```
 
-[arodic / WebGL-Fluid-Simulation {% include relref_github.html %}](https://github.com/arodic/WebGL-Fluid-Simulation)
-[WebGL Jellyfish Simulation {% include relref_github.html %}](https://github.com/arodic/Chrysaora)
-[WebGL jellyfish demo {% include relref_github.html %}](https://github.com/arodic/jellyfish)
+[^_^]: [arodic / WebGL-Fluid-Simulation {% include relref_github.html %}](https://github.com/arodic/WebGL-Fluid-Simulation)
+[^_^]: [WebGL Jellyfish Simulation {% include relref_github.html %}](https://github.com/arodic/Chrysaora)
+[^_^]: [WebGL jellyfish demo {% include relref_github.html %}](https://github.com/arodic/jellyfish)
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-02-shader-OpenGL-jellyfish.md.js" %}'></script></p>
