@@ -146,12 +146,13 @@ def backupUrlContent(fpath, url):
             os.rename(slocal, newlocal)
         slocal = newlocal
 
+    shotpath = slocal + SELENIUM
     fdata = querySnapCache(umd5[:8])
     if fdata:
         writefile(slocal, fdata)
         fdatalocal = True
     else:
-        fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal, shotpath=slocal+SELENIUM, chromeDialog=chromeDialog)
+        fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal, shotpath=shotpath, chromeDialog=chromeDialog)
         fdatalocal = False
 
     itag = bytesToString("无法访问此网站".encode("utf8"))
@@ -163,6 +164,8 @@ def backupUrlContent(fpath, url):
             print("无法访问此网站", fpath, url)
             if not fdatalocal: os.system("pause")
             removeSnapCache(umd5[:8])
+            osremove(slocal)
+            osremove(shotpath)
             return backupUrlContent(fpath, url)
 
     def addmdhead(fdata):

@@ -8,7 +8,7 @@ tags: ["图形学", "OpenGL"]
 toc: true
 toclistyle:
 comments:
-visibility:
+visibility: hidden
 mathjax: true
 mermaid:
 glslcanvas:
