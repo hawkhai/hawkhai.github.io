@@ -78,7 +78,7 @@ glm::vec3 V3_neg(glm::vec3 a);
 
 {% include image.html url="/assets/images/210502-shader-opengl-jellyfish/jellyfish1.png" %}
 
-建立 4 个控制点（骨骼数据）：
+建立 1 个控制点 和 4 个骨骼节点：
 {% include image.html url="/assets/images/210502-shader-opengl-jellyfish/jellyfish_skeleton.jpg" %}
 [^_^]: https://sunocean.life/jellyfish/Chrysaora/index.html
 
