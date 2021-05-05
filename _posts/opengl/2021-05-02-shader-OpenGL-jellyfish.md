@@ -73,6 +73,36 @@ glm::vec3 V3_normalize(glm::vec3 a);
 glm::vec3 V3_neg(glm::vec3 a);
 ```
 
+
+## 模型顶点数据
+
+{% include image.html url="/assets/images/210502-shader-opengl-jellyfish/jellyfish1.png" %}
+
+建立 4 个控制点（骨骼数据）：
+{% include image.html url="/assets/images/210502-shader-opengl-jellyfish/jellyfish_skeleton.jpg" %}
+[^_^]: https://sunocean.life/jellyfish/Chrysaora/index.html
+
+**aSkinWeight** 可以根据 y 坐标简单算出来：
+
+```cpp
+int weightSize = 0;
+for (int i = 0; i < vertexPositions.size(); i = i + 3) {
+    GLfloat value = vertexPositions[i + 1];
+    GLfloat ypos = -value / 3;
+    GLfloat w0 = max(min(-ypos + 1, 1), 0);
+    GLfloat w1 = max(min(-ypos + 2, ypos), 0);
+    GLfloat w2 = max(min(-ypos + 3, ypos - 1), 0);
+    GLfloat w3 = max(min(ypos - 2, 1), 0);
+    weightData[weightSize++] = w0;
+    weightData[weightSize++] = w1;
+    weightData[weightSize++] = w2;
+    weightData[weightSize++] = w3;
+}
+```
+
+对应的权重图，权重分布：
+{% include image.html url="/assets/images/210502-shader-opengl-jellyfish/weightdata.png" %}
+
 [^_^]: [arodic / WebGL-Fluid-Simulation {% include relref_github.html %}](https://github.com/arodic/WebGL-Fluid-Simulation)
 [^_^]: [WebGL Jellyfish Simulation {% include relref_github.html %}](https://github.com/arodic/Chrysaora)
 [^_^]: [WebGL jellyfish demo {% include relref_github.html %}](https://github.com/arodic/jellyfish)
