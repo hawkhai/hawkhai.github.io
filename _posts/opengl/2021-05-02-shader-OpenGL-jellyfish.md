@@ -87,11 +87,11 @@ glm::vec3 V3_neg(glm::vec3 a);
 ```cpp
 int weightSize = 0;
 for (int i = 0; i < vertexPositions.size(); i = i + 3) {
-    GLfloat value = vertexPositions[i + 1];
+    GLfloat value = vertexPositions[i + 1]; // y
     GLfloat ypos = -value / 3;
     GLfloat w0 = max(min(-ypos + 1, 1), 0);
-    GLfloat w1 = max(min(-ypos + 2, ypos), 0);
-    GLfloat w2 = max(min(-ypos + 3, ypos - 1), 0);
+    GLfloat w1 = max(min(ypos, -ypos + 2), 0);
+    GLfloat w2 = max(min(ypos - 1, -ypos + 3), 0);
     GLfloat w3 = max(min(ypos - 2, 1), 0);
     weightData[weightSize++] = w0;
     weightData[weightSize++] = w1;

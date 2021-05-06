@@ -209,7 +209,9 @@ title : %(title)s
             writefile(slocal, fdata, "utf8")
 
     fmd5 = getFileMd5(slocal) # 大文件，错误已经铸成，改不了了。
-    if not fmd5 in readfileIglist("mdrstrip_bigfiles.txt"):
+    invdirlocal = isInvisibleDir(slocal)
+    mdrstripBigfileCfg = os.path.join("invisible" if invdirlocal else ".", "mdrstrip_bigfiles.txt")
+    if not fmd5 in readfileIglist(mdrstripBigfileCfg):
         if len(fdata) >= 1024*1000*1:
             assert False, (len(fdata) / 1024.0 / 1000.0, url)
 
@@ -252,7 +254,12 @@ def organizeResCollect(rootdir):
     searchdir(rootdir, mainfile)
 
 def isInvisibleDir(fpath):
-    invdir = os.path.abspath(fpath).lower().startswith(os.path.abspath("invisible").lower()+"\\")
+    fpath = os.path.abspath(fpath).lower()
+    invisible = os.path.abspath("invisible").lower()+"\\"
+    invdir = fpath.startswith(invisible)
+    # .\_site\invisible\
+    siteinvisible = os.path.abspath(r"_site\invisible").lower()+"\\"
+    invdir = invdir or fpath.startswith(siteinvisible)
     return invdir
 
 def organizeRes(ik, fpath, line):
@@ -297,7 +304,11 @@ def organizeRes(ik, fpath, line):
         sizepath = tpath + THUMBNAIL
         from PIL import Image
         if not os.path.exists(sizepath) and iktype in ("png", "jpg", "gif", "jpeg", "webp", "bmp",):
-            img = Image.open(tpath)
+            try:
+                img = Image.open(tpath)
+            except RuntimeError as ex: # could not create decoder object
+                print("Image.open RuntimeError", tpath)
+                raise ex
             width, height = img.size
             if width > 100:
                 try:
@@ -856,7 +867,7 @@ def mainfilew(fpath, fname, ftype):
         savelog(__file__, fpath)
     return errcnt
 
-g_checkfilesize = set()
+g_checkfilesize = {}
 def checkfilesize(fpath, fname, ftype):
 
     if fname.endswith(THUMBNAIL):
@@ -865,23 +876,28 @@ def checkfilesize(fpath, fname, ftype):
             osremove(fpath)
             return
 
+    invdir = isInvisibleDir(fpath)
+    mdrstripBigfileCfg = os.path.join("invisible" if invdir else ".", "mdrstrip_bigfiles.txt")
     fmd5 = getFileMd5(fpath)
-    if not g_checkfilesize:
-        for ifmd5 in readfileIglist("mdrstrip_bigfiles.txt"):
-            g_checkfilesize.add(ifmd5)
+    if not mdrstripBigfileCfg in g_checkfilesize.keys():
+        g_checkfilesize[mdrstripBigfileCfg] = set()
+    if not g_checkfilesize[mdrstripBigfileCfg]:
+        for ifmd5 in readfileIglist(mdrstripBigfileCfg):
+            g_checkfilesize[mdrstripBigfileCfg].add(ifmd5)
 
-    if not (fmd5 in g_checkfilesize):
+    if not (fmd5 in g_checkfilesize[mdrstripBigfileCfg]):
         size = os.path.getsize(fpath) / 1024.0 / 1000.0 # 1000 KB
         if size >= 1.0:
             print(getFileMd5(fpath), "#", fpath, "#", "%.1f MB"%size)
-            g_checkfilesize.add(fmd5)
+            g_checkfilesize[mdrstripBigfileCfg].add(fmd5)
 
             if ftype in ("gif",):
                 from pythonx import pygrab
                 pygrab.gifbuildwebp(fpath)
 
-            openTextFile("mdrstrip_bigfiles.txt")
-            assert False, "大文件最好不要入库..."
+            if not IGNOREERR:
+                openTextFile(mdrstripBigfileCfg)
+                assert False, "大文件最好不要入库..."
 
 def findPostMd(rootdir, fnamek):
     fpathk = fnamek
