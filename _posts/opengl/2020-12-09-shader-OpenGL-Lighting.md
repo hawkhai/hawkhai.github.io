@@ -22,6 +22,8 @@ cluster: "LearnOpenGL"
 
 {% include image.html url="/assets/images/201209-shader-opengl-lighting/gllightinggrab.webp" %}
 
+[实时渲染中的各种光照模型](https://www.qiujiawei.com/lighting-1/)
+
 
 ## OpenGL 光照
 
@@ -388,6 +390,7 @@ vec3 CalcSpotLight(SpotLight light)
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://ke.qq.com/course/package/25480?flowToken=1019441]({% include relrefx.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/ke.qq.com/3fd1c97a.html" %})
+- [https://www.qiujiawei.com/lighting-1/]({% include relrefx.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/www.qiujiawei.com/663a9b02.html" %})
 - [https://blog.csdn.net/zhaoyin214/article/details/81625964]({% include relrefx.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/blog.csdn.net/f8bddaa8.html" %})
 - [https://www.jianshu.com/p/bc384e81d590]({% include relrefx.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/www.jianshu.com/5a656440.html" %})
 - [https://learnopengl.com/code_viewer_gh.php?code=src/2.lighting/6.multiple_lights/multiple_lights.cpp]({% include relrefx.html url="/backup/2020-12-09-shader-OpenGL-Lighting.md/learnopengl.com/f55884a3.php" %})

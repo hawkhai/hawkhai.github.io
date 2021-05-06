@@ -78,6 +78,8 @@ glm::vec3 V3_neg(glm::vec3 a);
 
 {% include image.html url="/assets/images/210502-shader-opengl-jellyfish/jellyfish1.png" %}
 
+[骨骼动画原理 {% include relref_cnblogs.html %}](https://www.cnblogs.com/tandier/p/10087656.html)
+[骨骼动画与蒙皮矩阵](https://www.qiujiawei.com/linear-algebra-19/)
 建立 1 个控制点 和 4 个骨骼节点：
 {% include image.html url="/assets/images/210502-shader-opengl-jellyfish/jellyfish_skeleton.jpg" %}
 [^_^]: https://sunocean.life/jellyfish/Chrysaora/index.html
@@ -111,6 +113,8 @@ for (int i = 0; i < vertexPositions.size(); i = i + 3) {
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-02-shader-OpenGL-jellyfish.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.cnblogs.com/tandier/p/10087656.html]({% include relrefx.html url="/backup/2021-05-02-shader-OpenGL-jellyfish.md/www.cnblogs.com/9e44e156.html" %})
+- [https://www.qiujiawei.com/linear-algebra-19/]({% include relrefx.html url="/backup/2021-05-02-shader-OpenGL-jellyfish.md/www.qiujiawei.com/a0255dd8.html" %})
 - [https://github.com/arodic/WebGL-Fluid-Simulation]({% include relrefx.html url="/backup/2021-05-02-shader-OpenGL-jellyfish.md/github.com/c78cb661.html" %})
 - [https://github.com/arodic/Chrysaora]({% include relrefx.html url="/backup/2021-05-02-shader-OpenGL-jellyfish.md/github.com/9c577022.html" %})
 - [https://github.com/arodic/jellyfish]({% include relrefx.html url="/backup/2021-05-02-shader-OpenGL-jellyfish.md/github.com/dbca1ee4.html" %})

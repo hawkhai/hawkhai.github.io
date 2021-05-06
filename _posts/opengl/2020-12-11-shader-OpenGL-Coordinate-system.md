@@ -148,7 +148,8 @@ projection=glm::perspective(glm::radians(90.0f),800.0f/600.0f,0.1f,10.0f);
 
 ## 四元数概念及其应用
 
-[四元数概念及其应用](http://www.cppblog.com/kongque/archive/2010/08/18/123824.html)
+* [四元数概念及其应用](http://www.cppblog.com/kongque/archive/2010/08/18/123824.html)
+* [Understanding Quaternions 中文翻译《理解四元数》](https://www.qiujiawei.com/understanding-quaternions/)
 
 
 ### 什么是四元数
@@ -218,4 +219,5 @@ inline float3 MultiplyQP(Quaternion rotation, float3 p)
 - [http://www.songho.ca/opengl/gl_projectionmatrix.html]({% include relrefx.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.songho.ca/7c7467ff.html" %})
 - [http://www.songho.ca/opengl/gl_sphere.html]({% include relrefx.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.songho.ca/ca4b2763.html" %})
 - [http://www.cppblog.com/kongque/archive/2010/08/18/123824.html]({% include relrefx.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.cppblog.com/e2810916.html" %})
+- [https://www.qiujiawei.com/understanding-quaternions/]({% include relrefx.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/www.qiujiawei.com/ffac4a84.html" %})
 - [https://chengkehan.github.io/QuaternionShader.html]({% include relrefx.html url="/backup/2020-12-11-shader-OpenGL-Coordinate-system.md/chengkehan.github.io/e4504ae9.html" %})
