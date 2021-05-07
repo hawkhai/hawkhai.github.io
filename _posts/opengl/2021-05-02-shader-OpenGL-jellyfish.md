@@ -109,6 +109,63 @@ for (int i = 0; i < vertexPositions.size(); i = i + 3) {
 [^_^]: [WebGL Jellyfish Simulation {% include relref_github.html %}](https://github.com/arodic/Chrysaora)
 [^_^]: [WebGL jellyfish demo {% include relref_github.html %}](https://github.com/arodic/jellyfish)
 
+
+## 蒙皮动画
+
+[guillaumeblanc / ozz-animation {% include relref_github.html %}](https://github.com/guillaumeblanc/ozz-animation)
+
+局部姿势是关节相对于父关节来指定的，是一种常见的姿势。局部姿势存储为 $TQS$ 的格式，
+表示相对与父关节的位置、朝向、缩放，根关节的父节点可以认为是世界坐标系原点。
+
+关节在三维软件里通常是显示成一个点或者一个球，实际上，每个关节定义了一个坐标空间。
+在数学上，关节姿势就是一个仿射变换，用 $P_j$ 表示关节 $j$ 代表的仿射变换，
+它是一个 $4\times 4$ 的矩阵，它由平移向量 $T_j$，旋转矩阵 $R_j$ 以及对角缩放矩阵 $S_j$ 组成。
+
+$$
+P_j=\left[\begin{matrix}
+R_jS_j & T_j \\
+0 & 1
+\end{matrix}
+\right]
+$$
+
+局部关节姿势可以表示为：
+
+```cpp
+struct JointPose
+{
+    Quaternion m_rot; // 相对父关节朝向
+    Vector3 m_trans;  // 在父关节中的坐标
+    Vector3 m_scale;  // 相对父关节的缩放
+};
+```
+
+局部关节姿势矩阵 $P_j$ 作用到以关节 $j$ 坐标系表示的点或者向量时，其结果是将点或者向量变换到父关节坐标空间表示的点。
+
+这样关节 8 的 **蒙皮矩阵** 就是
+$$
+F_8=G_8O_8=P_1'P_7'P_8'(P_1P_7P_8)^{-1}
+$$
+
+加权平均的计算时，顶点绑定的所有骨架的权重和为 1。通常设每个顶点最多绑定到 4 个骨架，程序存储如下：
+```cpp
+struct SkinnedVertex
+{
+    float m_position[3]; // 顶点位置（x, y, z）
+    float m_normal[3];   // 顶点法向量（Nx, Ny, Nz）
+    float m_u, m_v;      // 纹理坐标
+    U8 m_jointIndex[4];  // 关节的索引
+    float m_jointWeight[4]; // 关节权重
+};
+```
+
+上面提到过 **蒙皮矩阵**，但是还没正式定义，蒙皮矩阵就是把顶点从 **绑定姿势** 变换到骨骼的 **当前姿势** 的矩阵。
+蒙皮矩阵和前面的 **基变更** 矩阵不同，它只是把顶点变换到新的位置，顶点变换前后都在世界空间中（或模型空间中）。
+和上面一样用 $F_j$ 表示关节 $j$ 的蒙皮矩阵，假设某个顶点 $v$ 受到上面关节 14、18、15、25 的影响，
+对应点权重分别为 $w_1,w_2,w_3,w_4$，则顶点 $v$ 的最终变换位置为：
+$$v'=w_1F_{14}v+w_2F_{18}v+w_3F_{15}v+w_4F_{25}v$$
+上面公式就是顶点的蒙皮计算方法。
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-02-shader-OpenGL-jellyfish.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
@@ -118,3 +175,4 @@ for (int i = 0; i < vertexPositions.size(); i = i + 3) {
 - [https://github.com/arodic/WebGL-Fluid-Simulation]({% include relrefx.html url="/backup/2021-05-02-shader-OpenGL-jellyfish.md/github.com/c78cb661.html" %})
 - [https://github.com/arodic/Chrysaora]({% include relrefx.html url="/backup/2021-05-02-shader-OpenGL-jellyfish.md/github.com/9c577022.html" %})
 - [https://github.com/arodic/jellyfish]({% include relrefx.html url="/backup/2021-05-02-shader-OpenGL-jellyfish.md/github.com/dbca1ee4.html" %})
+- [https://github.com/guillaumeblanc/ozz-animation]({% include relrefx.html url="/backup/2021-05-02-shader-OpenGL-jellyfish.md/github.com/a7d10ab8.html" %})
