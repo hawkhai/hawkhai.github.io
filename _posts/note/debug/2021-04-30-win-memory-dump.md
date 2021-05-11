@@ -30,7 +30,7 @@ cluster: "Windbg"
 2. 尽量 MD/MT 采用 MT，这样每个模块可以单独升级编译器（比如 vs2005 升级到 vs2019），否则存在多个模块关联，要同时升级，增加了难度。
 3. 多线程堆问题是最麻烦的，崩溃的时候第一案发现场已经过了，取到的 dump 并不包含问题代码位置。
     * 第一步是问题重现。只要是可以稳定重现的 bug 都是很好解决的。
-    * 工程开发尽量保证 Debug 模式（这里体现了 CMake 的优越性），大部分堆内存问题都会直接报错，“屯屯屯屯屯”。
+    * 工程开发尽量保证 Debug 模式（这里体现了 CMake 的优越性），大部分堆内存问题都会直接报错，“屯屯屯屯屯”，“烫烫烫烫烫”。
         * VisualStudio Debug 版本 /GZ 可以帮助捕获内存错误。<span imgid="DebugGZ" />
         * Debug 版本加入断言，检查非法的函数参数，未定义行为的意外使用，其他程序员的错误的假设以及不可能发生的情况仍然不知何故出现了所造成的 bugs。
     * 开启完全页堆，**gflags.exe**，争取重现问题。当一个程序的内存大于 1G，这个方法也不行了，一开启，问题代码还没跑到，程序就内存不足崩溃了。
@@ -41,6 +41,9 @@ cluster: "Windbg"
 {% include image.html url="/assets/images/210430-win-memory-dump/20210502140538.png" relocate="DebugGZ" caption="Debug 版本，使用了未初始化指针，报错，Release 版本不报错。" %}
 {% include image.html url="/assets/images/210430-win-memory-dump/20210502140610.png" relocate="DebugGZ" caption="Debug 版本，堆越界写入，回收的时候直接报错。" %}
 {% include image.html url="/assets/images/210430-win-memory-dump/20210502140622.png" relocate="DebugGZ" caption="Release 版本，堆越界写入，最后报错。" %}
+
+{% include image.html url="/assets/images/210430-win-memory-dump/20210511121604.png" relocate="DebugGZ" caption="Debug 版本，vector 越界断言。" %}
+{% include image.html url="/assets/images/210430-win-memory-dump/20210511121624.png" relocate="DebugGZ" caption="Debug 版本，vector 越界断言，直接定位到代码行。" %}
 
 
 ## 错误分类
