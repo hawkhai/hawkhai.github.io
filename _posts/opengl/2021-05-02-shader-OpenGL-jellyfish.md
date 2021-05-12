@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "图形学笔记 -- OpenGL 毕业报告 / 3D 水母程序 jellyfish"
+title: "图形学笔记 -- OpenGL 毕业报告 / 3D 水母程序 Jellyfish"
 author:
 location: "珠海"
 categories: ["图形学"]
@@ -16,7 +16,7 @@ codeprint:
 ---
 
 不依赖任何 3D 引擎，全部采用原生 OpenGL API 实现。包含：1. 渲染，2. 骨骼动画，3. 物理模拟。程序下载：
-<a href="{% include relref.html url="/source/jellyfish.zip" %}" target="_blank">jellyfish.zip</a>
+<a href="{% include relref.html url="/source/jellyfish.zip" %}" target="_blank">Jellyfish.zip</a>
 
 
 ## 先上效果
