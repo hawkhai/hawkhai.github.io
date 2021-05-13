@@ -202,7 +202,7 @@ function checkTableStyle() {
 }
 
 function checkFlowChart() {
-    if (!getQueryValue("nochart")) {
+    if (!GetQueryValue("nochart")) {
         return;
     }
     // <code class="language-mermaid">
@@ -285,6 +285,7 @@ $(document).ready(function () {
     // $("img.lazyload").lazyload({effect: "fadeIn"});
     // $("img.lazyload").lazyload({threshold: 1000, effect: "show", failurelimit: 10});
     genSvgDownloadLink();
+    console.log("控制参数：nochart svgdl notoc !!");
 });
 // 窗口大小变化时
 $(window).resize(function () {
