@@ -235,6 +235,30 @@ function checkHrefTagk() {
     return;
 }
 
+// https://qastack.cn/programming/23218174/how-do-i-save-export-an-svg-file-after-creating-an-svg-with-d3-js-ie-safari-an
+function genSvgDownloadLink() { // for mermaid
+    $(".post svg").each(function() {
+        var $this = $(this);
+        if ($this.parent().children("a").length) {
+            return;
+        }
+
+        var svgData = $this[0].outerHTML;
+        var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
+        var svgUrl = URL.createObjectURL(svgBlob);
+
+        var svgId = $this.attr("id") + ".svg";
+
+        var dllink = document.createElement("a");
+        dllink.href = svgUrl;
+        dllink.download = svgId;
+        dllink.appendChild(document.createTextNode("dl"));
+
+        //$this.parent().children("a").remove();
+        $(dllink).insertAfter($this);
+    });
+}
+
 // 文档加载完成时
 $(document).ready(function () {
     checkVideo();
@@ -250,8 +274,13 @@ $(document).ready(function () {
     // https://github.com/jieyou/lazyload -- 这玩意有 bug，图片会下载两次。
     // $("img.lazyload").lazyload({effect: "fadeIn"});
     // $("img.lazyload").lazyload({threshold: 1000, effect: "show", failurelimit: 10});
+    genSvgDownloadLink();
 });
 // 窗口大小变化时
 $(window).resize(function () {
     checkVideo();
+    genSvgDownloadLink();
+});
+$(window).scroll(function() {
+    genSvgDownloadLink();
 });
