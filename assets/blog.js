@@ -247,7 +247,7 @@ function genSvgDownloadLink() { // for mermaid
     }
 
     var icounter = 0;
-    $(".post svg").each(function() {
+    $(".post div.mermaid svg").each(function() {
         icounter++;
         var $this = $(this);
         if ($this.parent().children("a").length) {
@@ -258,7 +258,10 @@ function genSvgDownloadLink() { // for mermaid
         svgData = svgData.replaceAll("<br>", "<br/>");
         var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
         var svgUrl = URL.createObjectURL(svgBlob);
-        var svgId = $this.attr("id") +"_"+icounter+ ".svg";
+        var svgId = "mermaid" + "_" + icounter + ".svg";
+
+        var idname = $this.parent().attr("idname"); // idname
+        if (idname) svgId = idname + "_" + icounter + ".svg";
 
         var dllink = document.createElement("a");
         dllink.href = svgUrl;
