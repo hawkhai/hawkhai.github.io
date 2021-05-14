@@ -246,7 +246,9 @@ function genSvgDownloadLink() { // for mermaid
         return;
     }
 
+    var icounter = 0;
     $(".post svg").each(function() {
+        icounter++;
         var $this = $(this);
         if ($this.parent().children("a").length) {
             return;
@@ -256,16 +258,17 @@ function genSvgDownloadLink() { // for mermaid
         svgData = svgData.replaceAll("<br>", "<br/>");
         var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
         var svgUrl = URL.createObjectURL(svgBlob);
-
-        var svgId = $this.attr("id") + ".svg";
+        var svgId = $this.attr("id") +"_"+icounter+ ".svg";
 
         var dllink = document.createElement("a");
         dllink.href = svgUrl;
         dllink.download = svgId;
-        dllink.appendChild(document.createTextNode("dl"));
+        //dllink.style = "float:right;";
+        dllink.appendChild(document.createTextNode(svgId));
 
         //$this.parent().children("a").remove();
         $(dllink).insertAfter($this);
+        $("<br/>").insertAfter($this);
     });
 }
 
