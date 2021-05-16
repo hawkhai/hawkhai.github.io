@@ -239,8 +239,6 @@ public:
 #include "mini3d.h"
 #include "window.h"
 
-Device device;
-
 #define DEVICE_WIDTH    800
 #define DEVICE_HEIGHT   600
 
@@ -253,6 +251,7 @@ int main(void)
     if (window.screen_init(DEVICE_WIDTH, DEVICE_HEIGHT, title))
         return -1;
 
+    Device device;
     device.device_init(DEVICE_WIDTH, DEVICE_HEIGHT, window.getScreenFrameBuffer());
     device.camera_at_zero(3, 0, 0);
 
