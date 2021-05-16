@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "调试 Memory -- Windows Windbg dump 内存崩溃泄漏问题"
+title: "调试 Memory -- Windows Windbg dump 内存访问错误"
 author:
 location: "珠海"
 categories: ["调试"]
@@ -75,91 +75,10 @@ cluster: "Windbg"
 * 不匹配地使用 malloc/new/new[] 和 free/delete/delete[]
 
 
-## 内核崩溃定位
-
-```
-!chksym xxx
-.reload
-!irql
-```
-
-{% include image.html url="/assets/images/210430-win-memory-dump/2342141.png" %}
-
-{% include image.html url="/assets/images/210430-win-memory-dump/kzzz1.png" caption="verifier" %}
-{% include image.html url="/assets/images/210430-win-memory-dump/kzzz2.png" %}
-
-
-## 句柄泄漏定位
-
-```
-!htrace -enable
-!htrace -diff
-!handle
-```
-
-{% include image.html url="/assets/images/210430-win-memory-dump/kzzz3.png" %}
-
-
-## 堆泄漏定位
-
-`gflags.exe /i xxx.exe +ust`，**开启用户层栈记录**：
-
-{% include image.html url="/assets/images/210430-win-memory-dump/a1.png" %}
-
-```
-KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\testcmd.exe
-GlobalFlag=0x00001000
-```
-
-`!heap -s` 列举当前栈信息：
-
-{% include image.html url="/assets/images/210430-win-memory-dump/a2.png" %}
-
-`!heap -s` 再列举一次做对比，看 Commit 变化的就是泄漏的：
-
-{% include image.html url="/assets/images/210430-win-memory-dump/a3.png" %}
-
-`!heap -stat -h` 堆地址，看堆增长占比：
-
-{% include image.html url="/assets/images/210430-win-memory-dump/a4.png" %}
-
-`!heap -flt s` 看指定大小的堆：
-
-{% include image.html url="/assets/images/210430-win-memory-dump/a5.png" %}
-
-`db` 看堆结构数据：
-
-{% include image.html url="/assets/images/210430-win-memory-dump/a6.png" %}
-
-`!heap -p -a` 看泄漏堆所处的线程栈：
-
-{% include image.html url="/assets/images/210430-win-memory-dump/a7.png" %}
-
-
-## 利用 umdh 快速定位堆泄漏
-
-UMDH 是 Windows debug tools 下的一款命令行工具，它的全名是 User-Mode Dump Heap 这个工具会分析当前进程再堆上分配的内存，并有两种模式：
-1. 进程分析模式，这个模式会对进程分配的每一块内存做记录，其中包含分配的内存大小，内存分配地址，内存分配时的函数调用堆栈等。
-2. 日子分析模式，该模式会比较几个不同的日志，找出内存增长的地方。
-
-```
-gflags.exe /i xxx.exe +ust，开启用户层栈记录
-泄漏前：umdh -pn:xxx.exe -f:C:\a.txt
-泄漏后：umdh -pn:xxx.exe -f:C:\b.txt
-分析增加栈：umdh -d C:\a.txt C:\b.txt >> C:\c.txt
-```
-
-{% include image.html url="/assets/images/210430-win-memory-dump/b1.png" %}
-
-
 ## Refs
 
 - [1] [Linux 定位多线程内存越界问题实践总结 {% include relref_cnblogs.html %}](https://www.cnblogs.com/djinmusic/archive/2013/02/04/2891753.html)
 - [2] [Linux Detect c/c++ memory overflow {% include relref_github.html %}](https://matrix207.github.io/2016/01/03/detect-cc-memory-overflow/)
-
-- 20200319 [经验分享：taoge & lwj - Windbg 应用与案例分析](http://blog.rdev.kingsoft.net/?p=3359)
-  - Windbg 调试技巧 - taoge
-  - Windbg 调试与案例分析 - lwj
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-04-30-win-memory-dump.md.js" %}'></script></p>
