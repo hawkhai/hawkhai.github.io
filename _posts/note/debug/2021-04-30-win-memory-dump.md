@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "调试 Memory -- Windows Windbg dump 内存访问错误"
+title: "调试 Memory -- Windows Windbg dump 内存崩溃泄漏问题"
 author:
 location: "珠海"
 categories: ["调试"]
@@ -30,7 +30,7 @@ cluster: "Windbg"
 2. 尽量 MD/MT 采用 MT，这样每个模块可以单独升级编译器（比如 vs2005 升级到 vs2019），否则存在多个模块关联，要同时升级，增加了难度。
 3. 多线程堆问题是最麻烦的，崩溃的时候第一案发现场已经过了，取到的 dump 并不包含问题代码位置。
     * 第一步是问题重现。只要是可以稳定重现的 bug 都是很好解决的。
-    * 工程开发尽量保证 Debug 模式（这里体现了 CMake 的优越性），大部分堆内存问题都会直接报错，“屯屯屯屯屯”。
+    * 工程开发尽量保证 Debug 模式（这里体现了 CMake 的优越性），大部分堆内存问题都会直接报错，“屯屯屯屯屯”，“烫烫烫烫烫”。
         * VisualStudio Debug 版本 /GZ 可以帮助捕获内存错误。<span imgid="DebugGZ" />
         * Debug 版本加入断言，检查非法的函数参数，未定义行为的意外使用，其他程序员的错误的假设以及不可能发生的情况仍然不知何故出现了所造成的 bugs。
     * 开启完全页堆，**gflags.exe**，争取重现问题。当一个程序的内存大于 1G，这个方法也不行了，一开启，问题代码还没跑到，程序就内存不足崩溃了。
@@ -41,6 +41,9 @@ cluster: "Windbg"
 {% include image.html url="/assets/images/210430-win-memory-dump/20210502140538.png" relocate="DebugGZ" caption="Debug 版本，使用了未初始化指针，报错，Release 版本不报错。" %}
 {% include image.html url="/assets/images/210430-win-memory-dump/20210502140610.png" relocate="DebugGZ" caption="Debug 版本，堆越界写入，回收的时候直接报错。" %}
 {% include image.html url="/assets/images/210430-win-memory-dump/20210502140622.png" relocate="DebugGZ" caption="Release 版本，堆越界写入，最后报错。" %}
+
+{% include image.html url="/assets/images/210430-win-memory-dump/20210511121604.png" relocate="DebugGZ" caption="Debug 版本，vector 越界断言。" %}
+{% include image.html url="/assets/images/210430-win-memory-dump/20210511121624.png" relocate="DebugGZ" caption="Debug 版本，vector 越界断言，直接定位到代码行。" %}
 
 
 ## 错误分类
@@ -72,10 +75,91 @@ cluster: "Windbg"
 * 不匹配地使用 malloc/new/new[] 和 free/delete/delete[]
 
 
+## 内核崩溃定位
+
+```
+!chksym xxx
+.reload
+!irql
+```
+
+{% include image.html url="/assets/images/210430-win-memory-dump/2342141.png" %}
+
+{% include image.html url="/assets/images/210430-win-memory-dump/kzzz1.png" caption="verifier" %}
+{% include image.html url="/assets/images/210430-win-memory-dump/kzzz2.png" %}
+
+
+## 句柄泄漏定位
+
+```
+!htrace -enable
+!htrace -diff
+!handle
+```
+
+{% include image.html url="/assets/images/210430-win-memory-dump/kzzz3.png" %}
+
+
+## 堆泄漏定位
+
+`gflags.exe /i xxx.exe +ust`，**开启用户层栈记录**：
+
+{% include image.html url="/assets/images/210430-win-memory-dump/a1.png" %}
+
+```
+KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\testcmd.exe
+GlobalFlag=0x00001000
+```
+
+`!heap -s` 列举当前栈信息：
+
+{% include image.html url="/assets/images/210430-win-memory-dump/a2.png" %}
+
+`!heap -s` 再列举一次做对比，看 Commit 变化的就是泄漏的：
+
+{% include image.html url="/assets/images/210430-win-memory-dump/a3.png" %}
+
+`!heap -stat -h` 堆地址，看堆增长占比：
+
+{% include image.html url="/assets/images/210430-win-memory-dump/a4.png" %}
+
+`!heap -flt s` 看指定大小的堆：
+
+{% include image.html url="/assets/images/210430-win-memory-dump/a5.png" %}
+
+`db` 看堆结构数据：
+
+{% include image.html url="/assets/images/210430-win-memory-dump/a6.png" %}
+
+`!heap -p -a` 看泄漏堆所处的线程栈：
+
+{% include image.html url="/assets/images/210430-win-memory-dump/a7.png" %}
+
+
+## 利用 umdh 快速定位堆泄漏
+
+UMDH 是 Windows debug tools 下的一款命令行工具，它的全名是 User-Mode Dump Heap 这个工具会分析当前进程再堆上分配的内存，并有两种模式：
+1. 进程分析模式，这个模式会对进程分配的每一块内存做记录，其中包含分配的内存大小，内存分配地址，内存分配时的函数调用堆栈等。
+2. 日子分析模式，该模式会比较几个不同的日志，找出内存增长的地方。
+
+```
+gflags.exe /i xxx.exe +ust，开启用户层栈记录
+泄漏前：umdh -pn:xxx.exe -f:C:\a.txt
+泄漏后：umdh -pn:xxx.exe -f:C:\b.txt
+分析增加栈：umdh -d C:\a.txt C:\b.txt >> C:\c.txt
+```
+
+{% include image.html url="/assets/images/210430-win-memory-dump/b1.png" %}
+
+
 ## Refs
 
 - [1] [Linux 定位多线程内存越界问题实践总结 {% include relref_cnblogs.html %}](https://www.cnblogs.com/djinmusic/archive/2013/02/04/2891753.html)
 - [2] [Linux Detect c/c++ memory overflow {% include relref_github.html %}](https://matrix207.github.io/2016/01/03/detect-cc-memory-overflow/)
+
+- 20200319 [经验分享：taoge & lwj - Windbg 应用与案例分析](http://blog.rdev.kingsoft.net/?p=3359)
+  - Windbg 调试技巧 - taoge
+  - Windbg 调试与案例分析 - lwj
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-04-30-win-memory-dump.md.js" %}'></script></p>

@@ -35,6 +35,8 @@ codeprint:
 * [GAMES202: 高质量实时渲染](https://sites.cs.ucsb.edu/~lingqi/teaching/games202.html)
 * [GAMES101-现代计算机图形学入门-闫令琪 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1X7411F744)
 
+* [Wyman 的原创技术博客](https://www.qiujiawei.com/)
+
 
 ### 萤火之森 http://frankorz.com/
 
@@ -57,6 +59,7 @@ codeprint:
 - [https://sites.cs.ucsb.edu/~lingqi/teaching/games101.html]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/sites.cs.ucsb.edu/066e265f.html" %})
 - [https://sites.cs.ucsb.edu/~lingqi/teaching/games202.html]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/sites.cs.ucsb.edu/c77d447b.html" %})
 - [https://www.bilibili.com/video/BV1X7411F744]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/www.bilibili.com/99e29ea3.html" %})
+- [https://www.qiujiawei.com/]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/www.qiujiawei.com/28400ad9.html" %})
 - [http://frankorz.com/]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/frankorz.com/c46de77d.html" %})
 - [https://www.notion.so/ce300124a4444c2cacc90a5ea0a5a19b]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/www.notion.so/1349fe0c.html" %})
 - [https://www.notion.so/2cbfd6f8e62f40b5abb0b236b045d6b4]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/www.notion.so/b271a93a.html" %})

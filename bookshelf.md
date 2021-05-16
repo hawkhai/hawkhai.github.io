@@ -34,5 +34,21 @@ Current: **颈椎病康复指南**
   * 《国家的视角》詹姆斯·斯科特
   * 《水俣病》蒂莫西·乔治
 
+* 电影
+  * [《紫色平原》](http://www.le.com/ptv/vplay/1080478.html)
+    战斗机坠毁敌占区，飞行员（Gregory Peck）是选择徒步返回基地（自救），还是就地等待救援（他救）....
+    小时候看到的电影，一壶水，一个选择，决定生死。<span imgid="ThePurplePlain" />
+    * 我认为我们应该面对现实。
+    * 我不反对面对现实，这看起来更符合实际。我们的人知道我们进行了迫降。
+        即使他们没有办法救援我们，他们也一定知道我们的大概位置。
+    * 如果你想靠好的运气，那我们就只有死掉了。他们找一个月也找不到这个地方。
+        水能维持多长时间？肯定维持不了一个月。没有食物，我们在四天内走出去。
+        **现在我们坐在这里一边喝水一边等，或者是一边喝水一边走，你认为哪个更合理？**
+
+{% include image.html url="/assets/images/bookshelf/20210515170417.png" relocate="ThePurplePlain" %}
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/bookshelf.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [http://www.le.com/ptv/vplay/1080478.html]({% include relrefx.html url="/backup/bookshelf.md/www.le.com/a60cdab2.html" %})
