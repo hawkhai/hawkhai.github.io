@@ -428,6 +428,43 @@ private:
 现在我们的实现已经可以做到防止一个对象多次调用 attach() 和 detach() 了。然而，还有一个问题是，我们不能保证对象一定会调用 attach() 函数进行注册。毕竟，这不是 C++ 内置机制。有一个解决方案是，重定义 new 运算符（这一实现同样很复杂，不过可以避免出现有对象不调用 attach() 注册的情况）。
 
 
+## 其它
+
+猥琐调用：
+
+```cpp
+// 耗时操作
+someWork1()
+// 适当的位置，插入一个 processEvents，保证事件循环被处理
+QCoreApplication::processEvents();
+// 耗时操作
+someWork2()
+```
+
+
+### deleteLater + QEventLoop
+
+deleteLater + QEventLoop 会造成 deleteLater 的立即被执行，容易出现野指针。
+
+```cpp
+bool login(const QString &userName, const QString &passwdHash, const QString &slat)
+{
+    QEventLoop loop;
+    bool result = false;
+
+    connect(&network, &Network::result, [&](bool r, const QString &info){
+        result = r;
+        qDebug() << info;
+        loop.quit();
+    });
+
+    sendLoginRequest(userName, passwdHash, slat);
+    loop.exec();
+    return result;
+}
+```
+
+
 ## 总结
 
 Qt 简化了我们对内存的管理，但是，由于它会在不太注意的地方调用 delete，所以，使用时还是要当心。
