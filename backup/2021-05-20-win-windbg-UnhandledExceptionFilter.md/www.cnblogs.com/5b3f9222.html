@@ -1,0 +1,1335 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content=".exr (Display Exception Record) .exr命令显示异常记录的内容。 .exr Address .exr -1 参数： Address指定异常记录的地址。如果指定-1作为地" />
+    <meta property="og:description" content=".exr (Display Exception Record) .exr命令显示异常记录的内容。 .exr Address .exr -1 参数： Address指定异常记录的地址。如果指定-1作为地" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>WinDbg常用命令系列---异常相关操作 - 活着的虫子 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=Y1yBNCRf3ODEjYGJn208vPUnnX-rIyYVsZ75AvRbzGM" />
+    <link id="MainCss" rel="stylesheet" href="/skins/rivercast/bundle-rivercast.min.css?v=-j94MdQCHtnuzbxQq6PzSKaSe3OLbHzkB_Z_41bcjks" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/rivercast/bundle-rivercast-mobile.min.css?v=iPf_XHQsJ-ofZZ2RiaeMCHG0JEaMNLa9yhkUGK3xTSQ" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/yilang/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/yilang/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/yilang/wlwmanifest.xml" />
+    <script src="https://www.googletagservices.com/activeview/js/current/osd.js"></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 386211;
+        var currentBlogApp = 'yilang';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'rivercast';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2019-09-17 02:59';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style>
+    
+    
+    
+<meta http-equiv="origin-trial" content="A+b/H0b8RPXNaJgaNFpO0YOFuGK6myDQXlwnJB3SwzvNMfcndat4DZYMrP4ClJIzYWo3/yP2S+8FTZ/lpqbPAAEAAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzVGhpcmRQYXJ0eSI6dHJ1ZX0=" /><meta http-equiv="origin-trial" content="A9ZgbRtm4pU3oZiuNzOsKcC8ppFSZdcjP2qYcdQrFKVzkmiWH1kdYY1Mi9x7G8+PS8HV9Ha9Cz0gaMdKsiVZIgMAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AxL6oBxcpn5rQDPKSAs+d0oxNyJYq2/4esBUh3Yx5z8QfcLu+AU8iFCXYRcr/CEEfDnkxxLTsvXPJFQBxHfvkgMAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A9KPtG5kl3oLTk21xqynDPGQ5t18bSOpwt0w6kGa6dEWbuwjpffmdUpR3W+faZDubGT+KIk2do0BX2ca16x8qAcAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A3HucHUo1oW9s+9kIKz8mLkbcmdaj5lxt3eiIMp1Nh49dkkBlg1Fhg4Fd/r0vL69mRRA36YutI9P/lJUfL8csQoAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A0OysezhLoCRYomumeYlubLurZTCmsjTb087OvtCy95jNM65cfEsbajrJnhaGwiTxhz38ZZbm+UhUwQuXfVPTg0AAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="AxoOxdZQmIoA1WeAPDixRAeWDdgs7ZtVFfH2y19ziTgD1iaHE5ZGz2UdSjubkWvob9C5PrjUfkWi4ZSLgWk3Xg8AAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A7+rMYR5onPnACrz+niKSeFdH3xw1IyHo2AZSHmxrofRk9w4HcQPMYcpBUKu6OQ6zsdxf4m/vqa6tG6Na4OLpAQAAAB4eyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AwfG8hAcHnPa/kJ1Co0EvG/K0F9l1s2JZGiDLt2mhC3QI5Fh4qmsmSwrWObZFbRC9ieDaSLU6lHRxhGUF/i9sgoAAACBeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiSW50ZXJlc3RDb2hvcnRBUEkiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AwQ7dCmHkvR6FuOFxAuNnktYSQrGbL4dF+eBkrwNLALc69Wr//PnO1yzns3pjUoCaYbKHtVcnng2hU+8OUm0PAYAAACHeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiSW50ZXJlc3RDb2hvcnRBUEkiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AysVDPGQTLD/Scn78x4mLwB1tMfje5jwUpAAzGRpWsr1NzoN7MTFhT3ClmImi2svDZA7V6nWGIV8YTPsSRTe0wYAAACHeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiSW50ZXJlc3RDb2hvcnRBUEkiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021051301.js" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script></head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="centerbody" align="center">
+<div id="header">
+	
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/yilang/">活着的虫子</a>
+<br />
+		为虫子生，为虫子死，为虫子奋斗一辈子
+	</div>
+</div>
+
+
+</div>
+<div id="main">
+<div id="mytopmenu">
+	
+	<div id="mylinks">
+
+<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+   
+
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/yilang/">
+首页</a>
+   
+
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+   
+
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%B4%BB%E7%9D%80%E7%9A%84%E8%99%AB%E5%AD%90">
+联系</a>   
+
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/yilang/rss/">
+订阅</a>
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/yilang/rss/">
+    <img src="/skins/rivercast/images/xml.gif" alt="订阅" />
+</a>   
+
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+
+
+</div>
+		<div id="mystats">
+			<div class="blogStats">
+    随笔 - 681, 
+    文章 - 0, 
+    评论 - 63, 
+    阅读 - 
+<span title="总阅读数: 469313">
+46万</span> 
+</div>
+
+</div>
+	
+</div>
+<div id="centercontent">
+	<div id="post_detail">
+<!--done-->
+<div class="post">
+	<div class="postTitle">
+		
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yilang/p/11531740.html">
+    <span>WinDbg常用命令系列---异常相关操作</span>
+    
+
+
+
+</a>
+
+	</div>
+	<div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<h3>.exr (Display Exception Record)</h3>
+<div class="input-operate"><span>.exr命令显示异常记录的内容。 </span></div>
+<div class="input-operate">
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_123474" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">.exr Address </code></div><div class="line number2 index1 alt1"><code class="cpp plain">.exr -1</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>参数：</p>
+<ul>
+<li>Address<br />指定异常记录的地址。如果指定-1作为地址，调试器将显示最新的异常。</li>
+
+
+
+</ul>
+<div class="input-wrap" style="height: auto" dir="ltr"><span>环境：</span></div>
+<div class="input-wrap" style="height: auto" dir="ltr">
+<div class="table-wrapper"><table>
+<tbody>
+<tr class="odd">
+<td align="left">
+<p><span data-ttu-id="2ee7f-113"><strong>模式</strong></span></p>
+
+
+</td>
+<td align="left">
+<p><span data-ttu-id="2ee7f-114">用户模式下，内核模式</span></p>
+
+
+</td>
+
+
+</tr>
+<tr class="even">
+<td align="left">
+<p><span data-ttu-id="2ee7f-115"><strong>目标</strong></span></p>
+
+
+</td>
+<td align="left">
+<p><span data-ttu-id="2ee7f-116">实时、 崩溃转储</span></p>
+
+
+</td>
+
+
+</tr>
+<tr class="odd">
+<td align="left">
+<p><span data-ttu-id="2ee7f-117"><strong>平台</strong></span></p>
+
+
+</td>
+<td align="left">
+<p><span data-ttu-id="2ee7f-118">全部</span></p>
+
+
+</td>
+
+
+</tr>
+
+
+</tbody>
+
+
+</table></div>
+
+
+</div>
+<div class="input-wrap" style="height: auto" dir="ltr"><span>.exr命令显示与调试器在目标计算机上遇到的异常相关的信息。<span>显示的信息包括异常地址、异常代码、异常标志和异常参数的变量列表。 通常可以通过使用!pcr扩展命令获取地址。</span></span></div>
+<div class="input-wrap" style="height: auto" dir="ltr"><span><span>下面的例子是在dmp文件里的演示</span></span></div>
+<div class="input-wrap" style="height: auto" dir="ltr"><span><span>这个是一个具体异常记录地址</span></span></div>
+<div class="input-wrap" style="height: auto" dir="ltr">
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_803343" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">0:000&gt; .exr 010fd1c8</code></div><div class="line number2 index1 alt1"><code class="cpp plain">ExceptionAddress: 694c4b4c (nvoglv32!DrvPresentBuffers+0x000c19fc)</code></div><div class="line number3 index2 alt2"><code class="cpp spaces">   </code><code class="cpp plain">ExceptionCode: c0000005 (Access violation)</code></div><div class="line number4 index3 alt1"><code class="cpp spaces">  </code><code class="cpp plain">ExceptionFlags: 00000000</code></div><div class="line number5 index4 alt2"><code class="cpp plain">NumberParameters: 2</code></div><div class="line number6 index5 alt1"><code class="cpp spaces">   </code><code class="cpp plain">Parameter[0]: 00000000</code></div><div class="line number7 index6 alt2"><code class="cpp spaces">   </code><code class="cpp plain">Parameter[1]: 4592e000</code></div><div class="line number8 index7 alt1"><code class="cpp plain">Attempt to read from address 4592e000</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p> 这个地址用-1的结果</p>
+</div>
+<div class="input-wrap" style="height: auto" dir="ltr">
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_519883" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">0:000&gt; .exr -1</code></div><div class="line number2 index1 alt1"><code class="cpp plain">*** ERROR: Symbol file could not be found.  Defaulted to export symbols </code><code class="cpp keyword bold">for</code> <code class="cpp plain">nvoglv32.dll - </code></div><div class="line number3 index2 alt2"><code class="cpp plain">ExceptionAddress: 694c4b4c (nvoglv32!DrvPresentBuffers+0x000c19fc)</code></div><div class="line number4 index3 alt1"><code class="cpp spaces">   </code><code class="cpp plain">ExceptionCode: c0000005 (Access violation)</code></div><div class="line number5 index4 alt2"><code class="cpp spaces">  </code><code class="cpp plain">ExceptionFlags: 00000000</code></div><div class="line number6 index5 alt1"><code class="cpp plain">NumberParameters: 2</code></div><div class="line number7 index6 alt2"><code class="cpp spaces">   </code><code class="cpp plain">Parameter[0]: 00000000</code></div><div class="line number8 index7 alt1"><code class="cpp spaces">   </code><code class="cpp plain">Parameter[1]: 4592e000</code></div><div class="line number9 index8 alt2"><code class="cpp plain">Attempt to read from address 4592e000</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<h3>.cxr (Display Context Record)</h3>
+<div class="input-operate"><span>.cxr命令显示保存在指定地址的上下文记录。<span>它还设置寄存器上下文。 </span></span></div>
+<div class="input-operate">
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_625945" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">.cxr [Options] [Address] </code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>参数：</p>
+<ul>
+<li><em>Options<br />可以是以下选项的任意组合：<br /><strong>/f </strong><em>Size</em>---强制上下文大小等于<em><em>Size</em></em>的值（字节）。当上下文与实际目标不匹配时（例如，在WOW64调试期间在64位目标上使用x86上下文时），这将非常有用。如果指定的大小无效或不一致，将显示错误“无法将上下文转换为规范格式”。<br /><strong>/w</strong>---将当前上下文写入内存，并显示其写入位置的地址。<br /></em></li>
+<li><em><em>Address<br />系统上下文记录的地址。省略地址不会显示任何上下文记录信息，但会重置寄存器上下文。<br /></em></em></li>
+
+
+</ul>
+
+
+</div>
+<div class="input-operate"> 环境：</div>
+<div class="input-operate">
+<div class="table-wrapper"><table>
+<tbody>
+<tr class="odd">
+<td align="left">
+<p><span data-ttu-id="11710-123"><strong>模式</strong></span></p>
+
+</td>
+<td align="left">
+<p><span data-ttu-id="11710-124">用户模式下，内核模式</span></p>
+
+</td>
+
+</tr>
+<tr class="even">
+<td align="left">
+<p><span data-ttu-id="11710-125"><strong>目标</strong></span></p>
+
+</td>
+<td align="left">
+<p><span data-ttu-id="11710-126">实时、 崩溃转储</span></p>
+
+</td>
+
+</tr>
+<tr class="odd">
+<td align="left">
+<p><span data-ttu-id="11710-127"><strong>平台</strong></span></p>
+
+</td>
+<td align="left">
+<p><span data-ttu-id="11710-128">全部</span></p>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table></div>
+
+</div>
+<div class="input-operate"> </div>
+<div class="input-operate">上下文记录中的信息可用于帮助调试发生未处理异常且无法使用精确堆栈跟踪的问题。.cxr命令显示指定上下文记录的重要寄存器。此命令还指示调试器将指定的上下文记录用作寄存器上下文。执行此命令后，调试器将访问此线程最重要的寄存器和堆栈跟踪。在允许目标再次执行或使用另一个寄存器上下文命令（.thread、.ecxr、.trap或.cxr）之前，此寄存器上下文将一直保持。在用户模式下，.cxr/w命令将上下文写入内存，并显示存储上下文的地址。<span>可以将此地址传递给。</span></div>
+<div class="input-operate">
+<p class="ordinary-output target-output clearfix">下面是一个例子<span><br /></span></p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_156150" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">0:000&gt; .cxr 010fd218</code></div><div class="line number2 index1 alt1"><code class="cpp plain">eax=464eea00 ebx=0c093020 ecx=000022a0 edx=0000008b esi=4592dff0 edi=0be60000</code></div><div class="line number3 index2 alt2"><code class="cpp plain">eip=694c4b4c esp=010fd6f8 ebp=010fd6fc iopl=0         nv up ei pl nz na pe nc</code></div><div class="line number4 index3 alt1"><code class="cpp plain">cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010206</code></div><div class="line number5 index4 alt2"><code class="cpp plain">nvoglv32!DrvPresentBuffers+0xc19fc:</code></div><div class="line number6 index5 alt1"><code class="cpp plain">694c4b4c 0f105e10        movups  xmm3,xmmword ptr [esi+10h] ds:002b:4592e000=????????????????????????????????</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<h3>.ecxr /.excr(Display Exception Context Record)</h3>
+<div class="input-wrap" style="height: auto" dir="ltr"><span>.ecxr命令显示与当前异常关联的上下文记录。 </span></div>
+<div class="input-wrap" style="height: auto" dir="ltr">
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_577072" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">.ecxr</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>环境：</p>
+<div class="table-wrapper"><table>
+<tbody>
+<tr class="odd">
+<td align="left">
+<p><span data-ttu-id="25b8d-109"><strong>模式</strong></span></p>
+</td>
+<td align="left">
+<p><span data-ttu-id="25b8d-110">仅限用户模式</span></p>
+</td>
+</tr>
+<tr class="even">
+<td align="left">
+<p><span data-ttu-id="25b8d-111"><strong>目标</strong></span></p>
+</td>
+<td align="left">
+<p><span data-ttu-id="25b8d-112">仅用于故障转储 （仅适用于小型转储）</span></p>
+</td>
+</tr>
+<tr class="odd">
+<td align="left">
+<p><span data-ttu-id="25b8d-113"><strong>平台</strong></span></p>
+</td>
+<td align="left">
+<p><span data-ttu-id="25b8d-114">全部</span></p>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="input-operate"> 
+<div class="input-operate"><span><span>.ecxr命令定位当前异常的上下文信息，并显示指定上下文记录的重要寄存器。</span></span><span><span>此命令还指示调试器将与当前异常关联的上下文记录用作寄存器上下文。<span>运行.ecxr之后，调试器可以访问此线程最重要的寄存器和堆栈跟踪。<span>在启用目标执行、更改当前进程或线程或使用另一个寄存器上下文命令（.cxr或.ecxr）之前，此寄存器上下文将一直保持。</span></span></span></span></div>
+</div>
+</div>
+</div>
+</div>
+<div id="MySignature" style="display: block;">为虫子生，为虫子死，为虫子奋斗一辈子</div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/yilang/category/1468961.html" target="_blank">调试</a></div>
+<div id="EntryTag">
+    标签: 
+            <a href="https://www.cnblogs.com/yilang/tag/%E8%B0%83%E8%AF%95---%E5%B7%A5%E5%85%B7%26amp%3BWindbg/">调试---工具&amp;Windbg</a></div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(11531740,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('706eac6e-a32b-467f-04dc-08d4ef52ecb6');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/yilang/" target="_blank"><img src="https://pic.cnblogs.com/face/sample_face.gif" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/yilang/">活着的虫子</a><br />
+            <a href="https://home.cnblogs.com/u/yilang/followees/">关注 - 0</a><br />
+            <a href="https://home.cnblogs.com/u/yilang/followers/">粉丝 - 66</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('706eac6e-a32b-467f-04dc-08d4ef52ecb6');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(11531740,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(11531740,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/yilang/p/11512605.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/yilang/p/11512605.html" title="发布于 2019-09-12 16:31">记程序失去响应随后闪退的问题</a>
+    <br />
+    <a href="https://www.cnblogs.com/yilang/p/11541592.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/yilang/p/11541592.html" title="发布于 2019-09-18 16:43">C++ EH Exception（0xe06d7363）----抛出过程</a>
+
+</div>
+</div>
+	<div class="postDesc">posted on 
+<span id="post-date">2019-09-17 14:59</span> 
+<a href="https://www.cnblogs.com/yilang/">活着的虫子</a> 
+阅读(<span id="post_view_count">1167</span>) 
+评论(<span id="post_comment_count">0</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11531740" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(11531740);return false;">收藏</a></div>
+</div>
+
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 386211, cb_blogApp = 'yilang', cb_blogUserGuid = '706eac6e-a32b-467f-04dc-08d4ef52ecb6';
+    var cb_entryId = 11531740, cb_entryCreatedDate = '2019-09-17 14:59', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login('!comments');">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="https://developer.aliyun.com/learning/trainingcamp/lindorm/1?utm_content=g_1000268661&amp;userCode=swh7dvlt" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云-HBase')">【推荐】深入浅出HBase+Lindrom，大数据应用实战，物联网数据解密</a><br /><a href="http://www.uccpsoft.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-ucancode')">【推荐】大型组态、工控、仿真、CAD\GIS 50万行VC++源码免费下载!</a><br /><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为专区')">【推荐】100个HarmonyOS 2.0开发者Beta公测名额，限时认领！</a><br /><a href="https://www.aliyun.com/activity/daily/bestoffer?userCode=swh7dvlt" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云-cps')">【推荐】阿里云爆品销量榜单出炉，精选爆款产品低至0.55折</a><br /><a href="http://www.moojnn.com/?source=bokeyuan" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-魔镜')">【推荐】限时秒杀！国云大数据魔镜，企业级云分析平台</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CIaez7Or1_ACFYSMvQodrqgCTg"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card"><b>园子动态</b>：<br />· <a href="https://www.cnblogs.com/cmt/p/14585828.html" target="_blank">致园友们的一封检讨书：都是我们的错</a><br />· <a href="https://www.cnblogs.com/cmt/p/14595262.html" target="_blank">数据库实例 CPU 100% 引发全站故障</a><br />· <a href="https://www.cnblogs.com/cmt/p/14217355.html" target="_blank">发起一个开源项目：博客引擎 fluss</a><br /></div></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;" data-google-query-id="CIeez7Or1_ACFYSMvQodrqgCTg"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" data-google-container-id="2" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>最新新闻</b>：
+    <br />
+ ·          <a href="//news.cnblogs.com/n/694235/" target="_blank">华为 FreeBuds 4 无线耳机体验：「空气感」的舒适体验，还带降噪？</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/694231/" target="_blank">新 iMac 体验丨乔布斯：换色。库克：收到。</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/694255/" target="_blank">中国天眼取得重要进展！FAST新发现201颗脉冲星</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/694254/" target="_blank">EA另组新单位筹备开放式大作</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/694253/" target="_blank">520告白文案火了：30首绝美爱情诗词 看古人如何表白</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+</div>
+
+
+	<!--done-->
+<div class="footer">
+    Copyright ©  2021 活着的虫子
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+ Powered By: <a href="http://www.cnblogs.com">博客园</a>
+</div>
+
+
+</div>
+
+<div id="leftcontent">
+	
+		<div id="leftcontentcontainer">
+			<div id="calendar"><div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2021/04/20'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2021年5月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2021/06/20'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">25</td>
+                            <td class="CalOtherMonthDay" align="center">26</td>
+                            <td class="CalOtherMonthDay" align="center">27</td>
+                            <td class="CalOtherMonthDay" align="center">28</td>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                    <td class="CalWeekendDay" align="center">
+                        1
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            2
+                        </td>
+                            <td class="" align="center">
+                                3
+                            </td>
+                            <td class="" align="center">
+                                4
+                            </td>
+                            <td class="" align="center">
+                                5
+                            </td>
+                            <td class="" align="center">
+                                6
+                            </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            8
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            9
+                        </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            15
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            16
+                        </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                            <td class="CalTodayDay" align="center">
+                                20
+                            </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            22
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            23
+                        </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            29
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            30
+                        </td>
+                            <td class="" align="center">
+                                31
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            5
+                        </td>
+                </tr>
+    </tbody>
+</table></div></div>                
+                    <script>loadBlogDefaultCalendar();</script><br />
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<div class="newsItem">
+	
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/yilang/">
+            活着的虫子
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/yilang/" title="入园时间：2017-10-02">
+            3年7个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/yilang/followers/">
+            66
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/yilang/followees/">
+            0
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('706eac6e-a32b-467f-04dc-08d4ef52ecb6')">+加关注</a></div>
+        <script>getFollowStatus('706eac6e-a32b-467f-04dc-08d4ef52ecb6');</script>
+    </div>
+</div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block">
+<h3>我的标签</h3>
+<div id="MyTag">
+    <ul>
+                <li>
+            <a href="https://www.cnblogs.com/yilang/tag/%E8%B0%83%E8%AF%95---%E5%B7%A5%E5%85%B7%26amp%3BWindbg/">调试---工具&amp;Windbg<span class="tag-count">(165)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/yilang/tag/%E8%B0%83%E8%AF%95---Windows%E9%94%99%E8%AF%AF%26amp%3B%E5%BC%82%E5%B8%B8%E7%9F%A5%E8%AF%86/">调试---Windows错误&amp;异常知识<span class="tag-count">(164)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/yilang/tag/%E8%B0%83%E8%AF%95---%E5%B7%A5%E5%85%B7%26MSVC/">调试---工具&amp;MSVC<span class="tag-count">(72)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/yilang/tag/%E8%B0%83%E8%AF%95---%E6%A1%88%E4%BE%8B/">调试---案例<span class="tag-count">(54)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/yilang/tag/%E8%B0%83%E8%AF%95---%E5%85%B6%E4%BB%96/">调试---其他<span class="tag-count">(47)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/yilang/tag/%E8%B0%83%E8%AF%95---%E7%AC%A6%E5%8F%B7%E6%96%87%E4%BB%B6/">调试---符号文件<span class="tag-count">(27)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/yilang/tag/%E8%B0%83%E8%AF%95---%E6%80%9D%E6%83%B3%26%E6%96%B9%E6%B3%95%E5%AD%A6/">调试---思想&amp;方法学<span class="tag-count">(25)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/yilang/tag/%E8%B0%83%E8%AF%95---DUMP%E6%96%87%E4%BB%B6/">调试---DUMP文件<span class="tag-count">(22)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/yilang/tag/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86---CPU/">计算机基础知识---CPU<span class="tag-count">(15)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/yilang/tag/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86---%E6%95%B0%E6%8D%AE%26amp%3B%E5%AD%98%E5%82%A8%28%E6%95%B0%E6%8D%AE%29/">计算机基础知识---数据&amp;存储(数据)<span class="tag-count">(8)</span></a>
+        </li>
+    <li>
+        <a href="https://www.cnblogs.com/yilang/tag/">更多</a>
+    </li>
+
+    </ul>
+</div>
+</div>
+
+<!-- 积分与排名 -->
+<div id="sidebar_scorerank" class="sidebar-block"><h3>积分与排名</h3>
+<ul>
+    <li>
+        积分 - 
+382846
+    </li>
+    <li>
+        排名 - 
+1321
+    </li>
+</ul></div>
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <h1 class="catListTitle">
+        
+随笔分类
+<span style="font-size:11px;font-weight:normal">(681)</span>
+
+
+    </h1>
+    <ul class="catList">
+            <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/category/1468954.html" rel="" target="">
+    编码(7)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/category/1468961.html" rel="" target="">
+    调试(586)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/category/1476596.html" rel="" target="">
+    计算机基础知识(44)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/category/1468955.html" rel="" target="">
+    软件工程(34)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/category/1468968.html" rel="" target="">
+    项目管理(10)
+</a>
+
+
+            </li>                
+    </ul>
+    <h1 class="catListTitle">
+        
+随笔档案
+<span style="font-size:11px;font-weight:normal">(681)</span>
+
+
+    </h1>
+    <ul class="catList">
+            <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2020/12.html" rel="" target="">
+    2020年12月(22)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2020/11.html" rel="" target="">
+    2020年11月(21)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2020/10.html" rel="" target="">
+    2020年10月(20)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2020/09.html" rel="" target="">
+    2020年9月(22)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2020/08.html" rel="" target="">
+    2020年8月(21)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2020/07.html" rel="" target="">
+    2020年7月(23)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2020/06.html" rel="" target="">
+    2020年6月(22)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2020/05.html" rel="" target="">
+    2020年5月(24)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2020/04.html" rel="" target="">
+    2020年4月(21)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2020/03.html" rel="" target="">
+    2020年3月(67)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2020/02.html" rel="" target="">
+    2020年2月(42)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2020/01.html" rel="" target="">
+    2020年1月(40)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2019/12.html" rel="" target="">
+    2019年12月(112)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2019/11.html" rel="" target="">
+    2019年11月(89)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2019/10.html" rel="" target="">
+    2019年10月(2)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2019/09.html" rel="" target="">
+    2019年9月(34)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2019/08.html" rel="" target="">
+    2019年8月(35)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2019/07.html" rel="" target="">
+    2019年7月(31)
+</a>
+
+
+            </li>                    <li class="catListItem" data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/yilang/archive/2019/06.html" rel="" target="">
+    2019年6月(33)
+</a>
+
+
+            </li>                
+    </ul>
+</div>
+
+<!-- 最新评论 -->
+
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block">
+<div id="topview_posts_wrap">
+    <h3 class="catListTitle">阅读排行榜</h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12059064.html">
+                            1. 关于System.InvalidOperationException异常(15025)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/10989349.html">
+                            2. CPU重要性能参数(13255)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11937947.html">
+                            3. 中断点异常 STATUS_BREAKPOINT(0x80000003)(13086)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11277201.html">
+                            4. 浮点数的运算步骤(12158)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11050115.html">
+                            5. 二进制、八进制、十进制、十六进制的互相转换(9959)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11864537.html">
+                            6. 关于异常System.ArgumentException(8158)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12585810.html">
+                            7. 调试System.IO.FileNotFoundException-原因和修复(8056)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11106495.html">
+                            8. 抓取Dump文件的方法和工具介绍(7701)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11078992.html">
+                            9. 计算机内存数据存储基本原理----寄存器和RAM的电路基础(7518)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11994990.html">
+                            10. 关于System.TypeInitializationException异常(7212)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11383369.html">
+                            11. WinDbg的安装、配置和功能(5992)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11976576.html">
+                            12. 关于System.AccessViolationException异常(4784)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/10974327.html">
+                            13. 常见的CPU指令集介绍(4608)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12759861.html">
+                            14. 关于C++标准异常之std::out_of_range(4393)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11103061.html">
+                            15. 内存条的组成、编址、寻址和读写方式(4240)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12802057.html">
+                            16. 关于异常System.NullReferenceException(4181)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12085097.html">
+                            17. 什么是软件调试(4031)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12060989.html">
+                            18. 关于System.FormatException异常 (4017)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11424044.html">
+                            19. 使用WinDbg调试入门(用户模式)(3755)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11819919.html">
+                            20. STATUS_STACK_BUFFER_OVERRUN不一定是栈缓冲区溢出(3700)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11976646.html">
+                            21. 关于System.ArgumentNullException异常(3212)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11113041.html">
+                            22. Dump文件数据存储格式(一）(3068)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11233935.html">
+                            23. 结构化异常SEH处理机制详细介绍(一）(3056)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11825661.html">
+                            24. 深入解析pure virtual function call(2873)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12560199.html">
+                            25. 关于异常System.AggregateException(2860)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12106011.html">
+                            26. CPU工作的基本原理以及如何设计一个简单的16位CPU模型(2827)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11001913.html">
+                            27. 16位/32位/64位CPU的位究竟是说啥(2737)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11976391.html">
+                            28.  关于System.Reflection.TargetInvocationException 异常 (2700)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11357175.html">
+                            29. WinDbg常用命令系列---查看线程调用栈命令K*简介(2632)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11865455.html">
+                            30. 关于System.MissingMethodException异常(2538)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12266167.html">
+                            31.  结构化概要设计工具之IPO图(2490)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11466595.html">
+                            32. WinDbg常用命令系列---显示加载的模块列表lm(2437)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12097406.html">
+                            33. 软件调试的技术和方法(2367)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12447778.html">
+                            34. Visual Studio调试器项目设置(2363)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11330767.html">
+                            35. Intel 80386 CPU(2306)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11541592.html">
+                            36. C++ EH Exception（0xe06d7363）----抛出过程(2282)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11497323.html">
+                            37. WinDbg常用命令系列---!analyze(2215)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11245392.html">
+                            38. C++异常处理机制(2138)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12073023.html">
+                            39. 设置微软符号服务器的又一方法(2132)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12064731.html">
+                            40. Windows WoW64浅析(2119)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+    <h3 class="catListTitle">评论排行榜</h3>
+    <div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12073023.html">
+                            1. 设置微软符号服务器的又一方法(14)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11937947.html">
+                            2. 中断点异常 STATUS_BREAKPOINT(0x80000003)(12)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/13050482.html">
+                            3. _NT_SYMBOL_PROXY(4)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11424044.html">
+                            4. 使用WinDbg调试入门(用户模式)(4)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11277201.html">
+                            5. 浮点数的运算步骤(4)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12564158.html">
+                            6. 调试System.AccessViolationException(3)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11961770.html">
+                            7. 关于windbg报错"No symbols for ntdll. Cannot continue."问题(3)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12557333.html">
+                            8. Visual Studio调试器指南---选项对话框---&gt;"调试"说明(一)(2)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12449289.html">
+                            9. Visual Stdion在混合模式下调试(C#/C++)(2)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12145416.html">
+                            10. 微架构、指令集架构与汇编语言的关系 (2)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11989327.html">
+                            11. windbg自行下载的sos.dll存放路径“..\SOS_x86_x86_4.7.3132.00.dll\5B5543296ee000\”里的“5B5543296ee000”是什么？(2)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11883398.html">
+                            12. SOS.DLL在windbg里加载错误(2)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11574808.html">
+                            13. WinDbg常用命令系列---显示当前异常处理程序链!exchain(2)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11383369.html">
+                            14. WinDbg的安装、配置和功能(2)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12487588.html">
+                            15. Visual Studio调试器指南---多线程应用程序调试(一）(1)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/12084477.html">
+                            16. PN结原理和对三极管反向偏置能导通的思考(1)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11819919.html">
+                            17. STATUS_STACK_BUFFER_OVERRUN不一定是栈缓冲区溢出(1)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/11106495.html">
+                            18. 抓取Dump文件的方法和工具介绍(1)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/yilang/p/10993051.html">
+                            19. CPU内部组成及原理(1)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/yilang/p/11383369.html">
+                                1. WinDbg的安装、配置和功能(4)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/yilang/p/12449525.html">
+                                2. Visual Studio附加到运行进程(3)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/yilang/p/12557333.html">
+                                3. Visual Studio调试器指南---选项对话框---&gt;"调试"说明(一)(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/yilang/p/12266167.html">
+                                4.  结构化概要设计工具之IPO图(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/yilang/p/12145416.html">
+                                5. 微架构、指令集架构与汇编语言的关系 (2)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div></div>
+                    <script>loadBlogSideColumn();</script></div>
+	
+</div>
+
+</div>
+
+</div>
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsQ-R-x_RFAWwxtUtkoSiGEQc32ITgMMogVnVFDy5Uj5-51tmKIneXjbkbAeiACXTn558gt1VN0K3M8jyHDV3bdeJMnIhhRiap_r-WteeJDfoeKk4woY67sbxhz_O9PrCA" />
+
+
+<iframe id="google_osd_static_frame_1728121519391" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body></html>

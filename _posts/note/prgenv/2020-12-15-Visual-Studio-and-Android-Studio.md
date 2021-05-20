@@ -43,10 +43,14 @@ VS2005 WTL 工程编译 Debug 无问题，编译 Release 时出现 Link 错误
 ## 错误 RC1015 cannot open include file 'afxres.h'.
 
 Or, if you don't want to install MFC, you can replace the line:
+```cpp
 #include "afxres.h"
+```
 with:
+```cpp
 #include <windows.h>
 #include <winres.h>
+```
 
 
 ## namespace "ATL" 没有成员 AtlGetCommCtrlVersion
