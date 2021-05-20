@@ -88,7 +88,8 @@ def clearSnapCache():
 
 def readfileIglist(fpath):
     li = readfile(fpath, True, "utf8").split("\n")
-    li = [i.strip().split("#")[0].strip() for i in li if i.strip().split("#")[0].strip()]
+    li = [i.strip().split(" #")[0].strip() for i in li if i.strip().split(" #")[0].strip()]
+    li = [i.strip().split("# ")[0].strip() for i in li if i.strip().split("# ")[0].strip()]
     if not IGNOREERR:
         assert li, fpath
     return li
