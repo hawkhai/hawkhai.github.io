@@ -152,6 +152,31 @@ ninja: Entering directory `out\Release86'
 
 gn gen build\Debug --ide=vs
 
+
+## Crashpad 代码
+
+```
+# 获取 Crashpad 代码
+fetch crashpad
+
+# 同步第三方库
+gclient sync
+
+# 生成 VS 工程文件
+set DEPOT_TOOLS_WIN_TOOLCHAIN=0
+set GYP_GENERATORS=msvs-ninja,ninja
+set DEPOT_TOOLS_UPDATE=0
+
+python crashpad/build/gyp_crashpad.py
+
+# 编译
+ninja -C out/Debug
+```
+
+```
+gn gen out/test --ide=vs2017 --sln=test --no-deps --args="is_debug=true"
+```
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-20-pdfium-devenv.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

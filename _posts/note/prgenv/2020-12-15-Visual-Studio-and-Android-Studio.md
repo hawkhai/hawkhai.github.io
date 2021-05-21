@@ -40,6 +40,26 @@ VS2005 WTL 工程编译 Debug 无问题，编译 Release 时出现 Link 错误
 属性页 -> 配置属性 -> 常规 -> 项目默认值 -> 在 ATL 中最小使用 CRT -> 否
 
 
+## Windows 上通过 bat 避免 python 冲突
+
+[from](https://gclxry.com/article/avoid-python-conflicts-via-bat-on-windows/)
+python3.bat 的文件，放到 C:\Windows 目录中，python3.bat 的内容如下：
+```bat
+@echo off
+setlocal
+set PATH=%PATH%;%~dp0;
+C:\Users\john\AppData\Local\Programs\Python\Python37-32\python.exe %*
+```
+
+pip.bat
+```
+@echo off
+setlocal
+set PATH=%PATH%;%~dp0;C:\Users\john\AppData\Local\Programs\Python\Python37-32\Scripts
+C:\Users\john\AppData\Local\Programs\Python\Python37-32\Scripts\pip.exe %*
+```
+
+
 ## 错误 RC1015 cannot open include file 'afxres.h'.
 
 Or, if you don't want to install MFC, you can replace the line:
@@ -335,6 +355,7 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Visual-Studio-and-Android-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://gclxry.com/article/avoid-python-conflicts-via-bat-on-windows/]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/gclxry.com/43348a06.html" %})
 - [https://blog.csdn.net/hellokandy/article/details/100931904]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/blog.csdn.net/e2e3de3c.html" %})
 - [https://developer.android.com/r/studio-ui/ndk-dir]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/developer.android.com/a3b9e8b2.html" %})
 - [http://maven.aliyun.com/nexus/content/groups/public/]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/maven.aliyun.com/f69c0880.html" %})
