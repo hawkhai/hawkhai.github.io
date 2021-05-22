@@ -15,6 +15,29 @@ glslcanvas:
 codeprint:
 ---
 
+* 工作集 – 物理内存
+* 提交大小 - 虚拟内存
+
+* 对于 32 位系统，CPU 可直接寻址 2^32=4GB 空间，这也是每个进程的地址空间大小
+* 高 2GB 供内核模块使用，称为内核空间。低 2GB 供用户态模块使用，称为用户空间
+* 使用 /3GB 开关启动，可以将用户空间增大到 3GB
+
+* 每个 Win32 进程有 4GB 空间，但用户态代码只能访问 2GB 用户空间
+* 所有进程共享内核空间
+
+
+## 子系统 DLL
+
+* **ADVAPI32.DLL** 如下 API 的入口：数据加密（Crpt 开头）；用户和帐号管理（Lsa 开头）；
+    注册表操作（Reg 开头）；WMI（Wmi 开头）；终端服务（Wts 开头）
+* **GDI32.DLL** 包含各种图形文字绘制 API（GDI）的入口，如 TextOut()、BitBlt() 等。
+    其中大多数 API 是被转换为系统服务发给内核态的 Windows 子系统驱动程序（Win32K.SYS）
+* **KERNEL32.DLL** 与系统服务有关的 API 的入口，如进程 / 线程管理，如 CreateThread()；
+    调试（Debug 开头）；文件操作，包括创建、打开、读写、搜索等；
+    内存分配（Local 开头和 Global 开头）其中大多数 API 是被转换为系统服务发给内核态的执行体。
+* **USER32.DLL** 包含窗口管理、消息处理和用户输入 API，如 EndDialog()、BeginPaint()、SetWindowPos()、MessageBox()
+    等。其中大多数 API 是被转换为系统服务发给内核态的 Windows 子系统驱动程序（Win32K.SYS）
+
 
 ## Windows 内存类型
 
