@@ -340,9 +340,7 @@ windbg -I
 D:\dbglabs\bin\release>"D:\Windows Kits\10\Debuggers\x86\gflags.exe" -i heapmfc.exe +ust
 Current Registry Settings for heapmfc.exe executable are: 00001000
     ust - Create user mode stack trace database
-
 D:\dbglabs\bin\release>"D:\Windows Kits\10\Debuggers\x86\umdh.exe" -pn:heapmfc.exe
-
 ```
 
 
