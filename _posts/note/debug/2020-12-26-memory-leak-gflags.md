@@ -13,7 +13,7 @@ mathjax:
 mermaid:
 glslcanvas:
 codeprint:
-cluster: "Windbg"
+cluster: "WinDBG"
 ---
 
 打开检查功能：

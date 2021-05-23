@@ -13,7 +13,7 @@ mathjax:
 mermaid:
 glslcanvas:
 codeprint:
-cluster: "Windbg"
+cluster: "WinDBG"
 ---
 
 多线程中的内存问题，一直被认为是噩梦般的存在，几乎只有世外高手、大罗神仙才能解决。

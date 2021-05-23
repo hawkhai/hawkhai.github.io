@@ -13,7 +13,7 @@ mathjax:
 mermaid:
 glslcanvas:
 codeprint:
-cluster: "Windbg"
+cluster: "WinDBG"
 ---
 
 利用 windbg 分析崩溃、句柄泄漏、死锁、CPU 高、内存泄漏
