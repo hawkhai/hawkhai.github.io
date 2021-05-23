@@ -357,6 +357,11 @@ Build in cmd.exe, run command as: msbuild dprofiler.sln
 
 ## 转储和转储分析
 
+
+## 事件追踪和调优
+
+* Windows Software Trace Preprocessor
+
 {% include image.html url="/assets/images/210522-visual-studio-msvc/2021523-15549.jpeg" %}
 
 <hr class='reviewline'/>

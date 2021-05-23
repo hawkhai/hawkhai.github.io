@@ -55,7 +55,10 @@ function changeImagePositionk() {
                 target = children.eq(parseInt(li[i]) - 1);
             } else {
                 var children = target.children("ol,ul").children("li");
-                target = children.eq(parseInt(li[i]) - 1);
+                var temp = children.eq(parseInt(li[i]) - 1);
+                if (temp.length) { // 如果子控件找不到。
+                    target = temp;
+                }
             }
         }
         if (target.length) {

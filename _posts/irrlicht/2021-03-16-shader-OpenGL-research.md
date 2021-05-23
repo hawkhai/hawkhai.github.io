@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "图形学笔记 -- OpenGL Research 基本函数调用整理"
+title: "图形学笔记 -- OpenGL Review 基本函数调用整理"
 author:
 location: "珠海"
 categories: ["图形学"]

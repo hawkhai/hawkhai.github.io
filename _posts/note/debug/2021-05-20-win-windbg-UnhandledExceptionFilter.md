@@ -20,6 +20,7 @@ WinDbg 查找问题异常堆栈，堆栈跟踪 UnhandledExceptionFilter。主要
 
 * `.exr (Display Exception Record)` .exr 命令显示异常记录的内容。
 * `.cxr (Display Context Record)` .cxr 命令显示保存在指定地址的上下文记录。
+* `.ecxr` 命令定位当前异常的上下文信息，并显示指定记录中的重要寄存器。
 
 一个崩溃：
 C:\Users\ADMIN\Downloads\3070_b97e108a64f671bb23ca1ff244f5c93d_fastpdf.exe_2021.5.8.479_271139_fastpdf.exe_2021.5.8.479_0_win10_64_1858570_20_0_1_210519080829@3416591882__d3d72f2c586e324e0a5c897786ea8aa1.dmp

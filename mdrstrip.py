@@ -290,66 +290,70 @@ def organizeRes(ik, fpath, line):
     tpath = os.path.join("assets", "images", fname, ikfile).lower()
     if invdir:
         tpath = os.path.join("invisible", "images", fname, ikfile).lower()
-    if os.path.exists(ik):
-        copyfile(ik, tpath)
-        iknail = ik + THUMBNAIL
-        tpathnail = tpath + THUMBNAIL
-        if os.path.exists(iknail):
-            copyfile(iknail, tpathnail)
-        if os.path.abspath(ik) != os.path.abspath(tpath):
-            g_orgremove.add(os.path.relpath(ik, ".").lower())
-        if os.path.relpath(tpath, ".").lower() in g_orgremove:
-            g_orgremove.remove(os.path.relpath(tpath, ".").lower())
 
-        # 同样大小的小图片先占位... lazyload
-        sizepath = tpath + THUMBNAIL
-        from PIL import Image
-        if not os.path.exists(sizepath) and iktype in ("png", "jpg", "gif", "jpeg", "webp", "bmp",):
-            try:
-                img = Image.open(tpath)
-            except RuntimeError as ex: # could not create decoder object
-                print("Image.open RuntimeError", tpath)
-                raise ex
-            width, height = img.size
-            if width > 100:
-                try:
-                    img = img.resize((100, round(100.0*height/width)), Image.ANTIALIAS).convert("RGB")
-                except OSError as ex: # broken data stream when reading image file
-                    print("Image.resize OSError", tpath)
-                    raise ex
-                img = img.resize((width, height), Image.ANTIALIAS) # 恢复到原来大小，便于客户端排版。
+    assert os.path.exists(ik), ik
 
-                from PIL import Image, ImageFont, ImageDraw # 导入模块
-                draw = ImageDraw.Draw(img, "RGBA") # 修改图片
-                font = ImageFont.truetype(r"assets\logos\方正楷体_GB2312.ttf", size = 20)
-                draw.rectangle(((0, 0), (img.size[0], 40)), fill=(0,0,0,127))
-                draw.text((10, 10), u'图片加载中, 请稍后....', fill="#ffffff", font=font)
-                #img.show()
-                #exit(0)
+    ikcopy = copyfile(ik, tpath)
+    iknail = ik + THUMBNAIL
+    tpathnail = tpath + THUMBNAIL
+    iknailcopy = False
+    if os.path.exists(iknail):
+        iknailcopy = copyfile(iknail, tpathnail)
+    if os.path.abspath(ik) != os.path.abspath(tpath):
+        g_orgremove.add(os.path.relpath(ik, ".").lower())
+    if os.path.relpath(tpath, ".").lower() in g_orgremove:
+        g_orgremove.remove(os.path.relpath(tpath, ".").lower())
 
-            # 小于 100K...
-            img.save(sizepath)
-        elif os.path.exists(sizepath):
+    # 同样大小的小图片先占位... lazyload
+    sizepath = tpath + THUMBNAIL
+    from PIL import Image
+    if not os.path.exists(sizepath) and iktype in ("png", "jpg", "gif", "jpeg", "webp", "bmp",):
+        try:
             img = Image.open(tpath)
-            width, height = img.size
+        except RuntimeError as ex: # could not create decoder object
+            print("Image.open RuntimeError", tpath)
+            raise ex
+        width, height = img.size
+        if width > 100:
             try:
-                img = Image.open(sizepath)
-            except RuntimeError as ex: # could not create decoder object
-                print("Image.open RuntimeError", sizepath)
-                osremove(sizepath)
-                return organizeRes(ik, fpath, line)
+                img = img.resize((100, round(100.0*height/width)), Image.ANTIALIAS).convert("RGB")
+            except OSError as ex: # broken data stream when reading image file
+                print("Image.resize OSError", tpath)
                 raise ex
-            if img.size != (width, height):
-                img.close()
-                osremove(sizepath)
-                return organizeRes(ik, fpath, line)
-    else:
-        assert False, ik
+            img = img.resize((width, height), Image.ANTIALIAS) # 恢复到原来大小，便于客户端排版。
+
+            from PIL import Image, ImageFont, ImageDraw # 导入模块
+            draw = ImageDraw.Draw(img, "RGBA") # 修改图片
+            font = ImageFont.truetype(r"assets\logos\方正楷体_GB2312.ttf", size = 20)
+            draw.rectangle(((0, 0), (img.size[0], 40)), fill=(0,0,0,127))
+            draw.text((10, 10), u'图片加载中, 请稍后....', fill="#ffffff", font=font)
+            #img.show()
+            #exit(0)
+
+        # 小于 100K...
+        img.save(sizepath)
+    elif os.path.exists(sizepath):
+        img = Image.open(tpath)
+        width, height = img.size
+        try:
+            img = Image.open(sizepath)
+        except RuntimeError as ex: # could not create decoder object
+            print("Image.open RuntimeError", sizepath)
+            osremove(sizepath)
+            return organizeRes(ik, fpath, line)
+            raise ex
+        if img.size != (width, height):
+            img.close()
+            osremove(sizepath)
+            return organizeRes(ik, fpath, line)
 
     iktype = ikfile.split(".")[-1].lower()
     if not iktype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4", "zip", "bmp",):
         print(ik, fpath, line)
         assert False, ik
+
+    if ikcopy: osremove(ik)
+    if iknailcopy: osremove(iknail)
     return line.replace(ik, tpath.replace("\\", "/"))
 
 g_hostset = {}

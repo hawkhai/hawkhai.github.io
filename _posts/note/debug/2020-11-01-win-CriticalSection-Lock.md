@@ -50,12 +50,15 @@ if (m_hThread != NULL) {
 
 ## Dynamic-Link Library Best Practices
 
+常见到一些开发者喜欢在 DllMain 里面写大量的初始化代码（比如 CoInitializeEx，LoadLibraryEx，CreateProces，创建线程，同步线程 等等 ...），这些初始化代码很容易产生其他的 lock，进而导致进程死锁。
+
 DllMain 在收到 DLL_PROCESS_ATTACH 和 DLL_PROCESS_DETACH 时会进入临界区。
 它是使其他线程不能进入临界区从而导致死锁的关键。
 
 <https://docs.microsoft.com/zh-cn/windows/win32/dlls/dynamic-link-library-best-practices>
 
 {% include image.html url="/assets/images/201101-win-criticalsection-lock/fig2.png" %}
+{% include image.html url="/assets/images/201101-win-criticalsection-lock/21100038-0d8f0e22a42d415093290630ceb16fc4.jpg" %}
 
 
 ## 定位到卡死位置
