@@ -28,6 +28,8 @@ codeprint:
 
 * 确保 path 里没有自己安装的 python
     * depot_tools 貌似是：Python 2.7.18
+    * from [depot_tools_tutorial(7) Manual Page](https://commondatastorage.googleapis.com/chrome-infra-docs/flat/depot_tools/docs/html/depot_tools_tutorial.html) Download the [depot_tools](https://storage.googleapis.com/chrome-infra/depot_tools.zip) bundle and extract it somewhere.
+    * 加入环境变量：`C:\kSource\kpdf\depot_tools`
 * kernel32.SetConsoleMode to enable ANSI sequences failed
     * [Console Virtual Terminal Sequences](https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences)
     * 我本机 win10 不支持 彩色控制台，错误码是 87：
@@ -56,7 +58,7 @@ mkdir google
 cd google
 gclient config --unmanaged https://pdfium.googlesource.com/pdfium.git
 # In order to use your locally installed version of Visual Studio to build Chrome.
-set DEPOT_TOOLS_WIN_TOOLCHAIN=0
+# set DEPOT_TOOLS_WIN_TOOLCHAIN=0
 gclient sync
 ```
 
