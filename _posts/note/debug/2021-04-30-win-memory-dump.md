@@ -21,6 +21,63 @@ cluster: "Windbg"
 这时候触发错误导致进程退出的代码位置往往不是“案发的第一现场”，给调试工作带来了更大的难度。
 
 
+## 栈的调试支持
+
+
+### 基于 Cookie 的安全检查
+
+* 在栈帧的起始处存放一个整数 —— Cookie
+* 函数返回时检查 Cookie 的完好性，如果损坏则报告
+* Visual Studio .Net 2002 开始支持，Windows Server 2003 首先采用
+* 编译时，指定 /GS 选项，默认启用
+* 发布版本和调试版本都可以使用
+* 编译时会判断是否有必要针对当前函数使用 Cookie
+
+
+### 编译器的运行期检查
+
+* Run-Time Error Check (RTC)
+* 栈指针被破坏（Stack pointer corruption）
+* 局部缓冲区（数组）越界（Overruns）
+* 栈被破坏（Stack corruption）
+* 依赖未初始化过的局部变量
+* 因为赋值给较短的变量导致数据丢失
+* 观察栈桢，布局，Cookie
+
+
+## 堆的调试支持
+
+* 堆尾检查（Heap Tail Checking），简称 HTC
+* 释放检查（Heap Free Checking），简称 HFC
+* 参数检查，对传递给堆管理器的参数进行更多的检查
+* 调用时验证（Heap Validation on Call），简称 HVC
+* 堆块标记（Heap Tagging）
+* 用户态栈回溯（User mode Stack Trace），简称 UST
+
+
+### 页堆
+
+* 专门用于调试，简称 DPH，Windows 2000 引入
+* 大量使用内存页 —— 为了调试，不惜代价
+* 对调试堆溢出特别有效，实时中断到调试器
+
+#### 页堆的堆块
+
+《软件调试》图 23-6 P680
+* 每个堆块至少占用两个内存页
+* 有专门的管理信息区，堆块指针不容易被破坏
+    * Linux 下可以使用 valgrind
+
+#### 验证器
+
+* 下载安装
+* 包含在 SDK 中
+* 针对可执行文件名 .exe
+* 不关心路径
+
+{% include image.html url="/assets/images/210430-win-memory-dump/20210523141256.png" %}
+
+
 ## 一些看法
 
 个人一些看法，当一个工程又大、时间又悠久的时候。

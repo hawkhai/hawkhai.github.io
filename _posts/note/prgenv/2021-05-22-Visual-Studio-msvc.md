@@ -262,6 +262,18 @@ extern "C" int wWinMainCRTStartup()
 {% include image.html url="/assets/images/210522-visual-studio-msvc/20210522163139.png" caption="Control Registers" %}
 
 
+### 调试事件
+
+* EXCEPTION_DEBUG_EVENT
+* CREATE_THREAD_DEBUG_EVENT
+* CREATE_PROCESS_DEBUG_EVENT
+* EXIT_THREAD_DEBUG_EVENT
+* EXIT_PROCESS_DEBUG_EVENT
+* LOAD_DLL_DEBUG_EVENT
+* UNLOAD_DLL_DEBUG_EVENT
+* OUTPUT_DEBUG_STRING_EVENT
+
+
 ## 异常处理和崩溃
 
 
@@ -276,5 +288,75 @@ extern "C" int wWinMainCRTStartup()
 
 {% include image.html url="/assets/images/210522-visual-studio-msvc/winadt_raymond_all2021_118.png" caption="KiExceptionDispatch" %}
 
+
+### 分发用户态异常
+
+```cpp
+if (FirstChance) {
+    if (PsGetCurrentProcess()->DebugPort == 0 // 没有用户调试器
+        || KdIsThisAKdTrap(Tf, &Context)) { // 内核调试器
+        // 分发给内核调试器
+        if (KiDebugRoutine &&
+            KiDebugRoutine(Tf, Reserved, Er, &Context,
+            PreviousMode, FirstChance) != 0) break;
+    }
+
+    if (DbgkForwardException(TrapFrame,
+        DebugEvent, FirstChance) != 0) return;
+    if (valid_user_mode_stack_with_enough_space) {
+        copy_context_and_exception_record_2_user_stack; // 上下文拷贝到用户空间
+        TrapFrame->Eip = KeUserExceptionDispatcher; // 飞程序指针
+        return;
+    }
+}
+if (DbgkForwardException(Tf, TRUE, LastChance) != 0) return;
+if (DbgkForwardException(Tf, FALSE, LastChance) != 0) return;
+ZwTerminateProcess(NtCurrentThread(), Er->ExceptionCode);
+```
+
+
+### JIT 调试器的设置
+
+* Hive: HKEY_LOCAL_MACHINE
+Key: SOFTWARE\Microsoft\Windows NT\CurrentVersion\AeDebug
+* To set alternative JIT debuggers, just change the debuggers key
+```
+windbg -I
+```
+
+{% include image.html url="/assets/images/210522-visual-studio-msvc/20210523094139.png" %}
+
+
+## 深入理解栈
+
+
+## 调试堆
+
+{% include image.html url="/assets/images/210522-visual-studio-msvc/20210523114638.png" caption="Windows 内存管理" %}
+
+```
+D:\dbglabs\bin\release>"D:\Windows Kits\10\Debuggers\x86\gflags.exe" -i heapmfc.exe +ust
+Current Registry Settings for heapmfc.exe executable are: 00001000
+    ust - Create user mode stack trace database
+
+D:\dbglabs\bin\release>"D:\Windows Kits\10\Debuggers\x86\umdh.exe" -pn:heapmfc.exe
+
+```
+
+
+## 多线程调试
+
+
+### D Profile 开源性能分析工具
+
+[from](https://bbs.pediy.com/thread-195774.htm)
+D Profile 是一个 win32/64 CPU，memory 性能分析工具：<https://github.com/xwlan/dprofiler>
+D Profiler a lightweight, low overhead CPU Memory IO and Lock profiler for Windows x86/x64.
+Build in cmd.exe, run command as: msbuild dprofiler.sln
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-22-Visual-Studio-msvc.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://bbs.pediy.com/thread-195774.htm]({% include relrefx.html url="/backup/2021-05-22-Visual-Studio-msvc.md/bbs.pediy.com/10890851.htm" %})
+- [https://github.com/xwlan/dprofiler]({% include relrefx.html url="/backup/2021-05-22-Visual-Studio-msvc.md/github.com/faf10891.html" %})
