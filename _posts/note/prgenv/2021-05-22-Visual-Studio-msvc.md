@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "开发环境 -- Visual Studio & WinDBG 平台高级调试与优化"
+title: "调试 -- Visual Studio & WinDBG 平台高级调试与优化"
 author:
 location: "珠海"
-categories: ["开发环境"]
-tags: ["开发环境"]
+categories: ["调试"]
+tags: ["调试", "编程"]
 toc: true
 toclistyle:
 comments:
@@ -20,6 +20,8 @@ Windows 平台高级调试与优化 —— VC 开发工具
 张银奎 (Raymond Zhang)
 
 {% include image.html url="/assets/images/210522-visual-studio-msvc/20210522151547.jpg" caption="知识盲区永远存在，下午茶大饼好吃。" %}
+
+**为了更好的处理内存问题，我们要尽力保证 Debug 版本（更多的运行检查）和 x64 版本（页堆才能顺利开启）都能顺利编译出来，另外编译器也要及时升级。**
 
 
 ## MS Visual C++ 简史
