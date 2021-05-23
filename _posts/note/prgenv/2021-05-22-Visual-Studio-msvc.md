@@ -354,6 +354,11 @@ D Profile 是一个 win32/64 CPU，memory 性能分析工具：<https://github.c
 D Profiler a lightweight, low overhead CPU Memory IO and Lock profiler for Windows x86/x64.
 Build in cmd.exe, run command as: msbuild dprofiler.sln
 
+
+## 转储和转储分析
+
+{% include image.html url="/assets/images/210522-visual-studio-msvc/2021523-15549.jpeg" %}
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-22-Visual-Studio-msvc.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
