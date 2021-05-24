@@ -43,6 +43,8 @@ VS2005 WTL 工程编译 Debug 无问题，编译 Release 时出现 Link 错误
 
 ## Windows 上通过 bat 避免 python 冲突
 
+首先要把 path 里面的所有 python 路径移干净，避免命令行访问到。
+
 [from](https://gclxry.com/article/avoid-python-conflicts-via-bat-on-windows/)
 python3.bat 的文件，放到 C:\Windows 目录中，python3.bat 的内容如下：
 ```bat

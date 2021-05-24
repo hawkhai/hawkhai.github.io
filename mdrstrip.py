@@ -389,7 +389,7 @@ def collectHost(fpath, line):
                     (https?)://
                         ([a-z0-9\.-]+\.[a-z]{2,6})
                         (:[0-9]{1,4})?
-                    (/[a-z0-9\&%_\./~=:@–-]*)?
+                    (/[a-z0-9\&%_\./~=+:@–-]*)?
                     (\?[a-z0-9\&%_\./~=:-]*)?
                     (#[a-z0-9\&%_\./~=:-]*)?
                 )"""
@@ -994,5 +994,5 @@ if __name__ == "__main__":
         maingo()
     else:
         main()
-        os.system(r"cd invisible & python tempd.py encrypt")
+        os.system(r"cd invisible & {} tempd.py encrypt".format(getPythonExe(),))
     print(parsePythonCmdx(__file__))

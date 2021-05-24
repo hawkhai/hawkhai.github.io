@@ -1,1 +1,1 @@
-python runserv.py
+python3 runserv.py

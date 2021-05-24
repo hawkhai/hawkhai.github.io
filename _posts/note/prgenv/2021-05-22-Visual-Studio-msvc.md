@@ -164,7 +164,7 @@ static __declspec(noinline) int __cdecl __scrt_common_main_seh()
 static __forceinline int __cdecl __scrt_common_main()
 {
     // The /GS security cookie must be initialized before any exception handling
-    // targeting the current image is registered.  No function using exception
+    // targeting the current image is registered. No function using exception
     // handling can be called in the current image until after this call:
     __security_init_cookie();
 
@@ -371,29 +371,29 @@ Build in cmd.exe, run command as: msbuild dprofiler.sln
 * CEDT 开机后会请求用户选择目标系统的处理器类型。选择后，机器会在 BIOS 自动连接目标计算机。连接成功后，亲切的 Windbg 界面出现了。
 * 停止系统运行后，发现系统停在 BIOS 里。在 Windbg 的命令行敲“！runto nt”，目标机继续运行，直到 Windbg 停止。
 * EDT 提供命令直接执行到 nt!KiSystemStartup 然后停下来。然后打开 CEDT 的代码追踪功能，“！trclbr on”。从 BOOTLOADER 会传给 KiSystemStartup 一个结构的地址，结构中包含了 BOOT 的一些基本的信息，例如，引导分区，文件系统类型等等。KiSystemStartup 首先将该结构指针赋值变量 KeLoaderBlock。紧接着，KiSystemStartup 会将 P0BootStack 和 KiIdleThread0 的地址存入 LOADER_BLOCK 中。FS 寄存器会被赋值 0x30 并将 FS:[0x130] 清零。
-* 调用 KiInitializeMachineType（）。KiInitializeMachineType（）从 KeLoaderBlock 中读取设备类型并赋值 KeI386MachineType。
-* 调用 GetMachineBootPointers（）获取当前的 GDTR 和 IDTR 信息。然后为中断程序和 NMI 等初始化 TSS。
-* 调用 KiInitializePcr（）. 初始化 KiIdleThread0 的 ApcState，将 KiIdleProcess 的指针赋给 KiIdleThread0->ApcState.Process.
+* 调用 KiInitializeMachineType()。KiInitializeMachineType() 从 KeLoaderBlock 中读取设备类型并赋值 KeI386MachineType。
+* 调用 GetMachineBootPointers() 获取当前的 GDTR 和 IDTR 信息。然后为中断程序和 NMI 等初始化 TSS。
+* 调用 KiInitializePcr()。初始化 KiIdleThread0 的 ApcState，将 KiIdleProcess 的指针赋给 KiIdleThread0->ApcState.Process.
 * 调用 KiSwapIDT() 然后用 IDT 中的中断处理函数表初始化中断向量表。
-* 调用 KiProcessorStart(). 这个函数只是判断了一下 KiProcessorStartControl 的值，看起来它像是个简单状态机的键。在这时，什么也没做就退出了。
-* 调用 HalInitializeProcessor（），HalInitializeProcessor（）读取 CPUID 获得当前系统中的实际处理核个数，并初始化 HalPrivateDispatchTable 中的重要服务，其中 HalpSetupPciDeviceForDebugging，HalpReleasePciDeviceForDebugging，HalpGetAcpiTablePhase0，HalpCheckPowerButton，HalpMapPhysicalMemory64，HalpUnmapVirtualAddress。 初始化 8259 和 APIC 的中断处理程序。
-* 调用 KdInitSystem（），KdInitSystem 首先检查是否是 DEBUG 模式，如果是，他会把 KdpStub 赋给 KiDebugRoutine，并且初始化 KdpDebuggerDataListHead 和 KdVersionBlock。 原来我们经常用来调试的 STUB 是在这初始化的。
-* 调用 KdPollBreakIn（）来收取调试的报文，如果有 BREAKIN 报文收到，赋值 KdpControlCPressed 并返回非零。并在退出后进入 DbgBreakPointWithStatus（）。
+* 调用 KiProcessorStart()。这个函数只是判断了一下 KiProcessorStartControl 的值，看起来它像是个简单状态机的键。在这时，什么也没做就退出了。
+* 调用 HalInitializeProcessor()，HalInitializeProcessor() 读取 CPUID 获得当前系统中的实际处理核个数，并初始化 HalPrivateDispatchTable 中的重要服务，其中 HalpSetupPciDeviceForDebugging，HalpReleasePciDeviceForDebugging，HalpGetAcpiTablePhase0，HalpCheckPowerButton，HalpMapPhysicalMemory64，HalpUnmapVirtualAddress。 初始化 8259 和 APIC 的中断处理程序。
+* 调用 KdInitSystem()，KdInitSystem 首先检查是否是 DEBUG 模式，如果是，他会把 KdpStub 赋给 KiDebugRoutine，并且初始化 KdpDebuggerDataListHead 和 KdVersionBlock。 原来我们经常用来调试的 STUB 是在这初始化的。
+* 调用 KdPollBreakIn() 来收取调试的报文，如果有 BREAKIN 报文收到，赋值 KdpControlCPressed 并返回非零。并在退出后进入 DbgBreakPointWithStatus()。
 * 在接下来程序中，KiBootFeatureBits 的 Bit7 将会设为 1。
-* 调用 KiInitializeKernel（）。在 KiInitializeKernel 中，首先
-    * 调用 _SEH_prolog（）；
-    * 调 KiSetProcessorType（）通过检查处理器 STEPPING 和从 CPUID 中读取信息获得处理器种类并设置 _KPRCB. CpuType.  KiSetCR0Bits（）根据处理器类型设置 CR0 的 BIT16。 调用 KiIsNpxPresent（）判断是否支持浮点运算器。
-    * 初始化 KPRCB. MaximumDpcQueueDepth, KPRCB. MinimumDpcRate, KPRCB.AdjustDpcThreshold
-    * 调用 PoInitializePrcb（）初始化 KPRCB.PROCESSOR_POWER_STATE，
-    * 调用 KeInitializeDpc（）填充 KDPC。调用 KeInitializeTimerEx（）初始化一个内核同步定时器。
+* 调用 KiInitializeKernel()。在 KiInitializeKernel 中，首先
+    * 调用 _SEH_prolog()；
+    * 调 KiSetProcessorType() 通过检查处理器 STEPPING 和从 CPUID 中读取信息获得处理器种类并设置 _KPRCB. CpuType. KiSetCR0Bits() 根据处理器类型设置 CR0 的 BIT16。 调用 KiIsNpxPresent() 判断是否支持浮点运算器。
+    * 初始化 KPRCB。MaximumDpcQueueDepth, KPRCB. MinimumDpcRate, KPRCB.AdjustDpcThreshold
+    * 调用 PoInitializePrcb() 初始化 KPRCB, PROCESSOR_POWER_STATE。
+    * 调用 KeInitializeDpc() 填充 KDPC。调用 KeInitializeTimerEx() 初始化一个内核同步定时器。
     * 检查了 BOOTOPTION 的设置。设置 EFER 寄存器的 LME， 启动 IA-32e 模式。
     * 中间省略了一些代码的分析，包括初始化 Ki486CompatibilityLock，KiFreezeExecutionLock 等。
-    * 调用 KeInitializeProcess（）填充第一个进程的 KPROCESS。
+    * 调用 KeInitializeProcess() 填充第一个进程的 KPROCESS。
     * 根据 FeatureBits 初始化线程的参数。调用 KeInitializeThread() 初始化线程 KiIdleThread0， 堆栈 P0BootStack，进程为前面初始化的进程。
-    * 调用 KeStartThread（）设置 KiIdleThread0 为 READY 状态。
-    * 调用 ExpInitializeExecutive（），初始化 OBJECT 管理器，初始化安全， 进程管理器以及 PNP 管理器。在进程管理器的初始化过程中，创建 PsInitialSystemProcess 以及线程 Phase1Initialization（）。PNP 管理器的初始化过程将读取注册表中的设备资源用于初始化。
-* 调用 MmCreateKernelStack（）创建内核的堆栈。
-* 进入 KiIdleLoop（）。
+    * 调用 KeStartThread() 设置 KiIdleThread0 为 READY 状态。
+    * 调用 ExpInitializeExecutive()，初始化 OBJECT 管理器，初始化安全， 进程管理器以及 PNP 管理器。在进程管理器的初始化过程中，创建 PsInitialSystemProcess 以及线程 Phase1Initialization()。PNP 管理器的初始化过程将读取注册表中的设备资源用于初始化。
+* 调用 MmCreateKernelStack() 创建内核的堆栈。
+* 进入 KiIdleLoop()。
 
 {% include image.html url="/assets/images/210522-visual-studio-msvc/2021523-15549.jpeg" %}
 
