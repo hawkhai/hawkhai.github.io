@@ -210,6 +210,153 @@ concurrent_hash_map
 https://github.com/oneapi-src/oneTBB
 
 
+## C++11 新特性快速一览
+
+
+### 关键字及新语法
+
+#### auto 关键字
+
+#### nullptr 关键字
+
+#### for 循环语法
+
+
+### STL 容器
+
+#### std::array
+
+#### std::forward_list
+
+#### std::unordered_map
+
+#### std::unordered_set
+
+
+### 多线程
+
+#### std::thread
+
+#### std::atomic
+
+#### std::condition_variable
+
+
+### 智能指针
+
+#### std::shared_ptr
+
+#### std::weak_ptr
+
+
+### 其它
+
+#### std::function
+
+#### std::bind 封装可执行对象
+
+#### lambda 表达式
+
+
+## C++11 中的四种智能指针
+
+std | boost | 功能说明
+---- | ---- | ----
+unique_ptr | scoped_ptr | 独占指针对象，并保证指针所指对象生命周期与其一致
+shared_ptr | shared_ptr | 可共享指针对象，可以赋值给 shared_ptr 或 weak_ptr。<br/>指针所指对象在所有的相关联的 shared_ptr 生命周期结束时结束，是强引用。
+weak_ptr | weak_ptr | 它不能决定所指对象的生命周期，引用所指对象时，需要 lock() 成 shared_ptr 才能使用。
+
+* **auto_ptr** **不再推荐**。赋值转移后，指针会置空。因为 auto_ptr 有拷贝语义，拷贝后原对象变得无效，再次访问原对象时会导致程序崩溃；
+    * 智能指针不能指向数组。因为其实现中调用的是 delete 而非 delete[]。
+* **unique_ptr** unique_ptr 则禁止了拷贝语义，但提供了移动语义，即可以使用 std::move() 进行控制权限的转移。
+
+  ```cpp
+  #include <iostream>
+  #include <memory>
+
+  unique_ptr<string> upt(new string("lvlv"));
+  unique_ptr<string> upt1(upt);   // 编译出错，已禁止拷贝
+  unique_ptr<string> upt1 = upt;  // 编译出错，已禁止拷贝
+  unique_ptr<string> upt1 = std::move(upt);   // 控制权限转移
+  if (upt.get() != nullptr) {                 // 判空操作更安全
+      // do something
+  }
+  upt1.release(); // 释放所有权
+
+  auto_ptr<string> apt(new string("lvlv"));
+  auto_ptr<string> apt1(apt);     // 编译通过
+  auto_ptr<string> apt1 = apt;    // 编译通过
+```
+* **shared_ptr** 不要用一个原始指针初始化多个 shared_ptr，否则会造成二次释放同一内存。
+    * 模型循环依赖（互相引用或环引用）时，计数会不正常。
+
+  ```cpp
+  shared_ptr<Resourse> CreateResourse() {
+      return make_shared<Resourse>(1);
+  }
+```
+    * 注册销毁函数
+
+  ```cpp
+  #include<iostream>
+  #include<memory>
+
+  using namespace std;
+
+  struct MyStruct {
+      int *p;
+      MyStruct():p(new int(10)) {}
+  };
+
+  int main() {
+      MyStruct st;
+      {
+          shared_ptr<MyStruct> sp(&st, [](MyStruct *ptr) {
+              delete(ptr->p);
+              ptr->p = nullptr;
+              cout<<"destructed"<<endl;
+          });
+      }
+      if(st.p != nullptr)
+          cout << "no destroyed" << endl;
+      else
+          cout << "be destroyed" << endl;
+      return 0;
+  }
+  // 运行结果:
+  // destructed
+  // be destroyed
+```
+* **weak_ptr**
+    * 循环引用问题
+
+  ```cpp
+  class Monster {
+      // 尽管父子可以互相访问，但是彼此都是独立的个体，无论是谁都不应该拥有另一个人的所有权。
+      std::weak_ptr<Monster> m_father;    // 所以都把 shared_ptr 换成了 weak_ptr
+      std::weak_ptr<Monster> m_son;       // 同上
+  public:
+      void setFather(std::shared_ptr<Monster>& father);   // 实现细节懒得写了
+      void setSon(std::shared_ptr<Monster>& son);         // 懒
+      ~Monster(){std::cout << "A monster die!";}          // 析构时发出死亡的悲鸣
+  };
+
+  void runGame(){
+      std::shared_ptr<Monster> father = new Monster();
+      std::shared_ptr<Monster> son = new Monster();
+      father->setSon(son);
+      son->setFather(father);
+  }
+
+  void runGame(){
+      std::shared_ptr<Monster> monster1 = new Monster();
+      std::weak_ptr<Monster> r_monster1 = monster1;
+      r_monster1->doSomething(); // Error! 编译器出错！weak_ptr 没有重载 * 和 -> ，无法直接当指针用
+      std::shared_ptr<Monster> s_monster1 = r_monster1.lock(); // OK! 可以通过 weak_ptr 的 lock 方法获得 shared_ptr。
+  }
+```
+
+
 ## 字符串拷贝
 
 [C/C++ 安全指南 .md {% include relref_github.html %}](https://github.com/Tencent/secguide/blob/main/C%2CC%2B%2B%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97.md)
