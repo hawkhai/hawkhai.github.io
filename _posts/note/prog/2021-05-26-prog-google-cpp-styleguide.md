@@ -101,7 +101,7 @@ void Foo(int x, int y);
 
 // inline 是一种“用于实现的关键字”，而不是一种“用于声明的关键字”。
 inline void Foo(int x, int y) { // inline 与函数定义体放在一起
-    …
+    // …
 }
 ```
 
@@ -110,10 +110,10 @@ inline void Foo(int x, int y) { // inline 与函数定义体放在一起
 
 对于任意一个类 A，如果不想编写上述函数，C++ 编译器将自动为 A 产生四个缺省的函数，如：
 ```cpp
-    A(void);                   // 缺省的无参数构造函数
-    A(const A &a);             // 缺省的拷贝构造函数
-    ~A(void);                  // 缺省的析构函数
-    A& operator=(const A &a);  // 缺省的赋值函数，如果包含成员类，会递归调用成员类的 赋值函数
+A(void);                   // 缺省的无参数构造函数
+A(const A &a);             // 缺省的拷贝构造函数
+~A(void);                  // 缺省的析构函数
+A& operator=(const A &a);  // 缺省的赋值函数，如果包含成员类，会递归调用成员类的 赋值函数
 ```
 
 内存泄漏：
@@ -126,8 +126,8 @@ inline void Foo(int x, int y) { // inline 与函数定义体放在一起
 * 拷贝构造函数和赋值函数非常容易混淆，常导致错写、错用。拷贝构造函数是在对象被创建时调用的，而赋值函数只能被已经存在了的对象调用。
 
 ```cpp
-String a(“hello”);
-String b(“world”);
+String a("hello");
+String b("world");
 String c = a; // 调用了拷贝构造函数，最好写成 c(a);
 c = b; // 调用了赋值函数
 ```
