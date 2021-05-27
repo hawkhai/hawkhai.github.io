@@ -1,0 +1,149 @@
+---
+layout: post
+title: "编程笔记 -- C/C++ 编程指南 & Microsoft Writing Clean Code"
+author:
+location: "珠海"
+categories: ["编程"]
+tags: ["编程", "C++"]
+toc: true
+toclistyle:
+comments:
+visibility: hidden
+mathjax:
+mermaid:
+glslcanvas:
+codeprint:
+---
+
+```cpp
+std::lock_guard<std::mutex> locker(m_mutex);
+```
+
+
+## 使用断言
+
+* 断言 assert 是仅在 Debug 版本起作用的宏，它用于检查“不应该”发生的情况。
+    * 如果程序在 assert 处终止了，并不是说含有该 assert 的函数有错误，而是调用者出了差错，assert 可以帮助我们找到发生错误的原因。
+    * 使用断言捕捉不应该发生的非法情况。不要混淆非法情况与错误情况之间的区别，后者是必然存在的并且是一定要作出处理的。
+    * 当进行防错设计时，如果“不可能发生”的事情的确发生了，则要使用断言进行报警。然后 release 版本给予合理的处理。
+
+
+## 内存管理
+
+注意当数组作为函数的参数进行传递时，该数组自动退化为同类型的指针。
+
+```cpp
+// 计算数组和指针的内存容量
+char a[] = "hello world";
+char *p  = a;
+cout << sizeof(a) << endl;   // 12 字节
+cout << sizeof(p) << endl;   // 4 字节
+
+// 数组退化为指针
+void Func(char a[100]) {
+    cout<< sizeof(a) << endl;   // 4 字节而不是 100 字节
+}
+```
+
+malloc 与 free 是 C++/C 语言的标准库函数，new/delete 是 C++ 的运算符。它们都可用于申请动态内存和释放内存。
+
+
+## 成员函数的重载、覆盖与隐藏
+
+* 如果派生类的函数与基类的函数同名，但是参数不同。此时，不论有无 virtual 关键字，基类的函数将被隐藏（注意别与重载混淆）。
+* 如果派生类的函数与基类的函数同名，并且参数也相同，但是基类函数没有 virtual 关键字。此时，基类的函数被隐藏（注意别与覆盖混淆）。
+
+```cpp
+#include <iostream>
+
+using namespace std;
+
+class Base
+{
+public:
+    virtual void f(float x) { cout << "Base::f(float) " << x << endl; }
+    void g(float x) { cout << "Base::g(float) " << x << endl; }
+    void h(float x) { cout << "Base::h(float) " << x << endl; }
+};
+
+class Derived : public Base
+{
+public:
+    virtual void f(float x) { cout << "Derived::f(float) " << x << endl; } // 重载
+    void g(int x) { cout << "Derived::g(int) " << x << endl; }
+    void h(float x) { cout << "Derived::h(float) " << x << endl; }
+};
+
+int main()
+{
+    Derived d;
+    Base* pb = &d;
+    Derived* pd = &d;
+    // Good : behavior depends solely on type of the object
+    pb->f(3.14f); // Derived::f(float) 3.14
+    pd->f(3.14f); // Derived::f(float) 3.14
+    // Bad : behavior depends on type of the pointer
+    pb->g(3.14f); // Base::g(float) 3.14
+    pd->g(3.14f); // Derived::g(int) 3        (surprise!)
+    // Bad : behavior depends on type of the pointer
+    pb->h(3.14f); // Base::h(float) 3.14      (surprise!)
+    pd->h(3.14f); // Derived::h(float) 3.14
+    return 0;
+}
+```
+
+
+## 内联函数的编程风格
+
+关键字 inline 必须与函数定义体放在一起才能使函数成为内联，仅将 inline 放在函数声明前面不起任何作用。
+
+```cpp
+void Foo(int x, int y);
+
+// inline 是一种“用于实现的关键字”，而不是一种“用于声明的关键字”。
+inline void Foo(int x, int y) { // inline 与函数定义体放在一起
+    // …
+}
+```
+
+
+## 类的构造函数、析构函数与赋值函数
+
+对于任意一个类 A，如果不想编写上述函数，C++ 编译器将自动为 A 产生四个缺省的函数，如：
+```cpp
+A(void);                   // 缺省的无参数构造函数
+A(const A &a);             // 缺省的拷贝构造函数
+~A(void);                  // 缺省的析构函数
+A& operator=(const A &a);  // 缺省的赋值函数，如果包含成员类，会递归调用成员类的 赋值函数
+```
+
+内存泄漏：
+* 如果不主动编写拷贝构造函数和赋值函数，编译器将以“位拷贝”的方式自动生成缺省的函数。倘若类中含有指针变量，那么这两个缺省的函数就隐含了错误。
+    以类 String 的两个对象 a,b 为例，假设 a.m_data 的内容为“hello”，b.m_data 的内容为“world”。
+    现将 a 赋给 b，缺省赋值函数的“位拷贝”意味着执行 b.m_data = a.m_data。这将造成三个错误：
+    * 一是 b.m_data 原有的内存没被释放，造成内存泄露；
+    * 二是 b.m_data 和 a.m_data 指向同一块内存，a 或 b 任何一方变动都会影响另一方；
+    * 三是在对象被析构时，m_data 被释放了两次。
+* 拷贝构造函数和赋值函数非常容易混淆，常导致错写、错用。拷贝构造函数是在对象被创建时调用的，而赋值函数只能被已经存在了的对象调用。
+
+```cpp
+String a("hello");
+String b("world");
+String c = a; // 调用了拷贝构造函数，最好写成 c(a);
+c = b; // 调用了赋值函数
+```
+
+
+## 类的继承与组合
+
+只要是可能被继承的类，析构都需要是虚的。
+基类与派生类的析构函数应该为虚（即加 virtual 关键字）。
+
+* [高质量 C/C++ 编程指南 {% include relref_csdn.html %}](https://blog.csdn.net/x_iya/article/details/8714362)
+* 微软 C 编程精粹 -- Microsoft 编写优质无错 C 程序秘诀.pdf
+
+<hr class='reviewline'/>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-26-prog-Microsoft-cpp-styleguide.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://blog.csdn.net/x_iya/article/details/8714362]({% include relrefx.html url="/backup/2021-05-26-prog-Microsoft-cpp-styleguide.md/blog.csdn.net/6c268139.html" %})
