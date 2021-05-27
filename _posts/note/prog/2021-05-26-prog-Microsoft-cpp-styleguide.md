@@ -26,14 +26,16 @@ std::lock_guard<std::mutex> locker(m_mutex);
     * 如果程序在 assert 处终止了，并不是说含有该 assert 的函数有错误，而是调用者出了差错，assert 可以帮助我们找到发生错误的原因。
     * 使用断言捕捉不应该发生的非法情况。不要混淆非法情况与错误情况之间的区别，后者是必然存在的并且是一定要作出处理的。
     * 当进行防错设计时，如果“不可能发生”的事情的确发生了，则要使用断言进行报警。然后 release 版本给予合理的处理。
-
-```cpp
+        * 从源头去分析断言发生的条件是否合理，区分好究竟是异常还是断言。
+  ```cpp
+// const 保证参数不会搞反。
 char* strcpy(char* dest, const char* src) {
+    // 断言，Debug 版本生效。
     assert((dest != NULL) && (src != NULL));
-    if (dest == NULL) return NULL;
-    if (src == NULL) return dest;
-    char* address = dest;
-    while((*dest++ = *src++) != '\0')
+    // 入参检查，特殊情况处理。
+    if (src == NULL || dest == NULL) return dest;
+    char* address = dest; // 功能逻辑
+    while ((*dest++ = *src++) != '\0')
         NULL;
     return address;
 }
@@ -64,6 +66,7 @@ malloc 与 free 是 C++/C 语言的标准库函数，new/delete 是 C++ 的运�
 
 * 如果派生类的函数与基类的函数同名，但是参数不同。此时，不论有无 virtual 关键字，基类的函数将被隐藏（注意别与重载混淆）。
 * 如果派生类的函数与基类的函数同名，并且参数也相同，但是基类函数没有 virtual 关键字。此时，基类的函数被隐藏（注意别与覆盖混淆）。
+    * 无论是否 virtual，都可以用父类名 ::Func 调用到具体的实现。
 
 ```cpp
 #include <iostream>
@@ -137,6 +140,7 @@ A& operator=(const A &a);  // 缺省的赋值函数，如果包含成员类，�
     * 二是 b.m_data 和 a.m_data 指向同一块内存，a 或 b 任何一方变动都会影响另一方；
     * 三是在对象被析构时，m_data 被释放了两次。
 * 拷贝构造函数和赋值函数非常容易混淆，常导致错写、错用。拷贝构造函数是在对象被创建时调用的，而赋值函数只能被已经存在了的对象调用。
+    * c++11 还有一个移动拷贝函数。
 
 ```cpp
 String a("hello");
@@ -150,7 +154,10 @@ c = b; // 调用了赋值函数
 
 只要是可能被继承的类，析构都需要是虚的。
 基类与派生类的析构函数应该为虚（即加 virtual 关键字）。
+* 正常的 C++ 类都是派生类的析构执行后再自动执行基类的析构，如果析构不带 virtual 关键字，那么就不符合 C++ 类的标准行为，可能会导致基类的内存没有机会释放。
+* 还有虚继承的说明，虚继承和 com 的冲突。
 
+* Review by 豪哥
 * [高质量 C/C++ 编程指南 {% include relref_csdn.html %}](https://blog.csdn.net/x_iya/article/details/8714362)
 * 微软 C 编程精粹 -- Microsoft 编写优质无错 C 程序秘诀.pdf
 
