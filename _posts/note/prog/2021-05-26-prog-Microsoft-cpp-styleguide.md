@@ -27,6 +27,18 @@ std::lock_guard<std::mutex> locker(m_mutex);
     * 使用断言捕捉不应该发生的非法情况。不要混淆非法情况与错误情况之间的区别，后者是必然存在的并且是一定要作出处理的。
     * 当进行防错设计时，如果“不可能发生”的事情的确发生了，则要使用断言进行报警。然后 release 版本给予合理的处理。
 
+```cpp
+char* strcpy(char* dest, const char* src) {
+    assert((dest != NULL) && (src != NULL));
+    if (dest == NULL) return NULL;
+    if (src == NULL) return dest;
+    char* address = dest;
+    while((*dest++ = *src++) != '\0')
+        NULL;
+    return address;
+}
+```
+
 
 ## 内存管理
 
