@@ -55,7 +55,7 @@ C:\Users\john\AppData\Local\Programs\Python\Python37-32\python.exe %*
 ```
 
 pip.bat
-```
+```bat
 @echo off
 setlocal
 set PATH=%PATH%;%~dp0;C:\Users\john\AppData\Local\Programs\Python\Python37-32\Scripts
