@@ -8,7 +8,7 @@ tags: ["编程", "C++"]
 toc: true
 toclistyle:
 comments:
-visibility: hidden
+visibility:
 mathjax:
 mermaid:
 glslcanvas:
