@@ -13,10 +13,16 @@ mathjax:
 mermaid:
 glslcanvas:
 codeprint:
+cluster: "编程指南"
 ---
 
 ```cpp
 std::lock_guard<std::mutex> locker(m_mutex);
+std::unique_lock<std::mutex> locker(m_lock);
+std::wstring_convert<std::codecvt_utf8<wchar_t>> strConvert;
+std::unique_ptr<EngineBase> srcEngine;
+std::make_shared<SelectAreaRecognition>(selector, parent);
+std::make_tuple(printerInfo, false);
 ```
 
 最近一直在思考大型工程的维护。
@@ -47,6 +53,19 @@ std::lock_guard<std::mutex> locker(m_mutex);
       return address;
   }
 ```
+
+* 要使用断言对函数参数进行确认，利用断言来检查不可能发生的情况。
+    * 要从程序中删去无定义的特性，或者在程序中使用断言来检查出无定义特性的非法使用。
+    * 断言不是用来检查错误的。用来检查在该程序正常工作时绝不应该发生的非法情况，不是所测试的是错误情况，是在其最终产品中肯定会出现并且必须对其进行处理的错误情况。
+    * 消除所做的隐式假定，或者利用断言检查其正确性，这些措施使得该程序极少可能被不正确地使用。
+
+* 假如你受雇为核反应堆编写软件，就必须对堆芯过热这一情况进行处理。
+    * 某些程序员解决这个问题的方法可以是自动地向堆芯灌水、插入冷却棒或者是能使反应堆冷却下来的一些其他什么方法。而且，只要程序已经控制了势态就不必向有关人员发出警报。
+    * 另一些程序员可能会选择另一种方法，即只要堆芯过热就向反应堆工作人员发出警报。虽然相应的处理仍由计算机自动进行，不同的是操作员总是知道这件事。
+    * **在进行防错性程序设计时，不要隐瞒错误。** 堆芯不会无缘无故地出现过热现象，一定是发生了某种不同寻常的事情，才会引起这一故障。因此在计算机进行相应处理的同时，最好使操作人员搞清楚发生了什么事情以避免事故的再次发生。
+
+
+## 为子系统设防
 
 
 ## 内存管理
@@ -164,11 +183,16 @@ c = b; // 调用了赋值函数
 * 正常的 C++ 类都是派生类的析构执行后再自动执行基类的析构，如果析构不带 virtual 关键字，那么就不符合 C++ 类的标准行为，可能会导致基类的内存没有机会释放。
 
 * Review by 豪哥
+
+{% include image.html url="/assets/images/210526-prog-microsoft-cpp-styl~3c/microsoft-cpp-styleguide.jpg" %}
+
 * [高质量 C/C++ 编程指南 {% include relref_csdn.html %}](https://blog.csdn.net/x_iya/article/details/8714362)
 * 微软 C 编程精粹 -- Microsoft 编写优质无错 C 程序秘诀.pdf
+* [编程精粹 --Microsoft 编写优质无错 C 程序秘诀 {% include relref_csdn.html %}](https://blog.csdn.net/okcai/article/details/186241)
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-26-prog-Microsoft-cpp-styleguide.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://blog.csdn.net/x_iya/article/details/8714362]({% include relrefx.html url="/backup/2021-05-26-prog-Microsoft-cpp-styleguide.md/blog.csdn.net/6c268139.html" %})
+- [https://blog.csdn.net/okcai/article/details/186241]({% include relrefx.html url="/backup/2021-05-26-prog-Microsoft-cpp-styleguide.md/blog.csdn.net/347ffe95.html" %})
