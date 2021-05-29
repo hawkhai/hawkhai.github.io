@@ -44,8 +44,11 @@ Current: **颈椎病康复指南**
     * 如果你想靠好的运气，那我们就只有死掉了。他们找一个月也找不到这个地方。
         水能维持多长时间？肯定维持不了一个月。没有食物，我们在四天内走出去。
         **现在我们坐在这里一边喝水一边等，或者是一边喝水一边走，你认为哪个更合理？**
+  * 《恐惧的代价》一处油田发生火灾，公司计划将 10 吨硝化甘油从 500 公里外运送过去救火，没有专门的运输车辆，这无异于通往地狱之路，公司重金悬赏，4 名混混接下了任务。<span imgid="LeSalairedelaPeur" />
+    * 小时候在电影频道看的，结局印象非常深刻。
 
 {% include image.html url="/assets/images/bookshelf/20210515170417.png" relocate="ThePurplePlain" %}
+{% include image.html url="/assets/images/bookshelf/20130507083318847.jpg" relocate="LeSalairedelaPeur" %}
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/bookshelf.md.js" %}'></script></p>
