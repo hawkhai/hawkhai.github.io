@@ -67,6 +67,54 @@ std::make_tuple(printerInfo, false);
 
 ## 为子系统设防
 
+* 要记住调试代码是多余的代码，而不是不同的代码。
+
+```cpp
+Flag fResizeMemory(void** ppv, size_t sizeNew) {
+
+    byte** ppb = (byte**) ppv;
+
+    ASSERT(ppb != NULL && sizeNew != 0);
+#ifdef DEBUG
+    {
+        // 如果不是 realloc 扩大内存块时使原有存储位置发生移动这种现象很罕见。
+        // 如果某件事甚少发生的话，设法使其经常发生。
+        size_t sizeOld = sizeofBlock(*ppb);
+        /*
+         * 如果缩小，先把将被释放的内存空间填写上废料
+         * 如果扩大，通过模拟 realloc 的操作来迫使新的内存块产生移动
+         *（不让它在原有的位置扩展）如果新块和老块的长度相同，不做任何事情
+         */
+
+        if (sizeNew < sizeOld)
+            memset((*ppb)+sizeNew, bGarbage, sizeOld-sizeNew);
+        else if (sizeNew > sizeOld) {
+            byte* pbNew;
+            if( fNewMemory(&pbNew, sizeNew) ) {
+                memcpy(pbNew, *ppb, sizeOld);
+                FreeMemory(*ppb);
+                *ppb = pbNew;
+            }
+        }
+    }
+#endif
+
+    byte* pbResize = (byte*) realloc(*ppb, sizeNew);
+    // ……
+}
+```
+
+
+## 糖果机界面
+
+* 接口设计的，想用错都很难。一个深刻的例子是油门和刹车都是右脚踩。
+    * 如果设计的左脚刹车右脚油门，当人在慌张的时候，会两只脚踩下去，直接爆缸。
+    * 当油门和刹车都是右脚踩，这两种操作就天然互斥了，同时被踩下的可能就没有了。
+    * 一个非常糟糕的例子就是标准 C 里面的：`int ch = getchar();`。
+
+* 要使用户不容易忽视错误情况，不要在正常地返回值中隐藏错误代码。
+* 要不遗余力地寻找并消除函数界面中的缺陷。
+
 
 ## 内存管理
 
@@ -86,6 +134,18 @@ void Func(char a[100]) {
 ```
 
 malloc 与 free 是 C++/C 语言的标准库函数，new/delete 是 C++ 的运算符。它们都可用于申请动态内存和释放内存。
+
+
+### 单一功能的内存管理程序
+
+反例：`void* realloc( void* pv, size_t size );`
+* 如果该内存块的新长度小于老长度，realloc 释放该块尾部不再想要的内存空间，返回的 pv 不变。
+* 如果该内存块的新长度大于老长度，扩大后的内存块有可能被分配到新的地址处，该块的原有内容被拷贝到新的位置。
+    返回的指针指向扩大后的内存块，并且该块扩大部分的内容未经初始化。
+* 如果满足不了扩大内存块的请求，realloc 返回 NULL，当缩小内存块时，realloc 总会成功。
+* 如果 pv 为 NULL，那么 realloc 的作用相当于调用 malloc(size)，并返回指向新分配内存块的指针，或者在该请求无法满足时返回 NULL。
+* 如果 pv 不是 NULL，但新的块长为零，那么 realloc 的作用相当于调用 free(pv) 并且总是返回 NULL。
+* 如果 pv 为 NULL 且当前的内存块长为零，结果无定义。
 
 
 ## 成员函数的重载、覆盖与隐藏
@@ -188,7 +248,8 @@ c = b; // 调用了赋值函数
 
 * [高质量 C/C++ 编程指南 {% include relref_csdn.html %}](https://blog.csdn.net/x_iya/article/details/8714362)
 * 微软 C 编程精粹 -- Microsoft 编写优质无错 C 程序秘诀.pdf
-* [编程精粹 --Microsoft 编写优质无错 C 程序秘诀 {% include relref_csdn.html %}](https://blog.csdn.net/okcai/article/details/186241)
+* [编程精粹 -- Microsoft 编写优质无错 C 程序秘诀 {% include relref_csdn.html %}](https://blog.csdn.net/okcai/article/details/186241)
+    * 这本书的内容大多观点在微软编译器 debug & release 版本里面得到了实践。
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-26-prog-Microsoft-cpp-styleguide.md.js" %}'></script></p>

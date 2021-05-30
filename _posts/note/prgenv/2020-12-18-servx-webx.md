@@ -76,8 +76,10 @@ gif2webp -q 75 -lossy -m 6 picture.gif -o picture.webp
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://sourceforge.net/]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/sourceforge.net/f577c4c2.html" %})
-- [http://www.codeproject.com]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/www.codeproject.com/05a0c83e.html" %})
-- [http://search.csdn.net/]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/search.csdn.net/37e536ff.html" %})
+- [https://www.codeproject.com/]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/www.codeproject.com/acdb3b41.html" %})
+- [https://download.csdn.net/]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/download.csdn.net/185f3ebc.html" %})
+- [https://gitee.com/]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/gitee.com/14e83663.html" %})
+- [https://github.com/]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/github.com/008ec445.html" %})
 - [https://zh.savefrom.net/7/]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/zh.savefrom.net/3ae75bbb.html" %})
 - [https://ctb.doutui.net/youtube.php]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/ctb.doutui.net/f1de05f9.php" %})
 - [https://segmentfault.com/a/1190000009033181]({% include relrefx.html url="/backup/2020-12-18-servx-webx.md/segmentfault.com/a7e55d6e.html" %})
