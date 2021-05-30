@@ -34,7 +34,7 @@ This table includes URN (Unicode Radical Number), 214 KangXi radicals [codes U+2
 找了很多文章，始终不完整或者存在错误，甚至自相矛盾的地方。
 
 * [Unicode 基本汉字、部首扩展、康熙部首对照字典 {% include relref_csdn.html %}](https://blog.csdn.net/qq_40734108/article/details/105104412)
-* [这“⼀⼝”和那“一口”有什么不同，关于 unicode 一个小知识 {% include relref_csdn.html %}](https://blog.csdn.net/gstianfu/article/details/84643320)
+* [这“⼀⼝”和那“一口”有什么不同，关于 unicode 一个小知识：KANGXI RADICAL unicode 正规化 {% include relref_csdn.html %}](https://blog.csdn.net/gstianfu/article/details/84643320)
 
 最后在 Unicode 官网找到了最终的准确答案，完美解决。13.0.0 2019-09-09 14:10 最新发布。
 
