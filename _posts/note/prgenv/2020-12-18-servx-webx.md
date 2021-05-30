@@ -19,8 +19,10 @@ codeprint:
 ## 找代码的几个地方
 
 * <https://sourceforge.net/>
-* <http://www.codeproject.com>
-* <http://search.csdn.net/>
+* <https://www.codeproject.com/>
+* <https://download.csdn.net/>
+* <https://gitee.com/>
+* <https://github.com/>
 
 
 ## SWIG

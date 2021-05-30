@@ -149,7 +149,7 @@ debug 版本进行 JIT 检查。
 ```cpp
 // Good
 const int nWeekdays[] = { 1, 2, 3, 4, 5, 6, 7 };
-const char* sWeekdays[] = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+const char* sWeekdays[] = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
 assert(ARRAY_SIZE(nWeekdays) == ARRAY_SIZE(sWeekdays));
 for (int x = 0; x < ARRAY_SIZE(sWeekdays); x++) {
     if (strcmp(sWeekdays[x], input) == 0) {
