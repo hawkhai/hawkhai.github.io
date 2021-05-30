@@ -8,7 +8,7 @@ tags: ["编程", "C++"]
 toc: true
 toclistyle:
 comments:
-visibility: hidden
+visibility:
 mathjax:
 mermaid:
 glslcanvas:
@@ -46,6 +46,29 @@ cluster: "编程指南"
 char* pszExplame;
 unsigned long long ullExplame;
 ```
+
+* 常见的安全 CRT 函数 `_itoa_s` `printf_s` `strcpy_s` `strcat_s` `strncpy_s`。
+* 仅当只有数据时使用 struct，其它一概使用 class。
+    * 在 C++ 中 struct 和 class 关键字几乎含义一样。我们为这两个关键字添加我们自己的语义理解，以便为定义的数据类型选择合适的关键字。
+    * struct 用来定义包含数据的被动式对象，也可以包含相关的常量，但除了存取数据成员之外，没有别的函数功能。并且存取功能是通过直接访问位域 (field)，而非函数调用。除了构造函数、析构函数、Initialize()、Reset()、Validate() 外，不能提供其它功能的函数。
+    * 如果需要更多的函数功能，class 更适合。如果拿不准，就用 class。为了和 STL 保持一致，对于仿函数 (functors) 和特性 (traits) 可以不用 class 而是使用 struct。
+    * 注意：类和结构体的成员变量使用不同的命名规则。
+* 不要使用 C 风格类型转换，而应该使用 C++ 风格。
+    * 用 static_cast 替代 C 风格的值转换，或某个类指针需要明确的向上转换为父类指针时。
+    * 用 const_cast 去掉 const 限定符。
+    * 用 reinterpret_cast 指针类型和整型或其它指针之间进行不安全的相互转换，仅在你对所做一切了然于心时使用。
+    * dynamic_cast 测试代码以外不要使用，除非是单元测试，如果你需要在运行时确定类型信息，说明有 设计缺陷。
+
+
+### #include 的路径及顺序
+
+1. #include "stdafx.h"
+2. C 系统文件
+3. C++ 系统文件
+4. Windows 标准 .h 文件
+5. 其他库的 .h 文件
+6. 本项目内 .h 文件
+7. foo.h
 
 
 ## 注意隐式符号转换
