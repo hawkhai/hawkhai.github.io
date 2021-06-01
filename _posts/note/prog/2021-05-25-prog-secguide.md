@@ -71,6 +71,33 @@ unsigned long long ullExplame;
 7. foo.h
 
 
+### DISALLOW_COPY_AND_ASSIGN
+
+```cpp
+#define DISALLOW_COPY_AND_ASSIGN(TypeName) \
+    TypeName(const TypeName&) = delete;    \
+    TypeName& operator=(const TypeName&) = delete
+
+// 声明私有的拷贝构造函数和赋值构造函数，但不去定义实现它们，有三方面的作用：
+// 1. 声明了拷贝构造函数和赋值函数，阻止了编译器暗自创建的专属版本；
+// 2. 声明了 private，阻止了外部对它们的调用；
+// 3. 不定义它们，可以保证成员函数和友元函数调用它们时，产生一个连接错误。
+// 上述解决方法，面对在成员函数和友元函数企图拷贝对象时，会产生连接器错误。
+// 遵循错误发现越早越好的原则，我们希望将连接期错误移至编译期。
+// 解决思路是：设计一个专门为了阻止 copying 动作（包含 copy 和 assign）而设计的基类。
+class Uncopyable { // private 继承即可：private Uncopyable
+  protected:
+    Uncopyable() {
+    }
+    virtual ~Uncopyable() {
+    }
+
+  private:
+    DISALLOW_COPY_AND_ASSIGN(Uncopyable);
+};
+```
+
+
 ## 注意隐式符号转换
 
 两个无符号数相减为负数时，结果应当为一个很大的无符号数，但是小于 int 的无符号数在运算时可能会有预期外的隐式符号转换。

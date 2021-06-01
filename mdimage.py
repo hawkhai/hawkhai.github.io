@@ -16,7 +16,7 @@ def mainfilew(fpath, fname, ftype):
     li2 = []
     first = True
     for line in li:
-        result = re.findall("^({})\\s+({})$".format("[^ ]+\\.(?:png|jpg|jpeg|webp)", "[0-9.]+"), line)
+        result = re.findall("^({})\\s+({})$".format("[^ ]+\\.(?:png|jpg|jpeg|webp|gif)", "[0-9.]+"), line)
         if result:
             result = result[0]
             if first:
