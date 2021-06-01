@@ -18,7 +18,7 @@ cluster: "编程指南"
 
 ```cpp
 std::lock_guard<std::mutex> locker(m_mutex);
-std::unique_lock<std::mutex> locker(m_lock);
+std::unique_lock<std::mutex> locker(m_mutex);
 std::wstring_convert<std::codecvt_utf8<wchar_t>> strConvert;
 std::unique_ptr<EngineBase> srcEngine;
 std::make_shared<SelectAreaRecognition>(selector, parent);

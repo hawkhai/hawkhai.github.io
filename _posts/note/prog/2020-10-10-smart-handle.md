@@ -149,7 +149,7 @@ inline Mutex::~Mutex() {
 }
 
 inline status_t Mutex::lock() {
-    return -pthread_mutex_lock(&mMutex);
+    return pthread_mutex_lock(&mMutex);
 }
 
 inline void Mutex::unlock() {

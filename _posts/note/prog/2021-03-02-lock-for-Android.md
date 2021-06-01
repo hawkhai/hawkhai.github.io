@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "编程 C++ -- 多平台 lock（include Android）"
+title: "编程 C++ -- 多平台 lock Windows & Android"
 author:
 location: "珠海"
 categories: ["编程"]
@@ -14,6 +14,59 @@ mermaid:
 glslcanvas:
 codeprint:
 ---
+
+
+## 可重入锁与不可重入锁
+
+Mutex 可以分为递归锁 (recursive mutex) 和非递归锁 (non-recursive mutex)。[from {% include relref_csdn.html %}](https://blog.csdn.net/u010275850/article/details/100110450)
+[from {% include relref_csdn.html %}](https://blog.csdn.net/zouxinfox/article/details/5838861)
+* 可递归锁也可称为可重入锁 (reentrant mutex) `std::recursive_mutex`；
+* 非递归锁又叫不可重入锁 (non-reentrant mutex) `std::mutex`；
+* 递归锁具有线程排他性。
+
+**二者唯一的区别是，同一个线程可以多次获取同一个递归锁，不会产生死锁。而如果一个线程多次获取同一个非递归锁，则会产生死锁。**
+**Windows 下的 Mutex 和 Critical Section 是可递归的。Linux 下的 pthread_mutex_t 锁默认是非递归的。**
+**可以显示的设置 PTHREAD_MUTEX_RECURSIVE 属性，将 pthread_mutex_t 设为递归锁。**
+
+在使用 std::mutex 的情况下，一个线程试图锁定其已拥有的互斥元是错误的，并且将导致未定义行为。
+但在某些情况下，我们需要线程多次获取同一个互斥元却无需事先释放这个互斥元。
+std::recursive_mutex 和 std::mutex 在于，std::recursive_mutex 可以在同一个线程的单个实例上获取多个锁。
+解锁时，需要调用与 lock() 相同次数的 unlock() 才能释放使用权。
+
+The difference is that you can lock and unlock a std::unique_lock. std::lock_guard will be locked only once on construction and unlocked on destruction.
+
+* lock_guard (C++11) 实现严格基于作用域的互斥体所有权包装器；
+* scoped_lock (C++17) 用于多个互斥体的免死锁 RAII 封装器；
+* unique_lock (C++11) 实现可移动的互斥体所有权包装器。
+    类 unique_lock 是通用互斥包装器，允许延迟锁定、锁定的有时限尝试、递归锁定、所有权转移和与条件变量一同使用。
+
+
+### 如果想同时对多个互斥锁上锁，推荐使用 std::scoped_lock（C++17）。
+
+类 scoped_lock 是提供便利 RAII 风格机制的互斥包装器，它在作用域块的存在期间占有一或多个互斥。scoped_lock 类不可复制。
+
+创建 scoped_lock 对象时，它试图取得给定互斥的所有权。控制离开创建 scoped_lock 对象的作用域时，析构 scoped_lock 并以逆序释放互斥。
+若给出数个互斥，则使用免死锁算法，如同以 std::lock。[from](https://zh.cppreference.com/w/cpp/thread/scoped_lock)
+
+```cpp
+// 用 std::scoped_lock 取得二个锁，而无需担心
+// 其他对 assign_lunch_partner 的调用死锁我们
+// 而且它亦提供便利的 RAII 风格机制
+std::scoped_lock lock(e1.m, e2.m);
+
+// 等价代码 1 （用 std::lock 和 std::lock_guard）
+std::lock(e1.m, e2.m);
+std::lock_guard<std::mutex> lk1(e1.m, std::adopt_lock);
+std::lock_guard<std::mutex> lk2(e2.m, std::adopt_lock);
+
+// 等价代码 2 （若需要 unique_lock，例如对于条件变量）
+std::unique_lock<std::mutex> lk1(e1.m, std::defer_lock);
+std::unique_lock<std::mutex> lk2(e2.m, std::defer_lock);
+std::lock(lk1, lk2);
+```
+
+
+### [Windows 上锁的实现](https://gclxry.com/article/implement-a-cpp-lock-on-windows/)
 
 
 ## pthread_mutex_lock
@@ -119,7 +172,7 @@ void main ( void ) {
     delay.tv_sec = 2;
     delay.tv_nec = 0;
     /* 用默认属性初始化一个互斥锁对象 */
-    pthread_mutex_init (&mutex,NULL);
+    pthread_mutex_init(&mutex, NULL);
     pthread_create(&reader, pthread_attr_default, (void *)&reader_function), NULL);
     writer_function( );
 }
@@ -127,9 +180,9 @@ void main ( void ) {
 void writer_function (void) {
     while (1) {
         /* 锁定互斥锁*/
-        pthread_mutex_lock (&mutex);
+        pthread_mutex_lock(&mutex);
         if (buffer_has_item == 0) {
-            buffer = make_new_item( );
+            buffer = make_new_item();
             buffer_has_item = 1;
         }
         /* 打开互斥锁 */
@@ -426,5 +479,9 @@ template<class Callable, class ...Args>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-02-lock-for-Android.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://blog.csdn.net/u010275850/article/details/100110450]({% include relrefx.html url="/backup/2021-03-02-lock-for-Android.md/blog.csdn.net/fbc9d63c.html" %})
+- [https://blog.csdn.net/zouxinfox/article/details/5838861]({% include relrefx.html url="/backup/2021-03-02-lock-for-Android.md/blog.csdn.net/c4303268.html" %})
+- [https://zh.cppreference.com/w/cpp/thread/scoped_lock]({% include relrefx.html url="/backup/2021-03-02-lock-for-Android.md/zh.cppreference.com/a69794ff.html" %})
+- [https://gclxry.com/article/implement-a-cpp-lock-on-windows/]({% include relrefx.html url="/backup/2021-03-02-lock-for-Android.md/gclxry.com/f4a7bda8.html" %})
 - [https://pubs.opengroup.org/onlinepubs/7908799/xsh/pthread_mutex_lock.html]({% include relrefx.html url="/backup/2021-03-02-lock-for-Android.md/pubs.opengroup.org/717c42d5.html" %})
 - [https://en.cppreference.com/w/cpp/thread]({% include relrefx.html url="/backup/2021-03-02-lock-for-Android.md/en.cppreference.com/1f71b663.html" %})
