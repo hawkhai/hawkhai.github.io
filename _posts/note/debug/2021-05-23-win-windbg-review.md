@@ -149,6 +149,30 @@ WinDbg 的 !heap 命令非常强大，结合 AppVerifier 可以对堆 (heap) 内
 {% include image.html url="/assets/images/210523-win-windbg-review/1ba6703801bca02447eaabe70bc28c33.png" %}
 
 
+## [windbg.txt {% include relref_github.html %}](https://github.com/mk-z/windbg/blob/master/windbg.txt)
+
+* [WinDbg 入门（用户模式）](https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/getting-started-with-windbg)
+
+
+### 栈大小
+
+用户态栈默认大小为 1MB，默认内核态栈大小为：
+在 x86 系统中，内核栈的初始大小是 12KB，在 X64 CPU（intel 64 和 AMD 64）的系统中，内核态栈的初始大小是 24KB，在安腾（Itanium）处理器的系统中，内核态栈的大小是 32KB。
+
+
+### windbg 观察栈
+
+* kb：显示栈上的前三个参数（不一定是参数，仅仅是三个固定位置的值）
+
+
+### 并发堆栈
+
+并发堆栈，首先我们需要知道有多少线程。
+* `~*`：查看所有线程
+* `~.kp`：查看当前线程调用堆栈
+* `~*kp`：查看所有线程调用堆栈
+
+
 ## Refs
 
 利用 windbg 分析崩溃、句柄泄漏、死锁、CPU 高、内存泄漏
@@ -162,5 +186,7 @@ Windbg 的一些简单使用命令
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://msdl.microsoft.com/download/symbols]({% include relrefx.html url="/backup/2021-05-23-win-windbg-review.md/msdl.microsoft.com/9dd253a8.html" %})
+- [https://github.com/mk-z/windbg/blob/master/windbg.txt]({% include relrefx.html url="/backup/2021-05-23-win-windbg-review.md/github.com/dabc29f3.html" %})
+- [https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/getting-started-with-windbg]({% include relrefx.html url="/backup/2021-05-23-win-windbg-review.md/docs.microsoft.com/02c5b3b3.html" %})
 - [https://www.pianshen.com/article/72521138890/]({% include relrefx.html url="/backup/2021-05-23-win-windbg-review.md/www.pianshen.com/00174843.html" %})
 - [https://blog.csdn.net/zqw_4181/article/details/79162309]({% include relrefx.html url="/backup/2021-05-23-win-windbg-review.md/blog.csdn.net/b4dbb7b3.html" %})

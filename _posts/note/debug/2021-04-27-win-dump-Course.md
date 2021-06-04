@@ -62,7 +62,7 @@ cluster: "WinDBG"
 * bp script
 * ba
 
-{% include image.html url="/assets/images/210427-win-dump/zz1.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/zz1.png" %}
 
 
 ## windbg 分析堆溢出
@@ -91,7 +91,7 @@ cluster: "WinDBG"
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsNT\CurrentVersion\Image File ExecutionOptions
 ```
 
-{% include image.html url="/assets/images/210427-win-dump/windbg1.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/windbg1.png" %}
 
 条件断点：
 windbg 调试 test.exe 下条件断点当
@@ -120,27 +120,27 @@ bcdedit /debug {GUID} ON
 # vmware 增加串口：\\.\pipe\com_2
 ```
 
-{% include image.html url="/assets/images/210427-win-dump/20210516164859.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/20210516164859.png" %}
 
 VirtualKD-2.7 帮你一键搭建 windbg+vm 的双机调试环境。
 
 #### 调试端
 
-{% include image.html url="/assets/images/210427-win-dump/virtualkd1.png" %}
-{% include image.html url="/assets/images/210427-win-dump/virtualkd2.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/virtualkd1.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/virtualkd2.png" %}
 
 #### 被调试端（VM）
 
-{% include image.html url="/assets/images/210427-win-dump/virtualkd3.png" %}
-{% include image.html url="/assets/images/210427-win-dump/virtualkd4.png" %}
-{% include image.html url="/assets/images/210427-win-dump/virtualkd5.png" %}
-{% include image.html url="/assets/images/210427-win-dump/virtualkd6.png" %}
-{% include image.html url="/assets/images/210427-win-dump/virtualkd7.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/virtualkd3.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/virtualkd4.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/virtualkd5.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/virtualkd6.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/virtualkd7.png" %}
 
 
 ## VS 调试器探秘
 
-{% include image.html url="/assets/images/210427-win-dump/k1.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/k1.png" %}
 
 
 ### 断点
@@ -161,12 +161,12 @@ VirtualKD-2.7 帮你一键搭建 windbg+vm 的双机调试环境。
     4. When hit
     5. 条件断点 eg
 
-{% include image.html url="/assets/images/210427-win-dump/k2.png" caption="手动插入一个 INT3 断点" relocate="3.1" %}
-{% include image.html url="/assets/images/210427-win-dump/k3.png" caption="执行效果" relocate="3.1" %}
-{% include image.html url="/assets/images/210427-win-dump/k4.png" caption="" relocate="3.3" %}
+{% include image.html url="/assets/images/210427-win-dump-course/k2.png" caption="手动插入一个 INT3 断点" relocate="3.1" %}
+{% include image.html url="/assets/images/210427-win-dump-course/k3.png" caption="执行效果" relocate="3.1" %}
+{% include image.html url="/assets/images/210427-win-dump-course/k4.png" caption="" relocate="3.3" %}
 
-{% include image.html url="/assets/images/210427-win-dump/k5.png" caption="" relocate="4.4" %}
-{% include image.html url="/assets/images/210427-win-dump/k6.png" caption="" relocate="4.4" %}
+{% include image.html url="/assets/images/210427-win-dump-course/k5.png" caption="" relocate="4.4" %}
+{% include image.html url="/assets/images/210427-win-dump-course/k6.png" caption="" relocate="4.4" %}
 
 ```
 1. iArray[i] == 2
@@ -188,7 +188,7 @@ VirtualKD-2.7 帮你一键搭建 windbg+vm 的双机调试环境。
 
 * **内存访问断点**
 
-{% include image.html url="/assets/images/210427-win-dump/k7.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/k7.png" %}
 
 
 ### 堆栈回溯原理
@@ -239,8 +239,8 @@ mov ebp, esp
 
 #### 一次堆栈回溯过程
 
-{% include image.html url="/assets/images/210427-win-dump/z1.png" %}
-{% include image.html url="/assets/images/210427-win-dump/z2.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/z1.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/z2.png" %}
 
 * 可以看出在当前函数中要取上一层函数的返回地址只需要取 ebp+4 的内容 ([ebp+4])
 * 而要取到上一层栈帧 ebp(old), 只需要取 ebp 的内容 ([ebp])
@@ -259,9 +259,9 @@ mov ebp, esp
     3. 通过在“p,10” 可以将数据转化成大小为 10 的数组
     4. 通过格式化对数据类型进行转换
 
-{% include image.html url="/assets/images/210427-win-dump/z3.png" relocate="4.2" %}
-{% include image.html url="/assets/images/210427-win-dump/z4.png" relocate="4.3" %}
-{% include image.html url="/assets/images/210427-win-dump/z5.png" relocate="4.4" %}
+{% include image.html url="/assets/images/210427-win-dump-course/z3.png" relocate="4.2" %}
+{% include image.html url="/assets/images/210427-win-dump-course/z4.png" relocate="4.3" %}
+{% include image.html url="/assets/images/210427-win-dump-course/z5.png" relocate="4.4" %}
 
 
 ### 代码的可调试性探讨
@@ -277,23 +277,23 @@ mov ebp, esp
 
 ## 高 CPU !runaway
 
-{% include image.html url="/assets/images/210427-win-dump/1.png" %}
-{% include image.html url="/assets/images/210427-win-dump/2.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/1.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/2.png" %}
 
 
 ## 死锁 !locks
 
-{% include image.html url="/assets/images/210427-win-dump/3.png" %}
-{% include image.html url="/assets/images/210427-win-dump/4.png" url2="/assets/images/210427-win-dump/5.png" %}
-{% include image.html url="/assets/images/210427-win-dump/6.png" url2="/assets/images/210427-win-dump/7.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/3.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/4.png" url2="/assets/images/210427-win-dump-course/5.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/6.png" url2="/assets/images/210427-win-dump-course/7.png" %}
 
 
 ## DllMain 死锁分析
 
-{% include image.html url="/assets/images/210427-win-dump/8.png" url2="/assets/images/210427-win-dump/9.png" url3="/assets/images/210427-win-dump/10.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/8.png" url2="/assets/images/210427-win-dump-course/9.png" url3="/assets/images/210427-win-dump-course/10.png" %}
 
-{% include image.html url="/assets/images/210427-win-dump/11.png" %}
-{% include image.html url="/assets/images/210427-win-dump/13.png" url2="/assets/images/210427-win-dump/14.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/11.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/13.png" url2="/assets/images/210427-win-dump-course/14.png" %}
 
 * 进程内所有线程共用了同一个临界区来序列化 DllMain 的执行；
 * DllMain 中执行了危险操作导致等待某个锁（最好什么逻辑都没有）；
@@ -315,11 +315,11 @@ mov ebp, esp
 ```
 
 IDA 反汇编 ntdll!_LdrpInitialize：
-{% include image.html url="/assets/images/210427-win-dump/15.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/15.png" %}
 
-{% include image.html url="/assets/images/210427-win-dump/16.png" %}
-{% include image.html url="/assets/images/210427-win-dump/17.png" %}
-{% include image.html url="/assets/images/210427-win-dump/18.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/16.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/17.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/18.png" %}
 
 
 ### DllMain 序列化执行
@@ -330,7 +330,7 @@ The DllMain entry-point function. This function is called by the loader when it 
 The loader serializes calls to DllMain so that only a single DllMain function is run at a time .
 微软官方文档《Best Practices for Creating DLLs》
 
-{% include image.html url="/assets/images/210427-win-dump/19.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/19.png" %}
 <https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-best-practices>
 
 The loader lock. This is a process-wide synchronization primitive that the loader uses to ensure serialized loading of DLLs.
@@ -347,11 +347,11 @@ The loader lock is recursive, which means that it can be acquired again by the s
 
 ## 资源
 
-{% include image.html url="/assets/images/210427-win-dump/a.png" %}
-{% include image.html url="/assets/images/210427-win-dump/b.png" url2="/assets/images/210427-win-dump/c.png" %}
-{% include image.html url="/assets/images/210427-win-dump/d.png" url2="/assets/images/210427-win-dump/e.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/a.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/b.png" url2="/assets/images/210427-win-dump-course/c.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/d.png" url2="/assets/images/210427-win-dump-course/e.png" %}
 
-{% include image.html url="/assets/images/210427-win-dump/book1.png" %}
+{% include image.html url="/assets/images/210427-win-dump-course/book1.png" %}
 
 
 ## Tools
@@ -369,12 +369,12 @@ https://developer.microsoft.com/en-us/windows/hardware/windows-driver-kit
 ### SysinternalsSuite
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-04-27-win-dump.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-04-27-win-dump-Course.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://blog.csdn.net/dailongjian2008/article/details/88081507]({% include relrefx.html url="/backup/2021-04-27-win-dump.md/blog.csdn.net/05e5d4e0.html" %})
-- [https://www.jianshu.com/p/56b9afc8ae47]({% include relrefx.html url="/backup/2021-04-27-win-dump.md/www.jianshu.com/6cee84b3.html" %})
-- [https://www.cnblogs.com/wintrysec/p/10616793.html]({% include relrefx.html url="/backup/2021-04-27-win-dump.md/www.cnblogs.com/797c13b8.html" %})
-- [https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-best-practices]({% include relrefx.html url="/backup/2021-04-27-win-dump.md/docs.microsoft.com/9feb9f9f.html" %})
-- [http://www.microsoft.com/whdc/devtools/debugging/default.mspx]({% include relrefx.html url="/backup/2021-04-27-win-dump.md/www.microsoft.com/666bc8dd.mspx" %})
-- [https://developer.microsoft.com/en-us/windows/hardware/windows-driver-kit]({% include relrefx.html url="/backup/2021-04-27-win-dump.md/developer.microsoft.com/08190143.html" %})
+- [https://blog.csdn.net/dailongjian2008/article/details/88081507]({% include relrefx.html url="/backup/2021-04-27-win-dump-Course.md/blog.csdn.net/05e5d4e0.html" %})
+- [https://www.jianshu.com/p/56b9afc8ae47]({% include relrefx.html url="/backup/2021-04-27-win-dump-Course.md/www.jianshu.com/6cee84b3.html" %})
+- [https://www.cnblogs.com/wintrysec/p/10616793.html]({% include relrefx.html url="/backup/2021-04-27-win-dump-Course.md/www.cnblogs.com/797c13b8.html" %})
+- [https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-best-practices]({% include relrefx.html url="/backup/2021-04-27-win-dump-Course.md/docs.microsoft.com/9feb9f9f.html" %})
+- [http://www.microsoft.com/whdc/devtools/debugging/default.mspx]({% include relrefx.html url="/backup/2021-04-27-win-dump-Course.md/www.microsoft.com/666bc8dd.mspx" %})
+- [https://developer.microsoft.com/en-us/windows/hardware/windows-driver-kit]({% include relrefx.html url="/backup/2021-04-27-win-dump-Course.md/developer.microsoft.com/08190143.html" %})

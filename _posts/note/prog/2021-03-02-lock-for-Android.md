@@ -15,6 +15,10 @@ glslcanvas:
 codeprint:
 ---
 
+using a local lock_guard to lock mtx guarantees unlocking on destruction / exception:
+* https://www.cnblogs.com/xiangtingshen/p/10444161.html
+* https://www.cnblogs.com/xudong-bupt/p/9194394.html
+
 
 ## 可重入锁与不可重入锁
 
@@ -479,6 +483,8 @@ template<class Callable, class ...Args>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-02-lock-for-Android.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.cnblogs.com/xiangtingshen/p/10444161.html]({% include relrefx.html url="/backup/2021-03-02-lock-for-Android.md/www.cnblogs.com/d474f26f.html" %})
+- [https://www.cnblogs.com/xudong-bupt/p/9194394.html]({% include relrefx.html url="/backup/2021-03-02-lock-for-Android.md/www.cnblogs.com/faf0fd5f.html" %})
 - [https://blog.csdn.net/u010275850/article/details/100110450]({% include relrefx.html url="/backup/2021-03-02-lock-for-Android.md/blog.csdn.net/fbc9d63c.html" %})
 - [https://blog.csdn.net/zouxinfox/article/details/5838861]({% include relrefx.html url="/backup/2021-03-02-lock-for-Android.md/blog.csdn.net/c4303268.html" %})
 - [https://zh.cppreference.com/w/cpp/thread/scoped_lock]({% include relrefx.html url="/backup/2021-03-02-lock-for-Android.md/zh.cppreference.com/a69794ff.html" %})

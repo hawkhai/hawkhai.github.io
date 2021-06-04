@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "调试 -- Visual Studio & WinDBG 平台高级调试与优化"
+title: "调试 -- Visual Studio & WinDBG 平台高级调试与优化（培训）"
 author:
 location: "珠海"
 categories: ["调试"]
