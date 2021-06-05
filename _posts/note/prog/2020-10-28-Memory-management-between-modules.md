@@ -204,6 +204,48 @@ interface ISampleEngine {
 ```
 
 
+### 智能指针 shared_ptr 跨模块分配和释放内存
+
+利用虚函数的动态绑定技术，动态绑定分配释放内存的 new 和 delete 等，可以解决这个问题，例如 shared_ptr。
+但如果 shared_ptr 包装是 vector 等类型，在调用和被调用中都涉及到 vector 的修改的话，仍然会有问题，因为两个地方都会有释放和分配。
+
+```cpp
+void f() {
+    std::shared_ptr<Info> tmpInfo;
+    getInfo(tmpInfo);
+}
+
+// right version
+// DLL
+std::tr1::shared_ptr<Object> createObject() {
+  return std::tr1::shared_ptr<Object>(new Object);
+}
+
+// EXE
+std::tr1::shared_ptr<Object> p(createObject());
+...
+```
+
+**把所有动态分配的内存的指针都封装到类里面，对用户通过接口暴露。这样就可以避免在 A.dll 中分配，在 B.dll 中释放的情况。**
+例如在 A.dll 中有一个 Country 类，里面保存有所有城市的名字，保存在 std::vector 中。
+我们在 B.dll 中想获取这些名字，就应该把 Country 的结构设计成 `const std::vector &Names() const` 的形式，
+而不是 `std::vector Names() const` 或者 `void Names(std::vector&) const` 的形式。
+也就是说 A 把原始的内存暴露给 B，而不是重新分配一份内存。
+
+指针类别 | 支持 | 备注
+---- | ---- | ----
+unique_ptr | C++ 11 | 拥有独有对象所有权语义的智能指针
+shared_ptr | C++ 11 | 拥有共享对象所有权语义的智能指针
+weak_ptr   | C++ 11 | 到 std::shared_ptr 所管理对象的弱引用
+auto_ptr   | C++ 17 中移除 | 拥有严格对象所有权语义的智能指针
+
+* 尽量用 make_shared/make_unique，少用 new
+    * std::shared_ptr 在实现的时候使用的 refcount 技术，因此内部会有一个计数器（控制块，用来管理数据）和一个指针，指向数据。
+        因此在执行 std::shared_ptr\<A\> p2(new A) 的时候，首先会申请数据的内存，然后申请内控制块，因此是两次内存申请，
+        而 std::make_shared\<A\>() 则是只执行一次内存申请，将数据和控制块的申请放到一起。
+* 不是使用 new 出来的空间要自定义删除器
+
+
 ### 传入迭代函数
 
 非常蹩脚，但是也有。比如  EnumWindows。还有一种方法，就是迭代 FindWindow。
