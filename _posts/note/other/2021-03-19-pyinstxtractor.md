@@ -91,7 +91,7 @@ def encryptAES(data, salt):
 
 ```bat
 # 通过清华镜像源，下载快
-pip install -i https://pypi.tuna.tsinghua.edu.cn/simple uncompyle
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple/ uncompyle
 uncompyle test.pyc > test.py
 ```
 

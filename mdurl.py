@@ -36,8 +36,32 @@ def mainfilew(fpath, fname, ftype):
             openTextFile(fpath)
             assert False, urlx
 
+    codestate = False
     for line in li:
-        result = re.findall("\\s(%s)\\s"%URL_REGEX, " %s "%line, re.IGNORECASE)
+        fxline = "".join(line.split())
+        if fxline.startswith("{%highlight"):
+            codestate = True
+            continue
+        if fxline.startswith("{%endhighlight%}"):
+            codestate = False
+            continue
+
+        if fxline.startswith("```") and not codestate:
+            codestate = True
+            continue
+        if fxline.startswith("```") and codestate:
+            codestate = False
+            continue
+
+        if codestate:
+            continue
+
+        chxx = u"：。".encode("utf8").decode("ISO8859-1")
+        result = re.findall("[^\\s%s](%s)\\s"%(chxx, URL_REGEX), " %s "%line, re.IGNORECASE)
+        if result:
+            openTextFile(fpath)
+            assert False, result
+        result = re.findall("[\\s%s](%s)\\s"%(chxx, URL_REGEX), " %s "%line, re.IGNORECASE)
         if result:
             if first:
                 print(fpath, result)
@@ -45,14 +69,20 @@ def mainfilew(fpath, fname, ftype):
             assert len(result) == 1
             result = result[0]
             url = result[0]
-            line = url.replace(url, "<{}>".format(url))
+            line = line.replace(url, "<{}>".format(url))
             print("\t"*1, url, line)
             li2.append(line)
         else:
             li2.append(line)
+
+    if codestate:
+        openTextFile(fpath)
+        assert not codestate
+
     fdata = "\r\n".join(li2)
 
-    if fdata != fdatabak and AUTOFORMAT:
+    fname = os.path.split(fpath)[-1]
+    if fdata != fdatabak and AUTOFORMAT and fname in sys.argv:
         print("writefile", fpath)
         writefile(fpath, fdata)
 

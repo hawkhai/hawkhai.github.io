@@ -811,6 +811,8 @@ def mainfile(fpath, fname, ftype):
             os.system("pause")
             return mainfile(fpathsrc, fnamesrc, ftypesrc)
 
+    assert not codestate
+
     page = "\r\n".join(lines)
     while page.find("\r\n" * 3) != -1:
         page = page.replace("\r\n" * 3, "\r\n" * 2)
