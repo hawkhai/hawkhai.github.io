@@ -45,7 +45,7 @@ codeprint:
 ## libiconv build in android
 
 android 编译 iconv 库，实现 gbk 与 utf8 之间的转换。
-https://www.gnu.org/software/libiconv/ [doc](https://my.oschina.net/u/1538135/blog/4686164)
+<https://www.gnu.org/software/libiconv/> [doc](https://my.oschina.net/u/1538135/blog/4686164)
 
 这玩意需要先跑 `$ sudo sh ./configure`
 Android 配置不了，配置生成 linux 环境下的 config.h 文件，反正 Android 和 Ubuntu 也差不多。

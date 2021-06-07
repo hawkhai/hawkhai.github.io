@@ -302,7 +302,7 @@ vec3 sum(vec3 v1, vec3 v2)
 
 GLSL 中函数递归是不被允许的。其行为是未定义的。
 
-GLSL 中提供了许多内建的函数，来方便我们的使用。可以在官方手册中查找相关的函数 http://www.opengl.org/sdk/docs/man/
+GLSL 中提供了许多内建的函数，来方便我们的使用。可以在官方手册中查找相关的函数 <http://www.opengl.org/sdk/docs/man/>
 
 
 ### 纹理查询函数
@@ -389,7 +389,7 @@ void main (void)
 A conformant OpenGL ES implementation for Windows, Mac, Linux, iOS and Android.
 [Google / ANGLE {% include relref_github.html %}](https://github.com/google/angle)
 -- Almost Native Graphics Layer Engine
-https://github.com/Microsoft/angle
+<https://github.com/Microsoft/angle>
 
 Shader 预处理器，从各个角度说来，都是必要的。
 

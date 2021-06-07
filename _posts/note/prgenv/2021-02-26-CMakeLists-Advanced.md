@@ -18,7 +18,7 @@ cluster: "CMake"
 
 **前面一篇文章。[编程配置 -- Android CMake CMakeLists.txt 构建配置文件]({% include relref.html url="/blog/2021/02/01/cmakelists" %})**
 
-[^_^]: http://jekyllcn.com/docs/templates/
+[^_^]: <http://jekyllcn.com/docs/templates/>
 
 
 ## $<$<CONFIG:Debug>:Release> $<$<CONFIG:Release>:Debug>

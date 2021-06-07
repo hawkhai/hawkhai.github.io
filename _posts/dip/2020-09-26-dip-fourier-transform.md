@@ -124,11 +124,11 @@ k 空间中的 phase 保留的是位置信息，如果没有幅度或者，幅�
 
 PDF <a href="{% include relref.html url="/source/2D-Fourier-transforms.pdf" %}"
 target="_blank">2D Fourier transforms and applications</a><br/>
-from http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf
+from <http://www.robots.ox.ac.uk/~az/lectures/ia/lect2.pdf>
 
 PDF <a href="{% include relref.html url="/source/Fourier-transform-of-images.pdf" %}"
 target="_blank">Fourier transform of images</a><br/>
-from http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf
+from <http://mstrzel.eletel.p.lodz.pl/mstrzel/pattern_rec/fft_ang.pdf>
 [其他课程](http://pstrumil.eletel.p.lodz.pl/pstrumil/ang_po/ang_poindex.htm)
 
 

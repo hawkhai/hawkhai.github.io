@@ -56,7 +56,7 @@ gclient config --unmanaged https://pdfium.googlesource.com/pdfium.git
 set DEPOT_TOOLS_WIN_TOOLCHAIN=0
 gclient sync
 ```
-For details search for DEPOT_TOOLS_WIN_TOOLCHAIN in the instructions at https://chromium.googlesource.com/chromium/src/+/HEAD/docs/windows_build_instructions.md
+For details search for DEPOT_TOOLS_WIN_TOOLCHAIN in the instructions at <https://chromium.googlesource.com/chromium/src/+/HEAD/docs/windows_build_instructions.md>
 
 
 ### 开始编译
@@ -118,7 +118,7 @@ path = path.replace("\\\\", "\\")
 #print("NormalizePath", path) # 一定不能打印东西，打印了就相当于报错了。
 ```
 * You must install Windows 10 SDK version 10.0.19041.0 including the "Debugging Tools for Windows" feature.
-    * https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk/
+    * <https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk/>
 
 {% include image.html url="/assets/images/210520-pdfium-devenv/20210521180749.png" relocate="vs_toolchain_bugfix" caption="vs_toolchain.py def NormalizePath(path):" %}
 {% include image.html url="/assets/images/210520-pdfium-devenv/20210521180924.png" relocate="vs_toolchain_bugfix" caption="vs_toolchain.py win_sdk_dir = NormalizePath(win_sdk_dir)" %}

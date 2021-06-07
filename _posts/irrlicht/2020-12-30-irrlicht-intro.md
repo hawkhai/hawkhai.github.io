@@ -94,33 +94,33 @@ int main();
 | [30.Profiling] | 一些 profiling tools。 |  | ![030shot.jpg] |
 | [Demo] | 一个完整的游戏 demo。 |  | ![demoshot.jpg] |
 
-[1.HelloWorld]: http://irrlicht.sourceforge.net/docu/example001.html
-[2.Quake3Map]: http://irrlicht.sourceforge.net/docu/example002.html
-[3.Custom SceneNode]: http://irrlicht.sourceforge.net/docu/example003.html
-[4.Movement]: http://irrlicht.sourceforge.net/docu/example004.html
-[5.User Interface]: http://irrlicht.sourceforge.net/docu/example005.html
-[6.2D Graphics]: http://irrlicht.sourceforge.net/docu/example006.html
-[7.Collision]: http://irrlicht.sourceforge.net/docu/example007.html
-[8.SpecialFX]: http://irrlicht.sourceforge.net/docu/example008.html
-[9.MeshViewer]: http://irrlicht.sourceforge.net/docu/example009.html
-[10.Shaders]: http://irrlicht.sourceforge.net/docu/example010.html
-[11.Per Pixel Lighting]: http://irrlicht.sourceforge.net/docu/example011.html
-[12.Terrain Rendering]: http://irrlicht.sourceforge.net/docu/example012.html
-[13.Render To Texture]: http://irrlicht.sourceforge.net/docu/example013.html
-[14.Win32 window]: http://irrlicht.sourceforge.net/docu/example014.html
-[15.Load .irr file]: http://irrlicht.sourceforge.net/docu/example015.html
-[16.Quake3Map Shader]: http://irrlicht.sourceforge.net/docu/example016.html
-[17.Hello World Mobile]: http://irrlicht.sourceforge.net/docu/example017.html
-[18.SplitScreen]: http://irrlicht.sourceforge.net/docu/example018.html
-[19.Mouse And Joystick]: http://irrlicht.sourceforge.net/docu/example019.html
-[20.Managed Lights]: http://irrlicht.sourceforge.net/docu/example020.html
-[21.Quake3Explorer]: http://irrlicht.sourceforge.net/docu/example021.html
-[22.MaterialViewer]: http://irrlicht.sourceforge.net/docu/example022.html
-[23.SMeshHandling]: http://irrlicht.sourceforge.net/docu/example023.html
+[1.HelloWorld]: <http://irrlicht.sourceforge.net/docu/example001.html>
+[2.Quake3Map]: <http://irrlicht.sourceforge.net/docu/example002.html>
+[3.Custom SceneNode]: <http://irrlicht.sourceforge.net/docu/example003.html>
+[4.Movement]: <http://irrlicht.sourceforge.net/docu/example004.html>
+[5.User Interface]: <http://irrlicht.sourceforge.net/docu/example005.html>
+[6.2D Graphics]: <http://irrlicht.sourceforge.net/docu/example006.html>
+[7.Collision]: <http://irrlicht.sourceforge.net/docu/example007.html>
+[8.SpecialFX]: <http://irrlicht.sourceforge.net/docu/example008.html>
+[9.MeshViewer]: <http://irrlicht.sourceforge.net/docu/example009.html>
+[10.Shaders]: <http://irrlicht.sourceforge.net/docu/example010.html>
+[11.Per Pixel Lighting]: <http://irrlicht.sourceforge.net/docu/example011.html>
+[12.Terrain Rendering]: <http://irrlicht.sourceforge.net/docu/example012.html>
+[13.Render To Texture]: <http://irrlicht.sourceforge.net/docu/example013.html>
+[14.Win32 window]: <http://irrlicht.sourceforge.net/docu/example014.html>
+[15.Load .irr file]: <http://irrlicht.sourceforge.net/docu/example015.html>
+[16.Quake3Map Shader]: <http://irrlicht.sourceforge.net/docu/example016.html>
+[17.Hello World Mobile]: <http://irrlicht.sourceforge.net/docu/example017.html>
+[18.SplitScreen]: <http://irrlicht.sourceforge.net/docu/example018.html>
+[19.Mouse And Joystick]: <http://irrlicht.sourceforge.net/docu/example019.html>
+[20.Managed Lights]: <http://irrlicht.sourceforge.net/docu/example020.html>
+[21.Quake3Explorer]: <http://irrlicht.sourceforge.net/docu/example021.html>
+[22.MaterialViewer]: <http://irrlicht.sourceforge.net/docu/example022.html>
+[23.SMeshHandling]: <http://irrlicht.sourceforge.net/docu/example023.html>
 
-[24.CursorControl]: http://irrlicht.sourceforge.net/docu/example024.html
-[25.XmlHandling]: http://irrlicht.sourceforge.net/docu/example025.html
-[26.OcclusionQuery]: http://irrlicht.sourceforge.net/docu/example026.html
+[24.CursorControl]: <http://irrlicht.sourceforge.net/docu/example024.html>
+[25.XmlHandling]: <http://irrlicht.sourceforge.net/docu/example025.html>
+[26.OcclusionQuery]: <http://irrlicht.sourceforge.net/docu/example026.html>
 
 [s001shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s001shot.jpg" %}
 [s002shot.jpg]: {% include relref.html url="/assets/images/201230-irrlicht-intro/s002shot.jpg" %}

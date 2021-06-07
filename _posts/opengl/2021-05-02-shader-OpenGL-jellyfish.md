@@ -131,7 +131,7 @@ struct ShaderProgramData {
 [骨骼动画与蒙皮矩阵](https://www.qiujiawei.com/linear-algebra-19/)
 建立 1 个控制点 和 4 个骨骼节点：
 {% include image.html url="/assets/images/210502-shader-opengl-jellyfish/jellyfish_skeleton.jpg" %}
-[^_^]: https://sunocean.life/jellyfish/Chrysaora/index.html
+[^_^]: <https://sunocean.life/jellyfish/Chrysaora/index.html>
 
 **aSkinWeight** 可以根据 y 坐标简单算出来：
 

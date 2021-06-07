@@ -26,7 +26,7 @@ These are mostly fundamental information or tutorials to share with others.
 I hope you find what you are looking for here.
 And, I welcome any feedback on the contents and your suggestions.
 
-[^_^]: http://www.songho.ca/
+[^_^]: <http://www.songho.ca/>
 
 以前笔记都记录在 Evernote 里面，搞了多年，发现越来越多、越来越乱，没法玩了。
 搞成 blog，并按照一定的结构整理存档，更利于查阅和迭代。

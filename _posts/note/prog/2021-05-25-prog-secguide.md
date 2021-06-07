@@ -254,11 +254,11 @@ LOCAL_CPPFLAGS += -fexceptions -frtti
 ## concurrent_unordered_map
 
 Concurrent data structures in C++
-https://github.com/preshing/junction
+<https://github.com/preshing/junction>
 concurrent_unordered_map
 concurrent_unordered_multimap
 concurrent_hash_map
-https://github.com/oneapi-src/oneTBB
+<https://github.com/oneapi-src/oneTBB>
 
 
 ## C++11 新特性快速一览

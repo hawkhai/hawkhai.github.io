@@ -359,8 +359,8 @@ The loader lock is recursive, which means that it can be acquired again by the s
 
 ### Windbg
 
-http://www.microsoft.com/whdc/devtools/debugging/default.mspx
-https://developer.microsoft.com/en-us/windows/hardware/windows-driver-kit
+<http://www.microsoft.com/whdc/devtools/debugging/default.mspx>
+<https://developer.microsoft.com/en-us/windows/hardware/windows-driver-kit>
 
 
 ### IDA

@@ -98,9 +98,9 @@ eglChooseConfig 的第二个参数里必须包含 EGL_OPENGL_ES2_BIT 才能建�
 [How to optimize the graphics performance of your Cocos2d-x games](https://docs.cocos2d-x.org/cocos2d-x/v3/en/advanced_topics/optimizing.html)
 There are three major mobile GPU vendors nowadays and they provide decent graphics profiling tools:
 
-* For ARM Mali GPU: https://malideveloper.arm.com/resources/tools/mali-graphics-debugger/
-* For Imagination PowerVR GPU: https://community.imgtec.com/developers/powervr/tools/pvrtune/
-* For Qualcomm Adreno GPU: https://developer.qualcomm.com/software/adreno-gpu-profiler
+* For ARM Mali GPU: <https://malideveloper.arm.com/resources/tools/mali-graphics-debugger/>
+* For Imagination PowerVR GPU: <https://community.imgtec.com/developers/powervr/tools/pvrtune/>
+* For Qualcomm Adreno GPU: <https://developer.qualcomm.com/software/adreno-gpu-profiler>
 
 
 ### Android 模拟器

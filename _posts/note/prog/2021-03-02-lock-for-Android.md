@@ -16,8 +16,8 @@ codeprint:
 ---
 
 using a local lock_guard to lock mtx guarantees unlocking on destruction / exception:
-* https://www.cnblogs.com/xiangtingshen/p/10444161.html
-* https://www.cnblogs.com/xudong-bupt/p/9194394.html
+* <https://www.cnblogs.com/xiangtingshen/p/10444161.html>
+* <https://www.cnblogs.com/xudong-bupt/p/9194394.html>
 
 
 ## 可重入锁与不可重入锁

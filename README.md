@@ -40,7 +40,7 @@ $ rbenv rehash
 ```
 
 Troubleshooting:
-https://gems.ruby-china.com/
+<https://gems.ruby-china.com/>
 bundle update json
 
 Then in the root of the project:

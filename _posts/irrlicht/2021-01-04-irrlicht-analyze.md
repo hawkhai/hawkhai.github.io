@@ -181,42 +181,42 @@ public:
 
 {% include image.html url="/assets/images/210104-irrlicht-analyze/gamedemo.webp" %}
 
-7. https://github.com/dschaefer/irrlicht-examples
-8. https://github.com/havlenapetr/gamekit
-9. https://github.com/cskeyn/BulletAndroid
-10. https://github.com/marky0720/IrrlichtAndroid
-11. https://github.com/nonameentername/pyirrlicht-android
-12. https://github.com/xiaomingzhong/IrrlichtAndroid-master
+7. <https://github.com/dschaefer/irrlicht-examples>
+8. <https://github.com/havlenapetr/gamekit>
+9. <https://github.com/cskeyn/BulletAndroid>
+10. <https://github.com/marky0720/IrrlichtAndroid>
+11. <https://github.com/nonameentername/pyirrlicht-android>
+12. <https://github.com/xiaomingzhong/IrrlichtAndroid-master>
 
-14. https://github.com/vell001/irrlicht-android
-15. https://github.com/xiaomingzhong/irrlicht-android
-16. https://github.com/disktree/irrlicht
-17. https://github.com/xiaomingzhong/irrlicht-android-studio
-18. https://github.com/xiaobenshu/irrlicht_Android
-19. https://github.com/okuoku/irrlicht-android
-20. https://github.com/nailgun/irrlicht_android
+14. <https://github.com/vell001/irrlicht-android>
+15. <https://github.com/xiaomingzhong/irrlicht-android>
+16. <https://github.com/disktree/irrlicht>
+17. <https://github.com/xiaomingzhong/irrlicht-android-studio>
+18. <https://github.com/xiaobenshu/irrlicht_Android>
+19. <https://github.com/okuoku/irrlicht-android>
+20. <https://github.com/nailgun/irrlicht_android>
 21. ~~<https://github.com/marky0720/irrlicht_Android_ogl_es>~~ 非 JNI 模式。
-22. https://github.com/arris69/IrrLicht-Android
-23. https://github.com/nailgun/irrlicht_android_viewer
-24. https://github.com/vell001/Irrlicht-vell
-25. https://github.com/danyr/gamekit
-26. https://github.com/antmuse/AntThread
-27. https://github.com/Picaroon/gamekit
+22. <https://github.com/arris69/IrrLicht-Android>
+23. <https://github.com/nailgun/irrlicht_android_viewer>
+24. <https://github.com/vell001/Irrlicht-vell>
+25. <https://github.com/danyr/gamekit>
+26. <https://github.com/antmuse/AntThread>
+27. <https://github.com/Picaroon/gamekit>
 
-https://github.com/wangtianhang/irrlicht
-https://github.com/Synxis/SPARK
+<https://github.com/wangtianhang/irrlicht>
+<https://github.com/Synxis/SPARK>
 
 这几个还需要 gitee 查找资料。
 
-https://code.google.com/archive/p/wrapirrlicht-for-android/source
-https://www.codeproject.com/articles/333135/wrapping-irrlicht-for-android
-https://gitee.com/panqingyun/E3D-Engine
+<https://code.google.com/archive/p/wrapirrlicht-for-android/source>
+<https://www.codeproject.com/articles/333135/wrapping-irrlicht-for-android>
+<https://gitee.com/panqingyun/E3D-Engine>
 
 
 ## irrlicht Android
 
-* https://github.com/PolygonTek/BlueshiftEngine Star344
-* https://github.com/skylicht-lab/skylicht-engine Star81
+* <https://github.com/PolygonTek/BlueshiftEngine> Star344
+* <https://github.com/skylicht-lab/skylicht-engine> Star81
 
 * [wrapirrlicht-for-android](https://code.google.com/archive/p/wrapirrlicht-for-android/source)
     [Wrapping Irrlicht For Android](https://www.codeproject.com/articles/333135/wrapping-irrlicht-for-android)

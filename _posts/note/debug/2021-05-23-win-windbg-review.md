@@ -178,8 +178,8 @@ WinDbg 的 !heap 命令非常强大，结合 AppVerifier 可以对堆 (heap) 内
 利用 windbg 分析崩溃、句柄泄漏、死锁、CPU 高、内存泄漏
 Windbg 的一些简单使用命令
 
-* https://www.pianshen.com/article/72521138890/
-* https://blog.csdn.net/zqw_4181/article/details/79162309
+* <https://www.pianshen.com/article/72521138890/>
+* <https://blog.csdn.net/zqw_4181/article/details/79162309>
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-23-win-windbg-review.md.js" %}'></script></p>

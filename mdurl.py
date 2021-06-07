@@ -41,19 +41,24 @@ def mainfilew(fpath, fname, ftype):
         fxline = "".join(line.split())
         if fxline.startswith("{%highlight"):
             codestate = True
+            li2.append(line)
             continue
         if fxline.startswith("{%endhighlight%}"):
             codestate = False
+            li2.append(line)
             continue
 
         if fxline.startswith("```") and not codestate:
             codestate = True
+            li2.append(line)
             continue
         if fxline.startswith("```") and codestate:
             codestate = False
+            li2.append(line)
             continue
 
         if codestate:
+            li2.append(line)
             continue
 
         chxx = u"：。".encode("utf8").decode("ISO8859-1")
@@ -82,7 +87,7 @@ def mainfilew(fpath, fname, ftype):
     fdata = "\r\n".join(li2)
 
     fname = os.path.split(fpath)[-1]
-    if fdata != fdatabak and AUTOFORMAT and fname in sys.argv:
+    if fdata != fdatabak and AUTOFORMAT: # and fname in sys.argv:
         print("writefile", fpath)
         writefile(fpath, fdata)
 

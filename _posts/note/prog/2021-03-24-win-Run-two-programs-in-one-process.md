@@ -201,7 +201,7 @@ remote.dll 中修改重定位表和导入表基本上用的都是 dll_load.cpp �
     2. 我自己实现了一种模块剥离技术，可以让进程脱离 .exe 文件和 .dll 文件运行。其思想是先对要剥离的 exe 或 dll 模块的所有数据做好备份，然后用 FreeLibrary 或者 UnmapViewOfFile 卸掉模块，
 再把备份的模块数据恢复回来。我以前在 csdn 上贴过代码的，自己找吧。
 
-4. 截获 API 用的是 MS Detours Package 1.3。我不打算附上它的源代码，自己去下载吧：http://research.microsoft.com/sn/detours
+4. 截获 API 用的是 MS Detours Package 1.3。我不打算附上它的源代码，自己去下载吧：<http://research.microsoft.com/sn/detours>
 
 5. 在截获 API 时必须挂起其他线程。我用了两个未公开的接口：NtQuerySystemInformation 用于枚举线程；NtOpenThread 用于得到线程句柄。
 推荐一本工具书："Windows NT Native API reference"（中文译名为 "Windows NT 本机 API 参考 "），书名大致如此，不必深究。气人的是居然把 Navtive

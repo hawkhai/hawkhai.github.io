@@ -397,7 +397,7 @@ Translations
 About
 
 看到这里，就基本上没看了：
-https://learnopengl-cn.github.io/
+<https://learnopengl-cn.github.io/>
 05%20Advanced%20Lighting/03%20Shadows/02%20Point%20Shadows/
 
 

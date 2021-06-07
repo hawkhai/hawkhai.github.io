@@ -67,16 +67,16 @@ archived: true
 * 其它 - 基于 x86 架构上基本可通过 Hook 内核进行大部分的监控，而 x64 只能基于系统回调实现。
 
 文件过滤框架
-https://docs.microsoft.com/en-us/windows-hardware/drivers/ifs
+<https://docs.microsoft.com/en-us/windows-hardware/drivers/ifs>
 
 网络过滤框架
-https://docs.microsoft.com/en-us/windows-hardware/drivers/network/windows-filtering-platform-callout-drivers2
+<https://docs.microsoft.com/en-us/windows-hardware/drivers/network/windows-filtering-platform-callout-drivers2>
 
 
 ## Hook 技术
 
 Detour
-https://github.com/microsoft/Detours
+<https://github.com/microsoft/Detours>
 * DetourCreateProcessWithDlls - 创建指定进程，并将指定模块注入至目标进程（加载时机早）
 
 {% include image.html url="/assets/images/210306-windows-core-programming/20210418164507.png" %}
@@ -114,19 +114,19 @@ x86 hook 的方式可将 SSDT + SSSDT 里涉及到的各函数调用都进行监
 **x64 自保护** 通过 TLS 回调的更早执行时机，Hook 自身 PEB 内 KernelCallbackTable 表的 \_\_ClientLoadLibrary，实现对全局钩子的拦截。
 
 ReactOS
-https://github.com/reactos/reactos
+<https://github.com/reactos/reactos>
 
 双机调试 VirtualKD
-https://sysprogs.com/legacy/virtualkd
+<https://sysprogs.com/legacy/virtualkd>
 
 Source Insight
-https://www.sourceinsight.com
+<https://www.sourceinsight.com>
 
 CFF Explorer
-https://ntcore.com/?page_id=388
+<https://ntcore.com/?page_id=388>
 
 ProcMon（SysinternalsSuite）
-https://docs.microsoft.com/zh-cn/sysinternals/downloads/sysinternals-suite
+<https://docs.microsoft.com/zh-cn/sysinternals/downloads/sysinternals-suite>
 
 **文件重启删除** 读取注册表 smss.exe 删除的。
 **svchost.exe** `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost\`

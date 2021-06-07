@@ -38,7 +38,7 @@ codeprint:
 * [Wyman 的原创技术博客](https://www.qiujiawei.com/)
 
 
-### 萤火之森 http://frankorz.com/
+### 萤火之森 <http://frankorz.com/>
 
 * [图形学常见的变换推导](https://www.notion.so/ce300124a4444c2cacc90a5ea0a5a19b)
 * [光线追踪](https://www.notion.so/2cbfd6f8e62f40b5abb0b236b045d6b4)

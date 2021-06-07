@@ -98,8 +98,8 @@ uncompyle test.pyc > test.py
 
 ## 代码加密
 
-https://pyob.oxyry.com/
-https://blog.csdn.net/ir0nf1st/article/details/61650984
+<https://pyob.oxyry.com/>
+<https://blog.csdn.net/ir0nf1st/article/details/61650984>
 
 [Pyinstaller 加密打包应用的示例代码](https://www.94e.cn/info/74)
 

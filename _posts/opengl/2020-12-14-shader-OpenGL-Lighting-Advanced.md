@@ -342,9 +342,9 @@ Metaball。纯 Shader 实现，代码只有 200 多行，满满的数学知识�
 {% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/preview1.webp" %}
 {% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/preview2.webp" %}
 
-* https://www.shadertoy.com/view/XssXDl
-* https://www.shadertoy.com/view/ld2GRz
-* https://github.com/millsvonmilski/Unity3D_RayMarching_MetaBall
+* <https://www.shadertoy.com/view/XssXDl>
+* <https://www.shadertoy.com/view/ld2GRz>
+* <https://github.com/millsvonmilski/Unity3D_RayMarching_MetaBall>
 
 Bounded metaballs with quintic falloff.
 Literature often recommends cubic (smoothstep) falloffs (rather than exponential or 1/dÂ²) for they are bounded.

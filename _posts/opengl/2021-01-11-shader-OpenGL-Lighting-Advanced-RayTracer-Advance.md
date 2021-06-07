@@ -22,7 +22,7 @@ EA 的 3A 引擎 Frostbite，支持光线追踪。
 Unity 和 Unreal 共同支持全球 90% 的游戏，现在在其引擎中支持微软 DirectX 光线追踪。
 实时光线追踪技术元年：2018 年。
 
-被这两个文章深深的吸引了。https://yangwc.com/
+被这两个文章深深的吸引了。<https://yangwc.com/>
 * [光线追踪器 Ray Tracer：入门篇](https://yangwc.com/2019/05/08/RayTracer-Basis/)
 * [光线追踪器 Ray Tracer：进阶篇](https://yangwc.com/2019/05/23/RayTracer-Advance/)
 

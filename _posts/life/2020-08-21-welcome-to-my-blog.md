@@ -150,12 +150,12 @@ $$
 
 [Alexander Telea's inpainting algorithm][1]
 
-[1]: https://www.rug.nl/
+[1]: <https://www.rug.nl/>
 
 [![][im1_in_thumb]][im1_in]
 
-[im1_in]: https://sunocean.life/blog/assets/gitee.png
-[im1_in_thumb]: https://sunocean.life/blog/assets/opengl.png
+[im1_in]: <https://sunocean.life/blog/assets/gitee.png>
+[im1_in_thumb]: <https://sunocean.life/blog/assets/opengl.png>
 
 
 ## domain tag sample
