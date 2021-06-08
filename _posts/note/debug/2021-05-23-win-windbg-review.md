@@ -165,6 +165,16 @@ WinDbg 的 !heap 命令非常强大，结合 AppVerifier 可以对堆 (heap) 内
 * kb：显示栈上的前三个参数（不一定是参数，仅仅是三个固定位置的值）
 
 
+### 内存信息查看
+
+[Windbg 内存命令 《第四篇》 {% include relref_cnblogs.html %}](https://www.cnblogs.com/kissdodog/p/3730598.html)
+```
+!address
+!address -summary
+!address -Stack # 用于线程堆栈的内存。
+```
+
+
 ### 并发堆栈
 
 并发堆栈，首先我们需要知道有多少线程。
@@ -188,5 +198,6 @@ Windbg 的一些简单使用命令
 - [http://msdl.microsoft.com/download/symbols]({% include relrefx.html url="/backup/2021-05-23-win-windbg-review.md/msdl.microsoft.com/9dd253a8.html" %})
 - [https://github.com/mk-z/windbg/blob/master/windbg.txt]({% include relrefx.html url="/backup/2021-05-23-win-windbg-review.md/github.com/dabc29f3.html" %})
 - [https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/getting-started-with-windbg]({% include relrefx.html url="/backup/2021-05-23-win-windbg-review.md/docs.microsoft.com/02c5b3b3.html" %})
+- [https://www.cnblogs.com/kissdodog/p/3730598.html]({% include relrefx.html url="/backup/2021-05-23-win-windbg-review.md/www.cnblogs.com/41d30370.html" %})
 - [https://www.pianshen.com/article/72521138890/]({% include relrefx.html url="/backup/2021-05-23-win-windbg-review.md/www.pianshen.com/00174843.html" %})
 - [https://blog.csdn.net/zqw_4181/article/details/79162309]({% include relrefx.html url="/backup/2021-05-23-win-windbg-review.md/blog.csdn.net/b4dbb7b3.html" %})

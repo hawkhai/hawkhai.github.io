@@ -17,7 +17,10 @@ cluster: "WinDBG"
 ---
 
 
-## 崩溃 QList\<QString\>
+## 崩溃 QList\<QString\> 非多线程安全
+
+**`QCoreApplication::processEvents();` 这玩意不能轻易用，容易造成失控。**
+<font color="red">为啥堆栈里面看不到？有机会了要好好研究验证一下。</font>
 
 
 ### 崩溃现场
@@ -152,6 +155,51 @@ void Test::slotvoid() {
 {% include image.html url="/assets/images/210602-win-windbg-cases/20210603114533.png" %}
 
 至于 `QCoreApplication::processEvents();` 为啥会调用到当前槽函数，写一篇 QT 信号槽的深度理解。
+
+
+## 崩溃 空指针问题
+
+```
+FAULTING_IP:
+dbpdf!EnginePdfiumTransformByPageCTM+89
+00501379 8b7004          mov     esi,dword ptr [eax+4]
+
+EXCEPTION_RECORD:  ffffffff -- (.exr 0xffffffffffffffff)
+ExceptionAddress: 00501379 (dbpdf!EnginePdfiumTransformByPageCTM+0x00000089)
+   ExceptionCode: c0000005 (Access violation)
+  ExceptionFlags: 00000000
+NumberParameters: 2
+   Parameter[0]: 00000000
+   Parameter[1]: 00000004
+Attempt to read from address 00000004
+
+BUGCHECK_STR:  ACCESS_VIOLATION
+
+STACK_TEXT:
+01efcccc 0034fc3a 01efcd10 0ee95c88 01efcd00 dbpdf!EnginePdfiumTransformByPageCTM+0x89
+01efcd28 00351ef1 01efcd48 3e9baddd 00000000 dbpdf!DisplayModel::CvtToScreen+0x18a
+```
+
+**Attempt to read from address 00000004** 尝试读取内存 `00000004`，而此时
+`mov esi,dword ptr [eax+4]`，寄存器 `eax=00000000`，`[eax+4]` 就是 `00000004`。
+
+```
+This dump file has an exception of interest stored in it.
+The stored exception information can be accessed via .ecxr.
+(2c9c.2d6c): Access violation - code c0000005 (first/second chance not available)
+eax=00000000 ebx=0ee95c88 ecx=00000001 edx=00000002 esi=0f127678 edi=00000001
+eip=00501379 esp=01efcbe0 ebp=01efcccc iopl=0         nv up ei pl zr na pe nc
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00210246
+dbpdf!EnginePdfiumTransformByPageCTM+0x89:
+00501379 8b7004          mov     esi,dword ptr [eax+4] ds:002b:00000004=????????
+```
+
+```
+System Uptime: 3 days 23:44:37.243
+Process Uptime: 0 days 0:01:21.000
+```
+
+这个也说明了是进程启动就崩溃了，崩溃到函数 EnginePdfiumTransformByPageCTM 里面的空指针。
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-06-02-win-windbg-cases.md.js" %}'></script></p>
