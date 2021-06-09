@@ -17,6 +17,130 @@ cluster: "WinDBG"
 ---
 
 
+## 野指针 QString::toStdString().c_str()
+
+危险的：`QString::toStdString().c_str()`，他的定义是：
+```cpp
+inline std::string QString::toStdString() const
+{ return toUtf8().toStdString(); }
+inline std::wstring QString::toStdWString() const {
+    std::wstring str;
+    str.resize(length());
+#if __cplusplus >= 201703L
+    str.resize(toWCharArray(str.data()));
+#else
+    if (length())
+        str.resize(toWCharArray(&str.front()));
+#endif
+    return str;
+}
+```
+
+```cpp
+void testmain(QString& qstr) {
+    const char* p = qstr.toStdString().c_str();
+    std::cout << p;
+}
+```
+上面这段代码是存在问题的，生成的汇编为：
+{% include image.html url="/assets/images/210602-win-windbg-cases/20210609095612.png" %}
+
+换一种写法：
+```cpp
+void testmain2(QString& qstr) {
+    const std::string str = qstr.toStdString();
+    std::cout << str.c_str();
+}
+```
+生成的代码是：
+{% include image.html url="/assets/images/210602-win-windbg-cases/20210609100048.png" %}
+
+
+## 崩溃 空指针问题
+
+```
+FAULTING_IP:
+dbapp!EnginePdfiumTransformByPageCTM+89
+00501379 8b7004          mov     esi,dword ptr [eax+4]
+
+EXCEPTION_RECORD:  ffffffff -- (.exr 0xffffffffffffffff)
+ExceptionAddress: 00501379 (dbapp!EnginePdfiumTransformByPageCTM+0x00000089)
+   ExceptionCode: c0000005 (Access violation)
+  ExceptionFlags: 00000000
+NumberParameters: 2
+   Parameter[0]: 00000000
+   Parameter[1]: 00000004
+Attempt to read from address 00000004
+
+BUGCHECK_STR:  ACCESS_VIOLATION
+
+STACK_TEXT:
+01efcccc 0034fc3a 01efcd10 0ee95c88 01efcd00 dbapp!EnginePdfiumTransformByPageCTM+0x89
+01efcd28 00351ef1 01efcd48 3e9baddd 00000000 dbapp!DisplayModel::CvtToScreen+0x18a
+```
+
+**Attempt to read from address 00000004** 尝试读取内存 `00000004`，而此时
+`mov esi,dword ptr [eax+4]`，寄存器 `eax=00000000`，`[eax+4]` 就是 `00000004`。
+
+```
+This dump file has an exception of interest stored in it.
+The stored exception information can be accessed via .ecxr.
+(2c9c.2d6c): Access violation - code c0000005 (first/second chance not available)
+eax=00000000 ebx=0ee95c88 ecx=00000001 edx=00000002 esi=0f127678 edi=00000001
+eip=00501379 esp=01efcbe0 ebp=01efcccc iopl=0         nv up ei pl zr na pe nc
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00210246
+dbapp!EnginePdfiumTransformByPageCTM+0x89:
+00501379 8b7004          mov     esi,dword ptr [eax+4] ds:002b:00000004=????????
+```
+
+```
+System Uptime: 3 days 23:44:37.243
+Process Uptime: 0 days 0:01:21.000
+```
+
+这个也说明了是进程启动就崩溃了，崩溃到函数 EnginePdfiumTransformByPageCTM 里面的空指针。
+
+
+## 黑指针问题 StrChrIW
+
+```
+eax=00000000 ebx=00000000 ecx=00000000 edx=00000000 esi=00000000 edi=00000490
+eip=777e29dc esp=0654cf1c ebp=0654cf8c iopl=0         nv up ei pl nz na po nc
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000202
+ntdll!ZwWaitForSingleObject+0xc:
+777e29dc c20c00          ret     0Ch
+
+eax=ffffffff ebx=0000970d ecx=78d91b15 edx=00020dc5 esi=14f5bffe edi=76c5ca20
+eip=76759ed8 esp=0654fc28 ebp=0654fc40 iopl=0         nv up ei ng nz na pe nc
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010286
+KERNELBASE!StrChrIW+0xa8:
+76759ed8 0fb74602        movzx   eax,word ptr [esi+2]     ds:002b:14f5c000=????
+ChildEBP RetAddr  Args to Child
+0654fc40 76759afc 14f5b9fa 0000970d 16c2a420 KERNELBASE!StrChrIW+0xa8
+0654fc60 00e39bed 14f5b9fa 169ddd38 16ad1858 KERNELBASE!StrStrIW+0x2c
+fastapp!TextSearch::FindTextInPage+0x7d [E:\src\TextSearch.cpp @ 270]
+
+FAULTING_IP:
+KERNELBASE!StrChrIW+a8
+76759ed8 0fb74602        movzx   eax,word ptr [esi+2]
+
+EXCEPTION_RECORD:  ffffffff -- (.exr 0xffffffffffffffff)
+ExceptionAddress: 76759ed8 (KERNELBASE!StrChrIW+0x000000a8)
+   ExceptionCode: c0000005 (Access violation)
+  ExceptionFlags: 00000000
+NumberParameters: 2
+   Parameter[0]: 00000000
+   Parameter[1]: 14f5c000
+Attempt to read from address 14f5c000
+
+DEFAULT_BUCKET_ID:  INVALID_POINTER_READ
+```
+
+汇编指令：`MOVZX OPD, OPS`
+将 8 位或 16 位的 OPS 零扩展为 16 位或 32 位，在传给 OPD。
+相当于 函数 FindTextInPage 里面用了一个 **被释放** 或者 **未初始化** 的指针 并 调用了 **StrChrIW**。
+
+
 ## 崩溃 QList\<QString\> 非多线程安全
 
 **`QCoreApplication::processEvents();` 这玩意不能轻易用，容易造成失控。**
@@ -155,51 +279,6 @@ void Test::slotvoid() {
 {% include image.html url="/assets/images/210602-win-windbg-cases/20210603114533.png" %}
 
 至于 `QCoreApplication::processEvents();` 为啥会调用到当前槽函数，写一篇 QT 信号槽的深度理解。
-
-
-## 崩溃 空指针问题
-
-```
-FAULTING_IP:
-dbpdf!EnginePdfiumTransformByPageCTM+89
-00501379 8b7004          mov     esi,dword ptr [eax+4]
-
-EXCEPTION_RECORD:  ffffffff -- (.exr 0xffffffffffffffff)
-ExceptionAddress: 00501379 (dbpdf!EnginePdfiumTransformByPageCTM+0x00000089)
-   ExceptionCode: c0000005 (Access violation)
-  ExceptionFlags: 00000000
-NumberParameters: 2
-   Parameter[0]: 00000000
-   Parameter[1]: 00000004
-Attempt to read from address 00000004
-
-BUGCHECK_STR:  ACCESS_VIOLATION
-
-STACK_TEXT:
-01efcccc 0034fc3a 01efcd10 0ee95c88 01efcd00 dbpdf!EnginePdfiumTransformByPageCTM+0x89
-01efcd28 00351ef1 01efcd48 3e9baddd 00000000 dbpdf!DisplayModel::CvtToScreen+0x18a
-```
-
-**Attempt to read from address 00000004** 尝试读取内存 `00000004`，而此时
-`mov esi,dword ptr [eax+4]`，寄存器 `eax=00000000`，`[eax+4]` 就是 `00000004`。
-
-```
-This dump file has an exception of interest stored in it.
-The stored exception information can be accessed via .ecxr.
-(2c9c.2d6c): Access violation - code c0000005 (first/second chance not available)
-eax=00000000 ebx=0ee95c88 ecx=00000001 edx=00000002 esi=0f127678 edi=00000001
-eip=00501379 esp=01efcbe0 ebp=01efcccc iopl=0         nv up ei pl zr na pe nc
-cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00210246
-dbpdf!EnginePdfiumTransformByPageCTM+0x89:
-00501379 8b7004          mov     esi,dword ptr [eax+4] ds:002b:00000004=????????
-```
-
-```
-System Uptime: 3 days 23:44:37.243
-Process Uptime: 0 days 0:01:21.000
-```
-
-这个也说明了是进程启动就崩溃了，崩溃到函数 EnginePdfiumTransformByPageCTM 里面的空指针。
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-06-02-win-windbg-cases.md.js" %}'></script></p>
