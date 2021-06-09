@@ -9,6 +9,9 @@ from pythonx.kangxi import TranslateKangXi
 
 __file__   = os.path.abspath(__file__)
 
+# Paranoid text spacing in Python
+# https://github.com/vinta/pangu.py
+
 THUMBNAIL  = ".thumbnail.webp"
 SELENIUM   = ".selenium.png"
 
