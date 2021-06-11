@@ -17,6 +17,14 @@ cluster: "Visual Studio"
 ---
 
 
+## MSB8040 Spectre-mitigated libraries are required for this project
+
+原因：这是因为 Visual Studio 默认开启了缓解 Spectre 攻击的机制，所以就有两种解决方案，一种是生成解决方案时禁用 Spectre 缓解机制，另一种就是安装 Spectre 缓解机制。
+
+{% include image.html url="/assets/images/201215-visual-studio-and-andro~6d/cba0a101a07f41069348b597a794da84.jpg" caption="禁用 Spectre 缓解机制" %}
+{% include image.html url="/assets/images/201215-visual-studio-and-andro~6d/20190912103527364.png" caption="安装 Spectre 缓解机制" %}
+
+
 ## WTL 工程出现的 LINK 错误解决
 
 VS2005 WTL 工程编译 Debug 无问题，编译 Release 时出现 Link 错误
