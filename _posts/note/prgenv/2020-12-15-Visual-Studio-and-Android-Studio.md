@@ -17,6 +17,15 @@ cluster: "Visual Studio"
 ---
 
 
+## C2243 “类型强制转换”: 从“const MyMediaPlayer *”到“const QObject *”的转换存在，但无法访问
+
+消息 查看对正在编译的函数 模板 实例化“QMetaObject::Connection QObject::connect<void(__thiscall MyMediaPlayer::\* )(QMediaPlayer::State),MediaPlayerWidget::{ctor}::<lambda_05c4b36ce79266e99b66673c2f7077b4>>(const MyMediaPlayer \*,Func1,Func2)”的引用 fastvcdemo E:\kpdf\fastvc\fastvcdemo\ui\mediaplayerwidget.cpp 56
+
+错误 C2243 “类型强制转换”: 从“const MyMediaPlayer \*”到“const QObject \*”的转换存在，但无法访问 fastvcdemo D:\Qt\QTSetup\5.15.0\msvc2019\include\QtCore\qobject.h 316
+
+**QT 中调用 connect 的时候出现的，解决方式为找到这个 QMyClass 的头文件，打开找到继承关系，看下是不是没有设置 public 继承，如果是的话，将导致链接错误，造成不能访问。**
+
+
 ## MSB8040 Spectre-mitigated libraries are required for this project
 
 原因：这是因为 Visual Studio 默认开启了缓解 Spectre 攻击的机制，所以就有两种解决方案，一种是生成解决方案时禁用 Spectre 缓解机制，另一种就是安装 Spectre 缓解机制。
