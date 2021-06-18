@@ -17,6 +17,13 @@ cluster: "Visual Studio"
 ---
 
 
+## VS2019 Release 版本调试
+
+1. 链接器 -> 调试 -> 生成调试信息 /Debug -- 生成 pdb 调试信息。
+2. C/C++ -> 常规 -> 调试信息格式 /Zi -- 这条容易漏掉，造成还是不能调试。
+3. C/C++ -> 优化 -> 最大优化（优选速度） (/O2) -- 大量小函数会被内联，断点位置不准确。
+
+
 ## C2243 “类型强制转换”: 从“const MyMediaPlayer *”到“const QObject *”的转换存在，但无法访问
 
 消息 查看对正在编译的函数 模板 实例化“QMetaObject::Connection QObject::connect<void(__thiscall MyMediaPlayer::\* )(QMediaPlayer::State),MediaPlayerWidget::{ctor}::<lambda_05c4b36ce79266e99b66673c2f7077b4>>(const MyMediaPlayer \*,Func1,Func2)”的引用 fastvcdemo E:\kpdf\fastvc\fastvcdemo\ui\mediaplayerwidget.cpp 56

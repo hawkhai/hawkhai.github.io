@@ -17,6 +17,112 @@ cluster: "WinDBG"
 ---
 
 
+## fastapp.exe_2021.6.11.1_107e7c_e48caa8.txt
+
+数组溢出问题。
+
+```
+0:000> kv
+  *** Stack trace for last set context - .thread/.cxr resets it
+ # ChildEBP RetAddr  Args to Child
+00 (Inline) -------- -------- -------- -------- fastapp!std::_Ref_count_base::_Decref+0x2 (Inline Function @ 010a7e7c) (CONV: thiscall) [D:\MSVC\include\memory @ 540]
+01 (Inline) -------- -------- -------- -------- fastapp!std::_Ptr_base<BitmapCacheEntry>::_Decref+0x4 (Inline Function @ 010a7e7c) (CONV: thiscall) [D:\MSVC\include\memory @ 774]
+02 (Inline) -------- -------- -------- -------- fastapp!std::shared_ptr<BitmapCacheEntry>::{dtor}+0x4 (Inline Function @ 010a7e7c) (CONV: thiscall) [D:\MSVC\include\memory @ 1033]
+03 (Inline) -------- -------- -------- -------- fastapp!std::shared_ptr<BitmapCacheEntry>::operator=+0x20 (Inline Function @ 010a7e7c) (CONV: thiscall) [D:\MSVC\include\memory @ 1037]
+04 0075d5b0 010ab042 0075d608 0a3088b8 080a7bc8 fastapp!RenderCache::Add+0x13c (FPO: [Non-Fpo]) (CONV: thiscall) [E:\src\RenderCache.cpp @ 186]
+05 0075d674 010aabe6 00000000 00000000 00000000 fastapp!RenderCache::SynchronousRendering+0x252 (FPO: [Non-Fpo]) (CONV: thiscall) [E:\src\RenderCache.cpp @ 1071]
+06 0075d6e0 010a89e0 058b8540 0000002c 00000000 fastapp!RenderCache::Render+0x186 (FPO: [Non-Fpo]) (CONV: thiscall) [E:\src\RenderCache.cpp @ 904]
+07 0075d7c4 010959e2 058b8540 0000002c 00000000 fastapp!RenderCache::RequestRendering+0x210 (FPO: [Non-Fpo]) (CONV: thiscall) [E:\src\RenderCache.cpp @ 481]
+```
+
+```
+eax=ffffffff ebx=00afcf40 ecx=00000040 edx=0aa82b24 esi=ffffffff edi=88000c00
+eip=00c47e7c esp=00afcf18 ebp=00afcf38 iopl=0         nv up ei ng nz na pe nc
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010286
+Unable to load image C:\Program Files (x86)\fastapp\fastapp.exe, Win32 error 0n2
+fastapp!RenderCache::Add+0x13c:
+00c47e7c f00fc14704      lock xadd dword ptr [edi+4],eax ds:002b:88000c04=????????
+```
+
+```
+EXCEPTION_RECORD:  ffffffff -- (.exr 0xffffffffffffffff)
+ExceptionAddress: 00c47e7c (fastapp!RenderCache::Add+0x0000013c)
+   ExceptionCode: c0000005 (Access violation)
+  ExceptionFlags: 00000000
+NumberParameters: 2
+   Parameter[0]: 00000001
+   Parameter[1]: 88000c04
+Attempt to write to address 88000c04
+```
+
+shared_ptr 的 size 刚好是 8，+4 相当于 \_Rep 指针出错 `88000c04`，8 开头是系统地址了，这个地址肯定是错的。
+
+```
+class _Ptr_base { // base class for shared_ptr and weak_ptr
+private:
+    element_type* _Ptr{nullptr};
+    _Ref_count_base* _Rep{nullptr};
+};
+```
+
+查看源码：
+```cpp
+std::vector<std::shared_ptr<BitmapCacheEntry>> cache;
+
+// Copy the PageRenderRequest as it will be reused
+auto entry = std::make_shared<BitmapCacheEntry>();
+entry->cacheIdx = cacheCount;
+cache[cacheCount] = entry; // 崩溃到这一行。
+cacheCount++;
+```
+
+共享指针被破坏了？其实不是，是数组越界了。我们可以写一段代码模拟这个情况（需要编译 Release 版本，开启速度优化）。
+```cpp
+int cacheCount = -1;
+auto entry = std::make_shared<MyString>(buffer);
+kvalue[cacheCount] = entry; // 模拟崩溃行。
+```
+
+对应汇编为：
+```
+// kvalue[cacheCount] = entry;
+00AC8855  mov         edi,dword ptr [eax+4]
+00AC8858  or          ebx,0FFFFFFFFh
+00AC885B  mov         dword ptr [eax],ecx
+00AC885D  mov         dword ptr [eax+4],esi
+00AC8860  test        edi,edi
+00AC8862  je          threadfunc+283h (0AC8883h)
+00AC8864  mov         eax,ebx
+00AC8866  lock xadd   dword ptr [edi+4],eax
+00AC886B  jne         threadfunc+283h (0AC8883h)
+00AC886D  mov         eax,dword ptr [edi]
+00AC886F  mov         ecx,edi
+00AC8871  call        dword ptr [eax]
+00AC8873  mov         eax,ebx
+```
+
+如果下标是 `-1`，崩溃为：
+```
+EAX = FFFFFFFF EBX = FFFFFFFF ECX = 0121BE74 EDX = 0127DEE0 ESI = 0121BE68
+EDI = 88003100 EIP = 00AC8866 ESP = 042CF984 EBP = 042CFA10 EFL = 00010286
+0x88003104 = 00000000
+```
+
+如果下标超出数组长度，崩溃为：
+```
+EAX = FFFFFFFF EBX = FFFFFFFF ECX = 00539164 EDX = 005B6EC8 ESI = 00539158
+EDI = 88001700 EIP = 00D78866 ESP = 0262FD7C EBP = 0262FE08 EFL = 00010286
+0x88001704 = 00000000
+```
+
+看看内存结构：
+{% include image.html url="/assets/images/210602-win-windbg-cases/20210619003129.png" %}
+
+每个堆块的前 8 个字节是一个 HEAP_ENTRY 结构体，这个不像是，更像是 VCRT 自己维护的一个内存结构（从系统批发一个大内存块然后自己再分级批发）。
+
+{% include image.html url="/assets/images/210602-win-windbg-cases/20200312111504316.png" %}
+
+
 ## 野指针 QString::toStdString().c_str()
 
 危险的：`QString::toStdString().c_str()`，他的定义是：
