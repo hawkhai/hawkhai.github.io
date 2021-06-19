@@ -17,9 +17,9 @@ cluster: "WinDBG"
 ---
 
 
-## fastapp.exe_2021.6.11.1_107e7c_e48caa8.txt
+## std::vector 智能指针数组溢出访问
 
-数组溢出问题。
+fastapp.exe_2021.6.11.1_107e7c_e48caa8.txt
 
 ```
 0:000> kv
@@ -57,13 +57,16 @@ Attempt to write to address 88000c04
 
 shared_ptr 的 size 刚好是 8，+4 相当于 \_Rep 指针出错 `88000c04`，8 开头是系统地址了，这个地址肯定是错的。
 
-```
+```cpp
 class _Ptr_base { // base class for shared_ptr and weak_ptr
 private:
     element_type* _Ptr{nullptr};
     _Ref_count_base* _Rep{nullptr};
 };
 ```
+
+`eax=ffffffff` 就是 `-1`，`lock xadd dword ptr [edi+4],eax ds:002b:88000c04=????????`
+这个的含义就是，尝试对 _Ref_count_base 进行减 1 操作，然后崩溃了。
 
 查看源码：
 ```cpp
@@ -93,7 +96,7 @@ kvalue[cacheCount] = entry; // 模拟崩溃行。
 00AC8860  test        edi,edi
 00AC8862  je          threadfunc+283h (0AC8883h)
 00AC8864  mov         eax,ebx
-00AC8866  lock xadd   dword ptr [edi+4],eax
+00AC8866  lock xadd   dword ptr [edi+4],eax // 就是 -1 操作
 00AC886B  jne         threadfunc+283h (0AC8883h)
 00AC886D  mov         eax,dword ptr [edi]
 00AC886F  mov         ecx,edi
@@ -117,10 +120,17 @@ EDI = 88001700 EIP = 00D78866 ESP = 0262FD7C EBP = 0262FE08 EFL = 00010286
 
 看看内存结构：
 {% include image.html url="/assets/images/210602-win-windbg-cases/20210619003129.png" %}
-
-每个堆块的前 8 个字节是一个 HEAP_ENTRY 结构体，这个不像是，更像是 VCRT 自己维护的一个内存结构（从系统批发一个大内存块然后自己再分级批发）。
-
 {% include image.html url="/assets/images/210602-win-windbg-cases/20200312111504316.png" %}
+
+每个堆块的前 8 个字节是一个 HEAP_ENTRY 结构体，头部的结构，记录了这块内存 de 信息。
+Vista 引入了很多新的东西，编码的目的是引入随机性，增强堆的安全性，防止黑客轻易就可以预测堆的数据内容而实施攻击。
+其中的 EncodeFlagMask 用来指示是否启用编码功能；Encoding 字段是用来编码的，编码的方法就是用这个 Encoding 结构与每个堆块的头结构做异或（XOR）。
+* [Windows Heap Chunk Header Parsing and Size Calculation](https://stackoverflow.com/questions/28483473/windows-heap-chunk-header-parsing-and-size-calculation)
+* [解读编码后的 HEAP_ENTRY 结构](http://advdbg.org/blogs/advdbg_system/articles/5152.aspx)
+* [!heap 和 _HEAP_ENTRY {% include relref_cnblogs.html %}](https://www.cnblogs.com/xumaojun/p/8544089.html)
+
+单独一篇文章，验证这个问题：
+[Windows Windbg 崩溃分析 -- HEAP_ENTRY 结构]({% include relref.html url="/blog/2021/06/19/win-windbg-cases-heap-entry" %})
 
 
 ## 野指针 QString::toStdString().c_str()
@@ -388,3 +398,8 @@ void Test::slotvoid() {
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-06-02-win-windbg-cases.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://stackoverflow.com/questions/28483473/windows-heap-chunk-header-parsing-and-size-calculation]({% include relrefx.html url="/backup/2021-06-02-win-windbg-cases.md/stackoverflow.com/797c2d6f.html" %})
+- [http://advdbg.org/blogs/advdbg_system/articles/5152.aspx]({% include relrefx.html url="/backup/2021-06-02-win-windbg-cases.md/advdbg.org/df049c84.aspx" %})
+- [https://www.cnblogs.com/xumaojun/p/8544089.html]({% include relrefx.html url="/backup/2021-06-02-win-windbg-cases.md/www.cnblogs.com/36e9d8f7.html" %})
