@@ -49,6 +49,33 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -pthread -Werror=return-type"
 ```
 
 
+### 通过编译选项将特定警告视为错误
+
+* [编写合格的 C 代码（1）：通过编译选项将特定警告视为错误 {% include relref_cnblogs.html %}](https://www.cnblogs.com/zjutzz/p/10802138.html)
+    * A simple logging library implemented in C99 [rxi / log.c {% include relref_github.html %}](https://github.com/rxi/log.c)
+    * Getting colored output working on Windows [github {% include relref_github.html %}](https://github.com/rspec/rspec/wiki/Getting-colored-output-working-on-Windows)
+* [编写合格的 C 代码（2）：实现简易日志库 {% include relref_cnblogs.html %}](https://www.cnblogs.com/zjutzz/p/11333334.html)
+
+* 开启 安全开发生命周期（SDL）检查
+* CMakeLists.txt 中的设定
+  ```cmake
+if (CMAKE_SYSTEM_NAME MATCHES "Windows")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /we4013 /we4431 /we4133 /we4716 /we6244 /we6246 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
+    set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} /we4013 /we4431 /we4133 /we4716 /we6244 /we6246 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
+elseif (CMAKE_SYSTEM_NAME MATCHES "Linux" OR CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion")
+    set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion")
+endif()
+```
+* Visual Studio 中的设定
+    * 项目属性->配置属性->C/C++->高级->将特定的警告视为错误，填入相应的警告、错误代号：
+        * 4013;4431;4133;4716;6244;6246;4457;4456;4172;4700;4477;4018;4047;4013;4431;4133;4716;6244;6246;4457;4456;4172;4700;4477;4018;4047
+* 基于 Makefile
+    * CFLAGS += -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion
+* 直接调用 gcc/clang
+    * gcc xxx.c -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion
+
+
 ### How to convert warning C4715 to error
 
 C4715：不是所有的控件路径都返回值。Two ways of doing this
@@ -281,6 +308,10 @@ arg = abc
 
 - [http://jekyllcn.com/docs/templates/]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/jekyllcn.com/a06345ca.html" %})
 - [https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/cmake.org/1e5863d8.html" %})
+- [https://www.cnblogs.com/zjutzz/p/10802138.html]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.cnblogs.com/66780ceb.html" %})
+- [https://github.com/rxi/log.c]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/github.com/e00aa14a.html" %})
+- [https://github.com/rspec/rspec/wiki/Getting-colored-output-working-on-Windows]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/github.com/7a35e51b.html" %})
+- [https://www.cnblogs.com/zjutzz/p/11333334.html]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.cnblogs.com/5687afa3.html" %})
 - [https://github.com/kateyy/geohazardvis/blob/master/cmake/PlatformWindowsMSVC.cmake]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/github.com/95b75574.html" %})
 - [https://blog.csdn.net/sakaue/article/details/38377661]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/blog.csdn.net/0f86d44d.html" %})
 - [https://cmake.org/cmake/help/v3.0/module/CMakeParseArguments.html?highlight=cmake_parse_arguments]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/cmake.org/0fae8de9.html" %})

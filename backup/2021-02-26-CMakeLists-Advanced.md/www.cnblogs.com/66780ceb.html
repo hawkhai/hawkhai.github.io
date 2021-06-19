@@ -1,0 +1,1039 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="快速设定 如果你没兴趣/没时间看具体解释、只想快速排错，请明确：这里列出了个人认为应当当作error但被C编译器（少量情况是C++编译器）默认设定为warning的编译选项（CFLAGS/CXXFLA" />
+    <meta property="og:description" content="快速设定 如果你没兴趣/没时间看具体解释、只想快速排错，请明确：这里列出了个人认为应当当作error但被C编译器（少量情况是C++编译器）默认设定为warning的编译选项（CFLAGS/CXXFLA" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>编写合格的C代码（1）：通过编译选项将特定警告视为错误 - ChrisZZ - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=6tvK5XC6GPbg3p_sy7wzz_2291HoYACr4440iKBzQIw" />
+    <link id="MainCss" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd.min.css?v=FftQhR2MvKTGGXxV0VXlcGGt4XBM0_1XGJmu6kYD9bg" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd-mobile.min.css?v=t8lZrYXGRE8kAD_d-besbRXwkXSQmMprnkoJVYlZl-g" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/zjutzz/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/zjutzz/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/zjutzz/wlwmanifest.xml" />
+    <script src="https://www.googletagservices.com/activeview/js/current/osd.js"></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 141691;
+        var currentBlogApp = 'zjutzz';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'iMetro_HD';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2019-05-02 01:22';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=ZUvfwhWs5fv-s8Nv7WofCOhwKAxiDO928zdWFzhnOPk"></script><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style>
+    <script type="text/x-mathjax-config;executed=true">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom &gt; * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd &gt; * {display: block!important}
+.MJXp-script-box &gt; *  {display: table!important; height: 50%}
+.MJXp-script-box &gt; * &gt; * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box &gt; *:last-child &gt; * {vertical-align: bottom}
+.MJXp-script-box &gt; * &gt; * &gt; * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover, .MJXp-munder {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over &gt; * {display: block!important}
+.MJXp-munderover &gt; *, .MJXp-munder &gt; * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable &gt; * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr &gt; .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child &gt; .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr &gt; .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child &gt; .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><meta http-equiv="origin-trial" content="A+b/H0b8RPXNaJgaNFpO0YOFuGK6myDQXlwnJB3SwzvNMfcndat4DZYMrP4ClJIzYWo3/yP2S+8FTZ/lpqbPAAEAAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzVGhpcmRQYXJ0eSI6dHJ1ZX0=" /><meta http-equiv="origin-trial" content="A9ZgbRtm4pU3oZiuNzOsKcC8ppFSZdcjP2qYcdQrFKVzkmiWH1kdYY1Mi9x7G8+PS8HV9Ha9Cz0gaMdKsiVZIgMAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AxL6oBxcpn5rQDPKSAs+d0oxNyJYq2/4esBUh3Yx5z8QfcLu+AU8iFCXYRcr/CEEfDnkxxLTsvXPJFQBxHfvkgMAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A9KPtG5kl3oLTk21xqynDPGQ5t18bSOpwt0w6kGa6dEWbuwjpffmdUpR3W+faZDubGT+KIk2do0BX2ca16x8qAcAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A3HucHUo1oW9s+9kIKz8mLkbcmdaj5lxt3eiIMp1Nh49dkkBlg1Fhg4Fd/r0vL69mRRA36YutI9P/lJUfL8csQoAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A0OysezhLoCRYomumeYlubLurZTCmsjTb087OvtCy95jNM65cfEsbajrJnhaGwiTxhz38ZZbm+UhUwQuXfVPTg0AAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="AxoOxdZQmIoA1WeAPDixRAeWDdgs7ZtVFfH2y19ziTgD1iaHE5ZGz2UdSjubkWvob9C5PrjUfkWi4ZSLgWk3Xg8AAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A7+rMYR5onPnACrz+niKSeFdH3xw1IyHo2AZSHmxrofRk9w4HcQPMYcpBUKu6OQ6zsdxf4m/vqa6tG6Na4OLpAQAAAB4eyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AwfG8hAcHnPa/kJ1Co0EvG/K0F9l1s2JZGiDLt2mhC3QI5Fh4qmsmSwrWObZFbRC9ieDaSLU6lHRxhGUF/i9sgoAAACBeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiSW50ZXJlc3RDb2hvcnRBUEkiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AwQ7dCmHkvR6FuOFxAuNnktYSQrGbL4dF+eBkrwNLALc69Wr//PnO1yzns3pjUoCaYbKHtVcnng2hU+8OUm0PAYAAACHeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiSW50ZXJlc3RDb2hvcnRBUEkiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AysVDPGQTLD/Scn78x4mLwB1tMfje5jwUpAAzGRpWsr1NzoN7MTFhT3ClmImi2svDZA7V6nWGIV8YTPsSRTe0wYAAACHeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiSW50ZXJlc3RDb2hvcnRBUEkiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021061503.js" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script><link rel="prefetch" href="https://b76ac993409e5b5084f2962d03a04ca9.safeframe.googlesyndication.com/safeframe/1-0-38/html/container.html" /></head>
+<body class="has-navbar has-bannerbar"><div id="MathJax_Message" style="display: none;"></div>
+    <a name="top"></a>
+            <a target="_blank" href="https://cloud.baidu.com/campaign/2021mid/index.html?track=cp:bokeyuan|pf:pc|pp:bokeyuan-huodong-21nianzhongdacu-neiyePCtonglanbanner|pu:21nianzhongdacu-neiyePCtonglanbanner|ci:21nzdc|kw:10224545" onclick="ga('send', 'event', 'Link', 'click', 'baidu-cpa-blog-bannerbar-pc')">
+                <div class="bannerbar aliyun forpc" style="background-size: contain; filter: brightness(0.95); background-image: url(https://img2020.cnblogs.com/blog/35695/202106/35695-20210610183724605-1725070929.jpg)">
+                </div>
+            </a>
+            <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://cloud.baidu.com/campaign/2021mid/index.html?track=cp:bokeyuan|pf:mb|pp:bokeyuan-huodong-21nianzhongdacu-neiyeyidongduantonglanbanner|pu:21nianzhongdacu-neiyeyidongduantonglanbanner|ci:21nzdc|kw:10224547" onclick="ga('send', 'event', 'Link', 'click', 'baidu-cpa-blog-bannerbar-mobile')">
+                <img src="https://img2020.cnblogs.com/blog/35695/202106/35695-20210610184806729-1738888164.jpg" alt="" />
+            </a>
+            </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/zjutzz/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/zjutzz/"></a>
+</h1>
+<h2>你内心的平庸就是你失去追求卓越信念的那个瞬间</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/zjutzz/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/ChrisZZ">
+联系</a></li>
+<li>
+
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 520  </span>
+<span id="stats_article_count">文章 - 1  </span>
+<span id="stats-comment_count">评论 - 160  </span>
+<span id="stats-total-view-count">阅读 - 
+<span title="总阅读数: 1111539">
+111万</span></span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zjutzz/p/10802138.html">
+    <span>编写合格的C代码（1）：通过编译选项将特定警告视为错误</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p></p><div class="toc"><div class="toc-container-header">目录</div><ul><li><a href="#快速设定">快速设定</a></li><li><a href="#向错误的执念开炮，向c编译器开炮">向错误的执念开炮，向C编译器开炮</a><ul><li><a href="#编译警告应当被忽略吗？warning不重要吗？">编译警告应当被忽略吗？warning不重要吗？</a><ul><li><a href="#（1）编库时调用了未定义函数（非编译器内置函数），编译只报warning；链接该库时报error">（1）编库时调用了未定义函数（非编译器内置函数），编译只报warning；链接该库时报error</a></li><li><a href="#（2）编库时调用了未定义函数（编译器内置同名函数），编译只报warning；链接该库时报error">（2）编库时调用了未定义函数（编译器内置同名函数），编译只报warning；链接该库时报error</a></li><li><a href="#3编可执行时c代码中使用了未定义的函数（编译器内置同名函数）">(3)编可执行时.c代码中使用了未定义的函数（编译器内置同名函数）</a></li><li><a href="#4编可执行时c代码中使用了未定义的函数（编译器无内置同名函数）">(4)编可执行时.c代码中使用了未定义的函数（编译器无内置同名函数）</a></li></ul></li></ul></li><li><a href="#个人总结的应当视作error的warning">个人总结的应当视作error的warning</a><ul><li><a href="#1-函数没有声明就使用">1. 函数没有声明就使用</a></li><li><a href="#2-函数虽然有声明，但是声明不完整，没有写出返回值类型。">2. 函数虽然有声明，但是声明不完整，没有写出返回值类型。</a></li><li><a href="#3-指针类型不兼容">3. 指针类型不兼容</a></li><li><a href="#4-函数应该有返回值但是没有return返回值">4. 函数应该有返回值但是没有return返回值</a></li><li><a href="#5-使用了影子变量shadow-variable">5. 使用了影子变量(shadow variable)</a></li><li><a href="#6-函数返回局部变量的地址">6. 函数返回局部变量的地址</a></li><li><a href="#7-变量没有初始化就使用">7. 变量没有初始化就使用</a></li><li><a href="#8-printf等语句中的格式串和实参类型不匹配">8. printf等语句中的格式串和实参类型不匹配</a></li><li><a href="#9-把unsigned-int和int类型的两个变量比较">9. 把unsigned int和int类型的两个变量比较</a></li><li><a href="#10-把int指针和int相互赋值">10. 把int指针和int相互赋值</a></li></ul></li><li><a href="#在开发环境中配置上述cflags">在开发环境中配置上述CFLAGS</a></li><li><a href="#todo">TODO</a></li><li><a href="#实录">实录</a></li><li><a href="#参考">参考</a></li></ul></div><p></p>
+<h2 id="快速设定">快速设定</h2>
+<p>如果你没兴趣/没时间看具体解释、只想快速排错，请明确：这里列出了个人认为应当当作error但被C编译器（少量情况是C++编译器）默认设定为warning的编译选项（CFLAGS/CXXFLAGS），比“忽略所有warning”要更安全，比开启“视所有warning为error”要宽松精准。支持包括主流的Visual Studio和GCC这两个编译器。</p>
+<ol>
+<li>CMakeLists.txt中的设定</li>
+</ol>
+<pre><code class="language-cmake hljs"><span class="hljs-keyword">if</span> (CMAKE_SYSTEM_NAME <span class="hljs-keyword">MATCHES</span> <span class="hljs-string">"Windows"</span>)
+	<span class="hljs-keyword">set</span>(CMAKE_C_FLAGS <span class="hljs-string">"${CMAKE_C_FLAGS} /we4013 /we4431 /we4133 /we4716 /we6244 /we6246 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047"</span>)
+	<span class="hljs-keyword">set</span>(CMAKE_CXX_FLAGS <span class="hljs-string">"${CMAKE_C_FLAGS} /we4013 /we4431 /we4133 /we4716 /we6244 /we6246 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047"</span>)
+<span class="hljs-keyword">elseif</span> (CMAKE_SYSTEM_NAME <span class="hljs-keyword">MATCHES</span> <span class="hljs-string">"Linux"</span> <span class="hljs-keyword">OR</span> CMAKE_SYSTEM_NAME <span class="hljs-keyword">MATCHES</span> <span class="hljs-string">"Darwin"</span>)
+	<span class="hljs-keyword">set</span>(CMAKE_C_FLAGS <span class="hljs-string">"${CMAKE_C_FLAGS} -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion"</span>)
+	<span class="hljs-keyword">set</span>(CMAKE_CXX_FLAGS <span class="hljs-string">"${CMAKE_C_FLAGS} -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion"</span>)
+<span class="hljs-keyword">endif</span>()
+</code></pre>
+<ol start="2">
+<li>Visual Studio中的设定</li>
+</ol>
+<p>项目属性-&gt;配置属性-&gt;C/C++-&gt;高级-&gt;将特定的警告视为错误，填入相应的警告、错误代号：</p>
+<blockquote>
+<p>4013;4431;4133;4716;6244;6246;4457;4456;4172;4700;4477;4018;4047;4013;4431;4133;4716;6244;6246;4457;4456;4172;4700;4477;4018;4047</p>
+</blockquote>
+<p><img src="https://img2018.cnblogs.com/blog/495962/201906/495962-20190621135106271-665993438.png" alt="" loading="lazy" /></p>
+<ol start="3">
+<li>基于Makefile</li>
+</ol>
+<pre><code class="language-makefile hljs">CFLAGS += -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion
+</code></pre>
+<ol start="4">
+<li>直接调用gcc/clang</li>
+</ol>
+<pre><code class="language-bash hljs">gcc xxx.c -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion
+</code></pre>
+<h2 id="向错误的执念开炮，向c编译器开炮">向错误的执念开炮，向C编译器开炮</h2>
+<p>说说为什么要定制上面一大串CFLAGS/CXXFLAGS：默认的CFLAGS/CXXFLAGS过分相信程序员，而小白则无法驾驭。问题比较严重的是纯C的代码，C++稍微好一些，因此这里主要说C特有的，剩余少量的是C/C++共有的问题。</p>
+<h3 id="编译警告应当被忽略吗？warning不重要吗？">编译警告应当被忽略吗？warning不重要吗？</h3>
+<p>很多程序小白（甚至工作多年的老鸟）认为：</p>
+<blockquote>
+<p>C代码报error需要消灭掉，报warning没啥事儿的赶紧提交版本/给QA测试/上线，PM或老板等着呢/别浪费我不必要时间/warning都是鸡毛蒜皮问题...</p>
+</blockquote>
+<p>遗憾的是这种想法并不罕见，似乎觉得“不crash就没问题”的心态，一旦出问题查起来很可能手忙脚乱，因为crash/bug很可能不好重现（血泪教训：移植ncnn为纯C代码，忘记include相应头文件，手机上运行出现难复现的crash）</p>
+<p>.c文件被C编译（而不是C++编译器）编译。最常见的case是(纯C代码,C++没有这个问题)：没有找到函数声明的情况下调用函数。也就是，没有实现函数<code>xx()</code>，或者实现了函数但是没有<code>#include</code>头文件，然后调用<code>xx()</code>。细分下来又有这几种情况：</p>
+<ul>
+<li>（1）编译目标是库文件（而不是可执行文件），<code>xx()</code>不是编译器内置函数；编译阶段仅仅报warning，运行时结果不对/不稳定</li>
+<li>（2）编译目标是可执行文件，<code>xx()</code>不是编译器内置函数；链接阶段报错说找不到符号（函数定义）</li>
+<li>（3）编译目标是库文件（而不是可执行文件），<code>xx()</code>是编译器内置函数；编译阶段仅仅报warning，运行时结果正确</li>
+<li>（4）编译目标是可执行文件，<code>xx()</code>是编译器内置函数；编译阶段报warning；运行时结果正确</li>
+</ul>
+<p>上述四种情况我们一一举例说明。每个例子都基于CMake构建。</p>
+<h4 id="（1）编库时调用了未定义函数（非编译器内置函数），编译只报warning；链接该库时报error">（1）编库时调用了未定义函数（非编译器内置函数），编译只报warning；链接该库时报error</h4>
+<p>CMakeLists.txt</p>
+<pre><code class="language-cmake hljs"><span class="hljs-keyword">cmake_minimum_required</span>(VERSION <span class="hljs-number">3.14</span>)
+<span class="hljs-keyword">project</span>(hoho)
+<span class="hljs-keyword">add_library</span>(hoholib src/hoholib.c)
+<span class="hljs-keyword">add_executable</span>(hohoexe src/hohoexe.c)
+<span class="hljs-keyword">target_link_libraries</span>(hohoexe hoholib)
+</code></pre>
+<p>hoholib.c</p>
+<pre><code class="language-C hljs"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">hello</span><span class="hljs-params">()</span> </span>{
+	<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* name = <span class="hljs-string">"Chris"</span>;
+	print_hello(name);
+}
+</code></pre>
+<p>hohoexe.c</p>
+<pre><code class="language-C hljs"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+	hello();
+
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>VS2017编译输出：</p>
+<p><img src="https://img2018.cnblogs.com/blog/495962/201906/495962-20190623004831458-677296211.png" alt="" loading="lazy" /></p>
+<p>GCC编译输出：</p>
+<p><img src="https://img2018.cnblogs.com/blog/495962/201906/495962-20190623004848980-148618010.png" alt="" loading="lazy" /></p>
+<p>可以看到，问题在链接阶段才会报error，编译阶段仅报warning。编库是不需要链接的，只需要编译。如果忽略编库阶段的上述warning那就是埋雷。</p>
+<h4 id="（2）编库时调用了未定义函数（编译器内置同名函数），编译只报warning；链接该库时报error">（2）编库时调用了未定义函数（编译器内置同名函数），编译只报warning；链接该库时报error</h4>
+<p>首先明确下什么是编译器内置函数：对于gcc而言，定义了printf、fabs等函数，而这些函数是在C标准库、math库中定义的，gcc为了优化而提供了自己的实现，而如果用户没有链接相应的库、没有包含相应的头文件，则链接阶段找不到对应的符号表，但能找到built-in函数，因而直接调用built-in函数。这就是为什么“把（1）中调用的未定义函数换成fabs、printf等函数，gcc下链接阶段也不会报错反而能正确输出结果”的原因。参考：<a href="https://www.cnblogs.com/hujichen/p/5612826.html" target="_blank">关于gcc内置函数和c隐式函数声明的认识以及一些推测</a></p>
+<p>遗憾的是，这种取巧的做法对于Visual Studio行不通，因为cl.exe并没有和gcc完全相同的编译器内置函数。cl.exe的编译器内置函数叫做<a href="https://docs.microsoft.com/en-us/cpp/intrinsics/compiler-intrinsics?view=vs-2019" target="_blank">Compiler Intrinsics</a>，并没有定义printf、fabs等函数。这就解释了“为什么调用了printf、fabs等gcc内置同名函数的代码，gcc下链接正常运行正确但在VS下链接出错”。</p>
+<p>还是上面的CMake配置，C代码为：</p>
+<p>hoholib.c</p>
+<pre><code class="language-C hljs"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">hello</span><span class="hljs-params">()</span> </span>{
+	<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* name = <span class="hljs-string">"Chris"</span>;
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"hello, %s\n"</span>, name);
+}
+</code></pre>
+<p>hohoexe.c</p>
+<pre><code class="language-C hljs"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+	hello();
+
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>VS下编译报错，gcc下则编译链接都无error，可以运行并得到预期结果。</p>
+<h4 id="3编可执行时c代码中使用了未定义的函数（编译器内置同名函数）">(3)编可执行时.c代码中使用了未定义的函数（编译器内置同名函数）</h4>
+<p>这种情况下，gcc编译链接无error且结果正确，VS则可能编译就报错，也可能编译链接通过但结果不对。</p>
+<pre><code class="language-CMAKE hljs"><span class="hljs-keyword">cmake_minimum_required</span>(VERSION <span class="hljs-number">3.14</span>)
+<span class="hljs-keyword">project</span>(hoho)
+<span class="hljs-keyword">add_executable</span>(hohoexe src/hohoexe.c)
+</code></pre>
+<p>如果hohoexe.c的代码是这样：</p>
+<pre><code class="language-C hljs"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+	<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* name = <span class="hljs-string">"Chris"</span>;
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"hello, %s\n"</span>, name);
+
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>则，VS下编译报错，gcc下编译链接无error且结果符合预期。</p>
+<p>如果hohoexe.c的代码是这样：</p>
+<pre><code class="language-C hljs"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+	<span class="hljs-keyword">double</span> x = <span class="hljs-number">-3.3</span>;
+	<span class="hljs-keyword">double</span> y = <span class="hljs-built_in">fabs</span>(x);
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"fabs(%lf)=%lf\n"</span>, x, y);
+
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>则VS下编译链接无error但结果不对：</p>
+<blockquote>
+<p>fabs(-3.300000)=-858993460.000000</p>
+</blockquote>
+<h4 id="4编可执行时c代码中使用了未定义的函数（编译器无内置同名函数）">(4)编可执行时.c代码中使用了未定义的函数（编译器无内置同名函数）</h4>
+<p>这种情况下，VS和gcc都直接编译报错，没什么好说的：</p>
+<pre><code class="language-C hljs"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+
+	<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* name = <span class="hljs-string">"Chris"</span>;
+	print_hello(name);
+
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>简单总结一下上述（1）~（4）：对于printf、fabs、sin等常见函数，gcc有内置函数的实现使得一些代码尽管报warning但也能运行；同样的代码在Visual Studio下没法编译链接；对于用户自定义的函数，如果是编库，则编译阶段只报warning不报error，如果是可执行程序则会报error。对于小白和老菜鸟们，应该无论如何都把“未声明函数就使用”强制作为error，绝对不亏。C编译器的这个现象不免让人疑惑：你这该报错的不报错，误导人啊！然而有种说法是为了兼容老版本代码。嗯，简直无语的C编译器默认编译选项！</p>
+<p>被C编译器默认报为warning而不是error、但实际上又很重要的编译选项，还有很多，而其中很多编译选项在C++中是默认为error的。如果项目允许，不妨使用C++编译器。而对于必须使用纯C的项目，就需要把C编译器中的这些严重warning都设定为error，提前发现问题解决问题。</p>
+<h2 id="个人总结的应当视作error的warning">个人总结的应当视作error的warning</h2>
+<p>下列警告应当视作错误（血泪教训）：</p>
+<h3 id="1-函数没有声明就使用">1. 函数没有声明就使用</h3>
+<p>VS下为<code>/we4013</code>。gcc下用<code>-Werror=implicit-function-declaration</code></p>
+<h3 id="2-函数虽然有声明，但是声明不完整，没有写出返回值类型。">2. 函数虽然有声明，但是声明不完整，没有写出返回值类型。</h3>
+<p>VS下开关为<code>/we4431</code>。gcc下用<code>-Werror=implicit-int</code>。注：其实implicit-function-declaration和implicit-int可以用一个implicit来替代。</p>
+<h3 id="3-指针类型不兼容">3. 指针类型不兼容</h3>
+<p>VS下为<code>/we4133</code>。gcc下用<code>-Werror=incompatible-pointer-types</code></p>
+<h3 id="4-函数应该有返回值但是没有return返回值">4. 函数应该有返回值但是没有return返回值</h3>
+<p>VS下为<code>/we4716</code>。gcc下用<code>-Werror=return-type</code></p>
+<h3 id="5-使用了影子变量shadow-variable">5. 使用了影子变量(shadow variable)</h3>
+<p>内层作用域重新声明/定义了与外层作用域中同名的变量。举一个例子说明shadow变量的危害:</p>
+<pre><code class="language-C++ hljs"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_value</span><span class="hljs-params">(<span class="hljs-keyword">int</span>* val)</span> </span>{
+            <span class="hljs-keyword">double</span> r = <span class="hljs-number">0.0</span>;
+            <span class="hljs-keyword">if</span>(isRandom) {
+                <span class="hljs-keyword">double</span> r = <span class="hljs-keyword">this</span>-&gt;generateRandomNumber();
+            }
+            *val = r;
+}
+</code></pre>
+<p>上述代码运行后，val的值始终是0而不可能被改成随机值。</p>
+<p>VS下有好几个开关：<code>/we6244 /we6246 /we4457 /we4456</code>(MSDN上还有个 /we2082但实际用的时候提示无效: 命令行 warning D9014: 值“2082”对于“/we”无效；假定为“5999”)。gcc下用<code>-Werror=shadow</code></p>
+<h3 id="6-函数返回局部变量的地址">6. 函数返回局部变量的地址</h3>
+<p>VS下的开关：<code>/we4172</code>。gcc下用<code>-Werror=shadow -Werror=return-local-addr</code>。</p>
+<h3 id="7-变量没有初始化就使用">7. 变量没有初始化就使用</h3>
+<p>函数调用完毕，无法保证用过的栈帧空间后续被如何使用（编译器是否开启优化、栈帧布局结构都有影响），不可侥幸。</p>
+<p>VS下的开关：<code>/we4700</code>。gcc下用<code>-Werror=uninitialized</code>。</p>
+<h3 id="8-printf等语句中的格式串和实参类型不匹配">8. printf等语句中的格式串和实参类型不匹配</h3>
+<p>例如%d匹配到了double，结果肯定不对，应当提前检查出来。</p>
+<p>VS下的开关：<code>/we4477</code>。gcc下用<code>-Werror=format</code>。</p>
+<h3 id="9-把unsigned-int和int类型的两个变量比较">9. 把unsigned int和int类型的两个变量比较</h3>
+<p>有符号数可能在比较之前被转换为无符号数而导致结果错误。</p>
+<p>VS下的开关：<code>/we4018</code>。gcc下用<code>-Werror=sign-compare</code>。</p>
+<h3 id="10-把int指针和int相互赋值">10. 把int指针和int相互赋值</h3>
+<p>虽说可以把指针的值（一个地址）当做一个int（其实是unsigned int）来理解，但考虑这种情况：int a=*p被写成int a=p而引发错误。</p>
+<p>VS下的开关：<code>/we4047</code>。gcc下用<code>-Werror=int-conversion</code>。</p>
+<p>因为上述N条规则是我自行制定的，有些是C++下默认视为错误，有些则是C++下也为警告。因此不妨把CFLAGS和CXXFLAGS都添加这些检查规则。</p>
+<h2 id="在开发环境中配置上述cflags">在开发环境中配置上述CFLAGS</h2>
+<p>建议基于CMakeLists.txt，现有Visual Studio工程也可配置，具体见文章第一部分“快速配置”。</p>
+<p>其他配置方式说明：</p>
+<ol>
+<li>.c代码中使用<code>#pragma warning (error: xxxx)</code>。缺点：只有visual studio工程能用；不能确保所有文件有效</li>
+<li>Visual Studio工程属性中配置-&gt;配置属性-&gt;C/C++-&gt;高级-&gt;将特定的警告视为错误，填写"xxxx"。缺点：只适合Visual Studio；优点：非CMake生成的VS工程，适合。</li>
+<li>gcc编译时指定flags，例如<code>gcc gcc xxx.c -Werror=implicit-function-declaration</code></li>
+</ol>
+<p>CMakeLists.txt中配置说明：<code>set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /weXXXX")</code>(windows)或<code>set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror=xxxx")</code>。<br />
+其中，windows格式中XXXX为警告编号；gcc下xxxx为警告对应的字符串。这种方式个人推荐。</p>
+<h2 id="todo">TODO</h2>
+<p>C++编译器默认链接C++标准库，C++标准库包含了math库；C编译器默认链接C标准库，C标准库不包含math库（参考：<a href="https://stackoverflow.com/questions/1033898/why-do-you-have-to-link-the-math-library-in-c" target="_blank">Why do you have to link the math library in C?</a>)。问题来了：对于gcc，如果纯C代码调用了math函数而没有设定链接选项<code>-lm</code>，会使用gcc的built-in函数；同样的代码，VS2017并没有内置math库的函数，没有链接数学库的秦广下，为什么也能正确运行？</p>
+<pre><code class="language-C hljs"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;math.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+	<span class="hljs-keyword">double</span> x = <span class="hljs-number">-3.3</span>;
+	<span class="hljs-keyword">double</span> y = <span class="hljs-built_in">fabs</span>(<span class="hljs-number">3.3</span>);
+
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"fabs(%lf)=%lf\n"</span>, x, y);
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<h2 id="实录">实录</h2>
+<ul>
+<li>2020-10-15 14:12:58 同事ZYC因为没有<code>#include &lt;stdlib.h&gt;</code>，导致malloc时出现分配非法地址，查bug查了大半天。包含utils.cmake后快速报错定位问题。</li>
+</ul>
+<h2 id="参考">参考</h2>
+<p><a href="https://docs.microsoft.com/en-us/previous-versions/thxezb7y(v=vs.140)" target="_blank">/w, /W0, /W1, /W2, /W3, /W4, /w1, /w2, /w3, /w4, /Wall, /wd, /we, /wo, /Wv, /WX (Warning Level)</a></p>
+<p><a href="https://stackoverflow.com/questions/45995784/how-to-set-compiler-options-with-cmake-in-visual-studio-2017" target="_blank">How to set compiler options with CMake in Visual Studio 2017</a></p>
+<p><a href="https://stackoverflow.com/questions/475407/make-one-gcc-warning-an-error" target="_blank">Make one gcc warning an error?</a></p>
+<p><a href="https://stackoverflow.com/questions/4750880/can-i-treat-a-specific-warning-as-an-error" target="_blank">Can I treat a specific warning as an error?</a></p>
+<p><a href="https://stackoverflow.com/questions/6225070/is-there-an-equivalent-of-gccs-wshadow-in-visual-c" target="_blank">Is there an equivalent of gcc's -Wshadow in visual C++</a></p>
+<p><a href="https://www.cnblogs.com/clover-toeic/p/3736560.html" target="_blank">已释放的栈内存</a></p>
+<p><a href="https://www.cnblogs.com/DswCnblog/p/5825872.html" target="_blank">GCC编译选项</a></p>
+<p><a href="https://www.cnblogs.com/hujichen/p/5612826.html" target="_blank">关于gcc内置函数和c隐式函数声明的认识以及一些推测</a></p>
+<p><a href="https://stackoverflow.com/questions/1033898/why-do-you-have-to-link-the-math-library-in-c" target="_blank">Why do you have to link the math library in C?</a></p>
+
+</div>
+<div id="MySignature" style="display: block;">Greatness is never a given, it must be earned.</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(10802138,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('5b019ead-4c73-e211-aa8f-842b2b196315');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/zjutzz/" target="_blank"><img src="https://pic.cnblogs.com/face/495962/20140506231331.png" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/zjutzz/">ChrisZZ</a><br />
+            <a href="https://home.cnblogs.com/u/zjutzz/followees/">关注 - 43</a><br />
+            <a href="https://home.cnblogs.com/u/zjutzz/followers/">粉丝 - 126</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('5b019ead-4c73-e211-aa8f-842b2b196315');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(10802138,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(10802138,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/zjutzz/p/10789814.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/zjutzz/p/10789814.html" title="发布于 2019-04-29 13:17">VS2013添加重构重命名功能</a>
+    <br />
+    <a href="https://www.cnblogs.com/zjutzz/p/10806811.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/zjutzz/p/10806811.html" title="发布于 2019-05-03 22:00">读取BMP图片并使用OpenCV显示</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2019-05-02 13:22</span> 
+<a href="https://www.cnblogs.com/zjutzz/">ChrisZZ</a> 
+阅读(<span id="post_view_count">6337</span>) 
+评论(<span id="post_comment_count">9</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=10802138" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(10802138);return false;">收藏</a> 
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '10802138', targetLink: 'https://www.cnblogs.com/zjutzz/p/10802138.html', title: '编写合格的C代码（1）：通过编译选项将特定警告视为错误' })">举报</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 141691, cb_blogApp = 'zjutzz', cb_blogUserGuid = '5b019ead-4c73-e211-aa8f-842b2b196315';
+    var cb_entryId = 10802138, cb_entryCreatedDate = '2019-05-02 13:22', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login('!comments');">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="https://cloud.baidu.com/campaign/2021mid/index.html?track=cp:bokeyuan|pf:pc|pp:bokeyuan-huodong-21nianzhongdacu-neiyewenzilian|pu:21nianzhongdacu-neiyewenzilian|ci:21nzdc|kw:10225193" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-百度智能云')">【推荐】百度智能云618年中大促，限时抢购，新老用户同享超值折扣</a><br /><a href="http://www.uccpsoft.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-ucancode')">【推荐】大型组态、工控、仿真、CAD\GIS 50万行VC++源码免费下载!</a><br /><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为专区')">【推荐】618好物推荐：基于HarmonyOS和小熊派BearPi-HM Nano的护花使者</a><br /><a href="https://www.aliyun.com/activity/daily/bestoffer?userCode=swh7dvlt" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云-cps')">【推荐】阿里云爆品销量榜单出炉，精选爆款产品低至0.55折</a><br /><a href="http://www.moojnn.com/?source=bokeyuan" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-魔镜')">【推荐】限时秒杀！国云大数据魔镜，企业级云分析平台</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CKvv-YaIpPECFVYRvQodAt4HuQ"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" allow="conversion-measurement" srcdoc="" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card">
+<b>编辑推荐：</b>
+<br />
+
+· <a href="https://www.cnblogs.com/jackyfei/p/14899432.html" target="_blank">为什么选择 ASP.NET Core</a>
+    <br />
+· <a href="https://www.cnblogs.com/xiaozhi_5638/p/14894111.html" target="_blank">从 Vehicle-ReId 到 AI 换脸，应有尽有，解你所惑</a>
+    <br />
+· <a href="https://www.cnblogs.com/coco1s/p/14884633.html" target="_blank">CSS ::marker 让文字序号更有意思</a>
+    <br />
+· <a href="https://www.cnblogs.com/catcher1994/p/14882211.html" target="_blank">聊一聊 .NET Core 结合 Nacos 实现配置加解密</a>
+    <br />
+· <a href="https://www.cnblogs.com/tcjiaan/p/14868339.html" target="_blank">【.NET 与树莓派】温度/湿度传感器——SHT30</a>
+    <br />
+</div></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;" data-google-query-id="CKzv-YaIpPECFVYRvQodAt4HuQ"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" allow="conversion-measurement" srcdoc="" data-google-container-id="2" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>最新新闻</b>：
+    <br />
+ ·          <a href="//news.cnblogs.com/n/696329/" target="_blank">转转集团618战报：28小时卖出11.94万单手机3C商品，GMV超1.92亿</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/696327/" target="_blank">特斯拉前总裁离职短短8天抛售价值2.74亿美元股票</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/696326/" target="_blank">抖音电商618数据：直播间累计时长2852万小时，点赞769亿次</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/696325/" target="_blank">达达集团618：京东到家日销售额破3亿 达达快送即时配单量远超去年同期</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/696324/" target="_blank">马斯克麾下Boring公司想运货， 计划开挖更宽隧道</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="under-post-card">
+<b>历史上的今天：</b>
+<br />
+
+2017-05-02    <a href="https://www.cnblogs.com/zjutzz/p/6798225.html">brew装snappy</a>
+    <br />
+</div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    我的<a href="https://github.com/zchrissirhcz" style="color:blue">Github</a>
+<br /><hr />
+
+我的<a href="https://stackoverflow.com/users/2999096/haxtraz" style="color:blue">StackOverFlow</a>
+<br /><hr />
+
+我的<a href="mailto:imzhuo#foxmail%com" style="color:blue">email</a>
+<br /><hr />
+
+QQ技术讨论群 1002368495 密码 卷卷卷卷卷（话题：C/C++，指令集加速，异构计算，Android NDK，Python，Matlab）
+
+<br /><hr />
+Make a better world by coding.
+<br /><hr />
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/zjutzz/">
+            ChrisZZ
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/zjutzz/" title="入园时间：2013-02-10">
+            8年4个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/zjutzz/followers/">
+            126
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/zjutzz/followees/">
+            43
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('5b019ead-4c73-e211-aa8f-842b2b196315')">+加关注</a></div>
+        <script>getFollowStatus('5b019ead-4c73-e211-aa8f-842b2b196315');</script>
+    </div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block"><div class="catListLink">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    
+<li><a href="https://www.cnblogs.com/zjutzz/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/zjutzz/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/zjutzz/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/zjutzz/RecentComments.html" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/zjutzz/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"><div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/libfc/">libfc<span class="tag-count">(13)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/Python/">Python<span class="tag-count">(10)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/opencv/">opencv<span class="tag-count">(8)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/%E9%85%8D%E7%BD%AE/">配置<span class="tag-count">(5)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/%E7%AE%97%E6%B3%95/">算法<span class="tag-count">(5)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/%E8%BF%90%E7%BB%B4/">运维<span class="tag-count">(4)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/PHP/">PHP<span class="tag-count">(4)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习<span class="tag-count">(4)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/Linux/">Linux<span class="tag-count">(4)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/Python%20acm/">Python acm<span class="tag-count">(3)</span></a>
+        </li>
+    <li>
+        <a href="https://www.cnblogs.com/zjutzz/tag/">更多</a>
+    </li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div id="sidebar_articlearchive" class="catListArticleArchive sidebar-block">
+        <h3 class="catListTitle">
+            
+文章档案
+<span style="font-size:11px;font-weight:normal">(1)</span>
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zjutzz/archives/2018/04.html" rel="nofollow noopener noreferrer" target="">
+    2018年4月(1)
+</a>
+ 
+
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_zjut" class="catListZJUT sidebar-block">
+        <h3 class="catListTitle">
+            
+ZJUT
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://jusoy.com/blog/" rel="nofollow noopener noreferrer" target="">
+    ZIKI
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://renkai.org/" rel="nofollow noopener noreferrer" target="">
+    笋干太咸
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.paeonia.me/Blog/" rel="nofollow noopener noreferrer" target="">
+    Brilliant
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://boskijr.com/" rel="nofollow noopener noreferrer" target="">
+    小波斯基
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://blog.imsuzie.com/" rel="nofollow noopener noreferrer" target="">
+    酥西黄
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://altynai.me/" rel="nofollow noopener noreferrer" target="">
+    鹏神，网络流
+</a>
+ 
+
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_coder" class="catListcoder sidebar-block">
+        <h3 class="catListTitle">
+            
+程序员充电站
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://coolshell.cn/" rel="nofollow noopener noreferrer" target="">
+    酷壳
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.ruanyifeng.com/home.html" rel="nofollow noopener noreferrer" target="">
+    阮一峰的网络日志
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.matrix67.com/blog/" rel="nofollow noopener noreferrer" target="">
+    Matrix67
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://xiaobazhang.github.io/category/#C++" rel="" target="">
+    Suli's Blob
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.wowotech.net/page/4" rel="nofollow noopener noreferrer" target="">
+    蜗窝科技
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://blog.csdn.net/pcb4jr" rel="nofollow noopener noreferrer" target="">
+    格友
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.yebangyu.org/blog/categories/c-plus-plus/" rel="nofollow noopener noreferrer" target="">
+    Yebangyu's Blog
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://blog.guorongfei.com/archives/" rel="nofollow noopener noreferrer" target="">
+    时习之
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://hanpfei.github.io/" rel="nofollow noopener noreferrer" target="">
+    WolfcsTech
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://blog.tensor-robotics.com/tags/%E9%9B%B7%E8%BE%BE/" rel="nofollow noopener noreferrer" target="">
+    毫米波雷达
+</a>
+ 
+
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_links1467387" class="catList sidebar-block">
+        <h3 class="catListTitle">
+            
+友情链接
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://zhengtq.github.io/" rel="nofollow noopener noreferrer" target="">
+    all star的博客
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://blog.csdn.net/derteanoo" rel="nofollow noopener noreferrer" target="">
+    derteanoo的博客
+</a>
+ 
+
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+
+
+
+<!-- 阅读排行榜 -->
+
+
+<!-- 评论排行榜 -->
+
+
+<!-- 推荐排行榜 -->
+</div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2021 ChrisZZ
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsfTT-DHwBrMwpWPli__NB9nFoYoDaTJxVH16vh9k03rv1Oc8Mmhb0deRrHhe2ujBDN3VKi1atR0JTBg66EB20-VJP44ZmLYu-nf8WCKPXL3YFLCKKtmn4cNk-MJJJs9U0" />
+
+
+<iframe id="google_osd_static_frame_8137700670663" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe><iframe src="https://www.google.com/recaptcha/api2/aframe" width="0" height="0" style="display: none;"></iframe></body></html>

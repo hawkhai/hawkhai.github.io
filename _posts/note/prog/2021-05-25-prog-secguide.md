@@ -248,6 +248,62 @@ LOCAL_CPPFLAGS += -fexceptions -frtti
 ```
 
 
+### 通过编译选项将特定警告视为错误
+
+* [编写合格的 C 代码（1）：通过编译选项将特定警告视为错误 {% include relref_cnblogs.html %}](https://www.cnblogs.com/zjutzz/p/10802138.html)
+    * A simple logging library implemented in C99 [rxi / log.c {% include relref_github.html %}](https://github.com/rxi/log.c)
+    * Getting colored output working on Windows [github {% include relref_github.html %}](https://github.com/rspec/rspec/wiki/Getting-colored-output-working-on-Windows)
+* [编写合格的 C 代码（2）：实现简易日志库 {% include relref_cnblogs.html %}](https://www.cnblogs.com/zjutzz/p/11333334.html)
+
+* 开启 安全开发生命周期（SDL）检查
+* CMakeLists.txt 中的设定
+  ```cmake
+if (CMAKE_SYSTEM_NAME MATCHES "Windows")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /we4013 /we4431 /we4133 /we4716 /we6244 /we6246 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
+    set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} /we4013 /we4431 /we4133 /we4716 /we6244 /we6246 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
+elseif (CMAKE_SYSTEM_NAME MATCHES "Linux" OR CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion")
+    set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion")
+endif()
+```
+* Visual Studio 中的设定
+    * 项目属性->配置属性->C/C++->高级->将特定的警告视为错误，填入相应的警告、错误代号：
+        * 4013;4431;4133;4716;6244;6246;4457;4456;4172;4700;4477;4018;4047;4013;4431;4133;4716;6244;6246;4457;4456;4172;4700;4477;4018;4047
+* 基于 Makefile
+    * CFLAGS += -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion
+* 直接调用 gcc/clang
+    * gcc xxx.c -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion
+
+
+### 一些规则
+
+1. 函数没有声明就使用
+    * VS 下为 /we4013。gcc 下用 -Werror=implicit-function-declaration
+2. 函数虽然有声明，但是声明不完整，没有写出返回值类型。
+    * VS 下开关为 /we4431。gcc 下用 -Werror=implicit-int。注：其实 implicit-function-declaration 和 implicit-int 可以用一个 implicit 来替代。
+3. 指针类型不兼容
+    * VS 下为 /we4133。gcc 下用 -Werror=incompatible-pointer-types
+4. 函数应该有返回值但是没有 return 返回值
+    * VS 下为 /we4716。gcc 下用 -Werror=return-type
+5. 使用了影子变量 (shadow variable)
+    * 内层作用域重新声明 / 定义了与外层作用域中同名的变量。
+    * VS 下有好几个开关：/we6244 /we6246 /we4457 /we4456（MSDN 上还有个 /we2082 但实际用的时候提示无效 : 命令行 warning D9014: 值“2082”对于“/we”无效；假定为“5999”)。gcc 下用 -Werror=shadow
+6. 函数返回局部变量的地址
+    * VS 下的开关：/we4172。gcc 下用 -Werror=shadow -Werror=return-local-addr。
+7. 变量没有初始化就使用
+    * 函数调用完毕，无法保证用过的栈帧空间后续被如何使用（编译器是否开启优化、栈帧布局结构都有影响），不可侥幸。
+    * VS 下的开关：/we4700。gcc 下用 -Werror=uninitialized。
+8. printf 等语句中的格式串和实参类型不匹配
+    * 例如 %d 匹配到了 double，结果肯定不对，应当提前检查出来。
+    * VS 下的开关：/we4477。gcc 下用 -Werror=format。
+9. 把 unsigned int 和 int 类型的两个变量比较
+    * 有符号数可能在比较之前被转换为无符号数而导致结果错误。
+    * VS 下的开关：/we4018。gcc 下用 -Werror=sign-compare。
+10. 把 int 指针和 int 相互赋值
+    * 虽说可以把指针的值（一个地址）当做一个 int（其实是 unsigned int）来理解，但考虑这种情况：int a=*p 被写成 int a=p 而引发错误。
+    * VS 下的开关：/we4047。gcc 下用 -Werror=int-conversion。
+
+
 ## 匹对逻辑应该设计为 RAII，防止写漏
 
 
@@ -465,6 +521,10 @@ int Foo() {
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-25-prog-secguide.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.cnblogs.com/zjutzz/p/10802138.html]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/www.cnblogs.com/66780ceb.html" %})
+- [https://github.com/rxi/log.c]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/e00aa14a.html" %})
+- [https://github.com/rspec/rspec/wiki/Getting-colored-output-working-on-Windows]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/7a35e51b.html" %})
+- [https://www.cnblogs.com/zjutzz/p/11333334.html]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/www.cnblogs.com/5687afa3.html" %})
 - [https://github.com/preshing/junction]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/f3798178.html" %})
 - [https://github.com/oneapi-src/oneTBB]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/acfc8855.html" %})
 - [https://github.com/Tencent/secguide/blob/main/C%2CC%2B%2B%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97.md]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/a22343f4.html" %})

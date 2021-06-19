@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "调试 Memory -- Windows Windbg 崩溃分析 -- HEAP_ENTRY 结构"
+title: "调试 Memory -- Windows Windbg 编码后的 HEAP_ENTRY 结构"
 author:
 location: "珠海"
 categories: ["调试"]
@@ -19,7 +19,7 @@ cluster: "WinDBG"
 {% include image.html url="/assets/images/210619-win-windbg-cases-heap-e~16/20200312111504316.png" %}
 
 每个堆块的前 8 个字节是一个 HEAP_ENTRY 结构体，头部的结构，记录了这块内存 de 信息。
-Vista 引入了很多新的东西，编码的目的是引入随机性，增强堆的安全性，防止黑客轻易就可以预测堆的数据内容而实施攻击。
+Vista 引入了很多新的东西，对堆块的块头结构（HEAP_ENTRY）编码，编码的目的是引入随机性，增强堆的安全性，防止黑客轻易就可以预测堆的数据内容而实施攻击。
 其中的 EncodeFlagMask 用来指示是否启用编码功能；Encoding 字段是用来编码的，编码的方法就是用这个 Encoding 结构与每个堆块的头结构做异或（XOR）。
 * [Windows Heap Chunk Header Parsing and Size Calculation](https://stackoverflow.com/questions/28483473/windows-heap-chunk-header-parsing-and-size-calculation)
 * [解读编码后的 HEAP_ENTRY 结构](http://advdbg.org/blogs/advdbg_system/articles/5152.aspx)

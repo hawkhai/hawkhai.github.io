@@ -1,0 +1,1024 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="需求 最简单暴力的调试方法是printf()输出变量的值，对于检查发现异常情况很有帮助。 但并非所有时候都需要这些打印出来的信息，例如：太多的打印信息影响算法性能，暴露算法或业务逻辑细节机密，Rele" />
+    <meta property="og:description" content="需求 最简单暴力的调试方法是printf()输出变量的值，对于检查发现异常情况很有帮助。 但并非所有时候都需要这些打印出来的信息，例如：太多的打印信息影响算法性能，暴露算法或业务逻辑细节机密，Rele" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>编写合格的C代码(2):实现简易日志库 - ChrisZZ - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=6tvK5XC6GPbg3p_sy7wzz_2291HoYACr4440iKBzQIw" />
+    <link id="MainCss" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd.min.css?v=FftQhR2MvKTGGXxV0VXlcGGt4XBM0_1XGJmu6kYD9bg" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd-mobile.min.css?v=t8lZrYXGRE8kAD_d-besbRXwkXSQmMprnkoJVYlZl-g" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/zjutzz/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/zjutzz/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/zjutzz/wlwmanifest.xml" />
+    <script src="https://www.googletagservices.com/activeview/js/current/osd.js"></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 141691;
+        var currentBlogApp = 'zjutzz';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'iMetro_HD';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-01-23 02:54';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=ZUvfwhWs5fv-s8Nv7WofCOhwKAxiDO928zdWFzhnOPk"></script><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style>
+    <script type="text/x-mathjax-config;executed=true">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom &gt; * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd &gt; * {display: block!important}
+.MJXp-script-box &gt; *  {display: table!important; height: 50%}
+.MJXp-script-box &gt; * &gt; * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box &gt; *:last-child &gt; * {vertical-align: bottom}
+.MJXp-script-box &gt; * &gt; * &gt; * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover, .MJXp-munder {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over &gt; * {display: block!important}
+.MJXp-munderover &gt; *, .MJXp-munder &gt; * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable &gt; * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr &gt; .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child &gt; .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr &gt; .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child &gt; .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><meta http-equiv="origin-trial" content="A+b/H0b8RPXNaJgaNFpO0YOFuGK6myDQXlwnJB3SwzvNMfcndat4DZYMrP4ClJIzYWo3/yP2S+8FTZ/lpqbPAAEAAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzVGhpcmRQYXJ0eSI6dHJ1ZX0=" /><meta http-equiv="origin-trial" content="A9ZgbRtm4pU3oZiuNzOsKcC8ppFSZdcjP2qYcdQrFKVzkmiWH1kdYY1Mi9x7G8+PS8HV9Ha9Cz0gaMdKsiVZIgMAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AxL6oBxcpn5rQDPKSAs+d0oxNyJYq2/4esBUh3Yx5z8QfcLu+AU8iFCXYRcr/CEEfDnkxxLTsvXPJFQBxHfvkgMAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A9KPtG5kl3oLTk21xqynDPGQ5t18bSOpwt0w6kGa6dEWbuwjpffmdUpR3W+faZDubGT+KIk2do0BX2ca16x8qAcAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A3HucHUo1oW9s+9kIKz8mLkbcmdaj5lxt3eiIMp1Nh49dkkBlg1Fhg4Fd/r0vL69mRRA36YutI9P/lJUfL8csQoAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A0OysezhLoCRYomumeYlubLurZTCmsjTb087OvtCy95jNM65cfEsbajrJnhaGwiTxhz38ZZbm+UhUwQuXfVPTg0AAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="AxoOxdZQmIoA1WeAPDixRAeWDdgs7ZtVFfH2y19ziTgD1iaHE5ZGz2UdSjubkWvob9C5PrjUfkWi4ZSLgWk3Xg8AAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A7+rMYR5onPnACrz+niKSeFdH3xw1IyHo2AZSHmxrofRk9w4HcQPMYcpBUKu6OQ6zsdxf4m/vqa6tG6Na4OLpAQAAAB4eyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AwfG8hAcHnPa/kJ1Co0EvG/K0F9l1s2JZGiDLt2mhC3QI5Fh4qmsmSwrWObZFbRC9ieDaSLU6lHRxhGUF/i9sgoAAACBeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiSW50ZXJlc3RDb2hvcnRBUEkiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AwQ7dCmHkvR6FuOFxAuNnktYSQrGbL4dF+eBkrwNLALc69Wr//PnO1yzns3pjUoCaYbKHtVcnng2hU+8OUm0PAYAAACHeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiSW50ZXJlc3RDb2hvcnRBUEkiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AysVDPGQTLD/Scn78x4mLwB1tMfje5jwUpAAzGRpWsr1NzoN7MTFhT3ClmImi2svDZA7V6nWGIV8YTPsSRTe0wYAAACHeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiSW50ZXJlc3RDb2hvcnRBUEkiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021061503.js" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script><link rel="prefetch" href="https://a314ea7c2561c0a9e9846a9a5a1e8fb0.safeframe.googlesyndication.com/safeframe/1-0-38/html/container.html" /></head>
+<body class="has-navbar has-bannerbar"><div id="MathJax_Message" style="display: none;"></div>
+    <a name="top"></a>
+            <a target="_blank" href="https://cloud.baidu.com/campaign/2021mid/index.html?track=cp:bokeyuan|pf:pc|pp:bokeyuan-huodong-21nianzhongdacu-neiyePCtonglanbanner|pu:21nianzhongdacu-neiyePCtonglanbanner|ci:21nzdc|kw:10224545" onclick="ga('send', 'event', 'Link', 'click', 'baidu-cpa-blog-bannerbar-pc')">
+                <div class="bannerbar aliyun forpc" style="background-size: contain; filter: brightness(0.95); background-image: url(https://img2020.cnblogs.com/blog/35695/202106/35695-20210610183724605-1725070929.jpg)">
+                </div>
+            </a>
+            <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://cloud.baidu.com/campaign/2021mid/index.html?track=cp:bokeyuan|pf:mb|pp:bokeyuan-huodong-21nianzhongdacu-neiyeyidongduantonglanbanner|pu:21nianzhongdacu-neiyeyidongduantonglanbanner|ci:21nzdc|kw:10224547" onclick="ga('send', 'event', 'Link', 'click', 'baidu-cpa-blog-bannerbar-mobile')">
+                <img src="https://img2020.cnblogs.com/blog/35695/202106/35695-20210610184806729-1738888164.jpg" alt="" />
+            </a>
+            </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/zjutzz/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/zjutzz/"></a>
+</h1>
+<h2>你内心的平庸就是你失去追求卓越信念的那个瞬间</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/zjutzz/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/ChrisZZ">
+联系</a></li>
+<li>
+
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 520  </span>
+<span id="stats_article_count">文章 - 1  </span>
+<span id="stats-comment_count">评论 - 160  </span>
+<span id="stats-total-view-count">阅读 - 
+<span title="总阅读数: 1111539">
+111万</span></span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zjutzz/p/11333334.html">
+    <span>编写合格的C代码(2):实现简易日志库</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p></p><div class="toc"><div class="toc-container-header">目录</div><ul><li><a href="#需求">需求</a></li><li><a href="#step1-打印功能的封装">step1: 打印功能的封装</a></li><li><a href="#step2：定制logging的输出行格式">step2：定制logging的输出行格式</a><ul><li><a href="#step21-不同logging等级显示不同颜色">step2.1 不同logging等级显示不同颜色</a></li><li><a href="#step22-显示当前运行时刻">step2.2 显示当前运行时刻</a></li><li><a href="#step23-显示行号和文件名">step2.3 显示行号和文件名</a></li></ul></li><li><a href="#step3-控制输出">step3: 控制输出</a></li><li><a href="#step4-多线程安全">step4 多线程安全</a></li><li><a href="#reference">reference</a></li></ul></div><p></p>
+<h2 id="需求">需求</h2>
+<p>最简单暴力的调试方法是<code>printf()</code>输出变量的值，对于检查发现异常情况很有帮助。</p>
+<p>但并非所有时候都需要这些打印出来的信息，例如：太多的打印信息影响算法性能，暴露算法或业务逻辑细节机密，Release模式希望关闭log信息保持干净，etc。</p>
+<p>手动增删<code>printf()</code>语句是一种刀耕火种的做法，费力、不容易管理、影响coding状态。换言之，用于调试的打印信息应当可控，想输出就输出，想不输出就不输出：</p>
+<ul>
+<li>能够输出信息到屏幕或文件：用printf、fprintf可以做到</li>
+<li>能够控制何时输出何时不输出：需要封装打印功能，根据Debug/Release模式或其他条件来控制是否打印</li>
+<li>能够增加更多的打印信息：除了打印需要的变量的值，还能打印运行时间、行号、文件名、log等级等信息</li>
+<li>能够输出到文件，并且多线程安全</li>
+</ul>
+<p>通过几个步骤，渐进的实现一个简易的logging库。</p>
+<h2 id="step1-打印功能的封装">step1: 打印功能的封装</h2>
+<p>可以通过宏定义的方式封装<code>printf()</code>，但宏定义写起来并不如函数好写。</p>
+<p>在函数中调用<strong><code>vfprintf()</code></strong>则可以实现打印功能的封装，支持任意多个参数，相当于自己实现了一个<code>printf()</code>，好处是可以定制。<br />
+(需要注意的是，并不能在函数中调用<code>printf()</code>来实现一个自己的<code>printf()</code>，因为<code>__VA_ARGS__</code>(...)和<code>va_list</code>并不一样。)</p>
+<p><code>nc_log()</code>函数近似实现了<code>printf()</code>的功能：</p>
+<pre><code class="language-C hljs"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdarg.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">nc_log</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* fmt, ...)</span> </span>{
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"[Nc Log] "</span>); <span class="hljs-comment">//定制输出：增加[Nc Log]作为log的TAG，区别于其他printf输出</span>
+
+    va_list args;
+    va_start(args, fmt); <span class="hljs-comment">//解析fmt后的可变参数</span>
+
+    <span class="hljs-built_in">vfprintf</span>(<span class="hljs-built_in">stdout</span>, fmt, args); <span class="hljs-comment">//以fmt作为格式川，打印可变参数</span>
+
+    va_end(args);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>{
+
+    nc_log(<span class="hljs-string">"hello nc log, %s\n"</span>, <span class="hljs-string">"nice"</span>); <span class="hljs-comment">//调用logging函数</span>
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"hello nc log, %s\n"</span>, <span class="hljs-string">"nice"</span>); <span class="hljs-comment">//调用标准的printf()</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>测试<code>nc_log</code>函数和标准的<code>printf()</code>函数的输出：</p>
+<pre><code class="language-bash hljs">[Nc Log] hello nc <span class="hljs-built_in">log</span>, nice
+hello nc <span class="hljs-built_in">log</span>, nice
+</code></pre>
+<h2 id="step2：定制logging的输出行格式">step2：定制logging的输出行格式</h2>
+<p>考虑每一行logging输出的格式，除了用户调用时提供的打印参数，通常还可以添加的额外信息可以包括：</p>
+<ul>
+<li>不同的错误等级，显示不同的颜色</li>
+<li>当前运行时刻</li>
+<li>调用logging处的行号、文件名</li>
+</ul>
+<p>例如：<br />
+<img src="https://img2018.cnblogs.com/blog/495962/201908/495962-20190810230650155-450405432.png" alt="" loading="lazy" /></p>
+<p>具体的格式可以自行定制，这里分别考虑每种额外信息的打印实现。</p>
+<h3 id="step21-不同logging等级显示不同颜色">step2.1 不同logging等级显示不同颜色</h3>
+<p>是说在终端下让logging输出具有各种颜色，原理就是在需要打印的内容之外，用转义字符来包围，终端本身会将这些转义字符解释为颜色然后输出。现在的Linux/MacOS的终端都支持ANSI颜色转义规则，也就是使用<code>\x1b[%dm</code>作为起始、用<code>\x1b[0m</code>作为结束。看看所有的ASCII字符都能被转义为什么样子：</p>
+<pre><code class="language-C hljs"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">256</span>; i++) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">"\x1b[%dm %3d \x1b[0m "</span>, i, i);
+        <span class="hljs-keyword">if</span> (i%<span class="hljs-number">16</span>==<span class="hljs-number">15</span>) {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">"\n"</span>);
+        }
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p><img src="https://img2018.cnblogs.com/blog/495962/201908/495962-20190810234026543-2025146987.png" alt="" loading="lazy" /></p>
+<p>显然，有颜色的是少数，没有颜色的是多数；颜色又包括前景字体颜色、背景颜色，并且有普通彩色和加亮彩色。挑选自己喜欢的颜色，然后定义几个自己觉得必要的logging等级，每个等级分别对应一种颜色（对应的颜色转义码），则容易得到每种logging等级的颜色输出：</p>
+<pre><code class="language-C hljs"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdarg.h&gt;</span></span>
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">NcLogLevel</span> {</span>
+    NC_LOG_LEVEL_BEGIN=<span class="hljs-number">-1</span>,
+
+    TRACE,
+    DEBUG,
+    INFO,
+    WARN,
+    ERROR,
+    FATAL,
+
+    NC_LOG_LEVEL_END
+} NcLogLevel;
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* level_names[] = {
+    <span class="hljs-string">"TRACE"</span>, <span class="hljs-string">"DEBUG"</span>, <span class="hljs-string">"INFO"</span>, <span class="hljs-string">"WARN"</span>, <span class="hljs-string">"ERROR"</span>, <span class="hljs-string">"FATAL"</span>
+};
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* level_colors[] = {
+    <span class="hljs-string">"\x1b[94m"</span>, <span class="hljs-string">"\x1b[36m"</span>,  <span class="hljs-string">"\x1b[32m"</span>,<span class="hljs-string">"\x1b[33m"</span>, <span class="hljs-string">"\x1b[31m"</span>, <span class="hljs-string">"\x1b[35m"</span>
+};
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">nc_log</span><span class="hljs-params">(NcLogLevel level, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* fmt, ...)</span> </span>{
+    <span class="hljs-keyword">if</span> (level&lt;=NC_LOG_LEVEL_BEGIN || level&gt;=NC_LOG_LEVEL_END) {
+        <span class="hljs-keyword">return</span>;
+    }
+
+    <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stdout</span>, <span class="hljs-string">"%s[%-5s]\x1b[0m"</span>, level_colors[level], level_names[level]);
+
+    va_list args;
+    va_start(args, fmt);
+
+    <span class="hljs-built_in">vfprintf</span>(<span class="hljs-built_in">stdout</span>, fmt, args);
+
+    va_end(args);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>{
+
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> level=NC_LOG_LEVEL_BEGIN+<span class="hljs-number">1</span>; level&lt;NC_LOG_LEVEL_END; level++) {
+        nc_log(level, <span class="hljs-string">"test trace\n"</span>);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p><img src="https://img2018.cnblogs.com/blog/495962/201908/495962-20190811092823084-321323622.png" alt="" loading="lazy" /></p>
+<p><strong>终端颜色输出的通用性</strong><br />
+考虑到通用性，测试发现我的Win10的cmd已经默认支持ANSI颜色转义了，而如果是Win7（也许包括老一些版本的win10？），则可以通过安装<a href="https://github.com/adoxa/ansicon" target="_blank">ANSICON</a>来解决。</p>
+<h3 id="step22-显示当前运行时刻">step2.2 显示当前运行时刻</h3>
+<p>使用C标准库函数<code>localtime()</code>获取当前时刻，通过C标准库函数<code>strftime()</code>格式化当前时刻为指定格式的字符串输出，格式说明见<a href="https://en.cppreference.com/w/c/chrono/strftime" target="_blank">strftime</a>。个人认为必要的格式包括：时区、年月日、时分秒。这里需要注意的是，时区的显示如果使用了locale则不容易处理，因此直接显示数字格式的时区偏移量(使用%z替代%Z)。尝试输出：</p>
+<pre><code class="language-C hljs"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;time.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">time_t</span> t = time(<span class="hljs-literal">NULL</span>);
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">tm</span>* <span class="hljs-title">lt</span> =</span> localtime(&amp;lt);
+    <span class="hljs-keyword">char</span> now[<span class="hljs-number">100</span>];
+    now[strftime(now, <span class="hljs-keyword">sizeof</span>(now), <span class="hljs-string">"%z %Y-%m-%d %H:%M:%S"</span>, lt)] = <span class="hljs-string">'\0'</span>;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"now: %s\n"</span>, now);
+}
+</code></pre>
+<p><img src="https://img2018.cnblogs.com/blog/495962/201908/495962-20190811100156333-777205393.png" alt="" loading="lazy" /></p>
+<p>集成到<code>nc_log()</code>函数中：</p>
+<pre><code class="language-C hljs">now[strftime(now, <span class="hljs-keyword">sizeof</span>(now), <span class="hljs-string">"%Y-%m-%d %H:%M:%S"</span>, lt)] = <span class="hljs-string">'\0'</span>;
+<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stdout</span>, <span class="hljs-string">"%s %s[%-5s]\x1b[0m "</span>, now, level_colors[level], level_names[level])
+</code></pre>
+<p><img src="https://img2018.cnblogs.com/blog/495962/201908/495962-20190811100923114-2127408380.png" alt="" loading="lazy" /></p>
+<h3 id="step23-显示行号和文件名">step2.3 显示行号和文件名</h3>
+<p>原理是：利用C语言内置宏<code>__LINE__</code>表示行号，<code>__FILE__</code>表示文件名。<br />
+需要注意的是，需要把“调用logging打印函数的那行代码的所在行、所在文件”输出，而不是在logging函数中的<code>vfprintf()</code>调用的那一行、那个文件输出。因此应该把<code>__FILE__</code>、<code>__LINE__</code>作为参数传给logging函数：</p>
+<pre><code class="language-C hljs"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">nc_log</span><span class="hljs-params">(NcLogLevel level, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* file, <span class="hljs-keyword">int</span> line, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* fmt, ...)</span></span>;
+</code></pre>
+<p>调用logging函数的地方传入行号、文件名：</p>
+<pre><code class="language-C hljs">c_log(level, __FILE__, __LINE__, <span class="hljs-string">"test log\n"</span>);
+</code></pre>
+<p>输出效果：<br />
+<img src="https://img2018.cnblogs.com/blog/495962/201908/495962-20190811101815168-431868256.png" alt="" loading="lazy" /></p>
+<p>每次打log需要手动传<code>__FILE__</code>和<code>__LINE__</code>未免效率低下，考虑到用宏封装。对于传入不定个数参数的宏，用<code>...</code>和<code>__VA_ARGS__</code>分别表示需要替代的不定个数参数、传给对应函数的不定个数参数；为了方便，将原来的<code>nc_log</code>函数重命名为<code>nc_log_log</code>函数，定义<code>nc_log</code>,<code>nc_log_trace</code>等宏：</p>
+<pre><code class="language-C hljs"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> nc_log(level, ...)  nc_log_log(level, __FILE__, __LINE__, __VA_ARGS__)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> nc_log_trace(...)   nc_log_log(NC_LOG_TRACE, __FILE__, __LINE__, __VA_ARGS__)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> nc_log_debug(...)   nc_log_log(NC_LOG_DEBUG, __FILE__, __LINE__, __VA_ARGS__)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> nc_log_info(...)    nc_log_log(NC_LOG_INFO,  __FILE__, __LINE__, __VA_ARGS__)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> nc_log_warn(...)    nc_log_log(NC_LOG_WARN,  __FILE__, __LINE__, __VA_ARGS__)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> nc_log_error(...)   nc_log_log(NC_LOG_ERROR, __FILE__, __LINE__, __VA_ARGS__)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> nc_log_fatal(...)   nc_log_log(NC_LOG_FATAL, __FILE__, __LINE__, __VA_ARGS__)</span>
+</code></pre>
+<h2 id="step3-控制输出">step3: 控制输出</h2>
+<p>按前面的代码，<code>vfprintf(stdout,...)</code>，显然是输出到屏幕终端上。一个合格的logging库应当能够控制输出：</p>
+<ul>
+<li>是否输出到屏幕:<br />
+<code>vsprintf(stdout,...)</code>即可</li>
+<li>是否输出到文件:<br />
+<code>vsprintf(logger.fp,...)</code>即可，注意fflush</li>
+<li>控制输出level的粒度:<br />
+粒度可以设定level范围：只运行[min, max]范围内level的logging打印；粒度也可以设置为单个level。</li>
+</ul>
+<p>我采用的是单个level控制粒度，支持如下函数：</p>
+<pre><code class="language-C hljs"><span class="hljs-comment">//默认不设定level，会开启所有level的log</span>
+
+<span class="hljs-comment">//设定level开启的范围：范围内的level被开启，范围外的level都被关闭</span>
+nc_log_set_level_range(<span class="hljs-keyword">int</span> min_level, <span class="hljs-keyword">int</span> max_level);
+
+<span class="hljs-comment">//开启单个level</span>
+nc_log_set_level_on(<span class="hljs-keyword">int</span> level);
+
+<span class="hljs-comment">//关闭单个level</span>
+nc_log_set_level_off(<span class="hljs-keyword">int</span> level);
+</code></pre>
+<p>输出到文件的设定：</p>
+<pre><code class="language-C hljs"><span class="hljs-comment">//默认不输出到文件</span>
+
+<span class="hljs-comment">//设定输出到文件</span>
+nc_log_set_fp(FILE* fp);
+</code></pre>
+<p>输出到屏幕终端的设定：</p>
+<pre><code class="language-C hljs"><span class="hljs-comment">// 默认是logging到屏幕的，开启quiet则不输出到屏幕</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">nc_log_set_quiet</span><span class="hljs-params">(<span class="hljs-keyword">int</span> enable)</span></span>;
+</code></pre>
+<h2 id="step4-多线程安全">step4 多线程安全</h2>
+<p>当logging到文件时，需要考虑线程安全。</p>
+<p>ref: <a href="https://github.com/rxi/log.c/issues/1" target="_blank">https://github.com/rxi/log.c/issues/1</a></p>
+<h2 id="reference">reference</h2>
+<p><a href="https://stackoverflow.com/questions/3219393/stdlib-and-colored-output-in-c" target="_blank">stdlib and colored output in C</a><br />
+<a href="https://github.com/rxi/log.c" target="_blank">log.c</a><br />
+<a href="https://github.com/rspec/rspec/wiki/Getting-colored-output-working-on-Windows" target="_blank">Getting colored output working on Windows</a></p>
+
+</div>
+<div id="MySignature" style="display: block;">Greatness is never a given, it must be earned.</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(11333334,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('5b019ead-4c73-e211-aa8f-842b2b196315');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/zjutzz/" target="_blank"><img src="https://pic.cnblogs.com/face/495962/20140506231331.png" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/zjutzz/">ChrisZZ</a><br />
+            <a href="https://home.cnblogs.com/u/zjutzz/followees/">关注 - 43</a><br />
+            <a href="https://home.cnblogs.com/u/zjutzz/followers/">粉丝 - 126</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('5b019ead-4c73-e211-aa8f-842b2b196315');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(11333334,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(11333334,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/zjutzz/p/14289985.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/zjutzz/p/14289985.html" title="发布于 2021-01-17 20:09">解决 YouCompleteMe 下载失败的问题</a>
+    <br />
+    <a href="https://www.cnblogs.com/zjutzz/p/14317769.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/zjutzz/p/14317769.html" title="发布于 2021-01-23 15:31">C语言实现简易log工具</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-01-23 14:54</span> 
+<a href="https://www.cnblogs.com/zjutzz/">ChrisZZ</a> 
+阅读(<span id="post_view_count">105</span>) 
+评论(<span id="post_comment_count">0</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11333334" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(11333334);return false;">收藏</a> 
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '11333334', targetLink: 'https://www.cnblogs.com/zjutzz/p/11333334.html', title: '编写合格的C代码(2):实现简易日志库' })">举报</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 141691, cb_blogApp = 'zjutzz', cb_blogUserGuid = '5b019ead-4c73-e211-aa8f-842b2b196315';
+    var cb_entryId = 11333334, cb_entryCreatedDate = '2021-01-23 14:54', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login('!comments');">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="https://cloud.baidu.com/campaign/2021mid/index.html?track=cp:bokeyuan|pf:pc|pp:bokeyuan-huodong-21nianzhongdacu-neiyewenzilian|pu:21nianzhongdacu-neiyewenzilian|ci:21nzdc|kw:10225193" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-百度智能云')">【推荐】百度智能云618年中大促，限时抢购，新老用户同享超值折扣</a><br /><a href="http://www.uccpsoft.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-ucancode')">【推荐】大型组态、工控、仿真、CAD\GIS 50万行VC++源码免费下载!</a><br /><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为专区')">【推荐】618好物推荐：基于HarmonyOS和小熊派BearPi-HM Nano的护花使者</a><br /><a href="https://www.aliyun.com/activity/daily/bestoffer?userCode=swh7dvlt" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云-cps')">【推荐】阿里云爆品销量榜单出炉，精选爆款产品低至0.55折</a><br /><a href="http://www.moojnn.com/?source=bokeyuan" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-魔镜')">【推荐】限时秒杀！国云大数据魔镜，企业级云分析平台</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CN_xuZSIpPECFcHCfAodkaULhg"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" allow="conversion-measurement" srcdoc="" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card">
+<b>编辑推荐：</b>
+<br />
+
+· <a href="https://www.cnblogs.com/jackyfei/p/14899432.html" target="_blank">为什么选择 ASP.NET Core</a>
+    <br />
+· <a href="https://www.cnblogs.com/xiaozhi_5638/p/14894111.html" target="_blank">从 Vehicle-ReId 到 AI 换脸，应有尽有，解你所惑</a>
+    <br />
+· <a href="https://www.cnblogs.com/coco1s/p/14884633.html" target="_blank">CSS ::marker 让文字序号更有意思</a>
+    <br />
+· <a href="https://www.cnblogs.com/catcher1994/p/14882211.html" target="_blank">聊一聊 .NET Core 结合 Nacos 实现配置加解密</a>
+    <br />
+· <a href="https://www.cnblogs.com/tcjiaan/p/14868339.html" target="_blank">【.NET 与树莓派】温度/湿度传感器——SHT30</a>
+    <br />
+</div></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;" data-google-query-id="CODxuZSIpPECFcHCfAodkaULhg"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" allow="conversion-measurement" srcdoc="" data-google-container-id="2" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>最新新闻</b>：
+    <br />
+ ·          <a href="//news.cnblogs.com/n/696329/" target="_blank">转转集团618战报：28小时卖出11.94万单手机3C商品，GMV超1.92亿</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/696327/" target="_blank">特斯拉前总裁离职短短8天抛售价值2.74亿美元股票</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/696326/" target="_blank">抖音电商618数据：直播间累计时长2852万小时，点赞769亿次</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/696325/" target="_blank">达达集团618：京东到家日销售额破3亿 达达快送即时配单量远超去年同期</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/696324/" target="_blank">马斯克麾下Boring公司想运货， 计划开挖更宽隧道</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="under-post-card">
+<b>历史上的今天：</b>
+<br />
+
+2019-01-23    <a href="https://www.cnblogs.com/zjutzz/p/10307578.html">ubuntu安装gitlab</a>
+    <br />
+</div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    我的<a href="https://github.com/zchrissirhcz" style="color:blue">Github</a>
+<br /><hr />
+
+我的<a href="https://stackoverflow.com/users/2999096/haxtraz" style="color:blue">StackOverFlow</a>
+<br /><hr />
+
+我的<a href="mailto:imzhuo#foxmail%com" style="color:blue">email</a>
+<br /><hr />
+
+QQ技术讨论群 1002368495 密码 卷卷卷卷卷（话题：C/C++，指令集加速，异构计算，Android NDK，Python，Matlab）
+
+<br /><hr />
+Make a better world by coding.
+<br /><hr />
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/zjutzz/">
+            ChrisZZ
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/zjutzz/" title="入园时间：2013-02-10">
+            8年4个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/zjutzz/followers/">
+            126
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/zjutzz/followees/">
+            43
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('5b019ead-4c73-e211-aa8f-842b2b196315')">+加关注</a></div>
+        <script>getFollowStatus('5b019ead-4c73-e211-aa8f-842b2b196315');</script>
+    </div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block"><div class="catListLink">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    
+<li><a href="https://www.cnblogs.com/zjutzz/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/zjutzz/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/zjutzz/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/zjutzz/RecentComments.html" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/zjutzz/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"><div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/libfc/">libfc<span class="tag-count">(13)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/Python/">Python<span class="tag-count">(10)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/opencv/">opencv<span class="tag-count">(8)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/%E9%85%8D%E7%BD%AE/">配置<span class="tag-count">(5)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/%E7%AE%97%E6%B3%95/">算法<span class="tag-count">(5)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/%E8%BF%90%E7%BB%B4/">运维<span class="tag-count">(4)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/PHP/">PHP<span class="tag-count">(4)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习<span class="tag-count">(4)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/Linux/">Linux<span class="tag-count">(4)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjutzz/tag/Python%20acm/">Python acm<span class="tag-count">(3)</span></a>
+        </li>
+    <li>
+        <a href="https://www.cnblogs.com/zjutzz/tag/">更多</a>
+    </li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div id="sidebar_articlearchive" class="catListArticleArchive sidebar-block">
+        <h3 class="catListTitle">
+            
+文章档案
+<span style="font-size:11px;font-weight:normal">(1)</span>
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zjutzz/archives/2018/04.html" rel="nofollow noopener noreferrer" target="">
+    2018年4月(1)
+</a>
+ 
+
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_zjut" class="catListZJUT sidebar-block">
+        <h3 class="catListTitle">
+            
+ZJUT
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://jusoy.com/blog/" rel="nofollow noopener noreferrer" target="">
+    ZIKI
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://renkai.org/" rel="nofollow noopener noreferrer" target="">
+    笋干太咸
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.paeonia.me/Blog/" rel="nofollow noopener noreferrer" target="">
+    Brilliant
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://boskijr.com/" rel="nofollow noopener noreferrer" target="">
+    小波斯基
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://blog.imsuzie.com/" rel="nofollow noopener noreferrer" target="">
+    酥西黄
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://altynai.me/" rel="nofollow noopener noreferrer" target="">
+    鹏神，网络流
+</a>
+ 
+
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_coder" class="catListcoder sidebar-block">
+        <h3 class="catListTitle">
+            
+程序员充电站
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://coolshell.cn/" rel="nofollow noopener noreferrer" target="">
+    酷壳
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.ruanyifeng.com/home.html" rel="nofollow noopener noreferrer" target="">
+    阮一峰的网络日志
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.matrix67.com/blog/" rel="nofollow noopener noreferrer" target="">
+    Matrix67
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://xiaobazhang.github.io/category/#C++" rel="" target="">
+    Suli's Blob
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.wowotech.net/page/4" rel="nofollow noopener noreferrer" target="">
+    蜗窝科技
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://blog.csdn.net/pcb4jr" rel="nofollow noopener noreferrer" target="">
+    格友
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://www.yebangyu.org/blog/categories/c-plus-plus/" rel="nofollow noopener noreferrer" target="">
+    Yebangyu's Blog
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://blog.guorongfei.com/archives/" rel="nofollow noopener noreferrer" target="">
+    时习之
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="http://hanpfei.github.io/" rel="nofollow noopener noreferrer" target="">
+    WolfcsTech
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://blog.tensor-robotics.com/tags/%E9%9B%B7%E8%BE%BE/" rel="nofollow noopener noreferrer" target="">
+    毫米波雷达
+</a>
+ 
+
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_links1467387" class="catList sidebar-block">
+        <h3 class="catListTitle">
+            
+友情链接
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://zhengtq.github.io/" rel="nofollow noopener noreferrer" target="">
+    all star的博客
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://blog.csdn.net/derteanoo" rel="nofollow noopener noreferrer" target="">
+    derteanoo的博客
+</a>
+ 
+
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+
+
+
+<!-- 阅读排行榜 -->
+
+
+<!-- 评论排行榜 -->
+
+
+<!-- 推荐排行榜 -->
+</div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2021 ChrisZZ
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjspxzD6k5XDIPBx2k3BeF5UPJ4QbPyPSMo41AweJf1S4LTPePX2WbB2kP5D5pnai_I3G6yuhRHdX8ke4TOUhDleKHgwyipQ7nw-k86oNX2dGZh0lbJg00ixQxsGbolVUQI" />
+
+
+<iframe id="google_osd_static_frame_9086851151340" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe><iframe src="https://www.google.com/recaptcha/api2/aframe" width="0" height="0" style="display: none;"></iframe></body></html>
