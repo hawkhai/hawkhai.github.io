@@ -399,6 +399,54 @@ ntdll!_HEAP_ENTRY
    +0x000 AgregateCode     : 0x04000000`1cb4ca61
 ```
 
+
+## 更进一步
+
+根据上面的地址，可以猜测微软的定义：
+```cpp
+// 空闲堆头结构
+struct _HEAP_FREE_ENTRY {
+    union {
+        struct {
+            union {
+                struct {
+                    WORD Size;
+                    BYTE Flags;
+                    BYTE SmallTagIndex;
+                }
+                DWORD SubSegmentCode;
+            }
+            WORD PreviousSize;
+            union {
+                BYTE SegmentOffset;
+                BYTE LFHFlags;
+            }
+            BYTE UnusedBytes;
+        };
+        struct {
+            union {
+                struct {
+                    WORD FunctionIndex;
+                    WORD ContextValue;
+                };
+                DWORD InterceptorValue;
+            };
+            WORD UnusedBytesLength;
+            BYTE EntryOffset;
+            BYTE ExtendedBlockSignature;
+        };
+        struct {
+            DWORD Code1;
+            WORD  Code2;
+            BYTE  Code3;
+            BYTE  Code4;
+        };
+        ULONGLONG AgregateCode;
+    };
+    _LIST_ENTRY FreeList;
+}
+```
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-06-19-win-windbg-cases-heap-entry.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
