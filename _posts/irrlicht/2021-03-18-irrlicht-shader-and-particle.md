@@ -74,7 +74,7 @@ int main()
 
     scene::ISceneNodeAnimator* anim =
         smgr->createRotationAnimator(core::vector3df(0.8f, 0, 0.8f));
-    if(anim)
+    if (anim)
     {
         myNode->addAnimator(anim);
         anim->drop();
@@ -85,7 +85,7 @@ int main()
     myNode = 0; // As I shouldn't refer to it again, ensure that I can't
 
     u32 frames=0;
-    while(device->run())
+    while (device->run())
     {
         driver->beginScene(video::ECBF_COLOR | video::ECBF_DEPTH, video::SColor(0,100,100,100));
         smgr->drawAll();
@@ -171,7 +171,7 @@ int main()
     anode->setPosition(core::vector3df(-50,20,-60));
     anode->setAnimationSpeed(15);
 
-    while(device->run())
+    while (device->run())
     if (device->isWindowActive())
     {
         driver->beginScene(video::ECBF_COLOR | video::ECBF_DEPTH, video::SColor(0));
@@ -276,7 +276,7 @@ public:
             PositionID = services->getVertexShaderConstantID("mLightPos");
             ColorID = services->getVertexShaderConstantID("mLightColor");
 
-            if(driver->getDriverType() == video::EDT_OPENGL)
+            if (driver->getDriverType() == video::EDT_OPENGL)
                 TextureID = services->getVertexShaderConstantID("myTexture");
             FirstUpdate = false;
         }

@@ -305,7 +305,7 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
   EXEC_PROGRAM(ls ARGS "*.c" OUTPUT_VARIABLE LS_OUTPUT RETURN_VALUE LS_RVALUE)
   IF (not LS_RVALUE)
       MESSAGE(STATUS "ls result: " ${LS_OUTPUT}) # 缩进仅为美观，语法无要求
-  ENDIF(not LS_RVALUE)
+  ENDIF (not LS_RVALUE)
   ```
 
 
@@ -329,7 +329,7 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
   FIND_LIBRARY(libX X11 /usr/lib)
   IF (NOT libx)
       MESSAGE(FATAL_ERROR "libX not found")
-  ENDIF(NOT libX)
+  ENDIF (NOT libX)
   ```
 
 * FIND\_PATH(&lt;VAR> name path1 path2 ...)
@@ -424,11 +424,11 @@ ENDIF (WIN32)
 语法：
 
 ```cmake
-WHILE(condition)
+WHILE (condition)
     COMMAND1(ARGS ...)
     COMMAND2(ARGS ...)
     ...
-ENDWHILE(condition)
+ENDWHILE (condition)
 ```
 
 其真假判断条件可以参考 IF 指令
@@ -563,7 +563,7 @@ add_library (MathFunctions ${DIR_LIB_SRCS})
       TARGET_LINK_LIBRARIES(curltest ${CURL_LIBRARY})
   ELSE(CURL_FOUND)
       MESSAGE(FATAL_ERROR "CURL library not found")
-  ENDIF(CURL_FOUND)
+  ENDIF (CURL_FOUND)
 
   # 对于系统预定义的 Find<name>.cmake 模块，使用方法一般如上所示：
   # 每一个模块都会定义以下几个变量
@@ -600,7 +600,7 @@ add_library (MathFunctions ${DIR_LIB_SRCS})
 
   IF (HELLO_INCLUDE_DIR AND HELLO_LIBRARY)
       SET(HELLO_FOUND TRUE)
-  ENDIF(HELLO_INCLUDE_DIR AND HELLO_LIBRARY)
+  ENDIF (HELLO_INCLUDE_DIR AND HELLO_LIBRARY)
 
   IF (HELLO_FOUND)
       # 若 FIND_PACKAGE 命令没有指定 QUIET 参数，那下面的 IF 语句就为真

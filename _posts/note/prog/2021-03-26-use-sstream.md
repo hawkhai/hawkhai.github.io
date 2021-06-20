@@ -79,7 +79,7 @@ infile.open(filename, ios::in);
     while (true)
     {
         sem >> DATA1;
-        if(sem.eof())break;
+        if (sem.eof()) break;
 
         sem >> DATA2;
         sem >> DATA3;

@@ -98,7 +98,7 @@ windbg 调试 test.exe 下条件断点当
 CreateFileA 的第三个参数以
 FILE_SHARE_READ（1）时断下，否则不断。
 ```
-bp kernel32!CreateFileA ".if(poi(esp+c)=1){}.else{gc;}"
+bp kernel32!CreateFileA ".if (poi(esp+c)=1){}.else{gc;}"
 ```
 
 

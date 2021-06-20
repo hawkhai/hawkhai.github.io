@@ -90,7 +90,7 @@ Flag fResizeMemory(void** ppv, size_t sizeNew) {
             memset((*ppb)+sizeNew, bGarbage, sizeOld-sizeNew);
         else if (sizeNew > sizeOld) {
             byte* pbNew;
-            if( fNewMemory(&pbNew, sizeNew) ) {
+            if ( fNewMemory(&pbNew, sizeNew) ) {
                 memcpy(pbNew, *ppb, sizeOld);
                 FreeMemory(*ppb);
                 *ppb = pbNew;

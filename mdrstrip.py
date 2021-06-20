@@ -795,6 +795,12 @@ def mainfile(fpath, fname, ftype):
             codestate = False
             continue
 
+        if isMdFile and (line.lower().replace("endif", "x").find("if(") != -1 or line.lower().find("while(") != -1):
+            openTextFile(fpath)
+            print("'if(' & 'while(' 问题 {}:{} \"{}\"".format(fpath, index+1, line))
+            os.system("pause")
+            return mainfile(fpathsrc, fnamesrc, ftypesrc)
+
         if codestate:
             continue
 

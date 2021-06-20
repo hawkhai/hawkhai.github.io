@@ -96,7 +96,7 @@ So in order to get the address of any GL function one can try with wglGetProcAdd
 void *GetAnyGLFuncAddress(const char *name)
 {
     void *p = (void *)wglGetProcAddress(name);
-    if(p == 0 ||
+    if (p == 0 ||
         (p == (void*)0x1) || (p == (void*)0x2) || (p == (void*)0x3) ||
         (p == (void*)-1) )
     {

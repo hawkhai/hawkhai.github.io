@@ -125,7 +125,7 @@ BOOL WINAPI RemoteGetPasswordText( GETPASS* pgp ) {
     NullFunction();
 
     // 隐性调用 Windows API
-    if( SendMessageA( pgp->hwndPassword, WM_GETTEXT, sizeof(pgp->szPassText)-1, (LPARAM)pgp->szPassText ) ) ) {
+    if ( SendMessageA( pgp->hwndPassword, WM_GETTEXT, sizeof(pgp->szPassText)-1, (LPARAM)pgp->szPassText ) ) ) {
         MessageBoxA( NULL,
             pgp->szPassText,
             "Great!!", // 可以使用字符串常量
@@ -142,11 +142,11 @@ void GetPasswordText( HWND hwnd ) {
     GetWindowThreadProcessId( hwnd, &processId );
 
     HMODULE hLib = ::LoadLibrary( "remote.dll" );
-    if( hLib != NULL ) {
+    if ( hLib != NULL ) {
         typedef BOOL (WINAPI *PFN_RemoteCall)( DWORD processId, PVOID pfnAddr, PVOID pParam, DWORD cbParamSize, BOOL fSyncronize );
         PFN_RemoteCall fnRemoteCall = (PFN_RemoteCall)::GetProcAddress( hLib, "RemoteCall" );
-        if( fnRemoteCall != NULL ) {
-            if( fnRemoteCall( processId, RemoteGetPasswordText, &gp, sizeof(gp), TRUE ) )
+        if ( fnRemoteCall != NULL ) {
+            if ( fnRemoteCall( processId, RemoteGetPasswordText, &gp, sizeof(gp), TRUE ) )
                 MessageBoxA( NULL, gp.szPassText, "we get the password!!", MB_OK );
         }
 
@@ -163,18 +163,18 @@ void PrintUsage() {
 }
 
 int main(int argc, char* argv[]) {
-    if( argc <= 2) {
+    if ( argc <= 2) {
         PrintUsage();
         return -1;
     }
 
     int pid = atoi( argv[1] );
-    if( pid != 0 ) {
+    if ( pid != 0 ) {
         HMODULE hRemote = ::LoadLibrary( "remote.dll" );
-        if( hRemote != NULL ) {
+        if ( hRemote != NULL ) {
             typedef DWORD (WINAPI *PFN_RemoteRun)( DWORD processId, LPCSTR lpszAppPath, LPSTR lpszCmdLine, int nCmdShow);
             PFN_RemoteRun fnRemoteRun = (PFN_RemoteRun)::GetProcAddress( hRemote, "RemoteRunA" );
-            if( fnRemoteRun != NULL )
+            if ( fnRemoteRun != NULL )
                 fnRemoteRun( pid, argv[2], NULL, SW_SHOW );
                 FreeLibrary( hRemote );
         }

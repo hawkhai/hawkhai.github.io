@@ -205,7 +205,7 @@ void Foo() {
 // Good
 void Foo() {
     char* bar = mmap(0, 0x800000, .....);
-    if(bar == MAP_FAILED) {
+    if (bar == MAP_FAILED) {
         return;
     }
 
@@ -424,7 +424,7 @@ weak_ptr | weak_ptr | 它不能决定所指对象的生命周期，引用所指�
               cout<<"destructed"<<endl;
           });
       }
-      if(st.p != nullptr)
+      if (st.p != nullptr)
           cout << "no destroyed" << endl;
       else
           cout << "be destroyed" << endl;

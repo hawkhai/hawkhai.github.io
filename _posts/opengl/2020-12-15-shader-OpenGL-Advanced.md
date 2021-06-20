@@ -370,12 +370,12 @@ glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid*)(s
 ```glsl
 void main()
 {
-    if(gl_FragCoord.x < 400) // 屏幕坐标
+    if (gl_FragCoord.x < 400) // 屏幕坐标
         FragColor = vec4(1.0, 0.0, 0.0, 1.0);
     else
         FragColor = vec4(0.0, 1.0, 0.0, 1.0);
 
-    if(gl_FrontFacing) // 判断正反面
+    if (gl_FrontFacing) // 判断正反面
         FragColor = texture(frontTexture, TexCoords);
     else
         FragColor = texture(backTexture, TexCoords);

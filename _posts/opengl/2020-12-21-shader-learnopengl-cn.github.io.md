@@ -37,7 +37,7 @@ OpenGL Mathematics      | [glm {% include relref_github.html %}](https://github.
 Texture Loading         | [stb {% include relref_github.html %}](https://github.com/nothings/stb)
 
 ```glsl
-while(!glfwWindowShouldClose(window))
+while (!glfwWindowShouldClose(window))
 {
     // 输入
     processInput(window);
@@ -232,9 +232,9 @@ void main()
 // c++ 部分
 lightingShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f);
 
-if(lightVector.w == 0.0) // 注意浮点数据类型的误差
+if (lightVector.w == 0.0) // 注意浮点数据类型的误差
   // 执行定向光照计算
-else if(lightVector.w == 1.0)
+else if (lightVector.w == 1.0)
   // 根据光源的位置做光照计算（与上一节一样）
 ```
 

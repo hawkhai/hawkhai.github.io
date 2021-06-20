@@ -291,13 +291,13 @@ mypointer->year(); // -> 2005
 // 当对象 delete 之后，QPointer 会有不同的表现
 delete mydate;
 
-if(mydate == NULL)
+if (mydate == NULL)
     printf("clean pointer");
 else
     printf("dangling pointer");
 // 输出 dangling pointer
 
-if(mypointer.isNull())
+if (mypointer.isNull())
     printf("clean pointer");
 else
     printf("dangling pointer");
@@ -376,7 +376,7 @@ public:
 public slots:
     void detach() {
         ctr--;
-        if(ctr <= 0)
+        if (ctr <= 0)
             delete this;
     }
 
@@ -400,10 +400,10 @@ public:
 
     void attach(QObject *obj) {
         // 检查所有者
-        if(obj == 0)
+        if (obj == 0)
             return;
         // 检查是否已经添加过
-        if(owners.contains(obj))
+        if (owners.contains(obj))
             return;
         // 注册
         owners.append(obj);
@@ -416,7 +416,7 @@ public slots:
         // 删除
         owners.removeAll(obj);
         // 如果最后一个对象也被 delete，删除自身
-        if(owners.size() == 0)
+        if (owners.size() == 0)
             delete this;
     }
 

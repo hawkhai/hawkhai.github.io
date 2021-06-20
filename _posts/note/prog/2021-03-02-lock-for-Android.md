@@ -196,7 +196,7 @@ void writer_function (void) {
 }
 
 void reader_function(void) {
-    while(1) {
+    while (1) {
         pthread_mutex_lock(&mutex);
         if (buffer_has_item == 1) {
             consume_item(buffer);

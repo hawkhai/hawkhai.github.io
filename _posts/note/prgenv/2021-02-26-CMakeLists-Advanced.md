@@ -95,7 +95,7 @@ endif()
 # version specific compile flags
 # 1800: Visual Studio 12 2013
 # 1900: Visual Studio 14 2015
-if(MSVC_VERSION VERSION_LESS 1900)
+if (MSVC_VERSION VERSION_LESS 1900)
 
     list(APPEND DEFAULT_COMPILE_FLAGS
         <<CONFIG:Debug>: /Zi>     # this is set in RelWithDebInfo builds for all MSVC versions
@@ -157,7 +157,7 @@ endif()
 set(JSON_BuildTests OFF CACHE INTERNAL "") # 外面
 # 里面：
 option(JSON_BuildTests "Build the unit tests when BUILD_TESTING is enabled." ON)
-    if(BUILD_TESTING AND JSON_BuildTests) ...
+    if (BUILD_TESTING AND JSON_BuildTests) ...
 ```
 
 [from {% include relref_cnblogs.html %}](https://www.cnblogs.com/zjutzz/p/7284114.html)
@@ -210,14 +210,14 @@ function(setup_project_group)
         # get source relative path
         string(REPLACE "${ARGV_CUR_DIR}/./" "" source_relative ${source_path})
 
-        if(MSVC OR XCODE)
+        if (MSVC OR XCODE)
             # get group name
             string(REPLACE "/" "\\" group_name ${source_relative})
         else()
             set(group_name ${source_relative})
         endif()
 
-        if("${source_relative}" STREQUAL "${source_path}")
+        if ("${source_relative}" STREQUAL "${source_path}")
             source_group("${group_name}" FILES "${source}")
             # no need group because source is in $ARGV_CUR_DIR
         else()
@@ -246,7 +246,7 @@ endfunction()
 
 ```cmake
 function(target_precompiled_header project_target pch_source)
-if(MSVC)
+if (MSVC)
     get_filename_component(pch_basename ${pch_source} NAME_WE)
     set(pch_header "${pch_basename}.h")
 

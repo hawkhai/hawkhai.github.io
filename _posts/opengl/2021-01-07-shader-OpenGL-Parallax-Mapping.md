@@ -138,7 +138,7 @@ inline float2 ParallaxUvDelta(Input i)
     // 开始一步步逼近，直到找到合适的红点
     float2 currentTexCoords = i.uv_MainTex;
     float currentDepthMapValue = tex2D(_ParallaxMap, currentTexCoords).r;
-    while(currentLayerHeight > currentDepthMapValue)
+    while (currentLayerHeight > currentDepthMapValue)
     {
         currentTexCoords -= deltaTexCoords;
         currentDepthMapValue = tex2D(_ParallaxMap, currentTexCoords).r;

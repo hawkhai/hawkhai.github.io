@@ -54,7 +54,7 @@ void main()
 {
     [...]
     float spec = 0.0;
-    if(blinn)
+    if (blinn)
     {
         vec3 halfwayDir = normalize(lightDir + viewDir);
         spec = pow(max(dot(normal, halfwayDir), 0.0), 16.0);

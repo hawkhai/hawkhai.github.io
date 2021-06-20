@@ -83,9 +83,9 @@ vec3 CalcPointLight(Light light)
 {
     vec3 lightDir;
     float distance=1.0;
-    if(light.lightDir.w==0.0)//direction
+    if (light.lightDir.w==0.0)//direction
         lightDir=normalize(-vec3(light.lightDir)); // 反射点指向光源的向量
-    else if(light.lightDir.w==1.0)//position
+    else if (light.lightDir.w==1.0)//position
     {
         distance=length(vec3(light.lightDir)-FragPos); // 距离
         lightDir=normalize(vec3(light.lightDir)-FragPos); // 反射点指向光源的向量

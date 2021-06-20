@@ -9,7 +9,7 @@ toc: true
 toclistyle:
 comments:
 visibility:
-mathjax:
+mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
@@ -24,10 +24,15 @@ Vista 引入了很多新的东西，对堆块的块头结构（HEAP_ENTRY）编�
 * [Windows Heap Chunk Header Parsing and Size Calculation](https://stackoverflow.com/questions/28483473/windows-heap-chunk-header-parsing-and-size-calculation)
 * [解读编码后的 HEAP_ENTRY 结构](http://advdbg.org/blogs/advdbg_system/articles/5152.aspx)
 * [!heap 和 _HEAP_ENTRY {% include relref_cnblogs.html %}](https://www.cnblogs.com/xumaojun/p/8544089.html)
-* VS2019 编译，ntdll!_HEAP_ENTRY **4f8adefe 88001769** 找规律：
-    * 88 -- 88 表示没有补齐，8c 表示补齐 4 位，凑齐 8 的倍数；XOR 后刚好相差 4。
-    * 17 -- 感觉是索引，距离下一个内存 +1?
+* VS2019 编译，ntdll!_HEAP_ENTRY **0x155FF48E 0x18003EC6 (decoded : 0x03070004 0x1800000A)** 没找到文档，只能找规律：
+    * [0,ushort]F48E/0004 -- 大小是 4 单位。Total block size(units)
+    * [2,uchar]5F/07 -- Block flags
+    * [3,uchar]15/03 -- 堆溢出检查 cookie？Block CRC
+    * [4,ushort]3EC6/000A -- 前一个堆块的大小。Previous block size(units)
+    * [6,uchar]00/00 -- 这个堆块的序号。Owning segment(offset) 感觉是索引，距离下一个内存 +1?
+    * [7,uchar]18/18 -- 补齐未使用的字节。Requested size(unused) 88 表示没有补齐，8c 表示补齐 4 位，凑齐 8 的倍数；XOR 后刚好相差 4。
 
+$\color{#4285f4}{G}\color{#ea4335}{o}\color{#fbbc05}{o}\color{#4285f4}{g}\color{#34a853}{l}\color{#ea4335}{e}$
 《Windows 核心编程》
 《深入解析 Windows 操作系统 - Windows Internals》
 **155ff48e 18003ec6** `int* pChar = new int[2];`
@@ -317,13 +322,82 @@ Next block         : 0x00cc6db0
 
 {% include image.html url="/assets/images/210619-win-windbg-cases-heap-e~16/20200312111504316.png" %}
 
-`0x03070004 0x1800000A`
-* 0004 -- 大小是 4 字节。
-* 0307 -- 前一个堆块的大小。
-* 0A -- 堆溢出检查 cookie
-* 00 -- Flags
-* 00 -- 补齐未使用的字节。
-* 18 -- 这个堆块的序号。
+编码后的顺序貌似变化了。`0x03070004 0x1800000A`
+* [0,ushort]0004 -- 大小是 4 单位。Total block size   : 0x4 units (0x20 bytes)
+* [2,uchar]07 -- Block flags        : 0x7 (busy extra fill )
+* [3,uchar]03 -- 堆溢出检查 cookie？Block CRC          : OK - 0x3
+* [4,ushort]000A -- 前一个堆块的大小。Previous block size: 0xa units (0x50 bytes)
+* [6,uchar]00 -- 这个堆块的序号。Owning segment: (offset 0)
+* [7,uchar]18 -- 补齐未使用的字节。Requested size     : 0x8 bytes (unused 0x18 bytes)
+
+`int* pChar = new int[3];` 的情况：`0x01070006 0x24000017`
+```
+0:000> !heap -i 1260000
+Heap context set to the heap 0x01260000
+0:000> !heap -i 01269718
+Detailed information for block entry 01269718
+Assumed heap       : 0x01260000 (Use !heap -i NewHeapHandle to change)
+Header content     : 0x10DB7867 0x2400C4F3 (decoded : 0x01070006 0x24000017)
+Owning segment     : 0x01260000 (offset 0)
+Block flags        : 0x7 (busy extra fill )
+Total block size   : 0x6 units (0x30 bytes)
+Requested size     : 0xc bytes (unused 0x24 bytes)
+Previous block size: 0x17 units (0xb8 bytes)
+Block CRC          : OK - 0x1
+Previous block     : 0x01269660
+Next block         : 0x01269748
+```
+
+大块内存貌似不一样了，没找到文档，猜不到了，`int* pChar = new int[3*1024*1024];` 的情况：
+```
+0:000> !heap -i 630000
+Heap context set to the heap 0x00630000
+0:000> !heap -i (010ca020-8)
+Detailed information for block entry 010ca018
+Assumed heap       : 0x00630000 (Use !heap -i NewHeapHandle to change)
+Header content     : 0xC657F395 0x04000000 (decoded : 0x13031000 0x040006B0)
+Block flags        : 0xB (busy extra virtual )
+Total block size   : 0x180200 units (0xc01000 bytes)
+Requested size     : 0xc00000 bytes (unused 0x1000 bytes)
+Block CRC          : OK - 0x13
+```
+
+`int* pChar = new int[3*1024*1024-1];` 的情况：
+```
+0:000> !heap -i 590000
+Heap context set to the heap 0x00590000
+0:000> !heap -i (012bd020-8)
+Detailed information for block entry 012bd018
+Assumed heap       : 0x00590000 (Use !heap -i NewHeapHandle to change)
+Header content     : 0x1CB4CA61 0x04000000 (decoded : 0x17031004 0x04004D7D)
+Block flags        : 0xB (busy extra virtual )
+Total block size   : 0x180200 units (0xc01000 bytes)
+Requested size     : 0xbffffc bytes (unused 0x1004 bytes)
+Block CRC          : OK - 0x17
+
+0:000> dt _heap_entry 012bd018
+ntdll!_HEAP_ENTRY
+   +0x000 Size             : 0xca61
+   +0x002 Flags            : 0xb4 ''
+   +0x003 SmallTagIndex    : 0x1c ''
+   +0x000 SubSegmentCode   : 0x1cb4ca61
+   +0x004 PreviousSize     : 0
+   +0x006 SegmentOffset    : 0 ''
+   +0x006 LFHFlags         : 0 ''
+   +0x007 UnusedBytes      : 0x4 ''
+   +0x000 FunctionIndex    : 0xca61
+   +0x002 ContextValue     : 0x1cb4
+   +0x000 InterceptorValue : 0x1cb4ca61
+   +0x004 UnusedBytesLength : 0
+   +0x006 EntryOffset      : 0 ''
+   +0x007 ExtendedBlockSignature : 0x4 ''
+   +0x000 Code1            : 0x1cb4ca61
+   +0x004 Code2            : 0
+   +0x006 Code3            : 0 ''
+   +0x007 Code4            : 0x4 ''
+   +0x004 Code234          : 0x4000000
+   +0x000 AgregateCode     : 0x04000000`1cb4ca61
+```
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-06-19-win-windbg-cases-heap-entry.md.js" %}'></script></p>

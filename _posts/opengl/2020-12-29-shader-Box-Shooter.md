@@ -78,7 +78,7 @@ dynamicsWorld->setGravity(btVector3(0, -10, 0));
 释放代码：
 
 ```cpp
-#define SAFE_DELETE_PTR(ptr) do{if(ptr){delete ptr;ptr = nullptr;}}while(0);
+#define SAFE_DELETE_PTR(ptr) do{ if (ptr) {delete ptr;ptr = nullptr;}} while (0);
 
 PhysicsWorld::~PhysicsWorld() {
     // 必须先 delete DynamicWorld

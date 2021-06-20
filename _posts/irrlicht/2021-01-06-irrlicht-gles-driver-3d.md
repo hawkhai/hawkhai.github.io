@@ -142,7 +142,7 @@ void main()
 
         for (int i = 0; i < int(MAX_LIGHTS); i++)
         {
-            if( i >= uLightCount )    // can't use uniform as loop-counter directly in glsl
+            if ( i >= uLightCount )    // can't use uniform as loop-counter directly in glsl
                 break;
             if (uLightType[i] == 0)
                 pointLight(i, Position, Normal, Ambient, Diffuse, vSpecularColor);
@@ -150,7 +150,7 @@ void main()
 
         for (int i = 0; i < int(MAX_LIGHTS); i++)
         {
-            if( i >= uLightCount )
+            if ( i >= uLightCount )
                 break;
             if (uLightType[i] == 1)
                 spotLight(i, Position, Normal, Ambient, Diffuse, vSpecularColor);
@@ -158,7 +158,7 @@ void main()
 
         for (int i = 0; i < int(MAX_LIGHTS); i++)
         {
-            if( i >= uLightCount )
+            if ( i >= uLightCount )
                 break;
             if (uLightType[i] == 2)
                 dirLight(i, Position, Normal, Ambient, Diffuse, vSpecularColor);
