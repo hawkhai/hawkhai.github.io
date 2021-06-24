@@ -22,8 +22,12 @@ WinDbg 查找问题异常堆栈，堆栈跟踪 UnhandledExceptionFilter。[堆�
 * `.cxr (Display Context Record)` .cxr 命令显示保存在指定地址的上下文记录。
 * `.ecxr` 命令定位当前异常的上下文信息，并显示指定记录中的重要寄存器。
 
+Windows 的设计体系会回调两次：
+1. 发生崩溃了，代码进入系统；（此时是真正的崩溃堆栈）
+2. 系统记录现在的上下文，再次调用软件的代码进行崩溃处理。（此时是 dumper 堆栈，需要 `.ecxr` 回到崩溃时的上下文）
+
 一个崩溃：
-C:\Users\ADMIN\Downloads\3070_b97e108a64f671bb23ca1ff244f5c93d_fastpdf.exe_2021.5.8.479_271139_fastpdf.exe_2021.5.8.479_0_win10_64_1858570_20_0_1_210519080829@3416591882__d3d72f2c586e324e0a5c897786ea8aa1.dmp
+C:\Users\ADMIN\Downloads\3070_b97e108a64f671bb23ca1ff244f5c93d_fastapp.exe_2021.5.8.479_271139_fastapp.exe_2021.5.8.479_0_win10_64_1858570_20_0_1_210519080829@3416591882__d3d72f2c586e324e0a5c897786ea8aa1.dmp
 
 先自动分析一轮 [dubadumper.exe](https://sunocean.life/tools/) 异常线程堆栈：
 
@@ -62,11 +66,11 @@ WARNING: Stack unwind information not available. Following frames may be wrong.
 自动分析定位 “!analyze -v;” 已经很准确了，“~0s; .ecxr; kb”：
 ```
 FAULTING_IP:
-fastpdf!EnginePdfiumTransformByPageCTM+89
+fastapp!EnginePdfiumTransformByPageCTM+89
 008e1139 8b7004          mov     esi,dword ptr [eax+4]
 
 EXCEPTION_RECORD:  ffffffff -- (.exr 0xffffffffffffffff)
-ExceptionAddress: 008e1139 (fastpdf!EnginePdfiumTransformByPageCTM+0x00000089)
+ExceptionAddress: 008e1139 (fastapp!EnginePdfiumTransformByPageCTM+0x00000089)
    ExceptionCode: c0000005 (Access violation)
   ExceptionFlags: 00000000
 NumberParameters: 2
@@ -76,7 +80,7 @@ Attempt to read from address 00000004
 
 DEFAULT_BUCKET_ID:  APPLICATION_FAULT
 
-PROCESS_NAME:  fastpdf.exe
+PROCESS_NAME:  fastapp.exe
 
 ERROR_CODE: (NTSTATUS) 0xc0000005 - 0x%p
 
@@ -87,9 +91,9 @@ BUGCHECK_STR:  ACCESS_VIOLATION
 LAST_CONTROL_TRANSFER:  from 0073ee5a to 008e1139
 
 STACK_TEXT:
-022fd6a4 0073ee5a 022fd6e8 02404248 022fd6d8 fastpdf!EnginePdfiumTransformByPageCTM+0x89
-022fd700 007410fa 022fd720 00000000 00000000 fastpdf!DisplayModel::CvtToScreen+0x18a [E:\src\DisplayModel.cpp @ 1150]
-022fd770 7549a9f6 00000000 00000007 000000f0 fastpdf!DisplayModel::SetScrollState+0xba [E:\src\DisplayModel.cpp @ 2033]
+022fd6a4 0073ee5a 022fd6e8 02404248 022fd6d8 fastapp!EnginePdfiumTransformByPageCTM+0x89
+022fd700 007410fa 022fd720 00000000 00000000 fastapp!DisplayModel::CvtToScreen+0x18a [E:\src\DisplayModel.cpp @ 1150]
+022fd770 7549a9f6 00000000 00000007 000000f0 fastapp!DisplayModel::SetScrollState+0xba [E:\src\DisplayModel.cpp @ 2033]
 022fd78c 42c80000 42c80000 41280000 3f800000 ucrtbase!_malloc_base+0x26
 WARNING: Frame IP not in any known module. Following frames may be wrong.
 022fd794 41280000 3f800000 3fc00000 00000000 0x42c80000
@@ -100,26 +104,26 @@ WARNING: Frame IP not in any known module. Following frames may be wrong.
 STACK_COMMAND:  ~0s; .ecxr ; kb
 
 FOLLOWUP_IP:
-fastpdf!EnginePdfiumTransformByPageCTM+89
+fastapp!EnginePdfiumTransformByPageCTM+89
 008e1139 8b7004          mov     esi,dword ptr [eax+4]
 
 SYMBOL_STACK_INDEX:  0
 
 FOLLOWUP_NAME:  MachineOwner
 
-MODULE_NAME: fastpdf
+MODULE_NAME: fastapp
 
-IMAGE_NAME:  fastpdf.exe
+IMAGE_NAME:  fastapp.exe
 
 DEBUG_FLR_IMAGE_TIMESTAMP:  60967ecc
 
 FAULTING_THREAD:  00003da0
 
-SYMBOL_NAME:  fastpdf!EnginePdfiumTransformByPageCTM+89
+SYMBOL_NAME:  fastapp!EnginePdfiumTransformByPageCTM+89
 
-FAILURE_BUCKET_ID:  ACCESS_VIOLATION_fastpdf!EnginePdfiumTransformByPageCTM+89
+FAILURE_BUCKET_ID:  ACCESS_VIOLATION_fastapp!EnginePdfiumTransformByPageCTM+89
 
-BUCKET_ID:  ACCESS_VIOLATION_fastpdf!EnginePdfiumTransformByPageCTM+89
+BUCKET_ID:  ACCESS_VIOLATION_fastapp!EnginePdfiumTransformByPageCTM+89
 
 Followup: MachineOwner
 ---------
@@ -147,7 +151,7 @@ typedef struct _EXCEPTION_POINTERS {
 * 第一个 dword 值表示异常记录。若要获取有关异常的类型的信息。
   ```
 0:000> .exr 022fd108
-ExceptionAddress: 008e1139 (fastpdf!EnginePdfiumTransformByPageCTM+0x00000089)
+ExceptionAddress: 008e1139 (fastapp!EnginePdfiumTransformByPageCTM+0x00000089)
    ExceptionCode: c0000005 (Access violation)
   ExceptionFlags: 00000000
 NumberParameters: 2
@@ -161,7 +165,7 @@ Attempt to read from address 00000004
 eax=00000000 ebx=02404248 ecx=00000001 edx=023fd208 esi=023baaf0 edi=00000001
 eip=008e1139 esp=022fd5b8 ebp=022fd6a4 iopl=0         nv up ei pl zr na pe nc
 cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010246
-fastpdf!EnginePdfiumTransformByPageCTM+0x89:
+fastapp!EnginePdfiumTransformByPageCTM+0x89:
 008e1139 8b7004          mov     esi,dword ptr [eax+4] ds:002b:00000004=????????
 ```
 * 运行 kv 命令以获得实际的异常的调用堆栈。这可以帮助您识别可能不具有被正确处理过程中的实际问题。
@@ -169,9 +173,9 @@ fastpdf!EnginePdfiumTransformByPageCTM+0x89:
 0:000> kv
   *** Stack trace for last set context - .thread/.cxr resets it
 ChildEBP RetAddr  Args to Child
-022fd6a4 0073ee5a 022fd6e8 02404248 022fd6d8 fastpdf!EnginePdfiumTransformByPageCTM+0x89
-022fd700 007410fa 022fd720 00000000 00000000 fastpdf!DisplayModel::CvtToScreen+0x18a (FPO: [Non-Fpo]) (CONV: thiscall) [E:\src\DisplayModel.cpp @ 1150]
-022fd770 7549a9f6 00000000 00000007 000000f0 fastpdf!DisplayModel::SetScrollState+0xba (FPO: [Non-Fpo]) (CONV: thiscall) [E:\src\DisplayModel.cpp @ 2033]
+022fd6a4 0073ee5a 022fd6e8 02404248 022fd6d8 fastapp!EnginePdfiumTransformByPageCTM+0x89
+022fd700 007410fa 022fd720 00000000 00000000 fastapp!DisplayModel::CvtToScreen+0x18a (FPO: [Non-Fpo]) (CONV: thiscall) [E:\src\DisplayModel.cpp @ 1150]
+022fd770 7549a9f6 00000000 00000007 000000f0 fastapp!DisplayModel::SetScrollState+0xba (FPO: [Non-Fpo]) (CONV: thiscall) [E:\src\DisplayModel.cpp @ 2033]
 022fd78c 42c80000 42c80000 41280000 3f800000 ucrtbase!_malloc_base+0x26 (FPO: [Non-Fpo])
 WARNING: Frame IP not in any known module. Following frames may be wrong.
 022fd794 41280000 3f800000 3fc00000 00000000 0x42c80000
@@ -181,6 +185,11 @@ WARNING: Frame IP not in any known module. Following frames may be wrong.
 ```
 
 [WinDbg 查找问题异常堆栈，堆栈跟踪 UnhandledExceptionFilter {% include relref_csdn.html %}](https://blog.csdn.net/mergerly/article/details/5521111)
+
+崩溃原因：
+在执行
+`fastapp!EnginePdfiumTransformByPageCTM+89` 的时候 `mov esi,dword ptr [eax+4]` 然后 `READ_ADDRESS: 00000004`。
+由于 Release 优化内联，定位到的函数可能不准确，但是一看就是一个空指针读取造成的崩溃。指针是空，然后读取内存 +4 的位置。
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-20-win-windbg-UnhandledExceptionFilter.md.js" %}'></script></p>
