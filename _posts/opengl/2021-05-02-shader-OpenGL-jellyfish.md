@@ -15,6 +15,7 @@ glslcanvas:
 codeprint:
 ---
 
+[蒙皮骨骼动画 {% include relref_csdn.html %}](https://blog.csdn.net/douzhq/article/details/116998068)
 不依赖任何 3D 引擎，全部采用原生 OpenGL API 实现。包含：1. 渲染，2. 骨骼动画，3. 物理模拟。程序下载：
 <a href="{% include relref.html url="/source/jellyfish.zip" %}" target="_blank">Jellyfish.zip</a>
 
@@ -637,6 +638,7 @@ void main() {
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-02-shader-OpenGL-jellyfish.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://blog.csdn.net/douzhq/article/details/116998068]({% include relrefx.html url="/backup/2021-05-02-shader-OpenGL-jellyfish.md/blog.csdn.net/b92003c9.html" %})
 - [https://www.cnblogs.com/tandier/p/10087656.html]({% include relrefx.html url="/backup/2021-05-02-shader-OpenGL-jellyfish.md/www.cnblogs.com/9e44e156.html" %})
 - [https://www.qiujiawei.com/linear-algebra-19/]({% include relrefx.html url="/backup/2021-05-02-shader-OpenGL-jellyfish.md/www.qiujiawei.com/a0255dd8.html" %})
 - [https://github.com/arodic/WebGL-Fluid-Simulation]({% include relrefx.html url="/backup/2021-05-02-shader-OpenGL-jellyfish.md/github.com/c78cb661.html" %})

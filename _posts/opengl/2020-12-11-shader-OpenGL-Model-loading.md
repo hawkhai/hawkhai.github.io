@@ -111,10 +111,12 @@ void Draw(Shader& shader)
 
 {% include image.html url="/assets/images/201211-shader-opengl-model-loa~a7/model_lighting.png" %}
 
-[LearnOpenGL 模型加载 {% include relref_github.html %}](https://learnopengl-cn.github.io/03%20Model%20Loading/01%20Assimp/)
+* [LearnOpenGL 模型加载 {% include relref_github.html %}](https://learnopengl-cn.github.io/03%20Model%20Loading/01%20Assimp/)
+* [蒙皮骨骼动画 {% include relref_csdn.html %}](https://blog.csdn.net/douzhq/article/details/116998068)
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-11-shader-OpenGL-Model-loading.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://learnopengl-cn.github.io/03%20Model%20Loading/01%20Assimp/]({% include relrefx.html url="/backup/2020-12-11-shader-OpenGL-Model-loading.md/learnopengl-cn.github.io/a7063ebf.html" %})
+- [https://blog.csdn.net/douzhq/article/details/116998068]({% include relrefx.html url="/backup/2020-12-11-shader-OpenGL-Model-loading.md/blog.csdn.net/b92003c9.html" %})

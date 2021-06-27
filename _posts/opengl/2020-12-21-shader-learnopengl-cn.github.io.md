@@ -241,6 +241,8 @@ else if (lightVector.w == 1.0)
 
 ## 模型加载 Model Loading
 
+* [蒙皮骨骼动画 {% include relref_csdn.html %}](https://blog.csdn.net/douzhq/article/details/116998068)
+
 
 ## 高级 Advanced OpenGL
 
@@ -421,5 +423,6 @@ About
 - [https://github.com/nothings/stb]({% include relrefx.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/github.com/6439e35a.html" %})
 - [https://v.youku.com/v_show/id_XNzkyOTIyMTI=.html]({% include relrefx.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/v.youku.com/6f3e2a8f.html" %})
 - [https://blog.csdn.net/zsc2014030403015/article/details/51719990]({% include relrefx.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/blog.csdn.net/cdb6b2c2.html" %})
+- [https://blog.csdn.net/douzhq/article/details/116998068]({% include relrefx.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/blog.csdn.net/b92003c9.html" %})
 - [http://www.songho.ca/index.html]({% include relrefx.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/www.songho.ca/564bb2d2.html" %})
 - [http://www.songho.ca/opengl/index.html]({% include relrefx.html url="/backup/2020-12-21-shader-learnopengl-cn.github.io.md/www.songho.ca/d4f46261.html" %})
