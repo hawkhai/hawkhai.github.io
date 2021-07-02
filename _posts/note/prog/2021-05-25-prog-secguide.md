@@ -98,6 +98,14 @@ class Uncopyable { // private 继承即可：private Uncopyable
 ```
 
 
+## [C++11 - Lambda 表达式用法 {% include relref_jianshu.html %}](https://www.jianshu.com/p/a200a2dab960)
+
+Lambda 表达式的 \[\] 用来确定捕获参数：
+
+* \[=\]：捕获的局部变量只可读不可写，捕获范围是当前 Lambda 表达式之前的作用域。
+* \[&\]：捕获的局部变量可读可写。
+
+
 ## 注意隐式符号转换
 
 两个无符号数相减为负数时，结果应当为一个很大的无符号数，但是小于 int 的无符号数在运算时可能会有预期外的隐式符号转换。
@@ -259,8 +267,8 @@ LOCAL_CPPFLAGS += -fexceptions -frtti
 * CMakeLists.txt 中的设定
   ```cmake
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /we4013 /we4431 /we4133 /we4716 /we6244 /we6246 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
-    set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} /we4013 /we4431 /we4133 /we4716 /we6244 /we6246 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /we4715 /we4013 /we4431 /we4133 /we4716 /we6244 /we6246 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
+    set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} /we4715 /we4013 /we4431 /we4133 /we4716 /we6244 /we6246 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
 elseif (CMAKE_SYSTEM_NAME MATCHES "Linux" OR CMAKE_SYSTEM_NAME MATCHES "Darwin")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion")
     set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion")
@@ -268,7 +276,7 @@ endif()
 ```
 * Visual Studio 中的设定
     * 项目属性->配置属性->C/C++->高级->将特定的警告视为错误，填入相应的警告、错误代号：
-        * 4013;4431;4133;4716;6244;6246;4457;4456;4172;4700;4477;4018;4047;4013;4431;4133;4716;6244;6246;4457;4456;4172;4700;4477;4018;4047
+        * 4715;4013;4431;4133;4716;6244;6246;4457;4456;4172;4700;4477;4018;4047
 * 基于 Makefile
     * CFLAGS += -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion
 * 直接调用 gcc/clang
@@ -302,6 +310,8 @@ endif()
 10. 把 int 指针和 int 相互赋值
     * 虽说可以把指针的值（一个地址）当做一个 int（其实是 unsigned int）来理解，但考虑这种情况：int a=*p 被写成 int a=p 而引发错误。
     * VS 下的开关：/we4047。gcc 下用 -Werror=int-conversion。
+11. 错误 C4715
+    * “WatermarkTask::getDstPath”: 不是所有的控件路径都返回值
 
 
 ## 匹对逻辑应该设计为 RAII，防止写漏
@@ -521,6 +531,7 @@ int Foo() {
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-25-prog-secguide.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.jianshu.com/p/a200a2dab960]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/www.jianshu.com/ff54d6d7.html" %})
 - [https://www.cnblogs.com/zjutzz/p/10802138.html]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/www.cnblogs.com/66780ceb.html" %})
 - [https://github.com/rxi/log.c]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/e00aa14a.html" %})
 - [https://github.com/rspec/rspec/wiki/Getting-colored-output-working-on-Windows]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/7a35e51b.html" %})

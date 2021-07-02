@@ -33,6 +33,11 @@ cluster: "Visual Studio"
 **QT 中调用 connect 的时候出现的，解决方式为找到这个 QMyClass 的头文件，打开找到继承关系，看下是不是没有设置 public 继承，如果是的话，将导致链接错误，造成不能访问。**
 
 
+## error LNK2001: 无法解析的外部符号 "public: static struct QMetaObject const QwtPlot::staticMetaObject"
+
+参数宏：`QWT_DLL`。
+
+
 ## MSB8040 Spectre-mitigated libraries are required for this project
 
 原因：这是因为 Visual Studio 默认开启了缓解 Spectre 攻击的机制，所以就有两种解决方案，一种是生成解决方案时禁用 Spectre 缓解机制，另一种就是安装 Spectre 缓解机制。
