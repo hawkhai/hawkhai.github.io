@@ -89,5 +89,37 @@ Wallpaper engine uses a custom texture storage format converted by resourcecompi
 | __Next image size__ | 4 bytes | Image block size (compressed) |
 | __Mipmap pixels__ | x bytes | Actual bitmap data in the format specified |
 
+
+## fakehookDebug.cpp
+
+```cpp
+GLuint GetDebugTextureId() {
+    static GLuint texture = 0;
+    if (texture != 0) {
+        return texture;
+    }
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    if (true) {
+        GLubyte data[] = {
+            255, 0, 0, 155,
+            0, 255, 0, 155,
+            0, 0, 255, 155,
+            255, 255, 255, 155 };
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+        GLsizei width = 2;
+        GLsizei height = 2;
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    glBindTexture(GL_TEXTURE_2D, 0);
+    return texture;
+}
+```
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-04-07-opengl-tex-copy.md.js" %}'></script></p>

@@ -27,6 +27,7 @@ Pixel Shader 里面的代码，每个像素都要执行一次。[Compute Shader 
 
 {% include image.html url="/assets/images/210127-shader-opengl-es-optimize/cpu-gpu-compare.png" %}
 {% include image.html url="/assets/images/210127-shader-opengl-es-optimize/cpu-gpu-speed.png" caption="示意图<br/>CPU 与 GPU 之间的数据传输速度为整个系统的瓶颈" %}
+{% include image.html url="/assets/images/210127-shader-opengl-es-optimize/20200126195846919.webp" caption="GPU 工作原理<br/>很喜欢这张图" %}
 
 
 ## 删除调试信息
