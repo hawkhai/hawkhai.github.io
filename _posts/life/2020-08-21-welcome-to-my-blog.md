@@ -198,6 +198,67 @@ char fpath[1024] = "";
 _fullpath(fpath, fileLocation, 1024);
 ```
 
+```cpp
+#include "stdafx.h"
+#include <assert.h>
+
+CString toHexString(CString str) {
+    CString retv;
+    const int length = str.GetLength();
+    const WCHAR* buffer = str.GetString();
+    assert(length >= 0 && length <= 0xffff);
+    retv.AppendFormat(L"%04x", length);
+    for (int i = 0; i < length; i++) {
+        WCHAR ch = buffer[i];
+        // 宽字符型 wchar_t (unsigned short.)
+        // 2 byte 0~65535
+        assert(ch >= 0 && ch <= 65535);
+        retv.AppendFormat(L"%04x", ch);
+    }
+    return retv;
+}
+
+WCHAR bkHexWChar(const WCHAR* buffer) {
+    WCHAR num[5] = { 0 };
+    for (int i = 0; i < 4; i++) {
+        num[i] = buffer[i];
+    }
+    return wcstol(num, NULL, 16);
+}
+
+CString bkHexString(CString str) {
+    CString retv;
+    int srclen = str.GetLength();
+    assert(srclen % 4 == 0 && srclen > 0);
+    if (srclen % 4 != 0 || srclen <= 0) {
+        return L"";
+    }
+    const WCHAR* buffer = str.GetString();
+    const int length = bkHexWChar(&buffer[0]);
+    assert(length == str.GetLength() / 4 - 1);
+    if (length != str.GetLength() / 4 - 1) {
+        return L"";
+    }
+    for (int i = 0; i < length; i++) {
+        WCHAR ch = bkHexWChar(&buffer[4 + i * 4]);
+        retv.AppendChar(ch);
+    }
+    return retv;
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+    CString test = L"中文 123";
+
+    test = toHexString(test);
+    test = bkHexString(test);
+
+    test = bkHexString(L"0002ffffff00");
+    test = toHexString(test);
+    return 0;
+}
+```
+
 
 ## Tools
 
