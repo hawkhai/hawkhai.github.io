@@ -235,8 +235,8 @@ CString bkHexString(CString str) {
     }
     const WCHAR* buffer = str.GetString();
     const int length = bkHexWChar(&buffer[0]);
-    assert(length == str.GetLength() / 4 - 1);
-    if (length != str.GetLength() / 4 - 1) {
+    assert(length == srclen / 4 - 1);
+    if (length != srclen / 4 - 1) {
         return L"";
     }
     for (int i = 0; i < length; i++) {
