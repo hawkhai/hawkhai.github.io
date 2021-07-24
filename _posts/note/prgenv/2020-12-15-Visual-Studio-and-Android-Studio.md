@@ -33,6 +33,23 @@ cluster: "Visual Studio"
 **QT 中调用 connect 的时候出现的，解决方式为找到这个 QMyClass 的头文件，打开找到继承关系，看下是不是没有设置 public 继承，如果是的话，将导致链接错误，造成不能访问。**
 
 
+## error MIDL2025/2026
+
+使用 VC2005 编译出现这个错误
+```
+Include\unknwn.idl(108) : error MIDL2025 : syntax error : expecting ] or , near "annotation"
+Include\unknwn.idl(108) : error MIDL2026 : cannot recover from earlier syntax errors;
+aborting compilation
+```
+
+如果使用 VC2005 编译出现这个错误，是由于使用了新版本的 VISTA SDK 头文件，而使用旧版本的 MIDL 工具来编译所导致。
+解决方法是安装 SDK 时，把它的 SDK 里带的编译工具也需要安装，然后在 VC 里
+```
+Tools > Options > Projects and Solutions > VC++ Directories > Executable Files
+```
+里添加这个 SDK 的 BIN 目录，这样就使用新版本的 MIDL 编译工具。
+
+
 ## error LNK2001: 无法解析的外部符号 "public: static struct QMetaObject const QwtPlot::staticMetaObject"
 
 参数宏：`QWT_DLL`。
