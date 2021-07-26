@@ -259,6 +259,104 @@ int _tmain(int argc, _TCHAR* argv[])
 }
 ```
 
+```cpp
+#include "stdafx.h"
+#include <assert.h>
+#include <string>
+
+std::wstring CharToWChar(const char* str, size_t encode = CP_ACP) {
+    int srclen = strlen(str);
+    int len = MultiByteToWideChar(encode, 0, str, srclen, NULL, 0);
+    wchar_t* temp = new wchar_t[len + 1];
+    MultiByteToWideChar(encode, 0, str, srclen, temp, len);
+    temp[len] = '\0';
+    std::wstring wstr = temp;
+    delete[] temp;
+    return wstr;
+}
+
+std::string WCharToChar(const wchar_t* wstr, size_t encode = CP_ACP) {
+    int srclen = wcslen(wstr);
+    int len = WideCharToMultiByte(encode, 0, wstr, srclen, NULL, 0, NULL, NULL);
+    char* temp = new char[len + 1];
+    WideCharToMultiByte(encode, 0, wstr, srclen, temp, len, NULL, NULL);
+    temp[len] = '\0';
+    std::string str = temp;
+    delete[] temp;
+    return str;
+}
+
+wchar_t bkHexWChar(const wchar_t* buffer, int cntlen = 4) {
+    wchar_t* num = new wchar_t[cntlen + 1];
+    memcpy(num, buffer, cntlen * sizeof(wchar_t));
+    num[cntlen] = 0;
+    wchar_t ch = wcstol(num, NULL, 16);
+    delete[] num;
+    return ch;
+}
+
+int bkHexChar(const char* buffer, int cntlen = 2) {
+    char* num = new char[cntlen + 1];
+    memcpy(num, buffer, cntlen * sizeof(char));
+    num[cntlen] = 0;
+    int ch = strtol(num, NULL, 16);
+    delete[] num;
+    return ch;
+}
+
+CString toHexString(CString str) {
+    std::string strk = WCharToChar(str.GetString());
+    const int length = strk.length();
+    const char* buffer = strk.c_str();
+    assert(length >= 0 && length <= 0xffff);
+    CString retv;
+    retv.AppendFormat(L"%04x", length);
+    for (int i = 0; i < length; i++) {
+        // 宽字符型 wchar_t (unsigned short.)
+        // wchar_t ch = buffer[i];
+        // assert(ch >= 0 && ch <= 0xffff);
+        unsigned char ch = buffer[i];
+        assert(ch >= 0 && ch <= 0xff);
+        retv.AppendFormat(L"%02x", ch);
+    }
+    return retv;
+}
+
+CString bkHexString(CString str) {
+    std::string strk = WCharToChar(str.GetString());
+    int srclen = strk.length();
+    assert((srclen - 4) % 2 == 0 && srclen >= 4);
+    if ((srclen - 4) % 2 != 0 || srclen < 4) {
+        return L"";
+    }
+    const char* buffer = strk.c_str();
+    const int length = bkHexChar(&buffer[0], 4);
+    assert(length == (srclen - 4) / 2);
+    if (length != (srclen - 4) / 2) {
+        return L"";
+    }
+    CStringA retv;
+    for (int i = 0; i < length; i++) {
+        char ch = bkHexChar(&buffer[4 + i * 2]);
+        retv.AppendChar(ch);
+    }
+    std::wstring temp = CharToWChar(retv.GetString());
+    CString wstr = temp.c_str();
+    return wstr;
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+    CString test = L"中文 123";
+
+    test = toHexString(test);
+    test = bkHexString(test);
+
+    test = bkHexString(L"0004ffffff01");
+    test = toHexString(test);
+    return 0;
+}
+```
 
 ## Tools
 
