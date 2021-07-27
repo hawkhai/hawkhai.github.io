@@ -198,66 +198,7 @@ char fpath[1024] = "";
 _fullpath(fpath, fileLocation, 1024);
 ```
 
-```cpp
-#include "stdafx.h"
-#include <assert.h>
-
-CString toHexString(CString str) {
-    CString retv;
-    const int length = str.GetLength();
-    const WCHAR* buffer = str.GetString();
-    assert(length >= 0 && length <= 0xffff);
-    retv.AppendFormat(L"%04x", length);
-    for (int i = 0; i < length; i++) {
-        WCHAR ch = buffer[i];
-        // 宽字符型 wchar_t (unsigned short.)
-        // 2 byte 0~65535
-        assert(ch >= 0 && ch <= 65535);
-        retv.AppendFormat(L"%04x", ch);
-    }
-    return retv;
-}
-
-WCHAR bkHexWChar(const WCHAR* buffer) {
-    WCHAR num[5] = { 0 };
-    for (int i = 0; i < 4; i++) {
-        num[i] = buffer[i];
-    }
-    return wcstol(num, NULL, 16);
-}
-
-CString bkHexString(CString str) {
-    CString retv;
-    int srclen = str.GetLength();
-    assert(srclen % 4 == 0 && srclen > 0);
-    if (srclen % 4 != 0 || srclen <= 0) {
-        return L"";
-    }
-    const WCHAR* buffer = str.GetString();
-    const int length = bkHexWChar(&buffer[0]);
-    assert(length == srclen / 4 - 1);
-    if (length != srclen / 4 - 1) {
-        return L"";
-    }
-    for (int i = 0; i < length; i++) {
-        WCHAR ch = bkHexWChar(&buffer[4 + i * 4]);
-        retv.AppendChar(ch);
-    }
-    return retv;
-}
-
-int _tmain(int argc, _TCHAR* argv[])
-{
-    CString test = L"中文 123";
-
-    test = toHexString(test);
-    test = bkHexString(test);
-
-    test = bkHexString(L"0002ffffff00");
-    test = toHexString(test);
-    return 0;
-}
-```
+这个存在缺陷，如果转码失败会不可逆：
 
 ```cpp
 #include "stdafx.h"
@@ -267,6 +208,9 @@ int _tmain(int argc, _TCHAR* argv[])
 std::wstring CharToWChar(const char* str, size_t encode = CP_ACP) {
     int srclen = strlen(str);
     int len = MultiByteToWideChar(encode, 0, str, srclen, NULL, 0);
+    if (len <= 0) {
+        return L"";
+    }
     wchar_t* temp = new wchar_t[len + 1];
     MultiByteToWideChar(encode, 0, str, srclen, temp, len);
     temp[len] = '\0';
@@ -278,6 +222,9 @@ std::wstring CharToWChar(const char* str, size_t encode = CP_ACP) {
 std::string WCharToChar(const wchar_t* wstr, size_t encode = CP_ACP) {
     int srclen = wcslen(wstr);
     int len = WideCharToMultiByte(encode, 0, wstr, srclen, NULL, 0, NULL, NULL);
+    if (len <= 0) {
+        return "";
+    }
     char* temp = new char[len + 1];
     WideCharToMultiByte(encode, 0, wstr, srclen, temp, len, NULL, NULL);
     temp[len] = '\0';
@@ -357,6 +304,103 @@ int _tmain(int argc, _TCHAR* argv[])
     return 0;
 }
 ```
+
+这个方案：
+
+```cpp
+#include <assert.h>
+
+#define ALG_TYPE 0x321
+
+class b62 {
+  public:
+    static int ParseBase62(wchar_t ch) {
+        if (ch >= L'0' && ch <= L'9') {
+            return ch - L'0';
+        }
+        if (ch >= L'a' && ch <= L'z') {
+            return ch - L'a' + 10;
+        }
+        if (ch >= L'A' && ch <= L'Z') {
+            return ch - L'A' + 10 + 26;
+        }
+        return -1;
+    }
+
+    static int appendHex(CString& retv, unsigned long value) {
+        int len = 0;
+        for (unsigned long temp = value; len == 0 || temp; temp /= 62) {
+            len++;
+        }
+
+        static wchar_t SZ_BASE62_TAB[] = L"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        retv.AppendChar(SZ_BASE62_TAB[len]);
+        for (int i = 0; i < len; i++) {
+            int node = value % 62;
+            retv.AppendChar(SZ_BASE62_TAB[node]);
+            value /= 62;
+        }
+        return len;
+    }
+
+    static unsigned long eatupHex(const wchar_t* ptr, unsigned int& index) {
+        int len = ParseBase62(ptr[index++]);
+        unsigned long value = 0;
+        unsigned long mulval = 1;
+        for (int i = 0; i < len; i++) {
+            int node = ParseBase62(ptr[index++]);
+            value += node * mulval;
+            mulval *= 62;
+        }
+        return value;
+    }
+
+    static CString toHexString(CString str) {
+        const int length = str.GetLength();
+        const wchar_t* buffer = str.GetString();
+
+        CString retv;
+        appendHex(retv, ALG_TYPE);
+        appendHex(retv, length);
+        wchar_t check = 0;
+        for (int i = 0; i < length; i++) {
+            wchar_t ch = buffer[i]; // <= 0xffff
+            appendHex(retv, ch ^ ALG_TYPE);
+            check ^= ch;
+        }
+        appendHex(retv, check);
+        return retv;
+    }
+
+    static CString bkHexString(CString str) {
+        unsigned int index = 0;
+
+        const wchar_t* buffer = str.GetString();
+        const int algType = eatupHex(buffer, index);
+        if (algType != ALG_TYPE) {
+            return L"??<unknow type>";
+        }
+
+        CString retv;
+        wchar_t check = 0;
+        const int length = eatupHex(buffer, index);
+        for (int i = 0; i < length; i++) {
+            wchar_t ch = eatupHex(buffer, index) ^ ALG_TYPE;
+            retv.AppendChar(ch);
+            check ^= ch;
+        }
+
+        wchar_t checkz = eatupHex(buffer, index);
+        assert(checkz == check);
+        if (checkz != check) {
+            return L"??<check error>";
+        }
+        return retv;
+    }
+
+}; // namespace b62
+```
+
 
 ## Tools
 
