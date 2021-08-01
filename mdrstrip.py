@@ -294,7 +294,9 @@ def organizeRes(ik, fpath, line):
     if invdir:
         tpath = os.path.join("invisible", "images", fname, ikfile).lower()
 
-    assert os.path.exists(ik), ik
+    while not os.path.exists(ik):
+        print("文件不存在", ik)
+        os.system("pause")
 
     ikcopy = copyfile(ik, tpath)
     iknail = ik + THUMBNAIL
