@@ -64,6 +64,12 @@ cluster: "WinDBG"
 
 {% include image.html url="/assets/images/210427-win-dump-course/zz1.png" %}
 
+#### 根据模块崩溃偏移地址定位代码位置
+
+1. 加载 pdb 符号表，windbg 运行 exe。
+2. 通过 `bp BaseAddr+OffsetAddr` 下断点；
+3. 然后通过 `bl` 查看当前断点。
+
 
 ## windbg 分析堆溢出
 
