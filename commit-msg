@@ -17,8 +17,15 @@
 
 # This example catches duplicate Signed-off-by lines.
 
-test "" = "$(grep '^Signed-off-by: ' "$1" |
-	 sort | uniq -c | sed -e '/^[ 	]*1[ 	]/d')" || {
-	echo >&2 Duplicate Signed-off-by lines.
-	exit 1
-}
+commit_msg = `cat $1`
+month = $(date "+%m0")
+msg_re = "^\[.+\]\[$month[0-9]\].*"
+week_num_of_month = $((($(date +%d) -1) / 7) + 1)
+if [[!$commit_msg =~ $msg_re]]
+then
+    echo -e "\033[31m 不合法得 commit 消息提交格式，请使用正确得格式 \033[0m"
+    echo -e "\033[31m 正确得 commit 消息格式为 [product name][date(month,week)] message. \033[0m"
+    echo "eg: [pdfreader][$month$week_num_of_month] $commit_msg"
+    # 异常退出
+    exit 1
+if
