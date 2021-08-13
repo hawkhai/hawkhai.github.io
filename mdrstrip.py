@@ -544,7 +544,6 @@ def appendRefs(fpath, lines):
     if reflist:
         lines.append("")
         lines.append("")
-        lines.append("")
         lines.append(REVIEW_LINE)
         lines.append(review)
         lines.append(SNAPSHOT_HTML)
@@ -561,7 +560,6 @@ def appendRefs(fpath, lines):
             lines.append("- [{}]({})".format(url, remote)) # count
         lines.append("")
     else:
-        lines.append("")
         lines.append("")
         lines.append("")
         lines.append(REVIEW_LINE)
