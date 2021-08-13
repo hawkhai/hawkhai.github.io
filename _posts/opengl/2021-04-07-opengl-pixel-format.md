@@ -255,6 +255,8 @@ GL_BGRA with GL_UNSIGNED_INT_8_8_8_8_REV would store colors in an integer in the
 #endif
 ```
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-04-07-opengl-pixel-format.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

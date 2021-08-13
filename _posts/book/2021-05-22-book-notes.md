@@ -38,5 +38,7 @@ codeprint:
     罗马人还在田野里撒盐，让这里寸草不生。
 * 和迦太基人干的时候，是罗马的高光时刻，和美国干的现在，也是中国的高光时刻。
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-22-book-notes.md.js" %}'></script></p>

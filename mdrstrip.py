@@ -830,6 +830,7 @@ def mainfile(fpath, fname, ftype):
     while page.find("\r\n" * 3) != -1:
         page = page.replace("\r\n" * 3, "\r\n" * 2)
 
+    page = page.replace("\r\n"+REVIEW_LINE, "\r\n"*3+REVIEW_LINE)
     codereg = "\\{\\%\\s*highlight.*?\\{\\%\\s*endhighlight\\s*\\%\\}"
     codeli1 = re.findall(codereg, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
 

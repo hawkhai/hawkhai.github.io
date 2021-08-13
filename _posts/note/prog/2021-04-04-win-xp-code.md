@@ -113,5 +113,7 @@ A file type association has changed. SHCNF_IDLIST must be specified in the uFlag
 dwItem1 and dwItem2 are not used and must be NULL.
 This event should also be sent for registered protocols.
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-04-04-win-xp-code.md.js" %}'></script></p>

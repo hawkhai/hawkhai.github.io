@@ -139,6 +139,8 @@ D/HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1
 - [5] [OpenGL ES Emulator 横向比较](http://www.klayge.org/2011/04/20/opengl-es-emulator%E6%A8%AA%E5%90%91%E6%AF%94%E8%BE%83/)
 - [6] [全球知名 GPU 厂家（附其深度报告） {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/uANsBYLG4l2v-dUx6FIpcw)
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-04-shader-windows-opengles-emulator.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

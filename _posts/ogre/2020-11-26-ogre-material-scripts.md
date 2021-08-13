@@ -1949,6 +1949,8 @@ fxTest3 will end up with the default textures for the normal map and spec map se
 
 <https://ogrecave.github.io/ogre/api/latest/_material-_scripts.html>
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-11-26-ogre-material-scripts.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

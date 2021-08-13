@@ -419,6 +419,8 @@ A list of licenses authors might use can be found here.
 
 from <https://www.codeproject.com/Articles/14412/Enumerating-windows-device>
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-08-23-enum-win-device.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

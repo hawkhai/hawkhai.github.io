@@ -159,6 +159,8 @@ while __name__ == "__main__":
 
 {% include image.html url="/assets/images/200829-win-jekyll-install/win-jekyll2.png" %}
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-08-29-win-jekyll-install.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

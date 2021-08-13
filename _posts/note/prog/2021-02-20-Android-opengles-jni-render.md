@@ -216,5 +216,7 @@ public class IrrlichtGLView extends SurfaceView implements SurfaceHolder.Callbac
 * **不要动不动就怀疑引擎有 bug，人家的代码既工整又优美，先多从自身找找原因。**开始的时候，因为 bug 本身若隐若现（小概率出现），疑惑这里疑惑那里，还怀疑人家引擎，也没多思考。
 * 崩溃的位置不一定是出问题的位置，可以从参数问题上顺藤摸瓜，直到找到真正的原因。崩溃在 C++，最后改在 Java。
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-20-Android-opengles-jni-render.md.js" %}'></script></p>

@@ -191,6 +191,8 @@ WARNING: Frame IP not in any known module. Following frames may be wrong.
 `fastapp!EnginePdfiumTransformByPageCTM+89` 的时候 `mov esi,dword ptr [eax+4]` 然后 `READ_ADDRESS: 00000004`。
 由于 Release 优化内联，定位到的函数可能不准确，但是一看就是一个空指针读取造成的崩溃。指针是空，然后读取内存 +4 的位置。
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-20-win-windbg-UnhandledExceptionFilter.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

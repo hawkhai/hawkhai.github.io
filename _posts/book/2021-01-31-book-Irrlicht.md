@@ -557,6 +557,8 @@ Gooch & Toon 着色器。有点意思。
 
 - [1] [Irrlicht 3D 游戏引擎程序设计](http://www.tup.tsinghua.edu.cn/booksCenter/BOOK_04805701.html)
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-31-book-Irrlicht.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

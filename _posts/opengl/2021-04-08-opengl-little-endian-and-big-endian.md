@@ -236,5 +236,7 @@ bool COGLES2Driver::getColorFormatParameters(ECOLOR_FORMAT format, GLint& intern
 }
 ```
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-04-08-opengl-little-endian-and-big-endian.md.js" %}'></script></p>

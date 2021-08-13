@@ -234,6 +234,8 @@ $$
 - [5] [理解矩阵乘法](http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html)<sup>阮一峰</sup>
 - [6] <https://blog.csdn.net/zouxy09/article/details/24971995>
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-08-31-deep-learning-math-norm.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

@@ -186,6 +186,8 @@ Andrey Kurenkov
 - [6] <https://www.skynettoday.com/overviews/neural-net-history>
 - [7] <https://www.andreykurenkov.com/writing/life/lessons-learned-from-failures/>
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

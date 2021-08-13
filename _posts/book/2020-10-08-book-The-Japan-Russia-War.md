@@ -71,5 +71,7 @@ codeprint:
 
 不禁令人唏嘘。
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-10-08-book-The-Japan-Russia-War.md.js" %}'></script></p>

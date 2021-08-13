@@ -646,6 +646,8 @@ layout (location = 1) in vec2 aTexCoords;
 gl_Position = vec4(aPos, 1.0);
 ```
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-16-shader-OpenGL-research.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

@@ -130,6 +130,8 @@ RSA 所需要的大素数怎样生成的呢？简单说来是这样的：
 
 RSA 算法本身没什么问题，因为只要你的密钥是真正随机产生的，猜对这个密钥就如同大海捞针一般难，现有计算机肯定无法在密码更换周期内攻破你的加密档案。但是，如果这个随机算法是假的呢？如果它仅仅是在一个很小的集合中产生的密钥呢？你的加密档案瞬间就被查看了，这就是 NSA 干的事情。
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-09-12-math-prime-rsa.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

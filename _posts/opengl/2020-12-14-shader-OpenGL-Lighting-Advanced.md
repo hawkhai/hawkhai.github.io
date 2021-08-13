@@ -370,6 +370,8 @@ Quintic falloffs solves the problem.
 - [1] [Blinn-Phong 光照](http://morimiya.me/2019/02/24/Blinn-Phong%E5%85%89%E7%85%A7/)
 - [2] [高级光照 learnopengl-cn {% include relref_github.html %}](https://learnopengl-cn.github.io/05%20Advanced%20Lighting/01%20Advanced%20Lighting/)
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-14-shader-OpenGL-Lighting-Advanced.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

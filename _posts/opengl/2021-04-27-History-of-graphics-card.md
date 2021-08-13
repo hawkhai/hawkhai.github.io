@@ -36,6 +36,8 @@ codeprint:
 
 {% include embedvideo.html source="//player.bilibili.com/player.html?cid=145346025&aid=81437021&page=1&high_quality=1" %}
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-04-27-History-of-graphics-card.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

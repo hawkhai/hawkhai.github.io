@@ -29,6 +29,8 @@ from [0.999…=1？数到底是什么？李永乐老师讲数学公理化 {% inc
 
 **证明很完美，看完更不知道数学是什么了。**
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-09-11-math-axiom.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

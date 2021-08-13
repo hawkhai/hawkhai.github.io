@@ -161,6 +161,8 @@ $$\int_{x}^{y}f(x)dx=F(x)-F(y)$$
 - [5] [微积分到底是什么 {% include relref_zhihu.html %}](https://www.zhihu.com/question/336322284)
 - [6] 马同学 <https://www.matongxue.com/madocs/247/>
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-09-02-deep-learning-math-calculus.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

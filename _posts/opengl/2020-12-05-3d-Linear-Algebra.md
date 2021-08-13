@@ -331,6 +331,8 @@ LU 分解主要应用在数值分析中，用来解线性方程、求反矩阵�
 - [2] 3Blue1Brown [【官方双语 / 合集】线性代数的本质 - 系列合集 {% include relref_bili.html %}](https://www.bilibili.com/video/av6731067)
 - [3] [3D 数学，矩阵简介](https://riptutorial.com/zh-CN/opengl/example/14159/%E7%9F%A9%E9%98%B5%E7%AE%80%E4%BB%8B)
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-05-3d-Linear-Algebra.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

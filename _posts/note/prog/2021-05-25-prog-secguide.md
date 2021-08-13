@@ -531,6 +531,8 @@ int Foo() {
     结合 SetDefaultDllDirectories，AddDllDirectory，RemoveDllDirectory 这几个 API 配合使用，可以有效的规避 DLL 劫持问题。
     这些 API 只能在打了 KB2533623 补丁的 Windows7，2008 上使用。
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-25-prog-secguide.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

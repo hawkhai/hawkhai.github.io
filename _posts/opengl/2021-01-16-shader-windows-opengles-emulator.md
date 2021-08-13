@@ -140,6 +140,8 @@ The PowerVR SDK has a number of third-party dependencies, each of which may have
 - [1] [Using OpenGL ES on windows desktops via EGL](https://www.saschawillems.de/blog/2015/04/19/using-opengl-es-on-windows-desktops-via-egl/)
 - [2] [Android OpenGL 开发 -- EGL 的使用 {% include relref_cnblogs.html %}](https://www.cnblogs.com/wellcherish/p/12727906.html)
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-16-shader-windows-opengles-emulator.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

@@ -152,6 +152,8 @@ void createGeometryShader() {
 - [1] [几何着色器 {% include relref_csdn.html %}](https://blog.csdn.net/iron_lzn/article/details/48729849)
 - [2] [LearnOpenGL CN 几何着色器 {% include relref_github.html %}](https://learnopengl-cn.github.io/04%20Advanced%20OpenGL/09%20Geometry%20Shader/)
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-11-12-shader-OpenGL-geometry.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

@@ -89,6 +89,8 @@ Gabriel 喇叭会导出一个非常诡异的悖论：如果你想用涂料把 Ga
 - [2] [维基百科·加百列的号角 {% include relref_wiki.html %}](https://en.wikipedia.org/wiki/Gabriel%27s_Horn)
 - [3] <https://baijiahao.baidu.com/s?id=1660502466103090640>
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-09-02-math-gabriel-horn.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

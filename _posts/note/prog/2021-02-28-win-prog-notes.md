@@ -51,6 +51,8 @@ Build in cmd.exe, run command as: msbuild dprofiler.sln
     * WPR（Windows Performance Recorder）是一个事件记录工具，使用它可以监测系统状态（CPU、磁盘 I/O、堆分配、栈调用…），并生成一个 .etl（Event trace log）日志文件
     * WPA（Windows Performance Analyzer）是一个日志分析工具，使用它可以对 WPR 生成的 .etl 日志文件加以分析得出方便人阅读的数据图表
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-28-win-prog-notes.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

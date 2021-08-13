@@ -226,6 +226,8 @@ glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 eglSwapBuffers(eglDisplay, eglSurface);
 ```
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-10-shader-diff-opengl-opengles.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

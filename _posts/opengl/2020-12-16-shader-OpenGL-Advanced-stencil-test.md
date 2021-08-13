@@ -105,6 +105,8 @@ glStencilFunc(GL_NOTEQUAL, ref, mask);
 - [2] 这个不知道在讲啥。[使用 OpenGL 实现遮罩效果 {% include relref_csdn.html %}](https://blog.csdn.net/jaryguo/article/details/52627151)
 - [4] [高级 OpenGL » 模板测试](https://learnopengl-cn.readthedocs.io/zh/latest/04%20Advanced%20OpenGL/02%20Stencil%20testing/)
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-16-shader-OpenGL-Advanced-stencil-test.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>

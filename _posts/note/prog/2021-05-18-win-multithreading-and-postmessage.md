@@ -31,6 +31,8 @@ archived: true
 * 广播
     * broadcastsystemmessage
 
+
+
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-18-win-multithreading-and-postmessage.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
