@@ -77,7 +77,7 @@ C:\test>pecopy.exe -in fastvc.exe -out shsign\fastvc.exe --LegalCopyright "版�
 ```
 
 构建机构建完成，直接上去拿改好并签好名的文件即可。
-**如果这个方案有帮到项目组，记得往 quanhai 的账户打 100+ 豹趣积分。^_^**
+**如果这个方案有帮到项目组，记得往 quanhai 的账户打 200+ 豹趣积分。^_^**
 
 示例 2：
 ```
