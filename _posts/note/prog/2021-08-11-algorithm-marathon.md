@@ -26,6 +26,92 @@ codeprint:
     * <https://github.com/ssdeep-project/ssdeep>
 
 
+## 经典 KMP 算法
+
+```cpp
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <assert.h>
+
+void getNext(std::string needle, std::vector<int>& next) {
+    int i = 0, j = -1;
+    // j 表示最长相同前后缀的长度
+    next[0] = j;
+    while (i < needle.size()) {
+        // j == -1 为边界条件判断
+        // j = next[j] 可能使 j 退回到 -1
+        if (j == -1 || needle[i] == needle[j]) {
+            i++;
+            j++;
+            next[i] = j;
+        }
+        else {
+            j = next[j];
+        }
+    }
+}
+
+int strStr(std::string haystack, std::string needle) {
+    if (needle.empty()) return 0;
+    int m = haystack.size(), n = needle.size();
+    for (int i = 0; i <= m - n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (needle[j] != haystack[i + j])
+                break;
+            if (j == n - 1)
+                return i;
+        }
+    }
+    return -1;
+}
+
+int strStrKMP(std::string haystack, std::string needle) {
+    if (needle.empty()) return 0;
+    int i = 0, j = 0;
+    int m = haystack.size(), n = needle.size();
+    std::vector<int> next(n + 1);
+    getNext(needle, next);
+    while (i < m && j < n) {
+        if (j == -1 || haystack[i] == needle[j]) {
+            i++;
+            j++;
+        }
+        else {
+            j = next[j];
+        }
+        if (j == n)
+            return i - j;
+    }
+    return -1;
+}
+
+void randcarray(char* a, int size) {
+    int len = rand() % size;
+    for (int i = 0; i < len; i++) {
+        a[i] = 'a' + rand() % 10;
+    }
+    a[len] = 0;
+}
+
+int main() {
+    char a[10] = { 0 };
+    char b[10] = { 0 };
+    for (int i = 0; i < 10000; i++) {
+        randcarray(a, 10);
+        randcarray(b, 10);
+        int x = strStr(a, b);
+        int y = strStrKMP(a, b);
+        assert(x == y);
+        if (x > 0) {
+            x = y;
+        }
+    }
+    return 0;
+}
+```
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-08-11-algorithm-marathon.md.js" %}'></script></p>
