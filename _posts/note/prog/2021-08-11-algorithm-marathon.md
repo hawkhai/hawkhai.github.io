@@ -25,6 +25,23 @@ codeprint:
     * <https://github.com/trendmicro/tlsh>
     * <https://github.com/ssdeep-project/ssdeep>
 
+* ssdeep cluster analysis for malware files
+    * <https://github.com/DinoTools/python-ssdeep>
+    * <https://github.com/zom3y3/ssdc>
+    * <https://github.com/ZSShen/MeltingPot>
+    * <https://github.com/JPCERTCC/impfuzzy>
+
+* 安全 ClamAV
+
+* 数据特征匹配和编译原理
+
+* 搜索技术
+
+
+## Process Hacker
+
+<https://processhacker.sourceforge.io/>
+
 
 ## 经典 KMP 算法
 
@@ -112,6 +129,15 @@ int main() {
 ```
 
 
+## ssdeep & pyssdeep
+
+
+## murmur
+
+
+## tlsh
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-08-11-algorithm-marathon.md.js" %}'></script></p>
@@ -119,3 +145,8 @@ int main() {
 
 - [https://github.com/trendmicro/tlsh]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/cc0a8021.html" %})
 - [https://github.com/ssdeep-project/ssdeep]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/8f5b1bea.html" %})
+- [https://github.com/DinoTools/python-ssdeep]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/e17265d4.html" %})
+- [https://github.com/zom3y3/ssdc]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/b227aab8.html" %})
+- [https://github.com/ZSShen/MeltingPot]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/fea2a8c9.html" %})
+- [https://github.com/JPCERTCC/impfuzzy]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/c42b10a8.html" %})
+- [https://processhacker.sourceforge.io/]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/processhacker.sourceforge.io/83bbc907.html" %})
