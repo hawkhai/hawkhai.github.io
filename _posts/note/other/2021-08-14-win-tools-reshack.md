@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "编程笔记 -- Resource Hacker<sup>TM</sup> 修改 PE 描述信息"
+title: "编程笔记 -- Resource Hacker 修改 PE 描述信息"
 author:
 location: "珠海"
 categories: ["编程"]
@@ -23,7 +23,7 @@ l2dwidget:
 `pecopy.exe` 解决你的烦恼！自动修改文件描述信息！下载地址：<https://sunocean.life/tools/>
 
 
-## $$Resource Hacker^{TM}$$
+## Resource Hacker
 
 图形界面版本。
 
