@@ -37,6 +37,14 @@ codeprint:
 
 * 搜索技术
 
+* [8.5k] Fuzzy String Matching in Python <https://github.com/seatgeek/fuzzywuzzy>
+    * 各种字符匹配算法
+    * [1k] Rapid fuzzy string matching in Python using various string metrics <https://github.com/maxbachmann/RapidFuzz>
+* [638] A library implementing different string similarity and distance measures using Python. <https://github.com/luozhouyang/python-string-similarity>
+
+* [997] 📚 single header utf8 string functions for C and C++ <https://github.com/sheredom/utf8.h>
+* [678] C++ functions matching the interface and behavior of python string methods with std::string <https://github.com/imageworks/pystring>
+
 
 ## Process Hacker
 
