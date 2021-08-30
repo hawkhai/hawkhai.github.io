@@ -22,30 +22,30 @@ codeprint:
     * LEX、YACC、LLVM。[TinyCompiler {% include relref_github.html %}](https://github.com/stardust95/TinyCompiler)
     * Windows 核心编程 文件操作 和映射。
 4. 参考链接：
-    * <https://github.com/trendmicro/tlsh>
-    * <https://github.com/ssdeep-project/ssdeep>
+    * [508] <https://github.com/trendmicro/tlsh>
+    * [397] <https://github.com/ssdeep-project/ssdeep>
+5. 检索 tlsh & ssdeep 算法。??
+    * ~~[116] 另外一个 Python 封装 <https://github.com/DinoTools/python-ssdeep>~~
+    * [20] ssdeep cluster analysis for malware files <https://github.com/zom3y3/ssdc>
+    * ~~[21] 构建一个基于 elasticsearch 的本地搜索 <https://github.com/intezer/ssdeep-elastic>~~
+    * ~~[22] A tool to cluster similar executables (PEs, DEXs, and etc), extract common signature, and generate Yara patterns for malware detection. <https://github.com/ZSShen/MeltingPot>~~
+    * [4.4k] 图形库 Gephi - The Open Graph Viz Platform <https://github.com/gephi/gephi>
+    * [8.5k] **Fuzzy String Matching in Python** <https://github.com/seatgeek/fuzzywuzzy>
 
-* 检索 tlsh & ssdeep 算法。??
-
-* ssdeep cluster analysis for malware files
-    * <https://github.com/DinoTools/python-ssdeep>
-    * <https://github.com/zom3y3/ssdc>
-    * <https://github.com/ZSShen/MeltingPot>
-    * <https://github.com/JPCERTCC/impfuzzy>
-
-* 安全 ClamAV
+* 安全 ClamAV & yara
 
 * 数据特征匹配和编译原理
 
-* 搜索技术
+* 字符串搜索技术 ?? --
 
 * [8.5k] Fuzzy String Matching in Python <https://github.com/seatgeek/fuzzywuzzy>
-    * 各种字符匹配算法
     * [1k] Rapid fuzzy string matching in Python using various string metrics <https://github.com/maxbachmann/RapidFuzz>
 * [638] A library implementing different string similarity and distance measures using Python. <https://github.com/luozhouyang/python-string-similarity>
 
 * [997] 📚 single header utf8 string functions for C and C++ <https://github.com/sheredom/utf8.h>
 * [678] C++ functions matching the interface and behavior of python string methods with std::string <https://github.com/imageworks/pystring>
+* [556] A heavily vectorized c++17 compile time string encryption. <https://github.com/JustasMasiulis/xorstr>
+* [468] A simple string hashmap in C <https://github.com/petewarden/c_hashmap>
 
 
 ## Process Hacker
@@ -142,10 +142,7 @@ int main() {
 ## ssdeep & pyssdeep
 
 
-## murmur
-
-
-## tlsh
+## 其他 murmur / tlsh / ssdeep
 
 
 
@@ -158,11 +155,14 @@ int main() {
 - [https://github.com/ssdeep-project/ssdeep]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/8f5b1bea.html" %})
 - [https://github.com/DinoTools/python-ssdeep]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/e17265d4.html" %})
 - [https://github.com/zom3y3/ssdc]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/b227aab8.html" %})
+- [https://github.com/intezer/ssdeep-elastic]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/baf1806a.html" %})
 - [https://github.com/ZSShen/MeltingPot]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/fea2a8c9.html" %})
-- [https://github.com/JPCERTCC/impfuzzy]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/c42b10a8.html" %})
+- [https://github.com/gephi/gephi]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/3cf185b4.html" %})
 - [https://github.com/seatgeek/fuzzywuzzy]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/1c8f1638.html" %})
 - [https://github.com/maxbachmann/RapidFuzz]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/cd3e5286.html" %})
 - [https://github.com/luozhouyang/python-string-similarity]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/ca448faf.html" %})
 - [https://github.com/sheredom/utf8.h]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/1fb3e284.html" %})
 - [https://github.com/imageworks/pystring]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/94e8df70.html" %})
+- [https://github.com/JustasMasiulis/xorstr]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/930489e2.html" %})
+- [https://github.com/petewarden/c_hashmap]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/f40e7ecf.html" %})
 - [https://processhacker.sourceforge.io/]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/processhacker.sourceforge.io/83bbc907.html" %})
