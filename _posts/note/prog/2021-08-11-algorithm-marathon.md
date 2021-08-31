@@ -47,6 +47,8 @@ codeprint:
 * [556] A heavily vectorized c++17 compile time string encryption. <https://github.com/JustasMasiulis/xorstr>
 * [468] A simple string hashmap in C <https://github.com/petewarden/c_hashmap>
 
+* [591] QAmatch(qa_match) / 文本匹配 / 文本分类 / 文本 embedding / 文本聚类 / 文本检索 <https://github.com/MachineLP/TextMatch>
+
 
 ## Process Hacker
 
@@ -165,4 +167,5 @@ int main() {
 - [https://github.com/imageworks/pystring]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/94e8df70.html" %})
 - [https://github.com/JustasMasiulis/xorstr]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/930489e2.html" %})
 - [https://github.com/petewarden/c_hashmap]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/f40e7ecf.html" %})
+- [https://github.com/MachineLP/TextMatch]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/ae9d7064.html" %})
 - [https://processhacker.sourceforge.io/]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/processhacker.sourceforge.io/83bbc907.html" %})
