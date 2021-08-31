@@ -10,7 +10,7 @@ toclistyle:
 comments: true
 visibility:
 mathjax: true
-mermaid:
+mermaid: true
 glslcanvas:
 codeprint:
 ---
@@ -173,6 +173,29 @@ $$
 [域名标记 {% include relref_scriptol.html %} 样例](scriptol.com)<br/>
 [域名标记 {% include relref_khronos.html %} 样例](khronos.org)<br/>
 [域名标记 {% include relref_gluon.html %} 样例](gluon.ai)<br/>
+
+
+## sequenceDiagram
+
+[sequenceDiagram {% include relref_cnblogs.html %}](https://www.cnblogs.com/songjn/p/13552340.html)
+
+<div class="mermaid">
+sequenceDiagram
+
+    # 通过设定参与者（participants）的顺序控制展示模块顺序。
+
+    participant Alice
+    participant Bob
+    participant John
+    Alice -> John: Hello John, how are you?
+    loop Healthcheck
+        John -> John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts <br/>prevail...
+    John --> Alice: Great!
+    John -> Bob: How about you?
+    Bob --> John: good!
+</div>
 
 
 ## log
@@ -431,6 +454,7 @@ class b62 {
 - [https://blog.csdn.net/qq_36148847/article/details/79419814]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/blog.csdn.net/b40f77e7.html" %})
 - [https://www.szdev.com/blog/Hexo/mathjax-config-and-tutorial/]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.szdev.com/c7cf6953.html" %})
 - [https://www.rug.nl/]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.rug.nl/739d4824.html" %})
+- [https://www.cnblogs.com/songjn/p/13552340.html]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.cnblogs.com/3fe970e2.html" %})
 - [https://kerzol.github.io/markdown-mathjax/editor.html]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/kerzol.github.io/554e5cc8.html" %})
 - [https://latex.codecogs.com/eqneditor/editor.php]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/latex.codecogs.com/eb52cd36.php" %})
 - [http://www.mdeditor.com/]({% include relrefx.html url="/backup/2020-08-21-welcome-to-my-blog.md/www.mdeditor.com/1e2faf1f.html" %})
