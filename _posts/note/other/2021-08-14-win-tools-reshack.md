@@ -21,14 +21,15 @@ l2dwidget:
 2. 构建两次，选择不同的构建配置。时间！时间！
 
 `pecopy.exe` 解决你的烦恼！自动修改文件描述信息！下载地址：<https://sunocean.life/tools/>
+<https://sunocean.life/tools/pecopy.exe>
 
 
 ## Resource Hacker
 
-图形界面版本。
+~~ 图形界面版本。~~
 
-* 早期版本：<http://www.rpi.net.au/~ajohnson/resourcehacker>
-* 后期版本：<http://www.angusj.com/resourcehacker/>
+* ~~ 早期版本：<http://www.rpi.net.au/~ajohnson/resourcehacker>~~
+* ~~ 后期版本：<http://www.angusj.com/resourcehacker/>~~
 
 {% include image.html url="/assets/images/210814-win-tools-reshack/rh_scrpt.png" %}
 
@@ -40,7 +41,7 @@ l2dwidget:
 2. 避免构建多次，崩溃点都变了。
 
 使用文档：
-```
+```sh
 usage: pecopy.exe [-h] [-mcn COMPANYNAME] [-mfd FILEDESCRIPTION]
                   [-mvc FILEVERSION] [-min INTERNALNAME] [-mlc LEGALCOPYRIGHT]
                   [-mof ORIGINALFILENAME] [-mpn PRODUCTNAME]
@@ -72,16 +73,22 @@ optional arguments:
 ```
 
 示例 1：
-```
-C:\test>pecopy.exe -in fastvc.exe -out shsign\fastvc.exe --LegalCopyright "版权测试"
+```sh
+C:\test>pecopy.exe -in fastvc.exe \
+                   -out shsign\fastvc.exe \
+                   --LegalCopyright "版权测试"
 ```
 
 构建机构建完成，直接上去拿改好并签好名的文件即可。
-**如果这个方案有帮到项目组，记得往 quanhai 的账户打 200+ 豹趣积分。^_^**
 
 示例 2：
-```
-pecopy.exe -in "$(TargetDir)\test.dll" -out "$(TargetDir)\shsign\test.dll" -mpn "TEST 模块" -mcn "哇哦软件科技有限公司" -mfd "哇哦模块" -mlc "哇哦软件科技有限公司"
+```sh
+pecopy.exe -in "$(TargetDir)\test.dll" \
+           -out "$(TargetDir)\shsign\test.dll" \
+           -mpn "TEST 模块" \
+           -mcn "哇哦软件科技有限公司" \
+           -mfd "哇哦模块" \
+           -mlc "哇哦软件科技有限公司"
 ```
 {% include image.html url="/assets/images/210814-win-tools-reshack/20210818115642.png" %}
 
@@ -93,12 +100,15 @@ pecopy.exe -in "$(TargetDir)\test.dll" -out "$(TargetDir)\shsign\test.dll" -mpn 
 1. 把 pecopy.exe 入库到工程合适目录。
 2. 把 `tempdir` 添加到根 .gitignore
 3. 配置生成后事件：
-```
-pecopy.exe -in "$(TargetDir)fastvc.exe" -out "$(TargetDir)shsign\fastvc.exe" --LegalCopyright "版权测试"
+```sh
+pecopy.exe -in "$(TargetDir)fastvc.exe" \
+           -out "$(TargetDir)shsign\fastvc.exe" \
+           --LegalCopyright "版权测试"
 ```
 {% include image.html url="/assets/images/210814-win-tools-reshack/20210814161318.png" %}
 
 下载地址：<https://sunocean.life/tools/>
+<https://sunocean.life/tools/pecopy.exe>
 
 
 
