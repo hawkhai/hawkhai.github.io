@@ -41,7 +41,7 @@ l2dwidget:
 2. 避免构建多次，崩溃点都变了。
 
 使用文档：
-```sh
+```bat
 usage: pecopy.exe [-h] [-mcn COMPANYNAME] [-mfd FILEDESCRIPTION]
                   [-mvc FILEVERSION] [-min INTERNALNAME] [-mlc LEGALCOPYRIGHT]
                   [-mof ORIGINALFILENAME] [-mpn PRODUCTNAME]
@@ -73,7 +73,7 @@ optional arguments:
 ```
 
 示例 1：
-```sh
+```bat
 C:\test>pecopy.exe -in fastvc.exe \
                    -out shsign\fastvc.exe \
                    --LegalCopyright "版权测试"
@@ -82,7 +82,7 @@ C:\test>pecopy.exe -in fastvc.exe \
 构建机构建完成，直接上去拿改好并签好名的文件即可。
 
 示例 2：
-```sh
+```bat
 pecopy.exe -in "$(TargetDir)\test.dll" \
            -out "$(TargetDir)\shsign\test.dll" \
            -mpn "TEST 模块" \
@@ -93,14 +93,15 @@ pecopy.exe -in "$(TargetDir)\test.dll" \
 {% include image.html url="/assets/images/210814-win-tools-reshack/20210818115642.png" %}
 
 已知缺陷：语言都会变成中性。这个应该影响不大。
+如果此方案有帮助到项目组，记得豹趣积分打到 quanhai 账上。^_^
 
 
 ### 配置构建生成后任务
 
-1. 把 pecopy.exe 入库到工程合适目录。
-2. 把 `tempdir` 添加到根 .gitignore
-3. 配置生成后事件：
-```sh
+1. 把 pecopy.exe 入库到工程合适目录（建议入到 git，这样本机和构建机可以同时完成 pecopy）。
+2. 把 `tempdir` 添加到根 `.gitignore`。
+3. 配置生成后事件（一般根据工程当前的工程目录然后找到 pecopy.exe 的相对路径）：
+```bat
 pecopy.exe -in "$(TargetDir)fastvc.exe" \
            -out "$(TargetDir)shsign\fastvc.exe" \
            --LegalCopyright "版权测试"
