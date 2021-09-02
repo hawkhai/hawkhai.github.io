@@ -50,6 +50,15 @@ codeprint:
 * [591] QAmatch(qa_match) / 文本匹配 / 文本分类 / 文本 embedding / 文本聚类 / 文本检索 <https://github.com/MachineLP/TextMatch>
 
 
+## ClamAV & yara
+
+* 十六进制特征码（shellcode）
+* YARA 和 PEiD 可识别加壳文件
+* Python 中可以使用 python-magic 程序包确定文件具体类型。
+* Python 中可以使用内置的 hashlib 模块或者 PyCrypto 模块生成哈希值。
+* 模糊哈希用户确定文件之间的相似度。可使用 ssdeep 命令。
+
+
 ## Process Hacker
 
 <https://processhacker.sourceforge.io/>
