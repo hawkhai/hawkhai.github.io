@@ -26,10 +26,10 @@ l2dwidget:
 
 ## Resource Hacker
 
-~~ 图形界面版本。~~
+~~图形界面版本。~~
 
-* ~~ 早期版本：<http://www.rpi.net.au/~ajohnson/resourcehacker>~~
-* ~~ 后期版本：<http://www.angusj.com/resourcehacker/>~~
+* ~~早期版本：<http://www.rpi.net.au/~ajohnson/resourcehacker>~~
+* ~~后期版本：<http://www.angusj.com/resourcehacker/>~~
 
 {% include image.html url="/assets/images/210814-win-tools-reshack/rh_scrpt.png" %}
 

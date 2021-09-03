@@ -727,7 +727,7 @@ def mainfile(fpath, fname, ftype):
             cx, cy = ix
             if re.findall(cnsignregex, cy) or re.findall(cnsignregex, cx):
                 continue
-            if cy in "-<]" or cx in "->[":
+            if cy in "-<]~" or cx in "->[~":
                 continue
 
             if chartstate:
