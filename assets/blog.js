@@ -132,6 +132,9 @@ function setTableStyle(ithis, ratiostr, tablew) {
 if (typeof $.fn.tsNumber === 'undefined') {
     $.fn.tsNumber = 0;
 }
+if (typeof $.fn.rougeNumber === 'undefined') {
+    $.fn.rougeNumber = 0;
+}
 
 // 把 glslCanvas 前面一个的 glsl 脚本加载起来。
 function checkGlslCanvas() {
@@ -168,6 +171,57 @@ function checkGlslCanvas() {
         var vertCode = "attribute vec4 a_position; main(){\ggl_Position = a_position;\n}\n";
         // sandbox.load(fragCode, vertCode);
         // sandbox.setUniform("u_texture", "data/texture.jpg");
+    });
+}
+
+function changeDisplay(number) {
+    $("div.highlighter-rouge").each(function() {
+        var ithis = $(this);
+        var inumber = parseInt(ithis.attr("rougeNumber"));
+        if (inumber == number) {
+            if (ithis.css("overflow") == "hidden") {
+                ithis.css('height', '');
+                ithis.css('overflow', '');
+                $('button#rougeButton'+number).text("代码折叠")
+            } else {
+                ithis.css('height', '2em');
+                ithis.css('overflow', 'hidden');
+                $('button#rougeButton'+number).text("代码展开")
+            }
+        }
+    });
+}
+
+// <div class="highlighter-rouge" foldctrl="1"></div>
+function checkHighlighterRouge() {
+    $("div.highlighter-rouge").each(function() {
+        var $this = $(this);
+        if (!$this.attr("rougeNumbered")) {
+            $this.attr("rougeNumbered", 1);
+            var number = $.fn.rougeNumber;
+            $.fn.rougeNumber++;
+            $this.attr("rougeNumber", number);
+        }
+    });
+    $("div.highlighter-rouge[foldctrl]").each(function() {
+        var $this = $(this);
+        var foldctrl = $this.attr("foldctrl");
+        var number = parseInt($this.attr("rougeNumber"));
+        $this.remove(); // $this.hide();
+        if (!foldctrl) {
+            return;
+        }
+
+        $("div.highlighter-rouge").each(function() {
+            var ithis = $(this);
+            var inumber = parseInt(ithis.attr("rougeNumber"));
+            if (inumber == number + 1) {
+                ithis.css('height', '2em');
+                ithis.css('overflow', 'hidden');
+                var html = '<button id="rougeButton'+inumber+'" onclick="changeDisplay('+inumber+')">代码展开</button>';
+                $(html).insertBefore(ithis);
+            }
+        });
     });
 }
 
@@ -282,6 +336,7 @@ function genSvgDownloadLink() { // for mermaid
 $(document).ready(function () {
     checkVideo();
     checkTableStyle();
+    checkHighlighterRouge();
     changeImagePositionk();
     checkGlslCanvas();
     setupBackToTop();

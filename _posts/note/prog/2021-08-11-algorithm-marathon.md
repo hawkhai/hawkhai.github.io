@@ -27,6 +27,7 @@ codeprint:
 5. 检索 tlsh & ssdeep 算法。??
     * ~~[116] 另外一个 Python 封装 <https://github.com/DinoTools/python-ssdeep>~~
     * [20] ssdeep cluster analysis for malware files <https://github.com/zom3y3/ssdc>
+    * [15] Parallel ssdeep clustering kit <https://github.com/a4lg/fast-ssdeep-clus>
     * ~~[21] 构建一个基于 elasticsearch 的本地搜索 <https://github.com/intezer/ssdeep-elastic>~~
     * ~~[22] A tool to cluster similar executables (PEs, DEXs, and etc), extract common signature, and generate Yara patterns for malware detection. <https://github.com/ZSShen/MeltingPot>~~
     * [4.4k] 图形库 Gephi - The Open Graph Viz Platform <https://github.com/gephi/gephi>
@@ -78,6 +79,8 @@ codeprint:
 
 
 ## 经典 KMP 算法
+
+<div class="highlighter-rouge" foldctrl="1"></div>
 
 ```cpp
 #include <stdio.h>
@@ -179,6 +182,7 @@ int main() {
 - [https://github.com/ssdeep-project/ssdeep]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/8f5b1bea.html" %})
 - [https://github.com/DinoTools/python-ssdeep]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/e17265d4.html" %})
 - [https://github.com/zom3y3/ssdc]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/b227aab8.html" %})
+- [https://github.com/a4lg/fast-ssdeep-clus]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/ec803475.html" %})
 - [https://github.com/intezer/ssdeep-elastic]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/baf1806a.html" %})
 - [https://github.com/ZSShen/MeltingPot]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/fea2a8c9.html" %})
 - [https://github.com/gephi/gephi]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/3cf185b4.html" %})

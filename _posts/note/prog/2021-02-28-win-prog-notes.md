@@ -83,6 +83,15 @@ codeprint:
 {% include image.html url="/assets/images/210228-win-prog-notes/1507789693660286065.jpg" %}
 
 
+## win10 开机壁纸保存的路径
+
+`C:\Users\qzz\AppData\Local\Packages\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\LocalState\Assets`
+
+{% include image.html url="/assets/images/210228-win-prog-notes/20200717102249286.png" %}
+
+将后缀名改为 .jpg 结尾即可查看。
+
+
 ## 系统的 INI 配置读写函数
 
 这里要非常明确，搞不好就乱码了。
