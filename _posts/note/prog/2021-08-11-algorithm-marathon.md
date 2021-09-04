@@ -32,6 +32,19 @@ codeprint:
     * [4.4k] 图形库 Gephi - The Open Graph Viz Platform <https://github.com/gephi/gephi>
     * [8.5k] **Fuzzy String Matching in Python** <https://github.com/seatgeek/fuzzywuzzy>
 
+* [958] tiny recursive descent expression parser, compiler, and evaluation engine for math expressions <https://github.com/codeplea/tinyexpr>
+* [2.1k] A generic post-processing injector for games and video software. <https://github.com/crosire/reshade>
+* [编译原理（Principles and Techniques of Compilers）](https://cs.nju.edu.cn/changxu/2_compiler/index.html)
+    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_1.pdf>
+    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_3.pdf>
+    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_4.pdf>
+    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_5.pdf>
+    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_6.pdf>
+    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_7.pdf>
+    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_8.pdf>
+    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_9.pdf>
+    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Review.pdf>
+
 * 安全 ClamAV & yara
 
 * 数据特征匹配和编译原理
@@ -170,6 +183,8 @@ int main() {
 - [https://github.com/ZSShen/MeltingPot]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/fea2a8c9.html" %})
 - [https://github.com/gephi/gephi]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/3cf185b4.html" %})
 - [https://github.com/seatgeek/fuzzywuzzy]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/1c8f1638.html" %})
+- [https://github.com/codeplea/tinyexpr]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/0fedbec9.html" %})
+- [https://github.com/crosire/reshade]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/1f749f9f.html" %})
 - [https://github.com/maxbachmann/RapidFuzz]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/cd3e5286.html" %})
 - [https://github.com/luozhouyang/python-string-similarity]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/ca448faf.html" %})
 - [https://github.com/sheredom/utf8.h]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/1fb3e284.html" %})
