@@ -330,6 +330,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
 这个方案：
 
+<div class="highlighter-rouge" foldctrl="1"></div>
+
 ```cpp
 #include <assert.h>
 
