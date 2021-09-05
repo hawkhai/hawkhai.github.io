@@ -19,14 +19,14 @@ codeprint:
 2. 字符串匹配算法（包含多模式），相似度匹配算法；
 3. 编译原理；
     * TLSH，SSDEEP 算法。
-    * LEX、YACC、**LLVM**??。[TinyCompiler {% include relref_github.html %}](https://github.com/stardust95/TinyCompiler)
+    * LEX、YACC、**LLVM**??。[131] [TinyCompiler {% include relref_github.html %}](https://github.com/stardust95/TinyCompiler)
     * Windows 核心编程 文件操作 和映射。
 4. 参考链接：
     * [508] <https://github.com/trendmicro/tlsh>
     * [397] <https://github.com/ssdeep-project/ssdeep>
 5. 检索 tlsh & ssdeep 算法。??
     * ~~[116] 另外一个 Python 封装 <https://github.com/DinoTools/python-ssdeep>~~
-    * [20] ssdeep cluster analysis for malware files <https://github.com/zom3y3/ssdc>
+    * ~~[20] ssdeep cluster analysis for malware files <https://github.com/zom3y3/ssdc>~~
     * [15] Parallel ssdeep clustering kit <https://github.com/a4lg/fast-ssdeep-clus>
     * ~~[21] 构建一个基于 elasticsearch 的本地搜索 <https://github.com/intezer/ssdeep-elastic>~~
     * ~~[22] A tool to cluster similar executables (PEs, DEXs, and etc), extract common signature, and generate Yara patterns for malware detection. <https://github.com/ZSShen/MeltingPot>~~
@@ -55,6 +55,12 @@ codeprint:
 
 * [591] QAmatch(qa_match) / 文本匹配 / 文本分类 / 文本 embedding / 文本聚类 / 文本检索 <https://github.com/MachineLP/TextMatch>
     * TextMatch is a semantic matching model library for QA & text search ... It's easy to train models and to export representation vectors.
+
+
+## 聚类算法
+
+* [895] Python implementations of the k-modes and k-prototypes clustering algorithms, for clustering categorical data <https://github.com/nicodv/kmodes>
+* [15] Kmeans and kmodes implementation in Python <https://github.com/hjian42/K-Means-and-K-Modes>
 
 
 ## ClamAV & yara
@@ -165,7 +171,7 @@ int main() {
 ## 其他 murmur / tlsh / ssdeep
 
 高运算性能，低碰撞率的 hash 算法 MurmurHash 算法.zip
-<https://github.com/aappleby/smhasher>
+* [2k] <https://github.com/aappleby/smhasher>
 
 
 
@@ -193,5 +199,7 @@ int main() {
 - [https://github.com/JustasMasiulis/xorstr]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/930489e2.html" %})
 - [https://github.com/petewarden/c_hashmap]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/f40e7ecf.html" %})
 - [https://github.com/MachineLP/TextMatch]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/ae9d7064.html" %})
+- [https://github.com/nicodv/kmodes]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/53ffffbe.html" %})
+- [https://github.com/hjian42/K-Means-and-K-Modes]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/772575be.html" %})
 - [https://processhacker.sourceforge.io/]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/processhacker.sourceforge.io/83bbc907.html" %})
 - [https://github.com/aappleby/smhasher]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/78724418.html" %})
