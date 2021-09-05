@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "读书笔记 -- Notes"
+title: "读书笔记 -- Books & Notes"
 author:
 location: "珠海"
 categories: ["读书"]
