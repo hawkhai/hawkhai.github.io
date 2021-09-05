@@ -19,7 +19,7 @@ codeprint:
 2. 字符串匹配算法（包含多模式），相似度匹配算法；
 3. 编译原理；
     * TLSH，SSDEEP 算法。
-    * LEX、YACC、LLVM。[TinyCompiler {% include relref_github.html %}](https://github.com/stardust95/TinyCompiler)
+    * LEX、YACC、**LLVM**??。[TinyCompiler {% include relref_github.html %}](https://github.com/stardust95/TinyCompiler)
     * Windows 核心编程 文件操作 和映射。
 4. 参考链接：
     * [508] <https://github.com/trendmicro/tlsh>
@@ -36,15 +36,7 @@ codeprint:
 * [958] tiny recursive descent expression parser, compiler, and evaluation engine for math expressions <https://github.com/codeplea/tinyexpr>
 * [2.1k] A generic post-processing injector for games and video software. <https://github.com/crosire/reshade>
 * [编译原理（Principles and Techniques of Compilers）](https://cs.nju.edu.cn/changxu/2_compiler/index.html)
-    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_1.pdf>
-    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_3.pdf>
-    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_4.pdf>
-    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_5.pdf>
-    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_6.pdf>
-    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_7.pdf>
-    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_8.pdf>
-    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Chapter_9.pdf>
-    * <https://cs.nju.edu.cn/changxu/2_compiler/slides/Review.pdf>
+* Kenneth C. Louden《COMPILER CONSTRUCTION: PRINCIPLES AND PRACTICE》<https://blog.csdn.net/bigconvience/article/details/45965539>
 
 * 安全 ClamAV & yara
 
@@ -62,6 +54,7 @@ codeprint:
 * [468] A simple string hashmap in C <https://github.com/petewarden/c_hashmap>
 
 * [591] QAmatch(qa_match) / 文本匹配 / 文本分类 / 文本 embedding / 文本聚类 / 文本检索 <https://github.com/MachineLP/TextMatch>
+    * TextMatch is a semantic matching model library for QA & text search ... It's easy to train models and to export representation vectors.
 
 
 ## ClamAV & yara
@@ -171,6 +164,9 @@ int main() {
 
 ## 其他 murmur / tlsh / ssdeep
 
+高运算性能，低碰撞率的 hash 算法 MurmurHash 算法.zip
+<https://github.com/aappleby/smhasher>
+
 
 
 <hr class='reviewline'/>
@@ -189,6 +185,7 @@ int main() {
 - [https://github.com/seatgeek/fuzzywuzzy]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/1c8f1638.html" %})
 - [https://github.com/codeplea/tinyexpr]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/0fedbec9.html" %})
 - [https://github.com/crosire/reshade]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/1f749f9f.html" %})
+- [https://blog.csdn.net/bigconvience/article/details/45965539]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/blog.csdn.net/79f55bc5.html" %})
 - [https://github.com/maxbachmann/RapidFuzz]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/cd3e5286.html" %})
 - [https://github.com/luozhouyang/python-string-similarity]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/ca448faf.html" %})
 - [https://github.com/sheredom/utf8.h]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/1fb3e284.html" %})
@@ -197,3 +194,4 @@ int main() {
 - [https://github.com/petewarden/c_hashmap]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/f40e7ecf.html" %})
 - [https://github.com/MachineLP/TextMatch]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/ae9d7064.html" %})
 - [https://processhacker.sourceforge.io/]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/processhacker.sourceforge.io/83bbc907.html" %})
+- [https://github.com/aappleby/smhasher]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/78724418.html" %})
