@@ -56,6 +56,9 @@ codeprint:
 * [591] QAmatch(qa_match) / 文本匹配 / 文本分类 / 文本 embedding / 文本聚类 / 文本检索 <https://github.com/MachineLP/TextMatch>
     * TextMatch is a semantic matching model library for QA & text search ... It's easy to train models and to export representation vectors.
 
+Levenshtein，快速计算字符串相似度。
+<https://github.com/life4/textdistance>
+
 
 ## 聚类算法
 
@@ -199,6 +202,7 @@ int main() {
 - [https://github.com/JustasMasiulis/xorstr]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/930489e2.html" %})
 - [https://github.com/petewarden/c_hashmap]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/f40e7ecf.html" %})
 - [https://github.com/MachineLP/TextMatch]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/ae9d7064.html" %})
+- [https://github.com/life4/textdistance]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/5f733930.html" %})
 - [https://github.com/nicodv/kmodes]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/53ffffbe.html" %})
 - [https://github.com/hjian42/K-Means-and-K-Modes]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/772575be.html" %})
 - [https://processhacker.sourceforge.io/]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/processhacker.sourceforge.io/83bbc907.html" %})
