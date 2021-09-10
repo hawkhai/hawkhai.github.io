@@ -213,6 +213,61 @@ int main() {
 * 【2.1k】【渲染注入】 <https://github.com/crosire/reshade>
 
 
+## LeetCode
+
+* [Leetcode 题解 - 字符串](http://www.cyc2018.xyz/%E7%AE%97%E6%B3%95/Leetcode%20%E9%A2%98%E8%A7%A3/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E5%AD%97%E7%AC%A6%E4%B8%B2.html)
+* [Leetcode 题解 - 字符串 {% include relref_github.html %}](https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E5%AD%97%E7%AC%A6%E4%B8%B2.md)
+* [宫水三叶的刷题日记 {% include relref_github.html %}](https://github.com/SharingSource/LogicStack-LeetCode)
+* [没有人一起从零开始刷力扣（二） —— 字符串篇](https://leetcode-cn.com/circle/article/gp2FyU/)
+* 214\. 最短回文串 [from](https://leetcode-cn.com/circle/article/Cdr989/)
+    * 28\. 实现 strStr()
+    * 686\. 重复叠加字符串匹配
+    * 459\. 重复的子字符串
+    * 214\. 最短回文串
+* [动态规划](https://ask.hellobi.com/blog/wenwen/11692)
+    * 10\. 正则表达式匹配 Regular Expression Matching
+    * 44\. 通配符匹配 Wildcard Matching
+    * 97\. 交错字符串 Interleaving String
+    * 115\. 不同的子序列 Distinct Subsequences
+* LeetCode -- 表示数值的字符串（有限状态自动机 -- 编译原理）
+* [LeetCode 刷题总结 C++ -- 字符串篇 {% include relref_csdn.html %}](https://blog.csdn.net/panxiying1993/article/details/107905768)
+
+题目分类 | 题目编号
+---- | ----
+动态规划与字符串匹配 | 583、72、97、115、516、132、131、139、140、514、10、44
+
+记 s 的倒序为 t，长度为 len，我们要找的是 s[0:k] 与 t[len-k-1:len-1] 相等最大的 k，
+这部分是以 0 开头最长的回文子串，不需要添加元素。
+回忆字符串匹配的 kmp 算法，其中 getnext 函数找的是 s[0:k] 与 s[j-k-1:j-1] 相等最大的 k。
+所以我们将 s 和 t 连接起来。中间用分隔符隔开，之后对连接的字符串求 next，
+next 数组最后的元素 +1 即为我们要添加的字符数。
+
+```cpp
+class Solution {
+public:
+    vector<int> getNext(string s) {
+        vector<int> ret(s.length(), -1);
+        int j = 0, k = -1;
+        while (j + 1 < s.length()) {
+            if (k == -1 || s[j] == s[k]) {
+                k++; j++; ret[j] = k;
+            } else {
+                k = ret[k];
+            }
+        }
+        return ret;
+    }
+    string shortestPalindrome(string s) {
+        string rev(s);
+        reverse(rev.begin(), rev.end());
+        string t = s + "#" + rev;
+        vector<int> f = getNext(t);
+        return rev.substr(0, s.size() - f.back()-1) + s;
+    }
+};
+```
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-08-11-algorithm-marathon.md.js" %}'></script></p>
@@ -248,3 +303,10 @@ int main() {
 - [https://github.com/aappleby/smhasher]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/78724418.html" %})
 - [https://blog.csdn.net/zwjyyy1203/article/details/88601256]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/blog.csdn.net/7d43181f.html" %})
 - [https://blog.csdn.net/qq_42549612/article/details/105420109]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/blog.csdn.net/f3efb9ea.html" %})
+- [http://www.cyc2018.xyz/%E7%AE%97%E6%B3%95/Leetcode%20%E9%A2%98%E8%A7%A3/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E5%AD%97%E7%AC%A6%E4%B8%B2.html]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/www.cyc2018.xyz/0fd182f9.html" %})
+- [https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E5%AD%97%E7%AC%A6%E4%B8%B2.md]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/1b87a62f.html" %})
+- [https://github.com/SharingSource/LogicStack-LeetCode]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/2255b0e2.html" %})
+- [https://leetcode-cn.com/circle/article/gp2FyU/]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/leetcode-cn.com/d97cee64.html" %})
+- [https://leetcode-cn.com/circle/article/Cdr989/]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/leetcode-cn.com/faaff341.html" %})
+- [https://ask.hellobi.com/blog/wenwen/11692]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/ask.hellobi.com/93ad33fc.html" %})
+- [https://blog.csdn.net/panxiying1993/article/details/107905768]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/blog.csdn.net/79c2ddd7.html" %})

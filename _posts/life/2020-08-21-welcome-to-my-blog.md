@@ -198,7 +198,51 @@ sequenceDiagram
 </div>
 
 
-## log
+## log C#
+
+```c#
+using System.IO;
+using System.Diagnostics;
+
+public static void WriteLog(string strLog)
+{
+    if (!m_bLocalDebug) {
+        return;
+    }
+    string sFilePath = "D:\\" + DateTime.Now.ToString("yyyyMM");
+    string sFileName = "logfile" + Process.GetCurrentProcess().Id + "-" + DateTime.Now.ToString("dd") + ".log";
+    sFileName = sFilePath + "\\" + sFileName; // 文件的绝对路径
+    if (!Directory.Exists(sFilePath)) { // 验证路径是否存在
+        Directory.CreateDirectory(sFilePath);
+    }
+    FileStream fs;
+    bool create = false;
+    if (File.Exists(sFileName)) {
+        fs = new FileStream(sFileName, FileMode.Append, FileAccess.Write);
+    }  else {
+        fs = new FileStream(sFileName, FileMode.Create, FileAccess.Write);
+        create = true;
+    }
+    StreamWriter sw = new StreamWriter(fs);
+    if (create) {
+        String commandLineString = System.Environment.CommandLine;
+        String[] args = System.Environment.GetCommandLineArgs();
+        sw.WriteLine(commandLineString);
+        for (int i = 0; i < args.Length; i++) {
+            sw.WriteLine(args[i]);
+        }
+        sw.WriteLine("--------");
+    }
+    sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "   ---   " + strLog);
+    sw.Close();
+    fs.Close();
+}
+
+private static bool m_bLocalDebug = true;
+```
+
+
+## log C++
 
 ```cpp
 FILE *fp = NULL;
@@ -219,6 +263,36 @@ if (err == 0 && fp)
 
 char fpath[1024] = "";
 _fullpath(fpath, fileLocation, 1024);
+```
+
+```cpp
+#include <iostream>
+#include <string>
+#include <locale>
+#include <codecvt>
+#include <iomanip>
+
+// wide to UTF-8
+static std::string wstring_to_stringUTF8(const std::wstring& wstr) {
+    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t>() conv;
+    return conv.to_bytes(wstr);
+}
+
+// wide to UTF-16le
+static std::string wstring_to_stringUTF16le(const std::wstring& wstr) {
+    std::wstring_convert<std::codecvt_utf16<wchar_t, 0x10ffff, std::little_endian>> conv;
+    return conv.to_bytes(wstr);
+}
+
+std::wstring utf8_to_wstr( const std::string& utf8 ) {
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> wcu8;
+    return wcu8.from_bytes( utf8 );
+}
+
+std::string wstr_to_utf8( const std::wstring& utf16 ) {
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> wcu8;
+    return wcu8.to_bytes( utf16 );
+}
 ```
 
 这个存在缺陷，如果转码失败会不可逆：
