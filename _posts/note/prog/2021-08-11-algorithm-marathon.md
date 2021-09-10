@@ -75,6 +75,15 @@ codeprint:
     * use DBSCAN with Levenshtein distances: <https://scikit-learn.org/stable/faq.html#how-do-i-deal-with-string-data-or-trees-graphs>
 
 
+## LeetCode
+
+[LeetCode 刷题总结 - 字符串篇](https://www.bbsmax.com/A/nAJv1akozr/)
+
+* LeetCode 10 正则表达式匹配
+* LeetCode 28 字符串匹配算法
+* LeetCode 44 Wildcard Matching（字符串匹配问题）
+
+
 ## 聚类算法
 
 * [895] Python implementations of the k-modes and k-prototypes clustering algorithms, for clustering categorical data <https://github.com/nicodv/kmodes>
@@ -297,6 +306,7 @@ public:
 - [https://github.com/life4/textdistance]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/5f733930.html" %})
 - [https://github.com/jamesturk/jellyfish]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/47014fd6.html" %})
 - [https://scikit-learn.org/stable/faq.html#how-do-i-deal-with-string-data-or-trees-graphs]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/scikit-learn.org/bdc82d38.html" %})
+- [https://www.bbsmax.com/A/nAJv1akozr/]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/www.bbsmax.com/37dc9268.html" %})
 - [https://github.com/nicodv/kmodes]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/53ffffbe.html" %})
 - [https://github.com/hjian42/K-Means-and-K-Modes]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/772575be.html" %})
 - [https://processhacker.sourceforge.io/]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/processhacker.sourceforge.io/83bbc907.html" %})
