@@ -81,6 +81,7 @@ codeprint:
 
 AC 自动机就是字典树 + kmp 算法 + 失配指针，这个算法非常神奇。
 python 的库 pyahocorasick 是一个实现，但是构建树很慢，这个代码非常快。
+`pip install ahocorasick-rs` 这个貌似更快，但是没尝试过。
 
 <div class="highlighter-rouge" foldctrl="1"></div>
 ```python
@@ -203,6 +204,31 @@ if __name__ == "__main__":
     # defaultdict(<class 'list'>, {' 不知 ': [(0, 1)], ' 不觉 ': [(3, 4)], ' 忘了爱 ': [(13, 15)]})
     print(str(model.search(test_text)))
 ```
+
+[AC 自动机通配符匹配](https://www.it610.com/article/1297922008046182400.htm)
+
+```cpp
+class Solution {
+public:
+    bool isMatch(const char *s, const char *p) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        const char* star=NULL;
+        const char* ss=s;
+        while (*s){
+            if ((*p=='?')||(*p==*s)) { s++; p++; continue; }
+            if (*p=='*') { star=p++; ss=s; continue; } // star 可以更新，使用贪心法
+            if (star) { p=star+1; s=++ss; continue;}
+            return false;
+        }
+        while (*p=='*') {p++;}
+        return !*p;
+    }
+};
+```
+
+[病毒侵袭](http://acm.hdu.edu.cn/showproblem.php?pid=2896)
+[AC 自动机 _ 多组字符串匹配 {% include relref_jianshu.html %}](https://www.jianshu.com/p/51cfac60eaf8)
 
 
 ## LeetCode
@@ -437,6 +463,9 @@ public:
 - [https://github.com/jamesturk/jellyfish]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/47014fd6.html" %})
 - [https://scikit-learn.org/stable/faq.html#how-do-i-deal-with-string-data-or-trees-graphs]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/scikit-learn.org/bdc82d38.html" %})
 - [https://blog.csdn.net/danengbinggan33/article/details/83338789]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/blog.csdn.net/324e1857.html" %})
+- [https://www.it610.com/article/1297922008046182400.htm]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/www.it610.com/c2507c41.htm" %})
+- [http://acm.hdu.edu.cn/showproblem.php?pid=2896]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/acm.hdu.edu.cn/e7997d5b.php" %})
+- [https://www.jianshu.com/p/51cfac60eaf8]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/www.jianshu.com/613fe92e.html" %})
 - [https://www.bbsmax.com/A/nAJv1akozr/]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/www.bbsmax.com/37dc9268.html" %})
 - [https://github.com/nicodv/kmodes]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/53ffffbe.html" %})
 - [https://github.com/hjian42/K-Means-and-K-Modes]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/772575be.html" %})
