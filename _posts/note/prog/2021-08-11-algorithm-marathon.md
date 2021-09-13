@@ -75,6 +75,136 @@ codeprint:
     * use DBSCAN with Levenshtein distances: <https://scikit-learn.org/stable/faq.html#how-do-i-deal-with-string-data-or-trees-graphs>
 
 
+## Python 实现 AC 自动机
+
+[Python 实现 AC 自动机 {% include relref_csdn.html %}](https://blog.csdn.net/danengbinggan33/article/details/83338789)
+
+AC 自动机就是字典树 + kmp 算法 + 失配指针，这个算法非常神奇。
+python 的库 pyahocorasick 是一个实现，但是构建树很慢，这个代码非常快。
+
+<div class="highlighter-rouge" foldctrl="1"></div>
+```python
+# -*- coding:utf-8 -*-
+from collections import defaultdict
+
+class TrieNode(object):
+    def __init__(self, value=None):
+        # 值
+        self.value = value
+        # fail 指针
+        self.fail = None
+        # 尾标志：标志为 i 表示第 i 个模式串串尾，默认为 0
+        self.tail = 0
+        # 子节点，{value:TrieNode}
+        self.children = {}
+
+class Trie(object):
+    def __init__(self, words):
+        print("初始化")
+        # 根节点
+        self.root = TrieNode()
+        # 模式串个数
+        self.count = 0
+        self.words = words
+        for word in words:
+            self.insert(word)
+        self.ac_automation()
+        print("初始化完毕")
+
+    def insert(self, sequence):
+        """
+        基操，插入一个字符串
+        :param sequence: 字符串
+        :return:
+        """
+        self.count += 1
+        cur_node = self.root
+        for item in sequence:
+            if item not in cur_node.children:
+                # 插入结点
+                child = TrieNode(value=item)
+                cur_node.children[item] = child
+                cur_node = child
+            else:
+                cur_node = cur_node.children[item]
+        cur_node.tail = self.count
+
+    def ac_automation(self):
+        """
+        构建失败路径
+        :return:
+        """
+        queue = [self.root]
+        # BFS 遍历字典树
+        while len(queue):
+            temp_node = queue[0]
+            # 取出队首元素
+            queue.remove(temp_node)
+            for value in temp_node.children.values():
+                # 根的子结点 fail 指向根自己
+                if temp_node == self.root:
+                    value.fail = self.root
+                else:
+                    # 转到 fail 指针
+                    p = temp_node.fail
+                    while p:
+                        # 若结点值在该结点的子结点中，则将 fail 指向该结点的对应子结点
+                        if value.value in p.children:
+                            value.fail = p.children[value.value]
+                            break
+                        # 转到 fail 指针继续回溯
+                        p = p.fail
+                    # 若为 None，表示当前结点值在之前都没出现过，则其 fail 指向根结点
+                    if not p:
+                        value.fail = self.root
+                # 将当前结点的所有子结点加到队列中
+                queue.append(value)
+
+    def search(self, text):
+        """
+        模式匹配
+        :param self:
+        :param text: 长文本
+        :return:
+        """
+        p = self.root
+        # 记录匹配起始位置下标
+        start_index = 0
+        # 成功匹配结果集
+        rst = defaultdict(list)
+        for i in range(len(text)):
+            single_char = text[i]
+            while single_char not in p.children and p is not self.root:
+                p = p.fail
+            # 有一点瑕疵，原因在于匹配子串的时候，若字符串中部分字符由两个匹配词组成，此时后一个词的前缀下标不会更新
+            # 这是由于 KMP 算法本身导致的，目前与下文循环寻找所有匹配词存在冲突
+            # 但是问题不大，因为其标记的位置均为匹配成功的字符
+            if single_char in p.children and p is self.root:
+                start_index = i
+            # 若找到匹配成功的字符结点，则指向那个结点，否则指向根结点
+            if single_char in p.children:
+                p = p.children[single_char]
+            else:
+                start_index = i
+                p = self.root
+            temp = p
+            while temp is not self.root:
+                # 尾标志为 0 不处理，但是 tail 需要-1 从而与敏感词字典下标一致
+                # 循环原因在于，有些词本身只是另一个词的后缀，也需要辨识出来
+                if temp.tail:
+                    rst[self.words[temp.tail - 1]].append((start_index, i))
+                temp = temp.fail
+        return rst
+
+if __name__ == "__main__":
+    test_words = ["不知", "不觉", "忘了爱"]
+    test_text = """不知、不觉·间我~|~已经忘了爱❤。"""
+    model = Trie(test_words)
+    # defaultdict(<class 'list'>, {' 不知 ': [(0, 1)], ' 不觉 ': [(3, 4)], ' 忘了爱 ': [(13, 15)]})
+    print(str(model.search(test_text)))
+```
+
+
 ## LeetCode
 
 [LeetCode 刷题总结 - 字符串篇](https://www.bbsmax.com/A/nAJv1akozr/)
@@ -306,6 +436,7 @@ public:
 - [https://github.com/life4/textdistance]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/5f733930.html" %})
 - [https://github.com/jamesturk/jellyfish]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/47014fd6.html" %})
 - [https://scikit-learn.org/stable/faq.html#how-do-i-deal-with-string-data-or-trees-graphs]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/scikit-learn.org/bdc82d38.html" %})
+- [https://blog.csdn.net/danengbinggan33/article/details/83338789]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/blog.csdn.net/324e1857.html" %})
 - [https://www.bbsmax.com/A/nAJv1akozr/]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/www.bbsmax.com/37dc9268.html" %})
 - [https://github.com/nicodv/kmodes]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/53ffffbe.html" %})
 - [https://github.com/hjian42/K-Means-and-K-Modes]({% include relrefx.html url="/backup/2021-08-11-algorithm-marathon.md/github.com/772575be.html" %})
