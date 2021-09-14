@@ -148,8 +148,110 @@ long appendfile(const char* fpath, const char* data, long length) {
 }
 ```
 
+```c++
+bool IsFileRegular(const std::string &path) {
+    struct stat st;
+    if (stat(path.c_str(), &st))
+        return false;
+    return S_ISREG(st.st_mode);
+}
+
+bool IsDirectory(const std::string &path)
+{
+    struct stat st;
+    if (stat(path.c_str(), &st))
+        return false;
+    return S_ISDIR(st.st_mode);
+}
+
+bool IsFilePathExists(const char* path, bool exdir) // exdir 表示进行文件夹检查，不能是 文件夹
+{
+    // 如果指定的存取方式有效，则函数返回 0，否则函数返回 -1。
+    int code = ::access(path, 0);
+    if (0 == code) {
+        if (exdir && IsDirectory(path)) {
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
+
+bool CreateDeepDirectory(const char* szPath)
+{
+    if (IsDirectory(szPath)) {
+        return true;
+    }
+    if (IsFilePathExists(szPath, false))
+        return false;
+
+#ifdef __ANDROID__
+    if (0 != ::mkdir(szPath, 0777))
+#else
+    if (0 != ::mkdir(szPath))
+#endif
+    {
+        StringDup strPath(szPath);
+        if (!PathRemoveFileName(strPath) || IsFilePathEmpty(strPath)) {
+            return false;
+        }
+
+        if (!CreateDeepDirectory(strPath))
+            return false;
+
+#ifdef __ANDROID__
+        if (0 != ::mkdir(szPath, 0777))
+#else
+        if (0 != ::mkdir(szPath))
+#endif
+            return false;
+    }
+    return true;
+}
+
+std::string GetAbsolutePath(const std::string& filename)
+{
+    if (filename.empty())
+        return filename;
+#if defined(_WIN32)
+    char fpath[_MAX_PATH] = { 0 };
+    char* p = _fullpath(fpath, filename.c_str(), _MAX_PATH);
+    std::string tmp(p);
+    return tmp;
+#else
+    char fpath[4096] = { 0 };
+    char* p = realpath(filename.c_str(), fpath);
+    std::string tmp(p);
+    return tmp;
+#endif
+}
+```
+
 
 ## C++ String
+
+```cpp
+#include <string>
+#include <sstream>
+
+template<typename T>
+inline std::string stringify(const T& x)
+{
+    std::ostringstream o;
+    if (!(o << x)) return "";
+    return o.str();
+}
+
+template<typename T>
+inline T fromString(char *s)
+{
+    std::string str = s;
+    std::istringstream i(str);
+    T x;
+    i >> x;
+    return x;
+}
+```
 
 ```cpp
 #include <iostream>
@@ -684,6 +786,520 @@ public:
         return ss.str();
     }
 };
+```
+
+
+## pystring
+
+```cpp
+#ifndef INCLUDED_PYSTRING_H
+#define INCLUDED_PYSTRING_H
+
+#include <string>
+#include <vector>
+
+namespace pystring
+{
+    #define MAX_32BIT_INT 2147483647
+
+    bool startswith( const std::string & str, const std::string & prefix, int start = 0, int end = MAX_32BIT_INT );
+    bool endswith( const std::string & str, const std::string & suffix, int start = 0, int end = MAX_32BIT_INT );
+
+    std::string strip( const std::string & str, const std::string & chars = "" );
+    std::string lstrip( const std::string & str, const std::string & chars = "" );
+    std::string rstrip( const std::string & str, const std::string & chars = "" );
+
+    std::string upper( const std::string & str );
+    std::string lower( const std::string & str );
+
+    std::string mul( const std::string & str, int n);
+    std::string join( const std::string & str, const std::vector< std::string > & seq );
+    void split( const std::string & str, std::vector< std::string > & result, const std::string & sep = "", int maxsplit = -1);
+    void splitlines(  const std::string & str, std::vector< std::string > & result, bool keepends = false );
+
+    std::string replace( const std::string & str, const std::string & oldstr, const std::string & newstr, int count = -1);
+
+    bool isalnum( const std::string & str );
+    bool isalpha( const std::string & str );
+    bool isdigit( const std::string & str );
+    bool isspace( const std::string & str );
+    bool islower( const std::string & str );
+    bool isupper( const std::string & str );
+
+namespace os
+{
+namespace path
+{
+    std::string basename(const std::string & path);
+    std::string dirname(const std::string & path);
+    std::string abspath(const std::string & path, const std::string & cwd);
+    std::string join(const std::string & path1, const std::string & path2);
+    std::string join(const std::vector< std::string > & paths);
+    std::string normpath(const std::string & path);
+    void split(std::string & head, std::string & tail, const std::string & path);
+} // namespace path
+} // namespace os
+
+} // namespace pystring
+
+#endif
+```
+
+```cpp
+#include "pystring.h"
+
+#include <algorithm>
+#include <cctype>
+#include <cstring>
+#include <iostream>
+#include <sstream>
+
+namespace pystring
+{
+
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS) || defined(_MSC_VER)
+#ifndef WINDOWS
+#define WINDOWS
+#endif
+#endif
+
+typedef int Py_ssize_t;
+const std::string forward_slash = "/";
+const std::string double_forward_slash = "//";
+const std::string triple_forward_slash = "///";
+const std::string double_back_slash = "\\";
+const std::string empty_string = "";
+const std::string dot = ".";
+const std::string double_dot = "..";
+const std::string colon = ":";
+
+#define ADJUST_INDICES(start, end, len)     \
+    if (end > len)                          \
+        end = len;                          \
+    else if (end < 0) {                     \
+        end += len;                         \
+        if (end < 0)                        \
+        end = 0;                            \
+    }                                       \
+    if (start < 0) {                        \
+        start += len;                       \
+        if (start < 0)                      \
+        start = 0;                          \
+    }
+
+    namespace {
+
+        void split_whitespace( const std::string & str, std::vector< std::string > & result, int maxsplit )
+        {
+            std::string::size_type i, j, len = str.size();
+            for (i = j = 0; i < len; )
+            {
+                while ( i < len && ::isspace( str[i] ) ) i++;
+                j = i;
+
+                while ( i < len && ! ::isspace( str[i]) ) i++;
+
+                if (j < i)
+                {
+                    if ( maxsplit-- <= 0 ) break;
+
+                    result.push_back( str.substr( j, i - j ));
+
+                    while ( i < len && ::isspace( str[i])) i++;
+                    j = i;
+                }
+            }
+            if (j < len)
+            {
+                result.push_back( str.substr( j, len - j ));
+            }
+        }
+
+    } // anonymous namespace
+
+    void split( const std::string & str, std::vector< std::string > & result, const std::string & sep, int maxsplit )
+    {
+        result.clear();
+
+        if ( maxsplit < 0 ) maxsplit = MAX_32BIT_INT;//result.max_size();
+
+        if ( sep.size() == 0 )
+        {
+            split_whitespace( str, result, maxsplit );
+            return;
+        }
+
+        std::string::size_type i,j, len = str.size(), n = sep.size();
+
+        i = j = 0;
+
+        while ( i+n <= len )
+        {
+            if ( str[i] == sep[0] && str.substr( i, n ) == sep )
+            {
+                if ( maxsplit-- <= 0 ) break;
+
+                result.push_back( str.substr( j, i - j ) );
+                i = j = i + n;
+            }
+            else
+            {
+                i++;
+            }
+        }
+
+        result.push_back( str.substr( j, len-j ) );
+    }
+
+    #define LEFTSTRIP 0
+    #define RIGHTSTRIP 1
+    #define BOTHSTRIP 2
+
+    std::string do_strip( const std::string & str, int striptype, const std::string & chars  )
+    {
+        Py_ssize_t len = (Py_ssize_t) str.size(), i, j, charslen = (Py_ssize_t) chars.size();
+
+        if ( charslen == 0 )
+        {
+            i = 0;
+            if ( striptype != RIGHTSTRIP )
+            {
+                while ( i < len && ::isspace( str[i] ) )
+                {
+                    i++;
+                }
+            }
+
+            j = len;
+            if ( striptype != LEFTSTRIP )
+            {
+                do
+                {
+                    j--;
+                }
+                while (j >= i && ::isspace(str[j]));
+
+                j++;
+            }
+
+        }
+        else
+        {
+            const char * sep = chars.c_str();
+
+            i = 0;
+            if ( striptype != RIGHTSTRIP )
+            {
+                while ( i < len && memchr(sep, str[i], charslen) )
+                {
+                    i++;
+                }
+            }
+
+            j = len;
+            if (striptype != LEFTSTRIP)
+            {
+                do
+                {
+                    j--;
+                }
+                while (j >= i &&  memchr(sep, str[j], charslen)  );
+                j++;
+            }
+
+        }
+
+        if ( i == 0 && j == len )
+        {
+            return str;
+        }
+        else
+        {
+            return str.substr( i, j - i );
+        }
+
+    }
+
+    std::string strip( const std::string & str, const std::string & chars )
+    {
+        return do_strip( str, BOTHSTRIP, chars );
+    }
+
+    std::string lstrip( const std::string & str, const std::string & chars )
+    {
+        return do_strip( str, LEFTSTRIP, chars );
+    }
+
+    std::string rstrip( const std::string & str, const std::string & chars )
+    {
+        return do_strip( str, RIGHTSTRIP, chars );
+    }
+
+    std::string join( const std::string & str, const std::vector< std::string > & seq )
+    {
+        std::vector< std::string >::size_type seqlen = seq.size(), i;
+
+        if ( seqlen == 0 ) return empty_string;
+        if ( seqlen == 1 ) return seq[0];
+
+        std::string result( seq[0] );
+
+        for ( i = 1; i < seqlen; ++i )
+        {
+            result += str + seq[i];
+
+        }
+        return result;
+    }
+
+    namespace
+    {
+        /* Matches the end (direction >= 0) or start (direction < 0) of self
+         * against substr, using the start and end arguments. Returns
+         * -1 on error, 0 if not found and 1 if found.
+         */
+
+        int _string_tailmatch(const std::string & self, const std::string & substr,
+                              Py_ssize_t start, Py_ssize_t end,
+                              int direction)
+        {
+            Py_ssize_t len = (Py_ssize_t) self.size();
+            Py_ssize_t slen = (Py_ssize_t) substr.size();
+
+            const char* sub = substr.c_str();
+            const char* str = self.c_str();
+
+            ADJUST_INDICES(start, end, len);
+
+            if (direction < 0) {
+                // startswith
+                if (start+slen > len)
+                    return 0;
+            } else {
+                // endswith
+                if (end-start < slen || start > len)
+                    return 0;
+                if (end-slen > start)
+                    start = end - slen;
+            }
+            if (end-start >= slen)
+                return (!std::memcmp(str+start, sub, slen));
+
+            return 0;
+        }
+    }
+
+    bool endswith( const std::string & str, const std::string & suffix, int start, int end )
+    {
+        int result = _string_tailmatch(str, suffix,
+                                       (Py_ssize_t) start, (Py_ssize_t) end, +1);
+        //if (result == -1) // TODO: Error condition
+        return static_cast<bool>(result);
+    }
+
+    bool startswith( const std::string & str, const std::string & prefix, int start, int end )
+    {
+        int result = _string_tailmatch(str, prefix,
+                                       (Py_ssize_t) start, (Py_ssize_t) end, -1);
+        //if (result == -1) // TODO: Error condition
+        return static_cast<bool>(result);
+    }
+
+    bool isalnum( const std::string & str )
+    {
+        std::string::size_type len = str.size(), i;
+        if ( len == 0 ) return false;
+
+        if ( len == 1 )
+        {
+            return ::isalnum( str[0] );
+        }
+
+        for ( i = 0; i < len; ++i )
+        {
+            if ( !::isalnum( str[i] ) ) return false;
+        }
+        return true;
+    }
+
+    bool isalpha( const std::string & str )
+    {
+        std::string::size_type len = str.size(), i;
+        if ( len == 0 ) return false;
+        if ( len == 1 ) return ::isalpha( (int) str[0] );
+
+        for ( i = 0; i < len; ++i )
+        {
+           if ( !::isalpha( (int) str[i] ) ) return false;
+        }
+        return true;
+    }
+
+    bool isdigit( const std::string & str )
+    {
+        std::string::size_type len = str.size(), i;
+        if ( len == 0 ) return false;
+        if ( len == 1 ) return ::isdigit( str[0] );
+
+        for ( i = 0; i < len; ++i )
+        {
+           if ( ! ::isdigit( str[i] ) ) return false;
+        }
+        return true;
+    }
+
+    bool islower( const std::string & str )
+    {
+        std::string::size_type len = str.size(), i;
+        if ( len == 0 ) return false;
+        if ( len == 1 ) return ::islower( str[0] );
+
+        for ( i = 0; i < len; ++i )
+        {
+           if ( !::islower( str[i] ) ) return false;
+        }
+        return true;
+    }
+
+    bool isspace( const std::string & str )
+    {
+        std::string::size_type len = str.size(), i;
+        if ( len == 0 ) return false;
+        if ( len == 1 ) return ::isspace( str[0] );
+
+        for ( i = 0; i < len; ++i )
+        {
+           if ( !::isspace( str[i] ) ) return false;
+        }
+        return true;
+    }
+
+    bool isupper( const std::string & str )
+    {
+        std::string::size_type len = str.size(), i;
+        if ( len == 0 ) return false;
+        if ( len == 1 ) return ::isupper( str[0] );
+
+        for ( i = 0; i < len; ++i )
+        {
+           if ( !::isupper( str[i] ) ) return false;
+        }
+        return true;
+    }
+
+    std::string lower( const std::string & str )
+    {
+        std::string s( str );
+        std::string::size_type len = s.size(), i;
+
+        for ( i = 0; i < len; ++i )
+        {
+            if ( ::isupper( s[i] ) ) s[i] = (char) ::tolower( s[i] );
+        }
+
+        return s;
+    }
+
+    std::string upper( const std::string & str )
+    {
+        std::string s( str ) ;
+        std::string::size_type len = s.size(), i;
+
+        for ( i = 0; i < len; ++i )
+        {
+            if ( ::islower( s[i] ) ) s[i] = (char) ::toupper( s[i] );
+        }
+
+        return s;
+    }
+
+    std::string replace( const std::string & str, const std::string & oldstr, const std::string & newstr, int count )
+    {
+        int sofar = 0;
+        int cursor = 0;
+        std::string s( str );
+
+        std::string::size_type oldlen = oldstr.size(), newlen = newstr.size();
+
+        cursor = find( s, oldstr, cursor );
+
+        while ( cursor != -1 && cursor <= (int)s.size() )
+        {
+            if ( count > -1 && sofar >= count )
+            {
+                break;
+            }
+
+            s.replace( cursor, oldlen, newstr );
+            cursor += (int) newlen;
+
+            if ( oldlen != 0)
+            {
+                cursor = find( s, oldstr, cursor );
+            }
+            else
+            {
+                ++cursor;
+            }
+
+            ++sofar;
+        }
+
+        return s;
+
+    }
+
+    void splitlines(  const std::string & str, std::vector< std::string > & result, bool keepends )
+    {
+        result.clear();
+        std::string::size_type len = str.size(), i, j, eol;
+
+         for (i = j = 0; i < len; )
+         {
+            while (i < len && str[i] != '\n' && str[i] != '\r') i++;
+
+            eol = i;
+            if (i < len)
+            {
+                if (str[i] == '\r' && i + 1 < len && str[i+1] == '\n')
+                {
+                    i += 2;
+                }
+                else
+                {
+                    i++;
+                }
+                if (keepends)
+                eol = i;
+
+            }
+
+            result.push_back( str.substr( j, eol - j ) );
+            j = i;
+
+        }
+
+        if (j < len)
+        {
+            result.push_back( str.substr( j, len - j ) );
+        }
+
+    }
+
+    std::string mul( const std::string & str, int n )
+    {
+        // Early exits
+        if (n <= 0) return empty_string;
+        if (n == 1) return str;
+
+        std::ostringstream os;
+        for(int i=0; i<n; ++i)
+        {
+            os << str;
+        }
+        return os.str();
+    }
+} // namespace pystring
 ```
 
 
