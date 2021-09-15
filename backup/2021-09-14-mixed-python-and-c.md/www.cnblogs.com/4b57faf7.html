@@ -1,0 +1,1770 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="Python 和 C 的混合编程工具有很多，这里介绍 Python 标准库自带的 ctypes 模块的使用方法。 初识 Python 的 ctypes 要使用 C 函数，需要先将 C 编译成动态链接库" />
+    <meta property="og:description" content="Python 和 C 的混合编程工具有很多，这里介绍 Python 标准库自带的 ctypes 模块的使用方法。 初识 Python 的 ctypes 要使用 C 函数，需要先将 C 编译成动态链接库" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>使用 ctypes 进行 Python 和 C 的混合编程 - Anonymous596 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=cGPZX-91MnVsFpGp_qDIwTwedO-J7MOgyTfTUau0qqk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/coffee/bundle-coffee.min.css?v=Y9jZElSXd1_SIyCam0BlUieX_j5gRAI1zEaKq7gMqLM" />
+    <link type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=2spjdq1Snjw5rAm9auWVRax8Gb7nftS4ORu-8fQ7JGM" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/coffee/bundle-coffee-mobile.min.css?v=n3U4q5QAEaErnOJP8KTU7vRDG-uCbq1FKqkEeF0Yz9o" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/gaowengang/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/gaowengang/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/gaowengang/wlwmanifest.xml" />
+    <script async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="https://common.cnblogs.com/script/encoder.js"></script><script>
+        var currentBlogId = 292368;
+        var currentBlogApp = 'gaowengang';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'coffee';
+        var visitorUserId = '';
+        var hasCustomScript = false;
+        try {
+            if (hasCustomScript &amp;&amp; document.referrer &amp;&amp; document.referrer.indexOf('baidu.com') &gt;= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+    </script>
+        <script>
+            var currentPostDateAdded = '2017-11-29 11:06';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=8HYKSDtgM9FS8zUZFVZZlwmMSfd8ojhHKRKixgEKla4"></script><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style>
+    
+    
+    
+    <script type="text/javascript">
+        window.codeHighlightEngine = 1
+        window.enableCodeLineNumber = false
+    </script>
+</head>
+<body class="skin-coffee has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a href="https://www.cnblogs.com/gaowengang/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/gaowengang/">Anonymous</a>
+</h1>
+<h2>only to record some tricky things ...</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+	<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/gaowengang/">
+首页</a>
+</li>
+	<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+	<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/Anonymous596">
+联系</a></li>
+	<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+	<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/gaowengang/rss/">
+订阅</a>
+	
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/gaowengang/rss/">
+    <img src="/skins/coffee/images/xml.gif" alt="订阅" />
+</a></li>
+</ul>
+
+
+
+			<div class="blogStats">
+				
+				<!--done-->
+随笔- 181 
+文章- 0 
+评论- 18 
+阅读- 
+<span title="总阅读数: 385162">
+38万</span> 
+
+
+
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/gaowengang/p/7919219.html">
+    <span>使用 ctypes 进行 Python 和 C 的混合编程</span>
+    
+
+
+
+</a>
+
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">Python 和 C 的混合编程工具有很多，这里介绍 Python 标准库自带的 ctypes 模块的使用方法。</span></p>
+<p> </p>
+<ul>
+<li style="text-align: left"><strong><span style="font-family: &quot;comic sans ms&quot;, sans-serif">初识</span></strong></li>
+</ul>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">Python 的 ctypes 要使用 C 函数，需要先将 C 编译成动态链接库的形式，即 Windows 下的 .dll 文件，或者 Linux 下的 .so 文件。先来看一下 ctypes 怎么使用 C 标准库。</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">Windows 系统下的 C 标准库动态链接文件为 msvcrt.dll (一般在目录 C:\Windows\System32 和 C:\Windows\SysWOW64 下分别对应 32-bit 和 64-bit，使用时不用刻意区分，Python 会选择合适的)</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">Linux 系统下的 C 标准库动态链接文件为 libc.so.6 (以 64-bit Ubuntu 系统为例， 在目录 /lib/x86_64-linux-gnu 下)</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">例如，以下代码片段导入 C 标准库，并使用 printf 函数打印一条消息，</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)"> platform
+</span><span style="color: rgba(0, 0, 255, 1)">from</span> ctypes <span style="color: rgba(0, 0, 255, 1)">import</span> *
+
+<span style="color: rgba(0, 0, 255, 1)">if</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Windows</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">msvcrt.dll</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">elif</span> platform.system() ==<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Linux</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">libc.so.6</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+    
+libc.printf(</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Hello ctypes!\n</span><span style="color: rgba(128, 0, 0, 1)">'</span>)</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">另外导入dll文件，还有其它方式如下，详细解释请参阅 ctypes module 相关文档，</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)"> platform
+</span><span style="color: rgba(0, 0, 255, 1)">from</span> ctypes <span style="color: rgba(0, 0, 255, 1)">import</span> *
+
+<span style="color: rgba(0, 0, 255, 1)">if</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Windows</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">msvcrt.dll</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+    </span><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">libc = windll.LoadLibrary('msvcrt.dll')  # Windows only</span>
+    <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">libc = oledll.LoadLibrary('msvcrt.dll')  # Windows only</span>
+    <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">libc = pydll.LoadLibrary('msvcrt.dll')</span>
+  
+    <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">libc = CDLL('msvcrt.dll')</span>
+    <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">libc = WinDLL('msvcrt.dll')  # Windows only</span>
+    <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">libc = OleDLL('msvcrt.dll')  # Windows only</span>
+    <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">libc = PyDLL('msvcrt.dll')</span>
+<span style="color: rgba(0, 0, 255, 1)">elif</span> platform.system() ==<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Linux</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">libc.so.6</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+    </span><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">libc = pydll.LoadLibrary('libc.so.6')</span>
+
+    <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">libc = CDLL('libc.so.6')</span>
+    <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">libc = PyDLL('libc.so.6')</span>
+<span style="color: rgba(0, 0, 0, 1)">    
+libc.printf(</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Hello ctypes!\n</span><span style="color: rgba(128, 0, 0, 1)">'</span>)</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p> </p>
+<ul>
+<li><span style="font-family: &quot;comic sans ms&quot;, sans-serif"><strong>ctypes 数据类型</strong></span></li>
+</ul>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">ctypes 作为 Python 和 C 联系的桥梁，它定义了专有的数据类型来衔接这两种编程语言。如下表，</span></p>
+<p> </p>
+<p><img src="https://images2018.cnblogs.com/blog/986259/201711/986259-20171129140831581-1373706197.png" alt="" /></p>
+<p> </p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">注：Python 中的类型，除了 None，int， long， Byte String，Unicode String 作为 C 函数的参数默认提供转换外，其它类型都必须显式提供转换。</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif"><strong>None</strong>：对应 C 中的 NULL</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif"><strong>int</strong>, <strong>long</strong>： 对应 C 中的 int，具体实现时会根据机器字长自动适配。</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif"><strong>Byte String</strong>：对应 C 中的一个字符串指针 char * ，指向一块内存区域。</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif"><strong>Unicode String</strong> ：对应 C 中一个宽字符串指针 wchar_t *，指向一块内存区域。</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif"> 例如，</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)"> platform
+</span><span style="color: rgba(0, 0, 255, 1)">from</span> ctypes <span style="color: rgba(0, 0, 255, 1)">import</span> *
+
+<span style="color: rgba(0, 0, 255, 1)">if</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Windows</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">msvcrt.dll</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">elif</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Linux</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">libc.so.6</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+
+libc.printf(</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">%s\n</span><span style="color: rgba(128, 0, 0, 1)">'</span>, <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">here!</span><span style="color: rgba(128, 0, 0, 1)">'</span>)        <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> here!</span>
+libc.printf(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">%S\n</span><span style="color: rgba(128, 0, 0, 1)">'</span>, u<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">there!</span><span style="color: rgba(128, 0, 0, 1)">'</span>)      <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> there!</span>
+libc.printf(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">%d\n</span><span style="color: rgba(128, 0, 0, 1)">'</span>, 42)             <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> 42</span>
+libc.printf(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">%ld\n</span><span style="color: rgba(128, 0, 0, 1)">'</span>, 60000000)      <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> 60000000</span>
+
+<span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">libc.printf('%f\n', 3.14)          #&gt;&gt;&gt; ctypes.ArgumentError</span><span style="color: rgba(0, 128, 0, 1)">
+#</span><span style="color: rgba(0, 128, 0, 1)">libc.printf('%f\n', c_float(3.14)) #&gt;&gt;&gt; dont know why 0.000000</span>
+libc.printf(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">%f\n</span><span style="color: rgba(128, 0, 0, 1)">'</span>, c_double(3.14)) <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> 3.140000</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p> </p>
+<ul>
+<li><span style="font-family: &quot;comic sans ms&quot;, sans-serif"><strong>创建可变的 string buffer</strong></span></li>
+</ul>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">Python 默认的 string 是不可变的，所以不能传递 string 到一个 C 函数去改变它的内容，所以需要使用 create_string_buffer，对应 Unicode 字符串，要使用 create_unicode_buffer,</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">定义和用法如下，</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre>&gt;&gt;&gt;<span style="color: rgba(0, 0, 0, 1)"> help(create_string_buffer)
+Help on function create_string_buffer </span><span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> module ctypes:
+
+create_string_buffer(init, size</span>=<span style="color: rgba(0, 0, 0, 1)">None)
+    create_string_buffer(aString) </span>-&gt;<span style="color: rgba(0, 0, 0, 1)"> character array
+    create_string_buffer(anInteger) </span>-&gt;<span style="color: rgba(0, 0, 0, 1)"> character array
+    create_string_buffer(aString, anInteger) </span>-&gt; character array</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">from</span> ctypes <span style="color: rgba(0, 0, 255, 1)">import</span> *<span style="color: rgba(0, 0, 0, 1)">
+
+p </span>= create_string_buffer(5<span style="color: rgba(0, 0, 0, 1)">)  
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> sizeof(p)     <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> 5</span>
+<span style="color: rgba(0, 0, 255, 1)">print</span> repr(p.raw)   <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> '\x00\x00\x00\x00\x00'</span>
+p.raw = <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Hi</span><span style="color: rgba(128, 0, 0, 1)">'</span>
+<span style="color: rgba(0, 0, 255, 1)">print</span> repr(p.raw)   <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> 'Hi\x00\x00\x00'</span>
+<span style="color: rgba(0, 0, 255, 1)">print</span> repr(p.value) <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> 'Hi'</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p> </p>
+<ul>
+<li><strong><span style="font-family: &quot;comic sans ms&quot;, sans-serif">传递自定义参数类型到 C 函数</span></strong></li>
+</ul>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">ctypes 允许你创建自定义参数类型，它会自动去搜索自定义数据的 _as_parameter 属性，将其作为 C 函数的参数，例如，</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)"> platform
+</span><span style="color: rgba(0, 0, 255, 1)">from</span> ctypes <span style="color: rgba(0, 0, 255, 1)">import</span> *
+
+<span style="color: rgba(0, 0, 255, 1)">if</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Windows</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">msvcrt.dll</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">elif</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Linux</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">libc.so.6</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+    
+</span><span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> Bottles(object):
+    </span><span style="color: rgba(0, 0, 255, 1)">def</span> <span style="color: rgba(128, 0, 128, 1)">__init__</span><span style="color: rgba(0, 0, 0, 1)">(self, number):
+        self._as_parameter_ </span>= number  <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> here only accept integer, string, unicode string</span>
+bottles = Bottles(42<span style="color: rgba(0, 0, 0, 1)">)
+libc.printf(</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">%d bottles of beer\n</span><span style="color: rgba(128, 0, 0, 1)">'</span>, bottles)</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">输出，</span></p>
+<div class="cnblogs_code">
+<pre>42 bottles of beer</pre>
+</div>
+<p> </p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">也可以为你的数据定义 _as_parameter 属性，如下，</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)"> platform
+</span><span style="color: rgba(0, 0, 255, 1)">from</span> ctypes <span style="color: rgba(0, 0, 255, 1)">import</span> *
+
+<span style="color: rgba(0, 0, 255, 1)">if</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Windows</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">msvcrt.dll</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">elif</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Linux</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">libc.so.6</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+    
+</span><span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> Bottles(object):
+    </span><span style="color: rgba(0, 0, 255, 1)">def</span> <span style="color: rgba(128, 0, 128, 1)">__init__</span><span style="color: rgba(0, 0, 0, 1)">(self):
+        self._as_parameter_ </span>= None  <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> only accept integer, string, unicode string</span>
+<span style="color: rgba(0, 0, 0, 1)">     
+    @property
+    </span><span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> aspram(self):
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> self._as_parameter_
+     
+    @aspram.setter
+    </span><span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> aspram(self, number):
+        self._as_parameter_ </span>=<span style="color: rgba(0, 0, 0, 1)"> number
+         
+bottles </span>=<span style="color: rgba(0, 0, 0, 1)"> Bottles()
+bottles.aspram </span>= 63<span style="color: rgba(0, 0, 0, 1)">
+libc.printf(</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">%d bottles of beer\n</span><span style="color: rgba(128, 0, 0, 1)">'</span>, bottles)</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">输出，</span></p>
+<div class="cnblogs_code">
+<pre>63 bottles of beer</pre>
+</div>
+<p> </p>
+<ul>
+<li><strong><span style="font-family: &quot;comic sans ms&quot;, sans-serif">指定 C 函数的参数类型</span></strong></li>
+</ul>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">可以指定要调用 C 函数的参数类型，如果传入参数不符合指定的类型，则 ctypes 会尝试转换，如果转换不成功，则抛 ArgumentError，例如，</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)"> platform
+</span><span style="color: rgba(0, 0, 255, 1)">from</span> ctypes <span style="color: rgba(0, 0, 255, 1)">import</span> *
+
+<span style="color: rgba(0, 0, 255, 1)">if</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Windows</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">msvcrt.dll</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">elif</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Linux</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">libc.so.6</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+    
+libc.printf.argtypes </span>=<span style="color: rgba(0, 0, 0, 1)"> [c_char_p, c_char_p, c_int, c_double]
+    
+libc.printf(</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">String is "%s", Int is %d, Double is %f\n</span><span style="color: rgba(128, 0, 0, 1)">'</span>, <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Hi</span><span style="color: rgba(128, 0, 0, 1)">'</span>, 10, 2.2<span style="color: rgba(0, 0, 0, 1)">)
+libc.printf(</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">%s, %d, %f\n</span><span style="color: rgba(128, 0, 0, 1)">'</span>, <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">X</span><span style="color: rgba(128, 0, 0, 1)">'</span>, 2, 3<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc.printf(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">%d %d %d</span><span style="color: rgba(128, 0, 0, 1)">"</span>, 1, 2, 3<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">except</span><span style="color: rgba(0, 0, 0, 1)"> ArgumentError, e:
+    </span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">*** ERROR: %s</span><span style="color: rgba(128, 0, 0, 1)">"</span> % str(e)</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">输出，</span></p>
+<div class="cnblogs_code">
+<pre>String <span style="color: rgba(0, 0, 255, 1)">is</span> <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">Hi</span><span style="color: rgba(128, 0, 0, 1)">"</span>, Int <span style="color: rgba(0, 0, 255, 1)">is</span> 10, Double <span style="color: rgba(0, 0, 255, 1)">is</span> 2.200000<span style="color: rgba(0, 0, 0, 1)">
+X, </span>2, 3.000000
+*** ERROR: argument 2: &lt;type <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">exceptions.TypeError</span><span style="color: rgba(128, 0, 0, 1)">'</span>&gt;: wrong type</pre>
+</div>
+<p> </p>
+<ul>
+<li><strong><span style="font-family: &quot;comic sans ms&quot;, sans-serif">指定 C 函数的返回值类型</span></strong></li>
+</ul>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">如果不指定 C 函数的返回值， ctypes 默认返回 int 类型，如果要返回特定类型，需要指定返回类型 restype，</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">例如，</span><span style="color: rgba(0, 0, 255, 1)"><br /></span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)"> platform
+</span><span style="color: rgba(0, 0, 255, 1)">from</span> ctypes <span style="color: rgba(0, 0, 255, 1)">import</span> *
+
+<span style="color: rgba(0, 0, 255, 1)">if</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Windows</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">msvcrt.dll</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">elif</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Linux</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">libc.so.6</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+    
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">1-&gt;</span><span style="color: rgba(128, 0, 0, 1)">'</span>, libc.strchr(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">abcdefghij</span><span style="color: rgba(128, 0, 0, 1)">'</span>, c_char(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">d</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">))
+     
+libc.strchr.restype </span>=<span style="color: rgba(0, 0, 0, 1)"> c_char_p
+
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">2-&gt;</span><span style="color: rgba(128, 0, 0, 1)">'</span>, libc.strchr(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">abcdefghij</span><span style="color: rgba(128, 0, 0, 1)">'</span>, c_char(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">d</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">))
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">3-&gt;</span><span style="color: rgba(128, 0, 0, 1)">'</span>, libc.strchr(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">abcdefghij</span><span style="color: rgba(128, 0, 0, 1)">'</span>, <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">d</span><span style="color: rgba(128, 0, 0, 1)">'</span>)  <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> Note, here C function strchr not know what 'd' mean, so rerurn None</span>
+<span style="color: rgba(0, 0, 0, 1)">
+libc.strchr.argtypes </span>=<span style="color: rgba(0, 0, 0, 1)"> [c_char_p, c_char]
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">4-&gt;</span><span style="color: rgba(128, 0, 0, 1)">'</span>, libc.strchr(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">abcdefghij</span><span style="color: rgba(128, 0, 0, 1)">'</span>, <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">d</span><span style="color: rgba(128, 0, 0, 1)">'</span>)  <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> Note, here not use c_char('w')</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p>输出：</p>
+<div class="cnblogs_code">
+<pre>1-&gt; 40291315
+2-&gt;<span style="color: rgba(0, 0, 0, 1)"> defghij
+</span>3-&gt;<span style="color: rgba(0, 0, 0, 1)"> None
+</span>4-&gt; defghij</pre>
+</div>
+<p> </p>
+<ul>
+<li><span style="font-family: &quot;comic sans ms&quot;, sans-serif"><strong>按引用传递参数</strong></span></li>
+</ul>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">有些情况下，需要 C 函数修改传入的参数，或者参数过大不适合传值，需要按引用传递，ctypes 提供关键字 byref() 处理这种情况，</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">例如，</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)"> platform
+</span><span style="color: rgba(0, 0, 255, 1)">from</span> ctypes <span style="color: rgba(0, 0, 255, 1)">import</span> *
+
+<span style="color: rgba(0, 0, 255, 1)">if</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Windows</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">msvcrt.dll</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">elif</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Linux</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">libc.so.6</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+    
+i </span>=<span style="color: rgba(0, 0, 0, 1)"> c_int()
+f </span>=<span style="color: rgba(0, 0, 0, 1)"> c_float()
+s </span>= create_string_buffer(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">\000</span><span style="color: rgba(128, 0, 0, 1)">'</span> * 32<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">i.val =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, i.value
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">f.val =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, f.value
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">repr(s.value) =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, repr(s.value)
+libc.sscanf(</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">1 3.14 Hello</span><span style="color: rgba(128, 0, 0, 1)">'</span>, <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">%d %f %s</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, byref(i), byref(f), s)
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">after, i.val =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, i.value
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">after, f.val =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, f.value
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">after, repr(s.value) =</span><span style="color: rgba(128, 0, 0, 1)">'</span>, repr(s.value)</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">输出，</span></p>
+<div class="cnblogs_code">
+<pre>i.val =<span style="color: rgba(0, 0, 0, 1)"> 0
+f.val </span>= 0.0<span style="color: rgba(0, 0, 0, 1)">
+repr(s.value) </span>= <span style="color: rgba(128, 0, 0, 1)">''</span><span style="color: rgba(0, 0, 0, 1)">
+after, i.val </span>= 1<span style="color: rgba(0, 0, 0, 1)">
+after, f.val </span>= 3.1400001049<span style="color: rgba(0, 0, 0, 1)">
+after, repr(s.value) </span>= <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Hello</span><span style="color: rgba(128, 0, 0, 1)">'</span></pre>
+</div>
+<p> </p>
+<ul>
+<li><strong>使用结构体</strong></li>
+</ul>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">ctypes 支持结构体的使用，从 Structure 类派生，数据放在 _fields_ 中，</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">例如，</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> Point(Structure):
+    _fields_ </span>= [(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">x</span><span style="color: rgba(128, 0, 0, 1)">'</span>, c_int), (<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">y</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, c_int)]
+        
+point </span>= Point(10, 20<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">point.x =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, point.x 
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">point.y =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, point.y
+    
+point </span>= Point(y=5<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">after, point.x =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, point.x 
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">after, point.y =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, point.y
+</span><span style="color: rgba(0, 0, 255, 1)">print</span>
+    
+<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> Rect(Structure):
+    _fields_ </span>= [(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">upperleft</span><span style="color: rgba(128, 0, 0, 1)">'</span>, Point), (<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">lowerright</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, Point)]
+        
+rc </span>=<span style="color: rgba(0, 0, 0, 1)"> Rect(point)
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">rc.upperleft.x = %d, rc.upperleft.y = %d</span><span style="color: rgba(128, 0, 0, 1)">'</span> %<span style="color: rgba(0, 0, 0, 1)"> (rc.upperleft.x, rc.upperleft.y)
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">rc.lowerright.x = %d, rc.lowerright.y = %d</span><span style="color: rgba(128, 0, 0, 1)">'</span> %<span style="color: rgba(0, 0, 0, 1)"> (rc.lowerright.x, rc.lowerright.y)
+        
+r </span>= Rect(Point(1, 2), Point(3, 4<span style="color: rgba(0, 0, 0, 1)">))
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">r.upperleft.x = %d, r.upperleft.y = %d</span><span style="color: rgba(128, 0, 0, 1)">'</span> %<span style="color: rgba(0, 0, 0, 1)"> (r.upperleft.x, r.upperleft.y)
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">r.lowerright.x = %d, r.lowerright.y = %d</span><span style="color: rgba(128, 0, 0, 1)">'</span> % (r.lowerright.x, r.lowerright.y)</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p>输出，</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre>point.x = 10<span style="color: rgba(0, 0, 0, 1)">
+point.y </span>= 20<span style="color: rgba(0, 0, 0, 1)">
+after, point.x </span>=<span style="color: rgba(0, 0, 0, 1)"> 0
+after, point.y </span>= 5<span style="color: rgba(0, 0, 0, 1)">
+
+rc.upperleft.x </span>= 0, rc.upperleft.y = 5<span style="color: rgba(0, 0, 0, 1)">
+rc.lowerright.x </span>= 0, rc.lowerright.y =<span style="color: rgba(0, 0, 0, 1)"> 0
+r.upperleft.x </span>= 1, r.upperleft.y = 2<span style="color: rgba(0, 0, 0, 1)">
+r.lowerright.x </span>= 3, r.lowerright.y = 4</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p> </p>
+<ul>
+<li><strong>位域</strong></li>
+</ul>
+<p>ctypes 提供了对位域的支持，</p>
+<p>例如，</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> IntBit(Structure):
+    _fields_ </span>= [(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">x</span><span style="color: rgba(128, 0, 0, 1)">'</span>, c_uint, 2), (<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">y</span><span style="color: rgba(128, 0, 0, 1)">'</span>, c_uint, 4<span style="color: rgba(0, 0, 0, 1)">)]
+    
+IB </span>= IntBit(1, 15<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">IB.x = %d</span><span style="color: rgba(128, 0, 0, 1)">'</span> %<span style="color: rgba(0, 0, 0, 1)"> IB.x 
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">IB.y = %d</span><span style="color: rgba(128, 0, 0, 1)">'</span> %<span style="color: rgba(0, 0, 0, 1)"> IB.y
+    
+IB2 </span>= IntBit(4, 16<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">-&gt; IB2.x = %d</span><span style="color: rgba(128, 0, 0, 1)">'</span> %<span style="color: rgba(0, 0, 0, 1)"> IB2.x 
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">-&gt; IB2.y = %d</span><span style="color: rgba(128, 0, 0, 1)">'</span> % IB2.y</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p>输出，</p>
+<div class="cnblogs_code">
+<pre>IB.x = 1<span style="color: rgba(0, 0, 0, 1)">
+IB.y </span>= 15
+-&gt; IB2.x =<span style="color: rgba(0, 0, 0, 1)"> 0
+</span>-&gt; IB2.y = 0</pre>
+</div>
+<p> </p>
+<ul>
+<li><strong>数组</strong></li>
+</ul>
+<p>ctypes 提供了对 Array 的支持，</p>
+<p>例如，</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 0, 1)">     
+TenIntArrayType </span>= c_int * 10<span style="color: rgba(0, 0, 0, 1)">
+ta </span>= TenIntArrayType(1, 2, 3, 4, 5, 6, 7, 8, 9, 10<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">for</span> item <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> ta:
+    </span><span style="color: rgba(0, 0, 255, 1)">print</span><span style="color: rgba(0, 0, 0, 1)"> item,
+</span><span style="color: rgba(0, 0, 255, 1)">print</span>
+    
+<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> PointEx(Structure):
+    _fields_ </span>= [(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">x</span><span style="color: rgba(128, 0, 0, 1)">'</span>, c_int), (<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">y</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, c_int)]
+        
+</span><span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> MyStruct(Structure):
+    _fields_ </span>= [(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">a</span><span style="color: rgba(128, 0, 0, 1)">'</span>, c_int), (<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">b</span><span style="color: rgba(128, 0, 0, 1)">'</span>, c_int), (<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">pointex_array</span><span style="color: rgba(128, 0, 0, 1)">'</span>, PointEx * 4<span style="color: rgba(0, 0, 0, 1)">)]
+        
+ms </span>= MyStruct(4, 5, ((1,1), (2,2), (3,3), (4,4<span style="color: rgba(0, 0, 0, 1)">)))
+</span><span style="color: rgba(0, 0, 255, 1)">for</span> item <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> ms.pointex_array:
+    </span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">(item.x, item.y) = (%d, %d)</span><span style="color: rgba(128, 0, 0, 1)">'</span> %<span style="color: rgba(0, 0, 0, 1)"> (item.x, item.y) 
+</span><span style="color: rgba(0, 0, 255, 1)">print</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p>输出，</p>
+<div class="cnblogs_code">
+<pre>1 2 3 4 5 6 7 8 9 10<span style="color: rgba(0, 0, 0, 1)">
+(item.x, item.y) </span>= (1, 1<span style="color: rgba(0, 0, 0, 1)">)
+(item.x, item.y) </span>= (2, 2<span style="color: rgba(0, 0, 0, 1)">)
+(item.x, item.y) </span>= (3, 3<span style="color: rgba(0, 0, 0, 1)">)
+(item.x, item.y) </span>= (4, 4)</pre>
+</div>
+<p> </p>
+<ul>
+<li><strong>指针</strong></li>
+</ul>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">ctypes 使用关键字 pointer 提供了对指针的支持，注意指针解引用使用 [0]，</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">例如，</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 0, 1)">i </span>= c_int(42<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">before, i.value =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, i.value
+pi </span>=<span style="color: rgba(0, 0, 0, 1)"> pointer(i)
+pi[0] </span>= 57
+<span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">after, i.value =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, i.value
+    
+</span><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> create NULL pointer, also can use this way, but recommend use 'pointer' not 'POINTER'</span>
+null_ptr =<span style="color: rgba(0, 0, 0, 1)"> POINTER(c_int)()
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">bool(null_ptr) =</span><span style="color: rgba(128, 0, 0, 1)">'</span>, bool(null_ptr)</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p>输出，</p>
+<div class="cnblogs_code">
+<pre>before, i.value = 42<span style="color: rgba(0, 0, 0, 1)">
+after, i.value </span>= 57<span style="color: rgba(0, 0, 0, 1)">
+bool(null_ptr) </span>= False</pre>
+</div>
+<p> </p>
+<ul>
+<li><strong>类型转换</strong></li>
+</ul>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">ctypes 提供了类型转换方法 cast(),</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">例如，</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> Bar(Structure):
+    _fields_ </span>= [(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">count</span><span style="color: rgba(128, 0, 0, 1)">'</span>, c_int), (<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, POINTER(c_int))]
+        
+bar </span>=<span style="color: rgba(0, 0, 0, 1)"> Bar()
+bar.count </span>= 3<span style="color: rgba(0, 0, 0, 1)">
+bar.value </span>= (c_int * 3)(1, 2, 3<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">for</span> idx <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> range(bar.count):
+    </span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">bar.value[%d] = %d</span><span style="color: rgba(128, 0, 0, 1)">'</span> %<span style="color: rgba(0, 0, 0, 1)"> (idx, bar.value[idx])
+    
+</span><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"># use cast to convert </span>
+<span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)">:
+    bar.value </span>= (c_byte * 4<span style="color: rgba(0, 0, 0, 1)">)()
+</span><span style="color: rgba(0, 0, 255, 1)">except</span><span style="color: rgba(0, 0, 0, 1)"> TypeError, e:
+    </span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">*** ERROR: %s</span><span style="color: rgba(128, 0, 0, 1)">'</span> %<span style="color: rgba(0, 0, 0, 1)"> str(e)
+        
+bar.value </span>= cast((c_byte * 4<span style="color: rgba(0, 0, 0, 1)">)(), POINTER(c_int))
+</span><span style="color: rgba(0, 0, 255, 1)">for</span> idx <span style="color: rgba(0, 0, 255, 1)">in</span> range(4<span style="color: rgba(0, 0, 0, 1)">):
+    </span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">now, bar.value[%d] = %d</span><span style="color: rgba(128, 0, 0, 1)">'</span> %<span style="color: rgba(0, 0, 0, 1)"> (idx, bar.value[idx])
+</span><span style="color: rgba(0, 0, 255, 1)">print</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p>输出，</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre>bar.value[0] = 1<span style="color: rgba(0, 0, 0, 1)">
+bar.value[</span>1] = 2<span style="color: rgba(0, 0, 0, 1)">
+bar.value[</span>2] = 3
+***<span style="color: rgba(0, 0, 0, 1)"> ERROR: incompatible types, c_byte_Array_4 instance instead of LP_c_long instance
+now, bar.value[0] </span>=<span style="color: rgba(0, 0, 0, 1)"> 0
+now, bar.value[</span>1] =<span style="color: rgba(0, 0, 0, 1)"> 0
+now, bar.value[</span>2] =<span style="color: rgba(0, 0, 0, 1)"> 0
+now, bar.value[</span>3] = 0</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p> </p>
+<ul>
+<li><strong>回调函数</strong></li>
+</ul>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">ctypes 通过 CFUNCTYPE 支持回调函数，</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">例如，</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)"> platform 
+</span><span style="color: rgba(0, 0, 255, 1)">from</span> ctypes <span style="color: rgba(0, 0, 255, 1)">import</span> *
+
+<span style="color: rgba(0, 0, 255, 1)">if</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Windows</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">msvcrt.dll</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">elif</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Linux</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    libc </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">libc.so.6</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+    
+IntArray5 </span>= c_int * 5<span style="color: rgba(0, 0, 0, 1)">
+ia </span>= IntArray5(5, 1, 7, 33, 99<span style="color: rgba(0, 0, 0, 1)">)
+    
+</span><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> CFUNCTYPE(restype, *argtypes, **kw)</span>
+CmpFuncType =<span style="color: rgba(0, 0, 0, 1)"> CFUNCTYPE(c_int, POINTER(c_int), POINTER(c_int))
+    
+</span><span style="color: rgba(0, 0, 255, 1)">def</span><span style="color: rgba(0, 0, 0, 1)"> py_cmp_func(a, b):
+    </span><span style="color: rgba(0, 0, 255, 1)">if</span> a[0] &gt;<span style="color: rgba(0, 0, 0, 1)"> b[0]:
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span> 1
+    <span style="color: rgba(0, 0, 255, 1)">elif</span> a[0] &lt;<span style="color: rgba(0, 0, 0, 1)"> b[0]:
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span> -1
+    <span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 0, 0, 1)">:
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> 0
+        
+cmpfunc </span>=<span style="color: rgba(0, 0, 0, 1)"> CmpFuncType(py_cmp_func)
+    
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">before sort, the ia list is: </span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">,
+</span><span style="color: rgba(0, 0, 255, 1)">for</span> item <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> ia:
+    </span><span style="color: rgba(0, 0, 255, 1)">print</span><span style="color: rgba(0, 0, 0, 1)"> item,
+        
+</span><span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> void qsort (void* base, size_t num, size_t size, int (*compar)(const void*,const void*));</span>
+<span style="color: rgba(0, 0, 0, 1)">libc.qsort(ia, len(ia), sizeof(c_int), cmpfunc)
+    
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">\nafter sort, the ia list is: </span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">,
+</span><span style="color: rgba(0, 0, 255, 1)">for</span> item <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> ia:
+    </span><span style="color: rgba(0, 0, 255, 1)">print</span><span style="color: rgba(0, 0, 0, 1)"> item,
+</span><span style="color: rgba(0, 0, 255, 1)">print</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p>输出，</p>
+<div class="cnblogs_code">
+<pre>before sort, the ia list <span style="color: rgba(0, 0, 255, 1)">is</span>:  5 1 7 33 99<span style="color: rgba(0, 0, 0, 1)"> 
+after sort, the ia list </span><span style="color: rgba(0, 0, 255, 1)">is</span>:  1 5 7 33 99</pre>
+</div>
+<p> </p>
+<ul>
+<li><span style="font-family: &quot;comic sans ms&quot;, sans-serif"><strong>Resize Space</strong></span></li>
+</ul>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">ctypes 提供了 resize 变量占用空间的方法 resize()，注意，只能增大，不能小于原始空间，</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">例如，</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre>short_array = (c_short * 4)(1, 2, 3, 4<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">sizeof(short_array) =</span><span style="color: rgba(128, 0, 0, 1)">'</span>, sizeof(short_array)  <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> get 8, means short_array take 8-byte memory</span>
+<span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">len(short_array) =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, len(short_array)
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">before resize, short_array is: </span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">,
+</span><span style="color: rgba(0, 0, 255, 1)">for</span> idx <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> range(len(short_array)):
+    </span><span style="color: rgba(0, 0, 255, 1)">print</span><span style="color: rgba(0, 0, 0, 1)"> short_array[idx],
+</span><span style="color: rgba(0, 0, 255, 1)">print</span>
+    
+<span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)">:
+    resize(short_array, </span>4)  <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)"> resize short_array to 4-byte, raise error, due to cannot resize smaller than original</span>
+<span style="color: rgba(0, 0, 255, 1)">except</span><span style="color: rgba(0, 0, 0, 1)"> ValueError, e:
+    </span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">ERROR: %s</span><span style="color: rgba(128, 0, 0, 1)">'</span> %<span style="color: rgba(0, 0, 0, 1)"> str(e)
+        
+resize(short_array, </span>32<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">after succeed resize to 32-byte, now sizeof(short_array) =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, sizeof(short_array)
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">after succeed resize to 32-byte, now len(short_array) =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, len(short_array)
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">after reszie, short_array is: </span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">,
+</span><span style="color: rgba(0, 0, 255, 1)">for</span> idx <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> range(len(short_array)):
+    </span><span style="color: rgba(0, 0, 255, 1)">print</span> short_array[idx],</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p>输出，</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre>sizeof(short_array) = 8<span style="color: rgba(0, 0, 0, 1)">
+len(short_array) </span>= 4<span style="color: rgba(0, 0, 0, 1)">
+before resize, short_array </span><span style="color: rgba(0, 0, 255, 1)">is</span>:  1 2 3 4<span style="color: rgba(0, 0, 0, 1)">
+ERROR: minimum size </span><span style="color: rgba(0, 0, 255, 1)">is</span> 8<span style="color: rgba(0, 0, 0, 1)">
+after succeed resize to </span>32-byte, now sizeof(short_array) = 32<span style="color: rgba(0, 0, 0, 1)">
+after succeed resize to </span>32-byte, now len(short_array) = 4<span style="color: rgba(0, 0, 0, 1)">
+after reszie, short_array </span><span style="color: rgba(0, 0, 255, 1)">is</span>:  1 2 3 4</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p> </p>
+<ul>
+<li><strong>Other</strong></li>
+</ul>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre>class<span> cell(Structure):
+    pass<span>
+cell._fields_ = [('name', c_char_p), ('next'<span>, POINTER(cell))]
+    
+c1 =<span> cell()
+c2 =<span> cell()
+c1.name = 'foo'<span>
+c2.name = 'bar'<span>
+c1.next =<span> pointer(c2)
+c2.next =<span> pointer(c1) 
+    
+p =<span> c1
+for i in range(10<span>):
+    print<span> p.name,
+    p = p.next[0]</span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p>输出，</p>
+<div class="cnblogs_code">
+<pre>foo bar foo bar foo bar foo bar foo bar</pre>
+</div>
+<p> </p>
+<ul>
+<li><strong>坑</strong></li>
+</ul>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">ctypes 相对于其它工具，使用起来有点繁琐，而且有很多坑，需要小心谨慎，</span></p>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">例如，</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> POINT(Structure):
+    _fields_ </span>= [(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">x</span><span style="color: rgba(128, 0, 0, 1)">'</span>, c_int), (<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">y</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, c_int)]
+        
+</span><span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> RECT(Structure):
+    _fields_ </span>= [(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">a</span><span style="color: rgba(128, 0, 0, 1)">'</span>, POINT), (<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">b</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, POINT)]
+        
+p1 </span>= POINT(1, 2<span style="color: rgba(0, 0, 0, 1)">)
+p2 </span>= POINT(3, 4<span style="color: rgba(0, 0, 0, 1)">)
+rc </span>=<span style="color: rgba(0, 0, 0, 1)"> RECT(p1, p2)
+    
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">rc.a.x =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, rc.a.x
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">rc.a.y =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, rc.a.y
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">rc.b.x =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, rc.b.x
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">rc.b.y =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, rc.b.y
+    
+rc.a, rc.b </span>=<span style="color: rgba(0, 0, 0, 1)"> rc.b, rc.a
+    
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">after swap, bad result due to this is the pointer,</span><span style="color: rgba(128, 0, 0, 1)">'</span>
+<span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">rc.a.x =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, rc.a.x
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">rc.a.y =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, rc.a.y
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">rc.b.x =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, rc.b.x
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">rc.b.y =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, rc.b.y
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> </pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p>输出，</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre>rc.a.x = 1<span style="color: rgba(0, 0, 0, 1)">
+rc.a.y </span>= 2<span style="color: rgba(0, 0, 0, 1)">
+rc.b.x </span>= 3<span style="color: rgba(0, 0, 0, 1)">
+rc.b.y </span>= 4<span style="color: rgba(0, 0, 0, 1)">
+after swap, bad result due to this </span><span style="color: rgba(0, 0, 255, 1)">is</span><span style="color: rgba(0, 0, 0, 1)"> the pointer,
+rc.a.x </span>= 3<span style="color: rgba(0, 0, 0, 1)">
+rc.a.y </span>= 4<span style="color: rgba(0, 0, 0, 1)">
+rc.b.x </span>= 3<span style="color: rgba(0, 0, 0, 1)">
+rc.b.y </span>= 4</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p> </p>
+<ul>
+<li><strong><span style="background-color: rgba(255, 0, 0, 1); color: rgba(255, 255, 255, 1)"> Load 自定义 DLL </span></strong></li>
+</ul>
+<p>以 C 函数文件 needforspeed.c 为例，</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">----------------------------------------------------------------------------
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Purpose: this c module is used to speed up the Python program, should be 
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">          compiled into dll, and then load into Python module with ctypes
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">          method.
+</span><span style="color: rgba(0, 128, 0, 1)">//</span>
+<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Compile Methods:
+</span><span style="color: rgba(0, 128, 0, 1)">//</span>
+<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">    ======================
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">    Windows: use MSVC, x64
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">    ======================
+</span><span style="color: rgba(0, 128, 0, 1)">//</span>
+<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">    C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\amd64&gt; <span style="background-color: rgba(255, 255, 0, 1)">cl /LD needforspeed.c /o nfs.dll
+</span></span><span style="color: rgba(0, 128, 0, 1)">//</span>
+<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">    ======
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">    Linux:
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">    ======
+</span><span style="color: rgba(0, 128, 0, 1)">//</span>     
+<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">    $ <span style="background-color: rgba(255, 255, 0, 1)">gcc -fPIC -shared needforspeed.c -o nfs.so
+</span></span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">----------------------------------------------------------------------------</span>
+<span style="color: rgba(0, 0, 0, 1)">
+#include </span>&lt;stdio.h&gt;
+
+<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Windows need this compile direction for dll compilation, Linux no need </span>
+<span style="color: rgba(0, 0, 0, 1)">#ifdef _MSC_VER
+    </span><span style="color: rgba(0, 0, 255, 1)">#define</span> DLL_EXPORT __declspec( dllexport ) 
+<span style="color: rgba(0, 0, 255, 1)">#else</span>
+    <span style="color: rgba(0, 0, 255, 1)">#define</span> DLL_EXPORT
+<span style="color: rgba(0, 0, 255, 1)">#endif</span><span style="color: rgba(0, 0, 0, 1)">
+
+DLL_EXPORT </span><span style="color: rgba(0, 0, 255, 1)">void</span> hello_world(<span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)">) {
+    printf(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">Hello world!\n</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+}
+
+DLL_EXPORT </span><span style="color: rgba(0, 0, 255, 1)">int</span> mod(<span style="color: rgba(0, 0, 255, 1)">int</span> m, <span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> n) {
+    </span><span style="color: rgba(0, 0, 255, 1)">return</span> m %<span style="color: rgba(0, 0, 0, 1)"> n;
+}
+
+DLL_EXPORT </span><span style="color: rgba(0, 0, 255, 1)">int</span> get_array_elem(<span style="color: rgba(0, 0, 255, 1)">int</span> arr[], <span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> idx) {
+    </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> arr[idx];
+}
+
+DLL_EXPORT </span><span style="color: rgba(0, 0, 255, 1)">int</span> get_array2D_elem(<span style="color: rgba(0, 0, 255, 1)">int</span> arr[][<span style="color: rgba(128, 0, 128, 1)">3</span>], <span style="color: rgba(0, 0, 255, 1)">int</span> row, <span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> col) {
+    </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> arr[row][col];
+}</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p><span style="font-family: &quot;comic sans ms&quot;, sans-serif">在 Windows 下编译为 nfs.dll, 在 Linux 下编译为 nfs.so，Python 中调用如下，</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)"> platform 
+</span><span style="color: rgba(0, 0, 255, 1)">from</span> ctypes <span style="color: rgba(0, 0, 255, 1)">import</span> *
+
+<span style="color: rgba(0, 0, 255, 1)">if</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Windows</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    mylib </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">./nfs.dll</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">elif</span> platform.system() == <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">Linux</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">:
+    mylib </span>= cdll.LoadLibrary(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">./nfs.so</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+ 
+mylib.hello_world()
+</span><span style="color: rgba(0, 0, 255, 1)">print</span><span style="color: rgba(0, 0, 0, 1)">
+ 
+mod_rtv </span>= mylib.mod(c_int(10), c_int(4<span style="color: rgba(0, 0, 0, 1)">))
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">mod_rtv(10 % 4) =</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">, mod_rtv
+</span><span style="color: rgba(0, 0, 255, 1)">print</span>
+
+<span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">####################</span><span style="color: rgba(0, 128, 0, 1)">
+#</span><span style="color: rgba(0, 128, 0, 1)"> 1D array get elem #</span><span style="color: rgba(0, 128, 0, 1)">
+#</span><span style="color: rgba(0, 128, 0, 1)">####################</span>
+<span style="color: rgba(0, 0, 0, 1)"> 
+IntArray10Type </span>= c_int * 10<span style="color: rgba(0, 0, 0, 1)">
+intArray </span>=<span style="color: rgba(0, 0, 0, 1)"> IntArray10Type()
+</span><span style="color: rgba(0, 0, 255, 1)">for</span> idx <span style="color: rgba(0, 0, 255, 1)">in</span> range(10<span style="color: rgba(0, 0, 0, 1)">):
+    intArray[idx] </span>= idx**2
+ 
+<span style="color: rgba(0, 0, 255, 1)">for</span> idx <span style="color: rgba(0, 0, 255, 1)">in</span> range(10<span style="color: rgba(0, 0, 0, 1)">):
+    </span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">intArray[%d] = %d</span><span style="color: rgba(128, 0, 0, 1)">'</span> %<span style="color: rgba(0, 0, 0, 1)"> (idx, mylib.get_array_elem(intArray, idx))
+</span><span style="color: rgba(0, 0, 255, 1)">print</span>
+
+<span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">####################</span><span style="color: rgba(0, 128, 0, 1)">
+#</span><span style="color: rgba(0, 128, 0, 1)"> 2D array get elem #</span><span style="color: rgba(0, 128, 0, 1)">
+#</span><span style="color: rgba(0, 128, 0, 1)">####################</span>
+<span style="color: rgba(0, 0, 0, 1)">
+IntArray3Col </span>= c_int * 3<span style="color: rgba(0, 0, 0, 1)">
+IntArray3Row3Col </span>= IntArray3Col * 3<span style="color: rgba(0, 0, 0, 1)">
+arr2d </span>= IntArray3Row3Col(IntArray3Col(1, 2, 3), IntArray3Col(8, 9, 4), IntArray3Col(7, 6, 5<span style="color: rgba(0, 0, 0, 1)">))
+
+</span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">arr2d is:</span><span style="color: rgba(128, 0, 0, 1)">'</span>
+<span style="color: rgba(0, 0, 255, 1)">for</span> r <span style="color: rgba(0, 0, 255, 1)">in</span> range(3<span style="color: rgba(0, 0, 0, 1)">):
+    </span><span style="color: rgba(0, 0, 255, 1)">for</span> c <span style="color: rgba(0, 0, 255, 1)">in</span> range(3<span style="color: rgba(0, 0, 0, 1)">):
+        </span><span style="color: rgba(0, 0, 255, 1)">print</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">%d </span><span style="color: rgba(128, 0, 0, 1)">'</span> %<span style="color: rgba(0, 0, 0, 1)"> mylib.get_array2D_elem(arr2d, r, c),
+    </span><span style="color: rgba(0, 0, 255, 1)">print</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p>输出，</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 0, 1)">Hello world!
+
+mod_rtv(</span>10 % 4) = 2<span style="color: rgba(0, 0, 0, 1)">
+
+intArray[0] </span>=<span style="color: rgba(0, 0, 0, 1)"> 0
+intArray[</span>1] = 1<span style="color: rgba(0, 0, 0, 1)">
+intArray[</span>2] = 4<span style="color: rgba(0, 0, 0, 1)">
+intArray[</span>3] = 9<span style="color: rgba(0, 0, 0, 1)">
+intArray[</span>4] = 16<span style="color: rgba(0, 0, 0, 1)">
+intArray[</span>5] = 25<span style="color: rgba(0, 0, 0, 1)">
+intArray[</span>6] = 36<span style="color: rgba(0, 0, 0, 1)">
+intArray[</span>7] = 49<span style="color: rgba(0, 0, 0, 1)">
+intArray[</span>8] = 64<span style="color: rgba(0, 0, 0, 1)">
+intArray[</span>9] = 81<span style="color: rgba(0, 0, 0, 1)">
+
+arr2d </span><span style="color: rgba(0, 0, 255, 1)">is</span><span style="color: rgba(0, 0, 0, 1)">:
+</span>1  2  3 
+8  9  4 
+7  6  5 </pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p> </p>
+<p>完。</p>
+<p> </p>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="EntryTag">
+    标签: 
+            <a href="https://www.cnblogs.com/gaowengang/tag/Python/">Python</a></div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(7919219,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('9ed6d9da-f53f-e611-9fc1-ac853d9f53cc');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/gaowengang/" target="_blank"><img src="https://pic.cnblogs.com/face/986259/20160702094434.png" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/gaowengang/">Anonymous596</a><br />
+            <a href="https://home.cnblogs.com/u/gaowengang/followees/">关注 - 0</a><br />
+            <a href="https://home.cnblogs.com/u/gaowengang/followers/">粉丝 - 17</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('9ed6d9da-f53f-e611-9fc1-ac853d9f53cc');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(7919219,'Digg')">
+        <span class="diggnum" id="digg_count">2</span>
+    </div>
+    <div class="buryit" onclick="votePost(7919219,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/gaowengang/p/7908558.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/gaowengang/p/7908558.html" title="发布于 2017-11-28 11:06">Python 绑定 C，C++ 参考工具介绍</a>
+    <br />
+    <a href="https://www.cnblogs.com/gaowengang/p/7941986.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/gaowengang/p/7941986.html" title="发布于 2017-12-01 14:03">禁止 gVim 在 Linux 下自动生成 undo 文件 *.un~</a>
+
+</div>
+</div>
+		</div>
+		<div class="postDesc">posted @ 
+<span id="post-date">2017-11-29 11:06</span> 
+<a href="https://www.cnblogs.com/gaowengang/">Anonymous596</a> 
+阅读(<span id="post_view_count">47168</span>) 
+评论(<span id="post_comment_count">1</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=7919219" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(7919219);return false;">收藏</a> 
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '7919219', targetLink: 'https://www.cnblogs.com/gaowengang/p/7919219.html', title: '使用 ctypes 进行 Python 和 C 的混合编程' })">举报</a></div>
+	</div>
+	
+	
+</div><!--end: topics 文章、评论容器-->
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js" async="" onload="markdown_highlight()"></script>
+<script>
+    var allowComments = true, cb_blogId = 292368, cb_blogApp = 'gaowengang', cb_blogUserGuid = '9ed6d9da-f53f-e611-9fc1-ac853d9f53cc';
+    var cb_entryId = 7919219, cb_entryCreatedDate = '2017-11-29 11:06', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login('!comments');">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="https://www.aliyun.com/minisite/goods?taskCode=yds2021-09zy&amp;recordId=883117&amp;userCode=swh7dvlt" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云-cps')">【推荐】阿里云云大使特惠：新用户购ECS服务器1核2G最低价87元/年</a><br /><a href="http://www.uccpsoft.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-ucancode')">【推荐】跨平台组态\工控\仿真\CAD 50万行C++源码全开放免费下载！</a><br /><a href="https://cloud.baidu.com/campaign/bccdiscount/index.html?track=cp:bokeyuan|pf:pc|pp:H-bokeyuan-21bccsanqi-neiyewenzilian|pu:21bccsanqi-neiyewenzilian|ci:21bcc|kw:10370321" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-百度智能云')">【推荐】百度智能云超值优惠：新用户首购云服务器1核1G低至69元/年</a><br /><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为专区')">【推荐】和开发者在一起：华为开发者社区，入驻博客园科技品牌专区</a><br /><a href="https://www.cnblogs.com/cmt/p/15147135.html" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-众安保险')">【推广】园子与爱卡汽车爱宝险合作，随手就可以买一份的百万医疗保险</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+             <a onclick="ga('send', 'event', 'Link', 'click', 'Pangle-C1')" target="_blank" rel="nofollow" href="https://c.gridsumdissector.com/r/?gid=gad_545_ph4hkwzt&amp;ck=32&amp;adk=442&amp;autorefresh=__AUTOREFRESH__">
+                <img style="width: 300px; height: 250px;" src="https://img2020.cnblogs.com/blog/35695/202109/35695-20210914184546661-83463210.jpg" alt="" onload="gscmdImpress()" />
+             </a>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card">
+<b>编辑推荐：</b>
+<br />
+
+· <a href="https://www.cnblogs.com/yexiaochai/p/15260657.html" target="_blank">技术管理进阶 —— 关于成本优化与利益分配机制</a>
+    <br />
+· <a href="https://www.cnblogs.com/vvjiang/p/15240799.html" target="_blank">微前端框架single-spa初探</a>
+    <br />
+· <a href="https://www.cnblogs.com/heiz123/p/15242303.html" target="_blank">并发编程之：深入解析线程池</a>
+    <br />
+· <a href="https://www.cnblogs.com/snailZz/p/15240616.html" target="_blank">源码解析 .Net 中 Host 主机的构建过程</a>
+    <br />
+· <a href="https://www.cnblogs.com/xiaoxiaotank/p/15231883.html" target="_blank">理解ASP.NET Core - Dependency Injection</a>
+    <br />
+</div></div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>最新新闻</b>：
+    <br />
+ ·          <a href="//news.cnblogs.com/n/702248/" target="_blank">微软将于2021年10月12日终止对Silverlight的支持（2021-09-14 20:15）</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/702249/" target="_blank">超4万平米、20万件商品 全国首家京东MALL将于9月30日开业（2021-09-14 20:00）</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/702247/" target="_blank">飞猪公布“环球优速通出票失败”解决方案：全额退款+赔付30%（2021-09-14 19:00）</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/702246/" target="_blank">收割智商税的快递盲盒：一场精心策划的骗局（2021-09-14 18:30）</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/702184/" target="_blank">等退休的库克，等不到Apple Car（2021-09-14 18:20）</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/gaowengang/">
+            Anonymous596
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/gaowengang/" title="入园时间：2016-07-02">
+            5年2个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/gaowengang/followers/">
+            17
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/gaowengang/followees/">
+            0
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('9ed6d9da-f53f-e611-9fc1-ac853d9f53cc')">+加关注</a></div>
+        <script>getFollowStatus('9ed6d9da-f53f-e611-9fc1-ac853d9f53cc');</script>
+    </div>
+</div>
+</div>
+
+</div>
+<div id="sidebar_c3" style="display: block;"><a href="https://c.gridsumdissector.com/r/?gid=gad_545_nysfvjry&amp;ck=38&amp;adk=474&amp;autorefresh=__AUTOREFRESH__" target="_blank"><img width="300" height="250" src="https://img2020.cnblogs.com/blog/35695/202109/35695-20210903181503211-1858930220.jpg" alt="字节雇主校招" onclick="ga('send', 'event', 'Link', 'click', 'C3-字节-雇主校招');" /></a></div>
+			<div id="calendar"><div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2021/08/14'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2021年9月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2021/10/14'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                            <td class="CalOtherMonthDay" align="center">31</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        4
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            5
+                        </td>
+                            <td class="" align="center">
+                                6
+                            </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                            <td class="" align="center">
+                                9
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            11
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            12
+                        </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                            <td class="CalTodayDay" align="center">
+                                14
+                            </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                            <td class="" align="center">
+                                16
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            18
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            19
+                        </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            25
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            26
+                        </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            2
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            3
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                8
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            9
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"><div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+        <li>
+            <a href="https://www.cnblogs.com/gaowengang/tag/Linux/">Linux<span class="tag-count">(99)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/gaowengang/tag/Python/">Python<span class="tag-count">(50)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/gaowengang/tag/CentOS/">CentOS<span class="tag-count">(39)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/gaowengang/tag/Vim/">Vim<span class="tag-count">(9)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/gaowengang/tag/FPGA/">FPGA<span class="tag-count">(8)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/gaowengang/tag/C%2B%2B/">C++<span class="tag-count">(8)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/gaowengang/tag/Windows/">Windows<span class="tag-count">(6)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/gaowengang/tag/wxWidgets/">wxWidgets<span class="tag-count">(5)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/gaowengang/tag/Web/">Web<span class="tag-count">(4)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/gaowengang/tag/Boost/">Boost<span class="tag-count">(4)</span></a>
+        </li>
+    <li>
+        <a href="https://www.cnblogs.com/gaowengang/tag/">更多</a>
+    </li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div class="catListPostArchive">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+
+        </h3>
+
+        <ul>
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2021/08.html" rel="" target="">
+    2021年8月(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2021/07.html" rel="" target="">
+    2021年7月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2021/06.html" rel="" target="">
+    2021年6月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2021/05.html" rel="" target="">
+    2021年5月(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2021/04.html" rel="" target="">
+    2021年4月(8)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2021/03.html" rel="" target="">
+    2021年3月(11)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2021/02.html" rel="" target="">
+    2021年2月(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2021/01.html" rel="" target="">
+    2021年1月(3)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2020/12.html" rel="" target="">
+    2020年12月(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2020/11.html" rel="" target="">
+    2020年11月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2020/10.html" rel="" target="">
+    2020年10月(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2020/09.html" rel="" target="">
+    2020年9月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2020/08.html" rel="" target="">
+    2020年8月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2020/07.html" rel="" target="">
+    2020年7月(3)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2020/06.html" rel="" target="">
+    2020年6月(6)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2020/05.html" rel="" target="">
+    2020年5月(5)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2020/04.html" rel="" target="">
+    2020年4月(6)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2020/03.html" rel="" target="">
+    2020年3月(11)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2020/02.html" rel="" target="">
+    2020年2月(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2019/12.html" rel="" target="">
+    2019年12月(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2019/11.html" rel="" target="">
+    2019年11月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2019/10.html" rel="" target="">
+    2019年10月(3)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2019/09.html" rel="" target="">
+    2019年9月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2019/08.html" rel="" target="">
+    2019年8月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2019/07.html" rel="" target="">
+    2019年7月(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2019/06.html" rel="" target="">
+    2019年6月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2019/05.html" rel="" target="">
+    2019年5月(6)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2019/04.html" rel="" target="">
+    2019年4月(5)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2019/03.html" rel="" target="">
+    2019年3月(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2019/02.html" rel="" target="">
+    2019年2月(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2019/01.html" rel="" target="">
+    2019年1月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2018/12.html" rel="" target="">
+    2018年12月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2018/10.html" rel="" target="">
+    2018年10月(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2018/09.html" rel="" target="">
+    2018年9月(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2018/08.html" rel="" target="">
+    2018年8月(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2018/06.html" rel="" target="">
+    2018年6月(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2018/05.html" rel="" target="">
+    2018年5月(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2018/03.html" rel="" target="">
+    2018年3月(10)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2018/02.html" rel="" target="">
+    2018年2月(3)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2018/01.html" rel="" target="">
+    2018年1月(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2017/12.html" rel="" target="">
+    2017年12月(7)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2017/11.html" rel="" target="">
+    2017年11月(6)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2017/10.html" rel="" target="">
+    2017年10月(5)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2017/09.html" rel="" target="">
+    2017年9月(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2017/08.html" rel="" target="">
+    2017年8月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2017/07.html" rel="" target="">
+    2017年7月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2017/05.html" rel="" target="">
+    2017年5月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2017/04.html" rel="" target="">
+    2017年4月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2017/03.html" rel="" target="">
+    2017年3月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2017/02.html" rel="" target="">
+    2017年2月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2016/12.html" rel="" target="">
+    2016年12月(3)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2016/11.html" rel="" target="">
+    2016年11月(3)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2016/10.html" rel="" target="">
+    2016年10月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2016/08.html" rel="" target="">
+    2016年8月(6)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/gaowengang/archive/2016/07.html" rel="" target="">
+    2016年7月(3)
+</a>
+ 
+                </li>                
+            <li><a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a></li>
+        </ul>
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+
+
+
+<!-- 阅读排行榜 -->
+
+
+<!-- 评论排行榜 -->
+
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/gaowengang/p/12555632.html">
+                                1. Win10 环境下 pip 安装失败的问题“Could not install packages due to an EnvironmentError: [WinError 5] 拒绝访问。”(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/gaowengang/p/10955871.html">
+                                2. git 清除所有历史记录(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/gaowengang/p/10816537.html">
+                                3. Ubuntu 18.04 安装配置 MySQL 5.7(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/gaowengang/p/8543840.html">
+                                4. Python 包内的导入问题（绝对导入和相对导入）(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/gaowengang/p/7919219.html">
+                                5. 使用 ctypes 进行 Python 和 C 的混合编程(2)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2021 Anonymous596
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8NACB8VE9qlHm6Ujjqxvg5AUwdbRWbOnx5MT35Ncr5e17TVKK2FF-jRmq_CER87kI3HnZygDACEltdtASmUiE51P1O487a2t1AgnaJfBGmgcrQv7Dmz5bLaWi_3b7UQxniGDtxG0jAQVTJKf4nv2knc" />
+
+
+</body></html>
