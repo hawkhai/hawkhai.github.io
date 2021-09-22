@@ -16,6 +16,12 @@ codeprint:
 ---
 
 
+## C 盘深度清理 —— 清理 FileRepository
+
+DriverStoreExplorer 最新版下载：
+<https://github.com/lostindark/DriverStoreExplorer/releases>
+
+
 ## Windows 命令行编码
 
 设置 命令行 utf8，`chcp 65001`。`shutdown -r -t 0`。
@@ -122,6 +128,7 @@ Build in cmd.exe, run command as: msbuild dprofiler.sln
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-28-win-prog-notes.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://github.com/lostindark/DriverStoreExplorer/releases]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/github.com/a03f4901.html" %})
 - [https://jingyan.baidu.com/article/9c69d48fbd146713c9024e04.html]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/jingyan.baidu.com/484816be.html" %})
 - [http://www.xitongcheng.com/jiaocheng/win8_article_37723.html]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/www.xitongcheng.com/eec8545c.html" %})
 - [https://bbs.pediy.com/thread-195774.htm]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/bbs.pediy.com/10890851.htm" %})
