@@ -3,6 +3,7 @@ import sys
 import re, os, sys
 sys.path.append("../")
 import datetime, time
+from urllib.parse import unquote
 from pythonx.funclib import *
 
 AUTOFORMAT = "format" in sys.argv
@@ -17,6 +18,9 @@ URL_REGEX = r"""(
                 )"""
 URL_REGEX = "".join(URL_REGEX.split())
 #li = re.findall(regex, line, re.IGNORECASE)
+
+OTIMG_REGEX = """(\\!\\[(.*?)\\]\\((.*?\\.(?:jpg|png))\\))"""
+EQUA_REGEX  = """(\\!\\[\\[公式\\]\\]\\(https://www.zhihu.com/equation\\?tex=(.*?)\\))""".encode("utf8").decode("ISO8859-1")
 
 def mainfilew(fpath, fname, ftype):
     if not ftype in ("md",): return
@@ -61,6 +65,30 @@ def mainfilew(fpath, fname, ftype):
         if codestate:
             li2.append(line)
             continue
+
+        htimgs = re.findall(OTIMG_REGEX, line, re.IGNORECASE)
+        if htimgs:
+            assert len(htimgs) == 1, htimgs
+            htimg = htimgs[0]
+            print(htimg)
+            txline, txtitle, txurl = htimg
+            img = netget(txurl)
+            imgname = getmd5(txurl)[:4]+"_"+txurl.split("/")[-1]
+            imglocal = os.path.join("images", imgname)
+            writefile(imglocal, img)
+            newline = "{} 0".format(imgname)
+            if not txtitle:
+                line = line.replace(txline, newline)
+
+        # ![[公式]](https://www.zhihu.com/equation?tex=.*?)
+        htimgs = re.findall(EQUA_REGEX, line, re.IGNORECASE)
+        if htimgs:
+            #print(htimgs)
+            for txline, txcontent in htimgs:
+                txcontent = unquote(txcontent)
+                print(txline, txcontent)
+                newline = " $${}$$ ".format(txcontent)
+                line = line.replace(txline, newline)
 
         chxx = u"：。".encode("utf8").decode("ISO8859-1")
         result = re.findall("[^\\s%s](%s)\\s"%(chxx, URL_REGEX), " %s "%line, re.IGNORECASE)
