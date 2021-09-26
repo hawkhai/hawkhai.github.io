@@ -75,6 +75,34 @@ codeprint:
     * use DBSCAN with Levenshtein distances: <https://scikit-learn.org/stable/faq.html#how-do-i-deal-with-string-data-or-trees-graphs>
 
 
+## std\:\:regex
+
+```python
+std::string toregex() {
+    std::string regex;
+    HexNode* current = head;
+    char buffer[32];
+    while (current && current->next) {
+        if (current->hex == -1) {
+            regex.append("[\\x00-\\xff]"); // 这里不能用点，点匹配不了换行符号。
+        } else {
+            sprintf(buffer, "\\x%02x", current->hex);
+            regex.append(buffer);
+        }
+        sprintf(buffer, "{\%d,%d}", current->n, current->m); // Jekyll 格式会出问题。"{\%d,%d}" 加了个斜线。
+        regex.append(buffer);
+        current = current->next;
+    }
+    return regex;
+}
+
+// 用正则进行二进制匹配
+std::regex* reg = new std::regex(regex);
+std::string tempstr(str, datasize);
+bool result = std::regex_search(tempstr, *reg, std::regex_constants::match_any);
+```
+
+
 ## Python 实现 AC 自动机
 
 [Python 实现 AC 自动机 {% include relref_csdn.html %}](https://blog.csdn.net/danengbinggan33/article/details/83338789)

@@ -294,6 +294,9 @@ def organizeRes(ik, fpath, line):
     if invdir:
         tpath = os.path.join("invisible", "images", fname, ikfile).lower()
 
+    if not os.path.exists(ik):
+        if os.path.exists(tpath): # 貌似已经剪切过去了。
+            copyfile(tpath, ik)
     while not os.path.exists(ik):
         print("文件不存在", ik)
         os.system("pause")
@@ -526,7 +529,7 @@ def appendRefs(fpath, lines):
     datestr = popenCmd(cmdx)
     datestr = bytesToString(datestr)
     if not datestr:
-        datestr = datetime.datetime.now().date()
+        datestr = datetime.now().date()
     if frel.startswith("_posts\\"):
         frel = os.path.join("blogs", frel.split("\\")[-1])
     if invdir:

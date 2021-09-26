@@ -1,1 +1,1 @@
-python3 runserv.py
+start python3 runserv.py
