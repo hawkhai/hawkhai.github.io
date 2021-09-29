@@ -18,6 +18,62 @@ codeprint:
 Hey, there! Welcome to my blog. I hope you enjoy reading the stuff in here. Nothing fancy, really. Just bits and bobs about tech and random topics.<br/><br/>
 Enjoy!
 
+* [编程精粹 -- Microsoft 编写优质无错 C 程序秘诀 {% include relref_csdn.html %}](https://blog.csdn.net/okcai/article/details/186241)
+* [编程精粹 -- Microsoft 编写优质无错代码的秘诀 (Writing Clean Code) {% include relref_github.html %}](https://dirtysalt.github.io/html/writing-clean-code.html)
+
+```cpp
+wchar_t* pstr = nullptr;
+CString exe = pstr; // 不会崩溃。
+exe.Append(L"test");
+
+// 0xC0000005: 读取位置 0x00000000 时发生访问冲突。
+std::wstring tempexe = pstr; // 会崩溃。
+tempexe.append(L"test");
+```
+
+
+## bsearch & qsort
+
+* <https://www.tutorialspoint.com/c_standard_library/c_function_bsearch.htm>
+* <https://www.tutorialspoint.com/c_standard_library/c_function_qsort.htm>
+
+```c
+int compare(const void* a, const void* b) {
+    return (*(int*)a - *(int*)b);
+}
+int cmpfunc(const void * a, const void * b) {
+   return ( *(int*)a - *(int*)b );
+}
+qsort(ali, size, sizeof(int), compare);
+qsort(values, 5, sizeof(int), cmpfunc);
+```
+
+```cpp
+#include <stdio.h>
+#include <stdlib.h>
+
+int cmpfunc(const void * a, const void * b) {
+   return ( *(int*)a - *(int*)b );
+}
+
+int values[] = { 5, 20, 29, 32, 63 };
+
+int main () {
+   int *item;
+   int key = 32;
+
+   /* using bsearch() to find value 32 in the array */
+   item = (int*) bsearch (&key, values, 5, sizeof (int), cmpfunc);
+   if ( item != NULL ) {
+      printf("Found item = %d\n", *item);
+   } else {
+      printf("Item = %d could not be found\n", *item);
+   }
+
+   return(0);
+}
+```
+
 
 ## log C#
 
@@ -1306,3 +1362,9 @@ const std::string colon = ":";
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-tiny-source-code.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://blog.csdn.net/okcai/article/details/186241]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/347ffe95.html" %})
+- [https://dirtysalt.github.io/html/writing-clean-code.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/dirtysalt.github.io/c2b4a624.html" %})
+- [https://www.tutorialspoint.com/c_standard_library/c_function_bsearch.htm]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.tutorialspoint.com/c5079b0f.htm" %})
+- [https://www.tutorialspoint.com/c_standard_library/c_function_qsort.htm]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.tutorialspoint.com/0bec0743.htm" %})
