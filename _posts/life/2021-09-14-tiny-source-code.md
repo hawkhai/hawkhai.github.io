@@ -7,7 +7,7 @@ categories: ["生活"]
 tags: ["生活"]
 toc: true
 toclistyle:
-comments: true
+comments:
 visibility:
 mathjax: true
 mermaid: true
