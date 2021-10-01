@@ -2,7 +2,7 @@
 layout: post
 title: "生活 -- Pregnancy Prepare 饮食黑名单 & 用药黑名单"
 author:
-location: "Japan"
+location: "珠海"
 categories: ["生活"]
 tags: ["生活"]
 toc: true
@@ -13,6 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
+cluster: "BB"
 ---
 
 [^_^]: 你好，我是营养师王斌。欢迎你来收听《科学备孕全攻略》，这是本次课程的第二版块 —— 备孕期的营养和体重管理。

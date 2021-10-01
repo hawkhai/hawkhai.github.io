@@ -2,7 +2,7 @@
 layout: post
 title: "生活 -- Tiny Source Code, Tiny My Life"
 author:
-location: "Japan"
+location: "珠海"
 categories: ["生活"]
 tags: ["生活"]
 toc: true
