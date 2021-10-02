@@ -6,7 +6,7 @@ location: "珠海"
 categories: ["图形学"]
 tags: ["图形学", "OpenGL"]
 toc: true
-toclistyle: none
+toclistyle:
 comments:
 visibility:
 mathjax: true
