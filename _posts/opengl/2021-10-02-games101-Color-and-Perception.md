@@ -36,6 +36,13 @@ What is Color?
 ## 颜色的物理基础（Physical Basis of Color）
 
 
+### 实验—光的基本成分（The Fundamental Components of Light）
+
+早期，牛顿做过一个实验，一束白光穿过一个棱镜，它会被分解成各个不同的颜色（彩虹的颜色）。不同的颜色可以合成其他的颜色，将所有的颜色合在一起又会形成白色
+
+{% include image.html url="/assets/images/211002-games101-color-and-perc~3a/9288_v2-335cc702e33bb66241d50b896b408a0b_720w.jpg" %}
+
+
 ### 可见光谱（The Visible Spectrum of Light）
 
 **为什么光线会被折射成不同的颜色？**
