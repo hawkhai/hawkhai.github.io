@@ -244,12 +244,14 @@ c = b; // 调用了赋值函数
 
 * Review by 豪哥
 
-{% include image.html url="/assets/images/210526-prog-microsoft-cpp-styl~3c/microsoft-cpp-styleguide.jpg" %}
+{% include image.html url="/assets/images/210526-prog-microsoft-cpp-styl~3c/microsoft-cpp-styleguide.jpg" caption="微软 C 编程精粹 -- Microsoft 编写优质无错 C 程序秘诀.pdf" %}
+
+编程精粹 Microsoft 编写优质无错代码的秘诀 (Writing Clean Code)
+这本书的内容大多观点在微软编译器 debug & release 版本里面得到了实践。
 
 * [高质量 C/C++ 编程指南 {% include relref_csdn.html %}](https://blog.csdn.net/x_iya/article/details/8714362)
-* 微软 C 编程精粹 -- Microsoft 编写优质无错 C 程序秘诀.pdf
 * [编程精粹 -- Microsoft 编写优质无错 C 程序秘诀 {% include relref_csdn.html %}](https://blog.csdn.net/okcai/article/details/186241)
-    * 这本书的内容大多观点在微软编译器 debug & release 版本里面得到了实践。
+* [编程精粹 -- Microsoft 编写优质无错代码的秘诀 {% include relref_github.html %}](https://dirtysalt.github.io/html/writing-clean-code.html)
 
 
 
@@ -259,3 +261,4 @@ c = b; // 调用了赋值函数
 
 - [https://blog.csdn.net/x_iya/article/details/8714362]({% include relrefx.html url="/backup/2021-05-26-prog-Microsoft-cpp-styleguide.md/blog.csdn.net/6c268139.html" %})
 - [https://blog.csdn.net/okcai/article/details/186241]({% include relrefx.html url="/backup/2021-05-26-prog-Microsoft-cpp-styleguide.md/blog.csdn.net/347ffe95.html" %})
+- [https://dirtysalt.github.io/html/writing-clean-code.html]({% include relrefx.html url="/backup/2021-05-26-prog-Microsoft-cpp-styleguide.md/dirtysalt.github.io/c2b4a624.html" %})

@@ -18,9 +18,6 @@ codeprint:
 Hey, there! Welcome to my blog. I hope you enjoy reading the stuff in here. Nothing fancy, really. Just bits and bobs about tech and random topics.<br/><br/>
 Enjoy!
 
-* [编程精粹 -- Microsoft 编写优质无错 C 程序秘诀 {% include relref_csdn.html %}](https://blog.csdn.net/okcai/article/details/186241)
-* [编程精粹 -- Microsoft 编写优质无错代码的秘诀 (Writing Clean Code) {% include relref_github.html %}](https://dirtysalt.github.io/html/writing-clean-code.html)
-
 ```cpp
 wchar_t* pstr = nullptr;
 CString exe = pstr; // 不会崩溃。
@@ -1364,7 +1361,5 @@ const std::string colon = ":";
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-tiny-source-code.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://blog.csdn.net/okcai/article/details/186241]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/347ffe95.html" %})
-- [https://dirtysalt.github.io/html/writing-clean-code.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/dirtysalt.github.io/c2b4a624.html" %})
 - [https://www.tutorialspoint.com/c_standard_library/c_function_bsearch.htm]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.tutorialspoint.com/c5079b0f.htm" %})
 - [https://www.tutorialspoint.com/c_standard_library/c_function_qsort.htm]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.tutorialspoint.com/0bec0743.htm" %})
