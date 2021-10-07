@@ -175,7 +175,7 @@ void* memcpy(void* dst, const void* src, size_t count) {
                   (pdst <= psrc && psrc < pdst + count);
 
     // 防止内存重复。
-    assert(memdup); // Debug 版本。
+    assert(!memdup); // Debug 版本。
     if (memdup) { // 覆盖处理，早期暴露，有一个 DirectX API 就是这样做的。
         // 让 Release 不稳定的 bug，稳定出现。
         // 将错误早点暴露出来
