@@ -142,7 +142,7 @@ char* strcpy(char* dest, const char* src) {
     // 断言，Debug 版本生效。
     assert((dest != NULL) && (src != NULL));
     // 入参检查，特殊情况处理。
-    if (src == NULL || dest == NULL) {
+    if (src == NULL || dest == NULL) { // 还能再抢救一下？
         // Release 极端断言情况发生了，蓝屏。
         // 特殊处理一下，让问题转移？
         return dest; // 建议做法
@@ -217,8 +217,8 @@ void* memcpy(void* dst, const void* src, size_t count) {
 bool VInfoEngine::runProbe(const QString& filename, int timeout) {
     bool temp = m_probe->runx(filename, timeout);
 #if _DEBUG
-    m_probe_test->runx(filename, timeout);
-    m_probe_test->assertEqual(m_probe);
+    m_probe_regex->runx(filename, timeout);
+    m_probe_regex->assertEqual(m_probe);
 #endif
     return temp;
 }
@@ -267,6 +267,7 @@ Stream #0:1: Video: flv1, yuv420p, 1120x800, 23.98 fps, 23.98 tbr, 23.97 tbn
 
 在后继的各种输入断言下，其实两份实现多多少少都存在 bug，不过最终都得以修复。
 通过正则版本，才搞清楚 Json 里面各种数字的单位；通过 Json 版本才知道 视频存在 `SAR 4:3 DAR 16:9` 和 旋转的问题。
+断言旋转角度 只有 0°、90°、-90°、-180°。
 
 ```cpp
 // bitrate 以为是 1024，其实是 1000，不知道正确与否，反正正则版本是这样算的。
