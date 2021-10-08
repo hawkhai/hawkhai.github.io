@@ -292,6 +292,8 @@ int getGrayBitmap(FastImage fimage, FastImage& result, bool clearBackgroud) {
 }
 ```
 
+Android 甚至断言 网络访问在主线程崩溃，界面修改不在主线程 也崩溃。☭
+
 
 ## 一个标准 C 悲剧函数
 
