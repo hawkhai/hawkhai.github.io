@@ -62,7 +62,7 @@ char* strdup(char* str) {
 }
 ```
 
-assert(strnew != NULL); // 错误的断言使用，因为内存申请真的可能不成功。
+`assert(strnew != NULL);` 错误的断言使用，因为内存申请真的可能不成功。
 改进版本 2：
 
 ```cpp
@@ -115,6 +115,8 @@ char* strdup(char* str) {
 **多用断言，用对断言。**
 一种程序，突然崩溃了，闷声不啃声，也不说啥原因，耽搁调试半天。
 另外一种程序，自己发现错误了，会说话，能主动报告错误。无数个断言就形成了一个哨兵网络。
+
+assert 语句，你可以把错误原因放到 assert 的参数中，这样不仅能保护你的程序不往下走，而且还能把错误原因返回给调用方。
 
 1. 要使用断言对函数参数进行确认，利用断言来检查不可能发生的情况。
     * 要从程序中删去无定义的特性，或者在程序中使用断言来检查出无定义特性的非法使用。
@@ -171,12 +173,12 @@ void* memcpy(void* dst, const void* src, size_t count) {
     unsigned char* pdst = (unsigned char*)dst;
     const unsigned char* psrc = (const unsigned char*)src;
 
-    bool memdup = (psrc <= pdst && pdst < psrc + count) ||
-                  (pdst <= psrc && psrc < pdst + count);
+    bool overlap = (psrc <= pdst && pdst < psrc + count) ||
+                   (pdst <= psrc && psrc < pdst + count);
 
     // 防止内存重复。
-    assert(!memdup); // Debug 版本。
-    if (memdup) { // 覆盖处理，早期暴露，有一个 DirectX API 就是这样做的。
+    assert(!overlap); // Debug 版本。
+    if (overlap) { // 覆盖处理，早期暴露，有一个 DirectX API 就是这样做的。
         // 让 Release 不稳定的 bug，稳定出现。
         // 将错误早点暴露出来
         while (count--) {
