@@ -14,7 +14,7 @@ URL_REGEX = r"""(
                         (:[0-9]{1,4})?
                     (/[a-z0-9\&%_\./~=+:@–-]*)?
                     (\?[a-z0-9\&%_\./~=:\[\]-]*)?
-                    (#[a-z0-9\&%_\./~=:-]*)?
+                    (#[a-z0-9\&%_\./~=:?-]*)?
                 )"""
 URL_REGEX = "".join(URL_REGEX.split())
 #li = re.findall(regex, line, re.IGNORECASE)
