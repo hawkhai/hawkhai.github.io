@@ -12,9 +12,6 @@ __file__   = os.path.abspath(__file__)
 # Paranoid text spacing in Python
 # https://github.com/vinta/pangu.py
 
-THUMBNAIL  = ".thumbnail.webp"
-SELENIUM   = ".selenium.png"
-
 OPENFILE   = "openfile" in sys.argv
 AUTOFORMAT = "format" in sys.argv
 REBUILD    = "rebuild" in sys.argv
@@ -22,72 +19,33 @@ COPYRES    = "copyres" in sys.argv
 CLEARIMG   = "clearimg" in sys.argv
 IGNOREERR  = "ignoreerr" in sys.argv
 
-linktagli = (("{% include relref_bili.html %}]",    "bilibili]", "bilibili", "bilibili.com"),
-             ("{% include relref_zhihu.html %}]",   "zhihu]",    "zhihu",    "zhihu.com"),
-             ("{% include relref_cnblogs.html %}]", "cnblogs]",  "cnblogs",  "cnblogs.com"),
-             ("{% include relref_csdn.html %}]",    "csdn]",     "csdn",     "csdn.net"),
-             ("{% include relref_github.html %}]",  "github]",   "github",   "github.com|github.io"),
-             ("{% include relref_github.html %}]",  "github]",   "github",   "github.com|github.io"),
-             ("{% include relref_jianshu.html %}]", "jianshu]",  "jianshu",  "jianshu.com"),
-             ("{% include relref_wiki.html %}]",    "wiki]",     "wiki",     "wikipedia.org"),
-             ("{% include relref_weixin.html %}]",  "weixin]",   "weixin",   "weixin.qq.com"),
-             ("{% include relref_keqq.html %}]",    "keqq]",     "keqq",     "ke.qq.com"),
-             ("{% include relref_scriptol.html %}]","scriptol]", "scriptol", "scriptol.com"),
-             ("{% include relref_khronos.html %}]", "khronos]",  "khronos",  "khronos.org"),
-             ("{% include relref_gluon.html %}]",   "gluon]",    "gluon",    "gluon.ai"),
-            )
+# html，名称，域名正则。
+LINKTAGARRAY = (("{% include relref_bili.html %}",     "bilibili", "bilibili.com"),
+                ("{% include relref_zhihu.html %}",    "zhihu",    "zhihu.com"),
+                ("{% include relref_cnblogs.html %}",  "cnblogs",  "cnblogs.com"),
+                ("{% include relref_csdn.html %}",     "csdn",     "csdn.net"),
+                ("{% include relref_github.html %}",   "github",   "github.com|github.io"),
+                ("{% include relref_jianshu.html %}",  "jianshu",  "jianshu.com"),
+                ("{% include relref_wiki.html %}",     "wiki",     "wikipedia.org"),
+                ("{% include relref_weixin.html %}",   "weixin",   "weixin.qq.com"),
+                ("{% include relref_keqq.html %}",     "keqq",     "ke.qq.com"),
+                ("{% include relref_scriptol.html %}", "scriptol", "scriptol.com"),
+                ("{% include relref_khronos.html %}",  "khronos",  "khronos.org"),
+                ("{% include relref_gluon.html %}",    "gluon",    "gluon.ai"),
+               )
 
 def isHostIgnore(hostk):
-    for tak, src, name, host in linktagli:
+    for tak, name, host in LINKTAGARRAY:
         if re.findall("^({})$".format(host), hostk):
             return True
-        if re.findall("\\.{}$".format(host), hostk):
+        if re.findall("\\.({})$".format(host), hostk):
             return True
     for host in ("sunocean.life", "hawkhai.com",):
         if re.findall("^({})$".format(host), hostk):
             return True
-        if re.findall("\\.{}$".format(host), hostk):
+        if re.findall("\\.({})$".format(host), hostk):
             return True
     return False
-
-g_snapcache = {}
-g_untouched = {}
-def buildSnapCache(rootdir):
-    rootdir = os.path.normpath(rootdir)
-    def mainfile(fpath, fname, ftype):
-        fpath = os.path.normpath(fpath)
-        if not re.findall("^[0-9a-f]{8}\\.", fname):
-            return
-        if fname.find(SELENIUM) != -1:
-            return
-        key = fname[:8]
-        if not key in g_snapcache.keys():
-            g_snapcache[key] = []
-        g_snapcache[key].append(fpath)
-        if not key in g_untouched.keys():
-            g_untouched[key] = []
-        g_untouched[key].append(fpath)
-    searchdir(rootdir, mainfile)
-
-def touchSnapCache(umd5, slocal):
-    if umd5 in g_untouched.keys() and slocal in g_untouched[umd5]:
-        g_untouched[umd5] = [i for i in g_untouched[umd5] if i != slocal]
-
-def querySnapCache(umd5):
-    if umd5 in g_snapcache.keys() and g_snapcache[umd5]:
-        return readfile(g_snapcache[umd5][0])
-    return None
-
-def removeSnapCache(umd5):
-    if umd5 in g_snapcache.keys() and g_snapcache[umd5]:
-        return osremove(g_snapcache[umd5][0])
-    return None
-
-def clearSnapCache():
-    print("ClearSnapCache", len(g_untouched))
-    for umd5 in g_untouched.keys():
-        for x in g_untouched[umd5]:
-            osremove(x)
 
 def readfileIglist(fpath):
     li = readfile(fpath, True, "utf8").split("\n")
@@ -115,12 +73,12 @@ def backupUrlContent(fpath, url):
         if url.startswith(host):
             chromeDialog = True
     mdname = os.path.split(fpath)[-1]
-    uhost = url.split("//")[1].split("/")[0]
-    umd5 = getmd5(url)
+    urlhost = calcHost(url)
+    urlmd5 = getmd5(url)[:8]
     invdir = isInvisibleDir(fpath)
 
     ttype = ".html"
-    ttype = calcType(ttype, url.split(uhost)[-1])
+    ttype = calcType(ttype, url.split(urlhost)[1])
     if ttype.endswith(".md"): # 不能是这个，否则会被 Jekyll 自动格式化。
         ttype = ".html"
     if ttype in (".action",):
@@ -130,33 +88,33 @@ def backupUrlContent(fpath, url):
         chrome = False
 
     def buildlocal(ftype):
-        slocal = os.path.join("backup", mdname, uhost, umd5[:8] + ftype)
+        flocal = os.path.join("backup", mdname, urlhost, urlmd5 + ftype)
         if invdir:
-            slocal = os.path.join("invisible", slocal)
-        return slocal
+            flocal = os.path.join("invisible", flocal)
+        return flocal
 
     mdxfile = False
-    slocal = buildlocal(ttype)
-    if chrome and uhost in readfileIglist("mdrstrip_hostJekyll.txt"):
+    flocal = buildlocal(ttype)
+    if chrome and urlhost in readfileIglist("mdrstrip_hostJekyll.txt"):
         mdxfile = True
         ttype = ".md" # 借用 Jekyll 格式化
         newlocal = buildlocal(ttype)
-        if os.path.exists(slocal):
-            os.rename(slocal, newlocal)
-        slocal = newlocal
-        ttype = ".html" # 太多了，严重影响速度，改成 html。
+        if os.path.exists(flocal):
+            os.rename(flocal, newlocal)
+        flocal = newlocal
+        ttype = ".html" # 太多了，严重影响速度，改回 html。
         newlocal = buildlocal(ttype)
-        if os.path.exists(slocal):
-            os.rename(slocal, newlocal)
-        slocal = newlocal
+        if os.path.exists(flocal):
+            os.rename(flocal, newlocal)
+        flocal = newlocal
 
-    shotpath = slocal + SELENIUM
-    fdata = querySnapCache(umd5[:8])
+    shotpath = flocal + SELENIUM
+    fdata = querySnapCache(urlmd5)
     if fdata:
-        writefile(slocal, fdata)
+        writefile(flocal, fdata)
         fdatalocal = True
     else:
-        fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=slocal, shotpath=shotpath, chromeDialog=chromeDialog)
+        fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=flocal, shotpath=shotpath, chromeDialog=chromeDialog)
         fdatalocal = False
 
     itag = bytesToString("无法访问此网站".encode("utf8"))
@@ -167,8 +125,8 @@ def backupUrlContent(fpath, url):
                 idata.find(itag) != -1 or idata.find(itag2) != -1):
             print("无法访问此网站", fpath, url)
             if not fdatalocal: os.system("pause")
-            removeSnapCache(umd5[:8])
-            osremove(slocal)
+            removeSnapCache(urlmd5)
+            osremove(flocal)
             osremove(shotpath)
             return backupUrlContent(fpath, url)
 
@@ -202,25 +160,25 @@ title : %(title)s
         if fdata.lower().find("<body") != -1 and fdata.lower().find("<html") != -1:
             fdata = html2md(fdata)
             fdata = addmdhead(fdata)
-            writefile(slocal, fdata, "utf8")
+            writefile(flocal, fdata, "utf8")
         elif not ismdhead(fdata):
             fdata = addmdhead(fdata)
-            writefile(slocal, fdata, "utf8")
+            writefile(flocal, fdata, "utf8")
 
-        if uhost == "www.shadertoy.com":
+        if urlhost == "www.shadertoy.com":
             li = re.findall(r"""\r?\n\r?\n[0-9]+\r?\n\r?\n    \r?\n    \r?\n    """, fdata)
             for i in li: fdata = fdata.replace(i, "\r\n    ")
-            writefile(slocal, fdata, "utf8")
+            writefile(flocal, fdata, "utf8")
 
-    fmd5 = getFileMd5(slocal) # 大文件，错误已经铸成，改不了了。
-    invdirlocal = isInvisibleDir(slocal)
+    fmd5 = getFileMd5(flocal) # 大文件，错误已经铸成，改不了了。
+    invdirlocal = isInvisibleDir(flocal)
     mdrstripBigfileCfg = os.path.join("invisible" if invdirlocal else ".", "mdrstrip_bigfiles.txt")
     if not fmd5 in readfileIglist(mdrstripBigfileCfg):
         if len(fdata) >= 1024*1000*1:
             assert False, (len(fdata) / 1024.0 / 1000.0, url)
 
     remote = buildlocal(".html" if mdxfile else ttype).replace("\\", "/")
-    touchSnapCache(umd5[:8], slocal)
+    touchSnapCache(urlmd5, flocal)
 
     # 外链类型 断言...
     if not remote.split(".")[-1] in ("pdf", "html", "git", "php", "c", "phtml", "cpp", "htm", "shtm",
@@ -234,20 +192,6 @@ def organizeClear():
     for key in g_orgremove:
         osremove(key)
 
-def ffmpegConvert(fpath):
-    if fpath.endswith(".264.mp4"): return
-    tpath = fpath + ".264.mp4"
-    if os.path.exists(tpath): return
-    ffmpeg = r"C:\Program Files\ImageMagick-6.9.11-Q16-HDRI\ffmpeg.exe"
-    cmdx = r"""
-    "{}" -y -i "{}" -r 30000/1001
-    -b:a 2M -bt 4M -vcodec libx264 -pass 1
-    -coder 0 -bf 0 -flags -loop -wpredp 0
-    -an "{}"
-    """.format(ffmpeg, fpath, tpath)
-    cmdx = " ".join(cmdx.split()).strip()
-    ossystem(cmdx)
-
 def organizeResCollect(rootdir):
     def mainfile(fpath, fname, ftype):
         if fname.endswith(THUMBNAIL):
@@ -257,29 +201,21 @@ def organizeResCollect(rootdir):
             g_orgremove.add(os.path.relpath(fpath, ".").lower())
     searchdir(rootdir, mainfile)
 
-def isInvisibleDir(fpath):
-    fpath = os.path.abspath(fpath).lower()
-    invisible = os.path.abspath("invisible").lower()+"\\"
-    invdir = fpath.startswith(invisible)
-    # .\_site\invisible\
-    siteinvisible = os.path.abspath(r"_site\invisible").lower()+"\\"
-    invdir = invdir or fpath.startswith(siteinvisible)
-    return invdir
+# 本地图片缓存路径。
+def organizeRes(imglocal, fpath, line):
 
-def organizeRes(ik, fpath, line):
-
-    if ik in readfileIglist("mdrstrip_fakefiles.txt"):
+    if imglocal in readfileIglist("mdrstrip_fakefiles.txt"):
         return line
 
-    ikdir, ikfile = os.path.split(ik)
-    if ikfile.find(".") == -1:
-        ikfile = ikfile + ".jpg"
-    iktype = ikfile.split(".")[-1].lower()
-    if iktype == "mp4":
-        ffmpegConvert(ik)
+    imgdir, imgfname = os.path.split(imglocal)
+    if imgfname.find(".") == -1:
+        imgfname = imgfname + ".jpg"
+    imgtype = imgfname.split(".")[-1].lower()
+    if imgtype == "mp4":
+        ffmpegConvert(imglocal)
 
     if not COPYRES:
-        assert os.path.exists(ik), fpath +"  "+ ik
+        assert os.path.exists(imglocal), fpath +"  "+ imglocal
         return line
     invdir = isInvisibleDir(fpath)
     fname = os.path.split(fpath)[-1]
@@ -290,32 +226,33 @@ def organizeRes(ik, fpath, line):
     if len(fname) > 32:
         fname = fname[:30]+"~"+getmd5(fname)[:2]
 
-    tpath = os.path.join("assets", "images", fname, ikfile).lower()
+    tpath = os.path.join("assets", "images", fname, imgfname).lower()
     if invdir:
-        tpath = os.path.join("invisible", "images", fname, ikfile).lower()
+        tpath = os.path.join("invisible", "images", fname, imgfname).lower()
 
-    if not os.path.exists(ik):
-        if os.path.exists(tpath): # 貌似已经剪切过去了。
-            copyfile(tpath, ik)
-    while not os.path.exists(ik):
-        print("文件不存在", ik)
+    if not os.path.exists(imglocal) and os.path.exists(tpath): # 貌似已经剪切过去了。
+        copyfile(tpath, imglocal)
+    while not os.path.exists(imglocal):
+        print("文件不存在", imglocal)
         os.system("pause")
 
-    ikcopy = copyfile(ik, tpath)
-    iknail = ik + THUMBNAIL
+    iscopy = copyfile(imglocal, tpath) # 是否图片挪窝了。
+    imglocalnail = imglocal + THUMBNAIL
     tpathnail = tpath + THUMBNAIL
-    iknailcopy = False
-    if os.path.exists(iknail):
-        iknailcopy = copyfile(iknail, tpathnail)
-    if os.path.abspath(ik) != os.path.abspath(tpath):
-        g_orgremove.add(os.path.relpath(ik, ".").lower())
+    isnailcopy = False
+    if os.path.exists(imglocalnail):
+        isnailcopy = copyfile(imglocalnail, tpathnail) # 是否缩略图挪窝了。
+
+    if os.path.abspath(imglocal) != os.path.abspath(tpath):
+        g_orgremove.add(os.path.relpath(imglocal, ".").lower())
     if os.path.relpath(tpath, ".").lower() in g_orgremove:
         g_orgremove.remove(os.path.relpath(tpath, ".").lower())
 
     # 同样大小的小图片先占位... lazyload
     sizepath = tpath + THUMBNAIL
     from PIL import Image
-    if not os.path.exists(sizepath) and iktype in ("png", "jpg", "gif", "jpeg", "webp", "bmp",):
+    # 创建缩略图。
+    if not os.path.exists(sizepath) and imgtype in ("png", "jpg", "gif", "jpeg", "webp", "bmp",):
         try:
             img = Image.open(tpath)
         except RuntimeError as ex: # could not create decoder object
@@ -330,16 +267,18 @@ def organizeRes(ik, fpath, line):
                 raise ex
             img = img.resize((width, height), Image.ANTIALIAS) # 恢复到原来大小，便于客户端排版。
 
-            from PIL import Image, ImageFont, ImageDraw # 导入模块
+            from PIL import ImageFont, ImageDraw # 导入模块
             draw = ImageDraw.Draw(img, "RGBA") # 修改图片
             font = ImageFont.truetype(r"assets\logos\方正楷体_GB2312.ttf", size = 20)
-            draw.rectangle(((0, 0), (img.size[0], 40)), fill=(0,0,0,127))
+            draw.rectangle(((0, 0), (width, 40)), fill=(0,0,0,127))
             draw.text((10, 10), u'图片加载中, 请稍后....', fill="#ffffff", font=font)
             #img.show()
             #exit(0)
 
         # 小于 100K...
         img.save(sizepath)
+
+    # 检查缩略图。
     elif os.path.exists(sizepath):
         img = Image.open(tpath)
         width, height = img.size
@@ -348,21 +287,21 @@ def organizeRes(ik, fpath, line):
         except RuntimeError as ex: # could not create decoder object
             print("Image.open RuntimeError", sizepath)
             osremove(sizepath)
-            return organizeRes(ik, fpath, line)
-            raise ex
-        if img.size != (width, height):
+            return organizeRes(imglocal, fpath, line) # 存在问题，重新创建。
+
+        if img.size != (width, height): # 尺寸不对，重新创建。
             img.close()
             osremove(sizepath)
-            return organizeRes(ik, fpath, line)
+            return organizeRes(imglocal, fpath, line)
 
-    iktype = ikfile.split(".")[-1].lower()
-    if not iktype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4", "zip", "bmp",):
-        print(ik, fpath, line)
-        assert False, ik
+    imgtype = imgfname.split(".")[-1].lower()
+    if not imgtype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4", "zip", "bmp",):
+        print(imglocal, fpath, line)
+        assert False, imglocal
 
-    if ikcopy: osremove(ik)
-    if iknailcopy: osremove(iknail)
-    return line.replace(ik, tpath.replace("\\", "/"))
+    if iscopy: osremove(imglocal)
+    if isnailcopy: osremove(imglocalnail)
+    return line.replace(imglocal, tpath.replace("\\", "/"))
 
 g_hostset = {}
 def collectHost(fpath, line):
@@ -372,26 +311,25 @@ def collectHost(fpath, line):
 
     regex = "(?:\"/(.*?)\")|(?:'/(.*?)')"
     li = re.findall(regex, line)
-    for ik in li:
-        ik = "".join(ik)
-        if ik.endswith("/"):
+    for imglocal in li:
+        imglocal = "".join(imglocal)
+        if imglocal.endswith("/"):
             continue
-        if len(ik) <= 2:
+        if len(imglocal) <= 2:
             continue
 
-        kcontinue = False
+        kignore = False
         for src in ("/player.bilibili.com/",
-                    "blog/", "source/shader/", "assets/glslEditor-0.0.20/"):
-            if ik.startswith(src):
-                kcontinue = True
-        if kcontinue: continue
+                    "source/", "blog/", "source/shader/", "assets/glslEditor-0.0.20/",
+                    "images/photo.jpg",):
+            if imglocal.startswith(src):
+                kignore = True
+        if kignore: continue
 
-        if ik in ("images/photo.jpg",):
+        if os.path.isdir(imglocal):
             continue
-        if ik.startswith("source/"):
-            continue
-        if not os.path.isdir(ik):
-            line = organizeRes(ik, fpath, line)
+
+        line = organizeRes(imglocal, fpath, line)
 
     regex = r"""(
                     (https?)://
@@ -405,6 +343,8 @@ def collectHost(fpath, line):
     regex = "".join(regex.split())
     li = re.findall(regex, line, re.IGNORECASE)
     if not li: return reflist, line
+
+    # 代码 Review 到这里了。
     for tx in li:
         url = tx[0]
         host = tx[2]
@@ -433,15 +373,15 @@ def collectHost(fpath, line):
         g_hostset[host] += 1
 
     xline = line[:]
-    for tak, src, name, host in linktagli:
-        xline = xline.replace(tak, src)
+    for tak, name, host in LINKTAGARRAY:
+        xline = xline.replace(tak+"]", name+"]")
     li = re.findall("<.*?>", xline)
     for tx in li:
         xline = xline.replace(tx, "")
-    for tak, src, name, host in linktagli:
+    for tak, name, host in LINKTAGARRAY:
         # 视频要特别标注域名。
-        li1 = re.findall(host, xline)
-        li2 = re.findall(name+"\\]", xline)
+        li1 = re.findall(host, xline, re.IGNORECASE)
+        li2 = re.findall(name+"\\]", xline, re.IGNORECASE)
         if len(li1) == len(li2):
             continue
         if xline.find("[")==-1 and xline.find("<")==-1 and xline.find("(")==-1:
@@ -609,14 +549,14 @@ def mainfile(fpath, fname, ftype):
 
     def linerstrip(line):
         if isMdFile:
-            for tak, src, name, host in linktagli:
+            for tak, name, host in LINKTAGARRAY:
                 # 移除多余空格
-                line = line.replace("  "+tak, tak)
-                line = line.replace(" "+tak, tak)
+                line = line.replace("  "+tak+"]", tak+"]")
+                line = line.replace(" "+tak+"]", tak+"]")
                 # 格式化。
-                line = line.replace(tak, " "+tak)
-                line = line.replace(src, tak)
-                line = line.replace("[ "+tak, "["+name+" "+tak)
+                line = line.replace(tak+"]", " "+tak+"]")
+                line = line.replace(name+"]", tak+"]")
+                line = line.replace("[ "+tak+"]", "["+name+" "+tak+"]")
             line = line.replace(" ——", "——").replace(" ——", "——")
             line = line.replace("—— ", "——").replace("—— ", "——")
             line = line.replace("——", " —— ")
