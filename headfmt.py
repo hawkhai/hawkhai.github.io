@@ -166,8 +166,8 @@ def mainxkey():
         key, value = key, gkvmap[key][:ctrln]
         print(key, value, "..." if len(gkvmap[key]) > ctrln else "")
         headnote[key] = value
-    # (path, data, ascii=True, encoding="ISO8859-1"):
-    writefileJson("headnote.txt", headnote, False, "utf8")
+    # (path, data, encoding="ISO8859-1", ascii=True):
+    writefileJson("headnote.txt", headnote, "utf8", False)
 
 if __name__ == "__main__":
     main()
