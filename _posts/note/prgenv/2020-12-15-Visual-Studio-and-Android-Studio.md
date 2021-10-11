@@ -87,6 +87,33 @@ VS2005 WTL 工程编译 Debug 无问题，编译 Release 时出现 Link 错误
 属性页 -> 配置属性 -> 常规 -> 项目默认值 -> 在 ATL 中最小使用 CRT -> 否
 
 
+## 使用 $err,hr 快速查看当前 GetLastError() 的值
+
+调试时，在 `监视 1` 窗口（`Watch 1`）中输入 `$err,hr` 即可。
+在 Visual C++ 中，可以在监视窗口添加 $err,hr 一行来实时显示错误。
+调试过程中，该项相当于在每次调用 API 函数之后调用 GetLastError 函数。
+其值由两部分组成，一个是错误代码（十六进制），另一个是错误代码所对应的文本提示。该方法支持多语言。
+
+{% include image.html url="/assets/images/201215-visual-studio-and-andro~6d/78946-20160703182949937-342764345.png" %}
+
+以 $ 和 @ 开头的伪变量（注：$ 和 @ 两个符号是一样的，随便用哪个都可以）：
+* `$err` -- 获取 GetLastError() 的返回值
+* `$err,hr` -- 获取 GetLastError() 的返回值并解释返回值的含义
+* `@eax` -- 查看 eax 的值（64 位为 @rax）
+* `@esp+4` -- 函数的第一个参数地址
+* `$handles` -- 查看打开的句柄数
+* `$tid`  -- 当前线程 id
+* `$vframe`  -- 当前栈帧的 ebp
+* `$clk`  -- 以时钟周期为单位显示时间
+* `$ReturnValue` -- 查看函数的返回值
+* `Message,wm` -- 以 windows 消息的宏形式显示 如：Message 为 15 时，显示为 WM_PAINT（注：Message 为 unsigned int 类型）
+* `hResult,hr` -- hResult 为 0x80070005 时，显示为 E_ACCESSDENIED（注：hResult 为 void\* 类型）
+* `pArray,10` -- 从 pArray 地址起显示后续 10 个 int 类型的数据（注：pArray 为 int\* 类型）
+* `(pArray+5),3` -- 从 pArray[5] 地址起显示后续 3 个 int 类型的数据（注：pArray 为 int\* 类型）
+
+[Visual Studio 高级调试技巧 {% include relref_cnblogs.html %}](https://www.cnblogs.com/huhewei/p/6080157.html)
+
+
 ## Windows 上通过 bat 避免 python 冲突
 
 首先要把 path 里面的所有 python 路径移干净，避免命令行访问到。
@@ -407,6 +434,7 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Visual-Studio-and-Android-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.cnblogs.com/huhewei/p/6080157.html]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/www.cnblogs.com/38d5910a.html" %})
 - [https://gclxry.com/article/avoid-python-conflicts-via-bat-on-windows/]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/gclxry.com/43348a06.html" %})
 - [https://blog.csdn.net/hellokandy/article/details/100931904]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/blog.csdn.net/e2e3de3c.html" %})
 - [https://developer.android.com/r/studio-ui/ndk-dir]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio-and-Android-Studio.md/developer.android.com/a3b9e8b2.html" %})

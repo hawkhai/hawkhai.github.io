@@ -1,0 +1,1526 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="1. 设置软件断点，运行到目标位置启动调试器 方法①：使用汇编指令（注：x64 c++不支持嵌入汇编） 方法②：编译器提供的方法 方法③：使用windows API WerFault.exe进程（Wi" />
+    <meta property="og:description" content="1. 设置软件断点，运行到目标位置启动调试器 方法①：使用汇编指令（注：x64 c++不支持嵌入汇编） 方法②：编译器提供的方法 方法③：使用windows API WerFault.exe进程（Wi" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Visual Studio高级调试技巧 - 一天从晚上开始 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=T3qda32WPAJnJeCcMKhkDtUcm1SzcInQFuiLbTe7cHI" />
+    <link id="MainCss" rel="stylesheet" href="/skins/mountainink/bundle-mountainink.min.css?v=pcdpNgipL9aGb4Zde7efsclSs6j1mCXdzyWaR0Y9lWs" />
+    <link type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=2spjdq1Snjw5rAm9auWVRax8Gb7nftS4ORu-8fQ7JGM" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/mountainink/bundle-mountainink-mobile.min.css?v=FbWAojti4hapFp0LXITskgKBeOZgAgZZV3IgLxaJX08" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/huhewei/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/huhewei/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/huhewei/wlwmanifest.xml" />
+    <script async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="https://common.cnblogs.com/script/encoder.js"></script><script>
+        var currentBlogId = 307154;
+        var currentBlogApp = 'huhewei';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'MountainInk';
+        var visitorUserId = '';
+        var hasCustomScript = false;
+        try {
+            if (hasCustomScript &amp;&amp; document.referrer &amp;&amp; document.referrer.indexOf('baidu.com') &gt;= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+    </script>
+        <script>
+            var currentPostDateAdded = '2016-11-19 11:22';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=N1Wb8r5HmV3Ct1re6MJ1YmroaE9ThQhsff1c3-A_-dg"></script><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style>
+    
+    
+    
+    <script type="text/javascript">
+        window.codeHighlightEngine = 1
+        window.enableCodeLineNumber = false
+    </script>
+</head>
+<body class="skin-mountainink has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/huhewei/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/huhewei/">谁能告诉我是对还是错</a>
+</h1>
+<h2>我命由我不由天</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/huhewei/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%B8%80%E5%A4%A9%E4%BB%8E%E6%99%9A%E4%B8%8A%E5%BC%80%E5%A7%8B">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/huhewei/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 264  </span>
+<span id="stats_article_count">文章 - 0  </span>
+<span id="stats-comment_count">评论 - 5  </span>
+<span id="stats-total-view-count">阅读 - 
+<span title="总阅读数: 208210">
+20万</span></span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huhewei/p/6080157.html">
+    <span>Visual Studio高级调试技巧</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p><strong>1. 设置软件断点，运行到目标位置启动调试器</strong></p>
+<p>方法①：使用汇编指令（注：x64 c++不支持嵌入汇编）</p>
+<div class="cnblogs_code">
+<pre>_asm int 3</pre>
+</div>
+<p>方法②：编译器提供的方法</p>
+<div class="cnblogs_code">
+<pre>__debugbreak();</pre>
+</div>
+<p>方法③：使用windows API</p>
+<div class="cnblogs_code">
+<pre>DebugBreak();</pre>
+</div>
+<p>WerFault.exe进程（Windows Error Reporting）弹出ConsoleTest.exe已停止工作：</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201609/78946-20160921222308481-330024455.png" alt="" /></p>
+<p>要想出现“调试程序”选项，需要将Windows Error Reporting注册表信息设置成如下图所示（注：特别是红框的内容）</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201609/78946-20160921234845168-1388576547.png" alt="" /></p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201609/78946-20160921234856465-1838599689.png" alt="" /></p>
+<p>如果在注册表AeDebug的Debugger项配置了VSJitDebugger路径，且VSJitDebugger安装正常</p>
+<div class="cnblogs_code">
+<pre>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\AeDebug
+
+HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows NT\CurrentVersion\AeDebug  // 注：64位系统上的32位程序使用该注册表项</pre>
+</div>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201609/78946-20160922000247527-1265512754.png" alt="" /></p>
+<p>点击“调试程序”选项就会弹出Visual Studio实时调试器对话框，选择对应的调试器后，点击“是”就可以启动调试器并中断到软件断点位置了</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201609/78946-20160921222319231-881635097.png" alt="" /></p>
+<p>需要注意的是，软件断点也是一种异常，一旦被处理，就不会传到WerFault.exe进程上，那么这种方法也就失效了！</p>
+<p>下面两种情况软件断点异常会被处理：</p>
+<p>① 被SEH异常捕获并处理</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201609/78946-20160922000906887-17910553.png" alt="" /></p>
+<p>② 被自定义的全局异常函数处理</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201609/78946-20160922001234074-1519548761.png" alt="" /></p>
+<p>注：可以将上面两种情况中的EXCEPTION_EXECUTE_HANDLER修改为EXCEPTION_CONTINUE_SEARCH来指明异常未得到处理</p>
+<p><strong>2. 修改变量</strong>（注：在悬停出来小面板、Locals窗口、Autos窗口、Watch窗口、或Quick Watch窗口中进行修改；也可以在Immediate窗口中执行：bFlag=false）</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160702171851687-1605590504.png" alt="" /></p>
+<p><strong>3. 格式化变量</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160730233701091-1695533199.png" alt="" /></p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201608/78946-20160814185434250-747959391.png" alt="" /></p>
+<p>注：d,i:有符号的十进制数<br />      u:无符号的十进制数<br />      o:无符号的八进制数<br />      x:十六进制数(字母小写)<br />      X:十六进制数(字母大写)</p>
+<p><strong>4. 修改内存</strong>（注：在内存窗口中，将光标定位到要修改的地方，直接按0-9输入十六进制；要输入a-f则需通过右键菜单中的“Edit Value”进行输入）</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160702184151827-1754365810.png" alt="" /></p>
+<p><strong>5. 格式化显示内存</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160730235417606-651750413.png" alt="" /> </p>
+<p><strong>6. 设置下一个运行位置</strong>（注：直接拖动黄色箭头到想要的运行位置）</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160702180343312-1106440444.png" alt="" /></p>
+<p>示例中：传入的bFlag为true，代码开始运行到断点处（43行），然后重新把黄色箭头拖回39行，此时bFlag的值为false，按F10会进入else分支</p>
+<p>注：（1）跳过中间所有指令。意味着：printf("True\n")及CTest的析构函数均不会被执行</p>
+<p>      （2）当拖动箭头到一个新的函数中时，vs会将原来的函数从栈中弹出，将新函数压入栈顶；</p>
+<p>             由于新函数与上层函数没有调用关系，输出类型的参数及返回值很有可能写坏上层函数的栈数据</p>
+<p>      （3）该调试技巧为一种事后行为，应谨慎使用，最好是只在函数内局部使用</p>
+<p><strong>7. 编辑然后继续运行</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160702183635827-2074327675.png" alt="" /></p>
+<p>（1）不能在64位代码上使用</p>
+<p>（2）使用“Program Database for Edit &amp; Continue (/ZI)”生成pdb文件</p>
+<p>（3）仅适用于函数内部改变（若要修改函数原型或增加新函数，只能选择重启程序）</p>
+<p><strong>8. 变量的一些特殊查看方法</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160703182949937-342764345.png" alt="" /></p>
+<p>以$和@开头的伪变量：（注：$和@两个符号是一样的，随便用哪个都可以）</p>
+<p>$err -- 获取GetLastError()的返回值</p>
+<p>$err,hr -- 获取GetLastError()的返回值并解释返回值的含义</p>
+<p>@eax -- 查看eax的值（64位为@rax）</p>
+<p>@esp+4 -- 函数的第一个参数地址</p>
+<p>$handles -- 查看打开的句柄数</p>
+<p>$tid  -- 当前线程id</p>
+<p>$vframe  -- 当前栈帧的ebp</p>
+<p>$clk  -- 以时钟周期为单位显示时间</p>
+<p>$ReturnValue -- 查看函数的返回值</p>
+<p>Message,wm --以windows消息的宏形式显示 如：Message为15时，显示为WM_PAINT（注：Message为unsigned int类型）</p>
+<p>hResult,hr --hResult为0x80070005时，显示为E_ACCESSDENIED（注：hResult为void*类型）</p>
+<p>pArray,10 --从pArray地址起显示后续10个int类型的数据（注：pArray为int*类型）</p>
+<p>(pArray+5),3 --从pArray[5]地址起显示后续3个int类型的数据（注：pArray为int*类型）</p>
+<p><strong>9. 获取简单类型的函数返回值</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160716232357295-776232078.png" alt="" /></p>
+<p>注1：不能为inline函数</p>
+<p>注2：执行函数的下一条语句时，查看eax或伪变量ReturnValue的值</p>
+<p><strong>10. 使用指针类型转换查看某个地址的变量</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160716234157357-1001682497.png" alt="" /></p>
+<p>注：有时候，尽管对象仍然存在，在调试符号越界后，watch窗口中的变量是被禁用的，不能再查看（也不能更新）。</p>
+<p>      若知道对象的地址，则可以将地址转换为该对象类型的指针，放在watch窗中来继续观察它。</p>
+<p><strong>11. Command窗口</strong></p>
+<p>通过命令来完成vs中的功能（不仅仅在调试状态时使用），另外其调试相关命令与windbg保持一致。</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre>? nLocal  //查看变量nLocal的值
+?? nLocal //将nLocal添加到Quick Watch窗口中
+? nLocal=100 //修改nLocal的值为100
+? MySum(20,30) //调用全局函数MySum，并返回结果
+k //打印当前线程堆栈
+~ //查看线程情况
+~*k  //打印出所有线程的堆栈信息
+watch //打开watch窗口
+memory2 //打开memory2窗口
+g //继续执行，F5功能
+q //结束调试</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p><strong>12. 内存断点</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160717234604061-484101576.png" alt="" /></p>
+<p>（1）在84行断点停住后，查看&amp;s.Age的地址为0x0042FCEC</p>
+<p>（2）点击"Debug"-"New Breakpoint"-"New Data Breakpoint..."，在弹出的对话框Address填入：0x0042FCEC，长度为4即可</p>
+<p>（3）当运行到88行时，由于Scores数组越界引发了s.Age的内存修改，触发了内存断点</p>
+<p><strong>13. 条件断点</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201609/78946-20160911002159441-130410639.png" alt="" /></p>
+<p>断点说明：</p>
+<p>（1）设置断点条件：i&gt;6；且被命中次数&gt;=2时才断住程序，所以第一次断住时i=8</p>
+<p>（2）命中时，在Output窗口中打印当前函数名及线程ID（也可以打印相关变量的值，详见"When Breakpoint Is Hit"面板上的说明）；在Command窗口中打印出堆栈信息</p>
+<p>（3）若不想断住程序，可以把"When Breakpoint Is Hit"对话框中的"Continue execution"勾选上</p>
+<p>注1：对于字符串的条件断点，不能写如下条件pStr=="Hello"（pStr为char*类型），应该写成：pStr[0]=='H' &amp;&amp; pStr[1]=='e' &amp;&amp; pStr[2]=='l' &amp;&amp; pStr[3]=='l' &amp;&amp; pStr[4]=='o' &amp;&amp; pStr[5]=='\0'</p>
+<p>     vs2010及以上版本中，条件断点中可使用字符串：strcmp(pStr, "Hello")==0</p>
+<p>     支持的字符串函数有：strlen, wcslen, strnlen, wcsnlen, strcmp, wcscmp, _stricmp, _wcsicmp, strncmp, wcsncmp, _strnicmp, _wcsnicmp, strchr, wcschr, strstr, wcsstr.</p>
+<p>注2：也可以创建自己的宏，具体方法："Tools"-"Macros"-"Macro Explorer"，然后在下图：MyMacros-Module1上右键快捷菜单中选择"New macro"，</p>
+<p>     如ChangeExpression宏函数会在Output窗口的Debugger过滤器下打印出"Hello World"，然后修改变量code的值为1000</p>
+<p>     编写自己的宏时，可以参考大量vs已有的宏（见：Samples节点下）</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160710192856686-332555410.png" alt="" /></p>
+<p><strong>14.在windows API上打断点</strong></p>
+<p>（1）例如：对SetWindowText打断点。首先当前程序字符集为未设置或多字节，则SetWindowTextA；为Unicode则为SetWindowTextW。下面以SetWindowTextA为例。</p>
+<p>（2）调试运行程序断住后，打开Modules窗口可以看到所有已经加载的模块，找到windows API所在的模块，右击鼠标执行"Load Symbols From" - "Microsoft Symbol Servers"下载并加载对应模块的pdb</p>
+<p>（3）新建一个Break At Function断点，填入：{,,user32.dll}_SetWindowTextA@8。可以看到，VS里面的符号跟windbg相比多了一些字符，其中‘_’表示stdcall类型，后面‘@8’表示所有参数的字节数的和。</p>
+<p>       有些函数Symbol Name与导出函数名可能不一致，例如GetDC(HWND)，其Symbol Name为NtUserGetDC，最后断点应填入：{,,user32.dll}_NtUserGetDC@4</p>
+<p>       注：查找windows API符号名可以使用<a href="http://www.cnblogs.com/kekec/archive/2012/12/02/2798020.html" target="_blank">windbg的x命令</a>或者使用pdb解析工具（<a href="http://advdbg.org/books/swdbg/t_symview.aspx" target="_blank">symView</a>）</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160716001052451-550571856.png" alt="" /></p>
+<p>也可以直接使用地址对windows API打断点（这种方式不需要符号的支持）：如对GetDC打断点，可以用Dependency查看其在user32.dll中导出函数地址（Entry Point列）：0x000172CC</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160716001139342-281780235.png" alt="" /></p>
+<p>然后在Modules窗口中获得user32.dll模块起始地址0x75840000，最后对两个值相加后的绝对地址处直接设置断点：{,,user32.dll}0x758572CC</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160717234811264-1708728738.png" alt="" /></p>
+<p><strong>15. 异常时断住程序</strong></p>
+<p>（1）在"Debug"-"Exceptions..."，弹出如下对话框：点击Add按钮，新增一个int类型的C++ Exceptions异常，并勾选Thrown</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160716224357373-1963963492.png" alt="" /></p>
+<p>（2）当int、int*、int&amp;的异常被catch到时，会断住程序进入调试状态（注：以上void类型对应：char*、void*的异常）</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160716225002576-387017675.png" alt="" /></p>
+<p><strong>16. 单步调试自动跳过不必进入的函数</strong>  （注：仅适用于Native c++）</p>
+<div class="cnblogs_code">
+<pre>Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\9.0\NativeDE\StepOver]
+"1"="\\scope:CString.*\\:\\:.*=NoStepInto"</pre>
+</div>
+<p>注1：如果是32位windows，删除上面路径中的Wow6432Node</p>
+<p>注2：不进入任何CString的方法（前面的1表示优先级，该值越大优先级越高）</p>
+<p>++++++++++++++++++++++++++++++</p>
+<p>NoStepInto 不可进入匹配函数<br />StepInto   可进入匹配函数</p>
+<p>特殊字符串：</p>
+<p>\cid 代表一个C/C++标识符<br />\funct 代表一个C/C++函数名<br />\scope 代表一个函数的作用范围(命名空间+类名 如：ATL::CFoo::CBar::)<br />\anything 代表一个字符串<br />\oper 代表一个C/C++操作符</p>
+<p>正则表达式：</p>
+<p>\ 转义字符 如：要使用 “\” 本身, 则应该使用“\\”<br />\: 代表字符:<br />. 匹配任意字符<br />* 其左边的字符被匹配任意次(0次或多次)。如：be*匹配“b”,“be”或“bee”<br />.* 匹配0个或多个字符</p>
+<p>更多例子：</p>
+<p>例1：不进入重载操作符函数：<br />10 \scope:operator\oper:=NoStepInto<br />例2：除了CComBSTRs的非操作符函数，不进入任何ATL::开头的函数：<br />20 ATL\:\:CComBSTR::\funct:=StepInto<br />10 ATL\:\:.*=NoStepInto<br />例3：除了全局模版函数外，不进入任何模板函数：<br />20 \scope:\funct:=StepInto<br />10 .*[\&lt;\&gt;].NoStepInto</p>
+<p>++++++++++++++++++++++++++++++</p>
+<p><strong>17. 使用OutputDebugString进行日志调试</strong></p>
+<p>（1）调试状态时，会将日志输出到Debug过滤器的Output窗口中</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160724230059607-987091044.png" alt="" /></p>
+<p>（2）非调试状态时，可采用DbgView.exe来捕捉程序日志</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201607/78946-20160724230340622-1605796934.png" alt="" /></p>
+<p><strong>18. 使用autoexp.dat自定义调试时变量的显示格式</strong></p>
+<p>文件所在位置：Microsoft Visual Studio 9.0\Common7\Packages\Debugger\autoexp.dat</p>
+<p>在autoexp.dat中的[Visualizer]域可以对各种类型变量的显示格式进行配置，来优化变量在调试时显示，提高效率。</p>
+<p>注：在vs中要让autoexp.dat生效需要去掉"Tools"-"Options..."对话框中，</p>
+<p>     "Debugging"-"General"-"Show raw structure of objects in variables windows"的勾选</p>
+<p>(1) STL之string、vector、map</p>
+<p>①原始显示结果：</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201608/78946-20160814173644234-288468446.png" alt="" /></p>
+<p>②配置了autoexp.dat的显示结果：</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201608/78946-20160814175604609-525076098.png" alt="" /></p>
+<p>--&gt;对应的配置内容如下：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre>;  std::string -- char
+std::basic_string&lt;char,*&gt;{
+    preview        ( #if(($e._Myres) &lt; ($e._BUF_SIZE)) ( [$e._Bx._Buf,s]) #else ( [$e._Bx._Ptr,s]))
+    stringview    ( #if(($e._Myres) &lt; ($e._BUF_SIZE)) ( [$e._Bx._Buf,sb]) #else ( [$e._Bx._Ptr,sb]))
+    children
+    (
+        #if(($e._Myres) &lt; ($e._BUF_SIZE))
+        (
+            #([actual members]: [$e,!] , #array( expr: $e._Bx._Buf[$i], size: $e._Mysize))
+        )
+        #else
+        (
+            #([actual members]: [$e,!],  #array( expr: $e._Bx._Ptr[$i], size: $e._Mysize))
+        )
+    )
+}
+;------------------------------------------------------------------------------
+;  std::vector
+;------------------------------------------------------------------------------
+std::vector&lt;*&gt;{
+    children
+    (
+        #array
+        (
+            expr :        ($e._Myfirst)[$i],
+            size :        $e._Mylast-$e._Myfirst
+        )
+    )
+    preview
+    (
+        #(
+            "[", $e._Mylast - $e._Myfirst , "](",
+            #array
+            (
+                expr :    ($e._Myfirst)[$i],
+                size :    $e._Mylast-$e._Myfirst
+            ),
+            ")"
+        )
+    )
+}
+;------------------------------------------------------------------------------
+;  std::map
+;------------------------------------------------------------------------------
+std::map&lt;*&gt;{
+    children
+    (
+        #tree
+        (
+            head : $e._Myhead-&gt;_Parent,
+            skip : $e._Myhead,
+            size : $e._Mysize,
+            left : _Left,
+            right : _Right
+        ) : $e._Myval
+    )
+    preview
+    (
+        #(
+            "[", $e._Mysize, "](",
+            #tree
+            (
+                head : $e._Myhead-&gt;_Parent,
+                skip : $e._Myhead,
+                size : $e._Mysize,
+                left : _Left,
+                right : _Right
+            ) : $e._Myval,
+            ")"
+        )
+    )
+}</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p> </p>
+<p>(2) 自定义类MyArray</p>
+<p>①原始显示结果：</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201609/78946-20160911232548011-511405652.png" alt="" /></p>
+<p>②配置了autoexp.dat的显示结果：</p>
+<p><img src="https://images2015.cnblogs.com/blog/78946/201609/78946-20160911232822678-771073138.png" alt="" /></p>
+<p>--&gt;对应的配置内容如下：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre>MyArray{
+    preview
+    (
+        #(
+            "[size is ", $c.m_nSize, "] m_pData is (",
+            #array
+            (
+                expr: ($c.m_pData)[$i],
+                size: $c.m_nSize
+            ),
+            ")..."
+        )
+    )
+    stringview
+    (
+        #(
+            "Hello MyArray!!!"
+        )
+    )
+    children
+    (
+        #(  
+            #array
+            (
+                expr: ($c.m_pData)[$i],
+                size: $c.m_nSize
+            )
+        )
+    )
+}</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p>注1：双引号中字符串不能含有冒号，如："[size is "不能写成"size: "</p>
+<p>注2：多个类型使用 | 进行连接。如：MyArray|ArrayEx</p>
+<p>注3：preview、stringview及children。对于不需要的部分可以不用定义，且三个部分没有先后顺序之分。</p>
+<p>注4：格式的定义的最外层用大括号{}，其中的每个部分使用小括号()。</p>
+<p>注5：格式定义出错时，运行VS会弹出提示窗口，对于格式配置错误的类型，在调试期间无法正常显示。</p>
+<p>注6：最外层的左边的大括号{必须紧挨着最后一个类型名，否则无论后面的格式正确与否，都无法正常显示。</p>
+<p>注7：符号;为行注释符。</p>
+<p>注8：$c表示当前所定义数据结构的对象，#array表示用数组形式显示内容，$i表示数组中的每个元素的索引，$e表示数组中的每个元素的值</p>
+<p>注9：array结构必须同时包含expr和size两个部分，缺少其中一个部分都将导致信息无法正确显示。</p>
+<p>注10：可使用#switch、#if进行条件分支判断，要注意的是：#switch结构不能用于#array结构中，否则可能导致VS挂死。</p>
+</div>
+<div id="MySignature">
+    逆天改命！我命由我不由天！
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/huhewei/category/885419.html" target="_blank">Visual C++</a></div>
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6080157,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('9d290c6f-6d80-e611-9fc1-ac853d9f53cc');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/huhewei/" target="_blank"><img src="https://pic.cnblogs.com/face/1030778/20200517165833.png" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/huhewei/">一天从晚上开始</a><br />
+            <a href="https://home.cnblogs.com/u/huhewei/followees/">关注 - 5</a><br />
+            <a href="https://home.cnblogs.com/u/huhewei/followers/">粉丝 - 6</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('9d290c6f-6d80-e611-9fc1-ac853d9f53cc');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6080157,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(6080157,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/huhewei/p/6080143.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/huhewei/p/6080143.html" title="发布于 2016-11-19 11:19">__stdcall、__cdcel和__fastcall三者的区别</a>
+    <br />
+    <a href="https://www.cnblogs.com/huhewei/p/6080881.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/huhewei/p/6080881.html" title="发布于 2016-11-19 16:47">关于VS项目平台的x86,x64,Any CPU以及Debug和Release的区别</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2016-11-19 11:22</span> 
+<a href="https://www.cnblogs.com/huhewei/">一天从晚上开始</a> 
+阅读(<span id="post_view_count">819</span>) 
+评论(<span id="post_comment_count">1</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=6080157" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(6080157);return false;">收藏</a> 
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '6080157', targetLink: 'https://www.cnblogs.com/huhewei/p/6080157.html', title: 'Visual Studio高级调试技巧' })">举报</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js" async="" onload="markdown_highlight()"></script>
+<script>
+    var allowComments = true, cb_blogId = 307154, cb_blogApp = 'huhewei', cb_blogUserGuid = '9d290c6f-6d80-e611-9fc1-ac853d9f53cc';
+    var cb_entryId = 6080157, cb_entryCreatedDate = '2016-11-19 11:22', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login('!comments');">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="https://www.cnblogs.com/cmt/p/15375689.html" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-并行科技')">【推荐】并行超算云面向博客园粉丝推出“免费算力限时申领”特别活动</a><br /><a href="http://www.uccpsoft.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-ucancode')">【推荐】跨平台组态\工控\仿真\CAD 50万行C++源码全开放免费下载！</a><br /><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为专区')">【推荐】和开发者在一起：华为开发者社区，入驻博客园科技品牌专区</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+             <a onclick="ga('send', 'event', 'banner', 'click', 'Pangle-C1')" target="_blank" rel="nofollow" href="https://c.gridsumdissector.com/r/?gid=gad_545_mzyfo0un&amp;ck=46&amp;adk=566&amp;autorefresh=__AUTOREFRESH__">
+                <img style="width: 300px; height: 250px;" src="https://img2020.cnblogs.com/blog/35695/202110/35695-20211008160624813-1694591598.jpg" alt="" onload="impressC1()" />
+             </a>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card">
+<b>编辑推荐：</b>
+<br />
+
+· <a href="https://www.cnblogs.com/GuyaWeiren/p/15376286.html" target="_blank">在 Unity 中渲染一个黑洞</a>
+    <br />
+· <a href="https://www.cnblogs.com/xiaoxiaotank/p/15367747.html" target="_blank">理解 ASP.NET Core - 配置(Configuration) </a>
+    <br />
+· <a href="https://www.cnblogs.com/coco1s/p/15378659.html" target="_blank">CSS 奇技淫巧 | 妙用 drop-shadow 实现线条光影效果 </a>
+    <br />
+· <a href="https://www.cnblogs.com/throwable/p/15371609.html" target="_blank">详细分析 JDK 中 Stream 的实现原理</a>
+    <br />
+· <a href="https://www.cnblogs.com/imyalost/p/15355660.html" target="_blank">全链路压测：认识全链路压测</a>
+    <br />
+</div></div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>最新新闻</b>：
+    <br />
+ ·          <a href="//news.cnblogs.com/n/703677/" target="_blank">验血就能检测早期肝癌？科学家们找到新希望（2021-10-11 11:40）</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/703676/" target="_blank">顺丰最新赔付协议惹争议 二手手机、摄影器材保价了也不赔（2021-10-11 11:33）</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/703675/" target="_blank">完美世界公告：从未也无权向直播平台提出《DOTA2》Ti转播延迟要求（2021-10-11 11:22）</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/703674/" target="_blank">“吉林一号”成为我国规模最大的商用遥感卫星星座（2021-10-11 11:11）</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/703673/" target="_blank">多重风险难挡马斯克野心 特斯拉目标年销2000万辆被指欲垄断汽车业（2021-10-11 11:00）</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/huhewei/">
+            一天从晚上开始
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/huhewei/" title="入园时间：2016-09-22">
+            5年
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/huhewei/followers/">
+            6
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/huhewei/followees/">
+            5
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('9d290c6f-6d80-e611-9fc1-ac853d9f53cc')">+加关注</a></div>
+        <script>getFollowStatus('9d290c6f-6d80-e611-9fc1-ac853d9f53cc');</script>
+    </div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2021/09/11'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2021年10月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2021/11/11'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">26</td>
+                            <td class="CalOtherMonthDay" align="center">27</td>
+                            <td class="CalOtherMonthDay" align="center">28</td>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        2
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            3
+                        </td>
+                            <td class="" align="center">
+                                4
+                            </td>
+                            <td class="" align="center">
+                                5
+                            </td>
+                            <td class="" align="center">
+                                6
+                            </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            9
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            10
+                        </td>
+                            <td class="CalTodayDay" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            16
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            17
+                        </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            23
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            24
+                        </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            30
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            31
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            6
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk" /> <input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block"><div class="catListLink">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    
+<li><a href="https://www.cnblogs.com/huhewei/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/huhewei/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/huhewei/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/huhewei/RecentComments.html" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/huhewei/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"><div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+        <li>
+            <a href="https://www.cnblogs.com/huhewei/tag/javascript/">javascript<span class="tag-count">(4)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/huhewei/tag/eval/">eval<span class="tag-count">(3)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/huhewei/tag/jquery/">jquery<span class="tag-count">(3)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/huhewei/tag/bootstrap/">bootstrap<span class="tag-count">(3)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/huhewei/tag/JS/">JS<span class="tag-count">(3)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/huhewei/tag/composer/">composer<span class="tag-count">(3)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/huhewei/tag/%E5%9B%9E%E8%BD%A6/">回车<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/huhewei/tag/%E6%96%87%E6%9C%AC%E6%A1%86/">文本框<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/huhewei/tag/%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/">文件下载<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/huhewei/tag/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记<span class="tag-count">(1)</span></a>
+        </li>
+    <li>
+        <a href="https://www.cnblogs.com/huhewei/tag/">更多</a>
+    </li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔分类
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/935536.html" rel="" target="">
+    ACCESS(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/918574.html" rel="" target="">
+    DataBase(17)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1893456.html" rel="" target="">
+    docker(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1231309.html" rel="" target="">
+    html+css(16)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1874886.html" rel="" target="">
+    idea(7)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1696371.html" rel="" target="">
+    Java(47)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1667621.html" rel="" target="">
+    javascript(15)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1840455.html" rel="" target="">
+    JSP(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1696266.html" rel="" target="">
+    layui(8)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1637606.html" rel="" target="">
+    linux(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1860412.html" rel="" target="">
+    maven(10)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1871562.html" rel="" target="">
+    myBatis(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1757695.html" rel="" target="">
+    mysql(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1903747.html" rel="" target="">
+    node.js(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1554597.html" rel="" target="">
+    PHP(32)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1871561.html" rel="" target="">
+    spring(10)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1885047.html" rel="" target="">
+    Springboot(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1871597.html" rel="" target="">
+    SpringMVC(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1827672.html" rel="" target="">
+    SQL语句(19)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1978572.html" rel="" target="">
+    ThinkPHP(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/942029.html" rel="" target="">
+    VB(18)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1216467.html" rel="" target="">
+    VBA(3)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/885419.html" rel="" target="">
+    Visual C++(16)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1896924.html" rel="" target="">
+    vue(6)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1556965.html" rel="" target="">
+    电脑应用(3)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1894920.html" rel="" target="">
+    多线程(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1896288.html" rel="" target="">
+    架构(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1301865.html" rel="" target="">
+    社会(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/1910591.html" rel="" target="">
+    学习笔记(5)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/category/2001629.html" rel="" target="">
+    知识产权(1)
+</a>
+ 
+                </li>                
+            <li>
+                <a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a>
+            </li>
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2021/08.html" rel="" target="">
+    2021年8月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2021/05.html" rel="" target="">
+    2021年5月(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2021/04.html" rel="" target="">
+    2021年4月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2021/02.html" rel="" target="">
+    2021年2月(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2021/01.html" rel="" target="">
+    2021年1月(19)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2020/12.html" rel="" target="">
+    2020年12月(18)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2020/11.html" rel="" target="">
+    2020年11月(19)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2020/10.html" rel="" target="">
+    2020年10月(9)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2020/09.html" rel="" target="">
+    2020年9月(3)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2020/08.html" rel="" target="">
+    2020年8月(19)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2020/07.html" rel="" target="">
+    2020年7月(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2020/06.html" rel="" target="">
+    2020年6月(20)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2020/05.html" rel="" target="">
+    2020年5月(25)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2020/04.html" rel="" target="">
+    2020年4月(15)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2020/03.html" rel="" target="">
+    2020年3月(5)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2020/02.html" rel="" target="">
+    2020年2月(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2020/01.html" rel="" target="">
+    2020年1月(3)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2019/12.html" rel="" target="">
+    2019年12月(17)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2019/11.html" rel="" target="">
+    2019年11月(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2019/10.html" rel="" target="">
+    2019年10月(8)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2019/09.html" rel="" target="">
+    2019年9月(5)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2019/07.html" rel="" target="">
+    2019年7月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2019/05.html" rel="" target="">
+    2019年5月(6)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2019/03.html" rel="" target="">
+    2019年3月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2018/05.html" rel="" target="">
+    2018年5月(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2017/04.html" rel="" target="">
+    2017年4月(20)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2017/03.html" rel="" target="">
+    2017年3月(10)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2017/01.html" rel="" target="">
+    2017年1月(6)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2016/12.html" rel="" target="">
+    2016年12月(5)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2016/11.html" rel="" target="">
+    2016年11月(6)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/huhewei/archive/2016/09.html" rel="" target="">
+    2016年9月(5)
+</a>
+ 
+                </li>                
+            <li>
+                <a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a>
+            </li>
+        </ul>
+
+
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block"><div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/huhewei/p/12065899.html">
+                            1. MYSQL查询某字段中以逗号分隔的字符串的方法(11401)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/huhewei/p/9039140.html">
+                            2. [Excel VBA]单元格区域引用方式的小结(9860)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/huhewei/p/5904273.html">
+                            3. VS2010常用调试技巧(1)(7813)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/huhewei/p/13787794.html">
+                            4. maven里的modelVersion(7795)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/huhewei/p/6268618.html">
+                            5. access编辑关系时勾选“实施参照完整性”复选框有什么作用(5852)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"><div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/huhewei/p/14244812.html">
+                            1. hibernate和mybatis的区别(1)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/huhewei/p/13137994.html">
+                            2. layui form 中input输入框长度的统一设置(1)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/huhewei/p/11585737.html">
+                            3. Sublime Text3快捷键大全(1)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/huhewei/p/6080881.html">
+                            4. 关于VS项目平台的x86,x64,Any CPU以及Debug和Release的区别(1)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/huhewei/p/6080157.html">
+                            5. Visual Studio高级调试技巧(1)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/huhewei/p/13035124.html">
+                                1. jdbc中Class.forName(driverName)的作用(1)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/huhewei/p/12906319.html">
+                                2. java反射机制的作用与优点(1)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/huhewei/p/12906265.html">
+                                3. java中，一个类实现某个接口，必须重写接口中的所有方法吗？(1)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/huhewei/p/6618569.html">
+                                4. VB远程连接SQL server 2005(1)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div><div id="sidebar_recentcomments" class="sidebar-block"><div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/huhewei/p/14244812.html">1. Re:hibernate和mybatis的区别</a></li>
+                    <li class="recent_comment_body"><p>生气了哈哈哈 sql</p>
+</li>
+                    <li class="recent_comment_author">--BeaBrickll</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/huhewei/p/13137994.html">2. Re:layui form 中input输入框长度的统一设置</a></li>
+                    <li class="recent_comment_body"><p>u可预见和刚好符合法规</p>
+</li>
+                    <li class="recent_comment_author">--wo~博客</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/huhewei/p/11585737.html">3. Re:Sublime Text3快捷键大全</a></li>
+                    <li class="recent_comment_body">不错不错</li>
+                    <li class="recent_comment_author">--十年寒暑，从不间断</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/huhewei/p/6080157.html">4. Re:Visual Studio高级调试技巧</a></li>
+                    <li class="recent_comment_body">赞一个。</li>
+                    <li class="recent_comment_author">--tianqi911</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/huhewei/p/6080881.html">5. Re:关于VS项目平台的x86,x64,Any CPU以及Debug和Release的区别</a></li>
+                    <li class="recent_comment_body">赞一个。</li>
+                    <li class="recent_comment_author">--tianqi911</li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+
+</div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2021 一天从晚上开始
+<br /><span id="poweredby">Powered by .NET 6 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8FO3GXnjClZGrNGr2Ic8Z1oSRbnd3QnK2VPJ3mW-E1AjqWldQ0A_VxLoI2ZC706UBpu48ktydX911pA8IJL7ySPRO9hoTAO6ncyt0qypPQ5QZRXRZoOAhAb_N3IkAxi6uw1eTgrs25Iv2z-0fLOb-5g" />
+
+
+</body></html>
