@@ -332,6 +332,15 @@ function genSvgDownloadLink() { // for mermaid
     });
 }
 
+function checkCatTagBar() {
+    console.log(window.location.host);
+    if ("localhost:4000" != window.location.host)
+        return;
+    $.get("http://localhost:8888/?" + escape(window.location.href), function(data, status) {
+        status = null;
+    });
+}
+
 // 文档加载完成时
 $(document).ready(function () {
     checkVideo();
@@ -350,6 +359,7 @@ $(document).ready(function () {
     // $("img.lazyload").lazyload({threshold: 1000, effect: "show", failurelimit: 10});
     genSvgDownloadLink();
     console.log("控制参数：nochart svgdl notoc !!");
+    checkCatTagBar()
 });
 // 窗口大小变化时
 $(window).resize(function () {

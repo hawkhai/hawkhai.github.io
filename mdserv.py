@@ -15,6 +15,7 @@ class Resquest(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
+        self.send_header('Access-Control-Allow-Origin', 'http://localhost:4000')
         self.end_headers()
 
         if self.path == "/favicon.ico":
