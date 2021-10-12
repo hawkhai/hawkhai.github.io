@@ -99,7 +99,7 @@ std::string toregex() {
 // 用正则进行二进制匹配
 std::regex* reg = new std::regex(regex);
 std::string tempstr(str, datasize);
-# match_any	若多于一个匹配可行，则任何匹配都是可接受的结果。
+# match_any	 若多于一个匹配可行，则任何匹配都是可接受的结果。
 bool result = std::regex_search(tempstr, *reg, std::regex_constants::match_any);
 ```
 
