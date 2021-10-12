@@ -64,6 +64,19 @@ def formatValue(value):
         value = value[1:-1].split(",")
         return "[{}]".format(", ".join(["\"{}\"".format(i.strip()) for i in value]))
 
+def analyzehead(fpath, fname, ftype, newmap):
+    fpath = os.path.relpath(fpath, ".")
+    print(fpath)
+    if fpath.startswith("_posts\\"):
+        pass
+    elif fpath.startswith("invisible\\"):
+        pass
+    else:
+        pass
+    
+    if not newmap["categories"] or not newmap["tags"]:
+        openTextFile(fpath)
+
 gkvmap = {}
 def formatkv(fpath, fname, ftype, fsecli):
     li = [line.strip() for line in fsecli.split("\n") if line.strip()]
@@ -122,10 +135,13 @@ layoutclear
                 assert False, (key, value)
 
     newli = []
+    newmap = {}
     for key in mdkeylist:
         value = kvmap[key] if key in kvmap else ""
         line = key + ": " + value.strip()
         newli.append(line.strip())
+        newmap[key] = value.strip()
+    analyzehead(fpath, fname, ftype, newmap)
     return "\r\n".join(newli)
 
 def mainxkeyfile(fpath, fname, ftype):
@@ -172,3 +188,4 @@ def mainxkey():
 if __name__ == "__main__":
     main()
     mainxkey()
+    os.system(r"cd invisible & {} tempd.py encrypt".format(getPythonExe(),))

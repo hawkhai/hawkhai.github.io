@@ -3,8 +3,8 @@ layout: page
 title: 免责声明
 author:
 location:
-categories:
-tags:
+categories: ["生活"]
+tags: ["生活"]
 toc:
 toclistyle:
 comments:

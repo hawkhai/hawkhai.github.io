@@ -3,8 +3,8 @@ layout: bookshelf
 title: 书架
 author:
 location:
-categories:
-tags:
+categories: ["生活"]
+tags: ["生活"]
 toc:
 toclistyle:
 comments:
