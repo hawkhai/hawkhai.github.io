@@ -4,7 +4,7 @@ title: "开发环境 -- 服务端 & Web 前端 各种问题笔记"
 author:
 location: "珠海"
 categories: ["开发环境"]
-tags: ["开发环境", "WEB前端"]
+tags: ["开发环境", "前端开发"]
 toc: true
 toclistyle:
 comments:

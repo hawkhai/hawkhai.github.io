@@ -4,7 +4,7 @@ title: "编程笔记 -- C/C++ 编程指南 & Microsoft Writing Clean Code"
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["编程", "C++"]
+tags: ["编程", "C/C++"]
 toc: true
 toclistyle:
 comments:

@@ -78,7 +78,7 @@ def analyzehead(fpath, fname, ftype, newmap):
         openTextFile(fpath)
 
 gkvmap = {}
-def formatkv(fpath, fname, ftype, fsecli):
+def formatkv(fpath, fname, ftype, fsecli, setkv={}):
     li = [line.strip() for line in fsecli.split("\n") if line.strip()]
 
     _posts = "_posts" in fpath.split("\\")
@@ -138,6 +138,8 @@ layoutclear
     newmap = {}
     for key in mdkeylist:
         value = kvmap[key] if key in kvmap else ""
+        if key in setkv.keys():
+            value = setkv[key]
         line = key + ": " + value.strip()
         newli.append(line.strip())
         newmap[key] = value.strip()
@@ -154,7 +156,7 @@ def parseHeadKeyValue(fpath, fname, ftype):
 
     return formatkv(fpath, fname, ftype, fsecli[1])[1]
 
-def mainxkeyfile(fpath, fname, ftype):
+def mainxkeyfile(fpath, fname, ftype, setkv={}):
     if ftype not in ("md",):
         return
     fdata = readfile(fpath, True, "utf8")
@@ -162,7 +164,7 @@ def mainxkeyfile(fpath, fname, ftype):
     fsecli = fdata.split("---", 2)
     if len(fsecli) <= 2 or len(fsecli[0]) > 3: return
 
-    fsecli[1] = "\r\n{}\r\n".format(formatkv(fpath, fname, ftype, fsecli[1])[0],)
+    fsecli[1] = "\r\n{}\r\n".format(formatkv(fpath, fname, ftype, fsecli[1], setkv)[0],)
 
     fsecli = "---".join(fsecli)
     writefile(fpath, fsecli, "utf8")

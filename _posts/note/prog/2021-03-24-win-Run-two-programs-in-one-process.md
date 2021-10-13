@@ -4,7 +4,7 @@ title: "编程 C++ -- 在同一个进程空间运行两个程序（进程隐藏�
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["编程", "C++"]
+tags: ["编程", "C/C++"]
 toc: true
 toclistyle:
 comments:

@@ -4,7 +4,7 @@ title: "调试 C++ -- GFlags 检查内存越界、野指针等作用的工具使
 author:
 location: "珠海"
 categories: ["调试"]
-tags: ["调试", "Memory", "C++"]
+tags: ["调试", "Memory", "C/C++"]
 toc: true
 toclistyle:
 comments:

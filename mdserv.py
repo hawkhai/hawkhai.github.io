@@ -7,26 +7,35 @@ from pythonx.funclib import *
 
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
+from socketserver import ThreadingMixIn
+import threading
+import ssl
 
 import urllib.parse
 import headfmt
+from urllib.parse import quote
 
 data = {'result': 'this is a test'}
 HOST = ('localhost', 8888)
 
 def getPostInfo(path): # "/favicon.ico"
     result = urllib.parse.urlsplit("http://test"+path)
-    query = dict(urllib.parse.parse_qsl(result.query))
+    print("path", "--", result.path)
+    return parseRootReq(path, result, result.path)
+
+def parseRootReq(path, result, action):
+    querysrc = urllib.parse.parse_qsl(result.query)
+    query = dict(querysrc)
     href = query["href"] if "href" in query.keys() else None
     if not href:
         return None
     result = urllib.parse.urlparse(href)
-    #print(result.scheme)
-    #print(result.netloc)
-    #print(result.path)
-    #print(result.params)
-    #print(result.query)
-    #print(result.fragment)
+    print("scheme", "--", result.scheme)
+    print("netloc", "--", result.netloc)
+    print("path", "--", result.path)
+    print("params", "--", result.params)
+    print("query", "--", result.query)
+    print("fragment", "--", result.fragment)
 
     path = result.path
     # /blog/invisible/video/fastvc-plan
@@ -35,7 +44,7 @@ def getPostInfo(path): # "/favicon.ico"
     if path.startswith("/blog/invisible/"):
         localjs = os.path.join("invisible", "configjs", path.split("/invisible/", 1)[1]+".cfg.js")
     if not os.path.exists(localjs):
-        writefile(localjs, "")
+        pass#writefile(localjs, "")
 
     assert os.path.exists(localmd), localmd
     kjson = headfmt.parseHeadKeyValue(localmd, None, "md")
@@ -43,13 +52,47 @@ def getPostInfo(path): # "/favicon.ico"
     kjson["tags"] = [] if not kjson["tags"] else json.loads(kjson["tags"])
 
     headnote = readfileJson("headnote.txt", "utf8")
+    if action == "/":
+        return parseReqAction(localjs, localmd, kjson, query, headnote, href)
+    if action == "/chgcat":
+        return parseReqActionChgCate(localjs, localmd, kjson, querysrc, headnote, href)
+    if action == "/chgtag":
+        return parseReqActionChgTag(localjs, localmd, kjson, querysrc, headnote, href)
+
+def headkv_jsonsumps(li):
+    temp = jsondumps(li, False, 0)
+    temp = " ".join(temp.split())
+    if temp.startswith("[ "): temp = "["+temp[2:]
+    if temp.endswith(" ]"): temp = temp[:-2]+"]"
+    return temp
+
+def parseReqActionChgCate(localjs, localmd, kjson, querysrc, headnote, href):
+    kjson["chgcat"] = querysrc
+    li = []
+    for k, v in querysrc:
+        if k == "mycate":
+            li.append(v)
+    headfmt.mainxkeyfile(localmd, None, "md", {"categories": headkv_jsonsumps(li)})
+    return kjson
+
+def parseReqActionChgTag(localjs, localmd, kjson, querysrc, headnote, href):
+    kjson["chgtag"] = querysrc
+    li = []
+    for k, v in querysrc:
+        if k == "mytag":
+            li.append(v)
+    headfmt.mainxkeyfile(localmd, None, "md", {"tags": headkv_jsonsumps(li)})
+    return kjson
+
+def parseReqAction(localjs, localmd, kjson, query, headnote, href):
     mycate = kjson["categories"]
     allcate = headnote["categories"]
     mytag = kjson["tags"]
     alltag = headnote["tags"]
 
     # http://c.biancheng.net/view/7588.html
-    htmlcate = '<fieldset><form action="http://localhost:8888/chgcat?" method="get" name="chgcat">分类：\r\n'
+    htmlcate = '<fieldset><form action="http://localhost:8888/chgcat" method="get" name="chgcat">分类：\r\n'
+    htmlcate += '<input type="hidden" name="href" value="%s">' % quote(href)
     for cate in allcate:
         htmlcate += '<nobr><input type="radio" name="mycate" value="%(value)s" id="%(id)s" %(checked)s>\
                                 <label for="%(id)s">%(value)s</label>&nbsp;&nbsp;</nobr>\r\n' % {
@@ -60,7 +103,8 @@ def getPostInfo(path): # "/favicon.ico"
     kjson["htmlcate"] = htmlcate
 
     # http://c.biancheng.net/view/7597.html
-    htmltag = '<fieldset><form action="http://localhost:8888/chgtag?" method="get" name="chgtag">标签：\r\n'
+    htmltag = '<fieldset><form action="http://localhost:8888/chgtag" method="get" name="chgtag">标签：\r\n'
+    htmltag += '<input type="hidden" name="href" value="%s">' % quote(href)
     for tag in alltag:
         htmltag += '<nobr><input type="checkbox" name="mytag" value="%(value)s" id="%(id)s" %(checked)s>\
                         <label for="%(id)s">%(value)s</label>&nbsp;&nbsp;</nobr>\r\n' % {
@@ -91,10 +135,14 @@ class Resquest(BaseHTTPRequestHandler):
             "pinfo": pinfo,
         }).encode())
 
+class ThreadingSimpleServer(ThreadingMixIn, HTTPServer):
+    pass
+
 if __name__ == '__main__':
-    server = HTTPServer(HOST, Resquest)
+    server = ThreadingSimpleServer(HOST, Resquest)
     print("Starting server, listen at: %s:%s" % HOST)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        server.socket.close()
+        server.server_close()
+    print("Server stopped.")

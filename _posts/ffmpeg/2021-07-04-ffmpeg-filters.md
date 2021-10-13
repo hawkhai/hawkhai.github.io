@@ -4,7 +4,7 @@ title: "FFmpeg -- FFmpeg 滤镜"
 author:
 location: "珠海"
 categories: ["FFmpeg"]
-tags: ["FFmpeg", "C++"]
+tags: ["FFmpeg", "C/C++"]
 toc: true
 toclistyle:
 comments:

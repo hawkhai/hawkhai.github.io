@@ -4,7 +4,7 @@ title: "编程 C++ -- Windows 核心编程，防御基本原理 & 逆向分析"
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["编程", "C++"]
+tags: ["编程", "C/C++"]
 toc: true
 toclistyle:
 comments:

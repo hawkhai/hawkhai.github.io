@@ -4,7 +4,7 @@ title: "PDFium -- 开发环境，PDFium 编译"
 author:
 location: "珠海"
 categories: ["PDFium"]
-tags: ["PDFium", "C++"]
+tags: ["PDFium", "C/C++"]
 toc: true
 toclistyle:
 comments:
