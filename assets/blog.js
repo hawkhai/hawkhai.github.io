@@ -336,7 +336,7 @@ function checkCatTagBar() {
     console.log(window.location.host);
     if ("localhost:4000" != window.location.host)
         return;
-    $.get("http://localhost:8888/?" + escape(window.location.href), function(data, status) {
+    $.get("http://localhost:8888/?href=" + escape(window.location.href), function(data, status) {
         status = null;
     });
 }
