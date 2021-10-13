@@ -146,32 +146,37 @@ layoutclear
     analyzehead(fpath, fname, ftype, newmap)
     return "\r\n".join(newli), newmap
 
-def parseHeadKeyValue(fpath, fname, ftype):
+def parseHeadKeyValueRaw(fpath, fname, ftype):
     if ftype not in ("md",):
         return
     fdata = readfile(fpath, True, "utf8")
 
     fsecli = fdata.split("---", 2)
     if len(fsecli) <= 2 or len(fsecli[0]) > 3: return
+    return fsecli
 
+def parseHeadKeyValue(fpath, fname, ftype):
+    fsecli = parseHeadKeyValueRaw(fpath, fname, ftype)
+    if not fsecli: return
     return formatkv(fpath, fname, ftype, fsecli[1])[1]
 
-def mainxkeyfile(fpath, fname, ftype, setkv={}):
-    if ftype not in ("md",):
-        return
-    fdata = readfile(fpath, True, "utf8")
-
-    fsecli = fdata.split("---", 2)
-    if len(fsecli) <= 2 or len(fsecli[0]) > 3: return
-
+gkvconfig = readfileJson("headnote.json", "utf8")
+gkvconfig = gkvconfig if gkvconfig else {}
+def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv={}):
+    fpath = os.path.relpath(fpath, ".")
+    fsecli = parseHeadKeyValueRaw(fpath, fname, ftype)
+    if not fsecli: return
     fsecli[1] = "\r\n{}\r\n".format(formatkv(fpath, fname, ftype, fsecli[1], setkv)[0],)
 
     fsecli = "---".join(fsecli)
     writefile(fpath, fsecli, "utf8")
+    if not fpath in gkvconfig.keys():
+        gkvconfig[fpath] = { "taged": False }
 
 def mainxkey():
     print("***" * 30)
     searchdir(".", mainxkeyfile, ignorelist=("backup", "_site", "_drafts", "opengl-3rd"))
+    writefileJson("headnote.json", gkvconfig)
 
     nctrl = {
         "title": 2,

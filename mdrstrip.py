@@ -885,6 +885,7 @@ def findPostMdFile(rootdir, fnamek):
     def mainfile(fpath, fname, ftype):
         if fname == fnamek:
             nonlocal fpathk
+            assert fpathk == fnamek # 没有被赋值过。
             fpathk = fpath
     searchdir(rootdir, mainfile)
     return fpathk

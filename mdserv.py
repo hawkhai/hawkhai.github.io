@@ -13,7 +13,7 @@ import ssl
 
 import urllib.parse
 import headfmt
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 data = {'result': 'this is a test'}
 HOST = ('localhost', 8888)
@@ -23,30 +23,50 @@ def getPostInfo(path): # "/favicon.ico"
     print("path", "--", result.path)
     return parseRootReq(path, result, result.path)
 
+def findPostMdFile(rootdir, fnamek):
+    fpathk = fnamek
+    def mainfile(fpath, fname, ftype):
+        if ftype != "md": return
+        if fname == fnamek:
+            nonlocal fpathk
+            assert fpathk == fnamek # 没有被赋值过。
+            fpathk = fpath
+    searchdir(rootdir, mainfile)
+    return fpathk
+
 def parseRootReq(path, result, action):
     querysrc = urllib.parse.parse_qsl(result.query)
     query = dict(querysrc)
     href = query["href"] if "href" in query.keys() else None
     if not href:
         return None
-    result = urllib.parse.urlparse(href)
-    print("scheme", "--", result.scheme)
-    print("netloc", "--", result.netloc)
-    print("path", "--", result.path)
-    print("params", "--", result.params)
-    print("query", "--", result.query)
-    print("fragment", "--", result.fragment)
+    result = urllib.parse.urlparse(unquote(href))
+    if result.scheme:   print("scheme", "--", result.scheme)
+    if result.netloc:   print("netloc", "--", result.netloc)
+    if result.path:     print("path", "--", result.path)
+    if result.params:   print("params", "--", result.params)
+    if result.query:    print("query", "--", result.query)
+    if result.fragment: print("fragment", "--", result.fragment)
 
     path = result.path
     # /blog/invisible/video/fastvc-plan
     localjs = os.path.join("assets", "configjs", path.split("/blog/", 1)[1]+".cfg.js")
     localmd = path.split("/blog/", 1)[1] + ".md"
+
+    blog = re.findall("^/blog/blog/([0-9]{4})/([0-9]{2})/([0-9]{2})/(.*)", path)
+    if blog:
+        blog = blog[0] # 如果有，只会有一个。
+        print(blog)
+        fnamek = "{}-{}-{}-{}.md".format(*blog)
+        localmd = findPostMdFile("_posts", fnamek)
+        localmd = os.path.relpath(localmd, ".")
+
     if path.startswith("/blog/invisible/"):
         localjs = os.path.join("invisible", "configjs", path.split("/invisible/", 1)[1]+".cfg.js")
     if not os.path.exists(localjs):
         pass#writefile(localjs, "")
 
-    assert os.path.exists(localmd), localmd
+    assert os.path.exists(localmd), (localmd, path)
     kjson = headfmt.parseHeadKeyValue(localmd, None, "md")
     kjson["categories"] = [] if not kjson["categories"] else json.loads(kjson["categories"])
     kjson["tags"] = [] if not kjson["tags"] else json.loads(kjson["tags"])
@@ -58,6 +78,8 @@ def parseRootReq(path, result, action):
         return parseReqActionChgCate(localjs, localmd, kjson, querysrc, headnote, href)
     if action == "/chgtag":
         return parseReqActionChgTag(localjs, localmd, kjson, querysrc, headnote, href)
+    if action == "/tagctrl":
+        return parseReqActionTagCtrl(localjs, localmd, kjson, query, headnote, href)
 
 def headkv_jsonsumps(li):
     temp = jsondumps(li, False, 0)
@@ -72,7 +94,7 @@ def parseReqActionChgCate(localjs, localmd, kjson, querysrc, headnote, href):
     for k, v in querysrc:
         if k == "mycate":
             li.append(v)
-    headfmt.mainxkeyfile(localmd, None, "md", {"categories": headkv_jsonsumps(li)})
+    headfmt.mainxkeyfile(localmd, None, "md", setkv={"categories": headkv_jsonsumps(li)})
     return kjson
 
 def parseReqActionChgTag(localjs, localmd, kjson, querysrc, headnote, href):
@@ -81,14 +103,29 @@ def parseReqActionChgTag(localjs, localmd, kjson, querysrc, headnote, href):
     for k, v in querysrc:
         if k == "mytag":
             li.append(v)
-    headfmt.mainxkeyfile(localmd, None, "md", {"tags": headkv_jsonsumps(li)})
+    headfmt.mainxkeyfile(localmd, None, "md", setkv={"tags": headkv_jsonsumps(li)})
     return kjson
+
+def parseReqActionTagCtrl(localjs, localmd, kjson, query, headnote, href):
+    gkvconfig = readfileJson("headnote.json", "utf8")
+    gkvconfig[localmd]["taged"] = not not int(query["taged"])
+    writefileJson("headnote.json", gkvconfig)
 
 def parseReqAction(localjs, localmd, kjson, query, headnote, href):
     mycate = kjson["categories"]
     allcate = headnote["categories"]
     mytag = kjson["tags"]
     alltag = headnote["tags"]
+
+    gkvconfig = readfileJson("headnote.json", "utf8")
+    config = gkvconfig[localmd]
+    kjson["config"] = config
+
+    tagctrl = '<form action="http://localhost:8888/tagctrl" method="get" name="chgcat">\r\n'
+    tagctrl += '<input type="hidden" name="href" value="%s">' % quote(href)
+    tagctrl += '<input type="hidden" name="taged" value="%d">' % (1 if not config["taged"] else 0)
+    tagctrl += '<input type="submit" name="submit" value="%s"></form><br/>' % ("关闭" if not config["taged"] else "修改")
+    kjson["tagctrl"] = tagctrl
 
     # http://c.biancheng.net/view/7588.html
     htmlcate = '<fieldset><form action="http://localhost:8888/chgcat" method="get" name="chgcat">分类：\r\n'

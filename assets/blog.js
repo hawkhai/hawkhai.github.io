@@ -339,8 +339,12 @@ function checkCatTagBar() {
     $.get("http://localhost:8888/?href=" + escape(window.location.href), function(kjson, status) {
         var htmlcate = kjson["pinfo"]["htmlcate"];
         var htmltag = kjson["pinfo"]["htmltag"];
-        $(htmltag).insertAfter($("header.post-header"));
-        $(htmlcate).insertAfter($("header.post-header"));
+        var tagctrl = kjson["pinfo"]["tagctrl"];
+        if (!kjson["pinfo"]["config"]["taged"]) {
+            $(htmltag).insertAfter($("header.post-header"));
+            $(htmlcate).insertAfter($("header.post-header"));
+        }
+        $(tagctrl).insertAfter($("header.post-header"));
     });
 }
 

@@ -3,8 +3,8 @@ layout: post
 title: "生活 -- Welcome to my blog"
 author:
 location: "Japan"
-categories: ["生活"]
-tags: ["生活"]
+categories: ["BLOG"]
+tags: ["BLOG"]
 toc: true
 toclistyle:
 comments: true
