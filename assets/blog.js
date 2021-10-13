@@ -336,8 +336,11 @@ function checkCatTagBar() {
     console.log(window.location.host);
     if ("localhost:4000" != window.location.host)
         return;
-    $.get("http://localhost:8888/?href=" + escape(window.location.href), function(data, status) {
-        status = null;
+    $.get("http://localhost:8888/?href=" + escape(window.location.href), function(kjson, status) {
+        var htmlcate = kjson["pinfo"]["htmlcate"];
+        var htmltag = kjson["pinfo"]["htmltag"];
+        $(htmltag).insertAfter($("header.post-header"));
+        $(htmlcate).insertAfter($("header.post-header"));
     });
 }
 

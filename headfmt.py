@@ -39,7 +39,7 @@ def getPostValue(fpath, xkey):
             return value.strip()
     return None
 
-def main():
+def mainxtitle():
     print(parsePythonCmdx(__file__))
     fnamelist = []
     def mainfile(fpath, fname, ftype):
@@ -142,7 +142,17 @@ layoutclear
         newli.append(line.strip())
         newmap[key] = value.strip()
     analyzehead(fpath, fname, ftype, newmap)
-    return "\r\n".join(newli)
+    return "\r\n".join(newli), newmap
+
+def parseHeadKeyValue(fpath, fname, ftype):
+    if ftype not in ("md",):
+        return
+    fdata = readfile(fpath, True, "utf8")
+
+    fsecli = fdata.split("---", 2)
+    if len(fsecli) <= 2 or len(fsecli[0]) > 3: return
+
+    return formatkv(fpath, fname, ftype, fsecli[1])[1]
 
 def mainxkeyfile(fpath, fname, ftype):
     if ftype not in ("md",):
@@ -152,7 +162,7 @@ def mainxkeyfile(fpath, fname, ftype):
     fsecli = fdata.split("---", 2)
     if len(fsecli) <= 2 or len(fsecli[0]) > 3: return
 
-    fsecli[1] = "\r\n{}\r\n".format(formatkv(fpath, fname, ftype, fsecli[1]),)
+    fsecli[1] = "\r\n{}\r\n".format(formatkv(fpath, fname, ftype, fsecli[1])[0],)
 
     fsecli = "---".join(fsecli)
     writefile(fpath, fsecli, "utf8")
@@ -186,6 +196,6 @@ def mainxkey():
     writefileJson("headnote.txt", headnote, "utf8", False)
 
 if __name__ == "__main__":
-    main()
+    mainxtitle()
     mainxkey()
     os.system(r"cd invisible & {} tempd.py encrypt".format(getPythonExe(),))
