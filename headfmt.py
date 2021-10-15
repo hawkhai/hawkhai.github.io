@@ -5,6 +5,8 @@ sys.path.append("../")
 from pythonx.funclib import *
 import json
 
+OPENFILE = "openfile" in sys.argv
+
 def regularTitle(fpath):
     """
 ---
@@ -136,6 +138,9 @@ def mainxkeyfile(fpath, fname, ftype):
     fsecli = fdata.split("---", 2)
     if len(fsecli) <= 2 or len(fsecli[0]) > 3: return
 
+    if OPENFILE:
+        openTextFile(fpath)
+
     fsecli[1] = "\r\n{}\r\n".format(formatkv(fpath, fname, ftype, fsecli[1]),)
 
     fsecli = "---".join(fsecli)
@@ -172,3 +177,4 @@ def mainxkey():
 if __name__ == "__main__":
     main()
     mainxkey()
+    print(parsePythonCmdx(__file__))
