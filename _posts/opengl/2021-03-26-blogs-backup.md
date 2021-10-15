@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "图形学笔记 -- 感觉非常不错的 blog 收集"
+title: "BLOG -- 感觉非常不错的 blog 收集"
 author:
 location: "珠海"
-categories: ["图形学"]
+categories: ["BLOG"]
 tags: ["图形学", "OpenGL"]
 toc: true
 toclistyle:
