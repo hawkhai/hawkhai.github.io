@@ -4,7 +4,7 @@ title: "编程笔记 -- C/C++ Google 开源项目风格指南"
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["编程", "C++"]
+tags: ["编程", "C/C++"]
 toc: true
 toclistyle:
 comments:

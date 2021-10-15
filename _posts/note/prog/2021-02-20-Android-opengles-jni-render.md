@@ -4,7 +4,7 @@ title: "编程 C++ -- Android OpenGL ES 渲染 Java & C++ JNI 实现原理"
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["编程", "C++", "Android"]
+tags: ["编程", "C/C++", "Android"]
 toc: true
 toclistyle:
 comments:

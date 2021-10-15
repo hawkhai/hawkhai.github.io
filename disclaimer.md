@@ -3,8 +3,8 @@ layout: page
 title: 免责声明
 author:
 location:
-categories:
-tags:
+categories: ["BLOG"]
+tags: ["BLOG"]
 toc:
 toclistyle:
 comments:

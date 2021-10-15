@@ -4,7 +4,7 @@ title: "编程 C++ -- Botan for Android: Crypto and TLS for Modern C++"
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["编程", "C++", "Android"]
+tags: ["编程", "C/C++", "Android"]
 toc: true
 toclistyle:
 comments:

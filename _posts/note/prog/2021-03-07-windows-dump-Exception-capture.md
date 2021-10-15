@@ -4,7 +4,7 @@ title: "编程 C++ -- VC++ 程序捕获所有异常"
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["编程", "C++"]
+tags: ["编程", "C/C++"]
 toc: true
 toclistyle:
 comments:

@@ -41,7 +41,7 @@ def getPostValue(fpath, xkey):
             return value.strip()
     return None
 
-def main():
+def mainxtitle():
     print(parsePythonCmdx(__file__))
     fnamelist = []
     def mainfile(fpath, fname, ftype):
@@ -66,8 +66,21 @@ def formatValue(value):
         value = value[1:-1].split(",")
         return "[{}]".format(", ".join(["\"{}\"".format(i.strip()) for i in value]))
 
+def analyzehead(fpath, fname, ftype, newmap):
+    fpath = os.path.relpath(fpath, ".")
+    print(fpath)
+    if fpath.startswith("_posts\\"):
+        pass
+    elif fpath.startswith("invisible\\"):
+        pass
+    else:
+        assert fpath in ("about.md", "bookshelf.md", "index.md", "disclaimer.md"), fpath
+
+    if not newmap["categories"] or not newmap["tags"]:
+        openTextFile(fpath)
+
 gkvmap = {}
-def formatkv(fpath, fname, ftype, fsecli):
+def formatkv(fpath, fname, ftype, fsecli, setkv={}):
     li = [line.strip() for line in fsecli.split("\n") if line.strip()]
 
     _posts = "_posts" in fpath.split("\\")
@@ -124,31 +137,51 @@ layoutclear
                 assert False, (key, value)
 
     newli = []
+    newmap = {}
     for key in mdkeylist:
         value = kvmap[key] if key in kvmap else ""
+        if key in setkv.keys():
+            value = setkv[key]
         line = key + ": " + value.strip()
         newli.append(line.strip())
-    return "\r\n".join(newli)
+        newmap[key] = value.strip()
+    analyzehead(fpath, fname, ftype, newmap)
+    return "\r\n".join(newli), newmap
 
-def mainxkeyfile(fpath, fname, ftype):
+def parseHeadKeyValueRaw(fpath, fname, ftype):
     if ftype not in ("md",):
         return
     fdata = readfile(fpath, True, "utf8")
 
     fsecli = fdata.split("---", 2)
     if len(fsecli) <= 2 or len(fsecli[0]) > 3: return
+    return fsecli
+
+def parseHeadKeyValue(fpath, fname, ftype):
+    fsecli = parseHeadKeyValueRaw(fpath, fname, ftype)
+    if not fsecli: return
+    return formatkv(fpath, fname, ftype, fsecli[1])[1]
+
+gkvconfig = readfileJson("headnote.json", "utf8")
+gkvconfig = gkvconfig if gkvconfig else {}
+def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv={}):
+    fpath = os.path.relpath(fpath, ".")
+    fsecli = parseHeadKeyValueRaw(fpath, fname, ftype)
+    if not fsecli: return
 
     if OPENFILE:
         openTextFile(fpath)
-
-    fsecli[1] = "\r\n{}\r\n".format(formatkv(fpath, fname, ftype, fsecli[1]),)
+    fsecli[1] = "\r\n{}\r\n".format(formatkv(fpath, fname, ftype, fsecli[1], setkv)[0],)
 
     fsecli = "---".join(fsecli)
     writefile(fpath, fsecli, "utf8")
+    if not fpath in gkvconfig.keys():
+        gkvconfig[fpath] = { "taged": False }
 
 def mainxkey():
     print("***" * 30)
     searchdir(".", mainxkeyfile, ignorelist=("backup", "_site", "_drafts", "opengl-3rd"))
+    writefileJson("headnote.json", gkvconfig)
 
     nctrl = {
         "title": 2,
@@ -175,6 +208,7 @@ def mainxkey():
     writefileJson("headnote.txt", headnote, "utf8", False)
 
 if __name__ == "__main__":
-    main()
+    mainxtitle()
     mainxkey()
     print(parsePythonCmdx(__file__))
+    os.system(r"cd invisible & {} tempd.py encrypt".format(getPythonExe(),))

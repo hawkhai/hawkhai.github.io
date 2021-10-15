@@ -332,6 +332,22 @@ function genSvgDownloadLink() { // for mermaid
     });
 }
 
+function checkCatTagBar() {
+    console.log(window.location.host);
+    if ("localhost:4000" != window.location.host)
+        return;
+    $.get("http://localhost:8888/?href=" + escape(window.location.href), function(kjson, status) {
+        var htmlcate = kjson["pinfo"]["htmlcate"];
+        var htmltag = kjson["pinfo"]["htmltag"];
+        var tagctrl = kjson["pinfo"]["tagctrl"];
+        if (!kjson["pinfo"]["config"]["taged"]) {
+            $(htmltag).insertAfter($("header.post-header"));
+            $(htmlcate).insertAfter($("header.post-header"));
+        }
+        $(tagctrl).insertAfter($("header.post-header"));
+    });
+}
+
 // 文档加载完成时
 $(document).ready(function () {
     checkVideo();
@@ -350,6 +366,7 @@ $(document).ready(function () {
     // $("img.lazyload").lazyload({threshold: 1000, effect: "show", failurelimit: 10});
     genSvgDownloadLink();
     console.log("控制参数：nochart svgdl notoc !!");
+    checkCatTagBar()
 });
 // 窗口大小变化时
 $(window).resize(function () {

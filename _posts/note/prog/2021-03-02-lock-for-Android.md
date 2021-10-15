@@ -4,7 +4,7 @@ title: "编程 C++ -- 多平台 lock Windows & Android"
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["编程", "C++", "Android"]
+tags: ["编程", "C/C++", "Android"]
 toc: true
 toclistyle:
 comments:

@@ -4,7 +4,7 @@ title: "编程 C++ -- 跨 Android、Linux 和 Windows 的 C 编程杂记"
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["编程", "C++"]
+tags: ["编程", "C/C++"]
 toc: true
 toclistyle:
 comments:

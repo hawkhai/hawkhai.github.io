@@ -4,7 +4,7 @@ title: "编程 C++ -- 如何刷新托盘区域"
 author:
 location: "珠海"
 categories: ["编程"]
-tags: ["编程", "C++"]
+tags: ["编程", "C/C++"]
 toc: true
 toclistyle:
 comments:

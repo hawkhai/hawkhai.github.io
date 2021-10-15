@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "生活 -- Tiny Source Code, Tiny My Life"
+title: "编程 -- Tiny Source Code, Tiny My Life"
 author:
 location: "珠海"
-categories: ["生活"]
-tags: ["生活"]
+categories: ["编程"]
+tags: ["编程"]
 toc: true
 toclistyle:
 comments:

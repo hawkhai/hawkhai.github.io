@@ -3,8 +3,8 @@ layout: page
 title: 关于
 author:
 location:
-categories:
-tags:
+categories: ["BLOG"]
+tags: ["BLOG"]
 toc:
 toclistyle:
 comments:

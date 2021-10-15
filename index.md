@@ -3,8 +3,8 @@ layout: page
 title: Hawkhai 博客笔记
 author:
 location:
-categories:
-tags:
+categories: ["BLOG"]
+tags: ["BLOG"]
 toc:
 toclistyle:
 comments:
