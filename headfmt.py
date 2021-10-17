@@ -163,7 +163,7 @@ def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv={}):
 
     if OPENFILE:
         openTextFile(fpath)
-        writefile((fpath+".tag").replace(".md.tag", "k.md.tag"), "")
+        #writefile((fpath+".tag").replace(".md.tag", "k.md.tag"), "")
     fsecli[1] = "\r\n{}\r\n".format(formatkv(fpath, fname, ftype, fsecli[1], setkv)[0],)
 
     fsecli = "---".join(fsecli)
