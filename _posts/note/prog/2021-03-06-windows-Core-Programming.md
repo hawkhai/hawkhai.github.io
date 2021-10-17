@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程 C++ -- Windows 核心编程，防御基本原理 & 逆向分析"
+title: "编程与调试 C++ -- Windows 核心编程，防御基本原理 & 逆向分析"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程", "C/C++"]
 toc: true
 toclistyle:

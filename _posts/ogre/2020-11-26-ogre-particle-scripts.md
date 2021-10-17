@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Ogre3D 笔记 -- Ogre3D 粒子脚本文档  Particle Scripts"
+title: "3D 引擎 Ogre3D -- Ogre3D 粒子脚本文档  Particle Scripts"
 author:
 location: "珠海"
-categories: ["Ogre3D"]
+categories: ["3D 引擎"]
 tags: ["图形学", "Ogre3D"]
 toc: true
 toclistyle: none

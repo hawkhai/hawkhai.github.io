@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程配置 -- Windows 批处理（bat）语法大全"
+title: "编程与调试 -- Windows 批处理（bat）语法大全"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程", "BAT"]
 toc: true
 toclistyle:

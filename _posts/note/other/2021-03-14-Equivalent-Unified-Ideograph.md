@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程 -- 康熙部首替换字典"
+title: "编程与调试 -- 康熙部首替换字典"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程"]
 toc: true
 toclistyle:

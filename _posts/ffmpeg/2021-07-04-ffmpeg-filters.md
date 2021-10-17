@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "FFmpeg -- FFmpeg 滤镜"
+title: "音视频 -- FFmpeg 滤镜"
 author:
 location: "珠海"
-categories: ["FFmpeg"]
+categories: ["音视频"]
 tags: ["FFmpeg", "C/C++"]
 toc: true
 toclistyle:

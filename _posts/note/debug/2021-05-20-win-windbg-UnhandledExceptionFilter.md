@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "调试 Memory -- Windows Windbg 堆栈跟踪 UnhandledExceptionFilter"
+title: "编程与调试 Memory -- Windows Windbg 堆栈跟踪 UnhandledExceptionFilter"
 author:
 location: "珠海"
-categories: ["调试"]
+categories: ["编程与调试"]
 tags: ["调试", "Memory"]
 toc: true
 toclistyle:

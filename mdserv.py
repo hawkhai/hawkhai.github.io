@@ -67,6 +67,7 @@ def parseRootReq(path, result, action):
         pass#writefile(localjs, "")
 
     assert os.path.exists(localmd), (localmd, path)
+    localmd = localmd.replace("/", "\\")
     kjson = headfmt.parseHeadKeyValue(localmd, None, "md")
     kjson["categories"] = [] if not kjson["categories"] else json.loads(kjson["categories"])
     kjson["tags"] = [] if not kjson["tags"] else json.loads(kjson["tags"])
@@ -108,8 +109,13 @@ def parseReqActionChgTag(localjs, localmd, kjson, querysrc, headnote, href):
 
 def parseReqActionTagCtrl(localjs, localmd, kjson, query, headnote, href):
     gkvconfig = readfileJson("headnote.json", "utf8")
-    gkvconfig[localmd]["taged"] = not not int(query["taged"])
-    writefileJson("headnote.json", gkvconfig)
+    value = not not int(query["taged"])
+    gkvconfig[localmd]["taged"] = value
+    if value:
+        osremove(localmd+".tag")
+    else:
+        writefile(localmd+".tag", "")
+    #writefileJson("headnote.json", gkvconfig)
 
 def parseReqAction(localjs, localmd, kjson, query, headnote, href):
     mycate = kjson["categories"]

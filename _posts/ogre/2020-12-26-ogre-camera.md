@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Ogre3D 笔记 -- Ogre3D 摄像机方向总结"
+title: "3D 引擎 Ogre3D -- Ogre3D 摄像机方向总结"
 author:
 location: "珠海"
-categories: ["Ogre3D"]
+categories: ["3D 引擎"]
 tags: ["Ogre3D"]
 toc: true
 toclistyle:

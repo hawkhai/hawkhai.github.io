@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "调试 Memory -- Windows Windbg 编码后的 HEAP_ENTRY 结构"
+title: "编程与调试 Memory -- Windows Windbg 编码后的 HEAP_ENTRY 结构"
 author:
 location: "珠海"
-categories: ["调试"]
+categories: ["编程与调试"]
 tags: ["调试", "Memory"]
 toc: true
 toclistyle:

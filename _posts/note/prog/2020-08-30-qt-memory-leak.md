@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程 C++ -- QT 内存泄露研究"
+title: "编程与调试 C++ -- QT 内存泄露研究"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程", "QT", "Memory", "C/C++"]
 toc: true
 toclistyle:

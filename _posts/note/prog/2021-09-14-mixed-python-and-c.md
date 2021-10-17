@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程 -- 使用 ctypes 进行 Python 和 C 的混合编程"
+title: "编程与调试 -- 使用 ctypes 进行 Python 和 C 的混合编程"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程", "Python"]
 toc: true
 toclistyle:

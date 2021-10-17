@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程笔记 -- 调用约定 (Calling Conventions) C++ 函数名修饰 (Name Mangling)"
+title: "编程与调试 -- 调用约定 (Calling Conventions) C++ 函数名修饰 (Name Mangling)"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程"]
 toc: true
 toclistyle:

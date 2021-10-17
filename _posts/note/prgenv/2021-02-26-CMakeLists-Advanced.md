@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程配置 -- CMake CMakeLists.txt 高级特性"
+title: "编程与调试 -- CMake CMakeLists.txt 高级特性"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程", "Android", "CMake"]
 toc: true
 toclistyle:

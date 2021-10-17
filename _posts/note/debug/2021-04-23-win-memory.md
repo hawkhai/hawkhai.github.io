@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "调试 Memory -- Windows 内存类型介绍"
+title: "编程与调试 Memory -- Windows 内存类型介绍"
 author:
 location: "珠海"
-categories: ["调试"]
+categories: ["编程与调试"]
 tags: ["调试", "Memory"]
 toc: true
 toclistyle:

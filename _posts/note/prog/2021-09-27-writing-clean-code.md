@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程 -- 怎么写好代码？断言 vs 异常（团队内部交流）"
+title: "编程与调试 -- 怎么写好代码？断言 vs 异常（团队内部交流）"
 author: yqh
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程", "C/C++"]
 toc: true
 toclistyle:

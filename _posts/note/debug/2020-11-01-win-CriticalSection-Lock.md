@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "调试 -- Windbg 调试临界区（CriticalSection）死锁"
+title: "编程与调试 -- Windbg 调试临界区（CriticalSection）死锁"
 author:
 location: "珠海"
-categories: ["调试"]
+categories: ["编程与调试"]
 tags: ["编程", "调试", "死锁"]
 toc: true
 toclistyle:

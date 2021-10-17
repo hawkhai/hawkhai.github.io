@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程 -- 扫地机器人算法"
+title: "编程与调试 -- 扫地机器人算法"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程"]
 toc: true
 toclistyle:

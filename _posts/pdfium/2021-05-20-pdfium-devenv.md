@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "PDFium -- 开发环境，PDFium 编译"
+title: "工作笔记 PDFium -- 开发环境，PDFium 编译"
 author:
 location: "珠海"
-categories: ["PDFium"]
+categories: ["工作笔记"]
 tags: ["PDFium", "C/C++"]
 toc: true
 toclistyle:

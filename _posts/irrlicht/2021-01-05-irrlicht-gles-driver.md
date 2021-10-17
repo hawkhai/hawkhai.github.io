@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Irrlicht 3D 笔记 -- OpenGL ES 2.x Driver 源码剖析 概览"
+title: "3D 引擎 Irrlicht -- OpenGL ES 2.x Driver 源码剖析 概览"
 author:
 location: "珠海"
-categories: ["Irrlicht"]
+categories: ["3D 引擎"]
 tags: ["Irrlicht"]
 toc: true
 toclistyle:

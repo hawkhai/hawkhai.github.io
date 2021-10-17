@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程 C++ -- 多平台 lock Windows & Android"
+title: "编程与调试 C++ -- 多平台 lock Windows & Android"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程", "C/C++", "Android"]
 toc: true
 toclistyle:

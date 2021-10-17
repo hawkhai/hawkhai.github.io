@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程笔记 -- C/C++ Google 开源项目风格指南"
+title: "编程与调试 -- C/C++ Google 开源项目风格指南"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程", "C/C++"]
 toc: true
 toclistyle:

@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程笔记 -- PyInstaller & Extractor"
+title: "编程与调试 -- PyInstaller & Extractor"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程"]
 toc:
 toclistyle:

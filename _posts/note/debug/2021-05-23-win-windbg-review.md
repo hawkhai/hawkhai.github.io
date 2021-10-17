@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "调试 Memory -- Windows Windbg Review 一些简单使用命令"
+title: "编程与调试 Memory -- Windows Windbg Review 一些简单使用命令"
 author:
 location: "珠海"
-categories: ["调试"]
+categories: ["编程与调试"]
 tags: ["调试", "Memory"]
 toc: true
 toclistyle:

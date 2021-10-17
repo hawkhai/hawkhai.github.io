@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Irrlicht 3D 笔记 -- Irrlicht 3D 学习笔记"
+title: "3D 引擎 Irrlicht -- Irrlicht 3D 学习笔记"
 author:
 location: "珠海"
-categories: ["Irrlicht"]
+categories: ["3D 引擎"]
 tags: ["Irrlicht"]
 toc: true
 toclistyle:

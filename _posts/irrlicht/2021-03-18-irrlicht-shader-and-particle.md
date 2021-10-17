@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Irrlicht 笔记 -- Irrlicht Shader 和 粒子系统的使用"
+title: "3D 引擎 Irrlicht -- Irrlicht Shader 和 粒子系统的使用"
 author:
 location: "珠海"
-categories: ["Irrlicht"]
+categories: ["3D 引擎"]
 tags: ["Irrlicht"]
 toc: true
 toclistyle:

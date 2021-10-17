@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程笔记 -- Resource Hacker 修改 PE 描述信息"
+title: "编程与调试 -- Resource Hacker 修改 PE 描述信息"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程"]
 toc: true
 toclistyle:

@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程 C++ -- std::&lt;sstream&gt; istringstream、ostringstream、stringstream"
+title: "编程与调试 C++ -- std::&lt;sstream&gt; istringstream、ostringstream、stringstream"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程", "C/C++"]
 toc: true
 toclistyle:

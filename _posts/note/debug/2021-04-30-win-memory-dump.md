@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "调试 Memory -- Windows Windbg dump 内存崩溃泄漏问题"
+title: "编程与调试 Memory -- Windows Windbg dump 内存崩溃泄漏问题"
 author:
 location: "珠海"
-categories: ["调试"]
+categories: ["编程与调试"]
 tags: ["调试", "Memory"]
 toc: true
 toclistyle:

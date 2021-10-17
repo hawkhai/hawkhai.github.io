@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程 -- Tiny Source Code, Tiny My Life"
+title: "编程与调试 -- Tiny Source Code, Tiny My Life"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程"]
 toc: true
 toclistyle:

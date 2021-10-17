@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "调试 Memory -- Windows VS 程序员使用 windbg 实例"
+title: "编程与调试 Memory -- Windows VS 程序员使用 windbg 实例"
 author:
 location: "珠海"
-categories: ["调试"]
+categories: ["编程与调试"]
 tags: ["编程", "调试"]
 toc: true
 toclistyle:

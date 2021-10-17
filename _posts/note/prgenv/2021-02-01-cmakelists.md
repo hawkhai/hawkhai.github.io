@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程配置 -- Android CMake CMakeLists.txt 构建配置文件"
+title: "编程与调试 -- Android CMake CMakeLists.txt 构建配置文件"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程", "Android", "CMake"]
 toc: true
 toclistyle:

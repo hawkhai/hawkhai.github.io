@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程配置 -- QT .Pro & .Pri 语法"
+title: "编程与调试 -- QT .Pro & .Pri 语法"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程", "QT"]
 toc: true
 toclistyle:

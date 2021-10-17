@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "编程 C++ -- Windows 跨模块内存管理"
+title: "编程与调试 C++ -- Windows 跨模块内存管理"
 author:
 location: "珠海"
-categories: ["编程"]
+categories: ["编程与调试"]
 tags: ["编程", "Memory", "C/C++"]
 toc: true
 toclistyle:
