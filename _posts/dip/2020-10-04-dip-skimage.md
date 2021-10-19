@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "图像处理笔记 -- python skimage 图像处理"
+title: "图像处理笔记 -- Python skimage 图像处理"
 author:
 location: "珠海"
 categories: ["图像处理"]
-tags: ["图像处理"]
+tags: ["Python", "图像处理"]
 toc: true
 toclistyle:
 comments:

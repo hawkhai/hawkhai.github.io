@@ -4,7 +4,7 @@ title: "图像处理笔记 -- NumPy 切片和索引"
 author:
 location: "珠海"
 categories: ["图像处理"]
-tags: ["图像处理"]
+tags: ["Python", "图像处理"]
 toc: true
 toclistyle:
 comments:
