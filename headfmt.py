@@ -36,7 +36,7 @@ def mainxtitle():
     fnamelist = []
     def mainfile(fpath, fname, ftype):
         if ftype in ("py",): return
-        if ftype in ("tag",): return
+        if ftype in ("mdtag",): return
         regularTitle(fpath)
         # print(fname[11:])
         fnamelist.append("%-64s"%fname[11:] + "\t" + getPostValue(fpath, "title"))
@@ -156,14 +156,16 @@ def parseHeadKeyValue(fpath, fname, ftype):
 gkvconfig = readfileJson("headnote.json", "utf8")
 gkvconfig = gkvconfig if gkvconfig else {}
 def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv={}):
-    if ftype in ("tag",): return
+    if ftype in ("mdtag",): return
     fpath = os.path.relpath(fpath, ".")
     fsecli = parseHeadKeyValueRaw(fpath, fname, ftype)
     if not fsecli: return
 
     if OPENFILE:
         openTextFile(fpath)
-        #writefile((fpath+".tag").replace(".md.tag", "k.md.tag"), "")
+
+    mdtagfile = (fpath+".tag").replace(".md.tag", ".mdtag").replace("-", "")
+    #writefile(mdtagfile, "")
     fsecli[1] = "\r\n{}\r\n".format(formatkv(fpath, fname, ftype, fsecli[1], setkv)[0],)
 
     fsecli = "---".join(fsecli)

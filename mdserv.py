@@ -111,10 +111,11 @@ def parseReqActionTagCtrl(localjs, localmd, kjson, query, headnote, href):
     gkvconfig = readfileJson("headnote.json", "utf8")
     value = not not int(query["taged"])
     gkvconfig[localmd]["taged"] = value
+    mdtagfile = (localmd+".tag").replace(".md.tag", ".mdtag").replace("-", "")
     if value:
-        osremove((localmd+".tag").replace(".md.tag", "k.md.tag"))
+        osremove(mdtagfile)
     else:
-        writefile((localmd+".tag").replace(".md.tag", "k.md.tag"), "")
+        writefile(mdtagfile, "")
     #writefileJson("headnote.json", gkvconfig)
 
 def parseReqAction(localjs, localmd, kjson, query, headnote, href):
