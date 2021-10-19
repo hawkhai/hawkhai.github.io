@@ -4,7 +4,7 @@ title: "图形学笔记 -- Little-Endian 和 Big-Endian （大小字节序、大
 author:
 location: "珠海"
 categories: ["图形学"]
-tags: ["图形学", "OpenGL"]
+tags: ["Irrlicht", "OpenGL", "图形学"]
 toc: true
 toclistyle:
 comments:

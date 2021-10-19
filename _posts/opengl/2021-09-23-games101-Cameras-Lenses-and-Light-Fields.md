@@ -4,7 +4,7 @@ title: "图形学笔记 -- 摄影入门 · 照相机与透镜，光圈、快门�
 author:
 location: "珠海"
 categories: ["图形学"]
-tags: ["图形学", "OpenGL"]
+tags: ["OpenGL", "图形学", "生活"]
 toc: true
 toclistyle:
 comments:
