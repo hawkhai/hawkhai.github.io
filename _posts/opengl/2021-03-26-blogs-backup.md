@@ -4,7 +4,7 @@ title: "BLOG -- 感觉非常不错的 blog 收集"
 author:
 location: "珠海"
 categories: ["BLOG"]
-tags: ["图形学", "OpenGL"]
+tags: ["BLOG"]
 toc: true
 toclistyle:
 comments:
