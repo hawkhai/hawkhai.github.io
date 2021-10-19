@@ -4,7 +4,7 @@ title: "3D 引擎 Irrlicht -- Irrlicht Shader 和 粒子系统的使用"
 author:
 location: "珠海"
 categories: ["3D 引擎"]
-tags: ["Irrlicht"]
+tags: ["Irrlicht", "图形学"]
 toc: true
 toclistyle:
 comments:

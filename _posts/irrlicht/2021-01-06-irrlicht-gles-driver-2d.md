@@ -4,7 +4,7 @@ title: "3D 引擎 Irrlicht -- OpenGL ES 2.x Driver 源码剖析 2D 部分"
 author:
 location: "珠海"
 categories: ["3D 引擎"]
-tags: ["Irrlicht"]
+tags: ["Irrlicht", "图形学"]
 toc: true
 toclistyle:
 comments:
