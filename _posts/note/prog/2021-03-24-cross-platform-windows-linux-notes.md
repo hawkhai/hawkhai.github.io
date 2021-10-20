@@ -4,7 +4,7 @@ title: "编程与调试 C++ -- 跨 Android、Linux 和 Windows 的 C 编程杂�
 author:
 location: "珠海"
 categories: ["编程与调试"]
-tags: ["编程", "C/C++"]
+tags: ["Android", "C/C++", "编程"]
 toc: true
 toclistyle:
 comments:
