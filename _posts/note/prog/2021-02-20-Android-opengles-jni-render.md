@@ -4,7 +4,7 @@ title: "编程与调试 C++ -- Android OpenGL ES 渲染 Java & C++ JNI 实现原
 author:
 location: "珠海"
 categories: ["编程与调试"]
-tags: ["编程", "C/C++", "Android"]
+tags: ["Android", "C/C++", "OpenGL", "编程"]
 toc: true
 toclistyle:
 comments:
