@@ -1356,6 +1356,116 @@ const std::string colon = ":";
 ```
 
 
+## 动态加载 dll
+
+```cpp
+#ifdef FAST_IMAGE_DLL_EXPORT
+#define DLLEXPORT __declspec(dllexport)
+#else
+#define DLLEXPORT //__declspec(dllimport)
+#endif
+
+__interface IFastImageInterface {
+    virtual int getFastImageVersion() = 0;
+    virtual int getPoints(FastImage fimage, FastPoint points[4]) = 0;
+};
+
+DLLEXPORT IFastImageInterface* CreateFastImageObject();
+DLLEXPORT void ReleaseeFastImageObject(IFastImageInterface* obj);
+
+class fastimagedll : public fastimage::IFastImageInterface {
+    static std::wstring getCurrentPath() {
+        wchar_t tPath[MAX_PATH];
+        DWORD dwRet = GetModuleFileName(NULL, tPath, MAX_PATH);
+        std::wstring strexe = tPath;
+        int index = strexe.rfind('\\');
+        return strexe.substr(0, index);
+    }
+
+    static HINSTANCE getLibrary(const TCHAR* libPath) {
+        std::wstring current = getCurrentPath();
+        current.append(libPath);
+
+        int index = current.rfind('\\');
+        std::wstring curdir = current.substr(0, index);
+
+        WCHAR lpBuffer[MAX_PATH];
+        GetCurrentDirectory(MAX_PATH, lpBuffer);
+        SetCurrentDirectory(curdir.c_str());
+        HINSTANCE hDLL = LoadLibrary(current.c_str());
+        SetCurrentDirectory(lpBuffer);
+
+        if (hDLL == nullptr) {
+            int err = GetLastError();
+            return nullptr;
+        }
+        return hDLL;
+    }
+
+  public:
+    virtual int getFastImageVersion() {
+        if (!m_interface) {
+            return -1;
+        }
+        return m_interface->getFastImageVersion();
+    }
+    virtual int getPoints(fastimage::FastImage fimage, fastimage::FastPoint points[4]) {
+        if (!m_interface) {
+            return -1;
+        }
+        return m_interface->getPoints(fimage, points);
+    }
+
+    fastimagedll() {
+        const wchar_t* libPath = L"\\fastimage.dll";
+        m_hDLL = getLibrary(libPath);
+        if (m_hDLL == nullptr) {
+            int err = GetLastError();
+            return;
+        }
+
+        fastimage::CreateFastImageObjectFunc fptr =
+            (fastimage::CreateFastImageObjectFunc)GetProcAddress(m_hDLL, "CreateFastImageObject");
+        if (fptr == nullptr) {
+            int err = GetLastError();
+            return;
+        }
+        m_interface = fptr();
+        if (m_interface->getFastImageVersion() < FAST_IMAGE_VERSION) {
+            releaseObj(m_interface);
+            m_interface = nullptr;
+        }
+    }
+    virtual ~fastimagedll() {
+        if (!m_interface) {
+            return;
+        }
+        releaseObj(m_interface);
+
+        // m_hDLL 不释放了。
+    }
+
+    void releaseObj(fastimage::IFastImageInterface* obj) {
+        if (!obj || !m_hDLL) {
+            return;
+        }
+
+        fastimage::ReleaseFastImageObjectFunc fptr =
+            (fastimage::ReleaseFastImageObjectFunc)GetProcAddress(m_hDLL, "ReleaseeFastImageObject");
+        if (fptr == nullptr) {
+            int err = GetLastError();
+            return;
+        }
+        fptr(obj);
+    }
+
+  private:
+    fastimage::IFastImageInterface* m_interface = nullptr;
+    HINSTANCE m_hDLL = nullptr;
+}; // class fastimagedll
+```
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-tiny-source-code.md.js" %}'></script></p>

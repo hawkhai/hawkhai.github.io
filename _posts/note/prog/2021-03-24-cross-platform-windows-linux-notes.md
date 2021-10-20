@@ -146,6 +146,134 @@ bool IsDirectory(const std::string &path)
 ```
 
 
+## LoadLibrary
+
+```cpp
+#include "pch.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string>
+#include <iostream>
+#include <assert.h>
+
+#include <kIrrCompileConfig.h>
+#ifdef _MSC_VER
+#include <EGL/egl.h>
+#include <EGL/eglplatform.h>
+#include <GLES2/gl2.h>
+#include <GLES2/gl2platform.h>
+#else
+#include <EGL/egl.h>
+#include <GLES/gl.h> // for glPointParameterf
+#include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
+//#include <GLES3/gl3.h> // for glReadBuffer
+#define MAX_PATH 256
+#include <dlfcn.h>
+#endif
+
+#include "fkdriver.h"
+#include "fakedriverAdapter.h"
+#include "fakehook.h"
+#include "kminwindef.h"
+
+#ifdef _KIRR_WINDOWS_
+std::wstring getCurrentPath() {
+    wchar_t tPath[MAX_PATH];
+    DWORD dwRet = GetModuleFileName(NULL, tPath, MAX_PATH);
+    std::wstring strexe = tPath;
+    int index = strexe.rfind('\\');
+    return strexe.substr(0, index);
+}
+
+HINSTANCE getLibrary(const TCHAR* libPath) {
+    std::wstring current = getCurrentPath();
+    current.append(libPath);
+
+    int index = current.rfind('\\');
+    std::wstring curdir = current.substr(0, index);
+
+    WCHAR lpBuffer[MAX_PATH];
+    GetCurrentDirectory(MAX_PATH, lpBuffer);
+    SetCurrentDirectory(curdir.c_str());
+    HINSTANCE hDLL = LoadLibrary(current.c_str());
+    SetCurrentDirectory(lpBuffer);
+
+    if (hDLL == nullptr) {
+        int err = GetLastError();
+        return nullptr;
+    }
+    return hDLL;
+}
+
+// Mali Adreno PowerVR
+void* getEGLFunction(EnumFakeDriverHookFunction fid, const char* fname) {
+    const wchar_t* libPath = getFakeDriverAdapterPath();
+    static HINSTANCE hDLL = getLibrary(libPath);
+    if (hDLL == nullptr) {
+        int err = GetLastError();
+        return nullptr;
+    }
+    fname = getFunctionName(fid);
+    FARPROC fptr = GetProcAddress(hDLL, fname);
+    if (fptr == nullptr) {
+        int err = GetLastError();
+        return nullptr;
+    }
+    return fptr;
+}
+
+extern "C" IMAGE_DOS_HEADER __ImageBase;
+void* getCurrentEGLFunction(EnumFakeDriverHookFunction fid) {
+    static HMODULE module = reinterpret_cast<HMODULE>(&__ImageBase);
+    PROC result = GetProcAddress(module, getFunctionName(fid));
+    return result;
+}
+
+PROC getCurrentProcAddress(EnumFakeDriverHookFunction fid) {
+    static HMODULE module = reinterpret_cast<HMODULE>(&__ImageBase);
+    PROC result = GetProcAddress(module, getFunctionName(fid));
+    return result;
+}
+
+#else
+void* getProcAddress(void* handle, EnumFakeDriverHookFunction fid) {
+
+    if (handle == nullptr) {
+        char* err = dlerror();
+        return nullptr;
+    }
+    const char* fname = getFunctionName(fid);
+    char buffer[MAX_PATH] = { 0 };
+    for (int i = 0; i < strlen(fname); i++) {
+        buffer[i] = fname[i];
+        if (buffer[i] == '@') {
+            buffer[i] = 0;
+            break;
+        }
+    }
+    void* fptr = dlsym(handle, &buffer[1]);
+    if (fptr == nullptr) {
+        char* err = dlerror();
+        return nullptr;
+    }
+    return fptr;
+}
+
+void* getCurrentEGLFunction(EnumFakeDriverHookFunction fid) {
+    static void* handle = dlopen("libfakedriver.so", RTLD_LAZY); // dlclose(handle);
+    return getProcAddress(handle, fid);
+}
+void* getEGLFunction(EnumFakeDriverHookFunction fid, const char* fname) {
+    static void* handle = dlopen("libfakedriverAdapter.so", RTLD_LAZY); // dlclose(handle);
+    return getProcAddress(handle, fid);
+}
+
+#endif
+```
+
+
 ## Refs
 
 [1] [from](https://www.linuxidc.com/Linux/2012-02/52963.htm)
