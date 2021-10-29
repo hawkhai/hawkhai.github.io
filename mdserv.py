@@ -125,7 +125,7 @@ def parseReqAction(localjs, localmd, kjson, query, headnote, href):
     alltag = headnote["tags"]
 
     gkvconfig = readfileJson("headnote.json", "utf8")
-    config = gkvconfig[localmd]
+    config = gkvconfig[localmd] if localmd in gkvconfig.keys() else { "taged": False, }
     kjson["config"] = config
 
     tagctrl = '<form action="http://localhost:8888/tagctrl" method="get" name="chgcat">\r\n'
