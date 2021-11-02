@@ -79,6 +79,9 @@ def backupUrlContent(fpath, url):
     urlmd5 = getmd5(url)[:8]
     invdir = isInvisibleDir(fpath)
 
+    if mdname in ("wechatdl.md",):
+        return
+
     ttype = ".html"
     ttype = calcType(ttype, url.split(urlhost)[1])
     if ttype.endswith(".md"): # 不能是这个，否则会被 Jekyll 自动格式化。
