@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "图像处理笔记 -- 图像处理"
+title: "图像处理笔记 -- 图像背景检测及处理 相关资料整理"
 author:
 location: "珠海"
 categories: ["图像处理"]
@@ -15,8 +15,44 @@ glslcanvas:
 codeprint:
 ---
 
+图像背景检测及处理 相关资料整理
+图片编辑软件：Photoshop，Gimp，Picsart，Snapseed
 
-## 自适应阈值
+
+## 视频背景分离
+
+```python
+if args.algo == 'MOG2':
+    backSub = cv.createBackgroundSubtractorMOG2()
+else:
+    backSub = cv.createBackgroundSubtractorKNN()
+```
+
+
+### github / cvzone
+
+CVzone 是一个计算机视觉包，可以让我们轻松运行像人脸检测、手部跟踪、姿势估计等，以及图像处理和其他 AI 功能。它的核心是使用 OpenCV 和 MediaPipe 库。
+
+* 60 FPS Face Detection 脸部检测
+* Hand Tracking 手势跟踪
+* Pose Estimation 人体姿态跟踪
+* Face Mesh Detection 面部网格检测
+* Stack Images 图片堆叠
+* Corner Rectangle 选框显示
+* FPS 帧率显示
+
+
+## 二值化
+
+
+### 二元阈值法
+
+```python
+ret, thresh1 = cv2.threshold(img, 170, 255, cv2.THRESH_BINARY)
+```
+
+
+### 自适应阈值
 
 与二元阈值法不同，该方法根据像素值的小周围区域来确定其阈值。这种方法也有两种类型：
 * 自适应阈值均值：阈值是平均值附近区域减去固定的 $C$。
@@ -28,6 +64,13 @@ th2 = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
 ```
 
 
+### Otsu's Binrisation
+
+```python
+ret3, th1 = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+```
+
+
 ## 降噪
 
 大多数计算机视觉任务失败的最重要因素是噪声。噪声可以是高斯噪声（由于不同的光照条件而产生）和椒盐噪声（稀疏的明暗干扰）。
@@ -35,6 +78,11 @@ th2 = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
 ```python
 dst = cv2.fastNlMeansDenoisingColored(img, None, 10, 10, 7, 21)
 ```
+
+* cv2.fastNlMeansDenoising() - 使用单个灰度图像
+* cv2.fastNlMeansDenoisingColored() - 使用彩色图像。
+* cv2.fastNlMeansDenoisingMulti() - 用于在短时间内捕获的图像序列（灰度图像）
+* cv2.fastNlMeansDenoisingColoredMulti() - 与上面相同，但用于彩色图像。
 
 
 ## 背景颜色检测
@@ -59,7 +107,39 @@ dst = cv2.fastNlMeansDenoisingColored(img, None, 10, 10, 7, 21)
 
 图像分割任务大量使用这种方法对图像进行 K 均值聚类。
 
+{% include image.html url="/assets/images/211102-dip-fastimage/6402.webp" %}
+
 [code {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/5CNRCL2XGFZOZBNJTGgI-w)
+
+
+### K-Means 算法描述
+
+1. 适当选择 c 个类的初始中心；
+2. 在第 k 次迭代中，对任意一个样本，求其到 c 各中心的距离，将该样本归到距离最短的那个中心所在的类；
+3. 利用均值等方法更新该类的中心值；
+4. 对于所有的 C 个聚类中心，如果利用（2）（3）的迭代法更新后，值保持不变，则迭代结束；否则继续迭代。
+
+K-Means 算法试图找到使平凡误差准则函数最小的簇。
+当潜在的簇形状是凸面的，簇与簇之间区别较明显，且簇大小相近时，其聚类结果较理想。
+
+前面提到，该算法时间复杂度为 O(tkmn)，与样本数量线性相关，所以，对于处理大数据集合，该算法非常高效，且伸缩性较好。
+但该算法除了要事先确定簇数 K 和对初始聚类中心敏感外，经常以局部最优结束，同时对“噪声”和孤立点敏感，
+并且该方法不适于发现非凸面形状的簇或大小差别很大的簇。
+
+缺点：
+
+1. 聚类中心的个数 K 需要事先给定，但在实际中这个 K 值的选定是非常难以估计的，很多时候，事先并不知道给定的数据集应该分成多少个类别才最合适；
+2. K-Means 需要人为地确定初始聚类中心，不同的初始聚类中心可能导致完全不同的聚类结果。（可以使用 K-means++ 算法来解决）
+
+
+## 使用深度学习生成模糊背景
+
+[code {% include relref_weixin.html %}](https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247500755&idx=1&sn=ba854b775eb44f34c00c873648918aa1&chksm=fcb83b29cbcfb23f1ce85e42815260aed5f02aa4dbbd78c04ea053455b7b47567073e0f679b7&scene=27#wechat_redirect)
+
+{% include image.html url="/assets/images/211102-dip-fastimage/6403.webp" %}
+
+这个算法的核心是采用深度学习标记出前景物体。而模型是直接下载使用的。尴尬。
+{% include image.html url="/assets/images/211102-dip-fastimage/640.webp" %}
 
 
 
@@ -68,3 +148,4 @@ dst = cv2.fastNlMeansDenoisingColored(img, None, 10, 10, 7, 21)
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://mp.weixin.qq.com/s/5CNRCL2XGFZOZBNJTGgI-w]({% include relrefx.html url="/backup/2021-11-02-dip-fastimage.md/mp.weixin.qq.com/8e751598.html" %})
+- [https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247500755&idx=1&sn=ba854b775eb44f34c00c873648918aa1&chksm=fcb83b29cbcfb23f1ce85e42815260aed5f02aa4dbbd78c04ea053455b7b47567073e0f679b7&scene=27#wechat_redirect]({% include relrefx.html url="/backup/2021-11-02-dip-fastimage.md/mp.weixin.qq.com/b96ba707.html" %})
