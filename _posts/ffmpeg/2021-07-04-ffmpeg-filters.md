@@ -30,7 +30,12 @@ codeprint:
 
 $$
 \text { dst }(\mathrm{I}) =
-\text { saturate_cast<uchar> }(\mid \operatorname{src}(\mathrm{I}) * \text { alpha }+\text { beta } \mid)
+\text { saturate_cast<uchar> }
+(\mid
+    \text { src }(\mathrm{I}) *
+    \text { alpha } +
+    \text { beta }
+\mid)
 $$
 
 ```python
@@ -117,6 +122,18 @@ def invert(img):
 
 ### 夏季和冬季效果滤镜
 
+单变量插值 UnivariateSpline
+```
+UnivariateSpline(x,y,w=None,bbox=[None,None],k=3,s=None)
+```
+
+* x,y 是 X-Y 坐标数组
+* w 是每个数据点的权重值
+* k 为样条曲线的阶数
+* s 为平滑参数。
+    * s=0，样条曲线强制通过所有数据点
+    * s>0，满足 $\sum(w(y-spline(x)))^2 \leq s$
+
 创建查找表：
 
 ```python
@@ -157,6 +174,30 @@ def Winter(img):
     win = cv2.merge((blue_channel, green_channel, red_channel))
     return win
 ```
+
+
+## 保边滤波器
+
+edgePreservingFilter
+
+
+## 风格化滤波器
+
+风格化过滤器产生的输出看起来像使用水彩绘制的图像。
+
+```
+stylization(Mat src, Mat dst, float sigma_s=60, float sigma_r=0.45f)
+```
+
+
+## 油画
+
+```
+cv2.xphoto.oilPainting(img, neighbouring, steps)
+```
+
+* neighbouring = 邻近 Pixel 的参数
+* steps = 进行 neighbouring 的次数
 
 
 ## FFmpeg 中的滤镜（十六）：视频滤镜 -- colorbalance
