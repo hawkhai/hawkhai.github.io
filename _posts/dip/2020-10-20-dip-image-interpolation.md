@@ -4,7 +4,7 @@ title: "图像处理笔记 -- 图像缩放插值算法直观感受"
 author:
 location: "珠海"
 categories: ["图像处理"]
-tags: ["图像处理"]
+tags: ["图像处理", "OpenCV"]
 toc: true
 toclistyle:
 comments:

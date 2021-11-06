@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "音视频 -- FFmpeg & OpenCV 滤镜"
+title: "图像处理 -- FFmpeg & OpenCV 滤镜"
 author:
 location: "珠海"
-categories: ["音视频"]
-tags: ["FFmpeg", "音视频", "OpenCV"]
+categories: ["图像处理"]
+tags: ["FFmpeg", "OpenCV", "图像处理", "音视频"]
 toc: true
 toclistyle:
 comments:

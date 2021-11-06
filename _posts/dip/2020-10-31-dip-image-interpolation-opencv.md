@@ -4,7 +4,7 @@ title: "图像处理笔记 -- OpenCV 中 resize 函数五种插值算法的实�
 author:
 location: "珠海"
 categories: ["图像处理"]
-tags: ["图像处理"]
+tags: ["图像处理", "OpenCV"]
 toc: true
 toclistyle:
 comments:

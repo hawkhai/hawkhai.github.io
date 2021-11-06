@@ -4,7 +4,7 @@ title: "图像处理笔记 -- 图像背景检测及处理 相关资料整理"
 author:
 location: "珠海"
 categories: ["图像处理"]
-tags: ["图像处理"]
+tags: ["图像处理", "OpenCV"]
 toc: true
 toclistyle:
 comments:
@@ -50,6 +50,9 @@ CVzone 是一个计算机视觉包，可以让我们轻松运行像人脸检测�
 ```python
 ret, thresh1 = cv2.threshold(img, 170, 255, cv2.THRESH_BINARY)
 ```
+
+{% include image.html url="/assets/images/211102-dip-fastimage/640a.webp" %}
+{% include image.html url="/assets/images/211102-dip-fastimage/640b.webp" %}
 
 
 ### 自适应阈值
