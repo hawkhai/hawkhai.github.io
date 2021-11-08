@@ -66,6 +66,104 @@ th2 = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
         cv2.THRESH_BINARY, 11, 2)
 ```
 
+```c++
+/** @brief 自适应二值化
+*@param _src      要二值化的灰度图
+*@param _dst      二值化后的图
+*@param maxValue  二值化后要设置的那个值
+*@param method    块计算的方法（ADAPTIVE_THRESH_MEAN_C 平均值，ADAPTIVE_THRESH_GAUSSIAN_C 高斯分布加权和）
+*@param type      二值化类型（CV_THRESH_BINARY 大于为最大值，CV_THRESH_BINARY_INV 小于为最大值）
+*@param blockSize 块大小（奇数，大于 1）
+*@param delta     差值（负值也可以）
+*/
+void cv::adaptiveThreshold(InputArray _src, OutputArray _dst, double maxValue,
+    int method, int type, int blockSize, double delta)
+{
+    Mat src = _src.getMat();
+
+    // 原图必须是单通道无符号 8 位
+    CV_Assert(src.type() == CV_8UC1);
+
+    // 块大小必须大于 1，并且是奇数
+    CV_Assert(blockSize % 2 == 1 && blockSize > 1);
+    Size size = src.size();
+
+    // 构建与原图像相同的图像
+    _dst.create(size, src.type());
+    Mat dst = _dst.getMat();
+
+    if (maxValue < 0)
+    {
+        // 二值化后值小于 0，图像都为 0
+        dst = Scalar(0);
+        return;
+    }
+
+    // 用于比较的值
+    Mat mean;
+
+    if (src.data != dst.data)
+        mean = dst;
+
+    if (method == ADAPTIVE_THRESH_MEAN_C)
+        // 计算平均值作为比较值
+        boxFilter(src, mean, src.type(), Size(blockSize, blockSize),
+        Point(-1, -1), true, BORDER_REPLICATE);
+    else if (method == ADAPTIVE_THRESH_GAUSSIAN_C)
+        // 计算高斯分布和作为比较值
+        GaussianBlur(src, mean, Size(blockSize, blockSize), 0, 0, BORDER_REPLICATE);
+    else
+        CV_Error(CV_StsBadFlag, "Unknown/unsupported adaptive threshold method");
+
+    int i, j;
+
+    // 将 maxValue 夹到 [0,255] 的 uchar 范围区间，用作二值化后的值
+    uchar imaxval = saturate_cast<uchar>(maxValue);
+
+    // 根据二值化类型计算 delta 值
+    int idelta = type == THRESH_BINARY ? cvCeil(delta) : cvFloor(delta);
+
+    // 计算生成每个像素差对应的值表格，以后查表就可以。但像素差范围为什么是 768，我确实认为 512 已经够了
+    uchar tab[768];
+
+    if (type == CV_THRESH_BINARY)
+        for (i = 0; i < 768; i++)
+            // i = src[j] - mean[j] + 255
+            // i - 255 > -idelta ? imaxval : 0
+            // = src[j] - mean[j] + 255 -255 > -idelta ? imaxval : 0
+            // = src[j] > mean[j] - idelta ? imaxval : 0
+            tab[i] = (uchar)(i - 255 > -idelta ? imaxval : 0);
+    else if (type == CV_THRESH_BINARY_INV)
+        for (i = 0; i < 768; i++)
+            // i = src[j] - mean[j] + 255
+            // i - 255 <= -idelta ? imaxval : 0
+            // = src[j] - mean[j] + 255 - 255 <= -idelta ? imaxval : 0
+            // = src[j] <= mean[j] - idelta ? imaxval : 0
+            tab[i] = (uchar)(i - 255 <= -idelta ? imaxval : 0);
+    else
+        CV_Error(CV_StsBadFlag, "Unknown/unsupported threshold type");
+
+    // 如果连续，加速运算
+    if (src.isContinuous() && mean.isContinuous() && dst.isContinuous())
+    {
+        size.width *= size.height;
+        size.height = 1;
+    }
+
+    // 逐像素计算 src[j] - mean[j] + 255，并查表得到结果
+    for (i = 0; i < size.height; i++)
+    {
+        const uchar* sdata = src.data + src.step*i;
+        const uchar* mdata = mean.data + mean.step*i;
+        uchar* ddata = dst.data + dst.step*i;
+
+        for (j = 0; j < size.width; j++)
+            // 将 [-255, 255] 映射到 [0, 510] 然后查表
+            ddata[j] = tab[sdata[j] - mdata[j] + 255];
+    }
+}
+```
+
 
 ### Otsu's Binrisation
 

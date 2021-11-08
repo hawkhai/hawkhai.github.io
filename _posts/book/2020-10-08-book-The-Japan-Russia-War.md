@@ -46,6 +46,14 @@ codeprint:
 
 俄军处于选择的两难：向北退，旅顺没有了，太平洋舰队也就没有了；向南退，铁路没有了，国内援军无法抵达战场。只好在辽阳摆开架式，与日军决战。
 
+> 日本电影《[二百三高地](https://baike.baidu.com/item/%E4%BA%8C%E7%99%BE%E4%B8%89%E9%AB%98%E5%9C%B0/7322766)》
+> 儿玉源太郎介入指挥后调整有二，都是在炮兵上。
+> 1. 把东正面的 280mm 重炮队一天之间集中到西正面，完成了炮兵火力的集中，并突然加大了对西正面 203 高地的炮击火力。
+>   乃木担心的说，把东面的炮队撤出，俄国人出来反击怎么办。儿玉大怒，我正担心他不出来反击。
+> 2. 改变了炮兵-步兵进攻模式，命令在步兵突击时候炮兵并不停止射击。
+>
+> 如上两条，使得山头俄军失去了通常模式下炮击后占据阵地组织防御射击的时间，亦无法动用预备队支援受威胁的阵地，基本上陷入七零八落的各阵地各自为战的状态，与数量优势日军的混战，其阵地失陷命运可说已被决定。
+
 
 ## 日俄战争 4
 
@@ -75,3 +83,6 @@ codeprint:
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-10-08-book-The-Japan-Russia-War.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://baike.baidu.com/item/%E4%BA%8C%E7%99%BE%E4%B8%89%E9%AB%98%E5%9C%B0/7322766]({% include relrefx.html url="/backup/2020-10-08-book-The-Japan-Russia-War.md/baike.baidu.com/2acb92c4.html" %})
