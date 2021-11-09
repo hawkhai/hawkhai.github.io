@@ -20,14 +20,14 @@ cluster: "WinDBG"
 
 ```
 gflags.exe /p /enable **.exe /full
-"C:\Program Files (x86)\Windows Kits\10\Debuggers\x86\gflags.exe" /p /enable fastpdf.exe
+"C:\Program Files (x86)\Windows Kits\10\Debuggers\x86\gflags.exe" /p /enable fastapp.exe
 ```
 
 关闭检查功能：
 
 ```
 gflags.exe /p /disable **.exe
-"C:\Program Files (x86)\Windows Kits\10\Debuggers\x86\gflags.exe" /p /disable fastpdf.exe
+"C:\Program Files (x86)\Windows Kits\10\Debuggers\x86\gflags.exe" /p /disable fastapp.exe
 ```
 
 列出当前启动了页堆的进程列表：

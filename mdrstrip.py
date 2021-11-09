@@ -355,10 +355,11 @@ def collectHost(fpath, line):
         checkz = line.split(url)
         for iline in checkz[1:]: # 检查网址的后继标记。
             checkli = ["", ")", "]", ">", " ", "*"]
-            if url in readfileIglist("mdrstrip_urlIgnore.txt"):
-                checkli.append(";")
-                checkli.append("\"")
-                checkli.append("\'")
+            for urli in readfileIglist("mdrstrip_urlIgnore.txt"):
+                if url.startswith(urli) and urli:
+                    checkli.append(";")
+                    checkli.append("\"")
+                    checkli.append("\'")
             if iline[:2] in ("{{",):
                 continue
             if not iline[:1] in checkli:

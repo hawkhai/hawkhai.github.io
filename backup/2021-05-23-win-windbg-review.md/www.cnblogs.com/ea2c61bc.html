@@ -1,0 +1,1631 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="http://blog.csdn.net/wesley2005/article/details/51501514 http://blog.csdn.net/wesley2005/article/det" />
+    <meta property="og:description" content="http://blog.csdn.net/wesley2005/article/details/51501514 http://blog.csdn.net/wesley2005/article/det" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>学习使用常用的windbg命令（u、dt、ln、x） - zengkefu - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=2QcNOT-4cswJU0WkEU_iaIrw-XzvspTBfocrOZeeg7A" />
+    <link id="MainCss" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip.min.css?v=eoZATbPKwJCL5eWVDTQIYC6CIxJPcFz191dkzN2tSyQ" />
+    <link type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=2spjdq1Snjw5rAm9auWVRax8Gb7nftS4ORu-8fQ7JGM" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip-mobile.min.css?v=vTTpdU8Yj0_5_Zf38y3Pi-5luYRfNm_FmPUxsgWHw9g" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/zengkefu/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/zengkefu/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/zengkefu/wlwmanifest.xml" />
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 240418;
+        var currentBlogApp = 'zengkefu';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'darkgreentrip';
+        var visitorUserId = '';
+        var hasCustomScript = false;
+        try {
+            if (hasCustomScript &amp;&amp; document.referrer &amp;&amp; document.referrer.indexOf('baidu.com') &gt;= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+    </script>
+        <script>
+            var currentPostDateAdded = '2017-06-03 06:14';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=8yHqQbEMVqWgCEBNqpXAa87B4C2SyNErr7L-TCIg-A0"></script><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style>
+    
+    
+    
+    <script type="text/javascript">
+        window.codeHighlightEngine = 1
+        window.enableCodeLineNumber = false
+    </script>
+<meta http-equiv="origin-trial" content="AxujKG9INjsZ8/gUq8+dTruNvk7RjZQ1oFhhgQbcTJKDnZfbzSTE81wvC2Hzaf3TW4avA76LTZEMdiedF1vIbA4AAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzVGhpcmRQYXJ0eSI6dHJ1ZX0=" /><meta http-equiv="origin-trial" content="Azuce85ORtSnWe1MZDTv68qpaW3iHyfL9YbLRy0cwcCZwVnePnOmkUJlG8HGikmOwhZU22dElCcfrfX2HhrBPAkAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A16nvcdeoOAqrJcmjLRpl1I6f3McDD8EfofAYTt/P/H4/AWwB99nxiPp6kA0fXoiZav908Z8etuL16laFPUdfQsAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AxBHdr0J44vFBQtZUqX9sjiqf5yWZ/OcHRcRMN3H9TH+t90V/j3ENW6C8+igBZFXMJ7G3Pr8Dd13632aLng42wgAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A88BWHFjcawUfKU3lIejLoryXoyjooBXLgWmGh+hNcqMK44cugvsI5YZbNarYvi3roc1fYbHA1AVbhAtuHZflgEAAAB2eyJvcmlnaW4iOiJodHRwczovL2dvb2dsZS5jb206NDQzIiwiZmVhdHVyZSI6IlRydXN0VG9rZW5zIiwiZXhwaXJ5IjoxNjUyNzc0NDAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A/OOU4XAFfeAV4kM4+W9WBwNAHqq/bvtrRcJ1wpnNyO/i076BSUy1d14l2kBEgVmEuvxojSpD23172C6hBg2AQYAAACWeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjM0MDgzMTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9" /><meta http-equiv="origin-trial" content="AwrB+XVH/KV6HfZNVtSEqlUJi3yUbtCp0/TJRj+38NDIw19/9P1h7ECTtdLdhIzG0Bsl4n/0rVmttJtGUCcewgAAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjM0MDgzMTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9" /><meta http-equiv="origin-trial" content="Ax15QOERqai2A5XWrDY38Eg07xh2T0pkhpDPJuDlxr7D2Ka8wHvklgK7tTPZOnT+8H31lwHto5JpvYV8jRn1WgIAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjM0MDgzMTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9" /><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2021110401.js" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script></head>
+<body class="skin-darkgreentrip has-navbar has-bannerbar">
+    <a name="top"></a>
+        <img src="https://img2020.cnblogs.com/blog/35695/202111/35695-20211105105426393-708940416.jpg" style="display:none" onload="countImpressions('ad', 'C0-baidu')" />
+        <a target="_blank" href="https://cloud.baidu.com/campaign/20211111/index.html?track=cp:bokeyuan|pf:pc|pp:H-bokeyuan-21shuangshiyi-C0neiyedingbuPCtonglanbanner-cpc|pu:21shuangshiyi-C0neiyedingbuPCtonglanbanner-cpc|ci:21ssy|kw:10511932" onclick="clickBanner(497);countClicks('ad', 'C0-baidu')">
+            <div class="bannerbar aliyun forpc" style="background-size: contain; background-image: url(https://img2020.cnblogs.com/blog/35695/202111/35695-20211105105426393-708940416.jpg)">
+            </div>
+        </a>     
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="countClicks('skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/zengkefu/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/zengkefu/">zengkefu</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/zengkefu/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/zengkefu">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/zengkefu/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 3069  </span>
+<span id="stats_article_count">文章 - 0  </span>
+<span id="stats-comment_count">评论 - 71  </span>
+<span id="stats-total-view-count">阅读 - 
+<span title="总阅读数: 3261110">
+326万</span></span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zengkefu/p/6938071.html">
+    <span>学习使用常用的windbg命令（u、dt、ln、x）</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<div class="article_title">
+<h1>http://blog.csdn.net/wesley2005/article/details/51501514</h1>
+</div>
+<div id="article_content" class="article_content tracking-ad" data-mod="popu_307" data-dsm="post">
+<p>目录：</p>
+<p>(1) u命令（反汇编）</p>
+<p>(2) dt命令（查看<a class="replace_word" title="算法与数据结构知识库" href="http://lib.csdn.net/base/datastructure" target="_blank">数据结构</a>）</p>
+<p>(3) ln命令（查找就近的符号）</p>
+<p>(4) x命令（显示模块的符号）</p>
+<p>(5) k命令（显示调用栈）</p>
+<p>(6) d命令（以数据方式显示）</p>
+<p>(7) b命令（断点）</p>
+<p>(8) lm lmvm （显示模块信息）</p>
+<p>(9) .reload （重加载模块）</p>
+<p>(10) !process !thread .process .thread （查看进程线程信息）</p>
+<p>(11) !object （查看对象信息）</p>
+<p>(12) !devnode （查看设备对象）</p>
+<p>(13) g命令 （继续执行）</p>
+<p>(14) operators (MASM)（汇编下的操作符，poi，by，&amp;等，条件断点最有用）</p>
+<p>(15) e命令 （写内存数据）</p>
+<p>(16) !ca命令 （查看session的ControlArea）</p>
+<p>(17) r命令 （查看修改寄存器）</p>
+<p> </p>
+<p>详细</p>
+<p>（1）u命令（反汇编）</p>
+<p><strong>uf ICSF!SfDirectoryControl</strong></p>
+<p>可以查看整个函数的汇编代码</p>
+<p><strong>u ICSF!SfDirectoryControl ICSF!SfDirectoryControl+0X30</strong></p>
+<p>可以看到30个字节的汇编指令</p>
+<p><strong>ub ICSF!SfDirectoryControl L30</strong></p>
+<p>可以查看SfDirectoryControl 之上的30字节的汇编指令</p>
+<p>（2）dt命令（查看数据结构）</p>
+<p><strong>dt nt!_IRP -r2</strong><br />可以查看二级结构，</p>
+<p>从而知道IoGetCurrentIrpStackLocation宏实际取的是_IRP.Tail(0x040).Overlay(0x000).CurrentStackLocation(0x020)。</p>
+<p>也就是说，<strong>IRP+0X60里存放的就是_IO_STACK_LOCATION的地址</strong>。</p>
+<p>实例：</p>
+<p><strong>dt nt!_IRP poi(ebp+0x0c) -r2</strong>               *注释：dispatch中，ebp+0ch存放的就是IRP参数的地址</p>
+<p>显示结果（省略一部分）：</p>
+<p>+0x040 Tail             : __unnamed<br />      +0x000 Overlay          : __unnamed<br />         +0x000 DeviceQueueEntry : _KDEVICE_QUEUE_ENTRY<br />         +0x000 DriverContext    : [4] (null) <br />         +0x010 Thread           : 0x822934d8 _ETHREAD<br />         +0x014 AuxiliaryBuffer : 0x8225bc30 "???"<br />         +0x018 ListEntry        : _LIST_ENTRY [ 0x0 - 0x0 ]<br />         +0x020 CurrentStackLocation : _IO_STACK_LOCATION<br />         +0x020 PacketType       : 0x822f29ac<br />         +0x024 OriginalFileObject : 0x822ecde8 _FILE_OBJECT<br />然后，就可以得到irpSp的地址0x822f29ac了。</p>
+<p>（3）ln命令（查找就近的符号）</p>
+<p>0: kd&gt; <strong>ln 804e23a2<br /></strong>(804e23a2)   nt!IopfCallDriver   |  (804e2417)   nt!KiInsertTimerTable<br />Exact matches:</p>
+<p>（4）x命令（显示模块的符号）</p>
+<p><strong>x nt!*</strong></p>
+<p>则显示nt的所有符号</p>
+<p>（5）k命令（显示调用栈）</p>
+<p><strong>kd</strong></p>
+<p>直接显示所有的栈情况</p>
+<p><strong>kb</strong></p>
+<p>显示前3个参数</p>
+<p><strong>kp</strong></p>
+<p>显示调用栈，及所有参数值和它们的类型</p>
+<p><strong>kc</strong></p>
+<p>只显示调用栈的模块名和地址（不显示调用栈的地址）</p>
+<p>（6）d命令（以数据方式显示）</p>
+<p><strong>da</strong></p>
+<p>显示ascii码</p>
+<p><strong>dc</strong></p>
+<p>按单字节显示字符</p>
+<p><strong>db</strong></p>
+<p>按单字节显示</p>
+<p><strong>dd</strong></p>
+<p>按4字节显示</p>
+<p><strong>dD</strong></p>
+<p>按8字节显示（64位下常用）</p>
+<p><strong>df</strong></p>
+<p>按浮点显示</p>
+<p><strong>dp</strong></p>
+<p>按4字节或者8字节显示（取决于是32位系统还是64位系统）</p>
+<p><strong>dw</strong></p>
+<p>按2字节显示</p>
+<p><strong>dW</strong></p>
+<p>按2字节显示字符</p>
+<p><strong>dyb</strong></p>
+<p>按二进制位显示（一字节一组）</p>
+<p><strong>dyd</strong></p>
+<p>按二进制位显示（4字节一组）</p>
+<p>（7）b命令（断点）</p>
+<p><strong>bp 0040108c</strong></p>
+<p><strong>bp Myexe!main+5c</strong></p>
+<p><strong>bp source.c:31</strong></p>
+<p>在指定地址下断点</p>
+<p>bp <strong>Myexe!main+5c</strong> "j 0!=eax 'dd @eax;gc';'gc'")</p>
+<p>下条件断点，如何写表达式可参考本博文的operators (MASM)</p>
+<p><strong>bl</strong></p>
+<p>显示所有断点</p>
+<p><strong>bc 1</strong></p>
+<p><strong>bc 1-4</strong></p>
+<p><strong>bc *</strong></p>
+<p>删除断点</p>
+<p><strong>bd 1</strong></p>
+<p><strong>bd 1-4</strong></p>
+<p><strong>bd *</strong></p>
+<p>使断点失效</p>
+<p><strong>ba r4 DSPD!g_Global</strong></p>
+<p>下硬件断点</p>
+<p><strong>bu DSPD!DriverEntry</strong></p>
+<p>下延迟断点（在驱动镜像加载时，下断点）</p>
+<p><strong>bm DSPD!openf*</strong></p>
+<p>下模糊断点</p>
+<p>（8）lm lmvm （显示模块信息）</p>
+<p><strong>lm</strong></p>
+<p>显示所有加载模块</p>
+<p><strong>lmvm DSPrivateData64</strong></p>
+<p>显示指定模块的详细信息</p>
+<p> （9） .reload （重加载模块）</p>
+<p><strong>.reload DSPrivateData64.sys</strong></p>
+<p><strong>.reload /f /i DSPrivateData64.sys</strong>    （/f强制加载， /i忽略pdb不匹配）</p>
+<p><strong>.reload /u DSPrivateData64.sys</strong>       （卸载模块）</p>
+<p>（10） !process !thread .process .thread（查看进程线程信息）</p>
+<p><strong>!process 0 0</strong></p>
+<p>显示所有进程</p>
+<p><strong>!process 0x843423 0</strong></p>
+<p>显示进程信息</p>
+<p><strong>.process 0x843423</strong></p>
+<p>切换到指定进程</p>
+<p><strong>.process /i 0x843423</strong></p>
+<p>输入g命令后切换到指定进程</p>
+<p><strong>.thread 0x87668432</strong></p>
+<p>切换到指定线程</p>
+<p><strong>!thread 0x87668432 0</strong></p>
+<p>查看线程信息</p>
+<p>（11） !object （查看对象信息）</p>
+<p><strong>!object \</strong></p>
+<p>查看指定对象的信息</p>
+<p>（12） !devnode （查看设备对象）</p>
+<p><strong>!devnode 0 1</strong></p>
+<p>查看所有的设备对象</p>
+<p>（13） g命令 （继续执行）</p>
+<p><strong>g    </strong></p>
+<p>继续执行</p>
+<p><strong>gu</strong></p>
+<p>执行到本函数返回</p>
+<p>（14）operators（MASM）（汇编操作符，poi，by，&amp;等，条件断点最有用）</p>
+<p>可查看windbg帮助的operators (MASM)</p>
+<p><strong>poi(@ebp) </strong>       </p>
+<p>地址（ebp）指向的指针。在kernel调试下，是目标机环境。user调试下，是编译环境。</p>
+<p><strong>by(0x8423D435)</strong>   </p>
+<p>地址指向的字节</p>
+<p><strong>$vvalid<strong>(</strong><em>Address</em><strong>, </strong><em>Length</em><strong>)</strong></strong></p>
+<p>指定范围的内存是否有效</p>
+<p>&amp; ! | 等，$scmp等</p>
+<p>（15）e命令 （写内存数据）</p>
+<p><strong>eb 0x838de64c 1</strong></p>
+<p>向指定地址内存按单字节写入</p>
+<p>ew （2字节）</p>
+<p>ed （4字节）</p>
+<p>ep （指针）</p>
+<p>eq （8字节） </p>
+<p>ea （ASCII字符串）</p>
+<p>eu （UNICODE字符串）</p>
+<p> </p>
+<p>eza （ASCII字符串，NULL结尾）</p>
+<p>ezu （UNICODE字符串，NULL结尾）</p>
+<p> </p>
+<p> （16） !ca命令 （查看section的ControlArea）</p>
+<p>kd&gt; <strong>!ca ff8636e8<br /><br /></strong>ControlArea @ff8636e8<br />  Segment:    e1b74548    Flink              0   Blink:               0<br />  Section Ref        0    Pfn Ref           6c   Mapped Views:        1<br />  User Ref           1    Subsections        5   Flush Count:         0<br />  File Object ff86df88    ModWriteCount      0   System Views:        0<br />  WaitForDel         0    Paged Usage      380   NonPaged Usage       e0<br />  Flags (10000a0) Image File HadUserReference </p>
+<p>（17） r命令 （查看修改寄存器）</p>
+<p>kd&gt;<strong>reax</strong></p>
+<p>eax=00000000</p>
+<p>查看寄存器，也可以用，r@eax等</p>
+<p>kd&gt;<strong>reax=1</strong></p>
+<p>eax=00000001</p>
+<p>设置寄存器的值</p>
+<p>常在断点中使用，比如</p>
+<p>kd&gt; bp vDiskBus!InitManager+0xb3 " r@eax=0;gc"</p>
+
+</div>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/zengkefu/category/724372.html" target="_blank">SQL SERVER</a></div>
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6938071,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('2fb1dc1a-61d7-de11-ba8f-001cf0cd104b');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/zengkefu/" target="_blank"><img src="https://pic.cnblogs.com/face/sample_face.gif" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/zengkefu/">zengkefu</a><br />
+            <a href="https://home.cnblogs.com/u/zengkefu/followees/">关注 - 1</a><br />
+            <a href="https://home.cnblogs.com/u/zengkefu/followers/">粉丝 - 463</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('2fb1dc1a-61d7-de11-ba8f-001cf0cd104b');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6938071,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(6938071,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/zengkefu/p/6938059.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/zengkefu/p/6938059.html" title="发布于 2017-06-03 18:09">windbg学习—-.ecxr</a>
+    <br />
+    <a href="https://www.cnblogs.com/zengkefu/p/6938126.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/zengkefu/p/6938126.html" title="发布于 2017-06-03 18:41">How can I create a dump of SQL Server?</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2017-06-03 18:14</span> 
+<a href="https://www.cnblogs.com/zengkefu/">zengkefu</a> 
+阅读(<span id="post_view_count">2911</span>) 
+评论(<span id="post_comment_count">0</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=6938071" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(6938071);return false;">收藏</a> 
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '6938071', targetLink: 'https://www.cnblogs.com/zengkefu/p/6938071.html', title: '学习使用常用的windbg命令（u、dt、ln、x）' })">举报</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js" async="" onload="markdown_highlight()"></script>
+<script>
+    var allowComments = true, cb_blogId = 240418, cb_blogApp = 'zengkefu', cb_blogUserGuid = '2fb1dc1a-61d7-de11-ba8f-001cf0cd104b';
+    var cb_entryId = 6938071, cb_entryCreatedDate = '2017-06-03 18:14', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login('!comments');">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="cnblogs_ch"><a href="https://developer.aliyun.com/topic/bokeyuanbloggers?userCode=swh7dvlt" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-阿里云'})">【推荐】博客园x阿里云联合征文活动：我修复的印象最深的一个bug</a><br /><a href="http://www.uccpsoft.com/index.htm" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-ucancode'})">【推荐】跨平台组态\工控\仿真\CAD 50万行C++源码全开放免费下载！</a><br /><a href="https://shunshun.com/huodong/cnblogs202111" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-顺顺企服'})">【推荐】博客园老会员送现金大礼包，VTH大屏助力研发企业协同数字化</a><br /><a href="https://brands.cnblogs.com/huawei/p/2368" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-华为专区'})">【推荐】华为HMS Core线上Codelabs挑战赛第3期：用3D建模构建元宇宙</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+            <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CMmuxOioi_QCFcqDvQodS7cACQ"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" srcdoc="" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card">
+<b>编辑推荐：</b>
+<br />
+
+· <a href="https://www.cnblogs.com/dino623/p/wpf_rainbow_text.html" target="_blank">[WPF] 玩玩彩虹文字及动画</a>
+    <br />
+· <a href="https://www.cnblogs.com/huangxincheng/p/15497406.html" target="_blank">记一次 .NET 某风控管理系统 内存泄漏分析</a>
+    <br />
+· <a href="https://www.cnblogs.com/kiba/p/15497173.html" target="_blank">微服务与架构师</a>
+    <br />
+· <a href="https://www.cnblogs.com/coco1s/p/15506976.html" target="_blank">N 种仅仅使用 HTML/CSS 实现各类进度条的方式</a>
+    <br />
+· <a href="https://www.cnblogs.com/xiaoxiaotank/p/15496538.html" target="_blank">理解ASP.NET Core - 文件服务器(File Server)</a>
+    <br />
+</div></div>
+    <div id="cnblogs_c2" class="under-post-card" style="display: none;">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;"></div>
+    </div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>最新新闻</b>：
+    <br />
+ ·          <a href="//news.cnblogs.com/n/706616/" target="_blank">哈啰出行完成2.8亿美金新一轮融资，阿里、蚂蚁集团入股（2021-11-09 18:40）</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/706615/" target="_blank">光催化评估：研究人员观察到二氧化钛表面和染料之间的质子转移（2021-11-09 18:31）</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/706614/" target="_blank">东芝将分拆为基础设施、器件及半导体存储器三家公司（2021-11-09 18:22）</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/706613/" target="_blank">CoinGecko：加密货币总市值突破3万亿美元大关（2021-11-09 18:11）</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/706612/" target="_blank">“围剿”TikTok 谷歌给出了YouTube Shorts的短视频答卷（2021-11-09 18:03）</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/zengkefu/">
+            zengkefu
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/zengkefu/" title="入园时间：2009-11-22">
+            11年11个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/zengkefu/followers/">
+            463
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/zengkefu/followees/">
+            1
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('2fb1dc1a-61d7-de11-ba8f-001cf0cd104b')">+加关注</a></div>
+        <script>getFollowStatus('2fb1dc1a-61d7-de11-ba8f-001cf0cd104b');</script>
+    </div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2021/10/09'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2021年11月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2021/12/09'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">31</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                        <td class="" align="center">
+                            4
+                        </td>
+                        <td class="" align="center">
+                            5
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        6
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            7
+                        </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                            <td class="CalTodayDay" align="center">
+                                9
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            13
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            14
+                        </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                            <td class="" align="center">
+                                16
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            20
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            21
+                        </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            27
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            28
+                        </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            4
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            5
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                8
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                9
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                10
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            11
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk" /> <input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block"><div class="catListLink">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    
+<li><a href="https://www.cnblogs.com/zengkefu/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/zengkefu/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/zengkefu/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/zengkefu/RecentComments.html" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/zengkefu/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"></div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔分类
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724335.html" rel="" target="">
+    c(100)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/734185.html" rel="" target="">
+    c#(5)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724334.html" rel="" target="">
+    c++(24)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/750042.html" rel="" target="">
+    Clojure(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/737392.html" rel="" target="">
+    docker(23)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724343.html" rel="" target="">
+    Dtrace (79)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/740837.html" rel="" target="">
+    erlang(8)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/742599.html" rel="" target="">
+    GO(34)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724349.html" rel="" target="">
+    hadoop(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/768924.html" rel="" target="">
+    Hbase(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724355.html" rel="" target="">
+    IDA PRO(27)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724354.html" rel="" target="">
+    java(151)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/740721.html" rel="" target="">
+    javascript(10)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724373.html" rel="" target="">
+    linux shell(25)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724345.html" rel="" target="">
+    linux基础(221)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724359.html" rel="" target="">
+    linux内核(394)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/734183.html" rel="" target="">
+    Memcached(3)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724371.html" rel="" target="">
+    mogodb 源代码(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724347.html" rel="" target="">
+    mogodb基础(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724379.html" rel="" target="">
+    MYSQL SQL优化(99)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/854038.html" rel="" target="">
+    mysql 工具与中间件(37)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724348.html" rel="" target="">
+    mysql 基础(149)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/854032.html" rel="" target="">
+    MYSQL 监控(13)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/854031.html" rel="" target="">
+    MYSQL 锁(51)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724370.html" rel="" target="">
+    mysql 源代码(350)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/854034.html" rel="" target="">
+    mysql 在线 ddl(21)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/854030.html" rel="" target="">
+    MYSQL备份(52)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724381.html" rel="" target="">
+    openstack(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724338.html" rel="" target="">
+    ORACLE DEBUG(7)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724342.html" rel="" target="">
+    ORACLE SQL优化(7)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/747400.html" rel="" target="">
+    oracle 基础(44)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724374.html" rel="" target="">
+    perl(13)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/732886.html" rel="" target="">
+    postgrel(19)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/734190.html" rel="" target="">
+    Python(88)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/749795.html" rel="" target="">
+    QT 开发(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724377.html" rel="" target="">
+    redis 基础(10)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724378.html" rel="" target="">
+    redis 源代码(7)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724346.html" rel="" target="">
+    solaris 基础(20)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724360.html" rel="" target="">
+    solaris 内核(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724372.html" rel="" target="">
+    SQL SERVER(235)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/733388.html" rel="" target="">
+    systemtap(163)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724337.html" rel="" target="">
+    TCP/IP(72)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/737386.html" rel="" target="">
+    web 脚本语言(12)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724356.html" rel="" target="">
+    windows基础(46)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724351.html" rel="" target="">
+    windows内核(17)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724384.html" rel="" target="">
+    阿里数据库技术(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/752150.html" rel="" target="">
+    编绎器与算法(49)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/735634.html" rel="" target="">
+    存储（SSD NVME SATA SAS)(37)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/737382.html" rel="" target="">
+    电脑维修(143)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/753203.html" rel="" target="">
+    国内大公司开源项目(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724336.html" rel="" target="">
+    汇编语言x32x64(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/877206.html" rel="" target="">
+    交换机与路由器(24)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724376.html" rel="" target="">
+    论文,文献 博客(29)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/732758.html" rel="" target="">
+    数据库大会(12)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/752292.html" rel="" target="">
+    淘宝开源项目(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724341.html" rel="" target="">
+    虚拟化(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724339.html" rel="" target="">
+    虚拟机(10)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/742608.html" rel="" target="">
+    云计算与人工智能(30)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/zengkefu/category/724375.html" rel="" target="">
+    运维 --LAMP与LNMP(97)
+</a>
+ 
+                </li>                
+            <li>
+                <a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a>
+            </li>
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2018/12.html" rel="" target="">
+    2018年12月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2018/10.html" rel="" target="">
+    2018年10月(3)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2018/09.html" rel="" target="">
+    2018年9月(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2018/07.html" rel="" target="">
+    2018年7月(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2018/06.html" rel="" target="">
+    2018年6月(3)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2018/05.html" rel="" target="">
+    2018年5月(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2018/04.html" rel="" target="">
+    2018年4月(4)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2018/03.html" rel="" target="">
+    2018年3月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2018/02.html" rel="" target="">
+    2018年2月(5)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2018/01.html" rel="" target="">
+    2018年1月(10)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2017/12.html" rel="" target="">
+    2017年12月(18)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2017/11.html" rel="" target="">
+    2017年11月(6)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2017/10.html" rel="" target="">
+    2017年10月(8)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2017/09.html" rel="" target="">
+    2017年9月(45)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2017/08.html" rel="" target="">
+    2017年8月(151)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2017/07.html" rel="" target="">
+    2017年7月(99)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2017/06.html" rel="" target="">
+    2017年6月(213)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2017/05.html" rel="" target="">
+    2017年5月(112)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2017/04.html" rel="" target="">
+    2017年4月(193)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2017/03.html" rel="" target="">
+    2017年3月(49)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2017/02.html" rel="" target="">
+    2017年2月(77)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2017/01.html" rel="" target="">
+    2017年1月(53)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2016/12.html" rel="" target="">
+    2016年12月(27)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2016/11.html" rel="" target="">
+    2016年11月(19)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2016/10.html" rel="" target="">
+    2016年10月(61)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2016/09.html" rel="" target="">
+    2016年9月(95)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2016/08.html" rel="" target="">
+    2016年8月(155)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2016/07.html" rel="" target="">
+    2016年7月(514)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2016/06.html" rel="" target="">
+    2016年6月(392)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2016/05.html" rel="" target="">
+    2016年5月(370)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2016/04.html" rel="" target="">
+    2016年4月(3)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2016/01.html" rel="" target="">
+    2016年1月(38)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2015/12.html" rel="" target="">
+    2015年12月(63)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2015/11.html" rel="" target="">
+    2015年11月(127)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2015/10.html" rel="" target="">
+    2015年10月(66)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2015/09.html" rel="" target="">
+    2015年9月(76)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zengkefu/archive/2015/08.html" rel="" target="">
+    2015年8月(1)
+</a>
+ 
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block"><div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/zengkefu/p/5649407.html">
+                            1. ulimit 命令详解(93458)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zengkefu/p/5667145.html">
+                            2. Centos内核升级的三种方法(88582)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zengkefu/p/5859954.html">
+                            3. UEFI、BIOS、Secure Boot的关系和知识介绍(56306)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zengkefu/p/5634858.html">
+                            4. 通过查看mysql 配置参数、状态来优化你的mysql(42610)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zengkefu/p/5742617.html">
+                            5. 分布式事务XA(39426)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"><div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/zengkefu/p/5749009.html">
+                            1. Linux内核 TCP/IP、Socket参数调优(8)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zengkefu/p/5742617.html">
+                            2. 分布式事务XA(5)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zengkefu/p/5690385.html">
+                            3. 深入理解MYSQL的MDL元数据锁(3)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zengkefu/p/5667046.html">
+                            4. 使用 Docker 搭建 Java Web 运行环境(3)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zengkefu/p/5606696.html">
+                            5. linux诡异的半连接(SYN_RECV)队列长度(3)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/zengkefu/p/5742617.html">
+                                1. 分布式事务XA(13)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/zengkefu/p/5667046.html">
+                                2. 使用 Docker 搭建 Java Web 运行环境(8)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/zengkefu/p/5674503.html">
+                                3. 深入MySQL源码  学习方法    何登成专家(7)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/zengkefu/p/5559058.html">
+                                4. linux 启动流程图(6)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/zengkefu/p/5666947.html">
+                                5. Linux 基础 —— RPM(5)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div><div id="sidebar_recentcomments" class="sidebar-block"><div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/zengkefu/p/5720866.html">1. Re:《MySQL 5.7 Replication新特性》分享之互动问题解答</a></li>
+                    <li class="recent_comment_body">问2：半同步复制设置N个slave应答，如果当前Slave小于N会怎样？ 答：取决于rpl_semi_sync_master_wait_no_slave的设置。 rpl_semi_sync_maste...</li>
+                    <li class="recent_comment_author">--ACKing</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/zengkefu/p/5749009.html">2. Re:Linux内核 TCP/IP、Socket参数调优</a></li>
+                    <li class="recent_comment_body">您好博主， 在文章的如下部分，不知道是不是错误，斗胆问一下哈： TCP连接的回收： ... ... /proc/sys/net/ipv4/tcp_fin_timeout 对应net.ipv4.tcp_...</li>
+                    <li class="recent_comment_author">--Frank_fuliang</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/zengkefu/p/5559058.html">3. Re:linux 启动流程图</a></li>
+                    <li class="recent_comment_body"><p>给大佬递茶！</p>
+</li>
+                    <li class="recent_comment_author">--路神</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/zengkefu/p/5749009.html">4. Re:Linux内核 TCP/IP、Socket参数调优</a></li>
+                    <li class="recent_comment_body">@我想我是鸟 多谢大佬，我试试...</li>
+                    <li class="recent_comment_author">--shanshuiyicheng</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/zengkefu/p/5749009.html">5. Re:Linux内核 TCP/IP、Socket参数调优</a></li>
+                    <li class="recent_comment_body">@shanshuiyicheng 是这样的，不错会收到内核参数限制，设置后可以再取出来看看，并且测试一下有没有变化...</li>
+                    <li class="recent_comment_author">--我想我是鸟</li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+
+</div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2021 zengkefu
+<br /><span id="poweredby">Powered by .NET 6 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8FO3GXnjClZGrNGr2Ic8Z1pJk92In9xvi0jBoQUgNxYH8OfKNVgA_BizsxFcGAyeY8nbccRg63nx38xy6R0zigBHz-8GKdQXLKVsOyJimqxWCYwHl2o4u63BoxhTC7qOvHF8bZOIiNzPe9ehVswt_UI" />
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-476124-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var kv = getGACustom();
+    if (kv) {
+        gtag('set', kv);
+    }
+    gtag('config', 'UA-476124-1');
+    </script>
+    <script defer="" src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script><iframe src="https://26123d48c9dd916e20345a961773781b.safeframe.googlesyndication.com/safeframe/1-0-38/html/container.html" style="visibility: hidden; display: none;"></iframe>
+
+
+<iframe src="https://www.google.com/recaptcha/api2/aframe" width="0" height="0" style="display: none;"></iframe></body></html>

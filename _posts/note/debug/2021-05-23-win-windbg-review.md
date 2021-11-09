@@ -20,6 +20,55 @@ cluster: "WinDBG"
 Windbg 的一些简单使用命令
 
 
+## 查看地址附近代码
+
+[from {% include relref_cnblogs.html %}](https://www.cnblogs.com/zengkefu/p/6938071.html)
+* u 命令（反汇编）
+    * 类型 u mymodule.dll!0xaddr 查看汇编程序代码
+
+uf ICSF!SfDirectoryControl | 可以查看整个函数的汇编代码
+u ICSF!SfDirectoryControl ICSF!SfDirectoryControl+0x30 | 可以看到 30 个字节的汇编指令
+ub ICSF!SfDirectoryControl L30 | 可以查看 SfDirectoryControl 之上的 30 字节的汇编指令
+
+* ln 命令（查找就近的符号）
+    * 类型 ln mymodule.dll!0xaddr 查看该地址附近的符号
+
+```
+CONTEXT:  (.ecxr)
+eax=0041f8fc ebx=013b0000 ecx=0041f924 edx=013b0000 esi=02ea1b04 edi=03004624
+eip=013e4a38 esp=0041f6d4 ebp=fffffde0 iopl=0         nv up ei ng nz na po nc
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010282
+fastapp!KzPath::GetModuleFolder+0x38:
+013e4a38 89bde0fdffff    mov     dword ptr [ebp-220h],edi ss:002b:fffffbc0=????????
+Resetting default scope
+
+EXCEPTION_RECORD:  (.exr -1)
+ExceptionAddress: 013e4a38 (fastapp!KzPath::GetModuleFolder+0x00000038)
+   ExceptionCode: c0000005 (Access violation)
+  ExceptionFlags: 00000000
+NumberParameters: 2
+   Parameter[0]: 00000001
+   Parameter[1]: fffffbc0
+Attempt to write to address fffffbc0
+```
+
+```
+0:000> u 00274a38
+fastapp!KzPath::GetModuleFolder+0x38 [D:\PCGMR_BUILD\Cim\CiSrc\zapp\zapp\include\framework\KzPath.cpp @ 52]:
+00274a38 89bde0fdffff    mov     dword ptr [ebp-220h],edi
+00274a3e c785dcfdffff00000000 mov dword ptr [ebp-224h],0
+00274a48 c745fc01000000  mov     dword ptr [ebp-4],1
+00274a4f e89cbefeff      call    fastapp!ATL::CAtlStringMgr::GetInstance (002608f0)
+00274a54 8bc8            mov     ecx,eax
+00274a56 85c9            test    ecx,ecx
+00274a58 0f84b9000000    je      fastapp!KzPath::GetModuleFolder+0x117 (00274b17)
+00274a5e 8b01            mov     eax,dword ptr [ecx]
+0:000> ln 00274a38
+D:\PCGMR_BUILD\Cim\CiSrc\zapp\zapp\include\framework\KzPath.cpp(52)+0x38
+(00274a00)   fastapp!KzPath::GetModuleFolder+0x38   |  (00274b30)   fastapp!KzPath::LegalizePath
+```
+
+
 ## 崩溃
 
 1. 输入 `.ecxr; kbn` 得到崩溃的堆栈
@@ -197,6 +246,7 @@ Windbg 的一些简单使用命令
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-23-win-windbg-review.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.cnblogs.com/zengkefu/p/6938071.html]({% include relrefx.html url="/backup/2021-05-23-win-windbg-review.md/www.cnblogs.com/ea2c61bc.html" %})
 - [http://msdl.microsoft.com/download/symbols]({% include relrefx.html url="/backup/2021-05-23-win-windbg-review.md/msdl.microsoft.com/9dd253a8.html" %})
 - [https://github.com/mk-z/windbg/blob/master/windbg.txt]({% include relrefx.html url="/backup/2021-05-23-win-windbg-review.md/github.com/dabc29f3.html" %})
 - [https://docs.microsoft.com/zh-cn/windows-hardware/drivers/debugger/getting-started-with-windbg]({% include relrefx.html url="/backup/2021-05-23-win-windbg-review.md/docs.microsoft.com/02c5b3b3.html" %})
