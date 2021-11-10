@@ -16,6 +16,89 @@ codeprint:
 ---
 
 
+## bkwin 多屏幕支持 bugfix
+
+主窗口在副屏幕，DoModal 弹窗会强制限制到主界面边缘，非常诡异。
+后来发现迅雷也有这个 bug，看来迅雷也用了 bkwin 代码。SOUI 等从 bkwin 衍生出来的都存在这个问题（最新版本就不清楚了）。
+* \*\*\src\GUI\publish\bkwin\bkdlgview.h
+* \*\*\src\GUI\publish\bkwin\CBkDialogViewImplEx.h
+
+```cpp
+BOOL ThisCenterWindow(HWND hWndCenter = NULL) throw()
+{
+    ATLASSERT(::IsWindow(m_hWnd));
+
+    // determine owner window to center against
+    DWORD dwStyle = GetStyle();
+    if (hWndCenter == NULL)
+    {
+        if (dwStyle & WS_CHILD)
+            hWndCenter = ::GetParent(m_hWnd);
+        else
+            hWndCenter = ::GetWindow(m_hWnd, GW_OWNER);
+    }
+
+    // get coordinates of the window relative to its parent
+    RECT rcDlg;
+    ::GetWindowRect(m_hWnd, &rcDlg);
+    RECT rcArea;
+    RECT rcCenter;
+    HWND hWndParent;
+    if (!(dwStyle & WS_CHILD))
+    {
+        // don't center against invisible or minimized windows
+        if (hWndCenter != NULL)
+        {
+            DWORD dwStyleCenter = ::GetWindowLong(hWndCenter, GWL_STYLE);
+            if (!(dwStyleCenter & WS_VISIBLE) || (dwStyleCenter & WS_MINIMIZE))
+                hWndCenter = NULL;
+        }
+
+        // center within screen coordinates
+        ::SystemParametersInfo(SPI_GETWORKAREA, NULL, &rcArea, NULL);
+        if (hWndCenter == NULL)
+            rcCenter = rcArea;
+        else
+            ::GetWindowRect(hWndCenter, &rcCenter);
+    }
+    else
+    {
+        // center within parent client coordinates
+        hWndParent = ::GetParent(m_hWnd);
+        ATLASSERT(::IsWindow(hWndParent));
+
+        ::GetClientRect(hWndParent, &rcArea);
+        ATLASSERT(::IsWindow(hWndCenter));
+        ::GetClientRect(hWndCenter, &rcCenter);
+        ::MapWindowPoints(hWndCenter, hWndParent, (POINT*)&rcCenter, 2);
+    }
+
+    int DlgWidth = rcDlg.right - rcDlg.left;
+    int DlgHeight = rcDlg.bottom - rcDlg.top;
+
+    // find dialog's upper left based on rcCenter
+    int xLeft = (rcCenter.left + rcCenter.right) / 2 - DlgWidth / 2;
+    int yTop = (rcCenter.top + rcCenter.bottom) / 2 - DlgHeight / 2;
+
+    // if the dialog is outside the screen, move it inside
+    /** 这段代码，多屏幕的时候，就非常尴尬了，注释掉即可。
+    if (xLeft < rcArea.left)
+        xLeft = rcArea.left;
+    else if (xLeft + DlgWidth > rcArea.right)
+        xLeft = rcArea.right - DlgWidth;
+
+    if (yTop < rcArea.top)
+        yTop = rcArea.top;
+    else if (yTop + DlgHeight > rcArea.bottom)
+        yTop = rcArea.bottom - DlgHeight;
+    */
+    // map screen coordinates to child coordinates
+    return ::SetWindowPos(m_hWnd, NULL, xLeft, yTop, -1, -1,
+        SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+}
+```
+
+
 ## C 盘深度清理 —— 清理 FileRepository
 
 DriverStoreExplorer 最新版下载：
