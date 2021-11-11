@@ -47,7 +47,9 @@ def checksite():
             return
         fdata = readfile(fpath)
         # http://localhost:4000/blog/
-        if fdata.find("localhost:4000") != -1 and fname not in ("blog.js", "mdserv.py.bak",):
+        if fdata.find("localhost:4000") != -1 and fname not in ("blog.js",
+                "mdserv.py.bak", "opencv.html", "feed.xml",
+                "rdevblog.py.bak", "rdevblog.py",):
             openTextFile(fpath)
             assert False, fpath
     searchdir("_site", sitefile, ignorelist=["_site",])
