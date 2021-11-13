@@ -13,6 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
+archived: true
 ---
 
 Irrlicht 纹理 和 粒子系统的使用

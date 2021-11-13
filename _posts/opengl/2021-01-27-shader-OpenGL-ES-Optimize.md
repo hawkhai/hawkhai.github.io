@@ -13,6 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
+archived: true
 ---
 
 > Kunth 大神说过的“过早的优化是万恶之源 + 寻找真正的瓶颈”。

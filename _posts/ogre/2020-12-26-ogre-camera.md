@@ -8,7 +8,7 @@ tags: ["Ogre3D", "图形学"]
 toc: true
 toclistyle:
 comments:
-visibility: hiddenz
+visibility:
 mathjax: true
 mermaid: truez
 glslcanvas:

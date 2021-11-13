@@ -13,6 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
+archived: true
 ---
 
 Fast Multi-Pass 3D Point Segmentation Based on a Structured Mesh Graph for Ground Vehicles

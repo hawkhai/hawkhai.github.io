@@ -13,6 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
+archived: true
 ---
 
 $$PWD 表示该工程的当前目录

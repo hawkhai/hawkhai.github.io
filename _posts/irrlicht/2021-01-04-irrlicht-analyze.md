@@ -14,6 +14,7 @@ mermaid: truez
 glslcanvas:
 codeprint:
 sortrefs: true
+archived: true
 ---
 
 Irrlicht 是四大开源 3D 引擎之一（其余三者为 Orge、Nebula 与 KlayGE）。

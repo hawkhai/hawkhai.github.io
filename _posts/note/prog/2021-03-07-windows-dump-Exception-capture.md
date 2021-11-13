@@ -13,6 +13,7 @@ mathjax:
 mermaid:
 glslcanvas:
 codeprint:
+archived: true
 ---
 
 Breakpad

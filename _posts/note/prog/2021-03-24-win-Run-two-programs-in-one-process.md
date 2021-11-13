@@ -13,6 +13,7 @@ mathjax:
 mermaid:
 glslcanvas:
 codeprint:
+archived: true
 ---
 
 [在同一个进程空间运行两个程序（进程隐藏） {% include relref_csdn.html %}](https://bbs.csdn.net/topics/187888)

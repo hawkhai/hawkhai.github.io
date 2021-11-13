@@ -13,6 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
+archived: true
 ---
 
 本日志为推荐日志，罗列一些我在学习过程中特意或无意搜集到的网站或教程。

@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head>
+<title>Image Transforms - Fourier Transform</title>
+</head>
+<body bgcolor="#ffffff">
+<img src="logo.gif" alt="" align="right" /><a href="hipr_top.htm"><img alt="home" src="home.gif" /></a>
+<a href="distance.htm"><img alt="left" src="left.gif" /></a>
+<a href="hough.htm"><img alt="right" src="right.gif" /></a>
+<a href="tranops.htm"><img alt="up" src="up.gif" /></a>
+<br clear="right" /><br /><center><img alt="---" src="line2.gif" width="75%" height="4" /></center><br />
+<a name="1"><img alt="" src="mote.gif" /></a><h1>Fourier Transform</h1>
+
+<p>
+
+
+        </p><center>
+        <img alt="" align="middle" src="fourb.gif" /><br />
+	<strong>Common Names:</strong> Fourier Transform, Spectral Analysis, Frequency Analysis
+        </center>
+
+<p>
+</p><h2>Brief Description</h2>
+
+<p><a name="2"><img alt="" src="mote.gif" /></a>The Fourier Transform is an
+important image processing tool which is used to decompose an image
+into its sine and cosine components. The output of the transformation
+represents the image in the <em>Fourier</em> or <a href="freqdom.htm">frequency
+domain</a>, while the input image is the <a href="spatdom.htm">spatial domain</a>
+equivalent. In the Fourier domain image, each point represents a
+particular frequency contained in the spatial domain image.
+
+</p><p>The Fourier Transform is used in a wide range of applications, such as
+image analysis, image filtering, image reconstruction and image
+compression.
+
+</p><p><a name="how"><img alt="" src="mote.gif" /></a></p><h2>How It Works</h2>
+
+<p>As we are only concerned with digital images, we will restrict this
+discussion to the <em>Discrete Fourier Transform</em> (DFT).
+
+</p><p>The DFT is the sampled Fourier Transform and therefore does not
+contain all frequencies forming an image, but only a set of samples
+which is large enough to fully describe the spatial domain image. The
+number of frequencies corresponds to the number of pixels in the spatial
+domain image, <em>i.e.</em> the image in the spatial and Fourier domain are of the
+same size.
+
+</p><p>For a square image of size N×N, the two-dimensional DFT is given by:
+
+</p><p></p><blockquote>
+<!-- <IMG ALT="Eqn:eqnfour1" SRC="eqns/eqnfour1.png" align="bottom"> -->
+<img alt="Eqn:eqnfour1" src="eqns/fowdfft2.gif" align="bottom" />
+</blockquote>
+
+<p>where <em>f(a,b)</em> is the image in the spatial domain and the exponential
+term is the basis function corresponding to each point <em>F(k,l)</em> in
+the Fourier space. The equation can be interpreted as: the value of
+each point <em>F(k,l)</em> is obtained by multiplying the
+spatial image with the corresponding base function and summing the
+result.
+
+</p><p>The basis functions are sine and cosine waves with increasing frequencies, <em>i.e.</em> <em>F(0,0)</em> represents the DC-component of the image which corresponds to the average brightness and <em>F(N-1,N-1)</em> represents the highest frequency.
+ 
+
+</p><p>In a similar way, the Fourier image can be re-transformed to the
+spatial domain. <a name="3"><img alt="" src="mote.gif" /></a>The inverse Fourier
+transform is given by:
+
+</p><p></p><blockquote>
+<img alt="Eqn:eqnfour2" src="eqns/eqnfour2.png" align="bottom" />
+</blockquote>
+
+
+<p>Note the <img alt="Eqn:oneovern2" src="eqns/oneovern2.gif" align="middle" />  normalization term in the inverse transformation.
+This normalization is sometimes applied to the forward transform instead of the
+inverse transform, but it should not be used for both.$$
+
+
+
+</p><p>To obtain the result for the above equations, a double sum has to be
+calculated for each image point. However, because the Fourier Transform is
+<em>separable</em>, it can be written as
+</p><blockquote>
+<img alt="Eqn:eqnfour3" src="eqns/eqnfour3.png" align="bottom" />
+</blockquote> where <blockquote>
+<img alt="Eqn:eqnfour4" src="eqns/eqnfour4.png" align="bottom" />
+</blockquote>
+Using these two formulas, the spatial domain image is first transformed
+into an intermediate image using <em>N</em> one-dimensional Fourier
+Transforms. This intermediate image is then transformed into the final
+image, again using <em>N</em> one-dimensional Fourier
+Transforms. Expressing the two-dimensional Fourier Transform in terms
+of a series of <em>2N</em> one-dimensional transforms decreases the number
+of required computations.
+
+<p><a name="4"><img alt="" src="mote.gif" /></a>Even with these computational
+savings, the ordinary one-dimensional DFT has <img alt="Eqn:eqnfour6" src="eqns/eqnfour6.gif" align="middle" />
+complexity. This can be reduced to <img alt="Eqn:eqnfour5" src="eqns/eqnfour5.gif" align="middle" /> if
+we employ the <em>Fast Fourier Transform</em> (FFT) to compute the one-dimensional
+DFTs. This is a significant improvement, in particular for
+large images. There are various forms of the FFT and most of them
+restrict the size of the input image that may be transformed, often to
+<img alt="Eqn:eqnfour7" src="eqns/eqnfour7.gif" align="middle" /> where <em>n</em> is an integer. The mathematical
+details are well described in the literature.
+
+</p><p>The Fourier Transform produces a complex number valued output image
+which can be displayed with two images, either with the <em>real</em>
+and <em>imaginary</em> part or with <em>magnitude</em> and <em>phase</em>. In
+image processing, often only the magnitude of the Fourier Transform is
+displayed, as it contains most of the information of the geometric
+structure of the spatial domain image. However, if we want to re-transform
+the Fourier image into the correct spatial domain after some processing in
+the frequency domain, we must make sure to preserve both magnitude and
+phase of the Fourier image.
+
+</p><p>The Fourier domain image has a much greater range than the image in
+the spatial domain. Hence, to be sufficiently accurate, its values are
+usually calculated and stored in float values.
+
+</p><p>
+<a name="guidelines"><img alt="" src="mote.gif" /></a></p><h2>Guidelines for Use</h2>
+
+<p>The Fourier Transform is used if we want to access the geometric
+characteristics of a spatial domain image. Because the image in the
+Fourier domain is decomposed into its sinusoidal components, it is
+easy to examine or process certain frequencies of the image, thus
+influencing the geometric structure in the spatial domain.
+
+</p><p>In most implementations the Fourier image is shifted in such a way that the
+DC-value (<em>i.e.</em> the image mean) <em>F(0,0)</em> is displayed in the center
+of the image. The further away from the center an image point is, the
+higher is its corresponding frequency.
+
+</p><p>We start off by applying the Fourier Transform of
+
+</p><blockquote><a href="images/cln1.gif"><img alt="cln1" src="thumbs/cln1.GIF" /></a></blockquote>
+<p> The magnitude calculated from the complex
+result is shown in 
+</p><blockquote><a href="images/cln1fur1.gif"><img alt="cln1fur1" src="thumbs/cln1fur1.GIF" /></a></blockquote>
+<p> We can see that the
+DC-value is by far the largest component of the image. However, the
+dynamic range of the Fourier coefficients (<em>i.e.</em> the intensity values in
+the Fourier image) is too large to be displayed on the screen,
+therefore all other values appear as black. If we apply a
+<a href="pixlog.htm">logarithmic transformation</a> to the image we obtain
+
+</p><blockquote><a href="images/cln1fur2.gif"><img alt="cln1fur2" src="thumbs/cln1fur2.GIF" /></a></blockquote>
+<p> The result shows that the image contains
+components of all frequencies, but that their magnitude gets smaller
+for higher frequencies. Hence, low frequencies contain more image
+information than the higher ones. The transform image also tells us
+that there are two dominating directions in the Fourier image, one
+passing vertically and one horizontally through the center. These
+originate from the regular patterns in the background of the original
+image.
+
+</p><p>The phase of the Fourier transform of the same image is shown in
+
+</p><blockquote><a href="images/cln1fur3.gif"><img alt="cln1fur3" src="thumbs/cln1fur3.GIF" /></a></blockquote>
+<p> The value of each point determines the
+phase of the corresponding frequency. As in the magnitude image, we
+can identify the vertical and horizontal lines corresponding to the
+patterns in the original image. The phase image does not yield much
+new information about the structure of the spatial domain image;
+therefore, in the following examples, we will restrict ourselves to
+displaying only the magnitude of the Fourier Transform.
+
+</p><p>Before we leave the phase image entirely, however, note that if we
+apply the inverse Fourier Transform to the above magnitude image while
+ignoring the phase (and then <a href="histeq.htm">histogram equalize</a> the
+output) we obtain 
+</p><blockquote><a href="images/cln1fil1.gif"><img alt="cln1fil1" src="thumbs/cln1fil1.GIF" /></a></blockquote>
+<p> Although this image contains
+the same frequencies (and amount of frequencies) as the original input
+image, it is corrupted beyond recognition. This shows that the phase
+information is crucial to reconstruct the correct image in the spatial
+domain.
+
+</p><p>We will now experiment with some simple images to better
+understand the nature of the transform. The response of the Fourier
+Transform to periodic patterns in the spatial domain images can be seen
+very easily in the following artificial images.
+
+</p><p>The image 
+</p><blockquote><a href="images/stp2.gif"><img alt="stp2" src="thumbs/stp2.GIF" /></a></blockquote>
+<p> shows 2 pixel wide vertical stripes. The magnitude of the
+Fourier transform of this image is shown in
+
+</p><blockquote><a href="images/stp2fur1.gif"><img alt="stp2fur1" src="thumbs/stp2fur1.GIF" /></a></blockquote>
+<p> If we look carefully, we can see that it
+contains 3 main values: the DC-value and, since the Fourier image is
+symmetrical to its center, two points corresponding to the frequency
+of the stripes in the original image. Note that the two points lie on
+a horizontal line through the image center, because the image
+intensity in the spatial domain changes the most if we go along it
+horizontally.
+
+</p><p>The distance of the points to the center can be explained as follows:
+the maximum frequency which can be represented in the spatial domain are
+two pixel wide stripe pairs (one white, one black).
+</p><blockquote>
+<img alt="Eqn:eqnfour8" src="eqns/eqnfour8.gif" align="bottom" />
+</blockquote> Hence, the two pixel wide stripes in the
+above image represent <blockquote>
+<img alt="Eqn:eqnfour9" src="eqns/eqnfour9.gif" align="bottom" />
+</blockquote> Thus, the points in the Fourier
+image are halfway between the center and the edge of the image, <em>i.e.</em>
+the represented frequency is half of the maximum.
+
+<p>Further investigation of the Fourier image shows that the magnitude of
+other frequencies in the image is less than
+<img alt="Eqn:eqnfoura" src="eqns/eqnfoura.gif" align="middle" /> of the DC-value, <em>i.e.</em> they don't make
+any significant contribution to the image.  The magnitudes of the two
+minor points are each two-thirds of the DC-value.
+
+</p><p>Similar effects as in the above example can be seen when applying the
+Fourier Transform to 
+</p><blockquote><a href="images/stp1.gif"><img alt="stp1" src="thumbs/stp1.GIF" /></a></blockquote>
+<p> which consists of diagonal
+stripes. In 
+</p><blockquote><a href="images/stp1fur1.gif"><img alt="stp1fur1" src="thumbs/stp1fur1.GIF" /></a></blockquote>
+<p> showing the magnitude of the Fourier
+Transform, we can see that, again, the main components of the
+transformed image are the DC-value and the two points corresponding to
+the frequency of the stripes. However, the logarithmic transform of the
+Fourier Transform, 
+</p><blockquote><a href="images/stp1fur2.gif"><img alt="stp1fur2" src="thumbs/stp1fur2.GIF" /></a></blockquote>
+<p> shows that now the image
+contains many minor frequencies. The main reason is that a
+diagonal can only be approximated by the square pixels of the image,
+hence, additional frequencies are needed to compose the image. The
+logarithmic scaling makes it difficult to tell the influence of single
+frequencies in the original image. To find the most important
+frequencies we <a href="threshld.htm">threshold</a> the original Fourier magnitude image at
+level 13. The resulting Fourier image, 
+</p><blockquote><a href="images/stp1fur3.gif"><img alt="stp1fur3" src="thumbs/stp1fur3.GIF" /></a></blockquote>
+<p> shows all
+frequencies whose magnitude is at least 5% of the main peak. Compared
+to the original Fourier image, several more points appear. They are
+all on the same diagonal as the three main components, <em>i.e.</em> they all
+originate from the periodic stripes. The represented frequencies are
+all multiples of the basic frequency of the stripes in the spatial domain
+image. This is because a rectangular signal, like the stripes, with
+the frequency <img alt="Eqn:eqnfourb" src="eqns/eqnfourb.gif" align="middle" /> is a composition of sine waves
+with the frequencies <img alt="Eqn:eqnfourc" src="eqns/eqnfourc.gif" align="middle" />,
+known as the harmonics of <img alt="Eqn:eqnfourb" src="eqns/eqnfourb.gif" align="middle" />. All other
+frequencies disappeared from the Fourier image, <em>i.e.</em> the magnitude of
+each of them is less than 5% of the DC-value.
+
+</p><p><a name="5"><img alt="" src="mote.gif" /></a>A Fourier-Transformed
+image can be used for <a href="freqfilt.htm">frequency filtering</a>.
+A simple example is illustrated with the above image. If we multiply
+the (complex) Fourier image obtained above with an image containing a
+circle (of <em>r</em> = <em>32</em> pixels), we can set all frequencies larger than
+<img alt="Eqn:eqnfourb" src="eqns/eqnfourb.gif" align="middle" /> to zero as shown in the logarithmic
+transformed image 
+</p><blockquote><a href="images/stp1fur5.gif"><img alt="stp1fur5" src="thumbs/stp1fur5.GIF" /></a></blockquote>
+<p> By applying the inverse
+Fourier Transform we obtain 
+</p><blockquote><a href="images/stp1fil1.gif"><img alt="stp1fil1" src="thumbs/stp1fil1.GIF" /></a></blockquote>
+<p> The resulting
+image is a lowpass filtered version of the original spatial domain
+image. Since all other frequencies have been suppressed, this result
+is the sum of the constant DC-value and a sine-wave with the frequency
+<img alt="Eqn:eqnfourb" src="eqns/eqnfourb.gif" align="middle" />. Further examples can be seen in the
+worksheet on <a href="freqfilt.htm">frequency filtering</a>.
+
+</p><p>A property of the Fourier Transform which is used, for example, for
+the removal of additive <a href="noise.htm">noise</a>, is its <em>distributivity
+over addition</em>. We can illustrate this by <a href="pixadd.htm">adding</a> the
+complex Fourier images of the two previous example images. To display
+the result and emphasize the main peaks, we threshold the magnitude of
+the complex image, as can be seen in 
+</p><blockquote><a href="images/stp1fur4.gif"><img alt="stp1fur4" src="thumbs/stp1fur4.GIF" /></a></blockquote>
+<p> Applying
+the inverse Fourier Transform to the complex image yields
+
+</p><blockquote><a href="images/stp1fil2.gif"><img alt="stp1fil2" src="thumbs/stp1fil2.GIF" /></a></blockquote>
+<p> According to the distributivity law, this image
+is the same as the direct sum of the two original spatial domain images.
+
+</p><p>Finally, we present an example (<em>i.e.</em> text orientation finding) where
+the Fourier Transform is used to gain information about the geometric
+structure of the spatial domain image. Text recognition using image
+processing techniques is simplified if we can assume that the text
+lines are in a predefined direction. Here we show how the Fourier
+Transform can be used to find the initial orientation of the text and
+then a <a href="rotate.htm">rotation</a> can be applied to correct the error. We
+illustrate this technique using 
+</p><blockquote><a href="images/son3.gif"><img alt="son3" src="thumbs/son3.GIF" /></a></blockquote>
+<p> a binary
+image of English text. The logarithm of the magnitude of its Fourier
+transform is 
+</p><blockquote><a href="images/son3fur2.gif"><img alt="son3fur2" src="thumbs/son3fur2.GIF" /></a></blockquote>
+<p> and 
+</p><blockquote><a href="images/son3fur4.gif"><img alt="son3fur4" src="thumbs/son3fur4.GIF" /></a></blockquote>
+<p> is
+the thresholded magnitude of the Fourier image. We can see that the
+main values lie on a vertical line, indicating that the text lines in
+the input image are horizontal. <br /> If we proceed in the same way with
+
+</p><blockquote><a href="images/son3rot1.gif"><img alt="son3rot1" src="thumbs/son3rot1.GIF" /></a></blockquote>
+<p> which was rotated about 45°, we obtain
+
+</p><blockquote><a href="images/son3fur1.gif"><img alt="son3fur1" src="thumbs/son3fur1.GIF" /></a></blockquote>
+<p> and 
+</p><blockquote><a href="images/son3fur3.gif"><img alt="son3fur3" src="thumbs/son3fur3.GIF" /></a></blockquote>
+<p> in the Fourier space. We
+can see that the line of the main peaks in the Fourier domain is
+rotated according to rotation of the input image. The second line in
+the logarithmic image (perpendicular to the main direction) originates
+from the black corners in the rotated image.
+
+</p><p>Although we managed to find a threshold which separates the main peaks from the background, we have a reasonable amount of noise in the Fourier image resulting from the irregular pattern of the letters. We could decrease these background values and therefore increase the difference to the main peaks if we were able to form solid blocks out of the text-lines. This could, for example, be done by using a <a href="morops.htm">morphological operator</a>.
+
+</p><p></p><h2>Common Variants</h2>
+
+<p><a name="6"><img alt="" src="mote.gif" /></a>Another sinusoidal transform
+(<em>i.e.</em> transform with sinusoidal base functions) related to the DFT is
+the <em>Discrete Cosine Transform</em> (DCT). For an N×N image, the
+DCT is given by 
+</p><blockquote>
+<img alt="Eqn:eqnfourd" src="eqns/eqnfourd.gif" align="bottom" />
+</blockquote> 
+with 
+<blockquote>
+<img alt="Eqn:eqnfoure" src="eqns/eqnfoure.gif" align="bottom" />
+</blockquote>
+
+<p><a name="7"><img alt="" src="mote.gif" /></a>The
+main advantages of the DCT are that it yields a real valued output
+image and that it is a fast transform. A major use of the DCT is in
+image compression --- <em>i.e.</em> trying to reduce the amount of data needed
+to store an image. After performing a DCT it is possible to throw away
+the coefficients that encode high frequency components that the human
+eye is not very sensitive to. Thus the amount of data can be reduced,
+without seriously affecting the way an image looks to the human eye.
+
+</p><p>
+    </p><h2>Interactive Experimentation</h2>
+
+<p>    You can interactively experiment with this operator by clicking
+    <a href="fftdemo.htm">here</a>.
+
+</p><p>
+</p><h2>Exercises</h2> 
+
+<p></p><ol> 
+<li> Take the Fourier Transforms
+of 
+<blockquote><a href="images/stp1.gif"><img alt="stp1" src="thumbs/stp1.GIF" /></a></blockquote>
+<p> and 
+</p><blockquote><a href="images/stp2.gif"><img alt="stp2" src="thumbs/stp2.GIF" /></a></blockquote>
+<p> and add them using
+<a href="blend.htm">blend</a>. Take the inverse Fourier Transform of the
+sum. Explain the result.  
+
+</p><p></p></li><li> Using a <a href="imagedit.htm">paint
+program</a>, create an image made of periodical patterns of varying
+frequency and orientation. Examine its Fourier Transform and
+investigate the effects of removing or changing some of the
+patterns in the spatial domain image.  
+
+<p></p></li><li> Apply the <a href="mean.htm">mean</a>
+operator to 
+<blockquote><a href="images/stp2.gif"><img alt="stp2" src="thumbs/stp2.GIF" /></a></blockquote>
+<p> and compare its Fourier Transform before
+and after the operation.  
+
+</p><p></p></li><li> Add different sorts of
+<a href="noise.htm">noise</a> to 
+<blockquote><a href="images/cln1.gif"><img alt="cln1" src="thumbs/cln1.GIF" /></a></blockquote>
+<p> and compare the Fourier
+Transforms with 
+</p><blockquote><a href="images/cln1fur2.gif"><img alt="cln1fur2" src="thumbs/cln1fur2.GIF" /></a></blockquote>
+<p>  
+
+</p><p></p></li><li> Use the <a href="open.htm">open</a>
+operator to transform the text lines in the above images into solid
+blocks. Make sure that the chosen <a href="strctel.htm">structuring element</a>
+works for all orientations of text. Compare the Fourier Transforms of
+the resulting images with the transforms of the unprocessed text
+images.  
+
+<p></p></li><li> Investigate if the Fourier Transform is distributive
+over multiplication. To do so, multiply 
+<blockquote><a href="images/stp1.gif"><img alt="stp1" src="thumbs/stp1.GIF" /></a></blockquote>
+<p> with
+
+</p><blockquote><a href="images/stp2.gif"><img alt="stp2" src="thumbs/stp2.GIF" /></a></blockquote>
+<p> and take the Fourier Transform. Compare the result
+with the multiplication of the two direct Fourier Transforms.  </p></li></ol>
+
+<p></p><h2>References</h2>
+
+<p><strong>D. Ballard and C. Brown</strong> <em>Computer Vision</em>, Prentice-Hall, 1982,
+pp 24 - 30.
+
+</p><p><strong>R. Gonzales, R. Woods</strong> <em>Digital Image Processing</em>,
+Addison-Wesley Publishing Company, 1992, pp 81 - 125.
+
+</p><p><strong>B. Horn</strong> <em>Robot Vision</em>, MIT Press, 1986, Chaps 6, 7.
+
+</p><p><strong>A. Jain</strong> <em>Fundamentals of Digital Image Processing</em>,
+Prentice-Hall, 1989, pp 15 - 20. 
+
+</p><p><strong>A. Marion</strong> <em>An Introduction to Image Processing</em>, Chapman
+and Hall, 1991, Chap. 9.
+
+</p><p>
+</p><h2>Local Information</h2>
+
+<p>Specific information about this operator may be found
+<a href="local/fourier.txt">here.</a>
+
+</p><p>More general advice about the local HIPR installation is available in the
+<a href="local.htm"><em>Local Information</em></a> introductory section.
+
+</p><p>
+
+</p><p></p><center><img alt="---" src="line2.gif" width="75%" height="4" /></center><br />
+<a href="hipr_top.htm"><img alt="home" src="home.gif" /></a>
+<a href="distance.htm"><img alt="left" src="left.gif" /></a>
+<a href="hough.htm"><img alt="right" src="right.gif" /></a>
+<a href="tranops.htm"><img alt="up" src="up.gif" /></a><br /><br />
+<p>
+<a href="copyrght.htm">©2003 R. Fisher, S. Perkins, 
+A. Walker and E. Wolfart.</a><br />
+</p><p><a href="http://validator.w3.org/">
+         <img border="0" src="vh40.gif" alt="Valid HTML 4.0!" height="31" width="88" /></a>
+
+</p></body></html>

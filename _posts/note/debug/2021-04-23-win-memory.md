@@ -13,6 +13,7 @@ mathjax:
 mermaid:
 glslcanvas:
 codeprint:
+archived: true
 ---
 
 * 工作集 – 物理内存

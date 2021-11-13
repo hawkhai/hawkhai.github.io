@@ -13,6 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
+archived: true
 ---
 
 1. 数据结构在硬盘上如何存储、如何以最小的 IO 代价读取需要的数据？
