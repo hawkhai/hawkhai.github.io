@@ -108,6 +108,6 @@ if __name__ == "__main__":
         result = result["result"]
         if result and len(result) == 1:
             result = result[0]
-            writefile("assets\\localhost.js", "var localhostip = '" + result + "';")
+            writefile("assets\\localhost.js", "var localhostip = '" + result + "';\r\n")
     print(result)
     mainjekyll()

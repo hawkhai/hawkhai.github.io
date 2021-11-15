@@ -335,10 +335,10 @@ function genSvgDownloadLink() { // for mermaid
 function checkCatTagBar() {
     var localhost = window.location.host;
     console.log(localhost);
-    var regex = /^[\d.]+:/;
-    if (!localhost.startsWith("localhost:") && !regex.test(localhost)) {
+    if (!islocalhost()) {
         return;
     }
+
     $.get("http://localhost:8888/?href=" + escape(window.location.href), function(kjson, status) {
         var htmlcate = kjson["pinfo"]["htmlcate"];
         var htmltag = kjson["pinfo"]["htmltag"];
