@@ -2,6 +2,7 @@
 import re, os, sys
 sys.path.append("../")
 from pythonx.funclib import *
+from pythonx.pelib import mydllfunc
 
 GIT_URL = 'url: "https://blog.hawkhai.com"'
 GIT_URLx = 'urlx: "https://blog.hawkhai.com"'
@@ -100,4 +101,13 @@ def mainjekyll():
     os.system(JEKYLL)
 
 if __name__ == "__main__":
+    result = mydllfunc("getipaddr", {"minorVer": 2, "majorVer": 2,})
+    osremove("assets\\localhost.js")
+    if result["ret"] == 0:
+        result = result["result"]
+        result = result["result"]
+        if result and len(result) == 1:
+            result = result[0]
+            writefile("assets\\localhost.js", "var localhostip = '" + result + "';")
+    print(result)
     mainjekyll()
