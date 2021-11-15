@@ -1,3 +1,6 @@
+---
+title : localhostcheck
+---
 // https://www.cnblogs.com/keyi/p/6768284.html
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
