@@ -532,6 +532,13 @@ int Foo() {
     这些 API 只能在打了 KB2533623 补丁的 Windows7，2008 上使用。
 
 
+## 使用安全的字符串操作防止内存违规访问
+
+两个崩溃：
+1. `std::string = null;`
+2. `CString str; GetWindowsText(hWnd, str.GetBuffer(), MAX_PATH);`
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-25-prog-secguide.md.js" %}'></script></p>

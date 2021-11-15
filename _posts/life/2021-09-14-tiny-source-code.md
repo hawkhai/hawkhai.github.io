@@ -28,6 +28,10 @@ std::wstring tempexe = pstr; // 会崩溃。
 tempexe.append(L"test");
 ```
 
+两个崩溃：
+1. `std::string = null;`
+2. `CString str; GetWindowsText(hWnd, str.GetBuffer(), MAX_PATH);`
+
 
 ## bsearch & qsort
 
