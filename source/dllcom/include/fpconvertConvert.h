@@ -52,14 +52,14 @@ class FPConvertWrap : public fpconvert::IFPConvertInterface {
     }
 
   public:
-    virtual int GetFPConvertVersion() {
+    virtual int GetFPConvertVersion() override {
         if (!m_interface) {
             return -1;
         }
         return m_interface->GetFPConvertVersion();
     }
 
-    virtual int Release() {
+    virtual int Release() override {
         if (!m_interface) {
             return -1;
         }

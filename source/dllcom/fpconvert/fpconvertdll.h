@@ -8,6 +8,6 @@ public:
     fpconvertDLL();
 
 public:
-    virtual int GetFPConvertVersion();
-    virtual int Release();
+    virtual int GetFPConvertVersion() override;
+    virtual int Release() override;
 };
