@@ -17,6 +17,14 @@ cluster: "Visual Studio"
 ---
 
 
+## VS2015 C# 调用 C++ DLL 设置断点
+
+[from {% include relref_csdn.html %}](https://blog.csdn.net/hujialong1997/article/details/105458435)
+
+1. **DLL 设置** 属性-配置属性-调试-调试器类型 设为 仅限本机。
+2. **C# 设置** exe 工程，属性-调试-启用本机代码调试。
+
+
 ## VS2019 Release 版本调试
 
 1. 链接器 -> 调试 -> 生成调试信息 /Debug -- 生成 pdb 调试信息。
@@ -216,6 +224,7 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Visual-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://blog.csdn.net/hujialong1997/article/details/105458435]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/blog.csdn.net/fb89ec11.html" %})
 - [https://www.cnblogs.com/huhewei/p/6080157.html]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/www.cnblogs.com/38d5910a.html" %})
 - [https://gclxry.com/article/avoid-python-conflicts-via-bat-on-windows/]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/gclxry.com/43348a06.html" %})
 - [https://blog.csdn.net/hellokandy/article/details/100931904]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/blog.csdn.net/e2e3de3c.html" %})

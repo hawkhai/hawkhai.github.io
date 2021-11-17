@@ -94,6 +94,7 @@ class FPConvertWrap : public fpconvert::IFPConvertInterface {
             return;
         }
         m_interface->Release();
+        m_interface = nullptr;
         // m_hDLL ≤ª Õ∑≈¡À°£
     }
 

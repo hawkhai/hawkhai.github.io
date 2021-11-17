@@ -19,7 +19,7 @@ cluster: "编程指南"
 ```cpp
 std::lock_guard<std::mutex> locker(m_mutex);
 std::unique_lock<std::mutex> locker(m_mutex);
-std::wstring_convert<std::codecvt_utf8<wchar_t>> strConvert;
+std::wstring_convert<std::codecvt_utf8<wchar_t>> strConvert; # C++17: codecvt_utf8 is deprecated
 std::unique_ptr<EngineBase> srcEngine;
 std::make_shared<SelectAreaRecognition>(selector, parent);
 std::make_tuple(printerInfo, false);
@@ -118,7 +118,7 @@ Flag fResizeMemory(void** ppv, size_t sizeNew) {
 
 ## 内存管理
 
-注意当数组作为函数的参数进行传递时，该数组自动退化为同类型的指针。
+**注意当数组作为函数的参数进行传递时，该数组自动退化为同类型的指针。**
 
 ```cpp
 // 计算数组和指针的内存容量
@@ -129,7 +129,7 @@ cout << sizeof(p) << endl;   // 4 字节
 
 // 数组退化为指针
 void Func(char a[100]) {
-    cout<< sizeof(a) << endl;   // 4 字节而不是 100 字节
+    cout << sizeof(a) << endl;   // 4 字节而不是 100 字节
 }
 ```
 

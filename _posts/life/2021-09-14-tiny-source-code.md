@@ -287,6 +287,9 @@ std::string GetAbsolutePath(const std::string& filename)
 
 ## C++ String
 
+On Windows, `wchar_t` is UTF-16 while on other platform such as Linux and MacOS, `wchar_t` is UTF-32!
+[link](https://codingtidbit.com/2020/02/09/c17-codecvt_utf8-is-deprecated/)
+
 ```cpp
 #include <string>
 #include <sstream>
@@ -311,42 +314,17 @@ inline T fromString(char *s)
 ```
 
 ```cpp
-#include <iostream>
-#include <string>
-#include <locale>
-#include <codecvt>
-#include <iomanip>
-
-// wide to UTF-8
-static std::string wstring_to_stringUTF8(const std::wstring& wstr) {
-    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t>() conv;
-    return conv.to_bytes(wstr);
-}
-
-// wide to UTF-16le
-static std::string wstring_to_stringUTF16le(const std::wstring& wstr) {
-    std::wstring_convert<std::codecvt_utf16<wchar_t, 0x10ffff, std::little_endian>> conv;
-    return conv.to_bytes(wstr);
-}
-
-std::wstring utf8_to_wstr( const std::string& utf8 ) {
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> wcu8;
-    return wcu8.from_bytes( utf8 );
-}
-
-std::string wstr_to_utf8( const std::wstring& utf16 ) {
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> wcu8;
-    return wcu8.to_bytes( utf16 );
-}
-```
-
-```cpp
 #include "stdafx.h"
 #include <assert.h>
 #include <string>
 
+// C++17: codecvt_utf8 is deprecated
+// std::wstring_convert<std::codecvt_utf8<wchar_t>> strConvert;
+
 // 有的字符串可能会编码失败。
 std::wstring CharToWChar(const char* str, size_t encode = CP_ACP) {
+    assert(str);
+    if (!str) return L"";
     int srclen = strlen(str);
     int len = MultiByteToWideChar(encode, 0, str, srclen, NULL, 0);
     if (len <= 0) {
@@ -362,6 +340,8 @@ std::wstring CharToWChar(const char* str, size_t encode = CP_ACP) {
 
 // 有的字符串可能会编码失败。
 std::string WCharToChar(const wchar_t* wstr, size_t encode = CP_ACP) {
+    assert(wstr);
+    if (!wstr) return "";
     int srclen = wcslen(wstr);
     int len = WideCharToMultiByte(encode, 0, wstr, srclen, NULL, 0, NULL, NULL);
     if (len <= 0) {
@@ -564,7 +544,6 @@ class b62 {
 #include <stdexcept>
 #include <cctype>
 #include <algorithm>
-#include <codecvt>
 
 class StringHelper
 {
@@ -1477,3 +1456,4 @@ class fastimagedll : public fastimage::IFastImageInterface {
 
 - [https://www.tutorialspoint.com/c_standard_library/c_function_bsearch.htm]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.tutorialspoint.com/c5079b0f.htm" %})
 - [https://www.tutorialspoint.com/c_standard_library/c_function_qsort.htm]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.tutorialspoint.com/0bec0743.htm" %})
+- [https://codingtidbit.com/2020/02/09/c17-codecvt_utf8-is-deprecated/]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/codingtidbit.com/24af4f6e.html" %})
