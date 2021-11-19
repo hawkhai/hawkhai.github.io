@@ -322,9 +322,9 @@ inline T fromString(char *s)
 // std::wstring_convert<std::codecvt_utf8<wchar_t>> strConvert;
 
 // 有的字符串可能会编码失败。
-std::wstring CharToWChar(const char* str, size_t encode = CP_ACP) {
-    assert(str);
-    if (!str) return L"";
+std::wstring CharToWChar(const char* str, size_t encode) {
+    if (!str)
+        return L"";
     int srclen = strlen(str);
     int len = MultiByteToWideChar(encode, 0, str, srclen, NULL, 0);
     if (len <= 0) {
@@ -339,9 +339,9 @@ std::wstring CharToWChar(const char* str, size_t encode = CP_ACP) {
 }
 
 // 有的字符串可能会编码失败。
-std::string WCharToChar(const wchar_t* wstr, size_t encode = CP_ACP) {
-    assert(wstr);
-    if (!wstr) return "";
+std::string WCharToChar(const wchar_t* wstr, size_t encode) {
+    if (!wstr)
+        return "";
     int srclen = wcslen(wstr);
     int len = WideCharToMultiByte(encode, 0, wstr, srclen, NULL, 0, NULL, NULL);
     if (len <= 0) {
@@ -353,6 +353,13 @@ std::string WCharToChar(const wchar_t* wstr, size_t encode = CP_ACP) {
     std::string str = temp;
     delete[] temp;
     return str;
+}
+
+std::string UTF8_ENCODE(const std::wstring& wstr) {
+    return WCharToChar(wstr.c_str(), CP_UTF8);
+}
+std::wstring UTF8_DECODE(const std::string& str) {
+    return CharToWChar(str.c_str(), CP_UTF8);
 }
 ```
 
