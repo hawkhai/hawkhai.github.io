@@ -88,6 +88,11 @@ function calcShortUrlx() {
 }
 
 function setupBackToTop() {
+
+    if (GetQueryValue("print")) {
+        return;
+    }
+
     addBackToTop({
         diameter: 40,
         backgroundColor: '#ddd',
@@ -368,7 +373,7 @@ $(document).ready(function () {
     // $("img.lazyload").lazyload({effect: "fadeIn"});
     // $("img.lazyload").lazyload({threshold: 1000, effect: "show", failurelimit: 10});
     genSvgDownloadLink();
-    console.log("控制参数：nochart svgdl notoc !!");
+    console.log("控制参数：nochart svgdl print !!");
     checkCatTagBar()
 });
 // 窗口大小变化时

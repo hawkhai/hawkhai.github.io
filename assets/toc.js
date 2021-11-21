@@ -171,6 +171,7 @@ function activeCurrentScroll() {
 function initToc(tocdiv) {
     if (!$.fn.tocInited) {
         $.fn.tocInited = true;
+
         tocdiv.toc({
             title: '<i class="back-to-top">目录索引</i>',
             showEffect: 'fadeIn',
@@ -197,7 +198,16 @@ function GetQueryValue(queryName) {
 
 function checkToc() {
 
-    if (GetQueryValue("notoc")) {
+    if (GetQueryValue("print")) {
+        //$("footer.site-footer").remove(); // 网站申明
+        $("div.post-footer").remove(); // 版权声明
+        $("div#section_info + hr").remove(); // 短链接
+        //$("div#section_info").remove();
+        //$("div#section_cluster").remove();  // 聚类
+        //$("font.ref_snapshot + ul").remove(); // 快照
+        //$("font.ref_snapshot").remove();
+        //$("div#blog_content + hr").remove(); // 底部分割线
+        $("div#postdiv").removeClass("codeprint"); // 代码排版
         return;
     }
 
