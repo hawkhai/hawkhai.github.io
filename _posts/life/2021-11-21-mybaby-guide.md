@@ -263,7 +263,7 @@ cluster: "BB"
 
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-11-21-mybaby.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-11-21-mybaby-guide.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://mp.weixin.qq.com/s/ubj-cNEwqPuyl2pS2k2FFg]({% include relrefx.html url="/backup/2021-11-21-mybaby.md/mp.weixin.qq.com/eb3abca6.html" %})
+- [https://mp.weixin.qq.com/s/ubj-cNEwqPuyl2pS2k2FFg]({% include relrefx.html url="/backup/2021-11-21-mybaby-guide.md/mp.weixin.qq.com/eb3abca6.html" %})

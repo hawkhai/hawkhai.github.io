@@ -355,11 +355,15 @@ std::string WCharToChar(const wchar_t* wstr, size_t encode) {
     return str;
 }
 
-std::string UTF8_ENCODE(const std::wstring& wstr) {
-    return WCharToChar(wstr.c_str(), CP_UTF8);
+std::string UTF8_ENCODE(const wchar_t* wstr) {
+    if (!wstr)
+        return "";
+    return WCharToChar(wstr, CP_UTF8);
 }
-std::wstring UTF8_DECODE(const std::string& str) {
-    return CharToWChar(str.c_str(), CP_UTF8);
+std::wstring UTF8_DECODE(const char* str) {
+    if (!str)
+        return L"";
+    return CharToWChar(str, CP_UTF8);
 }
 ```
 
