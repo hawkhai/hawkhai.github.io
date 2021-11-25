@@ -75,7 +75,8 @@ def backupUrlContent(fpath, url):
         if url.startswith(host):
             chromeDialog = True
     mdname = os.path.split(fpath)[-1]
-    urlhost = calcHost(url)
+    urlhostsrc = calcHost(url)
+    urlhostdir = urlhostsrc.replace(":", "/")
     urlmd5 = getmd5(url)[:8]
     invdir = isInvisibleDir(fpath)
 
@@ -83,7 +84,7 @@ def backupUrlContent(fpath, url):
         return
 
     ttype = ".html"
-    ttype = calcType(ttype, url.split(urlhost)[1])
+    ttype = calcType(ttype, url.split(urlhostsrc)[1])
     if ttype.endswith(".md"): # 不能是这个，否则会被 Jekyll 自动格式化。
         ttype = ".html"
     if ttype in (".action",):
@@ -93,14 +94,14 @@ def backupUrlContent(fpath, url):
         chrome = False
 
     def buildlocal(ftype):
-        flocal = os.path.join("backup", mdname, urlhost, urlmd5 + ftype)
+        flocal = os.path.join("backup", mdname, urlhostdir, urlmd5 + ftype)
         if invdir:
             flocal = os.path.join("invisible", flocal)
         return flocal
 
     mdxfile = False
     flocal = buildlocal(ttype)
-    if chrome and urlhost in readfileIglist("mdrstrip_hostJekyll.txt"):
+    if chrome and urlhostsrc in readfileIglist("mdrstrip_hostJekyll.txt"):
         mdxfile = True
         ttype = ".md" # 借用 Jekyll 格式化
         newlocal = buildlocal(ttype)
@@ -170,7 +171,7 @@ title : %(title)s
             fdata = addmdhead(fdata)
             writefile(flocal, fdata, "utf8")
 
-        if urlhost == "www.shadertoy.com":
+        if urlhostsrc == "www.shadertoy.com":
             li = re.findall(r"""\r?\n\r?\n[0-9]+\r?\n\r?\n    \r?\n    \r?\n    """, fdata)
             for i in li: fdata = fdata.replace(i, "\r\n    ")
             writefile(flocal, fdata, "utf8")
