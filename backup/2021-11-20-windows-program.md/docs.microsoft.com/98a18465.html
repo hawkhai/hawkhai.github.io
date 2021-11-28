@@ -1,0 +1,1580 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" class="hasSidebar hasPageActions hasBreadcrumb conceptual has-default-focus js-focus-visible theme-light" lang="en-us" dir="ltr" data-css-variable-support="true" data-authenticated="false" data-auth-status-determined="true" data-target="docs" x-ms-format-detection="none" data-js-focus-visible=""><head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta property="og:title" content="Getting Started with WinDbg (User-Mode) - Windows drivers" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windbg" />
+			<meta property="og:description" content="WinDbg is a kernel-mode and user-mode debugger that is included in Debugging Tools for Windows. Here we provide hands-on exercises that will help you get started using WinDbg as a user-mode debugger." />
+		<meta property="og:image" content="https://docs.microsoft.com/en-us/media/logos/logo-ms-social.png" />
+		<meta property="og:image:alt" content="Microsoft Logo" />
+
+	<meta name="twitter:card" content="summary" />
+
+	<meta name="twitter:site" content="@docsmsft" />
+
+	<meta name="color-scheme" content="light dark" />
+
+
+	<meta name="author" content="DOMARS" />
+<meta name="breadcrumb_path" content="/windows-hardware/drivers/breadcrumbs/toc.json" />
+<meta name="depot_name" content="Win.drivers" />
+<meta name="description" content="WinDbg is a kernel-mode and user-mode debugger that is included in Debugging Tools for Windows. Here we provide hands-on exercises that will help you get started using WinDbg as a user-mode debugger." />
+<meta name="document_id" content="142adea7-b7b8-4a5a-5e19-83a202ab04b2" />
+<meta name="document_version_independent_id" content="489c0c22-908c-aa93-520c-836c941b5b4e" />
+<meta name="gitcommit" content="https://github.com/MicrosoftDocs/windows-driver-docs-pr/blob/80521f39e5778f04b3b48541819a05b9295a3537/windows-driver-docs-pr/debugger/getting-started-with-windbg.md" />
+<meta name="locale" content="en-us" />
+<meta name="ms.author" content="domars" />
+<meta name="ms.date" content="04/01/2021" />
+<meta name="ms.localizationpriority" content="high" />
+<meta name="ms.prod" content="windows-hardware" />
+<meta name="ms.technology" content="debugger" />
+<meta name="ms.topic" content="article" />
+<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/windows-driver-docs-pr/blob/live/windows-driver-docs-pr/debugger/getting-started-with-windbg.md" />
+<meta name="recommendations" content="true" />
+<meta name="schema" content="Conceptual" />
+<meta name="Search.Product" content="eADQiWindows 10XVcnh" />
+<meta name="site_name" content="Docs" />
+<meta name="uhfHeaderId" content="MSDocsHeader-WinHW" />
+<meta name="updated_at" content="2021-06-16 05:29 PM" />
+<meta name="page_type" content="conceptual" />
+<meta name="toc_rel" content="toc.json" />
+<meta name="pdf_url_template" content="https://docs.microsoft.com/pdfstore/en-us/Win.drivers/{branchName}{pdfName}" />
+<meta name="word_count" content="1322" />
+
+
+	<meta name="scope" content="Drivers" />
+<link href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windbg" rel="canonical" />
+	<title>Getting Started with WinDbg (User-Mode) - Windows drivers | Microsoft Docs</title>
+
+		<link rel="stylesheet" href="/_themes/docs.theme/master/en-us/_themes/styles/2821b350.site-ltr.css " />
+
+	
+
+	<script id="msdocs-script">
+	var msDocs = {
+		data: {
+			timeOrigin: Date.now(),
+			contentLocale: 'en-us',
+			contentDir: 'ltr',
+			userLocale: 'en-us',
+			userDir: 'ltr',
+			pageTemplate: 'Conceptual',
+			brand: '',
+			context: {
+
+			},
+			hasBinaryRating: true,
+			hasGithubIssues: true,
+			showFeedbackReport: false,
+			enableTutorialFeedback: false,
+			feedbackSystem: 'GitHub',
+			feedbackGitHubRepo: 'MicrosoftDocs/windows-driver-docs',
+			feedbackProductUrl: 'https://support.microsoft.com/help/4021566/windows-10-send-feedback-to-microsoft-with-feedback-hub-app',
+			contentGitUrl: 'https://github.com/MicrosoftDocs/windows-driver-docs/blob/staging/windows-driver-docs-pr/debugger/getting-started-with-windbg.md',
+			extendBreadcrumb: false,
+			isEditDisplayable: true,
+			hideViewSource: false,
+			hasPageActions: true,
+			hasBookmark: true,
+			hasShare: true,
+			hasRecommendations: true,
+			contributors: [
+						{ name: "DOMARS", url: "https://github.com/DOMARS" },
+						{ name: "aviviano", url: "https://github.com/aviviano" },
+						{ name: "EliotSeattle", url: "https://github.com/EliotSeattle" },
+						{ name: "RAJU2529", url: "https://github.com/RAJU2529" },
+						{ name: "nitya", url: "https://github.com/nitya" },
+						{ name: "profnandaa", url: "https://github.com/profnandaa" }
+],
+		},
+		functions:{}
+	};
+	</script>
+	<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+	<script src="https://js.monitor.azure.com/scripts/c/ms.jsll-3.min.js"></script>
+
+	<script src="/_themes/docs.theme/master/en-us/_themes/global/5cce29c0.deprecation.js"></script>
+		<script src="/_themes/docs.theme/master/en-us/_themes/scripts/bc86a920.index-docs.js"></script><style></style>
+</head>
+
+<body lang="en-us" dir="ltr">
+	<div class="header-holder has-default-focus">
+		<a href="#main" class="skip-to-main-link has-outline-color-text visually-hidden-until-focused position-fixed has-inner-focus focus-visible top-0 left-0 right-0 padding-xs has-text-centered has-body-background" tabindex="1">Skip to main content</a>
+
+		<div hidden="" id="cookie-consent-holder"></div>
+
+		<div id="unsupported-browser" style="&#10;&#9;&#9;&#9;background-color: white;&#10;&#9;&#9;&#9;color: black;&#10;&#9;&#9;&#9;padding: 16px;&#10;&#9;&#9;&#9;border-bottom: 1px solid grey;" hidden="">
+			<div style="max-width: 800px; margin: 0 auto;">
+				<p style="font-size: 24px">This browser is no longer supported.</p>
+				<p style="font-size: 16px; margin-top: 16px;">Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.</p>
+				<div style="margin-top: 12px;">
+					<a href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 " style="&#10;&#9;&#9;&#9;&#9;&#9;&#9;background-color: #0078d4;&#10;&#9;&#9;&#9;&#9;&#9;&#9;border: 1px solid #0078d4;&#10;&#9;&#9;&#9;&#9;&#9;&#9;color: white;&#10;&#9;&#9;&#9;&#9;&#9;&#9;padding: 6px 12px;&#10;&#9;&#9;&#9;&#9;&#9;&#9;border-radius: 2px;&#10;&#9;&#9;&#9;&#9;&#9;&#9;display: inline-block;&#10;&#9;&#9;&#9;&#9;&#9;&#9;">
+Download Microsoft Edge					</a>
+					<a href="https://docs.microsoft.com/en-US/lifecycle/faq/internet-explorer-microsoft-edge" style="&#10;&#9;&#9;&#9;&#9;&#9;&#9;&#9;background-color: white;&#10;&#9;&#9;&#9;&#9;&#9;&#9;&#9;padding: 6px 12px;&#10;&#9;&#9;&#9;&#9;&#9;&#9;&#9;border: 1px solid #505050;&#10;&#9;&#9;&#9;&#9;&#9;&#9;&#9;color: #171717;&#10;&#9;&#9;&#9;&#9;&#9;&#9;&#9;border-radius: 2px;&#10;&#9;&#9;&#9;&#9;&#9;&#9;&#9;display: inline-block;&#10;&#9;&#9;&#9;&#9;&#9;&#9;&#9;">
+More info					</a>
+				</div>
+			</div>
+
+		</div>
+		<!-- liquid-tag banners global -->
+		<div id="headerAreaHolder" data-bi-name="header">
+<header role="banner" itemscope="itemscope" itemtype="http://schema.org/Organization"><!----> <div class="nav-bar"><!---->  <div class="nav-bar-brand">
+		<a class="nav-bar-button" itemprop="url" href="https://www.microsoft.com" aria-label="Microsoft">
+			<div class="nav-bar-logo" role="presentation" aria-hidden="true" itemprop="logo" itemscope="itemscope">
+				<svg xmlns="http://www.w3.org/2000/svg" width="108" height="23" viewBox="72 72 337 74" preserveAspectRatio="xMidYMin slice">
+					<g data-name="MS-symbol">
+						<clipPath>
+							<path transform="matrix(1 0 0 -1 0 216)" d="M0 216h482V0H0z"/>
+						</clipPath>
+						<g clip-path="url(#a)">
+							<path class="has-fill-current-color has-text-subtle" d="M394.942 104.59h-10.858v25.003h-7.38V104.59h-5.182v-5.965h5.182v-4.308c0-3.254 1.06-5.92 3.178-7.998 2.12-2.079 4.835-3.118 8.15-3.118.882 0 1.666.045 2.35.135a9.37 9.37 0 011.806.407v6.296c-.24-.14-.663-.31-1.265-.512-.603-.2-1.296-.3-2.078-.3-1.528 0-2.702.476-3.526 1.43-.824.954-1.235 2.365-1.235 4.232v3.736h10.858v-6.959l7.321-2.229v9.188h7.381v5.965h-7.38v14.49c0 1.91.345 3.254 1.038 4.037.693.783 1.782 1.175 3.27 1.175.42 0 .927-.1 1.52-.3a7.178 7.178 0 001.552-.724v6.025c-.463.261-1.23.502-2.305.723a15.742 15.742 0 01-3.178.331c-3.073 0-5.378-.817-6.914-2.455-1.537-1.637-2.305-4.102-2.305-7.396zm-48.407 9.73c0 3.233.733 5.703 2.2 7.411 1.465 1.707 3.564 2.56 6.295 2.56 2.652 0 4.67-.853 6.055-2.56 1.386-1.708 2.08-4.238 2.08-7.592 0-3.334-.719-5.849-2.155-7.547-1.436-1.697-3.45-2.545-6.04-2.545-2.67 0-4.745.888-6.22 2.666-1.477 1.777-2.215 4.313-2.215 7.607m-7.592.24c0-5.12 1.446-9.177 4.338-12.17 2.892-2.993 6.91-4.489 12.05-4.489 4.841 0 8.621 1.441 11.343 4.323 2.721 2.883 4.082 6.774 4.082 11.674 0 5.021-1.447 9.018-4.338 11.99-2.892 2.973-6.829 4.458-11.81 4.458-4.8 0-8.61-1.41-11.432-4.232-2.822-2.82-4.233-6.673-4.233-11.554m-16.417-7.802c0 1.045.331 1.863.994 2.456.662.592 2.128 1.34 4.398 2.243 2.912 1.166 4.956 2.476 6.131 3.932 1.175 1.456 1.762 3.22 1.762 5.287 0 2.912-1.12 5.252-3.359 7.02-2.24 1.767-5.267 2.65-9.083 2.65-1.285 0-2.706-.155-4.263-.467-1.556-.31-2.877-.707-3.96-1.19v-7.169a17.945 17.945 0 004.277 2.198c1.526.543 2.911.814 4.157.814 1.647 0 2.862-.23 3.645-.693.784-.46 1.175-1.235 1.175-2.319 0-1.005-.406-1.853-1.22-2.546-.813-.693-2.355-1.492-4.624-2.395-2.69-1.125-4.599-2.39-5.724-3.796-1.125-1.406-1.687-3.193-1.687-5.362 0-2.792 1.11-5.086 3.33-6.884 2.217-1.797 5.095-2.696 8.63-2.696 1.084 0 2.3.12 3.645.361 1.346.242 2.47.553 3.374.934v6.93c-.964-.644-2.089-1.195-3.374-1.658-1.286-.462-2.56-.693-3.826-.693-1.386 0-2.465.271-3.238.813-.774.543-1.16 1.286-1.16 2.23m-35.066 7.562c0 3.233.733 5.703 2.2 7.411 1.465 1.707 3.564 2.56 6.295 2.56 2.652 0 4.67-.853 6.055-2.56 1.386-1.708 2.08-4.238 2.08-7.592 0-3.334-.719-5.849-2.155-7.547-1.436-1.697-3.449-2.545-6.039-2.545-2.672 0-4.745.888-6.222 2.666-1.476 1.777-2.214 4.313-2.214 7.607m-7.592.24c0-5.12 1.446-9.177 4.338-12.17 2.893-2.993 6.91-4.489 12.051-4.489 4.84 0 8.621 1.441 11.342 4.323 2.721 2.883 4.082 6.774 4.082 11.674 0 5.021-1.446 9.018-4.338 11.99-2.892 2.973-6.828 4.458-11.809 4.458-4.8 0-8.61-1.41-11.433-4.232-2.822-2.82-4.233-6.673-4.233-11.554m-3.136-16.448c.582 0 1.105.041 1.567.121.462.08.853.18 1.175.301v7.38c-.382-.28-.939-.546-1.672-.798-.733-.25-1.622-.376-2.666-.376-1.788 0-3.299.753-4.534 2.26-1.235 1.505-1.853 3.825-1.853 6.958v15.635h-7.29V98.624h7.29v4.88h.12c.663-1.687 1.667-3.007 3.013-3.96 1.346-.954 2.962-1.432 4.85-1.432m-27.956 26.18c1.084 0 2.28-.25 3.585-.754a15.06 15.06 0 003.615-1.988v6.778c-1.165.663-2.485 1.165-3.962 1.506-1.475.342-3.098.512-4.865.512-4.559 0-8.265-1.44-11.116-4.323-2.852-2.88-4.278-6.562-4.278-11.04 0-4.98 1.456-9.083 4.37-12.307 2.91-3.224 7.037-4.835 12.38-4.835 1.366 0 2.746.176 4.143.527 1.395.352 2.504.758 3.328 1.22v6.99c-1.125-.824-2.274-1.462-3.45-1.914a9.966 9.966 0 00-3.599-.678c-2.872 0-5.192.934-6.959 2.802-1.768 1.868-2.652 4.388-2.652 7.562 0 3.132.85 5.573 2.546 7.32 1.697 1.748 4.002 2.621 6.914 2.621m-22.112 5.302h-7.29V98.624h7.29zm-8.044-39.916c0-1.205.437-2.214 1.311-3.028.874-.813 1.913-1.22 3.118-1.22 1.285 0 2.35.417 3.193 1.25.844.834 1.266 1.833 1.266 2.998 0 1.185-.432 2.18-1.296 2.982-.864.804-1.918 1.205-3.163 1.205-1.246 0-2.295-.406-3.148-1.219-.854-.815-1.28-1.803-1.28-2.968m-6.274-3.284v43.2h-7.5v-33.86h-.12l-13.408 33.86h-4.97l-13.738-33.86h-.09v33.86h-6.929v-43.2h10.755l12.412 32.024h.18l13.105-32.024z"/>
+							<path d="M106.214 106.214H71.996V71.996h34.218z" fill="#f25022"/>
+							<path d="M143.993 106.214h-34.218V71.996h34.218z" fill="#7fba00"/>
+							<path d="M106.214 143.993H71.996v-34.218h34.218z" fill="#00a4ef"/>
+							<path d="M143.993 143.993h-34.218v-34.218h34.218z" fill="#ffb900"/>
+						</g>
+					</g>
+				</svg>
+			</div>
+		</a>
+	</div> 
+				
+		<div class="nav-bar-item is-hidden-tablet">
+			<div class="nav-bar-menu">
+				<button class="nav-bar-button is-title" title="Global navigation" aria-expanded="false">
+					<span class="nav-bar-menu-title"><!---->Documentation<!----></span>
+					<div class="nav-bar-burger">
+						<span></span>
+						<span></span>
+						<span></span>
+						<span class="nav-bar-burger-label"><!---->Global navigation<!----></span>
+					</div>
+				</button>
+			</div>
+		</div>
+	
+				
+		<nav class="nav-bar-nav" role="navigation" aria-label="Global">
+			<ul class="nav-bar-nav-list">
+				
+		<li class="nav-bar-item is-category">
+			<a class="nav-bar-button is-title has-hover-underline" itemprop="url" href="/en-us/">
+				<span><!---->Docs<!----></span>
+			</a>
+		</li>
+	
+				<!----> <li class="nav-bar-item">
+				<a class=" nav-bar-button has-hover-underline is-active" href="/en-us/documentation">
+					<span><!---->Documentation<!----></span>
+				</a>
+		  </li><!----> <li class="nav-bar-item">
+				<a class=" nav-bar-button has-hover-underline " href="/en-us/learn/">
+					<span><!---->Learn<!----></span>
+				</a>
+		  </li><!----> <li class="nav-bar-item">
+				<a class=" nav-bar-button has-hover-underline " href="/en-us/answers/products/">
+					<span><!---->Q&amp;A<!----></span>
+				</a>
+		  </li><!----> <li class="nav-bar-item">
+				<a class=" nav-bar-button has-hover-underline " href="/en-us/samples/browse/">
+					<span><!---->Code Samples<!----></span>
+				</a>
+		  </li><!----> <li class="nav-bar-item">
+				<a class=" nav-bar-button has-hover-underline " href="/en-us/shows/">
+					<span><!---->Shows<!----></span>
+				</a>
+		  </li><!----> <li class="nav-bar-item">
+				<a class=" nav-bar-button has-hover-underline " href="/en-us/events/">
+					<span><!---->Events<!----></span>
+				</a>
+		  </li><!----> <li class="dropdown nav-bar-item" hidden="">
+		<button aria-expanded="false" class="dropdown-trigger nav-bar-button  has-hover-underline" aria-controls="ax-106">
+			<span><!---->More<!----></span>
+			<span class="nav-bar-button-chevron" aria-hidden="true">
+				<span class="docon docon-chevron-down-light expanded-indicator"></span>
+			</span>
+		</button>
+		<ul class="dropdown-menu" id="ax-106" aria-label="More">
+			<!---->
+				<li class="nav-bar-item" hidden="">
+					<a class=" nav-bar-button is-active" href="/en-us/documentation"><!---->Documentation<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item" hidden="">
+					<a class=" nav-bar-button " href="/en-us/learn/"><!---->Learn<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item" hidden="">
+					<a class=" nav-bar-button " href="/en-us/answers/products/"><!---->Q&amp;A<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item" hidden="">
+					<a class=" nav-bar-button " href="/en-us/samples/browse/"><!---->Code Samples<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item" hidden="">
+					<a class=" nav-bar-button " href="/en-us/shows/"><!---->Shows<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item" hidden="">
+					<a class=" nav-bar-button " href="/en-us/events/"><!---->Events<!----></a>
+				</li>
+		  <!---->
+		</ul>
+	</li><!---->
+			</ul>
+		</nav>
+	
+				<span class="nav-bar-spacer"></span>
+				
+		<div class="nav-bar-search " id="ax-107" hidden="">
+			
+		<form class="nav-bar-search-form" method="GET" name="nav-bar-search-form" role="search" id="nav-bar-search-form" aria-label="Search" aria-expanded="false" action="/en-us/search/">
+			<div class="autocomplete" data-bi-name="autocomplete"><!----> <div class="control ">
+				<input role="combobox" maxlength="100" aria-autocomplete="list" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" id="site-search-input" class="autocomplete-input input   is-small" type="search" name="terms" aria-expanded="false" aria-owns="ax-108-listbox" aria-activedescendant="" aria-label="Search" placeholder="Search" />
+
+				<span aria-hidden="true" class="icon is-small is-left" hidden="">
+					<span class="has-text-primary docon docon-undefined"></span>
+				</span>
+
+				<span aria-hidden="true" class="autocomplete-loader loader has-text-primary " hidden=""></span>
+			</div>
+
+			<ul class="autocomplete-suggestions is-vertically-scrollable" role="listbox" id="ax-108-listbox" aria-label="site-search-input-suggestions" hidden="">
+				
+				
+			</ul><!----></div>
+			<!-- mobile safari will not dispatch submit event unless there's a submit button that is not display:none -->
+			<button type="submit" class="visually-hidden" tabindex="-1" aria-hidden="true"></button>
+			<input name="category" hidden="" value="" />
+			<input name="scope" hidden="" value="Drivers" />
+			
+			
+		</form>
+	
+		</div>
+		
+					<div class="nav-bar-search" hidden="">
+						<!-- hidden when the width drops to tablet -->
+						
+		<form class="nav-bar-search-form" method="GET" name="nav-bar-search-form" role="search" id="nav-bar-search-form-desktop" aria-label="Search" aria-expanded="false" action="/en-us/search/">
+			<div class="autocomplete" data-bi-name="autocomplete"><!----> <div class="control has-icons-left">
+				<input role="combobox" maxlength="100" aria-autocomplete="list" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" id="ax-109" class="autocomplete-input input control has-icons-left  is-small" type="search" name="terms" aria-expanded="false" aria-owns="ax-110-listbox" aria-activedescendant="" aria-label="Search" placeholder="Search" />
+
+				<span aria-hidden="true" class="icon is-small is-left">
+					<span class="has-text-primary docon docon-search"></span>
+				</span>
+
+				<span aria-hidden="true" class="autocomplete-loader loader has-text-primary " hidden=""></span>
+			</div>
+
+			<ul class="autocomplete-suggestions is-vertically-scrollable" role="listbox" id="ax-110-listbox" aria-label="ax-109-suggestions" hidden="">
+				
+				
+			</ul><!----></div>
+			<!-- mobile safari will not dispatch submit event unless there's a submit button that is not display:none -->
+			<button type="submit" class="visually-hidden" tabindex="-1" aria-hidden="true"></button>
+			<input name="category" hidden="" value="" />
+			<input name="scope" hidden="" value="Drivers" />
+			
+			
+		</form>
+	
+					</div>
+			  
+		<div class="nav-bar-search ">
+			<div class="nav-bar-search-form-expander">
+				<button id="form-expander" class="nav-bar-button has-hover-underline " title="Search" aria-expanded="false" aria-controls="ax-107">
+					
+		<span class="is-visually-hidden-mobile"><!---->Search<!----></span>
+		<span class="icon margin-left-xxs" aria-hidden="true">
+			<span class="docon docon-search"></span>
+		</span>
+	
+				</button>
+			</div>
+		</div>
+	
+				
+		<div class="nav-bar-profile">
+			
+		<a class="docs-sign-in auth-status-determined not-authenticated" href="#"> Sign in </a>
+	 
+		<div class="dropdown has-caret auth-status-determined authenticated">
+			<button class="dropdown-trigger button-reset" aria-controls="user-menu" aria-expanded="false" aria-label="Your Account">
+				<figure class="image is-36x36">
+					<img class="has-body-background-medium is-rounded" alt="" data-profile-property="avatarUrl" />
+				</figure>
+			</button>
+			<div class="dropdown-menu box justify-content-flex-start has-body-background" id="user-menu" role="menu">
+				<div class="media is-user-dir">
+					<div class="media-left">
+						<figure class="image is-48x48" aria-hidden="true">
+							<img class="has-body-background-medium is-rounded" aria-labelledby="displayName" data-profile-property="avatarUrl" />
+						</figure>
+					</div>
+					<div class="media-content">
+						<h2 class="title font-size-lg">
+							<span id="displayName" class="is-inline-truncated has-max-width-200" data-profile-property="displayName"></span>
+						</h2>
+						<p class="subtitle font-size-sm margin-bottom-none">
+							<span class="is-inline-truncated has-max-width-200" data-profile-property="upn"></span>
+						</p>
+					</div>
+				</div>
+				<ul class="padding-top-xs padding-bottom-xs">
+					<li class="padding-bottom-xs">
+						<a data-profile-property="profileUrl" href="https://docs.microsoft.com/en-us/users/me/activity/"><!---->Profile<!----></a>
+					</li>
+					<li>
+						<a data-profile-property="settingsUrl" href="https://docs.microsoft.com/en-us/users/me/settings/"><!---->Settings<!----></a>
+					</li>
+				</ul>
+				<div class="border-top padding-top-xs">
+					<a class="docs-sign-out" href="#"><!---->Sign out<!----></a>
+				</div>
+			</div>
+		</div>
+	
+		</div>
+	
+			 <!----></div> <div class="nav-bar border-top is-hidden-mobile"><!----> 
+		<a class="nav-bar-button is-title has-hover-underline" itemprop="url" href="/windows-hardware/drivers/">
+			<span>
+				Windows Hardware Developer
+				
+			</span>
+		</a>
+	 
+		
+		<nav class="nav-bar-nav" role="navigation" aria-label="Site">
+			<ul class="nav-bar-nav-list">
+				
+				<!----> <li class="dropdown nav-bar-item">
+		<button aria-expanded="false" class="dropdown-trigger nav-bar-button  has-hover-underline" aria-controls="ax-118">
+			<span><!---->Explore<!----></span>
+			<span class="nav-bar-button-chevron" aria-hidden="true">
+				<span class="docon docon-chevron-down-light expanded-indicator"></span>
+			</span>
+		</button>
+		<ul class="dropdown-menu" id="ax-118" aria-label="Explore">
+			<!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="/en-us/windows-hardware/design/device-experiences/device-experiences-scenarios"><!---->New device experiences<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="/en-us/windows-hardware/drivers/usbcon"><!---->USB driver development<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="https://developer.microsoft.com/windows/iot/"><!---->Windows IoT Core<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="https://www.microsoft.com/3d-print/windows-3d-printing"><!---->3D printing<!----></a>
+				</li>
+		  <!---->
+		</ul>
+	</li><!----> <li class="dropdown nav-bar-item">
+		<button aria-expanded="false" class="dropdown-trigger nav-bar-button  has-hover-underline" aria-controls="ax-119">
+			<span><!---->Downloads<!----></span>
+			<span class="nav-bar-button-chevron" aria-hidden="true">
+				<span class="docon docon-chevron-down-light expanded-indicator"></span>
+			</span>
+		</button>
+		<ul class="dropdown-menu" id="ax-119" aria-label="Downloads">
+			<!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="/en-us/windows-hardware/drivers/download-the-wdk"><!---->Windows Driver Kit (WDK)<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="/en-us/windows-hardware/test/hlk/windows-hardware-lab-kit"><!---->Hardware Lab Kit (HLK)<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="/en-us/windows-hardware/get-started/adk-install"><!---->Assessment and Deployment Kit (ADK)<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="/en-us/windows-hardware/drivers/debugger/debugger-download-symbols"><!---->Windows Symbol Packages<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="/en-us/windows-hardware/drivers/debugger/debugger-download-tools"><!---->Windows Debugger (WinDbg)<!----></a>
+				</li>
+		  <!---->
+		</ul>
+	</li><!----> <li class="nav-bar-item">
+				<a class="has-external-link-indicator nav-bar-button has-hover-underline " href="https://developer.microsoft.com/windows/hardware/events">
+					<span><!---->Events<!----></span>
+				</a>
+		  </li><!----> <li class="nav-bar-item">
+				<a class="has-external-link-indicator nav-bar-button has-hover-underline " href="/en-us/samples/browse/?products=windows-wdk">
+					<span><!---->Samples<!----></span>
+				</a>
+		  </li><!----> <li class="nav-bar-item">
+				<a class="has-external-link-indicator nav-bar-button has-hover-underline " href="https://developer.microsoft.com/windows/hardware/support">
+					<span><!---->Support<!----></span>
+				</a>
+		  </li><!----> <li class="dropdown nav-bar-item" hidden="">
+		<button aria-expanded="false" class="dropdown-trigger nav-bar-button  has-hover-underline" aria-controls="ax-120">
+			<span><!---->More<!----></span>
+			<span class="nav-bar-button-chevron" aria-hidden="true">
+				<span class="docon docon-chevron-down-light expanded-indicator"></span>
+			</span>
+		</button>
+		<ul class="dropdown-menu" id="ax-120" aria-label="More">
+			<!----> <li class="dropdown nav-bar-item" hidden="">
+		<button aria-expanded="false" class="dropdown-trigger nav-bar-button  " aria-controls="ax-121">
+			<span><!---->Explore<!----></span>
+			<span class="nav-bar-button-chevron" aria-hidden="true">
+				<span class="docon docon-chevron-right-light "></span>
+			</span>
+		</button>
+		<ul class="dropdown-menu" id="ax-121" aria-label="Explore">
+			<!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="/en-us/windows-hardware/design/device-experiences/device-experiences-scenarios"><!---->New device experiences<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="/en-us/windows-hardware/drivers/usbcon"><!---->USB driver development<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="https://developer.microsoft.com/windows/iot/"><!---->Windows IoT Core<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="https://www.microsoft.com/3d-print/windows-3d-printing"><!---->3D printing<!----></a>
+				</li>
+		  <!---->
+		</ul>
+	</li><!----> <li class="dropdown nav-bar-item" hidden="">
+		<button aria-expanded="false" class="dropdown-trigger nav-bar-button  " aria-controls="ax-122">
+			<span><!---->Downloads<!----></span>
+			<span class="nav-bar-button-chevron" aria-hidden="true">
+				<span class="docon docon-chevron-right-light "></span>
+			</span>
+		</button>
+		<ul class="dropdown-menu" id="ax-122" aria-label="Downloads">
+			<!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="/en-us/windows-hardware/drivers/download-the-wdk"><!---->Windows Driver Kit (WDK)<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="/en-us/windows-hardware/test/hlk/windows-hardware-lab-kit"><!---->Hardware Lab Kit (HLK)<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="/en-us/windows-hardware/get-started/adk-install"><!---->Assessment and Deployment Kit (ADK)<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="/en-us/windows-hardware/drivers/debugger/debugger-download-symbols"><!---->Windows Symbol Packages<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item">
+					<a class="has-external-link-indicator nav-bar-button " href="/en-us/windows-hardware/drivers/debugger/debugger-download-tools"><!---->Windows Debugger (WinDbg)<!----></a>
+				</li>
+		  <!---->
+		</ul>
+	</li><!---->
+				<li class="nav-bar-item" hidden="">
+					<a class="has-external-link-indicator nav-bar-button " href="https://developer.microsoft.com/windows/hardware/events"><!---->Events<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item" hidden="">
+					<a class="has-external-link-indicator nav-bar-button " href="/en-us/samples/browse/?products=windows-wdk"><!---->Samples<!----></a>
+				</li>
+		  <!---->
+				<li class="nav-bar-item" hidden="">
+					<a class="has-external-link-indicator nav-bar-button " href="https://developer.microsoft.com/windows/hardware/support"><!---->Support<!----></a>
+				</li>
+		  <!---->
+		</ul>
+	</li><!---->
+			</ul>
+		</nav>
+	
+		<span class="nav-bar-spacer"></span>
+		
+		<ol class="nav-bar-list">
+			 
+		<li class="nav-bar-item ">
+			<a class="button button-sm button-primary button-filled" href="https://partner.microsoft.com/dashboard">
+				Dashboard
+			</a>
+		</li>
+	
+		</ol>
+	 
+	 <!----></div> <!----></header>		</div>
+
+						<div class="content-header uhf-container has-padding has-default-focus border-bottom-none" data-bi-name="content-header">
+					<nav class="breadcrumb-holder has-padding-none has-padding-left-medium-tablet has-padding-right-medium-tablet has-padding-left-none-uhf-tablet has-padding-left-none-uhf-tablet has-padding-none-desktop flex-grow-1" data-bi-name="breadcrumb" itemscope="" itemtype="http://schema.org/BreadcrumbList" role="navigation" aria-label="Breadcrumb">
+						<ul id="page-breadcrumbs" class="breadcrumbs-deprecated"><!----><!---->
+			<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+				
+							<a itemprop="item" href="https://docs.microsoft.com/en-us/">
+								<span itemprop="name"><!---->Docs<!----></span>
+							</a>
+					  
+				<meta itemprop="position" content="1" />
+			</li>
+		<!---->
+			<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+				
+							<a itemprop="item" href="https://docs.microsoft.com/en-us/windows">
+								<span itemprop="name"><!---->Windows<!----></span>
+							</a>
+					  
+				<meta itemprop="position" content="2" />
+			</li>
+		<!---->
+			<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+				
+							<a itemprop="item" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/">
+								<span itemprop="name"><!---->Windows Drivers<!----></span>
+							</a>
+					  
+				<meta itemprop="position" content="3" />
+			</li>
+		<!---->
+			<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+				
+							<a itemprop="item" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/">
+								<span itemprop="name"><!---->Windows Debugging Tools<!----></span>
+							</a>
+					  
+				<meta itemprop="position" content="4" />
+			</li>
+		<!----><!----></ul>
+					</nav>
+				<div class="content-header-controls">
+					<button type="button" class="contents-button button" data-bi-name="contents-expand" aria-haspopup="true">
+						<span class="icon"><span class="docon docon-menu" aria-hidden="true"></span></span>
+						<span class="contents-expand-title">Contents</span>
+					</button>
+					<button type="button" class="ap-collapse-behavior ap-expanded button" data-bi-name="ap-collapse" aria-controls="action-panel">
+						<span class="icon"><span class="docon docon-exit-mode" aria-hidden="true"></span></span>
+						<span>Exit focus mode</span>
+					</button>
+				</div>
+				<div class="has-padding-none-tablet padding-xs font-size-sm display-flex justify-content-space-between flex-grow-1 page-action-holder">
+					<ul class="is-hidden-mobile action-list justify-content-flex-start has-flex-justify-content-end-tablet display-flex flex-wrap-wrap flex-grow-1 is-unstyled">
+						<li hidden="">
+							<a id="lang-link" class="button button button-clear button-sm" title="Read in English" data-bi-name="language-toggle" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windbg" data-bi="{&quot;cN&quot;:&quot;language-toggle&quot;,&quot;value&quot;:&quot;off&quot;}">
+								<span id="lang-link-icon" class="icon docon docon-locale-globe" aria-hidden="true"></span>
+								<span id="lang-link-text" class="is-visually-hidden-touch is-hidden-portrait" title="Read in English">Read in English</span>
+							</a>
+						</li>
+						<li>
+							<button type="button" class="collection button button-clear button-sm has-inner-focus" data-list-type="collection" data-bi-name="collection" title="Add Getting Started with WinDbg (User-Mode) - Windows drivers | Microsoft Docs to a collection" aria-pressed="false">
+								<span class="icon" aria-hidden="true">
+									<span class="docon docon-circle-addition has-text-primary"></span>
+								</span>
+								<span class="collection-status is-visually-hidden-touch is-hidden-portrait">Save</span>
+							</button>
+						</li>
+							<li id="feedback-section-link">
+								<a href="#feedback" class="button  button button-clear button-sm has-inner-focus" data-bi-name="comments" title="Send feedback about this page">
+									<span class="icon" aria-hidden="true">
+										<span class="docon docon-comment-lines"></span>
+									</span>
+									<span class="is-visually-hidden-touch is-hidden-portrait">Feedback</span>
+								</a>
+							</li>
+								<li id="contenteditbtn">
+									<a href="https://github.com/MicrosoftDocs/windows-driver-docs/blob/staging/windows-driver-docs-pr/debugger/getting-started-with-windbg.md" class=" button button-clear button-sm has-inner-focus" title="Edit This Document" data-bi-name="edit" data-original_content_git_url="https://github.com/MicrosoftDocs/windows-driver-docs-pr/blob/live/windows-driver-docs-pr/debugger/getting-started-with-windbg.md" data-original_content_git_url_template="{repo}/blob/{branch}/windows-driver-docs-pr/debugger/getting-started-with-windbg.md" data-pr_repo="" data-pr_branch="">
+									<span class="icon" aria-hidden="true">
+										<span class="docon docon-edit-outline"></span>
+									</span>
+									<span class="is-visually-hidden-touch is-hidden-portrait">Edit</span>
+								</a>
+							</li>
+						<li>
+<div class="sharing dropdown has-caret">
+	<button class="dropdown-trigger button button-clear button-sm button-block justify-content-flex-start has-inner-focus" aria-controls="sharing-menu" aria-expanded="false" title="Share This Document" data-bi-name="share">
+		<span class="icon" aria-hidden="true">
+			<span class="docon docon-sharing"></span>
+		</span>
+		<span class="is-visually-hidden-touch is-hidden-portrait">Share</span>
+	</button>
+	<div class="dropdown-menu has-padding-small" id="sharing-menu">
+		<ul data-bi-name="share-links">
+			<li>
+				<a class="button button-clear button-sm button-block justify-content-flex-start has-inner-focus share-twitter" data-bi-name="twitter" href="https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fwindows-hardware%2Fdrivers%2Fdebugger%2Fgetting-started-with-windbg%3FWT.mc_id%3Dtwitter&amp;text=Getting%20Started%20with%20WinDbg%20(User-Mode)%20-%20Windows%20drivers%20%7C%20Microsoft%20Docs&amp;tw_p=tweetbutton&amp;url=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fwindows-hardware%2Fdrivers%2Fdebugger%2Fgetting-started-with-windbg%3FWT.mc_id%3Dtwitter">
+					<span class="icon">
+						<span class="docon docon-brand-twitter has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>Twitter</span>
+				</a>
+			</li>
+			<li>
+				<a class="button button-clear button-sm button-block justify-content-flex-start has-inner-focus share-linkedin" data-bi-name="linkedin" href="https://www.linkedin.com/cws/share?url=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fwindows-hardware%2Fdrivers%2Fdebugger%2Fgetting-started-with-windbg%3FWT.mc_id%3Dlinkedin">
+					<span class="icon">
+						<span class="docon docon-brand-linkedin has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>LinkedIn</span>
+				</a>
+			</li>
+			<li>
+				<a class="button button-clear button-sm button-block justify-content-flex-start has-inner-focus share-facebook" data-bi-name="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fwindows-hardware%2Fdrivers%2Fdebugger%2Fgetting-started-with-windbg%3FWT.mc_id%3Dfacebook">
+					<span class="icon">
+						<span class="docon docon-brand-facebook has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>Facebook</span>
+				</a>
+			</li>
+			<li>
+				<a class="button button-clear button-sm button-block justify-content-flex-start has-inner-focus share-email" data-bi-name="email" href="mailto:?subject=%5BShared%20Article%5D%20Getting%20Started%20with%20WinDbg%20(User-Mode)%20-%20Windows%20drivers%20%7C%20Microsoft%20Docs&amp;body=Getting%20Started%20with%20WinDbg%20(User-Mode)%20-%20Windows%20drivers%20%7C%20Microsoft%20Docs%0A%0Ahttps%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fwindows-hardware%2Fdrivers%2Fdebugger%2Fgetting-started-with-windbg%3FWT.mc_id%3Demail">
+					<span class="icon">
+						<span class="docon docon-mail-message-fill has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>Email</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>						</li>
+					</ul>
+					<button type="button" class="border contents-button  button button-clear button-sm is-hidden-tablet has-inner-focus" aria-label="Contents" data-bi-name="contents-expand">
+						<span class="icon">
+							<span class="docon docon-editor-list-bullet" aria-hidden="true"></span>
+						</span>
+						<span class="contents-expand-title">Table of contents</span>
+					</button>
+					<div class="is-invisible"></div>
+					<div class="is-hidden-tablet level-item is-flexible level-right">
+						<button type="button" class="page-actions-button  button button-clear button-sm is-hidden-tablet has-inner-focus border is-full-height  has-margin-left-small" aria-label="Page Actions" data-bi-name="pageactions">
+							<span class="icon">
+								<span class="docon docon-more-vertical" aria-hidden="true"></span>
+							</span>
+						</button>
+					</div>
+				</div>
+			</div>
+
+
+
+		<div id="disclaimer-holder" class="has-overflow-hidden has-default-focus">
+			<!-- liquid-tag banners sectional -->
+		</div>
+	</div>
+
+	<div class="mainContainer  uhf-container has-top-padding  has-default-focus" data-bi-name="body">
+
+		<div class="columns has-large-gaps is-gapless-mobile ">
+
+			<div id="left-container" class="left-container is-hidden-mobile column is-one-third-tablet is-one-quarter-desktop">
+				<nav id="affixed-left-container" class="position-fixed display-flex flex-direction-column" role="navigation" aria-label="Primary" data-bi-name="left toc" style="width: 261.328px; top: 164.5px; bottom: 24px;"><form action="javascript:" role="search" aria-label="Search" class="has-margin-bottom-small"><label class="visually-hidden" for="ax-116">Search</label><div class="autocomplete is-block" data-bi-name="autocomplete"><!----> <div class="control has-icons-left">
+				<input role="combobox" maxlength="100" aria-autocomplete="list" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" id="ax-116" class="autocomplete-input input control has-icons-left is-full-width is-small" type="text" aria-expanded="false" aria-owns="ax-117-listbox" aria-activedescendant="" placeholder="Filter by title" />
+
+				<span aria-hidden="true" class="icon is-small is-left">
+					<span class="has-text-primary docon docon-filter-settings"></span>
+				</span>
+
+				<span aria-hidden="true" class="autocomplete-loader loader has-text-primary " hidden=""></span>
+			</div>
+
+			<ul class="autocomplete-suggestions is-vertically-scrollable" role="listbox" id="ax-117-listbox" aria-label="ax-116-suggestions" hidden="">
+				
+				
+			</ul><!----></div></form><ul class="tree is-vertically-scrollable flex-grow-1 flex-shrink-1" role="tree" aria-label="Table of contents" data-bi-name="tree" data-is-collapsible="true"><li role="none"><a aria-setsize="11" aria-level="1" aria-posinset="1" role="treeitem" tabindex="-1" class="tree-item is-leaf has-external-link-indicator" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/">Debugging Tools for Windows (WinDbg, KD, CDB, NTSD)</a></li><li class="tree-item" aria-setsize="11" aria-level="1" aria-posinset="2" role="treeitem" tabindex="-1" id="title-2-1" aria-expanded="false"><span data-bi-name="tree-expander" class="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Download Debugging Tools for Windows - WinDbg</span></li><li class="tree-item is-expanded" aria-setsize="11" aria-level="1" aria-posinset="3" role="treeitem" tabindex="-1" id="title-3-1" aria-expanded="true"><span data-bi-name="tree-expander" class="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Getting Started with Windows Debugging</span><ul class="tree-group" role="group"><li role="none"><a aria-setsize="8" aria-level="2" aria-posinset="1" role="treeitem" tabindex="-1" class="tree-item is-leaf has-external-link-indicator" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windows-debugging">Getting Started with Windows Debugging</a></li><li role="none"><a aria-setsize="8" aria-level="2" aria-posinset="2" role="treeitem" tabindex="0" class="tree-item is-leaf has-external-link-indicator is-selected" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windbg" aria-current="page">Getting Started with WinDbg (User-Mode)</a></li><li role="none"><a aria-setsize="8" aria-level="2" aria-posinset="3" role="treeitem" tabindex="-1" class="tree-item is-leaf has-external-link-indicator" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windbg--kernel-mode-">Getting Started with WinDbg (Kernel-Mode)</a></li><li role="none"><a aria-setsize="8" aria-level="2" aria-posinset="4" role="treeitem" tabindex="-1" class="tree-item is-leaf has-external-link-indicator" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/debuggers-in-the-debugging-tools-for-windows-package">Debugging Environments</a></li><li role="none"><a aria-setsize="8" aria-level="2" aria-posinset="5" role="treeitem" tabindex="-1" class="tree-item is-leaf has-external-link-indicator" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/choosing-a-32-bit-or-64-bit-debugger-package">Choosing the 32-Bit or 64-Bit Debugging Tools</a></li><li class="tree-item" aria-setsize="8" aria-level="2" aria-posinset="6" role="treeitem" tabindex="-1" id="title-3-1_6-2" aria-expanded="false"><span data-bi-name="tree-expander" class="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Setting Up Debugging (Kernel-Mode and User-Mode)</span></li><li role="none"><a aria-setsize="8" aria-level="2" aria-posinset="7" role="treeitem" tabindex="-1" class="tree-item is-leaf has-external-link-indicator" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/debug-universal-drivers---step-by-step-lab--echo-kernel-mode-">Debug Windows Drivers - Step by Step Lab (Echo Kernel-Mode)</a></li><li role="none"><a aria-setsize="8" aria-level="2" aria-posinset="8" role="treeitem" tabindex="-1" class="tree-item is-leaf has-external-link-indicator" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/debug-universal-drivers--kernel-mode-">Debug Drivers - Step by Step Lab (Sysvad Kernel-Mode)</a></li></ul></li><li class="tree-item" aria-setsize="11" aria-level="1" aria-posinset="4" role="treeitem" tabindex="-1" id="title-4-1" aria-expanded="false"><span data-bi-name="tree-expander" class="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>WinDbg Preview</span></li><li class="tree-item" aria-setsize="11" aria-level="1" aria-posinset="5" role="treeitem" tabindex="-1" id="title-5-1" aria-expanded="false"><span data-bi-name="tree-expander" class="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Debugging Resources</span></li><li class="tree-item" aria-setsize="11" aria-level="1" aria-posinset="6" role="treeitem" tabindex="-1" id="title-6-1" aria-expanded="false"><span data-bi-name="tree-expander" class="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Debugger Operation</span></li><li class="tree-item" aria-setsize="11" aria-level="1" aria-posinset="7" role="treeitem" tabindex="-1" id="title-7-1" aria-expanded="false"><span data-bi-name="tree-expander" class="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Debugging Techniques</span></li><li class="tree-item" aria-setsize="11" aria-level="1" aria-posinset="8" role="treeitem" tabindex="-1" id="title-8-1" aria-expanded="false"><span data-bi-name="tree-expander" class="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Symbols for Windows Debugging (WinDbg, KD, CDB, NTSD)</span></li><li class="tree-item" aria-setsize="11" aria-level="1" aria-posinset="9" role="treeitem" tabindex="-1" id="title-9-1" aria-expanded="false"><span data-bi-name="tree-expander" class="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Crash dump analysis using the Windows debuggers (WinDbg)</span></li><li class="tree-item" aria-setsize="11" aria-level="1" aria-posinset="10" role="treeitem" tabindex="-1" id="title-10-1" aria-expanded="false"><span data-bi-name="tree-expander" class="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Bug Checks (Blue Screens)</span></li><li class="tree-item" aria-setsize="11" aria-level="1" aria-posinset="11" role="treeitem" tabindex="-1" id="title-11-1" aria-expanded="false"><span data-bi-name="tree-expander" class="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Debugger Reference</span></li></ul><div class="margin-top-xxs border-top border-bottom flex-shrink-0"><!---->
+			<button class="button button-clear button-sm is-full-width display-block padding-left-none padding-right-none border-none is-text-left" data-bi-name="downloadPdf" title="Download PDF">
+				<span class="icon font-size-xs has-text-subtle">
+					<span aria-hidden="true" class="docon docon-dictionary-download"></span>
+				</span>
+				<span>
+					Download PDF
+					<span class="tag is-text is-small is-rounded margin-left-xxs">
+						Retiring
+					</span>
+				</span>
+			</button>
+		<!----></div></nav>
+			</div>
+
+			<!-- .primary-holder -->
+			<section class="primary-holder column is-two-thirds-tablet is-three-quarters-desktop">
+				<!--div.columns -->
+				<div class="columns is-gapless-mobile has-large-gaps ">
+
+
+					<div id="main-column" class="column  is-full is-8-desktop">
+
+						<main id="main" role="main" class="content " data-bi-name="content" lang="en-us" dir="ltr">
+
+
+
+							<h1 id="getting-started-with-windbg-user-mode">Getting Started with WinDbg (User-Mode)</h1>
+
+
+
+									<div class="display-flex-tablet justify-content-space-between-tablet page-metadata-container">
+
+										<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+													<li>
+														<time class="" data-article-date="" aria-label="Article review date" datetime="2021-06-16T17:29:00.000Z" data-article-date-source="git">06/17/2021</time>
+													</li>
+															<li class="readingTime">6 minutes to read</li>
+														<li class="contributors-holder">
+															<ul class="facepile has-margin-left-none is-small" data-bi-name="contributors">
+																				<li class="facepile-item">
+																					<a href="https://github.com/DOMARS" title="DOMARS" aria-label="DOMARSGithub profile" data-src="https://github.com/DOMARS.png?size=32" data-contributor-name="DOMARS" class="facepile-item-coin">
+																						<img class="facepile-item-coin-image durable-image" aria-hidden="true" src="https://github.com/DOMARS.png?size=32" role="presentation" onerror="this.className='facepile-item-coin-image durable-image has-error';" />
+																						<span class="facepile-item-coin-text durable-image-fallback facepile-item-teal" aria-hidden="true">D</span>
+																					</a>
+																				</li>
+																				<li class="facepile-item">
+																					<a href="https://github.com/aviviano" title="aviviano" aria-label="avivianoGithub profile" data-src="https://github.com/aviviano.png?size=32" data-contributor-name="aviviano" class="facepile-item-coin">
+																						<img class="facepile-item-coin-image durable-image" aria-hidden="true" src="https://github.com/aviviano.png?size=32" role="presentation" onerror="this.className='facepile-item-coin-image durable-image has-error';" />
+																						<span class="facepile-item-coin-text durable-image-fallback facepile-item-red" aria-hidden="true">a</span>
+																					</a>
+																				</li>
+																				<li class="facepile-item">
+																					<a href="https://github.com/EliotSeattle" title="EliotSeattle" aria-label="EliotSeattleGithub profile" data-src="https://github.com/EliotSeattle.png?size=32" data-contributor-name="EliotSeattle" class="facepile-item-coin">
+																						<img class="facepile-item-coin-image durable-image" aria-hidden="true" src="https://github.com/EliotSeattle.png?size=32" role="presentation" onerror="this.className='facepile-item-coin-image durable-image has-error';" />
+																						<span class="facepile-item-coin-text durable-image-fallback facepile-item-blue" aria-hidden="true">E</span>
+																					</a>
+																				</li>
+																				<li class="facepile-item">
+																					<a href="https://github.com/RAJU2529" title="RAJU2529" aria-label="RAJU2529Github profile" data-src="https://github.com/RAJU2529.png?size=32" data-contributor-name="RAJU2529" class="facepile-item-coin">
+																						<img class="facepile-item-coin-image durable-image" aria-hidden="true" src="https://github.com/RAJU2529.png?size=32" role="presentation" onerror="this.className='facepile-item-coin-image durable-image has-error';" />
+																						<span class="facepile-item-coin-text durable-image-fallback facepile-item-teal" aria-hidden="true">R</span>
+																					</a>
+																				</li>
+																				<li class="facepile-item">
+																					<a href="https://github.com/nitya" title="nitya" aria-label="nityaGithub profile" data-src="https://github.com/nitya.png?size=32" data-contributor-name="nitya" class="facepile-item-coin">
+																						<img class="facepile-item-coin-image durable-image" aria-hidden="true" src="https://github.com/nitya.png?size=32" role="presentation" onerror="this.className='facepile-item-coin-image durable-image has-error';" />
+																						<span class="facepile-item-coin-text durable-image-fallback facepile-item-red" aria-hidden="true">n</span>
+																					</a>
+																				</li>
+																	<li class="facepile-item">
+																			<button aria-label="View all contributors" class="facepile-item-more" title="View all contributors">
+																				<div class="facepile-item-coin" aria-hidden="true">
+																					<span class="facepile-item-coin-text" aria-hidden="true">
+																						+1
+																					</span>
+																				</div>
+																			</button>
+																	</li>
+															</ul>
+														</li>
+										</ul>
+											<div class="dropdown" data-hide-on-archived="">
+												<button class="dropdown-trigger link-button font-size-sm" aria-controls="options" aria-expanded="false" title="Is this page helpful?">
+Is this page helpful?												</button>
+												<div class="dropdown-menu border-radius" id="options" role="menu">
+
+
+<div class="padding-xs" data-bi-name="rating" data-binary-rating-container="">
+    <div class="binary-rating" data-binary-rating-hide-on-submit="">
+		<form class="feedback-verbatim-form" data-feedback-verbatim-form="" id="main-page-rating-container">
+        	<div class="binary-rating-buttons">
+				<h3 id="binary-rating-heading" class="font-weight-semibold margin-top-none margin-bottom-xs font-size-h5 has-caret">Please rate your experience</h3>
+				<div class="buttons">
+					<button class="thumb-rating like margin-right-xxs button button-clear button-sm" data-binary-rating-response="rating-yes" title="Yes" type="button" data-bi-name="rating-yes" data-bi-sat="1">
+						<span aria-hidden="true" class="icon docon docon-like"></span>
+						<span>Yes</span>
+					</button>
+					<button class="thumb-rating dislike button button-clear button-sm" data-binary-rating-response="rating-no" title="No" data-bi-name="rating-no" type="button" data-bi-sat="0">
+						<span aria-hidden="true" class="icon docon docon-dislike"></span>
+						<span>No</span>
+					</button>
+				</div>
+			</div>
+			<div id="binary-verbatim-container" class="font-size-xs margin-top-xs">
+				<div class="verbatim-textarea">
+					<label for="binary-rating-textarea" class="visually-hidden">
+Any additional feedback?					</label>
+					<textarea id="binary-rating-textarea" data-binary-rating-text="" rows="4" maxlength="999" placeholder="Any additional feedback?" class="textarea has-inner-focus"></textarea>
+				</div>
+				<p class="has-line-height-reset has-text-wrap">Feedback will be sent to Microsoft: By pressing the submit button, your feedback will be used to improve Microsoft products and services. <a href="https://privacy.microsoft.com/en-us/privacystatement">Privacy policy.</a></p>
+				<div class="buttons buttons-right margin-top-xs has-margin-right-extra-small">
+					<button class="submit-rating button button-primary button-filled button-sm" data-bi-name="rating-verbatim" data-binary-rating-submit="" type="submit" disabled="">Submit</button>
+				</div>
+			</div>
+        </form>
+    </div>
+    <p data-binary-rating-onsubmit-message="main-page-rating-container" tabindex="-1" class="margin-none inner-focus" hidden="">
+Thank you.    </p>
+</div>
+												</div>
+											</div>
+										</div>
+
+
+										<nav id="center-doc-outline" class="doc-outline is-hidden-desktop" data-bi-name="intopic toc" role="navigation" aria-label="Article Outline">
+											<h3>In this article</h3>
+										<ol><li><a href="#launch-notepad-and-attach-windbg">Launch Notepad and attach WinDbg</a></li><li><a href="#launch-your-own-application-and-attach-windbg">Launch your own application and attach WinDbg</a></li><li><a href="#summary-of-commands">Summary of commands</a></li><li><a href="#see-also">See also</a></li></ol></nav>
+
+
+
+							<!-- <content> -->
+								<p>WinDbg is a kernel-mode and user-mode debugger that is included in Debugging Tools for Windows. Here we provide hands-on exercises that will help you get started using WinDbg as a user-mode debugger.</p>
+<p>For information about how to get Debugging Tools for Windows, see <a href="./" data-linktype="relative-path">Debugging Tools for Windows (WinDbg, KD, CDB, NTSD)</a>.</p>
+<p>After you have installed the debugging tools, locate the installation directories for 64-bit (x64) and 32-bit (x86) versions of the tools. For example:</p>
+<ul>
+<li>C:\Program Files (x86)\Windows Kits\10\Debuggers\x64</li>
+<li>C:\Program Files (x86)\Windows Kits\10\Debuggers\x86</li>
+</ul>
+<h2 id="launch-notepad-and-attach-windbg" class="heading-anchor"><a class="anchor-link docon docon-link" href="#launch-notepad-and-attach-windbg" aria-labelledby="launch-notepad-and-attach-windbg"></a>Launch Notepad and attach WinDbg</h2>
+<ol>
+<li><p>Navigate to your installation directory, and open WinDbg.exe.</p>
+</li>
+<li><p>On the <strong>File</strong> menu, choose <strong>Open Executable</strong>. In the Open Executable dialog box, navigate to the folder that contains notepad.exe (typically, C:\Windows\System32). For <strong>File name</strong>, enter notepad.exe. Select <strong>Open</strong>.</p>
+<p><img src="images/windbggetstart01.png" alt="screen shot of windbg after starting notepad." data-linktype="relative-path" /></p>
+</li>
+<li><p>Near the bottom of the WinDbg window, in the command line, enter this command:</p>
+<p><a href="-sympath--set-symbol-path-" data-linktype="relative-path">.sympath srv*</a></p>
+<p>The output is similar to this:</p>
+<div class="codeHeader" id="code-try-0" data-bi-name="code-header"><span class="language">dbgcmd</span><button type="button" class="action position-relative" data-bi-name="copy" aria-label="Copy code">
+				<span class="icon margin-right-xxs">
+					<span class="docon docon-edit-copy" role="presentation"></span>
+				</span>
+				<span>Copy</span>
+				<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+					<span class="icon font-size-lg">
+						<span class="docon docon-check-mark" role="presentation"></span>
+					</span>
+				</div>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-dbgcmd" data-author-content="Symbol search path is: srv*&#10;Expanded Symbol search path is: cache*;SRV&#10;">Symbol search path is: srv*
+Expanded Symbol search path is: cache*;SRV
+</code></pre>
+<p>The symbol search path tells WinDbg where to look for symbol (PDB) files. The debugger needs symbol files to obtain information about code modules (function names, variable names, and the like).</p>
+<p>Enter this command, which tells WinDbg to do its initial finding and loading of symbol files:</p>
+<p><a href="-reload--reload-module-" data-linktype="relative-path">.reload</a></p>
+</li>
+<li><p>To see the symbols for the Notepad.exe module, enter this command:</p>
+<p><a href="x--examine-symbols-" data-linktype="relative-path">x notepad!*</a></p>
+<p><strong>Note</strong>  If you don't see any output, enter <a href="-reload--reload-module-" data-linktype="relative-path"><strong>.reload</strong></a> again.</p>
+<p>To see symbols in the Notepad.exe module that contain main, use the <a href="x--examine-symbols-" data-linktype="relative-path">examine symbols</a> command like this to list modules that match the mask:</p>
+<p><code>x notepad!wWin*</code></p>
+<p>The output is similar to this:</p>
+<div class="codeHeader" id="code-try-1" data-bi-name="code-header"><span class="language">dbgcmd</span><button type="button" class="action position-relative" data-bi-name="copy" aria-label="Copy code">
+				<span class="icon margin-right-xxs">
+					<span class="docon docon-edit-copy" role="presentation"></span>
+				</span>
+				<span>Copy</span>
+				<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+					<span class="icon font-size-lg">
+						<span class="docon docon-check-mark" role="presentation"></span>
+					</span>
+				</div>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-dbgcmd" data-author-content="00007ff6`6e76b0a0 notepad!wWinMain (wWinMain)&#10;00007ff6`6e783db0 notepad!wWinMainCRTStartup (wWinMainCRTStartup)&#10;">00007ff6`6e76b0a0 notepad!wWinMain (wWinMain)
+00007ff6`6e783db0 notepad!wWinMainCRTStartup (wWinMainCRTStartup)
+</code></pre>
+</li>
+<li><p>To put a breakpoint at notepad!wWinMain, enter this command:</p>
+<p><a href="bp--bu--bm--set-breakpoint-" data-linktype="relative-path">bu notepad!wWinMain</a></p>
+<p>To verify that your breakpoint was set, enter this command:</p>
+<p><a href="bl--breakpoint-list-" data-linktype="relative-path">bl</a></p>
+<p>The output is similar to this:</p>
+<div class="codeHeader" id="code-try-2" data-bi-name="code-header"><span class="language">dbgcmd</span><button type="button" class="action position-relative" data-bi-name="copy" aria-label="Copy code">
+				<span class="icon margin-right-xxs">
+					<span class="docon docon-edit-copy" role="presentation"></span>
+				</span>
+				<span>Copy</span>
+				<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+					<span class="icon font-size-lg">
+						<span class="docon docon-check-mark" role="presentation"></span>
+					</span>
+				</div>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-dbgcmd" data-author-content="0 e Disable Clear  00007ff6`6e76b0a0     0001 (0001)  0:**** notepad!wWinMain&#10;">0 e Disable Clear  00007ff6`6e76b0a0     0001 (0001)  0:**** notepad!wWinMain
+</code></pre>
+</li>
+<li><p>To start Notepad running, enter this command:</p>
+<p><a href="g--go-" data-linktype="relative-path">g</a></p>
+<p>Notepad runs until it comes to the <strong>WinMain</strong> function, and then breaks in to the debugger.</p>
+<div class="codeHeader" id="code-try-3" data-bi-name="code-header"><span class="language">dbgcmd</span><button type="button" class="action position-relative" data-bi-name="copy" aria-label="Copy code">
+				<span class="icon margin-right-xxs">
+					<span class="docon docon-edit-copy" role="presentation"></span>
+				</span>
+				<span>Copy</span>
+				<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+					<span class="icon font-size-lg">
+						<span class="docon docon-check-mark" role="presentation"></span>
+					</span>
+				</div>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-dbgcmd" data-author-content="Breakpoint 0 hit&#10;notepad!wWinMain:&#10;00007ff6`6e76b0a0 488bc4          mov     rax,rsp&#10;">Breakpoint 0 hit
+notepad!wWinMain:
+00007ff6`6e76b0a0 488bc4          mov     rax,rsp
+</code></pre>
+<p>To see a list of code modules that are loaded in the Notepad process, enter this command:</p>
+<p><a href="lm--list-loaded-modules-" data-linktype="relative-path">lm</a></p>
+<p>The output is similar to this:</p>
+<div class="codeHeader" id="code-try-4" data-bi-name="code-header"><span class="language">dbgcmd</span><button type="button" class="action position-relative" data-bi-name="copy" aria-label="Copy code">
+				<span class="icon margin-right-xxs">
+					<span class="docon docon-edit-copy" role="presentation"></span>
+				</span>
+				<span>Copy</span>
+				<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+					<span class="icon font-size-lg">
+						<span class="docon docon-check-mark" role="presentation"></span>
+					</span>
+				</div>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-dbgcmd" data-author-content="0:000&gt; lm&#10;start             end                 module name&#10;00007ff6`6e760000 00007ff6`6e798000   notepad    (pdb symbols)          C:\ProgramData\Dbg\sym\notepad.pdb\BC04D9A431EDE299D4625AD6201C8A4A1\notepad.pdb&#10;00007ff8`066a0000 00007ff8`067ab000   gdi32full   (deferred)             &#10;00007ff8`067b0000 00007ff8`068b0000   ucrtbase   (deferred)             &#10;00007ff8`06a10000 00007ff8`06aad000   msvcp_win   (deferred)             &#10;00007ff8`06ab0000 00007ff8`06ad2000   win32u     (deferred)             &#10;00007ff8`06b40000 00007ff8`06e08000   KERNELBASE   (deferred)             &#10;00007ff8`07220000 00007ff8`072dd000   KERNEL32   (deferred)             &#10;00007ff8`07420000 00007ff8`07775000   combase    (deferred)             &#10;00007ff8`07820000 00007ff8`079c0000   USER32     (deferred)             &#10;00007ff8`079c0000 00007ff8`079f0000   IMM32      (deferred)             &#10;00007ff8`07c00000 00007ff8`07c2a000   GDI32      (deferred)             &#10;00007ff8`08480000 00007ff8`085ab000   RPCRT4     (deferred)             &#10;00007ff8`085b0000 00007ff8`0864e000   msvcrt     (deferred)             &#10;00007ff8`08c40000 00007ff8`08cee000   shcore     (deferred)             &#10;00007ff8`08db0000 00007ff8`08fa5000   ntdll      (pdb symbols)          C:\ProgramData\Dbg\sym\ntdll.pdb\53F12BFE149A2F50205C8D5D66290B481\ntdll.pdb&#10;00007fff`f8580000 00007fff`f881a000   COMCTL32   (deferred)    &#10;">0:000&gt; lm
+start             end                 module name
+00007ff6`6e760000 00007ff6`6e798000   notepad    (pdb symbols)          C:\ProgramData\Dbg\sym\notepad.pdb\BC04D9A431EDE299D4625AD6201C8A4A1\notepad.pdb
+00007ff8`066a0000 00007ff8`067ab000   gdi32full   (deferred)             
+00007ff8`067b0000 00007ff8`068b0000   ucrtbase   (deferred)             
+00007ff8`06a10000 00007ff8`06aad000   msvcp_win   (deferred)             
+00007ff8`06ab0000 00007ff8`06ad2000   win32u     (deferred)             
+00007ff8`06b40000 00007ff8`06e08000   KERNELBASE   (deferred)             
+00007ff8`07220000 00007ff8`072dd000   KERNEL32   (deferred)             
+00007ff8`07420000 00007ff8`07775000   combase    (deferred)             
+00007ff8`07820000 00007ff8`079c0000   USER32     (deferred)             
+00007ff8`079c0000 00007ff8`079f0000   IMM32      (deferred)             
+00007ff8`07c00000 00007ff8`07c2a000   GDI32      (deferred)             
+00007ff8`08480000 00007ff8`085ab000   RPCRT4     (deferred)             
+00007ff8`085b0000 00007ff8`0864e000   msvcrt     (deferred)             
+00007ff8`08c40000 00007ff8`08cee000   shcore     (deferred)             
+00007ff8`08db0000 00007ff8`08fa5000   ntdll      (pdb symbols)          C:\ProgramData\Dbg\sym\ntdll.pdb\53F12BFE149A2F50205C8D5D66290B481\ntdll.pdb
+00007fff`f8580000 00007fff`f881a000   COMCTL32   (deferred)    
+</code></pre>
+<p>To see a stack trace, enter this command:</p>
+<p><a href="k--kb--kc--kd--kp--kp--kv--display-stack-backtrace-" data-linktype="relative-path">k</a></p>
+<p>The output is similar to this:</p>
+<div class="codeHeader" id="code-try-5" data-bi-name="code-header"><span class="language">dbgcmd</span><button type="button" class="action position-relative" data-bi-name="copy" aria-label="Copy code">
+				<span class="icon margin-right-xxs">
+					<span class="docon docon-edit-copy" role="presentation"></span>
+				</span>
+				<span>Copy</span>
+				<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+					<span class="icon font-size-lg">
+						<span class="docon docon-check-mark" role="presentation"></span>
+					</span>
+				</div>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-dbgcmd" data-author-content="0:000&gt; k&#10;00 000000c8`2647f708 00007ff6`6e783d36     notepad!wWinMain&#10;01 000000c8`2647f710 00007ff8`07237034     notepad!__scrt_common_main_seh+0x106&#10;02 000000c8`2647f750 00007ff8`08e02651     KERNEL32!BaseThreadInitThunk+0x14&#10;03 000000c8`2647f780 00000000`00000000     ntdll!RtlUserThreadStart+0x21&#10;">0:000&gt; k
+00 000000c8`2647f708 00007ff6`6e783d36     notepad!wWinMain
+01 000000c8`2647f710 00007ff8`07237034     notepad!__scrt_common_main_seh+0x106
+02 000000c8`2647f750 00007ff8`08e02651     KERNEL32!BaseThreadInitThunk+0x14
+03 000000c8`2647f780 00000000`00000000     ntdll!RtlUserThreadStart+0x21
+</code></pre>
+</li>
+<li><p>To start Notepad running again, enter this command:</p>
+<p><a href="g--go-" data-linktype="relative-path">g</a></p>
+</li>
+<li><p>To break in to Notepad, choose <strong>Break</strong> from the <strong>File</strong> menu.</p>
+</li>
+<li><p>To set and verify a breakpoint at <strong>ZwWriteFile</strong>, enter these commands:</p>
+<p><a href="bp--bu--bm--set-breakpoint-" data-linktype="relative-path">bu ntdll!ZwWriteFile</a></p>
+<p><a href="bl--breakpoint-list-" data-linktype="relative-path">bl</a></p>
+</li>
+<li><p>Enter <a href="g--go-" data-linktype="relative-path">g</a> to start Notepad running again. In the Notepad window, enter some text and choose <strong>Save</strong> from the <strong>File</strong> menu. The running code breaks in when it comes to <strong>ZwCreateFile</strong>. Enter <a href="k--kb--kc--kd--kp--kp--kv--display-stack-backtrace-" data-linktype="relative-path">k</a> to see the stack trace.</p>
+<p><img src="images/windbggetstart02.png" alt="screen shot of stack trace in windbg." data-linktype="relative-path" /></p>
+<p>In the WinDbg window, just to the left of the command line, notice the processor and thread numbers. In this example the current processor number is 0, and the current thread number is 11. So we are looking at the stack trace for thread 11 (which happens to be running on processor 0).</p>
+</li>
+<li><p>To see a list of all threads in the Notepad process, enter this command (the tilde):</p>
+<p><a href="---thread-status-" data-linktype="relative-path">~</a></p>
+<p>The output is similar to this:</p>
+<div class="codeHeader" id="code-try-6" data-bi-name="code-header"><span class="language">dbgcmd</span><button type="button" class="action position-relative" data-bi-name="copy" aria-label="Copy code">
+				<span class="icon margin-right-xxs">
+					<span class="docon docon-edit-copy" role="presentation"></span>
+				</span>
+				<span>Copy</span>
+				<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+					<span class="icon font-size-lg">
+						<span class="docon docon-check-mark" role="presentation"></span>
+					</span>
+				</div>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-dbgcmd" data-author-content="0:011&gt; ~&#10;   0  Id: 5500.34d8 Suspend: 1 Teb: 000000c8`262c4000 Unfrozen&#10;   1  Id: 5500.3960 Suspend: 1 Teb: 000000c8`262c6000 Unfrozen&#10;    2  Id: 5500.5d68 Suspend: 1 Teb: 000000c8`262c8000 Unfrozen&#10;    3  Id: 5500.4c90 Suspend: 1 Teb: 000000c8`262ca000 Unfrozen&#10;    4  Id: 5500.4ac4 Suspend: 1 Teb: 000000c8`262cc000 Unfrozen&#10;    5  Id: 5500.293c Suspend: 1 Teb: 000000c8`262ce000 Unfrozen&#10;    6  Id: 5500.53a0 Suspend: 1 Teb: 000000c8`262d0000 Unfrozen&#10;    7  Id: 5500.3ca4 Suspend: 1 Teb: 000000c8`262d4000 Unfrozen&#10;    8  Id: 5500.808 Suspend: 1 Teb: 000000c8`262da000 Unfrozen&#10;   10  Id: 5500.3940 Suspend: 1 Teb: 000000c8`262dc000 Unfrozen&#10; . 11  Id: 5500.28b0 Suspend: 1 Teb: 000000c8`262de000 Unfrozen&#10;   12  Id: 5500.12bc Suspend: 1 Teb: 000000c8`262e0000 Unfrozen&#10;   13  Id: 5500.4c34 Suspend: 1 Teb: 000000c8`262e2000 Unfrozen&#10;">0:011&gt; ~
+   0  Id: 5500.34d8 Suspend: 1 Teb: 000000c8`262c4000 Unfrozen
+   1  Id: 5500.3960 Suspend: 1 Teb: 000000c8`262c6000 Unfrozen
+    2  Id: 5500.5d68 Suspend: 1 Teb: 000000c8`262c8000 Unfrozen
+    3  Id: 5500.4c90 Suspend: 1 Teb: 000000c8`262ca000 Unfrozen
+    4  Id: 5500.4ac4 Suspend: 1 Teb: 000000c8`262cc000 Unfrozen
+    5  Id: 5500.293c Suspend: 1 Teb: 000000c8`262ce000 Unfrozen
+    6  Id: 5500.53a0 Suspend: 1 Teb: 000000c8`262d0000 Unfrozen
+    7  Id: 5500.3ca4 Suspend: 1 Teb: 000000c8`262d4000 Unfrozen
+    8  Id: 5500.808 Suspend: 1 Teb: 000000c8`262da000 Unfrozen
+   10  Id: 5500.3940 Suspend: 1 Teb: 000000c8`262dc000 Unfrozen
+ . 11  Id: 5500.28b0 Suspend: 1 Teb: 000000c8`262de000 Unfrozen
+   12  Id: 5500.12bc Suspend: 1 Teb: 000000c8`262e0000 Unfrozen
+   13  Id: 5500.4c34 Suspend: 1 Teb: 000000c8`262e2000 Unfrozen
+</code></pre>
+<p>In this example, there are 14 threads with indexes 0 through 13.</p>
+</li>
+<li><p>To look at the stack trace for thread 0, enter these commands:</p>
+<p><a href="-s--set-current-thread-" data-linktype="relative-path">~0s</a></p>
+<p><a href="k--kb--kc--kd--kp--kp--kv--display-stack-backtrace-" data-linktype="relative-path">k</a></p>
+<p>The output is similar to this:</p>
+<div class="codeHeader" id="code-try-7" data-bi-name="code-header"><span class="language">dbgcmd</span><button type="button" class="action position-relative" data-bi-name="copy" aria-label="Copy code">
+				<span class="icon margin-right-xxs">
+					<span class="docon docon-edit-copy" role="presentation"></span>
+				</span>
+				<span>Copy</span>
+				<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+					<span class="icon font-size-lg">
+						<span class="docon docon-check-mark" role="presentation"></span>
+					</span>
+				</div>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-dbgcmd" data-author-content="0:011&gt; ~0s&#10;0:011&gt; ~0s&#10;win32u!NtUserGetProp+0x14:&#10;00007ff8`06ab1204 c3              ret&#10;0:000&gt; k&#10; # Child-SP          RetAddr               Call Site&#10;00 000000c8`2647bd08 00007ff8`07829fe1     win32u!NtUserGetProp+0x14&#10;01 000000c8`2647bd10 00007fff`f86099be     USER32!GetPropW+0xd1&#10;02 000000c8`2647bd40 00007ff8`07d12f4d     COMCTL32!DefSubclassProc+0x4e&#10;03 000000c8`2647bd90 00007fff`f8609aba     SHELL32!CAutoComplete::_EditWndProc+0xb1&#10;04 000000c8`2647bde0 00007fff`f86098b7     COMCTL32!CallNextSubclassProc+0x9a&#10;05 000000c8`2647be60 00007ff8`0782e858     COMCTL32!MasterSubclassProc+0xa7&#10;06 000000c8`2647bf00 00007ff8`0782de1b     USER32!UserCallWinProcCheckWow+0x2f8&#10;07 000000c8`2647c090 00007ff8`0782d68a     USER32!SendMessageWorker+0x70b&#10;08 000000c8`2647c130 00007ff8`07afa4db     USER32!SendMessageW+0xda&#10;">0:011&gt; ~0s
+0:011&gt; ~0s
+win32u!NtUserGetProp+0x14:
+00007ff8`06ab1204 c3              ret
+0:000&gt; k
+ # Child-SP          RetAddr               Call Site
+00 000000c8`2647bd08 00007ff8`07829fe1     win32u!NtUserGetProp+0x14
+01 000000c8`2647bd10 00007fff`f86099be     USER32!GetPropW+0xd1
+02 000000c8`2647bd40 00007ff8`07d12f4d     COMCTL32!DefSubclassProc+0x4e
+03 000000c8`2647bd90 00007fff`f8609aba     SHELL32!CAutoComplete::_EditWndProc+0xb1
+04 000000c8`2647bde0 00007fff`f86098b7     COMCTL32!CallNextSubclassProc+0x9a
+05 000000c8`2647be60 00007ff8`0782e858     COMCTL32!MasterSubclassProc+0xa7
+06 000000c8`2647bf00 00007ff8`0782de1b     USER32!UserCallWinProcCheckWow+0x2f8
+07 000000c8`2647c090 00007ff8`0782d68a     USER32!SendMessageWorker+0x70b
+08 000000c8`2647c130 00007ff8`07afa4db     USER32!SendMessageW+0xda
+</code></pre>
+</li>
+<li><p>To quit debugging and detach from the Notepad process, enter this command:</p>
+<p><a href="qd--quit-and-detach-" data-linktype="relative-path">qd</a></p>
+</li>
+</ol>
+<h2 id="launch-your-own-application-and-attach-windbg" class="heading-anchor"><a class="anchor-link docon docon-link" href="#launch-your-own-application-and-attach-windbg" aria-labelledby="launch-your-own-application-and-attach-windbg"></a>Launch your own application and attach WinDbg</h2>
+<p>Suppose you have written and built this small console application.</p>
+<div class="codeHeader" id="code-try-8" data-bi-name="code-header"><span class="language">C++</span><button type="button" class="action position-relative" data-bi-name="copy" aria-label="Copy code">
+				<span class="icon margin-right-xxs">
+					<span class="docon docon-edit-copy" role="presentation"></span>
+				</span>
+				<span>Copy</span>
+				<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+					<span class="icon font-size-lg">
+						<span class="docon docon-check-mark" role="presentation"></span>
+					</span>
+				</div>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-cpp" data-author-content="...&#10;void MyFunction(long p1, long p2, long p3)&#10;{&#10;    long x = p1 + p2 + p3;&#10;    long y = 0;&#10;    y = x / p2;&#10;}&#10;&#10;void main ()&#10;{&#10;    long a = 2;&#10;    long b = 0;&#10;    MyFunction(a, b, 5);&#10;}&#10;"><span>...
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">MyFunction</span><span class="hljs-params">(<span class="hljs-keyword">long</span> p1, <span class="hljs-keyword">long</span> p2, <span class="hljs-keyword">long</span> p3)</span>
+</span>{
+    <span class="hljs-keyword">long</span> x = p1 + p2 + p3;
+    <span class="hljs-keyword">long</span> y = <span class="hljs-number">0</span>;
+    y = x / p2;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span> <span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">long</span> a = <span class="hljs-number">2</span>;
+    <span class="hljs-keyword">long</span> b = <span class="hljs-number">0</span>;
+    MyFunction(a, b, <span class="hljs-number">5</span>);
+}
+</span></code></pre>
+<p>For this exercise, we will assume that the built application (MyApp.exe) and the symbol file (MyApp.pdb) are in C:\MyApp\x64\Debug. We will also assume that the application source code is in C:\MyApp\MyApp and that the target machine compiled MyApp.exe.</p>
+<ol>
+<li><p>Open WinDbg.</p>
+</li>
+<li><p>On the <strong>File</strong> menu, choose <strong>Open Executable</strong>. In the Open Executable dialog box, navigate to C:\MyApp\x64\Debug. For <strong>File name</strong>, enter MyApp.exe. Select <strong>Open</strong>.</p>
+</li>
+<li><p>Enter these commands:</p>
+<p><a href="-symfix--set-symbol-store-path-" data-linktype="relative-path">.symfix</a></p>
+<p><a href="-sympath--set-symbol-path-" data-linktype="relative-path">.sympath</a>+ C:\MyApp\x64\Debug</p>
+<p>Now WinDbg knows where to find symbols and source code for your application. In this case, the source code location doesn't need to be set with <a href="-srcpath---lsrcpath--set-source-path-" data-linktype="relative-path">.srcpath</a> because the symbols have fully qualified paths to the source files.</p>
+</li>
+<li><p>Enter these commands:</p>
+<p><a href="-reload--reload-module-" data-linktype="relative-path">.reload</a></p>
+<p><a href="bp--bu--bm--set-breakpoint-" data-linktype="relative-path">bu MyApp!main</a></p>
+<p><a href="g--go-" data-linktype="relative-path">g</a></p>
+<p>Your application breaks in to the debugger when it comes to its <strong>main</strong> function.</p>
+<p>WinDbg displays your source code and the Command window.</p>
+<p><img src="images/windbggetstart03.png" alt="screen shot of source code in windbg." data-linktype="relative-path" /></p>
+</li>
+<li><p>On the <strong>Debug</strong> menu, choose <strong>Step Into</strong> (or press <strong>F11</strong>). Continue stepping until you have stepped into <strong>MyFunction</strong>. When you step into the line <code>y = x / p2</code>, your application will crash and break in to the debugger. The output is similar to this:</p>
+<div class="codeHeader" id="code-try-9" data-bi-name="code-header"><span class="language">dbgcmd</span><button type="button" class="action position-relative" data-bi-name="copy" aria-label="Copy code">
+				<span class="icon margin-right-xxs">
+					<span class="docon docon-edit-copy" role="presentation"></span>
+				</span>
+				<span>Copy</span>
+				<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+					<span class="icon font-size-lg">
+						<span class="docon docon-check-mark" role="presentation"></span>
+					</span>
+				</div>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-dbgcmd" data-author-content="(1450.1424): Integer divide-by-zero - code c0000094 (first chance)&#10;First chance exceptions are reported before any exception handling.&#10;This exception may be expected and handled.&#10;MyApp!MyFunction+0x44:&#10;00007ff6`3be11064 f77c2428    idiv  eax,dword ptr [rsp+28h] ss:00000063`2036f808=00000000&#10;">(1450.1424): Integer divide-by-zero - code c0000094 (first chance)
+First chance exceptions are reported before any exception handling.
+This exception may be expected and handled.
+MyApp!MyFunction+0x44:
+00007ff6`3be11064 f77c2428    idiv  eax,dword ptr [rsp+28h] ss:00000063`2036f808=00000000
+</code></pre>
+</li>
+<li><p>Enter this command:</p>
+<p><a href="-analyze" data-linktype="relative-path">!analyze -v</a></p>
+<p>WinDbg displays an analysis of the problem (division by 0 in this case).</p>
+<div class="codeHeader" id="code-try-10" data-bi-name="code-header"><span class="language">dbgcmd</span><button type="button" class="action position-relative" data-bi-name="copy" aria-label="Copy code">
+				<span class="icon margin-right-xxs">
+					<span class="docon docon-edit-copy" role="presentation"></span>
+				</span>
+				<span>Copy</span>
+				<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+					<span class="icon font-size-lg">
+						<span class="docon docon-check-mark" role="presentation"></span>
+					</span>
+				</div>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-dbgcmd" data-author-content="FAULTING_IP:&#10;MyApp!MyFunction+44 [c:\myapp\myapp\myapp.cpp @ 7]&#10;00007ff6`3be11064 f77c2428        idiv    eax,dword ptr [rsp+28h]&#10;&#10;EXCEPTION_RECORD:  ffffffffffffffff -- (.exr 0xffffffffffffffff)&#10;ExceptionAddress: 00007ff63be11064 (MyApp!MyFunction+0x0000000000000044)&#10;   ExceptionCode: c0000094 (Integer divide-by-zero)&#10;  ExceptionFlags: 00000000&#10;NumberParameters: 0&#10;...&#10;STACK_TEXT:  &#10;00000063`2036f7e0 00007ff6`3be110b8 : ... : MyApp!MyFunction+0x44&#10;00000063`2036f800 00007ff6`3be1141d : ... : MyApp!main+0x38&#10;00000063`2036f840 00007ff6`3be1154e : ... : MyApp!__tmainCRTStartup+0x19d&#10;00000063`2036f8b0 00007ffc`b1cf16ad : ... : MyApp!mainCRTStartup+0xe&#10;00000063`2036f8e0 00007ffc`b1fc4629 : ... : KERNEL32!BaseThreadInitThunk+0xd&#10;00000063`2036f910 00000000`00000000 : ... : ntdll!RtlUserThreadStart+0x1d&#10;&#10;STACK_COMMAND: dt ntdll!LdrpLastDllInitializer BaseDllName ;dt ntdll!LdrpFailureData ;.cxr 0x0 ;kb&#10;&#10;FOLLOWUP_IP:&#10;MyApp!MyFunction+44 [c:\myapp\myapp\myapp.cpp @ 7]&#10;00007ff6`3be11064 f77c2428        idiv    eax,dword ptr [rsp+28h]&#10;&#10;FAULTING_SOURCE_LINE:  c:\myapp\myapp\myapp.cpp&#10;&#10;FAULTING_SOURCE_FILE:  c:\myapp\myapp\myapp.cpp&#10;&#10;FAULTING_SOURCE_LINE_NUMBER:  7&#10;&#10;FAULTING_SOURCE_CODE:  &#10;     3: void MyFunction(long p1, long p2, long p3)&#10;     4: {&#10;     5:     long x = p1 + p2 + p3;&#10;     6:     long y = 0;&#10;&gt;    7:  y = x / p2;&#10;     8: }&#10;     9:&#10;    10: void main ()&#10;    11: {&#10;    12:     long a = 2;&#10;...&#10;">FAULTING_IP:
+MyApp!MyFunction+44 [c:\myapp\myapp\myapp.cpp @ 7]
+00007ff6`3be11064 f77c2428        idiv    eax,dword ptr [rsp+28h]
+
+EXCEPTION_RECORD:  ffffffffffffffff -- (.exr 0xffffffffffffffff)
+ExceptionAddress: 00007ff63be11064 (MyApp!MyFunction+0x0000000000000044)
+   ExceptionCode: c0000094 (Integer divide-by-zero)
+  ExceptionFlags: 00000000
+NumberParameters: 0
+...
+STACK_TEXT:  
+00000063`2036f7e0 00007ff6`3be110b8 : ... : MyApp!MyFunction+0x44
+00000063`2036f800 00007ff6`3be1141d : ... : MyApp!main+0x38
+00000063`2036f840 00007ff6`3be1154e : ... : MyApp!__tmainCRTStartup+0x19d
+00000063`2036f8b0 00007ffc`b1cf16ad : ... : MyApp!mainCRTStartup+0xe
+00000063`2036f8e0 00007ffc`b1fc4629 : ... : KERNEL32!BaseThreadInitThunk+0xd
+00000063`2036f910 00000000`00000000 : ... : ntdll!RtlUserThreadStart+0x1d
+
+STACK_COMMAND: dt ntdll!LdrpLastDllInitializer BaseDllName ;dt ntdll!LdrpFailureData ;.cxr 0x0 ;kb
+
+FOLLOWUP_IP:
+MyApp!MyFunction+44 [c:\myapp\myapp\myapp.cpp @ 7]
+00007ff6`3be11064 f77c2428        idiv    eax,dword ptr [rsp+28h]
+
+FAULTING_SOURCE_LINE:  c:\myapp\myapp\myapp.cpp
+
+FAULTING_SOURCE_FILE:  c:\myapp\myapp\myapp.cpp
+
+FAULTING_SOURCE_LINE_NUMBER:  7
+
+FAULTING_SOURCE_CODE:  
+     3: void MyFunction(long p1, long p2, long p3)
+     4: {
+     5:     long x = p1 + p2 + p3;
+     6:     long y = 0;
+&gt;    7:  y = x / p2;
+     8: }
+     9:
+    10: void main ()
+    11: {
+    12:     long a = 2;
+...
+</code></pre>
+</li>
+</ol>
+<h2 id="summary-of-commands" class="heading-anchor"><a class="anchor-link docon docon-link" href="#summary-of-commands" aria-labelledby="summary-of-commands"></a>Summary of commands</h2>
+<ul>
+<li><strong>Contents</strong> command on the <strong>Help</strong> menu</li>
+<li><a href="-sympath--set-symbol-path-" data-linktype="relative-path">.sympath (Set Symbol Path)</a></li>
+<li><a href="-reload--reload-module-" data-linktype="relative-path">.reload (Reload Module)</a></li>
+<li><a href="x--examine-symbols-" data-linktype="relative-path">x (Examine Symbols)</a></li>
+<li><a href="g--go-" data-linktype="relative-path">g (Go)</a></li>
+<li><strong>Break</strong> command on the <strong>Debug</strong> menu</li>
+<li><a href="lm--list-loaded-modules-" data-linktype="relative-path">lm (List Loaded Modules)</a></li>
+<li><a href="k--kb--kc--kd--kp--kp--kv--display-stack-backtrace-" data-linktype="relative-path">k (Display Stack Backtrace)</a></li>
+<li><a href="bp--bu--bm--set-breakpoint-" data-linktype="relative-path">bu (Set Breakpoint)</a></li>
+<li><a href="bl--breakpoint-list-" data-linktype="relative-path">bl (Breakpoint List)</a></li>
+<li><a href="---thread-status-" data-linktype="relative-path">~ (Thread Status)</a></li>
+<li><a href="-s--set-current-thread-" data-linktype="relative-path">~s (Set Current Thread)</a></li>
+<li><a href="-sympath--set-symbol-path-" data-linktype="relative-path">.sympath+ (Set Symbol Path) append to existing symbol path</a></li>
+<li><a href="-srcpath---lsrcpath--set-source-path-" data-linktype="relative-path">.srcpath (Set Source Path)</a></li>
+<li><strong>Step Into</strong> command on the <strong>Debug</strong> menu (<strong>F11</strong>)</li>
+<li><a href="-analyze" data-linktype="relative-path">!analyze -v</a></li>
+<li><a href="qd--quit-and-detach-" data-linktype="relative-path">qd (Quit and Detach)</a></li>
+</ul>
+<h2 id="see-also" class="heading-anchor"><a class="anchor-link docon docon-link" href="#see-also" aria-labelledby="see-also"></a>See also</h2>
+<p><a href="getting-started-with-windbg--kernel-mode-" data-linktype="relative-path">Getting Started with WinDbg (Kernel-Mode)</a></p>
+<p><a href="debugger-operation-win8" data-linktype="relative-path">Debugger Operation</a></p>
+<p><a href="debugging-techniques" data-linktype="relative-path">Debugging Techniques</a></p>
+<p><a href="./" data-linktype="relative-path">Debugging Tools for Windows (WinDbg, KD, CDB, NTSD)</a></p>
+<p><a href="debugging-using-windbg-preview" data-linktype="relative-path">Debugging Using WinDbg Preview</a></p>
+
+							<!-- </content> -->
+
+						</main>
+
+						<!-- fallback rating section for reference only, remove after a week or so -->
+						<!-- end page rating section -->
+
+
+
+						<!-- recommendations section -->
+							<section id="recommendations-section" data-bi-name="recommendations"><!---->
+			<hr class="hr" />
+			<h2 class="title is-3 has-margin-top-large"><!---->Recommended content<!----></h2>
+			
+		<ul id="recommendations-list" aria-live="polite" aria-relevant="additions" aria-label="recommendations list" class="has-margin-bottom-large">
+			<!---->
+					<li class="margin-top-xs ">
+						<article class="card">
+							<div class="card-content">
+								<a class="card-content-title stretched-link" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/symbol-path" data-bi-name="recommendation-item-0">
+									<h3><!---->Symbol path for Windows debuggers - Windows drivers<!----></h3>
+								</a>
+								<p class="card-content-description has-three-lines">
+									The symbol path specifies locations where the Windows debuggers (WinDbg, KD, CDB, NTST) look for symbol files.
+								</p>
+							</div>
+						</article>
+					</li>
+				<!---->
+					<li class="margin-top-xs ">
+						<article class="card">
+							<div class="card-content">
+								<a class="card-content-title stretched-link" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/choosing-a-32-bit-or-64-bit-debugger-package" data-bi-name="recommendation-item-1">
+									<h3><!---->Choosing the 32-Bit or 64-Bit Debugging Tools - Windows drivers<!----></h3>
+								</a>
+								<p class="card-content-description has-three-lines">
+									When you install Debugging Tools for Windows, you get both a 32-bit set of tools and a 64-bit set of tools.
+								</p>
+							</div>
+						</article>
+					</li>
+				<!---->
+					<li class="margin-top-xs ">
+						<article class="card">
+							<div class="card-content">
+								<a class="card-content-title stretched-link" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/debugging-using-windbg-preview" data-bi-name="recommendation-item-2">
+									<h3><!---->Debugging Using WinDbg Preview - Windows drivers<!----></h3>
+								</a>
+								<p class="card-content-description has-three-lines">
+									This section describes how to perform basic debugging tasks using the WinDbg preview debugger.
+								</p>
+							</div>
+						</article>
+					</li>
+				<!---->
+					<li class="margin-top-xs ">
+						<article class="card">
+							<div class="card-content">
+								<a class="card-content-title stretched-link" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/microsoft-public-symbols" data-bi-name="recommendation-item-3">
+									<h3><!---->Microsoft public symbol server - Windows drivers<!----></h3>
+								</a>
+								<p class="card-content-description has-three-lines">
+									The Microsoft symbol server makes Windows debugger symbols publicly available.
+								</p>
+							</div>
+						</article>
+					</li>
+				<!---->
+					<li class="margin-top-xs expandable">
+						<article class="card">
+							<div class="card-content">
+								<a class="card-content-title stretched-link" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/setting-symbol-and-source-paths-in-windbg" data-bi-name="recommendation-item-4">
+									<h3><!---->Setting Symbol and Executable Image Paths in WinDbg - Windows drivers<!----></h3>
+								</a>
+								<p class="card-content-description has-three-lines">
+									Setting Symbol and Executable Image Paths in WinDbg
+								</p>
+							</div>
+						</article>
+					</li>
+				<!---->
+					<li class="margin-top-xs expandable">
+						<article class="card">
+							<div class="card-content">
+								<a class="card-content-title stretched-link" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/symbols" data-bi-name="recommendation-item-5">
+									<h3><!---->Symbols for Windows debugging (WinDbg, KD, CDB, NTSD) - Windows drivers<!----></h3>
+								</a>
+								<p class="card-content-description has-three-lines">
+									Symbols for the Windows debuggers (WinDbg, KD, CDB, and NTSD) are available from a public symbol server.
+								</p>
+							</div>
+						</article>
+					</li>
+				<!---->
+					<li class="margin-top-xs expandable">
+						<article class="card">
+							<div class="card-content">
+								<a class="card-content-title stretched-link" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/debugger-download-symbols" data-bi-name="recommendation-item-6">
+									<h3><!---->Download  Windows Symbol Packages for Debugging - Windows drivers<!----></h3>
+								</a>
+								<p class="card-content-description has-three-lines">
+									This page provides downloads for Windows Symbol Packages which are used for debugging.
+								</p>
+							</div>
+						</article>
+					</li>
+				<!---->
+					<li class="margin-top-xs expandable">
+						<article class="card">
+							<div class="card-content">
+								<a class="card-content-title stretched-link" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/windbg-command-line-preview" data-bi-name="recommendation-item-7">
+									<h3><!---->WinDbg Preview - Command line startup options - Windows drivers<!----></h3>
+								</a>
+								<p class="card-content-description has-three-lines">
+									This section covers the command line startup options for the WinDbg Preview debugger.
+								</p>
+							</div>
+						</article>
+					</li>
+				<!---->
+		</ul>
+		
+				<div class="buttons buttons-centered has-background-linethrough">
+					
+		<button aria-expanded="false" data-show-more="" data-bi-name="show-more-btn" class="button button-sm has-margin-bottom-none show-more-button" aria-controls="recommendations-list">
+			<span class="show-more-text"><!---->Show more<!----></span>
+			<span class="icon" aria-hidden="true">
+				<span class="expanded-indicator docon docon-chevron-down-light"></span>
+			</span>
+		</button>
+	
+				</div>
+		  
+	
+		<!----></section>
+						<!-- end recommendations section -->
+
+						<!-- feedback section -->
+<section class="feedback-section position-relative" data-bi-name="feedback-section">
+
+    <h2 id="feedback" class="title is-3 has-margin-top-large">Feedback</h2>
+
+    <div class="alert choose-feedback-type">
+        <p aria-hidden="true" id="send-feedback-about">Submit and view feedback for</p>
+
+        <div class="choose-feedback-buttons margin-top-xs">
+                <a class="button has-external-link-indicator feedback-type-product has-margin-bottom-small" aria-label="Send feedback about this product" href="https://support.microsoft.com/help/4021566/windows-10-send-feedback-to-microsoft-with-feedback-hub-app" data-bi-name="product-feedback">
+                    <span>This product</span>
+                </a>
+
+			<a class="button feedback-type-product has-margin-bottom-small github-link" aria-label="Send feedback about this page" data-bi-name="create-issue-on-github" href="https://github.com/MicrosoftDocs/windows-driver-docs/issues/new?title=&amp;body=%0A%0A%5BEnter%20feedback%20here%5D%0A%0A%0A---%0A%23%23%23%23%20Document%20Details%0A%0A%E2%9A%A0%20*Do%20not%20edit%20this%20section.%20It%20is%20required%20for%20docs.microsoft.com%20%E2%9E%9F%20GitHub%20issue%20linking.*%0A%0A*%20ID%3A%20142adea7-b7b8-4a5a-5e19-83a202ab04b2%0A*%20Version%20Independent%20ID%3A%20489c0c22-908c-aa93-520c-836c941b5b4e%0A*%20Content%3A%20%5BGetting%20Started%20with%20WinDbg%20(User-Mode)%20-%20Windows%20drivers%5D(https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fwindows-hardware%2Fdrivers%2Fdebugger%2Fgetting-started-with-windbg)%0A*%20Content%20Source%3A%20%5Bwindows-driver-docs-pr%2Fdebugger%2Fgetting-started-with-windbg.md%5D(https%3A%2F%2Fgithub.com%2FMicrosoftDocs%2Fwindows-driver-docs%2Fblob%2Fstaging%2Fwindows-driver-docs-pr%2Fdebugger%2Fgetting-started-with-windbg.md)%0A*%20Product%3A%20**windows-hardware**%0A*%20Technology%3A%20**debugger**%0A*%20GitHub%20Login%3A%20%40DOMARS%0A*%20Microsoft%20Alias%3A%20**domars**">
+				<span aria-hidden="true" class="docon docon-brand-github has-padding-right-extra-small"></span>
+				<span>This page</span>
+			</a>
+        </div>
+    </div>
+
+    <div class="action-container display-flex justify-content-flex-end has-margin-top-small has-margin-bottom-small">
+        <a class="view-on-github has-external-link-indicator" data-bi-name="view-on-github" href="https://github.com/MicrosoftDocs/windows-driver-docs/issues?utf8=%E2%9C%93&amp;q=%22489c0c22-908c-aa93-520c-836c941b5b4e%22&amp;in=body">
+            <span aria-hidden="true" class="docon docon-brand-github"></span>
+            <span>View all page feedback</span>
+        </a>
+    </div>
+</section>
+						<!-- end feedback section -->
+
+						<!-- feedback report section -->
+						<!-- end feedback report section -->
+
+						<div class="border-top is-visible-interactive has-default-focus has-margin-top-large ">
+
+
+
+	<footer id="footer-interactive" data-bi-name="footer" class="footer-layout">
+	<div class="display-flex is-full-height has-padding-right-extra-large-desktop">
+			<a data-mscc-ic="false" class="locale-selector-link button button-clear flex-shrink-0" href="/en-us/locale?target=https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windbg" data-bi-name="select-locale">
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-world"></span>
+					</span>
+					<span class="local-selector-link-text">English (United States)</span></a>
+		<div class="margin-inline-xs flex-shrink-0">
+<div class="dropdown has-caret-up">
+	<button class="dropdown-trigger button button-clear button-sm has-inner-focus theme-dropdown-trigger" aria-controls="theme-menu-interactive" aria-expanded="false" title="Theme" data-bi-name="theme">
+		<span class="icon">
+			<span class="docon docon-sun" aria-hidden="true"></span>
+		</span>
+		<span>Theme</span>
+	</button>
+	<div class="dropdown-menu" id="theme-menu-interactive" role="menu">
+		<ul class="theme-selector has-padding-small">
+			<li class="theme is-block">
+				<button class="button button-clear button-sm theme-control button-block justify-content-flex-start is-selected" data-theme-to="light" aria-pressed="true">
+					<span class="theme-light has-margin-right-small">
+						<span class="theme-selector-icon css-variable-support border is-inline-block has-body-background" aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background"/>
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary"/>
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary"/>
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary"/>
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary"/>
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary"/>
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary"/>
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary"/>
+							</svg>
+						</span>
+					</span>
+					<span role="menuitem">
+Light					</span>
+				</button>
+			</li>
+			<li class="theme is-block">
+				<button class="button button-clear button-sm theme-control button-block justify-content-flex-start" data-theme-to="dark" aria-pressed="false">
+					<span class="theme-dark has-margin-right-small">
+						<span class="border theme-selector-icon css-variable-support is-inline-block has-body-background" aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background"/>
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary"/>
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary"/>
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary"/>
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary"/>
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary"/>
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary"/>
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary"/>
+							</svg>
+						</span>
+					</span>
+					<span role="menuitem">
+Dark					</span>
+				</button>
+			</li>
+			<li class="theme is-block">
+				<button class="button button-clear button-sm theme-control button-block justify-content-flex-start" data-theme-to="high-contrast" aria-pressed="false">
+					<span class="theme-high-contrast has-margin-right-small">
+						<span class="border theme-selector-icon css-variable-support is-inline-block has-body-background" aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background"/>
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary"/>
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary"/>
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary"/>
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary"/>
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary"/>
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary"/>
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary"/>
+							</svg>
+						</span>
+					</span>
+					<span role="menuitem">
+High contrast					</span>
+				</button>
+			</li>
+		</ul>
+	</div>
+</div>		</div>
+	</div>
+	<ul class="links" data-bi-name="footerlinks">
+		<li class="manage-cookies-holder" hidden=""></li>
+				<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/previous-versions/" data-bi-name="archivelink">Previous Version Docs</a></li>
+				<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/teamblog" data-bi-name="bloglink">Blog</a></li>
+				<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/contribute" data-bi-name="contributorGuide">Contribute</a></li>
+					<li><a data-mscc-ic="false" href="https://go.microsoft.com/fwlink/?LinkId=521839" data-bi-name="privacy">Privacy &amp; Cookies</a></li>
+				<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/legal/termsofuse" data-bi-name="termsofuse">Terms of Use</a></li>
+				<li><a data-mscc-ic="false" href="https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/EN-US.aspx" data-bi-name="trademarks">Trademarks</a></li>
+		<li>© Microsoft 2021</li>
+	</ul>
+</footer>
+						</div>
+					</div>
+
+						<div class="font-size-sm right-container column is-4-desktop display-none display-block-desktop" data-bi-name="pageactions" role="complementary" aria-label="Page Actions">
+
+							<div id="affixed-right-container" class="doc-outline is-vertically-scrollable" style="top: 164.5px; bottom: 24px; position: fixed;">
+								<nav id="side-doc-outline" data-bi-name="intopic toc" role="navigation" aria-label="Article Outline">
+									<h3>In this article</h3>
+								<ol><li class="selected"><a href="#launch-notepad-and-attach-windbg">Launch Notepad and attach WinDbg</a></li><li><a href="#launch-your-own-application-and-attach-windbg">Launch your own application and attach WinDbg</a></li><li><a href="#summary-of-commands">Summary of commands</a></li><li><a href="#see-also">See also</a></li></ol></nav>
+							</div>
+						</div>
+
+				</div>
+				<!--end of div.columns -->
+
+			</section>
+			<!--end of .primary-holder -->
+
+			<!-- interactive container -->
+			<aside id="interactive-container" class="interactive-container is-visible-interactive column has-body-background-dark ">
+			</aside>
+			<!-- end of interactive container -->
+		</div>
+
+	</div>
+	<!--end of .mainContainer -->
+
+	<section class="border-top has-default-focus is-hidden-interactive has-margin-top-large ">
+
+
+
+	<footer id="footer" data-bi-name="footer" class="footer-layout uhf-container has-padding" role="contentinfo">
+	<div class="display-flex is-full-height has-padding-right-extra-large-desktop">
+			<a data-mscc-ic="false" class="locale-selector-link button button-clear flex-shrink-0" href="/en-us/locale?target=https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windbg" data-bi-name="select-locale">
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-world"></span>
+					</span>
+					<span class="local-selector-link-text">English (United States)</span></a>
+		<div class="margin-inline-xs flex-shrink-0">
+<div class="dropdown has-caret-up">
+	<button class="dropdown-trigger button button-clear button-sm has-inner-focus theme-dropdown-trigger" aria-controls="theme-menu" aria-expanded="false" title="Theme" data-bi-name="theme">
+		<span class="icon">
+			<span class="docon docon-sun" aria-hidden="true"></span>
+		</span>
+		<span>Theme</span>
+	</button>
+	<div class="dropdown-menu" id="theme-menu" role="menu">
+		<ul class="theme-selector has-padding-small">
+			<li class="theme is-block">
+				<button class="button button-clear button-sm theme-control button-block justify-content-flex-start is-selected" data-theme-to="light" aria-pressed="true">
+					<span class="theme-light has-margin-right-small">
+						<span class="theme-selector-icon css-variable-support border is-inline-block has-body-background" aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background"/>
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary"/>
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary"/>
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary"/>
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary"/>
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary"/>
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary"/>
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary"/>
+							</svg>
+						</span>
+					</span>
+					<span role="menuitem">
+Light					</span>
+				</button>
+			</li>
+			<li class="theme is-block">
+				<button class="button button-clear button-sm theme-control button-block justify-content-flex-start" data-theme-to="dark" aria-pressed="false">
+					<span class="theme-dark has-margin-right-small">
+						<span class="border theme-selector-icon css-variable-support is-inline-block has-body-background" aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background"/>
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary"/>
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary"/>
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary"/>
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary"/>
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary"/>
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary"/>
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary"/>
+							</svg>
+						</span>
+					</span>
+					<span role="menuitem">
+Dark					</span>
+				</button>
+			</li>
+			<li class="theme is-block">
+				<button class="button button-clear button-sm theme-control button-block justify-content-flex-start" data-theme-to="high-contrast" aria-pressed="false">
+					<span class="theme-high-contrast has-margin-right-small">
+						<span class="border theme-selector-icon css-variable-support is-inline-block has-body-background" aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background"/>
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary"/>
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary"/>
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary"/>
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary"/>
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary"/>
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary"/>
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary"/>
+							</svg>
+						</span>
+					</span>
+					<span role="menuitem">
+High contrast					</span>
+				</button>
+			</li>
+		</ul>
+	</div>
+</div>		</div>
+	</div>
+	<ul class="links" data-bi-name="footerlinks">
+		<li class="manage-cookies-holder" hidden=""></li>
+				<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/previous-versions/" data-bi-name="archivelink">Previous Version Docs</a></li>
+				<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/teamblog" data-bi-name="bloglink">Blog</a></li>
+				<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/contribute" data-bi-name="contributorGuide">Contribute</a></li>
+					<li><a data-mscc-ic="false" href="https://go.microsoft.com/fwlink/?LinkId=521839" data-bi-name="privacy">Privacy &amp; Cookies</a></li>
+				<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/legal/termsofuse" data-bi-name="termsofuse">Terms of Use</a></li>
+				<li><a data-mscc-ic="false" href="https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/EN-US.aspx" data-bi-name="trademarks">Trademarks</a></li>
+		<li>© Microsoft 2021</li>
+	</ul>
+</footer>
+	</section>
+
+	<div id="action-panel" role="region" aria-label="Action Panel" class="action-panel has-default-focus" tabindex="-1"></div>
+
+
+</body></html>
