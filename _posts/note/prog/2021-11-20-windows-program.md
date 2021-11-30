@@ -108,6 +108,107 @@ SxS Manager 加载顺序。Side-by-side searches the WinSxS folder.
 * [Windbg 调试 Notepad 的简单入门](https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windbg)
 
 
+## Windows 系统导论
+
+{% include image.html url="/assets/images/211120-windows-program/20211130235154.png" caption="内存管理" %}
+
+{% include image.html url="/assets/images/211120-windows-program/v2-0e31467881f34c15094210a3048babbb_1440w.jpg" caption="虚拟地址转换" %}
+{% include image.html url="/assets/images/211120-windows-program/20211201000052.png" %}
+* MMU 和 TLB 都是硬件实现（减少操作系统的实现负担）
+* TLB 是一个加速用的濶濴濶濻濸，命中时，目标内存都在物理内存中
+
+
+### 栈空间
+
+* ESP：栈指针寄存器 (extended stack pointer)，该指针永远指向系统栈最上面一个栈帧的栈顶。
+* EBP：基址指针寄存器 (extended base pointer)，该指针永远指向系统栈最上面一个栈帧的底部。
+* Callee 的第一个指令保存 caller 的 ebp。
+
+
+### TLS 线程本地存储
+
+* **干啥用** 线程范围内的全局存储
+* **静态** 编译器辅助：__declspec(thread) int number;
+* **动态** 通过 API 访问：TlsGetValue
+
+
+### Sleep vs Yield
+
+* 等待其他线程的结果不要用 Sleep+Loop
+* 正确的等待是用 WaitForSingleObject，WaitForMultiObjects 的 API
+* 正确的让出时间片是：SwitchToThread
+* WaitXxx 还有马上检查的功能
+
+
+### Windows 提供的同步对象
+
+同步对象 | 支持等超时 | 进程锁 | 递归锁
+---- | ---- | ---- | ----
+CriticalSection 对象 | 否 | 否 | 是
+Event 对象 | 是 | 是 | N/A
+Mutex 对象 | 是 | 是 | 是
+Semaphore 对象 | 是 | 是 | N/A
+
+
+### Zero Copy
+
+* Linux 上的：sendfile
+* Windows 上的：TransmitFile
+
+
+### x86 架构的包袱
+
+* 复杂指令集 vs 精简指令集
+* 思想差异：复杂问题是交给编译器，还是 CPU
+* 指令不定长的问题
+    * 我们的视角：反编译；
+    * CPU 的视角：译码器效率、乱序执行效率
+
+
+### Windows 注册表
+
+* 本质上是一个有权限管理功能的 key value 存储
+* 在文件系统未初始化的时候就可以读取
+* 存储系统的配置（驱动项、服务项、COM、文件类型…）
+* 注册表是多 hives 的集合
+
+#### 对操作系统
+
+* 相当于 grub3 中 ext3
+* Bootmgr 在进系统前不需要文件系统支持
+* 相当于给 kernel 使用的 ramfs
+* Boot 类型的驱动在文件系统驱动加载前就可以读取到自己需要的配置
+
+#### 对应用程序
+
+* 一个 KV 数据库
+
+
+### COM 组件
+
+{% include image.html url="/assets/images/211120-windows-program/20211201010653.png" caption="COM 组件" %}
+
+
+### 编程避坑不完全指引
+
+* 多线程竞争问题（Cache、死锁等）
+* 避免长时间高占用 CPU
+* 需要频繁分配释放内存时使用内存池
+* 注意内存映射的使用
+* 避免对象（Handle）泄露，线程用完后揿毁
+* 避免栈溢出（递归 vs 循环）
+* Windows 上 xxx_s 函数
+* 跨平台要考虑什么？（汇编、字节顺序，API 抽象）
+* Wow64 的注册表、文件路径、Shell 扩展等
+* 同一模块分配的内存、在同一模块内释放
+* 尽可能顺序读写，避免大量随机读写
+* 避免长时间高吞吐读写磁盘
+* 少用黑魔法 (Undocumented API)
+* 频繁的小任务可以用线程池管理
+* 造轮子前要想清楚
+* 不要在界面线程做和界面非相关的操作
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-11-20-windows-program.md.js" %}'></script></p>
