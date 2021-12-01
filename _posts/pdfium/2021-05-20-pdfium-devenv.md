@@ -28,7 +28,7 @@ codeprint:
 
 * 确保 path 里没有自己安装的 python.exe
     * depot_tools 貌似是：Python 2.7.18
-    * 一个环境安装多个 python 的方法：[Windows 上通过 bat 避免 python 冲突](https://sunocean.life/blog/blog/2020/12/15/Visual-Studio-and-Android-Studio#windows-%E4%B8%8A%E9%80%9A%E8%BF%87-bat-%E9%81%BF%E5%85%8D-python-%E5%86%B2%E7%AA%81)
+    * 一个环境安装多个 python 的方法：[Windows 上通过 bat 避免 python 冲突]({% include relref.html url="/blog/2020/12/15/Visual-Studio#windows-%E4%B8%8A%E9%80%9A%E8%BF%87-bat-%E9%81%BF%E5%85%8D-python-%E5%86%B2%E7%AA%81" %})
 * 下载 安装 depot_tools：
     * from [depot_tools_tutorial(7) Manual Page](https://commondatastorage.googleapis.com/chrome-infra-docs/flat/depot_tools/docs/html/depot_tools_tutorial.html) Download the [depot_tools](https://storage.googleapis.com/chrome-infra/depot_tools.zip) bundle and extract it somewhere.
     * 加入环境变量：`C:\kSource\kpdf\depot_tools`

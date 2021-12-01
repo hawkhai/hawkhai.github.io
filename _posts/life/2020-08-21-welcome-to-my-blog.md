@@ -154,8 +154,8 @@ $$
 
 [![][im1_in_thumb]][im1_in]
 
-[im1_in]: <https://sunocean.life/blog/assets/gitee.png>
-[im1_in_thumb]: <https://sunocean.life/blog/assets/opengl.png>
+[im1_in]: <{% include relref.html url="/assets/images/200821-welcome-to-my-blog/gitee.png" %}>
+[im1_in_thumb]: <{% include relref.html url="/assets/images/200821-welcome-to-my-blog/opengl.png" %}>
 
 
 ## domain tag sample

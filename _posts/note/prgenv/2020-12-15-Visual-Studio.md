@@ -17,6 +17,41 @@ cluster: "Visual Studio"
 ---
 
 
+## R6025 pure virtual function call
+
+{% include image.html url="/assets/images/201215-visual-studio/20211130120044.png" caption="pure virtual function call 调用了纯虚函数" %}
+{% include image.html url="/assets/images/201215-visual-studio/20170113111023737.png" caption="pure virtual function call 调用了纯虚函数" %}
+
+```cpp
+#include <stdlib.h>
+
+class A {
+public:
+    A() {
+        callfunc();
+    }
+    virtual void func() = 0;
+    void callfunc() {
+        func();
+    }
+};
+
+class B : public A
+{
+public:
+    virtual void func() {
+        ;
+    }
+};
+
+int main() {
+    B b;
+    system( "PAUSE ");
+    return 0;
+}
+```
+
+
 ## VS2015 C# 调用 C++ DLL 设置断点
 
 [from {% include relref_csdn.html %}](https://blog.csdn.net/hujialong1997/article/details/105458435)
