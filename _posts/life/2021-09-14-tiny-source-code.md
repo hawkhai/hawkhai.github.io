@@ -1425,7 +1425,7 @@ class fastimagedll : public fastimage::IFastImageInterface {
             return;
         }
         m_interface = fptr();
-        if (m_interface->getFastImageVersion() < FAST_IMAGE_VERSION) {
+        if (m_interface && m_interface->getFastImageVersion() < FAST_IMAGE_VERSION) {
             releaseObj(m_interface);
             m_interface = nullptr;
         }
@@ -1435,7 +1435,7 @@ class fastimagedll : public fastimage::IFastImageInterface {
             return;
         }
         releaseObj(m_interface);
-
+        m_interface = nullptr;
         // m_hDLL 不释放了。
     }
 
