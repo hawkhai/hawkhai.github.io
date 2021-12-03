@@ -208,6 +208,16 @@ function checkToc() {
         //$("font.ref_snapshot").remove();
         //$("div#blog_content + hr").remove(); // 底部分割线
         $("div#postdiv").removeClass("codeprint"); // 代码排版
+
+        var xtitle = $("header.post-header h1.pagetitle");
+        xtitle.css("width", "fit-content");
+        xtitle.css("margin-left", "auto");
+        xtitle.css("margin-right", "auto");
+        var xtag = $("header.post-header p.post-meta");
+        xtag.css("width", "fit-content");
+        xtag.css("margin-left", "auto");
+        xtag.css("margin-right", "auto");
+        xtag.children("span.pagetag").remove();
         return;
     }
 
