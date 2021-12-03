@@ -143,6 +143,23 @@ char fpath[1024] = "";
 _fullpath(fpath, fileLocation, 1024);
 ```
 
+```c
+{ // C 版本。#include <locale>
+    setlocale(LC_ALL, "chs");
+    FILE* fp = NULL;
+    errno_t err = fopen_s(&fp, "E:\\curl.txt", "a");
+    if (err == 0 && fp)
+    {
+        fwprintf(fp, L"%s\n", szUrl);
+        for (int i = 0; i < nSize; i++) {
+            fputc(pBuffer[i], fp);
+        }
+        fputc('\n', fp);
+        fclose(fp);
+    }
+}
+```
+
 
 ## C++ File
 
