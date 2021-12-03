@@ -17,6 +17,34 @@ cluster: "Visual Studio"
 ---
 
 
+## 无法找到入口
+
+{% include image.html url="/assets/images/201215-visual-studio/20211203-123618.png" %}
+
+```
+线程 0x4be0 已退出，返回值为 0 (0x0)。
+线程 0x3db8 已退出，返回值为 0 (0x0)。
+0x777D3756 (ntdll.dll) 处（位于 kxupg.exe 中）引发的异常: 0xC0000139: Entry Point Not Found。
+线程 0x4970 已退出，返回值为 -1073741511 (0xc0000139)。
+程序“[18844] kxupg.exe”已退出，返回值为 -1073741511 (0xc0000139) 'Entry Point Not Found'。
+```
+
+原因是没有 Menifest 清单，你把工程里的 mainfest 打开。
+```cpp
+#if defined _M_IX86
+  #pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#elif defined _M_IA64
+  #pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='ia64' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#elif defined _M_X64
+  #pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='amd64' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#else
+  #pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#endif
+```
+
+{% include image.html url="/assets/images/201215-visual-studio/20211203-123811.png" %}
+
+
 ## R6025 pure virtual function call
 
 {% include image.html url="/assets/images/201215-visual-studio/20211130120044.png" caption="pure virtual function call 调用了纯虚函数" %}
