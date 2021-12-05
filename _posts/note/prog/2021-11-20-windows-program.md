@@ -209,6 +209,31 @@ Semaphore 对象 | 是 | 是 | N/A
 * 不要在界面线程做和界面非相关的操作
 
 
+## Windows 界面和窗口
+
+1. **WTL: Windows Template Library**
+    Windows Template Library，对 ATL 在窗口方面做相关扩展。它封装好多 Windows 控件，也做了很多扩展。
+    1. 标准控制（编辑框，列表框，按钮等等）
+    2. 公共控制（包括列表视图，树形视图，进度条，微调按钮）
+    3. IE 控制（rebar，平面滚动条，日历等等）
+    4. 命令条，菜单，和更新 UI 类
+    5. 公共对话框
+    6. 属性单和页类
+    7. 框架窗口，MDI 框架和子框架，分隔条，可滚动的窗口
+    8. 设备环境（DC）和 GDI 对象类（笔、刷子、位图等）
+    9. 打印机及其信息和设备模式类
+    10. 实用工具类：包括 CPoint, CRect, CSize, 和 CString 类
+
+2. **ATL: Active Template Library（活动模板库）**
+    ATL 是 ActiveX Template Library 的缩写，它是一套 C++ 模板库。
+    ATL 是一个产生 C++/COM 代码的框架，就如同 C 语言是一个产生汇编代码的框架。
+
+3. **STL 即 Standard Template Library（标准模板库）**
+    STL 的代码从广义上讲分为三类：algorithm（算法）、container（容器）和 iterator（迭代器）。
+    STL 是一些“容器”的集合，这些“容器”有 list, vector, set, map 等，STL 也是算法和其他一些组件的集合。
+    就像放在蛋架上的鸡蛋不会滚到桌上，它们很安全，因此，在 STL 容器中的对象也很安全。
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-11-20-windows-program.md.js" %}'></script></p>
