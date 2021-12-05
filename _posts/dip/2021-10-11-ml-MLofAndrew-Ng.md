@@ -15,6 +15,14 @@ glslcanvas:
 codeprint:
 ---
 
+[机器学习应补充哪些数学基础？ {% include relref_weixin.html %}](https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247485091&idx=1&sn=8844a2dfafcd35ea45d1bf0146ba8a5a&chksm=fcbbfe59cbcc774f68a18bd11d529422e0048896ffa3a253c52a749fc6e45d7292e1791052da&scene=27#wechat_redirect)
+
+入门的话，本科的数学分析，线性代数，概率论与数理统计足够了。
+微积分：MIT 18.01, MIT 18.02
+线性代数：MIT 18.06
+概率论与数理统计：MIT 6.041
+凸优化：CVX101
+
 
 ## 吴恩达
 
@@ -67,6 +75,7 @@ P3 08:42
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-10-11-ml-MLofAndrew-Ng.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247485091&idx=1&sn=8844a2dfafcd35ea45d1bf0146ba8a5a&chksm=fcbbfe59cbcc774f68a18bd11d529422e0048896ffa3a253c52a749fc6e45d7292e1791052da&scene=27#wechat_redirect]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/mp.weixin.qq.com/68945947.html" %})
 - [https://www.bilibili.com/video/BV164411b7dx]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/72ebaee9.html" %})
 - [https://github.com/TheisTrue/MLofAndrew-Ng]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/github.com/f1eeb779.html" %})
 - [https://www.jianshu.com/p/682c88cee5a8]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.jianshu.com/fdc8f898.html" %})

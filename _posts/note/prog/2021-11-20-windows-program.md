@@ -8,7 +8,7 @@ tags: ["编程", "C/C++"]
 toc: true
 toclistyle:
 comments:
-visibility: hidden
+visibility:
 mathjax: true
 mermaid: true
 glslcanvas:
@@ -232,6 +232,61 @@ Semaphore 对象 | 是 | 是 | N/A
     STL 的代码从广义上讲分为三类：algorithm（算法）、container（容器）和 iterator（迭代器）。
     STL 是一些“容器”的集合，这些“容器”有 list, vector, set, map 等，STL 也是算法和其他一些组件的集合。
     就像放在蛋架上的鸡蛋不会滚到桌上，它们很安全，因此，在 STL 容器中的对象也很安全。
+
+
+## GDI 绘制系统与动画
+
+{% include image.html url="/assets/images/211120-windows-program/20211205230522.png" caption="WINDOWS GRAPHICS ARCHITECTURE" %}
+
+
+### GDI 对象的上限
+
+There is a theoretical limit of 65,536 GDI handles per session.
+However, the maximum number of GDI handles that can be opened per session is usually lower, since it is affected by available memory.
+There is also a default per-process limit of GDI handles.
+To change this limit, set the following registry value: `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsNT\CurrentVersion\Windows\GDIProc` `essHandleQuota` This value can be set to a number between 256 and 65,536.
+
+
+### 句柄泄露
+
+所有的 GDI 对象，在使用完成后，都需要调用删除，否则就会出现泄露问题 DeleteObject、ReleaseDC
+
+
+### GDI 的继任者：GDI+
+
+GDI+ is an API that is exposed through a set of C++ classes. programmers of new applications should use
+GDI+ for all their graphics needs because GDI+ optimizes many of the capabilities of GDI and also provides
+additional features.
+
+
+### GETTING STARTED
+
+```cpp
+#include <gdiplus.h>
+using namespace Gdiplus;
+#pragma comment(lib, "Gdiplus.lib")
+INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow)
+{
+    // Initialize GDI+.
+    GdiplusStartupInput gdiplusStartupInput;
+    ULONG_PTR gdiplusToken;
+    GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+    // working with GDI+.
+    // Shutdown GDI+
+    GdiplusShutdown(gdiplusToken);
+}
+```
+
+
+### WHAT’S NEWS
+
+* Gradient Brushes（渐变笔刷）
+* Cardinal Splines（曲线拟合）
+* Independent Path Objects（Path 对象的生命周期延长）
+* Transformations and the Matrix Object（矩阵变换，旋转、缩放、平移）
+* Scalable Regions（区域也可以进行缩放变换了）
+* Alpha Blending（颜色混合）
+* Support for Multiple Image Formats（图片格式支持：BMP\PNG\JPEG\ICON\GIF...）
 
 
 
