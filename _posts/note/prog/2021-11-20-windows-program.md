@@ -155,6 +155,8 @@ Semaphore 对象 | 是 | 是 | N/A
 * Linux 上的：sendfile
 * Windows 上的：TransmitFile
 
+{% include image.html url="/assets/images/211120-windows-program/20211206130243.png" %}
+
 
 ### x86 架构的包袱
 
