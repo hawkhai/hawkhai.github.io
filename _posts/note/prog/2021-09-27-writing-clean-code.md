@@ -222,9 +222,9 @@ void* memcpy(void* dst, const void* src, size_t count) {
 
 ```cpp
 bool VInfoEngine::runProbe(const QString& filename, int timeout) {
-    bool temp = m_probe->runx(filename, timeout);
+    bool temp = m_probe->runx(filename, timeout); // JSON 解析
 #if _DEBUG
-    m_probe_regex->runx(filename, timeout);
+    m_probe_regex->runx(filename, timeout); // 命令行正则解析
     m_probe_regex->assertEqual(m_probe);
 #endif
     return temp;
