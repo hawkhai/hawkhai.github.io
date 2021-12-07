@@ -291,6 +291,29 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow)
 * Support for Multiple Image Formats（图片格式支持：BMP\PNG\JPEG\ICON\GIF...）
 
 
+## 模块和 COM 组件
+
+
+### DllMain
+
+函数调用过程中有 ldr 锁，建议尽量不要做逻辑。
+下面逻辑会触发 ldr 锁，确认不能在 dllmain 里面做以下事情：
+* 调用 LoadLibrary(Ex)
+* 使用 CoInitializeEx
+* 使用 CreateProcess
+* 使用 User32 或 Gdi32 中的函数
+* 与其他线程同步执行
+* 注意以上行为，间接调用也会引起，所以谨慎起见，尽量不用任何封装好的代码，除非你非常确认代码不会触发任何 ldr 锁。
+
+
+### 原生 com 四个导出函数
+
+* DllCanUnloadNow // 判断 dll 是否可以释放（引用计数是否为 0）
+* DllGetClassObject // 获取接口类指针
+* DllRegisterServer // 写注册表，注册为 com 组件，供任何人使用
+* DllUnregisterServer // 删注册表，反注册
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-11-20-windows-program.md.js" %}'></script></p>
