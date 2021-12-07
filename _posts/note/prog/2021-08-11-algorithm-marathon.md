@@ -273,7 +273,7 @@ public:
 ## 聚类算法
 
 * [895] Python implementations of the k-modes and k-prototypes clustering algorithms, for clustering categorical data <https://github.com/nicodv/kmodes>
-* [15] Kmeans and kmodes implementation in Python <https://github.com/hjian42/K-Means-and-K-Modes>
+* [15] K-Means and kmodes implementation in Python <https://github.com/hjian42/K-Means-and-K-Modes>
 
 
 ## ClamAV & yara
@@ -388,7 +388,7 @@ int main() {
 
 * [文本相似度 - NLP {% include relref_csdn.html %}](https://blog.csdn.net/zwjyyy1203/article/details/88601256)
     * SimHash 是一种局部敏感 hash，它也是 Google 公司进行海量网页去重使用的主要算法。
-* [K-means、DBSCAN 聚类算法 {% include relref_csdn.html %}](https://blog.csdn.net/qq_42549612/article/details/105420109)
+* [K-Means、DBSCAN 聚类算法 {% include relref_csdn.html %}](https://blog.csdn.net/qq_42549612/article/details/105420109)
 
 
 ## 备注

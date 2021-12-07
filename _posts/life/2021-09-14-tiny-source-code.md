@@ -1370,19 +1370,41 @@ const std::string colon = ":";
 ## 动态加载 dll
 
 ```cpp
+//#include "pch.h"
+#include <assert.h>
+#include <Windows.h>
+#include <string>
+
+#ifndef __FAST_IMAGE_LIB__
+#define __FAST_IMAGE_LIB__
+
 #ifdef FAST_IMAGE_DLL_EXPORT
 #define DLLEXPORT __declspec(dllexport)
 #else
 #define DLLEXPORT //__declspec(dllimport)
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+namespace fastimage {
+
+#define FAST_IMAGE_VERSION_NOTESHRINK 2
+#define FAST_IMAGE_VERSION FAST_IMAGE_VERSION_NOTESHRINK
+
 __interface IFastImageInterface {
     virtual int getFastImageVersion() = 0;
-    virtual int getPoints(FastImage fimage, FastPoint points[4]) = 0;
+    virtual int getMagicAdvancedBitmap(FastImage fimage, FastImage & result, bool clearBackgroud = true) = 0;
+    virtual void release() = 0;
+    virtual int getMagicAdvancedBitmap2(FastImage fimage, FastImage & result, bool clearBackgroud = true) = 0;
 };
 
 DLLEXPORT IFastImageInterface* CreateFastImageObject();
-DLLEXPORT void ReleaseeFastImageObject(IFastImageInterface* obj);
+
+typedef IFastImageInterface* (*CreateFastImageObjectFunc)();
+
+} // namespace fastimage
 
 class fastimagedll : public fastimage::IFastImageInterface {
     static std::wstring getCurrentPath() {
@@ -1390,15 +1412,13 @@ class fastimagedll : public fastimage::IFastImageInterface {
         DWORD dwRet = GetModuleFileName(NULL, tPath, MAX_PATH);
         std::wstring strexe = tPath;
         int index = strexe.rfind('\\');
-        return strexe.substr(0, index);
+        return strexe.substr(0, index + 1);
     }
 
     static HINSTANCE getLibrary(const TCHAR* libPath) {
-        std::wstring current = getCurrentPath();
+        std::wstring curdir = getCurrentPath();
+        std::wstring current = curdir;
         current.append(libPath);
-
-        int index = current.rfind('\\');
-        std::wstring curdir = current.substr(0, index);
 
         WCHAR lpBuffer[MAX_PATH];
         GetCurrentDirectory(MAX_PATH, lpBuffer);
@@ -1420,15 +1440,30 @@ class fastimagedll : public fastimage::IFastImageInterface {
         }
         return m_interface->getFastImageVersion();
     }
-    virtual int getPoints(fastimage::FastImage fimage, fastimage::FastPoint points[4]) {
+    virtual int getMagicAdvancedBitmap(fastimage::FastImage fimage, fastimage::FastImage& result,
+                                       bool clearBackgroud = true) {
         if (!m_interface) {
             return -1;
         }
-        return m_interface->getPoints(fimage, points);
+        return m_interface->getMagicAdvancedBitmap(fimage, result, clearBackgroud);
+    }
+    virtual int getMagicAdvancedBitmap2(fastimage::FastImage fimage, fastimage::FastImage& result,
+                                        bool clearBackgroud = true) {
+        if (!m_interface) {
+            return -1;
+        }
+        if (m_interface->getFastImageVersion() < FAST_IMAGE_VERSION_NOTESHRINK) {
+            return -2;
+        }
+        return m_interface->getMagicAdvancedBitmap2(fimage, result, clearBackgroud);
+    }
+
+    virtual void release() override {
+        delete this;
     }
 
     fastimagedll() {
-        const wchar_t* libPath = L"\\fastimage.dll";
+        const wchar_t* libPath = L"fastimage.dll";
         m_hDLL = getLibrary(libPath);
         if (m_hDLL == nullptr) {
             int err = GetLastError();
@@ -1442,38 +1477,25 @@ class fastimagedll : public fastimage::IFastImageInterface {
             return;
         }
         m_interface = fptr();
-        if (m_interface && m_interface->getFastImageVersion() < FAST_IMAGE_VERSION) {
-            releaseObj(m_interface);
-            m_interface = nullptr;
-        }
     }
     virtual ~fastimagedll() {
         if (!m_interface) {
             return;
         }
-        releaseObj(m_interface);
+        m_interface->release();
         m_interface = nullptr;
         // m_hDLL 不释放了。
-    }
-
-    void releaseObj(fastimage::IFastImageInterface* obj) {
-        if (!obj || !m_hDLL) {
-            return;
-        }
-
-        fastimage::ReleaseFastImageObjectFunc fptr =
-            (fastimage::ReleaseFastImageObjectFunc)GetProcAddress(m_hDLL, "ReleaseeFastImageObject");
-        if (fptr == nullptr) {
-            int err = GetLastError();
-            return;
-        }
-        fptr(obj);
     }
 
   private:
     fastimage::IFastImageInterface* m_interface = nullptr;
     HINSTANCE m_hDLL = nullptr;
 }; // class fastimagedll
+
+#ifdef __cplusplus
+}
+#endif
+#endif
 ```
 
 
