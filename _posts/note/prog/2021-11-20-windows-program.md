@@ -314,6 +314,199 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow)
 * DllUnregisterServer // 删注册表，反注册
 
 
+## 字符串编码和操作
+
+
+### ASCII /ˈæskiː/
+
+（American Standard Code for Information Interchange）
+编码起源于电报码，1960 年 10 月 6 日，美国标准协会（ANSI）的 X3.2 小组委员
+会举行第一次会议，开始了关于 ASCII 标准制定。第一版 ASCII 标准于 1963 年发
+布，在 1967 年经历了重大修改，在 1986 年期间经历了最近一次更新。ASCII 开始
+基于英语字母表，将指定的 128 个字符编码成 7 位的二进制整数。其中 95 个编码
+字符是可以打印的，包括数字 0-9，小写字母 a-z，大写字母 A-Z，还有一些标点
+符号。
+
+
+### ISO-8859-1
+
+ISO-8859-1 编码是单字节编码（8bit），向下兼容 ASCII，其编码范围是
+0x00-0xFF，0x00-0x7F 之间完全和 ASCII 一致，0x80-0x9F 之间未定义，
+0xA0-0xFF 之间主要是拉丁字母和符号。
+此字符集广泛应用于欧洲地区国家，支持英语、丹麦、德语、西班牙语、
+法语、冰岛语等。Windows 补全该编码中的未使用字符，形成自己的编码
+Windows-1252（code page 1252）
+
+
+### Unicode
+
+Unicode 是一种计算机行业统一编码标准，其起源是为了解决各国编码之
+间的不兼容问题，创始人之一 Joe Becker 说为其取名‘Unicode’是为了表
+明这是一种唯一的 (unique)，统一的 (unified)，通用的 (universal ) 编码。
+Unicode 最初设计使用 16 位二进制来表示所有语言中的字符，因为当时所
+有报纸和杂志的现代文字总和小于 2^14 = 16,384 。1991 年 3 月，Unicode 联
+盟在加利福尼亚成立，10 月，发布 Unicode 1.0。
+
+Unicode 的发展
+* 1996 年发布 Unicode 2.0，加入了代理
+字符机制 (Surrogate Characters
+Mechanism)，将码域增加到了 100 多万，
+Unicode 不在局限于 16 位。
+* 2000 年以后，Unicode 基本保持一年一
+更的节奏，截止到 2020 年最新发布的
+Unicode 10.0，已经拥有 143,859 个字
+符。
+
+{% include image.html url="/assets/images/211120-windows-program/page16_1.jpg" caption="码域划分（Unicode 平面）" %}
+
+{% include image.html url="/assets/images/211120-windows-program/20211210235106.png" caption="代理字符机制" width="75%" %}
+
+
+### 编码方法
+
+Unicode 定义了两种类型的编码方法：Unicode Transformation Format (UTF)
+和 Universal Coded Character Set (UCS)
+1. UTF 编码有 UTF-8、UTF-16、UTF-32
+2. UCS 编码有 UCS-2，UCS-4
+3. Windows 上的 ANSI 编码
+
+
+### UTF-16
+
+UTF-16(16-bit Unicode Transformation Format)，是一种可变长编码，用
+1 或 2 个 16 位（2 字节）代码单元进行编码。UTF-16 是从早期的 16 位定长编
+码 UCS-2 发展而来，由于 16 位最多只能编码 65,536 个字符，随着需要使用的
+字符越来越多，这明显不够用。于是 IEEE（Institute of Electrical and
+Electronics Engineers，电气与电子工程师协会）提出了 UCS-4 方案，用 4 字
+节编码一个字符。Unicode 联盟觉得这个方案扯淡，因为这会浪费很多磁
+盘空间，而且很多厂商已经投入大量资源基于 2 字节进行技术开发。最终
+UTF-16 作为一个折中方案在 Unicode 2.0 标准中发布。
+
+BMP:
+* U+0000~U+D7FF 和 U+E000~U+FFFF（中间刚好缺少了 U+D800~U+DFFF，用于“代理字符机制”）
+* 2 字节编码一个码点，直接前面补 0 即可。
+
+SP:
+* U+10000~U+10FFFF
+* 码点个数：0x100000
+
+假设 Unicode 码点 U，范围是（U+10000 ~ U+10FFFF）
+* U 减去 0x10000 得到 range：0x00000 ~ 0xFFFFF
+* 0xFFFFF 拆成两半 0x3ff & 0x3ff
+* 分别加上“代理字符机制”，就是 高位：0xD800 ~ 0xDBFF，低位：0xDC00 ~ 0xDFFF
+
+{% include image.html url="/assets/images/211120-windows-program/page22_1.jpg" width="50%" %}
+
+```
+Unicode 字符：U+10437
+先减去 0x10000，结果为 0x0437，转成 20 位二进制：0000000001 0000110111
+高位：0x0001 + 0xD800 = 0xD801
+低位：0x0037 + 0xDC00 = 0xDC37
+所以 UTF-16 编码为：0xD801DC37
+```
+
+UTF-16 的一个代码单元是 2 字节，由于大多数通信协议和存储协议都是以字
+节单位，于是在存储 UTF-16 序列的时候就需要选择字节序。为了便于识别
+字节序，UTF-16 引入了 BOM(Byte Order Mark)，插入在第一个实际代码
+值之前。U+FEFF（零宽度不间断空格，啥也不是）表示大端，U+FFFE（非
+字符）表示小端。UTF-16 规定如果缺少 BOM 头，应假设字节序为大端。
+
+但事实上，因为 windows 默认使用小端，所以很多软件也默认使用小端，
+平台的力量还是大。
+
+特点：
+* 可变长编码
+* 不兼容 ASCII 编码
+* 不可编码代理位
+
+
+### UTF-8
+
+UTF-8 是一种可变长编码，使用 1-4 字节（8 位）编码所有 Unidcode 字符。与
+ASCII 兼容，Unicode 前 128 个字符与 ASCII 是一一对应的，UTF-8 使用一字
+节对其进行编码，并且在二进制值上与 ASCII 一样。UTF-8 已经成为了万维
+网上的主导编码，截止到 2020 年，95% 网页使用 UTF-8 编码。IMC 推荐所有
+的 e-mail 程序使用 UTF-8 展示和创建邮件，W3C 推荐将 UTF-8 作为 XML 和
+HTML 的默认编码。
+
+{% include image.html url="/assets/images/211120-windows-program/page30_1.jpg" width="75%" %}
+
+{% include image.html url="/assets/images/211120-windows-program/20211211001552.png" caption="编码方式" %}
+
+UTF-8 编码的最小代码值单元是 1 字节，所以不存在字节序问题。但是很多
+Windows 程序（Windows 记事本）会在以 UTF-8 保存的文件最前加上 0xEF, 0xBB, 0xBF，这个通常称为 BOM 头。
+
+优势：
+* 兼容 ASCII
+* **字符边界容易识别**
+* 小于 U+0080 的编码只需一个字节
+* 不用考虑字节序问题
+* **相比 UTF-16 容错性更强**
+
+劣势：
+* 编码 U+0800-U+FFFF 需要 3 字节
+
+
+### ANSI
+
+ANSI 编码没有明确定义，但通常被用来指代 Windows 代码页（Windows code page），在英文系统上通常指 Windows-1252 代码页，在简体中文系统通常
+指 Windows-936（在不同的 windows 系统上，可能指代不同的代码页）。事实上，
+“ANSI编码”这个名字是个错误用法，应为 ANSI 从来没有发表过这样的标准。
+
+**Windows-1252**：
+别名 CP-1252，用一个字节，总共编码 256 个字符，在英文和一些西方的
+Windows 系统上作为默认编码。
+
+**Windows-936**：
+别名 CP-936，是 Windows 系统为简体中文设计的编码，最初只覆盖 GB2312 中
+的字符，但是随着 Window95 的发布，被扩展到覆盖大部分的 GBK。
+
+{% include image.html url="/assets/images/211120-windows-program/page36_2.jpg" caption="更改默认 Code Page" width="50%" %}
+
+
+### Windows-936
+
+第一部分：使用 1 个字节编码，0x00-0x80 和 0xff。总共编码 130 个字符，
+前 128 个字符和 ASCII 兼容。
+
+第二部分：使用 2 个字节编码，一个 lead byte（首字节），一个 trail
+byte（尾字节），lead byte 范围：0x81-0xfe（125），trail byte 范围：
+0x40-0xfe（190），总共编码字符：23750
+
+
+### 编码转换
+
+```cpp
+MultiByteToWideChar // UTF-16 转 UTF-8 或者 ANSI
+WideCharToMultiByte // UTF-16 转 UTF-8 或者 ANSI
+CA2W // MultiByteToWideChar
+CW2A // WideCharToMultiByte
+CStringA sa;
+CString s = sa; // 危险（ANSI）
+```
+
+#### WritePrivateProfileString
+
+INI 文件读写 API：WritePrivateProfileString
+1. MSDN：文件不存在就创建，使用 ANSI 编码；如果存在 Unicode 编码文件，则
+写入 Unicode 字符。
+2. 这里的 Unicode 编码实际指：UTF-16 编码（小端）
+
+#### Windows 记事本“另存为”中的编码
+
+* ANSI，不同版本系统不一样，同一系统不同设置也不一样。
+* Unicode，实际指代的是 UTF-16（小端）。
+* Unicode big endian，实际是 UTF-16（大端）
+* UTF-8，实际是带 BOM 头的 UTF-8 编码
+
+Windows 记事本中输入“连”，ctrl+s 保存后再打开。
+文件内容 16 进制为：0xC1AC，转成二进制：1100 0001 1010 1100，命中
+UTF-8 的两字节编码规则 (110xxxxx 10xxxxxx)，被识别成 UTF-8 编码。
+当做 UTF-8 解码，得到 U+6C，但是不在 U+0080-U+07FF 之间，被当做错误
+编码。
+> ANSI 编码，但是二进制能命中 UTF8 规则，但是又找不到 UTF8 对应的字符。
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-11-20-windows-program.md.js" %}'></script></p>
