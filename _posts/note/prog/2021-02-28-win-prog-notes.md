@@ -16,6 +16,25 @@ codeprint:
 ---
 
 
+## base64
+
+[base62x {% include relref_github.html %}](https://github.com/wadelau/Base62x)
+Base64 编码若无特别说明，通常约定非 ASCII 字符按照 UTF-8 字符集进行编码处理。
+由于标准的 Base64 编码后可能出现字符 + 和 /，在 URL 中就不能直接作为参数，所以又有一种 "url safe" 的 base64 编码，其实就是把字符 + 和 / 分别变成 - 和 _。
+
+由于 = 字符也可能出现在 Base64 编码中，但 = 用在 URL、Cookie 里面会造成歧义，所以，很多 Base64 编码后会把 = 去掉。
+
+与 Base64 相比，Base32 具有许多优点 [from](https://www.qqxiuzi.cn/bianma/base.php)：
+* 适合不区分大小写的文件系统，更利于人类口语交流或记忆。
+* 结果可以用作文件名，因为它不包含路径分隔符 “/” 等符号。
+* 排除了视觉上容易混淆的字符，因此可以准确的人工录入。（例如，RFC4648 符号集忽略了数字 “1”、“8”和“0”，因为它们可能与字母 “I”，“B”和“O”混淆）。
+* 排除填充符号“=”的结果可以包含在 URL 中，而不编码任何字符。
+Base32 也比 Base16 有优势：
+* Base32 比 Base16 占用的空间更小。（1000 比特数据 Base32 需要 200 个字符，而 Base16 则为 250 个字符）
+Base32 的缺点：
+* Base32 比 Base64 多占用大约 20％的空间。因为 Base32 使用 8 个 ASCII 字符去编码原数据中的 5 个字节数据，而 Base64 是使用 4 个 ASCII 字符去编码原数据中的 3 个字节数据。
+
+
 ## bkwin 多屏幕支持 bugfix
 
 主窗口在副屏幕，DoModal 弹窗会强制限制到主界面边缘，非常诡异。
@@ -211,6 +230,8 @@ Build in cmd.exe, run command as: msbuild dprofiler.sln
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-28-win-prog-notes.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://github.com/wadelau/Base62x]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/github.com/deec4fed.html" %})
+- [https://www.qqxiuzi.cn/bianma/base.php]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/www.qqxiuzi.cn/c9a5ff91.php" %})
 - [https://github.com/lostindark/DriverStoreExplorer/releases]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/github.com/a03f4901.html" %})
 - [https://jingyan.baidu.com/article/9c69d48fbd146713c9024e04.html]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/jingyan.baidu.com/484816be.html" %})
 - [http://www.xitongcheng.com/jiaocheng/win8_article_37723.html]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/www.xitongcheng.com/eec8545c.html" %})
