@@ -18,6 +18,14 @@ codeprint:
 第十一章 $\Rightarrow$ 第十四章
 
 
+## Lab 颜色空间
+
+Lab 是由一个亮度通道（channel）和两个颜色通道组成的。在 Lab 颜色空间中，每个颜色用 L、a、b 三个数字表示，各个分量的含义是这样的：
+- L\* 代表亮度
+- a\* 代表从绿色到红色的分量
+- b\* 代表从蓝色到黄色的分量
+
+
 ## 彩色图像处理
 
 {% include image.html url="/assets/images/200927-dip-color-image/20161108103240445.jpg" %}
