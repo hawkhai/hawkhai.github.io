@@ -144,12 +144,42 @@ SxS Manager 加载顺序。Side-by-side searches the WinSxS folder.
 
 ### Windows 提供的同步对象
 
-同步对象 | 支持等超时 | 进程锁 | 递归锁
----- | ---- | ---- | ----
-CriticalSection 对象 | 否 | 否 | 是
-Event 对象 | 是 | 是 | N/A
-Mutex 对象 | 是 | 是 | 是
-Semaphore 对象 | 是 | 是 | N/A
+[from](https://docs.microsoft.com/zh-cn/windows/win32/sync/synchronization-objects)
+
+同步对象 | 支持等超时 | 进程锁 | 递归锁 |
+---- | ---- | ---- | ---- |
+CriticalSection 临界区 | 否 | 否 | 是  | 同一个进程内，实现互斥。
+Mutex 互斥量           | 是 | 是 | 是  | 可以跨进程，实现互斥。
+Event 事件             | 是 | 是 | N/A | 实现同步，可以跨进程。
+Semaphore 信号量       | 是 | 是 | N/A | 可用资源计数的功能
+
+1. 临界区：通过对多线程的串行化来访问公共资源或一段代码，速度快，适合控制数据访问。
+    * 临界区不是 OS 核心对象，如果进入理解去的线程“挂”了，将无法释放临界资源，这个缺点在互斥量中得到了弥补，因为使用互斥量可以设置超时值。
+    * 如果在 Critical Sections 中间突然程序 crash 或是 exit 而没有调用 LeaveCriticalSection，则结果是该线程所对应的内核不能被释放，该线程成为死线程。
+2. 互斥量：**一次只能由一个线程拥有，使线程能够协调对共享资源的互斥访问。**为协调共同对一个共享资源的单独访问而设计的。
+    * Mutex Can be owned by only one thread at a time, enabling threads to coordinate mutually exclusive access to a shared resource.
+    * 互斥对象包含一个使用数量，一个线程 ID 和一个递归计数器。
+3. 信号量：**维护介于零和一些最大值之间的计数，限制同时访问共享资源的线程数。**为控制一个具有有限数量用户资源而设计。信号允许多个线程同时使用共享资源。
+    * Semaphore Maintains a count between zero and some maximum value, limiting the number of threads that are simultaneously accessing a shared resource.
+    * CreateSemaphore()
+    * OpenSemaphore()
+    * ReleaseSemaphore()
+    * WaitForSingleObject()
+    * WaitForMultipleObjects()
+4. 事件：**通知一个或多个正在等待的线程已发生事件。**用来通知线程有一些事件已发生，从而启动后继任务的开始。
+    * Event Notifies one or more waiting threads that an event has occurred.
+    * Microsoft 没有为人工重置的事件定义成功等待的副作用，所以需要调用 ResetEvent()。
+5. Waitable Timer
+    * Waitable timer Notifies one or more waiting threads that a specified time has arrived.
+
+#### 其他
+
+* 线程局部存储（TLS），同一进程中的所有线程共享相同的虚拟地址空间。
+    不同的线程中的局部变量有不同的副本，但是 static 和 globl 变量是同一进程中的所有线程共享的。
+    * 使用 TLS 技术可以为 static 和 globl 的变量，根据当前进程的线程数量创建一个 array，
+    * 每个线程可以通过 array 的 index 来访问对应的变量，这样也就保证了 static 和 global 的变量为每一个线程都创建不同的副本。
+* 互锁函数的家族十分的庞大，例如 InterlockedExchangeAdd（），使用互锁函数的优点是：他的速度要比其他的 CriticalSection, Mutex, Event, Semaphore 快很多。
+* 等待函数，例如 WaitForSingleObject 函数用来检测 hHandle 事件的信号状态，当函数的执行时间超过 dwMilliseconds 就返回，但如果参数 dwMilliseconds 为 INFINITE 时函数将直到相应时间事件变成有信号状态才返回，否则就一直等待下去，直到 WaitForSingleObject 有返回直才执行后面的代码。
 
 
 ### Zero Copy
@@ -610,6 +640,247 @@ ChangeWindowMessageFilter
 {% include image.html url="/assets/images/211120-windows-program/page46_1.jpg" %}
 
 
+## 进程与线程
+
+{% include image.html url="/assets/images/211120-windows-program/img_1439ea8d3a474f329b90836a25d39ae2.png" %}
+
+进程就好比工厂里的车间，它代表 CPU 所能处理的单个任务。一个工厂可以有一到多个车间。
+
+
+### 终止进程的四种方式
+
+* 主线程的入口点函数返回
+    * 最正常的方式
+* 某个线程调用 ExitProcess
+    * VOID ExitProcess(UINT uExitCode);
+    * 指定 ExitCode 强行退出进程，不推荐
+* 另一个进程调用 TerminateProcess
+    * BOOL TerminateProcess(HANDLE hProcess,UINT uExitCode)
+    * 需要有 PROCESS_TERMINATE 权限
+* 所有线程都“自然死亡”
+
+
+### 终止线程的四种方式
+
+* 线程函数返回，推荐做法
+* ExitThread/_endthreadex 杀死自己，不推荐
+* TerminateThread 避免使用
+* 包含线程的进程终止运行，不可控
+
+
+### 等待内核对象
+
+```cpp
+DWORD WaitForSingleObject(
+    HANDLE hHandle,
+    DWORD dwMilliseconds
+);
+DWORD WaitForMultipleObjects(
+    DWORD nCount,
+    const HANDLE* lpHandles,
+    BOOL bWaitAll,
+    DWORD dwMilliseconds
+);
+WAIT_OBJECT_0 + nCount – 1
+WAIT_TIMEOUT
+WAIT_FAILED
+```
+
+**HANDLE 内核对象**
+进程、线程、作业 文件、控制台的输入输出流、错误流互斥量、信号量、事件可等待的计时器
+
+
+### 关键段（临界区）
+
+```cpp
+void InitializeCriticalSection(LPCRITICAL_SECTIONlpCriticalSection);
+void DeleteCriticalSection(LPCRITICAL_SECTIONlpCriticalSection);
+void EnterCriticalSection(LPCRITICAL_SECTIONlpCriticalSection);
+void LeaveCriticalSection(LPCRITICAL_SECTIONlpCriticalSection);
+BOOL InitializeCriticalSectionAndSpinCount(
+    LPCRITICAL_SECTION lpCriticalSection,
+    DWORD dwSpinCount);
+```
+
+由于将线程切换到等待状态（切换内核模式）的开销较大，因此为了提高关键段的性能，Microsoft
+将旋转锁合并到关键段中，这样 EnterCriticalSection() 会先用一个旋转锁不断循环，尝试一段时间才会将线程切换到等待状态。
+旋转次数一般设置为 4000。
+
+
+### 读写锁
+
+读写锁 SRWLock
+```cpp
+VOID InitializeSRWLock(PSRWLOCK SRWLock);
+
+// 写入者线程申请写资源
+VOID AcquireSRWLockExclusive(PSRWLOCK SRWLock);
+VOID ReleaseSRWLockExclusive(PSRWLOCK SRWLock);
+
+// 读取者线程申请读资源
+VOID AcquireSRWLockShared(PSRWLOCK SRWLock);
+VOID ReleaseSRWLockShared(PSRWLOCK SRWLock);
+```
+
+不常用，读取者可以并发执行。
+
+
+### 事件
+
+```cpp
+HANDLE CreateEvent(
+    LPSECURITY_ATTRIBUTES lpEventAttributes,
+    BOOL bManualReset,
+    BOOL bInitialState,
+    LPCTSTR lpName);
+HANDLE OpenEvent(
+    DWORD dwDesiredAccess,
+    BOOL bInheritHandle,
+    LPCTSTR lpName);
+BOOL SetEvent(HANDLE hEvent);
+BOOL ResetEvent(HANDLE hEvent);
+```
+
+
+### 信号量
+
+```cpp
+HANDLE CreateSemaphore(
+    LPSECURITY_ATTRIBUTES lpSemaphoreAttributes,
+    LONG lInitialCount,
+    LONG lMaximumCount,
+    LPCTSTR lpName);
+HANDLE OpenSemaphore(
+    DWORD dwDesiredAccess,
+    BOOL bInheritHandle,
+    LPCTSTR lpName);
+BOOL ReleaseSemaphore(
+    HANDLE hSemaphore,
+    LONG lReleaseCount,
+    LPLONG lpPreviousCount);
+```
+
+
+### 互斥体
+
+```cpp
+HANDLE CreateMutex(
+    LPSECURITY_ATTRIBUTES lpMutexAttributes,
+    BOOL bInitialOwner,
+    LPCTSTR lpName);
+HANDLE OpenMutex(
+    DWORD dwDesiredAccess,
+    BOOL bInheritHandle,
+    LPCTSTR lpName);
+ReleaseMutex
+```
+
+
+### 共享内存
+
+```cpp
+HANDLE CreateFileMapping(
+    HANDLE hFile, // 物理文件句柄
+    LPSECURITY_ATTRIBUTES lpAttributes, // 安全设置
+    DWORD flProtect, // 保护设置 PAGE_READWRITE | SEC_COMMIT
+    DWORD dwMaximumSizeHigh,
+    DWORD dwMaximumSizeLow,
+    LPCTSTR lpName // 共享内存名称
+);
+LPVOID WINAPI MapViewOfFile(
+    HANDLE hFileMappingObject,
+    DWORD dwDesiredAccess,
+    DWORD dwFileOffsetHigh,
+    DWORD dwFileOffsetLow,
+    SIZE_T dwNumberOfBytesToMap
+);
+```
+
+
+### 命名管道
+
+```cpp
+HANDLE CreateNamedPipe(
+    LPCTSTR lpName, // 指向管道名称的指针
+    DWORD dwOpenMode, // 管道打开模式
+    DWORD dwPipeMode, // 管道模式
+    DWORD nMaxInstances, // 最大实例数
+    DWORD nOutBufferSize, // 输出缓存大小
+    DWORD nInBufferSize, // 输入缓存大小
+    DWORD nDefaultTimeOut, // 超时设置
+    LPSECURITY_ATTRIBUTES lpSecurityAttributes // 安全属性指针
+);
+```
+
+
+### 命名管道
+
+**服务器的实现过程**
+1. 创建命名管道：CreateNamedPipe
+2. 等待客户端连接：ConnectNamedPipe
+3. 读取客户端请求数据：ReadFile
+4. 向客户端回复数据：WriteFile
+5. 关闭连接：DisconnectNamedPipe
+6. 关闭管道：CloseHandle
+
+**客户端实现过程**
+1. 打开命名管道：CreateFile
+2. 等待服务端响应：WaitNamedPipe
+3. 切换管道为读模式：SetNamedPipeHandleState
+4. 向服务端发数据：WriteFile
+5. 读服务端返回的数据：ReadFile
+6. 关闭管道：CloseHandle
+
+
+### 关于 _beginthreadex _tiddate
+
+```cpp
+unsigned long _beginthreadex(
+    void *security,
+    unsigned stack_size,
+    unsigned(_stdcall *start_address)(void *),
+    void *argilist,
+    unsigned initflag,
+    unsigned *threaddr // 用来接收线程 ID
+);
+```
+
+_beginthreadex 是一个 C/C++ 运行库函数。和 CreateThread 一样创建线程。
+但是它们两者是有区别的。
+1. 每个线程都有自己的 _tiddata 内存块，从 C/C++ 运行库的堆上分配而来
+2. 传过来的线程函数的地址和要传入的参数都保存在这个数据块中
+3. 在 _beginthreadex 内部调用 CreateThead 时，传过去的地址是 _threadstartex 地址而不是
+4. 配对使用 _endthreadex
+5. 不要使用 _beginthread
+
+* 因为 _beginthreadex 和 _endthreadex 是 CRT 线程函数，所以必须注意编译选项 runtimelibaray 的选择，使用 MT 或 MTD。
+* _beginthreadex
+    * 每个线程均获得由 C/C++ 运行期库的堆栈分配的自己的 tiddata 内存结构。
+    * 传递给 _beginthreadex 的线程函数的地址保存在 tiddata 内存块中。传递给该函数的参数也保存在该数据块中。
+    * _beginthreadex 确实从内部调用 CreateThread，因为这是操作系统了解如何创建新线程的唯一方法。
+    * 当调用 CreatetThread 时，它被告知通过调用 _threadstartex 而不是 pfnStartAddr 来启动执行新线程。
+        还有，传递给线程函数的参数是 tiddata 结构而不是 pvParam 的地址。
+    * 如果一切顺利，就会像 CreateThread 那样返回线程句柄。如果任何操作失败了，便返回 NULL。
+* _endthreadex
+    * C 运行期库的 _getptd 函数内部调用操作系统的 TlsGetValue 函数，该函数负责检索调用线程的 tiddata 内存块的地址。
+    * 然后该数据块被释放，而操作系统的 ExitThread 函数被调用，以便真正撤消该线程。当然，退出代码要正确地设置和传递。
+    * 虽然也提供了简化版的的 _beginthread 和 _endthread，但是可控制性太差，所以一般不使用。
+    * 线程 handle 因为是内核对象，所以需要在最后 closehandle。
+* 更多的 API：
+    * HANDLE GetCurrentProcess();
+    * HANDLE GetCurrentThread();
+    * DWORD GetCurrentProcessId();
+    * DWORD GetCurrentThreadId()。
+    * DWORD SetThreadIdealProcessor(HANDLE hThread, DWORD dwIdealProcessor);
+    * BOOL SetThreadPriority(HANDLE hThread, int nPriority);
+    * BOOL SetPriorityClass(GetCurrentProcess(), IDLE_PRIORITY_CLASS);
+    * BOOL GetThreadContext(HANDLE hThread, PCONTEXT pContext);
+    * BOOL SwitchToThread();
+* C++ 主线程的终止，同时也会终止所有主线程创建的子线程，不管子线程有没有执行完毕。
+    所以上面的代码中如果不调用 WaitForSingleObject，则 2 个子线程 t1 和 t2 可能并没有执行完毕或根本没有执行。
+* 如果某线程挂起，然后有调用 WaitForSingleObject 等待该线程，就会导致死锁。所以上面的代码如果不调用 resumethread，则会死锁。
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-11-20-windows-program.md.js" %}'></script></p>
@@ -618,4 +889,5 @@ ChangeWindowMessageFilter
 - [https://docs.microsoft.com/zh-cn/visualstudio/profiling/?view=vs-2019]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/bb0194bd.html" %})
 - [https://docs.microsoft.com/zh-cn/visualstudio/debugger/?view=vs-2019]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/78bdc34e.html" %})
 - [https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windbg]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/98a18465.html" %})
+- [https://docs.microsoft.com/zh-cn/windows/win32/sync/synchronization-objects]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/1c8bb2a3.html" %})
 - [https://0x00-0x00.github.io/research/2018/10/31/How-to-bypass-UAC-in-newer-Windows-versions.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/0x00-0x00.github.io/33c60558.html" %})
