@@ -101,6 +101,8 @@ SxS Manager 加载顺序。Side-by-side searches the WinSxS folder.
 7. 命令：~ 查看线程
 8. 命令：~0s 切换到 0 线程，k 查看调用堆栈
 
+反调试手段 IsDebuggerPresent
+
 `!analyze` 命令。自动分析崩溃的详细信息，分析异常崩溃的 dump 文件，第一步就是要执行 !analyze -v 异常调用栈。
 
 * [Visual Studio 性能分析教程](https://docs.microsoft.com/zh-cn/visualstudio/profiling/?view=vs-2019)
@@ -507,6 +509,107 @@ UTF-8 的两字节编码规则 (110xxxxx 10xxxxxx)，被识别成 UTF-8 编码�
 > ANSI 编码，但是二进制能命中 UTF8 规则，但是又找不到 UTF8 对应的字符。
 
 
+## 注册表与权限
+
+
+### 注册表介绍
+
+Windows 目录中 system.dat、user.dat 和 config.pol 文件 (regedit.exe)
+
+除了 HKEY_CURRENT_USER 之外的所有支持文件都保存在 C:\Windows\System32\config。
+HKEY_CURRENT_USER 的支持文件存储在您的个人资料文件夹中，%UserProfile%\Ntuser.dat
+
+* HKEY_CLASSES_ROOT
+* HKEY_CURRENT_USER
+* HKEY_LOCAL_MACHINE
+* HKEY_USERS
+* HKEY_CURRENT_CONFIG
+* HKEY_DYN_DATA
+
+显示类型（在编辑器中） | 数据类型 | 说明
+---- | ---- | ----
+REG_SZ | 字符串 | 文本字符串
+REG_MULTI_SZ | 多字符串 | 含有多个文本值的字符串
+REG_BINARY | 二进制数 | 二进制值，以十六进制显示
+REG_DWORD | 双字 | 一个 32 位的二进制值
+REG_QWORD | 四字 | 一个 64 位的二进制值
+
+
+### 注册表操作
+
+
+### 权限管理
+
+* **普通用户** 可以操作 HKEY_CURRENT_USER，无法操作 HKEY_LOCAL_MACHINE
+* **管理员** 可以操作 HKEY_CURRENT_USER、HKEY_LOCAL_MACHINE
+* **服务** 可以操作 HKEY_LOCAL_MACHINE，操作 HKEY_CURRENT_USER 需要获取模拟当前用户，或者获取当前用户的 id，读取 HKEY_USER 下面的值
+
+
+### 什么是 UAC
+
+#### 概念
+
+UAC 是 User Account Control 的缩写，其中文翻译为用户帐户控制，是微软在 Windows Vista 和 Win7 中引用的新技术，主要功能是进行一些会影响系统安全的操作时，会自动触发 UAC，用户确认后才能执行，从而保证系统安全。
+
+触发 UAC 提示的操作：
+* 修改 Windows Update 配置
+* 增加或删除用户帐户
+* 改变用户的帐户类型
+* 改变 UAC 设置
+* 安装 ActiveX
+* 安装或卸载程序
+* 安装设备驱动程序
+* 修改和设置家长控制
+* 增加或修改注册表
+* 将文件移动或复制到 Program Files 或是 Windows 目录
+
+#### UAC 的级别
+
+最低的级别（0 级）：关闭 UAC 功能（必须重新启动后才能生效）。在该级别下，如果是以管理员登录，则所有操作都将直接运行而不会有任何通知，包括病毒或木马对系统进行的修改。在此级别下，病毒或木马可以任意连接访问网络中的其他电脑、甚至与互联网上的电脑进行通信或数据传输。可见如果完全关闭 UAC 并以管理员身份登录，将严重降低系统安全性。此外，如果是以标准用户登录，那么安装、升级软件或对系统进行修改和设置，将直接被拒绝而不弹出任何提示，用户只有获得管理员权限才能进行。可见完全关闭 UAC 并以标准用户登录，各种操作和设置也非常不方便，因此建议不要选择该级别。
+
+比默认级别稍低的级别（1 级）：该级别不启用安全桌面，也就是说有可能产生绕过 UAC 更改系统设置的情况。不过一般情况下，如果是用户启动某些程序而需要对系统进行修改，可以直接运行，不会产生安全问题。但如果用户没有运行任何程序却弹出提示窗口，则有可能是恶意程序在试图修改系统设置，此时应果断选择阻止。该级别适用于有一定系统经验的用户。
+
+默认级别（2 级）：在默认级别下，只有在应用程序试图改变计算机设置时才会提示用户，而用户主动对 Windows 进行更改设置则不会提示。同时，在该模式下将启用安全桌面，以防绕过 UAC 更改系统设置。可以看出，默认级别可以既不干扰用户的正常操作，又可以有效防范恶意程序在用户不知情的情况下修改系统设置。一般的用户都可以采用该级别设置。
+
+最高级别（3 级）：在高级级别下，“始终通知”（即完全开启），在该级别下，用户安装应用程序、对软件进行升级、应用程序在任何情况下对操作系统进行更改、更改 Windows 设置等情况，都会弹出提示窗口（并启用安全桌面），请求用户确认。由此可见该级别是最安全的级别，但同时也是最“麻烦”的级别，适用于多人共用一台电脑的情况下，限制其他标准用户，禁止其随意更改系统设置。
+
+#### 为什么需要 UAC
+
+这里需要说到一个概念：Host-based Intrusion Prevention System HIPS，基于主机的入侵防御系统。HIPS 是一种系统控制软件，它能监控电脑中文件的运行，对文件的调用，以及对注册表的修改。HIPS 可以分为 3D，AD(Application Defend)--应用程序防御体系、RD(Registry Defend) 注册表防御体系、FD(File Defend）文件防御体系。UAC 可以理解为一个基础的 HIPS 防御系统。杀毒软件的更新永远要追着病毒来，这种滞后性使得病毒有机会利用时间差攻击系统；而对杀毒软件而言，亡羊补牢就意味着重大的失败。这种情况下，要谋求更高的安全性，HIPS 成为了当然之选。
+
+#### UAC 与兼容性
+
+经常有人抱怨 NT6.x 系统的兼容性多么多么差，身边也有人因为“不兼容”而将系统换回 XP。但从我个人的使用看，几乎所有的软件都能很好的工作于 NT6.x 上。区别在哪？排除掉确实因为软件开发导致的兼容性问题的话，普通用户只会双击运行程序，而我在一次尝试失败后会根据程序行为对其进行手动提权。刚从 XP 过来的用户，估计不会有那么一套权限划分的意识，UAC 在某种程度上而言也就削弱了系统对普通用户的兼容性。但我们如果能够根据程序行为对需要的程序进行手动提权，所谓“兼容性问题”也就迎刃而解了。对用户水平更高的需求？也许吧。但计算机从来都是与永无休止的学习联系在一起的。而如果程序的开发能进一步的规范化，内置提权申请的程序就不存在被 UAC 影响兼容性的问题了。
+
+#### UAC bypass
+
+[ref](https://twiki.cmcm.com/display/DUBA/UAC+bypass)
+[ref {% include relref_github.html %}](https://0x00-0x00.github.io/research/2018/10/31/How-to-bypass-UAC-in-newer-Windows-versions.html)
+目前公开的方法中，有以下几种方法绕过 UAC：
+* 白名单提权机制
+* DLL 劫持
+* Windows 自身漏洞提权
+* 远程注入
+* COM 接口技术
+
+针对新版 win10 有效的绕过 UAC 的几种方案 [UAC-bypass.md]
+
+#### 高低权限通信问题
+
+服务和管理员、普通用户无法进行消息通信，需要做特殊过滤
+ChangeWindowMessageFilter
+* 普通用户无法操作 C:\Program Files (x86)，会访问 `C:\Users\当前登录计算机用户名\AppData\Local\VirtualStore\Program Files\下目录的的文本文件`，需要加特殊过滤。
+
+
+### 注册表优化
+
+
+### 个性化设置
+
+用作开机标识的注册表
+{% include image.html url="/assets/images/211120-windows-program/page46_1.jpg" %}
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-11-20-windows-program.md.js" %}'></script></p>
@@ -515,3 +618,4 @@ UTF-8 的两字节编码规则 (110xxxxx 10xxxxxx)，被识别成 UTF-8 编码�
 - [https://docs.microsoft.com/zh-cn/visualstudio/profiling/?view=vs-2019]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/bb0194bd.html" %})
 - [https://docs.microsoft.com/zh-cn/visualstudio/debugger/?view=vs-2019]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/78bdc34e.html" %})
 - [https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windbg]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/98a18465.html" %})
+- [https://0x00-0x00.github.io/research/2018/10/31/How-to-bypass-UAC-in-newer-Windows-versions.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/0x00-0x00.github.io/33c60558.html" %})
