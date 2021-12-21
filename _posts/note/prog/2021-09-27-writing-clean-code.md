@@ -302,31 +302,6 @@ int getGrayBitmap(FastImage fimage, FastImage& result, bool clearBackgroud) {
 Android 甚至断言 网络访问在主线程崩溃，界面修改不在主线程 也崩溃。☭
 
 
-## Chrome 实践
-
-
-### BASE 库对 ui 线程上文件操作的限制
-
-base::ReadFileToString
-此行代码在 UI 线程中会触发 \_\_debugbreak();
-
-如果是加载界面库或必须的配置可以通过声明
-base::ThreadRestrictions::ScopedAllowIO allowio;
-禁止 \_\_debugbreak();
-
-
-### 代码里合理使用 assert
-
-UI 线程开始
-```cpp
-TlsSetValue(key, GetCurrentThreadID());
-
-bool Utils::IsVip() {
-    ASSERT(TlsGetValue(key) != GetCurrentThreadID());
-}
-```
-
-
 ## 一个标准 C 悲剧函数
 
 `void* realloc( void* pv, size_t size );`
