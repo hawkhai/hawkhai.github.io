@@ -218,6 +218,17 @@ function checkToc() {
         xtag.css("margin-left", "auto");
         xtag.css("margin-right", "auto");
         xtag.children("span.pagetag").remove();
+
+        // <img src="image.jpg.thumbnail.webp" data-src="image.jpg" class="lazyload" />
+        var limg = $("img.lazyload");
+        limg.each(function() {
+            var imgnode = $(this);
+            var datasrc = imgnode.attr("data-src");
+            var src = imgnode.attr("src");
+            if (src != datasrc) {
+                imgnode.attr("src", datasrc);
+            }
+        });
         return;
     }
 

@@ -106,6 +106,8 @@ if __name__ == "__main__":
     if result["ret"] == 0:
         result = result["result"]
         result = result["result"]
+        # ['192.168.110.1', '192.168.245.1', '192.168.0.102']
+        result = [i for i in result if not re.findall("^[0-9]+\\.[0-9]+\\.[0-9]+\\.1$", i)]
         if result and len(result) == 1:
             result = result[0]
             writefile("assets\\localhost.js", "var localhostip = '" + result + "';\r\n")

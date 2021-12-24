@@ -655,7 +655,7 @@ ChangeWindowMessageFilter
     * VOID ExitProcess(UINT uExitCode);
     * 指定 ExitCode 强行退出进程，不推荐
 * 另一个进程调用 TerminateProcess
-    * BOOL TerminateProcess(HANDLE hProcess,UINT uExitCode)
+    * BOOL TerminateProcess(HANDLE hProcess, UINT uExitCode)
     * 需要有 PROCESS_TERMINATE 权限
 * 所有线程都“自然死亡”
 
