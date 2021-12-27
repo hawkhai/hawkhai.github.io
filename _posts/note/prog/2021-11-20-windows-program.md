@@ -881,6 +881,285 @@ _beginthreadex 是一个 C/C++ 运行库函数。和 CreateThread 一样创建�
 * 如果某线程挂起，然后有调用 WaitForSingleObject 等待该线程，就会导致死锁。所以上面的代码如果不调用 resumethread，则会死锁。
 
 
+## 内存管理
+
+
+### 用户模式与内核模式
+
+* 应用程序运行在用户模式
+* 操作系统组件和驱动程序运行在内核模式（某些驱动程序能以用户模式运行）
+* 处理器根据运行的代码的类型，在用户模式与内核模式切换
+{% include image.html url="/assets/images/211120-windows-program/img_c3e50f887fd54417b300429a689e480a.png" %}
+
+
+### 虚拟地址空间
+
+* 在 32 位 Windows 中，可用的虚拟地址空间共计为 2^32 字节（4GB），较低的 2 GB 用于用户空间，较
+    高的 2 GB 用于内核地址空间（可通过 BCDEdit /set increaseuserva 命令调整
+    <https://docs.microsoft.com/zh-cn/windows-hardware/drivers/devtest/bcdedit--set>
+* 在 64 位 Windows 中，可用的虚拟地址空间的理论大小为 2^64 字节（16EB），但实际上仅使用 16 EB 范围
+    的一小部分，在 win8 及以前用户空间为和内核地址空间都为 8TB，win8.1 及以后都是 128TB
+
+{% include image.html url="/assets/images/211120-windows-program/img_c5c5b693db6a4f009a6422530dae7f2f.png"
+url2="/assets/images/211120-windows-program/img_aedc9974f3874689b3a71347f4509fd9.png" %}
+
+
+### 裸指针的使用
+
+{% include image.html url="/assets/images/211120-windows-program/img_72fbe98f842142fe9e6977ced6c1e332.png" %}
+
+
+### 内存移动 & 内存拷贝
+
+* memmove_s 如果源区域和目标区域的某些区域重叠，memmove_s 会确保重叠区域中的原始源字符在被覆盖之前被复制。
+* MoveMemory 第一个参数 Destination 必须足够大，以容纳源的长度字节；否则，可能会发生缓冲区溢出。
+* memcpy_s 如果源和目标重叠，则 memcpy_s 的行为未定义。使用 memmove 处理重叠区域
+* CopyMemory RtlCopyMemory 运行速度比 RtlMoveMemory 快，但 RtlCopyMemory 要求源和目的地的内存块不重叠
+
+
+### 内存对齐
+
+* 为了提高内存的访问速度（数据存放地址不为偶数时需要两个时钟周期才能取到想要的数据）
+* 结构体自身需要对齐
+    * 其大小按被能被其最大对齐值整除
+    * 结构体偏移被能被其最大对齐值整除
+* 结构体中的元素需要对齐
+    * 偏移按按自身对齐值或指定对齐最小值的整倍对齐
+
+{% include image.html url="/assets/images/211120-windows-program/img_1fc445f8c936406b87763c692cc39aca.png" %}
+{% include image.html url="/assets/images/211120-windows-program/img_f4adc46b4e404104a8f508ccc4bcc564.png" %}
+{% include image.html url="/assets/images/211120-windows-program/img_570ec00644c94a7abc2e963d75661f0c.png" %}
+
+* 强制指定对齐方式
+    * #pragma pack(N)
+    * 网络数据传输时，字节对齐问题可能会引发各种莫名其妙的 bug
+
+
+### 智能指针
+
+CComPtr & CComQIPtr。
+{% include image.html url="/assets/images/211120-windows-program/img_8854ba85cb3746ca9ca16f2e4608c419.png" caption="使用智能指针的情况" %}
+{% include image.html url="/assets/images/211120-windows-program/img_2d2921f3cb7f4f09bc1950aa97522e7b.png" caption="不使用智能指针的情况" %}
+
+推荐使用 std::make_shared 来生成 std::shared_ptr
+* std::shared_ptr<Widget> sp(new Widget); 会有两次内存分配
+* auto sp = std::make_shared<Widget>(); 只有一次内存分配
+* 提供了更好的异常安全性
+
+{% include image.html url="/assets/images/211120-windows-program/img_a2c9283ae5594b9cbba28c2529247bab.png" %}
+{% include image.html url="/assets/images/211120-windows-program/img_639e27005ef049c185c5cb396d5d565f.png" %}
+
+
+### 分配内存
+
+1. new operator
+2. 分配内存
+3. 在内存块上调用构造函数
+4. 返回对象指针
+
+行为等价于：
+1. operator new
+2. palcement new
+3. 返回对象指针
+
+placement new
+1. 在指定的地址空间中调用构造函数
+2. placement new 是对 operator new 的重载
+
+```cpp
+int main() {
+    std::string* p = new std::string("test");
+    void p1 = operator new(strlen("test"));
+    std::string* p2 = new(p1) std::string("test");
+    return 1;
+}
+
+inline void* __CRTDECL operator new(
+        size_t _Size,
+        _Writable_bytes_(_Size) void* _Where) noexcept {
+    (void) _Size;
+    return _Where;
+}
+```
+
+什么时候用：
+1. 需要将内存分配与构造分开执行时（比如自定义内存池）
+2. 需要自己控制内存的分配与释放
+
+注意：
+1. 不要忘记调用析构函数完成反初始化
+2. placement new 和 placement delete 要配对重载
+
+
+### operator new[]
+
+```cpp
+int main() {
+    Test* p = new Test[10];
+    delete[] p;
+}
+```
+```
+Test::`vector deleting destructor':
+push offset Test::~Test (0B115FAh)
+mov  eax, dword ptr [this]
+mov  ecx, dword ptr [eax-4] // 往前移 4 字节，取出数组数目。
+push ecx
+push 8
+```
+
+new(std::nothrow)
+* 不使用 std::nothrow 时，内存分配失败会抛异常
+* 使用 std::nothrow 后内存分配失败时返回 NULL
+
+
+### malloc/free（需配对使用）
+
+* malloc 依赖运行时库
+* 在 windows 下 malloc 底层是调用 HeapAlloc 实现堆内存分配
+* malloc 直接返回申请到的内存地址，申请内存失败直接返回 NULL 指针
+
+注意：
+* 跨模块使用时，切勿传递 malloc 或 new 以及标准库对象指针
+
+
+### VirtualAlloc/VirtualFree（需配对使用）
+
+* 按页分配虚拟内存（一页 4K）
+* 属于系统级的 API
+* 可以指定分配内存的保护属性
+* 可以先预定内存而不使用，待真正需要时才提交到物理内存
+
+```cpp
+LPVOID VirtualAlloc(
+    LPVOID lpAddress,
+    SIZE_T dwSize,
+    DWORD flAllocationType,
+    DWORD flProtect
+);
+```
+
+
+### 关于使用 MEM_RESERVE
+
+* 需要提前占用指定的虚拟地址时
+* 需要大量申请虚拟内存，按后按需再提交到内存
+    * <https://docs.microsoft.com/en-us/windows/win32/memory/reserving-and-committing-memory>
+
+**MEM_RESERVE 0x00002000**
+
+Reserves a range of the process's virtual address space without allocating any actual physical storage in memory or in the paging file on disk.
+You can commit reserved pages in subsequent calls to the VirtualAlloc function.
+To reserve and commit pages in one step, call VirtualAlloc with MEM_COMMIT | MEM_RESERVE.
+
+Other memory allocation functions, such as malloc and LocalAlloc, cannot use a reserved range of memory until it is released.
+
+
+### VirtualQuery 查询内存信息
+
+实例：已知一 PE 文件某全局变量的地址求该 PE 文件的基地址
+{% include image.html url="/assets/images/211120-windows-program/img_78855e0cf71e4a279691245635f8a982.png" %}
+
+{% include image.html url="/assets/images/211120-windows-program/img_feb82d3c43704bcca725db61235cbccc.png" caption="gonghang plugin bugfix" %}
+
+
+### VirtualProtect 修改内存属性
+
+实例：将分配的内存修改为读写状态
+```cpp
+BOOL VirtualProtect(
+    LPVOID lpAddress,
+    SIZE_T dwSize,
+    DWORD flNewProtect,
+    PDWORD lpflOldProtect
+);
+```
+
+
+### 堆分配 HeapAlloc/HeapFree
+
+* 它是对 VirtualAlloc 的封装，内存利用率会比 VirtualAlloc 高
+* 每个进程都有缺省的进程堆，通过 GetProcessHeap 可获取
+* 除了默认读，还可以可以创建私有堆 HeapCreate
+* 堆内存提高了内存的利用率，简化了虚拟内存的分配
+* malloc 使用堆内存
+* 小大粒度为 16 字节
+
+
+### 关于堆的 HEAP_NO_SERIALIZE 标志
+
+* 默认的进程堆是序列化的，序列化堆是线程安全的（会有性能损耗）
+* HEAP_NO_SERIALIZE 表示对堆的使用是线程不安全的
+* 何时使用 HEAP_NO_SERIALIZE 标志
+    * 单线程情况
+    * 多线程情况下，但只在特定的线程才使用指定的堆
+    * 多线程情况下，自身提供互斥机制保证堆安全
+    * 如果非三种情况下使用 HEAP_NO_SERIALIZE 将导致堆损坏
+
+
+### GlobalAlloc/LocalAlloc
+
+* 是 HeapAlloc 的封装，效率较低，不再推荐使用
+
+
+### 总结：
+
+{% include image.html url="/assets/images/211120-windows-program/img_1784f760a51543ccbb82f3792344bf25.png" %}
+* VirtualAlloc 允许指定内存分配的附加属性，如 MEM_RESERVE、PAGE_EXECUTE_READ，使用灵
+活，但是分配以页为粒度，会导致高内存使用
+* HeapAlloc 函数底层依赖 VirtualAlloc，它能提供更方便的内存分配，具有更小的粒度
+* malloc 依赖运行时库，在 windows 下是对堆函数的高级封装
+* new 依赖于编译器和语言实现
+
+
+### 文件映射
+
+* 文件映射的使用
+* 实现文件内容与虚拟内存的关联访问
+* 实现跨进程内存共享
+* 实现快速的大文件访问
+{% include image.html url="/assets/images/211120-windows-program/img_4f3dfe7ab5ad4cdd8048879e522a8088.png" %}
+
+注意：
+* 文件映射对象创建好之后，无法再调整大小，所以需一次性准备好大小（建议设置为 0）
+* 当指定的大小小于文件文件时将只有部分内容被映射
+* 当指定的大小大于文件的大小时，文件将被扩大
+* 如果需将内存数据写入磁盘，为避免数据丢失，需调用 FlushViewOfFile 将内存数据刷入磁盘
+
+单进程模式应用：
+{% include image.html url="/assets/images/211120-windows-program/img_ccdea9368d364bbebd9da2ee4f6fbaa3.png" %}
+{% include image.html url="/assets/images/211120-windows-program/img_a3715d58dbe642e8863d82d54371a278.png" %}
+{% include image.html url="/assets/images/211120-windows-program/img_f0e54cdea49e471eba36e8d8c32fb1af.png" %}
+
+
+### 内存可读写判断
+
+```cpp
+IsBadReadPtr
+IsBadWritePtr
+IsBadCodePtr
+```
+
+
+### 跨进程内存操作
+
+```cpp
+VirtualAllocEx
+WriteProcessMemory
+```
+
+{% include image.html url="/assets/images/211120-windows-program/img_4852590941b843a9bab9bb46dc064c3d.png" %}
+{% include image.html url="/assets/images/211120-windows-program/img_a018a493ae254b6f9d05d5db4d273d01.png" %}
+
+
+### 内存池
+
+应用程序频繁地在堆上分配和释放内存，会导致性能的损失。并且会使系统中出现大量的内存碎片，降低内存的利用率。
+默认的分配和释放内存算法自然也考虑了性能，然而这些内存管理算法的通用版本为了应付更复杂、更广泛的情况，需要做更多的额外工作。
+而对于某一个具体的应用程序来说，适合自身特定的内存分配释放模式的自定义内存池可以获得更好的性能。
+{% include image.html url="/assets/images/211120-windows-program/img_2f7c89a039b74522b06efa6c4c22d0dd.png" %}
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-11-20-windows-program.md.js" %}'></script></p>
@@ -891,3 +1170,5 @@ _beginthreadex 是一个 C/C++ 运行库函数。和 CreateThread 一样创建�
 - [https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windbg]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/98a18465.html" %})
 - [https://docs.microsoft.com/zh-cn/windows/win32/sync/synchronization-objects]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/1c8bb2a3.html" %})
 - [https://0x00-0x00.github.io/research/2018/10/31/How-to-bypass-UAC-in-newer-Windows-versions.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/0x00-0x00.github.io/33c60558.html" %})
+- [https://docs.microsoft.com/zh-cn/windows-hardware/drivers/devtest/bcdedit--set]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/e4e3c7be.html" %})
+- [https://docs.microsoft.com/en-us/windows/win32/memory/reserving-and-committing-memory]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/e3948dd2.html" %})
