@@ -1131,6 +1131,13 @@ BOOL VirtualProtect(
 {% include image.html url="/assets/images/211120-windows-program/img_a3715d58dbe642e8863d82d54371a278.png" %}
 {% include image.html url="/assets/images/211120-windows-program/img_f0e54cdea49e471eba36e8d8c32fb1af.png" %}
 
+[from {% include relref_cnblogs.html %}](https://www.cnblogs.com/LyShark/p/13666403.html)
+C/C++ 实现 PE 文件特征码识别，打开 PE 文件映射：
+
+在读取 PE 结构之前，首先要做的就是打开 PE 文件到内存，这里打开文件我们使用了 CreateFile() 函数该函数可以打开文件并返回文件句柄，
+接着使用 CreateFileMapping() 函数创建文件的内存映像，最后使用 MapViewOfFile() 读取映射中的内存并返回一个句柄，
+后面的程序就可以通过该句柄操作打开后的文件了。
+
 
 ### 内存可读写判断
 
@@ -1172,3 +1179,4 @@ WriteProcessMemory
 - [https://0x00-0x00.github.io/research/2018/10/31/How-to-bypass-UAC-in-newer-Windows-versions.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/0x00-0x00.github.io/33c60558.html" %})
 - [https://docs.microsoft.com/zh-cn/windows-hardware/drivers/devtest/bcdedit--set]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/e4e3c7be.html" %})
 - [https://docs.microsoft.com/en-us/windows/win32/memory/reserving-and-committing-memory]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/e3948dd2.html" %})
+- [https://www.cnblogs.com/LyShark/p/13666403.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/www.cnblogs.com/e746357c.html" %})

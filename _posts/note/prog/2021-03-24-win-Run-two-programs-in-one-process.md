@@ -226,6 +226,9 @@ remote.dll 中修改重定位表和导入表基本上用的都是 dll_load.cpp �
 * brokenjade.at.china.com/remote/remote_src.zip
 * brokenjade.at.china.com/remote/rmexec.exe
 
+* [Rootkit] 驱动隐藏 - 断链 [from {% include relref_cnblogs.html %}](https://www.cnblogs.com/LyShark/p/15018889.html)
+* [Rootkit] 进程隐藏 - 内存加载（寄生 & 僵尸进程）[from {% include relref_cnblogs.html %}](https://www.cnblogs.com/LyShark/p/15018909.html)
+
 
 
 <hr class='reviewline'/>
@@ -234,3 +237,5 @@ remote.dll 中修改重定位表和导入表基本上用的都是 dll_load.cpp �
 
 - [https://bbs.csdn.net/topics/187888]({% include relrefx.html url="/backup/2021-03-24-win-Run-two-programs-in-one-process.md/bbs.csdn.net/621207b1.html" %})
 - [http://research.microsoft.com/sn/detours]({% include relrefx.html url="/backup/2021-03-24-win-Run-two-programs-in-one-process.md/research.microsoft.com/6cc856da.html" %})
+- [https://www.cnblogs.com/LyShark/p/15018889.html]({% include relrefx.html url="/backup/2021-03-24-win-Run-two-programs-in-one-process.md/www.cnblogs.com/dabc51a5.html" %})
+- [https://www.cnblogs.com/LyShark/p/15018909.html]({% include relrefx.html url="/backup/2021-03-24-win-Run-two-programs-in-one-process.md/www.cnblogs.com/2db2dc93.html" %})

