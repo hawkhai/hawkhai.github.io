@@ -17,6 +17,7 @@ REBUILD    = "rebuild" in sys.argv
 COPYRES    = "copyres" in sys.argv
 CLEARIMG   = "clearimg" in sys.argv
 IGNOREERR  = "ignoreerr" in sys.argv
+OPENRESENT = "openresent" in sys.argv
 
 # 名称，域名正则。
 LINKTAGARRAY = (("bili",     "bilibili.com"),
@@ -906,6 +907,15 @@ def checkReviewJS(jsdir, rootdir):
         mdfile = os.path.join(rootdir, mdfile)
         if not os.path.exists(mdfile):
             osremove(fpath)
+        elif OPENRESENT:
+            jsdata = readfile(fpath, True).strip() # document.write("2021-12-06: review");
+            jsy, jsm, jsd = re.findall("[0-9]+", jsdata)
+            today = datetime.date.today()
+            jsday = datetime.date(int(jsy), int(jsm), int(jsd))
+            xday = today - jsday
+            print(type(xday), xday, xday.days)
+            if xday.days <= 15:
+                openTextFile(mdfile)
     searchdir(jsdir, mainfile)
 
 def main():
@@ -914,7 +924,7 @@ def main():
     clearemptydir("tempdir")
     buildSnapCache("backup")
     buildSnapCache("invisible\\backup")
-    if REBUILD:
+    if REBUILD or OPENRESENT:
         checkReviewJS("assets\\reviewjs", ".")
         checkReviewJS("invisible\\reviewjs", "invisible")
     if CLEARIMG:
