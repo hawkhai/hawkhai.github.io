@@ -47,37 +47,34 @@ git-filter-branch - Rewrite branches
 7,217 Commits / 114 Branches / 4 Tags / 7.1 GB Files
 
 ```
-git@gitlab.liebaopay.com:pc_duba/kpdf/pdfreader.git
-https://gitlab.liebaopay.com/pc_duba/kpdf/pdfreader.git
+git@gitlab.example.com:pcapp/kpdf/pdfreader.git
+https://gitlab.example.com/pcapp/kpdf/pdfreader.git
 
-git@gitlab.liebaopay.com:yangquanhai/pdfreader.git
-https://gitlab.liebaopay.com/yangquanhai/pdfreader.git
+git@gitlab.example.com:yangquanhai/pdfreader.git
+https://gitlab.example.com/yangquanhai/pdfreader.git
 ```
 
 最近迁移 git 项目地址，想保留原有分支和提交。
 1. 先克隆老项目的镜像
-    * 命令：`git clone --mirror old.git （old.git 为老项目的git地址）`
-    * 实例：`git clone --mirror git@gitlab.liebaopay.com:pc_duba/kpdf/pdfreader.git`
+    * 命令：`git clone --mirror old.git （old.git 为老项目的 git 地址）`
+    * 实例：`git clone --mirror git@gitlab.example.com:pcapp/kpdf/pdfreader.git`
 2. 进入老项目的目录
     * 命令：`cd old.git`
     * 实例：`cd pdfreader.git`
 3. 移除老项目的地址替换成新项目
-    * 命令：`git remote set-url --push origin new.git （new.git 为新项目的git地址）`
-    * 实例：`git remote set-url --push origin git@gitlab.liebaopay.com:yangquanhai/pdfreader.git`
+    * 命令：`git remote set-url --push origin new.git （new.git 为新项目的 git 地址）`
+    * 实例：`git remote set-url --push origin git@gitlab.example.com:yangquanhai/pdfreader.git`
 4. 将镜像推到远程
     * 命令：`git push --mirror // 这一步需要输入新的git的账号和密码`
     * 实例：`git push --mirror`
 
 * filter-branch 是让 git 重写每一个分支。
-
-git filter-repo --strip-blobs-bigger-than 10M
-git push origin --all --force
-
-git filter-branch    --index-filter 'git rm --cached --ignore-unmatch big_file1' HEAD~8..HEAD
-git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch big_file2' HEAD~8..HEAD
-
-git filter-branch --force --prune-empty --index-filter 'git rm -rf --cached --ignore-unmatch XXX.framework' --tag-name-filter cat -- --all
-git push --force --all
+* git filter-repo --strip-blobs-bigger-than 10M
+* git push origin --all --force
+* git filter-branch --index-filter 'git rm --cached --ignore-unmatch big_file1' HEAD~8..HEAD
+* git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch big_file2' HEAD~8..HEAD
+* git filter-branch --force --prune-empty --index-filter 'git rm -rf --cached --ignore-unmatch XXX.framework' --tag-name-filter cat -- --all
+* git push --force --all
 
 
 ## Refs

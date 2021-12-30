@@ -451,6 +451,13 @@ UTF-16 的一个代码单元是 2 字节，由于大多数通信协议和存储�
 * 不兼容 ASCII 编码
 * 不可编码代理位
 
+BOM (Byte Order Mark)
+UTF-8 | 0xEF 0xBB 0xBF
+UTF-16 BE | 0xFE 0xFF
+UTF-16 LE | 0xFF 0xFE
+UTF-32 BE | 0x00 0x00 0xFE 0xFF
+UTF-32 LE | 0xFF 0xFE 0x00 0x00
+
 
 ### UTF-8
 
@@ -1166,6 +1173,10 @@ WriteProcessMemory
 而对于某一个具体的应用程序来说，适合自身特定的内存分配释放模式的自定义内存池可以获得更好的性能。
 {% include image.html url="/assets/images/211120-windows-program/img_2f7c89a039b74522b06efa6c4c22d0dd.png" %}
 
+[Linux 是如何避免内存碎片的 {% include relref_csdn.html %}](https://blog.csdn.net/aurorayqz/article/details/79671785)
+1. 伙伴算法，用于管理物理内存，避免内存碎片；
+2. 高速缓存 Slab 层用于管理内核分配内存，避免碎片。
+
 
 
 <hr class='reviewline'/>
@@ -1180,3 +1191,4 @@ WriteProcessMemory
 - [https://docs.microsoft.com/zh-cn/windows-hardware/drivers/devtest/bcdedit--set]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/e4e3c7be.html" %})
 - [https://docs.microsoft.com/en-us/windows/win32/memory/reserving-and-committing-memory]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/e3948dd2.html" %})
 - [https://www.cnblogs.com/LyShark/p/13666403.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/www.cnblogs.com/e746357c.html" %})
+- [https://blog.csdn.net/aurorayqz/article/details/79671785]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/blog.csdn.net/f92a193d.html" %})

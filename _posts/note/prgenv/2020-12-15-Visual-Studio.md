@@ -17,6 +17,15 @@ cluster: "Visual Studio"
 ---
 
 
+## sxstrace.exe 工具
+
+应用程序无法启动，因为应用程序的并行配置不正确。有关详细信息，请参阅应用程序事件日志，或使用命令行 sxstrace.exe 工具。
+
+[from](https://jingyan.baidu.com/article/3c48dd3485c80be10be358e3.html)
+* SxsTrace Trace -logfile:SxsTrace.etl
+* SxsTrace Parse -logfile:SxsTrace.etl -outfile:SxsTrace.txt
+
+
 ## 无法找到入口
 
 {% include image.html url="/assets/images/201215-visual-studio/20211203-123618.png" %}
@@ -287,6 +296,7 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Visual-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://jingyan.baidu.com/article/3c48dd3485c80be10be358e3.html]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/jingyan.baidu.com/2a6c630c.html" %})
 - [https://blog.csdn.net/hujialong1997/article/details/105458435]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/blog.csdn.net/fb89ec11.html" %})
 - [https://www.cnblogs.com/huhewei/p/6080157.html]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/www.cnblogs.com/38d5910a.html" %})
 - [https://gclxry.com/article/avoid-python-conflicts-via-bat-on-windows/]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/gclxry.com/43348a06.html" %})
