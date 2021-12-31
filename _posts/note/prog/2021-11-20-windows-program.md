@@ -452,6 +452,7 @@ UTF-16 的一个代码单元是 2 字节，由于大多数通信协议和存储�
 * 不可编码代理位
 
 BOM (Byte Order Mark)
+
 UTF-8 | 0xEF 0xBB 0xBF
 UTF-16 BE | 0xFE 0xFF
 UTF-16 LE | 0xFF 0xFE
@@ -490,7 +491,7 @@ Windows 程序（Windows 记事本）会在以 UTF-8 保存的文件最前加上
 
 ANSI 编码没有明确定义，但通常被用来指代 Windows 代码页（Windows code page），在英文系统上通常指 Windows-1252 代码页，在简体中文系统通常
 指 Windows-936（在不同的 windows 系统上，可能指代不同的代码页）。事实上，
-“ANSI编码”这个名字是个错误用法，应为 ANSI 从来没有发表过这样的标准。
+“ANSI 编码”这个名字是个错误用法，应为 ANSI 从来没有发表过这样的标准。
 
 **Windows-1252**：
 别名 CP-1252，用一个字节，总共编码 256 个字符，在英文和一些西方的
