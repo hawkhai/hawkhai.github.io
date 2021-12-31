@@ -348,6 +348,21 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow)
 
 ## 字符串编码和操作
 
+字符集 vs 字符编码
+* 字符集：字符的集合，是集合就有范围
+    * GB2312：汉字 6763 个和非汉字图形字符 682 个，一些罕用字不在这个集合内
+    * GBK：包含 GB2312
+    * GB18030：包含 GBK
+* 怎么编码：
+    * 纯 ascii 很好办，一个字符一个 byte
+    * 汉字怎么办？
+* 编码方式
+    * 固定长度编码：不管英文字符还是中文字符，每个字符固定长度。长度太短，能编码的字符集越小，长度太长会造成浪费。
+    * 混合长度编码：ascii 字符一个字节，中文 2 or 3 个字节。简体中文的 Windows 系统默认就是这种编码方式。MBCS
+        * 问题：大部分情况下 OK，偶尔会遇到奇怪的路径。
+    * 科学的变长编码：UTF-8
+{% include image.html url="/assets/images/211120-windows-program/img_bd6d19c4afdb4c29982be7524e87b253.png" %}
+
 
 ### ASCII /ˈæskiː/
 
@@ -1179,6 +1194,101 @@ WriteProcessMemory
 2. 高速缓存 Slab 层用于管理内核分配内存，避免碎片。
 
 
+## Windows 文件读写
+
+
+### NTFS vs FAT32 vs exFAT
+
+* NTFS 是带日志的现代文件系统，基本上是 Windows 专属
+* FAT32 和 exFAT 本质上还是一类，核心区别在于 FAT32 单文件最大 4GB，大多数操作系统都支持这两个文件系统（XP 需要安装某个补丁）
+
+{% include image.html url="/assets/images/211120-windows-program/img_15ed592788ff4ca18ab46d91d80ab168.png" width="50%" caption="文件系统介绍 - 鸟瞰" %}
+{% include image.html url="/assets/images/211120-windows-program/img_48573e2f611f433f81dfaa0ce5463949.png" width="75%" %}
+
+
+### Maximum Path Length Limitation
+
+<https://docs.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=cmd>
+
+超过 MAX_PATH 怎么办？
+`\\?\D:\very long path`
+什么是路径的 domain
+```cpp
+DWORD GetShortPathNameA(
+    [in]  LPCSTR lpszLongPath,
+    [out] LPSTR  lpszShortPath,
+    [in]  DWORD  cchBuffer
+);
+```
+
+缓冲区刷进磁盘的时机：
+* 等缓冲区满了（被动）
+* 手工调用 fflush、FlushFileBuffers（主动）
+* 文件关闭
+
+
+### 异步文件读写
+
+WriteFileEx function (fileapi.h)
+```cpp
+BOOL WriteFileEx(
+    [in]           HANDLE                          hFile,
+    [in, optional] LPCVOID                         lpBuffer,
+    [in]           DWORD                           nNumberOfBytesToWrite,
+    [in, out]      LPOVERLAPPED                    lpOverlapped,
+    [in]           LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine
+);
+```
+
+
+### 异步的高层选择：libuv
+
+Nodejs = libuv + v8
+跨平台异步 I/O 封装，在 Windows 上实现是 IOCP，在 Linux 上是 epoll
+
+Windows 平台上与 kqueue (FreeBSD) 或者 (e)poll(Linux) 等内核事件通知相应的机制是 IOCP。
+libuv 提供了一个跨平台的抽象，由平台决定使用 libev 或 IOCP。
+libuv 异步文件系统：
+<https://luohaha.github.io/Chinese-uvbook/source/filesystem.html>
+
+
+### Sector 和 Cluster
+
+* 你调用 API 写一个 byte，会触：
+    * 发文件系统发送 IRP_MJ_WRITE 给 volume 设备
+    * volume 设备发送 IRP_MJ_WRITE 给 disk 设备
+* disk 收到的是一个 cluster size 的写
+* sector 的 size 不是固定的
+* cluster 是 sector 的整数倍，倍数也不固定
+* 为什么读写会被放大：因为管理颗粒越小带来的管理代价越大（如：bitmap）
+{% include image.html url="/assets/images/211120-windows-program/img_aafa99846b7f4d3791e413b0d309ff26.png" %}
+
+
+### 怎么使用读写锁
+
+* 先初始化：InitializeSRWLock
+* 读：1.AcquireSRWLockShared，2. 读文件，3.ReleaseSRWLockShared
+* 写：1.AcquireSRWLockExclusive，2. 写文件，3.ReleaseSRWLockExclusive
+* 使用原则：先获取锁，干事情，释放锁
+    * 有 Acquire，就一定要有对应的 Release○Acquire 什么类型的锁，Release 也要是这个类型的锁
+    * Exclusive 锁不能重入（同一个线程 TryAcquireSRWLockExclusive 成功后就不能再次 TryAcquireSRWLockExclusive）
+
+
+### 读写 ini 文件
+
+使用 API 写的问题，失败了不能确定是否破坏了其他项目的内容
+
+
+### json
+
+注意 64 位的精度
+
+
+### 案例：特殊路径
+
+{% include image.html url="/assets/images/211120-windows-program/img_8e1256d06b9f4566b2ac15ca48c7efc5.png" caption="特殊路径" %}
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-11-20-windows-program.md.js" %}'></script></p>
@@ -1193,3 +1303,5 @@ WriteProcessMemory
 - [https://docs.microsoft.com/en-us/windows/win32/memory/reserving-and-committing-memory]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/e3948dd2.html" %})
 - [https://www.cnblogs.com/LyShark/p/13666403.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/www.cnblogs.com/e746357c.html" %})
 - [https://blog.csdn.net/aurorayqz/article/details/79671785]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/blog.csdn.net/f92a193d.html" %})
+- [https://docs.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=cmd]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/ef9142c3.html" %})
+- [https://luohaha.github.io/Chinese-uvbook/source/filesystem.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/luohaha.github.io/cff8effd.html" %})
