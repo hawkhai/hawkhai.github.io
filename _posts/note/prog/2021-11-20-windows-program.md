@@ -1289,6 +1289,159 @@ libuv 异步文件系统：
 {% include image.html url="/assets/images/211120-windows-program/img_8e1256d06b9f4566b2ac15ca48c7efc5.png" caption="特殊路径" %}
 
 
+## 界面 BkWin 教程
+
+<div class="highlighter-rouge" foldctrl="1"></div>
+```cpp
+float KFunction::GetCurrentDpi() {
+    DWORD dwDpi = 96;
+    do {
+        KRegister2 reg;
+        if (reg.Open(HKEY_CURRENT_USER,
+                     L"Control Panel\\Desktop\\WindowMetrics") &&
+                reg.Read(L"AppliedDPI", dwDpi)) {
+            break;
+        }
+    } while (FALSE);
+    return dwDpi;
+}
+
+HBITMAP CCPdfmenushell::_IconToBitmap(int iconResId)
+{
+    float fdpi = KFunction::GetCurrentDpi() * 1.f / 96;
+    int nIconSize = int(fdpi * 16 + 0.5f);
+    HICON hIcon = (HICON)::LoadImage((HINSTANCE)&__ImageBase,
+                                     MAKEINTRESOURCE(iconResId),
+                                     IMAGE_ICON,
+                                     nIconSize,
+                                     nIconSize,
+                                     LR_DEFAULTCOLOR);
+    ICONINFO info = { 0 };
+    if (hIcon == NULL || !GetIconInfo(hIcon, &info) || !info.fIcon) {
+        return NULL;
+    }
+
+    INT nWidth = 0;
+    INT nHeight = 0;
+
+    if (info.hbmColor != NULL) {
+        BITMAP bmp = { 0 };
+        GetObject(info.hbmColor, sizeof(bmp), &bmp);
+
+        nWidth = bmp.bmWidth;
+        nHeight = bmp.bmHeight;
+    }
+
+    if (info.hbmColor != NULL) {
+        DeleteObject(info.hbmColor);
+        info.hbmColor = NULL;
+    }
+
+    if (info.hbmMask != NULL) {
+        DeleteObject(info.hbmMask);
+        info.hbmMask = NULL;
+    }
+
+    if (nWidth <= 0 || nHeight <= 0) {
+        return NULL;
+    }
+
+    INT nPixelCount = nWidth * nHeight;
+
+    HDC dc = GetDC(NULL);
+    INT* pData = NULL;
+    HDC dcMem = NULL;
+    HBITMAP hBmpOld = NULL;
+    bool* pOpaque = NULL;
+    HBITMAP dib = NULL;
+    BOOL bSuccess = FALSE;
+
+    if (dc == NULL) {
+        return NULL;
+    }
+
+    do {
+        BITMAPINFOHEADER bi = { 0 };
+        bi.biSize = sizeof(BITMAPINFOHEADER);
+        bi.biWidth = nWidth;
+        bi.biHeight = -nHeight;
+        bi.biPlanes = 1;
+        bi.biBitCount = 32;
+        bi.biCompression = BI_RGB;
+        dib = CreateDIBSection(dc, (BITMAPINFO*)&bi, DIB_RGB_COLORS, (VOID**)&pData, NULL, 0);
+        if (dib == NULL) break;
+
+        memset(pData, 0, nPixelCount * 4);
+
+        dcMem = CreateCompatibleDC(dc);
+        if (dcMem == NULL) break;
+
+        hBmpOld = (HBITMAP)SelectObject(dcMem, dib);
+        ::DrawIconEx(dcMem, 0, 0, hIcon, nWidth, nHeight, 0, NULL, DI_MASK);
+
+        pOpaque = new (std::nothrow) bool[nPixelCount];
+        if (pOpaque == NULL) break;
+        for (INT i = 0; i < nPixelCount; ++i) {
+            pOpaque[i] = !pData[i];
+        }
+
+        memset(pData, 0, nPixelCount * 4);
+        ::DrawIconEx(dcMem, 0, 0, hIcon, nWidth, nHeight, 0, NULL, DI_NORMAL);
+
+        BOOL bPixelHasAlpha = FALSE;
+        UINT* pPixel = (UINT*)pData;
+        for (INT i = 0; i < nPixelCount; ++i, ++pPixel) {
+            if ((*pPixel & 0xff000000) != 0) {
+                bPixelHasAlpha = TRUE;
+                break;
+            }
+        }
+
+        if (!bPixelHasAlpha) {
+            pPixel = (UINT*)pData;
+            for (INT i = 0; i < nPixelCount; ++i, ++pPixel) {
+                if (pOpaque[i]) {
+                    *pPixel |= 0xFF000000;
+                } else {
+                    *pPixel &= 0x00FFFFFF;
+                }
+            }
+        }
+
+        bSuccess = TRUE;
+
+    } while (FALSE);
+
+    if (pOpaque != NULL) {
+        delete[]pOpaque;
+        pOpaque = NULL;
+    }
+
+    if (dcMem != NULL) {
+        SelectObject(dcMem, hBmpOld);
+        DeleteDC(dcMem);
+    }
+
+    ReleaseDC(NULL, dc);
+
+    if (!bSuccess) {
+        if (dib != NULL) {
+            DeleteObject(dib);
+            dib = NULL;
+        }
+    }
+
+    return dib;
+}
+```
+
+
+### UI 控件 drawableview
+
+支持托管控件绘制，该控件是 IBkWindowPaintHook 替代解决方案
+**强烈建议不使用 BkWindowPaintHook**
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-11-20-windows-program.md.js" %}'></script></p>
