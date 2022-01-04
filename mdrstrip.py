@@ -480,7 +480,7 @@ def appendRefs(fpath, lines):
     datestr = popenCmd(cmdx)
     datestr = bytesToString(datestr)
     if not datestr:
-        datestr = datetime.now().date()
+        datestr = datetime.datetime.now().date()
 
     if fpath.startswith("_posts\\"):
         fpath = os.path.join("blogs", fpath.split("\\")[-1])
