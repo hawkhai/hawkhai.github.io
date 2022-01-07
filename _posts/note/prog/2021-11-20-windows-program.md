@@ -363,6 +363,8 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow)
     * 科学的变长编码：UTF-8
 {% include image.html url="/assets/images/211120-windows-program/img_bd6d19c4afdb4c29982be7524e87b253.png" %}
 
+[资料](https://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html)
+
 
 ### ASCII /ˈæskiː/
 
@@ -1451,6 +1453,7 @@ HBITMAP CCPdfmenushell::_IconToBitmap(int iconResId)
 - [https://docs.microsoft.com/zh-cn/visualstudio/debugger/?view=vs-2019]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/78bdc34e.html" %})
 - [https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windbg]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/98a18465.html" %})
 - [https://docs.microsoft.com/zh-cn/windows/win32/sync/synchronization-objects]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/1c8bb2a3.html" %})
+- [https://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/www.ruanyifeng.com/097a20aa.html" %})
 - [https://0x00-0x00.github.io/research/2018/10/31/How-to-bypass-UAC-in-newer-Windows-versions.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/0x00-0x00.github.io/33c60558.html" %})
 - [https://docs.microsoft.com/zh-cn/windows-hardware/drivers/devtest/bcdedit--set]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/e4e3c7be.html" %})
 - [https://docs.microsoft.com/en-us/windows/win32/memory/reserving-and-committing-memory]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/e3948dd2.html" %})
