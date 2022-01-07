@@ -42,11 +42,11 @@ l2dwidget:
 
 使用文档：
 ```bat
-usage: pecopy.exe [-h] [-mcn COMPANYNAME] [-mfd FILEDESCRIPTION]
+usage: "pecopy.exe" [-h] [-mcn COMPANYNAME] [-mfd FILEDESCRIPTION]
                   [-mvc FILEVERSION] [-min INTERNALNAME] [-mlc LEGALCOPYRIGHT]
                   [-mof ORIGINALFILENAME] [-mpn PRODUCTNAME]
-                  [-mpv PRODUCTVERSION] -in INPUTFILE -out OUTPUTFILE
-                  [-debug DEBUG]
+                  [-mpv PRODUCTVERSION] [-icon ICONFILE] [-mask ICONMASK]
+                  [-mcp CODEPAGE] -in INPUTFILE -out OUTPUTFILE [-debug DEBUG]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -66,34 +66,56 @@ optional arguments:
                         示例：酷哦工具箱
   -mpv PRODUCTVERSION, --ProductVersion PRODUCTVERSION
                         示例：1,0,0,123
+  -icon ICONFILE, --IconFile ICONFILE
+                        示例：mainicon.ico
+  -mask ICONMASK, --IconMask ICONMASK
+                        示例：ICONGROUP,MAINICON,0;ICONGROUP,107,2052;ICONGROUP,108,2052
+  -mcp CODEPAGE, --CodePage CODEPAGE
+                        示例：65001
   -in INPUTFILE, --InputFile INPUTFILE
                         示例：tool.exe
   -out OUTPUTFILE, --OutputFile OUTPUTFILE
                         示例：shsign\tool.exe
+  -debug DEBUG, --Debug DEBUG
 ```
 
-示例 1：
+
+### 示例 1 修改版权
+
 ```bat
-C:\test>pecopy.exe -in fastvc.exe \
-                   -out shsign\fastvc.exe \
-                   --LegalCopyright "版权测试"
+C:\test>"pecopy.exe" -in "fastvc.exe" \
+                     -out "shsign\fastvc.exe" \
+                     --LegalCopyright "版权测试"
 ```
 
 构建机构建完成，直接上去拿改好并签好名的文件即可。
 
-示例 2：
+
+### 示例 2 修改描述信息
+
 ```bat
-pecopy.exe -in "$(TargetDir)\test.dll" \
-           -out "$(TargetDir)\shsign\test.dll" \
-           -mpn "TEST 模块" \
-           -mcn "哇哦软件科技有限公司" \
-           -mfd "哇哦模块" \
-           -mlc "哇哦软件科技有限公司"
+"pecopy.exe" -in "$(TargetDir)\test.dll" \
+             -out "$(TargetDir)\shsign\test.dll" \
+             -mpn "TEST 模块" \
+             -mcn "哇哦软件科技有限公司" \
+             -mfd "哇哦模块" \
+             -mlc "哇哦软件科技有限公司"
 ```
 {% include image.html url="/assets/images/210814-win-tools-reshack/20210818115642.png" %}
 
 已知缺陷：语言都会变成中性。这个应该影响不大。
 如果此方案有帮助到项目组，记得豹趣积分打到 quanhai 账上。^_^
+
+
+### 示例 3 修改图标
+
+```bat
+"pecopy.exe" -in "pecopy.exe" \
+             -out "..\..\dist\pecopy.exe" \
+             -mcp 65001 \
+             -icon "..\image\icon\iconall\shitou.ico" \
+             -mask ICONGROUP,MAINICON,0;ICONGROUP,107,2052;ICONGROUP,108,2052
+```
 
 
 ### 配置构建生成后任务
@@ -102,9 +124,9 @@ pecopy.exe -in "$(TargetDir)\test.dll" \
 2. 把 `tempdir` 添加到根 `.gitignore`。
 3. 配置生成后事件（一般根据工程当前的工程目录然后找到 pecopy.exe 的相对路径）：
 ```bat
-pecopy.exe -in "$(TargetDir)fastvc.exe" \
-           -out "$(TargetDir)shsign\fastvc.exe" \
-           --LegalCopyright "版权测试"
+"pecopy.exe" -in "$(TargetDir)fastvc.exe" \
+             -out "$(TargetDir)shsign\fastvc.exe" \
+             --LegalCopyright "版权测试"
 ```
 {% include image.html url="/assets/images/210814-win-tools-reshack/20210814161318.png" %}
 
