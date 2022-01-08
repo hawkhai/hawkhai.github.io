@@ -32,10 +32,12 @@ codeprint:
 
 使用方法：
 ```bash
-git clone --mirror git://example.com/pdfreader.git
+git clone --mirror git@gitlab.liebaopay.com:pc_duba/kpdf/pdfreader.git
 java -jar bfg-1.14.0.jar --strip-blobs-bigger-than 10M pdfreader.git
 cd pdfreader.git
 git reflog expire --expire=now --all && git gc --prune=now --aggressive
+git remote set-url --push origin git@gitlab.liebaopay.com:pc_duba/kpdf/pdfreader2.git
+git remote set-url origin git@gitlab.liebaopay.com:pc_duba/kpdf/pdfreader2.git
 git push
 ```
 
