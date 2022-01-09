@@ -41,6 +41,10 @@ git remote set-url origin git@gitlab.liebaopay.com:pc_duba/kpdf/pdfreader2.git
 git push
 ```
 
+遇到的两个问题：
+1. 新仓库一定要为空，没有任何提交记录，否则提示权限不足。
+2. bfg 还是很好的，貌似不会清除最新的那些文件，只会清理没用到的又在总库里面的文件。
+
 git-filter-branch - Rewrite branches
 
 
@@ -52,8 +56,8 @@ git-filter-branch - Rewrite branches
 git@gitlab.example.com:pcapp/kpdf/pdfreader.git
 https://gitlab.example.com/pcapp/kpdf/pdfreader.git
 
-git@gitlab.example.com:yangquanhai/pdfreader.git
-https://gitlab.example.com/yangquanhai/pdfreader.git
+git@gitlab.example.com:yqh/pdfreader.git
+https://gitlab.example.com/yqh/pdfreader.git
 ```
 
 最近迁移 git 项目地址，想保留原有分支和提交。
@@ -65,9 +69,9 @@ https://gitlab.example.com/yangquanhai/pdfreader.git
     * 实例：`cd pdfreader.git`
 3. 移除老项目的地址替换成新项目
     * 命令：`git remote set-url --push origin new.git （new.git 为新项目的 git 地址）`
-    * 实例：`git remote set-url --push origin git@gitlab.example.com:yangquanhai/pdfreader.git`
+    * 实例：`git remote set-url --push origin git@gitlab.example.com:yqh/pdfreader.git`
 4. 将镜像推到远程
-    * 命令：`git push --mirror // 这一步需要输入新的git的账号和密码`
+    * 命令：`git push --mirror // 这一步需要输入新的 git 的账号和密码`
     * 实例：`git push --mirror`
 
 * filter-branch 是让 git 重写每一个分支。
