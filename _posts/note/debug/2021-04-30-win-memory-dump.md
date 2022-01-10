@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "编程与调试 Memory -- Windows Windbg dump 内存崩溃泄漏问题"
+title: "编程与调试 Memory -- Windows Windbg dump 内存崩溃泄漏问题（debug 意义）"
 author:
 location: "珠海"
 categories: ["编程与调试"]
@@ -21,6 +21,10 @@ cluster: "WinDBG"
 这时候触发错误导致进程退出的代码位置往往不是“案发的第一现场”，给调试工作带来了更大的难度。
 
 **为了更好的处理内存问题，我们要尽力保证 Debug 版本（更多的运行检查）和 x64 版本（页堆才能顺利开启）都能顺利编译出来，另外编译器也要及时升级。**
+
+debug 版本 和 Relase 版本。debug 本质上插入了 代码。
+gflags 在没有修改代码的 条件下，只能做有限的 内存边界检查，插桩之类。
+所以保住 debug 版本，对一个工程来说，很重要。
 
 **Win32 堆和 CRT 堆的常用字节模式和它们的含义** @156@liebao
 

@@ -550,6 +550,13 @@ INI 文件读写 API：WritePrivateProfileString
 写入 Unicode 字符。
 2. 这里的 Unicode 编码实际指：UTF-16 编码（小端）
 
+[from](http://archives.miloush.net/michkap/archive/2006/09/15/754992.html)
+根据文件是否已经存在以及（如果存在）文件的内容编码方式，可能会出现问题。
+* 如果 ini 文件的内容已经是 Unicode，则将其视为 Unicode。
+* 在内部，这似乎由 IsTextUnicode 函数。
+* 对于此功能，文件中正确的 BOM 是 Unicode 的重要提示。
+因此，仅使用 WritePrivateProfileStringW 不能确保将 Unicode 写入 ini 文件，而是必须准备文件。
+
 #### Windows 记事本“另存为”中的编码
 
 * ANSI，不同版本系统不一样，同一系统不同设置也不一样。
@@ -1455,6 +1462,7 @@ HBITMAP CCPdfmenushell::_IconToBitmap(int iconResId)
 - [https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windbg]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/98a18465.html" %})
 - [https://docs.microsoft.com/zh-cn/windows/win32/sync/synchronization-objects]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/1c8bb2a3.html" %})
 - [https://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/www.ruanyifeng.com/097a20aa.html" %})
+- [http://archives.miloush.net/michkap/archive/2006/09/15/754992.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/archives.miloush.net/e46b84f7.html" %})
 - [https://0x00-0x00.github.io/research/2018/10/31/How-to-bypass-UAC-in-newer-Windows-versions.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/0x00-0x00.github.io/33c60558.html" %})
 - [https://docs.microsoft.com/zh-cn/windows-hardware/drivers/devtest/bcdedit--set]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/e4e3c7be.html" %})
 - [https://docs.microsoft.com/en-us/windows/win32/memory/reserving-and-committing-memory]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/e3948dd2.html" %})
