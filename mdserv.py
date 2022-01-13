@@ -4,6 +4,7 @@ import re, os, sys
 sys.path.append("../")
 import datetime, time
 from pythonx.funclib import *
+from pythonx.pelib import mydllfunc
 
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
@@ -163,7 +164,19 @@ class Resquest(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', 'http://localhost:4000')
+
+        CrossOrigin = False
+        result = mydllfunc("getipaddr", {"minorVer": 2, "majorVer": 2,})
+        if result["ret"] == 0:
+            result = result["result"]
+            result = result["result"]
+            result = [i for i in result if not re.findall("^[0-9]+\\.[0-9]+\\.[0-9]+\\.1$", i)]
+            for ip in result:
+                self.send_header('Access-Control-Allow-Origin', 'http://{}:4000'.format(ip))
+                CrossOrigin = True
+        if not CrossOrigin:
+            self.send_header('Access-Control-Allow-Origin', 'http://localhost:4000')
+
         self.end_headers()
 
         if self.path == "/favicon.ico":
