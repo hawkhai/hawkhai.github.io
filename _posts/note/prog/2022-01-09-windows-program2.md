@@ -232,6 +232,195 @@ TIPS
 * 无关代码注释删除
 
 
+## 防御基本原理
+
+
+### 防御 & 系统简述
+
+防御（内核）同步 & 异步 拦截的区别及应用场景
+* 同步：触发（命中）关键行为时，发起行为的线程被阻塞，内核将行为的相关信息传递至应用层；
+* 异步：触发（命中）关键行为时，获取行为的相关信息后，不影响行为的继续执行，内核将行为的相关信息传递至应用层；
+* 行为的相关信息：
+    * 行为发起者（进程文件路径）
+    * 行为标识（防御标记的行为种类）
+    * 行为目标（根据标识有所不同，如：进程创建类的，这里的目标会是被调用的进程文件路径）
+    * ………………
+* 场景：
+    * 同步拦截用于威胁性较高的行为，如：进程创建、创建服务、启动服务、修改注册表项启动项……
+    * 异步拦截用于信息通知、文件写完成……，如：进程退出
+
+{% include image.html url="/assets/images/220109-windows-program2/img_cc2da62837814f959298b5c3012d7332.png" %}
+
+* 内核层
+    * 进程防御
+        * 进程执行
+        * 模块加载
+        * 防进程倍结束
+        * 内存防御
+    * 文件防御
+        * 文件操作（创建、读写、删除）
+        * 文件自保护
+    * 注册表防御
+        * 注册表操作（创建、修改、删除）
+    * 全局防御
+        * 创建、启动、修改 服务
+        * 安装全局钩子
+    * 网络防御
+        * 防黑墙（远程木马）
+        * 访问恶意链接
+        * 流量监控
+* 应用层
+    * 下载保护（文件下载完成时对文件的安全检测）
+    * 网址安全（通过浏览器访问链接时对网址的安全检测）
+    * 自保护
+
+#### Windows 关键进程
+
+* system - 驱动的载体，通过 Process Explorer 查看该进程，可查看到系统已加载的驱动
+* winlogon.exe - 管理用户的登录和注销
+* csrss.exe - Client/Server Runtime Server Subsystem，Win32 子系统的用户模式部分；在 Win7 结束该进程，系统直接 BSOD（Blue Screen Of Death）
+* lsass.exe - 本地安全和登陆策略 smss.exe - 会话管理子系统，负责启动用户会话
+* services.exe - 系统服务控制管理
+* svchost.exe - 从动态链接库（DLL）中运行的服务的通用主机进程名称；以服务的形式将 DLL 加载执行；
+* explorer.exe - 资源管理器（桌面）
+
+{% include image.html url="/assets/images/220109-windows-program2/img_15fc1b088df245f09e188dd00326f3e8.png" %}
+
+* `mov eax,42h` 对应内核里 SSDT 表所在的 index
+* `mov edx,7FFE0300h` 0x7ffe0000 存储 \_KUSER\_SHARED\_DATA 结构体，用于应用层和内核层共享数据
+
+
+### 防御原理
+
+#### 驱动使用的监控技术
+
+* 文件 - minifilter 文件过滤框架
+* 注册表 - Hook 内核或向系统注册回调函数，调用 CmRegisterCallbackEx 注册，需提供自己实现的回调函数（）
+* 进程 - Hook 内核或向系统注册回调函数，调用 PsSetCreateProcessNotifyRoutine 注册，需提供自己实现的回调函数
+* 模块 - Hook 内核或向系统注册回调函数，调用 PsSetLoadImageNotifyRoutine 注册，需提供自己实现的回调函数
+* 网络 - tdi、ndis、wfp 网络过滤框架（）
+* 其它 - 基于 x86 架构上基本可通过 Hook 内核进行大部分的监控，而 x64 只能基于系统回调实现
+* 文件过滤框架 <https://docs.microsoft.com/en-us/windows-hardware/drivers/ifs>
+* 网络过滤框架 <https://docs.microsoft.com/en-us/windows-hardware/drivers/network/windows-filtering-platform-callout-drivers2>
+
+#### Hook 技术
+
+* “注入”，通过修改目标进程，将代码指令写入至目标进程的内存并执行；
+* “钩子”，可对程序内关键函数或任意有效内存地址进行“安装”；大部分的“安装”对指定程序内的内存进行修改，与注入组合使用；
+
+{% include image.html url="/assets/images/220109-windows-program2/img_f78ebdace97f4670a6e8bb2ea02aa798.png" %}
+
+**Detour**
+微软提供的可用于多平台的“hook”库，提供：进程创建时的注入（模块）、指定函数 hook……
+
+**DetourCreateProcessWithDlls** - 创建指定进程，并将指定模块注入至目标进程（加载时机早）
+
+在修改导入表完成后，目前进程还处于“挂起”状态，后续调用“ResumeThread”后，系统按照标准的进程创建流程，遍历导入表将对应的模块进行加载（将模块映射至当前进程内存，并获取 AddressOfEntryPoint 调用入口点 DllEntry）；
+
+进程的首个线程（进程初始化）ntdll!_LdrpInitialize --> ntdll!LdrpInitializeProcess --> ntdll!LdrpRunInitializeRoutines --> ntdll!LdrpCallInitRoutine
+TLS 回调比模块的 dllmain 执行时机更早
+
+{% include image.html url="/assets/images/220109-windows-program2/img_900f2685bc0640e7bdc5accf5c0fe3ba.png" caption="LdrpRunInitializeRoutines 代码片段" %}
+
+{% include image.html url="/assets/images/220109-windows-program2/20220116223329.png" %}
+
+#### SSDT（System Services Descriptor Table）
+
+```cpp
+typedef struct {
+    PVOID *pTable; // Service Table Pointer
+    PULONG pulTableCounter; // Table Item Counter. This table is only updated in checked builds.
+    ULONG ulServiceCounter; // Number of services contained in this table.
+    PUCHAR rguchParamTable; // Table containing the number of bytes of parameters the handler function takes.
+} SERVICE_TABLE;
+```
+
+#### SSSDT（System Shadow Services Descriptor Table）
+
+```cpp
+typedef struct {
+    PVOID *pTable; // Service Table Pointer
+    PULONG pulTableCounter; // Table Item Counter. This table is only updated in checked builds.
+    ULONG ulServiceCounter; // Number of services contained in this table.
+    PUCHAR rguchParamTable; // Table containing the number of bytes of parameters the handler function takes.
+} SERVICE_TABLE;
+```
+
+#### x86 \ x64 系统的区别
+
+防御基于 x86 架构上的监控实现，基本是以 hook（inline hook） + 注册系统回调实现的；但在 x64 构架上，微软引入 Driver Signature Enforcement + Kernel Patch Protection（PatchGuard，简称 PG） 安全机制，杜绝第三方驱动在系统关键“驱动”中进行的内存修改。因为 PG 的存在，无法继续使用 x86 的 hook 方式实现更多行为的监控，只能使用系统提供的标准回调；x86 hook 的方式可将 SSDT + SSSDT 里涉及到的各函数调用都进行监控，基本上涵盖了系统上所有的行为，而系统提供的标准回调，只有进程创建 / 退出、模块加载、注册表相关、文件、对象回调，所以，导致了一些在 x86 上可进行防御的行为，在 x64 上无效（或实现方法与 x86 不同）；
+
+
+### 监控点的实现
+
+#### 监控点实现（应用层）
+
+* 文件监控 ReadDirectoryChangesW
+    * 应用层实现文件监控效果的函数（非回调），可对文件夹里的文件名变动、目录名变动、文件属性变动……进行监控
+    * 缺点：
+        * 1、有针对性的（传入的目录句柄），不是全局监控
+        * 2、无法获取操作者，即无法知道是哪个进程发起对文件的修改行为
+* 注册表监控 RegNotifyChangeKeyValue
+    * 应用层实现注册表监控效果的函数（非回调），完成调用后指定位置如发生变化会返回
+    * 缺点：
+        * 1、有针对性的（传入的指定项），不是全局监控
+        * 2、无法获取操作者，即无法知道哪个进程发起的修改行为
+        * 3、无法获取更多的信息，即无法知道哪个键、哪些键值发生变化
+* x64 自保护
+    * 通过 TLS 回调的更早执行时机，Hook 自身 PEB 内 KernelCallbackTable 表的 __ClientLoadLibrary，实现对全局钩子的拦截
+
+
+### 例子 / 参考资料
+
+#### Code
+
+* Detour <https://github.com/microsoft/Detours>
+* ReactOS <https://github.com/reactos/reactos>
+* 双机调试 VirtualKD <https://sysprogs.com/legacy/virtualkd>
+* Nt 源码
+
+[ntfs {% include relref_github.html %}](https://github.com/yuan-xy/pea-search/blob/master/filesearch/ntfs.cpp)
+
+[Through the looking glass: webcam interception and protection in kernel mode](https://www.virusbulletin.com/virusbulletin/2018/09/through-looking-glass-webcam-interception-and-protection-kernel-mode/)
+{% include image.html url="/assets/images/220109-windows-program2/1ff59f99756da55da2949e76614ff3c6_f2958.jpg" caption="Figure 1: After driver installation." %}
+{% include image.html url="/assets/images/220109-windows-program2/a01398b94309bb5a669e7312ed28f88f_f2959.jpg" caption="Figure 2: The desirable order." %}
+
+#### Tool
+
+* Source Insight <https://www.sourceinsight.com> 或 看雪 \ 百度 破解版
+* CFF Explorer <https://ntcore.com/?page_id=388> 或 百度
+* ProcMon（SysinternalsSuite） <https://docs.microsoft.com/zh-cn/sysinternals/downloads/sysinternals-suite>
+
+#### 文件重启删除
+
+**文件重启删除** 读取注册表 smss.exe 删除的。
+* **svchost.exe** `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost\`
+    * `%SystemRoot%\system32\svchost.exe -k RPCSS`
+    * File: `%SystemRoot%\System32\RpcEpMap.dll`
+    * Registry key: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\RpcEptMapper`
+
+#### 逆向分析
+
+* IDA
+* windbg
+* **CFF-Explorer**
+
+反汇编过程即二进制转汇编助记符，参考 intel 指令集手册。
+X86 为变长指令（灵活），arm 为定长指令（高效）\[ 4G 寻址问题 \]
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-01-09-windows-program2.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://docs.microsoft.com/en-us/windows-hardware/drivers/ifs]({% include relrefx.html url="/backup/2022-01-09-windows-program2.md/docs.microsoft.com/3f7eeeb1.html" %})
+- [https://docs.microsoft.com/en-us/windows-hardware/drivers/network/windows-filtering-platform-callout-drivers2]({% include relrefx.html url="/backup/2022-01-09-windows-program2.md/docs.microsoft.com/6c6aee69.html" %})
+- [https://github.com/microsoft/Detours]({% include relrefx.html url="/backup/2022-01-09-windows-program2.md/github.com/f10fd70b.html" %})
+- [https://github.com/reactos/reactos]({% include relrefx.html url="/backup/2022-01-09-windows-program2.md/github.com/f366a913.html" %})
+- [https://sysprogs.com/legacy/virtualkd]({% include relrefx.html url="/backup/2022-01-09-windows-program2.md/sysprogs.com/6caf3e13.html" %})
+- [https://github.com/yuan-xy/pea-search/blob/master/filesearch/ntfs.cpp]({% include relrefx.html url="/backup/2022-01-09-windows-program2.md/github.com/cbe71bc2.html" %})
+- [https://www.virusbulletin.com/virusbulletin/2018/09/through-looking-glass-webcam-interception-and-protection-kernel-mode/]({% include relrefx.html url="/backup/2022-01-09-windows-program2.md/www.virusbulletin.com/00030afb.html" %})
+- [https://www.sourceinsight.com]({% include relrefx.html url="/backup/2022-01-09-windows-program2.md/www.sourceinsight.com/8f9f2ff2.html" %})
+- [https://ntcore.com/?page_id=388]({% include relrefx.html url="/backup/2022-01-09-windows-program2.md/ntcore.com/fdf592d1.html" %})
+- [https://docs.microsoft.com/zh-cn/sysinternals/downloads/sysinternals-suite]({% include relrefx.html url="/backup/2022-01-09-windows-program2.md/docs.microsoft.com/0c438a9b.html" %})
