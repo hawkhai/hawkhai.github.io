@@ -69,7 +69,7 @@ optional arguments:
   -icon ICONFILE, --IconFile ICONFILE
                         示例：mainicon.ico
   -mask ICONMASK, --IconMask ICONMASK
-                        示例：ICONGROUP,MAINICON,0;ICONGROUP,107,2052;ICONGROUP,108,2052
+                        示例：ICONGROUP,107,2052（同时多个用半角分号隔开）
   -mcp CODEPAGE, --CodePage CODEPAGE
                         示例：65001
   -in INPUTFILE, --InputFile INPUTFILE
@@ -109,13 +109,25 @@ C:\test>"pecopy.exe" -in "fastvc.exe" \
 
 ### 示例 3 修改图标
 
+先要用 resourcehacker 看好要替换图标的 mask 是多少，比如：`ICONGROUP,107,2052`。
+
+{% include image.html url="/assets/images/210814-win-tools-reshack/20220117-160930.png" %}
+
 ```bat
 "pecopy.exe" -in "pecopy.exe" \
              -out "..\..\dist\pecopy.exe" \
              -mcp 65001 \
              -icon "..\image\icon\iconall\shitou.ico" \
-             -mask ICONGROUP,MAINICON,0;ICONGROUP,107,2052;ICONGROUP,108,2052
+             -mask ICONGROUP,107,2052
 ```
+
+* 微软图标格式文档：[Icons](https://docs.microsoft.com/en-us/previous-versions/ms997538%28v=msdn%2e10%29)
+* png2ico 代码工具：<http://www.winterdrache.de/freeware/png2ico/>
+    * <a href="{% include relref.html url="/source/png2ico/png2ico-win-2002-12-08.zip" %}">png2ico-win-2002-12-08.zip</a> (90K)
+    * <a href="{% include relref.html url="/source/png2ico/png2ico-src-2002-12-08.tar.gz" %}">png2ico-src-2002-12-08.tar.gz</a> (26K)
+* 微软图标设计文档：[Icons (Design basics)](https://docs.microsoft.com/en-us/windows/win32/uxguide/vis-icons)
+* C++ 如何将 Icon 转成 Bitmap，保留 Alpha 通道。<http://www.noobyard.com/article/p-odzsipgl-hw.html>
+* 默认图标貌似是：`ICONGROUP,MAINICON,0`。
 
 
 ### 配置构建生成后任务
@@ -134,6 +146,264 @@ C:\test>"pecopy.exe" -in "fastvc.exe" \
 <https://sunocean.life/tools/pecopy.exe>
 
 
+## 多个 png 图片压缩成一个 ico
+
+
+### CMakeLists.txt
+
+```cmake
+cmake_minimum_required(VERSION 3.10.2)
+project(icopack)
+add_executable(icopack icopack.cpp)
+# cmake .. -G "Visual Studio 16 2019" -A Win32
+```
+
+
+### icopack.cpp
+
+编译好的，方便直接食用：<a href="{% include relref.html url="/source/png2ico/icopack.zip" %}">icopack.zip</a> (65K)
+多张 png 图片压缩成一个 ico 文件，参考代码：
+
+`icopack out.ico favicon1.png favicon2.png favicon3.png`
+
+<div class="highlighter-rouge" foldctrl="1"></div>
+```cpp
+//
+// icopack - pack multiple PNG images into an ICO file
+//
+// Copyright (c) 2021 Optidash GmbH
+//
+// Licensed under the GNU General Public License, Version 3 (the "License");
+// you may not use this file except in compliance with the License.
+//
+// You may obtain a copy of the License at
+//    https://www.gnu.org/licenses/gpl-3.0.en.html
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#include <stdint.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int get_png_info(unsigned char *pIn, int iSize, int *width, int *height, int *bpp)
+{
+    int w, h, i, j, bits=0;
+    if (pIn[0] != 0x89 || pIn[1] != 0x50 || pIn[2] != 0x4e || pIn[3] != 0x47) {
+        // PNG signature not present - not a PNG file
+        return 1;
+    }
+    // Parse enough of the PNG file to get to the image header (IHDR) to get
+    // the image size and bit depth
+    w = (pIn[16] << 24) | (pIn[17] << 16) | (pIn[18] << 8) | pIn[19];
+    h = (pIn[20] << 24) | (pIn[21] << 16) | (pIn[22] << 8) | pIn[23];
+    i = pIn[24]; // bits per pixel
+    j = pIn[25]; // pixel type
+    switch (j) {
+        case 0: // grayscale
+        case 3: // palette image
+            bits = i;
+            break;
+        case 2: // RGB triple
+            bits = i * 3;
+            break;
+        case 4: // grayscale + alpha channel
+            bits = i * 2;
+            break;
+        case 6: // RGB + alpha
+            bits = i * 4;
+            break;
+    }
+    *width = w; *height = h; *bpp = bits;
+    return 0;
+} /* get_png_info() */
+//
+// Main program entry point
+//
+int main(int argc, char *argv[])
+{
+    int i, j, iSize, iFileCount;
+    int width, height, bpp;
+    int iOffset;
+    FILE *ihandle, *ohandle;
+    unsigned char *pIn;
+    unsigned char ucTemp[512];
+
+    if (argc < 3 || argc > 16)
+    {
+        printf("icopack Copyright (c) 2021 Optidash GmbH\n");
+        printf("Combines multiple PNG images into a single ICO file\n");
+        printf("Source images must be <= 256 pixels in each dimension\n\n");
+        printf("Usage: icopack <outfile> <infile_1> <infile_2> <infile_N>\n");
+        printf("example:\n\n");
+        printf("icopack out.ico favicon1.png favicon2.png favicon3.png\n");
+        return 0; // no filenames passed
+    }
+    iFileCount = argc - 2;
+    ohandle = fopen(argv[1], "w+b");
+    if (ohandle == NULL) {
+        fprintf(stderr, "Unable to open output file: %s\n", argv[1]);
+        return -1; // bad filename passed
+    }
+    // write an empty header; we'll fill it in later
+    fwrite(ucTemp, 1, 6 + (iFileCount * 16), ohandle);
+    ucTemp[0] = 0; // ICONDIR structure starts with 0,0
+    ucTemp[1] = 0;
+    ucTemp[2] = 1; // ICON file (2 = cursor file)
+    ucTemp[3] = 0; // 2-byte int
+    ucTemp[4] = (unsigned char)iFileCount;
+    ucTemp[5] = 0; // 2-byte int
+    iOffset = 6 + (iFileCount * 16); // starting offset of first file data
+    for (i=2; i<argc; i++) { // collect all of the input files
+        ihandle = fopen(argv[i],"rb");
+        if (ihandle == NULL)
+        {
+            fprintf(stderr, "Unable to open input file: %s\n", argv[i]);
+            return -1; // bad filename passed
+        }
+        fseek(ihandle, 0L, SEEK_END); // get the file size
+        iSize = (int)ftell(ihandle);
+        fseek(ihandle, 0, SEEK_SET);
+        pIn = (unsigned char*)malloc(iSize);
+        if (pIn == NULL) {
+            fprintf(stderr, "Memory allocation error: size = %d\n", iSize);
+            return -1; // bad filename passed
+        }
+        fread(pIn, 1, iSize, ihandle);
+        if (get_png_info(pIn, iSize, &width, &height, &bpp)) {
+            fprintf(stderr, "Input files must be PNG; exiting...\n");
+            return -1; // bad filename passed
+        }
+        if (width > 256 || height > 256) {
+            fprintf(stderr, "image files cannot be larger than 256x256; exiting...\n");
+            return -1; // bad filename passed
+        }
+        // Fill in ICONDIRENTRY for this image
+        j = 6 + (i-2) * 16;
+        ucTemp[j] = (unsigned char)width;
+        ucTemp[j+1] = (unsigned char)height;
+        if (bpp < 8)
+            ucTemp[j+2] = (1 << bpp); // number of colors
+        else if (bpp == 8)
+            ucTemp[j+2] = 255;
+        else
+            ucTemp[j+2] = 0; // non-palette image
+        ucTemp[j+3] = 0; // reserved
+        ucTemp[j+4] = 1; // color planes
+        ucTemp[j+5] = 0; // 2-byte int
+        ucTemp[j+6] = bpp;
+        ucTemp[j+7] = 0; // 2-byte int
+        *(uint32_t *)&ucTemp[j+8] = iSize; // image file size
+        *(uint32_t *)&ucTemp[j+12] = iOffset; // offset to this image
+        iOffset += iSize;
+        // Write this image to the output file
+        fwrite(pIn, 1, iSize, ohandle);
+        free(pIn);
+        fclose(ihandle);
+    }
+    // Seek to the beginning and update the ICONDIR and ICONDIRENTRY structures
+    fseek(ohandle, 0, SEEK_SET);
+    fwrite(ucTemp, 1, 6 + (iFileCount * 16), ohandle);
+    fclose(ohandle);
+    return 0;
+} /* main() */
+```
+
+
+### icopack.py
+
+单张图片自动生成 (16, 20, 24, 32, 40, 48, 64, 128, 256,) 各个级别的图片，然后压缩成一个 ico 文件。
+如果图片不透明，顺便加一个圆角边框。参考代码：
+
+<div class="highlighter-rouge" foldctrl="1"></div>
+```py
+#encoding=utf8
+import re, os, sys
+reldirx, _lidir = "", []
+while not _lidir and len(reldirx) <= 100:
+    reldirx += "../"
+    checkfunc = lambda idir: os.path.exists(reldirx+idir+"/pythonx/funclib.py")
+    _lidir = [reldirx+idir for idir in os.listdir(reldirx) if checkfunc(idir)]
+    if _lidir: reldirx = _lidir[0]
+sys.path.append(reldirx)
+from pythonx.funclib import *
+
+from PIL import Image, ImageDraw
+
+# https://stackoverflow.com/questions/11287402/how-to-round-corner-a-logo-without-white-backgroundtransparent-on-it-using-pi
+def addCorners(im, rad):
+    rad = max(rad, 3) # 防御。
+    circle = Image.new('L', (rad * 2, rad * 2), 0)
+    draw = ImageDraw.Draw(circle)
+    draw.ellipse((0, 0, rad * 2, rad * 2), fill=255)
+    alpha = Image.new('L', im.size, 255)
+    w, h = im.size
+    alpha.paste(circle.crop((0, 0, rad, rad)), (0, 0))
+    alpha.paste(circle.crop((0, rad, rad, rad * 2)), (0, h - rad))
+    alpha.paste(circle.crop((rad, 0, rad * 2, rad)), (w - rad, 0))
+    alpha.paste(circle.crop((rad, rad, rad * 2, rad * 2)), (w - rad, h - rad))
+    im.putalpha(alpha)
+    return im
+
+# https://docs.microsoft.com/en-us/windows/win32/uxguide/vis-icons
+def mainfile(fpath, fname, ftype):
+    if not ftype in ("png", "jpg",):
+        return
+
+    if fpath.find("tempdir") != -1:
+        return
+
+    img = Image.open(fpath)
+    if img.mode == "RGB":
+        print("addCorners", fpath)
+        #img = img.convert('RGBA')
+        img = addCorners(img, int(img.size[0] / 8))
+
+    assert img.mode == "RGBA", img.mode
+    alpha = img.split()[-1]
+    total = 0
+    width, height = alpha.size
+    for x in range(width):
+        for y in range(height):
+            total += alpha.getpixel((x, y))
+    if total == width * height * 255:
+        print("addCorners", fpath)
+        img = img.convert('RGB')
+        img = addCorners(img, int(img.size[0] / 8))
+
+    imglist = []
+    for size in (16, 20, 24, 32, 40, 48, 64, 128, 256,):
+        newsize = (size, size)
+        # 用于表示改变图像过程用的差值方法。0：双线性差值。1：最近邻居法。2：双三次插值法。3：面积插值法。
+        #print(Image.BICUBIC) # 3
+        #print(Image.ANTIALIAS) # 1
+        temp = img.resize(newsize, resample=2)
+        local = os.path.join("tempdir", "icopack", fname, "%dx%d.png" % (size, size))
+        writefile(local, "")
+        osremove(local)
+        temp.save(local)
+        imglist.append(local)
+
+    target = fpath[:-4] + ".ico"
+    icodir = os.path.split(os.path.abspath(__file__))[0]
+    icopack = os.path.join(icodir, "icopack.exe")
+    cmdx = "\"{}\" ".format(icopack,) + target + " " + " ".join(imglist)
+    os.system(cmdx)
+
+def main(rootdir):
+    print("rootdir", rootdir)
+    searchdir(rootdir, mainfile)
+
+if __name__ == "__main__":
+    main(".")
+    main(os.path.split(os.path.abspath(__file__))[0])
+```
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-08-14-win-tools-reshack.md.js" %}'></script></p>
@@ -141,3 +411,9 @@ C:\test>"pecopy.exe" -in "fastvc.exe" \
 
 - [http://www.rpi.net.au/~ajohnson/resourcehacker]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/www.rpi.net.au/ede721e3.html" %})
 - [http://www.angusj.com/resourcehacker/]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/www.angusj.com/0cd86f81.html" %})
+- [https://docs.microsoft.com/en-us/previous-versions/ms997538%28v=msdn%2e10%29]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/docs.microsoft.com/a304a57f.html" %})
+- [http://www.winterdrache.de/freeware/png2ico/]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/www.winterdrache.de/aa729e8b.html" %})
+- [https://docs.microsoft.com/en-us/windows/win32/uxguide/vis-icons]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/docs.microsoft.com/5ee989bc.html" %})
+- [http://www.noobyard.com/article/p-odzsipgl-hw.html]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/www.noobyard.com/daa7ba18.html" %})
+- [https://www.gnu.org/licenses/gpl-3.0.en.html]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/www.gnu.org/2ecb6aab.html" %})
+- [https://stackoverflow.com/questions/11287402/how-to-round-corner-a-logo-without-white-backgroundtransparent-on-it-using-pi]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/stackoverflow.com/666fc2b7.html" %})

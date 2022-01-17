@@ -1,0 +1,872 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head><script src="https://partner.googleadservices.com/gampad/cookie.js?domain=www.noobyard.com&amp;callback=_gfp_s_&amp;client=ca-pub-6208739752673518"></script><script src="https://pagead2.googlesyndication.com/pagead/managed/js/adsense/m202112060101/show_ads_impl_fy2019.js" id="google_shimpl"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>如何将Icon转成Bitmap - 菜鸟学院</title>
+    <meta name="keywords" content="如何,将,icon,转成,bitmap" />
+    <meta name="description" content="最近工做中有个需求是将Icon转成带Alpha通道的Bitmap, 虽然网上有很多这方面的文章，但不少都是错的， 这里记录下，或许对后来人有用。 要实现这个功能，咱们首先须要理解Icon的格式，咱们能够看到Icon的结构以下： typedef  struct _ICONINFO {     BOOL fIcon;     DWORD xHotspot;     DWORD yHotspot;   " />
+    <meta name="google-site-verification" content="eVo932LL8QghamZXYXdbvMxZcdr2v6nNXj2f7mfA1cw" />
+
+    <link rel="shortcut icon" href="http://static.javashuo.com/static/noobyard_favicon.ico" type="image/x-icon" />
+    <link href="http://static.javashuo.com/static/css/pub.min.css?time=1632754795647" rel="stylesheet" />
+    <link href="http://static.javashuo.com/static/css/application.min.css?time=1632754795647" media="screen" rel="stylesheet" type="text/css" />
+    <link href="http://static.javashuo.com/static/css/font-awesome.css?time=1632754795647" rel="stylesheet" />
+
+    <script src="https://hm.baidu.com/hm.js?6df16c73add96aec50bba1a630a55b4a"></script><script src="http://static.javashuo.com/static/script/pub.js?time=1632754795647" type="text/javascript"></script>
+    <script src="http://static.javashuo.com/static/script/application.js?time=1632754795647" type="text/javascript"></script>
+    <script src="http://static.javashuo.com/static/script/echo.js?time=1632754795647" type="text/javascript"></script>
+
+<script src="http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=455767"></script><meta http-equiv="origin-trial" content="AxujKG9INjsZ8/gUq8+dTruNvk7RjZQ1oFhhgQbcTJKDnZfbzSTE81wvC2Hzaf3TW4avA76LTZEMdiedF1vIbA4AAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzVGhpcmRQYXJ0eSI6dHJ1ZX0=" /><meta http-equiv="origin-trial" content="Azuce85ORtSnWe1MZDTv68qpaW3iHyfL9YbLRy0cwcCZwVnePnOmkUJlG8HGikmOwhZU22dElCcfrfX2HhrBPAkAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A16nvcdeoOAqrJcmjLRpl1I6f3McDD8EfofAYTt/P/H4/AWwB99nxiPp6kA0fXoiZav908Z8etuL16laFPUdfQsAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AxBHdr0J44vFBQtZUqX9sjiqf5yWZ/OcHRcRMN3H9TH+t90V/j3ENW6C8+igBZFXMJ7G3Pr8Dd13632aLng42wgAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A88BWHFjcawUfKU3lIejLoryXoyjooBXLgWmGh+hNcqMK44cugvsI5YZbNarYvi3roc1fYbHA1AVbhAtuHZflgEAAAB2eyJvcmlnaW4iOiJodHRwczovL2dvb2dsZS5jb206NDQzIiwiZmVhdHVyZSI6IlRydXN0VG9rZW5zIiwiZXhwaXJ5IjoxNjUyNzc0NDAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A8FHS1NmdCwGqD9DwOicnHHY+y27kdWfxKa0YHSGDfv0CSpDKRHTQdQmZVPDUdaFWUsxdgVxlwAd6o+dhJykPA0AAACWeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9" /><meta http-equiv="origin-trial" content="A8zdXi6dr1hwXEUjQrYiyYQGlU3557y5QWDnN0Lwgj9ePt66XMEvNkVWOEOWPd7TP9sBQ25X0Q15Lr1Nn4oGFQkAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9" /><meta http-equiv="origin-trial" content="A4/Htern2udN9w3yJK9QgWQxQFruxOXsXL7cW60DyCl0EZFGCSme/J33Q/WzF7bBkVvhEWDlcBiUyZaim5CpFQwAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9" /><link href="http://static.javashuo.com/static/css/share.css" rel="styleSheet" type="text/css" /><script type="text/javascript" charset="utf-8" src="http://api.share.baidu.com/getnum?url=http%3A%2F%2Fwww.noobyard.com%2Farticle%2Fp-odzsipgl-hw.html&amp;callback=bd__cbs__679st2"></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.noobyard.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.noobyard.com"></script></head>
+
+<body class="  pace-done"><div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+  <div class="pace-progress-inner"></div>
+</div>
+<div class="pace-activity"></div></div>
+
+<div id="header" class="navbar-fixed-top">
+    <div class="container">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a href="http://www.noobyard.com/" class="brand">菜鸟学院</a>
+                <nav class="nav-collapse collapse">
+                    <ul class="nav navbar primary-nav">
+                        <li class="">
+                            <a href="http://www.noobyard.com/column">栏目</a>
+                        </li>
+                        <li class="">
+                            <a href="http://www.noobyard.com/tag">标签</a>
+                        </li>
+                    </ul>
+                    <form class="navbar-search pull-left" action="/gsearch">
+                        <input type="text" class="search-query span2" name="q" placeholder="搜索" />
+                    </form>
+                    <ul class="nav pull-right">
+                        <li><a href="javascript:void()"></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div><script>
+    echo.init({
+        offset: 100,
+        throttle: 250,
+        unload: false
+    });
+</script>
+<link href="http://static.javashuo.com/static/css/share.css?time=1632754795647" rel="stylesheet" />
+<link href="http://static.javashuo.com/static/css/fontello.css?time=1632754795647" rel="stylesheet" />
+
+<div class="container-fluid" style="height: auto !important; min-height: 0px !important;">
+	<div class="row-fluid article_row_fluid" style="height: auto !important;">
+
+<div class="span9 contant article_detail_bg">
+
+	<h1>如何将Icon转成Bitmap</h1>
+
+    <div class="article_meta">
+        <div style="margin-bottom: 2px;">
+    		<span class="timestamp">时间  2020-08-28</span>
+        </div>
+
+			<div style="margin-bottom: 2px;">
+		            <span>标签</span>
+						<a target="_blank" href="http://www.noobyard.com/tag/%E5%A6%82%E4%BD%95" title="如何"> <span class="new-label">如何</span></a>
+						<a target="_blank" href="http://www.noobyard.com/tag/%E5%B0%86" title="将"> <span class="new-label">将</span></a>
+						<a target="_blank" href="http://www.noobyard.com/tag/icon" title="icon"> <span class="new-label">icon</span></a>
+						<a target="_blank" href="http://www.noobyard.com/tag/%E8%BD%AC%E6%88%90" title="转成"> <span class="new-label">转成</span></a>
+						<a target="_blank" href="http://www.noobyard.com/tag/bitmap" title="bitmap"> <span class="new-label">bitmap</span></a>
+				<a target="_blank" href="http://hk.noobyard.com/article/p-odzsipgl-hw.html"> <span class="new-label">繁體版</span></a>
+	        </div>
+
+	        <div>
+	        	<span class="source">
+	            	<i style="float:left;">原文</i>  
+	            	<a id="originfo" class="cut cut70" href="javascript:void()" target="_blank" tyle="display:inline-block;" rel="nofollow">https://blog.csdn.net/weixin_34198797/article/details/94709657</a>
+	    		</span>
+	        </div>
+    </div>
+    <div class="article_body" id="nei">
+	    	<div></div>
+        <div>
+           <div id="cnblogs_post_body" class="blogpost-body"> 
+ <span style="line-height:normal;font-family:'微软雅黑';font-size:12pt;">最近工做中有个需求是将Icon转成带Alpha通道的Bitmap, 虽然网上有很多这方面的文章，但不少都是错的， 这里记录下，或许对后来人有用。<br /><br /></span> 
+ <div style="line-height:normal;font-family:'微软雅黑';"></div> 
+ <div style="line-height:normal;font-family:'微软雅黑';"> 
+  <span style="font-size:12pt;">要实现这个功能，咱们首先须要理解Icon的格式，咱们能够看到Icon的结构以下：</span> 
+ </div> 
+ <div style="line-height:normal;font-family:'微软雅黑';"> 
+  <span style="font-size:12pt;"> </span> 
+  <div style="border-bottom:#cccccc 1px solid;border-left:#cccccc 1px solid;font-size:13px;border-top:#cccccc 1px solid;border-right:#cccccc 1px solid;">
+    typedef  
+   <span style="color:#0000ff;">struct</span> _ICONINFO { 
+   <br />    BOOL fIcon; 
+   <br />    DWORD xHotspot; 
+   <br />    DWORD yHotspot; 
+   <br />    HBITMAP hbmMask; 
+   <br />    HBITMAP hbmColor; 
+   <br />} ICONINFO; 
+   <br />typedef ICONINFO *PICONINFO; 
+  </div> 
+  <br />从上面咱们能够看到Icon和cursor的结构基本同样，主要都包括一幅mask位图和一幅color位图 
+ </div> 
+ <div style="line-height:normal;font-family:'微软雅黑';"></div> 
+ <div style="line-height:20px;font-family:georgia, verdana, Arial, helvetica, 'sans-seriff';color:#4b4b4b;font-size:13px;"> 
+  <span style="line-height:normal;">以下一个8个像素的红色小图标：</span> 
+  <br /> 
+  <span style="line-height:normal;"><img border="0" alt="" src="http://static.noobyard.com/static/loading.gif" width="28" height="30" /></span> 
+  <br /> 
+  <br /> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"> 
+   <span style="font-size:12pt;">它的Mask位图以下：<br /><img border="0" alt="" src="https://ewr1.vultrobjects.com/imgur1/000/003/709/833_390_2df.jpg" width="110" height="115" r="true" /><br /></span> 
+  </div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"> 
+   <span style="font-size:12pt;">若是咱们把Mask位图画出来，咱们会看到周围1的区域都是白色的，中间0的区域是黑色的<br /><br /></span> 
+  </div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"></div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"> 
+   <span style="font-size:12pt;">它的color位图以下：<br /><img border="0" alt="" src="https://ewr1.vultrobjects.com/imgur1/000/003/709/834_d1c_676.jpg" width="113" height="116" r="true" /><br /></span> 
+  </div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"> 
+   <span style="font-size:12pt;">若是咱们把color位图画出来，咱们会看到除了中间区域是红色的，周围0的区域都是黑色的。<br /><br /></span> 
+  </div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"></div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"> 
+   <span style="font-size:12pt;">思考将Icon画到目标位图上时，他们是如何最终合成的？<br /><br /></span> 
+  </div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"> 
+   <span style="font-size:12pt;">实际很简单，就是先和Mask位图作与(AND)运算，而后再与Color位图作异或(XOR)运算： AND运算的结果是除了中间区域变成黑色(0)，目标位图的其余区域都保持不变；XOR 运算的结果是周围区域只有和0不同 （color位图）才会获得1 (也就是原来是1则保持)， 中间区域由于前面通过mask运算后都是0，因此中间R部分XOR后也会保留。<br /><br /></span> 
+  </div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"></div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"> 
+   <span style="font-size:12pt;">咱们看到经过AND和XOR运算，咱们将中间红色部分扣出来贴了上去，而其余周围区域保持不变， 这种方式实际上也是</span> 
+   <a style="color:#4371a6;" href="/link?url=http://msdn.microsoft.com/en-us/library/ms648065" rel="nofollow" target="_blank"><span style="font-size:12pt;">DrawIconEx</span></a> 
+   <span style="font-size:12pt;">和</span> 
+   <a style="color:#4371a6;" href="/link?url=http://msdn.microsoft.com/en-us/library/dd145141(VS.85).aspx" rel="nofollow" target="_blank"><span style="font-size:12pt;">TransparentBlt</span></a> 
+   <span style="font-size:12pt;">的实现原理。</span> 
+  </div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"></div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"> 
+   <span style="font-size:12pt;">理解了Icon格式，咱们要将Icon转Bitmap就好办了， 咱们只要将Color位图考出来，而后位图里将mask部分是1的部分的Alpha通道改为0就能够了。</span> 
+   <span style="line-height:20px;font-family:georgia, verdana, Arial, helvetica, 'sans-seriff';color:#4b4b4b;font-size:13px;"> </span> 
+  </div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"> 
+   <span style="font-size:12pt;">这里要 注意的是有些icon 的color位图自己就是带Alpha通道的，这样咱们就实际上用不到Mask位图了，也不用再去改Alpha通道了。<br /><br /></span> 
+  </div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"></div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"> 
+   <span style="font-size:12pt;">另外对于黑白单色Icon( 好比黑白光标), 咱们不少时候会发现它的color位图是空的， 这种状况下全部的数据实际上都存到了Mask位图里，这时的Mask位图高度是Icon高度的2倍，上半部分是mask部分，下班部分保存了color位图部分。<br /><br /></span> 
+  </div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"></div> 
+  <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"> 
+   <span style="font-size:12pt;">最后简单贴下代码:</span> 
+  </div> 
+  <div> 
+   <div style="border-bottom:#cccccc 1px solid;border-left:#cccccc 1px solid;border-top:#cccccc 1px solid;border-right:#cccccc 1px solid;"> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;"><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">HBITMAP IconToBitmap(HICON hIcon, SIZE</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">*</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> pTargetSize </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL)<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">{<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    ICONINFO info </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> {</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">};<br />    </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">if</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(hIcon </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">==</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL<br />        </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">||</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">!</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">GetIconInfo(hIcon, </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">&amp;</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">info)<br />        </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">||</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">!</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">info.fIcon)<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    {<br />        </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">return</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    }<br /><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    INT nWidth </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    INT nHeight </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">;<br />    </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">if</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(pTargetSize </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">!=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL)<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    {<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        nWidth </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> pTargetSize</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">-&gt;</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">cx;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        nHeight </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> pTargetSize</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">-&gt;</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">cy;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    }<br />    </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">else</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;"><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    {<br />        </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">if</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(info.hbmColor </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">!=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL)<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        {<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">            BITMAP bmp </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> {</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">};<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">            GetObject(info.hbmColor, </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">sizeof</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(bmp), </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">&amp;</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">bmp);<br /><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">            nWidth </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> bmp.bmWidth;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">            nHeight </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-size:12pt;"> bmp.bmHeight;</span> 
+    <br /> 
+    <span style="line-height:normal;font-size:12pt;">        }</span> 
+    <br /> 
+    <span style="line-height:normal;font-size:12pt;">    }</span> 
+    <br /> 
+    <br /> 
+    <div> 
+     <span style="line-height:normal;color:#000000;font-size:12pt;">  if(info.hbmColor != NULL)</span> 
+    </div> 
+    <div> 
+     <span style="line-height:normal;color:#000000;font-size:12pt;"> {</span> 
+    </div> 
+    <div> 
+     <span style="line-height:normal;"><span></span></span> 
+     <span style="line-height:normal;color:#000000;font-size:12pt;">     DeleteObject(info.hbmColor);</span> 
+    </div> 
+    <div> 
+     <span style="line-height:normal;"><span></span></span> 
+     <span style="line-height:normal;color:#000000;font-size:12pt;">    info.hbmColor = NULL;</span> 
+    </div> 
+    <div> 
+     <span style="line-height:normal;color:#000000;font-size:12pt;">  }</span> 
+    </div> 
+    <div> 
+     <span style="line-height:normal;color:#000000;font-size:12pt;"></span>  
+    </div> 
+    <div> 
+     <span style="line-height:normal;color:#000000;font-size:12pt;">  if(info.hbmMask != NULL)</span> 
+    </div> 
+    <div> 
+     <span style="line-height:normal;color:#000000;font-size:12pt;"> {</span> 
+    </div> 
+    <div> 
+     <span style="line-height:normal;"><span></span></span> 
+     <span style="line-height:normal;color:#000000;font-size:12pt;">      DeleteObject(info.hbmMask);</span> 
+    </div> 
+    <div> 
+     <span style="line-height:normal;"><span></span></span> 
+     <span style="line-height:normal;color:#000000;font-size:12pt;">      info.hbmMask = NULL;</span> 
+    </div> 
+    <div> 
+     <span style="line-height:normal;color:#000000;font-size:12pt;"> }</span> 
+    </div> 
+    <div> 
+     <span style="line-height:normal;color:#000000;font-size:12pt;"></span>  
+    </div> 
+    <span style="line-height:normal;">    </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">if</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(nWidth </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">&lt;=</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;"><br />        </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">||</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> nHeight </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">&lt;=</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">)<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    {<br />        </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">return</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    }<br /><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    INT nPixelCount </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> nWidth </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">*</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> nHeight;<br /><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    HDC dc </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> GetDC(NULL);<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    INT</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">*</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> pData </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    HDC dcMem </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    HBITMAP hBmpOld </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL;<br />    </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">bool</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">*</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> pOpaque </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    HBITMAP dib </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    BOOL bSuccess </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> FALSE;<br /><br />    </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">do</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;"><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    {<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        BITMAPINFOHEADER bi </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> {</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">};<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        bi.biSize </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">sizeof</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(BITMAPINFOHEADER);    <br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        bi.biWidth </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> nWidth;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        bi.biHeight </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">-</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">nHeight;  <br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        bi.biPlanes </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">1</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">;    <br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        bi.biBitCount </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">32</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">;    <br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        bi.biCompression </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> BI_RGB;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        dib </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> CreateDIBSection(dc, (BITMAPINFO</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">*</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">)</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">&amp;</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">bi, DIB_RGB_COLORS, (VOID</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">**</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">)</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">&amp;</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">pData, NULL, </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">);<br />        </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">if</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(dib </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">==</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL) </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">break</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">;<br /><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        memset(pData, </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">, nPixelCount </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">*</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">4</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">);<br /><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        dcMem </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> CreateCompatibleDC(dc);<br />        </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">if</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(dcMem </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">==</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL) </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">break</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">;<br /><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        hBmpOld </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> (HBITMAP)SelectObject(dcMem, dib);<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        ::DrawIconEx(dcMem, </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">, </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">, hIcon, nWidth, nHeight, </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">, NULL, DI_MASK);<br /><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        pOpaque </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">new</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(std::nothrow) </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">bool</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">[nPixelCount];<br />        </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">if</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(pOpaque </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">==</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL) </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">break</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">;<br />        </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">for</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> (INT i </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">; i </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">&lt;</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> nPixelCount; </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">++</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">i)<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        {<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">            pOpaque[i] </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">!</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">pData[i];<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        }<br /><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        memset(pData, </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">, nPixelCount </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">*</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">4</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">);<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        ::DrawIconEx(dcMem, </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">, </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">, hIcon, nWidth, nHeight, </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">, NULL, DI_NORMAL);<br /><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        BOOL bPixelHasAlpha </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> FALSE;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        UINT</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">*</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> pPixel </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> (UINT</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">*</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">)pData;<br />        </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">for</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(INT i </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">; i</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">&lt;</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">nPixelCount; </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">++</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">i, </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">++</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">pPixel)<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        {<br />            </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">if</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">((</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">*</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">pPixel </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">&amp;</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0xff000000</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">) </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">!=</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">)<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">            {<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">                bPixelHasAlpha </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> TRUE;<br />                </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">break</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">            }<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        }<br /><br />        </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">if</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">!</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">bPixelHasAlpha)<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        {<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">            pPixel </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> (UINT</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">*</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">)pData;<br />            </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">for</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(INT i</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">;i </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">&lt;</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">nPixelCount; </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">++</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">i, </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">++</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">pPixel)<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">            {<br />                </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">if</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(pOpaque[i])<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">                {<br />                    </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">*</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">pPixel </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">|=</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0xFF000000</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">                }<br />                </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">else</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;"><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">                {<br />                    </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">*</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">pPixel </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">&amp;=</span>  
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">0x00FFFFFF</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">                }<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">            }<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        }<br /><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        bSuccess </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> TRUE;<br /><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    } </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">while</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(FALSE);<br /><br /><br />    </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">if</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(pOpaque </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">!=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL)<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    {<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        delete []pOpaque;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        pOpaque </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    }<br /><br />    </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">if</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(dcMem </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">!=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL)<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    {<br /> </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">       SelectObject(dcMem, hBmpOld);<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        DeleteDC(dcMem);<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    }<br /><br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    ReleaseDC(NULL, dc);<br /><br />    </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">if</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">!</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">bSuccess)<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    {<br />        </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">if</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">(dib </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">!=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL)<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        {<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">            DeleteObject(dib);<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">            dib </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">=</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> NULL;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">        }<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">    }<br /><br />    </span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#0000ff;font-size:12pt;">return</span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;"> dib;<br /></span> 
+    <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">}</span> 
+   </div> 
+   <br /> 
+   <span style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:12pt;">另外感慨Webkit是个宝库， 咱们的Icon转Bitmap代码实际上能够参考这里：</span> 
+   <div style="line-height:normal;font-family:'微软雅黑';color:#000000;font-size:14px;"> 
+    <a style="color:#4371a6;" href="/link?url=http://src.chromium.org/chrome/branches/355/src/gfx/icon_util.cc" rel="nofollow" target="_blank"><span style="font-size:12pt;">http://src.chromium.org/chrome/branches/355/src/gfx/icon_util.cc</span></a> 
+   </div> 
+  </div> 
+ </div> 
+ <div style="text-transform:none;text-indent:0px;font:14px '微软雅黑';letter-spacing:normal;color:#000000;word-spacing:0px;"> 
+  <span style="font-size:12pt;"> </span> 
+  <div style="text-transform:none;text-indent:0px;font:14px '微软雅黑';letter-spacing:normal;color:#000000;word-spacing:0px;"> 
+   <div style="text-transform:none;text-indent:0px;font:14px '微软雅黑';letter-spacing:normal;color:#000000;word-spacing:0px;"> 
+    <a href="/link?url=http://src.chromium.org/chrome/branches/355/src/gfx/icon_util.cc" rel="nofollow" target="_blank"><span style="font-size:12pt;"></span></a> 
+   </div> 
+  </div> 
+ </div> 
+</div> 
+<p>转载于:https://www.cnblogs.com/weiym/p/3928348.html<span style="color:#fff">html</span></p>
+        </div>
+            <div class="margin-top-20"></div>
+        	<div></div>
+    </div>
+		<div>
+	    	<div class="relative">相关文章</div>
+	    	<ul class="relative_list">
+		                <li>
+		                    1. <a href="http://www.noobyard.com/article/p-uewrrwkp-dm.html" target="_blank" title="如何将Icon转成Bitmap"> 如何将Icon转成Bitmap </a>
+		                </li>
+		                <li>
+		                    2. <a href="http://www.noobyard.com/article/p-wpjdfamw-ba.html" target="_blank" title="Icon 转 Bitmap"> Icon 转 Bitmap </a>
+		                </li>
+		                <li>
+		                    3. <a href="http://www.noobyard.com/article/p-nmshcglu-dg.html" target="_blank" title="将view转成bitmap"> 将view转成bitmap </a>
+		                </li>
+		                <li>
+		                    4. <a href="http://www.noobyard.com/article/p-sixlqwra-ez.html" target="_blank" title="如何将 DVD 转成 ISO"> 如何将 DVD 转成 ISO </a>
+		                </li>
+		                <li>
+		                    5. <a href="http://www.noobyard.com/article/p-vnnegzqo-kp.html" target="_blank" title="将 HttpPostedFile 转换成 Image 或者 Bitmap"> 将 HttpPostedFile 转换成 Image 或者 Bitmap </a>
+		                </li>
+		                <li>
+		                    6. <a href="http://www.noobyard.com/article/p-swmmopqc-v.html" target="_blank" title="将BMP图片转换成ICON图标"> 将BMP图片转换成ICON图标 </a>
+		                </li>
+		                <li>
+		                    7. <a href="http://www.noobyard.com/article/p-xwzapjrr-ne.html" target="_blank" title="如何将Ant Design Icon本地化"> 如何将Ant Design Icon本地化 </a>
+		                </li>
+		                <li>
+		                    8. <a href="http://www.noobyard.com/article/p-yndrqndq-ge.html" target="_blank" title="如何将 emoji 当成单色 icon 使用"> 如何将 emoji 当成单色 icon 使用 </a>
+		                </li>
+		                <li>
+		                    9. <a href="http://www.noobyard.com/article/p-pwqrhmho-hg.html" target="_blank" title="ImageView转换成Bitmap"> ImageView转换成Bitmap </a>
+		                </li>
+		                <li>
+		                    10. <a href="http://www.noobyard.com/article/p-hmohqlkl-cn.html" target="_blank" title="Android View转成Bitmap"> Android View转成Bitmap </a>
+		                </li>
+	            <li><a href="http://www.noobyard.com/relative/p-odzsipgl-hw.html" target="_blank" title="如何将Icon转成Bitmap 的相关文章"> 更多相关文章...</a></li>
+	        </ul>
+
+                <div class="margin-top-20"></div>
+                <div>
+                    <div></div>
+                </div>
+            <div class="margin-top-20"></div>
+
+	        <div class="relative">相关标签/搜索</div>
+	        <ul>
+	        			<a target="_blank" href="http://www.noobyard.com/tag/bitmap" title="bitmap"> <span class="new-label">bitmap</span></a>
+	        			<a target="_blank" href="http://www.noobyard.com/tag/icon" title="icon"> <span class="new-label">icon</span></a>
+	        			<a target="_blank" href="http://www.noobyard.com/tag/%E5%B0%86%E5%A6%82" title="将如"> <span class="new-label">将如</span></a>
+	        			<a target="_blank" href="http://www.noobyard.com/tag/%E5%A6%82%E4%BD%95" title="如何"> <span class="new-label">如何</span></a>
+	        			<a target="_blank" href="http://www.noobyard.com/tag/%E4%BD%95%E5%A6%82" title="何如"> <span class="new-label">何如</span></a>
+	        			<a target="_blank" href="http://www.noobyard.com/tag/%E5%B0%86%E6%88%90" title="将成"> <span class="new-label">将成</span></a>
+	        			<a target="_blank" href="http://www.noobyard.com/tag/%E8%BD%AC%E6%88%90" title="转成"> <span class="new-label">转成</span></a>
+	        			<a target="_blank" href="http://www.noobyard.com/tag/Bitmap+%E7%AF%87" title="Bitmap 篇"> <span class="new-label">Bitmap 篇</span></a>
+	        			<a target="_blank" href="http://www.noobyard.com/tag/%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0" title="如何学习"> <span class="new-label">如何学习</span></a>
+	        			<a target="_blank" href="http://www.noobyard.com/tag/%E4%B8%8D%E7%AE%A1%E5%A6%82%E4%BD%95" title="不管如何"> <span class="new-label">不管如何</span></a>
+	        </ul>
+	    </div>
+
+    <div class="article_social">
+        <div class="article_like">
+            <div class="circle circle-like" id="my_zan" data_id="eEvIVb6"></div>
+        </div>
+        <div class="clear"></div>
+        <div class="share">
+			<span class="share-left bdsharebuttonbox bdshare-button-style0-24" data-tag="share_1" data-bd-bind="1640767410615">
+				<a href="#" class="bds_more icon-share" data-cmd="more">
+					<span class="bds_count" data-cmd="count" title="累计分享0次">0</span>
+				</a>
+			</span>
+			<div class="share-right action action-share bdsharebuttonbox bdshare-button-style0-24" data-tag="share_1" data-bd-bind="1640767410615">
+				<span class="bdshare">
+					<a href="#" class="bds_sinaweibo icon-weibo" data-cmd="tsina" title="分享到新浪微博">分享到微博</a>
+					<a href="#" class="bds_weixin icon-wechat" data-cmd="weixin" title="分享到微信">分享到微信</a>
+					<a href="#" class="bds_qq icon-qq" data-cmd="sqq" title="分享到QQ好友">分享到QQ</a>
+				</span>
+			</div>
+		</div>
+		<div class="clear"></div>
+    <div class="bottom_plink huodong-detail-plink-banner clearfix">
+        </div>
+    </div>
+
+
+
+	<script>
+		$(function () {
+		    $("#originfo").text("https://blog.csdn.net/weixin_34198797/article/details/94709657");
+		    $("#originfo").hover(function(){
+		        $("#originfo").attr("href" , "/link?url=https://blog.csdn.net/weixin_34198797/article/details/94709657");
+			},function(){
+		        $("#originfo").attr("href" , "javascript:void()");
+			});
+		});
+	</script>
+
+    <script src="http://static.javashuo.com/static/script/article.js?time=1632754795647" type="text/javascript"></script>
+
+</div>
+<div class="span3 article_right_side" style="height: auto !important; min-height: 0px !important;">
+    <div class="right_top" style="height: auto !important;">
+    	<div id="right_site_articles" class="article_detail_bg">
+    <div class="article-part-title">
+        <span>每日一句</span>
+    </div>
+    <ul class="side_article_list">
+    	每一个你不满意的现在，都有一个你没有努力的曾经。
+    </ul>
+</div><script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 菜鸟学院侧边栏 -->
+<ins class="adsbygoogle" style="display: block; height: 600px;" data-ad-client="ca-pub-6208739752673518" data-ad-slot="5328722140" data-ad-format="auto" data-full-width-responsive="true" data-adsbygoogle-status="done" data-ad-status="unfilled"><ins id="aswift_0_expand" style="border: none; height: 600px; width: 200px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-table;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_0_anchor" style="border: none; height: 600px; width: 200px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: block; overflow: visible;"><iframe id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0;width:200px;height:600px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="200" height="600" frameborder="0" src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-6208739752673518&amp;output=html&amp;h=600&amp;slotname=5328722140&amp;adk=1248299272&amp;adf=1666180184&amp;pi=t.ma~as.5328722140&amp;w=200&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1640767410&amp;rafmt=1&amp;psa=0&amp;format=200x600&amp;url=http%3A%2F%2Fwww.noobyard.com%2Farticle%2Fp-odzsipgl-hw.html&amp;flash=0&amp;fwr=0&amp;fwrattr=true&amp;rpe=1&amp;resp_fmts=4&amp;wgl=1&amp;dt=1640767410584&amp;bpp=4&amp;bdt=638&amp;idt=252&amp;shv=r20211207&amp;mjsv=m202112060101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;correlator=2957070248319&amp;frm=20&amp;pv=2&amp;ga_vid=1794471847.1640767411&amp;ga_sid=1640767411&amp;ga_hid=942193914&amp;ga_fc=0&amp;u_tz=480&amp;u_his=2&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_sd=1&amp;adx=692&amp;ady=161&amp;biw=912&amp;bih=888&amp;scr_x=0&amp;scr_y=0&amp;oid=2&amp;pvsid=1015097043376407&amp;pem=199&amp;tmod=700&amp;eae=0&amp;fc=896&amp;brdim=-1092%2C38%2C-1092%2C38%2C1920%2C0%2C945%2C1020%2C929%2C888&amp;vis=1&amp;rsz=%7C%7CeE%7C&amp;abl=CS&amp;pfx=0&amp;fu=128&amp;bc=23&amp;ifi=1&amp;uci=a!1&amp;fsb=1&amp;xpc=EZsgifrwja&amp;p=http%3A//www.noobyard.com&amp;dtd=281" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!1" data-load-complete="true"></iframe></ins></ins></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    <div id="right_site_articles">
+        <div class="article-part-title">
+            <span>最新文章</span>
+        </div>
+        <ul class="side_article_list">
+	                <li class="side_article_list_item">1.
+	                    <a href="http://www.noobyard.com/article/p-mttpmeff-vn.html" target="_blank" title="如何建立一套测试流程？软件测试管理方案推荐"> 如何建立一套测试流程？软件测试管理方案推荐 </a>
+	                </li>
+	                <li class="side_article_list_item">2.
+	                    <a href="http://www.noobyard.com/article/p-mnnfcsrf-vn.html" target="_blank" title="2020年N2观光车和观光列车司机试题及答案及N2观光车和观光列车司机证考试"> 2020年N2观光车和观光列车司机试题及答案及N2观光车和观光列车司机证考试 </a>
+	                </li>
+	                <li class="side_article_list_item">3.
+	                    <a href="http://www.noobyard.com/article/p-odavlzxf-vn.html" target="_blank" title="JavaWeb实战（四）——加入MyBatis框架"> JavaWeb实战（四）——加入MyBatis框架 </a>
+	                </li>
+	                <li class="side_article_list_item">4.
+	                    <a href="http://www.noobyard.com/article/p-upcbeaqn-vn.html" target="_blank" title="中体骏彩大数据面试题"> 中体骏彩大数据面试题 </a>
+	                </li>
+	                <li class="side_article_list_item">5.
+	                    <a href="http://www.noobyard.com/article/p-rqaemcrb-vn.html" target="_blank" title="服务式办公室相比传统办公室有哪些优势?"> 服务式办公室相比传统办公室有哪些优势? </a>
+	                </li>
+        </ul>
+
+
+    </div>
+
+    </div>
+
+    <div class="operate_zone" style="position: fixed; top: 60px; width: 200px;">
+
+
+    <div id="right_site_articles">
+        <div class="article-part-title">
+            <span>相关文章</span>
+        </div>
+        <ul class="side_article_list">
+	                <li class="side_article_list_item">1.
+	                    <a href="http://www.noobyard.com/article/p-uewrrwkp-dm.html" target="_blank" title="如何将Icon转成Bitmap"> 如何将Icon转成Bitmap </a>
+	                </li>
+	                <li class="side_article_list_item">2.
+	                    <a href="http://www.noobyard.com/article/p-wpjdfamw-ba.html" target="_blank" title="Icon 转 Bitmap"> Icon 转 Bitmap </a>
+	                </li>
+	                <li class="side_article_list_item">3.
+	                    <a href="http://www.noobyard.com/article/p-nmshcglu-dg.html" target="_blank" title="将view转成bitmap"> 将view转成bitmap </a>
+	                </li>
+	                <li class="side_article_list_item">4.
+	                    <a href="http://www.noobyard.com/article/p-sixlqwra-ez.html" target="_blank" title="如何将 DVD 转成 ISO"> 如何将 DVD 转成 ISO </a>
+	                </li>
+	                <li class="side_article_list_item">5.
+	                    <a href="http://www.noobyard.com/article/p-vnnegzqo-kp.html" target="_blank" title="将 HttpPostedFile 转换成 Image 或者 Bitmap"> 将 HttpPostedFile 转换成 Image 或者 Bitmap </a>
+	                </li>
+	                <li class="side_article_list_item">6.
+	                    <a href="http://www.noobyard.com/article/p-swmmopqc-v.html" target="_blank" title="将BMP图片转换成ICON图标"> 将BMP图片转换成ICON图标 </a>
+	                </li>
+	                <li class="side_article_list_item">7.
+	                    <a href="http://www.noobyard.com/article/p-xwzapjrr-ne.html" target="_blank" title="如何将Ant Design Icon本地化"> 如何将Ant Design Icon本地化 </a>
+	                </li>
+	                <li class="side_article_list_item">8.
+	                    <a href="http://www.noobyard.com/article/p-yndrqndq-ge.html" target="_blank" title="如何将 emoji 当成单色 icon 使用"> 如何将 emoji 当成单色 icon 使用 </a>
+	                </li>
+	                <li class="side_article_list_item">9.
+	                    <a href="http://www.noobyard.com/article/p-pwqrhmho-hg.html" target="_blank" title="ImageView转换成Bitmap"> ImageView转换成Bitmap </a>
+	                </li>
+	                <li class="side_article_list_item">10.
+	                    <a href="http://www.noobyard.com/article/p-hmohqlkl-cn.html" target="_blank" title="Android View转成Bitmap"> Android View转成Bitmap </a>
+	                </li>
+        </ul>
+
+        	<div style="padding-left:10px;font-size:14px;padding-bottom:10px;">
+        		<a href="http://www.noobyard.com/relative/p-odzsipgl-hw.html" target="_blank" title="如何将Icon转成Bitmap 的相关文章"> &gt;&gt;更多相关文章&lt;&lt; </a>
+    		</div>
+
+    </div>
+
+    </div>
+</div>
+
+	</div>
+
+	<script type="text/javascript">
+        $('table').each(function (i) {
+            var size = $(this).children().size();
+            if (size &gt; 1) {
+                $(this).attr('class', "table table-bordered");
+            } else if (size == 1) {
+                var e11 = $(this).children(":first");
+                var e1 = e11[0];
+                var name = e1.nodeName.toLowerCase();
+                if ("tbody" == name) {
+                    if (e1.children.length &gt; 1) {
+                        $(this).attr('class', "table table-bordered");
+                    } else if (e1.children.length == 1) {
+                        var e12 = e1.children[0];
+                        var name2 = e12.nodeName.toLowerCase();
+                        if ("tr" == name2) {
+                            if (e12.children.length &gt; 1) {
+                                $(this).attr('class', "table table-bordered");
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        window.page = 0;
+        window.last = 0;
+        window.first = true;
+        resize_article_image('#nei', 550);
+        
+        
+        
+		+ (function($){
+			window._bd_share_config = {
+				common: {
+					"bdText": "【" + $("title").text() + "】" + $(".post-content p:lt(2)").text(),
+					"bdMini": "2",
+					"bdMiniList": false,
+					"bdPic": $(".post-content img:first") ? $(".post-content img:first").attr("src") : "",
+					"bdStyle": "0",
+					"bdSize": "24"
+				},
+				share: [{
+					bdCustomStyle: 'http://static.javashuo.com/static/css/share.css'
+				}],
+			};
+			with(document) 0[(getElementsByTagName("head")[0] || body).appendChild(createElement("script")).src = "http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=" + ~ ( - new Date() / 36e5)];
+		})(window.jQuery);
+    </script>
+</div>
+<script type="text/javascript" src="http://static.javashuo.com/static/plugin/highlight/highlight.pack.js"></script>
+<link href="http://static.javashuo.com/static/plugin/highlight/styles/docco.css" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+$('pre').each(function(i, e) {
+    hljs.highlightBlock(e, "&lt;span class='indent'&gt;  &lt;/span&gt;", false)
+});
+</script>
+<div class="footer">
+    <div class="footer-inner" style="padding-top: 50px;padding-bottom: 50px">
+        <a href="http://www.noobyard.com/contact" target="_blank">联系我们</a>
+        <a href="http://www.noobyard.com/search">最近搜索</a>
+        <a href="http://www.noobyard.com/recent">最新文章</a>
+        <script type="text/javascript" src="https://s4.cnzz.com/z_stat.php?id=1280011258&amp;web_id=1280011258"></script><script src="https://c.cnzz.com/core.php?web_id=1280011258&amp;t=z" charset="utf-8" type="text/javascript"></script><a href="https://www.cnzz.com/stat/website.php?web_id=1280011258" target="_blank" title="站长统计">站长统计</a>
+        <a href="https://beian.miit.gov.cn/" target="_blank">沪ICP备2021010478号-7</a>
+
+    </div>
+    <div style="display:none;">
+        <script>
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?6df16c73add96aec50bba1a630a55b4a";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+    </div>
+</div>
+
+<script type="text/javascript" src="http://static.javashuo.com/static/script/tip.js?time=1632754795647" async=""></script>
+
+
+<div class="return" title="返回顶部" style="display: block;"></div><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;" data-ad-status="unfilled"><ins id="aswift_1_expand" style="border: none; height: 0px; width: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-table;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_1_anchor" style="border: none; height: 0px; width: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: block;"><iframe id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-6208739752673518&amp;output=html&amp;adk=1812271804&amp;adf=3025194257&amp;lmt=1640767410&amp;plat=1%3A8%2C2%3A16777224%2C3%3A32%2C4%3A32%2C9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1048576%2C32%3A32&amp;format=0x0&amp;url=http%3A%2F%2Fwww.noobyard.com%2Farticle%2Fp-odzsipgl-hw.html&amp;ea=0&amp;flash=0&amp;pra=7&amp;wgl=1&amp;dt=1640767410599&amp;bpp=1&amp;bdt=653&amp;idt=281&amp;shv=r20211207&amp;mjsv=m202112060101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;prev_fmts=200x600&amp;nras=1&amp;correlator=2957070248319&amp;frm=20&amp;pv=1&amp;ga_vid=1794471847.1640767411&amp;ga_sid=1640767411&amp;ga_hid=942193914&amp;ga_fc=0&amp;u_tz=480&amp;u_his=2&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_sd=1&amp;adx=-12245933&amp;ady=-12245933&amp;biw=912&amp;bih=888&amp;scr_x=0&amp;scr_y=0&amp;oid=2&amp;pvsid=1015097043376407&amp;pem=199&amp;tmod=700&amp;eae=2&amp;fc=896&amp;brdim=-1092%2C38%2C-1092%2C38%2C1920%2C0%2C945%2C1020%2C929%2C888&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=32768&amp;bc=23&amp;ifi=2&amp;uci=a!2&amp;fsb=1&amp;dtd=289" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" data-google-container-id="a!2" data-load-complete="true"></iframe></ins></ins></ins><iframe src="https://www.google.com/recaptcha/api2/aframe" width="0" height="0" style="display: none;"></iframe></body><iframe id="google_esf" name="google_esf" src="https://googleads.g.doubleclick.net/pagead/html/r20211207/r20190131/zrt_lookup.html" style="display: none;"></iframe></html>
