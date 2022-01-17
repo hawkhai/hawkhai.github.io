@@ -116,7 +116,6 @@ C:\test>"pecopy.exe" -in "fastvc.exe" \
 ```bat
 "pecopy.exe" -in "pecopy.exe" \
              -out "..\..\dist\pecopy.exe" \
-             -mcp 65001 \
              -icon "..\image\icon\iconall\shitou.ico" \
              -mask ICONGROUP,107,2052
 ```
@@ -401,6 +400,35 @@ def main(rootdir):
 if __name__ == "__main__":
     main(".")
     main(os.path.split(os.path.abspath(__file__))[0])
+```
+
+<div class="highlighter-rouge" foldctrl="1"></div>
+看起来很优秀，没有试过的代码：
+
+```python
+def bake_one_big_png_to_ico(sourcefile, targetfile, sizes=None):
+    """Converts one big PNG into one ICO file.
+
+    args:
+        sourcefile (str): Pathname of a PNG file.
+        targetfile (str): Pathname of the resulting ICO file.
+        sizes (list of int): Requested sizes of the resulting
+            icon file, defaults to [16, 32, 48].
+
+    Use this function if you have one big, square PNG file
+    and don’t care about fine-tuning individual icon sizes.
+
+    Example::
+
+        sourcefile = "Path/to/high_resolution_logo_512x512.png"
+        targetfile = "Path/to/logo.ico"
+        sizes = [16, 24, 32, 48, 256]
+        bake_one_big_png_to_ico(sourcefile, targetfile, sizes)
+    """
+    if sizes is None:
+        sizes = [16, 32, 48]
+    icon_sizes = [(x, x) for x in sizes]
+    Image.open(sourcefile).save(targetfile, icon_sizes=icon_sizes)
 ```
 
 

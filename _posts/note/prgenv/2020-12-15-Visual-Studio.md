@@ -17,6 +17,24 @@ cluster: "Visual Studio"
 ---
 
 
+## C++ 中 _tmain() 和 main()
+
+[from](https://www.codenong.com/895827/)
+
+C++ 中不存在 \_tmain、main。\_tmain 是 Microsoft 扩展。
+
+根据 C++ 标准，main 是程序的入口点。
+它有以下两个签名之一：
+```cpp
+int main();
+int main(int argc, char* argv[]);
+```
+Microsoft 已添加一个 wmain，用以下内容替换第二个签名：
+```cpp
+int wmain(int argc, wchar_t* argv[]);
+```
+
+
 ## sxstrace.exe 工具
 
 应用程序无法启动，因为应用程序的并行配置不正确。有关详细信息，请参阅应用程序事件日志，或使用命令行 sxstrace.exe 工具。
@@ -296,6 +314,7 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Visual-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.codenong.com/895827/]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/www.codenong.com/38324189.html" %})
 - [https://jingyan.baidu.com/article/3c48dd3485c80be10be358e3.html]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/jingyan.baidu.com/2a6c630c.html" %})
 - [https://blog.csdn.net/hujialong1997/article/details/105458435]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/blog.csdn.net/fb89ec11.html" %})
 - [https://www.cnblogs.com/huhewei/p/6080157.html]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/www.cnblogs.com/38d5910a.html" %})
