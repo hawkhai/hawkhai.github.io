@@ -274,6 +274,13 @@ void testmain2(QString& qstr) {
 生成的代码是：
 {% include image.html url="/assets/images/210602-win-windbg-cases/20210609100048.png" %}
 
+也可以这样写，生命周期 都是没问题的（调用函数生命周期内，临时变量都不会被释放）：
+```cpp
+void testmain2(QString& qstr) {
+    std::cout << qstr.toStdString().c_str();
+}
+```
+
 《C++ 程序设计语言》第 10 章中写道，“除非一个临时对象被约束到某个引用，或者被用于作为命名对象的初始化，否则它将在创建它的那个完整表达式结束时销毁”。
 所谓“完整表达式”，是指不是其它表达式的子表达式的表达式。简单来说，一个完整表达式的标识一般是一个分号。
 
