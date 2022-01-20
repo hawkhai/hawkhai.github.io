@@ -285,6 +285,40 @@ void testmain2(QString& qstr) {
 所谓“完整表达式”，是指不是其它表达式的子表达式的表达式。简单来说，一个完整表达式的标识一般是一个分号。
 
 
+### 生命周期问题
+
+```cpp
+class Temp {
+public:
+    Temp(const char* p) {
+        if (p) {
+            int size = strlen(p) + 1;
+            this->p = new char[size];
+            strcpy_s(this->p, size, p);
+        }
+    }
+    virtual ~Temp() {
+        if (p) {
+            delete[] p;
+            p = nullptr;
+        }
+    }
+
+    char* getp() {
+        return p;
+    }
+
+private:
+    char* p = nullptr;
+};
+
+void func() {
+    // 执行顺序：构造 a，构造 b，这句代码执行完成，释放 a，函数退出，释放 b。
+    Temp b = Temp("a").getp();
+}
+```
+
+
 ## 崩溃 空指针问题
 
 ```
