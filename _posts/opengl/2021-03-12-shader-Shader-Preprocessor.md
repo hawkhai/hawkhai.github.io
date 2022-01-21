@@ -419,7 +419,7 @@ caption="The preprocessor transforms a shader into an intermediate representatio
 {% include image.html url="/assets/images/210312-shader-shader-preproces~18/ogles2-shader-example-137862.png" %}
 {% include image.html url="/assets/images/210312-shader-shader-preproces~18/ogles-ifdef-compile-shader-example-137862.png" %}
 
-GITHUB Preprocess and format the shader code.
+GITHUB [Preprocess and format the shader code. {% include relref_github.html %}](https://github.com/06wj/shaderViewer)
 {% include image.html url="/assets/images/210312-shader-shader-preproces~18/tb1lkmzul1tbunjy0fjxxajyxxa-1170-1254.png_600x600.png" %}
 
 
@@ -442,3 +442,4 @@ GITHUB Preprocess and format the shader code.
 - [https://github.com/06wj/shaderViewer/tree/master]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/d9d0b48e.html" %})
 - [https://github.com/Chris-Zou/Preprocessor]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/6b6b7240.html" %})
 - [https://www.ogre3d.org/docs/manual18/manual_21.html]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/www.ogre3d.org/0488937e.html" %})
+- [https://github.com/06wj/shaderViewer]({% include relrefx.html url="/backup/2021-03-12-shader-Shader-Preprocessor.md/github.com/51d53545.html" %})
