@@ -62,6 +62,12 @@ url2="/assets/images/200822-tortoise-git-ssh/5-2.png" %}
 
 #### 8. 完成后，右键可以直接 pull 和 push 操作了。
 
+##### Github 遇到的两个问题
+
+{% include image.html url="/assets/images/200822-tortoise-git-ssh/20220124233933.png" %}
+
+貌似还有就是要重启一下电脑。
+
 -----------------
 
 补充：
