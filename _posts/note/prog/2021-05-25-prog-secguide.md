@@ -318,6 +318,33 @@ endif()
     * “WatermarkTask::getDstPath”: 不是所有的控件路径都返回值
 
 
+### 2022-01-26 笔记
+
+尽量升级到最新的 vs，然后 debug 版本，会有很多惊喜的发现。
+```
+警告等级：等级 4（/W4）
+将警告视为错误：是（/WX）
+<WarningLevel>Level4</WarningLevel>
+<TreatWarningAsError>true</TreatWarningAsError>
+#pragma warning(disable: 4786)
+#pragma.*?warning.*?disable
+#pragma warning(push)
+#pragma warning(disable: 4731)
+#pragma warning(pop)
+```
+
+* <https://docs.microsoft.com/zh-cn/cpp/error-messages/compiler-warnings/compiler-warning-level-3-c4018?view=msvc-170>
+* <https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warnings-by-compiler-version?view=msvc-170>
+* <https://docs.microsoft.com/zh-cn/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4927?view=msvc-170>
+
+```
+src\ui\CustomControls\ScrollTabBarWidget.cpp(145): warning C4172: 返回局部变量或临时变量的地址 : itemCache
+visual C++ C5205
+Compiler warning (level 4)
+C5205 delete of an abstract class 'type-name' that has a non-virtual destructor results in undefined behavior
+```
+
+
 ## 匹对逻辑应该设计为 RAII，防止写漏
 
 
@@ -549,6 +576,9 @@ int Foo() {
 - [https://github.com/rxi/log.c]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/e00aa14a.html" %})
 - [https://github.com/rspec/rspec/wiki/Getting-colored-output-working-on-Windows]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/7a35e51b.html" %})
 - [https://www.cnblogs.com/zjutzz/p/11333334.html]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/www.cnblogs.com/5687afa3.html" %})
+- [https://docs.microsoft.com/zh-cn/cpp/error-messages/compiler-warnings/compiler-warning-level-3-c4018?view=msvc-170]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/docs.microsoft.com/a09a78cf.html" %})
+- [https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warnings-by-compiler-version?view=msvc-170]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/docs.microsoft.com/0dfd9994.html" %})
+- [https://docs.microsoft.com/zh-cn/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4927?view=msvc-170]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/docs.microsoft.com/bf455dce.html" %})
 - [https://github.com/preshing/junction]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/f3798178.html" %})
 - [https://github.com/oneapi-src/oneTBB]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/acfc8855.html" %})
 - [https://github.com/Tencent/secguide/blob/main/C%2CC%2B%2B%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97.md]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/a22343f4.html" %})

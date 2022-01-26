@@ -75,7 +75,7 @@ std::enable_if_t<std::is_pod<Type, Type>> func(){}
 ```cpp
 std::enalbe_if_t<std::is_pod<Type>>
 ```
-当 Type 是 pod 类型是 <==> void 否则是空的。代入原函数就变成（假定 A 不是 POD 类型），
+当 Type 是 pod 类型是 \<==\> void 否则是空的。代入原函数就变成（假定 A 不是 POD 类型），
 ```cpp
 template<typename Type = A, typename = >
 Type func(){}
@@ -202,7 +202,7 @@ void func(const A& a);
 这不是 const 引用吗？
 
 其实这就又要说到运算符归并优先级（这里不是运算符，但同样有一个归并优先级）。
-实际上 `const A& a` <==> `(const A)& a`  而不是 `const (A&) a`，实际不能这样加括号哈。
+实际上 `const A& a` \<==\> `(const A)& a`  而不是 `const (A&) a`，实际不能这样加括号哈。
 我们可以这样验证。
 ```cpp
 typedef (const A) constA;
@@ -373,7 +373,7 @@ int b[] = { (void, 0), (void, 0)} // b <==> {0, 1}
 ## std::tuple 和 std::index_sequence
 
 这两货都是模板参数包的衍生产物。
-`std::tuple<double, int>` <==> `std::pair<double, int>` 类似
+`std::tuple<double, int>` \<==\> `std::pair<double, int>` 类似
 区别在于 `std::tuple` 支持任意模板参数个数。
 而 `std::index_sequence` 是真正在编译期才需要的东西，而且和模板参数包高度结合。
 
@@ -561,7 +561,7 @@ error C2668: "func": 对重载函数的调用不明确。
 1. 普通函数（非模板函数，参数类型一致时，无隐式转换的那种精确匹配）
     func(3) 调用的是（4），func(3.1) 调用的（1）。
 2. 模板函数，参数匹配度最高的那种
-    func(std::vector<int>()) 调用是（2）。
+    func(std::vector\<int\>()) 调用是（2）。
 3. 如果匹配度一致，则会报错，当然匹配度一致，不仅仅只是上面说到的这两种情况。其它情况这里不罗列。
 
 
@@ -819,7 +819,7 @@ inline void KDataPack::_packOne(const T& arg)
 2. 如果挨个重载一遍代码量重载有点大。
 
 大致的重载写法如下：
-```
+```cpp
 template<typename T>
 std::wostream& operator<<(std::wostream& stream, const T& t)
 {
@@ -852,10 +852,10 @@ struct CheckDebug
 
 通过这个方法，可以用于检测语法是否成立。
 
-这里需要备注的点是：std::declval<QDebug>()，为什么不直接写成 QDebug()，首先这里写成 QDebug() 是可以的，
-但是后面的 std::decalval<U>() 是不能写成 U()。
+这里需要备注的点是：std::declval\<QDebug\>()，为什么不直接写成 QDebug()，首先这里写成 QDebug() 是可以的，
+但是后面的 std::decalval\<U\>() 是不能写成 U()。
 这是因为 U 未必有默认构造函数，QDebug 是确定有的，U 是模板参数，可以任意指定的。
-这里只是为了验证 QDebug() << U 类型的对象 是否语法成立，并不强求 U 有无参构造函数。
+这里只是为了验证 QDebug() \<\< U 类型的对象 是否语法成立，并不强求 U 有无参构造函数。
 那么怎么构造 U 的对象出来用于检验了？这就需要用到以下函数：
 ```cpp
 Template <typename T>
