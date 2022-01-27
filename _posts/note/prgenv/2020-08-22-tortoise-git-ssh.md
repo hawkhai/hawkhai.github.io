@@ -61,6 +61,7 @@ url2="/assets/images/200822-tortoise-git-ssh/3-2.png" %}
 ## 打开 Pageant
 
 运行 TortoiseGit 开始菜单中的 Pageant 程序，程序启动后将自动停靠在任务栏中，双击该图标，弹出 key 管理列表。
+（这一步貌似可以省掉？）
 
 {% include image.html url="/assets/images/200822-tortoise-git-ssh/5-1.png"
 url2="/assets/images/200822-tortoise-git-ssh/5-2.png" %}
@@ -91,7 +92,11 @@ url2="/assets/images/200822-tortoise-git-ssh/5-2.png" %}
 
 {% include image.html url="/assets/images/200822-tortoise-git-ssh/20220124233933.png" %}
 
-我的 Win8 貌似还有就是要重启一下电脑。
+我的 Win8 当一台电脑存在多个账号的 ppk 的时候，貌似会失败，每次上传下载前，先清空 Pageant Key List 貌似就可以了（这玩意貌似存在 bug）。
+{% include image.html url="/assets/images/200822-tortoise-git-ssh/20220128013736.png" caption="失败的情况" %}
+{% include image.html url="/assets/images/200822-tortoise-git-ssh/20220128013751.png" caption="每次操作前清空，就可以成功了。" %}
+
+每次下拉的时候，它会自动把对于的 ppk 加入到 Pageant 里面。
 
 -----------------
 
