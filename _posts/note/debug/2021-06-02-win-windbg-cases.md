@@ -17,6 +17,94 @@ cluster: "WinDBG"
 ---
 
 
+## 64 位指针被截断
+
+
+### explorer.exe fastapp_ext64.dll ACCESS_VIOLATION.dmp
+
+```
+CONTEXT:  (.ecxr)
+rax=00000000823b63c0 rbx=ffffffff823b63c0 rcx=000000007de8f948
+rdx=ffffffff823b63c0 rsi=0000000000000000 rdi=00000000823b62b8
+rip=0000000055361dea rsp=000000007de8f8b0 rbp=00000000823b6380
+ r8=0000000000000000  r9=ffffffffffffffff r10=0000000000000072
+r11=ffffffff823b63c0 r12=0000000000000000 r13=0000000000000000
+r14=0000000000000000 r15=0000000000000000
+iopl=0         nv up ei pl nz na pe nc
+cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010202
+fastapp_ext64!std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> >::assign+0x1a:
+00000000`55361dea 4c394218        cmp     qword ptr [rdx+18h],r8 ds:ffffffff`823b63d8=????????????????
+Resetting default scope
+
+EXCEPTION_RECORD:  (.exr -1)
+ExceptionAddress: 0000000055361dea (fastapp_ext64!std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> >::assign+0x000000000000001a)
+   ExceptionCode: c0000005 (Access violation)
+  ExceptionFlags: 00000000
+NumberParameters: 2
+   Parameter[0]: 0000000000000000
+   Parameter[1]: ffffffff823b63d8
+Attempt to read from address ffffffff823b63d8
+```
+
+```
+ntdll!NtWaitForSingleObject+0x14:
+00007ffc`e352cdf4 c3          Unable to load image C:\Program Files (x86)\knpdf\fastapp_ext64.dll, Win32 error 0n2
+rax=00000000823b63c0 rbx=ffffffff823b63c0 rcx=000000007de8f948
+rdx=ffffffff823b63c0 rsi=0000000000000000 rdi=00000000823b62b8
+rip=0000000055361dea rsp=000000007de8f8b0 rbp=00000000823b6380
+ r8=0000000000000000  r9=ffffffffffffffff r10=0000000000000072
+r11=ffffffff823b63c0 r12=0000000000000000 r13=0000000000000000
+r14=0000000000000000 r15=0000000000000000
+iopl=0         nv up ei pl nz na pe nc
+cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010202
+fastapp_ext64!std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> >::assign+0x1a:
+00000000`55361dea 4c394218        cmp     qword ptr [rdx+18h],r8 ds:ffffffff`823b63d8=????????????????
+RetAddr           : Args to Child                                                           : Call Site
+00000000`00000000 : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : fastapp_ext64!std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> >::assign+0x1a [d:\program files\microsoft visual studio 8\vc\include\xstring @ 1039]
+00000000`7de8f8b0  00000000
+00000000`7de8f8b4  00000000
+00000000`7de8f8b8  00000000
+00000000`7de8f8bc  00000000
+00000000`7de8f8c0  00000000
+00000000`7de8f8c4  00000000
+00000000`7de8f8c8  00000000
+00000000`7de8f8cc  00000000
+00000000`7de8f8d0  00000000
+00000000`7de8f8d4  00000000
+00000000`7de8f8d8  5536b692 fastapp_ext64!KAcctrl::OnActivate+0xc2 [e:\svn\kisengine\kis_v11_released_sp5.3_1337_fb\src\waitui_tools\fastpic_ext_forpdf\acctrl.cpp @ 98]
+```
+
+`Attempt to read from address ffffffff823b63d8` 指针出错，一看，就是被扩展出来的。
+
+```cpp
+#include <iostream>
+
+class Class {
+};
+
+int main()
+{
+    if (true) { // 有符号数扩展的情况
+        Class* p = new Class(); // 0x0000024bcf7e4770 {...}
+        long inta = (long)p; // 0xcf7e4770
+        unsigned long long int64u = inta; // 0xffffffffcf7e4770
+        long long int64 = inta; // 0xffffffffcf7e4770
+        p = (Class*)inta; // 指针变成了 0xffffffffcf7e4770 {...}
+        p = 0;
+    }
+    if (true) { // 无符号数扩展的情况。
+        Class* p = new Class(); // 0x0000029beea22fe0 {...}
+        unsigned long inta = (long)p; // 0xeea22fe0
+        unsigned long long int64u = inta; // 0x00000000eea22fe0
+        long long int64 = inta; // 0x00000000eea22fe0
+        p = (Class*)inta; // 指针变成了 0x00000000eea22fe0 {...}
+        p = 0;
+    }
+    return 0;
+}
+```
+
+
 ## 虚表对不上造成的崩溃
 
 
