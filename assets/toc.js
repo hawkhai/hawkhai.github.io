@@ -134,6 +134,11 @@ if (typeof $.fn.tocMaxWidth === 'undefined') {
 }
 
 function activeCurrentScroll() {
+    var tocdiv = $("#tocdiv");
+    if (tocdiv.is(":hidden")) {
+        return;
+    }
+
     var scrollDistance = $(window).scrollTop();
     // Assign active class to nav links while scolling
     var targeti = -1;
