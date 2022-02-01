@@ -54,13 +54,19 @@ And, I welcome any feedback on the contents and your suggestions.
     * 都是程序员，看也看不懂，改也改不动，避免互相伤害。
 
 以前也做笔记，但是后来发现很多网址打不开了，你说找谁说理去？
-这个博客系统加入了自动外链快照功能，博文里面包含的网址，会自动爬取快照存档。
+这个博客系统加入了自动外链快照功能，博文里面包含的网址，会自动爬取快照存档，方便溯源。
 
 > You do not need to leave your room. Remain sitting at your table and listen.
 > Do not even listen, simply wait, be quiet still and solitary.
 > The world will freely offer itself to you to be unmasked,
 > it has no choice, it will roll in ecstasy at your feet.
 > --- Franz Kafka
+
+1. 知识内化：记笔记的过程是一个归纳整理、再理解、再吸收的过程，可以加深我们对知识的理解。
+2. 形成知识体系：零散的知识很容易被遗忘，而形成知识体系之后，知识之间就能有更强的连接。
+3. 方便回顾：笔记就像我们的硬盘，当缓存失效后，我们依然可以通过硬盘调回，保证知识不丢失。
+
+> “处乱世而不惊，临虚空而不惧，喜迎阴晴圆缺，笑傲雨雪风霜”。
 
 
 ## 关于代码
