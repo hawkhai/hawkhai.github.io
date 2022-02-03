@@ -157,7 +157,7 @@ function activeCurrentScroll() {
 
         // https://github.com/stipsan/scroll-into-view-if-needed
         const node = divlist[targeti];
-        if (node) {
+        if (node) { // && !$(node).is(":visible")
             // similar behavior as Element.scrollIntoView({block: "nearest", inline: "nearest"})
             // only that it is a no-op if `node` is already visible
             // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
@@ -184,9 +184,15 @@ function initToc(tocdiv) {
         });
 
         // https://codepen.io/eksch/pen/xwdOeK
+        var acstime = $.now();
         $(window).scroll(function () {
             checkToc();
-            activeCurrentScroll();
+            // https://zhuanlan.zhihu.com/p/342205449
+            var curtime = $.now();
+            if (curtime >= acstime + 1000) {
+                setTimeout("activeCurrentScroll()", 100);
+                acstime = curtime;
+            }
         }).scroll();
     }
 }
