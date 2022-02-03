@@ -388,7 +388,7 @@ int func1(int x)
 }
 int func2(int x)
 {
-    return 2 * x；
+    return 2 * x;
 }
 int func3(int x)
 {

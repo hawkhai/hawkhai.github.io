@@ -364,6 +364,123 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow)
     * 科学的变长编码：UTF-8
 {% include image.html url="/assets/images/211120-windows-program/img_bd6d19c4afdb4c29982be7524e87b253.png" %}
 
+<div class="highlighter-rouge" foldctrl="1"></div>
+```cpp
+BOOL IsUTF8(const char* _s, BOOL* is_ascii, char** invalid_point, int max_len)
+{
+    const u_char* s = (const u_char*)_s;
+    const u_char* sv_s = s;
+    char* _invalid_point;
+    BOOL tmp;
+
+    if (!is_ascii) {
+        is_ascii = &tmp;
+    }
+    if (!invalid_point) {
+        invalid_point = &_invalid_point;
+    }
+
+    *is_ascii = TRUE;
+
+    while (*s && max_len-- > 0) {
+        if (*s >= 0x80) {
+            *is_ascii = FALSE;
+            *invalid_point = (char*)s;
+
+            if (*s <= 0xdf) {
+                if (--max_len <= 0 || (*++s & 0xc0) != 0x80) return FALSE;
+            }
+            else if (*s <= 0xef) {
+                if (--max_len <= 0 || (*++s & 0xc0) != 0x80) return FALSE;
+                if (--max_len <= 0 || (*++s & 0xc0) != 0x80) return FALSE;
+            }
+            else if (*s <= 0xf7) {
+                if (--max_len <= 0 || (*++s & 0xc0) != 0x80) return FALSE;
+                if (--max_len <= 0 || (*++s & 0xc0) != 0x80) return FALSE;
+                if (--max_len <= 0 || (*++s & 0xc0) != 0x80) return FALSE;
+            }
+            else return FALSE;
+        }
+        s++;
+    }
+    *invalid_point = NULL;
+    return TRUE;
+}
+
+BOOL StrictUTF8(char* s)
+{
+    char* invalid_point = NULL;
+    if (!IsUTF8(s, NULL, &invalid_point) && invalid_point) {
+        *invalid_point = 0;
+        return TRUE;
+    }
+    return FALSE;
+}
+
+int U8Len(const char* s, int max_size)
+{
+    if (max_size == -1) {
+        max_size = INT_MAX;
+    }
+    if (max_size == 0) {
+        return 0;
+    }
+
+    const char* sv_s = s;
+    int len;
+    int cur_size = 0;
+
+    for (len = 0; *s; len++) {
+        if (*s <= 0x7f) {
+            if ((cur_size += 1) > max_size) break;
+        }
+        else if (*s <= 0xdf) {
+            if ((cur_size += 2) > max_size) break;
+            if ((*++s & 0xc0) != 0x80) return -1;
+        }
+        else if (*s <= 0xef) {
+            if ((cur_size += 3) > max_size) break;
+            if ((*++s & 0xc0) != 0x80) return -1;
+            if ((*++s & 0xc0) != 0x80) return -1;
+        }
+        else if (*s <= 0xf7) {
+            if ((cur_size += 4) > max_size) break;
+            if ((*++s & 0xc0) != 0x80) return -1;
+            if ((*++s & 0xc0) != 0x80) return -1;
+            if ((*++s & 0xc0) != 0x80) return -1;
+        }
+        else return -1;
+    }
+    return len;
+}
+
+int u8cpyz(char* d, const char* s, int max_len)
+{
+    int len = strncpyz(d, s, max_len);
+
+    if (StrictUTF8(d)) {
+        return (int)strlen(d);
+    }
+    return len;
+}
+
+/*
+    nul 文字を必ず付与する strncpy かつ return は 0 を除くコピー文字数
+*/
+int strncpyz(char* dest, const char* src, int num)
+{
+    char* sv_dest = dest;
+
+    if (num <= 0) return 0;
+
+    while (--num > 0 && *src) {
+        *dest++ = *src++;
+    }
+    *dest = 0;
+    return (int)(dest - sv_dest);
+}
+```
+
 [资料](https://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html)
 
 
@@ -1300,6 +1417,8 @@ libuv 异步文件系统：
 
 
 ## 界面 BkWin 教程
+
+IconToBitmap 并保留 Alpha 通道。
 
 <div class="highlighter-rouge" foldctrl="1"></div>
 ```cpp
