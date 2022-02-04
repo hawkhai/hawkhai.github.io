@@ -352,8 +352,8 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow)
 字符集 vs 字符编码
 * 字符集：字符的集合，是集合就有范围
     * GB2312：汉字 6763 个和非汉字图形字符 682 个，一些罕用字不在这个集合内
-    * GBK：包含 GB2312
-    * GB18030：包含 GBK
+    * GBK：包含 GB2312，GBK 编码是兼容 ASCII 编码的。
+    * GB18030：包含 GBK，2000 年和 2005 年，国家新增四字节的编码。
 * 怎么编码：
     * 纯 ascii 很好办，一个字符一个 byte
     * 汉字怎么办？
@@ -604,6 +604,8 @@ ASCII 兼容，Unicode 前 128 个字符与 ASCII 是一一对应的，UTF-8 使
 的 e-mail 程序使用 UTF-8 展示和创建邮件，W3C 推荐将 UTF-8 作为 XML 和
 HTML 的默认编码。
 
+{% include image.html url="/assets/images/211120-windows-program/681503-20161123112433971-1223752015.png" %}
+
 {% include image.html url="/assets/images/211120-windows-program/page30_1.jpg" width="75%" %}
 
 {% include image.html url="/assets/images/211120-windows-program/20211211001552.png" caption="编码方式" %}
@@ -647,6 +649,15 @@ Windows 系统上作为默认编码。
 第二部分：使用 2 个字节编码，一个 lead byte（首字节），一个 trail
 byte（尾字节），lead byte 范围：0x81-0xfe（125），trail byte 范围：
 0x40-0xfe（190），总共编码字符：23750
+
+GBK 亦采用双字节表示，总体编码范围为 8140-FEFE，首字节在 81-FE 之间，尾字节在 40-FE 之间，剔除 xx7F 一条线。总计 23940 个码位，共收入 21886 个汉字和图形符号，其中汉字（包括部首和构件）21003 个，图形符号 883 个。
+[from](https://www.qqxiuzi.cn/zh/hanzi-gbk-bianma.php)
+
+同一个编码文件里，怎么区分 ASCII 和中文编码呢？从 ASCII 表我们知道标准 ASCII 只有 128 个字符，0~127 即 0x00~0x7F（0111 1111）。
+所以区分的方法就是，高字节的最高位为 0 则为 ASCII，为 1 则为中文。[from {% include relref_cnblogs.html %}](https://www.cnblogs.com/batsing/p/charset.html)
+
+**gbk 和 utf8 都是单字节编码，所以 strcpy 这种以 0（null）作为结束符的程序逻辑都是没问题的。**
+标准 ASCII 是 128 个，范围是 0x00~0x7F (0000 0000~0111 0000) ，最高位为 0。最高位为 1 作为扩展。
 
 
 ### 编码转换
@@ -1581,6 +1592,8 @@ HBITMAP CCPdfmenushell::_IconToBitmap(int iconResId)
 - [https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windbg]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/98a18465.html" %})
 - [https://docs.microsoft.com/zh-cn/windows/win32/sync/synchronization-objects]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/1c8bb2a3.html" %})
 - [https://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/www.ruanyifeng.com/097a20aa.html" %})
+- [https://www.qqxiuzi.cn/zh/hanzi-gbk-bianma.php]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/www.qqxiuzi.cn/fb6827b4.php" %})
+- [https://www.cnblogs.com/batsing/p/charset.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/www.cnblogs.com/69fca104.html" %})
 - [http://archives.miloush.net/michkap/archive/2006/09/15/754992.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/archives.miloush.net/e46b84f7.html" %})
 - [https://0x00-0x00.github.io/research/2018/10/31/How-to-bypass-UAC-in-newer-Windows-versions.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/0x00-0x00.github.io/33c60558.html" %})
 - [https://docs.microsoft.com/zh-cn/windows-hardware/drivers/devtest/bcdedit--set]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/e4e3c7be.html" %})
