@@ -5,7 +5,7 @@ author:
 location:
 categories: ["BLOG"]
 tags: ["BLOG"]
-toc:
+toc: true
 toclistyle:
 comments:
 visibility:
@@ -94,6 +94,58 @@ And, I welcome any feedback on the contents and your suggestions.
 编程知识非常庞杂，我们的时间精力有限，只能说挑选一个特定领域深耕，并时刻保持旺盛的学习能力。
 
 
+## 高筑墙、广积粮、缓称王。
+
+
+### 中年危机
+
+上有老要赡养照顾，下有小要教育扶养，中有妻要争吵冲突。
+
+
+### 保持学习
+
+热力学第二定律，在没有外部能量输入的情况之下，走向熵增几乎是必然的。
+
+[刘润 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/vkR26U5JOsHxO6TDvn2avw)
+30 岁之前，最重要的选择原则其实就 15 个字：
+**跟对人，做对事，拼对命，攒经验，广积累。**
+选择一家有潜力的公司，伴随其成长。
+
+35 岁以后，千万别做职场中的“奢侈品”。
+什么叫“奢侈品”？就是那些又贵又没用的东西。
+要始终把自己放到有选择权的位置上。
+比赚钱更重要的，是拥有选择权。
+
+漫无目的地频繁跳槽，没有在一个方向之上形成可持续性积累，可叠加式的进步，将会非常危险。
+最大的不利，就是你的专业知识，永远在低层次徘徊，无法提升有价值的稀缺能力，而这又会影响你职位的晋升与薪水的增长。
+给自己一个专业定位，树立自己的品牌形象，会为你以后的职业发展增加更多有价值的筹码。
+通过经验胜过年轻人、通过才干和资源胜过同龄人、通过聚焦来胜过更强者。
+
+在属于你的专业圈子里，在某一个领域持续输出有价值的干货，可以帮助你形成自己的知识结构和行业影响力。
+
+有些人不想做管理，当然没问题，你可以努力成为专家技术性人才。
+但学习管理，是培养自己大局思维的途径。
+
+如果你只考虑到自己的本职工作，那你的替代性是很高的。
+一定要超越你的职位，要有开放的心态，避免职位给你带来的思维上的短板。
+
+
+### 分清资产和负债
+
+什么是资产？“付出”的是资产。你投入可以得到回报的，叫资产。
+
+真正酷的事情，应该是那些不容易做到的。
+比如学会理财，获得房租收入、股权分红。
+从纯劳动性收入，过渡到一定比例的资产性收入。
+
+**永远不要找借口。**
+**永远勤奋坚持。**
+**永远不要情绪化。**
+**永远找方法解决问题。**
+
+只有深厚的积累，持续在一个正确的方向的积累，才能产生更多的可能性。
+
+
 ## Work history
 
 * Software Engineer
@@ -170,5 +222,6 @@ Enjoy!
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://www.songho.ca/]({% include relrefx.html url="/backup/about.md/www.songho.ca/d3f4e364.html" %})
+- [https://mp.weixin.qq.com/s/vkR26U5JOsHxO6TDvn2avw]({% include relrefx.html url="/backup/about.md/mp.weixin.qq.com/1b4493fd.html" %})
 - [https://twitter.com/]({% include relrefx.html url="/backup/about.md/twitter.com/4fd9c9a2.html" %})
 - [https://github.com/]({% include relrefx.html url="/backup/about.md/github.com/008ec445.html" %})
