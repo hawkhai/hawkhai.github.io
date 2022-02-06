@@ -101,6 +101,9 @@ And, I welcome any feedback on the contents and your suggestions.
 
 上有老要赡养照顾，下有小要教育扶养，中有妻要争吵冲突。
 
+持续学习。
+上有老下有小，得了大病不得了，要供房要供贷，一把年纪要充电。
+
 
 ### 保持学习
 
