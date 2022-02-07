@@ -187,6 +187,11 @@ title : %(title)s
     remote = buildlocal(".html" if mdxfile else ttype).replace("\\", "/")
     touchSnapCache(urlmd5, flocal)
 
+    # protocol :// hostname[:port] / path / [:parameters][?query]#fragment
+    remotename = url.split("?")[0].split("#")[0].split("/")[-1]
+    if remotename in ("LICENSE-2.0",):
+        return remote
+
     # 外链类型 断言...
     if not remote.split(".")[-1] in ("pdf", "html", "git", "php", "c", "phtml", "cpp", "htm", "shtm", "xml",
                                      "ipynb", "py", "asp", "shtml", "aspx", "xhtml", "txt", "mspx",):
