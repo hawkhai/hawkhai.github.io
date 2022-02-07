@@ -583,6 +583,7 @@ def mainfile(fpath, fname, ftype):
         return line.rstrip()
 
     print(fpath)
+    md5src = getFileMd5(fpath)
     try:
         lines = readfileLines(fpath, False, False, "utf8")
     except Exception as ex:
@@ -823,8 +824,16 @@ def mainfile(fpath, fname, ftype):
     # 移除康熙编码，会造成乱码。
     if not fname in ("2021-03-14-Equivalent-Unified-Ideograph.md",):
         page = TranslateKangXi(page)
-    writefile(fpath, page.encode("utf8"))
-    return errcnt
+
+    # 时间过长，如果被手工改了，这里会形成覆盖。
+    md5src2 = getFileMd5(fpath)
+    if md5src2 == md5src:
+        writefile(fpath, page.encode("utf8"))
+        return errcnt
+
+    print("文本中途被改过了。{}".format(fpath,))
+    os.system("pause")
+    return mainfile(fpathsrc, fnamesrc, ftypesrc)
 
 def viewchar(lichar, xfile, xmin, xmax):
     li = list(set("".join(lichar)))
