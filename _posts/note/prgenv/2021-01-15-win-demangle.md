@@ -181,6 +181,13 @@ x64 是编译错误：
 错误 	C2995	“void create_func(R (__cdecl *)(void))”: 函数模板已经定义
 ```
 
+在设计调用约定时，x64 体系结构利用机会清除了现有 Win32 调用约定（如 \__stdcall、\__cdecl、\__fastcall、\_thiscall 等）的混乱。在 Win64 中，只有一个本机调用约定。
+而 \__cdecl 之类的修饰符都被编译器忽略。除此之外，减少调用约定行为还为可调试性带来了好处。
+[from {% include relref_csdn.html %}](https://blog.csdn.net/zsj1126/article/details/103835774)
+
+原来 64 位平台下只有一种变形的 \__fastcall 的调用约定，前 4 参数则先放入 ecx、edx、r8、r9 寄存器，更多的参数放入栈区。这个时候我们要注意的是，在 64 位下，系统还是为前 4 个参数预留了栈区空间（每个栈空间大小为 8 字节，共 32 字节大小），然后将基存器的值放入所预留的栈区空间。为什么系统要多此一举呢？我们都知道寄存器传递参数速度要远大于栈区传值，而将寄存器中的值再放入栈区预留空间，这是为了防止在传递参数的过程中，寄存器需要接收其他的值而导致参数无法传递，或者其他值无法接收的情况。
+[from {% include relref_csdn.html %}](https://blog.csdn.net/huangyimo/article/details/80573661)
+
 查看一下：
 ```
 "MSVC\bin\Hostx64\x64\dumpbin.exe" /exports E:\kpdf\DllTest64.dll
@@ -216,6 +223,8 @@ x64 是编译错误：
 - [https://github.com/eklitzke/demangle]({% include relrefx.html url="/backup/2021-01-15-win-demangle.md/github.com/ae250947.html" %})
 - [https://github.com/rui314/msvc-demangler]({% include relrefx.html url="/backup/2021-01-15-win-demangle.md/github.com/f170810d.html" %})
 - [http://demangler.com/]({% include relrefx.html url="/backup/2021-01-15-win-demangle.md/demangler.com/1d1c5662.html" %})
+- [https://blog.csdn.net/zsj1126/article/details/103835774]({% include relrefx.html url="/backup/2021-01-15-win-demangle.md/blog.csdn.net/ecb01a21.html" %})
+- [https://blog.csdn.net/huangyimo/article/details/80573661]({% include relrefx.html url="/backup/2021-01-15-win-demangle.md/blog.csdn.net/163949f1.html" %})
 - [http://www.3scard.com/index.php?m=blog&f=view&id=10]({% include relrefx.html url="/backup/2021-01-15-win-demangle.md/www.3scard.com/4598f332.php" %})
 - [https://www.jianshu.com/p/c0f3a3ac88b2]({% include relrefx.html url="/backup/2021-01-15-win-demangle.md/www.jianshu.com/462a0ca3.html" %})
 - [https://www.cnblogs.com/talenth/p/9585208.html]({% include relrefx.html url="/backup/2021-01-15-win-demangle.md/www.cnblogs.com/3aaa0090.html" %})
