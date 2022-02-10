@@ -155,6 +155,52 @@ static void demangle(const char* mangled_name, bool quiet) {
 * 在线版本 [GCC and MSVC C++ Demangler](http://demangler.com/)
 
 
+## x86 vs x64
+
+```cpp
+template <class R>
+DLLTEST_API void create_func(R(_stdcall* func_ptr)(void)) {
+
+}
+template <class R>
+DLLTEST_API void create_func(R(_cdecl* func_ptr)(void)) {
+
+}
+```
+
+这两个函数编译出来，x86：
+```
+No 	 Address 	 Hint 	 Ordinal 	  Name
+1.	 $11159 	 - 	 1 	 ??$create_func@X@@YAXP6AXXZ@Z
+2.	 $112FD 	 1 	 2 	 ??$create_func@X@@YAXP6GXXZ@Z
+```
+
+x64 是编译错误：
+```
+严重性 	 代码 	 说明 	 项目 	 文件 	 行 	 禁止显示状态
+错误 	C2995	“void create_func(R (__cdecl *)(void))”: 函数模板已经定义
+```
+
+查看一下：
+```
+"MSVC\bin\Hostx64\x64\dumpbin.exe" /exports E:\kpdf\DllTest64.dll
+    ordinal hint RVA      name
+          1    0 00011172 ??$create_func@X@@YAXP6AXXZ@Z = @ILT+365(??$create_func@X@@YAXP6AXXZ@Z)
+          1    0 00011172 ??$create_func@X@@YAXP6AXXZ@Z = @ILT+365(??$create_func@X@@YAXP6AXXZ@Z)
+
+          1    0 000110F0 ??$create_func1@X@@YAXP6AXXZ@Z = @ILT+235(??$create_func1@X@@YAXP6AXXZ@Z)
+          2    1 0001100A ??$create_func2@X@@YAXP6AXXZ@Z = @ILT+5(??$create_func2@X@@YAXP6AXXZ@Z)
+
+          1    0 000110F0 ??$create_func1@X@@YAXP6AXXZ@Z = @ILT+235(??$create_func1@X@@YAXP6AXXZ@Z)
+          2    1 0001100A ??$create_func2@X@@YAXP6AXXZ@Z = @ILT+5(??$create_func2@X@@YAXP6AXXZ@Z)
+
+          1    0 000110EB ??$create_func3@X@@YAXP6AXXZ@Z = @ILT+230(??$create_func3@X@@YAXP6AXXZ@Z)
+          2    1 00011131 ??$create_func4@X@@YAXP6AXXZ@Z = @ILT+300(??$create_func4@X@@YAXP6AXXZ@Z)
+```
+
+你会发现两种写法，生成的 签名是一样的，所以链接肯定不成功。
+
+
 ## Refs
 
 - [1] [调用约定 C++ 函数名修饰](http://www.3scard.com/index.php?m=blog&f=view&id=10)
