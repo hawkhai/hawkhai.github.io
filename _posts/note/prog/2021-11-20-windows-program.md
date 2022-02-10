@@ -1458,6 +1458,7 @@ HBITMAP CCPdfmenushell::_IconToBitmap(int iconResId)
                                      LR_DEFAULTCOLOR);
     ICONINFO info = { 0 };
     if (hIcon == NULL || !GetIconInfo(hIcon, &info) || !info.fIcon) {
+        if (hIcon) { ::DestroyIcon(hIcon); }
         return NULL;
     }
 
@@ -1483,6 +1484,7 @@ HBITMAP CCPdfmenushell::_IconToBitmap(int iconResId)
     }
 
     if (nWidth <= 0 || nHeight <= 0) {
+        if (hIcon) { ::DestroyIcon(hIcon); }
         return NULL;
     }
 
@@ -1497,6 +1499,7 @@ HBITMAP CCPdfmenushell::_IconToBitmap(int iconResId)
     BOOL bSuccess = FALSE;
 
     if (dc == NULL) {
+        if (hIcon) { ::DestroyIcon(hIcon); }
         return NULL;
     }
 
@@ -1571,6 +1574,7 @@ HBITMAP CCPdfmenushell::_IconToBitmap(int iconResId)
         }
     }
 
+    if (hIcon) { ::DestroyIcon(hIcon); }
     return dib;
 }
 ```
