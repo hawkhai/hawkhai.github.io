@@ -288,23 +288,31 @@ def tidyupImg(imglocal, fpath, line):
             #exit(0)
 
         # 小于 100K...
+        img = img.convert("RGB") #.convert("L")
         img.save(sizepath)
+        appendfile(sizepath, getFileMd5(tpath))
 
     # 检查缩略图。
     elif os.path.exists(sizepath):
-        img = Image.open(tpath)
-        width, height = img.size
-        try:
-            img = Image.open(sizepath)
-        except RuntimeError as ex: # could not create decoder object
-            print("Image.open RuntimeError", sizepath)
-            osremove(sizepath)
-            return tidyupImg(imglocal, fpath, line) # 存在问题，重新创建。
 
-        if img.size != (width, height): # 尺寸不对，重新创建。
-            img.close()
+        srcmd5 = readfile(sizepath, True)[-32:]
+        if getFileMd5(tpath) != srcmd5: # 原图变化了。
             osremove(sizepath)
             return tidyupImg(imglocal, fpath, line)
+
+        #img = Image.open(tpath)
+        #width, height = img.size
+        #try:
+        #    img = Image.open(sizepath)
+        #except RuntimeError as ex: # could not create decoder object
+        #    print("Image.open RuntimeError", sizepath)
+        #    osremove(sizepath)
+        #    return tidyupImg(imglocal, fpath, line) # 存在问题，重新创建。
+
+        #if img.size != (width, height): # 尺寸不对，重新创建。
+        #    img.close()
+        #    osremove(sizepath)
+        #    return tidyupImg(imglocal, fpath, line)
 
     imgtype = imgfname.split(".")[-1].lower()
     if not imgtype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4", "zip", "bmp",):
