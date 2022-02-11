@@ -118,6 +118,14 @@ BOOL ThisCenterWindow(HWND hWndCenter = NULL) throw()
 ```
 
 
+## Dism
+
+当疑似用户是 ghost 修改版本系统导致问题时，win7 / win10 通用修复命令（管理员权限 cmd 内执行，需要用户侧网络正常）：
+```
+Dism /Online /Cleanup-Image /RestoreHealth
+```
+
+
 ## C 盘深度清理 —— 清理 FileRepository
 
 DriverStoreExplorer 最新版下载：
