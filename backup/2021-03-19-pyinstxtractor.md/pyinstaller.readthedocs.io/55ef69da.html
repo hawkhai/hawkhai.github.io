@@ -1,0 +1,661 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" class="writer-html5" lang="en"><head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>PyInstaller Manual — PyInstaller 4.9 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://media.readthedocs.org/css/sphinx_rtd_theme.css" type="text/css" />
+  <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/pyinstaller.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/pyinstaller-draft1a.ico" />
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="https://pyinstaller.readthedocs.io/en/stable/index.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://assets.readthedocs.org/static/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Requirements" href="requirements.html" /> 
+
+<!-- RTD Extra Head -->
+
+<link rel="stylesheet" href="https://assets.readthedocs.org/static/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="application/json" id="READTHEDOCS_DATA">{"ad_free": false, "api_host": "https://readthedocs.org", "build_date": "2022-02-04T09:10:11Z", "builder": "sphinx", "canonical_url": null, "commit": "d006b364", "docroot": "/doc/", "features": {"docsearch_disabled": false}, "global_analytics_code": "UA-17997319-1", "language": "en", "page": "index", "programming_language": "py", "project": "pyinstaller", "proxied_api_host": "/_", "source_suffix": ".rst", "subprojects": {}, "theme": "sphinx_rtd_theme", "user_analytics_code": "", "version": "stable"}</script>
+
+<!--
+Using this variable directly instead of using `JSON.parse` is deprecated.
+The READTHEDOCS_DATA global variable will be removed in the future.
+-->
+<script type="text/javascript">
+READTHEDOCS_DATA = JSON.parse(document.getElementById('READTHEDOCS_DATA').innerHTML);
+</script>
+
+<script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-analytics.js" async="async"></script>
+
+<!-- end RTD <extrahead> -->
+<script src="https://www.googletagmanager.com/gtag/js?id=UA-17997319-1" type="text/javascript" async=""></script><script src="https://media.ethicalads.io/media/client/beta/ethicalads.min.js" type="text/javascript" async="" id="ethicaladsjs"></script><style>[data-ea-publisher].loaded,[data-ea-type].loaded{font-size:14px;font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;font-weight:normal;font-style:normal;leter-spacing:0px;vertical-align:baseline;line-height:1.3em}[data-ea-publisher].loaded a,[data-ea-type].loaded a{text-decoration:none}[data-ea-publisher].loaded .ea-pixel,[data-ea-type].loaded .ea-pixel{display:none}[data-ea-publisher].loaded .ea-content,[data-ea-type].loaded .ea-content{margin:1em 1em 0.5em 1em;padding:1em;background:rgba(0,0,0,0.03);color:#505050}[data-ea-publisher].loaded .ea-content a:link,[data-ea-type].loaded .ea-content a:link{color:#505050}[data-ea-publisher].loaded .ea-content a:visited,[data-ea-type].loaded .ea-content a:visited{color:#505050}[data-ea-publisher].loaded .ea-content a:hover,[data-ea-type].loaded .ea-content a:hover{color:#373737}[data-ea-publisher].loaded .ea-content a:active,[data-ea-type].loaded .ea-content a:active{color:#373737}[data-ea-publisher].loaded .ea-content a strong,[data-ea-publisher].loaded .ea-content a b,[data-ea-type].loaded .ea-content a strong,[data-ea-type].loaded .ea-content a b{color:#088cdb}[data-ea-publisher].loaded .ea-callout a:link,[data-ea-type].loaded .ea-callout a:link{color:#6a6a6a}[data-ea-publisher].loaded .ea-callout a:visited,[data-ea-type].loaded .ea-callout a:visited{color:#6a6a6a}[data-ea-publisher].loaded .ea-callout a:hover,[data-ea-type].loaded .ea-callout a:hover{color:#505050}[data-ea-publisher].loaded .ea-callout a:active,[data-ea-type].loaded .ea-callout a:active{color:#505050}[data-ea-publisher].loaded .ea-callout a strong,[data-ea-publisher].loaded .ea-callout a b,[data-ea-type].loaded .ea-callout a strong,[data-ea-type].loaded .ea-callout a b{color:#088cdb}[data-ea-publisher].loaded .ea-callout a,[data-ea-type].loaded .ea-callout a{font-size:0.8em}[data-ea-publisher].loaded.dark .ea-content,[data-ea-type].loaded.dark .ea-content{background:rgba(255,255,255,0.05);color:#dcdcdc}[data-ea-publisher].loaded.dark .ea-content a:link,[data-ea-type].loaded.dark .ea-content a:link{color:#dcdcdc}[data-ea-publisher].loaded.dark .ea-content a:visited,[data-ea-type].loaded.dark .ea-content a:visited{color:#dcdcdc}[data-ea-publisher].loaded.dark .ea-content a:hover,[data-ea-type].loaded.dark .ea-content a:hover{color:#f6f6f6}[data-ea-publisher].loaded.dark .ea-content a:active,[data-ea-type].loaded.dark .ea-content a:active{color:#f6f6f6}[data-ea-publisher].loaded.dark .ea-content a strong,[data-ea-publisher].loaded.dark .ea-content a b,[data-ea-type].loaded.dark .ea-content a strong,[data-ea-type].loaded.dark .ea-content a b{color:#50baf9}[data-ea-publisher].loaded.dark .ea-callout a:link,[data-ea-type].loaded.dark .ea-callout a:link{color:#c3c3c3}[data-ea-publisher].loaded.dark .ea-callout a:visited,[data-ea-type].loaded.dark .ea-callout a:visited{color:#c3c3c3}[data-ea-publisher].loaded.dark .ea-callout a:hover,[data-ea-type].loaded.dark .ea-callout a:hover{color:#dcdcdc}[data-ea-publisher].loaded.dark .ea-callout a:active,[data-ea-type].loaded.dark .ea-callout a:active{color:#dcdcdc}[data-ea-publisher].loaded.dark .ea-callout a strong,[data-ea-publisher].loaded.dark .ea-callout a b,[data-ea-type].loaded.dark .ea-callout a strong,[data-ea-type].loaded.dark .ea-callout a b{color:#50baf9}@media (prefers-color-scheme: dark){[data-ea-publisher].loaded.adaptive .ea-content,[data-ea-type].loaded.adaptive .ea-content{background:rgba(255,255,255,0.05);color:#dcdcdc}[data-ea-publisher].loaded.adaptive .ea-content a:link,[data-ea-type].loaded.adaptive .ea-content a:link{color:#dcdcdc}[data-ea-publisher].loaded.adaptive .ea-content a:visited,[data-ea-type].loaded.adaptive .ea-content a:visited{color:#dcdcdc}[data-ea-publisher].loaded.adaptive .ea-content a:hover,[data-ea-type].loaded.adaptive .ea-content a:hover{color:#f6f6f6}[data-ea-publisher].loaded.adaptive .ea-content a:active,[data-ea-type].loaded.adaptive .ea-content a:active{color:#f6f6f6}[data-ea-publisher].loaded.adaptive .ea-content a strong,[data-ea-publisher].loaded.adaptive .ea-content a b,[data-ea-type].loaded.adaptive .ea-content a strong,[data-ea-type].loaded.adaptive .ea-content a b{color:#50baf9}[data-ea-publisher].loaded.adaptive .ea-callout a:link,[data-ea-type].loaded.adaptive .ea-callout a:link{color:#c3c3c3}[data-ea-publisher].loaded.adaptive .ea-callout a:visited,[data-ea-type].loaded.adaptive .ea-callout a:visited{color:#c3c3c3}[data-ea-publisher].loaded.adaptive .ea-callout a:hover,[data-ea-type].loaded.adaptive .ea-callout a:hover{color:#dcdcdc}[data-ea-publisher].loaded.adaptive .ea-callout a:active,[data-ea-type].loaded.adaptive .ea-callout a:active{color:#dcdcdc}[data-ea-publisher].loaded.adaptive .ea-callout a strong,[data-ea-publisher].loaded.adaptive .ea-callout a b,[data-ea-type].loaded.adaptive .ea-callout a strong,[data-ea-type].loaded.adaptive .ea-callout a b{color:#50baf9}}[data-ea-publisher].loaded .ea-content,[data-ea-type].loaded .ea-content{border:0px;border-radius:3px;box-shadow:0px 2px 3px rgba(0,0,0,0.15)}[data-ea-publisher].loaded.raised .ea-content,[data-ea-type].loaded.raised .ea-content{border:0px;border-radius:3px;box-shadow:0px 2px 3px rgba(0,0,0,0.15)}[data-ea-publisher].loaded.bordered .ea-content,[data-ea-type].loaded.bordered .ea-content{border:1px solid rgba(0,0,0,0.04);border-radius:3px;box-shadow:none}[data-ea-publisher].loaded.bordered.dark .ea-content,[data-ea-type].loaded.bordered.dark .ea-content{border:1px solid rgba(255,255,255,0.07)}@media (prefers-color-scheme: dark){[data-ea-publisher].loaded.bordered.adaptive .ea-content,[data-ea-type].loaded.bordered.adaptive .ea-content{border:1px solid rgba(255,255,255,0.07)}}[data-ea-publisher].loaded.flat .ea-content,[data-ea-type].loaded.flat .ea-content{border:0px;border-radius:3px;box-shadow:none}[data-ea-type="image"].loaded,[data-ea-publisher]:not([data-ea-type]).loaded,.ea-type-image{display:inline-block}[data-ea-type="image"].loaded .ea-content,[data-ea-publisher]:not([data-ea-type]).loaded .ea-content,.ea-type-image .ea-content{max-width:180px;overflow:auto;text-align:center}[data-ea-type="image"].loaded .ea-content&gt;a&gt;img,[data-ea-publisher]:not([data-ea-type]).loaded .ea-content&gt;a&gt;img,.ea-type-image .ea-content&gt;a&gt;img{width:120px;height:90px;display:inline-block}[data-ea-type="image"].loaded .ea-content&gt;.ea-text,[data-ea-publisher]:not([data-ea-type]).loaded .ea-content&gt;.ea-text,.ea-type-image .ea-content&gt;.ea-text{margin-top:1em;font-size:1em;text-align:center}[data-ea-type="image"].loaded .ea-callout,[data-ea-publisher]:not([data-ea-type]).loaded .ea-callout,.ea-type-image .ea-callout{max-width:180px;margin:0em 1em 1em 1em;padding-left:1em;padding-right:1em;font-style:italic;text-align:right}[data-ea-type="image"].loaded.horizontal .ea-content,[data-ea-publisher]:not([data-ea-type]).loaded.horizontal .ea-content,.ea-type-image.horizontal .ea-content{max-width:320px}[data-ea-type="image"].loaded.horizontal .ea-content&gt;a&gt;img,[data-ea-publisher]:not([data-ea-type]).loaded.horizontal .ea-content&gt;a&gt;img,.ea-type-image.horizontal .ea-content&gt;a&gt;img{float:left;margin-right:1em}[data-ea-type="image"].loaded.horizontal .ea-content .ea-text,[data-ea-publisher]:not([data-ea-type]).loaded.horizontal .ea-content .ea-text,.ea-type-image.horizontal .ea-content .ea-text{margin-top:0em;text-align:left;overflow:auto}[data-ea-type="image"].loaded.horizontal .ea-callout,[data-ea-publisher]:not([data-ea-type]).loaded.horizontal .ea-callout,.ea-type-image.horizontal .ea-callout{max-width:320px;text-align:right}[data-ea-type="text"].loaded,.ea-type-text{font-size:14px}[data-ea-type="text"].loaded .ea-content,.ea-type-text .ea-content{text-align:left}[data-ea-type="text"].loaded .ea-callout,.ea-type-text .ea-callout{margin:0.5em 1em 1em 1em;padding-left:1em;padding-right:1em;text-align:right;font-style:italic}[data-ea-style="stickybox"].loaded .ea-type-image{z-index:10;position:fixed;bottom:20px;right:20px}[data-ea-style="stickybox"].loaded .ea-type-image .ea-stickybox-hide{cursor:pointer;position:absolute;top:0.75em;right:0.75em;background-color:#fefefe;border:1px solid #088cdb;border-radius:50%;color:#088cdb;font-size:1em;text-align:center;height:1.5em;width:1.5em;line-height:1.5em}@media (max-width: 1300px){[data-ea-style="stickybox"].loaded .ea-type-image{position:static;bottom:0;right:0;margin:auto;text-align:center}[data-ea-style="stickybox"].loaded .ea-type-image .ea-stickybox-hide{display:none}}@media (min-width: 1301px){[data-ea-style="stickybox"].loaded .ea-type-image .ea-content{background:#dcdcdc}[data-ea-style="stickybox"].loaded.dark .ea-type-image .ea-content{background:#505050}}@media (min-width: 1301px) and (prefers-color-scheme: dark){[data-ea-style="stickybox"].loaded.adaptive .ea-type-image .ea-content{background:#505050}}
+</style><script src="https://server.ethicalads.io/api/v1/decision/?publisher=readthedocs&amp;ad_types=image-v1&amp;div_ids=rtd-sidebar&amp;callback=ad_1644631998926_12265&amp;keywords=bundle%7Cpackage%7Cpython%7Creadthedocs-project-49038%7Creadthedocs-project-pyinstaller%7Cpython&amp;campaign_types=community%7Chouse&amp;format=jsonp&amp;client_version=1.4.0&amp;url=https%3A%2F%2Fpyinstaller.readthedocs.io%2Fen%2Fstable%2F" type="text/javascript" async=""></script></head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> PyInstaller
+          
+
+          
+            
+            <img src="_static/pyinstaller-draft1a-100_trans.png" class="logo" alt="Logo" />
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                stable
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">How To Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">How to Install <cite>PyInstaller</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="operating-mode.html">What <cite>PyInstaller</cite> Does and How It Does It</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Using PyInstaller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="runtime-information.html">Run-time Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spec-files.html">Using Spec Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feature-notes.html">Notes about specific Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="when-things-go-wrong.html">When Things Go Wrong</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced-topics.html">Advanced Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hooks.html">Understanding PyInstaller Hooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hooks-config.html">Hook Configuration Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bootloader-building.html">Building the Bootloader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CHANGES.html">Changelog for PyInstaller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CREDITS.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="man-pages.html">Man Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development/index.html">Development Guide</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">PyInstaller</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> »</li>
+        
+      <li>PyInstaller Manual</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            
+              <a href="https://github.com/pyinstaller/pyinstaller/blob/d006b364cfabd1ac23f57c28b92d385331987edf/doc/index.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr />
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyinstaller-manual">
+<h1>PyInstaller Manual<a class="headerlink" href="#pyinstaller-manual" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Version</dt>
+<dd class="field-odd"><p>PyInstaller 4.9</p>
+</dd>
+<dt class="field-even">Homepage</dt>
+<dd class="field-even"><p><a class="reference external" href="http://www.pyinstaller.org">http://www.pyinstaller.org</a></p>
+</dd>
+<dt class="field-odd">Contact</dt>
+<dd class="field-odd"><p><a class="reference external" href="mailto:pyinstaller%40googlegroups.com">pyinstaller<span>@</span>googlegroups<span>.</span>com</a></p>
+</dd>
+<dt class="field-even">Authors</dt>
+<dd class="field-even"><p>David Cortesi, based on structure by Giovanni Bajo &amp; William Caban, based on Gordon McMillan’s manual</p>
+</dd>
+<dt class="field-odd">Copyright</dt>
+<dd class="field-odd"><p>This document has been placed in the public domain.</p>
+</dd>
+</dl>
+<p><cite>PyInstaller</cite> bundles a Python application and all its dependencies into
+a single package.
+The user can run the packaged app without installing a Python interpreter or any modules.
+<cite>PyInstaller</cite> supports Python 3.6 or newer,
+and correctly bundles the major Python packages
+such as numpy, PyQt, Django, wxPython, and others.</p>
+<p><cite>PyInstaller</cite> is tested against Windows, Mac OS X, and GNU/Linux.
+However, it is not a cross-compiler:
+to make a Windows app you run <cite>PyInstaller</cite> in Windows;
+to make a GNU/Linux app you run it in GNU/Linux, etc.
+<cite>PyInstaller</cite> has been used successfully with
+AIX, Solaris, FreeBSD and OpenBSD
+but testing against them is not part of our continuous integration tests.</p>
+<div class="section" id="what-s-new-this-release">
+<h2>What’s New This Release<a class="headerlink" href="#what-s-new-this-release" title="Permalink to this headline">¶</a></h2>
+<p>Release 4.0 adds support for 3rd-party packages to provide PyInstaller hooks
+along with the package. This allows Maintainers of other Python packages to
+deliver up-to-date PyInstaller hooks as part of their package.
+See our <a class="reference external" href="https://github.com/pyinstaller/hooksample">sample project</a> for more information.</p>
+<p>PyInstaller uses this option itself to provide updated hooks much faster:
+Many hooks are moved into the new package <a class="reference external" href="https://github.com/pyinstaller/pyinstaller-hooks-contrib">pyinstaller-hooks-contrib</a>,
+which is updated monthly.
+This package is installed automatically when installing PyInstaller,
+but can also be updated independently.</p>
+<p>Finally, this version drops support for Python 2.7,
+which is end-of-life since January 2020..
+The minimum required version is now Python 3.6.
+The last version supporting Python 2.7 was PyInstaller 3.6.</p>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="requirements.html#windows">Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="requirements.html#mac-os-x">Mac OS X</a></li>
+<li class="toctree-l2"><a class="reference internal" href="requirements.html#gnu-linux">GNU/Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="requirements.html#aix-solaris-freebsd-and-openbsd">AIX, Solaris, FreeBSD and OpenBSD</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">How To Contribute</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#some-ideas-how-you-can-help">Some ideas how you can help</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">How to Install <cite>PyInstaller</cite></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installing-in-windows">Installing in Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installing-in-mac-os-x">Installing in Mac OS X</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installing-from-the-archive">Installing from the archive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#verifying-the-installation">Verifying the installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installed-commands">Installed commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="operating-mode.html">What <cite>PyInstaller</cite> Does and How It Does It</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="operating-mode.html#analysis-finding-the-files-your-program-needs">Analysis: Finding the Files Your Program Needs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operating-mode.html#bundling-to-one-folder">Bundling to One Folder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operating-mode.html#how-the-one-folder-program-works">How the One-Folder Program Works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operating-mode.html#bundling-to-one-file">Bundling to One File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operating-mode.html#how-the-one-file-program-works">How the One-File Program Works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operating-mode.html#using-a-console-window">Using a Console Window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operating-mode.html#hiding-the-source-code">Hiding the Source Code</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Using PyInstaller</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#options">Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#shortening-the-command">Shortening the Command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#running-pyinstaller-from-python-code">Running <cite>PyInstaller</cite> from Python code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#using-upx">Using UPX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#encrypting-python-bytecode">Encrypting Python Bytecode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#splash-screen-experimental">Splash Screen <em>(Experimental)</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#the-pyi-splash-module">The <code class="docutils literal notranslate"><span class="pre">pyi_splash</span></code> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#defining-the-extraction-location">Defining the Extraction Location</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#supporting-multiple-platforms">Supporting Multiple Platforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#capturing-windows-version-data">Capturing Windows Version Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#building-mac-os-x-app-bundles">Building Mac OS X App Bundles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#platform-specific-notes">Platform-specific Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="runtime-information.html">Run-time Information</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="runtime-information.html#using-file">Using <code class="docutils literal notranslate"><span class="pre">__file__</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime-information.html#using-sys-executable-and-sys-argv-0">Using <code class="docutils literal notranslate"><span class="pre">sys.executable</span></code> and <code class="docutils literal notranslate"><span class="pre">sys.argv[0]</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime-information.html#ld-library-path-libpath-considerations">LD_LIBRARY_PATH / LIBPATH considerations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spec-files.html">Using Spec Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spec-files.html#spec-file-operation">Spec File Operation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec-files.html#adding-files-to-the-bundle">Adding Files to the Bundle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec-files.html#giving-run-time-python-options">Giving Run-time Python Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec-files.html#spec-file-options-for-a-mac-os-x-bundle">Spec File Options for a Mac OS X Bundle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec-files.html#posix-specific-options">POSIX Specific Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec-files.html#the-splash-target">The <code class="xref py py-mod docutils literal notranslate"><span class="pre">Splash</span></code> Target</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec-files.html#multipackage-bundles">Multipackage Bundles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spec-files.html#globals-available-to-the-spec-file">Globals Available to the Spec File</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="feature-notes.html">Notes about specific Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="feature-notes.html#ctypes-dependencies">Ctypes Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature-notes.html#swig-support">SWIG support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature-notes.html#cython-support">Cython support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature-notes.html#macos-multi-arch-support">macOS multi-arch support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature-notes.html#macos-binary-code-signing">macOS binary code signing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="when-things-go-wrong.html">When Things Go Wrong</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="when-things-go-wrong.html#recipes-and-examples-for-specific-problems">Recipes and Examples for Specific Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="when-things-go-wrong.html#finding-out-what-went-wrong">Finding out What Went Wrong</a></li>
+<li class="toctree-l2"><a class="reference internal" href="when-things-go-wrong.html#helping-pyinstaller-find-modules">Helping PyInstaller Find Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="when-things-go-wrong.html#getting-the-latest-version">Getting the Latest Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="when-things-go-wrong.html#asking-for-help">Asking for Help</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced-topics.html">Advanced Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced-topics.html#the-bootstrap-process-in-detail">The Bootstrap Process in Detail</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced-topics.html#pyi-splash-module-detailed"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyi_splash</span></code> Module (Detailed)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced-topics.html#the-toc-and-tree-classes">The TOC and Tree Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced-topics.html#inspecting-archives">Inspecting Archives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced-topics.html#inspecting-executables">Inspecting Executables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced-topics.html#creating-a-reproducible-build">Creating a Reproducible Build</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hooks.html">Understanding PyInstaller Hooks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hooks.html#how-a-hook-is-loaded">How a Hook Is Loaded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hooks.html#providing-pyinstaller-hooks-with-your-package">Providing PyInstaller Hooks with your Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hooks.html#hook-global-variables">Hook Global Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hooks.html#module-PyInstaller.compat">Useful Items in <code class="docutils literal notranslate"><span class="pre">PyInstaller.compat</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hooks.html#module-PyInstaller.utils.hooks">Useful Items in <code class="docutils literal notranslate"><span class="pre">PyInstaller.utils.hooks</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hooks.html#the-hook-hook-api-function">The <code class="docutils literal notranslate"><span class="pre">hook(hook_api)</span></code> Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hooks.html#the-pre-find-module-path-pfmp-api-method">The <code class="docutils literal notranslate"><span class="pre">pre_find_module_path(</span> <span class="pre">pfmp_api</span> <span class="pre">)</span></code> Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hooks.html#the-pre-safe-import-module-psim-api-method">The <code class="docutils literal notranslate"><span class="pre">pre_safe_import_module(</span> <span class="pre">psim_api</span> <span class="pre">)</span></code> Method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hooks-config.html">Hook Configuration Options</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hooks-config.html#supported-hooks-and-options">Supported hooks and options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hooks-config.html#adding-an-option-to-the-hook">Adding an option to the hook</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bootloader-building.html">Building the Bootloader</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bootloader-building.html#building-for-gnu-linux">Building for GNU/Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootloader-building.html#building-for-mac-os-x">Building for Mac OS X</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootloader-building.html#building-for-windows">Building for Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootloader-building.html#building-for-aix">Building for AIX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootloader-building.html#building-for-freebsd">Building for FreeBSD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootloader-building.html#vagrantfile-virtual-machines">Vagrantfile Virtual Machines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CHANGES.html">Changelog for PyInstaller</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CHANGES.html#id1">4.9 (2022-02-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGES.html#id2">4.8 (2022-01-06)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGES.html#id5">4.7 (2021-11-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGES.html#id9">4.6 (2021-10-29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGES.html#id14">4.5.1 (2021-08-06)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGES.html#id16">4.5 (2021-08-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGES.html#id22">4.4 (2021-07-13)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGES.html#id30">4.3 (2021-04-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGES.html#id37">4.2 (2021-01-13)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGES.html#id43">4.1 (2020-11-18)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGES.html#id51">4.0 (2020-08-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGES.html#older-versions">Older Versions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CREDITS.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-4-9">Contributions to PyInstaller 4.9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-4-8">Contributions to PyInstaller 4.8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-4-7">Contributions to PyInstaller 4.7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-4-6">Contributions to PyInstaller 4.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-4-5-1">Contributions to PyInstaller 4.5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-4-5">Contributions to PyInstaller 4.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-4-4">Contributions to PyInstaller 4.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-4-3">Contributions to PyInstaller 4.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-4-2">Contributions to PyInstaller 4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-4-1">Contributions to PyInstaller 4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-4-0">Contributions to PyInstaller 4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-3-6">Contributions to PyInstaller 3.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-3-5">Contributions to PyInstaller 3.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-3-4">Contributions to PyInstaller 3.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-3-3-1">Contributions to PyInstaller 3.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-3-3">Contributions to PyInstaller 3.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-3-2-1">Contributions to PyInstaller 3.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-3-2">Contributions to PyInstaller 3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-3-1-1">Contributions to PyInstaller 3.1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-3-1">Contributions to PyInstaller 3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-3-0">Contributions to PyInstaller 3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CREDITS.html#contributions-to-pyinstaller-2-1-and-older">Contributions to PyInstaller 2.1 and older</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="man-pages.html">Man Pages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="man/pyinstaller.html">pyinstaller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="man/pyi-makespec.html">pyi-makespec</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="development/index.html">Development Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/git.html">New to GitHub or Git?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/coding-conventions.html">Coding conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/testing.html">Running the Test Suite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/commit-messages.html">Guidelines for Commits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/documentation.html">Improving and Building the Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/pull-requests.html">Creating Pull-Requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/changelog-entries.html">Changelog Entries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/venv.html">pyenv and PyInstaller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/branch-model.html"><cite>PyInstaller</cite>’s Branch Model</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="indices-and-tables">
+<h3>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="requirements.html" class="btn btn-neutral float-right" title="Requirements" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr /><div><div id="rtd-sidebar" data-ea-publisher="readthedocs" data-ea-type="image" data-ea-manual="true" data-ea-style="stickybox" class="ethical-rtd loaded" data-ea-keywords="bundle|package|python|readthedocs-project-49038|readthedocs-project-pyinstaller" data-ea-campaign-types="community|house"><div class="ea-placement ea-type-image"><div class="ea-content"><a href="https://server.ethicalads.io/proxy/click/1638/318bd44f-4ba6-4042-95b9-59626587fdc9/" rel="nofollow noopener" target="_blank"><img src="https://media.ethicalads.io/media/images/2021/06/Python_Pub.png" alt="Sponsored: EthicalAds" /></a><div class="ea-text"><a href="https://server.ethicalads.io/proxy/click/1638/318bd44f-4ba6-4042-95b9-59626587fdc9/" rel="nofollow noopener" target="_blank"><strong>Generate revenue </strong><span>while preserving user-privacy. Start earning today by</span><strong> hosting EthicalAds</strong></a></div></div><div class="ea-callout"><a rel="nofollow noopener" target="_blank" href="https://ethicalads.io?ref=ea-image">Ad by EthicalAds</a></div><div class="ea-stickybox-hide">×</div></div></div></div>
+
+  <div role="contentinfo">
+    <p>
+        © Copyright This document has been placed in the public domain..
+      <span class="commit">
+        
+        Revision <code>d006b364</code>.
+      </span>
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: stable
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions"><!-- Inserted RTD Footer -->
+
+<div class="injected">
+
+  
+
+      
+      
+      
+      <dl>
+        <dt>版本</dt>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/latest/">latest</a>
+        </dd>
+        
+        <dd class="rtd-current-item">
+          <a href="https://pyinstaller.readthedocs.io/en/stable/">stable</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v4.9/">v4.9</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v4.8/">v4.8</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v4.7/">v4.7</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v4.6/">v4.6</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v4.5.1/">v4.5.1</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v4.5/">v4.5</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v4.4/">v4.4</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v4.2/">v4.2</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v4.1/">v4.1</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v4.0/">v4.0</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v3.6/">v3.6</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v3.5/">v3.5</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v3.4/">v3.4</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v3.3.1/">v3.3.1</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v3.3/">v3.3</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v3.2.1/">v3.2.1</a>
+        </dd>
+        
+        <dd>
+          <a href="https://pyinstaller.readthedocs.io/en/v3.2/">v3.2</a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      
+      <dl>
+        <dt>下载</dt>
+        
+        <dd><a href="//pyinstaller.readthedocs.io/_/downloads/en/stable/pdf/">PDF</a></dd>
+        
+        <dd><a href="//pyinstaller.readthedocs.io/_/downloads/en/stable/htmlzip/">HTML</a></dd>
+        
+        <dd><a href="//pyinstaller.readthedocs.io/_/downloads/en/stable/epub/">Epub</a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt>On Read the Docs</dt>
+        <dd>
+          <a href="//readthedocs.org/projects/pyinstaller/">Project Home</a>
+        </dd>
+        <dd>
+          <a href="//readthedocs.org/projects/pyinstaller/builds/">构建</a>
+        </dd>
+        <dd>
+          <a href="//readthedocs.org/projects/pyinstaller/downloads/">下载</a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt>On GitHub</dt>
+        <dd>
+          <a href="https://github.com/pyinstaller/pyinstaller/blob/d006b364cfabd1ac23f57c28b92d385331987edf/doc/index.rst">View</a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt>搜索</dt>
+        <dd>
+          <div style="padding: 6px;">
+            
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="//readthedocs.org/projects/pyinstaller/search/" method="get">
+              <input type="text" name="q" aria-label="Search docs" placeholder="Search docs" />
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+      <hr />
+
+      
+        <small>
+          <span>Hosted by <a href="https://readthedocs.org">Read the Docs</a></span>
+          <span> · </span>
+          <a href="https://docs.readthedocs.io/page/privacy-policy.html">Privacy Policy</a>
+        </small>
+      
+
+      
+
+</div>
+</div>
+  </div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+
+</body></html>

@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title: 关于
 author:
 location:
@@ -149,6 +149,15 @@ And, I welcome any feedback on the contents and your suggestions.
 只有深厚的积累，持续在一个正确的方向的积累，才能产生更多的可能性。
 
 
+### 家庭财务风险管理
+
+[短文：月入十万的高级中产是怎么破产的 --- 一个广泛流传的香港案例 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/7nqQf7k1BkVDpTFQWTB44w)
+
+年龄 30+，或者 35+ 的家庭，尤其是有孩子的，必须要重视家庭财务风险管理的问题，要能够对抗各种潜在风险的冲击，香港家庭在 1998 年金融危机中破产的典型例子，值得我们反复的阅读和借鉴，避免类似情况发生在我们自己身上。
+
+提前规划和准备，抵御未来的冲击。一定要保持一定的流动性，不能抵死。
+
+
 ## Work history
 
 * Software Engineer
@@ -226,5 +235,6 @@ Enjoy!
 
 - [http://www.songho.ca/]({% include relrefx.html url="/backup/about.md/www.songho.ca/d3f4e364.html" %})
 - [https://mp.weixin.qq.com/s/vkR26U5JOsHxO6TDvn2avw]({% include relrefx.html url="/backup/about.md/mp.weixin.qq.com/1b4493fd.html" %})
+- [https://mp.weixin.qq.com/s/7nqQf7k1BkVDpTFQWTB44w]({% include relrefx.html url="/backup/about.md/mp.weixin.qq.com/83ea6bff.html" %})
 - [https://twitter.com/]({% include relrefx.html url="/backup/about.md/twitter.com/4fd9c9a2.html" %})
 - [https://github.com/]({% include relrefx.html url="/backup/about.md/github.com/008ec445.html" %})

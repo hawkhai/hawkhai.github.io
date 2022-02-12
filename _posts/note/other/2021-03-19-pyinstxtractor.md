@@ -5,7 +5,7 @@ author:
 location: "珠海"
 categories: ["编程与调试"]
 tags: ["Python", "编程"]
-toc:
+toc: true
 toclistyle:
 comments:
 visibility:
@@ -15,6 +15,94 @@ glslcanvas:
 codeprint:
 l2dwidget: true
 ---
+
+PyInstaller 是开源的，可以对其深度订制（改进 Bootloader）。
+[PyInstaller Manual](https://pyinstaller.readthedocs.io/en/stable/)
+
+遇到的最大问题就是启动慢的问题。
+每次都会生成临时文件夹并释放文件，有点烦人。如果崩溃了，临时文件就残留了。本文尝试修改启动器，改掉这个问题。
+This can be done using the `--runtime-tmpdir` option.
+
+我的调整：[hawkhai / pyinstaller {% include relref_github.html %}](https://github.com/hawkhai/pyinstaller/blob/Branch_v4.9/bootloader/msvc/msvc.vcxproj)
+**（还未完成）**
+
+
+## 升级 pyinstaller
+
+```
+pip install --upgrade pyinstaller
+```
+
+
+## 运行时检测
+
+```python
+#!/usr/bin/env python3
+import sys, os
+frozen = 'not'
+if getattr(sys, 'frozen', False):
+    # we are running in a bundle
+    frozen = 'ever so'
+    bundle_dir = sys._MEIPASS
+else:
+    # we are running in a normal Python environment
+    bundle_dir = os.path.dirname(os.path.abspath(__file__))
+print( 'we are', frozen, 'frozen' )
+print( 'bundle dir is', bundle_dir )
+print( 'sys.argv[0] is', sys.argv[0] )
+print( 'sys.executable is', sys.executable )
+print( 'os.getcwd is', os.getcwd() )
+```
+
+
+## Bootloader
+
+[这里](https://pyinstaller.readthedocs.io/en/stable/advanced-topics.html)
+描述详细的启动过程。
+
+{% include image.html url="/assets/images/210319-pyinstxtractor/zlibarchive.png" caption="Structure of the ZlibArchive" %}
+{% include image.html url="/assets/images/210319-pyinstxtractor/carchive.png" caption="Structure of the CArchive" %}
+{% include image.html url="/assets/images/210319-pyinstxtractor/se_exe.png" caption="Structure of the Self Extracting Executable" %}
+
+双进程实现（除了 Windows one-folder 模式）。
+1. 主进程：bootloader 启动，在准备工作。
+    * 如果是 one-file 模式，释放文件到：`temppath/_MEIxxxxxx`。
+    * 修改大量环境变量。
+    * 设置 handle signals，便于两个进程通信。
+    * 运行子进程。
+    * 等待子进程结束。
+    * 如果是 one-file 模式，删除清理 `temppath/_MEIxxxxxx`。
+2. 子进程。
+    * 如果是 Windows，设置 [激活上下文](https://docs.microsoft.com/zh-cn/windows/win32/sbscs/activation-contexts?redirectedfrom=MSDN)。
+    * 加载 Python 动态库。
+    * 初始化 Python 解释器：set sys.path, sys.prefix, sys.executable.
+    * Run python code.
+
+
+### 编译
+
+```
+python ./waf all
+python ./waf all --target-arch=32bit
+```
+
+
+## 改造计划
+
+不能对现有流程造成影响，保持将来的升级能力。
+把附加配置通过后期资源打到最终 pe 文件里面。
+然后 Bootloader 读取配置。
+1. 指定释放临时目录。`pyi_launch_need_to_extract_binaries`
+    * `swprintf(prefix, 16, L"_MEI%d", getpid());` -- 这里一个固定的版本号接上去。
+    * `pyi_get_temp_path` `pyi_create_temp_path`
+2. 如果发现临时目录文件存在了，就跳过。`pyi_launch_extract_binaries`
+    * 怎么判断文件完整？`pyi_arch_extract2fs(ARCHIVE_STATUS *status, TOC *ptoc)`
+3. 进程结束，不要清理文件夹（就需要每个版本指定的临时文件夹唯一）。`pyi_remove_temp_path`
+
+----------
+
+
+## 加密与解密
 
 * [Windows 上通过 bat 避免 python 冲突](https://gclxry.com/article/avoid-python-conflicts-via-bat-on-windows/)
 * [Windows 如何：在本机代码中设置线程名称](https://docs.microsoft.com/zh-cn/visualstudio/debugger/how-to-set-a-thread-name-in-native-code?view=vs-2019)
@@ -215,6 +303,9 @@ if __name__ == '__main__':
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-19-pyinstxtractor.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://pyinstaller.readthedocs.io/en/stable/]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/pyinstaller.readthedocs.io/55ef69da.html" %})
+- [https://pyinstaller.readthedocs.io/en/stable/advanced-topics.html]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/pyinstaller.readthedocs.io/41bc4244.html" %})
+- [https://docs.microsoft.com/zh-cn/windows/win32/sbscs/activation-contexts?redirectedfrom=MSDN]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/docs.microsoft.com/0eb1e65f.html" %})
 - [https://gclxry.com/article/avoid-python-conflicts-via-bat-on-windows/]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/gclxry.com/43348a06.html" %})
 - [https://docs.microsoft.com/zh-cn/visualstudio/debugger/how-to-set-a-thread-name-in-native-code?view=vs-2019]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/docs.microsoft.com/0e272c9c.html" %})
 - [https://gclxry.com/article/use-windbg-to-locate-handle-leaks/]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/gclxry.com/1fa2a3b5.html" %})
