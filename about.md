@@ -161,6 +161,9 @@ And, I welcome any feedback on the contents and your suggestions.
 
 ## Work history
 
+* “人只要做自己主导的事情才干劲最足。” [from {% include relref_github.html %}](https://fuzhe1989.github.io/2021/01/14/words-that-changed-me-during-tablestore-period/)
+* 不要所有时间都闷头工作，要时不时抬起头看看外面，学习新东西。
+
 * Software Engineer
   * Android
   * Windows
@@ -237,5 +240,6 @@ Enjoy!
 - [http://www.songho.ca/]({% include relrefx.html url="/backup/about.md/www.songho.ca/d3f4e364.html" %})
 - [https://mp.weixin.qq.com/s/vkR26U5JOsHxO6TDvn2avw]({% include relrefx.html url="/backup/about.md/mp.weixin.qq.com/1b4493fd.html" %})
 - [https://mp.weixin.qq.com/s/7nqQf7k1BkVDpTFQWTB44w]({% include relrefx.html url="/backup/about.md/mp.weixin.qq.com/83ea6bff.html" %})
+- [https://fuzhe1989.github.io/2021/01/14/words-that-changed-me-during-tablestore-period/]({% include relrefx.html url="/backup/about.md/fuzhe1989.github.io/4a8f546d.html" %})
 - [https://twitter.com/]({% include relrefx.html url="/backup/about.md/twitter.com/4fd9c9a2.html" %})
 - [https://github.com/]({% include relrefx.html url="/backup/about.md/github.com/008ec445.html" %})

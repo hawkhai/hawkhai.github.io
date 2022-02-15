@@ -16,6 +16,13 @@ codeprint:
 ---
 
 
+## massgravel / Microsoft-Activation-Scripts
+
+[from {% include relref_github.html %}](https://github.com/massgravel/Microsoft-Activation-Scripts)
+A collection of scripts for activating Microsoft products using HWID / KMS38 / Online KMS activation methods with a focus on open-source code, less antivirus detection and user-friendliness.
+[from](https://marduc812.com/2021/01/21/activate-windows-10-for-free/)
+
+
 ## base64
 
 [base62x {% include relref_github.html %}](https://github.com/wadelau/Base62x)
@@ -238,6 +245,8 @@ Build in cmd.exe, run command as: msbuild dprofiler.sln
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-28-win-prog-notes.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://github.com/massgravel/Microsoft-Activation-Scripts]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/github.com/afd6ff84.html" %})
+- [https://marduc812.com/2021/01/21/activate-windows-10-for-free/]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/marduc812.com/e0d3c8e0.html" %})
 - [https://github.com/wadelau/Base62x]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/github.com/deec4fed.html" %})
 - [https://www.qqxiuzi.cn/bianma/base.php]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/www.qqxiuzi.cn/c9a5ff91.php" %})
 - [https://github.com/lostindark/DriverStoreExplorer/releases]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/github.com/a03f4901.html" %})
