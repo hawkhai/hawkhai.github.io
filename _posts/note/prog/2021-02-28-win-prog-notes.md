@@ -22,6 +22,16 @@ codeprint:
 A collection of scripts for activating Microsoft products using HWID / KMS38 / Online KMS activation methods with a focus on open-source code, less antivirus detection and user-friendliness.
 [from](https://marduc812.com/2021/01/21/activate-windows-10-for-free/)
 
+MAS_1.4_AIO_CRC32_9A7B5B05.cmd
+`\\10.12.36.171\10.20.220.58\vmware\windows11_22000_132_x64\`
+111
+111
+
+
+## unlocker
+
+http://emptyloop.com/unlocker/
+
 
 ## base64
 
@@ -247,6 +257,7 @@ Build in cmd.exe, run command as: msbuild dprofiler.sln
 
 - [https://github.com/massgravel/Microsoft-Activation-Scripts]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/github.com/afd6ff84.html" %})
 - [https://marduc812.com/2021/01/21/activate-windows-10-for-free/]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/marduc812.com/e0d3c8e0.html" %})
+- [http://emptyloop.com/unlocker/]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/emptyloop.com/eade249d.html" %})
 - [https://github.com/wadelau/Base62x]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/github.com/deec4fed.html" %})
 - [https://www.qqxiuzi.cn/bianma/base.php]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/www.qqxiuzi.cn/c9a5ff91.php" %})
 - [https://github.com/lostindark/DriverStoreExplorer/releases]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/github.com/a03f4901.html" %})

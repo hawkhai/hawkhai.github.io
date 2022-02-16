@@ -397,6 +397,35 @@ typedef struct {
     * File: `%SystemRoot%\System32\RpcEpMap.dll`
     * Registry key: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\RpcEptMapper`
 
+```cpp
+void KInstallFile::DeleteFile()
+{
+    if ( m_bFolder && ::PathFileExists(m_strInstallPath))
+        KFunction::DeleteFolder(m_strInstallPath);
+    else
+    {
+        TCHAR szFileFullPath[MAX_PATH];
+        ::GetModuleFileName(NULL, szFileFullPath, MAX_PATH);
+
+        if ( m_strInstallPath.Compare( szFileFullPath ) != 0 )
+        {
+            KProcessManager::KillProcessByPath( m_strInstallPath );
+            Sleep( 100 );
+        }
+        if (::PathFileExists(m_strInstallPath) && !::DeleteFile( m_strInstallPath ))
+        {
+            CString strTempFileName;
+            strTempFileName.Format(_T("%s_%d_del"), m_strInstallPath, int(::GetTickCount()));
+
+            if (::MoveFileEx(m_strInstallPath, strTempFileName, MOVEFILE_REPLACE_EXISTING))
+            {
+                ::MoveFileEx(strTempFileName, NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
+            }
+        }
+    }
+}
+```
+
 #### 逆向分析
 
 * IDA
