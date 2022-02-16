@@ -416,10 +416,10 @@ def collectHost(fpath, line):
 
 # 语法高亮的 tag 检查。
 def loadRougifyList():
-    ROUGIFY_LIST_FILE = "rougify_list_json.txt"
+    ROUGIFY_LIST_FILE = "config/rougify_list_json.txt"
     ROUGIFY_LIST = readfileJson(ROUGIFY_LIST_FILE)
     if not ROUGIFY_LIST:
-        ROUGIFY_LIST_SRC = readfile("rougify_list.txt", True)
+        ROUGIFY_LIST_SRC = readfile("config/rougify_list.txt", True)
         ROUGIFY_LIST = re.findall("\n([^\\s:]+):", ROUGIFY_LIST_SRC, re.MULTILINE)
         ROUGIFY_LIST2 = re.findall("\\[\\s*aliases\\s*:(.*?)\\]", ROUGIFY_LIST_SRC)
         for temp in ROUGIFY_LIST2:
