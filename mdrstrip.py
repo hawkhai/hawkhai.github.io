@@ -59,20 +59,20 @@ def readfileIglist(fpath):
     return li
 
 def backupUrlContent(fpath, url):
-    for file in readfileIglist("mdrstrip_fileIgnore.txt"):
+    for file in readfileIglist("config/mdrstrip_fileIgnore.txt"):
         if url.endswith(file):
             return
     assert not url.endswith(".exe"), url
     assert not url.endswith(".zip"), url
     # 有可能挂掉的网站，都稍微做一下备份。
-    for host in readfileIglist("mdrstrip_hostIgnore.txt"):
+    for host in readfileIglist("config/mdrstrip_hostIgnore.txt"):
         if url.startswith(host):
             return
 
     print(fpath, url)
     chrome = True # 可能有 js 代码，所以必须都用 Chrome 进行缓存
     chromeDialog = False
-    for host in readfileIglist("mdrstrip_hostChrome.txt"):
+    for host in readfileIglist("config/mdrstrip_hostChrome.txt"):
         if url.startswith(host):
             chromeDialog = True
     mdname = os.path.split(fpath)[-1]
@@ -102,7 +102,7 @@ def backupUrlContent(fpath, url):
 
     mdxfile = False
     flocal = buildlocal(ttype)
-    if chrome and urlhostsrc in readfileIglist("mdrstrip_hostJekyll.txt"):
+    if chrome and urlhostsrc in readfileIglist("config/mdrstrip_hostJekyll.txt"):
         mdxfile = True
         ttype = ".md" # 借用 Jekyll 格式化
         newlocal = buildlocal(ttype)
@@ -127,7 +127,7 @@ def backupUrlContent(fpath, url):
     itag = bytesToString("无法访问此网站".encode("utf8"))
     itag2 = bytesToString('<div class="Qrcode-title">扫码登录</div>'.encode("utf8")) # 知乎的问题
     idata = bytesToString(fdata)
-    if not url in readfileIglist("mdrstrip_InvalidURL.txt"):
+    if not url in readfileIglist("config/mdrstrip_InvalidURL.txt"):
         if idata.find("ERR_CONNECTION_TIMED_OUT") != -1 or (
                 idata.find(itag) != -1 or idata.find(itag2) != -1):
             print("无法访问此网站", fpath, url)
@@ -179,7 +179,7 @@ title : %(title)s
 
     fmd5 = getFileMd5(flocal) # 大文件，错误已经铸成，改不了了。
     invdirlocal = isInvisibleDir(flocal)
-    mdrstripBigfileCfg = os.path.join("invisible" if invdirlocal else ".", "mdrstrip_bigfiles.txt")
+    mdrstripBigfileCfg = os.path.join("invisible" if invdirlocal else ".", "config/mdrstrip_bigfiles.txt")
     if not fmd5 in readfileIglist(mdrstripBigfileCfg):
         if len(fdata) >= 1024*1000*1:
             assert False, (len(fdata) / 1024.0 / 1000.0, url)
@@ -216,7 +216,7 @@ def tidyupImgCollect(rootdir):
 # 本地图片缓存路径。
 def tidyupImg(imglocal, fpath, line):
 
-    if imglocal in readfileIglist("mdrstrip_fakefiles.txt"):
+    if imglocal in readfileIglist("config/mdrstrip_fakefiles.txt"):
         return line
 
     imgdir, imgfname = os.path.split(imglocal)
@@ -370,7 +370,7 @@ def collectHost(fpath, line):
         checkz = line.split(url)
         for iline in checkz[1:]: # 检查网址的后继标记。
             checkli = ["", ")", "]", ">", " ", "*"]
-            for urli in readfileIglist("mdrstrip_urlIgnore.txt"):
+            for urli in readfileIglist("config/mdrstrip_urlIgnore.txt"):
                 if url.startswith(urli) and urli:
                     checkli.append(";")
                     checkli.append("\"")
@@ -886,7 +886,7 @@ def checkfilesize(fpath, fname, ftype):
             return
 
     invdir = isInvisibleDir(fpath)
-    mdrstripBigfileCfg = os.path.join("invisible" if invdir else ".", "mdrstrip_bigfiles.txt")
+    mdrstripBigfileCfg = os.path.join("invisible" if invdir else ".", "config/mdrstrip_bigfiles.txt")
     fmd5 = getFileMd5(fpath)
     if not mdrstripBigfileCfg in G_CHECKFSIZE_CFG.keys():
         G_CHECKFSIZE_CFG[mdrstripBigfileCfg] = set()
