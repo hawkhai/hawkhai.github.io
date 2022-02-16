@@ -153,7 +153,7 @@ def parseHeadKeyValue(fpath, fname, ftype):
     if not fsecli: return
     return formatkv(fpath, fname, ftype, fsecli[1])[1]
 
-gkvconfig = readfileJson("headnote.json", "utf8")
+gkvconfig = readfileJson("config/headnote.json", "utf8")
 gkvconfig = gkvconfig if gkvconfig else {}
 def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv={}):
     if ftype in ("mdtag",): return
@@ -176,7 +176,7 @@ def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv={}):
 def mainxkey():
     print("***" * 30)
     searchdir(".", mainxkeyfile, ignorelist=("backup", "_site", "_drafts", "opengl-3rd"))
-    writefileJson("headnote.json", gkvconfig)
+    writefileJson("config/headnote.json", gkvconfig)
 
     nctrl = {
         "title": 2,
@@ -200,7 +200,7 @@ def mainxkey():
         print(key, value, "..." if len(gkvmap[key]) > ctrln else "")
         headnote[key] = value
     # (path, data, encoding="ISO8859-1", ascii=True):
-    writefileJson("headnote.txt", headnote, "utf8", False)
+    writefileJson("config/headnote.txt", headnote, "utf8", False)
 
 if __name__ == "__main__":
     mainxtitle()

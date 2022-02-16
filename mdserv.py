@@ -73,7 +73,7 @@ def parseRootReq(path, result, action):
     kjson["categories"] = [] if not kjson["categories"] else json.loads(kjson["categories"])
     kjson["tags"] = [] if not kjson["tags"] else json.loads(kjson["tags"])
 
-    headnote = readfileJson("headnote.txt", "utf8")
+    headnote = readfileJson("config/headnote.txt", "utf8")
     if action == "/":
         return parseReqAction(localjs, localmd, kjson, query, headnote, href)
     if action == "/chgcat":
@@ -109,7 +109,7 @@ def parseReqActionChgTag(localjs, localmd, kjson, querysrc, headnote, href):
     return kjson
 
 def parseReqActionTagCtrl(localjs, localmd, kjson, query, headnote, href):
-    gkvconfig = readfileJson("headnote.json", "utf8")
+    gkvconfig = readfileJson("config/headnote.json", "utf8")
     value = not not int(query["taged"])
     gkvconfig[localmd]["taged"] = value
     mdtagfile = (localmd+".tag").replace(".md.tag", ".mdtag").replace("-", "")
@@ -117,7 +117,7 @@ def parseReqActionTagCtrl(localjs, localmd, kjson, query, headnote, href):
         osremove(mdtagfile)
     else:
         writefile(mdtagfile, "")
-    #writefileJson("headnote.json", gkvconfig)
+    #writefileJson("config/headnote.json", gkvconfig)
 
 def parseReqAction(localjs, localmd, kjson, query, headnote, href):
     mycate = kjson["categories"]
@@ -125,7 +125,7 @@ def parseReqAction(localjs, localmd, kjson, query, headnote, href):
     mytag = kjson["tags"]
     alltag = headnote["tags"]
 
-    gkvconfig = readfileJson("headnote.json", "utf8")
+    gkvconfig = readfileJson("config/headnote.json", "utf8")
     config = gkvconfig[localmd] if localmd in gkvconfig.keys() else { "taged": False, }
     kjson["config"] = config
 
@@ -186,7 +186,7 @@ class Resquest(BaseHTTPRequestHandler):
         print(self.path)
         pinfo = getPostInfo(self.path)
 
-        headnote = readfileJson("headnote.txt", "utf8")
+        headnote = readfileJson("config/headnote.txt", "utf8")
         self.wfile.write(json.dumps({
             "headnote": headnote,
             "pinfo": pinfo,
