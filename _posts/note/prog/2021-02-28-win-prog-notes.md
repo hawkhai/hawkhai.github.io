@@ -22,6 +22,11 @@ codeprint:
 A collection of scripts for activating Microsoft products using HWID / KMS38 / Online KMS activation methods with a focus on open-source code, less antivirus detection and user-friendliness.
 [from](https://marduc812.com/2021/01/21/activate-windows-10-for-free/)
 
+MAS_1.4_AIO_CRC32_9A7B5B05.cmd
+`\\10.12.36.171\10.20.220.58\vmware\windows11_22000_132_x64\`
+111
+111
+
 
 ## base64
 
