@@ -471,7 +471,7 @@ ENDFOREACH(loop_var)
 ```
 
 ```cmake
-从 0 到 total 以 １ 为步进
+从 0 到 total 以 1 为步进
 FOREACH(VAR RANGE 10)
     MESSAGE(${VAR})
 ENDFOREACH(VAR)

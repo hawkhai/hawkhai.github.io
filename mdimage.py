@@ -12,6 +12,9 @@ def mainfilew(fpath, fname, ftype):
     fdata = readfile(fpath, True)
     fdatabak = fdata[:]
 
+    z0 = bytesToString(b"\xef\xbc\x90")
+    zA = bytesToString(b"\xef\xbc\xa1")
+
     li = fdata.split("\r\n")
     li2 = []
     first = True
@@ -30,7 +33,28 @@ def mainfilew(fpath, fname, ftype):
             assert os.path.exists("./images/"+img), "./images/"+img
             li2.append(line)
         else:
-            li2.append(line)
+            result = re.findall("\\xef\\xbc[\\x90-\\x99\\xa1-\\xba]", line)
+            if result:
+                if first:
+                    print(fpath)
+                    first = False
+                print("\t"*1, result, line)
+                for ch in result:
+                    chtail = ch[-1]
+                    if 0x90 <= ord(chtail) <= 0x99:
+                        target = "%d"%(ord(chtail)-0x90)
+                        print(bytesToString(stringToBytes(ch), "utf8"), target)
+                        line = line.replace(ch, target)
+                    elif 0xa1 <= ord(chtail) <= 0xba:
+                        target = "%c"%(ord('A')+ord(chtail)-0xa1)
+                        print(bytesToString(stringToBytes(ch), "utf8"), target)
+                        line = line.replace(ch, target)
+                    else:
+                        assert False, ch
+                li2.append(line)
+            else:
+                li2.append(line)
+
     fdata = "\r\n".join(li2)
 
     if fdata != fdatabak and AUTOFORMAT:
