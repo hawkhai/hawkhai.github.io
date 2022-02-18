@@ -32,6 +32,21 @@ tempexe.append(L"test");
 1. `std::string = null;`
 2. `CString str; GetWindowsText(hWnd, str.GetBuffer(), MAX_PATH);`
 
+```cpp
+bool endsWith(const CString& str, const CString& suffix, bool ignoreCase)
+{
+    int totalSize = str.GetLength();
+    int suffixSize = suffix.GetLength();
+    if (totalSize < suffixSize) {
+        return false;
+    }
+    if (ignoreCase) {
+        return str.Right(suffixSize).CompareNoCase(suffix) == 0;
+    }
+    return str.Right(suffixSize).Compare(suffix) == 0;
+}
+```
+
 
 ## bsearch & qsort
 
