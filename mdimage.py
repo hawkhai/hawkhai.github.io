@@ -30,7 +30,15 @@ def mainfilew(fpath, fname, ftype):
             if idx == "0":
                 line = r"""{{% include image.html url="/images/{}" %}}""".format(img,)
             print("\t"*1, result, line)
-            assert os.path.exists("./images/"+img), "./images/"+img
+            imgfile = "./images/"+img
+            assert os.path.exists(imgfile), imgfile
+            if re.findall("^IMG_[0-9a-f]{32}\\.", img):
+                print("极光图片", imgfile)
+                from PIL import Image
+                img = Image.open(imgfile)
+                width, height = img.size
+                img = img.resize((width, height), Image.ANTIALIAS)
+                img.save(imgfile)
             li2.append(line)
         else:
             result = re.findall("\\xef\\xbc[\\x90-\\x99\\xa1-\\xba]", line)
