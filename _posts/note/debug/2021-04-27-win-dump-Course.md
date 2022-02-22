@@ -294,6 +294,16 @@ mov ebp, esp
 {% include image.html url="/assets/images/210427-win-dump-course/6.png" url2="/assets/images/210427-win-dump-course/7.png" %}
 
 
+## 静态变量互相释放
+
+在一个单例类的析构内去调用另一个单例
+
+<http://blog.rdev.kingsoft.net/?p=3359> 29:36
+Windbg 调试技巧-张韬.pdf 12/43
+一个单例类调用了另外一个单例类的函数，这个先被析构，另外一个后被析构，单例居然为空，就崩溃了。
+{% include image.html url="/assets/images/210427-win-dump-course/img_03ff4818e6d242cc9f55308f42746ef4.png" %}
+
+
 ## DllMain 死锁分析
 
 {% include image.html url="/assets/images/210427-win-dump-course/8.png" url2="/assets/images/210427-win-dump-course/9.png" url3="/assets/images/210427-win-dump-course/10.png" %}
