@@ -575,6 +575,242 @@ class b62 {
 }; // namespace b62
 ```
 
+### 拍脑袋最终版本
+
+* 设计一种编码，编码出来只有 62 个字符，并且尽可能短，每个字符独立编码，支持按字符检索。
+* 62 编码，采取 59（质数）进制，XYZ 作为扩展标记。最短能从 16 进制得长度缩短到原来的 3/4 长度。
+* 16 进制一次编码 4 bit，59 进制一次大概编码 6 bit。
+* <= 58: 直接解析
+* \>= 59: XYZ 打头扩展编码。
+
+```c++
+#include "stdafx.h"
+#include <assert.h>
+#include "pythonx.h"
+
+#define ALG62_TYPE 0x33
+const wchar_t SZ62_BASE62_TAB[] = L"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+/**
+ * 设计一种编码，编码出来只有 62 个字符，并且尽可能短，每个字符独立编码，支持按字符检索。
+ * 62 编码，采取 59（质数）进制，XYZ 作为扩展标记。最短能从 16 进制得长度缩短到原来的 3/4 长度。
+ * 16 进制一次编码 4 bit，59 进制一次大概编码 6 bit。
+ * <= 58: 直接解析
+ * >= 59: XYZ 打头扩展编码。
+ */
+#define MASK_EXT1 -1 // 扩展一位
+#define MASK_EXT2 -2 // 扩展两位
+#define MASK_EXTR -10
+#define MASK_ERR  -20
+
+#define BASE_NUM  59
+
+#define ISCHAR_09(ch) (ch >= L'0' && ch <= L'9')
+#define ISCHAR_az(ch) (ch >= L'a' && ch <= L'z')
+#define ISCHAR_AZ(ch) (ch >= L'A' && ch <= L'Z')
+#define PARSE_09(ch) (ch - L'0')
+#define PARSE_az(ch) (ch - L'a' + 10)
+#define PARSE_AZ(ch) (ch - L'A' + 10 + 26)
+
+int ParseBase62k(const wchar_t ch) {
+    if (ISCHAR_09(ch)) {
+        return PARSE_09(ch);
+    }
+    if (ISCHAR_az(ch)) {
+        return PARSE_az(ch);
+    }
+    if (ISCHAR_AZ(ch)) {
+        if (ch == L'X') {
+            return MASK_EXT1;
+        }
+        if (ch == L'Y') {
+            return MASK_EXT2;
+        }
+        if (ch == L'Z') {
+            return MASK_EXTR;
+        }
+        return PARSE_AZ(ch);
+    }
+    return MASK_ERR;
+}
+
+int AppendHexk(CString& retv, unsigned long value) {
+    int len = 0;
+    if (value < BASE_NUM) {
+        retv.AppendChar(SZ62_BASE62_TAB[value]);
+        len += 1;
+    }
+    else if (value - BASE_NUM < BASE_NUM) {
+        value -= BASE_NUM;
+        retv.AppendChar(L'X');
+        retv.AppendChar(SZ62_BASE62_TAB[value]);
+        len += 2;
+    }
+    else if ((value - BASE_NUM * 2) / BASE_NUM < BASE_NUM) {
+        value -= BASE_NUM * 2;
+        retv.AppendChar(L'Y');
+        retv.AppendChar(SZ62_BASE62_TAB[value % BASE_NUM]);
+        retv.AppendChar(SZ62_BASE62_TAB[value / BASE_NUM]);
+        len += 3;
+    }
+    else {
+        const int basek = BASE_NUM * 2 + BASE_NUM * BASE_NUM;
+        assert(value >= basek); // 不能出现负数。
+        value -= basek;
+
+        retv.AppendChar(L'Z');
+        retv.AppendChar(SZ62_BASE62_TAB[value % BASE_NUM]);
+        retv.AppendChar(SZ62_BASE62_TAB[value / BASE_NUM % BASE_NUM]);
+        len += 3 + AppendHexk(retv, value / BASE_NUM / BASE_NUM); // 递归最高位置。
+    }
+    return len;
+}
+
+unsigned long EatupHexk(const wchar_t* ptr, unsigned int& index) {
+
+    const wchar_t op = ptr[index++];
+    if (op == L'X') {
+        wchar_t X = ptr[index++];
+        return BASE_NUM + ParseBase62k(X);
+    }
+    else if (op == L'Y') {
+        wchar_t Y1 = ptr[index++];
+        wchar_t Y2 = ptr[index++];
+        return BASE_NUM * 2 + ParseBase62k(Y1) + ParseBase62k(Y2) * BASE_NUM;
+    }
+    else if (op == L'Z') {
+        wchar_t Z1 = ptr[index++];
+        wchar_t Z2 = ptr[index++];
+        unsigned long Z3 = EatupHexk(ptr, index);
+        const int basek = BASE_NUM * 2 + BASE_NUM * BASE_NUM;
+        return basek + ParseBase62k(Z1) + ParseBase62k(Z2) * BASE_NUM + Z3 * BASE_NUM * BASE_NUM;
+    }
+    else {
+        return ParseBase62k(op);
+    }
+}
+
+CString toHexStringk(CString str) {
+    const int length = str.GetLength();
+    const wchar_t* buffer = str.GetString();
+
+    CString retv;
+    AppendHexk(retv, ALG62_TYPE);
+    AppendHexk(retv, length);
+    AppendHexk(retv, sizeof(wchar_t)); // 0：bin，1：char，2：wchar。
+    for (int i = 0; i < length; i++) {
+        wchar_t ch = buffer[i]; // <= 0xffff
+        AppendHexk(retv, ch / BASE_NUM / BASE_NUM);
+        AppendHexk(retv, ch / BASE_NUM % BASE_NUM);
+        AppendHexk(retv, ch % BASE_NUM);
+    }
+    return retv;
+}
+
+BOOL bkHexStringk(const CString str, CString& result) {
+
+    unsigned int index = 0;
+    const wchar_t* buffer = str.GetString();
+
+    const int algType = EatupHexk(buffer, index);
+    if (algType != ALG62_TYPE) {
+        return FALSE;
+    }
+
+    const int length = EatupHexk(buffer, index);
+    const int flag = EatupHexk(buffer, index);
+
+    if (flag == sizeof(wchar_t)) {
+        for (int i = 0; i < length; i++) {
+            wchar_t a = EatupHexk(buffer, index);
+            wchar_t b = EatupHexk(buffer, index);
+            wchar_t c = EatupHexk(buffer, index);
+            result.AppendChar(a * BASE_NUM * BASE_NUM + b * BASE_NUM + c);
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+/**
+0 0 0
+3a 58 W
+3b 59 X0
+75 117 XW
+76 118 Y00
+e0e 3598 YWW
+e0f 3599 Z000
+33051 208977 ZWWW
+33052 208978 Z00X0
+65294 414356 ZWWXW
+65295 414357 Z00Y00
+bf3805 12531717 ZWWYWW
+bf3806 12531718 Z00Z000
+fffffe 16777214 ZxAZDk0
+ffffff 16777215 ZyAZDk0
+0 0 P12000
+*/
+int _tmain2(int argc, _TCHAR* argv[])
+{
+    int strlen = 0;
+    CString preline;
+    for (unsigned int i = 0; i <= 0xffffff; i++) {
+        CString temp;
+        AppendHexk(temp, i);
+        unsigned int index = 0;
+        unsigned long result = EatupHexk(temp.GetBuffer(), index);
+
+        assert(result == i);
+        if (temp.GetLength() != strlen || i == 0xffffff) {
+            wprintf(preline.GetString());
+            wprintf(L"%x %d %s \r\n", i, i, temp.GetString());
+            strlen = temp.GetLength();
+        }
+        preline.Format(L"%x %d %s \r\n", i, i, temp.GetString());
+    }
+
+    strlen = 0;
+    for (int i = 0; i < 0xffffff; i++) {
+        CString testk(L"0");
+        testk.GetBuffer()[0] = i;
+
+        CString temp = toHexStringk(testk);
+        if (temp.GetLength() != strlen) {
+            wprintf(L"%x %d %s \r\n", i, i, temp.GetString());
+            strlen = temp.GetLength();
+        }
+        CString result;
+        bkHexStringk(temp, result);
+        assert(result.Compare(testk) == 0);
+    }
+
+    CString test = L"中文 09azAZ";
+    CString result = toHexStringk(test);
+    CString temp;
+    bkHexStringk(result, temp);
+    assert(test.Compare(temp) == 0);
+    return 0;
+}
+```
+
+```
+0 0 0
+3a 58 W
+3b 59 X0
+75 117 XW
+76 118 Y00
+e0e 3598 YWW
+e0f 3599 Z000
+33051 208977 ZWWW
+33052 208978 Z00X0
+65294 414356 ZWWXW
+65295 414357 Z00Y00
+bf3805 12531717 ZWWYWW
+bf3806 12531718 Z00Z000
+fffffe 16777214 ZxAZDk0
+ffffff 16777215 ZyAZDk0
+0 0 P12000
+```
+
 
 ## StringHelper
 
