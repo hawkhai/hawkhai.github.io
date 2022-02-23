@@ -595,6 +595,7 @@ Base64 编码是使用 64 个可打印 ASCII 字符（A-Z、a-z、0-9、+、/）
 #include "stdafx.h"
 #include <assert.h>
 #include "pythonx.h"
+#include <memory>
 
 #define ALG62_TYPE 0x33
 const wchar_t SZ62_BASE62_TAB[] = L"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -618,6 +619,17 @@ const wchar_t SZ62_BASE62_TAB[] = L"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGH
 #define PARSE_09(ch) (ch - L'0')
 #define PARSE_az(ch) (ch - L'a' + 10)
 #define PARSE_AZ(ch) (ch - L'A' + 10 + 26)
+
+const unsigned char B11111100 = 0xfc;
+const unsigned char B00000011 = 0x03;
+const unsigned char B11110000 = 0xf0;
+const unsigned char B00001111 = 0x0f;
+const unsigned char B11000000 = 0xc0;
+const unsigned char B00111111 = 0x3f;
+const unsigned char B110000 = 0x30;
+const unsigned char B001111 = 0x0f;
+const unsigned char B111100 = 0x3c;
+const unsigned char B000011 = 0x03;
 
 int ParseBase62k(const wchar_t ch) {
     if (ISCHAR_09(ch)) {
@@ -714,10 +726,102 @@ CString toHexStringk(CString str) {
     return retv;
 }
 
-BOOL bkHexStringk(const CString str, CString& result) {
+CString toHexStringk(const char* buffer, const int length) {
+    CString retv;
+    AppendHexk(retv, ALG62_TYPE);
+    AppendHexk(retv, length);
+    AppendHexk(retv, 0); // 0：bin，1：char，2：wchar。
+    // 一次编码 3 个字节。
+    for (int i = 0; i < length; i += 3) {
+        char a = buffer[i];
+        char b = i + 1 < length ? buffer[i + 1] : 0;
+        char c = i + 2 < length ? buffer[i + 2] : 0;
+        AppendHexk(retv, (a & B11111100) >> 2);
+        AppendHexk(retv, ((a & B00000011) << 4) | ((b & B11110000) >> 4));
+        if (i + 1 >= length) {
+            break;
+        }
+        AppendHexk(retv, ((b & B00001111) << 2) | ((c & B11000000) >> 6));
+        if (i + 2 >= length) {
+            break;
+        }
+        AppendHexk(retv, c & B00111111);
+    }
+    return retv;
+}
+
+CString toHexStringk(CStringA str) {
+    const int length = str.GetLength();
+    const char* buffer = str.GetString();
+
+    CString retv;
+    AppendHexk(retv, ALG62_TYPE);
+    AppendHexk(retv, length);
+    AppendHexk(retv, sizeof(char)); // 0：bin，1：char，2：wchar。
+    for (int i = 0; i < length; i++) {
+        char ch = buffer[i]; // <= 0xff
+        AppendHexk(retv, ch / BASE_NUM);
+        AppendHexk(retv, ch % BASE_NUM);
+    }
+    return retv;
+}
+
+class MyStringA {
+    // const char* buffer, const int length
+public:
+    void resize(int size) {
+        buffer = std::shared_ptr<char>(new char[size + 1], [](char* p) { delete[] p; });
+        length = size;
+        buffer.get()[size] = 0; // 结束符
+    }
+
+    bool setValue(int index, char value) {
+        assert(index < length);
+        char* p = buffer.get();
+        assert(p);
+        if (p && index < length) {
+            p[index] = value;
+            return true;
+        }
+        return false;
+    }
+
+    int size() const {
+        return length;
+    }
+
+    char* cstr() {
+        char* p = buffer.get();
+        assert(p);
+        return p;
+    }
+
+    int Compare(const MyStringA& mystr) {
+        if (length != mystr.length) {
+            return -1;
+        }
+        char* x = buffer.get();
+        char* y = mystr.buffer.get();
+        if (!x || !y) {
+            return -1;
+        }
+        return memcmp(x, y, length);
+    }
+
+private:
+    int length = 0;
+    std::shared_ptr<char> buffer;
+};
+
+CString toHexStringk(MyStringA str) {
+    return toHexStringk(str.cstr(), str.size());
+}
+
+BOOL bkHexStringk(const CString str, CString& result, CStringA& resultA, MyStringA& mystr) {
 
     unsigned int index = 0;
     const wchar_t* buffer = str.GetString();
+    unsigned int bufsize = str.GetLength();
 
     const int algType = EatupHexk(buffer, index);
     if (algType != ALG62_TYPE) {
@@ -728,11 +832,46 @@ BOOL bkHexStringk(const CString str, CString& result) {
     const int flag = EatupHexk(buffer, index);
 
     if (flag == sizeof(wchar_t)) {
+        auto xbuffer = result.GetBufferSetLength(length);
         for (int i = 0; i < length; i++) {
             wchar_t a = EatupHexk(buffer, index);
             wchar_t b = EatupHexk(buffer, index);
             wchar_t c = EatupHexk(buffer, index);
-            result.AppendChar(a * BASE_NUM * BASE_NUM + b * BASE_NUM + c);
+            xbuffer[i] = a * BASE_NUM * BASE_NUM + b * BASE_NUM + c;
+        }
+        result.ReleaseBuffer();
+        return TRUE;
+    }
+    if (flag == sizeof(char)) {
+        auto xbuffer = resultA.GetBufferSetLength(length);
+        for (int i = 0; i < length; i++) {
+            char a = EatupHexk(buffer, index);
+            char b = EatupHexk(buffer, index);
+            xbuffer[i] = a * BASE_NUM + b;
+        }
+        resultA.ReleaseBuffer();
+        return TRUE;
+    }
+    if (flag == 0) {
+        mystr.resize(length);
+        unsigned int rstindex = 0;
+        for (int i = 0; i < length; i += 3) {
+            char a = EatupHexk(buffer, index);
+            char b = index < bufsize ? EatupHexk(buffer, index) : 0;
+            char c = index < bufsize ? EatupHexk(buffer, index) : 0;
+            char d = index < bufsize ? EatupHexk(buffer, index) : 0;
+            mystr.setValue(rstindex++, (a << 2) | ((b & B110000) >> 4));
+            if (rstindex >= length) {
+                break;
+            }
+            mystr.setValue(rstindex++, ((b & B001111) << 4) | ((c & B111100) >> 2));
+            if (rstindex >= length) {
+                break;
+            }
+            mystr.setValue(rstindex++, ((c & B000011) << 6) | d);
+            if (rstindex >= length) {
+                break;
+            }
         }
         return TRUE;
     }
@@ -757,18 +896,127 @@ fffffe 16777214 ZxAZDk0
 ffffff 16777215 ZyAZDk0
 0 0 P12000
 */
+CString makeString(int size) {
+    CString retv;
+    auto buffer = retv.GetBufferSetLength(size);
+    for (int i = 0; i < size; i++) {
+        buffer[i] = rand() % 0xffff + 1;
+    }
+    retv.ReleaseBuffer();
+    return retv;
+}
+CStringA makeStringA(int size) {
+    CStringA retv;
+    auto buffer = retv.GetBufferSetLength(size);
+    for (int i = 0; i < size; i++) {
+        buffer[i] = rand() % 0xff + 1;
+    }
+    retv.ReleaseBuffer();
+    return retv;
+}
+MyStringA makeMyString(int size) {
+    MyStringA retv;
+    retv.resize(size);
+    for (int i = 0; i < size; i++) {
+        retv.setValue(i, rand() % 0x1ff);
+    }
+    return retv;
+}
+CString bkHexStringkStr(const CString str) {
+    CString temp;
+    CStringA tempa;
+    MyStringA mystra;
+    bool result = bkHexStringk(str, temp, tempa, mystra);
+    assert(result);
+    return temp;
+}
+
+CStringA bkHexStringkStrA(const CString str) {
+    CString temp;
+    CStringA tempa;
+    MyStringA mystra;
+    bool result = bkHexStringk(str, temp, tempa, mystra);
+    assert(result);
+    return tempa;
+}
+
+MyStringA bkHexStringkMyStr(const CString str) {
+    CString temp;
+    CStringA tempa;
+    MyStringA mystra;
+    bool result = bkHexStringk(str, temp, tempa, mystra);
+    assert(result);
+    return mystra;
+}
+
+CStringA toHexString16(const CString& str) {
+    CStringA ret;
+    for (int i = 0; i < str.GetLength(); i++) {
+        ret.AppendFormat("%04x", str[i]);
+    }
+    return ret;
+}
+CStringA toHexString16(const CStringA& str) {
+    CStringA ret;
+    for (int i = 0; i < str.GetLength(); i++) {
+        ret.AppendFormat("%02x", str[i]);
+    }
+    return ret;
+}
+CStringA toHexString16(MyStringA& str) {
+    CStringA ret;
+    for (int i = 0; i < str.size(); i++) {
+        ret.AppendFormat("%02x", str.cstr()[i]);
+    }
+    return ret;
+}
+
 int _tmain2(int argc, _TCHAR* argv[])
 {
+    for (int i = 0; i < 10000; i++) {
+        int size = rand() % 10;
+
+        CString strw = makeString(size);
+        CStringA stra = makeStringA(size);
+        MyStringA mystr = makeMyString(size);
+        assert(strw.GetLength() == size);
+        assert(stra.GetLength() == size);
+        assert(mystr.size() == size);
+
+        CString strwE = toHexStringk(strw);
+        CString straE = toHexStringk(stra);
+        CString mystrE = toHexStringk(mystr);
+
+        CString strwD = bkHexStringkStr(strwE);
+        CStringA straD = bkHexStringkStrA(straE);
+        MyStringA mystrD = bkHexStringkMyStr(mystrE);
+
+        CStringA t1 = toHexString16(strw);
+        CStringA t2 = toHexString16(strwD);
+        int sizek = strwD.GetLength();
+        assert(strw.Compare(strwD) == 0 && size == sizek);
+
+        t1 = toHexString16(stra);
+        t2 = toHexString16(straD);
+        sizek = straD.GetLength();
+        assert(stra.Compare(straD) == 0 && size == sizek);
+
+        t1 = toHexString16(mystr);
+        t2 = toHexString16(mystrD);
+        sizek = mystrD.size();
+        assert(mystr.Compare(mystrD) == 0 && size == sizek);
+    }
+
     int strlen = 0;
     CString preline;
-    for (unsigned int i = 0; i <= 0xffffff; i++) {
+    for (unsigned int i = 0; i <= 0xfffff; i++) {
         CString temp;
         AppendHexk(temp, i);
         unsigned int index = 0;
         unsigned long result = EatupHexk(temp.GetBuffer(), index);
 
         assert(result == i);
-        if (temp.GetLength() != strlen || i == 0xffffff) {
+        if (temp.GetLength() != strlen || i == 0xfffff) {
             wprintf(preline.GetString());
             wprintf(L"%x %d %s \r\n", i, i, temp.GetString());
             strlen = temp.GetLength();
@@ -777,7 +1025,7 @@ int _tmain2(int argc, _TCHAR* argv[])
     }
 
     strlen = 0;
-    for (int i = 0; i < 0xffffff; i++) {
+    for (int i = 0; i < 0xfffff; i++) {
         CString testk(L"0");
         testk.GetBuffer()[0] = i;
 
@@ -786,15 +1034,13 @@ int _tmain2(int argc, _TCHAR* argv[])
             wprintf(L"%x %d %s \r\n", i, i, temp.GetString());
             strlen = temp.GetLength();
         }
-        CString result;
-        bkHexStringk(temp, result);
+        CString result = bkHexStringkStr(temp);
         assert(result.Compare(testk) == 0);
     }
 
     CString test = L"中文 09azAZ";
     CString result = toHexStringk(test);
-    CString temp;
-    bkHexStringk(result, temp);
+    CString temp = bkHexStringkStr(result);
     assert(test.Compare(temp) == 0);
     return 0;
 }
@@ -812,10 +1058,8 @@ e0f 3599 Z000
 33052 208978 Z00X0
 65294 414356 ZWWXW
 65295 414357 Z00Y00
-bf3805 12531717 ZWWYWW
-bf3806 12531718 Z00Z000
-fffffe 16777214 ZxAZDk0
-ffffff 16777215 ZyAZDk0
+ffffe 1048574 ZqbY53
+fffff 1048575 ZrbY53
 0 0 P12000
 ```
 
