@@ -17,6 +17,31 @@ cluster: "WinDBG"
 ---
 
 
+## 被注入造成堆栈破坏
+
+pdfupdate_ex.exe_2021.10.18.256_2b498_pdfupdate_ex.exe_2021.10.18.256_0000000.txt
+
+```
+EXCEPTION_RECORD:  (.exr -1)
+ExceptionAddress: 0042b498 (pdfupdate_ex!DeCryptLibFile+0x00000108)
+   ExceptionCode: c0000409 (Security check failure or stack buffer overrun)
+  ExceptionFlags: 00000001
+NumberParameters: 0
+
+ChildEBP RetAddr  Args to Child
+0019f8a8 004a03f9 004c145c 6d636bf4 929c940b KERNELBASE!UnhandledExceptionFilter+0x1cb
+0019fbdc 0042b498 00000003 00000080 00000000 pdfupdate_ex!__report_gsfailure+0xdf [f:\dd\vctools\crt_bld\self_x86\crt\src\gs_report.c @ 313]
+0019fc3c 767524de 006e0000 00000000 00706c30 pdfupdate_ex!DeCryptLibFile+0x108 [d:\...\include\defend\cryptfunction.cpp @ 469]
+```
+
+IDA 打开对应的 pdfupdate_ex.exe，跳转到 `0042b498`：
+
+{% include image.html url="/assets/images/210602-win-windbg-cases/20220223165659.png" %}
+{% include image.html url="/assets/images/210602-win-windbg-cases/20220223165710.png" %}
+
+一上来 `CreateFileW`，返回的时候 \_\_\_security_cookie 检查失败，崩溃了。
+
+
 ## 64 位指针被截断
 
 
