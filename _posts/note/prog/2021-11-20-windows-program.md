@@ -671,6 +671,50 @@ CStringA sa;
 CString s = sa; // 危险（ANSI）
 ```
 
+```cpp
+#include <iostream>
+#include <atlconv.h>
+#include <atlstr.h>
+
+int test() {
+    // 舒服，内存在堆上。默认：CP_THREAD_ACP，可以指定编码。
+    // 大字符串内存申请在 AtlConvAllocMemory 堆上。
+    std::string test3 = std::string(ATL::CW2A(L"中文字符", CP_UTF8));
+    std::wstring test4 = std::wstring(ATL::CA2W("中文字符"));
+    return 0;
+}
+
+int main()
+{
+    USES_CONVERSION; // 使用 CP_THREAD_ACP
+    // 危险：使用了 alloca，这个内存申请在栈上。
+    std::string test1 = W2A(L"我是宽字节"); // 转化成默认
+    std::wstring test2 = A2W("我是窄字节"); // 危险，这玩意在栈上。
+    return 0;
+}
+```
+
+将使用标准 C 的 mbstowcs 方法和 wcstombs 方法，且配合标准 C 的 setlocale 方法，这也是利用标准库跨平台的做法，
+但是过程没法直接转成自定义的编码，需要额外转码。所以在 Windows 平台开发的话不推荐。
+[iconv](https://sunocean.life/blog/blog/2021/02/27/mbs-and-wcs-for-Android)
+
+#### 再谈字符集
+
+* WideCharToMultiByte，将 Unicode 转换为多字节。其中入参：codePage，指定的是 Unicode 转换为目标字符串需要使用的编码映射表。（决定了输出字符串的编码方式）
+* MultiByteToWideChar，将多字节转换为 Unicode。其中入参：codePage，指定的是源字符串转换为 Unicode 需要使用的编码映射表。（决定了输入字符串的编码方式）
+* codePage，就是各种编码到 Unicode 的映射表。有几种典型的：
+    * CP_ACP，系统默认的代码页，在中文系统中一般为 GBK。在英文系统中为 ANSI。<span imgid="CP_ACP" />
+    * CP_THREAD_ACP，线程的代码页，在中文系统中一般为 GBK。在英文系统中为 ANSI。<span imgid="CP_THREAD_ACP" />
+    * 936 —简体中文（GBK）
+    * UTF-8
+
+{% include image.html url="/assets/images/211120-windows-program/zzz1.png" caption="这个设置影响的是 CP_ACP" relocate="CP_ACP" %}
+{% include image.html url="/assets/images/211120-windows-program/zzz2.png" caption="这个设置影响的是 CP_THREAD_ACP" relocate="CP_THREAD_ACP" %}
+
+ATL 中的 W2A\A2W，使用的都是线程的代码页。
+
+在开发配置文件时，建议使用 UTF-8 编码格式，这样在中文、英文系统中都不会有读写问题。否则，如果只是使用 CP_THREAD_ACP，当操作系统语言变更时，就会出现读写乱码的问题。
+
 #### WritePrivateProfileString
 
 INI 文件读写 API：WritePrivateProfileString
