@@ -47,6 +47,21 @@ bool endsWith(const CString& str, const CString& suffix, bool ignoreCase)
 }
 ```
 
+Windows 内存状态：
+```cpp
+__int64 winMemoCtrl() {
+    MEMORYSTATUSEX memory_status;
+    memory_status.dwLength = sizeof(memory_status);
+    GlobalMemoryStatusEx(&memory_status);
+
+    if (memory_status.ullAvailPhys <= 500 * 1024 * 1024) {
+        return 30 * 1024 * 1024;
+    }
+
+    return 100 * 1024 * 1024;
+}
+```
+
 
 ## bsearch & qsort
 
