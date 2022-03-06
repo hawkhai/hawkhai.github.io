@@ -101,6 +101,27 @@ layoutclear
         value = formatValue(value)
         if key == "date":
             assert re.findall("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} \\+[0-9]{4}$", value), value
+            assert len(fpath.split("invisible")) == 2, fpath
+            magic = normalPath(fpath).split("invisible\\")[-1].split("\\")
+
+            # date: 2021-02-06 15:29:00 +0800
+            pWordSize = 3
+            def calcSignHalf(name):
+                intv = 0
+                count = 0
+                while name and count < pWordSize:
+                    intv = (intv << 8) + ord(name[0])
+                    name = name[1:]
+                    count = count + 1
+                intv = intv >> (4 * pWordSize)
+                assert(intv <= 0xffffff, "%x" % intv)
+                return intv & 0xffffff
+            intsign = 0
+            while magic:
+                intsign = (intsign << int(pWordSize * 8 / 2)) + calcSignHalf(magic[0])
+                magic = magic[1:]
+            value = "{} +0800".format(formatTimeStamp(intsign))
+            print(magic, value)
         if not key in igkeylist:
             assert key in mdkeylist, line
         else:

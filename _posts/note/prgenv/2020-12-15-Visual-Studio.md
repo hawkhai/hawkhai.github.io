@@ -290,6 +290,10 @@ vs 工程使用了 wtl-80，提示 namespace "ATL" 没有成员 AtlGetCommCtrlVe
 
 ## 字体和空格
 
+工具 > 选项 > 常规 > 颜色主题：深色。
+
+{% include image.html url="/assets/images/201215-visual-studio/20220306203946.png" %}
+
 工具 > 选项。
 
 {% include image.html url="/assets/images/201215-visual-studio/20201215204249.png" %}
