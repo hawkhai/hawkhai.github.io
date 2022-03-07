@@ -28,29 +28,33 @@ class SmartHandleTmpl
     SmartHandleTmpl& operator=(const SmartHandleTmpl&);
 
 public:
-    SmartHandleTmpl(T handle = NULL) : _handle(handle) { }
+    SmartHandleTmpl(T handle = NULL) : m_handle(handle) { }
     virtual ~SmartHandleTmpl() {
-        if (_handle && _handle != INVALID_HANDLE_VALUE)
-            Closer(_handle);
+        if (m_handle && m_handle != INVALID_HANDLE_VALUE) {
+            Closer(m_handle);
+        }
     }
 
-    operator T() const { return _handle; }
+    operator T() const { return m_handle; }
     template<typename F>
-    operator F*() const { return (F*) _handle; }
-    T* operator&() { return &_handle; }
+    operator F*() const { return (F*) m_handle; }
+    T* operator&() { return &m_handle; }
     T operator=(T handle) {
-        if (_handle != handle && _handle && _handle != INVALID_HANDLE_VALUE)
-            Closer(_handle);
-        return _handle = handle;
+        if (m_handle != handle && m_handle && m_handle != INVALID_HANDLE_VALUE) {
+            Closer(m_handle);
+        }
+        return m_handle = handle;
     }
 
 private:
-    T _handle;
+    T m_handle;
 };
 
 typedef SmartHandleTmpl<> SmartHandle;
 // SmartHandleTmpl<HANDLE, ::FindClose>
 // SmartHandleTmpl<LPCVOID, ::UnmapViewOfFile>
+// 打印机：
+// SmartHandleTmpl<HANDLE, ::ClosePrinter>
 ```
 
 另外两个就是：
@@ -58,6 +62,7 @@ typedef SmartHandleTmpl<> SmartHandle;
 ```cpp
 SmartHandleTmpl<HANDLE, ::FindClose>
 SmartHandleTmpl<LPCVOID, ::UnmapViewOfFile>
+SmartHandleTmpl<HANDLE, ::ClosePrinter>
 ```
 
 同样的原理，可以构建临界区锁：

@@ -17,6 +17,41 @@ cluster: "WinDBG"
 ---
 
 
+## Windows 8.0 QStandardPaths::writableLocation
+
+Windows 8.0 系统调用 QStandardPaths::writableLocation，vcruntime140.dll 运行时库崩溃问题说明 <sup>from guohua</sup>
+
+
+### 崩溃 DUMP
+
+{% include image.html url="/assets/images/210602-win-windbg-cases/20220307-113809.png" %}
+{% include image.html url="/assets/images/210602-win-windbg-cases/20220307-113828.png" %}
+
+
+### 关键接口说明
+
+{% include image.html url="/assets/images/210602-win-windbg-cases/20220307-113844.png" %}
+{% include image.html url="/assets/images/210602-win-windbg-cases/20220307-113857.png" %}
+{% include image.html url="/assets/images/210602-win-windbg-cases/20220307-113908.png" %}
+
+
+### 原因分析
+
+QStandardPaths::writableLocation 接口的实现过程会调用 GetTokenInformation 判断当前进程的权限等级，根据进程权限返回不同的路径，当 GetTokenInformation 接口返回失败时，没有校验 token_info_length 的值是否合法，就直接调用了 token_info_buf.resize 接口，当 token_info_length 的值过大时，有可能会导致 malloc 分配内存失败返回 NULL
+
+{% include image.html url="/assets/images/210602-win-windbg-cases/20220307-113934.png" %}
+{% include image.html url="/assets/images/210602-win-windbg-cases/20220307-113945.png" %}
+{% include image.html url="/assets/images/210602-win-windbg-cases/20220307-113954.png" %}
+
+
+### 修改方法
+
+由于此崩溃只出现在 Windows 8.0 系统，所以把阅读器代码里调用 QStandardPaths::writableLocation 地方统一改成了 PathUtils::writableLocation（实现如下）
+
+{% include image.html url="/assets/images/210602-win-windbg-cases/20220307-114014.png" %}
+由于考虑到海外版有不少 WIN 8.0 用户，后续不要在代码里直接调用 QStandardPaths::writableLocation
+
+
 ## 被注入造成堆栈破坏
 
 pdfupdate_ex.exe_2021.10.18.256_2b498_pdfupdate_ex.exe_2021.10.18.256_0000000.txt
