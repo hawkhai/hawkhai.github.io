@@ -60,7 +60,7 @@ VS “dumpbin -exports \*\*\*.dll”。
 ### C++ 编译
 
 对于 C++ 编译器的函数名修饰规则：不管 _\_cdecl, _\_fastcall 还是 _\_stdcall 调用方式，函数修饰名都是以 "?" 开始，后面是函数在名字，再后面是函数返回类型和参数类型按照代号拼出的参数表。
-对于 _\_stdcall 方式，参数表的开始标示是 "@@YG”, 对于 _\_cdecl 方式则是 "@@YA”, 对于 _\_fastcall 方式则是 "@@YI”。
+对于 _\_stdcall 方式，参数表的开始标示是 "@@YG”，对于 _\_cdecl 方式则是 "@@YA”，对于 _\_fastcall 方式则是 "@@YI”。
 参数表后以 "@Z” 标示整个名字的结束，如果该函数无参数，则以 "Z” 标识结束。
 
 * `__declspec(dllexport) int add(int, int);`

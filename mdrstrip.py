@@ -666,6 +666,7 @@ def mainfile(fpath, fname, ftype):
                     cnsign += regch # 中文符号
                 if G_CSCHAR.count(ch) == 0:
                     G_CSCHAR.append(ch)
+        cnregexc = cnregex[:]
         cnregex += cnsign # 中文汉字符号都来起。
 
         # 不能出现全角的空格。
@@ -750,9 +751,11 @@ def mainfile(fpath, fname, ftype):
         if isMdFile:
             lixyx = re.findall("[{}] [,()] [{}]".format(cnregex, cnregex), linec, re.IGNORECASE)
             lixyx.extend(re.findall("[{}] [,()]$".format(cnregex), linec, re.IGNORECASE))
+            lixyx.extend(re.findall("[{}][,;] [{}]".format(cnregexc, cnregexc), linec, re.IGNORECASE))
             if lixyx:
                 openTextFile(fpath)
-                print("中文符号问题 {}:{} \"{}\"".format(fpath, index+1, line))
+                print(lixyx)
+                print("中文符号问题 {}:{} \"{}\"".format(fpath, index+1, linec))
                 os.system("pause")
                 return mainfile(fpathsrc, fnamesrc, ftypesrc)
 

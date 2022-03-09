@@ -26,7 +26,7 @@ Once scripts have been parsed, your code is free to instantiate systems based on
 
 @snippet Samples/Media/particle/Examples.particle manual_sample
 
-A system can have top-level attributes set using the scripting commands available, such as ’quota’ to set the maximum number of particles allowed in the system. Emitters (which create particles) and affectors (which modify particles) are added as nested definitions within the script. The parameters available in the emitter and affector sections are entirely dependent on the type of emitter / affector.
+A system can have top-level attributes set using the scripting commands available, such as `quota` to set the maximum number of particles allowed in the system. Emitters (which create particles) and affectors (which modify particles) are added as nested definitions within the script. The parameters available in the emitter and affector sections are entirely dependent on the type of emitter / affector.
 
 For a detailed description of the core particle system attributes, see the list below:
 
@@ -76,7 +76,7 @@ format: quota &lt;max_particles&gt;<br> example: quota 10000<br> default: 10
 
 ## material
 
-Sets the name of the material which all particles in this system will use. All particles in a system use the same material, although each particle can tint this material through the use of it’s colour property.
+Sets the name of the material which all particles in this system will use. All particles in a system use the same material, although each particle can tint this material through the use of it's colour property.
 
 format: material &lt;material_name&gt;<br> example: material Examples/Flare<br> default: none (blank material)
 
@@ -85,7 +85,7 @@ format: material &lt;material_name&gt;<br> example: material Examples/Flare<br> 
 
 ## particle_width
 
-Sets the width of particles in world coordinates. Note that this property is absolute when billboard_type (see below) is set to ’point’ or ’perpendicular_self’, but is scaled by the length of the direction vector when billboard_type is ’oriented_common’, ’oriented_self’ or ’perpendicular_common’.
+Sets the width of particles in world coordinates. Note that this property is absolute when billboard_type (see below) is set to `point` or `perpendicular_self`, but is scaled by the length of the direction vector when billboard_type is `oriented_common`, `oriented_self` or `perpendicular_common`.
 
 format: particle_width &lt;width&gt;<br> example: particle_width 20<br> default: 100
 
@@ -94,7 +94,7 @@ format: particle_width &lt;width&gt;<br> example: particle_width 20<br> default:
 
 ## particle_height
 
-Sets the height of particles in world coordinates. Note that this property is absolute when billboard_type (see below) is set to ’point’ or ’perpendicular_self’, but is scaled by the length of the direction vector when billboard_type is ’oriented_common’, ’oriented_self’ or ’perpendicular_common’.
+Sets the height of particles in world coordinates. Note that this property is absolute when billboard_type (see below) is set to `point` or `perpendicular_self`, but is scaled by the length of the direction vector when billboard_type is `oriented_common`, `oriented_self` or `perpendicular_common`.
 
 format: particle_height &lt;height&gt;<br> example: particle_height 20<br> default: 100
 
@@ -112,7 +112,7 @@ format: cull_each &lt;true\|false&gt;<br> example: cull_each true<br> default: f
 
 ## renderer
 
-Particle systems do not render themselves, they do it through ParticleRenderer classes. Those classes are registered with a manager in order to provide particle systems with a particular ’look’. OGRE comes configured with a default billboard-based renderer, but more can be added through plugins. Particle renders are registered with a unique name, and you can use that name in this attribute to determine the renderer to use. The default is ’billboard’.
+Particle systems do not render themselves, they do it through ParticleRenderer classes. Those classes are registered with a manager in order to provide particle systems with a particular `look`. OGRE comes configured with a default billboard-based renderer, but more can be added through plugins. Particle renders are registered with a unique name, and you can use that name in this attribute to determine the renderer to use. The default is `billboard`.
 
 Particle renderers can have attributes, which can be passed by setting them on the root particle system.
 
@@ -123,7 +123,7 @@ format: renderer &lt;renderer_name&gt;<br> default: billboard
 
 ## sorted
 
-By default, particles are not sorted. By setting this attribute to ’true’, the particles will be sorted with respect to the camera, furthest first. This can make certain rendering effects look better at a small sorting expense.
+By default, particles are not sorted. By setting this attribute to `true`, the particles will be sorted with respect to the camera, furthest first. This can make certain rendering effects look better at a small sorting expense.
 
 format: sorted &lt;true\|false&gt;<br> default: false
 
@@ -141,7 +141,7 @@ format: local_space &lt;true\|false&gt;<br> default: false
 
 ## billboard_type
 
-This is actually an attribute of the ’billboard’ particle renderer (the default), and is an example of passing attributes to a particle renderer by declaring them directly within the system declaration. Particles using the default renderer are rendered using billboards, which are rectangles formed by 2 triangles which rotate to face the given direction. However, there is more than 1 way to orient a billboard. The classic approach is for the billboard to directly face the camera: this is the default behaviour. However this arrangement only looks good for particles which are representing something vaguely spherical like a light flare. For more linear effects like laser fire, you actually want the particle to have an orientation of it’s own.
+This is actually an attribute of the `billboard` particle renderer (the default), and is an example of passing attributes to a particle renderer by declaring them directly within the system declaration. Particles using the default renderer are rendered using billboards, which are rectangles formed by 2 triangles which rotate to face the given direction. However, there is more than 1 way to orient a billboard. The classic approach is for the billboard to directly face the camera: this is the default behaviour. However this arrangement only looks good for particles which are representing something vaguely spherical like a light flare. For more linear effects like laser fire, you actually want the particle to have an orientation of it's own.
 
 format: billboard_type &lt;point\|oriented_common\|oriented_self\|perpendicular_common\|perpendicular_self&gt;<br> example: billboard_type oriented_self<br> default: point
 
@@ -158,7 +158,7 @@ Particles are oriented around a common, typically fixed direction vector (see [c
 
 </dd> <dt>oriented_self</dt> <dd>
 
-Particles are oriented around their own direction vector, which acts as their local Y axis. As the particle changes direction, so the billboard reorients itself to face this way. Good for laser fire, fireworks and other ’streaky’ particles that should look like they are traveling in their own direction.
+Particles are oriented around their own direction vector, which acts as their local Y axis. As the particle changes direction, so the billboard reorients itself to face this way. Good for laser fire, fireworks and other 'streaky` particles that should look like they are traveling in their own direction.
 
 </dd> <dt>perpendicular_common</dt> <dd>
 
@@ -173,7 +173,7 @@ Particles are perpendicular to their own direction vector, which acts as their l
 
 ## billboard_origin
 
-Specifying the point which acts as the origin point for all billboard particles, controls the fine tuning of where a billboard particle appears in relation to it’s position.
+Specifying the point which acts as the origin point for all billboard particles, controls the fine tuning of where a billboard particle appears in relation to it's position.
 
 format: billboard_origin &lt;top_left\|top_center\|top_right\|center_left\|center\|center_right\|bottom_left\|bottom_center\|bottom_right&gt;<br> example: billboard_origin top_right<br> default: center
 
@@ -259,18 +259,18 @@ format: common_up_vector &lt;x&gt; &lt;y&gt; &lt;z&gt;<br> example: common_up_ve
 
 ## point_rendering
 
-This is actually an attribute of the ’billboard’ particle renderer (the default), and sets whether or not the BillboardSet will use point rendering rather than manually generated quads.
+This is actually an attribute of the `billboard` particle renderer (the default), and sets whether or not the BillboardSet will use point rendering rather than manually generated quads.
 
 By default a BillboardSet is rendered by generating geometry for a textured quad in memory, taking into account the size and orientation settings, and uploading it to the video card. The alternative is to use hardware point rendering, which means that only one position needs to be sent per billboard rather than 4 and the hardware sorts out how this is rendered based on the render state.
 
 Using point rendering is faster than generating quads manually, but is more restrictive. The following restrictions apply:
 
--   Only the ’point’ orientation type is supported
+-   Only the `point` orientation type is supported
 -   Size and appearance of each particle is controlled by the material pass ([point_size](#point_005fsize), [point_size_attenuation](#point_005fsize_005fattenuation), [point_sprites](#point_005fsprites))
 -   Per-particle size is not supported (stems from the above)
 -   Per-particle rotation is not supported, and this can only be controlled through texture unit rotation in the material definition
--   Only ’center’ origin is supported
--   Some drivers have an upper limit on the size of points they support - this can even vary between APIs on the same card! Don’t rely on point sizes that cause the point sprites to get very large on screen, since they may get clamped on some cards. Upper sizes can range from 64 to 256 pixels.
+-   Only `center` origin is supported
+-   Some drivers have an upper limit on the size of points they support - this can even vary between APIs on the same card! Don`t rely on point sizes that cause the point sprites to get very large on screen, since they may get clamped on some cards. Upper sizes can range from 64 to 256 pixels.
 
 You will almost certainly want to enable in your material pass both point attenuation and point sprites if you use this option.
 
@@ -279,7 +279,7 @@ You will almost certainly want to enable in your material pass both point attenu
 
 ## accurate_facing
 
-This is actually an attribute of the ’billboard’ particle renderer (the default), and sets whether or not the BillboardSet will use a slower but more accurate calculation for facing the billboard to the camera. Bt default it uses the camera direction, which is faster but means the billboards don’t stay in the same orientation as you rotate the camera. The ’accurate_facing true’ option makes the calculation based on a vector from each billboard to the camera, which means the orientation is constant even whilst the camera rotates.
+This is actually an attribute of the `billboard` particle renderer (the default), and sets whether or not the BillboardSet will use a slower but more accurate calculation for facing the billboard to the camera. Bt default it uses the camera direction, which is faster but means the billboards don`t stay in the same orientation as you rotate the camera. The `accurate_facing true` option makes the calculation based on a vector from each billboard to the camera, which means the orientation is constant even whilst the camera rotates.
 
 format: accurate_facing on\|off<br> default: accurate_facing off 0
 
@@ -297,16 +297,16 @@ format: iteration_interval &lt;secs&gt;<br> example: iteration_interval 0.01<br>
 
 ## nonvisible_update_timeout
 
-Sets when the particle system should stop updating after it hasn’t been visible for a while. By default, visible particle systems update all the time, even when not in view. This means that they are guaranteed to be consistent when they do enter view. However, this comes at a cost, updating particle systems can be expensive, especially if they are perpetual.  This option lets you set a ’timeout’ on the particle system, so that if it isn’t visible for this amount of time, it will stop updating until it is next visible. A value of 0 disables the timeout and always updates.
+Sets when the particle system should stop updating after it hasn`t been visible for a while. By default, visible particle systems update all the time, even when not in view. This means that they are guaranteed to be consistent when they do enter view. However, this comes at a cost, updating particle systems can be expensive, especially if they are perpetual.  This option lets you set a `timeout` on the particle system, so that if it isn`t visible for this amount of time, it will stop updating until it is next visible. A value of 0 disables the timeout and always updates.
 
 format: nonvisible_update_timeout &lt;secs&gt;<br> example: nonvisible_update_timeout 10<br> default: nonvisible_update_timeout 0
 
 
 ## Particle Emitters {#Particle-Emitters}
 
-Particle emitters are classified by ’type’ e.g. ’Point’ emitters emit from a single point whilst ’Box’ emitters emit randomly from an area. New emitters can be added to Ogre by creating plugins. You add an emitter to a system by nesting another section within it, headed with the keyword ’emitter’ followed by the name of the type of emitter (case sensitive). Ogre currently supports ’Point’, ’Box’, ’Cylinder’, ’Ellipsoid’, ’HollowEllipsoid’ and ’Ring’ emitters.
+Particle emitters are classified by `type` e.g. `Point` emitters emit from a single point whilst `Box` emitters emit randomly from an area. New emitters can be added to Ogre by creating plugins. You add an emitter to a system by nesting another section within it, headed with the keyword `emitter` followed by the name of the type of emitter (case sensitive). Ogre currently supports `Point`, `Box`, `Cylinder`, `Ellipsoid`, `HollowEllipsoid` and `Ring` emitters.
 
-It is also possible to ’emit emitters’ - that is, have new emitters spawned based on the position of particles. See [Emitting Emitters](#Emitting-Emitters)
+It is also possible to `emit emitters` - that is, have new emitters spawned based on the position of particles. See [Emitting Emitters](#Emitting-Emitters)
 
 <a name="Particle-Emitter-Universal-Attributes"></a>
 
@@ -348,7 +348,7 @@ This section describes the common attributes of all particle emitters. Specific 
 
 ## angle
 
-Sets the maximum angle (in degrees) which emitted particles may deviate from the direction of the emitter (see direction). Setting this to 10 allows particles to deviate up to 10 degrees in any direction away from the emitter’s direction. A value of 180 means emit in any direction, whilst 0 means emit always exactly in the direction of the emitter.
+Sets the maximum angle (in degrees) which emitted particles may deviate from the direction of the emitter (see direction). Setting this to 10 allows particles to deviate up to 10 degrees in any direction away from the emitter's direction. A value of 180 means emit in any direction, whilst 0 means emit always exactly in the direction of the emitter.
 
 format: angle &lt;degrees&gt;<br> example: angle 30<br> default: 0
 
@@ -366,7 +366,7 @@ format: colour &lt;r&gt; &lt;g&gt; &lt;b&gt; [&lt;a&gt;]<br> example: colour 1 0
 
 ## colour_range_start & colour_range_end
 
-As the ’colour’ attribute, except these 2 attributes must be specified together, and indicate the range of colours available to emitted particles. The actual colour will be randomly chosen between these 2 values.
+As the `colour` attribute, except these 2 attributes must be specified together, and indicate the range of colours available to emitted particles. The actual colour will be randomly chosen between these 2 values.
 
 format: as colour<br> example (generates random colours between red and blue):<br>     colour_range_start 1 0 0<br>     colour_range_end 0 0 1<br> default: both 1 1 1 1
 
@@ -384,7 +384,7 @@ format: direction &lt;x&gt; &lt;y&gt; &lt;z&gt;<br> example: direction 0 1 0<br>
 
 ## direction_position_reference
 
-Sets the position reference of the emitter. This supersedes direction when present. The last parameter must be 1 to enable it, 0 to disable. You may still want to set the direction to setup orientation of the emitter’s dimensions. When present, particles direction is calculated at the time of emission by doing (particlePosition - referencePosition); therefore particles will travel in a particular direction or in every direction depending on where the particles are originated, and the location of the reference position. Note angle still works to apply some randomness after the direction vector is generated. This parameter is specially useful to create explosions and implosions (when velocity is negative) best paired with HollowEllipsoid and Ring emitters. This is relative to the SceneNode which the particle system is attached to, meaning that as with other movable objects changing the orientation of the node will also move the emitter.
+Sets the position reference of the emitter. This supersedes direction when present. The last parameter must be 1 to enable it, 0 to disable. You may still want to set the direction to setup orientation of the emitter's dimensions. When present, particles direction is calculated at the time of emission by doing (particlePosition - referencePosition); therefore particles will travel in a particular direction or in every direction depending on where the particles are originated, and the location of the reference position. Note angle still works to apply some randomness after the direction vector is generated. This parameter is specially useful to create explosions and implosions (when velocity is negative) best paired with HollowEllipsoid and Ring emitters. This is relative to the SceneNode which the particle system is attached to, meaning that as with other movable objects changing the orientation of the node will also move the emitter.
 
 format: direction_position_reference &lt;x&gt; &lt;y&gt; &lt;z&gt; &lt;enable&gt;<br> example: direction_position_reference 0 -10 0 1<br> default: direction_position_reference 0 0 0 0
 
@@ -393,7 +393,7 @@ format: direction_position_reference &lt;x&gt; &lt;y&gt; &lt;z&gt; &lt;enable&gt
 
 ## emission_rate
 
-Sets how many particles per second should be emitted. The specific emitter does not have to emit these in a continuous burst - this is a relative parameter and the emitter may choose to emit all of the second’s worth of particles every half-second for example, the behaviour depends on the emitter. The emission rate will also be limited by the particle system’s ’quota’ setting.
+Sets how many particles per second should be emitted. The specific emitter does not have to emit these in a continuous burst - this is a relative parameter and the emitter may choose to emit all of the second's worth of particles every half-second for example, the behaviour depends on the emitter. The emission rate will also be limited by the particle system's `quota` setting.
 
 format: emission_rate &lt;particles_per_second&gt;<br> example: emission_rate 50<br> default: 10
 
@@ -420,7 +420,7 @@ format: velocity &lt;world_units_per_second&gt;<br> example: velocity 100<br> de
 
 ## velocity_min & velocity_max
 
-As ’velocity’ except these attributes set a velocity range and each particle is emitted with a random velocity within this range.
+As `velocity` except these attributes set a velocity range and each particle is emitted with a random velocity within this range.
 
 format: as velocity<br> example:<br>     velocity_min 50<br>     velocity_max 100<br> default: both 1
 
@@ -429,7 +429,7 @@ format: as velocity<br> example:<br>     velocity_min 50<br>     velocity_max 10
 
 ## time_to_live
 
-Sets the number of seconds each particle will ’live’ for before being destroyed. NB it is possible for particle affectors to alter this in flight, but this is the value given to particles on emission. See also the time_to_live_min and time_to_live_max attributes which let you set a lifetime range instead of a fixed one.
+Sets the number of seconds each particle will `live` for before being destroyed. NB it is possible for particle affectors to alter this in flight, but this is the value given to particles on emission. See also the time_to_live_min and time_to_live_max attributes which let you set a lifetime range instead of a fixed one.
 
 format: time_to_live &lt;seconds&gt;<br> example: time_to_live 10<br> default: 5
 
@@ -495,7 +495,7 @@ Ogre comes preconfigured with a few particle emitters. New ones can be added by 
 
 ## Point Emitter {#Point-Emitter}
 
-This emitter emits particles from a single point, which is it’s position. This emitter has no additional attributes over an above the standard emitter attributes.
+This emitter emits particles from a single point, which is it's position. This emitter has no additional attributes over an above the standard emitter attributes.
 
 To create a point emitter, include a section like this within your particle system script:
 
@@ -506,25 +506,25 @@ emitter Point
 }
 ```
 
-Please note that the name of the emitter (’Point’) is case-sensitive.
+Please note that the name of the emitter (`Point`) is case-sensitive.
 
 
 ## Box Emitter {#Box-Emitter}
 
-This emitter emits particles from a random location within a 3-dimensional box. It’s extra attributes are:
+This emitter emits particles from a random location within a 3-dimensional box. It's extra attributes are:
 
 <dl compact="compact">
 <dt>width</dt> <dd>
 
-Sets the width of the box (this is the size of the box along it’s local X axis, which is dependent on the ’direction’ attribute which forms the box’s local Z).<br> format: width &lt;units&gt;<br> example: width 250<br> default: 100
+Sets the width of the box (this is the size of the box along it's local X axis, which is dependent on the `direction` attribute which forms the box's local Z).<br> format: width &lt;units&gt;<br> example: width 250<br> default: 100
 
 </dd> <dt>height</dt> <dd>
 
-Sets the height of the box (this is the size of the box along it’s local Y axis, which is dependent on the ’direction’ attribute which forms the box’s local Z).<br> format: height &lt;units&gt;<br> example: height 250<br> default: 100
+Sets the height of the box (this is the size of the box along it's local Y axis, which is dependent on the `direction` attribute which forms the box's local Z).<br> format: height &lt;units&gt;<br> example: height 250<br> default: 100
 
 </dd> <dt>depth</dt> <dd>
 
-Sets the depth of the box (this is the size of the box along it’s local Z axis, which is the same as the ’direction’ attribute).<br> format: depth &lt;units&gt;<br> example: depth 250<br> default: 100
+Sets the depth of the box (this is the size of the box along it's local Z axis, which is the same as the `direction` attribute).<br> format: depth &lt;units&gt;<br> example: depth 250<br> default: 100
 
 </dd> </dl>
 
@@ -540,7 +540,7 @@ emitter Box
 
 ## Cylinder Emitter {#Cylinder-Emitter}
 
-This emitter emits particles in a random direction from within a cylinder area, where the cylinder is oriented along the Z-axis. This emitter has exactly the same parameters as the [Box Emitter](#Box-Emitter) so there are no additional parameters to consider here - the width and height determine the shape of the cylinder along it’s axis (if they are different it is an ellipsoid cylinder), the depth determines the length of the cylinder.
+This emitter emits particles in a random direction from within a cylinder area, where the cylinder is oriented along the Z-axis. This emitter has exactly the same parameters as the [Box Emitter](#Box-Emitter) so there are no additional parameters to consider here - the width and height determine the shape of the cylinder along it's axis (if they are different it is an ellipsoid cylinder), the depth determines the length of the cylinder.
 
 
 ## Ellipsoid Emitter {#Ellipsoid-Emitter}
@@ -588,7 +588,7 @@ See also: [Particle Scripts](#Particle-Scripts), [Particle Emitters](#Particle-E
 
 ## Emitting Emitters {#Emitting-Emitters}
 
-It is possible to spawn new emitters on the expiry of particles, for example to product ’firework’ style effects. This is controlled via the following directives:
+It is possible to spawn new emitters on the expiry of particles, for example to product `firework` style effects. This is controlled via the following directives:
 
 <dl compact="compact">
 <dt>emit_emitter_quota</dt> <dd>
@@ -608,7 +608,7 @@ This is an emitter-level parameter, and if specified, it means that when particl
 
 ## Particle Affectors {#Particle-Affectors}
 
-Particle affectors modify particles over their lifetime. They are classified by ’type’ e.g. ’LinearForce’ affectors apply a force to all particles, whilst ’ColourFader’ affectors alter the colour of particles in flight. New affectors can be added to Ogre by creating plugins. You add an affector to a system by nesting another section within it, headed with the keyword ’affector’ followed by the name of the type of affector (case sensitive). Ogre currently supports ’LinearForce’ and ’ColourFader’ affectors.
+Particle affectors modify particles over their lifetime. They are classified by `type` e.g. `LinearForce` affectors apply a force to all particles, whilst `ColourFader` affectors alter the colour of particles in flight. New affectors can be added to Ogre by creating plugins. You add an affector to a system by nesting another section within it, headed with the keyword `affector` followed by the name of the type of affector (case sensitive). Ogre currently supports `LinearForce` and `ColourFader` affectors.
 
 Particle affectors actually have no universal attributes; they are all specific to the type of affector.
 
@@ -632,7 +632,7 @@ Ogre comes preconfigured with a few particle affectors. New ones can be added by
 
 ## Linear Force Affector {#Linear-Force-Affector}
 
-This affector applies a force vector to all particles to modify their trajectory. Can be used for gravity, wind, or any other linear force. It’s extra attributes are:
+This affector applies a force vector to all particles to modify their trajectory. Can be used for gravity, wind, or any other linear force. It's extra attributes are:
 
 <dl compact="compact">
 <dt>force_vector</dt> <dd>
@@ -646,11 +646,11 @@ Sets the way in which the force vector is applied to particle momentum.<br>     
 <dl compact="compact">
 <dt>average</dt> <dd>
 
-The resulting momentum is the average of the force vector and the particle’s current motion. Is self-stabilising but the speed at which the particle changes direction is non-linear.
+The resulting momentum is the average of the force vector and the particle's current motion. Is self-stabilising but the speed at which the particle changes direction is non-linear.
 
 </dd> <dt>add</dt> <dd>
 
-The resulting momentum is the particle’s current motion plus the force vector. This is traditional force acceleration but can potentially result in unlimited velocity.
+The resulting momentum is the particle's current motion plus the force vector. This is traditional force acceleration but can potentially result in unlimited velocity.
 
 </dd> </dl> </dd> </dl>
 
@@ -663,12 +663,12 @@ affector LinearForce
 }
 ```
 
-Please note that the name of the affector type (’LinearForce’) is case-sensitive.
+Please note that the name of the affector type (`LinearForce`) is case-sensitive.
 
 
 ## ColourFader Affector {#ColourFader-Affector}
 
-This affector modifies the colour of particles in flight. It’s extra attributes are:
+This affector modifies the colour of particles in flight. It's extra attributes are:
 
 <dl compact="compact">
 <dt>red</dt> <dd>
@@ -754,7 +754,7 @@ affector ColourFader2
 
 ## Scaler Affector {#Scaler-Affector}
 
-This affector scales particles in flight. It’s extra attributes are:
+This affector scales particles in flight. It's extra attributes are:
 
 <dl compact="compact">
 <dt>rate</dt> <dd>
@@ -775,7 +775,7 @@ affector Scaler
 
 ## Rotator Affector {#Rotator-Affector}
 
-This affector rotates particles in flight. This is done by rotating the texture. It’s extra attributes are:
+This affector rotates particles in flight. This is done by rotating the texture. It's extra attributes are:
 
 <dl compact="compact">
 <dt>rotation_speed_range_start</dt> <dd>
@@ -808,7 +808,7 @@ affector Rotator
 
 ## ColourInterpolator Affector {#ColourInterpolator-Affector}
 
-Similar to the ColourFader and ColourFader2 Affectors, this affector modifies the colour of particles in flight, except it has a variable number of defined stages. It swaps the particle colour for several stages in the life of a particle and interpolates between them. It’s extra attributes are:
+Similar to the ColourFader and ColourFader2 Affectors, this affector modifies the colour of particles in flight, except it has a variable number of defined stages. It swaps the particle colour for several stages in the life of a particle and interpolates between them. It's extra attributes are:
 
 <dl compact="compact">
 <dt>time0</dt> <dd>

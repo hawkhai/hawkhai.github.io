@@ -74,7 +74,7 @@ D:\PCGMR_BUILD\Cim\CiSrc\zapp\zapp\include\framework\KzPath.cpp(52)+0x38
 1. 输入 `.ecxr; kbn` 得到崩溃的堆栈
     * 其中源代码如下
 2. 查看堆栈和源代码，发现第 0 帧导致崩溃，代码也是本地代码
-    * 输入 `.frame 0`, 切到第 0 帧如下
+    * 输入 `.frame 0`，切到第 0 帧如下
 3. 输入 `dv` 查看当前帧的一些变量信息
     * 发现变量 p=0x00000000
 

@@ -368,7 +368,7 @@ none = 没有雾，相当于使用 'fog_override true'。
 
 linear = 线性雾，从 &lt;start&gt; 开始到 &lt;end&gt; 结束的这一段距离有雾。
 
-exp = 雾以几何方式增加（fog = 1/e^（distance * density））, 使用浓度 &lt;density&gt; 参数控制。
+exp = 雾以几何方式增加（fog = 1/e^（distance \* density）），使用浓度 &lt;density&gt; 参数控制。
 
 exp2 = 雾以几何的二次方增加，更加快速（fog = 1/e^（distance * density）^2），使用浓度 &lt;density&gt; 参数控制。
 

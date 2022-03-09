@@ -188,7 +188,7 @@ Techniques have only a small number of attributes of their own:
 
 ## scheme
 
-Sets the ’scheme’ this Technique belongs to. Material schemes are used to control top-level switching from one set of techniques to another. For example, you might use this to define ’high’, ’medium’ and ’low’ complexity levels on materials to allow a user to pick a performance / quality ratio. Another possibility is that you have a fully HDR-enabled pipeline for top machines, rendering all objects using unclamped shaders, and a simpler pipeline for others; this can be implemented using schemes. The active scheme is typically controlled at a viewport level, and the active one defaults to ’Default’.
+Sets the `scheme` this Technique belongs to. Material schemes are used to control top-level switching from one set of techniques to another. For example, you might use this to define `high`, `medium` and `low` complexity levels on materials to allow a user to pick a performance / quality ratio. Another possibility is that you have a fully HDR-enabled pipeline for top machines, rendering all objects using unclamped shaders, and a simpler pipeline for others; this can be implemented using schemes. The active scheme is typically controlled at a viewport level, and the active one defaults to `Default`.
 
 @par
 Format: scheme &lt;name&gt;<br> Example: scheme hdr<br> Default: scheme Default
@@ -206,7 +206,7 @@ Format: lod_index &lt;number&gt;<br> NB Valid values are 0 (highest level of det
 @par
 Example: lod_index 1
 
-All techniques must belong to a LOD index, by default they all belong to index 0, i.e. the highest LOD. Increasing indexes denote lower levels of detail. You can (and often will) assign more than one technique to the same LOD index, what this means is that OGRE will pick the best technique of the ones listed at the same LOD index. For readability, it is advised that you list your techniques in order of LOD, then in order of preference, although the latter is the only prerequisite (OGRE determines which one is ’best’ by which one is listed first). You must always have at least one Technique at lod_index 0. The distance at which a LOD level is applied is determined by the lod_distances attribute of the containing material, See [lod_distances](#lod_005fdistances) for details.
+All techniques must belong to a LOD index, by default they all belong to index 0, i.e. the highest LOD. Increasing indexes denote lower levels of detail. You can (and often will) assign more than one technique to the same LOD index, what this means is that OGRE will pick the best technique of the ones listed at the same LOD index. For readability, it is advised that you list your techniques in order of LOD, then in order of preference, although the latter is the only prerequisite (OGRE determines which one is `best` by which one is listed first). You must always have at least one Technique at lod_index 0. The distance at which a LOD level is applied is determined by the lod_distances attribute of the containing material, See [lod_distances](#lod_005fdistances) for details.
 
 @par
 Default: lod_index 0
@@ -225,26 +225,26 @@ When using @ref Texture_002dbased-Shadows you can specify an alternate material 
 
 ## shadow_receiver_material
 
-When using @ref Texture_002dbased-Shadows you can specify an alternate material to use when performing the receiver shadow pass. Note that this explicit ’receiver’ pass is only done when you’re **not** using @ref Integrated-Texture-Shadows - i.e. the shadow rendering is done separately (either as a modulative pass, or a masked light pass). This is like a more advanced version of using shadow_receiver_vertex_program and shadow_receiver_fragment_program, however note that for the moment you are expected to render the shadow in one pass, i.e. only the first pass is respected.
+When using @ref Texture_002dbased-Shadows you can specify an alternate material to use when performing the receiver shadow pass. Note that this explicit `receiver` pass is only done when you`re **not** using @ref Integrated-Texture-Shadows - i.e. the shadow rendering is done separately (either as a modulative pass, or a masked light pass). This is like a more advanced version of using shadow_receiver_vertex_program and shadow_receiver_fragment_program, however note that for the moment you are expected to render the shadow in one pass, i.e. only the first pass is respected.
 
 <a name="gpu_005fvendor_005frule"></a><a name="gpu_005fdevice_005frule"></a><a name="gpu_005fvendor_005frule-and-gpu_005fdevice_005frule"></a>
 
 
 ## gpu_vendor_rule and gpu_device_rule
 
-Although Ogre does a good job of detecting the capabilities of graphics cards and setting the supportability of techniques from that, occasionally card-specific behaviour exists which is not necessarily detectable and you may want to ensure that your materials go down a particular path to either use or avoid that behaviour. This is what these rules are for - you can specify matching rules so that a technique will be considered supportable only on cards from a particular vendor, or which match a device name pattern, or will be considered supported only if they **don’t** fulfil such matches. The format of the rules are as follows:
+Although Ogre does a good job of detecting the capabilities of graphics cards and setting the supportability of techniques from that, occasionally card-specific behaviour exists which is not necessarily detectable and you may want to ensure that your materials go down a particular path to either use or avoid that behaviour. This is what these rules are for - you can specify matching rules so that a technique will be considered supportable only on cards from a particular vendor, or which match a device name pattern, or will be considered supported only if they **don`t** fulfil such matches. The format of the rules are as follows:
 
 @par
 gpu_vendor_rule &lt;include\|exclude&gt; &lt;vendor_name&gt;<br> gpu_device_rule &lt;include\|exclude&gt; &lt;device_pattern&gt; [case_sensitive]
 
-An ’include’ rule means that the technique will only be supported if one of the include rules is matched (if no include rules are provided, anything will pass). An ’exclude’ rules means that the technique is considered unsupported if any of the exclude rules are matched. You can provide as many rules as you like, although &lt;vendor_name&gt; and &lt;device_pattern&gt; must obviously be unique. The valid list of &lt;vendor_name&gt; values is currently ’nvidia’, ’ati’, ’intel’, ’s3’, ’matrox’ and ’3dlabs’. &lt;device_pattern&gt; can be any string, and you can use wildcards (’\*’) if you need to match variants. Here’s an example:
+An `include` rule means that the technique will only be supported if one of the include rules is matched (if no include rules are provided, anything will pass). An `exclude` rules means that the technique is considered unsupported if any of the exclude rules are matched. You can provide as many rules as you like, although &lt;vendor_name&gt; and &lt;device_pattern&gt; must obviously be unique. The valid list of &lt;vendor_name&gt; values is currently `nvidia`, `ati`, `intel`, `s3`, `matrox` and `3dlabs`. &lt;device_pattern&gt; can be any string, and you can use wildcards (`\*`) if you need to match variants. Here's an example:
 
 @par
 gpu_vendor_rule include nvidia<br> gpu_vendor_rule include intel<br> gpu_device_rule exclude \*950\*
 
-These rules, if all included in one technique, will mean that the technique will only be considered supported on graphics cards made by NVIDIA and Intel, and so long as the device name doesn’t have ’950’ in it.
+These rules, if all included in one technique, will mean that the technique will only be considered supported on graphics cards made by NVIDIA and Intel, and so long as the device name doesn`t have `950` in it.
 
-Note that these rules can only mark a technique ’unsupported’ when it would otherwise be considered ’supported’ judging by the hardware capabilities. Even if a technique passes these rules, it is still subject to the usual hardware support tests.
+Note that these rules can only mark a technique `unsupported` when it would otherwise be considered `supported` judging by the hardware capabilities. Even if a technique passes these rules, it is still subject to the usual hardware support tests.
 
 
 ## Passes {#Passes}
@@ -258,7 +258,7 @@ Passes have a set of global attributes (described below) and optionally
 - references to shader programs (See @ref Using-Vertex_002fGeometry_002fFragment-Programs-in-a-Pass)
 - additional instructions for the RTSS (See @ref rtss_custom_mat)
 
-Here are the attributes you can use in a ’pass’ section of a .material script:
+Here are the attributes you can use in a `pass` section of a .material script:
 
 -   [ambient](#ambient)
 -   [diffuse](#diffuse)
@@ -370,7 +370,7 @@ Sets the amount of self-illumination an object has.
 @par
 Format: emissive (&lt;red&gt; &lt;green&gt; &lt;blue&gt; [&lt;alpha&gt;]\| vertexcolour)<br> NB valid colour values are between 0.0 and 1.0.
 
-Unlike the name suggests, this object doesn’t act as a light source for other objects in the scene (if you want it to, you have to create a light which is centered on the object).
+Unlike the name suggests, this object doesn`t act as a light source for other objects in the scene (if you want it to, you have to create a light which is centered on the object).
 @copydetails Ogre::Pass::setSelfIllumination
 @shaderparam
 
@@ -401,19 +401,19 @@ This is the simpler form, where the most commonly used blending modes are enumer
 <dt>add</dt>
 <dd>@copybrief Ogre::SBT_ADD
 
-Equivalent to ’scene_blend one one’.</dd>
+Equivalent to `scene_blend one one`.</dd>
 <dt>modulate</dt>
 <dd>@copybrief Ogre::SBT_MODULATE
 
-Equivalent to ’scene_blend dest_colour zero’.</dd>
+Equivalent to `scene_blend dest_colour zero`.</dd>
 <dt>colour_blend</dt>
 <dd>@copybrief Ogre::SBT_TRANSPARENT_COLOUR
 
-Equivalent to ’scene_blend src_colour one_minus_src_colour’</dd>
+Equivalent to `scene_blend src_colour one_minus_src_colour`</dd>
 <dt>alpha_blend</dt>
 <dd>@copybrief Ogre::SBT_TRANSPARENT_ALPHA
 
-Equivalent to ’scene_blend src_alpha one_minus_src_alpha’</dd>
+Equivalent to `scene_blend src_alpha one_minus_src_alpha`</dd>
 </dl>
 
 @par
@@ -436,7 +436,7 @@ Also see [separate_scene_blend](#separate_005fscene_005fblend).
 
 ## separate_scene_blend
 
-This option operates in exactly the same way as [scene_blend](#scene_005fblend), except that it allows you to specify the operations to perform between the rendered pixel and the frame buffer separately for colour and alpha components. By nature this option is only useful when rendering to targets which have an alpha channel which you’ll use for later processing, such as a render texture.
+This option operates in exactly the same way as [scene_blend](#scene_005fblend), except that it allows you to specify the operations to perform between the rendered pixel and the frame buffer separately for colour and alpha components. By nature this option is only useful when rendering to targets which have an alpha channel which you`ll use for later processing, such as a render texture.
 @par
 Format1: separate_scene_blend &lt;simple_colour_blend&gt; &lt;simple_alpha_blend&gt;
 @par
@@ -461,7 +461,7 @@ This directive changes the operation which is applied between the two components
 Format: scene_blend_op &lt;op&gt;
 
 @copydoc Ogre::Pass::setSceneBlendingOperation
-You may change this to ’add’, ’subtract’, ’reverse_subtract’, ’min’ or ’max’.
+You may change this to `add`, `subtract`, `reverse_subtract`, `min` or `max`.
 
 <a name="separate_005fscene_005fblend_005fop"></a><a name="separate_005fscene_005fblend_005fop-1"></a>
 
@@ -561,7 +561,7 @@ Default: alpha_rejection always_pass
 
 ## alpha_to_coverage
 
-Sets whether this pass will use ’alpha to coverage’,
+Sets whether this pass will use `alpha to coverage`,
 
 @par
 Format: alpha_to_coverage &lt;on\|off&gt;
@@ -630,9 +630,9 @@ Sets if transparent textures should be sorted by depth or not.
 @par
 Format: transparent_sorting &lt;on\|off\|force&gt;
 
-By default all transparent materials are sorted such that renderables furthest away from the camera are rendered first. This is usually the desired behaviour but in certain cases this depth sorting may be unnecessary and undesirable. If for example it is necessary to ensure the rendering order does not change from one frame to the next. In this case you could set the value to ’off’ to prevent sorting.
+By default all transparent materials are sorted such that renderables furthest away from the camera are rendered first. This is usually the desired behaviour but in certain cases this depth sorting may be unnecessary and undesirable. If for example it is necessary to ensure the rendering order does not change from one frame to the next. In this case you could set the value to `off` to prevent sorting.
 
-You can also use the keyword ’force’ to force transparent sorting on, regardless of other circumstances. Usually sorting is only used when the pass is also transparent, and has a depth write or read which indicates it cannot reliably render without sorting. By using ’force’, you tell OGRE to sort this pass no matter what other circumstances are present.
+You can also use the keyword `force` to force transparent sorting on, regardless of other circumstances. Usually sorting is only used when the pass is also transparent, and has a depth write or read which indicates it cannot reliably render without sorting. By using `force`, you tell OGRE to sort this pass no matter what other circumstances are present.
 @par
 Default: transparent_sorting on
 
@@ -648,7 +648,7 @@ Format: cull_hardware &lt;clockwise\|anticlockwise\|none&gt;
 @copydetails Ogre::Pass::setCullingMode
 
 @par
-Default: cull_hardware clockwise<br> NB this is the same as OpenGL’s default but the opposite of Direct3D’s default (because Ogre uses a right-handed coordinate system like OpenGL).
+Default: cull_hardware clockwise<br> NB this is the same as OpenGL's default but the opposite of Direct3D's default (because Ogre uses a right-handed coordinate system like OpenGL).
 
 <a name="cull_005fsoftware"></a><a name="cull_005fsoftware-1"></a>
 
@@ -726,19 +726,19 @@ Format: polygon_mode_overrideable &lt;override&gt;
 
 ## fog_override
 
-Tells the pass whether it should override the scene fog settings, and enforce it’s own. Very useful for things that you don’t want to be affected by fog when the rest of the scene is fogged, or vice versa.
+Tells the pass whether it should override the scene fog settings, and enforce it's own. Very useful for things that you don`t want to be affected by fog when the rest of the scene is fogged, or vice versa.
 @par
 Format: fog_override &lt;override?&gt; [&lt;type&gt; &lt;colour&gt; &lt;density&gt; &lt;start&gt; &lt;end&gt;]
 @par
 Default: fog_override false
 
-If you specify ’true’ for the first parameter and you supply the rest of the parameters, you are telling the pass to use these fog settings in preference to the scene settings, whatever they might be. If you specify ’true’ but provide no further parameters, you are telling this pass to never use fogging no matter what the scene says.
+If you specify `true` for the first parameter and you supply the rest of the parameters, you are telling the pass to use these fog settings in preference to the scene settings, whatever they might be. If you specify `true` but provide no further parameters, you are telling this pass to never use fogging no matter what the scene says.
 
-@param type **none** = No fog, equivalent of just using ’fog_override true’<br> **linear** = Linear fog from the &lt;start&gt; and &lt;end&gt; distances<br> **exp** = Fog increases exponentially from the camera (fog = 1/e^(distance \* density)), use &lt;density&gt; param to control it<br> **exp2** = Fog increases at the square of FOG_EXP, i.e. even quicker (fog = 1/e^(distance \* density)^2), use &lt;density&gt; param to control it
+@param type **none** = No fog, equivalent of just using `fog_override true`<br> **linear** = Linear fog from the &lt;start&gt; and &lt;end&gt; distances<br> **exp** = Fog increases exponentially from the camera (fog = 1/e^(distance \* density)), use &lt;density&gt; param to control it<br> **exp2** = Fog increases at the square of FOG_EXP, i.e. even quicker (fog = 1/e^(distance \* density)^2), use &lt;density&gt; param to control it
 
 @param colour Sequence of 3 floating point values from 0 to 1 indicating the red, green and blue intensities
 
-@param density The density parameter used in the ’exp’ or ’exp2’ fog types. Not used in linear mode but param must still be there as a placeholder
+@param density The density parameter used in the `exp` or `exp2` fog types. Not used in linear mode but param must still be there as a placeholder
 
 @param start The start distance from the camera of linear fog. Must still be present in other modes, even though it is not used.
 
@@ -788,7 +788,7 @@ Sets the maximum number of lights which will be considered for use with this pas
 @par
 Format: max_lights &lt;number&gt;
 
-The maximum number of lights which can be used when rendering fixed-function materials is set by the rendering system, and is typically set at 8. When you are using the programmable pipeline (See [Using Vertex/Geometry/Fragment Programs in a Pass](@ref Using-Vertex_002fGeometry_002fFragment-Programs-in-a-Pass)) this limit is dependent on the program you are running, or, if you use ’iteration once_per_light’ or a variant (See @ref iteration), it effectively only bounded by the number of passes you are willing to use. If you are not using pass iteration, the light limit applies once for this pass. If you are using pass iteration, the light limit applies across all iterations of this pass - for example if you have 12 lights in range with an ’iteration once_per_light’ setup but your max_lights is set to 4 for that pass, the pass will only iterate 4 times.
+The maximum number of lights which can be used when rendering fixed-function materials is set by the rendering system, and is typically set at 8. When you are using the programmable pipeline (See [Using Vertex/Geometry/Fragment Programs in a Pass](@ref Using-Vertex_002fGeometry_002fFragment-Programs-in-a-Pass)) this limit is dependent on the program you are running, or, if you use `iteration once_per_light` or a variant (See @ref iteration), it effectively only bounded by the number of passes you are willing to use. If you are not using pass iteration, the light limit applies once for this pass. If you are using pass iteration, the light limit applies across all iterations of this pass - for example if you have 12 lights in range with an `iteration once_per_light` setup but your max_lights is set to 4 for that pass, the pass will only iterate 4 times.
 @par
 Default: max_lights 8
 
@@ -830,7 +830,7 @@ Using a number instead of "once" instructs the pass to iterate more than once af
 
 If you use once_per_light, you should also add an ambient pass to the technique before this pass, otherwise when no lights are in range of this object it will not get rendered at all; this is important even when you have no ambient light in the scene, because you would still want the objects silhouette to appear.
 
-The lightType parameter to the attribute only applies if you use once_per_light, per_light, or per_n_lights and restricts the pass to being run for lights of a single type (either ’point’, ’directional’ or ’spot’). In the example, the pass will be run once per point light. This can be useful because when you’re writing a vertex / fragment program it is a lot easier if you can assume the kind of lights you’ll be dealing with. However at least point and directional lights can be dealt with in one way.  Default: iteration once
+The lightType parameter to the attribute only applies if you use once_per_light, per_light, or per_n_lights and restricts the pass to being run for lights of a single type (either `point`, `directional` or `spot`). In the example, the pass will be run once per point light. This can be useful because when you`re writing a vertex / fragment program it is a lot easier if you can assume the kind of lights you`ll be dealing with. However at least point and directional lights can be dealt with in one way.  Default: iteration once
 
 <a name="fur_005fexample"></a>
 
@@ -989,7 +989,7 @@ Default: line_width 1
 
 ## Texture Units {#Texture-Units}
 
-Here are the attributes you can use in a ’texture_unit’ section of a .material script:
+Here are the attributes you can use in a `texture_unit` section of a .material script:
 
 <a name="Available-Texture-Layer-Attributes"></a>
 
@@ -1019,7 +1019,7 @@ Here are the attributes you can use in a ’texture_unit’ section of a .materi
 
 Additionally you can use all attributes of @ref Samplers directly to implicitly create a Ogre::Sampler contained in this TextureUnit.
 
-You can also use a nested ’texture_source’ section in order to use a special add-in as a source of texture data, See @ref External-Texture-Sources for details.
+You can also use a nested `texture_source` section in order to use a special add-in as a source of texture data, See @ref External-Texture-Sources for details.
 
 <a name="Attribute-Descriptions-1"></a>
 
@@ -1053,7 +1053,7 @@ Example: texture funkywall.jpg
 This setting is mutually exclusive with the anim_texture attribute. Note that the texture file cannot include spaces. Those of you Windows users who like spaces in filenames, please get over it and use underscores instead.
 
 @param type
-specify a the type of texture to create - the default is ’2d’, but you can override this; here’s the full list:
+specify a the type of texture to create - the default is `2d`, but you can override this; here's the full list:
 <dl compact="compact">
 <dt>1d</dt> <dd>
 
@@ -1069,12 +1069,12 @@ A 3 dimensional texture i.e. volume texture. Your texture has a width, a height,
 
 </dd> <dt>cubic</dt> <dd>
 
-This texture is made up of 6 2D textures which are pasted around the inside of a cube. The base_name in this format is something like ’skybox.jpg’, and the system will expect you to provide skybox_fr.jpg, skybox_bk.jpg, skybox_up.jpg, skybox_dn.jpg, skybox_lf.jpg, and skybox_rt.jpg for the individual faces.
+This texture is made up of 6 2D textures which are pasted around the inside of a cube. The base_name in this format is something like `skybox.jpg`, and the system will expect you to provide skybox_fr.jpg, skybox_bk.jpg, skybox_up.jpg, skybox_dn.jpg, skybox_lf.jpg, and skybox_rt.jpg for the individual faces.
 Alternatively 1 cube texture can be used if supported by the texture format(DDS for example) and rendersystem. Can be addressed with 3D texture coordinates and are useful for cubic reflection maps and normal maps.
 </dd> </dl>
 
 @param numMipMaps
-specify the number of mipmaps to generate for this texture. The default is ’unlimited’ which means mips down to 1x1 size are generated. You can specify a fixed number (even 0) if you like instead. Note that if you use the same texture in many material scripts, the number of mipmaps generated will conform to the number specified in the first texture_unit used to load the texture - so be consistent with your usage.
+specify the number of mipmaps to generate for this texture. The default is `unlimited` which means mips down to 1x1 size are generated. You can specify a fixed number (even 0) if you like instead. Note that if you use the same texture in many material scripts, the number of mipmaps generated will conform to the number specified in the first texture_unit used to load the texture - so be consistent with your usage.
 
 @param alpha @copydoc Ogre::Texture::setTreatLuminanceAsAlpha
 Default: none
@@ -1084,7 +1084,7 @@ specify the desired pixel format of the texture to create, which may be differen
 Names defined in Ogre::PixelFormat are valid values.
 
 @param gamma
-informs the renderer that you want the graphics hardware to perform gamma correction on the texture values as they are sampled for rendering. This is only applicable for textures which have 8-bit colour channels (e.g.PF_R8G8B8). Often, 8-bit per channel textures will be stored in gamma space in order to increase the precision of the darker colours (<http://en.wikipedia.org/wiki/Gamma_correction>) but this can throw out blending and filtering calculations since they assume linear space colour values. For the best quality shading, you may want to enable gamma correction so that the hardware converts the texture values to linear space for you automatically when sampling the texture, then the calculations in the pipeline can be done in a reliable linear colour space. When rendering to a final 8-bit per channel display, you’ll also want to convert back to gamma space which can be done in your shader (by raising to the power 1/2.2) or you can enable gamma correction on the texture being rendered to or the render window. Note that the ’gamma’ option on textures is applied on loading the texture so must be specified consistently if you use this texture in multiple places.
+informs the renderer that you want the graphics hardware to perform gamma correction on the texture values as they are sampled for rendering. This is only applicable for textures which have 8-bit colour channels (e.g.PF_R8G8B8). Often, 8-bit per channel textures will be stored in gamma space in order to increase the precision of the darker colours (<http://en.wikipedia.org/wiki/Gamma_correction>) but this can throw out blending and filtering calculations since they assume linear space colour values. For the best quality shading, you may want to enable gamma correction so that the hardware converts the texture values to linear space for you automatically when sampling the texture, then the calculations in the pipeline can be done in a reliable linear colour space. When rendering to a final 8-bit per channel display, you`ll also want to convert back to gamma space which can be done in your shader (by raising to the power 1/2.2) or you can enable gamma correction on the texture being rendered to or the render window. Note that the `gamma` option on textures is applied on loading the texture so must be specified consistently if you use this texture in multiple places.
 
 <a name="anim_005ftexture"></a><a name="anim_005ftexture-1"></a>
 
@@ -1120,12 +1120,12 @@ Format1 (short): cubic_texture &lt;base_name&gt; &lt;combinedUVW\|separateUV&gt;
 
 @deprecated use the format '`texture <basename> cubic`' instead
 
-The base_name in this format is something like ’skybox.jpg’, and the system will expect you to provide skybox_fr.jpg, skybox_bk.jpg, skybox_up.jpg, skybox_dn.jpg, skybox_lf.jpg, and skybox_rt.jpg for the individual faces.
+The base_name in this format is something like `skybox.jpg`, and the system will expect you to provide skybox_fr.jpg, skybox_bk.jpg, skybox_up.jpg, skybox_dn.jpg, skybox_lf.jpg, and skybox_rt.jpg for the individual faces.
 
 @par
 Format2 (long): cubic_texture &lt;front&gt; &lt;back&gt; &lt;left&gt; &lt;right&gt; &lt;up&gt; &lt;down&gt; &lt;combinedUVW\|separateUV&gt;
 
-In this case each face is specified explicitly, incase you don’t want to conform to the image naming standards above. You can only use this for the separateUV version since the combinedUVW version requires a single texture name to be assigned to the combined 3D texture (see below).
+In this case each face is specified explicitly, incase you don`t want to conform to the image naming standards above. You can only use this for the separateUV version since the combinedUVW version requires a single texture name to be assigned to the combined 3D texture (see below).
 
 In both cases the final parameter means the following:
 
@@ -1138,7 +1138,7 @@ The 6 textures are kept separate but are all referenced by this single texture l
 </dd>
 <dt>combinedUVW</dt> <dd>
 
-The 6 textures are combined into a single ’cubic’ texture map which is then addressed using 3D texture coordinates.
+The 6 textures are combined into a single `cubic` texture map which is then addressed using 3D texture coordinates.
 
 </dd>
 </dl>
@@ -1174,7 +1174,7 @@ Format: content_type &lt;type&gt; [&lt;compositorName&gt;] [&lt;textureName&gt;]
 
 </dd> <dt>shadow</dt> <dd>
 
-This option allows you to pull in a shadow texture, and is only valid when you use texture shadows and one of the ’custom sequence’ shadowing types (See @ref Shadows). The shadow texture in question will be from the ’n’th closest light that casts shadows, unless you use light-based pass iteration or the light_start option which may start the light index higher. When you use this option in multiple texture units within the same pass, each one references the next shadow texture. The shadow texture index is reset in the next pass, in case you want to take into account the same shadow textures again in another pass (e.g. a separate specular / gloss pass). By using this option, the correct light frustum projection is set up for you for use in fixed-function, if you use shaders just reference the texture_viewproj_matrix auto parameter in your shader.
+This option allows you to pull in a shadow texture, and is only valid when you use texture shadows and one of the `custom sequence` shadowing types (See @ref Shadows). The shadow texture in question will be from the `n`th closest light that casts shadows, unless you use light-based pass iteration or the light_start option which may start the light index higher. When you use this option in multiple texture units within the same pass, each one references the next shadow texture. The shadow texture index is reset in the next pass, in case you want to take into account the same shadow textures again in another pass (e.g. a separate specular / gloss pass). By using this option, the correct light frustum projection is set up for you for use in fixed-function, if you use shaders just reference the texture_viewproj_matrix auto parameter in your shader.
 
 </dd> <dt>compositor</dt> <dd>
 
@@ -1288,11 +1288,11 @@ Similar to the spherical environment map, but the effect is based on the positio
 
 </dd> <dt>cubic_reflection</dt> <dd>
 
-A more advanced form of reflection mapping which uses a group of 6 textures making up the inside of a cube, each of which is a view if the scene down each axis. Works extremely well in all cases but has a higher technical requirement from the card than spherical mapping. Requires that you bind a [cubic_texture](#cubic_005ftexture) to this texture unit and use the ’combinedUVW’ option.
+A more advanced form of reflection mapping which uses a group of 6 textures making up the inside of a cube, each of which is a view if the scene down each axis. Works extremely well in all cases but has a higher technical requirement from the card than spherical mapping. Requires that you bind a [cubic_texture](#cubic_005ftexture) to this texture unit and use the `combinedUVW` option.
 
 </dd> <dt>cubic_normal</dt> <dd>
 
-Generates 3D texture coordinates containing the camera space normal vector from the normal information held in the vertex data. Again, full use of this feature requires a [cubic_texture](#cubic_005ftexture) with the ’combinedUVW’ option.
+Generates 3D texture coordinates containing the camera space normal vector from the normal information held in the vertex data. Again, full use of this feature requires a [cubic_texture](#cubic_005ftexture) with the `combinedUVW` option.
 
 </dd> </dl>
 @par
@@ -1588,7 +1588,7 @@ In order to use a vertex, geometry or fragment program in your materials (See [U
 
 The definition of a program can either be embedded in the .material script itself (in which case it must precede any references to it in the script), or if you wish to use the same program across multiple .material files, you can define it in an external .program script. You define the program in exactly the same way whether you use a .program script or a .material script, the only difference is that all .program scripts are guaranteed to have been parsed before **all** .material scripts, so you can guarantee that your program has been defined before any .material script that might use it. Just like .material scripts, .program scripts will be read from any location which is on your resource path, and you can define many programs in a single script.
 
-Vertex, geometry and fragment programs can be low-level (i.e. assembler code written to the specification of a given low level syntax such as vs_1_1 or arbfp1) or high-level such as DirectX9 HLSL, Open GL Shader Language, or nVidia’s Cg language (See @ref High-level-Programs). High level languages give you a number of advantages, such as being able to write more intuitive code, and possibly being able to target multiple architectures in a single program (for example, the same Cg program might be able to be used in both D3D and GL, whilst the equivalent low-level programs would require separate techniques, each targeting a different API). High-level programs also allow you to use named parameters instead of simply indexed ones, although parameters are not defined here, they are used in the Pass.
+Vertex, geometry and fragment programs can be low-level (i.e. assembler code written to the specification of a given low level syntax such as vs_1_1 or arbfp1) or high-level such as DirectX9 HLSL, Open GL Shader Language, or nVidia's Cg language (See @ref High-level-Programs). High level languages give you a number of advantages, such as being able to write more intuitive code, and possibly being able to target multiple architectures in a single program (for example, the same Cg program might be able to be used in both D3D and GL, whilst the equivalent low-level programs would require separate techniques, each targeting a different API). High-level programs also allow you to use named parameters instead of simply indexed ones, although parameters are not defined here, they are used in the Pass.
 
 Here is an example of a definition of a low-level vertex program:
 
@@ -1600,7 +1600,7 @@ vertex_program myVertexProgram asm
 }
 ```
 
-As you can see, that’s very simple, and defining a fragment or geometry program is exactly the same, just with vertex_program replaced with fragment_program or geometry_program, respectively. You give the program a name in the header, followed by the word ’asm’ to indicate that this is a low-level program. Inside the braces, you specify where the source is going to come from (and this is loaded from any of the resource locations as with other media), and also indicate the syntax being used. You might wonder why the syntax specification is required when many of the assembler syntaxes have a header identifying them anyway - well the reason is that the engine needs to know what syntax the program is in before reading it, because during compilation of the material, we want to skip programs which use an unsupportable syntax quickly, without loading the program first.
+As you can see, that's very simple, and defining a fragment or geometry program is exactly the same, just with vertex_program replaced with fragment_program or geometry_program, respectively. You give the program a name in the header, followed by the word `asm` to indicate that this is a low-level program. Inside the braces, you specify where the source is going to come from (and this is loaded from any of the resource locations as with other media), and also indicate the syntax being used. You might wonder why the syntax specification is required when many of the assembler syntaxes have a header identifying them anyway - well the reason is that the engine needs to know what syntax the program is in before reading it, because during compilation of the material, we want to skip programs which use an unsupportable syntax quickly, without loading the program first.
 
 The current supported syntaxes are:
 
@@ -1623,7 +1623,7 @@ Another one of the DirectX vertex shader assembler syntaxes. <br> Supported on c
 
 </dd> <dt>arbvp1</dt> <dd>
 
-This is the OpenGL standard assembler format for vertex programs. It’s roughly equivalent to DirectX vs_1_1.
+This is the OpenGL standard assembler format for vertex programs. It's roughly equivalent to DirectX vs_1_1.
 
 </dd> <dt>vp20</dt> <dd>
 
@@ -1663,11 +1663,11 @@ DirectX pixel shader (i.e. fragment program) assembler syntax. <br> Supported ca
 
 </dd> <dt>arbfp1</dt> <dd>
 
-This is the OpenGL standard assembler format for fragment programs. It’s roughly equivalent to ps_2_0, which means that not all cards that support basic pixel shaders under DirectX support arbfp1 (for example neither the GeForce3 or GeForce4 support arbfp1, but they do support ps_1_1).
+This is the OpenGL standard assembler format for fragment programs. It's roughly equivalent to ps_2_0, which means that not all cards that support basic pixel shaders under DirectX support arbfp1 (for example neither the GeForce3 or GeForce4 support arbfp1, but they do support ps_1_1).
 
 </dd> <dt>fp20</dt> <dd>
 
-This is an nVidia-specific OpenGL fragment syntax which is a superset of ps 1.3. It allows you to use the ’nvparse’ format for basic fragment programs. It actually uses NV_texture_shader and NV_register_combiners to provide functionality equivalent to DirectX’s ps_1_1 under GL, but only for nVidia cards. However, since ATI cards adopted arbfp1 a little earlier than nVidia, it is mainly nVidia cards like the GeForce3 and GeForce4 that this will be useful for. You can find more information about nvparse at <http://developer.nvidia.com/object/nvparse.html>.
+This is an nVidia-specific OpenGL fragment syntax which is a superset of ps 1.3. It allows you to use the `nvparse` format for basic fragment programs. It actually uses NV_texture_shader and NV_register_combiners to provide functionality equivalent to DirectX's ps_1_1 under GL, but only for nVidia cards. However, since ATI cards adopted arbfp1 a little earlier than nVidia, it is mainly nVidia cards like the GeForce3 and GeForce4 that this will be useful for. You can find more information about nvparse at <http://developer.nvidia.com/object/nvparse.html>.
 
 </dd> <dt>fp30</dt> <dd>
 
@@ -1692,7 +1692,7 @@ You can get a definitive list of the syntaxes supported by the current card by c
 
 ## Specifying Named Constants for Assembler Shaders {#Specifying-Named-Constants-for-Assembler-Shaders}
 
-Assembler shaders don’t have named constants (also called uniform parameters) because the language does not support them - however if you for example decided to precompile your shaders from a high-level language down to assembler for performance or obscurity, you might still want to use the named parameters. Well, you actually can - GpuNamedConstants which contains the named parameter mappings has a ’save’ method which you can use to write this data to disk, where you can reference it later using the manual_named_constants directive inside your assembler program declaration, e.g.
+Assembler shaders don`t have named constants (also called uniform parameters) because the language does not support them - however if you for example decided to precompile your shaders from a high-level language down to assembler for performance or obscurity, you might still want to use the named parameters. Well, you actually can - GpuNamedConstants which contains the named parameter mappings has a `save` method which you can use to write this data to disk, where you can reference it later using the manual_named_constants directive inside your assembler program declaration, e.g.
 
 ```cpp
 vertex_program myVertexProgram asm
@@ -1703,12 +1703,12 @@ vertex_program myVertexProgram asm
 }
 ```
 
-In this case myVertexProgram.constants has been created by calling highLevelGpuProgram-&gt;getNamedConstants().save("myVertexProgram.constants"); sometime earlier as preparation, from the original high-level program. Once you’ve used this directive, you can use named parameters here even though the assembler program itself has no knowledge of them.
+In this case myVertexProgram.constants has been created by calling highLevelGpuProgram-&gt;getNamedConstants().save("myVertexProgram.constants"); sometime earlier as preparation, from the original high-level program. Once you`ve used this directive, you can use named parameters here even though the assembler program itself has no knowledge of them.
 
 
 ## Default Program Parameters {#Default-Program-Parameters}
 
-While defining a vertex, geometry or fragment program, you can also specify the default parameters to be used for materials which use it, unless they specifically override them. You do this by including a nested ’default_params’ section, like so:
+While defining a vertex, geometry or fragment program, you can also specify the default parameters to be used for materials which use it, unless they specifically override them. You do this by including a nested `default_params` section, like so:
 
 ```cpp
 vertex_program Ogre/CelShadingVP cg
@@ -1727,12 +1727,12 @@ vertex_program Ogre/CelShadingVP cg
 }
 ```
 
-The syntax of the parameter definition is exactly the same as when you define parameters when using programs, See @ref Program-Parameter-Specification. Defining default parameters allows you to avoid rebinding common parameters repeatedly (clearly in the above example, all but ’shininess’ are unlikely to change between uses of the program) which makes your material declarations shorter.
+The syntax of the parameter definition is exactly the same as when you define parameters when using programs, See @ref Program-Parameter-Specification. Defining default parameters allows you to avoid rebinding common parameters repeatedly (clearly in the above example, all but `shininess` are unlikely to change between uses of the program) which makes your material declarations shorter.
 
 
 ## Declaring Shared Parameters {#Declaring-Shared-Parameters}
 
-Often, not every parameter you want to pass to a shader is unique to that program, and perhaps you want to give the same value to a number of different programs, and a number of different materials using that program. Shared parameter sets allow you to define a ’holding area’ for shared parameters that can then be referenced when you need them in particular shaders, while keeping the definition of that value in one place. To define a set of shared parameters, you do this:
+Often, not every parameter you want to pass to a shader is unique to that program, and perhaps you want to give the same value to a number of different programs, and a number of different materials using that program. Shared parameter sets allow you to define a `holding area` for shared parameters that can then be referenced when you need them in particular shaders, while keeping the definition of that value in one place. To define a set of shared parameters, you do this:
 
 ```cpp
 shared_params YourSharedParamsName
@@ -1742,7 +1742,7 @@ shared_params YourSharedParamsName
 }
 ```
 
-As you can see, you need to use the keyword ’shared_params’ and follow it with the name that you will use to identify these shared parameters. Inside the curly braces, you can define one parameter per line, in a way which is very similar to the [param_named](#param_005fnamed) syntax. The definition of these lines is:
+As you can see, you need to use the keyword `shared_params` and follow it with the name that you will use to identify these shared parameters. Inside the curly braces, you can define one parameter per line, in a way which is very similar to the [param_named](#param_005fnamed) syntax. The definition of these lines is:
 @par
 Format: shared_param_name &lt;param_name&gt; &lt;param_type&gt; [&lt;[array_size]&gt;] [&lt;initial_values&gt;]
 
@@ -1758,7 +1758,7 @@ Once you have defined the shared parameters, you can reference them inside defau
 
 If a new technique or pass needs to be added to a copied material then use a unique name for the technique or pass that does not exist in the parent material. Using an index for the name that is one greater than the last index in the parent will do the same thing. The new technique/pass will be added to the end of the techniques/passes copied from the parent material.
 
-@note if passes or techniques aren’t given a name, they will take on a default name based on their index. For example the first pass has index 0 so its name will be 0.
+@note if passes or techniques aren`t given a name, they will take on a default name based on their index. For example the first pass has index 0 so its name will be 0.
 
 
 ## Identifying Texture Units to override values {#Identifying-Texture-Units-to-override-values}
@@ -1924,7 +1924,7 @@ The textures in both techniques in the child material will automatically get rep
 
 The same process can be done in code as long you set up the texture alias names so then there is no need to traverse technique/pass/TUS to change a texture. You just call myMaterialPtr-&gt;applyTextureAliases(myAliasTextureNameList) which will update all textures in all texture units that match the alias names in the map container reference you passed as a parameter.
 
-You don’t have to supply all the textures in the copied material.
+You don`t have to supply all the textures in the copied material.
 
 ```cpp
 material fxTest2 : fxTest
