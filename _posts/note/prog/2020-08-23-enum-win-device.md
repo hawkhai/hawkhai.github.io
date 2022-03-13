@@ -15,7 +15,7 @@ glslcanvas:
 codeprint:
 ---
 
-Enumerating the device using the SetupDi* API provided with WinXP.
+Enumerating the device using the SetupDi\* API provided with WinXP.
 
 Download <a href="{% include relref.html url="/source/DevMgr-SRC.zip" %}" target="_blank">source</a> files \- 57\.8 Kb<br/>
 Download <a href="{% include relref.html url="/source/DevMgr-DEMO.zip" %}" target="_blank">demo</a> project \- 29\.8 Kb
