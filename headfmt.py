@@ -121,6 +121,18 @@ layoutclear
                 intsign = (intsign << int(pWordSize * 8 / 2)) + calcSignHalf(magic[0])
                 magic = magic[1:]
             value = "{} +0800".format(formatTimeStamp(intsign))
+
+            frelgit = os.path.relpath(fpath, ".")
+            cmdx = '''cd {} & git log -n 10000 --pretty=format:"%ad" --date=format:%Y-%m-%d_%H:%M:%S -- "{}"'''.format(*frelgit.split("\\", 1))
+            datestr = popenCmd(cmdx)
+            datestr = bytesToString(datestr)
+            # date: 1970-03-23 20:17:42 +0800
+            datestr = datestr.replace("_", " ")
+            datestr = datestr.strip().split("\n")[-1]
+            assert datestr, frelgit
+            #assert False, (datestr, frelgit)
+            value = "{} +0800".format(datestr)
+
             print(magic, value)
         if not key in igkeylist:
             assert key in mdkeylist, line
