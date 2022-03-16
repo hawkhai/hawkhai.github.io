@@ -98,6 +98,13 @@ url2="/assets/images/200822-tortoise-git-ssh/5-2.png" %}
 
 每次下拉的时候，它会自动把对于的 ppk 加入到 Pageant 里面。
 
+
+### github error
+
+C:\kSource\keys\xx.priv2.ppk
+
+
+
 -----------------
 
 
