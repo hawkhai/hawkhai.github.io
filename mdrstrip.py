@@ -669,8 +669,12 @@ def mainfile(fpath, fname, ftype):
         cnregexc = cnregex[:]
         cnregex += cnsign # 中文汉字符号都来起。
 
+        # 1.不间断空格\u00A0,主要用在office中,让一个单词在结尾处不会换行显示,快捷键ctrl+shift+space;
+        # 2.半角空格(英文符号)\u0020,代码中常用的;
+        # 3.全角空格(中文符号)\u3000,中文文章中使用;
         # 不能出现全角的空格。
-        if line.find("\xa0") != -1 and not fname in ("glslEditor.min.js",):
+        # utf8：20 c2a0 e38080 "\xa0"
+        if line.find("\u00A0") != -1 and line.find("\u3000") != -1 and not fname in ("glslEditor.min.js",):
             print("xspace", fpath, line)
             errcnt += 1
 
