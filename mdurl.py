@@ -22,6 +22,25 @@ URL_REGEX = "".join(URL_REGEX.split())
 OTIMG_REGEX = """(\\!\\[(.*?)\\]\\((.*?\\.(?:jpg|png))\\))"""
 EQUA_REGEX  = """(\\!\\[\\[公式\\]\\]\\(https://www.zhihu.com/equation\\?tex=(.*?)\\))""".encode("utf8").decode("ISO8859-1")
 
+def twikiImage(line):
+    # ![](/download/attachments/186253641/image2021-9-9_17-21-5.png?version=1&modificationDate=1631179266000&api=v2)
+    regex = '''(\!\[\]\((/download/[a-z]+/[0-9]+/[a-z0-9-_%]+.[a-z]+\?version=1&modificationDate=[0-9]+&api=v2)\))'''
+    # ![](/download/attachments/158302446/图片1.png?version=1&modificationDate=1614668176000&api=v2)
+    # ![](/download/thumbnails/158302411/image_3.png?version=1&modificationDate=1614667438000&api=v2)
+    li = re.findall(regex, line, re.IGNORECASE)
+    for i in li:
+        print(i)
+        xline, imgurl = i
+        imgn = imgurl.split("?")[0].split("/")[-1].replace("%", "")
+        imgurl = r"https://twiki.cmcm.com" + imgurl
+        imgname = os.path.join("images", getmd5(imgurl)+imgn)
+        writefile(imgname, netget(imgurl, headers={
+        "Cookie": "_ga=GA1.2.1243953186.1638896876; seraph.confluence=213614602:efe41e78223b605cc146d16fc2d5fea430da4601; JSESSIONID=096648D625B3347496C69F326E4E1B8C; Hm_lvt_e4f1d184255c7bd7d09a7739c36aaa96=1645257776,1646671105,1647188362,1647532002; Hm_lpvt_e4f1d184255c7bd7d09a7739c36aaa96=1647532025",
+        }))
+        yline = '''{%% include image.html url="/images/%s" %%}''' % (imgn,)
+        line = line.replace(xline, yline)
+    return line
+
 def mainfilew(fpath, fname, ftype):
     if not ftype in ("md",): return
     fdata = readfile(fpath, True)
@@ -43,6 +62,9 @@ def mainfilew(fpath, fname, ftype):
 
     codestate = False
     for line in li:
+
+        line = twikiImage(line)
+
         fxline = "".join(line.split())
         if fxline.startswith("{%highlight"):
             codestate = True
