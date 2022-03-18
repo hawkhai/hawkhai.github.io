@@ -375,12 +375,13 @@ def collectHost(fpath, line):
                     checkli.append(";")
                     checkli.append("\"")
                     checkli.append("\'")
+                    checkli.append("\\")
             if iline[:2] in ("{{",):
                 continue
             if not iline[:1] in checkli:
                 print(line)
                 print(url)
-                assert False, checkz
+                assert False, (url, checkz)
         assert not url.endswith("."), fpath +" "+ url
         remote = backupUrlContent(fpath, url)
         if remote:

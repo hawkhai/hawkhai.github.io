@@ -18,6 +18,15 @@ codeprint:
 用 Jekyll Markdown 写 blog 文档，受到一些限制，通过 JS 扩展了几个简单的语法。
 
 
+## 代码折叠
+
+```
+<div class="highlighter-rouge" foldctrl="1"></div>
+```
+
+放到代码前面即可。
+
+
 ## Mermaid 流程图
 
 
