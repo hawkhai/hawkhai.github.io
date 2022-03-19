@@ -209,6 +209,10 @@ function GetQueryValue(queryName) {
 
 function checkToc() {
 
+    if (GetQueryValue("noborder")) {
+        $(".post table").addClass('noborder');
+    }
+
     if (GetQueryValue("print")) {
         //$("footer.site-footer").remove(); // 网站申明
         $("div.post-footer").remove(); // 版权声明
