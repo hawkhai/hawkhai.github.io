@@ -211,6 +211,10 @@ function checkToc() {
 
     if (GetQueryValue("noborder")) {
         $(".post table").addClass('noborder');
+        $(".post .reviewline").remove();
+        $(".post .reviewtip").remove();
+        $(".post .post-meta").remove();
+        $(".post hr").remove();
     }
 
     if (GetQueryValue("print")) {
