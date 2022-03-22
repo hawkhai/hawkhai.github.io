@@ -42,7 +42,12 @@ DIACRITIC = """
 ù ú û ü ū ŭ ů ű ų
 ŵ
 ý ŷ
-ÿ ź ż ž"""
+ÿ ź ż ž
+α β γ δ ε
+ζ η θ ι κ λ
+μ ν ξ ο π ρ
+σ τ υ φ χ
+ψ ω """
 DIACRITIC = "[{}]".format("".join(DIACRITIC.split()))
 
 THUMBNAIL = ".thumbnail.webp"
