@@ -465,6 +465,16 @@ bool login(const QString &userName, const QString &passwdHash, const QString &sl
 ```
 
 
+### QToolButton::setMenu
+
+QT 还是比较那个啥的，有些自动管理，有些地方又不是，比如：
+
+{% include image.html url="/assets/images/200830-qt-memory-leak/20220323-195553.png" %}
+
+VLD (Visual LeakDetector) 内存泄露库的使用：
+[VisualLeak Detector]({% include relref.html url="/blog/2020/12/26/memory-leak-gflags#vldexe" %})
+
+
 ## 总结
 
 Qt 简化了我们对内存的管理，但是，由于它会在不太注意的地方调用 delete，所以，使用时还是要当心。

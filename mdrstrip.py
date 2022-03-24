@@ -247,6 +247,8 @@ def tidyupImg(imglocal, fpath, line):
     while not os.path.exists(imglocal):
         print("文件不存在", imglocal)
         os.system("pause")
+        if imglocal in readfileIglist("config/mdrstrip_fakefiles.txt"):
+            return line
 
     iscopy = copyfile(imglocal, tpath) # 是否图片挪窝了。
     imglocalnail = imglocal + THUMBNAIL
@@ -634,7 +636,9 @@ def mainfile(fpath, fname, ftype):
         for i in li1:
             if not i in ROUGIFY_LIST:
                 openTextFile(fpath)
-                assert False, i
+                print("代码语言无法识别 {}:{} \"{}\"".format(fpath, index+1, i))
+                os.system("pause")
+                return mainfile(fpathsrc, fnamesrc, ftypesrc)
 
         tagregex = "^\\s*[#]+\\s"
         prelinetag = re.findall(tagregex, preline)

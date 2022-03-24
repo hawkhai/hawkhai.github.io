@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <title>ryg's Homepage - .kkapture</title>
+    <link rel="stylesheet" type="text/css" href="../style.css" />
+  </head>
+  <body>
+    <div id="container">
+    <div id="nav">
+      <ul>
+        <li><a href="../index.html">Home</a>
+        </li><li><a href="../articles/index.html">Articles</a>
+        </li><li><a href="../code/index.html">Code</a>
+        </li><li><a href="../seminars/index.html">Presentations</a>
+        </li><li><a href="../tools.html">Tools</a>
+      </li></ul>
+    </div>
+    <div class="panel">
+    <h1>.kkapture: sufficiently advanced technology.</h1>
+    <p>.kkapture is a small tool that produces video+audio captures of fullscreen apps (usually demos).
+    Unlike FRaPS, it does <b>not</b> run in realtime; instead, it makes the demos run at a given, fixed
+    framerate you can specify beforehand. In other words, .kkapture can make 60fps video captures of any
+    demo your computer can run, even if each frame takes several seconds to render.
+    </p></div><div class="panel">
+    <h1>Why would someone want this?</h1>
+    <p>For Windows demos, it is usually not much work to add a video writer to your program. However, that
+    has to be done by the authors; the nice part about .kkapture is that it is general enough to work
+    with a wide variety of demos, automatically. If you write demos yourself and .kkapture is able to handle your
+    demo without problems, well, you've just saved yourself the work of coding a video writer yourself.
+    </p><p>The main application area is when you want to make several quality video captures of different demos
+    in a short period of time, without having to contact each of the coders. Production of demo DVDs or pre-cut
+    demoshows is a prime example.
+    </p></div><div class="panel">
+    <h1>How did it come to be?</h1>
+    <p>Well, rather simple story; I was rather annoyed by the generally so-so video quality of the
+    2004 scene.org awards, mostly caused by repeated frame-rate changes (first FRAPS which captures at whatever
+    rate the demo runs, then video encoding, then playback on a computer with a different refresh rate). The
+    fixed framerate capturing should be able to get rid of most of these problems, by simply avoiding the
+    necessity of framerate conversions altogether.
+    </p></div><div class="panel">
+    <h1>How does it work?</h1>
+    <p>If you want the gory details, just look at the provided source code. Here's a short executive summary:
+    .kkapture works by hooking certain graphics api functions to capture each frame just as it is presented
+    on screen. All popular ways of getting time into the program are wrapped aswell - timeGetTime,
+    QueryPerformanceCounter, you name it. This is necessary so .kkapture can make the program think it runs
+    at a fixed framerate (whatever you specified). The most tricky part is audio, because it doubles as
+    both capture signal and sync source. .kkapture provides a custom (and very dumb) DirectSound implementation
+    that emulates an actual soundcard again updating with your exact specified framerate. WaveOut support is
+    presen too, and in recent versions, .kkapture also intercepts some popular sound systems directly to make
+    sure the correct time is reported back to the application.
+    </p></div><div class="panel">
+    <h1>How do I use it?</h1>
+    <p>Well, download it, start kkapture.exe, specify demo/video file name and framerate, hit "kkapture!",
+    select your codec of choice and that should be it :). <a href="http://wurstcaptures.untergrund.net/capture_kkapture.html">Rarefluid</a>
+    has written an article that explains some of the finer points if you want to create high-quality video captures.
+    </p><p>There's also some checkboxes that turn on certain workarounds. The defaults usually work best, but if you're
+    dealing with a picky demo, try playing around with the flags a bit, it might help.
+    </p></div><div class="panel">
+    <h1>Where can I get it?</h1>
+    <p>Latest <b>stable</b> release:
+    </p><ul>
+      <li><a href="kkapture_1_02_bin.zip">Version 1.02 binaries</a>
+      </li><li><a href="https://github.com/rygorous/kkapture/zipball/v1.02">Version 1.02 source code</a>
+    </li></ul>
+    </div><div class="panel">
+    <h1>Change log</h1>
+    <p>Version 1.02:</p>
+    <ul>
+      <li>added "fake additional screen resolution" option (thanks KeyJ)
+      </li><li>switched from (long defunct) detours 1.5 to free mhook-2.2 (http://codefromthe70s.org/mhook22.aspx).
+      </li><li>redid startup interception yet again: now using simple DLL injection via CreateRemoteThread. should work fine with .NET executables and be less flaky in general.
+      </li><li>sound: lock entire directsound buffer when dwBytes=0 (fix for "mother mother, my ears bleed")
+      </li><li>d3d11 support
+    </li></ul>
+    <p>Version 1.01:</p>
+    <ul>
+      <li>"skip frames on frequent timer checks" can now be turned off; threshold set to a substantially higher value.
+      </li><li>"virtual framebuffer" mode for old, badly written ddraw apps (e.g. "fall equals winter"). won't work with hw accelerated blits
+        and clears! use as a last resort.
+    </li></ul>
+    <p>Version 1.00:</p>
+    <ul>
+      <li>major bump in version number! :)
+      </li><li>timing: fixed a regression from version 0.07 (should work a lot better on vista and windows 7 now)
+      </li><li>sound/timing: automatically advance frame after some time when app asks for the current time a certain number of times (helps with several quite intros)
+      </li><li>sound: force fmodex to use dsound on vista/windows 7 (i won't write a windows audio session implementation if i don't have to)
+      </li><li>sound: some tweaks in waveOut support. now works just fine with the MS GS synthesizer.
+      </li><li>sound: make sure to return 0 as estimated latency for demos that use BASS. fixes asm 2009 invitation by andromeda.
+      </li><li>video: can now capture programs that use GDI for output as well. not particularly well-tested. original code by iq.
+      </li><li>"deep capture". can now kkapture demos that have a seperate launcher directly. tested on borg, etch-a-sketch. logfiles are now named
+        differently since there may be several! behavior if more than one program in the chain starts rendering is undefined (i.e. it won't work).
+    </li></ul>
+    <p>Version 0.09:</p>
+    <ul>
+      <li>new startup instrumentation: yet another new approach to entry point determination (to work with address space layout randomization)
+      </li><li>"attempt clean exit" key (right ctrl; has good chances of producing a usable .AVI, unlike ctrl-break)
+      </li><li>audio: automatically reduce WAVEFORMATEXTENSIBLE to WAVEFORMATEX if possible (for compatibility)
+      </li><li>audio: can now mix both stereo-&gt;mono and mono-&gt;stereo if required
+      </li><li>audio: WAVE_FORMAT_IEEE_FLOAT support (should help a lot with 4k intros using 4klang)
+      </li><li>waveOutGetTime fix (apparently, TIME_MS is *broken* and returns offsets in bytes too. ah well. fixes kindercrasher/rgba and probably some others too)
+    </li></ul>
+    <p>Version 0.08:</p>
+    <ul>
+      <li>"frame rate" edit control now supports arbitrary positive decimal ("12.3456") and fractional ("60000/1001") framerates
+      </li><li>"BASS/FMOD interception" added. BASS interception removes the need for the fairlight hack, FMOD interception fixes FMODs
+        broken timing code to make demos run at a higher framerate than 43fps.
+      </li><li>separate encoder thread option (makes everything much faster on multicore systems, but the code isn't very well tested)
+      </li><li>ddraw capture fix: now also grad frames on primary buffer unlock (fixes voidspace/woorlic, fall equals winter/replay)
+      </li><li>post a dummy WM_NULL message to foreground window every frame (fix for some old hjb intros)
+      </li><li>new startup interception fix: treat calls in startup code differently ("dead cells" now works)
+      </li><li>d3d10 support (only tried it on texas though, so it's not particularly well-tested).
+    </li></ul>
+    <p>Version 0.07:</p>
+    <ul>
+      <li>"frame timed out" now mentions <b>which</b> frame was skipped (if you want to check whether the video is fine or if it causes problems)
+      </li><li>if kkapture is being debugged, main.cpp now gives you time to attach the debugger to the target demo aswell.
+          (this is the deluxe version of a hack i've been using for ages - thought it might be useful for others trying to debug, too :)
+      </li><li>fixed some bugs in the cleanup code that may have caused crashes after recording was complete.
+      </li><li>waveOutGetPosition now even accepts wrong size specifications for MMTIME struct as long as they're big enough (helps candystall).
+      </li><li>ddraw code temp surface handling should now be more stable (helps with moral hard candy)
+      </li><li>seeding of all timers now synchronized. helps with demos that mix timing values returned from independent sources (not a good idea!!!).
+          in any case, fixes problems with ante dominum.
+      </li><li>"power down after completion" switch (by popular request).
+    </li></ul>
+    <p>Version 0.06b:</p>
+    <ul>
+      <li>now default to vfw video encoder on new installations.
+      </li><li>"fairlight hack" switch now explicit due to request - turn it on for track one and possibly other flt demos, otherwise leave it off.
+          (was implicitly on in all versions from 0.05 upwards)
+      </li><li>more new startup instrumentation fixes (yaay!).
+    </li></ul>
+    <p>Version 0.06:</p>
+    <ul>
+      <li>magic exit key (ctrl+break) improved: now uses lowlevel hook, should always work now.
+      </li><li>d3d8 capture fixes: r08028, nature v2.0 work now.
+      </li><li>vfw .avi writer can now also handle format changes while the demo is running.
+      </li><li>should now work with demos that use FMODEx: at least first offence works fine now.
+      </li><li>now automatically advances time if frames take too long.
+        <br />fixes a LOT of demos that do busy waits somewhere, including:
+        <ul>
+        <li>frameskool by equinox
+        </li><li>mupe by playpsyco
+        </li><li>abstinens by keyboards
+        </li><li>noumenon by andromeda
+        </li></ul>
+        and probably a lot of other demos too.
+        <br /><br />
+        how to use: check "Enable automatic frameskip on timeout".
+        the two timeout values define how much time the application has to render
+        the first/subsequent frames; if it takes longer, kkapture will skip a
+        frame and write a log message. lower timeouts mean faster kkapturing for
+        apps that explicitly perform waits every frame, but the lower you set those
+        values, the higher the risk that kkapture will drop a frame just because
+        rendering took a tad longer than expected. so be careful!
+    </li></ul>
+    <p>Version 0.05b:</p>
+    <ul>
+      <li>IDirectSoundBuffer::SetFrequency handling fixed (affects onwards, 2^5 by traction)
+      </li><li>debug force-windowed code for d3d9 removed :)
+    </li></ul>
+    <p>Version 0.05:</p>
+    <ul>
+      <li>small bugfix in dshow video encoder (thanks malc)
+      </li><li>"new startup instrumentation" button now actually does something :)
+      </li><li>startup instrumentation code now less picky about executable files
+      </li><li>startup instrumentation now works when first instr. is call/jmp (helps with several demos)
+      </li><li>added dc/rendering context tracking for opengl (fixes problem with animal attraction)
+      </li><li>synchronization policy changed in dsound code (fixes problems with mega hilter expansion pack, maybe some threading issues too?)
+      </li><li>old fallback gdi capture code removed (not required anymore and it never worked properly anyway)
+    </li></ul>
+    <p>Version 0.04:</p>
+    <ul>
+      <li>switched to visual c++ 2005 express edition
+      </li><li>"new startup interception" that works on 64bit host machines (always on on 64bit, default off on 32bit)
+      </li><li>kkapture is now under the artistic license v2.0beta5
+      </li><li>small waveout code fix by manx included (thanks)
+      </li><li>automatic segmenting code for avi-vfw encoder by bartman included (thanks to you too :)
+      </li><li>automatically disables VSync during recording for most supported APIs (improves capturing speed somewhat)
+      </li><li>basic SetTimer support (i'm not particularly happy with it)
+      </li><li>improved resolution determination for opengl demos
+      </li><li>magic exit key: press ctrl+break to safely abort a capture.
+      </li><li>writes (approximate) capturing frame rate on exit
+      </li><li>small fix in doneTiming() to make sure no waits are currently active when timing is deinitialized
+      </li><li>improvements in d3d8/9 reference handling code
+      </li><li>support for demos that initialize/deinitialize the graphics API several times
+    </li></ul>
+    <p>Version 0.04alpha:</p>
+    <ul>
+      <li>some performance improvements for directdraw capturing
+      </li><li>several bugfixes
+      </li><li>new directshow-based avi writer, currently the only one available (0.04 final will have both the old and new avi writer)
+      </li><li>automatic audio resampling (required for dshow, currently converts everything to 16bit 44.1kHz stereo)
+      </li><li>new timing code (not particularly well tested yet!)
+    </li></ul>
+    <p>Version 0.03:</p>
+    <ul>
+      <li>waveout capturing finally works (now that was one stupid bug)
+      </li><li>directdraw/old d3d support (both software and hardware)
+      </li><li>kkapture now sets the executables' directory as current working dir before starting
+      </li><li>"skip silence" option added (required for e.g. fr-08); currently only works for directsound
+      </li><li>"make sleeps last one frame" option added and enabled by default (fixes sound sync for some demos,
+        causes problems with others - if you're experiencing problems with a demo, try the other setting)
+      </li><li>the .bmp/.wav writer now compensates for frames at the beginning without sound
+      </li><li>capture audio/capture video flags
+    </li></ul>
+    <p>Version 0.02:</p>
+    <ul>
+      <li>direct xvid/divx encoding works now.
+      </li><li>windowed capture support for both opengl and d3d - beware, some demos do not use correct window sizes in
+        windowed mode, so you get e.g. a 630x472 capture for a 640x480 demo - most video codecs don't like sizes that
+        aren't multiples of 4.
+      </li><li>opengl capturing bugfix - on swapbuffers(), frames were accidentially advanced twice.
+      </li><li>some QueryPerformanceCounter-related fixes.
+      </li><li>vastly improved Direct3D9 capture speed.
+      </li><li>Direct3D8 support (co-written by kb/farbrausch).
+      </li><li>.bmp/.wav output added (uncompressed highres captures easily hit the avifile 4gb limit).
+      </li><li>lots of tiny fixes here and there.
+    </li></ul>
+    <p>Version 0.01:</p>
+    <ul>
+      <li>initial release; still missing d3d8, ddraw support, waveout completely untested.
+    </li></ul>
+    </div><div class="panel">
+    <h1>Old versions</h1>
+    <ul>
+      <li><a href="kkapture_1_01_bin.zip">Version 1.01 binaries</a>
+      </li><li><a href="kkapture_1_01_src.zip">Version 1.01 source code</a>
+      </li><li><a href="kkapture_1_00_bin.zip">Version 1.00 binaries</a>
+      </li><li><a href="kkapture_1_00_src.zip">Version 1.00 source code</a>
+      </li><li><a href="kkapture_0_09_bin.zip">Version 0.09 binaries</a>
+      </li><li><a href="kkapture_0_09_src.zip">Version 0.09 source code</a>
+      </li><li><a href="kkapture_0_08_bin.zip">version 0.08 binaries</a>
+      </li><li><a href="kkapture_0_08_src.zip">version 0.08 source code</a>
+      </li><li><a href="kkapture_0_07_bin.zip">version 0.07 binaries</a>
+      </li><li><a href="kkapture_0_07_src.zip">version 0.07 source code</a>
+      </li><li><a href="kkapture_0_06b_bin.zip">version 0.06b binaries</a>
+      </li><li><a href="kkapture_0_06b_src.zip">version 0.06b source code</a>
+      </li><li><a href="kkapture_0_06_bin.zip">version 0.06 binaries</a>
+      </li><li><a href="kkapture_0_06_src.zip">version 0.06 source code</a>
+      </li><li><a href="kkapture_0_05b_bin.zip">version 0.05b binaries</a>
+      </li><li><a href="kkapture_0_05b_src.zip">version 0.05b source code</a>
+      </li><li><a href="kkapture_0_05_bin.zip">version 0.05 binaries</a>
+      </li><li><a href="kkapture_0_05_src.zip">version 0.05 source code</a>
+      </li><li><a href="kkapture_0_04_bin.zip">version 0.04 binaries</a>
+      </li><li><a href="kkapture_0_04_src.zip">version 0.04 source code</a>
+      </li><li><a href="kkapture_0_04alpha_bin.zip">version 0.04alpha binaries</a>
+      </li><li><a href="kkapture_0_04alpha_src.zip">version 0.04alpha source code</a>
+      </li><li><a href="kkapture_0_03b_bin.zip">version 0.03b binaries</a>
+      </li><li><a href="kkapture_0_03b_src.zip">version 0.03b source code</a>
+      </li><li><a href="kkapture_0_03_bin.zip">version 0.03 binaries</a>
+      </li><li><a href="kkapture_0_03_src.zip">version 0.03 source code</a>
+      </li><li><a href="kkapture_0_02_bin.zip">version 0.02 binaries</a>
+      </li><li><a href="kkapture_0_02_src.zip">version 0.02 source code</a>
+      </li><li><a href="kkapture_0_01_bin.zip">version 0.01 binaries</a>
+      </li><li><a href="kkapture_0_01_src.zip">version 0.01 source code</a>
+    </li></ul>
+    </div><div class="panel">
+    <h1>Contact</h1>
+    <p>Drop me a mail: ryg(a)theprodukkt,com</p>
+    </div></div>
+  
+
+</body></html>

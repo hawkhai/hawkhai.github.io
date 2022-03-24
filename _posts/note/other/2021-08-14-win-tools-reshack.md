@@ -145,6 +145,14 @@ C:\test>"pecopy.exe" -in "fastvc.exe" \
 <https://sunocean.life/tools/pecopy.exe>
 
 
+### 其它
+
+如果存在签名，修改描述前，最后用 VS 自带工具 `signtool.exe` 移除签名先。
+```bat
+signtool.exe remove /s target.dll
+```
+
+
 ## 多个 png 图片压缩成一个 ico
 
 

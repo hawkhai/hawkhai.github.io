@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "BLOG -- 感觉非常不错的 blog 收集"
+title: "BLOG -- 一些有趣的 开源工程 & BLOG"
 author:
 location: "珠海"
 categories: ["BLOG"]
@@ -19,6 +19,21 @@ archived: true
 本日志为推荐日志，罗列一些我在学习过程中特意或无意搜集到的网站或教程。
 
 {% include image.html url="/assets/images/210326-blogs-backup/spaces_paulsprojects.jpg" %}
+
+
+## .kkapture
+
+a tool for non-realtime video capturing of demos, open source.
+
+* <https://github.com/rygorous/kkapture/>
+* <http://www.farbrausch.de/~fg/kkapture/>
+
+.kkapture: sufficiently advanced technology.
+
+.kkapture is a small tool that produces video+audio captures of fullscreen apps (usually demos).
+Unlike FRaPS, it does not run in realtime; instead, it makes the demos run at a given,
+fixed framerate you can specify beforehand. In other words, .kkapture can make 60fps video captures
+of any demo your computer can run, even if each frame takes several seconds to render.
 
 
 ## 图形学
@@ -56,6 +71,8 @@ archived: true
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-26-blogs-backup.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://github.com/rygorous/kkapture/]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/github.com/d2615ef8.html" %})
+- [http://www.farbrausch.de/~fg/kkapture/]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/www.farbrausch.de/34cc1328.html" %})
 - [https://chengkehan.github.io/]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/chengkehan.github.io/f33e1112.html" %})
 - [http://www.zwqxin.com/]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/www.zwqxin.com/189e4f4f.html" %})
 - [http://www.skywind.me/blog/]({% include relrefx.html url="/backup/2021-03-26-blogs-backup.md/www.skywind.me/7299c1fb.html" %})

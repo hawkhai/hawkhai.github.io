@@ -17,6 +17,14 @@ cluster: "Visual Studio"
 ---
 
 
+## LNK2026 模块对于 SAFESEH 映像是不安全的。
+
+严重性 | 代码 | 说明 | 项目 | 文件 | 行 | 禁止显示状态
+错误 | LNK2026 | 模块对于 SAFESEH 映像是不安全的。 | kkapturedll | E:\kSource\kkapture\kkapturedll\detours.lib(detours.obj) | 1 |
+
+将 `/SAFESEH:NO` 复制到“其它选项（D）”框中，然后点击应用。
+
+
 ## C++ 中 _tmain() 和 main()
 
 [from](https://www.codenong.com/895827/)

@@ -175,6 +175,31 @@ Kernel32 提供的堆管理函数。CRT 内存分配如：malloc、free、reallo
 访问块开始之前的内容 | 在释放后发现 | 立即发现
 
 
+## vld.exe
+
+VLD (Visual LeakDetector) 内存泄露库的使用，VLD 是一款用于 Visual C++ 的免费内存泄漏检查工具。
+1. 可以得到内存泄漏点的调用堆栈，如果可以的话，还可以得到其所在的文件及行号；
+2. 可以得到泄漏内存的完整数据；
+3. 恶意设置内存泄漏报告的级别；
+4. 它以动态库的形式提供，无需编译源代码，只需要很小的改动程序；
+5. 源代码使用 GNU 许可发布，并有详细的文档及其注释。
+
+VLD 网址：[vld.codeplex.com {% include relref_github.html %}](https://kinddragon.github.io/vld/)
+<http://www.codeproject.com/Articles/9815/Visual-Leak-Detector-Enhanced-Memory-Leak-Detectio>
+
+1. VLD 只能在 Windows 下使用，在包含 vld.h 头文件时增加预编译选项。
+2. 在 Release 模式下，不会链接 VisualLeak Detector。
+3. Windows 提供了一个 StackWalk64 函数可以获得堆栈的内容。
+
+VLD 工具原理。在初始化是 VLD 使用 \_CrtSetAllocation 注册这个钩子函数。
+```cpp
+int AllocHook(int allocType,
+        void* userData, size_t size,
+        int blockType, long requestNumber,
+        const unsigned char* filename, int lineNumber);
+```
+
+
 ## Others
 
 1. 注册内存分配 / 释放钩子函数 (hook)。在 Linux 下可以 malloc_hook, free_hook 等 5 个钩子函数，
@@ -193,4 +218,6 @@ Kernel32 提供的堆管理函数。CRT 内存分配如：malloc、free、reallo
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-26-memory-leak-gflags.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://kinddragon.github.io/vld/]({% include relrefx.html url="/backup/2020-12-26-memory-leak-gflags.md/kinddragon.github.io/56acbbc3.html" %})
+- [http://www.codeproject.com/Articles/9815/Visual-Leak-Detector-Enhanced-Memory-Leak-Detectio]({% include relrefx.html url="/backup/2020-12-26-memory-leak-gflags.md/www.codeproject.com/234cf836.html" %})
 - [https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/using-umdh-to-find-a-user-mode-memory-leak]({% include relrefx.html url="/backup/2020-12-26-memory-leak-gflags.md/docs.microsoft.com/2856424b.html" %})
