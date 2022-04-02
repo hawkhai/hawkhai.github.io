@@ -15,6 +15,121 @@ glslcanvas:
 codeprint:
 ---
 
+尝试解决的问题：Python 调用 C++，C++ 回调 Python，并传递参数。
+1. Python 能调用 C 语言的函数；
+    * 支持 Python 调用 C++，支持传入 json 参数，传出 json 参数，灵活且内存管理正确。
+2. Python 通过调用 C 函数，并注册 Python 的回调函数，C 代码通过 Python 回调函数告诉 Python 当前实时进度和状态。
+    * 支持 C++ 回调 Python，支持传入 json 参数，传出 json 参数，灵活且内存管理正确。
+3. 改进了一下，支持多线程并发。
+
+[官方文档](https://docs.python.org/3/library/ctypes.html)
+**Note** Make sure you keep references to CFUNCTYPE() objects as long as they are used from C code.
+ctypes doesn’t, and if you don’t, they may be garbage collected, crashing your program when a callback is made.
+Also, note that if the callback function is called in a thread created outside of Python’s control (e.g. by the foreign code that calls the callback), ctypes creates a new dummy Python thread on every invocation.
+This behavior is correct for most purposes, but it means that values stored with `threading.local` will not survive across different callbacks, even when those calls are made from the same C thread.
+
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 46%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>ctypes type</p></th>
+<th class="head"><p>C type</p></th>
+<th class="head"><p>Python type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#ctypes.c_bool" title="ctypes.c_bool"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_bool</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">_Bool</span></p></td>
+<td><p>bool (1)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ctypes.c_char" title="ctypes.c_char"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_char</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">char</span></p></td>
+<td><p>1-character bytes object</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ctypes.c_wchar" title="ctypes.c_wchar"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_wchar</span></code></a></p></td>
+<td><p><code class="xref c c-type docutils literal notranslate"><span class="pre">wchar_t</span></code></p></td>
+<td><p>1-character string</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ctypes.c_byte" title="ctypes.c_byte"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_byte</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">char</span></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ctypes.c_ubyte" title="ctypes.c_ubyte"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_ubyte</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">unsigned char</span></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ctypes.c_short" title="ctypes.c_short"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_short</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">short</span></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ctypes.c_ushort" title="ctypes.c_ushort"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_ushort</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">unsigned short</span></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ctypes.c_int" title="ctypes.c_int"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_int</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">int</span></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ctypes.c_uint" title="ctypes.c_uint"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_uint</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">unsigned int</span></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ctypes.c_long" title="ctypes.c_long"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_long</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">long</span></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ctypes.c_ulong" title="ctypes.c_ulong"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_ulong</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">unsigned long</span></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ctypes.c_longlong" title="ctypes.c_longlong"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_longlong</span></code></a></p></td>
+<td><p><code class="xref c c-type docutils literal notranslate"><span class="pre">__int64</span></code> or <span class="xref c c-texpr">long long</span></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ctypes.c_ulonglong" title="ctypes.c_ulonglong"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_ulonglong</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">unsigned __int64</span> or
+<span class="xref c c-texpr">unsigned long long</span></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ctypes.c_size_t" title="ctypes.c_size_t"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_size_t</span></code></a></p></td>
+<td><p><code class="xref c c-type docutils literal notranslate"><span class="pre">size_t</span></code></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ctypes.c_ssize_t" title="ctypes.c_ssize_t"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_ssize_t</span></code></a></p></td>
+<td><p><code class="xref c c-type docutils literal notranslate"><span class="pre">ssize_t</span></code> or
+<code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ctypes.c_float" title="ctypes.c_float"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_float</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">float</span></p></td>
+<td><p>float</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ctypes.c_double" title="ctypes.c_double"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_double</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">double</span></p></td>
+<td><p>float</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ctypes.c_longdouble" title="ctypes.c_longdouble"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_longdouble</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">long double</span></p></td>
+<td><p>float</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ctypes.c_char_p" title="ctypes.c_char_p"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_char_p</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">char*</span> (NUL terminated)</p></td>
+<td><p>bytes object or <code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ctypes.c_wchar_p" title="ctypes.c_wchar_p"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_wchar_p</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">wchar_t*</span> (NUL terminated)</p></td>
+<td><p>string or <code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ctypes.c_void_p" title="ctypes.c_void_p"><code class="xref py py-class docutils literal notranslate"><span class="pre">c_void_p</span></code></a></p></td>
+<td><p><span class="xref c c-texpr">void*</span></p></td>
+<td><p>int or <code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+</tr>
+</tbody>
+</table>
+
 
 ## 加载
 
@@ -64,7 +179,7 @@ ctypes 支持的原生数据类型如下 :
 | c_void_p        | void \*                                  | int/long or None                   |
 
 设置函数的参数类型使用函数的 argtypes 属性，直接赋值为一个 ctypes 类型的列表或元组。设置函数的返回值类型使用函数的 restype 属性。下面是示例代码：
-python 中，默认函数返回值是 c_int 型，此类型可以不用显示设置函数的 restype 属性，如果是参数类型是 c_int 型则需要设置。
+Python 中，默认函数返回值是 c_int 型，此类型可以不用显示设置函数的 restype 属性，如果是参数类型是 c_int 型则需要设置。
 
 ```python
 fun.argtypes = (c_int, c_int, c_int, c_void_p) # 设置函数参数类型为 int, int, int, void *
@@ -902,4 +1017,5 @@ arr2d is:
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-mixed-python-and-c.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://docs.python.org/3/library/ctypes.html]({% include relrefx.html url="/backup/2021-09-14-mixed-python-and-c.md/docs.python.org/a9cf72b8.html" %})
 - [https://www.cnblogs.com/gaowengang/p/7919219.html]({% include relrefx.html url="/backup/2021-09-14-mixed-python-and-c.md/www.cnblogs.com/4b57faf7.html" %})
