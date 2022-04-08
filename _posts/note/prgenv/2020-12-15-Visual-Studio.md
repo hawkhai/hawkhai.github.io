@@ -17,12 +17,42 @@ cluster: "Visual Studio"
 ---
 
 
+## debug vs. release
+
+一个工程要维持 debug 版本，还挺难的，其依赖的 lib 都要是 debug 版本。
+否则就会因为头文件定义不一致发生莫名其妙的崩溃。
+
+```cpp
+std::map<CStringW, CStringW> mapKeys;
+mapKeys.insert(std::make_pair(strKeyName, szValue));
+m_mapIniData.insert(std::make_pair(strAppName, mapKeys));
+```
+vs2005，上面这段代码第二句会崩溃，崩溃到 std 里面。
+```
+testapp.exe 中的 0x0041e3d0 处未处理的异常: 0xC0000005: 读取位置 0xccccccd0 时发生访问冲突
+```
+
+死活找不到原因。
+然后把这段代码拷贝到入口点 `_tWinMain` 运行，还是会崩溃。
+
+造成问题的原因是 Release 版本使用了静态库 Ws2_32.lib lib_json.lib keasy.lib。
+Debug 版本也跟着用，里面包含 `std::map<CStringW, CStringW>` 定义不一致造成崩溃。
+
+
 ## LNK2026 模块对于 SAFESEH 映像是不安全的。
 
 严重性 | 代码 | 说明 | 项目 | 文件 | 行 | 禁止显示状态
 错误 | LNK2026 | 模块对于 SAFESEH 映像是不安全的。 | kkapturedll | E:\kSource\kkapture\kkapturedll\detours.lib(detours.obj) | 1 |
 
 将 `/SAFESEH:NO` 复制到“其它选项（D）”框中，然后点击应用。
+
+
+## VS2005 中加载调试符号
+
+在 VS2005 工具 \- 选项 \- 调试 \- 符号，添加符号文件（\*.pdb）位置：
+<http://msdl.microsoft.com/download/symbols>
+
+符号缓存到本地目录，如：`D:\Development\Symbols`
 
 
 ## C++ 中 _tmain() 和 main()
@@ -326,6 +356,7 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Visual-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [http://msdl.microsoft.com/download/symbols]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/msdl.microsoft.com/9dd253a8.html" %})
 - [https://www.codenong.com/895827/]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/www.codenong.com/38324189.html" %})
 - [https://jingyan.baidu.com/article/3c48dd3485c80be10be358e3.html]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/jingyan.baidu.com/2a6c630c.html" %})
 - [https://blog.csdn.net/hujialong1997/article/details/105458435]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/blog.csdn.net/fb89ec11.html" %})
