@@ -618,6 +618,123 @@ int fpconvert::MarioPython() {
 ```
 
 
+## 不定长数据传输
+
+[note {% include relref_cnblogs.html %}](https://www.cnblogs.com/iclodq/p/9216763.html)
+实现一个二进制输入，二进制输出的版本。
+* 变长输入，Python -> C++，直接调用就好了。
+* 变长回调，C++ -> Python，回调两次就好了。
+
+
+### Python
+
+```python
+# 变长输入，Python -> C++，直接调用就好了。
+# 变长回调，C++ -> Python，回调两次就好了。
+def mariotest3(data):
+    dllpath, dllx64 = getMarioDll(DEBUG)
+    mydll = ctypes.cdll.LoadLibrary(dllpath)
+    mydll.MarioPython()
+
+    MarioCallbackTest = ctypes.CFUNCTYPE(
+        ctypes.c_int,
+        ctypes.c_size_t,
+        ctypes.POINTER(ctypes.c_char_p),
+        )
+
+    result = None
+    def funMarioCallbackTest(size, pdata): # <__main__.LP_c_char_p object at>
+        #print("funMarioCallbackTest", size, pdata)
+
+        MarioCallbackRCB = ctypes.CFUNCTYPE(
+            ctypes.c_int,
+            ctypes.c_size_t,
+            ctypes.POINTER(ctypes.c_char * size),
+        )
+
+        def funMarioCallbackRCB(size, mdata): # <__main__.LP_c_char_Array_10 object at>
+            #print("funMarioCallbackRCB", size, mdata)
+            #print(mdata.contents.raw)
+            nonlocal result
+            result = mdata.contents.raw
+            return 0
+        # 根据参数，再次构造 Python 回调函数。
+        mydll.MarioReCallback(MarioCallbackRCB(funMarioCallbackRCB), pdata, size)
+        return 0
+
+    datasize = len(data)
+    mydll.MarioTest(MarioCallbackTest(funMarioCallbackTest), data, datasize)
+    #print(data) -- Python 内存传入，是可以直接被修改的。
+    print("Python print", "\t", result)
+    return result
+
+if __name__ == "__main__":
+    #mariotest2(b"abc")
+    #mariotest2(b"abcdef")
+    #mariotest(DEBUG)
+    mariotest3(b"ab\x00\x01")
+```
+
+
+### C++
+
+```cpp
+// https://www.cnblogs.com/iclodq/p/9216763.html
+typedef int (*MarioCallbackTest)(size_t size, const char** pdata);
+MARIO_API int MarioTest(MarioCallbackTest callback, char* input, size_t size);
+
+typedef int (*MarioCallbackRCB)(size_t size, const char* mdata);
+MARIO_API int MarioReCallback(MarioCallbackRCB callback, const char** data, size_t size);
+```
+
+```cpp
+// https://www.cnblogs.com/iclodq/p/9216763.html
+int fpconvert::MarioTest(MarioCallbackTest callback, char* input, size_t size) {
+    if (!callback || !input) {
+        return -1;
+    }
+    printf("C++ printf \t b'");
+    for (int i = 0; i < size; i++) {
+        printf("\\x%02x", input[i]);
+        //input[i]++; -- 这里是可以直接改 Python 内存的。
+    }
+    printf("'\r\n");
+    if (callback) {
+        const int size = 10;
+        char temp[size];
+        strcpy_s(temp, size, "mario");
+        temp[1] = 0;
+        const char* tempp = temp;
+        const char** ptemp = &tempp;
+        callback(size, ptemp);
+    }
+    return 0;
+}
+
+int fpconvert::MarioReCallback(MarioCallbackRCB callback, const char** data, size_t size) {
+    if (!callback || !data) {
+        return -1;
+    }
+    const char* pdata = *data;
+    if (!pdata) {
+        return -1;
+    }
+    callback(size, pdata);
+    return 0;
+}
+```
+
+
+### 结果输出
+
+```
+C:\kSource\pythonx>python3 mario.py
+MarioDll C:\kSource\pythonx\note\pythonx\mario\Debug\mario.dll
+C++ printf       b'\x61\x62\x00\x01'
+Python print     b'm\x00rio\x00\xfe\xfe\xfe\xfe'
+```
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-mixed-python-and-c.md.js" %}'></script></p>
@@ -628,3 +745,4 @@ int fpconvert::MarioPython() {
 - [https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew]({% include relrefx.html url="/backup/2021-09-14-mixed-python-and-c.md/docs.microsoft.com/598632a2.html" %})
 - [https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle]({% include relrefx.html url="/backup/2021-09-14-mixed-python-and-c.md/docs.microsoft.com/2b6cd75d.html" %})
 - [https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-lockfileex]({% include relrefx.html url="/backup/2021-09-14-mixed-python-and-c.md/docs.microsoft.com/95fd3989.html" %})
+- [https://www.cnblogs.com/iclodq/p/9216763.html]({% include relrefx.html url="/backup/2021-09-14-mixed-python-and-c.md/www.cnblogs.com/5d790fbb.html" %})
