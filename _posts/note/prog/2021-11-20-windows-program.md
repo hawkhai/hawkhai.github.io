@@ -829,6 +829,9 @@ UAC 是 User Account Control 的缩写，其中文翻译为用户帐户控制，
 
 针对新版 win10 有效的绕过 UAC 的几种方案 [UAC-bypass.md]
 
+Bypass UAC by hijacking a DLL located in the Native Image Cache
+<https://github.com/AzAgarampur/byeintegrity-uac>
+
 #### 高低权限通信问题
 
 服务和管理员、普通用户无法进行消息通信，需要做特殊过滤
@@ -1644,6 +1647,7 @@ HBITMAP CCPdfmenushell::_IconToBitmap(int iconResId)
 - [https://www.cnblogs.com/batsing/p/charset.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/www.cnblogs.com/69fca104.html" %})
 - [http://archives.miloush.net/michkap/archive/2006/09/15/754992.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/archives.miloush.net/e46b84f7.html" %})
 - [https://0x00-0x00.github.io/research/2018/10/31/How-to-bypass-UAC-in-newer-Windows-versions.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/0x00-0x00.github.io/33c60558.html" %})
+- [https://github.com/AzAgarampur/byeintegrity-uac]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/github.com/50f353e2.html" %})
 - [https://docs.microsoft.com/zh-cn/windows-hardware/drivers/devtest/bcdedit--set]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/e4e3c7be.html" %})
 - [https://docs.microsoft.com/en-us/windows/win32/memory/reserving-and-committing-memory]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/e3948dd2.html" %})
 - [https://www.cnblogs.com/LyShark/p/13666403.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/www.cnblogs.com/e746357c.html" %})
