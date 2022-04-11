@@ -2,6 +2,7 @@
 import re, os, sys
 sys.path.append("../")
 import datetime, time
+import traceback
 from coderstrip import *
 from pythonx.funclib import *
 from pythonx.kangxi import TranslateKangXi
@@ -614,7 +615,14 @@ def mainfile(fpath, fname, ftype):
             lines = lines[:-1]
 
     if isMdFile:
-        lines = appendRefs(fpath, lines)
+        try:
+            lines = appendRefs(fpath, lines)
+        except AssertionError as ex:
+            openTextFile(fpath)
+            traceback.print_exc()
+            print("断言错误 {}".format(ex,))
+            os.system("pause")
+            return mainfile(fpathsrc, fnamesrc, ftypesrc)
 
     codestate = False
     chartstate = False
