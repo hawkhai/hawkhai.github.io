@@ -173,6 +173,7 @@ import logging
 import os
 import sys
 import time
+import traceback
 
 class LockError(Exception):
     pass
@@ -187,8 +188,10 @@ if sys.platform.startswith('win'):
     BYTES_TO_LOCK = 1
 
     def _open_file(lockfile):
-        return win32imports.Handle(
-            win32imports.CreateFileW(
+        fdir = os.path.split(lockfile)[0]
+        if not os.path.exists(fdir):
+            os.makedirs(fdir)
+        cfile = win32imports.CreateFileW(
                 lockfile,  # lpFileName
                 win32imports.GENERIC_WRITE,  # dwDesiredAccess
                 0,  # dwShareMode=prevent others from opening file
@@ -196,7 +199,10 @@ if sys.platform.startswith('win'):
                 win32imports.CREATE_ALWAYS,  # dwCreationDisposition
                 win32imports.FILE_ATTRIBUTE_NORMAL,  # dwFlagsAndAttributes
                 None  # hTemplateFile
-            ))
+            )
+        retv = win32imports.Handle(cfile)
+        assert cfile and retv, lockfile
+        return retv
 
     def _close_file(handle, lockfile):
         # CloseHandle releases lock too.
@@ -206,12 +212,12 @@ if sys.platform.startswith('win'):
         except:
             pass
 
-    def _lock_file(handle):
+    def _lock_file(handle, lockfile):
         ret = win32imports.LockFileEx(
             handle,  # hFile
             win32imports.LOCKFILE_FAIL_IMMEDIATELY
             | win32imports.LOCKFILE_EXCLUSIVE_LOCK,  # dwFlags
-            0,  #dwReserved
+            0,  # dwReserved
             BYTES_TO_LOCK,  # nNumberOfBytesToLockLow
             0,  # nNumberOfBytesToLockHigh
             win32imports.Overlapped()  # lpOverlapped
@@ -220,7 +226,9 @@ if sys.platform.startswith('win'):
         # (1 == successful; 0 == not successful)
         if ret == 0:
             error_code = win32imports.GetLastError()
-            raise OSError('Failed to lock handle (error code: %d).' % error_code)
+            if error_code == 6: # 无效的空句柄
+                pass
+            raise OSError('Failed to lock handle(%r) file(%s) (error code: %d).' % (handle, lockfile, error_code))
 else:
     # Unix implementation
     import fcntl
@@ -236,13 +244,13 @@ else:
         except:
             pass
 
-    def _lock_file(fd):
+    def _lock_file(fd, lockfile):
         fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
 
 def _try_lock(lockfile):
     f = _open_file(lockfile)
     try:
-        _lock_file(f)
+        _lock_file(f, lockfile)
     except Exception:
         _close_file(f, lockfile)
         raise
@@ -265,6 +273,7 @@ def _lock(path, timeout=0):
                 elapsed += sleep_time
                 time.sleep(sleep_time)
                 continue
+            traceback.print_exc()
             raise LockError("Error locking %s (err: %s)" % (path, str(e)))
 
 @contextlib.contextmanager
