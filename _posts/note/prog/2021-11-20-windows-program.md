@@ -729,6 +729,14 @@ INI 文件读写 API：WritePrivateProfileString
 * 对于此功能，文件中正确的 BOM 是 Unicode 的重要提示。
 因此，仅使用 WritePrivateProfileStringW 不能确保将 Unicode 写入 ini 文件，而是必须准备文件。
 
+创建方法：先 `utf-16-le` 编码，再加上 BOM 头 `\xff\xfe`。
+```python
+inifile = os.path.join(uploaddir, "books.ini")
+booksini = b"\xff\xfe" + booksini.encode("utf-16-le")
+writefile(inifile, booksini)
+#openTextFile(inifile)
+```
+
 #### Windows 记事本“另存为”中的编码
 
 * ANSI，不同版本系统不一样，同一系统不同设置也不一样。

@@ -52,7 +52,7 @@ def checksite():
                 "mdserv.py.bak", "opencv.html", "feed.xml",
                 "rdevblog.py.bak", "rdevblog.py",):
             openTextFile(fpath)
-            assert False, fpath
+            #assert False, fpath
     searchdir("_site", sitefile, ignorelist=["_site",])
 
 def checkgitline(fpath, tag, until):

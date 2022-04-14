@@ -23,6 +23,8 @@ cluster: "CMake"
 
 ## $<$<CONFIG:Debug>:Release> $<$<CONFIG:Release>:Debug>
 
+* **[CMake CMake CMakeLists.txt 笔记 Notes]({% include relref.html url="/blog/2022/04/14/CMakeLists-Notes#release-debug" %})**
+
 這是一個 CMake generator expression。
 像 $<...>這樣的表達式是在 CMake 2.8 中引入的 generator exressions。這些表達式的主要特徵是它們在構建時進行評估，而不是在配置時進行評估，就像正常的 CMake 變量一樣。
 <https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html>
