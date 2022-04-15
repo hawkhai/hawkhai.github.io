@@ -744,6 +744,11 @@ Python print     b'm\x00rio\x00\xfe\xfe\xfe\xfe'
 ```
 
 
+## Interfacing C++ and Python with Boost.Python
+
+<https://flanusse.net/interfacing-c++-with-python.html>
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-mixed-python-and-c.md.js" %}'></script></p>
@@ -755,3 +760,4 @@ Python print     b'm\x00rio\x00\xfe\xfe\xfe\xfe'
 - [https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle]({% include relrefx.html url="/backup/2021-09-14-mixed-python-and-c.md/docs.microsoft.com/2b6cd75d.html" %})
 - [https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-lockfileex]({% include relrefx.html url="/backup/2021-09-14-mixed-python-and-c.md/docs.microsoft.com/95fd3989.html" %})
 - [https://www.cnblogs.com/iclodq/p/9216763.html]({% include relrefx.html url="/backup/2021-09-14-mixed-python-and-c.md/www.cnblogs.com/5d790fbb.html" %})
+- [https://flanusse.net/interfacing-c++-with-python.html]({% include relrefx.html url="/backup/2021-09-14-mixed-python-and-c.md/flanusse.net/beeafb02.html" %})
