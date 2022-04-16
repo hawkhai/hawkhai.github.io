@@ -22,7 +22,10 @@ function changeSnapPositionk() {
     var subrefsnap = $("#section_subrefsnap");
     //cluster.insertBefore(snapshot);
     var snapshot = $("font.ref_snapshot + ul");
-    if (!subrefsnap.length || !snapshot.length) return;
+    if (!subrefsnap.length || !snapshot.length) {
+        $("#section_refsnap").remove();
+        return;
+    }
     subrefsnap.append(snapshot);
 }
 
