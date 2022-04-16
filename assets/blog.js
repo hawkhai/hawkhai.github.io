@@ -19,10 +19,10 @@ function GetQueryValue(queryName) {
 
 // https://www.cnblogs.com/kikyoqiang/p/12394759.html
 function changeSnapPositionk() {
-    var cluster = $("#section_cluster");
-    var snapshot = $("font.ref_snapshot");
-    if (!cluster.length || !snapshot.length) return;
-    cluster.insertBefore(snapshot);
+    var subrefsnap = $("#section_subrefsnap");
+    //cluster.insertBefore(snapshot);
+    var snapshots = $("font.ref_snapshot + ul");
+    subrefsnap.append(snapshots);
 }
 
 // <span imgid="3.3" />

@@ -223,8 +223,8 @@ function checkToc() {
         $("div#section_info + hr").remove(); // 短链接
         //$("div#section_info").remove();
         //$("div#section_cluster").remove();  // 聚类
-        //$("font.ref_snapshot + ul").remove(); // 快照
-        //$("font.ref_snapshot").remove();
+        //$("font.blog_refsnap + ul").remove(); // 快照
+        //$("font.blog_refsnap").remove();
         //$("div#blog_content + hr").remove(); // 底部分割线
         $("div#postdiv").removeClass("codeprint"); // 代码排版
 
