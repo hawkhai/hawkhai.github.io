@@ -21,8 +21,9 @@ function GetQueryValue(queryName) {
 function changeSnapPositionk() {
     var subrefsnap = $("#section_subrefsnap");
     //cluster.insertBefore(snapshot);
-    var snapshots = $("font.ref_snapshot + ul");
-    subrefsnap.append(snapshots);
+    var snapshot = $("font.ref_snapshot + ul");
+    if (!subrefsnap.length || !snapshot.length) return;
+    subrefsnap.append(snapshot);
 }
 
 // <span imgid="3.3" />
