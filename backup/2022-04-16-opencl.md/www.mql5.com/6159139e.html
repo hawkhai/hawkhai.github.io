@@ -1,0 +1,1643 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh" class=""><head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+  <meta http-equiv="x-dns-prefetch-control" content="on" />
+  <link rel="dns-prefetch" href="https://c.mql5.com" />
+      <meta name="description" content="2012 年 1 月末，从事 MetaTrader 5 开发业务的软件开发公司宣布 MQL5 可向 OpenCL 提供原生支持。本文通过一个示例说明了 MQL5 环境下 OpenCL 的编程基础知识，并列举了几个示例，讲述了为提高运行速度所做的朴素优化。" />
+        <meta property="og:url" content="https://www.mql5.com/zh/articles/405" />
+      <meta property="og:title" content="OpenCL：并行世界的桥梁" />
+        <meta property="og:description" content="2012 年 1 月末，从事 MetaTrader 5 开发业务的软件开发公司宣布 MQL5 可向 OpenCL 提供原生支持。本文通过一个示例说明了 MQL5 环境下 OpenCL 的编程基础知识，并列举了几个示例，讲述了为提高运行速度所做的朴素优化。" />
+      <meta property="vk:image" content="https://c.mql5.com/i/og/articles/fb/zh/0000/405.jpg?date=1511519546" />
+      <meta property="og:image" content="https://c.mql5.com/i/og/articles/fb/zh/0000/405.jpg?date=1511519546" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:type" content="article" />
+        <meta property="og:updated_time" content="1511519546" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@mql5com" />
+      <meta name="twitter:image" content="https://c.mql5.com/i/og/articles/fb/zh/0000/405.jpg?date=1511519546" />
+  <meta name="theme-color" content="#4a76b8" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="shortcut icon" href="https://c.mql5.com/i/favicon.ico" />
+  <meta name="msapplication-config" content="none" />
+  <meta name="referrer" content="no-referrer-when-downgrade" />
+  <meta property="qc:admins" content="36367170677651456375" />
+  <meta property="wb:webmaster" content="073d7690269bcd81" />
+      <link href="https://c.mql5.com/styles/core.6b12145e357da82f6a3e3d7f3ba1b435.css" type="text/css" rel="stylesheet" media="all" />
+    <link href="https://c.mql5.com/styles/all.6eab56d52d353886d9e8e90496168403.css" type="text/css" rel="stylesheet" media="all" />
+    <link href="https://c.mql5.com/styles/articles.bd2fdc67d99089c7e47480289d49202c.css" type="text/css" rel="stylesheet" media="all" />
+        <link href="/zh/articles/rss" rel="alternate" type="application/rss+xml" title="有关MetaTrader 5自动交易和技术指标的开发和应用程序的文章" />
+      <link rel="canonical" href="https://www.mql5.com/zh/articles/405" />
+        <link rel="alternate" hreflang="en" href="https://www.mql5.com/en/articles/405" />
+        <link rel="alternate" hreflang="ru" href="https://www.mql5.com/ru/articles/405" />
+        <link rel="alternate" hreflang="zh" href="https://www.mql5.com/zh/articles/405" />
+        <link rel="alternate" hreflang="es" href="https://www.mql5.com/es/articles/405" />
+        <link rel="alternate" hreflang="de" href="https://www.mql5.com/de/articles/405" />
+        <link rel="alternate" hreflang="ja" href="https://www.mql5.com/ja/articles/405" />
+        <link rel="alternate" hreflang="pt" href="https://www.mql5.com/pt/articles/405" />
+        <link rel="alternate" hreflang="ko" href="https://www.mql5.com/ko/articles/405" />
+        <link rel="alternate" hreflang="fr" href="https://www.mql5.com/fr/articles/405" />
+        <link rel="alternate" hreflang="it" href="https://www.mql5.com/it/articles/405" />
+        <link rel="alternate" hreflang="tr" href="https://www.mql5.com/tr/articles/405" />
+  <title>OpenCL：并行世界的桥梁 - MQL5文章</title>
+
+
+<script type="text/javascript" async="" src="https://cdn.chatbot.com/widget/plugin.js"></script><script async="" defer="" src="/tz/core.js"></script><script type="text/javascript">
+  !function(){window.mqGlobal={};var t=!1,n=!1,e=[],o=[],i=[];function d(t){var n;for(n=0;n&lt;t.length;n+=1)t[n]()}function c(){t||(t=!0,d(e),d(o),o=[],e=[])}function a(){c(),n||(n=!0,d(i),i=[])}if(mqGlobal.AddOnReady=function(n,i){t?n(document):i?e.push(n):o.push(n)},mqGlobal.AddOnLoad=function(t){n?t(document):i.push(t)},mqGlobal.AddOnActiveWindowChange=function(t){this._onvisibility||(this._onvisibility=[]),this._onvisibility[this._onvisibility.length]=t},document.addEventListener)document.addEventListener("DOMContentLoaded",c,!1),window.addEventListener("load",a,!1);else if(document.attachEvent&amp;&amp;(document.attachEvent("onreadystatechange",(function(){switch(document.readyState){case"interactive":c();break;case"complete":a()}})),window.attachEvent("onload",a),document.documentElement.doScroll&amp;&amp;window==window.top)){!function n(){if(!t&amp;&amp;document.body)try{document.documentElement.doScroll("left"),c()}catch(t){setTimeout(n,0)}}()}}();
+  mqGlobal.CookieDomain = ".mql5.com";
+  mqGlobal.Language = 'zh';
+  mqGlobal.IsMobile = false;
+  mqGlobal.ClearRteStorage = function (e) { if (window.GStorage || (window.GStorage = globalStorage()), window.GStorage.supported) try { var o = e; window.GStorage.getItem("rte_autosave_uid", function (e, t) { t == o &amp;&amp; (window.GStorage.removeItem("rte_autosave_text"), window.GStorage.removeItem("rte_autosave_date"), window.GStorage.removeItem("rte_autosave_uid")) }) } catch (e) { } };
+</script>  
+    <script type="text/javascript">
+    
+    </script>
+      <script src="https://c.mql5.com/js/all.c4fc3d3d688b228c01acc063a33c77cb.js" type="text/javascript" defer="defer"></script>
+    <script src="https://c.mql5.com/js/articles.49ca6700052cb4f99c8e07a089841b32.js" type="text/javascript" defer="defer"></script>
+
+<script type="text/javascript" src="https://cdn.chatbot.com/widget/polyfill.js" async=""></script><script type="text/javascript" src="https://cdn.chatbot.com/widget/v2/plugin.js" async=""></script><style id="chatbot-stylesheet" type="text/css">html.chatbot-mobile-opened {
+    height: 100vh;
+}
+
+html.chatbot-mobile-opened &gt; body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow-y: hidden;
+}
+</style></head>
+<body>
+  <div class="cover" id="cover">
+
+    <div class="head">
+      <a href="https://www.mql5.com" class="head__logo" title="MQL5 - MetaTrader 5客户端内置的交易策略语言"></a>
+      <ul id="mainmenu" class="menu dropdown" style="padding-right: 25px; margin-right: 212px;">
+        <li class="selected">
+              <a id="mainMenuSelected" href="#">
+                <span class="on">文章</span><span class="off">部分</span>
+              </a>
+          <ul id="mainmenuItems">
+            
+                    <li><a href="/zh/forum" data-fz-event="MQL5+Menu+Forum"><span>论坛</span></a></li>
+                    <li><a href="/zh/market" data-fz-event="MQL5+Menu+Market"><span>市场</span></a></li>
+                    <li><a href="/zh/signals" data-fz-event="MQL5+Menu+Signals"><span>信号</span></a></li>
+                    <li><a href="/zh/job" data-fz-event="MQL5+Menu+Job"><span>自由职业者</span></a></li>
+                    <li><a href="/zh/quotes/overview" data-fz-event="MQL5+Menu+Overview"><span>比率</span></a></li>
+                    <li><a href="/zh/trading" data-fz-event="MQL5+Menu+Trading"><span>网页端</span></a></li>
+                    <li><a href="/zh/economic-calendar" data-fz-event="MQL5+Menu+Economic+Calendar"><span>经济日历</span></a></li>
+                    <li><a href="/zh/vps" data-fz-event="MQL5+Menu+VPS"><span>VPS</span></a></li>
+                    <li class="selected"><a href="/zh/articles" data-fz-event="MQL5+Menu+Articles"><span>文章</span></a></li>
+                    <li><a href="/zh/code" data-fz-event="MQL5+Menu+CodeBase"><span>代码库</span></a></li>
+                    <li><a href="/zh/docs" data-fz-event="MQL5+Menu+Docs"><span>文档</span></a></li>
+                    <li class="main-menu__about-link"><a href="/zh/about"><span>关于</span></a></li>
+          </ul>
+        </li>
+        <li><input class="blurHandler" id="mainMenuBlurHandler" type="checkbox" /></li>
+      </ul>
+      <div class="head__toolbar" id="headerToolbar">
+          <div class="container loginRegister"><ul id="loginRegisterButtons"><li><a class="login" title="请登录，支持OpenID" href="https://www.mql5.com/zh/auth_login" data-fz-event="MQL5+Menu+Siginin">登录</a></li><li><a class="registration zh" title="请注册" href="https://www.mql5.com/zh/auth_register" data-fz-event="MQL5+Menu+Register" onclick="window.fpush('MQL5+Button+Click');">创建账户</a></li></ul></div>
+        <div class="container"><div class="toggle-button" id="sidebarToggleButton"><i></i><i></i><i></i></div></div>
+
+        <div class="group-menu" id="groupMenu">
+
+          <div class="container lang-menu-container">
+            <div id="langMenuContainer" class="lang-menu">
+              <input class="blurHandler" id="langmenuBlurHandler" type="checkbox" />
+              <ul class="lang-menu__list" id="langmenu">
+                <li class="lang-menu__list-item"><a href="/en/articles"><i class="icons-languages icons-languages_en"></i><span>English</span></a></li>
+<li class="lang-menu__list-item"><a href="/ru/articles"><i class="icons-languages icons-languages_ru"></i><span>Русский</span></a></li>
+<li class="lang-menu__list-item lang-menu__list-item_selected"><a href="/zh/articles"><i class="icons-languages icons-languages_zh"></i><span>中文</span></a></li>
+<li class="lang-menu__list-item"><a href="/es/articles"><i class="icons-languages icons-languages_es"></i><span>Español</span></a></li>
+<li class="lang-menu__list-item"><a href="/pt/articles"><i class="icons-languages icons-languages_pt"></i><span>Português</span></a></li>
+<li class="lang-menu__list-item"><a href="/ja/articles"><i class="icons-languages icons-languages_ja"></i><span>日本語</span></a></li>
+<li class="lang-menu__list-item"><a href="/de/articles"><i class="icons-languages icons-languages_de"></i><span>Deutsch</span></a></li>
+<li class="lang-menu__list-item"><a href="/ko/articles"><i class="icons-languages icons-languages_ko"></i><span>한국어</span></a></li>
+<li class="lang-menu__list-item"><a href="/fr/articles"><i class="icons-languages icons-languages_fr"></i><span>Français</span></a></li>
+<li class="lang-menu__list-item"><a href="/it/articles"><i class="icons-languages icons-languages_it"></i><span>Italiano</span></a></li>
+<li class="lang-menu__list-item"><a href="/tr/articles"><i class="icons-languages icons-languages_tr"></i><span>Türkçe</span></a></li>
+
+              </ul>
+            </div>
+          </div>
+
+          <div class="container search-box-container">
+            <div id="searchBoxContainer" class="search-box">
+
+<form action="https://www.mql5.com/zh/search" onsubmit="window.fpush(&quot;MQL5+Menu+Search&quot;); document.location.assign((&quot;https://www.mql5.com/zh/search&quot;) + ($(&quot;keyword&quot;).value.length&gt;0?(&quot;#!keyword=&quot;+encodeURIComponent($(&quot;keyword&quot;).value)):&quot;&quot;)); if(document.location.href.indexOf(&quot;/zh/search#&quot;)&gt;=0)setTimeout(function(){document.location.reload(true);},10);return false;" id="main_search_form" class="header-search" method="post">
+<div class="header-search__box"><div class="header-search__input-wrapper"><input name="keyword" type="text" title="输入查找文本" id="keyword" autocomplete="off" /></div></div><input type="submit" value="" class="header-search__hidden-submit" /><div class="header-search__submit" id="searchSubmit"></div></form>            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sub-nav__container" style="right: 212px;" id="subNavContainer">
+        <div class="sub-nav__toggle" id="subNavToggle">...</div>
+        <ul id="subNavList"><li><a href="/zh/code" data-fz-event="MQL5+Menu+CodeBase"><span>代码库</span></a></li><li><a href="/zh/docs" data-fz-event="MQL5+Menu+Docs"><span>文档</span></a></li></ul>
+        <input class="blurHandler" id="blurHandlerSubNav" type="checkbox" />
+      </div>
+    </div>
+<div id="bfogggabsofabcpxuzmgaibarmaxasdrj" class="rfk7n1fsaberob9fi ff"></div>    <div class="body" id="bodyContent">
+      <div class="top-band">
+        
+
+
+      </div>
+      
+
+
+
+
+<div id="left-panel" class="left-panel left-panel_270">
+  <div class="tree-menu tree-menu_articles">
+    <ul class="tree-menu__list"><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt5"><i class="icons-sidebar icons-sidebar_mt"></i>MetaTrader 5</a><ul class="tree-menu__list tree-menu__list_nested"><li class="tree-menu__item tree-menu__item_selected"><a class="tree-menu__link" href="/zh/articles/mt5/examples"><i class="icons-sidebar icons-sidebar_examples"></i>示例</a><ul class="tree-menu__list tree-menu__list_nested"><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt5/examples_indicators"><i class="icons-sidebar icons-sidebar_examples_indicators"></i>指标</a></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt5/examples_experts"><i class="icons-sidebar icons-sidebar_examples_experts"></i>专家</a></li></ul></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt5/strategy_tester"><i class="icons-sidebar icons-sidebar_strategy_tester"></i>测试者</a></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt5/trading"><i class="icons-sidebar icons-sidebar_trading"></i>交易</a></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt5/trading_systems"><i class="icons-sidebar icons-sidebar_trading_systems"></i>交易系统</a></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt5/integration"><i class="icons-sidebar icons-sidebar_integration"></i>积分</a></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt5/indicators"><i class="icons-sidebar icons-sidebar_indicator"></i>指标</a></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt5/expert_advisors"><i class="icons-sidebar icons-sidebar_expert"></i>EA交易</a></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt5/statistics"><i class="icons-sidebar icons-sidebar_statistics"></i>统计分析</a></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt5/interviews"><i class="icons-sidebar icons-sidebar_interviews"></i>采访</a></li></ul></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt4"><i class="icons-sidebar icons-sidebar_mt"></i>MetaTrader 4</a><ul class="tree-menu__list tree-menu__list_nested"><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt4/examples"><i class="icons-sidebar icons-sidebar_examples"></i>示例</a><ul class="tree-menu__list tree-menu__list_nested"><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt4/examples_indicators"><i class="icons-sidebar icons-sidebar_examples_indicators"></i>指标</a></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt4/examples_experts"><i class="icons-sidebar icons-sidebar_examples_experts"></i>专家</a></li></ul></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt4/strategy_tester"><i class="icons-sidebar icons-sidebar_strategy_tester"></i>测试者</a></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt4/trading"><i class="icons-sidebar icons-sidebar_trading"></i>交易</a></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt4/trading_systems"><i class="icons-sidebar icons-sidebar_trading_systems"></i>交易系统</a></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt4/integration"><i class="icons-sidebar icons-sidebar_integration"></i>积分</a></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt4/indicators"><i class="icons-sidebar icons-sidebar_indicator"></i>指标</a></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt4/expert_advisors"><i class="icons-sidebar icons-sidebar_expert"></i>EA交易</a></li><li class="tree-menu__item"><a class="tree-menu__link" href="/zh/articles/mt4/statistics"><i class="icons-sidebar icons-sidebar_statistics"></i>统计分析</a></li></ul></li></ul>
+  </div>
+
+  
+
+    <div class="hints-panel">
+      <div class="hints-panel__item">
+        <i class="icons-hints icons-hints_like"></i>
+        <div class="hints-panel__content">
+          您喜欢这篇文章？<br />
+          分享或-<br />发布<a href="https://www.mql5.com/zh/articles/405" target="_blank">链接</a>！
+        </div>
+      </div>
+      <div class="hints-panel__item">
+        <i class="icons-hints icons-hints_mt-5"></i>
+        <div class="hints-panel__content">
+          使用<a href="https://download.metatrader.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe?utm_source=www.mql5.com&amp;utm_campaign=download" data-fz-event="MetaTrader+5+Desktop+Download" rel="nofollow">MetaTrader 5</a>新的可能性
+        </div>
+      </div>
+    </div>
+<div id="vgckrufggwxdtfscpyalmenexmvhljduja" class="rgchtrbl7rr5mdcoi ff"></div>      <div class="similar-author-articles ui">
+        <h4 class="similar-author-articles__title">相似文章</h4>
+        <ul class="similar-author-articles__list">
+            <li>
+              <a href="/zh/articles/10361" data-fz-event="MQL5+Article+Similar+Article">在 MQL 应用程序中运用 CCanvas 类</a>
+            </li>
+            <li>
+              <a href="/zh/articles/10229" data-fz-event="MQL5+Article+Similar+Article">在一张图表上的多个指标（第 01 部分）：理解概念</a>
+            </li>
+            <li>
+              <a href="/zh/articles/10417" data-fz-event="MQL5+Article+Similar+Article">DoEasy 函数库中的图形（第九十六部分）：窗体对象中的图形和鼠标事件的处理</a>
+            </li>
+            <li>
+              <a href="/zh/articles/10387" data-fz-event="MQL5+Article+Similar+Article">DoEasy 函数库中的图形（第九十五部分）：复合图形对象控件</a>
+            </li>
+            <li>
+              <a href="/zh/articles/10356" data-fz-event="MQL5+Article+Similar+Article">DoEasy 函数库中的图形（第九十四部分）：移动和删除复合图形对象</a>
+            </li>
+        </ul>
+      </div>
+</div>
+
+
+<div class="articles-content splashed">
+  <div>
+      <div class="article-tools">
+           <div>
+            <span class="popup framed client flags">
+              <a class="dropdown" href="javascript:void(false);"><span class="icons-languages icons-languages_zh"></span><i></i></a>
+              <span class="popup">
+                <span class="tip"><span></span></span>
+                <span class="items">
+                  <a href="/en/articles/405">English</a> <a href="/ru/articles/405">Русский</a> <a href="/es/articles/405">Español</a> <a href="/de/articles/405">Deutsch</a> <a href="/ja/articles/405">日本語</a> <a href="/pt/articles/405">Português</a> <a href="/ko/articles/405">한국어</a> <a href="/fr/articles/405">Français</a> <a href="/it/articles/405">Italiano</a> <a href="/tr/articles/405">Türkçe</a>
+                </span>
+              </span>
+            </span>
+          </div>
+          
+        <div><span class="share shareWrapperIconed"><a class="share midIco" id="share_2_1_405" onclick="shareManager.OpenShareEditor(this,'在社交网络与好友分享','/zh/publish/2/1/405',false);return false;" title="分享社交网络" href="javascript:void(0);"></a></span></div>
+          
+        <div>
+          <a href="#pocket" title="允许您插入一个完整的说明以及适当的注释内容。" onclick="return Pocket.Add(this,'zh',2,1,405);" class="pocket icon">到包裹</a>
+        </div>
+        <div><a href="/zh/articles/405?print=" target="_blank" class="print" rel="nofollow" title="打印优化版本"></a></div>
+
+      </div>
+      <div class="article-head">
+        <div class="splash">
+          <div></div>
+        </div>
+        <div class="caption">
+          <div class="category">
+            <a href="/zh/articles/mt5">MetaTrader 5</a>              —
+              <a href="/zh/articles/mt5/examples">示例</a>
+          </div>
+
+          <h1>OpenCL：并行世界的桥梁</h1>
+          <div class="date">9 一月 2014, 11:35</div>
+        </div>
+          <div class="avatar" onmouseover="window.tooltip &amp;&amp; window.tooltip(this,$('user_link_mathemat_tooltip').cloneNode(true))">
+            <img src="https://c.mql5.com/avatar/2014/9/54190607-0000.jpg" title="Sceptic Philozoff" alt="Sceptic Philozoff" loading="lazy" width="60" height="60" />
+          </div>
+          <div class="author">
+            <a class="author" href="/zh/users/mathemat" onmouseover="window.tooltip &amp;&amp; window.tooltip(this,$('user_link_mathemat_tooltip').cloneNode(true))">Sceptic Philozoff</a><div style="display:none;"><div id="user_link_mathemat_tooltip"><a target="_blank" href="/zh/users/mathemat" class="user-tooltip">
+  <div class="user-tooltip__avatar">
+    <img src="https://c.mql5.com/avatar/2014/9/54190607-0000.jpg" width="60" height="60" alt="Sceptic Philozoff" title="Sceptic Philozoff" loading="lazy" />
+  </div>
+  <div class="user-tooltip__line user-tooltip__name">
+    <span class="author">Sceptic Philozoff</span>
+  </div>  <div class="user-tooltip__line"><span class="user-tooltip__counters">
+14694 评论, 69 主题  </span></div>
+</a>
+</div></div>
+          </div>
+        <div class="counters">
+          <div class="commentsCounter" title="评论">1<i class="icon comments"></i></div>
+          <div class="viewsCounter" title="查看"><i class="icon views"></i>4 151</div>
+        </div>
+      </div>
+    <div class="content">
+      <div class="inner">
+        <h3>简介<br /></h3>
+
+<p style="text-align:justify;">本文是有关 OpenCL 或开放运算语言编程系列短篇出版物中的第一篇。在提供对于 OpenCL 的支持之前，当前形式的 MetaTrader 5 平台并不允许直接（即以原生方式）享用多核处理器加速运算的优势。 <br /></p>
+
+<p style="text-align:justify;">显然，开发人员可以一直重复表示<a target="_blank" href="https://www.mql5.com/ru/forum/138655/page4" title="https://www.mql5.com/ru/forum/138655/page4" rel="nofollow">”此终端为多线程“</a><a target="_blank" href="https://www.mql5.com/ru/forum/138655/page4" title="https://www.mql5.com/ru/forum/138655/page4" rel="nofollow">以及“每个 EA/脚本均在独立线程中运行”</a>，但编码人员却没有机会来相对简单地并行执行下述简单循环（一个计算 pi 值 = 3.14159265... 的代码）：<br />
+</p>
+
+<pre class="code"><span class="keyword">long</span> num_steps = <span class="number">1000000000</span>;
+<span class="keyword">double</span> step = <span class="number">1</span>.<span class="number">0</span> / num_steps;
+<span class="keyword">double</span> x, pi, sum = <span class="number">0.0</span>;
+ 
+<span class="keyword">for</span> (<span class="keyword">long</span> i = <span class="number">0</span>; i&lt;num_steps; i++)
+{
+   x = (i + <span class="number">0.5</span>)*step;
+   sum += <span class="number">4.0</span>/(<span class="number">1</span>.<span class="number">0</span> + x*x);
+}
+pi = sum*step;</pre>
+
+<p style="text-align:justify;">然而，早在 18 个月以前，在 "Articles" 部分即有一篇名为<a target="_blank" href="/zh/articles/197">《MetaTrader 5 中的并行计算》</a>的趣文问世。不过，这篇文章给人的印象却是：尽管该方法设计精巧，但却有些不自然 - 上述循环中为加快运算而编写的整个程序层次结构（EA 交易和两个指标）可能会适得其反。 <br />
+</p>
+
+<p style="text-align:justify;">我们已经了解<a target="_blank" href="https://www.mql5.com/ru/forum/136971/page3" title="https://www.mql5.com/ru/forum/136971/page3" rel="nofollow">并没有支持 OpenMP 的计划</a>，而且也清楚<a target="_blank" href="https://www.mql5.com/ru/forum/136971/page3" title="https://www.mql5.com/ru/forum/136971/page3" rel="nofollow">添加 OMP 需要对编译器进行大刀阔斧的重新编程</a>。唉，难道就没有易于学习、简单实惠的代码解决方案吗？<br />
+</p>
+
+<p style="text-align:justify;">因此，原生支持 <a target="_blank" href="/zh/docs/opencl">МQL5 中 OpenCL </a> 的消息一经<a target="_blank" href="/ru/forum/6042">公布</a>，就受到了热烈欢迎。从同一新闻跟帖的第 22 页起，<b>MetaDriver</b> 就开始发布允许评估 CPU 与 GPU 上的实现差异的脚本。一时间，OpenCL 引起了广泛关注。 <br />
+</p>
+
+<p style="text-align:justify;">本文作者一开始决定对上述现象不予关注。极为低端的计算机配置（奔腾 G840/8 Gb DDR-III 1333/无显卡）似乎无法实现对 OpenCL 的有效利用。<br />
+</p>
+
+<p style="text-align:justify;">不过，在安装 AMD APP SDK（AMD 加速并行运算软件开发套件）后，一款由 AMD 开发的专业软件（首个脚本由 <b>MetaDriver</b> 提出，且仅在独立显卡可用时才可运行）在作者的计算机中成功运行，并且与单核处理器上的标准脚本运行时间相比，其速度提升远非微不足道，而是足足快了约 25 倍！后来，由于在支持团队的协助下成功安装了 Intel OpenCL Runtime，同一脚本的运行时间更是快到了 75 倍。<br />
+</p>
+
+<p style="text-align:justify;">仔细研究 ixbt.com 论坛及网站上的资料后，作者发现 Intel 的集成图形处理器 (IGP) 支持 OpenCL 1.1，但仅适用于 Ivy Bridge 处理器及以上版本的处理器。这样一来，在采用上述配置的 PC 中实现的加速便不可能与 IGP 有关，而在此特定情况下，OpenCL 程序代码就只能在 х86 核心的 CPU 上执行。 <br />
+</p>
+
+<p style="text-align:justify;">当作者与 ixbt.com 网站的专家共同研究加速数据后，他们立即做出了答复：这一切实际上都是源语言 (MQL5) 优化不足而造成的。在 OpenCL 专业人员群体中，众所周知，如果对 С++ 语言中的源代码进行了正确优化（当然前提是使用某种多核处理器和 SSEx 向量指令），则在最佳状态下能够使 OpenCL 仿真效果提升几十个百分点；而在最糟糕的情况下，甚至会出现数据丢失的现象（比如数据传输花费了过多&lt;时间&gt;）。 <br />
+</p>
+
+<p style="text-align:justify;">因此便出现了另一种假设：应充分重视 MetaTrader 5 中 OpenCL 完全仿真的“不可思议的”加速数据，而不是将其归因于 OpenCL 本身的出色。要发挥 С++ 程序中某个合理优化过的 GPU 的强大优势，只能通过一块功能极为强大的独立显卡来实现，因为其在某些算法中的计算能力远远超出了目前任何 CPU 的能力。<br />
+</p>
+
+<p style="text-align:justify;">据此终端的开发人员称，其还未能实现合理优化。他们还暗示，优化后的加速程度会有数倍提升。而 OpenCL 中的加速数据也会相应减少“数倍”之多。但是，它们仍会远大于一。 <br /></p>
+
+<p style="text-align:justify;">这是学习 OpenCL 语言的不错理由（即便您的显卡不支持 OpenCL 1.1 或完全没有显卡），我们将谈到这一方面。不过首先，我还要简单讲讲必要的基础知识，那就是支持 Open CL 的软件及相应硬件。</p>
+<p style="text-align:justify;"><br /></p>
+
+<h3>1. 必要的软硬件<br /></h3>
+<p><b>1.1.AMD</b><br /></p>
+<p style="text-align:justify;">相应的软件分别由 AMD、Intel 和 NVidia 提供，三家公司均为 <a href="/go?link=https://www.khronos.org/" rel="nofollow" title="http://www.khronos.org/" target="_blank">Khronos</a> 集团的成员；Khronos 集团为非营利性行业协会成员，负责制定与异构环境中的计算相关的不同语言规范。 <br />
+</p>
+<p>Khronos 集团官网提供了一些有用资料，例如：</p>
+<ul>
+<li><a href="/go?link=https://www.khronos.org/registry/OpenCL/specs/opencl-1.1.pdf" rel="nofollow" title="http://www.khronos.org/registry/cl/specs/opencl-1.1.pdf" target="_blank">OpenCL 1.1 规范</a>，</li>
+<li><a href="/go?link=https://www.khronos.org/registry/OpenCL/sdk/1.1/docs/man/xhtml/" rel="nofollow" title="http://www.khronos.org/registry/cl/sdk/1.1/docs/man/xhtml/" target="_blank">OpenCL 1.1 参考</a>。</li>
+</ul>
+
+<p style="text-align:justify;">在学习 OpenCL 的过程中经常会用到这些文档，因为该终端并未提供与 OpenCL 相关的任何帮助信息（仅提供了一段 OpenCL API 摘要）。上述三家公司（AMD、Intel 和 NVidia）都是视频硬件供应商，每一家都有自己的 OpenCL 运行时实现和各自的软件开发工具包 - SDK。我们以 AMD 产品为例，深入讲解一下显卡选择的一些特性。 <br />
+</p>
+
+<p style="text-align:justify;">如果您的 AMD 显卡不是特别旧（2009-2010 年或以后首发），那就很简单了 - 只需升级一下显卡，就足以立即发挥功效了。OpenCL 兼容显卡列表请参见<a href="/go?link=https://www.khronos.org/conformance/adopters/conformant-products/" rel="nofollow" title="http://www.khronos.org/conformance/adopters/conformant-products/" target="_blank">此处</a>。另一方面，即便是当时还挺不错的显卡，比如 Radeon HD 4850 (4870)，在处理 OpenCL 时也是麻烦多多。 <br /></p>
+
+<p style="text-align:justify;">如果您还没有 AMD 显卡，但特别想添加的话，那么请首先查看其规格。您可以在这里看到一个相当全面的 <a href="https://www.mql5.com/go?link=http://radeon.ru/reference/cardtable/" rel="nofollow" title="http://radeon.ru/reference/cardtable/" target="_blank">《最新 AMD 显卡规格表》</a>。以下是最重要的注意事项：<br />
+</p>
+<ul>
+<li>On-board Memory（板载存储器）<i> — 局部存储器的数量</i>。越大越好。通常 1 GB 已足够。</li>
+</ul>
+<ul>
+<li><i>Core Clock（核心频率）— 核心工作频率</i>。这方面也很明确：GPU 多处理器的工作频率越高越好。650-700 MHz 还不错。 </li>
+</ul>
+<ul>
+<li><i>[Memory] Type （[显存] 类型）— 显存的类型</i>。显存最好是高速显存，即 GDDR5。但 GDDR3 也不错，尽管其显存带宽要比 GDDR5 少两倍左右。 </li>
+</ul>
+<ul>
+<li><i>[Memory] Clock (Eff.)（[显存] 频率 (Eff.)）- 显存的工作（有效）频率</i>。从技术层面来说，该参数与前一个参数密切相关。平均来讲，GDDR5 工作（有效）频率是 GDDR3 频率的二倍。这与“较高”显存类型工作于较高频率的事实无关，而是由于显存所用的数据传输通道数量所致。换句话说，它与显存带宽有关。 </li>
+</ul>
+<ul>
+<li><i>[Memory] Bus（[显存] 总线） - 总线的数据带宽。</i> 最好在 256 位以上。</li>
+</ul>
+<ul>
+<li><i>MBW </i>— 显存带宽。该参数实际上是上述三个显存参数的组合。越高越好。</li>
+</ul>
+<ul>
+<li><i>Config Core (SPU:TMU(TF):ROP) — GPU 核心单元的配置。</i> 我们看重的（即非图形运算情况下）是第一个数字。1024:64:32 意味着我们需要数字 1024 （统一流处理器或流处理器的数量）。很明显，越高越好。</li>
+</ul>
+<ul>
+<li><i>Processing Power （处理能力）— 浮点运算的理论性能 （FP32（单精度））/ FP64（双精度）。</i> 而规格表中始终包含一个与 FP32 （所有显卡都可以进行单精度计算）对应的值，这与 FP64 有明显不同，因为并非每一款显卡都支持双精度。如果您确定在 GPU 运算中完全不需要双精度（双重类型），则可以无视第二个参数。但不管是哪种情况，该参数值都是越高越好。</li>
+</ul>
+<ul>
+<li><i>TDP — 热设计功耗</i>。一般来说，这是指显卡在运行最复杂运算时消耗的最大功率。如果 EA 交易频繁访问 GPU，那么，显卡不仅会消耗大量功率（如有回报也还不错），噪声也会相当大。 <br />
+  </li>
+</ul>
+<p style="text-align:justify;">现在来看下第二种情况：没有显卡，或是现有显卡不支持 OpenCL 1.1，而您却配有一个 AMD 处理器。您可以<a href="https://www.mql5.com/go?link=http://developer.amd.com/sdks/AMDAPPSDK/Pages/default.aspx" rel="nofollow" title="http://developer.amd.com/sdks/AMDAPPSDK/Pages/default.aspx" target="_blank">在此</a>下载包含了运行时间以及 SDK、内核分析器和效能评测器的 AMD APP SDK。安装 AMD APP SDK 后，处理器就会被识别为一台 OpenCL 设备。而且，您还将能够在 CPU 仿真模式下开发功能完善的 OpenCL 应用程序。 <br />
+</p>
+<p style="text-align:justify;">与 AMD 不同，SDK 的主要特征在于其也可兼容 Intel 处理器（虽然在 Intel CPU 上开发时，原生 SDK 还会明显更加高效，因为其支持最近才可用于 AMD 处理器的 SSE4.1、SSE4.2 和 AVX 指令集）。</p>
+<br />
+
+<p><b>1.2. Intel</b><br /></p>
+<p>开始使用 Intel 处理器前，最好先下载 <a href="/go?link=https://software.intel.com/en-us/intel-opencl" rel="nofollow" title="http://software.intel.com/en-us/articles/vcsource-tools-opencl-sdk/" target="_blank">Intel OpenCL SDK/Runtime</a>。 <br /></p>
+
+<p>我们必须指出以下方面：</p>
+<ul>
+<li>如果您打算只使用 CPU 来开发 OpenCL 应用程序（OpenCL 仿真模式），就要明白 Intel CPU 图形核心在 Sandy Bridge 处理器之前（包括该版本处理器）并不支持 OpenCL 1.1。这种支持仅限于 Ivy Bridge 处理器，但即便是功能最强劲的 Intel HD 4000 集成图形单元，也很难有什么差别。而对于 Ivy Bridge 之前的处理器，在 MQL5 环境中所能实现的加速，也仅仅是因为采用了 SS(S)Ex 向量指令而已。但其看起来还是很明显。</li>
+</ul>
+<ul>
+<li>安装 Intel OpenCL SDK 后，必须对注册表项 <i>HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\OpenCL\Vendors</i> 做出如下修改：将 Name 列中的 <i>IntelOpenCL64.dll</i> 替换为 <i>intelocl.dll</i>。之后再重启，并打开 MetaTrader 5。CPU 现在被识别为一台 OpenCL 1.1 设备。</li>
+</ul>
+<p style="text-align:justify;">说实话，有关 Intel 的 OpenCL 支持的问题尚未得到完全解决，所以我们期望该终端的开发人员将来能给出一些解释。基本上，关键在于没有人会去为您关注内核代码错误（OpenCL 内核是一个在 GPU 上执行的程序） - 它可不是 MQL5 编译器。编译器只会取入一整行的内核，然后再尝试运行它。举个例子，比如您未声明内核中使用的某内部变量 <i>х</i>，该内核仍会严格执行，就会有错误也一样。 <br />
+</p>
+<p style="text-align:justify;">但是，您将在终端内获取的所有错误，归结之后也就十来个，其中有些已于 <a target="_blank" href="/zh/docs/opencl/clkernelcreate">CLKernelCreate()</a> 和 <a target="_blank" href="/zh/docs/opencl/clprogramcreate">CLProgramCreate()</a> 函数的 <a target="_blank" href="/zh/docs/opencl">API OpenCL</a> 相关帮助中有所描述。语言语法与 C 语言非常相似，并通过向量函数和数据类型得以增强（实际上，该语言是 1999 年被作为 ANSI C 标准采用的 C99）。 <br />
+</p>
+<p style="text-align:justify;">作者调试 OpenCL 代码时，使用的是 Intel OpenCL SDK 离线编译器；它比盲目地在 MetaEditor 中寻找内核错误方便太多了。希望以后的情况会变得更好。<br /> <br />
+</p>
+<p><b>1.3. NVidia<br /></b></p>
+<p style="text-align:justify;">遗憾的是，作者并未搜索这一主题的相关信息。不过一般性建议仍是一样的。新款 NVidia 显卡的驱动程序会自动支持 OpenCL。<br />
+</p>
+<p style="text-align:justify;">基本上，作者对 NVidia 显卡并没有什么异议，但根据查找到的信息和论坛讨论中获取到的知识，得出了如下结论：对于非图形运算而言，AMD 显卡似乎在性价比方面优于 NVidia 显卡。<br />
+</p>
+<p>现在我们来谈下编程。</p>
+<br />
+<h3>2. 首款采用 OpenCL 的 MQL5 程序<br />
+</h3>
+<p style="text-align:justify;">要开发首款简单程序，我们需要这样来定义任务。在并行程序设计的过程当中，必须习惯使用 pi 值的计算结果（比如约等于 3.14159265）。 <br />
+</p>
+<p>为此，应采用下述公式（作者之前从未见过这种特殊的公式，但它似乎是真的）： </p>
+<p style="text-align:center;"><img alt="Pi 计算公式" title="Pi 计算公式" src="https://c.mql5.com/2/4/Pi_calculation_formula.png" height="162" width="738" style="vertical-align:middle;" /><br />
+</p>
+<p style="text-align:justify;">我们想将该值的计算结果精确到 12 个小数位。基本上，可利用 100 万次左右的迭代来实现该精度，但这个数字不会赋予我们评估在 OpenCL 中运算优点的能力，因为 GPU 上运算的持续时间太短了。 <br />
+</p>
+<p style="text-align:justify;">进行 GPGPU 编程时建议选择相应的运算量，以便让 GPU 任务至少持续 20 毫秒。在本例中，由于 <a target="_blank" href="/zh/docs/common/gettickcount">GetTickCount()</a> 函数与 100 ms 相比存在明显误差，所以该限制值要设置得更高一些。 </p>
+<p>下面是用于实现本运算的 MQL5 程序：</p>
+<pre class="code"><span class="comment">//+------------------------------------------------------------------+</span>
+<span class="comment">//|                                                           pi.mq5 |</span>
+<span class="comment">//+------------------------------------------------------------------+</span>
+<span class="preprocessor">#property copyright <span class="string">"Copyright (c) 2012, Mthmt"</span></span>
+<span class="preprocessor">#property link      <span class="string">"https://www.mql5.com"</span></span>
+
+<span class="keyword">long</span>     _num_steps        = <span class="number">1000000000</span>;
+<span class="keyword">long</span>     _divisor          = <span class="number">40000</span>;
+<span class="keyword">double</span>   _step             = <span class="number">1.0</span> / _num_steps;
+<span class="keyword">long</span>     _intrnCnt         = _num_steps / _divisor;
+<span class="comment">//+------------------------------------------------------------------+</span>
+<span class="comment">//| Script program start function                                    |</span>
+<span class="comment">//+------------------------------------------------------------------+</span>
+<span class="keyword">int</span> <span class="functions">OnStart</span>()
+  {
+   <span class="keyword">uint</span> start,stop;
+   <span class="keyword">double</span> x,pi,sum=<span class="number">0.0</span>;
+
+   start=<span class="functions">GetTickCount</span>();
+<span class="comment">//--- first option - direct calculation</span>
+   <span class="keyword">for</span>(<span class="keyword">long</span> i=<span class="number">0</span>; i&lt;_num_steps; i++)
+     {
+      x=(i+<span class="number">0.5</span>)*_step;
+      sum+=<span class="number">4.0</span>/(<span class="number">1</span>.+x*x);
+     }
+   pi=sum*_step;
+   stop=<span class="functions">GetTickCount</span>();
+
+   <span class="functions">Print</span>(<span class="string">"The value of PI is "</span>+<span class="functions">DoubleToString</span>(pi,<span class="number">12</span>));
+   <span class="functions">Print</span>(<span class="string">"The time to calculate PI was "</span>+<span class="functions">DoubleToString</span>(( stop-start)/<span class="number">1000.0</span>,<span class="number">3</span>)+<span class="string">" seconds"</span>);
+
+<span class="comment">//--- calculate using the second option</span>
+   start=<span class="functions">GetTickCount</span>();
+   sum=<span class="number">0</span>.;
+   <span class="keyword">long</span> divisor=<span class="number">40000</span>;
+   <span class="keyword">long</span> internalCnt=_num_steps/divisor;
+   <span class="keyword">double</span> partsum=<span class="number">0</span>.;
+   <span class="keyword">for</span>(<span class="keyword">long</span> i=<span class="number">0</span>; i&lt;divisor; i++)
+     {
+      partsum=<span class="number">0</span>.;
+      <span class="keyword">for</span>(<span class="keyword">long</span> j=i*internalCnt; j&lt;(i+<span class="number">1</span>)*internalCnt; j++)
+        {
+         x=(j+<span class="number">0.5</span>)*_step;
+         partsum+=<span class="number">4.0</span>/(<span class="number">1</span>.+x*x);
+        }
+      sum+=partsum;
+     }
+   pi=sum*_step;
+   stop=<span class="functions">GetTickCount</span>();
+
+   <span class="functions">Print</span>(<span class="string">"The value of PI is "</span>+<span class="functions">DoubleToString</span>(pi,<span class="number">12</span>));
+   <span class="functions">Print</span>(<span class="string">"The time to calculate PI was "</span>+<span class="functions">DoubleToString</span>(( stop-start)/<span class="number">1000.0</span>,<span class="number">3</span>)+<span class="string">" seconds"</span>);
+   <span class="functions">Print</span>(<span class="string">"_______________________________________________"</span>);
+   <span class="keyword">return</span>(<span class="number">0</span>);
+  }
+<span class="comment">//+------------------------------------------------------------------+</span>
+</pre>
+编译并运行此脚本后，我们得到以下结果：<br />
+<pre class="code"><span class="number">2012.05</span>.<span class="number">03</span> <span class="number">02</span>:<span class="number">02</span>:<span class="number">23</span>    pi (EURUSD,H1)    The time to calculate PI was <span class="number">8.783</span> seconds
+<span class="number">2012.05</span>.<span class="number">03</span> <span class="number">02</span>:<span class="number">02</span>:<span class="number">23</span>    pi (EURUSD,H1)    The <span class="keyword">value</span> of PI <span class="keyword">is</span> <span class="number">3.141592653590</span>
+<span class="number">2012.05</span>.<span class="number">03</span> <span class="number">02</span>:<span class="number">02</span>:<span class="number">15</span>    pi (EURUSD,H1)    The time to calculate PI was <span class="number">7.940</span> seconds
+<span class="number">2012.05</span>.<span class="number">03</span> <span class="number">02</span>:<span class="number">02</span>:<span class="number">15</span>    pi (EURUSD,H1)    The <span class="keyword">value</span> of PI <span class="keyword">is</span> <span class="number">3.141592653590</span></pre>
+<p style="text-align:justify;">pi 值 ~ 3.14159265 以两种稍微不同的方式来计算。 <br />
+</p>
+<p style="text-align:justify;">第一种几乎可以说是证明具有多线程库（如 OpenMP、Intel TPP、Intel MKL 等）能力的一种经典方法。 <br />
+</p>
+<p style="text-align:justify;">第二种则是相同的计算，只不过采用了双循环的形式。由 10 亿次迭代构成的整个计算过程被分解成几个大型的外层循环块（其中包含了 40000 次迭代），而每个循环块都会执行 25000 次构成内部循环的“基本”迭代。<br />
+</p>
+<p style="text-align:justify;">可以看出，此次运算的运行慢了 10-15%。但是，转换为 OpenCL 时，我们就打算将这种特定计算作为基础。主要原因在于选择了内核（GPU 上进行的基本计算任务），这样便在将数据从一个存储区域传输到另一存储区域所花的时间与照此运行内核中的计算量之间实现了一个合理的折衷。由此，就当前任务而言，一般来说，该内核将成为第二种计算算法的内部循环。<br />
+</p>
+<p style="text-align:justify;">现在，我们利用 OpenCL 来计算该值。一份完整程序代码的后面会是绑定在 OpenCL 上的宿主语言 (MQL5) 函数特征的相关简短说明。但是首先，我想强调与可能会干扰 OpenCL 中编码的典型“障碍”相关的几个要点：<br />
+</p>
+<ol>
+<li>内核中未出现内核外部声明的变量。所以，必须在内核代码的开头处再次声明全局变量 _step and _intrnCnt（请参见下文）。而且，它们各自的值都必须转为字符串，以适合在内核代码中读取。但是，OpenCL 中编程的这种特性以后会非常有用，例如在制作 C 语言中本不存在的向量数据类型时。<br /> <br />
+  </li>
+<li>尝试赋予内核尽可能多的计算量，同时保持其数量的合理性。对于该代码而言，这不是特别重要，因为在现有硬件上，此内核在该代码中不是特别快。但如果使用了一块功能强大的独立显卡，这一因素就有助于您加速运算。</li>
+</ol>
+<p>这里就是带有 OpenCL 内核的脚本代码：</p>
+<pre class="code"><span class="comment">//+------------------------------------------------------------------+</span>
+<span class="comment">//|                                                 OCL_pi_float.mq5 |</span>
+<span class="comment">//+------------------------------------------------------------------+</span>
+<span class="preprocessor">#property copyright <span class="string">"Copyright (c) 2012, Mthmt"</span></span>
+<span class="preprocessor">#property link      <span class="string">"https://www.mql5.com"</span></span>
+<span class="preprocessor">#property version   <span class="string">"1.00"</span></span>
+<span class="preprocessor">#property script_show_inputs;</span>
+
+<span class="keyword">input</span> <span class="keyword">int</span> _device=<span class="number">0</span>;        <span class="comment">/// OpenCL device number (0, I have CPU)</span>
+
+<span class="preprocessor">#define  _num_steps        <span class="number">1000000000</span> </span>
+<span class="preprocessor">#define  _divisor          <span class="number">40000</span></span>
+<span class="preprocessor">#define  _step             <span class="number">1.0</span> / _num_steps</span>
+<span class="preprocessor">#define  _intrnCnt         _num_steps / _divisor</span>
+
+<span class="keyword">string</span> d2s(<span class="keyword">double</span> arg,<span class="keyword">int</span> dig) { <span class="keyword">return</span> <span class="functions">DoubleToString</span>(arg,dig); }
+<span class="keyword">string</span> i2s(<span class="keyword">int</span> arg)            { <span class="keyword">return</span> <span class="functions">IntegerToString</span>(arg); }
+
+<span class="keyword">const</span> <span class="keyword">string</span> clSrc=
+                   <span class="string">"#define _step "</span>+d2s(_step,<span class="number">12</span>)+<span class="string">"                   \r\n"</span>
+                   <span class="string">"#define _intrnCnt "</span>+i2s(_intrnCnt)+<span class="string">"             \r\n"</span>
+                   <span class="string">"                                                   \r\n"</span>
+                   <span class="string">"__kernel void pi( __global float *out )            \r\n"</span>   <span class="comment">// type float</span>
+                   <span class="string">"{                                                  \r\n"</span>
+                   <span class="string">"  int i = get_global_id( 0 );                      \r\n"</span>
+                   <span class="string">"  float partsum = 0.0;                             \r\n"</span>   <span class="comment">// type float</span>
+                   <span class="string">"  float x = 0.0;                                   \r\n"</span>   <span class="comment">// type float</span>
+                   <span class="string">"  long from = i * _intrnCnt;                       \r\n"</span>
+                   <span class="string">"  long to = from + _intrnCnt;                      \r\n"</span>
+                   <span class="string">"  for( long j = from; j &lt; to; j ++ )               \r\n"</span>
+                   <span class="string">"  {                                                \r\n"</span>
+                   <span class="string">"     x = ( j + 0.5 ) * _step;                      \r\n"</span>
+                   <span class="string">"     partsum += 4.0 / ( 1. + x * x );              \r\n"</span>
+                   <span class="string">"  }                                                \r\n"</span>
+                   <span class="string">"  out[ i ] = partsum;                              \r\n"</span>
+                   <span class="string">"}                                                  \r\n"</span>;
+<span class="comment">//+------------------------------------------------------------------+</span>
+<span class="comment">//| Script program start function                                    |</span>
+<span class="comment">//+------------------------------------------------------------------+</span>
+<span class="keyword">int</span> <span class="functions">OnStart</span>()
+  {
+   <span class="functions">Print</span>(<span class="string">"FLOAT: _step = "</span>+d2s(_step,<span class="number">12</span>)+<span class="string">"; _intrnCnt = "</span>+i2s(_intrnCnt));
+   <span class="keyword">int</span> clCtx=CLContextCreate(_device);
+
+   <span class="keyword">int</span> clPrg = CLProgramCreate( clCtx, clSrc );
+   <span class="keyword">int</span> clKrn = CLKernelCreate( clPrg, <span class="string">"pi"</span> );
+
+   <span class="keyword">uint</span> st=<span class="functions">GetTickCount</span>();
+
+   <span class="keyword">int</span> clMem=CLBufferCreate(clCtx,_divisor*<span class="functions">sizeof</span>(<span class="keyword">float</span>),CL_MEM_READ_WRITE); <span class="comment">// type float</span>
+   CLSetKernelArgMem(clKrn,<span class="number">0</span>,clMem);
+
+   <span class="keyword">const</span> <span class="keyword">uint</span> offs[ <span class="number">1</span> ]  = { <span class="number">0</span> };
+   <span class="keyword">const</span> <span class="keyword">uint</span> works[ <span class="number">1</span> ] = { _divisor };
+   <span class="keyword">bool</span> ex=CLExecute(clKrn,<span class="number">1</span>,offs,works);
+<span class="comment">//--- Print( "CL program executed: " + ex );</span>
+
+   <span class="keyword">float</span> buf[];                                          <span class="comment">// type float</span>
+   <span class="functions">ArrayResize</span>(buf,_divisor);
+   <span class="keyword">uint</span> read=CLBufferRead(clMem,buf);
+   <span class="functions">Print</span>(<span class="string">"read = "</span>+i2s(read)+<span class="string">" elements"</span>);
+
+   <span class="keyword">float</span> sum=<span class="number">0.0</span>;                                        <span class="comment">// type float</span>
+   <span class="keyword">for</span>(<span class="keyword">int</span> cnt=<span class="number">0</span>; cnt&lt;_divisor; cnt++) sum+=buf[cnt];
+   <span class="keyword">float</span> pi=<span class="keyword">float</span>(sum*_step);                            <span class="comment">// type float</span>
+
+   <span class="functions">Print</span>(<span class="string">"pi = "</span>+d2s(pi,<span class="number">12</span>));
+
+   CLBufferFree(clMem);
+   CLKernelFree(clKrn);
+   CLProgramFree(clPrg);
+   CLContextFree(clCtx);
+
+   <span class="keyword">double</span> gone=(<span class="functions">GetTickCount</span>()-st)/<span class="number">1000</span>.;
+   <span class="functions">Print</span>(<span class="string">"OpenCl: gone = "</span>+d2s(gone,<span class="number">3</span>)+<span class="string">" sec."</span>);
+   <span class="functions">Print</span>(<span class="string">"________________________"</span>);
+
+   <span class="keyword">return</span>(<span class="number">0</span>);
+  }
+<span class="comment">//+------------------------------------------------------------------+</span>
+</pre>
+<p>稍后会更对脚本代码进行更为详细的阐述。 <br />
+</p>
+<p>同时编译并启动程序，以获取下述内容：</p>
+<pre class="code"><span class="number">2012.05</span>.<span class="number">03</span> <span class="number">02</span>:<span class="number">20</span>:<span class="number">20</span>    OCl_pi_float (EURUSD,H1)    ________________________
+<span class="number">2012.05</span>.<span class="number">03</span> <span class="number">02</span>:<span class="number">20</span>:<span class="number">20</span>    OCl_pi_float (EURUSD,H1)    OpenCl: gone = <span class="number">5.538</span> sec.
+<span class="number">2012.05</span>.<span class="number">03</span> <span class="number">02</span>:<span class="number">20</span>:<span class="number">20</span>    OCl_pi_float (EURUSD,H1)    pi = <span class="number">3.141622066498</span>
+<span class="number">2012.05</span>.<span class="number">03</span> <span class="number">02</span>:<span class="number">20</span>:<span class="number">20</span>    OCl_pi_float (EURUSD,H1)    read = <span class="number">40000</span> elements
+<span class="number">2012.05</span>.<span class="number">03</span> <span class="number">02</span>:<span class="number">20</span>:<span class="number">15</span>    OCl_pi_float (EURUSD,H1)    FLOAT: _step = <span class="number">0.000000001000</span>; _intrnCnt = <span class="number">25000</span></pre>
+<p style="text-align:justify;">可以看出，运行时间略有缩短。但我们还不能满足于此：其 pi 值约等于 3.14159265，明显只精确到了小数点后 3 位。该计算之所以不精确，是因为在实际运算中，内核采用的是精确度明显低于所要求 12 个小数位的浮点型数据。 <br />
+</p>
+<p style="text-align:justify;">根据 <a target="_blank" href="/zh/docs/basis/types/double"> MQL5 文档</a>，浮点型数据的精度仅为 7 个有效位数。而双精度类型的数据精度则会达到 15 个有效位数。 <br />
+</p>
+<p style="text-align:justify;">因此，我们需要让实际数据类型“更加精确”。在上述代码中，要用双精度类型替换的浮点类型数据所在行都会标以注释——///浮点型。利用相同的输入数据编译后，我们会获得下述内容（带源代码的新文件 - OCL_pi_double.mq5）：<br />
+</p>
+<pre class="code"><span class="number">2012.05</span>.<span class="number">03</span> <span class="number">03</span>:<span class="number">25</span>:<span class="number">35</span>    OCL_pi_double (EURUSD,H1)    ________________________
+<span class="number">2012.05</span>.<span class="number">03</span> <span class="number">03</span>:<span class="number">25</span>:<span class="number">35</span>    OCL_pi_double (EURUSD,H1)    OpenCl: gone = <span class="number">12.480</span> sec.
+<span class="number">2012.05</span>.<span class="number">03</span> <span class="number">03</span>:<span class="number">25</span>:<span class="number">35</span>    OCL_pi_double (EURUSD,H1)    pi = <span class="number">3.141592653590</span>
+<span class="number">2012.05</span>.<span class="number">03</span> <span class="number">03</span>:<span class="number">25</span>:<span class="number">35</span>    OCL_pi_double (EURUSD,H1)    read = <span class="number">40000</span> elements
+<span class="number">2012.05</span>.<span class="number">03</span> <span class="number">03</span>:<span class="number">25</span>:<span class="number">23</span>    OCL_pi_double (EURUSD,H1)    DOUBLE: _step = <span class="number">0.000000001000</span>; _intrnCnt = <span class="number">25000</span></pre>
+<p style="text-align:justify;">运行时间大幅增加，甚至超过了运行不含 OpenCL 的源代码的时间（8.783 秒）。</p>
+<p style="text-align:justify;">“很明显，是双精度型拖慢了计算速度”，您可能会这么想。不过，让我们来试下对输入参数 _divisor 进行大幅修改，将其从 40000 改成 40000000：<br />
+</p>
+<pre class="code"><span class="number">2012.05</span>.<span class="number">03</span> <span class="number">03</span>:<span class="number">26</span>:<span class="number">55</span>    OCL_pi_double (EURUSD,H1)    ________________________
+<span class="number">2012.05</span>.<span class="number">03</span> <span class="number">03</span>:<span class="number">26</span>:<span class="number">55</span>    OCL_pi_double (EURUSD,H1)    OpenCl: gone = <span class="number">5.070</span> sec.
+<span class="number">2012.05</span>.<span class="number">03</span> <span class="number">03</span>:<span class="number">26</span>:<span class="number">55</span>    OCL_pi_double (EURUSD,H1)    pi = <span class="number">3.141592653590</span>
+<span class="number">2012.05</span>.<span class="number">03</span> <span class="number">03</span>:<span class="number">26</span>:<span class="number">55</span>    OCL_pi_double (EURUSD,H1)    read = <span class="number">40000000</span> elements
+<span class="number">2012.05</span>.<span class="number">03</span> <span class="number">03</span>:<span class="number">26</span>:<span class="number">50</span>    OCL_pi_double (EURUSD,H1)    DOUBLE: _step = <span class="number">0.000000001000</span>; _intrnCnt = <span class="number">25</span></pre>
+<p style="text-align:justify;">这样做并未影响到精度，而且运行时间还比浮点型情况下的时间稍短一些。但是，如果我们只是将所有整型从”长整型“改为“整型”，并恢复此前值 _divisor = 40000，则内核运行时间会降至一半：</p>
+<pre class="code"><span class="number">2012.05</span>.<span class="number">16</span> <span class="number">00</span>:<span class="number">22</span>:<span class="number">46</span>     OCL_pi_double (EURUSD,H1)       ________________________
+<span class="number">2012.05</span>.<span class="number">16</span> <span class="number">00</span>:<span class="number">22</span>:<span class="number">46</span>     OCL_pi_double (EURUSD,H1)       OpenCl: gone = <span class="number">2.262</span> sec.
+<span class="number">2012.05</span>.<span class="number">16</span> <span class="number">00</span>:<span class="number">22</span>:<span class="number">46</span>     OCL_pi_double (EURUSD,H1)       pi = <span class="number">3.141592653590</span>
+<span class="number">2012.05</span>.<span class="number">16</span> <span class="number">00</span>:<span class="number">22</span>:<span class="number">46</span>     OCL_pi_double (EURUSD,H1)       read = <span class="number">40000</span> elements
+<span class="number">2012.05</span>.<span class="number">16</span> <span class="number">00</span>:<span class="number">22</span>:<span class="number">44</span>     OCL_pi_double (EURUSD,H1)       DOUBLE: _step = <span class="number">0.000000001000</span>; _intrnCnt = <span class="number">25000</span></pre>
+<p>您始终都要记住：如果有一个相当“长”却“轻”的循环（即由大量迭代构成，而其中每个又都没有多少运算的循环），则只需将数据类型从 "重"（长型 - 8 字节）改为 "轻"（整型 - 4 字节）即可大幅缩短内核运行时间。<br />
+</p>
+<p>现在，我们暂时停下编程试验，专注于内核代码整体“绑定”的含义，以便对我们要做的工作有一些认知。我们暂且用内核代码“绑定”来指代 <a target="_blank" href="/zh/docs/opencl">OpenCL API</a>，即一个允许内核与主程序（本例中为 MQL5 中的程序）进行通信的指令系统。 </p>
+<p style="text-align:justify;"><br />
+</p>
+<h3>3. OpenCL API 函数<br />
+</h3>
+<p><b>3.1. 创建上下文</b></p>
+<p>下面给出一个创建上下文的命令，即一个用于<a target="_blank" href="/zh/docs/opencl">管理 OpenCL 对象和资源</a>的环境。 </p>
+<pre class="code"><span class="keyword">int</span> clCtx = CLContextCreate( _device );</pre>
+<p>首先，简单介绍下这种平台模型。 <br />
+</p>
+<p style="text-align:center;"><img alt="" title="" src="https://c.mql5.com/2/4/platform_model.gif" height="270" width="486" style="vertical-align:middle;" /></p>
+<p style="text-align:center;"><span class="small">图 1. 某运算平台的抽象模型</span><br />
+</p>
+<p style="text-align:justify;">此图所示为某运算平台的一个抽象模型。它对显卡相关硬件结构的描述还不够特别详细，但非常贴近真实，总体思路还不错。 <br />
+</p>
+<p style="text-align:justify;">主机为控制整个程序执行进程的主 CPU。它可以识别出几种 OpenCL 设备（计算设备）。在大多数情况下，如果交易者在系统单元中配备了用于计算的显卡，则显卡会被视为一个设备（而双处理器显卡则会被视为两个设备！）。此外，主机本身（即 CPU）始终被视为一个 OpenCL 设备。平台内的每个设备都有独一无二的编号。<br />
+</p>
+<p style="text-align:justify;">如果设备中配备了对应 х86 核心的 CPU（其中包括 Intel CPU “虚拟”核心，即通过超线程技术创建的“核心”），则每个设备中都会配备多个计算单元；对于显卡而言，则会是 SIMD Engine （单指令多数据引擎），即遵守 <a href="https://www.mql5.com/go?link=http://www.ixbt.com/video3/rad.shtml" rel="nofollow" title="http://www.ixbt.com/video3/rad.shtml" target="_blank">《GPU 计算。AMD/ATI Radeon 架构特征》</a>条款的 SIMD 核心与微处理器。功能强大的显卡通常有 20 个左右的 SIMD 核心。<br />
+</p>
+<p>每个 SIMD 核心都包含了流处理器，比如说，Radeon HD 5870 显卡的每个 SIMD 引擎中都有 16 个流处理器。<br /> <br /> 最终，每个流处理器都含有 4 到 5 个处理部件，即同一显卡中的 ALU（算数逻辑单元）。<br />
+</p>
+<p style="text-align:justify;">要注意的是：所有主要图形硬件供应商使用的术语相当混乱，对于新人来说，就更是如此。"bees" 这样一个常用于<a target="_blank" href="/ru/forum/6042"> OpenCL 相关论坛跟帖</a>中的词，其含义也不是始终明了。然而，线程数量（即如今显卡中计算的同步线程）非常庞大。比如说，Radeon HD 5870 显卡中的估算线程数量就有 5000 个之多。 <br />
+</p>
+<p style="text-align:justify;">下图所示为该显卡的标准技术规格。</p>
+<p style="text-align:center;"><img alt="ATI Radeon 5870 GPU 特性" title="ATI Radeon 5870 GPU 特性" src="https://c.mql5.com/2/4/ATI_Radeon_5870_GPU_features.png" height="460" width="750" style="vertical-align:middle;" /></p>
+<p style="text-align:center;"><span class="small">图 2. Radeon HD 5870 GPU 特性</span><br />
+</p>
+<p><br />
+</p>
+<p>下面进一步指定的一切（OpenCL 资源）都有必要与通过 <a target="_blank" href="/zh/docs/opencl/clcontextcreate">CLContextCreate()</a> 函数创建的上下文进行关联：</p>
+<ul>
+<li>OpenCL 设备，即运算过程中使用的硬件；</li>
+</ul>
+<ul>
+<li>程序对象，即执行内核的程序代码；</li>
+</ul>
+<ul>
+<li>内核，即设备上运行的函数；</li>
+</ul>
+<ul>
+<li>内存对象，即由设备操控的数据（比如缓冲区、二维图像和三维图像）；</li>
+</ul>
+<ul>
+<li>命令队列（目前实施的终端语言并非由各自的 API 提供）。</li>
+</ul>
+<p>所创建的上下文可描述为一个空字段，在其下方填上设备名称。<br />
+</p>
+<br />
+<p style="text-align:center;"><img alt="" title="" src="https://c.mql5.com/2/4/context2.png" height="364" width="730" style="vertical-align:middle;" /></p>
+<p style="text-align:center;"><span class="small"><span class="small">图 3. </span>OpenCL 上下文</span><br />
+</p>
+<p>函数执行后，上下文字段目前为空。</p>
+<div class="atten">
+<p>要注意的是，MQL5 中的 OpenCL 上下文只用于处理一个设备。<br />
+  </p>
+</div>
+<p><b><br /></b></p>
+<p><b>3.2. 创建程序</b></p>
+<pre class="code"><span class="keyword">int</span> clPrg = CLProgramCreate( clCtx, clSrc );</pre>
+<p><a target="_blank" href="/zh/docs/opencl/clprogramcreate">CLProgramCreate()</a> 函数会创建一个 "OpenCL program" 资源。<br />
+</p>
+<p style="text-align:justify;">"Program" 对象实际上是一些精选的 OpenCL 内核（下文中再行讨论），但在实现 MetaQuotes 的过程中，OpenCL 程序中却明显只能有一个内核。要创建 "Program" 对象，应确保将源代码（此处为 - clSrc）读取到一个字符串中。</p>
+<p style="text-align:justify;"> 本例中无需如此，因为 clSrc 字符串已经被声明为一个全局变量：</p>
+<p style="text-align:left;"><img alt="clSrc" title="clSrc" src="https://c.mql5.com/2/4/clSrc.png" height="73" width="577" style="vertical-align:middle;" /><br />
+</p>
+<p>下图所示为作为此前所创建上下文一部分的程序。</p>
+<p style="text-align:center;"><img alt="" title="" src="https://c.mql5.com/2/4/OpenCL_program.png" height="417" width="595" style="vertical-align:middle;" /></p>
+<p style="text-align:center;"><span class="small">图 4. 程序为上下文的一部分</span><br />
+</p>
+<p style="text-align:justify;">如果程序未能编译，则开发人员要在编译器的输出处独立发起一个数据请求。一个功能完善的 OpenCL API 拥有 API 函数 clGetProgramBuildInfo()，调用该函数后会在编译器输出处返回一个字符串。 <br />
+</p>
+<p style="text-align:justify;">当前版本 (b.642) 并不支持该函数，但很有必要将其加入 OpenCL API，从而为 OpenCL 开发人员提供有关内核代码正确性的更多详情。 </p>
+<p>来自设备（显卡）的 "Tongues"（语言）为命令队列，很明显，MQL5 不会在 API 层面上提供支持。</p>
+<p><br />
+</p>
+<p><b>3.3. 创建内核</b></p>
+<p><a target="_blank" href="/zh/docs/opencl/clkernelcreate">CLKernelCreate()</a> 函数会创建一个 OpenCL 资源 "Kernel"（内核）。<br />
+</p>
+<pre class="code"><span class="keyword">int</span> clKrn = CLKernelCreate( clPrg, <span class="string">"pi"</span> );</pre>
+<p>所谓内核，就是一个在 OpenCL 设备上运行的程序中声明的函数。 <br />
+</p>
+<p style="text-align:justify;">在本例中，它就是名称为 "pi" 的 pi() 函数。"kernel" 对象就是内核的函数加上各自的自变量。该函数的第二个自变量为函数名称，应与程序中的函数名称完全匹配。</p>
+<p style="text-align:center;"><img alt="" title="" src="https://c.mql5.com/2/4/OpenCL_kernels.png" height="417" width="595" style="vertical-align:middle;" /></p>
+<p style="text-align:center;"><span class="small">图 5. 内核</span><br />
+</p>
+<p>只要针对一个内核设置不同自变量，并将同一函数声明为内核，便可以尽量多次使用 "kernel" 对象。<br />
+</p>
+<p>现在，我们来说下 <a target="_blank" href="/zh/docs/opencl/clsetkernelarg">CLSetKernelArg()</a> 和 <a target="_blank" href="/zh/docs/opencl/clsetkernelargmem">CLSetKernelArgMem()</a> 函数，不过先简单介绍下设备内存中存储的对象吧。<br /> <br />
+</p>
+<p><b>3.4. 内存对象</b></p>
+<p style="text-align:justify;">首先，我们要清楚，要在 GPU 上处理的任何“较大”对象，都要先在 GPU 本身的内存中创建，或是从主机内存 (RAM) 中移除。我们所说的“较大”对象是指缓冲区（一维数组）或是二维（2D）、三维（3D）的图像。<br />
+</p>
+<p style="text-align:justify;">缓冲区是一个包含不同相邻缓冲区元素的大片存储区域。既可能是简单数据类型（字符、双精度、浮点、长型等），也可能是复杂数据类型（结构、并集等）。独立缓冲区元素可实现直接访问、读取和写入。<br />
+</p>
+<p style="text-align:justify;">现在，我们要深入研究一下图像，因为它是一种独特的数据类型。该终端开发人员<a target="_blank" href="/ru/forum/6042">在 OpenCL 相关跟帖的首页上</a>提供了代码，暗示开发人员并未参与到图像的使用中。 <br />
+</p>
+<p>在引入的代码中，创建缓冲区的函数如下所示：<br />
+</p>
+<pre class="code"><span class="keyword">int</span> clMem = CLBufferCreate( clCtx,  _divisor * <span class="keyword">sizeof</span>( <span class="keyword">double</span> ), CL_MEM_READ_WRITE );</pre>
+<p style="text-align:justify;">其中第一个参数是 OpenCL 缓冲区将其作为资源实现关联的一个上下文句柄；第二个参数是分配给该缓冲区的内存；而第三个参数则显示可以利用该对象完成哪些工作。返回值是 OpenCL 缓冲区（如已成功创建）的一个句柄或 -1 （如因某错误而无法创建）。<br />
+</p>
+<p style="text-align:justify;">在本例中，缓冲区是在 GPU 内存（即 OpenCL 设备）中直接创建的。如果它未使用该函数即在 RAM 中创建，则要如下图所示被移往 OpenCL 设备内存 (GPU)：<br />
+</p>
+<p style="text-align:center;"><img alt="图 6. OpenCL 内存对象" title="图 6. OpenCL 内存对象" src="https://c.mql5.com/2/4/GPU_Mem__1.png" height="423" width="715" style="vertical-align:middle;" /><br /></p>
+<p style="text-align:center;"><span class="small">图 6. OpenCL 内存对象</span><br />
+</p>
+<p style="text-align:justify;">左侧显示了 OpenCL 内存对象以外的输入/输出缓冲区（不一定是图像 - 此处的蒙娜丽莎仅作为说明用途！）。空的、未初始化的 OpenCL 内存对象在主要上下文字段中的显示位置要更靠右侧。初始数据“蒙娜丽莎”随后会被移至 OpenCL 上下文字段中，而且无论 OpenCL 程序输出何种内容，都需要移回左侧，即进入 RAM 中。<br />
+</p>
+<p>OpenCL 中在主机/OpenCL 设备间往来复制数据所用的术语如下：<br />
+</p>
+<ul>
+<li>将数据从主机复制到设备内存的过程被称为<i>写入</i>（<a target="_blank" href="/zh/docs/opencl/clbufferwrite">CLBufferWrite()</a> 函数）；</li>
+<li>将数据从设备内存复制到主机内存的过程被称为<i>读取</i>（<a target="_blank" href="/zh/docs/opencl/clbufferread">CLBufferRead()</a> 函数，请参见下文）；</li>
+</ul>
+<p style="text-align:justify;">写入命令（主机 -&gt; 设备）会通过数据完成内存对象的初始化，同时在设备内存中放置该对象。</p>
+<p style="text-align:justify;">请牢记：设备中可用内存对象的有效性并未在 OpenCL 规格中指定，因为其取决于设备相应硬件的供应商。所以，创建内存对象时务必谨慎。<br />
+</p>
+<p style="text-align:justify;">内存对象初始化完毕并写入设备后，图片就会如下所示：<br />
+</p>
+<p style="text-align:center;"><img alt="图 7. OpenCL 内存对象的初始化结果" title="图 7. OpenCL 内存对象的初始化结果" src="https://c.mql5.com/2/4/Fig8__1.png" height="421" width="750" style="vertical-align:middle;" /><br /></p>
+<p style="text-align:center;"><span class="small">图 7. OpenCL 内存对象的初始化结果</span><br />
+</p>
+<br />
+<p>现在，我们可以继续讲解用于设置内核参数的函数了。</p>
+<p><br />
+</p>
+<p><b>3.5. 设置内核参数 </b><br />
+</p>
+<pre class="code">CLSetKernelArgMem( clKrn, <span class="number">0</span>, clMem );</pre>
+<p><a target="_blank" href="/zh/docs/opencl/clsetkernelargmem">CLSetKernelArgMem()</a> 函数会将此前创建的缓冲区定义为内核的一个零值参数。</p>
+<p>如果现在来看一看内核代码中的相同参数，即能看到其显示如下：</p>
+<pre class="code">__kernel <span class="keyword">void</span> pi( __global <span class="keyword">float</span> *<span class="keyword">out</span> )</pre>
+<p style="text-align:justify;">在内核中，与通过 API 函数 <a target="_blank" href="/zh/docs/opencl/clbuffercreate">CLBufferCreate()</a> 创建的类型相同的是 out[ ] 数组。 <br />
+</p>
+<p style="text-align:justify;">也有一个类似的函数用于设置非缓冲区参数：<br />
+</p>
+<pre class="code"><span class="keyword">bool</span>  CLSetKernelArg( <span class="keyword">int</span>   kernel,          <span class="comment">// handle to the kernel of the OpenCL program</span>
+               <span class="keyword">        uint</span>  arg_index,     <span class="comment">  // OpenCL function argument number</span>
+                      <span class="keyword">void</span>  arg_value );     <span class="comment">// function argument value</span>
+</pre>
+<p style="text-align:justify;">举个例子，如果我们决定将某个双精度 x0 设置为内核的第二个参数，则首先需要在 MQL5 程序中声明和初始化：<br />
+</p>
+<pre class="code"><span class="keyword">double</span> x0 = -<span class="number">2</span>;</pre>
+<p style="text-align:justify;">而接下来还需调用该函数（也在 MQL5 代码中）：<br />
+</p>
+<pre class="code">CLSetKernelArg( cl_krn, <span class="number">1</span>, x0 );</pre>
+<p style="text-align:justify;">经过上述操作后，该图显示如下： </p>
+<p style="text-align:center;"><img alt="图 8. 内核参数的设置结果" title="图 8. 内核参数的设置结果" src="https://c.mql5.com/2/4/Fig9__1.png" height="421" width="607" style="vertical-align:middle;" /><br /></p>
+<p style="text-align:center;"><span class="small">图 8. 内核参数的设置结果</span><br />
+</p>
+<br /> <br />
+<p><b>3.6. 程序执行</b></p>
+<pre class="code"><span class="keyword">bool</span> ex = CLExecute( clKrn, <span class="number">1</span>, offs, works );</pre>
+<p style="text-align:justify;">作者并未在 OpenCL 规格中发现对该函数的直接模拟。该函数会使用指定参数执行内核 clKrn。最后一个参数 'works' 会设置运算任务每次计算要执行的任务数量。该函数会证明 SPMD（单程序多数据）原理：每调用该函数一次，就会利用其自身的参数创建内核实例（其实例数量等于工作参数值）；根据惯例，这些内核实例会同时执行，但是在不同的流核心上（对于 AMD 而言）。 <br />
+</p>
+<p style="text-align:justify;">OpenCL 的普遍性在于这种语言未绑定到代码执行过程中涉及的底层硬件基础架构：编码人员无需了解硬件规格即可正常执行 OpenCL 程序。该程序仍会被执行。不过仍强烈建议了解这些规格，以提升代码的效率（比如速度）。<br />
+</p>
+<p style="text-align:justify;">比如说，此代码在作者未配备独立显卡的硬件设备上竟然运行良好。也就是说，作者对于发生仿真全过程的 CPU 本身的结构都很不了解。<br />
+</p>
+<p style="text-align:justify;">到此为止，OpenCL 程序终于成功执行，现在我们可以在主程序中使用其结果了。</p>
+<br />
+<p><b>3.7. 读取输出数据 </b><br />
+</p>
+<p>下面是主程序从设备读取数据的一部分：<br />
+</p>
+<pre class="code"><span class="keyword">float</span> buf[  ]; 
+<span class="functions">ArrayResize</span>( buf, _divisor );                                                   
+<span class="keyword">uint</span> read = CLBufferRead( clMem, buf );
+</pre>
+<p style="text-align:justify;">请记住，从 OpenCL 中读取数据是指将该数据从设备复制到主机中。上述三行显示了其完成方式。只需在主程序中将同一类型的 buf[] 缓冲区声明为读取 OpenCL 缓冲区，再调用该函数即可。在主程序（本文是在 MQL5 语言中）中创建的缓冲区类型可与内核中的缓冲区类型不同，但其大小则必须完全匹配。<br />
+</p>
+<p>该数据现已复制到主机内存中，完全可供我们在主程序（即 MQL5 中的程序）中使用。<br /><br /> 在 OpenCL 设备上完成所有必需的运算后，所有对象中的内存都应被释放。</p>
+<br />
+<p><b>3.8. 所有 OpenCL 对象的析构 </b><br />
+</p>
+<p>该操作使用以下命令来完成：</p>
+<pre class="code">CLBufferFree( clMem );
+CLKernelFree( clKrn );
+CLProgramFree( clPrg );
+CLContextFree( clCtx );</pre>
+<p>这些函数系列的主要特点在于，对象应按其创建的相反顺序予以销毁。<br />
+</p>
+<p>现在，我们简单看一下内核代码本身。</p>
+<br />
+<p><b>3.9. 内核</b><br />
+</p>
+<p>可以看出，整个内核代码就是一个由多个字符串构成的单一长型字符串。 <br />
+</p>
+<p>内核头部看起来与标准函数类似：</p>
+<pre class="code">__kernel <span class="keyword">void</span> pi( __global <span class="keyword">float</span> *<span class="keyword">out</span> )</pre>
+<p>针对内核头部有几项要求：<br />
+</p>
+<ul>
+<li>返回值的类型始终为空；</li>
+<li>说明符 __kernel 无需包含两个下划线字符，其也可以成为内核；</li>
+<li>如果自变量为数组（缓冲区），则其只能按引用传递。内存说明符 __global （或 global）是指该缓冲区存储于设备的全局内存中。</li>
+<li>简单数据类型的自变量按值传递。</li>
+</ul>
+<p>内核主体与 C 语言中的标准代码没有任何不同。 <br />
+</p>
+<p>重要须知：字符串：<br />
+</p>
+<pre class="code"><span class="keyword">int</span> i = get_global_id( <span class="number">0</span> ); </pre>
+<p style="text-align:justify;">中的 i 为 GPU 内的用于确定该单元格内计算结果的若干计算单元。此结果会被进一步写入到输出数组（本例中是 out[]）中，然后等到从 GPU 内存将数组读取到 CPU 内存中后，其值又会被添加到主程序中。<br />
+</p>
+<p style="text-align:justify;">要注意的是，OpenCL 程序代码中的函数可能不只一个。例如，可以在“主”内核函数 pi() 中调用 pi() 函数以外的简单内联函数。稍后我们再进一步讨论这种情况。<br />
+</p>
+<p style="text-align:justify;">现在，我们已经对 MetaQuotes 实现中的 OpenCL API 有了大致了解，可以继续尝试了。本文中，作者并不打算深入研究允许最大限度优化运行时间的硬件的详情。目前的主要任务，同样是提供 OpenCL 编程的入门知识。 <br />
+</p>
+<p style="text-align:justify;">换而言之，该代码还相当简单，因为它没有考虑硬件规格。同时，它又极具普遍性，所以可在任何硬件上执行 - AMD 出品的 CPU、IGP（CPU 中集成的 GPU）或 AMD / NVidia 出品的独立显卡。</p>
+<p>在进一步研究采用<i>向量数据类型</i>进行简单优化之前，我们首先得熟悉它们。 <br />
+</p>
+<p><br />
+</p>
+<h3>4. 向量数据类型<br />
+</h3>
+<p style="text-align:justify;">向量数据类型专门针对 OpenCL，这将其与 C99 区分开来。其中包括任意的 (u)charN、(u)shortN、(u)intN、(u)longN、floatN 类型，其中 N = {2|3|4|8|16}。 <br />
+</p>
+<p style="text-align:justify;">这些类型应该用在我们清楚（或假设）内置编译器会设法实现其他并行计算的时候。这里我们需要注意，情况并不总是这样，即便是内核代码仅与 N 值有区别，而在其它各方面都完全一致（作者会自行判断）。 <br />
+</p>
+<p>下表所示为 <a href="/go?link=https://www.khronos.org/registry/OpenCL/specs/opencl-1.2.pdf[hash]page%3d198" rel="nofollow" title="http://www.khronos.org/registry/cl/specs/opencl-1.2.pdf[hash]page=198" target="_blank"><i>内置</i>数据类型</a>：</p>
+<p style="text-align:center;"><img alt="表 1. 内置向量数据类型" title="表 1. 内置向量数据类型" src="https://c.mql5.com/2/4/Built-in_Vector_Data_Types.png" height="230" width="559" style="vertical-align:middle;" /></p>
+<p style="text-align:center;"><span class="small"><span class="small">表 1. </span>OpenCL 中的内置向量数据类型</span><br />
+</p>
+<p style="text-align:justify;"><br /> 任何设备都支持上述数据类型。每种数据类型都具有相应的 API 类型，用于实现内核与主程序之间的通信。这在目前的 MQL5 实施过程中并未提供，但问题不大。<br />
+</p>
+<p style="text-align:justify;">其它类型也有，但应在使用时明确指定，因为并非所有设备都支持它们：<br />
+</p>
+<p style="text-align:center;"><span class="small"><img alt="表 2. 其它内置数据类型" title="表 2. 其它内置数据类型" src="https://c.mql5.com/2/4/Other_Built-in_Data_Types.png" height="189" width="588" style="vertical-align:middle;" /><br /></span></p>
+<p style="text-align:center;"><span class="small"><span class="small">表 2. </span>OpenCL</span> 中的其它内置数据类型<br />
+</p>
+<p>此外，还有一些有待 OpenCL 提供支持的保留数据类型。它们在语言“规范”中占用了相当长的篇幅。</p>
+<p>要声明一个向量类型的常量或变量，应遵循简单直观的原则。 <br />
+</p>
+<p>下面列出了几个示例：</p>
+<pre class="code">float4 f = ( float4 ) ( <span class="number">1.0</span>f, <span class="number">2.0</span>f, <span class="number">3.0</span>f, <span class="number">4.0</span>f);
+uint4  u = ( uint4  ) ( <span class="number">1</span> ); <span class="comment">            /// u is converted to a vector (1, 1, 1, 1).</span>
+float4 f = ( float4 ) ( ( float2 )( <span class="number">1.0</span>f, <span class="number">2.0</span>f ), ( float2 )( <span class="number">3.0</span>f, <span class="number">4.0</span>f ) );
+float4 f = ( float4 ) ( <span class="number">1.0</span>f, ( float2 )( <span class="number">2.0</span>f, <span class="number">3.0</span>f ), <span class="number">4.0</span>f );
+float4 f = ( float4 ) ( <span class="number">1.0</span>f, <span class="number">2.0</span>f );   <span class="comment">/// error</span>
+</pre>
+<p style="text-align:justify;">可以看出，只需将两相比对的、位于右侧的数据类型与左侧声明的变量“宽度”相匹配即可（此处为 4）。唯一例外就是在分量与标量相等的情况下发生的标量向向量的转换（第 2 行）。<br />
+</p>
+<p style="text-align:justify;">所有向量数据类型都采用了一种简单的向量分量处理机制。它们一方面是向量（数组），另一方面又是结构。那么，比如说向量的第一分量宽度为 2 （例如 float2 u），则可作为 u.x 处理；而第二分量则作为 u.y 处理。<br />
+</p>
+<p>long3 u 类型向量的三个分量分别为：u.x、u.y、u.z。 </p>
+<p>至于 float4 u 类型向量，则依次会是 .xyzw，即 u.x、u.y、u.z、u.w。</p>
+<pre class="code">float2 pos;
+pos.x = <span class="number">1.0</span>f; <span class="comment">// valid</span>
+pos.z = <span class="number">1.0</span>f; <span class="comment">// invalid because pos.z does not exist</span>
+
+float3 pos;
+pos.z = <span class="number">1.0</span>f; <span class="comment">// valid</span>
+pos.w = <span class="number">1.0</span>f; <span class="comment">// invalid because pos.w does not exist</span></pre>
+<p>您可以一次选择多个分量，甚至对其重新排列（组标记）：</p>
+<pre class="code">float4 c;
+c.xyzw = ( float4 ) ( <span class="number">1.0</span>f, <span class="number">2.0</span>f, <span class="number">3.0</span>f, <span class="number">4.0</span>f );
+c.z = <span class="number">1.0</span>f;
+c.xy =  ( float2 ) ( <span class="number">3.0</span>f, <span class="number">4.0</span>f );
+c.xyz = ( float3 ) ( <span class="number">3.0</span>f, <span class="number">4.0</span>f, <span class="number">5.0</span>f );
+
+float4 pos = ( float4 ) ( <span class="number">1.0</span>f, <span class="number">2.0</span>f, <span class="number">3.0</span>f, <span class="number">4.0</span>f );
+float4 swiz= pos.wzyx;                          <span class="comment">// swiz = ( 4.0f, 3.0f, 2.0f, 1.0f )</span>
+float4 dup = pos.xxyy;                          <span class="comment">// dup = ( 1.0f, 1.0f, 2.0f, 2.0f )</span></pre>
+组标记分量，即多个分量的规格，可能会出现在赋值语句的左侧（即左值）：<br />
+<pre class="code">float4 pos = ( float4 ) ( <span class="number">1.0</span>f, <span class="number">2.0</span>f, <span class="number">3.0</span>f, <span class="number">4.0</span>f );
+pos.xw     = ( float2 ) ( <span class="number">5.0</span>f, <span class="number">6.0</span>f );            <span class="comment">// pos = ( 5.0f, 2.0f, 3.0f, 6.0f )</span>
+pos.wx     = ( float2 ) ( <span class="number">7.0</span>f, <span class="number">8.0</span>f );            <span class="comment">// pos = ( 8.0f, 2.0f, 3.0f, 7.0f )</span>
+pos.xyz    = ( float3 ) ( <span class="number">3.0</span>f, <span class="number">5.0</span>f, <span class="number">9.0</span>f );      <span class="comment">// pos = ( 3.0f, 5.0f, 9.0f, 4.0f )</span>
+pos.xx     = ( float2 ) ( <span class="number">3.0</span>f, <span class="number">4.0</span>f );           <span class="comment">// invalid as 'x' is used twice</span>
+pos.xy     = ( float4 ) (<span class="number">1.0</span>f, <span class="number">2.0</span>f, <span class="number">3.0</span>f, <span class="number">4.0</span>f ); <span class="comment">// mismatch between float2 and float4</span>
+
+float4 a, b, c, d;
+
+float16 x;
+x = ( float16 ) ( a, b, c, d );
+x = ( float16 ) ( a.xxxx, b.xyz, c.xyz, d.xyz, a.yzw );
+x = ( float16 ) ( a.xxxxxxx, b.xyz, c.xyz, d.xyz );  <span class="comment">// invalid as the component a.xxxxxxx is not a valid vector type</span></pre>
+<p style="text-align:justify;">各个分量都可利用另一标记进行访问，这些标记包括十六进制数字前插入的字符 s （或 S），或是组标记中的多个数字：<br />
+</p>
+<p style="text-align:center;"><span class="small"><img alt="表 3. 用于访问向量数量类型各个分量的索引" title="表 3. 用于访问向量数量类型各个分量的索引" src="https://c.mql5.com/2/4/Numeric_indices_vector_components_OpenCL.png" height="170" width="574" style="vertical-align:middle;" /><br /></span></p>
+<p style="text-align:center;"><span class="small">表 3. 用于访问向量数量类型各个分量的索引<br /></span></p>
+<p>如果您声明一个向量变量 f <br />
+</p>
+<pre class="code">float8 f;</pre>
+则 f.s0 是向量的第 1 个分量，f.s7 是第 8 个分量。<br /><br /> 同样，如果我们声明一个 16 维向量 x， <br />
+<pre class="code">float16 x;</pre>
+则 x.sa （或 x.sA）是向量 x 的第 11 个分量；而 x.sf （或 x.sF）则指向量 x 的第 16 个分量。<br /> <br />
+<p>数值索引 (.s0123456789abcdef) 与字母标记 (.xyzw) 不得与带有分量组标记的相同标识符混淆。</p>
+<pre class="code">float4 f, a;
+a = f.x12w;             <span class="comment">// invalid as numeric indices are intermixed with the letter notations .xyzw</span>
+a.xyzw = f.s0123;       <span class="comment">// valid</span></pre>
+<p>最后，还有一种方法来操作采用 .lo、.hi、.even、.odd 的向量类型分量。 <br />
+</p>
+<p>其后缀使用如下：</p>
+<ul>
+<li>.lo 是指某指定向量的下半部分； </li>
+<li>.hi 是指某指定向量的上半部分；</li>
+<li>.even 是指某向量的所有偶分量； </li>
+<li>.odd 是指某向量的所有奇分量。</li>
+</ul>
+<p>例如：<br />
+</p>
+<pre class="code">float4 vf;
+float2 low  = vf.lo;           <span class="comment">// vf.xy</span>
+float2 high = vf.hi;           <span class="comment">// vf.zw</span>
+float2 even = vf.even;         <span class="comment">// vf.xz</span>
+float2 odd  = vf.odd;          <span class="comment">// vf.yw</span></pre>
+<p>此标记可以重复使用，直到出现一个标量（非向量数据类型）为止。</p>
+<pre class="code">float8 u = (float8) ( <span class="number">1.0</span>f, <span class="number">2.0</span>f, <span class="number">3.0</span>f, <span class="number">4.0</span>f, <span class="number">5.0</span>f, <span class="number">6.0</span>f, <span class="number">7.0</span>f, <span class="number">8.0</span>f );
+float2 s = u.lo.lo;                              <span class="comment">//  ( 1.0f, 2.0f )</span>
+float2 t = u.hi.lo;                              <span class="comment">//  ( 5.0f, 6.0f )</span>
+float2 q = u.even.lo;                            <span class="comment">//  ( 1.0f, 3.0f )</span>
+<span class="keyword">float</span>  r = u.odd.lo.hi;                          <span class="comment"> //  4.0f</span></pre>
+<p>至于 3 分量向量类型，其情况就稍微复杂一些：严格来讲，它是一个 4 分量向量类型，且第 4 分量的值未定义。</p>
+<pre class="code">float3 vf   = (float3) (<span class="number">1.0</span>f, <span class="number">2.0</span>f, <span class="number">3.0</span>f);
+float2 low  = vf.lo;                             <span class="comment">// ( 1.0f, 2.0f );</span>
+float2 high = vf.hi;                             <span class="comment">// ( 3.0f, undefined );</span></pre>
+<p>简单的运算规则 (+, -, *, /)。 <br />
+</p>
+<p>针对同一维度的向量定义所有指定的算术运算，并按分量逐个完成。</p>
+<pre class="code">float4  d   = (float4) ( <span class="number">1.0</span>f, <span class="number">2.0</span>f, <span class="number">3.0</span>f, <span class="number">4.0</span>f );
+float4  w   = (float4) ( <span class="number">5.0</span>f, <span class="number">8.0</span>f, <span class="number">10.0</span>f, -<span class="number">1.0</span>f );
+float4  _sum = d + w;                             <span class="comment">// ( 6.0f, 10.0f, 13.0f, 3.0f )</span>
+float4  _mul = d * w;                             <span class="comment">// ( 5.0f, 16.0f, 30.0f, -4.0f )</span>
+float4  _div = w / d;                             <span class="comment">// ( 5.0f,  4.0f, 3.333333f, -0.25f )</span></pre>
+<p style="text-align:justify;">唯一例外是一个操作数为标量，而另一个为向量的情况。在这种情况下，标量类型会被计算为向量中声明的数据类型，同时，标量本身也会被转换为一个维度与向量操作数相同的向量。接下来再执行一次算术运算。关系运算符 (&lt;, &gt;, &lt;=, &gt;=) 也是如此。</p>
+<p style="text-align:justify;">OpenCL 语言还支持可能由内置数据类型构成的派生的 C99 原生数据类型（比如结构、并集、数组等），这些内置数据类型列在了本章节首个图表中。<br />
+</p>
+<p>还有最后一件事：如果您要使用 GPU 进行精确计算，那么毫无疑问，必须使用双精度数据类型以及随之而来的 doubleN。 <br />
+</p>
+<p>为此，只需将以下行：</p>
+<pre class="code"><span class="preprocessor">#pragma OPENCL EXTENSION cl_khr_fp64 : enable </span></pre>
+<p>插入到内核代码的开头处即可。<br />
+</p>
+<p>此信息已足够您理解以下大部分内容。如果您有任何疑问，请参阅《OpenCL 1.1 规范》。<br /> <br />
+</p>
+<h3>5. 带有向量数据类型的内核的实现<br />
+</h3>
+<p>说实在的，作者未能立即编写出一个带有向量数据类型的工作代码。 <br />
+</p>
+<p style="text-align:justify;">开始时，作者并未过多注意阅读语言规范，而是觉得只要在内核中声明一个向量数据类型（例如 double8），一切问题都会自然解决了。而且，作者所尝试的<i>仅将一个</i>输出数组声明为 double8 向量的数组这一做法也失败了。 <br />
+</p>
+<p style="text-align:justify;">我过了一段时间才意识到，要有效完成内核的向量化并实现真正的加速，这些还绝对不够。通过将结果输出到向量数组中还无法解决这一问题，因为不仅需要能快速输入和输出数据，还需要对其进行快速<i>计算</i>。如果顺利实现，则可加速进程并提升效率，使得最终有可能开发出一套更快的代码。 </p>
+<p style="text-align:justify;">但事情没这么简单。尽管上述内核代码几乎可以实现盲调，但由于使用了向量数据，查找错误已变得相当困难。我们可以从此类标准消息<br />
+</p>
+<pre class="code">ERR_OPENCL_INVALID_HANDLE - invalid handle to the OpenCL program </pre>
+<p>或以下消息中<br />
+</p>
+<pre class="code">ERR_OPENCL_KERNEL_CREATE - internal error while creating an OpenCL object</pre>
+<p>得到哪些富有建设性的信息呢? </p>
+<p style="text-align:justify;">因此，作者不得不求助于 SDK。在这种情况下，考虑到作者的硬件配置，碰巧是 Intel OpenCL SDK 提供的 Intel OpenCL SDK 离线编译器（32 位）（适用于 Intel 之外的 CPU/GPU，SDK 也应包含相关的离线编译器）。因为它允许在不绑定到主机 API 的情况下调试内核代码，所以非常方便。 <br />
+</p>
+<p style="text-align:justify;">您只需将内核代码插入到编译器窗口（尽管未使用 MQL5 代码中采用的形式，而是替换成了没有外部引用字符和 "\r\n" （回车字符）），并按下带有齿轮图标的 Build 按钮即可。 <br />
+</p>
+<p style="text-align:justify;">如此一来，Build Log （构建日志）窗口就会显示与构建过程及其进展相关的信息：</p>
+<br />
+<p style="text-align:center;"><img alt="" title="" src="https://c.mql5.com/2/4/iCompiler.PNG" height="775" width="728" style="vertical-align:middle;" /></p>
+<p style="text-align:center;"><span class="small">图 9. Intel OpenCL SDK 离线编译器中的程序编译</span><br />
+</p>
+<p style="text-align:justify;">为了获取不含引用字符的内核代码，用主机语言 (MQL5) 编写一个简单程序 WriteCLProgram() 会很有用，该程序可将内核代码输出到文件。现已将其包含在主程序代码中。<br />
+</p>
+<p style="text-align:justify;">编译器的消息并不总是很明确，但已经比当前 MQL5 可提供的多很多了。可以在编译器中即时修复错误，而且一旦您确定没有任何错误，就可以使用 MetaEditor 将修复程序传送到内核代码中。<br />
+</p>
+<p style="text-align:justify;">还有最后一件事。作者最初的想法是开发出一种向量化代码，该代码能够通过设置单一全局变量 "number of the channels"来处理 double4、double8 和 double16。好几天来作者一直在费劲地使用拼接操作符 ## （出于某种原因该符号无法在内核代码中进行操作），最终还是完成了。 <br />
+</p>
+<p style="text-align:justify;">在此期间，作者成功地开发出一个含有三个内核代码（其中每个都适合其大小 - 4、8 或 16）的脚本的工作代码。虽然本文不会提供此中间代码，但还是值得一提，因为您可能想轻松编写一个内核代码。此脚本实施的代码 (OCL_pi_double_several_simple_kernels.mq5) 附于本文末尾的下方。<br />
+</p>
+<p>这里是向量化内核的代码：</p>
+<pre class="code"><span class="string">"/// enable extensions with doubles                                                          \r\n"</span>
+<span class="string">"#pragma OPENCL EXTENSION cl_khr_fp64 : enable                                               \r\n"</span>
+<span class="string">"#define _ITERATIONS "</span>        + i2s( _intrnCnt ) + <span class="string">"                                     \r\n"</span>
+<span class="string">"#define _STEP "</span>             + d2s( _step, <span class="number">12</span> )  + <span class="string">"                                     \r\n"</span>     
+<span class="string">"#define _CH "</span>               + i2s( _ch )       + <span class="string">"                                     \r\n"</span>
+<span class="string">"#define _DOUBLETYPE double"</span>   + i2s( _ch )       + <span class="string">"                                     \r\n"</span>   
+<span class="string">"                                                                                            \r\n"</span>
+<span class="string">"/// extensions for 4-, 8- and 16- scalar products                                           \r\n"</span>     
+<span class="string">"#define dot4( a, b )         dot( a, b )                                                    \r\n"</span>
+<span class="string">"                                                                                            \r\n"</span>
+<span class="string">"inline double dot8( double8 a, double8 b )                                                  \r\n"</span>
+<span class="string">"{                                                                                           \r\n"</span>     
+<span class="string">"     return dot4( a.lo, b.lo ) + dot4( a.hi, b.hi );                                        \r\n"</span>
+<span class="string">"}                                                                                           \r\n"</span>
+<span class="string">"                                                                                            \r\n"</span>      
+<span class="string">"inline double dot16( double16 a, double16 b )                                               \r\n"</span>     
+<span class="string">"{                                                                                           \r\n"</span>     
+<span class="string">"     double16 c  = a * b;                                                                   \r\n"</span> 
+<span class="string">"     double4 _1  = ( double4 ) ( 1., 1., 1., 1. );                                          \r\n"</span> 
+<span class="string">"     return dot4( c.lo.lo + c.lo.hi + c.hi.lo  + c.hi.hi, _1 );                             \r\n"</span> 
+<span class="string">"}                                                                                           \r\n"</span>     
+<span class="string">"                                                                                            \r\n"</span>
+<span class="string">"__kernel void pi( __global double *out )                                                    \r\n"</span>
+<span class="string">"{                                                                                           \r\n"</span>
+<span class="string">"  int i = get_global_id( 0 );                                                               \r\n"</span>
+<span class="string">"                                                                                            \r\n"</span>
+<span class="string">"  /// define vector constants                                                               \r\n"</span>     
+<span class="string">"  double16 v16  = ( double16 ) ( 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 );    \r\n"</span>
+<span class="string">"  double8  v8   = v16.lo;                                                                   \r\n"</span>
+<span class="string">"  double4  v4   = v16.lo.lo;                                                                \r\n"</span>
+<span class="string">"  double2  v2   = v16.lo.lo.lo;                                                             \r\n"</span>          
+<span class="string">"                                                                                            \r\n"</span>    
+<span class="string">"  /// all vector-related with the calculated type                                           \r\n"</span>
+<span class="string">"  _DOUBLETYPE in;                                                                           \r\n"</span>    
+<span class="string">"  _DOUBLETYPE xVect;                                                                        \r\n"</span>
+<span class="string">"  _DOUBLETYPE sumVect          = ( _DOUBLETYPE ) ( 0.0 );                                   \r\n"</span>
+<span class="string">"  _DOUBLETYPE doubleOneVect    = ( _DOUBLETYPE ) ( 1.0 );                                   \r\n"</span>
+<span class="string">"  _DOUBLETYPE doubleCHVect     = ( _DOUBLETYPE ) ( _CH + 0. );                              \r\n"</span>
+<span class="string">"  _DOUBLETYPE doubleSTEPVect   = ( _DOUBLETYPE ) ( _STEP );                                 \r\n"</span>
+<span class="string">"                                                                                            \r\n"</span>    
+<span class="string">"  for( long j = 0; j &lt; _ITERATIONS; j ++ )                                                  \r\n"</span>
+<span class="string">"  {                                                                                         \r\n"</span>
+<span class="string">"     in =  v"</span> + i2s( _ch ) + <span class="string">" + doubleCHVect * ( i * _ITERATIONS + j );                  \r\n"</span>           
+<span class="string">"     xVect = ( in + 0.5 ) * doubleSTEPVect;                                                 \r\n"</span>
+<span class="string">"     sumVect += 4.0 / ( xVect * xVect + 1. );                                               \r\n"</span>
+<span class="string">"  }                                                                                         \r\n"</span>
+<span class="string">"  out[ i ] = dot"</span> + i2s( _ch ) + <span class="string">"(  sumVect, doubleOneVect );                            \r\n"</span>
+<span class="string">"}                                                                                           \r\n"</span>;   </pre>
+<p style="text-align:justify;">除了设置“向量通道”数量的新全局常量 _ch 以及变小了好几倍的 _ch 的全局常量 _intrnCnt 以外，外部主程序的变化不大。正因为此，作者决定不在此展示主程序了。可以在本文末尾下方随附的脚本中找到该程序 (OCL_pi_double_parallel_straight.mq5)。<br />
+</p>
+<p style="text-align:justify;">可以看出，除了内核 pi() 的“主”函数之外，现在我们已有两个用于确定向量 dotN( a, b ) 的无向积的内联函数，以及一个宏置换。由于 OpenCL 中的 dot() 函数被定义为与维数不超过 4 的向量相关，所以包括了这些函数。 <br />
+</p>
+<p style="text-align:justify;">之所以使用可重新定义 dot() 函数的 dot4() 宏，只是为了方便调用带有所计算名称的 dotN() 函数：<br />
+</p>
+<pre class="code"><span class="string">"  out[ i ] = dot"</span> + i2s( _ch ) + <span class="string">"(  sumVect, doubleOneVect );                              \r\n"</span></pre>
+<p>如果我们使用的是通常不带指数 4 形式的 dot() 函数，则当  _ch = 4 （向量化通道数量为 4）时，我们将无法如此轻松地调用它。</p>
+<p style="text-align:justify;">这一行说明了特定内核形式（其特点在于此类内核在主程序中作为一个字符串进行处理）的另一个有用功能：我们可以在内核中使用<i>计算得出的</i>标识符，不仅包括函数标识符，还包括数据类型标识符！<br />
+</p>
+<p>下面随附了含有该内核的完整主程序代码 (OCL_pi_double_parallel_straight.mq5)。 <br />
+</p>
+<p>运行带有 "width" 为 16 ( _ch = 16 ) 向量的脚本后，可得到以下结果：</p>
+<pre class="code"><span class="number">2012.05</span>.<span class="number">15</span> <span class="number">00</span>:<span class="number">15</span>:<span class="number">47</span>     OCL_pi_double2_parallel_straight (EURUSD,H1)    ==================================================
+<span class="number">2012.05</span>.<span class="number">15</span> <span class="number">00</span>:<span class="number">15</span>:<span class="number">47</span>     OCL_pi_double2_parallel_straight (EURUSD,H1)    CPUtime / GPUtime = <span class="number">4.130</span>
+<span class="number">2012.05</span>.<span class="number">15</span> <span class="number">00</span>:<span class="number">15</span>:<span class="number">47</span>     OCL_pi_double2_parallel_straight (EURUSD,H1)    SMARTER: The time to calculate PI was <span class="number">8.830</span> seconds
+<span class="number">2012.05</span>.<span class="number">15</span> <span class="number">00</span>:<span class="number">15</span>:<span class="number">47</span>     OCL_pi_double2_parallel_straight (EURUSD,H1)    SMARTER: The <span class="keyword">value</span> of PI <span class="keyword">is</span> <span class="number">3.141592653590</span>
+<span class="number">2012.05</span>.<span class="number">15</span> <span class="number">00</span>:<span class="number">15</span>:<span class="number">38</span>     OCL_pi_double2_parallel_straight (EURUSD,H1)    DULL: The time to calculate PI was <span class="number">8.002</span> seconds
+<span class="number">2012.05</span>.<span class="number">15</span> <span class="number">00</span>:<span class="number">15</span>:<span class="number">38</span>     OCL_pi_double2_parallel_straight (EURUSD,H1)    DULL: The <span class="keyword">value</span> of PI <span class="keyword">is</span> <span class="number">3.141592653590</span>
+<span class="number">2012.05</span>.<span class="number">15</span> <span class="number">00</span>:<span class="number">15</span>:<span class="number">30</span>     OCL_pi_double2_parallel_straight (EURUSD,H1)    OPENCL: gone = <span class="number">2.138</span> sec.
+<span class="number">2012.05</span>.<span class="number">15</span> <span class="number">00</span>:<span class="number">15</span>:<span class="number">30</span>     OCL_pi_double2_parallel_straight (EURUSD,H1)    OPENCL: pi = <span class="number">3.141592653590</span>
+<span class="number">2012.05</span>.<span class="number">15</span> <span class="number">00</span>:<span class="number">15</span>:<span class="number">30</span>     OCL_pi_double2_parallel_straight (EURUSD,H1)    read = <span class="number">20000</span> elements
+<span class="number">2012.05</span>.<span class="number">15</span> <span class="number">00</span>:<span class="number">15</span>:<span class="number">28</span>     OCL_pi_double2_parallel_straight (EURUSD,H1)    CLProgramCreate: unknown error.
+<span class="number">2012.05</span>.<span class="number">15</span> <span class="number">00</span>:<span class="number">15</span>:<span class="number">28</span>     OCL_pi_double2_parallel_straight (EURUSD,H1)    DOUBLE2: _step = <span class="number">0.000000001000</span>; _intrnCnt = <span class="number">3125</span>
+<span class="number">2012.05</span>.<span class="number">15</span> <span class="number">00</span>:<span class="number">15</span>:<span class="number">28</span>     OCL_pi_double2_parallel_straight (EURUSD,H1)    ==================================================</pre>
+<p>可以看出，即使是使用向量数据类型进行优化，也无法让内核变快。<br />
+</p>
+<p>但是，如果在 GPU 上运行相同代码，则速度增加要明显得多。 <br />
+</p>
+<p>根据 <b>MetaDriver</b> 提供的信息（显卡为 HIS Radeon HD 6930，CPU 为 AMD Phenom II x6 1100T），同样的代码会产生以下结果：<br />
+</p>
+<pre class="code"><span class="number">2012.05</span>.<span class="number">14</span> <span class="number">11</span>:<span class="number">36</span>:<span class="number">07</span>     OCL_pi_double2_parallel_straight (AUDNZD,M5)    ==================================================
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">11</span>:<span class="number">36</span>:<span class="number">07</span>     OCL_pi_double2_parallel_straight (AUDNZD,M5)    CPUtime / GPUtime = <span class="number">84.983</span>
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">11</span>:<span class="number">36</span>:<span class="number">07</span>     OCL_pi_double2_parallel_straight (AUDNZD,M5)    SMARTER: The time to calculate PI was <span class="number">14.617</span> seconds
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">11</span>:<span class="number">36</span>:<span class="number">07</span>     OCL_pi_double2_parallel_straight (AUDNZD,M5)    SMARTER: The <span class="keyword">value</span> of PI <span class="keyword">is</span> <span class="number">3.141592653590</span>
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">11</span>:<span class="number">35</span>:<span class="number">52</span>     OCL_pi_double2_parallel_straight (AUDNZD,M5)    DULL: The time to calculate PI was <span class="number">14.040</span> seconds
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">11</span>:<span class="number">35</span>:<span class="number">52</span>     OCL_pi_double2_parallel_straight (AUDNZD,M5)    DULL: The <span class="keyword">value</span> of PI <span class="keyword">is</span> <span class="number">3.141592653590</span>
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">11</span>:<span class="number">35</span>:<span class="number">38</span>     OCL_pi_double2_parallel_straight (AUDNZD,M5)    OPENCL: gone = <span class="number">0.172</span> sec.
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">11</span>:<span class="number">35</span>:<span class="number">38</span>     OCL_pi_double2_parallel_straight (AUDNZD,M5)    OPENCL: pi = <span class="number">3.141592653590</span>
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">11</span>:<span class="number">35</span>:<span class="number">38</span>     OCL_pi_double2_parallel_straight (AUDNZD,M5)    read = <span class="number">20000</span> elements
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">11</span>:<span class="number">35</span>:<span class="number">38</span>     OCL_pi_double2_parallel_straight (AUDNZD,M5)    CLProgramCreate: unknown error.
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">11</span>:<span class="number">35</span>:<span class="number">38</span>     OCL_pi_double2_parallel_straight (AUDNZD,M5)    DOUBLE2: _step = <span class="number">0.000000001000</span>; _intrnCnt = <span class="number">3125</span>
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">11</span>:<span class="number">35</span>:<span class="number">38</span>     OCL_pi_double2_parallel_straight (AUDNZD,M5)    ==================================================
+</pre>
+<br />
+<h3>6. 点睛之笔<br />
+</h3>
+<p style="text-align:justify;">这里还有一个内核（可以在以下随附的 OCL_pi_double_several_simple_kernels.mq5 文件中找到，但这里就不演示了）。 <br />
+</p>
+<p style="text-align:justify;">该脚本实现了作者此前的想法，当时他临时放弃了编写“单一”内核模块的尝试，并打算针对不同的向量维数 (4, 8, 16, 32) 编写四个简单的内核模块：</p>
+<pre class="code"><span class="string">"#pragma OPENCL EXTENSION cl_khr_fp64 : enable                                               \r\n"</span>
+<span class="string">"#define _ITERATIONS "</span> + i2s( _itInKern ) + <span class="string">"                                             \r\n"</span>
+<span class="string">"#define _STEP "</span>      + d2s( _step, <span class="number">12</span> ) + <span class="string">"                                              \r\n"</span>
+<span class="string">"                                                                                            \r\n"</span>
+<span class="string">"typedef struct                                                                              \r\n"</span>
+<span class="string">"{                                                                                           \r\n"</span>
+<span class="string">"  double16    lo;                                                                           \r\n"</span>
+<span class="string">"  double16    hi;                                                                           \r\n"</span>
+<span class="string">"} double32;                                                                                 \r\n"</span>
+<span class="string">"                                                                                            \r\n"</span>
+<span class="string">"inline double32 convert2double32( double a )                                                \r\n"</span>        
+<span class="string">"{                                                                                           \r\n"</span>
+<span class="string">"  double32 b;                                                                               \r\n"</span>    
+<span class="string">"    b.lo = ( double16 )( a );                                                               \r\n"</span>
+<span class="string">"    b.hi = ( double16 )( a );                                                               \r\n"</span>
+<span class="string">"    return b;                                                                               \r\n"</span>
+<span class="string">"}                                                                                           \r\n"</span>
+<span class="string">"                                                                                            \r\n"</span>
+<span class="string">"inline double dot32( double32 a, double32 b )                                               \r\n"</span>     
+<span class="string">"{                                                                                           \r\n"</span>     
+<span class="string">"     double32 c;                                                                            \r\n"</span> 
+<span class="string">"     c.lo = a.lo * b.lo;                                                                    \r\n"</span> 
+<span class="string">"     c.hi = a.hi * b.hi;                                                                    \r\n"</span> 
+<span class="string">"     double4 _1  = ( double4 ) ( 1., 1., 1., 1. );                                          \r\n"</span> 
+<span class="string">"     return dot( c.lo.lo.lo + c.lo.lo.hi + c.lo.hi.lo  + c.lo.hi.hi +                       \r\n"</span> 
+<span class="string">"                 c.hi.lo.lo + c.hi.lo.hi + c.hi.hi.lo  + c.hi.hi.hi, _1 );                  \r\n"</span> 
+<span class="string">"}                                                                                           \r\n"</span>     
+<span class="string">"                                                                                            \r\n"</span>
+<span class="string">"__kernel void pi( __global double *out )                                                    \r\n"</span>
+<span class="string">"{                                                                                           \r\n"</span>
+<span class="string">"  int i = get_global_id( 0 );                                                               \r\n"</span>
+<span class="string">"                                                                                            \r\n"</span>
+<span class="string">"  /// define vector constants                                                               \r\n"</span>
+<span class="string">"  double32 _v32;                                                                            \r\n"</span>
+<span class="string">"  _v32.lo = ( double16 ) (  0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,                          \r\n"</span>
+<span class="string">"                            8.,  9., 10., 11., 12., 13., 14., 15. );                        \r\n"</span>
+<span class="string">"  _v32.hi = ( double16 ) ( 16., 17., 18., 19., 20., 21., 22., 23.,                          \r\n"</span>
+<span class="string">"                           24., 25., 26., 27., 28., 29., 30., 31. );                        \r\n"</span>
+<span class="string">"                                                                                            \r\n"</span>
+<span class="string">"  /// all vector-related with undefined type                                                \r\n"</span>
+<span class="string">"  double32 xVect;                                                                           \r\n"</span>
+<span class="string">"  double32 sumVect           = convert2double32( 0.0 );                                     \r\n"</span>
+<span class="string">"  double32 double1Vect       = convert2double32( 1.0 );                                     \r\n"</span>
+<span class="string">"                                                                                            \r\n"</span>
+<span class="string">"  double32 in;                                                                              \r\n"</span>
+<span class="string">" /// work only with 16-vectors in the loop!                                                 \r\n"</span>
+<span class="string">"  for( long j = 0; j &lt; _ITERATIONS; j ++ )                                                  \r\n"</span>
+<span class="string">"  {                                                                                         \r\n"</span>
+<span class="string">"     in.lo = _v32.lo + 32. * ( i * _ITERATIONS + j );                                       \r\n"</span>
+<span class="string">"     in.hi = _v32.hi + 32. * ( i * _ITERATIONS + j );                                       \r\n"</span>
+<span class="string">"     xVect.lo = ( in.lo  + 0.5 ) * _STEP;                                                   \r\n"</span>
+<span class="string">"     xVect.hi = ( in.hi  + 0.5 ) * _STEP;                                                   \r\n"</span>
+<span class="string">"     sumVect.lo += 4. / ( xVect.lo * xVect.lo + 1. );                                       \r\n"</span>
+<span class="string">"     sumVect.hi += 4. / ( xVect.hi * xVect.hi + 1. );                                       \r\n"</span>                             
+<span class="string">"  }                                                                                         \r\n"</span>
+<span class="string">"  out[ i ] = dot32( sumVect, double1Vect );                                                 \r\n"</span>
+<span class="string">"}                                                                                           \r\n"</span>;    
+</pre>
+<p>该内核模块实施的是向量维数 32。新向量类型和几个必要的内联函数均在该内核的主函数以外进行了定义。除此之外（这很重要！），主循环内的所有计算都只有意地使用标准向量数据类型制成；非标准类型会在循环外进行处理。这样便能够大幅缩短代码的执行时间。<br />
+</p>
+<p style="text-align:justify;">在我们的计算中，该内核看起来并不比用于宽度为 16 的向量慢，但也快不了多少。 <br />
+</p>
+<p style="text-align:justify;">根据 <b>MetaDriver</b> 提供的信息，含该内核 (_ch=32) 的脚本会产生下述结果：</p>
+<pre class="code"><span class="number">2012.05</span>.<span class="number">14</span> <span class="number">12</span>:<span class="number">05</span>:<span class="number">33</span> OCL_pi_double32-<span class="number">01</span> (AUDNZD,M5) OPENCL: gone = <span class="number">0.156</span> sec.
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">12</span>:<span class="number">05</span>:<span class="number">33</span> OCL_pi_double32-<span class="number">01</span> (AUDNZD,M5) OPENCL: pi = <span class="number">3.141592653590</span>
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">12</span>:<span class="number">05</span>:<span class="number">33</span> OCL_pi_double32-<span class="number">01</span> (AUDNZD,M5) read = <span class="number">10000</span> elements
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">12</span>:<span class="number">05</span>:<span class="number">32</span> OCL_pi_double32-<span class="number">01</span> (AUDNZD,M5) CLProgramCreate: unknown error or no error.
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">12</span>:<span class="number">05</span>:<span class="number">32</span> OCL_pi_double32-<span class="number">01</span> (AUDNZD,M5) <span class="functions">GetLastError</span> returned .. <span class="number">0</span>
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">12</span>:<span class="number">05</span>:<span class="number">32</span> OCL_pi_double32-<span class="number">01</span> (AUDNZD,M5) DOUBLE2: _step = <span class="number">0.000000001000</span>; _itInKern = <span class="number">3125</span>; vectorization channels - <span class="number">32</span>
+<span class="number">2012.05</span>.<span class="number">14</span> <span class="number">12</span>:<span class="number">05</span>:<span class="number">32</span> OCL_pi_double32-<span class="number">01</span> (AUDNZD,M5) =================================================================
+</pre>
+<br />
+<h3>总结与结论<br />
+</h3>
+<p>作者心里非常清楚，用作说明 OpenCL 资源的任务对于此语言来说并不是特别典型。 <br />
+</p>
+<p style="text-align:justify;">如果只是翻开一本教科书、照搬一个大型矩阵乘的标准示例放到这里，则会简单得多。很明显，那样的示例一定让人印象深刻。但是，是否有大量 mql5.com 论坛用户参与到需要大型矩阵相乘的金融运算呢？这很值得怀疑。作者想要选择自己的示例，克服其本人曾遭遇的所有困难，同时尝试与他人分享经验。当然，你们才是评判者，亲爱的论坛用户们。</p>
+<p style="text-align:justify;">与使用 <b>MetaDriver</b> 脚本后获得的大量效率提升相比，OpenCL 仿真（仅通过 CPU 进行）所实现的效率提升已被证明是微不足道。但在某个适合的 GPU 上，即使我们忽略在 AMD 的 CPU 上运行时间稍长这一事实，它至少也会比通过仿真实现的效率提升高出一个数量级。OpenCL 仍<b>值得</b>学习，尽管其在运算速度方面的提升极其有限！</p>
+<p style="text-align:justify;">作者的下一篇文章有望解决真实硬件上 OpenCL 抽象模式显示特性的相关问题。具备这些方面的知识，有时可以在相当程度上进一步加快运算速度。 <br />
+</p>
+<p style="text-align:justify;">作者要在这里特别感谢 <b>MetaDriver</b> 提供极为宝贵的编程与性能优化建议，同时感谢<b>支持团队</b>提供了使用 Intel OpenCL SDK 的可能性。</p>
+<p>随附文件目录如下：</p>
+<ul>
+<li>pi.mq5 - 完全使用 MQL5 编写的一个脚本，其中包含两种计算 "pi" 值的方式；</li>
+<li>OCl_pi_float.mq5 - 首次实现了带 OpenCL 内核的脚本，涉及浮点型的实际运算；</li>
+<li>OCL_pi_double.mq5 - 同上，仅涉及双精度型的实际运算；</li>
+<li>OCL_pi_double_several_simple_kernels.mq5 - 一个含若干特定内核的脚本，这些内核适用于多个向量 “宽度”(4, 8, 16, 32)；</li>
+<li>OCL_pi_double_parallel_straight.mq5 - 一个含单一内核的脚本，该内核适用于某些向量“宽度”(4, 8, 16)。<br />
+  </li>
+</ul>
+      </div>
+          <p style="text-align: right;"><small>本文译自 MetaQuotes Software Corp. 撰写的俄文原文 <br />原文地址： <a href="/ru/articles/405" target="_blank">https://www.mql5.com/ru/articles/405</a></small></p>
+<div id="cb_405" class="attachBlock">
+  <strong>附加的文件</strong> |
+  <div class="grouped-attachments-help">
+    <a title="下载单独ZIP中的所有附件" href="/zh/articles/download/405.zip">
+      <i class="attach-icon attach-icon_zip"></i>下载ZIP
+    </a>
+  </div>
+    <div class="attachItem">
+      <a title="下载 pi.mq5" href="/zh/articles/download/405/pi.mq5"><i class="attach-icon attach-icon_mq5"></i>pi.mq5</a>
+      <span class="attachSize">(1.84 KB)</span>
+    </div>
+    <div class="attachItem">
+      <a title="下载 ocl_pi_float.mq5" href="/zh/articles/download/405/ocl_pi_float.mq5"><i class="attach-icon attach-icon_mq5"></i>ocl_pi_float.mq5</a>
+      <span class="attachSize">(3.59 KB)</span>
+    </div>
+    <div class="attachItem">
+      <a title="下载 ocl_pi_double.mq5" href="/zh/articles/download/405/ocl_pi_double.mq5"><i class="attach-icon attach-icon_mq5"></i>ocl_pi_double.mq5</a>
+      <span class="attachSize">(3.85 KB)</span>
+    </div>
+    <div class="attachItem">
+      <a title="下载 ocl_pi_double_several_simple_kernels.mq5" href="/zh/articles/download/405/ocl_pi_double_several_simple_kernels.mq5"><i class="attach-icon attach-icon_mq5"></i>ocl_pi_double_several_simple_kernels.mq5</a>
+      <span class="attachSize">(22.42 KB)</span>
+    </div>
+    <div class="attachItem">
+      <a title="下载 ocl_pi_double_parallel_straight.mq5" href="/zh/articles/download/405/ocl_pi_double_parallel_straight.mq5"><i class="attach-icon attach-icon_mq5"></i>ocl_pi_double_parallel_straight.mq5</a>
+      <span class="attachSize">(11.3 KB)</span>
+    </div>
+</div>
+    </div>
+      <div class="copyright">
+        <span style="color: #f00; font-weight: bold;">注意:</span> MetaQuotes Ltd.将保留所有关于这些材料的权利。全部或部分复制或者转载这些材料将被禁止。
+      </div>
+  </div>
+
+      <div class="relap-container">
+          
+      </div>
+<div class="other-author-articles ui">
+  <h4 class="other-author-articles__title">该作者的其他文章</h4>
+  <ul class="other-author-articles__list">
+      <li>
+        <a href="/zh/articles/407" data-fz-event="MQL5+Article+From+Author+Article">OpenCL：从朴素到更具深度的编程</a>
+      </li>
+      <li>
+        <a href="/zh/articles/39" data-fz-event="MQL5+Article+From+Author+Article">MQL5 中的事件处理：快速更改 MA 周期</a>
+      </li>
+      <li>
+        <a href="/zh/articles/1530" data-fz-event="MQL5+Article+From+Author+Article">谬误，第 2 部分统计学是一门伪科学，亦或是一部记录艰难生计的编年史</a>
+      </li>
+      <li>
+        <a href="/zh/articles/1526" data-fz-event="MQL5+Article+From+Author+Article">谬误，第 1 部分：资金管理排第二位，并不是很重要</a>
+      </li>
+  </ul>
+</div>
+  <div id="articleAdditional">
+      <div class="article__last-comments">
+        
+
+<div class="comments-preview">
+    <div class="title">
+<span></span><b>         最近评论 |
+ <a href="/zh/forum/17251">前往讨论</a>
+</b>        (1)
+    </div>
+    <div>
+        
+          <div class="comment">
+            <div class="user"><div class="frame"><div class="bg"><img src="https://c.mql5.com/avatar/avatar_na2.png" alt="intersense" title="intersense" onmouseover="window.tooltip &amp;&amp; window.tooltip(this,$('user_avatar_intersense_tooltip').cloneNode(true))" loading="lazy" width="60" height="60" /></div></div></div>
+<div style="display:none;"><div id="user_avatar_intersense_tooltip"><a target="_blank" href="/zh/users/intersense" class="user-tooltip">
+  <div class="user-tooltip__avatar">
+    <img src="https://c.mql5.com/avatar/avatar_na2.png" width="60" height="60" alt="intersense" title="intersense" loading="lazy" />
+  </div>
+  <div class="user-tooltip__line user-tooltip__name">
+    <span class="author">intersense</span>
+  </div>  <div class="user-tooltip__line"><span class="user-tooltip__counters">
+1 评论  </span></div>
+</a>
+</div></div>
+            <div class="text">
+              <div>
+                <b><a class="author" href="/zh/users/intersense" onmouseover="window.tooltip &amp;&amp; window.tooltip(this,$('user_link_intersense_tooltip').cloneNode(true))">intersense</a><div style="display:none;"><div id="user_link_intersense_tooltip"><a target="_blank" href="/zh/users/intersense" class="user-tooltip">
+  <div class="user-tooltip__avatar">
+    <img src="https://c.mql5.com/avatar/avatar_na2.png" width="60" height="60" alt="intersense" title="intersense" loading="lazy" />
+  </div>
+  <div class="user-tooltip__line user-tooltip__name">
+    <span class="author">intersense</span>
+  </div>  <div class="user-tooltip__line"><span class="user-tooltip__counters">
+1 评论  </span></div>
+</a>
+</div></div></b>
+                |
+                <span class="comment__date">23 2月 2014 在 09:15</span>
+                <a id="comment_777282"></a>
+                <span class="commands">
+<span class="command networkLink" id="share_777282"><span class="share shareWrapperIconed"><a class="share smallIco" id="share_3_17_777282" onclick="shareManager.OpenShareEditor(this,'在社交网络与好友分享','/zh/publish/3/17/777282',false);return false;" title="分享社交网络" href="javascript:void(0);"></a></span></span>
+</span>
+
+              </div>
+              <div class="content" id="content777282">
+                <div class="fquote"><strong><span style="color:#42639c;">MetaQuotes</span>:</strong><br /> <p>新文章 <a href="/zh/articles/405" target="_blank">OpenCL：并行世界的桥梁</a>已发布：</p><p>作者：<a href="https://www.mql5.com/zh/users/Mathemat" target="_blank" title="Mathemat">Sceptic Philozoff</a></p><p>对OpenCL支持是个非常好的选择，现在和将来的计算平台异构化特点非常明显，只是现在的条件下同样的算法使用OpenCL比CUDA性能要低不少，可能CUDA比OpenCL更底层，针对自家的GPU优化的更好。NVIDIA的GPU性能更优发展势头更好，且CUDA编译器已经采用LLVM，以后会有越来越多的语言支持CUDA，现在Python已经可以支持，尤其CUDA6.0在编程易用性上特点更为突出，尤其是Unified Memory技术，将来随着CUDA运行时对数据自动迁移的支持更好，程序的性能与编程的生产力会更佳。MQL5支持OpenCL是个好开端，以后在CUDA上或许也可以做一些事情。</p></div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+
+      </div>
+  <div>
+        <div class="articles-bottom-list">
+            <div class="articles-bottom-list__row">
+              <div class="articles-bottom-list__column">
+                  <div class="articles-bottom-list__item">
+                    <img alt="OpenCL：从朴素到更具深度的编程" src="https://c.mql5.com/2/0/OpenCL_Logo__1.png" loading="lazy" width="60" height="60" class="articles-bottom-list__avatar" />
+                    <a href="/zh/articles/407" data-fz-event="MQL5+Article+Next+Article" class="articles-bottom-list__title">OpenCL：从朴素到更具深度的编程</a>
+                    <div class="articles-bottom-list__desc">本文要重点讲述的是一些优化能力，但至少要对 OpenCL 内核借以执行的基本硬件多少有些了解，才能启动这些能力。获取的数据远非最高值，但即便是这样，也建议充分利用现有资源（由该终端开发人员实施的 OpenCL API 不允许控制对于优化而言很重要的一些参数 - 尤其是工作组的大小），通过主机程序执行获得的增益是非常可观的。</div>
+                  </div>
+              </div>
+              <div class="articles-bottom-list__column">
+                  <div class="articles-bottom-list__item">
+                    <img alt="为什么说 MQL5 应用商店是销售交易策略与技术指标的最佳去处" src="https://c.mql5.com/2/0/mql5-market.png" loading="lazy" width="60" height="60" class="articles-bottom-list__avatar" />
+                    <a href="/zh/articles/401" data-fz-event="MQL5+Article+Next+Article" class="articles-bottom-list__title">为什么说 MQL5 应用商店是销售交易策略与技术指标的最佳去处</a>
+                    <div class="articles-bottom-list__desc">MQL5.community 应用商店为 EA 交易开发人员提供了一个由成千上万潜在客户构成的、已经成型的市场。这里是销售交易机器人和技术指标的最佳去处！</div>
+                  </div>
+              </div>
+            </div>
+            <div class="articles-bottom-list__row">
+              <div class="articles-bottom-list__column">
+                  <div class="articles-bottom-list__item">
+                    <img alt="作为创建自动化交易系统新方法的自动机编程" src="https://c.mql5.com/2/0/11__3.png" loading="lazy" width="60" height="60" class="articles-bottom-list__avatar" />
+                    <a href="/zh/articles/446" data-fz-event="MQL5+Article+Next+Article" class="articles-bottom-list__title">作为创建自动化交易系统新方法的自动机编程</a>
+                    <div class="articles-bottom-list__desc">本文会让我们以一种全新的视角，来进行 MQL4 与 MQL5 中 EA、指标及脚本的开发。将来，此编程范式会逐渐变成 EA 实施领域所有交易者的基本标准。利用这种自动机编程范式，MQL5 和 MetaTrader 5 开发人员也就具备了某种程度上创建新语言 - MQL6 - 和新平台 - MetaTrader 6 的能力。</div>
+                  </div>
+              </div>
+              <div class="articles-bottom-list__column">
+                  <div class="articles-bottom-list__item">
+                    <img alt="MetaTrader 5 与 MQL5 提供的无限机遇" src="https://c.mql5.com/2/0/TW_logoMarket_60x60.png" loading="lazy" width="60" height="60" class="articles-bottom-list__avatar" />
+                    <a href="/zh/articles/392" data-fz-event="MQL5+Article+Next+Article" class="articles-bottom-list__title">MetaTrader 5 与 MQL5 提供的无限机遇</a>
+                    <div class="articles-bottom-list__desc">本文中，我想举一个例子说明交易者的程序会是什么样子，以及如果从头到始学习 MQL5，9 个月内能达到什么程度。这个例子还会显示出对于一个交易者而言，这样一种程序在占用价格图表最小空间的同时，其功能多样性与信息翔实性如何。而且，我们也会看出，可以通过何种方式，得到颜色多样、清晰明快且对于用户而言直观明确的交易信息面板。以及许许多多的其它功能...</div>
+                  </div>
+              </div>
+            </div>
+        </div>
+  </div>
+  </div>
+  <div class="clear-fix"></div>
+
+
+<div id="wdausxxqrpvhekbwjrjlhqjghyhesrqqau" class="rwz5ulp96y41ztlt8 rwz5ulp96y41ztlt8_articles-view ff"></div></div>
+
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.mql5.com/zh/articles/405"},"headline":"OpenCL：并行世界的桥梁","image":["https://c.mql5.com/2/4/Pi_calculation_formula.png","https://c.mql5.com/2/4/platform_model.gif","https://c.mql5.com/2/4/ATI_Radeon_5870_GPU_features.png","https://c.mql5.com/2/4/context2.png","https://c.mql5.com/2/4/clSrc.png","https://c.mql5.com/2/4/OpenCL_program.png","https://c.mql5.com/2/4/OpenCL_kernels.png","https://c.mql5.com/2/4/GPU_Mem__1.png","https://c.mql5.com/2/4/Fig8__1.png","https://c.mql5.com/2/4/Fig9__1.png","https://c.mql5.com/2/4/Built-in_Vector_Data_Types.png","https://c.mql5.com/2/4/Other_Built-in_Data_Types.png","https://c.mql5.com/2/4/Numeric_indices_vector_components_OpenCL.png","https://c.mql5.com/2/4/iCompiler.PNG"],"datePublished":"2014-01-09T11:35:07","dateModified":"2014-01-06T13:41:38","author":{"@type":"Person","name":"Sceptic Philozoff","url":"https://www.mql5.com/zh/users/mathemat"},"publisher":{"@type":"Organization","name":"MQL5.Community","url":"https://www.mql5.com","logo":{"@type":"ImageObject","url":"https://c.mql5.com/i/community/logo_mql5-2.png"}},"description":"2012 年 1 月末，从事 MetaTrader 5 开发业务的软件开发公司宣布 MQL5 可向 OpenCL 提供原生支持。本文通过一个示例说明了 MQL5 环境下 OpenCL 的编程基础知识，并列举了几个示例，讲述了为提高运行速度所做的朴素优化。"}
+</script>
+
+
+    
+
+
+<div class="hidden" id="popupRegisterLogin">
+  <div class="register-login-popup">
+    <div class="register-login-popup__header">
+      <img src="https://c.mql5.com/i/registerlandings/logo-2.png" srcset="https://c.mql5.com/i/registerlandings/logo-2_2x.png 2x" alt="MQL5 - MetaTrader 5客户端内置的交易策略语言" loading="lazy" width="74" height="24" />
+    </div>
+    <div class="register-login-popup__content">
+      <div class="register-login-popup__desc">
+        <div class="register-login-popup__title">您错过了交易机会：</div>
+        <ul>
+<li>免费交易应用程序</li>
+<li>免费24小时外汇VPS</li>
+<li>8,000+信号可供复制</li>
+<li>探索金融市场的经济新闻</li>
+</ul>
+      </div>
+      <div class="register-login-popup__forms ui">
+        <div class="register-login-popup__tabs" id="registerLoginPopupTabs">
+          <span data-id="register" id="registerLoginPopupTab_register" class="register-login-popup__tab register-login-popup__tab_active">注册</span>
+          <span data-id="login" id="registerLoginPopupTab_login" class="register-login-popup__tab">登录</span>
+        </div>
+        <div id="registerLoginPopupTabContent_register">
+          <div class="ui auth-form__content">
+    
+  <script type="text/javascript">/*&lt;![CDATA[*/ if (!window.V) var V = []; /*]]&gt;*/</script>
+<script type="text/javascript">/*&lt;![CDATA[*/ if(! window.V) var V=[]; /*]]&gt;*/</script>
+<form method="POST" action="/zh/auth_register_short" id="PopupRegisterquickRegisterForm" onsubmit="PopupRegisterquickRegistration.OnSubmit(this,'zh');if(Validate(this)) Ajax.form(this,{onready:PopupRegisterquickRegistration.OnSuccessPopup,onerror:PopupRegisterquickRegistration.OnError,onbeginrequest:PopupRegisterquickRegistration.DisableInputs,onendrequest:PopupRegisterquickRegistration.EnableInputs});return(false);" enctype="multipart/form-data"><input type="hidden" name="__signature" value="18f71ebca571f146951a40a9843c1d9b" />
+    <div class="auth-form__inputs">
+      <input type="hidden" value="0" name="IsValidate" id="PopupRegisterIsValidate" />
+
+      <!--[if lt IE 10]><div class="note">登录名:</div><![endif]-->
+      <div class="auth-form__box-input">
+        <input type="text" id="PopupRegisterusername" name="username" class="input" maxlength="32" onchange="if(window.PopupRegisterquickRegistration){PopupRegisterquickRegistration.CheckUserName();}" onkeyup="if(window.PopupRegisterquickRegistration){PopupRegisterquickRegistration.ValidateUserName(this, '请输入有效登录名');}" placeholder="登录名" title="可以包括字母，数字，点，破折号和下划线字符，不能以点开始或结束。允许长度为3至32个字符。" onfocus="if(window.PopupRegisterquickRegistration){PopupRegisterquickRegistration.OnFocus(this,'');}" onblur="if(window.PopupRegisterquickRegistration){PopupRegisterquickRegistration.OnBlur(this);}" />
+        <script type="text/javascript" id="validate_PopupRegisterusername">/*&lt;![CDATA[*/ mqGlobal.AddOnReady(function() {V.push(['PopupRegisterusername',10,'您可以使用拉丁字符、数字、下划线和句号。',validate_username]);}); /*]]&gt;*/</script>
+
+        <label class="label" for="PopupRegisterusername">拉丁字符（不带空格）</label>
+      </div>
+      <!--[if lt IE 10]><div class="note">您的电子邮箱:</div><![endif]-->
+      <div class="auth-form__box-input">
+        <input class="input" type="email" id="PopupRegisteremail" name="email" placeholder="您的电子邮箱" title="请输入电子邮箱地址(不能超过 256 个字符)。例如：john@example.com" onchange="if(window.PopupRegisterquickRegistration){PopupRegisterquickRegistration.OnChange(this);}" onfocus="if(window.PopupRegisterquickRegistration){PopupRegisterquickRegistration.OnFocus(this,'');}" onblur="if(window.PopupRegisterquickRegistration){PopupRegisterquickRegistration.OnBlur(this);}" />
+        <script type="text/javascript" id="validate_PopupRegisteremail">/*&lt;![CDATA[*/ mqGlobal.AddOnReady(function() {V.push(['PopupRegisteremail',10,'请输入有效email',validate_email]);}); /*]]&gt;*/</script>
+
+        <label class="label" for="PopupRegisteremail">密码将被发送至该邮箱</label>
+      </div>
+      <input name="PrefixId" type="hidden" value="Popup+Register" />
+    </div>
+    <span id="PopupRegisterquickRegisterSubmit">
+      <input type="submit" value="注册" id="PopupRegisterquickRegisterButton" title="注册并接收包含密码的邮件" class="button" />
+    </span>
+    <span id="PopupRegisterquickRegisterErrorMessage" class="quick-register-error-message field-validation-error" style="text-align: center; margin-top: 16px; display: none;">
+      发生错误
+    </span>
+</form>
+    
+</div>
+<div class="auth-social">
+  <ul class="auth-social-list" id="socialList">
+    <li><a onclick="window.fpush({name: 'MQL5+Popup+Register+Facebook', unit: 'section', value: 'Articles'}); " href="https://www.mql5.com/zh/auth_oauth2?provider=Facebook&amp;amp;return=popup&amp;amp;reg=1" class="auth-soc-button qa-fb-button auth-soc-button_fb" rel="nofollow">使用 Facebook 登录</a></li>
+    <li><a onclick="window.fpush({name: 'MQL5+Popup+Register+Google', unit: 'section', value: 'Articles'}); " href="https://www.mql5.com/zh/auth_oauth2?provider=Google&amp;amp;return=popup&amp;amp;reg=1" class="auth-soc-button qa-google-button auth-soc-button_google" rel="nofollow">使用 Google 登录</a></li>
+  </ul>
+</div>
+<div class="auth-block-agree">
+  <p>
+    您同意<a target="_blank" href="/zh/about/privacy">网站政策</a>和<a target="_blank" href="/zh/about/terms">使用条款</a>
+  </p>
+</div>
+
+
+        </div>
+        <div id="registerLoginPopupTabContent_login" class="hidden">
+            <div class="auth-form__text">
+    如果您没有帐号，请<a href="https://www.mql5.com/zh/auth_register" rel="nofollow" style="vertical-align: top">注册</a>
+  </div>
+<div class="ui auth-form__content auth-form__content_login" id="loginFormWrapper">
+    
+  <div id="needCookies" class="need-cookies hidden">
+    <div class="danger-box">
+      <p>可以使用cookies登录MQL5.com网站。</p>
+<p>请在您的浏览器中启用必要的设置，否则您将无法登录。</p>
+    </div>
+  </div>
+<script type="text/javascript">/*&lt;![CDATA[*/ if(! window.V) var V=[]; /*]]&gt;*/</script>
+<form method="POST" action="/zh/auth_login" id="loginForm" onsubmit="if(window.quickLogin){return window.quickLogin.onSubmit(this);}var result = Validate(this); if(result) { preventDoubleSubmit(this); } return result;"><input id="RedirectAfterLoginUrl" name="RedirectAfterLoginUrl" type="hidden" value="" /><input id="RegistrationUrl" name="RegistrationUrl" type="hidden" value="" /><input data-val="true" data-val-required="The ShowOpenId field is required." id="ShowOpenId" name="ShowOpenId" type="hidden" value="True" /><input id="TrackingSection" name="TrackingSection" type="hidden" value="Articles" />    <input name="ViewType" type="hidden" value="5" />
+      <input name="PrefixId" type="hidden" value="Popup+Login" />
+    <!--[if lt IE 10]><div class="note">您的登录名:</div><![endif]-->
+    <div class="auth-form__box-input">
+      <input class="input qa-login" id="Login" name="Login" onchange="if(window.quickLogin){window.quickLogin.onChange(this);}" placeholder="登录名或电子邮箱" title="您的登录名" type="text" value="" />
+      <script type="text/javascript" id="validate_Login">/*&lt;![CDATA[*/ mqGlobal.AddOnReady(function() {V.push(['Login',1,'输入注册时使用的登录名']);});mqGlobal.AddOnReady(function() {V.push(['Login',10,'电子邮箱无法使用。请输入您的登录名',validateLogin]);}); /*]]&gt;*/</script>
+    </div>
+    <!--[if lt IE 10]><div class="note">密码:</div><![endif]-->
+    <div class="auth-form__box-input">
+      <div class="input-with-show">
+        <input autocomplete="off" class="input qa-password" id="Password" name="Password" onchange="if(window.quickLogin){window.quickLogin.onChange(this);}" placeholder="密码" title="请输入密码" type="password" />
+        <span class="input-with-show__icon" title="显示密码" onclick="if(window.quickLogin){window.quickLogin.showPass(this, '显示密码', '隐藏密码');}"></span>
+      </div>
+      <script type="text/javascript" id="validate_Password">/*&lt;![CDATA[*/ mqGlobal.AddOnReady(function() {V.push(['Password',1,'请输入密码']);}); /*]]&gt;*/</script>
+    </div>
+    <script type="text/javascript">
+    function validateLogin(input) {
+      return true;
+    }
+    </script>
+    <div class="forgot" id="loginForgotBlock"><a id="loginForgotLink" href="https://www.mql5.com/zh/auth_forgotten?return=popup">忘记您的登录名/密码？</a></div>
+    <input type="submit" class="button button_yellow qa-submit" id="loginSubmit" value="登录" title="输入" />
+</form></div>
+
+  <div class="auth-social" id="authSocialBlock">
+    <ul class="auth-social-list" id="socialList">
+      <li><a onclick="window.fpush({name: 'MQL5+Popup+Login+Facebook', unit: 'section', value: 'Articles'}); " href="https://www.mql5.com/zh/auth_oauth2?provider=Facebook&amp;amp;return=popup" class="auth-soc-button qa-fb-button auth-soc-button_fb" rel="nofollow">使用 Facebook 登录</a></li>
+      <li><a onclick="window.fpush({name: 'MQL5+Popup+Login+Google', unit: 'section', value: 'Articles'}); " href="https://www.mql5.com/zh/auth_oauth2?provider=Google&amp;amp;return=popup" class="auth-soc-button qa-google-button auth-soc-button_google" rel="nofollow">使用 Google 登录</a></li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="popupSection" type="application/json">{"section": "Articles"}</script>
+<script id="popupTranslate" data-type="translate" type="application/json">
+{
+  "popup":
+  {
+  "EmailTitle" : "密码已经发送到{0}",
+  "EmailDescription" : "使用收到的密码和注册时指定的登录名进行登录",
+  "SubmitButtonText" : "激活账户",
+  "RegistrationTip" : "如果您没有收到密码邮件，请检查垃圾箱文件夹或&amp;lt;a href={0}&amp;gt;重新注册&amp;lt;/a&amp;gt;"
+  }
+}
+</script>
+
+    
+ 
+    </div>
+
+
+<div class="footer  desktop" id="footer">
+  <ul class="links  links_desktop">
+      <li id="navFooterCommunity">
+        <b>MQL5.community</b>
+        <ul>
+          <li><a href="/zh/trading" data-fz-event="MQL5+Footer+Trading">在线交易 / WebTerminal</a></li>
+          <li><a href="/zh/code" data-fz-event="MQL5+Footer+CodeBase">免费技术指标和自动交易</a></li>
+          <li><a href="/zh/articles" data-fz-event="MQL5+Footer+Articles">关于编程和交易的文章</a></li>
+          <li><a href="/zh/job" data-fz-event="MQL5+Footer+Job">订购自由职业者的自动交易</a></li>
+          <li><a href="/zh/market" data-fz-event="MQL5+Footer+Market">EA交易和应用程序市场</a></li>
+          <li><a href="/zh/signals" data-fz-event="MQL5+Footer+Signals">跟随外汇信号</a></li>
+          <li><a href="/zh/vps" data-fz-event="MQL5+Footer+VPS">低延迟外汇VPS</a></li>
+          <li><a href="/zh/forum" data-fz-event="MQL5+Footer+Forum">交易者论坛</a></li>
+          <li><a href="/zh/blogs" data-fz-event="MQL5+Footer+Blogs">交易博客</a></li>
+          <li><a href="/zh/charts" data-fz-event="MQL5+Footer+Charts">图表</a></li>
+        </ul>
+      </li>
+      <li id="navFooterMt5">
+        <b>MetaTrader 5</b>
+        <ul>
+          <li><a href="https://www.metatrader5.com" data-fz-event="MQL5+Footer+MetaTrader+5"><span class="nobr">MetaTrader 5</span> 交易平台</a></li>
+          <li><a href="https://www.metatrader5.com/zh/releasenotes" data-fz-event="MQL5+Footer+MetaTrader+5"><span class="nobr">MetaTrader 5</span>最新更新</a></li>
+          <li><a href="https://www.metatrader5.com/zh/news" data-fz-event="MQL5+Footer+MetaTrader+5">新闻，执行和技术</a></li>
+          <li><a href="https://www.metatrader5.com/zh/terminal/help" data-fz-event="MQL5+Footer+MetaTrader+5"><span class="nobr">MetaTrader 5</span> 用户手册</a></li>
+          <li><a href="/zh/docs" data-fz-event="MQL5+Footer+Docs">交易策略的MQL5语言</a></li>
+          <li><a href="https://cloud.mql5.com" data-fz-event="MQL5+Footer+Cloud">MQL5 Cloud Network</a></li>
+          <li><a href="https://www.finteza.com/?utm_source=www.mql5.com&amp;utm_medium=cpc&amp;utm_term=cross-link&amp;utm_content=visit.finteza.com&amp;utm_campaign=0791.finteza.cross-link" data-fz-event="MQL5+Footer+Finteza" target="_blank">端到端分析</a></li>
+            <li><a href="https://download.metatrader.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe?utm_source=www.mql5.com&amp;utm_campaign=download" data-fz-event="MetaTrader+5+Desktop+Download">下载 <span class="nobr">MetaTrader 5</span></a></li>
+            <li><a href="https://www.metatrader5.com/zh/terminal/help/start_advanced/installation" data-fz-event="MQL5+Footer+MetaTrader+5">安装平台</a></li>
+            <li><a href="https://www.metatrader5.com/zh/terminal/help/start_advanced/deinstallation" data-fz-event="MQL5+Footer+MetaTrader+5">卸载平台</a></li>
+        </ul>
+
+      </li>
+    <li id="navFooterWebsite">
+        <b>网址</b>
+        <ul>
+          <li><a href="/zh/about" data-fz-event="MQL5+Footer+About">关于</a></li>
+            <li><a href="/zh/wall" data-fz-event="MQL5+Footer+Wall">时间轴</a></li>
+          <li><a href="/zh/about/terms" data-fz-event="MQL5+Footer+About">条款和条件</a></li>
+          <li><a href="/zh/about/autopayments" data-fz-event="MQL5+Footer+About">定期付款协议</a></li>
+          <li><a href="/zh/about/agencyagreement" data-fz-event="MQL5+Footer+About">代理协议 – 报价</a></li>
+          <li><a href="/zh/about/privacy" data-fz-event="MQL5+Footer+About">隐私和数据保护政策</a></li>
+          <li><a href="/zh/about/cookies" data-fz-event="MQL5+Footer+About">Cookies政策</a></li>
+          <li>
+<a id="chatBotBtn" href="#" class="chatbot-button" onclick="window.fpush('MQL5+Contacts+Chat');"><i class=""></i><img src="https://c.mql5.com/i/loading.gif" loading="lazy" width="16" height="16" alt="" />联系和请求</a><script type="text/javascript">mqGlobal.AddOnReady(function () {chatBot.init('chatBotBtn', 'zh');}); var chatBotUserLang = 'zh'; </script>          </li>
+        </ul>
+    </li>
+      <li id="navFooterDownload">
+        <b>加入我们 - 下载 <span class="nobr">MetaTrader 5！</span></b>
+        <ul>
+            <li class="icon windows"><a href="https://download.metatrader.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe?utm_source=www.mql5.com&amp;utm_campaign=download" data-fz-event="MetaTrader+5+Desktop+Download" title="免费下载MetaTrader 5 Windows版">Windows</a></li>
+            <li class="icon ios"><a href="https://download.metatrader.com/cdn/mobile/mt5/ios?utm_source=www.mql5.com&amp;utm_campaign=install.metaquotes" data-fz-event="MetaTrader+5+iOS+Download" target="_blank" rel="nofollow noopener" title="免费下载MetaTrader 5 iPhone版">iPhone/iPad</a></li>
+            <li class="icon macos"><a href="https://download.metatrader.com/cdn/web/metaquotes.software.corp/mt5/MetaTrader5.dmg?utm_source=www.mql5.com&amp;utm_campaign=download" data-fz-event="MetaTrader+5+Desktop+Download" title="免费下载MetaTrader 5 Mac OS版">Mac OS</a></li>
+            <li class="icon android"><a href="https://download.metatrader.com/cdn/mobile/mt5/android?utm_source=www.mql5.com&amp;utm_campaign=install.metaquotes" data-fz-event="MetaTrader+5+Android+Download" target="_blank" rel="nofollow noopener" title="从Google play免费下载MetaTrader 5安卓版"><span>Android</span></a></li>
+            <li class="icon huawei"><a href="https://download.metatrader.com/cdn/mobile/mt5/android/app-gallery?utm_source=www.mql5.com&amp;utm_campaign=install.metaquotes" data-fz-event="MetaTrader+5+Android+Download" target="_blank" rel="nofollow noopener" title="MetaTrader 5 Android (Huawei AppGallery)"><span>Huawei</span></a></li>
+            <li class="icon linux"><a href="/zh/articles/625" data-fz-event="MetaTrader+5+Desktop+Download" target="_blank" title="Linux 上的 MetaTrader 5"><span>Linux</span></a></li>
+          <li class="icon tradays"><a href="https://www.tradays.com/zh/download?utm_source=www.mql5.com&amp;utm_campaign=download" data-fz-event="MQL5+Footer+Download+Tradays" target="_blank" title="Tradays经济日历"><span>Tradays经济日历</span></a></li>
+        </ul>
+
+        <div class="footer__other">
+          <div class="footer__not-a-broker">不是交易商，不提供真实交易账户</div>
+          <div class="copyright">13 Anastasi Sioukri, 3105, Limassol, Cyprus</div>
+          <div class="copyright">Copyright 2000-2022, <span class="nobr">MetaQuotes Ltd</span></div>
+        </div>
+      </li>
+  </ul>
+</div>
+
+
+    <div class="shadow-layer" id="layer"></div>
+        
+  </div>
+  <script type="text/javascript">
+  (function(a,e,f,g,b,c,d){a[b]||(a.FintezaCoreObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=!0,c.defer=!0,c.src=g,d&amp;&amp;d.parentNode&amp;&amp;d.parentNode.insertBefore(c,d))})
+    (window,document,"script","/tz/core.js","fz");
+  window.fz("register", "website", {
+    id: "sqjxkxkswybhifrohpyooonwgbvsfzmayq",
+    trackLinks: true
+  });
+  </script>
+  <script type="text/javascript">
+window.fz("show","vgckrufggwxdtfscpyalmenexmvhljduja");mqGlobal.AddOnReady(function () {
+              if (!window.shareManager) {
+                window.shareManager = new Share();
+              }
+            });mqGlobal.AddOnReady(function () {
+              if (!window.Pocket) {
+                window.Pocket = new PocketManager();
+              }
+            });if (window.relap) window.relap.ar('Jdolzg7OMYR-ogAA');mqGlobal.AddOnReady(function () {
+            if (!window.translateManager) {
+              window.translateManager = new Translate();
+            }
+            if (document.querySelectorAll) {
+              var translateElements = document.querySelectorAll(".translateMenu");
+              if (translateElements) {
+                var i = 0, count = translateElements.length;
+                for (i; i &lt; count; i++) {
+                  (function (i) {
+                    var contentid = dataset(translateElements[i], "contentid"),
+                      sourcelang = dataset(translateElements[i], "sourcelang"),
+                      targetlang = dataset(translateElements[i], "targetlang"),
+                      moduleid = parseInt(dataset(translateElements[i], "moduleid")),
+                      typeid = parseInt(dataset(translateElements[i], "typeid")),
+                      entityid = parseInt(dataset(translateElements[i], "entityid"));
+                    Core.AddHandler(translateElements[i], "mouseover", function () {
+                      return translateManager.SetMenu(this, contentid, sourcelang, targetlang, moduleid, typeid, entityid);
+                    });
+                  })(i);
+                }
+              }
+            }
+          });window.fz("show","wdausxxqrpvhekbwjrjlhqjghyhesrqqau");window.mqGlobal.AddOnLoad(function () {
+        window.fpush('MQL5+Article+Open');
+        Articles.CheckOnScrollDown();
+      });mqGlobal.AddOnReady(function () {
+      window.PopupRegisterquickRegistration = new QuickRegistration('PopupRegister','Popup+Register', 'Articles');
+    });
+    function validate_username(input) {
+       var reg = /^([\-_a-z0-9]){1}([\-._a-z0-9]){1,30}([\-_a-z0-9]){1}$/i,
+        value = input.value,
+        result = true;
+      if (reg.test(value)) {
+        result = true;
+      }
+      else {
+        result = false;
+
+        window.fpush({
+          name: 'MQL5+Popup+Register+Invalid+Login',
+          unit: 'section',
+          value: 'Articles'
+        });
+              }
+      return result;
+    }
+    function validate_email(input) {
+      var reg = /^\w+([-+.'']{1,2}\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/i,
+        value = input.value,
+        result = true,
+        length_value = value.length;
+      if (reg.test(value) &amp;&amp; length_value &gt;= 1 &amp;&amp; length_value &lt;= 40) {
+        result = true;
+      }
+      else {
+        result = false;
+
+        window.fpush({
+          name: 'MQL5+Popup+Register+Invalid+Email',
+          unit: 'section',
+          value: 'Articles'
+        });
+              }
+      return result;
+    }mqGlobal.AddOnReady(function () {
+      var username = $('PopupRegisterusername'),
+        email = $('PopupRegisteremail');
+      if (username)
+        username.value = '';
+      if (email)
+        email.value = '';
+    });mqGlobal.AddOnReady(function () {
+      window.quickLogin = new QuickLogin('Popup+Login', 'Articles');
+    });mqGlobal.AddOnLoad(function () {
+        window.showLoginRegisterPopupAtEnd();
+      });mqGlobal.AddOnLoad(function(){window.keywordMainFormSuggests = new Suggestions("keyword","https://search.mql5.com/api/suggest","zh",function(){$('main_search_form').onsubmit();});});window.fz("show","bfogggabsofabcpxuzmgaibarmaxasdrj");mqGlobal.AddOnReady(function ()
+      {
+        window.floatVerticalPanelNode = FloatVerticalPanel('该网站使用cookies。了解有关我们&lt;a href="/zh/about/cookies"&gt;Cookies政策&lt;/a&gt;的更多信息。','cookie_accept');
+      });      mqGlobal.AddOnLoad(function () {
+             Mql5Cookie.init('mql5.com','5058926924570804025');
+      });
+      if (typeof Attach !== "undefined")
+        Attach.setAcceptFilter(".zip, .txt, .log, .mqh, .ex5, .mq5, .mq4, .ex4, .mt5, .set, .tpl, .cl, .py, .sqlite, .csv, .ipynb, .gif, .png, .jpg, .jpeg");
+  </script>
+    <div class="b-fixed-mt" id="bFixedMt" style="display: none;">
+      <div id="jjyeyqenuvuvgqlpjjrqigjthhcgagwglu" class="bfb ff"><script type="text/javascript">window.fz("show","jjyeyqenuvuvgqlpjjrqigjthhcgagwglu");</script></div>
+    </div>
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "url": "https://www.mql5.com",
+      "logo": "https://c.mql5.com/i/community/logo_mql5-2.png",
+      "sameAs": [
+        "https://www.facebook.com/mql5.community",
+        "https://www.twitter.com/mql5com",
+        "https://www.youtube.com/user/MetaQuotesOfficial"
+       ]
+    }
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "MQL5.Community",
+  "url": "https://www.mql5.com",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.mql5.com/zh/search?keyword={keyword}",
+    "query-input": "required name=keyword"
+  }
+}
+  </script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"SiteNavigationElement","position":1,"name":"论坛","description":"交易策略和算法交易的讨论。MQL5.community  最大的外汇论坛","url":"https://www.mql5.com/zh/forum"},{"@type":"SiteNavigationElement","position":2,"name":"市场","description":"MetaTrader 市场 - 自动交易，指标，交易书籍和杂志的市场","url":"https://www.mql5.com/zh/market"},{"@type":"SiteNavigationElement","position":3,"name":"信号","description":"MetaTrader的群组交易，复制交易和账户监控 - MQL5.com交易信号","url":"https://www.mql5.com/zh/signals"},{"@type":"SiteNavigationElement","position":4,"name":"自由职业者","description":"订购EA交易、技术指标和算法交易应用程序。外汇工作。MQL5.com自由职业者服务","url":"https://www.mql5.com/zh/job"},{"@type":"SiteNavigationElement","position":5,"name":"比率","description":"","url":"https://www.mql5.com/zh/quotes/overview"},{"@type":"SiteNavigationElement","position":6,"name":"网页端","description":"MetaTrader交易平台的网页端。在线外汇交易。","url":"https://www.mql5.com/zh/trading"},{"@type":"SiteNavigationElement","position":7,"name":"经济日历","description":"","url":"https://www.mql5.com/zh/economic-calendar"},{"@type":"SiteNavigationElement","position":8,"name":"VPS","description":"","url":"https://www.mql5.com/zh/vps"},{"@type":"SiteNavigationElement","position":9,"name":"文章","description":"","url":"https://www.mql5.com/zh/articles"},{"@type":"SiteNavigationElement","position":10,"name":"代码库","description":"下载带有源代码的自动交易，技术指标和脚本 - MetaTrader 5的MQL5代码库","url":"https://www.mql5.com/zh/code"},{"@type":"SiteNavigationElement","position":11,"name":"文档","description":"MetaQuotes Language 5 (MQL5)语言参考 - MQL5.com文档","url":"https://www.mql5.com/zh/docs"}]}
+</script>
+
+
+<div class="r2qgv2mfa">该网站使用cookies。了解有关我们<a href="/zh/about/cookies">Cookies政策</a>的更多信息。<span class="r2qgv2mfa__cross"></span></div><div class="GoogleAd Advertisment BannerAd" id="yandex_ad" style="width: 1px; height: 1px; visibility: hidden; position: absolute; bottom: 0px;"></div><div id="chatbot-chat" style="border: 0px; background-color: transparent; pointer-events: none; z-index: 2147483639; position: fixed; bottom: 10px; width: 0px; height: 0px; overflow: hidden; opacity: 0; max-width: 100%; right: 10px; max-height: calc(100% - 10px);"><iframe src="https://cdn.chatbot.com/widget/v2/chat.html?id=61445dd7b4f0930007793481&amp;v=733" id="chatbot-chat-frame" name="chat-widget" title="ChatBot chat widget" style="pointer-events: all; background: none; border: 0px; float: none; position: absolute; inset: 0px; width: 100%; height: 100%; margin: 0px; padding: 0px; min-height: 0px;"></iframe></div></body></html>
