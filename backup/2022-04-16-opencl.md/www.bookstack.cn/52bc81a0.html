@@ -1,0 +1,629 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN"><head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>第2章 设备架构 - 2.2 硬件的权衡 - 《OpenCL 2.0 异构计算 [第三版] （Heterogeneous Computing with OpenCL 2.0）》 - 书栈网 · BookStack</title>
+    <meta name="keywords" content="书栈网,BookStack,opencl,异构,计算,异构计算,heterogeneous,computing" />
+    <meta name="description" content="2.2 硬件的权衡2.2.1 频率提升带来的性能提升和局限性2.2.2 超标量执行2.2.3 超长指令字2.2.4 SIMD和向量操作2.2.5 硬件多线程2.2.6 多芯架构2.2.7 集成:片上系统和APU2.2.8 高速缓存层次结构和存储系统 本书将介绍在复杂环境下的OpenCL和并行编程。这里的复杂环境包含多种设备架构，比如：多芯CPU，GPU，以及完全集成的加速处理单元(APU)。在本修" />
+    <link href="https://static.sitestack.cn/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://static.sitestack.cn/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://static.sitestack.cn/static/nprogress/nprogress.css" rel="stylesheet" />
+    <link href="https://static.sitestack.cn/static/editor.md/css/editormd.preview.css" rel="stylesheet" />
+    <link href="https://static.sitestack.cn/static/css/toast.css" rel="stylesheet" />
+    <link href="https://static.sitestack.cn/static/page/page.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://static.sitestack.cn/static/katex/katex.min.css" />
+	<link rel="stylesheet" href="https://static.sitestack.cn/static/mind-map/mindmap.css" />
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script charset="utf-8" src="https://hmcdn.baidu.com/static/tongji/plugins/UrlChangeTracker.js"></script><script src="https://hm.baidu.com/hm.js?227e05b01b8f7eefb29a75df28f53840"></script><script src="https://static.sitestack.cn/static/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://static.sitestack.cn/static/respond.js/1.4.2/respond.min.js"></script>
+    <link href="https://static.sitestack.cn/static/css/bookstack.css?version=v2.12.0-beta41008" rel="stylesheet" />
+
+    <style>
+        .editormd-preview-container ol.linenums li code, .editormd-html-preview ol.linenums li code{
+            display: block;
+            white-space: pre;
+        }
+        li.L1, li.L3, li.L5, li.L7, li.L9{background-color: transparent;}
+        .editormd-preview-container pre.prettyprint, .editormd-html-preview pre.prettyprint{border-color: transparent;}
+        body{-webkit-overflow-scrolling:touch;}
+        .alink,.alink a{color: #888 !important;}
+        .alink.text-red a{color: #333 !important;}
+        .alink:hover,.alink a:hover{color: red !important;}
+        .alink.text-red a:hover{color: red !important;}
+	html.theme-dark img{filter:invert(1) hue-rotate(180deg);}
+    </style>
+<script src="https://static.sitestack.cn/static/api/js/share.js"></script><link rel="stylesheet" href="/static/api/css/share_style1_32.css" /></head>
+<body>
+
+
+
+<div class="modal fade" id="ModalNote" tabindex="-1" role="dialog" aria-labelledby="ModalReplaceLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span></button>
+				<h1 class="modal-title" id="ModalReplaceLabel" style="align:center;">思维导图备注</h1></div>
+			<div class="modal-body" style="overflow-y:auto; height:400px;"></div>
+			<div class="modal-footer">
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="m-manual manual-mode-view manual-reader">
+    <header class="navbar navbar-static-top manual-head" role="banner">
+        <div class="container-fluid">
+            <div class="navbar-header pull-left manual-title">
+                <span class="slidebar" id="slidebar"><i class="fa fa-align-justify"></i></span>
+                <a href="/books/Heterogeneous-Computing-with-OpenCL-2.0" title="OpenCL 2.0 异构计算 [第三版] （Heterogeneous Computing with OpenCL 2.0）" class="book-title">OpenCL 2.0 异构计算 [第三版] （Heterogeneous Computing with OpenCL 2.0）</a>
+                <span style="font-size: 12px;font-weight: 100;"></span>
+            </div>
+            <div class="navbar-header pull-right manual-menu">
+                <div class="bookstack-item">
+                    
+                    <a title="首页" href="/" class="btn btn-link"><i class="fa fa-home"></i> 首页</a>
+
+                    <a href="javascript:;" class="btn btn-link btn-theme">
+                        <span class="tooltips sun" title="" data-placement="bottom" data-original-title="切换白天浅色模式"><i class="fa fa-sun-o"></i> 白天</span>
+                        <span class="tooltips moon" title="" data-placement="bottom" data-original-title="切换夜间深色模式"><i class="fa fa-moon-o"></i> 夜间</span>
+                    </a>
+                    
+                    <a title="BookChat 小程序" href="javascript:" data-toggle="modal" data-target="#ModalBookChat" class="btn btn-light">
+                        <img src="https://static.sitestack.cn/static/images/wxacode.png" style="position: relative;top:-2px;" alt="BookChat 小程序" /> <span>小程序</span></a>
+                    
+                    
+                    <a href="/record/163" rel="nofollow" class="btn btn-link showModalHistory"><i class="fa fa-clock-o"></i> 阅读</a>
+                    <span class="dropdown">
+                        <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            书签 <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li>
+                                <a rel="nofollow" href="/bookmark/list/163" title="查看书签" data-bookid="163" class="showModalBookmark">
+                                    <img src="https://static.sitestack.cn/static/images/icon-bookmark-list.png" alt="书签" /> 我的书签
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/bookmark/" data-docid="15072" rel="nofollow" class="bookmark-action">
+                                    <span class="bookmark-add "> <img src="https://static.sitestack.cn/static/images/icon-bookmark-add.png" alt="添加书签" /> 添加书签</span>
+                                    <span class="bookmark-remove hide"> <img src="https://static.sitestack.cn/static/images/icon-bookmark-remove.png" alt="移除书签" /> 移除书签</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </span>
+
+                    
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container-fluid manual-body">
+
+        <div class="manual-right">
+            <div class="manual-article">
+                <div class="article-head">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1 col-xs-12 text-center">
+                                <h1 id="article-title">2.2 硬件的权衡</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-content">
+                    <div class="help-block article-info" style="padding-bottom: 20px;">
+                        
+
+                        
+                            <span class="alink tooltips text-red" title="" data-original-title="内容来自【xiaoweiChen】。如果收录时间太久，请点击当前链接到源站进行阅读学习"><a target="_blank" title="内容来源" href="https://github.com/xiaoweiChen/Heterogeneous-Computing-with-OpenCL-2.0"><i class="fa fa-globe"></i> 来源:xiaoweiChen</a></span>
+                        
+                        <span><i class="fa fa-eye"></i> 浏览 <i class="read-count">2072</i></span>
+                        <span class="hidden-xs"><a href="#" data-target="#ModalQRcode" data-toggle="modal"><i class="fa fa-qrcode"></i> 扫码</a></span>
+                        <span><a href="#" data-target="#ModalShare" data-toggle="modal"><i class="fa fa-share-alt"></i> 分享</a></span>
+                        <span class="pull-right hidden-xs tooltips" title="" data-original-title="更新时间"><i class="fa fa-clock-o"></i> <i class="updated-at">2021-05-12 20:27:12</i></span>
+                    </div>
+                    
+                    <article data-iframe="https://static.sitestack.cn/static/pdfjs/web/viewer.html?file=" class="article-body  markdown-body editormd-preview-container " id="page-content">
+                    <div class="markdown-toc editormd-markdown-toc"><ul class="markdown-toc-list"><li><a class="toc-level-1" href="#a2rk3x" level="1" title="2.2 硬件的权衡">2.2 硬件的权衡</a><ul><li><a class="toc-level-2" href="#99p4ef" level="2" title="2.2.1 频率提升带来的性能提升和局限性">2.2.1 频率提升带来的性能提升和局限性</a></li><li><a class="toc-level-2" href="#6opscz" level="2" title="2.2.2 超标量执行">2.2.2 超标量执行</a></li><li><a class="toc-level-2" href="#f835sq" level="2" title="2.2.3 超长指令字">2.2.3 超长指令字</a></li><li><a class="toc-level-2" href="#a3vg38" level="2" title="2.2.4 SIMD和向量操作">2.2.4 SIMD和向量操作</a></li><li><a class="toc-level-2" href="#vegei" level="2" title="2.2.5 硬件多线程">2.2.5 硬件多线程</a></li><li><a class="toc-level-2" href="#4hbz3k" level="2" title="2.2.6 多芯架构">2.2.6 多芯架构</a></li><li><a class="toc-level-2" href="#3rgfwq" level="2" title="2.2.7 集成:片上系统和APU">2.2.7 集成:片上系统和APU</a></li><li><a class="toc-level-2" href="#6jjlno" level="2" title="2.2.8 高速缓存层次结构和存储系统">2.2.8 高速缓存层次结构和存储系统</a><ul></ul></li></ul></li></ul></div><h1 id="a2rk3x"><a name="a2rk3x" class="reference-link"></a><span class="header-link octicon octicon-link"></span>2.2 硬件的权衡</h1><p>如果有点使用图形API和像素渲染器的经验的话，就更容易明白为什么OpenCL要以GPU作为目标，专门设计的一门语言。如今高性能计算市场上，OpenCL已经是一种很流行的编程方式。随着支持OpenCL平台数量的增长(特别是嵌入式领域)，OpenCL的影响力在逐渐增强。</p>
+<p>如果对GPU不是很了解的话，也不用担心，请安心的继续阅读。不过，当要为GPU写一份通用的代码，那么就会有很多问题。比如：设备就是一个图像处理器，还是更通用的设备么？如果是图像处理器，那么该设备就一定具有图像特定的逻辑特点，还是因为其整体架构？</p>
+<p>更加深入下去还有很多问题会冒出来。那么，问个简单点的：一个GPU有多少个芯呢？要回答这个问题，需要看一下这个“芯”是如何定义的。还有，“多芯”设备和“多核”设备又有什么不同？通常，因为不同架构上的功耗和晶体管数量是不同的，所以会选择不同的方式进行加速。比起要权衡如何对电气单元进行计算，硬件开发者们通常还要为如何在硬件上编程进行考虑。权衡这些因素后，硬件开发者会创建出一个具有“很大发散性”的设计。</p>
+<p>多核处理器的设计，在保留了单个处理器的时钟周期和硬件复杂度同时，增加更多处理核。这样的设计不会让处理器上晶体管数量增加，以减少功耗。谨慎的设计下，处理器的功耗被控制在可接受的范围内。SIMD和VLIW(<em>very long instruction word</em>)架构能够通过提升算术运算和逻辑控制的比值，做更多工作。这样的情况下ALU会对于如此之少的工作量感到不满。因此，多线程从另一个角度来解决这个问题。与增加算术计算和逻辑控制的比值不同，多线程增加了工作量。进行计算的同时，进行逻辑控制，比如内存搬运，这样可以增加我们队设备的利用率。权衡缓存和内存系统的同时(不同的架构下进行不同的访存方式)，也要权衡在这期间处理器使用分配。</p>
+<p>根据对核芯的定义，我们需要权衡是使用单个核芯，还是多个核芯的硬件。不过，对与整个设备的不同功能单元，需要进行不同程度的权衡。异构化硬件能够同时对多种算法开启硬件优化，这样就能从硬件方面提高算法性能。当代的系统级别PC，大多数都是GPU+CPU的架构组合(系统中还分布着其他低性能处理器)。最新一代的高性能处理器将GPU和CPU融合到一个设备上，AMD将这种架构成为加速处理单元(APU)[1]。</p>
+<p>现实社会中，我们也能看到这些不同的设计结合了不同方面的因素，以不同的价格对应不同的市场。</p>
+<p>本节我们会研究一些架构的特点，并讨论各种常见架构如今的应用程度。</p>
+<h2 id="99p4ef"><a name="99p4ef" class="reference-link"></a><span class="header-link octicon octicon-link"></span>2.2.1 频率提升带来的性能提升和局限性</h2><p>作为一个开发人员，试想我们正在编写一款线性软件：执行一个任务，完成这个任务，继续执行下一个任务。对于写惯线性程序的人来说，去编写并行代码很困难；也就是SIMD或向量并行与图形设备上处理的方式差不多。多组像素将相对简单的逻辑映射到编程层面。其他程序中，逻辑层面没有有效的编程向量，提取SIMD操作将会更加困难。因此架构在转为并行化、极端化多线程并行前，旨在为单一线程的架构提升性能。而现在的架构市场，则在向高性能专业机器转变。</p>
+<p><img src="/static/images/loading.gif" alt="2.2 硬件的权衡 - 图1" data-original="https://static.sitestack.cn/projects/Heterogeneous-Computing-with-OpenCL-2.0/d1e28f7f028b583e8103ae2e2c4f33c2.png" class="lazy" /></p>
+<h2 id="6opscz"><a name="6opscz" class="reference-link"></a><span class="header-link octicon octicon-link"></span>2.2.2 超标量执行</h2><p>超标量和乱序作为扩展解决方案，已经在CPU上存在了很久；奔腾时代开启时，这两个扩展就包含在x86的设计中。CPU主要依赖的信息为指令流中的指令，或是对未使用的功能单元进行调度(如果该信息可用的话)。图2.1中就展示了一个这样的例子。</p>
+<p><img src="/static/images/loading.gif" alt="2.2 硬件的权衡 - 图2" data-original="https://static.sitestack.cn/projects/Heterogeneous-Computing-with-OpenCL-2.0/603dfd63ad481b0ace99b46bcc5c726b.png" class="lazy" /></p>
+<p>图2.1 指令流中简单汇编指令的乱序执行。注意，在这种汇编语法中，目标寄存器列在最前面。例如：add a, b, c为a = b + c。</p>
+<p>乱序逻辑的主要受益人就是软件开发者们。硬件上自动将编程者代码并行化，串行的代码不需要做任何修改就能比原来执行的速度快很多。超标量让CPU主频设计领先了10多年，其让CPU总体性能成超线性增长的趋势，即使是在流行大规模生产设备的时代，这种设计都未过时。不过，这种超时代的设计，也是有缺陷的。</p>
+<p>乱序调度逻辑需要是用到大量的晶体管，需要增加[译者注1]CPU的芯片面积，以存储队列中未完成(in-flight)的指令和存储指令间的依赖关系，以应对执行期间硬件上的动态调度。另外，要让投机(speculative)指令迅速执行，就需要扩大并行的乱序指令窗口。投机指令的结果是一次性，并且会浪费更多的资源。结果就是，乱序执行让CPU的回报逐渐减少；行业上已经采取其他方式通过减少晶体管的体积，来达到增加性能的目的，所以即使在这样产生的高性能设备上，超标量逻辑依旧是可行的。嵌入式和其他特殊设备上，硬件不会并行化串行代码，这些较为特殊的设备的设计方案都很小众化，在芯片发展历史上可能都不常见。</p>
+<p>良好的超标量处理器数不胜数，控制数据公司的西摩·克雷在90年代设计的<a href="https://en.wikipedia.org/wiki/CDC_6600">CDC 600</a>[译者注2]就是一款很不错的多RISC(<em>Reduced Instruction Set Computer，精简指令集计算机</em>)设计。目前，高端CPU基本上都支持超标量处理。很多GPU同样具有超标量的能力。</p>
+<h2 id="f835sq"><a name="f835sq" class="reference-link"></a><span class="header-link octicon octicon-link"></span>2.2.3 超长指令字</h2><p>为了增强处理器的指令并行性，VLIW的执行十分依赖于编译模式。其比完全依赖于复杂的乱序控制逻辑、依赖硬件要方便的多，超标量和VLIW的执行都会依赖于编译器的分析。为了替代现有的标量指令流，VLIW处理器上发出的每一条指令，都包含了多个并发的子指令，并且这些指令会直接映射到处理器的执行流水线上。</p>
+<p>VLIW的执行流程如图2.2所示，这幅图和图2.1是一样的。不过2.2中预取去了三条，而不像2.1中那样一条一条的取指令。我们现在看到的这些指令流的依赖结构都是线性的，并且硬件也将会是这样处理这些指令，而不是提取和跟踪出一个更加复杂的依赖图。VLIW指令包都是已编码的，并且指令流中的每个独立的部分都会映射到处理器上特定的计算单元执行。很多VLIW设计中，计算单元都是异构的，因此这些指令只会安排给特定的VLIW指令流。其他很多架构都能作为异构硬件，比如：能在任意位置发出任意指令，并且只有依赖信息对这样的架构有所限制。</p>
+<p><img src="/static/images/loading.gif" alt="2.2 硬件的权衡 - 图3" data-original="https://static.sitestack.cn/projects/Heterogeneous-Computing-with-OpenCL-2.0/7c6f234776dec699db3ad060b3ecaefa.png" class="lazy" /></p>
+<p>图2.2 依赖于图2.1中的乱序图表</p>
+<p>图2.2所示例子中，我们能看到指令的分配有间隙：前两条VLIW包都缺少了第三条子指令，并且第三条VLIW包缺少了第一和第二条子指令。显然，这个例子很简单，包中几乎没有什么指令，不过这对于VLIW架构来说是一种通病，因为编译器没有办法将所有指令包都填满，所以执行效率不会特别高。这可能是编译器的限制，或是这种指令流的先天缺陷。后面例子的不会比乱序执行更复杂，通过对硬件调度的改良，降低复杂度反而能得到更好的性能。前面的例子中，都可以从执行效率的损失和从减少硬件控制开销提高性能两方面对硬件进行权衡。另外，VLIW指令在执行方面还有另外一部分开销，那就是相应编译器的开发的成本，而超标量的执行就没有这部分开销。</p>
+<p>VLIW设计通常出现在数字信号处理芯片上。当前的高端设备包括Intel的安腾处理器(以显式并行指令计算著称)和AMD的HD6000系列GPU。</p>
+<h2 id="a3vg38"><a name="a3vg38" class="reference-link"></a><span class="header-link octicon octicon-link"></span>2.2.4 SIMD和向量操作</h2><p>SIMD旨在将向量并行通用化，这种方式与之前提及的方式有些不同。VLIW和硬件管理的超标量执行方式都是通过查询地址，并行执行同指令流中不相关的指令，而SIMD与向量并行可以让指令在数据上并行执行。</p>
+<p>封装单个的SIMD指令，需要同时对多个数据元素执行某种操作。相比标量操作，其他的方式都是要将指令并行化。向量操作将向量化操作通用化，并且向量操作通常会用来处理较长连续的数据序列，通常会使用流水线的形式进行向量操作，而非同时对多个数据进行操作，并且向量操作对连续、密集的内存读写给予了更多的支持。</p>
+<p>图2.3中的流水和之前图中的不大一样，图2.3中是顺序的，之前的都是乱序的。不过，现在这些指令以向量的形式在四个ALU上执行。整型指令会一个接一个的通过左边四个整型向量ALU，而浮点指令则以相同的方式通过右边四个浮点ALU。需要注意的是，这个例子中指令以线性的顺序触发，不过没理由排除这些操作不是在超标量或VLIW的流水线上完成，这两种架构我们在之前的章节中已经讨论过。</p>
+<p><img src="/static/images/loading.gif" alt="2.2 硬件的权衡 - 图4" data-original="https://static.sitestack.cn/projects/Heterogeneous-Computing-with-OpenCL-2.0/8df336946ac1165b4364227fbb8fa60b.png" class="lazy" /></p>
+<p>图2.3 SIMD顺序执行单个指令，多个ALU同时对数据进行处理</p>
+<p>SIMD的优势与ALU的工作方式有关，大量的调度工作和逻辑解码工作都可以省去。现在，我们能使用一条指令执行四个操作，单条指令只对调度有依赖，而不用去管其他指令是否与该指令有关。</p>
+<p>当然，这里也要给出硬件权衡的建议。因为很多代码无法数据并行化，那么就无法使用向量操作进行性能提升。另外，这个工作无法交给编译器，因为编译器很难对数据并行的代码进行提取。例如，向量化循环就是一项从未停止的挑战，即使很简单的情况都很难成功。很多情况下，因为晶体管瓦数(功耗)的原因，也可能会将ALU用尽。</p>
+<p>向量处理器源于超级计算机领域，不过SIMD设计在很多领域都有应用。CPU通常会包含SIMD流水线，用来显式执行标量指令流中的SIMD指令。x86芯片上包含了多种指令集，比如：SIMD扩展(SSE)和高级向量扩展(AVX)；PowerPC上又AltiVec扩展指令集；ARM上有NEON扩展指令集。GPU架构在历史上为了支持像素向量，其显式包含了SIMD操作，很多现代GPU依旧能能显式的对SIMD向量进行操作。当然，GPU上也是单通道标量指令流。因为很多逻辑使用向量的方式进行处理，让这些支持向量操作的机器被称为向量机。例如：AMD的Radeon R9 290X架构就能支持64路SIMD操作。这种宽度的向量指令通过多个时钟周期，通过一个16通道的SIMD单元分发到流水线上。</p>
+<h2 id="vegei"><a name="vegei" class="reference-link"></a><span class="header-link octicon octicon-link"></span>2.2.5 硬件多线程</h2><p>并行的三种常见的形式：指令并行，数据并行和线程并行。换句话说，并行的方式就是执行多个独立的指令流。这种方式需要并行机器(多核)的支持，不过对于单核CPU来说这种方式也很用。如之前所讨论的那样，依赖硬件和编译器从指令流中抽取独立指令的方式是非常困难的，甚至是不可能的事。从两个独立的线程中抽取可并行的指令是毫无意义的事，因为线程已经确认其执行的就是相互独立的显式同步指令块。实现硬件多线程的挑战在于管理额外的指令流，以及第二条指令流需要了解寄存器和高速缓存的状态。</p>
+<p>这里有两种方式实现硬件多线程：</p>
+<ol>
+<li><p>并发多线程(SMT)</p>
+</li><li><p>时域多线程</p>
+</li></ol>
+<p>图2.4中展示了SMT的方式。这种方式中，多线程的指令在执行资源上交替执行(通过超标量扩展的调度逻辑和线程资源)。</p>
+<p><img src="/static/images/loading.gif" alt="2.2 硬件的权衡 - 图5" data-original="https://static.sitestack.cn/projects/Heterogeneous-Computing-with-OpenCL-2.0/c37991461aebdcf3f854a9f610c26adc.png" class="lazy" /></p>
+<p>图2.4 一种是图2.1中的乱序调度形式，另一种是线程并发执行方式</p>
+<p>图2.4中不管是哪种方式，出发点都是为了更好的利用执行资源。以更高的执行资源使用比例来做更多有用的工作。这种方式的缺点就是需要对更多的状态信息进行保存，并且会让指令间得依赖关系和调度逻辑变得更加复杂。就像图2.4中那样，要对两种不同依赖方式、执行资源，以及执行队列进行管理。</p>
+<p>图2.5展示了一种更简单的方式，使用时间片的方式在硬件上实现多线程。这种方式中，每个线程都能通过轮询的方式连续执行。其目的很简单，图中两个线程共享一个ALU。</p>
+<p>这种方式有以下几种优势：</p>
+<ol>
+<li><p>调度逻辑简单。</p>
+</li><li><p>流水线的延迟可以隐藏对多个线程的切换(调度)，减少转发逻辑。</p>
+</li><li><p>当有线程缓存未命中，或等待另一个分支计算的结果等之类事件，都能通过改变线程指令顺序进行掩盖，并且执行更多的线程能更好的掩盖流水线上的延迟。</p>
+</li></ol>
+<p><img src="/static/images/loading.gif" alt="2.2 硬件的权衡 - 图6" data-original="https://static.sitestack.cn/projects/Heterogeneous-Computing-with-OpenCL-2.0/a5ec653054c8018542a170be4fedc38a.png" class="lazy" /></p>
+<p>图2.5 两个线程使用时间片的方式进行调度。</p>
+<p>最后的这种方式，可以有效的降低实现复杂度。很多架构都能运行很多的线程(虽然有时候没有必要这样做)。当一个线程达到某些点时，就会从就绪队列中删除这个线程(就绪队列只存储已经调度了的可执行线程)。一旦这些点错过了，对应的线程将会放在就绪队列的最后。虽然，这种方式会让单线程的执行速度没有乱序的方式快，不过这种方式的吞吐量保持在较高的水平，充分利用计算资源，并且逻辑控制的复杂度过高。换个角度来看，这种重多线程的方式可以看做为吞吐量进行的计算：以延迟换取最大的吞吐量。原理图为图2.6。</p>
+<p><img src="/static/images/loading.gif" alt="2.2 硬件的权衡 - 图7" data-original="https://static.sitestack.cn/projects/Heterogeneous-Computing-with-OpenCL-2.0/0e27282a160c5a502a4412ebc21b9be9.png" class="lazy" /></p>
+<p>图2.6 通过时域多线程的方式，来你做吞吐量的计算：多个线程交替执行，以保证设备处于忙碌状态，不过每个独立线程的执行时间要多于其理论最小执行时间。</p>
+<p>两种硬件多线程实现方式是相同的。MTA设计源于Tera(一款经典的时间片多线程超级计算机)，这种设计难以投入实际生产；不过，Cray随后的实现就不一样了——MTA-2，其利用每个CPU上的128个寄存器迅速的切换线程(包括线程的状态)，并且忽略已经停止的线程。标准AMD皓龙处理是基于Cray的设计，其对MTA的扩展设计——XMT，将会更加适应未来的多线程处理器。Sun的尼亚加拉系列芯片就实现了多芯多线程的设计(每个芯上8个线程)，为了让数据中心的工作量，以到低耗能和高吞吐的方式完成。Intel奔腾4和之后的Nehalem和其他继承者们上都实现了一种名为“超线程”的SMT设计。现代GPU每个芯上可以在同一时域中运行大量的线程，具体线程的数量收到一般计算资源的限制：目前的这代AMD GPU中，通常一个芯开启8-16个线程，就能够隐藏延迟和停顿。</p>
+<h2 id="4hbz3k"><a name="4hbz3k" class="reference-link"></a><span class="header-link octicon octicon-link"></span>2.2.6 多芯架构</h2><p>从概念上来说，增加时钟周期内工作量最简单的方式，就是将单一芯片做的事情，克隆到多个芯片上去做。这种最简单模式下，每个芯上都是独立运行，共享数据存储在系统内存中，通常会遵循缓存一致性协议。这种设计就是对传统多插槽服务器对称多处理系统(multisocket server symmetric multiprocessing system)的缩减，并且在其基础上对性能进行了大幅度的提升，在某些情况下会有十分极限的加速效果。</p>
+<p>多芯系统会以不同的形式出现，并且有时候很难对“芯”进行定义。例如，主流高端CPU上通常都包含很多的功能模块，这些功能模块中除了逻辑接口、内存控制器之类的功能，其他功能都是相对于其他“芯”独立的。然而，这个界限有时也会变得模糊。例如：AMD的推土机(Steamrooler，高功率核芯)设计，其设计就要比彪马(Puma)的设计简单许多(详见图2.7)，共享功能单元会在核芯之间形成一种可以拷贝的单元，这种单元被称为模块。传统的设计中，因为硬件需要交替执行浮点指令，在具有共享浮点功能的流水线上，所以单线程将会在多个核芯上切换执行。这种设计旨在提升功能单元的占用率，从而提高执行效率。</p>
+<p><img src="/static/images/loading.gif" alt="2.2 硬件的权衡 - 图8" data-original="https://static.sitestack.cn/projects/Heterogeneous-Computing-with-OpenCL-2.0/d8ea05a526632733cb0445f39fa75c09.png" class="lazy" /></p>
+<p>图2.7 AMD彪马(左)和推土机(右)高端设计(这里并未展示任何共享模块)。彪马采用的是低功率设计，这种设计遵循传统的方式，将功能单元映射到每个核芯上。推土机则让两个核芯共享一个模块，图中两个核芯就共享了一个浮点单元。</p>
+<p>同样的，在GPU设计中对于“芯”的定义也不尽相同。当代GPU具有几十个“芯”——目前高端设备上都由32个或64个芯，其复杂度依赖于特定的架构。很多GPU设计，例如AMD的GCN(Graphics Core Next)架构[2]，以及英伟达的费米和开普勒架构[3]，这些设计都会跟随一个额外的类似中央处理器的芯片。不过，有些设计与这些设计有着本质的不同。例如，我们来看一下AMD Radeon HD6970高端显卡的内置图，我们就能看到与推土机类似的设计。虽然这个设备只有24个SIMD核芯，但是观察其执行单元，我们可以使用一种最公平的方式与传统CPU进行比较，这些SIMD核芯只能执行ALU操作——浮点和整型操作。指令调度、解码和分发都通过“波”调度单元执行。因为调度单元是一个宽IMD线程上下文——称为“波面阵”，所以其调度器就命名为“波”调度器。的确，在AMD Radeon HD 6970上又两个“波”调度器(以避免提升设计的复杂度)，不过这款显卡的低端版本中，只能使用一个“波”调度器和一排SIMD核芯。</p>
+<p><img src="/static/images/loading.gif" alt="2.2 硬件的权衡 - 图9" data-original="https://static.sitestack.cn/projects/Heterogeneous-Computing-with-OpenCL-2.0/2eb822c582b6efae0b82dccfe6552e78.png" class="lazy" /></p>
+<p>图2.8 AMD Radeon HD6970 GPU架构。这个设备由两部分组成，每个部分的指令控制(调度和分发)通过“波”调度器进行。24个16通道的SIMD核芯，每个SIMD通道上执行4路VLIW指令，包含私有一级(L1)缓存，并且共享本地数据(通过便笺式存储器)。</p>
+<h2 id="3rgfwq"><a name="3rgfwq" class="reference-link"></a><span class="header-link octicon octicon-link"></span>2.2.7 集成:片上系统和APU</h2><p>嵌入式领域中，异构方法和多芯设计是一样的。为了达到低能耗，嵌入式开发者们构建出复杂的片上系统，这个系统将很多组件压缩到一个芯片上，这是种性价比十分高的设计。使用这种方式将特定的组件合并，就能在某些特殊的功率要求情况下对设备进行优化，这点对于移动领域来说十分重要。</p>
+<p>片上系统有如下优点：</p>
+<ul>
+<li><p>将很多元素融合在一个设备上，这样在生产的时候一次就能搞定，避免在制造阶段耗费太多成本。</p>
+</li><li><p>更少的功能将会降低设备上的面积占用率，可以节省功耗和降低设备体积，这对于移动通讯领域很重要。</p>
+</li><li><p>更短的距离意味着数据交互和信息传递完全可以在一个内存系统中进行，并且降低了交互的功耗。</p>
+</li><li><p>低通讯延迟可以增加处理器对负载分发的次数。</p>
+</li></ul>
+<p>手机领域就有该方式的成功案例，比如高通的金鱼草(Snapdragon)和德州仪器的OMAP系列。这种设计与在ARM上的实现称为指令集架构(ISA)——一个移动GPU、内存控制器和各种无线和媒体处理组件。高性能领域，索尼、松下和IBM开发了Cell宽带引擎处理器(Cell/B.E.)，其结合了一些体积小、性能高、传统的全功能核芯，目标就是为了让每一瓦功耗能做更多的工作。AMD和Intel都开发出了结合CPU和GPU的片上系统，AMD的片上系统称为APU，其将高性能显卡和CPU打包在一起，以提高芯片工作的效率。</p>
+<h2 id="6jjlno"><a name="6jjlno" class="reference-link"></a><span class="header-link octicon octicon-link"></span>2.2.8 高速缓存层次结构和存储系统</h2><p>早些年的超级计算机上，内存带宽和延迟都能满足CPU，通常什么时候需要就去访问对应内存，这种情况持续了好久。如今，CPU端发出一条内存请求不会有之前那种延迟，相应的数据可能会在成百上千个CPU始终周期后返回。单线程CPU上，乱序逻辑不可能复杂到能够掩盖很多的延迟。</p>
+<p>幸运的是，大多数应用都不会完全独立的对内存进行访问。通常，内存访问的模式会在局部，形式将会是下面任何一个：</p>
+<ul>
+<li><p>空域：两个以上(包括两个)的读或写操作，对内存上(一定程度上)附近的地址。</p>
+</li><li><p>时域：在相对小的时间窗内对同一地址进行两个以上(包括两个)的读或写操作。</p>
+</li></ul>
+<p>通过这两种局部方式可以得出结论，如果我们要存储从某个内存地址，以及从其临近地址读取的值，读取之后将会再次使用到这些值。利用这个结论，CPU的设计者们会在CPU到内存缓存中间添加很多缓冲层，以便对内存访问进行优化。</p>
+<p>高速缓存的设计也有很多，不过这些设计可以根据所依赖的负载分为两类。CPU高速缓存倾向于减少延迟。为了达到这个目标，缓存通过复杂的层次结构，将要使用的数据放在离CPU较近的地方。乱序逻辑只能掩盖有限的延迟，所以访问到数据所耗费的时钟周期越少越好。另外，让数据接近执行单元也能最小化功耗：长距离的数据搬运很占CPU的功耗。</p>
+<p>吞吐处理器需要对延迟有更多的容忍，使用线程是为了隐藏指令申请和数据返回的延迟。这种设计的目的是，让缓存来减少延迟，因此大型的多层级结构是不常见的，更多的是减少有限的内存上的总线流量。小型缓存允许邻近访问，但在很长一段是间不会被复用，所以这样的缓存更多扮演的是空间过滤器。宽SIMD单元和编程模式的目标——有效的合并内存访问，增加内存交换的规模。这样的结果就是，计算单元在处理逻辑时，能对使用更多的晶体管。另外，高延迟、高带宽的内存交互能让这种设计工作更加高效。我们经常在GPU设计中看到一种更加偏向于空间局部性的扩展设计，就是将内存设计成可二维访问的模式，从而让缓存保存更多有效的数据。</p>
+<p>包括GPU和Cell处理器的一些设计，包括软件管理的暂存式存储器空间或是代替缓存层次结构的设计。这些设计中，给定功耗下内存都有很高的性能和空间预期，不过这样的设计对于编程来说是非常复杂的。</p>
+<p>事实是任何给定的设计，都需要去权衡缓存层级和处理器基础功能的负载。不幸的是，对于所有处理器设计，从负载组合角度无法给出一个完美的答案。</p>
+<hr />
+<p>[1] Advanced Micro Devices, Incorporated, AMD Fusion Family of APUs: Enableing a Superior, Immersive PC Experience, Advanced Micro Devices, Incorporated, Sunnyvale, CA, 2011</p>
+<p>[2] Advanced Micro Devices, Incorporated, White parper: AMD Graphics Core Next(GNC) Architecture, Advanced Micro Devices, Incorporated, Sunnyvale, CA, 2012.</p>
+<p>[3] NVIDIA Corporation, NVIDIA Kepler Compute Architecture, NVIDIA Corporation, Santa Clara, CA, 2014.</p>
+<p>[译者注1] 原文:<em>…hence CPU die area…</em>。通过对上下文的分析，译者认为这里的“hence”是误写的单词，正确的单词应该是“enhance”。文中使用“enhance”的译意。</p>
+<p>[译者注2] 1964年，控制数据公司(Control Data Corporation)研制出了世界上首台超级计算机“CDC6600”。该超级计算机也是超级计算数据中心的现代鼻祖，由西摩·克雷(Seymour Cray)为伦斯辐射实验室而设计。</p>
+
+                    </article>
+                    
+                    
+                    
+                    
+                    <div class="copyright-statment help-block">
+                        当前内容版权归 <a target="_blank" title="xiaoweiChen" href="https://github.com/xiaoweiChen/Heterogeneous-Computing-with-OpenCL-2.0">xiaoweiChen</a> 或其关联方所有，如需对内容或内容相关联开源项目进行关注与资助，请点击 <a target="_blank" title="xiaoweiChen" href="https://github.com/xiaoweiChen/Heterogeneous-Computing-with-OpenCL-2.0">xiaoweiChen</a> .
+                    </div>
+                    
+                    <div class="row hung-read-link">
+                        <div class="col-xs-12 hung-pre" style="">
+                            <span class="text-muted">上一篇:</span><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter2-2.1-chinese.md">2.1 介绍</a>
+                        </div>
+                        <div class="col-xs-12 hung-next" style="">
+                            <span class="text-muted">下一篇:</span><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter2-2.3-chinese.md">2.3 架构设计空间</a>
+                        </div>
+                    </div>
+                    
+                    
+
+                    
+                        
+                    
+                    <div class="bookstack-bars">
+                        <ul>
+
+                            <li class="visible-xs visible-sm bars-menu bars-menu-hide"><a href="/" title="首页"><i class="fa fa-home"></i></a></li>
+                            
+                            
+                            <li class="visible-xs visible-sm bars-menu bars-menu-hide">
+                                <a title="分享" href="javascript:" data-toggle="modal" data-target="#ModalShare"><i class="fa fa-share-alt"></i></a>
+                            </li>
+                            <li class="visible-xs visible-sm bars-menu bars-menu-hide">
+                                <a title="阅读记录" class="showModalHistory" href="/record/163" rel="nofollow"><i class="fa fa-clock-o"></i></a>
+                            </li>
+                            <li class="visible-xs visible-sm bars-menu bars-menu-hide">
+                                <a rel="nofollow" href="/bookmark/list/163" data-bookid="163" class="showModalBookmark" title="书签">
+                                    <img src="https://static.sitestack.cn/static/images/icon-bookmark-list.png" alt="书签" />
+                                </a>
+                            </li>
+                            <li class="visible-xs visible-sm bars-menu bars-menu-hide">
+                                <a href="/bookmark/" data-docid="15072" rel="nofollow" class="bookmark-action">
+                                <span class="bookmark-add "> <img src="https://static.sitestack.cn/static/images/icon-bookmark-add.png" alt="添加书签" /></span>
+                                <span class="bookmark-remove hide"> <img src="https://static.sitestack.cn/static/images/icon-bookmark-remove.png" alt="移除书签" /></span>
+                                </a>
+                            </li>
+                            <li class="book-menu visible-xs visible-sm">
+                                <a href="javascript:void(0);" title="菜单"><i class="fa fa-align-justify"></i></a>
+                            </li>
+                            <li class="visible-xs visible-sm bars-menu-toggle">
+                                <a href="#" title="更多功能"><i class="fa fa-plus-circle"></i><i class="fa fa-minus-circle hide"></i></a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" class="view-backtop"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="manual-left">
+                <div class="article-search" data-bookid="163">
+                    <form id="searchForm" action="/read/Heterogeneous-Computing-with-OpenCL-2.0/search" method="post">
+                        <div class="input-group">
+                            <input type="text" name="keyword" placeholder="Search..." autocomplete="off" class="form-control" />
+                            <span class="input-group-addon input-group-addon-clear"><i class="fa fa-remove"></i></span>
+                            <span class="input-group-addon">
+                                <button type="submit"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+                    <div class="pull-right hidden-xs">
+                        <i class="fa fa-align-justify"></i>
+                    </div>
+                </div>
+                <div class="article-menu">
+                    
+
+                    <div class="article-menu-detail collapse-menu">
+                        <ul><li id="15020"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/README.md" title="" data-original-title="阅前必读">阅前必读</a></li><li id="15022"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-Foreword-Foreword-chinese.md" title="" data-original-title="序言">序言</a></li><li id="15023" class="collapse-node"><span></span><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter1-1.0-chinese.md" title="" data-original-title="第1章 简介异构计算">第1章 简介异构计算</a><ul><li id="15024"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter1-1.1-chinese.md" title="" data-original-title="1.1 关于异构计算">1.1 关于异构计算</a></li><li id="15025"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter1-1.2-chinese.md" title="" data-original-title="1.2 本书目的">1.2 本书目的</a></li><li id="15026"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter1-1.3-chinese.md" title="" data-original-title="1.3 并行思想">1.3 并行思想</a></li><li id="15027"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter1-1.4-chinese.md" title="" data-original-title="1.4 并发和并行编程模型">1.4 并发和并行编程模型</a></li><li id="15028"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter1-1.5-chinese.md" title="" data-original-title="1.5 线程和共享内存">1.5 线程和共享内存</a></li><li id="15029"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter1-1.6-chinese.md" title="" data-original-title="1.6 消息通讯机制">1.6 消息通讯机制</a></li><li id="15030"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter1-1.7-chinese.md" title="" data-original-title="1.7 并行性的粒度">1.7 并行性的粒度</a></li><li id="15031"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter1-1.8-chinese.md" title="" data-original-title="1.8 使用OpenCL进行异构计算">1.8 使用OpenCL进行异构计算</a></li><li id="15032"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter1-1.9-chinese.md" title="" data-original-title="1.9 本书结构">1.9 本书结构</a></li></ul></li><li id="15070" class="jstree-open collapse-node"><span></span><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter2-2.0-chinese.md" title="" data-original-title="第2章 设备架构">第2章 设备架构</a><ul><li id="15071"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter2-2.1-chinese.md" title="" data-original-title="2.1 介绍">2.1 介绍</a></li><li id="15072"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter2-2.2-chinese.md" title="" class="jstree-clicked" data-original-title="2.2 硬件的权衡">2.2 硬件的权衡</a></li><li id="15073"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter2-2.3-chinese.md" title="" data-original-title="2.3 架构设计空间">2.3 架构设计空间</a></li><li id="15074"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter2-2.4-chinese.md" title="" data-original-title="2.4 本章总结">2.4 本章总结</a></li></ul></li><li id="15075" class="collapse-node"><span></span><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter3-3.0-chinese.md" title="" data-original-title="第3章 介绍OpenCL">第3章 介绍OpenCL</a><ul><li id="15076"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter3-3.1-chinese.md" title="" data-original-title="3.1 简介OpenCL">3.1 简介OpenCL</a></li><li id="15077"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter3-3.2-chinese.md" title="" data-original-title="3.2 OpenCL平台模型">3.2 OpenCL平台模型</a></li><li id="15078"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter3-3.3-chinese.md" title="" data-original-title="3.3 OpenCL执行模型">3.3 OpenCL执行模型</a></li><li id="15079"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter3-3.4-chinese.md" title="" data-original-title="3.4 内核和OpenCL编程模型">3.4 内核和OpenCL编程模型</a></li><li id="15080"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter3-3.5-chinese.md" title="" data-original-title="3.5 OpenCL内存模型">3.5 OpenCL内存模型</a></li><li id="15081"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter3-3.6-chinese.md" title="" data-original-title="3.6 OpenCL运行时(例子)">3.6 OpenCL运行时(例子)</a></li><li id="15082"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter3-3.7-chinese.md" title="" data-original-title="3.7 OpenCL C++ Wapper向量加法">3.7 OpenCL C++ Wapper向量加法</a></li><li id="15083"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter3-3.8-chinese.md" title="" data-original-title="3.8 CUDA编程者使用OpenCL的注意事项">3.8 CUDA编程者使用OpenCL的注意事项</a></li></ul></li><li id="15084" class="collapse-node"><span></span><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter4-4.0-chinese.md" title="" data-original-title="第4章 OpenCL案例">第4章 OpenCL案例</a><ul><li id="15085"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter4-4.1-chinese.md" title="" data-original-title="4.1 OpenCL实例">4.1 OpenCL实例</a></li><li id="15086"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter4-4.2-chinese.md" title="" data-original-title="4.2 直方图">4.2 直方图</a></li><li id="15087"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter4-4.3-chinese.md" title="" data-original-title="4.3 图像旋转">4.3 图像旋转</a></li><li id="15088"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter4-4.4-chinese.md" title="" data-original-title="4.4 图像卷积">4.4 图像卷积</a></li><li id="15089"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter4-4.5-chinese.md" title="" data-original-title="4.5 生产者-消费者">4.5 生产者-消费者</a></li><li id="15090"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter4-4.6-chinese.md" title="" data-original-title="4.6 基本功能函数">4.6 基本功能函数</a></li><li id="15091"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter4-4.7-chinese.md" title="" data-original-title="4.7 本章总结">4.7 本章总结</a></li></ul></li><li id="15092" class="collapse-node"><span></span><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter5-5.0-chinese.md" title="" data-original-title="第5章 OpenCL运行时和并发模型">第5章 OpenCL运行时和并发模型</a><ul><li id="15093"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter5-5.1-chinese.md" title="" data-original-title="5.1 命令和排队模型">5.1 命令和排队模型</a></li><li id="15094"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter5-5.2-chinese.md" title="" data-original-title="5.2 多命令队列">5.2 多命令队列</a></li><li id="15095"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter5-5.3-chinese.md" title="" data-original-title="5.3 内核执行域:工作项、工作组和NDRange">5.3 内核执行域:工作项、工作组和NDRange</a></li><li id="15096"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter5-5.4-chinese.md" title="" data-original-title="5.4 原生和内置内核">5.4 原生和内置内核</a></li><li id="15097"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter5-5.5-chinese.md" title="" data-original-title="5.5 设备端排队">5.5 设备端排队</a></li><li id="15098"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter5-5.6-chinese.md" title="" data-original-title="5.6 本章总结">5.6 本章总结</a></li></ul></li><li id="15099" class="collapse-node"><span></span><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter6-6.0-chinese.md" title="" data-original-title="第6章 OpenCL主机端内存模型">第6章 OpenCL主机端内存模型</a><ul><li id="15100"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter6-6.1-chinese.md" title="" data-original-title="6.1 内存对象">6.1 内存对象</a></li><li id="15101"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter6-6.2-chinese.md" title="" data-original-title="6.2 内存管理">6.2 内存管理</a></li><li id="15102"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter6-6.3-chinese.md" title="" data-original-title="6.3 共享虚拟内存">6.3 共享虚拟内存</a></li><li id="15103"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter6-6.4-chinese.md" title="" data-original-title="6.4 本章总结">6.4 本章总结</a></li></ul></li><li id="15104" class="collapse-node"><span></span><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter7-7.0-chinese.md" title="" data-original-title="第7章 OpenCL设备端内存模型">第7章 OpenCL设备端内存模型</a><ul><li id="15105"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter7-7.1-chinese.md" title="" data-original-title="7.1 同步和交互">7.1 同步和交互</a></li><li id="15106"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter7-7.2-chinese.md" title="" data-original-title="7.2 全局内存">7.2 全局内存</a></li><li id="15107"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter7-7.3-chinese.md" title="" data-original-title="7.3 常量内存">7.3 常量内存</a></li><li id="15108"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter7-7.4-chinese.md" title="" data-original-title="7.4 局部内存">7.4 局部内存</a></li><li id="15109"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter7-7.5-chinese.md" title="" data-original-title="7.5 私有内存">7.5 私有内存</a></li><li id="15110"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter7-7.6-chinese.md" title="" data-original-title="7.6 统一地址空间">7.6 统一地址空间</a></li><li id="15111"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter7-7.7-chinese.md" title="" data-original-title="7.7 内存序">7.7 内存序</a></li><li id="15112"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter7-7.8-chinese.md" title="" data-original-title="7.8 本章总结">7.8 本章总结</a></li></ul></li><li id="15113" class="collapse-node"><span></span><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter8-8.0-chinese.md" title="" data-original-title="第8章 异构系统下解析OpenCL">第8章 异构系统下解析OpenCL</a><ul><li id="15114"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter8-8.1-chinese.md" title="" data-original-title="8.1 AMD FX-8350 CPU">8.1 AMD FX-8350 CPU</a></li><li id="15115"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter8-8.2-chinese.md" title="" data-original-title="8.2 AMD RADEON R9 290X CPU">8.2 AMD RADEON R9 290X CPU</a></li><li id="15116"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter8-8.3-chinese.md" title="" data-original-title="8.3 OpenCL内存性能的考量">8.3 OpenCL内存性能的考量</a></li><li id="15117"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter8-8.4-chinese.md" title="" data-original-title="8.4 本章总结">8.4 本章总结</a></li></ul></li><li id="15118" class="collapse-node"><span></span><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter9-9.0-chinese.md" title="" data-original-title="第9章 案例分析：图像聚类">第9章 案例分析：图像聚类</a><ul><li id="15119"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter9-9.1-chinese.md" title="" data-original-title="9.1 图像聚类简介">9.1 图像聚类简介</a></li><li id="15120"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter9-9.2-chinese.md" title="" data-original-title="9.2 直方图的特性——CPU实现">9.2 直方图的特性——CPU实现</a></li><li id="15121"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter9-9.3-chinese.md" title="" data-original-title="9.3 OpenCL实现">9.3 OpenCL实现</a></li><li id="15122"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter9-9.4-chinese.md" title="" data-original-title="9.4 性能分析">9.4 性能分析</a></li><li id="15123"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter9-9.5-chinese.md" title="" data-original-title="9.5 本章总结">9.5 本章总结</a></li></ul></li><li id="15033" class="collapse-node"><span></span><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter10-10.0-chinese.md" title="" data-original-title="第10章 OpenCL的分析和调试">第10章 OpenCL的分析和调试</a><ul><li id="15034"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter10-10.1-chinese.md" title="" data-original-title="10.1 设置本章的原因">10.1 设置本章的原因</a></li><li id="15035"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter10-10.2-chinese.md" title="" data-original-title="10.2 使用事件分析OpenCL代码">10.2 使用事件分析OpenCL代码</a></li><li id="15036"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter10-10.3-chinese.md" title="" data-original-title="10.3 AMD CodeXL">10.3 AMD CodeXL</a></li><li id="15037"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter10-10.4-chinese.md" title="" data-original-title="10.4 如何使用AMD CodeXL">10.4 如何使用AMD CodeXL</a></li><li id="15038"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter10-10.5-chinese.md" title="" data-original-title="10.5 使用CodeXL分析内核">10.5 使用CodeXL分析内核</a></li><li id="15039"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter10-10.6-chinese.md" title="" data-original-title="10.6 使用CodeXL调试OpenCL内核">10.6 使用CodeXL调试OpenCL内核</a></li><li id="15040"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter10-10.7-chinese.md" title="" data-original-title="10.7 使用printf调试">10.7 使用printf调试</a></li><li id="15041"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter10-10.8-chinese.md" title="" data-original-title="10.8 本章总结">10.8 本章总结</a></li></ul></li><li id="15042" class="collapse-node"><span></span><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter11-11.0-chinese.md" title="" data-original-title="第11章 高级语言映射到OpenCL2.0 —— 从编译器作者的角度">第11章 高级语言映射到OpenCL2.0 —— 从编译器作者的角度</a><ul><li id="15043"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter11-11.1-chinese.md" title="" data-original-title="11.1 简要介绍现状">11.1 简要介绍现状</a></li><li id="15048"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter11-11.2-chinese.md" title="" data-original-title="11.2 简单介绍C++ AMP">11.2 简单介绍C++ AMP</a></li><li id="15049"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter11-11.3-chinese.md" title="" data-original-title="11.3 编译器的目标 —— OpenCL 2.0">11.3 编译器的目标 —— OpenCL 2.0</a></li><li id="15050"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter11-11.4-chinese.md" title="" data-original-title="11.4 C++ AMP与OpenCL对比">11.4 C++ AMP与OpenCL对比</a></li><li id="15051"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter11-11.5-chinese.md" title="" data-original-title="11.5 C++ AMP的编译流">11.5 C++ AMP的编译流</a></li><li id="15052"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter11-11.6-chinese.md" title="" data-original-title="11.6 编译之后的C++ AMP代码">11.6 编译之后的C++ AMP代码</a></li><li id="15053"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter11-11.7-chinese.md" title="" data-original-title="11.7 OpenCL 2.0提出共享虚拟内存的原因">11.7 OpenCL 2.0提出共享虚拟内存的原因</a></li><li id="15054"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter11-11.8-chinese.md" title="" data-original-title="11.8 编译器怎样支持C++ AMP的线程块划分">11.8 编译器怎样支持C++ AMP的线程块划分</a></li><li id="15055"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter11-11.9-chinese.md" title="" data-original-title="11.9 地址空间的推断">11.9 地址空间的推断</a></li><li id="15044"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter11-11.10-chinese.md" title="" data-original-title="11.10 优化数据搬运">11.10 优化数据搬运</a></li><li id="15045"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter11-11.11-chinese.md" title="" data-original-title="11.11 完整例子:二项式">11.11 完整例子:二项式</a></li><li id="15046"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter11-11.12-chinese.md" title="" data-original-title="11.12 初步结果">11.12 初步结果</a></li><li id="15047"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter11-11.13-chinese.md" title="" data-original-title="11.13 本章总结">11.13 本章总结</a></li></ul></li><li id="15056" class="collapse-node"><span></span><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter12-12.0-chinese.md" title="" data-original-title="第12章 WebCL：使用OpenCL加速Web应用">第12章 WebCL：使用OpenCL加速Web应用</a><ul><li id="15057"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter12-12.1-chinese.md" title="" data-original-title="12.1 介绍WebCL">12.1 介绍WebCL</a></li><li id="15058"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter12-12.2-chinese.md" title="" data-original-title="12.2 如何使用WebCL编程">12.2 如何使用WebCL编程</a></li><li id="15059"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter12-12.3-chinese.md" title="" data-original-title="12.3 同步机制">12.3 同步机制</a></li><li id="15060"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter12-12.4-chinese.md" title="" data-original-title="12.4 WebCL的交互性">12.4 WebCL的交互性</a></li><li id="15061"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter12-12.5-chinese.md" title="" data-original-title="12.5 应用实例">12.5 应用实例</a></li><li id="15062"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter12-12.6-chinese.md" title="" data-original-title="12.6 增强安全性">12.6 增强安全性</a></li><li id="15063"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter12-12.7-chinese.md" title="" data-original-title="12.7 服务器端使用WebCL">12.7 服务器端使用WebCL</a></li><li id="15064"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter12-12.8-chinese.md" title="" data-original-title="12.8 WebCL的状态和特性">12.8 WebCL的状态和特性</a></li></ul></li><li id="15065" class="collapse-node"><span></span><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter13-13.0-chinese.md" title="" data-original-title="第13章 其他高级语言中OpenCL的使用">第13章 其他高级语言中OpenCL的使用</a><ul><li id="15066"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter13-13.1-chinese.md" title="" data-original-title="13.1 本章简介">13.1 本章简介</a></li><li id="15067"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter13-13.2-chinese.md" title="" data-original-title="13.2 越过C和C++">13.2 越过C和C++</a></li><li id="15068"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter13-13.3-chinese.md" title="" data-original-title="13.3 Haskell中使用OpenCL">13.3 Haskell中使用OpenCL</a></li><li id="15069"><a href="/read/Heterogeneous-Computing-with-OpenCL-2.0/content-chapter13-13.4-chinese.md" title="" data-original-title="13.4 本章总结">13.4 本章总结</a></li></ul></li></ul>
+                    </div>
+                    <div class="search-result">
+                        <div class="search-empty" style="display: block;">
+                            <i class="fa fa-search-plus" aria-hidden="true"></i>
+                            <b class="text">暂无相关搜索结果！</b>
+                        </div>
+                        <ul class="search-list" id="searchList"></ul>
+                    </div>
+                </div>
+
+                <div class="m-copyright">
+                    <p>
+                        本文档使用 <a href="//www.bookstack.cn" style="color: #0e8c8c;font-weight: bold" target="_blank">BookStack</a> 构建
+                    </p>
+                </div>
+        </div>
+
+        <div class="manual-progress"><b class="progress-bar"></b></div>
+    </div>
+    <div class="manual-mask"></div>
+</div>
+<span class="article-toggle tooltips hidden-xs hidden-sm" title="" data-original-title="展开/收起文章目录"><img alt="展开/收起文章目录" src="https://static.sitestack.cn/static/images/toggle.png" /></span>
+<div id="menu-hidden" style="display: none;">
+    
+    <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?227e05b01b8f7eefb29a75df28f53840";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277690469'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/stat.php%3Fid%3D1277690469' type='text/javascript'%3E%3C/script%3E"));</script><span id="cnzz_stat_icon_1277690469"></span><script src="https://s23.cnzz.com/stat.php?id=1277690469" type="text/javascript"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-166942584-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-166942584-1');
+</script>
+</div>
+
+
+<div class="modal fade" id="ModalShare" tabindex="-1" role="dialog" aria-labelledby="ModalShareLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="ModalShareLabel">分享，让知识传承更久远</h4>
+            </div>
+            <div class="modal-body">
+                <div class="bdsharebuttonbox bdshare-button-style1-32" data-bd-bind="1650600344897"><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_bdysc" data-cmd="bdysc" title="分享到百度云收藏"></a><a href="#" class="bds_kaixin001" data-cmd="kaixin001" title="分享到开心网"></a><a href="#" class="bds_bdxc" data-cmd="bdxc" title="分享到百度相册"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_tqf" data-cmd="tqf" title="分享到腾讯朋友"></a><a href="#" class="bds_thx" data-cmd="thx" title="分享到和讯微博"></a><a href="#" class="bds_bdhome" data-cmd="bdhome" title="分享到百度新首页"></a><a href="#" class="bds_meilishuo" data-cmd="meilishuo" title="分享到美丽说"></a><a href="#" class="bds_ibaidu" data-cmd="ibaidu" title="分享到百度中心"></a><a href="#" class="bds_mogujie" data-cmd="mogujie" title="分享到蘑菇街"></a><a href="#" class="bds_diandian" data-cmd="diandian" title="分享到点点网"></a><a href="#" class="bds_huaban" data-cmd="huaban" title="分享到花瓣"></a><a href="#" class="bds_hx" data-cmd="hx" title="分享到和讯"></a><a href="#" class="bds_duitang" data-cmd="duitang" title="分享到堆糖"></a><a href="#" class="bds_fx" data-cmd="fx" title="分享到飞信"></a><a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a><a href="#" class="bds_sdo" data-cmd="sdo" title="分享到麦库记事"></a><a href="#" class="bds_qingbiji" data-cmd="qingbiji" title="分享到轻笔记"></a><a href="#" class="bds_people" data-cmd="people" title="分享到人民微博"></a><a href="#" class="bds_xinhua" data-cmd="xinhua" title="分享到新华微博"></a><a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a><a href="#" class="bds_isohu" data-cmd="isohu" title="分享到我的搜狐"></a><a href="#" class="bds_yaolan" data-cmd="yaolan" title="分享到摇篮空间"></a><a href="#" class="bds_wealink" data-cmd="wealink" title="分享到若邻网"></a><a href="#" class="bds_iguba" data-cmd="iguba" title="分享到股吧"></a><a href="#" class="bds_ty" data-cmd="ty" title="分享到天涯社区"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a><a href="#" class="bds_h163" data-cmd="h163" title="分享到网易热"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a></div>
+                <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"32"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https:\/\/static.sitestack.cn/static/api/js/share.js'];</script>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消分享</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalQRcode" tabindex="-1" role="dialog" aria-labelledby="ModalShareLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="ModalShareLabel">文章二维码</h4>
+            </div>
+            <div class="modal-body">
+                <div id="qrcode" style="width: 256px;height: 256px;margin: 0px auto;margin-bottom: 15px;"><canvas width="256" height="256"></canvas></div>
+                <div class="help-block text-center">手机扫一扫，轻松掌上读</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalDownload" tabindex="-1" role="dialog" aria-labelledby="ModalDownloadLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="ModalDownloadLabel">文档下载</h4>
+            </div>
+            <div class="modal-body clearfix">
+                <div class="help-block">
+                    
+                        <ul class="nav nav-tabs mgb-15px">
+                            <li class="active down-tab" data-target="down-common"><a href="javascript:void(0);">普通下载</a></li>
+                            <li class="down-tab" data-target="down-wecode"><a href="javascript:void(0);">下载码下载(免登录无限下载)</a></li>
+                        </ul>
+                    
+                    <div class="down-tab-cont down-common">
+                        
+                        <div class="row">
+                            <div class="col-sm-6 col-xs-6 text-center">
+                                <div class="help-block">
+                                    你与大神的距离，只差一个APP
+                                </div>
+                                <img src="https://static.bookstack.cn/projects/help/15d7e8169208fad1.png" style="width:100%;max-width: 133px;" alt="APP下载" />
+                            </div>
+                            <div class="col-sm-6 col-xs-6">
+                                <div class="help-block">请下载您需要的格式的文档，随时随地，享受汲取知识的乐趣！</div>
+                                <a href="/export/Heterogeneous-Computing-with-OpenCL-2.0?output=pdf" class="btn btn-default btn-filedown btn-block"> <i class="fa fa-cloud-download"></i> PDF<span class="hidden-xs">文档</span></a>
+                                <a href="/export/Heterogeneous-Computing-with-OpenCL-2.0?output=epub" class="btn btn-default btn-filedown btn-block"> <i class="fa fa-cloud-download"></i> EPUB<span class="hidden-xs">文档</span></a>
+                                <a href="/export/Heterogeneous-Computing-with-OpenCL-2.0?output=mobi" class="btn btn-default btn-filedown btn-block"> <i class="fa fa-cloud-download"></i> MOBI<span class="hidden-xs">文档</span></a>
+                            </div>
+                        </div>
+                        
+                        <div class="help-block">
+                            <strong>温馨提示</strong> <span class="text-danger">每天每在网站阅读学习一分钟时长可下载一本电子书，每天连续签到可增加阅读时长</span>
+                        </div>
+                    </div>
+                    
+                        <div class="down-tab-cont down-wecode" style="display: none;">
+                            <div class="help-block mgb-15px">下载码方式下载：免费、免登录、无限制。<a href="/read/help/get-down-code.md" target="_blank"><i class="fa fa-hand-o-right"></i> 免费获取下载码</a></div>
+                            <form class="form-inline ajax-form-down" role="form" method="get" action="/export/Heterogeneous-Computing-with-OpenCL-2.0">
+                                <div class="form-group">
+                                <label for="wecode">下载码</label>
+                                <input type="text" name="wecode" class="form-control" id="wecode" placeholder="请输入下载码" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="format">  文档格式</label>
+                                    <select name="output" id="format" class="form-control">
+                                        <option value="pdf">PDF</option>
+                                        <option value="epub">EPUB</option>
+                                        <option value="mobi">MOBI</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-default"><i class="fa fa-cloud-download"></i> 码上下载</button>
+                            </form>
+                        </div>
+                    
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭窗口</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalBookChat" tabindex="-1" role="dialog" aria-labelledby="ModalBookChatLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="ModalBookChatLabel">微信小程序阅读</h4>
+            </div>
+            <div class="modal-body text-center">
+                <img src="https://static.sitestack.cn/projects/Heterogeneous-Computing-with-OpenCL-2.0/wxacode.jpeg" style="margin: 15px auto;" class="img-responsive" alt="BookChat 微信小程序阅读" />
+                <div class="help-block">微信扫一扫，知识掌上学</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭窗口</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalBookmark" tabindex="-1" role="dialog" aria-labelledby="ModalBookmarkLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="ModalBookmarkLabel">书签列表</h4>
+            </div>
+            <div class="modal-body">
+                <ul></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalHistory" tabindex="-1" role="dialog" aria-labelledby="ModalBookmarkLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="ModalBookmarkLabel">阅读记录</h4>
+            </div>
+            <div class="modal-body">
+                <div class="help-block progress-block">
+                    阅读进度:  <span class="text-success">0.00%</span> ( <span class="text-muted">0/0</span> )
+                    <a href="#" class="reset-history pull-right"> <i class="fa fa-refresh"></i> 重置阅读进度</a>
+                </div>
+                <div class="progress progress-striped active">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
+                <hr />
+                <ul></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bookstack-viewer"></div>
+
+<script src="https://static.sitestack.cn/static/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
+<script src="https://static.sitestack.cn/static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://static.sitestack.cn/static/nprogress/nprogress.js"></script>
+<script type="text/javascript" src="https://static.sitestack.cn/static/highlight/highlight.js"></script>
+<script type="text/javascript" src="https://static.sitestack.cn/static/highlight/highlightjs-line-numbers.min.js"></script>
+<script type="text/javascript" src="https://static.sitestack.cn/static/js/jquery.highlight.js"></script>
+<script type="text/javascript" src="https://static.sitestack.cn/static/js/toast.script.js"></script>
+<script type="text/javascript" src="https://static.sitestack.cn/static/js/jquery.qrcode.min.js"></script>
+<script type="text/javascript" src="https://static.sitestack.cn/static/js/clipboard.min.js"></script>
+<script type="text/javascript" src="https://static.sitestack.cn/static/katex/katex.min.js"></script>
+<script src="https://static.sitestack.cn/static/editor.md/lib/marked.min.js" type="text/javascript"></script>
+<script src="https://static.sitestack.cn/static/mind-map/kity.min.js" type="text/javascript"></script>
+<script src="https://static.sitestack.cn/static/mind-map/kityminder.core.min.js" type="text/javascript"></script>
+<script src="https://static.sitestack.cn/static/mind-map/mindmap.min.js" type="text/javascript"></script>
+<script src="https://static.sitestack.cn/static/js/jquery.lazyload.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://static.sitestack.cn/static/js/bookstack.js?version=v2.12.0-beta41008"></script>
+<script type="text/javascript" src="https://static.sitestack.cn/static/js/main.js?version=v2.12.0-beta4"></script>
+<script type="text/javascript">
+    'use strict';
+$(function () {
+    var keywords="";
+    if (keywords){
+        var wds =keywords.split(","),l=wds.length;
+        for (var i = 0; i &lt; l; i++) {
+            $(".markdown-body").highlight(wds[i].trim());
+        }
+    }
+
+    $("#searchList").on("click","a",function () {
+        var id = $(this).attr("data-id");
+        var url = "\/read\/Heterogeneous-Computing-with-OpenCL-2.0\/" + id;
+        var _this=$(this);
+        _this.parent("li").siblings().find("a").removeClass("active");
+        _this.addClass("active");
+        load_doc(url,_this.attr("data-wd"));
+    });
+    
+    $(".markdown-body").on("click",".btn-ilink",function (e) {
+        redirect($(this).parents("a").attr("href"));
+    })
+    $(".markdown-body").on("click","a",function (e) {
+        e.preventDefault();
+        var _this = $(this);
+        if(_this.find("img").length == 0){
+            redirect(_this.attr("href"))
+        }
+    });
+
+    function redirect(href){
+        var hrefLower=href.toLowerCase();
+        if(hrefLower.indexOf("http://")==0 || hrefLower.indexOf("https://")==0 ){
+            window.open(href);
+        }else{
+            location.href=href;
+        }
+    }
+
+    show_copy_btn();
+    initLinkWithImage();
+
+    $(".tooltips").tooltip();
+    $("#qrcode").qrcode(location.href);
+
+    var clipboard = new ClipboardJS('.btn-copy',{
+        
+        target: function(trigger) {
+            return trigger.nextElementSibling;
+        }
+    });
+
+    clipboard.on('success', function(e) {
+        console.info('Copy Content：', e.text);
+        alertTips("success","代码复制成功",3000,"");
+    });
+
+    clipboard.on('error', function(e) {
+        console.log("Copy Error：",e);
+    });
+
+    $(".book-menu").click(function () {
+        $(".slidebar").trigger("click");
+    });
+
+    $(".article-toggle").click(function () {
+        if($("body").hasClass("article-menu-hide")){
+            $("body").removeClass("article-menu-hide");
+        }else{
+            $("body").addClass("article-menu-hide");
+        }
+    });
+    $(".collapse-menu .collapse-node span").click(function (e) {
+        if($(this).parent().hasClass("collapse-hide")){
+            $(this).parent().removeClass("collapse-hide")
+        }else {
+            $(this).parent().addClass("collapse-hide")
+        }
+    })
+
+    $(".btn-theme").click(function(){
+        if($("html").hasClass("theme-dark")){
+            $("html").removeClass("theme-dark")
+            setCookie('theme-dark',false,-1000)
+        }else{
+            $("html").addClass("theme-dark")
+            setCookie('theme-dark',true,3600*24*365*1000)
+        }
+    })
+
+    function setCookie(name, value, time){
+        var exp = new Date();
+        exp.setTime(exp.getTime() + time);
+        document.cookie = name + "="+ escape (value) + ";path=/;expires=" + exp.toGMTString();
+    }
+});
+</script>
+
+
+</body></html>

@@ -179,6 +179,20 @@ Boost 1.78 requires CMake 3.22.2 or newer.
 ```
 
 
+## Python config failure: Python is 64-bit, chosen compiler is 32-bit
+
+```
+10>CMake Error at libs/numpy/cmake/FindPythonLibsNew.cmake:109 (message):
+10>  Python config failure: Python is 64-bit, chosen compiler is 32-bit
+10>Call Stack (most recent call first):
+10>  CMakeLists.txt:26 (find_package)
+12>Performing build step for 'png'
+10>
+10>
+10>-- Configuring incomplete, errors occurred!
+```
+
+
 ## git@github.com:hawkhai/OpenCL_img_resize.git
 
 ```cmake
