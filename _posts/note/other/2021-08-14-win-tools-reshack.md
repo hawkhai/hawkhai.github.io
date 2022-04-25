@@ -147,6 +147,8 @@ C:\test>"pecopy.exe" -in "fastvc.exe" \
 
 ### 其它
 
+**2022-04-25 制作新版本，生成的文件会自动移除签名。**
+
 如果存在签名，修改描述前，最后用 VS 自带工具 `signtool.exe` 移除签名先。
 ```bat
 signtool.exe remove /s target.dll
