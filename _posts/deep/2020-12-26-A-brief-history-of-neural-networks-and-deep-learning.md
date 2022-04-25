@@ -187,6 +187,14 @@ Andrey Kurenkov
 - [7] <https://www.andreykurenkov.com/writing/life/lessons-learned-from-failures/>
 
 
+## 2022-04-23
+
+从 [记录 DeepLearning 学习过程 {% include relref_github.html %}](https://github.com/xiaoweiChen/DeepLearning-Notes) 看到两篇非常好的文章。
+
+* 阮一峰 [神经网络入门](http://www.ruanyifeng.com/blog/2017/07/neural-network.html)
+* 阮一峰 [如何识别图像边缘？](http://www.ruanyifeng.com/blog/2016/07/edge-recognition.html)
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md.js" %}'></script></p>
@@ -199,3 +207,6 @@ Andrey Kurenkov
 - [http://www.360doc.com/content/17/1207/08/1609415_710706921.shtml]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.360doc.com/68c30233.shtml" %})
 - [https://www.skynettoday.com/overviews/neural-net-history]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.skynettoday.com/3fb22ab6.html" %})
 - [https://www.andreykurenkov.com/writing/life/lessons-learned-from-failures/]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.andreykurenkov.com/8920000a.html" %})
+- [https://github.com/xiaoweiChen/DeepLearning-Notes]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/github.com/d0a1bb71.html" %})
+- [http://www.ruanyifeng.com/blog/2017/07/neural-network.html]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.ruanyifeng.com/d5835ee3.html" %})
+- [http://www.ruanyifeng.com/blog/2016/07/edge-recognition.html]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.ruanyifeng.com/3308992b.html" %})
