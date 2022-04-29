@@ -13,6 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
+cluster: "PDFium 编译"
 ---
 
 * [基于开源 PDFium，编译动态库 -- Windows 平台（上） {% include relref_cnblogs.html %}](https://www.cnblogs.com/purehol/p/11734015.html)
