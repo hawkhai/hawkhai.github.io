@@ -94,6 +94,17 @@ And, I welcome any feedback on the contents and your suggestions.
 编程知识非常庞杂，我们的时间精力有限，只能说挑选一个特定领域深耕，并时刻保持旺盛的学习能力。
 
 
+## The Annotated Turing
+
+[Turing 机、人工智能以及我们的世界](http://www.matrix67.com/blog/archives/4930)
+
+自由意志的问题，这是史上最大的谜团，并不是机械运动所能解释清楚的，理论上讲，给予足够的计算能力，你可以解释任意复杂的系统，为何会做出它现有的表现，纯粹的技巧而已。
+惟独无法解释的，是自身的感受，主体和客观世界的鸿沟，举个例子，你可以从头到尾地追踪全身上下的每一条神经通路，精细到每一次离子通道的开闭，把每个 Na+ 和 K+ 都剖析得体无完肤，却唯独无法说明究竟是谁在感知。正如 KK 感触颇深的蜂群，深入到细微之处，我们只是一个个杂乱无章的工蜂，但上升到整体，就有了意识的“觉醒”，能够感知周遭的一切。
+最为吊诡的是，如果说干脆否定这个感知主体的存在，它又是你做出这个判断所能依赖的唯一基石：说到底，所有的概念和理论都来源于人对外界的的感觉。
+
+我除了知道自己具有意识之外，我什么也不知道。因为即使去证明，也只能证明我能去证明……
+
+
 ## Work history
 
 * Software Engineer
@@ -170,5 +181,6 @@ Enjoy!
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://www.songho.ca/]({% include relrefx.html url="/backup/about.md/www.songho.ca/d3f4e364.html" %})
+- [http://www.matrix67.com/blog/archives/4930]({% include relrefx.html url="/backup/about.md/www.matrix67.com/84c24598.html" %})
 - [https://twitter.com/]({% include relrefx.html url="/backup/about.md/twitter.com/4fd9c9a2.html" %})
 - [https://github.com/]({% include relrefx.html url="/backup/about.md/github.com/008ec445.html" %})
