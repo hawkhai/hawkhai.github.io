@@ -105,6 +105,21 @@ And, I welcome any feedback on the contents and your suggestions.
 我除了知道自己具有意识之外，我什么也不知道。因为即使去证明，也只能证明我能去证明……
 
 
+## 人生思考
+
+[对 2030 年中国的一些预测 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/S3D1T6WTvodwwv-4aGASrg)
+
+**宝宝补全我们的人生。**
+我们绝大部分人五代后都会没有后代，基因终结。
+人类生育率 2.1 是世代更替水平，这需要一半的家庭生三胎，在当前的情况下可以认为是不可能，将来更不可能。
+100 个人按照 2.1 的生育率要生 105 个孩子才能保证人口不减少，因为中间会有各种疾病夭折和意外事故。
+100 个人里面有 10 个人不结婚或者结婚后不孕不育或者丁克，剩下 90 个人结婚总共 45 对夫妻，有 10 对夫妻生了一胎，有 15 对夫妻生了二胎，那么剩下的 20 对夫妻总共要生 105-10×1-15×2=65 个孩子才能保证人口不减少，也就是平均要生 3.25 个孩子，近似于不可能。工业化国家的人口是不可再生资源，只要生育率低于 2.1，就会持续减少，越低减少速度越快，少了就没有了。
+
+2020 年，中国育龄妇女总和生育率为 1.3，100 个人迭代 1 次是 65 个人，迭代 5 次是 100×(0.65^5)=11.603 个人，迭代 10 次是 1.346 个人，基本上没有了。
+
+人生最大的幸福，莫过于家人健康，宝宝健康，做自己开心的事情。
+
+
 ## Work history
 
 * Software Engineer
@@ -182,5 +197,6 @@ Enjoy!
 
 - [http://www.songho.ca/]({% include relrefx.html url="/backup/about.md/www.songho.ca/d3f4e364.html" %})
 - [http://www.matrix67.com/blog/archives/4930]({% include relrefx.html url="/backup/about.md/www.matrix67.com/84c24598.html" %})
+- [https://mp.weixin.qq.com/s/S3D1T6WTvodwwv-4aGASrg]({% include relrefx.html url="/backup/about.md/mp.weixin.qq.com/ee9e9120.html" %})
 - [https://twitter.com/]({% include relrefx.html url="/backup/about.md/twitter.com/4fd9c9a2.html" %})
 - [https://github.com/]({% include relrefx.html url="/backup/about.md/github.com/008ec445.html" %})

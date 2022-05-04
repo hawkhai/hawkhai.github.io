@@ -221,6 +221,7 @@ def tidyupImg(imglocal, fpath, line):
         return line
 
     imgdir, imgfname = os.path.split(imglocal)
+    imgnocopy = os.path.join(imgdir, "imgnocopy.txt")
     if imgfname.find(".") == -1:
         imgfname = imgfname + ".jpg"
     imgtype = imgfname.split(".")[-1].lower()
@@ -242,6 +243,8 @@ def tidyupImg(imglocal, fpath, line):
     tpath = os.path.join("assets", "images", fname, imgfname).lower()
     if invdir:
         tpath = os.path.join("invisible", "images", fname, imgfname).lower()
+    if os.path.exists(imgnocopy):
+        tpath = imglocal
 
     if not os.path.exists(imglocal) and os.path.exists(tpath): # 貌似已经剪切过去了。
         copyfile(tpath, imglocal)
@@ -960,10 +963,13 @@ def checkReviewJS(jsdir, rootdir):
                 openTextFile(mdfile)
     searchdir(jsdir, mainfile)
 
-def main():
+def mainw():
     print(parsePythonCmdx(__file__))
+    main()
     removedirTimeout("tempdir")
     clearemptydir("tempdir")
+
+def main():
     buildSnapCache("backup")
     buildSnapCache("invisible\\backup")
     if REBUILD or OPENRESENT:
@@ -1024,9 +1030,9 @@ if __name__ == "__main__":
         workdir = sys.argv[1]
         @CwdDirRun(workdir)
         def maingo():
-            main()
+            mainw()
         maingo()
     else:
-        main()
+        mainw()
         os.system(r"cd invisible & {} tempd.py encrypt".format(getPythonExe(),))
     print(parsePythonCmdx(__file__))
