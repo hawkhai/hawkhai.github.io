@@ -544,6 +544,12 @@ def appendRefs(fpath, lines):
     return lines
 
 def mainfile(fpath, fname, ftype):
+
+    if fpath.endswith(".spaceback.json"):
+        fjson = readfileJson(fpath, "utf8")
+        writefileJson(fpath, fjson, ascii=False, encoding="utf8")
+        return
+
     fpathsrc, fnamesrc, ftypesrc = fpath, fname, ftype
     checkfilesize(fpath, fname, ftype)
 
@@ -855,6 +861,14 @@ def mainfile(fpath, fname, ftype):
     # 移除康熙编码，会造成乱码。
     if not fname in ("2021-03-14-Equivalent-Unified-Ideograph.md",):
         page = TranslateKangXi(page)
+
+    # .spaceback.json
+    spacebackfile = fpath + ".spaceback.json"
+    if os.path.exists(spacebackfile):
+        fjson = readfileJson(spacebackfile, "utf8")
+        for key in fjson.keys():
+            value = fjson[key]
+            page = page.replace(key, value)
 
     # 时间过长，如果被手工改了，这里会形成覆盖。
     md5src2 = getFileMd5(fpath)

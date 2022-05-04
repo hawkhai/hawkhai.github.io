@@ -20,7 +20,7 @@ def mainsplit(rootdir):
         image = Image.open(fpath)
         width, height = image.size
         assert width % 3 == 0 and height % 3 == 0, (width, height, fpath)
-        w, h = width / 3, height / 3
+        w, h = int(width / 3), int(height / 3)
         for j in range(3):
             for i in range(3):
                 x0, y0 = i*w, j*h
@@ -28,7 +28,10 @@ def mainsplit(rootdir):
                 img = image.crop((x0, y0, x1, y1))
                 count += 1
                 local = os.path.join("menu", "%02d.png"%(count))
-                img.save(local)
+                #img.save(local)
+                subimg = Image.open(local)
+                image.paste(subimg, (x0, y0))
+        image.save(fpath)
     print(count)
 
 if __name__ == "__main__":

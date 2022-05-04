@@ -40,6 +40,8 @@ def mainxtitle():
     def mainfile(fpath, fname, ftype):
         if ftype in ("py",): return
         if ftype in ("mdtag",): return
+        if fpath.endswith(".spaceback.json"):
+            return
         regularTitle(fpath)
         # print(fname[11:])
         fnamelist.append("%-64s"%fname[11:] + "\t" + getPostValue(fpath, "title"))
@@ -193,6 +195,9 @@ gkvconfig = readfileJson("config/headnote.json", "utf8")
 gkvconfig = gkvconfig if gkvconfig else {}
 def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv={}):
     if ftype in ("mdtag",): return
+    if fpath.endswith(".spaceback.json"):
+        return
+
     fpath = os.path.relpath(fpath, ".")
     fsecli = parseHeadKeyValueRaw(fpath, fname, ftype)
     if not fsecli: return
