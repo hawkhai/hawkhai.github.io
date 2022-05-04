@@ -6,6 +6,7 @@ from pythonx.funclib import *
 import json
 
 OPENFILE = "openfile" in sys.argv
+#IGNORE_CONFIG = readfileJson(os.path.join("config", "ignore_config.txt"))
 
 def regularTitle(fpath):
     title = getPostValue(fpath, "title")
@@ -14,6 +15,8 @@ def regularTitle(fpath):
     categories = json.loads(categories)
     category = categories[0]
     regex = "^.*?{}.*? --( |《)[^《]".format(category)
+    if getPostValue(fpath, "titlecheck"):
+        return
     if not re.findall(regex, title):
         openTextFile(fpath)
         assert False, regex
@@ -89,7 +92,7 @@ permalink
     igkeylist = """
 l2dwidget cluster
 sortrefs archived date
-layoutclear
+layoutclear titlecheck
 """.split()
 
     kvmap = {}
