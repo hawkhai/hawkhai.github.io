@@ -19,7 +19,7 @@ layoutclear: true
 ---
 
 <div style="width: fit-content; margin-left: auto; margin-right: auto;">
-地址：海南村赤岗东约二巷 1 号<br/>
+地址：海南村赤岗东约二巷 1 号 <br/>
 电话：15975521528（支持外卖）
 </div>
 
