@@ -39,6 +39,19 @@ testapp.exe 中的 0x0041e3d0 处未处理的异常: 0xC0000005: 读取位置 0x
 Debug 版本也跟着用，里面包含 `std::map<CStringW, CStringW>` 定义不一致造成崩溃。
 
 
+## Natvis visualizations
+
+Create custom views of C++ objects in the debugger using the Natvis framework
+[from](https://docs.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2022)
+
+vs 支持对自定义数据类型的展现进行定制，创建一个 .natvis 文件，在里面写对应规则即可。
+使用场景：例如有个链表的数据结构，想调试看里面每个元素的值，非常不方便。用这个方法后，能像数组一样查看链表里的每个元素，非常方便调试。
+
+{% include image.html url="/assets/images/201215-visual-studio/20220507-232945.jpg" %}
+{% include image.html url="/assets/images/201215-visual-studio/20220507-233000.jpg" %}
+这段就是 .natvis 文件中将链表转成数组展现形式的语法。
+
+
 ## LNK2026 模块对于 SAFESEH 映像是不安全的。
 
 严重性 | 代码 | 说明 | 项目 | 文件 | 行 | 禁止显示状态
@@ -356,6 +369,7 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Visual-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://docs.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2022]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/docs.microsoft.com/3966f77e.html" %})
 - [http://msdl.microsoft.com/download/symbols]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/msdl.microsoft.com/9dd253a8.html" %})
 - [https://www.codenong.com/895827/]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/www.codenong.com/38324189.html" %})
 - [https://jingyan.baidu.com/article/3c48dd3485c80be10be358e3.html]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/jingyan.baidu.com/2a6c630c.html" %})
