@@ -1,0 +1,1011 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="Read读(从设备到主机) // 将缓存对象中的数据读到内存对象中 cl_int clEnqueueReadBuffer ( cl_command_queue command_queue, //命令队" />
+    <meta property="og:description" content="Read读(从设备到主机) // 将缓存对象中的数据读到内存对象中 cl_int clEnqueueReadBuffer ( cl_command_queue command_queue, //命令队" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>opencl(七)----读写传输命令、内存映射命令 - feihu_h - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <style>:not(.cnblogs_code):not(.cnblogs_Highlighter)&gt;pre:not([class*="language-"]):not([highlighted]):not(.hljs):not([class*="brush:"]) {
+        background: rgb(245, 245, 245);
+        padding: 5px;
+        border: 1px solid rgb(204, 204, 204);
+        border-radius: 3px;
+        border-color: transparent;
+        color: rgb(68, 68, 68);
+        font-family: "Courier New", sans-serif;
+    }:not(.cnblogs_code):not(.cnblogs_Highlighter)&gt;pre:not([highlighted]):not([class*="brush:"]) code:not(.hljs) {
+            background: rgb(245, 245, 245) !important;
+            border-color: transparent !important;
+        }</style><link rel="stylesheet" href="/css/blog-common.min.css?v=LdAfPG3EWG4o7Q_XIVJY6Bcod1YpBGSGJykht0T_GZw" />
+    <link id="MainCss" rel="stylesheet" href="/skins/book/bundle-book-2.min.css" />
+    <link id="highlighter-theme-cnblogs" type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=yKPfCbE6NGwg5Jn8Cm5G98RHufDcX_NIbkGDyVPvWPQ" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/book/bundle-book-mobile.min.css?v=9k_FSo_AoRHc_L3EK1_COfiK9nzRpuk5e3fkIxFk1Yg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/feihu-h/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/feihu-h/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/feihu-h/wlwmanifest.xml" />
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="https://common.cnblogs.com/script/encoder.js"></script><script>
+        var currentBlogId = 528107;
+        var currentBlogApp = 'feihu-h';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BOOK';
+        var visitorUserId = '';
+        var hasCustomScript = false;
+        try {
+            if (hasCustomScript &amp;&amp; document.referrer &amp;&amp; document.referrer.indexOf('baidu.com') &gt;= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+        window.codeHighlightEngine = 1;
+        window.enableCodeLineNumber = false;
+        window.codeHighlightTheme = 'cnblogs';
+    </script>
+        <script>
+            var currentPostDateAdded = '2019-12-23 16:38';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=zEDcdP-vPiRGJ3mR4bCkeGCjewsene7G1OVLxRyM3gE"></script><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style><script id="hljs-script" async="" data-loaded="true" src="https://common.cnblogs.com/highlight/11.4.0/highlight.min.js"></script>
+    
+    
+    
+<meta http-equiv="origin-trial" content="AxujKG9INjsZ8/gUq8+dTruNvk7RjZQ1oFhhgQbcTJKDnZfbzSTE81wvC2Hzaf3TW4avA76LTZEMdiedF1vIbA4AAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzVGhpcmRQYXJ0eSI6dHJ1ZX0=" /><meta http-equiv="origin-trial" content="Azuce85ORtSnWe1MZDTv68qpaW3iHyfL9YbLRy0cwcCZwVnePnOmkUJlG8HGikmOwhZU22dElCcfrfX2HhrBPAkAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A16nvcdeoOAqrJcmjLRpl1I6f3McDD8EfofAYTt/P/H4/AWwB99nxiPp6kA0fXoiZav908Z8etuL16laFPUdfQsAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AxBHdr0J44vFBQtZUqX9sjiqf5yWZ/OcHRcRMN3H9TH+t90V/j3ENW6C8+igBZFXMJ7G3Pr8Dd13632aLng42wgAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A88BWHFjcawUfKU3lIejLoryXoyjooBXLgWmGh+hNcqMK44cugvsI5YZbNarYvi3roc1fYbHA1AVbhAtuHZflgEAAAB2eyJvcmlnaW4iOiJodHRwczovL2dvb2dsZS5jb206NDQzIiwiZmVhdHVyZSI6IlRydXN0VG9rZW5zIiwiZXhwaXJ5IjoxNjUyNzc0NDAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="AzoawhTRDevLR66Y6MROu167EDncFPBvcKOaQispTo9ouEt5LvcBjnRFqiAByRT+2cDHG1Yj4dXwpLeIhc98/gIAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjYxMjk5MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A6+nc62kbJgC46ypOwRsNW6RkDn2x7tgRh0wp7jb3DtFF7oEhu1hhm4rdZHZ6zXvnKZLlYcBlQUImC4d3kKihAcAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjYxMjk5MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A/9La288e7MDEU2ifusFnMg1C2Ij6uoa/Z/ylwJIXSsWfK37oESIPbxbt4IU86OGqDEPnNVruUiMjfKo65H/CQwAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjYxMjk5MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2022050201.js" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script></head>
+<body class="skin-book has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding">
+                    <a href="https://www.cnblogs.com/" title="开发者的网上家园" role="banner">
+                        <img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" />
+                    </a>
+                </li>
+                <li><a href="/" onclick="countClicks('skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/huawei" onclick="countClicks('nav', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get" role="search">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="search" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <a id="navbar_lite_mode_indicator" data-current-page="blog" style="display: none" href="javascript:void(0)" alt="简洁模式" title="简洁模式启用，您在访问他人博客时会使用简洁款皮肤展示">
+                        <img class="navbar-icon" src="/images/aggsite/lite-mode-on.svg" alt="简洁模式" />
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <script type="text/javascript">
+	try {
+		if (screen.availWidth &gt; 1200) {
+			document.getElementById("MainCss").href = '/skins/book/bundle-book-2.min.css';
+		}
+	} catch (e) { }
+</script>
+
+<div id="header">
+<div id="HeaderTitle">
+<div id="Title">
+<a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/feihu-h/">feihu_h</a>
+
+</div>
+<div id="subTitle"></div>
+</div>
+</div>
+
+
+<div id="main">
+	<div id="post_detail">
+    <div class="post">
+        <h2>
+            
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/feihu-h/p/12084536.html">
+    <span role="heading" aria-level="2">opencl(七)----读写传输命令、内存映射命令</span>
+    
+</a><button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button>
+
+        </h2>
+        <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<h3>Read读(从设备到主机)<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 将缓存对象中的数据读到内存对象中</span>
+<span style="color: rgba(0, 0, 0, 1)">cl_int clEnqueueReadBuffer (    
+        cl_command_queue command_queue,   </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">命令队列</span>
+     cl_mem buffer,                   <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 缓存对象</span>
+     cl_bool blocking_read,        <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">CL_TRUE 或 CL_FALSE 是否阻塞</span>
+     size_t offset,                     <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 偏置位置</span>
+     size_t size,                       <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">大小</span>
+     <span style="color: rgba(0, 0, 255, 1)">void</span> *<span style="color: rgba(0, 0, 0, 1)">ptr,                         
+     cl_uint num_events_in_wait_list,  
+     </span><span style="color: rgba(0, 0, 255, 1)">const</span> cl_event *<span style="color: rgba(0, 0, 0, 1)">event_wait_list,   
+     cl_event </span>*<span style="color: rgba(0, 0, 255, 1)">event</span><span style="color: rgba(0, 0, 0, 1)">
+)<br />
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 将图像对象中的数据读到内存对象中</span>
+<span style="color: rgba(0, 0, 0, 1)">cl_int clEnqueueReadImage (    
+        cl_command_queue  command_queue ,  </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">命令队列</span>
+     cl_mem  image ,   <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 图像对象</span>
+<span style="color: rgba(0, 0, 0, 1)">     cl_bool  blocking_read ,
+     </span><span style="color: rgba(0, 0, 255, 1)">const</span> size_t  *origin ,   <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">第一个像素位置</span>
+     <span style="color: rgba(0, 0, 255, 1)">const</span> size_t  *region ,  <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">区域</span>
+<span style="color: rgba(0, 0, 0, 1)">     size_t  row_pitch ,
+     size_t  slice_pitch ,
+     </span><span style="color: rgba(0, 0, 255, 1)">void</span>  *<span style="color: rgba(0, 0, 0, 1)">ptr ,
+     cl_uint  num_events_in_wait_list ,
+     </span><span style="color: rgba(0, 0, 255, 1)">const</span> cl_event  *<span style="color: rgba(0, 0, 0, 1)">event_wait_list ,
+     cl_event </span>*<span style="color: rgba(0, 0, 255, 1)">event</span><span style="color: rgba(0, 0, 0, 1)">
+)<br />// 参考： <a href="https://www.khronos.org/registry/OpenCL/sdk/1.2/docs/man/xhtml/clEnqueueReadImage.html" rel="noopener">https://www.khronos.org/registry/OpenCL/sdk/1.2/docs/man/xhtml/clEnqueueReadImage.html</a></span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<h3>write写从主机到设备<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 将主机内存写到缓存对象中</span>
+<span style="color: rgba(0, 0, 0, 1)">cl_int clEnqueueWriteBuffer (    
+     cl_command_queue command_queue,  </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 命令队列</span>
+<span style="color: rgba(0, 0, 0, 1)">     cl_mem buffer,
+     cl_bool blocking_write,
+     size_t offset,
+     size_t size,
+     </span><span style="color: rgba(0, 0, 255, 1)">const</span> <span style="color: rgba(0, 0, 255, 1)">void</span> *ptr,   <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> host memory</span>
+<span style="color: rgba(0, 0, 0, 1)">     cl_uint num_events_in_wait_list,
+     </span><span style="color: rgba(0, 0, 255, 1)">const</span> cl_event *<span style="color: rgba(0, 0, 0, 1)">event_wait_list,
+     cl_event </span>*<span style="color: rgba(0, 0, 255, 1)">event</span><span style="color: rgba(0, 0, 0, 1)">
+)
+
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 将主机内存写到图像对象中</span>
+<span style="color: rgba(0, 0, 0, 1)">cl_int clEnqueueWriteImage (    
+        cl_command_queue  command_queue ,  </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">命令队列</span>
+     cl_mem  image ,                                   <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">图像对象</span>
+<span style="color: rgba(0, 0, 0, 1)">     cl_bool  blocking_write ,                       
+     </span><span style="color: rgba(0, 0, 255, 1)">const</span> size_t  *<span style="color: rgba(0, 0, 0, 1)">origin ,
+     </span><span style="color: rgba(0, 0, 255, 1)">const</span> size_t  *<span style="color: rgba(0, 0, 0, 1)">region ,
+     size_t  input_row_pitch ,
+     size_t  input_slice_pitch ,
+     </span><span style="color: rgba(0, 0, 255, 1)">const</span> <span style="color: rgba(0, 0, 255, 1)">void</span>  * ptr ,              <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">主机地址</span>
+<span style="color: rgba(0, 0, 0, 1)">     cl_uint  num_events_in_wait_list ,
+     </span><span style="color: rgba(0, 0, 255, 1)">const</span> cl_event  *<span style="color: rgba(0, 0, 0, 1)">event_wait_list ,
+     cl_event  </span>*<span style="color: rgba(0, 0, 255, 1)">event</span><span style="color: rgba(0, 0, 0, 1)"> 
+)</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<h3>内存映射命令<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>参考：<a href="https://www.khronos.org/registry/OpenCL/sdk/2.0/docs/man/xhtml/clEnqueueMapBuffer.html" rel="noopener">https://www.khronos.org/registry/OpenCL/sdk/2.0/docs/man/xhtml/clEnqueueMapBuffer.html</a></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 将缓存对象中的区域映射到主机内存
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 返回映射指针</span>
+<span style="color: rgba(0, 0, 255, 1)">void</span> *<span style="color: rgba(0, 0, 0, 1)"> clEnqueueMapBuffer (    
+        cl_command_queue command_queue,   </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">命令队列</span>
+     cl_mem buffer,                                    <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">缓存对象</span>
+<span style="color: rgba(0, 0, 0, 1)">     cl_bool blocking_map,
+     cl_map_flags map_flags,           </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 映射标签             </span>
+<span style="color: rgba(0, 0, 0, 1)">     size_t offset,
+     size_t size,
+     cl_uint num_events_in_wait_list,
+     </span><span style="color: rgba(0, 0, 255, 1)">const</span> cl_event *<span style="color: rgba(0, 0, 0, 1)">event_wait_list,
+     cl_event </span>*<span style="color: rgba(0, 0, 255, 1)">event</span><span style="color: rgba(0, 0, 0, 1)">,
+     cl_int </span>*<span style="color: rgba(0, 0, 0, 1)">errcode_ret
+)
+
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 将图像对象中的区域映射到主机内存
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 返回映射指针</span>
+<span style="color: rgba(0, 0, 255, 1)">void</span> *<span style="color: rgba(0, 0, 0, 1)"> clEnqueueMapImage (    
+        cl_command_queue  command_queue ,  </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">命令</span>
+     cl_mem  image ,                                  <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">图像对象</span>
+<span style="color: rgba(0, 0, 0, 1)">     cl_bool  blocking_map ,
+     cl_map_flags  map_flags ,
+     </span><span style="color: rgba(0, 0, 255, 1)">const</span> size_t  *<span style="color: rgba(0, 0, 0, 1)"> origin ,
+     </span><span style="color: rgba(0, 0, 255, 1)">const</span> size_t  *<span style="color: rgba(0, 0, 0, 1)"> region ,
+     size_t  </span>*<span style="color: rgba(0, 0, 0, 1)">image_row_pitch ,
+     size_t  </span>*<span style="color: rgba(0, 0, 0, 1)">image_slice_pitch ,
+     cl_uint  num_events_in_wait_list ,
+     </span><span style="color: rgba(0, 0, 255, 1)">const</span> cl_event  *<span style="color: rgba(0, 0, 0, 1)">event_wait_list ,
+     cl_event  </span>*<span style="color: rgba(0, 0, 255, 1)">event</span><span style="color: rgba(0, 0, 0, 1)"> ,
+     cl_int  </span>*<span style="color: rgba(0, 0, 0, 1)">errcode_ret 
+)
+
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">解映射(将主机内存中存在的内存对象)</span>
+<span style="color: rgba(0, 0, 0, 1)">cl_int clEnqueueUnmapMemObject (    
+        cl_command_queue  command_queue , </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">命令队列</span>
+     cl_mem  memobj,      <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">缓存对象 或 图像对象</span>
+     <span style="color: rgba(0, 0, 255, 1)">void</span>  *mapped_ptr,   <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">映射指针</span>
+<span style="color: rgba(0, 0, 0, 1)">     cl_uint  num_events_in_wait_list ,
+     </span><span style="color: rgba(0, 0, 255, 1)">const</span> cl_event  *<span style="color: rgba(0, 0, 0, 1)">event_wait_list ,
+     cl_event  </span>*<span style="color: rgba(0, 0, 255, 1)">event</span><span style="color: rgba(0, 0, 0, 1)"> 
+)</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<div class="table-wrapper"><table border="1">
+<thead>
+<tr><th align="left"><span style="font-size: 12px">cl_map_flags</span></th><th align="left"><span style="font-size: 12px">Description</span></th></tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><span style="font-size: 12px"><code class="constant">CL_MAP_READ</code></span></td>
+<td align="left">
+<p><span style="font-size: 12px">This flag specifies that the region being mapped in the memory object is being mapped for reading.</span></p>
+<p><span style="font-size: 12px">The pointer returned by <code class="function">clEnqueueMap{Buffer|Image}</code> is guaranteed to contain the latest bits in the region being mapped when the <code class="function">clEnqueueMap{Buffer|Image}</code> command has completed.</span></p>
+</td>
+</tr>
+<tr>
+<td align="left"><span style="font-size: 12px"><code class="constant">CL_MAP_WRITE</code></span></td>
+<td align="left">
+<p><span style="font-size: 12px">This flag specifies that the region being mapped in the memory object is being mapped for writing.</span></p>
+<p><span style="font-size: 12px">The pointer returned by <code class="function">clEnqueueMap{Buffer|Image}</code> is guaranteed to contain the latest bits in the region being mapped when the <code class="function">clEnqueueMap{Buffer|Image}</code> command has completed.</span></p>
+</td>
+</tr>
+<tr>
+<td align="left"><span style="font-size: 12px"><code class="constant">CL_MAP_WRITE_INVALIDATE_REGION</code></span></td>
+<td align="left">
+<p><span style="font-size: 12px">This flag specifies that the region being mapped in the memory object is being mapped for writing.</span></p>
+<p><span style="font-size: 12px">The contents of the region being mapped are to be discarded. This is typically the case when the region being mapped is overwritten by the host. This flag allows the implementation to no longer guarantee that the pointer returned by <code class="function">clEnqueueMap{Buffer|Image}</code> contains the latest bits in the region being mapped which can be a significant performance enhancement.</span></p>
+<p><span style="font-size: 12px"><code class="constant">CL_MAP_READ</code> or <code class="constant">CL_MAP_WRITE</code> and <code class="constant">CL_MAP_WRITE_INVALIDATE_REGION</code> are mutually exclusive.</span></p>
+</td>
+</tr>
+</tbody>
+</table></div>
+<h3>内存对象间复制<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>参考：<a href="https://www.khronos.org/registry/OpenCL/sdk/2.0/docs/man/xhtml/clEnqueueMapBuffer.html" rel="noopener">https://www.khronos.org/registry/OpenCL/sdk/2.0/docs/man/xhtml/clEnqueueCopyBuffer  .html</a></p>
+<p>clEnqueueCopyBuffer  :  缓存对象---&gt;缓存对象</p>
+<p>clEnqueueCopyImage:    图像对象----&gt;图像对象</p>
+<p>clEnqueueCopyBufferToImage:    缓存对象---&gt;图像对象</p>
+<p>clEnqueueCopyImageToBuffer</p>
+<p>clEnqueueCopyBufferRect</p>
+
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block" role="contentinfo"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/feihu-h/category/1606970.html" target="_blank">openCL</a></div>
+<div id="EntryTag">
+    标签: 
+            <a href="https://www.cnblogs.com/feihu-h/tag/opencl/">opencl</a></div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(12084536,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('e7588dcd-e2fd-4f1e-608b-08d6420f113f');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/feihu-h/" target="_blank"><img src="https://pic.cnblogs.com/face/sample_face.gif" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/feihu-h/">feihu_h</a><br />
+            <a href="https://home.cnblogs.com/u/feihu-h/followees/">关注 - 1</a><br />
+            <a href="https://home.cnblogs.com/u/feihu-h/followers/">粉丝 - 3</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('e7588dcd-e2fd-4f1e-608b-08d6420f113f');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(12084536,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(12084536,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/feihu-h/p/12081652.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/feihu-h/p/12081652.html" data-featured-image="" title="发布于 2019-12-22 23:18">opencl(六)----图像对象</a>
+    <br />
+    <a href="https://www.cnblogs.com/feihu-h/p/12084747.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/feihu-h/p/12084747.html" data-featured-image="" title="发布于 2019-12-23 17:05">opencl(八)----clEnqueueNDRangeKernel、clEnqueueTask、工作组和工作项</a>
+
+</div>
+</div>
+        <p class="postfoot">
+            posted on 
+<span id="post-date">2019-12-23 16:38</span> 
+<a href="https://www.cnblogs.com/feihu-h/">feihu_h</a> 
+阅读(<span id="post_view_count">1336</span>) 
+评论(<span id="post_comment_count">0</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12084536" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(12084536);return false;">收藏</a> 
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '12084536', targetLink: 'https://www.cnblogs.com/feihu-h/p/12084536.html', title: 'opencl(七)----读写传输命令、内存映射命令' })">举报</a>
+        </p>
+    </div>
+</div>
+
+
+
+<script>
+    var cb_entryId = 12084536, cb_entryCreatedDate = '2019-12-23 16:38', cb_postType = 1, cb_postTitle = 'opencl(七)----读写传输命令、内存映射命令';
+    var allowComments = true, cb_blogId = 528107, cb_blogApp = 'feihu-h', cb_blogUserGuid = 'e7588dcd-e2fd-4f1e-608b-08d6420f113f';
+    mermaidRender.render()
+    markdown_highlight()
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+    updatePostStats(
+            [cb_entryId],
+            function(id, count) { $("#post_view_count").text(count) },
+            function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a id="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login('!comments');">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="cnblogs_ch"><a href="https://developer.huawei.com/consumer/cn/forum/topic/0203864577326150380?fid=0102767778349500527&amp;ha_source=bokeyuan" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-华为专区-千元开发板免费试用'})">【推荐】华为 OpenHarmony 千元开发板免费试用，盖楼赢取福利</a><br /><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-华为专区'})">【推荐】华为开发者专区，与开发者一起构建万物互联的智能世界</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+            <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CO751pbEyvcCFeeE6QUdTmYDeg"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" name="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" role="region" aria-label="Advertisement" tabindex="0" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" srcdoc="" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card">
+<b>编辑推荐：</b>
+<br />
+
+· <a href="https://www.cnblogs.com/thisiswhy/p/16224305.html" target="_blank">踩到一个关于分布式锁的非比寻常的BUG！</a>
+    <br />
+· <a href="https://www.cnblogs.com/tanshaoshenghao/p/16217608.html" target="_blank">通过代码解释什么是API，什么是SDK？</a>
+    <br />
+· <a href="https://www.cnblogs.com/wangpenghui522/p/16218816.html" target="_blank">记一次生产问题的排查，让我领略了算法的重要性</a>
+    <br />
+· <a href="https://www.cnblogs.com/coco1s/p/16201937.html" target="_blank">阴影进阶，实现更加的立体的阴影效果！</a>
+    <br />
+· <a href="https://www.cnblogs.com/tangshiye/p/16197792.html" target="_blank">如何写好B端产品的技术方案？</a>
+    <br />
+</div></div>
+        <div id="cnblogs_c2" class="under-post-card">
+            <a href="https://developer.huawei.com/consumer/cn/forum/topic/0203864577326150380?fid=0102767778349500527&amp;ha_source=bokeyuan" rel="nofollow" target="_blank" onclick="countCreativeClicks('C2-华为专区-OpenHarmony开发板免费试用')">
+                <img src="https://img2022.cnblogs.com/blog/35695/202204/35695-20220429114503771-252983719.jpg" alt="" onload="countCreativeImpressions('C2-华为专区-OpenHarmony开发板免费试用')" />
+            </a>
+        </div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>最新新闻</b>：
+    <br />
+ ·          <a href="//news.cnblogs.com/n/720163/" target="_blank">新纪录！墨子号实现1200公里地表量子态传输</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/720162/" target="_blank">网易云指控腾讯的“洗歌”，在法律层面如何解读？</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/720161/" target="_blank">中国黑客关系图</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/720160/" target="_blank">只需要十分之一数据，就能通关四大视觉任务，居然还开源了！</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/720159/" target="_blank">Node.js 之父谈 JavaScript 容器</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+        var commentManager = new blogCommentManager();
+        commentManager.renderComments(0);
+        fixPostBody();
+
+                        window.tocManager.displayDisableTocTips = false;
+                        window.tocManager.generateToc();
+            setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverT2();
+        deliverC1C2();
+        loadNewsAndKb();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+
+
+	<p id="footer">
+	Powered by: 
+	<br />
+	
+	<a href="https://www.cnblogs.com/" id="footer_site_link">博客园</a>
+	<br />
+	Copyright © 2022 feihu_h
+<br /><span id="poweredby">Powered by .NET 6 on Kubernetes</span>
+
+</p>
+
+
+</div>
+<div id="rightmenu">
+	
+		<div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2022/04/06'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2022年5月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2022/06/06'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                        <td class="CalWeekendDay" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                        <td class="" align="center">
+                            4
+                        </td>
+                        <td class="" align="center">
+                            5
+                        </td>
+                        <td class="CalTodayDay" align="center">
+                            6
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        7
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            8
+                        </td>
+                            <td class="" align="center">
+                                9
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            14
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            15
+                        </td>
+                            <td class="" align="center">
+                                16
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            21
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            22
+                        </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            28
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            29
+                        </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="" align="center">
+                                31
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            4
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            5
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                8
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                9
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                10
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            11
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script>
+		
+<h3>导航</h3>
+<ul>
+			<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+			<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/feihu-h/">
+首页</a>
+</li>
+			<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+			<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/feihu_h">
+联系</a></li>
+			<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/feihu-h/rss/">
+订阅</a>
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/feihu-h/rss/">
+    <img src="/skins/book/images/xml.gif" alt="订阅" />
+</a></li>
+			<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		
+<h3>统计</h3>
+<ul>
+    <li>随笔 - 64</li>
+    <li>文章 - 2</li>
+    <li>评论 - 0</li>
+    <li>阅读 - 
+<span title="总阅读数: 36311">
+36311</span></li>
+</ul>
+
+
+		<div id="sidebar_news" class="newsItem">
+<h3>公告</h3>
+
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/feihu-h/">
+            feihu_h
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/feihu-h/" title="入园时间：2018-11-04">
+            3年6个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/feihu-h/followers/">
+            3
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/feihu-h/followees/">
+            1
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('e7588dcd-e2fd-4f1e-608b-08d6420f113f')">+加关注</a></div>
+        <script>getFollowStatus('e7588dcd-e2fd-4f1e-608b-08d6420f113f');</script>
+    </div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+		<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk" /> <input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    
+<li><a href="https://www.cnblogs.com/feihu-h/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/feihu-h/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/feihu-h/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/feihu-h/RecentComments.html" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/feihu-h/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block">
+<h3>我的标签</h3>
+<div id="MyTag">
+    <ul>
+                <li>
+            <a href="https://www.cnblogs.com/feihu-h/tag/opencl/">opencl<span class="tag-count">(17)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/feihu-h/tag/ROS/">ROS<span class="tag-count">(9)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/feihu-h/tag/pytorch/">pytorch<span class="tag-count">(7)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/feihu-h/tag/c%2B%2B/">c++<span class="tag-count">(6)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/feihu-h/tag/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/">数据结构与基础算法<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/feihu-h/tag/android/">android<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/feihu-h/tag/slam/">slam<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/feihu-h/tag/OpenBLAS/">OpenBLAS<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/feihu-h/tag/%E8%8B%B1%E8%AF%AD%E8%AF%AD%E6%B3%95/">英语语法<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/feihu-h/tag/tensorflow/">tensorflow<span class="tag-count">(2)</span></a>
+        </li>
+    <li>
+        <a href="https://www.cnblogs.com/feihu-h/tag/">更多</a>
+    </li>
+
+    </ul>
+</div>
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <h3>
+        
+随笔分类
+
+
+
+    </h3>
+    <ul>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/category/1576775.html" class="category-item-link" rel="" target="">C++(8)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/category/1628070.html" class="category-item-link" rel="" target="">OpenBLAS(2)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/category/1606970.html" class="category-item-link" rel="" target="">openCL(17)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/category/1630114.html" class="category-item-link" rel="" target="">openmp(1)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/category/1576776.html" class="category-item-link" rel="" target="">python(2)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/category/1588217.html" class="category-item-link" rel="" target="">ROS编程(9)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/category/1576778.html" class="category-item-link" rel="" target="">计算机视觉-SLAM(2)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/category/1576777.html" class="category-item-link" rel="" target="">深度学习框架(9)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/category/1627097.html" class="category-item-link" rel="" target="">数据结构与基础算法(1)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/category/1576779.html" class="category-item-link" rel="" target="">图像处理(1)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/category/1576781.html" class="category-item-link" rel="" target="">英语笔记(6)</a>
+ 
+            </li>
+                        
+        
+    </ul>
+    <h3>
+        
+随笔档案
+
+
+
+    </h3>
+    <ul>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/archive/2020/04.html" class="category-item-link" rel="" target="">2020年4月(1)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/archive/2020/03.html" class="category-item-link" rel="" target="">2020年3月(14)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/archive/2020/02.html" class="category-item-link" rel="" target="">2020年2月(9)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/archive/2020/01.html" class="category-item-link" rel="" target="">2020年1月(13)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/archive/2019/12.html" class="category-item-link" rel="" target="">2019年12月(14)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/archive/2019/11.html" class="category-item-link" rel="" target="">2019年11月(7)</a>
+ 
+            </li>
+                        
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/archive/2019/10.html" class="category-item-link" rel="" target="">2019年10月(6)</a>
+ 
+            </li>
+                        
+        
+    </ul>
+    <h3>
+        
+文章分类
+
+
+
+    </h3>
+    <ul>
+            <li data-category-list-item-visible="true" style="display: block">
+                
+<a href="https://www.cnblogs.com/feihu-h/category/1576771.html" class="category-item-link" rel="" target="">C++(2)</a>
+ 
+            </li>
+                        
+        
+    </ul>
+</div>
+
+<!-- 最新评论 -->
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block">
+<div id="topview_posts_wrap">
+    <h3 class="catListTitle">阅读排行榜</h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/feihu-h/p/11814150.html">
+                            1. opencv---(腐蚀、膨胀、边缘检测、轮廓检索、凸包、多边形拟合)(2631)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/feihu-h/p/12325613.html">
+                            2. ubuntu18.04安装wine(2175)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/feihu-h/p/12495201.html">
+                            3. android(2)-----线性布局 LinearLayout 滚动视图(1729)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/feihu-h/p/12084747.html">
+                            4. opencl(八)----clEnqueueNDRangeKernel、clEnqueueTask、工作组和工作项(1499)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/feihu-h/p/12084536.html">
+                            5. opencl(七)----读写传输命令、内存映射命令(1336)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"></div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block"></div><div id="sidebar_recentcomments" class="sidebar-block"></div>
+
+
+</div>
+                    <script>loadBlogSideColumn();</script>
+	
+</div>
+			
+			
+			
+			
+			 
+
+	
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8AuMt_3FvyxIgNOR82PHE4nZKvwr9ZyWretXXfN0qiwIYpsA6LKKR6vCv77cVr7rFgMt3T2p36l6JzT5hC41BF-_eBYYEGCN2Kc-sgjoHE4HaI-WoYD_cLAybJIE8V_-MDO_ieOKbvy4gIUnala_4tk" />
+        <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-476124-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        var kv = getGACustom();
+        if (kv) {
+            gtag('set', kv);
+        }
+        gtag('config', 'UA-476124-1');
+    </script>
+<script defer="" src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script><iframe src="https://ee711060f7ad9c4612d912de70521503.safeframe.googlesyndication.com/safeframe/1-0-38/html/container.html" style="visibility: hidden; display: none;"></iframe>
+
+<iframe src="https://www.google.com/recaptcha/api2/aframe" width="0" height="0" style="display: none;"></iframe></body></html>
