@@ -23,7 +23,7 @@ layoutclear: true
 电话：15975521528（支持外卖）
 </div>
 
-{% include image.html url="/kaoyu/menu/01.png" style="border-radius:0px;" divstyle="font-size:medium;" %}
+{% include image.html url="/kaoyu/img/title.png" style="border-radius:0px;" divstyle="font-size:medium;" %}
 
 <div style="display:none;">
 快捷跳转：
@@ -68,8 +68,9 @@ caption="毛血旺 45 元" %}
 
 ## 烤鱼加菜
 
-{% include image.html url="/kaoyu/menu/03.png" style="border-radius:0px;" divstyle="font-size:medium;"
-caption="锅底加菜 烤鱼大份菜 35 元" %}
+<div style="font-size:medium;font-weight:bolder;width:fit-content;margin-left:auto;margin-right:auto;">
+锅底加菜 烤鱼大份菜 35 元
+</div>
 
 <table class="tablestyle" ntablew="3:3:1:3:3"></table>
 
