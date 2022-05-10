@@ -17,6 +17,13 @@ codeprint:
 
 ```
 #define CASE_RETURN(x) case x: return L ## #x
+
+inline std::string GetKernelCode(const std::string & filename)
+{
+    std::stringstream buffer;
+    buffer << std::ifstream(filename.c_str()).rdbuf();
+    return buffer.str();
+}
 ```
 
 Hey, there! Welcome to my blog. I hope you enjoy reading the stuff in here. Nothing fancy, really. Just bits and bobs about tech and random topics.<br/><br/>

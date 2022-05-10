@@ -298,6 +298,9 @@ def tidyupImg(imglocal, fpath, line):
         img.save(sizepath)
         appendfile(sizepath, getFileMd5(tpath))
 
+    elif not os.path.exists(sizepath) and imgtype in ("svg",):
+        osremove(sizepath)
+
     # 检查缩略图。
     elif os.path.exists(sizepath):
 
@@ -321,7 +324,7 @@ def tidyupImg(imglocal, fpath, line):
         #    return tidyupImg(imglocal, fpath, line)
 
     imgtype = imgfname.split(".")[-1].lower()
-    if not imgtype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4", "zip", "bmp",):
+    if not imgtype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4", "zip", "bmp", "svg",):
         print(imglocal, fpath, line)
         assert False, imglocal
 

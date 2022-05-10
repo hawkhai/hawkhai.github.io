@@ -57,6 +57,46 @@ DrMemory-Windows-sfx.exe
 monitoring tool for Windows, Linux, and Mac.
 
 
+## Leakdiag
+
+感染型清除内存泄露
+这个最好用，比那个 UMDH 好用多了。
+分析工具：
+[Leakdiag](http://ftpmirror.your.org/pub/misc/ftp.microsoft.com/PSS/Tools/Developer%20Support%20Tools/LDGrapher/)
+
+{% include image.html url="/assets/images/220506-memory-leak-vld/1.png" %}
+
+步骤：
+1. Toos 选项中配置符号路径以及堆栈级数
+2. 选中 kscan.exe 进程
+3. 选中 Windows Heap Alloctor
+4. 点击 Start 开始监控
+5. 出现内存异常时，点击 Log 记录内存分配信息
+6. 打开日志文件，如：lo@kscan_2660_LDlog_6278bc35_sess_1.xml
+    * 通常泄露的数据的堆栈信息都会有记录，但是有时候会无法记录堆栈，但是会有分配的堆栈的大小信息。
+7. 查看大内存的分配数据
+8. 因为没有记录下堆栈数据，使用 windbg 条件断点（当分配 16384 字节内存大小时断下）
+   ```
+   bp ntdll!RtlAllocateHeap "j(poi(@esp+c) = 16384) 'k';'gc'"
+   ```
+9. 8 步骤对应的代码为
+10. 9 图中连续分配内存，但是没有地方释放
+11. 9 图中的 Cahe 内存属于 KSMemCache 对象，KSMemCache 是 KSEFileObj 的成员，
+    IKSEFileObj 被 IKSEGenericScanStatus 持有，追溯到 IKSEGenericScanStatus 存在引用计数不平衡的问题。
+12. 异常代码如下
+    * Unpack 传入了 NULL 指针变量
+    * 变指针为空时，它直接使用了临时堆栈中的**不可见栈变量地址**来接收指针，并且是个祼指针，导致了引用计数不平衡，泄露了内存。
+13. 改法如下
+
+{% include image.html url="/assets/images/220506-memory-leak-vld/2.png" relocate="6" %}
+{% include image.html url="/assets/images/220506-memory-leak-vld/3.png" relocate="7" %}
+{% include image.html url="/assets/images/220506-memory-leak-vld/4.png" relocate="9" %}
+{% include image.html url="/assets/images/220506-memory-leak-vld/5.png" relocate="12.1" %}
+{% include image.html url="/assets/images/220506-memory-leak-vld/6.png" relocate="12.1" %}
+{% include image.html url="/assets/images/220506-memory-leak-vld/7.png" relocate="12.2" %}
+{% include image.html url="/assets/images/220506-memory-leak-vld/8.png" relocate="13" %}
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-05-06-memory-leak-vld.md.js" %}'></script></p>
@@ -64,3 +104,4 @@ monitoring tool for Windows, Linux, and Mac.
 
 - [https://kinddragon.github.io/vld/]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/kinddragon.github.io/56acbbc3.html" %})
 - [http://www.codeproject.com/Articles/9815/Visual-Leak-Detector-Enhanced-Memory-Leak-Detectio]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/www.codeproject.com/234cf836.html" %})
+- [http://ftpmirror.your.org/pub/misc/ftp.microsoft.com/PSS/Tools/Developer%20Support%20Tools/LDGrapher/]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/ftpmirror.your.org/070ecfdd.html" %})
