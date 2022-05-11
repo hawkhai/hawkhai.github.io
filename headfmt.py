@@ -8,6 +8,8 @@ import json
 OPENFILE = "openfile" in sys.argv
 #IGNORE_CONFIG = readfileJson(os.path.join("config", "ignore_config.txt"))
 
+SPACEBACKFILE_TAIL = ".spaceback.json"
+
 def regularTitle(fpath):
     title = getPostValue(fpath, "title")
     categories = getPostValue(fpath, "categories")
@@ -40,7 +42,7 @@ def mainxtitle():
     def mainfile(fpath, fname, ftype):
         if ftype in ("py",): return
         if ftype in ("mdtag",): return
-        if fpath.endswith(".spaceback.json"):
+        if fpath.endswith(SPACEBACKFILE_TAIL):
             return
         regularTitle(fpath)
         # print(fname[11:])
@@ -195,7 +197,7 @@ gkvconfig = readfileJson("config/headnote.json", "utf8")
 gkvconfig = gkvconfig if gkvconfig else {}
 def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv={}):
     if ftype in ("mdtag",): return
-    if fpath.endswith(".spaceback.json"):
+    if fpath.endswith(SPACEBACKFILE_TAIL):
         return
 
     fpath = os.path.relpath(fpath, ".")

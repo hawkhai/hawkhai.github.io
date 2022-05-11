@@ -35,6 +35,8 @@ LINKTAGARRAY = (("bili",     "bilibili.com"),
                 ("gluon",    "gluon.ai"),
                )
 
+SPACEBACKFILE_TAIL = ".spaceback.json"
+
 def getLinkTagSrc(name):
     return "{% include relref_"+name+".html %}"
 
@@ -548,7 +550,7 @@ def appendRefs(fpath, lines):
 
 def mainfile(fpath, fname, ftype):
 
-    if fpath.endswith(".spaceback.json"):
+    if fpath.endswith(SPACEBACKFILE_TAIL):
         fjson = readfileJson(fpath, "utf8")
         writefileJson(fpath, fjson, ascii=False, encoding="utf8")
         return
@@ -866,7 +868,9 @@ def mainfile(fpath, fname, ftype):
         page = TranslateKangXi(page)
 
     # .spaceback.json
-    spacebackfile = fpath + ".spaceback.json"
+    spacebackfile = fpath + SPACEBACKFILE_TAIL
+    if not os.path.exists(spacebackfile):
+        spacebackfile = os.path.join(os.path.split(fpath)[0], "k"+fname+SPACEBACKFILE_TAIL)
     if os.path.exists(spacebackfile):
         fjson = readfileJson(spacebackfile, "utf8")
         for key in fjson.keys():
