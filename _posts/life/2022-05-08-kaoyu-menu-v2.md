@@ -46,7 +46,7 @@ caption="<span class='imagetitle'>香辣烤鱼</span> 26 元 / 斤 &nbsp; <span 
 {% include image1.html url="/kaoyu/img/zhuduji.jpg"
 caption="<span class='imagetitle'>猪肚鸡</span><br/>小份（半只）88 元 &nbsp; 大份（1 只）148 元" %}
 
-{% include image1.html url="/kaoyu/img/suancaiyu.jpeg"
+{% include image1.html url="/kaoyu/img/suancaiyu3.jpeg"
 caption="<span class='imagetitle'>重庆酸菜鱼</span> 22 元 / 斤" %}
 
 {% include image1.html url="/kaoyu/img/jibao.jpeg"
@@ -98,8 +98,17 @@ url2="/kaoyu/img/liangbaninzgu.jpeg" caption2=" 凉拌金针菇 15 元 " %}
 url="/kaoyu/img/chuanbeiliangfen.jpeg" caption="川北凉粉 15 元"
 url2="/kaoyu/img/liangbandoujiao.jpeg" caption2=" 凉拌豆角 15 元" %}
 
-{% include image1.html url="/kaoyu/menu/07.png"
-caption="凉拌皮蛋 18 元 &nbsp; 老虎菜 15 元<br/>干炸腰果 28 元 &nbsp; 手撕干鱿鱼 28 元<br/>凉拌海带丝 15 元 &nbsp; 油炸花生米 12 元" %}
+{% include image2.html
+url="/kaoyu/img/liangbanpidan.jpeg" caption="凉拌皮蛋 18 元"
+url2="/kaoyu/img/laohucai.jpeg" caption2=" 老虎菜 15 元" %}
+
+{% include image2.html
+url="/kaoyu/img/ganzhayaoguo.jpeg" caption="干炸腰果 28 元"
+url2="/kaoyu/img/shoushiganyouyu.jpeg" caption2=" 手撕干鱿鱼 28 元" %}
+
+{% include image2.html
+url="/kaoyu/img/liangbanhaidaisi.jpeg" caption="凉拌海带丝 15 元"
+url2="/kaoyu/img/youzhahuashengmi.jpeg" caption2=" 油炸花生米 12 元" %}
 
 
 ## 经典家常
