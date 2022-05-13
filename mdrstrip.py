@@ -722,6 +722,8 @@ def mainfile(fpath, fname, ftype):
 
         # 图片 caption 不校验空格。
         linec = linec.replace('caption="', 'caption=" ')
+        linec = linec.replace('caption2="', 'caption2=" ')
+        linec = linec.replace('title="', 'title=" ')
 
         lix1 = re.findall("[{}][^{} *]".format(cnregex, cnregex), linec, re.IGNORECASE)
         lix2 = re.findall("[^{} *][{}]".format(cnregex, cnregex), linec, re.IGNORECASE)
