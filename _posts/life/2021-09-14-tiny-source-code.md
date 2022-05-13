@@ -24,6 +24,10 @@ inline std::string GetKernelCode(const std::string & filename)
     buffer << std::ifstream(filename.c_str()).rdbuf();
     return buffer.str();
 }
+
+if (!PathFileExists(fpath)) {
+    CreateDirectory(fpath, NULL);
+}
 ```
 
 Hey, there! Welcome to my blog. I hope you enjoy reading the stuff in here. Nothing fancy, really. Just bits and bobs about tech and random topics.<br/><br/>
@@ -70,6 +74,37 @@ __int64 winMemoCtrl() {
     }
 
     return 100 * 1024 * 1024;
+}
+```
+
+
+## crc64
+
+from opencv ocl.cpp
+```cpp
+// Computes 64-bit "cyclic redundancy check" sum, as specified in ECMA-182
+uint64 fastpdf_turbo_impl::crc64(const uchar* data, size_t size, uint64 crcx)
+{
+    static uint64 table[256];
+    static bool initialized = false;
+
+    if (!initialized)
+    {
+        for (int i = 0; i < 256; i++)
+        {
+            uint64 c = i;
+            for (int j = 0; j < 8; j++)
+                c = ((c & 1) ? CV_BIG_UINT(0xc96c5795d7870f42) : 0) ^ (c >> 1);
+            table[i] = c;
+        }
+        initialized = true;
+    }
+
+    uint64 crc = ~crcx;
+    for (size_t idx = 0; idx < size; idx++) {
+        crc = table[(uchar)crc ^ data[idx]] ^ (crc >> 8);
+    }
+    return ~crc;
 }
 ```
 

@@ -59,7 +59,7 @@ monitoring tool for Windows, Linux, and Mac.
 
 ## Leakdiag
 
-感染型清除内存泄露
+**内存泄露** from 大神同事 `zōu mǐn`。
 这个最好用，比那个 UMDH 好用多了。
 分析工具：
 [Leakdiag](http://ftpmirror.your.org/pub/misc/ftp.microsoft.com/PSS/Tools/Developer%20Support%20Tools/LDGrapher/)
@@ -68,7 +68,7 @@ monitoring tool for Windows, Linux, and Mac.
 
 步骤：
 1. Toos 选项中配置符号路径以及堆栈级数
-2. 选中 kscan.exe 进程
+2. 选中 target.exe 进程
 3. 选中 Windows Heap Alloctor
 4. 点击 Start 开始监控
 5. 出现内存异常时，点击 Log 记录内存分配信息
@@ -81,8 +81,8 @@ monitoring tool for Windows, Linux, and Mac.
    ```
 9. 8 步骤对应的代码为
 10. 9 图中连续分配内存，但是没有地方释放
-11. 9 图中的 Cahe 内存属于 KSMemCache 对象，KSMemCache 是 KSEFileObj 的成员，
-    IKSEFileObj 被 IKSEGenericScanStatus 持有，追溯到 IKSEGenericScanStatus 存在引用计数不平衡的问题。
+11. 9 图中的 Cahe 内存属于 ToyMemCache 对象，ToyMemCache 是 ToyEFileObj 的成员，
+    IToyEFileObj 被 IToyEGenericScanStatus 持有，追溯到 IToyEGenericScanStatus 存在引用计数不平衡的问题。
 12. 异常代码如下
     * Unpack 传入了 NULL 指针变量
     * 变指针为空时，它直接使用了临时堆栈中的**不可见栈变量地址**来接收指针，并且是个祼指针，导致了引用计数不平衡，泄露了内存。
