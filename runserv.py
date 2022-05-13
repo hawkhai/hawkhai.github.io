@@ -74,8 +74,8 @@ def checkgit():
     os.system("git log -p _config.yml  > {}".format(ymlfile,))
     os.system("git log -p Gemfile.lock > {}".format(gemfile,))
 
-    checkgitline(ymlfile, "sunocean.life", "0d86ec78b65c032162ea43fe8abb13d79288ec3f")
-    checkgitline(gemfile, "wdm", "0d86ec78b65c032162ea43fe8abb13d79288ec3f")
+    #checkgitline(ymlfile, "sunocean.life", "0d86ec78b65c032162ea43fe8abb13d79288ec3f")
+    #checkgitline(gemfile, "wdm", "0d86ec78b65c032162ea43fe8abb13d79288ec3f")
 
 def modifyconfig():
     print(LINE_SEP_SHORT)

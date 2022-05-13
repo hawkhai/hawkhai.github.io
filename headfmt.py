@@ -97,6 +97,7 @@ permalink
 l2dwidget cluster
 sortrefs archived date
 layoutclear titlecheck
+ktitle
 """.split()
 
     kvmap = {}

@@ -16,6 +16,7 @@ codeprint:
 titlecheck: false
 archived:
 layoutclear: true
+ktitle: "现杀现烤"
 ---
 
 <div style="width: fit-content; margin-left: auto; margin-right: auto;">
@@ -23,7 +24,7 @@ layoutclear: true
 电话：15975521528（支持外卖）
 </div>
 
-{% include image.html url="/kaoyu/img/title.png" %}
+{% include imagecdn.html url="/kaoyu/img/title.png" %}
 
 <div style="display:none;">
 快捷跳转：
@@ -231,7 +232,7 @@ caption="南瓜饼 15 元 &nbsp; 香芋地瓜丸 18 元" %}
 
 ## 菜单二维码
 
-{% include image.html url="/kaoyu/qrcode.png" %}
+{% include imagecdn.html url="/kaoyu/qrcode.png" %}
 
 
 

@@ -16,6 +16,7 @@ codeprint:
 titlecheck: false
 archived:
 layoutclear: true
+ktitle: "现杀现烤"
 ---
 
 <div style="width: fit-content; margin-left: auto; margin-right: auto;">
