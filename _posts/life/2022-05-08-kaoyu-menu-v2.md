@@ -17,14 +17,13 @@ titlecheck: false
 archived:
 layoutclear: true
 ktitle: "现杀现烤"
+kaliyun: true
 ---
 
 <div style="width: fit-content; margin-left: auto; margin-right: auto;">
 地址：海南村赤岗东约二巷 1 号 <br/>
 电话：15975521528（支持外卖）
 </div>
-
-{% include imagecdn.html url="/kaoyu/img/title.png" %}
 
 <div style="display:none;">
 快捷跳转：
@@ -47,19 +46,19 @@ caption="<span class='imagetitle'>香辣烤鱼</span> 26 元 / 斤 &nbsp; <span 
 {% include image1.html url="/kaoyu/img/zhuduji.jpg"
 caption="<span class='imagetitle'>猪肚鸡</span><br/>小份（半只）88 元 &nbsp; 大份（1 只）148 元" %}
 
-{% include image1.html url="/kaoyu/img/suancaiyu3.jpeg"
+{% include image1.html url="/kaoyu/img/suancaiyu.jpg"
 caption="<span class='imagetitle'>重庆酸菜鱼</span> 22 元 / 斤" %}
 
-{% include image1.html url="/kaoyu/img/jibao.jpeg"
-caption="<span class='imagetitle'>碳炉鸡煲</span> 98 元 / 只" %}
+{% include image1.html url="/kaoyu/img/jibao.jpg"
+caption="<span class='imagetitle'>鸡煲</span> 98 元 / 只" %}
 
 {% include image1.html url="/kaoyu/img/tiaoshuitianji.jpeg"
 title="跳水田鸡" caption="68 元（大份 98 元）" %}
 
-{% include image1.html url="/kaoyu/img/shuizhuyu.jpeg"
+{% include image1.html url="/kaoyu/img/shuizhuyu.jpg"
 title="水煮鱼" caption="22 元 / 斤" %}
 
-{% include image1.html url="/kaoyu/img/maoxuewang.jpeg"
+{% include image1.html url="/kaoyu/img/maoxuewang.jpg"
 title="毛血旺" caption="45 元" %}
 
 
@@ -93,7 +92,7 @@ url2="/kaoyu/img/xihongshi.jpeg" caption2="糖拌西红柿 15 元" %}
 
 {% include image2.html
 url="/kaoyu/img/xiaocongdoufu.jpeg" caption="小葱拌豆腐 15 元"
-url2="/kaoyu/img/liangbaninzgu.jpeg" caption2="凉拌金针菇 15 元 " %}
+url2="/kaoyu/img/liangbanjinzhenggu.jpg" caption2="凉拌金针菇 15 元 " %}
 
 {% include image2.html
 url="/kaoyu/img/chuanbeiliangfen.jpeg" caption="川北凉粉 15 元"
@@ -150,7 +149,7 @@ url="/kaoyu/img/waipocaihebaodan.jpeg" caption="外婆菜炒荷包蛋 25 元"
 url2="/kaoyu/img/zhushuncaolarou.jpeg" caption2="竹笋炒腊肉 30 元（莴笋炒腊肉）" %}
 
 {% include image2.html
-url="/kaoyu/img/suanlamoyu.jpeg" caption="酸辣魔芋 16 元"
+url="/kaoyu/img/suancaimoyu.jpg" caption="酸辣魔芋 16 元"
 url2="/kaoyu/img/ganbianoushi.jpeg" caption2="干煸藕丝 22 元" %}
 
 {% include image1.html url="/kaoyu/img/baochaozhudu.jpeg"
