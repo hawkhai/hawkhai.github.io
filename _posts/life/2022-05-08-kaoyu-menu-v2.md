@@ -50,7 +50,7 @@ caption="<span class='imagetitle'>猪肚鸡</span><br/>小份（半只）88 元 
 caption="<span class='imagetitle'>重庆酸菜鱼</span> 22 元 / 斤" %}
 
 {% include image1.html url="/kaoyu/img/jibao.jpg"
-caption="<span class='imagetitle'>鸡煲</span> 98 元 / 只" %}
+caption="<span class='imagetitle'>鸡 煲</span> 98 元 / 只" %}
 
 {% include image1.html url="/kaoyu/img/tiaoshuitianji.jpeg"
 title="跳水田鸡" caption="68 元（大份 98 元）" %}
@@ -70,15 +70,15 @@ title="毛血旺" caption="45 元" %}
 
 <table class="tablestyle" ntablew="3:3:3:3"></table>
 
-| 面条 | 8 元/份 | 大白菜 | 6 元/份 |
-| 香菜 | 10 元/份 | 黄豆芽 | 6 元/份 |
-| 猪红 | 8 元/份 | 青笋 | 10 元/份 |
-| 魔芋 | 8 元/份 | 青瓜条 | 8 元/份 |
-| 豆腐 | 6 元/份 | 土豆 | 8 元/份 |
-| 藕片 | 8 元/份 | 花菜 | 8 元/份 |
+| 面 条 | 8 元/份 | 大白菜 | 6 元/份 |
+| 香 菜 | 10 元/份 | 黄豆芽 | 6 元/份 |
+| 猪 红 | 8 元/份 | 青 笋 | 10 元/份 |
+| 魔 芋 | 8 元/份 | 青瓜条 | 8 元/份 |
+| 豆 腐 | 6 元/份 | 土 豆 | 8 元/份 |
+| 藕 片 | 8 元/份 | 花 菜 | 8 元/份 |
 | 豆腐皮 | 8 元/份 | 红薯粉 | 10 元/份 |
-| 金针菇 | 10 元/份 | 竹笋 | 10 元/份 |
-| 广味腊肠 | 12 元/份 | 鱼泡 | 35 元/份 |
+| 金针菇 | 10 元/份 | 竹 笋 | 10 元/份 |
+| 广味腊肠 | 12 元/份 | 鱼 泡 | 35 元/份 |
 
 
 ## 凉菜系列
@@ -146,14 +146,14 @@ title="酸菜大肠" caption="48 元" %}
 
 {% include image2.html
 url="/kaoyu/img/waipocaihebaodan.jpeg" caption="外婆菜炒荷包蛋 25 元"
-url2="/kaoyu/img/zhushuncaolarou.jpeg" caption2="竹笋炒腊肉 30 元（莴笋炒腊肉）" %}
+url2="/kaoyu/img/zhushuncaolarou.jpeg" caption2="竹笋炒腊肉 30 元<br/>（莴笋炒腊肉）" %}
 
 {% include image2.html
 url="/kaoyu/img/suancaimoyu.jpg" caption="酸辣魔芋 16 元"
 url2="/kaoyu/img/ganbianoushi.jpeg" caption2="干煸藕丝 22 元" %}
 
 {% include image1.html url="/kaoyu/img/baochaozhudu.jpeg"
-title="爆炒猪肚（白油猪肚）" caption="40 元" %}
+title="爆炒猪肚 / 白油猪肚" caption="40 元" %}
 
 {% include image2.html
 url="/kaoyu/img/suanlazhuxue.jpeg" caption="酸辣猪血 18 元"
@@ -219,41 +219,110 @@ url2="/kaoyu/img/tiebantianjie.jpeg" caption2="铁板田鸡 42 元" %}
 url="/kaoyu/img/teibanzaiji.jpeg" caption="铁板仔鸡 32 元"
 url2="/kaoyu/img/tiebanribendoufu.jpeg" caption2="铁板日本豆腐 25 元" %}
 
-{% include image1.html url="/kaoyu/menu/18.png"
-caption="泡椒肥肠 48 元<br/>泡椒鱼肚 40 元 &nbsp; 泡椒猪肝 25 元<br/>泡椒鸡肾 28 元 &nbsp; 泡椒田鸡 42 元" %}
+{% include image1.html url="/kaoyu/img/paojiaofeichang.jpeg"
+title="泡椒肥肠" caption="48 元" %}
 
-{% include image1.html url="/kaoyu/menu/19.png"
-caption="辣味田螺 18 元<br/>干锅手撕包菜 25 元 &nbsp; 干锅花菜 25 元<br/>椒盐鱿鱼 35 元 &nbsp; 梅菜扣肉 32 元" %}
+{% include image2.html
+url="/kaoyu/img/paojiaoyudu.jpeg" caption="泡椒鱼肚 40 元"
+url2="/kaoyu/img/paojiaozhugan.jpeg" caption2="泡椒猪肝 25 元" %}
 
-{% include image1.html url="/kaoyu/menu/20.png"
-caption="红烧日本豆腐 20 元<br/>青豆茄子 22 元 &nbsp; 番茄炒蛋 22 元<br/>虎皮青椒 22 元<br/>鱼香茄子 22 元 &nbsp; 红烧茄子 22 元" %}
+{% include image2.html
+url="/kaoyu/img/paojiaojisheng.jpeg" caption="泡椒鸡肾 28 元"
+url2="/kaoyu/img/paojiaotianji.jpeg" caption2="泡椒田鸡 42 元" %}
 
-{% include image1.html url="/kaoyu/menu/21.png"
-caption="手撕包菜 18 元<br/>麻辣豆腐 18 元 &nbsp; 干煸土豆丝 22 元<br/>咸鱼茄子 22 元 &nbsp; 肉沫茄子 22 元<br/>青椒炒蛋 22 元" %}
+{% include image1.html url="/kaoyu/img/laweitianluo.jpeg"
+title="辣味田螺" caption="18 元" %}
 
-{% include image1.html url="/kaoyu/menu/22.png"
-caption="葱花煎蛋 18 元 &nbsp; 青椒煎蛋 18 元<br/>凉瓜煎蛋 18 元 &nbsp; 酸辣藕片 18 元<br/>火腿肠炒玉米粒 20 元 &nbsp; 蒸水蛋 20 元" %}
+{% include image2.html
+url="/kaoyu/img/ganguoshoushibaocai.jpeg" caption="干锅手撕包菜 25 元"
+url2="/kaoyu/img/ganguohuacai.jpeg" caption2="干锅花菜 25 元" %}
 
-{% include image1.html url="/kaoyu/menu/23.png"
-caption="酸辣土豆丝 16 元<br/>炒菜心 18 元 &nbsp; 炒油麦菜 18 元<br/>清炒青笋丝 20 元 &nbsp; 盐水菜心 20 元" %}
+{% include image2.html
+url="/kaoyu/img/jiaoyanyouyu.jpeg" caption="椒盐鱿鱼 35 元"
+url2="/kaoyu/img/meicaikourou.jpeg" caption2="梅菜扣肉 32 元" %}
+
+{% include image1.html url="/kaoyu/img/hongshaoribendoufu.jpeg"
+title="红烧日本豆腐" caption="20 元" %}
+
+{% include image2.html
+url="/kaoyu/img/qingdouqiezi.jpeg" caption="青豆茄子 22 元"
+url2="/kaoyu/img/fanqiecaodan.jpeg" caption2="番茄炒蛋 22 元" %}
+
+{% include image2.html
+url="/kaoyu/img/hupijianjiao.jpeg" caption="虎皮青椒 22 元"
+url2="/kaoyu/img/yuxiangqiezi.jpeg" caption2="鱼香茄子 22 元<br/>红烧茄子 22 元" %}
+
+{% include image1.html url="/kaoyu/img/shoushibaocai.jpeg"
+title="手撕包菜" caption="18 元" %}
+
+{% include image2.html
+url="/kaoyu/img/maladoufu.jpeg" caption="麻辣豆腐 18 元"
+url2="/kaoyu/img/ganbiantudousi.jpeg" caption2="干煸土豆丝 22 元" %}
+
+{% include image2.html
+url="/kaoyu/img/xianyuqiezi.jpeg" caption="咸鱼茄子 22 元<br/>肉沫茄子 22 元"
+url2="/kaoyu/img/qinjiaocaodan.jpeg" caption2="青椒炒蛋 22 元" %}
+
+{% include image1.html url="/kaoyu/img/conghuajiandan.jpeg"
+title="葱花煎蛋 / 青椒煎蛋" caption="18 元" %}
+
+{% include image2.html
+url="/kaoyu/img/liangguajiandan.jpeg" caption="凉瓜煎蛋 18 元"
+url2="/kaoyu/img/suanlaoupian.jpeg" caption2="酸辣藕片 18 元" %}
+
+{% include image2.html
+url="/kaoyu/img/huotuichangcaoyumili.jpeg" caption="火腿肠炒玉米粒 20 元"
+url2="/kaoyu/img/zengshuidan.jpeg" caption2="蒸水蛋 20 元" %}
+
+{% include image1.html url="/kaoyu/img/suanlatudousi.jpeg"
+title="酸辣土豆丝" caption="16 元" %}
+
+{% include image2.html
+url="/kaoyu/img/caocaixin.jpeg" caption="炒菜心 18 元"
+url2="/kaoyu/img/caoyoumaicai2.jpeg" caption2="炒油麦菜 18 元" %}
+
+{% include image2.html
+url="/kaoyu/img/qincaoqinshengsi.jpg" caption="清炒青笋丝 20 元"
+url2="/kaoyu/img/yanshuicaixin.jpeg" caption2="盐水菜心 20 元" %}
 
 
 ## 靓汤系列
 
-{% include image1.html url="/kaoyu/menu/24.png"
-caption="上汤豆苗 18 元 &nbsp; 上汤娃娃菜 18 元" %}
+{% include image1.html url="/kaoyu/img/shangtangdoumiao.jpeg"
+title="上汤豆苗" caption="18 元" %}
+{% include image1.html url="/kaoyu/img/shangtangwawacai.jpeg"
+title="上汤娃娃菜" caption="18 元" %}
 
-{% include image1.html url="/kaoyu/menu/25.png"
-caption="金针菇肉丝汤 25 元 &nbsp; 冬菇土鸡汤 28 元<br/>番茄鸡蛋汤 18 元<br/>青瓜皮蛋汤 18 元 &nbsp; 苦瓜皮蛋汤 18 元<br/>紫菜蛋花汤 15 元 &nbsp; 青菜豆腐汤 18 元" %}
+{% include image2.html
+url="/kaoyu/img/jinzhengurousitang.jpg" caption="金针菇肉丝汤 25 元"
+url2="/kaoyu/img/donggutudjitang.jpg" caption2="冬菇土鸡汤 28 元" %}
+
+{% include image2.html
+url="/kaoyu/img/fanqiejidantang.jpeg" caption="番茄鸡蛋汤 18 元"
+url2="/kaoyu/img/qinguapidantang.jpeg" caption2="青瓜皮蛋汤 18 元<br/>（苦瓜皮蛋汤）" %}
+
+{% include image2.html
+url="/kaoyu/img/zhicaidanhuatang.jpeg" caption="紫菜蛋花汤 15 元"
+url2="/kaoyu/img/qincaidoufutang.jpeg" caption2="青菜豆腐汤 18 元" %}
 
 
 ## 主食系列
 
-{% include image1.html url="/kaoyu/menu/26.png"
-caption="油炸馒头 15 元<br/>水饺 18 元 &nbsp; 鸡蛋炒饭 12 元<br/>蛋炒米粉 15 元 &nbsp; 蛋肉炒米粉 20 元" %}
+{% include image1.html url="/kaoyu/img/youzhamantou.jpeg"
+title="油炸馒头" caption="15 元" %}
 
-{% include image1.html url="/kaoyu/menu/27.png"
-caption="南瓜饼 15 元 &nbsp; 香芋地瓜丸 18 元" %}
+{% include image2.html
+url="/kaoyu/img/shuijiao.jpeg" caption="水饺 18 元"
+url2="/kaoyu/img/dancaofan.jpeg" caption2="鸡蛋炒饭 12 元" %}
+
+{% include image2.html
+url="/kaoyu/img/dancaomifen.jpeg" caption="蛋炒米粉 15 元"
+url2="/kaoyu/img/jidanrousicaomifen.jpeg" caption2="蛋肉炒米粉 20 元" %}
+
+{% include image1.html url="/kaoyu/img/nanguabin.jpeg"
+title="南瓜饼" caption="15 元" %}
+{% include image1.html url="/kaoyu/img/xiangyudiguawan.jpeg"
+title="香芋地瓜丸" caption="18 元" %}
 
 
 ## 菜单二维码
