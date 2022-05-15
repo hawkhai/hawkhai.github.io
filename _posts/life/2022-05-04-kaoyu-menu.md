@@ -8,7 +8,7 @@ tags: ["生活"]
 toc: true
 toclistyle:
 comments:
-visibility:
+visibility: hidden
 mathjax:
 mermaid:
 glslcanvas:

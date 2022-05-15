@@ -8,7 +8,7 @@ tags: ["生活"]
 toc: true
 toclistyle:
 comments:
-visibility:
+visibility: hidden
 mathjax:
 mermaid:
 glslcanvas:
@@ -174,23 +174,50 @@ url2="/kaoyu/img/xianglatianji.jpeg" caption2="香辣田鸡 45 元" %}
 url="/kaoyu/img/suancaichaoniuzha.jpeg" caption="酸菜炒牛杂 35 元"
 url2="/kaoyu/img/baochaoyudu.jpeg" caption2="爆炒鱼肚 40 元" %}
 
-{% include image1.html url="/kaoyu/menu/14.png"
-caption="干锅卤猪尾 38 元 &nbsp; 干锅牛杂 35 元" %}
+{% include image1.html url="/kaoyu/img/gangguoluzhuwei.jpeg"
+title="干锅卤猪尾" caption="38 元" %}
 
-{% include image1.html url="/kaoyu/menu/29.jpg"
-caption="干锅土豆片 25 元" %}
+{% include image1.html url="/kaoyu/img/ganguoniuzha.jpeg"
+title="干锅牛杂" caption="35 元" %}
 
-{% include image1.html url="/kaoyu/menu/15.png"
-caption="干锅肥肠 48 元<br/>干锅黄牛肉 38 元 &nbsp; 干锅鸡肾 28 元<br/>干锅鸡 32 元 &nbsp; 干锅田鸡 42 元" %}
+{% include image1.html url="/kaoyu/img/ganhuotudoupian.jpeg"
+title="干锅土豆片" caption="25 元" %}
 
-{% include image1.html url="/kaoyu/menu/16.png"
-caption="干锅鱼肚 40 元<br/>干锅鸡菌花 35 元 &nbsp; 干锅猪肚 40 元<br/>干锅茶树菇 32 元 &nbsp; 干锅千叶豆腐 25 元" %}
+{% include image1.html url="/kaoyu/img/ganguofeichang.jpeg"
+title="干锅肥肠" caption="48 元" %}
 
-{% include image1.html url="/kaoyu/menu/17.png"
-caption="铁板水晶粉 22 元 &nbsp; 铁板鱿鱼 38 元<br/>铁板肥肠 48 元 &nbsp; 铁板田鸡 42 元<br/>铁板仔鸡 32 元 &nbsp; 铁板日本豆腐 25 元" %}
+{% include image2.html
+url="/kaoyu/img/ganhuohuangliurou.jpeg" caption="干锅黄牛肉 38 元"
+url2="/kaoyu/img/ganguojisheng.jpeg" caption2="干锅鸡肾 28 元" %}
 
-{% include image1.html url="/kaoyu/menu/30.jpg"
-caption="铁板鱿鱼 38 元" %}
+{% include image2.html
+url="/kaoyu/img/ganguoji.jpeg" caption="干锅鸡 32 元"
+url2="/kaoyu/img/ganguotianji.jpeg" caption2="干锅田鸡 42 元" %}
+
+{% include image1.html url="/kaoyu/img/ganguoyudu.jpeg"
+title="干锅鱼肚" caption="40 元" %}
+
+{% include image2.html
+url="/kaoyu/img/ganguoyajunhua.jpeg" caption="干锅鸭菌花 35 元"
+url2="/kaoyu/img/ganguozhudu.jpeg" caption2="干锅猪肚 40 元" %}
+
+{% include image2.html
+url="/kaoyu/img/ganguochashugu.jpeg" caption="干锅茶树菇 32 元"
+url2="/kaoyu/img/ganguoqianyedoufu.jpeg" caption2="干锅千叶豆腐 25 元" %}
+
+{% include image1.html url="/kaoyu/img/tiebanshuijinfen.jpeg"
+title="铁板水晶粉" caption="22 元" %}
+
+{% include image1.html url="/kaoyu/img/tiebanyouyu2.jpg"
+title="铁板鱿鱼" caption="38 元" %}
+
+{% include image2.html
+url="/kaoyu/img/tiebanfeichang.jpeg" caption="铁板肥肠 48 元"
+url2="/kaoyu/img/tiebantianjie.jpeg" caption2="铁板田鸡 42 元" %}
+
+{% include image2.html
+url="/kaoyu/img/teibanzaiji.jpeg" caption="铁板仔鸡 32 元"
+url2="/kaoyu/img/tiebanribendoufu.jpeg" caption2="铁板日本豆腐 25 元" %}
 
 {% include image1.html url="/kaoyu/menu/18.png"
 caption="泡椒肥肠 48 元<br/>泡椒鱼肚 40 元 &nbsp; 泡椒猪肝 25 元<br/>泡椒鸡肾 28 元 &nbsp; 泡椒田鸡 42 元" %}
