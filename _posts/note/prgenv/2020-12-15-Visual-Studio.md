@@ -17,6 +17,11 @@ cluster: "Visual Studio"
 ---
 
 
+## 远程调试
+
+{% include image.html url="/assets/images/201215-visual-studio/20220516192101.png" %}
+
+
 ## debug vs. release
 
 一个工程要维持 debug 版本，还挺难的，其依赖的 lib 都要是 debug 版本。
