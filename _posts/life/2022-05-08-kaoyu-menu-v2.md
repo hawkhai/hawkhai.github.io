@@ -296,7 +296,7 @@ url2="/kaoyu/img/yanshuicaixin.jpeg" caption2="盐水菜心 20 元" %}
 
 {% include image1.html url="/kaoyu/img/shangtangdoumiao.jpeg"
 title="上汤豆苗" caption="18 元" %}
-{% include image1.html url="/kaoyu/img/shangtangwawacai.jpg"
+{% include image1.html url="/kaoyu/img/shangtangwawacai.jpeg"
 title="上汤娃娃菜" caption="18 元" %}
 
 {% include image2.html
