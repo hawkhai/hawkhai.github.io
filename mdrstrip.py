@@ -638,6 +638,14 @@ def mainfile(fpath, fname, ftype):
             os.system("pause")
             return mainfile(fpathsrc, fnamesrc, ftypesrc)
 
+    # .spaceback.json
+    spacebackfile = fpath + SPACEBACKFILE_TAIL
+    spacebackjson = {}
+    if not os.path.exists(spacebackfile):
+        spacebackfile = os.path.join(os.path.split(fpath)[0], "k"+fname+SPACEBACKFILE_TAIL)
+    if os.path.exists(spacebackfile):
+        spacebackjson = readfileJson(spacebackfile, "utf8")
+
     codestate = False
     chartstate = False
     for index, line in enumerate(lines):
@@ -869,20 +877,15 @@ def mainfile(fpath, fname, ftype):
     if not fname in ("2021-03-14-Equivalent-Unified-Ideograph.md",):
         page = TranslateKangXi(page)
 
-    # .spaceback.json
-    spacebackfile = fpath + SPACEBACKFILE_TAIL
-    if not os.path.exists(spacebackfile):
-        spacebackfile = os.path.join(os.path.split(fpath)[0], "k"+fname+SPACEBACKFILE_TAIL)
-    if os.path.exists(spacebackfile):
-        fjson = readfileJson(spacebackfile, "utf8")
-        for key in fjson.keys():
-            value = fjson[key]
-            page = page.replace(key, value)
+    for spacebackkey in spacebackjson.keys():
+        spacebackvalue = spacebackjson[spacebackkey]
+        page = page.replace(spacebackkey, spacebackvalue)
 
     # 时间过长，如果被手工改了，这里会形成覆盖。
     md5src2 = getFileMd5(fpath)
     if md5src2 == md5src:
-        writefile(fpath, page.encode("utf8"))
+        if not writefile(fpath, page.encode("utf8")):
+            return 0
         return errcnt
 
     print("文本中途被改过了。{}".format(fpath,))
