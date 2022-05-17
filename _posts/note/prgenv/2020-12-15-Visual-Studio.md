@@ -17,6 +17,27 @@ cluster: "Visual Studio"
 ---
 
 
+## GetOverlappedResult
+
+[GetOverlappedResult](https://docs.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-getoverlappedresult)
+
+m_hPipe = CreateFile(
+            m_strPipeName,
+            GENERIC_READ | GENERIC_WRITE,
+            0,
+            NULL,
+            OPEN_EXISTING,
+            0,
+            NULL);
+1. GetOverlappedResult 最后一个参数要传 TRUE；
+2. GetOverlappedResult 倒数第二个参数未定义；
+3. 多线程读写数据错乱，导致读取的数据位数超出正常值，退出；
+
+\[in\] bWait
+
+If this parameter is TRUE, and the Internal member of the lpOverlapped structure is STATUS_PENDING, the function does not return until the operation has been completed. If this parameter is FALSE and the operation is still pending, the function returns FALSE and the GetLastError function returns ERROR_IO_INCOMPLETE.
+
+
 ## 远程调试
 
 {% include image.html url="/assets/images/201215-visual-studio/20220516192101.png" %}
@@ -374,6 +395,7 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Visual-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://docs.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-getoverlappedresult]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/docs.microsoft.com/a93a7ced.html" %})
 - [https://docs.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2022]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/docs.microsoft.com/3966f77e.html" %})
 - [http://msdl.microsoft.com/download/symbols]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/msdl.microsoft.com/9dd253a8.html" %})
 - [https://www.codenong.com/895827/]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/www.codenong.com/38324189.html" %})
