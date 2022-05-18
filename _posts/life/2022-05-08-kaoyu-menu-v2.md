@@ -44,7 +44,7 @@ kaliyun: true
 caption="<span class='imagetitle'>香辣烤鱼</span> 26 元 / 斤 &nbsp; <span class='imagetitle'>姜葱烤鱼</span> 26 元 / 斤<br/><span class='imagetitle'>麻辣烤鱼</span> 26 元 / 斤 &nbsp; <span class='imagetitle'>泡椒烤鱼</span> 28 元 / 斤<br/><span class='imagetitle'>蒜香烤鱼</span> 26 元 / 斤" %}
 
 {% include image1.html url="/kaoyu/img/kaopaigu.jpg"
-caption="<span class='imagetitle'>烤排骨</span> （小）118 元 （大）168 元" %}
+caption="<span class='imagetitle'>烤排骨</span>&nbsp; （小）118 元 （大）168 元" %}
 
 {% include image1.html url="/kaoyu/img/zhuduji.jpg"
 caption="<span class='imagetitle'>药材猪肚鸡</span><br/>小份（半只）88 元 &nbsp; 大份（1 只）148 元" %}
@@ -95,7 +95,7 @@ url2="/kaoyu/img/xihongshi.jpeg" caption2="糖拌西红柿 15 元" %}
 
 {% include image2.html
 url="/kaoyu/img/xiaocongdoufu.jpeg" caption="小葱拌豆腐 15 元"
-url2="/kaoyu/img/liangbanjinzhenggu.jpg" caption2="凉拌金针菇 15 元 " %}
+url2="/kaoyu/img/liangbanjinzhenggu.jpg" caption2="凉拌金针菇 15 元" %}
 
 {% include image2.html
 url="/kaoyu/img/chuanbeiliangfen.jpeg" caption="川北凉粉 15 元"
