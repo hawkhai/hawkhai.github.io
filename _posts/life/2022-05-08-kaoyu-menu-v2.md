@@ -47,7 +47,7 @@ caption="<span class='imagetitle'>香辣烤鱼</span> 26 元 / 斤 &nbsp; <span 
 caption="<span class='imagetitle'>烤排骨</span>&nbsp; （小）118 元 （大）168 元" %}
 
 {% include image1.html url="/kaoyu/img/zhuduji.jpg"
-caption="<span class='imagetitle'>药材猪肚鸡</span><br/>小份（半只）88 元 &nbsp; 大份（1 只）148 元" %}
+caption="<span class='imagetitle'>猪肚鸡</span><br/>小份（半只）88 元 &nbsp; 大份（1 只）148 元" %}
 
 {% include image1.html url="/kaoyu/img/suancaiyu.jpg"
 caption="<span class='imagetitle'>重庆酸菜鱼</span> 22 元 / 斤" %}
