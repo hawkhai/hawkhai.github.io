@@ -242,9 +242,9 @@ def tidyupImg(imglocal, fpath, line):
     if len(fname) > 32:
         fname = fname[:30]+"~"+getmd5(fname)[:2]
 
-    tpath = os.path.join("assets", "images", fname, imgfname).lower()
+    tpath = os.path.join("assets", "images", fname, imgfname) #.lower() 不能转小写，因为服务器是大小写敏感的。
     if invdir:
-        tpath = os.path.join("invisible", "images", fname, imgfname).lower()
+        tpath = os.path.join("invisible", "images", fname, imgfname) #.lower() 不能转小写，因为服务器是大小写敏感的。
     if os.path.exists(imgnocopy):
         tpath = imglocal
 
