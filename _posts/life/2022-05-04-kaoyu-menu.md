@@ -338,4 +338,4 @@ title="香芋地瓜丸" caption="18 元" %}
 
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-05-08-kaoyu-menu-v2.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-05-04-kaoyu-menu.md.js" %}'></script></p>
