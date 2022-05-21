@@ -16,6 +16,12 @@ codeprint:
 cluster: "Visual Studio"
 ---
 
+## fatal: Needed a single revision
+
+* git rm -rf fastpdf-turbo
+* git submodule update --init
+* git submodule  update --init --recursive
+
 
 ## GetOverlappedResult
 
