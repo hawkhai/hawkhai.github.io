@@ -78,6 +78,92 @@ __int64 winMemoCtrl() {
 ```
 
 
+## ToySingleInstance.hpp
+
+```cpp
+#pragma once
+
+#ifndef __TOY_SINGLEINSTANCE_H__
+#define __TOY_SINGLEINSTANCE_H__
+
+#include <Windows.h>
+#include <atlstr.h>
+
+namespace toy
+{
+    class ToySingleInstance
+    {
+    public:
+        ToySingleInstance(LPCTSTR strName)
+            : m_hMutex(NULL)
+            , m_strInstanceName(strName)
+        {
+
+        }
+
+        ~ToySingleInstance()
+        {
+            Close();
+        }
+
+        BOOL IsExist()
+        {
+            HANDLE hMutex = ::OpenMutex(SYNCHRONIZE, FALSE, m_strInstanceName);
+            if (hMutex)
+            {
+                ::CloseHandle(hMutex);
+                return TRUE;
+            }
+            return FALSE;
+        }
+
+        BOOL Create()
+        {
+            if (IsExist())
+                return FALSE;
+
+            HANDLE hMutex = CreateMutex(
+                NULL,
+                TRUE,
+                m_strInstanceName
+            );
+
+            if (hMutex == NULL)
+            {
+                return FALSE;
+            }
+            else if (GetLastError() == ERROR_ALREADY_EXISTS)
+            {
+                ::CloseHandle(hMutex);
+                return FALSE;
+            }
+
+            m_hMutex = hMutex;
+            hMutex = NULL;
+
+            return TRUE;
+        }
+
+        VOID Close()
+        {
+            if (m_hMutex)
+            {
+                CloseHandle(m_hMutex);
+                m_hMutex = NULL;
+            }
+        }
+
+    private:
+        CString m_strInstanceName;
+        HANDLE m_hMutex;
+    };
+
+}
+
+#endif
+```
+
+
 ## crc64
 
 from opencv ocl.cpp

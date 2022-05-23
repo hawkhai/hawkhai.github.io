@@ -279,9 +279,10 @@ def tidyupImg(imglocal, fpath, line):
             print("Image.open RuntimeError", tpath)
             raise ex
         width, height = img.size
-        if width > 100:
+        widthctrl = 64
+        if width > widthctrl:
             try:
-                img = img.resize((100, round(100.0*height/width)), Image.ANTIALIAS).convert("RGB")
+                img = img.resize((widthctrl, round(widthctrl*height/width)), Image.ANTIALIAS).convert("RGB")
             except OSError as ex: # broken data stream when reading image file
                 print("Image.resize OSError", tpath)
                 raise ex
