@@ -277,6 +277,30 @@ elseif (CMAKE_SYSTEM_NAME MATCHES "Linux" OR CMAKE_SYSTEM_NAME MATCHES "Darwin")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion")
     set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion")
 endif()
+
+// https://docs.microsoft.com/zh-cn/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4256?view=msvc-170
+if (MSVC)
+    add_definitions(
+        "
+        /wd4265 /wd4266 /wd4350 /wd4365 /wd4435 /wd4514 /wd4625 /wd4626 /wd4640 /wd4668 /wd4710 /wd4819 /wd4820 /wd4946
+        "
+    )
+endif(MSVC)
+
+/wd4265 // 不要在构造函数中使用省略号。
+/wd4266 // 派生类未重写虚函数的所有重载。
+/wd4350 // 右值不能绑定到非常量引用。
+/wd4365 // 你尝试将无符号值转换为有符号值。
+/wd4435 // “class1”: /vd2 下的对象布局将因虚拟基“class2”而更改。
+/wd4514 // "function"：已删除未引用的内联函数。
+/wd4625 // “derived class”: 未能生成复制构造函数，因为基类复制构造函数不可访问或已被删除。
+/wd4626 // “派生类”：赋值运算符已隐式定义为删除，因为基类赋值运算符不可访问或已被删除。
+/wd4640 // "instance"：本地静态对象的构造不是线程安全的！！！
+/wd4668 // 没有将“symbol”定义为预处理器宏，用“0”替换“directives”。
+/wd4710 // 指定的函数已标记为内联展开，但编译器未内联该函数。
+/wd4819 // 使用无法表示文件中所有字符的代码页在系统上编译 ANSI 源文件时，会发生 C4819。
+/wd4820 // “bytes”字节填充添加在构造“member_name”之后。
+/wd4946 // reinterpret_cast 在相关类之间使用:“class1”和“class2”。
 ```
 * Visual Studio 中的设定
     * 项目属性->配置属性->C/C++->高级->将特定的警告视为错误，填入相应的警告、错误代号：
@@ -576,6 +600,7 @@ int Foo() {
 - [https://github.com/rxi/log.c]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/e00aa14a.html" %})
 - [https://github.com/rspec/rspec/wiki/Getting-colored-output-working-on-Windows]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/7a35e51b.html" %})
 - [https://www.cnblogs.com/zjutzz/p/11333334.html]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/www.cnblogs.com/5687afa3.html" %})
+- [https://docs.microsoft.com/zh-cn/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4256?view=msvc-170]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/docs.microsoft.com/2a5b9ad5.html" %})
 - [https://docs.microsoft.com/zh-cn/cpp/error-messages/compiler-warnings/compiler-warning-level-3-c4018?view=msvc-170]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/docs.microsoft.com/a09a78cf.html" %})
 - [https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warnings-by-compiler-version?view=msvc-170]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/docs.microsoft.com/0dfd9994.html" %})
 - [https://docs.microsoft.com/zh-cn/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4927?view=msvc-170]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/docs.microsoft.com/bf455dce.html" %})

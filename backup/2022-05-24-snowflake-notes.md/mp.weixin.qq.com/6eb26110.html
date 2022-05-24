@@ -1,0 +1,421 @@
+---
+title : 自动快照存档
+---
+
+* TIME: 2022-05-24 22:20:00
+* URL: <https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458434317&idx=1&sn=0a0f3bcee1cdd99c2f2db1a2fd899619&chksm=b18f8b8786f802919884f0682fe9fb38c0971e3e7de732ec11f35cbd994b87fc12c3e758b344&scene=178&cur_album_id=2293635948628279298>
+
+-----
+
+# 逆向某平台分析过程指导
+
+原创 那年没下雪  [ 看雪学苑 ](javascript:void\(0\);)
+
+**看雪学苑** ![]()
+
+微信号 ikanxue
+
+功能介绍 致力于移动与安全研究的开发者社区，看雪学院(kanxue.com)官方微信公众帐号。
+
+____
+
+_2022-03-23 18:01_ _发表于_
+
+收录于合集 #“雪花”创作激励计划 68个
+
+![图片](https://mmbiz.qpic.cn/sz_mmbiz_png/1UG7KPNHN8EbmT9O1SiaEawucM2HVWvGOMdMdtm4AohrnQAefvfbvfR4ib3EyV40T1AicV1RMWibeNPAEwtM85EHSA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)  
+
+本文为看雪论坛优秀文章  
+看雪论坛作者ID：那年没下雪
+
+  
+
+  
+
+一
+
+  
+
+ **抓包报文分析**
+
+ **  
+**
+
+ **1、charles抓包分析报文**  
+
+登录和注册发送验证码都带有⼀个sign字段。
+
+  
+
+![图片](https://mmbiz.qpic.cn/mmbiz_jpg/kR3MmOkZ9r55VichArG6guw9dl68BicBTibXsPuxfUeNND0LQ1nMGwkQFdnmWicTRDEUwMac6AnWZKocU3icUoC3Oow/640?wx_fmt=jpeg&wxfrom=5&wx_lazy=1&wx_co=1)
+
+  
+
+其他参数都为固定参数 ⽐如请求图中的：  
+
+  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+只有这个sign每次都是变化的，那我们就开始分析这个sign。  
+
+  
+
+  
+
+二
+
+  
+
+ **操作步骤**
+
+  
+
+① 先查apk是否加固 查询发现没加固。
+
+  
+
+② 直接上jdax打开apk，能正常反编译。
+
+  
+
+③ 发现网络框架使⽤的okhttp。
+
+  
+
+  
+
+  
+
+三
+
+  
+
+ **代码分析**
+
+  
+
+因为使⽤的okhttp框架那么自然直接搜索OKhttpClient 在哪被初始化 jadx直接搜索到。
+
+  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+看名字猜测应该是网络核心父类，接着按x找到相关引用类找到：  
+
+  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+看名字就猜到了http相关的⼯具类，接着继续找关键字sign，因为网络相关的类都在framework包下的 helper⼦⽬录中所有随便翻翻找到⼀个。
+
+  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+打开⼀看找到app相关的native⽅法都在这类中定义按x找到相关引用的类中 有⼀个。
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+看方法名就猜到了应该是计算sign的⽅法，打开看果然是：
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+计算⽅法为:
+
+  
+
+① 调用buildSignRequestParams(str,map)方法将请求参数赋值给hashMap，并将hashMap中的值按照
+key进⾏排序，重新赋值给map。
+
+  
+
+② 遍历排序后的hashmap的取出value进⾏拼接传递给buildSignValue()⽅法，调⽤native⽅法⽤frida
+Hook这两个⽅法调⽤也证明了这两点:
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+③ 接下来开始分析native方法 getServerApi() 找到使用的so 包为libNativeHelper.so。
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+扔到ida看导出函数发现是jni动态注册没找到getServerApi()这个⽅法，接下来使⽤unidbg进行分析 call_jni_onload
+后找到偏移地址0x12795。
+
+  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+在ida中G 跳转到偏移地址。
+
+  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+查看sub_4DF0函数F5⽣成伪代码。  
+
+  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+阅读代码修改原有的字段名称。祭出大杀器unidbg Hookz。
+
+  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+多次调用方法发现入参为⼀串固定字符串值,先暂定它为加密因子吧！hook伪代码中的strcat(参数1,参数2)。
+
+  
+
+参数1为之前调⽤java 层 native方法中请求参数排序后的value 字符串，参数2位固定的加密因子将两个字 符串拼接后⽣成新的待加密串。
+
+  
+
+接着分析 sub_4538(&v20)函数。  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+这个4个常量 在结合sign的⻓度为32 很明显的可以猜到使⽤的MD5加密，具体在往下看。 分析sub_4564()函数：
+
+  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+hook函数sub45F4函数 得到的入参为 md5标识和待加密串，接着点进去查看这个函数具体实现：  
+
+  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+最终hook这两个函数都没发现⽣成具体的sign值 加密串也没有最终被修改 于是随⼿拿之前得到的加密串去做个MD5发现直接就跟sign⼀样
+所以⼤概得出这个sign算法就是标准的 MD5。
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)  
+  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+  
+
+ **看雪ID：那年没下雪**
+
+https://bbs.pediy.com/user-home-884888.htm
+
+*本文由看雪论坛 那年没下雪 原创，转载请注明来自看雪社区
+
+  
+
+[![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)](http://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458429912&idx=1&sn=f399b1558e6bb194e189ca2dab8da437&chksm=b18f995286f810449606d6b7ba3bbbc440467663e079d4ef680edcb9f13249bcf7a72716b71c&scene=21#wechat_redirect)
+
+ **#** **往期推荐  
+**
+
+1.[基于LSTM的二进制代码相似性检测](http://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458433721&idx=1&sn=6529aaa176ff5cf0fd5569874051add7&chksm=b18f883386f801258f57eda47e602228ce72f0bff665fa4cfca7c91d01f19821f670fdc1612e&scene=21#wechat_redirect)  
+
+2.[The House of
+Mind](http://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458433540&idx=1&sn=07c999b8ad246c3cdf32a3feaa015136&chksm=b18f888e86f80198582818d876f6d8ff4025f5d8ef37136991d6f1ae976a6bfb8081d76def91&scene=21#wechat_redirect)
+
+3.[CVE-2012-1889
+暴雷漏洞分析与利用小记](http://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458433472&idx=1&sn=621008b3807a1d70802e6428a566d3e5&chksm=b18f874a86f80e5c1f4512dc94a45f73ce3bcd9bc160bea9fc2a561a1ae00c3067eeb7223d6c&scene=21#wechat_redirect)
+
+4.[人工智能竞赛-
+目标识别指导](http://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458433471&idx=1&sn=5b6788a96e55d0419529106d9b2be14e&chksm=b18f873586f80e234d707b9acb3cbdd09bbc27f63a1063cac541a989938a484019c2a4b217ba&scene=21#wechat_redirect)
+
+5.[Android加壳脱壳学习—动态加载和类加载机制详解](http://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458433464&idx=1&sn=53fc25cff882ca28119ca9aa5312c072&chksm=b18f873286f80e249c662098a39d9d49419e1e3c64922790c28cb1e2ff3b935c2d357dc9ed6a&scene=21#wechat_redirect)
+
+6.[某APP sig3
+48位算法逆向分析](http://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458432887&idx=1&sn=ca88422ace53559b2f1896c891c8c23a&chksm=b18f85fd86f80ceb2f82deecf84f1c022bf4d2d6cdac4fd809d753a961cc10d9c7cd554c251e&scene=21#wechat_redirect)
+**  
+**
+
+  
+  
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)  
+  
+
+  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+ **球分享**
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+ **球点赞**
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+ **球在看**
+
+  
+
+  
+
+![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+点击“阅读原文”，了解更多！
+
+预览时标签不可点
+
+收录于合集 #
+
+个
+
+上一篇 下一篇
+
+[阅读原文](javascript:;)
+
+喜欢此内容的人还喜欢
+
+新华三magicR100存在未授权访问
+
+新华三magicR100存在未授权访问
+
+...
+
+ChaMd5安全团队
+
+不喜欢
+
+不看的原因
+
+确定
+
+  * 内容质量低
+  * 不看此公众号
+
+[VNCTF2022]gocalc0复现
+
+[VNCTF2022]gocalc0复现
+
+...
+
+看雪学苑
+
+不喜欢
+
+不看的原因
+
+确定
+
+  * 内容质量低
+  * 不看此公众号
+
+.NET WebView2 项目 实现嵌入 Web 页面
+
+.NET WebView2 项目 实现嵌入 Web 页面
+
+...
+
+DotNet
+
+不喜欢
+
+不看的原因
+
+确定
+
+  * 内容质量低
+  * 不看此公众号
+
+**写留言**
+
+[取消](javascript:;)
+
+[](javascript:; "轻点两下打开表情键盘")留言
+
+ **我的留言**
+
+[写留言](javascript:;)
+
+ __正在加载
+
+展开我的留言
+
+留言被精选后将公开
+
+**精选留言**
+
+[写留言](javascript:;)
+
+[写留言](javascript:;)
+
+ __正在加载
+
+已无更多数据
+
+ __
+
+[发消息](javascript:;)
+
+关闭 __
+
+ **写留言**
+
+提交更多 __
+
+ __正在加载
+
+ __
+
+[表情](javascript:;)
+
+ __正在加载
+
+ **留言** __
+
+![](/mp/qrcode?scene=10000004&size=102&__biz=MjM5NTc2MDYxMw==&mid=2458434317&idx=1&sn=0a0f3bcee1cdd99c2f2db1a2fd899619&send_time=)
+
+微信扫一扫  
+关注该公众号
+
+[知道了](javascript:;)
+
+微信扫一扫  
+使用小程序
+
+****
+
+[取消](javascript:void\(0\);) [允许](javascript:void\(0\);)
+
+****
+
+[取消](javascript:void\(0\);) [允许](javascript:void\(0\);)
+
+： ， 。 视频 小程序 赞 ，轻点两下取消赞 在看 ，轻点两下取消在看
+
