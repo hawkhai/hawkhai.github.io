@@ -55,11 +55,11 @@ caption="<span class='imagetitle'>重庆酸菜鱼</span> 22 元 / 斤" %}
 {% include image1.html url="/kaoyu/img/jibao2.jpg"
 caption="<span class='imagetitle'>土鸡煲</span> 98 元 / 只" %}
 
-{% include image1.html url="/kaoyu/img/tiaoshuitianji3.jpg"
-title="跳水田鸡" caption="68 元（大份 98 元）" %}
-
 {% include image1.html url="/kaoyu/img/shuizhuyu2.jpg"
 title="水煮鱼" caption="22 元 / 斤" %}
+
+{% include image1.html url="/kaoyu/img/tiaoshuitianji3.jpg"
+title="跳水田鸡" caption="68 元（大份 98 元）" %}
 
 {% include image1.html url="/kaoyu/img/maoxuewang.jpg"
 title="毛血旺" caption="45 元" %}
