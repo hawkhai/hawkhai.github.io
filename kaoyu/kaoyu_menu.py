@@ -11,8 +11,8 @@ from pythonx.funclib import *
 
 from PIL import Image
 
-total = 30
-subnum = 5
+total = 12
+subnum = 3
 
 targetmap = [
 [( 1, 20), ( 2, 19), ( 3, 18)], [( 4, 17), ( 5, 16), (-1, -1)],
@@ -36,8 +36,11 @@ def mainsplit(rootdir, imgpath, num):
         targetimg.paste(tmpimg, (twidth*i, 0))
 
     print(targetimg.size)
-    # 210mm×297mm
-    targetimg = targetimg.resize((int(2970 * 5 / 3), 2100))
+    # 210mm×297mm  2479×3508
+    # 420mm×297mm  4960×3508
+    resize = (round(3508*140*3/297), 3508)
+    print(resize)
+    targetimg = targetimg.resize(resize)
     # https://www.bilibili.com/read/cv10342533
     targetimg = targetimg.convert("CMYK")
     targetpath = rootdir+ ("kz\\rst.%d.jpg" % num)
@@ -47,4 +50,5 @@ def mainsplit(rootdir, imgpath, num):
 
 if __name__ == "__main__":
     for idx in range(int(total/subnum)):
-        mainsplit(r"C:\kSource\blog\kaoyu\现杀现烤 _ 重庆烤鱼·扎啤\\", r"现杀现烤 _ 重庆烤鱼·扎啤_%d.png", idx)
+        mainsplit(r"C:\kSource\blog\kaoyu\现杀现烤 _ 重庆烤鱼·猪肚鸡\\",
+                  r"现杀现烤 _ 重庆烤鱼·猪肚鸡_%d.png", idx)
