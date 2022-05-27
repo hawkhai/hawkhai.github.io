@@ -590,6 +590,88 @@ int Foo() {
 2. `CString str; GetWindowsText(hWnd, str.GetBuffer(), MAX_PATH);`
 
 
+## delete[] & delete...
+
+[How to understand corrupted infix pattern for freed block](https://stackoverflow.com/questions/6423900/how-to-understand-corrupted-infix-pattern-for-freed-block)
+It is described pretty well in this MSDN Library article.
+Classic heap corruption bug, your code is writing to a heap block after it was freed.
+If the address repeats well then you can set a data breakpoint with the debugger to trap the write.
+If it doesn't then you'll need the tool between your ears to hunt the bug down.
+
+* Heap Handle – Heap handle for the heap owning the block.
+* Block address – Heap block address
+* Size – Size of the heap block
+* Description – Corrupted infix pattern for freed block at address <address>
+* Trace description – No stack frames for the current block
+
+技术类型数组的释放问题。
+```cpp
+#include "stdafx.h"
+
+int counter = 0;
+const int size = 100 * 1024 * 1024;
+
+class Test {
+public:
+    Test() {
+        m_counter = counter++;
+    }
+    ~Test() {
+        counter--;
+    }
+private:
+    int m_counter;
+};
+
+void test1() {
+    char* p = new char[size]; // 内存新增 100MB
+    delete p; // 内存降低 100MB
+    p = NULL;
+}
+
+void test2() {
+    Test* p = new Test[size]; // 内存新增 400MB
+    delete[] p; // 内存降低 400MB
+    int tmp = counter; // 0
+    p = NULL;
+}
+
+void test3() {
+    Test* p = new Test[size]; // 内存新增 400MB
+    int tmp = counter;
+    // Release:
+    // ===========================================================
+    // VERIFIER STOP 00000010: pid 0x5B0: corrupted start stamp
+    // 057D1000 : Heap handle
+    // 0F300FFC : Heap block
+    // 19001000 : Block size -- 整数数组大小 19000000
+    // 057D1000 : Corrupted stamp
+    // ===========================================================
+    // This verifier stop is not continuable. Process will be terminated
+    // when you use the `go' debugger command.
+    // ===========================================================
+    delete p; // Debug 抛出断言：_BLOCK_TYPE_IS_VALID(pHead->nBlockUse)
+    tmp = counter;
+    p = NULL;
+}
+
+void test4() {
+    char* p = new char[size]; // 申请 100MB
+    delete[] p; // 释放 100MB
+    p = NULL;
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+    test1();
+    test2();
+    test3();
+    test4();
+    return 0;
+}
+```
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-25-prog-secguide.md.js" %}'></script></p>
@@ -607,3 +689,4 @@ int Foo() {
 - [https://github.com/preshing/junction]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/f3798178.html" %})
 - [https://github.com/oneapi-src/oneTBB]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/acfc8855.html" %})
 - [https://github.com/Tencent/secguide/blob/main/C%2CC%2B%2B%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97.md]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/a22343f4.html" %})
+- [https://stackoverflow.com/questions/6423900/how-to-understand-corrupted-infix-pattern-for-freed-block]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/stackoverflow.com/ee326a84.html" %})

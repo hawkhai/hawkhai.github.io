@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "重庆烤鱼猪肚鸡"
+title: "重庆烤鱼猪肚鸡（预览版）"
 author:
 location: "广州"
 categories: ["生活"]
@@ -85,7 +85,7 @@ url2="/kaoyu/img/liangbanwoshunsi.jpg" caption2="凉拌莴笋丝 18 元" %}
 
 {% include image2.html
 url="/kaoyu/img/daopaiqinggua.jpeg" caption="刀拍青瓜 15 元"
-url2="/kaoyu/img/xihongshi.jpeg" caption2="糖拌西红柿 15 元" %}
+url2="/kaoyu/img/xihongsi3.jpg" caption2="糖拌西红柿 15 元" %}
 
 {% include image2.html
 url="/kaoyu/img/xiaocongdoufu.jpeg" caption="小葱拌豆腐 15 元"
@@ -268,10 +268,6 @@ url2="/kaoyu/img/yanshuicaixin.jpeg" caption2="盐水菜心 20 元" %}
 {% include image2.html
 url="/kaoyu/img/shangtangdoumiao.jpeg" caption="上汤豆苗 18 元"
 url2="/kaoyu/img/shangtangwawacai.jpeg" caption2="上汤娃娃菜 18 元" %}
-
-{% include image2.html
-url="/kaoyu/img/jinzhengurousitang.jpg" caption="金针菇肉丝汤 25 元"
-url2="/kaoyu/img/donggutudjitang.jpg" caption2="冬菇土鸡汤 28 元" %}
 
 {% include image2.html
 url="/kaoyu/img/fanqiejidantang.jpeg" caption="番茄鸡蛋汤 18 元"
