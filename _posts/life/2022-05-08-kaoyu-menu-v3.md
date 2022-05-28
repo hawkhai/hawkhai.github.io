@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "重庆烤鱼·猪肚鸡"
+title: "<br/>重庆烤鱼·猪肚鸡"
 author:
 location: "广州"
 categories: ["生活"]
@@ -70,9 +70,12 @@ caption="<span class='imagetitle'>烤排骨</span>&nbsp; （小）118 元 （大
 
 <div STYLE="page-break-after: always;"></div>
 
-<div style="font-size:medium;font-weight:bolder;width:fit-content;margin-left:auto;margin-right:auto;">
-<span class='imagetitle'>锅底加菜 烤鱼大份菜 35 元</span>
+<div style="font-size:x-large;font-weight:bolder;width:fit-content;margin-left:auto;margin-right:auto;">
+<br/>
+锅底加菜 烤鱼大份菜 35 元
 </div>
+
+<br/>
 
 <table class="tablestyle" ntablew="3:1:3:1:3:1:3"></table>
 
@@ -87,12 +90,12 @@ caption="<span class='imagetitle'>烤排骨</span>&nbsp; （小）118 元 （大
 
 <br/>
 
-{% include image1.html url="/kaoyu/img/maoxuewang.jpg"
-caption="<span class='imagetitle'>毛血旺</span>&nbsp; 45 元" %}
+{% include image1.html url="/kaoyu/img/shuizhuyu2.jpg"
+caption="<span class='imagetitle'>水煮鱼</span>&nbsp; 22 元 / 斤" %}
 
 {% include image2.html
-url="/kaoyu/img/liangbanliurou3.jpg" caption="凉拌牛肉 45 元"
-url2="/kaoyu/img/shuizhuyu2.jpg" caption2="水煮鱼 22 元 / 斤" %}
+url="/kaoyu/img/maoxuewang.jpg" caption="毛血旺 45 元"
+url2="/kaoyu/img/liangbanliurou3.jpg" caption2="凉拌牛肉 45 元" %}
 
 <div STYLE="page-break-after: always;"></div>
 
