@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "重庆烤鱼猪肚鸡"
+title: "重庆烤鱼·猪肚鸡"
 author:
 location: "广州"
 categories: ["生活"]
@@ -328,9 +328,9 @@ title="香芋地瓜丸" caption="18 元" %}
 
 ## 二维码
 
-{% include imagecdn.html url="/kaoyu/qrcode2.png" %}
-
 {% include imagecdn.html url="/kaoyu/img/20220524101926.jpg" %}
+
+{% include imagecdn.html url="/kaoyu/qrcode2.png" %}
 
 
 
