@@ -50,5 +50,5 @@ def mainsplit(rootdir, imgpath, num):
 
 if __name__ == "__main__":
     for idx in range(int(total/subnum)):
-        mainsplit(r"C:\kSource\blog\kaoyu\现杀现烤 _ 重庆烤鱼·猪肚鸡\\",
-                  r"现杀现烤 _ 重庆烤鱼·猪肚鸡_%d.png", idx)
+        mainsplit(r"C:\kSource\blog\kaoyu\现杀现烤 _ _br__重庆烤鱼·猪肚鸡\\",
+                  r"现杀现烤 _ _br__重庆烤鱼·猪肚鸡_%d.png", idx)

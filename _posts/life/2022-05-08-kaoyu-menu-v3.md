@@ -37,6 +37,9 @@ div.post#postdiv hr {
 div.post#postdiv p.reviewtip {
     display: none;
 }
+h1 {
+    font-size: 3em;
+}
 // 顶部 6.5mm
 // 底部 2mm
 </style>
@@ -87,6 +90,7 @@ caption="<span class='imagetitle'>烤排骨</span>&nbsp; （小）118 元 （大
 | 藕 片 | ... | 8 元/份 | | 鱼 泡 | ... | 35 元/份 |
 | 豆腐皮 | ... | 8 元/份 | | 红薯粉 | ... | 10 元/份 |
 | 金针菇 | ... | 10 元/份 | | 竹 笋 | ... | 10 元/份 |
+| 油麦菜 | ... | 10 元/份 | | 菜 心 | ... | 10 元/份 |
 
 <br/>
 
