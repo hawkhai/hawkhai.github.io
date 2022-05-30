@@ -168,8 +168,17 @@ namespace toy
 
 from opencv ocl.cpp
 ```cpp
+typedef uint32_t        uint;
+typedef signed char     schar;
+typedef unsigned char   uchar;
+typedef unsigned short  ushort;
+typedef int64_t         int64;
+typedef uint64_t        uint64;
+#define CV_BIG_INT(n)   n##LL
+#define CV_BIG_UINT(n)  n##ULL
+
 // Computes 64-bit "cyclic redundancy check" sum, as specified in ECMA-182
-uint64 fastpdf_turbo_impl::crc64(const uchar* data, size_t size, uint64 crcx)
+uint64 crc64(const uchar* data, size_t size, uint64 crcx)
 {
     static uint64 table[256];
     static bool initialized = false;
