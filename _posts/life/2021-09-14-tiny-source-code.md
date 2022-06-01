@@ -28,6 +28,12 @@ inline std::string GetKernelCode(const std::string & filename)
 if (!PathFileExists(fpath)) {
     CreateDirectory(fpath, NULL);
 }
+
+wchar_t fpath[MAX_PATH + 1] = { 0 };
+DWORD res = GetTempPath(MAX_PATH, fpath);
+if (res <= 0 || res >= MAX_PATH) {
+    return gpuip::GPUIP_CODE::CODE_ERROR;
+}
 ```
 
 Hey, there! Welcome to my blog. I hope you enjoy reading the stuff in here. Nothing fancy, really. Just bits and bobs about tech and random topics.<br/><br/>

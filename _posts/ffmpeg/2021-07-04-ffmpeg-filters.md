@@ -15,6 +15,17 @@ glslcanvas:
 codeprint:
 ---
 
+
+## FFmpeg 将多张图片合成视频
+
+生成一个图片序列，假设保存在 `E:\kSource\blog\memoryimgback\target` 目录，
+命令方式为 0.jpg、1.jpg、2.jpg...
+运行以下命令，把图片序列合成为一个 mp4 视频文件：
+"C:\Program Files\ImageMagick-6.9.11-Q16-HDRI\ffmpeg.exe" -framerate 30 -f image2 -i E:\kSource\blog\memoryimgback\target\%06d.jpg E:\kSource\blog\memoryimgback\target.mp4
+
+
+## OpenCV 滤镜
+
 一些简单的 OpenCV 滤镜。
 
 * [FFmpeg Filters Documentation](http://www.ffmpeg.org/ffmpeg-filters.html)

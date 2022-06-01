@@ -29,26 +29,33 @@ def mainsplit(rootdir, imgpath, num):
 
     assert abs(twidth / theight - 140 / 297) <= 0.01, (twidth, theight)
 
-    targetimg = Image.new(mode="RGB", size=(twidth * subnum, theight), color="#FFFFFF")
+    targetimg = Image.new(mode="CMYK", size=(twidth * subnum, theight), color="#FFFFFFFF")
     for i in range(subnum):
         srcimg = Image.open(rootdir+ (imgpath % (base+i + 1)))
         tmpimg = srcimg.crop((int(width/6), 0, int(width * 5 / 6), height))
         targetimg.paste(tmpimg, (twidth*i, 0))
 
-    print(targetimg.size)
+    print(targetimg.size, targetimg.mode)
     # 210mm×297mm  2479×3508
     # 420mm×297mm  4960×3508
     resize = (round(3508*140*3/297), 3508)
     print(resize)
     targetimg = targetimg.resize(resize)
+
+    #from PIL import ImageFont, ImageDraw # 导入模块
+    #draw = ImageDraw.Draw(targetimg, "CMYK") # 修改图片
+    #font = ImageFont.truetype(r"..\..\assets\logos\方正楷体_GB2312.ttf", size = 100)
+    #draw.text((theight / 2, twidth), u'{}/{}'.format(num+1, 4), fill="white", font=font)
+
     # https://www.bilibili.com/read/cv10342533
-    targetimg = targetimg.convert("CMYK")
+    #targetimg = targetimg.convert("CMYK")
     targetpath = rootdir+ ("kz\\rst.%d.jpg" % num)
     writefile(targetpath, "")
     osremove(targetpath)
     targetimg.save(targetpath, "jpeg")
+    print("save", targetimg.mode)
 
 if __name__ == "__main__":
     for idx in range(int(total/subnum)):
-        mainsplit(r"C:\kSource\blog\kaoyu\现杀现烤 _ _br__重庆烤鱼·猪肚鸡\\",
-                  r"现杀现烤 _ _br__重庆烤鱼·猪肚鸡_%d.png", idx)
+        mainsplit(r"E:\kSource\blog\kaoyu\现杀现烤 _ _br__重庆烤鱼·猪肚鸡\\",
+                  r"现杀现烤 _ _br__重庆烤鱼·猪肚鸡_%d.png.cmyk.jpg", idx)
