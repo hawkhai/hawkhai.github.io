@@ -98,7 +98,23 @@ esp = IA32_SYSENTER_ESP
 执行系统例程调用
 ```
 
-[start29. {% include relref_weixin.html %}](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MjM5NTc2MDYxMw==&action=getalbum&album_id=2293635948628279298&scene=173&from_msgid=2458436731&from_itemidx=1&count=3&nolastread=1)
+查壳工具
+ExeinfoPE
+
+反调试相关：
+IsDebuggerPresent
+IsProcessorFeaturePresent // 判断处理器相关信息
+
+
+## Windows 内核-句柄
+
+
+## 用 Python 去除图片背景：​Rembg 库
+
+Rembg is a tool to remove images background.
+https://github.com/danielgatis/rembg
+
+[start56. {% include relref_weixin.html %}](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MjM5NTc2MDYxMw==&action=getalbum&album_id=2293635948628279298&scene=173&from_msgid=2458436731&from_itemidx=1&count=3&nolastread=1)
 
 
 
@@ -109,4 +125,5 @@ esp = IA32_SYSENTER_ESP
 - [https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458434317&idx=1&sn=0a0f3bcee1cdd99c2f2db1a2fd899619&chksm=b18f8b8786f802919884f0682fe9fb38c0971e3e7de732ec11f35cbd994b87fc12c3e758b344&scene=178&cur_album_id=2293635948628279298]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/mp.weixin.qq.com/6eb26110.html" %})
 - [https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458436558&idx=1&sn=770b20ad3eb60dbb20c83a59f83c8b48&chksm=b18ff34486f87a52514c67a59d4702e7f2ffc59b9a13f8cd4718b7ec28b79c38ae304eb4167c&scene=178&cur_album_id=2293635948628279298]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/mp.weixin.qq.com/0075049f.html" %})
 - [https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458436731&idx=1&sn=4859b3f1fb19001e9e81622fa233fbcf&chksm=b18ff4f186f87de7c12b38a3a1febc82f9faa2ad578ee61e80d3fe64bc12b5bd65c92735587f&scene=178&cur_album_id=2293635948628279298]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/mp.weixin.qq.com/5a67a6fe.html" %})
+- [https://github.com/danielgatis/rembg]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/github.com/156be90b.html" %})
 - [https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MjM5NTc2MDYxMw==&action=getalbum&album_id=2293635948628279298&scene=173&from_msgid=2458436731&from_itemidx=1&count=3&nolastread=1]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/mp.weixin.qq.com/78332679.html" %})
