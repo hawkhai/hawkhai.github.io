@@ -502,18 +502,18 @@ def appendRefs(fpath, lines):
     # 获取 md 文件的最后修改时间。
     cmdx = 'git log -n 1 --pretty=format:"%ad" --date=short -- "{}"'.format(frelgit)
     if invdir:
-        cmdx = 'cd {} & git log -n 1 --pretty=format:"%ad" --date=short -- "{}"'.format(*frelgit.split("\\", 1))
+        cmdx = 'cd {} & git log -n 1 --pretty=format:"%ad" --date=short -- "{}"'.format(*frelgit.split(os.sep, 1))
     datestr = popenCmd(cmdx)
     datestr = bytesToString(datestr)
     if not datestr:
         datestr = datetime.datetime.now().date()
 
-    if fpath.startswith("_posts\\"):
-        fpath = os.path.join("blogs", fpath.split("\\")[-1])
+    if fpath.startswith("_posts"+os.sep):
+        fpath = os.path.join("blogs", fpath.split(os.sep)[-1])
     if invdir:
-        fpath = "invisible\\reviewjs\\" + fpath[len("invisible\\"):]
+        fpath = "invisible"+os.sep+"reviewjs"+os.sep+ fpath[len("invisible"+os.sep):]
     else:
-        fpath = "assets\\reviewjs\\" + fpath
+        fpath = "assets"+os.sep+"reviewjs"+os.sep + fpath
 
     reviewjs = REVIEW_JS_PATH % (fpath)
     writefile(reviewjs, """document.write("%s: review");\r\n""" % datestr)
@@ -570,11 +570,11 @@ def mainfile(fpath, fname, ftype):
     keepStripFile    = ftype in ("svg",) or fname in ("gitsrc.html",) or re.findall("^relref[a-z_]*\\.html$", fname)
     keepFileTypeList = ("rar", "zip", "pdf", "mp4",) # 中英文间隔，容易造成失误的列表。
 
-    if fpath.find("\\winfinder\\") != -1:
+    if fpath.find(os.sep+"winfinder"+os.sep) != -1:
         isSrcFile = isSrcFile or ftype in ("h", "cpp", "rc", "c",)
 
     if not isSrcFile:
-        if fpath.find("\\_site\\") != -1:
+        if fpath.find(os.sep+"_site"+os.sep) != -1:
             G_TYPESET.add(ftype)
         return
 
@@ -590,7 +590,7 @@ def mainfile(fpath, fname, ftype):
                 value = value.strip()
                 G_MDKEYSET.add(key)
 
-    if fpath.find("\\_site\\") != -1:
+    if fpath.find(os.sep+"_site"+os.sep) != -1:
         return
 
     def linerstrip(line):
@@ -950,7 +950,7 @@ def checkfilesize(fpath, fname, ftype):
             print(getFileMd5(fpath), "#", fpath, "#", "%.1f MB"%size)
             G_CHECKFSIZE_CFG[mdrstripBigfileCfg].add(fmd5)
 
-            if ftype in ("gif",):
+            if ftype in ("gif",) and IS_WINDOWS:
                 from pythonx import pygrab
                 pygrab.gifbuildwebp(fpath)
 
@@ -973,8 +973,8 @@ def checkReviewJS(jsdir, rootdir):
         assert fname.endswith(".md.js"), fname
         jsfile = os.path.relpath(fpath, jsdir)
         mdfile = jsfile[:-len(".js")]
-        if mdfile.startswith("blogs\\"):
-            mdfile = findPostMdFile("_posts", mdfile.split("\\")[-1])
+        if mdfile.startswith("blogs"+os.sep):
+            mdfile = findPostMdFile("_posts", mdfile.split(os.sep)[-1])
             mdfile = os.path.relpath(mdfile, rootdir)
         mdfile = os.path.join(rootdir, mdfile)
         if not os.path.exists(mdfile):
@@ -998,13 +998,13 @@ def mainw():
 
 def main():
     buildSnapCache("backup")
-    buildSnapCache("invisible\\backup")
+    buildSnapCache("invisible"+os.sep+"backup")
     if REBUILD or OPENRESENT:
-        checkReviewJS("assets\\reviewjs", ".")
-        checkReviewJS("invisible\\reviewjs", "invisible")
+        checkReviewJS("assets"+os.sep+"reviewjs", ".")
+        checkReviewJS("invisible"+os.sep+"reviewjs", "invisible")
     if CLEARIMG:
-        tidyupImgCollect("assets\\images")
-        tidyupImgCollect("invisible\\images")
+        tidyupImgCollect("assets"+os.sep+"images")
+        tidyupImgCollect("invisible"+os.sep+"images")
 
     CHECK_IGNORE_LIST = (
         "backup", "tempdir", "_site",
@@ -1013,7 +1013,7 @@ def main():
         )
     searchdir(".", checkfilesize, ignorelist=CHECK_IGNORE_LIST)
     searchdir("backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST)
-    searchdir("invisible\\backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST)
+    searchdir("invisible"+os.sep+"backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST)
 
     searchdir(".", mainfilew, ignorelist=(
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",

@@ -101,9 +101,12 @@ def mainjekyll():
     os.system(JEKYLL)
 
 if __name__ == "__main__":
-    result = mydllfunc("getipaddr", {"minorVer": 2, "majorVer": 2,})
+    if IS_WINDOWS:
+        result = mydllfunc("getipaddr", {"minorVer": 2, "majorVer": 2,})
+    else:
+        result = None
     osremove("assets\\localhost.js")
-    if result["ret"] == 0:
+    if result and result["ret"] == 0:
         result = result["result"]
         result = result["result"]
         # ['192.168.110.1', '192.168.245.1', '192.168.0.102']
