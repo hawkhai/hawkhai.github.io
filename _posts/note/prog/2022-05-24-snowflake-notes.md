@@ -112,7 +112,7 @@ IsProcessorFeaturePresent // 判断处理器相关信息
 ## 用 Python 去除图片背景：​Rembg 库
 
 Rembg is a tool to remove images background.
-https://github.com/danielgatis/rembg
+<https://github.com/danielgatis/rembg>
 
 [start56. {% include relref_weixin.html %}](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MjM5NTc2MDYxMw==&action=getalbum&album_id=2293635948628279298&scene=173&from_msgid=2458436731&from_itemidx=1&count=3&nolastread=1)
 
