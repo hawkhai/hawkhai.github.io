@@ -449,6 +449,18 @@ m_hReaderWriterLockFile = ::CreateFile(m_sReaderWriterLockFilePath,
 完整代码：github.com/hawkhai/ShareMemory.git
 
 
+## 其它
+
+dbus 的 c++ 封装以及多进程 dbus 双向通信例程
+
+如果跨进程访问事件，必须对事件命名，在对事件命名的时候，要注意不要与系统命名空间中的其它全局命名对象冲突；
+
+```cpp
+HANDLE hEvent = OpenEvent(EVENT_ALL_ACCESS, true, "MyEvent");
+ResetEvent(hEvent);
+```
+
+
 ## Inter Computer Read/Write File Lock
 
 <https://www.codeproject.com/Articles/49670/Inter-Computer-Read-Write-File-Lock>
