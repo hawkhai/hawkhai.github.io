@@ -62,21 +62,21 @@ def readfileIglist(fpath):
     return li
 
 def backupUrlContent(fpath, url):
-    for file in readfileIglist("config/mdrstrip_fileIgnore.txt"):
-        if url.endswith(file):
+    for urlz in readfileIglist("config/mdrstrip_url_ignore_ends.txt"):
+        if url.endswith(urlz):
             return
     assert not url.endswith(".exe"), url
     assert not url.endswith(".zip"), url
     # 有可能挂掉的网站，都稍微做一下备份。
-    for host in readfileIglist("config/mdrstrip_hostIgnore.txt"):
-        if url.startswith(host):
+    for urlz in readfileIglist("config/mdrstrip_url_ignore_starts.txt"):
+        if url.startswith(urlz):
             return
 
     print(fpath, url)
     chrome = True # 可能有 js 代码，所以必须都用 Chrome 进行缓存
     chromeDialog = False
-    for host in readfileIglist("config/mdrstrip_hostChrome.txt"):
-        if url.startswith(host):
+    for urlz in readfileIglist("config/mdrstrip_url_chrome_dialog.txt"):
+        if url.startswith(urlz):
             chromeDialog = True
     mdname = os.path.split(fpath)[-1]
     urlhostsrc = calcHost(url)
@@ -105,7 +105,7 @@ def backupUrlContent(fpath, url):
 
     mdxfile = False
     flocal = buildlocal(ttype)
-    if chrome and urlhostsrc in readfileIglist("config/mdrstrip_hostJekyll.txt"):
+    if chrome and urlhostsrc in readfileIglist("config/mdrstrip_host_jekyll.txt"):
         mdxfile = True
         ttype = ".md" # 借用 Jekyll 格式化
         newlocal = buildlocal(ttype)
@@ -130,7 +130,7 @@ def backupUrlContent(fpath, url):
     itag = bytesToString("无法访问此网站".encode("utf8"))
     itag2 = bytesToString('<div class="Qrcode-title">扫码登录</div>'.encode("utf8")) # 知乎的问题
     idata = bytesToString(fdata)
-    if not url in readfileIglist("config/mdrstrip_InvalidURL.txt"):
+    if not url in readfileIglist("config/mdrstrip_url_ignore.txt"):
         if idata.find("ERR_CONNECTION_TIMED_OUT") != -1 or (
                 idata.find(itag) != -1 or idata.find(itag2) != -1):
             print("无法访问此网站", fpath, url)
@@ -219,7 +219,7 @@ def tidyupImgCollect(rootdir):
 # 本地图片缓存路径。
 def tidyupImg(imglocal, fpath, line):
 
-    if imglocal in readfileIglist("config/mdrstrip_fakefiles.txt"):
+    if imglocal in readfileIglist("config/mdrstrip_fake_image_files.txt"):
         return line
 
     imgdir, imgfname = os.path.split(imglocal)
@@ -253,7 +253,7 @@ def tidyupImg(imglocal, fpath, line):
     while not os.path.exists(imglocal):
         print("文件不存在", imglocal)
         os.system("pause")
-        if imglocal in readfileIglist("config/mdrstrip_fakefiles.txt"):
+        if imglocal in readfileIglist("config/mdrstrip_fake_image_files.txt"):
             return line
 
     iscopy = copyfile(imglocal, tpath) # 是否图片挪窝了。
@@ -382,8 +382,8 @@ def collectHost(fpath, line):
         checkz = line.split(url)
         for iline in checkz[1:]: # 检查网址的后继标记。
             checkli = ["", ")", "]", ">", " ", "*"]
-            for urli in readfileIglist("config/mdrstrip_urlIgnore.txt"):
-                if url.startswith(urli) and urli:
+            for urlz in readfileIglist("config/mdrstrip_url_quote.txt"):
+                if url.startswith(urlz) and urlz:
                     checkli.append(";")
                     checkli.append("\"")
                     checkli.append("\'")
