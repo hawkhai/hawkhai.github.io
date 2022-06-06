@@ -29,6 +29,5 @@ def main():
         print(fpath)
         print(writefile(fpath, fdata))
 
-
 if __name__ == "__main__":
     main()
