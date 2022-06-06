@@ -8,11 +8,14 @@ define(function(require) {
                 method: "POST",
                 input: function(t) {
                     var a = "sdaAWDdas78^DAasd890";
-                    return {
+                    var retv = {
                         key: a,
                         q: t,
                         sign: r((a + t).trim()).slice(0, 16)
                     }
+                    console.log("translate -- " + retv.sign);
+                    confirm("translate -- " + retv.sign);
+                    return retv;
                 },
                 output: require("./icibaTranslateProxy")
             },
