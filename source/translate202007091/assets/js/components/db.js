@@ -1,0 +1,1 @@
+define(function(require){var n=require("../lib/idbstore"),e=!1,o=[],t=new n({storeName:"mp3_db",storePrefix:"",dbVersion:1,keyPath:null,autoIncrement:!1,indexes:[],onStoreReady:function(){e=!0,o.forEach(function(n){n(t)}),o.length=0},onError:function(n){throw n}});return{getDB:function(n){e?n(t):o.push(n)}}});
