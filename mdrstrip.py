@@ -36,6 +36,7 @@ LINKTAGARRAY = (("bili",     "bilibili.com"),
                )
 
 SPACEBACKFILE_TAIL = ".spaceback.json"
+NEWLINE_CHAR = "\r\n" if IS_WINDOWS else "\n"
 
 def getLinkTagSrc(name):
     return "{% include relref_"+name+".html %}"
@@ -177,7 +178,7 @@ title : %(title)s
 
         if urlhostsrc == "www.shadertoy.com":
             li = re.findall(r"""\r?\n\r?\n[0-9]+\r?\n\r?\n    \r?\n    \r?\n    """, fdata)
-            for i in li: fdata = fdata.replace(i, "\r\n    ")
+            for i in li: fdata = fdata.replace(i, NEWLINE_CHAR+"    ")
             writefile(flocal, fdata, "utf8")
 
     fmd5 = getFileMd5(flocal) # 大文件，错误已经铸成，改不了了。
@@ -290,7 +291,7 @@ def tidyupImg(imglocal, fpath, line):
 
             from PIL import ImageFont, ImageDraw # 导入模块
             draw = ImageDraw.Draw(img, "RGBA") # 修改图片
-            font = ImageFont.truetype(r"assets\logos\方正楷体_GB2312.ttf", size = 20)
+            font = ImageFont.truetype(r"assets/logos/方正楷体_GB2312.ttf", size = 20)
             draw.rectangle(((0, 0), (width, 40)), fill=(0,0,0,127))
             draw.text((10, 10), u'图片加载中, 请稍后....', fill="#ffffff", font=font)
             #img.show()
@@ -503,6 +504,9 @@ def appendRefs(fpath, lines):
     cmdx = 'git log -n 1 --pretty=format:"%ad" --date=short -- "{}"'.format(frelgit)
     if invdir:
         cmdx = 'cd {} & git log -n 1 --pretty=format:"%ad" --date=short -- "{}"'.format(*frelgit.split(os.sep, 1))
+    if invdir and IS_MACOS:
+        cmdx = 'cd {} && git log -n 1 --pretty=format:"%ad" --date=short -- "{}" && cd ..'.format(*frelgit.split(os.sep, 1))
+
     datestr = popenCmd(cmdx)
     datestr = bytesToString(datestr)
     if not datestr:
@@ -516,7 +520,8 @@ def appendRefs(fpath, lines):
         fpath = "assets"+os.sep+"reviewjs"+os.sep + fpath
 
     reviewjs = REVIEW_JS_PATH % (fpath)
-    writefile(reviewjs, """document.write("%s: review");\r\n""" % datestr)
+    fcode = """document.write("%s: review");%s""" % (datestr, NEWLINE_CHAR)
+    writefile(reviewjs, fcode)
     review = REVIEW_FORMAT % (fpath.replace("\\", "/"))
     assert re.findall(REVIEW_REGEX, review), review
 
@@ -849,11 +854,11 @@ def mainfile(fpath, fname, ftype):
 
     assert not codestate # 断言代码片段闭合。
 
-    page = "\r\n".join(lines)
-    while page.find("\r\n" * 3) != -1:
-        page = page.replace("\r\n" * 3, "\r\n" * 2)
+    page = NEWLINE_CHAR.join(lines)
+    while page.find(NEWLINE_CHAR * 3) != -1:
+        page = page.replace(NEWLINE_CHAR * 3, NEWLINE_CHAR * 2)
 
-    page = page.replace("\r\n"+REVIEW_LINE, "\r\n"*3+REVIEW_LINE)
+    page = page.replace(NEWLINE_CHAR+REVIEW_LINE, NEWLINE_CHAR*3+REVIEW_LINE)
     codereg = "\\{\\%\\s*highlight.*?\\{\\%\\s*endhighlight\\s*\\%\\}"
     codeli1 = re.findall(codereg, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
 
@@ -861,9 +866,9 @@ def mainfile(fpath, fname, ftype):
     codeli1z = re.findall(coderegz, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
 
     if warnTitleSpace:
-        page = page.replace("\r\n"*2+"### ", "\r\n"*3+"### ")
-        page = page.replace("\r\n"*2+"## ",  "\r\n"*3+"## ")
-        page = page.replace("\r\n"*2+"# ",   "\r\n"*3+"# ")
+        page = page.replace(NEWLINE_CHAR*2+"### ", NEWLINE_CHAR*3+"### ")
+        page = page.replace(NEWLINE_CHAR*2+"## ",  NEWLINE_CHAR*3+"## ")
+        page = page.replace(NEWLINE_CHAR*2+"# ",   NEWLINE_CHAR*3+"# ")
 
     # 代码里面的替换要还原。
     codeli2 = re.findall(codereg, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
@@ -901,7 +906,7 @@ def viewchar(lichar, xfile, xmin, xmax):
     for index, tchar in enumerate(li):
         page += tchar
         if (index + 1) % 50 == 0:
-            page += "\r\n"
+            page += NEWLINE_CHAR
         if isDiacritic(tchar):
             continue
         minv = min(minv, ord(tchar))

@@ -167,9 +167,9 @@ def ffmpegConvert(fpath):
 
 def isInvisibleDir(fpath):
     fpath = os.path.abspath(fpath).lower()
-    invisible = os.path.abspath("invisible").lower()+"\\"
+    invisible = os.path.abspath("invisible").lower()+os.sep
     invdir = fpath.startswith(invisible)
     # .\_site\invisible\
-    siteinvisible = os.path.abspath(r"_site\invisible").lower()+"\\"
+    siteinvisible = os.path.abspath(r"_site"+os.sep+"invisible").lower()+os.sep
     invdir = invdir or fpath.startswith(siteinvisible)
     return invdir
