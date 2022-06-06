@@ -1,1 +1,0 @@
-seajs.use(["popup"]);
