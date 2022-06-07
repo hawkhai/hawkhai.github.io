@@ -15,6 +15,11 @@ glslcanvas:
 codeprint:
 ---
 
+## QTimer 句柄问题
+
+QTimer内部是通过系统SetTimer函数实现，每次调用SetTimer会消耗一个用户句柄（https://docs.microsoft.com/en-us/windows/win32/sysinfo/user-objects），单个进程可以使用的用户句柄数默认为1万，超过后，很多系统api会调用失败，这时会触发Qt抛异常，导致程序崩溃。
+
+使用QTimer时，要尽可能及时释放，且不能同时启动过多
 
 ## massgravel / Microsoft-Activation-Scripts
 

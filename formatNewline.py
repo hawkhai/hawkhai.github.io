@@ -9,25 +9,42 @@ while not _lidir and len(reldirx) <= 100:
 sys.path.append(reldirx)
 from pythonx.funclib import *
 
+def formatRead(fpath, rn):
+    fdata = readfile(fpath, True)
+    fdata = fdata.replace("\r\n", "\n")
+    fdata = fdata.replace("\n", rn)
+    return fdata
+
+def maindir(rootdir, rn):
+    def mainfile(fpath, fname, ftype):
+        if not ftype in "html htm py js css scss fsh vsh svg".split():
+            return
+        fdata = formatRead(fpath, rn)
+        print(fpath)
+        print(writefile(fpath, fdata))
+    searchdir(rootdir, mainfile)
+
 def main():
     rn = None
     fpath = None
     print(sys.argv)
-    for i in sys.argv:
-        if i == "n":
+    for i in sys.argv[1:]:
+        if i == "\\n":
             rn = "\n"
-        elif i == "rn":
+        elif i == "\\r\\n":
             rn = "\r\n"
         else:
             if os.path.exists(i):
                 fpath = i
 
     if rn and fpath:
-        fdata = readfile(fpath, True)
-        fdata = fdata.replace("\r\n", "\n")
-        fdata = fdata.replace("\n", rn)
+        fdata = formatRead(fpath, rn)
         print(fpath)
         print(writefile(fpath, fdata))
+    elif rn:
+        maindir(".", rn)
+    else:
+        print("null")
 
 if __name__ == "__main__":
     main()
