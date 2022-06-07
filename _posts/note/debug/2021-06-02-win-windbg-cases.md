@@ -590,7 +590,7 @@ WARNING: Stack unwind information not available. Following frames may be wrong.
                                                     [D:\include\QtCore\qobjectdefs_impl.h @ 425]
 022fdce8 7ac41c12 4bc92f58 00000007 022fdd38 qt5core!QObject::qt_static_metacall+0x10a7
 022fdd54 007ee935 00000001 00000000 000001cd qt5core!QMetaObject::activate+0x42
-022fdd6c 7ac4772b 00000001 43c18ff0 4bc92f58 fastapp!QtPrivate::QSlotObject<void (__thiscall PDFPage::*)(bool,bool,int),
+022fdd6c 7ac4772b 00000001 43c18ff0 4bc92f58 fastapp!QtPrivate::QSlotObject<void (__thiscall TOYPage::*)(bool,bool,int),
                                                         QtPrivate::List<bool,bool,int>,void>::impl+0x65
                                                     [D:\include\QtCore\qobjectdefs_impl.h @ 418]
 022fddc8 7b5b0e55 49124fb8 4bc92f58 09f0dff8 qt5core!QMetaCallEvent::placeMetaCall+0x1b
@@ -690,6 +690,54 @@ void Test::slotvoid() {
 {% include image.html url="/assets/images/210602-win-windbg-cases/20210603114533.png" %}
 
 至于 `QCoreApplication::processEvents();` 为啥会调用到当前槽函数，写一篇 QT 信号槽的深度理解。
+
+
+### fastapp.exe_2022.6.6.2240_581c3d_d88e3f6.txt
+
+```
+CONTEXT:  (.ecxr)
+eax=00000000 ebx=0a96664c ecx=04af0220 edx=00000000 esi=00000001 edi=09733c08
+eip=007f1c3d esp=018fcaa0 ebp=018fcb34 iopl=0         nv up ei pl nz na po nc
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010202
+fastapp!CTOY_ProgressiveRenderer::Continue+0x22d:
+007f1c3d 8b34f0          mov     esi,dword ptr [eax+esi*8] ds:002b:00000008=????????
+Resetting default scope
+
+EXCEPTION_RECORD:  (.exr -1)
+ExceptionAddress: 007f1c3d (fastapp!CTOY_ProgressiveRenderer::Continue+0x0000022d)
+   ExceptionCode: c0000005 (Access violation)
+  ExceptionFlags: 00000000
+NumberParameters: 2
+   Parameter[0]: 00000000
+   Parameter[1]: 00000008
+Attempt to read from address 00000008
+```
+
+一看，肯定是个空指针，但是这个指针怎么会为空呢？
+百思不得其解，真正原因就是：`processEvents` 又调用出来形成递归，修改了指针，造成回溯的时候崩溃（堆栈就在那里断了）。
+
+> 对于不能重现的崩溃，知道代码行后，简单的办法就是，在 VS 里面找到对应的代码行，设置断点，然后查看反汇编，那种内联的 `inline` 的系统库，也能准确匹配到符号了。
+> 帮助更准确的定位到源码问题。
+
+异常线程堆栈
+```
+eax=00000000 ebx=0a96664c ecx=04af0220 edx=00000000 esi=00000001 edi=09733c08
+eip=007f1c3d esp=018fcaa0 ebp=018fcb34 iopl=0         nv up ei pl nz na po nc
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010202
+fastapp!CTOY_ProgressiveRenderer::Continue+0x22d:
+007f1c3d 8b34f0          mov     esi,dword ptr [eax+esi*8] ds:002b:00000008=????????
+ChildEBP RetAddr  Args to Child
+018fcb34 007c9451 018fcc90 00000000 00000000 fastapp!CTOY_ProgressiveRenderer::Continue+0x22d (FPO: [Non-Fpo]) (CONV: thiscall) [<..>\engine\engine\toyium\core\ftoyapi\render\ctoy_progressiverenderer.cpp @ 75]
+018fcb64 00715791 00000000 00000000 018fcc14 fastapp!`anonymous namespace'::RenderPageImpl+0x311 (FPO: [Non-Fpo]) (CONV: cdecl) [<..>\engine\engine\engine\toy\common\ctoy_renderpage.cpp @ 79]
+018fcd14 004644d5 018fce3c 00000000 784fastapp!EnginePdfium::RenderPage+0x961 (FPO: [Non-Fpo]) (CONV: thiscall) [<..>\engine\engine\engine\EnginePdfium.cpp @ 1600]
+018fce10 00462c9f 00000000 018fceb8 018fce3c fastapp!RenderCache::RenderPageReportParameters+0x95 (FPO: [Non-Fpo]) (CONV: thiscall) [<..>\myapp\myapp\src\RenderCache.cpp @ 1568]
+018fcf34 00462701 00000000 00000000 00000000 fastapp!RenderCache::SynchronousRendering+0x34f (FPO: [Non-Fpo]) (CONV: thiscall) [<..>\myapp\myapp\src\RenderCache.cpp @ 1100]
+018fcf88 00461117 00000000 00000000 00000000 fastapp!RenderCache::RenderInner+0x181 (FPO: [Non-Fpo]) (CONV: thiscall) [<..>\myapp\myapp\src\RenderCache.cpp @ 934]
+018fd080 00462f02 00000000 00000000 00000000 fastapp!RenderCache::RequestRendering+0x207 (FPO: [Non-Fpo]) (CONV: thiscall) [<..>\myapp\myapp\src\RenderCache.cpp @ 500]
+....
+....
+....
+```
 
 
 
