@@ -21,6 +21,7 @@ URL_REGEX = "".join(URL_REGEX.split())
 
 OTIMG_REGEX = """(\\!\\[(.*?)\\]\\((.*?\\.(?:jpg|png))\\))"""
 EQUA_REGEX  = """(\\!\\[\\[公式\\]\\]\\(https://www.zhihu.com/equation\\?tex=(.*?)\\))""".encode("utf8").decode("ISO8859-1")
+NEWLINE_CHAR = "\r\n" if IS_WINDOWS else "\n"
 
 def twikiImage(line):
     # ![](/download/attachments/186253641/image2021-9-9_17-21-5.png?version=1&modificationDate=1631179266000&api=v2)
@@ -46,7 +47,7 @@ def mainfilew(fpath, fname, ftype):
     fdata = readfile(fpath, True)
     fdatabak = fdata[:]
 
-    li = fdata.split("\r\n")
+    li = fdata.split(NEWLINE_CHAR)
     li2 = []
     first = True
 
@@ -122,7 +123,7 @@ def mainfilew(fpath, fname, ftype):
             if first:
                 print(fpath, result)
                 first = False
-            assert len(result) == 1
+            assert len(result) == 1, line
             result = result[0]
             url = result[0]
             line = line.replace(url, "<{}>".format(url))
@@ -135,7 +136,7 @@ def mainfilew(fpath, fname, ftype):
         openTextFile(fpath)
         assert not codestate
 
-    fdata = "\r\n".join(li2)
+    fdata = NEWLINE_CHAR.join(li2)
 
     fname = os.path.split(fpath)[-1]
     if fdata != fdatabak and AUTOFORMAT: # and fname in sys.argv:
