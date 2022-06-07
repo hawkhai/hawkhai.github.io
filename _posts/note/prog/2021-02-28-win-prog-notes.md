@@ -15,11 +15,13 @@ glslcanvas:
 codeprint:
 ---
 
+
 ## QTimer 句柄问题
 
-QTimer内部是通过系统SetTimer函数实现，每次调用SetTimer会消耗一个用户句柄（https://docs.microsoft.com/en-us/windows/win32/sysinfo/user-objects），单个进程可以使用的用户句柄数默认为1万，超过后，很多系统api会调用失败，这时会触发Qt抛异常，导致程序崩溃。
+QTimer 内部是通过系统 SetTimer 函数实现，每次调用 SetTimer 会消耗一个用户句柄（<https://docs.microsoft.com/en-us/windows/win32/sysinfo/user-objects>），单个进程可以使用的用户句柄数默认为 1 万，超过后，很多系统 api 会调用失败，这时会触发 Qt 抛异常，导致程序崩溃。
 
-使用QTimer时，要尽可能及时释放，且不能同时启动过多
+使用 QTimer 时，要尽可能及时释放，且不能同时启动过多
+
 
 ## massgravel / Microsoft-Activation-Scripts
 
@@ -260,6 +262,7 @@ Build in cmd.exe, run command as: msbuild dprofiler.sln
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-28-win-prog-notes.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://docs.microsoft.com/en-us/windows/win32/sysinfo/user-objects]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/docs.microsoft.com/babe9dc5.html" %})
 - [https://github.com/massgravel/Microsoft-Activation-Scripts]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/github.com/afd6ff84.html" %})
 - [https://marduc812.com/2021/01/21/activate-windows-10-for-free/]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/marduc812.com/e0d3c8e0.html" %})
 - [http://emptyloop.com/unlocker/]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/emptyloop.com/eade249d.html" %})
