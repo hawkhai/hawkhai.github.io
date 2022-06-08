@@ -115,4 +115,11 @@ if __name__ == "__main__":
             result = result[0]
             writefile("assets\\localhost.js", "var localhostip = '" + result + "';\r\n")
     print(result)
-    mainjekyll()
+    if IS_MACOS:
+        while True:
+            try: # ^Z to Stopped
+                mainjekyll()
+            except:
+                traceback.print_exc()
+    else:
+        mainjekyll()
