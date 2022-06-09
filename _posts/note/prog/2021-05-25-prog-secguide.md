@@ -672,6 +672,50 @@ int _tmain(int argc, _TCHAR* argv[])
 ```
 
 
+## C/C++ 编程规范
+
+[from {% include relref_csdn.html %}](https://blog.csdn.net/tanxuan231/article/details/51167359)
+
+
+### strncpy、strncat
+
+注意：strncpy、strncat 等带 n 版本的字符串操作函数在源字符串长度超出 n 标识的长度时，会将包括’\0’结束符在内的超长字符串截断，导致’\0’结束符丢失。这时需要手动为目标字符串设置’\0’结束符。
+
+
+### 禁止调用 OS 命令解析器执行命令或运行程序，防止命令注入
+
+禁止使用 system() 和 popen()。替代方案是 POSIX 的 exec 系列函数或 Win32 API CreateProcess() 等与命令解释器无关的进程创建函数来替代。
+
+错误示例：
+```
+system(sprintf("any_exe %s", input)); //【错误】参数不是硬编码，禁止使用 system
+```
+这行代码是需要执行一个名为 any_exe 的程序，程序参数来自用户的输入 input。这种情况下，恶意用户输入参数：
+```
+happy; useradd attacker
+```
+最终 shell 将字符串 `any_exe happy; useradd attacker` 解释为两条独立的命令连续执行：
+```
+any_exe happy
+useradd attacker
+```
+这样攻击者通过注入了一条命令 `useradd attacker` 创建了一个新用户。这明显不是程序所希望的。
+改用：
+```
+if (execve("/usr/bin/any_exe", args, envs) == -1) // 【修改】使用 execve 代替 system
+```
+
+
+### 禁止使用 std::ostrstream，推荐使用 std::ostringstream
+
+说明： std::ostrstream 的使用上需要特别注意几点：
+1. str() 会调用成员函数 freeze(), 它会冻结字符序列，当缓冲区不够大以至于需要分配新缓冲区时，这么做可以避免事情变得复杂。
+2. str() 不会附加字符串终止符号（’\0’）。
+3. data() 返回所有字符串，没有附带’\0’结尾字符（目前有些编译器自动调用 c_str 方法了）。
+上面如果不注意，就可能会导致内存访问越界、缓冲区溢出等问题，所以建议不要使用 ostrstream。[C++03] 标准将 std::strstream 标明为 deprecated，替代方案是 std::stringstream。ostringstream 没有上述问题。
+错误示例：下列代码使用了 std::ostrstream，可能会导致内存访问越界等问题。
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-25-prog-secguide.md.js" %}'></script></p>
@@ -690,3 +734,4 @@ int _tmain(int argc, _TCHAR* argv[])
 - [https://github.com/oneapi-src/oneTBB]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/acfc8855.html" %})
 - [https://github.com/Tencent/secguide/blob/main/C%2CC%2B%2B%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97.md]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/a22343f4.html" %})
 - [https://stackoverflow.com/questions/6423900/how-to-understand-corrupted-infix-pattern-for-freed-block]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/stackoverflow.com/ee326a84.html" %})
+- [https://blog.csdn.net/tanxuan231/article/details/51167359]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/blog.csdn.net/b8a81e8c.html" %})
