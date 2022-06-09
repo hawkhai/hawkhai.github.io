@@ -67,7 +67,7 @@ barrier(CLK_GLOBAL_MEM_FENCE);
 <https://www.khronos.org/registry/OpenCL/specs/opencl-1.2.pdf>
 <https://www.khronos.org/files/opencl-1-2-quick-reference-card.pdf>
 
-{% include image.html url="/assets/images/220428-opencl-2.0/20220511114644.png" %}
+{% include image.html url="/assets/images/220428-opencl-book/20220511114644.png" %}
 
 Use the Memory Hierarchy effectively
 • Organize your computation so it puts the most frequently used data
@@ -168,7 +168,7 @@ The image format descriptor structure is defined as...
 
 <https://www.cnblogs.com/laozhanghahaha/p/12580822.html>
 
-{% include image.html url="/assets/images/220428-opencl-2.0/721540-20200325125319873-461037239.png" %}
+{% include image.html url="/assets/images/220428-opencl-book/721540-20200325125319873-461037239.png" %}
 
 <table class="tablestyle" ntablew="1:3"></table>
 
@@ -194,23 +194,23 @@ INTER_LANCZOS4 | 8x8 像素邻域的 Lanczos 插值
 
 if (!checkSuccess(clGetSupportedImageFormats(context, 0, CL_MEM_OBJECT_IMAGE2D, 0, NULL, &numberOfImageFormats)))
 
-{% include image.html url="/assets/images/220428-opencl-2.0/20220428215101.png" caption="clGetSupportedImageFormats" %}
+{% include image.html url="/assets/images/220428-opencl-book/20220428215101.png" caption="clGetSupportedImageFormats" %}
 
 
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-04-28-opencl-2.0.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-04-28-opencl-book.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [http://cjld.github.io/2013/07/31/openclasync/]({% include relrefx.html url="/backup/2022-04-28-opencl-2.0.md/cjld.github.io/c9fc1f9b.html" %})
-- [https://developer.arm.com/documentation/101574/0100/]({% include relrefx.html url="/backup/2022-04-28-opencl-2.0.md/developer.arm.com/4b4706c0.html" %})
-- [https://developer.nvidia.com/opencl]({% include relrefx.html url="/backup/2022-04-28-opencl-2.0.md/developer.nvidia.com/927d3188.html" %})
-- [https://www.bookstack.cn/read/Heterogeneous-Computing-with-OpenCL-2.0/README.md]({% include relrefx.html url="/backup/2022-04-28-opencl-2.0.md/www.bookstack.cn/1229ec09.html" %})
-- [https://blog.csdn.net/breakawayroad/article/details/9003632]({% include relrefx.html url="/backup/2022-04-28-opencl-2.0.md/blog.csdn.net/eac3a1b2.html" %})
-- [https://www.cnblogs.com/willhua/p/10123398.html]({% include relrefx.html url="/backup/2022-04-28-opencl-2.0.md/www.cnblogs.com/d261be41.html" %})
-- [https://aijishu.com/a/1060000000293412]({% include relrefx.html url="/backup/2022-04-28-opencl-2.0.md/aijishu.com/92e880be.html" %})
-- [https://deepinout.com/opencl/opencl-memory-object/opencl-image-descriptor.html]({% include relrefx.html url="/backup/2022-04-28-opencl-2.0.md/deepinout.com/21c7c698.html" %})
-- [https://www.khronos.org/registry/OpenCL/sdk/2.0/docs/man/xhtml/cl_image_format.html]({% include relrefx.html url="/backup/2022-04-28-opencl-2.0.md/www.khronos.org/93ba8e59.html" %})
-- [https://www.programminghunter.com/article/1125142473/]({% include relrefx.html url="/backup/2022-04-28-opencl-2.0.md/www.programminghunter.com/2b552fde.html" %})
-- [https://www.cnblogs.com/laozhanghahaha/p/12580822.html]({% include relrefx.html url="/backup/2022-04-28-opencl-2.0.md/www.cnblogs.com/29fd4c83.html" %})
-- [https://blog.csdn.net/10km/article/details/50755584]({% include relrefx.html url="/backup/2022-04-28-opencl-2.0.md/blog.csdn.net/23f8c35b.html" %})
+- [http://cjld.github.io/2013/07/31/openclasync/]({% include relrefx.html url="/backup/2022-04-28-opencl-book.md/cjld.github.io/c9fc1f9b.html" %})
+- [https://developer.arm.com/documentation/101574/0100/]({% include relrefx.html url="/backup/2022-04-28-opencl-book.md/developer.arm.com/4b4706c0.html" %})
+- [https://developer.nvidia.com/opencl]({% include relrefx.html url="/backup/2022-04-28-opencl-book.md/developer.nvidia.com/927d3188.html" %})
+- [https://www.bookstack.cn/read/Heterogeneous-Computing-with-OpenCL-2.0/README.md]({% include relrefx.html url="/backup/2022-04-28-opencl-book.md/www.bookstack.cn/1229ec09.html" %})
+- [https://blog.csdn.net/breakawayroad/article/details/9003632]({% include relrefx.html url="/backup/2022-04-28-opencl-book.md/blog.csdn.net/eac3a1b2.html" %})
+- [https://www.cnblogs.com/willhua/p/10123398.html]({% include relrefx.html url="/backup/2022-04-28-opencl-book.md/www.cnblogs.com/d261be41.html" %})
+- [https://aijishu.com/a/1060000000293412]({% include relrefx.html url="/backup/2022-04-28-opencl-book.md/aijishu.com/92e880be.html" %})
+- [https://deepinout.com/opencl/opencl-memory-object/opencl-image-descriptor.html]({% include relrefx.html url="/backup/2022-04-28-opencl-book.md/deepinout.com/21c7c698.html" %})
+- [https://www.khronos.org/registry/OpenCL/sdk/2.0/docs/man/xhtml/cl_image_format.html]({% include relrefx.html url="/backup/2022-04-28-opencl-book.md/www.khronos.org/93ba8e59.html" %})
+- [https://www.programminghunter.com/article/1125142473/]({% include relrefx.html url="/backup/2022-04-28-opencl-book.md/www.programminghunter.com/2b552fde.html" %})
+- [https://www.cnblogs.com/laozhanghahaha/p/12580822.html]({% include relrefx.html url="/backup/2022-04-28-opencl-book.md/www.cnblogs.com/29fd4c83.html" %})
+- [https://blog.csdn.net/10km/article/details/50755584]({% include relrefx.html url="/backup/2022-04-28-opencl-book.md/blog.csdn.net/23f8c35b.html" %})
