@@ -6,6 +6,7 @@ import datetime, time
 from pythonx.funclib import *
 
 AUTOFORMAT = "format" in sys.argv
+NEWLINE_CHAR = "\r\n" if IS_WINDOWS else "\n"
 
 def mainfilew(fpath, fname, ftype):
     if not ftype in ("md",): return
@@ -15,7 +16,7 @@ def mainfilew(fpath, fname, ftype):
     z0 = bytesToString(b"\xef\xbc\x90")
     zA = bytesToString(b"\xef\xbc\xa1")
 
-    li = fdata.split("\r\n")
+    li = fdata.split(NEWLINE_CHAR)
     li2 = []
     first = True
     for line in li:
@@ -63,7 +64,7 @@ def mainfilew(fpath, fname, ftype):
             else:
                 li2.append(line)
 
-    fdata = "\r\n".join(li2)
+    fdata = NEWLINE_CHAR.join(li2)
 
     if fdata != fdatabak and AUTOFORMAT:
         print("writefile", fpath)

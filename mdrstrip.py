@@ -37,6 +37,7 @@ LINKTAGARRAY = (("bili",     "bilibili.com"),
 
 SPACEBACKFILE_TAIL = ".spaceback.json"
 NEWLINE_CHAR = "\r\n" if IS_WINDOWS else "\n"
+PAUSE_CMD = "pause" if IS_WINDOWS else "read -p 'Press [Enter] key to continue...'"
 
 def getLinkTagSrc(name):
     return "{% include relref_"+name+".html %}"
@@ -135,7 +136,7 @@ def backupUrlContent(fpath, url):
         if idata.find("ERR_CONNECTION_TIMED_OUT") != -1 or (
                 idata.find(itag) != -1 or idata.find(itag2) != -1):
             print("无法访问此网站", fpath, url)
-            if not fdatalocal: os.system("pause")
+            if not fdatalocal: os.system(PAUSE_CMD)
             removeSnapCache(urlmd5)
             osremove(flocal)
             osremove(shotpath)
@@ -253,7 +254,7 @@ def tidyupImg(imglocal, fpath, line):
         copyfile(tpath, imglocal)
     while not os.path.exists(imglocal):
         print("文件不存在", imglocal)
-        os.system("pause")
+        os.system(PAUSE_CMD)
         if imglocal in readfileIglist("config/mdrstrip_fake_image_files.txt"):
             return line
 
@@ -642,7 +643,7 @@ def mainfile(fpath, fname, ftype):
             openTextFile(fpath)
             traceback.print_exc()
             print("断言错误 {}".format(ex,))
-            os.system("pause")
+            os.system(PAUSE_CMD)
             return mainfile(fpathsrc, fnamesrc, ftypesrc)
 
     # .spaceback.json
@@ -674,7 +675,7 @@ def mainfile(fpath, fname, ftype):
             if not i in ROUGIFY_LIST:
                 openTextFile(fpath)
                 print("代码语言无法识别 {}:{} \"{}\"".format(fpath, index+1, i))
-                os.system("pause")
+                os.system(PAUSE_CMD)
                 return mainfile(fpathsrc, fnamesrc, ftypesrc)
 
         tagregex = "^\\s*[#]+\\s"
@@ -804,7 +805,7 @@ def mainfile(fpath, fname, ftype):
                 openTextFile(fpath)
                 print(lixyx)
                 print("中文符号问题 {}:{} \"{}\"".format(fpath, index+1, linec))
-                os.system("pause")
+                os.system(PAUSE_CMD)
                 return mainfile(fpathsrc, fnamesrc, ftypesrc)
 
         fxline = "".join(line.split())
@@ -831,7 +832,7 @@ def mainfile(fpath, fname, ftype):
         if isMdFile and (line.lower().replace("endif", "x").find("if(") != -1 or line.lower().find("while(") != -1):
             openTextFile(fpath)
             print("'if(' & 'while(' 问题 {}:{} \"{}\"".format(fpath, index+1, line))
-            os.system("pause")
+            os.system(PAUSE_CMD)
             return mainfile(fpathsrc, fnamesrc, ftypesrc)
 
         if codestate:
@@ -841,7 +842,7 @@ def mainfile(fpath, fname, ftype):
             if line:
                 openTextFile(fpath)
                 print("标题前后空行问题 {}:{} \"{}\"".format(fpath, index+1, line))
-                os.system("pause")
+                os.system(PAUSE_CMD)
                 return mainfile(fpathsrc, fnamesrc, ftypesrc)
 
         countspace = getLeftSpaceCount(line if warnIndentSpace else line.replace("\t", " "*4))
@@ -850,7 +851,7 @@ def mainfile(fpath, fname, ftype):
         elif warnIndentSpace:
             openTextFile(fpath)
             print("空格缩进问题 {}:{} \"{}\"".format(fpath, index+1, line))
-            os.system("pause")
+            os.system(PAUSE_CMD)
             return mainfile(fpathsrc, fnamesrc, ftypesrc)
 
     assert not codestate # 断言代码片段闭合。
@@ -896,7 +897,7 @@ def mainfile(fpath, fname, ftype):
         return errcnt
 
     print("文本中途被改过了。{}".format(fpath,))
-    os.system("pause")
+    os.system(PAUSE_CMD)
     return mainfile(fpathsrc, fnamesrc, ftypesrc)
 
 def viewchar(lichar, xfile, xmin, xmax):

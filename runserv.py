@@ -98,7 +98,8 @@ def mainjekyll():
     checksite()
     checkgit()
     modifyconfig()
-    os.system(JEKYLL)
+    retv = os.system(JEKYLL)
+    return retv
 
 if __name__ == "__main__":
     if IS_WINDOWS:
@@ -118,7 +119,7 @@ if __name__ == "__main__":
     if IS_MACOS:
         while True:
             try: # ^Z to Stopped
-                mainjekyll()
+                print("mainjekyll", mainjekyll())
             except:
                 traceback.print_exc()
     else:
