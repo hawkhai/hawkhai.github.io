@@ -1,0 +1,1150 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="插值指的是利用已知数据去预测未知数据，图像插值则是给定一个像素点，根据它周围像素点的信息来对该像素点的值进行预测。当我们调整图片尺寸或者对图片变形的时候常会用到图片插值。比如说我们想把一个4x4的图片" />
+    <meta property="og:description" content="插值指的是利用已知数据去预测未知数据，图像插值则是给定一个像素点，根据它周围像素点的信息来对该像素点的值进行预测。当我们调整图片尺寸或者对图片变形的时候常会用到图片插值。比如说我们想把一个4x4的图片" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>图像插值算法总结 - 老张哈哈哈 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <style>:not(.cnblogs_code):not(.cnblogs_Highlighter)&gt;pre:not([class*="language-"]):not([highlighted]):not(.hljs):not([class*="brush:"]) {
+        background: rgb(245, 245, 245);
+        padding: 5px;
+        border: 1px solid rgb(204, 204, 204);
+        border-radius: 3px;
+        border-color: transparent;
+        color: rgb(68, 68, 68);
+        font-family: "Courier New", sans-serif;
+    }:not(.cnblogs_code):not(.cnblogs_Highlighter)&gt;pre:not([highlighted]):not([class*="brush:"]) code:not(.hljs) {
+            background: rgb(245, 245, 245) !important;
+            border-color: transparent !important;
+        }</style><link rel="stylesheet" href="/css/blog-common.min.css?v=LdAfPG3EWG4o7Q_XIVJY6Bcod1YpBGSGJykht0T_GZw" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue.min.css?v=FSeEa-rFf0sIksBzbHaXW8Iv0NfilAepvltZw3cr-9k" />
+    <link id="highlighter-theme-cnblogs" type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=yKPfCbE6NGwg5Jn8Cm5G98RHufDcX_NIbkGDyVPvWPQ" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue-mobile.min.css?v=rj2vgM9-SnOpGgktnrBKAhiwG7zaFNNydpmw5HBgjcQ" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/laozhanghahaha/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/laozhanghahaha/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/laozhanghahaha/wlwmanifest.xml" />
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="https://common.cnblogs.com/script/encoder.js"></script><script>
+        var currentBlogId = 214665;
+        var currentBlogApp = 'laozhanghahaha';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleBlue';
+        var visitorUserId = '';
+        var hasCustomScript = false;
+        try {
+            if (hasCustomScript &amp;&amp; document.referrer &amp;&amp; document.referrer.indexOf('baidu.com') &gt;= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+        window.codeHighlightEngine = 1;
+        window.enableCodeLineNumber = false;
+        window.codeHighlightTheme = 'cnblogs';
+    </script>
+        <script>
+            var currentPostDateAdded = '2020-03-28 11:36';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=zEDcdP-vPiRGJ3mR4bCkeGCjewsene7G1OVLxRyM3gE"></script><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style><script id="hljs-script" async="" data-loaded="true" src="https://common.cnblogs.com/highlight/11.4.0/highlight.min.js"></script>
+    <script type="text/x-mathjax-config;executed=true">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom &gt; * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd &gt; * {display: block!important}
+.MJXp-script-box &gt; *  {display: table!important; height: 50%}
+.MJXp-script-box &gt; * &gt; * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box &gt; *:last-child &gt; * {vertical-align: bottom}
+.MJXp-script-box &gt; * &gt; * &gt; * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover, .MJXp-munder {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over &gt; * {display: block!important}
+.MJXp-munderover &gt; *, .MJXp-munder &gt; * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable &gt; * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr &gt; .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child &gt; .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr &gt; .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child &gt; .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><meta http-equiv="origin-trial" content="AxujKG9INjsZ8/gUq8+dTruNvk7RjZQ1oFhhgQbcTJKDnZfbzSTE81wvC2Hzaf3TW4avA76LTZEMdiedF1vIbA4AAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzVGhpcmRQYXJ0eSI6dHJ1ZX0=" /><meta http-equiv="origin-trial" content="Azuce85ORtSnWe1MZDTv68qpaW3iHyfL9YbLRy0cwcCZwVnePnOmkUJlG8HGikmOwhZU22dElCcfrfX2HhrBPAkAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A16nvcdeoOAqrJcmjLRpl1I6f3McDD8EfofAYTt/P/H4/AWwB99nxiPp6kA0fXoiZav908Z8etuL16laFPUdfQsAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="AxBHdr0J44vFBQtZUqX9sjiqf5yWZ/OcHRcRMN3H9TH+t90V/j3ENW6C8+igBZFXMJ7G3Pr8Dd13632aLng42wgAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9" /><meta http-equiv="origin-trial" content="A88BWHFjcawUfKU3lIejLoryXoyjooBXLgWmGh+hNcqMK44cugvsI5YZbNarYvi3roc1fYbHA1AVbhAtuHZflgEAAAB2eyJvcmlnaW4iOiJodHRwczovL2dvb2dsZS5jb206NDQzIiwiZmVhdHVyZSI6IlRydXN0VG9rZW5zIiwiZXhwaXJ5IjoxNjUyNzc0NDAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="AzoawhTRDevLR66Y6MROu167EDncFPBvcKOaQispTo9ouEt5LvcBjnRFqiAByRT+2cDHG1Yj4dXwpLeIhc98/gIAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjYxMjk5MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A6+nc62kbJgC46ypOwRsNW6RkDn2x7tgRh0wp7jb3DtFF7oEhu1hhm4rdZHZ6zXvnKZLlYcBlQUImC4d3kKihAcAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjYxMjk5MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A/9La288e7MDEU2ifusFnMg1C2Ij6uoa/Z/ylwJIXSsWfK37oESIPbxbt4IU86OGqDEPnNVruUiMjfKo65H/CQwAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjYxMjk5MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2022042101.js" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script></head>
+<body class="skin-simpleblue has-navbar"><div id="MathJax_Message" style="display: none;"></div>
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding">
+                    <a href="https://www.cnblogs.com/" title="开发者的网上家园" role="banner">
+                        <img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" />
+                    </a>
+                </li>
+                <li><a href="/" onclick="countClicks('skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/huawei" onclick="countClicks('nav', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get" role="search">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="search" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <a id="navbar_lite_mode_indicator" data-current-page="blog" style="display: none" href="javascript:void(0)" alt="简洁模式" title="简洁模式启用，您在访问他人博客时会使用简洁款皮肤展示">
+                        <img class="navbar-icon" src="/images/aggsite/lite-mode-on.svg" alt="简洁模式" />
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            <div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/laozhanghahaha/">老张哈哈哈</a>
+</div>
+<div class="subtitle"></div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/laozhanghahaha/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E8%80%81%E5%BC%A0%E5%93%88%E5%93%88%E5%93%88">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/laozhanghahaha/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                
+<span id="stats_post_count">随笔 - 58 </span>
+<span id="stats_article_count">文章 - 0 </span>
+<span id="stats_comment_count">评论 - 14 </span>
+<span id="stats_total_view_count">阅读 - 
+<span title="总阅读数: 184468">
+18万</span></span>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                <div id="post_detail">
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/laozhanghahaha/p/12580822.html">
+    <span role="heading" aria-level="2">图像插值算法总结</span>
+    
+</a><button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>插值指的是利用已知数据去预测未知数据，图像插值则是给定一个像素点，根据它周围像素点的信息来对该像素点的值进行预测。当我们调整图片尺寸或者对图片变形的时候常会用到图片插值。比如说我们想把一个4x4的图片， 就会产生一些<strong>新的像素点</strong>（ 如下图红点所示），</p>
+<p>如何给这些值赋值， <span style="font-family: &quot;Microsoft YaHei&quot;">就是图像插值所要解决的问题, 图片来源<a href="http://www.1zlab.com/wiki/python-opencv-tutorial/opencv-interpolation-algrithm/" target="_blank" rel="noopener">此网址</a></span></p>
+<p><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200325124525249-2039725060.png" alt="" /></p>
+<p> </p>
+<p>常见的插值算法可以分为两类：自适应和非自适应。 自适应的方法可以根据插值的内容来改变（尖锐的边缘或者是平滑的纹理），非自适应的方法对所有的像素点都进行同样的处理。 非自适应算法包括：最近邻，双线性，双三次，样条，sinc，lanczos等。 由于其复杂度, 这些插值的时候使用从0 to 256 (or more) 邻近像素。 包含越多的邻近像素，他们越精确，但是花费的时间也越长。这些算法可以用来扭曲和缩放照片。</p>
+<p>自适应算法包括许可软件中的许多专有算法，例如：Qimage，PhotoZoom Pro和正版Fractals。这篇博客通过opencv中cv.resize()函数介绍一些非自适应性插值算法</p>
+<div class="cnblogs_code">
+<pre>cv2.resize(src, dsize[, dst[, fx[, fy[, interpolation]]]]) → dst</pre>
+</div>
+<p>其中interpolation的选项包括，图片来源<a href="https://blog.csdn.net/JNingWei/article/details/78822026" target="_blank" rel="noopener">此网址</a></p>
+<p><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200327130832096-907395494.png" alt="" /></p>
+<p> </p>
+<hr />
+<p> </p>
+<p>我们主要介绍最近邻，线性插值，双三次插值三种插值方式，下图是对双三次插值与一些一维和二维插值的比较。 黑色和红色/黄色/绿色/蓝色点分别对应于插值点和相邻样本。 点的高度与其值相对应。图片来源于<a href="https://en.wikipedia.org/wiki/Bicubic_interpolation" target="_blank" rel="noopener">维基百科</a></p>
+<p><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200325125319873-461037239.png" alt="" width="934" height="622" /> </p>
+<h1>最近邻<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h1>
+<p>顾名思义最近邻插值就是选取离目标点最近的点的值(黑点，原来就存在的点)作为新的插入点的值，</p>
+<p><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200325125141948-1453328317.png" alt="" /> </p>
+<p> 用opencv进行图像处理时，根据</p>
+<div class="cnblogs_code">
+<pre>srcX = dstX* (srcWidth/<span>dstWidth)
+srcY = dstY * (srcHeight/dstHeight)</span></pre>
+</div>
+<p>得到来计算目标像素在源图像中的位置，dstY代表输出图Y的坐标，srcY代表原图Y的坐标，srcX、srcY同理。这里计算的srcX和srcY一般都是浮点数，比如原图A尺寸为3x3，扩大后的图片B的尺寸为7x7，如下图</p>
+<p><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200325125208055-282995952.png" alt="" /></p>
+<p>那么B中(1,4)这个点在A图中的位置就是(1*(3/7), 4*(3/7))-&gt;(0.43, 1.71) ，四舍五入也就是(0, 2)，所以把源图像中(0,2)点的像素值0填入到目标图像中</p>
+<p>插值后的边缘效果：由于是以最近的点作为新的插入点，因此边缘不会出现缓慢的渐慢过度区域，这也导致放大的图像容易出现锯齿的现象，缩小后的图像有很严重的失真；效果不好的根源就是其简单的最临近插值方法引入了严重的图像失真，比如，当由目标图的坐标反推得到的源图的的坐标是一个浮点数的时候，采用了四舍五入的方法，直接采用了和这个浮点数最接近的象素的值，这种方法是很不科学的，当推得坐标值为 0.75的时候，不应该就简单的取为1，既然是0.75，比1要小0.25 ，比0要大0.75 ,那么目标象素值其实应该根据这个源图中虚拟的点四周的四个真实的点来按照一定的规律计算出来的，这样才能达到更好的缩放效果。双线型内插值算法就是一种比较好的图像缩放算法，它充分的利用了源图中虚拟点四周的四个真实存在的像素值来共同决定目标图中的一个像素值，因此缩放效果比简单的最邻近插值要好很多。</p>
+<h1>线性插值<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h1>
+<p>线性插值是以距离为权重的一种插值方式。已知数据 (x0, y0) 与 (x1, y1)，要计算 [x0, x1] 区间内某一位置 x 在直线上的y值：</p>
+<p><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200325132134131-1667070702.png" alt="" /></p>
+<p> 把上边的式子整理得：</p>
+<p><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200325132310225-844732946.png" alt="" /></p>
+<p>这个式子的意思就是用x和x0，x1的距离作为一个权重，用于y0和y1的加权。双线性插值本质上就是在两个方向上做线性插值。</p>
+<h1>双线性插值<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h1>
+<p>在数学上，双线性插值是有两个变量的插值函数的线性插值扩展，其核心思想是在两个方向分别进行一次线性插值。见下图：</p>
+<p><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200325132455721-1181643405.png" alt="" /></p>
+<p>我们想得到未知函数 f 在点 P = (x, y) 的值，假设我们已知函数 f 在 Q11 = (x1, y1)、Q12 = (x1, y2), Q21 = (x2, y1) 以及 Q22 = (x2, y2) 四个点的值。最常见的情况，f就是一个像素点的像素值。思路是我们可以将求解过程分解为两次插值过程，首先在x轴方向上进行插值，根据点Q<sub>11</sub>,Q<sub>21</sub>得到</p>
+<p><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200325133518541-703290109.png" alt="" /></p>
+<p>根据点Q<sub>12</sub>,Q<sub>22</sub>得到 </p>
+<p><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200325133605450-198295277.png" alt="" /></p>
+<p>然后在y轴方向上进行插值， 根据点R<sub>1</sub> 和R<sub>2</sub>得到</p>
+<p><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200325133736327-1921924791.png" alt="" /></p>
+<p>整理得</p>
+<p><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200325134759278-781722354.png" alt="" /></p>
+<p>仍以刚刚的AB图像为例，B中(1,4)点对应A图中(0.43, 1.71)这个点，将该点像素值f(0.43,1.71)写成 f(i+u,j+v)的形式，<span style="font-family: &quot;Microsoft YaHei&quot;">则 <code><span style="font-family: &quot;Microsoft YaHei&quot;">u=0.43,v=0.71, i=0, j=1</span>，<span style="font-family: &quot;Microsoft YaHei&quot;">该点在A中是</span></code>虚</span>拟存在的，先找到A中与它临近的四个实际存在的像素点</p>
+<div class="cnblogs_code">
+<pre>（0，1） （0，2）
+（1，1） （1，2）</pre>
+</div>
+<p>根据上边整理的公式得</p>
+<div class="cnblogs_code">
+<pre>f(i+u,j+v) = (<span style="color: rgba(128, 0, 128, 1)">1</span>-u)(<span style="color: rgba(128, 0, 128, 1)">1</span>-v)f(i,j) + (<span style="color: rgba(128, 0, 128, 1)">1</span>-u)vf(i,j+<span style="color: rgba(128, 0, 128, 1)">1</span>) + u(<span style="color: rgba(128, 0, 128, 1)">1</span>-v)f(i+<span style="color: rgba(128, 0, 128, 1)">1</span>,j) + uvf(i+<span style="color: rgba(128, 0, 128, 1)">1</span>,j+<span style="color: rgba(128, 0, 128, 1)">1</span>) </pre>
+</div>
+<p> 由于图像双线性插值只会用相邻的4个点，因此上述公式的分母都是1, 带入相应数值</p>
+<div class="cnblogs_code">
+<pre>f(<span style="color: rgba(128, 0, 128, 1)">0</span>+<span style="color: rgba(128, 0, 128, 1)">0.43</span>, <span style="color: rgba(128, 0, 128, 1)">1</span>+<span style="color: rgba(128, 0, 128, 1)">0.71</span>) = <span style="color: rgba(128, 0, 128, 1)">0.57</span>*<span style="color: rgba(128, 0, 128, 1)">0.29</span>*f(<span style="color: rgba(128, 0, 128, 1)">0</span>,<span style="color: rgba(128, 0, 128, 1)">1</span>)+<span style="color: rgba(128, 0, 128, 1)">0.57</span>*<span style="color: rgba(128, 0, 128, 1)">0.71</span>*f(<span style="color: rgba(128, 0, 128, 1)">0</span>, <span style="color: rgba(128, 0, 128, 1)">2</span>)+<span style="color: rgba(128, 0, 128, 1)">0.43</span>*<span style="color: rgba(128, 0, 128, 1)">0.29</span>*f(<span style="color: rgba(128, 0, 128, 1)">1</span>,<span style="color: rgba(128, 0, 128, 1)">1</span>)+<span style="color: rgba(128, 0, 128, 1)">0.43</span>*<span style="color: rgba(128, 0, 128, 1)">0.71</span>*f(<span style="color: rgba(128, 0, 128, 1)">1</span>,<span style="color: rgba(128, 0, 128, 1)">2</span>)</pre>
+</div>
+<h1>双三次插值<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h1>
+<p>假设源图像A大小为m*n，缩放后的目标图像B的大小为M*N。那么根据上边提到的方法我们可以得到B(X,Y)在A上的对应坐标为</p>
+<div class="cnblogs_code">
+<pre>A(x,y)=A(X*(m/M),Y*(n/N))</pre>
+</div>
+<p>在双线性插值法中，我们选取A(x,y)的最近四个点。而在双三次插值法中，我们选取的是最近的16个像素点作为计算目标图像B(X,Y)处像素值的参数。如图所示：</p>
+<p><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200326125127555-891377641.png" alt="" /></p>
+<p>如图所示P点就是目标图像B在(X,Y)处对应于源图像A中的位置， 假设P的坐标为(i+u,j+v)，其中i,j分别表示整数部分，u,v分别表示小数部分。找到如图所示距离p最近的16个像素的位置，在这里用a(m,n)(m,n=0,1,2,3)来表示。双立方插值的目的就是通过找到一种关系，或者说系数，可以把这16个像素对于P处像素值得影响因子找出来，从而根据这个影响因子来获得目标图像对应点的像素值，达到图像缩放的目的。我在这次的学习中学习的是基于BiCubic基函数的双三次插值法，BiCubic基函数形式如下：<br /><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200326125618988-703180248.png" alt="" /></p>
+<p>我们要做的就是找到BiCubic函数中的参数x,从而获得上面所说的16个像素所对应的系数。在学习双线性插值法的时候，我们是把图像的行和列分开来理解的，那么在这里，我们也用这种方法描述如何求出a(m,n)对应的系数k_m_n。假设行系数为k_m,列系数为k_n。我们以a00位置为例：首先，我们要求出当前像素与P点的位置，比如a00距离P(i+u,j+v)的距离为(1+u,1+v)。那么a00的横坐标权重k_m_0=W(1+u)，纵坐标权重k_n_0=W(1+v).<br />同理我们可以得到所有行和列对应的系数：</p>
+<p>k_m_0=W(1+u), k_m_1=W(u), k_m_2=W(1-u), k_m_3=W(2-u);<br />k_n_0=W(1+v), k_n_1=W(v), k_n_2=W(1-v), k_n_3=W(2-v);</p>
+<p>这样我们就分别得到了行和列方向上的系数。</p>
+<p>由横纵坐标权重的乘积可以得到每个像素a(m,n)对应的权值了。比如a00对B(X,Y)的贡献值为：（a00像素值）* k_m_0* k_n_0</p>
+<p>最后通过求和公式可以得到目标图片B(X,Y)对应的像素值：<br /><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200328112654146-1797886902.png" alt="" /></p>
+<p> 其中W(m)表示amn横坐标上的权重，W(n)表示amn纵坐标上的权重。三次曲线插值方法相较于前面的最近邻和线性插值而言计算量较大，但插值后的图像效果最好。</p>
+<hr />
+<p> </p>
+<p>以下是利用cv2.resize()函数对图像进行缩放的例子：</p>
+<p>将图像缩小为原来的1/2</p>
+<p><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200327125255757-1858149976.png" alt="" /></p>
+<p> </p>
+<p>将图像放大为原来的2倍<br /><img src="https://img2020.cnblogs.com/blog/721540/202003/721540-20200327125150002-96171760.png" alt="" /></p>
+<p> reference  <a href="http://www.1zlab.com/wiki/python-opencv-tutorial/opencv-interpolation-algrithm/" target="_blank" rel="noopener">图像插值算法</a><a class="headerlink" title="Permanent link" href="http://www.1zlab.com/wiki/python-opencv-tutorial/opencv-interpolation-algrithm/#_1" rel="noopener"><br /></a></p>
+<p>                  <a href="https://blog.csdn.net/guyuealian/article/details/85097633?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">OpenCV图像缩放resize各种插值方式的比较</a></p>
+<p>                  <a href="https://blog.csdn.net/xbinworld/article/details/65660665" target="_blank" rel="noopener">三十分钟理解：线性插值，双线性插值Bilinear Interpolation算法</a></p>
+<p>                 <a href="https://blog.csdn.net/qq_29058565/article/details/52769497" target="_blank" rel="noopener"> 图像缩放之双三次插值法</a></p>
+<p><span style="font-size: 16px"><span style="font-size: 14px">                  <a href="https://blog.csdn.net/JNingWei/article/details/78822026" target="_blank" rel="noopener">图像处理: 五种 插值法</a></span></span></p>
+<p><span style="font-size: 16px"><span style="font-size: 14px">                  </span></span><a href="https://blog.csdn.net/caomin1hao/article/details/81092134?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">最近邻插值、双线性插值、双三次插值</a></p>
+<p> </p>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block" role="contentinfo"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/laozhanghahaha/category/1682777.html" target="_blank">图像处理</a></div>
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(12580822,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('03571b14-39ad-e411-b908-9dcfd8948a71');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt="" /></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt="" /></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/laozhanghahaha/" target="_blank"><img src="https://pic.cnblogs.com/face/sample_face.gif" class="author_avatar" alt="" /></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/laozhanghahaha/">老张哈哈哈</a><br />
+            <a href="https://home.cnblogs.com/u/laozhanghahaha/followees/">关注 - 4</a><br />
+            <a href="https://home.cnblogs.com/u/laozhanghahaha/followers/">粉丝 - 13</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('03571b14-39ad-e411-b908-9dcfd8948a71');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(12580822,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(12580822,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/laozhanghahaha/p/12544707.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/laozhanghahaha/p/12544707.html" data-featured-image="" title="发布于 2020-03-22 11:36">linux中的grep命令</a>
+    <br />
+    <a href="https://www.cnblogs.com/laozhanghahaha/p/12656901.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/laozhanghahaha/p/12656901.html" data-featured-image="" title="发布于 2020-04-29 23:08">tensorflow学习--数据加载</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-03-28 11:36</span> 
+<a href="https://www.cnblogs.com/laozhanghahaha/">老张哈哈哈</a> 
+阅读(<span id="post_view_count">14458</span>) 
+评论(<span id="post_comment_count">0</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12580822" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(12580822);return false;">收藏</a> 
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '12580822', targetLink: 'https://www.cnblogs.com/laozhanghahaha/p/12580822.html', title: '图像插值算法总结' })">举报</a></div>
+        </div>
+        
+<script>
+    var cb_entryId = 12580822, cb_entryCreatedDate = '2020-03-28 11:36', cb_postType = 1, cb_postTitle = '图像插值算法总结';
+    var allowComments = true, cb_blogId = 214665, cb_blogApp = 'laozhanghahaha', cb_blogUserGuid = '03571b14-39ad-e411-b908-9dcfd8948a71';
+    mermaidRender.render()
+    markdown_highlight()
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+    updatePostStats(
+            [cb_entryId],
+            function(id, count) { $("#post_view_count").text(count) },
+            function(id, count) { $("#post_comment_count").text(count) })
+</script>
+        <a id="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login('!comments');">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="cnblogs_ch"><a href="https://cloud.baidu.com/campaign/2022developer/index.html?track=18708feb6fc4c4db36171b5d7d99f1509444b5c535f8dfc7#person" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-百度智能云-开发者赋能计划'})">【推荐】百度智能云开发者赋能计划，云服务器4元起，域名1元起</a><br /><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-华为专区'})">【推荐】华为开发者专区，与开发者一起构建万物互联的智能世界</a><br /><a href="https://developer.huawei.com/consumer/cn/forum/topic/0203864577326150380?fid=0102767778349500527&amp;ha_source=bokeyuan" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-华为专区-千元开发板免费试用'})">【推荐】华为 OpenHarmony 千元开发板免费试用，盖楼赢取福利</a><br /></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+            <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CJGoyNDutvcCFYeG6QUdjE8F5w"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" name="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" role="region" aria-label="Advertisement" tabindex="0" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" srcdoc="" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card">
+<b>编辑推荐：</b>
+<br />
+
+· <a href="https://www.cnblogs.com/huangxincheng/p/16188769.html" target="_blank">C#语法糖系列 —— 第二篇：聊聊 ref，in 修饰符底层玩法</a>
+    <br />
+· <a href="https://www.cnblogs.com/coco1s/p/16194072.html" target="_blank">让交互更加生动！有意思的鼠标跟随 3D 旋转动效 </a>
+    <br />
+· <a href="https://www.cnblogs.com/dotnet-arch-system/p/16182962.html" target="_blank">从技术体系到商业洞察，中小研发团队架构实践之收尾篇</a>
+    <br />
+· <a href="https://www.cnblogs.com/InCerry/p/Why-The-Design-HttpContextAccessor.html" target="_blank">为什么 HttpContextAccessor 要这么设计?</a>
+    <br />
+· <a href="https://www.cnblogs.com/zimug/p/16172552.html" target="_blank">【大话云原生】负载均衡篇-小饭馆客流量变大了 </a>
+    <br />
+</div></div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>最新新闻</b>：
+    <br />
+ ·          <a href="//news.cnblogs.com/n/719818/" target="_blank">忍无可忍，网易云音乐与腾讯音乐互斥不正当竞争，谁更能站住脚？</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/719817/" target="_blank">个性化App围猎年轻人，大厂慌了</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/719816/" target="_blank">Onyx 勒索软件会毁掉而不是加密大文件</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/719815/" target="_blank">折叠屏，里外都是面子</a>
+        <br />
+ ·          <a href="//news.cnblogs.com/n/719814/" target="_blank">Twitter 往事：马斯克的 Web3 野心，多西的「十年复仇」</a>
+        <br />
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+        var commentManager = new blogCommentManager();
+        commentManager.renderComments(0);
+        fixPostBody();
+
+                        window.tocManager.displayDisableTocTips = false;
+                        window.tocManager.generateToc();
+            setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverT2();
+        deliverC1C2();
+        loadNewsAndKb();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div id="sidebar_news" class="newsItem">
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/laozhanghahaha/">
+            老张哈哈哈
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/laozhanghahaha/" title="入园时间：2015-02-05">
+            7年2个月
+        </a>
+        <br />
+        粉丝：
+        <a href="https://home.cnblogs.com/u/laozhanghahaha/followers/">
+            13
+        </a>
+        <br />
+        关注：
+        <a href="https://home.cnblogs.com/u/laozhanghahaha/followees/">
+            4
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('03571b14-39ad-e411-b908-9dcfd8948a71')">+加关注</a></div>
+        <script>getFollowStatus('03571b14-39ad-e411-b908-9dcfd8948a71');</script>
+    </div>
+</div></div>
+<div id="sidebar_c3"></div>
+                <div id="calendar"><div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2022/03/28'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2022年4月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2022/05/28'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">27</td>
+                            <td class="CalOtherMonthDay" align="center">28</td>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                            <td class="CalOtherMonthDay" align="center">31</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        <a href="https://www.cnblogs.com/laozhanghahaha/archive/2022/04/02.html"><u>2</u></a>
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            3
+                        </td>
+                            <td class="" align="center">
+                                4
+                            </td>
+                            <td class="" align="center">
+                                5
+                            </td>
+                            <td class="" align="center">
+                                6
+                            </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            9
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            10
+                        </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            16
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            <a href="https://www.cnblogs.com/laozhanghahaha/archive/2022/04/17.html"><u>17</u></a>
+                        </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            23
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            24
+                        </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                            <td class="CalTodayDay" align="center">
+                                28
+                            </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            30
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            1
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            7
+                        </td>
+                </tr>
+    </tbody>
+</table></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk" /> <input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    
+<li><a href="https://www.cnblogs.com/laozhanghahaha/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/laozhanghahaha/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/laozhanghahaha/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/laozhanghahaha/RecentComments.html" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/laozhanghahaha/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"></div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div class="catListPostCategory">
+        <h3 class="catListTitle">
+            
+随笔分类
+
+
+
+        </h3>
+        <ul>
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/category/1190670.html" class="category-item-link" rel="" target="">linux(3)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/category/1657817.html" class="category-item-link" rel="" target="">编程语言--C++(3)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/category/1190671.html" class="category-item-link" rel="" target="">编程语言--matlab(1)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/category/1151596.html" class="category-item-link" rel="" target="">编程语言--python(9)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/category/1190669.html" class="category-item-link" rel="" target="">机器学习(9)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/category/1657815.html" class="category-item-link" rel="" target="">深度学习(10)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/category/1657816.html" class="category-item-link" rel="" target="">算法与数据结构(2)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/category/1682777.html" class="category-item-link" rel="" target="">图像处理(2)</a>
+
+                    
+                </li>
+                                        
+        </ul>
+    </div>    <div class="catListPostArchive">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+
+        </h3>
+        <ul>
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2022/04.html" class="category-item-link" rel="" target="">2022年4月(2)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2022/03.html" class="category-item-link" rel="" target="">2022年3月(1)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2021/08.html" class="category-item-link" rel="" target="">2021年8月(1)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2021/04.html" class="category-item-link" rel="" target="">2021年4月(1)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2020/06.html" class="category-item-link" rel="" target="">2020年6月(4)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2020/04.html" class="category-item-link" rel="" target="">2020年4月(1)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2020/03.html" class="category-item-link" rel="" target="">2020年3月(4)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2020/02.html" class="category-item-link" rel="" target="">2020年2月(7)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2020/01.html" class="category-item-link" rel="" target="">2020年1月(1)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2019/03.html" class="category-item-link" rel="" target="">2019年3月(2)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2019/02.html" class="category-item-link" rel="" target="">2019年2月(2)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2018/05.html" class="category-item-link" rel="" target="">2018年5月(2)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2018/04.html" class="category-item-link" rel="" target="">2018年4月(3)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2018/03.html" class="category-item-link" rel="" target="">2018年3月(2)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2018/02.html" class="category-item-link" rel="" target="">2018年2月(2)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2018/01.html" class="category-item-link" rel="" target="">2018年1月(3)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2017/05.html" class="category-item-link" rel="" target="">2017年5月(3)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2016/05.html" class="category-item-link" rel="" target="">2016年5月(3)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2016/01.html" class="category-item-link" rel="" target="">2016年1月(2)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2015/10.html" class="category-item-link" rel="" target="">2015年10月(3)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2015/06.html" class="category-item-link" rel="" target="">2015年6月(1)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2015/05.html" class="category-item-link" rel="" target="">2015年5月(2)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2015/04.html" class="category-item-link" rel="" target="">2015年4月(4)</a>
+
+                    
+                </li>
+                                            <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/laozhanghahaha/archive/2015/03.html" class="category-item-link" rel="" target="">2015年3月(2)</a>
+
+                    
+                </li>
+                                        <li><a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a></li>
+        </ul>
+    </div></div>
+
+<!-- 最新评论 -->
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block">
+<div id="topview_posts_wrap">
+    <h3 class="catListTitle">阅读排行榜</h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/laozhanghahaha/p/10527474.html">
+                            1. 如何使用yolov3训练自己的数据集(31317)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/laozhanghahaha/p/6907069.html">
+                            2. sql 如何删除（代替）字段内某一部分内容(17820)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/laozhanghahaha/p/12302836.html">
+                            3. python中栈的实现(14469)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/laozhanghahaha/p/12580822.html">
+                            4. 图像插值算法总结(14456)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/laozhanghahaha/p/8320974.html">
+                            5. python导入数据的几种方法(14357)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+    <h3 class="catListTitle">评论排行榜</h3>
+    <div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/laozhanghahaha/p/10527474.html">
+                            1. 如何使用yolov3训练自己的数据集(4)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/laozhanghahaha/p/12499979.html">
+                            2. 机器学习--Micro Average,Macro Average, Weighted Average(2)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/laozhanghahaha/p/4387408.html">
+                            3. 题目:返回一个整数数组中最大子数组的和。(2)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/laozhanghahaha/p/12307274.html">
+                            4. 自注意力机制在图像中的应用(1)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/laozhanghahaha/p/10520453.html">
+                            5. Install Tensorflow object detection API in Anaconda (Windows)(1)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/laozhanghahaha/p/12374027.html">
+                                1. 机器学习--如何理解Accuracy, Precision, Recall, F1 score(4)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/laozhanghahaha/p/12307274.html">
+                                2. 自注意力机制在图像中的应用(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/laozhanghahaha/p/13173082.html">
+                                3. c++ 数组定义及初始化(1)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/laozhanghahaha/p/12499979.html">
+                                4. 机器学习--Micro Average,Macro Average, Weighted Average(1)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/laozhanghahaha/p/12383363.html">
+                                5. 机器学习--PR曲线， ROC曲线(1)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap" class="RecentComment">
+    <h3 class="catListTitle">最新评论</h3>
+    <div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/laozhanghahaha/p/12307274.html">1. Re:自注意力机制在图像中的应用</a></li>
+                    <li class="recent_comment_body"><p>您好，请问一下为什么1×1卷积后的通道数是channel//8？</p>
+</li>
+                    <li class="recent_comment_author">--我爱深度</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/laozhanghahaha/p/12499979.html">2. Re:机器学习--Micro Average,Macro Average, Weighted Average</a></li>
+                    <li class="recent_comment_body"><p><a href="" target="_blank">@Ryan__Wu</a><br />
+感谢指出错误之处，已改正</p>
+</li>
+                    <li class="recent_comment_author">--老张哈哈哈</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/laozhanghahaha/p/12499979.html">3. Re:机器学习--Micro Average,Macro Average, Weighted Average</a></li>
+                    <li class="recent_comment_body"><p>混淆矩阵值是错的<br />
+从第一行开始的值分别应为：<br />
+2，3， 2， 2<br />
+2， 1， 2， 2<br />
+2， 2， 2， 1</p>
+</li>
+                    <li class="recent_comment_author">--Ryan__Wu</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/laozhanghahaha/p/10527474.html">4. Re:如何使用yolov3训练自己的数据集</a></li>
+                    <li class="recent_comment_body">@qqqqg 可以放在同一个文件夹， 没有制作验证集...</li>
+                    <li class="recent_comment_author">--老张哈哈哈</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/laozhanghahaha/p/10527474.html">5. Re:如何使用yolov3训练自己的数据集</a></li>
+                    <li class="recent_comment_body"><p>这是没有用到验证集对吗？</p>
+</li>
+                    <li class="recent_comment_author">--qqqqg</li>
+        </ul>
+    </div>
+</div></div>
+
+
+</div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright © 2022 老张哈哈哈
+<br /><span id="poweredby">Powered by .NET 6 on Kubernetes</span>
+
+    </div>
+</div>
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8AuMt_3FvyxIgNOR82PHE4nqlSV_LdfBFteyQFyUYxJySerazNJTFdEVopiQ8sMgR_xxTBZCGPfHuY-9BccDOzLnQCdPfxjV3OyrZfovcIudEPpzlasNQvsacrjTL1nG7iad3-56k49t2LKWOx-OpZ4" />
+        <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-476124-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        var kv = getGACustom();
+        if (kv) {
+            gtag('set', kv);
+        }
+        gtag('config', 'UA-476124-1');
+    </script>
+<script defer="" src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script><iframe src="https://0165c78731e291db6825ddc3f57b7ea6.safeframe.googlesyndication.com/safeframe/1-0-38/html/container.html" style="visibility: hidden; display: none;"></iframe>
+
+<iframe src="https://www.google.com/recaptcha/api2/aframe" width="0" height="0" style="display: none;"></iframe></body></html>
