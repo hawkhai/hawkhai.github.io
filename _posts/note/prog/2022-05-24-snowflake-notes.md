@@ -114,7 +114,40 @@ IsProcessorFeaturePresent // 判断处理器相关信息
 Rembg is a tool to remove images background.
 <https://github.com/danielgatis/rembg>
 
-[start56. {% include relref_weixin.html %}](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MjM5NTc2MDYxMw==&action=getalbum&album_id=2293635948628279298&scene=173&from_msgid=2458436731&from_itemidx=1&count=3&nolastread=1)
+
+## 智能电表安全之通讯分析
+
+{% include image.html url="/assets/images/220524-snowflake-notes/640.png" %}
+
+
+## 反射式 DLL 注入实现
+
+{% include image.html url="/assets/images/220524-snowflake-notes/640injet.png" %}
+
+<https://bbs.pediy.com/thread-272569.htm>
+<https://github.com/MrXiao7/DllInjector>
+<https://github.com/Kerrbty/RemoteLoadDll>
+
+
+## Typora 解密之跳动的二进制
+
+Typora 是一款由 Abner Lee 开发的轻量级 Markdown 编辑器，与其他 Markdown 编辑器不同的是，Typora 没有采用源代码和预览双栏显示的方式，而是采用所见即所得的编辑方式，实现了即时预览的功能，但也可切换至源代码编辑模式。
+
+* 使用 FindCrypt3 插件 ，搜索一下算法常量吧。
+
+**内存破解**
+简单说几种思路，由于 main.node 是后加载的模块，所以内存破解有些难度。
+
+* 调试器加载 ：参照上述手段，在模块加载通知中断下，定位到解密函数下断，修改内存中的 JS 代码
+* 导出表 HOOK：参考病毒木马使用的进程替换（傀儡进程）技术，创建进程后挂起，由于 main.node 中的 node api 是使用框架中的导出 api，所以可以替换导出函数为自己的函数，在调用时进行参数判断，如果为 JS 代码，则修改
+* DLL 劫持：替换 main.node，由自己加载真正的 main.node 并调用，调用时，定位到解密函数并 hook，等待 JS 代码并修改
+* PE 代码注入 ：修改框架的 PE 文件，并加载自己的 DLL，加载后进行导出表 hook
+
+可能遇到的问题：对 main.node 或者框架进行完整性校验，更加强大的反调试手段。
+
+[note](https://bbs.pediy.com/thread-272618.htm)
+
+[start66. {% include relref_weixin.html %}](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MjM5NTc2MDYxMw==&action=getalbum&album_id=2293635948628279298&scene=173&from_msgid=2458436731&from_itemidx=1&count=3&nolastread=1)
 
 
 
@@ -126,4 +159,8 @@ Rembg is a tool to remove images background.
 - [https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458436558&idx=1&sn=770b20ad3eb60dbb20c83a59f83c8b48&chksm=b18ff34486f87a52514c67a59d4702e7f2ffc59b9a13f8cd4718b7ec28b79c38ae304eb4167c&scene=178&cur_album_id=2293635948628279298]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/mp.weixin.qq.com/0075049f.html" %})
 - [https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458436731&idx=1&sn=4859b3f1fb19001e9e81622fa233fbcf&chksm=b18ff4f186f87de7c12b38a3a1febc82f9faa2ad578ee61e80d3fe64bc12b5bd65c92735587f&scene=178&cur_album_id=2293635948628279298]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/mp.weixin.qq.com/5a67a6fe.html" %})
 - [https://github.com/danielgatis/rembg]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/github.com/156be90b.html" %})
+- [https://bbs.pediy.com/thread-272569.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/09b64a65.htm" %})
+- [https://github.com/MrXiao7/DllInjector]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/github.com/8c750d26.html" %})
+- [https://github.com/Kerrbty/RemoteLoadDll]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/github.com/ca0eeb9f.html" %})
+- [https://bbs.pediy.com/thread-272618.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/03692cc5.htm" %})
 - [https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MjM5NTc2MDYxMw==&action=getalbum&album_id=2293635948628279298&scene=173&from_msgid=2458436731&from_itemidx=1&count=3&nolastread=1]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/mp.weixin.qq.com/78332679.html" %})
