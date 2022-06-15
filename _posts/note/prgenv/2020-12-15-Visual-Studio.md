@@ -17,6 +17,62 @@ cluster: "Visual Studio"
 ---
 
 
+## HEAP[KPdfConvertor_debug.exe]: Invalid address specified to RtlReAllocateHeap( 01720000, 03408848 )
+
+```
+Windows 已在 KPdfConvertor_debug.exe 中触发一个断点。
+其原因可能是堆被损坏，这也说明 KPdfConvertor_debug.exe 中或它所加载的任何 DLL 中有 bug。
+输出窗口可能提供了更多诊断信息
+```
+
+链接器 --> 输入 --> 忽略特定库：`libcmt.lib;libcmtd.lib`。
+
+{% include image.html url="/assets/images/201215-visual-studio/20220614104507.png" %}
+
+{% include image.html url="/assets/images/201215-visual-studio/20220614104619.png" caption="加载符号后的错误堆栈" %}
+
+引用的是静态库，怎么重编都不可以。
+后来发现（kpdfconvertor.exe.manifest）：
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
+    <security>
+      <requestedPrivileges>
+        <requestedExecutionLevel level="asInvoker" uiAccess="false"></requestedExecutionLevel>
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+</assembly>
+```
+
+补全：msvcp80d.dll
+msvcm80d.dll
+msvcr80d.dll
+microsoft.vc80.crt.manifest
+microsoft.vc80.mfc.manifest
+Microsoft.VC80.DebugCRT.manifest
+Microsoft.VC80.DebugMFC.manifest
+
+app.rc
+```
+1 RT_MANIFEST "kpdfconvertor.exe.manifest"
+```
+
+或者：
+```
+mt.exe /manifest "../../../publish/manifest/debug/crt.xml" "../../../publish/manifest/debug/mfc.xml" /outputresource:"$(TargetPath)";1
+```
+
+进程起来后，查看加载的模块，需要是根目录的 “模块”，保证 多个模块加载了同一个堆。
+
+很可惜，以上都是错的，真正原因：
+{% include image.html url="/assets/images/201215-visual-studio/20220615104644.png" %}
+
+**一个工程引用了多个 curl.lib，并且还编译过了。！！**
+注释掉就可以了。
+
+
 ## fatal: Needed a single revision
 
 * git rm -rf fastpdf-turbo
