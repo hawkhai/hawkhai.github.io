@@ -368,6 +368,14 @@ Reflective loader 实现思路如下：
 <https://github.com/Kerrbty/RemoteLoadDll>
 
 
+### API Hook 的几种实现
+
+[API Hook 的几种实现 {% include relref_cnblogs.html %}](https://www.cnblogs.com/rogeryu/archive/2009/06/04/1496538.html)
+1. 改写函数的首地址。
+2. 改写导入表
+3. 改写虚函数表。
+
+
 ## Typora 解密之跳动的二进制
 
 Typora 是一款由 Abner Lee 开发的轻量级 Markdown 编辑器，与其他 Markdown 编辑器不同的是，Typora 没有采用源代码和预览双栏显示的方式，而是采用所见即所得的编辑方式，实现了即时预览的功能，但也可切换至源代码编辑模式。
@@ -403,5 +411,6 @@ Typora 是一款由 Abner Lee 开发的轻量级 Markdown 编辑器，与其他 
 - [https://bbs.pediy.com/thread-272569.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/09b64a65.htm" %})
 - [https://github.com/MrXiao7/DllInjector]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/github.com/8c750d26.html" %})
 - [https://github.com/Kerrbty/RemoteLoadDll]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/github.com/ca0eeb9f.html" %})
+- [https://www.cnblogs.com/rogeryu/archive/2009/06/04/1496538.html]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/www.cnblogs.com/316f18af.html" %})
 - [https://bbs.pediy.com/thread-272618.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/03692cc5.htm" %})
 - [https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MjM5NTc2MDYxMw==&action=getalbum&album_id=2293635948628279298&scene=173&from_msgid=2458436731&from_itemidx=1&count=3&nolastread=1]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/mp.weixin.qq.com/78332679.html" %})
