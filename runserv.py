@@ -104,8 +104,12 @@ def mainjekyll():
 if __name__ == "__main__":
     if IS_WINDOWS:
         result = mydllfunc("getipaddr", {"minorVer": 2, "majorVer": 2,})
+        copyfile("Gemfile-win", "Gemfile")
+        copyfile("Gemfile-win.lock", "Gemfile.lock")
     else:
         result = None
+        copyfile("Gemfile-mac", "Gemfile")
+        copyfile("Gemfile-mac.lock", "Gemfile.lock")
     osremove("assets\\localhost.js")
     if result and result["ret"] == 0:
         result = result["result"]
