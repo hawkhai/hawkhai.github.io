@@ -373,7 +373,7 @@ Reflective loader 实现思路如下：
 [API Hook 的几种实现 {% include relref_cnblogs.html %}](https://www.cnblogs.com/rogeryu/archive/2009/06/04/1496538.html)
 1. 改写函数的首地址。
 2. 改写导入表
-3. 改写虚函数表。
+3. 改写虚函数表。[简单的虚表 Hook {% include relref_csdn.html %}](https://blog.csdn.net/qq_39708161/article/details/79270112)
 
 
 ## Typora 解密之跳动的二进制
@@ -477,6 +477,7 @@ Typora 是一款由 Abner Lee 开发的轻量级 Markdown 编辑器，与其他 
 - [https://github.com/MrXiao7/DllInjector]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/github.com/8c750d26.html" %})
 - [https://github.com/Kerrbty/RemoteLoadDll]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/github.com/ca0eeb9f.html" %})
 - [https://www.cnblogs.com/rogeryu/archive/2009/06/04/1496538.html]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/www.cnblogs.com/316f18af.html" %})
+- [https://blog.csdn.net/qq_39708161/article/details/79270112]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/blog.csdn.net/c1e59072.html" %})
 - [https://bbs.pediy.com/thread-272618.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/03692cc5.htm" %})
 - [https://bbs.pediy.com/thread-272500.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/0a34d492.htm" %})
 - [https://debugwar.com/article/one-article-to-understand-the-relationship-between-encryption-certificate-signature-https]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/debugwar.com/94283ef3.html" %})

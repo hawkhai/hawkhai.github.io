@@ -155,6 +155,169 @@ signtool.exe remove /s target.dll
 ```
 
 
+## PE 文件的校验和（CheckSum）
+
+[note {% include relref_csdn.html %}](https://blog.csdn.net/qq_39708161/article/details/79335914)
+IMAGE_OPTIONAL_HEADER.CheckSum 为一个 DWORD（64 位下也是 DWORD）型的校验值，用于检查 PE 文件的完整性，在一些内核模式驱动及 DLL 中，该值必须是存在且正确的。
+
+校验值的计算很简单：
+1. 将 IMAGE_OPTIONAL_HEADER.CheckSum 清 0（因为这部分在文件中也是有值的，计算时得去掉）
+2. 以 WORD 为单位对数据块进行累加，记住要用 adc 指令而不是 add。
+3. 将累加和加上文件的长度（还是用 adc）
+
+将计算结果与 IMAGE_OPTIONAL_HEADER.CheckSum 进行比较，不相等则说明文件被修改过或不完整。
+
+ImageHlp Image Modification Functions
+<https://docs.microsoft.com/zh-cn/windows/win32/debug/imagehlp-functions?redirectedfrom=MSDN>
+```cpp
+#include <windows.h>
+#include<ImageHlp.h>
+#pragma comment(lib, "ImageHlp.lib")
+
+void main()
+{
+    DWORD HeaderCheckSum = 0;   // PE 头里的校验值
+    DWORD CheckSum = 0;         // 计算下来的校验值
+    MapFileAndCheckSum(L"C:\\Users\\q4692\\Desktop\\ObjectHook.sys", &HeaderCheckSum, &CheckSum);
+
+    if (CheckSum == HeaderCheckSum)
+    {
+        MessageBox(NULL, L"相等", NULL, 0);
+    }
+}
+
+uint32_t calc_checksum(uint32_t checksum, void *data, int length) {
+    if (length && data != nullptr) {
+        uint32_t sum = 0;
+        do {
+            sum = *(uint16_t *)data + checksum;
+            checksum = (uint16_t)sum + (sum >> 16);
+            data = (char *)data + 2;
+        } while (--length);
+    }
+
+    return checksum + (checksum >> 16);
+}
+
+uint32_t generate_pe_checksum(void *file_base, uint32_t file_size) {
+    uint32_t file_checksum = 0;
+    PIMAGE_NT_HEADERS nt_headers = ImageNtHeader(file_base);
+    if (nt_headers) {
+        uint32_t header_size = (uintptr_t)nt_headers - (uintptr_t)file_base +
+            ((uintptr_t)&nt_headers->OptionalHeader.CheckSum -
+            (uintptr_t)nt_headers);
+        uint32_t remain_size = (file_size - header_size - 4) >> 1;
+        void *remain = &nt_headers->OptionalHeader.Subsystem;
+        uint32_t header_checksum = calc_checksum(0, file_base, header_size >> 1);
+        file_checksum = calc_checksum(header_checksum, remain, remain_size);
+        if (file_size & 1){
+            file_checksum += (uint16_t)*((char *)file_base + file_size - 1);
+        }
+    }
+
+    return (file_size + file_checksum);
+}
+```
+
+[from pyinstaller {% include relref_github.html %}](https://github.com/pyinstaller/pyinstaller/issues/5579)
+```py
+def set_exe_checksum(exe_path):
+    """Set executable's checksum in its metadata.
+    This optional checksum is supposed to protect the executable against
+    corruption but some anti-viral software have taken to flagging anything
+    without it set correctly as malware. See issue #5579.
+    """
+    import pefile
+    pe = pefile.PE(exe_path)
+    pe.OPTIONAL_HEADER.CheckSum = pe.generate_checksum()
+    pe.close()
+    pe.write(exe_path)
+
+# You can use pe.verify_checksum() to verify that it is correct
+# https://github.com/pyinstaller/pyinstaller/blob/master/PyInstaller/utils/win32/winutils.py
+# https://github.com/pyinstaller/pyinstaller/blob/master/tests/functional/test_basic.py
+# https://github.com/pyinstaller/pyinstaller/blob/master/PyInstaller/building/api.py
+# Step 3: post-processing
+if is_win:
+    # Set checksum to appease antiviral software. Also set build timestamp to current time to increase entropy
+    # (but honor SOURCE_DATE_EPOCH environment variable for reproducible builds).
+    logger.info("Fixing EXE headers")
+    build_timestamp = int(os.environ.get('SOURCE_DATE_EPOCH', time.time()))
+    winutils.set_exe_build_timestamp(build_name, build_timestamp)
+    winutils.update_exe_pe_checksum(build_name)
+
+def fixup_exe_headers(exe_path, timestamp=None):
+    """
+    Set executable's checksum and build timestamp in its headers.
+
+    This optional checksum is supposed to protect the executable against corruption but some anti-viral software have
+    taken to flagging anything without it set correctly as malware. See issue #5579.
+    """
+    import pefile
+    pe = pefile.PE(exe_path, fast_load=False)  # full load because we need all headers
+    # Set build timestamp.
+    # See: https://0xc0decafe.com/malware-analyst-guide-to-pe-timestamps
+    if timestamp is not None:
+        timestamp = int(timestamp)
+        # Set timestamp field in FILE_HEADER
+        pe.FILE_HEADER.TimeDateStamp = timestamp
+        # MSVC-compiled executables contain (at least?) one DIRECTORY_ENTRY_DEBUG entry that also contains timestamp
+        # with same value as set in FILE_HEADER. So modify that as well, as long as it is set.
+        debug_entries = getattr(pe, 'DIRECTORY_ENTRY_DEBUG', [])
+        for debug_entry in debug_entries:
+            if debug_entry.struct.TimeDateStamp:
+                debug_entry.struct.TimeDateStamp = timestamp
+    # Set PE checksum
+    pe.OPTIONAL_HEADER.CheckSum = pe.generate_checksum()
+    pe.close()
+    pe.write(exe_path)
+```
+
+
+### 如何移除已經簽章的驅動程式
+
+<https://steward-fu.github.io/website/driver/wdm/remove_sign.htm>
+```cpp
+#include <stdafx.h>
+#include <windows.h>
+#include <imagehlp.h>
+
+#pragma comment(lib, "Imagehlp.lib")
+
+int main(int argc, char** argv)
+{
+    HANDLE hFile;
+
+    hFile = CreateFile(argv[1], GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    ImageRemoveCertificate(hFile, 0);
+    CloseHandle(hFile);
+    return 0;
+}
+```
+
+
+### [C/C++ 实现 PE 文件特征码识别 {% include relref_cnblogs.html %}](https://www.cnblogs.com/LyShark/p/13666403.html)
+
+```cpp
+#include <iostream>
+#include <windows.h>
+
+// 函数 MakeSureDirectoryPathExists() 所需头文件和 lib 库
+#include <ImageHlp.h>
+#pragma comment(lib, "imagehlp.lib")
+
+int main()
+{
+    // 在 C 盘创建名为“test”文件夹，并在 test 文件夹下再创建名为“1203”的文件夹。
+    int flag; // 保存返回值。如果目录存在，返回 TRUE；如果不存在但全部路径创建成功，返回 TRUE；如果不存在且创建失败，返回 FALSE。
+    flag = MakeSureDirectoryPathExists("E:\\test\\1203\\");
+
+    std::cout << "flag = " << flag << std::endl;
+    return 0;
+}
+```
+
+
 ## 多个 png 图片压缩成一个 ico
 
 
@@ -453,5 +616,14 @@ def bake_one_big_png_to_ico(sourcefile, targetfile, sizes=None):
 - [http://www.winterdrache.de/freeware/png2ico/]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/www.winterdrache.de/aa729e8b.html" %})
 - [https://docs.microsoft.com/en-us/windows/win32/uxguide/vis-icons]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/docs.microsoft.com/5ee989bc.html" %})
 - [http://www.noobyard.com/article/p-odzsipgl-hw.html]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/www.noobyard.com/daa7ba18.html" %})
+- [https://blog.csdn.net/qq_39708161/article/details/79335914]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/blog.csdn.net/0d0b8419.html" %})
+- [https://docs.microsoft.com/zh-cn/windows/win32/debug/imagehlp-functions?redirectedfrom=MSDN]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/docs.microsoft.com/8687cdda.html" %})
+- [https://github.com/pyinstaller/pyinstaller/issues/5579]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/github.com/524be1a2.html" %})
+- [https://github.com/pyinstaller/pyinstaller/blob/master/PyInstaller/utils/win32/winutils.py]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/github.com/73905b87.html" %})
+- [https://github.com/pyinstaller/pyinstaller/blob/master/tests/functional/test_basic.py]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/github.com/2da26373.html" %})
+- [https://github.com/pyinstaller/pyinstaller/blob/master/PyInstaller/building/api.py]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/github.com/76b11491.html" %})
+- [https://0xc0decafe.com/malware-analyst-guide-to-pe-timestamps]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/0xc0decafe.com/f8ee8d41.html" %})
+- [https://steward-fu.github.io/website/driver/wdm/remove_sign.htm]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/steward-fu.github.io/3b5d1ad4.htm" %})
+- [https://www.cnblogs.com/LyShark/p/13666403.html]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/www.cnblogs.com/e746357c.html" %})
 - [https://www.gnu.org/licenses/gpl-3.0.en.html]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/www.gnu.org/2ecb6aab.html" %})
 - [https://stackoverflow.com/questions/11287402/how-to-round-corner-a-logo-without-white-backgroundtransparent-on-it-using-pi]({% include relrefx.html url="/backup/2021-08-14-win-tools-reshack.md/stackoverflow.com/666fc2b7.html" %})

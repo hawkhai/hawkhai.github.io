@@ -15,7 +15,7 @@ glslcanvas:
 codeprint:
 ---
 
-```
+```cpp
 #define CASE_RETURN(x) case x: return L ## #x
 
 inline std::string GetKernelCode(const std::string & filename)
@@ -99,6 +99,7 @@ __int64 winMemoCtrl() {
 ## 主线程断言
 
 ```cpp
+#include <assert.h>
 #include <Windows.h>
 #include <TlHelp32.h>
 BOOL GetCurrentMainThreadID(DWORD* pdwThreadID)
