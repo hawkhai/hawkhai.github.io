@@ -17,6 +17,14 @@ cluster: "WinDBG"
 ---
 
 
+## 指针对象内存泄漏
+
+KExecuteInfoMgr::ThreadExecuteImpl 函数中有内存泄漏。
+ExecuteTask 指针本来指向的是一个对象，如果把它转成 PVOID 再 delete 的话，就会导致这个对象的析构函数不会被调用。
+
+{% include image.html url="/assets/images/210602-win-windbg-cases/20220701-102551.jpg" %}
+
+
 ## Windows 8.0 QStandardPaths::writableLocation
 
 Windows 8.0 系统调用 QStandardPaths::writableLocation，vcruntime140.dll 运行时库崩溃问题说明 <sup>from guohua</sup>
