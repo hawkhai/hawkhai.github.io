@@ -66,19 +66,19 @@ GBK、GB2312 以及 Unicode 都既是字符集，也是编码方式，而 UTF-8 
 
 * "utf8"，1~4 字节表示一个字符
     * 每个位置开始，是否成功？
-* "gbk"，2 byte 表示一个字符
+* "gbk"，1~2 byte 表示一个字符
     * 每个位置开始，是否成功？
 * "utf-16-le"，2/4 byte 表示一个字符
     * 每个位置开始，是否成功？
 
 计算给定二进制字符串的所有可能解码组合
-https://www.5axxw.com/questions/content/h0ffdn
-https://blog.csdn.net/MC_007/article/details/82712359
+<https://www.5axxw.com/questions/content/h0ffdn>
+<https://blog.csdn.net/MC_007/article/details/82712359>
 
-我正在编写一些分析PE文件中的字符串的代码（Python，但实际上并不重要）。
-我正在寻找一个可以调用的命令行工具，它将返回PE文件中的完整字符串列表。 
-我知道PEDUMP，但它似乎给出了不完整的字符串。 
-此外，此工具能够处理不同类型的字符串非常重要，例如C字符串（NULL终止），Pascal字符串（长度前缀）等。 
+我正在编写一些分析 PE 文件中的字符串的代码（Python，但实际上并不重要）。
+我正在寻找一个可以调用的命令行工具，它将返回 PE 文件中的完整字符串列表。
+我知道 PEDUMP，但它似乎给出了不完整的字符串。
+此外，此工具能够处理不同类型的字符串非常重要，例如 C 字符串（NULL 终止），Pascal 字符串（长度前缀）等。
 我在这里找到了“字符串提取器”，但它需要花钱，我不确定它是否可以处理不同类型的字符串。
 
 ----
@@ -96,7 +96,7 @@ def readfile(path):
     page = fin.read()
     fin.close()
     return page
-    
+
 def trystr(fdata, startp, encoding, xli, fcache, checkenc):
     eatstr = ""
     eatsize = 0 # 消耗了多少个字节。
@@ -107,10 +107,10 @@ def trystr(fdata, startp, encoding, xli, fcache, checkenc):
             try:
                 char = fdata[startp:startp+ilen].decode(encoding)
                 if checkenc: char.encode(checkenc)
-                
+
                 assert len(char) == 1, char
                 char = char[0] # 字符串变成字符
-                
+
                 # https://docs.python.org/zh-tw/3.8/library/string.html
                 if ord(char) <= 0x7f:
                     assert char in string.printable, char
@@ -120,7 +120,7 @@ def trystr(fdata, startp, encoding, xli, fcache, checkenc):
                 raise ex
             except:
                 continue
-                
+
         if char and charlen and ord(char):
             fcache[startp] = charlen
             eatstr = eatstr + char
@@ -129,7 +129,7 @@ def trystr(fdata, startp, encoding, xli, fcache, checkenc):
         else:
             fcache[startp] = -1
             break
-            
+
     return eatsize, eatstr
 
 def hackstring(fpath, encoding, checkenc, xli, strset, printx=False):
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     fpath = r"E:\kpdf\knpdf\keniu\pdfconverter.exe"
     strset = set()
     hackstring(fpath, "utf-16-le", "gbk", [2, 4], strset, True)
-    hackstring(fpath, "gbk", None, [2,], strset, True)
+    hackstring(fpath, "gbk", None, [1, 2,], strset, True)
     hackstring(fpath, "utf8", "gbk", [1, 2, 3, 4], strset, True)
 ```
 
@@ -452,6 +452,9 @@ In-Depth:Quasi Compile-Time String Hashing
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-07-01-pe-strings.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.5axxw.com/questions/content/h0ffdn]({% include relrefx.html url="/backup/2022-07-01-pe-strings.md/www.5axxw.com/464cd928.html" %})
+- [https://blog.csdn.net/MC_007/article/details/82712359]({% include relrefx.html url="/backup/2022-07-01-pe-strings.md/blog.csdn.net/db3d813d.html" %})
+- [https://docs.python.org/zh-tw/3.8/library/string.html]({% include relrefx.html url="/backup/2022-07-01-pe-strings.md/docs.python.org/6888d893.html" %})
 - [http://www.codeproject.com/Articles/2724/Literal-string-encryption-as-part-of-the-build-pro]({% include relrefx.html url="/backup/2022-07-01-pe-strings.md/www.codeproject.com/7ea30383.html" %})
 - [https://code.google.com/p/strenc/]({% include relrefx.html url="/backup/2022-07-01-pe-strings.md/code.google.com/0512edd5.html" %})
 - [http://www.codeproject.com/Articles/502283/Strings-Obfuscation-System]({% include relrefx.html url="/backup/2022-07-01-pe-strings.md/www.codeproject.com/1fc2ca9c.html" %})
