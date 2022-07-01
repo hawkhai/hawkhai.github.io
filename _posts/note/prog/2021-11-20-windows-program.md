@@ -349,6 +349,41 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow)
 
 ## 字符串编码和操作
 
+* ASCII 美国信息交换标准代码
+    * 7 bit 表示一个字符
+    * 共 128 个字符
+* ISO-8859-1 对于 ASCII 的扩展
+    * 8 bit 表示一个字符，会使用整个 byte
+    * 共 256 个字符
+* GB2312 国标，汉字的编码集
+    * 2 byte 表示一个字符
+    * 共 6763 个汉字
+* GBK 对于 GB2312 的扩展，能表示更多的字符
+    * 2 byte 表示一个字符
+    * 共 21003 个汉字
+* GB18030 对于 GBK 的扩展，最完整的汉字编码集
+    * 变长多字节编码，1 个、2 个或 4 个 byte 表示一个字符
+    * 共 70000 余个汉字
+* BIG5 由台湾制定，主要用于繁体汉字编码
+    * 2 byte 表示一个字符
+    * 共 13060 个汉字
+* Unicode 由国际标准化组织制定，整合全世界的字符
+    * 2 byte 表示一个字符
+    * 表示全世界所有的字符
+    * 如果只使用英文字符，较浪费空间
+* UTF(Unicode Translation Format) 通用转换格式，是 Unicode 的实现，解决了 Unicode 空间浪费的问题
+    * UTF-8, UTF-16, UTF-16LE(little endian), UTF-16BE(big endian), UTF-32
+* UTF-8 变长多字节编码，1~4 字节表示一个字符
+    * 1 byte 表示一个 US-ASCIl 字符
+    * 2 byte 表示一个拉丁文字符（拉丁文、希腊文、西里尔字母、亚美尼亚语、希伯来文、阿拉伯文、叙利亚文等）
+    * 3 byte 表示一个汉字（中日韩文字、东南亚文字、中东文字等）
+    * 4 byte 表示其他极少使用的语言
+* UTF-8-BOM(Byte Order Mark)
+    * Unicode 规定使用 BOM 来标识字节顺序，UTF-8-BOM 的文件会以 EF BB BF 开头
+    * UTF-16 和 UTF-32 需要决定是按 2Byte 读还是按 4byte 读，需要 BOM 来决定顺序
+    * UTF-8 是按 1byte 读的，没有字节序问题，是不需要 BOM 来标识字节序的
+    * 建议：使用 UTF-8 时，最好使用不带 BOM 的 UTF-8
+
 字符集 vs 字符编码
 * 字符集：字符的集合，是集合就有范围
     * GB2312：汉字 6763 个和非汉字图形字符 682 个，一些罕用字不在这个集合内
