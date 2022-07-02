@@ -15,7 +15,7 @@ glslcanvas:
 codeprint:
 ---
 
-```
+```cpp
 #define CASE_RETURN(x) case x: return L ## #x
 
 inline std::string GetKernelCode(const std::string & filename)
@@ -92,6 +92,73 @@ __int64 winMemoCtrl() {
     }
 
     return 100 * 1024 * 1024;
+}
+```
+
+
+## 主线程断言
+
+```cpp
+#include <assert.h>
+#include <Windows.h>
+#include <TlHelp32.h>
+BOOL GetCurrentMainThreadID(DWORD* pdwThreadID)
+{
+    HANDLE hThreadSnap = INVALID_HANDLE_VALUE;
+    BOOL bRet = FALSE;
+    THREADENTRY32 te32 = {0};
+    DWORD dwProcessId = 0;
+    static DWORD Curl_dwMainThreadId = 0;
+
+    if (!pdwThreadID) {
+        return FALSE;
+    }
+    if (Curl_dwMainThreadId) {
+        *pdwThreadID = Curl_dwMainThreadId;
+        return TRUE;
+    }
+
+    dwProcessId = GetCurrentProcessId();
+    //  Take a snapshot of all processes in the system.
+    hThreadSnap = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
+    if (hThreadSnap == INVALID_HANDLE_VALUE)
+    {
+        return FALSE;
+    }
+
+    //  Fill in the size of the structure before using it.
+    te32.dwSize = sizeof(THREADENTRY32);
+    if (Thread32First(hThreadSnap, &te32))
+    {
+        if (te32.th32OwnerProcessID == dwProcessId)
+        {
+            *pdwThreadID = te32.th32ThreadID;
+            Curl_dwMainThreadId = te32.th32ThreadID;
+            bRet = TRUE;
+        }
+    }
+    while (!bRet && Thread32Next(hThreadSnap, &te32))
+    {
+        if (te32.th32OwnerProcessID == dwProcessId)
+        {
+            *pdwThreadID = te32.th32ThreadID;
+            Curl_dwMainThreadId = te32.th32ThreadID;
+            bRet = TRUE;
+        }
+    }
+
+    // Do not forget to clean up the snapshot object.
+    CloseHandle (hThreadSnap);
+    return bRet;
+}
+
+void CheckAssertMainThread() {
+#if _DEBUG
+    DWORD dwThreadID = 0;
+    if (GetCurrentMainThreadID(&dwThreadID)) {
+        assert(dwThreadID != GetCurrentThreadId());
+    }
+#endif
 }
 ```
 

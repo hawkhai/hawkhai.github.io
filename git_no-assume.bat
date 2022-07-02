@@ -2,3 +2,4 @@
 # 取消文件忽略
 git update-index --no-assume-unchanged _config.yml
 git update-index --no-assume-unchanged Gemfile.lock
+git update-index --no-assume-unchanged Gemfile

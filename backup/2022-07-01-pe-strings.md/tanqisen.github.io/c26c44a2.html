@@ -1,0 +1,1033 @@
+<!DOCTYPE html><!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]--><!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]--><!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html xmlns="http://www.w3.org/1999/xhtml" class="js video maskImage placeholder" lang="en"><!--<![endif]--><head>
+  <meta charset="utf-8" />
+  <title>如何防止客户端被破解 - Cooper's Blog</title>
+  <meta name="author" content="tanqisen" />
+
+  
+  <meta name="description" content="很多应用都需要用户登录或者签名认证，这可能需要在客户端保存登录信息、签名密钥、加密算法等。如何保证这些重要信息不被窃取，算法不被破解，这些成为应用开发中很重要的内容，同样也是最容易忽视的地方。一个小小的细节可能就成为整个系统的突破口，这里从实际工程角度总结了一些容易忽视的细节和常用的方法。 …" />
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1" />
+
+  
+  <link rel="canonical" href="http://tanqisen.github.com/blog/2014/06/06/how-to-prevent-app-crack/" />
+  <link href="/favicon.png" rel="icon" />
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script><script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Cooper's Blog" type="application/atom+xml" />
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" />
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37402341-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+<script type="text/javascript" async="" src="http://tanqisen.disqus.com/embed.js"></script></head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="/">Cooper's Blog</a></h1>
+  
+    <h2>西湖的水，哥的泪</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tanqisen.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search" />
+  </fieldset><fieldset class="mobile-nav"><select><option value="">Navigate…</option><option value="http://tanqisen.github.io/">» 首页</option><option value="http://tanqisen.github.io/blog/archives">» 所有文章</option><option value="http://tanqisen.github.io/atom.xml">» RSS</option></select></fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">所有文章</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">如何防止客户端被破解</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-06T13:59:00+08:00" pubdate="" data-updated="true">Jun 6<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>很多应用都需要用户登录或者签名认证，这可能需要在客户端保存登录信息、签名密钥、加密算法等。如何保证这些重要信息不被窃取，算法不被破解，这些成为应用开发中很重要的内容，同样也是最容易忽视的地方。一个小小的细节可能就成为整个系统的突破口，这里从实际工程角度总结了一些容易忽视的细节和常用的方法。</p>
+
+<!--more-->
+
+
+<h3>密钥保存在外部</h3>
+
+<ul>
+<li><p>Keychain</p>
+
+<p>密钥保存在Keychain并不安全，iOS越狱后可以导出Keychain的内容。应该尽量避免存放重要信息(如：token、用户名、密码等)在Keychain中，即使要存放，也一定要加密后存放。参考<a href="http://blog.csdn.net/yiyaaixuexi/article/details/18404343">http://blog.csdn.net/yiyaaixuexi/article/details/18404343</a></p></li>
+<li><p>文件</p>
+
+<p>保存在app bundle、plist等配置文件更不安全，但可以使用隐写术等方式迷惑hackers。有请Lena示范：</p>
+
+<p><img src="/images/Lena.jpg" width="256" height="256" title="Lena.jpg" />    <img src="/images/Lena-secret.jpg" width="256" height="256" title="Lena-secret.jpg" /></p>
+
+<p>两张图片看起来是一模一样的，但是右边的图片里却夹带了一些其他内容，这就是潜伏在Lena中的密码，用diff工具比较下这两张图片，你会发现不同的地方是右边的图片最后附加了一串字符：<code>app secret is "abcdefg123456"</code>。 这里的隐写方式很简单：<code>cat file &gt;&gt; Lena.jpg</code>，既不破坏图片原本的信息(或者损失一点点原有信息)，又能附加额外的信息，这就是隐写术的原理。这里只是一个简单的例子，没有人真这么使用。有很多更隐蔽的做法，比如把要隐藏的信息分散到图片的每个像素中，例如RGB888的图片，对红蓝分量最后一个bit位进行修改并不会影响图片的质量(因为人眼对对红蓝不敏感)，这样一个像素(3byte)就可以存储2bit的信息，4个像素(12byte)就可以夹带1byte的信息了。</p>
+
+<blockquote><p>Xcode打包时会对png图片做特殊处理，如果将密码携带在png中，可能会在使用的时候无法复原。当然现在的隐写术非常多，不只是图片能作为载体，视频、音乐等文件都可以，隐写的方法也多种多样，选择适合自己的就行，据说基地组织就是通过岛国电影传递信息的。</p></blockquote></li>
+</ul>
+
+
+<h3>写在代码里安全吗？</h3>
+
+<p>下面的代码很常见</p>
+
+<figure class="code"> <div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line">  <span class="err">#</span><span class="n">define</span> <span class="n">kSecret</span> <span class="s">"abcd1234"</span>
+</span><span class="line">
+</span><span class="line">  <span class="c1">// 或者</span>
+</span><span class="line">  <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">kSecret</span> <span class="o">=</span> <span class="s">"abcd1234"</span><span class="p">;</span>
+</span></code></pre></td></tr></tbody></table></div></figure>
+
+
+<p>这是非常危险的，因为常量会被直接编译到可执行文件的data段，只要对生成的可执行文件使用<code>strings</code>、<code>otool</code>等命令就可以dump出原始字符串。</p>
+
+<h3>对密码加密</h3>
+
+<p>为了使密码不直接出现在可执行文件中，可以对密码加密存储，使用的时候再解密。
+例如用AES对密码<code>abcd1234</code>加密，对称密钥为<code>kCipherKey="abcdefgh12345678"</code>，加密后的密码用<code>kSecret</code>表示。使用密码时，再通过<code>kCipherKey</code>和<code>kSecret</code>计算出来：</p>
+
+<figure class="code"><figcaption><span>snippet1 </span></figcaption>
+ <div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">kCipherKey</span><span class="o">=</span><span class="s">"abcdefgh12345678"</span><span class="p">;</span>
+</span><span class="line"><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">kSecret</span><span class="o">=</span><span class="s">"</span><span class="se">\x7e\x77\x64\x3c\xa7\xd4\x6d\x46\x29\x8b\xe3\x23\x9f\x1a\x5c\xdb</span><span class="s">"</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="kt">char</span><span class="o">*</span> <span class="nf">getSecret</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="kt">char</span><span class="o">*</span> <span class="n">buf</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class="line">    <span class="n">CCCryptorRef</span> <span class="n">cryptor</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class="line">    <span class="n">uint8_t</span> <span class="n">iv</span><span class="p">[</span><span class="n">kCCBlockSizeAES128</span><span class="p">];</span>
+</span><span class="line">    <span class="n">memset</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">kCCBlockSizeAES128</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">size_t</span> <span class="n">bufsize</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line">    <span class="n">size_t</span> <span class="n">moved</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line">    <span class="n">size_t</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">size_t</span> <span class="n">inLength</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">kSecret</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">CCCryptorCreate</span><span class="p">(</span><span class="n">kCCDecrypt</span><span class="p">,</span> <span class="n">kCCAlgorithmAES128</span><span class="p">,</span>
+</span><span class="line">                    <span class="n">kCCOptionPKCS7Padding</span><span class="p">,</span>
+</span><span class="line">                    <span class="n">kCipherKey</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">kCipherKey</span><span class="p">),</span>
+</span><span class="line">                    <span class="n">iv</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cryptor</span><span class="p">);</span>
+</span><span class="line">    <span class="n">bufsize</span> <span class="o">=</span> <span class="n">CCCryptorGetOutputLength</span><span class="p">(</span><span class="n">cryptor</span><span class="p">,</span> <span class="n">inLength</span><span class="p">,</span> <span class="n">true</span><span class="p">);</span>
+</span><span class="line">    <span class="n">buf</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">bufsize</span><span class="p">);</span>
+</span><span class="line">    <span class="n">memset</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bufsize</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">CCCryptorUpdate</span><span class="p">(</span><span class="n">cryptor</span><span class="p">,</span>
+</span><span class="line">                    <span class="n">kSecret</span><span class="p">,</span><span class="n">inLength</span><span class="p">,</span>
+</span><span class="line">                    <span class="n">buf</span><span class="p">,</span> <span class="n">bufsize</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">moved</span><span class="p">);</span>
+</span><span class="line">    <span class="n">total</span> <span class="o">+=</span> <span class="n">moved</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">CCCryptorFinal</span><span class="p">(</span><span class="n">cryptor</span><span class="p">,</span>
+</span><span class="line">                   <span class="n">buf</span><span class="o">+</span><span class="n">total</span><span class="p">,</span>
+</span><span class="line">                   <span class="n">bufsize</span><span class="o">-</span><span class="n">total</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">moved</span><span class="p">);</span>
+</span><span class="line">    <span class="n">CCCryptorRelease</span><span class="p">(</span><span class="n">cryptor</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">return</span> <span class="n">buf</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line">
+</span><span class="line"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class="line">  <span class="kt">char</span><span class="o">*</span> <span class="n">secret</span> <span class="o">=</span> <span class="n">getSecret</span><span class="p">();</span>
+</span><span class="line">  <span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">secret</span><span class="p">);</span>
+</span><span class="line">  <span class="n">free</span><span class="p">(</span><span class="n">secret</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></tbody></table></div></figure>
+
+
+<p>上面的代码不再明文出现<code>abcd1234</code>，而是被加密算子<code>kCipherKey</code>和加密后的密钥<code>kSecret</code>替代，密码只是在需要的时候临时计算出来。但是这里仍然有缺陷：加密算子<code>kCipherKey</code>和加密后的密钥<code>kSecret</code>仍然存储在可执行文件的data段中，留下了蛛丝马迹。我们可以给<code>kCipherKey</code>取一个有迷惑性的字符串，比如<code>"network error, timeout"</code>或者使用非字符值，使其不可读。但这都不完美，不在data段中存储这些信息最好。</p>
+
+<h3>参数传递的秘密</h3>
+
+<p>上面的代码稍做修改</p>
+
+<figure class="code"><figcaption><span>snippet2 </span></figcaption>
+ <div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="c1">// 注意这里</span>
+</span><span class="line"><span class="cp">#define kCipherKey ((uint8_t[]){'a','b','c','d','e','f','g','h','1','2','3','4','5','6','7','8'})</span>
+</span><span class="line"><span class="cp">#define kSecret ((uint8_t[]){0x7e,0x77,0x64,0x3c,0xa7,0xd4,0x6d,0x46,0x29,0x8b,0xe3,0x23,0x9f,0x1a,0x5c,0xdb})</span>
+</span><span class="line">
+</span><span class="line"><span class="kt">char</span><span class="o">*</span> <span class="nf">getSecret</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    <span class="kt">char</span><span class="o">*</span> <span class="n">buf</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class="line">    <span class="n">CCCryptorRef</span> <span class="n">cryptor</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class="line">    <span class="n">uint8_t</span> <span class="n">iv</span><span class="p">[</span><span class="n">kCCBlockSizeAES128</span><span class="p">];</span>
+</span><span class="line">    <span class="n">memset</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">kCCBlockSizeAES128</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">size_t</span> <span class="n">bufsize</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line">    <span class="n">size_t</span> <span class="n">moved</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line">    <span class="n">size_t</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">size_t</span> <span class="n">inLength</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">kSecret</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">CCCryptorCreate</span><span class="p">(</span><span class="n">kCCDecrypt</span><span class="p">,</span> <span class="n">kCCAlgorithmAES128</span><span class="p">,</span>
+</span><span class="line">                    <span class="n">kCCOptionPKCS7Padding</span><span class="p">,</span>
+</span><span class="line">                    <span class="n">kCipherKey</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">kCipherKey</span><span class="p">),</span>
+</span><span class="line">                    <span class="n">iv</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cryptor</span><span class="p">);</span>
+</span><span class="line">    <span class="n">bufsize</span> <span class="o">=</span> <span class="n">CCCryptorGetOutputLength</span><span class="p">(</span><span class="n">cryptor</span><span class="p">,</span> <span class="n">inLength</span><span class="p">,</span> <span class="n">true</span><span class="p">);</span>
+</span><span class="line">    <span class="n">buf</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">bufsize</span><span class="p">);</span>
+</span><span class="line">    <span class="n">memset</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bufsize</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">CCCryptorUpdate</span><span class="p">(</span><span class="n">cryptor</span><span class="p">,</span>
+</span><span class="line">                    <span class="n">kSecret</span><span class="p">,</span><span class="n">inLength</span><span class="p">,</span>
+</span><span class="line">                    <span class="n">buf</span><span class="p">,</span> <span class="n">bufsize</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">moved</span><span class="p">);</span>
+</span><span class="line">    <span class="n">total</span> <span class="o">+=</span> <span class="n">moved</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">CCCryptorFinal</span><span class="p">(</span><span class="n">cryptor</span><span class="p">,</span>
+</span><span class="line">                   <span class="n">buf</span><span class="o">+</span><span class="n">total</span><span class="p">,</span>
+</span><span class="line">                   <span class="n">bufsize</span><span class="o">-</span><span class="n">total</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">moved</span><span class="p">);</span>
+</span><span class="line">    <span class="n">CCCryptorRelease</span><span class="p">(</span><span class="n">cryptor</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">return</span> <span class="n">buf</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class="line">    <span class="kt">char</span><span class="o">*</span> <span class="n">secret</span> <span class="o">=</span> <span class="n">getSecret</span><span class="p">();</span>
+</span><span class="line">    <span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">secret</span><span class="p">);</span>
+</span><span class="line">    <span class="n">free</span><span class="p">(</span><span class="n">secret</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></tbody></table></div></figure>
+
+
+<p>看似和上面代码没什么区别，除了传入的参数类型变了，其余没什么变化。正是这一点带来了巨大的变化，对比一下调用CCCryptorCreate时的汇编代码：</p>
+
+<figure class="code"><figcaption><span>snippet1-disassemble</span></figcaption>
+ <div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="n">Demo</span><span class="err">`</span><span class="n">getSecret</span> <span class="n">at</span> <span class="n">main</span><span class="p">.</span><span class="nl">m:</span><span class="mi">58</span><span class="o">:</span>
+</span><span class="line"><span class="mh">0x31f04</span><span class="o">:</span>  <span class="n">push</span>   <span class="p">{</span><span class="n">r4</span><span class="p">,</span> <span class="n">r5</span><span class="p">,</span> <span class="n">r6</span><span class="p">,</span> <span class="n">r7</span><span class="p">,</span> <span class="n">lr</span><span class="p">}</span>
+</span><span class="line"><span class="mh">0x31f06</span><span class="o">:</span>  <span class="n">add</span>    <span class="n">r7</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="err">#</span><span class="mh">0xc</span>
+</span><span class="line"><span class="mh">0x31f08</span><span class="o">:</span>  <span class="n">push</span><span class="p">.</span><span class="n">w</span> <span class="p">{</span><span class="n">r8</span><span class="p">,</span> <span class="n">r10</span><span class="p">,</span> <span class="n">r11</span><span class="p">}</span>
+</span><span class="line"><span class="mh">0x31f0c</span><span class="o">:</span>  <span class="n">sub</span>    <span class="n">sp</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x28</span>
+</span><span class="line"><span class="mh">0x31f0e</span><span class="o">:</span>  <span class="n">movw</span>   <span class="n">r0</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x112a</span>
+</span><span class="line"><span class="mh">0x31f12</span><span class="o">:</span>  <span class="n">vmov</span><span class="p">.</span><span class="n">i32</span> <span class="n">q8</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x0</span>
+</span><span class="line"><span class="mh">0x31f16</span><span class="o">:</span>  <span class="n">movt</span>   <span class="n">r0</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x0</span>
+</span><span class="line"><span class="mh">0x31f1a</span><span class="o">:</span>  <span class="n">movw</span>   <span class="n">r8</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x16d8</span>
+</span><span class="line"><span class="mh">0x31f1e</span><span class="o">:</span>  <span class="n">add</span>    <span class="n">r0</span><span class="p">,</span> <span class="n">pc</span>
+</span><span class="line"><span class="mh">0x31f20</span><span class="o">:</span>  <span class="n">movt</span>   <span class="n">r8</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x0</span>
+</span><span class="line"><span class="mh">0x31f24</span><span class="o">:</span>  <span class="n">add</span>    <span class="n">r8</span><span class="p">,</span> <span class="n">pc</span>
+</span><span class="line"><span class="mh">0x31f26</span><span class="o">:</span>  <span class="n">add</span>    <span class="n">r6</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x14</span>
+</span><span class="line"><span class="mh">0x31f28</span><span class="o">:</span>  <span class="n">ldr</span><span class="p">.</span><span class="n">w</span>  <span class="n">r10</span><span class="p">,</span> <span class="p">[</span><span class="n">r0</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x31f2c</span><span class="o">:</span>  <span class="n">ldr</span><span class="p">.</span><span class="n">w</span>  <span class="n">r0</span><span class="p">,</span> <span class="p">[</span><span class="n">r10</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x31f30</span><span class="o">:</span>  <span class="n">str</span>    <span class="n">r0</span><span class="p">,</span> <span class="p">[</span><span class="n">sp</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x24</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x31f32</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r0</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x0</span>
+</span><span class="line"><span class="mh">0x31f34</span><span class="o">:</span>  <span class="n">str</span>    <span class="n">r0</span><span class="p">,</span> <span class="p">[</span><span class="n">sp</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x10</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x31f36</span><span class="o">:</span>  <span class="n">str</span>    <span class="n">r0</span><span class="p">,</span> <span class="p">[</span><span class="n">sp</span><span class="p">,</span> <span class="err">#</span><span class="mh">0xc</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x31f38</span><span class="o">:</span>  <span class="n">ldr</span><span class="p">.</span><span class="n">w</span>  <span class="n">r0</span><span class="p">,</span> <span class="p">[</span><span class="n">r8</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x31f3c</span><span class="o">:</span>  <span class="n">vst1</span><span class="mf">.32</span> <span class="p">{</span><span class="n">d16</span><span class="p">,</span> <span class="n">d17</span><span class="p">},</span> <span class="p">[</span><span class="n">r6</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x31f40</span><span class="o">:</span>  <span class="n">blx</span>    <span class="mh">0x32ffc</span>                   <span class="p">;</span> <span class="n">symbol</span> <span class="n">stub</span> <span class="k">for</span><span class="o">:</span> <span class="n">strlen</span>
+</span><span class="line"><span class="mh">0x31f44</span><span class="o">:</span>  <span class="n">mov</span>    <span class="n">r4</span><span class="p">,</span> <span class="n">r0</span>
+</span><span class="line"><span class="mh">0x31f46</span><span class="o">:</span>  <span class="n">movw</span>   <span class="n">r0</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x16aa</span>
+</span><span class="line"><span class="mh">0x31f4a</span><span class="o">:</span>  <span class="n">movt</span>   <span class="n">r0</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x0</span>
+</span><span class="line"><span class="mh">0x31f4e</span><span class="o">:</span>  <span class="n">add</span>    <span class="n">r0</span><span class="p">,</span> <span class="n">pc</span>
+</span><span class="line"><span class="mh">0x31f50</span><span class="o">:</span>  <span class="n">ldr</span>    <span class="n">r5</span><span class="p">,</span> <span class="p">[</span><span class="n">r0</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x31f52</span><span class="o">:</span>  <span class="n">mov</span>    <span class="n">r0</span><span class="p">,</span> <span class="n">r5</span>
+</span><span class="line"><span class="mh">0x31f54</span><span class="o">:</span>  <span class="n">blx</span>    <span class="mh">0x32ffc</span>                   <span class="p">;</span> <span class="n">symbol</span> <span class="n">stub</span> <span class="k">for</span><span class="o">:</span> <span class="n">strlen</span>
+</span><span class="line"><span class="mh">0x31f58</span><span class="o">:</span>  <span class="n">add</span>    <span class="n">r1</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x10</span>
+</span><span class="line"><span class="mh">0x31f5a</span><span class="o">:</span>  <span class="n">stm</span><span class="p">.</span><span class="n">w</span>  <span class="n">sp</span><span class="p">,</span> <span class="p">{</span><span class="n">r0</span><span class="p">,</span> <span class="n">r6</span><span class="p">}</span>
+</span><span class="line"><span class="mh">0x31f5e</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r0</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x1</span>
+</span><span class="line"><span class="mh">0x31f60</span><span class="o">:</span>  <span class="n">str</span>    <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">sp</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x8</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x31f62</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x0</span>
+</span><span class="line"><span class="mh">0x31f64</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r2</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x1</span>
+</span><span class="line"><span class="mh">0x31f66</span><span class="o">:</span>  <span class="n">mov</span>    <span class="n">r3</span><span class="p">,</span> <span class="n">r5</span>
+</span><span class="line"><span class="mh">0x31f68</span><span class="o">:</span>  <span class="n">blx</span>    <span class="mh">0x32fd4</span>                   <span class="p">;</span> <span class="n">symbol</span> <span class="n">stub</span> <span class="k">for</span><span class="o">:</span> <span class="n">CCCryptorCreate</span>
+</span></code></pre></td></tr></tbody></table></div></figure>
+
+
+
+
+<figure class="code"><figcaption><span>snippet2-disassemble </span></figcaption>
+ <div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="n">Demo</span><span class="err">`</span><span class="n">getSecret</span> <span class="n">at</span> <span class="n">main</span><span class="p">.</span><span class="nl">m:</span><span class="mi">23</span><span class="o">:</span>
+</span><span class="line"><span class="mh">0x4de84</span><span class="o">:</span>  <span class="n">push</span>   <span class="p">{</span><span class="n">r4</span><span class="p">,</span> <span class="n">r5</span><span class="p">,</span> <span class="n">r6</span><span class="p">,</span> <span class="n">r7</span><span class="p">,</span> <span class="n">lr</span><span class="p">}</span>
+</span><span class="line"><span class="mh">0x4de86</span><span class="o">:</span>  <span class="n">add</span>    <span class="n">r7</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="err">#</span><span class="mh">0xc</span>
+</span><span class="line"><span class="mh">0x4de88</span><span class="o">:</span>  <span class="n">push</span><span class="p">.</span><span class="n">w</span> <span class="p">{</span><span class="n">r8</span><span class="p">,</span> <span class="n">r10</span><span class="p">,</span> <span class="n">r11</span><span class="p">}</span>
+</span><span class="line"><span class="mh">0x4de8c</span><span class="o">:</span>  <span class="n">sub</span>    <span class="n">sp</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x3c</span>
+</span><span class="line"><span class="mh">0x4de8e</span><span class="o">:</span>  <span class="n">movw</span>   <span class="n">r0</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x11a6</span>
+</span><span class="line"><span class="mh">0x4de92</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x0</span>
+</span><span class="line"><span class="mh">0x4de94</span><span class="o">:</span>  <span class="n">movt</span>   <span class="n">r0</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x0</span>
+</span><span class="line"><span class="mh">0x4de98</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r6</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x64</span>
+</span><span class="line"><span class="mh">0x4de9a</span><span class="o">:</span>  <span class="n">add</span>    <span class="n">r0</span><span class="p">,</span> <span class="n">pc</span>
+</span><span class="line"><span class="mh">0x4de9c</span><span class="o">:</span>  <span class="n">vmov</span><span class="p">.</span><span class="n">i32</span> <span class="n">q8</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x0</span>
+</span><span class="line"><span class="mh">0x4dea0</span><span class="o">:</span>  <span class="n">ldr</span>    <span class="n">r5</span><span class="p">,</span> <span class="p">[</span><span class="n">r0</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4dea2</span><span class="o">:</span>  <span class="n">ldr</span>    <span class="n">r0</span><span class="p">,</span> <span class="p">[</span><span class="n">r5</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4dea4</span><span class="o">:</span>  <span class="n">str</span>    <span class="n">r0</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">28</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4dea8</span><span class="o">:</span>  <span class="n">sub</span><span class="p">.</span><span class="n">w</span>  <span class="n">r0</span><span class="p">,</span> <span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x2c</span>
+</span><span class="line"><span class="mh">0x4deac</span><span class="o">:</span>  <span class="n">str</span>    <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">80</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4deb0</span><span class="o">:</span>  <span class="n">str</span>    <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">84</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4deb4</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x61</span>
+</span><span class="line"><span class="mh">0x4deb6</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">60</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4deba</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x62</span>
+</span><span class="line"><span class="mh">0x4debc</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">59</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4dec0</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x63</span>
+</span><span class="line"><span class="mh">0x4dec2</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">58</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4dec6</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x65</span>
+</span><span class="line"><span class="mh">0x4dec8</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r6</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">57</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4decc</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">56</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4ded0</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x66</span>
+</span><span class="line"><span class="mh">0x4ded2</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">55</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4ded6</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x67</span>
+</span><span class="line"><span class="mh">0x4ded8</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">54</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4dedc</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x68</span>
+</span><span class="line"><span class="mh">0x4dede</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">53</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4dee2</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x31</span>
+</span><span class="line"><span class="mh">0x4dee4</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">52</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4dee8</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x32</span>
+</span><span class="line"><span class="mh">0x4deea</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">51</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4deee</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x33</span>
+</span><span class="line"><span class="mh">0x4def0</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">50</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4def4</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x34</span>
+</span><span class="line"><span class="mh">0x4def6</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">49</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4defa</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x35</span>
+</span><span class="line"><span class="mh">0x4defc</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">48</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4df00</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x36</span>
+</span><span class="line"><span class="mh">0x4df02</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">47</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4df06</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x37</span>
+</span><span class="line"><span class="mh">0x4df08</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">46</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4df0c</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x38</span>
+</span><span class="line"><span class="mh">0x4df0e</span><span class="o">:</span>  <span class="n">vst1</span><span class="mf">.32</span> <span class="p">{</span><span class="n">d16</span><span class="p">,</span> <span class="n">d17</span><span class="p">},</span> <span class="p">[</span><span class="n">r0</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4df12</span><span class="o">:</span>  <span class="n">strb</span>   <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="o">-</span><span class="mi">45</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4df16</span><span class="o">:</span>  <span class="n">sub</span>    <span class="n">sp</span><span class="p">,</span> <span class="err">#</span><span class="mh">0xc</span>
+</span><span class="line"><span class="mh">0x4df18</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r2</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x10</span>
+</span><span class="line"><span class="mh">0x4df1a</span><span class="o">:</span>  <span class="n">sub</span><span class="p">.</span><span class="n">w</span>  <span class="n">r1</span><span class="p">,</span> <span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x50</span>
+</span><span class="line"><span class="mh">0x4df1e</span><span class="o">:</span>  <span class="n">sub</span><span class="p">.</span><span class="n">w</span>  <span class="n">r3</span><span class="p">,</span> <span class="n">r7</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x3c</span>
+</span><span class="line"><span class="mh">0x4df22</span><span class="o">:</span>  <span class="n">str</span>    <span class="n">r2</span><span class="p">,</span> <span class="p">[</span><span class="n">sp</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4df24</span><span class="o">:</span>  <span class="n">str</span>    <span class="n">r0</span><span class="p">,</span> <span class="p">[</span><span class="n">sp</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x4</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4df26</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r0</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x1</span>
+</span><span class="line"><span class="mh">0x4df28</span><span class="o">:</span>  <span class="n">str</span>    <span class="n">r1</span><span class="p">,</span> <span class="p">[</span><span class="n">sp</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x8</span><span class="p">]</span>
+</span><span class="line"><span class="mh">0x4df2a</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r1</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x0</span>
+</span><span class="line"><span class="mh">0x4df2c</span><span class="o">:</span>  <span class="n">movs</span>   <span class="n">r2</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x1</span>
+</span><span class="line"><span class="mh">0x4df2e</span><span class="o">:</span>  <span class="n">blx</span>    <span class="mh">0x4efdc</span>                   <span class="p">;</span> <span class="n">symbol</span> <span class="n">stub</span> <span class="k">for</span><span class="o">:</span> <span class="n">CCCryptorCreate</span>
+</span></code></pre></td></tr></tbody></table></div></figure>
+
+
+<p>注意CCCryptorCreate的第四个参数，对应寄存器<code>r3</code>，第一段代码的<code>r3</code>的值是从text段直接获取，因为这只是data段的相对地址，编译时就确定了。而再看第二段代码，出现了大量的<code>strb</code>指令，分析知这段指令是把<code>abcdefgh12345678</code>每个字符逐个压进执行栈的连续地址中，然后<code>r3</code>取相应的连续地址的首地址。也就是说<code>kCipherKey</code>不再直接存储在data段，而是打散到多个指令中，成为指令的一部分(指令在text段)，当代码运行时，这些指令再把<code>kCipherKey</code>原始内容逐个压入执行栈中构成字符串，然后用栈中字符串首地址作为参数传给<code>CCCryptorCreate</code>，这使得每次调用时传入的字符串地址都不同。函数<code>CCCryptorUpdate</code>原理也是一样。函数<code>getSecret()</code>执行完之后，他的执行栈被清空，<code>kCipherKey</code>和<code>kSecret</code>原始信息也一起从栈中清楚，这样重要信息不会常驻内存，只是用到时才进入内存，用完立即清除，这可以有效预防内存扫描器。</p>
+
+<blockquote><p>上面的代码仍然不够完美，首先<code>getSecret</code>是函数形式、而且密码通过返回值传递，容易被分析破解；其次返回的密码的buffer内存需要调用者释放，代码不够整洁，而且调用者容易忘记。</p></blockquote>
+
+<h3>宏改造</h3>
+
+<figure class="code"><figcaption><span>snippet3 </span></figcaption>
+ <div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="cp">#define kCipherKey ((uint8_t[]){'a','b','c','d','e','f','g','h','1','2','3','4','5','6','7','8'})</span>
+</span><span class="line"><span class="cp">#define kSecret ((uint8_t[]){0x7e,0x77,0x64,0x3c,0xa7,0xd4,0x6d,0x46,0x29,0x8b,0xe3,0x23,0x9f,0x1a,0x5c,0xdb})</span>
+</span><span class="line">
+</span><span class="line"><span class="cp">#define kAppSecret                                          \</span>
+</span><span class="line"><span class="cp">({                                                          \</span>
+</span><span class="line"><span class="cp">    size_t outLength = 0;                                   \</span>
+</span><span class="line"><span class="cp">    char* buf = getSecret(outLength);                      \</span>
+</span><span class="line"><span class="cp">    [[NSString alloc] initWithBytes:buf                     \</span>
+</span><span class="line"><span class="cp">                            length:outLength                \</span>
+</span><span class="line"><span class="cp">                          encoding:NSASCIIStringEncoding];  \</span>
+</span><span class="line"><span class="cp">})</span>
+</span><span class="line">
+</span><span class="line"><span class="cp">#define _CHK_CCSUCC(status, outLength)                      \</span>
+</span><span class="line"><span class="cp">    if ((status) != kCCSuccess) {                           \</span>
+</span><span class="line"><span class="cp">    outLength = 0;                                          \</span>
+</span><span class="line"><span class="cp">    goto end;                                               \</span>
+</span><span class="line"><span class="cp">}</span>
+</span><span class="line">
+</span><span class="line"><span class="cp">#define getSecret(outLength)                                \</span>
+</span><span class="line"><span class="cp">({                                                          \</span>
+</span><span class="line"><span class="cp">    __label__ end;                                          \</span>
+</span><span class="line"><span class="cp">    char* buf = NULL;                                       \</span>
+</span><span class="line"><span class="cp">                                                            \</span>
+</span><span class="line"><span class="cp">    CCCryptorRef cryptor = NULL;                            \</span>
+</span><span class="line"><span class="cp">    uint8_t iv[kCCBlockSizeAES128];                         \</span>
+</span><span class="line"><span class="cp">    memset(iv, 0, kCCBlockSizeAES128);                      \</span>
+</span><span class="line"><span class="cp">                                                            \</span>
+</span><span class="line"><span class="cp">    size_t bufsize = 0;                                     \</span>
+</span><span class="line"><span class="cp">    size_t moved = 0;                                       \</span>
+</span><span class="line"><span class="cp">    size_t total = 0;                                       \</span>
+</span><span class="line"><span class="cp">    size_t inLength = sizeof(kSecret);                      \</span>
+</span><span class="line"><span class="cp">                                                            \</span>
+</span><span class="line"><span class="cp">    _CHK_CCSUCC(CCCryptorCreate(kCCDecrypt,                 \</span>
+</span><span class="line"><span class="cp">                kCCAlgorithmAES128,                         \</span>
+</span><span class="line"><span class="cp">                kCCOptionPKCS7Padding,                      \</span>
+</span><span class="line"><span class="cp">                kCipherKey, sizeof(kCipherKey),             \</span>
+</span><span class="line"><span class="cp">                iv, &amp;cryptor), outLength);                  \</span>
+</span><span class="line"><span class="cp">    bufsize = CCCryptorGetOutputLength(cryptor,             \</span>
+</span><span class="line"><span class="cp">                                       inLength, true);     \</span>
+</span><span class="line"><span class="cp">    buf = (char*)alloca(bufsize);                           \</span>
+</span><span class="line"><span class="cp">    memset(buf, 0, bufsize);                                \</span>
+</span><span class="line"><span class="cp">                                                            \</span>
+</span><span class="line"><span class="cp">    _CHK_CCSUCC(CCCryptorUpdate(cryptor,                    \</span>
+</span><span class="line"><span class="cp">                                kSecret,inLength,           \</span>
+</span><span class="line"><span class="cp">                                buf, bufsize, &amp;moved),      \</span>
+</span><span class="line"><span class="cp">                                outLength);                 \</span>
+</span><span class="line"><span class="cp">    total += moved;                                         \</span>
+</span><span class="line"><span class="cp">                                                            \</span>
+</span><span class="line"><span class="cp">    _CHK_CCSUCC(CCCryptorFinal(cryptor,                     \</span>
+</span><span class="line"><span class="cp">                               buf+total,                   \</span>
+</span><span class="line"><span class="cp">                               bufsize-total, &amp;moved),      \</span>
+</span><span class="line"><span class="cp">                               outLength);                  \</span>
+</span><span class="line"><span class="cp">    total += moved;                                         \</span>
+</span><span class="line"><span class="cp">                                                            \</span>
+</span><span class="line"><span class="cp">    outLength = total;                                      \</span>
+</span><span class="line"><span class="cp">end:                                                        \</span>
+</span><span class="line"><span class="cp">    if (cryptor) {                                          \</span>
+</span><span class="line"><span class="cp">        CCCryptorRelease(cryptor);                          \</span>
+</span><span class="line"><span class="cp">    }                                                       \</span>
+</span><span class="line"><span class="cp">    buf;                                                    \</span>
+</span><span class="line"><span class="cp">})</span>
+</span><span class="line">
+</span><span class="line"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class="line">    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,</span><span class="n">kAppSecret</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></tbody></table></div></figure>
+
+
+<p>这段代码稍微改造了一下，加入了一些必要的检测，让调用者更加简单，宏<code>kAppSecret</code>将密码包装成NSString对象。更重要的是，<code>buf</code>的内存不再是<code>malloc</code>到堆上，而是<code>alloca</code>到栈上(或者使用C99的变长数组)，确切的说是<em>调用者</em>的栈，<em>调用者</em>不再需要手动释放内存；另外，因为<code>kAppSecret</code>是宏，没有有明确的入口，静态分析更加困难。</p>
+
+<blockquote><p><strong>这里用了宏定义的两个技巧：</strong></p></blockquote>
+
+<ul>
+<li>带返回值的宏</li>
+</ul>
+
+
+<figure class="code"> <div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="cp">#define SOME_MACRO \</span>
+</span><span class="line"><span class="cp">({                 \</span>
+</span><span class="line"><span class="cp">  expression;      \</span>
+</span><span class="line"><span class="cp">})                 \</span>
+</span></code></pre></td></tr></tbody></table></div></figure>
+
+
+<p>最后一个表达式的值就是宏的返回值，使用时更像函数的返回值。</p>
+
+<ul>
+<li>局部标签</li>
+</ul>
+
+
+<p>局部标签用<code>__label__</code>定义。如果标签<code>end</code>没有<code>__label__</code>修饰，在同一个函数中多次使用<code>kAppSecret</code>将产生编译错误，因为宏展开后相当于定义了多个<code>end</code>标签，标签重复定义。</p>
+
+<h3>函数指针</h3>
+
+<p>在客户端访问Web Server的时候，Server往往要验证请求是否来自合法的客户端，而不是攻击者伪造的请求，这就需要客户端签名。例如OAuth的签名算法。如果自己定义签名算法，不希望别人知道签名的过程，就需要保护算法不被破解。例如签名算法是<code>HMAC-SHA1(key,MD5(data))</code>：</p>
+
+<figure class="code"><figcaption><span>signature1 </span></figcaption>
+ <div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span> <span class="nf">signatureData:</span><span class="p">(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">data</span> <span class="nf">byKey:</span><span class="p">(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">key</span> <span class="p">{</span>
+</span><span class="line">    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">md</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span>
+</span><span class="line">    <span class="n">CC_MD5</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">UTF8String</span><span class="p">,</span> <span class="p">(</span><span class="n">CC_LONG</span><span class="p">)</span><span class="n">data</span><span class="p">.</span><span class="n">length</span><span class="p">,</span> <span class="n">md</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="kt">char</span> <span class="n">mac</span><span class="p">[</span><span class="n">CC_SHA1_DIGEST_LENGTH</span><span class="p">];</span>
+</span><span class="line">    <span class="n">CCHmac</span><span class="p">(</span><span class="n">kCCHmacAlgSHA1</span><span class="p">,</span> <span class="n">key</span><span class="p">.</span><span class="n">UTF8String</span><span class="p">,</span> <span class="n">key</span><span class="p">.</span><span class="n">length</span><span class="p">,</span> <span class="n">md</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">mac</span><span class="p">);</span>
+</span><span class="line">    <span class="k">return</span> <span class="p">[</span><span class="n">self</span> <span class="nl">hexStringFromBytes:</span><span class="n">mac</span> <span class="nl">length:</span><span class="n">CC_SHA1_DIGEST_LENGTH</span><span class="p">];</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></tbody></table></div></figure>
+
+
+<p>这段代码本身没有问题，但是对系统函数的直接调用导致代码容易被静态分析，用IDA、otool等静态分析工具可以很容易的知道这个函数的workflow，签名过程被轻易破解。为了防备静态分析，可以使用函数指针间接调用函数：</p>
+
+<figure class="code"><figcaption><span>signature2 </span></figcaption>
+ <div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="k">@interface</span> <span class="nc">SecurityService</span> : <span class="nc">NSObject</span>
+</span><span class="line">
+</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nf">initWithMD5Function:</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="nv">md5</span> <span class="nf">HMACFunction:</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="nv">hmac</span><span class="p">;</span>
+</span><span class="line"><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span> <span class="nf">signatureData:</span><span class="p">(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">data</span> <span class="nf">byKey:</span><span class="p">(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">key</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">@end</span>
+</span><span class="line">
+</span><span class="line"><span class="k">@implementation</span> <span class="nc">SecurityService</span> <span class="p">{</span>
+</span><span class="line">    <span class="kt">void</span><span class="o">*</span>   <span class="n">_md5Funcation</span><span class="p">;</span>
+</span><span class="line">    <span class="kt">void</span><span class="o">*</span>   <span class="n">_hmacFuncation</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nl">initWithMD5Function:</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">md5</span> <span class="nl">HMACFunction:</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">hmac</span> <span class="p">{</span>
+</span><span class="line">    <span class="k">if</span> <span class="p">(</span><span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="n">init</span><span class="p">])</span> <span class="p">{</span>
+</span><span class="line">        <span class="n">_md5Funcation</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)((</span><span class="n">uint</span><span class="p">)</span><span class="o">&amp;</span><span class="n">_md5Funcation</span><span class="o">^</span><span class="p">(</span><span class="n">uint</span><span class="p">)</span><span class="n">md5</span><span class="p">);</span>
+</span><span class="line">        <span class="n">_hmacFuncation</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)((</span><span class="n">uint</span><span class="p">)</span><span class="o">&amp;</span><span class="n">_hmacFuncation</span><span class="o">^</span><span class="p">(</span><span class="n">uint</span><span class="p">)</span><span class="n">hmac</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line">
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span> <span class="nl">signatureData:</span><span class="p">(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span><span class="n">data</span> <span class="nl">byKey:</span><span class="p">(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span><span class="n">key</span> <span class="p">{</span>
+</span><span class="line">    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">md</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span>
+</span><span class="line">    <span class="kt">void</span><span class="o">*</span> <span class="n">func</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)((</span><span class="n">uint</span><span class="p">)</span><span class="o">&amp;</span><span class="n">_md5Funcation</span> <span class="o">^</span> <span class="p">(</span><span class="n">uint</span><span class="p">)</span><span class="n">_md5Funcation</span><span class="p">);</span>
+</span><span class="line">    <span class="p">((</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="k">const</span> <span class="kt">void</span><span class="o">*</span><span class="p">,</span> <span class="n">CC_LONG</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">))</span><span class="n">func</span><span class="p">)(</span><span class="n">data</span><span class="p">.</span><span class="n">UTF8String</span><span class="p">,</span>
+</span><span class="line">                                                                    <span class="p">(</span><span class="n">CC_LONG</span><span class="p">)</span><span class="n">data</span><span class="p">.</span><span class="n">length</span><span class="p">,</span>
+</span><span class="line">                                                                    <span class="n">md</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="kt">char</span> <span class="n">mac</span><span class="p">[</span><span class="n">CC_SHA1_DIGEST_LENGTH</span><span class="p">];</span>
+</span><span class="line">    <span class="n">func</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)((</span><span class="n">uint</span><span class="p">)</span><span class="o">&amp;</span><span class="n">_hmacFuncation</span> <span class="o">^</span> <span class="p">(</span><span class="n">uint</span><span class="p">)</span><span class="n">_hmacFuncation</span><span class="p">);</span>
+</span><span class="line">    <span class="p">((</span><span class="kt">void</span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="n">CCHmacAlgorithm</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span><span class="o">*</span><span class="p">,</span> <span class="n">size_t</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span><span class="o">*</span><span class="p">,</span> <span class="n">size_t</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span><span class="p">))</span><span class="n">func</span><span class="p">)(</span><span class="n">kCCHmacAlgSHA1</span><span class="p">,</span>
+</span><span class="line">                                                                                      <span class="n">key</span><span class="p">.</span><span class="n">UTF8String</span><span class="p">,</span>
+</span><span class="line">                                                                                      <span class="n">key</span><span class="p">.</span><span class="n">length</span><span class="p">,</span>
+</span><span class="line">                                                                                      <span class="n">md</span><span class="p">,</span>
+</span><span class="line">                                                                                      <span class="mi">16</span><span class="p">,</span>
+</span><span class="line">                                                                                      <span class="n">mac</span><span class="p">);</span>
+</span><span class="line">    <span class="k">return</span> <span class="p">[</span><span class="n">self</span> <span class="nl">hexStringFromBytes:</span><span class="n">mac</span> <span class="nl">length:</span><span class="n">CC_SHA1_DIGEST_LENGTH</span><span class="p">];</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="o">-</span> <span class="p">(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span> <span class="nl">hexStringFromBytes:</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">bytes</span> <span class="nl">length:</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">length</span> <span class="p">{</span>
+</span><span class="line">    <span class="n">NSMutableString</span> <span class="o">*</span><span class="n">hexStr</span><span class="o">=</span><span class="p">[[</span><span class="n">NSMutableString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithCapacity:</span><span class="mi">2</span><span class="o">*</span><span class="n">length</span><span class="p">];</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">length</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">        <span class="p">[</span><span class="n">hexStr</span> <span class="nl">appendFormat:</span><span class="s">@"%02x"</span><span class="p">,</span> <span class="n">bytes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&amp;</span><span class="mh">0xff</span><span class="p">];</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">return</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithString:</span><span class="n">hexStr</span><span class="p">];</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line"><span class="k">@end</span>
+</span><span class="line">
+</span><span class="line"><span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class="line">    <span class="n">SecurityService</span><span class="o">*</span> <span class="n">ss</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SecurityService</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithMD5Function:</span><span class="n">CC_MD5</span> <span class="nl">HMACFunction:</span><span class="n">CCHmac</span><span class="p">];</span>
+</span><span class="line">    <span class="n">NSString</span><span class="o">*</span> <span class="n">sign</span> <span class="o">=</span> <span class="p">[</span><span class="n">ss</span> <span class="nl">signatureData:</span><span class="s">@"1234"</span> <span class="nl">byKey:</span><span class="n">kAppSecret</span><span class="p">];</span>
+</span><span class="line">    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,</span><span class="n">sign</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></tbody></table></div></figure>
+
+
+<p>签名类初始化的时候，保存了HASH函数的地址值，执行签名的时，通过HASH函数的地址间接调用，这样静态分析工具分析到这里的时候，只能看到调用了某个地址，而不知道调用的具体函数，隐藏了真实目的。</p>
+
+<blockquote><p>这里不是直接将函数地址赋值给对象属性，而是用属性的地址与函数的地址做抑或运算。这样做主要有两个原因：</p>
+
+<blockquote><ul>
+<li><p>直接赋值可能被编译器优化，编译器自动将使用该属性的地方替换成函数本身；</p></li>
+<li><p>类实例的创建有随机性，属性的内存地址也具有随机性，用属性地址加密函数地址，这样属性值在每次运行时都不一样；</p></li>
+</ul>
+</blockquote></blockquote>
+
+<p>在Android或其他平台还可以用dlsym来获取函数地址：</p>
+
+<figure class="code"><figcaption><span>伪代码 </span></figcaption>
+ <div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="objc"><span class="line"><span class="kt">char</span> <span class="n">data</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mh">0x32</span><span class="p">,</span> <span class="mh">0x71</span><span class="p">,</span> <span class="mh">0x0b</span><span class="p">,</span> <span class="mh">0x48</span><span class="p">,</span> <span class="mh">0xe3</span><span class="p">,</span> <span class="mh">0xbc</span><span class="p">,</span> <span class="mh">0x6a</span><span class="p">,</span> <span class="mh">0x27</span><span class="p">,</span> <span class="mh">0x8e</span><span class="p">,</span> <span class="mh">0xca</span><span class="p">,</span> <span class="mh">0x3b</span><span class="p">,</span> <span class="mh">0x0e</span><span class="p">};</span>
+</span><span class="line"><span class="kt">char</span> <span class="n">sym</span><span class="p">[</span><span class="k">sizeof</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span><span class="line"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="k">sizeof</span><span class="p">(</span><span class="n">data</span><span class="p">);</span> <span class="n">i</span><span class="o">+=</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">    <span class="n">sym</span><span class="p">[</span><span class="n">i</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line"><span class="c1">// sym = "CC_MD5"</span>
+</span><span class="line"><span class="kt">void</span><span class="o">*</span> <span class="n">md5</span> <span class="o">=</span> <span class="n">dlsym</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">sym</span><span class="p">);</span>
+</span></code></pre></td></tr></tbody></table></div></figure>
+
+
+<h3>代码混淆</h3>
+
+<p>因为objc代码的动态性，编译器会在binary中留下类名、函数名等信息，这些信息是可以被<code>class-dump-z</code>等工具提取的，友好的命名让程序猿更方便，但同时也方便了破解者。对安全相关的重要模块类，可以故意混淆类名，让人不容易轻易联想到该的真实目的。比如把类名<code>SecurityService</code>改为<code>FIFA</code>。一些重要模块可以使用C/C++语言实现，编译器对C/C++并不会保留类名、方法名等信息。</p>
+
+<blockquote><p>使用混淆的名字对使用者很不方便，例如<code>[[FIFA alloc] initWithMD5Function:CC_MD5 HMACFunction:CCHmac];</code>这样的代码让人不知其意。可以用宏定义一个友好的名字来替代原来的类名<code>#define SecurityService FIFA</code></p></blockquote>
+
+<h3>动态调试</h3>
+
+<p>除了静态分析，破解者还可以使用gdb动态调试、Theos hook来分析代码，常用的系统加密函数、HASH函数都可能成为监控的对象，只要监控传递给他们的参数、调用栈就能轻松分析出密钥、算法等。所以使用系统的加密函数虽然节省开发时间、执行效率高，但并不是很安全，有些算法可能需要自己重写。</p>
+
+<h3>反调试</h3>
+
+<p>可以用ptrace等方法阻止gdb注入，但ptrace本身也可以被静态修改或hook。只好从多方面考虑，尽量提高安全性，比如检查binary签名是否匹配；检查手机是否越狱，越机做特殊处理等。参考<a href="http://blog.csdn.net/yiyaaixuexi/article/details/20286929">http://blog.csdn.net/yiyaaixuexi/article/details/20286929</a></p>
+
+<h3>代码加密</h3>
+
+<p>类似UPX等加壳技术在iOS中无法使用，因为iOS堆、栈内存都没有执行权限，这也是jit技术无法在iOS中使用的原因(除非苹果自己或越狱系统)。</p>
+
+<h3>脚本</h3>
+
+<p>将算法用脚本实现，脚本被编译成bytecode后，app解释执行bytecode指令，可以有效的防止动态调试，因为hackers看到的将是一条条的指令在switch case中执行，就像把图片的像素逐个地放给别人看，当他看完全部的像素后也不一定知道整张图片是什么样子。当然用脚本方式会增大开发成本，对执行效率也有一定影响，需要开发者在安全、开发成本、性能三者之间找个平衡点。</p>
+
+<h3>最后</h3>
+
+<p>软件保护技术多种多样，比如构造花指令，甚至有硬件级的加密模块TPM(Trusted Platform Module)。总之没有绝对的安全，但危险显然也只是相对的，只要提高编码意识，注意防护就可以把风险降到最低。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">tanqisen</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-06T13:59:00+08:00" pubdate="" data-updated="true">Jun 6<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class="category" href="/blog/categories/ios/">iOS</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/09/13/develop-android-wechat-flight-game-step-by-step-2/" title="Previous Post: 一步一步实现Android打飞机（二）">« 一步一步实现Android打飞机（二）</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the &lt;a href="http://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;</noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section class="odd">
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/06/how-to-prevent-app-crack/">如何防止客户端被破解</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/13/develop-android-wechat-flight-game-step-by-step-2/">一步一步实现Android打飞机（二）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/13/develop-android-wechat-flight-game-step-by-step-1/">一步一步实现Android打飞机（一）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/19/gcd-block-cycle-retain/">正确使用Block避免Cycle Retain和Crash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/27/ios-push-apns/">一步一步实现iOS应用PUSH功能</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="even">
+  <h1>About Me</h1>
+  <p>A little something about me.</p>
+</section>
+
+  
+</aside>
+
+
+    <span class="toggle-sidebar"></span></div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright © 2015 - tanqisen -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'tanqisen';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tanqisen.github.com/blog/2014/06/06/how-to-prevent-app-crack/';
+        var disqus_url = 'http://tanqisen.github.com/blog/2014/06/06/how-to-prevent-app-crack/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>

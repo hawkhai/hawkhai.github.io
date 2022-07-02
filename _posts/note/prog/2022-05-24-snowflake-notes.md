@@ -368,6 +368,14 @@ Reflective loader 实现思路如下：
 <https://github.com/Kerrbty/RemoteLoadDll>
 
 
+### API Hook 的几种实现
+
+[API Hook 的几种实现 {% include relref_cnblogs.html %}](https://www.cnblogs.com/rogeryu/archive/2009/06/04/1496538.html)
+1. 改写函数的首地址。
+2. 改写导入表
+3. 改写虚函数表。[简单的虚表 Hook {% include relref_csdn.html %}](https://blog.csdn.net/qq_39708161/article/details/79270112)
+
+
 ## Typora 解密之跳动的二进制
 
 Typora 是一款由 Abner Lee 开发的轻量级 Markdown 编辑器，与其他 Markdown 编辑器不同的是，Typora 没有采用源代码和预览双栏显示的方式，而是采用所见即所得的编辑方式，实现了即时预览的功能，但也可切换至源代码编辑模式。
@@ -386,7 +394,72 @@ Typora 是一款由 Abner Lee 开发的轻量级 Markdown 编辑器，与其他 
 
 [note](https://bbs.pediy.com/thread-272618.htm)
 
-[start66. {% include relref_weixin.html %}](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MjM5NTc2MDYxMw==&action=getalbum&album_id=2293635948628279298&scene=173&from_msgid=2458436731&from_itemidx=1&count=3&nolastread=1)
+
+## Fuzz 学习记录
+
+[note](https://bbs.pediy.com/thread-272500.htm)
+进行软件漏洞挖掘时，通常有静态分析（staticanalysis）、动态分析（dynamicanalysis）、符号执行（symbolicexecution）、模糊测试（fuzzing）这几种技术手段。
+
+模糊测试不需要人过多的参与，也不像动态分析那样要求分析人员有丰富的知识。简单解释，它就是用大量的输入数据自动去执行程序，从而发现哪些输入能够使程序发生异常，进而分析可能存在的漏洞。当前比较成功的 fuzzer（执行模糊测试的程序）有 AFL、libFuzzer、OSS-Fuzz 等。
+
+用 AFL 来示意一个典型的 Fuzz 过程。
+
+
+## 一文读懂对称加密、非对称加密、哈希值、签名、证书、https 之间的关系
+
+[note](https://debugwar.com/article/one-article-to-understand-the-relationship-between-encryption-certificate-signature-https)
+其实上一节中的 https 协议依旧是简化版本，真正完整的 https 协议是支持双向认证的，即客户端不仅要认证服务器、服务器也要认证客户端。
+
+只不过是平时大家访问的网站都是开门做生意的状态 —— 来的都是客。因此服务器并不会验证客户端的身份。
+
+[一文读懂 PE 文件签名并手工验证签名有效性](https://bbs.pediy.com/thread-272464.htm)
+
+
+## 2022 腾讯游戏安全决赛 wp
+
+[note](https://bbs.pediy.com/thread-272548.htm)
+
+
+## Android 调试与反调试详解
+
+* [Android Hook 技术学习 —— 常见的 hook 技术方案](https://bbs.pediy.com/thread-272870.htm)
+* [调试与反调试技巧详解](https://bbs.pediy.com/thread-272452.htm)
+* [整体加壳原理和脱壳技巧详解](https://bbs.pediy.com/thread-273293.htm)
+
+
+### dex 脱壳解决方案
+
+* dex 整体加固：这种方法往往通过动态加载的形式，交换 Application 的执行，一般我们可以通过 hook 方法，找到 dex_file 的起始地址或大小，进行脱取，也可以通过定制 Room 方法对关键的函数进行插桩，代表有 fdex2、Frida_Dump
+* 函数抽取：这种方法往往通过将函数代码抽取放入 so 文件中，执行时再从 so 文件读取还原，我们一般可以通过被动调用延时 Dump 的方法，或主动调用 ArtMethod 中 invoke 函数，触发每一个函数，然后进行回填，代表有 youpk 和 fart
+* VMP：通过定制的指令集进行解释，这时往往需要手工分析，找到指令的映射表，然后进行一步步解释
+
+
+### Android Vulnerability Mining
+
+《Android APP 漏洞之战系列》
+
+* （1）工具篇
+    - [01. Android 漏洞挖掘三板斧 —— drozer+Inspeckage(Xposed)+MobSF](https://bbs.pediy.com/thread-269196.htm)
+* （2）技巧篇
+    - [01. 调试与反调试详解](https://bbs.pediy.com/thread-272452.htm)
+    - [02. Android 常用 Hook 技术方案详解](https://bbs.pediy.com/thread-272870.htm)
+    - [03. 整体壳脱壳技巧详解](https://bbs.pediy.com/thread-273293.htm)
+* （3）基础篇 —— 四大组件漏洞篇
+    - [01. Activity 漏洞挖掘详解](https://bbs.pediy.com/thread-269211.htm)
+    - [02. Service 漏洞挖掘详解](https://bbs.pediy.com/thread-269255.htm)
+    - [03. Broadcast Recevier 漏洞详解 ](https://bbs.pediy.com/thread-269309.htm)
+    - [04. Content Provider 漏洞详解](https://bbs.pediy.com/thread-269447.htm)
+* （4）进阶篇 1 —— 基本配置漏洞篇
+    - [01. 权限安全和安全配置漏洞详解](https://bbs.pediy.com/thread-269988.htm)
+    - [02. 信息泄露漏洞详解](https://bbs.pediy.com/thread-271122.htm)
+* （5）进阶篇 2 —— 网络漏洞挖掘篇
+    - [01.Android 协议分析（四） —— Http/Https 中间人攻击 APP 升级劫持漏洞 : 解析 CNVD-2021-40179 和 CNVD-2021-45684](https://bbs.pediy.com/thread-268464.htm)
+    - [02. HTTP/HTTPs 通信漏洞详解](https://bbs.pediy.com/thread-270634.htm)
+    - [03. 验证码漏洞挖掘详解 ](https://bbs.pediy.com/thread-272270.htm)
+* （6）进阶篇 3 —— APP 重大漏洞分析篇
+    - [01. 插件化漏洞和解压缩漏洞详解](https://bbs.pediy.com/user-home-905443.htm)
+
+[start76. {% include relref_weixin.html %}](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MjM5NTc2MDYxMw==&action=getalbum&album_id=2293635948628279298&scene=173&from_msgid=2458436731&from_itemidx=1&count=3&nolastread=1)
 
 
 
@@ -403,5 +476,25 @@ Typora 是一款由 Abner Lee 开发的轻量级 Markdown 编辑器，与其他 
 - [https://bbs.pediy.com/thread-272569.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/09b64a65.htm" %})
 - [https://github.com/MrXiao7/DllInjector]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/github.com/8c750d26.html" %})
 - [https://github.com/Kerrbty/RemoteLoadDll]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/github.com/ca0eeb9f.html" %})
+- [https://www.cnblogs.com/rogeryu/archive/2009/06/04/1496538.html]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/www.cnblogs.com/316f18af.html" %})
+- [https://blog.csdn.net/qq_39708161/article/details/79270112]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/blog.csdn.net/c1e59072.html" %})
 - [https://bbs.pediy.com/thread-272618.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/03692cc5.htm" %})
+- [https://bbs.pediy.com/thread-272500.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/0a34d492.htm" %})
+- [https://debugwar.com/article/one-article-to-understand-the-relationship-between-encryption-certificate-signature-https]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/debugwar.com/94283ef3.html" %})
+- [https://bbs.pediy.com/thread-272464.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/9548c705.htm" %})
+- [https://bbs.pediy.com/thread-272548.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/d37f7874.htm" %})
+- [https://bbs.pediy.com/thread-272870.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/4cca5bed.htm" %})
+- [https://bbs.pediy.com/thread-272452.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/e1f4f326.htm" %})
+- [https://bbs.pediy.com/thread-273293.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/42e4ef8c.htm" %})
+- [https://bbs.pediy.com/thread-269196.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/2d1236b2.htm" %})
+- [https://bbs.pediy.com/thread-269211.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/40029d16.htm" %})
+- [https://bbs.pediy.com/thread-269255.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/24c9936c.htm" %})
+- [https://bbs.pediy.com/thread-269309.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/5e661439.htm" %})
+- [https://bbs.pediy.com/thread-269447.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/9b70d31b.htm" %})
+- [https://bbs.pediy.com/thread-269988.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/cd6b6fa6.htm" %})
+- [https://bbs.pediy.com/thread-271122.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/9139c793.htm" %})
+- [https://bbs.pediy.com/thread-268464.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/fda3644b.htm" %})
+- [https://bbs.pediy.com/thread-270634.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/508ba7ca.htm" %})
+- [https://bbs.pediy.com/thread-272270.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/ae31e192.htm" %})
+- [https://bbs.pediy.com/user-home-905443.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/eaca57b0.htm" %})
 - [https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MjM5NTc2MDYxMw==&action=getalbum&album_id=2293635948628279298&scene=173&from_msgid=2458436731&from_itemidx=1&count=3&nolastread=1]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/mp.weixin.qq.com/78332679.html" %})

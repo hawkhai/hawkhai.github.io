@@ -65,6 +65,7 @@ b. 执行：`gflags -p /enable ***.exe /full "***.exe"`，为需要调试的程�
 
 ```shell
 "C:/Program Files/Debugging Tools for Windows (x86)/gflags.exe" /p /enable qq.exe /full
+"C:\Program Files (x86)\Debugging Tools for Windows\gflags.exe" /p /enable kvipguid.exe /full
 ```
 
 列出当前启动了页堆的进程列表：
