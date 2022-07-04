@@ -81,6 +81,36 @@ GBK、GB2312 以及 Unicode 都既是字符集，也是编码方式，而 UTF-8 
 此外，此工具能够处理不同类型的字符串非常重要，例如 C 字符串（NULL 终止），Pascal 字符串（长度前缀）等。
 我在这里找到了“字符串提取器”，但它需要花钱，我不确定它是否可以处理不同类型的字符串。
 
+```
+E:\kSource\blog>D:\Qt\Tools\mingw810_64\bin\strings.exe -help
+Usage: D:\Qt\Tools\mingw810_64\bin\strings.exe [option(s)] [file(s)]
+ Display printable strings in [file(s)] (stdin by default)
+ The options are:
+  -a - --all                Scan the entire file, not just the data section [default]
+  -d --data                 Only scan the data sections in the file
+  -f --print-file-name      Print the name of the file before each string
+  -n --bytes=[number]       Locate & print any NUL-terminated sequence of at
+  -<number>                   least [number] characters (default 4).
+  -t --radix={o,d,x}        Print the location of the string in base 8, 10 or 16
+  -w --include-all-whitespace Include all whitespace as valid string characters
+  -o                        An alias for --radix=o
+  -T --target=<BFDNAME>     Specify the binary file format
+  -e --encoding={s,S,b,l,B,L} Select character size and endianness:
+                            s = 7-bit, S = 8-bit, {b,l} = 16-bit, {B,L} = 32-bit
+  -s --output-separator=<string> String used to separate strings in output.
+  @<file>                   Read options from <file>
+  -h --help                 Display this information
+  -v -V --version           Print the program's version number
+D:\Qt\Tools\mingw810_64\bin\strings.exe: supported targets:
+                pe-x86-64 pei-x86-64 pe-bigobj-x86-64 elf64-x86-64 elf64-l1om
+                elf64-k1om pe-i386 pei-i386 elf32-i386 elf32-iamcu elf64-little
+                elf64-big elf32-little elf32-big plugin srec symbolsrec verilog
+                tekhex binary ihex
+Report bugs to <http://www.sourceware.org/bugzilla/>
+
+E:\kSource\blog>
+```
+
 ----
 
 手工撸了一个超级解码：
@@ -454,6 +484,7 @@ In-Depth:Quasi Compile-Time String Hashing
 
 - [https://www.5axxw.com/questions/content/h0ffdn]({% include relrefx.html url="/backup/2022-07-01-pe-strings.md/www.5axxw.com/464cd928.html" %})
 - [https://blog.csdn.net/MC_007/article/details/82712359]({% include relrefx.html url="/backup/2022-07-01-pe-strings.md/blog.csdn.net/db3d813d.html" %})
+- [http://www.sourceware.org/bugzilla/]({% include relrefx.html url="/backup/2022-07-01-pe-strings.md/www.sourceware.org/60356a6f.html" %})
 - [https://docs.python.org/zh-tw/3.8/library/string.html]({% include relrefx.html url="/backup/2022-07-01-pe-strings.md/docs.python.org/6888d893.html" %})
 - [http://www.codeproject.com/Articles/2724/Literal-string-encryption-as-part-of-the-build-pro]({% include relrefx.html url="/backup/2022-07-01-pe-strings.md/www.codeproject.com/7ea30383.html" %})
 - [https://code.google.com/p/strenc/]({% include relrefx.html url="/backup/2022-07-01-pe-strings.md/code.google.com/0512edd5.html" %})
