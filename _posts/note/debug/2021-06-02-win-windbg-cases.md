@@ -116,7 +116,7 @@ Attempt to read from address ffffffff823b63d8
 
 ```
 ntdll!NtWaitForSingleObject+0x14:
-00007ffc`e352cdf4 c3          Unable to load image C:\Program Files (x86)\knpdf\fastapp_ext64.dll, Win32 error 0n2
+00007ffc`e352cdf4 c3          Unable to load image C:\Program Files (x86)\toypdf\fastapp_ext64.dll, Win32 error 0n2
 rax=00000000823b63c0 rbx=ffffffff823b63c0 rcx=000000007de8f948
 rdx=ffffffff823b63c0 rsi=0000000000000000 rdi=00000000823b62b8
 rip=0000000055361dea rsp=000000007de8f8b0 rbp=00000000823b6380
@@ -176,17 +176,17 @@ int main()
 ## 虚表对不上造成的崩溃
 
 
-### kavdr.exe kvipsdk.dll ACCESS\_VIOLATION.dmp
+### kavdr.exe toysdk.dll ACCESS\_VIOLATION.dmp
 
 ```
 eax=0064006f ebx=0512d030 ecx=0512d030 edx=052b91c0 esi=00000001 edi=00000009
 eip=052b9cd7 esp=0019e8e0 ebp=0019e988 iopl=0         nv up ei ng nz na pe nc
 cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00210286
-kvipsdk!GetInterface+0x4bc7:
+toysdk!GetInterface+0x4bc7:
 052b9cd7 807f2d00        cmp     byte ptr [edi+2Dh],0       ds:002b:00000036=??
 ChildEBP RetAddr  Args to Child
 WARNING: Stack unwind information not available. Following frames may be wrong.
-0019e988 0503110f 04cc7320 0512d020 0512d030 kvipsdk!GetInterface+0x4bc7
+0019e988 0503110f 04cc7320 0512d020 0512d030 toysdk!GetInterface+0x4bc7
 0019e99c 05091e7c d556ed10 00ab1bf8 00000002 kvip3thex!vip_sdk::GetProductID+0x7f [e:\..\kis_kvip_fb\publish\purevipsdk\vip_sdk_product_info.hpp @ 27]
 0019eae4 00403946 04d33e28 004ad928 00ab1bf8 kvip3thex!CKVip3thSdk::ReportInfo+0x2bc [e:\..\kis_kvip_fb\src\kvip3thex\kvip3thsdk.cpp @ 277]
 0019eb8c 00403513 0019ebb0 da235292 000023f0 kavdr+0x3946
@@ -199,12 +199,12 @@ WARNING: Stack unwind information not available. Following frames may be wrong.
 eax=0064006f ebx=0512d030 ecx=0512d030 edx=052b91c0 esi=00000001 edi=00000009
 eip=052b9cd7 esp=0019e8e0 ebp=0019e988 iopl=0         nv up ei ng nz na pe nc
 cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00210286
-kvipsdk!GetInterface+0x4bc7:
+toysdk!GetInterface+0x4bc7:
 052b9cd7 807f2d00        cmp     byte ptr [edi+2Dh],0       ds:002b:00000036=??
 Resetting default scope
 
 EXCEPTION_RECORD:  (.exr -1)
-ExceptionAddress: 052b9cd7 (kvipsdk!GetInterface+0x00004bc7)
+ExceptionAddress: 052b9cd7 (toysdk!GetInterface+0x00004bc7)
    ExceptionCode: c0000005 (Access violation)
   ExceptionFlags: 00000000
 NumberParameters: 2
@@ -214,13 +214,13 @@ Attempt to read from address 00000036
 ```
 
 ```cpp
-inline IVipSdkConfigInterface* KVipSdkWarpper::GetVipConfig()
+inline IVipSdkConfigInterface* toysdkWarpper::GetVipConfig()
 {
     return vip_sdk_ifmgr_ ? dynamic_cast<IVipSdkConfigInterface*>(vip_sdk_ifmgr_->GetInterface(CONFIG_INTERFACE_NAME)) : NULL;
 }
 
 inline DWORD GetProductID() {
-    IVipSdkConfigInterface* config = KVipSdkWarpper::GetInstance()->GetVipConfig();
+    IVipSdkConfigInterface* config = toysdkWarpper::GetInstance()->GetVipConfig();
     if (NULL == config) return 0;
     const wchar_t* v = config->GetValue(PRODUCT, PRODUCT_KEY, VALUE);
     if (NULL == v) return 0;
@@ -229,17 +229,17 @@ inline DWORD GetProductID() {
 ```
 
 
-### documentrepair.exe kvipsdk.dll ACCESS\_VIOLATION.dmp
+### documentrepair.exe toysdk.dll ACCESS\_VIOLATION.dmp
 
 ```
 eax=005f0070 ebx=077ad008 ecx=077ad008 edx=07a291c0 esi=00000000 edi=2aee3a8e
 eip=07a29cd7 esp=0019f2f8 ebp=0019f3a0 iopl=0         nv up ei pl nz na pe nc
 cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00210206
-kvipsdk!GetInterface+0x4bc7:
+toysdk!GetInterface+0x4bc7:
 07a29cd7 807f2d00        cmp     byte ptr [edi+2Dh],0       ds:002b:2aee3abb=??
 ChildEBP RetAddr  Args to Child
 WARNING: Stack unwind information not available. Following frames may be wrong.
-0019f3a0 076b107f 07587320 077ad020 077ad008 kvipsdk!GetInterface+0x4bc7
+0019f3a0 076b107f 07587320 077ad020 077ad008 toysdk!GetInterface+0x4bc7
 0019f3b4 0771149d 00000001 b9a70c6e 04a003f7 kvip3thex!vip_sdk::GetVipVersion+0x7f [e:\..\kis_kvip_fb\publish\purevipsdk\vip_sdk_product_info.hpp @ 11]
 0019f420 00402eff 616136de 0000005f 004912d8 kvip3thex!CKVip3thSdk::Init+0x23d [e:\..\kis_kvip_fb\src\kvip3thex\kvip3thsdk.cpp @ 133]
 0019f434 00403bf5 00000000 488e334b 000023f0 documentrepair+0x2eff
@@ -250,12 +250,12 @@ WARNING: Stack unwind information not available. Following frames may be wrong.
 eax=005f0070 ebx=077ad008 ecx=077ad008 edx=07a291c0 esi=00000000 edi=2aee3a8e
 eip=07a29cd7 esp=0019f2f8 ebp=0019f3a0 iopl=0         nv up ei pl nz na pe nc
 cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00210206
-kvipsdk!GetInterface+0x4bc7:
+toysdk!GetInterface+0x4bc7:
 07a29cd7 807f2d00        cmp     byte ptr [edi+2Dh],0       ds:002b:2aee3abb=??
 Resetting default scope
 
 EXCEPTION_RECORD:  (.exr -1)
-ExceptionAddress: 07a29cd7 (kvipsdk!GetInterface+0x00004bc7)
+ExceptionAddress: 07a29cd7 (toysdk!GetInterface+0x00004bc7)
    ExceptionCode: c0000005 (Access violation)
   ExceptionFlags: 00000000
 NumberParameters: 2
@@ -266,7 +266,7 @@ Attempt to read from address 2aee3abb
 
 ```cpp
 inline DWORD GetVipVersion() {
-    IVipSdkConfigInterface* config = KVipSdkWarpper::GetInstance()->GetVipConfig();
+    IVipSdkConfigInterface* config = toysdkWarpper::GetInstance()->GetVipConfig();
     if (NULL == config) return 0;
     const wchar_t* v = config->GetValue(PRODUCT, VIP_VERSION, VALUE);
     if (NULL == v) return 0;
