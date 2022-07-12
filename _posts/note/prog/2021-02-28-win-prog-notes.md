@@ -16,6 +16,25 @@ codeprint:
 ---
 
 
+## QT QtMoc
+
+{% include image.html url="/assets/images/210228-win-prog-notes/20220712-170628.jpg" %}
+QT .vcxproj 有时候 MOC 会同步失败。
+
+[Unresolved external symbol "public: virtual struct QMetaObject const * __thiscall Parent](https://stackoverflow.com/questions/14170770/unresolved-external-symbol-public-virtual-struct-qmetaobject-const-thiscal)
+
+造成问题是因为 ClInclude 和 QtMoc 的区别。
+
+```
+<ClInclude Include="..\src\split\SplitFileProgressDlg.h" />
+<QtMoc Include="..\src\split\SplitFileProgressDlg.h" />
+```
+
+If you're using Visual Studio, delete the line `Q_OBJECT` from the header file, save the file,
+put `Q_OBJECT` back into the header file, save the file again.
+This should generate the `moc_*` file and should build and link correctly.
+
+
 ## QTimer 句柄问题
 
 QTimer 内部是通过系统 SetTimer 函数实现，每次调用 SetTimer 会消耗一个用户句柄（<https://docs.microsoft.com/en-us/windows/win32/sysinfo/user-objects>），单个进程可以使用的用户句柄数默认为 1 万，超过后，很多系统 api 会调用失败，这时会触发 Qt 抛异常，导致程序崩溃。
@@ -262,6 +281,7 @@ Build in cmd.exe, run command as: msbuild dprofiler.sln
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-28-win-prog-notes.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://stackoverflow.com/questions/14170770/unresolved-external-symbol-public-virtual-struct-qmetaobject-const-thiscal]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/stackoverflow.com/692279a2.html" %})
 - [https://docs.microsoft.com/en-us/windows/win32/sysinfo/user-objects]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/docs.microsoft.com/babe9dc5.html" %})
 - [https://github.com/massgravel/Microsoft-Activation-Scripts]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/github.com/afd6ff84.html" %})
 - [https://marduc812.com/2021/01/21/activate-windows-10-for-free/]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/marduc812.com/e0d3c8e0.html" %})

@@ -18,14 +18,14 @@ codeprint:
 
 ## 标准 c++ 实现 CString 类和 TCHAR
 
-https://blog.csdn.net/qq_36810544/article/details/84329132
+<https://blog.csdn.net/qq_36810544/article/details/84329132>
 
-https://codeproject.freetls.fastly.net/Articles/1146/CString-clone-Using-Standard-C
+<https://codeproject.freetls.fastly.net/Articles/1146/CString-clone-Using-Standard-C>
 
 
 ## std::string 跨平台格式化函数实现代码
 
-https://blog.csdn.net/jzkdl/article/details/80196309
+<https://blog.csdn.net/jzkdl/article/details/80196309>
 
 
 
