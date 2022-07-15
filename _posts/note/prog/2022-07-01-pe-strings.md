@@ -171,19 +171,21 @@ def hackstring(fpath, encoding, checkenc, xli, strset, printx=False):
         if fcache[startp]: # 这里已经校验过了。
             continue
         eatsize, eatstr = trystr(fdata, startp, encoding, xli, fcache, checkenc)
-        if len(eatstr) <= 1: continue # 只有一个字符，忽略掉。
+        eatbin = eatstr.encode(encoding)
+        # https://docs.microsoft.com/zh-cn/sysinternals/downloads/strings
+        if len(eatstr) <= 1 or len(eatbin) <= 2: continue # 只有一个字符，忽略掉。
         if eatstr in strset: continue # 已经存在了。
         strset.add(eatstr)
         if printx:
-            print(fsize, startp, eatsize, len(eatstr), '"{}"'.format(eatstr))
-        retv.append((fsize, startp, eatsize, len(eatstr), eatstr))
+            print(fsize, startp, eatsize, encoding, len(eatstr), '"{}"'.format(eatstr))
+        retv.append((fsize, startp, eatsize, encoding, len(eatstr), eatstr))
     return retv
 
 if __name__ == "__main__":
-    fpath = r"E:\kpdf\knpdf\keniu\pdfconverter.exe"
+    fpath = r"E:\kpdf\keniupdf\6500\keasyipcn.dll"
     strset = set()
-    hackstring(fpath, "utf-16-le", "gbk", [2, 4], strset, True)
     hackstring(fpath, "gbk", None, [1, 2,], strset, True)
+    hackstring(fpath, "utf-16-le", "gbk", [2, 4], strset, True)
     hackstring(fpath, "utf8", "gbk", [1, 2, 3, 4], strset, True)
 ```
 
