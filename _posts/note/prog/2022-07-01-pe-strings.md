@@ -363,6 +363,12 @@ int func_gbk(GETBYTE getbyte) { if (!getbyte) return -1;
 }
 ```
 
+脚本代码生成的代码：
+<a href="{% include relref.html url="/source/mycode/mycode_gbk.c" %}" target="_blank">mycode_gbk.c</a>
+<a href="{% include relref.html url="/source/mycode/mycode_utf8.c" %}" target="_blank">mycode_utf8.c</a>
+<a href="{% include relref.html url="/source/mycode/mycode_utf16le.c" %}" target="_blank">mycode_utf16le.c</a>
+
+
 最后编译出来：<a href="{% include relref.html url="/source/mycode/toystrings.exe" %}" target="_blank">toystrings.exe</a>。
 
 直接命令行输入文件，结果存在文件 `*.pedump.strings.txt` 里面。
