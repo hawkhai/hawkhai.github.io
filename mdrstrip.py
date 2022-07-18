@@ -274,7 +274,7 @@ def tidyupImg(imglocal, fpath, line):
     sizepath = tpath + THUMBNAIL
     from PIL import Image
     # 创建缩略图。
-    if not os.path.exists(sizepath) and imgtype in ("png", "jpg", "gif", "jpeg", "webp", "bmp",):
+    if not os.path.exists(sizepath) and imgtype in ("png", "jpg", "gif", "jpeg", "webp", "bmp", "jfif"):
         try:
             img = Image.open(tpath)
         except RuntimeError as ex: # could not create decoder object
@@ -329,7 +329,7 @@ def tidyupImg(imglocal, fpath, line):
         #    return tidyupImg(imglocal, fpath, line)
 
     imgtype = imgfname.split(".")[-1].lower()
-    if not imgtype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4", "zip", "bmp", "svg",):
+    if not imgtype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4", "zip", "bmp", "svg", "jfif"):
         print(imglocal, fpath, line)
         assert False, imglocal
 
@@ -1044,7 +1044,7 @@ def main():
     G_CSCHAR = list(set(G_CSCHAR))
     G_CSCHAR.sort()
     print("".join(G_CSCHAR))
-    imgset  = ("jpeg", "jpg", "png", "gif", "bmp",)
+    imgset  = ("jpeg", "jpg", "png", "gif", "bmp", "jfif")
     fontset = ("eot", "ttf", "woff", "svg", "woff2", )
     codeset = ("cc", "js", "txt", "xml", "css", "mk", "lock", "zip", "makefile", "scss",)
     G_TYPESET -= set(imgset)
