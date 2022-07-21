@@ -1,0 +1,2262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" id="sixapart-standard" lang="zh-CN"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="Movable Type  5.2.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!--link rel="stylesheet" href="http://www.ruanyifeng.com/blog/styles.css" type="text/css" /-->
+<link rel="start" href="https://www.ruanyifeng.com/blog/" title="Home" />
+<link rel="alternate" type="application/atom+xml" title="Recent Entries" href="https://feeds.feedburner.com/ruanyifeng" />
+<script src="https://hm.baidu.com/hm.js?f89e0235da0841927341497d774e7b15"></script><script async="" src="//www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="https://www.ruanyifeng.com/blog/mt.js"></script>
+<script type="text/javascript" src="/blog/advertisements.js"></script>
+<!--
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="http://www.ruanyifeng.com/blog/2022/05/weekly-issue-208.html">
+<dc:title>科技爱好者周刊（第 208 期）：晋升制度的问题</dc:title>
+<dc:description>这里记录每周值得分享的科技内容，周五发布。（[通知] 下周五是端午节，周刊暂停。）...</dc:description>
+<dc:creator>阮一峰</dc:creator>
+<dc:date>2022-05-27T08:35:33+08:00</dc:date>
+<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/3.0/" />
+</Work>
+<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/3.0/">
+</License>
+</rdf:RDF>
+-->
+
+<style>
+body {
+  background-color: #f5f5d5;
+}
+
+#container::before {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: rgba(0,0,0,0.1);
+  text-align: center;
+  content: "本站显示不正常，可能因为您使用了广告拦截器。";
+}
+
+</style>
+<script>
+function loadjscssfile(filename, filetype){
+    if (filetype=="js"){ //if filename is a external JavaScript file
+        var fileref=document.createElement('script')
+        fileref.setAttribute("type","text/javascript")
+        fileref.setAttribute("src", filename)
+    }
+    else if (filetype=="css"){ //if filename is an external CSS file
+        var fileref=document.createElement("link")
+        fileref.setAttribute("rel", "stylesheet")
+        fileref.setAttribute("type", "text/css")
+        fileref.setAttribute("href", filename)
+    }
+    if (typeof fileref!="undefined")
+        document.getElementsByTagName("head")[0].appendChild(fileref)
+}
+//loadjscssfile("http://www.ruanyifeng.com/blog/styles.css", "css");
+loadjscssfile('/static/themes/theme_scrapbook/theme_scrapbook.min.css', "css");
+
+
+function checker() {
+  if (/mobile|android/i.test(navigator.userAgent)) return; 
+  window.comments &amp;&amp; window.comments.setAttribute("style", "!important");
+  // var img = document.querySelector('img[src^="http://www.ruanyifeng.com/blog/images"]');
+  var img = document.querySelector('a &gt; img[src*="wangbase.com/blogimg/asset/"]');
+  var isAdblocker = (typeof adblock === 'undefined');
+  if (
+    /*isAdblocker || */
+    (img &amp;&amp; window.getComputedStyle(img).display === 'none') ||
+    (img &amp;&amp; window.getComputedStyle(img.parentElement).display === 'none')
+  ){
+    var sponsor = document.querySelector('#main-content');
+    var prompt = document.createElement('div');
+    prompt.style = 'border: 1px solid #c6c6c6;border-radius: 4px;background-color: #f5f2f0;padding: 15px; font-size: 14px;';
+    prompt.innerHTML = '&lt;p&gt;您使用了广告拦截器，导致本站内容无法显示。&lt;/p&gt;&lt;p&gt;请将 www.ruanyifeng.com 加入白名单，解除广告屏蔽后，刷新页面。谢谢。&lt;/p&gt;';
+    sponsor.parentNode.replaceChild(prompt, sponsor);
+    // document.querySelector('#main-content').innerHTML = '';
+  }
+}
+
+setTimeout(checker, 1000);
+</script><link rel="stylesheet" type="text/css" href="/static/themes/theme_scrapbook/theme_scrapbook.min.css" />
+
+    
+    <link rel="prev" href="https://www.ruanyifeng.com/blog/2011/04/the_economics_of_dropbox.html" title="Dropbox的成本估算" />
+    <link rel="next" href="https://www.ruanyifeng.com/blog/2011/05/900-month_lifespan.html" title="人生只有900个月" />
+    
+    <title>如何选择开源许可证？ - 阮一峰的网络日志</title>
+</head>
+<body id="scrapbook" class="mt-entry-archive one-column">
+<script>
+if (/mobile/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) document.body.classList.add('mobile');
+
+/*
+window.addEventListener('load', function(event) {
+  setTimeout(function () {
+    hab('#sup-post-2');
+    hab('#cre-inner');
+  }, 1000);
+});
+*/
+</script>
+    <div id="container">
+        <div id="container-inner">
+
+            <div id="header">
+    <div id="header-inner">
+        <div id="header-content">
+
+
+            <div id="header-name">阮一峰的网络日志 <span id="site_location"> » <a href="https://www.ruanyifeng.com/blog/" accesskey="1">首页</a></span><span id="site_archive"> » <a href="https://www.ruanyifeng.com/blog/archives.html">档案</a></span>
+</div>
+
+<div id="google_search">
+<!-- SiteSearch Google -->
+<form action="https://www.baidu.com/s" target="_blank" method="get" id="cse-search-box">
+  <div>
+  <input type="text" size="20" name="origin" class="searchbox" id="sbi" value="" />
+  <input type="hidden" name="wd" value="" />
+  <!--input type="image" src="/static/themes/theme_scrapbook/images/top_search_submit.gif" class="searchbox_submit" value="" alt="搜索" name="sa" onclick="this.form.wd.value = this.form.origin.value + ' inurl:www.ruanyifeng.com/blog'" /-->
+  <input type="image" src="/static/themes/theme_scrapbook/images/top_search_submit.gif" class="searchbox_submit" value="" alt="搜索" name="sa" onclick="this.form.wd.value = this.form.origin.value + ' 阮一峰'" />
+</div>
+</form>
+
+<!-- SiteSearch Google -->
+</div>
+<div id="feed_icon">
+<a href="/feed.html?utm_source=" title="订阅Feed">
+<!--img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAUzSURBVHjavFdbbFRVFF3nPjoz7dTWTittaW0jUDRAUqaNojyqREnEQKgfUj9MqqAmhqRt/OCD4CuY+Kckoh+aiGKC+gMJbdHoRysJ8dkhhmJLNdDKtJU+6GMK87j3Hs85d2Z6HzNtMYWb3Dn3NWftvfba+5xNYDl+e6Fkj6yqb/oDRbWq14vlPBLRKCITkxf0ROLt+hNjp1PPSRK4kA3vF1dXNRcWlyA2OQU9eos9opAkAiKxD+XkKO6t15aRWO7J/MgmAZU8MEgexgZHMX518Dh72sYMmVKShnxWuWHdHtxKIDIYTgMuDzgfmSOIQkYMpdUF8OY92Hytt4/jvkg47czzU16iQovM3QFwmNck+Yyduu7D6NA0Z6JR4THntFs9V4tWQg6Ui3s6MwKDncsFTnXKLJhDSeUK3AgPtyhccDzmVs999buRt/1Vm4i0od+hX7+MRG87jPGB/w1u8FPj9xEw7McVrnYuOCvtpjTth3J/nTg99c8LRhKhr6D3dTB5R24bXFwbMXBsyZzeoXaycEpJ95TB09AGX/NpqLVNtw8urnVzLvHjFNxiFqRy2OOHuqUVnue+ACkoWzo4O6lGzTmuHq6nPvY2m9rVqjrIK2rMEKxqyG5NPAKt+wjo0LklgfNxJkZMA3KJvqRUk3z5UFY3QH14P0h+WUY79HPvgv7VuSg4ZRGY1YgZgqXmORccF17sy2ehnf9AeO085K2HQFbtXBScj0LcpgF2cN+WV+DZ/LJQu6gD4R7oV7pBJwbSgtMvfiPoVp56DySwxm7EtkMs1WdAB7qzggsDJKQYsHucSkOudrkiCPWR/fA2nYCn8SNIK4NptSMyAu3sAdDRkIsJdfth0LzSrODUoPNZ4KI9SxJI5UHk7D4GdQfz2us31c7CoHMjRkKuDPHseCMrONVhNcDJwMJpKFVvg9L4OaTiNWm1x789KCqkrXhVBiEz0WYCT2nAzQAD1/vaETv1GrRfP4Vx5cfMNcDPwvP0h0DhanPym7OIf/+O67vcJ1/PCJ4KgdzaUP6Wz+dU+5yIL6fV+PsHGAOdwlPpvvUOyeeAVGyCdqkDNB6DPjsBSrnndfOGevOh3RhGItxvA+fX1CtbGFhgYUFkFMZPR6F1HnClHq8HyubWtJexX06CRmdt33hrd7nA7SFY4qoGpnYuOKcRykPPgDCBcsHx9Iv+fNL2PueBehCWUfYQIIMGLOCcOmXDXsh1+yCt35tUPfvzGFuSvzvoinXOxqa02qOhM6733nVP2MAdaej2XN11DPKjLZCD+yBvahGCo7JfTKAN9UD7s8Oe9zUNIhz8fWI8DG2k38WCFdxugANcXrvTVd1IEbuv3Jour7Hzn7jLMBNfKs7R3i67gRVrbeCOEDhinmWhAatsqdquM2XzHZINhK2cqTjHr/XZdVJUbgN3MWAVXKbSyg9jesRW2xP9di+lwrL5ojM3m2H/kG9hwcIA37c71W6wJdW2J2S5nrjYbq/t1AHAhJsKQeyfPvf6IMJgghPJhFZ4x0KlfLFvt22du45Au/A1SOlGc0P672XXwhLtOcM0kTTEMMd0qkVmMNXxMd/tsedUjInr4SQDgOfeXMSiN0FCL5WHah4L1qqYXPJOJlttd+a5M+YpcG5poLYKQ5f+6JJ4r8bbJYP47hq4r7QAs9PjYNhHJd4o8l5taiwuOpa7AS4XKqI/5NjJbTnaWK92nLdLuhQAJayRNMiygXPBeQN+Qbvu0zDc3y+aUzhbkGR73sI7ljvUnndx2q3t+X8CDAD66FtrIL864AAAAABJRU5ErkJggg==" alt="" style="border: 0pt none;" /-->
+<img src="https://wangbase.com/blogimg/asset/202107/bg2021072117.png" alt="" style="border: 0pt none;" />
+</a></div>
+
+        </div>
+    </div>
+</div>
+
+
+
+            <div id="content">
+                <div id="content-inner">
+
+
+                    <div id="alpha">
+                        <div id="alpha-inner">
+
+
+                            <div id="entry-1554" class="entry-asset asset hentry">
+                                <div class="asset-header">
+<div class="asset-nav entry-nav">
+
+<div class="entry-location">
+<ul>
+<li>上一篇：<a href="https://www.ruanyifeng.com/blog/2011/04/the_economics_of_dropbox.html" title="Dropbox的成本估算">Dropbox的成本估</a></li>
+<li>下一篇：<a href="https://www.ruanyifeng.com/blog/2011/05/900-month_lifespan.html" title="人生只有900个月">人生只有900个月  </a></li>
+</ul>
+</div>
+
+
+    
+                                    <div class="entry-categories">
+                                        <p>分类<span class="delimiter">：</span></p>
+                                        <ul>
+                                            <li><a href="https://www.ruanyifeng.com/blog/developer/" rel="tag">开发者手册</a></li>
+                                        </ul>
+                                    </div>
+    
+
+
+                                            
+<div class="entry-location-mobile" style="float: right;">
+<ul>
+<li><a href="https://www.ruanyifeng.com/blog/2011/04/the_economics_of_dropbox.html" title="Dropbox的成本估算">⇐ </a></li>
+<li><a href="https://www.ruanyifeng.com/blog/2011/05/900-month_lifespan.html" title="人生只有900个月"> ⇒</a></li>
+</ul>
+</div>
+
+</div>
+</div>
+
+                          
+<article class="hentry">
+                                    <h1 id="page-title" class="asset-name entry-title">如何选择开源许可证？</h1>
+
+
+
+<div class="asset-meta">
+                                        
+
+                                            <p class="vcard author">作者： <a class="fn url" href="https://www.ruanyifeng.com">阮一峰</a></p>
+                                    <p>日期： <a href="https://www.ruanyifeng.com/blog/2011/05/"><abbr class="published" title="2011-05-02T01:26:31+08:00">2011年5月 2日</abbr></a></p>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+                                
+                                <div class="asset-content entry-content" id="main-content">
+
+                                    <!-- div class="asset-body" -->
+                                        <p>如何为代码选择开源许可证，这是一个问题。</p>
+                                    <!-- /div -->
+
+
+                                    <!-- div id="more" class="asset-more" -->
+                                        <p>世界上的开源许可证，大概有<a href="https://www.gnu.org/licenses/license-list.html" target="_blank">上百种</a>。很少有人搞得清楚它们的区别。即使在最流行的六种----<a href="https://www.gnu.org/licenses/gpl.html" target="_blank">GPL</a>、<a href="https://en.wikipedia.org/wiki/BSD_licenses" target="_blank">BSD</a>、<a href="https://en.wikipedia.org/wiki/MIT_License" target="_blank">MIT</a>、<a href="https://www.mozilla.org/MPL/" target="_blank">Mozilla</a>、<a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache</a>和<a href="https://www.gnu.org/copyleft/lesser.html" target="_blank">LGPL</a>----之中做选择，也很复杂。</p>
+
+<p>乌克兰程序员<a href="https://web.archive.org/web/20110503183702/http://pbagwl.com/post/5078147450/description-of-popular-software-licenses" target="_blank">Paul Bagwell</a>，画了一张分析图，说明应该怎么选择。这是我见过的最简单的讲解，只用两分钟，你就能搞清楚这六种许可证之间的最大区别。</p>
+
+<p>下面是我制作的中文版，请点击看大图。</p>
+
+<p><a href="/blogimg/asset/201105/free_software_licenses.png" target="_blank"><img src="/blogimg/asset/201105/bg2011050101.png" /></a></p>
+
+<p>（完）</p>
+                                    <!-- /div -->
+
+                                </div>
+    <script type="text/javascript" src="/newwindow.js"></script>
+                                <div class="asset-footer">
+
+<h3>文档信息</h3>
+<ul>
+<li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">创意共享3.0许可证</a>）</li>
+<li>发表日期： <abbr class="published" title="2011-05-02T01:26:31+08:00">2011年5月 2日</abbr></li>
+
+</ul>
+                                </div>
+</article>
+                            </div>
+
+
+
+  <div style="display: inline-block ! important;width: 100%;">
+ 
+  </div>
+
+
+
+<div id="related_entries">
+<h2>相关文章</h2>
+<ul>
+
+<li><strong>2022.04.29: <a href="https://www.ruanyifeng.com/blog/2022/04/microservice.html">微服务是什么？</a></strong>
+
+                           <div class="entry-body">
+                              微服务（microservice）是一种软件架构，正得到越来越多的关注。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2022.01.28: <a href="https://www.ruanyifeng.com/blog/2022/01/cli-alternative-tools.html">命令行常用工具的替代品</a></strong>
+
+                           <div class="entry-body">
+                              程序员离不开命令行，许多经典命令是每天必用的，比如ls和cd。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2021.09.07: <a href="https://www.ruanyifeng.com/blog/2021/09/c-language-tutorial.html">《C 语言入门教程》发布了</a></strong>
+
+                           <div class="entry-body">
+                              向大家报告，我写了一本《C 语言入门教程》，已经上线了，欢迎访问。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2021.08.26: <a href="https://www.ruanyifeng.com/blog/2021/08/best-note-taking-software-for-programmers.html">最适合程序员的笔记软件</a></strong>
+
+                           <div class="entry-body">
+                              程序员的笔记软件，应该满足下面几个条件。
+
+                           </div>
+
+</li>
+
+ 
+</ul>
+</div>
+
+
+
+                    
+
+                    <div id="comments" class="comments" style="!important">
+
+
+    
+    
+        
+    <h2 class="comments-header">留言（52条）</h2>
+
+    <div id="comments-content" class="comments-content" style="clear: left;">
+        
+        <div id="comment-217868" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Peter</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217868">
+            <p>请问比如像 Javascript 这样的客户端脚本，是不是不加密就算开源了？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011  4:31 AM">2011年5月 2日 04:31</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217868">#</a>
+ | <a href="#comment-text" title="引用Peter的这条留言" onclick="return CommentQuote('comment-quote-217868','Peter');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217874" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">jlake</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217874">
+            <p>千言万语，不如一张图。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011  9:33 AM">2011年5月 2日 09:33</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217874">#</a>
+ | <a href="#comment-text" title="引用jlake的这条留言" onclick="return CommentQuote('comment-quote-217874','jlake');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217875" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Jacobmee</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217875">
+            <p>对于 LGPL的描述有问题。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011  9:34 AM">2011年5月 2日 09:34</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217875">#</a>
+ | <a href="#comment-text" title="引用Jacobmee的这条留言" onclick="return CommentQuote('comment-quote-217875','Jacobmee');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217877" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Urumchi</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217877">
+            <p>恩, 只有对LGPL做连接/调用而不是源代码包含/修改, 才可以避免自己也同样成为LGPL.</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011 10:59 AM">2011年5月 2日 10:59</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217877">#</a>
+ | <a href="#comment-text" title="引用Urumchi的这条留言" onclick="return CommentQuote('comment-quote-217877','Urumchi');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217879" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">ray5</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217879">
+            <p>翻译的图跟原图不一样啊</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011 11:14 AM">2011年5月 2日 11:14</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217879">#</a>
+ | <a href="#comment-text" title="引用ray5的这条留言" onclick="return CommentQuote('comment-quote-217879','ray5');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217881" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">wadefelix</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217881">
+            <p>图不一样，原作者已更新了图表</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011 12:06 PM">2011年5月 2日 12:06</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217881">#</a>
+ | <a href="#comment-text" title="引用wadefelix的这条留言" onclick="return CommentQuote('comment-quote-217881','wadefelix');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217882" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Ruan YiFeng</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217882">
+            <blockquote>
+<pre>引用Peter的发言：</pre>
+
+<p>Javascript 这样的客户端脚本，是不是不加密就算开源了？</p>
+
+</blockquote>
+
+<p>如果没有版权说明的话，那么就属于保留全部版权，你只能借鉴，不能直接拿过来用。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011 12:14 PM">2011年5月 2日 12:14</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217882">#</a>
+ | <a href="#comment-text" title="引用Ruan YiFeng的这条留言" onclick="return CommentQuote('comment-quote-217882','Ruan YiFeng');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217883" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Ruan YiFeng</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217883">
+            <blockquote>
+<pre>引用Jacobmee的发言：</pre>
+
+<p>对于 LGPL的描述有问题。</p>
+
+</blockquote>
+
+<p>已经修改过了，现在的版本应该是正确的。</p>
+
+<blockquote>
+<pre>引用ray5的发言：</pre>
+
+<p>翻译的图跟原图不一样啊</p>
+
+</blockquote>
+
+<p>原图的英语表述，有些地方不明确，我把它改掉了。</p>
+
+<p>另外，原图还区分不同许可证的版本。我一律选择各个许可证的最新版本。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011 12:17 PM">2011年5月 2日 12:17</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217883">#</a>
+ | <a href="#comment-text" title="引用Ruan YiFeng的这条留言" onclick="return CommentQuote('comment-quote-217883','Ruan YiFeng');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217886" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">OSMSG开源资讯</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217886">
+            <p>哈哈 好东西，总算分清这几个许可证了。。。阮老师威武</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011 12:57 PM">2011年5月 2日 12:57</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217886">#</a>
+ | <a href="#comment-text" title="引用OSMSG开源资讯的这条留言" onclick="return CommentQuote('comment-quote-217886','OSMSG开源资讯');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217887" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">wadefelix</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217887">
+            <blockquote>
+<pre>引用wadefelix的发言：</pre>
+
+<p>图不一样，原作者已更新了图表</p>
+
+</blockquote>
+
+<p>翻译的新图<br />
+<a href="http://blog.csdn.net/wadefelix/archive/2011/05/02/6384317.aspx" rel="nofollow">http://blog.csdn.net/wadefelix/archive/2011/05/02/6384317.aspx</a><br />
+请指正</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011  1:02 PM">2011年5月 2日 13:02</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217887">#</a>
+ | <a href="#comment-text" title="引用wadefelix的这条留言" onclick="return CommentQuote('comment-quote-217887','wadefelix');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217888" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">路人癸</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217888">
+            <p>楼上的图更详细一点，但辨识程度似乎没有阮一峰作的好——1.没有是和否的区别，单凭红蓝箭头大家就能知道？2.判断流程的箭头过于庞大，几乎和判断条件一样大，导致整个图的大小超出了页面范围，右边的都看不清楚是什么。</p>
+
+<p>抓住几个关键节点后，用图表来区分这些复杂的分类确实要方便很多了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011  2:03 PM">2011年5月 2日 14:03</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217888">#</a>
+ | <a href="#comment-text" title="引用路人癸的这条留言" onclick="return CommentQuote('comment-quote-217888','路人癸');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217890" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Chri</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217890">
+            <p>您好，请问CC Lisence是属于哪种的，他的性质又是如何，是否是最开放的，谢谢。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011  2:41 PM">2011年5月 2日 14:41</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217890">#</a>
+ | <a href="#comment-text" title="引用Chri的这条留言" onclick="return CommentQuote('comment-quote-217890','Chri');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217893" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">DK</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217893">
+            <p>用了，写了这么多年的程序，第一次把这几种开源许可弄明白…</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011  2:57 PM">2011年5月 2日 14:57</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217893">#</a>
+ | <a href="#comment-text" title="引用DK的这条留言" onclick="return CommentQuote('comment-quote-217893','DK');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217894" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">FX</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217894">
+            <p>呵呵，这个都可以写个简单的脚本判断了</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011  3:48 PM">2011年5月 2日 15:48</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217894">#</a>
+ | <a href="#comment-text" title="引用FX的这条留言" onclick="return CommentQuote('comment-quote-217894','FX');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217899" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">RedNax</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217899">
+            <blockquote>
+<pre>引用Chri的发言：</pre>
+
+<p>您好，请问CC Lisence是属于哪种的，他的性质又是如何，是否是最开放的，谢谢。</p>
+
+</blockquote>
+
+<p>我来回答一下吧。<br />
+cc是一系列授权的总称，究竟是什么性质看你选择哪种授权方式。<br />
+在官网有介绍：<br />
+<a href="https://creativecommons.org/licenses/" rel="nofollow">http://creativecommons.org/licenses/</a><br />
+总的来说和软件授权并不对应。比如CC有 ND（禁止演绎）这种形式，开源软件就没哪个协议不允许你演绎（修改代码）的（不修改就能用的情形不多吧）；NC（禁止商业使用）也没有，即使如GPL，你做的二进制程序卖钱也可以，只是要提供所有源代码并且以GPL发布（虽然别人可以直接抓下去编译出来，但可没禁止你标价贩卖）。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011  7:03 PM">2011年5月 2日 19:03</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217899">#</a>
+ | <a href="#comment-text" title="引用RedNax的这条留言" onclick="return CommentQuote('comment-quote-217899','RedNax');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217912" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">阿木</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217912">
+            <p>之前看那些个概念介绍，的确很晕，这个就清晰明了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011  9:42 PM">2011年5月 2日 21:42</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217912">#</a>
+ | <a href="#comment-text" title="引用阿木的这条留言" onclick="return CommentQuote('comment-quote-217912','阿木');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217918" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">yfpeng</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217918">
+            <p>很好,但是与原图不同啊.</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  2, 2011 11:21 PM">2011年5月 2日 23:21</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217918">#</a>
+ | <a href="#comment-text" title="引用yfpeng的这条留言" onclick="return CommentQuote('comment-quote-217918','yfpeng');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217922" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Ruan YiFeng</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217922">
+            <blockquote>
+<pre>引用Chri的发言：</pre>
+
+<p>请问CC Lisence是属于哪种的，他的性质又是如何，是否是最开放的，谢谢。</p>
+
+</blockquote>
+
+<p>cc主要用于内容文档，不是为分享代码而设计的。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  3, 2011  1:26 AM">2011年5月 3日 01:26</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217922">#</a>
+ | <a href="#comment-text" title="引用Ruan YiFeng的这条留言" onclick="return CommentQuote('comment-quote-217922','Ruan YiFeng');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217926" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">南 靖男</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217926">
+            <p>MIT是最少约束的选择。GPL是最多约束的。<br />
+如果是个人随意作品，建议MIT许可。<br />
+如果是公司或者需要严格保护，GPL。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  3, 2011  8:06 AM">2011年5月 3日 08:06</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217926">#</a>
+ | <a href="#comment-text" title="引用南 靖男的这条留言" onclick="return CommentQuote('comment-quote-217926','南 靖男');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217929" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">淬念</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217929">
+            <p>这绝对是我见到过的最好的开源License说明，感谢一峰的劳动和介绍。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  3, 2011  9:19 AM">2011年5月 3日 09:19</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217929">#</a>
+ | <a href="#comment-text" title="引用淬念的这条留言" onclick="return CommentQuote('comment-quote-217929','淬念');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217950" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">pt</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217950">
+            <p><a href="http://hginit.com/00.html" rel="nofollow">http://hginit.com/00.html</a><br />
+feng哥，你知道joel的hg系列里面的图片是怎么画的么？<br />
+像是用手画的，但是边框又很直，然后上面的命令行的图片发现其实是css效果来的的，太有意思了</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  3, 2011  9:40 PM">2011年5月 3日 21:40</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217950">#</a>
+ | <a href="#comment-text" title="引用pt的这条留言" onclick="return CommentQuote('comment-quote-217950','pt');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-217953" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">wadefelix</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-217953">
+            <blockquote>
+<pre>引用南 靖男的发言：</pre>
+
+<p>MIT是最少约束的选择。GPL是最多约束的。<br />
+如果是个人随意作品，建议MIT许可。<br />
+如果是公司或者需要严格保护，GPL。</p>
+
+</blockquote>
+
+<p>最少约束的直接发布在Public Domain中，知名的SQLite即是发布在公开领域<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  3, 2011 10:08 PM">2011年5月 3日 22:08</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-217953">#</a>
+ | <a href="#comment-text" title="引用wadefelix的这条留言" onclick="return CommentQuote('comment-quote-217953','wadefelix');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-218072" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">ssdt</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-218072">
+            <p>这些许可证难道都是这么绝对互补的吗</p>
+
+<p>我有点不信</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  5, 2011  9:45 PM">2011年5月 5日 21:45</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-218072">#</a>
+ | <a href="#comment-text" title="引用ssdt的这条留言" onclick="return CommentQuote('comment-quote-218072','ssdt');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-218073" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">ssdt</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-218073">
+            <p>gpl 应该和lpgl互补度更高</p>
+
+<p>中间的mozilla许可或许太唯一太顽固太投机，反而是不可持续的许可</p>
+
+<p>所有不和gpl和lgpl兼容的许可，迟早被淘汰</p>
+
+<p>包括商业公司和商业许可</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  5, 2011  9:51 PM">2011年5月 5日 21:51</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-218073">#</a>
+ | <a href="#comment-text" title="引用ssdt的这条留言" onclick="return CommentQuote('comment-quote-218073','ssdt');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-218170" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Register</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-218170">
+            <p>谢谢阮兄的文章，未经您的同意已转载至我们的论坛，如果您不允许，请通知我删除。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  7, 2011  9:47 AM">2011年5月 7日 09:47</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-218170">#</a>
+ | <a href="#comment-text" title="引用Register的这条留言" onclick="return CommentQuote('comment-quote-218170','Register');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-218744" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">yinheli</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-218744">
+            <p>还是这张图比较简明. 收藏!!!</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 11, 2011  9:10 AM">2011年5月11日 09:10</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-218744">#</a>
+ | <a href="#comment-text" title="引用yinheli的这条留言" onclick="return CommentQuote('comment-quote-218744','yinheli');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-222086" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">wecing</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-222086">
+            <blockquote>
+<pre>引用Register的发言：</pre>
+
+<p>谢谢阮兄的文章，未经您的同意已转载至我们的论坛，如果您不允许，请通知我删除。</p>
+
+</blockquote>
+
+<p>看来阮老师需要再写一篇关于CC的文章了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June 21, 2011  1:46 PM">2011年6月21日 13:46</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-222086">#</a>
+ | <a href="#comment-text" title="引用wecing的这条留言" onclick="return CommentQuote('comment-quote-222086','wecing');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-237812" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">azziporah</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-237812">
+            <p>果然是一图胜千言啊<br />
+以前看条款，怎么看都没感觉<br />
+这图一看就明白了（至少明白了个大概）<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October 23, 2011  5:17 PM">2011年10月23日 17:17</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-237812">#</a>
+ | <a href="#comment-text" title="引用azziporah的这条留言" onclick="return CommentQuote('comment-quote-237812','azziporah');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-246297" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Yeking</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-246297">
+            <p>原文的链接已变<br />
+<a href="http://paulmillr.com/posts/simple-description-of-popular-software-licenses/" rel="nofollow">http://paulmillr.com/posts/simple-description-of-popular-software-licenses/</a></p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 25, 2012  2:36 PM">2012年1月25日 14:36</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-246297">#</a>
+ | <a href="#comment-text" title="引用Yeking的这条留言" onclick="return CommentQuote('comment-quote-246297','Yeking');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-251565" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">南明离火</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-251565">
+            <p>阮兄,问个问题，如果现有的使用GPL许可的，比如mysql；在被oracle收购后，改成了闭源，新的版本限制对旧版本的mysql生效么？ </p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 30, 2012 10:44 AM">2012年3月30日 10:44</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-251565">#</a>
+ | <a href="#comment-text" title="引用南明离火的这条留言" onclick="return CommentQuote('comment-quote-251565','南明离火');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-251589" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">阮一峰</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-251589">
+            <blockquote>
+<pre>引用南明离火的发言：</pre>
+
+<p>如果现有的使用GPL许可的，比如mysql；在被oracle收购后，改成了闭源，新的版本限制对旧版本的mysql生效么？ </p>
+
+</blockquote>
+
+<p>许可证改变，对改变之前的用户不起作用。<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 30, 2012  6:53 PM">2012年3月30日 18:53</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-251589">#</a>
+ | <a href="#comment-text" title="引用阮一峰的这条留言" onclick="return CommentQuote('comment-quote-251589','阮一峰');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-251597" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">南明离火</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-251597">
+            <p>哦~  明白了~  谢谢。<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 30, 2012  9:34 PM">2012年3月30日 21:34</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-251597">#</a>
+ | <a href="#comment-text" title="引用南明离火的这条留言" onclick="return CommentQuote('comment-quote-251597','南明离火');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-252671" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">alswl</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-252671">
+            <p>《开源之道》讲了好几章的东西，不如这么一张图，大赞</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 16, 2012 12:02 PM">2012年4月16日 12:02</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-252671">#</a>
+ | <a href="#comment-text" title="引用alswl的这条留言" onclick="return CommentQuote('comment-quote-252671','alswl');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-252910" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">hardykevin</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-252910">
+            <p>阮老师请问AGPL是什么样的开源协议?它与GPL又有什么不同？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 19, 2012 11:52 PM">2012年4月19日 23:52</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-252910">#</a>
+ | <a href="#comment-text" title="引用hardykevin的这条留言" onclick="return CommentQuote('comment-quote-252910','hardykevin');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-258002" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">superdiablo</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-258002">
+            <p>"新增代码是否采用同样许可证?"应该改为"链接代码是否采用同样许可证?"吧</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July  3, 2012 10:36 AM">2012年7月 3日 10:36</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-258002">#</a>
+ | <a href="#comment-text" title="引用superdiablo的这条留言" onclick="return CommentQuote('comment-quote-258002','superdiablo');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-265855" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">theliujianhua</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-265855">
+            <p>一张图胜过千言万语。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November 10, 2012  3:44 PM">2012年11月10日 15:44</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-265855">#</a>
+ | <a href="#comment-text" title="引用theliujianhua的这条留言" onclick="return CommentQuote('comment-quote-265855','theliujianhua');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-296251" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">cxc</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-296251">
+            <p>今天算是明白了啥叫豁然开朗。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January  5, 2014  1:26 PM">2014年1月 5日 13:26</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-296251">#</a>
+ | <a href="#comment-text" title="引用cxc的这条留言" onclick="return CommentQuote('comment-quote-296251','cxc');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-344226" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">nx0105</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-344226">
+            <blockquote>
+<pre>引用Urumchi的发言：</pre>
+恩, 只有对LGPL做连接/调用而不是源代码包含/修改, 才可以避免自己也同样成为LGPL.
+</blockquote>
+
+<p>请问这个连接是不是对于静态连接和动态连接都是一样的</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November 19, 2014  1:00 PM">2014年11月19日 13:00</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-344226">#</a>
+ | <a href="#comment-text" title="引用nx0105的这条留言" onclick="return CommentQuote('comment-quote-344226','nx0105');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-355130" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">王祥</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-355130">
+            <p>老师您好，这张图我看到都是从修改了源码开始的。如果我单单是用了这个软件而没有修改源码的话是什么情况呢？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 20, 2016  5:13 AM">2016年3月20日 05:13</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-355130">#</a>
+ | <a href="#comment-text" title="引用王祥的这条留言" onclick="return CommentQuote('comment-quote-355130','王祥');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-359941" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">crossoverJie</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-359941">
+            <p>涨姿势了</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July  1, 2016  9:40 AM">2016年7月 1日 09:40</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-359941">#</a>
+ | <a href="#comment-text" title="引用crossoverJie的这条留言" onclick="return CommentQuote('comment-quote-359941','crossoverJie');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-361366" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">程大治</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-361366">
+            <p>您好，我在写一篇有关如何开源Android库的文章，可否使用这里的图片？我会同时提供出处！我的博客：blog.chengdazhi.com</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 29, 2016  4:03 PM">2016年7月29日 16:03</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-361366">#</a>
+ | <a href="#comment-text" title="引用程大治的这条留言" onclick="return CommentQuote('comment-quote-361366','程大治');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-371967" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">woderia</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-371967">
+            <p>有个问题咨询下,如果开源软件某个版本前用的apache,之后用的gpl,如果我下载这个版本前的代码要遵循哪个协议？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 12, 2017  1:28 PM">2017年1月12日 13:28</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-371967">#</a>
+ | <a href="#comment-text" title="引用woderia的这条留言" onclick="return CommentQuote('comment-quote-371967','woderia');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-375326" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">分数</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-375326">
+            <blockquote>
+<pre>引用Ruan YiFeng的发言：</pre>
+
+<p></p>
+
+<p>原图的英语表述，有些地方不明确，我把它改掉了。</p>
+
+<p>另外，原图还区分不同许可证的版本。我一律选择各个许可证的最新版本。</p>
+
+</blockquote>
+
+<p>原图的版权是mit的吗</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 23, 2017  1:12 PM">2017年3月23日 13:12</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-375326">#</a>
+ | <a href="#comment-text" title="引用分数的这条留言" onclick="return CommentQuote('comment-quote-375326','分数');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-379908" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Bruce Yang</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-379908">
+            <p>棒棒！talk is cheap，show me the picture。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 29, 2017  2:36 PM">2017年8月29日 14:36</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-379908">#</a>
+ | <a href="#comment-text" title="引用Bruce Yang的这条留言" onclick="return CommentQuote('comment-quote-379908','Bruce Yang');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-380118" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">genrwoody</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-380118">
+            <blockquote>
+<pre>引用nx0105的发言：</pre>
+
+<p></p>
+
+<p>请问这个连接是不是对于静态连接和动态连接都是一样的</p>
+
+</blockquote>
+
+<p>静态链接的和直接用源码编译有区别吗，代码都在你的程序里了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  7, 2017  1:33 PM">2017年9月 7日 13:33</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-380118">#</a>
+ | <a href="#comment-text" title="引用genrwoody的这条留言" onclick="return CommentQuote('comment-quote-380118','genrwoody');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-380631" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Aaron</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-380631">
+            <p>您好，我可以转发你这篇文章到我的头条号吗？<br />
+谢谢</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 19, 2017  2:48 PM">2017年9月19日 14:48</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-380631">#</a>
+ | <a href="#comment-text" title="引用Aaron的这条留言" onclick="return CommentQuote('comment-quote-380631','Aaron');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-380632" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Aaron</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-380632">
+            <p>哈哈，看到大神你的信息了，那我就转发了啊。如果有任何问题，请您给我留言。</p>
+
+<p>文档信息<br />
+版权声明：自由转载-非商用-非衍生-保持署名（创意共享3.0许可证）<br />
+发表日期： 2011年5月 2日<br />
+更多内容： 档案 » 开发者手册<br />
+博客文集：《前方的路》，《未来世界的幸存者》<br />
+社交媒体： twitter， weibo<br />
+Feed订阅： </p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 19, 2017  2:51 PM">2017年9月19日 14:51</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-380632">#</a>
+ | <a href="#comment-text" title="引用Aaron的这条留言" onclick="return CommentQuote('comment-quote-380632','Aaron');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-388683" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">韩小鱼</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-388683">
+            <p>GPL 协议保护项目文件结构吗？文件结构类似但是内容不一样。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  8, 2018  5:34 PM">2018年5月 8日 17:34</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-388683">#</a>
+ | <a href="#comment-text" title="引用韩小鱼的这条留言" onclick="return CommentQuote('comment-quote-388683','韩小鱼');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-399204" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">FFF团</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-399204">
+            <p>想引用一个MIT协议的源码进行再开发软件，这个开发出来的软件（闭源），需要提供什么？那份源码的MIT协议吗？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 28, 2018 10:44 PM">2018年12月28日 22:44</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-399204">#</a>
+ | <a href="#comment-text" title="引用FFF团的这条留言" onclick="return CommentQuote('comment-quote-399204','FFF团');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-427411" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Jiang</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-427411">
+            <p>请问开源软件证可证一般要怎么告知用户？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June 15, 2021  5:50 PM">2021年6月15日 17:50</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-427411">#</a>
+ | <a href="#comment-text" title="引用Jiang的这条留言" onclick="return CommentQuote('comment-quote-427411','Jiang');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-431734" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">JackZhouMine</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-431734">
+            <p><a href="https://choosealicense.rustwiki.org/" rel="nofollow">https://choosealicense.rustwiki.org/</a> 这个网站可以指导开发者选择一个适合的协议。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 13, 2022  3:19 PM">2022年1月13日 15:19</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-431734">#</a>
+ | <a href="#comment-text" title="引用JackZhouMine的这条留言" onclick="return CommentQuote('comment-quote-431734','JackZhouMine');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-433266" class="comment">
+    <div id="comment-last" class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">笑容</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-433266">
+            <p>是时候更新一下这个图了。 毕竟增加了很多新的协议。 哈哈。 感谢</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 25, 2022 11:18 AM">2022年4月25日 11:18</abbr>
+ | <a href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html#comment-433266">#</a>
+ | <a href="#comment-text" title="引用笑容的这条留言" onclick="return CommentQuote('comment-quote-433266','笑容');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    </div>
+        
+    
+
+
+    
+    
+    <div class="comments-open" id="comments-open">
+        <h2 class="comments-open-header">我要发表看法</h2>
+        <div class="comments-open-content">
+
+        
+            <div id="comment-greeting"></div>
+
+            <form method="post" action="https://www.ruanyifeng.com/cgi-bin/mtos/mt-comments.cgi" name="comments_form" id="comments-form" onsubmit="return pleaseWait();">
+                <input type="hidden" name="static" value="1" />
+                <input type="hidden" name="entry_id" value="1554" />
+                <input type="hidden" name="__lang" value="en" />
+                <input type="hidden" name="parent_id" value="" id="comment-parent-id" />
+                <input type="hidden" name="armor" value="1" />
+                <input type="hidden" name="preview" value="" />
+                <input type="hidden" name="sid" value="" />
+                <div id="comments-open-data">
+            <div id="comments-open-text">
+                    <p><label for="comment-text">您的留言
+                    （HTML标签部分可用）</label></p>
+                    <p><textarea id="comment-text" name="text" rows="10" cols="50"></textarea></p>
+                </div>
+                    <div id="comment-form-name">
+                        <p><label for="comment-author">您的大名：</label></p>
+                        <p><input id="comment-author" name="author" size="30" value="" />  <span class="hint"> «-必填</span></p>
+                    </div>
+                    <div id="comment-form-email">
+                        <p><label for="comment-email">电子邮件：</label></p>
+                        <p><input id="comment-email" name="email" size="30" value="" />  <span class="hint"> «-必填，不公开</span></p>
+                    </div>
+                    <div id="comment-form-url">
+                        <p><label for="comment-url">个人网址：</label></p>
+                        <p><input id="comment-url" name="url" size="30" value="" />  <span class="hint"> «-我信任你，不会填写广告链接</span></p>
+                    </div>
+                    <div id="comment-form-remember-me">
+                        <p>
+                        <label for="comment-bake-cookie">记住个人信息？</label><input type="checkbox" id="comment-bake-cookie" name="bakecookie" onclick="!this.checked?forgetMe(document.comments_form):rememberMe(document.comments_form)" value="1" accesskey="r" /></p>
+                    </div>
+                </div>
+                    <div id="comment-form-reply" style="display:none">
+                    <input type="checkbox" id="comment-reply" name="comment_reply" value="" onclick="mtSetCommentParentID()" />
+                    <label for="comment-reply" id="comment-reply-label"></label>
+                </div>
+                <div id="comments-open-captcha"></div>
+                <div id="comments-open-footer">
+<div id="wait" style="display:none;">
+<p><strong>正在发表您的评论，请稍候</strong></p>
+<p>
+<input type="text" name="percent" size="3" style="font-family:Arial; color:black;text-align:center; border-width:medium; border-style:none;" />           
+<input type="text" name="chart" size="46" style="font-family:Arial;font-weight:bolder; color:black; padding:0px; border-style:none;" />
+</p>
+</div>
+
+                    <p><input type="submit" accesskey="s" name="post" id="comment-submit" value="发表" />  <span class="hint"> «- 点击按钮</span></p>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+
+    
+
+
+</div>
+
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        <script type="text/javascript" src="https://www.ruanyifeng.com/blog/js/prism.js"></script>
+        <script type="text/javascript" src="/blog/checker.js"></script> 
+            <div id="footer">
+<div id="footer-inner">
+  <div id="footer-content">
+
+      
+<!--
+      <section> 
+     </section>
+  <p><a title="Instagram" target="_blank" href="http://instagram.com/ruanyf">Instagram</a></p>
+       <p><a title="订阅" href="https://app.feedblitz.com/f/f.fbz?Sub=348868" target="_blank">邮件订阅</a></p>
+  
+       <h2>Feed</h2>
+       <p><a title="FeedBurner" href="http://feeds.feedburner.com/ruanyifeng" target="_blank">FeedBurner</a></p>
+       <p><a title="atom.xml" href="http://www.ruanyifeng.com/blog/atom.xml" target="_blank">atom.xml</a></p>
+     
+      <p>支付宝：<a title="支付宝" href="alipays://platformapi/startapp?appId=20000067&url=http%3A%2F%2Fwww.ruanyifeng.com%2Fblog" target="_blank">yifeng.ruan@gmail.com</a></p>
+-->
+
+     <section>
+<!--
+       <h2>授权方式</h2>
+       <p><a title="许可证" href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">自由转载-非商用-非衍生-保持署名</a></p>
+       <h2>微信公号</h2>
+       <h2>社交帐号</h2>
+       <h2>联系方式</h2>
+     -->
+       <p><img src="https://www.wangbase.com/blogimg/asset/202001/bg2020013101.jpg" alt="微信扫描" /></p>
+       <p>
+         <a title="微博" href="https://weibo.com/ruanyf" target="_blank">Weibo</a> | 
+         <a title="Twitter" target="_blank" href="https://twitter.com/ruanyf">Twitter</a> |
+         <a title="GitHub" target="_blank" href="https://github.com/ruanyf">GitHub</a>
+       </p>
+     
+     <p>Email: <a title="电子邮件" href="mailto:yifeng.ruan@gmail.com" target="_blank">yifeng.ruan@gmail.com</a></p>
+     </section>
+  
+  
+
+
+  </div>
+</div>
+</div>
+<script>
+function insertLine(e,t){for(var n=0;n&lt;t;n++)e.parentNode.insertBefore(document.createElement("p"),e)}function getImg(){if(!window["main-content"])return!1;for(var e,t=Array.prototype.slice.call(window["main-content"].getElementsByTagName("img")),n=0;n&lt;t.length;n++){if("display: none !important;"===(e=t[n]).getAttribute("style"))return e;if(n===t.length-1)return!1}}function toObjectUrl(e,t){return fetch(e).then(e=&gt;e.blob()).then(e=&gt;{t(URL.createObjectURL(e))})}function toDataURL(e,t){var n=new XMLHttpRequest;n.open("get",e),n.responseType="blob",n.onload=function(){var e=new FileReader;e.onload=function(){t(this.result)},e.readAsDataURL(n.response)},n.send()}setTimeout(function(){var e=getImg();e&amp;&amp;(insertLine(e.parentNode,2),toObjectUrl(e.src,function(t){var n=document.createElement("p"),r=document.createElement("img");r.src=t,n.appendChild(r),e.parentNode.parentNode.insertBefore(n,e.parentNode)}))},3e3);
+</script>                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46829782-1', 'ruanyifeng.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script type="text/javascript" src="/blog/stats.js"></script>
+<script>
+var supportImg = document.querySelector('#support-img');
+
+if (supportImg &amp;&amp; _hmt) {
+  _hmt.push(['_trackEvent', 'banner', 'load']);
+  supportImg.addEventListener('click', function () {
+    _hmt.push(['_trackEvent', 'banner', 'click']);
+  }, false);
+}
+
+var homepageImg = document.querySelector('#homepage_sponsor');
+if (homepageImg &amp;&amp; _hmt) {
+  _hmt.push(['_trackEvent', 'homepage-banner', 'load']);
+  homepageImg.addEventListener('click', function () {
+    _hmt.push(['_trackEvent', 'homepage-banner', 'click']);
+  }, false);
+}
+</script>
+
+
+
+        </div>
+    </div>
+<script>(function(){var js = "window['__CF$cv$params']={r:'72da51de1f557e4a',m:'cfpM_hNXbD87nFumlYRk_WVzx71yaKsDl12GC8OOtJM-1658305669-0-AfKToyzniVTDRtgQnMh1ABQSDlCMf2i1vXwViDXhsZ+jQck5qtei+XNwtkgifWzqLHySQXoE+kGKrMBuFxRlV3flE2su0Gzk+2OwJLGqHDB/piT9DNgNsCVCXiy7zSCL0q8F00tePladU9yKtg0GAEFbQtBqK+w8BYpLYdwsdVvgdkmX/lipVKvpTr/QGlpC8A==',s:[0x959e64c146,0x278a0370ba],u:'/cdn-cgi/challenge-platform/h/g'};var now=Date.now()/1000,offset=14400,ts=''+(Math.floor(now)-Math.floor(now%offset)),_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/h/g/scripts/alpha/invisible.js?ts='+ts,document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script><iframe height="1" width="1" style="border: none; visibility: hidden;"></iframe>
+</body></html>

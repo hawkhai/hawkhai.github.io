@@ -1676,6 +1676,20 @@ HBITMAP CCPdfmenushell::_IconToBitmap(int iconResId)
 **强烈建议不使用 BkWindowPaintHook**
 
 
+## 开源许可证教程
+
+* [开源许可证教程 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/RlQwINnU93CTgHd0EqKdnA?scene=25#wechat_redirect)
+* [如何选择开源许可证？](http://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html)
+
+如何选择开源协议
+世界上的开源协议有上百种（有兴趣的读者请猛击 [这里](https://www.gnu.org/licenses/license-list.html) 了解），很少有人能彻底搞清它们之间的区别，即使在最流行的六种开源协议 —— GPL、BSD、MIT、Mozilla、Apache 和 LGPL —— 之中做选择，也很复杂。
+
+乌克兰程序员 Paul Bagwell 画了一张分析图，说明应该怎么选择开源协议，大家看了一目了然，真是清爽。
+图片来自于阮一峰博客：如何选择开源协议
+
+{% include image.html url="/assets/images/211120-windows-program/free_software_licenses.png" %}
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-11-20-windows-program.md.js" %}'></script></p>
@@ -1697,3 +1711,6 @@ HBITMAP CCPdfmenushell::_IconToBitmap(int iconResId)
 - [https://blog.csdn.net/aurorayqz/article/details/79671785]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/blog.csdn.net/f92a193d.html" %})
 - [https://docs.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=cmd]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/ef9142c3.html" %})
 - [https://luohaha.github.io/Chinese-uvbook/source/filesystem.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/luohaha.github.io/cff8effd.html" %})
+- [https://mp.weixin.qq.com/s/RlQwINnU93CTgHd0EqKdnA?scene=25#wechat_redirect]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/mp.weixin.qq.com/9e908e14.html" %})
+- [http://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/www.ruanyifeng.com/20bb40e9.html" %})
+- [https://www.gnu.org/licenses/license-list.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/www.gnu.org/0a3fc972.html" %})
