@@ -1,0 +1,274 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" style="--olcb-folder-code-block-max-height:80vh;"><head>
+  <!-- Required meta tags -->
+  <script src="http://push.zhanzhang.baidu.com/push.js"></script><script src="https://hm.baidu.com/hm.js?085ef535298f92786270c5cefcbf1c0b"></script><script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?085ef535298f92786270c5cefcbf1c0b";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="shortcut icon" href="https://common.cnblogs.com/favicon.svg" type="image/x-icon" />
+  <meta name="referrer" content="no-referrer" />
+
+  <!-- 引入博客园电脑端css -->
+  <style>#home :not(.cnblogs_code):not(.cnblogs_Highlighter)&gt;pre:not([class*="language-"]):not([highlighted]):not(.hljs):not([class*="brush:"]), :not(.cnblogs_code):not(.cnblogs_Highlighter)&gt;pre:not([class*="language-"]):not([highlighted]):not(.hljs):not([class*="brush:"]) {background: rgba(0, 0, 0, 0);
+        padding: 0px;
+        border: 0px none rgb(0, 0, 0);
+        border-radius: 0px;
+        border-color: transparent;
+        color: rgb(0, 0, 0);
+        font-family: monospace;
+        font-size: 13px</style><link rel="stylesheet" href="https://www.cnblogs.com/css/blog-common.min.css" />
+
+  <!-- 响应式 meta标签 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Windbg中使用查找内存并设置访问断点 - 走看看</title>
+  <meta name="keywords" content="Windbg中使用查找内存并设置访问断点" />
+  <meta name="description" content="在windbg中通过s 命令在内存中查找字符串或者关键字节码信息0:005&amp;gt; s -u 00c00000 L1000000 &amp;quot;你好 20:15 2012/6/620:15 2012/6" />
+  <link rel="stylesheet" href="public/css/details.css" />
+<style>.medium-zoom-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 300ms;
+  will-change: opacity;
+}
+
+.medium-zoom--opened .medium-zoom-overlay {
+  cursor: pointer;
+  cursor: zoom-out;
+  opacity: 1;
+}
+
+.medium-zoom-image {
+  cursor: pointer;
+  cursor: zoom-in;
+  /*
+    The `transition` is marked as "!important" for the animation to happen
+    even though it's overriden by another inline `transition` style attribute.
+
+    This is problematic with frameworks that generate inline styles on their
+    images (e.g. Gatsby).
+
+    See https://github.com/francoischalifour/medium-zoom/issues/110
+   */
+  transition: transform 300ms cubic-bezier(0.2, 0, 0.2, 1) !important;
+}
+
+.medium-zoom-image--hidden {
+  visibility: hidden;
+}
+
+.medium-zoom-image--opened {
+  position: relative;
+  cursor: pointer;
+  cursor: zoom-out;
+  will-change: transform;
+}
+</style><link id="highlighter-theme-cnblogs" href="https://www.cnblogs.com/css/hljs/cnblogs.css" rel="stylesheet" type="text/css" /><script id="hljs-script" src="https://common.cnblogs.com/highlight/11.4.0/highlight.min.js" type="text/javascript" async=""></script></head>
+<body>
+
+  <!-- 引入头部导航 -->
+  
+  <div style="width: 100%;margin: auto;">
+
+      <div style="width:100%;height: 55px;background-color: #343434;">
+          <div class="kd" style="margin: auto;">
+            <div style="width: 40px;float: left;text-align: center;line-height: 55px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-exclude" viewBox="0 0 16 16" style="color: #fff;padding-right: 10px;padding-top: 14px;">
+                  <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2V2zm12 2H5a1 1 0 0 0-1 1v7h7a1 1 0 0 0 1-1V4z"/>
+            </svg>
+            </div>
+          </div>
+            <div style="float: left;text-align: center;line-height: 55px;">
+              <a href="/" style="font-size:20px;color:#fff;"> zoukankan</a>
+              <span style="color: #999;">     html  css  js  c++  java</span>
+            </div> 
+            <div style="clear: both;"></div>  
+        </div>
+
+      
+      <div class="kd" style="margin: auto;margin-top: 10px;">
+        <div class="kd" style="margin:auto;">
+
+          <div class="left-kd" style="border: 1px solid #dfdfdf;border-radius: 3px 3px 3px 3px;margin: auto;float: left;margin-right: 30px;margin-bottom: 10px;">
+
+            <ul style="padding-inline-start: 0px;">
+              <li style="margin:15px;">
+                <h1>Windbg中使用查找内存并设置访问断点</h1>
+                <div style="border: 1px solid #dfdfdf;border-top:none;"></div>
+                <span class="pre-scrollable"><div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p><span lang="zh-CN">在</span><span lang="en-US">windbg</span><span lang="zh-CN">中通过</span><span lang="en-US"><strong>s</strong> </span><span lang="zh-CN">命令在内存中查找字符串或者关键字节码信息</span></p>
+<div class="cnblogs_Highlighter">
+<pre class="cpp;gutter:false;">0:005&gt; s -u 00c00000 L1000000 "你好 20:15 2012/6/620:15 2012/6/6"
+
+01960d28  4f60 597d 0020 0032 0030 003a 0031 0035  `O}Y .2.0.:.1.5.
+</pre>
+</div>
+<p>查看内存<strong>01960d28 </strong></p>
+<div class="cnblogs_Highlighter">
+<pre class="cpp;gutter:false;">01960d28 00 00 00 00 00 00 00 00 30 00 3a 00 31 00 35 00 20 00  ........0.:.1.5. .
+01960d3a 32 00 30 00 31 00 32 00 2f 00 36 00 2f 00 36 00 32 00  2.0.1.2./.6./.6.2.
+01960d4c 30 00 3a 00 31 00 35 00 20 00 32 00 30 00 31 00 32 00  0.:.1.5. .2.0.1.2.
+
+01960d5e 2f 00 36 00 2f 00 36 00 00 00 00 00 00 00 00 00 00 00  /.6./.6...........
+</pre>
+</div>
+<p><span lang="zh-CN">找到内容之后通过</span><strong><span lang="en-US">ba</span></strong><span lang="zh-CN">设置访问断点在任何函数访问该内存时将会中断</span></p>
+<div class="cnblogs_Highlighter">
+<pre class="cpp;gutter:false;">0:005&gt; ba r4 01960d28  
+
+0:005&gt; bl
+ 0 du             0001 (0001) (@@masm(`ItemOperation.cpp:60+`))
+ 1 e 01960d28 r 4 0001 (0001)  0:**** 
+ 2 e 771c3540     0001 (0001)  0:**** ntdll!DbgBreakPoint
+</pre>
+</div>
+<p>如此在程序访问该地址时将会中断到调试器</p>
+<div class="cnblogs_Highlighter">
+<pre class="cpp;gutter:false;">0:005&gt; g
+Breakpoint 1 hit
+eax=019607d0 ebx=00000023 ecx=00000003 edx=0000002c esi=019607d0 edi=01960cd0
+eip=76d29c9c esp=000fefa4 ebp=000fefa8 iopl=0         nv up ei pl nz na pe nc
+cs=001b  ss=0023  ds=0023  es=0023  fs=003b  gs=0000             efl=00000206
+msvcrt!_VEC_memcpy+0x125:
+76d29c9c 660f7f4760      movdqa  xmmword ptr [edi+60h],xmm0 ds:0023:01960d30=003100300032002000350031003a0030
+</pre>
+</div>
+<p>当然也可以根据自身需要查找相应的其他内容来实现设置相应的访问断点</p>
+<p>　　</p>
+<p><span lang="zh-CN"> </span></p>
+</div>
+</span>
+              </li>
+              <div style="border: 1px solid #dfdfdf;border-top:none;"></div>
+              <li class="ul-li" style="padding-left:15px;padding-right: 15px;">
+
+                <b>相关阅读:</b><br />
+                <nobr>
+                  <a href="zhuxiang1633-p-10760488.html" target="_blank">spring mongodb查询</a>
+                    <br /><a href="zhuxiang1633-p-10647349.html" target="_blank">spring mongodb分页，动态条件、字段查询</a>
+                    <br /><a href="zhuxiang1633-p-10587329.html" target="_blank">js导航下拉菜单</a>
+                    <br /><a href="zhuxiang1633-p-10556866.html" target="_blank">spring mongodb增删改查操作</a>
+                    <br /><a href="zhuxiang1633-p-10552942.html" target="_blank">组件</a>
+                    <br /><a href="zhuxiang1633-p-10548311.html" target="_blank">vue的基本指令</a>
+                    <br /><a href="zhuxiang1633-p-10543289.html" target="_blank">远程连接MongoDB数据库</a>
+                    <br /><a href="zhuxiang1633-p-10412863.html" target="_blank">webpack工具、Vue、react模块化</a>
+                    <br /><a href="zhuxiang1633-p-10400230.html" target="_blank">layui</a>
+                    <br /><a href="zhuxiang1633-p-10390713.html" target="_blank">anaconda使用，jupyter notebook的使用方法</a>
+                    <br />                </nobr>
+              </li>
+              <div style="border: 1px solid #dfdfdf;border-top:none;"></div>
+              <li class="list-group-item from-a mb-2" style="margin:15px;">
+                原文地址：https://www.cnblogs.com/SkyMouse/p/2538745.html
+              </li>
+
+            </ul>
+          </div>
+
+
+          <!-- 右侧开始 -->
+          <div class="right-kd" style="margin: auto;margin: 0px;float: left;">
+            <ul class="right-kd" style="word-break:break-all;border: 1px solid #dfdfdf;border-radius: 3px 3px 3px 3px;padding: 0px;margin: 0px;">
+              <li class="ul-li-bg ul-li-title" aria-current="true" style="padding-left:15px;padding-right: 15px;">
+                最新文章
+              </li>
+              <li class="ul-li" style="padding-left:15px;padding-right:15px;">
+                <nobr>
+                  <a href="agang-php-p-12630038.html" target="_blank">k8s资料</a>
+                    <br /><a href="tcy1-p-12960610.html" target="_blank">nginx七层负载均衡</a>
+                    <br /><a href="tcy1-p-12960558.html" target="_blank">nginx反向代理</a>
+                    <br /><a href="tcy1-p-12944502.html" target="_blank">使用lnmp搭建wordpress及wecenter（类似知乎）</a>
+                    <br /><a href="tcy1-p-12944332.html" target="_blank">LNMP介绍及搭建</a>
+                    <br /><a href="tcy1-p-12919369.html" target="_blank">nginx模块及location匹配规则</a>
+                    <br /><a href="tcy1-p-12891367.html" target="_blank">工具集</a>
+                    <br /><a href="tcy1-p-12890084.html" target="_blank">nginx相关文件及配置文件详解</a>
+                    <br /><a href="lcawen-p-6862940.html" target="_blank">wcf 服务创建，配置，测试</a>
+                    <br /><a href="lcawen-p-6768507.html" target="_blank">jquery checkbox选中状态以及实现全选反选</a>
+                    <br />                </nobr>
+              </li>
+            </ul>
+
+            <ul class="right-kd" style="word-break:break-all;border: 1px solid #dfdfdf;border-radius: 3px 3px 3px 3px;padding: 0px;margin-top: 10px;">
+              <li class="list-group-item ul-li-bg ul-li-title" aria-current="true" style="padding-left:15px;padding-right: 15px;">
+                热门文章
+              </li>
+              <li class="ul-li" style="padding-left:15px;padding-right: 15px;">
+                <nobr>
+                  <a href="lcawen-p-mvc.html" target="_blank">mvc ajax访问后台时session过期无法跳转到Login页面问题解决</a>
+                    <br /><a href="lcawen-p-6728160.html" target="_blank">js 拖动滑块验证</a>
+                    <br /><a href="lcawen-p-6727425.html" target="_blank">asp.net SimpleImpersonation使用身份模拟访问局域网共享目录</a>
+                    <br /><a href="lcawen-p-6721413.html" target="_blank">【转】 GRASP(通用职责分配软件模式)模式</a>
+                    <br /><a href="lcawen-p-6703876.html" target="_blank">【转】js JavaScript 的性能优化：加载和执行</a>
+                    <br /><a href="lcawen-p-6702905.html" target="_blank">mvc  BundleConfig实现对Css、Js压缩打包加载</a>
+                    <br /><a href="lcawen-p-6699360.html" target="_blank">vs 统计有效代码行数</a>
+                    <br /><a href="lcawen-p-6674786.html" target="_blank">vs 自定义插件（扩展工具）</a>
+                    <br /><a href="zhuxiang1633-p-10864370.html" target="_blank">基本管理</a>
+                    <br /><a href="zhuxiang1633-p-10778751.html" target="_blank">eclipse安装lombok插件</a>
+                    <br />                </nobr>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+      <div style="clear: both;"></div>
+
+
+      <!-- 栅栏结束 -->
+
+      <div class="kd" style="margin: auto;">
+        <div style="font-size:0.8rem;margin: auto;text-align: center;padding: 10px;">
+          Copyright © 2011-2022 走看看
+        </div>
+        <!-- 引入底部 -->
+        <!-- 百度自动推送js -->
+<script>
+  (function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https'){
+     bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+   }
+   else{
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!-- 百度自动推送js -->
+      </div>
+
+  </div>
+
+  <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+  <script src="https://www.cnblogs.com/js/blog-common.min.js"></script>
+  <script src="http://common.cnblogs.com/script/encoder.js"></script>
+
+  <script type="text/javascript">isPoped = false;</script>
+  <a href="http://t.zoukankan.com/jds.php" id="redirect_url"></a>
+  <a href="/SkyMouse-p-2538745.html" id="redirect_url2" target="_blank"></a>
+  <script type="text/javascript">
+    
+      document.onclick = function()
+      {
+        if (!isPoped)
+        {       
+          document.getElementById("redirect_url").click();
+          document.getElementById("redirect_url2").click();
+                    isPoped = true;
+                  }
+      }
+    </script>
+
+
+</body></html>

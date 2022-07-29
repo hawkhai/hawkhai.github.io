@@ -17,6 +17,62 @@ cluster: "WinDBG"
 ---
 
 
+## QImage 内存泄漏
+
+pdfcore\impl\SimplePageEdit.cpp
+```cpp
+QPixmap SimplePageEdit::GetImagePixmap(const std::shared_ptr<IPageElement>& element) {
+    QPixmap pixmap;
+
+    unsigned char* data = nullptr;
+    int w = 0;
+    int h = 0;
+    int len = 0;
+    len = EnginePdfiumGetImageData(m_pDisplayModal->GetEngine(), element, w, h, data, len);
+    if (len > 0) {
+        data = (unsigned char*)malloc(len);
+        if (nullptr == data) {
+            return pixmap;
+        }
+
+        len = EnginePdfiumGetImageData(m_pDisplayModal->GetEngine(), element, w, h, data, len);
+
+        if (len > 0) {
+            pixmap = QPixmap::fromImage(QImage(data, w, h, QImage::Format_ARGB32, [](void* data) { free(data); }));
+        } else {
+            if (nullptr != data) {
+                free(data);
+                data = nullptr;
+            }
+        }
+    }
+    return pixmap;
+}
+```
+
+上面这段代码，存在严重的内存泄漏，调用一次 泄漏整张图片的内存，大概几十兆，稍微多调用几次，程序就挂了。
+问题出在函数 `QImage`，`free(data);` 当 data 为空的时候，free 函数不会报错。
+**写的时候，应该没有全面调试和确认，没有准确查询文档。**
+
+函数原型：
+```cpp
+QImage(const uchar *data, int width, int height, Format format,
+        QImageCleanupFunction cleanupFunction = nullptr,
+        void *cleanupInfo = nullptr);
+```
+
+其中 data 是指向颜色数据（32bit）的指针，width 表示一行有多少个像素，height 表示一列有多少个像素，format 表示图像格式（QImage 提供了多种格式）。
+QImage 在析构时并不会删除 data。如果提供了 cleanupFunction 和 cleanupInfo，那么当 QImage 的图像数据不再被使用时，
+会调用 **cleanupFunction** 清除 **cleanupInfo** 所指向的内存。
+
+**正确的写法：**
+```cpp
+QImageCleanupFunction cleanupFunction = [](void* data) { free(data); };
+void* cleanupInfo = data;
+pixmap = QPixmap::fromImage(QImage(data, w, h, QImage::Format_ARGB32, cleanupFunction, cleanupInfo));
+```
+
+
 ## 指针对象内存泄漏
 
 KExecuteInfoMgr::ThreadExecuteImpl 函数中有内存泄漏。
