@@ -16,7 +16,7 @@ codeprint:
 ---
 
 图像背景检测及处理 相关资料整理
-图片编辑软件：Photoshop、Gimp、Picsart、Snapseed
+图片编辑软件：Photoshop、Gimp、Picsart、Snapseed、ImageMagick。
 
 
 ## 视频背景分离

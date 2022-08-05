@@ -17,6 +17,69 @@ cluster: "WinDBG"
 ---
 
 
+## OpenCV cv::waitKey();
+
+OpenCV `cv::waitKey();` debug 版本会断言崩溃。
+```
+opencv_world453d.dll!std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::shared_ptr<CvWindow>>>>::operator++() 行 75	C++
+opencv_world453d.dll!std::_Vector_iterator<std::_Vector_val<std::_Simple_types<std::shared_ptr<CvWindow>>>>::operator++() 行 269	C++
+opencv_world453d.dll!handleMessage(tagMSG & message, int & keyCode) 行 2196	C++
+opencv_world453d.dll!cvWaitKey(int delay) 行 2311	C++
+opencv_world453d.dll!cv::impl::Win32BackendUI::waitKeyEx(int delay) 行 3018	C++
+opencv_world453d.dll!cv::waitKeyEx(int delay) 行 650	C++
+opencv_world453d.dll!cv::waitKey(int delay) 行 660	C++
+IBEABFHR.exe!main() 行 25	C++
+```
+
+[note {% include relref_github.html %}](https://github.com/mikke89/RmlUi/issues/45)
+崩溃原因是这个函数没有写好：
+```cpp
+/*
+ * message received. check if it belongs to our windows (frame, hwnd).
+ * returns true (and value in keyCode) if a key was pressed.
+ * otherwise returns false (indication to continue event loop).
+ */
+static bool handleMessage(MSG& message, int& keyCode)
+{
+    // whether we have to call translate and dispatch yet
+    // otherwise the message was handled specifically
+    bool is_processed = false;
+
+    AutoLock lock(getWindowMutex());
+    auto& g_windows = getWindowsList();
+    for (auto it = g_windows.begin(); it != g_windows.end() && !is_processed; ++it)
+    {
+        auto window_ = *it;
+        if (!window_)
+            continue;
+        CvWindow& window = *window_;
+        if (!(window.hwnd == message.hwnd || window.frame == message.hwnd))
+            continue;
+
+        is_processed = true;
+        switch (message.message)
+        {
+            ....
+        }
+    }
+
+    ....
+    return false; // no value to return, keep processing
+}
+```
+
+D:\2021\opencv_local\4.5.3\modules\highgui\src\window_w32.cpp
+`g_windows` 在迭代的过程中发生了修改。
+`for (auto it = g_windows.begin(); it != g_windows.end() && !is_processed; ++it)` 改成：
+```cpp
+auto begin = g_windows.begin();
+auto end = g_windows.end();
+for (auto it = begin, next = end; it != end && !is_processed; it = next) {
+    next = std::next(it, 1);
+}
+```
+
+
 ## QImage 内存泄漏
 
 pdfcore\impl\SimplePageEdit.cpp
@@ -809,6 +872,7 @@ ChildEBP RetAddr  Args to Child
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-06-02-win-windbg-cases.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://github.com/mikke89/RmlUi/issues/45]({% include relrefx.html url="/backup/2021-06-02-win-windbg-cases.md/github.com/7332c83b.html" %})
 - [https://stackoverflow.com/questions/28483473/windows-heap-chunk-header-parsing-and-size-calculation]({% include relrefx.html url="/backup/2021-06-02-win-windbg-cases.md/stackoverflow.com/797c2d6f.html" %})
 - [http://advdbg.org/blogs/advdbg_system/articles/5152.aspx]({% include relrefx.html url="/backup/2021-06-02-win-windbg-cases.md/advdbg.org/df049c84.aspx" %})
 - [https://www.cnblogs.com/xumaojun/p/8544089.html]({% include relrefx.html url="/backup/2021-06-02-win-windbg-cases.md/www.cnblogs.com/36e9d8f7.html" %})
