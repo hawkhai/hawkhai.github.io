@@ -97,3 +97,4 @@ Gabriel 喇叭会导出一个非常诡异的悖论：如果你想用涂料把 Ga
 
 - [https://en.wikipedia.org/wiki/Gabriel%27s_Horn]({% include relrefx.html url="/backup/2020-09-02-math-gabriel-horn.md/en.wikipedia.org/c3179941.html" %})
 - [http://www.matrix67.com/blog/archives/773]({% include relrefx.html url="/backup/2020-09-02-math-gabriel-horn.md/www.matrix67.com/3e0aa503.html" %})
+- [https://baijiahao.baidu.com/s?id=1660502466103090640]({% include relrefx.html url="/backup/2020-09-02-math-gabriel-horn.md/baijiahao.baidu.com/f90f4671.html" %})
