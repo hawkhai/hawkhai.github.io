@@ -29,6 +29,7 @@ RGB 色彩空间采用物理三基色表示，因而物理意义很清楚，适�
 RGB 模式是一种发光屏幕的加色模式，CMYK 模式是一种颜色反光的印刷减色模式。
 
 {% include image.html url="/assets/images/200927-dip-color-image/2021021917230853.png" %}
+{% include image.html url="/assets/images/200927-dip-color-image/3801213fb80e7bec54e780b79f66ae389b504fc23d06.webp" %}
 
 
 ### HSV vs. HSL vs. HSI
@@ -36,6 +37,7 @@ RGB 模式是一种发光屏幕的加色模式，CMYK 模式是一种颜色反�
 HSV 类似于人类感觉颜色的方式。
 在圆锥的顶点（即原点）处，V=0，H 和 S 无定义，代表黑色。
 圆锥的顶面中心处 S=0，V=1，H 无定义，代表白色。
+GIMP（HSV 用于颜色选择，HSL 用于颜色调整）
 
 {% include image.html url="/assets/images/200927-dip-color-image/296px-HSL_color_solid_cylinder_saturation_gray.png"
 url2="/assets/images/200927-dip-color-image/296px-HSV_color_solid_cylinder_saturation_gray.png" %}
