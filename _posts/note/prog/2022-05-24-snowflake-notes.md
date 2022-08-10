@@ -50,6 +50,100 @@ Quic 相比现在广泛应用的 http2+tcp+tls 协议有如下优势：
 2017 年，在黑客大会上 Eugene Kogan 和 Tal Liberman 又分享了更加隐蔽和特别的方法，比如 Process Doppelganging。
 
 
+### shellcode
+
+* [Window 中的 shellcode 编写框架（入门篇） {% include relref_cnblogs.html %}](https://www.cnblogs.com/thresh/p/12609659.html)
+    * <https://www.bilibili.com/video/BV1y4411k7ch>
+
+```cpp
+#include <windows.h>
+#include <stdio.h>
+
+// 内嵌汇编获取 Kernel32 的地址
+__declspec(naked) DWORD getKernel32()
+{
+    __asm
+    {
+        mov eax,fs:[30h]
+        mov eax,[eax+0ch]
+        mov eax,[eax+14h]
+        mov eax,[eax]
+        mov eax,[eax]
+        mov eax,[eax+10h]
+        ret
+    }
+}
+
+// 通过 kernel32 基址获取 GetProcAddress 的地址
+FARPROC _GetProcAddress(HMODULE hModuleBase)
+{
+    PIMAGE_DOS_HEADER lpDosHeader = (PIMAGE_DOS_HEADER)hModuleBase;
+    PIMAGE_NT_HEADERS32 lpNtHeader = (PIMAGE_NT_HEADERS)((DWORD)hModuleBase + lpDosHeader->e_lfanew);
+    if (!lpNtHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].Size){
+        return NULL;
+    }
+    if (!lpNtHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress) {
+        return NULL;
+    }
+    PIMAGE_EXPORT_DIRECTORY lpExports = (PIMAGE_EXPORT_DIRECTORY)((DWORD)hModuleBase +
+        (DWORD)lpNtHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress);
+    PDWORD lpdwFunName = (PDWORD)((DWORD)hModuleBase + (DWORD)lpExports->AddressOfNames);
+    PWORD lpword = (PWORD)((DWORD)hModuleBase + (DWORD)lpExports->AddressOfNameOrdinals);
+    PDWORD lpdwFunAddr = (PDWORD)((DWORD)hModuleBase + (DWORD)lpExports->AddressOfFunctions);
+
+    DWORD dwLoop = 0;
+    FARPROC pRet = NULL;
+    for (; dwLoop <= lpExports->NumberOfNames - 1; dwLoop++) {
+        char* pFunName = (char*)(lpdwFunName[dwLoop] + (DWORD)hModuleBase);
+
+        if (pFunName[0] == 'G' &&
+            pFunName[1] == 'e' &&
+            pFunName[2] == 't' &&
+            pFunName[3] == 'P' &&
+            pFunName[4] == 'r' &&
+            pFunName[5] == 'o' &&
+            pFunName[6] == 'c' &&
+            pFunName[7] == 'A' &&
+            pFunName[8] == 'd' &&
+            pFunName[9] == 'd' &&
+            pFunName[10] == 'r' &&
+            pFunName[11] == 'e' &&
+            pFunName[12] == 's' &&
+            pFunName[13] == 's') {
+
+            pRet = (FARPROC)(lpdwFunAddr[lpword[dwLoop]] + (DWORD)hModuleBase);
+            break;
+        }
+    }
+    return pRet;
+}
+
+int main()
+{
+    // kernel32.dll 基址的动态获取
+    HMODULE hLoadLibrary = LoadLibraryA("kernel32.dll");
+    // 使用内嵌汇编来获取基址
+    HMODULE _hLoadLibrary = (HMODULE)getKernel32();
+    // 效果是一样的
+    printf("LoadLibraryA 动态获取的地址: 0x%x\n", hLoadLibrary);
+    printf("内嵌汇编获取的地址: 0x%x\n", _hLoadLibrary);
+
+    // 声明定义，先转到到原函数定义，然后重新定义
+    typedef FARPROC(WINAPI *FN_GetProcAddress)(
+            _In_ HMODULE hModule,
+            _In_ LPCSTR lpProcName
+        );
+
+    FN_GetProcAddress fn_GetProcAddress;
+    fn_GetProcAddress = (FN_GetProcAddress)_GetProcAddress(_hLoadLibrary);
+
+    printf("动态获取 GetProcAddress 地址: 0x%x\n", fn_GetProcAddress);
+    printf("内置函数获取: 0x%x\n", GetProcAddress);
+    return 0;
+}
+```
+
+
 ## 基于 LSTM 的二进制代码相似性检测
 
 
@@ -467,6 +561,8 @@ Typora 是一款由 Abner Lee 开发的轻量级 Markdown 编辑器，与其他 
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-05-24-snowflake-notes.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.cnblogs.com/thresh/p/12609659.html]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/www.cnblogs.com/944eb7c2.html" %})
+- [https://www.bilibili.com/video/BV1y4411k7ch]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/www.bilibili.com/f2c9bb21.html" %})
 - [https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458434317&idx=1&sn=0a0f3bcee1cdd99c2f2db1a2fd899619&chksm=b18f8b8786f802919884f0682fe9fb38c0971e3e7de732ec11f35cbd994b87fc12c3e758b344&scene=178&cur_album_id=2293635948628279298]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/mp.weixin.qq.com/6eb26110.html" %})
 - [https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458436558&idx=1&sn=770b20ad3eb60dbb20c83a59f83c8b48&chksm=b18ff34486f87a52514c67a59d4702e7f2ffc59b9a13f8cd4718b7ec28b79c38ae304eb4167c&scene=178&cur_album_id=2293635948628279298]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/mp.weixin.qq.com/0075049f.html" %})
 - [https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&mid=2458436731&idx=1&sn=4859b3f1fb19001e9e81622fa233fbcf&chksm=b18ff4f186f87de7c12b38a3a1febc82f9faa2ad578ee61e80d3fe64bc12b5bd65c92735587f&scene=178&cur_album_id=2293635948628279298]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/mp.weixin.qq.com/5a67a6fe.html" %})

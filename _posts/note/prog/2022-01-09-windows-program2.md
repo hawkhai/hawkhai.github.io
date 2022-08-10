@@ -161,6 +161,10 @@ ntcore CFF-Explorer
         * 安全必备
     * vulnerability/shellcode/inline-hook
         * 核心安全分析、防御
+        * 漏洞（vulnerability）
+            * 缓冲区溢出
+            * 输入验证
+            * 时间序列
 
 {% include image.html url="/assets/images/220109-windows-program2/img_0930cb7fa94b43ea813ba24a5eb36059.png" %}
 

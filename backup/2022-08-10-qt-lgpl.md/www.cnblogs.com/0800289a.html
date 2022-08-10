@@ -1,0 +1,912 @@
+<html lang="zh-cn" style="--olcb-folder-code-block-max-height:80vh;"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="never">
+    <meta name="description" content="一、Qt License 分析 1.1 LGPL V2 与 LGPL V3 GPLv3 协议中讨论最为广泛的新要求，即要求在&amp;quot;用户产品&amp;quot;中提供 GPLv3 代码的&amp;quot;安装信">
+    <meta property="og:description" content="一、Qt License 分析 1.1 LGPL V2 与 LGPL V3 GPLv3 协议中讨论最为广泛的新要求，即要求在&amp;quot;用户产品&amp;quot;中提供 GPLv3 代码的&amp;quot;安装信">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Qt License分析、开源版与商业版的区别 - fengMisaka - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml">
+    
+    <style>#home :not(.cnblogs_code):not(.cnblogs_Highlighter)>pre:not([highlighted]):not([class*="brush:"]) code:not(.hljs), :not(.cnblogs_code):not(.cnblogs_Highlighter)>pre:not([highlighted]):not([class*="brush:"]) code:not(.hljs) {background: rgb(245, 245, 245);
+        padding: 12px;
+        border: 1px solid rgb(204, 204, 204);
+        border-radius: 3px;
+        border-color: transparent;
+        color: rgb(0, 0, 0);
+        font-family: "Courier New", sans-serif;
+        font-size: 12px</style><link rel="stylesheet" href="/css/blog-common.min.css?v=x0sCXgfRZH24nF9pqBIDTBIzbO5BqnCcmdVV58d1xnI">
+    
+        <link id="highlighter-theme-cnblogs" type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=5J1NDtbnnIr2Rc2SdhEMlMxD4l9Eydj88B31E7_NhS4">
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/linuxAndMcu/custom.css?v=RRUaRCdQ3XxFWxZ81ano2rQU5d0=">
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/css/mobile-common.min.css?v=u5eXNRVe5tkW_ELT0Hzi-kKbey06zaqLqiANlcMEPvw">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/linuxAndMcu/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/linuxAndMcu/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/linuxAndMcu/wlwmanifest.xml">
+    <script src="https://hm.baidu.com/hm.js?ec207437a246350f49e5cd3feb1f5bc7"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 320704;
+        var currentBlogApp = 'linuxAndMcu';
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'Custom';
+        var visitorUserId = '';
+        var hasCustomScript = true;
+        try {
+            if (hasCustomScript && document.referrer && document.referrer.indexOf('baidu.com') >= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+        window.cb_enable_mathjax = false;
+        window.mathEngine = 0;
+        window.codeHighlightEngine = 1;
+        window.enableCodeLineNumber = false;
+        window.codeHighlightTheme = 'cnblogs';
+        window.darkModeCodeHighlightTheme = 'vs2015';
+        window.isDarkCodeHighlightTheme = false;
+        window.isDarkModeCodeHighlightThemeDark = true;
+        window.isDisableCodeHighlighter = false;
+        window.enableCodeThemeTypeFollowSystem = false;
+    </script>
+        <script>
+            var currentPostDateAdded = '2022-06-09 16:14';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=CJqpEcB2VzA38UjNF1IXe3fHW_bnz9JDDOND4We0ej8"></script><style>.medium-zoom-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 300ms;
+  will-change: opacity;
+}
+
+.medium-zoom--opened .medium-zoom-overlay {
+  cursor: pointer;
+  cursor: zoom-out;
+  opacity: 1;
+}
+
+.medium-zoom-image {
+  cursor: pointer;
+  cursor: zoom-in;
+  /*
+    The `transition` is marked as "!important" for the animation to happen
+    even though it's overriden by another inline `transition` style attribute.
+
+    This is problematic with frameworks that generate inline styles on their
+    images (e.g. Gatsby).
+
+    See https://github.com/francoischalifour/medium-zoom/issues/110
+   */
+  transition: transform 300ms cubic-bezier(0.2, 0, 0.2, 1) !important;
+}
+
+.medium-zoom-image--hidden {
+  visibility: hidden;
+}
+
+.medium-zoom-image--opened {
+  position: relative;
+  cursor: pointer;
+  cursor: zoom-out;
+  will-change: transform;
+}
+</style><script id="hljs-script" src="https://common.cnblogs.com/highlight/11.4.0/highlight.min.js" type="text/javascript" async=""></script>
+    
+<meta http-equiv="origin-trial" content="AzoawhTRDevLR66Y6MROu167EDncFPBvcKOaQispTo9ouEt5LvcBjnRFqiAByRT+2cDHG1Yj4dXwpLeIhc98/gIAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjYxMjk5MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A6+nc62kbJgC46ypOwRsNW6RkDn2x7tgRh0wp7jb3DtFF7oEhu1hhm4rdZHZ6zXvnKZLlYcBlQUImC4d3kKihAcAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjYxMjk5MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A/9La288e7MDEU2ifusFnMg1C2Ij6uoa/Z/ylwJIXSsWfK37oESIPbxbt4IU86OGqDEPnNVruUiMjfKo65H/CQwAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjYxMjk5MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2022080401.js" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script"><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script></head>
+<body class="skin-custom no-navbar">
+<a name="top"></a>
+<div id="top_nav" class="navbar forpc navbar-custom">
+    <nav id="nav_main" class="navbar-main">
+        <ul id="nav_left" class="navbar-list navbar-left">
+            <li class="navbar-branding">
+                <a href="https://www.cnblogs.com/" title="开发者的网上家园" role="banner">
+                    <img src="//common.cnblogs.com/logo.svg" alt="博客园Logo">
+                </a>
+            </li>
+            <li>
+                <a href="/" onclick="countClicks('skin-navbar-sitehome')">首页</a>
+            </li>
+            <li>
+                <a href="https://news.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-news')">新闻</a>
+            </li>
+            <li>
+                <a href="https://q.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-q')">博问</a>
+            </li>
+            <li>
+                <a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-brands')">专区</a>
+            </li>
+            <li>
+                <a href="https://ing.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-ing')">闪存</a>
+            </li>
+            <li>
+                <a href="https://edu.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-edu')">班级</a>
+            </li>
+        </ul>
+        <ul id="nav_right" class="navbar-list navbar-right">
+            <li>
+                <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get" role="search">
+                    <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="search" tabindex="3">
+                    <button type="submit" id="zzk_search_button">
+                        <img src="//common.cnblogs.com/images/blog/search.svg" alt="搜索">
+                    </button>
+                </form>
+            </li>
+            <li id="navbar_login_status" class="navbar-list">
+                <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                    <img id="new_post_icon" class="navbar-icon" src="//common.cnblogs.com/images/blog/newpost.svg" alt="写随笔">
+                </a>
+                <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                    <img id="myblog_icon" class="navbar-icon" src="//common.cnblogs.com/images/blog/myblog.svg" alt="我的博客">
+                </a>
+                <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                    <img id="msg_icon" class="navbar-icon" src="//common.cnblogs.com/images/blog/message.svg" alt="短消息">
+                    <span id="msg_count" style="display: none"></span>
+                </a>
+                <a id="navbar_lite_mode_indicator" data-current-page="blog" style="display: none" href="javascript:void(0)" alt="简洁模式" title="简洁模式启用，您在访问他人博客时会使用简洁款皮肤展示">
+                    <img class="navbar-icon" src="//common.cnblogs.com/images/blog/lite-mode-on.svg" alt="简洁模式">
+                </a>
+                <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                    <a class="dropdown-button" href="https://home.cnblogs.com/">
+                        <img id="user_icon" class="navbar-avatar" src="//common.cnblogs.com/images/blog/avatar-default.svg" alt="用户头像">
+                    </a>
+                    <div class="dropdown-menu">
+                        <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                        <a href="https://home.cnblogs.com/">我的园子</a>
+                        <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                        <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide"><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                        <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                    </div>
+                </div>
+                <a class="navbar-anonymous" href="https://account.cnblogs.com/signup" style="display: inline;">注册</a>
+                <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<div id="page_begin_html">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<section id="top">
+    <header id="home-top" class="nav-top nav-fixed nav-root">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <nav id="top-nav">
+                        <ul class="nav-list transistion">
+                            <li><a href="https://www.cnblogs.com/"><i class="fa fa-smile-o"></i>博客园</a></li>
+                            <li><a href="https://www.cnblogs.com/linuxAndMcu/"><i class="fa fa-home"></i>首页</a></li>
+                            <li><a href="https://home.cnblogs.com/u/linuxAndMcu/"><i class="fa fa-user"></i>管理</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="fade-area">
+        <div id="title">
+            <div class="container">
+                <div class="transistion cloud left-cloud"></div>
+                <div class="transistion cloud right-cloud"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="title-area" class="transistion">
+                            <h2 class="llfc-blog">
+                                <figure class="transistion">
+                                    <img src="https://i.loli.net/2021/03/15/1dcw6G7kQ2F3MRA.png">
+                                </figure>
+                            </h2>
+                            <h2 class="blog-subtitle">
+                                <figure class="transistion">
+                                    <img src="https://i.loli.net/2021/03/15/8BvJzEdKkUpc1Yn.png">
+                                </figure>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/linuxAndMcu/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页"></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/linuxAndMcu/">fengMisaka</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/linuxAndMcu/">
+首页</a>
+</li>
+<li>
+
+
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/fengMisaka">
+联系</a></li>
+<li>
+
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 379&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 92&nbsp; </span>
+<span id="stats-total-view-count">阅读 - 
+<span title="总阅读数: 1312373">
+131万</span></span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/linuxAndMcu/p/16359738.html">
+    <span role="heading" aria-level="2">Qt License分析、开源版与商业版的区别</span>
+    
+</a><button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown"><a rel="nofollow noopener" name="_labelTop"></a><div id="navCategory" style="color:#152e97;"><p style="font-size:18px;"><b>目录</b></p><ul><li><a rel="nofollow noopener" href="#_label0">一、Qt License 分析</a><ul><li><a rel="nofollow noopener" href="#_label0_0">1.1 LGPL V2 与 LGPL V3</a></li><li><a rel="nofollow noopener" href="#_label0_1">1.2 LGPL 开发闭源程序</a></li><li><a rel="nofollow noopener" href="#_label0_2">1.3 Qt 的 License 变化历程</a></li></ul></li><li><a rel="nofollow noopener" href="#_label1">二、Qt 开源版与商业版的区别</a><ul><li><a rel="nofollow noopener" href="#_label1_0">2.1 桌面端</a></li><li><a rel="nofollow noopener" href="#_label1_1">2.2 嵌入式</a></li><li><a rel="nofollow noopener" href="#_label1_2">2.3 Qt 开源版 VS 商业版</a></li></ul></li></ul></div><p>&nbsp;</p><hr style="height:1px;border:none;border-top:1px dashed #0066CC;">
+<div style="text-align: right;"><a rel="nofollow noopener" href="#_labelTop" style="color:#f68a33">回到顶部</a><a rel="nofollow noopener" name="_label0"></a></div><h2 id="一qt-license-分析">一、Qt License 分析<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<a rel="nofollow noopener" name="_label0_0"></a><h3 id="11-lgpl-v2-与-lgpl-v3">1.1 LGPL V2 与 LGPL V3<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>GPLv3 协议中讨论最为广泛的新要求，即要求在"用户产品"中提供 GPLv3 代码的"安装信息”。</p>
+<p>提供"安装信息"要求旨在保护用户权利，让用户可以修改其所购买和使用的产品中嵌入的 GPLv3 代码，并运行修改后的版本。<br>
+如果没有此条款，则"锁定"设备以阻止法定持有人修改软件便会损害 GPL 许可证作者希望用户拥有的自由权利。如果所有嵌入式设备都执行此类锁定，则如美国最高法院曾经说过的一样，GPL 所保证的自由权就会变成"空头支票”。</p>
+<p>"用户产品"指"消费品"，即通常用于个人、家庭或日常使用的有形个人财产，任何为了安装到住所而设计或销售的产品。</p>
+<p>“用户产品"在通过永久转让所有权或控制权，或者基于固定期限出借或出租时，产品中 GPL 程序的非源码形式副本便已向用户发布。向用户提供对应源码时应随附足够的技术信息，方法、过程、授权密匙，或安装和执行用户产品中的修改版 GPL 软件所需的其他信息。这些信息必须足以保证修改后的目标码不会仅因遭到修改而无法继续执行，除非设备中采用了技术措施来阻止修改版本的安装和执行，否则此要求无关紧要。</p>
+<p>因此从 2007 年以来的经验可以看出，如果生产厂商想要锁定其产品，则应避免使用 GPLv3软件。（注：锁定产品的意思，就是禁止用户可以修改软件）</p>
+<br>
+<a rel="nofollow noopener" name="_label0_1"></a><h3 id="12-lgpl-开发闭源程序">1.2 LGPL 开发闭源程序<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>LGPL 协议是一个商业友好的协议，使用 LGPL 开发闭源程序，有以下两种情况:</p>
+<ul>
+<li>使用动态链接的形式，那么可以以任何形式发布你的应用程序，商业的、非商业的、开源的、非开源的。</li>
+<li>因某种原因必须静态链接一个基于 LGPL 协议发布的库，那么，你有义务进行下面的工作
+<ul>
+<li>你必须在你的文档中说明，你的程序中使用了 LGPL 库，并且说明这个库是基于 LGPL 发布的</li>
+<li>你必须在你的应用程序发布中包含一份 LGPL 协议，通常就是那个文本文件</li>
+<li>你必须开放使用了 LGPL 库代码的所有代码，例如某些封装器。但是，其他使用这些封装器的代码就不需要开放了</li>
+<li>你必须包含你的应用程序的余下部分的目标文件（通常就是我们所说的 .o 等等)，或者是其他等价的文件。源代码并不是必须的</li>
+</ul>
+</li>
+</ul>
+<p><span style="color: rgba(255, 0, 0, 1)">但是对于嵌入式来说，如果生产厂商想要锁定其产品，不允许用户修改，则应避免使用 LGPLv3 协议发布的软件。</span></p>
+<br>
+<a rel="nofollow noopener" name="_label0_2"></a><h3 id="13-qt-的-license-变化历程">1.3 Qt 的 License 变化历程<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>Qt 2 后源码授权许可证开始使用GPL，Qt 4.0 发布时它拥抱了 GPLv2，2009年收购 Trolltech 诺基亚为 Qt 加入了 LGPLv2.1，LGPLv2.1 存在漏洞，没有澄清使用修改库的问题，这个漏洞被企业广泛利用开发锁定的设备，开发者认为，使用 LGPLv2.1 授权的修改版 Qt 去创建锁定设备伤害了 Qt 的生态系统。</p>
+<p>因为设备不对第三方公开，对生态系统没有任何贡献。LGPLv2.1 没有保护用户的自由，自由软件基金会的 LGPLv3 解决了这个问题。LGPLv3 开源许可证将能在用户使用开源版的 Qt 时确保用户自由，<span style="color: rgba(255, 0, 0, 1)">LGPLv3 明确禁止封闭嵌入式设备分发 LGPLv3 授权的软件。</span></p>
+<p>从 5.4 开始 Qt 将采用 LGPL v2.1、LGPL v3 和商业许可证授权，而新的附加模组将只在 LGPL v3 和商业许可证发布。在 Qt 4.0 到 Qt 5.3 的版本使用 LGPLv2.1，并且随着版本的更新越来越多的模块不再使用 LGPLv2.1。</p>
+<p>Qt License 更改的官方新闻：<a href="https://www.qt.io/blog/2014/08/20/adding-lgpl-v3-to-qt" target="_blank" rel="noopener">https://www.qt.io/blog/2014/08/20/adding-lgpl-v3-to-qt</a></p>
+<div style="text-align: right;"><a rel="nofollow noopener" href="#_labelTop" style="color:#f68a33">回到顶部</a><a rel="nofollow noopener" name="_label1"></a></div><h2 id="二qt-开源版与商业版的区别">二、Qt 开源版与商业版的区别<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<a rel="nofollow noopener" name="_label1_0"></a><h3 id="21-桌面端">2.1 桌面端<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>对于桌面应用，不管是 Window，还是 Linux 上的桌面应用，只要不用静态编译别修改 Qt 源码就可以了，就一堆 dll 或者 .so 加上 exe 这种方式就是合法的。默认你用 windeployqt 生成的那个打包下就可以了。这个理论上还要求你写软件说明的时候声明下用了 Qt 程序库，Qt 程序库是 LGPL 协议的，把 LGPL 协议的文档弄个文本文件跟你的程序放一起。就类似下面这种，exe 跟 dll 一起，有个 LGPL 文档说明，软件的帮助或者配套文件里说下用了 LGPL 协议的 Qt 就行了。国内用 Qt 商用的很多，商业完全没问题的。Qt 的 Python 绑定特意出了个 PySide 就是为了支持 LGPL 好支持商用，PyQt 不支持LGPL，商用不友好。</p>
+<p><img src="https://s2.loli.net/2022/06/09/py4atMLuP7QBJUZ.png" alt="Qt_License_A.png" loading="lazy"></p>
+<br>
+<a rel="nofollow noopener" name="_label1_1"></a><h3 id="22-嵌入式">2.2 嵌入式<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>由于从 5.4 开始 Qt 主要采用 LGPL v3 授权，而 LGPLv3 明确禁止封闭嵌入式设备分发 LGPLv3 授权的软件，所以在嵌入式下不能使用 Qt 5.4 以及以上的版本进行商用，当然 Qt 5.3 以及以下的版本还是可以。</p>
+<br>
+<a rel="nofollow noopener" name="_label1_2"></a><h3 id="23-qt-开源版-vs-商业版">2.3 Qt 开源版 VS 商业版<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p><img src="https://s2.loli.net/2022/06/09/hgZJqxKrnz2WuQi.jpg" alt="Qt_License_B.jpg" loading="lazy"></p>
+<br>
+<p><img src="https://s2.loli.net/2022/06/09/tR29YQ1HBnMxycX.jpg" alt="Qt_License_C.jpg" loading="lazy"></p>
+<br>
+<p><strong>参考：</strong></p>
+<p><a href="https://www.kuaixunai.com/thread-1232765-1-1.html" target="_blank" rel="noopener">Qt License 分析</a></p>
+<p><a href="https://blog.csdn.net/libaineu2004/article/details/100126548" target="_blank" rel="noopener">Qt发布版权问题，是否需要公开源码？开源版与商业版的区别？</a></p>
+<p><a href="https://www.jianshu.com/p/5d50e8ef87e0" target="_blank" rel="noopener">公司使用 Qt 到底要不要付费？</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/92046859" target="_blank" rel="noopener">Qt开源版 vs 商业版</a></p>
+<br>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block" role="contentinfo"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/linuxAndMcu/category/1501325.html" target="_blank">Qt应用</a></div>
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(16359738,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('ed88f83e-adba-e611-845c-ac853d9f53ac');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/linuxAndMcu/" target="_blank"><img src="https://pic.cnblogs.com/face/1075214/20181124221431.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/linuxAndMcu/">fengMisaka</a><br>
+            <a href="https://home.cnblogs.com/u/linuxAndMcu/followers/">粉丝 - <span class="follower-count">537</span></a>
+            <a href="https://home.cnblogs.com/u/linuxAndMcu/followees/">关注 - <span class="following-count">16</span></a><br>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow" class="follow-tip">
+                <a href="javascript:void(0);" onclick="follow('ed88f83e-adba-e611-845c-ac853d9f53ac');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(16359738,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(16359738,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/linuxAndMcu/p/16171065.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/linuxAndMcu/p/16171065.html" data-featured-image="" title="发布于 2022-04-20 18:05">Qt 键值对照表</a>
+    <br>
+    <a href="https://www.cnblogs.com/linuxAndMcu/p/16359813.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/linuxAndMcu/p/16359813.html" data-featured-image="" title="发布于 2022-06-09 16:29">Qt 窗口标志（Qt WindowFlags）</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2022-06-09 16:14</span>&nbsp;
+<a href="https://www.cnblogs.com/linuxAndMcu/">fengMisaka</a>&nbsp;
+阅读(<span id="post_view_count">92</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=16359738" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(16359738);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '16359738', targetLink: 'https://www.cnblogs.com/linuxAndMcu/p/16359738.html', title: 'Qt License分析、开源版与商业版的区别' })">举报</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+
+<script>
+    var cb_entryId = 16359738, cb_entryCreatedDate = '2022-06-09 16:14', cb_postType = 1, cb_postTitle = 'Qt License分析、开源版与商业版的区别';
+    var allowComments = true, cb_blogId = 320704, cb_blogApp = 'linuxAndMcu', cb_blogUserGuid = 'ed88f83e-adba-e611-845c-ac853d9f53ac';
+    mermaidRender.render()
+    markdown_highlight()
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+    updatePostStats(
+            [cb_entryId],
+            function(id, count) { $("#post_view_count").text(count) },
+            function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a id="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login('!comments');">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+        <div id="cnblogs_ch"><a href="https://curl.qcloud.com/k19RDMHo" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-腾讯云'})">【推荐】腾讯云多款云产品1折起，买云服务器送免费机器</a><br><a href="https://brands.cnblogs.com/specdd" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-SpecDD专区'})">【推荐】下一步，敏捷！云可达科技 SpecDD 敏捷开发专区</a><br></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+            <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CNav7qu-vPkCFUTFvQod_GsAQA"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" name="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" role="region" aria-label="Advertisement" tabindex="0" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" style="border: 0px; vertical-align: bottom;" data-load-complete="true" data-google-container-id="1"></iframe></div></div>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card">
+<b>编辑推荐：</b>
+<br>
+
+· <a href="https://www.cnblogs.com/coco1s/p/16561206.html" target="_blank">使用 CSS 构建强大且酷炫的粒子动画</a>
+    <br>
+· <a href="https://www.cnblogs.com/lesliexin/p/16554752.html" target="_blank">[C#]GDI+之鼠标交互：原理、示例、一步步深入、性能优化</a>
+    <br>
+· <a href="https://www.cnblogs.com/chanshuyi/p/head-first-of-cdn.html" target="_blank">一文带你弄懂 CDN 技术的原理</a>
+    <br>
+· <a href="https://www.cnblogs.com/coco1s/p/16549752.html" target="_blank">妙用 CSS 构建花式透视背景效果</a>
+    <br>
+· <a href="https://www.cnblogs.com/zhanggaoxing/p/16554114.html" target="_blank">.NET IoT 入门指南：基于 GPS 的 NTP 时间同步服务器</a>
+    <br>
+</div></div>
+        <div id="cnblogs_c2" class="under-post-card">
+            <a href="http://www.grqsh.com/zcloud.html" rel="nofollow" target="_blank" onclick="countCreativeClicks('C2-格瑞趋势-SQL专家云');countCreativeClicks('格瑞趋势-SQL专家云-term-')">
+                <img src="https://img2022.cnblogs.com/blog/35695/202208/35695-20220808183239921-1095997467.jpg" alt="" onload="countCreativeImpressions('C2-格瑞趋势-SQL专家云');countCreativeImpressions('格瑞趋势-SQL专家云-term-')">
+            </a>
+        </div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>最新新闻</b>：
+    <br>
+ ·          <a href="//news.cnblogs.com/n/726269/" target="_blank">TapTap们做不大</a>
+        <br>
+ ·          <a href="//news.cnblogs.com/n/726268/" target="_blank">百度、四维图新、高德争“鲜”恐后</a>
+        <br>
+ ·          <a href="//news.cnblogs.com/n/726267/" target="_blank">美光宣布将投资400亿美元 建设先进存储芯片制造工厂</a>
+        <br>
+ ·          <a href="//news.cnblogs.com/n/726266/" target="_blank">“丁香医生”系列账号被禁言：微博账号粉丝数量为217万</a>
+        <br>
+ ·          <a href="//news.cnblogs.com/n/726265/" target="_blank">用平板，开启办公室外的创造力</a>
+        <br>
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+        var commentManager = new blogCommentManager();
+        commentManager.renderComments(0);
+        fixPostBody();
+
+            window.tocManager.displayDisableTocTips = false;
+            window.tocManager.generateToc();
+            
+                setTimeout(function() { countViews(cb_blogId, cb_entryId); }, 50);
+            
+            deliverT2();
+            deliverC1C2();
+            loadNewsAndKb();
+            
+                LoadPostCategoriesTags(cb_blogId, cb_entryId);
+            
+            LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+            GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+            loadOptUnderPost();
+            GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+                </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    <!-- 添加头像，并且点击头像跳转到博客园首页 -->
+<div align="center">
+<a href="https://home.cnblogs.com/u/linuxAndMcu/">
+<img src="https://www.cnblogs.com/images/cnblogs_com/linuxAndMcu/1348721/o_o_misaka.jpg">
+</a> 
+</div>
+
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['3']();</script><script>window['__document_write_ajax_callbacks__']['1']();</script>
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/linuxAndMcu/">
+            fengMisaka
+        </a>
+        <br>
+        园龄：
+        <a href="https://home.cnblogs.com/u/linuxAndMcu/" title="入园时间：2016-12-05">
+            5年8个月
+        </a>
+        <br>
+        粉丝：
+        <a class="follower-count" href="https://home.cnblogs.com/u/linuxAndMcu/followers/">
+            537
+        </a>
+        <br>
+        关注：
+        <a class="folowing-count" href="https://home.cnblogs.com/u/linuxAndMcu/followees/">
+            16
+        </a>
+        <div id="p_b_follow" class="follow-tip">
+<a href="javascript:void(0)" onclick="follow('ed88f83e-adba-e611-845c-ac853d9f53ac')">+加关注</a></div>
+        <script type="text/javascript">window['__document_write_ajax_callbacks__']['4']();</script><script>window['__document_write_ajax_callbacks__']['2']();</script>
+    </div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk">
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+        <h3 class="catListTitle">
+            
+    <a class="sidebar-card-title-a" href="https://www.cnblogs.com/linuxAndMcu/categories">随笔分类</a>
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1048923.html" class="category-item-link" rel="" target="">C++(31)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1312150.html" class="category-item-link" rel="" target="">C++小项目(4)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1439774.html" class="category-item-link" rel="" target="">CMake(7)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1026783.html" class="category-item-link" rel="" target="">C语言(6)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1309690.html" class="category-item-link" rel="" target="">C语言小项目(4)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1615202.html" class="category-item-link" rel="" target="">DirectShow(8)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1613476.html" class="category-item-link" rel="" target="">FFmpeg(16)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1080714.html" class="category-item-link" rel="" target="">Linux(22)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1940599.html" class="category-item-link" rel="" target="">OpenGL(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1923666.html" class="category-item-link" rel="" target="">Python(7)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1377059.html" class="category-item-link" rel="" target="">Qt Quick学习(34)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1844035.html" class="category-item-link" rel="" target="">Qt Quick应用(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1362613.html" class="category-item-link" rel="" target="">Qt学习(56)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1501325.html" class="category-item-link" rel="" target="">Qt应用(31)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1424081.html" class="category-item-link" rel="" target="">ROS(12)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1494525.html" class="category-item-link" rel="" target="">shell脚本(9)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1381526.html" class="category-item-link" rel="" target="">STL(11)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1617812.html" class="category-item-link" rel="" target="">Win32 程序开发入门(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1957299.html" class="category-item-link" rel="" target="">操作系统(11)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1079162.html" class="category-item-link" rel="" target="">常见笔试面试题(7)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1347449.html" class="category-item-link" rel="" target="">读书笔记(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1880821.html" class="category-item-link" rel="" target="">计算机网络(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1380780.html" class="category-item-link" rel="" target="">前端(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1925142.html" class="category-item-link" rel="" target="">设计模式(12)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1084577.html" class="category-item-link" rel="" target="">数据结构(24)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1569870.html" class="category-item-link" rel="" target="">数据库(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/1628507.html" class="category-item-link" rel="" target="">音视频基础(10)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/linuxAndMcu/category/919287.html" class="category-item-link" rel="" target="">杂项(27)</a>
+ 
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block"><div class="catListView">
+    <h3 class="catListTitle">
+        <a href="https://www.cnblogs.com/linuxAndMcu/most-viewed" class="sidebar-card-title-a">
+    阅读排行榜
+</a>
+
+    </h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/linuxAndMcu/p/11242905.html">
+                            1. 学会写伪代码(84834)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/linuxAndMcu/p/10717565.html">
+                            2. Linux下安装软件命令详解(45376)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/linuxAndMcu/p/10974927.html">
+                            3. Qt之程序发布以及打包成exe安装包(34231)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/linuxAndMcu/p/10260124.html">
+                            4. [C++ STL] deque使用详解(32545)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/linuxAndMcu/p/7735444.html">
+                            5. 数据结构之顺序队列(C实现)(32181)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 评论排行榜 -->
+
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">
+            <a href="https://www.cnblogs.com/linuxAndMcu/most-liked" class="sidebar-card-title-a">推荐排行榜</a>
+
+        </h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/linuxAndMcu/p/10260124.html">
+                                1. [C++ STL] deque使用详解(10)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/linuxAndMcu/p/11064916.html">
+                                2. 多进程和多线程的概念(9)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/linuxAndMcu/p/11242905.html">
+                                3. 学会写伪代码(8)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/linuxAndMcu/p/10261014.html">
+                                4. [C++ STL] set使用详解(5)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/linuxAndMcu/p/10254542.html">
+                                5. [C++ STL] 各容器简单介绍(5)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2022 fengMisaka
+<br><span id="poweredby">Powered by .NET 6 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+<div id="page_end_html">
+<script language="javascript" type="text/javascript">
+
+/* 自动生成目录索引 begin */
+function GenerateContentList()
+{
+    var mainContent = $('#cnblogs_post_body');
+    var h2_list = $('#cnblogs_post_body h2');//如果你的章节标题不是h2,只需要将这里的h2换掉即可
+
+    if(mainContent.length < 1)
+        return;
+ 
+    if(h2_list.length>0)
+    {
+        var content = '<a rel="nofollow noopener"  name="_labelTop"></a>';
+        content += '<div id="navCategory" style="color:#152e97;">';
+        content += '<p style="font-size:18px;"><b>目录</b></p>';
+        content += '<ul>';
+        for(var i=0; i<h2_list.length; i++)
+        {
+            var go_to_top = '<div style="text-align: right;"><a rel="nofollow noopener"  href="#_labelTop" style="color:#f68a33">回到顶部</a><a rel="nofollow noopener"  name="_label' + i + '"></a></div>';
+            $(h2_list[i]).before(go_to_top);
+            
+            var h3_list = $(h2_list[i]).nextAll("h3");
+            var li3_content = '';
+            for(var j=0; j<h3_list.length; j++)
+            {
+                var tmp = $(h3_list[j]).prevAll('h2').first();
+                if(!tmp.is(h2_list[i]))
+                    break;
+                var li3_anchor = '<a rel="nofollow noopener"  name="_label' + i + '_' + j + '"></a>';
+                $(h3_list[j]).before(li3_anchor);
+                li3_content += '<li><a rel="nofollow noopener"  href="#_label' + i + '_' + j + '">' + $(h3_list[j]).text() + '</a></li>';
+            }
+            
+            var li2_content = '';
+            if(li3_content.length > 0)
+                li2_content = '<li><a rel="nofollow noopener"  href="#_label' + i + '">' + $(h2_list[i]).text() + '</a><ul>' + li3_content + '</ul></li>';
+            else
+                li2_content = '<li><a rel="nofollow noopener"  href="#_label' + i + '">' + $(h2_list[i]).text() + '</a></li>';
+            content += li2_content;
+        }
+        content += '</ul>';
+        content += '</div><p>&nbsp;</p>';
+        content += '<hr style="height:1px;border:none;border-top:1px dashed #0066CC;"/>';
+        if($('#cnblogs_post_body').length != 0 )
+        {
+            $($('#cnblogs_post_body')[0]).prepend(content);
+        }
+    }   
+}
+GenerateContentList();
+/* 自动生成目录索引 end */
+</script>
+</div>
+
+<input type="hidden" id="antiforgery_token" value="CfDJ8EOBBtWq0dNFoDS-ZHPSe53FKAlWea2Ny-ieCslK2HjAgTTvQwB2uuclvmLvTYxQBTQ7UK6frb5wYrNZUJlCk-nQT5ubBs8HGoqSHtf_evHel6e69R3H1cN5nzWUXYp3puf4ttzpaHTsT0nOC2yJgAU">
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-476124-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var kv = getGACustom();
+    if (kv) {
+        gtag('set', kv);
+    }
+    gtag('config', 'UA-476124-1');
+</script>
+<script defer="" src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script>
+
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?ec207437a246350f49e5cd3feb1f5bc7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">getFollowStatus('ed88f83e-adba-e611-845c-ac853d9f53ac');</script><iframe src="https://cb2acccf83f5c6c46b2e09dcdff11a32.safeframe.googlesyndication.com/safeframe/1-0-38/html/container.html" style="visibility: hidden; display: none;"></iframe><iframe src="https://www.google.com/recaptcha/api2/aframe" width="0" height="0" style="display: none;"></iframe></body></html>
