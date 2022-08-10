@@ -466,8 +466,34 @@ Reflective loader 实现思路如下：
 
 [API Hook 的几种实现 {% include relref_cnblogs.html %}](https://www.cnblogs.com/rogeryu/archive/2009/06/04/1496538.html)
 1. 改写函数的首地址。
-2. 改写导入表
+2. 改写导入表 IAT(Import Address Table)
 3. 改写虚函数表。[简单的虚表 Hook {% include relref_csdn.html %}](https://blog.csdn.net/qq_39708161/article/details/79270112)
+
+[VEH + 硬件断点实现无痕 HOOK {% include relref_csdn.html %}](https://blog.csdn.net/qq_38474570/article/details/120457798)
+AddVectoredExceptionHandler [设置 VEH 异常捕获 {% include relref_csdn.html %}](https://blog.csdn.net/slslslyxz/article/details/105431083)
+```cpp
+PVOID WINAPI AddVectoredExceptionHandler(
+  _In_ ULONG                       FirstHandler,
+  _In_ PVECTORED_EXCEPTION_HANDLER VectoredHandler
+);
+
+ULONG WINAPI RemoveVectoredExceptionHandler(
+  _In_ PVOID Handler
+);
+
+PVOID WINAPI AddVectoredContinueHandler(
+  _In_ ULONG                       FirstHandler,
+  _In_ PVECTORED_EXCEPTION_HANDLER VectoredHandler
+);
+
+ULONG WINAPI RemoveVectoredContinueHandler(
+  _In_ PVOID Handler
+);
+```
+{% include image.html url="/assets/images/220524-snowflake-notes/ecc07dc803684b9ca819808a06a25da8.png" %}
+
+注意：由于 CPU 提供的 Dr 寄存器有限，DrxHook 只能下 4 个断点！
+注意：由于程序异常会优先被调试器捕获，所以程序必须编译出来后才能生效！
 
 
 ## Typora 解密之跳动的二进制
@@ -499,7 +525,30 @@ Typora 是一款由 Abner Lee 开发的轻量级 Markdown 编辑器，与其他 
 用 AFL 来示意一个典型的 Fuzz 过程。
 
 
+### kmeans++
+
+从上面的分析可以看出，k-means 是随机的分配 k 个初始聚类中心。而聚类的结果高度依赖质心的初始化。如果初始聚类中心选的不好，k-means 算法最终会收敛到一个局部最优值，而不是全局最优值。为了解决这个问题，引入了 k-means++ 算法，它的基本思想就是：初始的聚类中心之间的相互距离要尽可能的远。而且在计算过程中，我们通常采取的措施是进行不止一次的聚类，每次都初始化不同的中心，以 inertial 最小的聚类结果作为最终聚类结果。
+
+pyclusring 库下的 kmeans 聚类
+
+[某达路由器测试](https://bbs.pediy.com/thread-272497.htm)
+{% include image.html url="/assets/images/220524-snowflake-notes/934060_FH3WHMZKJ7HHTMS.jpg" caption="危险函数表" %}
+
+
 ## 一文读懂对称加密、非对称加密、哈希值、签名、证书、https 之间的关系
+
+到这里，可能你会有两个疑问：
+1. 最顶部的根证书是谁签发的？
+2. 这些根证书是从哪里来的？
+答案是：
+1. 根证书自己签发自己，因为根证书的签发机构站在实力的角度被大家所认可
+2. 这些受信任的根证书一般是操作系统或者浏览器自带的
+
+
+### http/https/ssl/tls 协议
+
+http 协议是一个 4 层协议，wireshark 抓到的对百度这个 ip 地址一个个数据包。
+{% include image.html url="/assets/images/220524-snowflake-notes/23743690457c181f99a39b2b6b7bcec7.png" %}
 
 [note](https://debugwar.com/article/one-article-to-understand-the-relationship-between-encryption-certificate-signature-https)
 其实上一节中的 https 协议依旧是简化版本，真正完整的 https 协议是支持双向认证的，即客户端不仅要认证服务器、服务器也要认证客户端。
@@ -509,9 +558,24 @@ Typora 是一款由 Abner Lee 开发的轻量级 Markdown 编辑器，与其他 
 [一文读懂 PE 文件签名并手工验证签名有效性](https://bbs.pediy.com/thread-272464.htm)
 
 
+### AuthentiCode 哈希
+
+根据微软的文档，AuthenticCode 的计算需要跳过 CheckSum 字段、SecurityDirectory 字段以及最后的 PKCS#7 格式的证书数据部分。
+
+
 ## 2022 腾讯游戏安全决赛 wp
 
 [note](https://bbs.pediy.com/thread-272548.htm)
+
+[RawPDB {% include relref_github.html %}](https://github.com/lainswork/raw_pdb)
+RawPDB is a C++11 library that directly reads Microsoft Program DataBase PDB files. The code is extracted almost directly from the upcoming 2.0 release of Live++.
+
+通过 Ldr 来遍历自身的 dll 模块，然后通过都 PE 文件的解析寻找函数地址，并添加到全局函数表中。
+
+LDR 链调试的方法，这实际上就是一种利用 PEB 关系链获得各个模块基址进而实现遍历其导出表的技术，通过这种技术我们可以轻易的在程序运行中获取到动态加载的 api 的实际地址进而实现各种各样的功能。
+```
+fs 寄存器 -> TEB -> PEB -> PEB_LDR_DATA -> LIST_ENTRY -> LDR_DATA_TABLE_ENTRY -> dll_base
+```
 
 
 ## Android 调试与反调试详解
@@ -574,11 +638,15 @@ Typora 是一款由 Abner Lee 开发的轻量级 Markdown 编辑器，与其他 
 - [https://github.com/Kerrbty/RemoteLoadDll]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/github.com/ca0eeb9f.html" %})
 - [https://www.cnblogs.com/rogeryu/archive/2009/06/04/1496538.html]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/www.cnblogs.com/316f18af.html" %})
 - [https://blog.csdn.net/qq_39708161/article/details/79270112]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/blog.csdn.net/c1e59072.html" %})
+- [https://blog.csdn.net/qq_38474570/article/details/120457798]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/blog.csdn.net/00ce170d.html" %})
+- [https://blog.csdn.net/slslslyxz/article/details/105431083]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/blog.csdn.net/728afc5f.html" %})
 - [https://bbs.pediy.com/thread-272618.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/03692cc5.htm" %})
 - [https://bbs.pediy.com/thread-272500.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/0a34d492.htm" %})
+- [https://bbs.pediy.com/thread-272497.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/54615d91.htm" %})
 - [https://debugwar.com/article/one-article-to-understand-the-relationship-between-encryption-certificate-signature-https]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/debugwar.com/94283ef3.html" %})
 - [https://bbs.pediy.com/thread-272464.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/9548c705.htm" %})
 - [https://bbs.pediy.com/thread-272548.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/d37f7874.htm" %})
+- [https://github.com/lainswork/raw_pdb]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/github.com/40446430.html" %})
 - [https://bbs.pediy.com/thread-272870.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/4cca5bed.htm" %})
 - [https://bbs.pediy.com/thread-272452.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/e1f4f326.htm" %})
 - [https://bbs.pediy.com/thread-273293.htm]({% include relrefx.html url="/backup/2022-05-24-snowflake-notes.md/bbs.pediy.com/42e4ef8c.htm" %})
