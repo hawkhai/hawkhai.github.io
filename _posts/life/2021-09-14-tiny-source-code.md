@@ -725,7 +725,7 @@ int _tmain(int argc, _TCHAR* argv[])
 ```cpp
 #include <assert.h>
 
-#define ALG_TYPE 0x321
+#define ALG_TYPE 0x07
 
 class b62 {
   public:
