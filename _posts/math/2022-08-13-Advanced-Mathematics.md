@@ -24,6 +24,7 @@ cluster: "数学基础"
 **从新学习，并用 mathjax 做笔记。**
 [mathjax {% include relref_cnblogs.html %}](https://www.cnblogs.com/linxd/p/4955530.html)
 [html2text](http://www.atoolbox.net/Tool.php?Id=715)
+[公式及时编辑](https://spaces.ac.cn/latex.html/comment-page-1)
 
 
 ## 1.1 映射 47:15
@@ -156,20 +157,114 @@ $$
 
 ## 1.6 极限存在准则 两个重要极限 48:48
 
+1. 准则 1：夹逼准则（放缩思想）
+1. 准则 2：单调有界数列必有极限
+
+[note {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/355228120)
+
+* 重要极限 1：$\lim_{x \rightarrow 0}{\frac{sinx}{x}} = 1$
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/v2-3dc95cca158f273c7d9b5f67770c0308_720w.jpg" %}
+
+* 重要极限 2：$\lim_{x \rightarrow \infty}{(1+\frac{1}{x})^{x}} = e$
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/20220815004558.png" %}
+
+* 柯西极限存在准则
+
+定义：数列 $\\{x_n\\}$ 收敛 $\Leftrightarrow$ 对于任意给定的正数 $\varepsilon$，存在任意小正整数，使得当 $m>N$，$n>N$ 时，有
+$$
+|x_{n}-x_{m}|<\varepsilon
+$$
+
 
 ## 1.7 无穷小的比较 32:59
+
+两个无穷小之比的极限反映了出不同的无穷小趋近于零的“快慢”程度。
+[zhihu {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/265518833)
+两个无穷小量之间又分为 高阶无穷小，低阶无穷小，同阶无穷小，等价无穷小。
+
+假设在自变量同一个变化过程中，有 $\alpha$，$\beta$ 两个无穷小，且 $\alpha\ne0$，$\lim\frac{\beta}{\alpha}$ 也是这个过程中的极限，有如下定义：
+1. 高阶的无穷小，记作 $\beta=o(\alpha)$；
+2. 低阶的无穷小；
+3. 同阶无穷小；
+4. $k$ 阶无穷小；
+5. 等价无穷小，记作 $\alpha \sim \beta$。
+
+* 定理 1：$\beta$ 与 $\alpha$ 是等价无穷小的充分必要条件是 $\beta=\alpha+o(\alpha)$。
+* 定理 2：设 $\alpha\sim\alpha'$，$\beta\sim\beta'$，且 $\lim\frac{\beta'}{\alpha'}$ 存在，则 $\lim\frac{\beta}{\alpha}=\lim\frac{\beta'}{\alpha'}$。
+    * 定理 2 表明，求两个无穷小之比的极限时，分子及分母可用等价无穷小代替，适当选择等价无穷小可简化计算。
+
+等价无穷小的使用条件是：
+1. 被代换的量在取极限的时候极限值为 0。
+2. 被代换的量，作为被乘或者被除的元素时可以用等价无穷小代换，但是作为加减的元素时就不可以。
+
+等价无穷小是无穷小之间的一种关系，指的是：在同一自变量的趋向过程中，若两个无穷小之比的极限为 1，则称这两个无穷小是等价的。无穷小等价关系刻画的是两个无穷小趋向于零的速度是相等的。
 
 
 ## 1.8 函数的连续性与间断点 39:27
 
+积化和差
+$$
+{\displaystyle \sin \alpha \cos \beta ={\sin(\alpha +\beta )+\sin(\alpha -\beta ) \over 2}}  \\ {\displaystyle \cos \alpha \sin \beta ={\sin(\alpha +\beta )-\sin(\alpha -\beta ) \over 2}}  \\ {\displaystyle \cos \alpha \cos \beta ={\cos(\alpha +\beta )+\cos(\alpha -\beta ) \over 2}} \\ {\displaystyle \sin \alpha \sin \beta =-{\cos(\alpha +\beta )-\cos(\alpha -\beta ) \over 2}}  \\
+$$
+
+和差化积
+$$
+{\displaystyle \sin \alpha +\sin \beta =2\sin {\frac {\alpha +\beta }{2}}\cos {\frac {\alpha -\beta }{2}}}  \\ {\displaystyle \sin \alpha -\sin \beta =2\cos {\alpha +\beta  \over 2}\sin {\alpha -\beta  \over 2}} \\ {\displaystyle \cos \alpha +\cos \beta =2\cos {\frac {\alpha +\beta }{2}}\cos {\frac {\alpha -\beta }{2}}} \\ {\displaystyle \cos \alpha -\cos \beta =-2\sin {\alpha +\beta  \over 2}\sin {\alpha -\beta  \over 2}}
+$$
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/v2-2aafd06b81167a0dee2bd48a1822b0e7_720w.jpg" %}
+
+1. 在 $x_0$ 无定义；
+2. $\lim_{x \to x_0}f(x)$ 不存在；
+3. $\lim_{x \to x_0}f(x) \neq f(x_0)$
+
 
 ## 1.9 闭区间连续函数的性质 2 28:03
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/v2-25fbf271215713ebbe4b628cb8bb6182_r.jpg" %}
 
 
 ## 2.1 导数定义 23:28
 
+几种记法：
+1. $$\left.y^{\prime}\right|_{x={x_0}}$$
+2. $$f^{\prime}\left(x_{0}\right)$$
+3. $$\left.\frac{d y}{d x}\right|_{x=x_{0}}$$
+4. $$\left.\frac{d f(x)}{d x}\right|_{x=x_{0}}$$
+
 
 ## 2.1 常用求导公式举例 34:17
+
+常见函数的导数
+1. $f(x)=C$，$C$ 是常数，$f'(x)=0$。
+2. $f(x)=x^n$，$f'(x)=nx^{n-1}$
+3. $f(x)=\sin x$，$f'(x)=\cos x$
+4. $f(x)=\cos x$，$f'(x)=-\sin x$
+5. $f(x)=a^x$，$f'(x)=a^x\ln a$
+6. $f(x)=\log_ax$，$f'(x)=\frac{1}{x\ln a}, (a > 0, a \neq 0)$
+7. $f(x)=\ln x$，$f'(x)=\frac{1}{x}$
+
+[基本初等函数导数推导 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/89843248)
+1. 常数函数的导数处处为零。
+2. $(x^{\mu})'=\mu x^{\mu-1}$
+3. $(\sin x)'=\cos x$
+4. $(\cos x)'=-\sin x$
+5. $(\tan x)'=\sec^{2}x$
+6. $(\cot x)'=-\csc^{2}x$
+7. $(\sec x)'=\tan x\sec x$
+8. $(\csc x)'=-\cot x\csc x$
+9. $(a^{x})'=a^{x}\ln a$
+10. $(e^{x})'=e^{x}$
+11. $(\log_{a}^{x})'=\frac{1}{x\ln a}$
+12. $(\ln x)'=\frac{1}{x}$
+13. $(\arcsin x)'=\frac{1}{\sqrt{1-x^{2}}}$
+14. $(\arccos x)'=-\frac{1}{\sqrt{1-x^{2}}}$
+15. $(\arctan x)'=\frac{1}{1+x^{2}}$
+16. $(arccot x)'=\frac{1}{1+x^{2}}$
+17. $(arcsecx)'=\frac{1}{x\sqrt{x^{2}-1}}$
+18. $(arccscx)'=-\frac{1}{x\sqrt{x^{2}-1}}$
 
 
 ## 2.1 单侧导数 08:32
@@ -582,8 +677,12 @@ $$
 - [https://www.bilibili.com/video/BV1Eb411u7Fw]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.bilibili.com/f90a16e2.html" %})
 - [https://www.cnblogs.com/linxd/p/4955530.html]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.cnblogs.com/f5a952ec.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.atoolbox.net/ecf02067.php" %})
+- [https://spaces.ac.cn/latex.html/comment-page-1]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/spaces.ac.cn/363c9e5d.html" %})
 - [https://copyfuture.com/blogs-details/20211118231641378g]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/copyfuture.com/561c30f7.html" %})
 - [https://blog.csdn.net/weixin_43310853/article/details/104566595]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/blog.csdn.net/9b9e78bc.html" %})
 - [https://blog.csdn.net/xuchaoxin1375/article/details/125392308]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/blog.csdn.net/ab7289fb.html" %})
 - [https://wuli.wiki/changed/limff.html]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/wuli.wiki/34e2eee0.html" %})
 - [https://zhuanlan.zhihu.com/p/259893215]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/690d4c43.html" %})
+- [https://zhuanlan.zhihu.com/p/355228120]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/e206d5f1.html" %})
+- [https://zhuanlan.zhihu.com/p/265518833]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/1d72a7e1.html" %})
+- [https://zhuanlan.zhihu.com/p/89843248]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/b4adffe3.html" %})

@@ -20,6 +20,9 @@ permalink: /about/
 
 Hi, my name is hawkhai and welcome to my blog.
 
+人生从来不晚，从头开始，走自己的路，靠自己：学习、带娃、锻炼身体。
+日拱一卒，虽远必至！
+
 This is my personal web site.
 I started to convert my notes into the web pages since mid 2020.
 These are mostly fundamental information or tutorials to share with others.
