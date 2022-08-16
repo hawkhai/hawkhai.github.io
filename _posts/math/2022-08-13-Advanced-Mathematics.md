@@ -25,6 +25,7 @@ cluster: "数学基础"
 [mathjax {% include relref_cnblogs.html %}](https://www.cnblogs.com/linxd/p/4955530.html)
 [html2text](http://www.atoolbox.net/Tool.php?Id=715)
 [公式及时编辑](https://spaces.ac.cn/latex.html/comment-page-1)
+[在线函数图像](https://zuotu.91maths.com/)
 
 
 ## 1.1 映射 47:15
@@ -181,7 +182,7 @@ $$
 ## 1.7 无穷小的比较 32:59
 
 两个无穷小之比的极限反映了出不同的无穷小趋近于零的“快慢”程度。
-[zhihu {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/265518833)
+[知乎 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/265518833)
 两个无穷小量之间又分为 高阶无穷小，低阶无穷小，同阶无穷小，等价无穷小。
 
 假设在自变量同一个变化过程中，有 $\alpha$，$\beta$ 两个无穷小，且 $\alpha\ne0$，$\lim\frac{\beta}{\alpha}$ 也是这个过程中的极限，有如下定义：
@@ -272,20 +273,49 @@ $$
 
 ## 2.1 导数的几何含义 16:26
 
+导数的几何意义是该函数曲线在这一点上的切线斜率。
+
+* 切线：$y-y_0=f'(x_0)(x-x_0)$
+* 法线：$y-y_0=-\frac{1}{f'(x_0)}(x-x_0)$
+
 
 ## 2.1 可导与连续的关系 09:53
+
+$y=x^{1/3}$ 在 $0$ 点，连续不可导数。
+{% include image.html url="/assets/images/220813-advanced-mathematics/91529822720e0cf32408308d0846f21fbf09aacd.jpg" %}
 
 
 ## 2.2 求导法则（和差积商）28:03
 
+如果函数 $u=u(x)$ 及 $v=v(x)$ 都在点 $x$ 具有导数，那么它们的和、差、积、商（除分母为零的点外）都在点 $x$ 具有导数，且有
+$$
+\begin{cases}
+[u(x)\pm v(x)]'=u'(x)\pm v'(x) \\
+[u(x)v(x)] '=u'(x)v(x)+u(x)v'(x) \\
+[\frac{u(x)}{v(x)}]'=\frac{u'(x)v(x)-u(x)v'(x)}{v^2(x)}(v(x)\ne 0)
+\end{cases}
+$$
+
 
 ## 2.2 反函数的求导法则 39:14
+
+[知乎 {% include relref_zhihu.html %}](https://www.zhihu.com/question/265518395/answer/1441563740)
+[知乎 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/201720785)
+
+反函数的导 $(d\check{a} o)$ 数等于直接函数的导数的倒 $(d \grave{a} o)$ 数。
 
 
 ## 复合函数求导法则 26:31
 
+链式法则
+
 
 ## 复合函数求导（补充）03:43
+
+[$y=x^x$ 的导数是什么？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/405112095/answer/1320312884)
+$$
+(x^x)'=(e^{x\ln x})'=(1+\ln x)x^x
+$$
 
 
 ## 导数公式表 12:24
@@ -678,6 +708,7 @@ $$
 - [https://www.cnblogs.com/linxd/p/4955530.html]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.cnblogs.com/f5a952ec.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.atoolbox.net/ecf02067.php" %})
 - [https://spaces.ac.cn/latex.html/comment-page-1]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/spaces.ac.cn/363c9e5d.html" %})
+- [https://zuotu.91maths.com/]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zuotu.91maths.com/7f1a51d4.html" %})
 - [https://copyfuture.com/blogs-details/20211118231641378g]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/copyfuture.com/561c30f7.html" %})
 - [https://blog.csdn.net/weixin_43310853/article/details/104566595]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/blog.csdn.net/9b9e78bc.html" %})
 - [https://blog.csdn.net/xuchaoxin1375/article/details/125392308]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/blog.csdn.net/ab7289fb.html" %})
@@ -686,3 +717,6 @@ $$
 - [https://zhuanlan.zhihu.com/p/355228120]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/e206d5f1.html" %})
 - [https://zhuanlan.zhihu.com/p/265518833]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/1d72a7e1.html" %})
 - [https://zhuanlan.zhihu.com/p/89843248]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/b4adffe3.html" %})
+- [https://www.zhihu.com/question/265518395/answer/1441563740]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/a911f6aa.html" %})
+- [https://zhuanlan.zhihu.com/p/201720785]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/d554adf8.html" %})
+- [https://www.zhihu.com/question/405112095/answer/1320312884]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/21d2b74f.html" %})
