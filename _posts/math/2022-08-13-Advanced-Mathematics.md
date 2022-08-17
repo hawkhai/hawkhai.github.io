@@ -320,8 +320,36 @@ $$
 
 ## 导数公式表 12:24
 
+1. $(C)'=0$
+2. $(x^{\mu})'=\mu x^{\mu-1}$
+3. $(\sin x)'=\cos x$
+4. $(\cos x)'=-\sin x$
+5. $(\tan x)'=\sec^{2}x$
+6. $(\cot x)'=-\csc^{2}x$
+7. $(\sec x)'=\tan x\sec x$
+8. $(\csc x)'=-\cot x\csc x$
+9. $(a^x)'=a^x\ln a$
+10. $(e^{x})'=e^{x}$
+11. $(\log_{a}^{x})'=\frac{1}{x\ln a}$
+12. $(\ln x)'=\frac{1}{x}$
+13. $(\arcsin x)'=\frac{1}{\sqrt{1-x^{2}}}$
+14. $(\arccos x)'=-\frac{1}{\sqrt{1-x^{2}}}$
+15. $(\arctan x)'=\frac{1}{1+x^{2}}$
+16. $(arccot x)'=\frac{1}{1+x^{2}}$
+
+17. $(arcsecx)'=\frac{1}{x\sqrt{x^{2}-1}}$
+18. $(arccscx)'=-\frac{1}{x\sqrt{x^{2}-1}}$
+
 
 ## 高阶导数 32:17
+
+* $y'$
+* $\frac{dy}{dx}$
+* $y''$
+* $\frac{d}{dx}({\frac{dy}{dx}})$
+* $\frac{d(\frac{dy}{dx})}{dx}$
+* $\frac{d^2y}{dx^2}$
+* $(\frac{dy}{dx})^2$
 
 
 ## 隐函数求导 28:44
@@ -335,11 +363,23 @@ $$
 
 ## 基本微分公式与法则 16:36
 
+$dy=f'(x)dx$
+
 
 ## 微分的几何意义 12:59
 
+{% include image.html url="/assets/images/220813-advanced-mathematics/v2-9a8223488b7c0142ddc7378ca2c05174_1440w.jpg" %}
+
 
 ## 微分在近似计算中的应用 41:26
+
+近似计算公式 $f(x_0+\Delta x)\approx f(x_0)+f'(x_0)\cdot \Delta x$
+
+* $(1+x)^\alpha\approx1+\alpha x$
+* $\sin(x)\approx x$ （$x$ 取弧度制）
+* $\tan(x)\approx x$
+* $e^x\approx x+1$
+* $\ln(1+x)\approx x$
 
 
 ## 微分中值定理 21:31
