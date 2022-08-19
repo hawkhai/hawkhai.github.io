@@ -38,7 +38,7 @@ Qt 提供了处理图像数据的类：QImage, QPixmap 和 QPicture。
 * QPixmap 是为在屏幕上显示图像而设计和优化的。
 * QPicture 类是一个记录和回放 QPainter 命令的绘制设备。
 
-我们再来看看QImage类的几个构造函数：
+我们再来看看 QImage 类的几个构造函数：
 ```cpp
 // 浅拷贝
 QImage(uchar * data, int width, int height, Format format)
@@ -53,6 +53,7 @@ QImage QImage::copy(const QRect & rectangle = QRect()) const
 // 浅拷贝
 QImage QImage::rgbSwapped() const
 ```
+
 
 
 <hr class='reviewline'/>

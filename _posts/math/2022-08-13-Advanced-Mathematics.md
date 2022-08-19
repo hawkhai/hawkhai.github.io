@@ -384,11 +384,65 @@ $dy=f'(x)dx$
 
 ## 微分中值定理 21:31
 
+[如何理解三大微分中值定理？ {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/47436090)
+
+* 费马引理
+* 罗尔中值定理
+    * 设函数满足以下三个条件：
+        * $f(x)$ 在闭区间 $[a,b]$ 上连续
+        * $f(x)$ 在开区间 $(a,b)$ 上可导
+        * $f(a)=f(b)$
+    * 则存在 $\xi \in (a,b)$，使得 $f'(\xi)=0$
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/37d12f2eb9389b50b76857568f35e5dde7116e1b.jpg" %}
+
+* 拉格朗日中值定理
+    * 设函数满足以下两个条件：
+        * $f(x)$ 在闭区间 $[a,b]$ 上连续
+        * $f(x)$ 在开区间 $(a,b)$ 上可导
+    * 则存在 $\xi\in (a,b)$，使得 $f'(\xi)=\frac{f(b)-f(a)}{b-a}$
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/922424-20170823145325980-334827524.png" %}
+
+* 柯西中值定理
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/adfafafasf.jpg" %}
+
 
 ## 柯西中值定理 14:54
 
+设函数 $f(x),g(x)$ 满足以下条件：
+* $f(x),g(x)$ 在闭区间 $[a,b]$ 上连续
+* $f(x),g(x)$ 在开区间 $(a,b)$ 上可导
+* $\forall x\in(a,b)$ 有：$g'(x)\neq 0$
+则存在 $\xi \in (a,b)$，使等式
+$$
+\frac{f(b)-f(a)}{g(b)-g(a)}=\frac{f'(\xi)}{g'(\xi)}\\
+$$
+成立。
+
+三大微分中值定理的联系与区别：
+{% include image.html url="/assets/images/220813-advanced-mathematics/v2-a59d1e7b51087cd6a5dee2c556403976_b.gif" %}
+
 
 ## 洛必达法则 48:19
+
+洛必达法则的本质是一个定理，它规定，如果一个形如 $\displaystyle \lim_{x \to a}\frac{f(x)}{F(x)}$ 的极限，如果它满足：
+
+1. $x$ 趋向于常数 $a$ 时，函数 $f(x)$ 和 $F(x)$ 都趋向于 $0$
+2. 在点 $a$ 的去心邻域内，$f(x)$ 和 $F(x)$ 的导数都存在，并且 $F'(x) \neq 0$
+3. $\displaystyle \lim_{x \to 0}\frac{f'(x)}{F'(x)}$ 存在
+
+那么：
+$$
+\displaystyle \lim_{x \to a}\frac{f(x)}{F(x)}= \lim_{x \to a}\frac{f'(x)}{F'(x)} \\
+$$
+
+也就是当变量趋向于一个常数时，如果分子分母函数的导数存在，那么我们可以用导数的极限比值来代替原函数的比值。
+
+求极限之前，先要检查是否满足 $0/0$ 或 $∞/∞$ 型构型，不然滥用洛必达法则会出错。当不存在时（不包括 $∞$ 情形），就无法用洛必达法则，这时称洛必达法则不适用，得从另外途径求极限，例如利用泰勒公式去求解。
+
+$\ln _{x \rightarrow+\infty} x$ < $x^{n}$ < $e^{x}$
 
 
 ## 泰勒公式 44:29
@@ -760,3 +814,4 @@ $dy=f'(x)dx$
 - [https://www.zhihu.com/question/265518395/answer/1441563740]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/a911f6aa.html" %})
 - [https://zhuanlan.zhihu.com/p/201720785]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/d554adf8.html" %})
 - [https://www.zhihu.com/question/405112095/answer/1320312884]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/21d2b74f.html" %})
+- [https://zhuanlan.zhihu.com/p/47436090]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/35d8b350.html" %})
