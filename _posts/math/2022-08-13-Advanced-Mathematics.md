@@ -480,14 +480,49 @@ $f(x)=\sum_{i=0}^n a_ix^i+o(x^n)$，其中 $a_i=\frac{f^{(i)}(0)}{i!}$，
 
 ## 函数的单调性 24:33
 
+$y=f(x)$，$[a,b]$ 连续，$(a,b)$ 可导。
+1. $f'(x)\geq 0$ 等号在有限点，单调增加。
+
+$f'(x)$
+1. $f'(x)=0$ **驻点**。
+2. 导数不存在的点。
+
 
 ## 极值及其求法 39:28
+
+1. 极值，领域内，最小（大），不唯一。
+2. 最值，整个区域内，最小（大），唯一。
+
+步骤：
+1. 求 $f'(x)$
+2. 求驻点和不可导点
+3. 考查左右导数符号是否变化
 
 
 ## 函数图形的绘制 1:00:50
 
+求定义域、求间断点、求渐近线、求导计算单调性、求二阶导研究凹凸性……
+
+函数曲线的上升或下降反映了函数的单调性，而曲线在上升或下降过程中，还存在一个弯曲方向的问题，如图：
+{% include image.html url="/assets/images/220813-advanced-mathematics/20210717105543852.png" %}
+
 
 ## 曲率 29:54
+
+曲线的曲率（curvature）就是针对曲线上某个点的切线方向角对弧长的转动率，通过微分来定义，表明曲线偏离直线的程度。数学上表明曲线在某一点的弯曲程度的数值。
+曲率越大，表示曲线的弯曲程度越大。曲率的倒数就是曲率半径。
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/aHR0cHM6Ly9waWFuc2hlbi5jb20vaW1hZ2VzLzQ2Ni9lNzI0ZTY3MTFjOGVmZTcxNGFlOGRmNjNkOWFkMDNiMi5wbmc=.webp" %}
+
+已知函数 $f(x)$ 在 $x_0$ 点有二阶导数 $f''(x_0)$，且 $f''(x_0)\ne 0$，则此点有密切圆，其半径为：
+$$
+r=\frac{\left(1+\left(f'(x_0)\right)^2\right)^\frac{3}{2}}{\left|f''(x_0)\right|}\\
+$$
+此时，曲线的 曲率 也就是密切圆的曲率，为：
+$$
+K=\frac{1}{r}=\frac{\left|f''(x_0)\right|}{\left(1+\left(f'(x_0)\right)^2\right)^\frac{3}{2}}\\
+$$
+所以密切圆也称为曲线的 曲率圆，半径 $r$ 称为 曲率半径。
 
 
 ## 不定积分的定义 29:44
