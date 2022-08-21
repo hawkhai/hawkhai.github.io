@@ -6,7 +6,7 @@ location: "珠海"
 categories: ["数学"]
 tags: ["数学"]
 toc: true
-toclistyle: none
+toclistyle:
 comments:
 visibility:
 mathjax: true
@@ -447,6 +447,36 @@ $\ln _{x \rightarrow+\infty} x$ < $x^{n}$ < $e^{x}$
 
 ## 泰勒公式 44:29
 
+[拉普拉斯变换的物理意义是什么？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/22102732/answer/2493308582)
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/v2-bc28828adf0d41535b184face7ae91b0_1440w.png" %}
+
+泰勒公式，是一个用函数在某点的信息描述其附近取值的公式。
+如果函数满足一定的条件，泰勒公式可以用函数在某一点的各阶导数值做系数构建一个多项式来近似表达这个函数。
+
+
+### 泰勒定理（Taylor's Theorem）
+
+**皮亚诺（Peano）余项的麦克劳林（Maclaurin）公式**
+设 $f(x)$ 在 $x=0$ 附近有 $n$ 阶导数，则在 $x=0$ 附近有
+$f(x)=\sum_{i=0}^n a_ix^i+o(x^n)$，其中 $a_i=\frac{f^{(i)}(0)}{i!}$，
+称 $R_n(x)=o(x^n)$ 为皮亚诺余项。
+
+麦克劳林公式（Maclaurin's series）是泰勒公式的一种特殊形式。
+泰勒公式，当 $x_0=0$ 时，就是 麦克劳林公式。
+
+
+### 八个常用泰勒公式
+
+1. $e^x=1+x+\frac{1}{2!}x^2+\frac{1}{3!}x^3+o(x^3)$
+1. $\ln(1+x)=x-\frac{1}{2}x^2+\frac{1}{3}x^3+o(x^3)$
+1. $\sin x=x-\frac{x^3}{3!}+o(x^3)$
+1. $\cos x=1-\frac{x^2}{2!}+\frac{x^4}{4!}+o(x^4)$
+1. $\arcsin x=x+\frac{x^3}{3!}+o(x^3)$
+6. $\tan x=x+\frac{x^3}{3}+o(x^3)$
+7. $\arctan x=x-\frac{x^3}{3}+o(x^3)$
+8. $(1+x)^m=1+mx+\frac{m(m-1)}{2}x^2+o(x^2)$
+
 
 ## 函数的单调性 24:33
 
@@ -815,3 +845,4 @@ $\ln _{x \rightarrow+\infty} x$ < $x^{n}$ < $e^{x}$
 - [https://zhuanlan.zhihu.com/p/201720785]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/d554adf8.html" %})
 - [https://www.zhihu.com/question/405112095/answer/1320312884]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/21d2b74f.html" %})
 - [https://zhuanlan.zhihu.com/p/47436090]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/35d8b350.html" %})
+- [https://www.zhihu.com/question/22102732/answer/2493308582]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/c0588944.html" %})
