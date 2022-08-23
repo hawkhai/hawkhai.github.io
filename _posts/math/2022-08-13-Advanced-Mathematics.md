@@ -527,14 +527,22 @@ $$
 
 ## 不定积分的定义 29:44
 
+连续的函数一定有原函数。
+
 
 ## 积分表 14:41
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/v2-0855b8f2b620f94422d4e0c419cb0e58_720w.jpg" %}
+{% include image.html url="/assets/images/220813-advanced-mathematics/v2-997b1a2db6748766b3fc840150b82635_720w.jpg" %}
 
 
 ## 抖肩舞 02:27
 
 
 ## 不定积分的性质 34:23
+
+完成。
+[$(1/1)^2+(1/2)^2+(1/3)^2+……=(π^2)/6$，为什么结果与 $π$ 有关？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/530158369/answer/2461156590)
 
 
 ## 第一类换元积分法 1:02:03
@@ -881,3 +889,4 @@ $$
 - [https://www.zhihu.com/question/405112095/answer/1320312884]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/21d2b74f.html" %})
 - [https://zhuanlan.zhihu.com/p/47436090]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/35d8b350.html" %})
 - [https://www.zhihu.com/question/22102732/answer/2493308582]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/c0588944.html" %})
+- [https://www.zhihu.com/question/530158369/answer/2461156590]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/230457b0.html" %})
