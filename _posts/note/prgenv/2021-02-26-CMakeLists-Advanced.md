@@ -50,6 +50,9 @@ set_source_files_properties(${RCFILE} PROPERTIES LANGUAGE RC)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -pthread -Werror=return-type")
 ```
 
+* `/we4715` 函数每个分支都必须有返回值。
+* `/we4263` 限制 override 必须写上？
+
 
 ### 通过编译选项将特定警告视为错误
 
