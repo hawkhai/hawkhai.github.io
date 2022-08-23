@@ -17,6 +17,32 @@ cluster: "WinDBG"
 ---
 
 
+## /MD -> /MT
+
+编译配置改了改，出现错误：
+```cpp
+_ASSERTE(__acrt_first_block == header);
+```
+{% include image.html url="/assets/images/210602-win-windbg-cases/20220822143330.png" %}
+
+```
+Program: E:\kpdf\pdfreader_image\image\Debug\fastimage.dll
+File: minkernel\crts\ucrt\src\appcrt\heap\debug_heap.cpp
+Line: 996
+
+Expression: __acrt_first_block == header
+
+For information on how your program can cause an assertion
+failure, see the Visual C++ documentation on asserts.
+
+(Press Retry to debug the application)
+fastimageg.exe 已触发了一个断点。
+```
+
+造成问题的原因：
+由于其依赖的 dll 是 md 构建，而一些 C++ 头文件也是包含代码的，就造成了堆不匹配，找不到，从而崩溃。
+
+
 ## OpenCV cv::waitKey();
 
 OpenCV `cv::waitKey();` debug 版本会断言崩溃。

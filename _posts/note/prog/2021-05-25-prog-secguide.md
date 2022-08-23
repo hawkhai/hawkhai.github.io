@@ -259,6 +259,9 @@ LOCAL_CPPFLAGS += -Wno-error=c++11-narrowing -Wno-error=format-security -Wreturn
 LOCAL_CPPFLAGS += -fexceptions -frtti
 ```
 
+* `/we4715` 函数每个分支都必须有返回值。
+* `/we4263` 限制 override 必须写上？
+
 
 ### 通过编译选项将特定警告视为错误
 
