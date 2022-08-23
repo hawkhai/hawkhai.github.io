@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "数学之美 --《高等数学》同济版 全程教学视频（宋浩老师）"
+title: "数学之美 --《高等数学》同济版 宋浩老师"
 author:
 location: "珠海"
 categories: ["数学"]
@@ -26,6 +26,8 @@ cluster: "数学基础"
 [html2text](http://www.atoolbox.net/Tool.php?Id=715)
 [公式及时编辑](https://spaces.ac.cn/latex.html/comment-page-1)
 [在线函数图像](https://zuotu.91maths.com/)
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/006GkshVgy1gpa9oslp1sj347j2t1kjp.jpg" %}
 
 
 ## 1.1 映射 47:15
@@ -546,6 +548,9 @@ $$
 
 
 ## 第一类换元积分法 1:02:03
+
+凑。
+* $d$ 的里面可以任意加减常数。
 
 
 ## 第二类换元积分法 53:16
