@@ -555,6 +555,21 @@ $$
 
 ## 第二类换元积分法 53:16
 
+第一、二类积分法分别从积分变量和被积函数的角度，对积分式进行变形，从而做到了简化积分计算的目的。
+为方便理解，我喜欢把两类换元法叫凑微分和拆微分。
+1. 第一类换元积分为凑微分。拆被积函数给后面凑一个好用的 $dx$。
+2. 第二类为拆微分。被积函数中的 $x$ 通通换元为 $Ψ(u)$，后面的 $dx$ 拆为 $ ψ′(u)du$。
+
+
+### e 和 π 之间竟有一种意想不到的联系
+
+涉及到空间的必有 $π$（包括但不限于曲线、并列、共同存在等）
+涉及到时间的必有 $e$（包括但不限于变化、递进、稠密连续等）
+另外，涉及到信息的必有有理数。
+
+[baidu](https://baijiahao.baidu.com/s?id=1736847468931154687)
+圆周率派表达的其实就是时空性质，派本身表平滑时空，大于派是扩散也就是凸面时空，也就是大尺度上的星云星系相互加速远离现象，而小于派则相反，表现为引力时空，所有非平滑时空都会趋向于平滑继而向相反的方向发展，此既宇宙生生不息的根本，而理想的平滑时空本身是不存的，就象直线亦不存在一样，同理，所有正统的欧氏几何空间也是不存在的，它们只是一种抽象的用来探索真正存在的时空的工具，作为参照物而存在。
+
 
 ## 分部积分法 55:33
 
@@ -895,3 +910,4 @@ $$
 - [https://zhuanlan.zhihu.com/p/47436090]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/35d8b350.html" %})
 - [https://www.zhihu.com/question/22102732/answer/2493308582]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/c0588944.html" %})
 - [https://www.zhihu.com/question/530158369/answer/2461156590]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/230457b0.html" %})
+- [https://baijiahao.baidu.com/s?id=1736847468931154687]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/baijiahao.baidu.com/f8c977c5.html" %})
