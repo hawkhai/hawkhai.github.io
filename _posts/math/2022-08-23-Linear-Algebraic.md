@@ -16,7 +16,7 @@ codeprint:
 cluster: "数学基础"
 ---
 
-1. [《线性代数》 bili {% include relref_bili.html %}](https://www.bilibili.com/video/BV1aW411Q7x1)
+1. [《线性代数》 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1aW411Q7x1)
 1. 《微积分》
 1. 《概率论与数理统计》
 1. [《高等数学》 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Eb411u7Fw)
@@ -27,6 +27,7 @@ cluster: "数学基础"
 [公式及时编辑](https://spaces.ac.cn/latex.html/comment-page-1)
 [在线函数图像](https://zuotu.91maths.com/)
 
+[image](https://weibo.com/6122278407/K9Ggaa2Vl)
 {% include image.html url="/assets/images/220823-linear-algebraic/006GkshVgy1gpa9ogu9hlj34mo334000.jpg" %}
 
 
@@ -36,6 +37,18 @@ cluster: "数学基础"
 
 
 ## P2 1.1 n 阶行列式 43:55
+
+完成。
+[note {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/416717502)
+
+比如三阶：
+$$
+D = \begin{vmatrix} a_{11}&a_{12}&a_{13}\\ a_{21}&a_{22}&a_{23} \\ a_{31}&a_{32}&a_{33} \end{vmatrix}
+$$
+
+$$
+D = (-1)^{1+1}a_{11}\begin{vmatrix} a_{22}&a_{23} \\ a_{32}&a_{33} \end{vmatrix} +   (-1)^{1+2}a_{12}\begin{vmatrix} a_{21}&a_{23} \\ a_{31}&a_{33} \end{vmatrix} +   (-1)^{1+3}a_{13}\begin{vmatrix} a_{21}&a_{22} \\ a_{31}&a_{32} \end{vmatrix} \\ =a_{11}\begin{vmatrix} a_{22}&a_{23} \\ a_{32}&a_{33} \end{vmatrix}  -a_{12}\begin{vmatrix} a_{21}&a_{23} \\ a_{31}&a_{33} \end{vmatrix} +  a_{13}\begin{vmatrix} a_{21}&a_{22} \\ a_{31}&a_{32} \end{vmatrix} \\ =  a_{11}a_{22}a_{33} -a_{11}a_{23}a_{32}    - a_{12}a_{21}a_{33}+ a_{12}a_{23}a_{31} + a_{13}a_{21}a_{32} - a_{13}a_{22}a_{31}
+$$
 
 
 ## P3 1.2 行列式的性质 1:16:58
@@ -181,3 +194,5 @@ cluster: "数学基础"
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.atoolbox.net/ecf02067.php" %})
 - [https://spaces.ac.cn/latex.html/comment-page-1]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/spaces.ac.cn/363c9e5d.html" %})
 - [https://zuotu.91maths.com/]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/zuotu.91maths.com/7f1a51d4.html" %})
+- [https://weibo.com/6122278407/K9Ggaa2Vl]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/weibo.com/037bbcae.html" %})
+- [https://zhuanlan.zhihu.com/p/416717502]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/zhuanlan.zhihu.com/9094b2cf.html" %})
