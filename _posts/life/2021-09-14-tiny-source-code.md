@@ -96,6 +96,42 @@ __int64 winMemoCtrl() {
 ```
 
 
+## 剪贴板
+
+```
+#include <windows.h>
+#include <iostream>
+```
+
+复制：
+```cpp
+if (OpenClipboard())
+{
+    HGLOBAL hGBClipboard;
+    char *chBufferText;
+    EmptyClipboard();
+    hGBClipboard = GlobalAlloc(GMEM_DDESHARE, strClipboardText.GetLength() + 1);
+    chBufferText = (char*)GlobalLock(hGBClipboard);
+    strcpy(chBufferText, LPCSTR(strClipboardText));
+    GlobalUnlock(hGBClipboard);
+    SetClipboardData(CF_TEXT, hGBClipboard);
+    CloseClipboard();
+}
+```
+
+粘贴：
+```cpp
+if (OpenClipboard())
+{
+    HANDLE hClipboardData = GetClipboardData(CF_TEXT);
+    char *chBufferText = (char*)GlobalLock(hClipboardData);
+    strClipboardText = chBufferText;
+    GlobalUnlock(hClipboardData);
+    CloseClipboard();
+}
+```
+
+
 ## 主线程断言
 
 ```cpp
