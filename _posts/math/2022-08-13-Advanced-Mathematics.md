@@ -444,7 +444,8 @@ $$
 
 求极限之前，先要检查是否满足 $0/0$ 或 $∞/∞$ 型构型，不然滥用洛必达法则会出错。当不存在时（不包括 $∞$ 情形），就无法用洛必达法则，这时称洛必达法则不适用，得从另外途径求极限，例如利用泰勒公式去求解。
 
-$\ln _{x \rightarrow+\infty} x$ < $x^{n}$ < $e^{x}$
+$x \rightarrow+\infty$
+$\ln x$ < $x^{n}$ < $e^{x}$
 
 
 ## 泰勒公式 44:29
@@ -589,14 +590,44 @@ $$
 
 ## 有理函数积分 40:39
 
+形如 $\int \frac{P_{n}(x)}{Q_{m}(x)} \mathrm{d} x(n<m)$ 的积分称为有理函数的积分，其中 $P_{n}(x)$，$Q_{m}(x)$ 分别是 $x$ 的 $n$ 次多项式和 $m$ 次多项式。方法 先将 $Q_{m}(x)$ 因式分解，再把 $\frac{P_{n}(x)}{Q_{m}(x)}$​​​​ 拆成若干干最简有理分式之和。
+
 
 ## 【五-1】定积分的概念 46:38
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/v2-eaa4a1220d820ff989e1429d4e9a6338_1440w.jpg" %}
 
 
 ## 【五-2】定积分的性质 32:15
 
+完成。
+
 
 ## 【五-3】微积分基本公式 52:15
+
+令 $u=\varphi(x)$，那 $\frac{dy}{dx}=\frac{dy}{du}\frac{du}{dx}=\frac{d}{du}\int_{0}^{u}f(t)dt\cdot u'=f(u)u'=f(\varphi(x))\varphi'(x)$
+
+$$
+\Phi(x)=\int_{a}^{x} f(t) d t
+$$
+
+$$
+\Phi^{\prime}(x)=\frac{d}{d x} \int_{a}^{x} f(t) d t=f(x)
+$$
+
+牛顿莱布尼茨定积分公式
+$$
+{\color{red }{\boxed {\int_{a}^{b}f(x){\rm d}x =F(b)-F(a)} }}
+$$
+连续函数 $f(x)$
+[在推导中学习 —— 牛顿-莱布尼茨公式 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/142909054)
+
+$$
+\begin{aligned}
+&\lim _{x \rightarrow 0} \frac{\int_{\cos x}^{1} e^{-t^{2}} d t}{x^{2}} \\
+&=\lim _{x \rightarrow 0} \frac{+e^{-\cos ^{2} x} \sin x}{2 x}
+\end{aligned}
+$$
 
 
 ## 【五-4】定积分的换元法 1:34:25
@@ -924,3 +955,4 @@ $$
 - [https://www.zhihu.com/question/22102732/answer/2493308582]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/c0588944.html" %})
 - [https://www.zhihu.com/question/530158369/answer/2461156590]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/230457b0.html" %})
 - [https://baijiahao.baidu.com/s?id=1736847468931154687]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/baijiahao.baidu.com/f8c977c5.html" %})
+- [https://zhuanlan.zhihu.com/p/142909054]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/2d5e86a1.html" %})
