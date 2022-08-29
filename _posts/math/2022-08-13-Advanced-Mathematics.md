@@ -632,20 +632,77 @@ $$
 
 ## 【五-4】定积分的换元法 1:34:25
 
+$$
+\int_{a}^{b} f(x) d x=\int_{\alpha}^{\beta} f[\varphi(t)] \varphi^{\prime}(t) d t
+$$
+
+1. 引入换元函数
+2. 上下限也跟着变
+
+$$
+\int_{0}^{a} \sqrt{a^{2}-x^{2}} d x \quad (a>0)
+$$
+
+解答：
+
+令 $x=a\sin t$，$dx=a\cos t d t$，$x=0$ 时，$t=0$ 时，$x=a$，$t=\frac{\pi}{2}$。
+
+则 $$
+\int_{0}^{a} \sqrt{a^{2}-x^{2}} d x=
+\int_{0}^{\pi/2} \sqrt{a^2-a^2\sin^2 t} a \cos t dt=
+\frac{\pi}{4} a^2
+$$
+
+
+### 三角恒等式
+
+1. $sin^2x+cos^2=1$
+2. $1+tan^2x=secx$
+3. $1+cot^2x=cscx$
+
+三角函数辅助角公式
+asinx+bcosx=√(a²+b²)\[asinx/√(a²+b²)+bcosx/√(a²+b²)]
+asinx+bcosx=√(a+b)sin\[x+arctan(b/a)](a>0)。
+
 
 ## 【五-5】定积分的分部积分法 18:36
+
+$$
+\int_{a}^{b} u dv = \left. uv \right|_{a}^{b} - \int_{a}^{b} v du
+$$
 
 
 ## 【五-6】无穷限的反常积分 26:08
 
+[from {% include relref_zhihu.html %}](https://www.zhihu.com/question/538493369/answer/2542853013)
+$$
+\begin{align*} \int_0^{+\infty}\frac{x}{e^x+1}{\rm d}x &=\int_0^{+\infty}x\sum_{n=1}^{\infty}(-1)^{n+1}e^{-nx}{\rm d}x\\ &=\sum_{n=1}^{\infty}(-1)^{n+1}\int_0^{+\infty}xe^{-nx}{\rm d}x\\ &=\sum_{n=1}^{\infty}\frac{(-1)^{n}}{n}\int_0^{+\infty}x{\rm d}e^{-nx}\\ &=\sum_{n=1}^{\infty}\frac{(-1)^n}{n}\left(xe^{-nx}\bigg|_0^{+\infty}-\int_0^{+\infty}e^{-nx}{\rm d}x\right)\\ &=\sum_{n=1}^{\infty}\frac{(-1)^{n+1}}{n^2}\\ &=\frac{\pi^2}{12}. \end{align*}\\
+$$
+
 
 ## 【五-7】无界函数的反常积分 27:29
+
+反常积分：注意瑕点。
+
+瑕积分的欺骗性，一定要关注 瑕点。
 
 
 ## 【五-8】伽马函数 07:01
 
+{% include image.html url="/assets/images/220813-advanced-mathematics/v2-d4d6cdbdc5612a8e162b03c59cbe5049_1440w.jpg" %}
+
+伽马函数满足以下递推关系：
+$$\Gamma(z+1)=z\Gamma(z)$$
+
+当 $z$ 为整数时，有
+$$
+\color{red}{\Gamma(z+1)=z(z-1)\cdots 2\cdot1=z!}
+$$
+
 
 ## 【六-1】定积分的应用-元素法 16:11
+
+不规则 求 面积 & 体积。
 
 
 ## 【六-2】定积分应用--求面积 37:45
@@ -956,3 +1013,4 @@ $$
 - [https://www.zhihu.com/question/530158369/answer/2461156590]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/230457b0.html" %})
 - [https://baijiahao.baidu.com/s?id=1736847468931154687]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/baijiahao.baidu.com/f8c977c5.html" %})
 - [https://zhuanlan.zhihu.com/p/142909054]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/2d5e86a1.html" %})
+- [https://www.zhihu.com/question/538493369/answer/2542853013]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/5dcb1b3b.html" %})
