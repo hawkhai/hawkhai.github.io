@@ -16,6 +16,26 @@ codeprint:
 ---
 
 
+## 在双显示器接双显卡的场景下，Qt 的 QScreen()::geometry() 方法
+
+[note {% include relref_csdn.html %}](https://blog.csdn.net/swift19221/article/details/125552771)
+```cpp
+// 如果不包括任务栏，则使用 availableGeometry()
+rcPrimary = theScreen->geometry();
+
+if (monitorinfo.dwFlags == MONITORINFOF_PRIMARY) {
+    // 如果不包括任务栏，则使用 monitorinfo.rcWork
+    g_rcPrimary = monitorinfo.rcMonitor;
+}
+else {
+    g_rcSecond = monitorinfo.rcMonitor;
+}
+```
+
+比较上面 1、2 两个方法的结果，发现方法 1 获取的矩形区域是不正确的，因此用方法 2 来代替。
+如果是单显卡接两个显示器，则没有问题。
+
+
 ## Qt 中 QMainWindow、QWidget、QDialog 的区别
 
 [from {% include relref_csdn.html %}](https://blog.csdn.net/qq_41684134/article/details/87973825)
@@ -106,6 +126,7 @@ QImage QImage::rgbSwapped() const
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-08-18-qt-QGraphicsScene.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://blog.csdn.net/swift19221/article/details/125552771]({% include relrefx.html url="/backup/2022-08-18-qt-QGraphicsScene.md/blog.csdn.net/17a77344.html" %})
 - [https://blog.csdn.net/qq_41684134/article/details/87973825]({% include relrefx.html url="/backup/2022-08-18-qt-QGraphicsScene.md/blog.csdn.net/0695cb12.html" %})
 - [https://github.com/SouthEastUniversityLinuxClub/MiniDraw]({% include relrefx.html url="/backup/2022-08-18-qt-QGraphicsScene.md/github.com/2163be2f.html" %})
 - [https://blog.csdn.net/kenfan1647/article/details/117289104]({% include relrefx.html url="/backup/2022-08-18-qt-QGraphicsScene.md/blog.csdn.net/51006d14.html" %})
