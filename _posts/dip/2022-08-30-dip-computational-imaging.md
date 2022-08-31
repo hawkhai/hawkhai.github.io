@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "图像处理 -- GAMES204 - 计算成像"
+title: "图像处理 -- GAMES204 - 计算成像（进行中……）"
 author:
 location: "珠海"
 categories: ["图像处理"]

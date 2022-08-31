@@ -22,7 +22,7 @@ Hi, my name is hawkhai and welcome to my blog.
 
 人生从来不晚，从头开始，走自己的路，靠自己：学习、带娃、锻炼身体。
 「健康饮食、情绪稳定、适当运动、规律作息」
-日拱一卒，虽远必至！
+日拱一卒，虽远必至！Life is never too late to begin...
 
 This is my personal web site.
 I started to convert my notes into the web pages since mid 2020.
