@@ -726,6 +726,17 @@ $$
 
 ## 【六-5】定积分应用--旋转体体积 1:16:42
 
+为什么用定积分求椭圆绕 x 轴旋转的体积和绕 y 轴旋转的体积不一样？
+
+找一个狭长的椭圆，按短轴转可以转出一个大圆盘，按长轴转只是一个细棒。
+不需要微积分，拉伸变换拉一拉就出来了。
+* 长轴半长 $a$ 短轴半长 $b$
+* 圆盘体积 $$4\pi/3*a^3*(b/a)～a^2*b$$
+* 细棒体积 $$4\pi/3*b^3*(a/b)～a*b^2$$
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/v2-9467b81f1cfd247f26315abd2997689f_r.jpg" %}
+{% include image.html url="/assets/images/220813-advanced-mathematics/2286139760844610203.jpg" caption="正劈锥体" %}
+
 
 ## 【六-6】定积分应用--平面曲线的弧长 41:05
 

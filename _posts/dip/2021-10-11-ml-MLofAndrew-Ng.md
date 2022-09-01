@@ -94,8 +94,19 @@ yy = sqrtm(inv(cov(xx')))*(xx-repmat(mean(xx,2),1,size(xx,2)));
 
 ### 2-1. 模型描述 08:11
 
+yes.
+
 
 ### 2-2. 代价函数 08:13
+
+代价函数：
+$$
+J \left( \theta_0, \theta_1 \right) = \frac{1}{2m}\sum\limits_{i=1}^m \left( h_{\theta}(x^{(i)})-y^{(i)} \right)^{2}
+$$
+
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-c94c2b2ffd3d45539f5c80ab2addffcd_720w.jpg" %}
+
+为什么要除以 2，感觉是要让数字小一点，更直观，便于计算。
 
 
 ### 2-3. 代价函数（一） 11:10
