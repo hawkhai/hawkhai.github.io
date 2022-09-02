@@ -101,8 +101,17 @@ Graphics View 提供的是一种类似于 Qt model-view 的编程。多个 views
 
 Qt 提供了处理图像数据的类：QImage, QPixmap 和 QPicture。
 * QImage 是为 I/O 和直接像素访问和操作而设计和优化的。
+    * QImage 是与硬件无关的绘图设备，提供了像素级操作支持。
 * QPixmap 是为在屏幕上显示图像而设计和优化的。
+    * QPixmap 为图片在屏幕显示做了优化，QPixmap 与绘图设备底层相关，不提供像素级支持，不同设备上图像有所不同。
+    * 可以直接使用 QPainter 在 QPixmap 上绘制也可以接受一个图片文件在屏幕上显示。
 * QPicture 类是一个记录和回放 QPainter 命令的绘制设备。
+    * QPicture 用于记录 QPainter 的操作，并保存到一个序列化的平台独立的二进制文件中。
+* QBitmap 是 QPixmap 的派生类，只能绘制黑白图像（色深为 1）。
+
+[from {% include relref_cnblogs.html %}](https://www.cnblogs.com/finley/p/5268237.html)
+QGraphicsScene 类作为容器（MV 中的模型 Model），用于存储所有的图形元素；
+QGraphicsView 则是观察窗口，可以显示场景的一部分或者全局；所有的图形元素均继承自 QGraphicsItem。
 
 我们再来看看 QImage 类的几个构造函数：
 ```cpp
@@ -132,3 +141,4 @@ QImage QImage::rgbSwapped() const
 - [https://blog.csdn.net/kenfan1647/article/details/117289104]({% include relrefx.html url="/backup/2022-08-18-qt-QGraphicsScene.md/blog.csdn.net/51006d14.html" %})
 - [https://zhuanlan.zhihu.com/p/368192789]({% include relrefx.html url="/backup/2022-08-18-qt-QGraphicsScene.md/zhuanlan.zhihu.com/84b77b7b.html" %})
 - [https://www.cnblogs.com/ybqjymy/p/13517060.html]({% include relrefx.html url="/backup/2022-08-18-qt-QGraphicsScene.md/www.cnblogs.com/1d742575.html" %})
+- [https://www.cnblogs.com/finley/p/5268237.html]({% include relrefx.html url="/backup/2022-08-18-qt-QGraphicsScene.md/www.cnblogs.com/b5647bb4.html" %})
