@@ -107,9 +107,12 @@ ktitle kaliyun
         key, value = line.split(":", 1)
         key, value = key.strip(), value.strip()
         value = formatValue(value)
-        if key == "date":
+        while key == "date":
             assert re.findall("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} \\+[0-9]{4}$", value), value
-            assert len(fpath.split("invisible")) == 2, fpath
+            intsep = fpath.split("invisible")
+            if len(intsep) == 1:
+                break
+            assert len(intsep) == 2, fpath
             magic = normalPath(fpath).split("invisible\\")[-1].split("\\")
 
             # date: 2021-02-06 15:29:00 +0800
@@ -142,6 +145,8 @@ ktitle kaliyun
             value = "{} +0800".format(datestr)
 
             print(magic, value)
+            break
+
         if not key in igkeylist:
             assert key in mdkeylist, line
         else:
