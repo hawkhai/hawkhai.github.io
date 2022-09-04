@@ -111,17 +111,49 @@ $$
 
 ### 2-3. 代价函数（一） 11:10
 
+完成。
+
 
 ### 2-4. 代价函数（二） 08:49
+
+等高线图。
 
 
 ### 2-5. 梯度下降 11:31
 
+**Gradient descent algorithm**
+
+repeat until convergence \{
+$\theta_j:=\theta_j-\alpha \frac{\partial}{\partial \theta_i} J\left(\theta_0, \theta_1\right)$
+$($ for $j=0$ and $j=1$ $)$
+\}
+* $\alpha$ **learning rate** ，梯度下降时，我们迈出多大的步子。
+* $\frac{\partial}{\partial \theta_i} J\left(\theta_0, \theta_1\right)$ 偏导。
+
+Correct: Simultaneous update
+$$
+\begin{aligned}
+&\text { temp } 0:=\theta_0-\alpha \frac{\partial}{\partial \theta_0} J\left(\theta_0, \theta_1\right) \\
+&\text { temp } 1:=\theta_1-\alpha \frac{\partial}{\partial \theta_1} J\left(\theta_0, \theta_1\right) \\
+&\theta_0:=\text { temp0 } \\
+&\theta_1:=\text { temp1 }
+\end{aligned}
+$$
+
 
 ### 2-6. 梯度下降知识点总结 11:52
 
+完成。鞍点？
+
 
 ### 2-7. 线性回归的梯度下降 10:21
+
+$$
+\begin{aligned}
+\theta_0 &:=\theta_0-\alpha \frac{1}{m} \sum_{i=1}^m\left(h_\theta\left(x^{(i)}\right)-y^{(i)}\right) \\
+\theta_1 &:=\theta_1-\alpha \frac{1}{m} \sum_{i=1}^m\left(h_\theta\left(x^{(i)}\right)-y^{(i)}\right) \cdot x^{(i)}
+\end{aligned}
+$$
 
 
 ### 3-1. 矩阵和向量 08:46
