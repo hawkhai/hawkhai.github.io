@@ -158,6 +158,10 @@ $$
 
 ### 3-1. 矩阵和向量 08:46
 
+矩阵维度：$rows \times cols$
+
+Vector: An nx1 matrix.
+
 
 ### 3-2. 加法和标量乘法 06:55
 
@@ -167,11 +171,22 @@ $$
 
 ### 3-4. 矩阵乘法 11:10
 
+ok. 03"13
+
 
 ### 3-5. 矩阵乘法特征 09:03
 
+- Associative and distributive
+- $(AB)C=A(BC)$
+- $A(B+C) = AB + AC$
+- $(A+B)C = AC + BC$
+- 有交换律，没有交换律。
+- $(A B)^{T}=B^{T} A^{T}$
+
 
 ### 3-6. 逆和转置 11:14
+
+并不是每个矩阵都存在逆矩阵。
 
 
 ### 4-1. 多功能 08:23
@@ -179,14 +194,28 @@ $$
 
 ### 4-2. 多元梯度下降法 05:05
 
+Hypothesis: $\quad h_\theta(x)=\theta^T x=\theta_0 x_0+\theta_1 x_1+\theta_2 x_2+\cdots+\theta_n x_n$
+
+Parameters: $\theta_0, \theta_1, \ldots, \theta_n$
+
+Cost function:
+$$
+J\left(\theta_0, \theta_1, \ldots, \theta_n\right)=\frac{1}{2 m} \sum_{i=1}^m\left(h_\theta\left(x^{(i)}\right)-y^{(i)}\right)^2
+$$
+
 
 ### 4-3. 多元梯度下降法演练 .I.–. 特征缩放 08:53
+
+先把每个输入的特征归一化到特定的范围。
+可以加快迭代收敛速度。
 
 
 ### 4-4. 多元梯度下降法 II.–. 学习率 08:59
 
 
 ### 4-5. 特征和多项式回归 07:40
+
+尝试二次函数拟合。
 
 
 ### 4-6. 正规方程（区别于迭代方法的直接解法） 16:19
