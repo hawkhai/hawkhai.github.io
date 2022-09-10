@@ -21,6 +21,8 @@ codeprint:
 
 {% include image.html url="/assets/images/200920-math-complex/20201006150603.png" %}
 
+[用几何直觉理解欧拉公式！ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1bF411P7RL)
+
 
 ## 导言
 
@@ -536,6 +538,7 @@ $$
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.matongxue.com/madocs/2066/]({% include relrefx.html url="/backup/2020-09-20-math-complex.md/www.matongxue.com/1c00fe52.html" %})
+- [https://www.bilibili.com/video/BV1bF411P7RL]({% include relrefx.html url="/backup/2020-09-20-math-complex.md/www.bilibili.com/0df861b7.html" %})
 - [https://betterexplained.com/articles/a-visual-intuitive-guide-to-imaginary-numbers/]({% include relrefx.html url="/backup/2020-09-20-math-complex.md/betterexplained.com/860b9b4f.html" %})
 - [http://jakwings.is-programmer.com/posts/29547.html]({% include relrefx.html url="/backup/2020-09-20-math-complex.md/jakwings.is-programmer.com/f42eea18.html" %})
 - [https://www.ruanyifeng.com/blog/2012/09/imaginary_number.html]({% include relrefx.html url="/backup/2020-09-20-math-complex.md/www.ruanyifeng.com/1e3ef0cb.html" %})

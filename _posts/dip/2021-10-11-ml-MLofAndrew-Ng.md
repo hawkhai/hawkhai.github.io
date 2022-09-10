@@ -220,11 +220,28 @@ $$
 
 ### 4-6. 正规方程（区别于迭代方法的直接解法） 16:19
 
+通过解偏导函数等于 0 的情况，直接求出最小值的 $\theta$。
+
+$$
+\theta=(X^TX)^{-1}X^Ty
+$$
+
+矩阵求逆只能采用高斯消元法，时间复杂度 $O(n^3)$。
+
 
 ### 4-7. 正规方程在矩阵不可逆情况下的解决方法 06:00
 
+$X^T\*X$ 出现不可逆的情况原因可能是：
+1. 方阵中的两个维度之间存在线性变换关系，导致方阵不满秩（奇异或退化矩阵）
+2. n（特征数量）相较于 m（样本数量）过大，导致其产生的齐次方程组 $Ax=0$ 不只有零解
+
 
 ### 4-8. 导师的编程小技巧 03:34
+
+完成了。[Octave](https://www.octave.org/)
+
+[安装文档](https://cloud.tencent.com/developer/article/1650390)
+[Symbolic](https://octave.sourceforge.io/symbolic/index.html)
 
 
 ### 5-1. 基本操作 14:00
@@ -235,14 +252,57 @@ $$
 
 ### 5-3. 计算数据 13:16
 
+伪逆矩阵 $pinv(A)$
+
 
 ### 5-4. 数据绘制 09:39
+
+```python
+plot(t,y);
+hold on;
+plot(t,y2,'r');
+
+A = magic(5)
+imagesc(A)
+imagesc(A), colorbar, colormap gray;
+```
 
 
 ### 5-5. 控制语句：for，while，if. 语句 12:57
 
+定义函数：
+```python
+function [y1,y2] = squareAndCubeThisNumber(x)
+y1 = x ^ 2;
+y2 = x ^ 3;
+```
+
+```python
+function J = costFunctionJ(x, y, theta)
+
+m = size(X, 1);
+predictions = X * theta;
+sqrErrors = (predictions - y) .^ 2;
+
+J = 1/(2*m) * sum(sqrErrors);
+```
+
 
 ### 5-6. 矢量 13:49
+
+$h_\theta (x)=\theta^Tx$
+
+$$
+\theta=\left[\begin{array}{l}
+\theta_0 \\
+\theta_1 \\
+\theta_2
+\end{array}\right] \quad x=\left[\begin{array}{l}
+x_0 \\
+x_1 \\
+x_2
+\end{array}\right]
+$$
 
 
 ### 6-1. 分类 08:09
@@ -275,7 +335,7 @@ $$
 ### 7-3. 线性回归的正则化 10:41
 
 
-### 7-4.Logistic. 回归的正则化 08:35
+### 7-4. Logistic. 回归的正则化 08:35
 
 
 ### 8-1. 非线性假设 09:37
@@ -380,7 +440,7 @@ $$
 ### 13-1. 无监督学习 03:18
 
 
-### 13-2.K-Means 算法 12:33
+### 13-2. K-Means 算法 12:33
 
 
 ### 13-3. 优化目标 07:05
@@ -461,7 +521,7 @@ $$
 ### 17-2. 随机梯度下降 13:20
 
 
-### 17-3.Mini-Batch. 梯度下降 06:19
+### 17-3. Mini-Batch. 梯度下降 06:19
 
 
 ### 17-4. 随机梯度下降收敛 11:32
@@ -506,5 +566,8 @@ P3 08:42
 - [https://github.com/TheisTrue/MLofAndrew-Ng]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/github.com/f1eeb779.html" %})
 - [https://www.jianshu.com/p/682c88cee5a8]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.jianshu.com/fdc8f898.html" %})
 - [https://cs.nyu.edu/~roweis/kica.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/cs.nyu.edu/89374dba.html" %})
+- [https://www.octave.org/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.octave.org/461e7f5e.html" %})
+- [https://cloud.tencent.com/developer/article/1650390]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/cloud.tencent.com/0075b71d.html" %})
+- [https://octave.sourceforge.io/symbolic/index.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/octave.sourceforge.io/044f4336.html" %})
 - [https://www.bilibili.com/video/BV1JE411g7XF]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/68e17dc9.html" %})
 - [http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML20.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/speech.ee.ntu.edu.tw/f319f059.html" %})
