@@ -167,31 +167,31 @@ Win32 定义 PIXELFORMATDESCRIPTOR 如下所示：
 
 ```cpp
 typedef struct tagPIXELFORMATDESCRIPTOR { // pfd
-    WORD nSize; // nSize 是象素格式描述子结构的大小，sizeof(PIXELFORMATDESCRIPTOR) 设定其值 ;
-    WORD nVersion; // nVersion 是 PIXELFORMATDESCRIPTOR 结构的版本，一般设为 1;
-    DWORD dwFlags;  // dwFlags 是一组表明象素缓冲特性的标志位，如缓冲是否支持 GDI 或 OpenGL 等 ;
-    BYTE iPixelType;  // iPixelType 说明象素数据类型是 RGBA 还是颜色索引 ;
-    BYTE cColorBits; // cColorBits 每个颜色缓冲区中颜色位平面的数目，对颜色索引方式是缓冲区大小 ;
-    BYTE cRedBits; // cRedBits 每个 RGBA 颜色缓冲区中红色位平面的数目 ;
-    BYTE cRedShift; // cRedShift 每个 RGBA 颜色缓冲区中红色位平面的偏移数 ;
-    BYTE cGreenBits; // cGreenBits 每个 RGBA 颜色缓冲区中绿色位平面的数目 ;
-    BYTE cGreenShift; // cGreenShift 每个 RGBA 颜色缓冲区中绿色位平面的偏移数 ;
-    BYTE cBlueBits; // cBlueBits 每个 RGBA 颜色缓冲区中蓝色位平面的数目 ;
-    BYTE cBlueShift; // cBlueShift 每个 RGBA 颜色缓冲区中蓝色位平面的偏移数 ;
-    BYTE cAlphaBits; // cAlphaBits 每个 RGBA 颜色缓冲区中 alpha 位平面的数目（保留的，现不支持）;
-    BYTE cAlphaShift; // cAlphaShift 每个 RGBA 颜色缓冲区中 alpha 位平面的偏移数（保留的，现不支持）;
-    BYTE cAccumBits; // cAccumBits 累加缓冲区中全部位平面的数目 ;
-    BYTE cAccumRedBits; // cAccumRedBits 累加缓冲区中红色位平面的数目 ;
-    BYTE cAccumGreenBits; // cAccumGreenBits 累加缓冲区中绿色位平面的数目 ;
-    BYTE cAccumBlueBits; // cAccumBlueBits 累加缓冲区中蓝色位平面的数目 ;
-    BYTE cAccumAlphaBits; // cAccumAlphaBits 累加缓冲区中 alpha 位平面的数目 ;
-    BYTE cDepthBits; // cDepthBits Z（深度）缓冲区的深度 ;
-    BYTE cStencilBits; // cStencilBits 模板缓冲区的深度 ;
-    BYTE cAuxBuffers; // cAuxBuffers 轴向缓冲区的数量（一般 1.0 版本不支持）;
-    BYTE iLayerType; // iLayerType 被忽略，为了一致性而包含的 ;
-    BYTE bReserved; // bReserved 表层和底层平面的数量::位 0-3 表最多 15 层表层平面，位 4-7 表底层 ;
-    DWORD dwLayerMask; // dwLayerMask 被忽略，为了一致性而包含的 ;
-    DWORD dwVisibleMask; // dwVisibleMask 是透明色彩的值（RGBA 方式）或是一个底层平面的索引（Index）;
+    WORD nSize; // nSize 是象素格式描述子结构的大小，sizeof(PIXELFORMATDESCRIPTOR) 设定其值；
+    WORD nVersion; // nVersion 是 PIXELFORMATDESCRIPTOR 结构的版本，一般设为 1；
+    DWORD dwFlags;  // dwFlags 是一组表明象素缓冲特性的标志位，如缓冲是否支持 GDI 或 OpenGL 等；
+    BYTE iPixelType;  // iPixelType 说明象素数据类型是 RGBA 还是颜色索引；
+    BYTE cColorBits; // cColorBits 每个颜色缓冲区中颜色位平面的数目，对颜色索引方式是缓冲区大小；
+    BYTE cRedBits; // cRedBits 每个 RGBA 颜色缓冲区中红色位平面的数目；
+    BYTE cRedShift; // cRedShift 每个 RGBA 颜色缓冲区中红色位平面的偏移数；
+    BYTE cGreenBits; // cGreenBits 每个 RGBA 颜色缓冲区中绿色位平面的数目；
+    BYTE cGreenShift; // cGreenShift 每个 RGBA 颜色缓冲区中绿色位平面的偏移数；
+    BYTE cBlueBits; // cBlueBits 每个 RGBA 颜色缓冲区中蓝色位平面的数目；
+    BYTE cBlueShift; // cBlueShift 每个 RGBA 颜色缓冲区中蓝色位平面的偏移数；
+    BYTE cAlphaBits; // cAlphaBits 每个 RGBA 颜色缓冲区中 alpha 位平面的数目（保留的，现不支持）；
+    BYTE cAlphaShift; // cAlphaShift 每个 RGBA 颜色缓冲区中 alpha 位平面的偏移数（保留的，现不支持）；
+    BYTE cAccumBits; // cAccumBits 累加缓冲区中全部位平面的数目；
+    BYTE cAccumRedBits; // cAccumRedBits 累加缓冲区中红色位平面的数目；
+    BYTE cAccumGreenBits; // cAccumGreenBits 累加缓冲区中绿色位平面的数目；
+    BYTE cAccumBlueBits; // cAccumBlueBits 累加缓冲区中蓝色位平面的数目；
+    BYTE cAccumAlphaBits; // cAccumAlphaBits 累加缓冲区中 alpha 位平面的数目；
+    BYTE cDepthBits; // cDepthBits Z（深度）缓冲区的深度；
+    BYTE cStencilBits; // cStencilBits 模板缓冲区的深度；
+    BYTE cAuxBuffers; // cAuxBuffers 轴向缓冲区的数量（一般 1.0 版本不支持）；
+    BYTE iLayerType; // iLayerType 被忽略，为了一致性而包含的；
+    BYTE bReserved; // bReserved 表层和底层平面的数量::位 0-3 表最多 15 层表层平面，位 4-7 表底层；
+    DWORD dwLayerMask; // dwLayerMask 被忽略，为了一致性而包含的；
+    DWORD dwVisibleMask; // dwVisibleMask 是透明色彩的值（RGBA 方式）或是一个底层平面的索引（Index）；
     DWORD dwDamageMask; // dwDamageMask 被忽略，为了一致性而包含的。
 } PIXELFORMATDESCRIPTOR;
 ```
