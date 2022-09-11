@@ -307,11 +307,29 @@ $$
 
 ### 6-1. 分类 08:09
 
+logistic
+
 
 ### 6-2. 假设陈述 07:25
 
+Sigmoid function & Logistic function
+
+1. $h_{\theta}(x)=g(\theta^Tx)$
+2. $g(z)=1/(1+e^{-z})$
+
+$h_{\theta}(x) =P(y=1\|x;\theta)$
+
+$$
+\begin{array}{l}P(y=0 \mid x ; \theta)+P(y=1 \mid x ; \theta)=1 \\h_{\theta}(x)=P(y=1 \mid x ; \theta)=1-P(y=0 \mid x ; \theta)\end{array}
+$$
+
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-e5d8e804c0af6a097700cec2be5e7834_720w.jpg" caption="logistic function (S-shape)" %}
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/20191130021642167.png" %}
+
 
 ### 6-3. 决策界限 14:50
+
+**决策边界**
 
 
 ### 6-4. 代价函数 10:25
