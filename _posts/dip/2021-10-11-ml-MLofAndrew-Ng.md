@@ -337,23 +337,106 @@ $$
 
 ### 6-5. 简化代价函数与梯度下降 10:16
 
+统计学中极大似然法得来的，快速寻找参数的方法。
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-37a0e94bf99b619c6b57518671602e19_1440w.jpg" %}
+[快速理解极大似然法 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/89074979)
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-5f4f12bc7ef874f68ea28c4c350ad73f_1440w.jpg" caption="不同参数下高斯分布的形状" %}
+
 
 ### 6-6. 高级优化 14:07
+
+* Gradient descent
+* Conjugate gradient
+* BFGS 共轭梯度法
+* L-BFGS
+
+Example:
+$$
+\begin{aligned}
+&\theta=\left[\begin{array}{l}
+\theta_1 \\
+\theta_2
+\end{array}\right] \\
+&J(\theta)=\left(\theta_1-5\right)^2+\left(\theta_2-5\right)^2 \\
+&\frac{\partial}{\partial \theta_1} J(\theta)=2\left(\theta_1-5\right) \\
+&\frac{\partial}{\partial \theta_2} J(\theta)=2\left(\theta_2-5\right)
+\end{aligned}
+$$
 
 
 ### 6-7. 多元分类：一对多 06:16
 
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/1800369-20190923214320485-513783816.png" %}
+
+[Docs / Azure / 机器学习](https://docs.microsoft.com/zh-cn/azure/machine-learning/component-reference/one-vs-all-multiclass)
+
 
 ### 7-1. 过拟合问题 09:43
+
+* undefit, high bias. 高偏差。
+* just right.
+* overfit, high variance.
+
+过拟合问题（overfitting）
+* Underfitting（欠拟合）–> high bias（高偏差）
+* Overfitting（过拟合）–> high variance（高方差）
+
+Overfitting: If we have too many features, the learned hypothesis（假设）
+may fit the training set very well, but fail to generalize to new examples (predict prices on new examples).
+模型泛化能力差
+
+addressing overfitting 解决过拟合的方法：
+options:
+1. reduce number of features（减少特征数量）
+    1. Manually select which features to keep 人为的保留一些重要的特征值
+    2. Model selection algorithm（模型选择算法）用特征选择算法进行特征的选择（PCA、层次分析法）
+2. regularization（正则化）
+    1. keep all the features but reduce magnitude/values（但减少参数的大小 / 值）of parameters $\theta_j$.
+        * 通过对目标函数添加一个参数范数惩罚，限制模型的学习能力。（保留所有的特征，但是减少参数 $\theta$ 的大小）
+    2. Works well when we have a lot of features, each of which contributes a bit to predicting $y$.
+        * 最终要找到一个平衡点，使得模型能够更好地拟合训练集并且同时具有良好的泛化能力。
 
 
 ### 7-2. 代价函数 10:12
 
+$$
+J(\theta)=\frac{1}{2 m}\left[\sum_{i=1}^m\left(h_\theta\left(x^{(i)}\right)-y^{(i)}\right)^2+\lambda \sum_{j=1}^n \theta_j^2\right]
+$$
+
 
 ### 7-3. 线性回归的正则化 10:41
 
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-86856ef352e507ca0f853343e802cbd8_720w.jpg" %}
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-b3f8923467e9314b1d03f0e756189bbd_720w.jpg" %}
+
+[note {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/410358244)
+
+$$
+\theta=\left(X^{T} X\right)^{-1} X^{T} y
+$$
+
+$$
+\text { If } \lambda>0 \text {, }
+$$
+
+$$
+\theta=\left(X^{T} X+\lambda\left[\begin{array}{lllll}0 & & & & \\& 1 & & & \\& & 1 & & \\& & & \ddots & \\& & & & 1\end{array}\right]\right)^{-1} X^{T} y
+$$
+
+#### L1 和 L2 正则项
+
+* 当正则化项为 $\lambda\sum_{j=1}^{n}{\theta_{j}^{2}}$ 时，称为 L2 正则化，也称为岭回归（Ridge 回归）。
+* 当正则化项为 $\lambda\sum_{j=1}^{n}\|{\theta_{j}}\|$ 时，称为 L1 正则化，也称为 Lasso 回归。
+
+相比 L2 正则化，L 正则化会产生更稀疏的解，此处稀疏性指的是最优值中的一些参数为 0，和 L2 正则化相比，L1 正则化的稀疏性具有本质的不同。
+
+由 L1 正则化导出的稀疏性质已被广泛地用于特征选择机制，特征选择从可用的特征子集选择出有意义的特征，化简问题。
+如 Lasso 回归中，L1 惩罚使得部分参数为 0，表明相应的特征可以被安全得忽略。
+
 
 ### 7-4. Logistic. 回归的正则化 08:35
+
+yes。
 
 
 ### 8-1. 非线性假设 09:37
@@ -362,22 +445,40 @@ $$
 ### 8-2. 神经元与大脑 07:48
 
 
-### 8-3. 模型展示Ⅰ 12:02
+### 8-3. 模型展示 Ⅰ 12:02
 
 
-### 8-4. 模型展示Ⅱ 11:47
+### 8-4. 模型展示 Ⅱ 11:47
+
+前向传播。
 
 
-### 8-5. 例子与直觉理解Ⅰ 07:16
+### 8-5. 例子与直觉理解 Ⅰ 07:16
+
+AND / OR
 
 
-### 8-6. 例子与直觉理解Ⅱ 10:21
+### 8-6. 例子与直觉理解 Ⅱ 10:21
+
+手写数字识别。
 
 
 ### 8-7. 多元分类 03:52
 
 
 ### 9-1. 代价函数 06:44
+
+Cost function, Logistic regression:
+$$
+J(\theta)=-\frac{1}{m}\left[\sum_{i=1}^{m} y^{(i)} \log h_{\theta}\left(x^{(i)}\right)+\left(1-y^{(i)}\right) \log \left(1-h_{\theta}\left(x^{(i)}\right)\right)\right]+\frac{\lambda}{2 m} \sum_{j=1}^{n} \theta_{j}^{2}
+$$
+
+Neural network:
+$$
+\begin{array}{l}
+h_{\Theta}(x) \in \mathbb{R}^{K} \quad\left(h_{\Theta}(x)\right)_{i}=i^{t h} \text { output }\\
+J(\Theta)=-\frac{1}{m}\left[\sum_{i=1}^{m} \sum_{k=1}^{K} y_{k}^{(i)} \log \left(h_{\Theta}\left(x^{(i)}\right)\right)_{k}+\left(1-y_{k}^{(i)}\right) \log \left(1-\left(h_{\Theta}\left(x^{(i)}\right)\right)_{k}\right)\right]\\+\frac{\lambda}{2 m} \sum_{l=1}^{L-1} \sum_{i=1}^{s_{l}} \sum_{j=1}^{s_{l+1}}\left(\Theta_{j i}^{(l)}\right)^{2}\end{array}
+$$
 
 
 ### 9-2. 反向传播算法 12:00
@@ -587,5 +688,8 @@ P3 08:42
 - [https://www.octave.org/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.octave.org/461e7f5e.html" %})
 - [https://cloud.tencent.com/developer/article/1650390]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/cloud.tencent.com/0075b71d.html" %})
 - [https://octave.sourceforge.io/symbolic/index.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/octave.sourceforge.io/044f4336.html" %})
+- [https://zhuanlan.zhihu.com/p/89074979]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/zhuanlan.zhihu.com/89dee774.html" %})
+- [https://docs.microsoft.com/zh-cn/azure/machine-learning/component-reference/one-vs-all-multiclass]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/docs.microsoft.com/c6aa7749.html" %})
+- [https://zhuanlan.zhihu.com/p/410358244]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/zhuanlan.zhihu.com/0da53915.html" %})
 - [https://www.bilibili.com/video/BV1JE411g7XF]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/68e17dc9.html" %})
 - [http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML20.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/speech.ee.ntu.edu.tw/f319f059.html" %})
