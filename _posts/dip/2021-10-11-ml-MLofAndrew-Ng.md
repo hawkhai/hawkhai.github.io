@@ -30,6 +30,11 @@ date: 2022-08-31 19:57:58 +0800
 * [吴恩达机器学习系列课程 {% include relref_bili.html %}](https://www.bilibili.com/video/BV164411b7dx)
 * [视频的讲义 {% include relref_github.html %}](https://github.com/TheisTrue/MLofAndrew-Ng)
 
+* www.coursera.org/specializations/deep-learning
+* www.coursera.org/learn/machine-learning-course/home/week/1
+* github.com/fengdu78/Coursera-ML-AndrewNg-Notes
+* <www.ai-start.com/ml2014/>
+
 
 ### 有监督学习和无监督学习
 
@@ -483,6 +488,8 @@ $$
 
 ### 9-2. 反向传播算法 12:00
 
+完成。
+
 
 ### 9-3. 理解反向传播 12:45
 
@@ -673,6 +680,8 @@ $$
 * 课件：<http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML20.html>
 
 P3 08:42
+
+英语
 
 
 

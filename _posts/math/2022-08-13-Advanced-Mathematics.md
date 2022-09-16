@@ -760,6 +760,18 @@ $$
 
 ## 【七-3】齐次方程 31:20
 
+$ y/x$ 整体出现。
+
+1. $u=y/x$
+2. $y=xu$
+3. $dy/dx=u+x(du/dx)$
+
+[可转化为齐次的方程 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/466806302)：
+$$
+\frac{dy}{dx}=\frac{a_{1}x+b_{1}y+c_{1}}{a_{2}x+b_{2}y+c_{2}}\tag1
+$$
+将微分方程转换为齐次方程，再将齐次方程转换为可分离变量方程，进而求解微分方程。
+
 
 ## 【七-4】一阶线性微分方程 28:23
 
@@ -1043,3 +1055,4 @@ $$
 - [https://baijiahao.baidu.com/s?id=1736847468931154687]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/baijiahao.baidu.com/f8c977c5.html" %})
 - [https://zhuanlan.zhihu.com/p/142909054]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/2d5e86a1.html" %})
 - [https://www.zhihu.com/question/538493369/answer/2542853013]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/5dcb1b3b.html" %})
+- [https://zhuanlan.zhihu.com/p/466806302]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/f8c1c13f.html" %})

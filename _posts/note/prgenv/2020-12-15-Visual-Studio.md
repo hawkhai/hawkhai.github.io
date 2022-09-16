@@ -17,6 +17,19 @@ cluster: "Visual Studio"
 ---
 
 
+## Error 14001 with LoadLibrary(fullPath)
+
+造成问题原因：
+* 错误：指令清单中找到的组件标识与所请求组件的标识不匹配。
+    * 参考是 Microsoft.VC80.DebugCRT,version="8.0.50727.4053"。
+    * 定义是 Microsoft.VC80.DebugCRT,version="8.0.50727.762"。
+* 错误 : 生成激活上下文失败。
+* 结束生成激活上下文。
+
+为什么不匹配呢？是 dll 的 debug 版本，默认生成了一个 manifest 并打到 dll 里面了。
+重新构建 dll，并指定 manifest。
+
+
 ## HEAP[KPdfConvertor_debug.exe]: Invalid address specified to RtlReAllocateHeap( 01720000, 03408848 )
 
 ```
