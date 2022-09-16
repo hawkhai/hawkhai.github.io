@@ -15,6 +15,18 @@ glslcanvas:
 codeprint:
 ---
 
+**Note**:
+
+| Type | Specifier |
+| ---- | ----- |
+| `const char*` | `%s` |
+| `char` | `%c` |
+| `float` / `double` | `%f`, `%g` |
+| `int`, `long`, `long long` | `%d`, `%ld`, `%lld` |
+| `unsigned`, `unsigned long`, `unsigned long long` | `%u`, `%lu`, `%llu` |
+| `uint64` -> `uintmax_t`, `int64` -> `intmax_t` | `%ju`, `%jd` |
+| `size_t` | `%zu` |
+
 
 ## 在双显示器接双显卡的场景下，Qt 的 QScreen()::geometry() 方法
 
@@ -108,6 +120,25 @@ Qt 提供了处理图像数据的类：QImage, QPixmap 和 QPicture。
 * QPicture 类是一个记录和回放 QPainter 命令的绘制设备。
     * QPicture 用于记录 QPainter 的操作，并保存到一个序列化的平台独立的二进制文件中。
 * QBitmap 是 QPixmap 的派生类，只能绘制黑白图像（色深为 1）。
+
+QPixmap 依赖于硬件，QImage 不依赖于硬件。
+QPixmap 主要是用于绘图，针对屏幕显示而最佳化设计，QImage 主要是为图像 I/O、图片访问和像素修改而设计的。
+当图片小的情况下，直接用 QPixmap 进行加载，画图时无所谓，当图片大的时候如果直接用 QPixmap 进行加载，会占很大的内存，一般一张几十 K 的图片，用 QPixmap 加载进来会放大很多倍。
+所以一般图片大的情况下，用 QImage 进行加载，然后转乘 QPixmap 用户绘制。QPixmap 绘制效果是最好的（第一种代码的方式）。
+
+大图加载：
+```cpp
+QImage figutils::loadBigImageThumbNail(const QString& fileName, QSize sizeCtrl) {
+    QImageReader reader;          // 设置图片名
+    reader.setFileName(fileName); // 读取图片大小
+    reader.setAutoTransform(true);
+    QSize imageSize = reader.size();                // 缩放图片尺寸以适应
+    imageSize.scale(sizeCtrl, Qt::KeepAspectRatio); // 设置图片大小
+    reader.setScaledSize(imageSize);
+    QImage img = reader.read();
+    return img;
+}
+```
 
 [from {% include relref_cnblogs.html %}](https://www.cnblogs.com/finley/p/5268237.html)
 QGraphicsScene 类作为容器（MV 中的模型 Model），用于存储所有的图形元素；
