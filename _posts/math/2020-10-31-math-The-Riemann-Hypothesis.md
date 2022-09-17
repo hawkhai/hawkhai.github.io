@@ -64,6 +64,10 @@ $$J(x)=Li(x)-\sum_{\rho}Li(x^{\rho})-\ln 2 +\int_x^\infty\frac{dt}{t(t^2-1)\ln t
 
 [黎曼猜想，及其解释（下） {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/25222934)
 
+**复数到复数的函数，四维空间才可以表示出来。**
+magnitude（幅度）表示大小，phase（相位）用颜色表示。
+{% include image.html url="/assets/images/201031-math-the-riemann-hypoth~4f/20220918005541.png" %}
+
 
 ## 马同学
 
@@ -81,8 +85,6 @@ $$J(x)=Li(x)-\sum_{\rho}Li(x^{\rho})-\ln 2 +\int_x^\infty\frac{dt}{t(t^2-1)\ln t
 * [质数有多重要？数学家欧拉和高斯是如何研究质数的？李永乐老师讲黎曼猜想（2） {% include relref_bili.html %}](https://www.bilibili.com/video/BV1HW411S77f)
 
 * [悬赏 100 万美元的“黎曼猜想”有多难？李永乐老师讲什么是黎曼猜想（3） {% include relref_bili.html %}](https://www.bilibili.com/video/BV1rW411m7GL)
-
-    **复数到复数的函数，四维空间才可以表示出来。**
 
 解析延拓
 1. 需要处处可导
