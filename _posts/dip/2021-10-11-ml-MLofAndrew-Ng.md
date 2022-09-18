@@ -488,10 +488,14 @@ $$
 
 ### 9-2. 反向传播算法 12:00
 
-完成。
+**为了计算代价函数的偏导数 $\frac{\partial}{\partial\Theta^{(l)}_{ij}}J\left(\Theta\right)$，**
+**我们需要采用一种反向传播算法**，也就是首先计算最后一层的误差，然后再一层一层反向求出各层的误差，
+直到倒数第二层。
 
 
 ### 9-3. 理解反向传播 12:45
+
+？？？
 
 
 ### 9-4. 使用注意：展开参数 07:48
@@ -499,14 +503,48 @@ $$
 
 ### 9-5. 梯度检测 11:38
 
+梯度近似值：
+$$
+gradApprox = (J(\theta + \epsilon) – J(\theta - \epsilon)) / (2*\epsilon)
+$$
+
+Implementation Note:
+* Implement backprop to compute DVec (unrolled $D^{(1)}$, $D^{(2)}$, $D^{(3)}$).
+* Implement numerical gradient check to compute gradApprox.
+* Make sure they give similar values.
+* Turn off gradient checking. Using backprop code for learning.
+
+Important:
+* Be sure to disable your gradient checking code before training your classifier.
+    If you run numerical gradient computation on every iteration of gradient descent
+    (or in the inner loop of costFunction(…))your code will be very slow.
+
 
 ### 9-6. 随机初始化 06:52
 
 
 ### 9-7. 组合到一起 13:24
 
+网络结构：第一件要做的事是选择网络结构，即决定选择多少层以及决定每层分别有多少个单元。
+
+第一层的单元数即我们训练集的特征数量。
+最后一层的单元数是我们训练集的结果的类的数量。
+
+如果隐藏层数大于 1，确保每个隐藏层的单元个数相同，通常情况下隐藏层单元的个数越多越好。
+我们真正要决定的是隐藏层的层数和每个中间层的单元数。
+
+训练神经网络：
+1. 参数的随机初始化
+2. 利用正向传播方法计算所有的 $h_{\theta}(x)$
+3. 编写计算代价函数 $J$ 的代码
+4. 利用反向传播方法计算所有偏导数
+5. 利用数值检验方法检验这些偏导数
+6. 使用优化算法来最小化代价函数
+
 
 ### 9-8. 无人驾驶 06:31
+
+**ALVINN** (**Autonomous Land Vehicle In a Neural Network**) 是一个基于神经网络的智能系统，通过观察人类的驾驶来学习驾驶，**ALVINN**能够控制**NavLab**，装在一辆改装版军用悍马，这辆悍马装载了传感器、计算机和驱动器用来进行自动驾驶的导航试验。实现**ALVINN**功能的第一步，是对它进行训练，也就是训练一个人驾驶汽车。
 
 
 ### 10-1. 决定下一步做什么 05:51

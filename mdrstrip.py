@@ -1022,7 +1022,7 @@ def main():
     CHECK_IGNORE_LIST = (
         "backup", "tempdir", "_site",
         "Debug", "Release", ".vs", "opengl-3rd", "opengles3-book", "opengles-book-samples",
-        "UserDataSpider", "docs.gl",
+        "UserDataSpider", "docs.gl", "ml-notes",
         )
     searchdir(".", checkfilesize, ignorelist=CHECK_IGNORE_LIST)
     searchdir("backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST)
@@ -1031,7 +1031,7 @@ def main():
     searchdir(".", mainfilew, ignorelist=(
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
         "Debug", "Release", ".vs", "openglcpp", "opengl-3rd", "opengles3-book", "opengles-book-samples",
-        "UserDataSpider", "docs.gl",
+        "UserDataSpider", "docs.gl", "ml-notes",
         ), reverse=True)
     if REBUILD:
         clearSnapCache()

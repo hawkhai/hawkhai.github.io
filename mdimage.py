@@ -75,7 +75,7 @@ def main():
     searchdir(".", mainfilew, ignorelist=(
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
         "Debug", "Release", ".vs", "openglcpp", "opengl-3rd", "opengles3-book", "opengles-book-samples",
-        "UserDataSpider", "docs.gl",
+        "UserDataSpider", "docs.gl", "ml-notes",
         ), reverse=True)
 
 if __name__ == "__main__":

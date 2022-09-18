@@ -224,7 +224,7 @@ def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv={}):
 
 def mainxkey():
     print("***" * 30)
-    searchdir(".", mainxkeyfile, ignorelist=("backup", "_site", "_drafts", "opengl-3rd"))
+    searchdir(".", mainxkeyfile, ignorelist=("backup", "_site", "_drafts", "opengl-3rd", "ml-notes",))
     writefileJson("config/headnote.json", gkvconfig)
 
     nctrl = {
