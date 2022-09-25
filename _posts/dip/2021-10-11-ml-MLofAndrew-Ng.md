@@ -30,10 +30,10 @@ date: 2022-08-31 19:57:58 +0800
 * [吴恩达机器学习系列课程 {% include relref_bili.html %}](https://www.bilibili.com/video/BV164411b7dx)
 * [视频的讲义 {% include relref_github.html %}](https://github.com/TheisTrue/MLofAndrew-Ng)
 
-* www.coursera.org/specializations/deep-learning
-* www.coursera.org/learn/machine-learning-course/home/week/1
-* github.com/fengdu78/Coursera-ML-AndrewNg-Notes
-* <www.ai-start.com/ml2014/>
+* <https://www.coursera.org/specializations/deep-learning>
+* <https://www.coursera.org/learn/machine-learning-course/home/week/1>
+* <https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes>
+* <https://www.ai-start.com/ml2014/>
 
 
 ### 有监督学习和无监督学习
@@ -554,14 +554,48 @@ Important:
 
 ### 10-2. 评估假设 07:36
 
+**评估是否过度拟合**
+为了检验算法是否过拟合，我们将数据分成训练集和测试集，
+通常用 70% 的数据作为训练集，用剩下 30% 的数据作为测试集。
+很重要的一点是训练集和测试集均要含有各种类型的数据，
+通常我们要对数据进行“洗牌”，然后再分成训练集和测试集。
+
 
 ### 10-3. 模型选择和训练、验证、测试集 12:04
+
+**多个模型，怎么选择？**
+泛化能力。模型选择的方法为：
+1. 使用训练集训练出 10 个模型
+2. 用 10 个模型分别对交叉验证集计算得出交叉验证误差（代价函数的值）
+3. 选取代价函数值最小的模型
+4. 用步骤 3 中选出的模型对测试集计算得出推广误差（代价函数的值）
+
+***Train/validation/test error***
+
+**Training error:**
+$$J_{train}(\theta) = \frac{1}{2m}\sum_\limits{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})^2$$
+
+**Cross Validation error:**
+$$J_{cv}(\theta) = \frac{1}{2m_{cv}}\sum_\limits{i=1}^{m}(h_{\theta}(x^{(i)}_{cv})-y^{(i)}_{cv})^2$$
+
+**Test error:**
+$$J_{test}(\theta)=\frac{1}{2m_{test}}\sum_\limits{i=1}^{m_{test}}(h_{\theta}(x^{(i)}_{cv})-y^{(i)}_{cv})^2$$
 
 
 ### 10-4. 诊断偏差与方差 07:43
 
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/bca6906add60245bbc24d71e22f8b836.png" %}
+
+* 训练集误差和交叉验证集误差近似时：偏差 / 欠拟合
+* 交叉验证集误差远大于训练集误差时：方差 / 过拟合
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/25597f0f88208a7e74a3ca028e971852.png" %}
+
 
 ### 10-5. 正则化和偏差、方差 11:21
+
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/38eed7de718f44f6bb23727c5a88bf5d.png" %}
+* 训练集误差和交叉验证集误差近似时：偏差 / 欠拟合
+* 交叉验证集误差远大于训练集误差时：方差 / 过拟合
 
 
 ### 10-6. 学习曲线 11:54
@@ -732,6 +766,10 @@ P3 08:42
 - [https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247485091&idx=1&sn=8844a2dfafcd35ea45d1bf0146ba8a5a&chksm=fcbbfe59cbcc774f68a18bd11d529422e0048896ffa3a253c52a749fc6e45d7292e1791052da&scene=27#wechat_redirect]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/mp.weixin.qq.com/68945947.html" %})
 - [https://www.bilibili.com/video/BV164411b7dx]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/72ebaee9.html" %})
 - [https://github.com/TheisTrue/MLofAndrew-Ng]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/github.com/f1eeb779.html" %})
+- [https://www.coursera.org/specializations/deep-learning]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.coursera.org/f044c5d5.html" %})
+- [https://www.coursera.org/learn/machine-learning-course/home/week/1]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.coursera.org/53a67f91.html" %})
+- [https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/github.com/9e99497d.html" %})
+- [https://www.ai-start.com/ml2014/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.ai-start.com/bbf2211b.html" %})
 - [https://www.jianshu.com/p/682c88cee5a8]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.jianshu.com/fdc8f898.html" %})
 - [https://cs.nyu.edu/~roweis/kica.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/cs.nyu.edu/89374dba.html" %})
 - [https://www.octave.org/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.octave.org/461e7f5e.html" %})
