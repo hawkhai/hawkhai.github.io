@@ -17,6 +17,64 @@ cluster: "WinDBG"
 ---
 
 
+## QT QImage.convertToFormat() 卡死问题
+
+```
+srcImage = srcImage.convertToFormat(QImage::Format_RGBA8888);
+```
+
+这个代码会卡死，觉得很奇怪，查询代码，卡在了 [这里](https://code.qt.io/cgit/qt/qtbase.git/tree/src/gui/image/qimage_conversions.cpp) `semaphore.acquire(segments);`：
+```cpp
+#ifdef QT_USE_THREAD_PARALLEL_IMAGE_CONVERSIONS
+    int segments = (qsizetype(src->width) * src->height) >> 16;
+    segments = std::min(segments, src->height);
+
+    QThreadPool *threadPool = QThreadPool::globalInstance();
+    if (segments <= 1 || !threadPool || threadPool->contains(QThread::currentThread()))
+        return convertSegment(0, src->height);
+
+    QSemaphore semaphore;
+    int y = 0;
+    for (int i = 0; i < segments; ++i) {
+        int yn = (src->height - y) / (segments - i);
+        threadPool->start([&, y, yn]() {
+            convertSegment(y, y + yn);
+            semaphore.release(1);
+        });
+        y += yn;
+    }
+    semaphore.acquire(segments);
+#else
+    convertSegment(0, src->height);
+#endif
+```
+
+这几行代码没问题啊。
+后来意识到 图片颜色转换 本身 也是多线程 QThreadPool 的任务，本身都耗尽了线程，然后这里又干等，就死锁了。
+
+```cpp
+using ImageLoadingTaskSharedPtr = std::shared_ptr<ImageLoadingTask>;
+using ImageLoadingTaskFutureWatcher = QFutureWatcher<ImageLoadingTaskSharedPtr>;
+
+    QFuture<ImageLoadingTaskSharedPtr> future = QtConcurrent::mapped(viewportItems, TmpImageLoader(this));
+    m_imageLoadingFutureWatcher.setFuture(future);
+```
+
+解决：
+1. 控制并发图片加载数量。
+2. 调整线程池整体规模。
+
+```cpp
+QThreadPool::globalInstance()->setMaxThreadCount(20);
+
+QSemaphore m_imageSemaphore(5);
+m_imageSemaphore.acquire(1);
+m_imageSemaphore.release(1);
+```
+
+从而避免上面的极端情况出现。
+
+
 ## /MD -> /MT
 
 编译配置改了改，出现错误：
@@ -898,6 +956,7 @@ ChildEBP RetAddr  Args to Child
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-06-02-win-windbg-cases.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://code.qt.io/cgit/qt/qtbase.git/tree/src/gui/image/qimage_conversions.cpp]({% include relrefx.html url="/backup/2021-06-02-win-windbg-cases.md/code.qt.io/88c4ea44.cpp" %})
 - [https://github.com/mikke89/RmlUi/issues/45]({% include relrefx.html url="/backup/2021-06-02-win-windbg-cases.md/github.com/7332c83b.html" %})
 - [https://stackoverflow.com/questions/28483473/windows-heap-chunk-header-parsing-and-size-calculation]({% include relrefx.html url="/backup/2021-06-02-win-windbg-cases.md/stackoverflow.com/797c2d6f.html" %})
 - [http://advdbg.org/blogs/advdbg_system/articles/5152.aspx]({% include relrefx.html url="/backup/2021-06-02-win-windbg-cases.md/advdbg.org/df049c84.aspx" %})
