@@ -261,6 +261,7 @@ LOCAL_CPPFLAGS += -fexceptions -frtti
 
 * `/we4715` 函数每个分支都必须有返回值。
 * `/we4263` 限制 override 必须写上？
+* `/we4700` VS 下的开关。gcc 下用 -Werror=uninitialized。
 
 
 ### 通过编译选项将特定警告视为错误

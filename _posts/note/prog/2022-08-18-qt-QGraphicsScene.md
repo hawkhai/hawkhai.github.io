@@ -161,6 +161,31 @@ QImage QImage::rgbSwapped() const
 ```
 
 
+## QImage::Format
+
+由于 qt4 没有 RGBA8888，采用最接近 RGBA8888 的是 ARGB32，颜色会有点偏差。
+
+
+### QImage::Format_RGBA8888
+
+此图片的存储方式是，使用 32 位具有特定字节顺序的红绿蓝透（RGBA）格式（8-8-8-8）。
+与 ARGB32 不同的是，此格式是具有特定字节顺序的，也就是说，在大端在前（big endian）和小端在前（little endian）的机器上，
+32 位数据编码的内容是不同的，分别会是（0xRRGGBBAA）和（0xAABBGGRR）。
+在任何其它的架构的机器上，如果称其格式为 0xRR、0xGG、0xBB、0xAA，则颜色的顺序也是相同的。
+
+每一个 32bit 中，RGBA 各分量的顺序是有序的。如果按字节来读取，那么会依次读取字节 0xRR、0xGG、0xBB、0xAA。
+那么，在大端 big_endian 上，这个 32bits 会被表示为 0xRRGGBBAA，在小端 little_endian 上，会被表示为 0xAABBGGRR。
+可以记作，Byte 存储方式顺序固定，4-Byte 读取的数值不定。
+
+#### QImage::Format_ARGB32
+
+此图片的存储方式是，使用 32 位的透红绿蓝（ARGB）格式 (0xAARRGGBB)。
+
+32bit 的 ARGB，按 32bit 整型去访问，始终是 0xAARRGGBB。如果按字节来读取（也就是存储方式相关），在不同的系统上，读取的顺序不同。
+如果在大端 big_endian 架构上，按字节会被读取为 0xAA、0xRR、0xGG、0xBB；在小端 little_endian 架构上，按字节会被读取为 0xBB、0xGG、0xRR、0xAA。
+可以记作，Byte 存储方式顺序不定，4-Byte 读取的数值固定。
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-08-18-qt-QGraphicsScene.md.js" %}'></script></p>
