@@ -19,6 +19,8 @@ Andrey Kurenkov
 
 {% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/failures.png" %}
 
+> 人工智能依然不会思考，但依靠亿万次运算也足够在很多工作上处理地比大多数人更好。人们讨论的新问题是，人工智能会不会强化偏见。
+
 
 ## 从感知机到 BP 算法 (1950s-1980s)
 
