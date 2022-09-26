@@ -35,7 +35,7 @@ date: 2022-08-31 19:57:58 +0800
 * <https://www.coursera.org/specializations/deep-learning>
 * <https://www.coursera.org/learn/machine-learning-course/home/week/1>
 * <https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes>
-* <https://www.ai-start.com/ml2014/>
+* <http://www.ai-start.com/ml2014/>
 
 
 ### 有监督学习和无监督学习
@@ -605,20 +605,72 @@ $$J_{test}(\theta)=\frac{1}{2m_{test}}\sum_\limits{i=1}^{m_{test}}(h_{\theta}(x^
 
 ### 10-7. 决定接下来做什么 06:51
 
+1. 获得更多的训练样本 —— 解决高方差
+2. 尝试减少特征的数量 —— 解决高方差
+3. 尝试获得更多的特征 —— 解决高偏差
+4. 尝试增加多项式特征 —— 解决高偏差
+5. 尝试减少正则化程度 λ —— 解决高偏差
+6. 尝试增加正则化程度 λ —— 解决高方差
+
 
 ### 11-1. 确定执行的优先级 09:30
+
+垃圾邮件分类。
 
 
 ### 11-2. 误差分析 13:13
 
+构建一个学习算法的推荐方法为：
+1. 从一个简单的能快速实现的算法开始，实现该算法并用交叉验证集数据测试这个算法
+2. 绘制学习曲线，决定是增加更多数据，或者添加更多特征，还是其他选择
+3. 进行误差分析：人工检查交叉验证集中我们算法中产生预测误差的样本，看看这些样本是否有某种系统化的趋势
+
 
 ### 11-3. 不对称性分类的误差评估 11:36
+
+偏斜类。
+
+查准率。
+召回率。
+
+**查准率**（**Precision**）和**查全率**（**Recall**） 我们将算法预测的结果分成四种情况：
+
+1. **正确肯定**（**True Positive, TP**）：预测为真，实际为真
+2. **正确否定**（**True Negative, TN**）：预测为假，实际为假
+3. **错误肯定**（**False Positive, FP**）：预测为真，实际为假（假阳性）
+4. **错误否定**（**False Negative, FN**）：预测为假，实际为真（假阴性）
+
+则：查准率 =**TP/(TP+FP)**。例，在所有我们预测有恶性肿瘤的病人中，实际上有恶性肿瘤的病人的百分比，越高越好。
+
+查全率 =**TP/(TP+FN)**。例，在所有实际上有恶性肿瘤的病人中，成功预测有恶性肿瘤的病人的百分比，越高越好。
+
+这样，对于我们刚才那个总是预测病人肿瘤为良性的算法，其查全率是 0。
+
+|            |              | **预测值**   |             |
+| ---------- | ------------ | ------------ | ----------- |
+|            |              | **Positive** | **Negtive** |
+| **实际值** | **Positive** | **TP**       | **FN**      |
+|            | **Negtive**  | **FP**       | **TN**      |
+
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/20220926001838.png" %}
 
 
 ### 11-4. 精确度和召回率的权衡 14:06
 
+$F_1$ Score (F score)
+
+$$
+2\frac{PR}{P+R}
+$$
+
 
 ### 11-5. 机器学习数据 11:10
+
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/05a3c884505e08028d37a04472d0964a.png" %}
+* 参数多，特征多，保证低偏差。
+* 数据样本多，就不太可能过拟合，保证低方差。
+
+这是一个关键的假设：特征值有足够的信息量，且我们有一类很好的函数，这是为什么能保证低误差的关键所在。它有大量的训练数据集，这能保证得到更多的方差值，因此这给我们提出了一些可能的条件，如果你有大量的数据，而且你训练了一种带有很多参数的学习算法，那么这将会是一个很好的方式，来提供一个高性能的学习算法。 
 
 
 ### 12-1. 优化目标 14:48
@@ -771,7 +823,7 @@ P3 08:42
 - [https://www.coursera.org/specializations/deep-learning]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.coursera.org/f044c5d5.html" %})
 - [https://www.coursera.org/learn/machine-learning-course/home/week/1]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.coursera.org/53a67f91.html" %})
 - [https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/github.com/9e99497d.html" %})
-- [https://www.ai-start.com/ml2014/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.ai-start.com/bbf2211b.html" %})
+- [http://www.ai-start.com/ml2014/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.ai-start.com/21b3ffdf.html" %})
 - [https://www.jianshu.com/p/682c88cee5a8]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.jianshu.com/fdc8f898.html" %})
 - [https://cs.nyu.edu/~roweis/kica.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/cs.nyu.edu/89374dba.html" %})
 - [https://www.octave.org/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.octave.org/461e7f5e.html" %})
