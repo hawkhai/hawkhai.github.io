@@ -203,6 +203,17 @@ vertarget   // 查看系统信息、系统运行时长 System Uptime、进程启
 ```
 
 
+## 内存碎片过多的一种确认方式
+
+加载微软 symbols
+
+输入命令 !address -summary
+
+largest region 段，看看 free 状态的内存块大小，基本能确认是否为碎片过多的问题
+
+{% include image.html url="/assets/images/201018-win-vs-windbg/image2019-2-21_11-17-51.png" %}
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-10-18-win-vs-windbg.md.js" %}'></script></p>
