@@ -188,7 +188,7 @@ $$
 ### 视频去雾
 
 视频去雾大概就是在图像去雾的基础之上，添加了帧与帧之间的时间相关性损失。
-Resythesizer
+Resythesizer（正确的应该是 Resynthesizer）
 
 
 
