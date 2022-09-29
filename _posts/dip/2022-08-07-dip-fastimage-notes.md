@@ -46,7 +46,7 @@ codeprint:
 
 由于工业发展中的环境污染问题，很多地方雾霾特别严重，不仅对人们的身体健康产生了巨大威胁，而且严重影响户外图像、视频的拍摄质量，使得检测和识别等计算机任务很难完成。因此，图像去雾长期以来都是研究人员所关注的热点。
 
-在图像去雾领域有很多传统图像算法取得了不错的成果，很值得我们学习，如何凯明大神提出的 [暗通道先验](http://kaiminghe.com/publications/cvpr09.pdf)，[色彩衰减先验](https://ieeexplore.ieee.org/document/7128396/citations#citations) 等。其中一篇 2013 年的老文章 [Optimized contrast enhancement for real-time image and video dehazing](http://mcl.korea.ac.kr/~dotol1216/Publications/2013_JVCIR_JHKIM.pdf) 效果也很不错，实时性很强，因此本文想要对其进行简要解读和复现。
+在图像去雾领域有很多传统图像算法取得了不错的成果，很值得我们学习，如何凯明大神提出的 [暗通道先验](//kaiminghe.com/publications/cvpr09.pdf)，[色彩衰减先验](https://ieeexplore.ieee.org/document/7128396/citations#citations) 等。其中一篇 2013 年的老文章 [Optimized contrast enhancement for real-time image and video dehazing](//mcl.korea.ac.kr/~dotol1216/Publications/2013_JVCIR_JHKIM.pdf) 效果也很不错，实时性很强，因此本文想要对其进行简要解读和复现。
 
 
 ### 大气光散射模型
@@ -188,15 +188,17 @@ $$
 ### 视频去雾
 
 视频去雾大概就是在图像去雾的基础之上，添加了帧与帧之间的时间相关性损失。
+Resythesizer（正确的应该是 Resynthesizer）
 
 
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-08-07-dip-fastimage2.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-08-07-dip-fastimage-notes.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://github.com/Accustomer/TheThingsWithImage/blob/main/Docs/3_%E7%9B%B4%E6%96%B9%E5%9B%BE%E5%9D%87%E8%A1%A1%E5%8C%96.md]({% include relrefx.html url="/backup/2022-08-07-dip-fastimage2.md/github.com/861cc907.html" %})
-- [https://blog.csdn.net/Julialove102123/article/details/90638418]({% include relrefx.html url="/backup/2022-08-07-dip-fastimage2.md/blog.csdn.net/e5976eb9.html" %})
-- [https://blog.csdn.net/xx116213/article/details/51848429]({% include relrefx.html url="/backup/2022-08-07-dip-fastimage2.md/blog.csdn.net/ee553221.html" %})
-- [https://zhuanlan.zhihu.com/p/413747554]({% include relrefx.html url="/backup/2022-08-07-dip-fastimage2.md/zhuanlan.zhihu.com/675e0221.html" %})
-- [https://zhuanlan.zhihu.com/p/386520985]({% include relrefx.html url="/backup/2022-08-07-dip-fastimage2.md/zhuanlan.zhihu.com/1ce7d5a5.html" %})
+- [https://github.com/Accustomer/TheThingsWithImage/blob/main/Docs/3_%E7%9B%B4%E6%96%B9%E5%9B%BE%E5%9D%87%E8%A1%A1%E5%8C%96.md]({% include relrefx.html url="/backup/2022-08-07-dip-fastimage-notes.md/github.com/861cc907.html" %})
+- [https://blog.csdn.net/Julialove102123/article/details/90638418]({% include relrefx.html url="/backup/2022-08-07-dip-fastimage-notes.md/blog.csdn.net/e5976eb9.html" %})
+- [https://blog.csdn.net/xx116213/article/details/51848429]({% include relrefx.html url="/backup/2022-08-07-dip-fastimage-notes.md/blog.csdn.net/ee553221.html" %})
+- [https://zhuanlan.zhihu.com/p/413747554]({% include relrefx.html url="/backup/2022-08-07-dip-fastimage-notes.md/zhuanlan.zhihu.com/675e0221.html" %})
+- [https://ieeexplore.ieee.org/document/7128396/citations#citations]({% include relrefx.html url="/backup/2022-08-07-dip-fastimage-notes.md/ieeexplore.ieee.org/a42e8d77.html" %})
+- [https://zhuanlan.zhihu.com/p/386520985]({% include relrefx.html url="/backup/2022-08-07-dip-fastimage-notes.md/zhuanlan.zhihu.com/1ce7d5a5.html" %})

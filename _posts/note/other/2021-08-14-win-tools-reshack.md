@@ -605,6 +605,19 @@ def bake_one_big_png_to_ico(sourcefile, targetfile, sizes=None):
 ```
 
 
+## others
+
+* pecopy.exe -- **PE 文件修改工具**。
+* pesearch.exe -- **二进制检索工具**，输出报告。
+* pereplace.exe -- **二进制替换工具**。
+* pecheck.exe -- **二进制检查工具**，进程退出码（-1），如果检查通过，进程退出码（0），方便集成到 vs 里面。
+  ```
+  usage: pecheck.exe [-h] --jsonconfig JSONCONFIG --rootdir ROOTDIR
+  pecheck.exe: error: the following arguments are required: --jsonconfig, --rootdir
+  ```
+  * 配置构建后事件：`..\..\bin\pecheck.exe --jsonconfig="..\..\config\pesearch.json" --rootdir="$(TargetPath)"`
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-08-14-win-tools-reshack.md.js" %}'></script></p>

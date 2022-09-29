@@ -17,6 +17,7 @@ codeprint:
 
 图像背景检测及处理 相关资料整理
 图片编辑软件：Photoshop、Gimp、Picsart、Snapseed、ImageMagick。
+Resythesizer（正确的应该是 Resynthesizer）
 
 
 ## 视频背景分离
