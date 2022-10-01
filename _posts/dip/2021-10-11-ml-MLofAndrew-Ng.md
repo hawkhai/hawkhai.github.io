@@ -675,14 +675,39 @@ $$
 
 ### 12-1. 优化目标 14:48
 
+SVM
+Support Vector Machine
+
+[基本的机器学习算法 {% include relref_csdn.html %}](https://blog.csdn.net/qq_39783601/article/details/123365469)：
+1. 线性回归算法 Linear Regression
+2. 支持向量机算法 (Support Vector Machine, SVM)
+3. 最近邻居 /  k-近邻算法 (K-Nearest Neighbors, KNN)
+4. 逻辑回归算法 Logistic Regression
+5. 决策树算法 Decision Tree
+6. k-平均算法 K-Means
+7. 随机森林算法 Random Forest
+8. 朴素贝叶斯算法 Naive Bayes
+9. 降维算法 Dimensional Reduction
+10. 梯度增强算法 Gradient Boosting
+
+妈妈卡号 邮政 2080
+
 
 ### 12-2. 直观上对大间隔的理解 10:37
 
 
 ### 12-3. 大间隔分类器的数学原理 19:42
 
+向量内积（点乘）的定义及几何意义
+
+向量内积：一个向量在另外一个向量上的投影。
+即：某个方向力 u，在 v 方向上的分量。结果是一个标量（无方向）。
+
 
 ### 12-4. 核函数 1 15:45
+
+个人理解：
+定义多个标记点，通过 kernal 函数 映射到另外一个空间 解决问题。
 
 
 ### 12-5. 核函数 2 15:44
@@ -802,6 +827,110 @@ $$
 ### 19-1. 总结与感谢 04:43
 
 
+## Review
+
+* README.md
+* 机器学习个人笔记完整版 v5.52-A4 打印版.pdf
+* code\Programming Exercise( 代码作业 ).pdf
+* code\README.md
+* code\ex1-linear regression\ex1.pdf
+* code\ex1-linear regression\ex1data1.txt
+* code\ex1-linear regression\ex1data2.txt
+* code\ex1-linear regression\ML-Exercise1.ipynb
+* code\ex2-logistic regression\ex2.pdf
+* code\ex2-logistic regression\ex2data1.txt
+* code\ex2-logistic regression\ex2data2.txt
+* code\ex2-logistic regression\ML-Exercise2.ipynb
+* code\ex3-neural network\ex3.pdf
+* code\ex3-neural network\ex3data1.mat
+* code\ex3-neural network\ex3weights.mat
+* code\ex3-neural network\ML-Exercise3.ipynb
+* code\ex3-neural network\ 向量化标签 .png
+* code\ex4-NN back propagation\ex4.pdf
+* code\ex4-NN back propagation\ex4data1.mat
+* code\ex4-NN back propagation\ex4weights.mat
+* code\ex4-NN back propagation\ML-Exercise4.ipynb
+* code\ex5-bias vs variance\ex5.pdf
+* code\ex5-bias vs variance\ex5data1.mat
+* code\ex5-bias vs variance\ML-Exercise5.ipynb
+* code\ex6-SVM\ex6.pdf
+* code\ex6-SVM\ML-Exercise6.ipynb
+* code\ex6-SVM\data\emailSample1.txt
+* code\ex6-SVM\data\emailSample2.txt
+* code\ex6-SVM\data\ex6data1.mat
+* code\ex6-SVM\data\ex6data2.mat
+* code\ex6-SVM\data\ex6data3.mat
+* code\ex6-SVM\data\spamSample1.txt
+* code\ex6-SVM\data\spamSample2.txt
+* code\ex6-SVM\data\spamTest.mat
+* code\ex6-SVM\data\spamTrain.mat
+* code\ex6-SVM\data\vocab.txt
+* code\ex7-kmeans and PCA\ex7.pdf
+* code\ex7-kmeans and PCA\ML-Exercise7.ipynb
+* code\ex7-kmeans and PCA\data\bird_small.mat
+* code\ex7-kmeans and PCA\data\bird_small.png
+* code\ex7-kmeans and PCA\data\ex7data1.mat
+* code\ex7-kmeans and PCA\data\ex7data2.mat
+* code\ex7-kmeans and PCA\data\ex7faces.mat
+* code\ex8-anomaly detection and recommendation\ex8.pdf
+* code\ex8-anomaly detection and recommendation\ML-Exercise8.ipynb
+* code\ex8-anomaly detection and recommendation\data\ex8_movieParams.mat
+* code\ex8-anomaly detection and recommendation\data\ex8_movies.mat
+* code\ex8-anomaly detection and recommendation\data\ex8data1.mat
+* code\ex8-anomaly detection and recommendation\data\ex8data2.mat
+* code\ex8-anomaly detection and recommendation\data\movie_ids.txt
+* docx\README.md
+* docx\ 机器学习个人笔记完整版 v5.52.docx
+* docx\ 机器学习的数学基础 .docx
+* html\index.html
+* html\week1.html
+* html\week10.html
+* html\week2.html
+* html\week3.html
+* html\week4.html
+* html\week5.html
+* html\week6.html
+* html\week7.html
+* html\week8.html
+* html\week9.html
+* images\README.md
+* markdown\1.CS229-LinearAlgebra.md
+* markdown\2.CS229-Prob.md
+* markdown\math.md
+* markdown\README.md
+* markdown\SUMMARY.md
+* markdown\week1.md
+* markdown\week10.md
+* markdown\week2.md
+* markdown\week3.md
+* markdown\week4.md
+* markdown\week5.md
+* markdown\week6.md
+* markdown\week7.md
+* markdown\week8.md
+* markdown\week9.md
+* ppt\Lecture1.pptx
+* ppt\Lecture10.pptx
+* ppt\Lecture11.pptx
+* ppt\Lecture12.pptx
+* ppt\Lecture13.pptx
+* ppt\Lecture14.pptx
+* ppt\Lecture15.pptx
+* ppt\Lecture16.pptx
+* ppt\Lecture17.pptx
+* ppt\Lecture18.pptx
+* ppt\Lecture2.pptx
+* ppt\Lecture3.pptx
+* ppt\Lecture4.pptx
+* ppt\Lecture5.pptx
+* ppt\Lecture6.pptx
+* ppt\Lecture7.pptx
+* ppt\Lecture8.pptx
+* ppt\Lecture9.pptx
+* ppt\README.md
+* srt\README.md
+
+
 ## 李宏毅
 
 * [李宏毅 2020 机器学习 & 深度学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1JE411g7XF)
@@ -832,5 +961,6 @@ P3 08:42
 - [https://zhuanlan.zhihu.com/p/89074979]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/zhuanlan.zhihu.com/89dee774.html" %})
 - [https://docs.microsoft.com/zh-cn/azure/machine-learning/component-reference/one-vs-all-multiclass]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/docs.microsoft.com/c6aa7749.html" %})
 - [https://zhuanlan.zhihu.com/p/410358244]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/zhuanlan.zhihu.com/0da53915.html" %})
+- [https://blog.csdn.net/qq_39783601/article/details/123365469]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/blog.csdn.net/a44029f7.html" %})
 - [https://www.bilibili.com/video/BV1JE411g7XF]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/68e17dc9.html" %})
 - [http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML20.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/speech.ee.ntu.edu.tw/f319f059.html" %})
