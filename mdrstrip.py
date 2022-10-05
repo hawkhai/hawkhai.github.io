@@ -288,13 +288,13 @@ def tidyupImg(imglocal, fpath, line):
         if width > widthctrl:
             try:
                 # DeprecationWarning: ANTIALIAS is deprecated and will be removed in Pillow 10 (2023-07-01). Use Resampling.LANCZOS instead.
-                imgtmp = img.resize((widthctrl, round(widthctrl*height/width)), Image.ANTIALIAS)
+                imgtmp = img.resize((widthctrl, round(widthctrl*height/width)), Image.Resampling.LANCZOS)
                 img = imgtmp.convert("RGB")
             except OSError as ex: # broken data stream when reading image file
                 print("Image.resize OSError", tpath)
                 raise ex
             # DeprecationWarning: ANTIALIAS is deprecated and will be removed in Pillow 10 (2023-07-01). Use Resampling.LANCZOS instead.
-            img = img.resize((width, height), Image.ANTIALIAS) # 恢复到原来大小，便于客户端排版。
+            img = img.resize((width, height), Image.Resampling.LANCZOS) # 恢复到原来大小，便于客户端排版。
 
             from PIL import ImageFont, ImageDraw # 导入模块
             draw = ImageDraw.Draw(img, "RGBA") # 修改图片

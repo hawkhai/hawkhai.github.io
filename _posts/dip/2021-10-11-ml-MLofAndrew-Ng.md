@@ -31,6 +31,7 @@ date: 2022-08-31 19:57:58 +0800
 
 * [吴恩达机器学习系列课程 {% include relref_bili.html %}](https://www.bilibili.com/video/BV164411b7dx)
 * [视频的讲义 {% include relref_github.html %}](https://github.com/TheisTrue/MLofAndrew-Ng)
+* [黄海广 {% include relref_bili.html %}](https://space.bilibili.com/388675845)
 
 * <https://www.coursera.org/specializations/deep-learning>
 * <https://www.coursera.org/learn/machine-learning-course/home/week/1>
@@ -211,13 +212,13 @@ J\left(\theta_0, \theta_1, \ldots, \theta_n\right)=\frac{1}{2 m} \sum_{i=1}^m\le
 $$
 
 
-### 4-3. 多元梯度下降法演练 .I.–. 特征缩放 08:53
+### 4-3. 多元梯度下降法演练 I – 特征缩放 08:53
 
 先把每个输入的特征归一化到特定的范围。
 可以加快迭代收敛速度。
 
 
-### 4-4. 多元梯度下降法 II.–. 学习率 08:59
+### 4-4. 多元梯度下降法 II – 学习率 08:59
 
 
 ### 4-5. 特征和多项式回归 07:40
@@ -275,7 +276,7 @@ imagesc(A), colorbar, colormap gray;
 ```
 
 
-### 5-5. 控制语句：for，while，if. 语句 12:57
+### 5-5. 控制语句：for，while，if 语句 12:57
 
 定义函数：
 ```python
@@ -441,7 +442,7 @@ $$
 如 Lasso 回归中，L1 惩罚使得部分参数为 0，表明相应的特征可以被安全得忽略。
 
 
-### 7-4. Logistic. 回归的正则化 08:35
+### 7-4. Logistic 回归的正则化 08:35
 
 yes。
 
@@ -715,11 +716,48 @@ Support Vector Machine
 
 ### 12-6. 使用 SVM 21:03
 
+liblinear
+libsvm
+
+More esoteric: String kernel, chi-square kernel, histogram intersection kernel, ...
+字符串距离，卡方核函数，直方相交核函数。
+
+[sklearn](https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html) 包括了分类，回归，降维和聚类等四大机器学习算法，还包括了特征提取，数据处理和模型评估者三大模块。
+sk-learn 库，基于上述的 numpy 和 Scipy 的库。包含大量用于传统机器学习和数据挖掘相关的算法，集成了常见的机器学习功能。
+Scikit-learn 主要用于各种数据建模概念，如回归、分类、聚类、模型选择等。 该库是在 Numpy、Scipy 和 matplotlib 之上编写的。Scikit-learn 易于集成，可以继承其他机器学习库实现特定目标。
+比如 Numpy 和 Pandas 用于数据分析，Plotly 用于可视化。
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/ml_map.png" %}
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-43c13ca000a22bf0f9f9dc11ed0c4ee7_720w.webp" %}
+
+* [sklearn 库主要模块功能和辅助函数 {% include relref_bili.html %}](https://www.bilibili.com/read/cv12252018/)
+* [sklearn 库机器学习 python 使用教程 {% include relref_csdn.html %}](https://blog.csdn.net/weixin_51111267/article/details/122628057)
+    * 1、分类学习 (classification)，属于监督型
+        * 适用算法一：k 邻算法
+        * 适用算法二：支持向量机 (SVC)
+    * 2、回归学习 (regression)，属于监督型
+        * 适用算法一：线性回归法
+        * 适用算法二：支持向量机 (SVR)
+    * 3、聚类学习 (clustering)，不属于监督型
+    * 4、降维学习 (dimensionality reduction) 不属于监督型
+
+[Image augmentation for machine learning experiments.](https://imgaug.readthedocs.io/en/latest/)
+
+**下面是一些普遍使用的准则：**
+
+$n$ 为特征数，$m$ 为训练样本数。
+* 如果相较于 $m$ 而言，$n$ 要大许多，即训练集数据量不够支持我们训练一个复杂的非线性模型，我们选用逻辑回归模型或者不带核函数的支持向量机。
+* 如果 $n$ 较小，而且 $m$ 大小中等，例如 $n$ 在 1-1000 之间，而 $m$ 在 10-10000 之间，使用高斯核函数的支持向量机。
+* 如果 $n$ 较小，而 $m$ 较大，例如 $n$ 在 1-1000 之间，而 $m$ 大于 50000，则使用支持向量机会非常慢，解决方案是创造、增加更多的特征，然后使用逻辑回归或不带核函数的支持向量机。
+
 
 ### 13-1. 无监督学习 03:18
 
 
 ### 13-2. K-Means 算法 12:33
+
+从上面的分析可以看出，k-means 是随机的分配 k 个初始聚类中心。而聚类的结果高度依赖质心的初始化。如果初始聚类中心选的不好，k-means 算法最终会收敛到一个局部最优值，而不是全局最优值。为了解决这个问题，引入了 k-means++ 算法，它的基本思想就是：初始的聚类中心之间的相互距离要尽可能的远。而且在计算过程中，我们通常采取的措施是进行不止一次的聚类，每次都初始化不同的中心，以 inertial 最小的聚类结果作为最终聚类结果。
+
+pyclusring 库下的 kmeans 聚类
 
 
 ### 13-3. 优化目标 07:05
@@ -730,14 +768,51 @@ Support Vector Machine
 
 ### 13-5. 选取聚类数量 08:23
 
+常见的一种方法是 elbow method，x 轴为聚类的数量，y 轴为 WSS（within cluster sum of squares）也就是各个点到 cluster 中心的距离的平方的和。<https://www.zhihu.com/question/29208148>
 
-### 14-1. 目标 .I：数据压缩 10:10
+对于 K-means 中 K 的选择，通常有 [四种方法](http://sofasofa.io/forum_main_post.php?postid=1000282)：
+1. 按需选择
+2. 观察法
+3. 手肘法
+4. Gap Statistics 方法
 
 
-### 14-2. 目标 .II：可视化 05:28
+### 14-1. 目标 I：数据压缩 10:10
+
+数据降维。投影。
+
+
+### 14-2. 目标 II：可视化 05:28
+
+数据可视化。
 
 
 ### 14-3. 主成分分析问题规划 1 09:06
+
+主成分分析（PCA）
+
+PCA is not linear regression
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/3959253-626cc701469a7f03.webp" %}
+
+线性回归的 Cost function 重点在回归值和真实值的误差，而 PCA 着重样本与超平面的投影距离。
+
+**PCA** 减少 $n$ 维到 $k$ 维：
+
+第一步是均值归一化。我们需要计算出所有特征的均值，然后令 $x_j= x_j-μ_j$。如果特征是在不同的数量级上，我们还需要将其除以标准差 $σ^2$。
+
+第二步是计算 **协方差矩阵**（**covariance matrix**）$Σ$：
+$\sum=\dfrac {1}{m}\sum^{n}_{i=1}\left( x^{(i)}\right) \left( x^{(i)}\right) ^{T}$
+
+第三步是计算协方差矩阵 $Σ$ 的 **特征向量**（**eigenvectors**）:
+
+在 **Octave** 里我们可以利用 **奇异值分解**（**singular value decomposition**）来求解，`[U, S, V]= svd(sigma)`。
+
+$$Sigma=\dfrac {1}{m}\sum^{n}_{i=1}\left( x^{(i)}\right) \left( x^{(i)}\right) ^{T}$$
+
+对于一个 $n×n$ 维度的矩阵，上式中的 $U$ 是一个具有与数据之间最小投射误差的方向向量构成的矩阵。如果我们希望将数据从 $n$ 维降至 $k$ 维，我们只需要从 $U$ 中选取前 $k$ 个向量，获得一个 $n×k$ 维度的矩阵，我们用 $U_{reduce}$ 表示，然后通过如下计算获得要求的新特征向量 $z^{(i)}$:
+$$z^{(i)}=U^{T}_{reduce}*x^{(i)}$$
+
+其中 $x$ 是 $n×1$ 维的，因此结果为 $k×1$ 维度。注，我们不对方差特征进行处理。
 
 
 ### 14-4. 主成分分析问题规划 2 15:15
@@ -745,41 +820,144 @@ Support Vector Machine
 
 ### 14-5. 主成分数量选择 10:31
 
+方差检查，保留到 99%。
+我们可以使用这个矩阵来计算平均均方误差与训练集方差的比例：
+$$\dfrac {\dfrac {1}{m}\sum^{m}_{i=1}\left\| x^{\left( i\right) }-x^{\left( i\right) }_{approx}\right\| ^{2}}{\dfrac {1}{m}\sum^{m}_{i=1}\left\| x^{(i)}\right\| ^{2}}=1-\dfrac {\Sigma^{k}_{i=1}S_{ii}}{\Sigma^{m}_{i=1}S_{ii}}\leq 1\%$$
+
+也就是：$$\frac {\Sigma^{k}_{i=1}s_{ii}}{\Sigma^{n}_{i=1}s_{ii}}\geq0.99$$
+
+在压缩过数据后，我们可以采用如下方法来近似地获得原有的特征：$$x^{\left( i\right) }_{approx}=U_{reduce}z^{(i)}$$
+
+> PCA 跟 傅里叶变换 有点神似，开始是低频，然后是高频。
+> 傅里叶变换，PCA、SVD，从数学上来说都是矩阵变换，从一个矩阵乘以一个变换矩阵变为另一个矩阵，由于变换矩阵一般都具有特殊性，达到升降维的作用。从矩阵的角度来说都是基变换，就是从一个坐标系转换到另一个坐标系，坐标系维度也会发生变换。从应用角度来说，傅里叶变换其实是通过那个复杂的傅里叶变换函数产生无限个正交基，从而起到升维目的（记得是 1、cos、sin）这样信号中很多看不出来的东西就全部能看出来了，而 SVD、PCA 是反过程，特征太多了，但是有很多是没用的，只需要主要特征就可以了，这样求出特征值，压缩一下就好了。相当于 sift 中的尺度不变性吧，一个物体如果离得比较近，用小的高斯卷积核去平滑，这样细节更多了，相当于傅里叶变换了，这样很多细小的细节都能体现出来，分析起来就很容易了，但是有时候只需要整体把握就可以，那就要大点的卷积核去滤波，相当于站的比较远，这样细节就没了，相当于用 PCA 了，如果大的卷积核卷积仍然能看清的东西，那就是主要特征了吧。图像表征：离散傅里叶变换（DFT）、离散余弦变换（DCT）、主成分分析（PCA）。
+
 
 ### 14-6. 压缩重现 03:55
 
 
-### 14-7. 应用 .PCA. 的建议 12:49
+### 14-7. 应用 PCA 的建议 12:49
+
+错误的主要成分分析情况：一个常见错误使用主要成分分析的情况是，将其用于减少过拟合（减少了特征的数量）。这样做非常不好，不如尝试正则化处理。
+
+另一个常见的错误是，默认地将主要成分分析作为学习过程中的一部分，这虽然很多时候有效果，最好还是从所有原始特征开始，只在有必要的时候（算法运行太慢或者占用太多内存）才考虑采用主要成分分析。
+
+> 古希腊几何学家阿波洛尼乌斯总结了圆锥曲线理论，一千八百年后德国天文学家开普勒将其应用于行星轨道理论。伽罗华公元 1831 年创立群论，一百多年后获得物理应用。公元 1860 年创立的矩阵理论在六十年后应用量子力学。数学家莱姆伯脱，高斯，黎曼，罗马切夫斯基等人提出并发展了非欧几何，高斯一生都在探索非欧几何的实际应用，但他抱憾而终。非欧几何诞生一百七十年后，这种在当时毫无用处的理论以及由之发展而来的张量分析理论成为爱因斯坦广义相对论的核心基础。世界沉默了，为了这些伤心的名字，为了这些伤心的名字后面那千百年的寂寞时光。
+
+1. P 类问题
+    * P 问题是初始问题，所有这类问题都可以用一个确定性算法在多项式时间内求出解。
+2. NP（Non-deterministic Polynomial，即多项式复杂程度的非确定性问题）问题
+    * NP 问题，能够多项式时间求得解，或者多项式时间内判断是否是正确的，P 包含于 NP。
+3. NP 完全问题（NPC）
+    * NPC 问题，全部 NP 问题在多项式时间内，可以约化到的问题，NPC 包含于 NP。
+4. NP-hard 问题（NPH，NP 困难问题）
+    * NPH 问题，NPC 问题在多项式时间内，可以约化到的问题，NPC 包含于 NPH，但 NPC 与 NP 和 P 无必然联系。
 
 
 ### 15-1. 问题动机 07:39
 
+异常检测。
+
 
 ### 15-2. 高斯分布 10:28
 
+$$
+f(x)=\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{z^2}{2}}=\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+$$
+
+通常如果我们认为变量 $x$ 符合高斯分布 $x \sim N(\mu, \sigma^2)$ 则其概率密度函数为：
+$p(x,\mu,\sigma^2)=\frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$
+我们可以利用已有的数据来预测总体中的 $μ$ 和 $σ^2$ 的计算方法如下：
+$\mu=\frac{1}{m}\sum\limits_{i=1}^{m}x^{(i)}$
+
+$\sigma^2=\frac{1}{m}\sum\limits_{i=1}^{m}(x^{(i)}-\mu)^2$
+
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/fcb35433507a56631dde2b4e543743ee.png" %}
+
 
 ### 15-3. 算法 12:03
+
+对于给定的数据集 $x^{(1)},x^{(2)},...,x^{(m)}$，我们要针对每一个特征计算 $\mu$ 和 $\sigma^2$ 的估计值。
+
+$\mu_j=\frac{1}{m}\sum\limits_{i=1}^{m}x_j^{(i)}$
+
+$\sigma_j^2=\frac{1}{m}\sum\limits_{i=1}^m(x_j^{(i)}-\mu_j)^2$
+
+一旦我们获得了平均值和方差的估计值，给定新的一个训练实例，根据模型计算 $p(x)$：
+
+$p(x)=\prod\limits_{j=1}^np(x_j;\mu_j,\sigma_j^2)=\prod\limits_{j=1}^1\frac{1}{\sqrt{2\pi}\sigma_j}exp(-\frac{(x_j-\mu_j)^2}{2\sigma_j^2})$
+
+当 $p(x) < \varepsilon$ 时，为异常。
 
 
 ### 15-4. 开发和评估异常检测系统 13:08
 
 
-### 15-5. 异常检测 .VS. 监督学习 07:37
+### 15-5. 异常检测 VS 监督学习 07:37
+
+| 异常检测                                | 监督学习                                     |
+| ----------------------------------- | ---------------------------------------- |
+| 非常少量的正向类（异常数据 $y=1$）, 大量的负向类（$y=0$） | 同时有大量的正向类和负向类                            |
+| 许多不同种类的异常，非常难。根据非常 少量的正向类数据来训练算法。   | 有足够多的正向类实例，足够用于训练 算法，未来遇到的正向类实例可能与训练集中的非常近似。 |
+| 未来遇到的异常可能与已掌握的异常、非常的不同。             |                                          |
+| 例如： 欺诈行为检测 生产（例如飞机引擎）检测数据中心的计算机运行状况 | 例如：邮件过滤器 天气预报 肿瘤分类                       |
 
 
 ### 15-6. 选择要使用的功能 12:18
 
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/0990d6b7a5ab3c0036f42083fe2718c6.jpg" %}
+
 
 ### 15-7. 多变量高斯分布 13:47
 
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/29df906704d254f18e92a63173dd51e7.jpg" %}
+
+读 mu and sigma。
+这玩意就是变换矩阵，对特征进行缩放拉伸。
+
 
 ### 15-8. 使用多变量高斯分布的异常检测 14:04
+
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/d1a228f2bec262f2206379ed844c7f4a.png" %}
+
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/7104dd2548f1251e4c423e059d1d2594.png" %}
 
 
 ### 16-1. 问题规划 07:55
 
 
 ### 16-2. 基于内容的推荐算法 14:32
+
+假设我们采用线性回归模型，我们可以针对每一个用户都训练一个线性回归模型，如 ${ {\theta }^{(1)}}$ 是第一个用户的模型的参数。
+于是，我们有：
+
+$\theta^{(j)}$ 用户 $j$ 的参数向量
+
+$x^{(i)}$ 电影 $i$ 的特征向量
+
+对于用户 $j$ 和电影 $i$，我们预测评分为：$(\theta^{(j)})^T x^{(i)}$
+
+代价函数
+
+针对用户 $j$，该线性回归模型的代价为预测误差的平方和，加上正则化项：
+$$
+\min_{\theta (j)}\frac{1}{2}\sum_{i:r(i,j)=1}\left((\theta^{(j)})^Tx^{(i)}-y^{(i,j)}\right)^2+\frac{\lambda}{2}\left(\theta_{k}^{(j)}\right)^2
+$$
+
+其中 $i:r(i,j)$ 表示我们只计算那些用户 $j$ 评过分的电影。在一般的线性回归模型中，误差项和正则项应该都是乘以 $1/2m$，在这里我们将 $m$ 去掉。并且我们不对方差项 $\theta_0$ 进行正则化处理。
+
+上面的代价函数只是针对一个用户的，为了学习所有用户，我们将所有用户的代价函数求和：
+$$
+\min_{\theta^{(1)},...,\theta^{(n_u)}} \frac{1}{2}\sum_{j=1}^{n_u}\sum_{i:r(i,j)=1}\left((\theta^{(j)})^Tx^{(i)}-y^{(i,j)}\right)^2+\frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^{n}(\theta_k^{(j)})^2
+$$
+如果我们要用梯度下降法来求解最优解，我们计算代价函数的偏导数后得到梯度下降的更新公式为：
+
+$$
+\theta_k^{(j)}:=\theta_k^{(j)}-\alpha\sum_{i:r(i,j)=1}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)})x_{k}^{(i)} \quad (\text{for} \, k = 0)
+$$
+
+$$
+\theta_k^{(j)}:=\theta_k^{(j)}-\alpha\left(\sum_{i:r(i,j)=1}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)})x_{k}^{(i)}+\lambda\theta_k^{(j)}\right) \quad (\text{for} \, k\neq 0)
+$$
 
 
 ### 16-3. 协同过滤 10:15
@@ -800,7 +978,7 @@ Support Vector Machine
 ### 17-2. 随机梯度下降 13:20
 
 
-### 17-3. Mini-Batch. 梯度下降 06:19
+### 17-3. Mini-Batch 梯度下降 06:19
 
 
 ### 17-4. 随机梯度下降收敛 11:32
@@ -812,7 +990,7 @@ Support Vector Machine
 ### 17-6. 减少映射与数据并行 14:09
 
 
-### 18-1. 问题描述与 .OCR.pipeline 07:03
+### 18-1. 问题描述与 OCR pipeline 07:03
 
 
 ### 18-2. 滑动窗口 14:41
@@ -821,7 +999,7 @@ Support Vector Machine
 ### 18-3. 获取大量数据和人工数据 16:21
 
 
-### 18-4. 天花板分析：下一步工作的 .pipeline 13:51
+### 18-4. 天花板分析：下一步工作的 pipeline 13:51
 
 
 ### 19-1. 总结与感谢 04:43
@@ -949,6 +1127,7 @@ P3 08:42
 - [https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247485091&idx=1&sn=8844a2dfafcd35ea45d1bf0146ba8a5a&chksm=fcbbfe59cbcc774f68a18bd11d529422e0048896ffa3a253c52a749fc6e45d7292e1791052da&scene=27#wechat_redirect]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/mp.weixin.qq.com/68945947.html" %})
 - [https://www.bilibili.com/video/BV164411b7dx]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/72ebaee9.html" %})
 - [https://github.com/TheisTrue/MLofAndrew-Ng]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/github.com/f1eeb779.html" %})
+- [https://space.bilibili.com/388675845]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/space.bilibili.com/8cd792ab.html" %})
 - [https://www.coursera.org/specializations/deep-learning]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.coursera.org/f044c5d5.html" %})
 - [https://www.coursera.org/learn/machine-learning-course/home/week/1]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.coursera.org/53a67f91.html" %})
 - [https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/github.com/9e99497d.html" %})
@@ -962,5 +1141,11 @@ P3 08:42
 - [https://docs.microsoft.com/zh-cn/azure/machine-learning/component-reference/one-vs-all-multiclass]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/docs.microsoft.com/c6aa7749.html" %})
 - [https://zhuanlan.zhihu.com/p/410358244]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/zhuanlan.zhihu.com/0da53915.html" %})
 - [https://blog.csdn.net/qq_39783601/article/details/123365469]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/blog.csdn.net/a44029f7.html" %})
+- [https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/scikit-learn.org/3be777ad.html" %})
+- [https://www.bilibili.com/read/cv12252018/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/197befec.html" %})
+- [https://blog.csdn.net/weixin_51111267/article/details/122628057]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/blog.csdn.net/cda36618.html" %})
+- [https://imgaug.readthedocs.io/en/latest/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/imgaug.readthedocs.io/aeade3ec.html" %})
+- [https://www.zhihu.com/question/29208148]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.zhihu.com/f42cc13c.html" %})
+- [http://sofasofa.io/forum_main_post.php?postid=1000282]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/sofasofa.io/b7578f57.php" %})
 - [https://www.bilibili.com/video/BV1JE411g7XF]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/68e17dc9.html" %})
 - [http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML20.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/speech.ee.ntu.edu.tw/f319f059.html" %})
