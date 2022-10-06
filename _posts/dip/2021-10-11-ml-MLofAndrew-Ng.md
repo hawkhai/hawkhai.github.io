@@ -47,6 +47,10 @@ date: 2022-08-31 19:57:58 +0800
 
 * <https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes>
 * <http://www.ai-start.com/ml2014/>
+* <https://scruel.github.io/Notes-ML-AndrewNg/>
+
+3. 《统计学习方法》李航？
+4. 《机器学习课》邹博？
 
 
 ### 有监督学习和无监督学习
@@ -1079,10 +1083,7 @@ $$
 
 ## Review
 
-* README.md
-* 机器学习个人笔记完整版 v5.52-A4 打印版.pdf
 * code\Programming Exercise( 代码作业 ).pdf
-* code\README.md
 * code\ex1-linear regression\ex1.pdf
 * code\ex1-linear regression\ex1data1.txt
 * code\ex1-linear regression\ex1data2.txt
@@ -1130,20 +1131,7 @@ $$
 * code\ex8-anomaly detection and recommendation\data\ex8data2.mat
 * code\ex8-anomaly detection and recommendation\data\movie_ids.txt
 * docx\README.md
-* docx\ 机器学习个人笔记完整版 v5.52.docx
 * docx\ 机器学习的数学基础 .docx
-* html\index.html
-* html\week1.html
-* html\week10.html
-* html\week2.html
-* html\week3.html
-* html\week4.html
-* html\week5.html
-* html\week6.html
-* html\week7.html
-* html\week8.html
-* html\week9.html
-* images\README.md
 * markdown\1.CS229-LinearAlgebra.md
 * markdown\2.CS229-Prob.md
 * markdown\math.md
@@ -1177,8 +1165,6 @@ $$
 * ppt\Lecture7.pptx
 * ppt\Lecture8.pptx
 * ppt\Lecture9.pptx
-* ppt\README.md
-* srt\README.md
 
 
 ## 李宏毅
@@ -1206,6 +1192,7 @@ P3 08:42
 - [https://www.bilibili.com/video/BV1qf4y1x7kB/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/93706280.html" %})
 - [https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/github.com/9e99497d.html" %})
 - [http://www.ai-start.com/ml2014/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.ai-start.com/21b3ffdf.html" %})
+- [https://scruel.github.io/Notes-ML-AndrewNg/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/scruel.github.io/3e8a18b1.html" %})
 - [https://www.jianshu.com/p/682c88cee5a8]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.jianshu.com/fdc8f898.html" %})
 - [https://cs.nyu.edu/~roweis/kica.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/cs.nyu.edu/89374dba.html" %})
 - [https://www.octave.org/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.octave.org/461e7f5e.html" %})
