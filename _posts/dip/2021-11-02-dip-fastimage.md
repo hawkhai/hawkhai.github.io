@@ -236,7 +236,7 @@ K-Means 算法试图找到使平凡误差准则函数最小的簇。
 
 ## 使用深度学习生成模糊背景
 
-[code {% include relref_weixin.html %}](https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247500755&idx=1&sn=ba854b775eb44f34c00c873648918aa1&chksm=fcb83b29cbcfb23f1ce85e42815260aed5f02aa4dbbd78c04ea053455b7b47567073e0f679b7&scene=27#wechat_redirect)
+[code {% include relref_weixin.html %}](https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247500755&idx=1&sn=ba854b775eb44f34c00c873648918aa1&chksm=fcb83b29cbcfb23f1ce85e42815260aed5f02aa4dbbd78c04ea053455b7b47567073e0f679b7&scene=27)
 
 {% include image.html url="/assets/images/211102-dip-fastimage/6403.webp" %}
 
@@ -250,4 +250,4 @@ K-Means 算法试图找到使平凡误差准则函数最小的簇。
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://mp.weixin.qq.com/s/5CNRCL2XGFZOZBNJTGgI-w]({% include relrefx.html url="/backup/2021-11-02-dip-fastimage.md/mp.weixin.qq.com/8e751598.html" %})
-- [https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247500755&idx=1&sn=ba854b775eb44f34c00c873648918aa1&chksm=fcb83b29cbcfb23f1ce85e42815260aed5f02aa4dbbd78c04ea053455b7b47567073e0f679b7&scene=27#wechat_redirect]({% include relrefx.html url="/backup/2021-11-02-dip-fastimage.md/mp.weixin.qq.com/b96ba707.html" %})
+- [https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247500755&idx=1&sn=ba854b775eb44f34c00c873648918aa1&chksm=fcb83b29cbcfb23f1ce85e42815260aed5f02aa4dbbd78c04ea053455b7b47567073e0f679b7&scene=27]({% include relrefx.html url="/backup/2021-11-02-dip-fastimage.md/mp.weixin.qq.com/8f4a2c80.html" %})

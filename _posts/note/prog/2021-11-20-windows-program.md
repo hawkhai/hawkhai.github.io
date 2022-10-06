@@ -1678,7 +1678,7 @@ HBITMAP CCPdfmenushell::_IconToBitmap(int iconResId)
 
 ## 开源许可证教程
 
-* [开源许可证教程 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/RlQwINnU93CTgHd0EqKdnA?scene=25#wechat_redirect)
+* [开源许可证教程 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/RlQwINnU93CTgHd0EqKdnA?scene=25)
 * [如何选择开源许可证？](http://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html)
 
 如何选择开源协议
@@ -1711,6 +1711,6 @@ HBITMAP CCPdfmenushell::_IconToBitmap(int iconResId)
 - [https://blog.csdn.net/aurorayqz/article/details/79671785]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/blog.csdn.net/f92a193d.html" %})
 - [https://docs.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=cmd]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/docs.microsoft.com/ef9142c3.html" %})
 - [https://luohaha.github.io/Chinese-uvbook/source/filesystem.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/luohaha.github.io/cff8effd.html" %})
-- [https://mp.weixin.qq.com/s/RlQwINnU93CTgHd0EqKdnA?scene=25#wechat_redirect]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/mp.weixin.qq.com/9e908e14.html" %})
+- [https://mp.weixin.qq.com/s/RlQwINnU93CTgHd0EqKdnA?scene=25]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/mp.weixin.qq.com/da998192.html" %})
 - [http://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/www.ruanyifeng.com/20bb40e9.html" %})
 - [https://www.gnu.org/licenses/license-list.html]({% include relrefx.html url="/backup/2021-11-20-windows-program.md/www.gnu.org/0a3fc972.html" %})

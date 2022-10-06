@@ -16,7 +16,7 @@ codeprint:
 date: 2022-08-31 19:57:58 +0800
 ---
 
-[机器学习应补充哪些数学基础？ {% include relref_weixin.html %}](https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247485091&idx=1&sn=8844a2dfafcd35ea45d1bf0146ba8a5a&chksm=fcbbfe59cbcc774f68a18bd11d529422e0048896ffa3a253c52a749fc6e45d7292e1791052da&scene=27#wechat_redirect)
+[机器学习应补充哪些数学基础？ {% include relref_weixin.html %}](https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247485091&idx=1&sn=8844a2dfafcd35ea45d1bf0146ba8a5a&chksm=fcbbfe59cbcc774f68a18bd11d529422e0048896ffa3a253c52a749fc6e45d7292e1791052da&scene=27)
 
 入门的话，本科的数学分析，线性代数，概率论与数理统计足够了。
 微积分：MIT 18.01, MIT 18.02
@@ -29,12 +29,22 @@ date: 2022-08-31 19:57:58 +0800
 
 ## 吴恩达
 
-* [吴恩达机器学习系列课程 {% include relref_bili.html %}](https://www.bilibili.com/video/BV164411b7dx)
-* [视频的讲义 {% include relref_github.html %}](https://github.com/TheisTrue/MLofAndrew-Ng)
-* [黄海广 {% include relref_bili.html %}](https://space.bilibili.com/388675845)
 
+### 已经完成
+
+* [吴恩达机器学习系列课程 {% include relref_bili.html %}](https://www.bilibili.com/video/BV164411b7dx/)
 * <https://www.coursera.org/specializations/deep-learning>
 * <https://www.coursera.org/learn/machine-learning-course/home/week/1>
+
+
+### 进行中……
+
+* [吴恩达机器学习课程 2022 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Pa411X76s/)
+* [黄海广 {% include relref_bili.html %}](https://space.bilibili.com/388675845)
+
+* [图像处理 & 机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Kh411X7Qv/)
+* [浙江大学 - 机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1qf4y1x7kB/)
+
 * <https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes>
 * <http://www.ai-start.com/ml2014/>
 
@@ -691,6 +701,8 @@ Support Vector Machine
 9. 降维算法 Dimensional Reduction
 10. 梯度增强算法 Gradient Boosting
 
+Boosting 和 AdaBoost
+Boosting 是一种集成技术，它试图从多个弱分类器中创建一个强分类器。
 妈妈卡号 邮政 2080
 
 
@@ -740,6 +752,7 @@ Scikit-learn 主要用于各种数据建模概念，如回归、分类、聚类�
     * 3、聚类学习 (clustering)，不属于监督型
     * 4、降维学习 (dimensionality reduction) 不属于监督型
 
+**imgaug**：机器学习实验中的图像增强库，特别是卷积神经网络。支持以多种不同方式增强图像、关键点 / 地标、边界框、热图和分割图。
 [Image augmentation for machine learning experiments.](https://imgaug.readthedocs.io/en/latest/)
 
 **下面是一些普遍使用的准则：**
@@ -962,23 +975,61 @@ $$
 
 ### 16-3. 协同过滤 10:15
 
+1. 初始 $x^{(1)},x^{(1)},...x^{(nm)},\ \theta^{(1)},\theta^{(2)},...,\theta^{(n_u)}$ 为一些随机小值
+
+2. 使用梯度下降算法最小化代价函数
+
+3. 在训练完算法后，我们预测 $(\theta^{(j)})^Tx^{(i)}$ 为用户 $j$ 给电影 $i$ 的评分
+
+通过这个学习过程获得的特征矩阵包含了有关电影的重要数据，这些数据不总是人能读懂的，但是我们可以用这些数据作为给用户推荐电影的依据。
+
 
 ### 16-4. 协同过滤算法 08:28
+
+协同过滤优化目标：
+
+给定 $x^{(1)},...,x^{(n_m)}$，估计 $\theta^{(1)},...,\theta^{(n_u)}$：
+$$
+\min_{\theta^{(1)},...,\theta^{(n_u)}}\frac{1}{2}\sum_{j=1}^{n_u}\sum_{i:r(i,j)=1}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)})^2+\frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^{n}(\theta_k^{(j)})^2
+$$
+
+给定 $\theta^{(1)},...,\theta^{(n_u)}$，估计 $x^{(1)},...,x^{(n_m)}$：
+
+同时最小化 $x^{(1)},...,x^{(n_m)}$ 和 $\theta^{(1)},...,\theta^{(n_u)}$：
+$$
+J(x^{(1)},...,x^{(n_m)},\theta^{(1)},...,\theta^{(n_u)})=\frac{1}{2}\sum_{(i,j):r(i,j)=1}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)})^2+\frac{\lambda}{2}\sum_{i=1}^{n_m}\sum_{k=1}^{n}(x_k^{(i)})^2+\frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^{n}(\theta_k^{(j)})^2
+$$
+
+$$
+\min_{x^{(1)},...,x^{(n_m)} \\\ \theta^{(1)},...,\theta^{(n_u)}}J(x^{(1)},...,x^{(n_m)},\theta^{(1)},...,\theta^{(n_u)})
+$$
 
 
 ### 16-5. 矢量化：低轶矩阵分解 08:29
 
+如果一位用户正在观看电影 $x^{(i)}$，我们可以寻找另一部电影 $x^{(j)}$，依据两部电影的特征向量之间的距离 $\left\| { {x}^{(i)}}-{ {x}^{(j)}} \right\|$ 的大小。
+
 
 ### 16-6. 实施细节：均值规范化 08:32
+
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/9ec5cb55e14bd1462183e104f8e02b80.png" %}
 
 
 ### 17-1. 学习大数据集 05:46
 
+首先应该做的事是去检查一个这么大规模的训练集是否真的必要，也许我们只用 1000 个训练集也能获得较好的效果，我们可以绘制学习曲线来帮助判断。
+
 
 ### 17-2. 随机梯度下降 13:20
 
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/9710a69ba509a9dcbca351fccc6e7aae.jpg" %}
+
 
 ### 17-3. Mini-Batch 梯度下降 06:19
+
+小批量梯度下降算法是介于批量梯度下降算法和随机梯度下降算法之间的算法，每计算常数 $b$ 次训练实例，便更新一次参数  ${ {\theta }}$ 。
+
+通常我们会令 $b$ 在 2-100 之间。这样做的好处在于，我们可以用向量化的方式来循环 $b$ 个训练实例，如果我们用的线性代数函数库比较好，能够支持平行处理，那么算法的总体表现将不受影响（与随机梯度下降相同）。
 
 
 ### 17-4. 随机梯度下降收敛 11:32
@@ -989,8 +1040,18 @@ $$
 
 ### 17-6. 减少映射与数据并行 14:09
 
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/20221006182722.png" %}
+
 
 ### 18-1. 问题描述与 OCR pipeline 07:03
+
+1. 文字侦测（**Text detection**） —— 将图片上的文字与其他环境对象分离开来
+2. 字符切分（**Character segmentation**） —— 将文字分割成一个个单一的字符
+3. 字符分类（**Character classification**） —— 确定每一个字符是什么
+
+可以用任务流程图来表达这个问题，每一项任务可以由一个单独的小队来负责解决：
+
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/610fffb413d8d577882d6345c166a9fb.png" %}
 
 
 ### 18-2. 滑动窗口 14:41
@@ -998,11 +1059,22 @@ $$
 
 ### 18-3. 获取大量数据和人工数据 16:21
 
+有关获得更多数据的几种方法：
+1. 人工数据合成
+2. 手动收集、标记数据
+3. 众包
+
 
 ### 18-4. 天花板分析：下一步工作的 pipeline 13:51
 
 
 ### 19-1. 总结与感谢 04:43
+
+> 最后，在结束之前，我还想再多说一点：那就是，也许不久以前我也是一个学生，即使是现在，我也尽可能挤出时间听一些课，学一些新的东西。所以，我深知要坚持学完这门课是很需要花一些时间的，我知道，也许你是一个很忙的人，生活中有很多很多事情要处理。正因如此，你依然挤出时间来观看这些课程视频。我知道，很多视频的时间都长达数小时，你依然花了好多时间来做这些复习题。你们中好多人，还愿意花时间来研究那些编程练习，那些又长又复杂的编程练习。我对你们表示衷心的感谢！我知道你们很多人在这门课中都非常努力，很多人都在这门课上花了很多时间，很多人都为这门课贡献了自己的很多精力。所以，我衷心地希望你们能从这门课中有所收获！
+
+最后我想说！再次感谢你们选修这门课程！
+
+**Andew Ng**
 
 
 ## Review
@@ -1111,7 +1183,7 @@ $$
 
 ## 李宏毅
 
-* [李宏毅 2020 机器学习 & 深度学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1JE411g7XF)
+* [李宏毅 2020 机器学习 & 深度学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1JE411g7XF/)
 * 课件：<http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML20.html>
 
 P3 08:42
@@ -1124,12 +1196,14 @@ P3 08:42
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-10-11-ml-MLofAndrew-Ng.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247485091&idx=1&sn=8844a2dfafcd35ea45d1bf0146ba8a5a&chksm=fcbbfe59cbcc774f68a18bd11d529422e0048896ffa3a253c52a749fc6e45d7292e1791052da&scene=27#wechat_redirect]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/mp.weixin.qq.com/68945947.html" %})
-- [https://www.bilibili.com/video/BV164411b7dx]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/72ebaee9.html" %})
-- [https://github.com/TheisTrue/MLofAndrew-Ng]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/github.com/f1eeb779.html" %})
-- [https://space.bilibili.com/388675845]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/space.bilibili.com/8cd792ab.html" %})
+- [https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247485091&idx=1&sn=8844a2dfafcd35ea45d1bf0146ba8a5a&chksm=fcbbfe59cbcc774f68a18bd11d529422e0048896ffa3a253c52a749fc6e45d7292e1791052da&scene=27]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/mp.weixin.qq.com/82b189c2.html" %})
+- [https://www.bilibili.com/video/BV164411b7dx/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/816eb90a.html" %})
 - [https://www.coursera.org/specializations/deep-learning]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.coursera.org/f044c5d5.html" %})
 - [https://www.coursera.org/learn/machine-learning-course/home/week/1]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.coursera.org/53a67f91.html" %})
+- [https://www.bilibili.com/video/BV1Pa411X76s/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/9a7fd2a7.html" %})
+- [https://space.bilibili.com/388675845]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/space.bilibili.com/8cd792ab.html" %})
+- [https://www.bilibili.com/video/BV1Kh411X7Qv/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/8e92be72.html" %})
+- [https://www.bilibili.com/video/BV1qf4y1x7kB/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/93706280.html" %})
 - [https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/github.com/9e99497d.html" %})
 - [http://www.ai-start.com/ml2014/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.ai-start.com/21b3ffdf.html" %})
 - [https://www.jianshu.com/p/682c88cee5a8]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.jianshu.com/fdc8f898.html" %})
@@ -1147,5 +1221,5 @@ P3 08:42
 - [https://imgaug.readthedocs.io/en/latest/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/imgaug.readthedocs.io/aeade3ec.html" %})
 - [https://www.zhihu.com/question/29208148]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.zhihu.com/f42cc13c.html" %})
 - [http://sofasofa.io/forum_main_post.php?postid=1000282]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/sofasofa.io/b7578f57.php" %})
-- [https://www.bilibili.com/video/BV1JE411g7XF]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/68e17dc9.html" %})
+- [https://www.bilibili.com/video/BV1JE411g7XF/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/89cc4342.html" %})
 - [http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML20.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/speech.ee.ntu.edu.tw/f319f059.html" %})
