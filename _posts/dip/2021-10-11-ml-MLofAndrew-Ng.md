@@ -51,6 +51,15 @@ date: 2022-08-31 19:57:58 +0800
 
 3. 《统计学习方法》李航？
 4. 《机器学习课》邹博？
+5. [深度学习 计算机视觉 CV、Paper 阅读等等 ... {% include relref_github.html %}](https://github.com/azataiot/DeepLearning-Notes)
+
+学习计划：
+1. 从新视频，查漏补缺。
+2. 查看 week 文档。
+3. 做作业。
+4. 最后 2022 版本全部从新过一遍。
+
+第一周重复。2022
 
 
 ### 有监督学习和无监督学习
@@ -128,7 +137,7 @@ $$
 
 {% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-c94c2b2ffd3d45539f5c80ab2addffcd_720w.jpg" %}
 
-为什么要除以 2，感觉是要让数字小一点，更直观，便于计算。
+**为什么要除以 2，感觉是求导数的时候，刚好能和平方的 2 约掉，整个正向 / 反向传播，数据都是稳定的。**
 
 
 ### 2-3. 代价函数（一） 11:10
@@ -176,6 +185,8 @@ $$
 \theta_1 &:=\theta_1-\alpha \frac{1}{m} \sum_{i=1}^m\left(h_\theta\left(x^{(i)}\right)-y^{(i)}\right) \cdot x^{(i)}
 \end{aligned}
 $$
+
+2-8??
 
 
 ### 3-1. 矩阵和向量 08:46
@@ -512,7 +523,28 @@ $$
 
 ### 9-3. 理解反向传播 12:45
 
-？？？
+[反向传播算法详解（手算详解传播过程） {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/464268270)
+[手算视频 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1QV4y1E7eA/)
+
+有监督学习，机器学习的本质就是数据拟合。
+需要理解。你如果不理解，就只是一个调包侠，只有理解了，你才可能成长为一个 AI 算法工程师。
+就比如以最简单的，神经网络正向和反向传播为例，你如果不理解整个传播过程，计算过程，就很难继续踏实的学习下去。
+比如你如果不理解反向传播，你再往下学，就会感觉稀里糊涂的。
+
+以下通过手动计算过程，模拟神经网络正向 / 反向传播过程，来理解，神经网络参数的更新过程。
+
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-460ed64cc9dcc5255954e1dc72141d90_720w.webp" caption="构建一个只有一层的神经网络" %}
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-600aab1469f1883e550df23776790f48_720w.webp" caption="正向传播：计算第一个神经元的输出" %}
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-63ddec9ea939e6c891cfe6d64582eeaf_720w.webp" caption="正向传播：计算第二个神经元的输出" %}
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-2091fdfc5f1e03629274e39c83f2a932_720w.webp" caption="正向传播：计算最后一个神经元的输出" %}
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-12fb8d03310d0bea017e49e71b908929_720w.webp" caption="正向传播完成" %}
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-db7bd4f39200c07c0518a84516ea1eb9_720w.webp" caption="反向传播 第一次" %}
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-6d1435b4b17763f06c5ec981c508ff42_720w.webp" caption="反向传播 第一次 数据更新" %}
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-f320e85d64e5171c94d2fde241f6c2a1_720w.webp" caption="反向传播 其他数据" %}
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-d07c1301ef2a6db6a3b2537756aec077_720w.webp" caption="反向传播 最后一个数据" %}
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-3d4b744db719e01ed57994b81e096ed8_720w.webp" caption="反向传播完成" %}
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-bc40f6f071d15ff3e357492ad1cbad5b_720w.webp" caption="第二轮传播" %}
+{% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-d5d0d945ac9f67815873f18f9a80c326_720w.webp" caption="总结" %}
 
 
 ### 9-4. 使用注意：展开参数 07:48
@@ -1081,13 +1113,68 @@ $$
 **Andew Ng**
 
 
+## 作业 exercise
+
+Python 实现。
+
+
+### 第一周
+
+首先，我们将创建一个以参数 θ 为特征函数的代价函数
+$$J\left( \theta  \right)=\frac{1}{2m}\sum\limits_{i=1}^{m}{ { {\left( { {h}_{\theta }}\left( { {x}^{(i)}} \right)-{ {y}^{(i)}} \right)}^{2}}}$$
+
+其中：
+$$
+{ {h}_{\theta }}\left( x \right)={ {\theta }^{T}}X={ {\theta }_{0}}{ {x}_{0}}+{ {\theta }_{1}}{ {x}_{1}}+{ {\theta }_{2}}{ {x}_{2}}+...+{ {\theta }_{n}}{ {x}_{n}}
+$$
+
+```python
+# 计算代价函数函数。
+def computeCost(X, y, theta):
+    inner = np.power(((X * theta.T) - y), 2)
+    return np.sum(inner) / (2 * len(X))
+
+# 批量梯度下降
+# alpha -- 学习速率
+# iters -- 要执行的迭代次数
+def gradientDescent(X, y, theta, alpha = 0.01, iters = 1000):
+    temp = np.matrix(np.zeros(theta.shape)) # 跟 theta 一样的矩阵
+    parameters = int(theta.ravel().shape[1]) # theta 个数，ravel() 将数组维度拉成一维数组
+    cost = np.zeros(iters) # 初始化 cost 数组。
+
+    for i in range(iters):
+        error = (X * theta.T) - y
+
+        for j in range(parameters):
+            term = np.multiply(error, X[:,j])
+            temp[0,j] = theta[0,j] - ((alpha / len(X)) * np.sum(term))
+
+        theta = temp
+        cost[i] = computeCost(X, y, theta)
+
+    return theta, cost
+
+# 多变量线性回归
+# 预处理步骤 - 特征归一化
+def orgfunc(data2):
+    data2 = (data2 - data2.mean()) / data2.std()
+    data2.head()
+
+# scikit-learn 的线性回归算法
+from sklearn import linear_model
+model = linear_model.LinearRegression()
+model.fit(X, y)
+
+# 正规方程
+def normalEqn(X, y):
+    theta = np.linalg.inv(X.T@X)@X.T@y # X.T@X 等价于 X.T.dot(X)
+    return theta
+```
+
+
 ## Review
 
 * code\Programming Exercise( 代码作业 ).pdf
-* code\ex1-linear regression\ex1.pdf
-* code\ex1-linear regression\ex1data1.txt
-* code\ex1-linear regression\ex1data2.txt
-* code\ex1-linear regression\ML-Exercise1.ipynb
 * code\ex2-logistic regression\ex2.pdf
 * code\ex2-logistic regression\ex2data1.txt
 * code\ex2-logistic regression\ex2data2.txt
@@ -1193,6 +1280,7 @@ P3 08:42
 - [https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/github.com/9e99497d.html" %})
 - [http://www.ai-start.com/ml2014/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.ai-start.com/21b3ffdf.html" %})
 - [https://scruel.github.io/Notes-ML-AndrewNg/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/scruel.github.io/3e8a18b1.html" %})
+- [https://github.com/azataiot/DeepLearning-Notes]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/github.com/cc99b016.html" %})
 - [https://www.jianshu.com/p/682c88cee5a8]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.jianshu.com/fdc8f898.html" %})
 - [https://cs.nyu.edu/~roweis/kica.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/cs.nyu.edu/89374dba.html" %})
 - [https://www.octave.org/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.octave.org/461e7f5e.html" %})
@@ -1201,6 +1289,8 @@ P3 08:42
 - [https://zhuanlan.zhihu.com/p/89074979]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/zhuanlan.zhihu.com/89dee774.html" %})
 - [https://docs.microsoft.com/zh-cn/azure/machine-learning/component-reference/one-vs-all-multiclass]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/docs.microsoft.com/c6aa7749.html" %})
 - [https://zhuanlan.zhihu.com/p/410358244]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/zhuanlan.zhihu.com/0da53915.html" %})
+- [https://zhuanlan.zhihu.com/p/464268270]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/zhuanlan.zhihu.com/60d1be2b.html" %})
+- [https://www.bilibili.com/video/BV1QV4y1E7eA/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/944b4e1e.html" %})
 - [https://blog.csdn.net/qq_39783601/article/details/123365469]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/blog.csdn.net/a44029f7.html" %})
 - [https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/scikit-learn.org/3be777ad.html" %})
 - [https://www.bilibili.com/read/cv12252018/]({% include relrefx.html url="/backup/2021-10-11-ml-MLofAndrew-Ng.md/www.bilibili.com/197befec.html" %})
