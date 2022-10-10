@@ -9,6 +9,10 @@ from pythonx.kangxi import TranslateKangXi
 
 __file__   = os.path.abspath(__file__)
 
+from PIL import Image
+# AttributeError: module 'PIL.Image' has no attribute 'Resampling'
+PIL_IMAGE_SAMPLE = Image.Resampling.LANCZOS if hasattr(Image, 'Resampling') else Image.ANTIALIAS
+
 # Paranoid text spacing in Python
 # https://github.com/vinta/pangu.py
 
@@ -288,13 +292,13 @@ def tidyupImg(imglocal, fpath, line):
         if width > widthctrl:
             try:
                 # DeprecationWarning: ANTIALIAS is deprecated and will be removed in Pillow 10 (2023-07-01). Use Resampling.LANCZOS instead.
-                imgtmp = img.resize((widthctrl, round(widthctrl*height/width)), Image.Resampling.LANCZOS)
+                imgtmp = img.resize((widthctrl, round(widthctrl*height/width)), PIL_IMAGE_SAMPLE)
                 img = imgtmp.convert("RGB")
             except OSError as ex: # broken data stream when reading image file
                 print("Image.resize OSError", tpath)
                 raise ex
             # DeprecationWarning: ANTIALIAS is deprecated and will be removed in Pillow 10 (2023-07-01). Use Resampling.LANCZOS instead.
-            img = img.resize((width, height), Image.Resampling.LANCZOS) # 恢复到原来大小，便于客户端排版。
+            img = img.resize((width, height), PIL_IMAGE_SAMPLE) # 恢复到原来大小，便于客户端排版。
 
             from PIL import ImageFont, ImageDraw # 导入模块
             draw = ImageDraw.Draw(img, "RGBA") # 修改图片

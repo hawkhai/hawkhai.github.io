@@ -1,0 +1,1077 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn" style="--olcb-folder-code-block-max-height:80vh;"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-cross-origin" />
+    <meta name="description" content="从网上抓了一些字节流，想打印出来结果发生了一下错误： UnicodeEncodeError: &amp;#39;gbk&amp;#39; codec can&amp;#39;t encode character &amp;#39;\" />
+    <meta property="og:description" content="从网上抓了一些字节流，想打印出来结果发生了一下错误： UnicodeEncodeError: &amp;#39;gbk&amp;#39; codec can&amp;#39;t encode character &amp;#39;\" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>解决python3 UnicodeEncodeError: 'gbk' codec can't encode character '\xXX' in position XX - 阿锋佬 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <style>#home :not(.cnblogs_code):not(.cnblogs_Highlighter)&gt;pre:not([highlighted]):not([class*="brush:"]) code:not(.hljs), :not(.cnblogs_code):not(.cnblogs_Highlighter)&gt;pre:not([highlighted]):not([class*="brush:"]) code:not(.hljs) {background: rgb(245, 245, 245);
+        padding: 12px;
+        border: 1px solid rgb(204, 204, 204);
+        border-radius: 3px;
+        border-color: transparent;
+        color: rgb(68, 68, 68);
+        font-family: "Courier New", sans-serif;
+        font-size: 12px</style><link rel="stylesheet" href="/css/blog-common.min.css?v=kXAzy3-OHzu6vG_ffW_3WHMSBu9nelYDhjVg4kFK8Ek" />
+    
+
+    <link id="MainCss" rel="stylesheet" href="/skins/simplegamboge/bundle-simplegamboge.min.css?v=Y521DEVW13E-QKkTkfrK2OVk7p1EhZzyPNQLAlUuKhk" />
+        <link id="highlighter-theme-cnblogs" type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=5J1NDtbnnIr2Rc2SdhEMlMxD4l9Eydj88B31E7_NhS4" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/feng18/custom.css?v=SmLeJL55Qfc+4BuAwxajD8sKlrc=" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/simplegamboge/bundle-simplegamboge-mobile.min.css?v=u5eXNRVe5tkW_ELT0Hzi-kKbey06zaqLqiANlcMEPvw" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/feng18/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/feng18/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/feng18/wlwmanifest.xml" />
+    <script type="text/javascript" src="https://common.cnblogs.com/script/encoder.js"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 263717;
+        var currentBlogApp = 'feng18';
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleGamboge';
+        var visitorUserId = '';
+        var hasCustomScript = false;
+        try {
+            if (hasCustomScript &amp;&amp; document.referrer &amp;&amp; document.referrer.indexOf('baidu.com') &gt;= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+        window.cb_enable_mathjax = false;
+        window.mathEngine = 0;
+        window.codeHighlightEngine = 1;
+        window.enableCodeLineNumber = false;
+        window.codeHighlightTheme = 'cnblogs';
+        window.darkModeCodeHighlightTheme = 'vs2015';
+        window.isDarkCodeHighlightTheme = false;
+        window.isDarkModeCodeHighlightThemeDark = true;
+        window.isDisableCodeHighlighter = false;
+        window.enableCodeThemeTypeFollowSystem = false;
+    </script>
+        <script>
+            var currentPostDateAdded = '2016-07-06 15:03';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=NnLvcZ00G9BRZpAXEIUuKsODimco7RwjOy5VRtH3WxY"></script><style>.medium-zoom-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 300ms;
+  will-change: opacity;
+}
+
+.medium-zoom--opened .medium-zoom-overlay {
+  cursor: pointer;
+  cursor: zoom-out;
+  opacity: 1;
+}
+
+.medium-zoom-image {
+  cursor: pointer;
+  cursor: zoom-in;
+  /*
+    The `transition` is marked as "!important" for the animation to happen
+    even though it's overriden by another inline `transition` style attribute.
+
+    This is problematic with frameworks that generate inline styles on their
+    images (e.g. Gatsby).
+
+    See https://github.com/francoischalifour/medium-zoom/issues/110
+   */
+  transition: transform 300ms cubic-bezier(0.2, 0, 0.2, 1) !important;
+}
+
+.medium-zoom-image--hidden {
+  visibility: hidden;
+}
+
+.medium-zoom-image--opened {
+  position: relative;
+  cursor: pointer;
+  cursor: zoom-out;
+  will-change: transform;
+}
+</style><script id="hljs-script" src="https://common.cnblogs.com/highlight/11.4.0/highlight.min.js" type="text/javascript" async=""></script>
+    
+
+    
+</head>
+<body class="skin-simplegamboge no-navbar">
+<a name="top"></a>
+<div id="top_nav" class="navbar forpc navbar-custom">
+    <nav id="nav_main" class="navbar-main">
+        <ul id="nav_left" class="navbar-list navbar-left">
+            <li class="navbar-branding">
+                <a href="https://www.cnblogs.com/" title="开发者的网上家园" role="banner">
+                    <img src="//common.cnblogs.com/logo.svg" alt="博客园Logo" />
+                </a>
+            </li>
+            <li>
+                <a href="/" onclick="countClicks('skin-navbar-sitehome')">首页</a>
+            </li>
+            <li>
+                <a href="https://news.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-news')">新闻</a>
+            </li>
+            <li>
+                <a href="https://q.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-q')">博问</a>
+            </li>
+            <li>
+                <a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-brands')">专区</a>
+            </li>
+            <li>
+                <a href="https://ing.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-ing')">闪存</a>
+            </li>
+            <li>
+                <a href="https://edu.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-edu')">班级</a>
+            </li>
+        </ul>
+        <ul id="nav_right" class="navbar-list navbar-right">
+            <li>
+                <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get" role="search">
+                    <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="search" tabindex="3" />
+                    <button type="submit" id="zzk_search_button">
+                        <img src="//common.cnblogs.com/images/blog/search.svg" alt="搜索" />
+                    </button>
+                </form>
+            </li>
+            <li id="navbar_login_status" class="navbar-list">
+                <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                    <img id="new_post_icon" class="navbar-icon" src="//common.cnblogs.com/images/blog/newpost.svg" alt="写随笔" />
+                </a>
+                <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                    <img id="myblog_icon" class="navbar-icon" src="//common.cnblogs.com/images/blog/myblog.svg" alt="我的博客" />
+                </a>
+                <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                    <img id="msg_icon" class="navbar-icon" src="//common.cnblogs.com/images/blog/message.svg" alt="短消息" />
+                    <span id="msg_count" style="display: none"></span>
+                </a>
+                <a id="navbar_lite_mode_indicator" data-current-page="blog" style="display: none" href="javascript:void(0)" alt="简洁模式" title="简洁模式启用，您在访问他人博客时会使用简洁款皮肤展示">
+                    <img class="navbar-icon" src="//common.cnblogs.com/images/blog/lite-mode-on.svg" alt="简洁模式" />
+                </a>
+                <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                    <a class="dropdown-button" href="https://home.cnblogs.com/">
+                        <img id="user_icon" class="navbar-avatar" src="//common.cnblogs.com/images/blog/avatar-default.svg" alt="用户头像" />
+                    </a>
+                    <div class="dropdown-menu">
+                        <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                        <a href="https://home.cnblogs.com/">我的园子</a>
+                        <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                        <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                        <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                    </div>
+                </div>
+                <a class="navbar-anonymous" href="https://account.cnblogs.com/signup" style="display: inline;">注册</a>
+                <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/feng18/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/feng18/">zjfeng</a>
+</h1>
+<h2>zjfeng的博客</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/feng18/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E9%98%BF%E9%94%8B%E4%BD%AC">
+联系</a></li>
+<li>
+
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 121  </span>
+<span id="stats_article_count">文章 - 0  </span>
+<span id="stats-comment_count">评论 - 11  </span>
+<span id="stats-total-view-count">阅读 - 
+<span title="总阅读数: 514641">
+51万</span></span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/feng18/p/5646925.html">
+    <span role="heading" aria-level="2">解决python3 UnicodeEncodeError: 'gbk' codec can't encode character '\xXX' in position XX</span>
+    
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>从网上抓了一些字节流，想打印出来结果发生了一下错误：</p>
+<p><span style="color: rgba(255, 0, 0, 1)">UnicodeEncodeError: 'gbk' codec can't encode character '\xbb' in position 8530: illegal multibyte sequence</span></p>
+<p>代码</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)"> urllib.request
+res</span>=urllib.request.urlopen(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">http://www.baidu.com</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+htmlBytes</span>=<span style="color: rgba(0, 0, 0, 1)">res.read()
+</span><span style="color: rgba(0, 0, 255, 1)">print</span>(htmlBytes.decode(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">utf-8</span><span style="color: rgba(128, 0, 0, 1)">'</span>))</pre>
+</div>
+<p>错误信息让人很困惑，为什么用的是'utf-8'解码，错误信息却提示'gbk'错误呢？</p>
+<p> </p>
+<p>不仅如此，从百度首页的html中发现以下代码：</p>
+<div class="cnblogs_code">
+<pre>&lt;meta http-equiv=<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">content-type</span><span style="color: rgba(128, 0, 0, 1)">"</span> content=<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">text/html;charset=utf-8</span><span style="color: rgba(128, 0, 0, 1)">"</span>&gt;</pre>
+</div>
+<p>这说明网页的确用的是utf-8，为什么会出现Error呢？</p>
+<p> </p>
+<p>在python3里，有几点关于编码的常识</p>
+<p>1.字符就是unicode字符，字符串就是unicode字符数组</p>
+<p>如果用以下代码测试，</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">print</span>(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">a</span><span style="color: rgba(128, 0, 0, 1)">'</span>==<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">\u0061</span><span style="color: rgba(128, 0, 0, 1)">'</span>)</pre>
+</div>
+<p>会发现结果为True，足以说明两者的等价关系。</p>
+<p> </p>
+<p>2.str转bytes叫encode，bytes转str叫decode，如上面的代码就是将抓到的字节流给decode成unicode数组</p>
+<p>我根据上面的错误信息分析了字节流中出现\xbb的地方，发现有个\xc2\xbb的特殊字符»，我怀疑是它无法被解码。</p>
+<p>用以下代码测试后</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">print</span>(b<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">\xc2\xbb</span><span style="color: rgba(128, 0, 0, 1)">'</span>.decode(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">utf-8</span><span style="color: rgba(128, 0, 0, 1)">'</span>))</pre>
+</div>
+<p>它果然报错了:<span style="color: rgba(255, 0, 0, 1)">UnicodeEncodeError: 'gbk' codec can't encode character '\xbb' in position 0: illegal multibyte sequence</span></p>
+<p> </p>
+<p>上网找了下utf-8编码表，发现的确特殊字符»的utf-8形式就是c2bb,unicode是'\u00bb'，为什么无法解码呢。。。</p>
+<p>仔细看看错误信息，它提示'gbk'无法encode，但是我的代码是utf-8无法decode，压根牛头不对马嘴，终于让我怀疑是print函数出错了。。于是立即有了以下的测试</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">print</span>(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">\u00bb</span><span style="color: rgba(128, 0, 0, 1)">'</span>)</pre>
+</div>
+<p>结果报错了：<span style="color: rgba(255, 0, 0, 1)">UnicodeEncodeError: 'gbk' codec can't encode character '\xbb' in position 0: illegal multibyte sequence</span></p>
+<p> </p>
+<p>原来是print()函数自身有限制，不能完全打印所有的unicode字符。</p>
+<p>知道原因后，google了一下解决方法，其实print()函数的局限就是Python默认编码的局限，因为系统是win7的，python的默认编码不是'utf-8',改一下python的默认编码成'utf-8'就行了</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div>
+<pre><span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)"> io
+</span><span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)"> sys
+</span><span style="color: rgba(0, 0, 255, 1)">import</span><span style="color: rgba(0, 0, 0, 1)"> urllib.request
+sys.stdout </span>= io.TextIOWrapper(sys.stdout.buffer,encoding=<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">utf8</span><span style="color: rgba(128, 0, 0, 1)">'</span>) <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">改变标准输出的默认编码</span>
+res=urllib.request.urlopen(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">http://www.baidu.com</span><span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(0, 0, 0, 1)">)
+htmlBytes</span>=<span style="color: rgba(0, 0, 0, 1)">res.read()
+</span><span style="color: rgba(0, 0, 255, 1)">print</span>(htmlBytes.decode(<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">utf-8</span><span style="color: rgba(128, 0, 0, 1)">'</span>))</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码" /></a></span></div></div>
+<p>运行后不报错了，但是居然有好多乱码（英文显示正常，中文则显示乱码）！！又一阵折腾后发现是控制台的问题，具体来说就是我在cmd下运行该脚本会有乱码，而在IDLE下运行却很正常。</p>
+<p>由此我推测是cmd不能很好地兼容utf8，而IDLE就可以，甚至在IDLE下运行，连“改变标准输出的默认编码”都不用，因为它默认就是utf8。如果一定要在cmd下运行，那就改一下编码，比如我换成“gb18030”，就能正常显示了：</p>
+<div class="cnblogs_code">
+<pre>sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding=<span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">gb18030</span><span style="color: rgba(128, 0, 0, 1)">'</span>)         <span style="color: rgba(0, 128, 0, 1)">#</span><span style="color: rgba(0, 128, 0, 1)">改变标准输出的默认编码</span></pre>
+</div>
+<p>最后，附上一些常用的和中文有关的编码的名称，分别赋值给encoding，就可以看到不同的效果了：</p>
+<p> </p>
+<p> </p>
+<p> </p>
+<table style="width: 200px" border="1" cellspacing="1" cellpadding="1">
+<tbody>
+<tr>
+<td>编码名称</td>
+<td>用途</td>
+</tr>
+<tr>
+<td>utf8</td>
+<td>所有语言</td>
+</tr>
+<tr>
+<td>gbk</td>
+<td>简体中文</td>
+</tr>
+<tr>
+<td>gb2312</td>
+<td>简体中文</td>
+</tr>
+<tr>
+<td>gb18030</td>
+<td>简体中文</td>
+</tr>
+<tr>
+<td>big5</td>
+<td>繁体中文</td>
+</tr>
+<tr>
+<td>big5hkscs</td>
+<td>繁体中文<br /><br /></td>
+
+
+</tr>
+
+
+</tbody>
+
+</table>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block" role="contentinfo">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2016-07-06 15:03</span> 
+<a href="https://www.cnblogs.com/feng18/">阿锋佬</a> 
+阅读(<span id="post_view_count">70158</span>) 
+评论(<span id="post_comment_count">5</span>) 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=5646925" rel="nofollow">编辑</a> 
+<a href="javascript:void(0)" onclick="AddToWz(5646925);return false;">收藏</a> 
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '5646925', targetLink: 'https://www.cnblogs.com/feng18/p/5646925.html', title: '解决python3 UnicodeEncodeError: &amp;#39;gbk&amp;#39; codec can&amp;#39;t encode character &amp;#39;\xXX&amp;#39; in position XX' })">举报</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+
+<script>
+    var cb_entryId = 5646925, cb_entryCreatedDate = '2016-07-06 15:03', cb_postType = 1, cb_postTitle = '解决python3 UnicodeEncodeError: &amp;#39;gbk&amp;#39; codec can&amp;#39;t encode character &amp;#39;\xXX&amp;#39; in position XX';
+    var allowComments = true, cb_blogId = 263717, cb_blogApp = 'feng18', cb_blogUserGuid = '02725925-30bc-e511-9fc1-ac853d9f53cc';
+    mermaidRender.render()
+    markdown_highlight()
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+    updatePostStats(
+            [cb_entryId],
+            function(id, count) { $("#post_view_count").text(count) },
+            function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a id="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+        <div id="cnblogs_ch"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card" style="display: none;">
+            <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;"></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+        var commentManager = new blogCommentManager();
+        commentManager.renderComments(0);
+        fixPostBody();
+
+            window.tocManager.displayDisableTocTips = false;
+            window.tocManager.generateToc();
+            
+                setTimeout(function() { countViews(cb_blogId, cb_entryId); }, 50);
+            
+            deliverT2();
+            deliverC1C2();
+            loadNewsAndKb();
+            
+                LoadPostCategoriesTags(cb_blogId, cb_entryId);
+            
+            LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+            GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+            loadOptUnderPost();
+            GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+                </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem" style="display: block;"><!--done-->
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/feng18/">
+            阿锋佬
+        </a>
+        <br />
+        园龄：
+        <a href="https://home.cnblogs.com/u/feng18/" title="入园时间：2016-01-16">
+            6年8个月
+        </a>
+        <br />
+        粉丝：
+        <a class="follower-count" href="https://home.cnblogs.com/u/feng18/followers/">
+            34
+        </a>
+        <br />
+        关注：
+        <a class="folowing-count" href="https://home.cnblogs.com/u/feng18/followees/">
+            1
+        </a>
+        <div id="p_b_follow" class="follow-tip">
+<a href="javascript:void(0)" onclick="follow('02725925-30bc-e511-9fc1-ac853d9f53cc')">+加关注</a></div>
+        <script>getFollowStatus('02725925-30bc-e511-9fc1-ac853d9f53cc');</script>
+    </div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2022/09/10'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2022年10月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2022/11/10'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">25</td>
+                            <td class="CalOtherMonthDay" align="center">26</td>
+                            <td class="CalOtherMonthDay" align="center">27</td>
+                            <td class="CalOtherMonthDay" align="center">28</td>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                    <td class="CalWeekendDay" align="center">
+                        1
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            2
+                        </td>
+                            <td class="" align="center">
+                                3
+                            </td>
+                            <td class="" align="center">
+                                4
+                            </td>
+                            <td class="" align="center">
+                                5
+                            </td>
+                            <td class="" align="center">
+                                6
+                            </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            8
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            9
+                        </td>
+                            <td class="CalTodayDay" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            15
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            16
+                        </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            22
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            23
+                        </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            29
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            30
+                        </td>
+                            <td class="" align="center">
+                                31
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            5
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" /> <input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk" />
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+
+
+<!-- 最新随笔 -->
+<div id="sidebar_recentposts" class="sidebar-block"><div class="catListEssay">
+<h3 class="catListTitle">最新随笔</h3>
+    <ul>
+                <li>
+                    
+<a href="https://www.cnblogs.com/feng18/p/12001552.html">1.《将博客搬至CSDN》</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/feng18/p/11782340.html">2.Python3命名规范</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/feng18/p/9553482.html">3.Linux下批量杀掉 包含某个关键字的 程序进程</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/feng18/p/9544559.html">4.解决系统中大量的TIME_WAIT连接</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/feng18/p/9485249.html">5.setTimeout循环传参数几种方式</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/feng18/p/9313691.html">6.jquery弹出窗口选择回写值</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/feng18/p/9232258.html">7.console.log()在IE下不兼容问题解决</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/feng18/p/9220987.html">8.flask+mod_wsgi+apache在windows上的布署</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/feng18/p/9211342.html">9.PHP带参数传值调用python脚本</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/feng18/p/9211322.html">10.将Python3导出为exe程序</a>
+
+                </li>
+    </ul>
+</div>
+
+</div>
+
+<!-- 我的标签 -->
+
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+        <h3 class="catListTitle">
+            
+    <a class="sidebar-card-title-a" href="https://www.cnblogs.com/feng18/categories">随笔分类</a>
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/category/779721.html" class="category-item-link" rel="" target="">AngularJs(27)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/category/782246.html" class="category-item-link" rel="" target="">Ionic(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/category/779770.html" class="category-item-link" rel="" target="">JavaScript(23)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/category/781576.html" class="category-item-link" rel="" target="">Linux(26)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/category/781561.html" class="category-item-link" rel="" target="">mysql(16)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/category/837355.html" class="category-item-link" rel="" target="">other(6)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/category/779720.html" class="category-item-link" rel="" target="">php(28)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/category/837354.html" class="category-item-link" rel="" target="">python(16)</a>
+ 
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2019/12.html" class="category-item-link" rel="" target="">2019年12月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2019/11.html" class="category-item-link" rel="" target="">2019年11月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2018/08.html" class="category-item-link" rel="" target="">2018年8月(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2018/07.html" class="category-item-link" rel="" target="">2018年7月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2018/06.html" class="category-item-link" rel="" target="">2018年6月(4)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2018/04.html" class="category-item-link" rel="" target="">2018年4月(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2018/02.html" class="category-item-link" rel="" target="">2018年2月(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2017/07.html" class="category-item-link" rel="" target="">2017年7月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2017/05.html" class="category-item-link" rel="" target="">2017年5月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2017/03.html" class="category-item-link" rel="" target="">2017年3月(12)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2017/02.html" class="category-item-link" rel="" target="">2017年2月(7)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2017/01.html" class="category-item-link" rel="" target="">2017年1月(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2016/12.html" class="category-item-link" rel="" target="">2016年12月(9)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2016/11.html" class="category-item-link" rel="" target="">2016年11月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2016/10.html" class="category-item-link" rel="" target="">2016年10月(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2016/09.html" class="category-item-link" rel="" target="">2016年9月(7)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2016/08.html" class="category-item-link" rel="" target="">2016年8月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2016/07.html" class="category-item-link" rel="" target="">2016年7月(6)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2016/06.html" class="category-item-link" rel="" target="">2016年6月(6)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2016/05.html" class="category-item-link" rel="" target="">2016年5月(4)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2016/04.html" class="category-item-link" rel="" target="">2016年4月(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2016/03.html" class="category-item-link" rel="" target="">2016年3月(6)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2016/02.html" class="category-item-link" rel="" target="">2016年2月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/feng18/archive/2016/01.html" class="category-item-link" rel="" target="">2016年1月(33)</a>
+ 
+                </li>                
+            <li>
+                <a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a>
+            </li>
+        </ul>
+
+
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block"><div class="catListView">
+    <h3 class="catListTitle">
+        <a href="https://www.cnblogs.com/feng18/most-viewed" class="sidebar-card-title-a">
+    阅读排行榜
+</a>
+
+    </h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/feng18/p/5854912.html">
+                            1. linux下安装python环境(121858)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/feng18/p/5646925.html">
+                            2. 解决python3 UnicodeEncodeError: 'gbk' codec can't encode character '\xXX' in position XX(70158)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/feng18/p/5148985.html">
+                            3. Nginx 502 bad gateway问题的解决方法(35027)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/feng18/p/6523646.html">
+                            4. PDO和MySQLi区别与选择？(18236)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/feng18/p/6491386.html">
+                            5. 搭建阿里云lnmp环境 (centos7+nginx+MySQL5.7.9+PHP7)(18046)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"><div class="catListFeedback">
+    <h3 class="catListTitle">
+        <a href="https://www.cnblogs.com/feng18/most-commented" class="sidebar-card-title-a">评论排行榜</a>
+
+    </h3>
+    <div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/feng18/p/5646925.html">
+                            1. 解决python3 UnicodeEncodeError: 'gbk' codec can't encode character '\xXX' in position XX(5)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/feng18/p/6523646.html">
+                            2. PDO和MySQLi区别与选择？(1)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/feng18/p/6491386.html">
+                            3. 搭建阿里云lnmp环境 (centos7+nginx+MySQL5.7.9+PHP7)(1)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/feng18/p/6224638.html">
+                            4. php-fpm优化方法详解(1)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/feng18/p/5920280.html">
+                            5. mysql 性能优化方案(1)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">
+            <a href="https://www.cnblogs.com/feng18/most-liked" class="sidebar-card-title-a">推荐排行榜</a>
+
+        </h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/feng18/p/5646925.html">
+                                1. 解决python3 UnicodeEncodeError: 'gbk' codec can't encode character '\xXX' in position XX(23)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/feng18/p/5854912.html">
+                                2. linux下安装python环境(11)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/feng18/p/6523646.html">
+                                3. PDO和MySQLi区别与选择？(8)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/feng18/p/6491386.html">
+                                4. 搭建阿里云lnmp环境 (centos7+nginx+MySQL5.7.9+PHP7)(6)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/feng18/p/5652213.html">
+                                5. 笔记之Python网络数据采集(5)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div><div id="sidebar_recentcomments" class="sidebar-block"><div class="catListComment">
+<h3 class="catListTitle"><a href="https://www.cnblogs.com/feng18/comments" class="sidebar-card-title-a">最新评论</a></h3>
+    <div class="RecentCommentBlock">
+        <ul>
+                <li class="recent_comment_title"><a href="https://www.cnblogs.com/feng18/p/5646925.html">1. Re:解决python3 UnicodeEncodeError: 'gbk' codec can't encode character '\xXX' in position XX</a></li>
+                <li class="recent_comment_body">的确是这样的</li>
+                <li class="recent_comment_author">--zorro1x1</li>
+                <li class="recent_comment_title"><a href="https://www.cnblogs.com/feng18/p/5646925.html">2. Re:解决python3 UnicodeEncodeError: 'gbk' codec can't encode character '\xXX' in position XX</a></li>
+                <li class="recent_comment_body">大神们，到底具体怎么操作解决这个问题，先前安装软件就是这个问题引起，但是不会操作。</li>
+                <li class="recent_comment_author">--azhens</li>
+                <li class="recent_comment_title"><a href="https://www.cnblogs.com/feng18/p/5646925.html">3. Re:解决python3 UnicodeEncodeError: 'gbk' codec can't encode character '\xXX' in position XX</a></li>
+                <li class="recent_comment_body">有帮助，很好，谢谢你</li>
+                <li class="recent_comment_author">--jiajialu</li>
+                <li class="recent_comment_title"><a href="https://www.cnblogs.com/feng18/p/5749045.html">4. Re:Python3中urllib详细使用方法(header,代理,超时,认证,异常处理)</a></li>
+                <li class="recent_comment_body">页面好赞</li>
+                <li class="recent_comment_author">--阿谋</li>
+                <li class="recent_comment_title"><a href="https://www.cnblogs.com/feng18/p/6523646.html">5. Re:PDO和MySQLi区别与选择？</a></li>
+                <li class="recent_comment_body">文章流畅，语言简练，博主继续！</li>
+                <li class="recent_comment_author">--speed123</li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+
+</div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2022 阿锋佬
+<br /><span id="poweredby">Powered by .NET 6 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+
+
+<input type="hidden" id="antiforgery_token" value="CfDJ8NfDHj8mnYFAmPyhfXwJojdn5xjcJsqHHRgagyCkWHxWSFKJ4DjGvHRC4M3hRx4kf_xQwDA8objbCaXID96VAIda0s82od5eh-p7NYxbl4c8vqxeCciLHtO-J99NRzT1rktxAzVHDsmXoRBHKqwLwJ0" />
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-476124-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var kv = getGACustom();
+    if (kv) {
+        gtag('set', kv);
+    }
+    gtag('config', 'UA-476124-1');
+</script>
+<script defer="" src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script>
+
+</body></html>

@@ -16,6 +16,11 @@ codeprint:
 ---
 
 
+## windows pipe
+
+<https://www.cnblogs.com/MMLoveMeMM/articles/3811166.html>
+
+
 ## QT QtMoc
 
 {% include image.html url="/assets/images/210228-win-prog-notes/20220712-170628.jpg" %}
@@ -281,6 +286,7 @@ Build in cmd.exe, run command as: msbuild dprofiler.sln
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-28-win-prog-notes.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.cnblogs.com/MMLoveMeMM/articles/3811166.html]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/www.cnblogs.com/42e617ab.html" %})
 - [https://stackoverflow.com/questions/14170770/unresolved-external-symbol-public-virtual-struct-qmetaobject-const-thiscal]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/stackoverflow.com/692279a2.html" %})
 - [https://docs.microsoft.com/en-us/windows/win32/sysinfo/user-objects]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/docs.microsoft.com/babe9dc5.html" %})
 - [https://github.com/massgravel/Microsoft-Activation-Scripts]({% include relrefx.html url="/backup/2021-02-28-win-prog-notes.md/github.com/afd6ff84.html" %})
