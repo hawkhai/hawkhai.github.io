@@ -17,6 +17,45 @@ cluster: "Visual Studio"
 ---
 
 
+## Python UnicodeEncodeError
+
+**print(sys.argv)**
+UnicodeEncodeError: 'gbk' codec can't encode character '\xa9' in position 212: illegal multibyte sequence
+
+[解决 python3 UnicodeEncodeError: 'gbk' codec can't encode character '\xXX' in position XX {% include relref_cnblogs.html %}](https://www.cnblogs.com/feng18/p/5646925.html)
+
+```python
+import io
+import sys
+# 改变标准输出的默认编码
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='gb18030')
+print(string)
+
+>>> import sys
+>>> print sys.stdin.encoding
+UTF-8
+>>> print sys.stdout.encoding
+UTF-8
+
+>>> import sys
+>>> sys.getdefaultencoding()
+'ascii'
+
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+```
+
+编码名称 	| 用途
+utf8	| 所有语言
+gbk	| 简体中文
+gb2312	| 简体中文
+gb18030	| 简体中文
+big5	| 繁体中文
+big5hkscs	| 繁体中文
+
+
 ## Error 14001 with LoadLibrary(fullPath)
 
 造成问题原因：
@@ -471,6 +510,7 @@ VS Code 找到 文件 > 首选项 > 设置 中搜索 editor.tabSize，在用户�
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Visual-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.cnblogs.com/feng18/p/5646925.html]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/www.cnblogs.com/931dee15.html" %})
 - [https://docs.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-getoverlappedresult]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/docs.microsoft.com/a93a7ced.html" %})
 - [https://docs.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects?view=vs-2022]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/docs.microsoft.com/3966f77e.html" %})
 - [http://msdl.microsoft.com/download/symbols]({% include relrefx.html url="/backup/2020-12-15-Visual-Studio.md/msdl.microsoft.com/9dd253a8.html" %})

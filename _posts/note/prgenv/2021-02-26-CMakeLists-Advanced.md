@@ -30,10 +30,8 @@ cluster: "CMake"
 <https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html>
 
 ```cmake
-if current_configuration == "Debug"
-    output "Release"
-if current_configureation == "Release"
-    output "Debug"
+CopyOpenCV("opencv_core453$<$<CONFIG:Debug>:d>.dll")
+CopyOpenCV("opencv_imgproc453$<$<CONFIG:Debug>:d>.dll")
 
 set(RCFILE app.rc)
 source_group("rcfile" FILES ${RCFILE})
