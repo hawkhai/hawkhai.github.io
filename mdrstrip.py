@@ -260,6 +260,8 @@ def tidyupImg(imglocal, fpath, line):
     if not os.path.exists(imglocal) and os.path.exists(tpath): # 貌似已经剪切过去了。
         copyfile(tpath, imglocal)
     while not os.path.exists(imglocal):
+        if os.path.exists(imgnocopy):
+            return line
         print("文件不存在", imglocal)
         os.system(PAUSE_CMD)
         if imglocal in readfileIglist("config/mdrstrip_fake_image_files.txt"):
