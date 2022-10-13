@@ -19,6 +19,19 @@ cluster: "CMake"
 **前面一篇文章。[编程配置 -- Android CMake CMakeLists.txt 构建配置文件]({% include relref.html url="/blog/2021/02/01/cmakelists" %})**
 
 [^_^]: <http://jekyllcn.com/docs/templates/>
+[CMake 生成漂亮的 VS 项目文件 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/441155027)
+
+```cmake
+# 对文件下分组
+set(AllFile ${KVISION_SRC} ${KVISION_INCLUDE})
+foreach(fileItem ${AllFile})
+    get_filename_component(PARENT_DIR "${fileItem}" DIRECTORY)
+    string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
+    string(REPLACE "/" "\\" GROUP "${GROUP}")
+    set(GROUP "${GROUP}")
+    source_group("${GROUP}" FILES "${fileItem}")
+endforeach()
+```
 
 
 ## $<$<CONFIG:Debug>:Release> $<$<CONFIG:Release>:Debug>
@@ -307,12 +320,131 @@ arg = abc
 [7.5 重新定义函数和宏](https://www.bookstack.cn/read/CMake-Cookbook/content-chapter7-7.5-chinese.md)
 
 
+## kvision
+
+```cmake
+cmake_minimum_required(VERSION 3.4.1)
+
+# cmake ..\engine\src\main\cpp -G "Visual Studio 16 2019" -A Win32
+project(kvision)
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+if (ANDROID)
+    set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -s -fvisibility=hidden")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -s -fvisibility=hidden")
+    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-Map=export.map")
+endif (ANDROID)
+
+if (ANDROID)
+    # 物料地址 ftp://10.12.36.203/yangquanhai/opencv/opencv-4.6.0-android-sdk.zip
+    set(OpenCV_DIR D:/opencv-4.6.0-android-sdk/OpenCV-android-sdk/sdk/native/jni)
+    find_package(OpenCV 4.6.0 REQUIRED)
+else (ANDROID)
+    # 物料地址 ftp://10.12.36.203/yangquanhai/opencv/opencv-4.5.3-windows-sdk.zip
+    # 官方貌似只有 64 位版本，这个是自己构建的 32 位版本。
+    # 可以放到其它盘，然后建立一个软连接。管理员模式：
+    # cd D:\2021\opencv_local
+    # mklink /J "4.5.3" "E:\opencv-4.6.0-windows-sdk\4.5.3"
+    set(OpenCV_DIR D:/2021/opencv_local/4.5.3/build)
+    find_package(OpenCV 4.5.3 REQUIRED)
+endif (ANDROID)
+
+if (OpenCV_FOUND)
+    message(STATUS "OpenCV library status:")
+    message(STATUS "    version: ${OpenCV_VERSION}")
+    message(STATUS "    libraries: ${OpenCV_LIBS}")
+    message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
+else(OpenCV_FOUND)
+    message(FATAL_ERROR "OpenCV library not found")
+endif(OpenCV_FOUND)
+
+include_directories(${OpenCV_INCLUDE_DIRS})
+
+file(GLOB KVISION_SRC *.cpp *.h)
+file(GLOB KVISION_INCLUDE include/*.h)
+add_library(kvision SHARED
+        ${KVISION_SRC} ${KVISION_INCLUDE})
+
+if (ANDROID)
+    # 过程间优化 (Interprocedural Optimization)
+    set_property(TARGET kvision PROPERTY INTERPROCEDURAL_OPTIMIZATION True)
+else (ANDROID)
+    # 目标都生成到同一个目录。
+    set(LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
+    set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
+
+    # 对文件下分组
+    set(AllFile ${KVISION_SRC} ${KVISION_INCLUDE})
+    foreach(fileItem ${AllFile})
+        get_filename_component(PARENT_DIR "${fileItem}" DIRECTORY)
+        string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
+        string(REPLACE "/" "\\" GROUP "${GROUP}")
+        set(GROUP "${GROUP}")
+        source_group("${GROUP}" FILES "${fileItem}")
+    endforeach()
+
+endif (ANDROID)
+
+if (ANDROID)
+    find_library(log-lib
+        log)
+
+    target_link_libraries(kvision
+        jnigraphics
+        opencv_core
+        opencv_imgcodecs
+        opencv_imgproc
+        ${log-lib})
+else (ANDROID)
+    target_link_libraries(kvision
+        opencv_core
+        opencv_imgcodecs
+        opencv_imgproc)
+
+    add_subdirectory(test)
+
+Function(CopyOpenCV COPY_FILE_NAME)
+    # Copy <filename> to build directory
+    set(COPY_SOURCE_DIR "${OpenCV_DIR}/bin/$<CONFIG>")
+    set(COPY_DEST_DIR "${CMAKE_BINARY_DIR}/$<CONFIG>")
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${COPY_DEST_DIR}
+    )
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy "${COPY_SOURCE_DIR}/${COPY_FILE_NAME}" "${COPY_DEST_DIR}/${COPY_FILE_NAME}"
+        COMMENT "Copying ${COPY_FILE_NAME} to build directory"
+    )
+endfunction(CopyOpenCV)
+
+CopyOpenCV("opencv_core453$<$<CONFIG:Debug>:d>.dll")
+CopyOpenCV("opencv_imgproc453$<$<CONFIG:Debug>:d>.dll")
+CopyOpenCV("opencv_imgcodecs453$<$<CONFIG:Debug>:d>.dll")
+
+endif (ANDROID)
+```
+
+```cmake
+project ( kvision_test LANGUAGES CXX )
+
+add_executable( ${PROJECT_NAME} main.cpp )
+# 添加链接库
+target_link_libraries(kvision_test kvision)
+```
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-02-26-CMakeLists-Advanced.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [http://jekyllcn.com/docs/templates/]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/jekyllcn.com/a06345ca.html" %})
+- [https://zhuanlan.zhihu.com/p/441155027]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/zhuanlan.zhihu.com/5d69f476.html" %})
 - [https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/cmake.org/1e5863d8.html" %})
 - [https://www.cnblogs.com/zjutzz/p/10802138.html]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/www.cnblogs.com/66780ceb.html" %})
 - [https://github.com/rxi/log.c]({% include relrefx.html url="/backup/2021-02-26-CMakeLists-Advanced.md/github.com/e00aa14a.html" %})

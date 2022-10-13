@@ -298,6 +298,39 @@ if __name__ == '__main__':
 ```
 
 
+## Windows cmd: piping python 3.5 py file results works but pyinstaller exe's leads to UnicodeEncodeError
+
+sys.stdout.buffer.write('\u5000'.encode('utf8'))
+
+<https://stackoverflow.com/questions/44780476/windows-cmd-piping-python-3-5-py-file-results-works-but-pyinstaller-exes-leads>
+<https://github.com/chriskiehl/Gooey/issues/520>
+<https://blog.csdn.net/hello_crayon/article/details/80940390>
+
+```python
+# determine if application is a script file or frozen exe
+if getattr(sys, 'frozen', False):
+    PATH_CUR = os.path.dirname(sys.executable)
+elif __file__:
+    PATH_CUR = os.path.dirname(__file__)
+```
+
+```python
+sys.stdout.reconfigure(encoding='utf-8')
+sys.stdin.reconfigure(encoding='utf-8')
+
+import codecs
+if sys.stdout.encoding != 'UTF-8':
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+if sys.stderr.encoding != 'UTF-8':
+    sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
+```
+
+
+## windows pipe
+
+<https://www.cnblogs.com/MMLoveMeMM/articles/3811166.html>
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-19-pyinstxtractor.md.js" %}'></script></p>
@@ -322,3 +355,7 @@ if __name__ == '__main__':
 - [https://www.94e.cn/info/74]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/www.94e.cn/8920d488.html" %})
 - [https://pyob.oxyry.com/obfuscate]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/pyob.oxyry.com/5ff36f08.html" %})
 - [http://pyob.oxyry.com/]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/pyob.oxyry.com/fa80ee50.html" %})
+- [https://stackoverflow.com/questions/44780476/windows-cmd-piping-python-3-5-py-file-results-works-but-pyinstaller-exes-leads]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/stackoverflow.com/f147245e.html" %})
+- [https://github.com/chriskiehl/Gooey/issues/520]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/github.com/e79d1511.html" %})
+- [https://blog.csdn.net/hello_crayon/article/details/80940390]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/blog.csdn.net/43e4f057.html" %})
+- [https://www.cnblogs.com/MMLoveMeMM/articles/3811166.html]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/www.cnblogs.com/42e617ab.html" %})
