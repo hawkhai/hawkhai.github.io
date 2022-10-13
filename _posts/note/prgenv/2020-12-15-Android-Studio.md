@@ -17,6 +17,12 @@ cluster: "Visual Studio"
 ---
 
 
+## WINDOWS 的 Android Studio 无法启动 ARM 的模拟器
+
+* mumu 夜神也是 x86 模拟器，只是有 intel 搞得一个 arm 兼容层 **houdini**
+* 现在 windows 下跑 arm apk 最好的方案就是微软搞的那个 **wsa**，win11 可以直接商店安装，win10 其实也能用，但需要一些特殊步骤安装
+
+
 ## Android Studio
 
 AndroidStudio 代码达到指定字符长度时自动换行。
