@@ -17,6 +17,91 @@ cluster: "Visual Studio"
 ---
 
 
+## 反编译
+
+apktool+dex2jar+jd-gui 一直是一个比较流行的 Android 反编译组合。
+在使用过 jadx 之后觉得 jadx 相比上面的组合具有如下两个优点：
+* 可以直接反编译出 .java 文件
+* 查看源码时直接显示资源名称，而不是像 jd-gui 里显示的资源 ID
+
+* [Apktool {% include relref_github.html %}](https://ibotpeaches.github.io/Apktool/) apktool_2.6.1.jar
+    * 通过该工具能完整的从 apk 中提取出 resource、dex、manifest、xml 等文件，也可以修改资源文件之后 rebuild 一个 apk。
+* [JD-GUI {% include relref_github.html %}](http://java-decompiler.github.io/) jd-gui-windows-1.6.6.zip
+    * 通过该工具，可以通过可视化的界面操作查看第二步生成的 jar 文件，即查看反编译后的源码情况。
+* [dex2jar {% include relref_github.html %}](https://github.com/pxb1988/dex2jar) dex-tools-2.2-SNAPSHOT-2021-10-31.zip
+    * 通过该工具将 dex 文件变成一个（包含 class 文件的）jar 文件。
+* [jadx {% include relref_github.html %}](https://github.com/skylot/jadx) jadx-gui-1.4.4-no-jre-win.exe
+    * export JVM_ARGS="-Xmx4096m -XX:MaxPermSize=1024m"
+* [Bytecode-Viewer.jar {% include relref_github.html %}](https://github.com/Konloch/bytecode-viewer) Bytecode-Viewer-2.11.2.jar
+    * A Java 8+ Jar & Android APK Reverse Engineering Suite (Decompiler, Editor, Debugger & More)
+* [baksmali-2.5.2.jar & smali-2.5.2.jar](https://bitbucket.org/JesusFreke/smali/downloads/)
+
+E:\kSource\pythonx\orange\dexapk.py
+
+E:\kSource\pythonx\orange\dex-tools\apktool_2.6.1.jar
+E:\kSource\pythonx\orange\apktool.bat
+E:\kSource\pythonx\orange\jd-gui-windows-1.6.6\jd-gui.exe
+E:\kSource\pythonx\orange\dex-tools-2.2-SNAPSHOT\d2j-dex2jar.bat
+E:\kSource\pythonx\orange\dex-tools\baksmali-2.5.2.jar
+E:\kSource\pythonx\orange\dex-tools\smali-2.5.2.jar
+E:\kSource\dist\Bytecode-Viewer-2.11.2.jar
+C:\Users\ADMIN\Downloads\jadx-gui-1.4.4-with-jre-win\jadx-gui-1.4.4.exe
+
+E:\kSource\pythonx\orange\dex-tools-2.2-SNAPSHOT\d2j-dex2jar.bat classes.dex --output classes.jar
+E:\kSource\pythonx\orange\dex-tools-2.2-SNAPSHOT\d2j-dex2jar.bat classes2.dex --output classes2.jar
+E:\kSource\pythonx\orange\dex-tools-2.2-SNAPSHOT\d2j-dex2jar.bat classes3.dex --output classes3.jar
+E:\kSource\pythonx\orange\dex-tools-2.2-SNAPSHOT\d2j-dex2jar.bat classes4.dex --output classes4.jar
+
+反编译命令：
+```
+apktool.bat d 2020_12_12_5.31.0.20201211_dbg.apk -f
+apktool.bat d 2020_12_12_5.31.0.20201211_official.apk -f
+```
+
+W: Cant find 9patch chunk in file: "drawable-xxhdpi-v4/umcsdk_exception_bg.9.png". Renaming it to \*.png.
+
+打包命令：
+```
+apktool.bat b 2020_12_12_5.31.0.20201211_dbg
+```
+
+dex2jar.bat
+反编译命令：
+```
+d2j-dex2jar.bat [classes.dex 文件]
+d2j-dex2jar.bat xyz.apk
+```
+
+jadx?
+
+
+### 签名
+
+<https://www.cnblogs.com/yyq-quan/archive/2011/07/08/2101434.html>
+<https://blog.csdn.net/weixin_34726945/article/details/113044682>
+
+E:\android-studio-ide-181.5014246-windows\android-studio\jre\bin\keytool.exe
+chcp 65001
+chcp 936
+E:\android-studio-ide-181.5014246-windows\android-studio\jre\bin\keytool.exe -genkey -v -keystore androidguy-test.keystore -alias androidguy -keyalg RSA -validity 30000
+testguy
+```
+正在为以下对象生成 2,048 位 RSA 密钥对和自签名证书 (SHA256withRSA) ( 有效期为 30,000 天 ):
+         CN=hai, OU=cf, O=cf, L=zh, ST=zh, C=cn
+输入 <androidguy> 的密钥口令（如果和密钥库口令相同，按回车）：
+[正在存储 androidguy-test.keystore]
+
+Warning:
+JKS 密钥库使用专用格式。建议使用 "keytool -importkeystore -srckeystore androidguy-test.keystore -destkeystore androidguy-test.keystore -deststoretype pkcs12" 迁移到行业标准格式 PKCS12。
+
+E:\kpdf\kvision\apk>
+```
+
+E:\android-studio-ide-181.5014246-windows\android-studio\jre\bin\jarsigner.exe
+chcp 936
+E:\android-studio-ide-181.5014246-windows\android-studio\jre\bin\jarsigner.exe -verbose -keystore androidguy-test.keystore 2020_12_12_5.31.0.20201211_dbg2.apk androidguy
+
+
 ## WINDOWS 的 Android Studio 无法启动 ARM 的模拟器
 
 * mumu 夜神也是 x86 模拟器，只是有 intel 搞得一个 arm 兼容层 **houdini**
@@ -246,6 +331,14 @@ Executing commands in 'E:\android-studio-ide-181.5014246-windows\android-studio\
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Android-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://ibotpeaches.github.io/Apktool/]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/ibotpeaches.github.io/cf838194.html" %})
+- [http://java-decompiler.github.io/]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/java-decompiler.github.io/8cff06fd.html" %})
+- [https://github.com/pxb1988/dex2jar]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/github.com/db14066b.html" %})
+- [https://github.com/skylot/jadx]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/github.com/c57ce690.html" %})
+- [https://github.com/Konloch/bytecode-viewer]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/github.com/3abeab5a.html" %})
+- [https://bitbucket.org/JesusFreke/smali/downloads/]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/bitbucket.org/1c13ac70.html" %})
+- [https://www.cnblogs.com/yyq-quan/archive/2011/07/08/2101434.html]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/www.cnblogs.com/e163fdc3.html" %})
+- [https://blog.csdn.net/weixin_34726945/article/details/113044682]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/blog.csdn.net/4c983743.html" %})
 - [https://developer.android.com/r/studio-ui/ndk-dir]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/developer.android.com/a3b9e8b2.html" %})
 - [http://maven.aliyun.com/nexus/content/groups/public/]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/maven.aliyun.com/f69c0880.html" %})
 - [http://maven.aliyun.com/nexus/content/repositories/jcenter]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/maven.aliyun.com/e33967a3.html" %})
