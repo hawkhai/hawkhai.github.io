@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "深度学习 -- 吴恩达机器学习（进行中……）"
+title: "机器学习 -- 吴恩达机器学习（进行中……）"
 author:
 location: "珠海"
-categories: ["深度学习"]
-tags: ["机器学习", "深度学习"]
+categories: ["机器学习"]
+tags: ["机器学习"]
 toc: true
 toclistyle:
 comments:

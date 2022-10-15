@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "深度学习笔记 -- 人工智能领域的 10 大算法"
+title: "机器学习笔记 -- 人工智能领域的 10+ 大算法"
 author:
 location: "珠海"
-categories: ["深度学习"]
-tags: ["深度学习"]
+categories: ["机器学习"]
+tags: ["机器学习"]
 toc: true
 toclistyle:
 comments:
@@ -14,6 +14,8 @@ mermaid:
 glslcanvas:
 codeprint:
 ---
+
+[神经网络*内部*发生了什么？ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1s3411y7WN/)
 
 
 ## 线性回归
@@ -145,4 +147,5 @@ bosting 就是把若干个分类效果并不好的分类器综合起来考虑，
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-10-13-artificial-intelligence.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.bilibili.com/video/BV1s3411y7WN/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/www.bilibili.com/9371f15d.html" %})
 - [https://mp.weixin.qq.com/s/kbY8Y3BDmXTm2-wA3eLpMw]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/mp.weixin.qq.com/4c1e2cb5.html" %})

@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "深度学习笔记 -- 数学×梯度（Gradient）与梯度下降法（Gradient Descent）"
+title: "机器学习笔记 -- 数学×梯度（Gradient）与梯度下降法（Gradient Descent）"
 author:
 location: "珠海"
-categories: ["深度学习"]
-tags: ["深度学习"]
+categories: ["机器学习"]
+tags: ["机器学习"]
 toc: true
 toclistyle:
 comments:

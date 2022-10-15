@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "深度学习笔记 -- 数学×概率分布（Probability Distribution）"
+title: "机器学习笔记 -- 数学×概率分布（Probability Distribution）"
 author:
 location: "珠海"
-categories: ["深度学习"]
-tags: ["深度学习"]
+categories: ["机器学习"]
+tags: ["机器学习"]
 toc: true
 toclistyle:
 comments:
