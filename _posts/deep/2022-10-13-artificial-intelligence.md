@@ -16,6 +16,28 @@ codeprint:
 ---
 
 [神经网络*内部*发生了什么？ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1s3411y7WN/)
+{% include image.html url="/assets/images/221013-artificial-intelligence/20221016220307.png" %}
+
+> 该看：3-1
+
+* 机器学习：给定数据的预测问题。
+
+* 监督学习：又标签，对于属于数据 X，预测 Y。
+    * 分类：标签不连续。
+    * 回归：标签连续。
+    * K 近邻
+    * SVM
+    * 决策树
+    * 朴素贝叶斯
+    * 逻辑回归
+    * XGBoost
+    * Lightgbm
+* 无监督学习：无标签，对于数据数据 X，能发现什么。
+    * 聚类
+    * 降维算法
+    * EM 算法
+* 强化学习：序列决策问题。
+    * 马尔科夫决策方法（扫地机器人寻路）
 
 
 ## 线性回归
@@ -140,6 +162,9 @@ adaboost 是 bosting 的方法之一。
 bosting 就是把若干个分类效果并不好的分类器综合起来考虑，会得到一个效果比较好的分类器。
 
 [note {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/kbY8Y3BDmXTm2-wA3eLpMw)
+
+
+## XGBoost
 
 
 

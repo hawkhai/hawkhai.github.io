@@ -22,9 +22,9 @@ kaliyun: true
 * GitHub 代码 : <https://github.com/vivek3141/dl-visualization>
 * youtube [Visualizing Deep Learning](//www.youtube.com/playlist?list=PLyPKqVSnetmEOp_g_hfabuRAs9ET-shl_)
     * youtube [The Neural Network, A Visual Introduction](//www.youtube.com/watch?v=UOvPeC8WOt8)
-        * bilibili 机翻版本 [深度学习可视化入门 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1mD4y127sg/)
+        * B 站 机翻版本 [深度学习可视化入门 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1mD4y127sg/)
     * youtube [What does a neural network *actually* do?](//www.youtube.com/watch?v=-at7SLoVK_I)
-        * bilibili 机翻版本 [神经网络“内部”发生了什么？ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1s3411y7WN/)
+        * B 站 机翻版本 [神经网络“内部”发生了什么？ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1s3411y7WN/)
 
 在图形图像学里面，图像变换是通过仿射变换实现的，一个仿射矩阵乘上去，搞定。
 这个是以前写的笔记：[图像几何变换]({% include relref.html url="/blog/2020/09/19/dip-digital-image-processing#%E5%9B%BE%E5%83%8F%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2" %})，这玩意二维三维都是可以的：旋转（rotation）、缩放（scale）、平移（shift）以及错切（shear）。
