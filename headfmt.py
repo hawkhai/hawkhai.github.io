@@ -72,7 +72,7 @@ def analyzehead(fpath, fname, ftype, newmap):
     elif fpath.startswith("invisible\\"):
         pass
     else:
-        assert fpath in ("about.md", "bookshelf.md", "index.md", "disclaimer.md"), fpath
+        pass#assert fpath in ("about.md", "bookshelf.md", "index.md", "disclaimer.md"), fpath
 
     if not newmap["categories"] or not newmap["tags"]:
         openTextFile(fpath)
