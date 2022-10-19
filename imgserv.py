@@ -5,10 +5,18 @@ import os
 import stat
 from urllib.parse import unquote
 
+import json
+from urllib import parse
 from threading import Thread
+
+import re, os, sys
+sys.path.append("../")
+from pythonx.funclib import *
+from pythonx.pelib import mydllfunc
 
 # 换行符
 NEWLINE = "\r\n"
+MAX_FILE_SIZE = 100 * 1024 * 1024 # 100MB
 
 # 读取文本
 def get_file_contents(file_name):
@@ -29,6 +37,7 @@ def has_permission_other(file_name):
 # 二进制读取的文件类型
 BINARY_TYPE_FILES = set(["jpg", "jpeg", "mp3", "png", "html", "js", "css", "ico"])
 TEXT_MIME_TYPE = "text/plain"
+JSON_MIME_TYPE = "application/json"
 # MIME 映射表
 MIME_TYPES = {
     "html": "text/html",
@@ -52,6 +61,17 @@ def get_file_mime_type(file_extension):
 
 class HTTPServer:
     def __init__(self, host="localhost", port=9001, directory="."):
+
+        if host == "localhost":
+            ipaddr = mydllfunc("getipaddr", {"minorVer": 2, "majorVer": 2,})
+            if ipaddr and ipaddr["ret"] == 0:
+                ipaddr = ipaddr["result"]
+                ipaddr = ipaddr["result"]
+                # ['192.168.110.1', '192.168.245.1', '192.168.0.102']
+                ipaddr = [i for i in ipaddr if not re.findall("^[0-9]+\\.[0-9]+\\.[0-9]+\\.1$", i)]
+                if ipaddr and len(ipaddr) == 1:
+                    host = ipaddr[0] # 换算成 IP。
+
         print(f"Server started. Listening at http://{host}:{port}/")
         self.host = host
         self.port = port
@@ -79,28 +99,37 @@ class HTTPServer:
             th.start()
 
     def accept_request(self, client_sock, client_addr):
-        data = client_sock.recv(4096)
-        req = data.decode("utf-8")
+        req = ""
+        while req.find(NEWLINE * 2) == -1:
+            req += bytesToString(client_sock.recv(1))
 
-        response = self.process_response(req)
+        print("***" * 50)
+        print(req)
+
+        # https://www.runoob.com/python/python-socket.html
+        response = self.process_response(req, client_sock)
         client_sock.send(response)
 
         # clean up
         client_sock.shutdown(1)
         client_sock.close()
 
-    def process_response(self, request):
+    def process_response(self, request, client_sock):
         formatted_data = request.strip().split(NEWLINE)
         request_words = formatted_data[0].split()
 
+        # GET /?listdir=kvision/2Original HTTP/1.1
         if len(request_words) == 0:
             return
 
-        requested_file = request_words[1][1:]
+        requested_file = request_words[1]
+        if requested_file.startswith("/"):
+            requested_file = requested_file[1:]
+
         if request_words[0] == "GET":
             return self.get_request(requested_file, formatted_data)
         if request_words[0] == "POST":
-            return self.post_request(requested_file, formatted_data)
+            return self.post_request(requested_file, formatted_data, client_sock)
         return self.method_not_allowed()
 
     # The response to a HEADER request
@@ -114,10 +143,54 @@ class HTTPServer:
 
         return response.encode('utf-8')
 
+    def api_listdir(self, rootdir):
+        ignorelist = (".gitignore",)
+        return [os.path.join(rootdir, i).replace("\\", "/") for i in os.listdir(rootdir) if not i in ignorelist]
+
+    # listdir=kvision/2Original
+    def get_request_api(self, requested_file, data):
+        argvs = parse.parse_qs(requested_file)
+        print("get_request_api", argvs)
+
+        if "listdir" in argvs.keys():
+            builder = ResponseBuilder()
+
+            builder.set_content(jsondumps(self.api_listdir(argvs["listdir"][0])))
+
+            builder.set_status("200", "OK")
+            builder.add_header("Connection", "close")
+            builder.add_header("Content-Type", JSON_MIME_TYPE)
+            return builder.build()
+
+    def post_request_upload(self, requested_file, data, client_sock):
+        argvs = parse.parse_qs(requested_file)
+        print("post_request_upload", argvs)
+        fdata = client_sock.recv(MAX_FILE_SIZE, socket.MSG_WAITALL)
+
+        # POST ?upimage=kvision/4Enhance/60.jpg.guide.png HTTP/1.1
+        if "upimage" in argvs.keys():
+
+            fpath = argvs["upimage"][0]
+            writefile(fpath, fdata)
+
+            builder = ResponseBuilder()
+            builder.set_content(jsondumps({
+                "fpath": fpath,
+                "size": len(fdata),
+            }))
+
+            builder.set_status("200", "OK")
+            builder.add_header("Connection", "close")
+            builder.add_header("Content-Type", JSON_MIME_TYPE)
+            return builder.build()
+
     # TODO: Write the response to a GET request
+    # ?listdir=kvision/2Original
     def get_request(self, requested_file, data):
 
         if (not os.path.exists(requested_file)):
+            if requested_file.startswith("?"):
+                return self.get_request_api(requested_file[1:], data)
             return self.resource_not_found()
         elif (not has_permission_other(requested_file)):
             return self.resource_forbidden()
@@ -137,7 +210,11 @@ class HTTPServer:
             return builder.build()
 
     # TODO: Write the response to a POST request
-    def post_request(self, requested_file, data):
+    def post_request(self, requested_file, data, client_sock):
+
+        # POST ?upimage=kvision/4Enhance/60.jpg.guide.png HTTP/1.1
+        if requested_file.startswith("?"):
+            return self.post_request_upload(requested_file[1:], data, client_sock)
 
         builder = ResponseBuilder()
         builder.set_status("200", "OK")
@@ -147,6 +224,7 @@ class HTTPServer:
         return builder.build()
 
     """
+        `urllib.parse.unquote`
         https://github.com/ruijun-ni/CS4131-Internet-Programming/blob/main/hw4/myServer.py
     """
     def method_not_allowed(self):
@@ -174,7 +252,6 @@ class HTTPServer:
         builder.add_header("Content-Type", MIME_TYPES["html"])
         builder.set_content(get_file_contents("httpserv/403.html"))
         return builder.build()
-
 
 class ResponseBuilder:
     def __init__(self):
@@ -211,5 +288,7 @@ class ResponseBuilder:
 
         return response
 
+# mklink /J 2Original E:\kpdf\pdfreader_image\fastpdf-turbo\image\imagetest\testdata\jpg
+# http://localhost:9001/?listdir=kvision/2Original
 if __name__ == "__main__":
     HTTPServer()

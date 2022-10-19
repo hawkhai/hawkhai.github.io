@@ -18,12 +18,10 @@ def get_file_contents(file_name):
     with open(file_name, "r") as f:
         return f.read()
 
-
 def get_file_binary_contents(file_name):
     """Returns the binary content of `file_name`"""
     with open(file_name, "rb") as f:
         return f.read()
-
 
 def has_permission_other(file_name):
     """Returns `True` if the `file_name` has read permission on other group
@@ -40,7 +38,6 @@ def has_permission_other(file_name):
     stmode = os.stat(file_name).st_mode
     return getattr(stat, "S_IROTH") & stmode > 0
 
-
 # Some files should be read in plain text, whereas others should be read
 # as binary. To maintain a mapping from file types to their expected form, we
 # have a `set` that maintains membership of file extensions expected in binary.
@@ -54,7 +51,6 @@ def should_return_binary(file_extension):
     binary.
     """
     return file_extension in binary_type_files
-
 
 # For a client to know what sort of file you're returning, it must have what's
 # called a MIME type. We will maintain a `dictionary` mapping file extensions
@@ -78,7 +74,6 @@ def get_file_mime_type(file_extension):
     """
     mime_type = mime_types[file_extension]
     return mime_type if mime_type is not None else "text/plain"
-
 
 class HTTPServer:
     """
@@ -148,8 +143,6 @@ class HTTPServer:
 
         return response.encode('utf-8')
 
-
-
     # TODO: Write the response to a GET request
     def get_request(self, requested_file, data):
 
@@ -171,7 +164,6 @@ class HTTPServer:
             builder.add_header("Content-Type", get_file_mime_type(requested_file.split(".")[1]))
 
             return builder.build()
-
 
         """
         Responds to a GET request with the associated bytes.
@@ -250,8 +242,6 @@ class HTTPServer:
         builder.set_content(get_file_contents("404.html"))
         return builder.build()
 
-
-
     # TODO: Make a function that handles forbidden error
     def resource_forbidden(self):
         """
@@ -263,7 +253,6 @@ class HTTPServer:
         builder.add_header("Content-Type", mime_types["html"])
         builder.set_content(get_file_contents("403.html"))
         return builder.build()
-
 
 class ResponseBuilder:
     """
@@ -323,7 +312,6 @@ class ResponseBuilder:
 
         Where CRLF is our `NEWLINE` constant.
         """
-
 
 if __name__ == "__main__":
     HTTPServer()
