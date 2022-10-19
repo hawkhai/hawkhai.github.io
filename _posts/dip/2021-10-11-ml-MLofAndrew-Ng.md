@@ -381,6 +381,27 @@ $$
 {% include image.html url="/assets/images/211011-ml-mlofandrew-ng/v2-e5d8e804c0af6a097700cec2be5e7834_720w.jpg" caption="logistic function (S-shape)" %}
 {% include image.html url="/assets/images/211011-ml-mlofandrew-ng/20191130021642167.png" %}
 
+#### Sigmoid 函数求导
+
+基础知识：
+* 若 $f\left( x \right)=\frac{1}{x}$，则 $f'\left( x \right)=-\frac{1}{x^{2}}$
+* 若 $g\left( x \right)=e^{x}$，则 $g'\left( x \right)=e^{x}$
+
+Sigmoid 函数：
+$S\left( x \right)=Sigmoid\left( x \right)=\frac{1}{1+e^{-x}}$
+
+求导过程：
+$$
+S'\left( x \right)=-\frac{1}{(1+e^{-x})^2}\times(1+e^{-x})'=-\frac{1}{(1+e^{-x})^2}\times(-e^{-x})=\frac{1}{1+e^{-x}}\times\frac{e^{-x}}{1+e^{-x}}=\frac{1}{1+e^{-x}}\times\frac{1+e^{-x}-1}{1+e^{-x}}=S\left( x \right)(1-S\left( x \right))
+$$
+
+故 Sigmoid 函数的求导结果为：
+$$
+S'\left( x \right)=S\left( x \right)(1-S\left( x \right))
+$$
+
+Sigmoid 函数导数最大值为 0.25，因链式法则需要连乘，故进行反向传播时容易导致梯度消失。前边神经元的权重可能得不到更改。
+
 
 ### 6-3. 决策界限 14:50
 

@@ -201,7 +201,7 @@ title : %(title)s
 
     # protocol :// hostname[:port] / path / [:parameters][?query]#fragment
     remotename = url.split("?")[0].split("#")[0].split("/")[-1]
-    if remotename in ("LICENSE-2.0",):
+    if remotename in readfileIglist("config/mdrstrip_url_ignore_name.txt"):
         return remote
 
     # 外链类型 断言...
