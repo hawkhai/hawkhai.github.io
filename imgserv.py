@@ -167,7 +167,7 @@ class HTTPServer:
         print("post_request_upload", argvs)
         fdata = client_sock.recv(MAX_FILE_SIZE, socket.MSG_WAITALL)
 
-        # POST ?upimage=kvision/4Enhance/60.jpg.guide.png HTTP/1.1
+        # POST upimage=kvision/4Enhance/60.jpg.guide.png HTTP/1.1
         if "upimage" in argvs.keys():
 
             fpath = argvs["upimage"][0]
