@@ -30,6 +30,8 @@ div.page {
 }
 </style>
 
+**原图** vs **黑白滤镜** vs **黑白滤镜 + 锐化**
+
 {% include image.html url="/kvision/6BlackWhite/01.jpg" width="30%" url2="/kvision/6BlackWhite/01.jpg.result.png" width2="30%" url3="/kvision/6BlackWhite/01.jpg.sharpen.png" width3="30%" %}
 {% include image.html url="/kvision/6BlackWhite/02.jpg" width="30%" url2="/kvision/6BlackWhite/02.jpg.result.png" width2="30%" url3="/kvision/6BlackWhite/02.jpg.sharpen.png" width3="30%" %}
 {% include image.html url="/kvision/6BlackWhite/03.jpg" width="30%" url2="/kvision/6BlackWhite/03.jpg.result.png" width2="30%" url3="/kvision/6BlackWhite/03.jpg.sharpen.png" width3="30%" %}
