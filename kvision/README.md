@@ -8,6 +8,8 @@
 * [轻描黑白滤镜]({% include relref.html url="/kvision/6BlackWhite" %})
 * [轻描黑白滤镜 - 彩色版本]({% include relref.html url="/kvision/6BlackWhiteColor" %})
 
+* [增亮]({% include relref.html url="/kvision/3Brighten" %})
+
 
 
 <hr class='reviewline'/>
