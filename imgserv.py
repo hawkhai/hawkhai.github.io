@@ -8,6 +8,7 @@ from urllib.parse import unquote
 import json
 from urllib import parse
 from threading import Thread
+import time
 
 import re, os, sys
 sys.path.append("../")
@@ -85,7 +86,7 @@ class HTTPServer:
     def setup_socket(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.bind((self.host, self.port))
-        self.sock.listen(128)
+        self.sock.listen(128) # 允许队列的等待长度。
 
     def teardown_socket(self):
         if self.sock is not None:
@@ -161,11 +162,24 @@ class HTTPServer:
             builder.add_header("Connection", "close")
             builder.add_header("Content-Type", JSON_MIME_TYPE)
             return builder.build()
+        return self.response_ok()
 
     def post_request_upload(self, requested_file, data, client_sock):
         argvs = parse.parse_qs(requested_file)
-        print("post_request_upload", argvs)
-        fdata = client_sock.recv(MAX_FILE_SIZE, socket.MSG_WAITALL)
+        # Content-Length: 653306
+        contentlength = MAX_FILE_SIZE # 实在太多可能造成客户端超时错误。
+        for idata in data:
+            if idata.startswith("Content-Length"):
+                contentlength = int(idata.split(":")[-1].strip())
+
+        print("post_request_upload", contentlength, argvs)
+        assert contentlength != MAX_FILE_SIZE, contentlength
+        atime = time.time()
+        # 如果约定的长度没有达到，就会超时，直到客户端断开。
+        fdata = client_sock.recv(contentlength, socket.MSG_WAITALL)
+        print("post_request_upload", len(fdata), "time=%.4fs" % (time.time()-atime))
+        # 这里断言完整，要么不写，要么就是完整的。
+        assert len(fdata) == contentlength, (len(fdata), contentlength, argvs)
 
         # POST upimage=kvision/4Enhance/60.jpg.guide.png HTTP/1.1
         if "upimage" in argvs.keys():
@@ -183,6 +197,7 @@ class HTTPServer:
             builder.add_header("Connection", "close")
             builder.add_header("Content-Type", JSON_MIME_TYPE)
             return builder.build()
+        return self.response_ok()
 
     # TODO: Write the response to a GET request
     # ?listdir=kvision/2Original
@@ -203,10 +218,8 @@ class HTTPServer:
                 builder.set_content(get_file_contents(requested_file))
 
             builder.set_status("200", "OK")
-
             builder.add_header("Connection", "close")
             builder.add_header("Content-Type", get_file_mime_type(requested_file.split(".")[-1]))
-
             return builder.build()
 
     # TODO: Write the response to a POST request
@@ -216,11 +229,14 @@ class HTTPServer:
         if requested_file.startswith("?"):
             return self.post_request_upload(requested_file[1:], data, client_sock)
 
+        return self.response_ok()
+
+    def response_ok(self):
         builder = ResponseBuilder()
         builder.set_status("200", "OK")
         builder.add_header("Connection", "close")
         builder.add_header("Content-Type", MIME_TYPES["html"])
-        builder.set_content(get_file_contents("MyForm.html"))
+        builder.set_content(b"ok")
         return builder.build()
 
     """
