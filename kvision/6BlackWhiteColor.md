@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "kvision -- 6BlackWhiteColor.md"
+title: "kvision -- 轻描黑白滤镜 - 彩色版本 6BlackWhiteColor.md"
 author: yqh
 location: "珠海"
 categories: ["工作笔记"]
@@ -20,14 +20,8 @@ archived: true
 ---
 
 <style>
-.captioned-img img.lazyloaded {
-    border-radius: 0px;
-    border: #f0f0f0;
-    border-width: 1px;
-}
-div.page {
-    max-width: 100%;
-}
+.captioned-img img.lazyloaded { border-radius: 0px; border: #f0f0f0; border-width: 1px; }
+div.page { max-width: 100%; }
 </style>
 
 **原图** vs **黑白滤镜** vs **黑白滤镜 + 锐化**

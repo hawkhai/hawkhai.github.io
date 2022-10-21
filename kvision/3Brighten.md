@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "kvision -- 3Brighten.md"
+title: "kvision -- 增亮 3Brighten.md"
 author: yqh
 location: "珠海"
 categories: ["工作笔记"]
@@ -20,14 +20,8 @@ archived: true
 ---
 
 <style>
-.captioned-img img.lazyloaded {
-    border-radius: 0px;
-    border: #f0f0f0;
-    border-width: 1px;
-}
-div.page {
-    max-width: 100%;
-}
+.captioned-img img.lazyloaded { border-radius: 0px; border: #f0f0f0; border-width: 1px; }
+div.page { max-width: 100%; }
 </style>
 
 **原图** vs **逼近效果** vs **目标效果**
