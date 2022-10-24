@@ -26,9 +26,6 @@ div.page { max-width: 100%; }
 
 **原图** vs **黑白滤镜** vs **目标效果**
 
-
-
-
 {% include image.html url="/kvision/ksample/6BlackWhite/01.jpg" width="30%" url2="/kvision/ksample/6BlackWhite/01.jpg.result.png" width2="30%" url3="/kvision/ksample/6BlackWhite/01.jpg.guide.png" width3="30%" %}
 {% include image.html url="/kvision/ksample/6BlackWhite/02.jpg" width="30%" url2="/kvision/ksample/6BlackWhite/02.jpg.result.png" width2="30%" url3="/kvision/ksample/6BlackWhite/02.jpg.guide.png" width3="30%" %}
 {% include image.html url="/kvision/ksample/6BlackWhite/03.jpg" width="30%" url2="/kvision/ksample/6BlackWhite/03.jpg.result.png" width2="30%" url3="/kvision/ksample/6BlackWhite/03.jpg.guide.png" width3="30%" %}
