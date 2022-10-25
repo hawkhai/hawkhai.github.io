@@ -46,6 +46,19 @@ HINSTANCE hDLL = LoadLibrary(current.c_str());
 
 auto modey = ::SetErrorMode(modebak);
 assert(modey == modex);
+
+/**
+4294967293 fffffffd -- -3 fffffffd
+4294967294 fffffffe -- -2 fffffffe
+4294967295 ffffffff -- -1 ffffffff
+0 0 -- 0 0
+1 1 -- 1 1
+2 2 -- 2 2
+3 3 -- 3 3*/
+    for (int i = -3; i <= 3; i++) {
+        unsigned int ui = (unsigned int) i;
+        printf("%u %x -- %d %x \n", i, i, ui, ui);
+    }
 ```
 
 Hey, there! Welcome to my blog. I hope you enjoy reading the stuff in here. Nothing fancy, really. Just bits and bobs about tech and random topics.<br/><br/>
