@@ -96,6 +96,52 @@ __int64 winMemoCtrl() {
 ```
 
 
+## C++ 数据类型
+
+```cpp
+printf("char | %d \n", sizeof(char));
+printf("short | %d \n", sizeof(short));
+printf("int | %d \n", sizeof(int));
+printf("long | %d \n", sizeof(long));
+printf("long long | %d \n", sizeof(long long));
+printf("__int64 | %d \n", sizeof(__int64));
+printf("float | %d \n", sizeof(float));
+printf("double | %d \n", sizeof(double));
+printf("long double | %d \n", sizeof(long double));
+printf("void* | %d \n", sizeof(void*));
+```
+
+* **主要就是指针和 int 的问题。**
+
+类型 | 32 | 64
+---- | --- | ---
+char | 1 | 1
+short | 2 | 2
+int | 4 | 4
+long | 4 | 4
+long long | 8 | 8
+int64 | 8 | 8
+float | 4 | 4
+double | 8 | 8
+long double | 8 | 8
+void\* | 4 | 8
+
+[note {% include relref_cnblogs.html %}](https://www.cnblogs.com/flowerslip/p/5934718.html)
+补码最大好处就是不管是有符号数还是无符号数都可以用同一套加减法。
+有符号数和无符号数在计算机里表示都是一样的，二进制的补码形式。
+是有符号还是无符号，是编译器来辨认的。
+* 赋值截断问题
+    * 等长直接赋值，变短直接截断，变长如果正前补 0，为负前补 1。
+* 运算问题
+    * 汇编是不区分正负数字的。溢出不溢出，是由程序员判断的，机器不知道。
+* 判等问题
+    * `movsx eax,byte ptr [a]` 先符号扩展，再传送
+    * `movzx ecx,byte ptr [b]` 先零扩展，再传送
+    * `cmp eax,ecx`
+
+64 位操作系统内存值的最高位可能是 1 吗？
+
+
 ## 剪贴板
 
 ```
@@ -1842,6 +1888,7 @@ class fastimagedll : public fastimage::IFastImageInterface {
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-tiny-source-code.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.cnblogs.com/flowerslip/p/5934718.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.cnblogs.com/ffc4e6db.html" %})
 - [https://www.tutorialspoint.com/c_standard_library/c_function_bsearch.htm]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.tutorialspoint.com/c5079b0f.htm" %})
 - [https://www.tutorialspoint.com/c_standard_library/c_function_qsort.htm]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.tutorialspoint.com/0bec0743.htm" %})
 - [https://codingtidbit.com/2020/02/09/c17-codecvt_utf8-is-deprecated/]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/codingtidbit.com/24af4f6e.html" %})
