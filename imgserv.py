@@ -153,7 +153,7 @@ class HTTPServer:
     # listdir=kvision/2Original
     def get_request_api(self, requested_file, data):
         argvs = parse.parse_qs(requested_file)
-        print("get_request_api", argvs)
+        print("GET_REQUEST_API", argvs)
 
         if "listdir" in argvs.keys():
             builder = ResponseBuilder()
@@ -174,12 +174,12 @@ class HTTPServer:
             if idata.startswith("Content-Length"):
                 contentlength = int(idata.split(":")[-1].strip())
 
-        print("post_request_upload", contentlength, argvs)
+        print("POST_REQUEST_UPLOAD", contentlength, argvs)
         assert contentlength != MAX_FILE_SIZE, contentlength
         atime = time.time()
         # 如果约定的长度没有达到，就会超时，直到客户端断开。
         fdata = client_sock.recv(contentlength, socket.MSG_WAITALL)
-        print("post_request_upload", len(fdata), "time=%.4fs" % (time.time()-atime))
+        print("POST_REQUEST_UPLOAD", len(fdata), "time=%.4fs" % (time.time()-atime))
         # 这里断言完整，要么不写，要么就是完整的。
         assert len(fdata) == contentlength, (len(fdata), contentlength, argvs)
 

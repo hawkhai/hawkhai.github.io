@@ -20,6 +20,8 @@ cluster: "CMake"
 * **[CMake CMakeLists.txt 高级特性]({% include relref.html url="/blog/2021/02/26/CMakeLists-Advanced" %})**
 * **[CMake CMakeLists.txt 笔记 Notes]({% include relref.html url="/blog/2022/04/14/CMakeLists-Notes" %})**
 
+[CMake 备忘录 {% include relref_cnblogs.html %}](https://www.cnblogs.com/zjutzz/p/13340318.html)
+
 
 ## $<$<CONFIG:Debug>:Release> $<$<CONFIG:Release>:Debug>
 
@@ -384,11 +386,11 @@ endforeach(opencvmodule)
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-04-14-CMakeLists-Notes.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.cnblogs.com/zjutzz/p/13340318.html]({% include relrefx.html url="/backup/2022-04-14-CMakeLists-Notes.md/www.cnblogs.com/c04b7c6b.html" %})
 - [https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html]({% include relrefx.html url="/backup/2022-04-14-CMakeLists-Notes.md/cmake.org/1e5863d8.html" %})
 - [https://nielsberglund.com/2021/01/03/build-boost.python--numpy-in-windows/]({% include relrefx.html url="/backup/2022-04-14-CMakeLists-Notes.md/nielsberglund.com/f9ab3c3d.html" %})
 - [https://www.mantidproject.org/Building_Boost_Python.html]({% include relrefx.html url="/backup/2022-04-14-CMakeLists-Notes.md/www.mantidproject.org/fb5fe56a.html" %})
 - [https://cmake.org/cmake/help/latest/module/FindBoost.html]({% include relrefx.html url="/backup/2022-04-14-CMakeLists-Notes.md/cmake.org/fd378ffe.html" %})
 - [https://stackoverflow.com/questions/42123509/cmake-finds-boost-but-the-imported-targets-not-available-for-boost-version]({% include relrefx.html url="/backup/2022-04-14-CMakeLists-Notes.md/stackoverflow.com/676dec35.html" %})
-- [https://www.cnblogs.com/zjutzz/p/13340318.html]({% include relrefx.html url="/backup/2022-04-14-CMakeLists-Notes.md/www.cnblogs.com/c04b7c6b.html" %})
 - [https://cmake.org/cmake/help/latest/variable/CMAKE_MSVC_RUNTIME_LIBRARY.html]({% include relrefx.html url="/backup/2022-04-14-CMakeLists-Notes.md/cmake.org/63aa9dfe.html" %})
 - [https://thomas.trocha.com/blog/cmake--copy-files-after-build/]({% include relrefx.html url="/backup/2022-04-14-CMakeLists-Notes.md/thomas.trocha.com/11fc4a35.html" %})

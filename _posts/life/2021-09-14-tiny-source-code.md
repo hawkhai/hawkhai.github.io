@@ -59,7 +59,40 @@ assert(modey == modex);
         unsigned int ui = (unsigned int) i;
         printf("%u %x -- %d %x \n", i, i, ui, ui);
     }
+
+// 64 位版本：
+int a = sizeof(int); // 4
+a = sizeof(long); // 4
+a = sizeof(long long); // 8
+a = sizeof(__int64); // 8
+a = sizeof(void*); // 8
+a = 0;
 ```
+
+1. 不能包含指针转换：`(int)` -> `(int64)`，可能造成指针截断。
+    * <https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt>
+    * <https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4189?view=msvc-170>
+    * /we4101 # 'identifier' : unreferenced local variable
+    * /we4244 # 'conversion' conversion from 'type1' to 'type2', possible loss of data
+    * /we4189 # 'identifier' : local variable is initialized but not referenced
+    * warning C4311: “类型强制转换”: 从“unsigned char *”到“DWORD”的指针截断
+    * warning C4302: “类型强制转换”: 从“unsigned char *”到“DWORD”截断
+    * warning C4312: “类型强制转换”: 从“int”转换到更大的“void *”
+    * warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+    * /we4267 /we4312 /we4101 /we4244 /we4189 /we4311 /we4302
+2. 所有 `while (1)` 替换为：`while (true)`，以方便阅读。
+3. 指针查找：`*(_BYTE*)(v12` -> `\*\([0-9a-zA-Z_]*?\*\)\(v`
+4. 所有 float 采用 (float)，避免限制为 double，最终 32 & 64 计算的结果图存在不一致。
+
+符号转换规则：
+char -> uchar
+uchar -> char
+截断补齐规则：
+int -> char
+char -> int
+int -> uchar
+uchar -> int
+内存地址是否高位为 1，int64 的情况。
 
 Hey, there! Welcome to my blog. I hope you enjoy reading the stuff in here. Nothing fancy, really. Just bits and bobs about tech and random topics.<br/><br/>
 Enjoy!
@@ -109,6 +142,24 @@ __int64 winMemoCtrl() {
 ```
 
 
+## 操作系统和编译器预定义宏
+
+**操作系统预定义宏：**
+
+操作系统 | 公共定义 | 64 位系统定义
+Windows | \_WIN32 | \_WIN64
+macOS | \_\_APPLE\_\_ | \_\_LP64\_\_
+Linux | \_\_linux\_\_ | \_\_LP64\_\_
+Android | \_\_ANDROID\_\_ | \_\_LP64\_\_
+
+**编译器预定义宏：**
+
+**编译器** | **编译器定义** | **x86 指令集** | **AMD64 指令集** | **ARM32 指令集** | **Thumb 指令集** | **ARM64 指令集**
+MSVC | \_MSC\_VER | \_M\_IX86 | \_M\_X64 | \_M\_ARM | \_M\_THUMB | \_M\_ARM64
+GCC | \_\_GNUC\_\_ | \_\_i386\_\_ | \_\_x86\_64\_\_ | \_\_arm\_\_ | \_\_thumb\_\_ | \_\_aarch64\_\_
+Clang | \_\_clang\_\_ | \_\_i386\_\_ | \_\_x86\_64\_\_ | \_\_arm\_\_ | \_\_thumb\_\_ | \_\_aarch64\_\_
+
+
 ## C++ 数据类型
 
 ```cpp
@@ -153,6 +204,41 @@ void\* | 4 | 8
     * `cmp eax,ecx`
 
 64 位操作系统内存值的最高位可能是 1 吗？
+(unsigned int)(float) 调整为 (int)(float)。
+危险的 `(unsigned int)(float)` 强转：
+```
+if (outx == 0) {
+    auto xxd = v25 * 255.0;
+    float xxdf = (float)xxd;
+    int t1 = (int)xxdf;
+    int t2 = (unsigned int)xxdf; // 这里 32 系统，64 系统不一样。
+    printf("v25 = %f \n", v25);
+    printf("v25 = %f \n", xxd);
+    printf("v25 = %f %x  %x:%x \n", xxdf, *(_DWORD*)&xxdf, t1, t2);
+    printf("v25 = %x %d \n", (unsigned int)xxdf, temp);
+}
+```
+32 位系统：
+```
+v25 = -0.333500
+v25 = -85.042499
+v25 = -85.042496 c2aa15c2  ffffffab:ffffffff
+v25 = ffffffff 255
+// 生成的汇编不一样，造成计算误差。
+movss       xmm0,dword ptr [ebp-0C8h]
+call        __ftoui3 (0F1B1708h)
+mov         dword ptr [ebp-0D0h],eax
+```
+64 位系统：
+```
+v25 = -0.333500
+v25 = -85.042499
+v25 = -85.042496 c2aa15c2  ffffffab:ffffffab
+v25 = ffffffab 171
+// 生成的汇编不一样，造成计算误差。
+cvttss2si   rax,dword ptr [rsp+140h]
+mov         dword ptr [rsp+148h],eax
+```
 
 
 ## 剪贴板
@@ -1901,6 +1987,8 @@ class fastimagedll : public fastimage::IFastImageInterface {
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-tiny-source-code.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/android.googlesource.com/b62cb28d.txt" %})
+- [https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4189?view=msvc-170]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/learn.microsoft.com/0c120c99.html" %})
 - [https://www.cnblogs.com/flowerslip/p/5934718.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.cnblogs.com/ffc4e6db.html" %})
 - [https://www.tutorialspoint.com/c_standard_library/c_function_bsearch.htm]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.tutorialspoint.com/c5079b0f.htm" %})
 - [https://www.tutorialspoint.com/c_standard_library/c_function_qsort.htm]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.tutorialspoint.com/0bec0743.htm" %})

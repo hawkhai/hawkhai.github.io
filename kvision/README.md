@@ -10,15 +10,16 @@
 ```
 
 * [轻描黑白滤镜]({% include relref.html url="/kvision/6BlackWhite" %})
-    * 新版本貌似处理了镂空的问题。
+    * 新版本貌似处理了镂空的问题。Android 版本基本完成。
 * [轻描黑白滤镜 - 彩色版本]({% include relref.html url="/kvision/6BlackWhiteColor" %})
+    * Android 版本基本完成。
 
 * [增亮]({% include relref.html url="/kvision/3Brighten" %})
-    * 基本一致。
+    * 基本一致。Android 版本完成。
 * [省墨]({% include relref.html url="/kvision/7SaveInk" %})
-    * 貌似更黑一点。
+    * 貌似更黑一点。Android 版本完成。
 * [灰度模式]({% include relref.html url="/kvision/5GrayScale" %})
-    * 貌似更黑一些。
+    * 貌似更黑一些。Android 版本完成。
 
 
 
