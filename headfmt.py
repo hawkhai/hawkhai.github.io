@@ -97,7 +97,7 @@ permalink
 l2dwidget cluster
 sortrefs archived date
 layoutclear titlecheck
-ktitle kaliyun
+ktitle kaliyun imgthumb
 """.split()
 
     kvmap = {}

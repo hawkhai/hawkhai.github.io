@@ -27,7 +27,7 @@ VLD (Visual LeakDetector) 内存泄露库的使用，VLD 是一款用于 Visual 
 5. 源代码使用 GNU 许可发布，并有详细的文档及其注释。
 
 VLD 网址：[vld.codeplex.com {% include relref_github.html %}](https://kinddragon.github.io/vld/)
-<http://www.codeproject.com/Articles/9815/Visual-Leak-Detector-Enhanced-Memory-Leak-Detectio>
+* Dan-Moulding <http://www.codeproject.com/Articles/9815/Visual-Leak-Detector-Enhanced-Memory-Leak-Detectio>
 
 1. VLD 只能在 Windows 下使用，在包含 vld.h 头文件时增加预编译选项。
 2. 在 Release 模式下，不会链接 VisualLeak Detector。
@@ -40,6 +40,15 @@ int AllocHook(int allocType,
         int blockType, long requestNumber,
         const unsigned char* filename, int lineNumber);
 ```
+
+* <https://kinddragon.github.io/vld/>
+    * **我使用的这个。** Latest release v2.5.1 - 2017-10-17 forked from dmoulding/vld
+* <https://github.com/dmoulding/vld>
+    * 这个应该是正版，和最初的同一个作者。非常古老了。
+* <https://github.com/oneiric/vld>
+    * vld-2.7.0-setup.exe - 13 Sep 2021
+* <https://github.com/derickr/vld>
+    * 这个点赞挺多的。
 
 
 ## LeakSanitizer
@@ -104,4 +113,7 @@ monitoring tool for Windows, Linux, and Mac.
 
 - [https://kinddragon.github.io/vld/]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/kinddragon.github.io/56acbbc3.html" %})
 - [http://www.codeproject.com/Articles/9815/Visual-Leak-Detector-Enhanced-Memory-Leak-Detectio]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/www.codeproject.com/234cf836.html" %})
+- [https://github.com/dmoulding/vld]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/github.com/a11363fc.html" %})
+- [https://github.com/oneiric/vld]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/github.com/8d5aee04.html" %})
+- [https://github.com/derickr/vld]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/github.com/ab07174a.html" %})
 - [http://ftpmirror.your.org/pub/misc/ftp.microsoft.com/PSS/Tools/Developer%20Support%20Tools/LDGrapher/]({% include relrefx.html url="/backup/2022-05-06-memory-leak-vld.md/ftpmirror.your.org/070ecfdd.html" %})

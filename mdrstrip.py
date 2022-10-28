@@ -226,7 +226,7 @@ def tidyupImgCollect(rootdir):
     searchdir(rootdir, mainfile)
 
 # 本地图片缓存路径。
-def tidyupImg(imglocal, fpath, line):
+def tidyupImg(imglocal, fpath, line, imgthumb=True):
 
     if imglocal in readfileIglist("config/mdrstrip_fake_image_files.txt"):
         return line
@@ -280,10 +280,15 @@ def tidyupImg(imglocal, fpath, line):
         G_IMG_TAGED.remove(os.path.relpath(tpath, ".").lower())
 
     # 同样大小的小图片先占位... lazyload
-    sizepath = tpath + THUMBNAIL
+    thumbPath = tpath + THUMBNAIL
     from PIL import Image
-    # 创建缩略图。
-    if not os.path.exists(sizepath) and imgtype in ("png", "jpg", "gif", "jpeg", "webp", "bmp", "jfif"):
+
+    # 1. 明确指出不需要缩略图的情况。
+    if not imgthumb:
+        osremove(thumbPath)
+
+    # 2. 创建缩略图。
+    elif not os.path.exists(thumbPath) and imgtype in ("png", "jpg", "gif", "jpeg", "webp", "bmp", "jfif"):
         try:
             img = Image.open(tpath)
         except RuntimeError as ex: # could not create decoder object
@@ -312,32 +317,33 @@ def tidyupImg(imglocal, fpath, line):
 
         # 小于 100K...
         img = img.convert("RGB") #.convert("L")
-        img.save(sizepath)
-        appendfile(sizepath, getFileMd5(tpath))
+        img.save(thumbPath)
+        appendfile(thumbPath, getFileMd5(tpath))
 
-    elif not os.path.exists(sizepath) and imgtype in ("svg",):
-        osremove(sizepath)
+    # 3. 无法创建缩略图（矢量图）。
+    elif not os.path.exists(thumbPath) and imgtype in ("svg",):
+        osremove(thumbPath)
 
-    # 检查缩略图。
-    elif os.path.exists(sizepath):
+    # 4. 检查缩略图。
+    elif os.path.exists(thumbPath):
 
-        srcmd5 = readfile(sizepath, True)[-32:]
+        srcmd5 = readfile(thumbPath, True)[-32:]
         if getFileMd5(tpath) != srcmd5: # 原图变化了。
-            osremove(sizepath)
-            return tidyupImg(imglocal, fpath, line)
+            osremove(thumbPath)
+            return tidyupImg(imglocal, fpath, line, imgthumb=imgthumb)
 
         #img = Image.open(tpath)
         #width, height = img.size
         #try:
-        #    img = Image.open(sizepath)
+        #    img = Image.open(thumbPath)
         #except RuntimeError as ex: # could not create decoder object
-        #    print("Image.open RuntimeError", sizepath)
-        #    osremove(sizepath)
+        #    print("Image.open RuntimeError", thumbPath)
+        #    osremove(thumbPath)
         #    return tidyupImg(imglocal, fpath, line) # 存在问题，重新创建。
 
         #if img.size != (width, height): # 尺寸不对，重新创建。
         #    img.close()
-        #    osremove(sizepath)
+        #    osremove(thumbPath)
         #    return tidyupImg(imglocal, fpath, line)
 
     imgtype = imgfname.split(".")[-1].lower()
@@ -350,7 +356,7 @@ def tidyupImg(imglocal, fpath, line):
     return line.replace(imglocal, tpath.replace("\\", "/"))
 
 G_HOSTSET = {}
-def collectHost(fpath, line):
+def collectHost(fpath, line, imgthumb):
 
     reflist = []
     linesrc = line[:]
@@ -375,7 +381,7 @@ def collectHost(fpath, line):
         if os.path.isdir(imglocal):
             continue
 
-        line = tidyupImg(imglocal, fpath, line)
+        line = tidyupImg(imglocal, fpath, line, imgthumb=imgthumb)
 
     regex = r"""(
                     (https?)://
@@ -499,11 +505,11 @@ def removeRefs(fpath, lines):
             lines = lines[:-1]
     return lines
 
-def appendRefs(fpath, lines):
+def appendRefs(fpath, lines, imgthumb):
     reflist = []
 
     for index, line in enumerate(lines):
-        ireflist, line = collectHost(fpath, line)
+        ireflist, line = collectHost(fpath, line, imgthumb)
         lines[index] = line
         if ireflist:
             reflist.extend(ireflist)
@@ -649,8 +655,19 @@ def mainfile(fpath, fname, ftype):
             lines = lines[:-1]
 
     if isMdFile:
+
+        imgthumb = True
+        lineCount = 0
+        for line in lines:
+            if line == "---":
+                lineCount = lineCount + 1
+                if lineCount >= 2: break
+            if "".join(line.strip().lower().split()) == "imgthumb:false":
+                imgthumb = True
+                break
+
         try:
-            lines = appendRefs(fpath, lines)
+            lines = appendRefs(fpath, lines, imgthumb)
         except AssertionError as ex:
             openTextFile(fpath)
             traceback.print_exc()

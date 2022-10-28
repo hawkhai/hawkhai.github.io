@@ -179,7 +179,7 @@ class HTTPServer:
         atime = time.time()
         # 如果约定的长度没有达到，就会超时，直到客户端断开。
         fdata = client_sock.recv(contentlength, socket.MSG_WAITALL)
-        print("POST_REQUEST_UPLOAD", len(fdata), "time=%.4fs" % (time.time()-atime))
+        print("POST_REQUEST_UPLOAD", len(fdata), "time=%.4fs" % (time.time()-atime), "--", getCurrentTimeStr())
         # 这里断言完整，要么不写，要么就是完整的。
         assert len(fdata) == contentlength, (len(fdata), contentlength, argvs)
 
@@ -204,6 +204,11 @@ class HTTPServer:
     # TODO: Write the response to a GET request
     # ?listdir=kvision/2Original
     def get_request(self, requested_file, data):
+
+        if not os.path.exists(requested_file):
+            blog_requested_file = os.path.join("..", requested_file)
+            if os.path.exists(blog_requested_file):
+                requested_file = blog_requested_file
 
         if (not os.path.exists(requested_file)):
             if requested_file.startswith("?"):

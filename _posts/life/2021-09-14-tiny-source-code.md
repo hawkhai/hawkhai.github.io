@@ -35,7 +35,7 @@ if (res <= 0 || res >= MAX_PATH) {
     return gpuip::GPUIP_CODE::CODE_ERROR;
 }
 
-//
+// 加载 dll 不要弹框报错。
 auto modex = SEM_FAILCRITICALERRORS |     //
              SEM_NOALIGNMENTFAULTEXCEPT | //
              SEM_NOGPFAULTERRORBOX |      //
@@ -69,33 +69,69 @@ a = sizeof(void*); // 8
 a = 0;
 ```
 
-1. 不能包含指针转换：`(int)` -> `(int64)`，可能造成指针截断。
+1. 不能包含指针转换：`(int)`，调整为 `(int64)`，避免指针截断。
     * <https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt>
     * <https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4189?view=msvc-170>
     * /we4101 # 'identifier' : unreferenced local variable
     * /we4244 # 'conversion' conversion from 'type1' to 'type2', possible loss of data
     * /we4189 # 'identifier' : local variable is initialized but not referenced
-    * warning C4311: “类型强制转换”: 从“unsigned char *”到“DWORD”的指针截断
-    * warning C4302: “类型强制转换”: 从“unsigned char *”到“DWORD”截断
-    * warning C4312: “类型强制转换”: 从“int”转换到更大的“void *”
-    * warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+    * /we4311: “类型强制转换”: 从“unsigned char *”到“DWORD”的指针截断
+    * /we4302: “类型强制转换”: 从“unsigned char *”到“DWORD”截断
+    * /we4312: “类型强制转换”: 从“int”转换到更大的“void *”
+    * /we4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
     * /we4267 /we4312 /we4101 /we4244 /we4189 /we4311 /we4302
 2. 所有 `while (1)` 替换为：`while (true)`，以方便阅读。
-3. 指针查找：`*(_BYTE*)(v12` -> `\*\([0-9a-zA-Z_]*?\*\)\(v`
-4. 所有 float 采用 (float)，避免限制为 double，最终 32 & 64 计算的结果图存在不一致。
+3. 指针查找：`*(_BYTE*)(v12`，正则为 :`\*\([0-9a-zA-Z_]*?\*\)\(v`。
+4. 所有 float 采用 (float)，避免限制为 double，最终 32 & 64 计算的结果造成不一致。
+5. `(unsigned int)(float)` 调整为 `(int)(float)`，前面 32 & 64 汇编运算结果会不一致。
 
-符号转换规则：
-char -> uchar
-uchar -> char
-截断补齐规则：
-int -> char
-char -> int
-int -> uchar
-uchar -> int
-内存地址是否高位为 1，int64 的情况。
+内存地址是否高位为 1，int64 的情况？应该不存在。
+64 位操作系统内存值的最高位可能是 1 吗？
+危险的 `(unsigned int)(float)` 强转：
+```
+if (outx == 0) {
+    auto xxd = v25 * 255.0;
+    float xxdf = (float)xxd;
+    int t1 = (int)xxdf;
+    int t2 = (unsigned int)xxdf; // 这里 32 系统，64 系统不一样。
+    printf("v25 = %f \n", v25);
+    printf("v25 = %f \n", xxd);
+    printf("v25 = %f %x  %x:%x \n", xxdf, *(_DWORD*)&xxdf, t1, t2);
+    printf("v25 = %x %d \n", (unsigned int)xxdf, temp);
+}
+```
+32 位系统：
+```
+v25 = -0.333500
+v25 = -85.042499
+v25 = -85.042496 c2aa15c2  ffffffab:ffffffff
+v25 = ffffffff 255
+// 生成的汇编不一样，造成计算误差。
+movss       xmm0,dword ptr [ebp-0C8h]
+call        __ftoui3 (0F1B1708h)
+mov         dword ptr [ebp-0D0h],eax
+```
+64 位系统：
+```
+v25 = -0.333500
+v25 = -85.042499
+v25 = -85.042496 c2aa15c2  ffffffab:ffffffab
+v25 = ffffffab 171
+// 生成的汇编不一样，造成计算误差。
+cvttss2si   rax,dword ptr [rsp+140h]
+mov         dword ptr [rsp+148h],eax
+```
 
-Hey, there! Welcome to my blog. I hope you enjoy reading the stuff in here. Nothing fancy, really. Just bits and bobs about tech and random topics.<br/><br/>
-Enjoy!
+6BlackWhiteColor\android\54.webp.result.png
+-- 这玩意每次跑出来结果不一样。
+* 由于矩阵没有初始化，造成的结果波动。`memset(bkground.data, 0, bkground.step * bkground.rows);`
+7SaveInk\android\78.jfif.result.png -- 这个也不一样。
+
+
+## Hey, there! Enjoy!
+
+Hey, there! Welcome to my blog. I hope you enjoy reading the stuff in here.
+Nothing fancy, really. Just bits and bobs about tech and random topics.
 
 ```cpp
 wchar_t* pstr = nullptr;
@@ -109,7 +145,7 @@ tempexe.append(L"test");
 
 两个崩溃：
 1. `std::string = null;`
-2. `CString str; GetWindowsText(hWnd, str.GetBuffer(), MAX_PATH);`
+2. `CString str; GetWindowsText(hWnd, str.GetBuffer(/* 没有指定大小 */), MAX_PATH);`
 
 ```cpp
 bool endsWith(const CString& str, const CString& suffix, bool ignoreCase)
@@ -142,6 +178,31 @@ __int64 winMemoCtrl() {
 ```
 
 
+## Android Studio
+
+Android ARGB_8888 格式图片的各通道顺序其实不是 ARGB，而是 RGBA。
+
+[Android 历史版本](https://developer.android.google.cn/studio/archive.html)
+* E:\android-studio-2021.3.1.17-windows.exe
+    * 最新版本，老手机（HUAWEI MT7-TL00 Android 5.1.1 API 22）无法调试 C++。
+    * 新小手机（OPPO PBCM30 Android 10，API 29）可以调试。
+* E:\android-studio-20191205-3.5.3-ide-191.6010548-windows.exe
+    * 无法 load 起来。
+* E:\android-studio-20200224-3.6-ide-192.6200805-windows.exe
+    * 没有过多尝试。
+* E:\android-studio-20210119-4.1.2-ide-201.7042882-windows.exe
+    * 最终貌似是这个版本。
+    * This version of the Android Support plugin for IntelliJ IDEA (or Android Studio)
+        cannot open this project, please retry with version 2021.2.1 or newer.
+        * 不能打开主工程，那玩意太新了。
+    * No toolchains found in the NDK toolchains folder for ABI with prefix: arm-linux-androideabi
+        * classpath "com.android.tools.build:gradle:4.1.3"
+
+guide 原版 Android。
+result，pc 32 版本，64 作为对照组。
+android 文件夹，self android 32 版本，64 作为对照组。
+
+
 ## 操作系统和编译器预定义宏
 
 **操作系统预定义宏：**
@@ -152,9 +213,9 @@ macOS | \_\_APPLE\_\_ | \_\_LP64\_\_
 Linux | \_\_linux\_\_ | \_\_LP64\_\_
 Android | \_\_ANDROID\_\_ | \_\_LP64\_\_
 
-**编译器预定义宏：**
+**编译器预定义宏（指令集）：**
 
-**编译器** | **编译器定义** | **x86 指令集** | **AMD64 指令集** | **ARM32 指令集** | **Thumb 指令集** | **ARM64 指令集**
+**编译器** | **编译器定义** | **x86** | **AMD64** | **ARM32** | **Thumb** | **ARM64**
 MSVC | \_MSC\_VER | \_M\_IX86 | \_M\_X64 | \_M\_ARM | \_M\_THUMB | \_M\_ARM64
 GCC | \_\_GNUC\_\_ | \_\_i386\_\_ | \_\_x86\_64\_\_ | \_\_arm\_\_ | \_\_thumb\_\_ | \_\_aarch64\_\_
 Clang | \_\_clang\_\_ | \_\_i386\_\_ | \_\_x86\_64\_\_ | \_\_arm\_\_ | \_\_thumb\_\_ | \_\_aarch64\_\_
@@ -195,7 +256,7 @@ void\* | 4 | 8
 有符号数和无符号数在计算机里表示都是一样的，二进制的补码形式。
 是有符号还是无符号，是编译器来辨认的。
 * 赋值截断问题
-    * 等长直接赋值，变短直接截断，变长如果正前补 0，为负前补 1。
+    * 等长直接赋值，变短直接截断，变长如果正前补 0，为负前补 1，浮点数同理。
 * 运算问题
     * 汇编是不区分正负数字的。溢出不溢出，是由程序员判断的，机器不知道。
 * 判等问题
@@ -203,42 +264,19 @@ void\* | 4 | 8
     * `movzx ecx,byte ptr [b]` 先零扩展，再传送
     * `cmp eax,ecx`
 
-64 位操作系统内存值的最高位可能是 1 吗？
-(unsigned int)(float) 调整为 (int)(float)。
-危险的 `(unsigned int)(float)` 强转：
-```
-if (outx == 0) {
-    auto xxd = v25 * 255.0;
-    float xxdf = (float)xxd;
-    int t1 = (int)xxdf;
-    int t2 = (unsigned int)xxdf; // 这里 32 系统，64 系统不一样。
-    printf("v25 = %f \n", v25);
-    printf("v25 = %f \n", xxd);
-    printf("v25 = %f %x  %x:%x \n", xxdf, *(_DWORD*)&xxdf, t1, t2);
-    printf("v25 = %x %d \n", (unsigned int)xxdf, temp);
-}
-```
-32 位系统：
-```
-v25 = -0.333500
-v25 = -85.042499
-v25 = -85.042496 c2aa15c2  ffffffab:ffffffff
-v25 = ffffffff 255
-// 生成的汇编不一样，造成计算误差。
-movss       xmm0,dword ptr [ebp-0C8h]
-call        __ftoui3 (0F1B1708h)
-mov         dword ptr [ebp-0D0h],eax
-```
-64 位系统：
-```
-v25 = -0.333500
-v25 = -85.042499
-v25 = -85.042496 c2aa15c2  ffffffab:ffffffab
-v25 = ffffffab 171
-// 生成的汇编不一样，造成计算误差。
-cvttss2si   rax,dword ptr [rsp+140h]
-mov         dword ptr [rsp+148h],eax
-```
+
+## C/C++ 中 float 的内存结构
+
+[note {% include relref_csdn.html %}](https://blog.csdn.net/u011700339/article/details/89302321)
+**float 的内存结构**
+一个 32 位的 float 数和一个 64 位 double 数的存储主要分为三部分：符号位，指数位，尾数位。
+以 float 数为例：
+1. 符号位 (sign)：1 个 bit，0 代表正数，1 代表负数（这里和整数一致，所以汇编可以直接判断正负）
+2. 指数位 (exponent)：8 个 bit，范围 \-127~128，用于存储科学计数法中的指数部分，并且采用以为存储方式，所存储的数据为原数据 \+127
+3. 尾数位 (mantissa)：23bit，用于存储尾数部分
+{% include image.html url="/assets/images/210914-tiny-source-code/20190414202611812.png" %}
+float 数的表示形式：
+$$pow(−1,sign)*(1+mag)*pow(2,exp−127)$$
 
 
 ## 剪贴板
@@ -1989,7 +2027,9 @@ class fastimagedll : public fastimage::IFastImageInterface {
 
 - [https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/android.googlesource.com/b62cb28d.txt" %})
 - [https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4189?view=msvc-170]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/learn.microsoft.com/0c120c99.html" %})
+- [https://developer.android.google.cn/studio/archive.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/developer.android.google.cn/94ce01e4.html" %})
 - [https://www.cnblogs.com/flowerslip/p/5934718.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.cnblogs.com/ffc4e6db.html" %})
+- [https://blog.csdn.net/u011700339/article/details/89302321]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/7a1d031d.html" %})
 - [https://www.tutorialspoint.com/c_standard_library/c_function_bsearch.htm]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.tutorialspoint.com/c5079b0f.htm" %})
 - [https://www.tutorialspoint.com/c_standard_library/c_function_qsort.htm]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.tutorialspoint.com/0bec0743.htm" %})
 - [https://codingtidbit.com/2020/02/09/c17-codecvt_utf8-is-deprecated/]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/codingtidbit.com/24af4f6e.html" %})
