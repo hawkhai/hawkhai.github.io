@@ -127,6 +127,21 @@ mov         dword ptr [rsp+148h],eax
 * 由于矩阵没有初始化，造成的结果波动。`memset(bkground.data, 0, bkground.step * bkground.rows);`
 7SaveInk\android\78.jfif.result.png -- 这个也不一样。
 
+* `__dmb(0xBu);` -> `__dmb(_ARM_BARRIER_ISH);`
+  ```
+  typedef enum _tag_ARMINTR_BARRIER_TYPE
+  {
+      _ARM_BARRIER_SY    = 0xF,
+      _ARM_BARRIER_ST    = 0xE,
+      _ARM_BARRIER_ISH   = 0xB,
+      _ARM_BARRIER_ISHST = 0xA,
+      _ARM_BARRIER_NSH   = 0x7,
+      _ARM_BARRIER_NSHST = 0x6,
+      _ARM_BARRIER_OSH   = 0x3,
+      _ARM_BARRIER_OSHST = 0x2
+  }
+  ```
+
 
 ## Hey, there! Enjoy!
 

@@ -659,11 +659,11 @@ def mainfile(fpath, fname, ftype):
         imgthumb = True
         lineCount = 0
         for line in lines:
-            if line == "---":
+            if line.strip() == "---":
                 lineCount = lineCount + 1
                 if lineCount >= 2: break
             if "".join(line.strip().lower().split()) == "imgthumb:false":
-                imgthumb = True
+                imgthumb = False
                 break
 
         try:
