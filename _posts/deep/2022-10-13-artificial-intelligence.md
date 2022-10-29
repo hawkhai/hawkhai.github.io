@@ -18,7 +18,7 @@ codeprint:
 [神经网络*内部*发生了什么？ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1s3411y7WN/)
 {% include image.html url="/assets/images/221013-artificial-intelligence/20221016220307.png" %}
 
-> 该看：5-1
+> 该看：6-3 案例三
 
 * 机器学习：给定数据的预测问题。
 
@@ -38,6 +38,99 @@ codeprint:
     * EM 算法
 * 强化学习：序列决策问题。
     * 马尔科夫决策方法（扫地机器人寻路）
+
+
+## 基础知识
+
+
+### 超参数（Hyperparameter）
+
+机器学习算法中的调优参数（tuning parameters），需要人为设定，称为超参数（Hyperparameter）。比如，正则化系数 λ，决策树模型中树的深度。
+
+迭代次数 epoch，k 近邻法（kNN）中的 k（最相近的点的个数），决策树模型中树的深度等等都属于超参数。
+梯度下降法中的学习速率 α，迭代次数 epoch，批量大小 batch-size，k 近邻法中的 k（最相近的点的个数），决策树模型中树的深度，树的数量或树的深度，矩阵分解中潜在因素的数量，学习率（多种模式），深层神经网络隐藏层数，k 均值聚类中的簇数等等。
+
+超参数的优化：
+有四种主要的策略可用于搜索最佳配置：照看（babysitting，又叫试错），网格搜索，随机搜索，贝叶斯优化。
+
+
+### Bias（偏差）Variance（方差）
+
+方差关乎数据，偏差关乎模型。
+[Graphical illustration of bias and variance.](http://scott.fortmann-roe.com/docs/BiasVariance.html)
+{% include image.html url="/assets/images/221013-artificial-intelligence/20221029125306.png" %}
+
+偏差，就是模型的预测值与真实值偏了，距离之差是多少，模型平均预测值与真实值之间的距离。
+
+方差，描述数据分布的分散程度。这里的数据分布，就是我们模型预测值的数据分布。从式子本身来看，是与真实值没有关系的。
+
+高偏差：
+1. 增加特征
+2. 获得更多的特征
+3. 增加多项式特征
+4. 减少正则化程度
+
+高方差：
+1. 增加训练数据
+2. 减少特征数量
+3. 增加正则化程度
+
+
+### scikit-learn
+
+liblinear
+libsvm
+
+More esoteric: String kernel, chi-square kernel, histogram intersection kernel, ...
+字符串距离，卡方核函数，直方相交核函数。
+
+[sklearn](https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html) 包括了分类，回归，降维和聚类等四大机器学习算法，还包括了特征提取，数据处理和模型评估者三大模块。
+sk-learn 库，基于上述的 numpy 和 Scipy 的库。包含大量用于传统机器学习和数据挖掘相关的算法，集成了常见的机器学习功能。
+Scikit-learn 主要用于各种数据建模概念，如回归、分类、聚类、模型选择等。 该库是在 Numpy、Scipy 和 matplotlib 之上编写的。Scikit-learn 易于集成，可以继承其他机器学习库实现特定目标。
+比如 Numpy 和 Pandas 用于数据分析，Plotly 用于可视化。
+{% include image.html url="/assets/images/221013-artificial-intelligence/ml_map.png" %}
+{% include image.html url="/assets/images/221013-artificial-intelligence/v2-43c13ca000a22bf0f9f9dc11ed0c4ee7_720w.webp" %}
+
+* [sklearn 库主要模块功能和辅助函数 {% include relref_bili.html %}](https://www.bilibili.com/read/cv12252018/)
+* [sklearn 库机器学习 python 使用教程 {% include relref_csdn.html %}](https://blog.csdn.net/weixin_51111267/article/details/122628057)
+    * 1、分类学习 (classification)，属于监督型
+        * 适用算法一：k 邻算法
+        * 适用算法二：支持向量机 (SVC)
+    * 2、回归学习 (regression)，属于监督型
+        * 适用算法一：线性回归法
+        * 适用算法二：支持向量机 (SVR)
+    * 3、聚类学习 (clustering)，不属于监督型
+    * 4、降维学习 (dimensionality reduction) 不属于监督型
+
+**imgaug**：机器学习实验中的图像增强库，特别是卷积神经网络。支持以多种不同方式增强图像、关键点 / 地标、边界框、热图和分割图。
+[Image augmentation for machine learning experiments.](https://imgaug.readthedocs.io/en/latest/)
+
+
+### 归一化和标准化
+
+标准化本质上都是对数据进行线性变换，并不会改变数据的分布类型。变量的原始分布是非正态的，变换之后依然是非正态的。也正是因为这一点，许多领域都会在分析前对数据进行标准化，因为它即可以无损数据的原有信息，同时还能赋予数据一些新的优良性质。
+
+[note](https://www.lianxh.cn/news/ac0f7a163237d.html)
+1. Z-score Normalization
+    * z-score normalization 之后，数据会变成均值为 0 、标准差为 1 的分布。
+2. Min-Max Normalization
+    * 这种方法可以将数据范围映射到 [0，1] 区间内。
+3. Mean Normalization
+
+[那些算法需要归一化 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/488290289)
+1. 涉及或隐含距离计算的算法，比如 K-means、KNN、PCA、SVM 等，一般需要进行归一化
+2. 梯度下降算法，梯度下降的收敛速度取决于：参数的初始位置到 local minima 的距离，以及学习率 η 的大小
+3. 采用 sigmoid 等有饱和区的激活函数，如果输入分布范围很广，参数初始化时没有适配好，
+    很容易直接陷入饱和区，导致梯度消失，所以才会出现各种 BN，LN 等算法
+
+那些算法不需要归一化
+1. 与距离计算无关的概率模型，比如 Naive Bayes，不需要；
+2. 与距离计算无关的基于树的模型，比如决策树、随机森林等，
+    树中节点的选择只关注当前特征在哪里切分对分类更好，即只在意特征内部的相对大小，
+    而与特征间的相对大小无关。
+    使用 Z-Score 归一化会提高模型的准确率。
+    其实归一化的作用就是由绝对变为了相对，所以可以说归一化对于树型模型不那么重要，
+    是一个可选项或者说可以作为一个超参数在训练时进行选择。
 
 
 ## 线性回归
@@ -179,4 +272,11 @@ bosting 就是把若干个分类效果并不好的分类器综合起来考虑，
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.bilibili.com/video/BV1s3411y7WN/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/www.bilibili.com/9371f15d.html" %})
+- [http://scott.fortmann-roe.com/docs/BiasVariance.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/scott.fortmann-roe.com/03c2a188.html" %})
+- [https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/scikit-learn.org/3be777ad.html" %})
+- [https://www.bilibili.com/read/cv12252018/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/www.bilibili.com/197befec.html" %})
+- [https://blog.csdn.net/weixin_51111267/article/details/122628057]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/blog.csdn.net/cda36618.html" %})
+- [https://imgaug.readthedocs.io/en/latest/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/imgaug.readthedocs.io/aeade3ec.html" %})
+- [https://www.lianxh.cn/news/ac0f7a163237d.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/www.lianxh.cn/b9cac1b0.html" %})
+- [https://zhuanlan.zhihu.com/p/488290289]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/zhuanlan.zhihu.com/b8d23c85.html" %})
 - [https://mp.weixin.qq.com/s/kbY8Y3BDmXTm2-wA3eLpMw]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/mp.weixin.qq.com/4c1e2cb5.html" %})
