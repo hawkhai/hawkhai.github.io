@@ -773,7 +773,7 @@ Support Vector Machine
 [基本的机器学习算法 {% include relref_csdn.html %}](https://blog.csdn.net/qq_39783601/article/details/123365469)：
 1. 线性回归算法 Linear Regression
 2. 支持向量机算法 (Support Vector Machine, SVM)
-3. 最近邻居 /  k-近邻算法 (K-Nearest Neighbors, KNN)
+3. 最近邻居 / k-近邻算法 (K-Nearest Neighbors, KNN)
 4. 逻辑回归算法 Logistic Regression
 5. 决策树算法 Decision Tree
 6. k-平均算法 K-Means

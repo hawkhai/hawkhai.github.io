@@ -18,7 +18,7 @@ codeprint:
 [神经网络*内部*发生了什么？ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1s3411y7WN/)
 {% include image.html url="/assets/images/221013-artificial-intelligence/20221016220307.png" %}
 
-> 该看：6-3 案例三
+> 该看：8-1
 
 * 机器学习：给定数据的预测问题。
 
@@ -38,6 +38,22 @@ codeprint:
     * EM 算法
 * 强化学习：序列决策问题。
     * 马尔科夫决策方法（扫地机器人寻路）
+
+[基本的机器学习算法 {% include relref_csdn.html %}](https://blog.csdn.net/qq_39783601/article/details/123365469)：
+1. 线性回归算法 Linear Regression
+2. 支持向量机算法 (Support Vector Machine, SVM)
+3. 最近邻居 / k-近邻算法 (K-Nearest Neighbors, KNN)
+4. 逻辑回归算法 Logistic Regression
+5. 决策树算法 Decision Tree
+6. k-平均算法 K-Means
+7. 随机森林算法 Random Forest
+8. 朴素贝叶斯算法 Naive Bayes
+9. 降维算法 Dimensional Reduction
+10. 梯度增强算法 Gradient Boosting
+
+Boosting 和 AdaBoost
+Boosting 是一种集成技术，它试图从多个弱分类器中创建一个强分类器。
+妈妈卡号 邮政 2080
 
 
 ## 基础知识
@@ -217,6 +233,12 @@ K 的选择很关键：较小的值可能会得到大量的噪声和不准确的
 KNN 理论简单，容易实现，可用于文本分类、模式识别、聚类分析等。
 
 
+### KD 树（K-D Tree）
+
+k 近邻法最简单的实现是线性扫描（穷举搜索），即要计算输入实例与每一个训练实例的距离。计算并存储好以后，再查找 K 近邻。当训练集很大时，计算非常耗时。
+为了提高 kNN 搜索的效率，可以考虑使用特殊的结构存储训练数据，以减小计算距离的次数。这里介绍的就是 KD 树。
+
+
 ## K- 均值
 
 K- 均值（K-means）是通过对数据集进行分类来聚类的。例如，这个算法可用于根据购买历史将用户分组。它在数据集中找到 K 个聚类。K- 均值用于无监督学习，因此，我们只需使用训练数据 X，以及我们想要识别的聚类数量 K。
@@ -285,6 +307,7 @@ bosting 就是把若干个分类效果并不好的分类器综合起来考虑，
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.bilibili.com/video/BV1s3411y7WN/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/www.bilibili.com/9371f15d.html" %})
+- [https://blog.csdn.net/qq_39783601/article/details/123365469]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/blog.csdn.net/a44029f7.html" %})
 - [http://scott.fortmann-roe.com/docs/BiasVariance.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/scott.fortmann-roe.com/03c2a188.html" %})
 - [https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/scikit-learn.org/3be777ad.html" %})
 - [https://www.bilibili.com/read/cv12252018/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/www.bilibili.com/197befec.html" %})
