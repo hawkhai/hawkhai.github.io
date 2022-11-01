@@ -51,7 +51,7 @@ date: 2022-08-31 19:57:58 +0800
 * <http://www.ai-start.com/ml2014/>
 * <https://scruel.github.io/Notes-ML-AndrewNg/>
 
-胡浩基？
+胡浩基？李航 . 统计学习方法 ?，周志华 . 机器学习 ?
 3. 《统计学习方法》李航？
 4. 《机器学习课》邹博？周志华？西瓜书？
 5. [深度学习 计算机视觉 CV、Paper 阅读等等 ... {% include relref_github.html %}](https://github.com/azataiot/DeepLearning-Notes)

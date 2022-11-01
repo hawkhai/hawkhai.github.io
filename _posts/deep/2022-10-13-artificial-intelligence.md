@@ -18,7 +18,7 @@ codeprint:
 [神经网络*内部*发生了什么？ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1s3411y7WN/)
 {% include image.html url="/assets/images/221013-artificial-intelligence/20221016220307.png" %}
 
-> 该看：8-1
+> 该看：11-1
 
 * 机器学习：给定数据的预测问题。
 
@@ -31,13 +31,15 @@ codeprint:
     * 朴素贝叶斯
     * 逻辑回归
     * XGBoost
-    * Lightgbm
+    * **LightGBM**
 * 无监督学习：无标签，对于数据数据 X，能发现什么。
     * 聚类
     * 降维算法
     * EM 算法
 * 强化学习：序列决策问题。
     * 马尔科夫决策方法（扫地机器人寻路）
+* 监督学习算法：逻辑回归，线性回归，决策树，朴素贝叶斯，K 近邻，支持向量机，集成算法 Adaboost 等
+* 无监督算法：聚类，降维，关联规则，PageRank 等
 
 [基本的机器学习算法 {% include relref_csdn.html %}](https://blog.csdn.net/qq_39783601/article/details/123365469)：
 1. 线性回归算法 Linear Regression
@@ -128,7 +130,7 @@ Scikit-learn 主要用于各种数据建模概念，如回归、分类、聚类�
 
 [note](https://www.lianxh.cn/news/ac0f7a163237d.html)
 1. Z-score Normalization
-    * z-score normalization 之后，数据会变成均值为 0 、标准差为 1 的分布。
+    * z-score normalization 之后，数据会变成均值为 0、标准差为 1 的分布。
 2. Min-Max Normalization
     * 这种方法可以将数据范围映射到 [0，1] 区间内。
 3. Mean Normalization
@@ -184,9 +186,33 @@ Scikit-learn 主要用于各种数据建模概念，如回归、分类、聚类�
 
 如果说线性和逻辑回归都是把任务在一个回合内结束，那么决策树（Decision Trees）就是一个多步走的动作，它同样用于回归和分类任务中，不过场景通常更复杂且具体。
 
-举个简单例子，老师面对一个班级的学生，哪些是好学生？如果简单判断考试 90 分就算好学生好像太粗暴了，不能唯分数论。那面对成绩不到 90 分的学生，我们可以从作业、出勤、提问等几个方面分开讨论。
+{% include image.html url="/assets/images/221013-artificial-intelligence/20221101235640.png" %}
 
-{% include image.html url="/assets/images/221013-artificial-intelligence/6403.jpg" %}
+
+### 分割方法
+
+* ID3(Iterative Dichotomiser)
+    * “信息熵”，期望信息越小，信息熵越大，样本纯度越低。
+* C4.5
+    * C4.5 算法是 Ross 对 ID3 算法的改进。
+* CART(Classification And Regression Tree)
+    * 用基尼指数来选择属性（分类），或用均方差来选择属性（回归）。
+
+
+### 决策树差异总结
+
+* 划分标准的差异：
+    ID3 使用信息增益偏向特征值多的特征，
+    C4.5 使用信息增益率克服信息增益的缺点，偏向于特征值小的特征，
+    CART 使用基尼指数克服 C4.5 需要求 log 的巨大计算量，偏向于特征值较多的特征。
+* 使用场景的差异：ID3 和 C4.5 都只能用于分类问题，CART 可以用于分类和回归问题；
+    ID3 和 C4.5 是多叉树，速度较慢，CART 是二叉树，计算速度很快；
+* 样本数据的差异：ID3 只能处理离散数据且缺失值敏感，
+    C4.5 和 CART 可以处理连续性数据且有多种方式处理缺失值；
+    从样本量考虑的话，小样本建议 C4.5、大样本建议 CART。
+    C4.5 处理过程中需对数据集进行多次扫描排序，处理成本耗时较高，而 CART 本身是一种大样本的统计方法，小样本处理下泛化误差较大；
+* 样本特征的差异：ID3 和 C4.5 层级之间只使用一次特征，CART 可多次重复使用特征；
+* 剪枝策略的差异：ID3 没有剪枝策略，C4.5 是通过悲观剪枝策略来修正树的准确性，而 CART 是通过代价复杂度剪枝。
 
 
 ## 朴素贝叶斯
@@ -263,6 +289,31 @@ K- 均值（K-means）是通过对数据集进行分类来聚类的。例如，�
 随机森林拥有广泛的应用前景，从市场营销到医疗保健保险，既可以用来做市场营销模拟的建模，统计客户来源、保留及流失，也可以用来预测疾病的风险和病患者的易感性。
 
 
+### 集成学习
+
+adaboost 是 bosting 的方法之一。
+bosting 就是把若干个分类效果并不好的分类器综合起来考虑，会得到一个效果比较好的分类器。
+
+[note {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/kbY8Y3BDmXTm2-wA3eLpMw)
+[集成学习](http://c.biancheng.net/ml_alg/ensemble-learning.html)。
+* Bagging Boosting Stacking
+* AdaBoost（Adaptive Boosting，自适应增强），后一个模型的训练永远是在前一个模型的基础上完成！
+* GBDT 算法 GBDT（Gradient Boosting Decision Tree）是一种迭代的决策树算
+    法，该算法由多棵决策树组成，GBDT 的核心在于累加所有树的结果
+    作为最终结果，所以 GBDT 中的树都是回归树，不是分类树，它是属
+    于 Boosting 策略。GBDT 是被公认的泛化能力较强的算法。
+* XGBoost 是大规模并行 boosting tree 的工具，它是目前最快最好的开源 boosting tree 工具包，
+    比常见的工具包快 10 倍以上。XGBoost 和 GBDT 两者都是 boosting 方法，
+    除了工程实现、解决问题上的一些差异外，最大的不同就是目标函数的定义。
+* **LightGBM** [LightGBM {% include relref_csdn.html %}](https://blog.csdn.net/a321123b/article/details/119451920) 由微软提出，主要用于解决 GDBT 在海量数据中遇到的问题，
+    以便其可以更好更快地用于工业实践中，其相对 XGBoost 具有训练速度快、内存占用低的特点。
+    LightGBM 与 XGBoost 相比，主要有以下几个改进：
+    * 基于梯度的单边采样算法（Gradient-based One-Side Sampling, GOSS）；
+    * 互斥特征捆绑算法（Exclusive Feature Bundling, EFB）；
+    * 直方图算法（ Histogram ）；
+    * 基于最大深度的 Leaf-wise 的垂直生长算法；
+
+
 ## 降维
 
 由于我们今天能够捕获的数据量之大，机器学习问题变得更加复杂。这就意味着训练极其缓慢，而且很难找到一个好的解决方案。这一问题，通常被称为“维数灾难”（Curse of dimensionality）。
@@ -290,15 +341,42 @@ K- 均值（K-means）是通过对数据集进行分类来聚类的。例如，�
 现在，你已经了解了最流行的人工智能算法的基础介绍，并且，对它们的实际应用也有了一定认识。
 
 
-## Adaboost
+### 最常用 Sigmoid 函数的优缺点
 
-adaboost 是 bosting 的方法之一。
-bosting 就是把若干个分类效果并不好的分类器综合起来考虑，会得到一个效果比较好的分类器。
+CNN
+常见激活函数选择：
+Sigmoid 函数
+Tanh 函数
+ReLU 函数
+Leaky ReLU 函数
 
-[note {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/kbY8Y3BDmXTm2-wA3eLpMw)
+{% include image.html url="/assets/images/221013-artificial-intelligence/20221102012144.png" caption="激活函数" %}
+
+优点：
+1. 函数处处连续，便于求导
+2. 可将函数值的范围压缩至 [0,1]，可用于压缩数据，且幅度不变
+3. 便于前向传输
+
+缺点：
+1. 在趋向无穷的地方，函数值变化很小，容易出现梯度消失，不利于深层神经的反馈传输
+2. 幂函数的梯度计算复杂
+3. 收敛速度比较慢
 
 
-## XGBoost
+### BP 算法
+
+优点：
+
+1. 能够自适应、自主学习。BP 可以根据预设参数更新规则，通过不断调整神经网络中的参数，已达到最符合期望的输出。
+2. 拥有很强的非线性映射能力。
+3. 误差的反向传播采用的是成熟的链式法则，推导过程严谨且科学。
+4. 算法泛化能力很强。
+
+缺点：
+
+1. BP 神经网络参数众多，每次迭代需要更新较多数量的阈值和权值，故收敛速度比较慢。
+2. 网络中隐层含有的节点数目没有明确的准则，需要不断设置节点数字试凑，根据网络误差结果最终确定隐层节点个数。
+3. BP 算法是一种速度较快的梯度下降算法，容易陷入局部极小值的问题。
 
 
 
@@ -316,3 +394,5 @@ bosting 就是把若干个分类效果并不好的分类器综合起来考虑，
 - [https://www.lianxh.cn/news/ac0f7a163237d.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/www.lianxh.cn/b9cac1b0.html" %})
 - [https://zhuanlan.zhihu.com/p/488290289]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/zhuanlan.zhihu.com/b8d23c85.html" %})
 - [https://mp.weixin.qq.com/s/kbY8Y3BDmXTm2-wA3eLpMw]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/mp.weixin.qq.com/4c1e2cb5.html" %})
+- [http://c.biancheng.net/ml_alg/ensemble-learning.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/c.biancheng.net/c8d9d204.html" %})
+- [https://blog.csdn.net/a321123b/article/details/119451920]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/blog.csdn.net/66172b00.html" %})
