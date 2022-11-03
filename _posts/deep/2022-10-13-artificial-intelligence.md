@@ -18,7 +18,7 @@ codeprint:
 [神经网络*内部*发生了什么？ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1s3411y7WN/)
 {% include image.html url="/assets/images/221013-artificial-intelligence/20221016220307.png" %}
 
-> 该看：11-1
+> 该看：12-1
 
 * 机器学习：给定数据的预测问题。
 
@@ -244,6 +244,16 @@ $$
 {% include image.html url="/assets/images/221013-artificial-intelligence/6405.jpg" %}
 
 所以支持向量机想要解决的问题也就是如何把一堆数据做出区隔，它的主要应用场景有字符识别、面部识别、文本分类等各种识别。
+
+{% include image.html url="/assets/images/221013-artificial-intelligence/IMG_990a02a6461e464b97d8fb217ef26f09.png" %}
+
+n 为特征数，m 为训练样本数。
+1. 如果相较于 m 而言，n 要大许多，即训练集数据量不够支持我们训练一个复
+    杂的非线性模型，我们选用逻辑回归模型或者不带核函数的支持向量机。
+2. 如果 n 较小，而且 m 大小中等，例如 n 在 1-1000 之间，而 m 在 10-10000 之
+    间，使用高斯核函数的支持向量机。
+3. 如果 n 较小，而 m 较大，例如 n 在 1-1000 之间，而 m 大于 50000，则使用支
+    持向量机会非常慢，解决方案是创造、增加更多的特征，然后使用逻辑回归或不带核函数的支持向量机。
 
 
 ## K- 最近邻算法（KNN）
