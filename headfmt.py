@@ -218,6 +218,10 @@ def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv={}):
     fsecli[1] = "\r\n{}\r\n".format(formatkv(fpath, fname, ftype, fsecli[1], setkv)[0],)
 
     fsecli = "---".join(fsecli)
+
+    from zhconv import convert
+    fsecli = convert(fsecli, 'zh-cn')
+
     writefile(fpath, fsecli, "utf8")
     if not fpath in gkvconfig.keys():
         gkvconfig[fpath] = { "taged": False }

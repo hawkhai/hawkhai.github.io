@@ -52,7 +52,7 @@ Android 配置不了，配置生成 linux 环境下的 config.h 文件，反正 
 找了台 Ubuntu 64 位 系统配置，配置好后入库。
 
 这里是标准做法：[Building iconv for Android](https://medium.com/@zw3rk/building-iconv-for-android-e3581a52668f)
-編寫 ios 和 android 共用的 c/c++ 庫時 使用 iconv 的問題，[貌似苹果版本](https://www.itread01.com/content/1550578686.html)
+编写 ios 和 android 共用的 c/c++ 库时 使用 iconv 的问题，[貌似苹果版本](https://www.itread01.com/content/1550578686.html)
 
 ```
 ./configure --host=$ANDROID_HOST --with-sysroot=$ANDROID_SYSROOT

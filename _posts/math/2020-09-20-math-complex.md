@@ -528,7 +528,7 @@ $$
 
 - [1] [马同学·欧拉公式，复数域的成人礼](https://www.matongxue.com/madocs/2066/)
 - [2] [A Visual, Intuitive Guide to Imaginary Numbers](https://betterexplained.com/articles/a-visual-intuitive-guide-to-imaginary-numbers/)
-- [3] [《更好的解释（数学篇）》 —— 第五章 虛數](http://jakwings.is-programmer.com/posts/29547.html)
+- [3] [《更好的解释（数学篇）》 —— 第五章 虚数](http://jakwings.is-programmer.com/posts/29547.html)
 - [4] [虚数的意义 阮一峰](https://www.ruanyifeng.com/blog/2012/09/imaginary_number.html)
 
 

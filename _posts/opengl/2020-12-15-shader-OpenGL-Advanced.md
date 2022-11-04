@@ -18,7 +18,7 @@ cluster: "LearnOpenGL"
 
 深度测试、鼠标点击选取模型、模板测试、混合、面剔除、帧缓冲、高级数据，高级 GLSL、几何着色器、实例化、抗锯齿等。
 
-前面的简单，看到后面，慢慢的有难度了，stencil 模板測試，要看好久才能理解。
+前面的简单，看到后面，慢慢的有难度了，stencil 模板测试，要看好久才能理解。
 
 
 ## 深度测试
@@ -60,7 +60,7 @@ It can be useful to click on, or "pick" a 3d object in our scene using the mouse
 {% include image.html url="/assets/images/201215-shader-opengl-advanced/newtranspipe.png" %}
 
 
-## stencil 模板測試
+## stencil 模板测试
 
 1. 启用模板缓冲的写入。
 2. 渲染物体，更新模板缓冲的内容。

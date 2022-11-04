@@ -15,7 +15,7 @@ glslcanvas:
 codeprint:
 ---
 
-「画像処理 100 本ノック」中文版本！为图像处理初学者设计的 100 个问题。
+“画像処理 100 本ノック”中文版本！为图像处理初学者设计的 100 个问题。
 <https://github.com/gzr2017/ImageProcessing100Wen>
 
 画像処理 100 本ノックして画像処理を画像処理して画像処理するためのもの Jap, Eng, Chi

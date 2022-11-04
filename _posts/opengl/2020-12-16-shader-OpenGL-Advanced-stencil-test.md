@@ -16,7 +16,7 @@ codeprint:
 cluster: "LearnOpenGL"
 ---
 
-前面的简单，看到后面，慢慢的有难度了，stencil 模板測試，要看好久才能理解。看了 ARM 的那篇文章，瞬间透彻了。
+前面的简单，看到后面，慢慢的有难度了，stencil 模板测试，要看好久才能理解。看了 ARM 的那篇文章，瞬间透彻了。
 原来是一个 GPU 硬件版本的预设回调函数。[旺柴][旺柴]
 
 在 OpenGLES 中，有三个可以绘制的 buffer（缓存），color buffer（颜色缓存），depth buffer（深度缓存）和 stencil buffer（模板缓存）。

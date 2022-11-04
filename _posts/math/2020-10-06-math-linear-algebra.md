@@ -97,7 +97,7 @@ $$
 ## 参考
 
 - [1] [线性代数的本质 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1ys411472E)
-- [2] [數學對於程式設計來說重要嗎？程式設計大佬眼裡的線性代數](https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/637653/)
+- [2] [数学对于程式设计来说重要吗？程式设计大佬眼里的线性代数](https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/637653/)
 - [3] [数学对于编程来说重要吗？编程眼里的线性代数](https://cloud.tencent.com/developer/news/319028)
 - [4] [编程大佬眼中的线性代数，到底是什么样的？](https://www.eet-china.com/mp/a24399.html)
 - [5] [编程与线性代数](https://www.sohu.com/a/283978289_701814)

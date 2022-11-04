@@ -15,6 +15,10 @@ glslcanvas:
 codeprint:
 ---
 
+```
+"C:\Program Files (x86)\Debugging Tools for Windows\gflags.exe" /p /enable ncnn_test.exe /full
+```
+
 ```cpp
 #define CASE_RETURN(x) case x: return L ## #x
 
@@ -68,6 +72,90 @@ a = sizeof(__int64); // 8
 a = sizeof(void*); // 8
 a = 0;
 ```
+
+出现 `.dims = (int)` 的都不对。
+
+x | cv::Mat | cv::UMat | cv::_InputArray
+---- | ---- | ---- | ----
+0 | int flags; | int flags; | int flags;
+1 | int dims; | int dims; | void\* obj;
+2 | int rows; | int rows; | Size sz.width;
+3 | int cols; | int cols; | Size sz.height;
+4 | uchar\* data; | MatAllocator\* allocator; |
+5 | const uchar\* datastart; | UMatUsageFlags usageFlags; |
+6 | const uchar\* dataend; | UMatData\* u; |
+7 | const uchar\* datalimit; | size_t offset; |
+8 | MatAllocator\* allocator; | MatSize size; |
+9 | UMatData\* u; | MatStep step.p; |
+10 | MatSize size; | MatStep step.buf\[0\]; |
+11 | MatStep step.p; | MatStep step.buf\[1\]; |
+12 | MatStep step.buf\[0\]; | |
+13 | MatStep step.buf\[1\]; | |
+
+x | 老版本 ncnn::Mat（40 字节）<br/>**应该以这个为准** | 最新版本 ncnn::Mat（44 字节）
+---- | ---- | ----
+0 | void\* data; | void\* data;
+1 | int\* refcount; | int\* refcount;
+2 | size_t elemsize; | size_t elemsize
+3 | int elempack; | int elempack;
+4 | Allocator\* allocator; | Allocator\* allocator;
+5 | int dims; | int dims;
+6 | int w; | int w;
+7 | int h; | int h;
+8 | int c; | int d;
+9 | size_t cstep; | int c;
+10 | | size_t cstep;
+
+E:\kpdf\kvision\opencv\opencv-3.4.2\modules\core\include\opencv2\core\mat.inl.hpp
+```
+inline
+Mat::~Mat()
+{
+    release();
+    if ( step.p != step.buf )
+        fastFree(step.p);
+}
+
+inline
+void Mat::release()
+{
+    if ( u && CV_XADD(&u->refcount, -1) == 1 )
+        deallocate();
+    u = NULL;
+    datastart = dataend = datalimit = data = 0;
+    for (int i = 0; i < dims; i++)
+        size.p[i] = 0;
+}
+
+// 生成汇编
+if ( v83.u ) {
+    v32 = &v83.u->refcount;
+    v33 = GetAndSub((unsigned int *)v32);
+    if ( v33 == 1 )
+        CvMatDeallocate(&v83);
+}
+v83.u = 0;
+v34 = (int *)v83.dims;
+memset(&v83.data, 0, 16);
+if ( v83.dims >= 1 ) {
+    v34 = v83.size.p;
+    v35 = 0;
+    do
+    {
+      v34[v35++] = 0;
+      v31 = v83.dims;
+    }
+    while ( v35 < v83.dims );
+}
+if ( v83.step.p != v83.step.buf )
+    CvFastFree((mycv *)v83.step.p, v34);
+```
+
+这个 函数
+sub_B1894
+sub_71D00
+sub_B00A8
+OpenCV – 3.4.2 2018-07-04
 
 1. 不能包含指针转换：`(int)`，调整为 `(int64)`，避免指针截断。
     * <https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt>
@@ -141,6 +229,103 @@ mov         dword ptr [rsp+148h],eax
       _ARM_BARRIER_OSHST = 0x2
   }
   ```
+
+```c
+cv::_OutputArray
+v67.a.dims = 0; // 3
+v67.a.flags = 0; // 2
+v67.op = (const cv::MatOp*)33619968; // 0
+v67.flags = (int)thisz; // 1
+```
+
+
+## 整数定数除法的代换 (constant integer division)
+
+[除法换成乘法 3435973837 {% include relref_csdn.html %}](https://blog.csdn.net/nameofcsdn/article/details/125007289)
+在 gcc 里面有一个 32-bit 的 unsigned integer x，那么 `x/10` 会被转换成 `(x*3435973837)>>35`。
+
+```cpp
+for (int i = 0; i < 10; i++) {
+    int a = i * 5;
+    int b = a * 3435973837;
+    printf("%u %u \n", a, b);
+    assert(a / 5 == b);
+}
+```
+
+为了效率，已经丧心病狂了。
+一个 32-bit 的 unsigned integer x，那么 `x/10` 会被转换成 `(x*3435973837)>>35`。
+除以 5 等价于 乘以 3435973837。
+[Shift to divide by 10 {% include relref_github.html %}](https://rgplantz.github.io/2021/11/04/Shift-to-divide-by-10.html)
+
+
+## ARM 原子操作
+
+[深入浅出 ARM 原子操作 {% include relref_csdn.html %}](https://blog.csdn.net/ce123_zhouwei/article/details/108562387)
+[__ldrex and __strex intrinsics deprecated](https://developer.arm.com/documentation/dui0530/m/Migrating-from-ARM-Compiler-v5-05-to-v5-06/Compiler-changes-between-ARM-Compiler-v5-05-and-v5-06/--ldrex-and---strex-intrinsics-deprecated)
+
+```c
+int sum = 0;
+
+int old = sum;
+for (int i = 0; i < 1000000; i++) // 百万次
+{
+    // 如果 old 等于 sum，就把 old+1 写入 sum
+    while (!__sync_bool_compare_and_swap(&sum, old, old + 1))
+    {
+        old = sum; // 更新 old
+    }
+}
+```
+```c
+do {
+    while ( 1 ) {
+      __dmb();
+      do {
+        v2 = __ldrex((unsigned __int32 *)&sum);
+        v3 = v2 == v1;
+        if ( v2 != v1 )
+          break;
+        v4 = __strex(v1 + 1, (unsigned int *)&sum);
+        v3 = v4 == 0;
+      }
+      while ( v4 );
+      __dmb();
+      if ( v3 )
+        break;
+      v1 = sum;
+    }
+    --v0;
+}
+while ( v0 );
+```
+
+```c
+v14 = (unsigned int*)(v13 + 12); // 读取地址。
+__dmb(0xBu);
+do
+    v15 = __ldrex(v14); // 读取值，标记独占。
+while (__strex(v15 + 1, v14)); // 如果没有设置成功，继续循环。
+__dmb(0xBu);
+```
+
+[ldrex 与 strex 大概处理流程 {% include relref_csdn.html %}](https://blog.csdn.net/u012294613/article/details/123183813)
+
+在 arm 系统当中通过 LDREX 和 STREX 实现内存的原子操作，首先研究一下两条指令的语义。
+其实 LDREX 和 STREX 指令，是将单纯的更新内存的原子操作分成了两个独立的步骤。
+大致的流程如下，但是 ARM 内部为了实现这个功能，还有不少复杂的情况要处理。
+
+LDREX 用来读取内存中的值，并标记对该段内存的独占访问：`LDREX Rx, [Ry]`。
+上面的指令意味着，读取寄存器 Ry 指向的 4 字节内存值，将其保存到 Rx 寄存器中，同时标记对 Ry 指向内存区域的独占访问。
+如果执行 LDREX 指令的时候发现已经被标记为独占访问了，并不会对指令的执行产生影响。
+
+而 STREX 在更新内存数值时，会检查该段内存是否已经被标记为独占访问，
+并以此来决定是否更新内存中的值：`STREX Rx, Ry, [Rz]`。
+如果执行这条指令的时候发现已经被标记为独占访问了，则将寄存器 Ry 中的值更新到寄存器 Rz 指向的内存，
+并将寄存器 Rx 设置成 0。指令执行成功后，会将独占访问标记位清除。
+而如果执行这条指令的时候发现没有设置独占标记，则不会更新内存，且将寄存器 Rx 的值设置成 1。
+一旦某条 STREX 指令执行成功后，以后再对同一段内存尝试使用 STREX 指令更新的时候，
+会发现独占标记已经被清空了，就不能再更新了，从而实现独占访问的机制。
 
 
 ## Hey, there! Enjoy!
@@ -2042,6 +2227,11 @@ class fastimagedll : public fastimage::IFastImageInterface {
 
 - [https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/android.googlesource.com/b62cb28d.txt" %})
 - [https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4189?view=msvc-170]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/learn.microsoft.com/0c120c99.html" %})
+- [https://blog.csdn.net/nameofcsdn/article/details/125007289]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/817e0ab4.html" %})
+- [https://rgplantz.github.io/2021/11/04/Shift-to-divide-by-10.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/rgplantz.github.io/343af929.html" %})
+- [https://blog.csdn.net/ce123_zhouwei/article/details/108562387]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/c29f479a.html" %})
+- [https://developer.arm.com/documentation/dui0530/m/Migrating-from-ARM-Compiler-v5-05-to-v5-06/Compiler-changes-between-ARM-Compiler-v5-05-and-v5-06/--ldrex-and---strex-intrinsics-deprecated]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/developer.arm.com/b6ef944f.html" %})
+- [https://blog.csdn.net/u012294613/article/details/123183813]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/48a4b95e.html" %})
 - [https://developer.android.google.cn/studio/archive.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/developer.android.google.cn/94ce01e4.html" %})
 - [https://www.cnblogs.com/flowerslip/p/5934718.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.cnblogs.com/ffc4e6db.html" %})
 - [https://blog.csdn.net/u011700339/article/details/89302321]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/7a1d031d.html" %})

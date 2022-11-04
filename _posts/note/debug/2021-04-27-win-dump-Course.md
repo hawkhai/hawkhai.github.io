@@ -82,10 +82,10 @@ cluster: "WinDBG"
 [Windbg 使用 {% include relref_jianshu.html %}](https://www.jianshu.com/p/56b9afc8ae47)
 * 错误代码：0xc0000374
 * 错误含义：ACTIONABLE_HEAP_CORRUPTION_heap_failure_buffer_overrun
-* 第一步、先用「!analyze -v」分析出错误的地方以及由于什么原因导致程序 Dump 掉的。
+* 第一步、先用“!analyze -v”分析出错误的地方以及由于什么原因导致程序 Dump 掉的。
     * 无非是内存溢出，访问非法地址等几种。
-* 第二步、使用「!heap」找出出错的堆。分析出错的原因。
-* 第三步、使用「!for_each_frame dv /t」打印出错函数的局部变量，找出元凶。
+* 第二步、使用“!heap”找出出错的堆。分析出错的原因。
+* 第三步、使用“!for_each_frame dv /t”打印出错函数的局部变量，找出元凶。
 
 
 ## Windbg 调试

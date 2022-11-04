@@ -135,13 +135,13 @@ OpenGL_ES_2.x 为可编程渲染管线（Programmable）而设计。
     * 没有 glBegin/glEnd/glVertex，只能用 glDrawArrays/glDraw...；
     * 没有实时将非压缩图片数据转成压缩贴图的功能，程序必须直接提供压缩好的贴图。
 
-[OpenGL ES 2.0 簡單介紹 from](https://kheresy.wordpress.com/2010/04/09/opengl-es-2-0-%E7%B0%A1%E5%96%AE%E4%BB%8B%E7%B4%B9/)
+[OpenGL ES 2.0 简单介绍 from](https://kheresy.wordpress.com/2010/04/09/opengl-es-2-0-%E7%B0%A1%E5%96%AE%E4%BB%8B%E7%B4%B9/)
 [在线繁体字转换器 by](https://www.aies.cn/)
-1. 在 OpenGL ES 2.0 裡也没有 OpenGL 的 matrix stack，程式开发者必须要自行计算投影矩阵以及各物件的
-    transform matrix，再传到 shader 裡做计算；虽然在 GPU 端的程式是有矩阵计算的功能，但是在 CPU 端就需要自己实作矩阵计算的基本演算法了。
-2. 在 OpenGL ES 裡没有 glBegin() / glEnd() 这种 immediate mode 的函式，vertex 资料必须用 buffer object 或 vertex array 来处理。
+1. 在 OpenGL ES 2.0 里也没有 OpenGL 的 matrix stack，程式开发者必须要自行计算投影矩阵以及各物件的
+    transform matrix，再传到 shader 里做计算；虽然在 GPU 端的程式是有矩阵计算的功能，但是在 CPU 端就需要自己实作矩阵计算的基本算法了。
+2. 在 OpenGL ES 里没有 glBegin() / glEnd() 这种 immediate mode 的函式，vertex 资料必须用 buffer object 或 vertex array 来处理。
 3. 取消了 GL_QUADS / GL_POLYGONS 这两种 primitive 类型。
-4. vertex 的所有资讯（包含本身的位置、颜色、normal 等等）都变成以抽象的 vertex attrib 来处理，需要自行定义并在 vertex shader 裡计算。
+4. vertex 的所有资讯（包含本身的位置、颜色、normal 等等）都变成以抽象的 vertex attrib 来处理，需要自行定义并在 vertex shader 里计算。
 5. Lighting、material 也都是以抽象的形式，以 uniform 变数形式传进 shader 并自行计算。
 
 

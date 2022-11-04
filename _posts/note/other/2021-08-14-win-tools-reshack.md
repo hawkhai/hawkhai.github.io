@@ -274,7 +274,7 @@ def fixup_exe_headers(exe_path, timestamp=None):
 ```
 
 
-### 如何移除已經簽章的驅動程式
+### 如何移除已经签章的驱动程式
 
 <https://steward-fu.github.io/website/driver/wdm/remove_sign.htm>
 ```cpp

@@ -118,7 +118,7 @@ SxS Manager 加载顺序。Side-by-side searches the WinSxS folder.
 {% include image.html url="/assets/images/211120-windows-program/v2-0e31467881f34c15094210a3048babbb_1440w.jpg" caption="虚拟地址转换" %}
 {% include image.html url="/assets/images/211120-windows-program/20211201000052.png" %}
 * MMU 和 TLB 都是硬件实现（减少操作系统的实现负担）
-* TLB 是一个加速用的濶濴濶濻濸，命中时，目标内存都在物理内存中
+* TLB 是一个加速用的阔濴阔濻濸，命中时，目标内存都在物理内存中
 
 
 ### 栈空间
