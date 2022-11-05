@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "机器学习笔记 -- 人工智能领域的 10+ 大算法"
+title: "机器学习笔记 -- 人工智能 机器学习 算法概述"
 author:
 location: "珠海"
 categories: ["机器学习"]
@@ -18,7 +18,7 @@ codeprint:
 [神经网络*内部*发生了什么？ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1s3411y7WN/)
 {% include image.html url="/assets/images/221013-artificial-intelligence/20221016220307.png" %}
 
-> 该看：12-1
+> 该看：13-1
 
 * 机器学习：给定数据的预测问题。
 
@@ -241,6 +241,9 @@ $$
 
 超平面与最近的类点之间的距离称为边距。最优超平面具有最大的边界，可以对点进行分类，从而使最近的数据点与这两个类之间的距离最大化。
 
+[数学推导过程 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/77750026)
+没看懂。
+
 {% include image.html url="/assets/images/221013-artificial-intelligence/6405.jpg" %}
 
 所以支持向量机想要解决的问题也就是如何把一堆数据做出区隔，它的主要应用场景有字符识别、面部识别、文本分类等各种识别。
@@ -284,6 +287,25 @@ K- 均值（K-means）是通过对数据集进行分类来聚类的。例如，�
 {% include image.html url="/assets/images/221013-artificial-intelligence/6407.jpg" %}
 
 生活中，K- 均值在欺诈检测中扮演了重要角色，在汽车、医疗保险和保险欺诈检测领域中广泛应用。
+
+聚类
+主要算法
+K-means、密度聚类、层次聚类
+
+
+### 密度聚类
+
+DBSCAN 密度聚类。
+与划分和层次聚类方法不同，DBSCAN(Density-Based Spatial Clustering of
+Applications with Noise) 是一个比较有代表性的基于密度的聚类算法。它将簇
+定义为密度相连的点的最大集合，能够把具有足够高密度的区域划分为簇，并
+可在噪声的空间数据库中发现任意形状的聚类。
+{% include image.html url="/assets/images/221013-artificial-intelligence/20221105122214.png" %}
+
+
+### 层次聚类
+
+{% include image.html url="/assets/images/221013-artificial-intelligence/20221105123039.png" %}
 
 
 ## 随机森林
@@ -403,6 +425,7 @@ Leaky ReLU 函数
 - [https://imgaug.readthedocs.io/en/latest/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/imgaug.readthedocs.io/aeade3ec.html" %})
 - [https://www.lianxh.cn/news/ac0f7a163237d.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/www.lianxh.cn/b9cac1b0.html" %})
 - [https://zhuanlan.zhihu.com/p/488290289]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/zhuanlan.zhihu.com/b8d23c85.html" %})
+- [https://zhuanlan.zhihu.com/p/77750026]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/zhuanlan.zhihu.com/685aa42d.html" %})
 - [https://mp.weixin.qq.com/s/kbY8Y3BDmXTm2-wA3eLpMw]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/mp.weixin.qq.com/4c1e2cb5.html" %})
 - [http://c.biancheng.net/ml_alg/ensemble-learning.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/c.biancheng.net/c8d9d204.html" %})
 - [https://blog.csdn.net/a321123b/article/details/119451920]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/blog.csdn.net/66172b00.html" %})
