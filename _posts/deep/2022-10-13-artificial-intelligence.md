@@ -358,6 +358,14 @@ bosting 就是把若干个分类效果并不好的分类器综合起来考虑，
 {% include image.html url="/assets/images/221013-artificial-intelligence/6409.jpg" %}
 
 
+### PCA（主成分分析）
+
+不存在完全无损的降维。
+
+
+### SVD（奇异值分解）
+
+
 ## 人工神经网络（ANN）
 
 人工神经网络（Artificial Neural Networks，ANN）可以处理大型复杂的机器学习任务。神经网络本质上是一组带有权值的边和节点组成的相互连接的层，称为神经元。在输入层和输出层之间，我们可以插入多个隐藏层。人工神经网络使用了两个隐藏层。除此之外，还需要处理深度学习。
