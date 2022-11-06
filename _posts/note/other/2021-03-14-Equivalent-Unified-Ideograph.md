@@ -13,6 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
+zhconv: false
 ---
 
 Unicode 中文字符集中存在两个极为相似的汉字但编码不同的情况，主要是因为康熙部首和扩展部首中存在和基本汉字相似的汉字。
