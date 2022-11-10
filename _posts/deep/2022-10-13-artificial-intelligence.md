@@ -18,7 +18,7 @@ codeprint:
 [神经网络*内部*发生了什么？ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1s3411y7WN/)
 {% include image.html url="/assets/images/221013-artificial-intelligence/20221016220307.png" %}
 
-> 该看：13-1
+> 该看：14-1
 
 * 机器学习：给定数据的预测问题。
 
@@ -361,9 +361,34 @@ bosting 就是把若干个分类效果并不好的分类器综合起来考虑，
 ### PCA（主成分分析）
 
 不存在完全无损的降维。
+{% include image.html url="/assets/images/221013-artificial-intelligence/v2-589dc1e07c47ce52a82bac13da8d1c85_1440w.png" %}
+[from {% include relref_csdn.html %}](https://blog.csdn.net/Dark_Scope/article/details/53150883)
+{% include image.html url="/assets/images/221013-artificial-intelligence/20160207114645575.gif" %}
+
+PCA 的算法两种实现方法
+* (1) 基于 SVD 分解协方差矩阵实现 PCA 算法
+* (2) 基于特征值分解协方差矩阵实现 PCA 算法
+
+PCA 算法优点
+1. 仅仅需要以方差衡量信息量，不受数据集以外的因素影响
+2. 各主成分之间正交，可消除原始数据成分间的相互影响的因素
+3. 计算方法简单，主要运算时特征值分解，易于实现
+4. 它是无监督学习，完全无参数限制的
+
+PCA 算法缺点
+1. 主成分各个特征维度的含义具有一定的模糊性，不如原始样本特征的解释性强
+2. 方差小的非主成分也可能含有对样本差异的重要信息，因降维丢弃可能对后续数据处理有影响
 
 
 ### SVD（奇异值分解）
+
+SVD 其实是众多矩阵分解的一种，除了在 PCA 上使用，也有用于推荐，在推荐领域的 svd 算法形式上并不能和标准的奇异值分解对应上，但其思路是相通的，具体可以参考协同过滤算法实现。
+
+* SVD 分解可以将一个矩阵进行分解，对角矩阵对角线上的特征值递减存放，
+    而且奇异值的减少特别的快，在很多情况下，前 $10%$ 甚至 $1%$ 的奇异值的和
+    就占了全部的奇异值之和的 99% 以上的比例。
+* 也就是说，对于奇异值，它跟我们特征分解中的特征值类似，我们也可以用
+    最大的 $k$ 个的奇异值和对应的左右奇异向量来近似描述矩阵。
 
 
 ## 人工神经网络（ANN）
@@ -437,3 +462,4 @@ Leaky ReLU 函数
 - [https://mp.weixin.qq.com/s/kbY8Y3BDmXTm2-wA3eLpMw]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/mp.weixin.qq.com/4c1e2cb5.html" %})
 - [http://c.biancheng.net/ml_alg/ensemble-learning.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/c.biancheng.net/c8d9d204.html" %})
 - [https://blog.csdn.net/a321123b/article/details/119451920]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/blog.csdn.net/66172b00.html" %})
+- [https://blog.csdn.net/Dark_Scope/article/details/53150883]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/blog.csdn.net/1144a827.html" %})
