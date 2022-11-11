@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "机器学习笔记 -- 人工智能领域的 10+ 大算法"
+title: "机器学习笔记 -- 人工智能 机器学习 算法概述"
 author:
 location: "珠海"
 categories: ["机器学习"]
@@ -18,7 +18,7 @@ codeprint:
 [神经网络*内部*发生了什么？ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1s3411y7WN/)
 {% include image.html url="/assets/images/221013-artificial-intelligence/20221016220307.png" %}
 
-> 该看：12-1
+> 该看：14-1
 
 * 机器学习：给定数据的预测问题。
 
@@ -241,6 +241,9 @@ $$
 
 超平面与最近的类点之间的距离称为边距。最优超平面具有最大的边界，可以对点进行分类，从而使最近的数据点与这两个类之间的距离最大化。
 
+[数学推导过程 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/77750026)
+没看懂。
+
 {% include image.html url="/assets/images/221013-artificial-intelligence/6405.jpg" %}
 
 所以支持向量机想要解决的问题也就是如何把一堆数据做出区隔，它的主要应用场景有字符识别、面部识别、文本分类等各种识别。
@@ -284,6 +287,25 @@ K- 均值（K-means）是通过对数据集进行分类来聚类的。例如，�
 {% include image.html url="/assets/images/221013-artificial-intelligence/6407.jpg" %}
 
 生活中，K- 均值在欺诈检测中扮演了重要角色，在汽车、医疗保险和保险欺诈检测领域中广泛应用。
+
+聚类
+主要算法
+K-means、密度聚类、层次聚类
+
+
+### 密度聚类
+
+DBSCAN 密度聚类。
+与划分和层次聚类方法不同，DBSCAN(Density-Based Spatial Clustering of
+Applications with Noise) 是一个比较有代表性的基于密度的聚类算法。它将簇
+定义为密度相连的点的最大集合，能够把具有足够高密度的区域划分为簇，并
+可在噪声的空间数据库中发现任意形状的聚类。
+{% include image.html url="/assets/images/221013-artificial-intelligence/20221105122214.png" %}
+
+
+### 层次聚类
+
+{% include image.html url="/assets/images/221013-artificial-intelligence/20221105123039.png" %}
 
 
 ## 随机森林
@@ -334,6 +356,39 @@ bosting 就是把若干个分类效果并不好的分类器综合起来考虑，
 可以通过将所有数据点近似到一条直线来实现降维的示例。
 
 {% include image.html url="/assets/images/221013-artificial-intelligence/6409.jpg" %}
+
+
+### PCA（主成分分析）
+
+不存在完全无损的降维。
+{% include image.html url="/assets/images/221013-artificial-intelligence/v2-589dc1e07c47ce52a82bac13da8d1c85_1440w.png" %}
+[from {% include relref_csdn.html %}](https://blog.csdn.net/Dark_Scope/article/details/53150883)
+{% include image.html url="/assets/images/221013-artificial-intelligence/20160207114645575.gif" %}
+
+PCA 的算法两种实现方法
+* (1) 基于 SVD 分解协方差矩阵实现 PCA 算法
+* (2) 基于特征值分解协方差矩阵实现 PCA 算法
+
+PCA 算法优点
+1. 仅仅需要以方差衡量信息量，不受数据集以外的因素影响
+2. 各主成分之间正交，可消除原始数据成分间的相互影响的因素
+3. 计算方法简单，主要运算时特征值分解，易于实现
+4. 它是无监督学习，完全无参数限制的
+
+PCA 算法缺点
+1. 主成分各个特征维度的含义具有一定的模糊性，不如原始样本特征的解释性强
+2. 方差小的非主成分也可能含有对样本差异的重要信息，因降维丢弃可能对后续数据处理有影响
+
+
+### SVD（奇异值分解）
+
+SVD 其实是众多矩阵分解的一种，除了在 PCA 上使用，也有用于推荐，在推荐领域的 svd 算法形式上并不能和标准的奇异值分解对应上，但其思路是相通的，具体可以参考协同过滤算法实现。
+
+* SVD 分解可以将一个矩阵进行分解，对角矩阵对角线上的特征值递减存放，
+    而且奇异值的减少特别的快，在很多情况下，前 $10%$ 甚至 $1%$ 的奇异值的和
+    就占了全部的奇异值之和的 99% 以上的比例。
+* 也就是说，对于奇异值，它跟我们特征分解中的特征值类似，我们也可以用
+    最大的 $k$ 个的奇异值和对应的左右奇异向量来近似描述矩阵。
 
 
 ## 人工神经网络（ANN）
@@ -403,6 +458,8 @@ Leaky ReLU 函数
 - [https://imgaug.readthedocs.io/en/latest/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/imgaug.readthedocs.io/aeade3ec.html" %})
 - [https://www.lianxh.cn/news/ac0f7a163237d.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/www.lianxh.cn/b9cac1b0.html" %})
 - [https://zhuanlan.zhihu.com/p/488290289]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/zhuanlan.zhihu.com/b8d23c85.html" %})
+- [https://zhuanlan.zhihu.com/p/77750026]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/zhuanlan.zhihu.com/685aa42d.html" %})
 - [https://mp.weixin.qq.com/s/kbY8Y3BDmXTm2-wA3eLpMw]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/mp.weixin.qq.com/4c1e2cb5.html" %})
 - [http://c.biancheng.net/ml_alg/ensemble-learning.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/c.biancheng.net/c8d9d204.html" %})
 - [https://blog.csdn.net/a321123b/article/details/119451920]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/blog.csdn.net/66172b00.html" %})
+- [https://blog.csdn.net/Dark_Scope/article/details/53150883]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/blog.csdn.net/1144a827.html" %})

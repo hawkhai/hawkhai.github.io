@@ -97,7 +97,7 @@ permalink
 l2dwidget cluster
 sortrefs archived date
 layoutclear titlecheck
-ktitle kaliyun imgthumb
+ktitle kaliyun imgthumb zhconv
 """.split()
 
     kvmap = {}
@@ -194,10 +194,10 @@ def parseHeadKeyValueRaw(fpath, fname, ftype):
     if len(fsecli) <= 2 or len(fsecli[0]) > 3: return
     return fsecli
 
-def parseHeadKeyValue(fpath, fname, ftype):
+def parseHeadKeyValue(fpath, fname, ftype, setkv={}):
     fsecli = parseHeadKeyValueRaw(fpath, fname, ftype)
     if not fsecli: return
-    return formatkv(fpath, fname, ftype, fsecli[1])[1]
+    return formatkv(fpath, fname, ftype, fsecli[1], setkv=setkv)[1]
 
 gkvconfig = readfileJson("config/headnote.json", "utf8")
 gkvconfig = gkvconfig if gkvconfig else {}
@@ -219,8 +219,10 @@ def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv={}):
 
     fsecli = "---".join(fsecli)
 
-    from zhconv import convert
-    fsecli = convert(fsecli, 'zh-cn')
+    # zhconv: false
+    if "zhconv" in setkv.keys() and setkv["zhconv"] == "false":
+        from zhconv import convert
+        fsecli = convert(fsecli, 'zh-cn')
 
     writefile(fpath, fsecli, "utf8")
     if not fpath in gkvconfig.keys():
