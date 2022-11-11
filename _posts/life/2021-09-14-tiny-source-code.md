@@ -136,7 +136,7 @@ if ( v83.u ) {
 }
 v83.u = 0;
 v34 = (int *)v83.dims;
-memset(&v83.data, 0, 16);
+memset(&v83.data, 0, 16); // datastart = dataend = datalimit = data = 0;
 if ( v83.dims >= 1 ) {
     v34 = v83.size.p;
     v35 = 0;
@@ -151,11 +151,157 @@ if ( v83.step.p != v83.step.buf )
     CvFastFree((mycv *)v83.step.p, v34);
 ```
 
+```cpp
+inline
+Mat& Mat::operator = (Mat&& m)
+{
+    if (this == &m)
+      return *this;
+
+    release();
+    flags = m.flags; dims = m.dims; rows = m.rows; cols = m.cols; data = m.data;
+    datastart = m.datastart; dataend = m.dataend; datalimit = m.datalimit; allocator = m.allocator;
+    u = m.u;
+    if (step.p != step.buf) // release self step/size
+    {
+        fastFree(step.p);
+        step.p = step.buf;
+        size.p = &rows;
+    }
+    if (m.dims <= 2) // move new step/size info
+    {
+        step[0] = m.step[0];
+        step[1] = m.step[1];
+    }
+    else
+    {
+        CV_DbgAssert(m.step.p != m.step.buf);
+        step.p = m.step.p;
+        size.p = m.size.p;
+        m.step.p = m.step.buf;
+        m.size.p = &m.rows;
+    }
+    m.flags = MAGIC_VAL; m.dims = m.rows = m.cols = 0;
+    m.data = NULL; m.datastart = NULL; m.dataend = NULL; m.datalimit = NULL;
+    m.allocator = NULL;
+    m.u = NULL;
+    return *this;
+}
+
+inline
+Mat& Mat::operator = (const Mat& m)
+{
+    if ( this != &m )
+    {
+        if ( m.u )
+            CV_XADD(&m.u->refcount, 1);
+        release();
+        flags = m.flags;
+        if ( dims <= 2 && m.dims <= 2 )
+        {
+            dims = m.dims;
+            rows = m.rows;
+            cols = m.cols;
+            step[0] = m.step[0];
+            step[1] = m.step[1];
+        }
+        else
+            copySize(m);
+        data = m.data;
+        datastart = m.datastart;
+        dataend = m.dataend;
+        datalimit = m.datalimit;
+        allocator = m.allocator;
+        u = m.u;
+    }
+    return *this;
+}
+
+inline
+Mat::Mat(const Mat& m)
+    : flags(m.flags), dims(m.dims), rows(m.rows), cols(m.cols), data(m.data),
+      datastart(m.datastart), dataend(m.dataend), datalimit(m.datalimit), allocator(m.allocator),
+      u(m.u), size(&rows), step(0)
+{
+    if ( u )
+        CV_XADD(&u->refcount, 1);
+    if ( m.dims <= 2 )
+    {
+        step[0] = m.step[0]; step[1] = m.step[1];
+    }
+    else
+    {
+        dims = 0;
+        copySize(m);
+    }
+}
+
+inline Mat& Mat::operator=(const Mat& m)
+{
+    if (this == &m)
+        return *this;
+
+    if (m.refcount)
+        NCNN_XADD(m.refcount, 1);
+
+    release();
+
+    data = m.data;
+    refcount = m.refcount;
+    elemsize = m.elemsize;
+    elempack = m.elempack;
+    allocator = m.allocator;
+
+    dims = m.dims;
+    w = m.w;
+    h = m.h;
+    c = m.c;
+
+    cstep = m.cstep;
+
+    return *this;
+}
+
+inline void Mat::release()
+{
+    if (refcount && NCNN_XADD(refcount, -1) == 1)
+    {
+        if (allocator)
+            allocator->fastFree(data);
+        else
+            fastFree(data);
+    }
+
+    data = 0;
+
+    elemsize = 0;
+    elempack = 0;
+
+    dims = 0;
+    w = 0;
+    h = 0;
+    c = 0;
+
+    cstep = 0;
+
+    refcount = 0;
+}
+```
+
 这个 函数
 sub_B1894
 sub_71D00
 sub_B00A8
 OpenCV – 3.4.2 2018-07-04
+
+33619968 0x2010000 (MAT+ACCESS_WRITE)
+16842752 0x1010000
+33882112 0x2050000
+1072693248 0x3ff00000
+1074266112 0x40080000
+17104896 0x1050000
+1124007936 0x42ff0000
+1081073664 0x406fe000
 
 1. 不能包含指针转换：`(int)`，调整为 `(int64)`，避免指针截断。
     * <https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt>
