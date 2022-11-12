@@ -18,7 +18,7 @@ codeprint:
 [神经网络*内部*发生了什么？ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1s3411y7WN/)
 {% include image.html url="/assets/images/221013-artificial-intelligence/20221016220307.png" %}
 
-> 深度学习如皓月当空，传统机器学习算法都显得暗淡无光了，系统性的整理了传统机器学习算法，希望项目中能用上一两个。
+> 深度学习如皓月当空，传统机器学习算法都显得暗淡无光了，系统性的整理了机器学习算法，希望项目中能用上一两个。
 > 数据收集、数据清洗、特征工程、数据建模。
 > 数据和特征决定了机器学习的上限，而模型和算法只能逼近这个上限而已。
 
