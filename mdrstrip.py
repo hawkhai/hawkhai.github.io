@@ -965,6 +965,24 @@ def mainfilew(fpath, fname, ftype):
     return errcnt
 
 G_CHECKFSIZE_CFG = {}
+G_CHECKTINUE_SET = {}
+
+def oncheckdirectory(rootdir, basename=None):
+    if rootdir in G_CHECKTINUE_SET.keys():
+        return G_CHECKTINUE_SET[rootdir]
+    curdir = rootdir
+    for i in range(10):
+        imgnocheck = os.path.join(curdir, "imgnocheck.txt")
+        if os.path.exists(imgnocheck):
+            G_CHECKTINUE_SET[rootdir] = False
+            return False
+        # 已经到 git 根目录了。
+        if os.path.exists(os.path.join(curdir, ".git")):
+            break
+        curdir = os.path.split(curdir)[0]
+    G_CHECKTINUE_SET[rootdir] = True
+    return True
+
 def checkfilesize(fpath, fname, ftype):
     # 原图不存在了，要移除缩略图。
     if fname.endswith(THUMBNAIL):
@@ -972,6 +990,9 @@ def checkfilesize(fpath, fname, ftype):
         if not os.path.exists(srcimg):
             osremove(fpath)
             return
+
+    if not oncheckdirectory(os.path.split(fpath)[0]):
+        return
 
     invdir = isInvisibleDir(fpath)
     mdrstripBigfileCfg = os.path.join("invisible" if invdir else ".", "config/mdrstrip_bigfiles.txt")
@@ -1049,9 +1070,9 @@ def main():
         "Debug", "Release", ".vs", "opengl-3rd", "opengles3-book", "opengles-book-samples",
         "UserDataSpider", "docs.gl", "ml-notes",
         )
-    searchdir(".", checkfilesize, ignorelist=CHECK_IGNORE_LIST)
-    searchdir("backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST)
-    searchdir("invisible"+os.sep+"backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST)
+    searchdir(".", checkfilesize, ignorelist=CHECK_IGNORE_LIST, onDirectory=oncheckdirectory)
+    searchdir("backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST, onDirectory=oncheckdirectory)
+    searchdir("invisible"+os.sep+"backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST, onDirectory=oncheckdirectory)
 
     searchdir(".", mainfilew, ignorelist=(
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
