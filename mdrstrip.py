@@ -136,12 +136,15 @@ def backupUrlContent(fpath, url):
         fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=flocal, shotpath=shotpath, chromeDialog=chromeDialog)
         fdatalocal = False
 
-    itag = bytesToString("无法访问此网站".encode("utf8"))
+    itag1 = bytesToString("无法访问此网站".encode("utf8"))
     itag2 = bytesToString('<div class="Qrcode-title">扫码登录</div>'.encode("utf8")) # 知乎的问题
+    itag3 = bytesToString('未注册手机验证后自动登录，注册即代表同意'.encode("utf8")) # 知乎的问题
     idata = bytesToString(fdata)
     if not url in readfileIglist("config/mdrstrip_url_ignore.txt"):
         if idata.find("ERR_CONNECTION_TIMED_OUT") != -1 or (
-                idata.find(itag) != -1 or idata.find(itag2) != -1):
+                idata.find(itag1) != -1 or
+                idata.find(itag2) != -1 or
+                idata.find(itag3) != -1):
             print("无法访问此网站", fpath, url)
             if not fdatalocal: os.system(PAUSE_CMD)
             removeSnapCache(urlmd5)

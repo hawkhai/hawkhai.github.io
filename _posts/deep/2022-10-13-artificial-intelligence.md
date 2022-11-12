@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "机器学习笔记 -- 人工智能 机器学习 算法概述"
+title: "机器学习笔记 -- 人工智能 机器学习 算法概览（已完结）"
 author:
 location: "珠海"
 categories: ["机器学习"]
@@ -18,30 +18,32 @@ codeprint:
 [神经网络*内部*发生了什么？ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1s3411y7WN/)
 {% include image.html url="/assets/images/221013-artificial-intelligence/20221016220307.png" %}
 
-> 该看：14-1
+> 深度学习如皓月当空，传统机器学习算法都显得暗淡无光了，系统性的整理了传统机器学习算法，希望项目中能用上一两个。
 > 数据收集、数据清洗、特征工程、数据建模。
 > 数据和特征决定了机器学习的上限，而模型和算法只能逼近这个上限而已。
 
 * 机器学习：给定数据的预测问题。
 
-* 监督学习：又标签，对于属于数据 X，预测 Y。
+* 监督学习：有标签，对于属于数据 X，预测 Y。
     * 分类：标签不连续。
     * 回归：标签连续。
     * K 近邻
-    * SVM
+    * 支持向量机 SVM
     * 决策树
     * 朴素贝叶斯
     * 逻辑回归
+    * 线性回归
+    * 集成算法 Adaboost 等
     * XGBoost
     * **LightGBM**
 * 无监督学习：无标签，对于数据数据 X，能发现什么。
     * 聚类
     * 降维算法
     * EM 算法
+    * 关联规则
+    * PageRank 等
 * 强化学习：序列决策问题。
     * 马尔科夫决策方法（扫地机器人寻路）
-* 监督学习算法：逻辑回归，线性回归，决策树，朴素贝叶斯，K 近邻，支持向量机，集成算法 Adaboost 等
-* 无监督算法：聚类，降维，关联规则，PageRank 等
 
 [基本的机器学习算法 {% include relref_csdn.html %}](https://blog.csdn.net/qq_39783601/article/details/123365469)：
 1. 线性回归算法 Linear Regression
@@ -72,7 +74,7 @@ boxplot：箱型图又称为盒须图、盒式图或箱线图，是一种用作�
 机器学习算法中的调优参数（tuning parameters），需要人为设定，称为超参数（Hyperparameter）。比如，正则化系数 λ，决策树模型中树的深度。
 
 迭代次数 epoch，k 近邻法（kNN）中的 k（最相近的点的个数），决策树模型中树的深度等等都属于超参数。
-梯度下降法中的学习速率 α，迭代次数 epoch，批量大小 batch-size，k 近邻法中的 k（最相近的点的个数），决策树模型中树的深度，树的数量或树的深度，矩阵分解中潜在因素的数量，学习率（多种模式），深层神经网络隐藏层数，k 均值聚类中的簇数等等。
+梯度下降法中的学习速率 α，批量大小 batch-size，k 近邻法中的 k（最相近的点的个数），树的数量或树的深度，矩阵分解中潜在因素的数量，学习率（多种模式），深层神经网络隐藏层数，k 均值聚类中的簇数等等。
 
 超参数的优化：
 有四种主要的策略可用于搜索最佳配置：照看（babysitting，又叫试错），网格搜索，随机搜索，贝叶斯优化。
@@ -194,9 +196,12 @@ Scikit-learn 主要用于各种数据建模概念，如回归、分类、聚类�
 
 {% include image.html url="/assets/images/221013-artificial-intelligence/20221101235640.png" %}
 
+决策树算法主要包括三个部分：特征选择、树的生成、树的剪枝。常用算法有 ID3、C4.5、CART。
+
 
 ### 分割方法
 
+[note {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/32877396)
 * ID3(Iterative Dichotomiser)
     * “信息熵”，期望信息越小，信息熵越大，样本纯度越低。
 * C4.5
@@ -220,17 +225,15 @@ Scikit-learn 主要用于各种数据建模概念，如回归、分类、聚类�
 * 样本特征的差异：ID3 和 C4.5 层级之间只使用一次特征，CART 可多次重复使用特征；
 * 剪枝策略的差异：ID3 没有剪枝策略，C4.5 是通过悲观剪枝策略来修正树的准确性，而 CART 是通过代价复杂度剪枝。
 
+* 特征选择。特征选择的目的是选取能够对训练集分类的特征。特征选择的关键是准则：信息增益、信息增益比、Gini 指数；
+* 决策树的生成。通常是利用信息增益最大、信息增益比最大、Gini 指数最小作为特征选择的准则。从根节点开始，递归的生成决策树。
+    相当于是不断选取局部最优特征，或将训练集分割为基本能够正确分类的子集；
+* 决策树的剪枝。决策树的剪枝是为了防止树的过拟合，增强其泛化能力。包括预剪枝和后剪枝。
+
 
 ## 朴素贝叶斯
 
 朴素贝叶斯（Naive Bayes）是基于贝叶斯定理，即两个条件关系之间。它测量每个类的概率，每个类的条件概率给出 x 的值。这个算法用于分类问题，得到一个二进制“是 / 非”的结果。看看下面的方程式。
-
-朴素贝叶斯分类器是一种流行的统计技术，经典应用是过滤垃圾邮件。
-
-* 判别模型（Discriminative Model)
-    * 线性回归、逻辑回归、感知机、决策树、支持向量机……
-* 生成模型（Generative Model）
-    * 朴素贝叶斯、HMM、深度信念网络（DBN）……
 
 $$
 P(Y|X)P(X)=P(X|Y)P(Y)
@@ -239,6 +242,13 @@ $$
 * 最常用的 GaussianNB 是高斯贝叶斯分类器。它假设特征的条件概率分布满足高斯分布。
 * MultinomialNB 是多项式贝叶斯分类器，它假设特征的条件概率分布满足多项式分布。
 * BernoulliNB 是伯努利贝叶斯分类器。它假设特征的条件概率分布满足二项分布。
+
+朴素贝叶斯分类器是一种流行的统计技术，经典应用是过滤垃圾邮件。
+
+* 判别模型（Discriminative Model)
+    * 线性回归、逻辑回归、感知机、决策树、支持向量机……
+* 生成模型（Generative Model）
+    * 朴素贝叶斯、HMM、深度信念网络（DBN）……
 
 
 ## 支持向量机
@@ -281,7 +291,7 @@ KNN 理论简单，容易实现，可用于文本分类、模式识别、聚类�
 ### KD 树（K-D Tree）
 
 k 近邻法最简单的实现是线性扫描（穷举搜索），即要计算输入实例与每一个训练实例的距离。计算并存储好以后，再查找 K 近邻。当训练集很大时，计算非常耗时。
-为了提高 kNN 搜索的效率，可以考虑使用特殊的结构存储训练数据，以减小计算距离的次数。这里介绍的就是 KD 树。
+为了提高 kNN 搜索的效率，可以考虑使用特殊的结构存储训练数据，以减小计算距离的次数。就是 KD 树。
 
 
 ## K- 均值
@@ -302,7 +312,7 @@ K-means、密度聚类、层次聚类
 ### 密度聚类
 
 DBSCAN 密度聚类。
-与划分和层次聚类方法不同，DBSCAN(Density-Based Spatial Clustering of
+与划分和层次聚类方法不同，DBSCAN (Density-Based Spatial Clustering of
 Applications with Noise) 是一个比较有代表性的基于密度的聚类算法。它将簇
 定义为密度相连的点的最大集合，能够把具有足够高密度的区域划分为簇，并
 可在噪声的空间数据库中发现任意形状的聚类。
@@ -316,15 +326,26 @@ Applications with Noise) 是一个比较有代表性的基于密度的聚类算�
 
 ## 随机森林
 
-随机森林（Random Forest）是一种非常流行的集成机器学习算法。这个算法的基本思想是，许多人的意见要比个人的意见更准确。在随机森林中，我们使用决策树集成（参见决策树）。
+随机森林（Random Forest）是一种非常流行的集成机器学习算法。这个算法的基本思想是，许多人的意见要比个人的意见更准确。在随机森林中，我们使用决策树集成。
 
 {% include image.html url="/assets/images/221013-artificial-intelligence/6408.jpg" %}
 
-（a）在训练过程中，每个决策树都是基于训练集的引导样本来构建的。
-
-（b）在分类过程中，输入实例的决定是根据多数投票做出的。
+1. 在训练过程中，每个决策树都是基于训练集的引导样本来构建的。
+2. 在分类过程中，输入实例的决定是根据多数投票做出的。
 
 随机森林拥有广泛的应用前景，从市场营销到医疗保健保险，既可以用来做市场营销模拟的建模，统计客户来源、保留及流失，也可以用来预测疾病的风险和病患者的易感性。
+
+优点：
+* 由于每次不再考虑全部的属性，而是一个属性子集，所以相比于 Bagging 计算开销更小，训练效率更高；
+* 由于增加了属性的扰动，随机森林中基学习器的性能降低，使得在随机森林在起始时候性能较差，但是随着基学习器的增多，
+    随机森林通常会收敛于更低的泛化误差，相比于 Bagging；
+* 两个随机性的引入，使得随机森林不容易陷入过拟合，具有很好的抗噪声能力；
+* 对数据的适应能力强，可以处理离散和连续的，无需要规范化；
+* 可以得到变量的重要性， 基于 oob 错误率（袋外错误率 out-of-bag error）和基于 Gini 系数的变化。
+* 不同决策树可以由不同主机并行训练生成，效率很高。
+
+缺点：
+* 在噪声较大的时候容易过拟合。
 
 
 ### 集成学习
@@ -343,13 +364,28 @@ bosting 就是把若干个分类效果并不好的分类器综合起来考虑，
 * XGBoost 是大规模并行 boosting tree 的工具，它是目前最快最好的开源 boosting tree 工具包，
     比常见的工具包快 10 倍以上。XGBoost 和 GBDT 两者都是 boosting 方法，
     除了工程实现、解决问题上的一些差异外，最大的不同就是目标函数的定义。
-* **LightGBM** [LightGBM {% include relref_csdn.html %}](https://blog.csdn.net/a321123b/article/details/119451920) 由微软提出，主要用于解决 GDBT 在海量数据中遇到的问题，
+*  [**LightGBM** {% include relref_csdn.html %}](https://blog.csdn.net/a321123b/article/details/119451920) 由微软提出，主要用于解决 GDBT 在海量数据中遇到的问题，
     以便其可以更好更快地用于工业实践中，其相对 XGBoost 具有训练速度快、内存占用低的特点。
     LightGBM 与 XGBoost 相比，主要有以下几个改进：
     * 基于梯度的单边采样算法（Gradient-based One-Side Sampling, GOSS）；
     * 互斥特征捆绑算法（Exclusive Feature Bundling, EFB）；
-    * 直方图算法（ Histogram ）；
-    * 基于最大深度的 Leaf-wise 的垂直生长算法；
+    * 直方图算法（Histogram）；
+    * 基于最大深度的 Leaf-wise 的垂直生长算法。
+
+
+### GBDT 和随机森林区别
+
+GBDT 和随机森林的相同点：
+* 都是由多棵树组成；
+* 最终的结果都由多棵树共同决定。
+
+GBDT 和随机森林的不同点：
+* 组成随机森林的可以是分类树、回归树；组成 GBDT 只能是回归树；
+* 组成随机森林的树可以并行生成（Bagging）；GBDT 只能串行生成（Boosting）；这两种模型都用到了 Bootstrap 的思想。
+* 对于最终的输出结果而言，随机森林使用多数投票或者简单平均；而 GBDT 则是将所有结果累加起来，或者加权累加起来；
+* 随机森林对异常值不敏感，GBDT 对异常值非常敏感；
+* 随机森林对训练集一视同仁权值一样，GBDT 是基于权值的弱分类器的集成；
+* 随机森林通过减小模型的方差提高性能，GBDT 通过减少模型偏差提高性能。
 
 
 ## 降维
@@ -364,28 +400,6 @@ bosting 就是把若干个分类效果并不好的分类器综合起来考虑，
 {% include image.html url="/assets/images/221013-artificial-intelligence/6409.jpg" %}
 
 
-### PCA（主成分分析）
-
-不存在完全无损的降维。
-{% include image.html url="/assets/images/221013-artificial-intelligence/v2-589dc1e07c47ce52a82bac13da8d1c85_1440w.png" %}
-[from {% include relref_csdn.html %}](https://blog.csdn.net/Dark_Scope/article/details/53150883)
-{% include image.html url="/assets/images/221013-artificial-intelligence/20160207114645575.gif" %}
-
-PCA 的算法两种实现方法
-* 基于 SVD 分解协方差矩阵实现 PCA 算法
-* 基于特征值分解协方差矩阵实现 PCA 算法
-
-PCA 算法优点
-1. 仅仅需要以方差衡量信息量，不受数据集以外的因素影响
-2. 各主成分之间正交，可消除原始数据成分间的相互影响的因素
-3. 计算方法简单，主要运算时特征值分解，易于实现
-4. 它是无监督学习，完全无参数限制的
-
-PCA 算法缺点
-1. 主成分各个特征维度的含义具有一定的模糊性，不如原始样本特征的解释性强
-2. 方差小的非主成分也可能含有对样本差异的重要信息，因降维丢弃可能对后续数据处理有影响
-
-
 ### SVD（奇异值分解）
 
 SVD 其实是众多矩阵分解的一种，除了在 PCA 上使用，也有用于推荐，在推荐领域的 svd 算法形式上并不能和标准的奇异值分解对应上，但其思路是相通的，具体可以参考协同过滤算法实现。
@@ -397,13 +411,34 @@ SVD 其实是众多矩阵分解的一种，除了在 PCA 上使用，也有用�
     最大的 $k$ 个的奇异值和对应的左右奇异向量来近似描述矩阵。
 
 
+### PCA（主成分分析）
+
+不存在完全无损的降维。
+{% include image.html url="/assets/images/221013-artificial-intelligence/v2-589dc1e07c47ce52a82bac13da8d1c85_1440w.png" %}
+[from {% include relref_csdn.html %}](https://blog.csdn.net/Dark_Scope/article/details/53150883)
+{% include image.html url="/assets/images/221013-artificial-intelligence/20160207114645575.gif" %}
+
+PCA 的算法两种实现方法
+* 基于 SVD 分解协方差矩阵实现 PCA 算法
+* 基于特征值分解协方差矩阵实现 PCA 算法
+
+**PCA 算法优点**
+1. 仅仅需要以方差衡量信息量，不受数据集以外的因素影响
+2. 各主成分之间正交，可消除原始数据成分间的相互影响的因素
+3. 计算方法简单，主要运算时特征值分解，易于实现
+4. 它是无监督学习，完全无参数限制的
+
+**PCA 算法缺点**
+1. 主成分各个特征维度的含义具有一定的模糊性，不如原始样本特征的解释性强
+2. 方差小的非主成分也可能含有对样本差异的重要信息，因降维丢弃可能对后续数据处理有影响
+
+
 ## 关联规则
 
 
 ### Apriori 算法
 
-Apriori 算法缺点
-
+**Apriori 算法缺点**
 Apriori 在计算的过程中有以下几个缺点：
 1. 可能产生大量的候选集。因为采用排列组合的方式，把可能的项集都组合出来了；
 2. 每次计算都需要重新扫描数据集，来计算每个项集的支持度。
@@ -411,34 +446,32 @@ Apriori 在计算的过程中有以下几个缺点：
 
 ### FP-Growth 算法
 
-FP-growth 算法思想
-
+**FP-growth 算法思想**
 该算法和 Apriori 算法最大的不同有两点：
 1. 不产生候选集
 2. 只需要两次遍历数据库，大大提高了效率。
 
-FP-Growth 算法的优点
+**FP-Growth 算法的优点**
 1. 与 Apriori 算法相比，该算法只需对数据库进行两次扫描
 2. 该算法不需要对项目进行配对，因此速度更快。
 3. 数据库存储在内存中的压缩版本中。
 4. 对长、短频繁模式的挖掘具有高效性和可扩展性。
 
-FP-Growth 算法的缺点
+**FP-Growth 算法的缺点**
 1. FP-Tree 比 Apriori 更麻烦，更难构建。
 2. 可能很耗资源。
 3. 当数据库较大时，算法可能不适合共享内存
 
 
-### Eclat 算法
+### Eclat 算法的优缺点
 
-Eclat 算法的优缺点
-优点：
+**优点：**
 Eclat 的优势是只需扫描一遍完整的数据库， 这种方法与 Apriori 相比有一
 个优势，在产生候选 (k+1) 项集时利用先验性质，而且不需要扫描数据库
 来确定 (k+1) 项集的支持度，这是因为每个 k 项集的交易集携带了计算支持
 度的完整信息。
 
-缺点：
+**缺点：**
 当有许多事务需要大量内存和计算时间来相交集合时，就会出现瓶颈。因为在
 Eclat 算法中，它由 2 个集合的并集产生新的候选集，通过计算这 2 个项集的交易集
 的交集快速得到候选集的支持度，所以，当交易集的规模庞大时将出现以下问题：
@@ -458,8 +491,6 @@ Eclat 算法中，它由 2 个集合的并集产生新的候选集，通过计�
 
 图像识别，就是神经网络中的一个著名应用。
 
-现在，你已经了解了最流行的人工智能算法的基础介绍，并且，对它们的实际应用也有了一定认识。
-
 
 ### 最常用 Sigmoid 函数的优缺点
 
@@ -470,14 +501,25 @@ Tanh 函数
 ReLU 函数
 Leaky ReLU 函数
 
+**Sigmoid 和 softmax**
+* Sigmoid 只做值非线性变化映射到 (0,1)，用于二分类。
+* softmax 变化过程计算所有结果的权重，使得多值输出的概率和为 1。用于多分类。 指数运算速度慢。梯度饱和消失。
+
+**Tanh 函数**
+* 双曲正切函数。以 0 为中心，有归一化的作用。
+
+**ReLu 和 Leaky ReLu**
+* 大于 0 为 1，小于 0 为 0，计算速度快。
+* leaky 输入为负时，梯度仍有值，避免死掉。
+
 {% include image.html url="/assets/images/221013-artificial-intelligence/20221102012144.png" caption="激活函数" %}
 
-优点：
+**Sigmoid 函数 优点：**
 1. 函数处处连续，便于求导
 2. 可将函数值的范围压缩至 [0,1]，可用于压缩数据，且幅度不变
 3. 便于前向传输
 
-缺点：
+**Sigmoid 函数 缺点：**
 1. 在趋向无穷的地方，函数值变化很小，容易出现梯度消失，不利于深层神经的反馈传输
 2. 幂函数的梯度计算复杂
 3. 收敛速度比较慢
@@ -498,6 +540,11 @@ Leaky ReLU 函数
 2. 网络中隐层含有的节点数目没有明确的准则，需要不断设置节点数字试凑，根据网络误差结果最终确定隐层节点个数。
 3. BP 算法是一种速度较快的梯度下降算法，容易陷入局部极小值的问题。
 
+{% include image.html url="/assets/images/221013-artificial-intelligence/v2-22ee181fbe6046ccec1dc443228ae176_720w.webp" caption="L1 & L2 正则化" %}
+
+评价指标
+[ref {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/82105066)
+
 
 
 <hr class='reviewline'/>
@@ -513,8 +560,10 @@ Leaky ReLU 函数
 - [https://imgaug.readthedocs.io/en/latest/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/imgaug.readthedocs.io/aeade3ec.html" %})
 - [https://www.lianxh.cn/news/ac0f7a163237d.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/www.lianxh.cn/b9cac1b0.html" %})
 - [https://zhuanlan.zhihu.com/p/488290289]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/zhuanlan.zhihu.com/b8d23c85.html" %})
+- [https://zhuanlan.zhihu.com/p/32877396]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/zhuanlan.zhihu.com/3d4e3ec1.html" %})
 - [https://zhuanlan.zhihu.com/p/77750026]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/zhuanlan.zhihu.com/685aa42d.html" %})
 - [https://mp.weixin.qq.com/s/kbY8Y3BDmXTm2-wA3eLpMw]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/mp.weixin.qq.com/4c1e2cb5.html" %})
 - [http://c.biancheng.net/ml_alg/ensemble-learning.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/c.biancheng.net/c8d9d204.html" %})
 - [https://blog.csdn.net/a321123b/article/details/119451920]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/blog.csdn.net/66172b00.html" %})
 - [https://blog.csdn.net/Dark_Scope/article/details/53150883]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/blog.csdn.net/1144a827.html" %})
+- [https://zhuanlan.zhihu.com/p/82105066]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/zhuanlan.zhihu.com/46a745ec.html" %})
