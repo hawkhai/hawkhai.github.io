@@ -579,7 +579,7 @@ def appendRefs(fpath, lines, imgthumb):
         lines.append("")
     return lines
 
-def mainfile(fpath, fname, ftype):
+def mainfile(fpath, fname, ftype, fdepth=0):
 
     if fpath.endswith(SPACEBACKFILE_TAIL):
         fjson = readfileJson(fpath, "utf8")
@@ -674,11 +674,13 @@ def mainfile(fpath, fname, ftype):
         try:
             lines = appendRefs(fpath, lines, imgthumb)
         except AssertionError as ex:
+            if fdepth >= 5:
+                raise ex
             openTextFile(fpath)
             traceback.print_exc()
             print("断言错误 {}".format(ex,))
             os.system(PAUSE_CMD)
-            return mainfile(fpathsrc, fnamesrc, ftypesrc)
+            return mainfile(fpathsrc, fnamesrc, ftypesrc, fdepth+1)
 
     # .spaceback.json
     spacebackfile = fpath + SPACEBACKFILE_TAIL
@@ -710,7 +712,7 @@ def mainfile(fpath, fname, ftype):
                 openTextFile(fpath)
                 print("代码语言无法识别 {}:{} \"{}\"".format(fpath, index+1, i))
                 os.system(PAUSE_CMD)
-                return mainfile(fpathsrc, fnamesrc, ftypesrc)
+                return mainfile(fpathsrc, fnamesrc, ftypesrc, fdepth+1)
 
         tagregex = "^\\s*[#]+\\s"
         prelinetag = re.findall(tagregex, preline)
@@ -840,7 +842,7 @@ def mainfile(fpath, fname, ftype):
                 print(lixyx)
                 print("中文符号问题 {}:{} \"{}\"".format(fpath, index+1, linec))
                 os.system(PAUSE_CMD)
-                return mainfile(fpathsrc, fnamesrc, ftypesrc)
+                return mainfile(fpathsrc, fnamesrc, ftypesrc, fdepth+1)
 
         fxline = "".join(line.split())
         if fxline.startswith("<divclass=\"mermaid\"") and not chartstate:
@@ -867,7 +869,7 @@ def mainfile(fpath, fname, ftype):
             openTextFile(fpath)
             print("'if(' & 'while(' 问题 {}:{} \"{}\"".format(fpath, index+1, line))
             os.system(PAUSE_CMD)
-            return mainfile(fpathsrc, fnamesrc, ftypesrc)
+            return mainfile(fpathsrc, fnamesrc, ftypesrc, fdepth+1)
 
         if codestate:
             continue
@@ -877,7 +879,7 @@ def mainfile(fpath, fname, ftype):
                 openTextFile(fpath)
                 print("标题前后空行问题 {}:{} \"{}\"".format(fpath, index+1, line))
                 os.system(PAUSE_CMD)
-                return mainfile(fpathsrc, fnamesrc, ftypesrc)
+                return mainfile(fpathsrc, fnamesrc, ftypesrc, fdepth+1)
 
         countspace = getLeftSpaceCount(line if warnIndentSpace else line.replace("\t", " "*4))
         if countspace > 12 or countspace % idtcnt == 0:
@@ -886,7 +888,7 @@ def mainfile(fpath, fname, ftype):
             openTextFile(fpath)
             print("空格缩进问题 {}:{} \"{}\"".format(fpath, index+1, line))
             os.system(PAUSE_CMD)
-            return mainfile(fpathsrc, fnamesrc, ftypesrc)
+            return mainfile(fpathsrc, fnamesrc, ftypesrc, fdepth+1)
 
     assert not codestate # 断言代码片段闭合。
 
@@ -932,7 +934,7 @@ def mainfile(fpath, fname, ftype):
 
     print("文本中途被改过了。{}".format(fpath,))
     os.system(PAUSE_CMD)
-    return mainfile(fpathsrc, fnamesrc, ftypesrc)
+    return mainfile(fpathsrc, fnamesrc, ftypesrc, fdepth+1)
 
 def viewchar(lichar, xfile, xmin, xmax):
     li = list(set("".join(lichar)))
