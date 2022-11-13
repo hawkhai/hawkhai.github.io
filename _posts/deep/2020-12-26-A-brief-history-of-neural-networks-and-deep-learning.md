@@ -196,6 +196,10 @@ Andrey Kurenkov
 * 阮一峰 [神经网络入门](http://www.ruanyifeng.com/blog/2017/07/neural-network.html)
 * 阮一峰 [如何识别图像边缘？](http://www.ruanyifeng.com/blog/2016/07/edge-recognition.html)
 
+Thinking
+* [周志华：关于机器学习的一点思考 {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/sEZM_o5D6AhyMgvocbsFhw)（周老师的观点客观诚恳~）
+* [你知道为什么说深度学习是这时代的炼金术吗？ {% include relref_weixin.html %}](https://mp.weixin.qq.com/s/y3KqZi68uoWnW_VHV-dtTg)
+
 
 
 <hr class='reviewline'/>
@@ -212,3 +216,5 @@ Andrey Kurenkov
 - [https://github.com/xiaoweiChen/DeepLearning-Notes]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/github.com/d0a1bb71.html" %})
 - [http://www.ruanyifeng.com/blog/2017/07/neural-network.html]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.ruanyifeng.com/d5835ee3.html" %})
 - [http://www.ruanyifeng.com/blog/2016/07/edge-recognition.html]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.ruanyifeng.com/3308992b.html" %})
+- [https://mp.weixin.qq.com/s/sEZM_o5D6AhyMgvocbsFhw]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/mp.weixin.qq.com/12d5ba55.html" %})
+- [https://mp.weixin.qq.com/s/y3KqZi68uoWnW_VHV-dtTg]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/mp.weixin.qq.com/f74809b9.html" %})
