@@ -43,6 +43,9 @@ kaliyun: true
 {% include image1.html url="/kaoyu/img/kaoyu.jpeg"
 caption="<span class='imagetitle'>香辣烤鱼</span> 26 元 / 斤 &nbsp; <span class='imagetitle'>姜葱烤鱼</span> 26 元 / 斤<br/><span class='imagetitle'>麻辣烤鱼</span> 26 元 / 斤 &nbsp; <span class='imagetitle'>泡椒烤鱼</span> 28 元 / 斤<br/><span class='imagetitle'>蒜香烤鱼</span> 26 元 / 斤" %}
 
+{% include image1.html url="/kaoyu/img/20221113223822.jpg"
+caption="<font color='red'>新菜</font> <span class='imagetitle'>烤牛蛙</span> 128 元" %}
+
 {% include image1.html url="/kaoyu/img/kaopaigu.jpg"
 caption="<span class='imagetitle'>烤排骨</span>&nbsp; （小）118 元 （大）168 元" %}
 
