@@ -544,6 +544,8 @@ Leaky ReLU 函数
 
 评价指标
 [ref {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/82105066)
+* [线性代数在数据科学中的十个强大应用（一） {% include relref_jianshu.html %}](https://www.jianshu.com/p/56985bcfac66)
+* [线性代数在数据科学中的十大强大应用（二）](http://events.jianshu.io/p/c0ced4833192)
 
 
 
@@ -567,3 +569,5 @@ Leaky ReLU 函数
 - [https://blog.csdn.net/a321123b/article/details/119451920]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/blog.csdn.net/66172b00.html" %})
 - [https://blog.csdn.net/Dark_Scope/article/details/53150883]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/blog.csdn.net/1144a827.html" %})
 - [https://zhuanlan.zhihu.com/p/82105066]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/zhuanlan.zhihu.com/46a745ec.html" %})
+- [https://www.jianshu.com/p/56985bcfac66]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/www.jianshu.com/2cac5546.html" %})
+- [http://events.jianshu.io/p/c0ced4833192]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/events.jianshu.io/6236c9dc.html" %})
