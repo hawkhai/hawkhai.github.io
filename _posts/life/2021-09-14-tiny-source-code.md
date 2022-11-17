@@ -15,6 +15,11 @@ glslcanvas:
 codeprint:
 ---
 
+int cvtype = CV_8UC1; // 0
+cvtype = CV_8UC2; // 8
+cvtype = CV_8UC3; // 16
+cvtype = CV_32FC1; // 5
+
 ```
 "C:\Program Files (x86)\Debugging Tools for Windows\gflags.exe" /p /enable ncnn_test.exe /full
 ```
@@ -286,13 +291,15 @@ inline void Mat::release()
 
     refcount = 0;
 }
-```
 
-这个 函数
-sub_B1894
-sub_71D00
-sub_B00A8
-OpenCV – 3.4.2 2018-07-04
+inline
+Mat Mat::clone() const
+{
+    Mat m;
+    copyTo(m);
+    return m;
+}
+```
 
 33619968 0x2010000 (MAT+ACCESS_WRITE)
 16842752 0x1010000
