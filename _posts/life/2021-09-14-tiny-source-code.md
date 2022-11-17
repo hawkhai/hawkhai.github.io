@@ -111,7 +111,7 @@ x | 老版本 ncnn::Mat（40 字节）<br/>**应该以这个为准** | 最新版
 9 | size_t cstep; | int c;
 10 | | size_t cstep;
 
-E:\kpdf\kvision\opencv\opencv-3.4.2\modules\core\include\opencv2\core\mat.inl.hpp
+[ROOT]\opencv\opencv-3.4.2\modules\core\include\opencv2\core\mat.inl.hpp
 ```
 inline
 Mat::~Mat()

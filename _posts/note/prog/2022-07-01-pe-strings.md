@@ -373,7 +373,7 @@ int func_gbk(GETBYTE getbyte) { if (!getbyte) return -1;
 直接命令行输入文件，结果存在文件 `*.pedump.strings.txt` 里面。
 ```
 C:\kSource\pythonx>filetool\toystrings.exe filetool\toystrings.exe
-https://sunocean.life/tools/?yangquanhai
+https://sunocean.life/tools/
 filetool\toystrings.exe
 time=94 // 毫秒
 ```

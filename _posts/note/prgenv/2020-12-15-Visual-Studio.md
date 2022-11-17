@@ -127,7 +127,7 @@ mt.exe /manifest "../../../publish/manifest/debug/crt.xml" "../../../publish/man
 
 ## fatal: Needed a single revision
 
-* git rm -rf fastpdf-turbo
+* git rm -rf fastapp-turbo
 * git submodule update --init
 * git submodule  update --init --recursive
 

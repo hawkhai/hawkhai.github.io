@@ -93,8 +93,6 @@ testguy
 
 Warning:
 JKS 密钥库使用专用格式。建议使用 "keytool -importkeystore -srckeystore androidguy-test.keystore -destkeystore androidguy-test.keystore -deststoretype pkcs12" 迁移到行业标准格式 PKCS12。
-
-E:\kpdf\kvision\apk>
 ```
 
 E:\android-studio-ide-181.5014246-windows\android-studio\jre\bin\jarsigner.exe
