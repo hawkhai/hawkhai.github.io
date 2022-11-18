@@ -326,8 +326,11 @@ Mat Mat::clone() const
 4. 所有 float 采用 (float)，避免限制为 double，最终 32 & 64 计算的结果造成不一致。
 5. `(unsigned int)(float)` 调整为 `(int)(float)`，前面 32 & 64 汇编运算结果会不一致。
 
-内存地址是否高位为 1，int64 的情况？应该不存在。
-64 位操作系统内存值的最高位可能是 1 吗？
+内存地址是否高位为 1，int64 的情况？可以当成 long long 来处理。
+64 位操作系统内存值的最高位可能是 1 吗？不可能，所有系统的寻址能力，最高 0xffff 都是用不到的。
+[简述 AMD64 架构的各类处理器分页模式，以及什么是物理地址扩展](https://www.0xaa55.com/thread-16949-1-1.html) AMD64 架构核心 —— 长模式分页。
+长模式是 AMD64 架构的核心，它使用 48 位长的二进制数表示线性地址。而长模式的分页则是以 PAE 的分页模式作为跳板，将 32 位的线性地址扩展至 48 位，并转换成 52 位长的物理地址。
+**最高位只有运算的时候，可能用到。一般就是 48 位，启用 PAE 可以到 52 位。**
 危险的 `(unsigned int)(float)` 强转：
 ```
 if (outx == 0) {
@@ -603,6 +606,7 @@ float | 4 | 4
 double | 8 | 8
 long double | 8 | 8
 void\* | 4 | 8
+size_t | 4 | 8
 
 [note {% include relref_cnblogs.html %}](https://www.cnblogs.com/flowerslip/p/5934718.html)
 补码最大好处就是不管是有符号数还是无符号数都可以用同一套加减法。
@@ -2380,6 +2384,7 @@ class fastimagedll : public fastimage::IFastImageInterface {
 
 - [https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/android.googlesource.com/b62cb28d.txt" %})
 - [https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4189?view=msvc-170]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/learn.microsoft.com/0c120c99.html" %})
+- [https://www.0xaa55.com/thread-16949-1-1.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.0xaa55.com/fb6b8dc2.html" %})
 - [https://blog.csdn.net/nameofcsdn/article/details/125007289]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/817e0ab4.html" %})
 - [https://rgplantz.github.io/2021/11/04/Shift-to-divide-by-10.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/rgplantz.github.io/343af929.html" %})
 - [https://blog.csdn.net/ce123_zhouwei/article/details/108562387]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/c29f479a.html" %})

@@ -1,0 +1,1318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" class=" widthauto"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>【处理器】简述AMD64架构的各类处理器分页模式，以及什么是物理地址扩展 - 技术宅的结界 -  Powered by Discuz!</title>
+<link href="https://www.0xaa55.com/thread-16949-1-1.html" rel="canonical" />
+<meta name="keywords" content="【处理器】简述AMD64架构的各类处理器分页模式，以及什么是物理地址扩展,提前声明：本文按照本人对《AMD64架构程序员编程手册》和《Intel 64与IA-32架构程序员开发手册》的理解而撰写，没有对网上其他资料进行任何参考。本文出现的中文名词有一部 ..." />
+<meta name="description" content="提前声明：本文按照本人对《AMD64架构程序员编程手册》和《Intel 64与IA-32架构程序员开发手册》的理解而撰写，没有对网上其他资料进行任何参考。本文出现的中文名词有一部 ...（来自技术宅的结界） " />
+<meta name="generator" content="Discuz! X3.4" />
+<meta name="author" content="Discuz! Team and Comsenz UI Team" />
+<meta name="copyright" content="2001-2021 Tencent Cloud." />
+<meta name="MSSmartTagsPreventParsing" content="True" />
+<meta http-equiv="MSThemeCompatible" content="Yes" />
+<base href="https://www.0xaa55.com/" /><link rel="stylesheet" type="text/css" href="data/cache/style_3_common.css?Aeo" /><link rel="stylesheet" type="text/css" href="data/cache/style_3_forum_viewthread.css?Aeo" /><script src="https://partner.googleadservices.com/gampad/cookie.js?domain=www.0xaa55.com&amp;callback=_gfp_s_&amp;client=ca-pub-2029006963530935&amp;gpid_exp=1"></script><script src="https://pagead2.googlesyndication.com/pagead/managed/js/adsense/m202211150101/show_ads_impl_fy2021.js?bust=31070969" id="google_shimpl"></script><script type="text/javascript">var STYLEID = '3', STATICURL = 'static/', IMGDIR = 'static/image/common', VERHASH = 'Aeo', charset = 'utf-8', discuz_uid = '0', cookiepre = 'BGDI_2132_', cookiedomain = '', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread', creditnotice = '1|威望|点,2|宅币|个,3|贡献|次,4|宅之契约|份', defaultstyle = '', REPORTURL = 'aHR0cHM6Ly93d3cuMHhhYTU1LmNvbS90aHJlYWQtMTY5NDktMS0xLmh0bWw=', SITEURL = 'https://www.0xaa55.com/', JSPATH = 'data/cache/', CSSPATH = 'data/cache/style_', DYNAMICURL = '';</script>
+<script src="data/cache/common.js?Aeo" type="text/javascript"></script>
+<meta name="application-name" content="技术宅的结界" />
+<meta name="msapplication-tooltip" content="技术宅的结界" />
+<meta name="msapplication-task" content="name=论坛;action-uri=https://www.0xaa55.com/forum.php;icon-uri=https://www.0xaa55.com/static/image/common/bbs.ico" />
+<meta name="msapplication-task" content="name=;action-uri=https://www.0xaa55.com/home.php;icon-uri=https://www.0xaa55.com/static/image/common/home.ico" /><link rel="archives" title="技术宅的结界" href="https://www.0xaa55.com/archiver/" />
+<link rel="stylesheet" id="css_widthauto" type="text/css" href="data/cache/style_3_widthauto.css?Aeo" />
+<script type="text/javascript">HTMLNODE.className += ' widthauto'</script>
+<script src="data/cache/forum.js?Aeo" type="text/javascript"></script>
+<script src="http://bdimg.share.baidu.com/static/js/logger.js?cdnversion=463551"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom &gt; * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd &gt; * {display: block!important}
+.MJXp-script-box &gt; *  {display: table!important; height: 50%}
+.MJXp-script-box &gt; * &gt; * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box &gt; *:last-child &gt; * {vertical-align: bottom}
+.MJXp-script-box &gt; * &gt; * &gt; * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over &gt; * {display: block!important}
+.MJXp-munderover &gt; * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable &gt; * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr &gt; .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child &gt; .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr &gt; .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child &gt; .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><meta http-equiv="origin-trial" content="Az6AfRvI8mo7yiW5fLfj04W21t0ig6aMsGYpIqMTaX60H+b0DkO1uDr+7BrzMcimWzv/X7SXR8jI+uvbV0IJlwYAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjgwNjUyNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A+USTya+tNvDPaxUgJooz+LaVk5hPoAxpLvSxjogX4Mk8awCTQ9iop6zJ9d5ldgU7WmHqBlnQB41LHHRFxoaBwoAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjgwNjUyNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A7FovoGr67TUBYbnY+Z0IKoJbbmRmB8fCyirUGHavNDtD91CiGyHHSA2hDG9r9T3NjUKFi6egL3RbgTwhhcVDwUAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjgwNjUyNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.0xaa55.com" as="script" /><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.0xaa55.com"></script></head>
+
+<body id="nv_forum" class="pg_viewthread" onkeydown="if(event.keyCode==27) return false;"><div id="MathJax_Message" style="display: none;"></div>
+<div id="append_parent"></div><div id="ajaxwaitid"></div>
+<div id="toptb" class="cl">
+<div class="wp">
+<div class="z"><a href="javascript:;" onclick="setHomepage('https://www.0xaa55.com/');">设为首页</a><a href="https://www.0xaa55.com/" onclick="addFavorite(this.href, '技术宅的结界');return false;">收藏一下又不会死！</a><a href="http://www.0xaa55.com/thread-120-1-1.html">新人公告</a><a href="wq_links-main.html">申请友链</a>    <a style="display: inline;margin-top: 0px;margin-left: 3px;margin-right: 3px;" href="javascript:;" onclick="showWindow('tom_weixin_guanzu','plugin.php?id=tom_weixin:guanzu','get',0);return false;">
+    <img src="source/plugin/tom_weixin/images/wx_guanzhu.gif" />
+    </a></div>
+<div class="y">
+<a id="switchblind" href="javascript:;" onclick="toggleBlind(this)" title="开启辅助访问" class="switchblind"></a>
+<a href="javascript:;" id="switchwidth" onclick="widthauto(this)" title="切换到窄版" class="switchwidth">切换到窄版</a>
+</div>
+</div>
+</div>
+
+<div id="qmenu_menu" class="p_pop blk" style="display: none;">
+<div class="ptm pbw hm">
+请 <a href="javascript:;" class="xi2" onclick="lsSubmit()"><strong>登录</strong></a> 后使用快捷导航<br />没有账号？<a href="member.php?mod=r36i5t3r" class="xi2 xw1">立即注册→加入我们</a>
+</div>
+<div id="fjump_menu" class="btda"></div></div><div id="hd">
+<div class="wp">
+<div class="hdc cl"><h2><a href="https://www.0xaa55.com/" title="技术宅的结界"><img src="misc/image/logo.png" alt="技术宅的结界" border="0" /></a></h2><script src="data/cache/logging.js?Aeo" type="text/javascript"></script>
+<form method="post" autocomplete="off" id="lsform" action="member.php?mod=logging&amp;action=login&amp;loginsubmit=yes&amp;infloat=yes&amp;lssubmit=yes" onsubmit="return lsSubmit();">
+<div class="fastlg cl">
+<span id="return_ls" style="display:none"></span>
+<div class="y pns">
+<table cellspacing="0" cellpadding="0">
+<tbody><tr>
+<td><label for="ls_username">账号</label></td>
+<td><input type="text" name="username" id="ls_username" class="px vm xg1" value="UID/用户名/Email" onfocus="if(this.value == 'UID/用户名/Email'){this.value = '';this.className = 'px vm';}" onblur="if(this.value == ''){this.value = 'UID/用户名/Email';this.className = 'px vm xg1';}" tabindex="901" /></td>
+<td class="fastlg_l"><label for="ls_cookietime"><input type="checkbox" name="cookietime" id="ls_cookietime" class="pc" value="2592000" tabindex="903" />自动登录</label></td>
+<td> <a href="javascript:;" onclick="showWindow('login', 'member.php?mod=logging&amp;action=login&amp;viewlostpw=1')">找回密码</a></td>
+</tr>
+<tr>
+<td><label for="ls_password">密码</label></td>
+<td><input type="password" name="password" id="ls_password" class="px vm" autocomplete="off" tabindex="902" /></td>
+<td class="fastlg_l"><button type="submit" class="pn vm" tabindex="904" style="width: 75px;"><em>登录</em></button></td>
+<td> <a href="member.php?mod=r36i5t3r" class="xi2 xw1">立即注册→加入我们</a></td>
+</tr>
+</tbody></table>
+<input type="hidden" name="formhash" value="80e97331" />
+<input type="hidden" name="quickforward" value="yes" />
+<input type="hidden" name="handlekey" value="ls" />
+</div>
+
+<div class="fastlg_fm y" style="margin-right: 10px; padding-right: 10px">
+<p><a href="https://www.0xaa55.com/connect.php?mod=login&amp;op=init&amp;referer=forum.php%3Fmod%3Dviewthread%26tid%3D16949%26extra%3Dpage%253D1%26page%3D1&amp;statfrom=login_simple"><img src="static/image/common/qq_login.gif" class="vm" alt="QQ登录" /></a></p>
+<p class="hm xg1" style="padding-top: 2px;">只需一步，快速开始</p>
+</div>
+</div>
+</form>
+
+</div>
+
+<div id="nv_ph"><div id="nv">
+<a href="javascript:;" id="qmenu" onmouseover="delayShow(this, function () {showMenu({'ctrlid':'qmenu','pos':'34!','ctrlclass':'a','duration':2});showForummenu(64);})">快捷导航</a>
+<ul><li id="mn_N9ec7" onmouseover="showMenu({'ctrlid':this.id,'ctrlclass':'hover','duration':2})"><a href="https://www.0xaa55.com/forum.php" hidefocus="true">论坛广场</a></li><li id="mn_N8f40"><a href="https://www.0xaa55.com/thread-120-1-1.html" hidefocus="true">新人公告</a></li><li id="mn_Nc927"><a href="search.php?mod=forum" hidefocus="true">搜索帖子</a></li><li id="mn_Na063"><a href="https://www.0xaa55.com/forum.php?mod=guide&amp;view=newthread" hidefocus="true">最近发表</a></li><li id="mn_forum"><a href="https://www.0xaa55.com/forum.php?mod=collection" hidefocus="true" title="Collection">淘专辑<span>Collection</span></a></li><li id="mn_N0a2c"><a href="misc.php?mod=faq" hidefocus="true" title="Help">帮助<span>Help</span></a></li></ul>
+    <a style="float: right;display: inline;margin-top: 5px;margin-left: 3px;margin-right: 3px;" href="javascript:;" onclick="showWindow('tom_weixin_guanzu','plugin.php?id=tom_weixin:guanzu','get',0);return false;">
+    <img src="source/plugin/tom_weixin/images/wx_guanzhu.gif" />
+    </a></div></div>
+<ul class="p_pop h_pop" id="mn_N9ec7_menu" style="display: none"><li><a href="https://www.0xaa55.com/forum.php?gid=72" hidefocus="true">技术宅的结界VIP专区</a></li><li><a href="https://www.0xaa55.com/forum-VIPRes-1.html" hidefocus="true">　VIP资源</a></li><li><a href="https://www.0xaa55.com/forum-VIPTutorial-1.html" hidefocus="true">　VIP教程</a></li><li><a href="https://www.0xaa55.com/forum.php?gid=1" hidefocus="true">论坛互动</a></li><li><a href="https://www.0xaa55.com/forum-welcome-1.html" hidefocus="true">　新人报到</a></li><li><a href="https://www.0xaa55.com/forum-qna-1.html" hidefocus="true">　有问必答</a></li><li><a href="https://www.0xaa55.com/forum.php?gid=55" hidefocus="true">计算机技术</a></li><li><a href="https://www.0xaa55.com/forum-studies-1.html" hidefocus="true">　编程讨论</a></li><li><a href="https://www.0xaa55.com/forum-skills-1.html" hidefocus="true">　源码分享</a></li><li><a href="https://www.0xaa55.com/forum-math-1.html" hidefocus="true">　数学专栏</a></li><li><a href="https://www.0xaa55.com/forum-misctalks-1.html" hidefocus="true">　其它交流</a></li><li><a href="https://www.0xaa55.com/forum.php?gid=99" hidefocus="true">ＤＩＹ</a></li><li><a href="https://www.0xaa55.com/forum-95-1.html" hidefocus="true">　DIY作品分享</a></li><li><a href="https://www.0xaa55.com/forum-96-1.html" hidefocus="true">　DIY相关交流</a></li><li><a href="https://www.0xaa55.com/forum.php?gid=58" hidefocus="true">论坛资源</a></li><li><a href="https://www.0xaa55.com/forum-devtools-1.html" hidefocus="true">　开发工具</a></li><li><a href="https://www.0xaa55.com/forum-simpletools-1.html" hidefocus="true">　实用工具</a></li><li><a href="https://www.0xaa55.com/forum-systemtools-1.html" hidefocus="true">　装机工具</a></li><li><a href="https://www.0xaa55.com/forum-copies-1.html" hidefocus="true">　搬运专区</a></li><li><a href="https://www.0xaa55.com/forum-documents-1.html" hidefocus="true">　书籍分享</a></li><li><a href="https://www.0xaa55.com/forum-miscres-1.html" hidefocus="true">　其它资源</a></li><li><a href="https://www.0xaa55.com/forum.php?gid=37" hidefocus="true">闲聊区</a></li><li><a href="https://www.0xaa55.com/forum-misc-1.html" hidefocus="true">　休闲驿站</a></li><li><a href="https://www.0xaa55.com/forum.php?gid=97" hidefocus="true">论坛站务</a></li><li><a href="https://www.0xaa55.com/forum-reports-1.html" hidefocus="true">　论坛站务</a></li><li><a href="https://www.0xaa55.com/forum-98-1.html" hidefocus="true">　版主申请</a></li></ul><div id="mu" class="cl">
+</div><div id="scbar" class="cl">
+<form id="scbar_form" method="post" autocomplete="off" onsubmit="searchFocus($('scbar_txt'))" action="search.php?searchsubmit=yes" target="_blank">
+<input type="hidden" name="mod" id="scbar_mod" value="forum" />
+<input type="hidden" name="formhash" value="80e97331" />
+<input type="hidden" name="srchtype" value="title" />
+<input type="hidden" name="srhfid" value="64" />
+<input type="hidden" name="srhlocality" value="forum::viewthread" />
+<table cellspacing="0" cellpadding="0">
+<tbody><tr>
+<td class="scbar_icon_td"></td>
+<td class="scbar_txt_td"><input type="text" name="srchtxt" id="scbar_txt" value="请输入搜索内容" autocomplete="off" x-webkit-speech="" speech="" class=" xg1" placeholder="请输入搜索内容" /></td>
+<td class="scbar_type_td"><a href="javascript:;" id="scbar_type" class="xg1" onclick="showMenu(this.id)" hidefocus="true">帖子</a></td>
+<td class="scbar_btn_td"><button type="submit" name="searchsubmit" id="scbar_btn" sc="1" class="pn pnc" value="true"><strong class="xi2">搜索</strong></button></td>
+<td class="scbar_hot_td">
+<div id="scbar_hot">
+<strong class="xw1">热搜: </strong>
+
+<a href="search.php?mod=forum&amp;srchtxt=%E4%B8%8B%E8%BD%BD&amp;formhash=80e97331&amp;searchsubmit=true&amp;source=hotsearch" target="_blank" class="xi2" sc="1">下载</a>
+
+
+
+<a href="search.php?mod=forum&amp;srchtxt=VB&amp;formhash=80e97331&amp;searchsubmit=true&amp;source=hotsearch" target="_blank" class="xi2" sc="1">VB</a>
+
+
+
+<a href="search.php?mod=forum&amp;srchtxt=C&amp;formhash=80e97331&amp;searchsubmit=true&amp;source=hotsearch" target="_blank" class="xi2" sc="1">C</a>
+
+
+
+<a href="search.php?mod=forum&amp;srchtxt=%E5%AE%9E%E7%8E%B0&amp;formhash=80e97331&amp;searchsubmit=true&amp;source=hotsearch" target="_blank" class="xi2" sc="1">实现</a>
+
+
+
+<a href="search.php?mod=forum&amp;srchtxt=%E7%BC%96%E5%86%99&amp;formhash=80e97331&amp;searchsubmit=true&amp;source=hotsearch" target="_blank" class="xi2" sc="1">编写</a>
+
+</div>
+</td>
+</tr>
+</tbody></table>
+</form>
+</div>
+<ul id="scbar_type_menu" class="p_pop" style="display: none;"><li><a href="javascript:;" rel="curforum" fid="64">本版</a></li><li><a href="javascript:;" rel="forum" class="curtype">帖子</a></li><li><a href="javascript:;" rel="user">用户</a></li></ul>
+<script type="text/javascript">
+initSearchmenu('scbar', '');
+</script>
+</div>
+</div>
+
+<style type="text/css">
+@import url('https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/styles/shCore.css?ver=3.0.90');
+@import url('https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/styles/shCoreDefault.css?ver=3.0.90');
+@import url('https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.90');
+@import url('https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/css/mw_syntaxhighlighter.css?ver=3.0.90');
+.syntaxhighlighter {}
+.syntaxhighlighter .line {white-space: nowrap !important;}
+
+</style>
+
+<div id="wp" class="wp">
+<script type="text/javascript">var fid = parseInt('64'), tid = parseInt('16949');</script>
+
+<script src="data/cache/forum_viewthread.js?Aeo" type="text/javascript"></script>
+<script type="text/javascript">zoomstatus = parseInt(1);var imagemaxwidth = '1600';var aimgcount = new Array();</script>
+
+<style id="diy_style" type="text/css"></style>
+<!--[diy=diynavtop]--><div id="diynavtop" class="area"></div><!--[/diy]-->
+<div id="pt" class="bm cl">
+<div class="z">
+<a href="./" class="nvhm" title="首页">技术宅的结界</a><em>»</em><a href="https://www.0xaa55.com/forum.php">论坛</a> <em>›</em> <a href="https://www.0xaa55.com/forum.php?gid=55">计算机技术</a> <em>›</em> <a href="https://www.0xaa55.com/forum-studies-1.html">技巧探讨</a> <em>›</em> <a href="https://www.0xaa55.com/thread-16949-1-1.html">【处理器】简述AMD64架构的各类处理器分页模式，以及什 ...</a>
+</div>
+</div>
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+<div id="ct" class="wp cl">
+<div id="pgt" class="pgs mbm cl ">
+<div class="pgt"></div>
+<span class="y pgb"><a href="https://www.0xaa55.com/forum-studies-1.html">返回列表</a></span>
+<a id="newspecial" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})" onclick="showWindow('newthread', 'forum.php?mod=post&amp;action=newthread&amp;fid=64')" href="javascript:;" title="发新帖"><img src="static/image/common/pn_post.png" alt="发新帖" /></a></div>
+
+
+
+<div id="postlist" class="pl bm">
+<table cellspacing="0" cellpadding="0">
+<tbody><tr>
+<td class="pls ptn pbn">
+<div class="hm ptn">
+<span class="xg1">查看:</span> <span class="xi1">2658</span><span class="pipe">|</span><span class="xg1">回复:</span> <span class="xi1">1</span>
+</div>
+</td>
+<td class="plc ptm pbn vwthd">
+<div class="y">
+<a href="https://www.0xaa55.com/forum.php?mod=viewthread&amp;action=printable&amp;tid=16949" title="打印" target="_blank"><img src="static/image/common/print.png" alt="打印" class="vm" /></a>
+<a href="https://www.0xaa55.com/forum.php?mod=redirect&amp;goto=nextoldset&amp;tid=16949" title="上一主题"><img src="static/image/common/thread-prev.png" alt="上一主题" class="vm" /></a>
+<a href="https://www.0xaa55.com/forum.php?mod=redirect&amp;goto=nextnewset&amp;tid=16949" title="下一主题"><img src="static/image/common/thread-next.png" alt="下一主题" class="vm" /></a>
+</div>
+<span class="xg1 side_btn">
+<a onclick="setcookie('close_leftinfo', 1);location.reload();" title="收起左侧" class="btn_s_close" href="javascript:;"><img src="static/image/common/control_l.png" alt="收起左侧" class="vm" /></a>
+</span>
+<h1 class="ts">
+<span id="thread_subject">【处理器】简述AMD64架构的各类处理器分页模式，以及什么是物理地址扩展</span>
+</h1>
+<span class="xg1">
+<a href="https://www.0xaa55.com/thread-16949-1-1.html" onclick="return copyThreadUrl(this, '技术宅的结界')">[复制链接]</a>
+</span>
+</td>
+</tr>
+</tbody></table>
+
+
+<table cellspacing="0" cellpadding="0" class="ad">
+<tbody><tr>
+<td class="pls">
+</td>
+<td class="plc">
+</td>
+</tr>
+</tbody></table><div id="post_25522"><div id="threadstamp"><img src="static/image/stamp/001.gif" title="精华" /></div>
+<table id="pid25522" class="plhin" summary="pid25522" cellspacing="0" cellpadding="0">
+<tbody><tr>
+ <td class="pls" rowspan="2">
+<div id="favatar25522" class="pls cl favatar">
+<div class="pi">
+<div class="authi"><a href="https://www.0xaa55.com/space-uid-1043.html" target="_blank" class="xw1" style="color: #6600FF">tangptr@126.com</a>
+</div>
+</div>
+<div class="p_pop blk bui card_gender_0" id="userinfo25522" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo25522_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="https://www.0xaa55.com/space-uid-1043.html" target="_blank" class="xi2" style="color: #6600FF">tangptr@126.com</a></strong>
+<em>当前离线</em>
+</div><dl class="cl">
+<dt>UID</dt><dd><a href="?1043" target="_blank" class="xi2">1043</a></dd>
+<dt><font color="#FF0000">精华</font></dt><dd>30</dd>
+<dt>积分</dt><dd><a href="https://www.0xaa55.com/home.php?mod=space&amp;uid=1043&amp;do=profile" target="_blank" class="xi2">8915</a></dd>
+<dt>威望</dt><dd>449 点</dd>
+<dt>宅币</dt><dd>6956 个</dd>
+<dt>贡献</dt><dd>749 次</dd>
+<dt>宅之契约</dt><dd>0 份</dd>
+<dt>最后登录</dt><dd>2022-11-18</dd>
+<dt>在线时间</dt><dd>1702 小时</dd>
+<dt></dt><dd></dd>
+</dl><div class="imicn">
+<a href="https://tangptr.com" target="_blank" title="查看个人网站"><img src="static/image/common/forumlink.gif" alt="查看个人网站" /></a><a href="https://www.0xaa55.com/home.php?mod=space&amp;uid=1043&amp;do=profile" target="_blank" title="查看详细资料"><img src="static/image/common/userinfo.gif" alt="查看详细资料" /></a>
+<a href="https://www.0xaa55.com/home.php?mod=magic&amp;mid=showip&amp;idtype=user&amp;id=tangptr%40126.com" id="a_showip_li_25522" class="xi2" onclick="showWindow(this.id, this.href)"><img src="static//image/magic/showip.small.gif" alt="" /> 窥视卡</a>
+<a href="https://www.0xaa55.com/home.php?mod=magic&amp;mid=checkonline&amp;idtype=user&amp;id=tangptr%40126.com" id="a_repent_25522" class="xi2" onclick="showWindow(this.id, this.href)"><img src="static//image/magic/checkonline.small.gif" alt="" /> 雷达卡</a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar" onmouseover="showauthor(this, 'userinfo25522')"><a href="https://www.0xaa55.com/space-uid-1043.html" class="avtm" target="_blank"><img src="https://www.0xaa55.com/uc_server/data/avatar/000/00/10/43_avatar_middle.jpg" onerror="this.onerror=null;this.src='https://www.0xaa55.com/uc_server/images/noavatar_middle.gif'" /></a></div>
+</div>
+<div class="tns xg2"><table cellspacing="0" cellpadding="0"><tbody><tr><th><p><a href="https://www.0xaa55.com/home.php?mod=space&amp;uid=1043&amp;do=thread&amp;type=thread&amp;view=me&amp;from=space" class="xi2">56</a></p>主题</th><th><p><a href="https://www.0xaa55.com/home.php?mod=space&amp;uid=1043&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" class="xi2">162</a></p>帖子</th><td><p><a href="https://www.0xaa55.com/home.php?mod=space&amp;uid=1043&amp;do=profile" class="xi2">8915</a></p>积分</td></tr></tbody></table></div>
+<p><b><font color="#FF3300">用户组: </font></b><b><em><a href="https://www.0xaa55.com/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=2" target="_blank"><font color="#6600FF">超级版主</font></a></em></b></p>
+<p class="xg1"><font color="#A800FF">OS与VM研究学者</font></p>
+<dl class="pil cl">
+<dt>UID</dt><dd><a href="?1043" target="_blank" class="xi2">1043</a></dd>
+<dt><font color="#FF0000">精华</font></dt><dd><font color="#FF0000">30</font></dd>
+<dt>威望</dt><dd>449 点</dd>
+<dt>宅币</dt><dd>6956 个</dd>
+<dt>贡献</dt><dd>749 次</dd>
+<dt>宅之契约</dt><dd>0 份</dd>
+<dt>在线时间</dt><dd>1702 小时</dd>
+<dt>注册时间</dt><dd>2015-8-15</dd>
+</dl>
+<ul class="xl xl2 o cl">
+<li class="addflw">
+<a href="https://www.0xaa55.com/home.php?mod=spacecp&amp;ac=follow&amp;op=add&amp;hash=80e97331&amp;fuid=1043" id="followmod_1043" title="收听TA" class="xi2" onclick="showWindow('followmod', this.href, 'get', 0);">收听TA</a>
+</li>
+<li class="pm2"><a href="https://www.0xaa55.com/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_1043&amp;touid=1043&amp;pmid=0&amp;daterange=2&amp;pid=25522&amp;tid=16949" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">发消息</a></li>
+</ul>
+<nav class="toc toc-side relative z-1 transition--300 absolute" id="markdown_toc_25522"></nav></div>
+</td>
+<td class="plc">
+<div class="pi">
+<div id="fj" class="y">
+<label class="z">电梯直达</label>
+<input type="text" class="px p_fre z" size="2" onkeyup="$('fj_btn').href='forum.php?mod=redirect&amp;ptid=16949&amp;authorid=0&amp;postno='+this.value" onkeydown="if(event.keyCode==13) {window.location=$('fj_btn').href;return false;}" title="跳转到指定楼层" />
+<a href="javascript:;" id="fj_btn" class="z" title="跳转到指定楼层"><img src="static/image/common/fj_btn.png" alt="跳转到指定楼层" class="vm" /></a>
+</div>
+<strong>
+<a href="https://www.0xaa55.com/thread-16949-1-1.html" id="postnum25522" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
+楼主</a>
+</strong>
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon25522" src="static/image/common/online_supermod.gif" />
+<em id="authorposton25522">发表于 2018-10-6 04:01:53</em>
+<span class="pipe">|</span>
+<a href="https://www.0xaa55.com/forum.php?mod=viewthread&amp;tid=16949&amp;page=1&amp;authorid=1043" rel="nofollow">只看该作者</a>
+<span class="pipe">|</span><a href="https://www.0xaa55.com/forum.php?mod=viewthread&amp;tid=16949&amp;from=album">只看大图</a>
+<span class="none"><img src="static/image/common/arw_r.gif" class="vm" alt="回帖奖励" /></span>
+<span class="pipe show">|</span><a href="https://www.0xaa55.com/forum.php?mod=viewthread&amp;tid=16949&amp;extra=page%3D1&amp;ordertype=1" class="show">倒序浏览</a>
+<span class="pipe show">|</span><a href="javascript:;" onclick="readmode($('thread_subject').innerHTML, 25522);" class="show">阅读模式</a>
+</div>
+</div>
+</div><div class="pct"><style type="text/css">.pcb{margin-right:0}</style><div class="pcb">
+ 
+<div class="t_fsz">
+<table cellspacing="0" cellpadding="0"><tbody><tr><td class="t_f" id="postmessage_25522">
+<div class="attach_nopermission attach_tips">
+<div>
+<h3><strong>
+欢迎访问技术宅的结界，请注册或者登录吧。</strong></h3>
+<p>您需要 <a href="member.php?mod=logging&amp;action=login" onclick="showWindow('login', this.href);return false;">登录</a> 才可以下载或查看，没有账号？<a href="member.php?mod=r36i5t3r" title="注册账号">立即注册→加入我们</a> 
+
+<a href="https://www.0xaa55.com/connect.php?mod=login&amp;op=init&amp;referer=forum.php%3Fmod%3Dviewthread%26tid%3D16949%26extra%3Dpage%253D1%26page%3D1&amp;statfrom=login" target="_top" rel="nofollow"><img src="static/image/common/qq_login.gif" class="vm" /></a>
+
+</p>
+</div>
+<span class="atips_close" onclick="this.parentNode.style.display='none'">x</span>
+</div>
+提前声明：本文按照本人对《AMD64架构程序员编程手册》和《Intel 64与IA-32架构程序员开发手册》的理解而撰写，没有对网上其他资料进行任何参考。本文出现的中文名词有一部分是本人强行翻译的，其中可能会出现和其他中文资料相同的名词，但可能意义不同，阅读时请不要混为一谈。<br />
+物理地址扩展（PAE，即Physical Address Extension）是1995年的时候，Intel在Pentium Pro处理器引入的新技术。而八年后的2003年，AMD64以PAE为跳板，发展出名为“长模式”的新处理器模式。<br />
+在解释PAE之前，我们先讲分页模式：<br />
+分页机制下最基本的寄存器就是CR3寄存器，这个寄存器存储页表的物理地址。所有的线性地址到物理地址的转换，都要走过CR3寄存器。CR3寄存器的意义，在不同分页模式下结构不同。但第3,4位的意义始终不变：<br />
+第3位为PWT位，意义是启用page write-through的缓存机制。当PWT位置位时，处理器启用page write-through缓存机制，当PWT位复位时，处理器启用write-back缓存机制。关于缓存机制，这比较复杂，这里暂且不提。缓存机制的详情请见AMD64架构程序员编程手册第二卷第七章。<br />
+第4位为PCD位，意义是禁用分页缓存机制（Page Cache Disable）。当PCD位置位时，处理器禁用分页缓存机制，当PCD位复位时，处理器启用分页缓存机制。<br />
+在Windows操作系统中，第3,4位均被复位，即启用分页缓存机制，并使用write-back缓存机制。<br />
+<hr class="l" /><br />
+在传统32位模式下，有两种页表结构:第一种是一级页表结构（即4MB页面模式），第二种是二级页表结构（即4KB页面模式）。而常用的32位操作系统，比如Windows，就是使用了二级页表结构。<br />
+在传统32位模式下的CR3寄存器结构如下：<br />
+
+<ignore_js_op>
+
+<img id="aimg_4889" aid="4889" src="data/attachment/forum/201810/03/045622l3rtgernvntzn14e.jpg" zoomfile="data/attachment/forum/201810/03/045622l3rtgernvntzn14e.jpg" file="data/attachment/forum/201810/03/045622l3rtgernvntzn14e.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="605" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" lazyloaded="true" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4889_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>non-pae-cr3.JPG</strong> <em class="xg1">(18.27 KB, 下载次数: 94)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDg4OXxlM2M5MDdlY3wxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4889" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4889&amp;handlekey=savephoto_4889">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-3 04:56 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+其中第3,4位为缓存设置位，高20位为页目录物理地址的高20位，其余位全部被处理器保留。用汇编语言来取得页目录物理地址的代码如下：<br />
+<div style="padding:15px 0;"><div style="font-size:12px;">[Asm] <em class="viewsource" style="cursor:pointer;font-size:12px;color:#369 !important;" num="0">纯文本查看</em> <em class="copycode" style="cursor:pointer;font-size:12px;color:#369 !important;" num="0">复制代码</em></div><div><div id="highlighter_25611" class="syntaxhighlighter notranslate asm"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="asm functions bold">mov</code> <code class="asm color1 bold">eax</code><code class="asm plain">,</code><code class="asm color1 bold">cr3</code></div><div class="line number2 index1 alt1"><code class="asm functions bold">and</code> <code class="asm color1 bold">eax</code><code class="asm plain">,0fffff000h</code></div></div></td></tr></tbody></table></div></div></div><br />
+其中eax寄存器为页目录物理地址。可以看得出来，页目录物理地址是按照4KB对齐的。<br />
+先谈谈二级页表，32位的线性地址被分为三个部分：页偏移（Page Offset，长度为12位），页表偏移（Page Table Offset，长度为10位）与页目录偏移（Page Directory Offset，长度为10位），CR3寄存器指向4KB大小的页目录，其中包含1024个4字节的页目录记录（PDE，即Page Directory Entry）。<br />
+页目录记录的结构如下：<br />
+
+<ignore_js_op>
+
+<img id="aimg_4890" aid="4890" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/03/052002fwyszszy5xngc5hy.jpg" file="data/attachment/forum/201810/03/052002fwyszszy5xngc5hy.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="599" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4890_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>non-pae-pde.JPG</strong> <em class="xg1">(19.48 KB, 下载次数: 91)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDg5MHwzMDVhYTdiNnwxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4890" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4890&amp;handlekey=savephoto_4890">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-3 05:20 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+第0位为P位，即Present。当P位置位时，表示该页目录存在，当P位复位时，表示该页目录不存在，可以理解为被Windows API中的VirtualProtect设置为PAGE_NOACCESS的页面。<br />
+第1位为R/W位，即Read/Write。当R/W位置位时，表示该页目录可读写，当R/W位复位时，表示该页目录只可读。<br />
+第2位为U/S位，即User/Supervisor。当U/S位置位时，表示该页目录允许Ring3内的程序访问，当U/S位复位时，表示该页目录不允许Ring3内的程序的访问。<br />
+第3,4位为PWT位和PCD位，意义已在前文中讲述。<br />
+第5位为A位，即Accessed。当处理器在转换线性地址至物理地址时，若途径该页目录，则将A位置位。处理器不会自动将此位复位。软件可以手动将此位复位来追踪系统对该页目录的访问频率。<br />
+第7位为PS位，即Page Size。当该位置位时，该页目录表示一个4MB的大页面。在二级分页结构中，该位必须复位。<br />
+第9位至第11位在超威半导体的处理器中被定义为AVL位，即Available。这3位不被使用，系统软件可以瞎JB用这3位；在英特尔的处理器中，这三位被定义为IGN位，即Ignored，同样不被使用。<br />
+第6,8位不作使用。<br />
+第12位至第31位保存页表物理地址的高20位。它指向4KB大小的页表，其中包含1024个4字节的页表记录（PTE，即Page Table Entry）。<br />
+页表记录的结构如下：<br />
+
+<ignore_js_op>
+
+<img id="aimg_4891" aid="4891" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/03/054618am7nwccqn9f38cfh.jpg" file="data/attachment/forum/201810/03/054618am7nwccqn9f38cfh.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="597" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4891_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>non-pae-pte.JPG</strong> <em class="xg1">(21.05 KB, 下载次数: 84)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDg5MXwzOTg3MjE2Y3wxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4891" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4891&amp;handlekey=savephoto_4891">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-3 05:46 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+大部分内容和页目录记录的定义一致，下面解释一下尚未被解释的位：<br />
+第6位为D位，即Dirty。在处理器转换线性地址至物理地址时，若途径该页表记录，则自动将该位置位。软件可以通过对该位复位来追踪该页的写入频率。<br />
+第7位为PAT位，即Page Attribute Table。该位结合PWT位和PCD位选择分页缓存模式。<br />
+第8位为G位，即Global。当该位置位时，表示该页是全局页，CR3在切换时，或发生任务切换时，全局页的TLB缓存将不被刷新。<br />
+第12位至第31位保存物理页面的物理地址的高20位。物理页面的物理地址+页偏移=线性地址表示的物理地址。<br />
+大体来讲，二级页表下线性地址到物理地址的转换示意图如图所示：<br />
+
+<ignore_js_op>
+
+<img id="aimg_4893" aid="4893" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/03/062441ywq0560o6wmmxcmi.jpg" file="data/attachment/forum/201810/03/062441ywq0560o6wmmxcmi.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="462" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4893_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>non-pae-4kb.JPG</strong> <em class="xg1">(30.19 KB, 下载次数: 81)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDg5M3w0NmIwMTAzN3wxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4893" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4893&amp;handlekey=savephoto_4893">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-3 06:24 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<hr class="l" /><br />
+再谈谈一级页表，32位的线性地址中，原本的页表偏移被并入页偏移。如此一来，页偏移长度由12位暴涨至22位，剩余的就是10位长的页目录偏移。此时CR3寄存器仍然指向4KB大小的页目录，其中仍然包含1024个4字节的页目录记录。<br />
+由于一级页表的特殊性，它允许将线性地址转换至至高40位的物理地址（实际上可以转换到多大的物理地址因为处理器的不同而不同，这需要通过cpuid指令查询）。使用一级页表需要启用大页面模式，即需要对CR4.PSE置位。<br />
+页目录记录的结构如下：<br />
+
+<ignore_js_op>
+
+<img id="aimg_4894" aid="4894" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/03/062531lk95rik4e7phie5s.jpg" file="data/attachment/forum/201810/03/062531lk95rik4e7phie5s.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="591" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4894_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>non-pae-pde-2mb.JPG</strong> <em class="xg1">(23.17 KB, 下载次数: 74)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDg5NHw4MjRhYzRjZnwxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4894" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4894&amp;handlekey=savephoto_4894">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-3 06:25 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+低12位和页表记录的低12位大致一样，只有第7位不同。<br />
+第7位是PS位，即Page Size。由于在一级页表下需要表示一个4MB的大页面。因此在一级分页结构中，该位必须置位。<br />
+而PAT位由第7位移动到第12位，意义不再解释。<br />
+第22位置第31位保存物理页面的物理地址的第22位置第31位，而第13位至第20位保存物理页面的物理地址的第32位第39位。同样的，物理页面的物理地址+页偏移=线性地址表示的物理地址。<br />
+大体来讲，一级页表下的线性地址到物理地址的转换示意图如图所示：<br />
+
+<ignore_js_op>
+
+<img id="aimg_4895" aid="4895" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/03/063441fv038h8q82q0cuzv.jpg" file="data/attachment/forum/201810/03/063441fv038h8q82q0cuzv.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="497" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4895_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>non-pae-4mb.JPG</strong> <em class="xg1">(26.46 KB, 下载次数: 81)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDg5NXxkNzI2NWU3MHwxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4895" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4895&amp;handlekey=savephoto_4895">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-3 06:34 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+值得注意的是，二级页表和一级页表是可以同时使用的。<br />
+<hr class="l" /><br />
+32位分页模式还有一种分页模式，叫PAE分页模式。在这种分页模式下，支持将32位的线性地址转换至至高52位长的物理地址（实际上可以转换到多大的物理地址因为处理器的不同而不同，这需要通过cpuid指令查询）。由于最早的支持PAE处理器支持36位长的物理地址，因此网上有误传称PAE可以支持64GB的内存，这也使得很多人认为开启了PAE后，32位操作系统就变成了“36位操作系统”，可以说是相当搞笑了。实际上，支持PAE的32位操作系统，完全可以使用处理器能支持的全部物理内存。只不过虚拟地址空间仍然是32位，在一条指令中允许访问的内存由当前的页表决定。<br />
+在PAE分页模式下，CR3寄存器结构发生变化，其意义也发生了变化，不再指向页目录，而是指向四个PDPTE寄存器（Page Directory Pointer Table Entry Register，即页目录指针表寄存器）。实际上页目录指针表寄存器并不是真正意义上的寄存器，而是8字节长的内存区域，“寄存器”的说法仅存在于Intel的手册上。因此所谓指向四个PDPTE寄存器的意思就是指向一个32字节长的PDPTE区。PDPTE也被称为PDPE，即页目录指针记录。此时CR3寄存器结构如下：<br />
+
+<ignore_js_op>
+
+<img id="aimg_4896" aid="4896" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/03/071236u4cxmoc9ldanm44a.jpg" file="data/attachment/forum/201810/03/071236u4cxmoc9ldanm44a.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="589" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4896_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>pae-cr3.JPG</strong> <em class="xg1">(19.83 KB, 下载次数: 77)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDg5Nnw2ZmI4MTdjYnwxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4896" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4896&amp;handlekey=savephoto_4896">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-3 07:12 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+其中低3位被保留，第3,4位为PWT和PCD位，高27位指向PDPE区。<br />
+而线性地址被分为四个部分：页目录指针表偏移（长度为2位），页目录偏移（长度为9位），页表偏移（长度为9位），页偏移（长度为12位）。<br />
+每个页目录指针表记录的结构如下：<br />
+
+<ignore_js_op>
+
+<img id="aimg_4897" aid="4897" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/03/071717jxjk0zo0v6tf6t80.jpg" file="data/attachment/forum/201810/03/071717jxjk0zo0v6tf6t80.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="581" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4897_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>pae-pdpe.JPG</strong> <em class="xg1">(26.01 KB, 下载次数: 71)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDg5N3xmODZkNTc4ZXwxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4897" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4897&amp;handlekey=savephoto_4897">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-3 07:17 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+其中P,PWT,PCD,AVL位的意义不再解释，具体意义详见上文。<br />
+第12位至第51位表示页目录地址的高40位，意义相当于传统分页模式的CR3寄存器的指向。只不过物理地址长度由32位扩展至至多52位长。<br />
+<hr class="l" /><br />
+在PAE分页模式下，页表结构有三级页表（4KB页面）和二级页表（2MB页面）两种。在启用了PAE的32位Windows操作系统中，使用了三级页表。与PDPE相似，PDE与PTE的每个项均为8字节长，因此每4KB内存可以放置512个记录项，线性地址用9位长的二进制数来指向特定的项。<br />
+要使用PAE模式，必须要对CR4.PAE置位。<br />
+在三级页表结构下，页目录记录的结构如下：<br />
+
+<ignore_js_op>
+
+<img id="aimg_4898" aid="4898" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/03/173318a43lxjzqsplt4ssy.jpg" file="data/attachment/forum/201810/03/173318a43lxjzqsplt4ssy.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="586" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4898_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>pae-pde.JPG</strong> <em class="xg1">(26.9 KB, 下载次数: 81)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDg5OHxhZTYxN2FjZnwxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4898" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4898&amp;handlekey=savephoto_4898">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-3 17:33 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+其中前文未提及的位是最高位NX位，该位表示Non-Execute属性。当该位置位时，页面的内存里的代码不可执行，当该位复位时，页面里的内存代码可执行。<br />
+与PDPE相似，PDE记录的第12位至51位表示页表地址的高40位。<br />
+<hr class="l" /><br />
+在三级页表结构下，页表记录的结构如下：<br />
+
+<ignore_js_op>
+
+<img id="aimg_4899" aid="4899" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/03/174048o1x4uppr49ppx443.jpg" file="data/attachment/forum/201810/03/174048o1x4uppr49ppx443.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="586" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4899_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>pae-pte.JPG</strong> <em class="xg1">(28.98 KB, 下载次数: 88)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDg5OXw1ZWQ5NzBiMHwxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4899" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4899&amp;handlekey=savephoto_4899">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-3 17:40 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+其中第12位至第51位表示物理页的高40位。<br />
+与传统分页模式相似，PAE分页模式下，物理页面的物理地址+页偏移=线性地址表示的物理地址。<br />
+用图表示PAE分页模式的三级页表结构：<br />
+
+<ignore_js_op>
+
+<img id="aimg_4900" aid="4900" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/03/174348s5ep6xx64exa34h1.jpg" file="data/attachment/forum/201810/03/174348s5ep6xx64exa34h1.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="470" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4900_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>pae-4kb.JPG</strong> <em class="xg1">(37.26 KB, 下载次数: 76)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDkwMHw3NzBhOGQ3MHwxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4900" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4900&amp;handlekey=savephoto_4900">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-3 17:43 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<hr class="l" /><br />
+除了三级页表结构外，PAE模式还有二级页表结构。和传统分页模式的一级页表相似，在PAE的二级页表下，页偏移和页表偏移被合并，长度由12位暴涨至21位，因此页面大小也就从4KB暴涨至2MB。同样的，要使用二级页表结构，PDE.PS需要置位，但不需要对CR4.PSE置位。<br />
+PAE的二级页表结构下，PDE记录的结构如图所示：<br />
+
+<ignore_js_op>
+
+<img id="aimg_4901" aid="4901" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/05/211203niitrihtxrraaztx.jpg" file="data/attachment/forum/201810/05/211203niitrihtxrraaztx.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="601" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4901_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>pae-2mb.JPG</strong> <em class="xg1">(25.95 KB, 下载次数: 92)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDkwMXxmNWQ2NGVmOHwxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4901" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4901&amp;handlekey=savephoto_4901">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-5 21:12 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+其中每一项的意义均在前文中有解释，此处不再赘述。<br />
+和传统模式相似，PAE可以同时使用三级页表和二级页表。<br />
+<hr class="l" /><br />
+AMD64架构核心——长模式分页。<br />
+长模式是AMD64架构的核心，它使用48位长的二进制数表示线性地址。而长模式的分页则是以PAE的分页模式作为跳板，将32位的线性地址扩展至48位，并转换成52位长的物理地址。其中页目录指针表（PDPE）偏移从2位增长至9位，并增加9位长的第四级映射页（Page Map Level 4 Entry, PML4E）偏移。64位的操作系统表面上说不支持PAE，但其实没必要强调，因为要启用长模式分页机制，就必须要启用PAE模式，否则就不能用52位长的物理地址。在64位的Windows中，使用长模式分页的四级页表结构。<br />
+尽管在AMD64架构下，线性地址起到作用的其实只有48位长，但仍然使用64位整数表示。64位整数表示的线性地址必须要符合canonical形式。即高16位（第48位至第63位）保持一致，要么每一位都是1，也就是0xFFFF，要么每一位都是0，也就是0x0000。如果使用的线性地址不符合这种形式，则按照引用该地址的段，处理器抛出#GP或#SS异常，不会产生#PF异常。<br />
+长模式下的CR3寄存器由32位扩展至64位，其中第3,4位仍然是与缓存相关的PWT与PCD位，而第12位置第51位则表示第四级映射页的物理地址的高40位。如图所示：<br />
+
+<ignore_js_op>
+
+<img id="aimg_4902" aid="4902" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/05/215206vpg0egoregey6wnj.jpg" file="data/attachment/forum/201810/05/215206vpg0egoregey6wnj.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="591" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4902_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>lm-cr3.JPG</strong> <em class="xg1">(25.02 KB, 下载次数: 74)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDkwMnwxYzdlYTY1MnwxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4902" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4902&amp;handlekey=savephoto_4902">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-5 21:52 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+第四级映射页占4KB大小，记录了512条PML4E记录，PML4E记录的结构如下图所示：<br />
+
+<ignore_js_op>
+
+<img id="aimg_4903" aid="4903" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/05/215517zgpu9pio1k6jj4p9.jpg" file="data/attachment/forum/201810/05/215517zgpu9pio1k6jj4p9.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="592" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4903_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>lm-pml4e.JPG</strong> <em class="xg1">(25.61 KB, 下载次数: 84)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDkwM3xhYmM1OTE3Y3wxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4903" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4903&amp;handlekey=savephoto_4903">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-5 21:55 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+其中大多标志位的意义都已在上文中做出解释。此处不再赘述。PML4记录的第12至第51位保存的是PDPE物理地址的高40位。<br />
+值得一提的是，MBZ和IGN在AMD64手册中均为“Must Be Zero”和“Ignored”的意思。<br />
+而PDPE和PDE,PTE的结构和前文中PAE分页模式下的PDPE,PDE,PTE结构大致一致。此处略过。<br />
+
+<ignore_js_op>
+
+<img id="aimg_4904" aid="4904" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/06/034433elonv4n6qni4ollg.jpg" file="data/attachment/forum/201810/06/034433elonv4n6qni4ollg.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="1052" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4904_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>lm-4kb.JPG</strong> <em class="xg1">(104.51 KB, 下载次数: 73)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDkwNHw1MTUyMTQ4MXwxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4904" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4904&amp;handlekey=savephoto_4904">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-6 03:44 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+长模式下除了可以使用四级页表结构，还有三级页表结构和二级页表结构，分别对应2MB分页模式和1GB分页模式，与之相呼应的，使用时需要对PDE.PS和PDPE.PS置位，此外还要相应的设置第12位上的PAT位。<br />
+
+<ignore_js_op>
+
+<img id="aimg_4905" aid="4905" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/06/034518gux27s2xuzxx794e.jpg" file="data/attachment/forum/201810/06/034518gux27s2xuzxx794e.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="1088" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4905_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>lm-2mb.JPG</strong> <em class="xg1">(97.95 KB, 下载次数: 69)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDkwNXxmYWRhYmMwNnwxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4905" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4905&amp;handlekey=savephoto_4905">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-6 03:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+
+<ignore_js_op>
+
+<img id="aimg_4906" aid="4906" src="static/image/common/none.gif" zoomfile="data/attachment/forum/201810/06/034600spn9x9pc0nt9rrp9.jpg" file="data/attachment/forum/201810/06/034600spn9x9pc0nt9rrp9.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 1)" width="1075" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_4906_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>lm-1gb.JPG</strong> <em class="xg1">(87.26 KB, 下载次数: 64)</em></p>
+<p>
+<a href="https://www.0xaa55.com/forum.php?mod=attachment&amp;aid=NDkwNnw1NjQyOGYxZnwxNjY4NzgwMDM1fDB8MTY5NDk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+ <a href="javascript:;" onclick="showWindow(this.id, this.getAttribute('url'), 'get', 0);" id="savephoto_4906" url="home.php?mod=spacecp&amp;ac=album&amp;op=saveforumphoto&amp;aid=4906&amp;handlekey=savephoto_4906">保存到相册</a>
+
+</p>
+
+<p class="xg1 y">2018-10-6 03:46 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+假设我们要建立一个页表，使得线性地址等于物理地址（即对等页表），并支持至多512GB的内存。我们需要为PML4E分配4KB的内存，为PDPE分配4KB的内存。如果用二级页表结构，那么页表的内存分配就到此为止。如果用三级页表，那么需要再为PDE分配2MB的内存。如果用四级页表，那么需要再为PTE分配1GB的内存。需要注意的是大多较老的处理器支持三级页表和四级页表（可以断言所有支持AMD64架构的处理器都支持三级页表和四级页表结构），而支持二级页表（即1GB分页）的就只有较新的处理器了。<br />
+同样的，在长模式下可以同时使用多种分页结构。<br />
+<hr class="l" /><br />
+结语<br />
+写本文的起因是最近在做一个基于硬件虚拟化的OS核心，其中长模式分页原理成为了需要攻克的重点难题之一（虽然本文却很简单的代过了长模式分页的内容），此外也发现了很多对PAE产生误解的人以及相关的聊天记录，特此发了个帖。<br />
+最后在强调几点：<br />
+PAE模式不是把地址长度扩展到36位，线性地址仍然是32位，在一条指令内只能访问当前页表能触及的内存。PAE不过是扩展了所支持的物理地址长度至至多52位，具体多大需要参照cpuid的查询结果。<br />
+在AMD64架构下，物理地址只不过被扩充到至高52位。如果是在虚拟机中，物理地址至高也就只有48位。而线性地址的长度虽然有64位长，但高16位不过是为了符合canonical形式而存在的填充位，因此线性地址其实只有48位长。<br />
+<hr class="l" /><br />
+2019-04-25补充：<br />
+当初在写这篇文章时本人基本上是完全针对超威半导体处理器而写，没有注意到英特尔对分页还有些乱七八糟的骚操作。这里给出的补充内容需要结合本人讲解分页缓存体系的帖子进行阅读：<a href="https://www.0xaa55.com/thread-25636-1-1.html" target="_blank">【处理器】简述AMD64体系的分页缓存体系</a><br />
+前文说过CR3寄存器的第3,4位的意义一直是PWT,PCD。然而，这个说法是错误的。在英特尔处理器的长模式分页（英特尔似乎把长模式叫IA-32e模式）中，如果对CR4.PCIDE进行置位，则CR3寄存器的低12位将用于表示PCID。<br />
+你问我PCID是干啥的？请去刚才给出的新链接。</td></tr></tbody></table>
+
+
+</div>
+<div id="comment_25522" class="cm">
+</div>
+
+<h3 class="psth xs1"><span class="icon_ring vm"></span>评分</h3>
+<dl id="ratelog_25522" class="rate">
+<dd style="margin:0">
+<div id="post_rate_25522"></div>
+<table class="ratl">
+<tbody><tr>
+<th class="xw1" width="120"><a href="https://www.0xaa55.com/forum.php?mod=misc&amp;action=viewratings&amp;tid=16949&amp;pid=25522" onclick="showWindow('viewratings', this.href)" title="查看全部评分"> 参与人数 <span class="xi1">1</span></a></th><th class="xw1" width="80">威望 <i><span class="xi1">+8</span></i></th>
+<th class="xw1" width="80">宅币 <i><span class="xi1">+16</span></i></th>
+<th class="xw1" width="80">贡献 <i><span class="xi1">+32</span></i></th>
+<th>
+<a href="javascript:;" onclick="toggleRatelogCollapse('ratelog_25522', this);" class="y xi2 op">收起</a>
+<i class="txt_h">理由</i>
+</th>
+</tr>
+</tbody><tbody class="ratl_l"><tr id="rate_25522_1">
+<td>
+<a href="https://www.0xaa55.com/space-uid-1.html" target="_blank"><img src="https://www.0xaa55.com/uc_server/data/avatar/000/00/00/01_avatar_small.jpg" onerror="this.onerror=null;this.src='https://www.0xaa55.com/uc_server/images/noavatar_small.gif'" /></a> <a href="https://www.0xaa55.com/space-uid-1.html" target="_blank">0xAA55</a>
+</td><td class="xi1"> + 8</td>
+<td class="xi1"> + 16</td>
+<td class="xi1"> + 32</td>
+<td class="xg1">屌！</td>
+</tr>
+</tbody>
+</table>
+<p class="ratc">
+<a href="https://www.0xaa55.com/forum.php?mod=misc&amp;action=viewratings&amp;tid=16949&amp;pid=25522" onclick="showWindow('viewratings', this.href)" title="查看全部评分" class="xi2">查看全部评分</a>
+</p>
+</dd>
+</dl>
+</div>
+</div>
+
+</td></tr>
+<tr><td class="plc plm">
+<div id="p_btn" class="mtw mbm hm cl">
+<div class="tshare cl">
+<b>分享到: </b>
+
+<a href="https://www.0xaa55.com/home.php?mod=spacecp&amp;ac=plugin&amp;id=qqconnect:spacecp&amp;pluginop=share&amp;sh_type=4&amp;thread_id=16949" id="k_share_to_qq" title="QQ好友和群" target="_blank"><i><img src="static/image/common/qq_share.png" alt="QQ好友和群" />QQ好友和群</i></a>
+<a href="#" id="k_qqshare" onclick="postToQzone();return false;" title="QQ空间"><i><img src="static/image/common/qzone.gif" alt="QQ空间" />QQ空间</i></a>
+</div>
+
+<a href="https://www.0xaa55.com/home.php?mod=spacecp&amp;ac=favorite&amp;type=thread&amp;id=16949&amp;formhash=80e97331" id="k_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" onmouseover="this.title = $('favoritenumber').innerHTML + ' 人收藏'" title="收藏本帖"><i><img src="static/image/common/fav.gif" alt="收藏" />收藏<span id="favoritenumber">1</span></i></a>
+<a class="followp" href="home.php?mod=spacecp&amp;ac=follow&amp;op=relay&amp;tid=16949&amp;from=forum" onclick="showWindow('relaythread', this.href, 'get', 0);" title="转播求扩散"><i><img src="static/image/common/rt.png" alt="转播" />转播</i></a>
+<a class="sharep" href="home.php?mod=spacecp&amp;ac=share&amp;type=thread&amp;id=16949" onclick="showWindow('sharethread', this.href, 'get', 0);" title="分享推精华"><i><img src="static/image/common/oshr.png" alt="分享" />分享</i></a>
+<a href="https://www.0xaa55.com/forum.php?mod=collection&amp;action=edit&amp;op=addthread&amp;tid=16949" id="k_collect" onclick="showWindow(this.id, this.href);return false;" onmouseover="this.title = $('collectionnumber').innerHTML + ' 人淘帖'" title="淘好帖进专辑"><i><img src="static/image/common/collection.png" alt="分享" />淘帖<span id="collectionnumber" style="display:none">0</span></i></a>
+<a id="recommend_add" href="forum.php?mod=misc&amp;action=recommend&amp;do=add&amp;tid=16949&amp;hash=80e97331" onclick="showWindow('login', this.href)" onmouseover="this.title = $('recommendv_add').innerHTML + ' 人赞！'" title="顶一下"><i><img src="static/image/common/rec_add.gif" alt="赞！" />赞！<span id="recommendv_add" style="display:none">0</span></i></a>
+<a id="recommend_subtract" href="forum.php?mod=misc&amp;action=recommend&amp;do=subtract&amp;tid=16949&amp;hash=80e97331" onclick="showWindow('login', this.href)" onmouseover="this.title = $('recommendv_subtract').innerHTML + ' 人靠！'" title="踩一下"><i><img src="static/image/common/rec_subtract.gif" alt="靠！" />靠！<span id="recommendv_subtract" style="display:none">0</span></i></a>
+</div>
+</td>
+</tr>
+<tr id="_postposition25522"></tr>
+<tr>
+<td class="pls"></td>
+<td class="plc" style="overflow:visible;">
+<div class="po hin">
+<div class="pob cl">
+<em>
+<a class="fastre" href="forum.php?mod=post&amp;action=reply&amp;fid=64&amp;tid=16949&amp;reppost=25522&amp;extra=page%3D1&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
+<div style="margin-top:6px;line-height:14px;float:right;position:relative;"><!-- Baidu Button BEGIN -->
+    <div id="bdshare" class="bdshare_b" style="line-height: 12px;" data="{&quot;text&quot;:data}"><img src="misc/type-button-1.jpg" /></div>
+    <script type="text/javascript" id="bdshare_js" data="type=button&amp;uid=0" src="http://bdimg.share.baidu.com/static/js/bds_s_v2.js?cdnversion=463551"></script>
+    
+    <script type="text/javascript">
+        document.getElementById("bdshell_js").src = "misc/share_baidu_shell_v2.js?t=" + new Date().getHours();
+    </script>
+<!-- Baidu Button END --></div></em>
+
+<p>
+<a href="javascript:;" id="mgc_post_25522" onmouseover="showMenu(this.id)" class="showmenu">使用道具</a>
+<a href="javascript:;" onclick="showWindow('miscreport25522', 'misc.php?mod=report&amp;rtype=post&amp;rid=25522&amp;tid=16949&amp;fid=64', 'get', -1);return false;">举报</a>
+</p>
+
+<ul id="mgc_post_25522_menu" class="p_pop mgcmn" style="display: none;">
+<li><a href="https://www.0xaa55.com/home.php?mod=magic&amp;mid=bump&amp;idtype=tid&amp;id=16949" id="a_bump" onclick="showWindow(this.id, this.href)"><img src="static/image/magic/bump.small.gif" />提升卡</a></li>
+<li><a href="https://www.0xaa55.com/home.php?mod=magic&amp;mid=stick&amp;idtype=tid&amp;id=16949" id="a_stick" onclick="showWindow(this.id, this.href)"><img src="static/image/magic/stick.small.gif" />置顶卡</a></li>
+<li><a href="https://www.0xaa55.com/home.php?mod=magic&amp;mid=close&amp;idtype=tid&amp;id=16949" id="a_stick" onclick="showWindow(this.id, this.href)"><img src="static/image/magic/close.small.gif" />沉默卡</a></li>
+<li><a href="https://www.0xaa55.com/home.php?mod=magic&amp;mid=open&amp;idtype=tid&amp;id=16949" id="a_stick" onclick="showWindow(this.id, this.href)"><img src="static/image/magic/open.small.gif" />喧嚣卡</a></li>
+<li><a href="https://www.0xaa55.com/home.php?mod=magic&amp;mid=highlight&amp;idtype=tid&amp;id=16949" id="a_stick" onclick="showWindow(this.id, this.href)"><img src="static/image/magic/highlight.small.gif" />变色卡</a></li>
+<li><a href="https://www.0xaa55.com/home.php?mod=magic&amp;mid=jack&amp;idtype=tid&amp;id=16949" id="a_jack" onclick="showWindow(this.id, this.href)"><img src="static/image/magic/jack.small.gif" />千斤顶</a></li>
+<li><a href="https://www.0xaa55.com/home.php?mod=magic&amp;mid=namepost&amp;idtype=pid&amp;id=25522:16949" id="a_namepost_25522" onclick="showWindow(this.id, this.href)"><img src="static/image/magic/namepost.small.gif" />显身卡</a></li><li>
+</li></ul>
+<script type="text/javascript" reload="1">checkmgcmn('post_25522')</script>
+</div>
+</div>
+</td>
+</tr>
+<tr class="ad">
+<td class="pls">
+</td>
+<td class="plc">
+</td>
+</tr>
+</tbody></table>
+<script type="text/javascript" reload="1">
+aimgcount[25522] = ['4899','4900','4901','4902','4903','4904','4905','4906','4898','4897','4896','4895','4894','4893','4891','4890','4889'];
+attachimggroup(25522);
+var aimgfid = 0;
+</script>
+<div><script type="text/javascript">var arrAll=document.getElementsByTagName('*');for (var i=0;i&lt;arrAll.length;i++){if(arrAll[i].id.substring(0,11)=='postmessage'){var data=arrAll[i].innerHTML.replace(/&lt;[^&gt;].*?&gt;/g,"").replace(/\n|\r|\t/g," ");var baidushare=document.getElementById('bdshare');baidushare.setAttribute('data','{"text":data}');break;}}</script></div></div><div id="post_34497"><a name="lastpost"></a><table id="pid34497" class="plhin" summary="pid34497" cellspacing="0" cellpadding="0">
+<tbody><tr>
+ <td class="pls" rowspan="2">
+<div id="favatar34497" class="pls cl favatar">
+<div class="pi">
+<div class="authi"><a href="https://www.0xaa55.com/space-uid-4536.html" target="_blank" class="xw1" style="color: #00FF00">玫瑰花葬礼</a>
+</div>
+</div>
+<div class="p_pop blk bui card_gender_0" id="userinfo34497" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo34497_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="https://www.0xaa55.com/space-uid-4536.html" target="_blank" class="xi2" style="color: #00FF00">玫瑰花葬礼</a></strong>
+<em>当前离线</em>
+</div><dl class="cl">
+<dt>UID</dt><dd><a href="?4536" target="_blank" class="xi2">4536</a></dd>
+<dt><font color="#FF0000">精华</font></dt><dd>0</dd>
+<dt>积分</dt><dd><a href="https://www.0xaa55.com/home.php?mod=space&amp;uid=4536&amp;do=profile" target="_blank" class="xi2">60</a></dd>
+<dt>威望</dt><dd>2 点</dd>
+<dt>宅币</dt><dd>12 个</dd>
+<dt>贡献</dt><dd>0 次</dd>
+<dt>宅之契约</dt><dd>0 份</dd>
+<dt>最后登录</dt><dd>2018-12-20</dd>
+<dt>在线时间</dt><dd>6 小时</dd>
+<dt></dt><dd></dd>
+</dl><div class="imicn">
+<a href="https://www.0xaa55.com/home.php?mod=space&amp;uid=4536&amp;do=profile" target="_blank" title="查看详细资料"><img src="static/image/common/userinfo.gif" alt="查看详细资料" /></a>
+<a href="https://www.0xaa55.com/home.php?mod=magic&amp;mid=showip&amp;idtype=user&amp;id=%E7%8E%AB%E7%91%B0%E8%8A%B1%E8%91%AC%E7%A4%BC" id="a_showip_li_34497" class="xi2" onclick="showWindow(this.id, this.href)"><img src="static//image/magic/showip.small.gif" alt="" /> 窥视卡</a>
+<a href="https://www.0xaa55.com/home.php?mod=magic&amp;mid=checkonline&amp;idtype=user&amp;id=%E7%8E%AB%E7%91%B0%E8%8A%B1%E8%91%AC%E7%A4%BC" id="a_repent_34497" class="xi2" onclick="showWindow(this.id, this.href)"><img src="static//image/magic/checkonline.small.gif" alt="" /> 雷达卡</a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar" onmouseover="showauthor(this, 'userinfo34497')"><a href="https://www.0xaa55.com/space-uid-4536.html" class="avtm" target="_blank"><img src="https://www.0xaa55.com/uc_server/data/avatar/000/00/45/36_avatar_middle.jpg" onerror="this.onerror=null;this.src='https://www.0xaa55.com/uc_server/images/noavatar_middle.gif'" /></a></div>
+</div>
+<div class="tns xg2"><table cellspacing="0" cellpadding="0"><tbody><tr><th><p><a href="https://www.0xaa55.com/home.php?mod=space&amp;uid=4536&amp;do=thread&amp;type=thread&amp;view=me&amp;from=space" class="xi2">0</a></p>主题</th><th><p><a href="https://www.0xaa55.com/home.php?mod=space&amp;uid=4536&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" class="xi2">44</a></p>帖子</th><td><p><a href="https://www.0xaa55.com/home.php?mod=space&amp;uid=4536&amp;do=profile" class="xi2">60</a></p>积分</td></tr></tbody></table></div>
+<p><b><font color="#FF3300">用户组: </font></b><b><em><a href="https://www.0xaa55.com/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=11" target="_blank"><font color="#00FF00">小·技术宅</font></a></em></b></p>
+
+<dl class="pil cl">
+<dt>UID</dt><dd><a href="?4536" target="_blank" class="xi2">4536</a></dd>
+<dt><font color="#FF0000">精华</font></dt><dd><font color="#FF0000">0</font></dd>
+<dt>威望</dt><dd>2 点</dd>
+<dt>宅币</dt><dd>12 个</dd>
+<dt>贡献</dt><dd>0 次</dd>
+<dt>宅之契约</dt><dd>0 份</dd>
+<dt>在线时间</dt><dd>6 小时</dd>
+<dt>注册时间</dt><dd>2018-12-6</dd>
+</dl>
+<ul class="xl xl2 o cl">
+<li class="addflw">
+<a href="https://www.0xaa55.com/home.php?mod=spacecp&amp;ac=follow&amp;op=add&amp;hash=80e97331&amp;fuid=4536" id="followmod_4536" title="收听TA" class="xi2" onclick="showWindow('followmod', this.href, 'get', 0);">收听TA</a>
+</li>
+<li class="pm2"><a href="https://www.0xaa55.com/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_4536&amp;touid=4536&amp;pmid=0&amp;daterange=2&amp;pid=34497&amp;tid=16949" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">发消息</a></li>
+</ul>
+</div>
+</td>
+<td class="plc">
+<div class="pi">
+<strong>
+<a href="https://www.0xaa55.com/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=16949&amp;pid=34497" id="postnum34497" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
+沙发</a>
+</strong>
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon34497" src="static/image/common/online_member.gif" />
+<em id="authorposton34497">发表于 2018-12-6 10:40:19</em>
+<span class="pipe">|</span>
+<a href="https://www.0xaa55.com/forum.php?mod=viewthread&amp;tid=16949&amp;page=1&amp;authorid=4536" rel="nofollow">只看该作者</a>
+</div>
+</div>
+</div><div class="pct"><div class="pcb">
+<div class="t_fsz">
+<table cellspacing="0" cellpadding="0"><tbody><tr><td class="t_f" id="postmessage_34497">
+<div class="a_pr" style="margin-left:10px;width:auto"><script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 资源区非一楼帖内广告 固定高度 -->
+<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-2029006963530935" data-ad-slot="7853181405" data-adsbygoogle-status="done"><div id="aswift_0_host" style="border: none; height: 280px; width: 336px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block;"></div></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>学习了，谢谢</td></tr></tbody></table>
+
+
+</div>
+<div id="comment_34497" class="cm">
+</div>
+
+<div id="post_rate_div_34497"></div>
+</div>
+</div>
+
+</td></tr>
+<tr><td class="plc plm">
+</td>
+</tr>
+<tr id="_postposition34497"></tr>
+<tr>
+<td class="pls"></td>
+<td class="plc" style="overflow:visible;">
+<div class="po hin">
+<div class="pob cl">
+<em>
+<a class="fastre" href="forum.php?mod=post&amp;action=reply&amp;fid=64&amp;tid=16949&amp;repquote=34497&amp;extra=page%3D1&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
+<a class="replyadd" href="forum.php?mod=misc&amp;action=postreview&amp;do=support&amp;tid=16949&amp;pid=34497&amp;hash=80e97331" onclick="showWindow('login', this.href)" onmouseover="this.title = ($('review_support_34497').innerHTML ? $('review_support_34497').innerHTML : 0) + ' 人 支持'">支持 <span id="review_support_34497"></span></a>
+<a class="replysubtract" href="forum.php?mod=misc&amp;action=postreview&amp;do=against&amp;tid=16949&amp;pid=34497&amp;hash=80e97331" onclick="showWindow('login', this.href)" onmouseover="this.title = ($('review_against_34497').innerHTML ? $('review_against_34497').innerHTML : 0) + ' 人 反对'">反对 <span id="review_against_34497"></span></a>
+</em>
+
+<p>
+<a href="javascript:;" id="mgc_post_34497" onmouseover="showMenu(this.id)" class="showmenu">使用道具</a>
+<a href="javascript:;" onclick="showWindow('miscreport34497', 'misc.php?mod=report&amp;rtype=post&amp;rid=34497&amp;tid=16949&amp;fid=64', 'get', -1);return false;">举报</a>
+</p>
+
+<ul id="mgc_post_34497_menu" class="p_pop mgcmn" style="display: none;">
+<li><a href="https://www.0xaa55.com/home.php?mod=magic&amp;mid=namepost&amp;idtype=pid&amp;id=34497:16949" id="a_namepost_34497" onclick="showWindow(this.id, this.href)"><img src="static/image/magic/namepost.small.gif" />显身卡</a></li><li>
+</li></ul>
+<script type="text/javascript" reload="1">checkmgcmn('post_34497')</script>
+</div>
+</div>
+</td>
+</tr>
+<tr class="ad">
+<td class="pls">
+</td>
+<td class="plc">
+</td>
+</tr>
+</tbody></table>
+</div><div id="postlistreply" class="pl"><div id="post_new" class="viewthread_table" style="display: none"></div></div>
+</div>
+
+
+<form method="post" autocomplete="off" name="modactions" id="modactions">
+<input type="hidden" name="formhash" value="80e97331" />
+<input type="hidden" name="optgroup" />
+<input type="hidden" name="operation" />
+<input type="hidden" name="listextra" value="page%3D1" />
+<input type="hidden" name="page" value="1" />
+</form>
+
+
+
+<div class="pgs mtm mbm cl">
+<span class="pgb y"><a href="https://www.0xaa55.com/forum-studies-1.html">返回列表</a></span>
+<a id="newspecialtmp" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})" onclick="showWindow('newthread', 'forum.php?mod=post&amp;action=newthread&amp;fid=64')" href="javascript:;" title="发新帖"><img src="static/image/common/pn_post.png" alt="发新帖" /></a>
+</div>
+
+<!--[diy=diyfastposttop]--><div id="diyfastposttop" class="area"></div><!--[/diy]-->
+<script type="text/javascript">
+var postminchars = parseInt('10');
+var postmaxchars = parseInt('16777216');
+var disablepostctrl = parseInt('0');
+</script>
+
+<div id="f_pst" class="pl bm bmw">
+<form method="post" autocomplete="off" id="fastpostform" action="forum.php?mod=post&amp;action=reply&amp;fid=64&amp;tid=16949&amp;extra=page%3D1&amp;replysubmit=yes&amp;infloat=yes&amp;handlekey=fastpost" onsubmit="return fastpostvalidate(this)">
+<table cellspacing="0" cellpadding="0">
+<tbody><tr>
+<td class="pls">
+</td>
+<td class="plc">
+
+<span id="fastpostreturn"></span>
+
+
+<div class="cl">
+<div id="fastsmiliesdiv" class="y"><div id="fastsmiliesdiv_data"><div id="fastsmilies"></div></div></div><div class="hasfsl" id="fastposteditor">
+<div class="tedt mtn">
+<div class="bar">
+<span class="y">
+<a href="https://www.0xaa55.com/forum.php?mod=post&amp;action=reply&amp;fid=64&amp;tid=16949" onclick="return switchAdvanceMode(this.href)">高级模式</a>
+</span><script src="data/cache/seditor.js?Aeo" type="text/javascript"></script>
+<div class="fpd">
+<a href="javascript:;" title="文字加粗" class="fbld">B</a>
+<a href="javascript:;" title="设置文字颜色" class="fclr" id="fastpostforecolor">Color</a>
+<a id="fastpostimg" href="javascript:;" title="图片" class="fmg">Image</a>
+<a id="fastposturl" href="javascript:;" title="添加链接" class="flnk">Link</a>
+<a id="fastpostquote" href="javascript:;" title="引用" class="fqt">Quote</a>
+<a id="fastpostcode" href="javascript:;" title="代码" class="fcd">Code</a>
+<a href="javascript:;" class="fsml" id="fastpostsml">Smilies</a>
+</div></div>
+<div class="area">
+<div class="pt hm">
+您需要登录后才可以回帖 <a href="member.php?mod=logging&amp;action=login" onclick="showWindow('login', this.href)" class="xi2">登录</a> | <a href="member.php?mod=r36i5t3r" class="xi2">立即注册→加入我们</a>
+
+
+<a href="https://www.0xaa55.com/connect.php?mod=login&amp;op=init&amp;referer=forum.php%3Fmod%3Dviewthread%26tid%3D16949%26extra%3Dpage%253D1%26page%3D1&amp;statfrom=login" target="_top" rel="nofollow"><img src="static/image/common/qq_login.gif" class="vm" /></a>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="seccheck_fastpost">
+</div>
+
+
+<input type="hidden" name="formhash" value="80e97331" />
+<input type="hidden" name="usesig" value="" />
+<input type="hidden" name="subject" value="  " />
+<p class="ptm pnpost">
+<a href="https://www.0xaa55.com/home.php?mod=spacecp&amp;ac=credit&amp;op=rule&amp;fid=64" class="y" target="_blank">本版积分规则</a>
+<button type="button" onclick="showWindow('login', 'member.php?mod=logging&amp;action=login&amp;guestmessage=yes')" onmouseover="checkpostrule('seccheck_fastpost', 'ac=reply');this.onmouseover=null" name="replysubmit" id="fastpostsubmit" class="pn pnc vm" value="replysubmit" tabindex="5"><strong>发表回复</strong></button>
+<label class="lb"><input type="checkbox" name="adddynamic" class="pc" value="1" />回帖并转播</label>
+<label for="fastpostrefresh"><input id="fastpostrefresh" type="checkbox" class="pc" />回帖后跳转到最后一页</label>
+<script type="text/javascript">if(getcookie('fastpostrefresh') == 1) {$('fastpostrefresh').checked=true;}</script>
+</p>
+</td>
+</tr>
+</tbody></table>
+</form>
+</div>
+
+<script type="text/javascript">
+new lazyload();
+</script>
+<script type="text/javascript">document.onkeyup = function(e){keyPageScroll(e, 0, 0, 'forum.php?mod=viewthread&amp;tid=16949&amp;amp;extra=page%3D1', 1);}</script>
+</div>
+
+<div class="wp mtn">
+<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+<script type="text/javascript">
+function succeedhandle_followmod(url, msg, values) {
+var fObj = $('followmod_'+values['fuid']);
+if(values['type'] == 'add') {
+fObj.innerHTML = '不收听';
+fObj.href = 'home.php?mod=spacecp&amp;ac=follow&amp;op=del&amp;fuid='+values['fuid'];
+} else if(values['type'] == 'del') {
+fObj.innerHTML = '收听TA';
+fObj.href = 'home.php?mod=spacecp&amp;ac=follow&amp;op=add&amp;hash=80e97331&amp;fuid='+values['fuid'];
+}
+}
+fixed_top_nv();
+</script>	</div>
+<script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});</script><script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;noContrib"></script>
+<script type="text/javascript">
+var mw_brush = eval({"applescript":["AppleScript","true"],"actionscript3":["Actionscript3","true"],"bash":["Bash shell","true"],"coldfusion":["ColdFusion","true"],"c":["C","true"],"cpp":["C++","true"],"csharp":["C#","true"],"css":["CSS","true"],"delphi":["Delphi","true"],"diff":["Diff","true"],"erlang":["Erlang","true"],"groovy":["Groovy","true"],"html":["HTML","true"],"java":["Java","true"],"javafx":["JavaFX","true"],"javascript":["JavaScript","true"],"pascal":["Pascal","true"],"patch":["Patch","true"],"perl":["Perl","true"],"php":["PHP","true"],"text":["Plain Text","true"],"powershell":["PowerShell","true"],"python":["Python","true"],"ruby":["Ruby","true"],"rails":["Ruby on Rails","true"],"sass":["Sass","true"],"scala":["Scala","true"],"scss":["Scss","true"],"shell":["Shell","true"],"sql":["SQL","true"],"vb":["Visual Basic","true"],"vbnet":["Visual Basic .NET","true"],"xhtml":["XHTML","true"],"xml":["XML","true"],"xslt":["XSLT","true"],"objc":["Objective-C","true"],"asm":["Asm","true"],"aauto":["AAuto","true"],"golang":["Golang","true"],"lua":["Lua","true"]});
+var mw_gutter = 1;
+var mw_lang_codebox = { 'select_lang': '请输入要插入的代码&lt;br&gt;选择语言：', 'show_gutter': '显示行号：', 'your_code': '你的代码：', 'close': '关闭', 'submit': '提交', 'cancle': '取消' };
+</script>
+<script type="text/javascript" src="https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/js/mw_syntaxhighlighter.js?Aeo"></script><script type="text/javascript" reload="1">mw_syntaxhighlighter("fastpost");</script>
+<!-- mw_syntaxhighlighter ver.3.0.90 Begin -->
+<script type="text/javascript" src="https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shCore.js?ver=3.0.90"></script>
+<script type="text/javascript" src="https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shAutoloader.js?ver=3.0.90"></script>
+<script type="text/javascript" src="https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushXml.js?ver=3.0.90"></script>
+<script type="text/javascript">//&lt;![CDATA[
+	SyntaxHighlighter.autoloader(
+	"applescript	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushAppleScript.js?ver=3.0.90"
+	,"as3 actionscript3	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushAS3.js?ver=3.0.90"
+	,"bash shell	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushBash.js?ver=3.0.90"
+	,"cf coldfusion	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushColdFusion.js?ver=3.0.90"
+	,"cpp c	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.90"
+	,"c# c-sharp csharp	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushCSharp.js?ver=3.0.90"
+	,"css	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushCss.js?ver=3.0.90"
+	,"delphi pas pascal	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushDelphi.js?ver=3.0.90"
+	,"diff patch	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushDiff.js?ver=3.0.90"
+	,"erl erlang	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushErlang.js?ver=3.0.90"
+	,"groovy	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushGroovy.js?ver=3.0.90"
+	,"java	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushJava.js?ver=3.0.90"
+	,"jfx javafx	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushJavaFX.js?ver=3.0.90"
+	,"js jscript javascript	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushJScript.js?ver=3.0.90"
+	,"perl pl	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushPerl.js?ver=3.0.90"
+	,"php	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushPhp.js?ver=3.0.90"
+	,"plain text	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushPlain.js?ver=3.0.90"
+	,"ps powershell	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushPowerShell.js?ver=3.0.90"
+	,"py python	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushPython.js?ver=3.0.90"
+	,"rails ror ruby rb	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushRuby.js?ver=3.0.90"
+	,"sass scss	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushSass.js?ver=3.0.90"
+	,"scala	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushScala.js?ver=3.0.90"
+	,"sql	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushSql.js?ver=3.0.90"
+	,"vb vbnet	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushVb.js?ver=3.0.90"
+	,"xml xhtml xslt html	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushXml.js?ver=3.0.90"
+	,"objc	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushObjC.js?ver=3.0.90"
+	,"asm	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushAsm.js?ver=3.0.90"
+	,"aauto	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushAAuto.js?ver=3.0.90"
+	,"go golang	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushGo.js?ver=3.0.90"
+	,"lua	https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/syntaxhighlighter3/scripts/shBrushLua.js?ver=3.0.90"
+	);
+	SyntaxHighlighter.defaults['auto-links'] = false;
+	SyntaxHighlighter.defaults['quick-code'] = true;
+	SyntaxHighlighter.defaults['title'] = '';
+	SyntaxHighlighter.defaults['class-name'] = 'notranslate';
+	SyntaxHighlighter.defaults['collapse'] = false;
+	SyntaxHighlighter.defaults['first-line'] = 1;
+	SyntaxHighlighter.defaults['gutter'] = true;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = 1;
+	SyntaxHighlighter.defaults['smart-tabs'] = true;
+	SyntaxHighlighter.defaults['tab-size'] = 4;
+	SyntaxHighlighter.defaults['toolbar'] = true;
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter';
+	SyntaxHighlighter.config.strings.noBrush = "Can\'t find brush for: ";
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = "Brush wasn\'t configured for html-script option: ";
+	SyntaxHighlighter.all();
+	
+//]]&gt;</script>
+<!-- mw_syntaxhighlighter ver.3.0.90 End -->
+
+<script type="text/javascript">
+var mw_libversion = '3.0.90';
+var mw_lang_toolbar = {'copyed': '代码已复制到剪贴板'};
+</script>
+<script type="text/javascript" src="https://www.0xaa55.com/source/plugin/mw_syntaxhighlighter/static/js/toolbar.js?Aeo"></script><div id="ft" class="wp cl">
+<div id="flk" class="y">
+<p>
+<a href="//wpa.qq.com/msgrd?v=3&amp;uin=838816058&amp;site=技术宅的结界&amp;menu=yes&amp;from=discuz" target="_blank" title="QQ"><img src="static/image/common/site_qq.jpg" alt="QQ" /></a><span class="pipe">|</span><a href="wq_links-main.html">申请友链</a><span class="pipe">|</span><a href=""></a><span class="pipe">|</span><a href="https://www.0xaa55.com/archiver/">Archiver</a><span class="pipe">|</span><a href="https://www.0xaa55.com/forum.php?mobile=yes">手机版</a><span class="pipe">|</span><a href="https://www.0xaa55.com/forum.php?mod=misc&amp;action=showdarkroom">小黑屋</a><span class="pipe">|</span><strong><a href="https://www.0xaa55.com/" target="_blank">技术宅的结界</a></strong>
+( <a href="https://beian.miit.gov.cn/" target="_blank">滇ICP备16008837号</a> )<span class="pipe">|</span><a href="sitemap.xml" target="_blank" title="网站地图">网站地图</a></p>
+<p class="xs0">
+GMT+8, 2022-11-18 22:00<span id="debuginfo">
+, Processed in 0.037050 second(s), 31 queries
+, Gzip On.
+</span>
+</p>
+</div>
+<div id="frt">
+<p>Powered by <strong><a href="http://www.discuz.net" target="_blank">Discuz!</a></strong> <em>X3.4</em></p>
+<p class="xs0">Copyright © 2001-2021, Tencent Cloud.</p>
+</div></div>
+<script src="home.php?mod=misc&amp;ac=sendmail&amp;rand=1668780035" type="text/javascript"></script>
+
+<div id="scrolltop">
+<span><a href="https://www.0xaa55.com/forum.php?mod=post&amp;action=reply&amp;fid=64&amp;tid=16949&amp;extra=page%3D1&amp;page=1" onclick="showWindow('reply', this.href)" class="replyfast" title="快速回复"><b>快速回复</b></a></span>
+<span hidefocus="true"><a title="返回顶部" onclick="window.scrollTo('0','0')" class="scrolltopa"><b>返回顶部</b></a></span>
+<span>
+<a href="https://www.0xaa55.com/forum-studies-1.html" hidefocus="true" class="returnlist" title="返回列表"><b>返回列表</b></a>
+</span>
+</div>
+<script type="text/javascript">_attachEvent(window, 'scroll', function () { showTopLink(); });checkBlind();</script>
+
+
+<ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;" data-ad-status="unfilled"><div id="aswift_1_host" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none; height: 0px; width: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block;"><iframe id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-2029006963530935&amp;output=html&amp;adk=2991290058&amp;adf=3705720978&amp;lmt=1668780037&amp;plat=9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1081344%2C32%3A32%2C41%3A32&amp;format=0x0&amp;url=https%3A%2F%2Fwww.0xaa55.com%2Fthread-16949-1-1.html&amp;ea=0&amp;pra=7&amp;wgl=1&amp;uach=WyJXaW5kb3dzIiwiNy4wLjAiLCJ4ODYiLCIiLCIxMDcuMC41MzA0LjEwNyIsW10sZmFsc2UsbnVsbCwiNjQiLFtbIkdvb2dsZSBDaHJvbWUiLCIxMDcuMC41MzA0LjEwNyJdLFsiQ2hyb21pdW0iLCIxMDcuMC41MzA0LjEwNyJdLFsiTm90PUE_QnJhbmQiLCIyNC4wLjAuMCJdXSxmYWxzZV0.&amp;dt=1668780036530&amp;bpp=3&amp;bdt=1274&amp;idt=645&amp;shv=r20221110&amp;mjsv=m202211150101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;nras=1&amp;correlator=4043054181544&amp;frm=20&amp;pv=2&amp;ga_vid=1380550394.1668780037&amp;ga_sid=1668780037&amp;ga_hid=2047194681&amp;ga_fc=0&amp;u_tz=480&amp;u_his=2&amp;u_h=961&amp;u_w=1707&amp;u_ah=921&amp;u_aw=1707&amp;u_cd=24&amp;u_sd=1.5&amp;dmc=8&amp;adx=-12245933&amp;ady=-12245933&amp;biw=1691&amp;bih=805&amp;scr_x=0&amp;scr_y=0&amp;eid=44759875%2C44759926%2C44759842%2C42531705%2C31070969%2C44778613%2C31070949&amp;oid=2&amp;pvsid=3289045670041954&amp;tmod=1759775965&amp;uas=0&amp;nvt=1&amp;eae=2&amp;fc=896&amp;brdim=-1707%2C-231%2C-1707%2C-231%2C1707%2C-231%2C1707%2C921%2C1707%2C805&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=32768&amp;bc=31&amp;ifi=2&amp;uci=a!2&amp;fsb=1&amp;dtd=670" data-google-container-id="a!2" data-load-complete="true"></iframe></div></ins><iframe src="https://www.google.com/recaptcha/api2/aframe" width="0" height="0" style="display: none;"></iframe></body><iframe id="google_esf" name="google_esf" src="https://googleads.g.doubleclick.net/pagead/html/r20221110/r20190131/zrt_lookup.html" style="display: none;"></iframe></html>
