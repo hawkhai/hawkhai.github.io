@@ -15,6 +15,39 @@ glslcanvas:
 codeprint:
 ---
 
+
+## NCNN
+
+[ncnn 小白常见问题整理 {% include relref_github.html %}](https://github.com/zchrissirhcz/awesome-ncnn/blob/master/FAQ.md)
+
+
+### rtti/exceptions 冲突
+
+在 Android NDK（JNI）代码中遇到报错 `error: use of typeid requires -frtti`。
+
+原因：ncnn 的 android 预编译包的编译选项中，禁用了`rtti`（同时还禁用了`exceptions`），而 OpenCV 的 android 预编译包开启了`rtti`和`exceptions`（这是在 NDK 的 toolchains.cmake 中默认开启的）；当两个（或多个）库的 rtti、exceptions 编译选项设定不同时，会导致冲突，需要统一。
+
+**方法：重编 ncnn，编译时开启 rtti、exceptions**。
+
+- 在命令行（或 CMake-GUI）里，用 cmake 构建，构建时传入`-DNCNN_DISABLE_EXCEPTION=OFF -DNCNN_DISABLE_RTTI=OFF`；如果先前构建过，请清理 build/CMakeCache.txt；不要在 Android Studio 里构建 ncnn 库，因为很可能你的 rtti 和 exceptions 还是弄错
+
+
+### 为啥自己编译的 ncnn android 库特别大？
+
+很可能是没有去掉`-g`导致的。
+
+基于 cmake 和 ninja，自行编译 ncnn 的 android 库，编译时注意：
+- 去掉`-g`参数以减小库体积：打开`$ANDROID_NDK/build/cmake/android.toolchain.cmake`
+```
+# 删除 "-g" 这行
+list(APPEND ANDROID_COMPILER_FLAGS
+    -g
+    -DANDROID
+```
+
+
+## OpenCV
+
 int cvtype = CV_8UC1; // 0
 cvtype = CV_8UC2; // 8
 cvtype = CV_8UC3; // 16
@@ -2382,6 +2415,7 @@ class fastimagedll : public fastimage::IFastImageInterface {
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-tiny-source-code.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://github.com/zchrissirhcz/awesome-ncnn/blob/master/FAQ.md]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/github.com/5a3f1060.html" %})
 - [https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/android.googlesource.com/b62cb28d.txt" %})
 - [https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4189?view=msvc-170]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/learn.microsoft.com/0c120c99.html" %})
 - [https://www.0xaa55.com/thread-16949-1-1.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.0xaa55.com/fb6b8dc2.html" %})
