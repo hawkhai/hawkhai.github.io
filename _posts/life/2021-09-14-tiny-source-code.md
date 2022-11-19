@@ -587,6 +587,8 @@ Android ARGB_8888 格式图片的各通道顺序其实不是 ARGB，而是 RGBA�
     * No toolchains found in the NDK toolchains folder for ABI with prefix: arm-linux-androideabi
         * classpath "com.android.tools.build:gradle:4.1.3"
 
+C:\Users\hawkhai\AppData\Local\Android\Sdk
+
 guide 原版 Android。
 result，pc 32 版本，64 作为对照组。
 android 文件夹，self android 32 版本，64 作为对照组。
