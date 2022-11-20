@@ -23,7 +23,7 @@ cluster: "CMake"
 
 ```cmake
 # 对文件下分组
-set(AllFile ${KVISION_SRC} ${KVISION_INCLUDE})
+set(AllFile ${KV_SRC} ${KV_INCLUDE})
 foreach(fileItem ${AllFile})
     get_filename_component(PARENT_DIR "${fileItem}" DIRECTORY)
     string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
