@@ -16,7 +16,7 @@ codeprint:
 ---
 
 
-## NCNN
+## NCNN 问题整理
 
 [ncnn 小白常见问题整理 {% include relref_github.html %}](https://github.com/zchrissirhcz/awesome-ncnn/blob/master/FAQ.md)
 
@@ -34,7 +34,7 @@ codeprint:
 
 ### 为啥自己编译的 ncnn android 库特别大？
 
-很可能是没有去掉`-g`导致的。
+很可能是没有去掉`-g`导致的。**这个不用解决。**
 
 基于 cmake 和 ninja，自行编译 ncnn 的 android 库，编译时注意：
 - 去掉`-g`参数以减小库体积：打开`$ANDROID_NDK/build/cmake/android.toolchain.cmake`
@@ -43,6 +43,45 @@ codeprint:
 list(APPEND ANDROID_COMPILER_FLAGS
     -g
     -DANDROID
+```
+
+
+### ADD_LIBRARY SHARED not support
+
+这行代码造成的：`set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS FALSE)`。
+ADD_LIBRARY called with SHARED option but the target platform does not
+    support dynamic linking.  Building a STATIC library instead.
+
+```
+> Task :prepareKotlinBuildScriptModel UP-TO-DATE
+D:\kSource\kv\engine\src\main\cpp\CMakeLists.txt : C/C++ debug|arm64-v8a : CMake Warning (dev) at D:\kSource\kv\engine\src\main\cpp\CMakeLists.txt:196 (add_library):
+    ADD_LIBRARY called with SHARED option but the target platform does not
+    support dynamic linking.  Building a STATIC library instead.  This may lead
+    to problems.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+BUILD SUCCESSFUL in 860ms
+```
+
+[activity](https://gitlab.kitware.com/cmake/cmake/-/issues/22564)
+[cmake code](https://gitlab.kitware.com/cmake/cmake/-/blob/v3.21.1/Source/cmAddLibraryCommand.cxx#L224-231)
+```cpp
+/* ideally we should check whether for the linker language of the target
+    CMAKE_${LANG}_CREATE_SHARED_LIBRARY is defined and if not default to
+    STATIC. But at this point we know only the name of the target, but not
+    yet its linker language. */
+if ((type == cmStateEnums::SHARED_LIBRARY ||
+        type == cmStateEnums::MODULE_LIBRARY) &&
+        !mf.GetState()->GetGlobalPropertyAsBool("TARGET_SUPPORTS_SHARED_LIBS")) {
+    mf.IssueMessage(
+        MessageType::AUTHOR_WARNING,
+        cmStrCat(
+            "ADD_LIBRARY called with ",
+            (type == cmStateEnums::SHARED_LIBRARY ? "SHARED" : "MODULE"),
+            " option but the target platform does not support dynamic linking. ",
+            "Building a STATIC library instead. This may lead to problems."));
+    type = cmStateEnums::STATIC_LIBRARY;
+}
 ```
 
 
@@ -2418,6 +2457,8 @@ class fastimagedll : public fastimage::IFastImageInterface {
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://github.com/zchrissirhcz/awesome-ncnn/blob/master/FAQ.md]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/github.com/5a3f1060.html" %})
+- [https://gitlab.kitware.com/cmake/cmake/-/issues/22564]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/gitlab.kitware.com/401c2f41.html" %})
+- [https://gitlab.kitware.com/cmake/cmake/-/blob/v3.21.1/Source/cmAddLibraryCommand.cxx#L224-231]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/gitlab.kitware.com/cccd5a4d.cxx" %})
 - [https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/android.googlesource.com/b62cb28d.txt" %})
 - [https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4189?view=msvc-170]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/learn.microsoft.com/0c120c99.html" %})
 - [https://www.0xaa55.com/thread-16949-1-1.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.0xaa55.com/fb6b8dc2.html" %})
