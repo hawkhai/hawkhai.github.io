@@ -38,12 +38,12 @@ codeprint:
 
 基于 cmake 和 ninja，自行编译 ncnn 的 android 库，编译时注意：
 - 去掉`-g`参数以减小库体积：打开`$ANDROID_NDK/build/cmake/android.toolchain.cmake`
-```
-# 删除 "-g" 这行
-list(APPEND ANDROID_COMPILER_FLAGS
-    -g
-    -DANDROID
-```
+  ```
+  # 删除 "-g" 这行
+  list(APPEND ANDROID_COMPILER_FLAGS
+      -g
+      -DANDROID
+  ```
 
 
 ### ADD_LIBRARY SHARED not support
@@ -496,11 +496,9 @@ for (int i = 0; i < 10; i++) {
 int sum = 0;
 
 int old = sum;
-for (int i = 0; i < 1000000; i++) // 百万次
-{
+for (int i = 0; i < 1000000; i++) { // 百万次
     // 如果 old 等于 sum，就把 old+1 写入 sum
-    while (!__sync_bool_compare_and_swap(&sum, old, old + 1))
-    {
+    while (!__sync_bool_compare_and_swap(&sum, old, old + 1)) {
         old = sum; // 更新 old
     }
 }
@@ -508,20 +506,20 @@ for (int i = 0; i < 1000000; i++) // 百万次
 ```c
 do {
     while ( 1 ) {
-      __dmb();
-      do {
-        v2 = __ldrex((unsigned __int32 *)&sum);
-        v3 = v2 == v1;
-        if ( v2 != v1 )
-          break;
-        v4 = __strex(v1 + 1, (unsigned int *)&sum);
-        v3 = v4 == 0;
-      }
-      while ( v4 );
-      __dmb();
-      if ( v3 )
-        break;
-      v1 = sum;
+        __dmb();
+        do {
+            v2 = __ldrex((unsigned __int32 *)&sum);
+            v3 = v2 == v1;
+            if ( v2 != v1 )
+                break;
+            v4 = __strex(v1 + 1, (unsigned int *)&sum);
+            v3 = v4 == 0;
+        }
+        while ( v4 );
+        __dmb();
+        if ( v3 )
+            break;
+        v1 = sum;
     }
     --v0;
 }
