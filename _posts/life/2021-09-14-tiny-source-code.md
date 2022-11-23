@@ -48,7 +48,7 @@ for (m = (unsigned __int8 *)(v27 + pArg3[3] + v84);
 根据实践发现，Winmdows 32 指针一般最高位为 0，Android 32 位指针，最高位很大概率是 1，如果指针运算用 int 运算，就非常悲剧了。
 
 Fun60_implv1 栈变量丢失的问题：
-```
+```cpp
 #pragma pack(push) // 保存对齐状态
 #pragma pack(1) // 设定为 1 字节对齐
     int v71; // [sp+Ch] [bp-1A8h]
@@ -162,7 +162,7 @@ int main()
 
 基于 cmake 和 ninja，自行编译 ncnn 的 android 库，编译时注意：
 - 去掉`-g`参数以减小库体积：打开`$ANDROID_NDK/build/cmake/android.toolchain.cmake`
-  ```
+  ```cmake
   # 删除 "-g" 这行
   list(APPEND ANDROID_COMPILER_FLAGS
       -g
@@ -308,7 +308,7 @@ x | 老版本 ncnn::Mat（40 字节）<br/>**应该以这个为准** | 最新版
 10 | | size_t cstep;
 
 [ROOT]\opencv\opencv-3.4.2\modules\core\include\opencv2\core\mat.inl.hpp
-```
+```cpp
 inline
 Mat::~Mat()
 {
@@ -528,7 +528,7 @@ Mat Mat::clone() const
 长模式是 AMD64 架构的核心，它使用 48 位长的二进制数表示线性地址。而长模式的分页则是以 PAE 的分页模式作为跳板，将 32 位的线性地址扩展至 48 位，并转换成 52 位长的物理地址。
 **最高位只有运算的时候，可能用到。一般就是 48 位，启用 PAE 可以到 52 位。**
 危险的 `(unsigned int)(float)` 强转：
-```
+```cpp
 if (outx == 0) {
     auto xxd = v25 * 255.0;
     float xxdf = (float)xxd;
@@ -568,7 +568,7 @@ mov         dword ptr [rsp+148h],eax
 7SaveInk\android\78.jfif.result.png -- 这个也不一样。
 
 * `__dmb(0xBu);` -> `__dmb(_ARM_BARRIER_ISH);`
-  ```
+  ```cpp
   typedef enum _tag_ARMINTR_BARRIER_TYPE
   {
       _ARM_BARRIER_SY    = 0xF,
@@ -834,7 +834,7 @@ $$pow(−1,sign)*(1+mag)*pow(2,exp−127)$$
 
 ## 剪贴板
 
-```
+```cpp
 #include <windows.h>
 #include <iostream>
 ```
