@@ -15,10 +15,134 @@ glslcanvas:
 codeprint:
 ---
 
+有符号数与无符号数进行比较，有符号数会先转换成无符号数再比较，-1 会转换成无符号最大的那个数。
+```cpp
+for (m = (unsigned __int8 *)(v27 + pArg3[3] + v84);
+    (unsigned long long)&m[-v27 - v84] >= pArg3[2]; --m)
+{
+    v30 = *m;
+    v10 += v30;
+}
+```
+
+上面这个代码是存在 bug 的，稍微改改就很妙了。
+```cpp
+for (m = (unsigned __int8 *)(v27 + pArg3[3] + v84);
+    (long long)m - v27 - v84 >= pArg3[2]; --m)
+{
+    v30 = *m;
+    v10 += v30;
+}
+```
+
+正则匹配：
+```
+&[a-z0-9]+\[-
+```
+危险的：`(unsigned long long)&m[`。
+
+这行代码 `v5 = (v2 / -10 + pArg[126]) & ~((v2 / -10 + pArg[126]) >> 31);`
+调整为 long long 就正确了。
+
+交叉验证，Windows 32 & 64 版本，Android 32 & 64 版本。
+根据实践发现，Winmdows 32 指针一般最高位为 0，Android 32 位指针，最高位很大概率是 1，如果指针运算用 int 运算，就非常悲剧了。
+
+Fun60_implv1 栈变量丢失的问题：
+```
+#pragma pack(push) // 保存对齐状态
+#pragma pack(1) // 设定为 1 字节对齐
+    int v71; // [sp+Ch] [bp-1A8h]
+    int *v72; // [sp+Ch] [bp-1A8h]
+    int *v73; // [sp+18h] [bp-19Ch]
+    int v74; // [sp+18h] [bp-19Ch]
+    char *v75; // [sp+1Ch] [bp-198h]
+    int v76 = 0; // [sp+1Ch] [bp-198h]
+    int v77[99]; // [sp+20h] [bp-194h]
+    char v78; // [sp+1ACh] [bp-8h] BYREF
+    int v79; // [sp+1B0h] [bp-4h] BYREF
+    int v80[298]; // [sp+1B4h] [bp+0h] BYREF
+    char v81 = 0; // [sp+65Ch] [bp+4A8h] BYREF
+    _DWORD v82[99]; // [sp+660h] [bp+4ACh]
+    char v83 = 0; // [sp+7ECh] [bp+638h] BYREF
+    char v84[4]; // [sp+980h] [bp+7CCh] BYREF
+#pragma pack(pop) // 恢复对齐状态
+```
+
+分别验证 PC & Android 栈变量的生长方向。
+分别验证 PC & Android 结构体变量的生长方向。
+
+Heap：堆是往高地址增长的，是用来动态分配内存的区域，malloc 就是在这里面分配的；
+在这 4G 里面，其中 1G 是内核态内存，每个 Linux 进程共享这一块内存，在高地址；3G 是用户态内存，这部分内存进程间不共享，在低地址。
+[from {% include relref_jianshu.html %}](https://www.jianshu.com/p/58b602f8b7d5)
+{% include image.html url="/assets/images/210914-tiny-source-code/2718191-40b00426103734bc.webp" %}
+
+
+## 栈的生长方向和内存存放方向
+
+生长方向：栈的开口向下，堆的开口向上（小端模式）。
+栈每压入一个内存块，即在栈的下端开辟出来，该内存块的首地址是在该内存块的最下面。
+内存块里的数据生长方向，是向上的（与栈本身的生长方向是相反的），
+这一点对堆来讲也适用（当然，堆的开口本来就朝上，很好理解）。
+**Android & Windows 是一致的。**
+
+{% include image.html url="/assets/images/210914-tiny-source-code/v2-aff33d93fb93ac6b9c024a7e24f97ce7_1440w.jfif.jpg" %}
+[note {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/81438938)
+```cpp
+#include <iostream>
+
+struct MyStruct {
+    int a = 10;
+    int b = 20;
+    int c = 30;
+    int d = 40;
+};
+
+// 1. 栈的生长方向
+void test01() {
+    int a = 10;
+    int b = 20;
+    int c = 30;
+    int d = 40;
+    MyStruct st;
+
+    // a 的地址大于 b 的地址，故而生长方向向下。
+    printf("a = %d\n", &a); // a = 5240956
+    printf("b = %d\n", &b); // b = 5240944
+    printf("c = %d\n", &c); // c = 5240932
+    printf("d = %d\n", &d); // d = 5240920
+    printf("a = %d\n", &st.a); // a = 5240896
+    printf("b = %d\n", &st.b); // b = 5240900
+    printf("c = %d\n", &st.c); // c = 5240904
+    printf("d = %d\n", &st.d); // d = 5240908
+}
+
+// 2. 内存生长方向（小端模式）
+void test02() {
+
+    // 高位字节 -> 地位字节
+    int num = 0xaabbccdd;
+    unsigned char* p = (unsigned char*)&num;
+
+    // 从首地址开始的第一个字节
+    printf("%x\n", *p); // dd
+    printf("%x\n", *(p + 1)); // cc
+    printf("%x\n", *(p + 2)); // bb
+    printf("%x\n", *(p + 3)); // aa
+}
+
+int main()
+{
+    test01();
+    test02();
+    return 0;
+}
+```
+
 
 ## NCNN 问题整理
 
 [ncnn 小白常见问题整理 {% include relref_github.html %}](https://github.com/zchrissirhcz/awesome-ncnn/blob/master/FAQ.md)
+[Win10 下 QT+NCNN 实现 Android 开发的踩坑记录 {% include relref_github.html %}](https://github.com/DataXujing/Qt_NCNN_NanoDet)
 
 
 ### rtti/exceptions 冲突
@@ -2454,7 +2578,10 @@ class fastimagedll : public fastimage::IFastImageInterface {
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-tiny-source-code.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.jianshu.com/p/58b602f8b7d5]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.jianshu.com/6f62c3c7.html" %})
+- [https://zhuanlan.zhihu.com/p/81438938]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/zhuanlan.zhihu.com/86f0d241.html" %})
 - [https://github.com/zchrissirhcz/awesome-ncnn/blob/master/FAQ.md]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/github.com/5a3f1060.html" %})
+- [https://github.com/DataXujing/Qt_NCNN_NanoDet]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/github.com/41541bfb.html" %})
 - [https://gitlab.kitware.com/cmake/cmake/-/issues/22564]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/gitlab.kitware.com/401c2f41.html" %})
 - [https://gitlab.kitware.com/cmake/cmake/-/blob/v3.21.1/Source/cmAddLibraryCommand.cxx#L224-231]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/gitlab.kitware.com/cccd5a4d.cxx" %})
 - [https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/android.googlesource.com/b62cb28d.txt" %})
