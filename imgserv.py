@@ -148,7 +148,7 @@ class HTTPServer:
         ignorelist = (".gitignore",)
         return [{"fname": os.path.join(rootdir, i).replace("\\", "/"),
                  "fsize": os.path.getsize(os.path.join(rootdir, i)),
-                } for i in os.listdir(rootdir) if not i in ignorelist]
+                } for i in listSortNumName(os.listdir(rootdir)) if not i in ignorelist]
 
     # listdir=kvision/2Original
     def get_request_api(self, requested_file, data):

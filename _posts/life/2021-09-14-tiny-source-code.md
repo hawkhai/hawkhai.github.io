@@ -138,6 +138,23 @@ int main()
 }
 ```
 
+危险的：
+* 错误 	C4700	 使用了未初始化的局部变量“v144”
+* 错误 	C4700	 使用了未初始化的局部变量“v147”
+
+往往是因为数组，这样改：
+```cpp
+int v142array[8] = { 0 };
+int& v142 = v142array[0]; // [sp+C0h] [bp-48h] BYREF
+int& v143 = v142array[1]; // [sp+C4h] [bp-44h]
+int& v144 = v142array[2]; // [sp+C8h] [bp-40h]
+int& v145 = v142array[3]; // [sp+CCh] [bp-3Ch]
+int& v146 = v142array[4]; // [sp+D0h] [bp-38h]
+int& v147 = v142array[5]; // [sp+D4h] [bp-34h]
+int& v148 = v142array[6]; // [sp+D8h] [bp-30h]
+int& v149 = v142array[7]; // [sp+DCh] [bp-2Ch]
+```
+
 
 ## NCNN 问题整理
 
@@ -776,33 +793,35 @@ Clang | \_\_clang\_\_ | \_\_i386\_\_ | \_\_x86\_64\_\_ | \_\_arm\_\_ | \_\_thumb
 ## C++ 数据类型
 
 ```cpp
-printf("char | %d \n", sizeof(char));
-printf("short | %d \n", sizeof(short));
-printf("int | %d \n", sizeof(int));
-printf("long | %d \n", sizeof(long));
-printf("long long | %d \n", sizeof(long long));
-printf("__int64 | %d \n", sizeof(__int64));
-printf("float | %d \n", sizeof(float));
-printf("double | %d \n", sizeof(double));
-printf("long double | %d \n", sizeof(long double));
-printf("void* | %d \n", sizeof(void*));
+char buffer[1024];
+sprintf(buffer, "char | %d \n", sizeof(char));
+sprintf(buffer, "short | %d \n", sizeof(short));
+sprintf(buffer, "int | %d \n", sizeof(int));
+sprintf(buffer, "long | %d \n", sizeof(long));
+sprintf(buffer, "long long | %d \n", sizeof(long long));
+sprintf(buffer, "__int64 | %d \n", sizeof(__int64));
+sprintf(buffer, "float | %d \n", sizeof(float));
+sprintf(buffer, "double | %d \n", sizeof(double));
+sprintf(buffer, "long double | %d \n", sizeof(long double));
+sprintf(buffer, "void* | %d \n", sizeof(void*));
+sprintf(buffer, "size_t | %d \n", sizeof(size_t));
 ```
 
 * **主要就是指针和 int 的问题。**
 
-类型 | 32 | 64
----- | --- | ---
-char | 1 | 1
-short | 2 | 2
-int | 4 | 4
-long | 4 | 4
-long long | 8 | 8
-int64 | 8 | 8
-float | 4 | 4
-double | 8 | 8
-long double | 8 | 8
-void\* | 4 | 8
-size_t | 4 | 8
+类型 | Win32 | Win64 | Android32 | Android64
+---- | --- | --- | --- | ---
+char | 1 | 1 | 1 | 1
+short | 2 | 2 | 2 | 2
+int | 4 | 4 | 4 | 4
+long | 4 | 4 | 4 | 8
+long long | 8 | 8 | 8 | 8
+int64 | 8 | 8 | 8 | 8
+float | 4 | 4 | 4 | 4
+double | 8 | 8 | 8 | 8
+long double | 8 | 8 | 8 | 16
+void\* | 4 | 8 | 4 | 8
+size_t | 4 | 8 | 4 | 8
 
 [note {% include relref_cnblogs.html %}](https://www.cnblogs.com/flowerslip/p/5934718.html)
 补码最大好处就是不管是有符号数还是无符号数都可以用同一套加减法。
