@@ -62,7 +62,7 @@ caption="<span class='imagetitle'>土鸡煲</span> 98 元 / 只" %}
 title="水煮鱼" caption="22 元 / 斤" %}
 
 {% include image1.html url="/kaoyu/img/tiaoshuitianji3.jpg"
-title="跳水田鸡" caption="68 元（大份 98 元）" %}
+title="跳水牛蛙" caption="68 元（大份 98 元）" %}
 
 {% include image1.html url="/kaoyu/img/maoxuewang.jpg"
 title="毛血旺" caption="45 元" %}
@@ -177,7 +177,7 @@ title="蒜香骨" caption="45 元" %}
 
 {% include image2.html
 url="/kaoyu/img/huiguorou.jpeg" caption="回锅肉 28 元"
-url2="/kaoyu/img/xianglatianji.jpeg" caption2="香辣田鸡 45 元" %}
+url2="/kaoyu/img/xianglatianji.jpeg" caption2="香辣牛蛙 45 元" %}
 
 {% include image2.html
 url="/kaoyu/img/suancaichaoniuzha.jpeg" caption="酸菜炒牛杂 35 元"
@@ -201,7 +201,7 @@ url2="/kaoyu/img/ganguojisheng.jpeg" caption2="干锅鸡肾 28 元" %}
 
 {% include image2.html
 url="/kaoyu/img/ganguoji.jpeg" caption="干锅鸡 32 元"
-url2="/kaoyu/img/ganguotianji.jpeg" caption2="干锅田鸡 42 元" %}
+url2="/kaoyu/img/ganguotianji.jpeg" caption2="干锅牛蛙 42 元" %}
 
 {% include image1.html url="/kaoyu/img/ganguoyudu2.jpg"
 title="干锅鱼肚" caption="40 元" %}
@@ -222,7 +222,7 @@ title="铁板鱿鱼" caption="38 元" %}
 
 {% include image2.html
 url="/kaoyu/img/tiebanfeichang.jpeg" caption="铁板肥肠 48 元"
-url2="/kaoyu/img/tiebantianjie.jpeg" caption2="铁板田鸡 42 元" %}
+url2="/kaoyu/img/tiebantianjie.jpeg" caption2="铁板牛蛙 42 元" %}
 
 {% include image2.html
 url="/kaoyu/img/teibanzaiji.jpeg" caption="铁板仔鸡 32 元"
@@ -237,7 +237,7 @@ url2="/kaoyu/img/paojiaozhugan.jpeg" caption2="泡椒猪肝 25 元" %}
 
 {% include image2.html
 url="/kaoyu/img/paojiaojisheng.jpeg" caption="泡椒鸡肾 28 元"
-url2="/kaoyu/img/paojiaotianji2.jpg" caption2="泡椒田鸡 42 元" %}
+url2="/kaoyu/img/paojiaotianji2.jpg" caption2="泡椒牛蛙 42 元" %}
 
 {% include image1.html url="/kaoyu/img/laweitianluo.jpeg"
 title="辣味田螺" caption="18 元" %}
