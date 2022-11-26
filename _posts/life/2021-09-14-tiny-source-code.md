@@ -15,6 +15,9 @@ glslcanvas:
 codeprint:
 ---
 
+
+## 汇编相关
+
 有符号数与无符号数进行比较，有符号数会先转换成无符号数再比较，-1 会转换成无符号最大的那个数。
 ```cpp
 for (m = (unsigned __int8 *)(v27 + pArg3[3] + v84);
@@ -28,7 +31,7 @@ for (m = (unsigned __int8 *)(v27 + pArg3[3] + v84);
 上面这个代码是存在 bug 的，稍微改改就很妙了。
 ```cpp
 for (m = (unsigned __int8 *)(v27 + pArg3[3] + v84);
-    (long long)m - v27 - v84 >= pArg3[2]; --m)
+    (long long)m - v27 - (long long)v84 >= pArg3[2]; --m)
 {
     v30 = *m;
     v10 += v30;
@@ -39,13 +42,14 @@ for (m = (unsigned __int8 *)(v27 + pArg3[3] + v84);
 ```
 &[a-z0-9]+\[-
 ```
-危险的：`(unsigned long long)&m[`。
+危险的：`(unsigned long long)&m[`，因为这里可能是一个简单的加法，可能出现负数。
 
 这行代码 `v5 = (v2 / -10 + pArg[126]) & ~((v2 / -10 + pArg[126]) >> 31);`
 调整为 long long 就正确了。
 
 交叉验证，Windows 32 & 64 版本，Android 32 & 64 版本。
-根据实践发现，Winmdows 32 指针一般最高位为 0，Android 32 位指针，最高位很大概率是 1，如果指针运算用 int 运算，就非常悲剧了。
+根据实践发现，Windows 32 指针一般最高位为 0，Android 32 位指针，最高位很大概率是 1，如果指针运算用 int 运算，就非常悲剧了。
+其中，Android 64 Debug & Relase，对一些随机 bug，还不太一样。
 
 Fun60_implv1 栈变量丢失的问题：
 ```cpp
@@ -68,16 +72,13 @@ Fun60_implv1 栈变量丢失的问题：
 #pragma pack(pop) // 恢复对齐状态
 ```
 
-分别验证 PC & Android 栈变量的生长方向。
-分别验证 PC & Android 结构体变量的生长方向。
 
-Heap：堆是往高地址增长的，是用来动态分配内存的区域，malloc 就是在这里面分配的；
+## 栈的生长方向和内存存放方向
+
+**Heap**：堆是往高地址增长的，是用来动态分配内存的区域，malloc 就是在这里面分配的；
 在这 4G 里面，其中 1G 是内核态内存，每个 Linux 进程共享这一块内存，在高地址；3G 是用户态内存，这部分内存进程间不共享，在低地址。
 [from {% include relref_jianshu.html %}](https://www.jianshu.com/p/58b602f8b7d5)
 {% include image.html url="/assets/images/210914-tiny-source-code/2718191-40b00426103734bc.webp" %}
-
-
-## 栈的生长方向和内存存放方向
 
 生长方向：栈的开口向下，堆的开口向上（小端模式）。
 栈每压入一个内存块，即在栈的下端开辟出来，该内存块的首地址是在该内存块的最下面。
@@ -87,6 +88,8 @@ Heap：堆是往高地址增长的，是用来动态分配内存的区域，mall
 
 {% include image.html url="/assets/images/210914-tiny-source-code/v2-aff33d93fb93ac6b9c024a7e24f97ce7_1440w.jfif.jpg" %}
 [note {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/81438938)
+
+<div class="highlighter-rouge" foldctrl="1"></div>
 ```cpp
 #include <iostream>
 
@@ -170,15 +173,15 @@ int& v149 = v142array[7]; // [sp+DCh] [bp-2Ch]
 
 **方法：重编 ncnn，编译时开启 rtti、exceptions**。
 
-- 在命令行（或 CMake-GUI）里，用 cmake 构建，构建时传入`-DNCNN_DISABLE_EXCEPTION=OFF -DNCNN_DISABLE_RTTI=OFF`；如果先前构建过，请清理 build/CMakeCache.txt；不要在 Android Studio 里构建 ncnn 库，因为很可能你的 rtti 和 exceptions 还是弄错
+- 在命令行（或 CMake-GUI）里，用 cmake 构建，构建时传入`-DNCNN_DISABLE_EXCEPTION=OFF -DNCNN_DISABLE_RTTI=OFF`；如果先前构建过，请清理 build/CMakeCache.txt；不要在 Android Studio 里构建 ncnn 库，因为很可能你的 rtti 和 exceptions 还是弄错。
 
 
 ### 为啥自己编译的 ncnn android 库特别大？
 
-很可能是没有去掉`-g`导致的。**这个不用解决。**
+很可能是没有去掉`-g`导致的。**这个不用解决，大点就大点吧。**
 
 基于 cmake 和 ninja，自行编译 ncnn 的 android 库，编译时注意：
-- 去掉`-g`参数以减小库体积：打开`$ANDROID_NDK/build/cmake/android.toolchain.cmake`
+- 去掉 `-g` 参数以减小库体积：打开`$ANDROID_NDK/build/cmake/android.toolchain.cmake`
   ```cmake
   # 删除 "-g" 这行
   list(APPEND ANDROID_COMPILER_FLAGS
@@ -226,12 +229,15 @@ if ((type == cmStateEnums::SHARED_LIBRARY ||
 ```
 
 
-## OpenCV
+## OpenCV 相关
 
+```cpp
 int cvtype = CV_8UC1; // 0
 cvtype = CV_8UC2; // 8
 cvtype = CV_8UC3; // 16
 cvtype = CV_32FC1; // 5
+cvtype = CV_32FC3; // 21
+```
 
 ```
 "C:\Program Files (x86)\Debugging Tools for Windows\gflags.exe" /p /enable ncnn_test.exe /full
@@ -325,6 +331,7 @@ x | 老版本 ncnn::Mat（40 字节）<br/>**应该以这个为准** | 最新版
 10 | | size_t cstep;
 
 [ROOT]\opencv\opencv-3.4.2\modules\core\include\opencv2\core\mat.inl.hpp
+
 ```cpp
 inline
 Mat::~Mat()
@@ -514,14 +521,14 @@ Mat Mat::clone() const
 }
 ```
 
-33619968 0x2010000 (MAT+ACCESS_WRITE)
-16842752 0x1010000
-33882112 0x2050000
-1072693248 0x3ff00000
-1074266112 0x40080000
-17104896 0x1050000
-1124007936 0x42ff0000
-1081073664 0x406fe000
+33619968 | 0x2010000 | (MAT+ACCESS_WRITE)
+16842752 | 0x1010000 |
+33882112 | 0x2050000 |
+1072693248 | 0x3ff00000 |
+1074266112 | 0x40080000 |
+17104896   | 0x1050000  |
+1124007936 | 0x42ff0000 |
+1081073664 | 0x406fe000 |
 
 1. 不能包含指针转换：`(int)`，调整为 `(int64)`，避免指针截断。
     * <https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt>
@@ -655,16 +662,14 @@ do {
                 break;
             v4 = __strex(v1 + 1, (unsigned int *)&sum);
             v3 = v4 == 0;
-        }
-        while ( v4 );
+        } while ( v4 );
         __dmb();
         if ( v3 )
             break;
         v1 = sum;
     }
     --v0;
-}
-while ( v0 );
+} while ( v0 );
 ```
 
 ```c
@@ -814,7 +819,7 @@ sprintf(buffer, "size_t | %d \n", sizeof(size_t));
 char | 1 | 1 | 1 | 1
 short | 2 | 2 | 2 | 2
 int | 4 | 4 | 4 | 4
-long | 4 | 4 | 4 | 8
+long | 4 | 4 | 4 | 8（巨坑）
 long long | 8 | 8 | 8 | 8
 int64 | 8 | 8 | 8 | 8
 float | 4 | 4 | 4 | 4
