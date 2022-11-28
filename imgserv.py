@@ -146,25 +146,39 @@ class HTTPServer:
 
     def api_listdir(self, rootdir):
         ignorelist = (".gitignore",)
+        logdir = r"kvision/ksample/1Unshaded"
         return [{"fname": os.path.join(rootdir, i).replace("\\", "/"),
                  "fsize": os.path.getsize(os.path.join(rootdir, i)),
+                 "classifyShadowType": int(iniRead(os.path.join(logdir, i+".log"), "log", "classifyShadowType", defaultValue="-99997")),
+                 "classifyCode": int(iniRead(os.path.join(logdir, i+".log"), "log", "code", defaultValue="-99997")),
                 } for i in listSortNumName(os.listdir(rootdir)) if not i in ignorelist]
+
+    def api_listlog(self):
+        logdir = r"kvision/ksample/1Unshaded"
+        return [{"fname": i.replace("\\", "/"),
+                 "fsize": os.path.getsize(os.path.join(logdir, i)),
+                 "classifyShadowType": int(iniRead(os.path.join(logdir, i), "log", "classifyShadowType", defaultValue="-99997")),
+                 "classifyCode": int(iniRead(os.path.join(logdir, i), "log", "code", defaultValue="-99997")),
+                } for i in listSortNumName(os.listdir(logdir)) if i.endswith(".log")]
 
     # listdir=kvision/2Original
     def get_request_api(self, requested_file, data):
         argvs = parse.parse_qs(requested_file)
         print("GET_REQUEST_API", argvs)
 
-        if "listdir" in argvs.keys():
-            builder = ResponseBuilder()
+        builder = ResponseBuilder()
 
+        if "listlog" in argvs.keys():
+            builder.set_content(jsondumps(self.api_listlog()))
+        elif "listdir" in argvs.keys():
             builder.set_content(jsondumps(self.api_listdir(argvs["listdir"][0])))
+        else:
+            return self.response_ok()
 
-            builder.set_status("200", "OK")
-            builder.add_header("Connection", "close")
-            builder.add_header("Content-Type", JSON_MIME_TYPE)
-            return builder.build()
-        return self.response_ok()
+        builder.set_status("200", "OK")
+        builder.add_header("Connection", "close")
+        builder.add_header("Content-Type", JSON_MIME_TYPE)
+        return builder.build()
 
     def post_request_upload(self, requested_file, data, client_sock):
         argvs = parse.parse_qs(requested_file)
