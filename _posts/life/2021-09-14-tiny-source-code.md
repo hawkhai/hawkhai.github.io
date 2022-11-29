@@ -237,7 +237,34 @@ cvtype = CV_8UC2; // 8
 cvtype = CV_8UC3; // 16
 cvtype = CV_32FC1; // 5
 cvtype = CV_32FC3; // 21
+
+#ifdef _DEBUG
+#define MatVecFirst(x) (  (cv::Mat*)  ((size_t*)&(x))[1]  )
+#define MatVecLast(x)  (  (cv::Mat*)  ((size_t*)&(x))[2]  )
+#define MatVecEnd(x)   (  (cv::Mat*)  ((size_t*)&(x))[3]  )
+#else
+#define MatVecFirst(x) (  (cv::Mat*)  ((size_t*)&(x))[0]  )
+#define MatVecLast(x)  (  (cv::Mat*)  ((size_t*)&(x))[1]  )
+#define MatVecEnd(x)   (  (cv::Mat*)  ((size_t*)&(x))[2]  )
+#endif
+#define MatVecLen(x)   ((char*)MatVecLast(x) - (char*)MatVecFirst(x))
+#define MatVecCount(x) ((unsigned int)(-1227133513 * (MatVecLen(x) >> 3)))
+
+#ifdef _DEBUG
+#define UMatVecFirst(x) (  (cv::UMat*)  ((size_t*)&(x))[1]  )
+#define UMatVecLast(x)  (  (cv::UMat*)  ((size_t*)&(x))[2]  )
+#define UMatVecEnd(x)   (  (cv::UMat*)  ((size_t*)&(x))[3]  )
+#else
+#define UMatVecFirst(x) (  (cv::UMat*)  ((size_t*)&(x))[0]  )
+#define UMatVecLast(x)  (  (cv::UMat*)  ((size_t*)&(x))[1]  )
+#define UMatVecEnd(x)   (  (cv::UMat*)  ((size_t*)&(x))[2]  )
+#endif
+#define UMatVecLen(x)   ((char*)UMatVecLast(x) - (char*)UMatVecFirst(x))
+#define UMatVecCount(x) ((unsigned int)(-1431655765 * (UMatVecLen(x) >> 2)))
 ```
+
+cv::fastFree() | fastFree(step.p) | 11
+cv::Mat::deallocate((int)&v120); | deallocate(); |
 
 ```
 "C:\Program Files (x86)\Debugging Tools for Windows\gflags.exe" /p /enable ncnn_test.exe /full
@@ -521,14 +548,19 @@ Mat Mat::clone() const
 }
 ```
 
-33619968 | 0x2010000 | (MAT+ACCESS_WRITE)
-16842752 | 0x1010000 |
-33882112 | 0x2050000 |
+[Mat - 成员变量的 flags 的含义 {% include relref_csdn.html %}](https://blog.csdn.net/xbcReal/article/details/76685853)
+{% include image.html url="/assets/images/210914-tiny-source-code/20170804170646673.png" %}
+
+33619968 | 0x2010000 | `(cv::ACCESS_WRITE+cv::MAT)`
+16842752 | 0x1010000 | `(cv::ACCESS_READ+cv::MAT)`
+33882112 | 0x2050000 | `(cv::ACCESS_WRITE+cv::STD_VECTOR_MAT)`
 1072693248 | 0x3ff00000 |
-1074266112 | 0x40080000 |
-17104896   | 0x1050000  |
+1074266112 | 0x40080000 | `(cv::CUDA_HOST_MEM+cv::FIXED_SIZE?)`
+17104896   | 0x1050000  | `(cv::ACCESS_READ+cv::STD_VECTOR_MAT)`
 1124007936 | 0x42ff0000 |
 1081073664 | 0x406fe000 |
+-2130509812 | 0x8103000c | `std::vector<cv::Point2i>`
+-1040056315 | 0xc2020005 | `cv::Vec4f`
 
 1. 不能包含指针转换：`(int)`，调整为 `(int64)`，避免指针截断。
     * <https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt>
@@ -633,6 +665,11 @@ for (int i = 0; i < 10; i++) {
 一个 32-bit 的 unsigned integer x，那么 `x/10` 会被转换成 `(x*3435973837)>>35`。
 除以 5 等价于 乘以 3435973837。
 [Shift to divide by 10 {% include relref_github.html %}](https://rgplantz.github.io/2021/11/04/Shift-to-divide-by-10.html)
+
+
+## 深入理解函数内静态局部变量初始化
+
+[note {% include relref_cnblogs.html %}](https://www.cnblogs.com/william-cheung/p/4831085.html)
 
 
 ## ARM 原子操作
@@ -2608,11 +2645,13 @@ class fastimagedll : public fastimage::IFastImageInterface {
 - [https://github.com/DataXujing/Qt_NCNN_NanoDet]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/github.com/41541bfb.html" %})
 - [https://gitlab.kitware.com/cmake/cmake/-/issues/22564]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/gitlab.kitware.com/401c2f41.html" %})
 - [https://gitlab.kitware.com/cmake/cmake/-/blob/v3.21.1/Source/cmAddLibraryCommand.cxx#L224-231]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/gitlab.kitware.com/cccd5a4d.cxx" %})
+- [https://blog.csdn.net/xbcReal/article/details/76685853]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/8248e8b1.html" %})
 - [https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/android.googlesource.com/b62cb28d.txt" %})
 - [https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4189?view=msvc-170]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/learn.microsoft.com/0c120c99.html" %})
 - [https://www.0xaa55.com/thread-16949-1-1.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.0xaa55.com/fb6b8dc2.html" %})
 - [https://blog.csdn.net/nameofcsdn/article/details/125007289]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/817e0ab4.html" %})
 - [https://rgplantz.github.io/2021/11/04/Shift-to-divide-by-10.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/rgplantz.github.io/343af929.html" %})
+- [https://www.cnblogs.com/william-cheung/p/4831085.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.cnblogs.com/f4679e9a.html" %})
 - [https://blog.csdn.net/ce123_zhouwei/article/details/108562387]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/c29f479a.html" %})
 - [https://developer.arm.com/documentation/dui0530/m/Migrating-from-ARM-Compiler-v5-05-to-v5-06/Compiler-changes-between-ARM-Compiler-v5-05-and-v5-06/--ldrex-and---strex-intrinsics-deprecated]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/developer.arm.com/b6ef944f.html" %})
 - [https://blog.csdn.net/u012294613/article/details/123183813]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/48a4b95e.html" %})

@@ -22,6 +22,8 @@ MAX_FILE_SIZE = 100 * 1024 * 1024 # 100MB
 # 读取文本
 def get_file_contents(file_name):
     #with open(file_name, "r") as f:
+    if not os.path.exists(file_name):
+        file_name = os.path.join(getPythonxDir(), "..", file_name)
     with open(file_name, "rb") as f:
         return f.read()
 
@@ -72,6 +74,8 @@ class HTTPServer:
                 ipaddr = [i for i in ipaddr if not re.findall("^[0-9]+\\.[0-9]+\\.[0-9]+\\.1$", i)]
                 if ipaddr and len(ipaddr) == 1:
                     host = ipaddr[0] # 换算成 IP。
+
+        assert host != "localhost", "host 不能是 'localhost'!!"
 
         print(f"Server started. Listening at http://{host}:{port}/")
         self.host = host
@@ -147,6 +151,10 @@ class HTTPServer:
     def api_listdir(self, rootdir):
         ignorelist = (".gitignore",)
         logdir = r"kvision/ksample/1Unshaded"
+        if not os.path.exists(logdir):
+            logdir = r"ksample/1Unshaded"
+        if not os.path.exists(rootdir):
+            rootdir = r"ksample" + rootdir.split("ksample", 1)[-1]
         return [{"fname": os.path.join(rootdir, i).replace("\\", "/"),
                  "fsize": os.path.getsize(os.path.join(rootdir, i)),
                  "classifyShadowType": int(iniRead(os.path.join(logdir, i+".log"), "log", "classifyShadowType", defaultValue="-99997")),
@@ -155,6 +163,8 @@ class HTTPServer:
 
     def api_listlog(self):
         logdir = r"kvision/ksample/1Unshaded"
+        if not os.path.exists(logdir):
+            logdir = r"ksample/1Unshaded"
         return [{"fname": i.replace("\\", "/"),
                  "fsize": os.path.getsize(os.path.join(logdir, i)),
                  "classifyShadowType": int(iniRead(os.path.join(logdir, i), "log", "classifyShadowType", defaultValue="-99997")),
@@ -328,4 +338,13 @@ class ResponseBuilder:
 # mklink /J 2Original E:\kpdf\pdfreader_image\fastpdf-turbo\image\imagetest\testdata\jpg
 # http://localhost:9001/?listdir=kvision/2Original
 if __name__ == "__main__":
-    HTTPServer()
+    try:
+        if re.findall("^[0-9.]+$", sys.argv[-1]):
+            HTTPServer(sys.argv[-1])
+        else:
+            HTTPServer()
+    except:
+
+        traceback.print_exc()
+        print("实在抱歉，程序出错了。^_^")
+        os.system("pause")
