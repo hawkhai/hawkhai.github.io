@@ -644,6 +644,14 @@ v67.a.dims = 0; // 3
 v67.a.flags = 0; // 2
 v67.op = (const cv::MatOp*)33619968; // 0
 v67.flags = (int)thisz; // 1
+
+// 矩阵初始化代码。需要删除。
+matArray[2].flags =  0x42ff0000;
+memset(&matArray[2].dims, 0, 0x24u);
+matArray[2].step.buf[1] = 0;
+matArray[2].step.buf[0] = 0;
+matArray[2].step.p = matArray[2].step.buf;
+matArray[2].size.p = &matArray[2].rows;
 ```
 
 
