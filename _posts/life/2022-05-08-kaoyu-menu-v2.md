@@ -162,7 +162,7 @@ url="/kaoyu/img/suancaimoyu.jpg" caption="酸辣魔芋 18 元"
 url2="/kaoyu/img/ganbianoushi.jpeg" caption2="干煸藕丝 25 元" %}
 
 {% include image1.html url="/kaoyu/img/baochaozhudu.jpeg"
-title="爆炒猪肚" caption="42 元" %}
+title="爆炒猪肚" caption="40 元" %}
 
 {% include image2.html
 url="/kaoyu/img/suanlazhuxue.jpeg" caption="酸辣猪血 18 元"
@@ -181,7 +181,7 @@ url2="/kaoyu/img/xianglatianji.jpeg" caption2="香辣牛蛙 45 元" %}
 
 {% include image2.html
 url="/kaoyu/img/suancaichaoniuzha.jpeg" caption="酸菜炒牛杂 35 元"
-url2="/kaoyu/img/baochaoyudu.jpeg" caption2="爆炒鱼肚 40 元" %}
+url2="/kaoyu/img/baochaoyudu.jpeg" caption2="爆炒鱼肚 42 元" %}
 
 {% include image1.html url="/kaoyu/img/gangguoluzhuwei.jpeg"
 title="干锅卤猪尾" caption="38 元" %}
@@ -270,10 +270,10 @@ url2="/kaoyu/img/ganbiantudousi.jpeg" caption2="干煸土豆丝 25 元" %}
 
 {% include image2.html
 url="/kaoyu/img/xianyuqiezi.jpeg" caption="咸鱼茄子 25 元<br/>肉沫茄子 25 元"
-url2="/kaoyu/img/qinjiaocaodan.jpeg" caption2="青椒炒蛋 22 元" %}
+url2="/kaoyu/img/qinjiaocaodan.jpeg" caption2="青椒炒蛋 25 元" %}
 
 {% include image1.html url="/kaoyu/img/conghuajiandan.jpeg"
-title="葱花煎蛋 / 青椒煎蛋" caption="25 元" %}
+title="葱花煎蛋 / 青椒煎蛋" caption="18 元" %}
 
 {% include image2.html
 url="/kaoyu/img/liangguajiandan.jpeg" caption="凉瓜煎蛋 18 元"
