@@ -19,6 +19,8 @@ codeprint:
 ## 汇编相关
 
 有符号数与无符号数进行比较，有符号数会先转换成无符号数再比较，-1 会转换成无符号最大的那个数。
+[整数溢出 {% include relref_github.html %}](https://github.com/firmianay/CTF-All-In-One/blob/master/doc/3.1.2_integer_overflow.md)
+逻辑右移，有符号和无符号是有区别的，主要是最高位是否为 1，如果确认最高位不为 1，问题也不大。
 ```cpp
 for (m = (unsigned __int8 *)(v27 + pArg3[3] + v84);
     (unsigned long long)&m[-v27 - v84] >= pArg3[2]; --m)
@@ -2839,6 +2841,7 @@ class fastimagedll : public fastimage::IFastImageInterface {
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-tiny-source-code.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://github.com/firmianay/CTF-All-In-One/blob/master/doc/3.1.2_integer_overflow.md]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/github.com/82102ea0.html" %})
 - [https://www.jianshu.com/p/58b602f8b7d5]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.jianshu.com/6f62c3c7.html" %})
 - [https://zhuanlan.zhihu.com/p/81438938]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/zhuanlan.zhihu.com/86f0d241.html" %})
 - [https://github.com/zchrissirhcz/awesome-ncnn/blob/master/FAQ.md]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/github.com/5a3f1060.html" %})
