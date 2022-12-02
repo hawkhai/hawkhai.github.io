@@ -81,11 +81,10 @@ title="毛血旺" caption="45 元" %}
 | 猪 红 | 8 元/份 | 青 笋 | 10 元/份 |
 | 魔 芋 | 8 元/份 | 青瓜条 | 8 元/份 |
 | 豆 腐 | 6 元/份 | 土 豆 | 8 元/份 |
-| 藕 片 | 8 元/份 | 鱼 泡 | 35 元/份 |
+| 藕 片 | 8 元/份 | 鱼 泡 | 38 元/份 |
 | 豆腐皮 | 8 元/份 | 红薯粉 | 10 元/份 |
 | 金针菇 | 10 元/份 | 竹 笋 | 10 元/份 |
 | 油麦菜 | 10 元/份 | 菜 心 | 10 元/份 |
-| 鱼 肚 | 38 元/份 | | |
 
 
 ## 凉菜系列
@@ -99,7 +98,7 @@ url2="/kaoyu/img/xihongsi3.jpg" caption2="糖拌西红柿 15 元" %}
 
 {% include image2.html
 url="/kaoyu/img/xiaocongdoufu.jpeg" caption="小葱拌豆腐 18 元"
-url2="/kaoyu/img/liangbanjinzhenggu.jpg" caption2="凉拌金针菇 15 元" %}
+url2="/kaoyu/img/liangbanjinzhenggu.jpg" caption2="凉拌金针菇 18 元" %}
 
 {% include image2.html
 url="/kaoyu/img/chuanbeiliagnfen3.jpg" caption="川北凉粉 18 元"
@@ -198,7 +197,7 @@ title="干锅肥肠" caption="48 元" %}
 
 {% include image2.html
 url="/kaoyu/img/ganhuohuangliurou.jpeg" caption="干锅黄牛肉 38 元"
-url2="/kaoyu/img/ganguojisheng.jpeg" caption2="干锅鸡肾 28 元" %}
+url2="/kaoyu/img/ganguojisheng2.jpeg" caption2="干锅鸡肾 28 元" %}
 
 {% include image2.html
 url="/kaoyu/img/ganguoji.jpeg" caption="干锅鸡 35 元"
@@ -256,7 +255,7 @@ title="红烧日本豆腐" caption="20 元" %}
 
 {% include image2.html
 url="/kaoyu/img/qindouqiezi2.jpg" caption="青豆茄子 22 元"
-url2="/kaoyu/img/fanqiecaodan.jpeg" caption2="番茄炒蛋 22 元" %}
+url2="/kaoyu/img/fanqiecaodan.jpeg" caption2="番茄炒蛋 25 元" %}
 
 {% include image2.html
 url="/kaoyu/img/hupijianjiao.jpeg" caption="虎皮青椒 22 元"
