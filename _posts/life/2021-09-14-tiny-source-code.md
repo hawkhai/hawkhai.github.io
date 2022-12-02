@@ -263,8 +263,199 @@ cvtype = CV_32FC3; // 21
 #define UMatVecCount(x) ((unsigned int)(-1431655765 * (UMatVecLen(x) >> 2)))
 ```
 
+-1227133513 >> 3 | 0xb6db6db7 | 56 / cv::Mat
+-1431655765 >> 2 | 0xaaaaaaab | 12 / MyStructX?
+-858993459 >> 4  | 0xcccccccd | 80 / MyStructDouble10
+-1717986918 >> 4 | 0x9999999a | 40?
+1431655766 >> 2  | 0x55555556 | 6?
+858993460 >> 4   | 0x33333334 | 20?
+
+<https://gmplib.org/devel/bc_bin_uiui.c>
+<https://datatracker.ietf.org/doc/html/draft-valin-celt-codec-00>
+```cpp
+#include <iostream>
+#include <assert.h>
+
+static unsigned int zinvArray[] = {
+    0x00000001,	/*  1 */  0x00000001,	/*  2 */
+    0xaaaaaaab,	/*  3 */  0x00000001,	/*  4 */
+    0xcccccccd,	/*  5 */  0xaaaaaaab,	/*  6 */
+    0xb6db6db7,	/*  7 */  0x00000001,	/*  8 */
+    0x38e38e39,	/*  9 */  0xcccccccd,	/* 10 */
+    0xba2e8ba3,	/* 11 */  0xaaaaaaab,	/* 12 */
+    0xc4ec4ec5,	/* 13 */  0xb6db6db7,	/* 14 */
+    0xeeeeeeef,	/* 15 */  0x00000001,	/* 16 */
+    0xf0f0f0f1,	/* 17 */  0x38e38e39,	/* 18 */
+    0x286bca1b,	/* 19 */  0xcccccccd,	/* 20 */
+    0x3cf3cf3d,	/* 21 */  0xba2e8ba3,	/* 22 */
+    0xe9bd37a7,	/* 23 */  0xaaaaaaab,	/* 24 */
+    0xc28f5c29,	/* 25 */  0xc4ec4ec5,	/* 26 */
+    0x684bda13,	/* 27 */  0xb6db6db7,	/* 28 */
+    0x4f72c235,	/* 29 */  0xeeeeeeef,	/* 30 */
+    0xbdef7bdf,	/* 31 */  0x00000001	/* 32 */
+};
+
+static unsigned char ctzArray[] =
+{ 0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5 };
+
+void check(int num, int zinv, int ctz) {
+    if (num <= 32) {
+        printf("**[%d] %x,%d / ref %x,%d \n", num, zinv, ctz, zinvArray[num - 1], ctzArray[num - 1]);
+        assert(zinv == zinvArray[num - 1]);
+        assert(ctz == ctzArray[num - 1]);
+    }
+    for (int i = 0; i < 1000; i++) {
+        if (i % num != 0) continue;
+        auto value1 = i / num;
+        auto value2 = zinv * (i >> ctz);
+        // printf("%d,%d,%d,%d -- %d %d \n", i, num, zinv, ctz, value1, value2);
+        assert(value1 == value2);
+    }
+}
+
+/* INV_TABLE[i] holds the multiplicative inverse of (2*i+1) mod 2**32. */
+static const unsigned int INV_TABLE[128] = {
+    0x00000001, 0xAAAAAAAB, 0xCCCCCCCD, 0xB6DB6DB7,
+    0x38E38E39, 0xBA2E8BA3, 0xC4EC4EC5, 0xEEEEEEEF,
+    0xF0F0F0F1, 0x286BCA1B, 0x3CF3CF3D, 0xE9BD37A7,
+    0xC28F5C29, 0x684BDA13, 0x4F72C235, 0xBDEF7BDF,
+    0x3E0F83E1, 0x8AF8AF8B, 0x914C1BAD, 0x96F96F97,
+    0xC18F9C19, 0x2FA0BE83, 0xA4FA4FA5, 0x677D46CF,
+    0x1A1F58D1, 0xFAFAFAFB, 0x8C13521D, 0x586FB587,
+    0xB823EE09, 0xA08AD8F3, 0xC10C9715, 0xBEFBEFBF,
+    0xC0FC0FC1, 0x07A44C6B, 0xA33F128D, 0xE327A977,
+    0xC7E3F1F9, 0x962FC963, 0x3F2B3885, 0x613716AF,
+    0x781948B1, 0x2B2E43DB, 0xFCFCFCFD, 0x6FD0EB67,
+    0xFA3F47E9, 0xD2FD2FD3, 0x3F4FD3F5, 0xD4E25B9F,
+    0x5F02A3A1, 0xBF5A814B, 0x7C32B16D, 0xD3431B57,
+    0xD8FD8FD9, 0x8D28AC43, 0xDA6C0965, 0xDB195E8F,
+    0x0FDBC091, 0x61F2A4BB, 0xDCFDCFDD, 0x46FDD947,
+    0x56BE69C9, 0xEB2FDEB3, 0x26E978D5, 0xEFDFBF7F,
+    0x0FE03F81, 0xC9484E2B, 0xE133F84D, 0xE1A8C537,
+    0x077975B9, 0x70586723, 0xCD29C245, 0xFAA11E6F,
+    0x0FE3C071, 0x08B51D9B, 0x8CE2CABD, 0xBF937F27,
+    0xA8FE53A9, 0x592FE593, 0x2C0685B5, 0x2EB11B5F,
+    0xFCD1E361, 0x451AB30B, 0x72CFE72D, 0xDB35A717,
+    0xFB74A399, 0xE80BFA03, 0x0D516325, 0x1BCB564F,
+    0xE02E4851, 0xD962AE7B, 0x10F8ED9D, 0x95AEDD07,
+    0xE9DC0589, 0xA18A4473, 0xEA53FA95, 0xEE936F3F,
+    0x90948F41, 0xEAFEAFEB, 0x3D137E0D, 0xEF46C0F7,
+    0x028C1979, 0x791064E3, 0xC04FEC05, 0xE115062F,
+    0x32385831, 0x6E68575B, 0xA10D387D, 0x6FECF2E7,
+    0x3FB47F69, 0xED4BFB53, 0x74FED775, 0xDB43BB1F,
+    0x87654321, 0x9BA144CB, 0x478BBCED, 0xBFB912D7,
+    0x1FDCD759, 0x14B2A7C3, 0xCB125CE5, 0x437B2E0F,
+    0x10FEF011, 0xD2B3183B, 0x386CAB5D, 0xEF6AC0C7,
+    0x0E64C149, 0x9A020A33, 0xE6B41C55, 0xFEFEFEFF
+};
+
+int main()
+{
+    int count = sizeof(zinvArray) / sizeof(zinvArray[0]);
+    int count2 = sizeof(ctzArray) / sizeof(ctzArray[0]);
+    assert(count == count2);
+    for (int i = 0; i < count; i++) {
+        check(i + 1, zinvArray[i], ctzArray[i]);
+    }
+
+    int countx = sizeof(INV_TABLE) / sizeof(INV_TABLE[0]);
+    for (int num = 1; num <= 2000; num++) {
+        if (num % 2 == 0) {
+            int shift = 0;
+            int temp = num;
+            while (temp && (temp % 2 == 0)) {
+                shift++;
+                temp = temp >> 1;
+            }
+            int index = (temp - 1) / 2;
+            if (index >= countx) continue;
+            printf("num=%d idx=%d inv=%x shift=%d \n", num, index, INV_TABLE[index], shift);
+            check(num, INV_TABLE[index], shift);
+        }
+        else {
+            int index = (num - 1) / 2;
+            if (index >= countx) continue;
+            printf("num=%d idx=%d inv=%x shift=%d \n", num, index, INV_TABLE[index], 0);
+            check(num, INV_TABLE[index], 0);
+        }
+    }
+
+    getchar();
+    return 0;
+}
+```
+
+[cwrs.c](https://gitlab.xiph.org/xnorpx/opus/-/blob/5a6912d46449cb77e799f6c18f31b3108c5b3780/celt/cwrs.c)
+[Math behind gcc9+ modulus optimizations](https://stackoverflow.com/questions/53414711/math-behind-gcc9-modulus-optimizations)
+
 cv::fastFree() | fastFree(step.p) | 11
-cv::Mat::deallocate((int)&v120); | deallocate(); |
+cv::Mat::deallocate((int)&v120); | deallocate(); | cv::Mat
+
+整数定数除法的代换 (constant integer division)
+<div class="highlighter-rouge" foldctrl="1"></div>
+```cpp
+#include <iostream>
+
+int trydiv(int magic, int shift, int div, int print) {
+    bool ok = true;
+    unsigned int lastdvalue = -1;
+    unsigned int safectrl = 0xff;
+    for (unsigned int num = 0; num < 10000; num++) {
+        // if (num % 4) continue;
+        auto value = magic * (num >> shift);
+        if (value > safectrl && !print) continue;
+        auto dvalue = num / div;
+        if (/*div == print && */ num <= 1000 && num % print == 0) {
+            printf("[%d] magic=%d shift=%d div=%d -> %d[0x%x] %d[0x%x] \n", //
+                num, magic, shift, div, value, value, dvalue, dvalue);
+        }
+        if (value > safectrl) continue;
+        if (dvalue != value && value < safectrl) {
+            ok = false;
+        }
+        if (value < safectrl && ok) {
+            if (lastdvalue != -1 && dvalue > lastdvalue + 1) {
+                // ok = false;
+            }
+            lastdvalue = dvalue;
+        }
+    }
+    return ok;
+}
+int check(int magic, int shift, int print) {
+    for (unsigned int div = 1; div < 100; div++) {
+        if (trydiv(magic, shift, div, print)) {
+            printf("---- \n");
+            trydiv(magic, shift, div, div);
+            return div;
+        }
+    }
+    return -1;
+}
+
+int main()
+{
+    int magic[] = {
+        -1227133513, 3, -1, // 56
+         -1431655765, 2, -1, // 12
+         -858993459, 4, -1, // 80
+         -1717986918, 4, -1, // 40?
+         1431655766, 2, -1, // 6?
+         858993460, 4, -1, // 20?
+    };
+
+    int count = sizeof(magic) / sizeof(magic[0]);
+    int ksize = 3;
+    for (int i = 0; i < count / ksize; i++) {
+        printf("-- [%d] %d \n", magic[i * ksize], //
+            check(magic[i * ksize], magic[i * ksize + 1], magic[i * ksize + 2]));
+        getchar();
+    }
+
+    getchar();
+    return 0;
+}
+```
 
 ```
 "C:\Program Files (x86)\Debugging Tools for Windows\gflags.exe" /p /enable ncnn_test.exe /full
@@ -657,6 +848,7 @@ matArray[2].size.p = &matArray[2].rows;
 
 ## 整数定数除法的代换 (constant integer division)
 
+[消失的除法指令：Part1](https://cjting.me/2021/03/16/the-missing-div-instruction-part1/)
 [除法换成乘法 3435973837 {% include relref_csdn.html %}](https://blog.csdn.net/nameofcsdn/article/details/125007289)
 在 gcc 里面有一个 32-bit 的 unsigned integer x，那么 `x/10` 会被转换成 `(x*3435973837)>>35`。
 
@@ -2653,10 +2845,15 @@ class fastimagedll : public fastimage::IFastImageInterface {
 - [https://github.com/DataXujing/Qt_NCNN_NanoDet]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/github.com/41541bfb.html" %})
 - [https://gitlab.kitware.com/cmake/cmake/-/issues/22564]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/gitlab.kitware.com/401c2f41.html" %})
 - [https://gitlab.kitware.com/cmake/cmake/-/blob/v3.21.1/Source/cmAddLibraryCommand.cxx#L224-231]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/gitlab.kitware.com/cccd5a4d.cxx" %})
+- [https://gmplib.org/devel/bc_bin_uiui.c]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/gmplib.org/45106b22.c" %})
+- [https://datatracker.ietf.org/doc/html/draft-valin-celt-codec-00]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/datatracker.ietf.org/ad3ee238.html" %})
+- [https://gitlab.xiph.org/xnorpx/opus/-/blob/5a6912d46449cb77e799f6c18f31b3108c5b3780/celt/cwrs.c]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/gitlab.xiph.org/67f57508.c" %})
+- [https://stackoverflow.com/questions/53414711/math-behind-gcc9-modulus-optimizations]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/stackoverflow.com/1e096fd1.html" %})
 - [https://blog.csdn.net/xbcReal/article/details/76685853]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/8248e8b1.html" %})
 - [https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/android.googlesource.com/b62cb28d.txt" %})
 - [https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4189?view=msvc-170]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/learn.microsoft.com/0c120c99.html" %})
 - [https://www.0xaa55.com/thread-16949-1-1.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.0xaa55.com/fb6b8dc2.html" %})
+- [https://cjting.me/2021/03/16/the-missing-div-instruction-part1/]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/cjting.me/6f2eb517.html" %})
 - [https://blog.csdn.net/nameofcsdn/article/details/125007289]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/817e0ab4.html" %})
 - [https://rgplantz.github.io/2021/11/04/Shift-to-divide-by-10.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/rgplantz.github.io/343af929.html" %})
 - [https://www.cnblogs.com/william-cheung/p/4831085.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.cnblogs.com/f4679e9a.html" %})
