@@ -266,7 +266,7 @@ x%4294967291==0; // x*0x70A3D70A33333333 <= 0x100000005
 ### 判断 vector 成员个数。
 
 这里用 std::vector\<cv::Mat\> 举例，因为这个场景下，必定能整除。
-```
+```cpp
 std::vector<cv::Mat> myvec;
 ```
 
@@ -378,13 +378,12 @@ size_t | 4 | *8* | 4 | *8*
     则所有操作数都被转化为无符号数，
     运算操作也采用相应的无符号操作符进行，计算完的结果也是一个无符号数。
     [note {% include relref_csdn.html %}](https://blog.csdn.net/chrovery/article/details/27222107)
-
-  ```cpp
-  (unsigned int)b / (signed int)a 会采用无符号除法进行，其实质相当于：
-  (unsigned int)b / (unsigned int)a
-  计算结果也是一个无符号数，结果为 (unsigned int)2 / (unsigned int)-1 = 0x2/0xFFFFFFFF = 0
-  再进一步，对于运算 -2 / -1，如果采用有符号数运算，结果是 2，采用无符号数运算，结果则是 0。
-  ```
+   ```cpp
+   (unsigned int)b / (signed int)a 会采用无符号除法进行，其实质相当于：
+   (unsigned int)b / (unsigned int)a
+   计算结果也是一个无符号数，结果为 (unsigned int)2 / (unsigned int)-1 = 0x2/0xFFFFFFFF = 0
+   再进一步，对于运算 -2 / -1，如果采用有符号数运算，结果是 2，采用无符号数运算，结果则是 0。
+   ```
 4. 浮点数（float，double）实际上都是有符号数，unsigned 和 signed 前缀不能加在 float 和 double 之上，当然就不存在有符号数根无符号数之间转化的问题了。
 
 IEEE754 标准，该标准定义了 float 和 double，float 有 32 位，double 有 64 位，不管是 32 位还是 64 位，它们都由符号位，指数位，和尾数位构成：
