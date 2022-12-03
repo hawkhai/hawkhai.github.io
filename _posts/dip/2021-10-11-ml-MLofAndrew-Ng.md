@@ -42,7 +42,7 @@ date: 2022-08-31 19:57:58 +0800
 ### 进行中……
 
 * [吴恩达机器学习课程 2022 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Pa411X76s/)
-* [黄海广 {% include relref_bili.html %}](https://space.bilibili.com/388675845)
+* ~~[黄海广 {% include relref_bili.html %}](https://space.bilibili.com/388675845) -- 已经完成。~~
 
 * [图像处理 & 机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Kh411X7Qv/)
 * [浙江大学 - 机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1qf4y1x7kB/)
