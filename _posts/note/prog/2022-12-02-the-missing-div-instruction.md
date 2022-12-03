@@ -88,8 +88,8 @@ int main() {
 <https://gmplib.org/devel/bc_bin_uiui.c>
 Algorithm:
     Plain and simply multiply things together.
-    We tabulate inverses (k/2^t)^(-1) mod B for 1= \< k \<= 32 (where t is chosen
-    such that k/2^t is odd).
+    We tabulate inverses ${(k/2^t)}^{-1}$ mod $B$ for $1=<k<=32$
+    (where $t$ is chosen such that $k/2^t$ is odd).
 这里有一大批这样的数字，32 个。
 
 <https://datatracker.ietf.org/doc/html/draft-valin-celt-codec-00>
@@ -129,7 +129,8 @@ static unsigned char ctzArray[] =
 
 void check(int num, int zinv, int ctz) {
     if (num <= 32) {
-        printf("**[%d] %x,%d / ref %x,%d \n", num, zinv, ctz, zinvArray[num - 1], ctzArray[num - 1]);
+        printf("**[%d] %x,%d / ref %x,%d \n",
+            num, zinv, ctz, zinvArray[num - 1], ctzArray[num - 1]);
         assert(zinv == zinvArray[num - 1]);
         assert(ctz == ctzArray[num - 1]);
     }
@@ -198,13 +199,15 @@ int main()
             }
             int index = (temp - 1) / 2;
             if (index >= countx) continue;
-            printf("num=%d idx=%d inv=%x shift=%d \n", num, index, INV_TABLE[index], shift);
+            printf("num=%d idx=%d inv=%x shift=%d \n",
+                num, index, INV_TABLE[index], shift);
             check(num, INV_TABLE[index], shift);
         }
         else {
             int index = (num - 1) / 2;
             if (index >= countx) continue;
-            printf("num=%d idx=%d inv=%x shift=%d \n", num, index, INV_TABLE[index], 0);
+            printf("num=%d idx=%d inv=%x shift=%d \n",
+                num, index, INV_TABLE[index], 0);
             check(num, INV_TABLE[index], 0);
         }
     }
@@ -274,27 +277,27 @@ std::vector<cv::Mat> myvec;
 Debug 版本 sizeof(myvec) == 16，Release 版本 sizeof(myvec) == 12。
 可以定义一个宏，取出这三个指针。
 
-```cpp
+```
 #ifdef _DEBUG
-#define MatVecFirst(x) (  (cv::Mat*)  ((size_t*)&(x))[1]  )
-#define MatVecLast(x)  (  (cv::Mat*)  ((size_t*)&(x))[2]  )
-#define MatVecEnd(x)   (  (cv::Mat*)  ((size_t*)&(x))[3]  )
+#define MatVecFirst(myvec) (  (cv::Mat*)  ((size_t*)&(myvec))[1]  )
+#define MatVecLast(myvec)  (  (cv::Mat*)  ((size_t*)&(myvec))[2]  )
+#define MatVecEnd(myvec)   (  (cv::Mat*)  ((size_t*)&(myvec))[3]  )
 #else
-#define MatVecFirst(x) (  (cv::Mat*)  ((size_t*)&(x))[0]  )
-#define MatVecLast(x)  (  (cv::Mat*)  ((size_t*)&(x))[1]  )
-#define MatVecEnd(x)   (  (cv::Mat*)  ((size_t*)&(x))[2]  )
+#define MatVecFirst(myvec) (  (cv::Mat*)  ((size_t*)&(myvec))[0]  )
+#define MatVecLast(myvec)  (  (cv::Mat*)  ((size_t*)&(myvec))[1]  )
+#define MatVecEnd(myvec)   (  (cv::Mat*)  ((size_t*)&(myvec))[2]  )
 #endif
 ```
 
 然后通过 last & fist 指针，得到长度 bytes。
-```cpp
-#define MatVecLen(x)   ((char*)MatVecLast(x) - (char*)MatVecFirst(x))
+```
+#define MatVecLen(myvec)   ((char*)MatVecLast(myvec) - (char*)MatVecFirst(myvec))
 ```
 
 而 sizeof(cv::Mat) 是 56，很显然，这个长度除以 56 就是 vector 里面的元素个数。
 但是我们搞点奇淫技巧，不除，那个慢，我们用乘法实现。
-```cpp
-#define MatVecCount(x) ((unsigned int)(-1227133513 * (MatVecLen(x) >> 3)))
+```
+#define MatVecCount(myvec) ((unsigned int)(-1227133513 * (MatVecLen(myvec) >> 3)))
 ```
 
 右移 3，相当于 除以 8，然后乘以 -1227133513 相当于除以 7，最终效果就是 除以了 56，这也回答了开篇那个问题。
@@ -364,13 +367,13 @@ size_t | 4 | *8* | 4 | *8*
     * `char a = 0xf1; unsigned b = a;` // 0xfffffff1
     * `unsigned b = 0xffffff01; char a = (char)b;` // 0x01
 * 运算问题
-    * 汇编是不区分正负数字的。溢出不溢出，是由程序员判断的，机器不知道。
+    * 汇编是不区分正负数字的。溢出不溢出，是由程序员判断的，机器不管。
 * 判等问题
-    * `movsx eax,byte ptr [a]` 先符号扩展，再传送
-    * `movzx ecx,byte ptr [b]` 先零扩展，再传送
-    * `cmp eax,ecx`
+    * `movsx eax, byte ptr [a]` 先符号扩展，再传送
+    * `movzx ecx, byte ptr [b]` 先零扩展，再传送
+    * `cmp eax, ecx`
 
-1. 一般 singed 型数据和 unsigned 型数据进行四则运算，是要转换成 unsigned 的，
+1. 一般 singed 型数据和 unsigned 型数据进行四则运算，是要转换成 unsigned 的。
 2. 两种数据类型相乘，会将其转换成范围更广的数据类型，再作运算。
     如 unsigned short 与 int 相乘，会被转成 int 再作相乘，其最终结果也被认为是有符号的。
 3. 不同符号数的混合计算，在计算之前需要先对操作数进行规整化的动作，
@@ -379,10 +382,15 @@ size_t | 4 | *8* | 4 | *8*
     运算操作也采用相应的无符号操作符进行，计算完的结果也是一个无符号数。
     [note {% include relref_csdn.html %}](https://blog.csdn.net/chrovery/article/details/27222107)
    ```cpp
-   (unsigned int)b / (signed int)a 会采用无符号除法进行，其实质相当于：
+   (unsigned int)b / (signed int)a
+   // 会采用无符号除法进行，其实质相当于：
    (unsigned int)b / (unsigned int)a
-   计算结果也是一个无符号数，结果为 (unsigned int)2 / (unsigned int)-1 = 0x2/0xFFFFFFFF = 0
-   再进一步，对于运算 -2 / -1，如果采用有符号数运算，结果是 2，采用无符号数运算，结果则是 0。
+   // 计算结果也是一个无符号数，结果为
+   (unsigned int)2 / (unsigned int)-1
+       = 0x2/0xFFFFFFFF = 0
+   // 再进一步，对于运算 -2 / -1，
+   // 如果采用有符号数运算，结果是 2，
+   // 采用无符号数运算，结果则是 0。
    ```
 4. 浮点数（float，double）实际上都是有符号数，unsigned 和 signed 前缀不能加在 float 和 double 之上，当然就不存在有符号数根无符号数之间转化的问题了。
 
@@ -393,14 +401,24 @@ IEEE754 标准，该标准定义了 float 和 double，float 有 32 位，double
 | float  | 第 31 位（占 1bit） | 第 30~23 位（占 8bit）  | 第 20~0 位（占 23bit） |
 | double | 第 63 位（占 1bit） | 第 62~52 位（占 11bit） | 第 51~0 位（占 52bit） |
 
-原类型 	| 目标类型 	| 转换方法
-| --    | --        | --
-char	| unsigned long	| 符号位扩展到 long；然后从 long 转换到 unsigned long
-char	| float	| 符号位扩展到 long；然后从 long 转到 float
-char	| double	| 符号位扩展到 long；然后从 long 转换到 double
-unsigned char	| unsigned long	| 0 扩展
-unsigned char	| float	| 转换到 long；然后从 long 转换到 float
-unsigned char	| double	| 转换到 long；然后从 long 转换到 double
+| 原类型 | 目标类型 | 转换方法
+| -- | -- | --
+| char | unsigned long | 符号位扩展到 long；然后从 long 转换到 unsigned long
+| char | float | 符号位扩展到 long；然后从 long 转到 float
+| char | double | 符号位扩展到 long；然后从 long 转换到 double
+| unsigned char | unsigned long | 0 扩展
+| unsigned char | float | 转换到 long；然后从 long 转换到 float
+| unsigned char | double | 转换到 long；然后从 long 转换到 double
+
+比 int 低级的类型，都会转换成 int，比 int 高级的类型不变。
+{% include image.html url="/assets/images/221202-the-missing-div-instruc~41/v2-568aeb491ab0ee5a8ec274aee66b366a_720w.webp" %}
+
+若运算符两边类型均低于 int 或等于 int，那么结果为 int。 若有高于 int 的，那么结果为高于 int 的等级最高的类型。
+{% include image.html url="/assets/images/221202-the-missing-div-instruc~41/v2-865dd0a13f463d190d1adadef7d4b43e_720w.webp" %}
+
+[note {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/138546274)
+`int < unsigned int < long < unsigned long < float < double`
+char，short，unsigned char，unsigned short 总是会被转换为 int。
 
 
 
@@ -419,3 +437,4 @@ unsigned char	| double	| 转换到 long；然后从 long 转换到 double
 - [https://rgplantz.github.io/2021/11/04/Shift-to-divide-by-10.html]({% include relrefx.html url="/backup/2022-12-02-the-missing-div-instruction.md/rgplantz.github.io/343af929.html" %})
 - [https://www.cnblogs.com/flowerslip/p/5934718.html]({% include relrefx.html url="/backup/2022-12-02-the-missing-div-instruction.md/www.cnblogs.com/ffc4e6db.html" %})
 - [https://blog.csdn.net/chrovery/article/details/27222107]({% include relrefx.html url="/backup/2022-12-02-the-missing-div-instruction.md/blog.csdn.net/5023aefb.html" %})
+- [https://zhuanlan.zhihu.com/p/138546274]({% include relrefx.html url="/backup/2022-12-02-the-missing-div-instruction.md/zhuanlan.zhihu.com/70e2dcc3.html" %})
