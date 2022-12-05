@@ -74,6 +74,64 @@ Fun60_implv1 栈变量丢失的问题：
 #pragma pack(pop) // 恢复对齐状态
 ```
 
+gcc 下设置对齐值最小值为：
+```cpp
+typedef struct A {
+   int b;
+} __attribute__((aligned(4))) A;
+```
+msvc 中为：
+```cpp
+typedef __declspec(align(4)) struct A {
+    int b;
+} A;
+```
+```cpp
+#pragma once
+
+#ifdef _MSC_VER
+//__declspec(align(4))
+#define GCC_ALIGN(x) //__attribute__((aligned(x)))
+#define MSVC_ALIGN(x) __declspec(align(x))
+#else
+//__attribute__((aligned(4)))
+#define GCC_ALIGN(x)  __attribute__((aligned(x)))
+#define MSVC_ALIGN(x) //__declspec(align(x))
+#endif
+
+typedef MSVC_ALIGN(4) struct A {
+    int b;
+} GCC_ALIGN(4) A;
+
+00356 #if defined (__GNUC__) || defined (__PGI) || defined (__IBMCPP__) || defined (__SUNPRO_CC)
+00357   #define PCL_ALIGN(alignment) __attribute__((aligned(alignment)))
+00358 #elif defined (_MSC_VER)
+00359   #define PCL_ALIGN(alignment) __declspec(align(alignment))
+00360 #else
+00361   #error Alignment not supported on your platform
+00362 #endif
+
+#if defined(_MSC_VER)
+    #if defined(__clang__)
+        #define CC_ALIGNED(x) __attribute__ ((aligned(x))) //clang compiler
+    #else
+        #define CC_ALIGNED(x) __declspec(align(x)) //MS complier
+    #endif
+#else
+    #if __clang__ || CCN_UNIT_SIZE==8
+        #define CC_ALIGNED(x) __attribute__ ((aligned(x)))
+    #else
+        #define CC_ALIGNED(x) __attribute__ ((aligned((x)>8?8:(x))))
+    #endif
+#endif
+```
+
+cv::Mat
+危险的：`void create(int ndims, const int* sizes, int type);`
+sizes 和 cv::Size 内存结构刚好是反的。
+查找所有的 `(2,` 可以找出来。
+['-1431655765', '-1227133513', '-858993459']
+
 
 ## 栈的生长方向和内存存放方向
 
