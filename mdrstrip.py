@@ -208,7 +208,7 @@ title : %(title)s
         return remote
 
     # 外链类型 断言...
-    if not remote.split(".")[-1] in ("pdf", "html", "git", "php", "c", "phtml", "cpp", "htm", "shtm", "xml",
+    if not remote.split(".")[-1] in ("pdf", "html", "git", "php", "c", "phtml", "cpp", "cxx", "htm", "shtm", "xml",
                                      "ipynb", "py", "asp", "shtml", "aspx", "xhtml", "txt", "mspx", "sh",):
         print(fpath, url)
         assert False, remote
@@ -601,7 +601,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
     keepFileTypeList = ("rar", "zip", "pdf", "mp4",) # 中英文间隔，容易造成失误的列表。
 
     if fpath.find(os.sep+"winfinder"+os.sep) != -1:
-        isSrcFile = isSrcFile or ftype in ("h", "cpp", "rc", "c",)
+        isSrcFile = isSrcFile or ftype in ("h", "cpp", "cxx", "rc", "c",)
 
     if not isSrcFile:
         if fpath.find(os.sep+"_site"+os.sep) != -1:

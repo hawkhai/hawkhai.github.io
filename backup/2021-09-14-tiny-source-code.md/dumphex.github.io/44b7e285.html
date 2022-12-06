@@ -1,0 +1,674 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN"><head>
+  <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2" />
+<meta name="theme-color" content="#222" />
+<meta name="generator" content="Hexo 4.2.0" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png" />
+  <link rel="mask-icon" href="/images/logo.svg" color="#222" />
+
+<link rel="stylesheet" href="/css/main.css" />
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css" />
+
+<script src="https://zz.bdstatic.com/linksubmit/push.js"></script><script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dumphex.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文分析了局部静态对象的构造和析构过程。" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="C++的局部静态对象" />
+<meta property="og:url" content="https://dumphex.github.io/2020/03/09/local-static-object/index.html" />
+<meta property="og:site_name" content="程序员自我修养" />
+<meta property="og:description" content="本文分析了局部静态对象的构造和析构过程。" />
+<meta property="og:locale" content="zh_CN" />
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/005Kyrj9ly1gbvsonijdoj3076076wex.jpg" />
+<meta property="article:published_time" content="2020-03-09T02:49:18.000Z" />
+<meta property="article:modified_time" content="2020-03-15T07:35:53.065Z" />
+<meta property="article:author" content="dumphex" />
+<meta property="article:tag" content="local static object" />
+<meta property="article:tag" content="__cxa_guard_acquire" />
+<meta property="article:tag" content="__cxa_guard_release" />
+<meta property="article:tag" content="__run_exit_handlers" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/005Kyrj9ly1gbvsonijdoj3076076wex.jpg" />
+
+<link rel="canonical" href="https://dumphex.github.io/2020/03/09/local-static-object/" />
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>C++的局部静态对象 | 程序员自我修养</title>
+  
+
+
+
+
+
+
+  <noscript>
+  &lt;style&gt;
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  &lt;/style&gt;
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start" style="opacity: 1;">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title" style="opacity: 1; top: 0px;">程序员自我修养</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home" style="opacity: 1; transform: translateY(0px);">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about" style="opacity: 1; transform: translateY(0px);">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags" style="opacity: 1; transform: translateY(0px);">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories" style="opacity: 1; transform: translateY(0px);">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives" style="opacity: 1; transform: translateY(0px);">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap" style="opacity: 1; transform: translateY(0px);">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search" style="opacity: 1; transform: translateY(0px);">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input" />
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar" style="width: 15.45%;"></div>
+  <a role="button" class="book-mark-link"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block" lang="zh-CN" style="opacity: 1; display: block;">
+    <link itemprop="mainEntityOfPage" href="https://dumphex.github.io/2020/03/09/local-static-object/" />
+
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg" />
+      <meta itemprop="name" content="dumphex" />
+      <meta itemprop="description" content="日拱一卒，功不唐捐。" />
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序员自我修养" />
+    </span>
+      <header class="post-header" style="opacity: 1; display: block; transform: translateY(0px);">
+        <h1 class="post-title" itemprop="name headline">
+          C++的局部静态对象
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-09 10:49:18" itemprop="dateCreated datePublished" datetime="2020-03-09T10:49:18+08:00">2020-03-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-15 15:35:53" itemprop="dateModified" datetime="2020-03-15T15:35:53+08:00">2020-03-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-C/" itemprop="url" rel="index">
+                    <span itemprop="name">C/C++</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: inline;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv">587</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody" style="opacity: 1; display: block; transform: translateY(0px);">
+
+      
+        <p>本文分析了局部静态对象的构造和析构过程。</p>
+<a id="more"></a>
+
+<h1 id="1-测试环境"><a href="#1-测试环境" class="headerlink" title="1. 测试环境"></a>1. 测试环境</h1><ul>
+<li>Linux ubuntu18arm64 4.15.0-76-generic #86-Ubuntu SMP Fri Jan 17 17:25:58 UTC 2020 aarch64 aarch64 aarch64 GNU/Linux</li>
+<li>gcc version 7.4.0 (Ubuntu/Linaro 7.4.0-1ubuntu1~18.04.1)</li>
+<li>glibc 2.27</li>
+<li>c++11</li>
+</ul>
+<h1 id="2-调试分析"><a href="#2-调试分析" class="headerlink" title="2. 调试分析"></a>2. 调试分析</h1><p>局部静态对象， 就是在函数内定义的静态对象。<br />只有当函数第一次调用时，该对象才执行初始化，否则保持当前状态，后续不再初始化。</p>
+<h2 id="2-1-测试源码"><a href="#2-1-测试源码" class="headerlink" title="2.1 测试源码"></a>2.1 测试源码</h2><div class="highlight-container"><figure class="highlight cpp"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br /><span class="line">2</span><br /><span class="line">3</span><br /><span class="line">4</span><br /><span class="line">5</span><br /><span class="line">6</span><br /><span class="line">7</span><br /><span class="line">8</span><br /><span class="line">9</span><br /><span class="line">10</span><br /><span class="line">11</span><br /><span class="line">12</span><br /><span class="line">13</span><br /><span class="line">14</span><br /><span class="line">15</span><br /><span class="line">16</span><br /><span class="line">17</span><br /><span class="line">18</span><br /></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br /><span class="line"></span><br /><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> {</span></span><br /><span class="line"> <span class="keyword">public</span>:</span><br /><span class="line">  Base(<span class="keyword">int</span> i) : m_var(i) {</span><br /><span class="line">  }</span><br /><span class="line"></span><br /><span class="line">  ~Base() {</span><br /><span class="line">    m_var = <span class="number">0</span>;</span><br /><span class="line">  }</span><br /><span class="line"></span><br /><span class="line"> <span class="keyword">private</span>:</span><br /><span class="line">  <span class="keyword">int</span> m_var;</span><br /><span class="line">};</span><br /><span class="line"></span><br /><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">local_static</span><span class="params">()</span> </span>{</span><br /><span class="line">  <span class="function"><span class="keyword">static</span> Base <span class="title">local_static_obj</span><span class="params">(<span class="number">3</span>)</span></span>;</span><br /><span class="line">}</span><br /></pre></td></tr></tbody></table></div></figure><div class="copy-btn"><i class="fa fa-clipboard"></i></div></div>
+
+
+<p>local_static()反汇编如下:</p>
+<div class="highlight-container"><figure class="highlight plain"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br /><span class="line">2</span><br /><span class="line">3</span><br /><span class="line">4</span><br /><span class="line">5</span><br /><span class="line">6</span><br /><span class="line">7</span><br /><span class="line">8</span><br /><span class="line">9</span><br /><span class="line">10</span><br /><span class="line">11</span><br /><span class="line">12</span><br /><span class="line">13</span><br /><span class="line">14</span><br /><span class="line">15</span><br /><span class="line">16</span><br /><span class="line">17</span><br /><span class="line">18</span><br /><span class="line">19</span><br /><span class="line">20</span><br /><span class="line">21</span><br /><span class="line">22</span><br /><span class="line">23</span><br /><span class="line">24</span><br /><span class="line">25</span><br /><span class="line">26</span><br /><span class="line">27</span><br /><span class="line">28</span><br /><span class="line">29</span><br /><span class="line">30</span><br /><span class="line">31</span><br /><span class="line">32</span><br /><span class="line">33</span><br /><span class="line">34</span><br /><span class="line">35</span><br /><span class="line">36</span><br /><span class="line">37</span><br /><span class="line">38</span><br /><span class="line">39</span><br /><span class="line">40</span><br /></pre></td><td class="code"><pre><span class="line">(gdb) disas</span><br /><span class="line">Dump of assembler code for function local_static():</span><br /><span class="line">   0x0000aaaaaaaaaf34 &lt;+0&gt;:	stp	x29, x30, [sp, #-16]!</span><br /><span class="line">   0x0000aaaaaaaaaf38 &lt;+4&gt;:	mov	x29, sp</span><br /><span class="line">=&gt; 0x0000aaaaaaaaaf3c &lt;+8&gt;:	adrp	x0, 0xaaaaaaabc000</span><br /><span class="line">   0x0000aaaaaaaaaf40 &lt;+12&gt;:	add	x0, x0, #0x30</span><br /><span class="line">   0x0000aaaaaaaaaf44 &lt;+16&gt;:	ldarb	w0, [x0]</span><br /><span class="line">   0x0000aaaaaaaaaf48 &lt;+20&gt;:	and	w0, w0, #0xff</span><br /><span class="line">   0x0000aaaaaaaaaf4c &lt;+24&gt;:	and	w0, w0, #0x1</span><br /><span class="line">   0x0000aaaaaaaaaf50 &lt;+28&gt;:	cmp	w0, #0x0</span><br /><span class="line">   0x0000aaaaaaaaaf54 &lt;+32&gt;:	cset	w0, eq  // eq = none</span><br /><span class="line">   0x0000aaaaaaaaaf58 &lt;+36&gt;:	and	w0, w0, #0xff</span><br /><span class="line">   0x0000aaaaaaaaaf5c &lt;+40&gt;:	cmp	w0, #0x0</span><br /><span class="line">   0x0000aaaaaaaaaf60 &lt;+44&gt;:	b.eq	0xaaaaaaaaafbc &lt;local_static()+136&gt;  // b.none</span><br /><span class="line">   0x0000aaaaaaaaaf64 &lt;+48&gt;:	adrp	x0, 0xaaaaaaabc000</span><br /><span class="line">   0x0000aaaaaaaaaf68 &lt;+52&gt;:	add	x0, x0, #0x30</span><br /><span class="line">   0x0000aaaaaaaaaf6c &lt;+56&gt;:	bl	0xaaaaaaaaad60 &lt;__cxa_guard_acquire@plt&gt;</span><br /><span class="line">   0x0000aaaaaaaaaf70 &lt;+60&gt;:	cmp	w0, #0x0</span><br /><span class="line">   0x0000aaaaaaaaaf74 &lt;+64&gt;:	cset	w0, ne  // ne = any</span><br /><span class="line">   0x0000aaaaaaaaaf78 &lt;+68&gt;:	and	w0, w0, #0xff</span><br /><span class="line">   0x0000aaaaaaaaaf7c &lt;+72&gt;:	cmp	w0, #0x0</span><br /><span class="line">   0x0000aaaaaaaaaf80 &lt;+76&gt;:	b.eq	0xaaaaaaaaafbc &lt;local_static()+136&gt;  // b.none</span><br /><span class="line">   0x0000aaaaaaaaaf84 &lt;+80&gt;:	adrp	x0, 0xaaaaaaabc000</span><br /><span class="line">   0x0000aaaaaaaaaf88 &lt;+84&gt;:	add	x0, x0, #0x28</span><br /><span class="line">   0x0000aaaaaaaaaf8c &lt;+88&gt;:	mov	w1, #0x3                   	// #3</span><br /><span class="line">   0x0000aaaaaaaaaf90 &lt;+92&gt;:	bl	0xaaaaaaaab098 &lt;Base::Base(int)&gt;</span><br /><span class="line">   0x0000aaaaaaaaaf94 &lt;+96&gt;:	adrp	x0, 0xaaaaaaabc000</span><br /><span class="line">   0x0000aaaaaaaaaf98 &lt;+100&gt;:	add	x0, x0, #0x30</span><br /><span class="line">   0x0000aaaaaaaaaf9c &lt;+104&gt;:	bl	0xaaaaaaaaacf0 &lt;__cxa_guard_release@plt&gt;</span><br /><span class="line">   0x0000aaaaaaaaafa0 &lt;+108&gt;:	adrp	x0, 0xaaaaaaabc000</span><br /><span class="line">   0x0000aaaaaaaaafa4 &lt;+112&gt;:	add	x2, x0, #0x8</span><br /><span class="line">   0x0000aaaaaaaaafa8 &lt;+116&gt;:	adrp	x0, 0xaaaaaaabc000</span><br /><span class="line">   0x0000aaaaaaaaafac &lt;+120&gt;:	add	x1, x0, #0x28</span><br /><span class="line">   0x0000aaaaaaaaafb0 &lt;+124&gt;:	adrp	x0, 0xaaaaaaaab000 &lt;__static_initialization_and_destruction_0(int, int)+16&gt;</span><br /><span class="line">   0x0000aaaaaaaaafb4 &lt;+128&gt;:	add	x0, x0, #0xbc</span><br /><span class="line">   0x0000aaaaaaaaafb8 &lt;+132&gt;:	bl	0xaaaaaaaaad30 &lt;__cxa_atexit@plt&gt;</span><br /><span class="line">   0x0000aaaaaaaaafbc &lt;+136&gt;:	nop</span><br /><span class="line">   0x0000aaaaaaaaafc0 &lt;+140&gt;:	ldp	x29, x30, [sp], #16</span><br /><span class="line">   0x0000aaaaaaaaafc4 &lt;+144&gt;:	ret</span><br /><span class="line">End of assembler dump.</span><br /></pre></td></tr></tbody></table></div></figure><div class="copy-btn"><i class="fa fa-clipboard"></i></div></div>
+
+<h2 id="2-2-构造"><a href="#2-2-构造" class="headerlink" title="2.2 构造"></a>2.2 构造</h2><p>局部静态对象的构造大概分为以下几步</p>
+<ul>
+<li>判断guard variable</li>
+<li>调用__cxa_guard_acquire()</li>
+<li>调用构造函数</li>
+<li>调用__cxa_guard_release()</li>
+<li>注册析构函数</li>
+</ul>
+<h3 id="2-2-1-判断guard-variable"><a href="#2-2-1-判断guard-variable" class="headerlink" title="2.2.1 判断guard variable"></a>2.2.1 判断guard variable</h3><p>每个局部静态对象，编译器为其生成<strong>guard variable</strong>，用于标识对应的局部静态对象是否已初始化并确保线程安全</p>
+<div class="highlight-container"><figure class="highlight shell"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br /><span class="line">2</span><br /><span class="line">3</span><br /><span class="line">4</span><br /><span class="line">5</span><br /><span class="line">6</span><br /><span class="line">7</span><br /><span class="line">8</span><br /><span class="line">9</span><br /><span class="line">10</span><br /></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> nm out/bin/objects | grep local_static</span></span><br /><span class="line">0000000000000f34 T _Z12local_staticv</span><br /><span class="line">0000000000012030 b _ZGVZ12local_staticvE16local_static_obj</span><br /><span class="line">0000000000012028 b _ZZ12local_staticvE16local_static_obj</span><br /><span class="line"></span><br /><span class="line"><span class="meta">$</span><span class="bash"> c++filt _ZGVZ12local_staticvE16local_static_obj</span></span><br /><span class="line">guard variable for local_static()::local_static_obj</span><br /><span class="line"></span><br /><span class="line"><span class="meta">$</span><span class="bash"> c++filt _ZZ12local_staticvE16local_static_obj</span></span><br /><span class="line">local_static()::local_static_obj</span><br /></pre></td></tr></tbody></table></div></figure><div class="copy-btn"><i class="fa fa-clipboard"></i></div></div>
+
+<p>假设guard variable为gv, int *pgv = &amp;gv, </p>
+<p>gv的三个flag含义如下: </p>
+<ul>
+<li>pgv[0]为<strong>guard bit</strong>, 标识是否<strong>完成初始化</strong></li>
+<li>pgv[1]为<strong>pending bit</strong>，标识是否<strong>正在初始</strong>化</li>
+<li>pgv[2]为<strong>waiting bit</strong>，标识是否<strong>等待初始化</strong></li>
+</ul>
+<p>在本例中，guard variable位于0xaaaaaaabc000 + 0x30 = 0xaaaaaaabc030</p>
+<div class="highlight-container"><figure class="highlight plain"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br /><span class="line">2</span><br /><span class="line">3</span><br /><span class="line">4</span><br /><span class="line">5</span><br /><span class="line">6</span><br /><span class="line">7</span><br /><span class="line">8</span><br /><span class="line">9</span><br /><span class="line">10</span><br /></pre></td><td class="code"><pre><span class="line">=&gt; 0x0000aaaaaaaaaf3c &lt;+8&gt;:	adrp	x0, 0xaaaaaaabc000</span><br /><span class="line">   0x0000aaaaaaaaaf40 &lt;+12&gt;:	add	x0, x0, #0x30</span><br /><span class="line">   0x0000aaaaaaaaaf44 &lt;+16&gt;:	ldarb	w0, [x0]</span><br /><span class="line">   0x0000aaaaaaaaaf48 &lt;+20&gt;:	and	w0, w0, #0xff</span><br /><span class="line">   0x0000aaaaaaaaaf4c &lt;+24&gt;:	and	w0, w0, #0x1</span><br /><span class="line">   0x0000aaaaaaaaaf50 &lt;+28&gt;:	cmp	w0, #0x0</span><br /><span class="line">   0x0000aaaaaaaaaf54 &lt;+32&gt;:	cset	w0, eq  // eq = none</span><br /><span class="line">   0x0000aaaaaaaaaf58 &lt;+36&gt;:	and	w0, w0, #0xff</span><br /><span class="line">   0x0000aaaaaaaaaf5c &lt;+40&gt;:	cmp	w0, #0x0</span><br /><span class="line">   0x0000aaaaaaaaaf60 &lt;+44&gt;:	b.eq	0xaaaaaaaaafbc &lt;local_static()+136&gt;  // b.none</span><br /></pre></td></tr></tbody></table></div></figure><div class="copy-btn"><i class="fa fa-clipboard"></i></div></div>
+
+<ul>
+<li><p>若局部静态对象未初始化或正在初始化，则第1次load的w0为0x00, 判断为0后再设置为1, 表示要继续往下执行__cxa_guard_acquire()</p>
+</li>
+<li><p>若局部静态对象已完成初始化，则load的w0为1，判断为非0后再设置为0, 则不再执行__cxa_guard_acquire()和调用构造函数，直接执行局部静态对象后面的代码(0xaaaaaaaaafbc)。</p>
+</li>
+</ul>
+<h3 id="2-2-2-cxa-guard-acquire"><a href="#2-2-2-cxa-guard-acquire" class="headerlink" title="2.2.2 __cxa_guard_acquire()"></a>2.2.2 __cxa_guard_acquire()</h3><blockquote>
+<p>源文件: gcc/libstdc++-v3/libsupc++/guard.cc</p>
+</blockquote>
+<p>关键代码如下</p>
+<div class="highlight-container"><figure class="highlight cpp"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br /><span class="line">2</span><br /><span class="line">3</span><br /><span class="line">4</span><br /><span class="line">5</span><br /><span class="line">6</span><br /><span class="line">7</span><br /><span class="line">8</span><br /><span class="line">9</span><br /><span class="line">10</span><br /><span class="line">11</span><br /><span class="line">12</span><br /><span class="line">13</span><br /><span class="line">14</span><br /><span class="line">15</span><br /><span class="line">16</span><br /><span class="line">17</span><br /><span class="line">18</span><br /><span class="line">19</span><br /><span class="line">20</span><br /><span class="line">21</span><br /><span class="line">22</span><br /><span class="line">23</span><br /><span class="line">24</span><br /><span class="line">25</span><br /><span class="line">26</span><br /><span class="line">27</span><br /><span class="line">28</span><br /><span class="line">29</span><br /><span class="line">30</span><br /><span class="line">31</span><br /><span class="line">32</span><br /><span class="line">33</span><br /><span class="line">34</span><br /><span class="line">35</span><br /><span class="line">36</span><br /><span class="line">37</span><br /><span class="line">38</span><br /><span class="line">39</span><br /><span class="line">40</span><br /><span class="line">41</span><br /><span class="line">42</span><br /><span class="line">43</span><br /><span class="line">44</span><br /><span class="line">45</span><br /><span class="line">46</span><br /><span class="line">47</span><br /><span class="line">48</span><br /><span class="line">49</span><br /><span class="line">50</span><br /></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (__gthread_active_p ())</span><br /><span class="line">  {</span><br /><span class="line">    <span class="keyword">int</span> *gi = (<span class="keyword">int</span> *) (<span class="keyword">void</span> *) g;</span><br /><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> guard_bit = _GLIBCXX_GUARD_BIT;</span><br /><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> pending_bit = _GLIBCXX_GUARD_PENDING_BIT;</span><br /><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> waiting_bit = _GLIBCXX_GUARD_WAITING_BIT;</span><br /><span class="line">    </span><br /><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>)</span><br /><span class="line">      {</span><br /><span class="line">        <span class="function"><span class="keyword">int</span> <span class="title">expected</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br /><span class="line">        <span class="keyword">if</span> (__atomic_compare_exchange_n(gi, &amp;expected, pending_bit, <span class="literal">false</span>,</span><br /><span class="line">                                        __ATOMIC_ACQ_REL,</span><br /><span class="line">                                        __ATOMIC_ACQUIRE))</span><br /><span class="line">          {</span><br /><span class="line">            <span class="comment">// This thread should do the initialization.</span></span><br /><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br /><span class="line">          }</span><br /><span class="line">           </span><br /><span class="line">        <span class="keyword">if</span> (expected == guard_bit)</span><br /><span class="line">          { </span><br /><span class="line">            <span class="comment">// Already initialized.</span></span><br /><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br /><span class="line">          }</span><br /><span class="line"></span><br /><span class="line">         <span class="keyword">if</span> (expected == pending_bit)</span><br /><span class="line">           { </span><br /><span class="line">             <span class="comment">// Use acquire here.</span></span><br /><span class="line">             <span class="keyword">int</span> newv = expected | waiting_bit;</span><br /><span class="line">             <span class="keyword">if</span> (!__atomic_compare_exchange_n(gi, &amp;expected, newv, <span class="literal">false</span>,</span><br /><span class="line">                                              __ATOMIC_ACQ_REL, </span><br /><span class="line">                                              __ATOMIC_ACQUIRE))</span><br /><span class="line">               {</span><br /><span class="line">                 <span class="keyword">if</span> (expected == guard_bit)</span><br /><span class="line">                   {</span><br /><span class="line">                     <span class="comment">// Make a thread that failed to set the</span></span><br /><span class="line">                     <span class="comment">// waiting bit exit the function earlier,</span></span><br /><span class="line">                     <span class="comment">// if it detects that another thread has</span></span><br /><span class="line">                     <span class="comment">// successfully finished initialising.</span></span><br /><span class="line">                     <span class="keyword">return</span> <span class="number">0</span>;</span><br /><span class="line">                   }</span><br /><span class="line">                 <span class="keyword">if</span> (expected == <span class="number">0</span>)</span><br /><span class="line">                   <span class="keyword">continue</span>;</span><br /><span class="line">               }</span><br /><span class="line">             </span><br /><span class="line">             expected = newv;</span><br /><span class="line">           }</span><br /><span class="line">        </span><br /><span class="line">        syscall (SYS_futex, gi, _GLIBCXX_FUTEX_WAIT, expected, <span class="number">0</span>);</span><br /><span class="line">      }</span><br /><span class="line">  }</span><br /></pre></td></tr></tbody></table></div></figure><div class="copy-btn"><i class="fa fa-clipboard"></i></div></div>
+
+<ul>
+<li><p>若局部静态对象未初始化过， 则这三个标志均为0x00</p>
+<div class="highlight-container"><figure class="highlight plain"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br /><span class="line">2</span><br /></pre></td><td class="code"><pre><span class="line">(gdb) x/1xg 0xaaaaaaabc030</span><br /><span class="line">0xaaaaaaabc030 &lt;_ZGVZ12local_staticvE16local_static_obj&gt;:	0x0000000000000000</span><br /></pre></td></tr></tbody></table></div></figure><div class="copy-btn"><i class="fa fa-clipboard"></i></div></div>
+</li>
+<li><p>若第1个线程刚进来，则设置<strong>pending bit</strong>, 标识局部静态对象<strong>正在初始化</strong></p>
+<div class="highlight-container"><figure class="highlight plain"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br /><span class="line">2</span><br /></pre></td><td class="code"><pre><span class="line">(gdb) x/1xg 0xaaaaaaabc030</span><br /><span class="line">0xaaaaaaabc030 &lt;_ZGVZ12local_staticvE16local_static_obj&gt;:	0x0000000000000100</span><br /></pre></td></tr></tbody></table></div></figure><div class="copy-btn"><i class="fa fa-clipboard"></i></div></div>
+</li>
+<li><p>若第1个线程未完成，第2个线程又进来尝试初始化，则设置<strong>waiting bit</strong>, 并调用futex系统调用进入休眠状态(当第1个线程完成初始化后，会再唤醒正在休眠的线程)</p>
+</li>
+</ul>
+<h3 id="2-2-3-调用构造函数"><a href="#2-2-3-调用构造函数" class="headerlink" title="2.2.3 调用构造函数"></a>2.2.3 调用构造函数</h3><p>第1个线程从__cxa_guard_acquire()返回1后，下一步调用构造函数进行初始化</p>
+<div class="highlight-container"><figure class="highlight plain"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br /><span class="line">2</span><br /><span class="line">3</span><br /><span class="line">4</span><br /></pre></td><td class="code"><pre><span class="line">0x0000aaaaaaaaaf84 &lt;+80&gt;:	adrp	x0, 0xaaaaaaabc000</span><br /><span class="line">0x0000aaaaaaaaaf88 &lt;+84&gt;:	add	x0, x0, #0x28</span><br /><span class="line">0x0000aaaaaaaaaf8c &lt;+88&gt;:	mov	w1, #0x3                   	// #3</span><br /><span class="line">0x0000aaaaaaaaaf90 &lt;+92&gt;:	bl	0xaaaaaaaab098 &lt;Base::Base(int)&gt;</span><br /></pre></td></tr></tbody></table></div></figure><div class="copy-btn"><i class="fa fa-clipboard"></i></div></div>
+
+<p>传给构造函数的参数如下</p>
+<ul>
+<li>第1个参数是局部静态对象的地址x0 = 0xaaaaaaabc028</li>
+<li>第2个参数是w1 = 3</li>
+</ul>
+<h3 id="2-2-4-cxa-guard-release"><a href="#2-2-4-cxa-guard-release" class="headerlink" title="2.2.4 __cxa_guard_release()"></a>2.2.4 __cxa_guard_release()</h3><blockquote>
+<p>源文件: gcc/libstdc++-v3/libsupc++/guard.cc</p>
+</blockquote>
+<p>__cxa_guard_release()的实现如下:</p>
+<div class="highlight-container"><figure class="highlight cpp"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br /><span class="line">2</span><br /><span class="line">3</span><br /><span class="line">4</span><br /><span class="line">5</span><br /><span class="line">6</span><br /><span class="line">7</span><br /><span class="line">8</span><br /><span class="line">9</span><br /><span class="line">10</span><br /><span class="line">11</span><br /><span class="line">12</span><br /><span class="line">13</span><br /><span class="line">14</span><br /><span class="line">15</span><br /><span class="line">16</span><br /><span class="line">17</span><br /><span class="line">18</span><br /><span class="line">19</span><br /><span class="line">20</span><br /><span class="line">21</span><br /><span class="line">22</span><br /><span class="line">23</span><br /><span class="line">24</span><br /><span class="line">25</span><br /><span class="line">26</span><br /><span class="line">27</span><br /><span class="line">28</span><br /><span class="line">29</span><br /><span class="line">30</span><br /><span class="line">31</span><br /><span class="line">32</span><br /><span class="line">33</span><br /><span class="line">34</span><br /><span class="line">35</span><br /><span class="line">36</span><br /><span class="line">37</span><br /><span class="line">38</span><br /><span class="line">39</span><br /><span class="line">40</span><br /><span class="line">41</span><br /></pre></td><td class="code"><pre><span class="line">  <span class="keyword">extern</span> <span class="string">"C"</span> </span><br /><span class="line">  <span class="keyword">void</span> __cxa_guard_release (__guard *g) <span class="keyword">throw</span> ()</span><br /><span class="line">  {</span><br /><span class="line">#ifdef _GLIBCXX_USE_FUTEX</span><br /><span class="line">    <span class="comment">// If __atomic_* and futex syscall are supported, don't use any global</span></span><br /><span class="line">    <span class="comment">// mutex.</span></span><br /><span class="line">    <span class="keyword">if</span> (__gthread_active_p ()) </span><br /><span class="line">      {   </span><br /><span class="line">        <span class="keyword">int</span> *gi = (<span class="keyword">int</span> *) (<span class="keyword">void</span> *) g;</span><br /><span class="line">        <span class="keyword">const</span> <span class="keyword">int</span> guard_bit = _GLIBCXX_GUARD_BIT;</span><br /><span class="line">        <span class="keyword">const</span> <span class="keyword">int</span> waiting_bit = _GLIBCXX_GUARD_WAITING_BIT;</span><br /><span class="line">        <span class="keyword">int</span> old = __atomic_exchange_n (gi, guard_bit, __ATOMIC_ACQ_REL);</span><br /><span class="line"></span><br /><span class="line">        <span class="keyword">if</span> ((old &amp; waiting_bit) != <span class="number">0</span>)</span><br /><span class="line">          syscall (SYS_futex, gi, _GLIBCXX_FUTEX_WAKE, INT_MAX);</span><br /><span class="line">        <span class="keyword">return</span>;</span><br /><span class="line">      }   </span><br /><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined(__GTHREAD_HAS_COND)</span></span><br /><span class="line">    <span class="keyword">if</span> (__gthread_active_p())</span><br /><span class="line">      {   </span><br /><span class="line">        mutex_wrapper mw; </span><br /><span class="line"></span><br /><span class="line">        set_init_in_progress_flag(g, <span class="number">0</span>); </span><br /><span class="line">        _GLIBCXX_GUARD_SET_AND_RELEASE(g);</span><br /><span class="line"></span><br /><span class="line">        get_static_cond().broadcast();</span><br /><span class="line">        <span class="keyword">return</span>;</span><br /><span class="line">      }   </span><br /><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br /><span class="line"></span><br /><span class="line">    set_init_in_progress_flag(g, <span class="number">0</span>); </span><br /><span class="line">    _GLIBCXX_GUARD_SET_AND_RELEASE (g);</span><br /><span class="line"></span><br /><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(__GTHREADS) &amp;&amp; !defined(__GTHREAD_HAS_COND)</span></span><br /><span class="line">    <span class="comment">// This provides compatibility with older systems not supporting POSIX like</span></span><br /><span class="line">    <span class="comment">// condition variables.</span></span><br /><span class="line">    <span class="keyword">if</span> (__gthread_active_p())</span><br /><span class="line">      static_mutex-&gt;unlock();</span><br /><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br /><span class="line">  }</span><br /><span class="line">}</span><br /></pre></td></tr></tbody></table></div></figure><div class="copy-btn"><i class="fa fa-clipboard"></i></div></div>
+
+<p>该函数完成的主要功能如下</p>
+<ul>
+<li><p>设置guard variable</p>
+<div class="highlight-container"><figure class="highlight plain"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br /><span class="line">2</span><br /></pre></td><td class="code"><pre><span class="line">(gdb) x/1xg 0xaaaaaaabc030</span><br /><span class="line">0xaaaaaaabc030 &lt;_ZGVZ12local_staticvE16local_static_obj&gt;:	0x0000000000000001</span><br /></pre></td></tr></tbody></table></div></figure><div class="copy-btn"><i class="fa fa-clipboard"></i></div></div>
+
+<p>这里只设置了guard bit, pending bit和waiting bit已清除， 标识局部静态对象已完成初始化。</p>
+</li>
+<li><p>若waiting_bit已设置，则调用futex()唤醒正在休眠的线程。休眠线程醒来，会再次检查: 若guard bit已设置，则返回0，不必再执行初始化。</p>
+</li>
+</ul>
+<h3 id="2-2-5-注册析构函数"><a href="#2-2-5-注册析构函数" class="headerlink" title="2.2.5 注册析构函数"></a>2.2.5 注册析构函数</h3><p>在local_static()函数的最后， </p>
+<div class="highlight-container"><figure class="highlight plain"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br /><span class="line">2</span><br /><span class="line">3</span><br /><span class="line">4</span><br /><span class="line">5</span><br /><span class="line">6</span><br /><span class="line">7</span><br /></pre></td><td class="code"><pre><span class="line">0x0000aaaaaaaaafa0 &lt;+108&gt;:	adrp	x0, 0xaaaaaaabc000</span><br /><span class="line">0x0000aaaaaaaaafa4 &lt;+112&gt;:	add	x2, x0, #0x8</span><br /><span class="line">0x0000aaaaaaaaafa8 &lt;+116&gt;:	adrp	x0, 0xaaaaaaabc000</span><br /><span class="line">0x0000aaaaaaaaafac &lt;+120&gt;:	add	x1, x0, #0x28</span><br /><span class="line">0x0000aaaaaaaaafb0 &lt;+124&gt;:	adrp	x0, 0xaaaaaaaab000 &lt;__static_initialization_and_destruction_0(int, int)+16&gt;</span><br /><span class="line">0x0000aaaaaaaaafb4 &lt;+128&gt;:	add	x0, x0, #0xbc</span><br /><span class="line">0x0000aaaaaaaaafb8 &lt;+132&gt;:	bl	0xaaaaaaaaad30 &lt;__cxa_atexit@plt&gt;</span><br /></pre></td></tr></tbody></table></div></figure><div class="copy-btn"><i class="fa fa-clipboard"></i></div></div>
+
+<p>这里调用__cxa_atexit()注册局部静态对象的析构函数</p>
+<ul>
+<li>第1个参数x0 = 0x0000aaaaaaaab0bc是Base::~Base()</li>
+<li>第2个参数x1 = 0xaaaaaaabc028是局部静态对象的地址</li>
+<li>第3个参数x2 = 0xaaaaaaabc008是dso handler</li>
+</ul>
+<p>__cxa_atexit()的实现如下</p>
+<blockquote>
+<p>源文件: glibc/stdlib/cxa_atexit.c</p>
+</blockquote>
+<div class="highlight-container"><figure class="highlight c"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br /><span class="line">2</span><br /><span class="line">3</span><br /><span class="line">4</span><br /><span class="line">5</span><br /><span class="line">6</span><br /><span class="line">7</span><br /><span class="line">8</span><br /><span class="line">9</span><br /><span class="line">10</span><br /><span class="line">11</span><br /><span class="line">12</span><br /><span class="line">13</span><br /><span class="line">14</span><br /><span class="line">15</span><br /><span class="line">16</span><br /><span class="line">17</span><br /><span class="line">18</span><br /><span class="line">19</span><br /><span class="line">20</span><br /><span class="line">21</span><br /><span class="line">22</span><br /><span class="line">23</span><br /><span class="line">24</span><br /><span class="line">25</span><br /><span class="line">26</span><br /><span class="line">27</span><br /><span class="line">28</span><br /><span class="line">29</span><br /><span class="line">30</span><br /><span class="line">31</span><br /><span class="line">32</span><br /><span class="line">33</span><br /><span class="line">34</span><br /><span class="line">35</span><br /><span class="line">36</span><br /><span class="line">37</span><br /></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span></span><br /><span class="line">attribute_hidden</span><br /><span class="line">__internal_atexit (<span class="keyword">void</span> (*func) (<span class="keyword">void</span> *), <span class="keyword">void</span> *arg, <span class="keyword">void</span> *d, </span><br /><span class="line">                   struct exit_function_list **listp)</span><br /><span class="line">{</span><br /><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">exit_function</span> *<span class="title">new</span>;</span></span><br /><span class="line"></span><br /><span class="line">  __libc_lock_lock (__exit_funcs_lock);</span><br /><span class="line">  <span class="keyword">new</span> = __new_exitfn (listp);</span><br /><span class="line"></span><br /><span class="line">  <span class="keyword">if</span> (<span class="keyword">new</span> == <span class="literal">NULL</span>)</span><br /><span class="line">    {   </span><br /><span class="line">      __libc_lock_unlock (__exit_funcs_lock);</span><br /><span class="line">      <span class="keyword">return</span> <span class="number">-1</span>; </span><br /><span class="line">    }   </span><br /><span class="line"></span><br /><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> PTR_MANGLE</span></span><br /><span class="line">  PTR_MANGLE (func);</span><br /><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br /><span class="line">  <span class="keyword">new</span>-&gt;func.cxa.fn = (<span class="keyword">void</span> (*) (<span class="keyword">void</span> *, <span class="keyword">int</span>)) func;</span><br /><span class="line">  <span class="keyword">new</span>-&gt;func.cxa.arg = arg;</span><br /><span class="line">  <span class="keyword">new</span>-&gt;func.cxa.dso_handle = d;</span><br /><span class="line">  <span class="keyword">new</span>-&gt;flavor = ef_cxa;</span><br /><span class="line">  __libc_lock_unlock (__exit_funcs_lock);</span><br /><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br /><span class="line">}</span><br /><span class="line"></span><br /><span class="line"></span><br /><span class="line"><span class="comment">/* Register a function to be called by exit or when a shared library</span></span><br /><span class="line"><span class="comment">   is unloaded.  This function is only called from code generated by</span></span><br /><span class="line"><span class="comment">   the C++ compiler.  */</span></span><br /><span class="line"><span class="keyword">int</span></span><br /><span class="line">__cxa_atexit (<span class="keyword">void</span> (*func) (<span class="keyword">void</span> *), <span class="keyword">void</span> *arg, <span class="keyword">void</span> *d) </span><br /><span class="line">{</span><br /><span class="line">  <span class="keyword">return</span> __internal_atexit (func, arg, d, &amp;__exit_funcs);</span><br /><span class="line">}</span><br /><span class="line">libc_hidden_def (__cxa_atexit)</span><br /></pre></td></tr></tbody></table></div></figure><div class="copy-btn"><i class="fa fa-clipboard"></i></div></div>
+
+<p>__exit_funcs是个结构体指针， 指向initial， 以链表形式存放</p>
+<div class="highlight-container"><figure class="highlight c"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br /><span class="line">2</span><br /></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">exit_function_list</span> <span class="title">initial</span>;</span></span><br /><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">exit_function_list</span> *__<span class="title">exit_funcs</span> = &amp;<span class="title">initial</span>;</span></span><br /></pre></td></tr></tbody></table></div></figure><div class="copy-btn"><i class="fa fa-clipboard"></i></div></div>
+
+<h2 id="2-3-析构"><a href="#2-3-析构" class="headerlink" title="2.3 析构"></a>2.3 析构</h2><p>局部静态对象析构时的堆栈如下:</p>
+<div class="highlight-container"><figure class="highlight plain"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br /><span class="line">2</span><br /><span class="line">3</span><br /><span class="line">4</span><br /><span class="line">5</span><br /><span class="line">6</span><br /><span class="line">7</span><br /></pre></td><td class="code"><pre><span class="line">(gdb) bt</span><br /><span class="line">#0  Base::~Base (this=0xaaaaaaabc028 &lt;local_static()::local_static_obj&gt;, __in_chrg=&lt;optimized out&gt;) at /home/timzhang/project/github/dumphex/cppTestSuite/src/objects.cc:9</span><br /><span class="line">#1  0x0000fffff7d19e34 in __run_exit_handlers (status=0, listp=0xfffff7e385a0 &lt;__exit_funcs&gt;, run_list_atexit=255, run_list_atexit@entry=true, run_dtors=run_dtors@entry=true) at exit.c:108</span><br /><span class="line">#2  0x0000fffff7d19f6c in __GI_exit (status=&lt;optimized out&gt;) at exit.c:139</span><br /><span class="line">#3  0x0000fffff7d056e4 in __libc_start_main (main=0x0, argc=0, argv=0x0, init=&lt;optimized out&gt;, fini=&lt;optimized out&gt;, rtld_fini=&lt;optimized out&gt;, stack_end=&lt;optimized out&gt;) at ../csu/libc-start.c:344</span><br /><span class="line">#4  0x0000aaaaaaaaadb4 in _start ()</span><br /><span class="line">Backtrace stopped: previous frame identical to this frame (corrupt stack?)</span><br /></pre></td></tr></tbody></table></div></figure><div class="copy-btn"><i class="fa fa-clipboard"></i></div></div>
+
+
+<p>exit()的实现如下</p>
+<blockquote>
+<p>源文件: glibc/stdlib/exit.c</p>
+</blockquote>
+<div class="highlight-container"><figure class="highlight c"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br /><span class="line">2</span><br /><span class="line">3</span><br /><span class="line">4</span><br /><span class="line">5</span><br /><span class="line">6</span><br /><span class="line">7</span><br /><span class="line">8</span><br /><span class="line">9</span><br /><span class="line">10</span><br /><span class="line">11</span><br /><span class="line">12</span><br /><span class="line">13</span><br /><span class="line">14</span><br /><span class="line">15</span><br /><span class="line">16</span><br /><span class="line">17</span><br /><span class="line">18</span><br /><span class="line">19</span><br /><span class="line">20</span><br /><span class="line">21</span><br /><span class="line">22</span><br /><span class="line">23</span><br /><span class="line">24</span><br /><span class="line">25</span><br /><span class="line">26</span><br /><span class="line">27</span><br /><span class="line">28</span><br /><span class="line">29</span><br /><span class="line">30</span><br /><span class="line">31</span><br /><span class="line">32</span><br /><span class="line">33</span><br /><span class="line">34</span><br /><span class="line">35</span><br /><span class="line">36</span><br /><span class="line">37</span><br /><span class="line">38</span><br /><span class="line">39</span><br /><span class="line">40</span><br /><span class="line">41</span><br /><span class="line">42</span><br /><span class="line">43</span><br /><span class="line">44</span><br /><span class="line">45</span><br /><span class="line">46</span><br /><span class="line">47</span><br /><span class="line">48</span><br /><span class="line">49</span><br /><span class="line">50</span><br /><span class="line">51</span><br /><span class="line">52</span><br /><span class="line">53</span><br /><span class="line">54</span><br /><span class="line">55</span><br /><span class="line">56</span><br /><span class="line">57</span><br /><span class="line">58</span><br /><span class="line">59</span><br /><span class="line">60</span><br /><span class="line">61</span><br /><span class="line">62</span><br /><span class="line">63</span><br /><span class="line">64</span><br /><span class="line">65</span><br /><span class="line">66</span><br /><span class="line">67</span><br /><span class="line">68</span><br /><span class="line">69</span><br /><span class="line">70</span><br /><span class="line">71</span><br /><span class="line">72</span><br /><span class="line">73</span><br /><span class="line">74</span><br /><span class="line">75</span><br /><span class="line">76</span><br /><span class="line">77</span><br /><span class="line">78</span><br /><span class="line">79</span><br /><span class="line">80</span><br /><span class="line">81</span><br /><span class="line">82</span><br /><span class="line">83</span><br /><span class="line">84</span><br /><span class="line">85</span><br /><span class="line">86</span><br /><span class="line">87</span><br /><span class="line">88</span><br /><span class="line">89</span><br /><span class="line">90</span><br /><span class="line">91</span><br /><span class="line">92</span><br /><span class="line">93</span><br /><span class="line">94</span><br /><span class="line">95</span><br /><span class="line">96</span><br /><span class="line">97</span><br /><span class="line">98</span><br /><span class="line">99</span><br /><span class="line">100</span><br /><span class="line">101</span><br /><span class="line">102</span><br /><span class="line">103</span><br /><span class="line">104</span><br /><span class="line">105</span><br /><span class="line">106</span><br /><span class="line">107</span><br /><span class="line">108</span><br /><span class="line">109</span><br /></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Call all functions registered with `atexit' and `on_exit',</span></span><br /><span class="line"><span class="comment">   in the reverse of the order in which they were registered</span></span><br /><span class="line"><span class="comment">   perform stdio cleanup, and terminate program execution with STATUS.  */</span></span><br /><span class="line"><span class="keyword">void</span></span><br /><span class="line">attribute_hidden</span><br /><span class="line">__run_exit_handlers (<span class="keyword">int</span> status, struct exit_function_list **listp,</span><br /><span class="line">		     <span class="keyword">bool</span> run_list_atexit, <span class="keyword">bool</span> run_dtors)</span><br /><span class="line">{</span><br /><span class="line">  <span class="comment">/* First, call the TLS destructors.  */</span></span><br /><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> SHARED</span></span><br /><span class="line">  <span class="keyword">if</span> (&amp;__call_tls_dtors != <span class="literal">NULL</span>)</span><br /><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br /><span class="line">    <span class="keyword">if</span> (run_dtors)</span><br /><span class="line">      __call_tls_dtors ();</span><br /><span class="line"></span><br /><span class="line">  <span class="comment">/* We do it this way to handle recursive calls to exit () made by</span></span><br /><span class="line"><span class="comment">     the functions registered with `atexit' and `on_exit'. We call</span></span><br /><span class="line"><span class="comment">     everyone on the list and use the status value in the last</span></span><br /><span class="line"><span class="comment">     exit (). */</span></span><br /><span class="line">  <span class="keyword">while</span> (<span class="literal">true</span>)</span><br /><span class="line">    {</span><br /><span class="line">      <span class="class"><span class="keyword">struct</span> <span class="title">exit_function_list</span> *<span class="title">cur</span>;</span></span><br /><span class="line"></span><br /><span class="line">      __libc_lock_lock (__exit_funcs_lock);</span><br /><span class="line"></span><br /><span class="line">    restart:</span><br /><span class="line">      cur = *listp;</span><br /><span class="line"></span><br /><span class="line">      <span class="keyword">if</span> (cur == <span class="literal">NULL</span>)</span><br /><span class="line">	{</span><br /><span class="line">	  <span class="comment">/* Exit processing complete.  We will not allow any more</span></span><br /><span class="line"><span class="comment">	     atexit/on_exit registrations.  */</span></span><br /><span class="line">	  __exit_funcs_done = <span class="literal">true</span>;</span><br /><span class="line">	  __libc_lock_unlock (__exit_funcs_lock);</span><br /><span class="line">	  <span class="keyword">break</span>;</span><br /><span class="line">	}</span><br /><span class="line"></span><br /><span class="line">      <span class="keyword">while</span> (cur-&gt;idx &gt; <span class="number">0</span>)</span><br /><span class="line">	{</span><br /><span class="line">	  <span class="class"><span class="keyword">struct</span> <span class="title">exit_function</span> *<span class="title">const</span> <span class="title">f</span> = &amp;<span class="title">cur</span>-&gt;<span class="title">fns</span>[--<span class="title">cur</span>-&gt;<span class="title">idx</span>];</span></span><br /><span class="line">	  <span class="keyword">const</span> <span class="keyword">uint64_t</span> new_exitfn_called = __new_exitfn_called;</span><br /><span class="line"></span><br /><span class="line">	  <span class="comment">/* Unlock the list while we call a foreign function.  */</span></span><br /><span class="line">	  __libc_lock_unlock (__exit_funcs_lock);</span><br /><span class="line">	  <span class="keyword">switch</span> (f-&gt;flavor)</span><br /><span class="line">	    {</span><br /><span class="line">	      <span class="keyword">void</span> (*atfct) (<span class="keyword">void</span>);</span><br /><span class="line">	      <span class="keyword">void</span> (*onfct) (<span class="keyword">int</span> status, <span class="keyword">void</span> *arg);</span><br /><span class="line">	      <span class="keyword">void</span> (*cxafct) (<span class="keyword">void</span> *arg, <span class="keyword">int</span> status);</span><br /><span class="line"></span><br /><span class="line">	    <span class="keyword">case</span> ef_free:</span><br /><span class="line">	    <span class="keyword">case</span> ef_us:</span><br /><span class="line">	      <span class="keyword">break</span>;</span><br /><span class="line">	    <span class="keyword">case</span> ef_on:</span><br /><span class="line">	      onfct = f-&gt;func.on.fn;</span><br /><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> PTR_DEMANGLE</span></span><br /><span class="line">	      PTR_DEMANGLE (onfct);</span><br /><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br /><span class="line">	      onfct (status, f-&gt;func.on.arg);</span><br /><span class="line">	      <span class="keyword">break</span>;</span><br /><span class="line">	    <span class="keyword">case</span> ef_at:</span><br /><span class="line">	      atfct = f-&gt;func.at;</span><br /><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> PTR_DEMANGLE</span></span><br /><span class="line">	      PTR_DEMANGLE (atfct);</span><br /><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br /><span class="line">	      atfct ();</span><br /><span class="line">	      <span class="keyword">break</span>;</span><br /><span class="line">	    <span class="keyword">case</span> ef_cxa:</span><br /><span class="line">	      <span class="comment">/* To avoid dlclose/exit race calling cxafct twice (BZ 22180),</span></span><br /><span class="line"><span class="comment">		 we must mark this function as ef_free.  */</span></span><br /><span class="line">	      f-&gt;flavor = ef_free;</span><br /><span class="line">	      cxafct = f-&gt;func.cxa.fn;</span><br /><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> PTR_DEMANGLE</span></span><br /><span class="line">	      PTR_DEMANGLE (cxafct);</span><br /><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br /><span class="line">	      cxafct (f-&gt;func.cxa.arg, status);</span><br /><span class="line">	      <span class="keyword">break</span>;</span><br /><span class="line">	    }</span><br /><span class="line">	  <span class="comment">/* Re-lock again before looking at global state.  */</span></span><br /><span class="line">	  __libc_lock_lock (__exit_funcs_lock);</span><br /><span class="line"></span><br /><span class="line">	  <span class="keyword">if</span> (__glibc_unlikely (new_exitfn_called != __new_exitfn_called))</span><br /><span class="line">	    <span class="comment">/* The last exit function, or another thread, has registered</span></span><br /><span class="line"><span class="comment">	       more exit functions.  Start the loop over.  */</span></span><br /><span class="line">	    <span class="keyword">goto</span> restart;</span><br /><span class="line">	}</span><br /><span class="line"></span><br /><span class="line">      *listp = cur-&gt;next;</span><br /><span class="line">      <span class="keyword">if</span> (*listp != <span class="literal">NULL</span>)</span><br /><span class="line">	<span class="comment">/* Don't free the last element in the chain, this is the statically</span></span><br /><span class="line"><span class="comment">	   allocate element.  */</span></span><br /><span class="line">	<span class="built_in">free</span> (cur);</span><br /><span class="line"></span><br /><span class="line">      __libc_lock_unlock (__exit_funcs_lock);</span><br /><span class="line">    }</span><br /><span class="line"></span><br /><span class="line">  <span class="keyword">if</span> (run_list_atexit)</span><br /><span class="line">    RUN_HOOK (__libc_atexit, ());</span><br /><span class="line"></span><br /><span class="line">  _exit (status);</span><br /><span class="line">}</span><br /><span class="line"></span><br /><span class="line"></span><br /><span class="line"><span class="keyword">void</span></span><br /><span class="line"><span class="built_in">exit</span> (<span class="keyword">int</span> status)</span><br /><span class="line">{</span><br /><span class="line">  __run_exit_handlers (status, &amp;__exit_funcs, <span class="literal">true</span>, <span class="literal">true</span>);</span><br /><span class="line">}</span><br /><span class="line">libc_hidden_def (<span class="built_in">exit</span>)</span><br /></pre></td></tr></tbody></table></div></figure><div class="copy-btn"><i class="fa fa-clipboard"></i></div></div>
+
+<p>可以看到， 程序在退出前，调用exit()-&gt;<strong>run_exit_handlers(), 传入中的是</strong>exit_funcs, 正是之前注册析构函数的地方。</p>
+<h1 id="3-总结"><a href="#3-总结" class="headerlink" title="3. 总结"></a>3. 总结</h1><ul>
+<li>局部静态对象在函数第一次调用时完成初始化，这在C++11后是<strong>线程安全</strong>的。同时注册了析构函数。</li>
+<li>局部静态对象拥有和程序同样的生命周期，在程序exit时会调用之前注册的析构函数。</li>
+</ul>
+<hr />
+<p><img src="http://ww1.sinaimg.cn/large/005Kyrj9ly1gbvsonijdoj3076076wex.jpg" alt="程序员自我修养" /></p>
+<center>
+程序员自我修养(ID: dumphex)
+</center>
+
+<hr />
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>坚持技术原创，感谢您的支持！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="dumphex 微信支付" />
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="dumphex 支付宝" />
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>dumphex
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://dumphex.github.io/2020/03/09/local-static-object/" title="C++的局部静态对象">https://dumphex.github.io/2020/03/09/local-static-object/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/local-static-object/" rel="tag"># local static object</a>
+              <a href="/tags/cxa-guard-acquire/" rel="tag"># __cxa_guard_acquire</a>
+              <a href="/tags/cxa-guard-release/" rel="tag"># __cxa_guard_release</a>
+              <a href="/tags/run-exit-handlers/" rel="tag"># __run_exit_handlers</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/04/stack-heap-object/" rel="prev" title="C++的栈对象与堆对象">
+      <i class="fa fa-chevron-left"></i> C++的栈对象与堆对象
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/15/global-object/" rel="next" title="C++的全局对象">
+      C++的全局对象 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () =&gt; {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event =&gt; {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar" style="margin-top: 378px;">
+    <div class="sidebar-inner affix" style="opacity: 1; transform: initial;">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc sidebar-nav-active">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel sidebar-panel-active" style="max-height: 518px; opacity: 1;">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-测试环境"><span class="nav-text">1. 测试环境</span></a></li><li class="nav-item nav-level-1 active"><a class="nav-link" href="#2-调试分析"><span class="nav-text">2. 调试分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2 active active-current"><a class="nav-link" href="#2-1-测试源码"><span class="nav-text">2.1 测试源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-构造"><span class="nav-text">2.2 构造</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-判断guard-variable"><span class="nav-text">2.2.1 判断guard variable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-cxa-guard-acquire"><span class="nav-text">2.2.2 __cxa_guard_acquire()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3-调用构造函数"><span class="nav-text">2.2.3 调用构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-4-cxa-guard-release"><span class="nav-text">2.2.4 __cxa_guard_release()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-5-注册析构函数"><span class="nav-text">2.2.5 注册析构函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-析构"><span class="nav-text">2.3 析构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-总结"><span class="nav-text">3. 总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel" style="opacity: 0; max-height: 518px;">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dumphex" src="/images/avatar.jpg" />
+  <p class="site-author-name" itemprop="name">dumphex</p>
+  <div class="site-description" itemprop="description">日拱一卒，功不唐捐。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dumphex" title="GitHub → https://github.com/dumphex" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/3151a9dcd169" title="简书 → https://www.jianshu.com/u/3151a9dcd169" rel="noopener" target="_blank"><i class="fa fa-fw fa-book"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/images/programmer_qrcode.jpg" title="Wechat → images/programmer_qrcode.jpg"><i class="fa fa-fw fa-wechat"></i>Wechat</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/dumphex@163.com" title="E-Mail → dumphex@163.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" /></a>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element back-to-top-on">
+          <i class="fa fa-arrow-up"></i>
+          <span>15%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  © 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dumphex</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async="" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: inline;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv">7418</span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: inline;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv">10501</span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+</body></html>
