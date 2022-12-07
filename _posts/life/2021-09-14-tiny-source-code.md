@@ -131,6 +131,7 @@ cv::Mat
 sizes 和 cv::Size 内存结构刚好是反的。
 查找所有的 `(2,` 可以找出来。
 ['-1431655765', '-1227133513', '-858993459']
+定义的结构体的地址要和汇编一致，否则很悲剧，比如 vector，比如 int64 对齐问题。
 
 
 ## 栈的生长方向和内存存放方向
@@ -519,6 +520,7 @@ int main()
 
 ```
 "C:\Program Files (x86)\Debugging Tools for Windows\gflags.exe" /p /enable ncnn_test.exe /full
+"C:\Program Files (x86)\Debugging Tools for Windows\gflags.exe" /p /enable detectborder_test.exe /full
 ```
 
 ```cpp
@@ -930,6 +932,10 @@ for (int i = 0; i < 10; i++) {
 ## 深入理解函数内静态局部变量初始化
 
 [note {% include relref_cnblogs.html %}](https://www.cnblogs.com/william-cheung/p/4831085.html)
+[C++ 的局部静态对象 {% include relref_github.html %}](https://dumphex.github.io/2020/03/09/local-static-object/)
+
+<https://opensource.apple.com/source/libcppabi/libcppabi-14/src/cxa_guard.cxx>
+j___cxa_guard_acquire
 
 
 ## ARM 原子操作
@@ -2918,6 +2924,8 @@ class fastimagedll : public fastimage::IFastImageInterface {
 - [https://blog.csdn.net/nameofcsdn/article/details/125007289]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/817e0ab4.html" %})
 - [https://rgplantz.github.io/2021/11/04/Shift-to-divide-by-10.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/rgplantz.github.io/343af929.html" %})
 - [https://www.cnblogs.com/william-cheung/p/4831085.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.cnblogs.com/f4679e9a.html" %})
+- [https://dumphex.github.io/2020/03/09/local-static-object/]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/dumphex.github.io/44b7e285.html" %})
+- [https://opensource.apple.com/source/libcppabi/libcppabi-14/src/cxa_guard.cxx]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/opensource.apple.com/f9e31bf9.cxx" %})
 - [https://blog.csdn.net/ce123_zhouwei/article/details/108562387]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/c29f479a.html" %})
 - [https://developer.arm.com/documentation/dui0530/m/Migrating-from-ARM-Compiler-v5-05-to-v5-06/Compiler-changes-between-ARM-Compiler-v5-05-and-v5-06/--ldrex-and---strex-intrinsics-deprecated]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/developer.arm.com/b6ef944f.html" %})
 - [https://blog.csdn.net/u012294613/article/details/123183813]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/48a4b95e.html" %})
