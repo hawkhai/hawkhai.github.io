@@ -809,16 +809,25 @@ Mat Mat::clone() const
 [Mat - 成员变量的 flags 的含义 {% include relref_csdn.html %}](https://blog.csdn.net/xbcReal/article/details/76685853)
 {% include image.html url="/assets/images/210914-tiny-source-code/20170804170646673.png" %}
 
+
 33619968 | 0x2010000 | `(cv::ACCESS_WRITE+cv::MAT)`
 16842752 | 0x1010000 | `(cv::ACCESS_READ+cv::MAT)`
 33882112 | 0x2050000 | `(cv::ACCESS_WRITE+cv::STD_VECTOR_MAT)`
-1072693248 | 0x3ff00000 |
-1074266112 | 0x40080000 | `(cv::CUDA_HOST_MEM+cv::FIXED_SIZE?)`
 17104896   | 0x1050000  | `(cv::ACCESS_READ+cv::STD_VECTOR_MAT)`
-1124007936 | 0x42ff0000 |
-1081073664 | 0x406fe000 |
 -2130509812 | 0x8103000c | `std::vector<cv::Point2i>`
 -1040056315 | 0xc2020005 | `cv::Vec4f`
+-1056833530 | 0xc1020006 | `(cv::ACCESS_READ+cv::MATX+cv::FIXED_TYPE+cv::FIXED_SIZE+cv::DEPTH_MASK_8S+cv::DEPTH_MASK_16U)`
+-2130640875 | 0x81010015 | `cv::Mat3f`
+
+1072693248 | 0x3ff00000 | 掩码? (cv::ACCESS_READ+cv::ACCESS_WRITE+cv::ACCESS_FAST | 0x38f00000)
+1074266112 | 0x40080000 | `(cv::CUDA_HOST_MEM+cv::FIXED_SIZE?)`
+1124007936 | 0x42ff0000 | (cv::ACCESS_WRITE+cv::FIXED_SIZE | 0xff0000)
+1081073664 | 0x406fe000 | (cv::CV_MAT_CONT_FLAG+cv::CV_SUBMAT_FLAG+cv::STD_ARRAY_MAT+cv::FIXED_SIZE | 0x602000)
+1079623680 | 0x4059c000 | (cv::CV_MAT_CONT_FLAG+cv::CV_SUBMAT_FLAG+cv::FIXED_SIZE | 0x590000)
+
+
+
+
 
 1. 不能包含指针转换：`(int)`，调整为 `(int64)`，避免指针截断。
     * <https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt>
