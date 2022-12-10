@@ -855,7 +855,6 @@ Mat Mat::clone() const
 #include <Windows.h>
 #include <assert.h>
 #include <opencv2/opencv.hpp>
-#include "../../include/kvision.h"
 #include <stdio.h>
 #include <process.h>
 #include <io.h>
