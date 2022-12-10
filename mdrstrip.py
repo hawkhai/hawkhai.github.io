@@ -204,13 +204,15 @@ title : %(title)s
 
     # protocol :// hostname[:port] / path / [:parameters][?query]#fragment
     remotename = url.split("?")[0].split("#")[0].split("/")[-1]
-    if remotename in readfileIglist("config/mdrstrip_url_ignore_name.txt"):
+    ignorenamefile = "config/mdrstrip_url_ignore_name.txt"
+    if remotename in readfileIglist(ignorenamefile):
         return remote
 
     # 外链类型 断言...
     if not remote.split(".")[-1] in ("pdf", "html", "git", "php", "c", "phtml", "cpp", "cxx", "htm", "shtm", "xml",
                                      "ipynb", "py", "asp", "shtml", "aspx", "xhtml", "txt", "mspx", "sh",):
         print(fpath, url)
+        openTextFile(ignorenamefile)
         assert False, remote
     return remote
 
