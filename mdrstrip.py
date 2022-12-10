@@ -226,7 +226,7 @@ def tidyupImgCollect(rootdir):
                 osremove(fpath)
         else:
             G_IMG_TAGED.add(os.path.relpath(fpath, ".").lower())
-    searchdir(rootdir, mainfile)
+    searchdir(rootdir, mainfile) # tidyupImgCollect
 
 # 本地图片缓存路径。
 def tidyupImg(imglocal, fpath, line, imgthumb=True):
@@ -1029,7 +1029,7 @@ def findPostMdFile(rootdir, fnamek):
             nonlocal fpathk
             assert fpathk == fnamek # 没有被赋值过。
             fpathk = fpath
-    searchdir(rootdir, mainfile)
+    searchdir(rootdir, mainfile) # findPostMdFile
     return fpathk
 
 def checkReviewJS(jsdir, rootdir):
@@ -1052,7 +1052,7 @@ def checkReviewJS(jsdir, rootdir):
             print(type(xday), xday, xday.days)
             if xday.days <= 15:
                 openTextFile(mdfile)
-    searchdir(jsdir, mainfile)
+    searchdir(jsdir, mainfile) # checkReviewJS
 
 def mainw():
     print(parsePythonCmdx(__file__))
@@ -1073,17 +1073,18 @@ def main():
     CHECK_IGNORE_LIST = (
         "backup", "tempdir", "_site",
         "Debug", "Release", ".vs", "opengl-3rd", "opengles3-book", "opengles-book-samples",
-        "UserDataSpider", "docs.gl", "ml-notes",
+        "UserDataSpider", "docs.gl", "ml-notes", "ksample",
         )
     searchdir(".", checkfilesize, ignorelist=CHECK_IGNORE_LIST, onDirectory=oncheckdirectory)
     searchdir("backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST, onDirectory=oncheckdirectory)
     searchdir("invisible"+os.sep+"backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST, onDirectory=oncheckdirectory)
 
-    searchdir(".", mainfilew, ignorelist=(
+    MAINW_IGNORE_LIST = (
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
         "Debug", "Release", ".vs", "openglcpp", "opengl-3rd", "opengles3-book", "opengles-book-samples",
-        "UserDataSpider", "docs.gl", "ml-notes",
-        ), reverse=True)
+        "UserDataSpider", "docs.gl", "ml-notes", "ksample",
+        )
+    searchdir(".", mainfilew, ignorelist=MAINW_IGNORE_LIST, reverse=True)
     if REBUILD:
         clearSnapCache()
         clearemptydir("images")

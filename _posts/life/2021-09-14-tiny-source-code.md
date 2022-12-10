@@ -15,11 +15,6 @@ glslcanvas:
 codeprint:
 ---
 
-std::vector
-`_Myproxy`
-带有容器的结构体不要使用 memset 清 0。
-其实 memset 清 0 操作对于结构体或者类都必须慎重，因为很容易破坏自身的数据结构，最典型的就是带有虚函数的类，一旦清 0 连虚表都给破坏掉了。
-
 
 ## 汇编相关
 
@@ -62,6 +57,7 @@ Fun60_implv1 栈变量丢失的问题：
 ```cpp
 #pragma pack(push) // 保存对齐状态
 #pragma pack(1) // 设定为 1 字节对齐
+struct DataStruct {
     int v71; // [sp+Ch] [bp-1A8h]
     int *v72; // [sp+Ch] [bp-1A8h]
     int *v73; // [sp+18h] [bp-19Ch]
@@ -76,16 +72,17 @@ Fun60_implv1 栈变量丢失的问题：
     _DWORD v82[99]; // [sp+660h] [bp+4ACh]
     char v83 = 0; // [sp+7ECh] [bp+638h] BYREF
     char v84[4]; // [sp+980h] [bp+7CCh] BYREF
+};
 #pragma pack(pop) // 恢复对齐状态
 ```
 
-gcc 下设置对齐值最小值为：
+GCC 下设置对齐值最小值为：
 ```cpp
 typedef struct A {
    int b;
 } __attribute__((aligned(4))) A;
 ```
-msvc 中为：
+MSVC 中为：
 ```cpp
 typedef __declspec(align(4)) struct A {
     int b;
@@ -100,7 +97,7 @@ typedef __declspec(align(4)) struct A {
 #define MSVC_ALIGN(x) __declspec(align(x))
 #else
 //__attribute__((aligned(4)))
-#define GCC_ALIGN(x)  __attribute__((aligned(x)))
+#define GCC_ALIGN(x) __attribute__((aligned(x)))
 #define MSVC_ALIGN(x) //__declspec(align(x))
 #endif
 
@@ -108,19 +105,20 @@ typedef MSVC_ALIGN(4) struct A {
     int b;
 } GCC_ALIGN(4) A;
 
-00356 #if defined (__GNUC__) || defined (__PGI) || defined (__IBMCPP__) || defined (__SUNPRO_CC)
-00357   #define PCL_ALIGN(alignment) __attribute__((aligned(alignment)))
-00358 #elif defined (_MSC_VER)
-00359   #define PCL_ALIGN(alignment) __declspec(align(alignment))
-00360 #else
-00361   #error Alignment not supported on your platform
-00362 #endif
+#if defined (__GNUC__) || defined (__PGI) || defined (__IBMCPP__) || defined (__SUNPRO_CC)
+    #define PCL_ALIGN(alignment) __attribute__((aligned(alignment)))
+#elif defined (_MSC_VER)
+    #define PCL_ALIGN(alignment) __declspec(align(alignment))
+#else
+    #error Alignment not supported on your platform
+#endif
 
+// 还是这个用起来舒服。
 #if defined(_MSC_VER)
     #if defined(__clang__)
-        #define CC_ALIGNED(x) __attribute__ ((aligned(x))) //clang compiler
+        #define CC_ALIGNED(x) __attribute__ ((aligned(x))) // clang compiler
     #else
-        #define CC_ALIGNED(x) __declspec(align(x)) //MS complier
+        #define CC_ALIGNED(x) __declspec(align(x)) // MS complier
     #endif
 #else
     #if __clang__ || CCN_UNIT_SIZE==8
@@ -133,10 +131,11 @@ typedef MSVC_ALIGN(4) struct A {
 
 cv::Mat
 危险的：`void create(int ndims, const int* sizes, int type);`
-sizes 和 cv::Size 内存结构刚好是反的。
+`int* sizes` 和 `cv::Size` 内存结构刚好是反的。
 查找所有的 `(2,` 可以找出来。
 ['-1431655765', '-1227133513', '-858993459']
 定义的结构体的地址要和汇编一致，否则很悲剧，比如 vector，比如 int64 对齐问题。
+可以代码中加入 `assert` 断言，断言内存大小。
 
 
 ## 栈的生长方向和内存存放方向
@@ -211,6 +210,7 @@ int main()
 * 错误 	C4700	 使用了未初始化的局部变量“v144”
 * 错误 	C4700	 使用了未初始化的局部变量“v147”
 
+轻易删除栈上变量是危险的行为。
 往往是因为数组，这样改：
 ```cpp
 int v142array[8] = { 0 };
@@ -228,7 +228,7 @@ int& v149 = v142array[7]; // [sp+DCh] [bp-2Ch]
 ## NCNN 问题整理
 
 [ncnn 小白常见问题整理 {% include relref_github.html %}](https://github.com/zchrissirhcz/awesome-ncnn/blob/master/FAQ.md)
-[Win10 下 QT+NCNN 实现 Android 开发的踩坑记录 {% include relref_github.html %}](https://github.com/DataXujing/Qt_NCNN_NanoDet)
+[Win10 下 QT + NCNN 实现 Android 开发的踩坑记录 {% include relref_github.html %}](https://github.com/DataXujing/Qt_NCNN_NanoDet)
 
 
 ### rtti/exceptions 冲突
@@ -264,7 +264,8 @@ ADD_LIBRARY called with SHARED option but the target platform does not
 
 ```
 > Task :prepareKotlinBuildScriptModel UP-TO-DATE
-D:\kSource\kv\engine\src\main\cpp\CMakeLists.txt : C/C++ debug|arm64-v8a : CMake Warning (dev) at D:\kSource\kv\engine\src\main\cpp\CMakeLists.txt:196 (add_library):
+D:\kSource\kv\engine\src\main\cpp\CMakeLists.txt : C/C++ debug|arm64-v8a :
+        CMake Warning (dev) at D:\kSource\kv\engine\src\main\cpp\CMakeLists.txt:196 (add_library):
     ADD_LIBRARY called with SHARED option but the target platform does not
     support dynamic linking.  Building a STATIC library instead.  This may lead
     to problems.
@@ -304,7 +305,8 @@ cvtype = CV_8UC3; // 16
 cvtype = CV_32FC1; // 5
 cvtype = CV_32FC3; // 21
 
-#ifdef _DEBUG
+// std::vector Debug 版本第一位是：`_Myproxy`。
+#if _ITERATOR_DEBUG_LEVEL != 0
 #define MatVecFirst(x) (  (cv::Mat*)  ((size_t*)&(x))[1]  )
 #define MatVecLast(x)  (  (cv::Mat*)  ((size_t*)&(x))[2]  )
 #define MatVecEnd(x)   (  (cv::Mat*)  ((size_t*)&(x))[3]  )
@@ -316,7 +318,7 @@ cvtype = CV_32FC3; // 21
 #define MatVecLen(x)   ((char*)MatVecLast(x) - (char*)MatVecFirst(x))
 #define MatVecCount(x) ((unsigned int)(-1227133513 * (MatVecLen(x) >> 3)))
 
-#ifdef _DEBUG
+#if _ITERATOR_DEBUG_LEVEL != 0
 #define UMatVecFirst(x) (  (cv::UMat*)  ((size_t*)&(x))[1]  )
 #define UMatVecLast(x)  (  (cv::UMat*)  ((size_t*)&(x))[2]  )
 #define UMatVecEnd(x)   (  (cv::UMat*)  ((size_t*)&(x))[3]  )
@@ -338,6 +340,7 @@ cvtype = CV_32FC3; // 21
 
 <https://gmplib.org/devel/bc_bin_uiui.c>
 <https://datatracker.ietf.org/doc/html/draft-valin-celt-codec-00>
+<div class="highlighter-rouge" foldctrl="1"></div>
 ```cpp
 #include <iostream>
 #include <assert.h>
@@ -366,7 +369,8 @@ static unsigned char ctzArray[] =
 
 void check(int num, int zinv, int ctz) {
     if (num <= 32) {
-        printf("**[%d] %x,%d / ref %x,%d \n", num, zinv, ctz, zinvArray[num - 1], ctzArray[num - 1]);
+        printf("**[%d] %x,%d / ref %x,%d \n",
+            num, zinv, ctz, zinvArray[num - 1], ctzArray[num - 1]);
         assert(zinv == zinvArray[num - 1]);
         assert(ctz == ctzArray[num - 1]);
     }
@@ -435,13 +439,15 @@ int main()
             }
             int index = (temp - 1) / 2;
             if (index >= countx) continue;
-            printf("num=%d idx=%d inv=%x shift=%d \n", num, index, INV_TABLE[index], shift);
+            printf("num=%d idx=%d inv=%x shift=%d \n",
+                num, index, INV_TABLE[index], shift);
             check(num, INV_TABLE[index], shift);
         }
         else {
             int index = (num - 1) / 2;
             if (index >= countx) continue;
-            printf("num=%d idx=%d inv=%x shift=%d \n", num, index, INV_TABLE[index], 0);
+            printf("num=%d idx=%d inv=%x shift=%d \n",
+                num, index, INV_TABLE[index], 0);
             check(num, INV_TABLE[index], 0);
         }
     }
@@ -581,6 +587,9 @@ a = sizeof(__int64); // 8
 a = sizeof(void*); // 8
 a = 0;
 ```
+
+
+### cv::Mat 内存结构
 
 出现 `.dims = (int)` 的都不对。
 
@@ -832,7 +841,7 @@ Mat Mat::clone() const
     * /we4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
     * /we4267 /we4312 /we4101 /we4244 /we4189 /we4311 /we4302
 2. 所有 `while (1)` 替换为：`while (true)`，以方便阅读。
-3. 指针查找：`*(_BYTE*)(v12`，正则为 :`\*\([0-9a-zA-Z_]*?\*\)\(v`。
+3. 指针查找：`*(_BYTE*)(v12`，正则为：`\*\([0-9a-zA-Z_]*?\*\)\(v`。
 4. 所有 float 采用 (float)，避免限制为 double，最终 32 & 64 计算的结果造成不一致。
 5. `(unsigned int)(float)` 调整为 `(int)(float)`，前面 32 & 64 汇编运算结果会不一致。
 
@@ -904,7 +913,7 @@ v67.op = (const cv::MatOp*)33619968; // 0
 v67.flags = (int)thisz; // 1
 
 // 矩阵初始化代码。需要删除。
-matArray[2].flags =  0x42ff0000;
+matArray[2].flags = 0x42ff0000;
 memset(&matArray[2].dims, 0, 0x24u);
 matArray[2].step.buf[1] = 0;
 matArray[2].step.buf[0] = 0;
@@ -930,7 +939,7 @@ for (int i = 0; i < 10; i++) {
 
 为了效率，已经丧心病狂了。
 一个 32-bit 的 unsigned integer x，那么 `x/10` 会被转换成 `(x*3435973837)>>35`。
-除以 5 等价于 乘以 3435973837。
+除以 5 等价于 乘以 3435973837（运算溢出后是等价的）。
 [Shift to divide by 10 {% include relref_github.html %}](https://rgplantz.github.io/2021/11/04/Shift-to-divide-by-10.html)
 
 
@@ -941,6 +950,91 @@ for (int i = 0; i < 10; i++) {
 
 <https://opensource.apple.com/source/libcppabi/libcppabi-14/src/cxa_guard.cxx>
 j___cxa_guard_acquire
+[note](https://wiki.osdev.org/C++)
+The actual code emitted by GCC to call a local static variable's constructor looks something like this:
+```cpp
+static <type> guard;
+
+if (!guard.first_byte)
+{
+    if (__cxa_guard_acquire (&guard))
+    {
+        bool flag = false;
+
+        try
+        {
+            // Do initialization.
+            __cxa_guard_release (&guard);
+
+            flag = true;
+            // Register variable for destruction at end of program.
+        }
+
+        catch
+        {
+            if (!flag)
+            {
+                __cxa_guard_abort (&guard);
+            }
+        }
+    }
+}
+```
+[delete 与 delete\[\] 的区别 {% include relref_csdn.html %}](https://blog.csdn.net/flyingscv/article/details/2029509)
+1. 如果对象无析构函数（包括不需要合成析构函数，比如注释掉 ~A 和 string s 两行代码）
+    delete 会直接调用 operator delete 并直接调用 free 释放内存，
+    这个时候的 `new` = `new []`（仅在数量上有差异），`delete` = `delete[]`。
+2. 如果对象存在析构函数（包括合成析构函数），则**这个才是重点**：
+    `new []` 返回的地址会后移 4 个字节，并用那 4 个存放数组的大小！而 new 不用后移这四个字节。
+    `delete []` 根据那个 4 个字节的值，调用指定次数的析构函数，同样 delete 也不需要那四个字节。
+
+结果就是在不恰当的使用 `delete` 和 `delete []` 调用 `free` 的时候会造成 4 个字节的错位，
+最终导致`debug assertion failed!`
+
+再回到《高质量 C++ 编程指南》：
+```cpp
+delete []objects; // 正确的用法
+delete objects;   // 错误的用法
+```
+后者相当于 `delete objects[0]`，漏掉了另外 99 个对象。
+严格应该这样说：后者相当于仅调用了 `objects[0]` 的析构函数，
+漏掉了调用另外 99 个对象的析构函数，
+并且在调用之后释放内存时导致异常（如果存在析构函数的话），
+如果对象无析构函数该语句与 `delete []objects` 相同。
+
+`new []`：
+```
+// 申请大小为 5（4+1，既 4 个字节存放数组大小，一个存放对象大小，0 字节对象大小为 1）
+00401298   push        5
+// 获取分配的内存地址，存放入 AX
+0040129A   call        operator new (00408660)
+0040129F   add         esp,4
+004012A2   mov         dword ptr [ebp-8],eax
+// 判断是否 =0，既 ==NULL
+004012A5   cmp         dword ptr [ebp-8],0
+004012A9   je          main+3Fh (004012bf)
+004012AB   mov         eax,dword ptr [ebp-8]
+// !=0，则用前四个自己存放数组大小，测试对象数组大小为 1
+004012AE   mov         dword ptr [eax],1
+004012B4   mov         ecx,dword ptr [ebp-8]
+004012B7   add         ecx,4 // 地址值加 4
+004012BA   mov         dword ptr [ebp-14h],ecx
+004012BD   jmp         main+46h (004012c6)
+004012BF   mov         dword ptr [ebp-14h],0 // 分配失败，这是为 0
+004012C6   mov         edx,dword ptr [ebp-14h]
+004012C9   mov         dword ptr [ebp-4],edx
+```
+`delete []`：
+```
+00401388   mov         edx,dword ptr [ebp-4]
+0040138B   sub         edx,4  // 与 delete 相比，先前移指针然后释放空间。
+0040138E   push        edx
+0040138F   call        operator delete (004063e0)
+delete:
+0040134F   mov         ecx,dword ptr [ebp-4]
+00401352   push        ecx
+00401353   call        operator delete (00406370)
+```
 
 
 ## ARM 原子操作
@@ -991,7 +1085,7 @@ __dmb(0xBu);
 
 [ldrex 与 strex 大概处理流程 {% include relref_csdn.html %}](https://blog.csdn.net/u012294613/article/details/123183813)
 
-在 arm 系统当中通过 LDREX 和 STREX 实现内存的原子操作，首先研究一下两条指令的语义。
+在 ARM 系统当中通过 LDREX 和 STREX 实现内存的原子操作，首先研究一下两条指令的语义。
 其实 LDREX 和 STREX 指令，是将单纯的更新内存的原子操作分成了两个独立的步骤。
 大致的流程如下，但是 ARM 内部为了实现这个功能，还有不少复杂的情况要处理。
 
@@ -1089,7 +1183,7 @@ android 文件夹，self android 32 版本，64 作为对照组。
 
 **操作系统预定义宏：**
 
-操作系统 | 公共定义 | 64 位系统定义
+**操作系统** | **公共定义** | **64 位系统定义**
 Windows | \_WIN32 | \_WIN64
 macOS | \_\_APPLE\_\_ | \_\_LP64\_\_
 Linux | \_\_linux\_\_ | \_\_LP64\_\_
@@ -1123,7 +1217,7 @@ sprintf(buffer, "size_t | %d \n", sizeof(size_t));
 * **主要就是指针和 int 的问题。**
 
 类型 | Win32 | Win64 | Android32 | Android64
----- | --- | --- | --- | ---
+--- | --- | --- | --- | ---
 char | 1 | 1 | 1 | 1
 short | 2 | 2 | 2 | 2
 int | 4 | 4 | 4 | 4
@@ -1143,11 +1237,13 @@ size_t | 4 | 8 | 4 | 8
 * 赋值截断问题
     * 等长直接赋值，变短直接截断，变长如果正前补 0，为负前补 1，浮点数同理。
 * 运算问题
-    * 汇编是不区分正负数字的。溢出不溢出，是由程序员判断的，机器不知道。
+    * 汇编是不区分正负数字的。溢出不溢出，是由程序员判断的，机器不管。
+        * 溢出标志 `OF` 可检测有符号数的溢出。
+        * 进位标志 `CF` 可检测无符号数的回绕。
 * 判等问题
-    * `movsx eax,byte ptr [a]` 先符号扩展，再传送
-    * `movzx ecx,byte ptr [b]` 先零扩展，再传送
-    * `cmp eax,ecx`
+    * `movsx eax,byte ptr [a]` 先符号扩展，再传送。
+    * `movzx ecx,byte ptr [b]` 先零扩展，再传送。
+    * `cmp eax,ecx` 再比较。
 
 
 ## C/C++ 中 float 的内存结构
@@ -1156,9 +1252,9 @@ size_t | 4 | 8 | 4 | 8
 **float 的内存结构**
 一个 32 位的 float 数和一个 64 位 double 数的存储主要分为三部分：符号位，指数位，尾数位。
 以 float 数为例：
-1. 符号位 (sign)：1 个 bit，0 代表正数，1 代表负数（这里和整数一致，所以汇编可以直接判断正负）
-2. 指数位 (exponent)：8 个 bit，范围 \-127~128，用于存储科学计数法中的指数部分，并且采用以为存储方式，所存储的数据为原数据 \+127
-3. 尾数位 (mantissa)：23bit，用于存储尾数部分
+1. 符号位 (sign)：1 个 bit，0 代表正数，1 代表负数（这里和整数一致，所以汇编可以直接判断正负）。
+2. 指数位 (exponent)：8 个 bit，范围 \-127~128，用于存储科学计数法中的指数部分，并且采用以为存储方式，所存储的数据为原数据 \+127。
+3. 尾数位 (mantissa)：23bit，用于存储尾数部分。
 {% include image.html url="/assets/images/210914-tiny-source-code/20190414202611812.png" %}
 float 数的表示形式：
 $$pow(−1,sign)*(1+mag)*pow(2,exp−127)$$
@@ -1450,7 +1546,8 @@ public static void WriteLog(string strLog)
         return;
     }
     string sFilePath = "D:\\" + DateTime.Now.ToString("yyyyMM");
-    string sFileName = "logfile" + Process.GetCurrentProcess().Id + "-" + DateTime.Now.ToString("dd") + ".log";
+    string sFileName = "logfile" + Process.GetCurrentProcess().Id +
+                           "-" + DateTime.Now.ToString("dd") + ".log";
     sFileName = sFilePath + "\\" + sFileName; // 文件的绝对路径
     if (!Directory.Exists(sFilePath)) { // 验证路径是否存在
         Directory.CreateDirectory(sFilePath);
@@ -1534,7 +1631,7 @@ _fullpath(fpath, fileLocation, 1024);
 * 注意！‘w’会抹去文件原有的内容，如果只是加新的内容应该用‘a’
 
 ```cpp
-long getfilesize(const char* fpath) {
+long getfileSize(const char* fpath) {
     FILE* fs = fopen(fpath, "rb");
     assert(fs);
     if (!fs) return -1;
@@ -1598,7 +1695,8 @@ bool IsDirectory(const std::string &path)
     return S_ISDIR(st.st_mode);
 }
 
-bool IsFilePathExists(const char* path, bool exdir) // exdir 表示进行文件夹检查，不能是 文件夹
+// exdir 表示进行文件夹检查，不能是 文件夹。
+bool IsFilePathExists(const char* path, bool exdir)
 {
     // 如果指定的存取方式有效，则函数返回 0，否则函数返回 -1。
     int code = ::access(path, 0);
@@ -1852,7 +1950,8 @@ class b62 {
             len++;
         }
 
-        static wchar_t SZ_BASE62_TAB[] = L"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        static wchar_t SZ_BASE62_TAB[] =
+            L"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         retv.AppendChar(SZ_BASE62_TAB[len]);
         for (int i = 0; i < len; i++) {
             int node = value % 62;
@@ -1941,8 +2040,10 @@ Base64 编码是使用 64 个可打印 ASCII 字符（A-Z、a-z、0-9、+、/）
 
 ```c++
 /**
- * 设计一种编码，编码出来只有 62 个字符，并且尽可能短，每个字符独立编码，支持按字符检索。
- * 62 编码，采取 59（质数）进制，XYZ 作为扩展标记。最短能从 16 进制得长度缩短到原来的 3/4 长度。
+ * 设计一种编码，编码出来只有 62 个字符，并且尽可能短，
+ * 每个字符独立编码，支持按字符检索。
+ * 62 编码，采取 59（质数）进制，XYZ 作为扩展标记。
+ * 最短能从 16 进制得长度缩短到原来的 3/4 长度。
  * 16 进制一次编码 4 bit，59 进制一次大概编码 6 bit。
  * <= 58: 直接解析
  * >= 59: XYZ 打头扩展编码。
@@ -1984,13 +2085,15 @@ class StringHelper
 public:
     static std::wstring toLower(std::wstring source)
     {
-        std::transform(source.begin(), source.end(), source.begin(), [](unsigned char c){ return std::tolower(c); });
+        std::transform(source.begin(), source.end(), source.begin(), [](unsigned char c) {
+            return std::tolower(c); });
         return source;
     }
 
     static std::wstring toUpper(std::wstring source)
     {
-        std::transform(source.begin(), source.end(), source.begin(), [](unsigned char c){ return std::toupper(c); });
+        std::transform(source.begin(), source.end(), source.begin(), [](unsigned char c) {
+            return std::toupper(c); });
         return source;
     }
 
@@ -2132,7 +2235,8 @@ public:
                     if (index == L"0")
                         ss << arg;
                     else
-                        throw std::runtime_error("Only simple positional format specifiers are handled by the 'formatSimple' helper method.");
+                        throw std::runtime_error(
+                            "Only simple positional format specifiers are handled by the 'formatSimple' helper method.");
                 }
             }
         }
@@ -2204,7 +2308,8 @@ public:
                     else if (index == L"1")
                         ss << arg2;
                     else
-                        throw std::runtime_error("Only simple positional format specifiers are handled by the 'formatSimple' helper method.");
+                        throw std::runtime_error(
+                            "Only simple positional format specifiers are handled by the 'formatSimple' helper method.");
                 }
             }
         }
@@ -2245,7 +2350,8 @@ public:
                     else if (index == L"2")
                         ss << arg3;
                     else
-                        throw std::runtime_error("Only simple positional format specifiers are handled by the 'formatSimple' helper method.");
+                        throw std::runtime_error(
+                            "Only simple positional format specifiers are handled by the 'formatSimple' helper method.");
                 }
             }
         }
@@ -2284,10 +2390,12 @@ namespace pystring
 
     std::string mul( const std::string & str, int n);
     std::string join( const std::string & str, const std::vector< std::string > & seq );
-    void split( const std::string & str, std::vector< std::string > & result, const std::string & sep = "", int maxsplit = -1);
+    void split( const std::string & str, std::vector< std::string > & result,
+                const std::string & sep = "", int maxsplit = -1);
     void splitlines(  const std::string & str, std::vector< std::string > & result, bool keepends = false );
 
-    std::string replace( const std::string & str, const std::string & oldstr, const std::string & newstr, int count = -1);
+    std::string replace( const std::string & str, const std::string & oldstr,
+                         const std::string & newstr, int count = -1);
 
     bool isalnum( const std::string & str );
     bool isalpha( const std::string & str );
@@ -2359,7 +2467,8 @@ const std::string colon = ":";
 
     namespace {
 
-        void split_whitespace( const std::string & str, std::vector< std::string > & result, int maxsplit )
+        void split_whitespace( const std::string & str,
+                               std::vector< std::string > & result, int maxsplit )
         {
             std::string::size_type i, j, len = str.size();
             for (i = j = 0; i < len; )
@@ -2387,7 +2496,8 @@ const std::string colon = ":";
 
     } // anonymous namespace
 
-    void split( const std::string & str, std::vector< std::string > & result, const std::string & sep, int maxsplit )
+    void split( const std::string & str, std::vector< std::string > & result,
+                const std::string & sep, int maxsplit )
     {
         result.clear();
 
@@ -2683,7 +2793,8 @@ const std::string colon = ":";
         return s;
     }
 
-    std::string replace( const std::string & str, const std::string & oldstr, const std::string & newstr, int count )
+    std::string replace( const std::string & str, const std::string & oldstr,
+                         const std::string & newstr, int count )
     {
         int sofar = 0;
         int cursor = 0;
@@ -2931,6 +3042,8 @@ class fastimagedll : public fastimage::IFastImageInterface {
 - [https://www.cnblogs.com/william-cheung/p/4831085.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.cnblogs.com/f4679e9a.html" %})
 - [https://dumphex.github.io/2020/03/09/local-static-object/]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/dumphex.github.io/44b7e285.html" %})
 - [https://opensource.apple.com/source/libcppabi/libcppabi-14/src/cxa_guard.cxx]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/opensource.apple.com/f9e31bf9.cxx" %})
+- [https://wiki.osdev.org/C++]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/wiki.osdev.org/3244f5f8.html" %})
+- [https://blog.csdn.net/flyingscv/article/details/2029509]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/0f56f6e5.html" %})
 - [https://blog.csdn.net/ce123_zhouwei/article/details/108562387]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/c29f479a.html" %})
 - [https://developer.arm.com/documentation/dui0530/m/Migrating-from-ARM-Compiler-v5-05-to-v5-06/Compiler-changes-between-ARM-Compiler-v5-05-and-v5-06/--ldrex-and---strex-intrinsics-deprecated]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/developer.arm.com/b6ef944f.html" %})
 - [https://blog.csdn.net/u012294613/article/details/123183813]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/48a4b95e.html" %})
