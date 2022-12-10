@@ -815,23 +815,262 @@ Mat Mat::clone() const
 }
 ```
 
+
+### Mat - 成员变量的 flags 的含义
+
 [Mat - 成员变量的 flags 的含义 {% include relref_csdn.html %}](https://blog.csdn.net/xbcReal/article/details/76685853)
 {% include image.html url="/assets/images/210914-tiny-source-code/20170804170646673.png" %}
 
-33619968 | 0x2010000 | `(cv::ACCESS_WRITE+cv::MAT)`
-16842752 | 0x1010000 | `(cv::ACCESS_READ+cv::MAT)`
-33882112 | 0x2050000 | `(cv::ACCESS_WRITE+cv::STD_VECTOR_MAT)`
-17104896   | 0x1050000  | `(cv::ACCESS_READ+cv::STD_VECTOR_MAT)`
--2130509812 | 0x8103000c | `std::vector<cv::Point2i>`
--1040056315 | 0xc2020005 | `cv::Vec4f`
--1056833530 | 0xc1020006 | `(cv::ACCESS_READ+cv::MATX+cv::FIXED_TYPE+cv::FIXED_SIZE+cv::DEPTH_MASK_8S+cv::DEPTH_MASK_16U)`
--2130640875 | 0x81010015 | `cv::Mat3f`
+<table class="tablestyle" ntablew="1:1:3:1"></table>
 
-1072693248 | 0x3ff00000 | 掩码 ? (cv::ACCESS_READ+cv::ACCESS_WRITE+cv::ACCESS_FAST | 0x38f00000)
-1074266112 | 0x40080000 | `(cv::CUDA_HOST_MEM+cv::FIXED_SIZE?)`
-1124007936 | 0x42ff0000 | (cv::ACCESS_WRITE+cv::FIXED_SIZE | 0xff0000)
-1081073664 | 0x406fe000 | (cv::CV_MAT_CONT_FLAG+cv::CV_SUBMAT_FLAG+cv::STD_ARRAY_MAT+cv::FIXED_SIZE | 0x602000)
-1079623680 | 0x4059c000 | (cv::CV_MAT_CONT_FLAG+cv::CV_SUBMAT_FLAG+cv::FIXED_SIZE | 0x590000)
+33619968|0x2010000 | `(cv::ACCESS_WRITE+cv::MAT)`
+16842752|0x1010000 | `(cv::ACCESS_READ+cv::MAT)`
+33882112|0x2050000 | `(cv::ACCESS_WRITE+cv::STD_VECTOR_MAT)` std::vector<Mat>
+17104896|0x1050000 | `(cv::ACCESS_READ+cv::STD_VECTOR_MAT)` std::vector<Mat>
+1124007936|0x42ff0000 | `cv::MAGIC_VAL`
+
+<table class="tablestyle" ntablew="1:1:1:3"></table>
+
+-2130509812|2164457484|0x8103000c | `std::vector<cv::Point2i>` (cv::ACCESS_READ+cv::STD_VECTOR+cv::FIXED_TYPE+cv::DEPTH_MASK_16U+cv::DEPTH_MASK_16S)
+-1040056315|3254910981|0xc2020005 | `cv::Vec4f` (cv::ACCESS_WRITE+cv::MATX+cv::FIXED_TYPE+cv::FIXED_SIZE+cv::DEPTH_MASK_8U+cv::DEPTH_MASK_16U)
+-1056833530|3238133766|0xc1020006 | `cv::Vec4d` (cv::ACCESS_READ+cv::MATX+cv::FIXED_TYPE+cv::FIXED_SIZE+cv::DEPTH_MASK_8S+cv::DEPTH_MASK_16U)
+
+-2130509812|0x8103000c | (cv::ACCESS_READ+cv::STD_VECTOR+cv::FIXED_TYPE+cv::DEPTH_MASK_16U+cv::DEPTH_MASK_16S)
+-2113732596|0x8203000c | (cv::ACCESS_WRITE+cv::STD_VECTOR+cv::FIXED_TYPE+cv::DEPTH_MASK_16U+cv::DEPTH_MASK_16S)
+-1056833531|0xc1020005 | (cv::ACCESS_READ+cv::MATX+cv::FIXED_TYPE+cv::FIXED_SIZE+cv::DEPTH_MASK_8U+cv::DEPTH_MASK_16U)
+-1040056315|0xc2020005 | (cv::ACCESS_WRITE+cv::MATX+cv::FIXED_TYPE+cv::FIXED_SIZE+cv::DEPTH_MASK_8U+cv::DEPTH_MASK_16U)
+-1056833530|0xc1020006 | (cv::ACCESS_READ+cv::MATX+cv::FIXED_TYPE+cv::FIXED_SIZE+cv::DEPTH_MASK_8S+cv::DEPTH_MASK_16U)
+-1040056314|0xc2020006 | (cv::ACCESS_WRITE+cv::MATX+cv::FIXED_TYPE+cv::FIXED_SIZE+cv::DEPTH_MASK_8S+cv::DEPTH_MASK_16U)
+
+<table class="tablestyle" ntablew="1:1:3:1"></table>
+
+1072693248|0x3ff00000 | ?(cv::ACCESS_READ+cv::ACCESS_WRITE+cv::ACCESS_FAST | 0x38f00000)
+1074266112|0x40080000 | `(cv::CUDA_HOST_MEM+cv::FIXED_SIZE?)`
+1081073664|0x406fe000 | adaptiveThreshold?(cv::CV_MAT_CONT_FLAG+cv::CV_SUBMAT_FLAG+cv::STD_ARRAY_MAT+cv::FIXED_SIZE | 0x602000)
+1079623680|0x4059c000 | ?(cv::CV_MAT_CONT_FLAG+cv::CV_SUBMAT_FLAG+cv::FIXED_SIZE | 0x590000)
+
+<div class="highlighter-rouge" foldctrl="1"></div>
+```cpp
+#include <iostream>
+#include <Windows.h>
+#include <assert.h>
+#include <opencv2/opencv.hpp>
+#include "../../include/kvision.h"
+#include <stdio.h>
+#include <process.h>
+#include <io.h>
+#include <direct.h>
+#include <vld.h>
+#include "../testwin.h"
+
+#include <Shlwapi.h>
+#pragma comment(lib, "shlwapi.lib") // Windows API PathFileExists
+#include "../../dcode/enhancedef.h"
+
+#include <ncnn/mat.h>
+#include <ncnn/allocator.h>
+#include <ncnn/cpu.h>
+#include <ncnn/net.h>
+
+enum {
+    KIND_SHIFT = 16,
+    FIXED_TYPE = 0x8000 << KIND_SHIFT,
+    FIXED_SIZE = 0x4000 << KIND_SHIFT,
+    KIND_MASK = 31 << KIND_SHIFT,
+
+    NONE = 0 << KIND_SHIFT,
+    MAT = 1 << KIND_SHIFT,
+    MATX = 2 << KIND_SHIFT,
+    STD_VECTOR = 3 << KIND_SHIFT,
+    STD_VECTOR_VECTOR = 4 << KIND_SHIFT,
+    STD_VECTOR_MAT = 5 << KIND_SHIFT,
+    EXPR = 6 << KIND_SHIFT,
+    OPENGL_BUFFER = 7 << KIND_SHIFT,
+    CUDA_HOST_MEM = 8 << KIND_SHIFT,
+    CUDA_GPU_MAT = 9 << KIND_SHIFT,
+    UMAT = 10 << KIND_SHIFT,
+    STD_VECTOR_UMAT = 11 << KIND_SHIFT,
+    STD_BOOL_VECTOR = 12 << KIND_SHIFT,
+    STD_VECTOR_CUDA_GPU_MAT = 13 << KIND_SHIFT,
+    STD_ARRAY = 14 << KIND_SHIFT,
+    STD_ARRAY_MAT = 15 << KIND_SHIFT
+};
+
+enum {
+    ACCESS_READ = 1 << 24, ACCESS_WRITE = 1 << 25,
+    ACCESS_RW = 3 << 24, ACCESS_FAST = 1 << 26
+};
+
+enum
+{
+    DEPTH_MASK_8U = 1 << CV_8U,
+    DEPTH_MASK_8S = 1 << CV_8S,
+    DEPTH_MASK_16U = 1 << CV_16U,
+    DEPTH_MASK_16S = 1 << CV_16S,
+    DEPTH_MASK_32S = 1 << CV_32S,
+    DEPTH_MASK_32F = 1 << CV_32F,
+    DEPTH_MASK_64F = 1 << CV_64F,
+    DEPTH_MASK_ALL = (DEPTH_MASK_64F << 1) - 1,
+    DEPTH_MASK_ALL_BUT_8S = DEPTH_MASK_ALL & ~DEPTH_MASK_8S,
+    DEPTH_MASK_FLT = DEPTH_MASK_32F + DEPTH_MASK_64F
+};
+
+#define PARSE_CHECK(mat) if (knum & mat) { \
+unsigned int znum = knum & (~mat); \
+if (!code) { \
+printf("parse - cv::" #mat " %08x %08x/%08x \n", mat, knum, znum); } \
+knum = znum; strcat(buffer, "+cv::" #mat); check += mat; \
+} assert(getBinCount(mat) == 1);
+
+#define PARSE_CHECK_KIND(mat) if ((knum & (KIND_MASK)) == mat) { \
+unsigned int znum = knum & (~(KIND_MASK)); \
+if (!code) { \
+printf("parse - cv::" #mat " %08x %08x/%08x \n", mat, knum, znum); } \
+knum = znum; strcat(buffer, "+cv::" #mat); check += mat; \
+}
+
+int getBinCount(const unsigned int src) {
+    int count = 0;
+    unsigned int knum = src;
+    while (knum) {
+        if (knum & 1) {
+            count++;
+        }
+        knum = knum >> 1;
+    }
+    if (count != 1) {
+        assert(count == 1);
+    }
+    return count;
+}
+
+//#include "E:\kSource\blog\invisible\decompile\mycv.h"
+int parseCvMagic(unsigned int knum, bool code = false) {
+    if (!code) {
+        printf("---------- \n");
+    }
+    const unsigned int src = knum;
+    unsigned int check = 0; // 累加上去。
+    char buffer[1024] = { 0 };
+
+    enum { MAGIC_VAL = 0x42FF0000, AUTO_STEP = 0, CONTINUOUS_FLAG = CV_MAT_CONT_FLAG, SUBMATRIX_FLAG = CV_SUBMAT_FLAG };
+    enum { MAGIC_MASK = 0xFFFF0000, TYPE_MASK = 0x00000FFF, DEPTH_MASK = 7 };
+
+    unsigned int cont = CV_MAT_CONT_FLAG;
+    unsigned int submat = CV_SUBMAT_FLAG;
+    PARSE_CHECK(CV_MAT_CONT_FLAG);
+    PARSE_CHECK(CV_SUBMAT_FLAG);
+    CV_UNUSED(cont);
+    CV_UNUSED(submat);
+
+    PARSE_CHECK(ACCESS_READ);
+    PARSE_CHECK(ACCESS_WRITE);
+    //PARSE_CHECK(ACCESS_RW);
+    PARSE_CHECK(ACCESS_FAST);
+
+    PARSE_CHECK_KIND(MAT);
+    PARSE_CHECK_KIND(MATX);
+    PARSE_CHECK_KIND(STD_VECTOR);
+    PARSE_CHECK_KIND(STD_VECTOR_VECTOR);
+    PARSE_CHECK_KIND(STD_VECTOR_MAT);
+    PARSE_CHECK_KIND(EXPR);
+    PARSE_CHECK_KIND(OPENGL_BUFFER);
+    PARSE_CHECK_KIND(CUDA_HOST_MEM);
+    PARSE_CHECK_KIND(CUDA_GPU_MAT);
+    PARSE_CHECK_KIND(UMAT);
+    PARSE_CHECK_KIND(STD_VECTOR_UMAT);
+    PARSE_CHECK_KIND(STD_BOOL_VECTOR);
+    PARSE_CHECK_KIND(STD_VECTOR_CUDA_GPU_MAT);
+    PARSE_CHECK_KIND(STD_ARRAY);
+    PARSE_CHECK_KIND(STD_ARRAY_MAT);
+
+    PARSE_CHECK(FIXED_TYPE);
+    PARSE_CHECK(FIXED_SIZE);
+
+    PARSE_CHECK(DEPTH_MASK_8U);
+    PARSE_CHECK(DEPTH_MASK_8S);
+    PARSE_CHECK(DEPTH_MASK_16U);
+    PARSE_CHECK(DEPTH_MASK_16S);
+    PARSE_CHECK(DEPTH_MASK_32S);
+    PARSE_CHECK(DEPTH_MASK_32F);
+    PARSE_CHECK(DEPTH_MASK_64F);
+    //PARSE_CHECK(DEPTH_MASK_ALL);
+    //PARSE_CHECK(DEPTH_MASK_ALL_BUT_8S);
+    //PARSE_CHECK(DEPTH_MASK_FLT);
+
+    unsigned int xtype = knum & TYPE_MASK;
+    if (xtype) {
+        assert(xtype == 0);
+    }
+
+    unsigned int magic = knum & MAGIC_MASK;
+    if (magic) {
+        assert(magic == 0);
+    }
+
+    unsigned int depth = knum & DEPTH_MASK;
+    if (depth) {
+        assert(depth == 0);
+    }
+
+    if (knum == 0) { // 用完了。
+        printf("%d | 0x%x | (%s) \n", src, src, &buffer[1]);
+    }
+    else { // 有剩余 !!!
+        printf("%d | 0x%x | (%s | 0x%x) \n", src, src, &buffer[1], knum);
+    }
+    if (check != src || knum != 0) {
+        assert(check + knum == src);
+        assert(check == src);
+        assert(knum == 0);
+    }
+    return knum;
+}
+
+void testmagic() {
+
+    int k = 0;
+    k = sizeof(cv::Size); // 8
+    k = sizeof(std::vector<int>); // 16
+    k = sizeof(cv::Mat); // 56
+    k = sizeof(std::initializer_list<int>); // 8
+    k = sizeof(std::array<int, 2>); // 8
+    k = sizeof(cv::Vec<int, 2>); // 8
+    k = sizeof(cv::Matx<int, 2, 3>); // 24
+    k = sizeof(cv::Point_<int>); // 8
+    k = sizeof(cv::Point3_<int>); // 12
+    k = sizeof(cv::MatCommaInitializer_<int>); // 20
+
+    cv::Vec4d vec;
+    cv::InputArray array(vec);
+    k = array.getFlags();
+    parseCvMagic(k, true);
+
+    parseCvMagic(33619968, true);
+    parseCvMagic(16842752, true);
+    parseCvMagic(33882112, true);
+    parseCvMagic(17104896, true);
+
+    parseCvMagic(-2130509812, true);
+    parseCvMagic(-1040056315, true);
+    parseCvMagic(-1056833530, true);
+
+    // 这几个存在疑问。
+    parseCvMagic(1072693248, true);
+    parseCvMagic(1074266112, true);
+    parseCvMagic(1081073664, true);
+    parseCvMagic(1079623680, true);
+}
+
+int main(int argc, char *argv[])
+{
+    testmagic();
+
+    printf("ok");
+    getchar();
+    return 0;
+}
+```
 
 1. 不能包含指针转换：`(int)`，调整为 `(int64)`，避免指针截断。
     * <https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt>
