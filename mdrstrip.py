@@ -204,13 +204,15 @@ title : %(title)s
 
     # protocol :// hostname[:port] / path / [:parameters][?query]#fragment
     remotename = url.split("?")[0].split("#")[0].split("/")[-1]
-    if remotename in readfileIglist("config/mdrstrip_url_ignore_name.txt"):
+    ignorenamefile = "config/mdrstrip_url_ignore_name.txt"
+    if remotename in readfileIglist(ignorenamefile):
         return remote
 
     # 外链类型 断言...
     if not remote.split(".")[-1] in ("pdf", "html", "git", "php", "c", "phtml", "cpp", "cxx", "htm", "shtm", "xml",
                                      "ipynb", "py", "asp", "shtml", "aspx", "xhtml", "txt", "mspx", "sh",):
         print(fpath, url)
+        openTextFile(ignorenamefile)
         assert False, remote
     return remote
 
@@ -226,7 +228,7 @@ def tidyupImgCollect(rootdir):
                 osremove(fpath)
         else:
             G_IMG_TAGED.add(os.path.relpath(fpath, ".").lower())
-    searchdir(rootdir, mainfile)
+    searchdir(rootdir, mainfile) # tidyupImgCollect
 
 # 本地图片缓存路径。
 def tidyupImg(imglocal, fpath, line, imgthumb=True):
@@ -1029,7 +1031,7 @@ def findPostMdFile(rootdir, fnamek):
             nonlocal fpathk
             assert fpathk == fnamek # 没有被赋值过。
             fpathk = fpath
-    searchdir(rootdir, mainfile)
+    searchdir(rootdir, mainfile) # findPostMdFile
     return fpathk
 
 def checkReviewJS(jsdir, rootdir):
@@ -1052,7 +1054,7 @@ def checkReviewJS(jsdir, rootdir):
             print(type(xday), xday, xday.days)
             if xday.days <= 15:
                 openTextFile(mdfile)
-    searchdir(jsdir, mainfile)
+    searchdir(jsdir, mainfile) # checkReviewJS
 
 def mainw():
     print(parsePythonCmdx(__file__))
@@ -1073,17 +1075,18 @@ def main():
     CHECK_IGNORE_LIST = (
         "backup", "tempdir", "_site",
         "Debug", "Release", ".vs", "opengl-3rd", "opengles3-book", "opengles-book-samples",
-        "UserDataSpider", "docs.gl", "ml-notes",
+        "UserDataSpider", "docs.gl", "ml-notes", "ksample",
         )
     searchdir(".", checkfilesize, ignorelist=CHECK_IGNORE_LIST, onDirectory=oncheckdirectory)
     searchdir("backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST, onDirectory=oncheckdirectory)
     searchdir("invisible"+os.sep+"backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST, onDirectory=oncheckdirectory)
 
-    searchdir(".", mainfilew, ignorelist=(
+    MAINW_IGNORE_LIST = (
         "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
         "Debug", "Release", ".vs", "openglcpp", "opengl-3rd", "opengles3-book", "opengles-book-samples",
-        "UserDataSpider", "docs.gl", "ml-notes",
-        ), reverse=True)
+        "UserDataSpider", "docs.gl", "ml-notes", "ksample",
+        )
+    searchdir(".", mainfilew, ignorelist=MAINW_IGNORE_LIST, reverse=True)
     if REBUILD:
         clearSnapCache()
         clearemptydir("images")

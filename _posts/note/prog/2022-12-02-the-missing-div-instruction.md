@@ -278,7 +278,7 @@ Debug 版本 sizeof(myvec) == 16，Release 版本 sizeof(myvec) == 12。
 可以定义一个宏，取出这三个指针。
 
 ```
-#ifdef _DEBUG
+#if _ITERATOR_DEBUG_LEVEL != 0
 #define MatVecFirst(myvec) (  (cv::Mat*)  ((size_t*)&(myvec))[1]  )
 #define MatVecLast(myvec)  (  (cv::Mat*)  ((size_t*)&(myvec))[2]  )
 #define MatVecEnd(myvec)   (  (cv::Mat*)  ((size_t*)&(myvec))[3]  )
@@ -368,6 +368,8 @@ size_t | 4 | *8* | 4 | *8*
     * `unsigned b = 0xffffff01; char a = (char)b;` // 0x01
 * 运算问题
     * 汇编是不区分正负数字的。溢出不溢出，是由程序员判断的，机器不管。
+        * 溢出标志 `OF` 可检测有符号数的溢出。
+        * 进位标志 `CF` 可检测无符号数的回绕。
 * 判等问题
     * `movsx eax, byte ptr [a]` 先符号扩展，再传送
     * `movzx ecx, byte ptr [b]` 先零扩展，再传送
