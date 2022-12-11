@@ -825,8 +825,8 @@ Mat Mat::clone() const
 
 33619968|0x2010000 | `(cv::ACCESS_WRITE+cv::MAT)`
 16842752|0x1010000 | `(cv::ACCESS_READ+cv::MAT)`
-33882112|0x2050000 | `(cv::ACCESS_WRITE+cv::STD_VECTOR_MAT)` `std::vector<Mat>`
-17104896|0x1050000 | `(cv::ACCESS_READ+cv::STD_VECTOR_MAT)` `std::vector<Mat>`
+33882112|0x2050000 | `(cv::ACCESS_WRITE+cv::STD_VECTOR_MAT)` std::vector\<Mat\>
+17104896|0x1050000 | `(cv::ACCESS_READ+cv::STD_VECTOR_MAT)` std::vector\<Mat\>
 1124007936|0x42ff0000 | `cv::MAGIC_VAL`
 
 <table class="tablestyle" ntablew="1:1:1:3"></table>
