@@ -468,60 +468,46 @@ cv::Mat::deallocate((int)&v120); | deallocate(); | cv::Mat
 ```cpp
 #include <iostream>
 
-int trydiv(int magic, int shift, int div, int print) {
-    bool ok = true;
-    unsigned int lastdvalue = -1;
-    unsigned int safectrl = 0xff;
-    for (unsigned int num = 0; num < 10000; num++) {
-        // if (num % 4) continue;
-        auto value = magic * (num >> shift);
-        if (value > safectrl && !print) continue;
-        auto dvalue = num / div;
-        if (/*div == print && */ num <= 1000 && num % print == 0) {
-            printf("[%d] magic=%d shift=%d div=%d -> %d[0x%x] %d[0x%x] \n", //
-                num, magic, shift, div, value, value, dvalue, dvalue);
+int checkdiv(int num, int div, bool output=false, int shdiv=1) {
+    bool retv = true;
+    for (int i = 0; i < 9100; i++) {
+        if (i % div) continue;
+        if (output && (i < 100 || i >= 9000)) {
+            printf("[%d]%s [0x%x/%d,%d] %d -- %d \n", //
+                i, retv ? "True" : "False", //
+                num, shdiv, div, i * num / shdiv, i / div);
         }
-        if (value > safectrl) continue;
-        if (dvalue != value && value < safectrl) {
-            ok = false;
-        }
-        if (value < safectrl && ok) {
-            if (lastdvalue != -1 && dvalue > lastdvalue + 1) {
-                // ok = false;
-            }
-            lastdvalue = dvalue;
+        if (i * num / shdiv != i / div) {
+            retv = false;
         }
     }
-    return ok;
+    return retv;
 }
-int check(int magic, int shift, int print) {
-    for (unsigned int div = 1; div < 100; div++) {
-        if (trydiv(magic, shift, div, print)) {
-            printf("---- \n");
-            trydiv(magic, shift, div, div);
-            return div;
+int checkdiv(int num) {
+    for (int x = 2; x <= 200; x++) {
+        if (checkdiv(num, x)) {
+            return x;
         }
     }
-    return -1;
+    return 0;
+}
+void printdiv(int num, int div) {
+    printf("printdiv %d %d \n", num, div);
 }
 
 int main()
 {
-    int magic[] = {
-        -1227133513, 3, -1, // 56
-         -1431655765, 2, -1, // 12
-         -858993459, 4, -1, // 80
-         -1717986918, 4, -1, // 40?
-         1431655766, 2, -1, // 6?
-         858993460, 4, -1, // 20?
-    };
-
-    int count = sizeof(magic) / sizeof(magic[0]);
-    int ksize = 3;
-    for (int i = 0; i < count / ksize; i++) {
-        printf("-- [%d] %d \n", magic[i * ksize], //
-            check(magic[i * ksize], magic[i * ksize + 1], magic[i * ksize + 2]));
-        getchar();
+    int ksize = klistsize;
+    // 1431655766?
+    int div = 0;
+    if (div = checkdiv(1431655766)) {
+        printdiv(1431655766, div);
+    }
+    checkdiv(1431655766, 3, true, 2);
+    for (int i = 0; i < ksize; i++) {
+        if (div = checkdiv(klist[i])) {
+            printdiv(klist[i], div);
+        }
     }
 
     getchar();
