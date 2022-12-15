@@ -708,7 +708,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
                 if ch == '`':
                     linxCount = linxCount + 1
                     if linxCount % 2 == 1:
-                        if not newline.endswith(" "):
+                        if newline and not newline.endswith(" "):
                             newline += " `"
                         else:
                             newline += "`"
