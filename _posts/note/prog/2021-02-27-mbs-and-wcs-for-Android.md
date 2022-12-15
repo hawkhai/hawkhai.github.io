@@ -546,7 +546,7 @@ size_t mbstowcs(wchar_t *wcstr, const char *mbstr, size_t count);
 setlocale(LC_CTYPE, "zh_CN.utf8");
 ```
 
-Windows 特有 API：`_configthreadlocale`。
+Windows 特有 API： `_configthreadlocale` 。
 
 ```cpp
 setlocale(LC_CTYPE, "chs");
@@ -557,7 +557,7 @@ _configthreadlocale(_DISABLE_PER_THREAD_LOCALE);
 setlocale // 只能在当前进程各自的运行时库里生效
 ```
 
-Android Java，还可以通过 JNI 去搞。`new String(str.getBytes(), "UTF-8");`
+Android Java，还可以通过 JNI 去搞。 `new String(str.getBytes(), "UTF-8");`
 
 ```java
 char* jstringTostring(JNIEnv* env, jstring jstr)
@@ -612,10 +612,10 @@ locale 把按照所涉及到的文化传统的各个方面分成 12 个大类，
 12. 对 locale 自身包含信息的概述 (LC_IDENTIFICATION)
 
 Locale 是软件在运行时的语言环境，它包括语言 (Language)，地域 (Territory) 和字符集 (Codeset)。
-一个 locale 的书写格式为：`语言[_地域[.字符集]]`。
+一个 locale 的书写格式为： `语言[_地域[.字符集]]` 。
 
-1. 我说中文，身处中华人民共和国，使用国标 2312 字符集来表达字符。`zh_CN.GB2312`＝`中文_中华人民共和国＋国标 2312 字符集`。
-3. 我说中文，身处中华人民共和国台湾省，使用国标 Big5 字符集来表达字符。`zh_TW.BIG5`＝`中文_台湾.大五码字符集`。
+1. 我说中文，身处中华人民共和国，使用国标 2312 字符集来表达字符。 `zh_CN.GB2312` ＝ `中文_中华人民共和国＋国标 2312 字符集` 。
+3. 我说中文，身处中华人民共和国台湾省，使用国标 Big5 字符集来表达字符。 `zh_TW.BIG5` ＝ `中文_台湾.大五码字符集` 。
 
 
 ### iconv()

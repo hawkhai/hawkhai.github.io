@@ -44,7 +44,7 @@ for (m = (unsigned __int8 *)(v27 + pArg3[3] + v84);
 ```
 &[a-z0-9]+\[-
 ```
-危险的：`(unsigned long long)&m[`，因为这里可能是一个简单的加法，可能出现负数。
+危险的： `(unsigned long long)&m[` ，因为这里可能是一个简单的加法，可能出现负数。
 
 这行代码 `v5 = (v2 / -10 + pArg[126]) & ~((v2 / -10 + pArg[126]) >> 31);`
 调整为 long long 就正确了。
@@ -130,7 +130,7 @@ typedef MSVC_ALIGN(4) struct A {
 ```
 
 cv::Mat
-危险的：`void create(int ndims, const int* sizes, int type);`
+危险的： `void create(int ndims, const int* sizes, int type);`
 `int* sizes` 和 `cv::Size` 内存结构刚好是反的。
 查找所有的 `(2,` 可以找出来。
 ['-1431655765', '-1227133513', '-858993459']
@@ -233,21 +233,21 @@ int& v149 = v142array[7]; // [sp+DCh] [bp-2Ch]
 
 ### rtti/exceptions 冲突
 
-在 Android NDK（JNI）代码中遇到报错 `error: use of typeid requires -frtti`。
+在 Android NDK（JNI）代码中遇到报错 `error: use of typeid requires -frtti` 。
 
-原因：ncnn 的 android 预编译包的编译选项中，禁用了`rtti`（同时还禁用了`exceptions`），而 OpenCV 的 android 预编译包开启了`rtti`和`exceptions`（这是在 NDK 的 toolchains.cmake 中默认开启的）；当两个（或多个）库的 rtti、exceptions 编译选项设定不同时，会导致冲突，需要统一。
+原因：ncnn 的 android 预编译包的编译选项中，禁用了 `rtti` （同时还禁用了 `exceptions` ），而 OpenCV 的 android 预编译包开启了 `rtti` 和 `exceptions` （这是在 NDK 的 toolchains.cmake 中默认开启的）；当两个（或多个）库的 rtti、exceptions 编译选项设定不同时，会导致冲突，需要统一。
 
 **方法：重编 ncnn，编译时开启 rtti、exceptions**。
 
-- 在命令行（或 CMake-GUI）里，用 cmake 构建，构建时传入`-DNCNN_DISABLE_EXCEPTION=OFF -DNCNN_DISABLE_RTTI=OFF`；如果先前构建过，请清理 build/CMakeCache.txt；不要在 Android Studio 里构建 ncnn 库，因为很可能你的 rtti 和 exceptions 还是弄错。
+- 在命令行（或 CMake-GUI）里，用 cmake 构建，构建时传入 `-DNCNN_DISABLE_EXCEPTION=OFF -DNCNN_DISABLE_RTTI=OFF` ；如果先前构建过，请清理 build/CMakeCache.txt；不要在 Android Studio 里构建 ncnn 库，因为很可能你的 rtti 和 exceptions 还是弄错。
 
 
 ### 为啥自己编译的 ncnn android 库特别大？
 
-很可能是没有去掉`-g`导致的。**这个不用解决，大点就大点吧。**
+很可能是没有去掉 `-g` 导致的。**这个不用解决，大点就大点吧。**
 
 基于 cmake 和 ninja，自行编译 ncnn 的 android 库，编译时注意：
-- 去掉 `-g` 参数以减小库体积：打开`$ANDROID_NDK/build/cmake/android.toolchain.cmake`
+- 去掉 `-g` 参数以减小库体积：打开 `$ANDROID_NDK/build/cmake/android.toolchain.cmake`
   ```cmake
   # 删除 "-g" 这行
   list(APPEND ANDROID_COMPILER_FLAGS
@@ -258,7 +258,7 @@ int& v149 = v142array[7]; // [sp+DCh] [bp-2Ch]
 
 ### ADD_LIBRARY SHARED not support
 
-这行代码造成的：`set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS FALSE)`。
+这行代码造成的： `set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS FALSE)` 。
 ADD_LIBRARY called with SHARED option but the target platform does not
     support dynamic linking.  Building a STATIC library instead.
 
@@ -305,7 +305,7 @@ cvtype = CV_8UC3; // 16
 cvtype = CV_32FC1; // 5
 cvtype = CV_32FC3; // 21
 
-// std::vector Debug 版本第一位是：`_Myproxy`。
+// std::vector Debug 版本第一位是： `_Myproxy` 。
 #if _ITERATOR_DEBUG_LEVEL != 0
 #define MatVecFirst(x) (  (cv::Mat*)  ((size_t*)&(x))[1]  )
 #define MatVecLast(x)  (  (cv::Mat*)  ((size_t*)&(x))[2]  )
@@ -1599,7 +1599,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-1. 不能包含指针转换：`(int)`，调整为 `(int64)`，避免指针截断。
+1. 不能包含指针转换： `(int)` ，调整为 `(int64)` ，避免指针截断。
     * <https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt>
     * <https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4189?view=msvc-170>
     * /we4101 # 'identifier' : unreferenced local variable
@@ -1610,10 +1610,10 @@ int main(int argc, char *argv[])
     * /we4312: “类型强制转换”: 从“int”转换到更大的“void *”
     * /we4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
     * /we4267 /we4312 /we4101 /we4244 /we4189 /we4311 /we4302
-2. 所有 `while (1)` 替换为：`while (true)`，以方便阅读。
-3. 指针查找：`*(_BYTE*)(v12`，正则为：`\*\([0-9a-zA-Z_]*?\*\)\(v`。
+2. 所有 `while (1)` 替换为： `while (true)` ，以方便阅读。
+3. 指针查找： `*(_BYTE*)(v12` ，正则为： `\*\([0-9a-zA-Z_]*?\*\)\(v` 。
 4. 所有 float 采用 (float)，避免限制为 double，最终 32 & 64 计算的结果造成不一致。
-5. `(unsigned int)(float)` 调整为 `(int)(float)`，前面 32 & 64 汇编运算结果会不一致。
+5. `(unsigned int)(float)` 调整为 `(int)(float)` ，前面 32 & 64 汇编运算结果会不一致。
 
 内存地址是否高位为 1，int64 的情况？可以当成 long long 来处理。
 64 位操作系统内存值的最高位可能是 1 吗？不可能，所有系统的寻址能力，最高 0xffff 都是用不到的。
@@ -1657,7 +1657,7 @@ mov         dword ptr [rsp+148h],eax
 
 6BlackWhiteColor\android\54.webp.result.png
 -- 这玩意每次跑出来结果不一样。
-* 由于矩阵没有初始化，造成的结果波动。`memset(bkground.data, 0, bkground.step * bkground.rows);`
+* 由于矩阵没有初始化，造成的结果波动。 `memset(bkground.data, 0, bkground.step * bkground.rows);`
 7SaveInk\android\78.jfif.result.png -- 这个也不一样。
 
 * `__dmb(0xBu);` -> `__dmb(_ARM_BARRIER_ISH);`
@@ -1696,7 +1696,7 @@ matArray[2].size.p = &matArray[2].rows;
 
 [消失的除法指令：Part1](https://cjting.me/2021/03/16/the-missing-div-instruction-part1/)
 [除法换成乘法 3435973837 {% include relref_csdn.html %}](https://blog.csdn.net/nameofcsdn/article/details/125007289)
-在 gcc 里面有一个 32-bit 的 unsigned integer x，那么 `x/10` 会被转换成 `(x*3435973837)>>35`。
+在 gcc 里面有一个 32-bit 的 unsigned integer x，那么 `x/10` 会被转换成 `(x*3435973837)>>35` 。
 
 ```cpp
 for (int i = 0; i < 10; i++) {
@@ -1708,7 +1708,7 @@ for (int i = 0; i < 10; i++) {
 ```
 
 为了效率，已经丧心病狂了。
-一个 32-bit 的 unsigned integer x，那么 `x/10` 会被转换成 `(x*3435973837)>>35`。
+一个 32-bit 的 unsigned integer x，那么 `x/10` 会被转换成 `(x*3435973837)>>35` 。
 除以 5 等价于 乘以 3435973837（运算溢出后是等价的）。
 [Shift to divide by 10 {% include relref_github.html %}](https://rgplantz.github.io/2021/11/04/Shift-to-divide-by-10.html)
 
@@ -1753,26 +1753,26 @@ if (!guard.first_byte)
 [delete 与 delete\[\] 的区别 {% include relref_csdn.html %}](https://blog.csdn.net/flyingscv/article/details/2029509)
 1. 如果对象无析构函数（包括不需要合成析构函数，比如注释掉 ~A 和 string s 两行代码）
     delete 会直接调用 operator delete 并直接调用 free 释放内存，
-    这个时候的 `new` = `new []`（仅在数量上有差异），`delete` = `delete[]`。
+    这个时候的 `new` = `new []` （仅在数量上有差异）， `delete` = `delete[]` 。
 2. 如果对象存在析构函数（包括合成析构函数），则**这个才是重点**：
     `new []` 返回的地址会后移 4 个字节，并用那 4 个存放数组的大小！而 new 不用后移这四个字节。
     `delete []` 根据那个 4 个字节的值，调用指定次数的析构函数，同样 delete 也不需要那四个字节。
 
 结果就是在不恰当的使用 `delete` 和 `delete []` 调用 `free` 的时候会造成 4 个字节的错位，
-最终导致`debug assertion failed!`
+最终导致 `debug assertion failed!`
 
 再回到《高质量 C++ 编程指南》：
 ```cpp
 delete []objects; // 正确的用法
 delete objects;   // 错误的用法
 ```
-后者相当于 `delete objects[0]`，漏掉了另外 99 个对象。
+后者相当于 `delete objects[0]` ，漏掉了另外 99 个对象。
 严格应该这样说：后者相当于仅调用了 `objects[0]` 的析构函数，
 漏掉了调用另外 99 个对象的析构函数，
 并且在调用之后释放内存时导致异常（如果存在析构函数的话），
 如果对象无析构函数该语句与 `delete []objects` 相同。
 
-`new []`：
+`new []` ：
 ```
 // 申请大小为 5（4+1，既 4 个字节存放数组大小，一个存放对象大小，0 字节对象大小为 1）
 00401298   push        5
@@ -1794,7 +1794,7 @@ delete objects;   // 错误的用法
 004012C6   mov         edx,dword ptr [ebp-14h]
 004012C9   mov         dword ptr [ebp-4],edx
 ```
-`delete []`：
+`delete []` ：
 ```
 00401388   mov         edx,dword ptr [ebp-4]
 0040138B   sub         edx,4  // 与 delete 相比，先前移指针然后释放空间。
@@ -1859,12 +1859,12 @@ __dmb(0xBu);
 其实 LDREX 和 STREX 指令，是将单纯的更新内存的原子操作分成了两个独立的步骤。
 大致的流程如下，但是 ARM 内部为了实现这个功能，还有不少复杂的情况要处理。
 
-LDREX 用来读取内存中的值，并标记对该段内存的独占访问：`LDREX Rx, [Ry]`。
+LDREX 用来读取内存中的值，并标记对该段内存的独占访问： `LDREX Rx, [Ry]` 。
 上面的指令意味着，读取寄存器 Ry 指向的 4 字节内存值，将其保存到 Rx 寄存器中，同时标记对 Ry 指向内存区域的独占访问。
 如果执行 LDREX 指令的时候发现已经被标记为独占访问了，并不会对指令的执行产生影响。
 
 而 STREX 在更新内存数值时，会检查该段内存是否已经被标记为独占访问，
-并以此来决定是否更新内存中的值：`STREX Rx, Ry, [Rz]`。
+并以此来决定是否更新内存中的值： `STREX Rx, Ry, [Rz]` 。
 如果执行这条指令的时候发现已经被标记为独占访问了，则将寄存器 Ry 中的值更新到寄存器 Rz 指向的内存，
 并将寄存器 Rx 设置成 0。指令执行成功后，会将独占访问标记位清除。
 而如果执行这条指令的时候发现没有设置独占标记，则不会更新内存，且将寄存器 Rx 的值设置成 1。

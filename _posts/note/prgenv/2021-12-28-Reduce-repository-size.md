@@ -62,17 +62,17 @@ https://gitlab.example.com/yqh/pdfreader.git
 
 最近迁移 git 项目地址，想保留原有分支和提交。
 1. 先克隆老项目的镜像
-    * 命令：`git clone --mirror old.git （old.git 为老项目的 git 地址）`
-    * 实例：`git clone --mirror git@gitlab.example.com:pcapp/kpdf/pdfreader.git`
+    * 命令： `git clone --mirror old.git （old.git 为老项目的 git 地址）`
+    * 实例： `git clone --mirror git@gitlab.example.com:pcapp/kpdf/pdfreader.git`
 2. 进入老项目的目录
-    * 命令：`cd old.git`
-    * 实例：`cd pdfreader.git`
+    * 命令： `cd old.git`
+    * 实例： `cd pdfreader.git`
 3. 移除老项目的地址替换成新项目
-    * 命令：`git remote set-url --push origin new.git （new.git 为新项目的 git 地址）`
-    * 实例：`git remote set-url --push origin git@gitlab.example.com:yqh/pdfreader.git`
+    * 命令： `git remote set-url --push origin new.git （new.git 为新项目的 git 地址）`
+    * 实例： `git remote set-url --push origin git@gitlab.example.com:yqh/pdfreader.git`
 4. 将镜像推到远程
-    * 命令：`git push --mirror // 这一步需要输入新的 git 的账号和密码`
-    * 实例：`git push --mirror`
+    * 命令： `git push --mirror // 这一步需要输入新的 git 的账号和密码`
+    * 实例： `git push --mirror`
 
 * filter-branch 是让 git 重写每一个分支。
 * git filter-repo --strip-blobs-bigger-than 10M

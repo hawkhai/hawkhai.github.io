@@ -188,7 +188,7 @@ WARNING: Frame IP not in any known module. Following frames may be wrong.
 
 崩溃原因：
 在执行
-`fastapp!EnginePdfiumTransformByPageCTM+89` 的时候 `mov esi,dword ptr [eax+4]` 然后 `READ_ADDRESS: 00000004`。
+`fastapp!EnginePdfiumTransformByPageCTM+89` 的时候 `mov esi,dword ptr [eax+4]` 然后 `READ_ADDRESS: 00000004` 。
 由于 Release 优化内联，定位到的函数可能不准确，但是一看就是一个空指针读取造成的崩溃。指针是空，然后读取内存 +4 的位置。
 
 

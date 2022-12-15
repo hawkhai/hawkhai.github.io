@@ -23,7 +23,7 @@ cluster: "WinDBG"
 srcImage = srcImage.convertToFormat(QImage::Format_RGBA8888);
 ```
 
-这个代码会卡死，觉得很奇怪，查询代码，卡在了 [这里](https://code.qt.io/cgit/qt/qtbase.git/tree/src/gui/image/qimage_conversions.cpp) `semaphore.acquire(segments);`：
+这个代码会卡死，觉得很奇怪，查询代码，卡在了 [这里](https://code.qt.io/cgit/qt/qtbase.git/tree/src/gui/image/qimage_conversions.cpp) `semaphore.acquire(segments);` ：
 ```cpp
 #ifdef QT_USE_THREAD_PARALLEL_IMAGE_CONVERSIONS
     int segments = (qsizetype(src->width) * src->height) >> 16;
@@ -198,7 +198,7 @@ QPixmap SimplePageEdit::GetImagePixmap(const std::shared_ptr<IPageElement>& elem
 ```
 
 上面这段代码，存在严重的内存泄漏，调用一次 泄漏整张图片的内存，大概几十兆，稍微多调用几次，程序就挂了。
-问题出在函数 `QImage`，`free(data);` 当 data 为空的时候，free 函数不会报错。
+问题出在函数 `QImage` ， `free(data);` 当 data 为空的时候，free 函数不会报错。
 **写的时候，应该没有全面调试和确认，没有准确查询文档。**
 
 函数原型：
@@ -280,12 +280,12 @@ ChildEBP RetAddr  Args to Child
 0019fc3c 767524de 006e0000 00000000 00706c30 pdfupdate_ex!DeCryptLibFile+0x108 [d:\...\include\defend\cryptfunction.cpp @ 469]
 ```
 
-IDA 打开对应的 pdfupdate_ex.exe，跳转到 `0042b498`：
+IDA 打开对应的 pdfupdate_ex.exe，跳转到 `0042b498` ：
 
 {% include image.html url="/assets/images/210602-win-windbg-cases/20220223165659.png" %}
 {% include image.html url="/assets/images/210602-win-windbg-cases/20220223165710.png" %}
 
-一上来 `CreateFileW`，返回的时候 \_\_\_security_cookie 检查失败，崩溃了。
+一上来 `CreateFileW` ，返回的时候 \_\_\_security_cookie 检查失败，崩溃了。
 
 
 ## 64 位指针被截断
@@ -304,7 +304,7 @@ r14=0000000000000000 r15=0000000000000000
 iopl=0         nv up ei pl nz na pe nc
 cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010202
 fastapp_ext64!std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> >::assign+0x1a:
-00000000`55361dea 4c394218        cmp     qword ptr [rdx+18h],r8 ds:ffffffff`823b63d8=????????????????
+00000000 `55361dea 4c394218        cmp     qword ptr [rdx+18h],r8 ds:ffffffff` 823b63d8=????????????????
 Resetting default scope
 
 EXCEPTION_RECORD:  (.exr -1)
@@ -329,7 +329,7 @@ r14=0000000000000000 r15=0000000000000000
 iopl=0         nv up ei pl nz na pe nc
 cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010202
 fastapp_ext64!std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> >::assign+0x1a:
-00000000`55361dea 4c394218        cmp     qword ptr [rdx+18h],r8 ds:ffffffff`823b63d8=????????????????
+00000000 `55361dea 4c394218        cmp     qword ptr [rdx+18h],r8 ds:ffffffff` 823b63d8=????????????????
 RetAddr           : Args to Child                                                           : Call Site
 00000000`00000000 : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : fastapp_ext64!std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t> >::assign+0x1a [d:\program files\microsoft visual studio 8\vc\include\xstring @ 1039]
 00000000`7de8f8b0  00000000
@@ -517,7 +517,7 @@ NumberParameters: 2
 Attempt to write to address 88000c04
 ```
 
-shared_ptr 的 size 刚好是 8，+4 相当于 \_Rep 指针出错 `88000c04`，8 开头是系统地址了，这个地址肯定是错的。
+shared_ptr 的 size 刚好是 8，+4 相当于 \_Rep 指针出错 `88000c04` ，8 开头是系统地址了，这个地址肯定是错的。
 
 ```cpp
 class _Ptr_base { // base class for shared_ptr and weak_ptr
@@ -527,7 +527,7 @@ private:
 };
 ```
 
-`eax=ffffffff` 就是 `-1`，`lock xadd dword ptr [edi+4],eax ds:002b:88000c04=????????`
+`eax=ffffffff` 就是 `-1` ， `lock xadd dword ptr [edi+4],eax ds:002b:88000c04=????????`
 这个的含义就是，尝试对 _Ref_count_base 进行减 1 操作，然后崩溃了。
 
 查看源码：
@@ -566,7 +566,7 @@ kvalue[cacheCount] = entry; // 模拟崩溃行。
 00AC8873  mov         eax,ebx
 ```
 
-如果下标是 `-1`，崩溃为：
+如果下标是 `-1` ，崩溃为：
 ```
 EAX = FFFFFFFF EBX = FFFFFFFF ECX = 0121BE74 EDX = 0127DEE0 ESI = 0121BE68
 EDI = 88003100 EIP = 00AC8866 ESP = 042CF984 EBP = 042CFA10 EFL = 00010286
@@ -597,7 +597,7 @@ Vista 引入了很多新的东西，对堆块的块头结构（HEAP_ENTRY）编�
 
 ## 野指针 QString::toStdString().c_str()
 
-危险的：`QString::toStdString().c_str()`，他的定义是：
+危险的： `QString::toStdString().c_str()` ，他的定义是：
 ```cpp
 inline std::string QString::toStdString() const
 { return toUtf8().toStdString(); }
@@ -701,8 +701,8 @@ STACK_TEXT:
 01efcd28 00351ef1 01efcd48 3e9baddd 00000000 dbapp!DisplayModel::CvtToScreen+0x18a
 ```
 
-**Attempt to read from address 00000004** 尝试读取内存 `00000004`，而此时
-`mov esi,dword ptr [eax+4]`，寄存器 `eax=00000000`，`[eax+4]` 就是 `00000004`。
+**Attempt to read from address 00000004** 尝试读取内存 `00000004` ，而此时
+`mov esi,dword ptr [eax+4]` ，寄存器 `eax=00000000` ， `[eax+4]` 就是 `00000004` 。
 
 ```
 This dump file has an exception of interest stored in it.
@@ -758,14 +758,14 @@ Attempt to read from address 14f5c000
 DEFAULT_BUCKET_ID:  INVALID_POINTER_READ
 ```
 
-汇编指令：`MOVZX OPD, OPS`
+汇编指令： `MOVZX OPD, OPS`
 将 8 位或 16 位的 OPS 零扩展为 16 位或 32 位，在传给 OPD。
 相当于 函数 FindTextInPage 里面用了一个 **被释放** 或者 **未初始化** 的指针 并 调用了 **StrChrIW**。
 
 
 ## 崩溃 QList\<QString\> 非多线程安全
 
-**`QCoreApplication::processEvents();` 这玩意不能轻易用，容易造成失控。**
+** `QCoreApplication::processEvents();` 这玩意不能轻易用，容易造成失控。**
 <font color="red">为啥堆栈里面看不到？有机会了要好好研究验证一下。</font>
 
 
@@ -818,7 +818,7 @@ WARNING: Stack unwind information not available. Following frames may be wrong.
 
 这个堆栈和汇编一致，但是和源码不一致，Release 版本经过优化。
 在函数 `QMainClient::qt_static_metacall` 里面是找不到 `qt5core!QString::QString+0x4` 构造函数的。
-命令：`dds esp` 可以查看到当前堆栈残留，这里面指示的位置是正确的。
+命令： `dds esp` 可以查看到当前堆栈残留，这里面指示的位置是正确的。
 
 ```
 022fdae8  00744c9d fastapp!QMainClient::slotTabInitFinished+0x22d [E:\src\QMainClient.cpp @ 248]
@@ -839,14 +839,14 @@ WARNING: Stack unwind information not available. Following frames may be wrong.
 ```
 
 `qt5core!QString::QString+0x4` 出现访问不可读的内存黑指针，第一反应是堆破坏，反复检查相关变量是否线程安全。
-尝试了各种可能，后来回家路上突然来了灵感，想起了这个函数 `QCoreApplication::processEvents();`！
+尝试了各种可能，后来回家路上突然来了灵感，想起了这个函数 `QCoreApplication::processEvents();` ！
 
 
 ### 问题原因
 
-`QList<QString>` 不是线程安全的，迭代的过程中 调用了 `QCoreApplication::processEvents();`，
+`QList<QString>` 不是线程安全的，迭代的过程中 调用了 `QCoreApplication::processEvents();` ，
 然后又再次递归触发了当前函数，再次发生了迭代。
-在一个线程里面对它发生了 两次迭代，两次迭代也没啥，偏偏又有一个 `.clear();`。
+在一个线程里面对它发生了 两次迭代，两次迭代也没啥，偏偏又有一个 `.clear();` 。
 
 ```cpp
 QList<QString> m_printFileList;
@@ -896,7 +896,7 @@ void Test::slotvoid() {
 }
 ```
 
-刚好崩溃到 拷贝构造函数：`inline QString::QString(const QString &other);`。
+刚好崩溃到 拷贝构造函数： `inline QString::QString(const QString &other);` 。
 
 {% include image.html url="/assets/images/210602-win-windbg-cases/20210603114533.png" %}
 
@@ -925,7 +925,7 @@ Attempt to read from address 00000008
 ```
 
 一看，肯定是个空指针，但是这个指针怎么会为空呢？
-百思不得其解，真正原因就是：`processEvents` 又调用出来形成递归，修改了指针，造成回溯的时候崩溃（堆栈就在那里断了）。
+百思不得其解，真正原因就是： `processEvents` 又调用出来形成递归，修改了指针，造成回溯的时候崩溃（堆栈就在那里断了）。
 
 > 对于不能重现的崩溃，知道代码行后，简单的办法就是，在 VS 里面找到对应的代码行，设置断点，然后查看反汇编，那种内联的 `inline` 的系统库，也能准确匹配到符号了。
 > 帮助更准确的定位到源码问题。

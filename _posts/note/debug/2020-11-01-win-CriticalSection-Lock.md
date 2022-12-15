@@ -96,7 +96,7 @@ NTSYSAPI NTSTATUS ZwWaitForSingleObject(
 );
 ```
 
-句柄为：0000011c。查看句柄：`!handle 0x0000011c f`。
+句柄为：0000011c。查看句柄： `!handle 0x0000011c f` 。
 
 
 ## windbg 死锁分析

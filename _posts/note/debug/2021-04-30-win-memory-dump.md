@@ -190,7 +190,7 @@ gflags 在没有修改代码的 条件下，只能做有限的 内存边界检�
 
 ## 堆泄漏定位
 
-`gflags.exe /i xxx.exe +ust`，**开启用户层栈记录**：
+`gflags.exe /i xxx.exe +ust` ，**开启用户层栈记录**：
 
 {% include image.html url="/assets/images/210430-win-memory-dump/a1.png" %}
 

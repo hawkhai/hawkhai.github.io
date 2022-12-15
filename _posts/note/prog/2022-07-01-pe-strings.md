@@ -24,7 +24,7 @@ codeprint:
 
 ## 现有方案
 
-* 微软的 `strings.exe`，貌似只支持搜索不支持导出。
+* 微软的 `strings.exe` ，貌似只支持搜索不支持导出。
     * 在二进制 PE 文件中搜索 ANSI 和 UNICODE 字符串。
     * <https://docs.microsoft.com/zh-cn/sysinternals/downloads/strings>
 
@@ -47,7 +47,7 @@ codeprint:
   -nobanner
          Do not display the startup banner and copyright message.
   ```
-* mingw 的 `strings.exe`，说是可以导出 PE 文件的字符串，实际上对中文支持不好。
+* mingw 的 `strings.exe` ，说是可以导出 PE 文件的字符串，实际上对中文支持不好。
   ```
   C:\kSource\blog>C:\Qt\Tools\mingw810_32\bin\strings.exe -help
   Usage: C:\Qt\Tools\mingw810_32\bin\strings.exe [option(s)] [file(s)]

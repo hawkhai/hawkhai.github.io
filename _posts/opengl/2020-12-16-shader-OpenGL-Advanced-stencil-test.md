@@ -73,7 +73,7 @@ stencilbuf[x,y] = (stencil_new_value & glStencilMask.mask) | (stencilbuf[x,y] & 
 
 ## 给物体加上轮廓的步骤
 
-1. 在绘制物体前，把模板方程设置为 `GL_ALWAYS`，用 1 更新物体将被渲染的片段。
+1. 在绘制物体前，把模板方程设置为 `GL_ALWAYS` ，用 1 更新物体将被渲染的片段。
 2. 渲染物体，写入模板缓冲。
 3. 关闭模板写入和深度测试。
 4. 每个物体放大一点点。

@@ -21,10 +21,10 @@ codeprint:
 | ---- | ----- |
 | `const char*` | `%s` |
 | `char` | `%c` |
-| `float` / `double` | `%f`, `%g` |
-| `int`, `long`, `long long` | `%d`, `%ld`, `%lld` |
-| `unsigned`, `unsigned long`, `unsigned long long` | `%u`, `%lu`, `%llu` |
-| `uint64` -> `uintmax_t`, `int64` -> `intmax_t` | `%ju`, `%jd` |
+| `float` / `double` | `%f` , `%g` |
+| `int` , `long` , `long long` | `%d` , `%ld` , `%lld` |
+| `unsigned` , `unsigned long` , `unsigned long long` | `%u` , `%lu` , `%llu` |
+| `uint64` -> `uintmax_t` , `int64` -> `intmax_t` | `%ju` , `%jd` |
 | `size_t` | `%zu` |
 
 

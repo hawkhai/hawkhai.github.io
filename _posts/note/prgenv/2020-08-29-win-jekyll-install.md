@@ -15,7 +15,7 @@ glslcanvas:
 codeprint:
 ---
 
-Windows 搭建 Jekyll 环境。`bundle install` 的时候，`libv8` 和 `therubyracer` 会失败，主要是工程配置和源代码 Windows 平台的兼容性么有做好。
+Windows 搭建 Jekyll 环境。 `bundle install` 的时候， `libv8` 和 `therubyracer` 会失败，主要是工程配置和源代码 Windows 平台的兼容性么有做好。
 
 {% highlight plaintext %}
 Installing libv8 3.16.14.19 with native extensions
@@ -39,7 +39,7 @@ make: *** [Makefile:195：x64.release] 错误 2
 ## 安装 ruby & gem
 
 从 <https://rubyinstaller.org/downloads/> 下载，Ruby+Devkit 2.5.8-1 (x64) rubyinstaller-devkit-2.5.8-1-x64.exe。
-因为 github-pages depends on ruby (>= 2.2, < 2.6) x64-mingw32，安装 MSYS2，选择 `3 - MSYS2 and MINGW development toolchain`，安装完成要选择“运行”。
+因为 github-pages depends on ruby (>= 2.2, < 2.6) x64-mingw32，安装 MSYS2，选择 `3 - MSYS2 and MINGW development toolchain` ，安装完成要选择“运行”。
 
 {% highlight shell %}
 ruby -v
@@ -61,7 +61,7 @@ jekyll -v
 
 ## 工程 bundle install
 
-libv8 构建不成功，therubyracer 也构建不成功。网上的办法都行不通。必须先装好 Python2 环境，如果是 Python3，要改环境变量 Path，还有 PYTHONPATH & PYTHONHOME（也可能没有），否则 Python 报错：`No module named site`。
+libv8 构建不成功，therubyracer 也构建不成功。网上的办法都行不通。必须先装好 Python2 环境，如果是 Python3，要改环境变量 Path，还有 PYTHONPATH & PYTHONHOME（也可能没有），否则 Python 报错： `No module named site` 。
 
 {% highlight shell %}
 bundle install # Need python 2!!

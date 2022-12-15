@@ -25,8 +25,8 @@ codeprint:
 
 ### 现象
 
-Java 端 `MagicSurfaceView extends SurfaceView`。
-开始的时候采用 `GLSurfaceView`，然后 C++ 端创建 Window 会失败。因为 `GLSurfaceView` 已经默认创建了一个，不能重复创建。
+Java 端 `MagicSurfaceView extends SurfaceView` 。
+开始的时候采用 `GLSurfaceView` ，然后 C++ 端创建 Window 会失败。因为 `GLSurfaceView` 已经默认创建了一个，不能重复创建。
 
 正确的做法是：
 

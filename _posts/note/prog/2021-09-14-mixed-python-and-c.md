@@ -42,7 +42,7 @@ Python 中的类型，除了 None、int、long、Byte String、Unicode String �
 
 ## 函数设置
 
-如果不指定 C 函数的返回值， ctypes 默认返回 int 类型，如果要返回特定类型，需要指定返回类型 `restype`。
+如果不指定 C 函数的返回值， ctypes 默认返回 int 类型，如果要返回特定类型，需要指定返回类型 `restype` 。
 参数类型通过 `argtypes` 指定。
 
 ```python
@@ -357,7 +357,7 @@ MARIO_API int MarioAlloc2(wchar_t** newstr, const wchar_t* instr);
 MARIO_API int MarioPython();
 ```
 
-遇到一个问题，就是回调的的时候，Python 必须是 `wchar_t**`，才支持反向得到输出，C# 可以支持 `wchar_t*&`。
+遇到一个问题，就是回调的的时候，Python 必须是 `wchar_t**` ，才支持反向得到输出，C# 可以支持 `wchar_t*&` 。
 总结一句话就是：C++ 可以拿到 Python 对象的引用，Python 拿不到 C++ 回调对象的引用（已经被转成了 Python 对象）。
 1. Python 调用 C++ 接口，需要告诉 Python 接口参数类型和返回类型，Python 可以做处理，C++ 能拿到 Python 的引用。
 2. C++ 调用 Python 接口，真正调用到我们的函数的时候，Python 已经根据 CFUNCTYPE 做了数据处理，是拿不到 `wchar_t*&` 的，但是指针的指针可以解决这个问题。
@@ -399,7 +399,7 @@ public class mario
 
 内存都放在 C++ 堆上自己管理。非常对称的内存管理，跑了几百万次，零泄露。
 
-1. Python 调用 `MarioFun`，C++ 里面的内存通过 `MarioAlloc` 申请，返回后 Python 再通过 `MarioRelease` 释放。
+1. Python 调用 `MarioFun` ，C++ 里面的内存通过 `MarioAlloc` 申请，返回后 Python 再通过 `MarioRelease` 释放。
    ```cpp
    // C++ 申请内存。
    int fpconvert::MarioFun(fpconvert::MarioCallback callback, int code, int taskid, //

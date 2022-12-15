@@ -188,7 +188,7 @@ Techniques have only a small number of attributes of their own:
 
 ## scheme
 
-Sets the `scheme` this Technique belongs to. Material schemes are used to control top-level switching from one set of techniques to another. For example, you might use this to define `high`, `medium` and `low` complexity levels on materials to allow a user to pick a performance / quality ratio. Another possibility is that you have a fully HDR-enabled pipeline for top machines, rendering all objects using unclamped shaders, and a simpler pipeline for others; this can be implemented using schemes. The active scheme is typically controlled at a viewport level, and the active one defaults to `Default`.
+Sets the `scheme` this Technique belongs to. Material schemes are used to control top-level switching from one set of techniques to another. For example, you might use this to define `high` , `medium` and `low` complexity levels on materials to allow a user to pick a performance / quality ratio. Another possibility is that you have a fully HDR-enabled pipeline for top machines, rendering all objects using unclamped shaders, and a simpler pipeline for others; this can be implemented using schemes. The active scheme is typically controlled at a viewport level, and the active one defaults to `Default` .
 
 @par
 Format: scheme &lt;name&gt;<br> Example: scheme hdr<br> Default: scheme Default
@@ -237,7 +237,7 @@ Although Ogre does a good job of detecting the capabilities of graphics cards an
 @par
 gpu_vendor_rule &lt;include\|exclude&gt; &lt;vendor_name&gt;<br> gpu_device_rule &lt;include\|exclude&gt; &lt;device_pattern&gt; [case_sensitive]
 
-An `include` rule means that the technique will only be supported if one of the include rules is matched (if no include rules are provided, anything will pass). An `exclude` rules means that the technique is considered unsupported if any of the exclude rules are matched. You can provide as many rules as you like, although &lt;vendor_name&gt; and &lt;device_pattern&gt; must obviously be unique. The valid list of &lt;vendor_name&gt; values is currently `nvidia`, `ati`, `intel`, `s3`, `matrox` and `3dlabs`. &lt;device_pattern&gt; can be any string, and you can use wildcards (`\*`) if you need to match variants. Here's an example:
+An `include` rule means that the technique will only be supported if one of the include rules is matched (if no include rules are provided, anything will pass). An `exclude` rules means that the technique is considered unsupported if any of the exclude rules are matched. You can provide as many rules as you like, although &lt;vendor_name&gt; and &lt;device_pattern&gt; must obviously be unique. The valid list of &lt;vendor_name&gt; values is currently `nvidia` , `ati` , `intel` , `s3` , `matrox` and `3dlabs` . &lt;device_pattern&gt; can be any string, and you can use wildcards ( `\*` ) if you need to match variants. Here's an example:
 
 @par
 gpu_vendor_rule include nvidia<br> gpu_vendor_rule include intel<br> gpu_device_rule exclude \*950\*
@@ -401,19 +401,19 @@ This is the simpler form, where the most commonly used blending modes are enumer
 <dt>add</dt>
 <dd>@copybrief Ogre::SBT_ADD
 
-Equivalent to `scene_blend one one`.</dd>
+Equivalent to `scene_blend one one` .</dd>
 <dt>modulate</dt>
 <dd>@copybrief Ogre::SBT_MODULATE
 
-Equivalent to `scene_blend dest_colour zero`.</dd>
+Equivalent to `scene_blend dest_colour zero` .</dd>
 <dt>colour_blend</dt>
 <dd>@copybrief Ogre::SBT_TRANSPARENT_COLOUR
 
-Equivalent to `scene_blend src_colour one_minus_src_colour`</dd>
+Equivalent to `scene_blend src_colour one_minus_src_colour` </dd>
 <dt>alpha_blend</dt>
 <dd>@copybrief Ogre::SBT_TRANSPARENT_ALPHA
 
-Equivalent to `scene_blend src_alpha one_minus_src_alpha`</dd>
+Equivalent to `scene_blend src_alpha one_minus_src_alpha` </dd>
 </dl>
 
 @par
@@ -421,7 +421,7 @@ Format2: scene_blend &lt;sourceFactor&gt; &lt;destFactor&gt;
 
 @copydetails Ogre::Pass::setSceneBlending(const SceneBlendFactor, const SceneBlendFactor)
 
-Valid values for both parameters are one of Ogre::SceneBlendFactor without the `SBF_` prefix. E.g. `SBF_DEST_COLOUR` becomes `dest_colour`.
+Valid values for both parameters are one of Ogre::SceneBlendFactor without the `SBF_` prefix. E.g. `SBF_DEST_COLOUR` becomes `dest_colour` .
 
 @par
 Example: scene_blend one one_minus_dest_alpha
@@ -461,7 +461,7 @@ This directive changes the operation which is applied between the two components
 Format: scene_blend_op &lt;op&gt;
 
 @copydoc Ogre::Pass::setSceneBlendingOperation
-You may change this to `add`, `subtract`, `reverse_subtract`, `min` or `max`.
+You may change this to `add` , `subtract` , `reverse_subtract` , `min` or `max` .
 
 <a name="separate_005fscene_005fblend_005fop"></a><a name="separate_005fscene_005fblend_005fop-1"></a>
 
@@ -511,7 +511,7 @@ Format: depth_func &lt;func&gt;
 
 @copydetails Ogre::Pass::setDepthFunction
 
-@param func one of Ogre::CompareFunction without the `CMPF_` prefix. E.g. `CMPF_LESS_EQUAL` becomes `less_equal`.
+@param func one of Ogre::CompareFunction without the `CMPF_` prefix. E.g. `CMPF_LESS_EQUAL` becomes `less_equal` .
 
 @par
 Default: depth_func less_equal
@@ -561,7 +561,7 @@ Default: alpha_rejection always_pass
 
 ## alpha_to_coverage
 
-Sets whether this pass will use `alpha to coverage`,
+Sets whether this pass will use `alpha to coverage` ,
 
 @par
 Format: alpha_to_coverage &lt;on\|off&gt;
@@ -632,7 +632,7 @@ Format: transparent_sorting &lt;on\|off\|force&gt;
 
 By default all transparent materials are sorted such that renderables furthest away from the camera are rendered first. This is usually the desired behaviour but in certain cases this depth sorting may be unnecessary and undesirable. If for example it is necessary to ensure the rendering order does not change from one frame to the next. In this case you could set the value to `off` to prevent sorting.
 
-You can also use the keyword `force` to force transparent sorting on, regardless of other circumstances. Usually sorting is only used when the pass is also transparent, and has a depth write or read which indicates it cannot reliably render without sorting. By using `force`, you tell OGRE to sort this pass no matter what other circumstances are present.
+You can also use the keyword `force` to force transparent sorting on, regardless of other circumstances. Usually sorting is only used when the pass is also transparent, and has a depth write or read which indicates it cannot reliably render without sorting. By using `force` , you tell OGRE to sort this pass no matter what other circumstances are present.
 @par
 Default: transparent_sorting on
 
@@ -689,7 +689,7 @@ Format: shading &lt;mode&gt;
 
 @copydetails Ogre::Pass::setShadingMode
 
-@param mode one of Ogre::ShadeOptions without the `SO_` prefix. E.g. `SO_FLAT` becomes `flat`.
+@param mode one of Ogre::ShadeOptions without the `SO_` prefix. E.g. `SO_FLAT` becomes `flat` .
 
 @par
 Default: shading gouraud
@@ -704,7 +704,7 @@ Default: shading gouraud
 @par
 Format: polygon_mode &lt;solid\|wireframe\|points&gt;
 
-@param mode one of Ogre::PolygonMode without the `PM_` prefix. E.g. `PM_SOLID` becomes `solid`.
+@param mode one of Ogre::PolygonMode without the `PM_` prefix. E.g. `PM_SOLID` becomes `solid` .
 
 @par
 Default: polygon_mode solid
@@ -734,7 +734,7 @@ Default: fog_override false
 
 If you specify `true` for the first parameter and you supply the rest of the parameters, you are telling the pass to use these fog settings in preference to the scene settings, whatever they might be. If you specify `true` but provide no further parameters, you are telling this pass to never use fogging no matter what the scene says.
 
-@param type **none** = No fog, equivalent of just using `fog_override true`<br> **linear** = Linear fog from the &lt;start&gt; and &lt;end&gt; distances<br> **exp** = Fog increases exponentially from the camera (fog = 1/e^(distance \* density)), use &lt;density&gt; param to control it<br> **exp2** = Fog increases at the square of FOG_EXP, i.e. even quicker (fog = 1/e^(distance \* density)^2), use &lt;density&gt; param to control it
+@param type **none** = No fog, equivalent of just using `fog_override true` <br> **linear** = Linear fog from the &lt;start&gt; and &lt;end&gt; distances<br> **exp** = Fog increases exponentially from the camera (fog = 1/e^(distance \* density)), use &lt;density&gt; param to control it<br> **exp2** = Fog increases at the square of FOG_EXP, i.e. even quicker (fog = 1/e^(distance \* density)^2), use &lt;density&gt; param to control it
 
 @param colour Sequence of 3 floating point values from 0 to 1 indicating the red, green and blue intensities
 
@@ -830,7 +830,7 @@ Using a number instead of "once" instructs the pass to iterate more than once af
 
 If you use once_per_light, you should also add an ambient pass to the technique before this pass, otherwise when no lights are in range of this object it will not get rendered at all; this is important even when you have no ambient light in the scene, because you would still want the objects silhouette to appear.
 
-The lightType parameter to the attribute only applies if you use once_per_light, per_light, or per_n_lights and restricts the pass to being run for lights of a single type (either `point`, `directional` or `spot`). In the example, the pass will be run once per point light. This can be useful because when you`re writing a vertex / fragment program it is a lot easier if you can assume the kind of lights you`ll be dealing with. However at least point and directional lights can be dealt with in one way.  Default: iteration once
+The lightType parameter to the attribute only applies if you use once_per_light, per_light, or per_n_lights and restricts the pass to being run for lights of a single type (either `point` , `directional` or `spot` ). In the example, the pass will be run once per point light. This can be useful because when you `re writing a vertex / fragment program it is a lot easier if you can assume the kind of lights you` ll be dealing with. However at least point and directional lights can be dealt with in one way.  Default: iteration once
 
 <a name="fur_005fexample"></a>
 
@@ -1053,7 +1053,7 @@ Example: texture funkywall.jpg
 This setting is mutually exclusive with the anim_texture attribute. Note that the texture file cannot include spaces. Those of you Windows users who like spaces in filenames, please get over it and use underscores instead.
 
 @param type
-specify a the type of texture to create - the default is `2d`, but you can override this; here's the full list:
+specify a the type of texture to create - the default is `2d` , but you can override this; here's the full list:
 <dl compact="compact">
 <dt>1d</dt> <dd>
 
@@ -1069,7 +1069,7 @@ A 3 dimensional texture i.e. volume texture. Your texture has a width, a height,
 
 </dd> <dt>cubic</dt> <dd>
 
-This texture is made up of 6 2D textures which are pasted around the inside of a cube. The base_name in this format is something like `skybox.jpg`, and the system will expect you to provide skybox_fr.jpg, skybox_bk.jpg, skybox_up.jpg, skybox_dn.jpg, skybox_lf.jpg, and skybox_rt.jpg for the individual faces.
+This texture is made up of 6 2D textures which are pasted around the inside of a cube. The base_name in this format is something like `skybox.jpg` , and the system will expect you to provide skybox_fr.jpg, skybox_bk.jpg, skybox_up.jpg, skybox_dn.jpg, skybox_lf.jpg, and skybox_rt.jpg for the individual faces.
 Alternatively 1 cube texture can be used if supported by the texture format(DDS for example) and rendersystem. Can be addressed with 3D texture coordinates and are useful for cubic reflection maps and normal maps.
 </dd> </dl>
 
@@ -1118,9 +1118,9 @@ Sets the images used in a cubic texture, i.e. one made up of 6 individual images
 @par
 Format1 (short): cubic_texture &lt;base_name&gt; &lt;combinedUVW\|separateUV&gt;
 
-@deprecated use the format '`texture <basename> cubic`' instead
+@deprecated use the format ' `texture <basename> cubic` ' instead
 
-The base_name in this format is something like `skybox.jpg`, and the system will expect you to provide skybox_fr.jpg, skybox_bk.jpg, skybox_up.jpg, skybox_dn.jpg, skybox_lf.jpg, and skybox_rt.jpg for the individual faces.
+The base_name in this format is something like `skybox.jpg` , and the system will expect you to provide skybox_fr.jpg, skybox_bk.jpg, skybox_up.jpg, skybox_dn.jpg, skybox_lf.jpg, and skybox_rt.jpg for the individual faces.
 
 @par
 Format2 (long): cubic_texture &lt;front&gt; &lt;back&gt; &lt;left&gt; &lt;right&gt; &lt;up&gt; &lt;down&gt; &lt;combinedUVW\|separateUV&gt;
@@ -1174,7 +1174,7 @@ Format: content_type &lt;type&gt; [&lt;compositorName&gt;] [&lt;textureName&gt;]
 
 </dd> <dt>shadow</dt> <dd>
 
-This option allows you to pull in a shadow texture, and is only valid when you use texture shadows and one of the `custom sequence` shadowing types (See @ref Shadows). The shadow texture in question will be from the `n`th closest light that casts shadows, unless you use light-based pass iteration or the light_start option which may start the light index higher. When you use this option in multiple texture units within the same pass, each one references the next shadow texture. The shadow texture index is reset in the next pass, in case you want to take into account the same shadow textures again in another pass (e.g. a separate specular / gloss pass). By using this option, the correct light frustum projection is set up for you for use in fixed-function, if you use shaders just reference the texture_viewproj_matrix auto parameter in your shader.
+This option allows you to pull in a shadow texture, and is only valid when you use texture shadows and one of the `custom sequence` shadowing types (See @ref Shadows). The shadow texture in question will be from the `n` th closest light that casts shadows, unless you use light-based pass iteration or the light_start option which may start the light index higher. When you use this option in multiple texture units within the same pass, each one references the next shadow texture. The shadow texture index is reset in the next pass, in case you want to take into account the same shadow textures again in another pass (e.g. a separate specular / gloss pass). By using this option, the correct light frustum projection is set up for you for use in fixed-function, if you use shaders just reference the texture_viewproj_matrix auto parameter in your shader.
 
 </dd> <dt>compositor</dt> <dd>
 
@@ -1218,7 +1218,7 @@ Determines how the colour of this texture layer is combined with the one below i
 @par
 Format: colour_op &lt;op&gt;
 
-@copydetails Ogre::TextureUnitState::setColourOperation Without the `LBO_` prefix. E.g. `LBO_REPLACE` becomes `replace`.
+@copydetails Ogre::TextureUnitState::setColourOperation Without the `LBO_` prefix. E.g. `LBO_REPLACE` becomes `replace` .
 
 @par
 Default: colour_op modulate
@@ -1236,7 +1236,7 @@ Example colour_op_ex add_signed src_manual src_current 0.5
 
 @copydetails Ogre::TextureUnitState::setColourOperationEx
 
-Each parameter can be one of Ogre::LayerBlendOperationEx or Ogre::LayerBlendSource without the prefix. E.g. `LBX_MODULATE_X4` becomes `modulate_x4`.
+Each parameter can be one of Ogre::LayerBlendOperationEx or Ogre::LayerBlendSource without the prefix. E.g. `LBX_MODULATE_X4` becomes `modulate_x4` .
 
 @par
 Default: none (colour_op modulate)
@@ -1403,7 +1403,7 @@ Animate the v scale value
 
 </dd> </dl>
 
-waveType is one of Ogre::WaveformType without the `WFT_` prefix. E.g. `WFT_SQUARE` becomes `square`.
+waveType is one of Ogre::WaveformType without the `WFT_` prefix. E.g. `WFT_SQUARE` becomes `square` .
 
 @shaderparam
 
@@ -1474,7 +1474,7 @@ Defines what happens when texture coordinates exceed 1.0 for this texture layer.
 @par
 Simple Format: tex_address_mode &lt;uvw_mode&gt; <br> Extended Format: tex_address_mode &lt;u_mode&gt; &lt;v_mode&gt; [&lt;w_mode&gt;]
 
-Valid values for both are one of Ogre::TextureAddressingMode without the `TAM_` prefix. E.g. `TAM_WRAP` becomes `wrap`.
+Valid values for both are one of Ogre::TextureAddressingMode without the `TAM_` prefix. E.g. `TAM_WRAP` becomes `wrap` .
 
 @par
 Default: tex_address_mode wrap
@@ -1531,7 +1531,7 @@ Format: filtering &lt;minFilter&gt; &lt;magFilter&gt; &lt;mipFilter&gt;
 @par
 Default: filtering linear linear point
 
-Each parameter can be one of Ogre::FilterOptions without the `FO_` prefix. E.g. `FO_LINEAR` becomes `linear`.
+Each parameter can be one of Ogre::FilterOptions without the `FO_` prefix. E.g. `FO_LINEAR` becomes `linear` .
 
 @copydetails Ogre::Sampler::setFiltering(FilterOptions,FilterOptions,FilterOptions)
 
@@ -1579,7 +1579,7 @@ The comparison func to use when @c compare_test is enabled
 @par
 Format: comp_func &lt;func&gt;
 
-@param func one of Ogre::CompareFunction without the `CMPF_` prefix. E.g. `CMPF_LESS_EQUAL` becomes `less_equal`.
+@param func one of Ogre::CompareFunction without the `CMPF_` prefix. E.g. `CMPF_LESS_EQUAL` becomes `less_equal` .
 
 
 ## Declaring GPU Programs {#Declaring-Vertex_002fGeometry_002fFragment-Programs}

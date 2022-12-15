@@ -68,7 +68,7 @@ monitoring tool for Windows, Linux, and Mac.
 
 ## Leakdiag
 
-**内存泄露** from 大神同事 `zōu mǐn`。
+**内存泄露** from 大神同事 `zōu mǐn` 。
 这个最好用，比那个 UMDH 好用多了。
 分析工具：
 [Leakdiag](http://ftpmirror.your.org/pub/misc/ftp.microsoft.com/PSS/Tools/Developer%20Support%20Tools/LDGrapher/)

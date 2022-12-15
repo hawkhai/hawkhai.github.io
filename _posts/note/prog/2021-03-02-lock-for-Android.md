@@ -24,8 +24,8 @@ using a local lock_guard to lock mtx guarantees unlocking on destruction / excep
 
 Mutex 可以分为递归锁 (recursive mutex) 和非递归锁 (non-recursive mutex)。[from {% include relref_csdn.html %}](https://blog.csdn.net/u010275850/article/details/100110450)
 [from {% include relref_csdn.html %}](https://blog.csdn.net/zouxinfox/article/details/5838861)
-* 可递归锁也可称为可重入锁 (reentrant mutex) `std::recursive_mutex`；
-* 非递归锁又叫不可重入锁 (non-reentrant mutex) `std::mutex`；
+* 可递归锁也可称为可重入锁 (reentrant mutex) `std::recursive_mutex` ；
+* 非递归锁又叫不可重入锁 (non-reentrant mutex) `std::mutex` ；
 * 递归锁具有线程排他性。
 
 **二者唯一的区别是，同一个线程可以多次获取同一个递归锁，不会产生死锁。而如果一个线程多次获取同一个非递归锁，则会产生死锁。**

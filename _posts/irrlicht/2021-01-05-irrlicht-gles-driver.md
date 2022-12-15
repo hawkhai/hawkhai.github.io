@@ -187,7 +187,7 @@ $\color{red}{trans\\\_add}$
 
 $\color{red}{trans\\\_alphach}$
 透明材质。根据纹理的 alpha 通道，叠加到目标上。
-最好是 32 位模式 `video::IVideoDriver::setTextureCreationFlag()`。
+最好是 32 位模式 `video::IVideoDriver::setTextureCreationFlag()` 。
 This value controls how sharp the edges become when going from a transparent to a solid spot on the texture.
 
 

@@ -66,12 +66,12 @@ print( 'os.getcwd is', os.getcwd() )
 
 双进程实现（除了 Windows one-folder 模式）。
 1. 主进程：bootloader 启动，在准备工作。
-    * 如果是 one-file 模式，释放文件到：`temppath/_MEIxxxxxx`。
+    * 如果是 one-file 模式，释放文件到： `temppath/_MEIxxxxxx` 。
     * 修改大量环境变量。
     * 设置 handle signals，便于两个进程通信。
     * 运行子进程。
     * 等待子进程结束。
-    * 如果是 one-file 模式，删除清理 `temppath/_MEIxxxxxx`。
+    * 如果是 one-file 模式，删除清理 `temppath/_MEIxxxxxx` 。
 2. 子进程。
     * 如果是 Windows，设置 [激活上下文](https://docs.microsoft.com/zh-cn/windows/win32/sbscs/activation-contexts?redirectedfrom=MSDN)。
     * 加载 Python 动态库。
@@ -92,12 +92,12 @@ python ./waf all --target-arch=32bit
 不能对现有流程造成影响，保持将来的升级能力。
 把附加配置通过后期资源打到最终 pe 文件里面。
 然后 Bootloader 读取配置。
-1. 指定释放临时目录。`pyi_launch_need_to_extract_binaries`
+1. 指定释放临时目录。 `pyi_launch_need_to_extract_binaries`
     * `swprintf(prefix, 16, L"_MEI%d", getpid());` -- 这里一个固定的版本号接上去。
     * `pyi_get_temp_path` `pyi_create_temp_path`
-2. 如果发现临时目录文件存在了，就跳过。`pyi_launch_extract_binaries`
-    * 怎么判断文件完整？`pyi_arch_extract2fs(ARCHIVE_STATUS *status, TOC *ptoc)`
-3. 进程结束，不要清理文件夹（就需要每个版本指定的临时文件夹唯一）。`pyi_remove_temp_path`
+2. 如果发现临时目录文件存在了，就跳过。 `pyi_launch_extract_binaries`
+    * 怎么判断文件完整？ `pyi_arch_extract2fs(ARCHIVE_STATUS *status, TOC *ptoc)`
+3. 进程结束，不要清理文件夹（就需要每个版本指定的临时文件夹唯一）。 `pyi_remove_temp_path`
 
 ----------
 

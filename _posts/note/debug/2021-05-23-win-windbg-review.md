@@ -74,7 +74,7 @@ D:\PCGMR_BUILD\Cim\CiSrc\zapp\zapp\include\framework\KzPath.cpp(52)+0x38
 1. 输入 `.ecxr; kbn` 得到崩溃的堆栈
     * 其中源代码如下
 2. 查看堆栈和源代码，发现第 0 帧导致崩溃，代码也是本地代码
-    * 输入 `.frame 0`，切到第 0 帧如下
+    * 输入 `.frame 0` ，切到第 0 帧如下
 3. 输入 `dv` 查看当前帧的一些变量信息
     * 发现变量 p=0x00000000
 
@@ -107,16 +107,16 @@ D:\PCGMR_BUILD\Cim\CiSrc\zapp\zapp\include\framework\KzPath.cpp(52)+0x38
 
 1. 启动进程
 2. Windbg 附加进程
-3. 输入 `~*kv`，输出所有线程
-4. 输入 `!find stackntdll!RtlEnterCriticalSection`，查找哪些线程在等待锁
+3. 输入 `~*kv` ，输出所有线程
+4. 输入 `!find stackntdll!RtlEnterCriticalSection` ，查找哪些线程在等待锁
     * 或者看代码某一函数没执行，对比 windbg 中的线程，找到线程 id 分析
     * 图 1 是源代码，图 2 是执行结果, ThreadProc1 函数中的 `ThreadProc1 lock g_mutex2;` 没发生，怀疑是否死锁了
 5. windbg 中线程信息如下，发现 ThreadProc1 在等某一把锁
     * 第三帧是本地代码对比源代码发现在等锁 g_mutex2;
     * 第二帧是系统函数在等待锁，锁地址为 00bf7140
-6. 输入 `!cs 00bf7140`，查看这把锁信息
+6. 输入 `!cs 00bf7140` ，查看这把锁信息
     * 发现锁的占有者是 0x00002cc4
-7. 输入 `~~[0x00002cc4]`，发现对应是 3 号线程
+7. 输入 `~~[0x00002cc4]` ，发现对应是 3 号线程
 8. 切到 3 号线程，并输出堆栈
     * 发现代码 27 号，也在等一把锁，锁地址 00bf7158
 9. 同理输出锁信息
@@ -156,10 +156,10 @@ D:\PCGMR_BUILD\Cim\CiSrc\zapp\zapp\include\framework\KzPath.cpp(52)+0x38
 2. windbg 附加到进程，输入 `!heap –s`
 3. 程序运行一段时间之后，再次输入 `!heap–s`
     * 发现 00970000 这个堆有增加，其他无变化
-4. 输入 `!heap -stat -h00970000`，查看这个堆状态
+4. 输入 `!heap -stat -h00970000` ，查看这个堆状态
     * 发现这个堆的内存主要是被大小为 0x224 的块占用
-5. 输入 `!heap -flt s 224`，查看 224 这些块被谁在使用
-6. 输入 `!heap -p -a 00971d20`，查看堆栈
+5. 输入 `!heap -flt s 224` ，查看 224 这些块被谁在使用
+6. 输入 `!heap -p -a 00971d20` ，查看堆栈
 7. 已经得到堆栈，本地有源代码，还可以查看代码，
     * 输入 `lsa memoryleak!ThreadProc1+0x00000048`
 
@@ -183,7 +183,7 @@ SET _NT_SYMBOL_PATH=SRV*C:\Symbols*http://msdl.microsoft.com/download/symbols;F:
 ```
 4. 启动 memoryleak.exe, 利用 umdh 创建第一次 heap 快照
     * 输入 `umdh-pn:memoryleak.exe -f:memory1.log`
-5. 运行一段时间后，再次输入快照，`umdh -pn:memoryleak.exe -f:memory2.log`
+5. 运行一段时间后，再次输入快照， `umdh -pn:memoryleak.exe -f:memory2.log`
 6. 分析前后 2 次快照的差异 `umdh -dmemory1.log memory2.log -f:memoryleak.log`
     * 会在当前路径下面生成 memoryleak.log，打开分析
 7. 定位到代码，需要具体分析逻辑，查看是否真的泄漏，还是还没来得及释放。
@@ -227,9 +227,9 @@ WinDbg 的 !heap 命令非常强大，结合 AppVerifier 可以对堆 (heap) 内
 ### 并发堆栈
 
 并发堆栈，首先我们需要知道有多少线程。
-* `~*`：查看所有线程
-* `~.kp`：查看当前线程调用堆栈
-* `~*kp`：查看所有线程调用堆栈
+* `~*` ：查看所有线程
+* `~.kp` ：查看当前线程调用堆栈
+* `~*kp` ：查看所有线程调用堆栈
 
 
 ## Refs

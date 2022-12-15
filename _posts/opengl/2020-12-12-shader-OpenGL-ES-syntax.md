@@ -479,8 +479,8 @@ output 类型的内置变量：
 
 | 变量 | 说明 | 单位 |
 |---|---|---|
-|highp vec4 `gl_Position`;| gl\_Position 放置顶点坐标信息 |vec4|
-|mediump float `gl_PointSize`;| gl\_PointSize 需要绘制点的大小（只在 gl.POINTS 模式下有效） |float|
+|highp vec4 `gl_Position` ;| gl\_Position 放置顶点坐标信息 |vec4|
+|mediump float `gl_PointSize` ;| gl\_PointSize 需要绘制点的大小（只在 gl.POINTS 模式下有效） |float|
 
 **在 fragment Shader 中：**
 
@@ -490,9 +490,9 @@ input 类型的内置变量：
 
 | 变量 | 说明 | 单位 |
 |---|---|---|
-|mediump vec4 `gl_FragCoord`;| 片元在 framebuffer 画面的相对位置 |vec4|
-|bool `gl_FrontFacing`;| 标志当前图元是不是正面图元的一部分 |bool|
-|mediump vec2 `gl_PointCoord`;| 经过插值计算后的纹理坐标，点的范围是 0.0 到 1.0 |vec2|
+|mediump vec4 `gl_FragCoord` ;| 片元在 framebuffer 画面的相对位置 |vec4|
+|bool `gl_FrontFacing` ;| 标志当前图元是不是正面图元的一部分 |bool|
+|mediump vec2 `gl_PointCoord` ;| 经过插值计算后的纹理坐标，点的范围是 0.0 到 1.0 |vec2|
 
 output 类型的内置变量：
 
@@ -500,8 +500,8 @@ output 类型的内置变量：
 
 | 变量 | 说明 | 单位 |
 |---|---|---|
-|mediump vec4 `gl_FragColor`;| 设置当前片点的颜色 |vec4 RGBA color|
-|mediump vec4 `gl_FragData[n]`;| 设置当前片点的颜色，使用 glDrawBuffers 数据数组 |vec4 RGBA color|
+|mediump vec4 `gl_FragColor` ;| 设置当前片点的颜色 |vec4 RGBA color|
+|mediump vec4 `gl_FragData[n]` ;| 设置当前片点的颜色，使用 glDrawBuffers 数据数组 |vec4 RGBA color|
 
 
 ## 内置函数

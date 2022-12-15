@@ -32,7 +32,7 @@ cluster: "PDFium 编译"
     * 一个环境安装多个 python 的方法：[Windows 上通过 bat 避免 python 冲突]({% include relref.html url="/blog/2020/12/15/Visual-Studio#windows-%E4%B8%8A%E9%80%9A%E8%BF%87-bat-%E9%81%BF%E5%85%8D-python-%E5%86%B2%E7%AA%81" %})
 * 下载 安装 depot_tools：
     * from [depot_tools_tutorial(7) Manual Page](https://commondatastorage.googleapis.com/chrome-infra-docs/flat/depot_tools/docs/html/depot_tools_tutorial.html) Download the [depot_tools](https://storage.googleapis.com/chrome-infra/depot_tools.zip) bundle and extract it somewhere.
-    * 加入环境变量：`C:\kSource\kpdf\depot_tools`
+    * 加入环境变量： `C:\kSource\kpdf\depot_tools`
 * kernel32.SetConsoleMode to enable ANSI sequences failed
     * [Console Virtual Terminal Sequences](https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences)
     * 我本机 win10 不支持 彩色控制台，错误码是 87：
@@ -104,7 +104,7 @@ target_cpu = "x86" # 默认就是编译 x64 平台，编 x86 平台就需要修�
 # is_clang = false
 ```
 
-vs_toolchain.py 构建配置脚本会读取：`path = os.environ.get('vs%s_install' % version)`
+vs_toolchain.py 构建配置脚本会读取： `path = os.environ.get('vs%s_install' % version)`
 * KeyError: 'WINDOWSSDKDIR'
     * 如果您的 Visual Studio 安装在非默认目录中， 您需要 设置几个环境变量来将工具链指向您的安装路径。
     * **vs2019_install** = DRIVE:\path\to\Microsoft Visual Studio\2019\Community, replacing 2019 and Community with your installed versions and replacing DRIVE: with the drive that Visual Studio is on. Often, this will be C:.

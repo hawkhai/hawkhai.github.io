@@ -85,7 +85,7 @@ format: material &lt;material_name&gt;<br> example: material Examples/Flare<br> 
 
 ## particle_width
 
-Sets the width of particles in world coordinates. Note that this property is absolute when billboard_type (see below) is set to `point` or `perpendicular_self`, but is scaled by the length of the direction vector when billboard_type is `oriented_common`, `oriented_self` or `perpendicular_common`.
+Sets the width of particles in world coordinates. Note that this property is absolute when billboard_type (see below) is set to `point` or `perpendicular_self` , but is scaled by the length of the direction vector when billboard_type is `oriented_common` , `oriented_self` or `perpendicular_common` .
 
 format: particle_width &lt;width&gt;<br> example: particle_width 20<br> default: 100
 
@@ -94,7 +94,7 @@ format: particle_width &lt;width&gt;<br> example: particle_width 20<br> default:
 
 ## particle_height
 
-Sets the height of particles in world coordinates. Note that this property is absolute when billboard_type (see below) is set to `point` or `perpendicular_self`, but is scaled by the length of the direction vector when billboard_type is `oriented_common`, `oriented_self` or `perpendicular_common`.
+Sets the height of particles in world coordinates. Note that this property is absolute when billboard_type (see below) is set to `point` or `perpendicular_self` , but is scaled by the length of the direction vector when billboard_type is `oriented_common` , `oriented_self` or `perpendicular_common` .
 
 format: particle_height &lt;height&gt;<br> example: particle_height 20<br> default: 100
 
@@ -112,7 +112,7 @@ format: cull_each &lt;true\|false&gt;<br> example: cull_each true<br> default: f
 
 ## renderer
 
-Particle systems do not render themselves, they do it through ParticleRenderer classes. Those classes are registered with a manager in order to provide particle systems with a particular `look`. OGRE comes configured with a default billboard-based renderer, but more can be added through plugins. Particle renders are registered with a unique name, and you can use that name in this attribute to determine the renderer to use. The default is `billboard`.
+Particle systems do not render themselves, they do it through ParticleRenderer classes. Those classes are registered with a manager in order to provide particle systems with a particular `look` . OGRE comes configured with a default billboard-based renderer, but more can be added through plugins. Particle renders are registered with a unique name, and you can use that name in this attribute to determine the renderer to use. The default is `billboard` .
 
 Particle renderers can have attributes, which can be passed by setting them on the root particle system.
 
@@ -123,7 +123,7 @@ format: renderer &lt;renderer_name&gt;<br> default: billboard
 
 ## sorted
 
-By default, particles are not sorted. By setting this attribute to `true`, the particles will be sorted with respect to the camera, furthest first. This can make certain rendering effects look better at a small sorting expense.
+By default, particles are not sorted. By setting this attribute to `true` , the particles will be sorted with respect to the camera, furthest first. This can make certain rendering effects look better at a small sorting expense.
 
 format: sorted &lt;true\|false&gt;<br> default: false
 
@@ -297,14 +297,14 @@ format: iteration_interval &lt;secs&gt;<br> example: iteration_interval 0.01<br>
 
 ## nonvisible_update_timeout
 
-Sets when the particle system should stop updating after it hasn`t been visible for a while. By default, visible particle systems update all the time, even when not in view. This means that they are guaranteed to be consistent when they do enter view. However, this comes at a cost, updating particle systems can be expensive, especially if they are perpetual.  This option lets you set a `timeout` on the particle system, so that if it isn`t visible for this amount of time, it will stop updating until it is next visible. A value of 0 disables the timeout and always updates.
+Sets when the particle system should stop updating after it hasn `t been visible for a while. By default, visible particle systems update all the time, even when not in view. This means that they are guaranteed to be consistent when they do enter view. However, this comes at a cost, updating particle systems can be expensive, especially if they are perpetual.  This option lets you set a ` timeout ` on the particle system, so that if it isn` t visible for this amount of time, it will stop updating until it is next visible. A value of 0 disables the timeout and always updates.
 
 format: nonvisible_update_timeout &lt;secs&gt;<br> example: nonvisible_update_timeout 10<br> default: nonvisible_update_timeout 0
 
 
 ## Particle Emitters {#Particle-Emitters}
 
-Particle emitters are classified by `type` e.g. `Point` emitters emit from a single point whilst `Box` emitters emit randomly from an area. New emitters can be added to Ogre by creating plugins. You add an emitter to a system by nesting another section within it, headed with the keyword `emitter` followed by the name of the type of emitter (case sensitive). Ogre currently supports `Point`, `Box`, `Cylinder`, `Ellipsoid`, `HollowEllipsoid` and `Ring` emitters.
+Particle emitters are classified by `type` e.g. `Point` emitters emit from a single point whilst `Box` emitters emit randomly from an area. New emitters can be added to Ogre by creating plugins. You add an emitter to a system by nesting another section within it, headed with the keyword `emitter` followed by the name of the type of emitter (case sensitive). Ogre currently supports `Point` , `Box` , `Cylinder` , `Ellipsoid` , `HollowEllipsoid` and `Ring` emitters.
 
 It is also possible to `emit emitters` - that is, have new emitters spawned based on the position of particles. See [Emitting Emitters](#Emitting-Emitters)
 
@@ -506,7 +506,7 @@ emitter Point
 }
 ```
 
-Please note that the name of the emitter (`Point`) is case-sensitive.
+Please note that the name of the emitter ( `Point` ) is case-sensitive.
 
 
 ## Box Emitter {#Box-Emitter}
@@ -663,7 +663,7 @@ affector LinearForce
 }
 ```
 
-Please note that the name of the affector type (`LinearForce`) is case-sensitive.
+Please note that the name of the affector type ( `LinearForce` ) is case-sensitive.
 
 
 ## ColourFader Affector {#ColourFader-Affector}

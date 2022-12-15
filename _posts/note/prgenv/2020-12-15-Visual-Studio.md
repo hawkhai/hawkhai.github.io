@@ -77,7 +77,7 @@ Windows 已在 KPdfConvertor_debug.exe 中触发一个断点。
 输出窗口可能提供了更多诊断信息
 ```
 
-链接器 --> 输入 --> 忽略特定库：`libcmt.lib;libcmtd.lib`。
+链接器 --> 输入 --> 忽略特定库： `libcmt.lib;libcmtd.lib` 。
 
 {% include image.html url="/assets/images/201215-visual-studio/20220614104507.png" %}
 
@@ -206,7 +206,7 @@ vs 支持对自定义数据类型的展现进行定制，创建一个 .natvis �
 在 VS2005 工具 \- 选项 \- 调试 \- 符号，添加符号文件（\*.pdb）位置：
 <http://msdl.microsoft.com/download/symbols>
 
-符号缓存到本地目录，如：`D:\Development\Symbols`
+符号缓存到本地目录，如： `D:\Development\Symbols`
 
 
 ## C++ 中 _tmain() 和 main()
@@ -342,7 +342,7 @@ Tools > Options > Projects and Solutions > VC++ Directories > Executable Files
 
 ## error LNK2001: 无法解析的外部符号 "public: static struct QMetaObject const QwtPlot::staticMetaObject"
 
-参数宏：`QWT_DLL`。
+参数宏： `QWT_DLL` 。
 
 
 ## MSB8040 Spectre-mitigated libraries are required for this project
@@ -379,7 +379,7 @@ VS2005 WTL 工程编译 Debug 无问题，编译 Release 时出现 Link 错误
 
 ## 使用 $err,hr 快速查看当前 GetLastError() 的值
 
-调试时，在 `监视 1` 窗口（`Watch 1`）中输入 `$err,hr` 即可。
+调试时，在 `监视 1` 窗口（ `Watch 1` ）中输入 `$err,hr` 即可。
 在 Visual C++ 中，可以在监视窗口添加 $err,hr 一行来实时显示错误。
 调试过程中，该项相当于在每次调用 API 函数之后调用 GetLastError 函数。
 其值由两部分组成，一个是错误代码（十六进制），另一个是错误代码所对应的文本提示。该方法支持多语言。

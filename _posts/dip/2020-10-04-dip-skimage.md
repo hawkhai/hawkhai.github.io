@@ -57,7 +57,7 @@ print(img[0][0])  # 图像的像素值（高度，宽度，通道数）
 
 | Function | Description |
 | ---- | ---- | ---- |
-| `img_as_float` | 转换为 64 位浮点。Convert an image to floating point format, with values in [0, 1]. Is similar to `img_as_float64`, but will not convert lower-precision floating point arrays to float64. |
+| `img_as_float` | 转换为 64 位浮点。Convert an image to floating point format, with values in [0, 1]. Is similar to `img_as_float64` , but will not convert lower-precision floating point arrays to float64. |
 | `img_as_float32` | Convert an image to single-precision (32-bit) floating point format, with values in [0, 1]. |
 | `img_as_float64` | Convert an image to double-precision (64-bit) floating point format, with values in [0, 1]. |
 | `img_as_uint` | 转换为 16 位 uint。Convert an image to unsigned integer format, with values in [0, 65535]. |

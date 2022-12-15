@@ -47,7 +47,7 @@ char* pszExplame;
 unsigned long long ullExplame;
 ```
 
-* 常见的安全 CRT 函数 `_itoa_s` `printf_s` `strcpy_s` `strcat_s` `strncpy_s`。
+* 常见的安全 CRT 函数 `_itoa_s` `printf_s` `strcpy_s` `strcat_s` `strncpy_s` 。
 * 仅当只有数据时使用 struct，其它一概使用 class。
     * 在 C++ 中 struct 和 class 关键字几乎含义一样。我们为这两个关键字添加我们自己的语义理解，以便为定义的数据类型选择合适的关键字。
     * struct 用来定义包含数据的被动式对象，也可以包含相关的常量，但除了存取数据成员之外，没有别的函数功能。并且存取功能是通过直接访问位域 (field)，而非函数调用。除了构造函数、析构函数、Initialize()、Reset()、Validate() 外，不能提供其它功能的函数。

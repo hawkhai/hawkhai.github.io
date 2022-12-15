@@ -302,7 +302,7 @@ buildTypes {
 
 {% include image.html url="/assets/images/201215-android-studio/20210205155832.png" %}
 
-**巨坑。NDK 里面带了 python.exe，和本机的 python 冲突，`LLDB server` 成功起来后就好了。**
+**巨坑。NDK 里面带了 python.exe，和本机的 python 冲突， `LLDB server` 成功起来后就好了。**
 
 ```
 02/05 16:41:05: Launching 'app' on Galaxy Nexus API 30.

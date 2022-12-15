@@ -76,14 +76,14 @@ caption="利用 gpu 渲染一个巨人的图像" %}
         * [SimpleGL Example](https://wiki.maemo.org/SimpleGL_example)
         * [OpenGL ES EGL 简介 -- 完整的一个文档用例 {% include relref_csdn.html %}](https://blog.csdn.net/iEearth/article/details/71180457)
         * [EGL 1.5 implementation for Windows and X11 supporting OpenGL. {% include relref_github.html %}](https://github.com/McNopper/EGL)
-        * 这里有个坑，早期版本，默认是单位矩阵，新版本要参数 1.0 才是单位矩阵。`matrices.modelView = glm::mat4(1.0);`
+        * 这里有个坑，早期版本，默认是单位矩阵，新版本要参数 1.0 才是单位矩阵。 `matrices.modelView = glm::mat4(1.0);`
 
     * geometryShaderSimple.vcxproj / geometryShader.sln
         * Very simple geometry shader demo.
         * This geometry shader takes a single GL_POINT as input and generates triangles for a complete circle.
 
     * instancing.vcxproj [没运行成功]
-        * 多实例的 demo，LearnOpenGL 里面有类似的例子：`glDrawElementsInstanced`。
+        * 多实例的 demo，LearnOpenGL 里面有类似的例子： `glDrawElementsInstanced` 。
         * Mesh instancing (OpenGL 3.3+) demo. Made to compare against the same Vulkan example.
 
     * raypicking.vcxproj / raypicking.sln [没运行成功]

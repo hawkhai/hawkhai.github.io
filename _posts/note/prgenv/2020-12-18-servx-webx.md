@@ -52,14 +52,14 @@ Emscripten: An LLVM-to-Web Compiler
 
 ## NetBeans 忽略配置
 
-NetBeans 源码忽略报错后，配置存在：`C:\Users\86138\AppData\Roaming\NetBeans\11.0\var\attributes.xml`。
+NetBeans 源码忽略报错后，配置存在： `C:\Users\86138\AppData\Roaming\NetBeans\11.0\var\attributes.xml` 。
 
 
 ## HTML5 视频播放
 
 [HTML5 视频直播（二）](https://imququ.com/post/html5-live-player-2.html)
 
-想在博客里面支持视频。`Emscripten` 动图 gif 方案的问题就是 gif 图片太大，想搞一个 mp4，结果排版和手机上，存在问题，还不如 gif。所以这个方案没用。
+想在博客里面支持视频。 `Emscripten` 动图 gif 方案的问题就是 gif 图片太大，想搞一个 mp4，结果排版和手机上，存在问题，还不如 gif。所以这个方案没用。
 用 `gifsicle -O3 animation.gif -o animation-optimized.gif --colors 256` 压缩一下，效果还勉强能接受。
 
 最终方案采用 webp，这个最牛逼，压缩率极高。gif2webp -- Tool for converting GIF images to WebP

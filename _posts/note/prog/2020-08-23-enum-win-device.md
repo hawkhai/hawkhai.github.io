@@ -160,7 +160,7 @@ if (SetupDiGetClassImageIndex(&_spImageData,
 
 All devices in the system join in the device classes. As you can see in the below picture, the class has name and GUID (so it can be found in Registry). The class can also have a description. For example, for class "Ports" the description is "Ports (COM & LPT)". Class also has devices that are present in the configuration.
 
-Get information about current configuration (`CM_Get_First_Log_Conf` function).
+Get information about current configuration ( `CM_Get_First_Log_Conf` function).
 
 {% highlight cpp %}
 CMAPI CONFIGRET WINAPI CM_Get_First_Log_Conf(
@@ -169,7 +169,7 @@ CMAPI CONFIGRET WINAPI CM_Get_First_Log_Conf(
     IN ULONG  ulFlags);
 {% endhighlight %}
 
-Get resource descriptor from current configuration (`CM_Get_Next_Res_Des` function, do this and follow steps for every resource till they exist)
+Get resource descriptor from current configuration ( `CM_Get_Next_Res_Des` function, do this and follow steps for every resource till they exist)
 
 {% highlight cpp %}
 CMAPI CONFIGRET WINAPI CM_Get_Next_Res_Des(
@@ -180,7 +180,7 @@ CMAPI CONFIGRET WINAPI CM_Get_Next_Res_Des(
     IN ULONG  ulFlags);
 {% endhighlight %}
 
-Get information about size of resource data (`CM_Get_Res_Des_Data_Size` function)
+Get information about size of resource data ( `CM_Get_Res_Des_Data_Size` function)
 
 {% highlight cpp %}
 CMAPI CONFIGRET WINAPI CM_Get_Res_Des_Data_Size(
@@ -189,7 +189,7 @@ CMAPI CONFIGRET WINAPI CM_Get_Res_Des_Data_Size(
     IN ULONG  ulFlags);
 {% endhighlight %}
 
-Get resource data (`CM_Get_Res_Des_Data` function)
+Get resource data ( `CM_Get_Res_Des_Data` function)
 
 {% highlight cpp %}
 CMAPI CONFIGRET WINAPI CM_Get_Res_Des_Data(
@@ -375,7 +375,7 @@ If this flag is specified, DeviceName contains only a Root-enumerated device ID 
 Enum\Root\DeviceName\InstanceID
 {% endhighlight %}
 
-where InstanceID is a four-digit, base-10 number that is unique among all subkeys under `Enum\Root\DeviceName`. Call SetupDiGetDeviceInstanceId to find out what ID was generated for this device information element.
+where InstanceID is a four-digit, base-10 number that is unique among all subkeys under `Enum\Root\DeviceName` . Call SetupDiGetDeviceInstanceId to find out what ID was generated for this device information element.
 
 **DICD_INHERIT_CLASSDRVS**
 
@@ -402,11 +402,11 @@ if (!SetupDiCreateDeviceInfo(hDevInfo,
 }
 {% endhighlight %}
 
-If this device instance is being added to a set that has an associated class, the device class must be the same or the call fails. In this case, a call to GetLastError returns `ERROR_CLASS_MISMATCH`.
+If this device instance is being added to a set that has an associated class, the device class must be the same or the call fails. In this case, a call to GetLastError returns `ERROR_CLASS_MISMATCH` .
 
-If the specified device instance is the same as an existing device instance key in the registry, the call fails. In this case, a call to GetLastError returns `ERROR_DEVINST_ALREADY_EXISTS`. This occurs only if the `DICD_GENERATE_ID` flag is not set.
+If the specified device instance is the same as an existing device instance key in the registry, the call fails. In this case, a call to GetLastError returns `ERROR_DEVINST_ALREADY_EXISTS` . This occurs only if the `DICD_GENERATE_ID` flag is not set.
 
-If the new device information element was successfully created but the caller-supplied DeviceInfoData buffer is invalid, the function returns FALSE. In this case, a call to GetLastError returns `ERROR_INVALID_USER_BUFFER`. However, the device information element will have been added as a new member of the set already.
+If the new device information element was successfully created but the caller-supplied DeviceInfoData buffer is invalid, the function returns FALSE. In this case, a call to GetLastError returns `ERROR_INVALID_USER_BUFFER` . However, the device information element will have been added as a new member of the set already.
 
 That's it! If you have any suggestions or problems to report, post them here. There are plenty of ways this idea could be extended if you are of an inclination to do so.
 

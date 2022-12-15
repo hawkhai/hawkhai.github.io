@@ -899,7 +899,7 @@ $\sum=\dfrac {1}{m}\sum^{n}_{i=1}\left( x^{(i)}\right) \left( x^{(i)}\right) ^{T
 
 第三步是计算协方差矩阵 $Σ$ 的 **特征向量**（**eigenvectors**）:
 
-在 **Octave** 里我们可以利用 **奇异值分解**（**singular value decomposition**）来求解，`[U, S, V]= svd(sigma)`。
+在 **Octave** 里我们可以利用 **奇异值分解**（**singular value decomposition**）来求解， `[U, S, V]= svd(sigma)` 。
 
 $$Sigma=\dfrac {1}{m}\sum^{n}_{i=1}\left( x^{(i)}\right) \left( x^{(i)}\right) ^{T}$$
 

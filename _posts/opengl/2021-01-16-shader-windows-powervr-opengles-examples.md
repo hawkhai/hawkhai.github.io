@@ -124,7 +124,7 @@ Android N 或以上，需要摄像头权限。
 
 延迟渲染。先渲染几何体，然后再把只能看到的部分重新渲染并计算光照。
 基于 PowerVR，开发者可以用 fast on-chip memory 替代。
-需要扩展：`GL_EXT_shader_pixel_local_storage` for PLS.
+需要扩展： `GL_EXT_shader_pixel_local_storage` for PLS.
 
 
 ### Controls
@@ -169,7 +169,7 @@ Android N 或以上，需要摄像头权限。
 
 {% include image.html url="/assets/images/210116-shader-windows-powervr-~83/imgframebufferdownsample_imgframebufferdownsample.png" %}
 
-扩展 `GL_IMG_framebuffer_downsample`。实现自动纹理下采样。
+扩展 `GL_IMG_framebuffer_downsample` 。实现自动纹理下采样。
 
 
 ### OpenGL ES 2.0+
@@ -177,7 +177,7 @@ Android N 或以上，需要摄像头权限。
 
 ### 详细描述
 
-`glFramebufferTexture2DDownsampleIMG`。适用于 post processing 技术。
+`glFramebufferTexture2DDownsampleIMG` 。适用于 post processing 技术。
 缩小图像（或称为下采样（subsampled）或降采样（downsampled））。
 放大图像（或称为上采样（upsampling）或图像插值（interpolating））。
 PostProcessing，通常在普通的场景渲染结束后对结果进行处理，将一张或数张 Texture 处理得到一张新的 Texture。
@@ -241,7 +241,7 @@ PostProcessing，通常在普通的场景渲染结束后对结果进行处理，
 
 {% include image.html url="/assets/images/210116-shader-windows-powervr-~83/multiviewvr_multiviewvr.png" %}
 
-渲染一个立体的 VR 硬件场景。基于扩展：`GL_OVR_multiview`。
+渲染一个立体的 VR 硬件场景。基于扩展： `GL_OVR_multiview` 。
 
 
 ### OpenGL ES 3.0+

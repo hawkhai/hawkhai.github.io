@@ -177,7 +177,7 @@ DriverStoreExplorer 最新版下载：
 
 ## Windows 命令行编码
 
-设置 命令行 utf8，`chcp 65001`。`shutdown -r -t 0`。
+设置 命令行 utf8， `chcp 65001` 。 `shutdown -r -t 0` 。
 
 
 ## Windows 8.1 磁盘占用 100% 解决办法
@@ -255,7 +255,7 @@ DriverStoreExplorer 最新版下载：
 
 这里要非常明确，搞不好就乱码了。
 
-`WritePrivateProfileString`，`GetPrivateProfileString`，
+`WritePrivateProfileString` ， `GetPrivateProfileString` ，
 If the file was created using Unicode characters,
 the function writes Unicode characters to the file.
 Otherwise, the function writes ANSI characters.

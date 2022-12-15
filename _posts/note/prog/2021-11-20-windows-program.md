@@ -764,7 +764,7 @@ INI 文件读写 API：WritePrivateProfileString
 * 对于此功能，文件中正确的 BOM 是 Unicode 的重要提示。
 因此，仅使用 WritePrivateProfileStringW 不能确保将 Unicode 写入 ini 文件，而是必须准备文件。
 
-创建方法：先 `utf-16-le` 编码，再加上 BOM 头 `\xff\xfe`。
+创建方法：先 `utf-16-le` 编码，再加上 BOM 头 `\xff\xfe` 。
 ```python
 inifile = os.path.join(uploaddir, "books.ini")
 booksini = b"\xff\xfe" + booksini.encode("utf-16-le")
@@ -879,7 +879,7 @@ Bypass UAC by hijacking a DLL located in the Native Image Cache
 
 服务和管理员、普通用户无法进行消息通信，需要做特殊过滤
 ChangeWindowMessageFilter
-* 普通用户无法操作 C:\Program Files (x86)，会访问 `C:\Users\当前登录计算机用户名\AppData\Local\VirtualStore\Program Files\下目录的的文本文件`，需要加特殊过滤。
+* 普通用户无法操作 C:\Program Files (x86)，会访问 `C:\Users\当前登录计算机用户名\AppData\Local\VirtualStore\Program Files\下目录的的文本文件` ，需要加特殊过滤。
 
 
 ### 注册表优化

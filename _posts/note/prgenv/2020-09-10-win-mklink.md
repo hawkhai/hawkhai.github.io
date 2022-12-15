@@ -132,7 +132,7 @@ On a 32-bit machine running in 32-bit mode:
 * `echo %programfiles%` ==> `C:\Program Files`
 * `echo %programfiles(x86)%` ==> `%programfiles(x86)%`
 
-Another relevant environment variable is: `%ProgramW6432%`.<br/>
+Another relevant environment variable is: `%ProgramW6432%` .<br/>
 So, on a 64-bit machine running in 32-bit (WOW64) mode:
 
 * `echo %programfiles%` ==> `C:\Program Files (x86)`
@@ -173,9 +173,9 @@ NTFS 符号链接是对用户透明的，也就是说，在绝大多数情况下
 
 `GetFinalPathNameByHandle` API Hungs. At the time when I was checking this problem in Windows Vista, I remember atleast the `GetFileInformationByHandleEx` worked in all cases. But now I experience the same problem in Windows 7.
 
-为了最大可能避免被挂起，首先尝试 `GetFileInformationByHandleEx`，再尝试 `GetFinalPathNameByHandle`，用线程跑，发现挂起了就 `TerminateThread`。
+为了最大可能避免被挂起，首先尝试 `GetFileInformationByHandleEx` ，再尝试 `GetFinalPathNameByHandle` ，用线程跑，发现挂起了就 `TerminateThread` 。
 
-有非常好的源码可以参考：`DWORD psutil_threaded_get_filename(HANDLE hFile)` from <https://github.com/giampaolo/psutil.git>。
+有非常好的源码可以参考： `DWORD psutil_threaded_get_filename(HANDLE hFile)` from <https://github.com/giampaolo/psutil.git>。
 
 <https://github.com/giampaolo/psutil/blob/release-5.6.0/psutil/arch/windows/process_handles.c>
 
@@ -192,7 +192,7 @@ There are two ways to retreive the ReparseTag:
 
     [NTFS Hard Links, Directory Junctions, and Windows Shortcuts](http://www.flexhex.com/docs/articles/hard-links.phtml)
 
-2. Use `FindFirstFile()` to obtain a `WIN32_FIND_DATA` struct. If the path has the `FILE_ATTRIBUTE_REPARSE_POINT` attribute, the `dwReserved0` field will contain the `ReparseTag`.
+2. Use `FindFirstFile()` to obtain a `WIN32_FIND_DATA` struct. If the path has the `FILE_ATTRIBUTE_REPARSE_POINT` attribute, the `dwReserved0` field will contain the `ReparseTag` .
 
 3. `bool LocalFileHandle::isSymbolicLink() const` from open source cppfs: <https://github.com/cginternals/cppfs/blob/master/source/cppfs/source/windows/LocalFileHandle.cpp>
 

@@ -25,7 +25,7 @@ codeprint:
 
 ### 图像和图形区别
 
-* 图形是指令的集合，比如 `Point1.LineTo(Point2)`。
+* 图形是指令的集合，比如 `Point1.LineTo(Point2)` 。
 * 图像是一个数值矩阵。
 
 
