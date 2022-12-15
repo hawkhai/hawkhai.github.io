@@ -700,6 +700,27 @@ def mainfile(fpath, fname, ftype, fdepth=0):
             line = line.replace(" ."+kftype, "."+kftype)
             lines[index] = line
 
+        linxCount = line.count("`")
+        if isMdFile and linxCount >= 2 and linxCount % 2 == 0:
+            newline = ""
+            linxCount = 0
+            for idx, ch in enumerate(line):
+                if ch == '`':
+                    linxCount = linxCount + 1
+                    if linxCount % 2 == 1:
+                        if not newline.endswith(" "):
+                            newline += " `"
+                        else:
+                            newline += "`"
+                    else:
+                        newline += "`"
+                        if idx+1 < len(line) and line[idx+1] != " ":
+                            newline += " "
+                else:
+                    newline += ch
+            line = newline
+            lines[index] = line
+
         preline = lines[index - 1] if index > 0 else ""
         nextline = lines[index + 1] if index < len(lines)-1 else ""
 
