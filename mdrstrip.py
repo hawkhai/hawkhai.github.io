@@ -700,6 +700,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
             line = line.replace(" ."+kftype, "."+kftype)
             lines[index] = line
 
+        line = line.replace("````", "```").replace("````", "```")
         linxCount = line.count("`")
         if isMdFile and linxCount >= 2 and linxCount % 2 == 0:
             newline = ""
@@ -785,11 +786,11 @@ def mainfile(fpath, fname, ftype, fdepth=0):
 
         linec = line
         for itmp in re.findall("\\$\\$.*?\\$\\$", line): # 忽略数学公式
-            linec = linec.replace(itmp, "$$$$")
+            linec = linec.replace(itmp, " ") # "$$$$")
         for itmp in re.findall("“.*?”", line): # 忽略双引号
-            linec = linec.replace(itmp, "“”")
+            linec = linec.replace(itmp, " ") # "“”")
         for itmp in re.findall("`.*?`", line): # 忽略代码部分
-            linec = linec.replace(itmp, "“”")
+            linec = linec.replace(itmp, " ") # "“”")
 
         # 忽略特殊的 tag 标记。
         for itmp in ('"WEB前端"',):
