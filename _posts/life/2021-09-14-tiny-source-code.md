@@ -44,7 +44,7 @@ for (m = (unsigned __int8 *)(v27 + pArg3[3] + v84);
 ```
 &[a-z0-9]+\[-
 ```
-危险的： `(unsigned long long)&m[` ，因为这里可能是一个简单的加法，可能出现负数。
+危险的：`(unsigned long long)&m[` ，因为这里可能是一个简单的加法，可能出现负数。
 
 这行代码 `v5 = (v2 / -10 + pArg[126]) & ~((v2 / -10 + pArg[126]) >> 31);`
 调整为 long long 就正确了。
@@ -130,7 +130,7 @@ typedef MSVC_ALIGN(4) struct A {
 ```
 
 cv::Mat
-危险的： `void create(int ndims, const int* sizes, int type);`
+危险的：`void create(int ndims, const int* sizes, int type);`
 `int* sizes` 和 `cv::Size` 内存结构刚好是反的。
 查找所有的 `(2,` 可以找出来。
 ['-1431655765', '-1227133513', '-858993459']
@@ -258,7 +258,7 @@ int& v149 = v142array[7]; // [sp+DCh] [bp-2Ch]
 
 ### ADD_LIBRARY SHARED not support
 
-这行代码造成的： `set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS FALSE)` 。
+这行代码造成的：`set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS FALSE)` 。
 ADD_LIBRARY called with SHARED option but the target platform does not
     support dynamic linking.  Building a STATIC library instead.
 
@@ -305,7 +305,7 @@ cvtype = CV_8UC3; // 16
 cvtype = CV_32FC1; // 5
 cvtype = CV_32FC3; // 21
 
-// std::vector Debug 版本第一位是： `_Myproxy` 。
+// std::vector Debug 版本第一位是：`_Myproxy` 。
 #if _ITERATOR_DEBUG_LEVEL != 0
 #define MatVecFirst(x) (  (cv::Mat*)  ((size_t*)&(x))[1]  )
 #define MatVecLast(x)  (  (cv::Mat*)  ((size_t*)&(x))[2]  )
@@ -1599,7 +1599,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-1. 不能包含指针转换： `(int)` ，调整为 `(int64)` ，避免指针截断。
+1. 不能包含指针转换：`(int)` ，调整为 `(int64)` ，避免指针截断。
     * <https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt>
     * <https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4189?view=msvc-170>
     * /we4101 # 'identifier' : unreferenced local variable
@@ -1610,8 +1610,8 @@ int main(int argc, char *argv[])
     * /we4312: “类型强制转换”: 从“int”转换到更大的“void *”
     * /we4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
     * /we4267 /we4312 /we4101 /we4244 /we4189 /we4311 /we4302
-2. 所有 `while (1)` 替换为： `while (true)` ，以方便阅读。
-3. 指针查找： `*(_BYTE*)(v12` ，正则为： `\*\([0-9a-zA-Z_]*?\*\)\(v` 。
+2. 所有 `while (1)` 替换为：`while (true)` ，以方便阅读。
+3. 指针查找：`*(_BYTE*)(v12` ，正则为：`\*\([0-9a-zA-Z_]*?\*\)\(v` 。
 4. 所有 float 采用 (float)，避免限制为 double，最终 32 & 64 计算的结果造成不一致。
 5. `(unsigned int)(float)` 调整为 `(int)(float)` ，前面 32 & 64 汇编运算结果会不一致。
 
@@ -1859,12 +1859,12 @@ __dmb(0xBu);
 其实 LDREX 和 STREX 指令，是将单纯的更新内存的原子操作分成了两个独立的步骤。
 大致的流程如下，但是 ARM 内部为了实现这个功能，还有不少复杂的情况要处理。
 
-LDREX 用来读取内存中的值，并标记对该段内存的独占访问： `LDREX Rx, [Ry]` 。
+LDREX 用来读取内存中的值，并标记对该段内存的独占访问：`LDREX Rx, [Ry]` 。
 上面的指令意味着，读取寄存器 Ry 指向的 4 字节内存值，将其保存到 Rx 寄存器中，同时标记对 Ry 指向内存区域的独占访问。
 如果执行 LDREX 指令的时候发现已经被标记为独占访问了，并不会对指令的执行产生影响。
 
 而 STREX 在更新内存数值时，会检查该段内存是否已经被标记为独占访问，
-并以此来决定是否更新内存中的值： `STREX Rx, Ry, [Rz]` 。
+并以此来决定是否更新内存中的值：`STREX Rx, Ry, [Rz]` 。
 如果执行这条指令的时候发现已经被标记为独占访问了，则将寄存器 Ry 中的值更新到寄存器 Rz 指向的内存，
 并将寄存器 Rx 设置成 0。指令执行成功后，会将独占访问标记位清除。
 而如果执行这条指令的时候发现没有设置独占标记，则不会更新内存，且将寄存器 Rx 的值设置成 1。

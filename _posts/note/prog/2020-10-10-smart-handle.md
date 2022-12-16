@@ -94,7 +94,7 @@ private:
 };
 ```
 
-类创建成员： `SmartCriticalSection m_csection;` 成员函数就可以用了： `SmartLocker temp(m_csection);` 。要注意的就是，不要 `TerminateThread` / `ExitThread` 之类的，可能造成死锁。
+类创建成员：`SmartCriticalSection m_csection;` 成员函数就可以用了：`SmartLocker temp(m_csection);` 。要注意的就是，不要 `TerminateThread` / `ExitThread` 之类的，可能造成死锁。
 
 ```cpp
 template <typename T>

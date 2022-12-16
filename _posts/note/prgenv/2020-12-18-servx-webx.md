@@ -52,7 +52,7 @@ Emscripten: An LLVM-to-Web Compiler
 
 ## NetBeans 忽略配置
 
-NetBeans 源码忽略报错后，配置存在： `C:\Users\86138\AppData\Roaming\NetBeans\11.0\var\attributes.xml` 。
+NetBeans 源码忽略报错后，配置存在：`C:\Users\86138\AppData\Roaming\NetBeans\11.0\var\attributes.xml` 。
 
 
 ## HTML5 视频播放

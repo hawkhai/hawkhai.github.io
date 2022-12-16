@@ -268,7 +268,7 @@ ntdll!_HEAP
 00cc00c0  00ccb1f8 00cd1000 00cc0248 3cc8c60f
 ```
 
-XOR 操作数为： `c33c9efb 0000e2e2` 。
+XOR 操作数为：`c33c9efb 0000e2e2` 。
 原始数据：
 ```
 0:000> dd 00cc6d90
@@ -282,7 +282,7 @@ XOR 操作数为： `c33c9efb 0000e2e2` 。
 00cc6e00  6dc8bbb8 6dc8bbc4 6dce0e40 00000000
 ```
 
-头部信息为： `c03b9eff 1800e2e8`
+头部信息为：`c03b9eff 1800e2e8`
 
 做异或运算进行解码：
 ```
@@ -314,8 +314,8 @@ Previous block     : 0x00cc6d40
 Next block         : 0x00cc6db0
 ```
 
-三种方法结果都是： `Total block size   : 0x4 units (0x20 bytes)`
-还原后的头部信息： `0x03070004 0x1800000A`
+三种方法结果都是：`Total block size   : 0x4 units (0x20 bytes)`
+还原后的头部信息：`0x03070004 0x1800000A`
 
 
 ## 头部结构
@@ -330,7 +330,7 @@ Next block         : 0x00cc6db0
 * [6,uchar]00 -- 这个堆块的序号。Owning segment: (offset 0)
 * [7,uchar]18 -- 补齐未使用的字节。Requested size     : 0x8 bytes (unused 0x18 bytes)
 
-`int* pChar = new int[3];` 的情况： `0x01070006 0x24000017`
+`int* pChar = new int[3];` 的情况：`0x01070006 0x24000017`
 ```
 0:000> !heap -i 1260000
 Heap context set to the heap 0x01260000

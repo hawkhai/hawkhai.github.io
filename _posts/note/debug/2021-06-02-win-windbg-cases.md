@@ -597,7 +597,7 @@ Vista 引入了很多新的东西，对堆块的块头结构（HEAP_ENTRY）编�
 
 ## 野指针 QString::toStdString().c_str()
 
-危险的： `QString::toStdString().c_str()` ，他的定义是：
+危险的：`QString::toStdString().c_str()` ，他的定义是：
 ```cpp
 inline std::string QString::toStdString() const
 { return toUtf8().toStdString(); }
@@ -758,7 +758,7 @@ Attempt to read from address 14f5c000
 DEFAULT_BUCKET_ID:  INVALID_POINTER_READ
 ```
 
-汇编指令： `MOVZX OPD, OPS`
+汇编指令：`MOVZX OPD, OPS`
 将 8 位或 16 位的 OPS 零扩展为 16 位或 32 位，在传给 OPD。
 相当于 函数 FindTextInPage 里面用了一个 **被释放** 或者 **未初始化** 的指针 并 调用了 **StrChrIW**。
 
@@ -818,7 +818,7 @@ WARNING: Stack unwind information not available. Following frames may be wrong.
 
 这个堆栈和汇编一致，但是和源码不一致，Release 版本经过优化。
 在函数 `QMainClient::qt_static_metacall` 里面是找不到 `qt5core!QString::QString+0x4` 构造函数的。
-命令： `dds esp` 可以查看到当前堆栈残留，这里面指示的位置是正确的。
+命令：`dds esp` 可以查看到当前堆栈残留，这里面指示的位置是正确的。
 
 ```
 022fdae8  00744c9d fastapp!QMainClient::slotTabInitFinished+0x22d [E:\src\QMainClient.cpp @ 248]
@@ -896,7 +896,7 @@ void Test::slotvoid() {
 }
 ```
 
-刚好崩溃到 拷贝构造函数： `inline QString::QString(const QString &other);` 。
+刚好崩溃到 拷贝构造函数：`inline QString::QString(const QString &other);` 。
 
 {% include image.html url="/assets/images/210602-win-windbg-cases/20210603114533.png" %}
 
@@ -925,7 +925,7 @@ Attempt to read from address 00000008
 ```
 
 一看，肯定是个空指针，但是这个指针怎么会为空呢？
-百思不得其解，真正原因就是： `processEvents` 又调用出来形成递归，修改了指针，造成回溯的时候崩溃（堆栈就在那里断了）。
+百思不得其解，真正原因就是：`processEvents` 又调用出来形成递归，修改了指针，造成回溯的时候崩溃（堆栈就在那里断了）。
 
 > 对于不能重现的崩溃，知道代码行后，简单的办法就是，在 VS 里面找到对应的代码行，设置断点，然后查看反汇编，那种内联的 `inline` 的系统库，也能准确匹配到符号了。
 > 帮助更准确的定位到源码问题。

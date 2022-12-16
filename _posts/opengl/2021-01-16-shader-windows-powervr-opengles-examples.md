@@ -124,7 +124,7 @@ Android N 或以上，需要摄像头权限。
 
 延迟渲染。先渲染几何体，然后再把只能看到的部分重新渲染并计算光照。
 基于 PowerVR，开发者可以用 fast on-chip memory 替代。
-需要扩展： `GL_EXT_shader_pixel_local_storage` for PLS.
+需要扩展：`GL_EXT_shader_pixel_local_storage` for PLS.
 
 
 ### Controls
@@ -241,7 +241,7 @@ PostProcessing，通常在普通的场景渲染结束后对结果进行处理，
 
 {% include image.html url="/assets/images/210116-shader-windows-powervr-~83/multiviewvr_multiviewvr.png" %}
 
-渲染一个立体的 VR 硬件场景。基于扩展： `GL_OVR_multiview` 。
+渲染一个立体的 VR 硬件场景。基于扩展：`GL_OVR_multiview` 。
 
 
 ### OpenGL ES 3.0+

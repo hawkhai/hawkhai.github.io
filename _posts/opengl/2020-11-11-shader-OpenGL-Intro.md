@@ -83,7 +83,7 @@ caption="利用 gpu 渲染一个巨人的图像" %}
         * This geometry shader takes a single GL_POINT as input and generates triangles for a complete circle.
 
     * instancing.vcxproj [没运行成功]
-        * 多实例的 demo，LearnOpenGL 里面有类似的例子： `glDrawElementsInstanced` 。
+        * 多实例的 demo，LearnOpenGL 里面有类似的例子：`glDrawElementsInstanced` 。
         * Mesh instancing (OpenGL 3.3+) demo. Made to compare against the same Vulkan example.
 
     * raypicking.vcxproj / raypicking.sln [没运行成功]

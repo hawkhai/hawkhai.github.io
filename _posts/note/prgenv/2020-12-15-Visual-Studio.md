@@ -77,7 +77,7 @@ Windows 已在 KPdfConvertor_debug.exe 中触发一个断点。
 输出窗口可能提供了更多诊断信息
 ```
 
-链接器 --> 输入 --> 忽略特定库： `libcmt.lib;libcmtd.lib` 。
+链接器 --> 输入 --> 忽略特定库：`libcmt.lib;libcmtd.lib` 。
 
 {% include image.html url="/assets/images/201215-visual-studio/20220614104507.png" %}
 
@@ -206,7 +206,7 @@ vs 支持对自定义数据类型的展现进行定制，创建一个 .natvis �
 在 VS2005 工具 \- 选项 \- 调试 \- 符号，添加符号文件（\*.pdb）位置：
 <http://msdl.microsoft.com/download/symbols>
 
-符号缓存到本地目录，如： `D:\Development\Symbols`
+符号缓存到本地目录，如：`D:\Development\Symbols`
 
 
 ## C++ 中 _tmain() 和 main()
@@ -342,7 +342,7 @@ Tools > Options > Projects and Solutions > VC++ Directories > Executable Files
 
 ## error LNK2001: 无法解析的外部符号 "public: static struct QMetaObject const QwtPlot::staticMetaObject"
 
-参数宏： `QWT_DLL` 。
+参数宏：`QWT_DLL` 。
 
 
 ## MSB8040 Spectre-mitigated libraries are required for this project

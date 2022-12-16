@@ -109,7 +109,7 @@ C:\test>"pecopy.exe" -in "fastvc.exe" \
 
 ### 示例 3 修改图标
 
-先要用 resourcehacker 看好要替换图标的 mask 是多少，比如： `ICONGROUP,107,2052` 。
+先要用 resourcehacker 看好要替换图标的 mask 是多少，比如：`ICONGROUP,107,2052` 。
 
 {% include image.html url="/assets/images/210814-win-tools-reshack/20220117-160930.png" %}
 
@@ -126,7 +126,7 @@ C:\test>"pecopy.exe" -in "fastvc.exe" \
     * <a href="{% include relref.html url="/source/png2ico/png2ico-src-2002-12-08.tar.gz" %}">png2ico-src-2002-12-08.tar.gz</a> (26K)
 * 微软图标设计文档：[Icons (Design basics)](https://docs.microsoft.com/en-us/windows/win32/uxguide/vis-icons)
 * C++ 如何将 Icon 转成 Bitmap，保留 Alpha 通道。<http://www.noobyard.com/article/p-odzsipgl-hw.html>
-* 默认图标貌似是： `ICONGROUP,MAINICON,0` 。
+* 默认图标貌似是：`ICONGROUP,MAINICON,0` 。
 
 
 ### 配置构建生成后任务
@@ -615,7 +615,7 @@ def bake_one_big_png_to_ico(sourcefile, targetfile, sizes=None):
   usage: pecheck.exe [-h] --jsonconfig JSONCONFIG --rootdir ROOTDIR
   pecheck.exe: error: the following arguments are required: --jsonconfig, --rootdir
   ```
-  * 配置构建后事件： `..\..\bin\pecheck.exe --jsonconfig="..\..\config\pesearch.json" --rootdir="$(TargetPath)"`
+  * 配置构建后事件：`..\..\bin\pecheck.exe --jsonconfig="..\..\config\pesearch.json" --rootdir="$(TargetPath)"`
 
 
 

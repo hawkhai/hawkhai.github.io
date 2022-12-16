@@ -66,7 +66,7 @@ print( 'os.getcwd is', os.getcwd() )
 
 双进程实现（除了 Windows one-folder 模式）。
 1. 主进程：bootloader 启动，在准备工作。
-    * 如果是 one-file 模式，释放文件到： `temppath/_MEIxxxxxx` 。
+    * 如果是 one-file 模式，释放文件到：`temppath/_MEIxxxxxx` 。
     * 修改大量环境变量。
     * 设置 handle signals，便于两个进程通信。
     * 运行子进程。

@@ -61,7 +61,7 @@ jekyll -v
 
 ## 工程 bundle install
 
-libv8 构建不成功，therubyracer 也构建不成功。网上的办法都行不通。必须先装好 Python2 环境，如果是 Python3，要改环境变量 Path，还有 PYTHONPATH & PYTHONHOME（也可能没有），否则 Python 报错： `No module named site` 。
+libv8 构建不成功，therubyracer 也构建不成功。网上的办法都行不通。必须先装好 Python2 环境，如果是 Python3，要改环境变量 Path，还有 PYTHONPATH & PYTHONHOME（也可能没有），否则 Python 报错：`No module named site` 。
 
 {% highlight shell %}
 bundle install # Need python 2!!

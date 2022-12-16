@@ -52,7 +52,7 @@ HEAP: Free Heap block xxxxxx modified at xxxxxx after it was freed
 
 a. 安装 Debugging Tools for Windows（也就是 WinDbg），安装后将安装目录添加到 Path 环境变量中。
 
-b. 执行： `gflags -p /enable ***.exe /full "***.exe"` ，为需要调试的程序名称，不需要完整路径。该命令行会在注册表里设置一些调试参数，使内存在使用的时候加入了保护机制，
+b. 执行：`gflags -p /enable ***.exe /full "***.exe"` ，为需要调试的程序名称，不需要完整路径。该命令行会在注册表里设置一些调试参数，使内存在使用的时候加入了保护机制，
 一旦内存写越界，或者发生野指针的问题，都会导致一个中断。由此，就可以确定问题到底出在哪里了。
 
 配置正常页堆：
@@ -82,7 +82,7 @@ b. 执行： `gflags -p /enable ***.exe /full "***.exe"` ，为需要调试的�
 
 c. 调试运行自己的程序，此时 Visual C++ 会直接定位在有问题的代码处。
 
-d. 删除注册表中的调试设置： `gflags -p /disable ***.exe`
+d. 删除注册表中的调试设置：`gflags -p /disable ***.exe`
 
 
 ## 页堆 Page Heap

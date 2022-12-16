@@ -175,7 +175,7 @@ NTFS 符号链接是对用户透明的，也就是说，在绝大多数情况下
 
 为了最大可能避免被挂起，首先尝试 `GetFileInformationByHandleEx` ，再尝试 `GetFinalPathNameByHandle` ，用线程跑，发现挂起了就 `TerminateThread` 。
 
-有非常好的源码可以参考： `DWORD psutil_threaded_get_filename(HANDLE hFile)` from <https://github.com/giampaolo/psutil.git>。
+有非常好的源码可以参考：`DWORD psutil_threaded_get_filename(HANDLE hFile)` from <https://github.com/giampaolo/psutil.git>。
 
 <https://github.com/giampaolo/psutil/blob/release-5.6.0/psutil/arch/windows/process_handles.c>
 

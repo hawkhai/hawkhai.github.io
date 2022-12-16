@@ -45,7 +45,7 @@ cam->setDirection(0.0f, -1.0f, 0.0f);
 ## 姿态角（Euler 角）
 
 改变方向也可以通过 Yaw Roll Pitch 来实现。
-注意以此旋转依旧要设： `cam->setFixedYawAxis(true, Ogre::Vector3::NEGATIVE_UNIT_Z);`
+注意以此旋转依旧要设：`cam->setFixedYawAxis(true, Ogre::Vector3::NEGATIVE_UNIT_Z);`
 
 * Yaw 是围绕当前坐标系的 Y 轴旋转。
 * Roll 是围绕当前坐标系的 X 轴旋转。
