@@ -710,8 +710,12 @@ def mainfile(fpath, fname, ftype, fdepth=0):
                     linxCount = linxCount + 1
                     if linxCount % 2 == 1:
                         if newline and not newline.endswith(" "):
-                            newline += " `"
+                            if not newline.endswith("："):
+                                newline += " "
+                            newline += "`"
                         else:
+                            if newline.endswith("： "):
+                                newline = newline[:-1]
                             newline += "`"
                     else:
                         newline += "`"

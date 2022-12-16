@@ -64,7 +64,7 @@ echo %19 ( 打印: "hello"9)
 
 ```
 Sample： echo off
-Sample： echo hello world ( 显示出“hello world”)
+Sample： echo hello world（显示出“hello world”）
 Sample： echo Windows Registry Editor Version 5.00 > c:\setupreg.reg （此前还没有 setupreg.reg 这个文件）
 Sample： echo "SourcePath"="D:\\Win2003\\" >> c:\setupreg.reg （追加内容进 setupreg.reg 这个文件）
 ```
