@@ -33,7 +33,9 @@ cluster: "Windows 编程知识点"
 
 * 不要在 C++ 中的构造函数与析构函数中调用虚函数
 * 只要用到了继承关系，面向接口编程的情况下，都需要虚析构函数。
-* `/we4263` 限制 override 必须写上。
+* `/we4263` 'function' : member function does not override any base class virtual member function。
+* `/we4264` 'virtual_function' : no override available for virtual member function from base 'class'; function is hidden
+
   ```cmake
 # Enable and treat as errors the following warnings to easily detect virtual function signature failures:
 # 'function' : member function does not override any base class virtual member function

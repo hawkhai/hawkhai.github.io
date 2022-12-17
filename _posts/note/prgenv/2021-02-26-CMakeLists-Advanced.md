@@ -67,7 +67,8 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -pthread -Werror=return-type"
 ```
 
 * `/we4715` 函数每个分支都必须有返回值。
-* `/we4263` 限制 override 必须写上？
+* `/we4263` 'function' : member function does not override any base class virtual member function
+* `/we4264` 'virtual_function' : no override available for virtual member function from base 'class'; function is hidden
 * `/we4700` VS 下的开关。gcc 下用 -Werror=uninitialized。
 
 
@@ -82,8 +83,8 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -pthread -Werror=return-type"
 * CMakeLists.txt 中的设定
   ```cmake
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /we4715 /we4013 /we4431 /we4133 /we4716 /we6244 /we6246 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /we4715 /we4013 /we4431 /we4133 /we4716 /we6244 /we6246 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /we4715 /we4013 /we4431 /we4133 /we4716 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /we4715 /we4013 /we4431 /we4133 /we4716 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
 elseif (CMAKE_SYSTEM_NAME MATCHES "Linux" OR CMAKE_SYSTEM_NAME MATCHES "Darwin")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion")
@@ -91,7 +92,7 @@ endif()
 ```
 * Visual Studio 中的设定
     * 项目属性->配置属性->C/C++->高级->将特定的警告视为错误，填入相应的警告、错误代号：
-        * 4715;4013;4431;4133;4716;6244;6246;4457;4456;4172;4700;4477;4018;4047
+        * 4715;4013;4431;4133;4716;4457;4456;4172;4700;4477;4018;4047
 * 基于 Makefile
     * CFLAGS += -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion
 * 直接调用 gcc/clang

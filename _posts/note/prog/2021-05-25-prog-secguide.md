@@ -260,7 +260,8 @@ LOCAL_CPPFLAGS += -fexceptions -frtti
 ```
 
 * `/we4715` 函数每个分支都必须有返回值。
-* `/we4263` 限制 override 必须写上？
+* `/we4263` 'function' : member function does not override any base class virtual member function
+* `/we4264` 'virtual_function' : no override available for virtual member function from base 'class'; function is hidden
 * `/we4700` VS 下的开关。gcc 下用 -Werror=uninitialized。
 
 
@@ -275,8 +276,8 @@ LOCAL_CPPFLAGS += -fexceptions -frtti
 * CMakeLists.txt 中的设定
   ```cmake
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /we4715 /we4013 /we4431 /we4133 /we4716 /we6244 /we6246 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /we4715 /we4013 /we4431 /we4133 /we4716 /we6244 /we6246 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /we4715 /we4013 /we4431 /we4133 /we4716 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /we4715 /we4013 /we4431 /we4133 /we4716 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047")
 elseif (CMAKE_SYSTEM_NAME MATCHES "Linux" OR CMAKE_SYSTEM_NAME MATCHES "Darwin")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion")
@@ -308,7 +309,7 @@ endif(MSVC)
 ```
 * Visual Studio 中的设定
     * 项目属性->配置属性->C/C++->高级->将特定的警告视为错误，填入相应的警告、错误代号：
-        * 4715;4013;4431;4133;4716;6244;6246;4457;4456;4172;4700;4477;4018;4047
+        * 4715;4013;4431;4133;4716;4457;4456;4172;4700;4477;4018;4047
 * 基于 Makefile
     * CFLAGS += -Werror=implicit-function-declaration -Werror=implicit-int -Werror=incompatible-pointer-types -Werror=return-type -Werror=shadow -Werror=return-local-addr -Werror=uninitialized -Werror=format -Werror=sign-compare -Werror=int-conversion
 * 直接调用 gcc/clang
@@ -327,7 +328,7 @@ endif(MSVC)
     * VS 下为 /we4716。gcc 下用 -Werror=return-type
 5. 使用了影子变量 (shadow variable)
     * 内层作用域重新声明 / 定义了与外层作用域中同名的变量。
-    * VS 下有好几个开关：/we6244 /we6246 /we4457 /we4456（MSDN 上还有个 /we2082 但实际用的时候提示无效 : 命令行 warning D9014: 值“2082”对于“/we”无效；假定为“5999”)。gcc 下用 -Werror=shadow
+    * VS 下有好几个开关：/we4457 /we4456（MSDN 上还有个 /we2082 但实际用的时候提示无效 : 命令行 warning D9014: 值“2082”对于“/we”无效；假定为“5999”)。gcc 下用 -Werror=shadow
 6. 函数返回局部变量的地址
     * VS 下的开关：/we4172。gcc 下用 -Werror=shadow -Werror=return-local-addr。
 7. 变量没有初始化就使用
