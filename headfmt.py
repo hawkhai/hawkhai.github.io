@@ -79,6 +79,8 @@ def analyzehead(fpath, fname, ftype, newmap):
 
 gkvmap = {}
 def formatkv(fpath, fname, ftype, fsecli, setkv={}):
+
+    fdata = readfile(fpath, True)
     li = [line.strip() for line in fsecli.split("\n") if line.strip()]
 
     _posts = "_posts" in fpath.split("\\")
@@ -173,6 +175,13 @@ ktitle kaliyun imgthumb zhconv
             else:
                 assert False, (key, value)
 
+    if "mathjax" in kvmap.keys():
+        if fdata.count("$") <= 1:
+            kvmap["mathjax"] = ""
+    if "mermaid" in kvmap.keys():
+        if fdata.count("mermaid") <= 1:
+            kvmap["mermaid"] = ""
+
     newli = []
     newmap = {}
     for key in mdkeylist:
@@ -182,6 +191,7 @@ ktitle kaliyun imgthumb zhconv
         line = key + ": " + value.strip()
         newli.append(line.strip())
         newmap[key] = value.strip()
+
     analyzehead(fpath, fname, ftype, newmap)
     return "\r\n".join(newli), newmap
 

@@ -10,7 +10,7 @@ toclistyle: none
 comments:
 visibility:
 mathjax:
-mermaid: truez
+mermaid:
 glslcanvas:
 codeprint:
 ---

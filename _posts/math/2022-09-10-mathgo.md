@@ -9,7 +9,7 @@ toc: true
 toclistyle: none
 comments:
 visibility:
-mathjax: true
+mathjax:
 mermaid:
 glslcanvas:
 codeprint:

@@ -9,8 +9,8 @@ toc: true
 toclistyle: none
 comments:
 visibility:
-mathjax: true
-mermaid: truez
+mathjax:
+mermaid:
 glslcanvas:
 codeprint:
 ---

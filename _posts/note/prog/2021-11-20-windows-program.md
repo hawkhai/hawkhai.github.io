@@ -9,8 +9,8 @@ toc: true
 toclistyle:
 comments:
 visibility:
-mathjax: true
-mermaid: true
+mathjax:
+mermaid:
 glslcanvas:
 codeprint:
 cluster: "Windows 编程知识点"

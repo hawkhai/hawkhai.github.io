@@ -10,7 +10,7 @@ toclistyle:
 comments:
 visibility:
 mathjax: true
-mermaid: truez
+mermaid:
 glslcanvas:
 codeprint:
 cluster: "Irrlicht OpenGL-ES2 Driver"
