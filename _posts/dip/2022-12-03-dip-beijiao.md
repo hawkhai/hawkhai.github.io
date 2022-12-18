@@ -16,7 +16,7 @@ codeprint:
 ---
 
 【北交】
-[图像处理与机器学习 bili {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Kh411X7Qv/)
+[图像处理与机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Kh411X7Qv/)
 “数字图像处理”主要包括图像增强、形态学处理、图像分割等。
 “机器学习”部分主要包括贝叶斯决策、人工神经网络以及深度学习导论。
 
