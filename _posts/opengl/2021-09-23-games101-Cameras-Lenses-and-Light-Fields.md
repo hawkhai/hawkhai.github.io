@@ -18,6 +18,7 @@ cluster: "GAMES101 - 现代计算机图形学入门 - 闫令琪"
 
 摄影入门，相机与透镜 的图形学原理。根据 闫令琪 课程整理。
 GAMES101: 现代计算机图形学入门（照相机与透镜，光圈、快门和景深）
+这个视频好。[单反相机工作原理](https://v.douyin.com/hx6XSDr/)
 
 **照相机与透镜**
 ----------
@@ -223,3 +224,6 @@ $$\frac{C}{A}=\frac{d^{\prime}}{z_{i}}=\frac{\left|z_{s}-z_{i}\right|}{z_{i}}\\$
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-23-games101-Cameras-Lenses-and-Light-Fields.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://v.douyin.com/hx6XSDr/]({% include relrefx.html url="/backup/2021-09-23-games101-Cameras-Lenses-and-Light-Fields.md/v.douyin.com/4347033e.html" %})
