@@ -2412,6 +2412,14 @@ long getfileSize(const char* fpath) {
     return length;
 }
 
+// FILE* file;
+// if (fopen_s(&file, datfile.c_str(), "rb") == 0) {
+//     fobj = std::shared_ptr<FILE>(file, std::fclose);
+// }
+// else {
+//     assert(false);
+//     return;
+// }
 bool readfileSeek(const char* fpath, char* buffer, long readsize, long seek) {
     FILE* fs = fopen(fpath, "rb");
     assert(fs);
