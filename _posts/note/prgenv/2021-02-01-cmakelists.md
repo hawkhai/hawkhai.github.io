@@ -84,6 +84,15 @@ target_link_libraries( native-lib ... lib_gmath )
 target_link_libraries 为库或二进制可执行文件添加库链接，要用在 add_executable 之后。
 上述指令中的 target 是指通过 add_executable() 和 add_library() 指令生成已经创建的目标文件。
 
+[note](https://jfreeman.dev/blog/2021/10/22/the-trouble-with-cmake-configurations/)
+
+Configuration	| CMAKE_CXX_FLAGS_\<CONFIG\>	| Runtime Library	| Symbol Table	| Optimize	| Inline	| Assert
+----            | ----                          | ----              | ----          | ----      | ----      | ----
+Debug	        | /MDd /Zi /Ob0 /Od /RTC1	    | debug	            | include	    | none	    | none	    | enable
+Release	        | /MD /O2 /Ob2 /DNDEBUG	        | non-debug	        | exclude	    | speed	    | any	    | disable
+RelWithDebInfo	| /MD /Zi /O2 /Ob1 /DNDEBUG	    | non-debug	        | include	    | speed	    | declared	| disable
+MinSizeRel	    | /MD /O1 /Ob1 /DNDEBUG	        | non-debug	        | exclude	    | size	    | declared	| disable
+
 
 ### 区分不同平台
 
@@ -1152,6 +1161,7 @@ set_target_properties(irrtest PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_
 - [https://github.com/pavelliavonau/cmakeconverter]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/github.com/551473f5.html" %})
 - [https://developer.android.com/studio/projects/configure-cmake]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/developer.android.com/e400582b.html" %})
 - [https://cmake.org/cmake/help/latest/manual/cmake-commands.7.html]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/cmake.org/dae0cbfc.html" %})
+- [https://jfreeman.dev/blog/2021/10/22/the-trouble-with-cmake-configurations/]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/jfreeman.dev/46a07f35.html" %})
 - [https://blog.csdn.net/Huoon/article/details/108520571]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/blog.csdn.net/43695850.html" %})
 - [https://stackoverflow.com/questions/8591762/ifdef-debug-with-cmake-independent-from-platform]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/stackoverflow.com/0392352f.html" %})
 - [https://github.com/juj/MathGeoLib/blob/master/CommonOptions.cmake]({% include relrefx.html url="/backup/2021-02-01-cmakelists.md/github.com/24e305e7.html" %})

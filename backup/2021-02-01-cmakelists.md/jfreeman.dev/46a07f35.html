@@ -1,0 +1,267 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>John Freeman | The trouble with CMake configurations</title>
+  <link rel="canonical" href="https://thejohnfreeman.com/blog/2021/10/22/the-trouble-with-cmake-configurations/" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
+  <!-- The Prism code highlighter theme. -->
+  <link rel="stylesheet" type="text/css" href="/css/theme.css" />
+  <link rel="stylesheet" type="text/css" href="/css/index.css" />
+  
+  <!-- Google Analytics -->
+  <script type="text/javascript" async="" id="gauges-tracker" data-site-id="5d015e81f3e6b07925294730" data-track-path="https://track.gaug.es/track.gif" src="https://d2fuc4clr7gvcn.cloudfront.net/track.js"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-31203316-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-31203316-1');
+  </script>
+  
+<script src="//thejohnfreeman.disqus.com/embed.js" data-timestamp="1672146568763"></script></head>
+<body>
+  <div class="container">
+    <nav class="navbar sticky-top navbar-expand-md navbar-light bg-light">
+      <a class="navbar-brand" href="/">John Freeman</a>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Blog</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="row pt-3">
+      <main class="col-12 col-md-9 col-xl-8 order-md-1">
+        <h1 class="mb-3"><a href="/blog/2021/10/22/the-trouble-with-cmake-configurations/">The trouble with CMake configurations</a></h1>
+
+<div class="row">
+  <div class="col-12">
+    <div class="mb-4 text-center">
+      <i class="far fa-calendar-alt fa-lg"></i>
+      <span class="date">2021 October 22</span>
+    </div>
+  </div>
+</div>
+
+<p>This is the third post in a series on C++ developer experience.
+In the <a href="/blog/2021/10/14/c++-build-hell/">first post</a>, I described my vision and introduced a vocabulary for this series.
+In the <a href="/blog/2021/10/15/a-general-build-model-for-c++/">second post</a>, I explained the difference between local and global compiler flags.
+In this post, I want to talk about the trouble with build types or <a href="https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#build-configurations">configurations</a> in CMake.</p>
+<p><a href="/blog/2021/10/14/c++-build-hell/">Recall</a> that I want to make it easy for library users, i.e. dependents, to choose which build they use for each of the dependencies in their dependency graph.
+I gave an example of mixing debug builds of some dependencies with release builds of other dependencies in order to aid debugging of some components without paying the cost of slowing down all components.
+I didn't come up with this idea,
+but I've never actually seen it in practice,
+and in my experience, it is difficult to achieve with CMake.</p>
+<h2 id="disclaimer"><a class="header-anchor" href="#disclaimer"><i class="fas fa-link fa-xs"></i></a> Disclaimer</h2>
+<p>Up to this point, I have tried to avoid fixating on any particular build system,
+but CMake is the one I use
+because I believe it is the one most widely used in the community,
+to the point of being a de facto standard.
+I can already hear the shouts that it is not a build system, but a build system generator,
+but that stopped being the case in my opinion when they added <a href="https://cmake.org/cmake/help/latest/manual/cmake.1.html#build-a-project"><code>cmake --build</code></a> in version 2.8,
+which lets users configure, build, test, and install projects in a cross-platform way by interacting with CMake only,
+with no knowledge or concern of the underlying build system.
+CMake is the build system I have in the back of my mind as I write this series.
+I have tried and will continue to try to keep the ideas general, but this post is colored very specifically by my experience with CMake.</p>
+<h2 id="definitions"><a class="header-anchor" href="#definitions"><i class="fas fa-link fa-xs"></i></a> Definitions</h2>
+<p>In CMake, a <strong>build type</strong> or <strong>configuration</strong> is a name.
+That's it.
+These two terms are often used interchangeably, but I will stick to <em>configuration</em> here.
+For single-configuration generators (e.g. <code>Unix Makefiles</code>),
+the configuration is chosen at configure time by the <a href="https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html"><code>CMAKE_BUILD_TYPE</code> variable</a>.
+For multi-configuration generators (e.g. <code>Visual Studio 16 2019</code>), the configuration is chosen at build time by the <a href="https://cmake.org/cmake/help/latest/manual/cmake.1.html#build-a-project">command-line option <code>--config</code></a>.
+Whenever I use the term <em>configuration</em>, I am referring to this choice, however it was made.</p>
+<p>What does it mean to talk about <em>the</em> configuration?
+When using CMake to build, we build <em>a</em> configuration.
+Now, with a single-configuration generator, we know what that configuration will be,
+but it still doesn't make sense to think of the configuration as a property of the project.
+<em>The configuration is a property of the build step</em>.</p>
+<p><a href="/blog/2021/10/14/c++-build-hell/">Recalling my earlier vocabulary</a>, an <strong>artifact</strong> is a library or executable, and any variation in the construction of that artifact creates a uniquely identifiable <strong>build</strong> of the artifact, whether or not it changes the artifact's ABI.
+The set of possible variations includes linking against different builds of dependencies.
+Artifacts may have "debug" and "release" <em>builds</em>, i.e. builds that are colloquially called "debug" and "release", but that distinction is independent of (albeit often correlated with) <em>the configuration</em>.</p>
+<p>The configuration has implications throughout the project.</p>
+<ul>
+<li>Some variables have special siblings which have a configuration in their name and are used only when the chosen configuration matches that name.
+For example, <a href="https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_FLAGS.html"><code>CMAKE_CXX_FLAGS</code></a> holds flags passed to the compiler for <em>all</em> configurations of <em>all</em> C++ artifacts, while <a href="https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_FLAGS_CONFIG.html"><code>CMAKE_CXX_FLAGS_DEBUG</code></a> holds flags passed to the compiler (in addition to <code>CMAKE_CXX_FLAGS</code>) for only <em>debug</em> configurations of <em>all</em> C++ artifacts.</li>
+<li><a href="https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html#genex:CONFIG">Generator expressions</a> can conditionally evaluate to different values based on the chosen configuration by using <code>$&lt;CONFIG:cfgs&gt;</code>.</li>
+<li>Some variables have different defaults based on the chosen configuration, e.g. <a href="https://cmake.org/cmake/help/latest/prop_tgt/MSVC_RUNTIME_LIBRARY.html"><code>MSVC_RUNTIME_LIBRARY</code></a>.</li>
+</ul>
+<p>Users can choose any configuration name they like,
+but CMake assigns default values for a few specially chosen configurations.
+For example, here are the default values for the siblings of <code>CMAKE_CXX_CFLAGS</code> when using the Microsoft Visual C++ (MSVC) family of generators:</p>
+<table class="table table-sm" style="font-size: 0.9em">
+<thead>
+<tr>
+<th>Configuration</th>
+<th><code>CMAKE_CXX_FLAGS_&lt;CONFIG&gt;</code></th>
+<th>Runtime Library</th>
+<th>Symbol Table</th>
+<th>Optimize</th>
+<th>Inline</th>
+<th>Assert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Debug</code></td>
+<td><code>/MDd /Zi /Ob0 /Od /RTC1</code></td>
+<td>debug</td>
+<td>include</td>
+<td>none</td>
+<td>none</td>
+<td>enable</td>
+</tr>
+<tr>
+<td><code>Release</code></td>
+<td><code>/MD /O2 /Ob2 /DNDEBUG</code></td>
+<td>non-debug</td>
+<td>exclude</td>
+<td>speed</td>
+<td>any</td>
+<td>disable</td>
+</tr>
+<tr>
+<td><code>RelWithDebInfo</code></td>
+<td><code>/MD /Zi /O2 /Ob1 /DNDEBUG</code></td>
+<td>non-debug</td>
+<td>include</td>
+<td>speed</td>
+<td>declared</td>
+<td>disable</td>
+</tr>
+<tr>
+<td><code>MinSizeRel</code></td>
+<td><code>/MD /O1 /Ob1 /DNDEBUG</code></td>
+<td>non-debug</td>
+<td>exclude</td>
+<td>size</td>
+<td>declared</td>
+<td>disable</td>
+</tr>
+</tbody>
+</table>
+<h2 id="different-configurations-cannot-see-each-other"><a class="header-anchor" href="#different-configurations-cannot-see-each-other"><i class="fas fa-link fa-xs"></i></a> Different configurations cannot see each other</h2>
+<p>Imagine you have a CMake project to build an artifact B that links against library A,
+and you want to build B in a debug configuration but link against A in a release configuration.
+If A is imported into your project using <a href="https://cmake.org/cmake/help/latest/command/find_package.html"><code>find_package</code></a> or <a href="https://cmake.org/cmake/help/latest/command/find_library.html"><code>find_library</code></a>, and that search identifies a pre-constructed release build of A,
+then you can choose the debug configuration for your project and continue.
+(It likely won't link on Windows, though, for reasons explained below.)</p>
+<p>But if you're <em>building</em> A because it was added to your project via <a href="https://cmake.org/cmake/help/latest/command/add_subdirectory.html"><code>add_subdirectory</code></a> or <a href="https://cmake.org/cmake/help/latest/module/FetchContent.html"><code>FetchContent</code></a>,
+then A and B, and in fact all artifacts, must share the same global configuration.
+There is no way to choose different configurations for different artifacts in the same dependency graph.
+It is not even possible within the language of CMake to choose a configuration for an artifact.
+There is no <a href="https://cmake.org/cmake/help/latest/manual/cmake-properties.7.html#properties-on-targets">target property</a> corresponding to the choice of a configuration.
+Even with a multi-configuration generator, it is not possible for artifacts built in one configuration to refer to artifacts built in another configuration.
+They cannot <em>see</em> each other.</p>
+<p>The main reason for this limitation, as far as I can tell,
+is that <em>the configuration effectively chooses the build of the standard library</em>.
+Remember that all artifacts in a single dependency graph must be linked against the same build of any library within that graph, including the standard library, to ensure ABI compatibility (in the general case).
+The configuration adds a few global compiler flags, passed to the compiler for all artifacts in the project, like the <a href="https://en.cppreference.com/w/c/error/assert">definition <code>NDEBUG</code></a> and optimization level.
+For the libstdc++ standard library implementation compiled with GCC or Clang, its ABI <em>happens</em> to be unaffected by those flags, as of today, but that might not be the case forever.
+For MSVC, the configuration adds more global flags to enable <a href="https://docs.microsoft.com/en-us/cpp/build/reference/rtc-run-time-error-checks?view=msvc-160">run-time error checks</a> and to choose which build of the <a href="https://docs.microsoft.com/en-us/cpp/build/reference/md-mt-ld-use-run-time-library?view=msvc-160">run-time library</a> to link against.
+That last flag certainly <em>does</em> affect the ABI.
+This difference often stings Windows developers who try to <a href="https://stackoverflow.com/questions/7668200/error-lnk2038-mismatch-detected-for-iterator-debug-level-value-0-doesnt">mix debug and release builds of different libraries</a>, whether built in the same project or not.</p>
+<p>One way to remove this limitation would be to introduce special targets representing different builds of the standard library.
+There's nothing stopping users from doing this now,
+but doing it correctly requires special care:</p>
+<ul>
+<li>Delete the values of all the global variables affecting build commands, e.g. <code>CMAKE_CXX_FLAGS</code> (and its siblings).</li>
+<li>Assign appropriate global ("public" in CMake parlance) compiler and linker flags properties to the standard library targets.</li>
+<li>Check that at most one standard library target appears in any dependency graph.</li>
+</ul>
+<p>It's much easier for CMake to just tie the standard library to the configuration chosen at build time.</p>
+<h2 id="how-can-different-builds-co-exist%3F"><a class="header-anchor" href="#how-can-different-builds-co-exist%3F"><i class="fas fa-link fa-xs"></i></a> How can different builds co-exist?</h2>
+<p>If we can't mix configurations when building a dependency graph,
+does that make it impossible to mix debug and release builds in a dependency graph?
+No, it just means that each artifact needs to define separate debug and release targets to facilitate that choice for dependents.
+CMake doesn't make it easy though.</p>
+<p>Imagine you want to create debug and release targets that differ only in their sets of local compiler flags.
+The debug target disables optimization, enables assertions, and includes a symbol table.
+The release target chooses the opposite for all three flags.
+The global compiler flags chosen by the configuration will still be applied to both targets.
+This can cause problems with a certain kind of flag: a flag with no anti-flag.</p>
+<p>What is an anti-flag?
+An <strong>anti-flag</strong> is a flag that cancels the effect of an earlier flag.
+MSVC has flag <code>/D</code> to add a preprocessor definition,
+and flag <code>/U</code> to remove a preprocessor definition,
+even one that was added by an earlier <code>/D</code> flag.
+<code>/U</code> is the anti-flag of <code>/D</code>, and vice versa.
+For GCC and Clang, the equivalent flags are <code>-D</code> and <code>-U</code>.</p>
+<p>Now consider the flag for MSVC to generate a separate symbol table file, <a href="https://docs.microsoft.com/en-us/cpp/build/reference/z7-zi-zi-debug-information-format?view=msvc-160"><code>/Zi</code></a>.
+If this flag is present, the file is generated.
+If it is absent, the file is not generated.
+There is no anti-flag for this flag.
+If the flag is present in the global flags chosen by the configuration, there is no way to cancel it in the local flags for your release target.
+Instead, you must remove the flag from the global flags,
+but that will affect all the other targets in your project, including dependencies,
+which may not be what you want or what they expect, depending on the flag.</p>
+<p>So far I've focused on debug and release builds because of their special interaction with the CMake configuration.
+There are many other dimensions on which artifacts may offer multiple builds, like <a href="https://alexreinking.com/blog/building-a-dual-shared-and-static-library-with-cmake.html">static vs dynamic linkage</a>.
+Or consider a mobile application that offers different tiers (free, value, premium) with different sets of features enabled via preprocessor definitions.
+Each dimension is called an <strong>option</strong>, and each point on a dimension is called a <strong>choice</strong>.
+The set of builds for an artifact grows combinatorically as the set of its options grows.
+Trying to define a separate target for each build becomes a nightmare for the author.</p>
+<hr />
+<p>It's become clear to me now that CMake does not think about dependency graphs the way I want to think about them.
+In the next post, I will walk through what I perceive is the philosophy of CMake and my idea for a build system better suited to my demands.</p>
+
+
+<hr class="mt-5" />
+
+<div id="disqus_thread" class="mt-4"></div>
+<script>
+  var disqus_config = function () {
+    this.page.url = 'https://thejohnfreeman.com/blog/2021/10/22/the-trouble-with-cmake-configurations/';
+    this.page.identifier = 'cmake-configurations';
+    this.page.title = 'The trouble with CMake configurations';
+  };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = '//thejohnfreeman.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s)
+  })();
+</script>
+
+      </main>
+      <div class="col-12 col-md-3 col-xl-2 order-md-0">
+        <div class="row">
+          <div class="col offset-4 offset-md-0">
+            <ul style="list-style: none; margin-left: -2rem;"><li><a href="mailto:jfreeman08@gmail.com">
+                <i class="fas fa-envelope"></i>
+                jfreeman08@g
+              </a></li><li><a href="https://github.com/thejohnfreeman">
+                <i class="fab fa-github"></i>
+                thejohnfreeman
+              </a></li><li><a href="https://twitter.com/thejohnfreeman">
+                <i class="fab fa-twitter"></i>
+                thejohnfreeman
+              </a></li><li><a href="https://www.linkedin.com/in/thejohnfreeman">
+                <i class="fab fa-linkedin"></i>
+                thejohnfreeman
+              </a></li><li><a href="https://stackoverflow.com/users/618906/john-freeman">
+                <i class="fab fa-stack-overflow"></i>
+                John Freeman
+              </a></li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    var _gauges = _gauges || [];
+    (function() {
+      var t   = document.createElement('script');
+      t.type  = 'text/javascript';
+      t.async = true;
+      t.id    = 'gauges-tracker';
+      t.setAttribute('data-site-id', '5d015e81f3e6b07925294730');
+      t.setAttribute('data-track-path', 'https://track.gaug.es/track.gif');
+      t.src = 'https://d2fuc4clr7gvcn.cloudfront.net/track.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(t, s);
+    })();
+  </script>
+
+
+</body></html>
