@@ -16,6 +16,65 @@ codeprint:
 ---
 
 
+## 红黑树 / Set / Map
+
+[note](https://oi-wiki.org/ds/rbtree/)
+[note {% include relref_cnblogs.html %}](https://www.cnblogs.com/zjy4869/p/15501448.html)
+C++ STL 中，C++ 中 set, multiset, map, multimap 集合模板类都是在 STL 红黑树的基础之上实现的。
+
+Win32 上，debug 都是 12 字节，release 都是 8 字节。
+分别是：
+```
+auto mymap = std::map<int, int>();
+_Myproxy;
+_Myhead std::_Tree_node<std::pair<int const, int>, void*>*;
+_Mysize unsigned int;
+
+auto mymmap = std::multimap<int, int>();
+_Myproxy;
+_Myhead std::_Tree_node<std::pair<int const, int>, void*>*;
+_Mysize unsigned int;
+
+auto myset = std::set<int>();
+_Myproxy;
+_Myhead std::_Tree_node<int, void*>*;
+_Mysize unsigned int;
+
+auto mymset = std::multiset<int>();
+_Myproxy;
+_Myhead std::_Tree_node<int, void*>*;
+_Mysize unsigned int;
+
+_Left   *
+_Parent *
+_Right  *
+_Color  char
+_Isnil  char
+_Myval  int
+```
+
+[note](https://cloud.tencent.com/developer/article/1703257)
+结构体内存对齐问题：
+1. 结构体变量的起始地址能够被其最宽的成员大小整除。
+2. 结构体每个成员相对于起始地址的偏移能够被其自身大小整除，如果不能则在前一个成员后面补充字节。
+3. 结构体总体大小能够被最宽的成员的大小整除，如不能则在后面补充字节。
+```cpp
+struct S3 {
+    double d;
+    char c;
+    int i;
+};
+struct S4 {
+    char c1;
+    struct S3 s3;
+    double d;
+};
+    int tempk = sizeof(struct S4); // 32
+    tempk = sizeof(struct S3); // 16
+    tempk = 0;
+```
+
+
 ## 汇编相关
 
 有符号数与无符号数进行比较，有符号数会先转换成无符号数再比较，-1 会转换成无符号最大的那个数。
@@ -3799,6 +3858,9 @@ class fastimagedll : public fastimage::IFastImageInterface {
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-tiny-source-code.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://oi-wiki.org/ds/rbtree/]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/oi-wiki.org/c038d17c.html" %})
+- [https://www.cnblogs.com/zjy4869/p/15501448.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.cnblogs.com/09a2a8e9.html" %})
+- [https://cloud.tencent.com/developer/article/1703257]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/cloud.tencent.com/a4863d51.html" %})
 - [https://github.com/firmianay/CTF-All-In-One/blob/master/doc/3.1.2_integer_overflow.md]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/github.com/82102ea0.html" %})
 - [https://www.jianshu.com/p/58b602f8b7d5]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.jianshu.com/6f62c3c7.html" %})
 - [https://zhuanlan.zhihu.com/p/81438938]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/zhuanlan.zhihu.com/86f0d241.html" %})
