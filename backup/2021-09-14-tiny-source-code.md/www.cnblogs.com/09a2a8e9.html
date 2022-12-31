@@ -1,0 +1,1212 @@
+<html lang="zh-cn" style="--olcb-folder-code-block-max-height:80vh;"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="never">
+    <meta name="description" content="STL关联式容器中： set和map的底层数据结构为红黑树，因为map和set要求是自动排序的，红黑树能够实现这一功能，并且各个操作的时间复杂度都较低，而unordered_set和unordered">
+    <meta property="og:description" content="STL关联式容器中： set和map的底层数据结构为红黑树，因为map和set要求是自动排序的，红黑树能够实现这一功能，并且各个操作的时间复杂度都较低，而unordered_set和unordered">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>STL关联式容器底层实现——红黑树和哈希表 - 烟消00云散 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml">
+    
+    <style>#home :not(.cnblogs_code):not(.cnblogs_Highlighter)>pre:not([highlighted]):not([class*="brush:"]) code:not(.hljs), :not(.cnblogs_code):not(.cnblogs_Highlighter)>pre:not([highlighted]):not([class*="brush:"]) code:not(.hljs) {background: rgb(245, 245, 245);
+        padding: 12px;
+        border: 1px solid rgb(204, 204, 204);
+        border-radius: 3px;
+        border-color: transparent;
+        color: rgb(68, 68, 68);
+        font-family: "Courier New", sans-serif;
+        font-size: 12px</style><link rel="stylesheet" href="/css/blog-common.min.css?v=7zx8XyQVJeZnDsNDj7QyXi8MqYB_4vl-uc8ijcEsltc">
+    
+
+    <link id="MainCss" rel="stylesheet" href="/skins/bluesky/bundle-bluesky.min.css?v=XE2fk78_g236UfcEq84zHWzv_2tOhFkONfEE4JfJvbU">
+        <link id="highlighter-theme-cnblogs" type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=5J1NDtbnnIr2Rc2SdhEMlMxD4l9Eydj88B31E7_NhS4">
+    
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/bluesky/bundle-bluesky-mobile.min.css?v=3_myJd7pDE3XqjerGJBcPu7Q-eBugYr5sMw1O1H68kw">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/zjy4869/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/zjy4869/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/zjy4869/wlwmanifest.xml">
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 663765;
+        var currentBlogApp = 'zjy4869';
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BlueSky';
+        var visitorUserId = '';
+        var hasCustomScript = false;
+        try {
+            if (hasCustomScript && document.referrer && document.referrer.indexOf('baidu.com') >= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+        window.cb_enable_mathjax = false;
+        window.mathEngine = 0;
+        window.codeHighlightEngine = 1;
+        window.enableCodeLineNumber = false;
+        window.codeHighlightTheme = 'cnblogs';
+        window.darkModeCodeHighlightTheme = 'vs2015';
+        window.isDarkCodeHighlightTheme = false;
+        window.isDarkModeCodeHighlightThemeDark = true;
+        window.isDisableCodeHighlighter = false;
+        window.enableCodeThemeTypeFollowSystem = false;
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-11-02 22:03';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=0Fge_XJuSz50sMp_VpP7Av1v9qTeM3fE973a2TC7FMU"></script><style>.medium-zoom-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 300ms;
+  will-change: opacity;
+}
+
+.medium-zoom--opened .medium-zoom-overlay {
+  cursor: pointer;
+  cursor: zoom-out;
+  opacity: 1;
+}
+
+.medium-zoom-image {
+  cursor: pointer;
+  cursor: zoom-in;
+  /*
+    The `transition` is marked as "!important" for the animation to happen
+    even though it's overriden by another inline `transition` style attribute.
+
+    This is problematic with frameworks that generate inline styles on their
+    images (e.g. Gatsby).
+
+    See https://github.com/francoischalifour/medium-zoom/issues/110
+   */
+  transition: transform 300ms cubic-bezier(0.2, 0, 0.2, 1) !important;
+}
+
+.medium-zoom-image--hidden {
+  visibility: hidden;
+}
+
+.medium-zoom-image--opened {
+  position: relative;
+  cursor: pointer;
+  cursor: zoom-out;
+  will-change: transform;
+}
+</style><script id="hljs-script" src="https://common.cnblogs.com/highlight/11.4.0/highlight.min.js" type="text/javascript" async=""></script>
+    
+
+    
+<meta http-equiv="origin-trial" content="Az6AfRvI8mo7yiW5fLfj04W21t0ig6aMsGYpIqMTaX60H+b0DkO1uDr+7BrzMcimWzv/X7SXR8jI+uvbV0IJlwYAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjgwNjUyNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A+USTya+tNvDPaxUgJooz+LaVk5hPoAxpLvSxjogX4Mk8awCTQ9iop6zJ9d5ldgU7WmHqBlnQB41LHHRFxoaBwoAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjgwNjUyNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A7FovoGr67TUBYbnY+Z0IKoJbbmRmB8fCyirUGHavNDtD91CiGyHHSA2hDG9r9T3NjUKFi6egL3RbgTwhhcVDwUAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjgwNjUyNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2022120501.js" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script"><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script></head>
+<body class="skin-bluesky has-navbar hljs-engine">
+<a name="top"></a>
+<div id="top_nav" class="navbar forpc">
+    <nav id="nav_main" class="navbar-main">
+        <ul id="nav_left" class="navbar-list navbar-left">
+            <li class="navbar-branding">
+                <a href="https://www.cnblogs.com/" title="开发者的网上家园" role="banner">
+                    <img src="//common.cnblogs.com/logo.svg" alt="博客园Logo">
+                </a>
+            </li>
+            <li>
+                <a href="/" onclick="countClicks('skin-navbar-sitehome')">首页</a>
+            </li>
+            <li>
+                <a href="https://news.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-news')">新闻</a>
+            </li>
+            <li>
+                <a href="https://q.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-q')">博问</a>
+            </li>
+            <li>
+                <a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-brands')">专区</a>
+            </li>
+            <li>
+                <a href="https://ing.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-ing')">闪存</a>
+            </li>
+            <li>
+                <a href="https://edu.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-edu')">班级</a>
+            </li>
+        </ul>
+        <ul id="nav_right" class="navbar-list navbar-right">
+            <li>
+                <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get" role="search">
+                    <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="search" tabindex="3">
+                    <button type="submit" id="zzk_search_button">
+                        <img src="//common.cnblogs.com/images/blog/search.svg" alt="搜索">
+                    </button>
+                </form>
+            </li>
+            <li id="navbar_login_status" class="navbar-list">
+                <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                    <img id="new_post_icon" class="navbar-icon" src="//common.cnblogs.com/images/blog/newpost.svg" alt="写随笔">
+                </a>
+                <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                    <img id="myblog_icon" class="navbar-icon" src="//common.cnblogs.com/images/blog/myblog.svg" alt="我的博客">
+                </a>
+                <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                    <img id="msg_icon" class="navbar-icon" src="//common.cnblogs.com/images/blog/message.svg" alt="短消息">
+                    <span id="msg_count" style="display: none"></span>
+                </a>
+                <a id="navbar_lite_mode_indicator" data-current-page="blog" style="display: none" href="javascript:void(0)" alt="简洁模式" title="简洁模式启用，您在访问他人博客时会使用简洁款皮肤展示">
+                    <img class="navbar-icon" src="//common.cnblogs.com/images/blog/lite-mode-on.svg" alt="简洁模式">
+                </a>
+                <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                    <a class="dropdown-button" href="https://home.cnblogs.com/">
+                        <img id="user_icon" class="navbar-avatar" src="//common.cnblogs.com/images/blog/avatar-default.svg" alt="用户头像">
+                    </a>
+                    <div class="dropdown-menu">
+                        <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                        <a href="https://home.cnblogs.com/">我的园子</a>
+                        <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                        <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide"><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                        <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                    </div>
+                </div>
+                <a class="navbar-anonymous" href="https://account.cnblogs.com/signup" style="display: inline;">注册</a>
+                <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/zjy4869/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页"></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/zjy4869/">烟消00云散</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/zjy4869/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E7%83%9F%E6%B6%8800%E4%BA%91%E6%95%A3">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/zjy4869/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 21&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 0&nbsp; </span>
+<span id="stats-total-view-count">阅读 - 
+<span title="总阅读数: 5650">
+5650</span></span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zjy4869/p/15501448.html">
+    <span role="heading" aria-level="2">STL关联式容器底层实现——红黑树和哈希表</span>
+    
+</a><button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p class="md-end-block md-heading md-focus"><span class="md-plain">&nbsp; &nbsp;<strong> STL</strong><span class="md-pair-s md-expand"><strong>关联式容器中：</strong></span></span></p>
+<p class="md-end-block md-heading md-focus"><span class="md-plain"><span class="md-pair-s md-expand"><strong>&nbsp; &nbsp; </strong>set和map的底层数据结构为<strong>红黑树</strong>，因为map和set要求是自动排序的，红黑树能够实现这一功能，并且各个操作的时间复杂度都较低，而unordered_set和unordered_map的底层数据结构为<strong>哈希表</strong>，查找时间复杂度为常数级。</span></span></p>
+<p class="md-end-block md-heading md-focus"><span class="md-plain"><span class="md-pair-s md-expand"><strong>&nbsp; &nbsp; 只要是前缀带了unordered的就是无序，后缀带了multi的就是允许键值重复，插入采用 insert_equal 而不是 insert_unique。如下表所示：</strong></span></span></p>
+<p class="md-end-block md-heading md-focus">&nbsp;</p>
+<figure class="md-table-fig">
+<div class="table-wrapper">
+<div class="table-wrapper"><table class="md-table">
+<thead>
+<tr class="md-end-block">
+<th><span class="td-span"><span class="md-plain">容器名</span></span></th>
+<th><span class="td-span"><span class="md-plain">底层实现</span></span></th>
+<th><span class="td-span"><span class="md-plain">键值重复</span></span></th>
+<th><span class="td-span"><span class="md-plain">插入元素</span></span></th>
+<th><span class="td-span"><span class="md-plain">迭代器性质</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">set</span></span></td>
+<td><span class="td-span"><span class="md-plain">红黑树</span></span></td>
+<td><span class="td-span"><span class="md-plain">不允许</span></span></td>
+<td><span class="td-span"><span class="md-plain">insert_unique</span></span></td>
+<td><span class="td-span"><span class="md-plain">const_iterator</span></span></td>
+</tr>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">multiset</span></span></td>
+<td><span class="td-span"><span class="md-plain">红黑树</span></span></td>
+<td><span class="td-span"><span class="md-plain">允许</span></span></td>
+<td><span class="td-span"><span class="md-plain">insert_equal</span></span></td>
+<td><span class="td-span"><span class="md-plain">const_iterator</span></span></td>
+</tr>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">unordered_set</span></span></td>
+<td><span class="td-span"><span class="md-plain">哈希表</span></span></td>
+<td><span class="td-span"><span class="md-plain">不允许</span></span></td>
+<td><span class="td-span"><span class="md-plain">insert_unique</span></span></td>
+<td><span class="td-span"><span class="md-plain">const_iterator</span></span></td>
+</tr>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">unordered_multiset</span></span></td>
+<td><span class="td-span"><span class="md-plain">哈希表</span></span></td>
+<td><span class="td-span"><span class="md-plain">允许</span></span></td>
+<td><span class="td-span"><span class="md-plain">insert_equal</span></span></td>
+<td><span class="td-span"><span class="md-plain">const_iterator</span></span></td>
+</tr>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">map</span></span></td>
+<td><span class="td-span"><span class="md-plain">红黑树</span></span></td>
+<td><span class="td-span"><span class="md-plain">不允许</span></span></td>
+<td><span class="td-span"><span class="md-plain">insert_unique</span></span></td>
+<td><span class="td-span"><span class="md-plain">非const_iterator</span></span></td>
+</tr>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">multimap</span></span></td>
+<td><span class="td-span"><span class="md-plain">红黑树</span></span></td>
+<td><span class="td-span"><span class="md-plain">允许</span></span></td>
+<td><span class="td-span"><span class="md-plain">insert_equal</span></span></td>
+<td><span class="td-span"><span class="md-plain">非const_iterator</span></span></td>
+</tr>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">unordered_map</span></span></td>
+<td><span class="td-span"><span class="md-plain">哈希表</span></span></td>
+<td><span class="td-span"><span class="md-plain">不允许</span></span></td>
+<td><span class="td-span"><span class="md-plain">insert_unique</span></span></td>
+<td><span class="td-span"><span class="md-plain">非const_iterator</span></span></td>
+</tr>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">unordered_multimap</span></span></td>
+<td><span class="td-span"><span class="md-plain">哈希表</span></span></td>
+<td><span class="td-span"><span class="md-plain">允许</span></span></td>
+<td><span class="td-span"><span class="md-plain">insert_equal</span></span></td>
+<td><span class="td-span"><span class="md-plain">非const_iterator</span></span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</figure>
+<h2 class="md-end-block md-heading md-focus"><span class="md-plain">1.红黑树</span><button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p class="md-end-block md-p"><span class="md-plain">（1）定义 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 红黑树（R-B TREE，全称：Red-Black Tree），本身是一棵特殊的二叉查找树，在其基础上附加了两个要求： </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 1）树中的每个结点增加了一个用于存储颜色的标志域； </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 2）树中没有一条路径比其他任何路径长出两倍，整棵树要接近于“平衡”的状态。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 这里所指的路径，指的是从</span><span class="md-pair-s "><strong><span class="md-plain">任何一个结点开始，一直到其子孙的叶子结点的长度</span></strong></span><span class="md-plain">；接近于平衡：红黑树并不是平衡二叉树，只是由于对各路径的长度之差有限制，所以近似于平衡的状态。</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 红黑树示例如图所示：</span></p>
+<p class="md-end-block md-p"><img src="https://images0.cnblogs.com/i/497634/201403/251730074203156.jpg"></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 图中每个结点附带一个整形数值，表示的是此结点的</span><span class="md-pair-s "><strong><span class="md-plain">黑高度（从该结点到其子孙结点中包含的黑结点数</span></strong></span><span class="md-plain">，用 bh(x) 表示（x 表示此结点）），nil 的黑高度为 0，颜色为黑色（在编程时为节省空间，所有的 nil 共用一个存储空间）。在计算黑高度时，也看做是一个黑结点。 </span><span class="md-pair-s "><strong><span class="md-plain">红黑树中每个结点都有各自的黑高度，整棵树也有自己的黑高度，即为根结点的黑高度</span></strong></span><span class="md-plain">，例如上图中的红黑树的黑高度为 3。</span></p>
+<p class="md-end-block md-p"><span class="md-plain">（2）性质</span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 红黑树对于结点的颜色设置不是任意的，需满足以下性质的二叉查找树才是红黑树：</span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 1）树中的每个结点颜色不是红的，就是黑的； </span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 2）根结点的颜色是黑的； </span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 3）所有为 nil 的叶子结点的颜色是黑的；（注意：叶子结点说的只是为空（nil 或 NULL）的叶子结点！） </span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 4）如果此结点是红的，那么它的两个孩子结点全部都是黑的； </span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 5）对于每个结点，</span><span class="md-pair-s "><strong><span class="md-plain">从该结点到该结点的所有子孙结点的所有路径上包含有相同数目的黑结点</span></strong></span><span class="md-plain">；</span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 6）对于一棵具有 n 个结点的红黑树，树的高度至多为：2log(n+1)。</span></p>
+<p class="md-end-block md-p"><span class="md-pair-s "><strong><span class="md-plain">&nbsp; &nbsp; 由此可推出红黑树进行查找操作时的时间复杂度为O(logn)</span></strong></span><span class="md-plain">，因为对于高度为 h 的二叉查找树的运行时间为O(h)，而包含有 n 个结点的红黑树本身就是最高为 logn（简化之后）的查找树（h=logn），所以红黑树的时间复杂度为O(logn)。</span></p>
+<p class="md-end-block md-p"><span class="md-plain">（3）红黑树结点定义</span></p>
+<pre class="md-fences md-end-block ty-contain-cm modeLoaded highlighter-hljs" lang="C++" spellcheck="false" highlighted="true"><code class="highlighter-hljs hljs language-haskell"><span class="hljs-title">enum</span> <span class="hljs-type">RBTColor</span>{<span class="hljs-type">RED</span>, <span class="hljs-type">BLACK</span>};
+​
+<span class="hljs-title">template</span>&lt;<span class="hljs-keyword">class</span> <span class="hljs-type">T</span>&gt;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">RBTNode</span>
+{
+pulic:
+ &nbsp; &nbsp;<span class="hljs-type">RBTColor</span> color;
+ &nbsp; &nbsp;<span class="hljs-type">T</span> key;
+ &nbsp; &nbsp;<span class="hljs-type">RBTNode</span> *left;
+ &nbsp; &nbsp;<span class="hljs-type">RBTNode</span> *right;
+ &nbsp; &nbsp;<span class="hljs-type">RBTNode</span> *parent;
+ &nbsp; &nbsp;
+ &nbsp; &nbsp;<span class="hljs-type">RBTNode</span>(<span class="hljs-type">T</span> <span class="hljs-title">val</span>, <span class="hljs-type">RBTColor</span>, <span class="hljs-type">RBTNode</span> *<span class="hljs-title">p</span>, <span class="hljs-type">RBTNode</span> *<span class="hljs-title">l</span>, <span class="hljs-type">RBTNode</span> *<span class="hljs-title">r</span>):
+ &nbsp; &nbsp; &nbsp; &nbsp;key(<span class="hljs-title">val</span>), color(<span class="hljs-title">col</span>), parent(<span class="hljs-title">p</span>), left(<span class="hljs-title">l</span>), right(<span class="hljs-title">r</span>){}
+}</span></code></pre>
+<p class="md-end-block md-p"><span class="md-plain">（4）红黑树的基本操作</span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 1）旋转</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 红黑树本身作为一棵二叉查找树，所以其任务就是用于动态表中数据的插入和删除的操作。在进行该操作时，避免不了会破坏红黑树的结构，此时就需要进行适当的调整，使其重新成为一棵红黑树，可以从两个方面着手对树进行调整：</span></p>
+<ul class="ul-list" data-mark="-">
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">调整树中</span><span class="md-pair-s "><strong><span class="md-plain">某些结点的指针结构</span></strong></span><span class="md-plain">；</span></p>
+</li>
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">调整树中</span><span class="md-pair-s "><strong><span class="md-plain">某些结点的颜色</span></strong></span><span class="md-plain">；</span></p>
+</li>
+</ul>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 当使用红黑树进行插入或者删除结点的操作时，可能会破坏红黑树的性质，从而变成了一棵普通树，此时就可以通过对树中的某些子树进行旋转，从而使整棵树重新变为一棵红黑树。</span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 2）插入</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; STL中，当创建一个红黑树或者向已有红黑树中插入新的数据时，有两种方式，如下：</span></p>
+<pre class="md-fences md-end-block ty-contain-cm modeLoaded highlighter-hljs" lang="C++" spellcheck="false" highlighted="true"><code class="highlighter-hljs hljs language-cpp"><span class="hljs-comment">//不允许键值重复插入</span>
+<span class="hljs-function">pair&lt;iterator, <span class="hljs-type">bool</span>&gt; <span class="hljs-title">insert_unique</span><span class="hljs-params">(<span class="hljs-type">const</span> value_type&amp; x)</span></span>;
+​
+<span class="hljs-comment">//允许键值重复插入</span>
+<span class="hljs-function">iterator <span class="hljs-title">insert_equal</span><span class="hljs-params">(<span class="hljs-type">const</span> value_type&amp; x)</span></span>;</code></pre>
+<p class="md-end-block md-p"><span class="md-plain"> 3）删除</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 在红黑树中删除结点，需要完成 2 步操作：</span></p>
+<ul class="ul-list" data-mark="-">
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">将红黑树按照二叉查找树删除结点的方法删除指定结点；</span></p>
+</li>
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">重新调整删除结点后的树，使之重新成为红黑树；（还是通过旋转和重新着色的方式进行调整）</span></p>
+</li>
+</ul>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 在二叉查找树删除结点时，分为 3 种情况：</span></p>
+<ul class="ul-list" data-mark="-">
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">若该删除结点本身是叶子结点，则可以直接删除；</span></p>
+</li>
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">若只有一个孩子结点（左孩子或者右孩子），则直接让其孩子结点顶替该删除结点；</span></p>
+</li>
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">若有两个孩子结点，则找到该结点的右子树中值最小的叶子结点来顶替该结点，然后删除这个值最小的叶子结点。</span></p>
+</li>
+</ul>
+<p class="md-end-block md-p"><span class="md-plain">（5）红黑树相比于BST和AVL的优点</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 红黑树是牺牲了严格的高度平衡的优越条件为代价，它只要求部分地达到平衡要求，降低了对旋转的要求，从而提高了性能。</span><span class="md-pair-s "><strong><span class="md-plain">红黑树能够以O(log2n)的时间复杂度进行搜索、插入、删除操作</span></strong></span><span class="md-plain">。此外，由于它的设计，任何不平衡都会在三次旋转之内解决。当然，还有一些更好的，但实现起来更复杂的数据结构能够做到一步旋转之内达到平衡，但红黑树能够给我们一个比较“便宜”的解决方案。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 相比于BST（二叉查找树），因为红黑树可以能确保树的最长路径不大于两倍的最短路径的长度，所以可以看出它的查找效果是有最低保证的。在最坏的情况下也可以保证O(logN)的，这是要好于二叉查找树的。因为二叉查找树最坏情况可以让查找达到O(N)。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 红黑树的算法时间复杂度和AVL（平衡二叉树）相同，但统计性能比AVL树更高，所以在插入和删除中所做的后期维护操作肯定会比红黑树要耗时好多，但是他们的查找效率都是O(logN)，所以红黑树应用还是高于AVL树的. 实际上插入 AVL 树和红黑树的速度取决于你所插入的数据.如果你的数据分布较好,则比较宜于采用 AVL树(例如随机产生系列数),但是如果你想处理比较杂乱的情况,则红黑树是比较快的。</span></p>
+<p class="md-end-block md-p"><span class="md-plain">（6）总结</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 红黑树隶属于二叉查找树，但是二叉查找树的时间复杂度会受到其树深度的影响，而红黑树可以保证在最坏情况下的时间复杂度仍为O(logn)。</span><span class="md-pair-s "><strong><span class="md-plain">当数据量多到一定程度时，使用红黑树比二叉查找树的效率要高</span></strong></span><span class="md-plain">。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 同平衡二叉树相比较，红黑树没有像平衡二叉树对平衡性要求的那么苛刻，虽然两者的时间复杂度相同，但是</span><span class="md-pair-s "><strong><span class="md-plain">红黑树在实际测算中的速度要更胜一筹</span></strong></span><span class="md-plain">。</span></p>
+<p class="md-end-block md-p">&nbsp;</p>
+<h2 class="md-end-block md-heading"><span class="md-plain">2.哈希表</span><button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<h4 class="md-end-block md-heading"><span class="md-plain">2.1 哈希表介绍</span><button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h4>
+<p class="md-end-block md-p"><span class="md-plain">（1）哈希表的概念</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 数组的特点是：寻址容易，插入和删除困难；而链表的特点是：寻址困难，插入和删除容易。那么能不能综合两者的特性，做出一种寻址容易，插入删除也容易的数据结构？这就是哈希表。哈希表涉及到的概念如下：</span></p>
+<ul class="ul-list" data-mark="-">
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">负责将某一个元素映射为一个”大小可接受内的索引“，这样的函数称为 hash function（散列函数）。</span></p>
+</li>
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">使用散列函数可能会带来问题：可能会有不同的元素被映射到相同的位置，这无法避免，因为元素个数有可能大于分配的 array 容量，这就是所谓的碰撞问题，解决碰撞问题一般有：线性探测、二次探测、开链等。</span></p>
+</li>
+</ul>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 哈希表可以视为一种字典结构，在插入、删除、查找等操作上也具有”常数平均时间“的表现。</span></p>
+<p class="md-end-block md-p"><span class="md-plain">（2）哈希表查找步骤</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 1）在存储时，通过哈希函数计算记录的哈希地址，并按次哈希地址存储该记录。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 2）查找记录时，同样通过哈希函数计算记录的哈希地址，并按次哈希地址访问该记录。 </span></p>
+<p class="md-end-block md-p"><span class="md-pair-s "><strong><span class="md-plain">&nbsp; &nbsp; 哈希表最适合的求解问题是查找与给定值相等的记录</span></strong></span><span class="md-plain">。对于查找来说，简化了比较过程，效率就会大大提高。但是对于</span><span class="md-pair-s "><strong><span class="md-plain">一个关键字对应多个记录的数据结构，则不适合用哈希表</span></strong></span><span class="md-plain">。</span></p>
+<p class="md-end-block md-p"><span class="md-plain">（3）哈希函数的构造</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 哈希函数的构造原则：计算简单、哈希地址分布均匀。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 常用的哈希函数的构造方法有 6 种：直接定址法、数字分析法、平方取中法、折叠法、除留余数法和随机数法。</span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 1）直接定址法 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 其哈希函数为一次函数，即以下两种形式： H(key) = key 或者 H（key）=a * key + b（a、b为常数，H表示哈希地址）</span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 2）数字分析法 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 如果关键字由多位字符或者数字组成，就可以考虑抽取其中的2位或者多位作为该关键字对应的哈希地址。 例如下表中列举的是一部分关键字，每个关键字都是有8位十进制数组成：</span></p>
+<p class="md-end-block md-p"><img src="https://upload-images.jianshu.io/upload_images/10149931-c2d806ccf1856548.png?imageMogr2/auto-orient/strip|imageView2/2/w/911/format/webp"></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 通过分析关键字的构成，很明显可以看到关键字的第 1 位和第 2 位都是固定不变的，而第 3 位不是数字 3 就是 4，最后一位只可能取 2、7 和 5，只有中间的 4 位其取值近似随机，所以为了避免冲突，可以从 4 位中任意选取 2 位作为其哈希地址。</span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 3）平方取中法</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 该方式对关键字做平方操作，取中间得几位作为哈希地址。</span><span class="md-pair-s "><strong><span class="md-plain">此方法也是比较常用的构造哈希函数的方法</span></strong></span><span class="md-plain">。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 例如关键字序列为{421，423，436}，对各个关键字进行平方后的结果为{177241，178929，190096}，则可以取中间的两位{72，89，00}作为其哈希地址。</span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 4）折叠法</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 折叠法是将关键字分割成位数相同的几部分（最后一部分的位数可以不同），然后取这几部分的叠加和（舍去进位）作为哈希地址。</span><span class="md-pair-s "><strong><span class="md-plain">此方法不需要知道关键字的分布，适合关键字位数较多的情况</span></strong></span><span class="md-plain">。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 例如关键字9876543210，哈希表表长三位，将它分为四组，987|654|321|0，然后将它们叠加求和987+654+321+0 = 1962，再求后3位得到哈希表。</span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 5）除留余数法 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 若已知整个哈希表的最大长度m，可以取一个不大于m的数p，然后对该关键字key做取余运算。此方法是最常用的构造哈希函数的方法。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 哈希函数公式为：</span><span class="md-pair-s" style="font-family: &quot;Microsoft YaHei&quot;; font-size: 15px" spellcheck="false"><code>H(key)= key % p (p≤m)</code></span><span class="md-plain">。</span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 6）随机数法 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 该方法是取关键字的一个随机函数值作为它的哈希地址。此方法适用于关键字长度不等的情况。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 哈希函数公式为：</span><span class="md-pair-s" style="font-family: &quot;Microsoft YaHei&quot;; font-size: 15px" spellcheck="false"><code>H(key)= random(key)</code></span><span class="md-plain" style="font-family: &quot;Microsoft YaHei&quot;">。</span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 注意： </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 如此多的构建哈希函数的方法，在选择的时候，需要根据实际的查找表的情况采取适当的方法。通常考虑的因素有以下几方面：</span></p>
+<ul class="ul-list" data-mark="-">
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">关键字的长度。如果长度不等，就选用随机数法。如果关键字位数较多，就选用折叠法或者数字分析法；反之如果位数较短，可以考虑平方取中法；</span></p>
+</li>
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">哈希表的大小。如果大小已知，可以选用除留余数法；</span></p>
+</li>
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">关键字的分布情况；</span></p>
+</li>
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">查找表的查找频率；</span></p>
+</li>
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">计算哈希函数所需的时间（包括硬件指令的因素）</span></p>
+</li>
+</ul>
+<p class="md-end-block md-p"><span class="md-plain">（4）处理哈希函数冲突的方法</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 对于哈希表的建立，需要选取合适的哈希函数，但是对于无法避免的冲突，需要采取适当的措施去处理。</span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 1）开放地址法</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 该方法为一旦发生了冲突，就去寻找下一个空的哈希地址，只要哈希表足够大，空的哈希地址总能找到，并将记录存入。基本公式为：</span></p>
+<p class="md-end-block md-p"><span class="md-pair-s" spellcheck="false"><code>&nbsp; &nbsp; <span style="font-size: 15px">H(key)</span> = (H(key)+ d) % m</code></span><span class="md-plain">（其中m为哈希表的表长，d为一个增量），当得出的哈希地址冲突时，选取以下三种方法中的一种获取d的值：</span></p>
+<ul class="ul-list" data-mark="-">
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">线性探测法：d=1，2，3，…，m-1</span></p>
+</li>
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">二次探测法：d=12，-12，22，-22，32，…</span></p>
+</li>
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">伪随机数探测法：d=伪随机数</span></p>
+</li>
+</ul>
+<p class="md-end-block md-p"><span class="md-plain"> 2）再哈希法</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 这种方法是事先准备多个哈希函数，当通过哈希函数求得的哈希地址同其他关键字产生冲突时，使用另一个哈希函数计算，直到冲突不再发生。</span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 3）公共溢出法 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 建立两张表，一张为基本表，另一张为溢出表。基本表存储没有发生冲突的数据，当关键字由哈希函数生成的哈希地址产生冲突时，就将数据填入溢出表。</span></p>
+<p class="md-end-block md-p"><span class="md-plain"> 4）链地址法</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 将所有产生冲突的关键字所对应的数据全部存储在同一个线性链表中。这也是最常用的方法。</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 例如，有一组关键字为{19,14,23,01,68,20,84,27,55,11,10,79}，其哈希函数为：H(key)=key MOD 13，使用链地址法所构建的哈希表如图所示：</span></p>
+<p class="md-end-block md-p"><span class="md-image md-img-loaded" data-src="\image\STL\17.png">&nbsp; &nbsp; <img src="https://img2020.cnblogs.com/blog/2299517/202111/2299517-20211102215739518-1152507688.png"></span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 这种方法对于可能会造成很多冲突的哈希函数来说，提供了绝不会出现找不到地址的保障，当然，这也就带来了</span><span class="md-pair-s "><strong><span class="md-plain">查找时需要遍历单链表的性能损耗</span></strong></span><span class="md-plain">。</span></p>
+<p class="md-end-block md-p"><span class="md-plain">（5）哈希表查找实现</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 首先需要定义一个哈希表的结构以及一些相关的常数，其中HashTable就是哈希表结构。</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 1）对于给定的关键字 K，将其带入哈希函数中，求得与该关键字对应的数据的哈希地址，如果该地址中没有数据，则证明该查找表中没有存储该数据，查找失败；</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 2）如果哈希地址中有数据，就需要做进一步的证明（排除冲突的影响），找到该数据对应的关键字同 K 进行比对，如果相等，则查找成功；</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 3）反之，如果不相等，说明在构造哈希表时发生了冲突，需要根据构造表时设定的处理冲突的方法找到下一个地址，同地址中的数据进行比对，直至遇到地址中数据为 NULL（说明查找失败），或者比对成功。</span></p>
+<p class="md-end-block md-p"><span class="md-pair-s "><strong><span class="md-plain">&nbsp; &nbsp; 如果不发生冲突，哈希查找的时间复杂度为O(1)</span></strong></span><span class="md-plain">， 由于冲突的产生，使得哈希表的查找算法仍然会涉及到比较的过程，因此对于哈希表的查找效率仍需以平均查找长度来衡量。</span></p>
+<p class="md-end-block md-p"><span class="md-plain">（6）红黑树与哈希表，在选择时有什么依据</span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 权衡四个因素: 查找速度，数据量， 内存使用，可扩展性。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 总体来说，hash查找速度会比红黑树快，而且查找速度基本和数据量大小无关，属于常数级别；而红黑树的查找速度是log(n)级别。并不一定常数就比log(n) 小，hash还有hash函数的耗时，如果考虑效率，特别是在元素达到一定数量级时，考虑hash。但若对内存使用特别严格， 希望程序尽可能少消耗内存，那么一定要小心，特别是当hash对象特别多时，就更无法控制了，而且 hash的构造速度较慢。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp;红黑树并不适应所有应用树的领域。如果数据基本上是静态的，那么让他们待在他们能够插入，并且不影响平衡的地方会具有更好的性能。如果数据完全是静态的，例如，做一个哈希表，性能可能会更好一些。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 在实际的系统中，例如，需要使用动态规则的防火墙系统，使用红黑树而不是哈希表被实践证明具有更好的伸缩性。Linux内核在管理vm_area_struct时就是采用了红黑树来维护内存块的。</span></p>
+<p class="md-end-block md-p">&nbsp;</p>
+<h4 class="md-end-block md-heading"><span class="md-plain">2.2 STL中的哈希表</span><button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h4>
+<p class="md-end-block md-p">&nbsp; &nbsp; STL的hashtable使用链地址法解决冲突的哈希表。表长是一个质数，开始值是53，当元素个数超过表长时会自动扩容为大概原先两倍的一个素数。源码如下所示：</p>
+<pre class="language-cpp highlighter-hljs" highlighted="true"><code class="highlighter-hljs language-cpp hljs"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">_Val</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">_Key</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">_HashFcn</span>,
+          <span class="hljs-keyword">class</span> <span class="hljs-title class_">_ExtractKey</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">_EqualKey</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">_Alloc</span>&gt;
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">hashtable</span> {
+<span class="hljs-keyword">public</span>:
+  <span class="hljs-keyword">typedef</span> _Key key_type;
+  <span class="hljs-keyword">typedef</span> _Val value_type;
+  <span class="hljs-keyword">typedef</span> _HashFcn hasher;
+  <span class="hljs-keyword">typedef</span> _EqualKey key_equal;
+
+  <span class="hljs-keyword">typedef</span> <span class="hljs-type">size_t</span>            size_type;
+  <span class="hljs-keyword">typedef</span> <span class="hljs-type">ptrdiff_t</span>         difference_type;
+  <span class="hljs-keyword">typedef</span> value_type*       pointer;
+  <span class="hljs-keyword">typedef</span> <span class="hljs-type">const</span> value_type* const_pointer;
+  <span class="hljs-keyword">typedef</span> value_type&amp;       reference;
+  <span class="hljs-keyword">typedef</span> <span class="hljs-type">const</span> value_type&amp; const_reference;
+
+  <span class="hljs-function">hasher <span class="hljs-title">hash_funct</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>{ <span class="hljs-keyword">return</span> _M_hash; }
+  <span class="hljs-function">key_equal <span class="hljs-title">key_eq</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>{ <span class="hljs-keyword">return</span> _M_equals; }
+
+<span class="hljs-keyword">private</span>:
+  <span class="hljs-keyword">typedef</span> _Hashtable_node&lt;_Val&gt; _Node;</code></pre>
+<p>&nbsp; &nbsp; hashtable的几个模板参数：Value指表中放的实际元素，对set来说是Key，对map来说是pair；Key不用解释；HashFcn是哈希函数；ExtractKey是指如何从Value中提取出Key；EqualKey顾名思义，代表比较Key相等的可调用对象的类型；Alloc是分配器。</p>
+<p><span class="md-plain">&nbsp; &nbsp; STL中实现 hash table 的方式，是在每个 buckets 表格元素中维护一个链表, 然后在链表上执行元素的插入、搜寻、删除等操作，该表格中的每个元素被称为</span><span class="md-pair-s "><strong><span class="md-plain">桶 (bucket)</span></strong><span class="md-plain">。很多书籍上提到最好取一个素数作为hash表格的大小，STL将28个质数（大约2倍依次递增）计算好，并提供函数来查询其中最接近某数并大于某数的质数，如下所示：</span></span></p>
+<pre class="language-cpp highlighter-hljs" highlighted="true"><code class="highlighter-hljs language-cpp hljs">
+<span class="hljs-comment">/*质数表*/</span>
+<span class="hljs-comment">// Note: assumes long is at least 32 bits.</span>
+<span class="hljs-type">static</span> <span class="hljs-type">const</span> <span class="hljs-type">int</span> __stl_num_primes = <span class="hljs-number">28</span>;
+<span class="hljs-type">static</span> <span class="hljs-type">const</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> __stl_prime_list[__stl_num_primes] =
+{
+	<span class="hljs-number">53</span>, <span class="hljs-number">97</span>, <span class="hljs-number">193</span>, <span class="hljs-number">389</span>, <span class="hljs-number">769</span>,
+	<span class="hljs-number">1543</span>, <span class="hljs-number">3079</span>, <span class="hljs-number">6151</span>, <span class="hljs-number">12289</span>, <span class="hljs-number">24593</span>,
+	<span class="hljs-number">49157</span>, <span class="hljs-number">98317</span>, <span class="hljs-number">196613</span>, <span class="hljs-number">393241</span>, <span class="hljs-number">786433</span>,
+	<span class="hljs-number">1572869</span>, <span class="hljs-number">3145739</span>, <span class="hljs-number">6291469</span>, <span class="hljs-number">12582917</span>, <span class="hljs-number">25165843</span>,
+	<span class="hljs-number">50331653</span>, <span class="hljs-number">100663319</span>, <span class="hljs-number">201326611</span>, <span class="hljs-number">402653189</span>, <span class="hljs-number">805306457</span>,
+	<span class="hljs-number">1610612741</span>, <span class="hljs-number">3221225473</span>, <span class="hljs-number">4294967291</span>
+};
+ 
+<span class="hljs-comment">/*以下找出上述28个质数之中，最接近并大于 n的那个质数（有的话），没有取最大*/</span>
+<span class="hljs-keyword">inline</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> __stl_next_prime(<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> n)
+{
+	<span class="hljs-type">const</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>* first = __stl_prime_list;
+	<span class="hljs-type">const</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>* last = __stl_prime_list + __stl_num_primes;
+	<span class="hljs-type">const</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>* pos = <span class="hljs-built_in">lower_bound</span>(first, last, n);
+	<span class="hljs-keyword">return</span> pos == last ? *(last - <span class="hljs-number">1</span>) : *pos;
+}
+ </code></pre>
+<p class="md-end-block md-p md-focus"><span class="md-plain md-expand">&nbsp; &nbsp; C++ STL 标准库中，不仅是 unordered_xxx 容器，</span><span class="md-pair-s "><strong><span class="md-plain">所有无序容器的底层实现都采用的是哈希表存储结构</span></strong></span><span class="md-plain">。更准确地说，</span><span class="md-pair-s"><strong><span class="md-plain">是用“链地址法”（又称“开链法”）解决数据存储位置发生冲突的哈希表</span></strong></span><span class="md-plain">，整个存储结构如图所示：</span></p>
+<p class="md-end-block md-p"><img src="https://img2020.cnblogs.com/blog/2299517/202111/2299517-20211102223630205-1355753736.png"></p>
+<p class="md-end-block md-p md-focus"><span class="md-plain md-expand">&nbsp;</span></p>
+<p class="md-end-block md-p md-focus"><span class="md-plain md-expand">&nbsp; &nbsp; 其中，Pi 表示存储的各个键值对。最左边的绿色称之为 bucket 桶，可以看到，当使用无序容器存储键值对时，会先申请一整块连续的存储空间，但此空间并不用来直接存储键值对</span><span class="md-pair-s "><strong><span class="md-plain">，而是存储各个链表的头指针</span></strong></span><span class="md-plain">，各键值对</span><span class="md-pair-s "><strong><span class="md-plain">真正的存储位置是各个链表的节点</span></strong></span><span class="md-plain">。 当有新键值对存储到无序容器中时，整个存储过程分为如下几步：</span></p>
+<ul class="ul-list" data-mark="-">
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-pair-s "><strong><span class="md-plain">将该键值对中键的值带入设计好的哈希函数，会得到一个哈希值（一个整数，用 H 表示）；</span></strong></span></p>
+</li>
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-pair-s "><strong><span class="md-plain">将 H 和无序容器拥有桶的数量 n 做整除运算（即 H % n），该结果即表示应将此键值对存储到的桶的编号；</span></strong></span></p>
+</li>
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-pair-s "><strong><span class="md-plain">建立一个新节点存储此键值对，同时将该节点链接到相应编号的桶上。</span></strong></span></p>
+</li>
+</ul>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 哈希表存储结构还有一个重要的属性，</span><span class="md-pair-s "><strong><span class="md-plain">称为负载因子(load factor)</span></strong></span><span class="md-plain">。 该属性同样适用于无序容器，用于衡量容器存储键值对的空/满程序，即负载因子越大，意味着容器越满，即各链表中挂载着越多的键值对， 这无疑会降低容器查找目标键值对的效率；反之，负载因子越小，容器肯定越空，但并不一定各个链表中挂载的键值对就越少。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 举个例子，如果设计的哈希函数不合理，使得各个键值对的键带入该函数得到的哈希值始终相同（</span><span class="md-pair-s "><strong><span class="md-plain">所有键值对始终存储在同一链表上</span></strong></span><span class="md-plain">）。这种情况下，即便增加桶数是的负载因子减小，该容器的查找效率依旧很差。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 无序容器中，负载因子的计算方法为： </span><span class="md-pair-s "><strong><span class="md-plain">负载因子 = 容器存储的总键值对 / 桶数</span></strong></span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; 默认情况下，无序容器的最大负载因子为 1.0。如果操作无序容器过程中，使得最大复杂因子超过了默认值，则容器会自动增加桶数，并重新进行哈希，以此来减小负载因子的值。 </span><span class="md-pair-s "><strong><span class="md-plain">需要注意的是，此过程会导致容器迭代器失效，但指向单个键值对的引用或者指针仍然有效</span></strong></span><span class="md-plain">。 </span></p>
+<p class="md-end-block md-p"><span class="md-plain">&nbsp; &nbsp; C++ STL 标准库为了方便用户更好地管控无序容器底层使用的哈希表存储结构，各个无序容器的模板类中都提供表 所示的成员方法。</span></p>
+<figure class="md-table-fig">
+<div class="table-wrapper"><table class="md-table">
+<thead>
+<tr class="md-end-block">
+<th><span class="td-span"><span class="md-plain">成员方法</span></span></th>
+<th><span class="td-span"><span class="md-plain">功能</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">bucket_count</span></span></td>
+<td><span class="td-span"><span class="md-plain">返回当前容器底层存储键值对时，使用桶的数量</span></span></td>
+</tr>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">max_bucket_count</span></span></td>
+<td><span class="td-span"><span class="md-plain">返回当前系统中，unordered_xxx 容器底层最多可以使用多少个桶</span></span></td>
+</tr>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">bucket_size</span></span></td>
+<td><span class="td-span"><span class="md-plain">返回第 n 个桶中存储键值对的数量</span></span></td>
+</tr>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">bucket(key)</span></span></td>
+<td><span class="td-span"><span class="md-plain">返回以 key 为键的键值对所在桶的编号</span></span></td>
+</tr>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">load_factor</span></span></td>
+<td><span class="td-span"><span class="md-plain">返回 unordered_map 容器中当前的负载因子</span></span></td>
+</tr>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">max_load_factor</span></span></td>
+<td><span class="td-span"><span class="md-plain">返回或者设置当前 unordered_map 容器的最大负载因子</span></span></td>
+</tr>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">rehash(n)</span></span></td>
+<td><span class="td-span"><span class="md-plain">尝试重新调整桶的数量为等于或大于 n 的值。如果 n 大于当前容器使用的桶数，则该方法会是容器重新哈希，该容器新的桶数将等于或大于 n。反之，如果 n 的值小于当前容器使用的桶数，则调用此方法可能没有任何作用。</span></span></td>
+</tr>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">reserve(n)</span></span></td>
+<td><span class="td-span"><span class="md-plain">将容器使用的桶数（bucket_count() 方法的返回值）设置为最适合存储 n 个元素的桶</span></span></td>
+</tr>
+<tr class="md-end-block">
+<td><span class="td-span"><span class="md-plain">hash_function</span></span></td>
+<td><span class="td-span"><span class="md-plain">返回当前容器使用的哈希函数对象</span></span></td>
+</tr>
+</tbody>
+</table></div>
+</figure>
+<p class="md-end-block md-p">&nbsp;</p>
+<h3 class="md-end-block md-heading"><span class="md-plain">参考：</span><button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<ol class="ol-list" start="">
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-plain">《STL源码剖析》</span></p>
+</li>
+<li class="md-list-item"><span class="md-plain"><a href="https://github.com/rongweihe/CPPNotes/tree/master/STL-source-code-notes" rel="noopener">https://github.com/rongweihe/CPPNotes/tree/master/STL-source-code-notes</a></span><span class="md-plain"> （微信公众号：herongwei）</span></li>
+<li class="md-list-item">
+<p class="md-end-block md-p"><span class="md-link md-pair-s" spellcheck="false"><a href="http://c.biancheng.net/cplus/" rel="noopener">http://c.biancheng.net/</a></span></p>
+</li>
+</ol>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block" role="contentinfo">
+<div id="EntryTag">
+    标签: 
+            <a href="https://www.cnblogs.com/zjy4869/tag/C%2FC%2B%2B/">C/C++</a>,             <a href="https://www.cnblogs.com/zjy4869/tag/STL/">STL</a></div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(15501448,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('892b6b01-9d49-48c9-1b18-08d8c8010c31');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/zjy4869/" target="_blank"><img src="https://pic.cnblogs.com/face/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/zjy4869/">烟消00云散</a><br>
+            <a href="https://home.cnblogs.com/u/zjy4869/followers/">粉丝 - <span class="follower-count">1</span></a>
+            <a href="https://home.cnblogs.com/u/zjy4869/followees/">关注 - <span class="following-count">1</span></a><br>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow" class="follow-tip">
+                <a href="javascript:void(0);" onclick="follow('892b6b01-9d49-48c9-1b18-08d8c8010c31');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(15501448,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(15501448,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/zjy4869/p/15501384.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/zjy4869/p/15501384.html" data-featured-image="" title="发布于 2021-11-02 21:50">STL容器总结</a>
+    <br>
+    <a href="https://www.cnblogs.com/zjy4869/p/15506212.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/zjy4869/p/15506212.html" data-featured-image="" title="发布于 2021-11-03 23:05">C++知识点总结（三）</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-11-02 22:03</span>&nbsp;
+<a href="https://www.cnblogs.com/zjy4869/">烟消00云散</a>&nbsp;
+阅读(<span id="post_view_count">324</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=15501448" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(15501448);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '15501448', targetLink: 'https://www.cnblogs.com/zjy4869/p/15501448.html', title: 'STL关联式容器底层实现——红黑树和哈希表' })">举报</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+
+<script>
+    var cb_entryId = 15501448, cb_entryCreatedDate = '2021-11-02 22:03', cb_postType = 1, cb_postTitle = 'STL关联式容器底层实现——红黑树和哈希表';
+    var allowComments = true, cb_blogId = 663765, cb_blogApp = 'zjy4869', cb_blogUserGuid = '892b6b01-9d49-48c9-1b18-08d8c8010c31';
+    mermaidRender.render()
+    markdown_highlight()
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+    updatePostStats(
+            [cb_entryId],
+            function(id, count) { $("#post_view_count").text(count) },
+            function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a id="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login('!comments');">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+        <div id="cnblogs_ch"><a href="https://click.aliyun.com/m/1000365553/" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-阿里云-新人特惠'})">【推荐】阿里云新人特惠，爆款云服务器2核4G低至0.46元/天</a><br></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+            <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CIXWpJTfovwCFUsFXAodEGYMYg"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" name="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" role="region" aria-label="Advertisement" tabindex="0" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" style="border: 0px; vertical-align: bottom;" data-load-complete="true" data-google-container-id="1"></iframe></div></div>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card">
+<b>编辑推荐：</b>
+<br>
+
+· <a href="https://www.cnblogs.com/makemylife/p/17015499.html" target="_blank">终于弄明白了 RocketMQ 的存储模型</a>
+    <br>
+· <a href="https://www.cnblogs.com/JavaArchitect/p/17011865.html" target="_blank">应届毕业生程序员在面试时如何做好自我介绍？</a>
+    <br>
+· <a href="https://www.cnblogs.com/chanmufeng/p/17007551.html" target="_blank">Redis 网络模型究竟有多强</a>
+    <br>
+· <a href="https://www.cnblogs.com/coco1s/p/17005071.html" target="_blank">不规则图形背景排版高阶技巧 -- 酷炫的六边形网格背景图</a>
+    <br>
+· <a href="https://www.cnblogs.com/zwwhnly/p/16997650.html" target="_blank">［深度思考］如何优雅的校验参数？</a>
+    <br>
+</div></div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>阅读排行：</b>
+    <br>
+ ·          <a href="https://www.cnblogs.com/JavaArchitect/p/17014345.html" target="_blank">就聊聊不少小IT公司的技术总监</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/JavaArchitect/p/17011865.html" target="_blank">应届毕业生程序员在面试时如何做好自我介绍？</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/gmval/p/17013095.html" target="_blank">学习.NET MAUI Blazor（三）、创建.NET MAUI Blazor应用并使用AntDe</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/Can-daydayup/p/16838976.html" target="_blank">MongoDB从入门到实战之Docker快速安装MongoDB</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/mashukui/p/17012244.html" target="_blank">【爬虫+数据分析+数据可视化】python数据分析全流程《2021胡润百富榜》榜单数据！</a>
+        <br>
+</div></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+        var commentManager = new blogCommentManager();
+        commentManager.renderComments(0);
+        fixPostBody();
+        window.footnoteTipManager.generateFootnoteTips();
+
+            window.tocManager.displayDisableTocTips = false;
+            window.tocManager.generateToc();
+            
+                setTimeout(function() { countViews(cb_blogId, cb_entryId); }, 50);
+            
+            deliverT2();
+            deliverC1C2();
+            loadNewsAndKb();
+            
+                LoadPostCategoriesTags(cb_blogId, cb_entryId);
+            
+            LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+            GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+            loadOptUnderPost();
+            GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+                </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/zjy4869/">
+            烟消00云散
+        </a>
+        <br>
+        园龄：
+        <a href="https://home.cnblogs.com/u/zjy4869/" title="入园时间：2021-02-04">
+            1年10个月
+        </a>
+        <br>
+        粉丝：
+        <a class="follower-count" href="https://home.cnblogs.com/u/zjy4869/followers/">
+            1
+        </a>
+        <br>
+        关注：
+        <a class="folowing-count" href="https://home.cnblogs.com/u/zjy4869/followees/">
+            1
+        </a>
+        <div id="p_b_follow" class="follow-tip">
+<a href="javascript:void(0)" onclick="follow('892b6b01-9d49-48c9-1b18-08d8c8010c31')">+加关注</a></div>
+        <script>getFollowStatus('892b6b01-9d49-48c9-1b18-08d8c8010c31');</script>
+    </div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2022/11/30'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2022年12月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2023/01/31'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">27</td>
+                            <td class="CalOtherMonthDay" align="center">28</td>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        3
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            4
+                        </td>
+                            <td class="" align="center">
+                                5
+                            </td>
+                            <td class="" align="center">
+                                6
+                            </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                            <td class="" align="center">
+                                9
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            10
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            11
+                        </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                            <td class="" align="center">
+                                16
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            17
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            18
+                        </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            24
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            25
+                        </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                        <td class="CalTodayDay" align="center">
+                            31
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            1
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            7
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk">
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block"><div class="catListLink">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    <li><a href="https://www.cnblogs.com/zjy4869/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/zjy4869/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/zjy4869/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/zjy4869/comments" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/zjy4869/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"><div class="catListTag">
+    <h3 class="catListTitle"><a href="https://www.cnblogs.com/zjy4869/tag/" class="sidebar-card-title-a">我的标签</a></h3>
+<ul>
+        <li>
+            <a href="https://www.cnblogs.com/zjy4869/tag/C%2FC%2B%2B/">C/C++<span class="tag-count">(14)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjy4869/tag/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统<span class="tag-count">(5)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjy4869/tag/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjy4869/tag/STL/">STL<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjy4869/tag/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjy4869/tag/Oracle/">Oracle<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjy4869/tag/Linux/">Linux<span class="tag-count">(2)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zjy4869/tag/socket/">socket<span class="tag-count">(1)</span></a>
+        </li>
+    
+
+</ul>
+</div>
+
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zjy4869/archive/2021/12.html" class="category-item-link" rel="" target="">2021年12月(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zjy4869/archive/2021/11.html" class="category-item-link" rel="" target="">2021年11月(9)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zjy4869/archive/2021/10.html" class="category-item-link" rel="" target="">2021年10月(4)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zjy4869/archive/2021/09.html" class="category-item-link" rel="" target="">2021年9月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zjy4869/archive/2021/03.html" class="category-item-link" rel="" target="">2021年3月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/zjy4869/archive/2021/02.html" class="category-item-link" rel="" target="">2021年2月(1)</a>
+ 
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block"><div class="catListView">
+    <h3 class="catListTitle">
+        <a href="https://www.cnblogs.com/zjy4869/most-viewed" class="sidebar-card-title-a">
+    阅读排行榜
+</a>
+
+    </h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/zjy4869/p/14548305.html">
+                            1. 动态库和静态库的概念、生成及使用(1203)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zjy4869/p/15652016.html">
+                            2. Oracle数据库总结（一）——基础知识(544)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zjy4869/p/15318036.html">
+                            3. C++11新特性总结(503)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zjy4869/p/14374688.html">
+                            4. C语言指针知识点总结(387)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zjy4869/p/15501448.html">
+                            5. STL关联式容器底层实现——红黑树和哈希表(323)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"></div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">
+            <a href="https://www.cnblogs.com/zjy4869/most-liked" class="sidebar-card-title-a">推荐排行榜</a>
+
+        </h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/zjy4869/p/14548305.html">
+                                1. 动态库和静态库的概念、生成及使用(1)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div><div id="sidebar_recentcomments" class="sidebar-block"></div>
+
+
+</div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2022 烟消00云散
+<br><span id="poweredby">Powered by .NET 7.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+
+
+<input type="hidden" id="antiforgery_token" value="CfDJ8GXQNXLgcs5PrnWvMs4xAGNdNugtGRlgJqju4o5uV_6Wnto3OyuUodb1nr0ogprIp8l1Cxo4InsIP7Xt8mjRDeBisz6-PaBfmgT3zYH-3awBWQUg3iznHsu1ut7QWkNsr07Dmjk7X930vuNTdMCWvw0">
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-476124-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var kv = getGACustom();
+    if (kv) {
+        gtag('set', kv);
+    }
+    gtag('config', 'UA-476124-1');
+</script>
+<script defer="" src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script><iframe src="https://1f4afeb4906bb26e742bd46ba4cb21c8.safeframe.googlesyndication.com/safeframe/1-0-40/html/container.html" style="visibility: hidden; display: none;"></iframe>
+
+<iframe src="https://www.google.com/recaptcha/api2/aframe" width="0" height="0" style="display: none;"></iframe></body></html>
