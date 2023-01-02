@@ -18,12 +18,13 @@ codeprint:
 
 ## 红黑树 / Set / Map
 
-D:\Android\Sdk\ndk\21.1.6352462\sources\cxx-stl\llvm-libc++\include\\\_\_tree
+`D:\Android\Sdk\ndk\21.1.6352462\sources\cxx-stl\llvm-libc++\include\__tree`
 [note](https://oi-wiki.org/ds/rbtree/)
 [note {% include relref_cnblogs.html %}](https://www.cnblogs.com/zjy4869/p/15501448.html)
 C++ STL 中，C++ 中 set, multiset, map, multimap 集合模板类都是在 STL 红黑树的基础之上实现的。
 
 Win32 上，debug 都是 12 字节，release 都是 8 字节。
+Android 上非常标准，感觉都是 12 字节，leftptr, rightptr, size。
 分别是：
 ```
 auto mymap = std::map<int, int>();
