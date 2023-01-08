@@ -15,6 +15,9 @@ glslcanvas:
 codeprint:
 ---
 
+学习是一件非常困难的事情。首先是工作本身已经很累了，然后是一些客观的家里的事情会消耗你的时间，再然后是新知识本身的难度，面对一堆看不懂的公式，再掂量一下自己有限的智商，不学习貌似日子还是可以继续过下去，那我为什么还要学习呢？夜深人静的时候，媳妇已经睡下，想到自己人生将半，学习计划还是得坚持下去：夜来欹枕细思量，独卧残灯漏夜长；**名不显时心不朽，再挑灯火夜读书。**
+
+路虽远行则将至。
 【北交】
 [图像处理与机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Kh411X7Qv/)
 “数字图像处理”主要包括图像增强、形态学处理、图像分割等。
@@ -196,17 +199,48 @@ Alpha Go/Zero 系统是一个伟大的工程作品，由多种方法混合组装
 
 ### P39 5.5 贝叶斯决策--最小风险决策 08:26
 
+{% include image.html url="/assets/images/221203-dip-beijiao/20230107122309.png" %}
+似然比
+likelihood ratio, LR
+
 
 ### P40 5.6 判别函数（上） 11:20
+
+判别函数
+特征空间
+决策面
+
+贝叶斯理论并用贝叶斯的思想解释了线性回归器和分类器。
+线性分类器
+Linear Discriminant Function (LDF)
 
 
 ### P41 5.7 判别函数（下） 06:36
 
+非线性分类器
+Quadratic Discriminant Function (QDF)
+
 
 ### P42 5.8 概率密度估计--参数法 07:49
 
+概率是已知参数，对结果可能性的预测。似然是已知结果，对参数是某个值的可能性预测。
+
+[区别 {% include relref_cnblogs.html %}](https://www.cnblogs.com/eilearn/p/9433911.html)
+* 最大似然估计（MLE，Maximum Likelihood Estimation）
+    * 最大似然估计，就是利用已知的样本结果，反推最有可能（最大概率）导致这样结果的参数值（模型已知，参数未知）。
+* 贝叶斯估计（BE，Bayesian Estimation）
+    * 参数未知且不确定，因此作为随机变量，参数本身也是一个分布，同时，根据已有的信息可以得到参数 θ 的先验概率，根据先验概率来推断 θ 的后验概率。
+
+[note {% include relref_cnblogs.html %}](https://www.cnblogs.com/simon6666/p/11009510.html)
+极大似然估计（MLE）、贝叶斯估计、最大后验概率估计（MAP）
+最大似然估计（Maximum likelihood estimation, 简称 MLE）和
+最大后验概率估计（Maximum aposteriori estimation, 简称 MAP）是很常用的两种参数估计方法。
+
 
 ### P43 5.9 概率密度估计--非参数法 09:33
+
+* Parzen window / Parzen 窗估计
+* K-nearest Neighbor / k 最近邻估计
 
 
 ### P44 6.1 人工神经网络引言 09:28
@@ -216,6 +250,8 @@ Alpha Go/Zero 系统是一个伟大的工程作品，由多种方法混合组装
 
 
 ### P46 6.3 多层神经网络 08:53
+
+{% include image.html url="/assets/images/221203-dip-beijiao/20230108104712.png" %}
 
 
 ### P47 7.1 引言 08:21
@@ -271,4 +307,6 @@ Alpha Go/Zero 系统是一个伟大的工程作品，由多种方法混合组装
 - [https://blog.csdn.net/cjsh_123456/article/details/79342300]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/blog.csdn.net/6c4bed89.html" %})
 - [https://zhuanlan.zhihu.com/p/498289926]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/zhuanlan.zhihu.com/b66f35f1.html" %})
 - [https://gy23333.github.io/2020/01/19/%E5%9F%BA%E4%BA%8E%E5%8C%BA%E5%9F%9F%E7%9A%84%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E2%80%94%E2%80%94%E5%8C%BA%E5%9F%9F%E5%88%86%E8%A3%82%E4%B8%8E%E5%90%88%E5%B9%B6/]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/gy23333.github.io/314f9593.html" %})
+- [https://www.cnblogs.com/eilearn/p/9433911.html]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/www.cnblogs.com/e0fff013.html" %})
+- [https://www.cnblogs.com/simon6666/p/11009510.html]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/www.cnblogs.com/f88dd4f1.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/www.atoolbox.net/ecf02067.php" %})
