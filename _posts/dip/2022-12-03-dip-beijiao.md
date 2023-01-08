@@ -259,8 +259,61 @@ Quadratic Discriminant Function (QDF)
 
 ### P48 7.2 卷积神经网络 13:36
 
+1998, LeNet
+
 
 ### P49 7.3 深度学习网络 19:22
+
+* Recurrent Neural Network, RNN 循环神经网络
+* Long Short-Term Memory Neural Network, LSTM 长短时记忆神经网络
+
+* LeNet, AlexNet, VGG, GoogleNet
+* MobileNet, ShuffleNet：压缩存储量和计算量
+* 层数极深网络：Deep Residual Network
+* DenseNet
+* Graph CNN
+* Capsule(CapsNet)
+* 生成对抗网络（GAN）
+
+Caffe
+* 加州伯克利（Yangqing Jia 等人），C++ 编写，主要面向视觉。
+* <http://caffe.berkeleyvision.org/>
+
+TensorFlow
+* Google 开发，C++ 编写
+* <https://www.tensorflow.org/>
+
+Theono
+* 2008 年诞生于蒙特利尔工学院（Yoshua Bengio），Python 编写
+* <www.deeplearning.net/software/theano/>
+
+Torch, PyTorch
+* Torch: 历史悠久的机器学习综合平台，Lua 编写，torch.ch
+* PyTorch: In Python.
+
+MxNet
+* 民间项目开发，C++ 编写，内存使用效率高，分布式计算能力强。
+* <mxnet.apache.org/>
+
+{% include image.html url="/assets/images/221203-dip-beijiao/20230108211711.png" %}
+[note](https://www.kdnuggets.com/2015/07/deep-learning-adversarial-examples-misconceptions.html)
+Deep learning is **more vulnerable** to adversarial examples than other kind of machine leaning due to the **extreme non-linearity** of deep models.
+Deep learning is more vulnerable to adversarial examples than other kind of machine learning.
+
+#### 当前主流方法的不足
+
+- 学习能力
+    * 需要大量标记样本进行监督学习
+    * 人类：无监督、小样本、在线自适应
+- 解释能力
+    * 主流方法进行统计分类
+    * 结构分析、可解释性不足
+- 鲁棒性
+    * 对噪声模式的拒识能力
+    * 对对抗样本的稳定性
+- 综合信息处理能力
+    * 多模态协同
+    * 上下文、语义知识
 
 
 ### P50 8.1 聚类算法 19:02
@@ -309,4 +362,7 @@ Quadratic Discriminant Function (QDF)
 - [https://gy23333.github.io/2020/01/19/%E5%9F%BA%E4%BA%8E%E5%8C%BA%E5%9F%9F%E7%9A%84%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E2%80%94%E2%80%94%E5%8C%BA%E5%9F%9F%E5%88%86%E8%A3%82%E4%B8%8E%E5%90%88%E5%B9%B6/]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/gy23333.github.io/314f9593.html" %})
 - [https://www.cnblogs.com/eilearn/p/9433911.html]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/www.cnblogs.com/e0fff013.html" %})
 - [https://www.cnblogs.com/simon6666/p/11009510.html]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/www.cnblogs.com/f88dd4f1.html" %})
+- [http://caffe.berkeleyvision.org/]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/caffe.berkeleyvision.org/199cc1bf.html" %})
+- [https://www.tensorflow.org/]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/www.tensorflow.org/c8c2399b.html" %})
+- [https://www.kdnuggets.com/2015/07/deep-learning-adversarial-examples-misconceptions.html]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/www.kdnuggets.com/69c72ced.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/www.atoolbox.net/ecf02067.php" %})
