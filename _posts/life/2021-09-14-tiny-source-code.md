@@ -16,6 +16,11 @@ codeprint:
 ---
 
 
+## C++ 17 std::filesystem
+
+[Filesystem library](https://en.cppreference.com/w/cpp/filesystem) (since C++17)
+
+
 ## 红黑树 / Set / Map
 
 `D:\Android\Sdk\ndk\21.1.6352462\sources\cxx-stl\llvm-libc++\include\__tree`
@@ -3860,6 +3865,7 @@ class fastimagedll : public fastimage::IFastImageInterface {
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-tiny-source-code.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://en.cppreference.com/w/cpp/filesystem]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/en.cppreference.com/cd20ccd3.html" %})
 - [https://oi-wiki.org/ds/rbtree/]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/oi-wiki.org/c038d17c.html" %})
 - [https://www.cnblogs.com/zjy4869/p/15501448.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.cnblogs.com/09a2a8e9.html" %})
 - [https://cloud.tencent.com/developer/article/1703257]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/cloud.tencent.com/a4863d51.html" %})
