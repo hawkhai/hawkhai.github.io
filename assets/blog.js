@@ -300,6 +300,9 @@ function checkHrefTagk() {
                 if (host == "dumpc.kisops.com:9080") {
                     host = "dumpc";
                 }
+                if (host.indexOf("10.12.168.") == 0) {
+                    return;
+                }
                 $this.html(textv + "<span class='domaintag_sep'> | </span><sub class='domaintag_host'>"+host+"</sub>");
             }
         }
