@@ -2062,7 +2062,7 @@ long long | 8 | 8 | 8 | 8
 int64 | 8 | 8 | 8 | 8
 float | 4 | 4 | 4 | 4
 double | 8 | 8 | 8 | 8
-long double | 8 | 8 | 8 | 16
+long double | 8 | 8 | 8 | 16（巨坑）
 void\* | 4 | 8 | 4 | 8
 size_t | 4 | 8 | 4 | 8
 
