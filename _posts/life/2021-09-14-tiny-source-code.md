@@ -18,7 +18,45 @@ codeprint:
 
 ## C++ 17 std::filesystem
 
+[C++ 判断文件或者目录是否存在 {% include relref_jianshu.html %}](https://www.jianshu.com/p/f3612e78e926)
 [Filesystem library](https://en.cppreference.com/w/cpp/filesystem) (since C++17)
+
+```cpp
+#include <filesystem>
+
+std::string file_name = "deadman";
+if (std::filesystem::exists(file_name)) {
+    if (std::filesystem::is_directory(file)) {
+        printf("%s is a directory\n", file_name.c_str());
+    }
+    else if (std::filesystem::is_regular_file(file)) {
+        printf("%s is a file\n", file_name.c_str());
+    }
+    else {
+        printf("%s exists\n", file_name.c_str());
+    }
+}
+else {
+    printf("%s does not exist\n", file_name.c_str());
+}
+```
+
+```cpp
+#include <sys/types.h>
+#include <sys/stat.h>
+
+std::string file_name = "deadman";
+struct stat info;
+if (stat(file_name.c_str(), &info) != 0) {  // does not exist
+    printf("cannot access %s\n", file_name.c_str());
+}
+else if (info.st_mode & S_IFDIR) {          // directory
+    printf("%s is a directory\n", file_name.c_str());
+}
+else {
+    printf("%s is no directory\n", file_name.c_str());
+}
+```
 
 
 ## 红黑树 / Set / Map
@@ -3865,6 +3903,7 @@ class fastimagedll : public fastimage::IFastImageInterface {
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-tiny-source-code.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.jianshu.com/p/f3612e78e926]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.jianshu.com/e1b62601.html" %})
 - [https://en.cppreference.com/w/cpp/filesystem]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/en.cppreference.com/cd20ccd3.html" %})
 - [https://oi-wiki.org/ds/rbtree/]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/oi-wiki.org/c038d17c.html" %})
 - [https://www.cnblogs.com/zjy4869/p/15501448.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.cnblogs.com/09a2a8e9.html" %})
