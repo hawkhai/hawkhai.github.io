@@ -300,20 +300,20 @@ MxNet
 Deep learning is **more vulnerable** to adversarial examples than other kind of machine leaning due to the **extreme non-linearity** of deep models.
 Deep learning is more vulnerable to adversarial examples than other kind of machine learning.
 
-#### 当前主流方法的不足
+#### 当前深度学习的不足
 
 - 学习能力
-    * 需要大量标记样本进行监督学习
+    * 需要 **大量标记样本进行监督学习**
     * 人类：无监督、小样本、在线自适应
 - 解释能力
     * 主流方法进行统计分类
-    * 结构分析、可解释性不足
+    * 结构分析、**可解释性** 不足
 - 鲁棒性
-    * 对噪声模式的拒识能力
+    * 对噪声模式的 **拒识能力**
     * 对对抗样本的稳定性
 - 综合信息处理能力
-    * 多模态协同
-    * 上下文、语义知识
+    * **多模态** 协同
+    * **上下文**、语义知识
 
 
 ### P50 8.1 聚类算法 19:02
@@ -326,6 +326,18 @@ Deep learning is more vulnerable to adversarial examples than other kind of mach
 
 
 ### P53 9.1.1 复杂背景下的人脸检测算法预处理 07:26
+
+三种方法：
+* 模板匹配
+* 特征提取
+* 基于学习
+
+Preprocessing
+* Illumination gradient correction -- 这里有点意思。
+    * 光线为斜平面
+    * 求出光平面，减去光平面。
+* Histogram equalization
+* Masking...
 
 
 ### P54 9.1.2 复杂背景下的人脸检测算法特征提取 06:01
