@@ -22,7 +22,8 @@ REBUILD    = "rebuild" in sys.argv
 COPYRES    = "copyres" in sys.argv
 CLEARIMG   = "clearimg" in sys.argv
 IGNOREERR  = "ignoreerr" in sys.argv
-OPENRESENT = "openresent" in sys.argv
+OPENRESENT = "openresent" in sys.argv or "openresentx" in sys.argv
+OPENRESENTx = "openresentx" in sys.argv
 
 # 名称，域名正则。
 LINKTAGARRAY = (("bili",     "bilibili.com"),
@@ -1078,7 +1079,7 @@ def checkReviewJS(jsdir, rootdir):
             jsday = datetime.date(int(jsy), int(jsm), int(jsd))
             xday = today - jsday
             print(type(xday), xday, xday.days)
-            if xday.days <= 15:
+            if xday.days <= (30 if OPENRESENTx else 15):
                 openTextFile(mdfile)
     searchdir(jsdir, mainfile) # checkReviewJS
 

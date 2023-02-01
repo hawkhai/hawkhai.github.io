@@ -66,7 +66,7 @@ else {
 [note {% include relref_cnblogs.html %}](https://www.cnblogs.com/zjy4869/p/15501448.html)
 C++ STL 中，C++ 中 set, multiset, map, multimap 集合模板类都是在 STL 红黑树的基础之上实现的。
 
-Win32 上，debug 都是 12 字节，release 都是 8 字节。
+Win32 上，debug 都是 12 字节，release 都是 8 字节（有个代理位，涉及一个关键的宏 `_ITERATOR_DEBUG_LEVEL` ）。
 Android 上非常标准，感觉都是 12 字节，leftptr, rightptr, size。
 分别是：
 ```
@@ -98,11 +98,15 @@ _Isnil  char
 _Myval  int
 ```
 
+
+## 结构体内存对齐问题
+
 [note](https://cloud.tencent.com/developer/article/1703257)
 结构体内存对齐问题：
 1. 结构体变量的起始地址能够被其最宽的成员大小整除。
 2. 结构体每个成员相对于起始地址的偏移能够被其自身大小整除，如果不能则在前一个成员后面补充字节。
 3. 结构体总体大小能够被最宽的成员的大小整除，如不能则在后面补充字节。
+
 ```cpp
 struct S3 {
     double d;
@@ -118,128 +122,6 @@ struct S4 {
     tempk = sizeof(struct S3); // 16
     tempk = 0;
 ```
-
-
-## 汇编相关
-
-有符号数与无符号数进行比较，有符号数会先转换成无符号数再比较，-1 会转换成无符号最大的那个数。
-[整数溢出 {% include relref_github.html %}](https://github.com/firmianay/CTF-All-In-One/blob/master/doc/3.1.2_integer_overflow.md)
-逻辑右移，有符号和无符号是有区别的，主要是最高位是否为 1，如果确认最高位不为 1，问题也不大。
-```cpp
-for (m = (unsigned __int8 *)(v27 + pArg3[3] + v84);
-    (unsigned long long)&m[-v27 - v84] >= pArg3[2]; --m)
-{
-    v30 = *m;
-    v10 += v30;
-}
-```
-
-上面这个代码是存在 bug 的，稍微改改就很妙了。
-```cpp
-for (m = (unsigned __int8 *)(v27 + pArg3[3] + v84);
-    (long long)m - v27 - (long long)v84 >= pArg3[2]; --m)
-{
-    v30 = *m;
-    v10 += v30;
-}
-```
-
-正则匹配：
-```
-&[a-z0-9]+\[-
-```
-危险的：`(unsigned long long)&m[` ，因为这里可能是一个简单的加法，可能出现负数。
-
-这行代码 `v5 = (v2 / -10 + pArg[126]) & ~((v2 / -10 + pArg[126]) >> 31);`
-调整为 long long 就正确了。
-
-交叉验证，Windows 32 & 64 版本，Android 32 & 64 版本。
-根据实践发现，Windows 32 指针一般最高位为 0，Android 32 位指针，最高位很大概率是 1，如果指针运算用 int 运算，就非常悲剧了。
-其中，Android 64 Debug & Relase，对一些随机 bug，还不太一样。
-
-Fun60_implv1 栈变量丢失的问题：
-```cpp
-#pragma pack(push) // 保存对齐状态
-#pragma pack(1) // 设定为 1 字节对齐
-struct DataStruct {
-    int v71; // [sp+Ch] [bp-1A8h]
-    int *v72; // [sp+Ch] [bp-1A8h]
-    int *v73; // [sp+18h] [bp-19Ch]
-    int v74; // [sp+18h] [bp-19Ch]
-    char *v75; // [sp+1Ch] [bp-198h]
-    int v76 = 0; // [sp+1Ch] [bp-198h]
-    int v77[99]; // [sp+20h] [bp-194h]
-    char v78; // [sp+1ACh] [bp-8h] BYREF
-    int v79; // [sp+1B0h] [bp-4h] BYREF
-    int v80[298]; // [sp+1B4h] [bp+0h] BYREF
-    char v81 = 0; // [sp+65Ch] [bp+4A8h] BYREF
-    _DWORD v82[99]; // [sp+660h] [bp+4ACh]
-    char v83 = 0; // [sp+7ECh] [bp+638h] BYREF
-    char v84[4]; // [sp+980h] [bp+7CCh] BYREF
-};
-#pragma pack(pop) // 恢复对齐状态
-```
-
-GCC 下设置对齐值最小值为：
-```cpp
-typedef struct A {
-   int b;
-} __attribute__((aligned(4))) A;
-```
-MSVC 中为：
-```cpp
-typedef __declspec(align(4)) struct A {
-    int b;
-} A;
-```
-```cpp
-#pragma once
-
-#ifdef _MSC_VER
-//__declspec(align(4))
-#define GCC_ALIGN(x) //__attribute__((aligned(x)))
-#define MSVC_ALIGN(x) __declspec(align(x))
-#else
-//__attribute__((aligned(4)))
-#define GCC_ALIGN(x) __attribute__((aligned(x)))
-#define MSVC_ALIGN(x) //__declspec(align(x))
-#endif
-
-typedef MSVC_ALIGN(4) struct A {
-    int b;
-} GCC_ALIGN(4) A;
-
-#if defined (__GNUC__) || defined (__PGI) || defined (__IBMCPP__) || defined (__SUNPRO_CC)
-    #define PCL_ALIGN(alignment) __attribute__((aligned(alignment)))
-#elif defined (_MSC_VER)
-    #define PCL_ALIGN(alignment) __declspec(align(alignment))
-#else
-    #error Alignment not supported on your platform
-#endif
-
-// 还是这个用起来舒服。
-#if defined(_MSC_VER)
-    #if defined(__clang__)
-        #define CC_ALIGNED(x) __attribute__ ((aligned(x))) // clang compiler
-    #else
-        #define CC_ALIGNED(x) __declspec(align(x)) // MS complier
-    #endif
-#else
-    #if __clang__ || CCN_UNIT_SIZE==8
-        #define CC_ALIGNED(x) __attribute__ ((aligned(x)))
-    #else
-        #define CC_ALIGNED(x) __attribute__ ((aligned((x)>8?8:(x))))
-    #endif
-#endif
-```
-
-cv::Mat
-危险的：`void create(int ndims, const int* sizes, int type);`
-`int* sizes` 和 `cv::Size` 内存结构刚好是反的。
-查找所有的 `(2,` 可以找出来。
-['-1431655765', '-1227133513', '-858993459']
-定义的结构体的地址要和汇编一致，否则很悲剧，比如 vector，比如 int64 对齐问题。
-可以代码中加入 `assert` 断言，断言内存大小。
 
 
 ## 栈的生长方向和内存存放方向
@@ -308,24 +190,6 @@ int main()
     test02();
     return 0;
 }
-```
-
-危险的：
-* 错误 	C4700	 使用了未初始化的局部变量“v144”
-* 错误 	C4700	 使用了未初始化的局部变量“v147”
-
-轻易删除栈上变量是危险的行为。
-往往是因为数组，这样改：
-```cpp
-int v142array[8] = { 0 };
-int& v142 = v142array[0]; // [sp+C0h] [bp-48h] BYREF
-int& v143 = v142array[1]; // [sp+C4h] [bp-44h]
-int& v144 = v142array[2]; // [sp+C8h] [bp-40h]
-int& v145 = v142array[3]; // [sp+CCh] [bp-3Ch]
-int& v146 = v142array[4]; // [sp+D0h] [bp-38h]
-int& v147 = v142array[5]; // [sp+D4h] [bp-34h]
-int& v148 = v142array[6]; // [sp+D8h] [bp-30h]
-int& v149 = v142array[7]; // [sp+DCh] [bp-2Ch]
 ```
 
 
@@ -3908,7 +3772,6 @@ class fastimagedll : public fastimage::IFastImageInterface {
 - [https://oi-wiki.org/ds/rbtree/]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/oi-wiki.org/c038d17c.html" %})
 - [https://www.cnblogs.com/zjy4869/p/15501448.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.cnblogs.com/09a2a8e9.html" %})
 - [https://cloud.tencent.com/developer/article/1703257]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/cloud.tencent.com/a4863d51.html" %})
-- [https://github.com/firmianay/CTF-All-In-One/blob/master/doc/3.1.2_integer_overflow.md]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/github.com/82102ea0.html" %})
 - [https://www.jianshu.com/p/58b602f8b7d5]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.jianshu.com/6f62c3c7.html" %})
 - [https://zhuanlan.zhihu.com/p/81438938]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/zhuanlan.zhihu.com/86f0d241.html" %})
 - [https://github.com/zchrissirhcz/awesome-ncnn/blob/master/FAQ.md]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/github.com/5a3f1060.html" %})
