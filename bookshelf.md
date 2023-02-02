@@ -55,6 +55,8 @@ Current: **颈椎病康复指南**
 {% include image.html url="/assets/images/bookshelf/20210515170417.png" relocate="ThePurplePlain" %}
 {% include image.html url="/assets/images/bookshelf/20130507083318847.jpg" relocate="LeSalairedelaPeur" %}
 
+> 刨根问题是解构主义的一部分，一旦开始了思考，自然会思考“婚姻是什么”，一种无关爱情的财产制度，是私有制崛起的产物，为了财产继承出现的东西；生孩子又为了啥？不为啥，你的基因本质就是一串病毒，生命的意义就是复制，没有其他的意义。三四代之后，你会彻底被这个世界遗忘，你所做的一切对于世界并没有什么改变。
+
 
 
 <hr class='reviewline'/>

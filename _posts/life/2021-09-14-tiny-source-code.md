@@ -28,15 +28,12 @@ std::string file_name = "deadman";
 if (std::filesystem::exists(file_name)) {
     if (std::filesystem::is_directory(file)) {
         printf("%s is a directory\n", file_name.c_str());
-    }
-    else if (std::filesystem::is_regular_file(file)) {
+    } else if (std::filesystem::is_regular_file(file)) {
         printf("%s is a file\n", file_name.c_str());
-    }
-    else {
+    } else {
         printf("%s exists\n", file_name.c_str());
     }
-}
-else {
+} else {
     printf("%s does not exist\n", file_name.c_str());
 }
 ```
@@ -49,11 +46,9 @@ std::string file_name = "deadman";
 struct stat info;
 if (stat(file_name.c_str(), &info) != 0) {  // does not exist
     printf("cannot access %s\n", file_name.c_str());
-}
-else if (info.st_mode & S_IFDIR) {          // directory
+} else if (info.st_mode & S_IFDIR) {        // directory
     printf("%s is a directory\n", file_name.c_str());
-}
-else {
+} else {
     printf("%s is no directory\n", file_name.c_str());
 }
 ```
@@ -208,6 +203,8 @@ int main()
 **方法：重编 ncnn，编译时开启 rtti、exceptions**。
 
 - 在命令行（或 CMake-GUI）里，用 cmake 构建，构建时传入 `-DNCNN_DISABLE_EXCEPTION=OFF -DNCNN_DISABLE_RTTI=OFF` ；如果先前构建过，请清理 build/CMakeCache.txt；不要在 Android Studio 里构建 ncnn 库，因为很可能你的 rtti 和 exceptions 还是弄错。
+
+**最终，通过直接暴力修改 ncnn CMakeLists.txt 文件，顺利编译出来。**
 
 
 ### 为啥自己编译的 ncnn android 库特别大？
@@ -410,8 +407,7 @@ int main()
             printf("num=%d idx=%d inv=%x shift=%d \n",
                 num, index, INV_TABLE[index], shift);
             check(num, INV_TABLE[index], shift);
-        }
-        else {
+        } else {
             int index = (num - 1) / 2;
             if (index >= countx) continue;
             printf("num=%d idx=%d inv=%x shift=%d \n",
@@ -613,8 +609,7 @@ memset(&v83.data, 0, 16); // datastart = dataend = datalimit = data = 0;
 if ( v83.dims >= 1 ) {
     v34 = v83.size.p;
     v35 = 0;
-    do
-    {
+    do {
       v34[v35++] = 0;
       v31 = v83.dims;
     }
@@ -635,19 +630,15 @@ Mat& Mat::operator = (Mat&& m)
     flags = m.flags; dims = m.dims; rows = m.rows; cols = m.cols; data = m.data;
     datastart = m.datastart; dataend = m.dataend; datalimit = m.datalimit; allocator = m.allocator;
     u = m.u;
-    if (step.p != step.buf) // release self step/size
-    {
+    if (step.p != step.buf) { // release self step/size
         fastFree(step.p);
         step.p = step.buf;
         size.p = &rows;
     }
-    if (m.dims <= 2) // move new step/size info
-    {
+    if (m.dims <= 2) { // move new step/size info
         step[0] = m.step[0];
         step[1] = m.step[1];
-    }
-    else
-    {
+    } else {
         CV_DbgAssert(m.step.p != m.step.buf);
         step.p = m.step.p;
         size.p = m.size.p;
@@ -664,21 +655,18 @@ Mat& Mat::operator = (Mat&& m)
 inline
 Mat& Mat::operator = (const Mat& m)
 {
-    if ( this != &m )
-    {
+    if ( this != &m ) {
         if ( m.u )
             CV_XADD(&m.u->refcount, 1);
         release();
         flags = m.flags;
-        if ( dims <= 2 && m.dims <= 2 )
-        {
+        if ( dims <= 2 && m.dims <= 2 ) {
             dims = m.dims;
             rows = m.rows;
             cols = m.cols;
             step[0] = m.step[0];
             step[1] = m.step[1];
-        }
-        else
+        } else
             copySize(m);
         data = m.data;
         datastart = m.datastart;
@@ -698,12 +686,9 @@ Mat::Mat(const Mat& m)
 {
     if ( u )
         CV_XADD(&u->refcount, 1);
-    if ( m.dims <= 2 )
-    {
+    if ( m.dims <= 2 ) {
         step[0] = m.step[0]; step[1] = m.step[1];
-    }
-    else
-    {
+    } else {
         dims = 0;
         copySize(m);
     }
@@ -737,8 +722,7 @@ inline Mat& Mat::operator=(const Mat& m)
 
 inline void Mat::release()
 {
-    if (refcount && NCNN_XADD(refcount, -1) == 1)
-    {
+    if (refcount && NCNN_XADD(refcount, -1) == 1) {
         if (allocator)
             allocator->fastFree(data);
         else
@@ -1510,8 +1494,7 @@ int parseCvMagic(unsigned int knum, bool code = false) {
 
     if (knum == 0) { // 用完了。
         printf("%d | 0x%x | (%s) \n", src, src, &buffer[1]);
-    }
-    else { // 有剩余 !!!
+    } else { // 有剩余 !!!
         printf("%d | 0x%x | (%s | 0x%x) \n", src, src, &buffer[1], knum);
     }
     if (check != src || knum != 0) {
@@ -1566,22 +1549,6 @@ int main(int argc, char *argv[])
     return 0;
 }
 ```
-
-1. 不能包含指针转换：`(int)` ，调整为 `(int64)` ，避免指针截断。
-    * <https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt>
-    * <https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4189?view=msvc-170>
-    * /we4101 # 'identifier' : unreferenced local variable
-    * /we4244 # 'conversion' conversion from 'type1' to 'type2', possible loss of data
-    * /we4189 # 'identifier' : local variable is initialized but not referenced
-    * /we4311: “类型强制转换”: 从“unsigned char *”到“DWORD”的指针截断
-    * /we4302: “类型强制转换”: 从“unsigned char *”到“DWORD”截断
-    * /we4312: “类型强制转换”: 从“int”转换到更大的“void *”
-    * /we4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-    * /we4267 /we4312 /we4101 /we4244 /we4189 /we4311 /we4302
-2. 所有 `while (1)` 替换为：`while (true)` ，以方便阅读。
-3. 指针查找：`*(_BYTE*)(v12` ，正则为：`\*\([0-9a-zA-Z_]*?\*\)\(v` 。
-4. 所有 float 采用 (float)，避免限制为 double，最终 32 & 64 计算的结果造成不一致。
-5. `(unsigned int)(float)` 调整为 `(int)(float)` ，前面 32 & 64 汇编运算结果会不一致。
 
 内存地址是否高位为 1，int64 的情况？可以当成 long long 来处理。
 64 位操作系统内存值的最高位可能是 1 吗？不可能，所有系统的寻址能力，最高 0xffff 都是用不到的。
@@ -1693,25 +1660,18 @@ The actual code emitted by GCC to call a local static variable's constructor loo
 ```cpp
 static <type> guard;
 
-if (!guard.first_byte)
-{
-    if (__cxa_guard_acquire (&guard))
-    {
+if (!guard.first_byte) {
+    if (__cxa_guard_acquire (&guard)) {
         bool flag = false;
 
-        try
-        {
+        try {
             // Do initialization.
             __cxa_guard_release (&guard);
 
             flag = true;
             // Register variable for destruction at end of program.
-        }
-
-        catch
-        {
-            if (!flag)
-            {
+        } catch {
+            if (!flag) {
                 __cxa_guard_abort (&guard);
             }
         }
@@ -1893,6 +1853,43 @@ __int64 winMemoCtrl() {
 ## Android Studio
 
 Android ARGB_8888 格式图片的各通道顺序其实不是 ARGB，而是 RGBA。
+**这里还真不一定，最后，我是通过设置一个颜色位，0xFF4080C0，然后底层校验判断的。**
+```cpp
+int* datap = (int*) data;
+unsigned char* check = (unsigned char*) data;
+// 0xFF4080C0
+if (check[3] >= 0xf0 && //
+    0xf0 > check[0] &&
+    check[0] > check[1] && //
+    check[1] > check[2]) {
+
+    datap[0] = color;
+    cv::cvtColor(src, tempmat, cv::COLOR_RGBA2RGB);
+
+    // 0xFFC08040
+} else if (check[3] >= 0xf0 && //
+           0xf0 > check[2] &&
+           check[2] > check[1] && //
+           check[1] > check[0]) {
+
+    // RGBA -> BGRA
+    char* p = (char*)&color;
+    char r = *(p+0);
+    char b = *(p+2);
+    *(p+0) = b;
+    *(p+2) = r;
+    datap[0] = color;
+    cv::cvtColor(src, tempmat, cv::COLOR_BGRA2RGB);
+
+    // 0xffa8bbc2 - 0xff??
+} else {
+#if defined(_DEBUG) || defined(DEBUG)
+    throw std::invalid_argument("img data err");  // checked(8Ia6)
+#else
+    return -1;
+#endif
+}
+```
 
 [Android 历史版本](https://developer.android.google.cn/studio/archive.html)
 * E:\android-studio-2021.3.1.17-windows.exe
@@ -2059,26 +2056,21 @@ BOOL GetCurrentMainThreadID(DWORD* pdwThreadID)
     dwProcessId = GetCurrentProcessId();
     //  Take a snapshot of all processes in the system.
     hThreadSnap = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
-    if (hThreadSnap == INVALID_HANDLE_VALUE)
-    {
+    if (hThreadSnap == INVALID_HANDLE_VALUE) {
         return FALSE;
     }
 
     //  Fill in the size of the structure before using it.
     te32.dwSize = sizeof(THREADENTRY32);
-    if (Thread32First(hThreadSnap, &te32))
-    {
-        if (te32.th32OwnerProcessID == dwProcessId)
-        {
+    if (Thread32First(hThreadSnap, &te32)) {
+        if (te32.th32OwnerProcessID == dwProcessId) {
             *pdwThreadID = te32.th32ThreadID;
             Curl_dwMainThreadId = te32.th32ThreadID;
             bRet = TRUE;
         }
     }
-    while (!bRet && Thread32Next(hThreadSnap, &te32))
-    {
-        if (te32.th32OwnerProcessID == dwProcessId)
-        {
+    while (!bRet && Thread32Next(hThreadSnap, &te32)) {
+        if (te32.th32OwnerProcessID == dwProcessId) {
             *pdwThreadID = te32.th32ThreadID;
             Curl_dwMainThreadId = te32.th32ThreadID;
             bRet = TRUE;
@@ -2119,9 +2111,7 @@ namespace toy
     public:
         ToySingleInstance(LPCTSTR strName)
             : m_hMutex(NULL)
-            , m_strInstanceName(strName)
-        {
-
+            , m_strInstanceName(strName) {
         }
 
         ~ToySingleInstance()
@@ -2132,8 +2122,7 @@ namespace toy
         BOOL IsExist()
         {
             HANDLE hMutex = ::OpenMutex(SYNCHRONIZE, FALSE, m_strInstanceName);
-            if (hMutex)
-            {
+            if (hMutex) {
                 ::CloseHandle(hMutex);
                 return TRUE;
             }
@@ -2151,12 +2140,9 @@ namespace toy
                 m_strInstanceName
             );
 
-            if (hMutex == NULL)
-            {
+            if (hMutex == NULL) {
                 return FALSE;
-            }
-            else if (GetLastError() == ERROR_ALREADY_EXISTS)
-            {
+            } else if (GetLastError() == ERROR_ALREADY_EXISTS) {
                 ::CloseHandle(hMutex);
                 return FALSE;
             }
@@ -2169,8 +2155,7 @@ namespace toy
 
         VOID Close()
         {
-            if (m_hMutex)
-            {
+            if (m_hMutex) {
                 CloseHandle(m_hMutex);
                 m_hMutex = NULL;
             }
@@ -2180,7 +2165,6 @@ namespace toy
         CString m_strInstanceName;
         HANDLE m_hMutex;
     };
-
 }
 
 #endif
@@ -2206,10 +2190,8 @@ uint64 crc64(const uchar* data, size_t size, uint64 crcx)
     static uint64 table[256];
     static bool initialized = false;
 
-    if (!initialized)
-    {
-        for (int i = 0; i < 256; i++)
-        {
+    if (!initialized) {
+        for (int i = 0; i < 256; i++) {
             uint64 c = i;
             for (int j = 0; j < 8; j++)
                 c = ((c & 1) ? CV_BIG_UINT(0xc96c5795d7870f42) : 0) ^ (c >> 1);
@@ -2343,8 +2325,7 @@ _fullpath(fpath, fileLocation, 1024);
     setlocale(LC_ALL, "chs");
     FILE* fp = NULL;
     errno_t err = fopen_s(&fp, "E:\\curl.txt", "a");
-    if (err == 0 && fp)
-    {
+    if (err == 0 && fp) {
         fwprintf(fp, L"%s\n", szUrl);
         for (int i = 0; i < nSize; i++) {
             fputc(pBuffer[i], fp);
@@ -2861,8 +2842,7 @@ public:
     static std::wstring replace(std::wstring source, const std::wstring &find, const std::wstring &replace)
     {
         std::size_t pos = 0;
-        while ((pos = source.find(find, pos)) != std::wstring::npos)
-        {
+        while ((pos = source.find(find, pos)) != std::wstring::npos) {
             source.replace(pos, find.length(), replace);
             pos += replace.length();
         }
@@ -2891,8 +2871,7 @@ public:
         std::wistringstream ss(source);
         std::wstring nextItem;
 
-        while (std::getline(ss, nextItem, delimiter))
-        {
+        while (std::getline(ss, nextItem, delimiter)) {
             output.push_back(nextItem);
         }
 
@@ -2937,10 +2916,8 @@ public:
     {
         if (source.length() == 0)
             return true;
-        else
-        {
-            for (std::size_t index = 0; index < source.length(); index++)
-            {
+        else {
+            for (std::size_t index = 0; index < source.length(); index++) {
                 if (!std::isspace(source[index]))
                     return false;
             }
@@ -2961,19 +2938,15 @@ public:
         std::wostringstream ss;
         std::size_t lastCloseBrace = std::wstring::npos;
         std::size_t openBrace = std::wstring::npos;
-        while ((openBrace = input.find(L'{', openBrace + 1)) != std::wstring::npos)
-        {
-            if (openBrace + 1 < input.length())
-            {
-                if (input[openBrace + 1] == L'{')
-                {
+        while ((openBrace = input.find(L'{', openBrace + 1)) != std::wstring::npos) {
+            if (openBrace + 1 < input.length()) {
+                if (input[openBrace + 1] == L'{') {
                     openBrace++;
                     continue;
                 }
 
                 std::size_t closeBrace = input.find(L'}', openBrace + 1);
-                if (closeBrace != std::wstring::npos)
-                {
+                if (closeBrace != std::wstring::npos) {
                     ss << input.substr(lastCloseBrace + 1, openBrace - lastCloseBrace - 1);
                     lastCloseBrace = closeBrace;
 
@@ -2999,19 +2972,15 @@ public:
         std::wostringstream ss;
         std::size_t lastCloseBrace = std::wstring::npos;
         std::size_t openBrace = std::wstring::npos;
-        while ((openBrace = input.find(L'{', openBrace + 1)) != std::wstring::npos)
-        {
-            if (openBrace + 1 < input.length())
-            {
-                if (input[openBrace + 1] == L'{')
-                {
+        while ((openBrace = input.find(L'{', openBrace + 1)) != std::wstring::npos) {
+            if (openBrace + 1 < input.length()) {
+                if (input[openBrace + 1] == L'{') {
                     openBrace++;
                     continue;
                 }
 
                 std::size_t closeBrace = input.find(L'}', openBrace + 1);
-                if (closeBrace != std::wstring::npos)
-                {
+                if (closeBrace != std::wstring::npos) {
                     ss << input.substr(lastCloseBrace + 1, openBrace - lastCloseBrace - 1);
                     lastCloseBrace = closeBrace;
                     std::wstring index = trim(input.substr(openBrace + 1, closeBrace - openBrace - 1));
@@ -3032,19 +3001,15 @@ public:
         std::wostringstream ss;
         std::size_t lastCloseBrace = std::wstring::npos;
         std::size_t openBrace = std::wstring::npos;
-        while ((openBrace = input.find(L'{', openBrace + 1)) != std::wstring::npos)
-        {
-            if (openBrace + 1 < input.length())
-            {
-                if (input[openBrace + 1] == L'{')
-                {
+        while ((openBrace = input.find(L'{', openBrace + 1)) != std::wstring::npos) {
+            if (openBrace + 1 < input.length()) {
+                if (input[openBrace + 1] == L'{') {
                     openBrace++;
                     continue;
                 }
 
                 std::size_t closeBrace = input.find(L'}', openBrace + 1);
-                if (closeBrace != std::wstring::npos)
-                {
+                if (closeBrace != std::wstring::npos) {
                     ss << input.substr(lastCloseBrace + 1, openBrace - lastCloseBrace - 1);
                     lastCloseBrace = closeBrace;
 
@@ -3072,19 +3037,15 @@ public:
         std::wostringstream ss;
         std::size_t lastCloseBrace = std::wstring::npos;
         std::size_t openBrace = std::wstring::npos;
-        while ((openBrace = input.find(L'{', openBrace + 1)) != std::wstring::npos)
-        {
-            if (openBrace + 1 < input.length())
-            {
-                if (input[openBrace + 1] == L'{')
-                {
+        while ((openBrace = input.find(L'{', openBrace + 1)) != std::wstring::npos) {
+            if (openBrace + 1 < input.length()) {
+                if (input[openBrace + 1] == L'{') {
                     openBrace++;
                     continue;
                 }
 
                 std::size_t closeBrace = input.find(L'}', openBrace + 1);
-                if (closeBrace != std::wstring::npos)
-                {
+                if (closeBrace != std::wstring::npos) {
                     ss << input.substr(lastCloseBrace + 1, openBrace - lastCloseBrace - 1);
                     lastCloseBrace = closeBrace;
 
@@ -3217,15 +3178,13 @@ const std::string colon = ":";
                                std::vector< std::string > & result, int maxsplit )
         {
             std::string::size_type i, j, len = str.size();
-            for (i = j = 0; i < len; )
-            {
+            for (i = j = 0; i < len; ) {
                 while ( i < len && ::isspace( str[i] ) ) i++;
                 j = i;
 
                 while ( i < len && ! ::isspace( str[i]) ) i++;
 
-                if (j < i)
-                {
+                if (j < i) {
                     if ( maxsplit-- <= 0 ) break;
 
                     result.push_back( str.substr( j, i - j ));
@@ -3234,8 +3193,7 @@ const std::string colon = ":";
                     j = i;
                 }
             }
-            if (j < len)
-            {
+            if (j < len) {
                 result.push_back( str.substr( j, len - j ));
             }
         }
@@ -3249,8 +3207,7 @@ const std::string colon = ":";
 
         if ( maxsplit < 0 ) maxsplit = MAX_32BIT_INT;//result.max_size();
 
-        if ( sep.size() == 0 )
-        {
+        if ( sep.size() == 0 ) {
             split_whitespace( str, result, maxsplit );
             return;
         }
@@ -3259,17 +3216,13 @@ const std::string colon = ":";
 
         i = j = 0;
 
-        while ( i+n <= len )
-        {
-            if ( str[i] == sep[0] && str.substr( i, n ) == sep )
-            {
+        while ( i+n <= len ) {
+            if ( str[i] == sep[0] && str.substr( i, n ) == sep ) {
                 if ( maxsplit-- <= 0 ) break;
 
                 result.push_back( str.substr( j, i - j ) );
                 i = j = i + n;
-            }
-            else
-            {
+            } else {
                 i++;
             }
         }
@@ -3285,65 +3238,47 @@ const std::string colon = ":";
     {
         Py_ssize_t len = (Py_ssize_t) str.size(), i, j, charslen = (Py_ssize_t) chars.size();
 
-        if ( charslen == 0 )
-        {
+        if ( charslen == 0 ) {
             i = 0;
-            if ( striptype != RIGHTSTRIP )
-            {
-                while ( i < len && ::isspace( str[i] ) )
-                {
+            if ( striptype != RIGHTSTRIP ) {
+                while ( i < len && ::isspace( str[i] ) ) {
                     i++;
                 }
             }
 
             j = len;
-            if ( striptype != LEFTSTRIP )
-            {
-                do
-                {
+            if ( striptype != LEFTSTRIP ) {
+                do {
                     j--;
-                }
-                while (j >= i && ::isspace(str[j]));
+                } while (j >= i && ::isspace(str[j]));
 
                 j++;
             }
 
-        }
-        else
-        {
+        } else {
             const char * sep = chars.c_str();
 
             i = 0;
-            if ( striptype != RIGHTSTRIP )
-            {
-                while ( i < len && memchr(sep, str[i], charslen) )
-                {
+            if ( striptype != RIGHTSTRIP ) {
+                while ( i < len && memchr(sep, str[i], charslen) ) {
                     i++;
                 }
             }
 
             j = len;
-            if (striptype != LEFTSTRIP)
-            {
-                do
-                {
+            if (striptype != LEFTSTRIP) {
+                do {
                     j--;
-                }
-                while (j >= i &&  memchr(sep, str[j], charslen)  );
+                } while (j >= i &&  memchr(sep, str[j], charslen)  );
                 j++;
             }
-
         }
 
-        if ( i == 0 && j == len )
-        {
+        if ( i == 0 && j == len ) {
             return str;
-        }
-        else
-        {
+        } else {
             return str.substr( i, j - i );
         }
-
     }
 
     std::string strip( const std::string & str, const std::string & chars )
@@ -3370,10 +3305,8 @@ const std::string colon = ":";
 
         std::string result( seq[0] );
 
-        for ( i = 1; i < seqlen; ++i )
-        {
+        for ( i = 1; i < seqlen; ++i ) {
             result += str + seq[i];
-
         }
         return result;
     }
@@ -3436,13 +3369,11 @@ const std::string colon = ":";
         std::string::size_type len = str.size(), i;
         if ( len == 0 ) return false;
 
-        if ( len == 1 )
-        {
+        if ( len == 1 ) {
             return ::isalnum( str[0] );
         }
 
-        for ( i = 0; i < len; ++i )
-        {
+        for ( i = 0; i < len; ++i ) {
             if ( !::isalnum( str[i] ) ) return false;
         }
         return true;
@@ -3454,8 +3385,7 @@ const std::string colon = ":";
         if ( len == 0 ) return false;
         if ( len == 1 ) return ::isalpha( (int) str[0] );
 
-        for ( i = 0; i < len; ++i )
-        {
+        for ( i = 0; i < len; ++i ) {
            if ( !::isalpha( (int) str[i] ) ) return false;
         }
         return true;
@@ -3467,8 +3397,7 @@ const std::string colon = ":";
         if ( len == 0 ) return false;
         if ( len == 1 ) return ::isdigit( str[0] );
 
-        for ( i = 0; i < len; ++i )
-        {
+        for ( i = 0; i < len; ++i ) {
            if ( ! ::isdigit( str[i] ) ) return false;
         }
         return true;
@@ -3480,8 +3409,7 @@ const std::string colon = ":";
         if ( len == 0 ) return false;
         if ( len == 1 ) return ::islower( str[0] );
 
-        for ( i = 0; i < len; ++i )
-        {
+        for ( i = 0; i < len; ++i ) {
            if ( !::islower( str[i] ) ) return false;
         }
         return true;
@@ -3493,8 +3421,7 @@ const std::string colon = ":";
         if ( len == 0 ) return false;
         if ( len == 1 ) return ::isspace( str[0] );
 
-        for ( i = 0; i < len; ++i )
-        {
+        for ( i = 0; i < len; ++i ) {
            if ( !::isspace( str[i] ) ) return false;
         }
         return true;
@@ -3506,8 +3433,7 @@ const std::string colon = ":";
         if ( len == 0 ) return false;
         if ( len == 1 ) return ::isupper( str[0] );
 
-        for ( i = 0; i < len; ++i )
-        {
+        for ( i = 0; i < len; ++i ) {
            if ( !::isupper( str[i] ) ) return false;
         }
         return true;
@@ -3518,8 +3444,7 @@ const std::string colon = ":";
         std::string s( str );
         std::string::size_type len = s.size(), i;
 
-        for ( i = 0; i < len; ++i )
-        {
+        for ( i = 0; i < len; ++i ) {
             if ( ::isupper( s[i] ) ) s[i] = (char) ::tolower( s[i] );
         }
 
@@ -3531,8 +3456,7 @@ const std::string colon = ":";
         std::string s( str ) ;
         std::string::size_type len = s.size(), i;
 
-        for ( i = 0; i < len; ++i )
-        {
+        for ( i = 0; i < len; ++i ) {
             if ( ::islower( s[i] ) ) s[i] = (char) ::toupper( s[i] );
         }
 
@@ -3550,22 +3474,17 @@ const std::string colon = ":";
 
         cursor = find( s, oldstr, cursor );
 
-        while ( cursor != -1 && cursor <= (int)s.size() )
-        {
-            if ( count > -1 && sofar >= count )
-            {
+        while ( cursor != -1 && cursor <= (int)s.size() ) {
+            if ( count > -1 && sofar >= count ) {
                 break;
             }
 
             s.replace( cursor, oldlen, newstr );
             cursor += (int) newlen;
 
-            if ( oldlen != 0)
-            {
+            if ( oldlen != 0) {
                 cursor = find( s, oldstr, cursor );
-            }
-            else
-            {
+            } else {
                 ++cursor;
             }
 
@@ -3573,7 +3492,6 @@ const std::string colon = ":";
         }
 
         return s;
-
     }
 
     void splitlines(  const std::string & str, std::vector< std::string > & result, bool keepends )
@@ -3581,36 +3499,27 @@ const std::string colon = ":";
         result.clear();
         std::string::size_type len = str.size(), i, j, eol;
 
-         for (i = j = 0; i < len; )
-         {
+        for (i = j = 0; i < len; ) {
             while (i < len && str[i] != '\n' && str[i] != '\r') i++;
 
             eol = i;
-            if (i < len)
-            {
-                if (str[i] == '\r' && i + 1 < len && str[i+1] == '\n')
-                {
+            if (i < len) {
+                if (str[i] == '\r' && i + 1 < len && str[i+1] == '\n') {
                     i += 2;
-                }
-                else
-                {
+                } else {
                     i++;
                 }
                 if (keepends)
                 eol = i;
-
             }
 
             result.push_back( str.substr( j, eol - j ) );
             j = i;
-
         }
 
-        if (j < len)
-        {
+        if (j < len) {
             result.push_back( str.substr( j, len - j ) );
         }
-
     }
 
     std::string mul( const std::string & str, int n )
@@ -3620,8 +3529,7 @@ const std::string colon = ":";
         if (n == 1) return str;
 
         std::ostringstream os;
-        for(int i=0; i<n; ++i)
-        {
+        for(int i=0; i<n; ++i) {
             os << str;
         }
         return os.str();
@@ -3783,8 +3691,6 @@ class fastimagedll : public fastimage::IFastImageInterface {
 - [https://gitlab.xiph.org/xnorpx/opus/-/blob/5a6912d46449cb77e799f6c18f31b3108c5b3780/celt/cwrs.c]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/gitlab.xiph.org/67f57508.c" %})
 - [https://stackoverflow.com/questions/53414711/math-behind-gcc9-modulus-optimizations]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/stackoverflow.com/1e096fd1.html" %})
 - [https://blog.csdn.net/xbcReal/article/details/76685853]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/8248e8b1.html" %})
-- [https://android.googlesource.com/platform/external/swiftshader/+/refs/heads/master/CMakeLists.txt]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/android.googlesource.com/b62cb28d.txt" %})
-- [https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4189?view=msvc-170]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/learn.microsoft.com/0c120c99.html" %})
 - [https://www.0xaa55.com/thread-16949-1-1.html]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.0xaa55.com/fb6b8dc2.html" %})
 - [https://cjting.me/2021/03/16/the-missing-div-instruction-part1/]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/cjting.me/6f2eb517.html" %})
 - [https://blog.csdn.net/nameofcsdn/article/details/125007289]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/blog.csdn.net/817e0ab4.html" %})
