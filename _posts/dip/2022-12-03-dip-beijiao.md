@@ -342,8 +342,15 @@ Preprocessing
 
 ### P54 9.1.2 复杂背景下的人脸检测算法特征提取 06:01
 
+* Gray levels 灰度级
+* Gradient features 梯度
+* Gabor features 边缘特征
+* Harr features 小波
+
 
 ### P55 9.1.3 复杂背景下的人脸检测算法分类器设计 07:03
+
+{% include image.html url="/assets/images/221203-dip-beijiao/20230207001433.png" %}
 
 
 ### P56 9.2 基于深度学习的车辆检测算法 09:08
