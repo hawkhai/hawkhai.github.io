@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "机器学习 -- 北交 / 图像处理与机器学习（进行中……）"
+title: "机器学习 -- 北交 / 图像处理与机器学习（已完成）"
 author:
 location: "珠海"
 categories: ["机器学习"]
@@ -18,8 +18,7 @@ codeprint:
 学习是一件非常困难的事情。首先是工作本身已经很累了，然后是一些客观的家里的事情会消耗你的时间，再然后是新知识本身的难度，面对一堆看不懂的公式，再掂量一下自己有限的智商，不学习貌似日子还是可以继续过下去，那我为什么还要学习呢？夜深人静的时候，媳妇已经睡下，想到自己人生将半，学习计划还是得坚持下去：夜来欹枕细思量，独卧残灯漏夜长；**名不显时心不朽，再挑灯火夜读书。**
 
 路虽远行则将至。
-【北交】
-[图像处理与机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Kh411X7Qv/)
+北交·[图像处理与机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Kh411X7Qv/)
 “数字图像处理”主要包括图像增强、形态学处理、图像分割等。
 “机器学习”部分主要包括贝叶斯决策、人工神经网络以及深度学习导论。
 
@@ -285,7 +284,7 @@ TensorFlow
 
 Theono
 * 2008 年诞生于蒙特利尔工学院（Yoshua Bengio），Python 编写
-* <www.deeplearning.net/software/theano/>
+* www.deeplearning.net/software/theano/
 
 Torch, PyTorch
 * Torch: 历史悠久的机器学习综合平台，Lua 编写，torch.ch
@@ -293,7 +292,7 @@ Torch, PyTorch
 
 MxNet
 * 民间项目开发，C++ 编写，内存使用效率高，分布式计算能力强。
-* <mxnet.apache.org/>
+* mxnet.apache.org/
 
 {% include image.html url="/assets/images/221203-dip-beijiao/20230108211711.png" %}
 [note](https://www.kdnuggets.com/2015/07/deep-learning-adversarial-examples-misconceptions.html)
@@ -333,11 +332,14 @@ Deep learning is more vulnerable to adversarial examples than other kind of mach
 * 基于学习
 
 Preprocessing
-* Illumination gradient correction -- 这里有点意思。
+* Illumination gradient correction -- **这里有点意思。**
     * 光线为斜平面
     * 求出光平面，减去光平面。
 * Histogram equalization
 * Masking...
+
+{% include image.html url="/assets/images/221203-dip-beijiao/20230209003442.png" %}
+{% include image.html url="/assets/images/221203-dip-beijiao/20230209003521.png" %}
 
 
 ### P54 9.1.2 复杂背景下的人脸检测算法特征提取 06:01
@@ -355,6 +357,13 @@ Preprocessing
 
 ### P56 9.2 基于深度学习的车辆检测算法 09:08
 
+* 两级网络
+    * 候选框生成网络（RPN）+ 检测识别网络
+    * 网络结构较复杂，检测精度高，检测速度慢
+* 单级网络
+    * 同时预测物体选框和类别
+    * 网络结构较简单，精度稍低，检测速度快。
+
 
 ### P57 大作业（上）车牌检测与字符分割 08:29
 
@@ -363,6 +372,10 @@ Preprocessing
 
 
 ### P59 大作业（下）车牌字符识别 02:32
+
+分类器
+* ANN
+* SVM
 
 
 ### P60 实验平台搭建设置 07:51
