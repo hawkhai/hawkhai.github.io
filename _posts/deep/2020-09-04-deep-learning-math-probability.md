@@ -39,7 +39,7 @@ $$\sum_{k=1}^nP(x_i)=1$$
 ## 参考
 
 <div id="refer-anchor-1"></div>
-- [1] [维基百科·概率分布](https://wiki.mbalib.com/wiki/%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83)
+- [1] [维基百科 · 概率分布](https://wiki.mbalib.com/wiki/%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83)
 
 
 

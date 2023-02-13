@@ -271,7 +271,7 @@ plt.show()
 - [4] [skimage &mdash; skimage v0.17.2 docs](https://scikit-image.org/docs/stable/api/skimage.html)
 - [5] [scikit-image 教程](https://cloud.tencent.com/developer/doc/1221)
 - [6] [python 库 skimage 对图像进行 gamma 校正和 log 校正 {% include relref_cnblogs.html %}](https://www.cnblogs.com/wojianxin/p/12649803.html)
-- [7] [数字图像处理实现·资料丰富 {% include relref_cnblogs.html %}](https://www.cnblogs.com/wojianxin/tag/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/default.html)
+- [7] [数字图像处理实现 · 资料丰富 {% include relref_cnblogs.html %}](https://www.cnblogs.com/wojianxin/tag/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/default.html)
 - [8] [opencv 图像变换原理详解 图像平移 图像旋转 图像缩放 {% include relref_cnblogs.html %}](https://www.cnblogs.com/wojianxin/p/12591410.html)
 
 

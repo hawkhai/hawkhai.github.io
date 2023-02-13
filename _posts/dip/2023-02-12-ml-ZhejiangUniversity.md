@@ -17,7 +17,7 @@ cluster: "机器学习课程"
 ---
 
 路虽远行则将至。
-浙江大学·[机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1qf4y1x7kB/)
+浙江大学 · [机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1qf4y1x7kB/)
 
 
 ### P1 [1.1.1] -- 机器学习定义 09:38

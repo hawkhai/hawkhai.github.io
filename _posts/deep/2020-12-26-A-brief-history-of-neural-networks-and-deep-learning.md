@@ -32,7 +32,7 @@ Andrey Kurenkov
 
 ### 虚假承诺的荒唐
 
-弗兰克·罗森布拉特 (Frank Rosenblatt) 的感知机 Perceptron。
+弗兰克 · 罗森布拉特 (Frank Rosenblatt) 的感知机 Perceptron。
 
 {% include image.html url="/assets/images/201226-a-brief-history-of-neur~fe/1496926-b60ac8f45aa04acd.webp" %}
 

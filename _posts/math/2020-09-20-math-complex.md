@@ -17,7 +17,7 @@ codeprint:
 
 虽然作者署名，不能转载。但是文章实在太优美了，隔了半个月还印象深刻，最终还是转了。所有公式一个字母一个字母重新敲的。
 
-> 原文：[马同学·欧拉公式，复数域的成人礼](https://www.matongxue.com/madocs/2066/)
+> 原文：[马同学 · 欧拉公式，复数域的成人礼](https://www.matongxue.com/madocs/2066/)
 
 {% include image.html url="/assets/images/200920-math-complex/20201006150603.png" %}
 
@@ -39,7 +39,7 @@ $$a+bi,\quad (a,b\in\mathbb{R})$$
 复数域的扩张充满崎岖。正如欧拉的老师对他的赞扬：
 
 > 我介绍数学分析的时候，它还是个孩子，而你正在将它带大成人。
-> <p align="right"> —— 约翰·伯努利</p>
+> <p align="right"> —— 约翰 · 伯努利</p>
 
 这句话虽然是说微积分（数学分析）的，但用在复数域上也不违和。欧拉的欧拉公式正是“复数域”的成人礼：
 
@@ -169,7 +169,7 @@ $$
 x=\sqrt[3]{2+\sqrt{2^2-5^3}}+\sqrt[3]{2-\sqrt{2^2-5^3}}=\sqrt[3]{2+11i}+\sqrt[3]{2-11i}
 $$
 
-这里就出现复数了。拉斐尔·邦贝利（1526－1572），文艺复兴时期欧洲著名的工程师，给出了一个思维飞跃，指出如果复数遵循如下的计算规则：
+这里就出现复数了。拉斐尔 · 邦贝利（1526－1572），文艺复兴时期欧洲著名的工程师，给出了一个思维飞跃，指出如果复数遵循如下的计算规则：
 
 加法：$$(a+bi)+(c+di)=a+c+(b+d)i$$
 
@@ -526,7 +526,7 @@ $$
 
 ## 参考
 
-- [1] [马同学·欧拉公式，复数域的成人礼](https://www.matongxue.com/madocs/2066/)
+- [1] [马同学 · 欧拉公式，复数域的成人礼](https://www.matongxue.com/madocs/2066/)
 - [2] [A Visual, Intuitive Guide to Imaginary Numbers](https://betterexplained.com/articles/a-visual-intuitive-guide-to-imaginary-numbers/)
 - [3] [《更好的解释（数学篇）》 —— 第五章 虚数](http://jakwings.is-programmer.com/posts/29547.html)
 - [4] [虚数的意义 阮一峰](https://www.ruanyifeng.com/blog/2012/09/imaginary_number.html)

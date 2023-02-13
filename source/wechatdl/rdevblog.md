@@ -263,7 +263,7 @@
 [行业视野-牛贺龙：“纠缠”的网络安全](http://blog.rdev.kingsoft.net/?p=2696)
 
 1. <img width="400" height="350" src="http://blog.rdev.kingsoft.net/wp-content/uploads/2019/01/%E9%82%AE%E4%BB%B62-400x350.png" />
-[行业·视野：2019 微信公开课 Pro 盛宴内部分享](http://blog.rdev.kingsoft.net/?p=2675)
+[行业 · 视野：2019 微信公开课 Pro 盛宴内部分享](http://blog.rdev.kingsoft.net/?p=2675)
 
 1. <img width="400" height="350" src="http://blog.rdev.kingsoft.net/wp-content/uploads/2019/01/%E9%82%AE%E4%BB%B61-400x350.png" />
 [专业技术：宋红莲 &amp; 练文郑-React Native 原理简介 &amp;Expo 简介](http://blog.rdev.kingsoft.net/?p=2668)
