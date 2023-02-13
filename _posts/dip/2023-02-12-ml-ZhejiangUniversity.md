@@ -13,6 +13,7 @@ mathjax:
 mermaid:
 glslcanvas:
 codeprint:
+cluster: "机器学习课程"
 ---
 
 路虽远行则将至。
@@ -26,6 +27,8 @@ codeprint:
 
 
 ### P3 [1.3.1] -- 机器学习算法的过程 12:39
+
+完成。
 
 
 ### P4 [1.4.1] -- 没有免费午餐定理 09:37

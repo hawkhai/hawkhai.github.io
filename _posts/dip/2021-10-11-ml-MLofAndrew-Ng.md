@@ -14,6 +14,7 @@ mermaid:
 glslcanvas:
 codeprint:
 date: 2022-08-31 19:57:58 +0800
+cluster: "机器学习课程"
 ---
 
 [机器学习应补充哪些数学基础？ {% include relref_weixin.html %}](https://mp.weixin.qq.com/s?__biz=MzU2NTUwNjQ1Mw==&mid=2247485091&idx=1&sn=8844a2dfafcd35ea45d1bf0146ba8a5a&chksm=fcbbfe59cbcc774f68a18bd11d529422e0048896ffa3a253c52a749fc6e45d7292e1791052da&scene=27)
