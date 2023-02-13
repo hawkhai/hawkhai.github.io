@@ -574,6 +574,21 @@ x | 老版本 ncnn::Mat（40 字节）<br/>**应该以这个为准** | 最新版
 9 | size_t cstep; | int c;
 10 | | size_t cstep;
 
+x | cv::MatExpr | cv::Moments
+---- | ---- | ----
+0 | const MatOp\* op;
+1 | int flags;
+2-15 | Mat a;
+16-29 | Mat b;
+30-43 | Mat c;
+44-45 | double alpha;
+46-47 | double beta;
+48-55 | Scalar s;
+
+* double  m00, m10, m01, m20, m11, m02, m30, m21, m12, m03;
+* double  mu20, mu11, mu02, mu30, mu21, mu12, mu03;
+* double  nu20, nu11, nu02, nu30, nu21, nu12, nu03;
+
 [ROOT]\opencv\opencv-3.4.2\modules\core\include\opencv2\core\mat.inl.hpp
 
 ```cpp
