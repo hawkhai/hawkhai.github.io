@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "机器学习笔记 -- 人工智能 机器学习 算法概览（已完结）"
+title: "机器学习笔记 -- 人工智能 机器学习 算法概览（已完成）"
 author:
 location: "珠海"
 categories: ["机器学习"]
