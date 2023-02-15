@@ -16,6 +16,19 @@ codeprint:
 ---
 
 
+## 析构函数 (C++)
+
+[note](https://learn.microsoft.com/zh-cn/cpp/cpp/destructors-cpp?view=msvc-170)
+对析构函数的调用可以执行相应的清理。 若要显式调用 s 类的对象 String 的析构函数，请使用下列语句之一：
+```cpp
+s.String::~String();     // non-virtual call
+ps->String::~String();   // non-virtual call
+
+s.~String();       // Virtual call
+ps->~String();     // Virtual call
+```
+
+
 ## C++ 17 std::filesystem
 
 [C++ 判断文件或者目录是否存在 {% include relref_jianshu.html %}](https://www.jianshu.com/p/f3612e78e926)
@@ -3690,6 +3703,7 @@ class fastimagedll : public fastimage::IFastImageInterface {
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-09-14-tiny-source-code.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://learn.microsoft.com/zh-cn/cpp/cpp/destructors-cpp?view=msvc-170]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/learn.microsoft.com/2ebcc747.html" %})
 - [https://www.jianshu.com/p/f3612e78e926]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/www.jianshu.com/e1b62601.html" %})
 - [https://en.cppreference.com/w/cpp/filesystem]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/en.cppreference.com/cd20ccd3.html" %})
 - [https://oi-wiki.org/ds/rbtree/]({% include relrefx.html url="/backup/2021-09-14-tiny-source-code.md/oi-wiki.org/c038d17c.html" %})
