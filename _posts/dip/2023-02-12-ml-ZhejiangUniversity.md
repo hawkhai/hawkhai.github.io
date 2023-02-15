@@ -13,10 +13,11 @@ mathjax:
 mermaid:
 glslcanvas:
 codeprint:
+cluster: "机器学习课程"
 ---
 
 路虽远行则将至。
-浙江大学·[机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1qf4y1x7kB/)
+浙江大学 · [机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1qf4y1x7kB/)
 
 
 ### P1 [1.1.1] -- 机器学习定义 09:38
@@ -24,14 +25,27 @@ codeprint:
 
 ### P2 [1.2.1] -- 机器学习的分类 10:52
 
+非监督学习算法：
+* 聚类 Clustering
+* EM 算法（Expectation-Maximization algorithm）
+* 主成分分析（Principle Component Analysis）
+
+监督学习：
+* 分类：标签是离散的值
+* 回归：标签是连续的值
+
 
 ### P3 [1.3.1] -- 机器学习算法的过程 12:39
+
+完成。
 
 
 ### P4 [1.4.1] -- 没有免费午餐定理 09:37
 
 
 ### P5 [1.5.1] -- 总结 05:36
+
+完成。
 
 
 ### P6 [2.1.1] -- 支持向量机（线性可分定义） 09:49

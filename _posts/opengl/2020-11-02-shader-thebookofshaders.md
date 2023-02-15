@@ -151,7 +151,7 @@ void main() {
 }
 ```
 
-[OpenGL·投影与变换 {% include relref_jianshu.html %}](https://www.jianshu.com/p/64c236d5c67a)
+[OpenGL · 投影与变换 {% include relref_jianshu.html %}](https://www.jianshu.com/p/64c236d5c67a)
 
 {% include image.html url="/assets/images/201102-shader-thebookofshaders/2852335-c8a888f710b623d1.webp" %}
 

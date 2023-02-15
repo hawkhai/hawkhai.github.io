@@ -20,7 +20,7 @@ codeprint:
 
 {% include image.html url="/assets/images/200912-math-formula/20190712151719109.jpg" %}
 
-数学是一种美妙而优雅的东西，它隐藏在我们生活的方方面面，却又难以察觉，而这需要一双慧眼才能看到。2013 年，科普作家伊恩·斯图尔特（Ian Stewart）就专门出了一本书，名叫《17 Equations That Changed The World （改变世界的 17 个方程）》。
+数学是一种美妙而优雅的东西，它隐藏在我们生活的方方面面，却又难以察觉，而这需要一双慧眼才能看到。2013 年，科普作家伊恩 · 斯图尔特（Ian Stewart）就专门出了一本书，名叫《17 Equations That Changed The World （改变世界的 17 个方程）》。
 
 
 ## 勾股定理

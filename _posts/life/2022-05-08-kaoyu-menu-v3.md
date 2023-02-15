@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "<br/>重庆烤鱼·猪肚鸡"
+title: "<br/>重庆烤鱼 · 猪肚鸡"
 author:
 location: "广州"
 categories: ["生活"]

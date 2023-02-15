@@ -59,7 +59,7 @@ Part6. 总结与闲话 <https://www.bilibili.com/video/BV1St41117fH>
 
 [傅里叶级数和傅里叶变换是什么关系？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/21665935)
 
-**[马同学原版·从傅里叶级数到傅里叶变换](https://www.matongxue.com/madocs/712)**
+**[马同学原版 · 从傅里叶级数到傅里叶变换](https://www.matongxue.com/madocs/712)**
 
 周期函数，可以通过傅里叶级数画出频域图；增长周期，频域图变得越来越密集；当周期无限大，得到傅里叶变换，频域图变为连续的曲线。
 

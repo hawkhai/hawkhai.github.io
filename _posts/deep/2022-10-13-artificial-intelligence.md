@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "机器学习笔记 -- 人工智能 机器学习 算法概览（已完结）"
+title: "机器学习笔记 -- 人工智能 机器学习 算法概览（已完成）"
 author:
 location: "珠海"
 categories: ["机器学习"]
@@ -13,6 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
+cluster: "机器学习课程"
 ---
 
 [神经网络*内部*发生了什么？ {% include relref_bili.html %}](https://www.bilibili.com/video/BV1s3411y7WN/)

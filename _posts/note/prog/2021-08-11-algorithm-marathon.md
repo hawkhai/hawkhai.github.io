@@ -229,7 +229,7 @@ class Trie(object):
 
 if __name__ == "__main__":
     test_words = ["不知", "不觉", "忘了爱"]
-    test_text = """不知、不觉·间我~|~已经忘了爱❤。"""
+    test_text = """不知、不觉 · 间我~|~已经忘了爱❤。"""
     model = Trie(test_words)
     # defaultdict(<class 'list'>, {' 不知 ': [(0, 1)], ' 不觉 ': [(3, 4)], ' 忘了爱 ': [(13, 15)]})
     print(str(model.search(test_text)))
