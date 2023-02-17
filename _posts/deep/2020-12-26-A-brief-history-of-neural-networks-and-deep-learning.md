@@ -21,6 +21,9 @@ Andrey Kurenkov
 
 > 人工智能依然不会思考，但依靠亿万次运算也足够在很多工作上处理地比大多数人更好。人们讨论的新问题是，人工智能会不会强化偏见。
 
+基哥视频有更详细的讲解。
+浙江大学 · [机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1qf4y1x7kB/)
+
 
 ## 从感知机到 BP 算法 (1950s-1980s)
 
