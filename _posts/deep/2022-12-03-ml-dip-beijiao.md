@@ -81,9 +81,9 @@ cluster: "机器学习课程"
 
 [note {% include relref_csdn.html %}](https://blog.csdn.net/cjsh_123456/article/details/79342300)
 巴特沃斯（Butterworth）滤波器
-{% include image.html url="/assets/images/221203-dip-beijiao/20180221115450744.png" %}
+{% include image.html url="/assets/images/221203-ml-dip-beijiao/20180221115450744.png" %}
 1 阶巴特沃斯没有“振铃“，随着阶数增大，振铃现象越发明显。下图取 n=2, 可以看出空域函数外围部分出现震荡。
-{% include image.html url="/assets/images/221203-dip-beijiao/20141216233653921.png" %}
+{% include image.html url="/assets/images/221203-ml-dip-beijiao/20141216233653921.png" %}
 
 高斯滤波器的过度特性非常平坦，因此不会产生振铃现象。
 
@@ -99,16 +99,16 @@ cluster: "机器学习课程"
 同态滤波是把频率过滤和灰度变换结合起来的一种图像处理方法，它依靠图像的照度 / 反射率模型作为频域处理的基础，利用压缩亮度范围和增强对比度来改善图像的质量。使用这种方法可以使图像处理符合人眼对于亮度响应的非线性特性，避免了直接对图像进行傅立叶变换处理的失真。
 
 基于 Retinex 滤波。基于迭代多尺度引导滤波 Retinex 的低照度图像增强。
-{% include image.html url="/assets/images/221203-dip-beijiao/20200929100704232.png" %}
+{% include image.html url="/assets/images/221203-ml-dip-beijiao/20200929100704232.png" %}
 
 #### 颜色
 
 [颜色 {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/498289926)
 
-{% include image.html url="/assets/images/221203-dip-beijiao/v2-a2094f80d456f0cbd0adf14ed4f6b90e_720w.webp" caption="RGB（显示器）" %}
+{% include image.html url="/assets/images/221203-ml-dip-beijiao/v2-a2094f80d456f0cbd0adf14ed4f6b90e_720w.webp" caption="RGB（显示器）" %}
 
 因为 RGB 模型中与『负光』混合所带来的种种问题，CIE 从数学上定义了三种标准基色 XYZ（是理论上的颜色，而非实际的颜色），形成了『CIE XYZ 颜色模型』。
-{% include image.html url="/assets/images/221203-dip-beijiao/v2-cf15f1ee5c3f390873668ab1c51fdcb2_720w.webp" caption="XYZ 颜色模型" %}
+{% include image.html url="/assets/images/221203-ml-dip-beijiao/v2-cf15f1ee5c3f390873668ab1c51fdcb2_720w.webp" caption="XYZ 颜色模型" %}
 
 CMYK（印刷）
 Lab & YUV（YCbCr 现代彩色电视）
@@ -172,7 +172,7 @@ HSI（人的视觉系统）、HSV
 ​
 分裂与合并是一种区域分割方式，将图像划分成不相交的区域，以某一检测准则从四叉树数据结构的任一层开始，对区域进行分裂或合并。并逐步改善区域划分的性能，直到最后将图像分成数量最小的均匀区域为止。
 
-{% include image.html url="/assets/images/221203-dip-beijiao/PUAhMeZjsBI6v8m.jpg" %}
+{% include image.html url="/assets/images/221203-ml-dip-beijiao/PUAhMeZjsBI6v8m.jpg" %}
 
 
 ### P35 5.1 人工智能简介 09:43
@@ -192,14 +192,14 @@ Alpha Go/Zero 系统是一个伟大的工程作品，由多种方法混合组装
 
 ### P38 5.4 贝叶斯决策--最小错误率决策 03:25
 
-{% include image.html url="/assets/images/221203-dip-beijiao/20200313150754672.png" %}
-{% include image.html url="/assets/images/221203-dip-beijiao/20221218183113.png" %}
+{% include image.html url="/assets/images/221203-ml-dip-beijiao/20200313150754672.png" %}
+{% include image.html url="/assets/images/221203-ml-dip-beijiao/20221218183113.png" %}
 这里看完了。
 
 
 ### P39 5.5 贝叶斯决策--最小风险决策 08:26
 
-{% include image.html url="/assets/images/221203-dip-beijiao/20230107122309.png" %}
+{% include image.html url="/assets/images/221203-ml-dip-beijiao/20230107122309.png" %}
 似然比
 likelihood ratio, LR
 
@@ -251,7 +251,7 @@ Quadratic Discriminant Function (QDF)
 
 ### P46 6.3 多层神经网络 08:53
 
-{% include image.html url="/assets/images/221203-dip-beijiao/20230108104712.png" %}
+{% include image.html url="/assets/images/221203-ml-dip-beijiao/20230108104712.png" %}
 
 
 ### P47 7.1 引言 08:21
@@ -295,7 +295,7 @@ MxNet
 * 民间项目开发，C++ 编写，内存使用效率高，分布式计算能力强。
 * mxnet.apache.org/
 
-{% include image.html url="/assets/images/221203-dip-beijiao/20230108211711.png" %}
+{% include image.html url="/assets/images/221203-ml-dip-beijiao/20230108211711.png" %}
 [note](https://www.kdnuggets.com/2015/07/deep-learning-adversarial-examples-misconceptions.html)
 Deep learning is **more vulnerable** to adversarial examples than other kind of machine leaning due to the **extreme non-linearity** of deep models.
 Deep learning is more vulnerable to adversarial examples than other kind of machine learning.
@@ -339,8 +339,8 @@ Preprocessing
 * Histogram equalization
 * Masking...
 
-{% include image.html url="/assets/images/221203-dip-beijiao/20230209003442.png" %}
-{% include image.html url="/assets/images/221203-dip-beijiao/20230209003521.png" %}
+{% include image.html url="/assets/images/221203-ml-dip-beijiao/20230209003442.png" %}
+{% include image.html url="/assets/images/221203-ml-dip-beijiao/20230209003521.png" %}
 
 
 ### P54 9.1.2 复杂背景下的人脸检测算法特征提取 06:01
@@ -353,7 +353,7 @@ Preprocessing
 
 ### P55 9.1.3 复杂背景下的人脸检测算法分类器设计 07:03
 
-{% include image.html url="/assets/images/221203-dip-beijiao/20230207001433.png" %}
+{% include image.html url="/assets/images/221203-ml-dip-beijiao/20230207001433.png" %}
 
 
 ### P56 9.2 基于深度学习的车辆检测算法 09:08
@@ -386,16 +386,16 @@ Preprocessing
 
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-12-03-dip-beijiao.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-12-03-ml-dip-beijiao.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://www.bilibili.com/video/BV1Kh411X7Qv/]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/www.bilibili.com/8e92be72.html" %})
-- [https://blog.csdn.net/cjsh_123456/article/details/79342300]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/blog.csdn.net/6c4bed89.html" %})
-- [https://zhuanlan.zhihu.com/p/498289926]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/zhuanlan.zhihu.com/b66f35f1.html" %})
-- [https://gy23333.github.io/2020/01/19/%E5%9F%BA%E4%BA%8E%E5%8C%BA%E5%9F%9F%E7%9A%84%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E2%80%94%E2%80%94%E5%8C%BA%E5%9F%9F%E5%88%86%E8%A3%82%E4%B8%8E%E5%90%88%E5%B9%B6/]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/gy23333.github.io/314f9593.html" %})
-- [https://www.cnblogs.com/eilearn/p/9433911.html]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/www.cnblogs.com/e0fff013.html" %})
-- [https://www.cnblogs.com/simon6666/p/11009510.html]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/www.cnblogs.com/f88dd4f1.html" %})
-- [http://caffe.berkeleyvision.org/]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/caffe.berkeleyvision.org/199cc1bf.html" %})
-- [https://www.tensorflow.org/]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/www.tensorflow.org/c8c2399b.html" %})
-- [https://www.kdnuggets.com/2015/07/deep-learning-adversarial-examples-misconceptions.html]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/www.kdnuggets.com/69c72ced.html" %})
-- [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-12-03-dip-beijiao.md/www.atoolbox.net/ecf02067.php" %})
+- [https://www.bilibili.com/video/BV1Kh411X7Qv/]({% include relrefx.html url="/backup/2022-12-03-ml-dip-beijiao.md/www.bilibili.com/8e92be72.html" %})
+- [https://blog.csdn.net/cjsh_123456/article/details/79342300]({% include relrefx.html url="/backup/2022-12-03-ml-dip-beijiao.md/blog.csdn.net/6c4bed89.html" %})
+- [https://zhuanlan.zhihu.com/p/498289926]({% include relrefx.html url="/backup/2022-12-03-ml-dip-beijiao.md/zhuanlan.zhihu.com/b66f35f1.html" %})
+- [https://gy23333.github.io/2020/01/19/%E5%9F%BA%E4%BA%8E%E5%8C%BA%E5%9F%9F%E7%9A%84%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E2%80%94%E2%80%94%E5%8C%BA%E5%9F%9F%E5%88%86%E8%A3%82%E4%B8%8E%E5%90%88%E5%B9%B6/]({% include relrefx.html url="/backup/2022-12-03-ml-dip-beijiao.md/gy23333.github.io/314f9593.html" %})
+- [https://www.cnblogs.com/eilearn/p/9433911.html]({% include relrefx.html url="/backup/2022-12-03-ml-dip-beijiao.md/www.cnblogs.com/e0fff013.html" %})
+- [https://www.cnblogs.com/simon6666/p/11009510.html]({% include relrefx.html url="/backup/2022-12-03-ml-dip-beijiao.md/www.cnblogs.com/f88dd4f1.html" %})
+- [http://caffe.berkeleyvision.org/]({% include relrefx.html url="/backup/2022-12-03-ml-dip-beijiao.md/caffe.berkeleyvision.org/199cc1bf.html" %})
+- [https://www.tensorflow.org/]({% include relrefx.html url="/backup/2022-12-03-ml-dip-beijiao.md/www.tensorflow.org/c8c2399b.html" %})
+- [https://www.kdnuggets.com/2015/07/deep-learning-adversarial-examples-misconceptions.html]({% include relrefx.html url="/backup/2022-12-03-ml-dip-beijiao.md/www.kdnuggets.com/69c72ced.html" %})
+- [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2022-12-03-ml-dip-beijiao.md/www.atoolbox.net/ecf02067.php" %})

@@ -209,6 +209,7 @@ Thinking
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://www.bilibili.com/video/BV1qf4y1x7kB/]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.bilibili.com/93706280.html" %})
 - [https://www.jianshu.com/p/f90d923b73b5]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.jianshu.com/041824b2.html" %})
 - [https://www.jianshu.com/p/9dc4c2320732]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.jianshu.com/b7378314.html" %})
 - [https://www.jianshu.com/p/5db8170d4bcb]({% include relrefx.html url="/backup/2020-12-26-A-brief-history-of-neural-networks-and-deep-learning.md/www.jianshu.com/4ca64f65.html" %})

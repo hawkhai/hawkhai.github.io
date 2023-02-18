@@ -1,0 +1,1060 @@
+<html lang="zh-cn" style="--olcb-folder-code-block-max-height:80vh;"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="never">
+    <meta name="description" content="贝叶斯估计、最大似然估计(MLE)、最大后验概率估计(MAP)这几个概念在机器学习和深度学习中经常碰到，读文章的时候还感觉挺明白，但独立思考时经常会傻傻分不清楚(&amp;#128557;)，因此希望通过本文">
+    <meta property="og:description" content="贝叶斯估计、最大似然估计(MLE)、最大后验概率估计(MAP)这几个概念在机器学习和深度学习中经常碰到，读文章的时候还感觉挺明白，但独立思考时经常会傻傻分不清楚(&amp;#128557;)，因此希望通过本文">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>贝叶斯估计、最大似然估计、最大后验概率估计 - 机器学习攀登者 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml">
+    
+    <style>#home :not(.cnblogs_code):not(.cnblogs_Highlighter)>pre:not([highlighted]):not([class*="brush:"]) code:not(.hljs), :not(.cnblogs_code):not(.cnblogs_Highlighter)>pre:not([highlighted]):not([class*="brush:"]) code:not(.hljs) {background: rgb(245, 245, 245);
+        padding: 12px;
+        border: 1px solid rgb(204, 204, 204);
+        border-radius: 3px;
+        border-color: transparent;
+        color: rgb(68, 68, 68);
+        font-family: "Courier New", sans-serif;
+        font-size: 12px</style><link rel="stylesheet" href="/css/blog-common.min.css?v=7zx8XyQVJeZnDsNDj7QyXi8MqYB_4vl-uc8ijcEsltc">
+    
+
+    <link id="MainCss" rel="stylesheet" href="/skins/banlieue13/bundle-banlieue13.min.css?v=wJYM7LJxD-ioO9m752tG2_tR1r7vcRq-WW-fRM16Mtk">
+        <link id="highlighter-theme-cnblogs" type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=5J1NDtbnnIr2Rc2SdhEMlMxD4l9Eydj88B31E7_NhS4">
+    
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/banlieue13/bundle-banlieue13-mobile.min.css?v=VZy02ixEVhbRR0ItqSFEOHftKrtzwfvZfwdu-Fsrs6k">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/simon6666/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/simon6666/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/simon6666/wlwmanifest.xml">
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script>
+        var currentBlogId = 520912;
+        var currentBlogApp = 'simon6666';
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'Banlieue13';
+        var visitorUserId = '';
+        var hasCustomScript = false;
+        try {
+            if (hasCustomScript && document.referrer && document.referrer.indexOf('baidu.com') >= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+        window.cb_enable_mathjax = false;
+        window.mathEngine = 0;
+        window.codeHighlightEngine = 1;
+        window.enableCodeLineNumber = false;
+        window.codeHighlightTheme = 'cnblogs';
+        window.darkModeCodeHighlightTheme = 'vs2015';
+        window.isDarkCodeHighlightTheme = false;
+        window.isDarkModeCodeHighlightThemeDark = true;
+        window.isDisableCodeHighlighter = false;
+        window.enableCodeThemeTypeFollowSystem = false;
+    </script>
+        <script>
+            var currentPostDateAdded = '2019-06-12 14:34';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=0Fge_XJuSz50sMp_VpP7Av1v9qTeM3fE973a2TC7FMU"></script><style>.medium-zoom-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 300ms;
+  will-change: opacity;
+}
+
+.medium-zoom--opened .medium-zoom-overlay {
+  cursor: pointer;
+  cursor: zoom-out;
+  opacity: 1;
+}
+
+.medium-zoom-image {
+  cursor: pointer;
+  cursor: zoom-in;
+  /*
+    The `transition` is marked as "!important" for the animation to happen
+    even though it's overriden by another inline `transition` style attribute.
+
+    This is problematic with frameworks that generate inline styles on their
+    images (e.g. Gatsby).
+
+    See https://github.com/francoischalifour/medium-zoom/issues/110
+   */
+  transition: transform 300ms cubic-bezier(0.2, 0, 0.2, 1) !important;
+}
+
+.medium-zoom-image--hidden {
+  visibility: hidden;
+}
+
+.medium-zoom-image--opened {
+  position: relative;
+  cursor: pointer;
+  cursor: zoom-out;
+  will-change: transform;
+}
+</style><script id="hljs-script" src="https://common.cnblogs.com/highlight/11.4.0/highlight.min.js" type="text/javascript" async=""></script>
+    
+
+    
+<meta http-equiv="origin-trial" content="Az6AfRvI8mo7yiW5fLfj04W21t0ig6aMsGYpIqMTaX60H+b0DkO1uDr+7BrzMcimWzv/X7SXR8jI+uvbV0IJlwYAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjgwNjUyNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A+USTya+tNvDPaxUgJooz+LaVk5hPoAxpLvSxjogX4Mk8awCTQ9iop6zJ9d5ldgU7WmHqBlnQB41LHHRFxoaBwoAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjgwNjUyNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A7FovoGr67TUBYbnY+Z0IKoJbbmRmB8fCyirUGHavNDtD91CiGyHHSA2hDG9r9T3NjUKFi6egL3RbgTwhhcVDwUAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjgwNjUyNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_2023010405.js?cb=31071459" async=""></script><link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com" as="script"><script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=www.cnblogs.com"></script></head>
+<body class="skin-banlieue13 has-navbar hljs-engine">
+<a name="top"></a>
+<div id="top_nav" class="navbar forpc">
+    <nav id="nav_main" class="navbar-main">
+        <ul id="nav_left" class="navbar-list navbar-left">
+            <li class="navbar-branding">
+                <a href="https://www.cnblogs.com/" title="开发者的网上家园" role="banner">
+                    <img src="//common.cnblogs.com/logo.svg" alt="博客园Logo">
+                </a>
+            </li>
+            <li>
+                <a href="/" onclick="countClicks('skin-navbar-sitehome')">首页</a>
+            </li>
+            <li>
+                <a href="https://news.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-news')">新闻</a>
+            </li>
+            <li>
+                <a href="https://q.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-q')">博问</a>
+            </li>
+            <li>
+                <a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-brands')">专区</a>
+            </li>
+            <li>
+                <a href="https://ing.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-ing')">闪存</a>
+            </li>
+            <li>
+                <a href="https://edu.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-edu')">班级</a>
+            </li>
+        </ul>
+        <ul id="nav_right" class="navbar-list navbar-right">
+            <li>
+                <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get" role="search">
+                    <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="search" tabindex="3">
+                    <button type="submit" id="zzk_search_button">
+                        <img src="//common.cnblogs.com/images/blog/search.svg" alt="搜索">
+                    </button>
+                </form>
+            </li>
+            <li id="navbar_login_status" class="navbar-list">
+                <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                    <img id="new_post_icon" class="navbar-icon" src="//common.cnblogs.com/images/blog/newpost.svg" alt="写随笔">
+                </a>
+                <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                    <img id="myblog_icon" class="navbar-icon" src="//common.cnblogs.com/images/blog/myblog.svg" alt="我的博客">
+                </a>
+                <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                    <img id="msg_icon" class="navbar-icon" src="//common.cnblogs.com/images/blog/message.svg" alt="短消息">
+                    <span id="msg_count" style="display: none"></span>
+                </a>
+                <a id="navbar_lite_mode_indicator" data-current-page="blog" style="display: none" href="javascript:void(0)" alt="简洁模式" title="简洁模式启用，您在访问他人博客时会使用简洁款皮肤展示">
+                    <img class="navbar-icon" src="//common.cnblogs.com/images/blog/lite-mode-on.svg" alt="简洁模式">
+                </a>
+                <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                    <a class="dropdown-button" href="https://home.cnblogs.com/">
+                        <img id="user_icon" class="navbar-avatar" src="//common.cnblogs.com/images/blog/avatar-default.svg" alt="用户头像">
+                    </a>
+                    <div class="dropdown-menu">
+                        <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                        <a href="https://home.cnblogs.com/">我的园子</a>
+                        <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                        <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide"><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                        <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                    </div>
+                </div>
+                <a class="navbar-anonymous" href="https://account.cnblogs.com/signup" style="display: inline;">注册</a>
+                <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a href="https://www.cnblogs.com/simon6666/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/simon6666/">机器学习攀登者</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+	<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/simon6666/">
+首页</a>
+</li>
+	<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+	<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%94%80%E7%99%BB%E8%80%85">
+联系</a></li>
+	<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+	<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/simon6666/rss/">
+订阅</a>
+	
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/simon6666/rss/">
+    <img src="/skins/banlieue13/images/xml.gif" alt="订阅">
+</a></li>
+</ul>
+
+
+
+			<div class="blogStats">
+				
+				<!--done-->
+随笔- 8&nbsp;
+文章- 0&nbsp;
+评论- 0&nbsp;
+阅读- 
+<span title="总阅读数: 6366">
+6366</span>&nbsp;
+
+
+
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/simon6666/p/11009510.html">
+    <span role="heading" aria-level="2">贝叶斯估计、最大似然估计、最大后验概率估计</span>
+    
+</a><button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button>
+
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<h1 class="title">&nbsp;</h1>
+<div class="show-content" data-note-content="">
+<div class="show-content-free">
+<p>贝叶斯估计、最大似然估计(MLE)、最大后验概率估计(MAP)这几个概念在机器学习和深度学习中经常碰到，读文章的时候还感觉挺明白，但独立思考时经常会傻傻分不清楚(😭)，因此希望通过本文对其进行总结。</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<h2>2. 背景知识<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>注：由于概率与数理统计需要了解的背景知识很多，因此这里只列出了部分内容，且写的较简略，许多概念的学习需要根据标题自己查找答案。</p>
+<h3>2.1 概率与统计<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>概率统计是很多人都学过的内容，但概率论与统计学的关系是什么？先看一下概率论与统计学在维基百科中的定义：</p>
+<pre class="hljs undefined highlighter-hljs" highlighted="true"><code class="highlighter-hljs hljs language-undefined">概率论是集中研究概率及随机现象的数学分支，是研究随机性或不确定性等现象的数学。
+统计学是在数据分析的基础上，研究如何测定、收集、整理、归纳和分析反映数据数据，以便给出正确消息的科学。
+</code></pre>
+<p>下面的一段话引自LarrB Wasserman的《All of Statistics》，对概率和统计推断的研究内容进行了描述：</p>
+<pre class="hljs javascript highlighter-hljs" highlighted="true"><code class="javascript highlighter-hljs hljs language-javascript"><span class="hljs-title class_">The</span> basic problem that we studB <span class="hljs-keyword">in</span> probabilitB <span class="hljs-attr">is</span>: 
+<span class="hljs-title class_">Given</span> a data generating process, what are the properities <span class="hljs-keyword">of</span> the outcomes?
+
+<span class="hljs-title class_">The</span> basic problem <span class="hljs-keyword">of</span> statistical inference is the inverse <span class="hljs-keyword">of</span> <span class="hljs-attr">probabilitB</span>: 
+<span class="hljs-title class_">Given</span> the outcomes, what can we saB about the process that generated the data?
+</code></pre>
+<p>概率论是在给定条件（已知模型和参数）下，对要发生的事件（新输入数据）的预测。统计推断是在给定数据（训练数据）下，对数据生成方式（模型和参数）的归纳总结。概率论是统计学的数学基础，统计学是对概率论的应用。</p>
+<h3>2.2 描述统计和推断统计<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>统计学分为描述统计学和推断统计学。描述统计，是统计学中描绘或总结观察量基本情况的统计总称。推断统计指统计学中研究如何根据样本数据去推断总体数量特征的方法。</p>
+<p>描述统计是对数据的一种概括。描述统计是罗列所有数据，然后选择一些特征量（例如均值、方差、中位数、四分中位数等）对总体数据进行描述。推断统计是一种对数据的推测。推断统计无法获取所有数据，只能得到部分数据，然后根据得到的数据推测总体数据的情况。</p>
+<h3>2.3 联合概率和边缘概率<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>假设有随机变量<img class="math-inline" src="https://math.jianshu.com/math?formula=A" alt="A">和<img class="math-inline" src="https://math.jianshu.com/math?formula=B" alt="B">，此时<img class="math-inline" src="https://math.jianshu.com/math?formula=P(A%3Da%2CB%3Db)" alt="P(A=a,B=b)">用于表示<img class="math-inline" src="https://math.jianshu.com/math?formula=A%3Da" alt="A=a">且<img class="math-inline" src="https://math.jianshu.com/math?formula=B%3Db" alt="B=b">同时发生的概率。这类包含多个条件且&lt;font color="blue"&gt;所有条件同时成立&lt;/font&gt;的概率称为联合概率。请注意，联合概率并不是其中某个条件成立的概率，而是所有条件同时成立的概率。与之对应地，<img class="math-inline" src="https://math.jianshu.com/math?formula=P(A%3Da)" alt="P(A=a)">或<img class="math-inline" src="https://math.jianshu.com/math?formula=P(B%3Db)" alt="P(B=b)">这类&lt;font color="blue"&gt;仅与单个随机变量有关&lt;/font&gt;的概率称为边缘概率。</p>
+<p>联合概率与边缘概率的关系如下：</p>
+<p><img class="math-block" src="https://math.jianshu.com/math?formula=P(A%3Da)%3D%5Csum_%7Bb%7DP(A%3Da%2CB%3Db)" alt="P(A=a)=\sum_{b}P(A=a,B=b)"><br><img class="math-block" src="https://math.jianshu.com/math?formula=P(A%3Db)%3D%5Csum_%7Ba%7DP(A%3Da%2CB%3Db)" alt="P(A=b)=\sum_{a}P(A=a,B=b)"></p>
+<h3>2.4 条件概率<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>条件概率表示在&lt;font color="blue"&gt;条件<img class="math-inline" src="https://math.jianshu.com/math?formula=B%3Db" alt="B=b">成立&lt;/font&gt;的情况下，<img class="math-inline" src="https://math.jianshu.com/math?formula=A%3Da" alt="A=a">的概率，记作<img class="math-inline" src="https://math.jianshu.com/math?formula=P(A%3Da%7CB%3Db)" alt="P(A=a|B=b)">，或者说条件概率是指事件<img class="math-inline" src="https://math.jianshu.com/math?formula=A%3Da" alt="A=a">在另外一个事件<img class="math-inline" src="https://math.jianshu.com/math?formula=B%3Db" alt="B=b">已经发生条件下的发生概率。为了简洁表示，后面省略a，b。</p>
+<p>联合概率、边缘概率、条件概率的关系如下：</p>
+<p><img class="math-block" src="https://math.jianshu.com/math?formula=P(A%7CB)%3D%5Cfrac%20%7BP(A%2CB)%7D%20%7BP(B)%7D" alt="P(A|B)=\frac {P(A,B)} {P(B)}"></p>
+<p>转换为乘法形式：</p>
+<p><img class="math-block" src="https://math.jianshu.com/math?formula=P(A%2CB)%3DP(B)*P(A%7CB)%3DP(A)*P(B%7CA)" alt="P(A,B)=P(B)*P(A|B)=P(A)*P(B|A)"></p>
+<h3>2.5 全概率公式<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>如果事件<img class="math-inline" src="https://math.jianshu.com/math?formula=A_1%EF%BC%8CA_2%EF%BC%8CA_3%EF%BC%8C%5Cldots%EF%BC%8CA_n" alt="A_1，A_2，A_3，\ldots，A_n">构成一个完备事件组，即它们两两互不相容（互斥），其和为全集；并且<img class="math-inline" src="https://math.jianshu.com/math?formula=P(A_i)" alt="P(A_i)">大于0，则对任意事件<img class="math-inline" src="https://math.jianshu.com/math?formula=B" alt="B">有<img class="math-block" src="https://math.jianshu.com/math?formula=P(B)%3DP(B%7CA_1)P(A_1)%2BP(B%7CA_2)P(A_2)%2B%5Cldots%2B%20P(B%7CA_n)P(A_n)%3D%5Csum%5En_%7Bi%3D1%7DP(B%7CA_i)P(A_i)" alt="P(B)=P(B|A_1)P(A_1)+P(B|A_2)P(A_2)+\ldots+ P(B|A_n)P(A_n)=\sum^n_{i=1}P(B|A_i)P(A_i)">上面的公式称为全概率公式。全概率公式是对复杂事件<img class="math-inline" src="https://math.jianshu.com/math?formula=A" alt="A">的概率求解问题转化为了在不同情况下发生的简单事件的概率的求和问题。</p>
+<h3>2.6 贝叶斯公式<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>由条件概率的乘法形式可得：</p>
+<p><img class="math-block" src="https://math.jianshu.com/math?formula=P(A%7CB)%3D%5Cfrac%20%7BP(B%7CA)%7D%20%7BP(B)%7D*P(A)" alt="P(A|B)=\frac {P(B|A)} {P(B)}*P(A)"></p>
+<p>上面的式子称为贝叶斯公式，也叫做贝叶斯定理或贝叶斯法则。在贝叶斯定理中，每个名词都有约定俗成的名称：</p>
+<ul>
+<li><img class="math-inline" src="https://math.jianshu.com/math?formula=P(A%7CB)" alt="P(A|B)">是已知<img class="math-inline" src="https://math.jianshu.com/math?formula=B" alt="B">发生后<img class="math-inline" src="https://math.jianshu.com/math?formula=A" alt="A">的条件概率，也由于得自<img class="math-inline" src="https://math.jianshu.com/math?formula=B" alt="B">的取值而被称作<img class="math-inline" src="https://math.jianshu.com/math?formula=A" alt="A">的后验概率，表示&lt;font color="blue"&gt;事件<img class="math-inline" src="https://math.jianshu.com/math?formula=B" alt="B">发生后，事件<img class="math-inline" src="https://math.jianshu.com/math?formula=A" alt="A">发生的置信度&lt;/font&gt;。</li>
+<li><img class="math-inline" src="https://math.jianshu.com/math?formula=P(A)" alt="P(A)">是<img class="math-inline" src="https://math.jianshu.com/math?formula=A" alt="A">的先验概率或边缘概率，表示&lt;font color="blue"&gt;事件<img class="math-inline" src="https://math.jianshu.com/math?formula=A" alt="A">发生的置信度&lt;/font&gt;。</li>
+<li><img class="math-inline" src="https://math.jianshu.com/math?formula=P(B%7CA)" alt="P(B|A)">是已知<img class="math-inline" src="https://math.jianshu.com/math?formula=A" alt="A">发生后<img class="math-inline" src="https://math.jianshu.com/math?formula=B" alt="B">的条件概率，也由于得自<img class="math-inline" src="https://math.jianshu.com/math?formula=A" alt="A">的取值而被称作<img class="math-inline" src="https://math.jianshu.com/math?formula=B" alt="B">的后验概率，也被称作似然函数。</li>
+<li><img class="math-inline" src="https://math.jianshu.com/math?formula=P(B)" alt="P(B)">是<img class="math-inline" src="https://math.jianshu.com/math?formula=B" alt="B">的先验概率或边缘概率，称为标准化常量。</li>
+<li><img class="math-inline" src="https://math.jianshu.com/math?formula=%5Cfrac%20%7BP(B%7CA)%7D%20%7BP(B)%7D" alt="\frac {P(B|A)} {P(B)}">称为标准似然比(这个叫法很多，没找到标准统一的叫法)，表示&lt;font color="blue"&gt;事件<img class="math-inline" src="https://math.jianshu.com/math?formula=B" alt="B">为事件<img class="math-inline" src="https://math.jianshu.com/math?formula=A" alt="A">发生提供的支持程度&lt;/font&gt;。</li>
+
+
+</ul>
+<p>因此贝叶斯公式可表示为：后验概率=似然函数<em>先验概率/标准化常量=标准似然比</em>先验概率。根据标准似然比的大小，可分为下面三种情况：</p>
+<ul>
+<li>如果标准似然比<img class="math-inline" src="https://math.jianshu.com/math?formula=%3E1" alt=">1">，则先验概率<img class="math-inline" src="https://math.jianshu.com/math?formula=P(A)" alt="P(A)">得到增强，事件<img class="math-inline" src="https://math.jianshu.com/math?formula=B" alt="B">的发生会增大事件<img class="math-inline" src="https://math.jianshu.com/math?formula=A" alt="A">发生的可能性；</li>
+<li>如果标准似然比<img class="math-inline" src="https://math.jianshu.com/math?formula=%3D1" alt="=1">，则先验概率<img class="math-inline" src="https://math.jianshu.com/math?formula=P(A)" alt="P(A)">保持不变，事件<img class="math-inline" src="https://math.jianshu.com/math?formula=B" alt="B">的发生不影响事件<img class="math-inline" src="https://math.jianshu.com/math?formula=A" alt="A">发生的可能性；</li>
+<li>如果标准似然比<img class="math-inline" src="https://math.jianshu.com/math?formula=%3C1" alt="<1">，则先验概率<img class="math-inline" src="https://math.jianshu.com/math?formula=P(A)" alt="P(A)">得到削弱，事件<img class="math-inline" src="https://math.jianshu.com/math?formula=B" alt="B">的发生会降低事件<img class="math-inline" src="https://math.jianshu.com/math?formula=A" alt="A">发生的可能性。</li>
+
+
+</ul>
+<p>由全概率公式、贝叶斯法则可得：<br><img class="math-block" src="https://math.jianshu.com/math?formula=P(A_i%7CB)%3D%5Cfrac%20%7BP(B%7CA_i)P(A_i)%7D%20%7BP(B)%7D%3D%5Cfrac%20%7BP(B%7CA_i)P(A_i)%7D%20%7B%5Csum%5En_%7Bi%3D1%7DP(B%7CA_i)P(A_i)%7D" alt="P(A_i|B)=\frac {P(B|A_i)P(A_i)} {P(B)}=\frac {P(B|A_i)P(A_i)} {\sum^n_{i=1}P(B|A_i)P(A_i)}"></p>
+<h3>2.7 似然与概率<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>在英文中，似然（likelihood）和概率（probability）是同义词，都指事件发生的可能性。但在统计中，似然与概率是不同的东西。概率是已知参数，对结果可能性的预测。似然是已知结果，对参数是某个值的可能性预测。</p>
+<h3>2.8 似然函数与概率函数<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>对于函数<img class="math-inline" src="https://math.jianshu.com/math?formula=P(x%7C%5Ctheta)" alt="P(x|\theta)">，从不同的观测角度来看可以分为以下两种情况：</p>
+<ul>
+<li>如果<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">已知且保持不变，<img class="math-inline" src="https://math.jianshu.com/math?formula=x" alt="x">是变量，则<img class="math-inline" src="https://math.jianshu.com/math?formula=P(x%7C%5Ctheta)" alt="P(x|\theta)">称为概率函数，表示不同<img class="math-inline" src="https://math.jianshu.com/math?formula=x" alt="x">出现的概率。</li>
+<li>如果<img class="math-inline" src="https://math.jianshu.com/math?formula=x" alt="x">已知且保持不变，<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">是变量，则<img class="math-inline" src="https://math.jianshu.com/math?formula=P(x%7C%5Ctheta)" alt="P(x|\theta)">称为似然函数，表示不同<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">下，<img class="math-inline" src="https://math.jianshu.com/math?formula=x" alt="x">出现的概率，也记作<img class="math-inline" src="https://math.jianshu.com/math?formula=L(%5Ctheta%7Cx)" alt="L(\theta|x)">或<img class="math-inline" src="https://math.jianshu.com/math?formula=L(x%3B%5Ctheta)" alt="L(x;\theta)">或<img class="math-inline" src="https://math.jianshu.com/math?formula=f(x%3B%5Ctheta)" alt="f(x;\theta)">。</li>
+
+
+</ul>
+<p>注：注意似然函数的不同写法。</p>
+<h3>2.9 推断统计中需要了解的一些概念<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<ul>
+<li>假设实际观测值与真实分布相关，试图根据观测值来推测真实分布</li>
+<li>由于观测值取值随机，因此由它们计算得到的估计值也是随机值</li>
+<li>估计方式多种多样，且不同估计方式得到的估计值也有所不同</li>
+
+
+</ul>
+<p>样本、样本容量、参数统计、非参数统计、估计量、真实分布、经验分布。</p>
+<h3>2.10 频率学派与贝叶斯学派<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>注：频率学派与贝叶斯学派只是解决问题的角度不同。</p>
+<p>频率学派与贝叶斯学派探讨「不确定性」这件事时的出发点与立足点不同。频率学派从「自然」角度出发，试图直接为「事件」本身建模，即事件<img class="math-inline" src="https://math.jianshu.com/math?formula=A" alt="A">在独立重复试验中发生的频率趋于极限<img class="math-inline" src="https://math.jianshu.com/math?formula=p" alt="p">，那么这个极限就是该事件的概率。</p>
+<p>贝叶斯学派并不从试图刻画「事件」本身，而从「观察者」角度出发。贝叶斯学派并不试图说「事件本身是随机的」，或者「世界的本体带有某种随机性」，这套理论根本不言说关于「世界本体」的东西，而只是从「观察者知识不完备」这一出发点开始，构造一套在贝叶斯概率论的框架下可以对不确定知识做出推断的方法。</p>
+<p>频率学派的代表是最大似然估计；贝叶斯学派的代表是最大后验概率估计。</p>
+<h3>2.11 共轭先验<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>在贝叶斯统计中，如果后验分布与先验分布属于同类，则先验分布与后验分布被称为共轭分布，而先验分布被称为似然函数的共轭先验。</p>
+<h3>2.12 Beta分布<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>在概率论中，Beta分布也称Β分布，是指一组定义在<img class="math-inline" src="https://math.jianshu.com/math?formula=(0%2C1)" alt="(0,1)">区间的连续概率分布，有两个参数<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Calpha%2C%5Cbeta%3E0" alt="\alpha,\beta>0">。Beta分布的概率密度为：</p>
+<p><img class="math-block" src="https://math.jianshu.com/math?formula=%5Cbegin%7Balign%7Df(x%3B%5Calpha%2C%5Cbeta)%26%3D%5Cfrac%20%7Bx%5E%7B%5Calpha-1%7D(1-x)%5E%7B%5Cbeta-1%7D%7D%20%7B%5Cint_%7B0%7D%5E1%20%5Cmu%5E%7B%5Calpha-1%7D(1-%5Cmu)%5E%7B%5Cbeta-1%7Dd%5Cmu%7D%20%5C%5C%5C%5C%26%3D%20%5Cfrac%7B%5CGamma(%5Calpha%2B%5Cbeta)%7D%20%7B%5CGamma(%5Calpha)%5CGamma(%5Cbeta)%7Dx%5E%7B%5Calpha-1%7D(1-x)%5E%7B%5Cbeta-1%7D%20%5C%5C%5C%5C%26%3D%5Cfrac%20%7B1%7D%20%7BB(%5Calpha%2C%5Cbeta)%7Dx%5E%7B%5Calpha-1%7D(1-x)%5E%7B%5Cbeta-1%7D%5Cend%7Balign%7D" alt="\begin{align}f(x;\alpha,\beta)&amp;=\frac {x^{\alpha-1}(1-x)^{\beta-1}} {\int_{0}^1 \mu^{\alpha-1}(1-\mu)^{\beta-1}d\mu} \\\\&amp;= \frac{\Gamma(\alpha+\beta)} {\Gamma(\alpha)\Gamma(\beta)}x^{\alpha-1}(1-x)^{\beta-1} \\\\&amp;=\frac {1} {B(\alpha,\beta)}x^{\alpha-1}(1-x)^{\beta-1}\end{align}">其中，<img class="math-inline" src="https://math.jianshu.com/math?formula=%5CGamma(z)" alt="\Gamma(z)">是<img class="math-inline" src="https://math.jianshu.com/math?formula=%5CGamma" alt="\Gamma">函数。随机变量<img class="math-inline" src="https://math.jianshu.com/math?formula=X" alt="X">服从Beta分布写作<img class="math-inline" src="https://math.jianshu.com/math?formula=X%5Csim%20Beta(%5Calpha%2C%5Cbeta)" alt="X\sim Beta(\alpha,\beta)">。</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<h2>3. 问题定义<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>以抛硬币为例，假设我们有一枚硬币，现在要估计其正面朝上的概率<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">。为了对<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">进行估计，我们进行了10次实验（独立同分布，i.i.d.），这组实验记为<img class="math-inline" src="https://math.jianshu.com/math?formula=X%3Dx_1%EF%BC%8Cx_2%EF%BC%8C%5Cldots%EF%BC%8Cx_%7B10%7D" alt="X=x_1，x_2，\ldots，x_{10}">，其中正面朝上的次数为6次，反面朝上的次数为4次，结果为<img class="math-inline" src="https://math.jianshu.com/math?formula=(1%2C0%2C1%2C1%2C0%2C0%2C0%2C1%2C1%2C1)" alt="(1,0,1,1,0,0,0,1,1,1)">。</p>
+<h2>4. 最大似然估计(MLE)<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>最大似然估计，英文为Maximum Likelihood Estimation，简写为MLE，也叫极大似然估计，是用来估计概率模型参数的一种方法。最大似然估计的思想是使得观测数据（样本）发生概率最大的参数就是最好的参数。</p>
+<p>对一个独立同分布的样本集来说，总体的似然就是每个样本似然的乘积。针对抛硬币的问题，似然函数可写作：<img class="math-block" src="https://math.jianshu.com/math?formula=L(X%3B%5Ctheta)%3D%5Cprod_%7Bi%3D0%7D%5EnP(x_i%7C%5Ctheta)%3D%5Ctheta%5E6(1-%5Ctheta)%5E4" alt="L(X;\theta)=\prod_{i=0}^nP(x_i|\theta)=\theta^6(1-\theta)^4">根据最大似然估计，使<img class="math-inline" src="https://math.jianshu.com/math?formula=L(X%3B%5Ctheta)" alt="L(X;\theta)">取得最大值的<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">即为估计结果，令<img class="math-inline" src="https://math.jianshu.com/math?formula=L(X%3B%5Ctheta)%5Cprime%20%3D0" alt="L(X;\theta)\prime =0">可得<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Chat%7B%5Ctheta%7D%3D0.6" alt="\hat{\theta}=0.6">。似然函数图如下：</p>
+<div class="image-package">
+<div class="image-container">
+<div class="image-container-fill">&nbsp;</div>
+<div class="image-view" data-width="650" data-height="400"><img src="//upload-images.jianshu.io/upload_images/3232548-c785fe210be37ef5.png" alt="" data-original-src="//upload-images.jianshu.io/upload_images/3232548-c785fe210be37ef5.png" data-original-width="650" data-original-height="400" data-original-format="image/png" data-original-filesize="23397"></div>
+
+
+</div>
+<div class="image-caption">MLE</div>
+
+
+</div>
+<p>由于总体的似然就是每个样本似然的乘积，为了求解方便，我们通常会将似然函数转成对数似然函数，然后再求解。可以转成对数似然函数的主要原因是对数函数并不影响函数的凹凸性。因此上式可变为：<img class="math-block" src="https://math.jianshu.com/math?formula=lnL(X%3B%5Ctheta)%3Dln%5Cprod_%7Bi%3D0%7D%5EnP(x_i%7C%5Ctheta)%3D%5Csum_%7Bi%3D0%7D%5Enln(P(x_i%7C%5Ctheta))%3D6ln(%5Ctheta)%2B4ln(1-%5Ctheta)" alt="lnL(X;\theta)=ln\prod_{i=0}^nP(x_i|\theta)=\sum_{i=0}^nln(P(x_i|\theta))=6ln(\theta)+4ln(1-\theta)">令<img class="math-inline" src="https://math.jianshu.com/math?formula=ln(L(X%3B%5Ctheta)%5Cprime)%20%3D0" alt="ln(L(X;\theta)\prime) =0">可得<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Chat%7B%5Ctheta%7D%3D0.6" alt="\hat{\theta}=0.6">。</p>
+<p>正态分布的最大似然估计</p>
+<p>假设样本服从正态分布<img class="math-inline" src="https://math.jianshu.com/math?formula=N%5Csim(%5Cmu%2C%5Csigma%5E2)" alt="N\sim(\mu,\sigma^2)">，则其似然函数为<img class="math-block" src="https://math.jianshu.com/math?formula=L(%5Cmu%2C%5Csigma%5E2)%3D%5Cprod_%7Bi%3D0%7D%5En%20%5Cfrac%20%7B1%7D%20%7B%5Csqrt%7B2%5Cpi%7D%20%5Csigma%7De%5E%7B-%5Cfrac%20%7B(x_i-%5Cmu)%5E2%7D%20%7B2%5Csigma%5E2%7D%7D" alt="L(\mu,\sigma^2)=\prod_{i=0}^n \frac {1} {\sqrt{2\pi} \sigma}e^{-\frac {(x_i-\mu)^2} {2\sigma^2}}">对其取对数得：<img class="math-block" src="https://math.jianshu.com/math?formula=lnL(%5Cmu%2C%5Csigma%5E2)%3D-%5Cfrac%20%7Bn%7D%20%7B2%7Dln(2%5Cpi)%20-%20%5Cfrac%20%7Bn%7D%20%7B2%7D%20ln(%5Csigma%5E2)%20-%20%5Cfrac%20%7B1%7D%20%7B2%5Csigma%5E2%7D%20%5Csum_%7Bi%3D0%7D%5En(x_i-%5Cmu)%5E2" alt="lnL(\mu,\sigma^2)=-\frac {n} {2}ln(2\pi) - \frac {n} {2} ln(\sigma^2) - \frac {1} {2\sigma^2} \sum_{i=0}^n(x_i-\mu)^2"><br>分别对<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Cmu%EF%BC%8C%5Csigma%5E2" alt="\mu，\sigma^2">求偏导，并令偏导数为0，得：<img class="math-block" src="https://math.jianshu.com/math?formula=%5Cbegin%7Bcases%7D%20%5Cfrac%20%7B%5Cpartial%20lnL(%5Cmu%2C%5Csigma%5E2)%7D%20%7B%5Cpartial%20%5Cmu%7D%3D%20%5Cfrac%20%7B1%7D%20%7B%5Csigma%5E2%7D%20%5Csum_%7Bi%3D0%7D%5En(x_i-%5Cmu)%20%3D0%5C%5C%5C%5C%20%5Cfrac%20%7B%5Cpartial%20lnL(%5Cmu%2C%5Csigma%5E2)%7D%20%7B%5Cpartial%20%5Csigma%5E2%7D%3D%20-%5Cfrac%20%7Bn%7D%20%7B2%5Csigma%5E2%7D%20%2B%20%5Cfrac%20%7B1%7D%20%7B2%5Csigma%5E4%7D%5Csum_%7Bi%3D0%7D%5En(x_i-%5Cmu)%5E2%20%3D0%20%5Cend%7Bcases%7D" alt="\begin{cases} \frac {\partial lnL(\mu,\sigma^2)} {\partial \mu}= \frac {1} {\sigma^2} \sum_{i=0}^n(x_i-\mu) =0\\\\ \frac {\partial lnL(\mu,\sigma^2)} {\partial \sigma^2}= -\frac {n} {2\sigma^2} + \frac {1} {2\sigma^4}\sum_{i=0}^n(x_i-\mu)^2 =0 \end{cases}"></p>
+<p>解得：<br><img class="math-block" src="https://math.jianshu.com/math?formula=%5Cbegin%7Bcases%7D%20%5Chat%7B%5Cmu%7D%3D%20%5Cfrac%20%7B1%7D%20%7Bn%7D%20%5Csum_%7Bi%3D0%7D%5Enx_i%3D%5Cbar%7Bx%7D%5C%5C%5C%5C%20%5Chat%7B%5Csigma%5E2%7D%20%3D%20%5Cfrac%20%7B1%7D%20%7Bn%7D%20%5Csum_%7Bi%3D0%7D%5En(x_i-%5Cbar%7Bx%7D)%5E2%20%5Cend%7Bcases%7D" alt="\begin{cases} \hat{\mu}= \frac {1} {n} \sum_{i=0}^nx_i=\bar{x}\\\\ \hat{\sigma^2} = \frac {1} {n} \sum_{i=0}^n(x_i-\bar{x})^2 \end{cases}"></p>
+<p><img class="math-inline" src="https://math.jianshu.com/math?formula=%5Chat%7B%5Cmu%7D%EF%BC%8C%5Chat%7B%5Csigma%5E2%7D" alt="\hat{\mu}，\hat{\sigma^2}">就是正态分布中<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Cmu%EF%BC%8C%5Csigma%5E2" alt="\mu，\sigma^2">的最大似然估计。</p>
+<p>最大似然估计的求解步骤：</p>
+<ul>
+<li>确定似然函数</li>
+<li>将似然函数转换为对数似然函数</li>
+<li>求对数似然函数的最大值（求导，解似然方程）</li>
+
+
+</ul>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<h2>5. 最大后验概率估计(MAP)<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>最大后验概率估计，英文为Maximum A Posteriori Estimation，简写为MAP。回到抛硬币的问题，最大似然估计认为使似然函数<img class="math-inline" src="https://math.jianshu.com/math?formula=P(X%7C%5Ctheta)" alt="P(X|\theta)">最大的参数<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">即为最好的<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">，此时最大似然估计是将<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">看作固定的值，只是其值未知；最大后验概率分布认为<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">是一个随机变量，即<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">具有某种概率分布，称为先验分布，求解时除了要考虑似然函数<img class="math-inline" src="https://math.jianshu.com/math?formula=P(X%7C%5Ctheta)" alt="P(X|\theta)">之外，还要考虑<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的先验分布<img class="math-inline" src="https://math.jianshu.com/math?formula=P(%5Ctheta)" alt="P(\theta)">，因此其认为使<img class="math-inline" src="https://math.jianshu.com/math?formula=P(X%7C%5Ctheta)P(%5Ctheta)" alt="P(X|\theta)P(\theta)">取最大值的<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">就是最好的<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">。此时要最大化的函数变为<img class="math-inline" src="https://math.jianshu.com/math?formula=P(X%7C%5Ctheta)P(%5Ctheta)" alt="P(X|\theta)P(\theta)">，由于<img class="math-inline" src="https://math.jianshu.com/math?formula=X" alt="X">的先验分布<img class="math-inline" src="https://math.jianshu.com/math?formula=P(X)" alt="P(X)">是固定的（可通过分析数据获得，其实我们也不关心<img class="math-inline" src="https://math.jianshu.com/math?formula=X" alt="X">的分布，我们关心的是<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">），因此最大化函数可变为<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Cfrac%20%7BP(X%7C%5Ctheta)P(%5Ctheta)%7D%20%7BP(X)%7D" alt="\frac {P(X|\theta)P(\theta)} {P(X)}">，根据贝叶斯法则，要最大化的函数<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Cfrac%20%7BP(X%7C%5Ctheta)P(%5Ctheta)%7D%20%7BP(X)%7D%3DP(%5Ctheta%7CX)" alt="\frac {P(X|\theta)P(\theta)} {P(X)}=P(\theta|X)">，因此要最大化的函数是<img class="math-inline" src="https://math.jianshu.com/math?formula=P(%5Ctheta%7CX)" alt="P(\theta|X)">，而<img class="math-inline" src="https://math.jianshu.com/math?formula=P(%5Ctheta%7CX)" alt="P(\theta|X)">是<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的后验概率。最大后验概率估计可以看作是正则化的最大似然估计，当然机器学习或深度学习中的正则项通常是加法，而在最大后验概率估计中采用的是乘法，<img class="math-inline" src="https://math.jianshu.com/math?formula=P(%5Ctheta)" alt="P(\theta)">是正则项。在最大似然估计中，由于认为<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">是固定的，因此<img class="math-inline" src="https://math.jianshu.com/math?formula=P(%5Ctheta)%3D1" alt="P(\theta)=1">。</p>
+<p>最大后验概率估计的公式表示：<img class="math-block" src="https://math.jianshu.com/math?formula=%5Cmathop%7Bargmax%7D_%7B%5Ctheta%7DP(%5Ctheta%7CX)%3D%5Cmathop%7Bargmax%7D_%7B%5Ctheta%7D%5Cfrac%20%7BP(X%7C%5Ctheta)P(%5Ctheta)%7D%20%7BP(X)%7D%5Cpropto%20%5Cmathop%7Bargmax%7D_%7B%5Ctheta%7DP(X%7C%5Ctheta)P(%5Ctheta)" alt="\mathop{argmax}_{\theta}P(\theta|X)=\mathop{argmax}_{\theta}\frac {P(X|\theta)P(\theta)} {P(X)}\propto \mathop{argmax}_{\theta}P(X|\theta)P(\theta)"></p>
+<p>在抛硬币的例子中，通常认为<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta%3D0.5" alt="\theta=0.5">的可能性最大，因此我们用均值为<img class="math-inline" src="https://math.jianshu.com/math?formula=0.5" alt="0.5">，方差为<img class="math-inline" src="https://math.jianshu.com/math?formula=0.1" alt="0.1">的高斯分布来描述<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的先验分布，当然也可以使用其它的分布来描述<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的先验分布。<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的先验分布为：<img class="math-block" src="https://math.jianshu.com/math?formula=%5Cfrac%20%7B1%7D%20%7B%5Csqrt%7B2%5Cpi%7D%5Csigma%7De%5E%7B-%5Cfrac%20%7B(%5Ctheta-%5Cmu)%5E2%7D%20%7B2%5Csigma%5E2%7D%7D%20%3D%20%5Cfrac%20%7B1%7D%20%7B10%5Csqrt%7B2%5Cpi%7D%7De%5E%7B-50(%5Ctheta-0.5)%5E2%7D" alt="\frac {1} {\sqrt{2\pi}\sigma}e^{-\frac {(\theta-\mu)^2} {2\sigma^2}} = \frac {1} {10\sqrt{2\pi}}e^{-50(\theta-0.5)^2}">先验分布的函数图如下：</p>
+<div class="image-package">
+<div class="image-container">
+<div class="image-container-fill">&nbsp;</div>
+<div class="image-view" data-width="650" data-height="400"><img src="//upload-images.jianshu.io/upload_images/3232548-258e98a5b817b74d.png" alt="" data-original-src="//upload-images.jianshu.io/upload_images/3232548-258e98a5b817b74d.png" data-original-width="650" data-original-height="400" data-original-format="image/png" data-original-filesize="19118"></div>
+
+
+</div>
+<div class="image-caption">Gaussian</div>
+
+
+</div>
+<p>在最大似然估计中，已知似然函数为<img class="math-inline" src="https://math.jianshu.com/math?formula=P(X%7C%5Ctheta)%3D%5Ctheta%5E6(1-%5Ctheta)%5E4" alt="P(X|\theta)=\theta^6(1-\theta)^4">，因此：<img class="math-block" src="https://math.jianshu.com/math?formula=P(X%7C%5Ctheta)P(%5Ctheta)%3D%5Ctheta%5E6%5Ctimes%20(1-%5Ctheta)%5E4%5Ctimes%20%5Cfrac%20%7B1%7D%20%7B10%5Csqrt%7B2%5Cpi%7D%7D%5Ctimes%20e%5E%7B-50(%5Ctheta-0.5)%5E2%7D" alt="P(X|\theta)P(\theta)=\theta^6\times (1-\theta)^4\times \frac {1} {10\sqrt{2\pi}}\times e^{-50(\theta-0.5)^2}">转换为对数函数：<img class="math-block" src="https://math.jianshu.com/math?formula=ln(P(X%7C%5Ctheta)P(%5Ctheta))%3Dln(%5Ctheta%5E6%5Ctimes%20(1-%5Ctheta)%5E4%20%5Ctimes%20%5Cfrac%20%7B1%7D%20%7B10%5Csqrt%7B2%5Cpi%7D%7D%5Ctimes%20e%5E%7B-50(%5Ctheta-0.5)%5E2%7D)%3D6ln(%5Ctheta)%2B4ln(1-%5Ctheta)%2Bln(%5Cfrac%20%7B1%7D%20%7B10%5Csqrt%7B2%5Cpi%7D%7D)-50(%5Ctheta-0.5)%5E2" alt="ln(P(X|\theta)P(\theta))=ln(\theta^6\times (1-\theta)^4 \times \frac {1} {10\sqrt{2\pi}}\times e^{-50(\theta-0.5)^2})=6ln(\theta)+4ln(1-\theta)+ln(\frac {1} {10\sqrt{2\pi}})-50(\theta-0.5)^2"></p>
+<p>令<img class="math-inline" src="https://math.jianshu.com/math?formula=ln(P(X%7C%5Ctheta)P(%5Ctheta))%5Cprime%3D0" alt="ln(P(X|\theta)P(\theta))\prime=0">，可得：<img class="math-block" src="https://math.jianshu.com/math?formula=100%5Ctheta%5E3-150%5Ctheta%5E2%2B40%5Ctheta%2B6%3D0" alt="100\theta^3-150\theta^2+40\theta+6=0">由于<img class="math-inline" src="https://math.jianshu.com/math?formula=0%5Cle%5Ctheta%5Cle1" alt="0\le\theta\le1">，解得：<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Chat%7B%5Ctheta%7D%5Capprox0.529" alt="\hat{\theta}\approx0.529">。<img class="math-inline" src="https://math.jianshu.com/math?formula=P(X%7C%5Ctheta)P(%5Ctheta)" alt="P(X|\theta)P(\theta)">的函数图像如下，基本符合<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的估计值<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Chat%7B%5Ctheta%7D" alt="\hat{\theta}">：</p>
+<div class="image-package">
+<div class="image-container">
+<div class="image-container-fill">&nbsp;</div>
+<div class="image-view" data-width="650" data-height="400"><img src="//upload-images.jianshu.io/upload_images/3232548-3ab13f8b079cc3cf.png" alt="" data-original-src="//upload-images.jianshu.io/upload_images/3232548-3ab13f8b079cc3cf.png" data-original-width="650" data-original-height="400" data-original-format="image/png" data-original-filesize="23058"></div>
+
+
+</div>
+<div class="image-caption">MAP</div>
+
+
+</div>
+<p>如果我们用均值为<img class="math-inline" src="https://math.jianshu.com/math?formula=0.6" alt="0.6">，方差为<img class="math-inline" src="https://math.jianshu.com/math?formula=0.1" alt="0.1">的高斯分布来描述<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的先验分布，则<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Chat%7B%5Ctheta%7D%3D0.6" alt="\hat{\theta}=0.6">。由此可见，在最大后验概率估计中，<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的估计值与<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的先验分布有很大的关系。这也说明一个合理的先验概率假设是非常重要的。如果先验分布假设错误，则会导致估计的参数值偏离实际的参数值。</p>
+<p>先验分布为Beta分布</p>
+<p>如果用<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Calpha%3D3%2C%5Cbeta%3D3" alt="\alpha=3,\beta=3">的Beta分布来描述<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的先验分布，则<img class="math-block" src="https://math.jianshu.com/math?formula=P(X%7C%5Ctheta)P(%5Ctheta)%3D%5Ctheta%5E6%5Ctimes%20(1-%5Ctheta)%5E4%5Ctimes%20%5Cfrac%20%7B1%7D%20%7BB(%5Calpha%2C%5Cbeta)%7D%5Ctimes%20%5Ctheta%5E%7B%5Calpha-1%7D(1-%5Ctheta)%5E%7B%5Cbeta-1%7D" alt="P(X|\theta)P(\theta)=\theta^6\times (1-\theta)^4\times \frac {1} {B(\alpha,\beta)}\times \theta^{\alpha-1}(1-\theta)^{\beta-1}">令<img class="math-inline" src="https://math.jianshu.com/math?formula=P(X%7C%5Ctheta)P(%5Ctheta)%5Cprime%3D0" alt="P(X|\theta)P(\theta)\prime=0">求解可得：<img class="math-block" src="https://math.jianshu.com/math?formula=%5Chat%7B%5Ctheta%7D%3D%5Cfrac%20%7B%5Calpha%2B5%7D%20%7B%5Calpha%20%2B%20%5Cbeta%20%2B8%7D%3D%5Cfrac%20%7B8%7D%20%7B3%20%2B%203%20%2B8%7D%5Capprox%200.57" alt="\hat{\theta}=\frac {\alpha+5} {\alpha + \beta +8}=\frac {8} {3 + 3 +8}\approx 0.57"></p>
+<p><img class="math-inline" src="https://math.jianshu.com/math?formula=Beta(3%2C3)" alt="Beta(3,3)">的概率密度图像如下图：</p>
+<div class="image-package">
+<div class="image-container">
+<div class="image-container-fill">&nbsp;</div>
+<div class="image-view" data-width="1150" data-height="716"><img src="//upload-images.jianshu.io/upload_images/3232548-3956d07a43ac0e57.png" alt="" data-original-src="//upload-images.jianshu.io/upload_images/3232548-3956d07a43ac0e57.png" data-original-width="1150" data-original-height="716" data-original-format="image/png" data-original-filesize="68176"></div>
+
+
+</div>
+<div class="image-caption">Beta(3,3)</div>
+
+
+</div>
+<p>最大后验概率估计的求解步骤：</p>
+<ul>
+<li>确定参数的先验分布以及似然函数</li>
+<li>确定参数的后验分布函数</li>
+<li>将后验分布函数转换为对数函数</li>
+<li>求对数函数的最大值（求导，解方程）</li>
+
+
+</ul>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<h2>6. 贝叶斯估计<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>贝叶斯估计是最大后验估计的进一步扩展，贝叶斯估计同样假定<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">是一个随机变量，但贝叶斯估计并不是直接估计出<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的某个特定值，而是估计<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的分布，这是贝叶斯估计与最大后验概率估计不同的地方。在贝叶斯估计中，先验分布<img class="math-inline" src="https://math.jianshu.com/math?formula=P(X)" alt="P(X)">是不可忽略的。回到抛硬币的例子中，在已知<img class="math-inline" src="https://math.jianshu.com/math?formula=X" alt="X">的情况下，描述<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的分布即描述<img class="math-inline" src="https://math.jianshu.com/math?formula=P(%5Ctheta%7CX)" alt="P(\theta|X)">，<img class="math-inline" src="https://math.jianshu.com/math?formula=P(%5Ctheta%7CX)" alt="P(\theta|X)">是一种后验分布。如果后验分布的范围较窄，则估计值的准确度相对较高，反之，如果后验分布的范围较广，则估计值的准确度就较低。</p>
+<p>贝叶斯公式：<img class="math-block" src="https://math.jianshu.com/math?formula=P(%5Ctheta%7CX)%3D%5Cfrac%20%7BP(X%7C%5Ctheta)P(%5Ctheta)%7D%20%7BP(X)%7D" alt="P(\theta|X)=\frac {P(X|\theta)P(\theta)} {P(X)}"></p>
+<p>在连续型随机变量中，由于<img class="math-inline" src="https://math.jianshu.com/math?formula=P(X)%3D%5Cint_%7B%5CTheta%7DP(X%7C%5Ctheta)P(%5Ctheta)d%5Ctheta" alt="P(X)=\int_{\Theta}P(X|\theta)P(\theta)d\theta">，因此贝叶斯公式变为：<img class="math-block" src="https://math.jianshu.com/math?formula=P(%5Ctheta%7CX)%3D%5Cfrac%20%7BP(X%7C%5Ctheta)P(%5Ctheta)%7D%20%7B%5Cint_%7B%5CTheta%7DP(X%7C%5Ctheta)P(%5Ctheta)d%5Ctheta%7D" alt="P(\theta|X)=\frac {P(X|\theta)P(\theta)} {\int_{\Theta}P(X|\theta)P(\theta)d\theta}"></p>
+<p>从上面的公式中可以看出，贝叶斯估计的求解非常复杂，因此选择合适的先验分布就非常重要。一般来说，计算积分<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Cint_%7B%5Ctheta%7DP(X%7C%5Ctheta)P(%5Ctheta)d%5Ctheta" alt="\int_{\theta}P(X|\theta)P(\theta)d\theta">是不可能的。对于这个抛硬币的例子来说，如果使用共轭先验分布，就可以更好的解决这个问题。二项分布参数的共轭先验是Beta分布，由于<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的似然函数服从二项分布，因此在贝叶斯估计中，假设<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的先验分布服从<img class="math-inline" src="https://math.jianshu.com/math?formula=P(%5Ctheta)%5Csim%20Beta(%5Calpha%2C%20%5Cbeta)" alt="P(\theta)\sim Beta(\alpha, \beta)">，Beta分布的概率密度公式为：<img class="math-block" src="https://math.jianshu.com/math?formula=f(x%3B%5Calpha%2C%5Cbeta)%3D%5Cfrac%20%7B1%7D%20%7BB(%5Calpha%2C%5Cbeta)%7Dx%5E%7B%5Calpha-1%7D(1-x)%5E%7B%5Cbeta-1%7D" alt="f(x;\alpha,\beta)=\frac {1} {B(\alpha,\beta)}x^{\alpha-1}(1-x)^{\beta-1}">因此，贝叶斯公式可写作：<img class="math-block" src="https://math.jianshu.com/math?formula=%5Cbegin%7Baligned%7D%20P(%5Ctheta%7CX)%26%3D%5Cfrac%20%7BP(X%7C%5Ctheta)P(%5Ctheta)%7D%20%7B%5Cint_%7B%5CTheta%7DP(X%7C%5Ctheta)P(%5Ctheta)d%5Ctheta%7D%20%5C%5C%5C%5C%20%26%3D%5Cfrac%20%7B%5Ctheta%5E6(1-%5Ctheta)%5E4%20%5Cfrac%20%7B%5Ctheta%5E%7B%5Calpha-1%7D(1-%5Ctheta)%5E%7B%5Cbeta-1%7D%7D%20%7BB(%5Calpha%2C%5Cbeta)%7D%20%7D%20%7B%5Cint_%7B%5CTheta%7D%5Ctheta%5E6(1-%5Ctheta)%5E4%20%5Cfrac%20%7B%5Ctheta%5E%7B%5Calpha-1%7D(1-%5Ctheta)%5E%7B%5Cbeta-1%7D%7D%20%7BB(%5Calpha%2C%5Cbeta)%7Dd%5Ctheta%7D%20%5C%5C%5C%5C%26%3D%5Cfrac%20%7B%5Ctheta%5E%7B%5Calpha%2B6-1%7D(1-%5Ctheta)%5E%7B%5Cbeta%2B4-1%7D%7D%20%7B%5Cint_%7B%5CTheta%7D%5Ctheta%5E%7B%5Calpha%2B6-1%7D(1-%5Ctheta)%5E%7B%5Cbeta%2B4-1%7Dd%5Ctheta%7D%20%5C%5C%5C%5C%20%26%3D%5Cfrac%20%7B%5Ctheta%5E%7B%5Calpha%2B6-1%7D(1-%5Ctheta)%5E%7B%5Cbeta%2B4-1%7D%7D%20%7BB(%5Calpha%2B6-1%2C%5Cbeta%2B4-1)%7D%20%5C%5C%5C%5C%20%26%3DBeta(%5Ctheta%7C%5Calpha%2B6-1%2C%5Cbeta%2B4-1)%20%5C%5C%5C%5C%26%3DBeta(%5Ctheta%7C%5Calpha%2B6%2C%5Cbeta%2B4)%5Cend%7Baligned%7D" alt="\begin{aligned} P(\theta|X)&amp;=\frac {P(X|\theta)P(\theta)} {\int_{\Theta}P(X|\theta)P(\theta)d\theta} \\\\ &amp;=\frac {\theta^6(1-\theta)^4 \frac {\theta^{\alpha-1}(1-\theta)^{\beta-1}} {B(\alpha,\beta)} } {\int_{\Theta}\theta^6(1-\theta)^4 \frac {\theta^{\alpha-1}(1-\theta)^{\beta-1}} {B(\alpha,\beta)}d\theta} \\\\&amp;=\frac {\theta^{\alpha+6-1}(1-\theta)^{\beta+4-1}} {\int_{\Theta}\theta^{\alpha+6-1}(1-\theta)^{\beta+4-1}d\theta} \\\\ &amp;=\frac {\theta^{\alpha+6-1}(1-\theta)^{\beta+4-1}} {B(\alpha+6-1,\beta+4-1)} \\\\ &amp;=Beta(\theta|\alpha+6-1,\beta+4-1) \\\\&amp;=Beta(\theta|\alpha+6,\beta+4)\end{aligned}">从上面的公式可以看出，<img class="math-inline" src="https://math.jianshu.com/math?formula=P(%5Ctheta%7CX)%20%5Csim%20Beta(%5Ctheta%7C%5Calpha%2B6%2C%5Cbeta%2B4)" alt="P(\theta|X) \sim Beta(\theta|\alpha+6,\beta+4)">。其中<img class="math-inline" src="https://math.jianshu.com/math?formula=B" alt="B">函数，也称<img class="math-inline" src="https://math.jianshu.com/math?formula=Beta" alt="Beta">函数，是一个标准化常量，用来使整个概率的积分为1。<img class="math-inline" src="https://math.jianshu.com/math?formula=Beta(%5Ctheta%7C%5Calpha%2B6%2C%5Cbeta%2B4)" alt="Beta(\theta|\alpha+6,\beta+4)">就是贝叶斯估计的结果。</p>
+<p>如果使用贝叶斯估计得到的<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">分布存在一个有限均值，则可以用后验分布的期望作为<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的估计值。假设<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Calpha%3D3%2C%5Cbeta%3D3" alt="\alpha=3,\beta=3">，在这种情况下，先验分布会在<img class="math-inline" src="https://math.jianshu.com/math?formula=0.5" alt="0.5">处取得最大值，则<img class="math-inline" src="https://math.jianshu.com/math?formula=P(%5Ctheta%7CX)%20%5Csim%20Beta(%5Ctheta%7C9%2C7)" alt="P(\theta|X) \sim Beta(\theta|9,7)">，<img class="math-inline" src="https://math.jianshu.com/math?formula=Beta(%5Ctheta%7C9%2C7)" alt="Beta(\theta|9,7)">的曲线如下图：</p>
+<div class="image-package">
+<div class="image-container">
+<div class="image-container-fill">&nbsp;</div>
+<div class="image-view" data-width="1148" data-height="752"><img src="//upload-images.jianshu.io/upload_images/3232548-85c4b2ac27fbe731.png" alt="" data-original-src="//upload-images.jianshu.io/upload_images/3232548-85c4b2ac27fbe731.png" data-original-width="1148" data-original-height="752" data-original-format="image/png" data-original-filesize="67732"></div>
+
+
+</div>
+<div class="image-caption">Beta(9,7)</div>
+
+
+</div>
+<p>从上图可以看出，在<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Calpha%3D3%2C%5Cbeta%3D3" alt="\alpha=3,\beta=3">的情况下，<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的估计值<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Chat%7B%5Ctheta%7D" alt="\hat{\theta}">应该在<img class="math-inline" src="https://math.jianshu.com/math?formula=0.6" alt="0.6">附近。根据Beta分布的数学期望公式<img class="math-inline" src="https://math.jianshu.com/math?formula=E(%5Ctheta)%3D%5Cfrac%20%7B%5Calpha%7D%20%7B%5Calpha%2B%5Cbeta%7D" alt="E(\theta)=\frac {\alpha} {\alpha+\beta}">可得：<img class="math-block" src="https://math.jianshu.com/math?formula=%5Chat%7B%5Ctheta%7D%3D%5Cint_%7B%5CTheta%7D%20%5Ctheta%20P(%5Ctheta%7CX)d%5Ctheta%3DE(%5Ctheta)%3D%5Cfrac%20%7B%5Calpha%7D%20%7B%5Calpha%2B%5Cbeta%7D%3D%5Cfrac%20%7B9%7D%20%7B9%2B7%7D%3D0.5625" alt="\hat{\theta}=\int_{\Theta} \theta P(\theta|X)d\theta=E(\theta)=\frac {\alpha} {\alpha+\beta}=\frac {9} {9+7}=0.5625"></p>
+<p>注：二项分布参数的共轭先验是Beta分布，多项式分布参数的共轭先验是Dirichlet分布，指数分布参数的共轭先验是Gamma分布，⾼斯分布均值的共轭先验是另⼀个⾼斯分布，泊松分布的共轭先验是Gamma分布。</p>
+<p>贝叶斯估计要解决的不是如何估计参数，而是用来估计新测量数据出现的概率，对于新出现的数据<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctilde%7Bx%7D" alt="\tilde{x}">：</p>
+<p><img class="math-block" src="https://math.jianshu.com/math?formula=P(%5Ctilde%7Bx%7D%7CX)%3D%5Cint_%7B%5CTheta%7DP(%5Ctilde%7Bx%7D%7C%5Ctheta)P(%5Ctheta%7CX)d%5Ctheta%3D%5Cint_%7B%5CTheta%7DP(%5Ctilde%7Bx%7D%7C%5Ctheta)%5Cfrac%20%7BP(X%7C%5Ctheta)P(%5Ctheta)%7D%20%7BP(X)%7Dd%5Ctheta" alt="P(\tilde{x}|X)=\int_{\Theta}P(\tilde{x}|\theta)P(\theta|X)d\theta=\int_{\Theta}P(\tilde{x}|\theta)\frac {P(X|\theta)P(\theta)} {P(X)}d\theta"></p>
+<p>贝叶斯估计的求解步骤：</p>
+<ul>
+<li>确定参数的似然函数</li>
+<li>确定参数的先验分布，应是后验分布的共轭先验</li>
+<li>确定参数的后验分布函数</li>
+<li>根据贝叶斯公式求解参数的后验分布</li>
+
+
+</ul>
+<h2>7. 总结<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>从最大似然估计、最大后验概率估计到贝叶斯估计，从下表可以看出<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的估计值<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Chat%7B%5Ctheta%7D" alt="\hat{\theta}">是逐渐接近<img class="math-inline" src="https://math.jianshu.com/math?formula=0.5" alt="0.5">的。从公式的变化可以看出，使用的信息是逐渐增多的。最大似然估计、最大后验概率估计中都是假设<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">未知，但是确定的值，都将使函数取得最大值的<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">作为估计值，区别在于最大化的函数不同，最大后验概率估计使用了<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">的先验概率。而在贝叶斯估计中，假设参数<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">是未知的随机变量，不是确定值，求解的是参数<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Ctheta" alt="\theta">在样本<img class="math-inline" src="https://math.jianshu.com/math?formula=X" alt="X">上的后验分布。</p>
+<p>注：最大后验概率估计和贝叶斯估计都采用Beta分布作为先验分布。</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr><th>Type</th><th>MLE</th><th>MAP</th><th>BE</th></tr>
+
+
+</thead>
+<tbody>
+<tr>
+<td><img class="math-inline" src="https://math.jianshu.com/math?formula=%5Chat%7B%5Ctheta%7D" alt="\hat{\theta}"></td>
+<td>0.6</td>
+<td>0.57</td>
+<td>0.5625</td>
+
+
+</tr>
+<tr>
+<td><img class="math-inline" src="https://math.jianshu.com/math?formula=f" alt="f"></td>
+<td><img class="math-inline" src="https://math.jianshu.com/math?formula=P(X%20%7C%20%5Ctheta)" alt="P(X | \theta)"></td>
+<td><img class="math-inline" src="https://math.jianshu.com/math?formula=P(X%7C%5Ctheta)P(%5Ctheta)" alt="P(X|\theta)P(\theta)"></td>
+<td><img class="math-inline" src="https://math.jianshu.com/math?formula=%5Cfrac%20%7BP(X%7C%5Ctheta)P(%5Ctheta)%7D%20%7BP(X)%7D" alt="\frac {P(X|\theta)P(\theta)} {P(X)}"><br><br></td>
+
+
+</tr>
+
+
+</tbody>
+
+
+</table></div>
+
+
+</div>
+
+
+</div>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block" role="contentinfo"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/simon6666/category/1541783.html" target="_blank">数学</a></div>
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(11009510,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('5c3ff17b-9072-499f-976e-08d6ee6d0083');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="https://common.cnblogs.com/images/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="https://common.cnblogs.com/images/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/simon6666/" target="_blank"><img src="https://pic.cnblogs.com/face/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/simon6666/">机器学习攀登者</a><br>
+            <a href="https://home.cnblogs.com/u/simon6666/followers/">粉丝 - <span class="follower-count">1</span></a>
+            <a href="https://home.cnblogs.com/u/simon6666/followees/">关注 - <span class="following-count">0</span></a><br>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow" class="follow-tip">
+                <a href="javascript:void(0);" onclick="follow('5c3ff17b-9072-499f-976e-08d6ee6d0083');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(11009510,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(11009510,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <br>
+    <a href="https://www.cnblogs.com/simon6666/p/11010099.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/simon6666/p/11010099.html" data-featured-image="" title="发布于 2019-06-12 15:46">生成模型和判别模型</a>
+
+</div>
+</div>
+		</div>
+		<div class="postDesc">posted @ 
+<span id="post-date">2019-06-12 14:34</span>&nbsp;
+<a href="https://www.cnblogs.com/simon6666/">机器学习攀登者</a>&nbsp;
+阅读(<span id="post_view_count">1770</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11009510" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(11009510);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '11009510', targetLink: 'https://www.cnblogs.com/simon6666/p/11009510.html', title: '贝叶斯估计、最大似然估计、最大后验概率估计' })">举报</a></div>
+	</div>
+	
+	
+</div><!--end: topics 文章、评论容器-->
+
+<script>
+    var cb_entryId = 11009510, cb_entryCreatedDate = '2019-06-12 14:34', cb_postType = 1, cb_postTitle = '贝叶斯估计、最大似然估计、最大后验概率估计';
+    var allowComments = true, cb_blogId = 520912, cb_blogApp = 'simon6666', cb_blogUserGuid = '5c3ff17b-9072-499f-976e-08d6ee6d0083';
+    mermaidRender.render()
+    markdown_highlight()
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+    updatePostStats(
+            [cb_entryId],
+            function(id, count) { $("#post_view_count").text(count) },
+            function(id, count) { $("#post_comment_count").text(count) })
+</script>
+<a id="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login('!comments');">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+        <div id="cnblogs_ch"><a href="https://click.aliyun.com/m/1000365553/" target="_blank" onclick="gtag('event', 'click', {'event_category': 'ad', 'event_label': 'T2-阿里云-新人特惠'})">【推荐】阿里云新人特惠，爆款云服务器2核4G低至0.46元/天</a><br></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+            <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CMvN_-PwtfwCFcYDXAodE34Cow"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none; display: inline-block; width: 300px; height: 250px;"><iframe frameborder="0" src="https://6bfd4bd135325d519c2de1e5f5ffc9b3.safeframe.googlesyndication.com/safeframe/1-0-40/html/container.html" id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="" scrolling="no" marginwidth="0" marginheight="0" width="300" height="250" data-is-safeframe="true" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" role="region" aria-label="Advertisement" tabindex="0" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card">
+<b>编辑推荐：</b>
+<br>
+
+· <a href="https://www.cnblogs.com/Mamba8-24/p/17031228.html" target="_blank">.Net 6 使用 Consul 实现服务注册与发现</a>
+    <br>
+· <a href="https://www.cnblogs.com/huangxincheng/p/17029792.html" target="_blank">SQLSERVER 的复合索引和包含索引到底有啥区别？</a>
+    <br>
+· <a href="https://www.cnblogs.com/tcjiaan/p/17024363.html" target="_blank">[ASP.NET Core] 按用户等级授权</a>
+    <br>
+· <a href="https://www.cnblogs.com/binlovetech/p/17019710.html" target="_blank">深入理解 Linux 物理内存分配全链路实现</a>
+    <br>
+· <a href="https://www.cnblogs.com/coco1s/p/17021406.html" target="_blank">巧用视觉障眼法，还原 3D 文字特效</a>
+    <br>
+</div></div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>阅读排行：</b>
+    <br>
+ ·          <a href="https://www.cnblogs.com/newbe36524/p/17018770.html" target="_blank">在 C# 9 中使用 foreach 扩展</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/alvinscript/p/17030224.html" target="_blank">【架构设计】如何让你的应用做到高内聚、低耦合？</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/huangxincheng/p/17029792.html" target="_blank">SQLSERVER 的复合索引和包含索引到底有啥区别？</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/cswiki/p/17029477.html" target="_blank">如何用 30s 给面试官讲清楚什么是 Session-Cookie 认证</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/Mamba8-24/p/17031228.html" target="_blank">.Net 6 使用 Consul 实现服务注册与发现 看这篇就够了</a>
+        <br>
+</div></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+        var commentManager = new blogCommentManager();
+        commentManager.renderComments(0);
+        fixPostBody();
+        window.footnoteTipManager.generateFootnoteTips();
+
+            window.tocManager.displayDisableTocTips = false;
+            window.tocManager.generateToc();
+            
+                setTimeout(function() { countViews(cb_blogId, cb_entryId); }, 50);
+            
+            deliverT2();
+            deliverC1C2();
+            loadNewsAndKb();
+            
+                LoadPostCategoriesTags(cb_blogId, cb_entryId);
+            
+            LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+            GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+            loadOptUnderPost();
+            GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+                </script>
+</div>
+
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/simon6666/">
+            机器学习攀登者
+        </a>
+        <br>
+        园龄：
+        <a href="https://home.cnblogs.com/u/simon6666/" title="入园时间：2019-06-12">
+            3年6个月
+        </a>
+        <br>
+        粉丝：
+        <a class="follower-count" href="https://home.cnblogs.com/u/simon6666/followers/">
+            1
+        </a>
+        <br>
+        关注：
+        <a class="folowing-count" href="https://home.cnblogs.com/u/simon6666/followees/">
+            0
+        </a>
+        <div id="p_b_follow" class="follow-tip">
+<a href="javascript:void(0)" onclick="follow('5c3ff17b-9072-499f-976e-08d6ee6d0083')">+加关注</a></div>
+        <script>getFollowStatus('5c3ff17b-9072-499f-976e-08d6ee6d0083');</script>
+    </div>
+</div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+			<div id="calendar"><div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2022/12/08'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2023年1月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2023/02/08'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                        <td class="CalWeekendDay" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                        <td class="" align="center">
+                            4
+                        </td>
+                        <td class="" align="center">
+                            5
+                        </td>
+                        <td class="" align="center">
+                            6
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        7
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalTodayDay" align="center">
+                            8
+                        </td>
+                            <td class="" align="center">
+                                9
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            14
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            15
+                        </td>
+                            <td class="" align="center">
+                                16
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            21
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            22
+                        </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            28
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            29
+                        </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="" align="center">
+                                31
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            4
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            5
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                8
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                9
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                10
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            11
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk">
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block"><div class="catListLink">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    <li><a href="https://www.cnblogs.com/simon6666/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/simon6666/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/simon6666/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/simon6666/comments" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/simon6666/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+    <li><a id="itemListLink" onclick="this.blur();WarpClass('itemListLink', 'itemListLin_con');return false;" href="#">更多链接</a></li>
+</ul>
+</div>
+
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"></div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div class="catListPostCategory">
+        <h3 class="catListTitle">
+            
+    <a class="sidebar-card-title-a" href="https://www.cnblogs.com/simon6666/categories">随笔分类</a>
+
+
+
+        </h3>
+
+        <ul>
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/simon6666/category/1541783.html" class="category-item-link" rel="" target="">数学(7)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/simon6666/category/1541791.html" class="category-item-link" rel="" target="">自然语言处理(1)</a>
+ 
+                </li>                
+            
+        </ul>
+    </div>    
+    <div class="catListPostArchive">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+        </h3>
+
+        <ul>
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/simon6666/archive/2019/09.html" class="category-item-link" rel="" target="">2019年9月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/simon6666/archive/2019/07.html" class="category-item-link" rel="" target="">2019年7月(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/simon6666/archive/2019/06.html" class="category-item-link" rel="" target="">2019年6月(5)</a>
+ 
+                </li>                
+            
+        </ul>
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block"><div class="catListView">
+    <h3 class="catListTitle">
+        <a href="https://www.cnblogs.com/simon6666/most-viewed" class="sidebar-card-title-a">
+    阅读排行榜
+</a>
+
+    </h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/simon6666/p/11009510.html">
+                            1. 贝叶斯估计、最大似然估计、最大后验概率估计(1770)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/simon6666/p/11014718.html">
+                            2. 导数、偏导数、方向导数、梯度、梯度下降(960)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/simon6666/p/11011143.html">
+                            3. 最小二乘法(908)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/simon6666/p/11023921.html">
+                            4. 全概率公式和贝叶斯公式(859)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/simon6666/p/11112367.html">
+                            5. 一文理解拉格朗日对偶和KKT条件(676)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"></div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block"></div><div id="sidebar_recentcomments" class="sidebar-block"></div>
+
+
+</div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2023 机器学习攀登者
+<br><span id="poweredby">Powered by .NET 7.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+
+
+<input type="hidden" id="antiforgery_token" value="CfDJ8GXQNXLgcs5PrnWvMs4xAGMmIxrxtXEmsAt4NiVEIoLts0L8oAE_Ox0lIZwWf19aWu-_AK93f1GBX95NQI6Htyr2urAcx9hXQXJAmCpsPJUnScBmvG6SuogS4YcTM9WIHgIja2oYLyFYrpLgNWsRXyc">
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-476124-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var kv = getGACustom();
+    if (kv) {
+        gtag('set', kv);
+    }
+    gtag('config', 'UA-476124-1');
+</script>
+<script defer="" src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script><iframe src="https://6bfd4bd135325d519c2de1e5f5ffc9b3.safeframe.googlesyndication.com/safeframe/1-0-40/html/container.html" style="visibility: hidden; display: none;"></iframe>
+
+<iframe src="https://www.google.com/recaptcha/api2/aframe" width="0" height="0" style="display: none;"></iframe></body></html>
