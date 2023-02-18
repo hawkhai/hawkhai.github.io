@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html xmlns="http://www.w3.org/1999/xhtml"><head>
+  <meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type" />
+  <title>imagemosaic</title>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8" />
+  <meta name="GENERATOR" content="OpenOffice.org 3.0  (Unix)" />
+  <style type="text/css">
+	&lt;!--
+		@page { margin: 0.79in }
+		P { margin-bottom: 0.08in }
+	--&gt;
+	</style>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8" />
+  <meta name="GENERATOR" content="OpenOffice.org 3.0  (Unix)" />
+  <style type="text/css">
+	&lt;!--
+		@page { margin: 0.79in }
+		P { margin-bottom: 0.08in }
+	--&gt;
+	</style>
+</head>
+<body>
+<h1 style="text-decoration: underline; text-align: center;">Panoramic
+Image Mosaic</h1>
+<div style="text-align: center;">Chaman Singh Verma  and Mon-Ju<br />
+<br />
+</div>
+<hr style="width: 100%; height: 2px;" />
+<div style="text-align: center;"><img style="width: 898px; height: 120px;" alt="panimage" src="smallpan.jpg" /><br />
+<hr style="width: 100%; height: 2px;" /><span style="font-weight: bold;"></span>
+<h3 style="text-align: left;"><span style="font-weight: bold;"></span>Contents:</h3>
+<div style="text-align: left;">
+<ol>
+  <li>Introduction</li>
+  <li>Theory and Implementation Details</li>
+  <ol>
+    <li>Cylindrical Image Warping</li>
+    <li>SIFT Feature Detections</li>
+    <li>Ransac Translation.<br />
+    </li>
+  </ol>
+  <li>Post Processing:</li>
+  <ol>
+    <li>Image Blending</li>
+    <ol>
+      <li>Feathering Algorithm.</li>
+      <li>Image Pyramid Algorithm.</li>
+    </ol>
+    <li>Drift Correction.</li>
+  </ol>
+  <li>Performance and Results</li>
+  <li>Software usage.<br />
+  </li>
+  <li>References.</li>
+</ol>
+<h3>Introduction</h3>
+<div style="text-align: justify;">Generating full view panoramic images
+is important for both commercial
+and artistic value. Since the inception of photography many specific
+devices have been invented to create panoramic images but with the
+availability of inexpensive digital camera, the desire to create full
+panoramic images is overwhelming and importance of automatic image
+stitching is quite high. <br />
+<br />
+In this project, we create panoramic images using Cylindrical Warping.
+Cylindrical warping is easiest to implement, but it has stringent
+requirement that all the images must be taken with level camera or with
+the known tilted angle. With this method, full homography calculations
+are not needed only the translation along the angular direction is
+required to create the panoramic images. <br />
+</div>
+<br />
+<div style="text-align: center;"><img style="width: 776px; height: 235px;" alt="flowchart" src="flowchart.jpg" /><br />
+</div>
+<br />
+<br />
+Forward Warping:<br />
+<br />
+From image coordinates (x,y), the projected coordinates on the cylinder
+(x', y') are given by :<br />
+<div style="text-align: center;"><img style="width: 256px; height: 124px;" alt="eq1" src="eq1.jpg" /><br />
+<br />
+<div style="text-align: left;">Inverse Warping:<br />
+<br />
+</div>
+<div style="text-align: left;">inverse mapping from cylindrical
+coordinates (x',y') to the image (x,y) is : <br />
+</div>
+</div>
+<br />
+<div style="text-align: center;">
+<div style="text-align: center;"><img style="width: 371px; height: 147px;" alt="eq2" src="eq2.jpg" /><br />
+<br />
+<div style="text-align: justify;"></div>
+<div style="text-align: left;">
+<div style="text-align: justify;">In forward warping the source image
+is
+mapped onto cylindrical surface, but it can create holes in the
+destination
+image ( because some pixels may never get mapped there). therefore we
+use inverse mapping where each pixel in the destination image is mapped
+to the source image. Since either of the mapping is unlikely to be
+exact on the
+pixel values, bilinear interpolation is used to calculate the colors at
+the destination pixels.<br />
+</div>
+<br />
+<h3>Radial Distortion:</h3>
+<div style="text-align: justify;">Because of the thick lens that are
+often used in the camera, it is
+necessary to correct the radial distortions in the image.  One of
+the simplified distortion model that is commonly used is<br />
+<br />
+                                                          
+Xd = Xu( 1 + k1*r^2 + k2*r^4)<br />
+                                                          
+Yd = Yu( 1 + k1*r^2 + k2*r^4 )<br />
+<br />
+Where (Xd,Yd) are the distorted image position and (Xu,Yu) are the
+undistorted correct position. The values (k1,k2) that depends on the
+camera can be calibrated using some standard techniques.<br />
+<br />
+Both inverse mapping and radial distortion correction requires
+interpolation to calculate the color values at the destination pixel.o
+Interpolation is not only expensive, they also smooth the features,
+therefore, this step must be minimized to get high quality final
+images. In this application there are two places where interpolated
+values are required (1) Cylindrical to image in inverse warping (2)
+From undistorted image values to distorted images values. We can
+combine these two steps and calculate cylindrical image values directly
+from the distorted images and therefore, avoid the intermediate
+interpolation values.<br />
+</div>
+<br />
+<br />
+</div>
+</div>
+<table style="text-align: left; width: 810px; height: 529px; margin-left: auto; margin-right: auto;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; text-align: center;"><img style="width: 384px; height: 512px;" alt="unwarp" src="unwarp.jpg" /><br />
+      </td>
+      <td style="vertical-align: top;"><img style="width: 387px; height: 516px;" alt="warp" src="warp_0.jpg" /><br />
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br />
+<div style="text-align: left;">
+<h3>SIFT Feature detection</h3>
+We directly use SIFT algorithm to produce features in every image. Each
+SIFT descriptor is 128 char long. These features are matched with
+neighboring image to estimate the translation. Since there could be
+small number of outliers that has potential to misalign the final
+images, we use RANSAC algorithm to eliminate these outliers from the
+final estimation.<br />
+<br />
+</div>
+<img style="width: 360px; height: 480px;" alt="Sift" src="sift.jpg" /><br />
+<div style="text-align: left;">
+<h3>Ransac Translation</h3>
+<div style="text-align: justify;">Ransac algorithm is general purpose
+algorithm that can be used to
+calculate full homography in the presense of outliers. The use of
+cylindrical warping has the advantage that only the translation motion
+has to calculated on the warped image. Also for the translation
+estimation, only one feature is sufficient. Ransac estimation counts
+the inliners based on some tolerance value ( d &lt; eps) which depends
+on the noise present in the images. Since our image capturing was high
+quality, only two pixel tolerance was sufficient to get good
+estimation. ( We found that that in our images only 5-10% outliers).<br />
+</div>
+<br />
+<h3>Image Blending:</h3>
+<div style="text-align: justify;">When different images are stitched
+together, for various reasons
+(changed lighting conditions, vignette effects) the adjacent pixel
+intensities differ enough to produce artifacts as shown in the
+following pictures. To remove these artifacts, we experimented with two
+algorithms (1) Feathering (2) Image pyramids.<br />
+</div>
+<br />
+                               
+<br />
+                  
+<img style="width: 900px; height: 123px;" alt="nonblend" src="nonblend.jpg" /><br />
+<br />
+<h4>Feathering or center weighting  image blending:</h4>
+<div style="text-align: justify;">In this simplest approach, the the
+pixel values in the blended regions
+are weighted average from the two overlapping images. Sometimes this
+simple approach doesn't work( for example in the presence of exposure
+differences ). But in our case, all the images were taken at the same
+time and using high quality tripods, therefore, this simple algorithm
+produces excellant results.<br />
+    <br />
+</div>
+<div style="text-align: center;">
+<div style="text-align: center;">PB(i,j) = (1-w)*PA(i,j) + w*PB(i,j)<br />
+</div>
+<div style="text-align: center;"><br />
+</div>
+</div>
+<br />
+<div style="text-align: center;"><img style="width: 477px; height: 431px;" alt="fblend" src="fblend.jpg" /><br />
+</div>
+ <br />
+<br />
+<h3>Pyramid Blening:</h3>
+<p style="margin-bottom: 0in;">Laplacian pyramid is an algorithm using
+Gaussian to blend the image while keeping the significant feature in
+the mean time. It downsizes the image into different levels (sizes)
+with Gaussian. Later it expands the Gaussian in to the lower lever
+and subtracts from the image in that lever to acquire the Laplacian
+image.</p>
+<p style="margin-bottom: 0in;"><br />
+</p>
+<div style="text-align: center;"><img style="width: 410px; height: 389px;" alt="fig1" src="figure1.jpg" /><br />
+<br />
+<p style="margin-bottom: 0in; text-align: left;">After generating
+Laplacian pyramids for
+the overlap images A and B, we combine the two images in different
+Laplacian levels by combining partial images from each of them.</p>
+<p style="margin-bottom: 0in;"><br />
+</p>
+<img style="width: 376px; height: 348px;" alt="fig2" src="figure2.jpg" /><br />
+<br />
+<img style="width: 404px; height: 504px;" alt="fig3" src="figure3.jpg" /><br />
+<br />
+<div style="text-align: left;">Afterward, we expand the LS from the top
+level () to the next level (N-1) and add it to the original Laplacian
+image in the corresponding layer () to generate the latest Laplacian
+image in the corresponding layer (). We repeat this step until reaching
+ground level () and the final result will be the blending image<br />
+</div>
+<br />
+<table style="text-align: left; width: 616px; height: 674px; margin-left: auto; margin-right: auto;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><img style="width: 300px; height: 300px;" alt="apple" src="apple.jpg" /><br />
+      </td>
+      <td style="vertical-align: top;"><img style="width: 290px; height: 290px;" alt="Orange" src="orange.jpg" /><br />
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">      
+Apple (Image A)<br />
+      </td>
+      <td style="vertical-align: top; text-align: center;">Orange (
+Image B)<br />
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;"><img style="width: 303px; height: 303px;" alt="feaher" src="featherPic.jpg" /><br />
+      </td>
+      <td style="vertical-align: top; text-align: center;"><img style="width: 296px; height: 296px;" alt="lapblend" src="lpbPic.jpg" /><br />
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">Feathering
+Blend<br />
+      </td>
+      <td style="vertical-align: top; text-align: center;">Laplace
+Pyramid Blend<br />
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br />
+</div>
+<br />
+<h3>Drift Correction:</h3>
+Very often the first image and the last image in the view don't align
+properly. This misalignment can be adjusted by shear warping and other
+bundle adjustment algorithm. In our case, we didn't have to do any
+adjustment as the misaligment was only 1-2 pixels.<br />
+<br />
+</div>
+<div style="text-align: left;">
+<h3>Results:</h3>
+We used Canon SX100 and Kedan tripods provided by Dr. Li Zhang. Some
+specific information of the camera are as follows:<br />
+<br />
+resolution    :  480x640<br />
+focal length :  678.05421<br />
+K1               
+:  -0.22982<br />
+K2               
+:   0.22952<br />
+<br />
+Here is the panoramic image generated from our implemention: <a href="pano1.html">panorama1</a> and <a href="pano2.html">panorama2</a><br />
+<br />
+<img style="width: 3219px; height: 465px;" alt="Pano1" src="pano11.jpg" /><br />
+<br />
+<div style="text-align: center;"><img style="width: 3208px; height: 469px;" alt="Pano2" src="pano22.jpg" /><br />
+</div>
+<br />
+<br />
+<div style="text-align: center;"></div>
+</div>
+<div style="text-align: left;">
+<div style="text-align: left;">
+<h3>Software and Usage Guide:</h3>
+The entire source code is written in C++. The only dependencies to use
+this software are "SIFT" and ImageiMagick++ which must be downloaded
+separately.   Monju has developed Pyramid Blending code in
+Matlab<br />
+<br />
+<br />
+Click here to download the entire source code.<br />
+<br />
+Usage:<br />
+<br />
+Step 1:  Create one folder, set DataSet.<br />
+Step 2:  Inside the Dataset folder create some new directories;<br />
+            
+DataSet/RawImages :   All the raw images goes in this
+directories<br />
+            
+DataSet/WarpImages:   All cylindrical warped images are
+stored in this directory.<br />
+            
+DataSet/PNGImages :   All cylindrical images are converted in
+gray scale for feature detection.<br />
+            
+DataSet/Keys            
+:  All features keys from the Sift programs are stored in this
+directory.<br />
+       <br />
+Once all the directories are created execute the command<br />
+                                      
+executable &lt;root directory name&gt;<br />
+<br />
+It will generate a panormic image "panimage.jpg" which must be cropped
+using ImageMagick. <br />
+<br />
+<h3 style="margin: 0px 0px 8px;">Reference software </h3>
+<ul>
+  <li><a href="http://www.cs.ubc.ca/%7Elowe/keypoints/">SIFT: Scale
+Invariant Feature Transform</a></li>
+  <li><a href="http://www.cs.ubc.ca/%7Embrown/autostitch/autostitch.html">AutoStitch:
+Automatic image stitching</a></li>
+</ul>
+<h3 style="margin: 0px 0px 8px;">References </h3>
+<ol>
+  <li>R. Szeliski and H.-Y. Shum. <a href="http://www.csie.ntu.edu.tw/%7Ecyy/courses/vfx/papers/Szeliski1997CFV.pdf">
+Creating full view panoramic image mosaics and texture-mapped models</a>,
+SIGGRAPH 1997, pp251-258. </li>
+  <li>M. Brown, D. G. Lowe, <a href="http://www.csie.ntu.edu.tw/%7Ecyy/courses/vfx/papers/Brown2003RP.pdf">
+Recognising Panoramas</a>, ICCV 2003.</li>
+</ol>
+<br />
+<h3>Group Contribution</h3>
+We worked as a group but distributed the work as follows:<br />
+<br />
+Chaman Singh :  Develop the entire C++ code including warping,
+ransac, feathering (in C++) , results, performance analysis and <br />
+                           
+document writing. <br />
+MonJu             
+:   Image taking, Pyramid blending code in matlab, feathering
+code in matlab.<br />
+<br />
+<br />
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</body></html>

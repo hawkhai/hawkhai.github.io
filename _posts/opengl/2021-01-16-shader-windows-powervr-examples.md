@@ -25,7 +25,7 @@ codeprint:
 
 ## HelloAPI
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/01_helloapi_helloapi.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/01_helloapi_helloapi.png" %}
 
 绘制一个基本的三角形。
 
@@ -35,7 +35,7 @@ codeprint:
 
 ## IntroducingPVRShell
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/02_introducingpvrshell_introducingpvrshell.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/02_introducingpvrshell_introducingpvrshell.png" %}
 
 基本的 PVRShell 使用。
 
@@ -50,7 +50,7 @@ codeprint:
 
 ## IntroducingPVRUtils
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/03_introducingpvrutils_introducingpvrutils.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/03_introducingpvrutils_introducingpvrutils.png" %}
 
 用一个简单的顶点着色器和片段着色器 渲染一个 `.POD` 场景。基于 PVRUtils 库实现。
 PVRUtils UIRenderer 库可用来在屏幕上显示简单的字符串。
@@ -61,7 +61,7 @@ PVRUtils UIRenderer 库可用来在屏幕上显示简单的字符串。
 
 ## IntroducingUIRenderer
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/04_introducinguirenderer_introducinguirenderer.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/04_introducinguirenderer_introducinguirenderer.png" %}
 
 高级文字绘制。用 PVRUtils 函数库，UIRenderer。
 
@@ -76,7 +76,7 @@ PVRUtils UIRenderer 库可用来在屏幕上显示简单的字符串。
 
 ## IntroducingPVRCamera
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/05_introducingpvrcamera_introducingpvrcamera.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/05_introducingpvrcamera_introducingpvrcamera.png" %}
 
 用 PVRCamera 库从硬件摄像头获取数据，并进行相应的 shader 颜色反转。
 Android N 或以上，需要摄像头权限。
@@ -87,7 +87,7 @@ Android N 或以上，需要摄像头权限。
 
 ## BinaryShaders
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/binaryshaders_binaryshaders.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/binaryshaders_binaryshaders.png" %}
 
 演示怎么存储和加载二进制形式的 OpenGLES shaders。
 
@@ -102,7 +102,7 @@ Android N 或以上，需要摄像头权限。
 
 ## Bumpmap 凹凸映射
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/bumpmap_bumpmap.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/bumpmap_bumpmap.png" %}
 
 用 PowerVR Framework，实现法线贴图的凹凸贴图。
 
@@ -112,7 +112,7 @@ Android N 或以上，需要摄像头权限。
 
 ## DeferredShading
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/deferredshading_deferredshading.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/deferredshading_deferredshading.png" %}
 
 基于 Pixel Local Storage (PLS) 实现延迟渲染。
 
@@ -135,7 +135,7 @@ Android N 或以上，需要摄像头权限。
 
 ## GameOfLife
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/gameoflife_gameoflife.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/gameoflife_gameoflife.png" %}
 
 基于 GPGPU (GPU Compute) 实现 John Conway’s Game of Life。
 
@@ -152,7 +152,7 @@ Android N 或以上，需要摄像头权限。
 
 ## GaussianBlur
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/gaussianblur_gaussianblur.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/gaussianblur_gaussianblur.png" %}
 
 基于 compute shaders 实现 高斯模糊 算法。
 
@@ -167,7 +167,7 @@ Android N 或以上，需要摄像头权限。
 
 ## IMG_framebuffer_downsample 纹理下采样
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/imgframebufferdownsample_imgframebufferdownsample.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/imgframebufferdownsample_imgframebufferdownsample.png" %}
 
 扩展 `GL_IMG_framebuffer_downsample` 。实现自动纹理下采样。
 
@@ -185,7 +185,7 @@ PostProcessing，通常在普通的场景渲染结束后对结果进行处理，
 
 ## IMGTextureFilterCubic
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/imgtexturefiltercubic_imgtexturefiltercubic.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/imgtexturefiltercubic_imgtexturefiltercubic.png" %}
 
 扩展 `GL_IMG_texture_filter_cubic` 实现 cubic texture filtering。
 
@@ -200,7 +200,7 @@ PostProcessing，通常在普通的场景渲染结束后对结果进行处理，
 
 ## ImageBasedLighting 光照
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/imagebasedlighting_imagebasedlighting.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/imagebasedlighting_imagebasedlighting.png" %}
 
 基于 Image Based Lighting (IBL) 实现 Physically Based Rendering (PBR)。
 
@@ -229,7 +229,7 @@ PostProcessing，通常在普通的场景渲染结束后对结果进行处理，
 
 ## Multithreading
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/multithreading_multithreading.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/multithreading_multithreading.png" %}
 
 采用 PowerVR Framework，把一个数据流的资源异步传到应用程序中。
 
@@ -239,7 +239,7 @@ PostProcessing，通常在普通的场景渲染结束后对结果进行处理，
 
 ## MultiviewVR
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/multiviewvr_multiviewvr.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/multiviewvr_multiviewvr.png" %}
 
 渲染一个立体的 VR 硬件场景。基于扩展：`GL_OVR_multiview` 。
 
@@ -255,7 +255,7 @@ PostProcessing，通常在普通的场景渲染结束后对结果进行处理，
 
 ## Navigation2D
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/navigation2d_navigation2d.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/navigation2d_navigation2d.png" %}
 
 基于原始的 Open Street Map (OSM) 数据，实现 2D 导航地图。
 
@@ -271,7 +271,7 @@ PostProcessing，通常在普通的场景渲染结束后对结果进行处理，
 
 ## Navigation3D
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/navigation3d_navigation3d.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/navigation3d_navigation3d.png" %}
 
 基于 raw OSM data 实现 3D 地图导航。
 
@@ -286,7 +286,7 @@ PostProcessing，通常在普通的场景渲染结束后对结果进行处理，
 
 ## OpenCLExample
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/openclexample_openclexample.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/openclexample_openclexample.png" %}
 
 演示 小图片 卷积 OpenCL 核。
 
@@ -313,7 +313,7 @@ OpenCL / OpenGL 交互 (or if necessary, CPU fallback)，在 GPU 上，用 OpenC
 
 ## PVRScopeExample
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/pvrscopeexample_pvrscopeexample.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/pvrscopeexample_pvrscopeexample.png" %}
 
 PVRScope 使用演示，和 绘图代码。
 
@@ -334,7 +334,7 @@ PVRScope 使用演示，和 绘图代码。
 
 ## PVRScopeRemote
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/pvrscoperemote_pvrscoperemote.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/pvrscoperemote_pvrscoperemote.png" %}
 
 演示 PVRScope 的远程通信能力。
 
@@ -355,7 +355,7 @@ PVRTune 必须连接上一个目标设备 PVRPerfServer 实例。
 
 ## 粒子系统
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/particlesystem_particlesystem.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/particlesystem_particlesystem.png" %}
 
 基于 GPGPU 实现一个 粒子系统。
 
@@ -376,7 +376,7 @@ PVRTune 必须连接上一个目标设备 PVRPerfServer 实例。
 
 ## PostProcessing
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/postprocessing_postprocessing.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/postprocessing_postprocessing.png" %}
 
 heavily-optimised bloom post-processing 实现。
 
@@ -400,7 +400,7 @@ heavily-optimised bloom post-processing 实现。
 
 ## Skinning 蒙皮和骨骼
 
-{% include image.html url="/assets/images/210116-shader-windows-powervr-~83/skinning_skinning.png" %}
+{% include image.html url="/assets/images/210116-shader-windows-powervr-~f1/skinning_skinning.png" %}
 
 蒙皮的凹凸贴图角色，非蒙皮的凹凸贴图对象的组合。
 
@@ -424,7 +424,7 @@ PVRAssets 和 POD 文件支持使用完全变换矩阵进行蒙皮，或者使�
 
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-16-shader-windows-powervr-opengles-examples.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-01-16-shader-windows-powervr-examples.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://docs.imgtec.com/PBR_with_IBL_for_PVR/topics/pbr_ibl_introduction.html]({% include relrefx.html url="/backup/2021-01-16-shader-windows-powervr-opengles-examples.md/docs.imgtec.com/bca9d913.html" %})
+- [https://docs.imgtec.com/PBR_with_IBL_for_PVR/topics/pbr_ibl_introduction.html]({% include relrefx.html url="/backup/2021-01-16-shader-windows-powervr-examples.md/docs.imgtec.com/bca9d913.html" %})

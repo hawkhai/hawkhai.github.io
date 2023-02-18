@@ -1,0 +1,525 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta name="referrer" content="unsafe-url" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" /><link rel="alternate" media="only screen and(max-width:640px)" href="https://mp.m.ofweek.com/bigdata/a145693523076" /><meta name="baidu-site-verification" content="T239HZAbh7" /><link href="https://www.ofweek.com/images/ico_of.ico" rel="Shortcut Icon" /><link rel="stylesheet" href="/Public/Home/css/base.css?v=1" /><link rel="stylesheet" href="/Public/Home/css/common.css?v=1340" /><script src="https://hm.baidu.com/hm.js?23e03833424f58016cc5f37c9e30e006"></script><script src="https://hm.baidu.com/hm.js?23e03833424f58016cc5f37c9e30e006"></script><script src="/Public/Home/util/jquery.js"></script><script src="/Public/Home/base.js?v=202203210000854"></script><script src="/Public/Home/jiankong.js?v=3"></script><script src="/Public/Home/new_jiankong.js?v=71"></script><link rel="stylesheet" href="/Public/Home/css/detail.css?v=1657982260" /><link rel="stylesheet" type="text/css" href="/Public/Home/css/iconfont.css" /><link rel="stylesheet" href="/Public/Home/css/homeAdvertising.css?v=fds566756756fdsf" /><title>OpenCV系列之直方图-3：二维直方图 | 二十八—维科号</title><meta name="keywords" content="OpenCV系列之直方图-3：二维直方图 | 二十八" /><meta name="description" content="目标在本章中,我们将学习查找和绘制2D直方图。这将在以后的章节中有所帮助。介绍在第一篇文章中,我们计算并绘制了一维直方图。之所以称为一维,是因为我们仅考虑一个特征,即像素的灰度强度值。但是在二维直方图中,您要考虑两个特征。通常,它用于查找颜..." /><link rel="canonical" id="canonical" href="https://mp.ofweek.com/bigdata/a145693523076" /><script id="hiddenId" data-current-news-id="903751" src=""></script><script id="news_type" data-current-news-id="1" src=""></script><script src="/Public/Home/js/showfile.js?v=1.1" type="text/javascript"></script><style type="text/css">#_ad-0,#_ad-1,#_ad-2,#_ad-3,#_ad-4,#_ad-5,#_ad-6,#_ad-7,#_ad-8,#_ad-9,#_ad-10,#_ad-11,#_ad-12,#_ad-13,#_ad-14,#_ad-15,#_ad-16,#_ad-17,#_ad-18,#_ad-19,#_ad-20,#_ad-21,#_ad-22 {position: relative;}
+#ad-0,#ad-1,#ad-2,#ad-3,#ad-4,#ad-5,#ad-6,#ad-7,#ad-8,#ad-9,#ad-10,#ad-11,#ad-12,#ad-13,#ad-14,#ad-15,#ad-16,#ad-17,#ad-18,#ad-19,#ad-20,#ad-21,#ad-22{position: relative;}
+</style><script type="text/javascript">        function GetUrlPara()
+        {
+            var url = document.location.toString();
+            var arrUrl = url.split("?");
+
+            var para = arrUrl[0];
+            return para;
+        }
+        $("#canonical").attr('href',GetUrlPara())
+		if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+			window.location.href="https://mp.m.ofweek.com/bigdata/a145693523076";
+		}
+		var news_index=1;
+		
+		var reloadReg = new RegExp("ofweek.com\/a[0-9]+");
+		if($("#news_type").attr("data-current-news-id")!= 2 &amp;&amp; reloadReg.test(location.href)){
+			$("html,body").hide()
+			$.get("//mp.ofweek.com/home/index/url_skip", { id: $("#hiddenId").attr("data-current-news-id"),url: location.href }, function (res) {
+				
+				if (res.data != '' &amp;&amp; reloadReg.test(location.href)) {
+					location.href = res.data
+				}
+			})
+		}
+		
+    </script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="/Public/Home/detail.js?v=1111" src="/Public/Home/detail.js?v=1111"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="ShareTip" src="/Public/Home/util/share_d.js?ver=0.1.2"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="util/qrcode" src="/Public/Home/util/qrcode.js?ver=0.1.2"></script></head><body style="background: #fff !important;"><style>
+    .header-publish {
+  float: left;
+  width: 72px;
+  height: 24px;
+  line-height: 24px;
+  background-color: #ED3F40;
+  border-radius: 26px;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+  margin: 5px 25px 0 0;
+  position: relative;
+  cursor: pointer;
+}
+
+.header-publish :hover .header-publish-hide{
+  display: block;
+}
+
+.header-publish .iconfont {
+  color: #DEDEDE;
+  margin: 0 0 0 5px;
+}
+
+.header-publish-hide {
+  display: none;
+  width: 130px;
+  background-image: url(../images/toutiao/header-pub-bg.png);
+  background-position-x: 2px;
+  background-size: 100% 100%;
+  position: absolute;
+  top: 23px;
+  left: -36px;
+  z-index: 3;
+  padding: 15px 9px;
+}
+
+.header-publish-hide a {
+  display: block;
+  height: 37px;
+  width: 134px;
+  line-height: 37px;
+  font-size: 14px;
+  color: #4A4A4A;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.header-publish-hide a:hover {
+  background: #F6F6F6;
+}
+
+.header-publish-hide a img {
+  width: 13.5px;
+}
+
+.header-publish-hide a span {
+  vertical-align: middle;
+}
+</style><div class="m-login_header"><div><div class="fl"><a href="//www.ofweek.com/app/" target="_blank" style="color:#919191;">APP下载</a><span>|</span><a href="/index/aboutus.html" target="_blank" style="color:#919191;">关于维科号</a><span>|</span><a href="/index/feedback_type.html" target="_blank" style="color:#919191;">用户反馈</a><span>|</span><a href="//www.ofweek.com/" target="_blank" style="color: #919191;">OFweek首页</a></div><div class="toolbar fr"><style>
+    .header-publish {
+  float: left;
+  width: 72px;
+  height: 24px;
+  line-height: 24px;
+  background-color: #ED3F40;
+  border-radius: 26px;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+  margin: 5px 25px 0 0;
+  position: relative;
+  cursor: pointer;
+}
+
+.header-publish :hover .header-publish-hide{
+  display: block;
+}
+
+.header-publish .iconfont {
+  color: #DEDEDE;
+  margin: 0 0 0 5px;
+}
+
+.header-publish-hide {
+  display: none;
+  width: 130px;
+  background-image: url(../images/toutiao/header-pub-bg.png);
+  background-position-x: 2px;
+  background-size: 100% 100%;
+  position: absolute;
+  top: 23px;
+  left: -36px;
+  z-index: 3;
+  padding: 15px 9px;
+}
+
+.header-publish-hide a {
+  display: block;
+  height: 37px;
+  width: 134px;
+  line-height: 37px;
+  font-size: 14px;
+  color: #4A4A4A;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.header-publish-hide a:hover {
+  background: #F6F6F6;
+}
+
+.header-publish-hide a img {
+  width: 13.5px;
+}
+
+.header-publish-hide a span {
+  vertical-align: middle;
+}
+</style>
+<div class="fr">
+        <a class="header-btn header-login" href="/index/login_member.html" target="_blank">登录</a>
+        <span>|</span>
+        <a class="header-btn header-register" href="//mp.ofweek.com/browser/index" target="_blank">注册</a>
+        <div class="header-publish">
+            发表
+            <span class="iconfont icon-ArtboardCopy"></span>
+            <div class="header-publish-hide">
+                <a href="/article/publish.html" target="_blank">
+                    <img src="/Public/Home/images/toutiao/header-pub01.png" style="margin: 0 16.7px 0 16.8px;" alt="" />
+                    <span>文章</span>
+                </a>
+                <a href="/micro/publish.html" target="_blank">
+                    <img src="/Public/Home/images/toutiao/header-pub02.png" style="margin: 0 13.7px 0 16.8px;" alt="" />
+                    <span>微头条</span>
+                </a>
+                <a href="/home/video/publish" target="_blank">
+                    <img src="/Public/Home/images/toutiao/header-pub03.png" style="margin: 0 13.7px 0 16.8px;" alt="" />
+                    <span>视频</span>
+                </a>
+                <a href="https://mp.ofweek.com/ask" target="_blank">
+                    <img src="/Public/Home/images/toutiao/header-pub04.png" style="margin: 0 13.7px 0 16.8px;" alt="" />
+                    <span>提问</span>
+                </a>
+                <!-- <a href="/course/manager.html" target="_blank">
+                    <img src="/Public/Home/images/toutiao/course.png" style="margin: 0 13.7px 0 16.8px;" alt="">
+                    <span>课程</span>
+                </a> -->
+            </div>
+        </div>
+    </div>
+<a href="//mp.ofweek.com/Contribute/index" target="_blank" style="float: right;width: 67px;color: #3ca5f6;border: 1px solid #3ca5f6;text-align: center;line-height: 23px;margin-top: 5px;border-radius: 17px;margin-right: 15px;background: #fff;">投稿</a></div></div></div><script>
+    $(function(){
+        $.post("/home/index/ajax_toolbar",{},function(res){
+            var my_html = "&lt;a href='//mp.ofweek.com/Contribute/index'  target='_blank' style='float: right;width: 67px;color: #3ca5f6;border: 1px solid #3ca5f6;text-align: center;line-height: 23px;margin-top: 5px;border-radius: 17px;margin-right: 15px;background: #fff;'&gt;投稿&lt;/a&gt;"
+            if(res.status == 1){
+                my_html = res.data.html + my_html
+                $(".toolbar").html(my_html);
+            }
+        })
+
+        $("body").on("mouseover mouseout",".m-user_face .list",function(){
+            $(".m-user_face ul").toggle();
+        });
+        $("body").on("mouseover mouseout",".header-publish",function(){
+            $(".header-publish-hide").toggle();
+        });
+    })
+</script><style>
+        table {
+            width: 100% !important;
+            border: 1px solid #ccc !important;
+            text-align: center !important;
+            margin-bottom: 50px;
+        }
+
+        table tbody tr {
+            border-bottom: 1px solid #ccc !important;
+            border-right: 1px solid #ccc !important;
+        }
+
+        table tr td {
+            border-right: 1px solid #ccc !important;
+            border-bottom: 0.5pt solid #ccc !important;
+        }
+    </style><div class="cm-commom_nav"><div class="cm-wrapper"><div class="m-login_top"><a class="fl" href="/"><img src="/Public/Home/images/index-logo.png?v=1657982260" alt="" /></a><div class="fl m-home_href"><a href="/">首页 /</a><a href="/ctrade/bigdata">大数据 /</a><span>正文</span></div><div class="fr m-search_right"><form action="/search/index.html" id="search_form"><input type="text" name="keywords" placeholder="请输入关键字" /><span onclick="javascript:$('#search_form').submit();"></span></form></div></div></div></div><div class="new-list"><div class="m_detail_content"><div class="m-detail_main cm-wrapper clearfix" data-current-news-id="903751" data-current-news-title="OpenCV系列之直方图-3：二维直方图 | 二十八" data-next-news-id="" data-next-news-urls="" data-validate-code="bed1c4f934677667f6e3f03ca83e4632" data-validate-code-time="1657982597478"><div class="fl m-detail_left left-bar-fixed fixed"><ul><li class="fs1"><i class="s0" onclick="s0(this)"></i><span onclick="s0(this)">发文</span></li><li class="fs1"><i class="s1" onclick="s1(this)"></i><span onclick="s1(this)">评论</span></li><li><i class="s2" onclick="s2(this)"></i><span onclick="s2(this)">微博</span></li><li><i class="s3" onclick="s3(this)"></i><span onclick="s3(this)">空间</span></li><li><i class="s4" onmouseover="s4(this)" onmouseout="s5(this)"></i><span onclick="s4(this)">微信</span><div id="wx_img" title="https://mp.ofweek.com/bigdata/a145693523076"><canvas width="100" height="100"></canvas><img style="display: none;" /></div></li></ul></div><input type="hidden" name="image" value="https://mp.ofweek.com/Upload/News/Img/member19466/201912/wx_cover_20191213175227_WHOIwl_thumb.jpg" /><div class="fl m-detail_content"><h1>OpenCV系列之直方图-3：二维直方图 | 二十八</h1><div class="m-detail_nav"><a class="m-detail-avatar" href="https://mp.ofweek.com/m034512614965"><img src="/Upload/News/Img/member19466/201904/201904231724183830.png" alt="" /></a><a href="https://mp.ofweek.com/m034512614965" class="">磐创AI</a><span class="time">2019-12-13 18:36</span><a href="https://mp.ofweek.com/article/publish.html" target="_blank" class="fr" style="color: #CD3035;border: 1px solid #CD3035;padding: 0 10px;line-height: 22px; border-radius: 4px;margin-top: 6px;margin-right: 8px;">发文</a></div><div class="main"><p style="text-indent: 2em; text-align: left;">目标</p><p style="text-indent: 2em; text-align: left;">在本章中,我们将学习查找和绘制2D直方图。这将在以后的章节中有所帮助。</p><p style="text-indent: 2em; text-align: left;">介绍</p><p style="text-indent: 2em; text-align: left;">在第一篇文章中,我们计算并绘制了一维直方图。之所以称为一维,是因为我们仅考虑一个特征,即像素的灰度强度值。但是在二维直方图中,您要考虑两个特征。通常,它用于查找颜色直方图,其中两个特征是每个像素的色相和饱和度值。</p><p style="text-indent: 2em; text-align: left;">已经有一个python示例(samples / python / color_histogram．py)用于查找颜色直方图。我们将尝试了解如何创建这种颜色直方图,这对于理解诸如直方图反向投影之类的更多主题将很有用。</p><p style="text-indent: 2em; text-align: left;">OpenCV中的二维直方图</p><p style="text-indent: 2em; text-align: left;">它非常简单,并且使用相同的函数<strong>cv．calcHist</strong>()进行计算。对于颜色直方图,我们需要将图像从BGR转换为HSV。(请记住,对于一维直方图,我们从BGR转换为灰度)。对于二维直方图,其参数将进行如下修改:</p><p style="text-indent: 2em; text-align: left;"><strong>channel = [0,1]</strong>,因为我们需要同时处理H和S平面。</p><p style="text-indent: 2em; text-align: left;"><strong>bins = [180,256]</strong> 对于H平面为180,对于S平面为256。</p><p style="text-indent: 2em; text-align: left;"><strong>range = [0,180,0,256]</strong> 色相值介于0和180之间,饱和度介于0和256之间。</p><p style="text-indent: 2em; text-align: left;">现在检查以下代码:</p><p style="text-indent: 2em; text-align: left;">import numpy as np<br />import cv2 as cv<br />img = cv．imread('home．jpg')<br />hsv = cv．cvtColor(img,cv．COLOR_BGR2HSV)<br />hist = cv．calcHist([hsv], [0, 1], None, [180, 256], [0, 180, 0, 256])</p><p style="text-indent: 2em; text-align: left;">就是这样。</p><p style="text-indent: 2em; text-align: left;">Numpy中的二维直方图</p><p style="text-indent: 2em; text-align: left;">Numpy还为此提供了一个特定的函数:<strong>np．histogram2d</strong>()。(记住,对于一维直方图我们使用了<strong>np．histogram</strong>())。</p><p style="text-indent: 2em; text-align: left;">import numpy as np<br />import cv2 as cv<br />from matplotlib import pyplot as plt<br />img = cv．imread('home．jpg')<br />hsv = cv．cvtColor(img,cv．COLOR_BGR2HSV)<br />hist, xbins, ybins = np．histogram2d(h．ravel(),s．ravel(),[180,256],[[0,180],[0,256]])</p><p style="text-indent: 2em; text-align: left;">第一个参数是H平面,第二个是S平面,第三个是每个箱子的数量,第四个是它们的范围。</p><p style="text-indent: 2em; text-align: left;">现在我们可以检查如何绘制这个颜色直方图。</p><p style="text-indent: 2em; text-align: left;">绘制二维直方图方法1:使用 cv．imshow()</p><p style="text-indent: 2em; text-align: left;">我们得到的结果是尺寸为80x256的二维数组。因此,可以使用<strong>cv．imshow</strong>()函数像平常一样显示它们。它将是一幅灰度图像,除非您知道不同颜色的色相值,否则不会对其中的颜色有太多了解。</p><p style="text-indent: 2em; text-align: left;">方法2:使用Matplotlib</p><p style="text-indent: 2em; text-align: left;">我们可以使用matplotlib．pyplot．imshow()函数绘制具有不同颜色图的2D直方图。它使我们对不同的像素密度有了更好的了解。但是,除非您知道不同颜色的色相值,否则乍一看并不能使我们知道到底是什么颜色。我还是更喜欢这种方法。它简单而更好。</p><p style="text-indent: 2em; text-align: left;"><strong>注意</strong><br />使用此功能时,请记住,插值法应采用最近邻以获得更好的结果。</p><p style="text-indent: 2em; text-align: left;">考虑下面的代码:</p><p style="text-indent: 2em; text-align: left;">import numpy as np<br />import cv2 as cv<br />from matplotlib import pyplot as plt<br />img = cv．imread('home．jpg')<br />hsv = cv．cvtColor(img,cv．COLOR_BGR2HSV)<br />hist = cv．calcHist( [hsv], [0, 1], None, [180, 256], [0, 180, 0, 256] )<br />plt．imshow(hist,interpolation = 'nearest')<br />plt．show()</p><p style="text-indent: 2em; text-align: left;">下面是输入图像及其颜色直方图。X轴显示S值,Y轴显示色相。</p><p style="text-align:center"><img src="/Upload/News/Img/member19466/201912/wx_article_20191213175226_c9bEyr.jpg" /></p><p style="text-indent: 2em; text-align: left;">在直方图中,您可以在H = 100和S = 200附近看到一些较高的值。它对应于天空的蓝色。同样,在H = 25和S = 100附近可以看到另一个峰值。它对应于宫殿的黄色。您可以使用GIMP等任何图像编辑工具进行验证。</p><p style="text-indent: 2em; text-align: left;">方法3:OpenCV示例样式</p><p style="text-indent: 2em; text-align: left;">OpenCV-Python2示例中有一个颜色直方图的示例代码(samples / python / color_histogram．py)。如果运行代码,则可以看到直方图也显示了相应的颜色。或者简单地,它输出颜色编码的直方图。其结果非常好(尽管您需要添加额外的线束)。</p><p style="text-indent: 2em; text-align: left;">在该代码中,作者在HSV中创建了一个颜色图。然后将其转换为BGR。将所得的直方图图像与此颜色图相乘。他还使用一些预处理步骤来删除小的孤立像素,从而获得良好的直方图。</p><p style="text-indent: 2em; text-align: left;">我将其留给读者来运行代码,对其进行分析并拥有自己的解决方法。下面是与上面相同的图像的代码输出:</p><p style="text-align:center"><img src="/Upload/News/Img/member19466/201912/wx_article_20191213175226_d1Zvcm.jpg" /></p><p style="text-indent: 2em; text-align: left;">您可以在直方图中清楚地看到存在什么颜色,那里是蓝色,那里是黄色,并且由于棋盘的存在而有些白色。很好!</p><p style="margin-top: 15px; margin-bottom: 5px; white-space: normal; font-size: 16px; color: rgb(62, 62, 62); font-family: &quot;Helvetica Neue&quot;, Helvetica, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; text-align: left; background-color: rgb(255, 255, 255); line-height: 1.75em; text-indent: 2em;"><strong>☆☆☆为方便大家查阅,小编已将OpenCV-Python专栏</strong><strong>文章统一整理到公众号底部菜单栏,同步更新中,关注公众号,点击左下方“文章”,如图:</strong></p><p style="text-align:center"></p><p style="text-indent: 2em; text-align: left;"><strong>或点击下方“阅读原文”,进入<strong style="color: rgb(62, 62, 62);font-family: &quot;Helvetica Neue&quot;, Helvetica, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;background-color: rgb(255, 255, 255);">OpenCV-Python专栏</strong>,即可查看系列文章。</strong></p><p style="text-indent: 2em; text-align: left;">    不断更新资源</p><p style="text-indent: 2em; text-align: left;">    获取更多精彩</p><p style="text-indent: 2em; text-align: left;">长按二维码扫码关注</p><p style="text-align: center;"></p></div><div class="u-gray_content">声明：本文为OFweek维科号作者发布，不代表OFweek维科号立场。如有侵权或其他问题，请及时联系我们举报。</div><div class="m-detail_footer clearfix"><div class="fl"><i></i><a href="/search/index?keywords=" target="_blank"></a><!--  <a target="_blank" href="/topic/"></a>--></div><div class="fr" data-id="903751"><a class="ts fr" onclick="artTs(this)" style="margin-right: 20px"><i></i>侵权举报</a><span class="star" onclick="star(this)"><i></i>收藏</span><div class="footer-comment fr">
+								评论<span class="comment_num">0</span></div><div class="footer-like fr"><span class="icon-like iconfont fl"></span><span class="praise_num">0</span></div></div></div><!-- 评论下方广告 --><div style="width: 600px;height: 100px;font-size: 30px;background: #bbb;margin: 15px auto;text-align: center;display: block;"><img src="//mp.ofweek.com/Public/Home/images/detail/temp.png" onload="loadAD(2053,this)" alt="" /></div><input type="hidden" value="0" /><input type="hidden" id="hasComment" value="0" /><input type="hidden" id="relationPage" value="2" /><input type="hidden" id="is_forbid" value="" /><!--评论区域--><div class="m-comment" id="comment" data_member_id="19466"><!-- <div class="title">文章点评<span class="comment_num">0</span>条评论</div> --><div class="title"><div class="comment-number" style="display: none;"><span>0</span>条</div>评论</div><div class="top"><!-- <a href="javascript:;"><img id="avatar" src="" alt=""></a>写下你的评 --><div class="textarea active"><textarea id="comment_top_textarea" type="text" onfocus="checkLogin()" placeholder="写下您的评论..."></textarea></div><p id="textarea_error"></p><!-- <p class="com_login_tip">登陆后参与评论</p> --><span class="active" id="comment_pl_btn" onclick="ajax_replay(this)">评论</span></div><div class="list"><ul></ul></div><div class="cm-more_clk" style="display:none;" data-page="1">查看更多评论</div><div class="no-more_com" style="display:none;" data-page="">没有更多评论了</div></div><script type="text/javascript">    var $root=$($(".m-detail_main")[news_index-1]);
+    $.post("/home/comment/ajax_memberInfo",{time:Math.random()},function(res){
+        if(res.status == 1){
+            $root.find('#avatar').attr('src',res.data.avatar);
+        }
+    })
+
+    $("#comment_top_textarea").focus(function () {
+        var is_forbid = $('#is_forbid').val()
+        if(is_forbid != 0 ) {
+            errorPop('您已经被禁言');
+            $("#comment_top_textarea").val('')
+        }
+    });
+
+    $("#comment_top_textarea").blur(function () {
+        var is_forbid = $('#is_forbid').val()
+        if(is_forbid != 0 ) {
+            $("#comment_top_textarea").val('')
+        }
+    });
+</script><script src="/Public/Home/comment.js"></script><!--相关阅读--><div class="m-reading_content relation-news" style=""><h2>相关阅读</h2><ul class="relation-list"><li class="relation-multiple"><a href="https://mp.ofweek.com/gongkong/a856714842367" target="_blank"><h3>以数智供应链为基 京东云发力工业互联网</h3></a><div class="relation-bottom clearfix" data-id="1326884"><a href="https://gongkong.ofweek.com/" target="_blank"><div class="relation-account fl"><img src="/Upload/News/Img/member18738/201904/201904161741364704.png" alt="" />OFweek工控网</div></a><span class="relation-time fl">45分钟前</span><div class="relation-like fl"><span class="icon-like iconfont"></span><span class="relation-praise-num praise_num">0</span></div><a href="https://mp.ofweek.com/gongkong/a856714842367#comment" class="relation-comment fr" target="_blank" style="margin-right:20px">评论</a></div></li><li class="relation-multiple"><a href="https://mp.ofweek.com/libattery/a856714832367" target="_blank"><h3>万亿市场爆发！锂电迎来最强对手！</h3></a><div class="relation-bottom clearfix" data-id="1326883"><a href="https://libattery.ofweek.com/" target="_blank"><div class="relation-account fl"><img src="/Upload/News/Img/member/201904/201904161736207340.png" alt="" />OFweek锂电网</div></a><span class="relation-time fl">1小时前</span><div class="relation-like fl"><span class="icon-like iconfont"></span><span class="relation-praise-num praise_num">0</span></div><a href="https://mp.ofweek.com/libattery/a856714832367#comment" class="relation-comment fr" target="_blank" style="margin-right:20px">评论</a></div></li><li class="relation-multiple"><a href="https://mp.ofweek.com/auto/a856714822367" target="_blank"><h3>购车第一时间“薅羊毛”    星途技师浅谈养车小技巧</h3></a><a href="https://mp.ofweek.com/auto/a856714822367" target="_blank"><div class="relation-imgs"><img src="/Upload/News/Img/member51236/202207/wx_article__69807a6cc2a26bfe66efd84aa91b0c6e_thumb.jpg" alt="" /><img src="/Upload/News/Img/member51236/202207/wx_article__493efcfe19fe30298f41b2067bfc77dd_thumb.jpg" alt="" /><img src="/Upload/News/Img/member51236/202207/wx_article__a47727eef87e8b33ff539eeca8ac4c61_thumb.jpg" alt="" /></div></a><div class="relation-bottom clearfix" data-id="1326882"><a href="https://mp.ofweek.com/m034552612135" target="_blank"><div class="relation-account fl"><img src="/Upload/News/Img/member51236/202112/202112161334012179.png" alt="" />汽车浏</div></a><span class="relation-time fl">10小时前</span><div class="relation-like fl"><span class="icon-like iconfont"></span><span class="relation-praise-num praise_num">0</span></div><a href="https://mp.ofweek.com/auto/a856714822367#comment" class="relation-comment fr" target="_blank" style="margin-right:20px">评论</a></div></li><li class="relation-multiple"><a href="https://mp.ofweek.com/cloud/a856714812367" target="_blank"><h3>云徙科技CEO包志刚：数字化锻造企业韧性</h3></a><a href="https://mp.ofweek.com/cloud/a856714812367" target="_blank"><div class="relation-imgs"><img src="/Upload/News/Img/member6326/202207/wx_article__bd3977575dfacf2bba313e2f12a52d1a_thumb.jpg" alt="" /><img src="/Upload/News/Img/member6326/202207/wx_article__80e87e50f5b8f437ac617fcf3eefdbf2_thumb.jpg" alt="" /><img src="/Upload/News/Img/member6326/202207/wx_article__dbbc2ee7ec745187853ebdb425e9a3d9_thumb.jpg" alt="" /></div></a><div class="relation-bottom clearfix" data-id="1326881"><a href="https://mp.ofweek.com/m923461802364" target="_blank"><div class="relation-account fl"><img src="/Upload/News/Img/member6326/201805/201805101052257518.png" alt="" />趣味科技</div></a><span class="relation-time fl">10小时前</span><div class="relation-like fl"><span class="icon-like iconfont"></span><span class="relation-praise-num praise_num">0</span></div><a href="https://mp.ofweek.com/cloud/a856714812367#comment" class="relation-comment fr" target="_blank" style="margin-right:20px">评论</a></div></li><li class="relation-multiple"><a href="https://mp.ofweek.com/auto/a856714802367" target="_blank"><h3>“柴油机甲”上阵    上汽大通“领地”曝光</h3></a><a href="https://mp.ofweek.com/auto/a856714802367" target="_blank"><div class="relation-imgs"><img src="/Upload/News/Img/member51236/202207/wx_article__719ba6fef9ee59df175e57ae748ebb5b_thumb.jpg" alt="" /><img src="/Upload/News/Img/member51236/202207/wx_article__a4c39f1095ccebc84ba2e045d934fad3_thumb.jpg" alt="" /><img src="/Upload/News/Img/member51236/202207/wx_article__9ab0763ea4e782f6373df71613b33f02_thumb.jpg" alt="" /></div></a><div class="relation-bottom clearfix" data-id="1326880"><a href="https://mp.ofweek.com/m034552612135" target="_blank"><div class="relation-account fl"><img src="/Upload/News/Img/member51236/202112/202112161334012179.png" alt="" />汽车浏</div></a><span class="relation-time fl">10小时前</span><div class="relation-like fl"><span class="icon-like iconfont"></span><span class="relation-praise-num praise_num">0</span></div><a href="https://mp.ofweek.com/auto/a856714802367#comment" class="relation-comment fr" target="_blank" style="margin-right:20px">评论</a></div></li><li class="relation-multiple"><a href="https://mp.ofweek.com/Internet/a756714892367" target="_blank"><h3>助力企业数字化转型，中视典ARX协作平台正式上线</h3></a><div class="relation-bottom clearfix" data-id="1326879"><a href="https://mp.ofweek.com/m034512913155" target="_blank"><div class="relation-account fl"><img src="/Upload/News/Img/member11359/201809/201809131023151213.png" alt="" />美通社</div></a><span class="relation-time fl">10小时前</span><div class="relation-like fl"><span class="icon-like iconfont"></span><span class="relation-praise-num praise_num">0</span></div><a href="https://mp.ofweek.com/Internet/a756714892367#comment" class="relation-comment fr" target="_blank" style="margin-right:20px">评论</a></div></li><li class="relation-single"><a href="https://mp.ofweek.com/Internet/a756714882367" target="_blank"><img class="relation-single-img" src="/Upload/News/Img/member11359/202207/16031142408581_thumb.jpg" alt="" /></a><a href="https://mp.ofweek.com/Internet/a756714882367" target="_blank"><h3>富士通袁远：传统ERP怎样跟上数字化转型的脚步</h3></a><div class="relation-bottom clearfix" data-id="1326878"><a href="https://mp.ofweek.com/m034512913155" target="_blank"><div class="relation-account fl"><img src="/Upload/News/Img/member11359/201809/201809131023151213.png" alt="" />美通社</div></a><span class="relation-time fl">11小时前</span><div class="relation-like fl"><span class="icon-like iconfont"></span><span class="relation-praise-num praise_num">0</span></div><a href="https://mp.ofweek.com/Internet/a756714882367#comment" class="relation-comment fr" target="_blank" style="margin-right:20px">评论</a></div></li><li class="relation-multiple"><a href="https://mp.ofweek.com/nev/a756714872367" target="_blank"><h3>特斯拉Cybertruck的劲敌来了，Rivian R1T能否“一鸣惊人”？</h3></a><a href="https://mp.ofweek.com/nev/a756714872367" target="_blank"><div class="relation-imgs"><img src="/Upload/News/Img/member1/202207/15182315241841_thumb.jpg" alt="" /><img src="/Upload/News/Img/member1/202207/15182316700684_thumb.jpg" alt="" /><img src="/Upload/News/Img/member1/202207/15182317169990_thumb.jpg" alt="" /></div></a><div class="relation-bottom clearfix" data-id="1326877"><a href="https://mp.ofweek.com/m034552110545" target="_blank"><div class="relation-account fl"><img src="/Upload/News/Img/member55041/202205/202205132257407420.png" alt="" />商用车公社</div></a><span class="relation-time fl">11小时前</span><div class="relation-like fl"><span class="icon-like iconfont"></span><span class="relation-praise-num praise_num">0</span></div><a href="https://mp.ofweek.com/nev/a756714872367#comment" class="relation-comment fr" target="_blank" style="margin-right:20px">评论</a></div></li><li class="relation-multiple"><a href="https://mp.ofweek.com/Internet/a756714862367" target="_blank"><h3>聚沙成塔 持续改善地球环境 德国高仪坚持无塑包装之旅</h3></a><div class="relation-bottom clearfix" data-id="1326876"><a href="https://mp.ofweek.com/m034512913155" target="_blank"><div class="relation-account fl"><img src="/Upload/News/Img/member11359/201809/201809131023151213.png" alt="" />美通社</div></a><span class="relation-time fl">11小时前</span><div class="relation-like fl"><span class="icon-like iconfont"></span><span class="relation-praise-num praise_num">0</span></div><a href="https://mp.ofweek.com/Internet/a756714862367#comment" class="relation-comment fr" target="_blank" style="margin-right:20px">评论</a></div></li><li class="relation-multiple"><a href="https://mp.ofweek.com/auto/a756714852367" target="_blank"><h3>14.15万元起售，一汽丰田亚洲狮2022款推出5款车型，TNGA架构赋能</h3></a><a href="https://mp.ofweek.com/auto/a756714852367" target="_blank"><div class="relation-imgs"><img src="/Upload/News/Img/member20613/202207/202207152103509831_thumb.png" alt="" /><img src="/Upload/News/Img/member20613/202207/202207152103593184_thumb.png" alt="" /><img src="/Upload/News/Img/member20613/202207/202207152104132332_thumb.png" alt="" /></div></a><div class="relation-bottom clearfix" data-id="1326875"><a href="https://mp.ofweek.com/m034522316015" target="_blank"><div class="relation-account fl"><img src="/Upload/News/Img/member20613/202205/202205171209044856.png" alt="" />大侠上车</div></a><span class="relation-time fl">11小时前</span><div class="relation-like fl"><span class="icon-like iconfont"></span><span class="relation-praise-num praise_num">0</span></div><a href="https://mp.ofweek.com/auto/a756714852367#comment" class="relation-comment fr" target="_blank" style="margin-right:20px">评论</a></div></li></ul><div class="no-list-data">暂无数据</div></div><div class="loading" style="display: none;"><img src="https://mp.ofweek.com/Public/Home/images/detail/loading_1.gif" alt="" /></div></div><div class="m-home_right mt30 right-fixed"><div class="unact-area"><input type="hidden" class="m-order_hide" value="https://mp.ofweek.com/m034512614965" /><div class="m-order_box"><div class="m-order_right"><a href="https://mp.ofweek.com/m034512614965" target="_blank"><img src="/Upload/News/Img/member19466/201904/201904231724183830.png" alt="" /></a><a href="https://mp.ofweek.com/m034512614965"><h2>磐创AI</h2></a><p>人工智能前沿技术分享。...</p><div class="u-order_link order_clk" onclick="func_order(this)" data-news-member-id="19466"></div></div><div class="m-order_right_fixed"><a href="https://mp.ofweek.com/m034512614965"><div class="avatar-cont"><img src="/Upload/News/Img/member19466/201904/201904231724183830.png" alt="" /></div></a><a href="https://mp.ofweek.com/m034512614965"><h2>磐创AI</h2></a><div class="u-order_link order_clk" onclick="func_order(this)" data-news-member-id="19466"></div></div></div><div class="right-ad" id="right-ad"><img src="//mp.ofweek.com/Public/Home/images/detail/temp.png" onload="loadAD(2052,this)" alt="" /></div><!--	--></div><div class="fixed-area" style="display: none;"><div class="item mt24"><div class="tlt">
+									热门文章排行榜
+								</div><ul class="hot-artcle"><li><span class="hot-artcle-no">1</span><a href="https://mp.ofweek.com/bigdata/a256714951397" target="_blank" class="hot-artcle-cont">数据港、奥飞数据比拼：谁是A股最强专营数据中心运营商？</a></li><li><span class="hot-artcle-no">2</span><a href="https://mp.ofweek.com/bigdata/a556714422327" target="_blank" class="hot-artcle-cont">数十亿公民信息遭泄漏！公有云上的数据安全还有“救”吗？</a></li><li><span class="hot-artcle-no">3</span><a href="https://mp.ofweek.com/bigdata/a356714872337" target="_blank" class="hot-artcle-cont">国产数据库“第一股”拟上市，22年试炼场终“达梦”</a></li><li><span class="hot-artcle-no">4</span><a href="https://mp.ofweek.com/bigdata/a856714972337" target="_blank" class="hot-artcle-cont">算力已成数字经济发展“热土”，成为数字化转型新底座</a></li><li><span class="hot-artcle-no">5</span><a href="https://mp.ofweek.com/bigdata/a656714852307" target="_blank" class="hot-artcle-cont">品牌出海，搜索价值会不会迎来重构？</a></li><li><span class="hot-artcle-no">6</span><a href="https://mp.ofweek.com/bigdata/a056714282327" target="_blank" class="hot-artcle-cont">国产数据库第一股来了！净利率高达60%，达梦是个好生意么？</a></li></ul></div></div><script>
+						var times=0;
+						function k(h, e) {
+							var eleh = e.height();
+							var a = e[0].innerHTML;
+							if (eleh &gt; h) {
+								var num = times == 0 ? 2 : 4;
+								e[0].innerHTML = a.substring(0, a.length - num) + "...";
+								times++;
+								k(h, e)
+							} else {
+								times = 0;
+								return
+							}
+						}
+
+						function excutek(h,e){
+							for(var i=0;i&lt;e.length;i++){
+								k(h, $(e[i]));
+							}
+						}
+
+						excutek(45,$(".hot-artcle a"));
+						excutek(45,$(".artcle-cont"));
+						excutek(45,$(".m-order_list ul li a"));
+					</script></div></div></div></div><!--右侧栏--><!--文章举报--><input name="is_login" value="1" type="hidden" /><input name="trade_id" id="trade_id" value="77" type="hidden" /><input name="html_type" id="html_type" value="2" type="hidden" /><div class="m-report" id="report_article"><div class="main"><h2>举报文章问题</h2><span class="turnoff">×</span><div><ul><li>营销广告<input name="report_type" value="1" type="checkbox" /></li><li>重复、旧闻<input name="report_type" value="2" type="checkbox" /></li><li>格式问题<input name="report_type" value="3" type="checkbox" /></li><li>低俗<input name="report_type" value="4" type="checkbox" /></li><li>标题夸张<input name="report_type" value="5" type="checkbox" /></li><li>与事实不符<input name="report_type" value="6" type="checkbox" /></li><li>疑似抄袭<input name="report_type" value="7" type="checkbox" /></li><li><span class="tel_btn">我有话要说</span><textarea name="report_type_content" id="report_type_content" cols="30" rows="10"></textarea></li></ul></div><div class="handle"><span class="confirm">确定</span><span class="cancel">取消</span></div></div></div><div class="bottom-right-bar"><ul><li class="attent-author"><span>关注作者</span></li><li class="go-top"><span>返回顶部</span></li></ul></div><script type="text/javascript">
+        // 获取URL参数
+        function getQueryVariable (variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&amp;");
+            for (var i=0;i&lt;vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == variable){return pair[1];}
+            }
+            return '';
+        }
+
+        var traceId = getQueryVariable('traceId');
+        var traceInfo = getQueryVariable('traceInfo');
+
+        $.post("/index/ajax_views_token.html", {id:"903751"},function (res) {
+            if(res.status == 1){
+                $('.m-detail_main').attr('data-validate-code', res.data['validate_code']);
+                $('.m-detail_main').attr('data-validate-code-time', res.data['validate_code_time']);
+                //setIntViews();
+            }
+        });
+        setTimeout('setIntViews()',5000);
+        //setIntViews();
+        function setIntViews(){
+            var validate_code = $('.m-detail_main').attr('data-validate-code');
+            var validate_code_time = $('.m-detail_main').attr('data-validate-code-time');
+            $.post('/index/ajax_setInc_views.html',{id:"903751",validate_code:validate_code,validate_code_time:validate_code_time,traceId:traceId,traceInfo:traceInfo},function(e){},'json');
+        }
+	</script><!--评论举报--><div class="m-report" id="report_comment"><div class="main"><h2>举报评论问题</h2><span class="turnoff">×</span><div><ul><li>淫秽色情<input type="radio" class="comment_type" name="report_type" value="1" /></li><li>营销广告<input type="radio" class="comment_type" name="report_type" value="2" /></li><li>恶意攻击谩骂<input type="radio" class="comment_type" name="report_type" value="3" /></li><li><span id="comment_other">我要吐槽</span><textarea name="reportcontent" id="" cols="30" rows="10"></textarea></li></ul></div><div class="handle"><span class="confirm" id="comment_confirm" data-id="0">确定</span><span class="cancel">取消</span></div></div></div><script type="application/javascript">
+	$(function(){
+		//文章举报弹窗关闭
+		$(".turnoff,.cancel").click(function(){
+			$(this).parents(".m-report").hide();
+		});
+		//举报的选项选择
+		$(".comment_type").click(function(){
+			$(".m-report textarea").hide();
+			$(".m-report textarea").val('');
+		});
+
+
+		//我要吐槽
+		$("#comment_other").click(function(){
+			$("input[name=report_type]:checked").attr('checked',false);
+			$(".m-report textarea").toggle();
+		});
+
+		//举报按钮
+		$(".m-user_comment").on('click','.report',function(e){
+			var val = $(this).attr('data-id');
+			$("#comment_confirm").attr('data-id',val);
+			$("#report_comment").show();
+			e.preventDefault();
+		});
+
+		//举报确认按钮
+		$("#comment_confirm").click(function(e){
+				var type = $("input[name=report_type]:checked").val();
+				var content = $.trim($("textarea[name=reportcontent]").val());
+				if(type == undefined &amp;&amp; content.length == 0){
+				errorPop('请选择其中一项');
+				return false;
+			}
+			//其他对应的是-1
+			if(content){
+				type = -1;
+			}
+			var id = $(this).attr('data-id');
+			var url = '/comment/ajax_report';
+			var data = {id:id,report_type:type,content:content};
+			$.post(url,data,function(data){
+				errorPop(data.info);
+				if(data.status == 1){
+					$('#report_comment').hide();
+				}
+			},'json');
+		});
+	})
+</script><!--登录--><div class="m-nologin_pop"><div class="content"><h2>
+			用户登录<span class="fr">×</span></h2><div class="main"><div class="clearfix style_change" style="height:auto;"><!-- <div class="fl"><span class="active"></span>
+					企业登录
+				</div><div class="fl"><span></span>
+					登录
+				</div> --></div><div class="group"><form id="login" action="http://www.ofweek.com/user/login.do?method=loginUser"><input type="hidden" name="returnurl" value="https://mp.ofweek.com/bigdata/a145693523076" /><div><input type="text" id="userName" placeholder="请输入用户名/手机/邮箱" name="userid" /><em class="em1"></em><p class="errorId">请输入用户名/手机/邮箱</p></div><input id="usertype" type="hidden" value="member" /><div><input type="password" placeholder="请输入密码" name="password" /><em class="em2"></em><p class="errorPass errorPassword">请输入密码</p></div></form></div><div class="login_btn u-login_submit">登 录</div><div class="m-login_nav"><a id="forget" href="//www.ofweek.com/user/ulogin.do?method=togetpwd&amp;flag=0&amp;returnurl=https://mp.ofweek.com/bigdata/a145693523076" target="_blank">忘记密码</a><a id="register" href="//mp.ofweek.com/browser/index" class="fr" target="_blank">注册账号</a></div><div class="login_other"><div class="u-login_style"><span>使用一下账号直接登录</span></div><div class="m-loginType"><!--<a href="https://www.ofweek.com/user/login.do?method=weiboLogin&amp;returnurl=https://mp.ofweek.com/news" class="l1"></a>--><a href="https://www.ofweek.com/user/login.do?method=qqLogin&amp;returnurl=https://mp.ofweek.com/news" class="l2"></a><a href="https://www.ofweek.com/user/login.do?method=weixinLogin&amp;returnurl=https://mp.ofweek.com/news" class="l3"></a><a href="https://www.ofweek.com/user/login.do?method=baiduLogin&amp;returnurl=https://mp.ofweek.com/news" class="l4"></a></div></div></div></div></div><script>
+	function showLogin(){
+		$(".m-nologin_pop").show();
+	};
+	
+	$(function(){
+		// //登录方式切换
+		// $(".style_change div").click(function(){
+		// 	$(".style_change div span.active").removeClass("active");
+		// 	$(this).find("span").addClass("active");
+		// 	var index = $(this).index();
+		// 	var member_url = $("#forget").attr("member_url");
+		// 	var company_url = $("#forget").attr("company_url");
+
+		// 	var forget_member_url = $("#register").attr("member_url");
+		// 	var forget_company_url = $("#register").attr("company_url");
+		// 	if(index == 0){
+		// 		$("#usertype").val("company");
+		// 		$("#register").attr('href',company_url);
+		// 		$("#forget").attr('href',forget_company_url);
+		// 		$(".errorId").html("请输入用户名");
+		// 		$("#userName").attr("placeholder","请输入用户名");
+		// 		$(".login_other").hide();
+		// 	}else{
+		// 		$("#usertype").val("member");
+		// 		$("#register").attr('href',member_url);
+		// 		$("#forget").attr('href',forget_member_url);
+		// 		$(".login_other").show();
+		// 		$(".errorId").html("请输入用户名/邮箱/手机");
+		// 		$("#userName").attr("placeholder","请输入用户名/邮箱/手机");
+		// 	};
+		// });
+		
+		//关闭登录弹窗
+		$(".m-nologin_pop h2 span").click(function(){
+			$(".m-nologin_pop").hide();
+			window.loginFlag = false
+		});
+		
+		$(".group input[name=userid]").focus(function(){
+			$(".errorId").hide();
+		});
+		
+		$(".group input[name=password]").focus(function(){
+			$(".errorPass").hide();
+		});
+		
+		//登录提交表单
+		$(".login_btn").click(function(){
+			var userId = $(".group input[name=userid]").val();
+			var password = $(".group input[name=password]").val();
+			userId = $.trim(userId);
+			password = $.trim(password);
+			
+			if(userId == ""){
+				$(".errorId").show();
+				return ;	
+			}else{
+				$(".errorId").hide();
+			};
+			
+			if(password == ""){
+				$(".errorPass").html("请输入密码").show();
+				return ;	
+			}else{
+				$(".errorPass").hide();
+			};
+			var data = {
+				keyword:userId,
+				password:password
+			};
+			var usertype = $('#usertype').val();
+			loginMember(usertype,data,'');
+		});
+	});
+</script><div class="gl-footer"><div id="g-footer" class="g-footer"><div class="g-wrap"><div class="g-footer-nav"><a target="_blank" href="//www.ofweek.com/about.shtml" rel="nofollow">关于我们</a> -
+				<a target="_blank" href="//www.ofweek.com/abouten/company.html" rel="nofollow">About OFweek</a> -
+				<a target="_blank" href="/index/login_member.html" rel="nofollow">征 稿</a> -
+				<a target="_blank" href="//www.ofweek.com/ad.shtml" rel="nofollow">广告咨询</a> -
+				<a target="_blank" href="//www.ofweek.com/help.shtml" rel="nofollow">帮助信息</a> -
+				<a target="_blank" href="//www.ofweek.com/contact.shtml" rel="nofollow">联系我们</a> -
+				<a target="_blank" href="//www.ofweek.com/service.shtml" rel="nofollow">会员服务</a> -
+				<a target="_blank" href="//www.ofweek.com/sitemap.shtml" rel="nofollow">网站导航</a> -
+				<a target="_blank" href="//m.ofweek.com" rel="nofollow">手机OFweek网</a></div><div class="g-footer-links">
+				我们的网站：<a target="_blank" href="//ai.ofweek.com" rel="nofollow">人工智能网</a> |
+				<a target="_blank" href="//iot.ofweek.com" rel="nofollow">物联网</a> |
+				<a target="_blank" href="//medical.ofweek.com" rel="nofollow">医疗科技网</a> |
+				<a target="_blank" href="//robot.ofweek.com" rel="nofollow">机器人网</a> |
+				<a target="_blank" href="//laser.ofweek.com" rel="nofollow">激光网</a> |
+				<a target="_blank" href="//ee.ofweek.com" rel="nofollow">电子工程网</a> |
+				<a target="_blank" href="//libattery.ofweek.com" rel="nofollow">锂电网</a> |
+				<a target="_blank" href="//solar.ofweek.com" rel="nofollow">太阳能光伏网</a> |
+				<a target="_blank" href="//fiber.ofweek.com" rel="nofollow">光通讯网</a> |
+				<a target="_blank" href="//lights.ofweek.com" rel="nofollow">半导体照明网</a> |
+				<a target="_blank" href="//www.ofweek.com/im/" rel="nofollow">智能制造网</a> |
+				<a target="_blank" href="//gongkong.ofweek.com" rel="nofollow">工控网</a> |
+				<a target="_blank" href="//www.ofweek.com/hydrogen/" rel="nofollow">氢能网</a> |
+				<a target="_blank" href="//security.ofweek.com" rel="nofollow">安防网</a> |
+				<a target="_blank" href="//smarthome.ofweek.com" rel="nofollow">智能家居网</a> |
+				<a target="_blank" href="//smartcity.ofweek.com" rel="nofollow">智慧城市网</a> |
+				<a target="_blank" href="//nev.ofweek.com" rel="nofollow">新能源汽车网</a> |
+				<a target="_blank" href="//auto.ofweek.com" rel="nofollow">智能汽车网</a> |
+				<a target="_blank" href="//display.ofweek.com" rel="nofollow">显示网</a> |
+				<a target="_blank" href="//wearable.ofweek.com" rel="nofollow">可穿戴设备网</a> |
+				<a target="_blank" href="//www.ofweek.com/smartocean/" rel="nofollow">智慧海洋网</a> |
+				<a target="_blank" href="//cloud.ofweek.com" rel="nofollow">云计算网</a> |
+				<a target="_blank" href="//znyj.ofweek.com" rel="nofollow">智能硬件网</a> |
+				<a target="_blank" href="//xincailiao.ofweek.com" rel="nofollow">新材料网</a> |
+				<a target="_blank" href="//tele.ofweek.com" rel="nofollow">通信网</a> |
+				<a target="_blank" href="//chuneng.ofweek.com" rel="nofollow">储能网</a> |
+				<a target="_blank" href="//3dprint.ofweek.com" rel="nofollow">3D打印网</a> |
+				<a target="_blank" href="//sensor.ofweek.com" rel="nofollow">传感器网</a> |
+				<a target="_blank" href="//ecep.ofweek.com" rel="nofollow">环保网</a> |
+				<a target="_blank" href="//instrument.ofweek.com" rel="nofollow">仪器仪表网</a> |
+				<a target="_blank" href="//vr.ofweek.com" rel="nofollow">VR 网</a> |
+				<a target="_blank" href="//windpower.ofweek.com" rel="nofollow">风电网</a> |
+				<a target="_blank" href="//smartgrids.ofweek.com" rel="nofollow">智能电网</a> |
+				<a target="_blank" href="//power.ofweek.com" rel="nofollow">电力网</a> |
+				<a target="_blank" href="//lighting.ofweek.com" rel="nofollow">照明网</a> |
+				<a target="_blank" href="//dianyuan.ofweek.com" rel="nofollow">电源网</a> |
+				<a target="_blank" href="//optics.ofweek.com" rel="nofollow">光学网</a> |
+				<a target="_blank" href="//pcb.ofweek.com" rel="nofollow">PCB网</a> |
+				<a rel="nofollow" href="//hr.ofweek.com" target="_blank">人才网</a> |
+				<a href="//mall.ofweek.com/" target="_blank" rel="nofollow">商城</a> |
+				<a href="//en.ofweek.com/" target="_blank" rel="nofollow">外贸网</a> |
+				<a href="//peixun.ofweek.com/" target="_blank" rel="nofollow">培训网</a>|
+				<a href="//www.isweek.cn" target="_blank" rel="nofollow">工采网</a><br /> 客服热线：4009962228 客服传真：+86-755-83279008
+				<br /><a target="_blank" href="http://beian.miit.gov.cn/" rel="nofollow">粤ICP备06087881号</a> Copyright © <span id="year">2022</span>, All Rights Reserved.
+				<br /> 中文版权所有－OFweek维科网（高科技行业门户）网站所有图片、文字未经许可不得拷贝、复制。
+			</div><div style="width:300px;margin:0 auto;"><a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44030502002758" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="/Public/Home/images/beian.png" style="float:left;" /><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">粤公网安备
+                        44030502002758号</p></a></div><div class="g-footer-record"><p><span class="fl"><a href="http://www.szwljb.gov.cn" target="_blank" rel="nofollow"><img width="36" height="43" border="0" alt="深圳网络警察报警平台" src="/Public/Home/images/wangjing.gif" /></a></span><span class="fr"><a href="http://www.szwljb.gov.cn" target="_blank" rel="nofollow">深圳网络警<br />
+			察报警平台</a></span></p><p><span class="fl"><a href="http://www.cyberpolice.cn/wfjb/" target="_blank" rel="nofollow"><img width="36" height="42" border="0" alt="公共信息安全网络监察" src="/Public/Home/images/anwang.jpg" /></a></span><span class="fr"><a href="http://www.cyberpolice.cn/wfjb/" target="_blank" rel="nofollow">公共信息安<br />
+			全网络监察</a></span></p><p><span style="width:44px;" class="fl"><a href="http://www.12377.cn/" target="_blank" rel="nofollow"><img width="44" height="44" border="0" alt="不良信息举报中心" src="/Public/Home/images/buliang.gif" /></a></span><span style="width:64px;" class="fr"><a class="lcblack" href="http://www.12377.cn/" target="_blank" rel="nofollow">不良信息<br />
+			举报中心</a></span></p><p><span style="width:44px;" class="fl"><a href="http://szcert.ebs.org.cn/9822308f-c3cf-4c02-851d-6bac920e6898" target="_blank" rel="nofollow"><img width="44" height="44" border="0" alt="不良信息举报中心" src="/Public/Home/images/artboard.png" /></a></span><span style="width:64px;" class="fr"><a class="lcblack" href="http://szcert.ebs.org.cn/9822308f-c3cf-4c02-851d-6bac920e6898" target="_blank" rel="nofollow">工商网监<br />电子标识</a></span></p></div></div></div></div><script>
+	var _hmt = _hmt || [];
+	(function() {
+		var hm = document.createElement("script");
+		hm.src = "https://hm.baidu.com/hm.js?23e03833424f58016cc5f37c9e30e006";
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(hm, s);
+	})();
+</script><script data-main="/Public/Home/detail.js?v=1111" src="/Public/Home/require.js"></script><script src="/Public/Home/detail01.js?v=9999920220716"></script><script>
+		var _hmt = _hmt || [];
+		(function() {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?23e03833424f58016cc5f37c9e30e006";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
+	</script><style>
+        .relation-news ul li {
+            margin-bottom: 0;
+            padding: 16px 0;
+            border-bottom: 1px solid #dedede;
+        }
+
+        .relation-single .relation-single-img {
+            padding-top: 15px;
+        }
+
+        .relation-imgs img {
+            margin-right: 10px;
+        }
+
+        .relation-like {
+            display:none;
+        }
+
+        .relation-account img {
+            width:22px;
+            height:22px;
+        }
+
+        .m-reading_content {
+            width: 600px;
+        }
+    </style></body></html>
