@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head>
+<title>跨Linux和Windows的C编程杂记_Linux编程_Linux公社-Linux系统门户网站</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+<meta name="description" content="搞了几个跨Linux与Windows的项目，碰到很多问题，记下来，以供查考。另外，因为水平的原因，肯定错误在所难免，请读者一定指正。" />
+<meta name="keywords" content="c编程,C,跨Linux和Windows的C编程杂记,编程,Linux编程,Linux Shell,Android,Android教程,JAVA,C语言,Python,HTML5" />
+<link rel="canonical" href="https://www.linuxidc.com/Linux/2012-02/52963.htm" />
+<meta name="generator" content="Linux公社" />
+<meta name="generator" content="Linux" />
+<link rel="stylesheet" href="../../style/systems/style.css" type="text/css" />
+<meta name="generator" content="专业的Linux网站" />
+<script src="https://hm.baidu.com/hm.js?fce89b8ea6b5ba19e305b7dc2ff0f38b"></script><script type="text/javascript" src="../../inc/jquery.js"></script>
+<script type="text/javascript" src="../../inc/iwms.js"></script>
+<script type="text/javascript">iwms.urlPrefix="../../";</script>
+
+<script type="text/javascript" src="../../inc/show.js"></script>
+</head>
+<body>
+<div class="topBar">
+	<div class="twidth">
+	
+	<div style="float:right">
+		<a href="http://m.linuxidc.com" rel="nofollow">手机版</a>
+		<script type="text/javascript" src="../../inc/language.js"></script> <a id="StranLink" href="javascript:StranBody()" title="點擊以繁體中文方式浏覽">繁體</a>
+	</div>
+	
+	<div id="topUser">你好，游客 <a href="#" onclick="iwms.logPop()">登录</a>
+	<a href="../../memberreg.aspx" rel="nofollow">注册</a>
+	
+	</div>
+	</div>
+</div>
+<div class="twidth">
+<div id="sitehead">
+<div class="l"></div>
+<div class="r"></div>
+<div class="m">
+	<table width="100%">
+	<tbody><tr align="center"><td width="160">
+	<a href="https://www.linuxidc.com/"><img style="filter: chroma(color=#FFFFFF);" src="../../pic/logo.jpg" alt="Linux公社" width="155" height="53" border="0" /></a>
+	</td><td>
+	<div align="center"><script type="text/javascript" src="/linuxfile/linux.js"></script><img src="/linuxfile/wx1.png" alt="" width="468" height="60" />
+</div>
+	</td>
+	</tr></tbody></table>
+</div>
+</div>
+<div id="navbar">
+<div class="l"></div>
+<div class="r"></div>
+<div class="m">
+	<a href="../../index.htm" class="first">首页</a><a href="../../it/">Linux新闻</a><a href="../../Linuxit/">Linux教程</a><a href="../../MySql/">数据库技术</a><a href="../../RedLinux/" class="thisclass">Linux编程</a><a href="../../Apache/">服务器应用</a><a href="../../Unix/">Linux安全</a><a href="../../download/">Linux下载</a><a href="../../theme/">Linux主题</a><a href="../../Linuxwallpaper/">Linux壁纸</a><a href="../../linuxsoft/">Linux软件</a><a href="../../digi/">数码</a><a href="../../mobile/">手机</a><a href="../../diannao/">电脑</a>
+
+</div>
+</div>
+
+<div id="navsub">
+<div class="l"></div>
+<div class="r"></div>
+<div class="m">
+	<a href="../../index.htm">首页</a> → <a href="../../RedLinux/">Linux编程</a>
+</div>
+</div>
+<div class="linuxe1"><script type="text/javascript" src="/linuxfile/linuxe1.js"></script></div>
+<div class="linux1"><script type="text/javascript" src="/linuxfile/linux1.js"></script></div>
+<div class="linuxa"><script type="text/javascript" src="/linuxfile/linuxa.js"></script></div>
+<div class="linuxa1"><script type="text/javascript" src="/linuxfile/linuxa1.js"></script></div>
+<table id="middle" width="100%" cellspacing="0" cellpadding="0" style="table-layout:fixed">
+<tbody><tr valign="top"><td>
+
+	<div class="mframe mR">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<div class="moreR">
+			背景：<script type="text/javascript">WriteBg()</script><img src="../../pic/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#EDF0F5" alt="#EDF0F5" onclick="ContentBg(&quot;#EDF0F5&quot;)" /> <img src="../../pic/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FAFBE6" alt="#FAFBE6" onclick="ContentBg(&quot;#FAFBE6&quot;)" /> <img src="../../pic/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FFF2E2" alt="#FFF2E2" onclick="ContentBg(&quot;#FFF2E2&quot;)" /> <img src="../../pic/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FDE6E0" alt="#FDE6E0" onclick="ContentBg(&quot;#FDE6E0&quot;)" /> <img src="../../pic/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#F3FFE1" alt="#F3FFE1" onclick="ContentBg(&quot;#F3FFE1&quot;)" /> <img src="../../pic/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#DAFAF3" alt="#DAFAF3" onclick="ContentBg(&quot;#DAFAF3&quot;)" /> <img src="../../pic/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#EAEAEF" alt="#EAEAEF" onclick="ContentBg(&quot;#EAEAEF&quot;)" /> <img src="../../pic/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FFF" alt="默认" onclick="ContentBg(&quot;&quot;)" /> 
+		</div>
+		<span class="tt">阅读新闻</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm" id="bodyTd">
+		<div id="printBody" style="word-break:break-all;">
+			<div style="text-align:center"><h1 class="aTitle">跨Linux和Windows的C编程杂记</h1></div>
+			
+			<table width="97%" align="center">
+				<tbody><tr>
+				<td width="140">[日期：2012-02-01]</td>
+				<td align="center">来源：Linux社区 
+				作者：naihe2010</td>
+				<td width="160" align="right">[字体：<a href="javascript:ContentSize(16)">大</a> <a href="javascript:ContentSize(0)">中</a> <a href="javascript:ContentSize(12)">小</a>]
+				</td></tr>
+			</tbody></table>
+<div id="li_all">
+<div id="li_1"><script type="text/javascript" src="/linuxfile/linux201.js"></script></div>
+<div id="li_2"><script type="text/javascript" src="/linuxfile/linux2.js"></script></div>
+</div>
+			<div id="content" style="overflow-x: hidden; word-break: break-all;">搞了几个跨Linux与Windows的项目，碰到很多问题，记下来，以供查考。另外，因为水平的原因，肯定错误在所难免，请读者一定指正。
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">　　如无其它说明，本文所指Linux均表示2.6内核Linux，GCC编译器，Windows均表示Windows XP系统，Visual Studio 2005 sp1编译环境。</p>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">　　下面大概分几个方面进行罗列：</p>
+<h3 style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0)">socket</h3>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px" class="first">　　Linux要包含</p><pre style="BACKGROUND-COLOR: rgb(248,244,231); COLOR: rgb(85,40,0)" class="example" name="code"><div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> </div></div><ol class="dp-cpp"><li class="alt"><span><span class="preprocessor"><font color="#808080">#include &lt;sys/socket.h&gt; </font></span><span><font color="#000000">  </font></span></span></li><li><span></span><span class="preprocessor"><font color="#808080">#include &lt;netinet/in.h&gt; </font></span><span><font color="#000000">  </font></span></li><li class="alt"><span></span><span class="preprocessor"><font color="#808080">#include &lt;netdb.h&gt; </font></span><span><font color="#000000">  </font></span></li><li><span></span><span class="preprocessor"><font color="#808080">#include &lt;arpa/inet.h&gt;</font></span><span><font color="#000000">  </font></span></li></ol></div></pre><span style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">等头文件，而windows下则是包含</span> <pre style="BACKGROUND-COLOR: rgb(248,244,231); COLOR: rgb(85,40,0)" class="example" name="code"><div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> </div></div><ol class="dp-cpp"><li class="alt"><span><span class="preprocessor"><font color="#808080">#include &lt;winsock.h&gt;</font></span><span><font color="#000000">  </font></span></span></li></ol></div></pre>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">。</p>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">　　Linux中socket为整形，Windows中为一个SOCKET。</p>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">　　Linux中关闭socket为close，Windows中为closesocket。</p>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">　　Linux中有变量socklen_t，Windows中直接为int。</p>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">　　因为linux中的socket与普通的fd一样，所以可以在TCP的socket中，发送与接收数据时，直接使用read和write。而windows只能使用recv和send。</p>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">　　设置socet选项，比如设置socket为非阻塞的。Linux下为</p><pre style="BACKGROUND-COLOR: rgb(248,244,231); COLOR: rgb(85,40,0)" class="example" name="code"><div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> </div></div><ol class="dp-cpp"><li class="alt"><span><span><font color="#000000">flag = fcntl (fd, F_GETFL);  </font></span></span></li><li><span><font color="#000000">fcntl (fd, F_SETFL, flag | O_NONBLOCK);  </font></span></li></ol></div></pre><span style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">，Windows下为</span> <pre style="BACKGROUND-COLOR: rgb(248,244,231); COLOR: rgb(85,40,0)" class="example" name="code"><div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> </div></div><ol class="dp-cpp"><li class="alt"><span><span><font color="#000000">flag = 1;  </font></span></span></li><li><span><font color="#000000">ioctlsocket (fd, FIONBIO, (unsigned </font></span><span class="datatypes"><strong><font color="#2e8b57">long</font></strong></span><span><font color="#000000"> *) &amp;flag);  </font></span></li></ol></div></pre><span style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">。</span> 
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">　　当非阻塞socket的TCP连接正在进行时，Linux的错误号为EINPROGRESS，Windows的错误号为WSAEWOULDBLOCK。</p>
+<h3 style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0)">file</h3>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px" class="first">　　Linux下面，文件换行是"\n"，而windows下面是"\r\n"。</p>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">　　Linux下面，目录分隔符是"/"，而windows下面是"\"。</p>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">　　Linux与Windows下面，均可以使用stat调用来查询文件信息。但是，Linux只支持2G大小，而Windows只支持4G大小。为了支持更大的文件查询，可以在Linux环境下加_FILE_OFFSET_BITS=64定义，在Windows下面使用_stat64调用，入参为struct __stat64。</p>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">　　Linux中可根据stat的st_mode判断文件类型，有S_ISREG、S_ISDIR等宏。Windows中没有，需要自己定义相应的宏，如</p><pre style="BACKGROUND-COLOR: rgb(248,244,231); COLOR: rgb(85,40,0)" class="example" name="code"><div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> </div></div><ol class="dp-cpp"><li class="alt"><span><span class="preprocessor"><font color="#808080">#define S_ISREG(m) (((m) &amp; 0170000) == (0100000)) </font></span><span><font color="#000000">  </font></span></span></li><li><span></span><span class="preprocessor"><font color="#808080">#define S_ISDIR(m) (((m) &amp; 0170000) == (0040000))</font></span><span><font color="#000000">  </font></span></li></ol></div></pre>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">　　Linux中删除文件是unlink，Windows中为DeleteFile。</p>
+<h3 style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0)">time</h3>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px" class="first">　　Linux中，time_t结构是长整形。而windows中，time_t结构是64位的整形。如果要在windows始time_t为32位无符号整形，可以加宏定义，_USE_32BIT_TIME_T。</p>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">　　Linux中，sleep的单位为秒。Windows中，Sleep的单位为毫秒。即，Linux下sleep (1)，在Windows环境下则需要Sleep (1000)。</p>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">　　Windows中的timecmp宏，不支持大于等于或者小于等于。</p>
+<p style="BACKGROUND-COLOR: rgb(248,244,231); FONT-FAMILY: 'AR PL UKai CN'; COLOR: rgb(85,40,0); FONT-SIZE: 16px">　　Windows中没有struct timeval结构的加减宏可以使用，需要手动定义：</p><pre style="BACKGROUND-COLOR: rgb(248,244,231); COLOR: rgb(85,40,0)" class="example" name="code"><div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> </div></div><ol class="dp-cpp"><li class="alt"><span><span class="preprocessor"><font color="#808080">#define MICROSECONDS (1000 * 1000) </font></span><span><font color="#000000">  </font></span></span></li><li><span><font color="#000000">  </font></span></li><li class="alt"><span></span><span class="preprocessor"><font color="#808080">#define timeradd(t1, t2, t3) do {                                                          \ </font></span><span><font color="#000000">  </font></span></li><li><span><font color="#000000">  (t3)-&gt;tv_sec = (t1)-&gt;tv_sec + (t2)-&gt;tv_sec;                                              \  </font></span></li><li class="alt"><span><font color="#000000">  (t3)-&gt;tv_usec = (t1)-&gt;tv_usec + (t2)-&gt;tv_usec % MICROSECONDS;                            \  </font></span></li><li><span><font color="#000000">  </font></span><span class="keyword"><strong><font color="#006699">if</font></strong></span><span><font color="#000000"> ((t1)-&gt;tv_usec + (t2)-&gt;tv_usec &gt; MICROSECONDS) (t3)-&gt;tv_sec ++;                       \  </font></span></li><li class="alt"><span><font color="#000000">} </font></span><span class="keyword"><strong><font color="#006699">while</font></strong></span><span><font color="#000000"> (0)  </font></span></li><li><span><font color="#000000">  </font></span></li><li class="alt"><span></span><span class="preprocessor"><font color="#808080">#define timersub(t1, t2, t3) do {                                                          \ </font></span><span><font color="#000000">  </font></span></li><li><span><font color="#000000">  (t3)-&gt;tv_sec = (t1)-&gt;tv_sec - (t2)-&gt;tv_sec;                                              \  </font></span></li><li class="alt"><span><font color="#000000">  (t3)-&gt;tv_usec = (t1)-&gt;tv_usec - (t2)-&gt;tv_usec;                                           \  </font></span></li><li><span><font color="#000000">  </font></span><span class="keyword"><strong><font color="#006699">if</font></strong></span><span><font color="#000000"> ((t1)-&gt;tv_usec - (t2)-&gt;tv_usec &lt; 0) (t3)-&gt;tv_usec --, (t3)-&gt;tv_usec += MICROSECONDS;  \  </font></span></li><li class="alt"><span><font color="#000000">} </font></span><span class="keyword"><strong><font color="#006699">while</font></strong></span><span><font color="#000000"> (0)  </font></span></li></ol></div></pre><a href="http://www.linuxidc.com" target="_blank"><img src="/linuxfile/logo.gif" alt="linux" width="15" height="17" /></a></div><a href="http://www.linuxidc.com" target="_blank">
+<div class="linux3"><script type="text/javascript" src="/linuxfile/linux3.js"></script></div>
+</a><div class="linux302"><a href="http://www.linuxidc.com" target="_blank"><script type="text/javascript" src="/linuxfile/linux302.js"></script></a><p style="text-align: center;"><a href="http://www.linuxidc.com" target="_blank"></a><a href="https://www.linuxidc.com/Linux/2014-08/106019.htm" target="_blank"><span style="color: #ff0000; font-size: medium;"><strong>关注Linux公社（LinuxIDC.com）官方微信与QQ群，随机发放邀请码</strong></span></a></p>
+</div>		
+			<table align="center"><tbody><tr><td><div class="pager"><ul><li class="p_current">1</li><li><a href="../../Linux/2012-02/52963p2.htm">2</a></li><li><a href="../../Linux/2012-02/52963p2.htm" title="下一页">下一页</a></li><li><div><input type="text" value="2" onkeydown="pager.Jump(event,this)" /></div><script type="text/javascript" src="../../inc/pager.js"></script><script type="text/javascript">var pager=new iwmsPager(1,2,true);</script></li></ul></div></td></tr></tbody></table>
+			
+		</div>
+<div class="linuxfx"><script type="text/javascript" src="/linuxfile/fx.js"></script></div>	
+<div class="linux8"><script type="text/javascript" src="/linuxfile/linux8.js"></script></div>
+<div class="linux801"><script type="text/javascript" src="/linuxfile/linux801.js"></script></div>
+		<div class="nearNews">
+			<div class="prevNews"><a href="../../Linux/2012-02/52962.htm">C/C++网络编程中的TCP保活</a></div>
+			<div class="nextNews"><a href="../../Linux/2012-02/52964.htm">使用C# ping主机的方法</a></div>
+		</div>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+<div class="linux809"><script type="text/javascript" src="/linuxfile/linux809.js"></script></div>
+	<div class="mframe mR">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">相关资讯</span>      
+		<a href="../../search.aspx?where=nkey&amp;keyword=901" target="_blank">c编程</a>  <a href="../../search.aspx?where=nkey&amp;keyword=4575" target="_blank">C</a>  
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<table width="100%"><tbody><tr><td width="50%" valign="top"><ul class="nl"><li><a href="../../Linux/2020-01/161939.htm" target="_blank">C、C++和C#区别概述</a>  <span class="gray">(<span class="time">今 14:11</span>)</span></li>
+<li><a href="../../Linux/2013-11/92548.htm" target="_blank">用C实现截获网络数据包</a>  <span class="gray">(11/10/2013 09:50:31)</span></li>
+<li><a href="../../Linux/2013-08/89313.htm" target="_blank">C的链接详解</a>  <span class="gray">(08/25/2013 09:23:23)</span></li>
+</ul></td><td width="50%" valign="top"><ul class="nl"><li><a href="../../Linux/2015-02/113339.htm" target="_blank">C、Shell混合编程小技巧</a>  <span class="gray">(02/13/2015 09:59:31)</span></li>
+<li><a href="../../Linux/2013-10/91439.htm" target="_blank" title="C常见问题之字符串的数组形式与指针形式的区别">C常见问题之字符串的数组形式与指</a>  <span class="gray">(10/15/2013 14:15:22)</span></li>
+<li><a href="../../Linux/2013-07/86996.htm" target="_blank">GNU C中的数组类型</a>  <span class="gray">(07/07/2013 08:35:15)</span></li>
+</ul></td></tr></tbody></table>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+<div class="linux808"><script type="text/javascript" src="/linuxfile/linux808.js"></script></div>
+	
+	<div class="mframe mR">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">本文评论</span>
+		 	　　<a href="../../remark.aspx?id=52963" target="_blank">查看全部评论</a> <span class="gray">(0)</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<table width="100%" style="margin:6px">		
+		<tbody><tr><td width="50%">
+			<form action="" name="fmRemarkSt" onsubmit="return remark.post(this);">
+			<input type="hidden" value="1" name="face" disabled="disabled" />
+			表情： <img src="../../pic/b.gif" alt="表情" class="face1" style="cursor:pointer;vertical-align:middle" onclick="remark.dispFace(this)" onmouseout="remark.hideFace()" />
+			姓名： <input type="text" name="username" value="" maxlength="15" style="width:60px" class="inputbg" disabled="disabled" />
+			<input type="checkbox" id="rmAnonymitySt" onclick="remark.anony(this)" disabled="disabled" /><label for="rmAnonymitySt">匿名</label>
+			字数 <input type="text" id="bodyLen" size="3" readonly="readonly" style="border-width:0;background:transparent;vertical-align:middle" value="0" disabled="disabled" />
+			<br />
+			<textarea name="body" cols="40" rows="4" onkeydown="remark.dispLen(this)" onkeyup="remark.handle(event,this);remark.dispLen(this)" style="width:39em;height:100px;margin:3px 0;overflow-y:auto" disabled="disabled"></textarea>
+				<br />
+		　　　<input type="checkbox" checked="checked" id="rmAgreeSt" disabled="disabled" /><label for="rmAgreeSt">同意评论声明</label>
+		　　　<button type="submit" style="width: 50px; padding: 0px;" disabled="disabled">请登录</button>
+			</form><br />
+			评论声明
+			<ul style="list-style-type:square;margin:5px 0 0 1em;padding:0">
+			<li>尊重网上道德，遵守中华人民共和国的各项有关法律法规</li>
+			<li>承担一切因您的行为而直接或间接导致的民事或刑事法律责任</li>
+			<li>本站管理人员有权保留或删除其管辖留言中的任意内容</li>
+			<li>本站有权在网站内转载或引用您的评论</li>
+			<li>参与本评论即表明您已经阅读并接受上述条款</li>
+			</ul>
+		</td>
+		<td width="50%"><div class="linux799"><script type="text/javascript" src="/linuxfile/linux799.js"></script><img src="https://www.linuxidc.com/linuxfile/weixin.png" alt="" width="291" height="250" />
+</div></td></tr>
+		</tbody></table>
+		<script type="text/javascript" src="../../inc/remark.js"></script>
+		<script type="text/javascript">
+			remark.maxSize=500;
+			remark.minSize=2;
+			remark.sourceEle=$(document.fmRemarkSt).find("button").get(0);
+			iwms.vCode="CC74440A";
+			iwms.user.name.length==0 ? $i("rmAnonymitySt").click() : $i("rmAnonymitySt").form.username.value=iwms.user.name;
+		</script>
+		<div class="reCont" id="reContainer"></div>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+	
+</td><td width="300" valign="top">
+<div class="linux901"><script type="text/javascript" src="/linuxfile/linux901.js"></script></div>
+<div class="linux902"><script type="text/javascript" src="/linuxfile/linux902.js"></script></div>
+<div class="linux903"><script type="text/javascript" src="/linuxfile/linux903.js"></script></div>
+<div class="linux905"><script type="text/javascript" src="/linuxfile/linux905.js"></script></div>
+	
+	<div class="lframe">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">最新资讯</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<ul class="nl">
+<li><a href="../../Linux/2020-01/161939.htm" target="_blank">C、C++和C#区别概述</a></li>
+<li><a href="../../Linux/2020-01/161938.htm" target="_blank">CentOS 7.6 下 Zabbix 4.04 安装文档</a></li>
+<li><a href="../../Linux/2020-01/161937.htm" target="_blank">DHCP服务器搭建</a></li>
+<li><a href="../../Linux/2020-01/161936.htm" target="_blank">NTP服务器搭建</a></li>
+<li><a href="../../Linux/2020-01/161935.htm" target="_blank">安装Linux系统时LSI RAID卡的驱动挂载</a></li>
+<li><a href="../../Linux/2020-01/161934.htm" target="_blank">PERC H310 配置阵列RAID详细步骤</a></li>
+<li><a href="../../Linux/2020-01/161933.htm" target="_blank" title="SuperTuxKart 1.1发布，更好的在线播放功能，UI增强功能和新竞技场">SuperTuxKart 1.1发布，更好的在线播放功能</a></li>
+<li><a href="../../Linux/2020-01/161932.htm" target="_blank">为GIMP 3.0的GIMP 2.99.x开发版本即将开始</a></li>
+<li><a href="../../Linux/2020-01/161931.htm" target="_blank">KDE将在2020年推出新功能</a></li>
+<li><a href="../../Linux/2020-01/161930.htm" target="_blank" title="Linux Kernel 5.5 RC5 发布，“全面修复”与一个大的性能回归修复">Linux Kernel 5.5 RC5 发布，“全面修复”</a></li>
+</ul>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+	<div class="u70"><script type="text/javascript" src="/linuxfile/u70.js"></script></div>
+	<div class="u80"><script type="text/javascript" src="/linuxfile/u80.js"></script></div>
+	<div class="u90"><script type="text/javascript" src="/linuxfile/u90.js"></script></div>
+	<div class="space"></div>
+	<div id="pin">
+	<script type="text/javascript" src="/linuxfile/pin.js"></script>
+	</div>
+</td></tr>
+</tbody></table>
+<div class="linux906"><script type="text/javascript" src="/linuxfile/linux906.js"></script></div>
+<div id="footer">
+<a href="https://www.linuxidc.com/aboutus.htm">Linux公社简介</a> - <a href="https://www.linuxidc.com/adsense.htm">广告服务</a> - <a href="https://www.linuxidc.com/sitemap.aspx">网站地图</a> - <a href="https://www.linuxidc.com/help.htm">帮助信息</a> - <a href="https://www.linuxidc.com/contactus.htm">联系我们</a><br />本站（LinuxIDC）所刊载文章不代表同意其说法或描述，仅为提供更多信息，也不构成任何建议。<br /><script type="text/javascript" src="/linuxfile/qq.js"></script>主编：漏网的鱼 联系邮箱:<img src="/linuxfile/email.png" alt="" width="138" height="20" /> (如有合作请联系)
+<br />
+<script type="text/javascript" src="/linuxfile/foot.js"></script>本站带宽由[<font color="red">300.ai</font>]友情提供<br />关注Linux，关注LinuxIDC.com，<font color="red">请向您的QQ好友宣传LinuxIDC.com</font>，多谢支持！
+<br />Copyright © 2006-2019　<a href="https://www.linuxidc.com/">Linux公社</a>　All rights reserved 浙ICP备07014134号-8
+	<script type="text/javascript">iwms.aId=52963;$(function(){iwms.imgCont=$i('content');iwms.imgResize();InitContStyle();iwms.getVars();})</script>
+	
+</div>
+</div>
+<script type="text/javascript" src="/linuxren/linuxren1.js"></script><script type="text/javascript">
+document.body.oncopy = function () { setTimeout( function () { var text = clipboardData.getData("text"); if (text) { text = text + "\r\n本篇文章来源于 Linux公社网站(www.linuxidc.com)  原文链接："+location.href; clipboardData.setData("text", text); } }, 100 ) }
+</script>
+
+<script type="text/javascript" src="/linuxren/linuxren2.js"></script>
+<script type="text/javascript" src="/linuxren/linuxren3.js"></script><script src="/tj.js"></script>
+
+</body></html>
