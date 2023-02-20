@@ -274,6 +274,21 @@ void* getEGLFunction(EnumFakeDriverHookFunction fid, const char* fname) {
 ```
 
 
+## windows 程序移植到 linux & mac 总结
+
+
+### 标准 c++ 实现 CString 类和 TCHAR
+
+<https://blog.csdn.net/qq_36810544/article/details/84329132>
+
+<https://codeproject.freetls.fastly.net/Articles/1146/CString-clone-Using-Standard-C>
+
+
+### std::string 跨平台格式化函数实现代码
+
+<https://blog.csdn.net/jzkdl/article/details/80196309>
+
+
 ## Refs
 
 [1] [from](https://www.linuxidc.com/Linux/2012-02/52963.htm)
@@ -285,5 +300,8 @@ void* getEGLFunction(EnumFakeDriverHookFunction fid, const char* fname) {
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-24-cross-platform-windows-linux-notes.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://blog.csdn.net/qq_36810544/article/details/84329132]({% include relrefx.html url="/backup/2021-03-24-cross-platform-windows-linux-notes.md/blog.csdn.net/211e02f4.html" %})
+- [https://codeproject.freetls.fastly.net/Articles/1146/CString-clone-Using-Standard-C]({% include relrefx.html url="/backup/2021-03-24-cross-platform-windows-linux-notes.md/codeproject.freetls.fastly.net/ca031c29.html" %})
+- [https://blog.csdn.net/jzkdl/article/details/80196309]({% include relrefx.html url="/backup/2021-03-24-cross-platform-windows-linux-notes.md/blog.csdn.net/b0f43536.html" %})
 - [https://www.linuxidc.com/Linux/2012-02/52963.htm]({% include relrefx.html url="/backup/2021-03-24-cross-platform-windows-linux-notes.md/www.linuxidc.com/c0293f28.htm" %})
 - [https://www.linuxidc.com/Linux/2012-02/52963p2.htm]({% include relrefx.html url="/backup/2021-03-24-cross-platform-windows-linux-notes.md/www.linuxidc.com/9efb56a2.htm" %})
