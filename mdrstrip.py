@@ -142,12 +142,13 @@ def backupUrlContent(fpath, url):
     itag3 = bytesToString('未注册手机验证后自动登录，注册即代表同意'.encode("utf8")) # 知乎的问题
     itag4 = bytesToString("其他登录方式".encode("utf8"))
     itag5 = bytesToString("其他方式登录".encode("utf8"))
+    itag6 = bytesToString("https://passport.csdn.net/account/login".encode("utf8"))
     idata = bytesToString(fdata)
     if not url in readfileIglist("config/mdrstrip_url_ignore.txt"):
         if idata.find("ERR_CONNECTION_TIMED_OUT") != -1 or (
                 idata.find(itag1) != -1 or idata.find(itag4) != -1 or
                 idata.find(itag2) != -1 or idata.find(itag5) != -1 or
-                idata.find(itag3) != -1):
+                idata.find(itag3) != -1 or idata.find(itag6) != -1):
             print("无法访问此网站", fpath, url)
             if not fdatalocal: os.system(PAUSE_CMD)
             removeSnapCache(urlmd5)
