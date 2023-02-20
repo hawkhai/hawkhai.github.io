@@ -15,6 +15,20 @@ glslcanvas:
 codeprint:
 ---
 
+## CMake & OpenCV
+
+```
+mkdir buildx64
+cd buildx64
+cmake .. 
+cd ..
+
+mkdir build
+cd build
+cmake .. -A Win32
+cd ..
+```
+
 
 ## 宏定义
 
