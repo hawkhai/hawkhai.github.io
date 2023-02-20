@@ -19,6 +19,10 @@ cluster: "机器学习课程"
 路虽远行则将至。
 浙江大学 · [机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1qf4y1x7kB/)
 
+> 惊叹深度网络的每次改进都如此精妙，也不知道为啥，反正收敛靠运气，试验效果更好，太神奇了。
+> 每次看到 ReLU，都想起这玩意，简单的函数可以折叠出任意复杂的高维，感觉自编码器最大的作用是保证信息不丢失。
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/730sfaf.jpg" caption="F-117A" %}
+
 **深度学习与炼丹。**
 经典网络 AlexNet 第一层的卷积内核是 11x11 像素。
 为什么是 11 不是 10，不是 12？不知道，作者写论文的时候也没讲。
@@ -33,6 +37,11 @@ AlexNet 为什么有 9 层，为什么第二层就变成 5x5，后面又变成 3
 卷积架构 适合图像处理，RNN 架构适合语言处理。
 
 实践中，根据经验多试几个网络，哪个效果更好就用那个。
+Stefano Bachis·F-117A
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/d6ca7bcb0a46f21ff08913a7267ac5640d33ae6c.webp" %}
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/aec379310a55b319bb06819c84f72c22cefc173a.webp" %}
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/79f0f736afc379319386587b2c9a194142a9115d.webp" %}
+[深入理解 ReLU 函数（ReLU 函数的可解释性） {% include relref_csdn.html %}](https://blog.csdn.net/weixin_41929524/article/details/112253138)
 
 
 ### P1 [1.1.1] -- 机器学习定义 09:38
@@ -182,8 +191,41 @@ caption="通过 ROC 曲线获得系统性能度量。（AUC & EER）" %}
 
 ### P30 [3.11.1] -- 人工神经网络（参数设置） 11:44
 
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/117110173)
+
+#### 训练神经网络的建议
+
+首先是三个训练神经网络的建议，这几个建议应该是学术界一致公认的。
+
+1. 一般情况下，在训练集上的**目标函数的平均值（cost）**会随着训练的深入而不断减小，如果这个指标有增大的情况，请停下来。
+    有两种情况：
+    1. 采用的模型不够复杂，以至于不能在训练集上完全拟合；
+    2. 已经训练很好了。因此停下来检查一下是否训练好，采取相应的措施。
+
+2. **分出一些验证集（Validation Set）**，训练的本质目标是在验证集上获取最大的识别率。
+因此训练一段时间后，必须在验证集上测试识别率，同时需要保存使验证集上识别率最大的模型参数，作为最后的结果。
+
+3. **注意调整学习率（Learning Rate）**，如果刚训练几步损失函数 cost 就增加，一般来说是学习率太高了；如果每次 cost 变化很小，说明学习率太低了。根据实际情况适度的调整学习率是使神经网络快速正确收敛的基础。
+
+#### 训练神经网络的经验
+
+1. 目标函数可以加入正则项（regularization term）
+2. 训练数据归一化
+3. 参数 w 和 b 的初始化
+4. Batch Normalization
+5. 参数的更新策略
+
 
 ### P31 [4.1.1] -- 深度学习（历史发展） 12:20
+
+#### 人工神经网络的劣势
+
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/117215115)
+和支持向量机相比，多层神经网络的劣势：
+1. 多层神经网络在数学上不够优美，它的优化算法只能获得局部极值，算法的性能与初始值有关。
+2. 多层神经网络不可解释训练神经网络获得的参数与实际任务的关联性非常模糊。
+3. 模型可调整的参数很多，它包括网络层数、每层神经元个数、非线性函数、学习率、优化方法、终止条件等，使得训练神经网络变成了一门艺术，而以支持向量机为代表的方法所需要调整的参数却非常少。
+4. 如果要训练相对复杂的网络，那么需要大量的训练样本。这与支持向量机基于小规模训练样本而产生的方法是背道而驰的。
 
 
 ### P32 [4.2.1] -- 深度学习（自编码器） 07:19
@@ -191,8 +233,18 @@ caption="通过 ROC 曲线获得系统性能度量。（AUC & EER）" %}
 
 ### P33 [4.3.1] -- 深度学习（卷积神经网络 LENET） 16:22
 
+卷积神经网络（Convolutional Neural Network, CNN）。
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210525101916740.png" caption="经典的 LeNet 结构" %}
+
 
 ### P34 [4.4.1] -- 深度学习（卷积神经网络 ALEXNET） 12:04
+
+AlexNet 的结构以及 AlexNet 对于卷积神经网络的一系列改进，它们分别是：
+1. Relu 函数
+2. 最大池化（Maxpooling）
+3. 随机丢弃（Dropout）
+4. 数据扩增（Data Augumentation）
+5. 用 GPU 加速训练深度神经网络
 
 
 ### P35 [4.5.1] -- 深度学习的编程工具 PYTORCH 06:20
@@ -440,4 +492,7 @@ caption="通过 ROC 曲线获得系统性能度量。（AUC & EER）" %}
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://www.bilibili.com/video/BV1qf4y1x7kB/]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.bilibili.com/93706280.html" %})
+- [https://blog.csdn.net/weixin_41929524/article/details/112253138]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/bfbc4011.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/117110173]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/27c2fbca.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/117215115]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/ffbce7aa.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.atoolbox.net/ecf02067.php" %})
