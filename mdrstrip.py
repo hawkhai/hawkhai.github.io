@@ -68,6 +68,22 @@ def readfileIglist(fpath):
         assert li, fpath
     return li
 
+# copyfrom E:\kSource\blog\checkcache.py
+def checkpage(fdata):
+    itag0 = bytesToString("ERR_CONNECTION_TIMED_OUT".encode("utf8"))
+    itag1 = bytesToString("无法访问此网站".encode("utf8"))
+    itag2 = bytesToString('<div class="Qrcode-title">扫码登录</div>'.encode("utf8")) # 知乎的问题
+    itag3 = bytesToString('未注册手机验证后自动登录，注册即代表同意'.encode("utf8")) # 知乎的问题
+    itag4 = bytesToString("其他登录方式".encode("utf8"))
+    itag5 = bytesToString("其他方式登录".encode("utf8"))
+    itag6 = bytesToString('name="passport_iframe" src="https://passport.csdn.net/account/login?'.encode("utf8"))
+    itag7 = bytesToString('www.zhihu.com/api/v3/account/api/login/qrcode/'.encode("utf8"))
+
+    for itag in (itag0, itag1, itag2, itag3, itag4, itag5, itag6, itag7):
+        if fdata.find(itag) != -1:
+            return itag
+    return None
+
 def backupUrlContent(fpath, url):
     for urlz in readfileIglist("config/mdrstrip_url_ignore_ends.txt"):
         if url.endswith(urlz):
@@ -137,19 +153,11 @@ def backupUrlContent(fpath, url):
         fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=flocal, shotpath=shotpath, chromeDialog=chromeDialog)
         fdatalocal = False
 
-    itag1 = bytesToString("无法访问此网站".encode("utf8"))
-    itag2 = bytesToString('<div class="Qrcode-title">扫码登录</div>'.encode("utf8")) # 知乎的问题
-    itag3 = bytesToString('未注册手机验证后自动登录，注册即代表同意'.encode("utf8")) # 知乎的问题
-    itag4 = bytesToString("其他登录方式".encode("utf8"))
-    itag5 = bytesToString("其他方式登录".encode("utf8"))
-    itag6 = bytesToString("https://passport.csdn.net/account/login".encode("utf8"))
     idata = bytesToString(fdata)
     if not url in readfileIglist("config/mdrstrip_url_ignore.txt"):
-        if idata.find("ERR_CONNECTION_TIMED_OUT") != -1 or (
-                idata.find(itag1) != -1 or idata.find(itag4) != -1 or
-                idata.find(itag2) != -1 or idata.find(itag5) != -1 or
-                idata.find(itag3) != -1 or idata.find(itag6) != -1):
-            print("无法访问此网站", fpath, url)
+        result = checkpage(idata)
+        if result:
+            print("无法访问此网站", fpath, url, result)
             if not fdatalocal: os.system(PAUSE_CMD)
             removeSnapCache(urlmd5)
             osremove(flocal)
