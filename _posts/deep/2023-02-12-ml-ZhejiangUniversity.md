@@ -218,6 +218,8 @@ caption="通过 ROC 曲线获得系统性能度量。（AUC & EER）" %}
 
 ### P31 [4.1.1] -- 深度学习（历史发展） 12:20
 
+生成对抗网络（Generative Adversarial Networks）、循环神经网络（Recurrent Neural Networks）、图卷积神经网络（Graph Convolutional Neural Networks）。
+
 #### 人工神经网络的劣势
 
 [note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/117215115)
@@ -240,23 +242,80 @@ caption="通过 ROC 曲线获得系统性能度量。（AUC & EER）" %}
 ### P34 [4.4.1] -- 深度学习（卷积神经网络 ALEXNET） 12:04
 
 AlexNet 的结构以及 AlexNet 对于卷积神经网络的一系列改进，它们分别是：
-1. Relu 函数
-2. 最大池化（Maxpooling）
-3. 随机丢弃（Dropout）
-4. 数据扩增（Data Augumentation）
-5. 用 GPU 加速训练深度神经网络
+1. **Relu 函数** 第一个改进以 ReLu 函数代替 LeNet 中的 Sigmoid 或 tanh 函数。
+2. **最大池化（Maxpooling）** 第二个改进是降采样层 Maxpooling 代替 LeNet 的平均降采样。
+3. **随机丢弃（Dropout）** 第三个改进是随机丢弃（Dropout）。
+4. **数据扩增（Data Augumentation）** 第四个改进是数据扩增（Data Augumentation）。
+5. **用 GPU 加速训练深度神经网络** 第五个改进是用 GPU 加速训练过程。
 
 
 ### P35 [4.5.1] -- 深度学习的编程工具 PYTORCH 06:20
 
+TensorFlow、Caffe 和 Pytorch 三种深度学习编程工具。
+
+torch.nn 模块之常用激活函数详解 [note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/112686489)
+
+名称 	| 层对应的类 	| 功能
+---- | ---- | ----
+S 型激活函数 	| torch.nn.Sigmoid	| Sigmoid 激活函数
+双曲正切函数 	| torch.nn.Tanh	| Tanh 激活函数
+线性修正单元函数 	| torch.nn.ReLu	| ReLu 激活函数
+ReLu 函数变体 	| torch.nn.LeakyReLu	| LeakyReLu 激活函数
+平滑近似 ReLu 函数 	| torch.nn.Softplus	| ReLu 激活函数的平滑近似
+
 
 ### P36 [4.6.1] -- 深度学习的编程工具 Tensorflow 09:37
+
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210531094412483.png" %}
 
 
 ### P37 [4.7.1] -- 深度学习的编程工具 CAFFE 13:10
 
 
 ### P38 [4.8.1] -- 深度学习（近年来流行的卷积神经网络） 11:24
+
+在卷积神经网络中，感受野（Receptive Field）的定义是卷积神经网络每一层输出的特征图（Feature Map）上的像素点在输入图片上映射的区域大小。
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/117436454)
+
+用更小的卷积核叠加代替大的卷积核可以起到降低待估计参数的作用。但是多层卷积需要更大的计算量，中间过程过程特征图也需要更多的储存空间，因此 VGGNet 是一个计算和存储开销都较大的网络。
+
+#### VGGNet
+
+* 增加了网络的深度
+* 用多个 3×3 卷积核叠加代替更大的卷积核，用以增加感受野（Receptive Field）
+
+#### GooleNet
+
+GooleNet 提出了 Inception 结构，Inception 结构是用一些 1×1，3×3 和 5×5 的小卷积核用固定方式组合到一起来代替大的卷积核，达到增加感受野和减少参数个数的目的。
+
+2014 年研究人员分析了深度神经网络，并从理论和实践上证明更深的卷积神经网络能够达到更高的识别准确率（L.J. Ba and R.Caruana，Do deep nets really need to be deep? NIPS 2014.）。因此，如何构建让更深的卷积神经网络收敛成了研究领域共同关注的问题。
+
+#### ResNet
+
+在 2015 年，Kaiming He 等人发明了 ResNet，使得训练深层的神经网络成为了可能（K. He，X. Zhang S. Ren and J.sun， Deep residual learning forimage recognition，cVPR2016.）。
+
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210601170950881.png" %}
+
+将浅层的输出直接加到深层当中去，当然在实际的添加中，由于浅层和深层的特征图在维度上有可能不一致导致无法直接相加，我们可以用一个线性变换直接把浅层特征图的维度变为深层特征图的维度。
+
+* Batch Normalization 在每个卷积层后加上了 Batch Normalization
+* Xavier initialization 使用 Xavier/2 来初始化参数
+* SGD + Momentum (0.9) 使用 SGD+Momentum（momentum=0.9）
+* Learning Rate:0.1 初始学习率设为 0.1，每到验证误差高原期（validation error plateaus）的时候就下降 10 倍
+* Batch size 256 / Mini-batch size 256
+* Weight decay 1e-5 / 权重衰减 weight decay 设为 1e-5
+* No dropout 没有使用 dropout，因为 BN 已经减少了过拟合，而且效果很好
+
+寻找更好的神经网络结构的努力一直在持续，严格的说这是一个需要在识别精度、计算量、存储量三个方面平衡取舍的问题。近年来，流行的趋势是利用紧凑的、小而深的网络代替以往稀疏的、大而浅的网络，同时在具体的实践过程中加入一些创意和技巧。近年来流行的例如 ShuffleNet、MobileNet 等都是其中的典型代表，另一方面，网络结搜索（Network Architecture Search），即如何从一大堆网络结构中搜索适合具体的网络结构成为领域内另一个热点问题。
+
+不同网络计算量和识别率的联合比较。横坐标是网络的计算量，纵坐标是网络的 Top1 识别率。
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210601174642259.png" %}
+
+* VGG：效率最低，使用最多内存，但表现得确实好
+* GoogleNet：最高效
+* AlexNet：精确度最低，计算量很小，但占用内存很大。
+* ResNet：在内存使用和操作复杂度之间平衡，但精确度最高
+* GoogleNet 和 ResNet 没有使用大型的全连接层，而是在神经网络末端使用全局平均池化 global average pooling，大幅降低参数数量。
 
 
 ### P39 [4.9.1] -- 人脸识别介绍 13:57
@@ -495,4 +554,6 @@ AlexNet 的结构以及 AlexNet 对于卷积神经网络的一系列改进，它
 - [https://blog.csdn.net/weixin_41929524/article/details/112253138]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/bfbc4011.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/117110173]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/27c2fbca.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/117215115]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/ffbce7aa.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/112686489]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/4daa8911.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/117436454]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/688a7b1e.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.atoolbox.net/ecf02067.php" %})
