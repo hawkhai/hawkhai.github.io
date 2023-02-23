@@ -602,6 +602,104 @@ x | cv::MatExpr | cv::Moments
 * double  mu20, mu11, mu02, mu30, mu21, mu12, mu03;
 * double  nu20, nu11, nu02, nu30, nu21, nu12, nu03;
 
+cv::cvtColor(src, tempmat, cv::COLOR_RGBA2RGB);
+[ROOT]\opencv\opencv-3.4.2_vs2019_win64\installR\include\opencv2\imgproc.hpp
+```cpp
+enum ColorConversionCodes {
+    COLOR_BGR2BGRA     = 0, //!< add alpha channel to RGB or BGR image
+    COLOR_RGB2RGBA     = COLOR_BGR2BGRA,
+
+    COLOR_BGRA2BGR     = 1, //!< remove alpha channel from RGB or BGR image
+    COLOR_RGBA2RGB     = COLOR_BGRA2BGR,
+
+    COLOR_BGR2RGBA     = 2, //!< convert between RGB and BGR color spaces (with or without alpha channel)
+    COLOR_RGB2BGRA     = COLOR_BGR2RGBA,
+
+    COLOR_RGBA2BGR     = 3,
+    COLOR_BGRA2RGB     = COLOR_RGBA2BGR,
+
+    COLOR_BGR2RGB      = 4,
+    COLOR_RGB2BGR      = COLOR_BGR2RGB,
+
+    COLOR_BGRA2RGBA    = 5,
+    COLOR_RGBA2BGRA    = COLOR_BGRA2RGBA,
+
+    COLOR_BGR2GRAY     = 6, //!< convert between RGB/BGR and grayscale, @ref color_convert_rgb_gray "color conversions"
+    COLOR_RGB2GRAY     = 7,
+    COLOR_GRAY2BGR     = 8,
+    COLOR_GRAY2RGB     = COLOR_GRAY2BGR,
+    COLOR_GRAY2BGRA    = 9,
+    COLOR_GRAY2RGBA    = COLOR_GRAY2BGRA,
+    COLOR_BGRA2GRAY    = 10,
+    COLOR_RGBA2GRAY    = 11,
+
+    COLOR_BGR2BGR565   = 12, //!< convert between RGB/BGR and BGR565 (16-bit images)
+    COLOR_RGB2BGR565   = 13,
+    COLOR_BGR5652BGR   = 14,
+    COLOR_BGR5652RGB   = 15,
+    COLOR_BGRA2BGR565  = 16,
+    COLOR_RGBA2BGR565  = 17,
+    COLOR_BGR5652BGRA  = 18,
+    COLOR_BGR5652RGBA  = 19,
+
+    COLOR_GRAY2BGR565  = 20, //!< convert between grayscale to BGR565 (16-bit images)
+    COLOR_BGR5652GRAY  = 21,
+
+    COLOR_BGR2BGR555   = 22,  //!< convert between RGB/BGR and BGR555 (16-bit images)
+    COLOR_RGB2BGR555   = 23,
+    COLOR_BGR5552BGR   = 24,
+    COLOR_BGR5552RGB   = 25,
+    COLOR_BGRA2BGR555  = 26,
+    COLOR_RGBA2BGR555  = 27,
+    COLOR_BGR5552BGRA  = 28,
+    COLOR_BGR5552RGBA  = 29,
+
+    COLOR_GRAY2BGR555  = 30, //!< convert between grayscale and BGR555 (16-bit images)
+    COLOR_BGR5552GRAY  = 31,
+
+    COLOR_BGR2XYZ      = 32, //!< convert RGB/BGR to CIE XYZ, @ref color_convert_rgb_xyz "color conversions"
+    COLOR_RGB2XYZ      = 33,
+    COLOR_XYZ2BGR      = 34,
+    COLOR_XYZ2RGB      = 35,
+
+    COLOR_BGR2YCrCb    = 36, //!< convert RGB/BGR to luma-chroma (aka YCC), @ref color_convert_rgb_ycrcb "color conversions"
+    COLOR_RGB2YCrCb    = 37,
+    COLOR_YCrCb2BGR    = 38,
+    COLOR_YCrCb2RGB    = 39,
+
+    COLOR_BGR2HSV      = 40, //!< convert RGB/BGR to HSV (hue saturation value), @ref color_convert_rgb_hsv "color conversions"
+    COLOR_RGB2HSV      = 41,
+
+    COLOR_BGR2Lab      = 44, //!< convert RGB/BGR to CIE Lab, @ref color_convert_rgb_lab "color conversions"
+    COLOR_RGB2Lab      = 45,
+
+    COLOR_BGR2Luv      = 50, //!< convert RGB/BGR to CIE Luv, @ref color_convert_rgb_luv "color conversions"
+    COLOR_RGB2Luv      = 51,
+    COLOR_BGR2HLS      = 52, //!< convert RGB/BGR to HLS (hue lightness saturation), @ref color_convert_rgb_hls "color conversions"
+    COLOR_RGB2HLS      = 53,
+
+    COLOR_HSV2BGR      = 54, //!< backward conversions to RGB/BGR
+    COLOR_HSV2RGB      = 55,
+
+    COLOR_Lab2BGR      = 56,
+    COLOR_Lab2RGB      = 57,
+    COLOR_Luv2BGR      = 58,
+    COLOR_Luv2RGB      = 59,
+    COLOR_HLS2BGR      = 60,
+    COLOR_HLS2RGB      = 61,
+
+    COLOR_BGR2HSV_FULL = 66, //!<
+    COLOR_RGB2HSV_FULL = 67,
+    COLOR_BGR2HLS_FULL = 68,
+    COLOR_RGB2HLS_FULL = 69,
+
+    COLOR_HSV2BGR_FULL = 70,
+    COLOR_HSV2RGB_FULL = 71,
+    COLOR_HLS2BGR_FULL = 72,
+    COLOR_HLS2RGB_FULL = 73,
+};
+```
+
 [ROOT]\opencv\opencv-3.4.2\modules\core\include\opencv2\core\mat.inl.hpp
 
 ```cpp
