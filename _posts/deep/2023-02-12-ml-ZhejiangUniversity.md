@@ -324,11 +324,31 @@ GooleNet 提出了 Inception 结构，Inception 结构是用一些 1×1，3×3 �
 
 ### P39 [4.9.1] -- 人脸识别介绍 13:57
 
+高斯混合模型？
+
+在训练的时候保留最后一层 SoftMax，而在测试的时候却不要最后一层，将倒数第二层 160 个维度作为最后人脸识别的特征。在测试时，每张人脸通过卷积神经网络，获得 160 维向量，利用距离量度，如欧氏距离和余弦距离等，算出基于这 160 维向量的人脸距离，最终通过阈值获得识别结果。
+
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/118002621)
+需要强调在实现人脸识别的时候，我们首先应该做的是人脸检测和人脸对齐，目前常用的人脸检测程序是 MTCNN，它也是基于深度学习的检测系统，可以检测人脸的眼睛、鼻子和嘴巴五个特征点。可以以此获取人脸的位置，同时基于检测到的两个眼睛与水平线的夹角对人脸实现转正的操作，提高人脸识别准确率。
+
 
 ### P40 [4.10.1] -- 目标检测与分割上 12:52
 
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/118329517)
+**RCNN** R-CNN（Regions with CNN feature）的概念，用来处理上述情形。其核心思路是用大大小小的方框遍历所有的图像是不现实的，我们需要一个计算量不那么大的算法，提出 ROI（Region of Proposal，or Proposal）。
+R-CNN 的主要思想是用 Selective Search 去产生候选的方框（Proposal），将这些候选方框输入到 CNN 中，最后用 SVM 来判断这些候选方框中有没有目标。
+
+**Fast R-CNN** 首先用 CNN 的卷积层对整幅图像进行卷积操作，在中间某一层的特征图上再用 ROI-Pooling 来归一化每个候选框区域的输出。
+
+**Faster R-CNN**
+Faster R-CNN 在卷积后特征图上滑动窗口，用不同长宽比的矩形作为候选区域，用一个小网络来判断这些候选区域是不是存在目标，对于确定是目标的候选区域运用前面的 ROI-Pooling 来进行归一化，最终获得输出的结果。
+
 
 ### P41 [4.11.1] -- 目标检测与分割下 12:00
+
+目标检测 YOLO
+
+全卷积网络 FCN
 
 
 ### P42 [4.12.1] -- 时间序列的深度学习模型（RNN 和 LSTM） 14:50
@@ -560,4 +580,6 @@ GooleNet 提出了 Inception 结构，Inception 结构是用一些 1×1，3×3 �
 - [https://blog.csdn.net/DIPDWC/article/details/117215115]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/ffbce7aa.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/112686489]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/4daa8911.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/117436454]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/688a7b1e.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/118002621]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/d86a308e.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/118329517]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/7b85aa10.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.atoolbox.net/ecf02067.php" %})
