@@ -19,13 +19,13 @@ cluster: "机器学习课程"
 路虽远行则将至。
 浙江大学 · [机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1qf4y1x7kB/)
 
-> 惊叹深度网络的每次改进都如此精妙，也不知道为啥，反正收敛靠运气，试验效果更好，太神奇了。
-> 每次看到 ReLU，都想起这玩意，简单的函数可以折叠出任意复杂的高维。
-> 感觉自编码器最大的作用是保证信息不丢失，初始值在最优值附近。
-> 网络的历史发展，每一个网络在 前面的网络 基础上 改进了啥，解决了什么问题。
-> 每次 改动能感受到里面的 精妙，一次次打入黑暗的光亮，推动着深度学习的发展。
+惊叹深度网络的每次改进都如此精妙，也不知道为啥，反正收敛靠运气，试验效果更好，太神奇了。
+每次看到 ReLU，都想起这玩意，简单的函数可以折叠出任意复杂的高维。
+感觉自编码器最大的作用是保证信息不丢失，初始值在最优值附近。
+网络的历史发展，每一个网络在 前面的网络 基础上 改进了啥，解决了什么问题。
+每次 改动能感受到里面的 精妙，一次次打入黑暗的光亮，推动着深度学习的发展。
 
-{% include image.html url="/assets/images/230212-ml-zhejianguniversity/730sfaf.jpg" caption="F-117A" %}
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/730sfaf.jpg" caption="Stefano Bachis·F-117A" %}
 
 **深度学习与炼丹。**
 经典网络 AlexNet 第一层的卷积内核是 11x11 像素。
@@ -41,10 +41,7 @@ AlexNet 为什么有 9 层，为什么第二层就变成 5x5，后面又变成 3
 卷积架构 适合图像处理，RNN 架构适合语言处理。
 
 实践中，根据经验多试几个网络，哪个效果更好就用那个。
-Stefano Bachis·F-117A
-{% include image.html url="/assets/images/230212-ml-zhejianguniversity/d6ca7bcb0a46f21ff08913a7267ac5640d33ae6c.webp" %}
-{% include image.html url="/assets/images/230212-ml-zhejianguniversity/aec379310a55b319bb06819c84f72c22cefc173a.webp" %}
-{% include image.html url="/assets/images/230212-ml-zhejianguniversity/79f0f736afc379319386587b2c9a194142a9115d.webp" %}
+
 [深入理解 ReLU 函数（ReLU 函数的可解释性） {% include relref_csdn.html %}](https://blog.csdn.net/weixin_41929524/article/details/112253138)
 
 
