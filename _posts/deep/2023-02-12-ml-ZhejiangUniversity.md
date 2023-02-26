@@ -44,6 +44,9 @@ AlexNet 为什么有 9 层，为什么第二层就变成 5x5，后面又变成 3
 
 [深入理解 ReLU 函数（ReLU 函数的可解释性） {% include relref_csdn.html %}](https://blog.csdn.net/weixin_41929524/article/details/112253138)
 
+<https://github.com/microsoft/ai-edu>
+<https://microsoft.github.io/ai-edu/%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/index.html>
+
 
 ### P1 [1.1.1] -- 机器学习定义 09:38
 
@@ -573,6 +576,8 @@ Faster R-CNN 在卷积后特征图上滑动窗口，用不同长宽比的矩形�
 
 - [https://www.bilibili.com/video/BV1qf4y1x7kB/]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.bilibili.com/93706280.html" %})
 - [https://blog.csdn.net/weixin_41929524/article/details/112253138]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/bfbc4011.html" %})
+- [https://github.com/microsoft/ai-edu]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/github.com/4bdf4811.html" %})
+- [https://microsoft.github.io/ai-edu/%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/index.html]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/microsoft.github.io/77f5ac31.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/117110173]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/27c2fbca.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/117215115]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/ffbce7aa.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/112686489]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/4daa8911.html" %})
