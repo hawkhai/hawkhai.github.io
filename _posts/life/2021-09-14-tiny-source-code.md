@@ -569,9 +569,9 @@ x | cv::Mat | cv::UMat | cv::_InputArray
 8 | MatAllocator\* allocator; | MatSize size; |
 9 | UMatData\* u; | MatStep step.p; |
 10 | MatSize size; | MatStep step.buf\[0\]; |
-11 | MatStep step.p; | MatStep step.buf\[1\]; |
-12 | MatStep step.buf\[0\]; | |
-13 | MatStep step.buf\[1\]; | |
+11 | MatStep step.p; `size_t*` | MatStep step.buf\[1\]; |
+12 | MatStep step.buf\[0\]; `size_t` | |
+13 | MatStep step.buf\[1\]; `size_t` | |
 
 x | 老版本 ncnn::Mat（40 字节）<br/>**应该以这个为准** | 最新版本 ncnn::Mat（44 字节）
 ---- | ---- | ----
