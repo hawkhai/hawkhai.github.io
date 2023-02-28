@@ -151,41 +151,73 @@ caption="通过 ROC 曲线获得系统性能度量。（AUC & EER）" %}
 ### P20 [3.1.1] -- 人工神经网络（神经元的数学模型） 10:13
 
 **单个神经元是一阶泰勒近似。**
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/116211434)
 
 
 ### P21 [3.2.1] -- 人工神经网络（感知器算法） 18:50
 
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/116296128)
+
 
 ### P22 [3.3.1] -- 人工神经网络（感知器算法的意义） 10:44
 
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/116397792)
+
 
 ### P23 [3.4.1] -- 人工神经网络（第一次寒冬） 09:54
+
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/116421523)
 
 
 ### P24 [3.5.1] -- 人工神经网络（多层神经网络） 14:35
 
 三层神经网络可以模拟任意的非线性函数。
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/116425740)
 
 
 ### P25 [3.6.1] -- 人工神经网络（梯度下降算法） 15:27
 
 完成。
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/116598683)
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210510220301682.gif" %}
 
 
 ### P26 [3.7.1] -- 人工神经网络（后向传播算法上） 14:02
 
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/116834512)
+
 
 ### P27 [3.8.1] -- 人工神经网络（后向传播算法下） 11:02
+
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/116975301)
 
 
 ### P28 [3.9.1] -- 人工神经网络（后向传播算法的应用） 18:22
 
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/117029586)
 三层神经网络可以模拟任意决策面的
 证明是基于阶跃函数的。
 
-1. sigmoid 和 tanh 非线性函数；
-2. 分类问题中基于 softmax 和交叉熵的目标函数；
+1. Sigmoid 和 tanh 非线性函数代替阶跃函数；
+2. 分类问题中基于 SoftMax 函数和交叉熵（Cross Entropy） 的目标函数；
 3. 随机梯度下降法（SGD）。
+
+在分类问题中，我们经常采用另一种目标函数，即基于 SoftMax 分类函数和交叉熵（Cross Entropy） 的目标函数。
+
+基于交叉熵（Cross Entropy） 的目标函数，其中：
+$$
+\mathrm{E}(\mathrm{y})=-\sum_{\mathrm{i}=1}^{\mathrm{K}} \mathrm{Y}_{\mathrm{i}} \log \left(\mathrm{y}_{\mathrm{i}}\right)
+$$
+
+在信息论中，这个式子叫作交叉熵，它反映的是两个概率分布 $Y$ 与 $y$ 之间的相似程度。
+
+根据信息论，可以证明如下两个事实：
+1. $E ( y ) > 0$
+2. 当 $Y$ 确定时，当且仅当 $y = Y$ 时，$E ( y )$ 取最小值
+
+基于上面的事实，我们可以利用梯度下降法求 $E ( y )$ 的局部极值，这样就可以使 $y$ 尽可能地接近 $Y$。
+
+在分类问题中利用 SoftMax 函数和交叉熵（Cross Entropy) 来改进目标函数，实践证明这样的目标函数比前面预测值 $y$ 和真实值 $Y$ 差的模的平方那样的目标函数更有利于训练，在实际中，获得的识别率更高。
 
 
 ### P29 [3.10.1] -- 人工神经网络（兵王问题 MATLAB 程序） 10:00
@@ -218,9 +250,12 @@ caption="通过 ROC 曲线获得系统性能度量。（AUC & EER）" %}
 3. 参数 w 和 b 的初始化
 4. Batch Normalization
 5. 参数的更新策略
-    * ADAGRAD，解决梯度绝对值分量不平衡。
+    * AdaGrad，解决梯度绝对值分量不平衡。
     * Momentum，使搜索路径变的光滑，解决梯度方向随机性。
     * Adam 算法。
+
+引入动量解决梯度方向随机化
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210522092300965.png" %}
 
 
 ### P31 [4.1.1] -- 深度学习（历史发展） 12:20
@@ -239,15 +274,22 @@ caption="通过 ROC 曲线获得系统性能度量。（AUC & EER）" %}
 
 ### P32 [4.2.1] -- 深度学习（自编码器） 07:19
 
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/117224855)
+
 
 ### P33 [4.3.1] -- 深度学习（卷积神经网络 LENET） 16:22
 
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/117249500)
 卷积神经网络（Convolutional Neural Network, CNN）。
 {% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210525101916740.png" caption="经典的 LeNet 结构" %}
+
+你可以在某种程度上把人类看做为一个生物引导程序，引出一种超级数字智能物种。人类社会是一段非常小的代码，没有他计算机就无法启动，人类的产生就是为了让计算机启动，硅基生命（AI）似乎不能自我演化，它需要生物（人类）作为前导才能进化，人类只是硅基生命的开启程序。
+最后一个人类闭上眼睛，就是硅基文明元年。整个宇宙最终会形成一个超级电脑，电脑的最后一个命令是用全部算力制造一个新的碳基宇宙，就是人类。这样周而复始。
 
 
 ### P34 [4.4.1] -- 深度学习（卷积神经网络 ALEXNET） 12:04
 
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/117352728)
 AlexNet 的结构以及 AlexNet 对于卷积神经网络的一系列改进，它们分别是：
 1. **Relu 函数** 第一个改进以 ReLu 函数代替 LeNet 中的 Sigmoid 或 tanh 函数。
 2. **最大池化（Maxpooling）** 第二个改进是降采样层 Maxpooling 代替 LeNet 的平均降采样。
@@ -255,9 +297,12 @@ AlexNet 的结构以及 AlexNet 对于卷积神经网络的一系列改进，它
 4. **数据扩增（Data Augumentation）** 第四个改进是数据扩增（Data Augumentation）。
 5. **用 GPU 加速训练深度神经网络** 第五个改进是用 GPU 加速训练过程。
 
+每一個改變都太重要了，基本現在都還是最常用的。
+
 
 ### P35 [4.5.1] -- 深度学习的编程工具 PYTORCH 06:20
 
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/117395160)
 TensorFlow、Caffe 和 Pytorch 三种深度学习编程工具。
 
 torch.nn 模块之常用激活函数详解 [note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/112686489)
@@ -273,6 +318,7 @@ ReLu 函数变体 	| torch.nn.LeakyReLu	| LeakyReLu 激活函数
 
 ### P36 [4.6.1] -- 深度学习的编程工具 Tensorflow 09:37
 
+[note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/117410176)
 {% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210531094412483.png" %}
 
 
@@ -288,14 +334,14 @@ ReLu 函数变体 	| torch.nn.LeakyReLu	| LeakyReLu 激活函数
 
 #### VGGNet
 
-* 增加了网络的深度
-* 用多个 3×3 卷积核叠加代替更大的卷积核，用以增加感受野（Receptive Field）
+* 增加了网络的深度。
+* 用多个 3×3 卷积核叠加代替更大的卷积核，用以增加感受野（Receptive Field）。
 
 #### GooleNet
 
 GooleNet 提出了 Inception 结构，Inception 结构是用一些 1×1，3×3 和 5×5 的小卷积核用固定方式组合到一起来代替大的卷积核，达到增加感受野和减少参数个数的目的。
 
-2014 年研究人员分析了深度神经网络，并从理论和实践上证明更深的卷积神经网络能够达到更高的识别准确率（L.J. Ba and R.Caruana，Do deep nets really need to be deep? NIPS 2014.）。因此，如何构建让更深的卷积神经网络收敛成了研究领域共同关注的问题。
+2014 年研究人员分析了深度神经网络，并从理论和实践上证明**更深的卷积神经网络能够达到更高的识别准确率**（L.J. Ba and R.Caruana，Do deep nets really need to be deep? NIPS 2014.）。因此，如何构建让更深的卷积神经网络收敛成了研究领域共同关注的问题。
 
 #### ResNet
 
@@ -313,7 +359,7 @@ GooleNet 提出了 Inception 结构，Inception 结构是用一些 1×1，3×3 �
 * Weight decay 1e-5 / 权重衰减 weight decay 设为 1e-5
 * No dropout 没有使用 dropout，因为 BN 已经减少了过拟合，而且效果很好
 
-寻找更好的神经网络结构的努力一直在持续，严格的说这是一个需要在识别精度、计算量、存储量三个方面平衡取舍的问题。近年来，流行的趋势是利用紧凑的、小而深的网络代替以往稀疏的、大而浅的网络，同时在具体的实践过程中加入一些创意和技巧。近年来流行的例如 ShuffleNet、MobileNet 等都是其中的典型代表，另一方面，网络结搜索（Network Architecture Search），即如何从一大堆网络结构中搜索适合具体的网络结构成为领域内另一个热点问题。
+寻找更好的神经网络结构的努力一直在持续，严格的说这是一个需要在**识别精度、计算量、存储量**三个方面平衡取舍的问题。近年来，流行的趋势是利用紧凑的、小而深的网络代替以往稀疏的、大而浅的网络，同时在具体的实践过程中加入一些创意和技巧。近年来流行的例如 ShuffleNet、MobileNet 等都是其中的典型代表，另一方面，**网络结搜索（Network Architecture Search）**，即如何从一大堆网络结构中搜索适合具体的网络结构成为领域内另一个热点问题。
 
 不同网络计算量和识别率的联合比较。横坐标是网络的计算量，纵坐标是网络的 Top1 识别率。
 {% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210601174642259.png" %}
@@ -602,9 +648,23 @@ GAN 的缺点：
 - [https://blog.csdn.net/weixin_41929524/article/details/112253138]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/bfbc4011.html" %})
 - [https://github.com/microsoft/ai-edu]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/github.com/4bdf4811.html" %})
 - [https://microsoft.github.io/ai-edu/%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/index.html]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/microsoft.github.io/77f5ac31.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/116211434]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/a97167c5.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/116296128]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/00510853.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/116397792]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/b1159e1c.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/116421523]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/eaa020c9.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/116425740]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/6162ddf4.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/116598683]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/63763e75.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/116834512]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/7cf2528a.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/116975301]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/d8934998.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/117029586]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/64ef84dc.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/117110173]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/27c2fbca.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/117215115]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/ffbce7aa.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/117224855]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/75afd0da.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/117249500]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/84ae7f52.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/117352728]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/3e8e7485.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/117395160]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/12d610d2.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/112686489]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/4daa8911.html" %})
+- [https://blog.csdn.net/DIPDWC/article/details/117410176]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/b7b60c4a.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/117436454]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/688a7b1e.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/118002621]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/d86a308e.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/118329517]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/7b85aa10.html" %})
