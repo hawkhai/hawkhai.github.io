@@ -14,6 +14,7 @@ import re, os, sys
 sys.path.append("../")
 from pythonx.funclib import *
 from pythonx.pelib import mydllfunc
+from pythonx import lockfile
 
 # 换行符
 NEWLINE = "\r\n"
@@ -190,15 +191,30 @@ class HTTPServer:
         builder.add_header("Content-Type", JSON_MIME_TYPE)
         return builder.build()
 
+    def logUploadInfo(self, platform, argvs):
+        if not os.path.exists("tempdir"):
+            return
+        localfile = "tempdir/imgserv-{}.log".format(platform)
+        with lockfile.lock(localfile, 60):
+            file = open(localfile, "ab")
+            msg = "{} {}\r\n".format(getCurrentTimeStr(), argvs)
+            data = msg.encode("utf-8")
+            file.write(data)
+            file.close()
+
     def post_request_upload(self, requested_file, data, client_sock):
         argvs = parse.parse_qs(requested_file)
         # Content-Length: 653306
         contentlength = MAX_FILE_SIZE # 实在太多可能造成客户端超时错误。
+        platform = "-"
         for idata in data:
             if idata.startswith("Content-Length"):
                 contentlength = int(idata.split(":")[-1].strip())
+            if idata.startswith("platform"):
+                platform = idata.split(":")[-1].strip() # 32/64
 
         print("POST_REQUEST_UPLOAD", contentlength, argvs)
+        self.logUploadInfo(platform, argvs)
         assert contentlength != MAX_FILE_SIZE, contentlength
         atime = time.time()
         # 如果约定的长度没有达到，就会超时，直到客户端断开。
