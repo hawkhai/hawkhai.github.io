@@ -214,7 +214,6 @@ class HTTPServer:
                 platform = idata.split(":")[-1].strip() # 32/64
 
         print("POST_REQUEST_UPLOAD", contentlength, argvs)
-        self.logUploadInfo(platform, argvs)
         assert contentlength != MAX_FILE_SIZE, contentlength
         atime = time.time()
         # 如果约定的长度没有达到，就会超时，直到客户端断开。
@@ -222,6 +221,7 @@ class HTTPServer:
         print("POST_REQUEST_UPLOAD", len(fdata), "time=%.4fs" % (time.time()-atime), "--", getCurrentTimeStr())
         # 这里断言完整，要么不写，要么就是完整的。
         assert len(fdata) == contentlength, (len(fdata), contentlength, argvs)
+        self.logUploadInfo(platform, argvs)
 
         # POST upimage=kvision/4Enhance/60.jpg.guide.png HTTP/1.1
         if "upimage" in argvs.keys():
