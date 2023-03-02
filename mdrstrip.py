@@ -1004,7 +1004,7 @@ def viewchar(lichar, xfile, xmin, xmax):
     assert xmin <= minv and maxv <= xmax
 
 def mainfilew(fpath, fname, ftype):
-    if checklog(__file__, fpath) and not REBUILD:
+    if not REBUILD and checklog(__file__, fpath):
         # print("cached", fpath)
         return 0
     removelog(__file__, fpath)

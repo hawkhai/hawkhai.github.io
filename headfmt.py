@@ -239,7 +239,7 @@ def mainxkeyfile(fpath, fname, ftype, depth=-1, setkv={}):
 
     writefile(fpath, fsecli, "utf8")
     if not fpath in gkvconfig.keys():
-        gkvconfig[fpath] = { "taged": False }
+        gkvconfig[fpath.replace("/", "\\")] = { "taged": False }
 
 def mainxkey():
     print("***" * 30)
