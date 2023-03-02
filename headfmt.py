@@ -83,7 +83,7 @@ def formatkv(fpath, fname, ftype, fsecli, setkv={}):
     fdata = readfile(fpath, True)
     li = [line.strip() for line in fsecli.split("\n") if line.strip()]
 
-    _posts = "_posts" in fpath.split("\\")
+    _posts = "_posts" in fpath.replace("/", "\\").split("\\")
     mdkeylist = """
 layout title author location
 categories tags toc toclistyle
@@ -136,7 +136,10 @@ ktitle kaliyun imgthumb zhconv
             value = "{} +0800".format(formatTimeStamp(intsign))
 
             frelgit = os.path.relpath(fpath, ".")
-            cmdx = '''cd {} & git log -n 10000 --pretty=format:"%ad" --date=format:%Y-%m-%d_%H:%M:%S -- "{}"'''.format(*frelgit.split("\\", 1))
+            cmdsep = "&" if isWindows() else ";"
+            cmdx = ('''cd {} '''+cmdsep+''' git log -n 10000 --pretty=format:"%ad" --date=format:%Y-%m-%d_%H:%M:%S -- "{}"''').format(
+                    *frelgit.replace("/", os.path.sep).replace("\\", os.path.sep).split(os.path.sep, 1))
+            #print(cmdx)
             datestr = popenCmd(cmdx)
             datestr = bytesToString(datestr)
             # date: 1970-03-23 20:17:42 +0800
