@@ -1,0 +1,2464 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+	
+	<link rel="icon" type="image/x-icon" href="/wp-content/themes/neurosys/static/favicon/favicon-32x32.png">
+	
+	<link id="styleBundle" rel="stylesheet" href="/wp-content/themes/neurosys/style.css?v=2.1.8">
+	
+	<link rel="stylesheet" as="style" href="/wp-content/themes/neurosys/assets/css/selectize.css" onload="this.onload=null;this.rel='stylesheet'">
+	
+    <script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-PGT59PV"></script><script>
+        const templateDirectoryUri = '/wp-content/themes/neurosys/';
+        const google_map_point_icon = templateDirectoryUri + 'static/images/icons-point.svg';
+    </script>
+	
+	    <script>
+		setTimeout(() => {
+			(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PGT59PV');
+		}, 3000);
+	</script>
+    	
+	
+<!-- Search Engine Optimization by Rank Math PRO - https://s.rankmath.com/home -->
+<title>Objects Counting by Estimating a Density Map With CNNs</title>
+<meta name="description" content="Computer vision for objects counting: estimating a density map with CNNs.">
+<meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large">
+<link rel="canonical" href="https://neurosys.com/blog/objects-counting-by-estimating-a-density-map">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objects Counting by Estimating a Density Map With CNNs">
+<meta property="og:description" content="Computer vision for objects counting: estimating a density map with CNNs.">
+<meta property="og:url" content="https://neurosys.com/blog/objects-counting-by-estimating-a-density-map">
+<meta property="og:site_name" content="NeuroSYS">
+<meta property="og:updated_time" content="2022-06-23T21:52:39+00:00">
+<meta property="og:image" content="https://neurosys.com/wp-content/uploads/2021/09/fig1a_neurosys.png">
+<meta property="og:image:secure_url" content="https://neurosys.com/wp-content/uploads/2021/09/fig1a_neurosys.png">
+<meta property="og:image:width" content="803">
+<meta property="og:image:height" content="433">
+<meta property="og:image:alt" content="objects counting">
+<meta property="og:image:type" content="image/png">
+<meta property="article:published_time" content="2019-07-18T08:43:12+00:00">
+<meta property="article:modified_time" content="2022-06-23T21:52:39+00:00">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Objects Counting by Estimating a Density Map With CNNs">
+<meta name="twitter:description" content="Computer vision for objects counting: estimating a density map with CNNs.">
+<meta name="twitter:image" content="https://neurosys.com/wp-content/uploads/2021/09/fig1a_neurosys.png">
+<script type="application/ld+json" class="rank-math-schema-pro">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://neurosys.com/#organization","name":"NeuroSYS","url":"https://neurosys.com"},{"@type":"WebSite","@id":"https://neurosys.com/#website","url":"https://neurosys.com","name":"NeuroSYS","publisher":{"@id":"https://neurosys.com/#organization"},"inLanguage":"en"},{"@type":"ImageObject","@id":"https://neurosys.com/wp-content/uploads/2021/09/fig1a_neurosys.png","url":"https://neurosys.com/wp-content/uploads/2021/09/fig1a_neurosys.png","width":"200","height":"200","inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://neurosys.com/blog/objects-counting-by-estimating-a-density-map#breadcrumb","itemListElement":[{"@type":"ListItem","position":"1","item":{"@id":"https://neurosys.com/blog","name":"Articles"}},{"@type":"ListItem","position":"2","item":{"@id":"https://neurosys.com/blog/objects-counting-by-estimating-a-density-map","name":"Objects Counting by Estimating a Density Map With Convolutional Neural Networks"}}]},{"@type":"WebPage","@id":"https://neurosys.com/blog/objects-counting-by-estimating-a-density-map#webpage","url":"https://neurosys.com/blog/objects-counting-by-estimating-a-density-map","name":"Objects Counting by Estimating a Density Map With CNNs","datePublished":"2019-07-18T08:43:12+00:00","dateModified":"2022-06-23T21:52:39+00:00","isPartOf":{"@id":"https://neurosys.com/#website"},"primaryImageOfPage":{"@id":"https://neurosys.com/wp-content/uploads/2021/09/fig1a_neurosys.png"},"inLanguage":"en","breadcrumb":{"@id":"https://neurosys.com/blog/objects-counting-by-estimating-a-density-map#breadcrumb"}},{"@type":"Person","@id":"https://neurosys.com","name":"admin","url":"https://neurosys.com","image":{"@type":"ImageObject","@id":"https://secure.gravatar.com/avatar/b2bd393c2bcc8dc8379eab2ec14a32e5?s=96&amp;d=mm&amp;r=g","url":"https://secure.gravatar.com/avatar/b2bd393c2bcc8dc8379eab2ec14a32e5?s=96&amp;d=mm&amp;r=g","caption":"admin","inLanguage":"en"},"sameAs":["https://neurosys.com/NeuroSYS"],"worksFor":{"@id":"https://neurosys.com/#organization"}},{"@type":"NewsArticle","headline":"Objects Counting by Estimating a Density Map With CNNs","keywords":"objects counting,density map,Convolutional Neural Networks","datePublished":"2019-07-18T08:43:12+00:00","dateModified":"2022-06-23T21:52:39+00:00","author":{"@id":"https://neurosys.com"},"publisher":{"@id":"https://neurosys.com/#organization"},"description":"Computer vision for objects counting: estimating a density map with CNNs.","name":"Objects Counting by Estimating a Density Map With CNNs","@id":"https://neurosys.com/blog/objects-counting-by-estimating-a-density-map#richSnippet","isPartOf":{"@id":"https://neurosys.com/blog/objects-counting-by-estimating-a-density-map#webpage"},"image":{"@id":"https://neurosys.com/wp-content/uploads/2021/09/fig1a_neurosys.png"},"inLanguage":"en","mainEntityOfPage":{"@id":"https://neurosys.com/blog/objects-counting-by-estimating-a-density-map#webpage"}}]}</script>
+<!-- /Rank Math WordPress SEO plugin -->
+
+<link href="https://fonts.gstatic.com" crossorigin="" rel="preconnect">
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 0.07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel="stylesheet" id="classic-theme-styles-css" href="https://neurosys.com/wp-includes/css/classic-themes.min.css?ver=1" type="text/css" media="all">
+<style id="global-styles-inline-css" type="text/css">
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--duotone--dark-grayscale: url('#wp-duotone-dark-grayscale');--wp--preset--duotone--grayscale: url('#wp-duotone-grayscale');--wp--preset--duotone--purple-yellow: url('#wp-duotone-purple-yellow');--wp--preset--duotone--blue-red: url('#wp-duotone-blue-red');--wp--preset--duotone--midnight: url('#wp-duotone-midnight');--wp--preset--duotone--magenta-yellow: url('#wp-duotone-magenta-yellow');--wp--preset--duotone--purple-green: url('#wp-duotone-purple-green');--wp--preset--duotone--blue-orange: url('#wp-duotone-blue-orange');--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;}:where(.is-layout-flex){gap: 0.5em;}body .is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}body .is-layout-flex{flex-wrap: wrap;align-items: center;}body .is-layout-flex > *{margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+.wp-block-navigation a:where(:not(.wp-element-button)){color: inherit;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}
+.wp-block-pullquote{font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel="stylesheet" id="neurosys-auto-article-menu-css" href="https://neurosys.com/wp-content/plugins/neurosys-auto-article-menu/style.css?ver=1" type="text/css" media="all">
+<link rel="https://api.w.org/" href="https://neurosys.com/wp-json/"><link rel="alternate" type="application/json" href="https://neurosys.com/wp-json/wp/v2/article/9595"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://neurosys.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://neurosys.com/wp-includes/wlwmanifest.xml">
+<meta name="generator" content="WordPress 6.1.1">
+<link rel="shortlink" href="https://neurosys.com/?p=9595">
+<link rel="alternate" type="application/json+oembed" href="https://neurosys.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fneurosys.com%2Fblog%2Fobjects-counting-by-estimating-a-density-map">
+<link rel="alternate" type="text/xml+oembed" href="https://neurosys.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fneurosys.com%2Fblog%2Fobjects-counting-by-estimating-a-density-map&amp;format=xml">
+<link rel="icon" href="https://neurosys.com/wp-content/uploads/2022/08/cropped-android-chrome-512x512-1-32x32.png" sizes="32x32">
+<link rel="icon" href="https://neurosys.com/wp-content/uploads/2022/08/cropped-android-chrome-512x512-1-192x192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="https://neurosys.com/wp-content/uploads/2022/08/cropped-android-chrome-512x512-1-180x180.png">
+<meta name="msapplication-TileImage" content="https://neurosys.com/wp-content/uploads/2022/08/cropped-android-chrome-512x512-1-270x270.png">
+		<style type="text/css" id="wp-custom-css">
+			#cta_clutch_awards_home .logo-img img {
+	width: auto;
+}
+
+.banner-inner img {
+	object-fit: cover;
+}
+
+#cta_clutch_awards_company .logo-img img {
+	width: auto;
+}
+
+#banner-landingpage img {
+	object-fit: cover !important;
+}
+
+.image-landingpage image {
+	width: 100% !important;
+}
+
+main #landing-page .image-landingpage .image img {
+	position: static !important;
+	object-fit: cover;
+}
+
+.postCard-image img {
+	object-fit: cover;
+}
+
+@media screen and (min-width: 500px) {
+	.columns-2 figure {
+		width: 50%;
+		float: left;
+	}
+}
+
+.left-beam img {
+	object-fit: cover;
+}
+
+.h4 {
+	color: #223d60;
+	text-transform: uppercase;
+	font-size: 42px;
+	line-height: 42px;
+	font-weight: 700;
+	font-family: "Accord",sans-serif;
+}
+
+main #related-article-details .item .h5 {
+	margin: 16px 0px 0px 0px;
+	font-size: 21px;
+	line-height: 32px;
+	font-weight: 700;
+	font-family: "Accord",sans-serif;
+}
+
+iframe {
+	max-width: 100%;
+}
+
+figure, table {
+	max-width: 100%;
+	overflow-x: auto;
+}
+
+.wp-block-code {
+	font-size: 1rem;
+	max-width: 100%;
+}
+
+pre {
+  max-width: 100%;
+  overflow: auto;
+}
+
+.article-cols-to-rem {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+@media screen and (min-width: 1280px) {
+	.article-cols-to-rem {
+		grid-template-columns: auto minmax(0,2fr) 1fr;
+	}	
+}		</style>
+		<noscript><style id="rocket-lazyload-nojs-css">.rll-youtube-player, [data-lazy-src]{display:none !important;}</style></noscript></head>
+
+
+<body class="">
+
+    
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PGT59PV"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<header class="cd-auto-hide-header" style="top: 0;">
+    <div class="container">
+        <div id="logo">
+            <a href="https://neurosys.com">
+                <img width="0" height="0" src="/wp-content/themes/neurosys/static/images/logo-black.svg" alt="Logo" data-lazy-src="/wp-content/themes/neurosys/static/images/logo-black.svg" class="lazyloading" data-ll-status="loading"><noscript><img width="0" height="0" src="/wp-content/themes/neurosys/static/images/logo-black.svg" alt="Logo"></noscript>
+            </a>
+        </div>
+        <nav id="main-menu">
+            <ul id="menu-menu-glowne-en" class="menu-container"><li class="extra-menu menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-13583"><a href="https://neurosys.com/services">Services</a>
+<ul class="sub-menu horizontal-menu">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10803 main-beam-menu"><a href="https://neurosys.com/services">See full page</a></li>
+	<li class="menu-item-has-children menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-10804"><a href="https://neurosys.com/services/custom-web-application-development">Web Development</a>
+	<ul class="sub-menu">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10805"><a href="https://neurosys.com/services/custom-web-application-development">Web Development</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13459"><a href="https://neurosys.com/services/php-development">PHP development services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10806"><a href="https://neurosys.com/services/net-development">.NET</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10807"><a href="https://neurosys.com/services/react-js-development">React.js</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10808"><a href="https://neurosys.com/services/node-js-development">Node.js development services</a></li>
+	</ul>
+</li>
+	<li class="menu-item-has-children menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-10809"><a href="https://neurosys.com/services/custom-mobile-app-development">Mobile App Development</a>
+	<ul class="sub-menu">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10810"><a href="https://neurosys.com/services/custom-mobile-app-development">Mobile App Development</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10811"><a href="https://neurosys.com/services/unity-development">Unity/Unity 3D</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10812"><a href="https://neurosys.com/services/react-native-development">React Native</a></li>
+	</ul>
+</li>
+	<li class="menu-item-has-children menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-10813"><a href="https://neurosys.com/services/ai-consulting">AI &amp; Machine Learning</a>
+	<ul class="sub-menu">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10818"><a href="https://neurosys.com/services/natural-language-processing">Natural language processing</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10816"><a href="https://neurosys.com/services/recommender-systems">Recommender systems</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10815"><a href="https://neurosys.com/services/data-science">Data science</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13460"><a href="https://neurosys.com/services/computer-vision">Computer vision services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10814"><a href="https://neurosys.com/services/ai-consulting">AI Consulting</a></li>
+	</ul>
+</li>
+	<li class="menu-item-has-children menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-13461"><a href="https://neurosys.com/services/product-design">Product design</a>
+	<ul class="sub-menu">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13462"><a href="https://neurosys.com/services/ux-ui-design">UX/UI Design</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13463"><a href="https://neurosys.com/services/product-design">Product design</a></li>
+	</ul>
+</li>
+	<li class="menu-item-has-children menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-10822"><a href="https://neurosys.com/services/digital-transformation">Digital Transformation</a>
+	<ul class="sub-menu">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10823"><a href="https://neurosys.com/services/digital-transformation">Digital Transformation</a></li>
+	</ul>
+</li>
+	<li class="menu-item-has-children menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-10824"><a href="#">Other services</a>
+	<ul class="sub-menu">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10825"><a href="https://neurosys.com/services/nearshoring">Nearshoring</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10826"><a href="https://neurosys.com/services/offshoring">Offshoring</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10827"><a href="https://neurosys.com/services/research-and-development-consulting">Research and Development</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10828"><a href="https://neurosys.com/services/it-and-business-consulting">IT and Business</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10829"><a href="https://neurosys.com/services/cloud-computing-consulting">Cloud computing</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11074"><a href="/case-studies">Case studies</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10832"><a href="https://neurosys.com/company">Company</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10833"><a href="https://neurosys.com/rd">R&amp;D</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10834"><a href="https://neurosys.com/career">Career</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10835"><a href="https://neurosys.com/blog">Blog</a></li>
+<li class="pll-parent-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-parent menu-item-has-children menu-item-10836"><a href="#pll_switcher"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAMAAABBPP0LAAAAt1BMVEWSmb66z+18msdig8La3u+tYX9IaLc7W7BagbmcUW+kqMr/q6n+//+hsNv/lIr/jIGMnNLJyOP9/fyQttT/wb3/////aWn+YWF5kNT0oqz0i4ueqtIZNJjhvt/8gn//WVr/6+rN1+o9RKZwgcMPJpX/VFT9UEn+RUX8Ozv2Ly+FGzdYZrfU1e/8LS/lQkG/mbVUX60AE231hHtcdMb0mp3qYFTFwNu3w9prcqSURGNDaaIUMX5FNW5wYt7AAAAAjklEQVR4AR3HNUJEMQCGwf+L8RR36ajR+1+CEuvRdd8kK9MNAiRQNgJmVDAt1yM6kSzYVJUsPNssAk5N7ZFKjVNFAY4co6TAOI+kyQm+LFUEBEKKzuWUNB7rSH/rSnvOulOGk+QlXTBqMIrfYX4tSe2nP3iRa/KNK7uTmWJ5a9+erZ3d+18od4ytiZdvZyuKWy8o3UpTVAAAAABJRU5ErkJggg==" alt="English" width="16" height="11" style="width: 16px; height: 11px;" data-lazy-src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAMAAABBPP0LAAAAt1BMVEWSmb66z+18msdig8La3u+tYX9IaLc7W7BagbmcUW+kqMr/q6n+//+hsNv/lIr/jIGMnNLJyOP9/fyQttT/wb3/////aWn+YWF5kNT0oqz0i4ueqtIZNJjhvt/8gn//WVr/6+rN1+o9RKZwgcMPJpX/VFT9UEn+RUX8Ozv2Ly+FGzdYZrfU1e/8LS/lQkG/mbVUX60AE231hHtcdMb0mp3qYFTFwNu3w9prcqSURGNDaaIUMX5FNW5wYt7AAAAAjklEQVR4AR3HNUJEMQCGwf+L8RR36ajR+1+CEuvRdd8kK9MNAiRQNgJmVDAt1yM6kSzYVJUsPNssAk5N7ZFKjVNFAY4co6TAOI+kyQm+LFUEBEKKzuWUNB7rSH/rSnvOulOGk+QlXTBqMIrfYX4tSe2nP3iRa/KNK7uTmWJ5a9+erZ3d+18od4ytiZdvZyuKWy8o3UpTVAAAAABJRU5ErkJggg==" class="lazyloading" data-ll-status="loading"><noscript><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAMAAABBPP0LAAAAt1BMVEWSmb66z+18msdig8La3u+tYX9IaLc7W7BagbmcUW+kqMr/q6n+//+hsNv/lIr/jIGMnNLJyOP9/fyQttT/wb3/////aWn+YWF5kNT0oqz0i4ueqtIZNJjhvt/8gn//WVr/6+rN1+o9RKZwgcMPJpX/VFT9UEn+RUX8Ozv2Ly+FGzdYZrfU1e/8LS/lQkG/mbVUX60AE231hHtcdMb0mp3qYFTFwNu3w9prcqSURGNDaaIUMX5FNW5wYt7AAAAAjklEQVR4AR3HNUJEMQCGwf+L8RR36ajR+1+CEuvRdd8kK9MNAiRQNgJmVDAt1yM6kSzYVJUsPNssAk5N7ZFKjVNFAY4co6TAOI+kyQm+LFUEBEKKzuWUNB7rSH/rSnvOulOGk+QlXTBqMIrfYX4tSe2nP3iRa/KNK7uTmWJ5a9+erZ3d+18od4ytiZdvZyuKWy8o3UpTVAAAAABJRU5ErkJggg==" alt="English" width="16" height="11" style="width: 16px; height: 11px;" /></noscript><span style="margin-left:0.3em;">English</span></a>
+<ul class="sub-menu">
+	<li class="lang-item lang-item-2 lang-item-en current-lang lang-item-first menu-item menu-item-type-custom menu-item-object-custom menu-item-10836-en"><a href="https://neurosys.com/blog/objects-counting-by-estimating-a-density-map" hreflang="en" lang="en"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2011'%3E%3C/svg%3E" alt="English" width="16" height="11" style="width: 16px; height: 11px;" data-lazy-src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAMAAABBPP0LAAAAt1BMVEWSmb66z+18msdig8La3u+tYX9IaLc7W7BagbmcUW+kqMr/q6n+//+hsNv/lIr/jIGMnNLJyOP9/fyQttT/wb3/////aWn+YWF5kNT0oqz0i4ueqtIZNJjhvt/8gn//WVr/6+rN1+o9RKZwgcMPJpX/VFT9UEn+RUX8Ozv2Ly+FGzdYZrfU1e/8LS/lQkG/mbVUX60AE231hHtcdMb0mp3qYFTFwNu3w9prcqSURGNDaaIUMX5FNW5wYt7AAAAAjklEQVR4AR3HNUJEMQCGwf+L8RR36ajR+1+CEuvRdd8kK9MNAiRQNgJmVDAt1yM6kSzYVJUsPNssAk5N7ZFKjVNFAY4co6TAOI+kyQm+LFUEBEKKzuWUNB7rSH/rSnvOulOGk+QlXTBqMIrfYX4tSe2nP3iRa/KNK7uTmWJ5a9+erZ3d+18od4ytiZdvZyuKWy8o3UpTVAAAAABJRU5ErkJggg=="><noscript><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAMAAABBPP0LAAAAt1BMVEWSmb66z+18msdig8La3u+tYX9IaLc7W7BagbmcUW+kqMr/q6n+//+hsNv/lIr/jIGMnNLJyOP9/fyQttT/wb3/////aWn+YWF5kNT0oqz0i4ueqtIZNJjhvt/8gn//WVr/6+rN1+o9RKZwgcMPJpX/VFT9UEn+RUX8Ozv2Ly+FGzdYZrfU1e/8LS/lQkG/mbVUX60AE231hHtcdMb0mp3qYFTFwNu3w9prcqSURGNDaaIUMX5FNW5wYt7AAAAAjklEQVR4AR3HNUJEMQCGwf+L8RR36ajR+1+CEuvRdd8kK9MNAiRQNgJmVDAt1yM6kSzYVJUsPNssAk5N7ZFKjVNFAY4co6TAOI+kyQm+LFUEBEKKzuWUNB7rSH/rSnvOulOGk+QlXTBqMIrfYX4tSe2nP3iRa/KNK7uTmWJ5a9+erZ3d+18od4ytiZdvZyuKWy8o3UpTVAAAAABJRU5ErkJggg==" alt="English" width="16" height="11" style="width: 16px; height: 11px;" /></noscript><span style="margin-left:0.3em;">English</span></a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10837"><a href="https://neurosys.com/contact">Let’s talk</a></li>
+</ul>        </nav>
+        <div id="mobile-nav-button">
+            <div class="one"></div>
+            <div class="two"></div>
+            <div class="three"></div>
+        </div>
+        <div id="union-flag-container">
+                                                                          <a href="https://neurosys.com/european-funds" title="EUROPEAN FUNDS">
+                                <img width="56" height="56" class="union-flag lazyloading" alt="union-flag" src="/wp-content/themes/neurosys/static/images/flaga-unii.svg" data-lazy-src="/wp-content/themes/neurosys/static/images/flaga-unii.svg" data-ll-status="loading"><noscript><img width="56" height="56" class="union-flag" alt="union-flag" src="/wp-content/themes/neurosys/static/images/flaga-unii.svg"/></noscript>
+                             </a>
+                                     </div>
+
+    </div>
+</header>
+
+
+<section id="aside">
+    <div class="aside-overlay"></div>
+    <div class="aside-wrapper">
+        <div id="aside-logo"><a href="https://neurosys.com/"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="Logo" data-lazy-src="/wp-content/themes/neurosys/static/images/logo-white.svg"><noscript><img src="/wp-content/themes/neurosys/static/images/logo-white.svg" alt="Logo"></noscript></a></div>
+        <div id="aside-mobile-nav-button"></div>
+        <div class="clearfix"></div>
+
+        <nav id="aside-menu">
+            <ul id="menu-menu-glowne-mobile-en" class=""><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10838"><a href="https://neurosys.com/services">Services</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-10839"><a href="/case-studies">Case Studies</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10840"><a href="https://neurosys.com/company">Company</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10841"><a href="https://neurosys.com/rd">R&amp;D</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10842"><a href="https://neurosys.com/career">Career</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10843"><a href="https://neurosys.com/blog">Blog</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10844"><a href="https://neurosys.com/contact">Contact</a></li>
+<li class="lang-item lang-item-2 lang-item-en current-lang lang-item-first menu-item menu-item-type-custom menu-item-object-custom menu-item-10845-en"><a href="https://neurosys.com/blog/objects-counting-by-estimating-a-density-map" hreflang="en" lang="en">English</a></li>
+</ul>        </nav>
+
+        <nav id="aside-langs">
+            
+        </nav>
+
+        <nav id="aside-social-icons">
+            
+<ul>
+    <li class="linkedin"><a target="_blank" href="https://www.linkedin.com/company/neurosys"></a></li>    <li class="facebook"><a target="_blank" href="https://www.facebook.com/NeuroSYSpl"></a></li>    <li class="twitter"><a target="_blank" href="https://twitter.com/Neuro_SYS"></a></li>    <li class="youtube"><a target="_blank" href="https://www.youtube.com/channel/UCyFD9iP45DnBCPfQ0fqoy9g"></a></li>    <li class="instagram"><a target="_blank" href="https://www.instagram.com/neuro_sys/"></a></li></ul>        </nav>
+    </div>
+</section>
+<main>
+        <section id="banner-article-details">
+
+        <div class="banner-inner relative">
+            <img class="fill-absolute lazyloading" alt="Background" width="1954" height="649" src="https://neurosys.com/wp-content/uploads/2019/07/objects_counting_neurosys_dark.webp" data-lazy-src="https://neurosys.com/wp-content/uploads/2019/07/objects_counting_neurosys_dark.webp" data-ll-status="loading"><noscript><img    class="fill-absolute" 
+                    alt="Background" 
+                    width="1954"
+                    height="649"
+                    src="https://neurosys.com/wp-content/uploads/2019/07/objects_counting_neurosys_dark.webp"
+            ></noscript>
+            
+            <div class="container relative">
+                
+                                    <div class="tags">
+                        <ul>
+                                                            <li>AI</li>
+                                                            <li>R&amp;D</li>
+                                                    </ul>
+                    </div>
+                
+                <h1>Objects Counting by Estimating a Density Map With Convolutional Neural Networks</h1>
+
+                <div class="details">
+                    
+                    <span class="date">
+                        July 18, 2019,
+                        8 minutes read                    </span>
+                </div>
+            </div>
+        </div>
+        </section>
+
+        <section id="content-article-details">
+            <div class="container">
+                <div class="tw-relative tw-grid tw-grid-cols-1 xl:tw-grid-cols-[auto_minmax(0,2fr)_1fr] tw-items-start tw-gap-8 tw-mb-16">
+                    <div id="article-leftPanel" data-active="true" class="tw-sticky tw-top-20 tw-row-start-2 xl:tw-row-start-1 tw-opacity-0 data-active:tw-opacity-100 tw-transition-opacity tw-duration-200">
+                        
+
+
+<section class="column-social-icons" style="margin-top: 5px;">
+    <div class="header">
+        Like it! share it!    </div>
+    <ul>
+        <li class="facebook">
+            <div class="inner" onclick="javascript:window.open('https://www.facebook.com/share.php?u=https%3A%2F%2Fneurosys.com%2Fblog%2Fobjects-counting-by-estimating-a-density-map&amp;t=Objects%20Counting%20by%20Estimating%20a%20Density%20Map%20With%20Convolutional%20Neural%20Networks','sharer','toolbar=0,status=0,width=580,height=325');return false;"></div>
+        </li>
+        <li class="twitter">
+            <div class="inner" onclick="javascript:window.open('https://twitter.com/intent/tweet?url=https%3A%2F%2Fneurosys.com%2Fblog%2Fobjects-counting-by-estimating-a-density-map&amp;text=Objects%20Counting%20by%20Estimating%20a%20Density%20Map%20With%20Convolutional%20Neural%20Networks','sharer','toolbar=0,status=0,width=580,height=325');return false;"></div>
+        </li>
+        <li class="linkedin">
+            <div class="inner" onclick="javascript:window.open('https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fneurosys.com%2Fblog%2Fobjects-counting-by-estimating-a-density-map&amp;title=Objects%20Counting%20by%20Estimating%20a%20Density%20Map%20With%20Convolutional%20Neural%20Networks','sharer','toolbar=0,status=0,width=580,height=325');return false;"></div>
+        </li>
+    </ul>
+</section>                    </div>
+
+                    <div class="tw-space-y-20 tw-row-start-1 xl:tw-row-start-1">
+                        <div id="article-content" class="wysiwyg tw-space-y-8 tw-text-[1.25rem] tw-leading-[1.5em]">
+                            
+    <div class="neurosys-auto-article-menu" id="neurosys-auto-article-menu">
+        <h2>In this article</h2>
+        <ul><a href="#article-0"><li>Introduction</li></a><a href="#article-1"><li>Method</li></a><a href="#article-2"><li>U-Net</li></a><a href="#article-3"><li>FCRN</li></a><a href="#article-4"><li>Implementation</li></a><a href="#article-5"><li>Data</li></a><a href="#article-6"><li>Fluorescent cells dataset</li></a><a href="#article-7"><li>UCSD pedestrian dataset</li></a><a href="#article-8"><li><span style="font-weight: 400;">Mall dataset</span></li></a><a href="#article-9"><li>Results</li></a></ul>
+    </div>
+
+
+
+
+
+<h2 id="article-0">Introduction</h2>
+
+
+
+<p>Counting objects in images is one of the fundamental tasks in computer vision. It has a lot of applications, in particular in:</p>
+
+
+
+<ul><li>microbiology (e.g. <a href="/case-studies/object-detection-and-counting-for-microbiology">counting bacterial colonies in a Petri dish</a>);</li><li>surveillance (e.g. <a href="/case-studies/real-time-video-analysis-for-monitoring">counting people</a>);</li><li>agriculture (e.g. counting fruits or vegetables);</li><li>medicine (e.g. counting tumor cells in histopathological images);</li><li>wildlife conservation (e.g. counting animals).</li></ul>
+
+
+
+<p>The task of counting objects is relatively easy for us, people, but it can be challenging for a computer vision algorithm, especially when different instances of an object vary significantly in terms of shape, color, texture or size. <strong>If a problem is complex from an algorithmic point of view but simple from a human point of view, machine learning methods can be an answer.</strong></p>
+
+
+
+<p>Currently, <a href="/services/research-and-development-consulting">deep learning (DL) methods provide the state-of-the-art performance</a> in digital image processing. However, they require collecting a lot of annotated data, which is usually time consuming and prone to labelling errors.</p>
+
+
+
+<p>The common way to count objects using DL is to first detect them using <a href="/blog/visualizing-neural-networks-class-activation-maps">convolutional neural networks</a>, like e.g. GCNet [1], and then count all found instances. It is effective but requires bounding box annotations, like presented in Fig. 1a, which are hard to obtain.</p>
+
+
+<div class="wp-block-image wp-image-2235">
+<figure class="aligncenter size-full"><img decoding="async" loading="lazy" width="803" height="433" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20803%20433'%3E%3C/svg%3E" alt="objects counting fig1a neurosys" class="wp-image-2176" data-lazy-srcset="https://neurosys.com/wp-content/uploads/2021/09/fig1a_neurosys.png 803w, https://neurosys.com/wp-content/uploads/2021/09/fig1a_neurosys-300x162.png 300w, https://neurosys.com/wp-content/uploads/2021/09/fig1a_neurosys-768x414.png 768w" data-lazy-sizes="(max-width: 803px) 100vw, 803px" title="fig1a neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 1" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/fig1a_neurosys.png"><noscript><img decoding="async" loading="lazy" width="803" height="433" src="https://neurosys.com/wp-content/uploads/2021/09/fig1a_neurosys.png" alt="objects counting fig1a neurosys" class="wp-image-2176" srcset="https://neurosys.com/wp-content/uploads/2021/09/fig1a_neurosys.png 803w, https://neurosys.com/wp-content/uploads/2021/09/fig1a_neurosys-300x162.png 300w, https://neurosys.com/wp-content/uploads/2021/09/fig1a_neurosys-768x414.png 768w" sizes="(max-width: 803px) 100vw, 803px" title="fig1a neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 1"></noscript><figcaption>Fig. 1a: COCO dataset [2]</figcaption></figure></div>
+
+
+<p>To overcome this issue, alternative approaches leverage point-like annotations of objects positions (see Fig. 1b), which are much cheaper to collect.</p>
+
+
+<div class="wp-block-image wp-image-2236">
+<figure class="aligncenter size-full"><img decoding="async" loading="lazy" width="260" height="187" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20260%20187'%3E%3C/svg%3E" alt="objects counting fig1b neurosys" class="wp-image-10990" title="fig1b neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 2" data-lazy-src="https://neurosys.com/wp-content/uploads/2019/07/fig1b_neurosys.png"><noscript><img decoding="async" loading="lazy" width="260" height="187" src="https://neurosys.com/wp-content/uploads/2019/07/fig1b_neurosys.png" alt="objects counting fig1b neurosys" class="wp-image-10990" title="fig1b neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 2"></noscript><figcaption>Fig. 1b: Mall dataset [3-6]</figcaption></figure></div>
+
+
+<p><span style="font-weight: 400;">In this article we describe our studies on <strong>counting objects in images with fully convolutional networks (FCN), trained on data with point-like annotations</strong>. In the next sections details on a model we used are presented together with the implementation, considered datasets, and results we obtained.</span></p>
+
+
+
+<h2 id="article-1">Method</h2>
+
+
+
+<p>We decided to start with the approach described in [7]. The main idea is to count objects indirectly by estimating a density map. The first step is to prepare training samples, so that for every image there is a corresponding density map. Let’s consider an example shown in Fig. 2.</p>
+
+
+<div class="wp-block-image wp-image-2237">
+<figure class="aligncenter size-full"><img decoding="async" loading="lazy" width="640" height="480" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20640%20480'%3E%3C/svg%3E" alt="objects counting fig2a neurosys" class="wp-image-2179" data-lazy-srcset="https://neurosys.com/wp-content/uploads/2021/09/fig2a_neurosys.png 640w, https://neurosys.com/wp-content/uploads/2021/09/fig2a_neurosys-300x225.png 300w" data-lazy-sizes="(max-width: 640px) 100vw, 640px" title="fig2a neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 3" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/fig2a_neurosys.png"><noscript><img decoding="async" loading="lazy" width="640" height="480" src="https://neurosys.com/wp-content/uploads/2021/09/fig2a_neurosys.png" alt="objects counting fig2a neurosys" class="wp-image-2179" srcset="https://neurosys.com/wp-content/uploads/2021/09/fig2a_neurosys.png 640w, https://neurosys.com/wp-content/uploads/2021/09/fig2a_neurosys-300x225.png 300w" sizes="(max-width: 640px) 100vw, 640px" title="fig2a neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 3"></noscript><figcaption>Fig. 2a: An example image</figcaption></figure></div>
+
+<div class="wp-block-image wp-image-2238">
+<figure class="aligncenter size-full"><img decoding="async" loading="lazy" width="640" height="480" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20640%20480'%3E%3C/svg%3E" alt="objects counting fig2b neurosys" class="wp-image-2178" data-lazy-srcset="https://neurosys.com/wp-content/uploads/2021/09/fig2b_neurosys.png 640w, https://neurosys.com/wp-content/uploads/2021/09/fig2b_neurosys-300x225.png 300w" data-lazy-sizes="(max-width: 640px) 100vw, 640px" title="fig2b neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 4" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/fig2b_neurosys.png"><noscript><img decoding="async" loading="lazy" width="640" height="480" src="https://neurosys.com/wp-content/uploads/2021/09/fig2b_neurosys.png" alt="objects counting fig2b neurosys" class="wp-image-2178" srcset="https://neurosys.com/wp-content/uploads/2021/09/fig2b_neurosys.png 640w, https://neurosys.com/wp-content/uploads/2021/09/fig2b_neurosys-300x225.png 300w" sizes="(max-width: 640px) 100vw, 640px" title="fig2b neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 4"></noscript></figure></div>
+
+
+<p>The image presented in Fig. 2a is annotated with points in the positions of pedestrians heads (Fig. 2b). A density map is obtained by applying a convolution with a Gaussian kernel (and normalized so that integrating it gives the number of objects). The density map for the example above is presented in Fig. 3.</p>
+
+
+<div class="wp-block-image wp-image-2331">
+<figure class="aligncenter size-full"><img decoding="async" loading="lazy" width="639" height="464" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20639%20464'%3E%3C/svg%3E" alt="objects counting fig3 neurosys" class="wp-image-2175" data-lazy-srcset="https://neurosys.com/wp-content/uploads/2021/09/fig3_neurosys.png 639w, https://neurosys.com/wp-content/uploads/2021/09/fig3_neurosys-300x218.png 300w" data-lazy-sizes="(max-width: 639px) 100vw, 639px" title="fig3 neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 5" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/fig3_neurosys.png"><noscript><img decoding="async" loading="lazy" width="639" height="464" src="https://neurosys.com/wp-content/uploads/2021/09/fig3_neurosys.png" alt="objects counting fig3 neurosys" class="wp-image-2175" srcset="https://neurosys.com/wp-content/uploads/2021/09/fig3_neurosys.png 639w, https://neurosys.com/wp-content/uploads/2021/09/fig3_neurosys-300x218.png 300w" sizes="(max-width: 639px) 100vw, 639px" title="fig3 neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 5"></noscript><figcaption>Fig. 3: A density map generated with a Gaussian filter</figcaption></figure></div>
+
+
+<p><span style="font-weight: 400;">Now, the goal is to train a fully convolutional network to map an image to a density map, which can be later integrated to get the number of objects. So far, we have considered two FCN architectures: U-Net [8] and Fully Convolutional Regression Network (FCRN) [7].</span></p>
+
+
+
+<h2 id="article-2">U-Net</h2>
+
+
+
+<p><span style="font-weight: 400;">U-Net is a widely used FCN for image segmentation, very often applied to biomedical data. It has autoencoder-like structure (see Fig. 4). An input image is processed by a block of convolutional layers, followed by a pooling layer (downsampling). This procedure is repeated several times on subsequent blocks outputs, which is demonstrated on the left side of Fig. 4. This way the network encodes (and compresses) the key features of an input image. The second part of U-Net is symmetric, but pooling layers are replaced with upsampling, so that an output dimensions match the size of an input image. The information from higher resolution layers in the downsampling part is passed to corresponding layers in the upsampling part, which allows to reuse learned higher level features to decode contracted layers more precisely.&nbsp;</span></p>
+
+
+<div class="wp-block-image wp-image-2240 size-full">
+<figure class="aligncenter size-large"><img decoding="async" loading="lazy" width="1024" height="683" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201024%20683'%3E%3C/svg%3E" alt="objects counting fig4 neurosys" class="wp-image-2182" data-lazy-srcset="https://neurosys.com/wp-content/uploads/2021/09/fig4_neurosys-1024x683.png 1024w, https://neurosys.com/wp-content/uploads/2021/09/fig4_neurosys-300x200.png 300w, https://neurosys.com/wp-content/uploads/2021/09/fig4_neurosys-768x512.png 768w, https://neurosys.com/wp-content/uploads/2021/09/fig4_neurosys-1536x1024.png 1536w, https://neurosys.com/wp-content/uploads/2021/09/fig4_neurosys-2048x1366.png 2048w, https://neurosys.com/wp-content/uploads/2021/09/fig4_neurosys-1600x1067.png 1600w" data-lazy-sizes="(max-width: 1024px) 100vw, 1024px" title="fig4 neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 6" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/fig4_neurosys-1024x683.png"><noscript><img decoding="async" loading="lazy" width="1024" height="683" src="https://neurosys.com/wp-content/uploads/2021/09/fig4_neurosys-1024x683.png" alt="objects counting fig4 neurosys" class="wp-image-2182" srcset="https://neurosys.com/wp-content/uploads/2021/09/fig4_neurosys-1024x683.png 1024w, https://neurosys.com/wp-content/uploads/2021/09/fig4_neurosys-300x200.png 300w, https://neurosys.com/wp-content/uploads/2021/09/fig4_neurosys-768x512.png 768w, https://neurosys.com/wp-content/uploads/2021/09/fig4_neurosys-1536x1024.png 1536w, https://neurosys.com/wp-content/uploads/2021/09/fig4_neurosys-2048x1366.png 2048w, https://neurosys.com/wp-content/uploads/2021/09/fig4_neurosys-1600x1067.png 1600w" sizes="(max-width: 1024px) 100vw, 1024px" title="fig4 neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 6"></noscript><figcaption>Fig. 4: U-Net architecture</figcaption></figure></div>
+
+
+<h2 id="article-3">FCRN</h2>
+
+
+
+<p><span style="font-weight: 400;">Fully Convolutional Regression Network (FCRN) was proposed in [7]. The architecture is very similar to U-Net. The main difference is that the information from higher resolution layers from downsampling part is not passed directly to the corresponding layers in upsampling part. In the paper two networks are proposed: FCRN-A and FCRN-B, which differ in downsampling intensity. While FCRN-A perform pooling every convolutional layer, FCRN-B does that every second layer.</span></p>
+
+
+
+<h2 id="article-4">Implementation</h2>
+
+
+
+<p><span style="font-weight: 400;">Our implementation can be found <a href="https://github.com/NeuroSYS-pl/objects_counting_dmap" target="_blank" rel="nofollow noopener noreferrer">in our public repository.</a></span><span style="font-weight: 400;">&nbsp;It is based on the code from <a href="https://github.com/WeidiXie/cell_counting_v2" target="_blank" rel="nofollow noopener noreferrer">Weidi Xi’s GitHub</a></span><span style="font-weight: 400;">, but PyTorch is used instead of Keras. Please feel free to use it for your research on objects counting in images.</span></p>
+
+
+
+<p><span style="font-weight: 400;">Currently, U-Net and FCNR-A are implemented. They both use three downsampling and three upsampling convolutional blocks with fixed filter size 3×3. By default there are two convolutional layers in each block for U-Net, and one for FCNR-A. For U-Net we keep constant number of filters for all convolutional layers, and for FCRN-A we increase this number every subsequent layer to compensate for the loss of higher resolution information during pooling (which is not passed directly as in the case of U-Net).</span></p>
+
+
+
+<h2 id="article-5">Data</h2>
+
+
+
+<p><span style="font-weight: 400;">We considered three datasets in our study. They all are annotated with point-like objects positions, so we could use them directly to generate density maps for all images and test the method described above. We preprocess them to a common format and store in HDF5 flies before the training.</span></p>
+
+
+
+<h2 id="article-6">Fluorescent cells dataset</h2>
+
+
+
+<p><span style="font-weight: 400;">Fluorescent cells (FC) dataset is generated by Visual Geometry Group (VGG) with a computational framework from [9], which can simulate fluorescence microscope images with bacterial cells. It can be downloaded from <a href="http://www.robots.ox.ac.uk/~vgg/research/counting/index_org.html" target="_blank" rel="nofollow noopener noreferrer">VGG website</a></span><span style="font-weight: 400;">. An example image along with generated density map is presented on Fig. 5</span></p>
+
+
+<div class="wp-block-image wp-image-2282 size-full">
+<figure class="aligncenter"><img decoding="async" loading="lazy" width="512" height="255" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20512%20255'%3E%3C/svg%3E" alt="objects counting fig5 neurosys" class="wp-image-2183" data-lazy-srcset="https://neurosys.com/wp-content/uploads/2021/09/fig5_neurosys.png 512w, https://neurosys.com/wp-content/uploads/2021/09/fig5_neurosys-300x149.png 300w" data-lazy-sizes="(max-width: 512px) 100vw, 512px" title="fig5 neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 7" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/fig5_neurosys.png"><noscript><img decoding="async" loading="lazy" width="512" height="255" src="https://neurosys.com/wp-content/uploads/2021/09/fig5_neurosys.png" alt="objects counting fig5 neurosys" class="wp-image-2183" srcset="https://neurosys.com/wp-content/uploads/2021/09/fig5_neurosys.png 512w, https://neurosys.com/wp-content/uploads/2021/09/fig5_neurosys-300x149.png 300w" sizes="(max-width: 512px) 100vw, 512px" title="fig5 neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 7"></noscript><figcaption>Fig. 5: An example image and corresponding density map (FC dataset)</figcaption></figure></div>
+
+
+<h2 id="article-7">UCSD pedestrian dataset</h2>
+
+
+
+<p>UCSD dataset [10] contains videos of pedestrians recorded on walkways in the University of California San Diego campus. It is widely used for various problems, such as counting, motion segmentation, and analysis of pedestrians behaviour. It can be downloaded from <a href="http://www.svcl.ucsd.edu/projects/peoplecnt/" target="_blank" rel="nofollow noopener noreferrer">Statistical Visual Computing Lab website</a>. An example image along with generated density map is presented on Fig. 6.</p>
+
+
+<div class="wp-block-image wp-image-2281 size-full">
+<figure class="aligncenter"><img decoding="async" loading="lazy" width="480" height="160" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20480%20160'%3E%3C/svg%3E" alt="objects counting fig6 neurosys 1" class="wp-image-2184" data-lazy-srcset="https://neurosys.com/wp-content/uploads/2021/09/fig6_neurosys-1.png 480w, https://neurosys.com/wp-content/uploads/2021/09/fig6_neurosys-1-300x100.png 300w" data-lazy-sizes="(max-width: 480px) 100vw, 480px" title="fig6 neurosys 1 Objects Counting by Estimating a Density Map With Convolutional Neural Networks 8" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/fig6_neurosys-1.png"><noscript><img decoding="async" loading="lazy" width="480" height="160" src="https://neurosys.com/wp-content/uploads/2021/09/fig6_neurosys-1.png" alt="objects counting fig6 neurosys 1" class="wp-image-2184" srcset="https://neurosys.com/wp-content/uploads/2021/09/fig6_neurosys-1.png 480w, https://neurosys.com/wp-content/uploads/2021/09/fig6_neurosys-1-300x100.png 300w" sizes="(max-width: 480px) 100vw, 480px" title="fig6 neurosys 1 Objects Counting by Estimating a Density Map With Convolutional Neural Networks 8"></noscript><figcaption>Fig. 6: An example image and corresponding density map (UCSD dataset)</figcaption></figure></div>
+
+
+<h2 id="article-8"><span style="font-weight: 400;">Mall dataset</span></h2>
+
+
+
+<p><span style="font-weight: 400;">Mall dataset [3-6] was created for crowd counting and profiling. It contains a video recorded by a publicly available webcam. Every frame is annotated with head positions of every pedestrian.</span><span style="font-weight: 400;">&nbsp;An example image along with generated density map is presented on Fig. 3.</span></p>
+
+
+
+<p><span style="font-weight: 400;">The method of counting objects in images by integrating an estimated density map has been already applied to both fluorescent cells and UCSD datasets [11]. We chose mall dataset to be our test dataset for the method.</span></p>
+
+
+
+<h2 id="article-9">Results</h2>
+
+
+
+<p><span style="font-weight: 400;">As stated above, two models were tested, namely U-Net and FCRN. Using U-Net we were able to achieve more accurate results so below we present our findings obtained with this architecture.</span></p>
+
+
+
+<p><span style="font-weight: 400;">In the table below the summary of our results is presented for each dataset with minimum and maximum numbers of objects in validation sets and the mean absolute error (MAE) we obtained.</span></p>
+
+
+
+<p><span style="font-weight: 400;">We used standard definition for MAE:</span></p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-full"><img decoding="async" loading="lazy" width="417" height="147" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20417%20147'%3E%3C/svg%3E" alt="objects counting definition neurosys" class="wp-image-2188" data-lazy-srcset="https://neurosys.com/wp-content/uploads/2021/09/definition_neurosys.png 417w, https://neurosys.com/wp-content/uploads/2021/09/definition_neurosys-300x106.png 300w" data-lazy-sizes="(max-width: 417px) 100vw, 417px" title="definition neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 9" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/definition_neurosys.png"><noscript><img decoding="async" loading="lazy" width="417" height="147" src="https://neurosys.com/wp-content/uploads/2021/09/definition_neurosys.png" alt="objects counting definition neurosys" class="wp-image-2188" srcset="https://neurosys.com/wp-content/uploads/2021/09/definition_neurosys.png 417w, https://neurosys.com/wp-content/uploads/2021/09/definition_neurosys-300x106.png 300w" sizes="(max-width: 417px) 100vw, 417px" title="definition neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 9"></noscript></figure></div>
+
+
+<p><span style="font-weight: 400;">where <em>t</em></span><span style="font-weight: 400;"><em><sub>i</sub> </em>is true and <em>p<sub>i</sub></em> is predicted number of objects for </span><i><span style="font-weight: 400;">i</span></i><span style="font-weight: 400;">-th sample.</span></p>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td data-label=":"><b>Dataset</b></td><td data-label=":"><b>Min. #objects</b></td><td data-label=":"><b>Max. #objects</b></td><td data-label=":"><b>MAE</b></td></tr><tr><td data-label=":"><span style="font-weight: 400;">Fluorescent cells</span></td><td data-label=":"><span style="font-weight: 400;">74</span></td><td data-label=":"><span style="font-weight: 400;">317</span></td><td data-label=":"><span style="font-weight: 400;">1.89</span></td></tr><tr><td data-label=":"><span style="font-weight: 400;">UCSD</span></td><td data-label=":"><span style="font-weight: 400;">20</span></td><td data-label=":"><span style="font-weight: 400;">47</span></td><td data-label=":"><span style="font-weight: 400;">2.27</span></td></tr><tr><td data-label=":"><span style="font-weight: 400;">Mall</span></td><td data-label=":"><span style="font-weight: 400;">20</span></td><td data-label=":"><span style="font-weight: 400;">48</span></td><td data-label=":"><span style="font-weight: 400;">2.86</span></td></tr></tbody></table></figure>
+
+
+
+<p><span style="font-weight: 400;">The scatter plots for true (<em>t<sub>i</sub></em></span><span style="font-weight: 400;">) vs predicted (<em>p<sub>i</sub></em>) number of objects for each validation sample are presented in Figs. 7-9. As expected, the model handles well relatively simple fluorescent cells dataset despite high number of objects in single image. However, there is much higher deviation when counting pedestrians. This could be happening due to the fact that it is difficult even for human labeller to decide whether person standing behind a plant or just barely visible from behind corner should be counted.</span></p>
+
+
+
+<p><span style="font-weight: 400;">This is just the beginning of our research on object counting. We are looking forward to conduct more experiments including trying out different architectures and methods.</span></p>
+
+
+<div class="wp-block-image wp-image-2245 size-full">
+<figure class="aligncenter"><img decoding="async" loading="lazy" width="640" height="480" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20640%20480'%3E%3C/svg%3E" alt="objects counting cell neurosys" class="wp-image-2185" data-lazy-srcset="https://neurosys.com/wp-content/uploads/2021/09/cell_neurosys.png 640w, https://neurosys.com/wp-content/uploads/2021/09/cell_neurosys-300x225.png 300w" data-lazy-sizes="(max-width: 640px) 100vw, 640px" title="cell neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 10" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/cell_neurosys.png"><noscript><img decoding="async" loading="lazy" width="640" height="480" src="https://neurosys.com/wp-content/uploads/2021/09/cell_neurosys.png" alt="objects counting cell neurosys" class="wp-image-2185" srcset="https://neurosys.com/wp-content/uploads/2021/09/cell_neurosys.png 640w, https://neurosys.com/wp-content/uploads/2021/09/cell_neurosys-300x225.png 300w" sizes="(max-width: 640px) 100vw, 640px" title="cell neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 10"></noscript><figcaption>Fig 7. True vs predicted counts on fluorescent cells validation dataset</figcaption></figure></div>
+
+<div class="wp-block-image wp-image-2247 size-full">
+<figure class="aligncenter"><img decoding="async" loading="lazy" width="640" height="480" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20640%20480'%3E%3C/svg%3E" alt="objects counting ucsd neurosys" class="wp-image-2186" data-lazy-srcset="https://neurosys.com/wp-content/uploads/2021/09/ucsd_neurosys.png 640w, https://neurosys.com/wp-content/uploads/2021/09/ucsd_neurosys-300x225.png 300w" data-lazy-sizes="(max-width: 640px) 100vw, 640px" title="ucsd neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 11" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/ucsd_neurosys.png"><noscript><img decoding="async" loading="lazy" width="640" height="480" src="https://neurosys.com/wp-content/uploads/2021/09/ucsd_neurosys.png" alt="objects counting ucsd neurosys" class="wp-image-2186" srcset="https://neurosys.com/wp-content/uploads/2021/09/ucsd_neurosys.png 640w, https://neurosys.com/wp-content/uploads/2021/09/ucsd_neurosys-300x225.png 300w" sizes="(max-width: 640px) 100vw, 640px" title="ucsd neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 11"></noscript></figure></div>
+
+<div class="wp-block-image wp-image-2246 size-full">
+<figure class="aligncenter"><img decoding="async" loading="lazy" width="640" height="480" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20640%20480'%3E%3C/svg%3E" alt="objects counting mall neurosys" class="wp-image-2187" data-lazy-srcset="https://neurosys.com/wp-content/uploads/2021/09/mall_neurosys.png 640w, https://neurosys.com/wp-content/uploads/2021/09/mall_neurosys-300x225.png 300w" data-lazy-sizes="(max-width: 640px) 100vw, 640px" title="mall neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 12" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/mall_neurosys.png"><noscript><img decoding="async" loading="lazy" width="640" height="480" src="https://neurosys.com/wp-content/uploads/2021/09/mall_neurosys.png" alt="objects counting mall neurosys" class="wp-image-2187" srcset="https://neurosys.com/wp-content/uploads/2021/09/mall_neurosys.png 640w, https://neurosys.com/wp-content/uploads/2021/09/mall_neurosys-300x225.png 300w" sizes="(max-width: 640px) 100vw, 640px" title="mall neurosys Objects Counting by Estimating a Density Map With Convolutional Neural Networks 12"></noscript><figcaption>Fig 9. True vs predicted counts on mall validation dataset</figcaption></figure></div>
+
+
+<p><em><strong>References</strong></em></p>
+
+
+
+<ol><li>Cao, Yue, Jiarui Xu, Stephen Lin, Fangyun Wei, and Han Hu. “GCNet: Non-local Networks Meet Squeeze-Excitation Networks and Beyond.” arXiv preprint arXiv:1904.11492(2019).</li><li>Lin, Tsung-Yi, Michael Maire, Serge Belongie, James Hays, Pietro Perona, Deva Ramanan, Piotr Dollár, and C. Lawrence Zitnick. “Microsoft coco: Common objects in context.” In European conference on computer vision, pp. 740-755. Springer, Cham, 2014.</li><li>Change Loy, Chen, Shaogang Gong, and Tao Xiang. “From semi-supervised to transfer counting of crowds.” In Proceedings of the IEEE International Conference on Computer Vision, pp. 2256-2263. 2013.</li><li>Chen, Ke, Shaogang Gong, Tao Xiang, and Chen Change Loy. “Cumulative attribute space for age and crowd density estimation.” In Proceedings of the IEEE conference on computer vision and pattern recognition, pp. 2467-2474. 2013.</li><li>Loy, Chen Change, Ke Chen, Shaogang Gong, and Tao Xiang. “Crowd counting and profiling: Methodology and evaluation.” In Modeling, simulation and visual analysis of crowds, pp. 347-382. Springer, New York, NY, 2013.</li><li>Chen, Ke, Chen Change Loy, Shaogang Gong, and Tony Xiang. “Feature mining for localised crowd counting.” In BMVC, vol. 1, no. 2, p. 3. 2012.</li><li>Weidi, Xie, J. Alison Noble, and Andrew Zisserman. “Microscopy cell counting with fully convolutional regression networks.” In 1st Deep Learning Workshop, Medical Image Computing and Computer-Assisted Intervention (MICCAI). 2015.</li><li>Ronneberger, Olaf, Philipp Fischer, and Thomas Brox. “U-net: Convolutional networks for biomedical image segmentation.” In International Conference on Medical image computing and computer-assisted intervention, pp. 234-241. Springer, Cham, 2015.</li><li>Lehmussola, Antti, Pekka Ruusuvuori, Jyrki Selinummi, Heikki Huttunen, and Olli Yli-Harja. “Computational framework for simulating fluorescence microscope images with cell populations.” IEEE transactions on medical imaging 26, no. 7 (2007): 1010-1016.</li><li>Chan, Antoni B., Zhang-Sheng John Liang, and Nuno Vasconcelos. “Privacy preserving crowd monitoring: Counting people without people models or tracking.” In 2008 IEEE Conference on Computer Vision and Pattern Recognition, pp. 1-7. IEEE, 2008.</li><li>Lempitsky, Victor, and Andrew Zisserman. “Learning to count objects in images.” In Advances in neural information processing systems, pp. 1324-1332. 2010.</li></ol>
+
+
+
+<hr class="wp-block-separator has-css-opacity">
+
+
+
+<p><br><em>Project co-financed from European Union funds under the European Regional Development Funds as part of the Smart Growth Operational Programme.</em><br><em>Project implemented as part of the National Centre for Research and Development: Fast Track.</em></p>
+
+
+<div class="wp-block-image">
+<figure class="aligncenter size-full"><img decoding="async" loading="lazy" width="604" height="70" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20604%2070'%3E%3C/svg%3E" alt="objects counting european union" class="wp-image-2300" data-lazy-srcset="https://neurosys.com/wp-content/uploads/2021/09/european-union.png 604w, https://neurosys.com/wp-content/uploads/2021/09/european-union-300x35.png 300w" data-lazy-sizes="(max-width: 604px) 100vw, 604px" title="european union Objects Counting by Estimating a Density Map With Convolutional Neural Networks 13" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/european-union.png"><noscript><img decoding="async" loading="lazy" width="604" height="70" src="https://neurosys.com/wp-content/uploads/2021/09/european-union.png" alt="objects counting european union" class="wp-image-2300" srcset="https://neurosys.com/wp-content/uploads/2021/09/european-union.png 604w, https://neurosys.com/wp-content/uploads/2021/09/european-union-300x35.png 300w" sizes="(max-width: 604px) 100vw, 604px" title="european union Objects Counting by Estimating a Density Map With Convolutional Neural Networks 13"></noscript></figure></div>                        </div>
+
+                                                <div class="tw-py-12 tw-border-0 tw-border-t tw-border-solid tw-border-darkBlue/50 tw-space-y-8">
+                            <div class="">
+                                Authors                            </div>
+
+                            <div class="tw-space-y-6">
+                                                                <div class="tw-grid tw-grid-cols-[auto_1fr] tw-gap-8 tw-items-center">
+                                    <img class="tw-block tw-w-24 tw-h-24 tw-rounded-full tw-object-cover" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/tomasz_bonus_neurosys.webp"><noscript><img 
+                                        class="tw-block tw-w-24 tw-h-24 tw-rounded-full tw-object-cover"
+                                        src="https://neurosys.com/wp-content/uploads/2021/09/tomasz_bonus_neurosys.webp"
+                                        alt=""
+                                    ></noscript>
+
+                                    <div class="tw-leading-[1em] tw-text-[1rem] tw-space-y-2">
+                                        <div class="tw-text-[1.1rem]">
+                                            Tomasz Bonus                                        </div>
+                                        <div class="tw-uppercase tw-opacity-50">
+                                            Deep Learning Researcher at NeuroSYS                                        </div>
+                                    </div>
+                                </div>
+                                                                <div class="tw-grid tw-grid-cols-[auto_1fr] tw-gap-8 tw-items-center">
+                                    <img class="tw-block tw-w-24 tw-h-24 tw-rounded-full tw-object-cover" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="Tomasz Golan NeuroSYS" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/tomasz_golan_neurosys.webp"><noscript><img 
+                                        class="tw-block tw-w-24 tw-h-24 tw-rounded-full tw-object-cover"
+                                        src="https://neurosys.com/wp-content/uploads/2021/09/tomasz_golan_neurosys.webp"
+                                        alt="Tomasz Golan NeuroSYS"
+                                    ></noscript>
+
+                                    <div class="tw-leading-[1em] tw-text-[1rem] tw-space-y-2">
+                                        <div class="tw-text-[1.1rem]">
+                                            Tomasz Golan                                        </div>
+                                        <div class="tw-uppercase tw-opacity-50">
+                                            R&amp;D Manager                                        </div>
+                                    </div>
+                                </div>
+                                                            </div>
+                        </div>
+                                            </div>
+
+                    <div id="article-rightPanel" data-active="true" class="tw-sticky tw-group tw-top-20 tw-space-y-8 tw-row-start-3 xl:tw-row-start-1">
+                        <div class="tw-justify-end tw-hidden xl:tw-flex -tw-mt-2">
+                                <div id="articlePageFocusModeButton" class="tw-group tw-flex tw-items-center tw-gap-4 tw-cursor-pointer tw-select-none" data-active-2="false">
+        <div class="tw-text-[1rem] tw-grid tw-justify-items-end">
+            <div class="tw-col-start-1 tw-row-start-1 group-data-active-2:tw-opacity-0 tw-transition-opacity tw-duration-200 tw-delay-100">
+                Read in focus
+            </div>
+            <div class="tw-col-start-1 tw-row-start-1 tw-opacity-0 group-data-active-2:tw-opacity-100 tw-transition-opacity tw-duration-200 tw-delay-100">
+                Exit focus mode
+            </div>
+        </div>
+        <div class="tw-bg-lightBlue tw-rounded-full tw-w-16 tw-p-[0.125rem] group-data-active-2:tw-bg-skyBlue tw-transition-all tw-duration-200">
+            <div class="tw-w-6 tw-h-6 tw-bg-white tw-rounded-full group-data-active-2:tw-ml-9 tw-transition-all tw-duration-200"></div>
+        </div>
+    </div>
+                        </div>
+
+                        
+                        <div class="tw-opacity-0 group-data-active:tw-opacity-100 tw-transition-opacity tw-duration-200">
+                            
+<style>
+    main #content-article-details #article-subscription.form-sent .inner-finished {
+        color: #FFF;
+    }
+</style>
+
+<section id="article-subscription" class="newsletter-form-area cut-corner-br-4" data-message-success="" data-message-error="Something went wrong" data-action="/wp-content/themes/neurosys/script-form-newsletter-save.php">
+    <div class="form-wrapper">
+        <div class="inner-finished">
+            <div>Please check your e-mail</div>
+<p>We sent a message to your email. Confirm it and join our group of subscribers!</p>        </div>
+        <div class="inner">
+            <div class="header">Join our small, but happy and loyal group of subscribers!</div>            <div class="form">
+                <div class="clearfix"></div>
+                <div class="row-wrapper">
+                    <div class="row">
+                        <div class="field field-text">
+                            <div class="label">E-mail address</div>                            <div class="input">
+                                <input type="text" name="article-subscription-email" id="article-subscription-email" value="">
+                            </div>
+                            <div class="error-message">Insert your Email correctly please</div>                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="field field-checkbox">
+                            <div class="checkbox">
+                                <div class="hidden">
+                                    <input type="checkbox" name="article-subscription-agreement" id="article-subscription-agreement" value="1">
+                                </div>
+                                <div class="default">I agree that NeuroSYS may collect and process my data to answer my enquiries and provide me with product and service information.</div>                                <div class="error-message">Read and accept</div>                            </div>
+                        </div>
+                    </div>
+                    <div class="form-message error"></div>
+                </div>
+                <div class="row-submit-wrapper">
+                    <div class="row">
+                        <div class="field field-submit">
+                            <div class="submit">
+                                <button type="submit" name="article-subscription-submit" id="article-subscription-submit">Join</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+</section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+                <section id="related-article-details">
+            <div class="container">
+                <div class="h4">Related</div>
+
+                <div class="items">
+                    
+    <a class="item" href="https://neurosys.com/blog/rfm-analysis-for-customer-segmentation-using-k-means">
+        <div class="image"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="person-695656_1920-e1592464931254" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/person-695656_1920-e1592464931254-556x296.jpg"><noscript><img src="https://neurosys.com/wp-content/uploads/2021/09/person-695656_1920-e1592464931254-556x296.jpg" alt="person-695656_1920-e1592464931254"></noscript></div>        <div class="details">
+            <div class="date">18/06/2020</div>
+            <div class="h5">RFM Analysis For Customer Segmentation Using K-means algorithm</div>
+        </div>
+
+            </a>
+    <a class="item" href="https://neurosys.com/blog/artificial-data-generation-with-gans">
+        <div class="image"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="neurosys_article" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/neurosys_article-556x296.jpg"><noscript><img src="https://neurosys.com/wp-content/uploads/2021/09/neurosys_article-556x296.jpg" alt="neurosys_article"></noscript></div>        <div class="details">
+            <div class="date">21/02/2019</div>
+            <div class="h5">Artificial Data Generation With Generative Adversarial Networks (GANs) - Part 1</div>
+        </div>
+
+            </a>
+    <a class="item" href="https://neurosys.com/blog/machine-learning-in-lifescience-medicine-and-pharma">
+        <div class="image"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="machinelearnig_pharma_livescience-e1578924141541" data-lazy-src="https://neurosys.com/wp-content/uploads/2021/09/machinelearnig_pharma_livescience-e1578924141541-556x296.jpg"><noscript><img src="https://neurosys.com/wp-content/uploads/2021/09/machinelearnig_pharma_livescience-e1578924141541-556x296.jpg" alt="machinelearnig_pharma_livescience-e1578924141541"></noscript></div>        <div class="details">
+            <div class="date">13/01/2020</div>
+            <div class="h5">Machine Learning Application Growing in Life Science and Pharma</div>
+        </div>
+
+            </a>
+                </div>
+            </div>
+        </section>
+        
+</main>
+
+<div class="footer-lift-roof">
+    <div class="container">
+        <div class="left-attic">
+            <a href="https://neurosys.com/" class="logo-link">
+                <img width="0" height="0" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" class="logo" alt="Logo" data-lazy-src="/wp-content/themes/neurosys/static/images/logo-white.svg"><noscript><img width="0" height="0" src="/wp-content/themes/neurosys/static/images/logo-white.svg" class="logo" alt="Logo"></noscript>
+            </a>
+            <div class="badges-logo"><div class="logo-clutch">
+				<a href="https://www.topdevelopers.co/directory/software-development-companies" rel="nofollow" target="_blank">
+					<img width="0" height="0" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" class="index-1" alt="Clutch" data-lazy-src="/wp-content/themes/neurosys/static/images/Badge-Top-Software-Development-Companies-2021.png"><noscript><img width="0" height="0" src="/wp-content/themes/neurosys/static/images/Badge-Top-Software-Development-Companies-2021.png" class="index-1" alt="Clutch" /></noscript>
+				</a>
+			</div>
+		</div>
+			
+            <div class="badges-logo"><div class="logo-clutch"><a href="https://clutch.co/profile/neurosys" target="_blank" rel="nofollow"><img width="0" height="0" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" class="index-2" alt="Clutch" data-lazy-src="/wp-content/themes/neurosys/static/images/Clutch_2020.svg"><noscript><img width="0" height="0" src="/wp-content/themes/neurosys/static/images/Clutch_2020.svg" class="index-2" alt="Clutch"></noscript></a></div></div>			
+            <div class="badges-logo">
+				<div class="logo-clutch">
+					<a href="https://www.akademiacert.pl/" rel="nofollow" target="_blank">
+						<img width="0" height="0" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" class="index-1" alt="Cert" data-lazy-src="/wp-content/themes/neurosys/static/images/cert_2.svg"><noscript><img width="0" height="0" src="/wp-content/themes/neurosys/static/images/cert_2.svg" class="index-1" alt="Cert" /></noscript>
+					</a>
+				</div>
+			</div>
+        </div>
+        <div class="right-attic">
+            <div class="social-icons-box">
+                <label>Stay in touch with us:</label>
+
+                <a href="https://www.linkedin.com/company/neurosys/" target="_blank" data-wpel-link="external" rel="nofollow noopener noreferrer">
+                    <img width="16" height="16" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3C/svg%3E" alt="LinkedIn" data-lazy-src="/wp-content/themes/neurosys/assets/img/linkedin.svg"><noscript><img width="16" height="16" src="/wp-content/themes/neurosys/assets/img/linkedin.svg" alt="LinkedIn"></noscript>
+                </a>
+                <a href="https://www.facebook.com/NeuroSYSpl" target="_blank" data-wpel-link="external" rel="nofollow noopener noreferrer">
+                    <img width="16" height="16" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3C/svg%3E" alt="Facebook" data-lazy-src="/wp-content/themes/neurosys/assets/img/facebook.svg"><noscript><img width="16" height="16" src="/wp-content/themes/neurosys/assets/img/facebook.svg" alt="Facebook"></noscript>
+                </a>
+                <a href="https://twitter.com/Neuro_SYS" target="_blank" data-wpel-link="external" rel="nofollow noopener noreferrer">
+                    <img width="16" height="16" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3C/svg%3E" alt="Twitter" data-lazy-src="/wp-content/themes/neurosys/assets/img/twitter.svg"><noscript><img width="16" height="16" src="/wp-content/themes/neurosys/assets/img/twitter.svg" alt="Twitter"></noscript>
+                </a>
+                <a href="https://www.instagram.com/neuro_sys/" target="_blank" data-wpel-link="external" rel="nofollow noopener noreferrer">
+                    <img width="16" height="16" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3C/svg%3E" alt="Instagram" data-lazy-src="/wp-content/themes/neurosys/assets/img/instagram.svg"><noscript><img width="16" height="16" src="/wp-content/themes/neurosys/assets/img/instagram.svg" alt="Instagram"></noscript>
+                </a>
+                <a href="https://www.youtube.com/channel/UCyFD9iP45DnBCPfQ0fqoy9g/featured" target="_blank" data-wpel-link="external" rel="nofollow noopener noreferrer">
+                    <img width="16" height="16" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3C/svg%3E" alt="YouTube" data-lazy-src="/wp-content/themes/neurosys/assets/img/youtube.svg"><noscript><img width="16" height="16" src="/wp-content/themes/neurosys/assets/img/youtube.svg" alt="YouTube"></noscript>
+                </a>
+                <a href="https://www.behance.net/neuro_sys/" target="_blank" data-wpel-link="external" rel="nofollow noopener noreferrer">
+                    <img width="16" height="16" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3C/svg%3E" alt="Behance" data-lazy-src="/wp-content/themes/neurosys/assets/img/behance.svg"><noscript><img width="16" height="16" src="/wp-content/themes/neurosys/assets/img/behance.svg" alt="Behance"></noscript>
+                </a>
+                <a href="https://dribbble.com/Neuro_SYS" target="_blank" data-wpel-link="external" rel="nofollow noopener noreferrer">
+                    <img width="16" height="16" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3C/svg%3E" alt="Bribbble" data-lazy-src="/wp-content/themes/neurosys/assets/img/dribbble.svg"><noscript><img width="16" height="16" src="/wp-content/themes/neurosys/assets/img/dribbble.svg" alt="Bribbble"></noscript>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer-lift"> 
+    <div class="container container-lift">
+
+        <div class="top-beam">
+            <div class="left-sill">
+                <div class="footer-contacts">
+                                                <div class="contact" style="height: 118px;">
+                                <label>Wrocław</label>
+
+                                <div class="contact-href">
+                                    <a href="mailto:info@neurosys.com">info@neurosys.com</a>
+                                </div>
+                                                                    <div class="contact-href">
+                                        <span>PL:</span><a href="tel:+48 537 900 002">+48 537 900 002</a>
+                                    </div>
+                                                                        <div class="contact-href">
+                                        <span>US:</span><a href="tel:+1 (215) 709-0377">+1 (215) 709-0377</a>
+                                    </div>
+                                                                </div>
+                                                    <div class="contact" style="height: 118px;">
+                                <label>Białystok</label>
+
+                                <div class="contact-href">
+                                    <a href="mailto:bialystok@neurosys.com">bialystok@neurosys.com</a>
+                                </div>
+                                                            </div>
+                                                    <div class="contact" style="height: 118px;">
+                                <label>Berlin</label>
+
+                                <div class="contact-href">
+                                    <a href="mailto:berlin@neurosys.com">berlin@neurosys.com</a>
+                                </div>
+                                                                    <div class="contact-href">
+                                        <span>DE:</span><a href="tel:+49 30 311 99 596">+49 30 311 99 596</a>
+                                    </div>
+                                                                        <div class="contact-href">
+                                        <span>PL:</span><a href="tel:+48 537 900 002">+48 537 900 002</a>
+                                    </div>
+                                                                </div>
+                                                    <div class="contact" style="height: 118px;">
+                                <label>Stockholm</label>
+
+                                <div class="contact-href">
+                                    <a href="mailto:sthlm@neurosys.com">sthlm@neurosys.com</a>
+                                </div>
+                                                                    <div class="contact-href">
+                                        <span>SE:</span><a href="tel:+46 8 525 00 888">+46 8 525 00 888</a>
+                                    </div>
+                                                                </div>
+                                                    <div class="contact" style="height: 118px;">
+                                <label>Oslo</label>
+
+                                <div class="contact-href">
+                                    <a href="mailto:info@neurosys.no">info@neurosys.no</a>
+                                </div>
+                                                                    <div class="contact-href">
+                                        <span>NO:</span><a href="tel:+47 41017126">+47 41017126</a>
+                                    </div>
+                                                                </div>
+                                                            </div>
+            </div>
+            <div class="right-sill">
+                <label>Partners:</label>
+                <div class="partner-box">
+                    <div class="left-block">
+                        <div class="partner">
+                            <img width="0" height="0" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="microsoft" data-lazy-src="/wp-content/themes/neurosys/static/images/microsoft.svg"><noscript><img width="0" height="0" src="/wp-content/themes/neurosys/static/images/microsoft.svg" alt="microsoft"></noscript>
+                        </div>
+                        <div class="small-separator"></div>
+                        <div class="partner">
+                            <img width="0" height="0" class="desktop" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="aws_partner" data-lazy-src="/wp-content/themes/neurosys/static/images/it-corner.svg"><noscript><img width="0" height="0" class="desktop" src="/wp-content/themes/neurosys/static/images/it-corner.svg" alt="aws_partner"></noscript>
+                        </div>
+                    </div>
+                    <div class="right-block">
+                        <div class="small-separator"></div>
+                        <div class="partner">
+                            <img width="0" height="0" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="aws_partner" data-lazy-src="/wp-content/themes/neurosys/static/images/aws_partner.svg"><noscript><img width="0" height="0" src="/wp-content/themes/neurosys/static/images/aws_partner.svg" alt="aws_partner"></noscript>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-beam" id="footer_menu">
+            <div class="menu-footer index-100">
+                <div class="mm-footer index-1"> 
+                    <label style="height: 34px;">NeuroSYS</label>
+                    <ul id="menu-footer_1_en" class="footer-nav"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10768"><a href="https://neurosys.com/company">Company</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10769"><a href="https://neurosys.com/career">Career</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10770"><a href="https://neurosys.com/blog">Blog</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-ebook menu-item-14145"><a href="https://neurosys.com/ebooks/strengthen-your-business-with-ai">Free Ebook</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10771"><a href="https://neurosys.com/contact">Contact</a></li>
+</ul>                </div>
+            </div>
+            <div class="menu-footer the-same-mf" style="height: 648.8px;">
+                <div class="mm-footer">
+                    <label style="height: 34px;">Services</label>
+                    <ul id="menu-footer_2_en" class="footer-nav"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14883"><a href="https://neurosys.com/blog/what-is-custom-web-application-development">Custom web application development</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10772"><a href="https://neurosys.com/services/custom-web-application-development">Web application development</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10773"><a href="https://neurosys.com/services/custom-mobile-app-development">Mobile App Development</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10774"><a href="https://neurosys.com/services/ai-consulting">AI/ML consulting services</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10775"><a href="https://neurosys.com/services/computer-vision">Computer vision</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10776"><a href="https://neurosys.com/services/recommender-systems">Recommender systems</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10777"><a href="https://neurosys.com/services/data-science">Data science</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10778"><a href="https://neurosys.com/services/natural-language-processing">Natural language processing</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10779"><a href="https://neurosys.com/services/aws-ai-azure-ai">AWS AI/AZURE AI</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10780"><a href="https://neurosys.com/services/robotic-process-automation">Robotic Process Automation</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10781"><a href="https://neurosys.com/services/the-internet-of-things">The internet of things</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10782"><a href="https://neurosys.com/services/devops">DevOps</a></li>
+</ul>                </div>
+            </div>
+            <div class="menu-footer the-same-mf index-2" style="height: 648.8px;">
+                <div class="mm-footer">
+                    <label class="for-tablet-and-pc" style="height: 34px;">&nbsp; </label>
+                    <ul id="menu-footer_3_en" class="footer-nav"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10783"><a href="https://neurosys.com/services/offshoring">Offshoring</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10784"><a href="https://neurosys.com/services/nearshoring">Nearshoring</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10785"><a href="https://neurosys.com/services/research-and-development-consulting">Research and Development</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10786"><a href="https://neurosys.com/services/cloud-computing-consulting">Cloud computing</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10787"><a href="https://neurosys.com/services/it-and-business-consulting">IT and Business consulting</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10788"><a href="https://neurosys.com/services/product-design">Product design</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10789"><a href="https://neurosys.com/services/ux-ui-design">UX/UI Design</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10790"><a href="https://neurosys.com/services/augmented-reality">Augmented Reality</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10791"><a href="https://neurosys.com/services/digital-transformation">Digital Transformation</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10792"><a href="https://neurosys.com/services/agile-software-development">Agile software development</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10793"><a href="https://neurosys.com/services/quality-assurance">Quality Assurance</a></li>
+</ul>                </div>
+            </div>
+            <div class="menu-footer">
+                <div class="mm-footer">
+                    <label style="height: 34px;">Technologies</label>
+                    <ul id="menu-footer_4_en" class="footer-nav"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10794"><a href="https://neurosys.com/services/react-native-development">React Native</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10795"><a href="https://neurosys.com/services/node-js-development">Node.js</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10796"><a href="https://neurosys.com/services/react-js-development">React.js</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10797"><a href="https://neurosys.com/services/unity-development">Unity/Unity3D</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-15114"><a href="https://neurosys.com/tag/php">PHP</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10799"><a href="https://neurosys.com/services/net-development">.NET</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10800"><a href="https://neurosys.com/services/pytorch-development">PyTorch</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10801"><a href="https://neurosys.com/services/python-development">Python</a></li>
+</ul>                </div>
+            </div>
+        </div>
+
+        <div class="copyrights">
+            <div class="b-left">
+                <div class="text">
+                                        <span>© 2023 Copyright NeuroSYS Sp. z o. o.</span>
+                    <span>All Rights Reserved.</span>
+                </div>
+                <div class="terms-and-langs">
+                    <div class="terms">
+
+                        
+                                                <a href="https://neurosys.com/terms-and-conditions" title="TERMS AND CONDITIONS">TERMS AND CONDITIONS</a>
+                        
+                                                <a href="https://neurosys.com/privacy-policy" title="PRIVACY POLICY">PRIVACY POLICY</a>
+                        
+                                                <a href="https://neurosys.com/european-funds" title="EUROPEAN FUNDS">EUROPEAN FUNDS</a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="b-right">
+                Project and development: <a href="https://neurosys.com">NeuroSYS</a>
+            </div>
+        </div>
+
+    </div>
+    <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" class="bg-footer" alt="arrow footer" data-lazy-src="/wp-content/themes/neurosys/static/images/footer-arrow.svg"><noscript><img src="/wp-content/themes/neurosys/static/images/footer-arrow.svg" class="bg-footer" alt="arrow footer" /></noscript>
+</div> 
+
+    
+<section id="apply-for-the-position" data-message-success="" data-message-error=" Oops! 
+ Something went wrong... " data-action="/wp-content/themes/neurosys/script-form-job-offer-save.php">
+    <div class="overlay"></div>
+    <div class="form-wrapper">
+        <div class="inner-finished">
+            <div class="close"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="icon" data-lazy-src="/wp-content/themes/neurosys/static/images/icons-close-apply-form.svg"><noscript><img src="/wp-content/themes/neurosys/static/images/icons-close-apply-form.svg" alt="icon"></noscript></div>
+            <div class="form">
+                <div class="header"> Done! </div>
+<div class="lead">Thank you for your application! </div>            </div>
+        </div>
+    </div>
+
+    <div class="inner">
+        <div class="close"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="icon" data-lazy-src="/wp-content/themes/neurosys/static/images/icons-close-apply-form.svg"><noscript><img src="/wp-content/themes/neurosys/static/images/icons-close-apply-form.svg" alt="icon"></noscript></div>
+        <div class="form form-wrapper">
+
+            <div class="header">Let's get in touch!</div>            <div class="lead">We want to get to know you a little bit, but we need some help from your side. Let's start with filling gaps below.</div>
+            <div class="inner-form" id="formJob">
+
+                <input type="hidden" name="apply-for-the-position-offer-id" id="apply-for-the-position-offer-id" value="">
+
+                <div class="form-message error"></div>
+                <div class="row">
+                    <div class="field field-text">
+                        <div class="input"><span class="label">Full name</span>                            <input type="text" name="apply-for-the-position-full" id="apply-for-the-position-full" value="">
+                        </div>
+                        <div class="error-message">Please provide us with your full name</div>                    </div>
+                </div>
+                <div class="row">
+                    <div class="field field-text">
+                        <span class="label">Email</span>                        <div class="input">
+                            <input type="text" name="apply-for-the-position-email" id="apply-for-the-position-email" value="">
+                        </div>
+                        <div class="error-message">Please provide us your current Email</div>                    </div>
+                </div>
+                <div class="row">
+                    <div class="field field-text">
+                        <span class="label">Telephone</span>                        <div class="input">
+                            <input type="text" name="apply-for-the-position-phone" id="apply-for-the-position-phone" value="">
+                        </div>
+                        <div class="error-message">Please provide us with your Phone number</div>                    </div>
+                </div>
+                <div class="row">
+                    <div class="field field-text">
+                        <span class="label">Your LinkedIn profile</span>                        <div class="input">
+                            <input type="text" name="apply-for-the-position-linkedin" id="apply-for-the-position-linkedin" value="">
+                        </div>
+                        <div class="error-message">Please show us your professional social side :)</div>                    </div>
+                </div>
+                <div class="row">
+                    <div class="field field-text">
+                        <span class="label">Link to your portfolio / GitHub</span>                        <div class="input">
+                            <input type="text" name="apply-for-the-position-portfolio" id="apply-for-the-position-portfolio" value="">
+                        </div>
+                        <div class="error-message">Please insert your Portfolio / GitHub URL correctly</div>                    </div>
+                </div>
+                <div class="row">
+                    <div class="field field-text">
+                        <span class="label">Message</span>                        <div class="input">
+                            <input type="text" name="apply-for-the-position-message" id="apply-for-the-position-message" value="">
+                        </div>
+                        <div class="error-message">Nothing to say? Maybe just a little bit? Even "Hi" will work - thanks!</div>                    </div>
+                </div>
+                <div class="row">
+                    <div class="field field-file">
+                        <span class="label">CV file</span>                        <div class="file">
+                            <button type="submit">Choose file</button>
+                                                        <div data-default-text="Please upload your CV">Please upload your CV</div>                            <input type="file" name="apply-for-the-position-file" id="apply-for-the-position-file" value="">
+                        </div>
+                        <div class="error-message" data-type-error="Chosen file type is not allowed" data-size-error="File size exceeded 2MB limit" data-default-error="Select file">Select file</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="field field-dropdown">
+                        <div class="dropdown">
+                            <div class="hidden">
+                                <input type="text" name="apply-for-the-position-find-out" id="apply-for-the-position-find-out" value="">
+                            </div>
+                                                        <div class="default">How did you find us?</div>
+                            <div class="list">
+                                <div data-value="">How did you find us?</div>
+                                                                    <div data-value="Company website 
+">Company website 
+</div>
+                                                                    <div data-value="Social media 
+">Social media 
+</div>
+                                                                    <div data-value="Recommendation
+">Recommendation
+</div>
+                                                                    <div data-value="Other source">Other source</div>
+                                                            </div>
+
+                        </div>
+                        <div class="error-message">Please choose one of the following</div>                    </div>
+                </div>
+                <div class="row">
+                    <div class="field field-checkbox">
+                        <div class="checkbox">
+                            <div class="hidden">
+                                <input type="checkbox" name="apply-for-the-position-agreement" id="apply-for-the-position-agreement" value="1">
+                            </div>
+                            <span class="default">I hereby authorize the processing of my personal data included in this form for the present recruitment-related purposes by NeuroSYS Sp. z o.o. (Rybacka 7 Street, 53-565 Wrocław) (in accordance with the General Data Protection Regulation (EU) 2016/679 of 27.04.2018 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, as well as repealing Directive 95/46/EC (Data Protection Directive)). I acknowledge that submitting my personal data is voluntary, I have the right to access my data and rectify it.</span>                            <div class="error-message">Read and accept</div>                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="field field-checkbox">
+                        <div class="checkbox">
+                            <div class="hidden">
+                                <input type="checkbox" name="apply-for-the-position-agreement-2" id="apply-for-the-position-agreement-2" value="1">
+                            </div>
+                            <span class="default">I hereby authorize the processing of my personal data included in my job application for the needs of future recruitment processes by NeuroSYS Sp. z o.o. (Rybacka 7 Street, 53-565 Wrocław).</span>                            <div class="error-message">Read and accept</div>                        </div>
+                    </div>
+                </div>
+
+                <div class="row hidden">
+                    <input type="text" name="apply-for-the-position-id" id="apply-for-the-position-id" value="">
+                </div>
+                
+                <div class="row">
+                    <div class="field field-re-captcha">
+                        <div id="reCAPTCHA"></div>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="field field-submit">
+                        <div class="submit">
+                            <button class="main" type="submit" name="apply-for-the-position-submit" id="apply-for-the-position-submit">Send your application</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <script src="https://neurosys.com/wp-content/plugins/neurosys-auto-article-menu/script.js?v=1" defer=""></script>
+<script id="nsflow-script" data-url="https://nsflow.com/realwear-navigator" data-image="https://cms.nsflow.com/wp-content/themes/nsflow/external/nsflow-popup/rw.jpg" data-style-src="https://cms.nsflow.com/wp-content/themes/nsflow/external/nsflow-popup/style.css" src="https://cms.nsflow.com/wp-content/themes/nsflow/external/nsflow-popup/script.js" async="" defer=""></script><script type="text/javascript">
+(function() {
+				var expirationDate = new Date();
+				expirationDate.setTime( expirationDate.getTime() + 31536000 * 1000 );
+				document.cookie = "pll_language=en; expires=" + expirationDate.toUTCString() + "; path=/; secure; SameSite=Lax";
+			}());
+</script>
+<script>window.lazyLoadOptions = {
+                elements_selector: "img[data-lazy-src],.rocket-lazyload",
+                data_src: "lazy-src",
+                data_srcset: "lazy-srcset",
+                data_sizes: "lazy-sizes",
+                class_loading: "lazyloading",
+                class_loaded: "lazyloaded",
+                threshold: 300,
+                callback_loaded: function(element) {
+                    if ( element.tagName === "IFRAME" && element.dataset.rocketLazyload == "fitvidscompatible" ) {
+                        if (element.classList.contains("lazyloaded") ) {
+                            if (typeof window.jQuery != "undefined") {
+                                if (jQuery.fn.fitVids) {
+                                    jQuery(element).parent().fitVids();
+                                }
+                            }
+                        }
+                    }
+                }};
+        window.addEventListener('LazyLoad::Initialized', function (e) {
+            var lazyLoadInstance = e.detail.instance;
+
+            if (window.MutationObserver) {
+                var observer = new MutationObserver(function(mutations) {
+                    var image_count = 0;
+                    var iframe_count = 0;
+                    var rocketlazy_count = 0;
+
+                    mutations.forEach(function(mutation) {
+                        for (i = 0; i < mutation.addedNodes.length; i++) {
+                            if (typeof mutation.addedNodes[i].getElementsByTagName !== 'function') {
+                                return;
+                            }
+
+                           if (typeof mutation.addedNodes[i].getElementsByClassName !== 'function') {
+                                return;
+                            }
+
+                            images = mutation.addedNodes[i].getElementsByTagName('img');
+                            is_image = mutation.addedNodes[i].tagName == "IMG";
+                            iframes = mutation.addedNodes[i].getElementsByTagName('iframe');
+                            is_iframe = mutation.addedNodes[i].tagName == "IFRAME";
+                            rocket_lazy = mutation.addedNodes[i].getElementsByClassName('rocket-lazyload');
+
+                            image_count += images.length;
+			                iframe_count += iframes.length;
+			                rocketlazy_count += rocket_lazy.length;
+
+                            if(is_image){
+                                image_count += 1;
+                            }
+
+                            if(is_iframe){
+                                iframe_count += 1;
+                            }
+                        }
+                    } );
+
+                    if(image_count > 0 || iframe_count > 0 || rocketlazy_count > 0){
+                        lazyLoadInstance.update();
+                    }
+                } );
+
+                var b      = document.getElementsByTagName("body")[0];
+                var config = { childList: true, subtree: true };
+
+                observer.observe(b, config);
+            }
+        }, false);</script><script data-no-minify="1" async="" src="https://neurosys.com/wp-content/plugins/rocket-lazy-load/assets/js/16.1/lazyload.min.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="//cdn.cookie-script.com/s/32866e7fc2389d5f30837ee6853a3897.js" defer=""></script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			setTimeout(() => {
+				let jQuery = document.createElement("script");
+				jQuery.src = templateDirectoryUri + "assets/js/jquery.js";
+				jQuery.async = false;
+				document.body.append(jQuery);
+
+				let bundle = document.createElement("script");
+				bundle.src = templateDirectoryUri + "bundle.js?v=2.1.8";
+				bundle.async = false;
+				document.body.append(bundle);
+
+                let fancybox = document.createElement("script");
+				fancybox.src = templateDirectoryUri + "assets/js/fancybox.js";
+				fancybox.async = false;
+				document.body.append(fancybox);
+
+                let selectize = document.createElement("script");
+				selectize.src = templateDirectoryUri + "assets/js/selectize.js";
+				selectize.async = false;
+				document.body.append(selectize);
+			
+                
+                				let all = document.createElement("script");
+				all.src = templateDirectoryUri + "static/js/all.min.js?v=2.1.8";
+				all.async = false;
+				document.body.append(all);
+                			}, 0);
+		});
+	</script>
+
+
+<script src="/wp-content/themes/neurosys/assets/js/jquery.js"></script><script src="/wp-content/themes/neurosys/bundle.js?v=2.1.8"></script><script src="/wp-content/themes/neurosys/assets/js/fancybox.js"></script><script src="/wp-content/themes/neurosys/assets/js/selectize.js"></script><script src="/wp-content/themes/neurosys/static/js/all.min.js?v=2.1.8"></script>
+    <style data-type="cookiescriptstyles">
+      #cookiescript_injected {
+    background-color: #ffffff;
+    z-index: 999997;
+    opacity: 1;
+    font-size: 14px;
+    font-weight: normal;
+    font-family: 'Open Sans', Arial, 'Trebuchet MS', 'Segoe UI', 'Helvetica', sans-serif;
+    box-shadow: 1px 2px 8px 0 rgba(0, 0, 0, 0.35);
+    color: #000000;
+    box-sizing: border-box;
+}
+.cookiescript_checkbox_label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding:0 4px;
+    line-height: 1.5;
+    margin:0;
+	text-align: left;
+}
+#cookiescript_close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 29px;
+    line-height: 13px;
+    cursor: pointer;
+    color: #000000;
+    height: 15px;
+    width: 15px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    letter-spacing: 0;
+    font-family: 'Trebuchet MS', 'Arial', sans-serif;
+    font-weight: 100;
+    opacity: 0.85;
+    z-index: 999999;
+}
+
+#cookiescript_buttons {
+    display: flex;
+    flex-direction: row;
+    font-weight: 700;
+}
+#cookiescript_manage_wrap {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.1px;
+    font-weight: 500;
+}
+#cookiescript_manage {
+    display: inline;
+    cursor: pointer;
+    color: #000000;
+    opacity:0.85;
+}
+#cookiescript_manage #cookiescript_manageicon .cookiescript_gear {
+    fill: #000000;
+}
+#cookiescript_manage:hover #cookiescript_manageicon .cookiescript_gear {
+    fill: #a3195b;;
+}
+
+svg#cookiescript_manageicon {
+    width: 15px;
+    height: 15px;
+    display: inline;
+    margin: 0 5px 0 0;
+    padding: 0;
+    position: relative;
+    top: 3px;
+    vertical-align: baseline;
+}
+#cookiescript_header {
+    background-color: transparent;
+    z-index: 999998;
+    color: #000000;
+    font-size: 17px;
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    opacity:1;
+}
+.cookiescript_checkbox {
+    display: flex;
+    flex-direction: row;
+}
+input.cookiescript_checkbox_input {
+}
+span.cookiescript_checkbox_text {
+    display: inline-block;
+    font-size: 11px;
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #000000;
+}
+
+#cookiescript_save {
+    border: 0;
+    transition: all 0.25s ease 0s;
+    background-color: #a3195b;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: 11px;
+    text-align: center;
+    line-height: 3.2;
+    letter-spacing: 0.4px;
+}
+/*IE 9 fixes*/
+@media screen and (min-width:0\0) and (min-resolution: .001dpcm) {
+    .cookiescript_checkbox_label {
+        position: relative;
+        top:-10px;
+    }
+    #cookiescript_accept, #cookiescript_reject, #cookiescript_save{
+    	display: inline-block;
+    }
+    #cookiescript_buttons{
+    	text-align:center;
+    }
+}
+#cookiescript_save{
+    display: none;
+}
+#cookiescript_reject {
+    border: 1px solid #ffffff;
+    text-align: center;
+    line-height: 3;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #ffffff;
+    background: #a3195b;
+}
+#cookiescript_accept {
+	transition: all 0.25s ease 0s;
+	text-transform: uppercase;
+	font-size: 11px;
+	text-align: center;
+	letter-spacing: 0.4px;
+	border: 0;
+	background-color: #a3195b;
+	color: #ffffff;
+	line-height: 3.2;
+}
+
+#cookiescript_accept, #cookiescript_reject, #cookiescript_save {
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition-duration: 100ms;
+    transition-timing-function: ease-in-out;
+    min-width: 103px;
+}
+.cookiescript_bigger {
+    transform: scale(1.1);
+}
+#cookiescript_link {
+    text-decoration: none;
+    color: #000000;
+    font-size: 9px;
+    text-align: center;
+    font-weight: 400;
+    text-transform: uppercase;
+    opacity: 0.8;
+	display:inline !important;
+}
+
+#cookiescript_readmore,
+#cookiescript_reportlink,
+#cookiescript_cookiescriptlink {
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    margin: 0;
+    transition: all 100ms ease 0s;
+    background-color: transparent;
+    color: #1797cd;
+    display: inline;
+    font-size: 11px;
+}
+
+#cookiescript_description {
+    color: #000000;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    line-height: 1.7;
+    font-weight: 400;
+    opacity: 0.85;
+}
+#cookiescript_checkboxs {
+}
+#cookiescript_close:hover,
+#cookiescript_manage:hover,
+#cookiescript_link:hover
+{
+    opacity: 1;
+}
+
+#cookiescript_reject:hover {
+    background-color: #ab2b68;
+}
+
+#cookiescript_accept:hover{
+	background-color: #ab2b68;
+}
+#cookiescript_save:hover {
+    background-color: #ab2b68;
+}
+
+#cookiescript_readmore:hover,
+#cookiescript_reportlink:hover,
+#cookiescript_cookiescriptlink:hover
+{
+    color: #a3195b;
+}
+
+#cookiescript_badge {
+    position: fixed;
+    line-height: 0;
+    cursor: pointer;
+    z-index: 99999;
+    font-size: 0;
+    color: #999;
+left: 10px;
+    display: flex;
+    flex-direction: row;
+    opacity: 1;
+}
+
+#cookiescript_badgetext{
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: 'Open Sans', Arial, 'Trebuchet MS', 'Segoe UI', 'Helvetica', sans-serif;
+    overflow: hidden;
+    transition-duration: 500ms;
+    white-space: nowrap;
+    padding-right: 0;
+    color: #000000;
+}
+
+#cookiescript_badgesvg{
+    width:40px;
+    height: 40px;
+}
+
+
+
+#cookiescript_badge {
+bottom: 10px;
+    border-radius:25px;
+    padding:3px;
+    transition-duration: 500ms;
+    box-shadow: 1px 2px 8px 0 rgba(0, 0, 0, 0.2);
+    background: #ffffff;
+}
+#cookiescript_badge:hover #cookiescript_badgetext{
+    max-width: 300px;
+    padding-right: 15px;
+    padding-left: 12px;
+}
+#cookiescript_badgetext {
+    font-size: 16px;
+    line-height: 2.5;
+    max-width: 0;
+}
+#cookiescript_badgeimage {
+    width: 40px;
+    height: 40px;
+}
+@media only screen and (max-width: 414px) {
+    #cookiescript_badgeimage {
+        width: 30px;
+        height: 30px;
+    }
+    #cookiescript_badgesvg{
+        width:30px;
+        height: 30px;
+    }
+    #cookiescript_badgetext{
+        display: none;
+    }
+}
+/*IE 9 fixes*/
+@media screen and (min-width:0\0) and (min-resolution: .001dpcm) {
+	#cookiescript_badgeimage{
+    	float:left;
+    }
+}
+
+@media print{
+    #cookiescript_injected{
+        display:none;
+    }
+}
+
+
+
+
+#cookiescript_injected_fsd {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(17, 17, 17, 0.5) !important;
+    z-index: 999996;
+	overflow-y: auto;
+}
+
+#cookiescript_fsd_wrapper {
+    max-width: 850px;
+	width: 95%;
+    margin: 0 auto 3% auto;
+	top: 10%;
+    line-height: 18px;
+    letter-spacing: normal;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+	background-color: #f3f3f3;
+    z-index: 999997;
+    opacity: 1;
+    font-size: 14px;
+    font-weight: normal;
+    font-family: 'Open Sans', Arial, 'Trebuchet MS', 'Segoe UI', 'Helvetica', sans-serif;
+    box-shadow: 1px 2px 8px 0 rgba(0, 0, 0, 0.35);
+    color: #4d4d4d;
+    align-items: center;
+    overflow: hidden;
+    outline: none;
+    max-height: 80%;
+    box-sizing: border-box;
+	cursor: default;
+	min-height: 500px;
+}
+
+
+.cookiescript_fsd_header {
+	min-height: 57px;
+	border-bottom: 1px solid #e2e2e2;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	background-color: #ffffff;
+}
+.cookiescript_fsd_logo_a{
+	margin-left: 20px;
+}
+.cookiescript_fsd_logo{
+	height: 27px;
+	width: auto;
+	display: block;
+	max-width: 100%;
+}
+.cookiescript_fsd_language_drop_down {
+    position: absolute;
+    right: 75px;
+	top: 17px;
+}
+
+.cookiescript_fsd_main {
+    width: 100%;
+	background-color: #ffffff;
+}
+
+.cookiescript_fsd_main_info {
+    padding: 25px 50px;
+}
+
+.cookiescript_fsd_title {
+    background-color: transparent;
+    z-index: 999998;
+    color: #4d4d4d;
+    font-size: 17px;
+    line-height: 1.3;
+    font-weight: 600;
+    opacity:1;
+}
+
+.cookiescript_fsd_description {
+    color: #4d4d4d;
+    font-size: 13px;
+    line-height: 1.6;
+    font-weight: 400;
+    opacity: 0.85;
+	margin-top: 21px;
+}
+
+#cookiescript_fsd_wrapper #cookiescript_readmore{
+	font-size: 13px;
+	color: #1797cd;
+	text-decoration: none;
+}
+#cookiescript_fsd_wrapper #cookiescript_readmore:hover{
+	text-decoration: underline;
+}
+
+.cookiescript_fsd_tabs {
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+	flex-direction: row;
+    width: 100%;
+}
+
+.cookiescript_fsd_tabs > div {
+	cursor: pointer;
+	width: 50%;
+	text-transform: uppercase;
+	font-size: 14px;
+	text-align: center;
+	line-height: 1.7;
+	font-weight: bold;
+	border-top: 1px solid transparent;
+	transition: all 300ms ease 0s;
+	padding: 12px 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #ffffff;
+}
+
+.cookiescript_fsd_tabs > .cookiescript_active {
+    border-top: 1px solid #1797cd;
+    background-color: #f3f3f3;
+    color: #1797cd;
+}
+
+.cookiescript_fsd_tabs_content {
+    background-color: #f3f3f3;
+    padding: 5px 50px 10px 50px;
+    width: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+	--scrollbar-width: 8px;
+	--mask-height: 35px;
+	--mask-image-content: linear-gradient( to bottom, transparent, black var(--mask-height), black calc(100% - var(--mask-height)), transparent );
+	--mask-size-content: calc(100% - var(--scrollbar-width)) 100%;
+	--mask-image-scrollbar: linear-gradient(black, black);
+	--mask-size-scrollbar: var(--scrollbar-width) 100%;
+	mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
+	mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
+	mask-position: 0 0, 100% 0;
+	mask-repeat: no-repeat, no-repeat;
+	-webkit-mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
+	-webkit-mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
+	-webkit-mask-position: 0 0, 100% 0;
+	-webkit-mask-repeat: no-repeat, no-repeat;
+}
+
+.cookiescript_fsd_tabs_content .cookiescript_hidden {
+    opacity: 0;
+    height: 0 !important;
+    overflow: hidden;
+	padding: 0 !important;
+	min-height: 0 !important;
+}
+
+.cookiescript_fsd_category {
+    border-bottom: 1px solid #e2e2e2;
+    padding-top: 23px;
+    padding-bottom: 17px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cookiescript_fsd_category:last-child {
+    border-bottom: 0;
+}
+
+.cookiescript_fsd_category .cookiescript_hidden {
+    opacity: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: 0 !important;
+	max-height: 0;
+	margin: 0;
+	height: auto !important;
+		transition: max-height 300ms ease 200ms, opacity ease 200ms, margin-top 100ms ease 100ms;
+	}
+
+.cookiescript_fsd_category_main {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cookiescript_fsd_category_info {
+    flex: 5;
+    padding-right: 10px;
+}
+
+.cookiescript_fsd_category_control {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.cookiescript_fsd__category_name {
+    font-size: 14px;
+    font-weight: 600;
+	margin-bottom: 8px;
+}
+
+.cookiescript_category_description {
+	font-size: 13px;
+	padding-bottom: 5px;
+	line-height: 1.6;
+}
+
+.cookiescript_fsd_cookies {
+	border: 1px solid #e2e2e2;
+	border-radius: 5px;
+	overflow-y: auto;
+	margin-top: 15px;
+	max-height: 222px;
+		transition: max-height 300ms ease, opacity 200ms ease 300ms, margin-top 100ms ease 100ms;
+	}
+
+
+.cookiescript_fsd_cookies_control {
+    color: #1797cd;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 700;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.cookiescript_fsd_cookies_control .cookiescript_hidden {
+    display: none;
+}
+
+.cookiescript_fsd_cookies_control  span{
+	margin-right: 7px;
+}
+
+.cookiescript_fsd_cookies_control svg {
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+}
+
+.cookiescript_fsd_cookies_control.active svg {
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+    transform: rotate(180deg);
+}
+
+.cookiescript_fsd_cookies_table {
+    width: 100%;
+}
+
+.cookiescript_fsd_cookies_table,
+.cookiescript_fsd_cookies_table tbody,
+.cookiescript_fsd_cookies_table thead,
+.cookiescript_fsd_cookies_table tr,
+.cookiescript_fsd_cookies_table th,
+.cookiescript_fsd_cookies_table td {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    vertical-align: baseline;
+    background-color: #ffffff;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+
+.cookiescript_fsd_cookies_table tr:last-child td{
+    border-bottom: 0;
+}
+
+.cookiescript_fsd_cookies_table td, .cookiescript_fsd_cookies_table th {
+    white-space: normal;
+    font-size: 13px;
+    text-align: left;
+    margin: 0;
+}
+.cookiescript_fsd_cookies_table th {
+	font-weight: 600;
+	padding: 8px 8px;
+	line-height: 1.4;
+	word-break: keep-all;
+	vertical-align: middle;
+}
+
+.cookiescript_fsd_cookies_table td {
+	padding: 7px 8px;
+	line-height: 1.6;
+	vertical-align: top;
+	font-weight: 400;
+	border: 0;
+	border-top: 1px solid #e2e2e2;
+	color: #4d4d4d;
+}
+
+.cookiescript_fsd_cookies_table th:last-child {
+    padding-right: 10px;
+}
+
+    .cookiescript_fsd_cookies_table td:nth-child(1), .cookiescript_fsd_cookies_table th:nth-child(1) {
+    padding-left: 15px;
+    word-break: normal;
+}
+
+.cookiescript_fsd_cookies_table td:nth-child(2) {
+    color: #1797cd;
+}
+
+.cookiescript_fsd_cookies_table td:nth-child(3), .cookiescript_fsd_cookies_table th:nth-child(3) {
+    text-align: center;
+}
+.cookiescript_vendor_name a{
+	text-decoration: underline;
+	font-weight: bold;
+	color: #1797cd;
+	line-height: normal;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	background: transparent;
+	font-size: 13px;
+}
+.cookiescript_vendor_name a:hover {
+	text-decoration: underline;
+	color: #1797cd;
+}
+
+.cookiescript_fsd_footer {
+    border-top: 1px solid #e2e2e2;
+    width: 100%;
+	background-color: #ffffff;
+}
+#cookiescript_fsd_wrapper #cookiescript_declarationwrap{
+		transition: opacity 200ms ease 0ms, height 0ms ease 200ms;
+	}
+#cookiescript_fsd_wrapper #cookiescript_aboutwrap{
+	font-size: 13px;
+	padding: 23px 0;
+	line-height: 1.6;
+	text-align: left;
+	font-weight: normal;
+	box-sizing: border-box;
+	transition: opacity 200ms ease 0ms;
+	overflow: auto;
+	min-height: 181px;
+}
+
+#cookiescript_setting_advertising_wrap {
+    font-size: 12px;
+}
+
+#cookiescript_iab_type {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #e2e2e2;
+    flex-wrap: wrap;
+}
+
+#cookiescript_iab_type > div {
+    cursor: pointer;
+    padding: 0 9px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #f5f5f5;
+    color: #4d4d4d;
+    line-height: 2;
+    margin: 3px 5px;
+    white-space: nowrap;
+}
+
+#cookiescript_iab_type .cookiescript_active {
+    background: #1797cd;
+    color: #FEFEFE;
+}
+
+
+.cookiescript_fsd_cookies::-webkit-scrollbar-track,
+.cookiescript_fsd_tabs_content::-webkit-scrollbar-track {
+    background-color: #DADADA;
+}
+
+.cookiescript_fsd_cookies::-webkit-scrollbar,
+.cookiescript_fsd_tabs_content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.cookiescript_fsd_cookies::-webkit-scrollbar-thumb,
+.cookiescript_fsd_tabs_content::-webkit-scrollbar-thumb {
+    background-color: #a3195b;
+}
+
+
+
+@media screen and (min-width:0\0) and (min-resolution: .001dpcm) {
+    #cookiescript_iab_type > div{
+        display:inline-block;
+    }
+}
+
+/* --- OVERRIDE ----*/
+
+#cookiescript_injected_fsd #cookiescript_close {
+	top: 18px;
+	font-size: 37px;
+	right: 25px;
+	color: #4d4d4d;
+	height: 18px;
+	width: 18px;
+}
+
+#cookiescript_injected_fsd #cookiescript_buttons {
+    justify-content: flex-start;
+    padding: 5px 15px;
+}
+
+#cookiescript_injected_fsd #cookiescript_accept, #cookiescript_injected_fsd #cookiescript_save, #cookiescript_injected_fsd #cookiescript_reject {
+		flex-grow: unset;
+		padding: 0px 25px;
+	margin: 10px 5px;
+	font-size: 13px;
+	border-radius: 30px;
+	line-height: 3;
+}
+#cookiescript_injected_fsd #cookiescript_buttons{
+	flex-direction: row;
+}
+#cookiescript_injected_fsd #cookiescript_buttons #cookiescript_reject {
+    margin-right: auto;
+}
+
+#cookiescript_injected_fsd .cookiescript-iab-itemContainer {
+    border: 1px solid #e2e2e2;
+	background-color: #ffffff;
+	padding: 10px;
+}
+
+#cookiescript_injected_fsd .cookiescript-iab-header,
+#cookiescript_injected_fsd .cookiescript-iab-itemHeader,
+#cookiescript_injected_fsd .cookiescript-iab-itemHeaderAction {
+    color: #4d4d4d;
+}
+
+#cookiescript_injected_fsd .cookiescript-iab-itemHeaderAction {
+    border-color: #4d4d4d;;
+}
+
+#cookiescript_injected_fsd #cookiescript_accept {
+    background-color: #ffffff;
+    color: #a3195b;
+    border: 1px solid #a3195b;
+    order: 1}
+
+#cookiescript_injected_fsd #cookiescript_accept:hover {
+    background-color: #ececec;
+}
+
+#cookiescript_injected_fsd #cookiescript_reject {
+    background-color: #ffffff;
+    color: #a3195b;
+    border: 1px solid #a3195b;
+    order: 2}
+
+#cookiescript_injected_fsd #cookiescript_reject:hover {
+    background-color: #ececec;
+}
+
+#cookiescript_injected_fsd #cookiescript_save {
+    display: inline-block;
+    background-color: #a3195b;
+    color: #ffffff;
+    border: 1px solid #a3195b;
+    order: 3}
+
+#cookiescript_injected_fsd #cookiescript_save:hover {
+    background-color: #ab2b68;
+}
+
+/*Switches color reload*/
+#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled .mdc-switch__handle::after {
+    background: #a3195b;
+}
+
+#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled:hover:not(:focus):not(:active) .mdc-switch__handle::after {
+    background: #a62060;
+}
+
+#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled:focus:not(:active) .mdc-switch__handle::after {
+    background: #a62060;
+}
+
+#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled:active .mdc-switch__handle::after {
+    background: #a62060;
+}
+
+#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled:hover:not(:focus) .mdc-switch__ripple::before,
+#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled:hover:not(:focus) .mdc-switch__ripple::after{
+    background: #a3195b;
+}
+
+#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled:focus .mdc-switch__ripple::before,
+#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled:focus .mdc-switch__ripple::after {
+    background: #a3195b;
+}
+
+#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled:active .mdc-switch__ripple::before,
+#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled:active .mdc-switch__ripple::after {
+    background: #a3195b;
+}
+
+#cookiescript_injected_fsd .mdc-switch:enabled .mdc-switch__track::after {
+    background: #a3195b;
+    opacity: 0.3;
+}
+
+#cookiescript_injected_fsd .mdc-switch:enabled:hover:not(:focus):not(:active) .mdc-switch__track::after {
+    background: #a3195b;
+    opacity: 0.3;
+}
+
+#cookiescript_injected_fsd .mdc-switch:enabled:focus:not(:active) .mdc-switch__track::after {
+    background: #a3195b;
+    opacity: 0.3;
+}
+
+#cookiescript_injected_fsd .mdc-switch:enabled:active .mdc-switch__track::after {
+    background: #a3195b;
+    opacity: 0.3;
+}
+
+
+
+@media only screen and (max-width: 414px) {
+	#cookiescript_fsd_wrapper {
+		width: 100%;
+		height: 100%;
+		max-height: 100%;
+		top: 0;
+		border-radius: 0;
+		margin: 0;
+	}
+
+	.cookiescript_fsd_main_info {
+		padding: 13px 20px;
+		overflow-y: auto;
+		max-height: 140px;
+	}
+	.cookiescript_fsd_description{
+		margin-top: 8px;
+	}
+	.cookiescript_fsd_tabs > div {
+		padding: 6px;
+		font-size: 12px;
+	}
+
+	.cookiescript_fsd_tabs_content {
+		padding: 5px 20px 10px 20px;
+	}
+
+	.cookiescript_fsd_cookies_table thead {
+		display: none;
+	}
+
+	.cookiescript_fsd_cookies_table td {
+		display: flex;
+		border-bottom: 0px;
+	}
+
+	.cookiescript_fsd_cookies_table tr td:last-child {
+		border-bottom: 0;
+	}
+
+	.cookiescript_fsd_cookies_table td {
+		border-top: 0;
+	}
+
+	.cookiescript_fsd_cookies_table td::before {
+		content: attr(label);
+		font-weight: bold;
+		width: 120px;
+		min-width: 120px;
+		text-align: left;
+	}
+
+	.cookiescript_fsd_cookies_table td:nth-child(2):before {
+		color: #4d4d4d;
+	}
+
+	.cookiescript_category_description {
+		text-align: left;
+	}
+
+	.cookiescript_fsd_cookies_table td:nth-child(1),
+	.cookiescript_fsd_cookies_table th:nth-child(1) {
+		padding-left: 7px;
+		font-weight: bold;
+		border-top: 1px solid #e2e2e2;
+	}
+
+	.cookiescript_fsd_cookies_table tr:nth-child(1) td:nth-child(1),
+	.cookiescript_fsd_cookies_table tr:nth-child(1) th:nth-child(1) {
+		border-top: 0px;
+	}
+
+	.cookiescript_fsd_cookies_table td:last-child {
+		border-bottom: none;
+	}
+
+	.cookiescript_fsd_cookies_table tr:nth-child(even) {
+		background: #f5f5f5;
+	}
+
+	.cookiescript_fsd_cookies_table tr:nth-child(even) td {
+		border-bottom: 0px solid #FFF;
+	}
+
+	#cookiescript_injected_fsd #cookiescript_buttons {
+		margin-bottom: 0;
+	}
+
+	#cookiescript_injected_fsd #cookiescript_buttons #cookiescript_accept,
+	#cookiescript_injected_fsd #cookiescript_buttons #cookiescript_save,
+	#cookiescript_injected_fsd #cookiescript_buttons #cookiescript_reject {
+		flex-grow: 1;
+		margin-left: 10px;
+		margin-right: 10px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+		padding: 0 15px;
+	}
+
+	.cookiescript_fsd_language_drop_down {
+		right: 40px;
+	}
+
+	#cookiescript_injected_fsd #cookiescript_close{
+		right:14px;
+	}
+	
+
+}
+
+
+
+
+.cookiescript_custom_select {
+    cursor: pointer;
+    color: inherit;
+    background-color: inherit;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+
+.cookiescript_custom_select_selected {
+	display: flex;
+	align-items: center;
+	padding: 0 10px;
+	box-sizing: border-box;
+	font-size: 11px;
+}
+
+.cookiescript_custom_select_selected svg {
+    width: 10px;
+    height: 10px;
+    margin-left: 10px;
+}
+
+.cookiescript_custom_select_items {
+    /*display: none;*/
+    background-color: #ffffff;
+    position: relative;
+    z-index: 9999;
+    /*padding-top: 5px;*/
+    box-shadow: 1px 2px 8px 0 rgba(0, 0, 0, 0.35);
+	max-height: 0;
+	transition: max-height 200ms ease;
+	overflow: hidden;
+	border-radius: 5px;
+	top: 7px;
+}
+
+.cookiescript_custom_select_items > .cookiescript_custom_select_item:first-child{
+	margin-top:5px;
+}
+.cookiescript_custom_select_items > .cookiescript_custom_select_item:last-child{
+	margin-bottom:5px;
+}
+
+
+.cookiescript_custom_select.open .cookiescript_custom_select_selected svg {
+    transform: rotate(180deg);
+}
+.cookiescript_custom_select.open .cookiescript_custom_select_items {
+    display: block;
+	max-height: 118px;
+}
+
+.cookiescript_custom_select_item {
+    display: flex;
+    padding: 7px 15px 7px 15px;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.cookiescript_custom_select_item:hover {
+    background-color: #f8f8f8;
+}
+
+.cookiescript_custom_select_flag {
+	display: flex;
+	align-items: center;
+	border-radius: 20px;
+	width: 20px;
+	height: 20px;
+	margin-right: 9px;
+	overflow: hidden;
+	justify-content: center;
+	border: 0;
+	box-sizing: content-box;
+	box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.39);
+	-webkit-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.39);
+}
+
+.cookiescript_custom_select_flag img {
+	width: auto;
+	height: 100%;
+}
+.cookiescript_rtl {
+    direction:rtl;
+}
+
+
+/*Start Checkboxes*/
+#cookiescript_injected_fsd .mdc-checkbox,
+#cookiescript_injected .mdc-checkbox {
+    box-sizing: content-box !important;
+}
+#cookiescript_injected_fsd .mdc-checkbox__native-control,
+#cookiescript_injected .mdc-checkbox__native-control {
+    display: block;
+    z-index: 1;
+}
+#cookiescript_injected_fsd .mdc-checkbox .mdc-checkbox__native-control:focus~.mdc-checkbox__background::before, 
+#cookiescript_injected .mdc-checkbox .mdc-checkbox__native-control:focus~.mdc-checkbox__background::before, 
+#cookiescript_injected_fsd .mdc-checkbox .mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background::before,
+#cookiescript_injected .mdc-checkbox .mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background::before {
+    background-color: #FFFFFF;
+}
+
+#cookiescript_injected .mdc-checkbox,#cookiescript_injected_fsd .mdc-checkbox{display:inline-block;position:relative;flex:0 0 18px;box-sizing:content-box;width:18px;height:18px;line-height:0;white-space:nowrap;cursor:pointer;vertical-align:bottom;padding:11px}#cookiescript_injected .mdc-checkbox .mdc-checkbox__native-control:checked~.mdc-checkbox__background::before,#cookiescript_injected .mdc-checkbox .mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background::before,#cookiescript_injected_fsd .mdc-checkbox .mdc-checkbox__native-control:checked~.mdc-checkbox__background::before,#cookiescript_injected_fsd .mdc-checkbox .mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background::before{background-color:#000000}@supports not (-ms-ime-align:auto){#cookiescript_injected .mdc-checkbox .mdc-checkbox__native-control:checked~.mdc-checkbox__background::before,#cookiescript_injected .mdc-checkbox .mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background::before,#cookiescript_injected_fsd .mdc-checkbox .mdc-checkbox__native-control:checked~.mdc-checkbox__background::before,#cookiescript_injected_fsd .mdc-checkbox .mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background::before{background-color:var(--mdc-theme-secondary, #000000)}}#cookiescript_injected .mdc-checkbox .mdc-checkbox__background,#cookiescript_injected_fsd .mdc-checkbox .mdc-checkbox__background{top:11px;left:11px}#cookiescript_injected .mdc-checkbox .mdc-checkbox__background::before,#cookiescript_injected_fsd .mdc-checkbox .mdc-checkbox__background::before{top:-13px;left:-13px;width:40px;height:40px}#cookiescript_injected .mdc-checkbox .mdc-checkbox__native-control,#cookiescript_injected_fsd .mdc-checkbox .mdc-checkbox__native-control{top:0;right:0;left:0;width:40px;height:40px}#cookiescript_injected .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate)~.mdc-checkbox__background,#cookiescript_injected_fsd .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate)~.mdc-checkbox__background{border-color:#000000;background-color:transparent}#cookiescript_injected .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,#cookiescript_injected .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,#cookiescript_injected_fsd .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,#cookiescript_injected_fsd .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background{border-color:#000000;background-color:#000000}#cookiescript_injected .mdc-checkbox__native-control[disabled]:not(:checked):not(:indeterminate)~.mdc-checkbox__background,#cookiescript_injected_fsd .mdc-checkbox__native-control[disabled]:not(:checked):not(:indeterminate)~.mdc-checkbox__background{border-color:rgba(0,0,0,0.26);background-color:transparent}#cookiescript_injected .mdc-checkbox__native-control[disabled]:checked~.mdc-checkbox__background,#cookiescript_injected .mdc-checkbox__native-control[disabled]:indeterminate~.mdc-checkbox__background,#cookiescript_injected_fsd .mdc-checkbox__native-control[disabled]:checked~.mdc-checkbox__background,#cookiescript_injected_fsd .mdc-checkbox__native-control[disabled]:indeterminate~.mdc-checkbox__background{border-color:transparent;background-color:rgba(0,0,0,0.26)}#cookiescript_injected .mdc-checkbox__native-control:enabled~.mdc-checkbox__background .mdc-checkbox__checkmark,#cookiescript_injected_fsd .mdc-checkbox__native-control:enabled~.mdc-checkbox__background .mdc-checkbox__checkmark{color:#ffffff}#cookiescript_injected .mdc-checkbox__native-control:disabled~.mdc-checkbox__background .mdc-checkbox__checkmark,#cookiescript_injected_fsd .mdc-checkbox__native-control:disabled~.mdc-checkbox__background .mdc-checkbox__checkmark{color:#ffffff}#cookiescript_injected .mdc-checkbox__background,#cookiescript_injected_fsd .mdc-checkbox__background{display:inline-flex;position:absolute;align-items:center;justify-content:center;box-sizing:border-box;width:18px;height:18px;border:2px solid #000000;border-radius:2px;background-color:transparent;pointer-events:none;will-change:background-color,border-color;transition:background-color 90ms 0s cubic-bezier(.4,0,.6,1),border-color 90ms 0s cubic-bezier(.4,0,.6,1)}#cookiescript_injected .mdc-checkbox__background .mdc-checkbox__background::before,#cookiescript_injected_fsd .mdc-checkbox__background .mdc-checkbox__background::before{background-color:#000}@supports not (-ms-ime-align:auto){#cookiescript_injected .mdc-checkbox__checkmark,#cookiescript_injected_fsd .mdc-checkbox__checkmark{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;opacity:0;transition:opacity 180ms 0s cubic-bezier(.4,0,.6,1)}#cookiescript_injected .mdc-checkbox__checkmark-path,#cookiescript_injected_fsd .mdc-checkbox__checkmark-path{transition:stroke-dashoffset 180ms 0s cubic-bezier(.4,0,.6,1);stroke:currentColor;stroke-width:3.12px;stroke-dashoffset:29.7833385;stroke-dasharray:29.7833385}#cookiescript_injected .mdc-checkbox__native-control:checked~.mdc-checkbox__background,#cookiescript_injected .mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background,#cookiescript_injected_fsd .mdc-checkbox__native-control:checked~.mdc-checkbox__background,#cookiescript_injected_fsd .mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background{transition:border-color 90ms 0s cubic-bezier(0,0,.2,1),background-color 90ms 0s cubic-bezier(0,0,.2,1)}#cookiescript_injected .mdc-checkbox__native-control:checked~.mdc-checkbox__background .mdc-checkbox__checkmark-path,#cookiescript_injected .mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background .mdc-checkbox__checkmark-path,#cookiescript_injected_fsd .mdc-checkbox__native-control:checked~.mdc-checkbox__background .mdc-checkbox__checkmark-path,#cookiescript_injected_fsd .mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background .mdc-checkbox__checkmark-path{stroke-dashoffset:0}#cookiescript_injected .mdc-checkbox__background::before,#cookiescript_injected_fsd .mdc-checkbox__background::before{position:absolute;-webkit-transform:scale(0,0);transform:scale(0,0);border-radius:50%;opacity:0;pointer-events:none;content:"";will-change:opacity,transform;transition:opacity 90ms 0s cubic-bezier(.4,0,.6,1),-webkit-transform 90ms 0s cubic-bezier(.4,0,.6,1);transition:opacity 90ms 0s cubic-bezier(.4,0,.6,1),transform 90ms 0s cubic-bezier(.4,0,.6,1);transition:opacity 90ms 0s cubic-bezier(.4,0,.6,1),transform 90ms 0s cubic-bezier(.4,0,.6,1),-webkit-transform 90ms 0s cubic-bezier(.4,0,.6,1)}#cookiescript_injected .mdc-checkbox__native-control:focus~.mdc-checkbox__background::before,#cookiescript_injected_fsd .mdc-checkbox__native-control:focus~.mdc-checkbox__background::before{-webkit-transform:scale(1);transform:scale(1);opacity:.12;transition:opacity 80ms 0s cubic-bezier(0,0,.2,1),-webkit-transform 80ms 0s cubic-bezier(0,0,.2,1);transition:opacity 80ms 0s cubic-bezier(0,0,.2,1),transform 80ms 0s cubic-bezier(0,0,.2,1);transition:opacity 80ms 0s cubic-bezier(0,0,.2,1),transform 80ms 0s cubic-bezier(0,0,.2,1),-webkit-transform 80ms 0s cubic-bezier(0,0,.2,1)}#cookiescript_injected .mdc-checkbox__native-control,#cookiescript_injected_fsd .mdc-checkbox__native-control{position:absolute;margin:0;padding:0;opacity:0;cursor:inherit}#cookiescript_injected .mdc-checkbox__native-control:disabled,#cookiescript_injected_fsd .mdc-checkbox__native-control:disabled{cursor:default;pointer-events:none}#cookiescript_injected .mdc-checkbox__native-control:checked~.mdc-checkbox__background .mdc-checkbox__checkmark,#cookiescript_injected_fsd .mdc-checkbox__native-control:checked~.mdc-checkbox__background .mdc-checkbox__checkmark{transition:opacity 180ms 0s cubic-bezier(0,0,.2,1),-webkit-transform 180ms 0s cubic-bezier(0,0,.2,1);transition:opacity 180ms 0s cubic-bezier(0,0,.2,1),transform 180ms 0s cubic-bezier(0,0,.2,1);transition:opacity 180ms 0s cubic-bezier(0,0,.2,1),transform 180ms 0s cubic-bezier(0,0,.2,1),-webkit-transform 180ms 0s cubic-bezier(0,0,.2,1);opacity:1}#cookiescript_injected .mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background .mdc-checkbox__checkmark,#cookiescript_injected_fsd .mdc-checkbox__native-control:indeterminate~.mdc-checkbox__background .mdc-checkbox__checkmark{-webkit-transform:rotate(45deg);transform:rotate(45deg);opacity:0;transition:opacity 90ms 0s cubic-bezier(.4,0,.6,1),-webkit-transform 90ms 0s cubic-bezier(.4,0,.6,1);transition:opacity 90ms 0s cubic-bezier(.4,0,.6,1),transform 90ms 0s cubic-bezier(.4,0,.6,1);transition:opacity 90ms 0s cubic-bezier(.4,0,.6,1),transform 90ms 0s cubic-bezier(.4,0,.6,1),-webkit-transform 90ms 0s cubic-bezier(.4,0,.6,1)}#cookiescript_injected .mdc-checkbox,#cookiescript_injected_fsd .mdc-checkbox{-webkit-tap-highlight-color:transparent}}
+/*End Checkboxes*/
+
+
+/*Start Toggle*/
+
+#cookiescript_injected .mdc-elevation-overlay,#cookiescript_injected_fsd .mdc-elevation-overlay{position:absolute;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity 280ms cubic-bezier(.4,0,.2,1);background-color:#fff}#cookiescript_injected .mdc-switch,#cookiescript_injected_fsd .mdc-switch{align-items:center;background:0 0;border:none;cursor:pointer;display:inline-flex;flex-shrink:0;margin:0;outline:0;overflow:visible;padding:0;position:relative}#cookiescript_injected .mdc-switch:disabled,#cookiescript_injected_fsd .mdc-switch:disabled{cursor:default;pointer-events:none}#cookiescript_injected .mdc-switch input[type=checkbox],#cookiescript_injected_fsd .mdc-switch input[type=checkbox]{display:none;visibility:hidden}#cookiescript_injected .mdc-switch__track,#cookiescript_injected_fsd .mdc-switch__track{overflow:hidden;position:relative;width:100%}#cookiescript_injected .mdc-switch__track::after,#cookiescript_injected .mdc-switch__track::before,#cookiescript_injected_fsd .mdc-switch__track::after,#cookiescript_injected_fsd .mdc-switch__track::before{border:1px solid transparent;border-radius:inherit;box-sizing:border-box;content:"";height:100%;left:0;position:absolute;width:100%}#cookiescript_injected .mdc-switch__track::before,#cookiescript_injected_fsd .mdc-switch__track::before{transition:-webkit-transform 75ms 0s cubic-bezier(0,0,.2,1);transition:transform 75ms 0s cubic-bezier(0,0,.2,1);-webkit-transform:translateX(0);transform:translateX(0)}#cookiescript_injected .mdc-switch__track::after,#cookiescript_injected_fsd .mdc-switch__track::after{transition:-webkit-transform 75ms 0s cubic-bezier(.4,0,.6,1);transition:transform 75ms 0s cubic-bezier(.4,0,.6,1);-webkit-transform:translateX(-100%);transform:translateX(-100%)}#cookiescript_injected .mdc-switch__track[dir=rtl]::after,#cookiescript_injected [dir=rtl] .mdc-switch__track::after,#cookiescript_injected_fsd .mdc-switch__track[dir=rtl]::after,#cookiescript_injected_fsd [dir=rtl] .mdc-switch__track::after{-webkit-transform:translateX(100%);transform:translateX(100%)}#cookiescript_injected .mdc-switch--selected .mdc-switch__track::before,#cookiescript_injected_fsd .mdc-switch--selected .mdc-switch__track::before{transition:-webkit-transform 75ms 0s cubic-bezier(.4,0,.6,1);transition:transform 75ms 0s cubic-bezier(.4,0,.6,1);-webkit-transform:translateX(100%);transform:translateX(100%)}#cookiescript_injected .mdc-switch--selected .mdc-switch__track[dir=rtl]::before,#cookiescript_injected [dir=rtl] .mdc-switch--selected .mdc-switch__track::before,#cookiescript_injected_fsd .mdc-switch--selected .mdc-switch__track[dir=rtl]::before,#cookiescript_injected_fsd [dir=rtl] .mdc-switch--selected .mdc-switch__track::before{-webkit-transform:translateX(-100%);transform:translateX(-100%)}#cookiescript_injected .mdc-switch--selected .mdc-switch__track::after,#cookiescript_injected_fsd .mdc-switch--selected .mdc-switch__track::after{transition:-webkit-transform 75ms 0s cubic-bezier(0,0,.2,1);transition:transform 75ms 0s cubic-bezier(0,0,.2,1);-webkit-transform:translateX(0);transform:translateX(0)}#cookiescript_injected .mdc-switch__handle-track,#cookiescript_injected_fsd .mdc-switch__handle-track{height:100%;pointer-events:none;position:absolute;top:0;transition:-webkit-transform 75ms 0s cubic-bezier(.4,0,.2,1);transition:transform 75ms 0s cubic-bezier(.4,0,.2,1);left:0;right:auto;-webkit-transform:translateX(0);transform:translateX(0)}#cookiescript_injected .mdc-switch__handle-track[dir=rtl],#cookiescript_injected [dir=rtl] .mdc-switch__handle-track,#cookiescript_injected_fsd .mdc-switch__handle-track[dir=rtl],#cookiescript_injected_fsd [dir=rtl] .mdc-switch__handle-track{left:auto;right:0}#cookiescript_injected .mdc-switch--selected .mdc-switch__handle-track,#cookiescript_injected_fsd .mdc-switch--selected .mdc-switch__handle-track{-webkit-transform:translateX(100%);transform:translateX(100%)}#cookiescript_injected .mdc-switch--selected .mdc-switch__handle-track[dir=rtl],#cookiescript_injected [dir=rtl] .mdc-switch--selected .mdc-switch__handle-track,#cookiescript_injected_fsd .mdc-switch--selected .mdc-switch__handle-track[dir=rtl],#cookiescript_injected_fsd [dir=rtl] .mdc-switch--selected .mdc-switch__handle-track{-webkit-transform:translateX(-100%);transform:translateX(-100%)}#cookiescript_injected .mdc-switch__handle,#cookiescript_injected_fsd .mdc-switch__handle{display:flex;pointer-events:auto;position:absolute;top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);left:0;right:auto}#cookiescript_injected .mdc-switch__handle[dir=rtl],#cookiescript_injected [dir=rtl] .mdc-switch__handle,#cookiescript_injected_fsd .mdc-switch__handle[dir=rtl],#cookiescript_injected_fsd [dir=rtl] .mdc-switch__handle{left:auto;right:0}#cookiescript_injected .mdc-switch__handle::after,#cookiescript_injected .mdc-switch__handle::before,#cookiescript_injected_fsd .mdc-switch__handle::after,#cookiescript_injected_fsd .mdc-switch__handle::before{border:1px solid transparent;border-radius:inherit;box-sizing:border-box;content:"";width:100%;height:100%;left:0;position:absolute;top:0;transition:background-color 75ms 0s cubic-bezier(.4,0,.2,1),border-color 75ms 0s cubic-bezier(.4,0,.2,1);z-index:-1}#cookiescript_injected .mdc-switch__shadow,#cookiescript_injected_fsd .mdc-switch__shadow{border-radius:inherit;bottom:0;left:0;position:absolute;right:0;top:0}#cookiescript_injected .mdc-elevation-overlay,#cookiescript_injected_fsd .mdc-elevation-overlay{bottom:0;left:0;right:0;top:0}#cookiescript_injected .mdc-switch__ripple,#cookiescript_injected_fsd .mdc-switch__ripple{left:50%;position:absolute;top:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);z-index:-1}#cookiescript_injected .mdc-switch:disabled .mdc-switch__ripple,#cookiescript_injected_fsd .mdc-switch:disabled .mdc-switch__ripple{display:none}#cookiescript_injected .mdc-switch__icons,#cookiescript_injected_fsd .mdc-switch__icons{height:100%;position:relative;width:100%;z-index:1}#cookiescript_injected .mdc-switch__icon,#cookiescript_injected_fsd .mdc-switch__icon{bottom:0;left:0;margin:auto;position:absolute;right:0;top:0;opacity:0;transition:opacity 30ms 0s cubic-bezier(.4,0,1,1)}#cookiescript_injected .mdc-switch--selected .mdc-switch__icon--on,#cookiescript_injected .mdc-switch--unselected .mdc-switch__icon--off,#cookiescript_injected_fsd .mdc-switch--selected .mdc-switch__icon--on,#cookiescript_injected_fsd .mdc-switch--unselected .mdc-switch__icon--off{opacity:1;transition:opacity 45ms 30ms cubic-bezier(0,0,.2,1)}#cookiescript_injected .mdc-switch,#cookiescript_injected_fsd .mdc-switch{will-change:transform,opacity}@-webkit-keyframes mdc-ripple-fg-radius-in{from{-webkit-animation-timing-function:cubic-bezier(.4,0,.2,1);animation-timing-function:cubic-bezier(.4,0,.2,1);-webkit-transform:translate(0) scale(1);transform:translate(0) scale(1)}to{-webkit-transform:translate(0) scale(1);transform:translate(0) scale(1)}}@keyframes mdc-ripple-fg-radius-in{from{-webkit-animation-timing-function:cubic-bezier(.4,0,.2,1);animation-timing-function:cubic-bezier(.4,0,.2,1);-webkit-transform:translate(0) scale(1);transform:translate(0) scale(1)}to{-webkit-transform:translate(0) scale(1);transform:translate(0) scale(1)}}@-webkit-keyframes mdc-ripple-fg-opacity-in{from{-webkit-animation-timing-function:linear;animation-timing-function:linear;opacity:0}to{opacity:.1}}@keyframes mdc-ripple-fg-opacity-in{from{-webkit-animation-timing-function:linear;animation-timing-function:linear;opacity:0}to{opacity:.1}}@-webkit-keyframes mdc-ripple-fg-opacity-out{from{-webkit-animation-timing-function:linear;animation-timing-function:linear;opacity:.1}to{opacity:0}}@keyframes mdc-ripple-fg-opacity-out{from{-webkit-animation-timing-function:linear;animation-timing-function:linear;opacity:.1}to{opacity:0}}#cookiescript_injected .mdc-switch .mdc-switch__ripple::after,#cookiescript_injected .mdc-switch .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch .mdc-switch__ripple::before{position:absolute;border-radius:50%;opacity:0;pointer-events:none;content:""}#cookiescript_injected .mdc-switch .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch .mdc-switch__ripple::before{transition:opacity 15ms linear,background-color 15ms linear;z-index:1}#cookiescript_injected .mdc-switch .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch .mdc-switch__ripple::after{z-index:0}#cookiescript_injected .mdc-switch.mdc-ripple-upgraded .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch.mdc-ripple-upgraded .mdc-switch__ripple::before{-webkit-transform:scale(1);transform:scale(1)}#cookiescript_injected .mdc-switch.mdc-ripple-upgraded .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch.mdc-ripple-upgraded .mdc-switch__ripple::after{top:0;left:0;-webkit-transform:scale(0);transform:scale(0);-webkit-transform-origin:center center;transform-origin:center center}#cookiescript_injected .mdc-switch.mdc-ripple-upgraded--unbounded .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch.mdc-ripple-upgraded--unbounded .mdc-switch__ripple::after{top:0;left:0}#cookiescript_injected .mdc-switch.mdc-ripple-upgraded--foreground-activation .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch.mdc-ripple-upgraded--foreground-activation .mdc-switch__ripple::after{-webkit-animation:mdc-ripple-fg-radius-in 225ms forwards,mdc-ripple-fg-opacity-in 75ms forwards;animation:mdc-ripple-fg-radius-in 225ms forwards,mdc-ripple-fg-opacity-in 75ms forwards}#cookiescript_injected .mdc-switch.mdc-ripple-upgraded--foreground-deactivation .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch.mdc-ripple-upgraded--foreground-deactivation .mdc-switch__ripple::after{-webkit-animation:mdc-ripple-fg-opacity-out 150ms;animation:mdc-ripple-fg-opacity-out 150ms;-webkit-transform:translate(0) scale(1);transform:translate(0) scale(1)}#cookiescript_injected .mdc-switch .mdc-switch__ripple::after,#cookiescript_injected .mdc-switch .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch .mdc-switch__ripple::before{top:calc(50% - 50%);left:calc(50% - 50%);width:100%;height:100%}#cookiescript_injected .mdc-switch.mdc-ripple-upgraded .mdc-switch__ripple::after,#cookiescript_injected .mdc-switch.mdc-ripple-upgraded .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch.mdc-ripple-upgraded .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch.mdc-ripple-upgraded .mdc-switch__ripple::before{top:0;left:0;width:0;height:0}#cookiescript_injected .mdc-switch.mdc-ripple-upgraded .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch.mdc-ripple-upgraded .mdc-switch__ripple::after{width:0;height:0}#cookiescript_injected .mdc-switch,#cookiescript_injected_fsd .mdc-switch{width:36px}#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled .mdc-switch__handle::after{background:}#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled:hover:not(:focus):not(:active) .mdc-switch__handle::after{background:}#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled:focus:not(:active) .mdc-switch__handle::after{background:}#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled:active .mdc-switch__handle::after{background:}#cookiescript_injected .mdc-switch.mdc-switch--selected:disabled .mdc-switch__handle::after,#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:disabled .mdc-switch__handle::after{background:#424242}#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled .mdc-switch__handle::after,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled .mdc-switch__handle::after{background:#616161}#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled:hover:not(:focus):not(:active) .mdc-switch__handle::after,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled:hover:not(:focus):not(:active) .mdc-switch__handle::after{background:#212121}#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled:focus:not(:active) .mdc-switch__handle::after,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled:focus:not(:active) .mdc-switch__handle::after{background:#212121}#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled:active .mdc-switch__handle::after,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled:active .mdc-switch__handle::after{background:#212121}#cookiescript_injected .mdc-switch.mdc-switch--unselected:disabled .mdc-switch__handle::after,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:disabled .mdc-switch__handle::after{background:#424242}#cookiescript_injected .mdc-switch .mdc-switch__handle::before,#cookiescript_injected_fsd .mdc-switch .mdc-switch__handle::before{background:#fff}#cookiescript_injected .mdc-switch:enabled .mdc-switch__shadow,#cookiescript_injected_fsd .mdc-switch:enabled .mdc-switch__shadow{box-shadow:0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);--mdc-elevation-box-shadow-for-gss:0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0, 0, 0, 0.12)}#cookiescript_injected .mdc-switch:disabled .mdc-switch__shadow,#cookiescript_injected_fsd .mdc-switch:disabled .mdc-switch__shadow{box-shadow:0 0 0 0 rgba(0,0,0,.2),0 0 0 0 rgba(0,0,0,.14),0 0 0 0 rgba(0,0,0,.12);--mdc-elevation-box-shadow-for-gss:0px 0px 0px 0px rgba(0, 0, 0, 0.2),0px 0px 0px 0px rgba(0, 0, 0, 0.14),0px 0px 0px 0px rgba(0, 0, 0, 0.12)}#cookiescript_injected .mdc-switch .mdc-switch__handle,#cookiescript_injected_fsd .mdc-switch .mdc-switch__handle{height:20px}#cookiescript_injected .mdc-switch:disabled .mdc-switch__handle::after,#cookiescript_injected_fsd .mdc-switch:disabled .mdc-switch__handle::after{opacity:.38}#cookiescript_injected .mdc-switch .mdc-switch__handle,#cookiescript_injected_fsd .mdc-switch .mdc-switch__handle{border-radius:10px}#cookiescript_injected .mdc-switch .mdc-switch__handle,#cookiescript_injected_fsd .mdc-switch .mdc-switch__handle{width:20px}#cookiescript_injected .mdc-switch .mdc-switch__handle-track,#cookiescript_injected_fsd .mdc-switch .mdc-switch__handle-track{width:calc(100% - 20px)}#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled .mdc-switch__icon,#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled .mdc-switch__icon{fill:#fff}#cookiescript_injected .mdc-switch.mdc-switch--selected:disabled .mdc-switch__icon,#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:disabled .mdc-switch__icon{fill:#fff}#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled .mdc-switch__icon,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled .mdc-switch__icon{fill:#fff}#cookiescript_injected .mdc-switch.mdc-switch--unselected:disabled .mdc-switch__icon,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:disabled .mdc-switch__icon{fill:#fff}#cookiescript_injected .mdc-switch.mdc-switch--selected:disabled .mdc-switch__icons,#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:disabled .mdc-switch__icons{opacity:.38}#cookiescript_injected .mdc-switch.mdc-switch--unselected:disabled .mdc-switch__icons,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:disabled .mdc-switch__icons{opacity:.38}#cookiescript_injected .mdc-switch.mdc-switch--selected .mdc-switch__icon,#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected .mdc-switch__icon{width:18px;height:18px}#cookiescript_injected .mdc-switch.mdc-switch--unselected .mdc-switch__icon,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected .mdc-switch__icon{width:18px;height:18px}#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled:hover:not(:focus) .mdc-switch__ripple::after,#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled:hover:not(:focus) .mdc-switch__ripple::before{background-color:}#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled:focus .mdc-switch__ripple::after,#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled:focus .mdc-switch__ripple::before{background-color:}#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled:active .mdc-switch__ripple::after,#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled:active .mdc-switch__ripple::before{background-color:}#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled:hover:not(:focus) .mdc-switch__ripple::after,#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled:hover:not(:focus) .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled:hover:not(:focus) .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled:hover:not(:focus) .mdc-switch__ripple::before{background-color:#424242}#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled:focus .mdc-switch__ripple::after,#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled:focus .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled:focus .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled:focus .mdc-switch__ripple::before{background-color:#424242}#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled:active .mdc-switch__ripple::after,#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled:active .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled:active .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled:active .mdc-switch__ripple::before{background-color:#424242}#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled:hover:not(:focus).mdc-ripple-surface--hover .mdc-switch__ripple::before,#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled:hover:not(:focus):hover .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled:hover:not(:focus).mdc-ripple-surface--hover .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled:hover:not(:focus):hover .mdc-switch__ripple::before{opacity:.04}#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled:focus.mdc-ripple-upgraded--background-focused .mdc-switch__ripple::before,#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled:focus:not(.mdc-ripple-upgraded):focus .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled:focus.mdc-ripple-upgraded--background-focused .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled:focus:not(.mdc-ripple-upgraded):focus .mdc-switch__ripple::before{transition-duration:75ms;opacity:.12}#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled:active:not(.mdc-ripple-upgraded) .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled:active:not(.mdc-ripple-upgraded) .mdc-switch__ripple::after{transition:opacity 150ms linear}#cookiescript_injected .mdc-switch.mdc-switch--selected:enabled:active:not(.mdc-ripple-upgraded):active .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:enabled:active:not(.mdc-ripple-upgraded):active .mdc-switch__ripple::after{transition-duration:75ms;opacity:.1}#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled:hover:not(:focus).mdc-ripple-surface--hover .mdc-switch__ripple::before,#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled:hover:not(:focus):hover .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled:hover:not(:focus).mdc-ripple-surface--hover .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled:hover:not(:focus):hover .mdc-switch__ripple::before{opacity:.04}#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled:focus.mdc-ripple-upgraded--background-focused .mdc-switch__ripple::before,#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled:focus:not(.mdc-ripple-upgraded):focus .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled:focus.mdc-ripple-upgraded--background-focused .mdc-switch__ripple::before,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled:focus:not(.mdc-ripple-upgraded):focus .mdc-switch__ripple::before{transition-duration:75ms;opacity:.12}#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled:active:not(.mdc-ripple-upgraded) .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled:active:not(.mdc-ripple-upgraded) .mdc-switch__ripple::after{transition:opacity 150ms linear}#cookiescript_injected .mdc-switch.mdc-switch--unselected:enabled:active:not(.mdc-ripple-upgraded):active .mdc-switch__ripple::after,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:enabled:active:not(.mdc-ripple-upgraded):active .mdc-switch__ripple::after{transition-duration:75ms;opacity:.1}#cookiescript_injected .mdc-switch .mdc-switch__ripple,#cookiescript_injected_fsd .mdc-switch .mdc-switch__ripple{height:48px;width:48px}#cookiescript_injected .mdc-switch .mdc-switch__track,#cookiescript_injected_fsd .mdc-switch .mdc-switch__track{height:14px}#cookiescript_injected .mdc-switch:disabled .mdc-switch__track,#cookiescript_injected_fsd .mdc-switch:disabled .mdc-switch__track{opacity:.12}#cookiescript_injected .mdc-switch:enabled .mdc-switch__track::after{background:;opacity:0.3}#cookiescript_injected .mdc-switch:enabled:hover:not(:focus):not(:active) .mdc-switch__track::after{background:;opacity:0.3}#cookiescript_injected .mdc-switch:enabled:focus:not(:active) .mdc-switch__track::after{background:;opacity:0.3}#cookiescript_injected .mdc-switch:enabled:active .mdc-switch__track::after{background:;opacity:0.3}#cookiescript_injected .mdc-switch:disabled .mdc-switch__track::after,#cookiescript_injected_fsd .mdc-switch:disabled .mdc-switch__track::after{background:#424242}#cookiescript_injected .mdc-switch:enabled .mdc-switch__track::before,#cookiescript_injected_fsd .mdc-switch:enabled .mdc-switch__track::before{background:#e0e0e0}#cookiescript_injected .mdc-switch:enabled:hover:not(:focus):not(:active) .mdc-switch__track::before,#cookiescript_injected_fsd .mdc-switch:enabled:hover:not(:focus):not(:active) .mdc-switch__track::before{background:#e0e0e0}#cookiescript_injected .mdc-switch:enabled:focus:not(:active) .mdc-switch__track::before,#cookiescript_injected_fsd .mdc-switch:enabled:focus:not(:active) .mdc-switch__track::before{background:#e0e0e0}#cookiescript_injected .mdc-switch:enabled:active .mdc-switch__track::before,#cookiescript_injected_fsd .mdc-switch:enabled:active .mdc-switch__track::before{background:#e0e0e0}#cookiescript_injected .mdc-switch:disabled .mdc-switch__track::before,#cookiescript_injected_fsd .mdc-switch:disabled .mdc-switch__track::before{background:#424242}#cookiescript_injected .mdc-switch .mdc-switch__track,#cookiescript_injected_fsd .mdc-switch .mdc-switch__track{border-radius:7px}@media screen and (forced-colors:active),(-ms-high-contrast:active){#cookiescript_injected .mdc-switch:disabled .mdc-switch__handle::after,#cookiescript_injected_fsd .mdc-switch:disabled .mdc-switch__handle::after{opacity:1}#cookiescript_injected .mdc-switch.mdc-switch--selected:disabled .mdc-switch__icons,#cookiescript_injected_fsd .mdc-switch.mdc-switch--selected:disabled .mdc-switch__icons{opacity:1}#cookiescript_injected .mdc-switch.mdc-switch--unselected:disabled .mdc-switch__icons,#cookiescript_injected_fsd .mdc-switch.mdc-switch--unselected:disabled .mdc-switch__icons{opacity:1}#cookiescript_injected .mdc-switch:disabled .mdc-switch__track,#cookiescript_injected_fsd .mdc-switch:disabled .mdc-switch__track{opacity:1}}
+/*End Toggle*/
+
+#cookiescript_injected {
+bottom: 20px;
+left: 20px;
+    position: fixed;
+    padding: 15px 20px 15px 20px;
+    width: 300px;
+    text-align: left;
+    max-height: 85%;
+    overflow-y: auto;
+    max-width: calc(100% - 40px);
+}
+#cookiescript_copyright {
+    line-height: 1;
+    text-align: center;
+}
+#cookiescript_buttons {
+    justify-content: space-between;
+    margin: 0 -5px 0 -5px;
+    flex-wrap: wrap;
+}
+#cookiescript_manage_wrap {
+    margin: 0 0 11px 0;
+}
+#cookiescript_header {
+    padding: 14px 0 12px;
+    text-align: left;
+    margin: 0;
+}
+#cookiescript_checkboxs {
+    margin: -6px 0 18px -11px;
+}
+.cookiescript_checkbox {
+    margin: 0 0 -10px 0;
+}
+#cookiescript_accept,
+#cookiescript_save,
+#cookiescript_reject {
+    flex-grow: 1;
+    padding: 0 7px;
+    margin: 0 5px 10px 5px;
+}
+#cookiescript_description {
+    margin: 0 0 12px;
+}
+
+.cookiescript_checkbox_label{
+    padding: 0;
+    margin: 0 10px 0 -2px;
+}
+
+#cookiescript_injected{
+    transition: width 200ms 600ms;
+}
+
+#cookiescript_injected.hascookiereport{
+    width:600px;
+    transition: width 200ms 0ms;
+}
+#cookiescript_cookietablewrap {
+    transition: height 300ms 200ms, min-height 300ms 200ms, max-height 300ms 200ms, opacity 200ms 300ms;
+}
+#cookiescript_cookietablewrap.cookiescript_hidden {
+    transition: height 300ms 200ms, min-height 300ms 200ms, max-height 300ms 200ms, opacity 200ms 0ms;
+}
+
+
+@media only screen and (max-width: 414px) {
+    #cookiescript_injected{
+    bottom: 0;
+    left: 0;
+        width: 100%;
+        padding: 15px;
+        border-radius:0;
+		max-width: 100%;
+    }
+    #cookiescript_description,
+    #cookiescript_buttons,
+    #cookiescript_manage_wrap,
+    #cookiescript_checkboxs
+    {
+        margin-bottom: 8px;
+    }
+    #cookiescript_header{
+        padding-top:5px;
+    }
+    #cookiescript_checkboxs {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    #cookiescript_injected {
+		max-height: 100%;
+	}
+}
+
+#cookiescript_close {
+  display: none;
+}
+
+#cookiescript_injected #cookiescript_buttons {
+  flex-direction: row-reverse;
+}
+    </style>
+  <div id="cookiescript_injected" tabindex="0" role="alert" aria-live="assertive" data-nosnippet="" class="" style="">
+    <div id="cookiescript_close" tabindex="0" role="button" aria-label="Close">×</div>
+  <div id="cookiescript_header" data-cs-i18n-text="{&quot;de&quot;:&quot;Diese Webseite verwendet Cookies.&quot;,&quot;no&quot;:&quot;Dette nettstedet bruker informasjonskapsler&quot;,&quot;en&quot;:&quot;This website uses cookies&quot;}">This website uses cookies</div>
+  <div id="cookiescript_description">
+    <span data-cs-desc-box="true" data-cs-i18n-text="{&quot;de&quot;:&quot;Wir verwenden Cookies, um die Benutzerfreundlichkeit unserer Website zu verbessern. Durch die weitere Nutzung unserer Webseite stimmen Sie der Verwendung von Cookies gem\u00e4\u00df unserer Cookie-Richtlinie zu.&quot;,&quot;no&quot;:&quot;Dette nettstedet bruker informasjonskapsler (cookies) for \u00e5 forbedre din opplevelse. Ved \u00e5 bruke nettstedet v\u00e5rt samtykker du i alle informasjonskapsler i samsvar med retningslinjene v\u00e5re for informasjonskapsler.&quot;,&quot;en&quot;:&quot;We use cookies to improve user experience, provide basic functions of the website, and for analytical and marketing purposes. In case you want to read more and customize your cookie preferences, navigate to SHOW DETAILS.&quot;}" data-cs-i18n-read="We use cookies to improve user experience, provide basic functions of the website, and for analytical and marketing purposes. In case you want to read more and customize your cookie preferences, navigate to SHOW DETAILS.">We use cookies to improve user experience, provide basic functions of the website, and for analytical and marketing purposes. In case you want to read more and customize your cookie preferences, navigate to SHOW DETAILS.</span>
+
+    
+      
+      <a id="cookiescript_readmore" data-cs-i18n-text="{&quot;de&quot;:&quot;Weitere Informationen&quot;,&quot;no&quot;:&quot;Les mer&quot;,&quot;en&quot;:&quot;Privacy Policy&quot;}" data-cs-i18n-url="{&quot;de&quot;:&quot;https:\/\/neurosys.com\/de\/datenchutz&quot;,&quot;no&quot;:&quot;https:\/\/neurosys.com\/no\/privacy-policy&quot;,&quot;en&quot;:&quot;https:\/\/neurosys.com\/privacy-policy&quot;}" href="https://neurosys.com/privacy-policy" target="_blank">Privacy Policy</a>
+
+      </div>
+  <div id="cookiescript_checkboxs">
+          
+            <div class="cookiescript_checkbox">
+        <div class="mdc-checkbox">
+          <input id="cookiescript_category_strict" data-cookiescript="checkbox-input" type="checkbox" class="mdc-checkbox__native-control cookiescript_checkbox_input" value="strict" disabled="" checked="">
+          <div class="mdc-checkbox__background">
+            <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+              <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"></path>
+            </svg>
+          </div>
+        </div>
+        <label class="cookiescript_checkbox_label" for="cookiescript_category_strict">
+          <span class="cookiescript_checkbox_text" data-cs-i18n-text="{&quot;de&quot;:&quot;Unbedingt erforderlich&quot;,&quot;no&quot;:&quot;Strengt n\u00f8dvendig&quot;,&quot;en&quot;:&quot;Strictly necessary&quot;}">Strictly necessary</span>
+        </label>
+      </div>
+
+          
+            <div class="cookiescript_checkbox">
+        <div class="mdc-checkbox">
+          <input id="cookiescript_category_performance" data-cookiescript="checkbox-input" type="checkbox" class="mdc-checkbox__native-control cookiescript_checkbox_input" value="performance">
+          <div class="mdc-checkbox__background">
+            <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+              <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"></path>
+            </svg>
+          </div>
+        </div>
+        <label class="cookiescript_checkbox_label" for="cookiescript_category_performance">
+          <span class="cookiescript_checkbox_text" data-cs-i18n-text="{&quot;de&quot;:&quot;Performance&quot;,&quot;no&quot;:&quot;Ytelse&quot;,&quot;en&quot;:&quot;Performance&quot;}">Performance</span>
+        </label>
+      </div>
+
+          
+            <div class="cookiescript_checkbox">
+        <div class="mdc-checkbox">
+          <input id="cookiescript_category_targeting" data-cookiescript="checkbox-input" type="checkbox" class="mdc-checkbox__native-control cookiescript_checkbox_input" value="targeting">
+          <div class="mdc-checkbox__background">
+            <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+              <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"></path>
+            </svg>
+          </div>
+        </div>
+        <label class="cookiescript_checkbox_label" for="cookiescript_category_targeting">
+          <span class="cookiescript_checkbox_text" data-cs-i18n-text="{&quot;de&quot;:&quot;Targeting&quot;,&quot;no&quot;:&quot;M\u00e5lretting&quot;,&quot;en&quot;:&quot;Targeting&quot;}">Targeting</span>
+        </label>
+      </div>
+
+          
+            <div class="cookiescript_checkbox">
+        <div class="mdc-checkbox">
+          <input id="cookiescript_category_functionality" data-cookiescript="checkbox-input" type="checkbox" class="mdc-checkbox__native-control cookiescript_checkbox_input" value="functionality">
+          <div class="mdc-checkbox__background">
+            <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+              <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"></path>
+            </svg>
+          </div>
+        </div>
+        <label class="cookiescript_checkbox_label" for="cookiescript_category_functionality">
+          <span class="cookiescript_checkbox_text" data-cs-i18n-text="{&quot;de&quot;:&quot;Funktionalit\u00e4t&quot;,&quot;no&quot;:&quot;Funksjonalitet&quot;,&quot;en&quot;:&quot;Functionality&quot;}">Functionality</span>
+        </label>
+      </div>
+
+          
+            <div class="cookiescript_checkbox">
+        <div class="mdc-checkbox">
+          <input id="cookiescript_category_unclassified" data-cookiescript="checkbox-input" type="checkbox" class="mdc-checkbox__native-control cookiescript_checkbox_input" value="unclassified">
+          <div class="mdc-checkbox__background">
+            <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+              <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"></path>
+            </svg>
+          </div>
+        </div>
+        <label class="cookiescript_checkbox_label" for="cookiescript_category_unclassified">
+          <span class="cookiescript_checkbox_text" data-cs-i18n-text="{&quot;de&quot;:&quot;Unklassifizierte&quot;,&quot;no&quot;:&quot;Ugradert&quot;,&quot;en&quot;:&quot;Unclassified&quot;}">Unclassified</span>
+        </label>
+      </div>
+
+      </div>
+  <div id="cookiescript_buttons">
+          <div id="cookiescript_save" tabindex="0" role="button" data-cs-i18n-text="{&quot;de&quot;:&quot;Speichern &amp; Schlie\u00dfen&quot;,&quot;no&quot;:&quot;Lagre og lukk&quot;,&quot;en&quot;:&quot;Save &amp; Close&quot;}">Save &amp; Close</div>
+              <div id="cookiescript_accept" tabindex="0" role="button" data-cs-i18n-text="{&quot;de&quot;:&quot;Alle akzeptieren&quot;,&quot;no&quot;:&quot;Godta alle&quot;,&quot;en&quot;:&quot;Accept all&quot;}">Accept all</div>
+              <div id="cookiescript_reject" tabindex="0" role="button" data-cs-i18n-text="{&quot;de&quot;:&quot;Alle ablehnen&quot;,&quot;no&quot;:&quot;Avvis alle&quot;,&quot;en&quot;:&quot;Decline all&quot;}">Decline all</div>
+      </div>
+
+  <div id="cookiescript_manage_wrap" tabindex="0" role="button">
+    <div id="cookiescript_manage">
+      <svg id="cookiescript_manageicon" viewBox="0 0 9.62 9.57">
+        <g id="Layer_2">
+          <g id="Layer_1-2">
+            <path class="cookiescript_gear" d="M9.46,6.06l-1.1-.78c0-.16.06-.31.06-.47a1.27,1.27,0,0,0-.06-.47L9.57,3.4l-1.15-2L7,1.93a2.74,2.74,0,0,0-.83-.47L6,0H3.61L3.35,1.46a7.14,7.14,0,0,0-.79.47L1.15,1.36,0,3.4l1.15.94c0,.16,0,.31,0,.47a1.51,1.51,0,0,0,0,.47l-1,.78A.75.75,0,0,0,0,6.17l1.15,2,1.41-.58a2.49,2.49,0,0,0,.84.47l.21,1.47H6a.53.53,0,0,1,0-.21L6.22,8.1a4,4,0,0,0,.84-.47l1.41.58,1.15-2A.75.75,0,0,0,9.46,6.06Zm-4.65.19A1.47,1.47,0,1,1,6.28,4.78,1.47,1.47,0,0,1,4.81,6.25Z"></path>
+          </g>
+        </g>
+      </svg>
+      <span data-cs-show-title="cookie-script" data-cs-i18n-text="{&quot;de&quot;:&quot;Details anzeigen&quot;,&quot;no&quot;:&quot;Vis detaljer&quot;,&quot;en&quot;:&quot;Show details&quot;}">Show details</span>
+      <span style="display: none" data-cs-hide-title="cookie-script" data-cs-i18n-text="{&quot;de&quot;:&quot;Details ausblenden&quot;,&quot;no&quot;:&quot;Skjul detaljer&quot;,&quot;en&quot;:&quot;Hide details&quot;}">Hide details</span>
+    </div>
+  </div>
+	<div class="cookiescript_hidden" id="cookiescript_cookietablewrap">
+			</div>
+	
+</div>
+</body></html>

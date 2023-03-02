@@ -373,34 +373,85 @@ GooleNet 提出了 Inception 结构，Inception 结构是用一些 1×1，3×3 �
 
 ### P39 [4.9.1] -- 人脸识别介绍 13:57
 
-高斯混合模型？
+**高斯混合模型（GMM）**
+可以看做是 k-means 模型的一个优化。
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/f953a82a2ee04dae905f1940d262e48f.png" %}
+以下是使用高斯混合模型的三个不同步骤：
+1. 确定定义每个高斯如何相互关联的协方差矩阵。两个高斯分布越相似，它们的均值就越接近，反之亦然，如果它们在相似性方面彼此相距很远。高斯混合模型可以具有对角线或对称的协方差矩阵。
+2. 确定每组中的高斯数定义了有多少簇。
+3. 选择定义如何使用高斯混合模型优化分离数据的超参数，以及决定每个高斯的协方差矩阵是对角线还是对称的。
 
-在训练的时候保留最后一层 SoftMax，而在测试的时候却不要最后一层，将倒数第二层 160 个维度作为最后人脸识别的特征。在测试时，每张人脸通过卷积神经网络，获得 160 维向量，利用距离量度，如欧氏距离和余弦距离等，算出基于这 160 维向量的人脸距离，最终通过阈值获得识别结果。
+[高斯混合模型（GMM） {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/81255623)
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/v2-b57d2d2cec543daec48fec098e71fd70_1440w.jfif" %}
+
+在训练的时候保留最后一层 SoftMax，而在测试的时候却不要最后一层，将倒数第二层 160 个维度作为最后人脸识别的特征。在测试时，每张人脸通过卷积神经网络，获得 160 维向量，利用距离量度，如**欧氏距离和余弦距离**等，算出基于这 160 维向量的人脸距离，最终通过阈值获得识别结果。
+
+Large-Margin SoftMax Loss 可以有效地提高人脸识别的准确率。
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210619161855367.png" %}
+
+基于 Large-Margin SoftMax Loss 的思想，近年来进一步提出了 CosFace 和 ArcFace，这两种改进方法的思路与 Large-Margin SoftMax Loss 大同小异，都是基于限制同一类特征分布在狭窄的角度范围内。
+
+Triplet Loss “三元组损失函数”。
 
 [note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/118002621)
-需要强调在实现人脸识别的时候，我们首先应该做的是人脸检测和人脸对齐，目前常用的人脸检测程序是 MTCNN，它也是基于深度学习的检测系统，可以检测人脸的眼睛、鼻子和嘴巴五个特征点。可以以此获取人脸的位置，同时基于检测到的两个眼睛与水平线的夹角对人脸实现转正的操作，提高人脸识别准确率。
+需要强调在实现人脸识别的时候，我们首先应该做的是人脸检测和人脸对齐，目前常用的人脸检测程序是 **MTCNN**，它也是基于深度学习的检测系统，可以检测人脸的眼睛、鼻子和嘴巴五个特征点。可以以此获取人脸的位置，同时基于检测到的两个眼睛与水平线的夹角对人脸实现转正的操作，提高人脸识别准确率。
 
 
 ### P40 [4.10.1] -- 目标检测与分割上 12:52
 
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20230303000357.png" %}
+
+* 第一种情形，单目标检测中的目标定位与识别，即图像中有一个目标，我们需要检测出它的位置，同时识别出它的类别。
+* 第二种情形，多目标检测中的目标定位与识别，即图像中有多个目标，我们需要分别检测出它的位置，同时对每个目标都要进行识别。
+* 第三种情形，语义分割，我们不仅要检测和识别出图像中的各种目标，还要确定每个目标所对应的像素。
+
 [note {% include relref_csdn.html %}](https://blog.csdn.net/DIPDWC/article/details/118329517)
 **RCNN** R-CNN（Regions with CNN feature）的概念，用来处理上述情形。其核心思路是用大大小小的方框遍历所有的图像是不现实的，我们需要一个计算量不那么大的算法，提出 ROI（Region of Proposal，or Proposal）。
 R-CNN 的主要思想是用 Selective Search 去产生候选的方框（Proposal），将这些候选方框输入到 CNN 中，最后用 SVM 来判断这些候选方框中有没有目标。
+
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210629114147548.png" %}
 
 **Fast R-CNN** 首先用 CNN 的卷积层对整幅图像进行卷积操作，在中间某一层的特征图上再用 ROI-Pooling 来归一化每个候选框区域的输出。
 
 **Faster R-CNN**
 Faster R-CNN 在卷积后特征图上滑动窗口，用不同长宽比的矩形作为候选区域，用一个小网络来判断这些候选区域是不是存在目标，对于确定是目标的候选区域运用前面的 ROI-Pooling 来进行归一化，最终获得输出的结果。
 
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210710160940477.png" %}
+
 
 ### P41 [4.11.1] -- 目标检测与分割下 12:00
 
 目标检测 YOLO（YOU ONLY LOOK ONCE）
 
-MTCNN，三个子网络。
+MTCNN，利用深度学习将人脸检测和人脸特征点定位结合起来。
+1. Face detection
+2. Facial landmarks localization
+
+三个子网络：
+1. P-Net(Proposal Network)
+    * 检测图中的人脸
+    * 产生多个人脸候选框和回归向量
+    * 用回归向量对候选窗口进行校准
+    * 通过非极大值抑制 NMS 来合并高度重叠的候选框
+2. R-Net(Refine Network)
+    * 输出候选框置信度（根据置信度消减候选框数量）和回归向量。
+    * 通过边界框回归和 NMS 精调候选框的位置。
+3. O-Net(Output Network)
+    * 作用：消减框数量同时精调回归框
+    * 输出 5 个人脸的关键点坐标。
 
 全卷积网络 FCN
-* 视频场景人数估计。
+* 视频场景人数估计。（Person Count）
+
+Mask R-CNN
+<http://counting.movingshop.cn>
+* 1.2k TensorFlow Object Counting API [tensorflow_object_counting_api {% include relref_github.html %}](https://github.com/ahmetozlu/tensorflow_object_counting_api)
+* 2.1k 输入一张包含数学计算题的图片，输出识别出的数学计算式以及计算结果。[mathAI {% include relref_github.html %}](https://github.com/Roujack/mathAI)
+
+* [Objects Counting by Estimating a Density Map With Convolutional Neural Networks](https://neurosys.com/blog/objects-counting-by-estimating-a-density-map)
+* [Computer Vision Researchers Are Using Blobs To Count Objects](https://analyticsindiamag.com/computer-vision-researchers-are-using-blobs-to-count-objects/)
+
+**各种深度网络，有点逛菜市的感觉。**
 
 
 ### P42 [4.12.1] -- 时间序列的深度学习模型（RNN 和 LSTM） 14:50
@@ -666,6 +717,12 @@ GAN 的缺点：
 - [https://blog.csdn.net/DIPDWC/article/details/112686489]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/4daa8911.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/117410176]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/b7b60c4a.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/117436454]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/688a7b1e.html" %})
+- [https://zhuanlan.zhihu.com/p/81255623]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/zhuanlan.zhihu.com/24d3a549.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/118002621]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/d86a308e.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/118329517]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/7b85aa10.html" %})
+- [http://counting.movingshop.cn]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/counting.movingshop.cn/785098f4.html" %})
+- [https://github.com/ahmetozlu/tensorflow_object_counting_api]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/github.com/f096fd2c.html" %})
+- [https://github.com/Roujack/mathAI]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/github.com/8c91d642.html" %})
+- [https://neurosys.com/blog/objects-counting-by-estimating-a-density-map]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/neurosys.com/6cc454a1.html" %})
+- [https://analyticsindiamag.com/computer-vision-researchers-are-using-blobs-to-count-objects/]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/analyticsindiamag.com/3550eafc.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.atoolbox.net/ecf02067.php" %})
