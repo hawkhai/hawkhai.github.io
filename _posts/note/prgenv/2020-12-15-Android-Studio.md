@@ -17,6 +17,23 @@ cluster: "Visual Studio"
 ---
 
 
+## Android Studio 反应卡慢
+
+1. 修改启动内存占用。
+    1. 点击 Help 选择 Edit Custom VM Options...
+    2. 将 Xmx 数值调大，填入 `-Xmx4096m` 。
+2. 项目允许并行编译。
+    1. 修改工程文件 `gradle.properties` ...
+    2. 加入：
+   ```
+   org.gradle.daemon=true
+   org.gradle.parallel=true
+   ```
+
+* [Android studio 太慢太卡的解决方法 {% include relref_csdn.html %}](https://blog.csdn.net/MrHanTalk/article/details/106947458)
+* [Android Studio 提升项目的编译速度](https://bbs.huaweicloud.com/blogs/357286)
+
+
 ## 反编译
 
 apktool+dex2jar+jd-gui 一直是一个比较流行的 Android 反编译组合。
@@ -329,6 +346,8 @@ Executing commands in 'E:\android-studio-ide-181.5014246-windows\android-studio\
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Android-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://blog.csdn.net/MrHanTalk/article/details/106947458]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/blog.csdn.net/5f23258c.html" %})
+- [https://bbs.huaweicloud.com/blogs/357286]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/bbs.huaweicloud.com/76f7b426.html" %})
 - [https://ibotpeaches.github.io/Apktool/]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/ibotpeaches.github.io/cf838194.html" %})
 - [http://java-decompiler.github.io/]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/java-decompiler.github.io/8cff06fd.html" %})
 - [https://github.com/pxb1988/dex2jar]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/github.com/db14066b.html" %})
