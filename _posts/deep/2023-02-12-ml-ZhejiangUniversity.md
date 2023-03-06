@@ -373,17 +373,6 @@ GooleNet 提出了 Inception 结构，Inception 结构是用一些 1×1，3×3 �
 
 ### P39 [4.9.1] -- 人脸识别介绍 13:57
 
-**高斯混合模型（GMM）**
-可以看做是 k-means 模型的一个优化。
-{% include image.html url="/assets/images/230212-ml-zhejianguniversity/f953a82a2ee04dae905f1940d262e48f.png" %}
-以下是使用高斯混合模型的三个不同步骤：
-1. 确定定义每个高斯如何相互关联的协方差矩阵。两个高斯分布越相似，它们的均值就越接近，反之亦然，如果它们在相似性方面彼此相距很远。高斯混合模型可以具有对角线或对称的协方差矩阵。
-2. 确定每组中的高斯数定义了有多少簇。
-3. 选择定义如何使用高斯混合模型优化分离数据的超参数，以及决定每个高斯的协方差矩阵是对角线还是对称的。
-
-[高斯混合模型（GMM） {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/81255623)
-{% include image.html url="/assets/images/230212-ml-zhejianguniversity/v2-b57d2d2cec543daec48fec098e71fd70_1440w.jfif" %}
-
 在训练的时候保留最后一层 SoftMax，而在测试的时候却不要最后一层，将倒数第二层 160 个维度作为最后人脸识别的特征。在测试时，每张人脸通过卷积神经网络，获得 160 维向量，利用距离量度，如**欧氏距离和余弦距离**等，算出基于这 160 维向量的人脸距离，最终通过阈值获得识别结果。
 
 Large-Margin SoftMax Loss 可以有效地提高人脸识别的准确率。
@@ -463,7 +452,7 @@ LSTM
 LSTM 的表现通常比时间递归神经网络及隐马尔科夫模型（HMM）更好，比如用在不分段连续手写识别上。
 2009 年，用 LSTM 构建的人工神经网络模型赢得过 ICDAR 手写识别比赛冠军。
 LSTM 还普遍用于自主语音识别，2013 年运用 TIMIT 自然演讲数据库达成 17.7% 错误率的纪录。
-作为非线性模型，LSTM 可作为复杂的非线性单元用于构造更大型深度神经网络。
+作为非线性模型 ，LSTM 可作为复杂的非线性单元用于构造更大型深度神经网络。
 
 
 ### P43 [4.13.1] -- 生成对抗网络 11:48
@@ -481,7 +470,7 @@ GAN 的缺点：
 ### P44 [5.1.1] -- 强化学习（Q - Learning 和 epsilon - greedy 算法） 16:51
 
 
-### P45 [5.2.1] -- 强化学习（深度强化学习） 09:38
+### P45 [5.2.1] -- 强化学习（深度强化学习）DEEP Q-NETWORK (DQN) 09:38
 
 
 ### P46 [5.3.1] -- 强化学习（policygradient 和 actor - critic） 10:48
@@ -507,8 +496,21 @@ GAN 的缺点：
 
 ### P53 [6.5.1] -- 高斯混合模型 13:01
 
+**高斯混合模型（GMM）**
+可以看做是 k-means 模型的一个优化。
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/f953a82a2ee04dae905f1940d262e48f.png" %}
+以下是使用高斯混合模型的三个不同步骤：
+1. 确定定义每个高斯如何相互关联的协方差矩阵。两个高斯分布越相似，它们的均值就越接近，反之亦然，如果它们在相似性方面彼此相距很远。高斯混合模型可以具有对角线或对称的协方差矩阵。
+2. 确定每组中的高斯数定义了有多少簇。
+3. 选择定义如何使用高斯混合模型优化分离数据的超参数，以及决定每个高斯的协方差矩阵是对角线还是对称的。
+
+[高斯混合模型（GMM） {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/81255623)
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/v2-b57d2d2cec543daec48fec098e71fd70_1440w.jfif" %}
+
 
 ### P54 往年现场版 - 教科书介绍 06:31
+
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20230307004246.png" %}
 
 
 ### P55 成绩安排 17:44
@@ -717,7 +719,6 @@ GAN 的缺点：
 - [https://blog.csdn.net/DIPDWC/article/details/112686489]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/4daa8911.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/117410176]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/b7b60c4a.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/117436454]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/688a7b1e.html" %})
-- [https://zhuanlan.zhihu.com/p/81255623]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/zhuanlan.zhihu.com/24d3a549.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/118002621]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/d86a308e.html" %})
 - [https://blog.csdn.net/DIPDWC/article/details/118329517]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/7b85aa10.html" %})
 - [http://counting.movingshop.cn]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/counting.movingshop.cn/785098f4.html" %})
@@ -725,4 +726,5 @@ GAN 的缺点：
 - [https://github.com/Roujack/mathAI]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/github.com/8c91d642.html" %})
 - [https://neurosys.com/blog/objects-counting-by-estimating-a-density-map]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/neurosys.com/6cc454a1.html" %})
 - [https://analyticsindiamag.com/computer-vision-researchers-are-using-blobs-to-count-objects/]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/analyticsindiamag.com/3550eafc.html" %})
+- [https://zhuanlan.zhihu.com/p/81255623]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/zhuanlan.zhihu.com/24d3a549.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.atoolbox.net/ecf02067.php" %})
