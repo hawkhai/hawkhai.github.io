@@ -492,11 +492,6 @@ int main()
 }
 ```
 
-```
-"C:\Program Files (x86)\Debugging Tools for Windows\gflags.exe" /p /enable ncnn_test.exe /full
-"C:\Program Files (x86)\Debugging Tools for Windows\gflags.exe" /p /enable detectborder_test.exe /full
-```
-
 ```cpp
 #define CASE_RETURN(x) case x: return L ## #x
 
