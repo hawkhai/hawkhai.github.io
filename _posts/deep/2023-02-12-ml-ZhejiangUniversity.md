@@ -529,7 +529,7 @@ actor-critic
 {% include image.html url="/assets/images/230212-ml-zhejianguniversity/20230309001728.png" %}
 
 棋力一般，棋力更强，棋力更快。
-{% include image.html url="/assets/images/230212-ml-zhejianguniversity/v2-8ed8808e955a4a0f02ac2420990dffdc_1440w.webp" %}
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/v2-8ed8808e955a4a0f02ac2420990dffdc_1440w.png" %}
 
 #### 深度策略网络 $\rho_\sigma$ (Supervised Learning Policy Network)
 
