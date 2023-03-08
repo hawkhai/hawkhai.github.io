@@ -56,6 +56,8 @@ AlexNet 为什么有 9 层，为什么第二层就变成 5x5，后面又变成 3
 非监督学习算法：
 * 聚类 Clustering
 * EM 算法（Expectation-Maximization algorithm）
+    * 第一步是计算期望（E），利用对隐藏变量的现有估计值，计算其最大似然估计值；
+    * 第二步是最大化（M），最大化在 E 步上求得的最大似然值来计算参数的值。M 步上找到的参数估计值被用于下一个 E 步计算中，这个过程不断交替进行。
 * 主成分分析（Principle Component Analysis）
 
 监督学习：
@@ -467,22 +469,121 @@ GAN 的缺点：
 2. 模式崩溃（mode collapse）。
 
 
-### P44 [5.1.1] -- 强化学习（Q - Learning 和 epsilon - greedy 算法） 16:51
+### P44 [5.1.1] -- 强化学习（Q-Learning 和 epsilon-greedy 算法） 16:51
+
+强化学习就开始有点看不懂了，更难了。
+
+**强化学习与监督学习的区别**
+* 训练数据中没有标签，只有奖励函数 (Rewar Function)
+* 训练数据不是现成给定，而是由行为 (Aetion) 获得。
+* 现在的行为 (Aetion) 不仅影响后续训练数据的获得，也影响奖励函数 (Reward Function) 的取值。
+* 强化学习与监督学习的区别训练的目的是构建一个“状态->行为”的函数
+    * 状态 (State) 目前内部和外部的环境
+    * 智能体 (Agent) 通过这个函数；决定此时应该采取的行为；最终获得最大的奖励函数值
+
+1. 马尔可夫假设
+2. 下一个时列的状态只与这一时刻的状态以及这一时刻的行为有关
+3. 下一个时刻的奖励函数值只与这一时刻的状态及这一时刻的行为有关
+
+epsilon-greedy 算法
+1. **探索**
+    稍微偏离目前的最好策略以便达到搜索更好策略的目的
+2. **利用**
+    运用目前的最好策略获取较高的奖赏 (Reward)
+
+**对于状态数和行为数很多时，这两个算法将会遇到困难。**
 
 
-### P45 [5.2.1] -- 强化学习（深度强化学习）DEEP Q-NETWORK (DQN) 09:38
+### P45 [5.2.1] -- 强化学习（深度强化学习）09:38
+
+**DEEP Q-NETWORK (DQN)**
 
 
-### P46 [5.3.1] -- 强化学习（policygradient 和 actor - critic） 10:48
+### P46 [5.3.1] -- 强化学习（policygradient 和 actor-critic） 10:48
+
+奖励函数，行为获得很久后才能获得，比如下棋。
+下棋下到最后，才有输和赢而前面的每一步，虽然有些奖励函数的线索，但与真实输赢的相关性直到最后才能被完全体现。
+
+引入估值函数。
+
+actor-critic
+* actor -- 演员
+* critic -- 评论家
 
 
 ### P47 [5.4.1] -- 强化学习（AlphaGo 上） 13:54
 
+中国规则
+1. 无气自提
+2. 禁止全局同形
+3. 地大者胜
+
+必胜策略（上帝策略）
+要么使先走的人则然获胜，要么使后走的人必然获胜。
+
 
 ### P48 [5.5.1] -- 强化学习（AlphaGo 下） 10:28
 
+[AlphaGo 围棋 论文笔记 {% include relref_csdn.html %}](https://haoji007.blog.csdn.net/article/details/76782606)
+三个深度策略网络 (Policy Networks)，一个深度估值网络 (Value Network)
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20230309001728.png" %}
+
+棋力一般，棋力更强，棋力更快。
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/v2-8ed8808e955a4a0f02ac2420990dffdc_1440w.webp" %}
+
+#### 深度策略网络 $\rho_\sigma$ (Supervised Learning Policy Network)
+
+模仿走子网络，因为它的目的是模仿网络高手。
+* 输入：当前棋盘状态
+* 输出：下一步的走法。
+* 训练数据：KGS GO SERVER 上的三亿个样本。
+* 网络设置：13 层深度网络。
+
+#### 深度策略网络 $\rho_\rho$ (Reinforcement Learning Policy Network)
+
+自学走子网络，自己跟自己下棋，通过这种方式进一步学习。
+策略网络（PolicyNetwork），给定当前局面，预测并采样下一步的走棋。
+
+* 网络结构、输入输出与 $\rho_\sigma$ 完全一样
+* 开始初始化网络参数
+* 参数更新策略，自己和自己下棋，不断下下去直到分出胜负
+
+为了避免对局的网络过于相似而出现的过拟合，应用了如下策略：
+* Step 1: 将监督字习的网络复制作为增强学习的初始网络
+* Step 2: 将当前版本的网络与之前的某个随机的版本对局得到棋局和棋局结果（输赢）
+* Step 3: 根据棋局和棋局结果利用 REINFORCE 算法更新参数最大化期望结果（赢）
+* Step 4: 每 500 次迭代就复制当前网络参数到对手池中用于 Step 2
+
+#### 深度策略网络 $\rho_\pi$ (Rollout Policy Network)
+
+快速走子（Fastrollout），目标和策略网络一样，但在适当牺牲走棋质量的条件下，速度要比策略网络快 1000 倍。
+
+1. 输入特征比 $\rho_\sigma$ 和 $\rho_\rho$ 少
+2. 网络结构更简单
+换句话说，这个网络以牺牲准确率换取速度。24.2% 正确率 2um 一步。
+
+#### 深度估值网络 $v_\theta$ (Value Network)
+
+棋盘价值网络。
+价值网络（ValueNetwork），给定当前局面，估计是白胜概率大还是黑胜概率大。
+
+1. 输入：当前棋盘状态（与 $\rho_\sigma$ 输入一样），以及执黑或执白
+2. 输出：获胜的概率（一个 0 到 1 的数）
+3. 参数更新策略：用 $\rho_\pi$ 来走很多轮来预测 真实值 $z$。
+
+#### 蒙特卡洛树搜索 (Monte Carlo Tree Search)
+
+下棋方法一蒙特卡洛树搜索 (Monte Carlo Tree Search) 把以上这三个部分连起来，形成一个完整的系统。
+多次模拟未来棋局，然后选择在模拟中选择次数最多的走法。
+
+#### Alpha Zero
+
+将策略网络和估值网络合并为一个网络。
+
 
 ### P49 [6.1.1] -- ADABOOST 15:33
+
+<https://blog.csdn.net/qq_45654306/article/details/113806590>
 
 
 ### P50 [6.2.1] -- 人工智能中的哲学 12:39
@@ -726,5 +827,7 @@ GAN 的缺点：
 - [https://github.com/Roujack/mathAI]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/github.com/8c91d642.html" %})
 - [https://neurosys.com/blog/objects-counting-by-estimating-a-density-map]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/neurosys.com/6cc454a1.html" %})
 - [https://analyticsindiamag.com/computer-vision-researchers-are-using-blobs-to-count-objects/]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/analyticsindiamag.com/3550eafc.html" %})
+- [https://haoji007.blog.csdn.net/article/details/76782606]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/haoji007.blog.csdn.net/80ea1cd2.html" %})
+- [https://blog.csdn.net/qq_45654306/article/details/113806590]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/7aa0d89d.html" %})
 - [https://zhuanlan.zhihu.com/p/81255623]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/zhuanlan.zhihu.com/24d3a549.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.atoolbox.net/ecf02067.php" %})
