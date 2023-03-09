@@ -34,6 +34,16 @@ cluster: "Visual Studio"
 * [Android Studio 提升项目的编译速度](https://bbs.huaweicloud.com/blogs/357286)
 
 
+## Android 对 apk 进行签名
+
+/data/local/tmp/test.apk
+[note {% include relref_csdn.html %}](https://blog.csdn.net/weixin_40533164/article/details/129267913)
+```
+keytool -genkey -v -keystore adam.keystore -alias adam -storepass 123456 -keypass 123456 -keyalg RSA -validity 36000
+apksigner sign --ks adam.keystore --ks-key-alias adam test.apk
+```
+
+
 ## 反编译
 
 apktool+dex2jar+jd-gui 一直是一个比较流行的 Android 反编译组合。
@@ -348,6 +358,7 @@ Executing commands in 'E:\android-studio-ide-181.5014246-windows\android-studio\
 
 - [https://blog.csdn.net/MrHanTalk/article/details/106947458]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/blog.csdn.net/5f23258c.html" %})
 - [https://bbs.huaweicloud.com/blogs/357286]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/bbs.huaweicloud.com/76f7b426.html" %})
+- [https://blog.csdn.net/weixin_40533164/article/details/129267913]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/blog.csdn.net/40c7bce7.html" %})
 - [https://ibotpeaches.github.io/Apktool/]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/ibotpeaches.github.io/cf838194.html" %})
 - [http://java-decompiler.github.io/]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/java-decompiler.github.io/8cff06fd.html" %})
 - [https://github.com/pxb1988/dex2jar]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/github.com/db14066b.html" %})

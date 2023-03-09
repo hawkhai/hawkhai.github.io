@@ -288,6 +288,45 @@ void* getEGLFunction(EnumFakeDriverHookFunction fid, const char* fname) {
 #endif
 ```
 
+Android:
+```cpp
+#include <jni.h>
+#include <string>
+#include <dlfcn.h> // 关键头文件。
+
+void* getProcAddress(void* handle, const char* fname) {
+    if (handle == nullptr) {
+        char* err = dlerror();
+        return nullptr;
+    }
+    void* fptr = dlsym(handle, fname);
+    if (fptr == nullptr) {
+        char* err = dlerror();
+        return nullptr;
+    }
+    return fptr;
+}
+
+void* getFunctionPtr(const char* fname) {
+    static void* handle = dlopen("libtest.so", RTLD_LAZY); // dlclose(handle);
+    return getProcAddress(handle, fname);
+}
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_test_MainActivity_stringFromJNI(
+        JNIEnv* env,
+        jobject thiz) {
+    void* func = getFunctionPtr("Java_com_testEngine_platform",
+                                "libtestEngine.so");
+    typedef jstring JNICALL (*FUNC)(JNIEnv* env, jobject /* this */);
+    FUNC myfunc = (FUNC) func;
+    jstring retv = myfunc(env, thiz);
+    return retv;
+    //std::string hello = "Hello from C++";
+    //return env->NewStringUTF(hello.c_str());
+}
+```
+
 
 ## windows 程序移植到 linux & mac 总结
 
