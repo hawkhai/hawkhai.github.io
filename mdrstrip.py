@@ -721,8 +721,8 @@ def mainfile(fpath, fname, ftype, fdepth=0):
             newline = ""
             for idx, dot in enumerate(dotlines):
                 if idx % 2 == 1:
-                    if not newline:
-                        newline = "**" + dot.strip() + "** "
+                    if not newline.strip():
+                        newline = newline + "**" + dot.strip() + "** "
                     else:
                         newline = newline.rstrip() + " **" + dot.strip() + "** "
                 else:
