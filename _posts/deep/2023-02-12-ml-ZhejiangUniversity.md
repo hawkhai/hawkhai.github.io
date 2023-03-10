@@ -583,16 +583,49 @@ actor-critic
 
 ### P49 [6.1.1] -- ADABOOST 15:33
 
-<https://blog.csdn.net/qq_45654306/article/details/113806590>
+自适应提升 (Adaptive Boosting) 简称 ADABOOST
+[使用 AdaBoost 进行目标检测 {% include relref_csdn.html %}](https://blog.csdn.net/qq_45654306/article/details/113806590)
+
+**核心思想**
+融合一些弱分类器获得强分类器。
+
+ADABOOST 的核心流程
+先用一部分特征训练一些较弱的分类器然后再将这些较弱的分类器逐步提升为强的分类器。
+ADABOOST 的核心是调整训练样本的分布，使得先前分类器做错的训练样本在后续学习中获得更多的关注，然后基于调整后的样本分布来训练下一个分类器。
+最后再用权重系数将获得的各个弱分类器组合起来形成强分类器。
+
+最终得到能表征人脸的 Haar 特征：
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210219024619450.png" %}
+
+AdaBoost 人脸检测流程
+1. 在图像中，对每一个 24\*24 的格子遍历使用分类器，如果是人脸则输出。
+2. 将图像缩小，长宽同时除以 1.2，在用分类器遍历每一个 24\*24 的格子。如果是人脸，将该处位置坐标乘以 1.2，等比例放大到原图。
+3. 重复 2，直到图像长或宽小于 24 个像素为止。
 
 
 ### P50 [6.2.1] -- 人工智能中的哲学 12:39
 
+又看了一晚上的 AlphaGo，这玩意只会下围棋，不会别的，更谈不上独立的意识。目前的 AI 算法只是看上去智能罢了，人类拟合出来的超高维度函数，距离真正的人工智能遥不可及。
+
 
 ### P51 [6.3.1] -- 主成分分析 17:23
 
+主成分分析是一种统计方法通过**正交变换**将一组可能存在相关性的变量转换为一组线性不相关的变量，达到数据压缩的目的。
+
+在二维条件下，PCA 的目的是找到一个方向，使得数据在这个方向上投影后的**方差最大**。
+
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20230310231133.png" %}
+占据 99% 能量的 M 值
+占据 95% 能量的 M 值
+
 
 ### P52 [6.4.1] -- K - 均值聚类 12:20
+
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20230310231649.png" %}
+期望最大化算法
+Expectation-maximization algorithm，EM 算法
+K 均值算法
+目标函数 E 的局部极值
 
 
 ### P53 [6.5.1] -- 高斯混合模型 13:01

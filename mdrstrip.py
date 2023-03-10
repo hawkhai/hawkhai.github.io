@@ -716,6 +716,18 @@ def mainfile(fpath, fname, ftype, fdepth=0):
             line = line.replace(" ."+kftype, "."+kftype)
             lines[index] = line
 
+        if line.count("**") >= 2 and line.count("**") % 2 == 0:
+            dotlines = line.split("**")
+            newline = ""
+            for idx, dot in enumerate(dotlines):
+                if idx % 2 == 1:
+                    newline == newline.rstrip() + " **" + dot.strip() + "** "
+                else:
+                    newline += dot
+            newline = newline.rstrip()
+            line = newline
+            lines[index] = line
+
         line = line.replace("````", "```").replace("````", "```")
         linxCount = line.count("`")
         if isMdFile and linxCount >= 2 and linxCount % 2 == 0:
