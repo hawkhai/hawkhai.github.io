@@ -716,7 +716,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
             line = line.replace(" ."+kftype, "."+kftype)
             lines[index] = line
 
-        if isMdFile and line.count("**") >= 2 and line.count("**") % 2 == 0 and line.count("***") == 0:
+        if isMdFile and line.count("**") >= 2 and line.count("**") % 2 == 0 and line.count("***") == 0 and not codestate:
             dotlines = line.split("**")
             newline = ""
             for idx, dot in enumerate(dotlines):

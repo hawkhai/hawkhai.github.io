@@ -47,7 +47,7 @@ $$\|x\|_p=(\sum_{i=1}^N|x_i|^p)^{1/p}$$
 {% highlight python %}
 # 向量 p-范数
 def norm_p(X, p):
-    return (sum([abs(x) **p for x in X]))** (1.0/p)
+    return (sum([abs(x)**p for x in X])) ** (1.0/p)
 norm_p(X, 1) # p 取 1，结果为 14.0
 norm_p(X, 2) # p 取 2，结果为 7.348
 norm_p(X, 3) # p 取 3，结果为 6.073
