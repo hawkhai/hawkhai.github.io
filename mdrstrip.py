@@ -726,7 +726,10 @@ def mainfile(fpath, fname, ftype, fdepth=0):
                     else:
                         newline = newline.rstrip() + " **" + dot.strip() + "** "
                 else:
-                    newline += dot
+                    if idx >= 2:
+                        newline += dot.lstrip()
+                    else:
+                        newline += dot
             newline = newline.rstrip()
             line = newline
             lines[index] = line
