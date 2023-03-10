@@ -724,7 +724,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
                     if not newline:
                         newline = "**" + dot.strip() + "** "
                     else:
-                        newline == newline.rstrip() + " **" + dot.strip() + "** "
+                        newline = newline.rstrip() + " **" + dot.strip() + "** "
                 else:
                     newline += dot
             newline = newline.rstrip()
