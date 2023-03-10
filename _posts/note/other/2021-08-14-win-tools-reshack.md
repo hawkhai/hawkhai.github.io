@@ -36,7 +36,7 @@ l2dwidget:
 
 ## pecopy.exe
 
-`pecopy.exe` 解决你的烦恼，**通过配置构建生成后事件，同时完成拷贝和修改描述信息**，最后签名。
+`pecopy.exe` 解决你的烦恼， **通过配置构建生成后事件，同时完成拷贝和修改描述信息** ，最后签名。
 1. 一气呵成，不用介入。
 2. 避免构建多次，崩溃点都变了。
 
@@ -607,10 +607,10 @@ def bake_one_big_png_to_ico(sourcefile, targetfile, sizes=None):
 
 ## others
 
-* pecopy.exe -- **PE 文件修改工具**。
-* pesearch.exe -- **二进制检索工具**，输出报告。
-* pereplace.exe -- **二进制替换工具**。
-* pecheck.exe -- **二进制检查工具**，进程退出码（-1），如果检查通过，进程退出码（0），方便集成到 vs 里面。
+* pecopy.exe -- **PE 文件修改工具** 。
+* pesearch.exe -- **二进制检索工具** ，输出报告。
+* pereplace.exe -- **二进制替换工具** 。
+* pecheck.exe -- **二进制检查工具** ，进程退出码（-1），如果检查通过，进程退出码（0），方便集成到 vs 里面。
   ```
   usage: pecheck.exe [-h] --jsonconfig JSONCONFIG --rootdir ROOTDIR
   pecheck.exe: error: the following arguments are required: --jsonconfig, --rootdir

@@ -39,7 +39,7 @@ ARM | OpenGL ES 2.0 Emulator v1.2 [ARM Mali Emulator](https://developer.arm.com/
 Qualcomm | Adreno SDK 2.2 [Adreno GPU SDK](https://developer.qualcomm.com/software/adreno-gpu-sdk/tools)
 NVIDIA | ~~Windows OpenGL ES 2.0 Emulator~~ Tegra 没有找到地方下载
 PowerVR | PowerVR SDK [PowerVR Graphics SDK {% include relref_github.html %}](https://powervr-graphics.github.io/)
-**Google** | [ANGLE - Almost Native Graphics Layer Engine](http://angleproject.org/) Chrome、Qt & Webgl 也是基于它实现的！**QT GLES & Android emulator** **自己编译 Angle 有点费力，在最新版本的 cocos2dx 拷贝出来不能用，最后发现：从最新版本的 QT 包里面把 EGL & GLESv2.dll 拷贝出来，跑的非常完美。**
+**Google** | [ANGLE - Almost Native Graphics Layer Engine](http://angleproject.org/) Chrome、Qt & Webgl 也是基于它实现的！ **QT GLES & Android emulator** **自己编译 Angle 有点费力，在最新版本的 cocos2dx 拷贝出来不能用，最后发现：从最新版本的 QT 包里面把 EGL & GLESv2.dll 拷贝出来，跑的非常完美。**
 
 [ANGLE {% include relref_github.html %}](https://github.com/google/angle)
 A conformant OpenGL ES implementation for Windows, Mac, Linux, iOS and Android.
@@ -128,7 +128,7 @@ The PowerVR SDK has a number of third-party dependencies, each of which may have
 
 * [glm {% include relref_github.html %}](https://github.com/g-truc/glm): OpenGL Mathematics
 * [pugixml {% include relref_github.html %}](https://github.com/zeux/pugixml): Light-weight, simple and fast XML parser for C++ with XPath support
-* **[concurrentqueue {% include relref_github.html %}](https://github.com/cameron314/concurrentqueue)**: A fast multi-producer, multi-consumer lock-free concurrent queue for C++11
+* **[concurrentqueue {% include relref_github.html %}](https://github.com/cameron314/concurrentqueue)** : A fast multi-producer, multi-consumer lock-free concurrent queue for C++11
 * [glslang {% include relref_github.html %}](https://github.com/KhronosGroup/glslang): Shader front end and validator
 * [tinygltf {% include relref_github.html %}](https://github.com/syoyo/tinygltf): Header only C++11 tiny glTF 2.0 library
 * [vma {% include relref_github.html %}](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator): Vulkan Memory Allocator

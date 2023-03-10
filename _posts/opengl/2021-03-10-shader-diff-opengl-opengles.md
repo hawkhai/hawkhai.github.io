@@ -62,7 +62,7 @@ OpenGL 3.3 (GLSL #version 330)
 GLSL 语法       | OpenGL 版本       | Date                  | Shader Preprocessor
 ----            | ----              | ----                  | ----
 1.10.59         | 2.0               | 30 April 2004         | #version 110
-**1.20**.8      | **2.1**           | 07 September 2006     | **#version 120**
+**1.20** .8      | **2.1** | 07 September 2006     | **#version 120**
 1.30.10         | 3.0               | 22 November 2009      | #version 130
 1.40.08         | 3.1               | 22 November 2009      | #version 140
 1.50.11         | 3.2               | 04 December 2009      | #version 150
@@ -77,7 +77,7 @@ OpenGL 2.0（#version 110）发布于 2004 年，OpenGL 2.1（#version 120）发
 
 GLSL ES<br/>语法 | OpenGL ES<br/>版本 | WebGL<br/>版本      | Based on GLSL<br/>语法 | Date             | Shader<br/>Preprocessor
 ----            | ----              | ----                  | ----                  | ----              | ----
-1.00.17         | **2.0**           | 1.0                   | **1.20**              | 12 May 2009       | **#version 100**
+1.00.17         | **2.0** | 1.0                   | **1.20** | 12 May 2009       | **#version 100**
 3.00.6          | 3.0               | 2.0                   | 3.30                  | 29 January 2016   | #version 300 es
 
 

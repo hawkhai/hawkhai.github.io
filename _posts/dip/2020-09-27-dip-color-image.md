@@ -57,7 +57,7 @@ url2="/assets/images/200927-dip-color-image/296px-HSV_color_solid_cylinder_satur
 
 {% include image.html url="/assets/images/200927-dip-color-image/1353461596_7598.jpg" %}
 
-$\text{HSV}$ 即使用**色相（Hue）、饱和度（Saturation）、明度（Value）**来表示色彩的一种方式。
+$\text{HSV}$ 即使用 **色相（Hue）、饱和度（Saturation）、明度（Value）** 来表示色彩的一种方式。
 
 - 色相：将颜色使用 $0^{\circ}$ 到 $360^{\circ}$ 表示，就是平常所说的颜色名称，如红色、蓝色。色相与数值按下表对应：
 

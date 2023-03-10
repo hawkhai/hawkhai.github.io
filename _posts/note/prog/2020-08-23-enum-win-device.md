@@ -238,7 +238,7 @@ while (true) {
 
 ## Load/Unload Non-PNP Driver
 
-Windows allows loading drivers at runtime using the **Service Control Manager**. Yes, the Service Control Manager in Windows not only can be used to load and manage services. You can use it with device drivers as you use it to load/unload/start/stop windows services.
+Windows allows loading drivers at runtime using the **Service Control Manager** . Yes, the Service Control Manager in Windows not only can be used to load and manage services. You can use it with device drivers as you use it to load/unload/start/stop windows services.
 
 The OpenSCManager function establishes a connection to the service control manager on the specified computer and opens the specified service control manager database.
 

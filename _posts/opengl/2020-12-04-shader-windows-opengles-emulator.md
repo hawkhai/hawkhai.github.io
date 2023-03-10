@@ -69,7 +69,7 @@ ARM | OpenGL ES 2.0 Emulator v1.2 [ARM Mali Emulator](https://developer.arm.com/
 Qualcomm | Adreno SDK 2.2 [Adreno GPU SDK](https://developer.qualcomm.com/software/adreno-gpu-sdk/tools)
 NVIDIA | ~~Windows OpenGL ES 2.0 Emulator~~ Tegra 没有找到地方下载
 PowerVR | PowerVR SDK [PowerVR Graphics SDK {% include relref_github.html %}](https://powervr-graphics.github.io/)
-**Google** | [ANGLE - Almost Native Graphics Layer Engine](http://angleproject.org/) Chrome、Qt & Webgl 也是基于它实现的！**QT GLES & Android emulator** **自己编译 Angle 有点费力，在最新版本的 cocos2dx 拷贝出来不能用，最后发现：从最新版本的 QT 包里面把 EGL & GLESv2.dll 拷贝出来，跑的非常完美。**
+**Google** | [ANGLE - Almost Native Graphics Layer Engine](http://angleproject.org/) Chrome、Qt & Webgl 也是基于它实现的！ **QT GLES & Android emulator** **自己编译 Angle 有点费力，在最新版本的 cocos2dx 拷贝出来不能用，最后发现：从最新版本的 QT 包里面把 EGL & GLESv2.dll 拷贝出来，跑的非常完美。**
 
 [ANGLE {% include relref_github.html %}](https://github.com/google/angle)
 A conformant OpenGL ES implementation for Windows, Mac, Linux, iOS and Android.

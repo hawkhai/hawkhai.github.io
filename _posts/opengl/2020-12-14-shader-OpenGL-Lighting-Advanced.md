@@ -74,7 +74,7 @@ void main()
 
 {% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/gamma_correction_gamma_curves.png" %}
 
-Gamma 校正是一个**上拱**的过程。
+Gamma 校正是一个 **上拱** 的过程。
 
 {% include image.html url="/assets/images/201214-shader-opengl-lighting-~d1/gamma_correction_example.png" %}
 

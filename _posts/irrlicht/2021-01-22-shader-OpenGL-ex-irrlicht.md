@@ -18,7 +18,7 @@ codeprint:
 $$NV/AMD/ATI \leadsto EXT \leadsto ARB \leadsto GL$$
 
 一个 3D 引擎为了更好的性能，就只能适配这些不同的硬件。Irrlicht 用到的 284 个 API。
-这些 API 就像后山上的野花，**一簇一簇的**，这个也是 状态机 C 风格函数接口的特点。
+这些 API 就像后山上的野花， **一簇一簇的** ，这个也是 状态机 C 风格函数接口的特点。
 
 开始觉得很难，学了一段时间的 OpenGL，觉得也就那样，尝试改造 3D 引擎，发现一千多个 API，常用的 284 个，而且 OpenGL & OpenGL ES 存在巨大差异，不同硬件之间还存在差异，唏嘘不已。
 
@@ -40,14 +40,14 @@ OpenGL ES & OpenGL 存在大量 API 交叉的情况，为了兼容，很多 API 
 
 ## 遮挡查询 occlusion query
 
-* **glBeginOcclusionQueryNV**, **glBeginQueryARB** $$\bbox[yellow]{Queries}$$  $$\color{pink}{ogladdr}$$ // extGlBeginQuery
-* **glDeleteOcclusionQueriesNV**, **glDeleteQueriesARB** $$\bbox[yellow]{Queries}$$  $$\color{pink}{ogladdr}$$ // extGlDeleteQueries
-* **glEndOcclusionQueryNV**, **glEndQueryARB** $$\bbox[yellow]{Queries}$$  $$\color{pink}{ogladdr}$$ // extGlEndQuery
-* **glGenOcclusionQueriesNV**, **glGenQueriesARB** $$\bbox[yellow]{Queries}$$  $$\color{pink}{ogladdr}$$ // extGlGenQueries
-* **glGetOcclusionQueryivNV**, **glGetQueryObjectivARB** $$\bbox[yellow]{Queries}$$  $$\color{pink}{ogladdr}$$ // extGlGetQueryObjectiv
-* **glGetOcclusionQueryuivNV**, **glGetQueryObjectuivARB** $$\bbox[yellow]{Queries}$$  $$\color{pink}{ogladdr}$$ // extGlGetQueryObjectuiv
+* **glBeginOcclusionQueryNV** , **glBeginQueryARB** $$\bbox[yellow]{Queries}$$  $$\color{pink}{ogladdr}$$ // extGlBeginQuery
+* **glDeleteOcclusionQueriesNV** , **glDeleteQueriesARB** $$\bbox[yellow]{Queries}$$  $$\color{pink}{ogladdr}$$ // extGlDeleteQueries
+* **glEndOcclusionQueryNV** , **glEndQueryARB** $$\bbox[yellow]{Queries}$$  $$\color{pink}{ogladdr}$$ // extGlEndQuery
+* **glGenOcclusionQueriesNV** , **glGenQueriesARB** $$\bbox[yellow]{Queries}$$  $$\color{pink}{ogladdr}$$ // extGlGenQueries
+* **glGetOcclusionQueryivNV** , **glGetQueryObjectivARB** $$\bbox[yellow]{Queries}$$  $$\color{pink}{ogladdr}$$ // extGlGetQueryObjectiv
+* **glGetOcclusionQueryuivNV** , **glGetQueryObjectuivARB** $$\bbox[yellow]{Queries}$$  $$\color{pink}{ogladdr}$$ // extGlGetQueryObjectuiv
 * **glGetQueryivARB** $$\bbox[yellow]{Queries}$$  $$\color{pink}{ogladdr}$$ // extGlGetQueryiv
-* **glIsOcclusionQueryNV**, **glIsQueryARB** $$\bbox[yellow]{Queries}$$  $$\color{pink}{ogladdr}$$ // extGlIsQuery
+* **glIsOcclusionQueryNV** , **glIsQueryARB** $$\bbox[yellow]{Queries}$$  $$\color{pink}{ogladdr}$$ // extGlIsQuery
 
 
 ## OpenGL WGL
@@ -147,11 +147,11 @@ OpenGL ES & OpenGL 存在大量 API 交叉的情况，为了兼容，很多 API 
 
 ## shader programming
 
-* **glGenProgramsNV**, **glGenProgramsARB** $$\color{pink}{ogladdr}$$ // extGlGenPrograms
-* **glBindProgramNV**, **glBindProgramARB** $$\color{pink}{ogladdr}$$ // extGlBindProgram
+* **glGenProgramsNV** , **glGenProgramsARB** $$\color{pink}{ogladdr}$$ // extGlGenPrograms
+* **glBindProgramNV** , **glBindProgramARB** $$\color{pink}{ogladdr}$$ // extGlBindProgram
 * **glLoadProgramNV** $$\color{pink}{ogladdr}$$ // extGlLoadProgram
 * **glProgramStringARB** $$\color{pink}{ogladdr}$$ // extGlProgramString, 貌似跟上面一个用途一样
-* **glDeleteProgramsNV**, **glDeleteProgramsARB** $$\color{pink}{ogladdr}$$ // extGlDeletePrograms
+* **glDeleteProgramsNV** , **glDeleteProgramsARB** $$\color{pink}{ogladdr}$$ // extGlDeletePrograms
 * **glProgramLocalParameter4fvARB** $$\color{pink}{ogladdr}$$ // extGlProgramLocalParameter4fv
 * **glCreateProgramObjectARB** $$\color{pink}{ogladdr}$$ // extGlCreateProgramObject
 * **glCreateShaderObjectARB** $$\color{pink}{ogladdr}$$ // extGlCreateShaderObject
@@ -315,10 +315,10 @@ OpenGL ES & OpenGL 存在大量 API 交叉的情况，为了兼容，很多 API 
 * **glColorMaskIndexedEXT** $$\color{pink}{ogladdr}$$ // irrGlColorMaskIndexed
     * glColorMask — enable and disable writing of frame buffer color components。
 <hr/>
-* **glBlendFuncIndexedAMD**, **glBlendFunciARB** $$\bbox[yellow]{State Management}$$  $$\color{pink}{ogladdr}$$ // irrGlBlendFuncIndexed
-* **glBlendFuncSeparateIndexedAMD**, **glBlendFuncSeparateiARB** $$\bbox[yellow]{State Management}$$  $$\color{pink}{ogladdr}$$ // irrGlBlendFuncSeparateIndexed
-* **glBlendEquationIndexedAMD**, **glBlendEquationiARB** $$\bbox[yellow]{State Management}$$  $$\color{pink}{ogladdr}$$ // irrGlBlendEquationIndexed
-* **glBlendEquationSeparateIndexedAMD**, **glBlendEquationSeparateiARB** $$\bbox[yellow]{State Management}$$  $$\color{pink}{ogladdr}$$ // irrGlBlendEquationSeparateIndexed
+* **glBlendFuncIndexedAMD** , **glBlendFunciARB** $$\bbox[yellow]{State Management}$$  $$\color{pink}{ogladdr}$$ // irrGlBlendFuncIndexed
+* **glBlendFuncSeparateIndexedAMD** , **glBlendFuncSeparateiARB** $$\bbox[yellow]{State Management}$$  $$\color{pink}{ogladdr}$$ // irrGlBlendFuncSeparateIndexed
+* **glBlendEquationIndexedAMD** , **glBlendEquationiARB** $$\bbox[yellow]{State Management}$$  $$\color{pink}{ogladdr}$$ // irrGlBlendEquationIndexed
+* **glBlendEquationSeparateIndexedAMD** , **glBlendEquationSeparateiARB** $$\bbox[yellow]{State Management}$$  $$\color{pink}{ogladdr}$$ // irrGlBlendEquationSeparateIndexed
 <hr/>
 * **glBlendEquationEXT** $$\bbox[yellow]{State Management}$$  $$\color{pink}{ogladdr}$$ // irrGlBlendEquation
 * **glBlendEquationSeparateEXT** $$\bbox[yellow]{State Management}$$  $$\color{pink}{ogladdr}$$ // ?

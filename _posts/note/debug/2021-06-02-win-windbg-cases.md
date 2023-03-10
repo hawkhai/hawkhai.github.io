@@ -760,7 +760,7 @@ DEFAULT_BUCKET_ID:  INVALID_POINTER_READ
 
 汇编指令：`MOVZX OPD, OPS`
 将 8 位或 16 位的 OPS 零扩展为 16 位或 32 位，在传给 OPD。
-相当于 函数 FindTextInPage 里面用了一个 **被释放** 或者 **未初始化** 的指针 并 调用了 **StrChrIW**。
+相当于 函数 FindTextInPage 里面用了一个 **被释放** 或者 **未初始化** 的指针 并 调用了 **StrChrIW** 。
 
 
 ## 崩溃 QList\<QString\> 非多线程安全

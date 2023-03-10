@@ -443,7 +443,7 @@ unique_ptr | scoped_ptr | 独占指针对象，并保证指针所指对象生命
 shared_ptr | shared_ptr | 可共享指针对象，可以赋值给 shared_ptr 或 weak_ptr。<br/>指针所指对象在所有的相关联的 shared_ptr 生命周期结束时结束，是强引用。
 weak_ptr | weak_ptr | 它不能决定所指对象的生命周期，引用所指对象时，需要 lock() 成 shared_ptr 才能使用。
 
-* **auto_ptr** **不再推荐**。赋值转移后，指针会置空。因为 auto_ptr 有拷贝语义，拷贝后原对象变得无效，再次访问原对象时会导致程序崩溃；
+* **auto_ptr** **不再推荐** 。赋值转移后，指针会置空。因为 auto_ptr 有拷贝语义，拷贝后原对象变得无效，再次访问原对象时会导致程序崩溃；
     * 智能指针不能指向数组。因为其实现中调用的是 delete 而非 delete[]。
 * **unique_ptr** unique_ptr 则禁止了拷贝语义，但提供了移动语义，即可以使用 std::move() 进行控制权限的转移。
 

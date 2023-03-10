@@ -122,7 +122,7 @@ mt.exe /manifest "../../../publish/manifest/debug/crt.xml" "../../../publish/man
 {% include image.html url="/assets/images/201215-visual-studio/20220615104644.png" %}
 
 **一个工程引用了多个 curl.lib，并且还编译过了。！！**
-注释掉就可以了。**主 exe 和 相关 dll 全部不要打 manifest 进去，保持默认就好了。**
+注释掉就可以了。 **主 exe 和 相关 dll 全部不要打 manifest 进去，保持默认就好了。**
 
 
 ## fatal: Needed a single revision

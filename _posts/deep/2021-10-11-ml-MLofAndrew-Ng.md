@@ -537,7 +537,7 @@ $$
 ### 9-2. 反向传播算法 12:00
 
 **为了计算代价函数的偏导数 $\frac{\partial}{\partial\Theta^{(l)}_{ij}}J\left(\Theta\right)$，**
-**我们需要采用一种反向传播算法**，也就是首先计算最后一层的误差，然后再一层一层反向求出各层的误差，
+**我们需要采用一种反向传播算法** ，也就是首先计算最后一层的误差，然后再一层一层反向求出各层的误差，
 直到倒数第二层。
 
 
@@ -613,8 +613,8 @@ Important:
 
 ### 9-8. 无人驾驶 06:31
 
-**ALVINN**（**Autonomous Land Vehicle In a Neural Network**）是一个基于神经网络的智能系统，通过观察人类的驾驶来学习驾驶，
-**ALVINN** 能够控制 **NavLab**，装在一辆改装版军用悍马，这辆悍马装载了传感器、计算机和驱动器用来进行自动驾驶的导航试验。
+**ALVINN** （ **Autonomous Land Vehicle In a Neural Network** ）是一个基于神经网络的智能系统，通过观察人类的驾驶来学习驾驶，
+**ALVINN** 能够控制 **NavLab** ，装在一辆改装版军用悍马，这辆悍马装载了传感器、计算机和驱动器用来进行自动驾驶的导航试验。
 实现 **ALVINN** 功能的第一步，是对它进行训练，也就是训练一个人驾驶汽车。
 
 
@@ -700,24 +700,24 @@ $$J_{test}(\theta)=\frac{1}{2m_{test}}\sum_\limits{i=1}^{m_{test}}(h_{\theta}(x^
 查准率。
 召回率。
 
-**查准率**（**Precision**）和**查全率**（**Recall**） 我们将算法预测的结果分成四种情况：
+**查准率** （ **Precision** ）和 **查全率** （ **Recall** ） 我们将算法预测的结果分成四种情况：
 
-1. **正确肯定**（**True Positive, TP**）：预测为真，实际为真
-2. **正确否定**（**True Negative, TN**）：预测为假，实际为假
-3. **错误肯定**（**False Positive, FP**）：预测为真，实际为假（假阳性）
-4. **错误否定**（**False Negative, FN**）：预测为假，实际为真（假阴性）
+1. **正确肯定** （ **True Positive, TP** ）：预测为真，实际为真
+2. **正确否定** （ **True Negative, TN** ）：预测为假，实际为假
+3. **错误肯定** （ **False Positive, FP** ）：预测为真，实际为假（假阳性）
+4. **错误否定** （ **False Negative, FN** ）：预测为假，实际为真（假阴性）
 
-则：查准率 =**TP/(TP+FP)**。例，在所有我们预测有恶性肿瘤的病人中，实际上有恶性肿瘤的病人的百分比，越高越好。
+则：查准率 = **TP/(TP+FP)** 。例，在所有我们预测有恶性肿瘤的病人中，实际上有恶性肿瘤的病人的百分比，越高越好。
 
-查全率 =**TP/(TP+FN)**。例，在所有实际上有恶性肿瘤的病人中，成功预测有恶性肿瘤的病人的百分比，越高越好。
+查全率 = **TP/(TP+FN)** 。例，在所有实际上有恶性肿瘤的病人中，成功预测有恶性肿瘤的病人的百分比，越高越好。
 
 这样，对于我们刚才那个总是预测病人肿瘤为良性的算法，其查全率是 0。
 
-|            |              | **预测值**   |             |
+|            |              | **预测值** |             |
 | ---------- | ------------ | ------------ | ----------- |
 |            |              | **Positive** | **Negtive** |
-| **实际值** | **Positive** | **TP**       | **FN**      |
-|            | **Negtive**  | **FP**       | **TN**      |
+| **实际值** | **Positive** | **TP** | **FN** |
+|            | **Negtive** | **FP** | **TN** |
 
 {% include image.html url="/assets/images/211011-ml-mlofandrew-ng/20220926001838.png" %}
 
@@ -808,7 +808,7 @@ Scikit-learn 主要用于各种数据建模概念，如回归、分类、聚类�
     * 3、聚类学习 (clustering)，不属于监督型
     * 4、降维学习 (dimensionality reduction) 不属于监督型
 
-**imgaug**：机器学习实验中的图像增强库，特别是卷积神经网络。支持以多种不同方式增强图像、关键点 / 地标、边界框、热图和分割图。
+**imgaug** ：机器学习实验中的图像增强库，特别是卷积神经网络。支持以多种不同方式增强图像、关键点 / 地标、边界框、热图和分割图。
 [Image augmentation for machine learning experiments.](https://imgaug.readthedocs.io/en/latest/)
 
 **下面是一些普遍使用的准则：**
@@ -869,12 +869,12 @@ PCA is not linear regression
 
 第一步是均值归一化。我们需要计算出所有特征的均值，然后令 $x_j= x_j-μ_j$。如果特征是在不同的数量级上，我们还需要将其除以标准差 $σ^2$。
 
-第二步是计算 **协方差矩阵**（**covariance matrix**）$Σ$：
+第二步是计算 **协方差矩阵** （ **covariance matrix** ）$Σ$：
 $\sum=\dfrac {1}{m}\sum^{n}_{i=1}\left( x^{(i)}\right) \left( x^{(i)}\right) ^{T}$
 
-第三步是计算协方差矩阵 $Σ$ 的 **特征向量**（**eigenvectors**）:
+第三步是计算协方差矩阵 $Σ$ 的 **特征向量** （ **eigenvectors** ）:
 
-在 **Octave** 里我们可以利用 **奇异值分解**（**singular value decomposition**）来求解， `[U, S, V]= svd(sigma)` 。
+在 **Octave** 里我们可以利用 **奇异值分解** （ **singular value decomposition** ）来求解， `[U, S, V]= svd(sigma)` 。
 
 $$Sigma=\dfrac {1}{m}\sum^{n}_{i=1}\left( x^{(i)}\right) \left( x^{(i)}\right) ^{T}$$
 
@@ -1101,9 +1101,9 @@ $$
 
 ### 18-1. 问题描述与 OCR pipeline 07:03
 
-1. 文字侦测（**Text detection**） —— 将图片上的文字与其他环境对象分离开来
-2. 字符切分（**Character segmentation**） —— 将文字分割成一个个单一的字符
-3. 字符分类（**Character classification**） —— 确定每一个字符是什么
+1. 文字侦测（ **Text detection** ） —— 将图片上的文字与其他环境对象分离开来
+2. 字符切分（ **Character segmentation** ） —— 将文字分割成一个个单一的字符
+3. 字符分类（ **Character classification** ） —— 确定每一个字符是什么
 
 可以用任务流程图来表达这个问题，每一项任务可以由一个单独的小队来负责解决：
 

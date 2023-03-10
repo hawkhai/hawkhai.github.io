@@ -134,7 +134,7 @@ struct S4 {
 
 ## 栈的生长方向和内存存放方向
 
-**Heap**：堆是往高地址增长的，是用来动态分配内存的区域，malloc 就是在这里面分配的；
+**Heap** ：堆是往高地址增长的，是用来动态分配内存的区域，malloc 就是在这里面分配的；
 在这 4G 里面，其中 1G 是内核态内存，每个 Linux 进程共享这一块内存，在高地址；3G 是用户态内存，这部分内存进程间不共享，在低地址。
 [from {% include relref_jianshu.html %}](https://www.jianshu.com/p/58b602f8b7d5)
 {% include image.html url="/assets/images/210914-tiny-source-code/2718191-40b00426103734bc.webp" %}
@@ -213,7 +213,7 @@ int main()
 
 原因：ncnn 的 android 预编译包的编译选项中，禁用了 `rtti` （同时还禁用了 `exceptions` ），而 OpenCV 的 android 预编译包开启了 `rtti` 和 `exceptions` （这是在 NDK 的 toolchains.cmake 中默认开启的）；当两个（或多个）库的 rtti、exceptions 编译选项设定不同时，会导致冲突，需要统一。
 
-**方法：重编 ncnn，编译时开启 rtti、exceptions**。
+**方法：重编 ncnn，编译时开启 rtti、exceptions** 。
 
 - 在命令行（或 CMake-GUI）里，用 cmake 构建，构建时传入 `-DNCNN_DISABLE_EXCEPTION=OFF -DNCNN_DISABLE_RTTI=OFF` ；如果先前构建过，请清理 build/CMakeCache.txt；不要在 Android Studio 里构建 ncnn 库，因为很可能你的 rtti 和 exceptions 还是弄错。
 
@@ -222,7 +222,7 @@ int main()
 
 ### 为啥自己编译的 ncnn android 库特别大？
 
-很可能是没有去掉 `-g` 导致的。**这个不用解决，大点就大点吧。**
+很可能是没有去掉 `-g` 导致的。 **这个不用解决，大点就大点吧。**
 
 基于 cmake 和 ninja，自行编译 ncnn 的 android 库，编译时注意：
 - 去掉 `-g` 参数以减小库体积：打开 `$ANDROID_NDK/build/cmake/android.toolchain.cmake`
@@ -568,7 +568,7 @@ x | cv::Mat | cv::UMat | cv::_InputArray
 12 | MatStep step.buf\[0\]; `size_t` | |
 13 | MatStep step.buf\[1\]; `size_t` | |
 
-x | 老版本 ncnn::Mat（40 字节）<br/>**应该以这个为准** | 最新版本 ncnn::Mat（44 字节）
+x | 老版本 ncnn::Mat（40 字节）<br/> **应该以这个为准** | 最新版本 ncnn::Mat（44 字节）
 ---- | ---- | ----
 0 | void\* data; | void\* data;
 1 | int\* refcount; | int\* refcount;
@@ -1397,7 +1397,7 @@ if (!guard.first_byte) {
 1. 如果对象无析构函数（包括不需要合成析构函数，比如注释掉 ~A 和 string s 两行代码）
     delete 会直接调用 operator delete 并直接调用 free 释放内存，
     这个时候的 `new` = `new []` （仅在数量上有差异）， `delete` = `delete[]` 。
-2. 如果对象存在析构函数（包括合成析构函数），则**这个才是重点**：
+2. 如果对象存在析构函数（包括合成析构函数），则 **这个才是重点** ：
     `new []` 返回的地址会后移 4 个字节，并用那 4 个存放数组的大小！而 new 不用后移这四个字节。
     `delete []` 根据那个 4 个字节的值，调用指定次数的析构函数，同样 delete 也不需要那四个字节。
 

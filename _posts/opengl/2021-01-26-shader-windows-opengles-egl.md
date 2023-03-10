@@ -489,7 +489,7 @@ HWND createWindow(int width, int height) {
     return hwnd;
 }
 
-GLuint compileShaders(const GLchar** vertexShaderSource, const GLchar** fragmentShaderSource)
+GLuint compileShaders(const GLchar **vertexShaderSource, const GLchar** fragmentShaderSource)
 {
     //Compile vertex shader
     GLuint vertexShader(glCreateShader(GL_VERTEX_SHADER));

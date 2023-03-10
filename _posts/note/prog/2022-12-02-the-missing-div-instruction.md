@@ -301,7 +301,7 @@ Debug 版本 sizeof(myvec) == 16，Release 版本 sizeof(myvec) == 12。
 ```
 
 右移 3，相当于 除以 8，然后乘以 -1227133513 相当于除以 7，最终效果就是 除以了 56，这也回答了开篇那个问题。
-而**为了增强 64 位版本的程序可移植性**，可以尝试强制 `(unsigned int)` 限制。
+而 **为了增强 64 位版本的程序可移植性** ，可以尝试强制 `(unsigned int)` 限制。
 
 {% include image.html url="/assets/images/221202-the-missing-div-instruc~41/20230105155358.png" %}
 

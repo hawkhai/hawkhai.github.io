@@ -103,7 +103,7 @@ void SHChangeNotify(
 Notifies the system of an event that an application has performed.
 An application should use this function if it performs an action that may affect the Shell.
 
-其中：**wEventId**:
+其中： **wEventId** :
 Describes the event that has occurred. Typically, only one event is specified at a time.
 If more than one event is specified, the values contained in the dwItem1 and dwItem2 parameters must be the same,
 respectively, for all specified events. This parameter can be one or more of the following values.

@@ -103,7 +103,7 @@ codeprint:
 
 ### toP56/59 总变差（TV）模型 · 图像恢复
 
-图象恢复是一个客观过程，需要利用**某些先验知识从退化和干扰的图像中去除模糊因素和噪声、尽可能恢复图像的本来面貌**。复原技术一般是先把**退化和干扰模型化**，然后采用相反的过程进行处理，复原图像。
+图象恢复是一个客观过程，需要利用 **某些先验知识从退化和干扰的图像中去除模糊因素和噪声、尽可能恢复图像的本来面貌** 。复原技术一般是先把 **退化和干扰模型化** ，然后采用相反的过程进行处理，复原图像。
 
 
 ### 数字图像处理 源码
@@ -112,7 +112,7 @@ codeprint:
 
 * 学习笔记 <https://github.com/LiuFG/digital_image_process>
 
-* **孔洞填充、骨架算法、边界提取。**冈萨雷斯《数字图像处理》Python（第三版） <https://github.com/qcymkxyc/Image-Process>
+* **孔洞填充、骨架算法、边界提取。** 冈萨雷斯《数字图像处理》Python（第三版） <https://github.com/qcymkxyc/Image-Process>
 
 * <https://github.com/iwuqing/Digital-Image-Processing>
 

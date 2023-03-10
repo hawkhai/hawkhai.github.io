@@ -80,12 +80,12 @@ OpenGL 需要图形学的知识储备，OpenCL 不太需要。
 
 [OpenCL 2.0 异构计算 \[第三版 \] （Heterogeneous Computing with OpenCL 2.0）](https://www.bookstack.cn/read/Heterogeneous-Computing-with-OpenCL-2.0/README.md)
 
-OpenCL 是一个异构编程架构，其管理者是非盈利技术组织 **Khronos Group**。OpenCL 是一个应用开发框架，在其框架下开发的应用，能够在不同的硬件供应商的设备上运行。
+OpenCL 是一个异构编程架构，其管理者是非盈利技术组织 **Khronos Group** 。OpenCL 是一个应用开发框架，在其框架下开发的应用，能够在不同的硬件供应商的设备上运行。
 * 第一版的 OpenCL (1.0) 标准在 2008 年正式发布，并出现在苹果 Mac OSX 雪豹系统当中。
 * 2009 年，AMD 宣布其旗下的显卡支持 OpenCL 。IBM 也在该年宣布，其 XL 编译器在 Power 架构的处理器下支持 OpenCL 。
-* 2010 年，**Khronos Group** 发布了 OpenCL 1.1 标准。
+* 2010 年， **Khronos Group** 发布了 OpenCL 1.1 标准。
 * 2011 年，发布了 OpenCL 1.2 标准。本书的第一版介绍了很多 OpenCL 1.2 的特性。
-* 2013 年，**Khronos Group** 发布了 OpenCL 2.0 标准。
+* 2013 年， **Khronos Group** 发布了 OpenCL 2.0 标准。
 * OpenCL 3.0 处于最终模式（2020-09-30）。 OpenCL 1.2 是强制性的。所有 OpenCL 2.x 模块和新的 3.0 模块都是可选的。新的首选语言是具有许多 C++ 17 功能的 OpenCL 的 C++。
 
 OpenCL 2.0 较大的改变有如下内容：

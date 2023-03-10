@@ -27,7 +27,7 @@ cluster: "LearnOpenGL"
 通过移动视口到光源位置，可以观察到这个位置每个东西都是明亮的，因为从光的角度来看是没有阴影的。
 从光源的角度将场景的深度渲染到一张深度缓冲区中，我们可以在场景中获得一张阴影贴图，真正绘制的时候根据其深度值判断是否在阴影中。
 
-高级光照阴影 ShadowMapping，实在没看透彻，源码抄了一遍，才透彻了。**这一章节应该是到目前为止最难的了。**[原文 {% include relref_github.html %}](https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/) 写的非常好，就是有点难懂。
+高级光照阴影 ShadowMapping，实在没看透彻，源码抄了一遍，才透彻了。 **这一章节应该是到目前为止最难的了。** [原文 {% include relref_github.html %}](https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/) 写的非常好，就是有点难懂。
 
 {% include image.html url="/assets/images/201224-shader-opengl-lighting-~55/shadow_mapping_theory.webp" %}
 
@@ -38,7 +38,7 @@ cluster: "LearnOpenGL"
 
 {% include image.html url="/assets/images/201224-shader-opengl-lighting-~55/20201224121704.png" %}
 
-**正常绘制阴影的时候，要换算到阴影的空间坐标，取数值。**最开始没看懂的关键，也是这个地方。
+**正常绘制阴影的时候，要换算到阴影的空间坐标，取数值。** 最开始没看懂的关键，也是这个地方。
 
 ```cpp
 glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT); // 要重新调整视口
@@ -85,7 +85,7 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 
 {% include image.html url="/assets/images/201224-shader-opengl-lighting-~55/shadow_mapping_base.webp" %}
 
-这个效果存在很大的问题。**阴影失真 (Shadow Acne)** 造成这个问题的原因是浮点数计算误差，黑色条纹是被误认为阴影的。
+这个效果存在很大的问题。 **阴影失真 (Shadow Acne)** 造成这个问题的原因是浮点数计算误差，黑色条纹是被误认为阴影的。
 里面的大量锯齿，差不多也是 浮点精度不够，倾斜，深度缓冲尺寸不够大 三个组合原因。
 
 {% include image.html url="/assets/images/201224-shader-opengl-lighting-~55/shadow_mapping_acne_diagram.png" %}

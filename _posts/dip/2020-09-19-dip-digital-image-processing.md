@@ -140,7 +140,7 @@ PPT: <https://wenku.baidu.com/view/1bdcc12227c52cc58bd63186bceb19e8b8f6ecbc.html
 
 资料：空间变换网络（STN）原理 + 2D 图像空间变换 + 齐次坐标系讲解。
 <sup>[疑似转载 {% include relref_cnblogs.html %}](https://www.cnblogs.com/think90/p/11556725.html)</sup>
-<sup>[**貌似原版** {% include relref_csdn.html %}](https://blog.csdn.net/Rosemary_tu/article/details/84069878)</sup>
+<sup>[ **貌似原版** {% include relref_csdn.html %}](https://blog.csdn.net/Rosemary_tu/article/details/84069878)</sup>
 
 
 ### 仿射变换 & 透视变换
@@ -420,7 +420,7 @@ $$
 
 其中，$${\omega _{i}}$$ 为权重，可令不同维度权重取不同值。
 
-**直方图欧氏距离的相似性度量**为：
+**直方图欧氏距离的相似性度量** 为：
 
 $$
 D(S,M)={ { \left( \sum\limits_{i=1}^{n}{ { {\left( {s_{i}}-{m_{i}} \right)}^{2}}} \right)}^{2}}
@@ -507,15 +507,15 @@ $$d=\left(x^{2}+y^{2}\right)^{\frac{1}{2}}$$
 
 闭运算，弥合，毛刺保留；开运算，分裂，毛刺去掉。[from {% include relref_csdn.html %}](https://blog.csdn.net/fengbingchun/article/details/52423810)
 
-* **开运算（open）**：先腐蚀后膨胀的过程。开运算可以用来消除小黑点，在纤细点处分离物体、平滑较大物体的边界的同时并不明显改变其面积。
+* **开运算（open）** ：先腐蚀后膨胀的过程。开运算可以用来消除小黑点，在纤细点处分离物体、平滑较大物体的边界的同时并不明显改变其面积。
 
-* **闭运算（close）**：先膨胀后腐蚀的过程。闭运算可以用来排除小黑洞。
+* **闭运算（close）** ：先膨胀后腐蚀的过程。闭运算可以用来排除小黑洞。
 
-* **形态学梯度（morph-grad）**：可以突出团块（blob）的边缘，保留物体的边缘轮廓。
+* **形态学梯度（morph-grad）** ：可以突出团块（blob）的边缘，保留物体的边缘轮廓。
 
-* **顶帽（top-hat）**：将突出比原轮廓亮的部分。
+* **顶帽（top-hat）** ：将突出比原轮廓亮的部分。
 
-* **黑帽（black-hat）**：将突出比原轮廓暗的部分。
+* **黑帽（black-hat）** ：将突出比原轮廓暗的部分。
 
 {% include image.html url="/assets/images/200919-dip-digital-image-proce~28/20160903162218439.jpg" %}
 

@@ -129,7 +129,7 @@ Scikit-learn 主要用于各种数据建模概念，如回归、分类、聚类�
     * 3、聚类学习 (clustering)，不属于监督型
     * 4、降维学习 (dimensionality reduction) 不属于监督型
 
-**imgaug**：机器学习实验中的图像增强库，特别是卷积神经网络。支持以多种不同方式增强图像、关键点 / 地标、边界框、热图和分割图。
+**imgaug** ：机器学习实验中的图像增强库，特别是卷积神经网络。支持以多种不同方式增强图像、关键点 / 地标、边界框、热图和分割图。
 [Image augmentation for machine learning experiments.](https://imgaug.readthedocs.io/en/latest/)
 
 
@@ -365,7 +365,7 @@ bosting 就是把若干个分类效果并不好的分类器综合起来考虑，
 * XGBoost 是大规模并行 boosting tree 的工具，它是目前最快最好的开源 boosting tree 工具包，
     比常见的工具包快 10 倍以上。XGBoost 和 GBDT 两者都是 boosting 方法，
     除了工程实现、解决问题上的一些差异外，最大的不同就是目标函数的定义。
-*  [**LightGBM** {% include relref_csdn.html %}](https://blog.csdn.net/a321123b/article/details/119451920) 由微软提出，主要用于解决 GDBT 在海量数据中遇到的问题，
+*  [ **LightGBM** {% include relref_csdn.html %}](https://blog.csdn.net/a321123b/article/details/119451920) 由微软提出，主要用于解决 GDBT 在海量数据中遇到的问题，
     以便其可以更好更快地用于工业实践中，其相对 XGBoost 具有训练速度快、内存占用低的特点。
     LightGBM 与 XGBoost 相比，主要有以下几个改进：
     * 基于梯度的单边采样算法（Gradient-based One-Side Sampling, GOSS）；

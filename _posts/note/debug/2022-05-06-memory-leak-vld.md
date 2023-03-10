@@ -94,7 +94,7 @@ monitoring tool for Windows, Linux, and Mac.
     IToyEFileObj 被 IToyEGenericScanStatus 持有，追溯到 IToyEGenericScanStatus 存在引用计数不平衡的问题。
 12. 异常代码如下
     * Unpack 传入了 NULL 指针变量
-    * 变指针为空时，它直接使用了临时堆栈中的**不可见栈变量地址**来接收指针，并且是个祼指针，导致了引用计数不平衡，泄露了内存。
+    * 变指针为空时，它直接使用了临时堆栈中的 **不可见栈变量地址** 来接收指针，并且是个祼指针，导致了引用计数不平衡，泄露了内存。
 13. 改法如下
 
 {% include image.html url="/assets/images/220506-memory-leak-vld/2.png" relocate="6" %}

@@ -22,7 +22,7 @@ codeprint:
 
 由 $AX=\lambda X$ → $(A-\lambda E)X=0$。
 
-此方程有非零解的充要条件是：$\|A-\lambda E\|=0$，即**特征多项式方程**：
+此方程有非零解的充要条件是：$\|A-\lambda E\|=0$，即 **特征多项式方程** ：
 
 $$
 \begin{vmatrix}

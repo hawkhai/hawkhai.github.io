@@ -281,7 +281,7 @@ x[2,0] x[2,3] x[2,1] x[2,2]
 nrows, ncols = camera.shape
 row, col = np.ogrid[:nrows, :ncols]
 cnt_row, cnt_col = nrows / 2, ncols / 2
-outer_disk_mask = ((row - cnt_row)**2 + (col - cnt_col)**2 >
+outer_disk_mask = ((row - cnt_row) **2 + (col - cnt_col)** 2 >
                    (nrows / 2)**2)
 camera[outer_disk_mask] = 0
 imgshow(camera)

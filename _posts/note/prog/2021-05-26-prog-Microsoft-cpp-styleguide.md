@@ -72,7 +72,7 @@ std::make_tuple(printerInfo, false);
 ```cpp
 Flag fResizeMemory(void** ppv, size_t sizeNew) {
 
-    byte** ppb = (byte**) ppv;
+    byte **ppb = (byte** ) ppv;
 
     ASSERT(ppb != NULL && sizeNew != 0);
 #ifdef DEBUG

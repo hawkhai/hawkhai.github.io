@@ -130,7 +130,7 @@ E:\android-studio-ide-181.5014246-windows\android-studio\jre\bin\jarsigner.exe -
 ## WINDOWS 的 Android Studio 无法启动 ARM 的模拟器
 
 * mumu 夜神也是 x86 模拟器，只是有 intel 搞得一个 arm 兼容层 **houdini**
-* 现在 windows 下跑 arm apk 最好的方案就是微软搞的那个 **wsa**，win11 可以直接商店安装，win10 其实也能用，但需要一些特殊步骤安装
+* 现在 windows 下跑 arm apk 最好的方案就是微软搞的那个 **wsa** ，win11 可以直接商店安装，win10 其实也能用，但需要一些特殊步骤安装
 
 
 ## Android Studio
@@ -296,7 +296,7 @@ APP_CFLAGS += -Wno-error=format-security
 
 [Android Studio: “Error initializing ADB: Android Debug Bridge not found” 且找不到 Project Structure {% include relref_csdn.html %}](https://blog.csdn.net/dingxianding/article/details/106017010)
 
-**删除了本地的 .idea 文件夹**，然后重启 Android Studio。
+**删除了本地的 .idea 文件夹** ，然后重启 Android Studio。
 
 发生这种情况，估计是创建项目时，gitignore 中没有忽略 .idea 文件夹，导致 git 拉取项目后用的是别人项目的 .idea 文件夹。
 

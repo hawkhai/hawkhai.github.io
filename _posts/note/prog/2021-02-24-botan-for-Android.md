@@ -112,7 +112,7 @@ python configure.py --os=android --cc=clang --cpu=x86_64 \
 
 ## 整合
 
-五份代码只有 botan_all.h 的部分头文件定义不一样，**拣出来** 整合。
+五份代码只有 botan_all.h 的部分头文件定义不一样， **拣出来** 整合。
 
 ```cpp
 #ifdef _MSC_VER

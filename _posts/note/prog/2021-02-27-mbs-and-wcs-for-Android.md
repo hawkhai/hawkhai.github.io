@@ -625,7 +625,7 @@ Locale 是软件在运行时的语言环境，它包括语言 (Language)，地�
 ```cpp
 #include <iconv.h>
 iconv_t iconv_open(const char *tocode, const char *fromcode);
-size_t iconv(iconv_t cd, char **inbuf, size_t *inbytesleft, char **outbuf, size_t *outbytesleft);
+size_t iconv(iconv_t cd, char **inbuf, size_t *inbytesleft, char** outbuf, size_t *outbytesleft);
 int iconv_close(iconv_t cd);
 ```
 

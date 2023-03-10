@@ -112,7 +112,7 @@ d. 删除注册表中的调试设置：`gflags -p /disable ***.exe`
 GFlags、AppVerifier、Pageheap.exe 是三种外壳工具，都是用来方便用户配置 Page heap 选项的。Page Heap 选项位于注册表目录：
 
 ```shell
-HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/Image File Execution Options/**你的可执行程序名**/
+HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/Image File Execution Options/ **你的可执行程序名** /
 ```
 
 当 Windows 开始启动一个进程时，Window 通过检查这个注册表目录的设置，对该进程应用相应的 PageHeap 选项。

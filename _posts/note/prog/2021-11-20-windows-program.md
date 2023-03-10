@@ -159,17 +159,17 @@ Semaphore 信号量       | 是 | 是 | N/A | 可用资源计数的功能
 1. 临界区：通过对多线程的串行化来访问公共资源或一段代码，速度快，适合控制数据访问。
     * 临界区不是 OS 核心对象，如果进入理解去的线程“挂”了，将无法释放临界资源，这个缺点在互斥量中得到了弥补，因为使用互斥量可以设置超时值。
     * 如果在 Critical Sections 中间突然程序 crash 或是 exit 而没有调用 LeaveCriticalSection，则结果是该线程所对应的内核不能被释放，该线程成为死线程。
-2. 互斥量：**一次只能由一个线程拥有，使线程能够协调对共享资源的互斥访问。**为协调共同对一个共享资源的单独访问而设计的。
+2. 互斥量： **一次只能由一个线程拥有，使线程能够协调对共享资源的互斥访问。** 为协调共同对一个共享资源的单独访问而设计的。
     * Mutex Can be owned by only one thread at a time, enabling threads to coordinate mutually exclusive access to a shared resource.
     * 互斥对象包含一个使用数量，一个线程 ID 和一个递归计数器。
-3. 信号量：**维护介于零和一些最大值之间的计数，限制同时访问共享资源的线程数。**为控制一个具有有限数量用户资源而设计。信号允许多个线程同时使用共享资源。
+3. 信号量： **维护介于零和一些最大值之间的计数，限制同时访问共享资源的线程数。** 为控制一个具有有限数量用户资源而设计。信号允许多个线程同时使用共享资源。
     * Semaphore Maintains a count between zero and some maximum value, limiting the number of threads that are simultaneously accessing a shared resource.
     * CreateSemaphore()
     * OpenSemaphore()
     * ReleaseSemaphore()
     * WaitForSingleObject()
     * WaitForMultipleObjects()
-4. 事件：**通知一个或多个正在等待的线程已发生事件。**用来通知线程有一些事件已发生，从而启动后继任务的开始。
+4. 事件： **通知一个或多个正在等待的线程已发生事件。** 用来通知线程有一些事件已发生，从而启动后继任务的开始。
     * Event Notifies one or more waiting threads that an event has occurred.
     * Microsoft 没有为人工重置的事件定义成功等待的副作用，所以需要调用 ResetEvent()。
 5. Waitable Timer
@@ -667,11 +667,11 @@ ANSI 编码没有明确定义，但通常被用来指代 Windows 代码页（Win
 指 Windows-936（在不同的 windows 系统上，可能指代不同的代码页）。事实上，
 “ANSI 编码”这个名字是个错误用法，应为 ANSI 从来没有发表过这样的标准。
 
-**Windows-1252**：
+**Windows-1252** ：
 别名 CP-1252，用一个字节，总共编码 256 个字符，在英文和一些西方的
 Windows 系统上作为默认编码。
 
-**Windows-936**：
+**Windows-936** ：
 别名 CP-936，是 Windows 系统为简体中文设计的编码，最初只覆盖 GB2312 中
 的字符，但是随着 Window95 的发布，被扩展到覆盖大部分的 GBK。
 

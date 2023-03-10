@@ -20,7 +20,7 @@ archived: true
 2. 字符串匹配算法（包含多模式），相似度匹配算法；
 3. 编译原理；
     * TLSH，SSDEEP 算法。
-    * LEX、YACC、**LLVM**??。[131] [TinyCompiler {% include relref_github.html %}](https://github.com/stardust95/TinyCompiler)
+    * LEX、YACC、 **LLVM** ??。[131] [TinyCompiler {% include relref_github.html %}](https://github.com/stardust95/TinyCompiler)
     * Windows 核心编程 文件操作 和映射。
 4. 参考链接：
     * [508] <https://github.com/trendmicro/tlsh>

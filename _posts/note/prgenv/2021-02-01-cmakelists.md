@@ -96,11 +96,11 @@ MinSizeRel	    | /MD /O1 /Ob1 /DNDEBUG	        | non-debug	        | exclude	   
 
 ### 区分不同平台
 
-* **ANDROID**：安卓的编译环境；
-* **APPLE**：是否是苹果系列的编译环境；
-* **IOS**：是否是苹果手机环境；
-* **UNIX**：是否是 UNIX 或者 UNIX-like 的环境；
-* **WIN32、MSVC**：是否是 Windows。
+* **ANDROID** ：安卓的编译环境；
+* **APPLE** ：是否是苹果系列的编译环境；
+* **IOS** ：是否是苹果手机环境；
+* **UNIX** ：是否是 UNIX 或者 UNIX-like 的环境；
+* **WIN32、MSVC** ：是否是 Windows。
 
 Android.mk & Application.mk
 
@@ -261,7 +261,7 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
 ### ~~SUBDIRS~~
 
-* **deprecated**，不再推荐使用
+* **deprecated** ，不再推荐使用
 * (hello sample) 相当于分别写 ADD\_SUBDIRECTORY(hello), ADD\_SUBDIRECTORY(sample)
 
 
@@ -367,13 +367,13 @@ ELSE (expression)
 ENDIF (expression) # 一定要有 ENDIF 与 IF 对应
 ```
 
-* **IF (expression)**，expression 不为：空, 0, N, NO, OFF, FALSE, NOTFOUND 或 &lt;var>\_NOTFOUND，为真
-* **IF (not exp)**，与上面相反
+* **IF (expression)** ，expression 不为：空, 0, N, NO, OFF, FALSE, NOTFOUND 或 &lt;var>\_NOTFOUND，为真
+* **IF (not exp)** ，与上面相反
 * **IF (var1 AND var2)**
 * **IF (var1 OR var2)**
 * **IF (COMMAND cmd)** 如果 cmd 确实是命令并可调用，为真
 * **IF (EXISTS dir) IF (EXISTS file)** 如果目录或文件存在，为真
-* **IF (file1 IS\_NEWER\_THAN file2)**，当 file1 比 file2 新，或 file1/file2 中有一个不存在时为真，文件名需使用全路径
+* **IF (file1 IS\_NEWER\_THAN file2)** ，当 file1 比 file2 新，或 file1/file2 中有一个不存在时为真，文件名需使用全路径
 * **IF (IS\_DIRECTORY dir)** 当 dir 是目录时，为真
 * **IF (DEFINED var)** 如果变量被定义，为真
 * **IF (var MATCHES regex)** 此处 var 可以用 var 名，也可以用 ${var}
@@ -511,7 +511,7 @@ ENDFOREACH(loop_var)
 ```
 
 从 start 开始到 stop 结束，以 step 为步进，
-**注意：**直到遇到 ENDFOREACH 指令，整个语句块才会得到真正的执行。
+**注意：** 直到遇到 ENDFOREACH 指令，整个语句块才会得到真正的执行。
 
 ```cmake
 FOREACH(A RANGE 5 15 3)
@@ -685,7 +685,7 @@ SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
 * 参考 SET 和 AUX\_SOURCE\_DIRECTORY 用法
 
-**建议**：*在 Project 根目录先建立 build，然后在 build 文件夹内运行
+**建议** ：*在 Project 根目录先建立 build，然后在 build 文件夹内运行
 cmake..，这样就不会污染源代码，如果不想要这些自动生成的文件了，只要简单的删除 build 文件夹就可以。*
 
 

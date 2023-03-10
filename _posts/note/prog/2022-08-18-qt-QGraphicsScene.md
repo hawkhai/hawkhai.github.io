@@ -15,7 +15,7 @@ glslcanvas:
 codeprint:
 ---
 
-**Note**:
+**Note** :
 
 | Type | Specifier |
 | ---- | ----- |
