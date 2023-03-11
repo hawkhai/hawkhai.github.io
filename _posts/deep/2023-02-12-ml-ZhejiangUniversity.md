@@ -630,6 +630,7 @@ K 均值算法
 
 ### P53 [6.5.1] -- 高斯混合模型 13:01
 
+和分水岭算法有点像。
 **高斯混合模型（GMM）**
 可以看做是 k-means 模型的一个优化。
 {% include image.html url="/assets/images/230212-ml-zhejianguniversity/f953a82a2ee04dae905f1940d262e48f.png" %}
@@ -640,6 +641,12 @@ K 均值算法
 
 [高斯混合模型（GMM） {% include relref_zhihu.html %}](https://zhuanlan.zhihu.com/p/81255623)
 {% include image.html url="/assets/images/230212-ml-zhejianguniversity/v2-b57d2d2cec543daec48fec098e71fd70_1440w.jfif" %}
+
+应用：视频前景背景检测，三个高斯。
+
+说话人识别。
+1. 去除静音。能量（Energy）过零率（Zero Crossing Rate）
+2. 提取特征。MEL 倒谱系数（MFCC）。
 
 
 ### P54 往年现场版 - 教科书介绍 06:31
