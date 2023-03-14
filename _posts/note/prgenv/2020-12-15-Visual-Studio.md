@@ -229,11 +229,21 @@ int wmain(int argc, wchar_t* argv[]);
 
 ## sxstrace.exe 工具
 
-应用程序无法启动，因为应用程序的并行配置不正确。有关详细信息，请参阅应用程序事件日志，或使用命令行 sxstrace.exe 工具。
+应用程序无法启动，因为应用程序的并行配置不正确。有关详细信息，请参阅应用程序事件日志，或使用命令行 sxstrace.exe 工具。日志跟踪。
 
 [from](https://jingyan.baidu.com/article/3c48dd3485c80be10be358e3.html)
 * SxsTrace Trace -logfile:SxsTrace.etl
 * SxsTrace Parse -logfile:SxsTrace.etl -outfile:SxsTrace.txt
+
+```
+E:\kSource>SxsTrace Trace -logfile:SxsTrace.etl
+已启动跟踪。跟踪将保存到文件 SxsTrace.etl。
+按 Enter 停止跟踪 ...
+
+E:\kSource>SxsTrace Parse -logfile:SxsTrace.etl -outfile:SxsTrace.txt
+正在分析日志文件 SxsTrace.etl...
+分析完毕 ! 将输出保存到文件 SxsTrace.txt。
+```
 
 
 ## 无法找到入口
