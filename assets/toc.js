@@ -132,6 +132,9 @@ if (typeof $.fn.tocInited === 'undefined') {
 if (typeof $.fn.tocMaxWidth === 'undefined') {
     $.fn.tocMaxWidth = 0;
 }
+if (typeof $.fn.scrollIntoViewTime === 'undefined') {
+    $.fn.scrollIntoViewTime = 0;
+}
 
 function activeCurrentScroll() {
     var tocdiv = $("#tocdiv");
@@ -163,6 +166,7 @@ function activeCurrentScroll() {
             // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
             // same behavior as Element.scrollIntoViewIfNeeded()
             // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
+            $.fn.scrollIntoViewTime = $.now();
             scrollIntoView(node, {
                 scrollMode: 'if-needed',
                 block: 'nearest',
@@ -185,14 +189,17 @@ function initToc(tocdiv) {
 
         // https://codepen.io/eksch/pen/xwdOeK
         var acstime = $.now();
-        $(window).scroll(function () {
+        var acsscroll = null;
+        $(window).scroll(function() {
             checkToc();
             // https://zhuanlan.zhihu.com/p/342205449
             var curtime = $.now();
-            if (curtime >= acstime + 1000) {
-                setTimeout("activeCurrentScroll()", 100);
-                acstime = curtime;
+            if (curtime < $.fn.scrollIntoViewTime + 300) {
+                return;
             }
+            if (acsscroll) clearTimeout(acsscroll);
+            acsscroll = setTimeout(activeCurrentScroll, 300);
+            acstime = curtime;
         }).scroll();
     }
 }
@@ -269,7 +276,7 @@ function checkToc() {
         if ($.fn.tocMaxWidth > 0 && xwidth == $.fn.tocMaxWidth) {
             tocdiv.css("max-width", "15em");
             tocdiv.css("min-width", "15em");
-            setTimeout("checkToc()", 100);
+            setTimeout(checkToc, 100);
             return;
         } else {
             tocdiv.fadeOut();
@@ -283,7 +290,7 @@ function checkToc() {
             if (tocRight + widthk < postLeft - 3) {
                 tocdiv.css("max-width", "20em");
                 tocdiv.css("min-width", "20em");
-                setTimeout("checkToc()", 100);
+                setTimeout(checkToc, 100);
                 return;
             }
         }

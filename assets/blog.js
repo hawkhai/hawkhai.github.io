@@ -374,7 +374,7 @@ $(document).ready(function () {
     changeImagePositionk();
     checkGlslCanvas();
     setupBackToTop();
-    setTimeout("installReadingBar()", 1000);
+    setTimeout(installReadingBar, 1000);
     calcShortUrlx();
     checkFlowChart();
     changeSnapPositionk();
