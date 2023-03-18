@@ -201,6 +201,11 @@ function initToc(tocdiv) {
             acsscroll = setTimeout(activeCurrentScroll, 300);
             acstime = curtime;
         }).scroll();
+
+        var toch2 = $(".post h2");
+        if (!toch2.length) {
+            $(".post").addClass("toc-no-h2");
+        }
     }
 }
 
