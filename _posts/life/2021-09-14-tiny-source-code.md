@@ -2231,6 +2231,23 @@ inline T fromString(char *s)
 ```
 
 ```cpp
+#include <codecvt>
+
+// C++17: codecvt_utf8 is deprecated
+std::wstring convert_to_wstring(const std::string &str)
+{
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> conv;
+    return conv.from_bytes(str);
+}
+
+std::string convert_from_wstring(const std::wstring &wstr)
+{
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> conv;
+    return conv.to_bytes(wstr);
+}
+```
+
+```cpp
 #include "stdafx.h"
 #include <assert.h>
 #include <string>
