@@ -651,13 +651,26 @@ K 均值算法
 
 ### P54 往年现场版 - 教科书介绍 06:31
 
-{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20230307004246.png" %}
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20230307004246.png"
+caption="Reference Books" %}
+
+1. 机器学习，周志华，清华大学出版社，2016
+2. 统计学习方法，李航，清华大学出版社，2012
+3. Machine Learning in Action，P. Harrington, 人民邮电出版社
+4. Pattern Recognition and Machine Learning（模式识别与机器学习），Christopher M. Bishop，2006
+5. Machine Learning: A Probabilistic Perspective, K.P Murphy
+6. MachineLearning（机器学习） Tom MMitchell, 机械工业出版社，2003 年。
+7. Deep Learning, I. Goodfellow, Y. Bengio and A. Courville, 2016.
+8. Stanfrod Web course by Andrew Ng <https://www.coursera.org/course/ml>
+9. Stanfrod Web course by Fei-fei Li <https://cs231n.Stanford.edu>
 
 
 ### P55 成绩安排 17:44
 
 
 ### P56 概念介绍 10:20
+
+02:36
 
 
 ### P57 这门课程的内容概述 17:36
@@ -870,4 +883,6 @@ K 均值算法
 - [https://haoji007.blog.csdn.net/article/details/76782606]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/haoji007.blog.csdn.net/80ea1cd2.html" %})
 - [https://blog.csdn.net/qq_45654306/article/details/113806590]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/blog.csdn.net/7aa0d89d.html" %})
 - [https://zhuanlan.zhihu.com/p/81255623]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/zhuanlan.zhihu.com/24d3a549.html" %})
+- [https://www.coursera.org/course/ml]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.coursera.org/52fe1156.html" %})
+- [https://cs231n.Stanford.edu]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cs231n.Stanford.edu/8afa0c35.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.atoolbox.net/ecf02067.php" %})
