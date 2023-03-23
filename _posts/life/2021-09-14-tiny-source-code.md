@@ -1666,19 +1666,19 @@ sprintf(buffer, "size_t | %d \n", sizeof(size_t));
 
 * **主要就是指针和 int 的问题。**
 
-类型 | Win32 | Win64 | Android32 | Android64
---- | --- | --- | --- | ---
-char | 1 | 1 | 1 | 1
-short | 2 | 2 | 2 | 2
-int | 4 | 4 | 4 | 4
-long | 4 | 4 | 4 | 8（巨坑）
-long long | 8 | 8 | 8 | 8
-int64 | 8 | 8 | 8 | 8
-float | 4 | 4 | 4 | 4
-double | 8 | 8 | 8 | 8
-long double | 8 | 8 | 8 | 16（巨坑）
-void\* | 4 | 8 | 4 | 8
-size_t | 4 | 8 | 4 | 8
+类型 | Win32 | Win64 | Android32 | Android64 | C#
+--- | --- | --- | --- | --- | ---
+char | 1 | 1 | 1 | 1 | 2 (wchar)
+short | 2 | 2 | 2 | 2 | 2
+int | 4 | 4 | 4 | 4 | 4
+long | 4 | 4 | 4 | 8（巨坑） | 8
+long long | 8 | 8 | 8 | 8 |
+int64 | 8 | 8 | 8 | 8 |
+float | 4 | 4 | 4 | 4 | 4
+double | 8 | 8 | 8 | 8 | 8
+long double | 8 | 8 | 8 | 16（巨坑） |
+void\* | 4 | 8 | 4 | 8 |
+size_t | 4 | 8 | 4 | 8 |
 
 [note {% include relref_cnblogs.html %}](https://www.cnblogs.com/flowerslip/p/5934718.html)
 补码最大好处就是不管是有符号数还是无符号数都可以用同一套加减法。
