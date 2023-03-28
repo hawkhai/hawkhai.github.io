@@ -115,7 +115,7 @@ cluster: "机器学习课程"
 * code\ex8-anomaly detection and recommendation\data\ex8data2.mat
 * code\ex8-anomaly detection and recommendation\data\movie_ids.txt
 * docx\README.md
-* docx\ 机器学习的数学基础 .docx
+* docx\ 机器学习的数学基础.docx
 * markdown\1.CS229-LinearAlgebra.md
 * markdown\2.CS229-Prob.md
 * markdown\math.md

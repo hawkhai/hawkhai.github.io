@@ -616,7 +616,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
     isMdFile         = ftype in ("md",)
     isSrcFile        = ftype in ("md", "php", "html", "htm", "js", "css", "scss", "svg", "py", "vsh", "fsh",)
     keepStripFile    = ftype in ("svg",) or fname in ("gitsrc.html",) or re.findall("^relref[a-z_]*\\.html$", fname)
-    keepFileTypeList = ("rar", "zip", "pdf", "mp4",) # 中英文间隔，容易造成失误的列表。
+    keepFileTypeList = ("rar", "zip", "pdf", "doc", "mp4",) # 中英文间隔，容易造成失误的列表。
 
     if fpath.find(os.sep+"winfinder"+os.sep) != -1:
         isSrcFile = isSrcFile or ftype in ("h", "cpp", "cxx", "rc", "c",)

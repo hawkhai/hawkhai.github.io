@@ -16,6 +16,8 @@ codeprint:
 cluster: "编程指南"
 ---
 
+[Google C++ Style Guide {% include relref_github.html %}](https://google.github.io/styleguide/cppguide.html)
+
 
 ## 变量名
 
@@ -726,6 +728,7 @@ if (execve("/usr/bin/any_exe", args, envs) == -1) // 【修改】使用 execve �
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-25-prog-secguide.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://google.github.io/styleguide/cppguide.html]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/google.github.io/4066d13e.html" %})
 - [https://www.jianshu.com/p/a200a2dab960]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/www.jianshu.com/ff54d6d7.html" %})
 - [https://www.cnblogs.com/zjutzz/p/10802138.html]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/www.cnblogs.com/66780ceb.html" %})
 - [https://github.com/rxi/log.c]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/e00aa14a.html" %})
