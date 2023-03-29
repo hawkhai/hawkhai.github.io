@@ -194,8 +194,10 @@ function activeLocationHash() {
     if (targeti != -1) {
         var divlist = $('#tocdiv li');
         const node = divlist[targeti];
-        if (node) {
-            window.location.hash = hdiv.id;
+        if (node && targeti >= 1) {
+            // window.location.hash = hdiv.id;
+        } else if (node) {
+            // window.location.hash = "";
         }
     }
 }
@@ -215,12 +217,12 @@ function initToc(tocdiv) {
         var acsscroll = null;
         $(window).scroll(function() {
             checkToc();
-            activeLocationHash();
             // https://zhuanlan.zhihu.com/p/342205449
             var curtime = $.now();
             if (curtime < $.fn.scrollIntoViewTime + 300) {
                 return;
             }
+            activeLocationHash();
             if (acsscroll) clearTimeout(acsscroll);
             acsscroll = setTimeout(activeCurrentScroll, 300);
             acstime = curtime;
