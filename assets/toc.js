@@ -163,7 +163,7 @@ function activeCurrentScroll() {
         // https://github.com/stipsan/scroll-into-view-if-needed
         const node = divlist[targeti];
         if (node) { // && !$(node).is(":visible")
-            window.location.hash = hdiv.id;
+            // window.location.hash = hdiv.id;
             // similar behavior as Element.scrollIntoView({block: "nearest", inline: "nearest"})
             // only that it is a no-op if `node` is already visible
             // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
@@ -176,6 +176,26 @@ function activeCurrentScroll() {
                 inline: 'nearest',
                 behavior: 'smooth',
             });
+        }
+    }
+}
+
+function activeLocationHash() {
+    var scrollDistance = $(window).scrollTop();
+    var targeti = -1;
+    var hlist = $('#postdiv h2,h3,h4,h5,h6');
+    var hdiv = null;
+    hlist.each(function (i) {
+        if (i == 0 || $(this).position().top <= scrollDistance) {
+            targeti = i;
+            hdiv = $(this)[0];
+        }
+    });
+    if (targeti != -1) {
+        var divlist = $('#tocdiv li');
+        const node = divlist[targeti];
+        if (node) {
+            window.location.hash = hdiv.id;
         }
     }
 }
@@ -195,6 +215,7 @@ function initToc(tocdiv) {
         var acsscroll = null;
         $(window).scroll(function() {
             checkToc();
+            activeLocationHash();
             // https://zhuanlan.zhihu.com/p/342205449
             var curtime = $.now();
             if (curtime < $.fn.scrollIntoViewTime + 300) {
