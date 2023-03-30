@@ -206,8 +206,8 @@ title : %(title)s
 
     fmd5 = getFileMd5(flocal) # 大文件，错误已经铸成，改不了了。
     invdirlocal = isInvisibleDir(flocal)
-    mdrstripBigfileCfg = os.path.join("invisible" if invdirlocal else ".", "config/mdrstrip_bigfiles.txt")
-    if not fmd5 in readfileIglist(mdrstripBigfileCfg):
+    mdrstripBigfile = os.path.join("invisible" if invdirlocal else ".", "config/mdrstrip_bigfiles.txt")
+    if not fmd5 in readfileIglist(mdrstripBigfile):
         if len(fdata) >= 1024*1000*1:
             assert False, (len(fdata) / 1024.0 / 1000.0, url)
 
@@ -216,7 +216,7 @@ title : %(title)s
 
     # protocol :// hostname[:port] / path / [:parameters][?query]#fragment
     remotename = url.split("?")[0].split("#")[0].split("/")[-1]
-    ignorenamefile = "config/mdrstrip_url_ignore_name.txt"
+    ignorenamefile = "config/mdrstrip_url_ignore_nametype.txt"
     if remotename in readfileIglist(ignorenamefile):
         return remote
 
@@ -245,7 +245,9 @@ def tidyupImgCollect(rootdir):
 # 本地图片缓存路径。
 def tidyupImg(imglocal, fpath, line, imgthumb=True):
 
-    if imglocal in readfileIglist("config/mdrstrip_fake_image_files.txt"):
+    fakeimgfiles = readfileIglist("config/mdrstrip_fake_image_files.txt")
+
+    if imglocal in fakeimgfiles:
         return line
 
     imgdir, imgfname = os.path.split(imglocal)
@@ -287,7 +289,7 @@ def tidyupImg(imglocal, fpath, line, imgthumb=True):
         if count >= 3:
             assert False
         os.system(PAUSE_CMD)
-        if imglocal in readfileIglist("config/mdrstrip_fake_image_files.txt"):
+        if imglocal in fakeimgfiles:
             return line
 
     iscopy = copyfile(imglocal, tpath) # 是否图片挪窝了。
@@ -419,13 +421,16 @@ def collectHost(fpath, line, imgthumb):
     li = re.findall(regex, line, re.IGNORECASE)
     if not li: return reflist, line
 
+    iglist = readfileIglist("config/mdrstrip_url_quote.txt")
+    iglist.extend(readfileIglist("invisible/config/mdrstrip_url_quote.txt"))
+
     for tx in li:
         url = tx[0]
         host = tx[2]
         checkz = line.split(url)
         for iline in checkz[1:]: # 检查网址的后继标记。
             checkli = ["", ")", "]", ">", " ", "*"]
-            for urlz in readfileIglist("config/mdrstrip_url_quote.txt"):
+            for urlz in iglist:
                 if url.startswith(urlz) and urlz:
                     checkli.append(";")
                     checkli.append("\"")
@@ -1031,7 +1036,7 @@ def mainfilew(fpath, fname, ftype):
         savelog(__file__, fpath)
     return errcnt
 
-G_CHECKFSIZE_CFG = {}
+mdrstripBigfileHub = {}
 G_CHECKTINUE_SET = {}
 
 def oncheckdirectory(rootdir, basename=None):
@@ -1062,26 +1067,26 @@ def checkfilesize(fpath, fname, ftype):
         return
 
     invdir = isInvisibleDir(fpath)
-    mdrstripBigfileCfg = os.path.join("invisible" if invdir else ".", "config/mdrstrip_bigfiles.txt")
+    mdrstripBigfile = os.path.join("invisible" if invdir else ".", "config/mdrstrip_bigfiles.txt")
     fmd5 = getFileMd5(fpath)
-    if not mdrstripBigfileCfg in G_CHECKFSIZE_CFG.keys():
-        G_CHECKFSIZE_CFG[mdrstripBigfileCfg] = set()
-    if not G_CHECKFSIZE_CFG[mdrstripBigfileCfg]:
-        for ifmd5 in readfileIglist(mdrstripBigfileCfg):
-            G_CHECKFSIZE_CFG[mdrstripBigfileCfg].add(ifmd5)
+    if not mdrstripBigfile in mdrstripBigfileHub.keys():
+        mdrstripBigfileHub[mdrstripBigfile] = set()
+    if not mdrstripBigfileHub[mdrstripBigfile]:
+        for ifmd5 in readfileIglist(mdrstripBigfile):
+            mdrstripBigfileHub[mdrstripBigfile].add(ifmd5)
 
-    if not (fmd5 in G_CHECKFSIZE_CFG[mdrstripBigfileCfg]):
+    if not (fmd5 in mdrstripBigfileHub[mdrstripBigfile]):
         size = os.path.getsize(fpath) / 1024.0 / 1000.0 # 1000 KB
         if size >= 1.0:
             print(getFileMd5(fpath), "#", fpath, "#", "%.1f MB"%size)
-            G_CHECKFSIZE_CFG[mdrstripBigfileCfg].add(fmd5)
+            mdrstripBigfileHub[mdrstripBigfile].add(fmd5)
 
             if ftype in ("gif",) and IS_WINDOWS:
                 from pythonx import pygrab
                 pygrab.gifbuildwebp(fpath)
 
             if not IGNOREERR:
-                openTextFile(mdrstripBigfileCfg)
+                openTextFile(mdrstripBigfile)
                 assert False, "大文件最好不要入库..."
 
 def findPostMdFile(rootdir, fnamek):
