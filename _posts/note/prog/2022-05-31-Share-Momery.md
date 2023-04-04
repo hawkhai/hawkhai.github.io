@@ -103,7 +103,7 @@ namespace ShareMemoryDll
     public:
         virtual ShareMemoryData* alloc(int size) {
             auto retv = new ShareMemoryData[size + 1]; // 多弄一个。
-            retv[size] = '$';
+            retv[size] = 0;
             return retv;
         }
         virtual void free(ShareMemoryData* data) {
