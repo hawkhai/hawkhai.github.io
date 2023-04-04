@@ -8,7 +8,7 @@ tags: ["C/C++", "编程"]
 toc: true
 toclistyle:
 comments:
-visibility:
+visibility: hidden
 mathjax:
 mermaid:
 glslcanvas:
@@ -18,7 +18,7 @@ codeprint:
 有些模块经常用，很简单，但是反复写反复写，最终下决定维护一个通用的模块库。
 * **kinjector** 基于 minhook 和 EasyHook 实现的远程注入，少许代码可以实现钩子程序。
 * **sharememory** Windows 共享内存，跨进程内存读写，同步机制。
-* **x** Windows 远程调用，函数跨进程调用等。
+* **kpipe** Windows 远程调用，函数跨进程调用等。
 
 
 ## kinjector
@@ -129,6 +129,20 @@ void testwrite() {
     sharememory.write((ShareMemoryData*)&testData, sizeof(testData));
 }
 ```
+
+
+## kpipe
+
+这个区分服务端和客户端。
+
+m_svrMgr = new KPipeSvrMgr();
+m_pPipeSvr = m_svrMgr->CreatePipeSvr();
+m_svrMgr->ReleasePipeSvr(m_pPipeSvr);
+
+m_pPipeSvr->SetMsgProcessor(this);
+m_pPipeSvr->Start(GetChildSvrPipeName(GetCurrentProcessId()).GetString());
+
+E:\kpdf\pdfreader_master\image\pipe\fastimagePipe.h
 
 
 
