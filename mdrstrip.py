@@ -287,8 +287,9 @@ def tidyupImg(imglocal, fpath, line, imgthumb=True):
             return line
         count = count + 1
         if count >= 3:
-            assert False
+            assert False, "重试次数过多..."
         os.system(PAUSE_CMD)
+        fakeimgfiles = readfileIglist("config/mdrstrip_fake_image_files.txt")
         if imglocal in fakeimgfiles:
             return line
 
@@ -410,7 +411,7 @@ def collectHost(fpath, line, imgthumb):
 
     regex = r"""(
                     (https?)://
-                        ([a-z0-9\.-]+\.[a-z]{2,6})
+                        ([a-z0-9\.-]+\.[a-z]{2,8})
                         (:[0-9]{1,4})?
                     (/[a-z0-9\&%_\./~=+:@–-]*)?
                     (\?[a-z0-9\&%_\./~=+:\[\]-]*)?
