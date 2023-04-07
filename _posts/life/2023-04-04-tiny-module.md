@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "编程与调试 -- Tiny Module, Tiny My Life"
+title: "编程与调试 -- Tiny Module, Tiny My Life (Windows)"
 author:
 location: "珠海"
 categories: ["编程与调试"]
