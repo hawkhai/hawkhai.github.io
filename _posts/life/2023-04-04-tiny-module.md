@@ -8,14 +8,15 @@ tags: ["C/C++", "编程"]
 toc: true
 toclistyle:
 comments:
-visibility: hidden
+visibility:
 mathjax:
 mermaid:
 glslcanvas:
 codeprint:
+cluster: "Tiny Code & Module"
 ---
 
-有些模块经常用，很简单，但是反复写反复写，最终下决定维护一个通用的模块库。
+有些模块经常用，很简单，但是反反复复写，最终下决定维护一个通用的模块库。
 * **kinjector** 基于 minhook 和 EasyHook 实现的远程注入，少许代码可以实现钩子程序。
 * **sharememory** Windows 共享内存，跨进程内存读写，同步机制。
 * **kpipe** Windows 远程调用，函数跨进程调用等。
@@ -60,6 +61,9 @@ codeprint:
 
 * toytarget.exe & toytarget64.exe 测试目标。
 * mycount.exe & mycount64.exe 模拟调用。
+
+
+### klauncher
 
 
 ## sharememory
@@ -131,7 +135,7 @@ void testwrite() {
 ```
 
 
-## kpipe
+## kpipe & remotecall
 
 这个区分服务端和客户端。
 
@@ -143,6 +147,13 @@ m_pPipeSvr->SetMsgProcessor(this);
 m_pPipeSvr->Start(GetChildSvrPipeName(GetCurrentProcessId()).GetString());
 
 E:\kpdf\pdfreader_master\image\pipe\fastimagePipe.h
+
+验证 收工 remotecall
+实现 klauncher。
+全部采用 md 源码模式。
+
+崩溃收集。
+升级实现。
 
 
 
