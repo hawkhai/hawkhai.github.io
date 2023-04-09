@@ -20,6 +20,7 @@ cluster: "Tiny Code & Module"
 * **kinjector** 基于 minhook 和 EasyHook 实现的远程注入，少许代码可以实现钩子程序。
 * **sharememory** Windows 共享内存，跨进程内存读写，同步机制。
 * **kpipe** Windows 远程调用，函数跨进程调用等。
+* **remotecatll** Windows 远程调用，函数跨进程调用等。
 
 
 ## kinjector
@@ -134,6 +135,8 @@ void testwrite() {
 }
 ```
 
+如果要实现动态长度，用两个 sharememory 实现即可。
+
 
 ## kpipe & remotecall
 
@@ -154,6 +157,74 @@ E:\kpdf\pdfreader_master\image\pipe\fastimagePipe.h
 
 崩溃收集。
 升级实现。
+
+
+## remotecatll
+
+kpipe 的进一步封装，包含握手过程，从而实现相互调用，简单到 **爆** 。
+
+客户端：
+```cpp
+#include <iostream>
+#include <assert.h>
+#include "../remotelib/myremote.h"
+#include "../../vld/include/vld.h"
+
+class ClientCallback : public IRmtCallPipeCallback {
+    // 线程回调。
+    virtual bool OnProcess(int func, const nlohmann::json& argv, nlohmann::json& retv) override {
+        printf("ClientCallback");
+        return true;
+    }
+};
+
+int main()
+{
+    ClientCallback callback;
+    MyPipeRemoteServ myServ(callback);
+
+    // 启动子进程。
+    std::string gexe = GenerateExeName("remotetarget");
+    myServ.StartClient(true, gexe.c_str());
+
+    system("pause");
+    nlohmann::json data, result;
+    // 调用子进程函数。
+    CHECK_RETV_ASSERT(myServ.CallClientFunction(1, data, result));
+    return 0;
+}
+```
+
+服务端：
+```cpp
+#include <iostream>
+#include <assert.h>
+#include <string>
+#include "../remotelib/myremote.h"
+#include "../../vld/include/vld.h"
+
+class ServCallback : public IRmtCallPipeCallback {
+    virtual bool OnProcess(int func, const nlohmann::json& argv, nlohmann::json& retv) override {
+        printf("ServCallback");
+        return true;
+    }
+};
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+    setlocale(LC_ALL, "chs");
+
+    ServCallback callback;
+    MyPipeRemoteClient myClient(argc, argv, callback);
+
+    nlohmann::json data, result;
+    // 调用父进程函数。
+    CHECK_RETV_ASSERT(myClient.CallServFunction(1, data, result));
+
+    system("pause");
+    return 0;
+}
+```
 
 
 
