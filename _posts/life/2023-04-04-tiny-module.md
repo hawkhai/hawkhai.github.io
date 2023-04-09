@@ -20,7 +20,7 @@ cluster: "Tiny Code & Module"
 * **kinjector** 基于 minhook 和 EasyHook 实现的远程注入，少许代码可以实现钩子程序。
 * **sharememory** Windows 共享内存，跨进程内存读写，同步机制。
 * **kpipe** Windows 远程调用，函数跨进程调用等。
-* **remotecatll** Windows 远程调用，函数跨进程调用等。
+* **remotecall** Windows 远程调用，函数跨进程调用等。
 
 
 ## kinjector
@@ -159,7 +159,7 @@ E:\kpdf\pdfreader_master\image\pipe\fastimagePipe.h
 升级实现。
 
 
-## remotecatll
+## remotecall
 
 kpipe 的进一步封装，包含握手过程，从而实现相互调用，简单到 **爆** 。
 
