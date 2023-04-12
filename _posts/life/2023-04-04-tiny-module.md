@@ -227,6 +227,166 @@ int _tmain(int argc, _TCHAR* argv[])
 ```
 
 
+## kdll
+
+
+### kdll.h
+
+```cpp
+#pragma once
+#include <assert.h>
+#include <windows.h>
+#include <string>
+
+#ifdef KDLL_EXPORTS
+#define DLLEXPORT __declspec(dllexport)
+#else
+#define DLLEXPORT __declspec(dllimport)
+#endif
+
+#define KDLL_ERSION 1
+
+__interface IDllInterface {
+    virtual int Version() = 0;
+    virtual int Release() = 0;
+    virtual int GetDocumentPageCount() = 0;
+};
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+    DLLEXPORT IDllInterface* CreateEntry();
+#ifdef __cplusplus
+}
+#endif
+
+class KDllWrap : public IDllInterface {
+
+    static std::wstring getCurrentDir() {
+        wchar_t tpath[MAX_PATH] = { 0 };
+        DWORD dwRet = GetModuleFileNameW(NULL, tpath, MAX_PATH);
+        if (dwRet == 0) {
+            return L".\\";
+        }
+        std::wstring strexe = tpath;
+        int index = strexe.rfind(L'\\');
+        if (index <= 0) {
+            return L".\\";
+        }
+        return strexe.substr(0, index + 1);
+    }
+    static HINSTANCE loadLibrary(const wchar_t* libPath) {
+        std::wstring curdir = getCurrentDir();
+        if (curdir.empty()) {
+            return NULL;
+        }
+
+        std::wstring current = curdir;
+        current.append(libPath);
+
+        wchar_t lpBuffer[MAX_PATH];
+        GetCurrentDirectory(MAX_PATH, lpBuffer);
+        SetCurrentDirectory(curdir.c_str());
+        HINSTANCE hDLL = LoadLibrary(current.c_str());
+        SetCurrentDirectory(lpBuffer);
+
+        if (hDLL == NULL) {
+            int err = GetLastError();
+            assert(false);
+            return NULL;
+        }
+        return hDLL;
+    }
+
+public:
+    virtual int Version() override {
+        if (!m_interface) {
+            return -1;
+        }
+        return m_interface->Version();
+    }
+
+    virtual int Release() override {
+        if (!m_interface) {
+            return -1;
+        }
+        auto retv = m_interface->Release();
+        m_interface = nullptr;
+        return retv;
+    }
+
+    virtual int GetDocumentPageCount() override {
+        if (!m_interface) {
+            return -1;
+        }
+        return m_interface->GetDocumentPageCount();
+    }
+
+    KDllWrap() {
+        const wchar_t* libPath = L"kdll.dll";
+        m_hDLL = loadLibrary(libPath);
+        if (m_hDLL == nullptr) {
+            int err = GetLastError();
+            assert(false);
+            return;
+        }
+
+        typedef IDllInterface* (*CreateEntryFunc)();
+        CreateEntryFunc fptr = (CreateEntryFunc)GetProcAddress(m_hDLL, "CreateEntry");
+        if (fptr == nullptr) {
+            int err = GetLastError();
+            assert(false);
+            return;
+        }
+        m_interface = fptr();
+        if (m_interface->Version() < KDLL_ERSION) {
+            m_interface->Release();
+            m_interface = nullptr;
+            assert(false);
+        }
+    }
+    virtual ~KDllWrap() {
+        if (!m_interface) {
+            return;
+        }
+        m_interface->Release();
+        m_interface = nullptr;
+        // m_hDLL 不释放了。
+    }
+
+private:
+    IDllInterface* m_interface = nullptr;
+    HINSTANCE m_hDLL = nullptr;
+};
+```
+
+
+### kdll.cpp
+
+```cpp
+#include "pch.h"
+#include "kdll.h"
+
+class KDllInstance : public IDllInterface {
+public:
+    virtual int Version() override {
+        return KDLL_ERSION;
+    }
+    virtual int Release() override {
+        delete this;
+        return 0;
+    }
+    virtual int GetDocumentPageCount() override {
+        return 7;
+    }
+};
+
+IDllInterface* CreateEntry() {
+    return new KDllInstance();
+}
+```
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2023-04-04-tiny-module.md.js" %}'></script></p>
