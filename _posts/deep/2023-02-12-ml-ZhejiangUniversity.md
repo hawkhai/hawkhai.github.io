@@ -802,6 +802,8 @@ Hinton: 该像大脑系统一样工作。
 
 ### P81 深度学习 卷积神经网络 LeNet 1:18:45
 
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20230422230543.png" %}
+
 
 ### P82 深度学习 – 卷积神经网络（AlexNet） 39:22
 
