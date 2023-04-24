@@ -79,6 +79,10 @@ P69 这是形势和造化弄人，是一代人的命运无常。
 > 访，上访的就是市装饰公司的下岗职工，一位下岗职工骂他拿着工资，不为人民服务。他当时也比
 > 较激动，说：20 年前，我要去你们单位，你们都不要我，现在倒好，好处难道都要让你们占光？
 
+{% include image.html url="/assets/images/210522-book-notes/WechatIMG13.jpeg" %}
+{% include image.html url="/assets/images/210522-book-notes/WechatIMG14.jpeg" %}
+{% include image.html url="/assets/images/210522-book-notes/WechatIMG15.jpeg" %}
+
 
 
 <hr class='reviewline'/>
