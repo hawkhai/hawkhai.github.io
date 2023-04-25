@@ -21,7 +21,7 @@ cluster: "Tiny Code & Module"
 * **sharememory** Windows 共享内存，跨进程内存读写，同步机制。
 * **kpipe** Windows 远程调用，函数跨进程调用等。
 * **remotecall** Windows 远程调用，函数跨进程调用等。
-* **greenware** 绿色软件壳。
+* **kinstaller** 绿色软件壳。
 
 
 ## kinjector
@@ -388,12 +388,12 @@ IDllInterface* CreateEntry() {
 ```
 
 
-## greenware
+## kinstaller
 
 pyinstaller 打包绿色软件，每次解压启动慢，如果
 进程意外退出，还会残留。
 
-实现一个启动器：greenware.exe
+实现一个启动器：kinstaller.exe
 把散文件压进去，启动后自动解压运行。
 解决 **慢** 和 **残留** 的痛点。
 
