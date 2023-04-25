@@ -21,6 +21,7 @@ cluster: "Tiny Code & Module"
 * **sharememory** Windows 共享内存，跨进程内存读写，同步机制。
 * **kpipe** Windows 远程调用，函数跨进程调用等。
 * **remotecall** Windows 远程调用，函数跨进程调用等。
+* **greenware** 绿色软件壳。
 
 
 ## kinjector
@@ -383,6 +384,72 @@ public:
 
 IDllInterface* CreateEntry() {
     return new KDllInstance();
+}
+```
+
+
+## greenware
+
+pyinstaller 打包绿色软件，每次解压启动慢，如果
+进程意外退出，还会残留。
+
+实现一个启动器：greenware.exe
+把散文件压进去，启动后自动解压运行。
+解决 **慢** 和 **残留** 的痛点。
+
+协议：
+```json
+{
+    "files": {
+        "vcruntime140.dll": {
+            "fmtime": "2021-08-15 00:10:39",
+            "fsize": 89752,
+            "fzsize": 49318,
+            "keyname": "VCRUNTIME140_DLL",
+            "md5": "0e675d4a7a5b7ccd69013386793f68eb",
+            "md5z": "2c7b372ef359df97c913c3541d688b8a",
+            "petype": "x64",
+            "runfile": "pyenv\\vcxmake_win10x64\\{version}\\vcruntime140.dll",
+            "zipfile": "tempdir\\vcxmake\\vcruntime140_dll\\0e675d4a7a5b7ccd.zip"
+        },
+        "vcxmake.exe": {
+            "fmtime": "2021-08-15 00:06:35",
+            "fsize": 4185505,
+            "fzsize": 4037468,
+            "keyname": "VCXMAKE_EXE",
+            "md5": "0dcbac1ed863c113469ccca3796eb963",
+            "md5z": "fdd8d22c6c570a0060176dd89864b5ab",
+            "petype": "x64",
+            "runfile": "pyenv\\vcxmake_win10x64\\{version}\\vcxmake.exe",
+            "zipfile": "tempdir\\vcxmake\\vcxmake_exe\\0dcbac1ed863c113.zip"
+        },
+        "vcxmake.exe.manifest": {
+            "fmtime": "2022-01-13 09:30:41",
+            "fsize": 1032,
+            "fzsize": 672,
+            "keyname": "VCXMAKE_EXE_MANIFEST",
+            "md5": "c796b662fb2bbc734698609b6cb7f3f5",
+            "md5z": "8ae49632d1c27323c992ca36032967de",
+            "petype": "",
+            "runfile": "pyenv\\vcxmake_win10x64\\{version}\\vcxmake.exe.manifest",
+            "zipfile": "tempdir\\vcxmake\\vcxmake_exe_manifest\\c796b662fb2bbc73.zip"
+        },
+        "win32api.pyd": {
+            "fmtime": "2021-08-15 00:09:18",
+            "fsize": 132608,
+            "fzsize": 51325,
+            "keyname": "WIN32API_PYD",
+            "md5": "511367f74dd035502f2dc895b6a752e7",
+            "md5z": "26acb327f3fcd627bf06efef99025762",
+            "petype": "x64",
+            "runfile": "pyenv\\vcxmake_win10x64\\{version}\\win32api.pyd",
+            "zipfile": "tempdir\\vcxmake\\win32api_pyd\\511367f74dd03550.zip"
+        }
+    },
+    "genrestime": 1682256363,
+    "petype": "x64",
+    "version": "v2",
+    "zloader": "pyenv\\vcxmake_win10x64\\{version}\\vcxmake.exe"
 }
 ```
 
