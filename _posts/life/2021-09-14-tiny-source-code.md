@@ -16,6 +16,8 @@ codeprint:
 cluster: "Tiny Code & Module"
 ---
 
+setlocale(LC_ALL, "chs");
+
 
 ## 析构函数 (C++)
 
