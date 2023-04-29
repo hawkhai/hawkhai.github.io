@@ -16,7 +16,15 @@ codeprint:
 cluster: "Tiny Code & Module"
 ---
 
+```cpp
 setlocale(LC_ALL, "chs");
+#include <atlbase.h>
+#include <atlconv.h>
+#include <atlstr.h>
+USES_CONVERSION_EX;
+W2A_EX(L"SomeString", CP_UTF8);
+A2W_EX("SomeString", CP_UTF8);
+```
 
 
 ## 析构函数 (C++)
