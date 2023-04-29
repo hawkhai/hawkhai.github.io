@@ -854,6 +854,18 @@ ResNet，残差网络。为什么要这么做呢？这样好是实验做出来�
 
 ### P87 强化学习 Q - learning 1:18:08
 
+[求最佳策略的迭代算法](https://cloud.tencent.com/developer/article/1888046)
+求最佳策略的迭代算法
+定住 V 算 π，然后定住 π 算 V，不断循环，最后结果会收敛。
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/8ec61dbb8afb73209ca0e1234dec928e.png" %}
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/701735d6685dcf73403af791a98cd0d3.png" %}
+
+Q-learning 的劣势：
+1. 在一些应用中，状态数或行为数很多时，会使 Q 函数非常复杂，难以收敛。
+    例如图像方面的应用，状态数是（像素值取值范围数）~（像素个数）。
+    这样的方法，对图像和任务没有理解，单纯通过大数据来获得收敛。
+2. 很多程序，如下棋程序等，REWARD 是最后获得（输或赢），不需要对每一个中间步骤都计算 REWARD。
+
 
 ### P88 强化学习（policy gradience） 19:23
 
@@ -974,4 +986,5 @@ ResNet，残差网络。为什么要这么做呢？这样好是实验做出来�
 - [https://zhuanlan.zhihu.com/p/81255623]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/zhuanlan.zhihu.com/24d3a549.html" %})
 - [https://www.coursera.org/course/ml]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.coursera.org/52fe1156.html" %})
 - [https://cs231n.Stanford.edu]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cs231n.Stanford.edu/8afa0c35.html" %})
+- [https://cloud.tencent.com/developer/article/1888046]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cloud.tencent.com/da1f780d.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.atoolbox.net/ecf02067.php" %})
