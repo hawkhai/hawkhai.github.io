@@ -22,6 +22,17 @@ cluster: "Tiny Code & Module"
 * **kpipe** Windows 远程调用，函数跨进程调用等。
 * **remotecall** Windows 远程调用，函数跨进程调用等。
 * **kinstaller** 绿色软件壳。
+* **mario** C# & C++ or Python & C++ 互相调用。
+    * pythonxtest, 测试入口。
+    * pythonx, 只包含单向调用，不支持回调。
+    * **mario** D:\kSource\pythonx\mario.py
+        * 这里涉及到一个二进制数据回调问题，需要定义 C 类型参数。
+        * 变长输入，Python -> C++，直接调用就好了。
+        * 变长回调，C++ -> Python，回调两次就好了。
+    * mario_net, C# mario 测试工程。
+    * **mario2** D:\kSource\pythonx\note\pythonx\mario2\cpptest.py
+        * 测试直接对接 C 结构体数据，结构体成员指针等。
+        * C++ 引用 的底层 实现，本质上还是指针传递。
 
 
 ## kinjector

@@ -22,8 +22,7 @@ setlocale(LC_ALL, "chs");
 #include <atlconv.h>
 #include <atlstr.h>
 USES_CONVERSION_EX;
-W2A_EX(L"SomeString", CP_UTF8);
-A2W_EX("SomeString", CP_UTF8);
+CW2A(L"中文字符", CP_UTF8);
 ```
 
 
