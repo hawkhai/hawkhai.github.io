@@ -30,7 +30,7 @@ cluster: "Tiny Code & Module"
         * 变长输入，Python -> C++，直接调用就好了。
         * 变长回调，C++ -> Python，回调两次就好了。
     * mario_net, C# mario 测试工程。
-    * **mario2** D:\kSource\pythonx\note\pythonx\mario2\cpptest.py
+    * **mario2** D:\kSource\pythonx\note\pythonx\mario2\mario2x.py
         * 测试直接对接 C 结构体数据，结构体成员指针等。
         * C++ 引用 的底层 实现，本质上还是指针传递。
 
