@@ -18,6 +18,7 @@ cluster: "机器学习课程"
 
 路虽远行则将至。
 浙江大学 · [机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1qf4y1x7kB/)
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20230505102827.png" %}
 
 惊叹深度网络的每次改进都如此精妙，也不知道为啥，反正收敛靠运气，试验效果更好，太神奇了。
 每次看到 ReLU，都想起这玩意，简单的函数可以折叠出任意复杂的高维。
