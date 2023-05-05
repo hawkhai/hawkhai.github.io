@@ -82,7 +82,7 @@ if __name__ == "__main__":
     print(sys.argv)
     if len(sys.argv) >= 2 and os.path.isdir(sys.argv[1]):
         workdir = sys.argv[1]
-        @CwdDirRun(workdir)
+        @CWD_DIR_RUN(workdir)
         def maingo():
             main()
         maingo()
