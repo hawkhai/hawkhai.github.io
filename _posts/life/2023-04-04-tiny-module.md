@@ -465,6 +465,18 @@ pyinstaller 打包绿色软件，每次解压启动慢，如果
 ```
 
 
+## aliyun oss image
+
+* aliyun_oss_ksample.py 上传下载管理整个 ksample。
+* aliyun_oss_remote.py
+    * `upcode idxcode` 上传当前 pythonx 代码。
+    * `downcode` 下载当前 pythonx 代码。
+    * `upload image_kvision.json symlink` 上传图片。
+    * `download image_kvision.json` 下载图片。
+    * `dlindex image_kvision.json` 下载索引。
+    * `upindex image_kvision.json` 上传索引。
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2023-04-04-tiny-module.md.js" %}'></script></p>
