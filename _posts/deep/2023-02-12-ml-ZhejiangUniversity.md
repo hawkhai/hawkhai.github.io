@@ -870,8 +870,24 @@ Q-learning 的劣势：
 
 ### P88 强化学习（policy gradience） 19:23
 
+1. 目前强化学习的发展状况：在一些特定的任务上达到人的水平或胜过人，但在一些相对复杂的任务上，例如自动驾驶等，和人存在差距。
+2. 和真人的差距，可能不完全归咎于算法，传感器、机械的物理限制等，也是决定性因素。
+3. 机器和人的另一差距是：人有一些基本的概念，依据这些概念，人能只需要很少的训练就能学会很多，但机器只有通过大规模数据，才能学会。
+4. 但是，机器速度快，机器永不疲倦，只要有源源不断的数据，在特定的任务上，机器做得比人好，是可以期待的。
+
 
 ### P89 增强学习 \_(AlphaGo) 23:25
+
+AlphaGo 介绍
+Mastering the game of Go with deepneural networks and tree search
+2016.10.20
+开源代码：RocAlphaGo
+
+深度策略网络 $p_\sigma$: (Supervised Learning Policy Network)
+
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20230516234637.png" %}
+
+有一个全 0 平面，一个全 1 平面，很奇怪。
 
 
 ### P90 特征提取 – 主成分分析（PCA） 1:13:04
