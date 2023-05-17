@@ -587,8 +587,12 @@ fs 寄存器 -> TEB -> PEB -> PEB_LDR_DATA -> LIST_ENTRY -> LDR_DATA_TABLE_ENTRY
 
 ### dex 脱壳解决方案
 
-* dex 整体加固：这种方法往往通过动态加载的形式，交换 Application 的执行，一般我们可以通过 hook 方法，找到 dex_file 的起始地址或大小，进行脱取，也可以通过定制 Room 方法对关键的函数进行插桩，代表有 fdex2、Frida_Dump
-* 函数抽取：这种方法往往通过将函数代码抽取放入 so 文件中，执行时再从 so 文件读取还原，我们一般可以通过被动调用延时 Dump 的方法，或主动调用 ArtMethod 中 invoke 函数，触发每一个函数，然后进行回填，代表有 youpk 和 fart
+* dex 整体加固：这种方法往往通过动态加载的形式，交换 Application 的执行，一般我们可以通过 hook 方法，
+    找到 dex_file 的起始地址或大小，进行脱取，也可以通过定制 Room 方法对关键的函数进行插桩，
+    代表有 fdex2、Frida_Dump
+* 函数抽取：这种方法往往通过将函数代码抽取放入 so 文件中，执行时再从 so 文件读取还原，
+    我们一般可以通过被动调用延时 Dump 的方法，或主动调用 ArtMethod 中 invoke 函数，触发每一个函数，
+    然后进行回填，代表有 youpk 和 fart
 * VMP：通过定制的指令集进行解释，这时往往需要手工分析，找到指令的映射表，然后进行一步步解释
 
 
