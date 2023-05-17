@@ -803,6 +803,8 @@ Hinton: 该像大脑系统一样工作。
 
 ### P81 深度学习 卷积神经网络 LeNet 1:18:45
 
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/bf5bfb7f6462cfa06f5351b6bf5b6380.png" %}
+等价于：
 {% include image.html url="/assets/images/230212-ml-zhejianguniversity/20230422230543.png" %}
 
 
@@ -849,6 +851,16 @@ ResNet，残差网络。为什么要这么做呢？这样好是实验做出来�
 {% include image.html url="/assets/images/230212-ml-zhejianguniversity/20230426004343.png" %}
 第一项是 softmax loss，第二项是 center loss。
 
+卷积神经网络压缩：有了一个神经网络，尽可能降低它的复杂度，或者降低它的存储容量，同时又不能让它的识别率下降太多。
+
+Transfer Learning 迁移学习
+把一个 Domain 的经验迁移到另一个 Domain 上去。
+
+比如之前一个用外国人脸训练的人脸识别模型，要想让它识别亚洲人的脸，可以用 10 万张亚洲人的脸对模型进行微调，再用 4 万张身份证人脸再进行调优。
+
+* 用训练好的模型做特征提取器，比如用 AlexNet 模型的输出，再进行神经网络或者 SVM 分类，这种应用目前非常多。
+* 也可以把训练好的模型当做识别器，比如对 AlexNet 模型参数再进行几种水果的分类。
+
 
 ### P86 AlphaGo（围棋有必胜策略的证明） 08:58
 
@@ -891,6 +903,24 @@ Mastering the game of Go with deepneural networks and tree search
 
 
 ### P90 特征提取 – 主成分分析（PCA） 1:13:04
+
+[note](https://cloud.tencent.com/developer/article/1888060)
+主成分分析法是一种降维的统计方法，在机器学习中可以作为数据提取的手段。
+
+主成分分析：构造一个 A，b，使 Y=AX+b。其中 A 维度 M\*N，X 维度 N*1，b 维度 M\*1，则 Y 维度 M\*1。
+
+主成分分析可以看成是一个一层的，有 M 个神经元的神经网络（即 Y=WTX+b，主成分分析和该公式本质一样）。
+
+PCA 和自编码器差不多。
+
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/656867629000b2a447d049647a315f48.png" %}
+
+主成分分析：寻找使方差最大的方向，并在该方向投影。
+
+SVD 是 PCA 的一个快速算法求解实现。
+PCA 的算法两种实现方法
+* 基于 SVD 分解协方差矩阵实现 PCA 算法
+* 基于特征值分解协方差矩阵实现 PCA 算法
 
 
 ### P91 特征选择 – 自适应提升（AdaBoost） 1:11:15
@@ -1004,4 +1034,5 @@ Mastering the game of Go with deepneural networks and tree search
 - [https://www.coursera.org/course/ml]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.coursera.org/52fe1156.html" %})
 - [https://cs231n.Stanford.edu]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cs231n.Stanford.edu/8afa0c35.html" %})
 - [https://cloud.tencent.com/developer/article/1888046]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cloud.tencent.com/da1f780d.html" %})
+- [https://cloud.tencent.com/developer/article/1888060]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cloud.tencent.com/46483efb.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.atoolbox.net/ecf02067.php" %})
