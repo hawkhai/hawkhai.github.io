@@ -17,6 +17,14 @@ cluster: "Visual Studio"
 ---
 
 
+## MacOS 提示 adb not found 解决办法
+
+[note {% include relref_csdn.html %}](https://blog.csdn.net/qq_26587339/article/details/118653169)
+
+:wq
+source ~/.bash_profile
+
+
 ## Android Studio 反应卡慢
 
 1. 修改启动内存占用。
@@ -356,6 +364,7 @@ Executing commands in 'E:\android-studio-ide-181.5014246-windows\android-studio\
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-12-15-Android-Studio.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://blog.csdn.net/qq_26587339/article/details/118653169]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/blog.csdn.net/4dd626be.html" %})
 - [https://blog.csdn.net/MrHanTalk/article/details/106947458]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/blog.csdn.net/5f23258c.html" %})
 - [https://bbs.huaweicloud.com/blogs/357286]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/bbs.huaweicloud.com/76f7b426.html" %})
 - [https://blog.csdn.net/weixin_40533164/article/details/129267913]({% include relrefx.html url="/backup/2020-12-15-Android-Studio.md/blog.csdn.net/40c7bce7.html" %})
