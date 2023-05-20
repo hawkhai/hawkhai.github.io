@@ -925,8 +925,33 @@ PCA 的算法两种实现方法
 
 ### P91 特征选择 – 自适应提升（AdaBoost） 1:11:15
 
+定理：随着 M 的增加，AdaBoost 最终分类器 $G(X)$ 在训练集上错误将会越来越小。
+
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210202023345770.png" %}
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210202023407351.png" %}
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20210202023440434.png" %}
+
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20230520143700.png" %}
+
+汽车的发明虽让马车夫这一职业退场，却催生了司机、维修工、加油站职员、车评人等一系列职业。
+大家能够看到现在的工作会消失，但是我们看不到什么新的工作机会会被创造出来。
+就像 100 年前、200 年前那些人，看不到后来产生的新的工作机会一样。
+虽然有些工作机会没了，但是更多的机会出现了。人们工作效率的提升，可以养活更多的人，而每个人的生活又变得比以前更好了。
+
 
 ### P92 目标检测 （RCNN 和 FCN） 57:25
+
+目标检测- 以人脸检测为例
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/20230520180945.png" %}
+
+* P-Net (Proposal Network)
+    * 该网络主要是检测图中人脸，产生多个人脸候选框和回归向量，再用回归向量对候选窗口进行校准，
+        最后通过非极大值抑制 NMS 来合并高度重叠的候选框。
+* R-Net(Refine Network)
+    * 该网络同样输出候选框置信度（根据置信度削减候选框数量）和回归向量，通过边界框回归和 NMS 精调候选框的位置
+* O-Net(Output Network)
+    * 比 R-Net 层又多了一层卷积层，处理结果更加精细，作用和 R-Net 层作用一样（削减框数量同时精调回归框）。
+        再者，该层对人脸区域进行了更多的监督，最后输出 5 个人脸关键点坐标。
 
 
 ### P93 概率分类法概述 19:54

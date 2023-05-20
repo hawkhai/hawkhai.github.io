@@ -84,6 +84,14 @@ P69 这是形势和造化弄人，是一代人的命运无常。
 {% include image.html url="/assets/images/210522-book-notes/WechatIMG15.jpeg" %}
 
 
+## AI
+
+汽车的发明虽让马车夫这一职业退场，却催生了司机、维修工、加油站职员、车评人等一系列职业。
+大家能够看到现在的工作会消失，但是我们看不到什么新的工作机会会被创造出来。
+就像 100 年前、200 年前那些人，看不到后来产生的新的工作机会一样。
+虽然有些工作机会没了，但是更多的机会出现了。人们工作效率的提升，可以养活更多的人，而每个人的生活又变得比以前更好了。
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-05-22-book-notes.md.js" %}'></script></p>
