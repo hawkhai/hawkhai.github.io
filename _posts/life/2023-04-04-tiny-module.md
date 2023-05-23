@@ -471,10 +471,10 @@ pyinstaller 打包绿色软件，每次解压启动慢，如果
 * aliyun_oss_remote.py
     * `upcode idxcode` 上传当前 pythonx 代码。
     * `downcode` 下载当前 pythonx 代码。
-    * `upload image_kvision.json symlink` 上传图片。
-    * `download image_kvision.json` 下载图片。
-    * `dlindex image_kvision.json` 下载索引。
-    * `upindex image_kvision.json` 上传索引。
+    * `upload image_ksample.json symlink` 上传图片。
+    * `download image_ksample.json` 下载图片。
+    * `dlindex image_ksample.json` 下载索引。
+    * `upindex image_ksample.json` 上传索引。
 
 
 
