@@ -956,6 +956,9 @@ PCA 的算法两种实现方法
 
 ### P93 概率分类法概述 19:54
 
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/517d094ca7304ebbf5fe4cd544991d46.png" %}
+[note](https://cloud.tencent.com/developer/article/1888043)
+
 
 ### P94 概率密度估计 – 朴素贝叶斯分类器 16:41
 
@@ -1060,4 +1063,5 @@ PCA 的算法两种实现方法
 - [https://cs231n.Stanford.edu]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cs231n.Stanford.edu/8afa0c35.html" %})
 - [https://cloud.tencent.com/developer/article/1888046]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cloud.tencent.com/da1f780d.html" %})
 - [https://cloud.tencent.com/developer/article/1888060]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cloud.tencent.com/46483efb.html" %})
+- [https://cloud.tencent.com/developer/article/1888043]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cloud.tencent.com/9291b194.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.atoolbox.net/ecf02067.php" %})
