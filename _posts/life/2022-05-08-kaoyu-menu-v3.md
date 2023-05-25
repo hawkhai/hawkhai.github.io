@@ -68,7 +68,7 @@ caption="<span class='imagetitle'>重庆酸菜鱼</span>&nbsp; 22 元 / 斤" %}
 url="/kaoyu/img/jibao2.jpg" caption="土鸡煲 98 元 / 只" xossprocess="image/bright,20,image/contrast,10"
 url2="/kaoyu/img/tiaoshuitianji3.jpg" caption2="跳水牛蛙 68 元<br/>（大份 98 元）" %}
 
-{% include image1.html url="/kaoyu/img/kaopaigu.jpg" xossprocess="image/bright,20,image/contrast,10,image/resize,m_fixed,w_640,h_480,image/crop,x_0,y_34,w_640,h_402"
+{% include image1.html url="/kaoyu/img/20230525101803.jpg" xossprocess="image/bright,20,image/contrast,10"
 caption="<span class='imagetitle'>烤排骨</span>&nbsp; （小）128 元 （大）178 元" %}
 
 <div STYLE="page-break-after: always;"></div>
