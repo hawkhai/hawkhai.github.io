@@ -965,17 +965,48 @@ PCA 的算法两种实现方法
 
 ### P95 概率密度估计 – 高斯密度函数 31:06
 
+构造目标函数，极大似然法，Maximum Likelihood
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/d6c9b067c8a0c082504bfc7e87e30c38.png" %}
+
 
 ### P96 概率密度估计 – 高斯混合模型 03:47
 
+求解高斯混合模型的几种方法：
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/ca52ddb05286c085085489f7e0e7ab9c.png" %}
+
 
 ### P97 EM 算法（高斯混合模型和 K - 均值算法） 48:44
+
+EM 算法 (Expectation-Maximization algorithm)
+高斯混合模型是非凸问题，无法求全局极值，只能求局部极值。
+
+EM 算法是求局部极值的算法，不能求全局极值。只能对某一类局部极值问题可解。
+而梯度下降、启发式方法等可以求解任何求局部极值问题。
+
+EM 算法优点
+1. 不需要调任何参数
+2. 编程简单
+3. 理论优美
+
+高斯混合模型，是先有鸡还是先有蛋的问题，先假设样本的 label，还是先假设分布 $(u、Σ、π)$。
+
+高斯混合模型 EM 算法流程
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/f2ac966cb3bb8246f079237b9b021549.png" %}
 
 
 ### P98 K - 均值算法在图像压缩方面的应用 05:16
 
 
 ### P99 高斯混合模型在说话人识别方面的应用 23:49
+
+Speaker Recognition，说话人识别，又称为 **声纹识别** ，就是通过语音语调判断说话人识别，跟人脸识别一样。
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/10fa60644c54a83625e66c6a200e9674.png" caption="去除静音" %}
+
+提取的特征：MEL 倒谱系数 （Mel-frequency Cepstrum Coefficients, MFCC）
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/43b824dc8789398044f9cb6e5bdec7cd.png" %}
+
+把声音反推回声道模型，计算出管子不同部位的高和宽。以物理方式做的特征，基本上能保证很高的识别率：
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/b22a98ba079866fd11297cac9f5f94c9.png" %}
 
 
 ### P100 EM 算法（收敛性证明） 39:24
