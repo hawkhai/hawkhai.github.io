@@ -1011,6 +1011,13 @@ Speaker Recognition，说话人识别，又称为 **声纹识别** ，就是通�
 
 ### P100 EM 算法（收敛性证明） 39:24
 
+**EM 算法缺点**
+EM 算法是求局部极值的算法，和其他求局部极值的方法一样，它的缺点也是结果和初始值选取有关。
+
+{% include image.html url="/assets/images/230212-ml-zhejianguniversity/c00c9d0e75ef17802990f216b5eb350c.png" %}
+
+可以看出左侧比右侧的平方和要小，但是没法从右侧收敛到左侧。
+
 
 ### P101 语音识别概述 07:27
 
