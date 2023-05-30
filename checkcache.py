@@ -27,8 +27,11 @@ def checkpage(fdata):
     itag5 = bytesToString("其他方式登录".encode("utf8"))
     itag6 = bytesToString('name="passport_iframe" src="https://passport.csdn.net/account/login?'.encode("utf8"))
     itag7 = bytesToString('www.zhihu.com/api/v3/account/api/login/qrcode/'.encode("utf8"))
+    # 垃圾广告。动力广告
+    itag8 = bytesToString('pp.chuzushijian.cn'.encode("utf8"))
+    itag9 = bytesToString('动力广告'.encode("utf8"))
 
-    for itag in (itag0, itag1, itag2, itag3, itag4, itag5, itag6, itag7):
+    for itag in (itag0, itag1, itag2, itag3, itag4, itag5, itag6, itag7, itag8, itag9):
         if fdata.find(itag) != -1:
             return itag
     return None
