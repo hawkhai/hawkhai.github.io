@@ -365,7 +365,7 @@ def tidyupImg(imglocal, fpath, line, imgthumb=True):
     # 4. 检查缩略图。
     elif os.path.exists(thumbPath):
 
-        srcmd5 = readfile(thumbPath, True)[-32:]
+        srcmd5 = readfileLast(thumbPath, True, size=32)
         if getFileMd5(tpath) != srcmd5: # 原图变化了。
             osremove(thumbPath)
             return tidyupImg(imglocal, fpath, line, imgthumb=imgthumb)
