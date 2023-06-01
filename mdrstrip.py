@@ -60,12 +60,20 @@ def isHostIgnoreStat(hostk):
             return True
     return False
 
+gcache_readfileIglist = {}
 def readfileIglist(fpath):
+
+    hash = "{},{},{}".format(getmd5(fpath), os.path.getsize(fpath), os.path.getmtime(fpath))
+    if hash in gcache_readfileIglist:
+        return gcache_readfileIglist[hash]
+
     li = readfile(fpath, True, "utf8").split("\n")
     li = [i.strip().split(" #")[0].strip() for i in li if i.strip().split(" #")[0].strip()]
     li = [i.strip().split("# ")[0].strip() for i in li if i.strip().split("# ")[0].strip()]
     if not IGNOREERR:
         assert li, fpath
+
+    gcache_readfileIglist[hash] = li
     return li
 
 # copyfrom E:\kSource\blog\checkcache.py
@@ -92,7 +100,10 @@ def backupUrlContent(fpath, url):
     assert not url.endswith(".zip"), url
     # 有可能挂掉的网站，都稍微做一下备份。
     fname = os.path.split(fpath)[-1]
-    for urlz in readfileIglist("config/mdrstrip_url_ignore_starts.txt"):
+
+    urligstarts = readfileIglist("config/mdrstrip_url_ignore_starts.txt")
+    urligstarts.extend(readfileIglist("invisible/config/mdrstrip_url_ignore_starts.txt"))
+    for urlz in urligstarts:
         if url.startswith(urlz):
             return
         if "[{}]{}".format(fname, url).startswith(urlz):
@@ -205,8 +216,8 @@ title : %(title)s
             writefile(flocal, fdata, "utf8")
 
     fmd5 = getFileMd5(flocal) # 大文件，错误已经铸成，改不了了。
-    invdirlocal = isInvisibleDir(flocal)
-    mdrstripBigfile = os.path.join("invisible" if invdirlocal else ".", "config/mdrstrip_bigfiles.txt")
+    invdir2 = isInvisibleDir(flocal) # invdir = isInvisibleDir(fpath)
+    mdrstripBigfile = os.path.join("invisible" if invdir2 else ".", "config/mdrstrip_bigfiles.txt")
     if not fmd5 in readfileIglist(mdrstripBigfile):
         if len(fdata) >= 1024*1000*1:
             assert False, (len(fdata) / 1024.0 / 1000.0, url)
