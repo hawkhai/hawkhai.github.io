@@ -60,12 +60,12 @@ def isHostIgnoreStat(hostk):
             return True
     return False
 
-gcache_readfileIglist = {}
+G_CACHE_IGLIST = {}
 def readfileIglist(fpath):
 
     hash = "{},{},{}".format(getmd5(fpath), os.path.getsize(fpath), os.path.getmtime(fpath))
-    if hash in gcache_readfileIglist:
-        return gcache_readfileIglist[hash]
+    if hash in G_CACHE_IGLIST:
+        return G_CACHE_IGLIST[hash]
 
     li = readfile(fpath, True, "utf8").split("\n")
     li = [i.strip().split(" #")[0].strip() for i in li if i.strip().split(" #")[0].strip()]
@@ -73,7 +73,7 @@ def readfileIglist(fpath):
     if not IGNOREERR:
         assert li, fpath
 
-    gcache_readfileIglist[hash] = li
+    G_CACHE_IGLIST[hash] = li
     return li
 
 # copyfrom E:\kSource\blog\checkcache.py
