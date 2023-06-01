@@ -2,6 +2,7 @@
 import re, os, sys
 sys.path.append("../")
 from pythonx.funclib import *
+from pythonx.pelib import getLuckFileMd5
 
 # 在西歐、北歐及東歐國家常用的字母，帶變音符，和一般英文字母不同。
 DIACRITIC = """
@@ -96,16 +97,36 @@ def calcHost(url):
     url = url.split("?")[0].split("#")[0]
     return url.split("//")[1].split("/")[0]
 
+G_CHECKLOG_FPATH1_MD5 = ""
 def checklog(fpath1, fpath2):
-    localfile = os.path.join("tempdir", getFileMd5(fpath1), getFileMd5(fpath2))
-    return os.path.exists(localfile)
+
+    global G_CHECKLOG_FPATH1_MD5
+    G_CHECKLOG_FPATH1_MD5 = getLuckFileMd5(fpath1, G_CHECKLOG_FPATH1_MD5)
+    fpath2md5 = getmd5(fpath2, "utf8")
+    localfile = os.path.join("tempdir", G_CHECKLOG_FPATH1_MD5, fpath2md5)
+
+    if not os.path.exists(localfile):
+        return False
+
+    fmd5 = readfile(localfile, True)
+    return fmd5 == getLuckFileMd5(fpath2, fmd5)
 
 def savelog(fpath1, fpath2):
-    localfile = os.path.join("tempdir", getFileMd5(fpath1), getFileMd5(fpath2))
-    copyfile(fpath2, localfile)
+
+    global G_CHECKLOG_FPATH1_MD5
+    G_CHECKLOG_FPATH1_MD5 = getLuckFileMd5(fpath1, G_CHECKLOG_FPATH1_MD5)
+    fpath2md5 = getmd5(fpath2, "utf8")
+    localfile = os.path.join("tempdir", G_CHECKLOG_FPATH1_MD5, fpath2md5)
+
+    writefile(localfile, getLuckFileMd5(fpath2), force=True)
 
 def removelog(fpath1, fpath2):
-    localfile = os.path.join("tempdir", getFileMd5(fpath1), getFileMd5(fpath2))
+
+    global G_CHECKLOG_FPATH1_MD5
+    G_CHECKLOG_FPATH1_MD5 = getLuckFileMd5(fpath1, G_CHECKLOG_FPATH1_MD5)
+    fpath2md5 = getmd5(fpath2, "utf8")
+    localfile = os.path.join("tempdir", G_CHECKLOG_FPATH1_MD5, fpath2md5)
+
     if os.path.exists(localfile):
         os.remove(localfile)
 
