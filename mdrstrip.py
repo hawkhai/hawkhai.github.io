@@ -6,6 +6,7 @@ import traceback
 from coderstrip import *
 from pythonx.funclib import *
 from pythonx.kangxi import TranslateKangXi
+from pythonx.pelib import getLuckFileMd5
 
 __file__   = os.path.abspath(__file__)
 
@@ -366,7 +367,7 @@ def tidyupImg(imglocal, fpath, line, imgthumb=True):
     elif os.path.exists(thumbPath):
 
         srcmd5 = readfileLast(thumbPath, True, size=32)
-        if getFileMd5(tpath) != srcmd5: # 原图变化了。
+        if getLuckFileMd5(tpath, srcmd5) != srcmd5: # 原图变化了。
             osremove(thumbPath)
             return tidyupImg(imglocal, fpath, line, imgthumb=imgthumb)
 
@@ -1006,7 +1007,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
         page = page.replace(spacebackkey, spacebackvalue)
 
     # 时间过长，如果被手工改了，这里会形成覆盖。
-    md5src2 = getFileMd5(fpath)
+    md5src2 = getLuckFileMd5(fpath, md5src)
     if md5src2 == md5src:
         if not writefile(fpath, page.encode("utf8")):
             return 0
@@ -1086,7 +1087,7 @@ def checkfilesize(fpath, fname, ftype):
     if not (fmd5 in igbigfiles) and not (fpath in igbigfiles):
         size = os.path.getsize(fpath) / 1024.0 / 1000.0 # 1000 KB
         if size >= 1.0:
-            print(getFileMd5(fpath), "#", fpath, "#", "%.1f MB"%size, fpath)
+            print(getLuckFileMd5(fpath, fmd5), "#", fpath, "#", "%.1f MB"%size, fpath)
 
             if ftype in ("gif",) and IS_WINDOWS:
                 from pythonx import pygrab
