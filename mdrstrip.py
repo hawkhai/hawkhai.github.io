@@ -218,9 +218,10 @@ title : %(title)s
     fmd5 = getFileMd5(flocal) # 大文件，错误已经铸成，改不了了。
     invdir2 = isInvisibleDir(flocal) # invdir = isInvisibleDir(fpath)
     mdrstripBigfile = os.path.join("invisible" if invdir2 else ".", "config/mdrstrip_bigfiles.txt")
-    if not fmd5 in readfileIglist(mdrstripBigfile):
+    igbigfiles = readfileIglist(mdrstripBigfile)
+    if not fmd5 in igbigfiles and not flocal in igbigfiles:
         if len(fdata) >= 1024*1000*1:
-            assert False, (len(fdata) / 1024.0 / 1000.0, url)
+            assert False, (len(fdata) / 1024.0 / 1000.0, url, flocal)
 
     remote = buildlocal(".html" if mdxfile else ttype).replace("\\", "/")
     touchSnapCache(urlmd5, flocal)
@@ -1048,7 +1049,6 @@ def mainfilew(fpath, fname, ftype):
         savelog(__file__, fpath)
     return errcnt
 
-mdrstripBigfileHub = {}
 G_CHECKTINUE_SET = {}
 
 def oncheckdirectory(rootdir, basename=None):
@@ -1081,17 +1081,12 @@ def checkfilesize(fpath, fname, ftype):
     invdir = isInvisibleDir(fpath)
     mdrstripBigfile = os.path.join("invisible" if invdir else ".", "config/mdrstrip_bigfiles.txt")
     fmd5 = getFileMd5(fpath)
-    if not mdrstripBigfile in mdrstripBigfileHub.keys():
-        mdrstripBigfileHub[mdrstripBigfile] = set()
-    if not mdrstripBigfileHub[mdrstripBigfile]:
-        for ifmd5 in readfileIglist(mdrstripBigfile):
-            mdrstripBigfileHub[mdrstripBigfile].add(ifmd5)
 
-    if not (fmd5 in mdrstripBigfileHub[mdrstripBigfile]):
+    igbigfiles = readfileIglist(mdrstripBigfile)
+    if not (fmd5 in igbigfiles) and not (fpath in igbigfiles):
         size = os.path.getsize(fpath) / 1024.0 / 1000.0 # 1000 KB
         if size >= 1.0:
-            print(getFileMd5(fpath), "#", fpath, "#", "%.1f MB"%size)
-            mdrstripBigfileHub[mdrstripBigfile].add(fmd5)
+            print(getFileMd5(fpath), "#", fpath, "#", "%.1f MB"%size, fpath)
 
             if ftype in ("gif",) and IS_WINDOWS:
                 from pythonx import pygrab
