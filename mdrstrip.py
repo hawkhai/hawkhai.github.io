@@ -78,20 +78,24 @@ def readfileIglist(fpath):
     return li
 
 # copyfrom E:\kSource\blog\checkcache.py
+G_CHECKPAGE = []
 def checkpage(fdata):
-    itag0 = bytesToString("ERR_CONNECTION_TIMED_OUT".encode("utf8"))
-    itag1 = bytesToString("无法访问此网站".encode("utf8"))
-    itag2 = bytesToString('<div class="Qrcode-title">扫码登录</div>'.encode("utf8")) # 知乎的问题
-    itag3 = bytesToString('未注册手机验证后自动登录，注册即代表同意'.encode("utf8")) # 知乎的问题
-    itag4 = bytesToString("其他登录方式".encode("utf8"))
-    itag5 = bytesToString("其他方式登录".encode("utf8"))
-    itag6 = bytesToString('name="passport_iframe" src="https://passport.csdn.net/account/login?'.encode("utf8"))
-    itag7 = bytesToString('www.zhihu.com/api/v3/account/api/login/qrcode/'.encode("utf8"))
-    # 垃圾广告。动力广告
-    itag8 = bytesToString('pp.chuzushijian.cn'.encode("utf8"))
-    itag9 = bytesToString('动力广告'.encode("utf8"))
+    if not G_CHECKPAGE:
+        itag0 = bytesToString("ERR_CONNECTION_TIMED_OUT".encode("utf8"))
+        itag1 = bytesToString("无法访问此网站".encode("utf8"))
+        itag2 = bytesToString('<div class="Qrcode-title">扫码登录</div>'.encode("utf8")) # 知乎的问题
+        itag3 = bytesToString('未注册手机验证后自动登录，注册即代表同意'.encode("utf8")) # 知乎的问题
+        itag4 = bytesToString("其他登录方式".encode("utf8"))
+        itag5 = bytesToString("其他方式登录".encode("utf8"))
+        itag6 = bytesToString('name="passport_iframe" src="https://passport.csdn.net/account/login?'.encode("utf8"))
+        itag7 = bytesToString('www.zhihu.com/api/v3/account/api/login/qrcode/'.encode("utf8"))
+        # 垃圾广告。动力广告
+        itag8 = bytesToString('pp.chuzushijian.cn'.encode("utf8"))
+        itag9 = bytesToString('动力广告'.encode("utf8"))
 
-    for itag in (itag0, itag1, itag2, itag3, itag4, itag5, itag6, itag7, itag8, itag9):
+        G_CHECKPAGE.extend((itag0, itag1, itag2, itag3, itag4, itag5, itag6, itag7, itag8, itag9))
+
+    for itag in G_CHECKPAGE:
         if fdata.find(itag) != -1:
             return itag
     return None
