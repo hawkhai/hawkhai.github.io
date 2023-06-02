@@ -57,7 +57,7 @@ THUMBNAIL = ".thumbnail.webp"
 SELENIUM  = ".selenium.png"
 
 def isDiacritic(tchar):
-    return re.findall(DIACRITIC, tchar)
+    return refindall(DIACRITIC, tchar)
 
 def createCnFile():
     page = b""
@@ -137,7 +137,7 @@ def buildSnapCache(rootdir):
     rootdir = os.path.normpath(rootdir)
     def mainfile(fpath, fname, ftype):
         fpath = os.path.normpath(fpath)
-        if not re.findall("^[0-9a-f]{8}\\.", fname, re.IGNORECASE):
+        if not refindall("^[0-9a-f]{8}\\.", fname, re.IGNORECASE):
             return
         if fname.find(SELENIUM) != -1:
             return

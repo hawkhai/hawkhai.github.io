@@ -51,14 +51,14 @@ def getLinkTagSrc(name):
 
 def isHostIgnoreStat(hostk):
     for name, host in LINKTAGARRAY:
-        if re.findall("^({})$".format(host), hostk):
+        if refindall("^({})$".format(host), hostk):
             return True
-        if re.findall("\\.({})$".format(host), hostk):
+        if refindall("\\.({})$".format(host), hostk):
             return True
     for host in ("sunocean.life", "hawkhai.com",):
-        if re.findall("^({})$".format(host), hostk):
+        if refindall("^({})$".format(host), hostk):
             return True
-        if re.findall("\\.({})$".format(host), hostk):
+        if refindall("\\.({})$".format(host), hostk):
             return True
     return False
 
@@ -220,7 +220,7 @@ title : %(title)s
             writefile(flocal, fdata, "utf8")
 
         if urlhostsrc == "www.shadertoy.com":
-            li = re.findall(r"""\r?\n\r?\n[0-9]+\r?\n\r?\n    \r?\n    \r?\n    """, fdata)
+            li = refindall(r"""\r?\n\r?\n[0-9]+\r?\n\r?\n    \r?\n    \r?\n    """, fdata)
             for i in li: fdata = fdata.replace(i, NEWLINE_CHAR+"    ")
             writefile(flocal, fdata, "utf8")
 
@@ -286,7 +286,7 @@ def tidyupImg(imglocal, fpath, line, imgthumb=True):
     fname = os.path.split(fpath)[-1]
     if fname.lower().endswith(".md"):
         fname = fname[:-3]
-    if re.findall("^[0-9]{4}-[0-9]{2}-[0-9]{2}-", fname):
+    if refindall("^[0-9]{4}-[0-9]{2}-[0-9]{2}-", fname):
         fname = fname[:10].replace("-", "")[-6:]+"-"+fname[11:]
     if len(fname) > 32:
         fname = fname[:30]+"~"+getmd5(fname)[:2]
@@ -409,7 +409,7 @@ def collectHost(fpath, line, imgthumb):
     linesrc = line[:]
 
     regex = "(?:\"/(.*?)\")|(?:'/(.*?)')"
-    li = re.findall(regex, line)
+    li = refindall(regex, line)
     for imglocal in li:
         imglocal = "".join(imglocal)
         if imglocal.endswith("/"):
@@ -440,7 +440,7 @@ def collectHost(fpath, line, imgthumb):
                 )"""
 
     regex = "".join(regex.split())
-    li = re.findall(regex, line, re.IGNORECASE)
+    li = refindall(regex, line, re.IGNORECASE)
     if not li: return reflist, line
 
     iglist = readfileIglist("config/mdrstrip_url_quote.txt")
@@ -480,13 +480,13 @@ def collectHost(fpath, line, imgthumb):
     for name, host in LINKTAGARRAY:
         tak = getLinkTagSrc(name)
         xline = xline.replace(tak+"]", name+"]")
-    li = re.findall("<.*?>", xline)
+    li = refindall("<.*?>", xline)
     for tx in li:
         xline = xline.replace(tx, "")
     for name, host in LINKTAGARRAY:
         # 视频要特别标注域名。
-        li1 = re.findall(host, xline, re.IGNORECASE)
-        li2 = re.findall(name+"\\]", xline, re.IGNORECASE)
+        li1 = refindall(host, xline, re.IGNORECASE)
+        li2 = refindall(name+"\\]", xline, re.IGNORECASE)
         if len(li1) == len(li2):
             continue
         if xline.find("[")==-1 and xline.find("<")==-1 and xline.find("(")==-1:
@@ -504,8 +504,8 @@ def loadRougifyList():
     ROUGIFY_LIST = readfileJson(ROUGIFY_LIST_FILE)
     if not ROUGIFY_LIST:
         ROUGIFY_LIST_SRC = readfile("config/rougify_list.txt", True)
-        ROUGIFY_LIST = re.findall("\n([^\\s:]+):", ROUGIFY_LIST_SRC, re.MULTILINE)
-        ROUGIFY_LIST2 = re.findall("\\[\\s*aliases\\s*:(.*?)\\]", ROUGIFY_LIST_SRC)
+        ROUGIFY_LIST = refindall("\n([^\\s:]+):", ROUGIFY_LIST_SRC, re.MULTILINE)
+        ROUGIFY_LIST2 = refindall("\\[\\s*aliases\\s*:(.*?)\\]", ROUGIFY_LIST_SRC)
         for temp in ROUGIFY_LIST2:
             temp = temp.strip().split(",")
             for itemp in temp:
@@ -515,7 +515,7 @@ def loadRougifyList():
         assert len(ROUGIFY_LIST) == 366, len(ROUGIFY_LIST)
         writefileJson(ROUGIFY_LIST_FILE, ROUGIFY_LIST)
         for i in ROUGIFY_LIST:
-            assert re.findall("^([0-9a-z_#+-]+)$", i, re.IGNORECASE), i
+            assert refindall("^([0-9a-z_#+-]+)$", i, re.IGNORECASE), i
     return ROUGIFY_LIST
 
 G_CNCHAR = []
@@ -537,7 +537,7 @@ def removeRefs(fpath, lines):
         i = lineCount-1 - index
         if not lines[i] or not lines[i].strip():
             continue
-        if re.findall("^- \\[{}\\]\\({}\\)$".format(".*?", ".*?"), lines[i]): # \\[[0-9]+\\]
+        if refindall("^- \\[{}\\]\\({}\\)$".format(".*?", ".*?"), lines[i]): # \\[[0-9]+\\]
             continue
         if lines[i] == SNAPSHOT_HTML:
             headIndex = i
@@ -545,13 +545,13 @@ def removeRefs(fpath, lines):
         break
 
     if headIndex != -1:
-        assert lines[headIndex-1] == "" or re.findall(REVIEW_REGEX, lines[headIndex-1]), "%r"%lines[headIndex-1]
+        assert lines[headIndex-1] == "" or refindall(REVIEW_REGEX, lines[headIndex-1]), "%r"%lines[headIndex-1]
         assert lines[headIndex-2] in ("-----", REVIEW_LINE), "%r"%lines[headIndex-2]
         assert lines[headIndex-3] == "", "%r"%lines[headIndex-3]
         lines = lines[:headIndex-3]
     else:
         while lines and (lines[-1] in ("", "-----", REVIEW_LINE) or
-                re.findall(REVIEW_REGEX, lines[-1])):
+                refindall(REVIEW_REGEX, lines[-1])):
             lines = lines[:-1]
     return lines
 
@@ -593,7 +593,7 @@ def appendRefs(fpath, lines, imgthumb):
     fcode = """document.write("%s: review");%s""" % (datestr, NEWLINE_CHAR)
     writefile(reviewjs, fcode)
     review = REVIEW_FORMAT % (fpath.replace("\\", "/"))
-    assert re.findall(REVIEW_REGEX, review), review
+    assert refindall(REVIEW_REGEX, review), review
 
     if "sortrefs: true" in lines:
         reflist = sorted(reflist, key=lambda x: x[1], reverse=False)
@@ -642,7 +642,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
     warnIndentSpace  = ftype in ("md", "php", "scss", "vsh", "fsh",) # 缩进检查
     isMdFile         = ftype in ("md",)
     isSrcFile        = ftype in ("md", "php", "html", "htm", "js", "css", "scss", "svg", "py", "vsh", "fsh",)
-    keepStripFile    = ftype in ("svg",) or fname in ("gitsrc.html",) or re.findall("^relref[a-z_]*\\.html$", fname)
+    keepStripFile    = ftype in ("svg",) or fname in ("gitsrc.html",) or refindall("^relref[a-z_]*\\.html$", fname)
     keepFileTypeList = ("rar", "zip", "pdf", "doc", "mp4",) # 中英文间隔，容易造成失误的列表。
 
     if fpath.find(os.sep+"winfinder"+os.sep) != -1:
@@ -793,8 +793,8 @@ def mainfile(fpath, fname, ftype, fdepth=0):
         # ```java
         # {% highlight ruby %}
         # https://github.com/rouge-ruby/rouge/wiki/List-of-supported-languages-and-lexers
-        li1 = re.findall("```\\s*([0-9a-z_#+-]+)", line, re.IGNORECASE)
-        li2 = re.findall("\\{%\\s*highlight\\s*([0-9a-z_#+-]+)", line, re.IGNORECASE)
+        li1 = refindall("```\\s*([0-9a-z_#+-]+)", line, re.IGNORECASE)
+        li2 = refindall("\\{%\\s*highlight\\s*([0-9a-z_#+-]+)", line, re.IGNORECASE)
         li1.extend(li2)
         for i in li1:
             if not i in ROUGIFY_LIST:
@@ -804,13 +804,13 @@ def mainfile(fpath, fname, ftype, fdepth=0):
                 return mainfile(fpathsrc, fnamesrc, ftypesrc, fdepth+1)
 
         tagregex = "^\\s*[#]+\\s"
-        prelinetag = re.findall(tagregex, preline)
-        nextlinetag = re.findall(tagregex, nextline)
+        prelinetag = refindall(tagregex, preline)
+        nextlinetag = refindall(tagregex, nextline)
         if warnTitleSpace and not codestate:
             tagregexk = "^\\s*[#]+\\s{2,}" # md 文件标题后接的空格 只能是一个。
-            assert not re.findall(tagregexk, preline), preline
+            assert not refindall(tagregexk, preline), preline
 
-        if re.findall("^\\s*[*-]+\\s", line):
+        if refindall("^\\s*[*-]+\\s", line):
             idtcnt = 2 # 如果在列表里面，缩进检查 2 个为单位。
         else:
             idtcnt = 4
@@ -846,15 +846,15 @@ def mainfile(fpath, fname, ftype, fdepth=0):
             print("xspace", fpath, line)
             errcnt += 1
 
-        #liw = re.findall("[{}]+".format(cnregex,), line, re.IGNORECASE)
-        #lia = re.findall("[^{}]+".format(cnregex,), line, re.IGNORECASE)
+        #liw = refindall("[{}]+".format(cnregex,), line, re.IGNORECASE)
+        #lia = refindall("[^{}]+".format(cnregex,), line, re.IGNORECASE)
 
         linec = line
-        for itmp in re.findall("\\$\\$.*?\\$\\$", line): # 忽略数学公式
+        for itmp in refindall("\\$\\$.*?\\$\\$", line): # 忽略数学公式
             linec = linec.replace(itmp, " ") # "$$$$")
-        for itmp in re.findall("“.*?”", line): # 忽略双引号
+        for itmp in refindall("“.*?”", line): # 忽略双引号
             linec = linec.replace(itmp, " ") # "“”")
-        for itmp in re.findall("`.*?`", line): # 忽略代码部分
+        for itmp in refindall("`.*?`", line): # 忽略代码部分
             linec = linec.replace(itmp, " ") # "“”")
 
         # 忽略特殊的 tag 标记。
@@ -866,8 +866,8 @@ def mainfile(fpath, fname, ftype, fdepth=0):
         linec = linec.replace('caption2="', 'caption2=" ')
         linec = linec.replace('title="', 'title=" ')
 
-        lix1 = re.findall("[{}][^{} *]".format(cnregex, cnregex), linec, re.IGNORECASE)
-        lix2 = re.findall("[^{} *][{}]".format(cnregex, cnregex), linec, re.IGNORECASE)
+        lix1 = refindall("[{}][^{} *]".format(cnregex, cnregex), linec, re.IGNORECASE)
+        lix2 = refindall("[^{} *][{}]".format(cnregex, cnregex), linec, re.IGNORECASE)
         lix = []
         lix.extend(lix1)
         lix.extend(lix2)
@@ -876,7 +876,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
         for ix in lix:
             cx, cy = ix
             # 其中一个是中文符号。
-            if re.findall(cnsignregex, cy) or re.findall(cnsignregex, cx):
+            if refindall(cnsignregex, cy) or refindall(cnsignregex, cx):
                 continue
             if cy in "-<]~" or cx in "->[~":
                 continue
@@ -923,9 +923,9 @@ def mainfile(fpath, fname, ftype, fdepth=0):
 
         # 检查中文问本里面不应该出现的英文符号。
         if isMdFile:
-            lixyx = re.findall("[{}] [,()] [{}]".format(cnregex, cnregex), linec, re.IGNORECASE)
-            lixyx.extend(re.findall("[{}] [,()]$".format(cnregex), linec, re.IGNORECASE))
-            lixyx.extend(re.findall("[{}][,;] [{}]".format(cnregexc, cnregexc), linec, re.IGNORECASE))
+            lixyx = refindall("[{}] [,()] [{}]".format(cnregex, cnregex), linec, re.IGNORECASE)
+            lixyx.extend(refindall("[{}] [,()]$".format(cnregex), linec, re.IGNORECASE))
+            lixyx.extend(refindall("[{}][,;] [{}]".format(cnregexc, cnregexc), linec, re.IGNORECASE))
             if lixyx:
                 openTextFile(fpath)
                 print(lixyx)
@@ -987,10 +987,10 @@ def mainfile(fpath, fname, ftype, fdepth=0):
 
     page = page.replace(NEWLINE_CHAR+REVIEW_LINE, NEWLINE_CHAR*3+REVIEW_LINE)
     codereg = "\\{\\%\\s*highlight.*?\\{\\%\\s*endhighlight\\s*\\%\\}"
-    codeli1 = re.findall(codereg, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
+    codeli1 = refindall(codereg, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
 
     coderegz = "```.*?```"
-    codeli1z = re.findall(coderegz, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
+    codeli1z = refindall(coderegz, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
 
     if warnTitleSpace:
         page = page.replace(NEWLINE_CHAR*2+"### ", NEWLINE_CHAR*3+"### ")
@@ -998,11 +998,11 @@ def mainfile(fpath, fname, ftype, fdepth=0):
         page = page.replace(NEWLINE_CHAR*2+"# ",   NEWLINE_CHAR*3+"# ")
 
     # 代码里面的替换要还原。
-    codeli2 = re.findall(codereg, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
+    codeli2 = refindall(codereg, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
     for i in range(len(codeli1)):
         page = page.replace(codeli2[i], codeli1[i])
     # 代码里面的替换要还原。
-    codeli2z = re.findall(coderegz, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
+    codeli2z = refindall(coderegz, page, re.MULTILINE | re.IGNORECASE | re.DOTALL)
     for i in range(len(codeli1z)):
         page = page.replace(codeli2z[i], codeli1z[i])
 
@@ -1128,7 +1128,7 @@ def checkReviewJS(jsdir, rootdir):
             osremove(fpath)
         elif OPENRESENT:
             jsdata = readfile(fpath, True).strip() # document.write("2021-12-06: review");
-            jsy, jsm, jsd = re.findall("[0-9]+", jsdata)
+            jsy, jsm, jsd = refindall("[0-9]+", jsdata)
             today = datetime.date.today()
             jsday = datetime.date(int(jsy), int(jsm), int(jsd))
             xday = today - jsday

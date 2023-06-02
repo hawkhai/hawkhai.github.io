@@ -54,7 +54,7 @@ def parseRootReq(path, result, action):
     localjs = os.path.join("assets", "configjs", path.split("/blog/", 1)[1]+".cfg.js")
     localmd = path.split("/blog/", 1)[1] + ".md"
 
-    blog = re.findall("^/blog/blog/([0-9]{4})/([0-9]{2})/([0-9]{2})/(.*)", path)
+    blog = refindall("^/blog/blog/([0-9]{4})/([0-9]{2})/([0-9]{2})/(.*)", path)
     if blog:
         blog = blog[0] # 如果有，只会有一个。
         print(blog)
@@ -170,7 +170,7 @@ class Resquest(BaseHTTPRequestHandler):
         if result["ret"] == 0:
             result = result["result"]
             result = result["result"]
-            result = [i for i in result if not re.findall("^[0-9]+\\.[0-9]+\\.[0-9]+\\.1$", i)]
+            result = [i for i in result if not refindall("^[0-9]+\\.[0-9]+\\.[0-9]+\\.1$", i)]
             for ip in result:
                 self.send_header('Access-Control-Allow-Origin', 'http://{}:4000'.format(ip))
                 CrossOrigin = True

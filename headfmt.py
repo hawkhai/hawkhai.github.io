@@ -20,7 +20,7 @@ def regularTitle(fpath):
     regex = "^.*?{}.*? --( |《)[^《]".format(category)
     if getPostValue(fpath, "titlecheck"):
         return
-    if not re.findall(regex, title):
+    if not refindall(regex, title):
         openTextFile(fpath)
         assert False, regex
 
@@ -111,7 +111,7 @@ ktitle kaliyun imgthumb zhconv
         key, value = key.strip(), value.strip()
         value = formatValue(value)
         while key == "date":
-            assert re.findall("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} \\+[0-9]{4}$", value), value
+            assert refindall("^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} \\+[0-9]{4}$", value), value
             intsep = fpath.split("invisible")
             if len(intsep) == 1:
                 break
@@ -172,7 +172,7 @@ ktitle kaliyun imgthumb zhconv
             elif value.startswith("["):
                 for val in json.loads(value):
                     appvalue(val)
-            elif re.findall("^[a-z]+$", value):
+            elif refindall("^[a-z]+$", value):
                 appvalue(value)
             elif key in ('title', 'permalink', 'date', 'author'):
                 appvalue(value)

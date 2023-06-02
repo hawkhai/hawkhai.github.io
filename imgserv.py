@@ -72,7 +72,7 @@ class HTTPServer:
                 ipaddr = ipaddr["result"]
                 ipaddr = ipaddr["result"]
                 # ['192.168.110.1', '192.168.245.1', '192.168.0.102']
-                ipaddr = [i for i in ipaddr if not re.findall("^[0-9]+\\.[0-9]+\\.[0-9]+\\.1$", i)]
+                ipaddr = [i for i in ipaddr if not refindall("^[0-9]+\\.[0-9]+\\.[0-9]+\\.1$", i)]
                 if ipaddr and len(ipaddr) == 1:
                     host = ipaddr[0] # 换算成 IP。
 
@@ -355,7 +355,7 @@ class ResponseBuilder:
 # http://localhost:9001/?listdir=kvision/2Original
 if __name__ == "__main__":
     try:
-        if re.findall("^[0-9.]+$", sys.argv[-1]):
+        if refindall("^[0-9.]+$", sys.argv[-1]):
             HTTPServer(sys.argv[-1])
         else:
             HTTPServer()

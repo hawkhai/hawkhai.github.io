@@ -21,7 +21,7 @@ def mainfilew(fpath, fname, ftype):
     li2 = []
     first = True
     for line in li:
-        result = re.findall("^({})\\s+({})$".format("[^ ]+\\.(?:png|jpg|jpeg|webp|gif|jfif)", "[0-9.]+"), line)
+        result = refindall("^({})\\s+({})$".format("[^ ]+\\.(?:png|jpg|jpeg|webp|gif|jfif)", "[0-9.]+"), line)
         if result:
             result = result[0]
             if first:
@@ -34,7 +34,7 @@ def mainfilew(fpath, fname, ftype):
             print("\t"*1, result, line)
             imgfile = "./images/"+img
             assert os.path.exists(imgfile), imgfile
-            if re.findall("^IMG_[0-9a-f]{32}\\.", img):
+            if refindall("^IMG_[0-9a-f]{32}\\.", img):
                 print("极光图片", imgfile)
                 from PIL import Image
                 img = Image.open(imgfile)
@@ -43,7 +43,7 @@ def mainfilew(fpath, fname, ftype):
                 img.save(imgfile)
             li2.append(line)
         else:
-            result = re.findall("\\xef\\xbc[\\x90-\\x99\\xa1-\\xba]", line)
+            result = refindall("\\xef\\xbc[\\x90-\\x99\\xa1-\\xba]", line)
             if result:
                 if first:
                     print(fpath)

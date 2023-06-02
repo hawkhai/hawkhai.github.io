@@ -17,7 +17,7 @@ URL_REGEX = r"""(
                     (#[a-z0-9\&%_\./~=:?-]*)?
                 )"""
 URL_REGEX = "".join(URL_REGEX.split())
-#li = re.findall(regex, line, re.IGNORECASE)
+#li = refindall(regex, line, re.IGNORECASE)
 
 OTIMG_REGEX = """(\\!\\[(.*?)\\]\\((.*?\\.(?:jpg|png))\\))"""
 EQUA_REGEX  = """(\\!\\[\\[公式\\]\\]\\(https://www.zhihu.com/equation\\?tex=(.*?)\\))""".encode("utf8").decode("ISO8859-1")
@@ -29,7 +29,7 @@ def twikiImage(line):
     regex = '''(\!\[\]\((/download/[a-z]+/[0-9]+/[a-z0-9-_%]+.[a-z]+\?version=1&modificationDate=[0-9]+&api=v2)\))'''
     # ![](/download/attachments/158302446/图片1.png?version=1&modificationDate=1614668176000&api=v2)
     # ![](/download/thumbnails/158302411/image_3.png?version=1&modificationDate=1614667438000&api=v2)
-    li = re.findall(regex, line, re.IGNORECASE)
+    li = refindall(regex, line, re.IGNORECASE)
     for i in li:
         print(i)
         xline, imgurl = i
@@ -54,7 +54,7 @@ def mainfilew(fpath, fname, ftype):
 
     chekurlx = set()
     for line in li:
-        for url in re.findall(URL_REGEX, line, re.IGNORECASE):
+        for url in refindall(URL_REGEX, line, re.IGNORECASE):
             chekurlx.add(url[0])
     for url in chekurlx:
         urlx = url + "/"
@@ -90,7 +90,7 @@ def mainfilew(fpath, fname, ftype):
             li2.append(line)
             continue
 
-        htimgs = re.findall(OTIMG_REGEX, line, re.IGNORECASE)
+        htimgs = refindall(OTIMG_REGEX, line, re.IGNORECASE)
         if htimgs:
             assert len(htimgs) == 1, htimgs
             htimg = htimgs[0]
@@ -105,7 +105,7 @@ def mainfilew(fpath, fname, ftype):
                 line = line.replace(txline, newline)
 
         # ![[公式]](https://www.zhihu.com/equation?tex=.*?)
-        htimgs = re.findall(EQUA_REGEX, line, re.IGNORECASE)
+        htimgs = refindall(EQUA_REGEX, line, re.IGNORECASE)
         if htimgs:
             #print(htimgs)
             for txline, txcontent in htimgs:
@@ -115,11 +115,11 @@ def mainfilew(fpath, fname, ftype):
                 line = line.replace(txline, newline)
 
         chxx = u"：。".encode("utf8").decode("ISO8859-1")
-        result = re.findall("[^\\s%s](%s)\\s"%(chxx, URL_REGEX), " %s "%line, re.IGNORECASE)
+        result = refindall("[^\\s%s](%s)\\s"%(chxx, URL_REGEX), " %s "%line, re.IGNORECASE)
         if result:
             openTextFile(fpath)
             assert False, result
-        result = re.findall("[\\s%s](%s)\\s"%(chxx, URL_REGEX), " %s "%line, re.IGNORECASE)
+        result = refindall("[\\s%s](%s)\\s"%(chxx, URL_REGEX), " %s "%line, re.IGNORECASE)
         if result:
             if first:
                 print(fpath, result)
