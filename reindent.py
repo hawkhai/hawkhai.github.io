@@ -63,6 +63,7 @@ dryrun = False
 makebackup = True
 # A specified newline to be used in the output (set by --newline option)
 spec_newline = None
+DEBUG = "debug" in sys.argv
 
 def usage(msg=None):
     if msg is None:
@@ -336,5 +337,6 @@ def getlspace(line):
     return i
 
 if __name__ == '__main__':
-    main()
+    import cProfile
+    cProfile.run("main()") if DEBUG else main()
     #clearemptydir(getPythonxDir())

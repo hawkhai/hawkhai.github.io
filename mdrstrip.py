@@ -25,6 +25,7 @@ CLEARIMG   = "clearimg" in sys.argv
 IGNOREERR  = "ignoreerr" in sys.argv
 OPENRESENT = "openresent" in sys.argv or "openresentx" in sys.argv
 OPENRESENTx = "openresentx" in sys.argv
+DEBUG = "debug" in sys.argv
 
 # 名称，域名正则。
 LINKTAGARRAY = (("bili",     "bilibili.com"),
@@ -1200,13 +1201,14 @@ def main():
 
 if __name__ == "__main__":
     print(sys.argv)
+    import cProfile
     if len(sys.argv) >= 2 and os.path.isdir(sys.argv[1]):
         workdir = sys.argv[1]
         @CWD_DIR_RUN(workdir)
         def maingo():
-            mainw()
+            cProfile.run("mainw()") if DEBUG else mainw()
         maingo()
     else:
-        mainw()
+        cProfile.run("mainw()") if DEBUG else mainw()
         os.system(r"cd invisible & {} tempd.py encrypt".format(getPythonExe(),))
     print(parsePythonCmdx(__file__))

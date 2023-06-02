@@ -9,6 +9,7 @@ OPENFILE = "openfile" in sys.argv
 #IGNORE_CONFIG = readfileJson(os.path.join("config", "ignore_config.txt"))
 
 SPACEBACKFILE_TAIL = ".spaceback.json"
+DEBUG = "debug" in sys.argv
 
 def regularTitle(fpath):
     title = getPostValue(fpath, "title")
@@ -127,7 +128,7 @@ ktitle kaliyun imgthumb zhconv
                     name = name[1:]
                     count = count + 1
                 intv = intv >> (4 * pWordSize)
-                assert(intv <= 0xffffff, "%x" % intv)
+                assert intv <= 0xffffff, "%x" % intv
                 return intv & 0xffffff
             intsign = 0
             while magic:
@@ -271,7 +272,10 @@ def mainxkey():
     writefileJson("config/headnote.txt", headnote, "utf8", False)
 
 if __name__ == "__main__":
-    mainxtitle()
-    mainxkey()
+    def maink():
+        mainxtitle()
+        mainxkey()
+    import cProfile
+    cProfile.run("maink()") if DEBUG else maink()
     print(parsePythonCmdx(__file__))
     os.system(r"cd invisible & {} tempd.py encrypt".format(getPythonExe(),))

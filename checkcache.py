@@ -13,6 +13,7 @@ REMOVE = "remove" in sys.argv
 
 def needcheck(fpath, fname, ftype):
     for sign in r""".zhihu.com
+                    .jianshu.com
                     .csdn.net""".split():
         if fpath.find(sign) != -1:
             return True

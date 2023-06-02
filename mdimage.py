@@ -7,6 +7,7 @@ from pythonx.funclib import *
 
 AUTOFORMAT = "format" in sys.argv
 NEWLINE_CHAR = "\r\n" if IS_WINDOWS else "\n"
+DEBUG = "debug" in sys.argv
 
 def mainfilew(fpath, fname, ftype):
     if not ftype in ("md",): return
@@ -80,12 +81,13 @@ def main():
 
 if __name__ == "__main__":
     print(sys.argv)
+    import cProfile
     if len(sys.argv) >= 2 and os.path.isdir(sys.argv[1]):
         workdir = sys.argv[1]
         @CWD_DIR_RUN(workdir)
         def maingo():
-            main()
+            cProfile.run("main()") if DEBUG else main()
         maingo()
     else:
-        main()
+        cProfile.run("main()") if DEBUG else main()
     print(parsePythonCmdx(__file__))

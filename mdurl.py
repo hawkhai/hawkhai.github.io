@@ -22,6 +22,7 @@ URL_REGEX = "".join(URL_REGEX.split())
 OTIMG_REGEX = """(\\!\\[(.*?)\\]\\((.*?\\.(?:jpg|png))\\))"""
 EQUA_REGEX  = """(\\!\\[\\[公式\\]\\]\\(https://www.zhihu.com/equation\\?tex=(.*?)\\))""".encode("utf8").decode("ISO8859-1")
 NEWLINE_CHAR = "\r\n" if IS_WINDOWS else "\n"
+DEBUG = "debug" in sys.argv
 
 def twikiImage(line):
     # ![](/download/attachments/186253641/image2021-9-9_17-21-5.png?version=1&modificationDate=1631179266000&api=v2)
@@ -153,12 +154,13 @@ def main():
 
 if __name__ == "__main__":
     print(sys.argv)
+    import cProfile
     if len(sys.argv) >= 2 and os.path.isdir(sys.argv[1]):
         workdir = sys.argv[1]
         @CWD_DIR_RUN(workdir)
         def maingo():
-            main()
+            cProfile.run("main()") if DEBUG else main()
         maingo()
     else:
-        main()
+        cProfile.run("main()") if DEBUG else main()
     print(parsePythonCmdx(__file__))
