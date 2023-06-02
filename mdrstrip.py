@@ -228,7 +228,7 @@ title : %(title)s
     mdrstripBigfile = os.path.join("invisible" if invdir2 else ".", "config/mdrstrip_bigfiles.txt")
     igbigfiles = readfileIglist(mdrstripBigfile)
     if not fmd5 in igbigfiles and not flocal in igbigfiles:
-        if len(fdata) >= 1024*1000*1:
+        if len(fdata) >= 1024*1000*1 and not IGNOREERR:
             assert False, (len(fdata) / 1024.0 / 1000.0, url, flocal)
 
     remote = buildlocal(".html" if mdxfile else ttype).replace("\\", "/")
