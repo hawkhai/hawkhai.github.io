@@ -101,7 +101,7 @@ def checkpage(fdata):
             return itag
     return None
 
-def backupUrlContent(fpath, url):
+def backupUrlContent(fpath, md5src, url):
     for urlz in readfileIglist("config/mdrstrip_url_ignore_ends.txt"):
         if url.endswith(urlz):
             return
@@ -182,7 +182,7 @@ def backupUrlContent(fpath, url):
             removeSnapCache(urlmd5)
             osremove(flocal)
             osremove(shotpath)
-            return backupUrlContent(fpath, url)
+            return backupUrlContent(fpath, md5src, url)
 
     def addmdhead(fdata):
         xtime = formatTimeStamp(time.time())
@@ -403,7 +403,7 @@ def tidyupImg(imglocal, fpath, line, imgthumb=True):
     return line.replace(imglocal, tpath.replace("\\", "/"))
 
 G_HOSTSET = {}
-def collectHost(fpath, line, imgthumb):
+def collectHost(fpath, md5src, line, imgthumb):
 
     reflist = []
     linesrc = line[:]
@@ -466,7 +466,7 @@ def collectHost(fpath, line, imgthumb):
                 print(url)
                 assert False, (url, checkz)
         assert not url.endswith("."), fpath +" "+ url
-        remote = backupUrlContent(fpath, url)
+        remote = backupUrlContent(fpath, md5src, url)
         if remote:
             reflist.append([url, remote])
 
@@ -555,11 +555,11 @@ def removeRefs(fpath, lines):
             lines = lines[:-1]
     return lines
 
-def appendRefs(fpath, lines, imgthumb):
+def appendRefs(fpath, md5src, lines, imgthumb):
     reflist = []
 
     for index, line in enumerate(lines):
-        ireflist, line = collectHost(fpath, line, imgthumb)
+        ireflist, line = collectHost(fpath, md5src, line, imgthumb)
         lines[index] = line
         if ireflist:
             reflist.extend(ireflist)
@@ -570,17 +570,19 @@ def appendRefs(fpath, lines, imgthumb):
     if os.path.exists(fpath+".tempd"): # 存在加密版本。
         frelgit = fpath+".tempd"
 
-    # 获取 md 文件的最后修改时间。
-    cmdx = 'git log -n 1 --pretty=format:"%ad" --date=short -- "{}"'.format(frelgit)
-    if invdir:
-        cmdx = 'cd {} & git log -n 1 --pretty=format:"%ad" --date=short -- "{}"'.format(*frelgit.split(os.sep, 1))
-    if invdir and IS_MACOS:
-        cmdx = 'cd {} && git log -n 1 --pretty=format:"%ad" --date=short -- "{}" && cd ..'.format(*frelgit.split(os.sep, 1))
+    def getDateStr(frelgit):
+        # 获取 md 文件的最后修改时间。
+        cmdx = 'git log -n 1 --pretty=format:"%ad" --date=short -- "{}"'.format(frelgit)
+        if invdir:
+            cmdx = 'cd {} & git log -n 1 --pretty=format:"%ad" --date=short -- "{}"'.format(*frelgit.split(os.sep, 1))
+        if invdir and IS_MACOS:
+            cmdx = 'cd {} && git log -n 1 --pretty=format:"%ad" --date=short -- "{}" && cd ..'.format(*frelgit.split(os.sep, 1))
 
-    datestr = popenCmd(cmdx)
-    datestr = bytesToString(datestr)
-    if not datestr:
-        datestr = datetime.datetime.now().date()
+        datestr = popenCmd(cmdx)
+        datestr = bytesToString(datestr)
+        if not datestr:
+            datestr = datetime.datetime.now().date()
+        return datestr
 
     if fpath.startswith("_posts"+os.sep):
         fpath = os.path.join("blogs", fpath.split(os.sep)[-1])
@@ -590,8 +592,14 @@ def appendRefs(fpath, lines, imgthumb):
         fpath = "assets"+os.sep+"reviewjs"+os.sep + fpath
 
     reviewjs = REVIEW_JS_PATH % (fpath)
-    fcode = """document.write("%s: review");%s""" % (datestr, NEWLINE_CHAR)
-    writefile(reviewjs, fcode)
+    fcode = readfile(reviewjs, True)
+    fcheck = refindall("[0-9a-f]{32}", fcode)
+    if fcheck and md5src == fcheck[0]:
+        pass
+    else:
+        fcode = """document.write("%s: review"); // md5src=%s%s""" % (
+                getDateStr(frelgit), md5src, NEWLINE_CHAR)
+        writefile(reviewjs, fcode)
     review = REVIEW_FORMAT % (fpath.replace("\\", "/"))
     assert refindall(REVIEW_REGEX, review), review
 
@@ -685,7 +693,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
         return line.rstrip()
 
     print(fpath)
-    md5src = getFileMd5(fpath)
+    md5src = getFileMd5(fpath) # mainfile
     try:
         lines = readfileLines(fpath, False, False, "utf8")
     except Exception as ex:
@@ -717,7 +725,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
                 break
 
         try:
-            lines = appendRefs(fpath, lines, imgthumb)
+            lines = appendRefs(fpath, md5src, lines, imgthumb)
         except AssertionError as ex:
             if fdepth >= 5:
                 raise ex
@@ -1089,7 +1097,7 @@ def checkfilesize(fpath, fname, ftype):
 
     invdir = isInvisibleDir(fpath)
     mdrstripBigfile = os.path.join("invisible" if invdir else ".", "config/mdrstrip_bigfiles.txt")
-    fmd5 = getFileMd5(fpath)
+    fmd5 = getFileMd5(fpath) # checkfilesize
 
     igbigfiles = readfileIglist(mdrstripBigfile)
     if not (fmd5 in igbigfiles) and not (fpath in igbigfiles):
@@ -1128,7 +1136,7 @@ def checkReviewJS(jsdir, rootdir):
             osremove(fpath)
         elif OPENRESENT:
             jsdata = readfile(fpath, True).strip() # document.write("2021-12-06: review");
-            jsy, jsm, jsd = refindall("[0-9]+", jsdata)
+            jsy, jsm, jsd = refindall("[0-9]+", jsdata)[:3]
             today = datetime.date.today()
             jsday = datetime.date(int(jsy), int(jsm), int(jsd))
             xday = today - jsday
