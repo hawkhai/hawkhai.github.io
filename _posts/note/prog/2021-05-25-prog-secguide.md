@@ -729,6 +729,7 @@ if (execve("/usr/bin/any_exe", args, envs) == -1) // 【修改】使用 execve �
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://google.github.io/styleguide/cppguide.html]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/google.github.io/4066d13e.html" %})
+- [https://cheetahfun.feishu.cn/docs/doccnqqrovuzyC5mPw5QEdzDq5F]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/cheetahfun.feishu.cn/f2051fff.html" %})
 - [https://www.jianshu.com/p/a200a2dab960]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/www.jianshu.com/ff54d6d7.html" %})
 - [https://www.cnblogs.com/zjutzz/p/10802138.html]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/www.cnblogs.com/66780ceb.html" %})
 - [https://github.com/rxi/log.c]({% include relrefx.html url="/backup/2021-05-25-prog-secguide.md/github.com/e00aa14a.html" %})

@@ -16,6 +16,9 @@ codeprint:
 l2dwidget: true
 ---
 
+
+## 惠普 178/179 彩机 HP Color Laser MFP 178nw
+
 惠普 HP Color Laser MFP 178nw 彩色激光多功能打印机一体机复印件扫描 A4 商用商务无线 wifi 网络办公室三合一
 [from](https://detail.tmall.com/item.htm?id=595881525690)
 
@@ -37,9 +40,17 @@ A4 彩色激光一体机
 <https://v.qq.com/x/page/v08714tdd7h.html>
 
 
+## SSD
+
+你买个 m.2 的 SSD，再买个 m.2 的移动硬盘盒不就行了，移动硬盘盒有 3.0 的接口
+买 ssd
+https://item.jd.com/100014607376.html
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-12-15-hp-printer.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
 - [https://detail.tmall.com/item.htm?id=595881525690]({% include relrefx.html url="/backup/2021-12-15-hp-printer.md/detail.tmall.com/1df33cdb.htm" %})
+- [https://item.jd.com/100014607376.html]({% include relrefx.html url="/backup/2021-12-15-hp-printer.md/item.jd.com/6b440720.html" %})

@@ -916,3 +916,6 @@ Argments.call([](int, double)
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2022-01-25-C++-template.md.js" %}'></script></p>
+<font class='ref_snapshot'>参考资料快照</font>
+
+- [https://cheetahfun.feishu.cn/docs/doccnMJnXaHGq9raQCrtCiQpfjf]({% include relrefx.html url="/backup/2022-01-25-C++-template.md/cheetahfun.feishu.cn/1969e84b.html" %})
