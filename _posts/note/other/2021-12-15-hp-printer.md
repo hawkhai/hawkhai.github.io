@@ -44,7 +44,7 @@ A4 彩色激光一体机
 
 你买个 m.2 的 SSD，再买个 m.2 的移动硬盘盒不就行了，移动硬盘盒有 3.0 的接口
 买 ssd
-https://item.jd.com/100014607376.html
+<https://item.jd.com/100014607376.html>
 
 
 
