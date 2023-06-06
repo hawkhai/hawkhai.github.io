@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "机器学习 -- 学习地图（进行中……）"
+title: "机器学习 -- 人工智能学习路线（进行中……）"
 author:
 location: "珠海"
 categories: ["机器学习"]
@@ -224,16 +224,16 @@ def normalEqn(X, y):
 
 
 <hr class='reviewline'/>
-<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2023-02-11-ml-MLofAndrew-Ng2.md.js" %}'></script></p>
+<p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2023-02-11-AI-learning-roadmap.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://space.bilibili.com/29834628]({% include relrefx.html url="/backup/2023-02-11-ml-MLofAndrew-Ng2.md/space.bilibili.com/8ff583b5.html" %})
-- [https://www.zhihu.com/people/liang-rong-24-62]({% include relrefx.html url="/backup/2023-02-11-ml-MLofAndrew-Ng2.md/www.zhihu.com/d98e98a5.html" %})
-- [https://github.com/azataiot/DeepLearning-Notes]({% include relrefx.html url="/backup/2023-02-11-ml-MLofAndrew-Ng2.md/github.com/cc99b016.html" %})
-- [https://www.bilibili.com/video/BV1qf4y1x7kB/]({% include relrefx.html url="/backup/2023-02-11-ml-MLofAndrew-Ng2.md/www.bilibili.com/93706280.html" %})
-- [https://www.bilibili.com/video/BV1Pa411X76s/]({% include relrefx.html url="/backup/2023-02-11-ml-MLofAndrew-Ng2.md/www.bilibili.com/9a7fd2a7.html" %})
-- [https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes]({% include relrefx.html url="/backup/2023-02-11-ml-MLofAndrew-Ng2.md/github.com/9e99497d.html" %})
-- [http://www.ai-start.com/ml2014/]({% include relrefx.html url="/backup/2023-02-11-ml-MLofAndrew-Ng2.md/www.ai-start.com/21b3ffdf.html" %})
-- [https://scruel.github.io/Notes-ML-AndrewNg/]({% include relrefx.html url="/backup/2023-02-11-ml-MLofAndrew-Ng2.md/scruel.github.io/3e8a18b1.html" %})
-- [https://www.bilibili.com/video/BV1JE411g7XF/]({% include relrefx.html url="/backup/2023-02-11-ml-MLofAndrew-Ng2.md/www.bilibili.com/89cc4342.html" %})
-- [http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML20.html]({% include relrefx.html url="/backup/2023-02-11-ml-MLofAndrew-Ng2.md/speech.ee.ntu.edu.tw/f319f059.html" %})
+- [https://space.bilibili.com/29834628]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/space.bilibili.com/8ff583b5.html" %})
+- [https://www.zhihu.com/people/liang-rong-24-62]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.zhihu.com/d98e98a5.html" %})
+- [https://github.com/azataiot/DeepLearning-Notes]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/github.com/cc99b016.html" %})
+- [https://www.bilibili.com/video/BV1qf4y1x7kB/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.bilibili.com/93706280.html" %})
+- [https://www.bilibili.com/video/BV1Pa411X76s/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.bilibili.com/9a7fd2a7.html" %})
+- [https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/github.com/9e99497d.html" %})
+- [http://www.ai-start.com/ml2014/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.ai-start.com/21b3ffdf.html" %})
+- [https://scruel.github.io/Notes-ML-AndrewNg/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/scruel.github.io/3e8a18b1.html" %})
+- [https://www.bilibili.com/video/BV1JE411g7XF/]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/www.bilibili.com/89cc4342.html" %})
+- [http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML20.html]({% include relrefx.html url="/backup/2023-02-11-AI-learning-roadmap.md/speech.ee.ntu.edu.tw/f319f059.html" %})
