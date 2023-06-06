@@ -1147,9 +1147,12 @@ def checkReviewJS(jsdir, rootdir):
 
 def mainw():
     print(parsePythonCmdx(__file__))
+    timea = time.time()
     main()
     removedirTimeout("tempdir")
     clearemptydir("tempdir")
+    timeb = time.time()
+    print("Total Time =", timeb - timea)
 
 def main():
     buildSnapCache("backup")
