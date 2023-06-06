@@ -39,6 +39,8 @@ cluster: "机器学习课程"
 概率论与数理统计：MIT 6.041
 凸优化：CVX101
 
+建议可以从吴恩达 / 李宏毅的课程入门，看完后可进一步的根据自己的研究方向选择，比如 CV 方向的可以看李飞飞的 CS231n 课程，最后再直接上手 Pytorch 去学习官方示例，把代码跑起来。
+
 * [吴恩达机器学习课程 2022 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1Pa411X76s/)
 * [浙江大学 - 机器学习 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1qf4y1x7kB/)
 
