@@ -1035,14 +1035,41 @@ $λ=(A,B,Π)$
 
 ### P103 大词汇量连续语音识别介绍 35:15
 
+汉语中 Triphone 个数：音节内 270 多个，音节间 3800 多个这是包含声调后的结果。
+这就意味着，汉语构造声学模型比英语更容易。
+
+DNN-HMM 与 GMM-HMM 对比：
+假设输入语音为 $\{x_1,x_2,...,x_T\}$，且 HMM 有 N 个状态
+1. GMM-HMM (Gaussian Mixture Models-HiddenMarkov Models) 是用 GMM 来模拟概率密度函数 $p(x_t\|s_i)$，其中 $i=1,2,...,N$。
+2. DNN-HMM (Deep Neural Networks-Hidden MarkovModels) 是用 DNN 来模拟概率密度函数 $p(s_i\|x_t)$，其中 $i=1,2,...,N$。
+
+参考书和论文
+1. L. Rabiner and B.H. Juang, Fundamentals of Speech Recognition, Prentice-HallInternational , 1997.
+2. Dong Yu and Li Deng, Automatic Speech Recognition: A Deep Learning ApproachSpringer, 2014.
+3. D. Jurafsky and J. H. Martin, Speech and Language Processing: An introduction to naturaanguage processing, 2006.
+4. L. Rabiner, A Tutorial on Hidden Markov Models and Selected Applications in SpeechRecognition, Proceedings of the IEEE. 1-30.1989
+
+工具包
+1. HTK Speech Recognition Toolkit, <http://htk.eng.cam.ac.uk/>
+2. CMU Sphinx， <https://cmusphinx.github.io/>
+3. Kaldi, <https://github.com/kaldi-asr/kaldi.git>
+
 
 ### P104 循环神经网络（RNN）和 LSTM 39:42
+
+若 w 为三层神经网络，且状态数有限，则 RNN 可以模拟 GMM-HMM。
 
 
 ### P105 人工智能中的哲学 缸中之脑 09:05
 
 
 ### P106 人工智能中的哲学 意识问题 13:04
+
+意识分级
+* 0 级：有生命无意识（植物）
+* 1 级：各种感官信号（视觉、听觉、触觉、嗅觉、味觉），能感知周围环境，有时间感和空间感（爬行动物）（脑干）
+* 2 级：作、社会关系，从社会关系中获得大于单个个体的力量（一些哺乳动物）（边缘系统）
+* 3 级：模拟、预测未来（人类）（前额叶皮层）
 
 
 ### P107 人工智能中的哲学 图灵测试 04:17
@@ -1110,4 +1137,7 @@ $λ=(A,B,Π)$
 - [https://cloud.tencent.com/developer/article/1888046]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cloud.tencent.com/da1f780d.html" %})
 - [https://cloud.tencent.com/developer/article/1888060]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cloud.tencent.com/46483efb.html" %})
 - [https://cloud.tencent.com/developer/article/1888043]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cloud.tencent.com/9291b194.html" %})
+- [http://htk.eng.cam.ac.uk/]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/htk.eng.cam.ac.uk/3ebfde78.html" %})
+- [https://cmusphinx.github.io/]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cmusphinx.github.io/91b0dad9.html" %})
+- [https://github.com/kaldi-asr/kaldi.git]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/github.com/ffdac6a2.html" %})
 - [http://www.atoolbox.net/Tool.php?Id=715]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.atoolbox.net/ecf02067.php" %})
