@@ -775,7 +775,13 @@ $$
 
 ## 【七-4】一阶线性微分方程 28:23
 
-Bernoulli 方程
+$$
+\frac{dy}{dx}+p(x)y=Q(x)
+$$
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230608214953.png" %}
+
+伯努利 方程
 $$
 \frac{\mathrm dy}{\mathrm dx}+P(x)y=Q(x)y^n(n\not=0,1).
 $$
@@ -783,8 +789,21 @@ $$
 
 ## 【七-5】可降阶的高阶微分方程 17:23
 
+$$
+y^{(n)}=f(x)
+$$
+
+$\frac{d p}{d y} \cdot \frac{d y}{d x}$
+理解为求导，不可以消掉，但是你理解为微分，就可以消掉了。
+
 
 ## 【七-6】常系数线性齐次微分方程 24:17
+
+$y^{\prime \prime}+p y^{\prime}+q y=0$
+
+特征方程：$r^2+pr+q=0$
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230608225657.png" %}
 
 
 ## 【七-7】补充证明过程（可略）22:05
