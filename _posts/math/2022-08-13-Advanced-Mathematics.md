@@ -820,11 +820,34 @@ $y^{\prime \prime}+p y^{\prime}+q y=0$
 
 ## 【八-4】方向角方向余弦 45:59
 
+方向角和方向余弦公式是 $a°=(cosα)i+(cosβ)j+(cosγ)k$，方向余弦是指在解析几何里，一个向量的三个方向余弦分别是这向量与三个坐标轴之间的角度的余弦。
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/v2-372cbaa699e447996d4c6d27ebbc4f2a_1440w.png" %}
+
 
 ## 【八-5】数量积 30:05
 
+[MathJax 常用数学符号表](https://www.oscaner.com/skill/others/mathjax-symbol.html)
+
+* 点乘，也叫数量积。结果是一个向量在另一个向量方向上投影的长度，是一个标量。
+* 叉乘，也叫向量积。结果是一个和已有两个向量都垂直的向量。
+
+以我比较熟悉的图形学而言，一般点乘用来判断两个向量是否垂直，因为比较好算。也可以用来计算一个向量在某个方向上的投影长度，就像定义一样。
+
+叉乘更多的是判断某个平面的方向。从这个平面上选两个不共线的向量，叉乘的结果就是这个平面的法向量。
+在二维空间中，叉乘还有另外一个几何意义就是：$\|a \times b\|$ 的模等于由向量 $a$ 和向量 $b$ 构成的平行四边形的面积。
+
+> 人类对于高维世界是缺乏想象的，唯一个工具就是数学。
+> 线性代数和向量空间理论可以帮助我们理解二维和多维空间中的向量运算和线性变换。
+> 微积分和拓扑学可以用于研究高维空间中的函数、曲线和曲面的性质。
+> 在物理学和量子力学中，高维度空间的数学模型被用来描述粒子和场的行为。
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230610133353.png" %}
+
 
 ## 【八-6】向量积 33:05
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230610133740.png" %}
 
 
 ## 【八-7】平面及其方程 43:59
@@ -1080,3 +1103,4 @@ $y^{\prime \prime}+p y^{\prime}+q y=0$
 - [https://zhuanlan.zhihu.com/p/142909054]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/2d5e86a1.html" %})
 - [https://www.zhihu.com/question/538493369/answer/2542853013]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/5dcb1b3b.html" %})
 - [https://zhuanlan.zhihu.com/p/466806302]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/f8c1c13f.html" %})
+- [https://www.oscaner.com/skill/others/mathjax-symbol.html]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.oscaner.com/adc25f5e.html" %})
