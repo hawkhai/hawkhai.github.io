@@ -70,6 +70,21 @@ boxplot：箱型图又称为盒须图、盒式图或箱线图，是一种用作�
 况资料的统计图。
 
 
+### 卡尔曼滤波
+
+{% include image.html url="/assets/images/221013-artificial-intelligence/20230612230555.png" caption="李永乐 · 人工智能" %}
+
+1. 卡尔曼滤波器能够很好地解决线性的状态估计问题；
+2. 在遇到非线性的状态估计问题时，可以利用扩展卡尔曼滤波器将非线性问题线性化，只是会有一些精度损失。
+3. 粒子滤波的思想基于蒙特卡洛方法，利用粒子集来表示概率，可以用在任何形式的状态空间模型上。
+    相比于其他滤波算法，粒子滤波在解决非线性、非高斯的问题上，有着较大的优越性。
+    在无人驾驶领域，粒子滤波常被用于解决无人车的定位问题。
+
+[卡尔曼滤波](https://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/)
+在介绍卡尔曼滤波器数学原理之前，先从感性上看一下它的工作原理。
+简单来讲，卡尔曼滤波器就是根据上一时刻的状态，预测当前时刻的状态，将预测的状态与当前时刻的测量值进行加权，加权后的结果才认为是当前的实际状态，而不是仅仅听信当前的测量值。
+
+
 ### 超参数（Hyperparameter）
 
 机器学习算法中的调优参数（tuning parameters），需要人为设定，称为超参数（Hyperparameter）。比如，正则化系数 λ，决策树模型中树的深度。
@@ -556,6 +571,7 @@ Leaky ReLU 函数
 
 - [https://www.bilibili.com/video/BV1s3411y7WN/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/www.bilibili.com/9371f15d.html" %})
 - [https://blog.csdn.net/qq_39783601/article/details/123365469]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/blog.csdn.net/a44029f7.html" %})
+- [https://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/www.bzarg.com/c8bef21a.html" %})
 - [http://scott.fortmann-roe.com/docs/BiasVariance.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/scott.fortmann-roe.com/03c2a188.html" %})
 - [https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/scikit-learn.org/3be777ad.html" %})
 - [https://www.bilibili.com/read/cv12252018/]({% include relrefx.html url="/backup/2022-10-13-artificial-intelligence.md/www.bilibili.com/197befec.html" %})
