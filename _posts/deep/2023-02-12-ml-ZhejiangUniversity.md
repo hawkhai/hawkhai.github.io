@@ -968,6 +968,8 @@ PCA 的算法两种实现方法
 构造目标函数，极大似然法，Maximum Likelihood
 {% include image.html url="/assets/images/230212-ml-zhejianguniversity/d6c9b067c8a0c082504bfc7e87e30c38.png" %}
 
+[【点估计】最大似然估计的理论与步骤 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1HU4y127kn/)
+
 
 ### P96 概率密度估计 – 高斯混合模型 03:47
 
@@ -1141,6 +1143,7 @@ DNN-HMM 与 GMM-HMM 对比：
 - [https://cloud.tencent.com/developer/article/1888046]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cloud.tencent.com/da1f780d.html" %})
 - [https://cloud.tencent.com/developer/article/1888060]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cloud.tencent.com/46483efb.html" %})
 - [https://cloud.tencent.com/developer/article/1888043]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cloud.tencent.com/9291b194.html" %})
+- [https://www.bilibili.com/video/BV1HU4y127kn/]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/www.bilibili.com/3079c78a.html" %})
 - [http://htk.eng.cam.ac.uk/]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/htk.eng.cam.ac.uk/3ebfde78.html" %})
 - [https://cmusphinx.github.io/]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/cmusphinx.github.io/91b0dad9.html" %})
 - [https://github.com/kaldi-asr/kaldi.git]({% include relrefx.html url="/backup/2023-02-12-ml-ZhejiangUniversity.md/github.com/ffdac6a2.html" %})
