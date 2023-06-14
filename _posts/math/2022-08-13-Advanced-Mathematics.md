@@ -897,6 +897,8 @@ $y^{\prime \prime}+p y^{\prime}+q y=0$
 
 ## 二次曲面 32:13
 
+{% include image.html url="/assets/images/220813-advanced-mathematics/5bafa40f4bfbfbeda2b6e29271f0f736aec31f6b.jpg" caption="马鞍面就是双曲抛物面" %}
+
 
 ## 空间曲线及其方程 26:23
 
