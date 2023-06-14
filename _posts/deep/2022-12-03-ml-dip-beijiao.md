@@ -226,14 +226,14 @@ Quadratic Discriminant Function (QDF)
 概率是已知参数，对结果可能性的预测。似然是已知结果，对参数是某个值的可能性预测。
 
 [区别 {% include relref_cnblogs.html %}](https://www.cnblogs.com/eilearn/p/9433911.html)
-* 最大似然估计（MLE，Maximum Likelihood Estimation）
-    * 最大似然估计，就是利用已知的样本结果，反推最有可能（最大概率）导致这样结果的参数值（模型已知，参数未知）。
+* 极大似然估计（MLE，Maximum Likelihood Estimation）
+    * 极大似然估计，就是利用已知的样本结果，反推最有可能（最大概率）导致这样结果的参数值（模型已知，参数未知）。
 * 贝叶斯估计（BE，Bayesian Estimation）
     * 参数未知且不确定，因此作为随机变量，参数本身也是一个分布，同时，根据已有的信息可以得到参数 θ 的先验概率，根据先验概率来推断 θ 的后验概率。
 
 [note {% include relref_cnblogs.html %}](https://www.cnblogs.com/simon6666/p/11009510.html)
 极大似然估计（MLE）、贝叶斯估计、最大后验概率估计（MAP）
-最大似然估计（Maximum likelihood estimation, 简称 MLE）和
+极大似然估计（Maximum likelihood estimation, 简称 MLE）和
 最大后验概率估计（Maximum aposteriori estimation, 简称 MAP）是很常用的两种参数估计方法。
 
 

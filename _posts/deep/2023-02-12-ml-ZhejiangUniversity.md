@@ -57,7 +57,7 @@ AlexNet 为什么有 9 层，为什么第二层就变成 5x5，后面又变成 3
 非监督学习算法：
 * 聚类 Clustering
 * EM 算法（Expectation-Maximization algorithm）
-    * 第一步是计算期望（E），利用对隐藏变量的现有估计值，计算其最大似然估计值；
+    * 第一步是计算期望（E），利用对隐藏变量的现有估计值，计算其极大似然估计值；
     * 第二步是最大化（M），最大化在 E 步上求得的最大似然值来计算参数的值。M 步上找到的参数估计值被用于下一个 E 步计算中，这个过程不断交替进行。
 * 主成分分析（Principle Component Analysis）
 
@@ -968,7 +968,7 @@ PCA 的算法两种实现方法
 构造目标函数，极大似然法，Maximum Likelihood
 {% include image.html url="/assets/images/230212-ml-zhejianguniversity/d6c9b067c8a0c082504bfc7e87e30c38.png" %}
 
-[【点估计】最大似然估计的理论与步骤 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1HU4y127kn/)
+[【点估计】极大似然估计的理论与步骤 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1HU4y127kn/)
 
 
 ### P96 概率密度估计 – 高斯混合模型 03:47
