@@ -109,7 +109,10 @@ def checklog(fpath1, fpath2):
         return False
 
     fmd5 = readfile(localfile, True)
-    return fmd5 == getLuckFileMd5(fpath2, fmd5)
+    retv = fmd5 == getLuckFileMd5(fpath2, fmd5)
+    if retv:
+        writefile(localfile, fmd5, force=True)
+    return retv
 
 def savelog(fpath1, fpath2):
 
