@@ -111,7 +111,7 @@ def checklog(fpath1, fpath2):
     fmd5 = readfile(localfile, True)
     retv = fmd5 == getLuckFileMd5(fpath2, fmd5)
     if retv:
-        writefile(localfile, fmd5, force=True)
+        modifyFileTimeCur(localfile)
     return retv
 
 def savelog(fpath1, fpath2):
