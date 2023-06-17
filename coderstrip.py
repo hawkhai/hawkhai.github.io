@@ -2,7 +2,7 @@
 import re, os, sys
 sys.path.append("../")
 from pythonx.funclib import *
-from pythonx.pelib import getLuckFileMd5
+from pythonx.pelib import getLuckFileMd5, refreshLuckFileTime
 
 # 在西歐、北歐及東歐國家常用的字母，帶變音符，和一般英文字母不同。
 DIACRITIC = """
@@ -111,7 +111,7 @@ def checklog(fpath1, fpath2):
     fmd5 = readfile(localfile, True)
     retv = fmd5 == getLuckFileMd5(fpath2, fmd5)
     if retv:
-        modifyFileTimeCur(localfile)
+        refreshLuckFileTime(localfile) # modifyFileTimeCur
     return retv
 
 def savelog(fpath1, fpath2):
