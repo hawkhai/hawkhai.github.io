@@ -918,6 +918,10 @@ $y^{\prime \prime}+p y^{\prime}+q y=0$
 ## 【九-6】全微分 46:01
 
 偏导数存在是可微的必要不充分条件。
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230619003739.png" %}
+
+近似计算：
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230619005517.png" %}
 
 
 ## 【九-7】多元复合函数求导（理论讲解）30:32
