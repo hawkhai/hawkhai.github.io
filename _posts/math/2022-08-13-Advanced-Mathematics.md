@@ -926,6 +926,8 @@ $y^{\prime \prime}+p y^{\prime}+q y=0$
 
 ## 【九-7】多元复合函数求导（理论讲解）30:32
 
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230620001742.png" %}
+
 
 ## 【九-8】多元复合函数求导（例子讲解）11:59
 

@@ -13,7 +13,7 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
-cluster: "小学生能看懂"
+cluster: "基础知识点"
 ---
 
 小学生都能看懂的 **极大似然估计** 。
