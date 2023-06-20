@@ -943,6 +943,8 @@ $y^{\prime \prime}+p y^{\prime}+q y=0$
 
 ## 【九-11】一元向量值函数及其导数 46:56
 
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230621010120.png" %}
+
 
 ## 【九-12】空间曲线的切线与法平面 26:32
 
