@@ -948,11 +948,41 @@ $y^{\prime \prime}+p y^{\prime}+q y=0$
 
 ## 【九-12】空间曲线的切线与法平面 26:32
 
+克莱姆法则，又译克拉默法则（Cramer's Rule）是线性代数中一个关于求解线性方程组的定理。
+
+已知
+$$\begin{matrix}  ax+by=e \\
+cx+dy=f \\
+\end{matrix}$$，矩阵表示为
+$$\left [\begin {matrix}  a&b\\
+c&d  \end{matrix} \right ] \left [\begin {matrix}  x\\
+y  \end{matrix} \right ]= \left [\begin {matrix}  e\\
+f  \end{matrix} \right ] $$，
+当
+$$\left |\begin {matrix}  a&b\\
+c&d  \end{matrix} \right |\ne 0  $$
+，x 和 y 可以根据克莱姆法则求出：
+
+$$x={\frac{\left |\begin {matrix}  e&b\\
+f&d  \end{matrix} \right |} {\left |\begin {matrix}  a&b\\
+c&d  \end{matrix} \right |}} ={\frac{ed-bf}{ad-bc}}$$
+
+$$y={\frac{\left |\begin {matrix}  a&e\\
+c&f  \end{matrix} \right |} {\left |\begin {matrix}  a&b\\
+c&d  \end{matrix} \right |}} ={\frac{af-ec}{ad-bc}}$$
+
 
 ## 【九-13】空间曲面的切平面与法线 13:55
 
 
 ## 【九-14】方向导数 53:04
+
+* 方向导数存在，偏导不一定存在，一个直线，一个射线。
+
+* 多元函数，偏导存在，并不一定连续。
+* 可微，则 偏导一定存在。
+    * 偏导存在且连续，则 可微。
+* 可微，则 连续，方向导数必存在。
 
 
 ## 【九-15】梯度 30:42
