@@ -51,6 +51,14 @@ OpenGL 3.2 (GLSL #version 150)
 OpenGL 3.3 (GLSL #version 330)
 ```
 
+<https://www.cnblogs.com/vertexshader/articles/2917540.html>
+OpenGL 3.0 的出现改变了过去 OpenGL 一定会向下兼容的特性，在一定程度上简化了 API 的臃肿以及增加了 API 的灵活度。
+
+3.x 开始了一种全新的工作方式，我读过各种文章和评论，它们都希望“远离已弃用的功能，
+例如 glBegin()，glEnd()”，但还有很多书我见过的教程都使用该方法。
+
+从发展历程上看，OpenGL 1.0~OpenGL 1.5 是经典的固定管线时代；OpenGL 2.0~OpenGL 2.1 是固定管线和可编程管线并存的时代；OpenGL 3.0~OpenGL 4.x 开始是可编程管线崛起的时代。
+
 
 ### GLSL Versions
 
@@ -242,6 +250,7 @@ eglSwapBuffers(eglDisplay, eglSurface);
 - [https://developer.nvidia.com/tegra-graphics-debugger]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/developer.nvidia.com/1e05e468.html" %})
 - [https://software.intel.com/en-us/gpa]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/software.intel.com/5d46a23a.html" %})
 - [https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/www.khronos.org/b532b03c.html" %})
+- [https://www.cnblogs.com/vertexshader/articles/2917540.html]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/www.cnblogs.com/95e3ab44.html" %})
 - [https://www.cnblogs.com/beeasy/p/6339313.html]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/www.cnblogs.com/4e5820ec.html" %})
 - [http://www.c-jump.com/bcc/common/Talk3/OpenGL/Wk03_shader_intro/W03_0090_glsl_version_number.htm]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/www.c-jump.com/6b7517e9.htm" %})
 - [https://en.wikipedia.org/wiki/OpenGL_Shading_Language]({% include relrefx.html url="/backup/2021-03-10-shader-diff-opengl-opengles.md/en.wikipedia.org/f01b7d53.html" %})
