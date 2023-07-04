@@ -112,18 +112,24 @@ GLGetError fpGLGetError = nullptr;
 
 HGLRC WINAPI MyCreateContext(HDC hdc) {
     auto retv = fpWGLCreateContext(hdc);
-    printf("----- CreateContext(%x) %x\n", hdc, retv);
+    if (!retv) {
+        auto err = GetLastError();
+        // wglCreateContext GetLastError() 0xc007001f
+        printf("[%d] CreateContext(%x) %x -- %x\n", GetCurrentThreadId(), hdc, retv, err);
+    } else {
+        printf("[%d] CreateContext(%x) %x\n", GetCurrentThreadId(), hdc, retv);
+    }
     return retv;
 }
 BOOL WINAPI MyMakeCurrent(HDC hdc, HGLRC hglrc) {
     auto retv = fpWGLMakeCurrent(hdc, hglrc);
     auto err = fpGLGetError();
-    printf("----- MakeCurrent(%x, %x) %s\n", hdc, hglrc, retv ? "true" : "false");
+    printf("[%d] MakeCurrent(%x, %x) %s\n", GetCurrentThreadId(), hdc, hglrc, retv ? "true" : "false");
     return retv;
 }
 BOOL WINAPI MyDeleteContext(HGLRC hglrc) {
     auto retv = fpWGLDeleteContext(hglrc);
-    printf("----- DeleteContext(%x) %s\n", hglrc, retv ? "true" : "false");
+    printf("[%d] DeleteContext(%x) %s\n", GetCurrentThreadId(), hglrc, retv ? "true" : "false");
     return retv;
 }
 GLenum WINAPI MyGetError(void) {
