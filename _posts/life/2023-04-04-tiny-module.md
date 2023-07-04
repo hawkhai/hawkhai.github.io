@@ -76,6 +76,113 @@ cluster: "Tiny Code & Module"
 * mycount.exe & mycount64.exe 模拟调用。
 
 
+### minhook
+
+自己 hook 自己的情况。
+
+```cpp
+HDC hdc;
+
+HGLRC hglrc = wglCreateContext(hdc);
+wglMakeCurrent(hdc, hglrc);
+
+// ...
+
+wglMakeCurrent(NULL, NULL);
+wglDeleteContext(hglrc);
+```
+
+```cpp
+#include "MinHook.h"
+#if defined _M_X64
+#pragma comment(lib, "libMinHook.x64.lib")
+#elif defined _M_IX86
+#pragma comment(lib, "libMinHook.x86.lib")
+#endif
+
+typedef HGLRC(WINAPI* WGLCreateContext)(HDC);
+typedef BOOL(WINAPI* WGLMakeCurrent)(HDC, HGLRC);
+typedef BOOL(WINAPI* WGLDeleteContext)(HGLRC);
+typedef GLenum(WINAPI* GLGetError)();
+
+WGLCreateContext fpWGLCreateContext = nullptr;
+WGLMakeCurrent fpWGLMakeCurrent = nullptr;
+WGLDeleteContext fpWGLDeleteContext = nullptr;
+GLGetError fpGLGetError = nullptr;
+
+HGLRC WINAPI MyCreateContext(HDC hdc) {
+    auto retv = fpWGLCreateContext(hdc);
+    printf("----- CreateContext(%x) %x\n", hdc, retv);
+    return retv;
+}
+BOOL WINAPI MyMakeCurrent(HDC hdc, HGLRC hglrc) {
+    auto retv = fpWGLMakeCurrent(hdc, hglrc);
+    auto err = fpGLGetError();
+    printf("----- MakeCurrent(%x, %x) %s\n", hdc, hglrc, retv ? "true" : "false");
+    return retv;
+}
+BOOL WINAPI MyDeleteContext(HGLRC hglrc) {
+    auto retv = fpWGLDeleteContext(hglrc);
+    printf("----- DeleteContext(%x) %s\n", hglrc, retv ? "true" : "false");
+    return retv;
+}
+GLenum WINAPI MyGetError(void) {
+    auto retv = fpGLGetError();
+    return retv;
+}
+
+void SetHook() {
+    auto library = LoadLibraryA("D:\\Qt\\QTSetup\\5.15.0\\msvc2019\\bin\\opengl32sw.dll");
+    WGLCreateContext gcreate = (WGLCreateContext)GetProcAddress(library, "wglCreateContext");
+    WGLMakeCurrent gcurrent = (WGLMakeCurrent)GetProcAddress(library, "wglMakeCurrent");
+    WGLDeleteContext gdelete = (WGLDeleteContext)GetProcAddress(library, "wglDeleteContext");
+    GLGetError gerror = (GLGetError)GetProcAddress(library, "glGetError");
+
+    MH_STATUS status;
+    status = MH_Initialize();
+    assert(status == MH_OK);
+
+    status = MH_CreateHook(gcreate, &MyCreateContext, reinterpret_cast<void**>(&fpWGLCreateContext));
+    assert(status == MH_OK);
+    status = MH_CreateHook(gcurrent, &MyMakeCurrent, reinterpret_cast<void**>(&fpWGLMakeCurrent));
+    assert(status == MH_OK);
+    status = MH_CreateHook(gdelete, &MyDeleteContext, reinterpret_cast<void**>(&fpWGLDeleteContext));
+    assert(status == MH_OK);
+    status = MH_CreateHook(gerror, &MyGetError, reinterpret_cast<void**>(&fpGLGetError));
+    assert(status == MH_OK);
+
+    status = MH_EnableHook(gcreate);
+    assert(status == MH_OK);
+    status = MH_EnableHook(gcurrent);
+    assert(status == MH_OK);
+    status = MH_EnableHook(gdelete);
+    assert(status == MH_OK);
+    status = MH_EnableHook(gerror);
+    assert(status == MH_OK);
+}
+
+void UnHook() {
+    auto library = LoadLibraryA("D:\\Qt\\QTSetup\\5.15.0\\msvc2019\\bin\\opengl32sw.dll");
+    WGLCreateContext gcreate = (WGLCreateContext)GetProcAddress(library, "wglCreateContext");
+    WGLMakeCurrent gcurrent = (WGLMakeCurrent)GetProcAddress(library, "wglMakeCurrent");
+    WGLDeleteContext gdelete = (WGLDeleteContext)GetProcAddress(library, "wglDeleteContext");
+    GLGetError gerror = (GLGetError)GetProcAddress(library, "glGetError");
+
+    MH_STATUS status;
+    status = MH_DisableHook(gcreate);
+    assert(status == MH_OK);
+    status = MH_DisableHook(gcurrent);
+    assert(status == MH_OK);
+    status = MH_DisableHook(gdelete);
+    assert(status == MH_OK);
+    status = MH_DisableHook(gerror);
+    assert(status == MH_OK);
+    status = MH_Uninitialize();
+    assert(status == MH_OK);
+}
+```
+
+
 ### klauncher
 
 
