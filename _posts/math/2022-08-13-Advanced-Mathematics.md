@@ -999,6 +999,8 @@ c&d  \end{matrix} \right |}} ={\frac{af-ec}{ad-bc}}$$
 
 ## 【九-19】多元函数的极值 20:50
 
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230709225212.png" %}
+
 
 ## 【九-20】数量场向量场 36:46
 
