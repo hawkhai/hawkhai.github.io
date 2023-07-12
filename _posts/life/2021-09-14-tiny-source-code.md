@@ -2161,6 +2161,32 @@ bool IsFilePathExists(const char* path, bool exdir)
     return false;
 }
 
+#include "shlwapi.h"
+#pragma comment(lib, "shlwapi.lib")
+void myCreateDirectory(const wchar_t* fpath, bool isfile = true) {
+    std::wstring fdir = fpath;
+    if (!isfile) {
+        if (PathIsDirectory(fdir.c_str())) {
+            return;
+        }
+    }
+
+    int index = -1;
+    int temp = 0;
+    if ((temp = fdir.rfind(L"/")) != -1) {
+        index = std::max(index, temp);
+    }
+    if ((temp = fdir.rfind(L"\\")) != -1) {
+        index = std::max(index, temp);
+    }
+    if (index != -1) {
+        myCreateDirectory(fdir.substr(0, index).c_str(), false);
+    }
+    if (!isfile) {
+        ::CreateDirectory(fdir.c_str(), NULL);
+    }
+}
+
 bool CreateDeepDirectory(const char* szPath)
 {
     if (IsDirectory(szPath)) {
