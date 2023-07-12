@@ -50,6 +50,8 @@ int AllocHook(int allocType,
 * <https://github.com/derickr/vld>
     * 这个点赞挺多的。
 
+在实际使用中，发现存在误报的情况，lib & exe 就报泄漏，改成 dll & exe 就没有报告了。
+
 
 ## LeakSanitizer
 
