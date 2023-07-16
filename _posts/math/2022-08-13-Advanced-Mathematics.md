@@ -1010,6 +1010,12 @@ c&d  \end{matrix} \right |}} ={\frac{af-ec}{ad-bc}}$$
 
 ## 【九-22】条件极值 拉格朗日乘数法（理论讲解）19:29
 
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230716231026.png" %}
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230716231837.png" %}
+
+<https://www.zhihu.com/zvideo/1385266955763380224>
+
 
 ## 【九-23】极值例题 15:14
 
@@ -1166,3 +1172,4 @@ c&d  \end{matrix} \right |}} ={\frac{af-ec}{ad-bc}}$$
 - [https://www.zhihu.com/question/538493369/answer/2542853013]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/5dcb1b3b.html" %})
 - [https://zhuanlan.zhihu.com/p/466806302]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/f8c1c13f.html" %})
 - [https://www.oscaner.com/skill/others/mathjax-symbol.html]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.oscaner.com/adc25f5e.html" %})
+- [https://www.zhihu.com/zvideo/1385266955763380224]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/b5bcb59b.html" %})
