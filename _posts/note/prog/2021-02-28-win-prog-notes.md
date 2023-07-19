@@ -16,6 +16,11 @@ codeprint:
 ---
 
 
+## Win10 共享目录无法访问
+
+{% include image.html url="/assets/images/210228-win-prog-notes/20230719-110921.jpg" %}
+
+
 ## QT QtMoc
 
 {% include image.html url="/assets/images/210228-win-prog-notes/20220712-170628.jpg" %}
