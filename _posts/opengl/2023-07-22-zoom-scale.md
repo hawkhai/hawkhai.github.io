@@ -85,6 +85,12 @@ bool FlipWidgetAngle::zoomScale(QPointF scale, QPointF point) {
 ```
 
 矩阵作用，是左运算，这个很关键。
+* auto projectionk = projection;
+* projectionk.scale(m_scale.x(), m_scale.y()); -- 先弄上去，其实是后起作用。
+* projectionk.translate(m_offset.x(), m_offset.y()); -- 后弄上去，先起作用。
+
+本来有一个坐标系 projection，后来在上面加入了位移动画。
+最后又加上了 scale & offset，代码就变的很复杂。
 
 ```cpp
 float mAnimationCenterSource = 0;
@@ -92,7 +98,7 @@ ULONGLONG mAnimationCenterStartTime = 0;
 float mAnimationCenterTarget = 0; // 这里是自己坐标系的偏移
 
 bool CurlViewAngle::clickPaperTest(QPointF point, QMatrix4x4 projection, QPointF scale, QPointF offset) {
-    // We need page rects quite extensively so get them for later use.
+
     QRectF rightRect = mRenderer.getPageRect(PAGE_RIGHT);
     QRectF leftRect = mRenderer.getPageRect(PAGE_LEFT);
 
@@ -154,8 +160,6 @@ void FlipWidgetAngle::paintGL() {
         mAnimate = true;
     }
 
-    //m_offset = QPointF(0.5, 0.5);
-    //m_scale = QPointF(2.0, 2.0);
     projectionk.scale(m_scale.x(), m_scale.y());
     projectionk.translate(m_offset.x(), m_offset.y());
 
@@ -189,7 +193,7 @@ void FlipWidgetAngle::paintGL() {
 }
 
 bool FlipWidgetAngle::checkScaleOffset(bool xaxis) {
-    // We need page rects quite extensively so get them for later use.
+
     QRectF rightRect = mCurlView->getRenderer()->getPageRect(PAGE_RIGHT);
     QRectF leftRect = mCurlView->getRenderer()->getPageRect(PAGE_LEFT);
     QMatrix4x4 projectionk = projection;
@@ -197,7 +201,6 @@ bool FlipWidgetAngle::checkScaleOffset(bool xaxis) {
     float mAnimationCenterTarget = mCurlView->getAnimationCenterTarget();
     auto mViewRect = mCurlView->getRenderer()->getViewRect();
     // 相当于拼接在 projection 的左边。先起作用。
-    //mAnimationCenterTarget = mAnimationCenterTarget / mViewRect.width() * 2;
     projectionk.translate(mAnimationCenterTarget, 0);
 
     projectionk.scale(m_scale.x(), m_scale.y());
