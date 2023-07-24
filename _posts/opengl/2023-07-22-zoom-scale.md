@@ -145,15 +145,15 @@ void FlipWidgetAngle::paintGL() {
     QMatrix4x4 projectionk = projection;
 
     long mAnimationDurationTime = 300 * PAGE_FLIPPING_SPEED;
-    ULONGLONG mAnimationStartTime = mCurlView->getAnimationCenterStartTime();
+    ULONGLONG mAnimationCenterStartTime = mCurlView->getAnimationCenterStartTime();
     float mAnimationCenterSource = mCurlView->getAnimationCenterSource();
     float mAnimationCenterTarget = mCurlView->getAnimationCenterTarget();
 
     bool mAnimate = false;
-    if (currentTime >= mAnimationStartTime + mAnimationDurationTime) {
+    if (currentTime >= mAnimationCenterStartTime + mAnimationDurationTime) {
         projectionk.translate(mAnimationCenterTarget, 0);
     } else {
-        float t = 1.f - ((float)(currentTime - mAnimationStartTime) / mAnimationDurationTime);
+        float t = 1.f - ((float)(currentTime - mAnimationCenterStartTime) / mAnimationDurationTime);
         t = 1.f - (t * t * t * (3 - 2 * t));
         float offsetx = mAnimationCenterSource + (mAnimationCenterTarget - mAnimationCenterSource) * t;
         projectionk.translate(offsetx, 0);
@@ -178,7 +178,7 @@ void FlipWidgetAngle::paintGL() {
 
     // 使用 32 位 ARGB 格式（0xAARRGGBB）存储帧。这相当于 QImage :: Format_ARGB32_Premultiplied。
     //QImage frame = this->grabFramebuffer();
-    mCurlView->getRenderer()->onPostProcessing(*this, program,        //
+    mCurlView->getRenderer()->onPostProcessing(*this, program, //
                                                *m_framebuffer, *m_framebufferMask);
 
     static int paintConter = 0;
