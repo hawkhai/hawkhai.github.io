@@ -589,6 +589,23 @@ pyinstaller 打包绿色软件，每次解压启动慢，如果
     * `dlindex image_ksample.json` 下载索引。
     * `upindex image_ksample.json` 上传索引。
 
+* pythonx 代码。
+    * UPCODE = "upcode" in sys.argv 上传代码。
+    * DOWNCODE = "downcode" in sys.argv 下载代码。
+    * IDXCODE = "idxcode" in sys.argv 更新本地代码索引。
+
+* 图片文件相关。
+    * UPLOAD = "upload" in sys.argv 上传图片。
+    * DOWNLOAD = "download" in sys.argv 下载图片。
+    * SYMLINK = "symlink" in sys.argv 上传后生成软链接。
+
+    * DLINDEX = "dlindex" in sys.argv 下载索引。
+    * UPINDEX = "upindex" in sys.argv 上传索引。
+
+* 不常用的命令。
+    * DOCHECK = "docheck" in sys.argv 检查上传下载和软链接。
+    * DLRESULT = "dlresult" in sys.argv 下载结果。因为默认结果是只能上传，然后网址访问的。
+
 
 
 <hr class='reviewline'/>
