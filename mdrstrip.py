@@ -335,7 +335,7 @@ def tidyupImg(imglocal, fpath, line, imgthumb=True):
         osremove(thumbPath)
 
     # 2. 创建缩略图。
-    elif not os.path.exists(thumbPath) and imgtype in ("png", "jpg", "gif", "jpeg", "webp", "bmp", "jfif"):
+    elif not os.path.exists(thumbPath) and imgtype in ("png", "jpg", "gif", "jpeg", "webp", "bmp", "jfif",):
         try:
             img = Image.open(tpath)
         except RuntimeError as ex: # could not create decoder object
@@ -394,7 +394,7 @@ def tidyupImg(imglocal, fpath, line, imgthumb=True):
         #    return tidyupImg(imglocal, fpath, line)
 
     imgtype = imgfname.split(".")[-1].lower()
-    if not imgtype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4", "zip", "bmp", "svg", "jfif"):
+    if not imgtype in ("pdf", "png", "jpg", "gif", "jpeg", "webp", "mp4", "zip", "bmp", "svg", "jfif", "webm"):
         print(imglocal, fpath, line)
         assert False, imglocal
 
