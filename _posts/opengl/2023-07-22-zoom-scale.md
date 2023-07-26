@@ -23,6 +23,7 @@ codeprint:
 virtual bool zoomScale(QPointF scale, QPointF point) = 0;
 // offset 为屏幕坐标系。
 virtual bool moveTranslate(QPointF offset) = 0;
+virtual bool resetTranslate() = 0;
 ```
 
 关于移动：
@@ -39,7 +40,12 @@ bool FlipWidgetAngle::moveTranslate(QPointF offset) {
     m_offset.setY(m_offset.y() + fdy);
 
     checkResetScaleOffset();
-    this->update();
+    this->update(); // moveTranslate
+    return true;
+}
+bool FlipWidgetAngle::resetTranslate() {
+    m_offset = QPointF(0.0, 0.0);
+    this->update(); // resetTranslate
     return true;
 }
 ```
@@ -79,7 +85,7 @@ bool FlipWidgetAngle::zoomScale(QPointF scale, QPointF point) {
     assert(abs(target1.y() - target2.y()) <= 0.0001);
 
     checkResetScaleOffset();
-    this->update();
+    this->update(); // zoomScale
     return true;
 }
 ```
@@ -95,7 +101,7 @@ bool FlipWidgetAngle::zoomScale(QPointF scale, QPointF point) {
 ```cpp
 float mAnimationCenterSource = 0;
 ULONGLONG mAnimationCenterStartTime = 0;
-float mAnimationCenterTarget = 0; // 这里是自己坐标系的偏移
+float mAnimationCenterTarget = 0; // 这里是自己坐标系的偏移。
 
 bool CurlViewAngle::clickPaperTest(QPointF point, QMatrix4x4 projection, QPointF scale, QPointF offset) {
 
@@ -163,15 +169,17 @@ void FlipWidgetAngle::paintGL() {
     projectionk.scale(m_scale.x(), m_scale.y());
     projectionk.translate(m_offset.x(), m_offset.y());
 
+    bool brotate = false;
+
     m_framebuffer->bind();
-    mCurlView->getRenderer()->onDrawFrame(*this, projectionk, program, false);
+    brotate = mCurlView->getRenderer()->onDrawFrame(*this, projectionk, program, false) || brotate;
     m_framebuffer->release();
 
     m_framebufferMask->bind();
-    mCurlView->getRenderer()->onDrawFrame(*this, projectionk, program, true);
+    brotate = mCurlView->getRenderer()->onDrawFrame(*this, projectionk, program, true) || brotate;
     m_framebufferMask->release();
 
-    mCurlView->getRenderer()->onDrawFrame(*this, projectionk, program, false);
+    brotate = mCurlView->getRenderer()->onDrawFrame(*this, projectionk, program, false) || brotate;
 
     //m_framebuffer->toImage().save("m_framebuffer.png");
     //m_framebufferMask->toImage().save("m_framebufferMask.png");
@@ -188,12 +196,18 @@ void FlipWidgetAngle::paintGL() {
         m_callback->onFlipWidgetPaintGL(*this);
     }
     if (mAnimate) { // 下一轮动画。
-        this->update();
+        QTimer::singleShot(MY_ANIMATE_TIMER, this, [&]() {
+            this->update(); // 居中动画。
+        });
+    } else if (brotate) {
+        QTimer::singleShot(MY_ANIMATE_TIMER, this, [&]() {
+            this->update(); // 旋转动画。
+        });
     }
 }
 
-bool FlipWidgetAngle::checkScaleOffset(bool xaxis) {
-
+bool FlipWidgetAngle::checkScaleOffset(bool xaxis, float& recommend) {
+    recommend = 0;
     QRectF rightRect = mCurlView->getRenderer()->getPageRect(PAGE_RIGHT);
     QRectF leftRect = mCurlView->getRenderer()->getPageRect(PAGE_LEFT);
     QMatrix4x4 projectionk = projection;
@@ -225,22 +239,65 @@ bool FlipWidgetAngle::checkScaleOffset(bool xaxis) {
             rb = projectionk * leftRect.bottomRight();
         }
     }
+
     auto x1 = lt + (rb - lt) * 0.75;
     auto x2 = rb - (rb - lt) * 0.75;
-    if (xaxis) {
-        return (x1.x() >= -1.0 && x1.x() <= 1.0) || (x2.x() >= -1.0 && x2.x() <= 1.0);
+    auto x1x = lt + (rb - lt) * 0.25;
+    auto x2x = rb - (rb - lt) * 0.25;
+
+    if (m_scale.x() >= 1.0) {
+        x1 = lt + (rb - lt) * 0.85;
+        x2 = rb - (rb - lt) * 0.85;
+        x1x = lt + (rb - lt) * 0.15;
+        x2x = rb - (rb - lt) * 0.15;
     }
-    return (x1.y() >= -1.0 && x1.y() <= 1.0) || (x2.y() >= -1.0 && x2.y() <= 1.0);
+
+    if (xaxis) {
+        bool retv = (x1.x() >= -1.0 && x1.x() <= 1.0) || (x2.x() >= -1.0 && x2.x() <= 1.0);
+        // 两头都看不到了，其实中间的还能看到。
+        for (int i = 0; i <= 100 && !retv; i++) {
+            float tmpx = x1.x() + (x2.x() - x1.x()) * i / 100;
+            retv = retv || (tmpx >= -1.0 && tmpx <= 1.0);
+        }
+        if (!retv) {
+            if (x1x.x() >= 1.0) {
+                recommend = -abs(m_offset.x()) / 100;
+            } else if (x2x.x() <= -1.0) {
+                recommend = abs(m_offset.x()) / 100;
+            } else {
+                assert(false);
+            }
+        }
+        return retv;
+    }
+    bool retv = (x1.y() >= -1.0 && x1.y() <= 1.0) || (x2.y() >= -1.0 && x2.y() <= 1.0);
+    // 两头都看不到了，其实中间的还能看到。
+    for (int i = 0; i <= 100 && !retv; i++) {
+        float tmpx = x1.y() + (x2.y() - x1.y()) * i / 100;
+        retv = retv || (tmpx >= -1.0 && tmpx <= 1.0);
+    }
+    if (!retv) {
+        if (x1x.y() <= -1.0) {
+            recommend = abs(m_offset.y()) / 100;
+        } else if (x2x.y() >= 1.0) {
+            recommend = -abs(m_offset.y()) / 100;
+        } else {
+            assert(false);
+        }
+    }
+    return retv;
 }
 bool FlipWidgetAngle::checkResetScaleOffset() {
     for (int i = 0; i < 100; i++) {
         bool changed = false;
-        if (!checkScaleOffset(true)) {
-            m_offset.setX(m_offset.x() * 99 / 100);
+        float recommend = 0;
+        if (!checkScaleOffset(true, recommend)) {
+            m_offset.setX(m_offset.x() + recommend);
             changed = true;
         }
-        if (!checkScaleOffset(false)) {
-            m_offset.setY(m_offset.y() * 99 / 100);
+        recommend = 0;
+        if (!checkScaleOffset(false, recommend)) {
+            m_offset.setY(m_offset.y() + recommend);
             changed = true;
         }
         if (!changed) {
@@ -268,7 +325,7 @@ QMatrix4x4 matrix;
 matrix.setToIdentity();
 matrix.translate(0.5, 0.5);
 matrix.scale(rect.height(), rect.width());
-matrix.rotate(GetTickCount() / 5, 0, 0, 1);
+matrix.rotate(GetTickCount(), 0, 0, 1);
 matrix.scale(1.0 / rect.height(), 1.0 / rect.width());
 matrix.translate(-0.5, -0.5);
 program.setUniformValue("texture_matrix", matrix);
