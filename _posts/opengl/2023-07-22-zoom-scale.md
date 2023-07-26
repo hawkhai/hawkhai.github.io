@@ -261,6 +261,19 @@ bool FlipWidgetAngle::checkResetScaleOffset() {
 
 {% include image.html url="/assets/images/230722-zoom-scale/flipx2.webp" caption="双页的情况" %}
 
+纹理旋转：
+```cpp
+auto rect = getPageRect(PAGE_RIGHT);
+QMatrix4x4 matrix;
+matrix.setToIdentity();
+matrix.translate(0.5, 0.5);
+matrix.scale(rect.height(), rect.width());
+matrix.rotate(GetTickCount() / 5, 0, 0, 1);
+matrix.scale(1.0 / rect.height(), 1.0 / rect.width());
+matrix.translate(-0.5, -0.5);
+program.setUniformValue("texture_matrix", matrix);
+```
+
 
 
 <hr class='reviewline'/>
