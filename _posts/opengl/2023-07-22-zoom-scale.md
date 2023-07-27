@@ -240,16 +240,16 @@ bool FlipWidgetAngle::checkScaleOffset(bool xaxis, float& recommend) {
         }
     }
 
-    auto x1 = lt + (rb - lt) * 0.75;
-    auto x2 = rb - (rb - lt) * 0.75;
-    auto x1x = lt + (rb - lt) * 0.25;
-    auto x2x = rb - (rb - lt) * 0.25;
+    auto x1 = lt + (rb - lt) * 0.75; // inside
+    auto x2 = rb - (rb - lt) * 0.75; // inside
+    auto x1outside = lt + (rb - lt) * 0.25;
+    auto x2outside = rb - (rb - lt) * 0.25;
 
     if (m_scale.x() >= 1.0) {
         x1 = lt + (rb - lt) * 0.85;
         x2 = rb - (rb - lt) * 0.85;
-        x1x = lt + (rb - lt) * 0.15;
-        x2x = rb - (rb - lt) * 0.15;
+        x1outside = lt + (rb - lt) * 0.15;
+        x2outside = rb - (rb - lt) * 0.15;
     }
 
     if (xaxis) {
@@ -260,9 +260,9 @@ bool FlipWidgetAngle::checkScaleOffset(bool xaxis, float& recommend) {
             retv = retv || (tmpx >= -1.0 && tmpx <= 1.0);
         }
         if (!retv) {
-            if (x1x.x() >= 1.0) {
+            if (x1outside.x() >= 1.0) {
                 recommend = -abs(m_offset.x()) / 100;
-            } else if (x2x.x() <= -1.0) {
+            } else if (x2outside.x() <= -1.0) {
                 recommend = abs(m_offset.x()) / 100;
             } else {
                 assert(false);
@@ -277,9 +277,9 @@ bool FlipWidgetAngle::checkScaleOffset(bool xaxis, float& recommend) {
         retv = retv || (tmpx >= -1.0 && tmpx <= 1.0);
     }
     if (!retv) {
-        if (x1x.y() <= -1.0) {
+        if (x1outside.y() <= -1.0) {
             recommend = abs(m_offset.y()) / 100;
-        } else if (x2x.y() >= 1.0) {
+        } else if (x2outside.y() >= 1.0) {
             recommend = -abs(m_offset.y()) / 100;
         } else {
             assert(false);
@@ -288,7 +288,8 @@ bool FlipWidgetAngle::checkScaleOffset(bool xaxis, float& recommend) {
     return retv;
 }
 bool FlipWidgetAngle::checkResetScaleOffset() {
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i <= 100; i++) {
+        assert(i != 100); // 如果到这一步了，存在 bug 了。
         bool changed = false;
         float recommend = 0;
         if (!checkScaleOffset(true, recommend)) {
