@@ -1028,6 +1028,10 @@ c&d  \end{matrix} \right |}} ={\frac{af-ec}{ad-bc}}$$
 
 ## 【十-3】二重积分的计算（直角坐标系）1:20:22
 
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230731010102.png" %}
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230731234127.png" %}
+
 
 ## 【十-4】极坐标介绍 135:25
 
