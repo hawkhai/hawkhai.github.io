@@ -1,0 +1,1176 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+
+    <title>DiligentEngine: 一个现代跨平台的底层图形库和渲染框架 - 我爱学习网</title>
+
+    <link rel="stylesheet" href="/add/wiki/css/umi.css" />
+    <link rel="stylesheet" href="/add/wiki/css/content.css" />
+    <script src="https://partner.googleadservices.com/gampad/cookie.js?domain=www.5axxw.com&amp;callback=_gfp_s_&amp;client=ca-pub-5929899578203496"></script><script src="https://pagead2.googlesyndication.com/pagead/managed/js/adsense/m202307270101/show_ads_impl_fy2021.js?bust=31076544" id="google_shimpl"></script><script src="https://hm.baidu.com/hm.js?9f604f900f5e9600424a4d1f9c67ea0c"></script><script src="https://cdn.staticfile.org/jquery/1.9.1/jquery.js"></script>
+    <meta http-equiv="origin-trial" content="A7CQXglZzTrThjGTBEn1rWTxHOEtkWivwzgea+NjyardrwlieSjVuyG44PkYgIPGs8Q9svD8sF3Yedn0BBBjXAkAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A3vKT9yxRPjmXN3DpIiz58f5JykcWHjUo/W7hvmtjgh9jPpQgem9VbADiNovG8NkO6mRmk70Kex8/KUqAYWVWAEAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A4A26Ymj79UVY7C7JGUS4BG1s7MdcDokAQf/RP0paks+RoTYbXHxceT/5L4iKcsleFCngi75YfNRGW2+SpVv1ggAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="As0hBNJ8h++fNYlkq8cTye2qDLyom8NddByiVytXGGD0YVE+2CEuTCpqXMDxdhOMILKoaiaYifwEvCRlJ/9GcQ8AAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ==" /><meta http-equiv="origin-trial" content="AgRYsXo24ypxC89CJanC+JgEmraCCBebKl8ZmG7Tj5oJNx0cmH0NtNRZs3NB5ubhpbX/bIt7l2zJOSyO64NGmwMAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A7CQXglZzTrThjGTBEn1rWTxHOEtkWivwzgea+NjyardrwlieSjVuyG44PkYgIPGs8Q9svD8sF3Yedn0BBBjXAkAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A3vKT9yxRPjmXN3DpIiz58f5JykcWHjUo/W7hvmtjgh9jPpQgem9VbADiNovG8NkO6mRmk70Kex8/KUqAYWVWAEAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="A4A26Ymj79UVY7C7JGUS4BG1s7MdcDokAQf/RP0paks+RoTYbXHxceT/5L4iKcsleFCngi75YfNRGW2+SpVv1ggAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" /><meta http-equiv="origin-trial" content="As0hBNJ8h++fNYlkq8cTye2qDLyom8NddByiVytXGGD0YVE+2CEuTCpqXMDxdhOMILKoaiaYifwEvCRlJ/9GcQ8AAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ==" /><meta http-equiv="origin-trial" content="AgRYsXo24ypxC89CJanC+JgEmraCCBebKl8ZmG7Tj5oJNx0cmH0NtNRZs3NB5ubhpbX/bIt7l2zJOSyO64NGmwMAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ==" /></head><body class="higherBackTop___aaXmB with-miniapp-code">&lt;
+    <script src="/add/wiki/js/view_cont.js"></script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?9f604f900f5e9600424a4d1f9c67ea0c";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<div id="ReactApp" style="height: auto !important;">
+
+    <div style="height: auto !important;">
+        <div class="lark" data-testid="reader-main" style="height: auto !important;">
+            <div class="main-wrapper" style="height: auto !important; min-height: 0px !important;">
+                <div class="wrapper___2esUU" style="height: auto !important; min-height: 0px !important;">
+                    <div style="user-select: none;">
+                        <div id="header" class="header doc-head doc-head-visible wrapper___2FZde">
+
+                            <div class="doc-head-inner">
+                                <div class="header-crumb">
+
+                                    <div class="logoWrapper___4XB06">
+                                        <span class="logo___qR7K-">
+                                            <span class="lark-breadcrumb-logo">
+                                                <a href="/wiki/" class="lark-logo">
+                                                    <img src="//www.5axxw.com/images_oss/su/a53f347d-3973-4556-97ee-623e2b9a7b52.png?x-oss-process=style/thumbnail" alt="Wiki" class="lark-logo-simple" />
+                                                </a>
+                                            </span>
+                                        </span>
+                                    </div>
+
+                                    <div class="lark-breadcrumb">
+                                        <div class="larkui-breadcrumb ant-breadcrumb">
+                                            <span>
+                                                <a class="ant-breadcrumb-link" href="/wiki/topic/d1eby6">
+                                                    <span title="GitHub" class="">GitHub</span>
+                                                </a>
+                                                <span class="ant-breadcrumb-separator">/</span>
+                                            </span>
+
+                                            <span>
+                                                <a class="header-crumb-doc" href="#">
+                                                    <span class="lark-breadcrumb-current">
+                                                        <span class="doc-title" title="DiligentEngine: 一个现代跨平台的底层图形库和渲染框架">
+                                                            DiligentEngine: 一个现代跨平台的底层图形库和渲染框架
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="header-action">
+                                    <span class="header-action-item header-action-anonymous">
+                                        <a href="#" style="display: none;" class="ant-btn"><span>登录</span></a>
+                                        <a href="#" onclick="AddFavorite(window.location.href,document.title)" class="ant-btn register___Z7lZX ant-btn-primary"><span>加入收藏</span></a>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wrapper___34kui" style="height: auto !important; min-height: 0px !important;">
+                        <div class="asideWrapper___MLNPF" data-testid="aside">
+                            <div class="aside___3Fp46" style="will-change: width; transition: width 200ms cubic-bezier(0.1, 0, 0, 1) 0s; width: 20vw;">
+                                <nav class="asideNav___32QBc" id="navBox" style="will-change: width; transition: width 200ms cubic-bezier(0.1, 0, 0, 1) 0s; width: calc(20vw - 20px); max-width: 480px; min-width: 200px;">
+                                    <div style="user-select: none;">
+                                        <div class="asideHead___2w_kY"><h6>目录</h6></div>
+
+                                        <div class="asideCatalog___3cIAu asideCatalogTree___FXD0w">
+                                            <div data-testid="catalog" class="book-catalog">
+                                                <div data-testid="catalog-tree" class="normalWrapper___2h_Xt">
+                                                    <div class="ant-tree ant-tree-directory ant-tree-icon-hide ant-tree-block-node">
+
+                                                        <div class="ant-tree-list" style="max-height: 560px; overflow-y: auto; overflow-anchor: none;">
+                                                            <div>
+                                                                <div class="ant-tree-list-holder-inner" style="display: flex; flex-direction: column;">
+
+
+
+                                                                        <div class="ant-tree-treenode ant-tree-treenode-switcher-close" data-tree-index="2">
+                                                                            <span class="ant-tree-switcher ant-tree-switcher-noop"></span>
+                                                                            <span title="" class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal">
+                                                                            <span class="ant-tree-title">
+                                                                                <div class="titleWrapper___4mzA_">
+                                                                                    <span id="catalog-undefined" class="titleItem___1-YVq catalog-item catalog-item-1 catalog-item-runtime-spa titleItemDoc___m0ow8">
+                                                                                        <span class="name">
+                                                                                            <a title="inversify-express-utils: 应用逆向工程开发快速js" href="/wiki/content/66qh8o">inversify-express-utils: 应用逆向工程开发快速js</a>
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                        </div>
+
+
+                                                                        <div class="ant-tree-treenode ant-tree-treenode-switcher-close" data-tree-index="2">
+                                                                            <span class="ant-tree-switcher ant-tree-switcher-noop"></span>
+                                                                            <span title="" class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal">
+                                                                            <span class="ant-tree-title">
+                                                                                <div class="titleWrapper___4mzA_">
+                                                                                    <span id="catalog-undefined" class="titleItem___1-YVq catalog-item catalog-item-1 catalog-item-runtime-spa titleItemDoc___m0ow8">
+                                                                                        <span class="name">
+                                                                                            <a title="awesome-clojure: 一份精心策划的优秀Clojure图书馆和资源列表。灵感来自令人敬畏的东西" href="/wiki/content/3o0r7v">awesome-clojure: 一份精心策划的优秀Clojure图书馆和资源列表。灵感来自令人敬畏的东西</a>
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                        </div>
+
+
+                                                                        <div class="ant-tree-treenode ant-tree-treenode-switcher-close" data-tree-index="2">
+                                                                            <span class="ant-tree-switcher ant-tree-switcher-noop"></span>
+                                                                            <span title="" class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal">
+                                                                            <span class="ant-tree-title">
+                                                                                <div class="titleWrapper___4mzA_">
+                                                                                    <span id="catalog-undefined" class="titleItem___1-YVq catalog-item catalog-item-1 catalog-item-runtime-spa titleItemDoc___m0ow8">
+                                                                                        <span class="name">
+                                                                                            <a title="Binderhub: 在云端运行你的代码，技术如此先进，感觉就像魔法一样！" href="/wiki/content/iggq5e">Binderhub: 在云端运行你的代码，技术如此先进，感觉就像魔法一样！</a>
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                        </div>
+
+
+                                                                        <div class="ant-tree-treenode ant-tree-treenode-switcher-close" data-tree-index="2">
+                                                                            <span class="ant-tree-switcher ant-tree-switcher-noop"></span>
+                                                                            <span title="" class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal">
+                                                                            <span class="ant-tree-title">
+                                                                                <div class="titleWrapper___4mzA_">
+                                                                                    <span id="catalog-undefined" class="titleItem___1-YVq catalog-item catalog-item-1 catalog-item-runtime-spa titleItemDoc___m0ow8">
+                                                                                        <span class="name">
+                                                                                            <a title="gitflow-helper-maven-plugin: 一个扩展和插件，教会Maven与gitflow项目和CI服务器很好地协作。" href="/wiki/content/qtg2zc">gitflow-helper-maven-plugin: 一个扩展和插件，教会Maven与gitflow项目和CI服务器很好地协作。</a>
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                        </div>
+
+
+                                                                        <div class="ant-tree-treenode ant-tree-treenode-switcher-close" data-tree-index="2">
+                                                                            <span class="ant-tree-switcher ant-tree-switcher-noop"></span>
+                                                                            <span title="" class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal">
+                                                                            <span class="ant-tree-title">
+                                                                                <div class="titleWrapper___4mzA_">
+                                                                                    <span id="catalog-undefined" class="titleItem___1-YVq catalog-item catalog-item-1 catalog-item-runtime-spa titleItemDoc___m0ow8">
+                                                                                        <span class="name">
+                                                                                            <a title="i2p.i2p: I2P是一个匿名网络，提供了一个简单的层，身份敏感的应用程序可以使用它来安全地通信。所有的数据都被几层加密包起来，网络是分布式的和动态的，没有可信方。这是官方单调资源库的一面镜子。" href="/wiki/content/obzkvc">i2p.i2p: I2P是一个匿名网络，提供了一个简单的层，身份敏感的应用程序可以使用它来安全地通信。所有的数据都被几层加密包起来，网络是分布式的和动态的，没有可信方。这是官方单调资源库的一面镜子。</a>
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                        </div>
+
+
+                                                                        <div class="ant-tree-treenode ant-tree-treenode-switcher-close" data-tree-index="2">
+                                                                            <span class="ant-tree-switcher ant-tree-switcher-noop"></span>
+                                                                            <span title="" class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal">
+                                                                            <span class="ant-tree-title">
+                                                                                <div class="titleWrapper___4mzA_">
+                                                                                    <span id="catalog-undefined" class="titleItem___1-YVq catalog-item catalog-item-1 catalog-item-runtime-spa titleItemDoc___m0ow8">
+                                                                                        <span class="name">
+                                                                                            <a title="clean-code-typescript: 适用于TypeScript的干净代码概念" href="/wiki/content/gwxxtn">clean-code-typescript: 适用于TypeScript的干净代码概念</a>
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                        </div>
+
+
+                                                                        <div class="ant-tree-treenode ant-tree-treenode-switcher-close" data-tree-index="2">
+                                                                            <span class="ant-tree-switcher ant-tree-switcher-noop"></span>
+                                                                            <span title="" class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal">
+                                                                            <span class="ant-tree-title">
+                                                                                <div class="titleWrapper___4mzA_">
+                                                                                    <span id="catalog-undefined" class="titleItem___1-YVq catalog-item catalog-item-1 catalog-item-runtime-spa titleItemDoc___m0ow8">
+                                                                                        <span class="name">
+                                                                                            <a title="testing-nestjs: 向社区展示测试NestJ方法的存储库，包括单元测试、集成测试、E2E测试、管道、过滤器、拦截器、GraphQL、Mongo、TypeORM等等！" href="/wiki/content/cpag74">testing-nestjs: 向社区展示测试NestJ方法的存储库，包括单元测试、集成测试、E2E测试、管道、过滤器、拦截器、GraphQL、Mongo、TypeORM等等！</a>
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                        </div>
+
+
+                                                                        <div class="ant-tree-treenode ant-tree-treenode-switcher-close" data-tree-index="2">
+                                                                            <span class="ant-tree-switcher ant-tree-switcher-noop"></span>
+                                                                            <span title="" class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal">
+                                                                            <span class="ant-tree-title">
+                                                                                <div class="titleWrapper___4mzA_">
+                                                                                    <span id="catalog-undefined" class="titleItem___1-YVq catalog-item catalog-item-1 catalog-item-runtime-spa titleItemDoc___m0ow8">
+                                                                                        <span class="name">
+                                                                                            <a title="git-open: 键入“git open”在浏览器中打开存储库的GitHub页面或网站。" href="/wiki/content/cvhsjo">git-open: 键入“git open”在浏览器中打开存储库的GitHub页面或网站。</a>
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                        </div>
+
+
+                                                                        <div class="ant-tree-treenode ant-tree-treenode-switcher-close" data-tree-index="2">
+                                                                            <span class="ant-tree-switcher ant-tree-switcher-noop"></span>
+                                                                            <span title="" class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal">
+                                                                            <span class="ant-tree-title">
+                                                                                <div class="titleWrapper___4mzA_">
+                                                                                    <span id="catalog-undefined" class="titleItem___1-YVq catalog-item catalog-item-1 catalog-item-runtime-spa titleItemDoc___m0ow8">
+                                                                                        <span class="name">
+                                                                                            <a title="raspap-webgui: 基于Debian的设备的简单无线AP设置和管理" href="/wiki/content/qy04z1">raspap-webgui: 基于Debian的设备的简单无线AP设置和管理</a>
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                        </div>
+
+
+                                                                        <div class="ant-tree-treenode ant-tree-treenode-switcher-close" data-tree-index="2">
+                                                                            <span class="ant-tree-switcher ant-tree-switcher-noop"></span>
+                                                                            <span title="" class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal">
+                                                                            <span class="ant-tree-title">
+                                                                                <div class="titleWrapper___4mzA_">
+                                                                                    <span id="catalog-undefined" class="titleItem___1-YVq catalog-item catalog-item-1 catalog-item-runtime-spa titleItemDoc___m0ow8">
+                                                                                        <span class="name">
+                                                                                            <a title="validate.js: 受CodeIgniter启发的轻量级JavaScript表单验证库。" href="/wiki/content/xshjkq">validate.js: 受CodeIgniter启发的轻量级JavaScript表单验证库。</a>
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                        </div>
+
+
+                                                                        <div class="ant-tree-treenode ant-tree-treenode-switcher-close" data-tree-index="2">
+                                                                            <span class="ant-tree-switcher ant-tree-switcher-noop"></span>
+                                                                            <span title="" class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal">
+                                                                            <span class="ant-tree-title">
+                                                                                <div class="titleWrapper___4mzA_">
+                                                                                    <span id="catalog-undefined" class="titleItem___1-YVq catalog-item catalog-item-1 catalog-item-runtime-spa titleItemDoc___m0ow8">
+                                                                                        <span class="name">
+                                                                                            <a title="Mobius: 对Apache Spark的C语言和F语言绑定和扩展" href="/wiki/content/u0hit8">Mobius: 对Apache Spark的C语言和F语言绑定和扩展</a>
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                        </div>
+
+
+                                                                        <div class="ant-tree-treenode ant-tree-treenode-switcher-close" data-tree-index="2">
+                                                                            <span class="ant-tree-switcher ant-tree-switcher-noop"></span>
+                                                                            <span title="" class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal">
+                                                                            <span class="ant-tree-title">
+                                                                                <div class="titleWrapper___4mzA_">
+                                                                                    <span id="catalog-undefined" class="titleItem___1-YVq catalog-item catalog-item-1 catalog-item-runtime-spa titleItemDoc___m0ow8">
+                                                                                        <span class="name">
+                                                                                            <a title="EPPlus: 使用.NET创建高级Excel电子表格" href="/wiki/content/62nsdo">EPPlus: 使用.NET创建高级Excel电子表格</a>
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                        </div>
+
+
+                                                                        <div class="ant-tree-treenode ant-tree-treenode-switcher-close" data-tree-index="2">
+                                                                            <span class="ant-tree-switcher ant-tree-switcher-noop"></span>
+                                                                            <span title="" class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal">
+                                                                            <span class="ant-tree-title">
+                                                                                <div class="titleWrapper___4mzA_">
+                                                                                    <span id="catalog-undefined" class="titleItem___1-YVq catalog-item catalog-item-1 catalog-item-runtime-spa titleItemDoc___m0ow8">
+                                                                                        <span class="name">
+                                                                                            <a title="android-PageFlip: Android上的3D风格翻页" href="/wiki/content/moykfy">android-PageFlip: Android上的3D风格翻页</a>
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                        </div>
+
+
+                                                                        <div class="ant-tree-treenode ant-tree-treenode-switcher-close" data-tree-index="2">
+                                                                            <span class="ant-tree-switcher ant-tree-switcher-noop"></span>
+                                                                            <span title="" class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal">
+                                                                            <span class="ant-tree-title">
+                                                                                <div class="titleWrapper___4mzA_">
+                                                                                    <span id="catalog-undefined" class="titleItem___1-YVq catalog-item catalog-item-1 catalog-item-runtime-spa titleItemDoc___m0ow8">
+                                                                                        <span class="name">
+                                                                                            <a title="Catel: 应用开发平台" href="/wiki/content/ngbbxn">Catel: 应用开发平台</a>
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                        </div>
+
+
+                                                                        <div class="ant-tree-treenode ant-tree-treenode-switcher-close" data-tree-index="2">
+                                                                            <span class="ant-tree-switcher ant-tree-switcher-noop"></span>
+                                                                            <span title="" class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal">
+                                                                            <span class="ant-tree-title">
+                                                                                <div class="titleWrapper___4mzA_">
+                                                                                    <span id="catalog-undefined" class="titleItem___1-YVq catalog-item catalog-item-1 catalog-item-runtime-spa titleItemDoc___m0ow8">
+                                                                                        <span class="name">
+                                                                                            <a title="Stringr: R语言中字符串操作的一种新方法" href="/wiki/content/qd8ssp">Stringr: R语言中字符串操作的一种新方法</a>
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                        </div>
+
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </nav>
+                            </div>
+                            <div class="dragbar___1OIut"></div>
+
+                        </div>
+                        <div class="mainContent___3FWVF" id="doc-content" data-testid="content" style="height: auto !important;">
+                            <div class="content___3i-GV" id="main" style="height: auto !important; min-height: 0px !important;">
+                                <div class="" style="height: auto !important;">
+                                    <div class="wrapper___2wEeQ centerJustifyWrapper___3OMgk fixedViewport___2qvPX" style="padding-left: 23vw; padding-right: 23vw; height: auto !important; min-height: 0px !important;">
+                                        <div class="article___2H6vq" style="max-width: 960px; height: auto !important;">
+                                            <div style="height: auto !important;">
+                                                <div class="content___1GLcO" style="height: auto !important;">
+                                                    <article id="content" class="article-content" tabindex="0" style="outline-style: none; height: auto !important;">
+                                                        <div class="header___3ZicC" style="height: auto !important;">
+                                                            <div class="title___WTjhS">
+                                                                <h1 id="9qvftyhgoqv" class="articleTitle___3zWrP">
+                                                                    DiligentEngine: 一个现代跨平台的底层图形库和渲染框架
+                                                                </h1>
+                                                            </div>
+                                                            <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5929899578203496" crossorigin="anonymous" data-checked-head="true"></script>
+                                                            <ins class="adsbygoogle" style="display: block; height: 280px;" data-ad-client="ca-pub-5929899578203496" data-ad-slot="6573802589" data-ad-format="auto" data-full-width-responsive="true" data-adsbygoogle-status="done" data-ad-status="unfilled"><div id="aswift_1_host" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none; height: 280px; width: 960px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block; overflow: visible;"><iframe id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0;width:960px;height:280px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="960" height="280" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-5929899578203496&amp;output=html&amp;h=280&amp;slotname=6573802589&amp;adk=1714200445&amp;adf=400233712&amp;pi=t.ma~as.6573802589&amp;w=960&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1690791604&amp;rafmt=1&amp;format=960x280&amp;url=https%3A%2F%2Fwww.5axxw.com%2Fwiki%2Fcontent%2F9rs7l1&amp;fwr=0&amp;fwrattr=true&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;uach=WyJXaW5kb3dzIiwiNy4wLjAiLCJ4ODYiLCIiLCIxMTUuMC41NzkwLjExMCIsW10sMCxudWxsLCI2NCIsW1siTm90L0EpQnJhbmQiLCI5OS4wLjAuMCJdLFsiR29vZ2xlIENocm9tZSIsIjExNS4wLjU3OTAuMTEwIl0sWyJDaHJvbWl1bSIsIjExNS4wLjU3OTAuMTEwIl1dLDBd&amp;dt=1690791603620&amp;bpp=2&amp;bdt=823&amp;idt=765&amp;shv=r20230726&amp;mjsv=m202307270101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;prev_fmts=0x0&amp;nras=1&amp;correlator=7422905240655&amp;frm=20&amp;pv=1&amp;ga_vid=690484018.1690791604&amp;ga_sid=1690791604&amp;ga_hid=506144956&amp;ga_fc=0&amp;u_tz=480&amp;u_his=2&amp;u_h=961&amp;u_w=1707&amp;u_ah=921&amp;u_aw=1707&amp;u_cd=24&amp;u_sd=1.5&amp;dmc=8&amp;adx=365&amp;ady=203&amp;biw=1691&amp;bih=799&amp;scr_x=0&amp;scr_y=0&amp;eid=44759842%2C44759876%2C44759927%2C31076544%2C44788441%2C44796700&amp;oid=2&amp;pvsid=2709930945196067&amp;tmod=1591438711&amp;uas=0&amp;nvt=2&amp;ref=https%3A%2F%2Fwww.5axxw.com%2Fwiki%2Fcontent%2F9rs7l1&amp;fc=1920&amp;brdim=1280%2C-231%2C1280%2C-231%2C1707%2C-231%2C1707%2C921%2C1707%2C799&amp;vis=1&amp;rsz=M%7C%7CeE%7C&amp;abl=CS&amp;pfx=0&amp;fu=128&amp;bc=31&amp;ifi=2&amp;uci=a!2&amp;fsb=1&amp;xpc=2yT8hrrxkP&amp;p=https%3A//www.5axxw.com&amp;dtd=770" data-google-container-id="a!2" data-load-complete="true" data-google-query-id="CKPG1MfBuIADFb1IwgUdXJAOow"></iframe></div></ins>
+                                                            <script>
+                                                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                                            </script>
+                                                            <p style="font-size: 16px;width: fit-content;padding: 5px 15px;border: 2px dashed #759feb;border-radius: 5px;">
+                                                                ( 如需查看英文版本，请<span style="color: coral;cursor:pointer;" onclick="lang_to_en()"> 点击这里 </span>)
+                                                            </p>
+                                                        </div>
+                                                        <div class="content___PoFsE" id="article-content">
+                                                            <article>
+ <h1 id="vmleusbmurs">Diligent Engine <img src="//www.5axxw.com/images_oss/pn/e46bcab5-388d-4235-b236-9df9f7266065.png?x-oss-process=style/logo" height="64" align="right" valign="middle" style="max-width:100%;" /></h1> 
+ <p>一个现代的Cross-PlatformLow-Level三维图形库</p> 
+ <p>Diligent引擎是一个轻量级的cross-platform图形API抽象库和呈现框架。它的设计充分利用了Direct3D12、Vulkan和Metal，同时通过Direct3D11、OpenGL和OpenGLES支持较旧的平台。Diligent引擎公开公共的front-endAPI，并在所有平台上使用HLSL作为通用着色语言，并呈现back-ends。Platform-specific着色器表示（GLSL、DX字节码或SPIRV）可以与相应的back-ends一起使用。该引擎旨在用作游戏引擎或任何其他3D应用程序中的图形子系统。它是根据Apache2.0许可证分发的，可以免费使用。</p> 
+ <p><img src="//www.5axxw.com/images_oss/ao/0d7039f6-dd0f-4d77-b860-4c4f3a85c484.svg" alt="License" style="max-width:100%;" /> <img src="//www.5axxw.com/images_oss/he/3cbfd62f-caff-4756-879d-bbd1e776193f.png?x-oss-process=style/logo" alt="Chat on gitter" style="max-width:100%;" /> <img src="//www.5axxw.com/images_oss/41/d4dfb3d2-c9c0-4225-958d-3eb6f8dcbc0e.svg" alt="Chat on Discord" style="max-width:100%;" /> <img src="//www.5axxw.com/images_oss/fk/2f662478-475b-42cd-9967-42bc1cd6b27b.svg" alt="Build Status" style="max-width:100%;" /> <img src="//www.5axxw.com/images_oss/9b/2d56f8f1-b390-457f-9d3d-936f29f1b3e6.svg" alt="Build Status" style="max-width:100%;" /> <img src="//www.5axxw.com/images_oss/e8/2722a874-2508-49ef-8508-bbf17cba7383.svg" alt="Codacy Badge" style="max-width:100%;" /></p> 
+ <h2>Features</h2> 
+ <ul> 
+  <li>Cross-platform所有支持的平台和呈现后端的客户端代码完全相同<code>#if defined(_WIN32)</code>。。。<code>#elif defined(LINUX)</code>。。。<code>#elif defined(ANDROID)</code>。。。不<code>#if defined(D3D11)</code>。。。<code>#elif defined(D3D12)</code>。。。<code>#elif defined(OPENGL)</code>。。。完全相同的HLSL着色器（VS，PS，GS，HS，DS，CS）在所有平台和所有back-ends上运行</li> 
+  <li>High performance</li> 
+  <li>模块化设计组件在逻辑上和物理上是明确分开的，并且可以在需要时使用，只需要您的项目所需的</li> 
+  <li>简洁明了的API C/C++ +Object-based }无状态</li> 
+  <li>主要图形功能：自动着色器资源绑定，旨在利用next-generation图形API多线程命令缓冲区生成50000个绘图调用，速度为300fps，使用D3D12/Vulkan后端多线程资源创建自动或显式控制资源状态转换描述符和内存管理着色器资源反射</li> 
+  <li>广泛的验证和错误报告</li> 
+  <li>现代c++的特性使代码快速可靠</li> 
+  <li>持续集成自动化构建和单元测试源代码格式化验证静态分析确保了一致的高质量</li> 
+ </ul> 
+ <h2>High-level呈现组件</h2> 
+ <ul> 
+  <li>大气光散射post-effect</li> 
+  <li>色调映射实用程序</li> 
+  <li><a href="javascript:void(0);" onclick="window.open('https://github.com/DiligentGraphics/DiligentFX/tree/master/GLTF_PBR_Renderer','_blank');">Physically-based GLTF2.0 renderer</a></li> 
+  <li><a href="javascript:void(0);" onclick="window.open('https://github.com/DiligentGraphics/DiligentFX/tree/master/Components#shadows','_blank');">Shadows</a></li> 
+  <li>与亲爱的Imgui和Nuklear集成</li> 
+ </ul> 
+ <h2>支持的平台和Low-Level图形API</h2> 
+ <table> 
+  <thead> 
+   <tr> 
+    <th>Platform</th> 
+    <th>D3D11</th> 
+    <th>D3D12</th> 
+    <th>OpenGL</th> 
+    <th>Vulkan</th> 
+    <th>OpenGLES</th> 
+    <th>Build Status</th> 
+   </tr> 
+  </thead> 
+  <tbody> 
+   <tr> 
+    <td>Win32（Windows桌面）</td> 
+    <td>
+     <g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png">
+      ✔️
+     </g-emoji></td> 
+    <td>
+     <g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png">
+      ✔️
+     </g-emoji></td> 
+    <td>
+     <g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png">
+      ✔️
+     </g-emoji></td> 
+    <td>
+     <g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png">
+      ✔️
+     </g-emoji></td> 
+    <td>-</td> 
+    <td><img src="//www.5axxw.com/images_oss/fk/2f662478-475b-42cd-9967-42bc1cd6b27b.svg" alt="Build Status" style="max-width:100%;" /></td> 
+   </tr> 
+   <tr> 
+    <td><img src="//www.5axxw.com/images_oss/6i/c2e11607-3836-4b99-88b1-21b195161cb9.png?x-oss-process=style/logo" width="24" valign="middle" style="max-width:100%;" /> Universal Windows</td> 
+    <td>
+     <g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png">
+      ✔️
+     </g-emoji></td> 
+    <td>
+     <g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png">
+      ✔️
+     </g-emoji></td> 
+    <td>-</td> 
+    <td>-</td> 
+    <td>-</td> 
+    <td><img src="//www.5axxw.com/images_oss/fk/2f662478-475b-42cd-9967-42bc1cd6b27b.svg" alt="Build Status" style="max-width:100%;" /></td> 
+   </tr> 
+   <tr> 
+    <td><img src="//www.5axxw.com/images_oss/f8/67be487f-e604-4301-bdfd-8108824d14f0.png?x-oss-process=style/logo" width="24" valign="middle" style="max-width:100%;" /> Linux</td> 
+    <td>-</td> 
+    <td>-</td> 
+    <td>
+     <g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png">
+      ✔️
+     </g-emoji></td> 
+    <td>
+     <g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png">
+      ✔️
+     </g-emoji></td> 
+    <td>-</td> 
+    <td><img src="//www.5axxw.com/images_oss/9b/2d56f8f1-b390-457f-9d3d-936f29f1b3e6.svg" alt="Build Status" style="max-width:100%;" /></td> 
+   </tr> 
+   <tr> 
+    <td><img src="//www.5axxw.com/images_oss/49/63b7579f-78f7-4ca6-b96f-3e69b84589b6.png?x-oss-process=style/logo" width="24" valign="middle" style="max-width:100%;" /> MacOS</td> 
+    <td>-</td> 
+    <td>-</td> 
+    <td>
+     <g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png">
+      ✔️
+     </g-emoji></td> 
+    <td>✔️ （通过MoltenVK）</td> 
+    <td>-</td> 
+    <td><img src="//www.5axxw.com/images_oss/9b/2d56f8f1-b390-457f-9d3d-936f29f1b3e6.svg" alt="Build Status" style="max-width:100%;" /></td> 
+   </tr> 
+   <tr> 
+    <td><img src="//www.5axxw.com/images_oss/2e/0b12030e-3d7f-481f-b0f0-046b0eb8afd0.png?x-oss-process=style/logo" width="24" valign="middle" style="max-width:100%;" /> Android</td> 
+    <td>-</td> 
+    <td>-</td> 
+    <td>-</td> 
+    <td>
+     <g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png">
+      ✔️
+     </g-emoji></td> 
+    <td>
+     <g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png">
+      ✔️
+     </g-emoji></td> 
+    <td></td> 
+   </tr> 
+   <tr> 
+    <td><img src="//www.5axxw.com/images_oss/7d/9c94148a-b9de-42ff-8f84-1d449e7d45db.png?x-oss-process=style/logo" width="24" valign="middle" style="max-width:100%;" /> iOS</td> 
+    <td>-</td> 
+    <td>-</td> 
+    <td>-</td> 
+    <td>✔️ （通过MoltenVK）</td> 
+    <td>
+     <g-emoji class="g-emoji" alias="heavy_check_mark" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png">
+      ✔️
+     </g-emoji></td> 
+    <td><img src="//www.5axxw.com/images_oss/9b/2d56f8f1-b390-457f-9d3d-936f29f1b3e6.svg" alt="Build Status" style="max-width:100%;" /></td> 
+   </tr> 
+  </tbody> 
+ </table> 
+ <h1 id="ofq2ivk5l5">目录</h1> 
+ <ul> 
+  <li>克隆存储库存储库结构</li> 
+  <li>构建和运行说明Win32通用Windows平台Linux Android MacOS iOS集成了Diligent引擎和现有的构建系统构建选项定制构建</li> 
+  <li>API入门</li> 
+  <li><a href="javascript:void(0);" onclick="window.open('#tutorials','_blank');">Tutorials</a></li> 
+  <li><a href="javascript:void(0);" onclick="window.open('#samples','_blank');">Samples</a></li> 
+  <li><a href="javascript:void(0);" onclick="window.open('#demos','_blank');">Demos</a></li> 
+  <li><a href="javascript:void(0);" onclick="window.open('#high_level_components','_blank');">High-Level Rendering Components</a></li> 
+  <li><a href="javascript:void(0);" onclick="window.open('#license','_blank');">License</a></li> 
+  <li><a href="javascript:void(0);" onclick="window.open('#contributing','_blank');">Contributing</a></li> 
+  <li><a href="javascript:void(0);" onclick="window.open('#references','_blank');">References</a></li> 
+  <li><a href="javascript:void(0);" onclick="window.open('#release_history','_blank');">Release History</a></li> 
+ </ul> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h1 id="ibq1wd1bxsl">克隆存储库</h1> 
+ <p>这是包含四个子模块的主存储库。要获取存储库和所有子模块，请使用以下命令：</p> 
+ <pre><code class="hljs nginx"><code><span class="hljs-attribute">git</span> clone --recursive https://github.com/DiligentGraphics/DiligentEngine.git
+</code>
+</code></pre> 
+ <p>更新现有存储库时，不要忘记更新所有子模块：</p> 
+ <pre><code class="hljs properties"><code><span class="hljs-attr">git</span> <span class="hljs-string">pull</span>
+<span class="hljs-attr">git</span> <span class="hljs-string">submodule update --recursive</span>
+</code>
+</code></pre> 
+ <p>在获得最新版本后，re-runCMake并执行干净重建也是一个好主意。</p> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h2>Repository Structure</h2> 
+ <p>主存储库包括以下子模块：</p> 
+ <ul> 
+  <li>核心子模块实现Direct3D11、Direct3D12、OpenGL/GLES和Vulkanback-ends。这个模块是self-contained，可以自己构建。</li> 
+  <li>工具子模块包含纹理加载库、资产加载库、亲爱的imgui实现和本机应用程序实现。</li> 
+  <li>DiligentFX是一个high-level呈现框架，它实现了各种呈现组件。该模块依赖于核心模块和工具模块。</li> 
+  <li>示例子模块包含教程和示例应用程序，旨在演示Diligent Engine API的用法。该模块依赖于核心、工具和DiligentFX模块。</li> 
+ </ul> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h1 id="rqo7dd29e1e">生成和运行说明</h1> 
+ <p>Diligent引擎使用CMake作为cross-platform构建工具。要开始使用cmake，请下载最新版本（需要3.16或更高版本）。另一个构建先决条件是Python解释器（需要3.0或更高版本）。如果在遵循下面的说明之后，您有生成/运行问题，请查看故障排除。</p> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h2>Win32</h2> 
+ <p>Build prerequisites:</p> 
+ <ul> 
+  <li>Windows SDK10.0.17763.0或更高版本(10.0.19041.0对于网格着色器是必需的）</li> 
+  <li>C++构建工具</li> 
+  <li>Visual C++ ATL Support</li> 
+ </ul> 
+ <p>使用CMake GUI或命令行工具生成生成文件。例如，要在build/Win64文件夹中生成Visual Studio 201764-bit解决方案和项目文件，请导航到引擎的根文件夹并运行以下命令：</p> 
+ <pre><code class="hljs nginx"><code><span class="hljs-attribute">cmake</span> -S . -B ./build/Win64 -G <span class="hljs-string">"Visual Studio 15 2017"</span> -A x64
+</code>
+</code></pre> 
+ <p>您可以使用以下命令生成以Win8.1 SDK为目标的Win32解决方案：</p> 
+ <pre><code class="hljs nginx"><code><span class="hljs-attribute">cmake</span> -D CMAKE_SYSTEM_VERSION=<span class="hljs-number">8</span>.<span class="hljs-number">1</span> -S . -B ./build/Win64_8.<span class="hljs-number">1</span> -G <span class="hljs-string">"Visual Studio 15 2017"</span> -A x64
+</code>
+</code></pre> 
+ <p>如果使用MinGW，可以使用以下命令生成make文件（请注意一些已知的生成问题）：</p> 
+ <pre><code class="hljs nginx"><code><span class="hljs-attribute">cmake</span> -S . -B ./build/MinGW -D CMAKE_BUILD_TYPE=Release -G <span class="hljs-string">"MinGW Makefiles"</span>
+</code>
+</code></pre> 
+ <p>警告！在当前实现中，cmake生成文件夹的完整路径不能包含空格。</p> 
+ <p>要启用Vulkan验证层，您需要下载Vulkan SDK并添加包含VulkanSDK安装文件夹中Bin目录路径的环境变量<code>VK_LAYER_PATH</code>。</p> 
+ <p>打开build/Win64文件夹中的DiligentEngine.sln文件，选择configuration并构建引擎。将所需的项目设置为startup project（默认情况下，将选择GLTF Viewer）并运行它。</p> 
+ <p>默认情况下，示例和教程应用程序将显示“渲染后端选择”对话框。使用以下命令行选项强制使用D3D11、D3D12、OpenGL或Vulkan模式：-mode D3D11、-mode D3D12、-mode GL或-mode Vk。如果要在VisualStudio环境之外运行应用程序，则必须将应用程序的assets文件夹设置为工作目录。（对于Visual Studio，这是由CMake自动配置的）。或者，您可以导航到构建目标或安装文件夹并从那里运行可执行文件。</p> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h2>Universal Windows Platform</h2> 
+ <p>要为Universal Windows平台生成生成文件，需要定义以下两个cmake变量：</p> 
+ <ul> 
+  <li><code>CMAKE_SYSTEM_NAME=WindowsStore</code></li> 
+  <li><code>CMAKE_SYSTEM_VERSION=&lt; Windows SDK Version &gt;</code></li> 
+ </ul> 
+ <p>例如，要在build/UWP64文件夹中生成Visual Studio 201764-bit解决方案和项目文件，请从引擎的根文件夹运行以下命令：</p> 
+ <pre><code class="hljs objectivec"><code>cmake -D <span class="hljs-built_in">CMAKE_SYSTEM_NAME</span>=WindowsStore -D <span class="hljs-built_in">CMAKE_SYSTEM_VERSION</span>=<span class="hljs-number">10.0</span> -S . -B ./build/UWP64 -G <span class="hljs-string">"Visual Studio 15 2017"</span> -A x64
+</code>
+</code></pre> 
+ <p>您可以通过优化CMAKE_SYSTEM_VERSION来针对特定的SDK版本，例如：</p> 
+ <pre><code class="hljs objectivec"><code>cmake -D <span class="hljs-built_in">CMAKE_SYSTEM_NAME</span>=WindowsStore -D <span class="hljs-built_in">CMAKE_SYSTEM_VERSION</span>=<span class="hljs-number">10.0</span><span class="hljs-number">.16299</span><span class="hljs-number">.0</span> -S . -B ./build/UWP64 -G <span class="hljs-string">"Visual Studio 15 2017"</span> -A x64
+</code>
+</code></pre> 
+ <p>将所需的项目设置为startup project（默认情况下，将选择GLTF Viewer）并运行它。</p> 
+ <p>默认情况下，应用程序将以D3D12模式运行。可以使用以下命令行选项选择D3D11或D3D12：-模式D3D11，-模式D3D12。</p> 
+ <p>注意：通过定义CMAKE_SYSTEM_VERSION=8.1cmake变量，可以生成以windows8.1为目标的解决方案，但它将无法生成，因为它将使用缺少适当的c++11支持的visualstudio2013（v120）工具集。</p> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h2>Linux</h2> 
+ <p>需要为c++开发设置Linux环境。如果已经是，请确保您的c++工具是最新的，因为Diligent引擎使用现代c++功能（建议使用gcc/g++7或更高版本）。您可能需要安装以下软件包：</p> 
+ <ol> 
+  <li>gcc、make和其他重要的c/c++工具：</li> 
+ </ol> 
+ <pre><code class="hljs sql"><code>sudo apt-get <span class="hljs-keyword">update</span>
+sudo apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">upgrade</span>
+sudo apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">install</span> <span class="hljs-keyword">build</span>-essential
+</code>
+</code></pre> 
+ <ol start="2"> 
+  <li>cmake</li> 
+ </ol> 
+ <pre><code class="hljs cs"><code>sudo apt-<span class="hljs-keyword">get</span> install cmake
+</code>
+</code></pre> 
+ <ol start="3"> 
+  <li>其他所需包装：</li> 
+ </ol> 
+ <pre><code class="hljs sql"><code>sudo apt-get <span class="hljs-keyword">install</span> libx11-dev
+sudo apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">install</span> mesa-common-dev
+sudo apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">install</span> mesa-utils
+sudo apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">install</span> libgl-dev
+sudo apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">install</span> python3-distutils
+</code>
+</code></pre> 
+ <p>要配置Vulkan，还需要：</p> 
+ <ul> 
+  <li>为您的GPU安装最新的Vulkan驱动程序和库</li> 
+  <li>安装Vulkan SDK以确保系统配置正确您可以尝试从SDK构建和运行示例</li> 
+ </ul> 
+ <p>要生成用于调试配置的make文件，请从引擎的根文件夹运行以下CMake命令：</p> 
+ <pre><code class="hljs nginx"><code><span class="hljs-attribute">cmake</span> -S . -B ./build/Linux64 -G <span class="hljs-string">"Unix Makefiles"</span> -DCMAKE_BUILD_TYPE=<span class="hljs-string">"Debug"</span>
+</code>
+</code></pre> 
+ <p>要生成引擎，请运行以下命令：</p> 
+ <pre><code class="hljs lua"><code>cmake <span class="hljs-comment">--build ./build/Linux64</span>
+</code>
+</code></pre> 
+ <p>引擎的根文件夹包含VisualStudio代码设置文件，这些文件配置IDE以生成引擎。您可以直接从IDE运行应用程序。要从命令行运行应用程序，应用程序的assets文件夹必须是当前目录。</p> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h2>Android</h2> 
+ <p>请确保您的机器已设置为Android开发。下载androidstudio，安装和配置NDK和CMake等所需工具。如果您没有使用与androidstudio捆绑的CMake版本，请确保您的构建文件配置正确。要验证您的环境是否正确设置，请尝试构建teapots示例以及Vulkan Android教程。</p> 
+ <p>Known issues:</p> 
+ <ul> 
+  <li>如果本机构建找不到python可执行文件，请将<code>PYTHON_EXECUTABLE</code>变量添加到NativeApp的build.gradle文件中的CMake参数：<code>-DPYTHON_EXECUTABLE=/Path/To/Your/Python36/python.exe</code></li> 
+  <li>如果本机构建弄乱了shader_list.h文件，请转到git并撤消更改。</li> 
+ </ul> 
+ <p>使用Android Studio打开DiligentSamples/Android文件夹，在Android上构建和运行教程和示例。</p> 
+ <p>默认情况下，应用程序将在OpenGLES模式下运行。要在Vulkan模式下运行它们，请添加以下启动标志：<code>--es mode vk</code>（在androidstudio中，转到run-&gt;editconfigurations菜单）</p> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h2>MacOS</h2> 
+ <p>克隆repo后，从引擎的根文件夹运行以下命令以生成Xcode项目（您需要在系统上安装CMake）：</p> 
+ <pre><code class="hljs nginx"><code><span class="hljs-attribute">cmake</span> -S . -B ./build/MacOS -G <span class="hljs-string">"Xcode"</span>
+</code>
+</code></pre> 
+ <p>项目将位于<code>build/MacOS</code>文件夹中。</p> 
+ <h3>Configuring Vulkan Build Environment</h3> 
+ <p>默认情况下，MacOS上没有Vulkan实现。Diligent引擎链接到Vulkan加载程序，并可以使用Vulkan可移植性实现，如MoltenVK或gfx-portability。安装VulkanSDK并确保您的系统按照此处所述正确配置。特别是，您可能需要定义以下环境变量（假设Vulkan SDK安装在<code>~/LunarG/vulkansdk-macos</code>并且您希望使用MoltenVK）：</p> 
+ <pre><code class="hljs bash"><code><span class="hljs-built_in">export</span> VULKAN_SDK=~/LunarG/vulkansdk-macos/macOS
+<span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$VULKAN_SDK</span>/bin:<span class="hljs-variable">$PATH</span>
+<span class="hljs-built_in">export</span> DYLD_LIBRARY_PATH=<span class="hljs-variable">$VULKAN_SDK</span>/lib:<span class="hljs-variable">$DYLD_LIBRARY_PATH</span>
+<span class="hljs-built_in">export</span> VK_ICD_FILENAMES=<span class="hljs-variable">$VULKAN_SDK</span>/share/vulkan/icd.d/MoltenVK_icd.json
+<span class="hljs-built_in">export</span> VK_LAYER_PATH=<span class="hljs-variable">$VULKAN_SDK</span>/share/vulkan/explicit_layer.d
+</code>
+</code></pre> 
+ <p>请注意，从Launchpad或其他桌面GUI启动的应用程序看不到shell中设置的环境变量。因此，为了确保应用程序找到Vulkan库，需要从命令行启动它。出于同样的原因，xcode项目文件也应该使用<code>open</code>命令从shell打开。对于Xcode 7及更高版本，可能需要首先使用以下命令启用此行为：</p> 
+ <pre><code class="hljs css"><code><span class="hljs-selector-tag">defaults</span> <span class="hljs-selector-tag">write</span> <span class="hljs-selector-tag">com</span><span class="hljs-selector-class">.apple</span><span class="hljs-selector-class">.dt</span><span class="hljs-selector-class">.Xcode</span> <span class="hljs-selector-tag">UseSanitizedBuildSystemEnvironment</span> <span class="hljs-selector-tag">-bool</span> <span class="hljs-selector-tag">NO</span>
+</code>
+</code></pre> 
+ <p>详情请参阅本页。</p> 
+ <p>上次测试的LunarG SDK版本：1.2.135.0。</p> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h2>iOS</h2> 
+ <p>从引擎的根文件夹运行以下命令以生成为iOS构建配置的Xcode项目（您需要在Mac上安装CMake）：</p> 
+ <pre><code class="hljs nginx"><span class="hljs-attribute">cmake</span> -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=OS64 -H. -Bbuild/IOS -GXcode
+</code></pre> 
+ <p>打开<code>build/IOS</code>文件夹中的Xcode项目文件并构建引擎。要在iOS设备上运行应用程序，您需要在“项目设置”中设置适当的开发团队。</p> 
+ <h3>Configuring Vulkan Build Environment</h3> 
+ <p>要在iOS上启用Vulkan，请下载并安装VulkanSDK。iOS上没有Vulkan加载器，Diligent引擎直接链接到MoltenVK静态库（如MoltenVK安装指南所建议的那样）在Metal上实现Vulkan。注意，MoltenVK库只为arm64体系结构提供。要在iOS上启用Diligent Engine中的Vulkan，请在运行CMake时指定Vulkan SDK的路径（假设Vulkan SDK安装在<code>/LunarG/vulkansdk-macos</code>上）：</p> 
+ <pre><code class="hljs javascript">cmake -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=OS64 -DIOS_ARCH=arm64 -DVULKAN_SDK=<span class="hljs-regexp">/LunarG/</span>vulkansdk-macos -H. -Bbuild/IOS -GXcode
+</code></pre> 
+ <p>默认情况下，引擎将链接到位于lunargsdk中的MoltenVK库的静态版本。如果不希望这样做，或者应用程序希望从特定位置使用库，它可以通过<code>MoltenVK_LIBRARY</code>CMake变量提供到库的完整路径。当<code>MoltenVK_LIBRARY</code>被定义时，<code>VULKAN_SDK</code>被忽略。</p> 
+ <p>有关MoltenVK安装和使用的更多信息，请参阅MoltenVK用户指南。</p> 
+ <p>上次测试的LunarG SDK版本：1.2.135.0。</p> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h2>将Diligent引擎与现有构建系统集成</h2> 
+ <p>Diligent具有模块化结构，因此对于您的项目，您只能使用这些实现所需功能的子模块。下图显示了模块之间的依赖关系。</p> 
+ <pre><code class="hljs ruby"><code>  Core
+   <span class="hljs-params">|
+   +------&gt;Tools----------.
+   |</span>        <span class="hljs-params">|             |</span>
+   <span class="hljs-params">|        V             |</span>
+   +-------&gt;FX---------.  <span class="hljs-params">|
+   |</span>                   <span class="hljs-params">|  |</span>
+   <span class="hljs-params">|                   V  V
+   '-----------------&gt;Samples
+</span></code><span class="hljs-params">
+</span></code></pre> 
+ <h3>Your Project Uses Cmake</h3> 
+ <p>如果您的项目使用CMake，那么添加Diligent引擎只需要几行代码。假设目录结构如下所示：</p> 
+ <pre><code class="hljs diff"><code>|
+<span class="hljs-addition">+-DiligentCore</span>
+<span class="hljs-addition">+-HelloDiligent.cpp</span>
+</code>
+</code></pre> 
+ <p>然后需要执行以下步骤：</p> 
+ <ul> 
+  <li>Call <code>add_subdirectory(DiligentCore)</code></li> 
+  <li>将DiligentCore添加到include目录列表中</li> 
+  <li>添加对实现所需呈现后端的目标的依赖关系</li> 
+ </ul> 
+ <p>以下是CMake文件的示例：</p> 
+ <pre><code class="hljs less"><span class="hljs-selector-tag">cmake_minimum_required</span> (VERSION <span class="hljs-number">3.6</span>)
+
+<span class="hljs-selector-tag">project</span>(HelloDiligent CXX)
+
+<span class="hljs-selector-tag">add_subdirectory</span>(DiligentCore)
+
+<span class="hljs-selector-tag">add_executable</span>(HelloDiligent WIN32 HelloDiligent.cpp)
+<span class="hljs-selector-tag">target_compile_options</span>(HelloDiligent PRIVATE -DUNICODE -DENGINE_DLL)
+<span class="hljs-selector-tag">target_include_directories</span>(HelloDiligent PRIVATE <span class="hljs-string">"DiligentCore"</span>)
+
+<span class="hljs-selector-tag">target_link_libraries</span>(HelloDiligent
+PRIVATE
+    Diligent-GraphicsEngineD3D11-shared
+    Diligent-GraphicsEngineOpenGL-shared
+    Diligent-GraphicsEngineD3D12-shared
+    Diligent-GraphicsEngineVk-shared
+)
+<span class="hljs-selector-tag">copy_required_dlls</span>(HelloDiligent)
+</code></pre> 
+ <p><code>copy_required_dlls()</code>是一个方便的函数，它将共享库复制到可执行文件旁边，以便系统可以找到并加载它们。或者，您可以使用<code>target_link_libraries()</code>命令链接到库的静态（以及共享）版本。在这种情况下，不需要显式地将DiligentCore添加到include目录列表中，因为目标将导出所有必需的include路径。还请查看Windows和Linux的入门教程。</p> 
+ <h3>Your Project Does Not Use Cmake</h3> 
+ <p>如果项目不使用CMake，建议使用CMake构建库并将它们添加到构建系统中。对于Windows平台，您可以从appveyor下载最新的构建构件。</p> 
+ <p>全局CMake安装目录由CMAKE_INTALL_PREFIX变量控制。注意，在UNIX上默认为<code>/usr/local</code>，在Windows上默认为<code>c:/Program Files/${PROJECT_NAME}</code>，这可能不是您想要的。使用<code>-D CMAKE_INSTALL_PREFIX=install</code>改为使用本地<code>install</code>文件夹：</p> 
+ <pre><code class="hljs nginx"><code><span class="hljs-attribute">cmake</span> -S . -B ./build/Win64 -D CMAKE_INSTALL_PREFIX=install -G <span class="hljs-string">"Visual Studio 15 2017"</span> -A x64
+</code>
+</code></pre> 
+ <p>要安装库和头文件，请从生成文件夹运行以下CMake命令：</p> 
+ <pre><code class="hljs lua">cmake <span class="hljs-comment">--build . --target install</span>
+</code></pre> 
+ <p>DiligentCore安装目录将包含集成引擎所需的所有内容：</p> 
+ <ul> 
+  <li>include子目录将包含所有必需的头文件。将此目录添加到包含搜索目录。</li> 
+  <li>lib子目录将包含静态库。</li> 
+  <li>bin子目录将包含动态库。</li> 
+ </ul> 
+ <p>更简单的方法是与动态库链接。静态链接时，需要列出DiligentCore以及引擎使用的所有third-party库。{326还需要指定@system}库。例如，对于Windows平台，项目需要链接的库列表可能如下所示：</p> 
+ <pre><code class="hljs css"><code><span class="hljs-selector-tag">DiligentCore</span><span class="hljs-selector-class">.lib</span> <span class="hljs-selector-tag">glslang</span><span class="hljs-selector-class">.lib</span> <span class="hljs-selector-tag">HLSL</span><span class="hljs-selector-class">.lib</span> <span class="hljs-selector-tag">OGLCompiler</span><span class="hljs-selector-class">.lib</span> <span class="hljs-selector-tag">OSDependent</span><span class="hljs-selector-class">.lib</span> <span class="hljs-selector-tag">spirv-cross-core</span><span class="hljs-selector-class">.lib</span> <span class="hljs-selector-tag">SPIRV</span><span class="hljs-selector-class">.lib</span> <span class="hljs-selector-tag">SPIRV-Tools-opt</span><span class="hljs-selector-class">.lib</span> <span class="hljs-selector-tag">SPIRV-Tools</span><span class="hljs-selector-class">.lib</span> <span class="hljs-selector-tag">glew-static</span><span class="hljs-selector-class">.lib</span> <span class="hljs-selector-tag">vulkan-1</span><span class="hljs-selector-class">.lib</span> <span class="hljs-selector-tag">dxgi</span><span class="hljs-selector-class">.lib</span> <span class="hljs-selector-tag">d3d11</span><span class="hljs-selector-class">.lib</span> <span class="hljs-selector-tag">d3d12</span><span class="hljs-selector-class">.lib</span> <span class="hljs-selector-tag">d3dcompiler</span><span class="hljs-selector-class">.lib</span> <span class="hljs-selector-tag">opengl32</span><span class="hljs-selector-class">.lib</span>
+</code>
+</code></pre> 
+ <p>Vulkan库可以在DiligentCore/ThirdParty/Vulkan/libs目录中找到。</p> 
+ <p>Diligent引擎头需要将以下平台宏之一定义为<code>1</code>：<code>PLATFORM_WIN32</code>，<code>PLATFORM_UNIVERSAL_WINDOWS</code>，<code>PLATFORM_ANDROID</code>，<code>PLATFORM_LINUX</code>，<code>PLATFORM_MACOS</code>，<code>PLATFORM_IOS</code>。</p> 
+ <p>您可以使用以下CMake选项控制要安装的引擎组件：<code>DILIGENT_INSTALL_CORE</code>、<code>DILIGENT_INSTALL_FX</code>、<code>DILIGENT_INSTALL_SAMPLES</code>和<code>DILIGENT_INSTALL_TOOLS</code>。</p> 
+ <p>集成引擎的另一种方法是生成生成文件（如visualstudio项目）并将其添加到生成系统中。下面描述的生成自定义可以帮助调整设置以满足您的特定需要。</p> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h2>Build Options</h2> 
+ <p>默认情况下，将生成当前平台上所有可用的back-ends。要禁用特定的back-ends，请使用以下选项：<code>DILIGENT_NO_DIRECT3D11</code>，<code>DILIGENT_NO_DIRECT3D12</code>，<code>DILIGENT_NO_OPENGL</code>，<code>DILIGENT_NO_VULKAN</code>，<code>DILIGENT_NO_METAL</code>。可以通过cmake UI或从命令行设置选项，如下例所示：</p> 
+ <pre><code class="hljs nginx"><code><span class="hljs-attribute">cmake</span> -D DILIGENT_NO_DIRECT3D11=TRUE -S . -B ./build/Win64 -G <span class="hljs-string">"Visual Studio 15 2017"</span> -A x64
+</code>
+</code></pre> 
+ <p>此外，可以使用以下选项启用或禁用单个引擎组件：<code>DILIGENT_BUILD_TOOLS</code>、<code>DILIGENT_BUILD_FX</code>、<code>DILIGENT_BUILD_SAMPLES</code>、<code>DILIGENT_BUILD_DEMOS</code>、<code>DILIGENT_BUILD_UNITY_PLUGIN</code>。如果您只想构建<code>SampleBase</code>项目，可以使用<code>DILIGENT_BUILD_SAMPLE_BASE_ONLY</code>选项。</p> 
+ <p>默认情况下，Vulkanback-end与glslang链接，glslang允许在运行时将HLSL和GLSL着色器编译为SPIRV。如果不需要run-time编译，可以使用<code>DILIGENT_NO_GLSLANG</code>cmake选项禁用glslang。另外，non-Direct3D后端中的HLSL支持可以通过<code>DILIGENT_NO_HLSL</code>选项禁用。启用这些选项可以显著减少Vulkan和OpenGLback-end二进制文件的大小，这对于移动应用程序可能特别重要。</p> 
+ <p>Diligent引擎使用clang-format来确保代码基的格式一致。可以使用<code>DILIGENT_NO_FORMAT_VALIDATION</code>CMake选项禁用验证。请注意，如果发现格式问题，任何池请求都将失败。</p> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h2>Customizing Build</h2> 
+ <p>Diligent Engine允许客户端通过提供定义以下可选cmake函数的配置脚本文件来自定义生成设置：</p> 
+ <ul> 
+  <li><code>custom_configure_build()</code>-定义全局生成属性，如生成配置、c/c++编译标志、链接标志等。</li> 
+  <li><code>custom_pre_configure_target()</code>-为生成中的每个目标定义自定义设置，并在引擎的生成系统开始配置目标之前调用。</li> 
+  <li><code>custom_post_configure_target()</code>-在引擎的生成系统配置目标以允许客户端覆盖引擎设置的属性之后调用。</li> 
+ </ul> 
+ <p>运行cmake时，配置脚本的路径应该通过<code>BUILD_CONFIGURATION_FILE</code>变量提供，并且必须与cmake根文件夹相关，例如：</p> 
+ <pre><code class="hljs nginx"><code><span class="hljs-attribute">cmake</span> -D BUILD_CONFIGURATION_FILE=BuildConfig.cmake -S . -B ./build/Win64 -G <span class="hljs-string">"Visual Studio 15 2017"</span> -A x64
+</code>
+</code></pre> 
+ <h3>使用custom_configure_build(）函数自定义全局生成设置</h3> 
+ <p>如果已定义，<code>custom_configure_build()</code>函数将在添加任何生成目标之前调用。默认情况下，cmake定义了以下四种配置：Debug、Release、RelWithDebInfo、MinSizeRel。如果需要，可以通过设置<code>CMAKE_CONFIGURATION_TYPES</code>变量来定义自己的构建配置。例如，如果您只想有两个配置：Debug和ReleaseMT，请在<code>custom_configure_build()</code>函数中添加以下行：</p> 
+ <pre><code class="hljs sql"><span class="hljs-keyword">set</span>(CMAKE_CONFIGURATION_TYPES Debug ReleaseMT <span class="hljs-keyword">CACHE</span> <span class="hljs-keyword">STRING</span> <span class="hljs-string">"Configuration types: Debug, ReleaseMT"</span> <span class="hljs-keyword">FORCE</span>)
+</code></pre> 
+ <p>生成系统需要知道调试和发布（优化）配置的列表，因此在定义<code>CMAKE_CONFIGURATION_TYPES</code>变量时还必须设置以下两个变量：</p> 
+ <pre><code class="hljs sql"><span class="hljs-keyword">set</span>(DEBUG_CONFIGURATIONS DEBUG <span class="hljs-keyword">CACHE</span> INTERNAL <span class="hljs-string">""</span> <span class="hljs-keyword">FORCE</span>)
+<span class="hljs-keyword">set</span>(RELEASE_CONFIGURATIONS RELEASEMT <span class="hljs-keyword">CACHE</span> INTERNAL <span class="hljs-string">""</span> <span class="hljs-keyword">FORCE</span>)
+</code></pre> 
+ <p>注意，由于cmake的特殊性，<code>DEBUG_CONFIGURATIONS</code>和<code>RELEASE_CONFIGURATIONS</code>中列出的配置名称必须大写。</p> 
+ <p>如果定义除四个标准cmake配置之外的任何配置，还需要为每个新配置设置以下变量：</p> 
+ <ul> 
+  <li><code>CMAKE_C_FLAGS_&lt;Config&gt;</code>-c编译标志</li> 
+  <li><code>CMAKE_CXX_FLAGS_&lt;Config&gt;</code>-c++编译标志</li> 
+  <li><code>CMAKE_EXE_LINKER_FLAGS_&lt;Config&gt;</code>-可执行链接标志</li> 
+  <li><code>CMAKE_SHARED_LINKER_FLAGS_&lt;Config&gt;</code>-共享库链接标志</li> 
+ </ul> 
+ <p>For instance:</p> 
+ <pre><code class="hljs sql"><span class="hljs-keyword">set</span>(CMAKE_C_FLAGS_RELEASEMT <span class="hljs-string">"/MT"</span> <span class="hljs-keyword">CACHE</span> INTERNAL <span class="hljs-string">""</span> <span class="hljs-keyword">FORCE</span>)
+<span class="hljs-keyword">set</span>(CMAKE_CXX_FLAGS_RELEASEMT <span class="hljs-string">"/MT"</span> <span class="hljs-keyword">CACHE</span> INTERNAL <span class="hljs-string">""</span> <span class="hljs-keyword">FORCE</span>)
+<span class="hljs-keyword">set</span>(CMAKE_EXE_LINKER_FLAGS_RELEASEMT <span class="hljs-string">"/OPT:REF"</span> <span class="hljs-keyword">CACHE</span> INTERNAL <span class="hljs-string">""</span> <span class="hljs-keyword">FORCE</span>)
+<span class="hljs-keyword">set</span>(CMAKE_SHARED_LINKER_FLAGS_RELEASEMT <span class="hljs-string">"/OPT:REF"</span> <span class="hljs-keyword">CACHE</span> INTERNAL <span class="hljs-string">""</span> <span class="hljs-keyword">FORCE</span>)
+</code></pre> 
+ <p>下面是custom_configure_build(）函数的示例：</p> 
+ <pre><code class="hljs sql">function(custom_configure_build)
+    if(CMAKE_CONFIGURATION_TYPES)
+        <span class="hljs-comment"># Debug configurations</span>
+        <span class="hljs-keyword">set</span>(DEBUG_CONFIGURATIONS DEBUG <span class="hljs-keyword">CACHE</span> INTERNAL <span class="hljs-string">""</span> <span class="hljs-keyword">FORCE</span>)
+        <span class="hljs-comment"># Release (optimized) configurations</span>
+        <span class="hljs-keyword">set</span>(RELEASE_CONFIGURATIONS RELEASEMT <span class="hljs-keyword">CACHE</span> INTERNAL <span class="hljs-string">""</span> <span class="hljs-keyword">FORCE</span>)
+        <span class="hljs-comment"># CMAKE_CONFIGURATION_TYPES variable defines build configurations generated by cmake</span>
+        <span class="hljs-keyword">set</span>(CMAKE_CONFIGURATION_TYPES Debug ReleaseMT <span class="hljs-keyword">CACHE</span> <span class="hljs-keyword">STRING</span> <span class="hljs-string">"Configuration types: Debug, ReleaseMT"</span> <span class="hljs-keyword">FORCE</span>)
+
+        <span class="hljs-keyword">set</span>(CMAKE_CXX_FLAGS_RELEASEMT <span class="hljs-string">"/MT"</span> <span class="hljs-keyword">CACHE</span> INTERNAL <span class="hljs-string">""</span> <span class="hljs-keyword">FORCE</span>)
+        <span class="hljs-keyword">set</span>(CMAKE_C_FLAGS_RELEASEMT <span class="hljs-string">"/MT"</span> <span class="hljs-keyword">CACHE</span> INTERNAL <span class="hljs-string">""</span> <span class="hljs-keyword">FORCE</span>)
+        <span class="hljs-keyword">set</span>(CMAKE_EXE_LINKER_FLAGS_RELEASEMT <span class="hljs-string">"/OPT:REF"</span> <span class="hljs-keyword">CACHE</span> INTERNAL <span class="hljs-string">""</span> <span class="hljs-keyword">FORCE</span>)
+        <span class="hljs-keyword">set</span>(CMAKE_SHARED_LINKER_FLAGS_RELEASEMT <span class="hljs-string">"/OPT:REF"</span> <span class="hljs-keyword">CACHE</span> INTERNAL <span class="hljs-string">""</span> <span class="hljs-keyword">FORCE</span>)
+    endif()
+endfunction()
+</code></pre> 
+ <h3>使用custom_pre_configure_target(）和custom_post_configure_target(）函数自定义单个目标生成设置</h3> 
+ <p>如果已定义，<code>custom_pre_configure_target()</code>将为生成系统创建的每个目标调用，并允许配置target-specific属性。</p> 
+ <p>默认情况下，生成系统设置一些目标属性。如果<code>custom_pre_configure_target()</code>设置了所有必需的属性，它可以通过将<code>TARGET_CONFIGURATION_COMPLETE</code>父范围变量设置为<code>TRUE</code>来告诉生成系统不需要进一步处理：</p> 
+ <pre><code class="hljs sql"><span class="hljs-keyword">set</span>(TARGET_CONFIGURATION_COMPLETE <span class="hljs-literal">TRUE</span> PARENT_SCOPE)
+</code></pre> 
+ <p>以下是<code>custom_pre_configure_target()</code>函数的示例：</p> 
+ <pre><code class="hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(custom_pre_configure_target TARGET)</span>
+    <span class="hljs-title">set_target_properties</span><span class="hljs-params">(${TARGET} PROPERTIES
+        STATIC_LIBRARY_FLAGS_RELEASEMT /LTCG
+    )</span>
+    <span class="hljs-title">set</span><span class="hljs-params">(TARGET_CONFIGURATION_COMPLETE TRUE PARENT_SCOPE)</span>   
+<span class="hljs-title">endfunction</span><span class="hljs-params">()</span>
+</span></code></pre> 
+ <p>如果客户端只需要覆盖一些设置，它可以定义<code>custom_post_configure_target()</code>函数，该函数在引擎完成目标配置后调用，例如：</p> 
+ <pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">custom_post_configure_target TARGET</span>)
+    <span class="hljs-title">set_target_properties</span>(<span class="hljs-params">${TARGET} PROPERTIES
+        CXX_STANDARD <span class="hljs-number">17</span>
+    </span>)
+<span class="hljs-title">endfunction</span>(<span class="hljs-params"></span>)
+</span></code></pre> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h1 id="ftja5e4qhu7">API入门</h1> 
+ <p>请参阅本页。另外，下面列出的教程和示例也是一个很好的起点。</p> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h1 id="3kvvbvxs8mp"><a href="javascript:void(0);" onclick="window.open('https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials','_blank');">Tutorials</a></h1> 
+ <table> 
+  <thead> 
+   <tr> 
+    <th>Tutorial</th> 
+    <th>Screenshot</th> 
+    <th>Description</th> 
+   </tr> 
+  </thead> 
+  <tbody> 
+   <tr> 
+    <td>01-你好三角形</td> 
+    <td><img src="//www.5axxw.com/images_oss/m4/3585ef3c-a551-4643-8451-a24811bbf325.png?x-oss-process=style/logo" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示如何使用Diligent引擎API呈现简单三角形。</td> 
+   </tr> 
+   <tr> 
+    <td>02-立方体</td> 
+    <td><img src="//www.5axxw.com/images_oss/cj/c45b9598-947a-421a-bd8e-d441bdf8023b.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示如何渲染实际的三维对象立方体。它演示了如何从文件加载着色器，创建和使用顶点、索引和统一缓冲区。</td> 
+   </tr> 
+   <tr> 
+    <td>03-纹理</td> 
+    <td><img src="//www.5axxw.com/images_oss/ge/23adb675-bf1c-4328-923a-52f46af42429.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示如何将纹理应用于三维对象。它演示了如何从文件加载纹理、创建着色器资源绑定对象以及如何在着色器中采样纹理。</td> 
+   </tr> 
+   <tr> 
+    <td>03-Texturing-C</td> 
+    <td><img src="//www.5axxw.com/images_oss/ge/23adb675-bf1c-4328-923a-52f46af42429.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程与Tutorial03相同，但使用C API实现。</td> 
+   </tr> 
+   <tr> 
+    <td>04-实例</td> 
+    <td><img src="//www.5axxw.com/images_oss/kh/fb1b7539-abcc-4465-835f-9654c270e3c7.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示了如何使用实例化来为每个副本使用唯一的变换矩阵来渲染一个对象的多个副本。</td> 
+   </tr> 
+   <tr> 
+    <td>05-纹理阵列</td> 
+    <td><img src="//www.5axxw.com/images_oss/eu/162e8a20-3f9a-440a-a7cb-875e031351d4.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示如何将实例化与纹理数组相结合，以便为每个实例使用唯一的纹理。</td> 
+   </tr> 
+   <tr> 
+    <td>06-多线程</td> 
+    <td><img src="//www.5axxw.com/images_oss/8r/072d4f07-20ad-47b1-b072-b66d307454dc.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示如何从多个线程并行生成命令列表。</td> 
+   </tr> 
+   <tr> 
+    <td>07-几何着色器</td> 
+    <td><img src="//www.5axxw.com/images_oss/8y/c7e2ca25-358d-48fa-adf0-f1a3ff3e50d1.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示如何使用几何体着色器渲染平滑线框。</td> 
+   </tr> 
+   <tr> 
+    <td>08-镶嵌</td> 
+    <td><img src="//www.5axxw.com/images_oss/rd/ee4a39b7-4c38-4d5e-b9ab-656a18791161.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示如何使用硬件细分来实现简单的自适应地形渲染算法。</td> 
+   </tr> 
+   <tr> 
+    <td>09-四边形</td> 
+    <td><img src="//www.5axxw.com/images_oss/yr/83b99cf4-1263-4fa8-8d35-3740bcd83bd5.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程介绍如何渲染多个二维四边形，经常切换纹理和混合模式。</td> 
+   </tr> 
+   <tr> 
+    <td>10-数据流</td> 
+    <td><img src="//www.5axxw.com/images_oss/gv/af491fc6-65fe-48c6-8ea2-7720c3ec33de.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程展示了使用<code>MAP_FLAG_DISCARD</code>和<code>MAP_FLAG_DO_NOT_SYNCHRONIZE</code>标志的动态缓冲区映射策略，以有效地将不同数量的数据流式传输到GPU。</td> 
+   </tr> 
+   <tr> 
+    <td>11-资源更新</td> 
+    <td><img src="//www.5axxw.com/images_oss/ko/6713ad69-26f3-4929-8f20-c573b9d37ad3.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示了在Diligent引擎中更新缓冲区和纹理的不同方法，并解释了与每个方法相关的重要内部细节和性能影响。</td> 
+   </tr> 
+   <tr> 
+    <td>12-渲染目标</td> 
+    <td><img src="//www.5axxw.com/images_oss/w5/ce13c1f9-82c1-4f6c-85b0-4a34a1df9d3b.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示了如何将一个3d立方体渲染成屏幕外的渲染目标，并实现一个简单的post-processing效果。</td> 
+   </tr> 
+   <tr> 
+    <td>13-阴影图</td> 
+    <td><img src="//www.5axxw.com/images_oss/ws/f342d2b2-114c-4952-86af-d4b87f5eaed6.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示如何使用阴影贴图渲染基本阴影。</td> 
+   </tr> 
+   <tr> 
+    <td>14-计算着色器</td> 
+    <td><img src="//www.5axxw.com/images_oss/uf/693d7d93-9b72-45b8-bf41-707a7cc2e41b.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示如何使用计算着色器实现一个简单的粒子模拟系统。</td> 
+   </tr> 
+   <tr> 
+    <td>15-多个窗口</td> 
+    <td><img src="//www.5axxw.com/images_oss/hg/7935ee39-d7ae-493c-b474-f9a645175ede.png?x-oss-process=style/logo" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示如何使用Diligent引擎渲染到多个窗口。</td> 
+   </tr> 
+   <tr> 
+    <td>16-无绑定资源</td> 
+    <td><img src="//www.5axxw.com/images_oss/y5/e8c988b2-1f21-43d2-a072-3aa47d8d6ed2.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示如何实现无绑定资源，这是一种利用next-genapi启用的动态着色器资源索引功能来显著提高渲染性能的技术。</td> 
+   </tr> 
+   <tr> 
+    <td>17-MSAA</td> 
+    <td><img src="//www.5axxw.com/images_oss/ml/4e2017fc-f9f0-4423-ad0a-a1d9e08d222c.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示如何使用multisampleanti-aliasing（MSAA）使几何边看起来更平滑、更暂时更稳定。</td> 
+   </tr> 
+   <tr> 
+    <td>18-查询</td> 
+    <td><img src="//www.5axxw.com/images_oss/5f/84b96561-9241-49d5-b4bd-ea1629ae0dab.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程将演示如何使用查询来检索有关GPU操作的各种信息，例如呈现的原语数量、命令处理持续时间等。</td> 
+   </tr> 
+   <tr> 
+    <td>19-渲染过程</td> 
+    <td><img src="//www.5axxw.com/images_oss/54/e3d898c0-9fce-4716-b6f5-1adca047933d.gif" alt="" style="max-width:100%;" /></td> 
+    <td>本教程演示如何使用渲染过程API实现简单的延迟着色。</td> 
+   </tr> 
+  </tbody> 
+ </table> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h1 id="aukh4tz4h5q"><a href="javascript:void(0);" onclick="window.open('https://github.com/DiligentGraphics/DiligentSamples','_blank');">Samples</a></h1> 
+ <table> 
+  <thead> 
+   <tr> 
+    <th>Sample</th> 
+    <th>Screenshot</th> 
+    <th>Description</th> 
+   </tr> 
+  </thead> 
+  <tbody> 
+   <tr> 
+    <td><a href="javascript:void(0);" onclick="window.open('https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Atmosphere','_blank');">Atmosphere Sample</a></td> 
+    <td><img src="//www.5axxw.com/images_oss/mq/9bc28bb7-ed4a-4d71-ada9-e769713ca0c4.gif" alt="" style="max-width:100%;" /></td> 
+    <td>这个示例演示了如何将极线光散射post-processing效果集成到渲染physically-based大气的应用程序中。</td> 
+   </tr> 
+   <tr> 
+    <td><a href="javascript:void(0);" onclick="window.open('https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/GLTFViewer','_blank');">GLTF Viewer</a></td> 
+    <td><img src="//www.5axxw.com/images_oss/sw/6c33872a-eb5c-4777-8b9d-7f4f7481ce75.jpg?x-oss-process=style/logo" width="240" style="max-width:100%;" /></td> 
+    <td>此示例演示如何使用资产加载器和GLTF PBR呈现器加载和呈现GLTF模型。</td> 
+   </tr> 
+   <tr> 
+    <td><a href="javascript:void(0);" onclick="window.open('https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Shadows','_blank');">Shadows</a></td> 
+    <td><img src="//www.5axxw.com/images_oss/jj/4a030f45-62cf-47f0-a255-b633a9f3286b.jpg?x-oss-process=style/logo" width="240" style="max-width:100%;" /></td> 
+    <td>此示例演示如何使用Shadowing组件渲染high-quality阴影。</td> 
+   </tr> 
+   <tr> 
+    <td><a href="javascript:void(0);" onclick="window.open('https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/ImguiDemo','_blank');">Dear ImGui Demo</a></td> 
+    <td><img src="//www.5axxw.com/images_oss/yg/c4eb2fec-e512-4d36-9f48-068b04623cbc.png?x-oss-process=style/logo" width="240" style="max-width:100%;" /></td> 
+    <td>此示例演示了引擎与亲爱的imguiui库的集成。</td> 
+   </tr> 
+   <tr> 
+    <td><a href="javascript:void(0);" onclick="window.open('https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/NuklearDemo','_blank');">Nuklear Demo</a></td> 
+    <td><img src="//www.5axxw.com/images_oss/cw/8eed24cd-c998-4f17-b24e-5e87d3e4100a.png?x-oss-process=style/logo" width="240" style="max-width:100%;" /></td> 
+    <td>此示例演示引擎与nuklear UI库的集成。</td> 
+   </tr> 
+   <tr> 
+    <td><a href="javascript:void(0);" onclick="window.open('https://github.com/DiligentGraphics/DiligentSamples/tree/master/Android/HelloAR','_blank');">Hello AR</a></td> 
+    <td><img src="//www.5axxw.com/images_oss/8a/a109b2fc-674e-4ebc-9f46-db2bd40150f5.png?x-oss-process=style/logo" width="240" style="max-width:100%;" /></td> 
+    <td>此示例演示如何在基本的Android AR应用程序中使用Diligent引擎。</td> 
+   </tr> 
+  </tbody> 
+ </table> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h1 id="occakg4a1sm">Demos</h1> 
+ <table> 
+  <thead> 
+   <tr> 
+    <th>Project</th> 
+    <th>Screenshot</th> 
+    <th>Description</th> 
+   </tr> 
+  </thead> 
+  <tbody> 
+   <tr> 
+    <td><a href="javascript:void(0);" onclick="window.open('https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids','_blank');">Asteroids Performance Benchmark</a></td> 
+    <td><img src="//www.5axxw.com/images_oss/8w/b5a89abe-8777-4d2c-a0d0-19b2834935ee.png?x-oss-process=style/logo" alt="" style="max-width:100%;" /></td> 
+    <td>此演示旨在作为性能基准，并基于英特尔开发的此演示。它渲染了50000个独特的纹理小行星。每颗小行星都是由1000个独特的网格和10个独特纹理中的一个组成的。该示例使用原始的D3D11和D3D12本机实现，并添加了使用Diligent Engine API的实现，以便比较不同呈现模式的性能。</td> 
+   </tr> 
+   <tr> 
+    <td><a href="javascript:void(0);" onclick="window.open('https://github.com/DiligentGraphics/DiligentEngine/tree/master/unityplugin','_blank');">Unity Integration Demo</a></td> 
+    <td><img src="//www.5axxw.com/images_oss/9m/320289b2-650b-40de-81b1-296407ba02da.png?x-oss-process=style/logo" alt="" style="max-width:100%;" /></td> 
+    <td>这个项目展示了用功引擎和Unity的集成</td> 
+   </tr> 
+  </tbody> 
+ </table> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h1 id="pemglismsj">High-Level Rendering Components</h1> 
+ <p>High-level呈现功能由DiligentFX模块实现。现在可以使用以下组件：</p> 
+ <ul> 
+  <li>极线光散射post-effect</li> 
+ </ul> 
+ <p><img src="//www.5axxw.com/images_oss/tq/65ba2f8a-6f55-4daf-af02-4f0a4a6bacf7.png?x-oss-process=style/logo" width="240" style="max-width:100%;" /></p> 
+ <ul> 
+  <li>色调映射着色器工具</li> 
+ </ul> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <ul> 
+  <li>GLTF2.0加载程序和Physically-based渲染器，带有image-based照明。</li> 
+ </ul> 
+ <table> 
+  <thead> 
+   <tr> 
+    <th></th> 
+    <th></th> 
+   </tr> 
+  </thead> 
+  <tbody> 
+   <tr> 
+    <td><img src="//www.5axxw.com/images_oss/s1/15aca32d-44e0-40cd-a972-64f17c8ca34f.jpg?x-oss-process=style/logo" alt="" style="max-width:100%;" /></td> 
+    <td><img src="//www.5axxw.com/images_oss/sw/6c33872a-eb5c-4777-8b9d-7f4f7481ce75.jpg?x-oss-process=style/logo" alt="" style="max-width:100%;" /></td> 
+   </tr> 
+   <tr> 
+    <td><img src="//www.5axxw.com/images_oss/p2/94f58a03-9acb-4e77-92a6-a646776b3e51.jpg?x-oss-process=style/logo" alt="" style="max-width:100%;" /></td> 
+    <td><img src="//www.5axxw.com/images_oss/hp/457380c2-fc69-429e-8c53-a7cca32caa10.gif" alt="" style="max-width:100%;" /></td> 
+   </tr> 
+  </tbody> 
+ </table> 
+ <ul> 
+  <li><a href="javascript:void(0);" onclick="window.open('https://github.com/DiligentGraphics/DiligentFX/tree/master/Components#shadows','_blank');">Shadows</a></li> 
+ </ul> 
+ <p><img src="//www.5axxw.com/images_oss/ck/fbed8f25-f73a-4838-b543-d5f5b1652606.jpg?x-oss-process=style/logo" width="240" style="max-width:100%;" /></p> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h1 id="667vnv76n69">使用Diligent Engine的产品</h1> 
+ <p>如果您能给我们一个链接，以防您的产品使用Diligent Engine，我们将不胜感激。</p> 
+ <ul> 
+  <li>Vrmac图形：用于.NET的cross-platform图形库</li> 
+  <li>您的产品在这里（请提交公关）！</li> 
+ </ul> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h1 id="25bpjh7tw3e">License</h1> 
+ <p>请参阅Apache2.0许可证。</p> 
+ <p>此项目有一些third-party依赖项，每个依赖项都可能有独立的许可：</p> 
+ <ul> 
+  <li>核心模块：SPIRV-Cross:SPIRV解析和cross-compilation工具。SPIRV-Headers:SPIRV头文件。SPIRV-Tools:SPIRV优化和验证工具。glslang:Khronos引用GLSL、ESSL和HLSL的编译器和验证器。OpenGL扩展Wrangler库。</li> 
+  <li>工具模块：libjpeg:C读写JPEG图像文件的库。libtiff:TIFF库和实用程序。libpng：官方的PNG参考库。zlib：压缩库。TiNYGLTF：一个头只有C++ 11 GLTF 2库。亲爱的imgui:Abloat-free即时模式图形用户界面库。</li> 
+ </ul> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h1 id="e3f7kbe51s">Contributing</h1> 
+ <p>若要贡献代码，请向该存储库提交请求。Diligent Engine是根据Apache2.0许可证授予的，该许可证保证DiligentEngine存储库中的代码没有知识产权负担。在向此存储库提交代码时，您同意该代码没有任何知识产权声明。</p> 
+ <p>Diligent引擎使用clang-format确保代码基中的源代码样式一致。appveyor和travis对每个提交和请求请求验证格式，如果发现任何代码格式问题，构建将失败。有关如何设置clang-format和自动代码格式化的说明，请参阅本页。</p> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h1 id="zb46xu1q30m">References</h1> 
+ <p><a href="javascript:void(0);" onclick="window.open('https://cdn.rawgit.com/DiligentGraphics/DiligentCore/4949ec8a/doc/html/index.html','_blank');">API Reference</a></p> 
+ <p><a href="javascript:void(0);" onclick="window.open('','_blank');"></a></p> 
+ <h1 id="v8gaam7xes">Release History</h1> 
+ <p>See <a href="javascript:void(0);" onclick="window.open('https://github.com/DiligentGraphics/DiligentEngine/blob/master/ReleaseHistory.md','_blank');">Release History</a></p> 
+ <hr /> 
+ <p><a href="javascript:void(0);" onclick="window.open('http://diligentgraphics.com','_blank');">diligentgraphics.com</a></p> 
+ <p><img src="//www.5axxw.com/images_oss/z5/9e49c1bc-7e5a-42f9-b51e-617982201d36.png?x-oss-process=style/logo" alt="Diligent Engine on Twitter" style="max-width:100%;" /> <img src="//www.5axxw.com/images_oss/k2/f8e75625-f8d5-4094-a664-4fd7cfbe1d51.png?x-oss-process=style/logo" alt="Diligent Engine on Facebook" style="max-width:100%;" /></p> 
+</article>
+
+                                                        </div>
+                                                    </article>
+                                                    <div class="_ezp23v9z2y"></div>
+                                                </div>
+                                                <div style="user-select: none;">
+                                                    <div id="footer" class="footer" data-testid="footer">
+                                                        <div class="footer-container">
+                                                            <div class="slogan" data-testid="slogan">
+                                                                <img src="//www.5axxw.com/images_oss/ye/c494103e-41d7-444a-ac6d-2149782c4155.png?x-oss-process=style/thumbnail" alt="wiki" height="24" class="" /></div>
+                                                            <div class="links" data-testid="links">
+                                                                <a href="javascript:void(0);" class="">法律声明</a>
+                                                                <a href="javascript:void(0);" class="">违版必究</a>
+                                                                <a href="javascript:void(0);" class="">资料版权</a>
+                                                                <a href="javascript:void(0);" class="">作者所有</a>
+                                                                <span class="split"></span>
+                                                                <a href="//www.5axxw.com/wiki/" target="_self" class="">Wiki</a>
+                                                                <a href="//www.5axxw.com" target="_blank" class="link-primary">返回首页</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tocWrapper___1wFvn">
+                                            <div class="toc___1Pcez reachingTop___1-biz" style="min-width: 350px; width: 20vw; right: auto; left: 77vw; height: auto !important;">
+                                                <div style="user-select: none;">
+                                                    <div class="wrap___3ePjM undefined" data-testid="test-reader-toc" style="height: auto;">
+                                                        <ul class="directory___1NSyX"><li class="directory-item"><a class="directory-item-link directory-item-link-1" href="#9qvftyhgoqv" title="&#10;                                                                    DiligentEngine: 一个现代跨平台的底层图形库和渲染框架&#10;                                                                "><span>
+                                                                    DiligentEngine: 一个现代跨平台的底层图形库和渲染框架
+                                                                </span></a></li>
+<li class="directory-item"><a class="directory-item-link directory-item-link-1" href="#vmleusbmurs" title="Diligent Engine "><span>Diligent Engine </span></a></li>
+<li class="directory-item"><a class="directory-item-link directory-item-link-1" href="#ofq2ivk5l5" title="目录"><span>目录</span></a></li>
+<li class="directory-item"><a class="directory-item-link directory-item-link-1" href="#ibq1wd1bxsl" title="克隆存储库"><span>克隆存储库</span></a></li>
+<li class="directory-item"><a class="directory-item-link directory-item-link-1" href="#rqo7dd29e1e" title="生成和运行说明"><span>生成和运行说明</span></a></li>
+<li class="directory-item"><a class="directory-item-link directory-item-link-1" href="#ftja5e4qhu7" title="API入门"><span>API入门</span></a></li>
+<li class="directory-item"><a class="directory-item-link directory-item-link-1" href="#3kvvbvxs8mp" title="Tutorials"><span>Tutorials</span></a></li>
+<li class="directory-item"><a class="directory-item-link directory-item-link-1" href="#aukh4tz4h5q" title="Samples"><span>Samples</span></a></li>
+<li class="directory-item"><a class="directory-item-link directory-item-link-1" href="#occakg4a1sm" title="Demos"><span>Demos</span></a></li>
+<li class="directory-item"><a class="directory-item-link directory-item-link-1" href="#pemglismsj" title="High-Level Rendering Components"><span>High-Level Rendering Components</span></a></li>
+<li class="directory-item"><a class="directory-item-link directory-item-link-1" href="#667vnv76n69" title="使用Diligent Engine的产品"><span>使用Diligent Engine的产品</span></a></li>
+<li class="directory-item"><a class="directory-item-link directory-item-link-1" href="#25bpjh7tw3e" title="License"><span>License</span></a></li>
+<li class="directory-item"><a class="directory-item-link directory-item-link-1" href="#e3f7kbe51s" title="Contributing"><span>Contributing</span></a></li>
+<li class="directory-item"><a class="directory-item-link directory-item-link-1" href="#zb46xu1q30m" title="References"><span>References</span></a></li>
+<li class="directory-item"><a class="directory-item-link directory-item-link-1" href="#v8gaam7xes" title="Release History"><span>Release History</span></a></li>
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div style="margin-top: 20px; ">
+                                                    <div class="_1gsz6mget9y"></div>
+                                                    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5929899578203496" crossorigin="anonymous" data-checked-head="true"></script>
+                                                    <ins class="adsbygoogle" style="display: block; height: 280px;" data-ad-client="ca-pub-5929899578203496" data-ad-slot="9042254105" data-ad-format="auto" data-full-width-responsive="true" data-adsbygoogle-status="done" data-ad-status="unfilled"><div id="aswift_2_host" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none; height: 280px; width: 350px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block; overflow: visible;"><iframe id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0;width:350px;height:280px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="350" height="280" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-5929899578203496&amp;output=html&amp;h=280&amp;slotname=9042254105&amp;adk=1090360823&amp;adf=3107656759&amp;pi=t.ma~as.9042254105&amp;w=350&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1690791604&amp;rafmt=1&amp;format=350x280&amp;url=https%3A%2F%2Fwww.5axxw.com%2Fwiki%2Fcontent%2F9rs7l1&amp;fwr=0&amp;fwrattr=true&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;uach=WyJXaW5kb3dzIiwiNy4wLjAiLCJ4ODYiLCIiLCIxMTUuMC41NzkwLjExMCIsW10sMCxudWxsLCI2NCIsW1siTm90L0EpQnJhbmQiLCI5OS4wLjAuMCJdLFsiR29vZ2xlIENocm9tZSIsIjExNS4wLjU3OTAuMTEwIl0sWyJDaHJvbWl1bSIsIjExNS4wLjU3OTAuMTEwIl1dLDBd&amp;dt=1690791603622&amp;bpp=2&amp;bdt=826&amp;idt=773&amp;shv=r20230726&amp;mjsv=m202307270101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;prev_fmts=0x0%2C960x280&amp;nras=1&amp;correlator=7422905240655&amp;frm=20&amp;pv=1&amp;ga_vid=690484018.1690791604&amp;ga_sid=1690791604&amp;ga_hid=506144956&amp;ga_fc=0&amp;u_tz=480&amp;u_his=2&amp;u_h=961&amp;u_w=1707&amp;u_ah=921&amp;u_aw=1707&amp;u_cd=24&amp;u_sd=1.5&amp;dmc=8&amp;adx=1315&amp;ady=472&amp;biw=1691&amp;bih=799&amp;scr_x=0&amp;scr_y=0&amp;eid=44759842%2C44759876%2C44759927%2C31076544%2C44788441%2C44796700&amp;oid=2&amp;pvsid=2709930945196067&amp;tmod=1591438711&amp;uas=0&amp;nvt=2&amp;ref=https%3A%2F%2Fwww.5axxw.com%2Fwiki%2Fcontent%2F9rs7l1&amp;fc=1920&amp;brdim=1280%2C-231%2C1280%2C-231%2C1707%2C-231%2C1707%2C921%2C1707%2C799&amp;vis=1&amp;rsz=d%7C%7CfeE%7Cp&amp;abl=XS&amp;pfx=0&amp;fu=128&amp;bc=31&amp;ifi=3&amp;uci=a!3&amp;fsb=1&amp;xpc=fPiLRL1B0V&amp;p=https%3A//www.5axxw.com&amp;dtd=776" data-google-container-id="a!3" data-load-complete="true" data-google-query-id="CLqm2MfBuIADFQlHwgUdt84G1Q"></iframe></div></ins>
+                                                    <script>
+                                                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                                    </script>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span style="display: none;"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="//www.5axxw.com//add/highlight.js/9.18.1/atom-one-dark.min.css" />
+<script src="//www.5axxw.com//add/highlight.js/9.18.1/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    let c_id = "9rs7l1";
+    let auth_key = "bfec29516c9dd1fae";
+
+    function AddFavorite(sURL, sTitle) {
+        try {
+            window.external.addFavorite(sURL, sTitle);
+        } catch (e) {
+            try {
+                window.sidebar.addPanel(sTitle, sURL, "");
+            } catch (e) {
+                alert("加入收藏失败，请使用Ctrl+D进行添加");
+            }
+        }
+    }
+</script>
+
+<ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;" data-ad-status="unfilled"><div id="aswift_0_host" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none; height: 0px; width: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block;"><iframe id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-5929899578203496&amp;output=html&amp;adk=1812271804&amp;adf=3025194257&amp;lmt=1690791604&amp;plat=1%3A16777216%2C2%3A16777216%2C3%3A16%2C4%3A16%2C9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1081344%2C32%3A32%2C41%3A32%2C42%3A32&amp;format=0x0&amp;url=https%3A%2F%2Fwww.5axxw.com%2Fwiki%2Fcontent%2F9rs7l1&amp;ea=0&amp;pra=5&amp;wgl=1&amp;uach=WyJXaW5kb3dzIiwiNy4wLjAiLCJ4ODYiLCIiLCIxMTUuMC41NzkwLjExMCIsW10sMCxudWxsLCI2NCIsW1siTm90L0EpQnJhbmQiLCI5OS4wLjAuMCJdLFsiR29vZ2xlIENocm9tZSIsIjExNS4wLjU3OTAuMTEwIl0sWyJDaHJvbWl1bSIsIjExNS4wLjU3OTAuMTEwIl1dLDBd&amp;dt=1690791603617&amp;bpp=3&amp;bdt=821&amp;idt=740&amp;shv=r20230726&amp;mjsv=m202307270101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;nras=1&amp;correlator=7422905240655&amp;frm=20&amp;pv=2&amp;ga_vid=690484018.1690791604&amp;ga_sid=1690791604&amp;ga_hid=506144956&amp;ga_fc=0&amp;u_tz=480&amp;u_his=2&amp;u_h=961&amp;u_w=1707&amp;u_ah=921&amp;u_aw=1707&amp;u_cd=24&amp;u_sd=1.5&amp;dmc=8&amp;adx=-12245933&amp;ady=-12245933&amp;biw=1691&amp;bih=799&amp;scr_x=0&amp;scr_y=0&amp;eid=44759842%2C44759876%2C44759927%2C31076544%2C44788441%2C44796700&amp;oid=2&amp;pvsid=2709930945196067&amp;tmod=1591438711&amp;uas=0&amp;nvt=2&amp;fsapi=1&amp;ref=https%3A%2F%2Fwww.5axxw.com%2Fwiki%2Fcontent%2F9rs7l1&amp;fc=1920&amp;brdim=1280%2C-231%2C1280%2C-231%2C1707%2C-231%2C1707%2C921%2C1707%2C799&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=32768&amp;bc=31&amp;ifi=1&amp;uci=a!1&amp;fsb=1&amp;dtd=763" data-google-container-id="a!1" data-load-complete="true"></iframe></div></ins><iframe src="https://www.google.com/recaptcha/api2/aframe" width="0" height="0" style="display: none;"></iframe></body><iframe id="google_esf" name="google_esf" src="https://googleads.g.doubleclick.net/pagead/html/r20230726/r20190131/zrt_lookup.html" style="display: none;"></iframe></html>

@@ -37,6 +37,13 @@ gflags 在没有修改代码的 条件下，只能做有限的 内存边界检�
 0xDD        | CRT 调试堆 | 填充释放的堆块（dead land） | 整个堆块大小
 0xCD        | CRT 调试堆 | 填充新分配的堆块（clean land） | 用户数据区大小
 
+使用 LargeAddressAware 扩展程序内存地址空间
+{% include image.html url="/assets/images/210430-win-memory-dump/20230731-144231.jpg" %}
+当然这种方法的缺点：
+1. 在 64 位系统上没办法使用超过 4GB 的内存；不过以前只能用 2G，聊胜于无了；
+2. 在 32 位系统上必须打开 /3GB 启动参数，为用户态程序预留 3GB 的内存
+3. 对于带有自校验的程序，不适用，因为 dumpbin 相当于修改了这个 exe，那么文件校验肯定是失败了；
+
 
 ## 内存管理
 
