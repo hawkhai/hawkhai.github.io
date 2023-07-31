@@ -331,6 +331,13 @@ if sys.stderr.encoding != 'UTF-8':
 <https://www.cnblogs.com/MMLoveMeMM/articles/3811166.html>
 
 
+## 其它问题
+
+貌似不同 python 版本打包出来的文件不能混用一个文件夹。
+<https://juejin.cn/s/python%20failed%20to%20execute%20script%20pyi_rth_win32comgenpy>
+loader2.exe 多余的文件要重命名。
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-03-19-pyinstxtractor.md.js" %}'></script></p>
@@ -359,3 +366,4 @@ if sys.stderr.encoding != 'UTF-8':
 - [https://github.com/chriskiehl/Gooey/issues/520]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/github.com/e79d1511.html" %})
 - [https://blog.csdn.net/hello_crayon/article/details/80940390]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/blog.csdn.net/43e4f057.html" %})
 - [https://www.cnblogs.com/MMLoveMeMM/articles/3811166.html]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/www.cnblogs.com/42e617ab.html" %})
+- [https://juejin.cn/s/python%20failed%20to%20execute%20script%20pyi_rth_win32comgenpy]({% include relrefx.html url="/backup/2021-03-19-pyinstxtractor.md/juejin.cn/ca2bee42.html" %})
