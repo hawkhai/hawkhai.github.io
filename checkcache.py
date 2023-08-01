@@ -49,24 +49,36 @@ def maincheck(fpath, fname, ftype):
         if REMOVE:
             osremove(fpath)
 
-def formatbigfiles(fpath):
+def formatbigfiles(fpath, md5hub):
     fpage = readfile(fpath, True, "utf8")
     lines = fpage.replace("\r\n", "\n").split("\n")
     rootdir = os.path.split(fpath)[0]
     def myfunc(tmp):
+
+        if not tmp.strip(): return tmp.strip()
+        # 要么是注释，要么就是规则。
+        assert tmp.startswith("# ") or re.findall("^[0-9a-f]{32} # .*? # ([0-9.]+) MB$", tmp), tmp
+
         tmpli = tmp.split("#")
         if len(tmpli) >= 3:
-            localdir = os.path.join(rootdir, "..")
-            local = os.path.join(localdir, tmpli[1].strip())
-            pathz = os.path.relpath(local, localdir)
-            if not os.path.exists(local):
-                print("not os.path.exists", pathz)
+            srcmd5 = tmpli[0].strip()
+            if srcmd5 in md5hub:
+                tmpli[1] = md5hub[srcmd5]
+            else:
+                return None # 文件已经不存在了。
+
+            pathz = os.path.relpath(tmpli[1].strip(), ".")
+            if not os.path.exists(pathz):
+                print("warning>", pathz)
+            else:
+                tmpli[2] = " %.1f MB" % (os.path.getsize(pathz)/1024/1024)
             tmpli[1] = " %s " % pathz
             tmp = "#".join(tmpli)
         return " ".join(tmp.split())
-    lines = [myfunc(line) for line in lines if line.strip()]
+    lines = [myfunc(line) for line in lines if line.strip() and myfunc(line)]
     def mycmp(tmp):
-        if not tmp.strip(): return tmp.strip()
+        if not tmp.strip():
+            return tmp.strip()
         if len(tmp.split(" # ")) > 1:
             return tmp.split(" # ")[1]
         return tmp.strip()
@@ -76,5 +88,16 @@ def formatbigfiles(fpath):
 
 if __name__ == "__main__":
     searchdir(".", maincheck, ignorelist=("_site",))
-    formatbigfiles(r"config\\mdrstrip_bigfiles.txt")
-    formatbigfiles(r"invisible\\config\\mdrstrip_bigfiles.txt")
+    md5hubfile = os.path.join("tempdir", "md5hub.txt")
+    md5hub = readfileJson(md5hubfile)
+    if not md5hub: md5hub = {}
+    def mainmd5file(fpath, fname, ftype):
+        fmd5 = getFileMd5(fpath)
+        if not fmd5 in md5hub:
+            md5hub[fmd5] = fpath
+    if not md5hub:
+        searchdir(".", mainmd5file, ignorelist=("_site",))
+        writefileJson(md5hubfile, md5hub)
+    #print(md5hub)
+    formatbigfiles(r"config\\mdrstrip_bigfiles.txt", md5hub)
+    formatbigfiles(r"invisible\\config\\mdrstrip_bigfiles.txt", md5hub)
