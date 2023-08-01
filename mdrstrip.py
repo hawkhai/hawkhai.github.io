@@ -209,6 +209,10 @@ title : %(title)s
         fdata = h.handle(fdata)
         return fdata
 
+    # html 过大，自动切换到 mdfile
+    if len(fdata) >= 1024*1000*1 and fdata.lower().find(b"<body") != -1 and fdata.lower().find(b"<html") != -1:
+        mdxfile = True
+
     if mdxfile:
         fdata = bytesToString(fdata, "utf8")
         if fdata.lower().find("<body") != -1 and fdata.lower().find("<html") != -1:
@@ -230,6 +234,7 @@ title : %(title)s
     igbigfiles = readfileIglist(mdrstripBigfile)
     if not fmd5 in igbigfiles and not flocal in igbigfiles:
         if len(fdata) >= 1024*1000*1 and not IGNOREERR:
+            print(getLuckFileMd5(flocal, fmd5), "#", flocal, "#", "%.1f MB"%(len(fdata) / 1024 / 1024))
             assert False, (len(fdata) / 1024.0 / 1000.0, url, flocal)
 
     remote = buildlocal(".html" if mdxfile else ttype).replace("\\", "/")
@@ -1103,7 +1108,7 @@ def checkfilesize(fpath, fname, ftype):
     if not (fmd5 in igbigfiles) and not (fpath in igbigfiles):
         size = os.path.getsize(fpath) / 1024.0 / 1000.0 # 1000 KB
         if size >= 1.0:
-            print(getLuckFileMd5(fpath, fmd5), "#", fpath, "#", "%.1f MB"%size, fpath)
+            print(getLuckFileMd5(fpath, fmd5), "#", fpath, "#", "%.1f MB"%size)
 
             if ftype in ("gif",) and IS_WINDOWS:
                 from pythonx import pygrab

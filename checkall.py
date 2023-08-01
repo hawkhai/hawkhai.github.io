@@ -14,6 +14,8 @@ python3 mdrstrip.py format copyres {} {}
 ).split("\n"):
     line = line.strip()
     if not line: continue
+    if "quick" in sys.argv and line.find("headfmt.py") != -1:
+        continue
     os.system(line)
 
 exit(0)

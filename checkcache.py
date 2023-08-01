@@ -49,5 +49,32 @@ def maincheck(fpath, fname, ftype):
         if REMOVE:
             osremove(fpath)
 
+def formatbigfiles(fpath):
+    fpage = readfile(fpath, True, "utf8")
+    lines = fpage.replace("\r\n", "\n").split("\n")
+    rootdir = os.path.split(fpath)[0]
+    def myfunc(tmp):
+        tmpli = tmp.split("#")
+        if len(tmpli) >= 3:
+            localdir = os.path.join(rootdir, "..")
+            local = os.path.join(localdir, tmpli[1].strip())
+            pathz = os.path.relpath(local, localdir)
+            if not os.path.exists(local):
+                print("not os.path.exists", pathz)
+            tmpli[1] = " %s " % pathz
+            tmp = "#".join(tmpli)
+        return " ".join(tmp.split())
+    lines = [myfunc(line) for line in lines if line.strip()]
+    def mycmp(tmp):
+        if not tmp.strip(): return tmp.strip()
+        if len(tmp.split(" # ")) > 1:
+            return tmp.split(" # ")[1]
+        return tmp.strip()
+    lines.sort(key=mycmp)
+    #print(lines)
+    writefile(fpath, "\r\n".join(lines)+"\r\n", "utf8")
+
 if __name__ == "__main__":
     searchdir(".", maincheck, ignorelist=("_site",))
+    formatbigfiles(r"config\\mdrstrip_bigfiles.txt")
+    formatbigfiles(r"invisible\\config\\mdrstrip_bigfiles.txt")
