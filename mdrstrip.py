@@ -662,7 +662,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
         isSrcFile = isSrcFile or ftype in ("h", "cpp", "cxx", "rc", "c",)
 
     if not isSrcFile:
-        if fpath.find(os.sep+"_site"+os.sep) != -1:
+        if fpath.find(os.sep+"_site"+os.sep) != -1: # 必须在 _site 文件夹?
             G_TYPESET.add(ftype)
         return
 
@@ -678,7 +678,7 @@ def mainfile(fpath, fname, ftype, fdepth=0):
                 value = value.strip()
                 G_MDKEYSET.add(key)
 
-    if fpath.find(os.sep+"_site"+os.sep) != -1:
+    if fpath.find(os.sep+"_site"+os.sep) != -1: # _site 文件夹
         return
 
     def linerstrip(line):
@@ -1114,7 +1114,7 @@ def checkfilesize(fpath, fname, ftype):
                 from pythonx import pygrab
                 pygrab.gifbuildwebp(fpath)
 
-            if not IGNOREERR:
+            if not IGNOREERR and fpath.find(os.sep+"_site"+os.sep) == -1: # 规避 _site 文件夹
                 openTextFile(mdrstripBigfile)
                 assert False, "大文件最好不要入库..."
 
