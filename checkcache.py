@@ -51,7 +51,7 @@ def maincheck(fpath, fname, ftype):
 
 def formatbigfiles(fpath, md5hub):
     fpage = readfile(fpath, True, "utf8")
-    lines = fpage.replace("\r\n", "\n").split("\n")
+    lines = fpage.replace("\r\n", "\n").replace("\r", "\n").split("\n")
     rootdir = os.path.split(fpath)[0]
     def myfunc(tmp):
 
@@ -61,19 +61,23 @@ def formatbigfiles(fpath, md5hub):
 
         tmpli = tmp.split("#")
         if len(tmpli) >= 3:
-            srcmd5 = tmpli[0].strip()
+            srcmd5, srcpath, srcsize = tmpli
+            srcmd5, srcpath, srcsize = srcmd5.strip(), srcpath.strip(), srcsize.strip()
             if srcmd5 in md5hub:
-                tmpli[1] = md5hub[srcmd5]
+                srcpath = md5hub[srcmd5]
+            elif os.path.exists(srcpath):
+                srcmd5 = getFileSrcMd5z(srcpath)
             else:
                 return None # 文件已经不存在了。
 
-            pathz = os.path.relpath(tmpli[1].strip(), ".")
+            pathz = os.path.relpath(srcpath, ".")
             if not os.path.exists(pathz):
                 print("warning>", pathz)
             else:
-                tmpli[2] = " %.1f MB" % (os.path.getsize(pathz)/1024/1024)
-            tmpli[1] = " %s " % pathz
-            tmp = "#".join(tmpli)
+                srcsize = "%.1f MB" % (os.path.getsize(pathz)/1024/1024)
+            srcpath = pathz
+
+            tmp = " # ".join([srcmd5, srcpath, srcsize])
         return " ".join(tmp.split())
     lines = [myfunc(line) for line in lines if line.strip() and myfunc(line)]
     def mycmp(tmp):
@@ -92,7 +96,7 @@ if __name__ == "__main__":
     md5hub = readfileJson(md5hubfile)
     if not md5hub: md5hub = {}
     def mainmd5file(fpath, fname, ftype):
-        fmd5 = getFileMd5(fpath)
+        fmd5 = getFileSrcMd5z(fpath)
         if not fmd5 in md5hub:
             md5hub[fmd5] = fpath
     if not md5hub:

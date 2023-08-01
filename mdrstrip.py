@@ -228,13 +228,13 @@ title : %(title)s
             for i in li: fdata = fdata.replace(i, NEWLINE_CHAR+"    ")
             writefile(flocal, fdata, "utf8")
 
-    fmd5 = getFileMd5(flocal) # 大文件，错误已经铸成，改不了了。
+    fmd5 = getFileSrcMd5z(flocal) # 大文件，错误已经铸成，改不了了。
     invdir2 = isInvisibleDir(flocal) # invdir = isInvisibleDir(fpath)
     mdrstripBigfile = os.path.join("invisible" if invdir2 else ".", "config/mdrstrip_bigfiles.txt")
     igbigfiles = readfileIglist(mdrstripBigfile)
     if not fmd5 in igbigfiles and not flocal in igbigfiles:
         if len(fdata) >= 1024*1000*1 and not IGNOREERR:
-            print(getLuckFileMd5(flocal, fmd5), "#", flocal, "#", "%.1f MB"%(len(fdata) / 1024 / 1024))
+            print(getFileSrcMd5z(flocal), "#", flocal, "#", "%.1f MB"%(len(fdata) / 1024 / 1024))
             assert False, (len(fdata) / 1024.0 / 1000.0, url, flocal)
 
     remote = buildlocal(".html" if mdxfile else ttype).replace("\\", "/")
@@ -1102,13 +1102,13 @@ def checkfilesize(fpath, fname, ftype):
 
     invdir = isInvisibleDir(fpath)
     mdrstripBigfile = os.path.join("invisible" if invdir else ".", "config/mdrstrip_bigfiles.txt")
-    fmd5 = getFileMd5(fpath) # checkfilesize
+    fmd5 = getFileSrcMd5z(fpath) # checkfilesize
 
     igbigfiles = readfileIglist(mdrstripBigfile)
     if not (fmd5 in igbigfiles) and not (fpath in igbigfiles):
         size = os.path.getsize(fpath) / 1024.0 / 1000.0 # 1000 KB
         if size >= 1.0:
-            print(getLuckFileMd5(fpath, fmd5), "#", fpath, "#", "%.1f MB"%size)
+            print(getFileSrcMd5z(fpath), "#", fpath, "#", "%.1f MB"%size)
 
             if ftype in ("gif",) and IS_WINDOWS:
                 from pythonx import pygrab

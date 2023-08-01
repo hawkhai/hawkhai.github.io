@@ -1033,10 +1033,10 @@ c&d  \end{matrix} \right |}} ={\frac{af-ec}{ad-bc}}$$
 {% include image.html url="/assets/images/220813-advanced-mathematics/20230731234127.png" %}
 
 
-## 【十-4】极坐标介绍 135:25
+## 【十-4】极坐标介绍 1 35:25
 
 
-## 【十-5】极坐标介绍 221:32
+## 【十-5】极坐标介绍 2 21:32
 
 
 ## 【十-6】二重积分（极坐标）58:30
