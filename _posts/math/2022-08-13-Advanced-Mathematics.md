@@ -1055,6 +1055,15 @@ c&d  \end{matrix} \right |}} ={\frac{af-ec}{ad-bc}}$$
 
 ## 【十-8】二重积分的换元法 1:00:05
 
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230802231056.png" %}
+
+这个例题经典，雅可比行列式就是两个空间变换的拉伸比。
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230802232409.png" %}
+
+什么时候用？
+1. 被积函数不好积分；
+2. 积分区域不好表示。
+
 
 ## 【十-9】三重积分的定义 14:23
 
