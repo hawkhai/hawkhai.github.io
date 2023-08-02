@@ -456,7 +456,7 @@ def collectHost(fpath, md5src, line, imgthumb):
         host = tx[2]
         checkz = line.split(url)
         for iline in checkz[1:]: # 检查网址的后继标记。
-            checkli = ["", ")", "]", ">", " ", "*"]
+            checkli = ["", ")", "]", ">", " ", "*", "$"]
             for urlz in iglist:
                 if url.startswith(urlz) and urlz:
                     checkli.append(";")

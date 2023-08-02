@@ -141,7 +141,7 @@ $ conda activate my-py3.6-environment
 pipenv install
 
 [[source]]
-url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 verify_ssl = true
 name = "pypi"
 
@@ -179,7 +179,7 @@ def encryptAES(data, salt):
 
 ```bat
 # 通过清华镜像源，下载快
-pip install -i https://pypi.tuna.tsinghua.edu.cn/simple/ uncompyle
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple uncompyle
 uncompyle test.pyc > test.py
 ```
 
