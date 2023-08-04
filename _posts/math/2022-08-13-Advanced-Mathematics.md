@@ -1096,6 +1096,12 @@ $$
 
 ## 【十-14】三重积分球面坐标（插入了新例题 ）28:34
 
+$$
+d v=d x d y d z=r^2 \sin \varphi d r d \varphi d \theta
+$$
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230805002301.png" %}
+
 
 ## 【十-15】三重积分的应用（求曲面的面积）新增加了证明 19:58
 
