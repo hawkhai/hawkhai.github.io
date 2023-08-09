@@ -18,10 +18,10 @@ def main(rootdir):
     def mainfile(fpath, fname, ftype):
         if not ftype in ("png",):
             return
-            
+
         if re.findall("^[0-9]{3}_[0-9a-f]{5}\\.", fname):
             return
-            
+
         print(fpath)
 
         img = Image.open(fpath)
@@ -30,12 +30,12 @@ def main(rootdir):
         if sign in kset:
             return
         kset.add(sign)
-        
+
         nonlocal count
         count = count + 1
         zname = "{}_{}.{}".format("%03d"%count, getmd5(sign)[:5], ftype)
         print(zname)
-        
+
         imgdir, imgname = os.path.split(fpath)
         zpath = os.path.join(imgdir, zname)
         copyfile(fpath, zpath)
