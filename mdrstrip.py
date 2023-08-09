@@ -698,6 +698,10 @@ def mainfile(fpath, fname, ftype, fdepth=0):
         return line.rstrip()
 
     print(fpath)
+    if IS_MACOS or IS_LINUX:
+        fdata = readfile(fpath)
+        fdata = fdata.replace(b"\r\n", b"\n").replace(b"\r", b"\n").replace(b"\n", b"\r\n")
+        writefile(fpath, fdata)
     md5src = getFileMd5(fpath) # mainfile
     try:
         lines = readfileLines(fpath, False, False, "utf8")
