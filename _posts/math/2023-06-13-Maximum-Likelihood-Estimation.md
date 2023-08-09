@@ -13,10 +13,10 @@ mathjax: true
 mermaid:
 glslcanvas:
 codeprint:
-cluster: "基础知识点"
+cluster: "草履虫"
 ---
 
-小学生都能看懂的 **极大似然估计** 。
+草履虫都能看懂的 **极大似然估计** 。
 
 **极大似然估计（MLE，Maximum Likelihood Estimation）**
 就是利用已知的样本结果，反推最有可能（最大概率）导致这样结果的参数值（模型已知，参数未知）。

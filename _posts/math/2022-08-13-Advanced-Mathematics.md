@@ -1120,6 +1120,8 @@ $$
 
 ## 【十一（2）】曲线积分的计算 26:32
 
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230809235509.png" %}
+
 
 ## 【十一（3）】对坐标的曲线积分（概念和性质）26:08
 
