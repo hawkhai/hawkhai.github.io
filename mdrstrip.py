@@ -1173,20 +1173,25 @@ def main():
         tidyupImgCollect("assets"+os.sep+"images")
         tidyupImgCollect("invisible"+os.sep+"images")
 
-    CHECK_IGNORE_LIST = (
+    igdirs = readfileIglist("config/mdrstrip_dir_ignore.txt")
+
+    CHECK_IGNORE_LIST = [
         "backup", "tempdir", "_site",
         "Debug", "Release", ".vs", "opengl-3rd", "opengles3-book", "opengles-book-samples",
         "UserDataSpider", "docs.gl", "ml-notes", "ksample",
-        )
+        ]
+    CHECK_IGNORE_LIST.extend(igdirs)
     searchdir(".", checkfilesize, ignorelist=CHECK_IGNORE_LIST, onDirectory=oncheckdirectory)
     searchdir("backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST, onDirectory=oncheckdirectory)
     searchdir("invisible"+os.sep+"backup", checkfilesize, ignorelist=CHECK_IGNORE_LIST, onDirectory=oncheckdirectory)
 
-    MAINW_IGNORE_LIST = (
-        "backup", "d2l-zh", "mathjax", "tempdir", "msgboard",
-        "Debug", "Release", ".vs", "openglcpp", "opengl-3rd", "opengles3-book", "opengles-book-samples",
+    MAINW_IGNORE_LIST = [
+        "backup", "tempdir",
+        "Debug", "Release", ".vs", "opengl-3rd", "opengles3-book", "opengles-book-samples",
         "UserDataSpider", "docs.gl", "ml-notes", "ksample",
-        )
+        "openglcpp", "d2l-zh", "mathjax", "msgboard",
+        ]
+    MAINW_IGNORE_LIST.extend(igdirs)
     searchdir(".", mainfilew, ignorelist=MAINW_IGNORE_LIST, reverse=True)
     if REBUILD:
         clearSnapCache()
