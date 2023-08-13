@@ -1134,6 +1134,8 @@ $$
 
 ## 【十一（6）】两类曲线积分的联系 18:01
 
+{% include image.html url="/assets/images/220813-advanced-mathematics/v2-4bae07fd2625522a4e3f1361e602b521_1440w.webp" %}
+
 
 ## 【十一（7）】格林公式的定义和证明 1:02:08
 
