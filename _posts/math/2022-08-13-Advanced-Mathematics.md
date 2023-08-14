@@ -1139,6 +1139,17 @@ $$
 
 ## 【十一（7）】格林公式的定义和证明 1:02:08
 
+$$
+\oint_{L^+}Pdx+Qdy=\iint\limits_{D}(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y})dxdy.
+$$
+
+$$
+\oint_{C}Pdx+Qdy=\iint_D\left( \frac{\partial Q}{\partial x} -\frac{\partial P}{\partial y}\right)dxdy
+$$
+
+[格林公式的几何意义是什么？ {% include relref_zhihu.html %}](https://www.zhihu.com/question/22674439/answer/185939984)
+{% include image.html url="/assets/images/220813-advanced-mathematics/v2-ce012687a7f9372f941e0a1d0c538845_1440w.png" %}
+
 
 ## 【十一（8）】格林公式的计算 44:53
 
@@ -1218,3 +1229,4 @@ $$
 - [https://zhuanlan.zhihu.com/p/466806302]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/zhuanlan.zhihu.com/f8c1c13f.html" %})
 - [https://www.oscaner.com/skill/others/mathjax-symbol.html]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.oscaner.com/adc25f5e.html" %})
 - [https://www.zhihu.com/zvideo/1385266955763380224]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/b5bcb59b.html" %})
+- [https://www.zhihu.com/question/22674439/answer/185939984]({% include relrefx.html url="/backup/2022-08-13-Advanced-Mathematics.md/www.zhihu.com/0f3fff3c.html" %})
