@@ -91,11 +91,13 @@ def mainfilew(fpath, fname, ftype):
             continue
 
         htimgs = refindall(OTIMG_REGEX, line, re.IGNORECASE)
-        if htimgs:
+        while htimgs:
             assert len(htimgs) == 1, htimgs
             htimg = htimgs[0]
             print(htimg)
             txline, txtitle, txurl = htimg
+            if txurl.startswith(".."):
+                break
             img = netget(txurl)
             imgname = getmd5(txurl)[:4]+"_"+txurl.split("/")[-1]
             imglocal = os.path.join("images", imgname)
@@ -103,6 +105,7 @@ def mainfilew(fpath, fname, ftype):
             newline = "{} 0".format(imgname)
             if not txtitle:
                 line = line.replace(txline, newline)
+            break
 
         # ![[公式]](https://www.zhihu.com/equation?tex=.*?)
         htimgs = refindall(EQUA_REGEX, line, re.IGNORECASE)
