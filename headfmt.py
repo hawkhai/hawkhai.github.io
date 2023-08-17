@@ -78,6 +78,16 @@ def analyzehead(fpath, fname, ftype, newmap):
     if not newmap["categories"] or not newmap["tags"]:
         openTextFile(fpath)
 
+def popenCmdW(cmdx):
+    localfile = os.path.join("tempdir", "headfmt", getmd5(cmdx)[:8]+getFileMd5(cmdx)[:8])
+    datax = None
+    if os.path.exists(localfile):
+        datax = readfile(localfile)
+    if not datax:
+        datax = popenCmd(cmdx)
+        writefile(localfile, datax)
+    return datax
+
 gkvmap = {}
 def formatkv(fpath, fname, ftype, fsecli, setkv={}):
 
@@ -141,7 +151,7 @@ ktitle kaliyun imgthumb zhconv
             cmdx = ('''cd {} '''+cmdsep+''' git log -n 10000 --pretty=format:"%ad" --date=format:%Y-%m-%d_%H:%M:%S -- "{}"''').format(
                     *frelgit.replace("/", os.path.sep).replace("\\", os.path.sep).split(os.path.sep, 1))
             #print(cmdx)
-            datestr = popenCmd(cmdx)
+            datestr = popenCmdW(cmdx)
             datestr = bytesToString(datestr)
             # date: 1970-03-23 20:17:42 +0800
             datestr = datestr.replace("_", " ")

@@ -1172,8 +1172,21 @@ $$
 
 ## 【十一（10）】第二类曲面积分的计算及两类曲面积分的关系 1:33:29
 
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230817231923.png" %}
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230818005637.png" %}
+
+$$
+\begin{aligned}
+& \iint_{\Sigma} P \mathrm{~d} y \mathrm{~d} z+Q \mathrm{~d} z \mathrm{~d} x+R \mathrm{~d} x \mathrm{~d} y \\
+& \quad=\iint_{\Sigma}(P \cos \alpha+Q \cos \beta+R \cos \gamma) \mathrm{d} S
+\end{aligned}
+$$
+
 
 ## 【十一（11）】高斯公式 散度 通量 52:28
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230818011320.png" %}
 
 
 ## 【十二（1）】常数项级数的概念和性质 1:10:05
