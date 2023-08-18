@@ -22,32 +22,40 @@ jpype.startJVM()
 from asposecells.api import *
 
 # https://blog.aspose.com/cells/convert-excel-to-image-in-python/#Convert-Excel-to-SVG-in-Python
-def xlsx2svgf(xlsxfile, svgfile):
+def xlsx2svgf(xlsxfile, svgfile, svg=True):
+    #if os.path.exists(svgfile):
+    #    return
+
     # load the Excel workbook
     workbook = Workbook(xlsxfile)
 
     # create image options
+    # https://gist.github.com/aspose-com-gists/5d33fa768a61d24704a7350432266781
     imgOptions = ImageOrPrintOptions()
-    imgOptions.setSaveFormat(SaveFormat.SVG)
+    if svg:
+        imgOptions.setSaveFormat(SaveFormat.SVG)
+    else:
+        imgOptions.setSaveFormat(SaveFormat.PNG)
 
     # get sheet count
     sheetCount = workbook.getWorksheets().getCount()
 
     # loop through the sheets
     sheet = workbook.getWorksheets().get(0)
-        
+
     # convert each sheet to SVG
     sr = SheetRender(sheet, imgOptions)
     #for j in range(0, sr.getPageCount()):
     sr.toImage(0, svgfile)
 
 def myxlsx2svg(rootdir):
-        
+
     def mainfile(fpath, fname, ftype):
         if not ftype in ("xlsx"):
             return
         print(fpath)
-        xlsx2svgf(fpath, fpath+".svg")
+        xlsx2svgf(fpath, fpath+".svg", True)
+        xlsx2svgf(fpath, fpath+".png", False)
 
     searchdir(rootdir, mainfile)
 
