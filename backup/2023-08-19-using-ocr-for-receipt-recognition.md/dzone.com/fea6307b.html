@@ -1,0 +1,1920 @@
+<html lang="en" style="--mobile-announcement-separator-width: 1px; --app-height: 695px;"><head><script src="https://partner.googleadservices.com/gampad/cookie.js?domain=dzone.com&amp;callback=_gfp_s_&amp;client=ca-pub-3945085396033279&amp;cookie=ID%3D0ea144acd32181b5%3AT%3D1692415371%3ART%3D1692415371%3AS%3DALNI_MZFdpIV6-H9AXxucCjvV0riqOrVIQ&amp;gpic=UID%3D00000c2efc16baca%3AT%3D1692415371%3ART%3D1692415371%3AS%3DALNI_MZdaxf7wlfoKaMawr1DbgrWsuRsLw"></script><script async="" src="https://www.clarity.ms/s/0.7.10/clarity.js"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/gtm/js?id=GTM-TSD9TZP&amp;cid=1550674342.1692415371"></script><script type="text/javascript" async="" src="https://ml314.com/tag.aspx?1972023"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-V12QLFBHE5&amp;l=dataLayer&amp;cx=c"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-7ZXEBRP6FQ&amp;l=dataLayer&amp;cx=c"></script><script type="text/javascript" async="" src="https://ml314.com/tag.aspx?1972023"></script><script async="" src="https://www.clarity.ms/tag/dyr9vdlv8t"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Learn about preprocessing to set up a receipt for recognition, text detection, optical character recognition, extracting meaning from images, and more.">
+  <meta name="keywords" content="neural network, Machine learning, network, Convolutional neural network">
+
+  <meta property="og:description" content="Learn about preprocessing to set up a receipt for recognition, text detection, optical character recognition, extracting meaning from images, and more.">
+  <meta property="og:site_name" content="dzone.com">
+  <meta property="og:title" content="Deep Dive Into OCR for Receipt Recognition - DZone">
+  <meta property="og:url" content="https://dzone.com/articles/using-ocr-for-receipt-recognition">
+  <meta property="og:image" content="https://dz2cdn4.dzone.com/storage/article-thumb/5654571-thumb.jpg">
+  <meta property="og:type" content="article">
+
+  <meta name="twitter:site" content="@DZoneInc">
+  <meta name="twitter:image" content="https://dz2cdn4.dzone.com/storage/article-thumb/5654571-thumb.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:description" content="Learn about preprocessing to set up a receipt for recognition, text detection, optical character recognition, extracting meaning from images, and more.">
+  <meta name="twitter:title" content="Deep Dive Into OCR for Receipt Recognition - DZone">
+
+
+  <meta name="referrer" content="origin-when-cross-origin">
+  <meta name="google-site-verification" content="kndbhxcupfEqWmZclhCpB6vlgOs7QSmx2UHAGGnP2mA">
+  <meta name="df-verify" content="df0d76632b4543">
+
+  <link rel="icon" type="image/x-icon" href="https://dz2cdn3.dzone.com/themes/dz20/images/favicon.png">
+  <link rel="image_src" href="https://dz2cdn4.dzone.com/storage/article-thumb/5654571-thumb.jpg">
+  <link rel="canonical" href="https://dzone.com/articles/using-ocr-for-receipt-recognition">
+
+  <title>Deep Dive Into OCR for Receipt Recognition - DZone</title>
+
+  <link rel="preload" href="https://fonts.dzone.com/themes/dz20/font/fontello.woff?11773374" as="font" type="font/woff" crossorigin="anonymous">
+
+  <link rel="stylesheet" media="all" href="https://dz2cdn3.dzone.com/themes/dz20/ftl/icons.css">
+  <link rel="stylesheet" media="all" href="https://dz2cdn3.dzone.com/themes/dz20/lib/static/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" media="all" href="https://dz2cdn3.dzone.com/themes/dz20/ftl/article/global.css">
+  <link rel="stylesheet" media="all" href="https://dz2cdn3.dzone.com/themes/dz20/ftl/header-updated/styles.css">
+
+  <script src="https://pagead2.googlesyndication.com/pagead/managed/js/adsense/m202308170101/show_ads_impl_fy2021.js?bust=31077199" id="google_shimpl"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/plugins/ua/linkid.js"></script><script async="" src="https://vi.ml314.com/get?eid=65559&amp;tk=v56Edzruvd7dE2f68VuNhft2O2fbnq2blg8566IFCW1MX43d&amp;fp="></script><script async="" src="https://ml314.com/tag.aspx?197"></script><script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-K25QL22"></script><script>
+    const userExcludedProps = {
+      'category': 'AI/ML',
+      'node': {
+        'publishDate': new Date(1498003200000),
+        'tags': ['neural network', 'Machine learning', 'network', 'Convolutional neural network', ],
+        'title': 'Deep Dive Into OCR for Receipt Recognition',
+        'type': 'article',
+      },
+      'section': 'article'
+    };
+
+    (function(apiKey, pageProperties) {
+      var url = 'https://api.permutive.com/ctx/v1/segment?k=' + apiKey;
+      var request = new window.XMLHttpRequest();
+
+      request.open('POST', url, true);
+      request.onreadystatechange = callback;
+      request.send(JSON.stringify({
+        pageProperties: enrichClient(pageProperties),
+        url: document.URL
+      }));
+
+      function callback() {
+        if (request.readyState === 4 && request.status === 200) {
+          var apiResponse;
+
+          try {
+            apiResponse = JSON.parse(request.responseText);
+          } catch (e) {
+            return;
+          }
+
+          // expose API response to main SDK
+          window.permutive.addon('contextual', apiResponse);
+
+          window.googletag = window.googletag || {};
+          window.googletag.cmd = window.googletag.cmd || [];
+          window.googletag.cmd.push(function() {
+            var pubads = window.googletag.pubads();
+            var ctxcohorts = apiResponse.gam || [];
+            var targetingKey = 'prmtvctx';
+            var targetingValues = ctxcohorts.concat('rts'); // always include "rts"
+
+            pubads.setTargeting(targetingKey, targetingValues);
+          });
+        }
+      }
+
+      function getClient() {
+        return {
+          url: document.URL,
+          referrer: document.referrer,
+          type: 'web',
+          user_agent: navigator.userAgent,
+          domain: window.location.hostname,
+          title: document.title
+        };
+      }
+
+      function enrichClient(pageProps) {
+        try {
+          var clientObject = {
+            client: getClient()
+          };
+
+          if (typeof pageProps === 'object' && !Array.isArray(pageProps)) {
+            return Object.assign({}, pageProps, clientObject);
+          } else {
+            return clientObject;
+          }
+        } catch (e) {
+          return {};
+        }
+      }
+    })('bca90777-e088-4f2a-96c2-13ad18deeccc', userExcludedProps);
+  </script>
+
+  <script>
+      !function (e, o, n, i) {
+          if (!e) {
+              e = e || {}, window.permutive = e, e.q = [];
+              var t = function () {
+                  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, function (e) {
+                      return (e ^ (window.crypto || window.msCrypto).getRandomValues(new Uint8Array(1))[0] & 15 >> e / 4).toString(16)
+                  })
+              };
+              e.config = i || {}, e.config.apiKey = o, e.config.workspaceId = n, e.config.environment = e.config.environment || "production", (window.crypto || window.msCrypto) && (e.config.viewId = t());
+              for (var g = ["addon", "identify", "track", "trigger", "query", "segment", "segments", "ready", "on", "once", "user", "consent"], r = 0; r < g.length; r++) {
+                  var w = g[r];
+                  e[w] = function (o) {
+                      return function () {
+                          var n = Array.prototype.slice.call(arguments, 0);
+                          e.q.push({
+                              functionName: o,
+                              arguments: n
+                          })
+                      }
+                  }(w)
+              }
+          }
+      }(window.permutive, "bca90777-e088-4f2a-96c2-13ad18deeccc", "18ad0c5b-460c-4d19-a729-dc537805538f", {});
+      window.googletag = window.googletag || {}, window.googletag.cmd = window.googletag.cmd || [], window.googletag.cmd.push(function () {
+          if (0 === window.googletag.pubads().getTargeting("permutive").length) {
+              var e = window.localStorage.getItem("_pdfps");
+              window.googletag.pubads().setTargeting("permutive", e ? JSON.parse(e) : []);
+              var o = window.localStorage.getItem("permutive-id");
+              o && (window.googletag.pubads().setTargeting("puid", o), window.googletag.pubads().setTargeting("ptime", Date.now().toString())), window.permutive.config.viewId && window.googletag.pubads().setTargeting("prmtvvid", window.permutive.config.viewId), window.permutive.config.workspaceId && window.googletag.pubads().setTargeting("prmtvwid", window.permutive.config.workspaceId)
+          }
+      });
+
+
+      permutive.addon('web', {
+          'page': {
+              'category': 'AI/ML',
+              'node': {
+                  'authorCompany': 'Azoft Inc.',
+                  'authors': [2985882, ],
+                  'publishDate': new Date(1498003200000),
+                  'sponsorAuthor': false,
+                  'tags': ['neural network', 'Machine learning', 'network', 'Convolutional neural network', ],
+                  'title': 'Deep Dive Into OCR for Receipt Recognition',
+                  'type': 'article',
+              },
+              'section': 'article',
+          }
+      });
+  </script>
+  <script async="" src="https://18ad0c5b-460c-4d19-a729-dc537805538f.edge.permutive.app/18ad0c5b-460c-4d19-a729-dc537805538f-web.js"></script>
+
+  <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3945085396033279" crossorigin="anonymous" data-checked-head="true"></script>
+<meta http-equiv="origin-trial" content="A7CQXglZzTrThjGTBEn1rWTxHOEtkWivwzgea+NjyardrwlieSjVuyG44PkYgIPGs8Q9svD8sF3Yedn0BBBjXAkAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A3vKT9yxRPjmXN3DpIiz58f5JykcWHjUo/W7hvmtjgh9jPpQgem9VbADiNovG8NkO6mRmk70Kex8/KUqAYWVWAEAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A4A26Ymj79UVY7C7JGUS4BG1s7MdcDokAQf/RP0paks+RoTYbXHxceT/5L4iKcsleFCngi75YfNRGW2+SpVv1ggAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="As0hBNJ8h++fNYlkq8cTye2qDLyom8NddByiVytXGGD0YVE+2CEuTCpqXMDxdhOMILKoaiaYifwEvCRlJ/9GcQ8AAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="AgRYsXo24ypxC89CJanC+JgEmraCCBebKl8ZmG7Tj5oJNx0cmH0NtNRZs3NB5ubhpbX/bIt7l2zJOSyO64NGmwMAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><script src="https://securepubads.g.doubleclick.net/pagead/managed/js/gpt/m202308160101/pubads_impl.js?cb=31077164" async=""></script><meta http-equiv="origin-trial" content="A7CQXglZzTrThjGTBEn1rWTxHOEtkWivwzgea+NjyardrwlieSjVuyG44PkYgIPGs8Q9svD8sF3Yedn0BBBjXAkAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A3vKT9yxRPjmXN3DpIiz58f5JykcWHjUo/W7hvmtjgh9jPpQgem9VbADiNovG8NkO6mRmk70Kex8/KUqAYWVWAEAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A4A26Ymj79UVY7C7JGUS4BG1s7MdcDokAQf/RP0paks+RoTYbXHxceT/5L4iKcsleFCngi75YfNRGW2+SpVv1ggAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="As0hBNJ8h++fNYlkq8cTye2qDLyom8NddByiVytXGGD0YVE+2CEuTCpqXMDxdhOMILKoaiaYifwEvCRlJ/9GcQ8AAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="AgRYsXo24ypxC89CJanC+JgEmraCCBebKl8ZmG7Tj5oJNx0cmH0NtNRZs3NB5ubhpbX/bIt7l2zJOSyO64NGmwMAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><link rel="stylesheet" href="https://dz2cdn3.dzone.com/themes/dz20/lib/codemirror/lib/codemirror.css"><link rel="stylesheet" href="https://dz2cdn3.dzone.com/themes/dz20/ftl/comments/styles.css"><link rel="stylesheet" href="https://dz2cdn3.dzone.com/themes/dz20/lib/froala3/css/froala_editor.pkgd.min.css"><link rel="stylesheet" href="https://dz2cdn3.dzone.com/themes/dz20/lib/froala3/css/themes/gray.min.css"><link rel="stylesheet" href="https://dz2cdn3.dzone.com/themes/dz20/ftl/article/mini-profile.css"><script src="https://dz2cdn3.dzone.com/themes/dz20/lib/lazysizes.min.js"></script><script id="omapi-script" src="//a.optnmstr.com/app/js/api.min.js" async=""></script><script src="https://dz2cdn3.dzone.com/themes/dz20/ftl/article/codeblocks.js"></script><script src="https://dz2cdn3.dzone.com/themes/dz20/ftl/article/activity-bar.js"></script><script src="https://dz2cdn3.dzone.com/themes/dz20/lib/froala3/js/froala_editor.pkgd.min.js"></script><link rel="stylesheet" href="https://a.omappapi.com/app/js/api.min.css" id="omapi-css" media="all"><script src="https://dz2cdn3.dzone.com/themes/dz20/ftl/froala/content.js"></script><script src="https://dz2cdn3.dzone.com/themes/dz20/ftl/comments/content.js"></script><script src="https://dz2cdn3.dzone.com/themes/dz20/ftl/article/content.js"></script><script charset="utf-8" data-webpack="om-api-js:chunk-26" src="https://a.optnmstr.com/app/js/26.8f80b3df.min.js"></script><script charset="utf-8" data-webpack="om-api-js:chunk-20" src="https://a.optnmstr.com/app/js/20.07612c4b.min.js"></script><script charset="utf-8" data-webpack="om-api-js:chunk-28" src="https://a.optnmstr.com/app/js/28.9b9ddc1c.min.js"></script><script charset="utf-8" data-webpack="om-api-js:chunk-33" src="https://a.optnmstr.com/app/js/33.28a44af9.min.js"></script><script charset="utf-8" data-webpack="om-api-js:chunk-10" src="https://a.optnmstr.com/app/js/10.a337732d.min.js"></script><script charset="utf-8" data-webpack="om-api-js:chunk-0" src="https://a.optnmstr.com/app/js/0.003c2423.min.js"></script><script charset="utf-8" data-webpack="om-api-js:chunk-9" src="https://a.optnmstr.com/app/js/9.9ad6d657.min.js"></script><script charset="utf-8" data-webpack="om-api-js:chunk-11" src="https://a.optnmstr.com/app/js/11.a4776b0c.min.js"></script><script charset="utf-8" data-webpack="om-api-js:chunk-29" src="https://a.optnmstr.com/app/js/29.35407502.min.js"></script><script charset="utf-8" data-webpack="om-api-js:chunk-27" src="https://a.optnmstr.com/app/js/27.3157f1ba.min.js"></script><script charset="utf-8" data-webpack="om-api-js:chunk-16" src="https://a.optnmstr.com/app/js/16.011df1fb.min.js"></script><script charset="utf-8" data-webpack="om-api-js:chunk-1" src="https://a.optnmstr.com/app/js/1.5a2c3907.min.js"></script><script charset="utf-8" data-webpack="om-api-js:chunk-22" src="https://a.optnmstr.com/app/js/22.d55cdc37.min.js"></script><script charset="utf-8" data-webpack="om-api-js:chunk-7" src="https://a.optnmstr.com/app/js/7.c10e0644.min.js"></script></head>
+<body style="overflow-y: auto;">
+<header id="ftl-header">
+    <div class="header-top"> 
+
+<div class="header-container">
+    <div class="pull-left logo-container">
+        <div class="logo">
+            <a class="inner" href="/">
+                <picture>
+                    <source srcset="https://dz2cdn3.dzone.com/themes/dz20/images/dz_logo_2021_cropped.webp" type="image/webp">
+                    <source srcset="https://dz2cdn3.dzone.com/themes/dz20/images/dz_logo_2021_cropped.png" type="image/png">
+                    <img src="https://dz2cdn3.dzone.com/themes/dz20/images/dz_logo_2021_cropped.png" width="181" height="56" alt="DZone">
+                </picture>
+            </a>
+        </div>
+    </div>
+
+    <div class="pull-right login-and-search">
+        <div id="authenticated-block" class="logged-in">
+            <div class="welcome-back">Thanks for visiting DZone today,</div>
+            <div id="user-header" class="user-info">
+                <button class="user-avatar">
+                    <span id="header-username" class="username"></span>
+                    <img id="header-avatar" src="" alt="user avatar">
+                </button>
+                <div id="user-dropdown" class="browse-user-menu">
+                    <div class="user-content">
+                        <a id="header-user-plug" href="#" class="user-description"></a>
+                        <a id="header-user-edit" href="#" class="edit-profile">Edit Profile</a>
+                    </div>
+                    <ul class="user-actions">
+                        <li id="first-user-action"><a id="header-dropdown-manage-email" href="#">Manage Email Subscriptions</a></li>
+                        <li>
+                            <a href="/articles/how-to-submit-a-post-to-dzone?utm_source=DZone&amp;utm_medium=user_dropdown&amp;utm_campaign=how_to_post">
+                                How to Post to DZone
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/articles/dzones-article-submission-guidelines">
+                                Article Submission Guidelines
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="bottom">
+                        <a href="/users/logout.html" class="sign-out">Sign Out</a>
+                        <a id="dropdown-view-profile" href="#" class="view-profile">View Profile</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="post-content">
+                <button id="post-button" class="post-content--button">
+                    <span class="post-class">Post</span>
+                    <i class="icon-plus"></i>
+                </button>
+
+                <div id="post-menu" class="posting-links">
+                    <div class="posting-links-menu">
+                        <ul>
+                            <li>
+                                <img src="/themes/dz20/images/dz-postarticle.svg" width="15" height="18" style="width: 15px; height: 18px;">
+                                <a href="/content/article/post.html">Post an Article</a>
+                            </li>
+                            <li>
+                                <a id="drafts-link" href="#">Manage My Drafts</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="unauthenticated-block" class="shown">
+            <div class="dz-intro">Over 2 million developers have joined DZone.</div>
+            <div class="mobile-invisible sign-in-join">
+                <a href="/users/login.html">Log In</a>
+                <span class="dz-intro-span">/</span>
+                <a href="/static/registration.html">Join</a>
+            </div>
+            <a class="join-icon" href="/users/login.html"><i class="icon-user"></i></a>
+        </div>
+        <div class="headerSearch">
+            <a class="icon-search dropdown-toggle" href="/search"></a>
+        </div>
+    </div>
+</div>    </div>
+    <div class="header-bottom">
+        <div class="header-bottom-container">
+            <a class="resource-link" href="/refcardz">Refcards</a>
+            <a class="resource-link" href="/trendreports">Trend Reports</a>
+                <div class="resource-link link-menu">
+                    <a href="/events">Events</a>
+                    <a href="/events/video-library">Video Library</a>
+                </div>
+            <span class="right-label unauthenticated">
+                Over 2 million developers have joined DZone. <a class="label-emphasis" href="/static/registration.html">Join Today!</a>
+            </span>
+            <span class="right-label authenticated user-menu-parent">
+                <span class="welcome-slogan">Thanks for visiting DZone today, </span>
+                <div class="header-menu user-menu" data-click-activation="">
+                    <a class="label-emphasis" href="javascript:void(0)">
+                        <span id="header-user-name"></span>
+                        <div class="header-user-dot-menu"><i class="icon-dot-3"></i></div>
+                    </a>
+                    <div class="header-menu-items" style="display: none;">
+                        <a id="header-user-edit-profile" class="header-menu-item" href="javascript:void(0)">Edit Profile</a>
+                        <a id="header-user-email-preferences" class="header-menu-item" href="javascript:void(0)">Manage Email Subscriptions</a>
+                        <a class="header-menu-item" href="/moderation/list.html">Moderation</a>
+                        <a class="header-menu-item" href="/dzone/staff/index.html">Admin Console</a>
+                        <a class="header-menu-item" href="/articles/how-to-submit-a-post-to-dzone?utm_source=DZone&amp;utm_medium=user_dropdown&amp;utm_campaign=how_to_post">How to Post to DZone</a>
+                        <a class="header-menu-item" href="/articles/dzones-article-submission-guidelines">Article Submission Guidelines</a>
+                        <a id="header-user-profile" class="header-menu-item menu-item-btn-container" href="javascript:void(0)"><div class="menu-item-btn">View Profile</div></a>
+                        <a class="header-menu-item menu-item-btn-container" href="/users/logout.html"><div class="menu-item-btn danger">Sign Out</div></a>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+    <nav class="header-menu-bar">
+        <div class="header-menu resource-category">
+            <a href="/refcardz">Refcards</a>
+        </div>
+        <div class="header-menu-separator resource-category-separator"></div>
+        <div class="header-menu resource-category">
+            <a href="/trendreports">Trend Reports</a>
+        </div>
+        <div class="header-menu-separator resource-category-separator"></div>
+        <div class="header-menu resource-category no-bottom-radius" tabindex="1" data-click-activation="">
+            <a href="javascript:void(0)">Events</a>
+            <div class="header-menu-items" style="display: none;">
+                <div class="header-menu-columns">
+                    <a class="header-menu-item" href="javascript:void(0)" data-goto="/events">View Events</a>
+                    <a class="header-menu-item" href="javascript:void(0)" data-goto="/events/video-library">Video Library</a>
+                </div>
+            </div>
+        </div>
+            <div class="header-menu zone-menu" tabindex="1" data-click-activation="">
+                <a href="javascript:void(0)">Zones <i class="icon-down-dir icon-closed"></i><i class="icon-right-dir icon-open"></i></a>
+                <div class="header-menu-items" style="display: none;">
+                    <div class="header-menu-columns">
+                            <div class="header-menu-column-item">
+                                <a class="header-menu-item" href="javascript:void(0)" data-goto="/culture-and-methodologies">Culture and Methodologies</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/agile">Agile</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/career-development">Career Development</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/methodologies">Methodologies</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/team-management">Team Management</a>
+                            </div>
+                            <div class="header-menu-column-item">
+                                <a class="header-menu-item" href="javascript:void(0)" data-goto="/data-engineering">Data Engineering</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/ai-ml">AI/ML</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/big-data">Big Data</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/data">Data</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/databases">Databases</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/iot">IoT</a>
+                            </div>
+                            <div class="header-menu-column-item">
+                                <a class="header-menu-item" href="javascript:void(0)" data-goto="/software-design-and-architecture">Software Design and Architecture</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/cloud-architecture">Cloud Architecture</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/containers">Containers</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/integration">Integration</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/microservices">Microservices</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/performance">Performance</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/security">Security</a>
+                            </div>
+                            <div class="header-menu-column-item">
+                                <a class="header-menu-item" href="javascript:void(0)" data-goto="/coding">Coding</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/frameworks">Frameworks</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/java">Java</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/javascript">JavaScript</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/languages">Languages</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/tools">Tools</a>
+                            </div>
+                            <div class="header-menu-column-item">
+                                <a class="header-menu-item" href="javascript:void(0)" data-goto="/testing-deployment-and-maintenance">Testing, Deployment, and Maintenance</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/deployment">Deployment</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/devops-and-cicd">DevOps and CI/CD</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/maintenance">Maintenance</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/monitoring-and-observability">Monitoring and Observability</a>
+                                        <a class="header-menu-item" href="javascript:void(0)" data-goto="/testing-tools-and-frameworks">Testing, Tools, and Frameworks</a>
+                            </div>
+                            <div class="header-menu-column-item sponsored">
+                                <a class="header-menu-item" href="javascript:void(0)" data-goto="/partner-zones">Partner Zones</a>
+                                        <a class="header-menu-item sponsored" href="javascript:void(0)" data-goto="/aws-cloud">
+                                            AWS Cloud
+                                            <div class="sponsor-label">by <span>AWS Developer Relations</span></div>
+                                        </a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+                <div class="header-menu parent-category" tabindex="1">
+                    <a href="/culture-and-methodologies">Culture and Methodologies</a>
+                    <div class="header-menu-items" style="display: none;">
+                                <a class="header-menu-item" href="/agile">Agile</a>
+                                <a class="header-menu-item" href="/career-development">Career Development</a>
+                                <a class="header-menu-item" href="/methodologies">Methodologies</a>
+                                <a class="header-menu-item" href="/team-management">Team Management</a>
+                    </div>
+                </div>
+                <div class="header-menu-separator parent-category-separator"></div>
+                <div class="header-menu parent-category" tabindex="2">
+                    <a href="/data-engineering">Data Engineering</a>
+                    <div class="header-menu-items" style="display: none;">
+                                <a class="header-menu-item" href="/ai-ml">AI/ML</a>
+                                <a class="header-menu-item" href="/big-data">Big Data</a>
+                                <a class="header-menu-item" href="/data">Data</a>
+                                <a class="header-menu-item" href="/databases">Databases</a>
+                                <a class="header-menu-item" href="/iot">IoT</a>
+                    </div>
+                </div>
+                <div class="header-menu-separator parent-category-separator"></div>
+                <div class="header-menu parent-category" tabindex="3">
+                    <a href="/software-design-and-architecture">Software Design and Architecture</a>
+                    <div class="header-menu-items" style="display: none;">
+                                <a class="header-menu-item" href="/cloud-architecture">Cloud Architecture</a>
+                                <a class="header-menu-item" href="/containers">Containers</a>
+                                <a class="header-menu-item" href="/integration">Integration</a>
+                                <a class="header-menu-item" href="/microservices">Microservices</a>
+                                <a class="header-menu-item" href="/performance">Performance</a>
+                                <a class="header-menu-item" href="/security">Security</a>
+                    </div>
+                </div>
+                <div class="header-menu-separator parent-category-separator"></div>
+                <div class="header-menu parent-category" tabindex="4">
+                    <a href="/coding">Coding</a>
+                    <div class="header-menu-items" style="display: none;">
+                                <a class="header-menu-item" href="/frameworks">Frameworks</a>
+                                <a class="header-menu-item" href="/java">Java</a>
+                                <a class="header-menu-item" href="/javascript">JavaScript</a>
+                                <a class="header-menu-item" href="/languages">Languages</a>
+                                <a class="header-menu-item" href="/tools">Tools</a>
+                    </div>
+                </div>
+                <div class="header-menu-separator parent-category-separator"></div>
+                <div class="header-menu parent-category" tabindex="5">
+                    <a href="/testing-deployment-and-maintenance">Testing, Deployment, and Maintenance</a>
+                    <div class="header-menu-items" style="display: none;">
+                                <a class="header-menu-item" href="/deployment">Deployment</a>
+                                <a class="header-menu-item" href="/devops-and-cicd">DevOps and CI/CD</a>
+                                <a class="header-menu-item" href="/maintenance">Maintenance</a>
+                                <a class="header-menu-item" href="/monitoring-and-observability">Monitoring and Observability</a>
+                                <a class="header-menu-item" href="/testing-tools-and-frameworks">Testing, Tools, and Frameworks</a>
+                    </div>
+                </div>
+                <div class="header-menu-separator parent-category-separator"></div>
+                <div class="header-menu parent-category sponsored" tabindex="6">
+                    <a href="javascript:void(0)">Partner Zones</a>
+                    <div class="header-menu-items sponsored" style="display: none;">
+                                <a class="header-menu-item" href="/aws-cloud">
+                                    AWS Cloud
+                                    <div class="sponsor-label">by <span>AWS Developer Relations</span></div>
+                                </a>
+                    </div>
+                </div>
+                <div class="header-menu-separator parent-category-separator"></div>
+    </nav>
+</header>
+
+<script>
+    const csrf = {
+        parameter: 'TH_CSRF',
+        header: 'X-TH-CSRF',
+        token: '1232289866724149343'
+    }; // set csrf for auth-status script
+</script>
+<script>
+addEventListener('DOMContentLoaded', function() {
+    handleRedirects();
+    handleMenus();
+    // handleSearch(); // re-enable when we move to new top header
+    handleMobileMenuHeights();
+    handleGotoLinks();
+});
+
+function isHidden(element) {
+    try {
+        return window.getComputedStyle(element).display === 'none';
+    } catch (_) {
+        return false;
+    }
+}
+
+function getLink(element) {
+    if (element.hasAttribute('data-goto')) {
+        return element.getAttribute('data-goto');
+    }
+    return element.href;
+}
+
+function isLeftClick(event) {
+    if (event.altKey || event.shiftKey) {
+        return false;
+    } else if ('buttons' in event || 'which' in event) {
+        return event.buttons === 1 || event.which === 1;
+    } else {
+        return (event.button === 1 || (event.type === 'click'));
+    }
+}
+
+function handleRedirects() {
+    const redirections = [...document.querySelectorAll('[data-activate-menu]'), ...document.querySelectorAll('[data-click-target]')];
+
+    redirections.forEach(function(element) {
+        const menuSelector = element.getAttribute('data-activate-menu') || element.getAttribute('data-click-target');
+        const redirectingElement = document.querySelector(menuSelector);
+        if (redirectingElement) {
+            element.style.cursor = 'pointer';
+            const redirect = function(e) {
+                if (redirectingElement.hasAttribute('href') || redirectingElement.hasAttribute('data-goto')) {
+                    if (redirectingElement.hasAttribute('data-new-window') || e.ctrlKey || e.metaKey) {
+                        window.open(getLink(redirectingElement), '_blank');
+                    } else {
+                        window.open(getLink(redirectingElement), '_self');
+                    }
+                } else {
+                    const evt = new e.constructor(e.type, e);
+                    redirectingElement.dispatchEvent(evt);
+                }
+            };
+            element.addEventListener('mouseup', redirect);
+            element.addEventListener('mousedown', (e) => e.preventDefault());
+            element.addEventListener('click', (e) => e.preventDefault());
+        }
+    });
+}
+
+function handleMenus() {
+    const menuElements = document.querySelectorAll('.header-menu > a');
+
+    let scrollYMemory = -1;
+
+    function scrollToMemory() {
+        if (scrollYMemory !== -1) {
+            setTimeout(function() {
+                window.scrollTo(0, scrollYMemory);
+                scrollYMemory = -1;
+            }, 10);
+        }
+    }
+
+    function hideMenus() {
+        // unfocus menus & items, and set the menus to non-visible.
+        menuElements.forEach(function (element) {
+            element.blur();
+            element.parentElement.blur();
+            element.parentElement.classList.remove('menu-opened');
+            const menuItems = element.parentElement.querySelector('.header-menu-items');
+            if (menuItems) {
+                menuItems.style.display = 'none';
+            }
+        });
+        const wasHidden = document.body.style.overflowY === 'hidden';
+        document.body.style.overflowY = 'auto';
+        if (wasHidden) {
+            scrollToMemory();
+        }
+    }
+
+    function isEventOutsideMenu(e) {
+        return e.target.closest && !e.target.closest('.header-menu') && !e.target.closest('[data-activate-menu]');
+    }
+
+    // Handle mobile menu toggling
+    menuElements.forEach(function(element) {
+        const menu = element.parentElement;
+        const headerItems = menu.querySelector('.header-menu-items');
+        const menuEntries = headerItems ? headerItems.querySelectorAll('.header-menu-item') : [];
+
+        const focus = function() {
+            menu.focus();
+            menu.classList.add('menu-opened');
+            if (headerItems) {
+                headerItems.style.display = 'block';
+            }
+            if (menu.classList.contains('zone-menu')) {
+                scrollYMemory = window.scrollY;
+                document.body.style.overflowY = 'hidden';
+            } else {
+                scrollYMemory = -1;
+            }
+        };
+
+        const unfocus = function() {
+            menu.blur();
+            menu.classList.remove('menu-opened');
+            if (headerItems) {
+                headerItems.style.display = 'none';
+            }
+            const wasHidden = document.body.style.overflowY === 'hidden';
+            document.body.style.overflowY = 'auto';
+            if (wasHidden) {
+                scrollToMemory();
+            }
+        };
+
+        const toggleMenuVisibility = function(e) {
+            if ((e.type === 'click' || e.type === 'mouseup') && !isLeftClick(e)) {
+                e.preventDefault();
+                return;
+            }
+            const hidden = isHidden(headerItems);
+            if (menu.hasAttribute('data-click-activation')) { // handle click activated toggling
+                if (hidden) {
+                    hideMenus(); // hide other open menus first
+                    focus();
+                } else {
+                    unfocus();
+                }
+                e.preventDefault();
+            } else if (hidden) {
+                hideMenus(); // hide other open menus first
+                focus();
+                e.preventDefault(); // prevent 'click' event from firing when menu is hidden
+            }
+        };
+
+        element.addEventListener('touchend', toggleMenuVisibility);
+        element.addEventListener('mouseup', toggleMenuVisibility);
+
+        // Add hover events to non-click-activated menus, even though CSS should cover it.
+        if (!menu.hasAttribute('data-click-activation')) {
+            menu.addEventListener('mouseover', function () {
+                hideMenus(); // hide other open menus first
+                focus();
+            });
+
+            menu.addEventListener('mouseout', function (e) {
+                if (isEventOutsideMenu(e)) {
+                    unfocus();
+                }
+            });
+        }
+
+        // Hide menu when child is clicked
+        menuEntries.forEach(function(menuEntry) {
+            const linkToItem = function(e) {
+                if (e.type === 'mousedown' || e.type === 'click') {
+                    e.preventDefault();
+                    return;
+                }
+                if (e.type === 'mouseup' && !isLeftClick(e)) {
+                    e.preventDefault();
+                    return;
+                }
+                window.open(getLink(menuEntry), (e.ctrlKey || e.metaKey) ? '_blank' : (menuEntry.target || '_self'));
+                unfocus();
+                e.preventDefault();
+            };
+
+            const linkToMobileItem = function(e) {
+                if (e.type === 'touchstart') {
+                    menuEntry.setAttribute('data-touchmove', false);
+                } else if (e.type === 'touchmove') {
+                    menuEntry.setAttribute('data-touchmove', true);
+                } else if (e.type === 'touchend' && (!menuEntry.hasAttribute('data-touchmove') || menuEntry.getAttribute('data-touchmove').toLowerCase() === 'false')) {
+                    window.open(getLink(menuEntry), (e.ctrlKey || e.metaKey) ? '_blank' : (menuEntry.target || '_self'));
+                    unfocus();
+                    e.preventDefault();
+                }
+            };
+
+            menuEntry.addEventListener('mousedown', linkToItem);
+            menuEntry.addEventListener('mouseup', linkToItem);
+            menuEntry.addEventListener('click', linkToItem);
+            menuEntry.addEventListener('touchstart', linkToMobileItem);
+            menuEntry.addEventListener('touchmove', linkToMobileItem);
+            menuEntry.addEventListener('touchend', linkToMobileItem);
+        });
+    });
+
+    function hideIfNonMenuBounds(e) {
+        if (isEventOutsideMenu(e)) {
+            hideMenus();
+        }
+    }
+
+    addEventListener('mousemove', hideIfNonMenuBounds);
+    addEventListener('touchend', hideIfNonMenuBounds);
+    addEventListener('mouseup', hideIfNonMenuBounds);
+    addEventListener('mousedown', hideIfNonMenuBounds);
+    addEventListener('click', hideIfNonMenuBounds);
+}
+
+function handleSearch() {
+    const userBlock = document.querySelector('#ftl-header .header-top .user-block');
+    const loginBlock = document.querySelector('#ftl-header .header-top .user-login');
+    const searchBtn = document.querySelector('#header-search-button');
+    const searchInput = document.querySelector('#header-search-input');
+
+    function showSearch() {
+        userBlock.style.opacity = 0;
+        loginBlock.style.opacity = 0;
+        setTimeout(function() {
+            userBlock.classList.add('hidden');
+            loginBlock.classList.add('hidden');
+            searchInput.value = '';
+            searchInput.style.display = 'unset';
+            setTimeout(function () {
+                searchInput.style.width = '300px';
+                searchInput.focus();
+            });
+        }, 300);
+    }
+
+    function hideSearch() {
+        searchInput.value = '';
+        searchInput.style.width = '0';
+        setTimeout(function() {
+            searchInput.style.display = 'none';
+            userBlock.classList.remove('hidden');
+            loginBlock.classList.remove('hidden');
+            setTimeout(function() {
+                userBlock.style.opacity = 1;
+                loginBlock.style.opacity = 1;
+            }, 100);
+        }, 250);
+    }
+
+    function doSearch() {
+        if (!searchInput || !searchInput.value.length) { // hide search if no content
+            hideSearch();
+        } else if (localStorage) { // execute search
+            localStorage.setItem('ls.searchValue', searchInput.value);
+            window.location = '/search';
+        }
+    }
+
+    function searchClick(e) {
+        if ((e.type === 'click' || e.type === 'mouseup') && !isLeftClick(e)) {
+            e.preventDefault();
+            return;
+        }
+        if (isHidden(searchInput)) { // show search on click when hidden
+            showSearch();
+        } else if (searchInput.value && searchInput.value.length) { // search on click with content
+            doSearch();
+        } else { // hide on click without content
+            hideSearch();
+        }
+    }
+
+    if (searchBtn) {
+        searchBtn.addEventListener('touchend', searchClick);
+        searchBtn.addEventListener('mouseup', searchClick);
+    }
+
+    // Search on enter
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function (e) {
+            if (e.keyCode === 13 || e.code === 'Enter') {
+                doSearch();
+            }
+        });
+    }
+}
+
+function handleMobileMenuHeights() {
+    function setAppHeight() {
+        document.documentElement.style.setProperty('--app-height', window.innerHeight + 'px');
+    }
+
+    addEventListener('resize', function() {
+        setAppHeight();
+    });
+
+    setAppHeight();
+}
+
+function handleGotoLinks() {
+    // Add anchor mimicking to elements with data-goto attributes
+    // This addresses SEO concerns of linking to noindex pages by allowing JS to handle the URL
+    const anchorElements = document.querySelectorAll('*[data-goto]');
+    anchorElements.forEach((anchorElement) => {
+        anchorElement.addEventListener('mouseover', () => {
+            anchorElement.style.cursor = 'pointer';
+            anchorElement.style.textDecoration = 'underline';
+        });
+        anchorElement.addEventListener('mouseout', () => {
+            anchorElement.style.cursor = 'unset';
+            anchorElement.style.textDecoration = 'unset';
+        });
+        anchorElement.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+        });
+        anchorElement.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+        });
+        anchorElement.addEventListener('click', (e) => {
+            e.preventDefault();
+            const anchorHref = anchorElement.getAttribute('data-goto');
+            if (anchorElement.hasAttribute('data-new-window') || e.ctrlKey || e.metaKey) {
+                window.open(anchorHref, '_blank');
+            } else {
+                window.open(anchorHref, '_self');
+            }
+        });
+    });
+}
+</script><script>
+const authenticatedBlock = document.querySelector('#authenticated-block');
+const unauthenticatedBlock = document.querySelector('#unauthenticated-block');
+
+let authenticated = {
+    isAuthenticated: false,
+    isAdmin: false
+};
+
+fetch('/services/internal/data/articles-getAuthenticationStatus', {
+    headers: {
+        'Accept': 'application/json'
+    }
+})
+    .then(function (result) {
+        return result.json()
+    })
+    .then(function (result) {
+        const res = result.result.data
+        if (!res.authenticated) {
+            unauthenticatedBlock.classList.add('shown')
+        } else {
+            bindProps('#header-username', null, null, (res.firstName || res.username), null)
+            bindProps('#header-avatar', null, res.avatar, null, null)
+            bindProps('#header-user-plug', '/users/' + res.id + '/' + res.plug + '.html', null, res.realName, null)
+            bindProps('#header-user-edit', '/users/' + res.id + '/edit.html', null, null, null)
+            bindProps('#header-dropdown-manage-email', '/newsletters/' + res.id + '/manage.html', null, null, null)
+            bindProps('#dropdown-view-profile', '/users/' + res.id + '/' + res.plug + '.html', null, null, null)
+            bindProps('#drafts-link', '/users/' + res.id + '/drafts.html', null, null, null)
+
+            if (res.isAdmin) {
+                // Construct backwards so the #after call places elements in the correct order
+                const firstUserAction = document.querySelector('#first-user-action')
+                const adminConsoleItem = document.createElement('li')
+                const adminConsoleLink = createLink('/dzone/staff/index.html', 'Admin Console')
+                adminConsoleItem.appendChild(adminConsoleLink)
+                firstUserAction.after(adminConsoleItem)
+
+                const moderationItem = document.createElement('li')
+                const moderationLink = createLink('/moderation/list.html', 'Moderation')
+                moderationItem.appendChild(moderationLink)
+                firstUserAction.after(moderationItem)
+            }
+
+            authenticated.isAuthenticated = res.authenticated;
+            authenticated.isAdmin = res.isAdmin;
+
+            authenticatedBlock.classList.add('shown')
+        }
+    }).catch(function (result) {
+        console.error(result)
+})
+
+/**
+ * Binds different properties to the selected element.
+ *
+ * @param selector - Selector to select the element
+ * @param href - href attribute value
+ * @param src - src attribute value
+ * @param innerHTML - innerHTML property value
+ * @param innerText - innerText property value
+ */
+function bindProps(selector, href, src, innerHTML, innerText) {
+    const element = document.querySelector(selector)
+    if (element) {
+        if (href) element.href = href
+        if (src) element.src = src
+        if (innerHTML) element.innerHTML = innerHTML
+        if (innerText) element.innerText = innerText
+    }
+}
+
+/**
+ * Creates a new link element.
+ *
+ * @param href - href attribute value
+ * @param innerText - innerText property value
+ * @returns {HTMLAnchorElement} The generated link element
+ */
+function createLink(href, innerText) {
+    const link = document.createElement('a')
+    link.href = href
+    link.innerText = innerText
+
+    return link
+}
+</script> 
+<script>
+const userHeader = document.querySelector('#user-header')
+const userDropdown = document.querySelector('#user-dropdown')
+const postDropdown = document.querySelector('#post-button')
+const postMenu = document.querySelector('#post-menu')
+
+let userDropdownOpen = false
+let postDropdownOpen = false
+
+document.addEventListener('click', function(event) {
+    if (postDropdown && postDropdown.contains(event.target)) {
+        setUserDropdown(false)
+        setPostDropdown(!postDropdownOpen)
+    } else if (userHeader && userHeader.contains(event.target)) {
+        setPostDropdown(false)
+        setUserDropdown(!userDropdownOpen)
+    } else {
+        setUserDropdown(false)
+        setPostDropdown(false)
+    }
+})
+
+function setUserDropdown(value) {
+    userDropdownOpen = value
+    if (userDropdownOpen) {
+        if (userDropdown) {
+            userDropdown.classList.add('open')
+        }
+    } else {
+        if (userDropdown) {
+            userDropdown.classList.remove('open')
+        }
+    }
+}
+
+function setPostDropdown(value) {
+    postDropdownOpen = value
+    if (postDropdownOpen) {
+        if (postMenu) {
+            postMenu.classList.add('open')
+        }
+    } else {
+        if (postMenu) {
+            postMenu.classList.remove('open')
+        }
+    }
+}
+</script> 
+<link rel="stylesheet" media="all" href="https://dz2cdn3.dzone.com/themes/dz20/ftl/article/styles.css">
+
+
+
+
+<div id="body-container">
+    <div id="announcement-container-outer">
+      <div id="announcement-previous">
+        <i class="icon-angle-left"></i>
+      </div>
+      <div id="announcement-next">
+        <i class="icon-angle-right"></i>
+      </div>
+      <div id="announcement-container" style="flex-direction: row;">
+          <div class="announcement announcement-count-4" data-position="1" style="opacity: 1; display: flex;">
+            <div class="body"><p><strong>[DZone Research] Data Pipelines:</strong> Share your anonymous insights into data engineering, storage methods, and analysis in our 5-min survey.</p></div>
+            <div class="spacer"></div>
+            <a href="https://survey.alchemer.com/s3/7466903/annbar" target="_blank">
+              <button>Take the Survey</button>
+            </a>
+          </div>
+            <div class="separator"></div>
+          <div class="announcement announcement-count-4" data-position="2" style="opacity: 1; display: flex;">
+            <div class="body"><p><strong>CI/CD Attack Scenarios: How to Protect Your Production Environment.</strong> Learn about attack scenarios and how to protect your CI/CD pipelines.</p></div>
+            <div class="spacer"></div>
+            <a href="https://dzone-resources.dzone.com/c/pubRD.mpl?secure=1&amp;sr=pp&amp;_t=pp:&amp;qf=w_defa4577&amp;ch=sitenote" target="_self">
+              <button>Free On-Demand Webinar</button>
+            </a>
+          </div>
+            <div class="separator"></div>
+          <div class="announcement announcement-count-4" data-position="3" style="opacity: 1; display: flex;">
+            <div class="body"><p><strong>Measure the Impact of Cloud Security:</strong> Veteran security leaders will quantify the value of CNAPPs to see if your platform is worth the cost.</p></div>
+            <div class="spacer"></div>
+            <a href="https://dzone-resources.dzone.com/c/pubRD.mpl?secure=1&amp;sr=pp&amp;_t=pp:&amp;qf=w_defa4854&amp;ch=sitenote" target="_self">
+              <button>Sign Up Now</button>
+            </a>
+          </div>
+            <div class="separator"></div>
+          <div class="announcement announcement-count-4" data-position="4" style="opacity: 1; display: flex;">
+            <div class="body"><p><strong>Containers Trend Report.</strong> Explore the current state of containers, containerization strategies, and modernizing architecture.</p></div>
+            <div class="spacer"></div>
+            <a href="https://dzone-resources.dzone.com/c/pubRD.mpl?secure=1&amp;sr=pp&amp;_t=pp:&amp;qf=w_defa4565&amp;ch=sitenote" target="_self">
+              <button>Download the Free Report</button>
+            </a>
+          </div>
+      </div>
+    </div>
+  <script type="text/javascript" async="">
+(function() {
+    let announcementPosition = 1;
+    let minAnnouncementPosition = -1;
+    let maxAnnouncementPosition = -1;
+
+    const announcementPrevBtn = document.querySelector('#announcement-previous');
+    const announcementNextBtn = document.querySelector('#announcement-next');
+
+    function withAnnouncements(callback) {
+        const announcements = document.querySelectorAll('#announcement-container .announcement');
+        for (let announcement of announcements) {
+            callback(announcement);
+        }
+    }
+
+    function initAnnouncementVars() {
+        document.querySelector(':root').style.setProperty('--mobile-announcement-separator-width', '1px');
+        withAnnouncements(function(announcement) {
+            const pos = parseInt(announcement.getAttribute('data-position'));
+            minAnnouncementPosition = minAnnouncementPosition === -1 ? pos : Math.min(minAnnouncementPosition, pos);
+            maxAnnouncementPosition = maxAnnouncementPosition === -1 ? pos : Math.max(maxAnnouncementPosition, pos);
+        });
+
+        if (document.querySelector('.announcementBarContainer')) {
+            document.querySelector(':root').style.setProperty('--body-top-padding', '0');
+        }
+
+        if (maxAnnouncementPosition <= 0) {
+            document.querySelector(':root').style.setProperty('--body-top-padding', '0');
+        }
+
+        sizeToFullWhenOneEntryOnMobile();
+    }
+
+    function setAnnouncementPosition(position) {
+        if (window.outerWidth >= 890) {
+            return; // we do not need to change the position, since we can display everything on desktop.
+        }
+
+        // Make the announcement cyclical
+        if (minAnnouncementPosition !== -1 && maxAnnouncementPosition !== -1) {
+            if (position > maxAnnouncementPosition) {
+                position = minAnnouncementPosition; // overflow to the first announcement
+            } else if (position < minAnnouncementPosition) {
+                position = maxAnnouncementPosition; // underflow to the last announcement
+            }
+            announcementPosition = position;
+        }
+
+        const shownAnnouncements = [];
+
+        let reverseFlex = false; // should only be true when the first and last items are showing
+
+        // Now that the position is valid, apply the transforms
+        withAnnouncements(function(announcement) {
+            const pos = parseInt(announcement.getAttribute('data-position'));
+            const isWrapped = position === maxAnnouncementPosition && pos === minAnnouncementPosition; // showing first + last at same time
+            const doesNextQualify = window.outerWidth >= 500 && (pos === position + 1 || isWrapped);
+
+            if (pos === position || doesNextQualify) {
+                shownAnnouncements.push(announcement);
+            } else {
+                announcement.style.display = 'none';
+            }
+
+            announcement.style.opacity = 0.0;
+
+            if (isWrapped) {
+                reverseFlex = true;
+            }
+        });
+
+        for (let announcement of shownAnnouncements) {
+            announcement.style.display = 'flex';
+            announcement.style.opacity = 1.0;
+        }
+
+        const announcementContainer = document.querySelector('#announcement-container');
+        if (announcementContainer) {
+            announcementContainer.style.flexDirection = reverseFlex ? 'row-reverse' : 'row';
+        }
+    }
+
+    function resetAnnouncements() {
+        announcementPosition = 1;
+        const announcementContainer = document.querySelector('#announcement-container');
+        if (announcementContainer) {
+            announcementContainer.style.flexDirection = 'row';
+        }
+        withAnnouncements(function(announcement) {
+            announcement.style.opacity = 1.0;
+            announcement.style.display = 'flex';
+        });
+    }
+
+    function sizeToFullWhenOneEntryOnMobile() {
+        if (maxAnnouncementPosition <= 2 && announcementPrevBtn && announcementNextBtn) {
+            announcementPrevBtn.style.display = maxAnnouncementPosition === 2 && window.outerWidth < 500 ? 'flex' : 'none';
+            announcementNextBtn.style.display = maxAnnouncementPosition === 2 && window.outerWidth < 500 ? 'flex' : 'none';
+        }
+        if (maxAnnouncementPosition === 1 && window.outerWidth >= 500 && window.outerWidth < 890) {
+            document.querySelector(':root').style.setProperty('--mobile-announcement-separator-width', '0');
+            document.querySelector('#announcement-container .announcement').style.maxWidth = '100%';
+        }
+    }
+
+    function resetAnnouncementsOnResize() {
+        announcementPosition = 1; // we want to reset the announcement position every resize
+        if (window.outerWidth >= 890) { // 4 announcements can be shown (215px * 4) + separator padding
+            resetAnnouncements();
+        } else { // if we're still on mobile, set the position to normalize things after resize
+            setAnnouncementPosition(announcementPosition);
+            sizeToFullWhenOneEntryOnMobile();
+        }
+    }
+
+    window.addEventListener('resize', resetAnnouncementsOnResize);
+
+    initAnnouncementVars();
+    setAnnouncementPosition(announcementPosition); // sets the min & max positions as well as initializes transforms
+
+    if (announcementPrevBtn) {
+        announcementPrevBtn.onclick = function() {
+            setAnnouncementPosition(announcementPosition - 1);
+        };
+    }
+
+    if (announcementNextBtn) {
+        announcementNextBtn.onclick = function() {
+            setAnnouncementPosition(announcementPosition + 1);
+        };
+    }
+})();  </script>
+  <div id="ftl-article" class="trending-article-body">
+      <div class="trending-sidebar">
+        <div class="trending">
+          <h3>Related</h3>
+          <div class="trending-separator"></div>
+          <ul>
+              <li class="item">
+                <a href="/articles/understanding-the-basics-of-neural-networks-and-de" class="related-link">Understanding the Basics of Neural Networks and Deep Learning</a>
+              </li>
+              <li class="item">
+                <a href="/articles/how-to-use-python-for-data-science" class="related-link">How to Use Python for Data Science</a>
+              </li>
+              <li class="item">
+                <a href="/articles/basic-convolutional-neural-network-architectures" class="related-link">Basic Convolutional Neural Network Architectures</a>
+              </li>
+              <li class="item">
+                <a href="/articles/10-crucial-deep-learning-algorithms-to-keep-an-eye" class="related-link">10 Crucial Deep Learning Algorithms to Keep an Eye on in 2021</a>
+              </li>
+          </ul>
+        </div>
+      </div>
+    <div class="container-fluid body trending-article-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="articles-wrap">
+                <div class="ad-container" style="height: 90px;">
+                  <div id="div-gpt-ad-1435246566686-0" class="ads-billboard-article" data-gpt-slot="top" data-google-query-id="CJ7Tqcji54ADFVNZDwIdZywKCA"><div id="google_ads_iframe_/2916070/dz2_article_billboard_new_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/2916070/dz2_article_billboard_new_0" name="google_ads_iframe_/2916070/dz2_article_billboard_new_0" title="3rd party ad content" width="728" height="90" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" role="region" aria-label="Advertisement" tabindex="0" style="border: 0px; vertical-align: bottom;" data-load-complete="true" data-google-container-id="2"></iframe></div></div>
+                </div>
+
+
+            <div class="article-stream widget-top-border">
+                <div class="content-right-images affix-top">
+                  <div id="div-gpt-ad-1435246566686-2" class="sidebar-ad" data-gpt-desktop="true" data-gpt-slot="sidebar1" data-gtm-vis-first-on-screen-6133197_649="104" data-gtm-vis-total-visible-time-6133197_649="800" data-google-query-id="CKOJq8ji54ADFYpUDwId0vYIQQ"><div id="google_ads_iframe_/2916070/dz2_article_halfpage_new_0__container__" style="border: 0pt none; display: inline-block; width: 300px; height: 600px;"><iframe frameborder="0" src="https://dab50202aa6b1bb128f18096eb3d5d63.safeframe.googlesyndication.com/safeframe/1-0-40/html/container.html" id="google_ads_iframe_/2916070/dz2_article_halfpage_new_0" title="3rd party ad content" name="" scrolling="no" marginwidth="0" marginheight="0" width="300" height="600" data-is-safeframe="true" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" role="region" aria-label="Advertisement" tabindex="0" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+                    <div class="trending-separator"></div>
+                    <div class="trending">
+                      <h3>Trending</h3>
+                      <ul>
+                          <li class="item">
+                            <a href="/articles/building-resilient-scalable-cloud-native-applicati" class="trending-link" target="_self">Building Resilient, Scalable Cloud-Native Applications</a>
+                          </li>
+                          <li class="item">
+                            <a href="/articles/the-power-of-caching-boosting-api-performance-and" class="trending-link" target="_self">The Power of Caching: Boosting API Performance and Scalability</a>
+                          </li>
+                          <li class="item">
+                            <a href="/articles/choosing-an-olap-engine-for-financial-risk-managem" class="trending-link" target="_self">Choosing an OLAP Engine for Financial Risk Management: What To Consider?</a>
+                          </li>
+                          <li class="item">
+                            <a href="/articles/what-is-a-modern-developer" class="trending-link" target="_self">What Is a Modern Developer?</a>
+                          </li>
+                      </ul>
+                    </div>
+                </div>
+                <script type="application/ld+json">
+                  {
+                    "@context": "http://schema.org",
+                    "@type": "Article",
+                    "headline": "Deep Dive Into OCR for Receipt Recognition",
+                    "author": {
+                      "@type": "Person",
+                      "name": "Ivan Ozhiganov"
+                    },
+                    "audience": "software developers",
+                    "keywords": "ocr,neural networks,convolutional neural networks,ai,tutorial",
+                    "timeRequired": "PT6M",
+                    "commentCount": 7,
+                    "wordCount": "1328",
+                    "accessMode": "textual, visual",
+                    "dateCreated": "2017-06-21T05:01:16Z",
+                    "datePublished": "2017-06-21T00:00:00Z",
+                    "dateModified": "2019-09-24T13:50:37Z",
+                    "articleSection": "artificial-intelligence-tutorials-tools-news",
+                    "publisher": {
+                      "@type": "Organization",
+                      "name": "DZone",
+                      "url": "https://dzone.com",
+                      "logo": {
+                        "@type": "ImageObject",
+                        "url": "https://dzone.com/themes/dz20/images/dz_logo_2021_cropped.png"
+                      }
+                    },
+                    "articleBody": "Optical Character Recognition is a process when images of handwritten, printed, or typed text are converted into machine-encoded text. Automated recognition of documents, credit cards, car plates and billboards significantly simplifies the way we collect and process data. The growth of Machine Learning and Convolutional Neural Networks (CNN) has helped text recognition make a huge leap forward. We used CNN in our research to recognize paper receipts from retail stores. The system can be adjusted to process different languages, but we tested it using Russian. The goal of our project was to develop an app using the client-server architecture for receipt recognition. Let's take a closer look, step by step. Preprocessing First things first: we rotated the receipt image so that the text lines were horizontally oriented, made the algorithm detect the receipt, and binarized it. Rotating Image to Recognize a Receipt What we used to recognize a receipt on the image: Adaptive binarization with a high threshold. Convolutional Neural Network. Haar cascade classifier. Using Adaptive Binarization First, we recognized the area on the image that contains the full receipt and almost no background. To achieve this, we rotated the image so that text lines are horizontally oriented. We used the adaptive_threshold function from the scikit-image library to find the receipt. This function keeps white pixels in areas with a high gradient, while more homogeneous areas turn black. Using this function, we got a homogeneous background with a couple of white pixels. We were searching for them to define the rectangle. Using a CNN We decided to find receipt keypoints using a convolutional neural network as we did before for the object detection project. We chose the receipt angles as key points. This method performed well, but worse than adaptive binarization with a high threshold. The CNN was able to define only those angle coordinates relative to the found text. Text to angle orientation varies greatly, meaning this CNN model is not very precise. See CNN results below. Using the Haar Cascade Classifier to Recognize a Receipt As a third alternative, we tried the Haar cascade classifier. However, after a week of training the classifier and changing recognition parameters, we didn’t get any positive result. Even the CNN performed much better. Haar cascade classifier results: Binarization In the end, we used the same adaptive_threshold method for binarization. The window is quite big so that it contains the text as well as the background. Text Detection Let's cover a few different components of text detection. Detecting Text Via Connected Components First, we found the connected components using the findContours function from OpenCV. The majority of connected components are characters, but a few are just noisy text fragments left after binarization. We filtered them using maximal/minimal axis. Then we applied a combining algorithm to compound characters, like :, Й, and =. The characters are then combined into words via a nearest neighbour search. Here is the principle of nearest neighbours method. You need to find the closest neighbor for every character. Then you choose the most appropriate candidate for combination from the right and from the left side. The algorithm is processed until there are no more characters left. Then words formed text lines. We used the hypothesis that words in a single line are located at the same height. The disadvantage is that this algorithm cannot correctly recognize noisy text. Using a Grid for Text Detection We found that almost all receipts had monospaced text. So we managed to draw a grid on the receipt and separate characters from each other using grid lines: The grid simplifies further receipt recognition. A neural network can be applied to every cell of the grid and every character can be easily recognized. The problem of noisy text is gone. Finally, the number of consequent spaces was precisely defined. We tried the following algorithm to recognize the grid. First, we found connected components in the binary image: Then we processed the lower-left angles of the green rectangles and got a set of points specified by coordinates. To determine distortions we used the 2d periodic function: The main idea behind the receipt grid was to find non-linear geometric distortions with the graph peak points. In other words, we had to find the maximum value sum of this function. Also, we needed to find an optimal distortion. We parametrized a geometric distortion using the RectBivariateSpline function from the Scipy Python module. We used the minimize Scipy function for optimization. Here’s what we got: All in all, this method appeared to be slow and unstable. We decided not to use it again. Optical Character Recognition Let's deal with recognizing text we found via connected components and recognizing complete words. Recognizing Text We Found Via Connected Components For text recognition, we used a Convolutional Neural Network (CNN) trained on receipt fonts. As an output, we had probabilities for every character. We took several initial options that together had 99% probability. Then we used a dictionary to check all possible words that can be compiled using these characters. This helped improve the recognition accuracy and eliminate faults caused by similar characters (for example, \"З\" and \"Э\", Cyrillic alphabet). However, the method’s performance is very low when it comes to noisy text recognition. Recognizing Complete Words It is necessary to recognize complete words when a text is too noisy to recognize it by single characters. We solved this problem using two methods: LSTM network. Uniform segmentation. LSTM Network You can read these articles to learn more about reading text in deep convolutional sequences and using LSTM networks for language-independent OCR. For this purpose, we used the OCRopus library. We used monospaced fonts and prepared an artificial sample for training. After the training, we tested our network using a validation set. The test result appeared to be positive. Then we tested it using real receipts. Here is what we got: The trained neural network performed well on simple examples. We successfully recognized them before using other methods. The network didn’t work for complex cases. We distorted the training sample and approximated it to the words recognized on receipts. To avoid network overfitting we stopped the training process several times and continued training the network with the new dataset. Finally, we got the following results: Our new network was good at recognizing complex words. But simple word recognition was not so good. We believe this CNN can perform much better with a single font and minor distortions. Uniform Segmentation The receipts font was monospaced, so we decided to split the words by characters. First, we needed to know the width of every character. Thus, the mode of the character width was estimated for every receipt. In the case of a bimodal character width distribution, there are two modes chosen and a specific width is picked for every text line. When we got an approximate character width, we divided the length of the word by the character width to get the approximate number of characters. Then we divided the length of the word by the approximate number of characters, give or take one character: Choosing the best option for division: The accuracy of such segmentation is quite high. Sometimes our algorithms performed incorrectly: Every fragment was processed by a CNN after the segmentation. Extracting Meaning From Receipts We used regular expressions to find purchases in receipts. There is one feature in common for all the receipts: the price of purchases is written in the XX.XX format, where X is a number. Therefore, it’s possible to extract the lines containing purchases. The Individual Taxpayer Number can be found by searching for 10 numbers and tested by the control sum. The Cardholder Name has the format NAME/SURNAME. Takeaways No matter what you choose, an LSTM or another complex method, there is no silver bullet. Some methods are hard to use and not always useful. We'll continue working on the project. For now, the system shows good performance when the recognized text is not noisy.",
+                    "mainEntityOfPage": {
+                      "@type": "WebPage",
+                      "@id": "https://dzone.com/articles/using-ocr-for-receipt-recognition"
+                    },
+                    "image": {
+                      "@type": "ImageObject",
+                      "url": "https://dzone.com//dz2cdn4.dzone.com/storage/article-thumb/5654571-thumb.jpg"
+                    }
+                  }
+                </script>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "DZone",
+            "item": "https://dzone.com"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Data Engineering",
+            "item": "https://dzone.com/data-engineering"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "AI/ML",
+            "item": "https://dzone.com/ai-ml"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Deep Dive Into OCR for Receipt Recognition",
+            "item": "https://dzone.com/articles/using-ocr-for-receipt-recognition"
+          }
+      ]
+    }
+  </script>
+
+              <article>
+                <div class="content">
+                  <div class="header">
+  <ol class="breadcrumb">
+        <li class="server"><a href="https://dzone.com">DZone</a></li>
+        <li class="server"><a href="https://dzone.com/data-engineering">Data Engineering</a></li>
+        <li class="server"><a href="https://dzone.com/ai-ml">AI/ML</a></li>
+        <li class="active server">Deep Dive Into OCR for Receipt Recognition</li>
+  </ol>
+
+
+                    <div class="header-title">
+                      <div class="title">
+                        <h1 class="article-title">Deep Dive Into OCR for Receipt Recognition</h1>
+                      </div>
+
+                      <div class="subhead">
+                        <h3>No matter what you choose, an LSTM or another complex method, there is no silver bullet. Some methods are hard to use and not always useful.</h3>
+                      </div>
+
+                      <div class="publish-meta">
+                          <div class="article-author-meta">
+                            <img src="https://dz2cdn3.dzone.com/thumbnail?fid=4635906&amp;w=80" class="avatar" alt="Ivan Ozhiganov user avatar" width="40">
+                            by
+
+                            <div class="author-info">
+                              <span class="author-name">
+                                <a href="/users/2985882/ozhiganov.html" rel="nofollow">Ivan Ozhiganov</a>
+                              </span>
+                            </div>
+
+
+
+
+                            ·
+                          </div>
+                        <span class="author-date">
+                          Jun. 21, 17
+                        </span>
+                        ·
+                        <span>Tutorial</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="author-n-useraction">
+                    <div class="like action">
+                      <div id="activity-like-icon" class="dz-like icon-thumbs-up">
+                        <span class="action-label">
+                          <span id="activity-like-text">Like</span>
+                        </span>
+                        <a href="#">
+                          <span id="activity-like-counter">(13)</span>
+                        </a>
+                      </div>
+                    </div>
+
+                    <div class="action comment-action">
+
+                      <button class="comment">
+                        <i class="icon-comment"></i>
+                        Comment
+                        <span id="activity-comment-counter" class="comment-count">(15)</span>
+                      </button>
+                    </div>
+
+                    <div class="save action">
+                      <div id="activity-save-icon" class="save icon-star-empty">
+                        <span id="activity-save-text" class="action-label">Save</span>
+                      </div>
+                    </div>
+
+                    <div class="tweet action">
+                      <a id="tweet-link" href="" class="title" target="_blank">
+                        <span><i class="icon-twitter"></i></span>
+                        <span class="action-label">Tweet</span>
+                      </a>
+                    </div>
+
+                    <div class="linkedin action">
+                      <a id="linkedin-link" href="https://www.linkedin.com/sharing/share-offsite/?url=https://dzone.com/articles/using-ocr-for-receipt-recognition" class="title" target="_blank">
+                        <span><i class="icon-linkedin-1"></i></span>
+                        <span class="action-label">Share</span>
+                      </a>
+                    </div>
+
+                    <div class="right-most">
+                      <div id="activity-view-container" class="article-views action">
+                        <i class="icon-eye"></i> 77.29K
+                        <span class="action-label">Views</span>
+                      </div>
+                    </div>
+                  </div>
+
+                      <div class="signin-prompt">
+                        <p>Join the DZone community and get the full member experience.</p>
+                        <a id="article-signin-prompt" href="/static/registration.html">Join For Free</a>
+                      </div>
+                      <div class="arrow-down"></div>
+
+                    <div id="top-bumper-container"><div id="div-gpt-ad-1435246566686-3" class="article-bumper article-bumper-top" data-gpt-desktop="true" data-gpt-slot="topBumper" data-google-query-id="CPeHqsji54ADFSpbDwIdy4MEuw"><div id="google_ads_iframe_/2916070/dz2_bumper_text_ad_0__container__" style="border: 0pt none; display: inline-block; width: 100%; height: auto;"><iframe frameborder="0" src="https://dab50202aa6b1bb128f18096eb3d5d63.safeframe.googlesyndication.com/safeframe/1-0-40/html/container.html" id="google_ads_iframe_/2916070/dz2_bumper_text_ad_0" title="3rd party ad content" name="" scrolling="no" marginwidth="0" marginheight="0" width="0" height="114" data-is-safeframe="true" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" role="region" aria-label="Advertisement" tabindex="0" data-google-container-id="3" style="border: 0px; vertical-align: bottom; min-width: 100%;" data-load-complete="true"></iframe></div></div></div>
+
+                  <div>
+                    <div class="content-html"><p dir="ltr" pid="3">Optical Character Recognition is a process when images of handwritten, printed, or typed text are converted into machine-encoded text. Automated recognition of documents, credit cards, car plates and billboards significantly simplifies the way we collect and process data.</p>
+<p dir="ltr" pid="4">The growth of Machine Learning and Convolutional Neural Networks (CNN) has helped text recognition make a huge leap forward. We used CNN in our research to recognize paper receipts from retail stores. The system can be adjusted to process different languages, but we tested it using Russian.</p>
+<p dir="ltr" pid="5">The goal of our project was to develop an app using the client-server architecture for receipt recognition. Let's take a closer look, step by step.</p>
+<h2 pid="7">Preprocessing</h2>
+<p dir="ltr" pid="9">First things first: we rotated the receipt image so that the text lines were horizontally oriented, made the algorithm detect the receipt, and binarized it.</p><div class="cta-item cta-refcard"><p class="cta-item-headline">The Latest DZone Refcard</p><div class="cta-content-container"><div class="cta-desc-btn-container"><p class="cta-item-title">Getting Started With Robotic Process Automation</p><a href="https://dzone-resources.dzone.com/c/pubRD.mpl?secure=1&amp;sr=pp&amp;_t=pp:&amp;qf=w_defa3268&amp;ch=inarticlepubs" target="_blank"><button class="btn cta-item-button">Download the Cheat Sheet</button></a></div><a href="https://dzone-resources.dzone.com/c/pubRD.mpl?secure=1&amp;sr=pp&amp;_t=pp:&amp;qf=w_defa3268&amp;ch=inarticlepubs" target="_blank"><img class="cta-item-cover lazyloading" data-src="https://dz2cdn3.dzone.com/thumbnail?fid=16265149&amp;w=350" width="200" src="https://dz2cdn3.dzone.com/thumbnail?fid=16265149&amp;w=350"></a></div></div>
+<h3>Rotating Image to Recognize a Receipt</h3>
+<p dir="ltr" pid="13">What we used to recognize a receipt on the image:</p>
+<ol>
+ <li dir="ltr"><p dir="ltr">Adaptive binarization with a high threshold.</p></li>
+ <li dir="ltr"><p dir="ltr">Convolutional Neural Network.</p></li>
+ <li dir="ltr"><p dir="ltr">Haar cascade classifier.</p></li>
+</ol>
+<h4 pid="16">Using Adaptive Binarization</h4>
+<p pid="50"><img alt="Original receipt view" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613290-img-1.png" title="Original receipt view" width="300"></p>
+<p dir="ltr" pid="28">First, we recognized the area on the image that contains the full receipt and almost no background. To achieve this, we rotated the image so that text lines are horizontally oriented.</p>
+<p pid="52"><img alt="Receipt rotation" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613292-img-2.png" title="Receipt rotation" width="300"></p>
+<p pid="30">We used the <code>adaptive_threshold</code>&nbsp;function from the&nbsp;<code>scikit-image</code>&nbsp;library to find the receipt. This function keeps white pixels in areas with a high gradient, while more homogeneous areas turn black. Using this function, we got a homogeneous background with a couple of white pixels. We were searching for them to define the rectangle.</p>
+<p pid="53"><img alt="Identified area containing receipt" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613302-img-3.png" title="Identified area containing receipt" width="300"></p>
+<h4 pid="6">Using a CNN</h4>
+<p dir="ltr" pid="22">We decided to find receipt keypoints using a convolutional neural network as we did before for the <a href="https://www.azoft.com/blog/convolutional-neural-networks/" target="_blank">object detection project</a>. We chose the receipt angles as key points. This method performed well, but worse than adaptive binarization with a high threshold.</p>
+<p dir="ltr" pid="23">The CNN was able to define only those angle coordinates relative to the found text. Text to angle orientation varies greatly, meaning this CNN model is not very precise.</p>
+<p dir="ltr" pid="24">See CNN results below.</p>
+<p pid="25"><img alt="Examples of finding the receipt angles using CNN" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5612188-img-4.png" title="Examples of finding the receipt angles using CNN" width="831"></p>
+<h4 pid="26">Using the Haar Cascade Classifier to Recognize a Receipt</h4>
+<p dir="ltr" pid="33">As a third alternative, we tried the Haar cascade classifier. However, after a week of training the classifier and changing recognition parameters, we didn’t get any positive result. Even the CNN performed much better.</p>
+<p dir="ltr" pid="34">Haar cascade classifier results:</p>
+<p pid="37"><img alt="The best results we managed to get from the classifier" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5612197-img-5.png" title="The best results we managed to get from the classifier" width="829"><img alt="The best results we managed to get from the classifier" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613211-img-6.png" title="The best results we managed to get from the classifier" width="829"></p>
+<h3>Binarization</h3>
+<p pid="36">In the end, we used the same <code>adaptive_threshold</code>&nbsp;method for binarization. The window is quite big so that it contains the text as well as the background.</p>
+<p pid="39"><img alt="Receipt binarization" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613223-img-7.png" title="Receipt binarization" width="320"></p>
+<h2>Text Detection</h2>
+<p pid="133">Let's cover a few different components of text detection.</p>
+<h3>Detecting Text Via Connected Components</h3>
+<p dir="ltr" pid="43">First, we found the connected components using the <code>findContours</code>&nbsp;function from OpenCV. The majority of connected components are characters, but a few are just noisy text fragments left after binarization. We filtered them using maximal/minimal axis.</p>
+<p dir="ltr" pid="44">Then we applied a combining algorithm to compound characters, like <code>:</code>,&nbsp;<code>Й</code>, and <code>=</code>. The characters are then combined into words via a nearest neighbour search. Here is the principle of nearest neighbours method. You need to find the closest neighbor for every character. Then you choose the most appropriate candidate for combination from the right and from the left side. The algorithm is processed until there are no more characters left.</p>
+<p pid="55"><img alt="Finding connected components and forming words (words are highlighted in one color)" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613323-img-8.png" title="Finding connected components and forming words (words are highlighted in one color)" width="300"></p>
+<p pid="45">Then words formed text lines. We used the hypothesis that words in a single line are located at the same height.</p>
+<p pid="59"><img alt="Forming the lines (lines are highlighted in one color)" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613352-img-9.png" title="Forming the lines (lines are highlighted in one color)" width="300"></p>
+<p pid="46">The disadvantage is that this algorithm cannot correctly recognize noisy text.</p>
+<h3>Using a Grid for Text Detection</h3>
+<p pid="60">We found that almost all receipts had monospaced text. So we managed to draw a grid on the receipt and separate characters from each other using grid lines:</p>
+<p pid="64"><img alt="Grid example" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613369-img-10.png" title="Grid example" width="829"></p>
+<p dir="ltr" pid="66">The grid simplifies further receipt recognition. A neural network can be applied to every cell of the grid and every character can be easily recognized. The problem of noisy text is gone. Finally, the number of consequent spaces was precisely defined.</p>
+<p dir="ltr" pid="67">We tried the following algorithm to recognize the grid. First, we found connected components in the binary image:</p>
+<p pid="68"><img alt="Finding connected components" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613375-img-11.png" title="Finding connected components" width="829"></p>
+<p pid="69">Then we processed the lower-left angles of the green rectangles and got a set of points specified by coordinates. To determine distortions we used the 2d periodic function:</p>
+<p pid="70"><img alt="Image title" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613381-img-graph.png" width="829"></p>
+<p pid="71"><img alt="Graph of the function in formula" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613383-img-12.png" title="Graph of the function in formula" width="465"></p>
+<p dir="ltr" pid="77">The main idea behind the receipt grid was to find non-linear geometric distortions with the graph peak points. In other words, we had to find the maximum value sum of this function. Also, we needed to find an optimal distortion.</p>
+<p dir="ltr" pid="78">We parametrized a geometric distortion using the RectBivariateSpline function from the <a href="https://www.scipy.org/" target="_blank">Scipy</a> Python module. We used the minimize Scipy function for optimization.</p>
+<p dir="ltr" pid="79">Here’s what we got:</p>
+<p pid="74"><img alt="Incorrectly found grid" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613415-img-14.png" title="Incorrectly found grid" width="831"></p>
+<p pid="73">All in all, this method appeared to be slow and unstable. We decided not to use it again.</p>
+<h2>Optical Character Recognition</h2>
+<p pid="134">Let's deal with recognizing text we found via connected components and recognizing complete words.</p>
+<h3>Recognizing Text We Found Via Connected Components</h3>
+<p dir="ltr" pid="81">For text recognition, we used a Convolutional Neural Network (CNN) trained on receipt fonts. As an output, we had probabilities for every character. We took several initial options that together had 99% probability. Then we used a dictionary to check all possible words that can be compiled using these characters. This helped improve the recognition accuracy and eliminate faults caused by similar characters (for example, "З" and "Э", Cyrillic alphabet).</p>
+<p pid="84"><img alt="Image title" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613447-img-for-31.png" width="300"></p>
+<p dir="ltr" pid="86">However, the method’s performance is very low when it comes to noisy text recognition.</p>
+<h3>Recognizing Complete Words</h3>
+<p dir="ltr" pid="88">It is necessary to recognize complete words when a text is too noisy to recognize it by single characters. We solved this problem using two methods:</p>
+<ul>
+ <li dir="ltr"><p dir="ltr">LSTM network.</p></li>
+ <li dir="ltr"><p dir="ltr">Uniform segmentation.</p></li>
+</ul>
+<h4 pid="90">LSTM Network</h4>
+<p dir="ltr" pid="97">You can read these articles to learn more about <a href="http://arxiv.org/pdf/1506.04395v2.pdf" target="_blank">reading text in deep convolutional sequences</a> and <a href="https://www.researchgate.net/publication/260341307_Can_we_build_language-independent_OCR_using_LSTM_networks" target="_blank">using LSTM networks for language-independent OCR</a>. For this purpose, we used <a href="https://github.com/tmbdev/ocropy" target="_blank">the OCRopus library</a>.</p>
+<p dir="ltr" pid="98">We used monospaced fonts and prepared an artificial sample for training.</p>
+<p pid="99"><img alt="Artificial set" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613452-img-15.png" title="Artificial set" width="191"></p>
+<p pid="100">After the training, we tested our network using a validation set. The test result appeared to be positive. Then we tested it using real receipts. Here is what we got:</p>
+<p pid="101"><img alt="Image title" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613468-img-151.png" width="262"></p>
+<p dir="ltr" pid="119">The trained neural network performed well on simple examples. We successfully recognized them before using other methods. The network didn’t work for complex cases.</p>
+<p dir="ltr" pid="120">We distorted the training sample and approximated it to the words recognized on receipts.</p>
+<p pid="124"><img alt="Examples of the artificial set" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613475-img-16.png" title="Examples of the artificial set" width="300">To avoid network overfitting we stopped the training process several times and continued training the network with the new dataset. Finally, we got the following results:</p>
+<p pid="95"><img alt="Image title" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613511-img-161.png" width="300"></p>
+<p dir="ltr" pid="103">Our new network was good at recognizing complex words. But simple word recognition was not so good.</p>
+<p dir="ltr" pid="104">We believe this CNN can perform much better with a single font and minor distortions.</p>
+<h4 dir="ltr" pid="105">Uniform Segmentation</h4>
+<p dir="ltr" pid="106">The receipts font was monospaced, so we decided to split the words by characters. First, we needed to know the width of every character. Thus, the mode of the character width was estimated for every receipt. In the case of a bimodal character width distribution, there are two modes chosen and a specific width is picked for every text line.</p>
+<p pid="108"><img alt="Bimodal distribution of character widths in the receipt" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613522-img-17.png" title="Bimodal distribution of character widths in the receipt" width="565"></p>
+<p pid="107">When we got an approximate character width, we divided the length of the word by the character width to get the approximate number of characters. Then we divided the length of the word by the approximate number of characters, give or take one character:</p>
+<p pid="111"><img alt="Finding the optimal segmentation" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613530-img-18.png" title="Finding the optimal segmentation" width="478"></p>
+<p pid="110">Choosing the best option for division:</p>
+<p pid="113"><img alt="Optimal segmentation" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613534-img-19.png" title="Optimal segmentation" width="476"></p>
+<p pid="112">The accuracy of such segmentation is quite high.</p>
+<p pid="115"><img alt="Algorithm working correctly" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613535-img-20.png" title="Algorithm working correctly" width="492"></p>
+<p pid="114">Sometimes our algorithms performed incorrectly:</p>
+<p pid="117"><img alt="Incorrect performance" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613538-img-21.png" title="Incorrect performance" width="526"></p>
+<p pid="116">Every fragment was processed by a CNN after the segmentation.</p>
+<h2>Extracting Meaning From Receipts</h2>
+<p pid="122">We used regular expressions to find purchases in receipts. There is one feature in common for all the receipts: the price of purchases is written in the XX.XX format, where X is a number. Therefore, it’s possible to extract the lines containing purchases. The Individual Taxpayer Number can be found by searching for 10 numbers and tested by the control sum. The Cardholder Name has the format NAME/SURNAME.</p>
+<p pid="126"><img alt="Extracting meaning from receipts" class="fr-fin fr-dib" src="https://dz2cdn1.dzone.com/storage/temp/5613546-img-22.png" title="Extracting meaning from receipts" width="469"></p>
+<h2>Takeaways</h2>
+<ol>
+ <li><p dir="ltr">No matter what you choose, an LSTM or another complex method, there is no silver bullet. Some methods are hard to use and not always useful.</p></li>
+ <li><p dir="ltr">We'll continue working on the project. For now, the system shows good performance when the recognized text is not noisy.</p></li>
+</ol></div>
+                  </div>
+
+                    <div id="bottom-bumper-container"><div id="div-gpt-ad-1435246566686-4" class="article-bumper article-bumper-bottom" data-gpt-desktop="true" data-gpt-slot="bottomBumper"></div></div>
+                    <div class="article-tag-pill-container">
+                        <span class="article-tag-pill">neural network</span>
+                        <span class="article-tag-pill">Machine learning</span>
+                        <span class="article-tag-pill">Network</span>
+                        <span class="article-tag-pill">Convolutional neural network</span>
+                    </div>
+
+                    <div class="attribution">
+                        <p>Published at DZone with permission of <span>Ivan Ozhiganov</span>.
+                          <span>
+                            <a href="https://www.azoft.com/blog/ocr-receipt-recognition/" target="_blank">See the original article here.
+                              <i class="icon-link-ext-alt"></i>
+                            </a>
+                          </span>
+                        </p>
+                      <p>Opinions expressed by DZone contributors are their own.</p>
+                    </div>
+                      <div class="trending-separator goto"></div>
+                      <div class="trending goto">
+                        <h3>Related</h3>
+                        <ul>
+                            <li class="item">
+                              <div class="goto-link related-link" data-goto="/articles/understanding-the-basics-of-neural-networks-and-de">Understanding the Basics of Neural Networks and Deep Learning</div>
+                            </li>
+                            <li class="item">
+                              <div class="goto-link related-link" data-goto="/articles/how-to-use-python-for-data-science">How to Use Python for Data Science</div>
+                            </li>
+                            <li class="item">
+                              <div class="goto-link related-link" data-goto="/articles/basic-convolutional-neural-network-architectures">Basic Convolutional Neural Network Architectures</div>
+                            </li>
+                            <li class="item">
+                              <div class="goto-link related-link" data-goto="/articles/10-crucial-deep-learning-algorithms-to-keep-an-eye">10 Crucial Deep Learning Algorithms to Keep an Eye on in 2021</div>
+                            </li>
+                        </ul>
+                      </div>
+<div class="comments-overlay"></div>
+<div id="comment-box">
+  <div class="comment-box-wrapper">
+    <div id="comment-input-editor"></div>
+  </div>
+  <div class="info hidden"></div>
+  <div class="comments-content">
+    <div class="comment-header">
+      <hr>
+      <span class="icon-comment">
+        <span class="numOfComments"></span> Comments
+      </span>
+    </div>
+    <div class="comments"></div>
+  </div>
+</div>
+                </div>
+              </article>
+            </div>
+
+              <div id="above-pr-ad" class="bottom-ad-container">
+                <div id="div-gpt-ad-1435246566686-11" class="ads-bottom-leaderboard" data-gpt-slot="bottom"></div>
+              </div>
+              <div class="layout-card widget-top-border partner-resources-block" style="width:100%; margin-bottom: 1em;">
+                <div class="main-container">
+                  <div class="featured-header">
+                    <h2>
+                      <span>Partner Resources</span>
+                    </h2>
+                  </div>
+                  <div class="partner-resources-container">
+                    <div id="div-gpt-ad-1435246566686-5" class="resource-block" data-gpt-slot="partner" data-gpt-position="pr1"></div>
+                    <div id="div-gpt-ad-1435246566686-6" class="resource-block" data-gpt-slot="partner" data-gpt-position="pr2"></div>
+                    <div id="div-gpt-ad-1435246566686-7" class="resource-block" data-gpt-slot="partner" data-gpt-position="pr3"></div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <div id="bsa-parent" class="bottom-sticky-ad-container hide">
+        <div class="container">
+          <div class="col-md-9">
+            <div class="fixed-bottom-div">
+              <div class="inline-block">
+                <div id="div-gpt-ad-1635294790718-12" data-gpt-desktop="true" class="bottom-sticky-ad"></div>
+              </div>
+              <div class="inline-block">
+                <span id="close" class="bottom-sticky-ad-close-button" onclick="removeBottomStickyAd()">
+                  X
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="modal fade bd-example-modal-lg" id="modal-message" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header"></div>
+          <div class="modal-body"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script async="">const articleTitle = 'Deep Dive Into OCR for Receipt Recognition'
+const articleUrl = 'https://dzone.com/articles/using-ocr-for-receipt-recognition'
+
+const retweetLink = document.querySelector('#tweet-link')
+
+function retweet(event) {
+    event.preventDefault()
+    event.stopPropagation()
+
+    const twitter = 'https://twitter.com/intent/tweet'
+    const params = '?text=' + encodeURIComponent(articleTitle) + '&url=' + articleUrl + '&ref=dzone.com&via=DZoneInc'
+    const win = window.open(twitter + params, '_blank')
+    win.focus()
+}
+
+retweetLink.addEventListener('click', retweet);
+
+function showStatusMessage(options) {
+  var modal = document.getElementById("modal-message");
+
+  if(modal) {
+    modal.classList.add(options.type);
+    var modalBody = modal.querySelector(".modal-content .modal-body");
+    var modalHeader = modal.querySelector(".modal-content .modal-header");
+
+    modalHeader.innerText = options.header ? options.header : "";
+    modalBody.innerText = options.body ? options.body : "" ;
+
+    $(modal).modal("show");
+
+    $(modal).on('hidden.bs.modal', function () {
+      modal.classList.remove(options.type);
+    });
+  }
+}
+
+function showConfirmMessage(options) {
+  var modal = document.getElementById("modal-message");
+
+  if(modal) {
+    modal.classList.add(options.type);
+    var modalBody = modal.querySelector(".modal-content .modal-body");
+    var modalHeader = modal.querySelector(".modal-content .modal-header");
+
+    modalHeader.innerText = options.header ? options.header : "";
+    modalBody.innerText = options.body ? options.body : "" ;
+
+    if (options.textarea) {
+      const textareaDiv = document.createElement('div')
+      const textareaLabel = document.createElement('label')
+      textareaLabel.setAttribute('for', 'modal-textarea')
+      textareaLabel.innerText = options.textarea.label
+
+      const textarea = document.createElement('textarea')
+      textarea.id = 'modal-textarea'
+      textarea.placeholder = (options.textarea.placeholder || '')
+      textarea.setAttribute('rows', (options.textarea.rows || 3))
+      textarea.classList.add('form-control', 'not-resizable')
+
+      if (options.textarea.maxlength) {
+        textarea.maxLength = options.textarea.maxlength
+      }
+
+      textareaDiv.appendChild(textareaLabel)
+      textareaDiv.appendChild(textarea)
+      modalBody.appendChild(textareaDiv)
+    }
+
+    var btnContainer = document.createElement("div");
+    btnContainer.classList.add("btn-container");
+
+    var noBtn = document.createElement("button");
+    noBtn.innerText = options.noBtnText ? options.noBtnText : "No";
+    noBtn.classList.add("no-btn");
+
+    var yesBtn = document.createElement("button");
+    yesBtn.innerText = options.yesBtnText ? options.yesBtnText : "Yes";
+    yesBtn.classList.add("yes-btn");
+
+    btnContainer.appendChild(noBtn);
+    btnContainer.appendChild(yesBtn);
+
+    modalBody.appendChild(btnContainer);
+
+    $(modal).modal("show");
+
+    $(noBtn).one("click", function() {
+      $(modal).modal("hide");
+
+      if(options.noCallback) {
+        $(modal).one('hidden.bs.modal', function () {
+          options.noCallback();
+        });
+      }
+    });
+
+    $(yesBtn).one("click", function() {
+      $(modal).modal("hide");
+
+      if(options.yesCallback) {
+        $(modal).one('hidden.bs.modal', function () {
+          options.yesCallback();
+        });
+      }
+    });
+
+    $(modal).on('hidden.bs.modal', function () {
+      modal.classList.remove(options.type);
+    });
+  }
+}
+</script>
+<link rel="stylesheet" media="all" href="https://dz2cdn3.dzone.com/themes/dz20/ftl/footer/styles.css">
+
+<div id="ftl-footer">
+  <div class="container-fluid footerOuter">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="container">
+          <div class="row footer">
+            <div class="col-md-12 footerWidget">
+              <div class="row footerContainer footer">
+                <div class="left col-xs-12 col-sm-7">
+                  <div class="col-xs-12 social-media-icons footer-mobile">
+                    <ul class="icons-only">
+                      <li class="rss-icon" id="rss-footer-1">
+                        <a href="/pages/feeds" target="_blank" rel="noreferrer noopener">
+                          <i class="icon-rss-1"></i>
+                        </a>
+                      </li>
+                      <li class="twitter-icon">
+                        <a href="https://twitter.com/DZoneInc" target="_blank" rel="noreferrer noopener">
+                          <i class="icon-twitter"></i>
+                        </a>
+                      </li>
+                      <li class="facebook-icon">
+                        <a href="https://www.facebook.com/DZoneInc" target="_blank" rel="noreferrer noopener">
+                          <i class="icon-facebook-1"></i>
+                        </a>
+                      </li>
+                      <li class="linkedin-icon">
+                        <a href="https://www.linkedin.com/company/dzone/" target="_blank" rel="noreferrer noopener">
+                          <i class="icon-linkedin-1"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="top-section col-xs-12">
+                    <div class="col-xs-12 col-sm-6">
+                      <p class="section-header">ABOUT US</p>
+                      <ul class="link-group">
+                        <li><a href="/pages/about" rel="noreferrer noopener">About DZone</a></li>
+                        <li><a href="mailto:support@dzone.com" rel="noreferrer noopener">Send feedback</a></li>
+                        <li><a href="https://careers.dzone.com/" target="_blank" rel="noreferrer noopener">Careers</a></li>
+                          <li><a href="/sitemap" rel="noreferrer noopener">Sitemap</a></li>
+                      </ul>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                      <p class="section-header">ADVERTISE</p>
+                      <ul class="link-group">
+                        <li><a href="https://advertise.dzone.com" target="_blank" rel="noreferrer noopener">Advertise with DZone</a></li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bottom-section col-xs-12">
+                    <div class="col-xs-12 col-sm-6">
+                      <p class="section-header">CONTRIBUTE ON DZONE</p>
+                      <ul class="bottom-top-list link-group">
+                        <li><a href="/articles/dzones-article-submission-guidelines">Article Submission Guidelines</a></li>
+                        <li><a href="/pages/contribute" rel="noreferrer noopener">Become a Contributor</a></li>
+                        <li><a href="/writers-zone" rel="noreferrer noopener">Visit the Writers' Zone</a></li>
+                      </ul>
+
+                      <p class="section-header">LEGAL</p>
+                      <ul class="link-group">
+                        <li><a href="https://technologyadvice.com/terms-conditions/" target="_blank" rel="noreferrer noopener">Terms of Service</a></li>
+                        <li><a href="https://technologyadvice.com/privacy-policy/" target="_blank" rel="noreferrer noopener">Privacy Policy</a></li>
+                      </ul>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                      <p class="section-header">CONTACT US</p>
+                      <ul class="link-group">
+                        <li>600 Park Offices Drive</li>
+                        <li>Suite 300</li>
+                        <li>Durham, NC 27709</li>
+                        <li><a href="mailto:support@dzone.com" rel="noreferrer noopener">support@dzone.com</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="right col-xs-12 col-sm-5">
+
+                  <p class="connect-text">Let's be friends:</p>
+                  <div class="col-xs-12 social-media-icons footer-wide">
+                    <ul class="icons-only">
+                      <li class="rss-icon" id="rss-footer-1">
+                        <a href="/pages/feeds" target="_blank" rel="noreferrer noopener">
+                          <i class="icon-rss-1"></i>
+                        </a>
+                      </li>
+                      <li class="twitter-icon">
+                        <a href="https://twitter.com/DZoneInc" target="_blank" rel="noreferrer noopener">
+                          <i class="icon-twitter"></i>
+                        </a>
+                      </li>
+                      <li class="facebook-icon">
+                        <a href="https://www.facebook.com/DZoneInc" target="_blank" rel="noreferrer noopener">
+                          <i class="icon-facebook-1"></i>
+                        </a>
+                      </li>
+                      <li class="linkedin-icon">
+                        <a href="https://www.linkedin.com/company/dzone/" target="_blank" rel="noreferrer noopener">
+                          <i class="icon-linkedin-1"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <script async="" src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+
+  <script async="">
+      (function(w, d, s, l, i) {
+          w[l] = w[l] || [];
+          w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+          var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+          j.async = true;
+          j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+          f.parentNode.insertBefore(j,f);
+      })(window, document, 'script', 'dataLayer', 'GTM-K25QL22');
+  </script>
+
+  <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-410289-1', 'auto');
+      ga('require', 'linkid', 'linkid.js');
+      ga('require', 'GTM-TSD9TZP');
+      ga('set', 'siteSpeedSampleRate', 25);
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js"></script>
+  <script async="">const analytics = {
+    'dimension1': 'AI/ML',
+    'dimension2': 'article/tutorial',
+    'dimension3': '2017-06-21',
+    'dimension4': '0',
+    'dimension5': '',
+    'dimension7': 'neural network, Machine learning, network, Convolutional neural network',
+    'dimension8': 'Ozhiganov',
+    'dimension9': 'undefined',
+    'dimension10': 'Azoft Inc.'
+};
+
+if (window.ga) {
+    Object.keys(analytics).forEach(function(key) {
+        window.ga('set', key, analytics[key]);
+    });
+
+    window.ga('send', 'pageview');
+}</script>
+
+  <script>
+      const articleId = 1579057
+      const likes = 13
+      const assetDomain = 'https://dz2cdn3.dzone.com'
+      const codemirrorVars = {
+          modeURI: 'https://dz2cdn3.dzone.com/themes/dz20/lib/codemirror/mode/',
+          requiredScripts: [
+              'https://dz2cdn3.dzone.com/themes/dz20/lib/codemirror/lib/codemirror.js',
+              'https://dz2cdn3.dzone.com/themes/dz20/lib/codemirror/mode/meta.js'
+          ]
+      }
+
+      const gptTags = {
+          'zone': 'AI/ML',
+          'topicTag': 'neural network,Machine learning,network,Convolutional neural network',
+          'company': '',
+          'siteSection': 'Zones',
+          'articleCategory': 'tutorial',
+          'nodeID': '1579057',
+          'authorID': '2985882',
+          'publishYear': '2017',
+          'publishMonth': '06',
+          'jobRole': '',
+          'companySize': ''
+      }
+
+      const minCommentChar = 10;
+
+        const ctaModel = {
+          title: 'Getting Started With Robotic Process Automation',
+          coverURL: 'https://dz2cdn3.dzone.com/thumbnail?fid=16265149&w=350',
+          headline: 'The Latest DZone Refcard',
+          description: null,
+          cta: 'Download the Cheat Sheet',
+          netlineLink: 'https://dzone-resources.dzone.com/c/pubRD.mpl?secure=1&sr=pp&_t=pp:&qf=w_defa3268&ch=inarticlepubs',
+          ctaHref: 'https://dzone-resources.dzone.com/c/pubRD.mpl?secure=1&sr=pp&_t=pp:&qf=w_defa3268&ch=inarticlepubs',
+          assetType: 'refcard',
+        };
+  </script>
+
+  <script src="https://dz2cdn3.dzone.com/themes/dz20/lib/static/jquery/jquery.min.js"></script>
+  <script async="" src="https://dz2cdn3.dzone.com/themes/dz20/lib/static/bootstrap/bootstrap.min.js"></script>
+  <script async="" src="https://dz2cdn3.dzone.com/themes/dz20/ftl/article/ads.js" onload="loadCTAIntoPage()"></script>
+
+  <script>
+      (function (w,d,t) {
+          _ml = w._ml || {};
+          _ml.eid = '65559';
+          var s, cd, tag; s = d.getElementsByTagName(t)[0]; cd = new Date();
+          tag = d.createElement(t); tag.async = 1;
+          tag.src = 'https://ml314.com/tag.aspx?' + cd.getDate() + cd.getMonth();
+          s.parentNode.insertBefore(tag, s);
+      })(window,document,'script');
+  </script>
+
+  <script>
+      !function(e,t,c,n,o,a,m){e._bmb||(o=e._bmb=function(){o.x?o.x.apply(o,arguments):o.q.push(arguments)},o.q=[],a=t.createElement(c),a.async=true,a.src="https://vi.ml314.com/get?eid=65559&tk=v56Edzruvd7dE2f68VuNhft2O2fbnq2blg8566IFCW1MX43d&fp="+(e.localStorage&&e.localStorage.getItem(n)||""),m=t.getElementsByTagName(c)[0],m.parentNode.insertBefore(a,m))}(window,document,"script","_ccmaid");
+  </script>
+
+  <script>
+      function loadScript(src) {
+          return new Promise(function (resolve, reject) {
+              const s = document.createElement('script')
+              s.src = src
+              s.onload = resolve
+              s.onerror = reject
+              document.head.appendChild(s)
+          })
+      }
+
+      function loadStyle(href) {
+          const link = document.createElement('link')
+          link.rel = 'stylesheet'
+          link.href = href
+          document.head.appendChild(link)
+      }
+
+      function loadScriptsSync(deferred) {
+          var p = Promise.resolve()
+          for (var i = 0; i < deferred.length; i++) {
+              let script = deferred[i]
+              p = p.then(function() {
+                  return loadScript(script)
+              })
+          }
+          return p
+      }
+
+      function loadStyles() {
+          const deferred = [
+              'https://dz2cdn3.dzone.com/themes/dz20/lib/codemirror/lib/codemirror.css',
+              'https://dz2cdn3.dzone.com/themes/dz20/ftl/comments/styles.css',
+              'https://dz2cdn3.dzone.com/themes/dz20/lib/froala3/css/froala_editor.pkgd.min.css',
+              'https://dz2cdn3.dzone.com/themes/dz20/lib/froala3/css/themes/gray.min.css',
+              'https://dz2cdn3.dzone.com/themes/dz20/ftl/article/mini-profile.css'
+          ]
+
+          for (var i = 0; i < deferred.length; i++) {
+              loadStyle(deferred[i])
+          }
+      }
+
+      window.addEventListener('load', function(event) {
+          loadStyles()
+
+          loadScriptsSync([
+            'https://dz2cdn3.dzone.com/themes/dz20/lib/lazysizes.min.js',
+            'https://dz2cdn3.dzone.com/themes/dz20/ftl/article/codeblocks.js',
+            'https://dz2cdn3.dzone.com/themes/dz20/ftl/article/activity-bar.js',
+            'https://dz2cdn3.dzone.com/themes/dz20/lib/froala3/js/froala_editor.pkgd.min.js',
+            'https://dz2cdn3.dzone.com/themes/dz20/ftl/froala/content.js',
+            'https://dz2cdn3.dzone.com/themes/dz20/ftl/comments/content.js',
+            'https://dz2cdn3.dzone.com/themes/dz20/ftl/article/content.js'
+          ])
+      })
+  </script>
+
+<ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;" data-ad-status="unfilled"><div id="aswift_0_host" style="border: none; height: 0px; width: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block;" tabindex="0" title="Advertisement" aria-label="Advertisement"><iframe id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-3945085396033279&amp;output=html&amp;adk=1812271804&amp;adf=3025194257&amp;lmt=1579222800&amp;plat=2%3A16777216%2C3%3A16%2C4%3A16%2C9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1081344%2C32%3A32%2C41%3A32%2C42%3A32&amp;format=0x0&amp;url=https%3A%2F%2Fdzone.com%2Farticles%2Fusing-ocr-for-receipt-recognition&amp;ea=0&amp;pra=5&amp;wgl=1&amp;uach=WyJXaW5kb3dzIiwiMTUuMC4wIiwieDg2IiwiIiwiMTE2LjAuNTg0NS45NiIsW10sMCxudWxsLCI2NCIsW1siQ2hyb21pdW0iLCIxMTYuMC41ODQ1Ljk2Il0sWyJOb3QpQTtCcmFuZCIsIjI0LjAuMC4wIl0sWyJHb29nbGUgQ2hyb21lIiwiMTE2LjAuNTg0NS45NiJdXSwwXQ..&amp;dt=1692415371108&amp;bpp=2&amp;bdt=2234&amp;idt=1068&amp;shv=r20230816&amp;mjsv=m202308170101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D0ea144acd32181b5%3AT%3D1692415371%3ART%3D1692415371%3AS%3DALNI_MZFdpIV6-H9AXxucCjvV0riqOrVIQ&amp;gpic=UID%3D00000c2efc16baca%3AT%3D1692415371%3ART%3D1692415371%3AS%3DALNI_MZdaxf7wlfoKaMawr1DbgrWsuRsLw&amp;nras=1&amp;correlator=5719839674245&amp;frm=20&amp;pv=2&amp;ga_vid=1550674342.1692415371&amp;ga_sid=1692415371&amp;ga_hid=1506458675&amp;ga_fc=1&amp;u_tz=480&amp;u_his=2&amp;u_h=864&amp;u_w=1536&amp;u_ah=816&amp;u_aw=1536&amp;u_cd=24&amp;u_sd=1.25&amp;dmc=8&amp;adx=-12245933&amp;ady=-12245933&amp;biw=1519&amp;bih=695&amp;scr_x=0&amp;scr_y=0&amp;eid=44759876%2C44759927%2C44759842%2C31077148%2C42531706%2C31077199%2C44799571&amp;oid=2&amp;pvsid=980970446053821&amp;tmod=86195211&amp;uas=0&amp;nvt=1&amp;fsapi=1&amp;fc=1920&amp;brdim=0%2C0%2C0%2C0%2C1536%2C0%2C1536%2C816%2C1536%2C695&amp;vis=1&amp;rsz=%7C%7Cs%7C&amp;abl=NS&amp;fu=32768&amp;bc=31&amp;ifi=1&amp;uci=a!1&amp;fsb=1&amp;dtd=1080" data-google-container-id="a!1" data-load-complete="true"></iframe></div></ins><script type="text/javascript" id="">(function(a,e,b,f,g,c,d){a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)};c=e.createElement(f);c.async=1;c.src="https://www.clarity.ms/tag/"+g;d=e.getElementsByTagName(f)[0];d.parentNode.insertBefore(c,d)})(window,document,"clarity","script","dyr9vdlv8t");</script>
+<script type="text/javascript" id="">(function(b,a,c){var e=decodeURIComponent;var d="||";var g=";;",f="split",h="length",m="indexOf",k="localStorage",l="_ccmdt";b[c]=b[c]||{};b[c].us={};a=b[k]?b[k][l]||"":(a=a.cookie.match(l+"\x3d([^;]*)"))&&a[1]||"";e=e(a)[f](d);a=e[h];if(0<a)for(;a--;)d=e[a][f]("\x3d"),1<d[h]&&(-1<d[1][m](g)?(b[c].us[d[0]]=d[1][f](g),b[c].us[d[0]].pop()):b[c].us[d[0]]=d[1])})(window,document,"_ml");
+(function(){_ml=window._ml||{};_ml.eid="65559";_ml.informer={callback:function(){_ml.isEmptyObj(_ml.us)||(window.dataLayer=window.dataLayer||[],dataLayer.push({event:"bombora_profile_load",Bombora_Domain:_ml.us.dm,Bombora_Industry:_ml.us.ind,Bombora_Revenue:_ml.us.cr,Bombora_Size:_ml.us.cs,Bombora_B2B_Interest:_ml.us.tp&&0<_ml.us.tp.length?_ml.us.tp[0]:null,Bombora_Interest_Group:_ml.us.pc&&0<_ml.us.pc.length?_ml.us.pc[0]:null,Bombora_Install_Data:_ml.us.ins&&0<_ml.us.ins.length?_ml.us.ins[0]:null,
+Bombora_Seniority:_ml.us.sn,Bombora_Decision_Maker:_ml.us.dcm,Bombora_Job_Function:_ml.us.fa&&0<_ml.us.fa.length?_ml.us.fa[0]:null,Bombora_Prof_Group:_ml.us.pg&&0<_ml.us.pg.length?_ml.us.pg[0]:null}))},enable:!0};var b=document.getElementsByTagName("script")[0],a=new Date,c=document.createElement("script");c.type="text/javascript";c.async=!0;c.src="https://ml314.com/tag.aspx?"+a.getDate()+a.getMonth()+a.getFullYear();b.parentNode.insertBefore(c,b)})();</script>
+
+<script type="text/javascript" id="">(function(b,a,c){var e=decodeURIComponent;var d="||";var g=";;",f="split",h="length",m="indexOf",k="localStorage",l="_ccmdt";b[c]=b[c]||{};b[c].us={};a=b[k]?b[k][l]||"":(a=a.cookie.match(l+"\x3d([^;]*)"))&&a[1]||"";e=e(a)[f](d);a=e[h];if(0<a)for(;a--;)d=e[a][f]("\x3d"),1<d[h]&&(-1<d[1][m](g)?(b[c].us[d[0]]=d[1][f](g),b[c].us[d[0]].pop()):b[c].us[d[0]]=d[1])})(window,document,"_ml");
+(function(){_ml=window._ml||{};_ml.eid="65559";_ml.cid=google_tag_manager["rm"]["6133197"](4);_ml.fp=google_tag_manager["rm"]["6133197"](7);_ml.ef=["*email","*username"];_ml.informer={callback:function(e,d){"undefined"==typeof dataLayer||_ml.isEmptyObj(_ml.us)||dataLayer.push({event:"Bombora_Informer",Bombora_Topic:_ml.us.tp&&0<_ml.us.tp.length?_ml.us.tp[0]:"",Bombora_Industry:_ml.us.ind,Bombora_Company_Revenue:_ml.us.cr,Bombora_Company_Size:_ml.us.cs,Bombora_Domain:_ml.us.dm,Bombora_Seniority:_ml.us.sn,Bombora_Predictive_Category:_ml.us.pc&&
+0<_ml.us.pc.length?_ml.us.pc[0]:"",Bombora_Decision_Maker:_ml.us.dcm,Bombora_Functional_Area:_ml.us.fa&&0<_ml.us.fa.length?_ml.us.fa[0]:"",Bombora_Install_Data:_ml.us.ins&&0<_ml.us.ins.length?_ml.us.ins[0]:"",Bombora_Professional_Group:_ml.us.pg&&0<_ml.us.pg.length?_ml.us.pg[0]:"",Bombora_Education:_ml.us.edu})},enable:!0};var b=document.getElementsByTagName("script")[0],a=new Date,c=document.createElement("script");c.type="text/javascript";c.async=!0;c.src="https://ml314.com/tag.aspx?"+a.getDate()+
+a.getMonth()+a.getFullYear();b.parentNode.insertBefore(c,b)})();</script><iframe src="https://dab50202aa6b1bb128f18096eb3d5d63.safeframe.googlesyndication.com/safeframe/1-0-40/html/container.html" style="visibility: hidden; display: none;"></iframe>
+<script type="text/javascript" id="">var om56eecfe19c9dc,om56eecfe19c9dc_poll=function(){var b=0;return function(d,c){clearInterval(b);b=setInterval(d,c)}}();
+!function(b,d,c){if(b.getElementById(c))om56eecfe19c9dc_poll(function(){if(window.om_loaded&&!om56eecfe19c9dc)return om56eecfe19c9dc=new OptinMonsterApp,om56eecfe19c9dc.init({s:"16961.56eecfe19c9dc",staging:0,dev:0,beta:0})},25);else{var e=!1,a=b.createElement(d);a.id=c;a.src="//a.optnmstr.com/app/js/api.min.js";a.async=!0;a.onload=a.onreadystatechange=function(){if(!(e||this.readyState&&"loaded"!==this.readyState&&"complete"!==this.readyState))try{e=om_loaded=!0,om56eecfe19c9dc=new OptinMonsterApp,
+om56eecfe19c9dc.init({s:"16961.56eecfe19c9dc",staging:0,dev:0,beta:0}),a.onload=a.onreadystatechange=null}catch(f){}};(document.getElementsByTagName("head")[0]||document.documentElement).appendChild(a)}}(document,"script","omapi-script");</script>
+
+<script type="text/javascript" id="">googletag.cmd.push(function(){pageAds["/2916070/dz2_article_halfpage_new"][0].slot.updateTargetingFromMap({refreshed:"true"})});var SECONDS_TO_WAIT_AFTER_VIEWABILITY=120;setTimeout(function(){googletag.pubads().refresh([pageAds["/2916070/dz2_article_halfpage_new"][0].slot])},1E3*SECONDS_TO_WAIT_AFTER_VIEWABILITY);</script>
+<script type="text/javascript" id="">googletag.cmd.push(function(){pageAds["/2916070/dz2_bumper_text_ad"][0].slot.updateTargetingFromMap({refreshed:"true"})});var SECONDS_TO_WAIT_AFTER_VIEWABILITY=120;setTimeout(function(){googletag.pubads().refresh([pageAds["/2916070/dz2_bumper_text_ad"][0].slot])},1E3*SECONDS_TO_WAIT_AFTER_VIEWABILITY);</script>
+<iframe src="https://www.google.com/recaptcha/api2/aframe" width="0" height="0" style="display: none;"></iframe><div id="om-srmvv7jjpthas0tepwr6-holder"></div></body><iframe id="google_esf" name="google_esf" src="https://googleads.g.doubleclick.net/pagead/html/r20230816/r20190131/zrt_lookup.html" style="display: none;"></iframe></html>
