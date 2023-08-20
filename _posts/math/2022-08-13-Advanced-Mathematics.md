@@ -1188,6 +1188,23 @@ $$
 
 {% include image.html url="/assets/images/220813-advanced-mathematics/20230818011320.png" %}
 
+高斯公式（Gauss formula）
+
+* 定积分的概念从计算“曲边梯形的面积”等问题引入
+* 二重积分从计算“曲顶柱体体积”引入
+* 三重积分则是从求“三维空间中的有界物体的质量”引入的
+* 第一类曲线积分从求“物质曲线的质量”中引入
+* 第二类曲线积分从计算“力场做功问题”引入
+* 第一类曲面积分从求“物质曲面质量问题”引入
+* 第二类曲面积分则是从“讨论流量问题”引入
+
+旋度 Curl
+散度 Divergence
+通量。
+
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230820233236.png" %}
+{% include image.html url="/assets/images/220813-advanced-mathematics/20230820233347.png" %}
+
 
 ## 【十二（1）】常数项级数的概念和性质 1:10:05
 

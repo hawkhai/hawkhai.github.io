@@ -22,6 +22,24 @@ cluster: "机器学习课程"
 {% include image.html url="/assets/images/230819-using-ocr-for-receipt-r~b4/640assfx.jpg" %}
 {% include image.html url="/assets/images/230819-using-ocr-for-receipt-r~b4/6402233.jpg" %}
 
+为此，我们使用了 OCRopus 库来进行识别。
+1. Tesseract
+    Tesseract 是 Google 开发的 OCR 引擎，支持多种语言的文本识别，包括英语、中文、日语等。该引擎基于 LSTM 模型，具有高精度和良好的可扩展性，是目前最流行的 OCR 引擎之一。
+2. OCRopus
+    OCRopus 是一款基于 Python 的 OCR 引擎，支持多种语言的文本识别，包括中文、日语、韩语等。该引擎具有高精度和良好的可扩展性，可以轻松地集成到不同的应用中。
+
+
+## OCR 识别开源项目对比
+
+OCR 技术路线图总体上可分为五步：
+
+图像预处理、切割字符、识别字符、恢复版面、后处理文字。
+
+图像非均匀分割技术
+LSTM 网络
+No matter what you choose, an LSTM or another complex method, there is no silver bullet.
+Some methods are hard to use and not always useful.
+
 
 ## refs
 
