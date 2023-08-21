@@ -48,12 +48,55 @@ def xlsx2svgf(xlsxfile, svgfile, svg=True):
     #for j in range(0, sr.getPageCount()):
     sr.toImage(0, svgfile)
 
+def formatxls(fpath):
+
+    if fpath.endswith(".xlsx.xlsx"):
+        return
+
+    fmd5 = getmd5(os.path.abspath(fpath))
+    if getFileMd5(fpath) == readfile(os.path.join("tempdir", "xlsx", "result", fmd5)):
+        return
+
+    print("formatxls", fpath)
+
+    import openpyxl
+    from openpyxl.styles import Side, Border
+
+    # 加载Excel文件
+    wb = openpyxl.load_workbook(fpath)
+
+    # 设置线条的样式和颜色
+    side = Side(style="thick", color="FF0000")
+    # 设置单元格的边框线条
+    border = Border(top=side, bottom=side, left=side, right=side)
+
+    # 获取最大行数
+    #max_row = sheet.max_row
+    # 获取最大列数
+    #max_column = sheet.max_column
+
+    sheet = wb.active
+    rows = sheet.rows
+    # ws.cell(row=0, column=0).border = border
+    for row in rows:
+        for cell in row:
+            cell.border = border
+
+    # 处理完成后保存表格，会在当前目录生成一个excel文件
+    wb.save(filename=fpath) # +".xlsx"
+    # 关闭表格对象
+    wb.close()
+
+    fmd5 = getmd5(os.path.abspath(fpath))
+    writefile(os.path.join("tempdir", "xlsx", "result", fmd5), getFileMd5(fpath))
+
 def myxlsx2svg(rootdir):
 
     def mainfile(fpath, fname, ftype):
         if not ftype in ("xlsx"):
             return
         print(fpath)
+        formatxls(fpath)
         xlsx2svgf(fpath, fpath+".svg", True)
         xlsx2svgf(fpath, fpath+".png", False)
 
