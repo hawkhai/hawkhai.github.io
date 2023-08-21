@@ -57,8 +57,6 @@ def formatxls(fpath):
     if getFileMd5(fpath) == readfile(os.path.join("tempdir", "xlsx", "result", fmd5)):
         return
 
-    print("formatxls", fpath)
-
     import openpyxl
     from openpyxl.styles import Side, Border
 
@@ -80,7 +78,20 @@ def formatxls(fpath):
     # ws.cell(row=0, column=0).border = border
     for row in rows:
         for cell in row:
+            #  'bottom', 'copy', 'diagonal', 'diagonalDown', 'diagonalUp', 'diagonal_direction', 'end',
+            # 'horizontal', 'left', 'outline', 'right', 'start', 'top', 'vertical']
+            #print(dir(cell.border))
+            # 'border_style', 'color', 'from_tree', 'idx_base', 'namespace', 'style', 'tagname', 'to_tree']
+            #print(dir(cell.border.top))
+            #print(cell.border.top.color)
+            #print(cell.border.top.color.rgb)
+            if cell.border and cell.border.top and cell.border.top.color and cell.border.top.color.rgb:
+                if "00FF0000" == cell.border.top.color.rgb:
+                    return
+
             cell.border = border
+
+    print("formatxls", fpath)
 
     # 处理完成后保存表格，会在当前目录生成一个excel文件
     wb.save(filename=fpath) # +".xlsx"
