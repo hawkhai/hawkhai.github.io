@@ -32,7 +32,7 @@ def mainf2(rootdir, mdfile):
         if not dir.split(".")[-1] in ("jpg", "png", "jpeg"):
             continue
 
-        imgurl = "https://cvsample.sunocean.life/mytable/{}".format(dir)
+        imgurl = "https://cvsample.sunocean.life/imgtable/{}".format(dir)
 
         fname = dir
         fpath = os.path.join(rootdir, fname)
@@ -40,15 +40,15 @@ def mainf2(rootdir, mdfile):
 
         item = r"""
 {}.xlsx 下载
-<a href="//cvsample.sunocean.life/mytable/result/{}.xlsx">自研</a> /
-<a href="//cvsample.sunocean.life/mytable/BaiduOCRConverter_Excel/{}.xlsx">百度</a> /
-<a href="//cvsample.sunocean.life/mytable/docmind/{}.xlsx">阿里</a>。
+<a href="//cvsample.sunocean.life/imgtable/result/{}.xlsx">自研</a> /
+<a href="//cvsample.sunocean.life/imgtable/BaiduOCRConverter_Excel/{}.xlsx">百度</a> /
+<a href="//cvsample.sunocean.life/imgtable/docmind/{}.xlsx">阿里</a>。
 
 {} include imagek5.html
-url="/mytable/{}" width="22%"
-url2="/mytable/result/{}.xlsx.png" width2="22%"
-url3="/mytable/BaiduOCRConverter_Excel/{}.xlsx.png" width3="22%"
-url4="/mytable/docmind/{}.xlsx.png" width4="22%"
+url="/imgtable/{}" width="22%"
+url2="/imgtable/result/{}.xlsx.png" width2="22%"
+url3="/imgtable/BaiduOCRConverter_Excel/{}.xlsx.png" width3="22%"
+url4="/imgtable/docmind/{}.xlsx.png" width4="22%"
 thumbnail="/thumbnail.png"
 {}
 """.format(fnamec, fnamec, fnamec, fnamec,
@@ -58,18 +58,18 @@ thumbnail="/thumbnail.png"
 
         fdata += item
 
-        # mytable/docmind/007_c5918.xlsx.svg
-        # mytable/docmind/007_c5918.xlsx.svg/70401f2d8e4971c3a1fe179c661e2e27.007_c5918.xlsx.svg
+        # imgtable/docmind/007_c5918.xlsx.svg
+        # imgtable/docmind/007_c5918.xlsx.svg/70401f2d8e4971c3a1fe179c661e2e27.007_c5918.xlsx.svg
         docmind_svgfile = os.path.join(rootdir, "docmind", "{}.xlsx.svg".format(fnamec))
         baidu_svgfile = os.path.join(rootdir, "BaiduOCRConverter_Excel", "{}.xlsx.svg".format(fnamec))
         my_svgfile = os.path.join(rootdir, "result", "{}.xlsx.svg".format(fnamec))
         for svgfile in (my_svgfile, baidu_svgfile, docmind_svgfile):
-            assert os.path.exists(svgfile)
-            fmd5 = getFileMd5(svgfile)
+            #assert os.path.exists(svgfile)
+            #fmd5 = getFileMd5(svgfile)
             ipath = os.path.relpath(svgfile, rootdir).replace("\\", "/")
-            osspath = ipath + "/{}.{}.xlsx.svg".format(fmd5, fnamec)
-            print(fmd5, osspath)
-            svgtrue[ipath] = osspath
+            #osspath = ipath + "/{}.{}.xlsx.svg".format(fmd5, fnamec)
+            #print(fmd5, osspath)
+            #svgtrue[ipath] = osspath
 
     #print(writefile(mdfile, fdata, "utf8"))
 
@@ -82,6 +82,6 @@ thumbnail="/thumbnail.png"
 
 if __name__ == "__main__":
     from pythonx.note.kvision.pack import LcMapPath
-    mainf2(LcMapPath(r"E:\kSource\blog\kvision\ksample\mytable"),
-           LcMapPath(r"E:\kSource\blog\invisible\kvision\mytable.md"))
+    mainf2(LcMapPath(r"E:\kSource\blog\kvision\ksample\imgtable"),
+           LcMapPath(r"E:\kSource\blog\invisible\kvision\imgtable.md"))
     print("ok")

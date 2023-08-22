@@ -23,8 +23,8 @@ from asposecells.api import *
 
 # https://blog.aspose.com/cells/convert-excel-to-image-in-python/#Convert-Excel-to-SVG-in-Python
 def xlsx2svgf(xlsxfile, svgfile, svg=True):
-    #if os.path.exists(svgfile):
-    #    return
+    if os.path.exists(svgfile):
+        return
 
     # load the Excel workbook
     workbook = Workbook(xlsxfile)
@@ -47,6 +47,8 @@ def xlsx2svgf(xlsxfile, svgfile, svg=True):
     sr = SheetRender(sheet, imgOptions)
     #for j in range(0, sr.getPageCount()):
     sr.toImage(0, svgfile)
+
+    workbook.dispose()
 
 def formatxls(fpath):
 
@@ -87,6 +89,7 @@ def formatxls(fpath):
             #print(cell.border.top.color.rgb)
             if cell.border and cell.border.top and cell.border.top.color and cell.border.top.color.rgb:
                 if "00FF0000" == cell.border.top.color.rgb:
+                    wb.close()
                     return
 
             cell.border = border
@@ -109,11 +112,11 @@ def myxlsx2svg(rootdir):
         print(fpath)
         formatxls(fpath)
         xlsx2svgf(fpath, fpath+".svg", True)
-        xlsx2svgf(fpath, fpath+".png", False)
+        #xlsx2svgf(fpath, fpath+".png", False)
 
     searchdir(rootdir, mainfile)
 
 if __name__ == "__main__":
-    rootdir = r"E:\kSource\blog\kvision\ksample\mytable"
+    rootdir = r"E:\kSource\blog\kvision\ksample\imgtable"
     myxlsx2svg(rootdir)
     print("ok")
