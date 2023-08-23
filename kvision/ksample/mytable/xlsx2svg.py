@@ -27,7 +27,7 @@ def xlsx2svgf(xlsxfile, svgfile, svg=True):
         return
 
     # load the Excel workbook
-    workbook = Workbook(xlsxfile)
+    workbook = Workbook(xlsxfile) # 这里会崩溃，说是超过了评估版本打开的限制。
 
     # create image options
     # https://gist.github.com/aspose-com-gists/5d33fa768a61d24704a7350432266781
@@ -52,23 +52,25 @@ def xlsx2svgf(xlsxfile, svgfile, svg=True):
         pass
     workbook.dispose()
 
-def formatxls(fpath):
+def formatxls(fpath, force=False):
 
     if fpath.endswith(".xlsx.xlsx"):
         return
 
     fmd5 = getmd5(os.path.abspath(fpath))
-    if getFileMd5(fpath) == readfile(os.path.join("tempdir", "xlsx", "result", fmd5[:8], fmd5[8:]), True):
-        return
+    #if not force and getFileMd5(fpath) == readfile(os.path.join("tempdir", "xlsx", "result", fmd5[:8], fmd5[8:]), True):
+    #    return
 
     import openpyxl
     from openpyxl.styles import Side, Border
+
+    print(fpath)
 
     # 加载Excel文件
     wb = openpyxl.load_workbook(fpath)
 
     # 设置线条的样式和颜色
-    side = Side(style="thin", color="000000") # thick
+    side = Side(style="thin", color="101010") # thick
     # 设置单元格的边框线条
     border = Border(top=side, bottom=side, left=side, right=side)
 
@@ -90,8 +92,13 @@ def formatxls(fpath):
             #print(cell.border.top.color)
             #print(cell.border.top.color.rgb)
             if cell.border and cell.border.top and cell.border.top.color and cell.border.top.color.rgb:
-                if "00000000" == cell.border.top.color.rgb:
+                if "00101010" == cell.border.top.color.rgb:
+                    print(type(cell.border.top), cell.border.top)
+                    print(dir(cell.border.top))
                     wb.close()
+
+                    fmd5 = getmd5(os.path.abspath(fpath))
+                    #writefile(os.path.join("tempdir", "xlsx", "result", fmd5[:8], fmd5[8:]), getFileMd5(fpath))
                     return
 
             cell.border = border
@@ -104,7 +111,7 @@ def formatxls(fpath):
     wb.close()
 
     fmd5 = getmd5(os.path.abspath(fpath))
-    writefile(os.path.join("tempdir", "xlsx", "result", fmd5[:8], fmd5[8:]), getFileMd5(fpath))
+    #writefile(os.path.join("tempdir", "xlsx", "result", fmd5[:8], fmd5[8:]), getFileMd5(fpath))
 
 def myxlsx2svg(rootdir):
 
@@ -119,8 +126,13 @@ def myxlsx2svg(rootdir):
     searchdir(rootdir, mainfile)
 
 if __name__ == "__main__":
-    rootdir = r"E:\kSource\blog\kvision\ksample\mytable"
-    myxlsx2svg(rootdir)
-    rootdir = r"E:\kSource\blog\kvision\ksample\imgtable"
-    myxlsx2svg(rootdir)
-    print("ok")
+    if not "test" in sys.argv:
+        rootdir = r"E:\kSource\blog\kvision\ksample\mytable"
+        myxlsx2svg(rootdir)
+        rootdir = r"E:\kSource\blog\kvision\ksample\imgtable"
+        myxlsx2svg(rootdir)
+        print("ok")
+    else:
+        formatxls(r"E:\kSource\blog\kvision\ksample\mytable\quark\001_8e68c.xlsx", True)
+        formatxls(r"E:\kSource\blog\kvision\ksample\mytable\BaiduOCRConverter_Excel\001_8e68c.xlsx", True)
+        print("ok")
