@@ -56,7 +56,7 @@ def formatxls(fpath):
         return
 
     fmd5 = getmd5(os.path.abspath(fpath))
-    if getFileMd5(fpath) == readfile(os.path.join("tempdir", "xlsx", "result", fmd5)):
+    if getFileMd5(fpath) == readfile(os.path.join("tempdir", "xlsx", "result", fmd5[:8], fmd5[8:]), True):
         return
 
     import openpyxl
@@ -66,7 +66,7 @@ def formatxls(fpath):
     wb = openpyxl.load_workbook(fpath)
 
     # 设置线条的样式和颜色
-    side = Side(style="thick", color="FF0000")
+    side = Side(style="thin", color="000000") # thick
     # 设置单元格的边框线条
     border = Border(top=side, bottom=side, left=side, right=side)
 
@@ -88,7 +88,7 @@ def formatxls(fpath):
             #print(cell.border.top.color)
             #print(cell.border.top.color.rgb)
             if cell.border and cell.border.top and cell.border.top.color and cell.border.top.color.rgb:
-                if "00FF0000" == cell.border.top.color.rgb:
+                if "00000000" == cell.border.top.color.rgb:
                     wb.close()
                     return
 
@@ -102,7 +102,7 @@ def formatxls(fpath):
     wb.close()
 
     fmd5 = getmd5(os.path.abspath(fpath))
-    writefile(os.path.join("tempdir", "xlsx", "result", fmd5), getFileMd5(fpath))
+    writefile(os.path.join("tempdir", "xlsx", "result", fmd5[:8], fmd5[8:]), getFileMd5(fpath))
 
 def myxlsx2svg(rootdir):
 
@@ -117,6 +117,8 @@ def myxlsx2svg(rootdir):
     searchdir(rootdir, mainfile)
 
 if __name__ == "__main__":
+    rootdir = r"E:\kSource\blog\kvision\ksample\mytable"
+    myxlsx2svg(rootdir)
     rootdir = r"E:\kSource\blog\kvision\ksample\imgtable"
     myxlsx2svg(rootdir)
     print("ok")
