@@ -46,8 +46,10 @@ def xlsx2svgf(xlsxfile, svgfile, svg=True):
     # convert each sheet to SVG
     sr = SheetRender(sheet, imgOptions)
     #for j in range(0, sr.getPageCount()):
-    sr.toImage(0, svgfile)
-
+    try:
+        sr.toImage(0, svgfile)
+    except java.lang.IndexOutOfBoundsException: # java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+        pass
     workbook.dispose()
 
 def formatxls(fpath):
