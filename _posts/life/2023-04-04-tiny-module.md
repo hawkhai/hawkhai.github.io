@@ -605,6 +605,7 @@ pyinstaller 打包绿色软件，每次解压启动慢，如果
 * 不常用的命令。
     * DOCHECK = "docheck" in sys.argv 检查上传下载和软链接。
     * DLRESULT = "dlresult" in sys.argv 下载结果。因为默认结果是只能上传，然后网址访问的。
+    * UPSOURCE = "upsource" in sys.argv 上传原图。
 
 
 
