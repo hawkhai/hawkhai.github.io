@@ -129,7 +129,7 @@ if __name__ == "__main__":
     if not "test" in sys.argv:
         rootdir = r"E:\kSource\blog\kvision\ksample\mytable"
         myxlsx2svg(rootdir)
-        rootdir = r"E:\kSource\blog\kvision\ksample\imgtable"
+        rootdir = r"E:\kSource\blog\kvision\ksample\imgtable_2x"
         myxlsx2svg(rootdir)
         print("ok")
     else:
