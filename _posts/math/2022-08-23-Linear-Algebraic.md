@@ -28,7 +28,8 @@ cluster: "数学基础"
 [在线函数图像](https://zuotu.91maths.com/)
 
 [image](https://weibo.com/6122278407/K9Ggaa2Vl)
-{% include image.html url="/assets/images/220823-linear-algebraic/006GkshVgy1gpa9ogu9hlj34mo334000.jpg" %}
+[note](https://www.xiaohongshu.com/explore/6062a48a000000000102411f)
+{% include image.html url="/assets/images/220823-linear-algebraic/006GkshVgy1gpa9ogu9hlj34mo334000.jpg" caption="光线追踪 / 中山影视城" %}
 
 
 ## 1.1 二阶三阶行列式 38:52
@@ -52,6 +53,28 @@ $$
 
 
 ## 1.2 行列式的性质 1:16:58
+
+转置。
+
+* 性质 1：$D^{\top}=D$ 对行成立的性质，对列也成立。
+* 性质 2：两行互换，值变号。推论：两行（列）相等，$D=0$。
+* 性质 4：某一行都乘以 $k$，等于用 $k$ 乘以 $D$。
+
+$$
+\left|\begin{array}{ccc}
+1 & 2 & 3 \\
+4 k & 5 k & 6 k \\
+7 & 8 & 9
+\end{array}\right|=k\left|\begin{array}{lll}
+1 & 2 & 3 \\
+4 & 5 & 6 \\
+7 & 8 & 9
+\end{array}\right|
+$$
+
+* 性质 5：两行对应成比例 $D=0$。
+    * 两行相等。
+    * 某一行全为 $0$。
 
 
 ## 1.3 行列式按行展开 49:21
@@ -195,4 +218,5 @@ $$
 - [https://spaces.ac.cn/latex.html/comment-page-1]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/spaces.ac.cn/363c9e5d.html" %})
 - [https://zuotu.91maths.com/]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/zuotu.91maths.com/7f1a51d4.html" %})
 - [https://weibo.com/6122278407/K9Ggaa2Vl]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/weibo.com/037bbcae.html" %})
+- [https://www.xiaohongshu.com/explore/6062a48a000000000102411f]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.xiaohongshu.com/ade04cfe.html" %})
 - [https://zhuanlan.zhihu.com/p/416717502]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/zhuanlan.zhihu.com/9094b2cf.html" %})
