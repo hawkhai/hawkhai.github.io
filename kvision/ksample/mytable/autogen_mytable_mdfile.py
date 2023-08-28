@@ -53,14 +53,14 @@ url3="/{}/{}/{}.xlsx.png" width3="21%"
 url4="/{}/quark/{}.xlsx.png" width4="21%"
 thumbnail="/thumbnail.png"
 {}
-""".format(fnamec, 
-                tabledir+"_2x" if my2x else tabledir, fnamec, 
-                tabledir, baidudir, fnamec, 
+""".format(fnamec,
+                tabledir+"_2x" if my2x else tabledir, fnamec,
+                tabledir, baidudir, fnamec,
                 tabledir, fnamec,
            "{%",
-           tabledir, fname, 
-                tabledir+"_2x" if my2x else tabledir, fnamec, 
-                tabledir, baidudir, fnamec, 
+           tabledir, fname,
+                tabledir+"_2x" if my2x else tabledir, fnamec,
+                tabledir, baidudir, fnamec,
                 tabledir, fnamec,
            "%}",)
 

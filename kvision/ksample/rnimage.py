@@ -19,7 +19,7 @@ def main(rootdir):
     count = 0
     def mainfilep(fpath, fname, ftype, depth):
         if depth != 1: return
-        if not ftype in ("png", "webp", "jpg",):
+        if not ftype in ("png", "webp", "jpg", "jpeg",):
             return
         if re.findall("^[0-9]{3}_[0-9a-f]{5}\\.", fname):
             ksetk[fname[3:]] = fpath
@@ -32,7 +32,7 @@ def main(rootdir):
 
     def mainfile(fpath, fname, ftype, depth):
         if depth != 1: return
-        if not ftype in ("png", "webp", "jpg",):
+        if not ftype in ("png", "webp", "jpg", "jpeg",):
             return
 
         img = Image.open(fpath)
