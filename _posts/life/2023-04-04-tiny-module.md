@@ -580,8 +580,8 @@ pyinstaller 打包绿色软件，每次解压启动慢，如果
 
 ## aliyun oss image
 
-* aliyun_oss_ksample.py 上传下载管理整个 ksample。
-* aliyun_oss_remote.py
+* ksample.py 上传下载管理整个 ksample。
+* kremote.py
     * `upcode idxcode` 上传当前 pythonx 代码。
     * `downcode` 下载当前 pythonx 代码。
     * `upload image_ksample.json symlink` 上传图片。
