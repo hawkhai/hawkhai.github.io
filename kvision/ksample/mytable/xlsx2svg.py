@@ -3,11 +3,11 @@ import re, os, sys
 import cv2
 from PIL import Image
 
-curfiledir = os.path.split(os.path.abspath(__file__))[0]
-pythonxdir = r"E:\kSource"
-if not sys.path or pythonxdir not in sys.path: # for pythonx
-    sys.path.insert(0, pythonxdir)
-    sys.path.insert(0, os.path.join(pythonxdir, "pythonx"))
+CURFILEDIR = os.path.split(os.path.abspath(__file__))[0]
+PYTHONXDIR = r"E:\kSource"
+if not sys.path or PYTHONXDIR not in sys.path: # for pythonx
+    sys.path.insert(0, PYTHONXDIR)
+    sys.path.insert(0, os.path.join(PYTHONXDIR, "pythonx"))
 from pythonx.funclib import *
 
 import tarfile
