@@ -16,6 +16,8 @@ codeprint:
 cluster: "数学基础"
 ---
 
+> 外练筋骨皮，内练一口气，如果想要在互联网行业中生存下去，越来越需要高能力，高素质，已经不是以前的时代了。
+
 1. [《线性代数》 {% include relref_bili.html %}](https://www.bilibili.com/video/BV1aW411Q7x1)
 1. 《微积分》
 1. 《概率论与数理统计》
@@ -30,6 +32,14 @@ cluster: "数学基础"
 [image](https://weibo.com/6122278407/K9Ggaa2Vl)
 [note](https://www.xiaohongshu.com/explore/6062a48a000000000102411f)
 {% include image.html url="/assets/images/220823-linear-algebraic/006GkshVgy1gpa9ogu9hlj34mo334000.jpg" caption="光线追踪 / 中山影视城" %}
+
+* 目录：
+    * 第一章 行列式
+    * 第二章 矩阵
+    * 第三章 向量
+    * 第四章 线性方程组
+    * 第五章 特征值与特征向量
+    * 第六章 二次型
 
 
 ## 1.1 二阶三阶行列式 38:52
@@ -92,14 +102,42 @@ $$
 
 ## 1.5 克莱姆法则 17:36
 
+n 个方程，n 个未知量。
+求解方程组。
+
+* 齐次，方程个数等于未知量个数，D 不等于 0，只有零解。
+* 齐次，有非零解，等价于 D 等于 0。
+
+{% include image.html url="/assets/images/220823-linear-algebraic/v2-492fd9e9c418a6282c5c4493da455930_1440w.webp" %}
+[note {% include relref_zhihu.html %}](https://www.zhihu.com/people/bing-wu-76-42)
+
 
 ## 2.1 矩阵概念 36:44
+
+x | 行列式 | 矩阵
+本质 | 一个数 | 数表
+符号 | \|\| | \(\)\[\]
+形状 | 方的 | 没要求
+
+**绵绵用力，久久为功。**
+迷茫、痛苦、失落、受挫、想速成，这些都是正常的，你想做成一件事，心里的渴望和现实的进展之间有了冲突，自然会产生这样的感觉。对于普通人来说，没啥办法，只能是硬磕，一点一点啃，去下笨功夫，根本没有别的办法，等你挺过去了，这些东西就是你的壁垒，别人的高墙。
 
 
 ## 2.2 矩阵运算（一） 58:47
 
+* 矩阵提公因子，所有元素，外提一次。
+* 行列式提公因子，一行提一次。
+
 
 ## 2.2 矩阵运算（二） 32:23
+
+$$
+(A B)^{\top}=B^{\top} A^{\top}
+$$
+
+$$
+\left(A_1 A_2 A_3 A_4\right)^{\top}=A_4^{\top} A_3^{\top} A_2^{\top} A_1^{\top}
+$$
 
 
 ## 2.3 特殊矩阵 30:47
@@ -224,3 +262,4 @@ $$
 - [https://weibo.com/6122278407/K9Ggaa2Vl]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/weibo.com/037bbcae.html" %})
 - [https://www.xiaohongshu.com/explore/6062a48a000000000102411f]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.xiaohongshu.com/ade04cfe.html" %})
 - [https://zhuanlan.zhihu.com/p/416717502]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/zhuanlan.zhihu.com/9094b2cf.html" %})
+- [https://www.zhihu.com/people/bing-wu-76-42]({% include relrefx.html url="/backup/2022-08-23-Linear-Algebraic.md/www.zhihu.com/aae3ae36.html" %})
