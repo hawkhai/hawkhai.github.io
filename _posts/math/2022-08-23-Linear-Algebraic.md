@@ -33,13 +33,12 @@ cluster: "数学基础"
 [note](https://www.xiaohongshu.com/explore/6062a48a000000000102411f)
 {% include image.html url="/assets/images/220823-linear-algebraic/006GkshVgy1gpa9ogu9hlj34mo334000.jpg" caption="光线追踪 / 中山影视城" %}
 
-* 目录：
-    * 第一章 行列式
-    * 第二章 矩阵
-    * 第三章 向量
-    * 第四章 线性方程组
-    * 第五章 特征值与特征向量
-    * 第六章 二次型
+* 第一章 行列式
+* 第二章 矩阵
+* 第三章 向量
+* 第四章 线性方程组
+* 第五章 特征值与特征向量
+* 第六章 二次型
 
 
 ## 1.1 二阶三阶行列式 38:52
