@@ -42,7 +42,8 @@ def mainf2(rootdir, mdfile, tabledir, my2x, baidudir="baidu"):
 
         item = r"""
 {}.xlsx 下载
-<a href="//cvsample.sunocean.life/{}/table-recognition/linux/resultv3/{}_MSv11.xlsx">自研</a> /
+<a href="//cvsample.sunocean.life/{}/table-recognition/linux/resultv3/{}_MSv11.xlsx">自研 xlsx</a> /
+<a href="//cvsample.sunocean.life/{}/table-recognition/linux/resultv3/{}_MSv11.html">自研 html</a> /
 <a href="//cvsample.sunocean.life/{}/{}/{}.xlsx">百度</a> /
 <a href="//cvsample.sunocean.life/{}/quark/{}.xlsx">夸克</a>。
 
@@ -54,6 +55,7 @@ url4="/{}/quark/{}.xlsx.png" width4="21%"
 thumbnail="/thumbnail.png"
 {}
 """.format(fnamec,
+                tabledir+"_2x" if my2x else tabledir, fnamec,
                 tabledir+"_2x" if my2x else tabledir, fnamec,
                 tabledir, baidudir, fnamec,
                 tabledir, fnamec,
