@@ -42,13 +42,13 @@ def mainf2(rootdir, mdfile, tabledir, my2x, baidudir="baidu"):
 
         item = r"""
 {}.xlsx 下载
-<a href="//cvsample.sunocean.life/{}/result/{}.xlsx">自研</a> /
+<a href="//cvsample.sunocean.life/{}/table-recognition/linux/resultv3/{}_MSv11.xlsx">自研</a> /
 <a href="//cvsample.sunocean.life/{}/{}/{}.xlsx">百度</a> /
 <a href="//cvsample.sunocean.life/{}/quark/{}.xlsx">夸克</a>。
 
 {} include imagek5.html
 url="/{}/{}" width="21%"
-url2="/{}/result/{}.xlsx.png" width2="21%"
+url2="/{}/table-recognition/linux/resultv3/{}_MSv11.png" width2="21%"
 url3="/{}/{}/{}.xlsx.png" width3="21%"
 url4="/{}/quark/{}.xlsx.png" width4="21%"
 thumbnail="/thumbnail.png"
