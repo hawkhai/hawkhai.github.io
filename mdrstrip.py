@@ -825,7 +825,9 @@ def mainfile(fpath, fname, ftype, fdepth=0):
         nextlinetag = refindall(tagregex, nextline)
         if warnTitleSpace and not codestate:
             tagregexk = "^\\s*[#]+\\s{2,}" # md 文件标题后接的空格 只能是一个。
-            assert not refindall(tagregexk, preline), preline
+            if refindall(tagregexk, preline):
+                openTextFile(fpath)
+                assert False, preline
 
         if refindall("^\\s*[*-]+\\s", line):
             idtcnt = 2 # 如果在列表里面，缩进检查 2 个为单位。

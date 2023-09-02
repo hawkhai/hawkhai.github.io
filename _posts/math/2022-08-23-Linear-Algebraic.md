@@ -155,6 +155,8 @@ $$
 
 ## 2.4 逆矩阵（二） 1:20:03
 
+{% include image.html url="/assets/images/220823-linear-algebraic/20230902105821.png" %}
+
 
 ## 2.5 分块矩阵 40:47
 
