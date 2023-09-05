@@ -37,12 +37,28 @@ gflags 在没有修改代码的 条件下，只能做有限的 内存边界检�
 0xDD        | CRT 调试堆 | 填充释放的堆块（dead land） | 整个堆块大小
 0xCD        | CRT 调试堆 | 填充新分配的堆块（clean land） | 用户数据区大小
 
+
+## LargeAddressAware
+
 使用 LargeAddressAware 扩展程序内存地址空间
 {% include image.html url="/assets/images/210430-win-memory-dump/20230731-144231.jpg" %}
 当然这种方法的缺点：
 1. 在 64 位系统上没办法使用超过 4GB 的内存；不过以前只能用 2G，聊胜于无了；
 2. 在 32 位系统上必须打开 /3GB 启动参数，为用户态程序预留 3GB 的内存
 3. 对于带有自校验的程序，不适用，因为 dumpbin 相当于修改了这个 exe，那么文件校验肯定是失败了；
+
+[Drawbacks of using /LARGEADDRESSAWARE for 32-bit Windows executables?](https://stackoverflow.com/questions/2288728/drawbacks-of-using-largeaddressaware-for-32-bit-windows-executables)
+luckily there is an extremely handy system-wide switch built into the windows OS:
+for testing purposes use the MEM_TOP_DOWN registry setting.
+this forces all memory allocations to go from the top down, instead of the normal bottom up.
+```
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management]
+"AllocationPreference"=dword:00100000
+```
+
+(this is hex 0x100000. requires windows reboot, of course)
+
+{% include image.html url="/assets/images/210430-win-memory-dump/20230905-173143.jpg" %}
 
 
 ## 内存管理
@@ -262,5 +278,6 @@ gflags.exe /i xxx.exe +ust，开启用户层栈记录
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2021-04-30-win-memory-dump.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
+- [https://stackoverflow.com/questions/2288728/drawbacks-of-using-largeaddressaware-for-32-bit-windows-executables]({% include relrefx.html url="/backup/2021-04-30-win-memory-dump.md/stackoverflow.com/3da6833b.html" %})
 - [https://www.cnblogs.com/djinmusic/archive/2013/02/04/2891753.html]({% include relrefx.html url="/backup/2021-04-30-win-memory-dump.md/www.cnblogs.com/59d6c661.html" %})
 - [https://matrix207.github.io/2016/01/03/detect-cc-memory-overflow/]({% include relrefx.html url="/backup/2021-04-30-win-memory-dump.md/matrix207.github.io/e0bada66.html" %})
