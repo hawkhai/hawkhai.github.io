@@ -64,7 +64,7 @@ def formatxls(fpath, force=False):
     import openpyxl
     from openpyxl.styles import Side, Border
 
-    print(fpath)
+    print("formatxls", fpath)
 
     # 加载Excel文件
     wb = openpyxl.load_workbook(fpath)
@@ -93,8 +93,8 @@ def formatxls(fpath, force=False):
             #print(cell.border.top.color.rgb)
             if cell.border and cell.border.top and cell.border.top.color and cell.border.top.color.rgb:
                 if "00101010" == cell.border.top.color.rgb:
-                    print(type(cell.border.top), cell.border.top)
-                    print(dir(cell.border.top))
+                    #print(type(cell.border.top), cell.border.top)
+                    #print(dir(cell.border.top))
                     wb.close()
 
                     fmd5 = getmd5(os.path.abspath(fpath))
@@ -129,7 +129,7 @@ if __name__ == "__main__":
     if not "test" in sys.argv:
         rootdir = r"E:\kSource\blog\kvision\ksample\mytable"
         myxlsx2svg(rootdir)
-        rootdir = r"E:\kSource\blog\kvision\ksample\imgtable_2x"
+        rootdir = r"E:\kSource\blog\kvision\ksample\imgtable_v3"
         myxlsx2svg(rootdir)
         print("ok")
     else:

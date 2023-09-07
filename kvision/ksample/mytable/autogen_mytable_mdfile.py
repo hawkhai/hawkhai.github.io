@@ -49,7 +49,7 @@ def mainf2(rootdir, mdfile, tabledir, my2x, baidudir="baidu"):
 
 {} include imagek5.html
 url="/{}/{}" width="21%"
-url2="/{}/table-recognition/linux/resultv3/{}_MSv11.png" width2="21%"
+url2="/{}/table-recognition/linux/resultv3/{}_MSv11.xlsx.svg" width2="21%"
 url3="/{}/{}/{}.xlsx.png" width3="21%"
 url4="/{}/quark/{}.xlsx.png" width4="21%"
 thumbnail="/thumbnail.png"
