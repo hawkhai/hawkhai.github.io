@@ -448,6 +448,20 @@ public:
     }
 
     KDllWrap() {
+#if defined __amd64__ || defined __x86_64__ || defined _WIN64 || defined _M_X64
+#ifdef _DEBUG
+        const TCHAR* libPath = L"fastocr64gpud.dll";
+#else
+        const TCHAR* libPath = L"fastocr64gpu.dll";
+#endif
+#else
+#ifdef _DEBUG
+        const TCHAR* libPath = L"fastocr32cpud.dll";
+#else
+        const TCHAR* libPath = L"fastocr32cpu.dll";
+#endif
+#endif
+
         const wchar_t* libPath = L"kdll.dll";
         m_hDLL = loadLibrary(libPath);
         if (m_hDLL == nullptr) {
