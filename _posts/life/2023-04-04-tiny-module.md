@@ -357,6 +357,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
 ### kdll.h
 
+<https://github.com/hawkhai/7zipfile/blob/master/include/Extract7z.h>
+
 ```cpp
 #pragma once
 #include <assert.h>
