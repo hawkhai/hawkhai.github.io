@@ -604,6 +604,7 @@ pyinstaller 打包绿色软件，每次解压启动慢，如果
     * `download image_ksample.json` 下载图片。
     * `dlindex image_ksample.json` 下载索引。
     * `upindex image_ksample.json` 上传索引。
+    * `rebindex image_ksample.json` 重建本地索引。
 
 * pythonx 代码。
     * UPCODE = "upcode" in sys.argv 上传代码。
