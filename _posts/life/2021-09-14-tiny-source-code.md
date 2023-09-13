@@ -25,6 +25,13 @@ USES_CONVERSION_EX;
 CW2A(L"中文字符", CP_UTF8);
 ```
 
+```
+// warning C4715: 不是所有的控件路径都返回值
+/we4715 /we4013 /we4431 /we4133 /we4716 /we4457 /we4456 /we4172 /we4700 /we4477 /we4018 /we4047
+// vcruntime140_1.dll -- x64 test.exe
+// x64 test.exe -- __CxxFrameHandler4 VCRUNTIME140_1
+```
+
 
 ## 析构函数 (C++)
 
