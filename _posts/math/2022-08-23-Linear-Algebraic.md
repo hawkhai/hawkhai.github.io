@@ -217,8 +217,34 @@ $$
 
 ## 3.2 向量间的线性关系（二） 52:02
 
+整体无关 => 部分无关
+部分相关 => 整体相关
+增加向量个数，会提高线性相关的“可能性”
+
+* 正交非零的向量必无关（正交的两个向量的乘积为 0）
+* 属于不同特征值的特征向量一定线性无关
+
 
 ## 3.2 线性相关线性无关 23:09
+
+$\boldsymbol a_1,\boldsymbol a_2,\cdots,\boldsymbol a_m$ 是 $m$ 个向量。
+
+对于方程 $\lambda_1\boldsymbol a_1+\lambda_2\boldsymbol a_2+\cdots+\lambda_m\boldsymbol a_m=\boldsymbol0$，若其有非零解 $(\lambda_1,\lambda_2,\cdots,\lambda_m)\not=\boldsymbol0$，则称 $\boldsymbol a_1,\boldsymbol a_2,\cdots,\boldsymbol a_m$ 线性相关；
+
+若其只有唯一解 $(\lambda_1,\lambda_2,\cdots,\lambda_m)=\boldsymbol0$，则称 $\boldsymbol a_1,\boldsymbol a_2,\cdots,\boldsymbol a_m$ 线性无关。
+
+由此可见，$\boldsymbol0$ 向量和任意向量线性相关。
+
+* 数学意义：看他们是不是可以组成一个 0
+* 几何意义：看向量是否可以相互抵消
+* 物理意义：看力是否可以相互抵消
+
+α1,α2 相关 $<=>$ α1,α2 共线
+α1,α2,α3 相关 $<=>$ α1,α2,α3 共面
+反之亦然
+
+* 无关的向量组，接长向量组也无关。
+* 相关的向量组，截短向量组也相关。
 
 
 ## 3.3 向量组的秩（一） 20:48
