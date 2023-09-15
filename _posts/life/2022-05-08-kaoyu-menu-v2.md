@@ -40,7 +40,9 @@ kaliyun: true
 
 ## 招牌靓菜
 
-{% include image1.html url="/kaoyu/img/kaoyu.jpeg"
+{% include image1.html url="/kaoyu/img/20230916000342.jpg" %}
+
+{% include image1.html url="/kaoyu/img/20230915235842.jpg"
 caption="<span class='imagetitle'>香辣烤鱼</span> 26 元 / 斤 &nbsp; <span class='imagetitle'>姜葱烤鱼</span> 26 元 / 斤<br/><span class='imagetitle'>麻辣烤鱼</span> 26 元 / 斤 &nbsp; <span class='imagetitle'>泡椒烤鱼</span> 28 元 / 斤<br/><span class='imagetitle'>蒜香烤鱼</span> 26 元 / 斤" %}
 
 {% include image1.html url="/kaoyu/img/20230908095521.jpg"
@@ -52,7 +54,7 @@ caption="<span class='imagetitle'>烤排骨</span>&nbsp; （小）128 元 （大
 {% include image1.html url="/kaoyu/img/zhuduji.jpg"
 caption="<span class='imagetitle'>猪肚鸡</span><br/>小份（半只）88 元 &nbsp; 大份（1 只）158 元" %}
 
-{% include image1.html url="/kaoyu/img/suancaiyu.jpg"
+{% include image1.html url="/kaoyu/img/20230916000343.jpg"
 caption="<span class='imagetitle'>重庆酸菜鱼</span> 22 元 / 斤" %}
 
 {% include image1.html url="/kaoyu/img/jibao2.jpg"
