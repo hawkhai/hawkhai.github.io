@@ -365,42 +365,48 @@ int _tmain(int argc, _TCHAR* argv[])
 #include <windows.h>
 #include <string>
 
-#ifdef KDLL_EXPORTS
-#define DLLEXPORT __declspec(dllexport)
+#define OCR_FPATH 1 // dir/name
+#define OCR_IMAGE 2 // image/cvtype/rows/cols/step
+
+#define OCR_SIG L"DDD4ABF6-7813-43EC-B3F2-E91E0F224A78"
+
+#ifdef PDFOCRSDK_EXPORTS
+#define PDFOCRSDK_API __declspec(dllexport)
 #else
-#define DLLEXPORT __declspec(dllimport)
+#define PDFOCRSDK_API __declspec(dllimport)
 #endif
 
-#define KDLL_ERSION 1
+#define PDFOCRSDK_VERSION 1
 
-__interface IDllInterface {
+__interface IPdfOcrSdkInterface {
     virtual int Version() = 0;
     virtual int Release() = 0;
-    virtual int GetDocumentPageCount() = 0;
+    virtual bool StartOcrServer() = 0;
+    // cv::Mat(int rows, int cols, int cvtype, void* data, size_t step);
+    virtual bool Ocr(int rows, int cols, int cvtype, void* data, size_t step, const char*& utf8result) = 0;
 };
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-    DLLEXPORT IDllInterface* CreateEntry();
+PDFOCRSDK_API IPdfOcrSdkInterface* CreatePdfOcrSdk();
 #ifdef __cplusplus
 }
 #endif
 
-class KDllWrap : public IDllInterface {
-
+class KPdfOcrSdkWrap : public IPdfOcrSdkInterface {
     static std::wstring getCurrentDir() {
-        wchar_t tpath[MAX_PATH] = { 0 };
-        DWORD dwRet = GetModuleFileNameW(NULL, tpath, MAX_PATH);
+        wchar_t fpath[MAX_PATH] = {0};
+        DWORD dwRet = GetModuleFileNameW(NULL, fpath, MAX_PATH);
         if (dwRet == 0) {
             return L".\\";
         }
-        std::wstring strexe = tpath;
-        int index = strexe.rfind(L'\\');
+        std::wstring fdir = fpath;
+        int index = fdir.rfind(L'\\');
         if (index <= 0) {
             return L".\\";
         }
-        return strexe.substr(0, index + 1);
+        return fdir.substr(0, index + 1);
     }
     static HINSTANCE loadLibrary(const wchar_t* libPath) {
         std::wstring curdir = getCurrentDir();
@@ -425,7 +431,7 @@ class KDllWrap : public IDllInterface {
         return hDLL;
     }
 
-public:
+  public:
     virtual int Version() override {
         if (!m_interface) {
             return -1;
@@ -442,51 +448,65 @@ public:
         return retv;
     }
 
-    virtual int GetDocumentPageCount() override {
+    virtual bool StartOcrServer() override {
         if (!m_interface) {
-            return -1;
+            return false;
         }
-        return m_interface->GetDocumentPageCount();
+        return m_interface->StartOcrServer();
     }
 
-    KDllWrap() {
+    // cv::Mat(int rows, int cols, int cvtype, void* data, size_t step);
+    virtual bool Ocr(int rows, int cols, int cvtype, void* data, size_t step, const char*& utf8result) override {
+        if (!m_interface) {
+            return false;
+        }
+        return m_interface->Ocr(rows, cols, cvtype, data, step, utf8result);
+    }
+
+    KPdfOcrSdkWrap() {
 #if defined __amd64__ || defined __x86_64__ || defined _WIN64 || defined _M_X64
 #ifdef _DEBUG
-        const TCHAR* libPath = L"fastocr64gpud.dll";
+        const TCHAR* libPath = L"pdfocrsdk64d.dll";
+        const TCHAR* libPath2 = L"pdfocrsdk64.dll";
 #else
-        const TCHAR* libPath = L"fastocr64gpu.dll";
+        const TCHAR* libPath = L"pdfocrsdk64.dll";
 #endif
 #else
 #ifdef _DEBUG
-        const TCHAR* libPath = L"fastocr32cpud.dll";
+        const TCHAR* libPath = L"pdfocrsdkd.dll";
+        const TCHAR* libPath2 = L"pdfocrsdk.dll";
 #else
-        const TCHAR* libPath = L"fastocr32cpu.dll";
+        const TCHAR* libPath = L"pdfocrsdk.dll";
 #endif
 #endif
 
-        const wchar_t* libPath = L"kdll.dll";
         m_hDLL = loadLibrary(libPath);
+#ifdef _DEBUG
+        if (m_hDLL == nullptr) {
+            m_hDLL = loadLibrary(libPath2);
+        }
+#endif
         if (m_hDLL == nullptr) {
             int err = GetLastError();
             assert(false);
             return;
         }
 
-        typedef IDllInterface* (*CreateEntryFunc)();
-        CreateEntryFunc fptr = (CreateEntryFunc)GetProcAddress(m_hDLL, "CreateEntry");
+        typedef IPdfOcrSdkInterface* (*CreatePdfOcrSdkFunc)();
+        CreatePdfOcrSdkFunc fptr = (CreatePdfOcrSdkFunc)GetProcAddress(m_hDLL, "CreatePdfOcrSdk");
         if (fptr == nullptr) {
             int err = GetLastError();
             assert(false);
             return;
         }
         m_interface = fptr();
-        if (m_interface->Version() < KDLL_ERSION) {
+        if (m_interface->Version() < PDFOCRSDK_VERSION) {
             m_interface->Release();
             m_interface = nullptr;
             assert(false);
         }
     }
-    virtual ~KDllWrap() {
+    virtual ~KPdfOcrSdkWrap() {
         if (!m_interface) {
             return;
         }
@@ -495,8 +515,8 @@ public:
         // m_hDLL 不释放了。
     }
 
-private:
-    IDllInterface* m_interface = nullptr;
+  private:
+    IPdfOcrSdkInterface* m_interface = nullptr;
     HINSTANCE m_hDLL = nullptr;
 };
 ```
@@ -506,24 +526,29 @@ private:
 
 ```cpp
 #include "pch.h"
-#include "kdll.h"
+#include "framework.h"
+#include "../include/pdfocr.h"
 
-class KDllInstance : public IDllInterface {
+class KPdfOcrSdkInstance : public IPdfOcrSdkInterface {
 public:
     virtual int Version() override {
-        return KDLL_ERSION;
+        return PDFOCRSDK_VERSION;
     }
     virtual int Release() override {
         delete this;
         return 0;
     }
-    virtual int GetDocumentPageCount() override {
-        return 7;
+    virtual bool StartOcrServer() override {
+        return false;
+    }
+    // cv::Mat(int rows, int cols, int cvtype, void* data, size_t step);
+    virtual bool Ocr(int rows, int cols, int cvtype, void* data, size_t step, const char*& utf8result) override {
+        return false;
     }
 };
 
-IDllInterface* CreateEntry() {
-    return new KDllInstance();
+IPdfOcrSdkInterface* CreatePdfOcrSdk() {
+    return new KPdfOcrSdkInstance();
 }
 ```
 
