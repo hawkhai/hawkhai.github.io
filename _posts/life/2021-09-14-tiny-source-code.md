@@ -3354,11 +3354,11 @@ typedef IFastImageInterface* (*CreateFastImageObjectFunc)();
 
 class fastimagedll : public fastimage::IFastImageInterface {
     static std::wstring getCurrentPath() {
-        wchar_t tPath[MAX_PATH];
-        DWORD dwRet = GetModuleFileName(NULL, tPath, MAX_PATH);
-        std::wstring strexe = tPath;
-        int index = strexe.rfind('\\');
-        return strexe.substr(0, index + 1);
+        wchar_t fpath[MAX_PATH];
+        DWORD dwRet = GetModuleFileName(NULL, fpath, MAX_PATH);
+        std::wstring fdir = fpath;
+        int index = fdir.rfind('\\');
+        return fdir.substr(0, index + 1);
     }
 
     static HINSTANCE getLibrary(const TCHAR* libPath) {

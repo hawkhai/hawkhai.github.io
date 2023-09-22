@@ -195,11 +195,11 @@ bool IsDirectory(const std::string &path)
 
 #ifdef _KIRR_WINDOWS_
 std::wstring getCurrentPath() {
-    wchar_t tPath[MAX_PATH];
-    DWORD dwRet = GetModuleFileName(NULL, tPath, MAX_PATH);
-    std::wstring strexe = tPath;
-    int index = strexe.rfind('\\');
-    return strexe.substr(0, index);
+    wchar_t fpath[MAX_PATH];
+    DWORD dwRet = GetModuleFileName(NULL, fpath, MAX_PATH);
+    std::wstring fdir = fpath;
+    int index = fdir.rfind('\\');
+    return fdir.substr(0, index);
 }
 
 HINSTANCE getLibrary(const TCHAR* libPath) {

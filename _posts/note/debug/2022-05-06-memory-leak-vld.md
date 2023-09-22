@@ -51,6 +51,17 @@ int AllocHook(int allocType,
     * 这个点赞挺多的。
 
 在实际使用中，发现存在误报的情况，lib & exe 就报泄漏，改成 dll & exe 就没有报告了。
+```cpp
+#include <iostream>
+#include "vld\include\vld.h"
+
+__declspec(dllimport) int pdfocr_wmain(int argc, wchar_t** argv);
+
+// 新建一个工程，解决 vld 内存监控误报的问题。
+int wmain(int argc, wchar_t** argv) {
+    return pdfocr_wmain(argc, argv);
+}
+```
 
 
 ## LeakSanitizer
