@@ -132,6 +132,13 @@ from [使用 TortoiseGit，设置 ssh 方式连接 git 仓库。 {% include relr
 markdown [https://www.runoob.com/markdown/md-lists.html](https://www.runoob.com/markdown/md-lists.html)
 
 
+## git-ssh 配置和使用
+
+<https://www.wenwl.site/pages/f0c240/>
+
+执行命令后需要连续回车 3 次或 4 次。
+
+
 
 <hr class='reviewline'/>
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2020-08-22-tortoise-git-ssh.md.js" %}'></script></p>
@@ -139,3 +146,4 @@ markdown [https://www.runoob.com/markdown/md-lists.html](https://www.runoob.com/
 
 - [https://www.cnblogs.com/zy20160429/p/7493693.html]({% include relrefx.html url="/backup/2020-08-22-tortoise-git-ssh.md/www.cnblogs.com/4fa376fa.html" %})
 - [https://www.runoob.com/markdown/md-lists.html]({% include relrefx.html url="/backup/2020-08-22-tortoise-git-ssh.md/www.runoob.com/ce4c95d5.html" %})
+- [https://www.wenwl.site/pages/f0c240/]({% include relrefx.html url="/backup/2020-08-22-tortoise-git-ssh.md/www.wenwl.site/d8ee3ea4.html" %})
