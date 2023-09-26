@@ -70,25 +70,6 @@ title="跳水牛蛙" caption="68 元（大份 98 元）" %}
 title="毛血旺" caption="45 元" %}
 
 
-## 烤鱼加菜
-
-<div style="font-size:medium;font-weight:bolder;width:fit-content;margin-left:auto;margin-right:auto;">
-<span class='imagetitle'>锅底加菜 烤鱼大份菜 35 元</span>
-</div>
-
-<table class="tablestyle" ntablew="3:3:3:3"></table>
-
-| 面 条 | 8 元/份 | 大白菜 | 6 元/份 |
-| 香 菜 | 10 元/份 | 黄豆芽 | 6 元/份 |
-| 猪 红 | 8 元/份 | 青 笋 | 10 元/份 |
-| 魔 芋 | 8 元/份 | 青瓜条 | 8 元/份 |
-| 豆 腐 | 6 元/份 | 土 豆 | 8 元/份 |
-| 藕 片 | 8 元/份 | 鱼 泡 | 38 元/份 |
-| 豆腐皮 | 8 元/份 | 红薯粉 | 10 元/份 |
-| 金针菇 | 10 元/份 | 竹 笋 | 10 元/份 |
-| 油麦菜 | 10 元/份 | 菜 心 | 10 元/份 |
-
-
 ## 凉菜系列
 
 {% include image1.html url="/kaoyu/img/liangbanliurou3.jpg"
@@ -330,6 +311,25 @@ url2="/kaoyu/img/jidanrousicaomifen.jpeg" caption2="蛋肉炒米粉 20 元" %}
 title="南瓜饼" caption="15 元" %}
 {% include image1.html url="/kaoyu/img/xiangyudiguawan.jpeg"
 title="香芋地瓜丸" caption="18 元" %}
+
+
+## 烤鱼加菜
+
+<div style="font-size:medium;font-weight:bolder;width:fit-content;margin-left:auto;margin-right:auto;">
+<span class='imagetitle'>锅底加菜 烤鱼大份菜 35 元</span>
+</div>
+
+<table class="tablestyle" ntablew="3:3:3:3"></table>
+
+| 面 条 | 8 元/份 | 大白菜 | 6 元/份 |
+| 香 菜 | 10 元/份 | 黄豆芽 | 6 元/份 |
+| 猪 红 | 8 元/份 | 青 笋 | 10 元/份 |
+| 魔 芋 | 8 元/份 | 青瓜条 | 8 元/份 |
+| 豆 腐 | 6 元/份 | 土 豆 | 8 元/份 |
+| 藕 片 | 8 元/份 | 鱼 泡 | 38 元/份 |
+| 豆腐皮 | 8 元/份 | 红薯粉 | 10 元/份 |
+| 金针菇 | 10 元/份 | 竹 笋 | 10 元/份 |
+| 油麦菜 | 10 元/份 | 菜 心 | 10 元/份 |
 
 
 ## 二维码
