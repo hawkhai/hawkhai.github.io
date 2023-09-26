@@ -57,7 +57,7 @@ caption="<span class='imagetitle'>猪肚鸡</span><br/>小份（半只）88 元 
 {% include image1.html url="/kaoyu/img/20230916000343.jpg"
 caption="<span class='imagetitle'>重庆酸菜鱼</span> 22 元 / 斤" %}
 
-{% include image1.html url="/kaoyu/img/jibao2.jpg"
+{% include image1.html url="/kaoyu/img/20230927005502.jpg"
 caption="<span class='imagetitle'>土鸡煲</span> 98 元 / 只" %}
 
 {% include image1.html url="/kaoyu/img/shuizhuyu2.jpg"
