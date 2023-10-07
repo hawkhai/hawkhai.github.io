@@ -402,6 +402,11 @@ $(document).ready(function () {
     'use strict';
 
     function addCopyButton(pre) {
+
+        if (GetQueryValue("print")) {
+            return;
+        }
+
         var code = pre.querySelector('code');
         if (!code) {
             return; // 如果没有找到 <code> 元素，则不添加按钮
