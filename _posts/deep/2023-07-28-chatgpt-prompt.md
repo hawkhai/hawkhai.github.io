@@ -121,5 +121,5 @@ ChatGPT 可以对内容进行如下的转换：
 <p class='reviewtip'><script type='text/javascript' src='{% include relref.html url="/assets/reviewjs/blogs/2023-07-28-chatgpt-prompt.md.js" %}'></script></p>
 <font class='ref_snapshot'>参考资料快照</font>
 
-- [https://www.bilibili.com/video/BV1Z14y1Z7LJ/]({% include relrefx.html url="/backup/2023-07-28-chatgpt-prompt.md/www.bilibili.com/1c30226b.html" %})
+- [https://www.bilibili.com/video/BV1Z14y1Z7LJ/]({% include relrefx.html url="/backup/2023-07-28-chatgpt-prompt.md/www.bilibili.com/2f9dd794.html" %})
 - [https://zhuanlan.zhihu.com/p/626290417]({% include relrefx.html url="/backup/2023-07-28-chatgpt-prompt.md/zhuanlan.zhihu.com/d7c51936.html" %})
