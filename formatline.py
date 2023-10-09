@@ -5,6 +5,7 @@ while not _lidir and len(reldirx) <= 100:
     reldirx += "../"
     checkfunc = lambda idir: os.path.exists(reldirx+idir+"/pythonx/funclib.py")
     _lidir = [reldirx+idir for idir in os.listdir(reldirx) if checkfunc(idir)]
+    assert len(_lidir) in (0, 1), _lidir
     if _lidir: reldirx = _lidir[0]
 sys.path.append(reldirx)
 from pythonx.funclib import *
