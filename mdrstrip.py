@@ -25,6 +25,7 @@ CLEARIMG   = "clearimg" in sys.argv
 IGNOREERR  = "ignoreerr" in sys.argv
 OPENRESENT = "openresent" in sys.argv or "openresentx" in sys.argv
 OPENRESENTx = "openresentx" in sys.argv
+NETFAKE    = "netfake" in sys.argv
 DEBUG = "debug" in sys.argv
 
 # 名称，域名正则。
@@ -170,7 +171,10 @@ def backupUrlContent(fpath, md5src, url):
         writefile(flocal, fdata)
         fdatalocal = True
     else:
-        fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=flocal, shotpath=shotpath, chromeDialog=chromeDialog)
+        if NETFAKE:
+            fdata = b""
+        else:
+            fdata = netgetCacheLocal(url, timeout=60*60*24*1000, chrome=chrome, local=flocal, shotpath=shotpath, chromeDialog=chromeDialog)
         fdatalocal = False
 
     idata = bytesToString(fdata)
@@ -218,15 +222,18 @@ title : %(title)s
         if fdata.lower().find("<body") != -1 and fdata.lower().find("<html") != -1:
             fdata = html2md(fdata)
             fdata = addmdhead(fdata)
-            writefile(flocal, fdata, "utf8")
+            if not NETFAKE:
+                writefile(flocal, fdata, "utf8")
         elif not ismdhead(fdata):
             fdata = addmdhead(fdata)
-            writefile(flocal, fdata, "utf8")
+            if not NETFAKE:
+                writefile(flocal, fdata, "utf8")
 
         if urlhostsrc == "www.shadertoy.com":
             li = refindall(r"""\r?\n\r?\n[0-9]+\r?\n\r?\n    \r?\n    \r?\n    """, fdata)
             for i in li: fdata = fdata.replace(i, NEWLINE_CHAR+"    ")
-            writefile(flocal, fdata, "utf8")
+            if not NETFAKE:
+                writefile(flocal, fdata, "utf8")
 
     fmd5 = getFileSrcMd5z(flocal) # 大文件，错误已经铸成，改不了了。
     invdir2 = isInvisibleDir(flocal) # invdir = isInvisibleDir(fpath)
